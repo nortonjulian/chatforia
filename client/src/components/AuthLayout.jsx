@@ -32,8 +32,9 @@ function LogoLockup({ size = 64, titleOrder = 4, className }) {
       className={`brand-lockup ${className || ''}`}
       style={{ '--logo-size': `${size}px` }}
     >
-      {/* NOTE: use a fresh class to avoid legacy CSS that set fill:none */}
-      <LogoGlyph className="brand-logo" size={size} />
+      <span className="brand-logo" aria-hidden="true">
+        <LogoGlyph size={size} />
+      </span>
       <Title
         order={titleOrder}
         className="brand-lockup__name brand-lockup__name--solid"
@@ -165,8 +166,11 @@ export default function AuthLayout() {
               <List spacing="sm" size="sm" center className="auth-list">
                 <List.Item
                   icon={
-                    <ThemeIcon variant="filled" radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}>
+                    <ThemeIcon
+                      variant="filled"
+                      radius="xl"
+                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                    >
                       <Lock size={16} />
                     </ThemeIcon>
                   }
@@ -175,8 +179,11 @@ export default function AuthLayout() {
                 </List.Item>
                 <List.Item
                   icon={
-                    <ThemeIcon variant="filled" radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}>
+                    <ThemeIcon
+                      variant="filled"
+                      radius="xl"
+                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                    >
                       <Globe size={16} />
                     </ThemeIcon>
                   }
@@ -185,8 +192,11 @@ export default function AuthLayout() {
                 </List.Item>
                 <List.Item
                   icon={
-                    <ThemeIcon variant="filled" radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}>
+                    <ThemeIcon
+                      variant="filled"
+                      radius="xl"
+                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                    >
                       <MessageCircle size={16} />
                     </ThemeIcon>
                   }
@@ -195,8 +205,11 @@ export default function AuthLayout() {
                 </List.Item>
                 <List.Item
                   icon={
-                    <ThemeIcon variant="filled" radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}>
+                    <ThemeIcon
+                      variant="filled"
+                      radius="xl"
+                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                    >
                       <ShieldCheck size={16} />
                     </ThemeIcon>
                   }

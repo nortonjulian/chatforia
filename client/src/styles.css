@@ -4,6 +4,26 @@
 /* --- CTA & control gradients --- */
 :root { --switch-gradient: var(--cta-gradient); }
 
+/* ---------- Logo theming tokens (NEW) ---------- */
+:root {
+  /* default light theme: orange bubble, white C */
+  --logo-bubble: #FFA51A;
+  --logo-c: #FFFFFF;
+}
+:root[data-theme="dark"],
+:root[data-theme="midnight"],
+:root[data-theme="amoled"] {
+  /* keep strong bubble, keep C high-contrast */
+  --logo-bubble: #FFA51A;
+  --logo-c: #0b0b0c; /* if you prefer white C on dark, set to #fff */
+}
+/* Violet theme example: purple bubble + white C */
+:root[data-theme="violet"] { --logo-bubble: #6A3CC1; --logo-c: #FFFFFF; }
+/* Blue theme example */
+:root[data-theme="blue"]   { --logo-bubble: #0B84F3; --logo-c: #FFFFFF; }
+/* Rose theme example */
+:root[data-theme="rose"]   { --logo-bubble: #FF3E88; --logo-c: #FFFFFF; }
+
 /* ================== CTAs / Links / Badges (site-wide) ================== */
 .button-primary {
   position: relative;
@@ -46,56 +66,44 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
 .brand-lockup {
   display: inline-flex;
   align-items: center;        /* perfect baseline alignment */
-  gap: 0.18rem;                 /* tight default gap */
+  gap: 0.18rem;               /* tight default gap */
 }
 
+/* === LOGO: prevent tilt, theme with variables (UPDATED) === */
 .brand-logo {
   width: var(--logo-size, 44px);
-  height: auto;
+  height: var(--logo-size, 44px);
   display: inline-block;
   vertical-align: baseline;
   overflow: visible;
-  transform: translateY(0.06em);
-  margin-right: -0.26em;
+  /* IMPORTANT: absolutely no rotation/3D tilt */
+  transform: none !important;
+  transform-style: flat !important;
+  backface-visibility: hidden;
+  margin-right: -0.26em; /* keep your optical tuck */
+}
+.brand-logo svg { width: 100%; height: 100%; display: block; }
+/* Fill control for the two paths coming from LogoGlyph.jsx */
+.brand-logo .cf-bubble { fill: var(--logo-bubble); }
+.brand-logo .cf-c      { fill: var(--logo-c); }
+
+/* Ensure no upstream transform leaks down to children */
+.brand-lockup *, .brand-logo *, .brand-logo svg * {
+  transform: none !important;
 }
 
-
-/* The SVG box is square; tuck text under the C slightly */
-/* .brand-lockup__logo {
-  width: var(--logo-size, 44px);
-  height: auto;
-  display: inline-block;
-  vertical-align: middle;
-  overflow: visible;
-  margin-right: -0.18em;
-}
-
-.brand-lockup__name {
-  line-height: 1;
-  display: inline-block;
-} */
-
-/* ensure nothing nukes the fill */
-.brand-lockup__logo path[fill="url(#cf-g)"] { fill: url(#cf-g) !important; }
-.brand-lockup__logo circle { stroke: #fff !important; }
-
-
+/* Wordmark color */
 .brand-lockup__name--solid {
-  color: var(--fg);             /* solid dark word */
+  color: var(--fg);             /* solid dark/light word */
   background: none;
   -webkit-text-fill-color: currentColor;
 }
 
-.auth-hero-lockup { margin-bottom: 8px; }   /* was looser */
+.auth-hero-lockup { margin-bottom: -34px; }
+/* .auth-hero-lockup { margin-bottom: 8px; }    */
 .auth-hero-title  { margin-top: 0; }
 
-.auth-hero-lockup .brand-lockup__logo {
-  margin-left: -4px;
-  margin-right: -0.28em;
-  transform: translateY(0.06em);
-}
-
-/* === Optional text-based brand wordmark (not used here) === */
+/* ================== (kept) Optional text-based wordmark ================== */
 .brand-wordmark {
   display: inline-flex;
   align-items: baseline;
@@ -273,39 +281,29 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 .auth-page .mantine-ThemeIcon-root { color: var(--cta-label) !important; }
 .auth-page .mantine-Divider-label { color: var(--fg) !important; opacity: .85 !important; }
 
-/* ================== Chatforia Logo Theme Mapping ================== */
-
-/* Default (light) theme */
+/* ================== Chatforia Logo Gradient Mapping (kept) ================== */
 :root {
-  --logo-stop-1: #FFC83A; /* warm gold top */
-  --logo-stop-2: #FFB300; /* mid amber */
-  --logo-stop-3: #FF8A00; /* orange base */
+  --logo-stop-1: #FFC83A;
+  --logo-stop-2: #FFB300;
+  --logo-stop-3: #FF8A00;
 }
-
-/* Dark mode */
 :root[data-theme="dark"],
 :root[data-theme="midnight"],
 :root[data-theme="amoled"] {
-  --logo-stop-1: #FFD24D; /* brighter gold */
-  --logo-stop-2: #FF9F2B; /* mid orange */
-  --logo-stop-3: #FF7A1A; /* deeper amber */
+  --logo-stop-1: #FFD24D;
+  --logo-stop-2: #FF9F2B;
+  --logo-stop-3: #FF7A1A;
 }
-
-/* Violet gradient theme */
 :root[data-theme="violet"] {
-  --logo-stop-1: #B47FFF; /* light violet */
-  --logo-stop-2: #8C5AFF; /* mid violet */
-  --logo-stop-3: #6A3CC1; /* deep violet-blue */
+  --logo-stop-1: #B47FFF;
+  --logo-stop-2: #8C5AFF;
+  --logo-stop-3: #6A3CC1;
 }
-
-/* Blue gradient theme */
 :root[data-theme="blue"] {
   --logo-stop-1: #5AC8FA;
   --logo-stop-2: #2EA8F7;
   --logo-stop-3: #0B84F3;
 }
-
-/* Pink/rose theme (optional future) */
 :root[data-theme="rose"] {
   --logo-stop-1: #FF8AD0;
   --logo-stop-2: #FF66A8;

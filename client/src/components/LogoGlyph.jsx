@@ -1,46 +1,65 @@
-import { useId } from 'react';
+/**
+ * Chatforia Glyph (correct final)
+ * ✅ Bubble: rounded square + bottom-right tail (attached)
+ * ✅ C: thick, centered, opening to the RIGHT, fully inside the bubble
+ */
+export default function LogoGlyph({ size = 64, className = "" }) {
+  const px = typeof size === "number" ? `${size}px` : size;
 
-export default function LogoGlyph({ size = 64, className = '' }) {
-  const s = size;
-  const uid = useId().replace(/:/g, '');
-  const gradId = `cfG_${uid}`;
+  // Bubble shape with right-side tail — smooth and centered.
+  const bubblePath = `
+    M 52 32
+    H 180
+    A 28 28 0 0 1 208 60
+    V 140
+    A 28 28 0 0 1 180 168
+    H 150
+    L 210 198
+    L 180 168
+    H 52
+    A 28 28 0 0 1 24 140
+    V 60
+    A 28 28 0 0 1 52 32
+    Z
+  `;
 
-  // Master bubble (rounded square with right tail)
-  const bubblePath =
-    'M288 176H736C828 176 880 248 880 344V592C880 636 862 678 832 708C820 720 812 737 812 754V884C812 903 793 915 776 907L606 824H352C232 824 144 736 144 616V344C144 240 204 176 288 176Z';
+  // Correct-facing "C" (opens to the RIGHT)
+  const cx = 116; // horizontal center of the C
+  const cy = 100; // vertical center
+  const r = 46;   // radius
+  const sw = 30;  // stroke width
+
+  // Start and end points for the arc (opening on RIGHT)
+  const startAngle = 45 * (Math.PI / 180);  // top-right quadrant
+  const endAngle = 315 * (Math.PI / 180);   // bottom-right quadrant
+
+  const sx = (cx + r * Math.cos(startAngle)).toFixed(1);
+  const sy = (cy - r * Math.sin(startAngle)).toFixed(1);
+  const ex = (cx + r * Math.cos(endAngle)).toFixed(1);
+  const ey = (cy - r * Math.sin(endAngle)).toFixed(1);
 
   return (
     <svg
-      width={s}
-      height={s}
-      viewBox="0 0 1024 1024"
       className={className}
-      aria-hidden="true"
-      focusable="false"
-      style={{ display: 'inline-block', verticalAlign: 'middle' }}
-      shapeRendering="geometricPrecision"
+      width={px}
+      height={px}
+      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Chatforia"
+      style={{ display: "block" }}
     >
-      <defs>
-        {/* theme-driven gradient; picks up --logo-stop-1..3 from themes.css */}
-        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="var(--logo-stop-1, #FFC83A)" />
-          <stop offset="55%"  stopColor="var(--logo-stop-2, #FFB300)" />
-          <stop offset="100%" stopColor="var(--logo-stop-3, #FF8A00)" />
-        </linearGradient>
-      </defs>
+      {/* Bubble */}
+      <path d={bubblePath} fill="var(--logo-bubble)" />
 
-      {/* Bubble (force paint). Giving it a data-attr avoids old CSS collisions */}
-      <path data-bubble d={bubblePath} fill={`url(#${gradId})`} />
-
-      {/* EXACT “C”: stroke-only arc with rounded ends and a right-side gap */}
-      <circle
-        cx="512" cy="520" r="230"
+      {/* Forward-facing C */}
+      <path
+        d={`M ${sx} ${sy} A ${r} ${r} 0 1 0 ${ex} ${ey}`}
         fill="none"
-        stroke="#FFFFFF"
-        strokeWidth="168"
+        stroke="var(--logo-c)"
+        strokeWidth={sw}
         strokeLinecap="round"
-        strokeDasharray="1320 360"
-        strokeDashoffset="-180"   /* gap faces right */
+        strokeLinejoin="round"
       />
     </svg>
   );
