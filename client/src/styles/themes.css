@@ -209,15 +209,14 @@
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, #29D39A 30%, transparent);
 
-  /* favicon/wordmark stops */
-  --logo-stop-1:#00C2A8;  /* mint */
-  --logo-stop-2:#29D39A;  /* accent green */
-  --logo-stop-3:#2979FF;  /* blue tip */
+  --logo-stop-1: var(--brand-mint);
+  --logo-stop-2: #29D39A;
+  --logo-stop-3: var(--brand-blue);
 }
 
-/* =====================================================================
-   SOLARIZED (premium light)
-====================================================================== */
+/* ------------------------------- */
+/* SOLARIZED (premium light)       */
+/* ------------------------------- */
 :root[data-theme="solarized"] {
   /* neutrals (Solarized Light) */
   --bg: #FDF6E3;
@@ -241,12 +240,27 @@
   --cta-label: #1B1200;
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, #B58900 30%, transparent);
-
-  /* favicon/wordmark stops */
-  --logo-stop-1:#B58900;
-  --logo-stop-2:#CB4B16;
-  --logo-stop-3:#DC322F;
 }
+
+/* ---- Chameleon favicon/wordmark stops (used by themeFavicon & C wordmark) ---- */
+:root[data-theme="solarized"] { 
+  --logo-stop-1:#B58900; 
+  --logo-stop-2:#CB4B16; 
+  --logo-stop-3:#DC322F; 
+}
+
+/* If not already present, add stops for these existing themes too */
+:root[data-theme="aurora"]  { 
+  --logo-stop-1:#00C2A8;   /* mint */
+  --logo-stop-2:#29D39A;   /* accent green */
+  --logo-stop-3:#2979FF;   /* blue tip */
+}
+:root[data-theme="velvet"]  { 
+  --logo-stop-1:#6A3CC1;   /* violet */
+  --logo-stop-2:#E91E63;   /* pink */
+  --logo-stop-3:#FFB300;   /* gold highlight */
+}
+
 
 /* =====================================================================
    VELVET (premium romantic)
@@ -271,8 +285,7 @@
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-pink) 30%, transparent);
 
-  /* favicon/wordmark stops */
-  --logo-stop-1:#6A3CC1;   /* violet */
-  --logo-stop-2:#E91E63;   /* pink */
-  --logo-stop-3:#FFB300;   /* gold highlight */
+  --logo-stop-1: var(--brand-violet);
+  --logo-stop-2: var(--brand-pink);
+  --logo-stop-3: var(--brand-gold);
 }

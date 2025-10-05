@@ -15,7 +15,7 @@ import {
   Divider,
 } from '@mantine/core';
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
-import LogoC from '@/components/Logo';
+import LogoGlyph from '@/components/LogoGlyph';
 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
@@ -27,23 +27,19 @@ function LogoLockup({ size = 64, titleOrder = 4, className }) {
   return (
     <Group
       gap="xs"
-      align="baseline"
+      align="center"
       wrap="nowrap"
-      className={`brand-lockup brand-lockup--baseline ${className || ''}`}
+      className={`brand-lockup ${className || ''}`}
       style={{ '--logo-size': `${size}px` }}
     >
-      <LogoC
-        className="brand-lockup__logo"
-        size={size}
-        stroke={Math.max(10, Math.round(size / 6))}// slightly thicker
-        rotateDeg={0}                     // opening to the RIGHT
-      />
+      {/* NOTE: use a fresh class to avoid legacy CSS that set fill:none */}
+      <LogoGlyph className="brand-logo" size={size} />
       <Title
         order={titleOrder}
         className="brand-lockup__name brand-lockup__name--solid"
         style={{ margin: 0 }}
       >
-        hatforia
+        Chatforia
       </Title>
     </Group>
   );
@@ -142,13 +138,15 @@ export default function AuthLayout() {
         <Grid gutter="xl" align="start">
           {/* Left: Brand + Marketing */}
           <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
-            <Stack gap="md" maw={620}>
+            {/* Tight hero spacing */}
+            <Stack gap="xs" maw={620}>
               <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
 
               <Title
                 order={1}
                 className="auth-hero-title"
                 style={{
+                  marginTop: 0,
                   lineHeight: 1.05,
                   fontWeight: 800,
                   letterSpacing: -0.2,

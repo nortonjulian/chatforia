@@ -45,25 +45,40 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
 /* ---------- Brand lockup (logo + word) ---------- */
 .brand-lockup {
   display: inline-flex;
-  align-items: baseline;        /* perfect baseline alignment */
+  align-items: center;        /* perfect baseline alignment */
   gap: 0.18rem;                 /* tight default gap */
 }
 
-/* The SVG box is square; tuck text under the C slightly */
-.brand-lockup__logo {
+.brand-logo {
   width: var(--logo-size, 44px);
   height: auto;
   display: inline-block;
   vertical-align: baseline;
-  overflow: visible;            /* ensure no cropping */
+  overflow: visible;
   transform: translateY(0.06em);
-  margin-right: -0.26em;        /* pulls “hatforia” closer */
+  margin-right: -0.26em;
+}
+
+
+/* The SVG box is square; tuck text under the C slightly */
+/* .brand-lockup__logo {
+  width: var(--logo-size, 44px);
+  height: auto;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: visible;
+  margin-right: -0.18em;
 }
 
 .brand-lockup__name {
   line-height: 1;
   display: inline-block;
-}
+} */
+
+/* ensure nothing nukes the fill */
+.brand-lockup__logo path[fill="url(#cf-g)"] { fill: url(#cf-g) !important; }
+.brand-lockup__logo circle { stroke: #fff !important; }
+
 
 .brand-lockup__name--solid {
   color: var(--fg);             /* solid dark word */
@@ -71,8 +86,9 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
   -webkit-text-fill-color: currentColor;
 }
 
-/* Hero-specific tweaks */
-.auth-hero-lockup { --logo-size: 96px; }
+.auth-hero-lockup { margin-bottom: 8px; }   /* was looser */
+.auth-hero-title  { margin-top: 0; }
+
 .auth-hero-lockup .brand-lockup__logo {
   margin-left: -4px;
   margin-right: -0.28em;
@@ -256,3 +272,42 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 .auth-page .mantine-Anchor-root { color: var(--accent) !important; }
 .auth-page .mantine-ThemeIcon-root { color: var(--cta-label) !important; }
 .auth-page .mantine-Divider-label { color: var(--fg) !important; opacity: .85 !important; }
+
+/* ================== Chatforia Logo Theme Mapping ================== */
+
+/* Default (light) theme */
+:root {
+  --logo-stop-1: #FFC83A; /* warm gold top */
+  --logo-stop-2: #FFB300; /* mid amber */
+  --logo-stop-3: #FF8A00; /* orange base */
+}
+
+/* Dark mode */
+:root[data-theme="dark"],
+:root[data-theme="midnight"],
+:root[data-theme="amoled"] {
+  --logo-stop-1: #FFD24D; /* brighter gold */
+  --logo-stop-2: #FF9F2B; /* mid orange */
+  --logo-stop-3: #FF7A1A; /* deeper amber */
+}
+
+/* Violet gradient theme */
+:root[data-theme="violet"] {
+  --logo-stop-1: #B47FFF; /* light violet */
+  --logo-stop-2: #8C5AFF; /* mid violet */
+  --logo-stop-3: #6A3CC1; /* deep violet-blue */
+}
+
+/* Blue gradient theme */
+:root[data-theme="blue"] {
+  --logo-stop-1: #5AC8FA;
+  --logo-stop-2: #2EA8F7;
+  --logo-stop-3: #0B84F3;
+}
+
+/* Pink/rose theme (optional future) */
+:root[data-theme="rose"] {
+  --logo-stop-1: #FF8AD0;
+  --logo-stop-2: #FF66A8;
+  --logo-stop-3: #FF3E88;
+}
