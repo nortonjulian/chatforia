@@ -11,7 +11,7 @@ export const ALL_THEMES = [...THEME_CATALOG.free, ...THEME_CATALOG.premium];
 export const THEME_LABELS = {
   dawn: 'Dawn (Default)',
   midnight: 'Midnight',
-  amoled: 'AMOLED',
+  amoled: 'Amoled',
   aurora: 'Aurora',
   neon: 'Neon',
   sunset: 'Sunset',

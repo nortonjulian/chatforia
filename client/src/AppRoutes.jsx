@@ -78,16 +78,16 @@ function AuthedLayout() {
   // Updated logout: call API, then nuke client state and hard-redirect
   const handleLogout = async () => {
     try {
-      await api.post('/auth/logout'); // relative path so Vite proxy handles CORS in dev
+      await api.post('/auth/logout');
     } catch (_err) {
-      // ignore — we’ll clear client state anyway
+      // ignore
     } finally {
       try {
         localStorage.clear();
         sessionStorage.clear();
       } catch {}
-        setCurrentUser(null);
-        window.location.assign('/login');
+      setCurrentUser(null);
+      window.location.assign('/login');
     }
   };
 
@@ -119,12 +119,7 @@ function AuthedLayout() {
             />
             <Title order={3}>Chatforia</Title>
           </Group>
-          <Button
-            color="red"
-            variant="filled"
-            onClick={handleLogout}
-            aria-label="Log out"
-          >
+          <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
             Log Out
           </Button>
         </Group>
@@ -140,15 +135,13 @@ function AuthedLayout() {
         </ScrollArea.Autosize>
       </AppShell.Navbar>
 
-      {/* NEW: give main a stable id + focusable target for SkipToContent */}
+      {/* Main content */}
       <AppShell.Main id="main-content" tabIndex={-1}>
-        {/* Incoming call modal */}
         <IncomingCallModal
           onAccept={handleAcceptIncoming}
           onReject={() => setActiveCall(null)}
         />
 
-        {/* In-call UI */}
         {activeCall && (
           <VideoCall
             call={activeCall}
@@ -157,9 +150,9 @@ function AuthedLayout() {
           />
         )}
 
-        {/* Pass room + user down to index route via Outlet context */}
         <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
       </AppShell.Main>
+      {/* ⬅️ Footer removed from the authed shell */}
     </AppShell>
   );
 }
@@ -170,6 +163,7 @@ export default function AppRoutes() {
   if (!currentUser) {
     return (
       <Routes>
+        {/* Public pages share AuthLayout which will now include the footer */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
@@ -186,14 +180,12 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/" element={<AuthedLayout />}>
-        {/* ⬇️ Index route uses the same conditional you had before */}
         <Route path="random" element={<RandomChatPage />} />
         <Route index element={<HomeIndex />} />
 
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
 
-        {/* Premium-gated page */}
         <Route
           path="settings/backups"
           element={
@@ -206,7 +198,6 @@ export default function AppRoutes() {
         <Route path="settings/upgrade" element={<UpgradePage />} />
         <Route path="/join/:code" element={<JoinInvitePage />} />
 
-        {/* feature-flagged */}
         <Route path="status" element={<StatusFeed />} />
 
         {/* ✅ NEW: SMS */}

@@ -16,6 +16,7 @@ import {
 } from '@mantine/core';
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
 import LogoGlyph from '@/components/LogoGlyph';
+import Footer from '@/components/footer/Footer.jsx'; // ✅ add footer
 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
@@ -133,120 +134,126 @@ function GetAppCard() {
 /* ---------- Layout ---------- */
 export default function AuthLayout() {
   return (
-    <div className="auth-page">
-      <Container size="lg" py="xl">
-        <MobileTopBar />
-        <Grid gutter="xl" align="start">
-          {/* Left: Brand + Marketing */}
-          <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
-            {/* Tight hero spacing */}
-            <Stack gap="xs" maw={620}>
-              <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
+    <div id="top" className="auth-page min-h-screen flex flex-col">
+      {/* Main public content */}
+      <main className="flex-1">
+        <Container size="lg" py="xl">
+          <MobileTopBar />
+          <Grid gutter="xl" align="start">
+            {/* Left: Brand + Marketing */}
+            <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
+              {/* Tight hero spacing */}
+              <Stack gap="xs" maw={620}>
+                <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
 
-              <Title
-                order={1}
-                className="auth-hero-title"
-                style={{
-                  marginTop: 0,
-                  lineHeight: 1.05,
-                  fontWeight: 800,
-                  letterSpacing: -0.2,
-                  fontSize: 'clamp(34px, 5vw, 56px)',
-                }}
-              >
-                Secure, global messaging with{' '}
-                <span className="text-blue-purple">instant translation</span>
-              </Title>
-
-              <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
-                End-to-end encryption, AI-powered translation, disappearing
-                messages, and voice/video calling.
-              </Text>
-
-              <List spacing="sm" size="sm" center className="auth-list">
-                <List.Item
-                  icon={
-                    <ThemeIcon
-                      variant="filled"
-                      radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
-                    >
-                      <Lock size={16} />
-                    </ThemeIcon>
-                  }
+                <Title
+                  order={1}
+                  className="auth-hero-title"
+                  style={{
+                    marginTop: 0,
+                    lineHeight: 1.05,
+                    fontWeight: 800,
+                    letterSpacing: -0.2,
+                    fontSize: 'clamp(34px, 5vw, 56px)',
+                  }}
                 >
-                  End-to-end encryption by default
-                </List.Item>
-                <List.Item
-                  icon={
-                    <ThemeIcon
-                      variant="filled"
-                      radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
-                    >
-                      <Globe size={16} />
-                    </ThemeIcon>
-                  }
-                >
-                  Auto-translate 100+ languages
-                </List.Item>
-                <List.Item
-                  icon={
-                    <ThemeIcon
-                      variant="filled"
-                      radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
-                    >
-                      <MessageCircle size={16} />
-                    </ThemeIcon>
-                  }
-                >
-                  Disappearing messages & read receipts
-                </List.Item>
-                <List.Item
-                  icon={
-                    <ThemeIcon
-                      variant="filled"
-                      radius="xl"
-                      style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
-                    >
-                      <ShieldCheck size={16} />
-                    </ThemeIcon>
-                  }
-                >
-                  Privacy-first. Your data, your control.
-                </List.Item>
-              </List>
+                  Secure, global messaging with{' '}
+                  <span className="text-blue-purple">instant translation</span>
+                </Title>
 
-              <Group gap="sm">
-                <Button component={Link} to="/register" size="md" radius="xl">
-                  Create free account
-                </Button>
-                <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
-                  Status
-                </Anchor>
-                <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
-                  Upgrade
-                </Anchor>
-              </Group>
-
-              <Paper p="sm" withBorder radius="md">
-                <Text size="xs" style={{ color: 'var(--fg)', opacity: 0.85 }}>
-                  Tip: Use the same account on web and mobile. Your messages stay synced.
+                <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
+                  End-to-end encryption, AI-powered translation, disappearing
+                  messages, and voice/video calling.
                 </Text>
-              </Paper>
-            </Stack>
-          </Grid.Col>
 
-          {/* Right: Auth form + Get app */}
-          <Grid.Col span={{ base: 12, md: 6, lg: 5 }} style={{ alignSelf: 'start' }}>
-            <Stack gap="lg" style={{ maxWidth: 440, marginLeft: 'auto' }} className="auth-login">
-              <Outlet />
-              <GetAppCard />
-            </Stack>
-          </Grid.Col>
-        </Grid>
-      </Container>
+                <List spacing="sm" size="sm" center className="auth-list">
+                  <List.Item
+                    icon={
+                      <ThemeIcon
+                        variant="filled"
+                        radius="xl"
+                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                      >
+                        <Lock size={16} />
+                      </ThemeIcon>
+                    }
+                  >
+                    End-to-end encryption by default
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon
+                        variant="filled"
+                        radius="xl"
+                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                      >
+                        <Globe size={16} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Auto-translate 100+ languages
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon
+                        variant="filled"
+                        radius="xl"
+                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                      >
+                        <MessageCircle size={16} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Disappearing messages & read receipts
+                  </List.Item>
+                  <List.Item
+                    icon={
+                      <ThemeIcon
+                        variant="filled"
+                        radius="xl"
+                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                      >
+                        <ShieldCheck size={16} />
+                      </ThemeIcon>
+                    }
+                  >
+                    Privacy-first. Your data, your control.
+                  </List.Item>
+                </List>
+
+                <Group gap="sm">
+                  <Button component={Link} to="/register" size="md" radius="xl">
+                    Create free account
+                  </Button>
+                  <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
+                    Status
+                  </Anchor>
+                  <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
+                    Upgrade
+                  </Anchor>
+                </Group>
+
+                <Paper p="sm" withBorder radius="md">
+                  <Text size="xs" style={{ color: 'var(--fg)', opacity: 0.85 }}>
+                    Tip: Use the same account on web and mobile. Your messages stay synced.
+                  </Text>
+                </Paper>
+              </Stack>
+            </Grid.Col>
+
+            {/* Right: Auth form + Get app */}
+            <Grid.Col span={{ base: 12, md: 6, lg: 5 }} style={{ alignSelf: 'start' }}>
+              <Stack gap="lg" style={{ maxWidth: 440, marginLeft: 'auto' }} className="auth-login">
+                <Outlet />
+                <GetAppCard />
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </Container>
+      </main>
+
+      {/* ✅ Footer: always visible on public pages (login/register/forgot/reset) */}
+      <Footer />
     </div>
   );
 }

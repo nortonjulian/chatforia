@@ -216,6 +216,62 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 }
 .mantine-Checkbox-input:checked + .mantine-Checkbox-inner .mantine-Checkbox-icon { color: #fff !important; }
 
+/* ================== Sun / Moon Theme Chips ================== */
+/* Pill-shaped, touch-friendly, with selected state and dark-mode support */
+.theme-chip {
+  --radius: 9999px;            /* pill */
+  --pad-x: 12px;
+  --pad-y: 8px;
+  --gap: 6px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: var(--pad-y) var(--pad-x);
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  color: #111;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  min-height: 44px;            /* touch target */
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.theme-chip svg { width: 18px; height: 18px; }
+.theme-chip:hover {
+  background: #fff8f0;
+  border-color: rgba(0,0,0,.2);
+}
+.theme-chip:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 165, 0, .35);
+}
+/* Selected state (maps to aria-pressed or data-selected) */
+.theme-chip[aria-pressed="true"],
+.theme-chip[data-selected="true"] {
+  background: #ffedd5;         /* warm highlight */
+  border-color: #f59e0b;
+  color: #7c2d12;
+}
+.theme-chip--sun { /* optional hook */ }
+.theme-chip--moon { /* optional hook */ }
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .theme-chip {
+    background: #0f0f10;
+    color: #e7e7e7;
+    border-color: rgba(255,255,255,.12);
+  }
+  .theme-chip:hover { background: #171718; border-color: rgba(255,255,255,.2); }
+  .theme-chip[aria-pressed="true"],
+  .theme-chip[data-selected="true"] {
+    background: rgba(245, 158, 11, .18);
+    border-color: #f59e0b;
+    color: #ffedd5;
+  }
+}
+
 /* Smooth theme flips; respect reduced motion */
 :root, .auth-page,
 .mantine-Paper-root, .mantine-TextInput-input, .mantine-PasswordInput-input {

@@ -31,8 +31,24 @@ function coerceUsers(payload) {
   return [payload];
 }
 
-export default function StartChatModal({ currentUserId, onClose }) {
-  const [query, setQuery] = useState('');
+/**
+ * StartChatModal
+ *
+ * Props:
+ * - currentUserId: number (required)
+ * - onClose: () => void
+ * - initialQuery?: string      // seed from the page's global search
+ * - hideSearch?: boolean       // set true to avoid a second search box in the modal
+ */
+export default function StartChatModal({
+  currentUserId,
+  onClose,
+  initialQuery = '',
+  hideSearch = false,
+}) {
+  const [query, setQuery] = useState(initialQuery);
+  const [hasSearched, setHasSearched] = useState(false);
+
   const [results, setResults] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [aliasEdits, setAliasEdits] = useState({});
@@ -52,7 +68,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
   const navigate = useNavigate();
   const isPremium = useIsPremium();
 
-  // ✅ Consume the test's first mock GET with an initial contacts fetch
+  // Initial contacts fetch (used by the "Show contacts" pane)
   useEffect(() => {
     axiosClient
       .get(`/contacts/${currentUserId}`)
@@ -62,6 +78,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
       .catch(() => {});
   }, [currentUserId]);
 
+  // Keep a map of saved contacts by userId (for alias prefills)
   const savedMap = useMemo(() => {
     const map = new Map();
     (contacts || []).forEach((c) => {
@@ -70,16 +87,30 @@ export default function StartChatModal({ currentUserId, onClose }) {
     return map;
   }, [contacts]);
 
-  const search = async () => {
+  // If parent passes a new initialQuery, sync it and (optionally) search
+  useEffect(() => {
+    setQuery(initialQuery || '');
+    if (initialQuery?.trim()) {
+      runSearch(initialQuery.trim());
+    } else {
+      setResults([]);
+      setHasSearched(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialQuery]);
+
+  const runSearch = async (qStr) => {
+    const q = (qStr ?? query).trim();
     setError('');
+    setHasSearched(true);
     setResults([]);
-    if (!query.trim()) return;
+
+    if (!q) return;
 
     setLoading(true);
     try {
-      const res = await axiosClient.get('/users/search', {
-        params: { query: query.trim() },
-      });
+      // Keep endpoint consistent with your API; this modal has historically used /users/search
+      const res = await axiosClient.get('/users/search', { params: { query: q } });
       const arr = coerceUsers(res?.data);
       const cleaned = arr.filter((u) => u && u.id !== currentUserId);
       setResults(cleaned);
@@ -102,7 +133,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
     setError('');
     try {
       await axiosClient.post('/contacts', {
-        ownerId: currentUserId,           // ✅ include ownerId
+        ownerId: currentUserId,
         userId: user.id,
         alias: aliasEdits[user.id] || undefined,
       });
@@ -118,7 +149,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
     setError('');
     try {
       await axiosClient.patch('/contacts', {
-        ownerId: currentUserId,           // optional, but fine to include
+        ownerId: currentUserId,
         userId: user.id,
         alias: aliasEdits[user.id] || '',
       });
@@ -134,7 +165,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
     setError('');
     try {
       await axiosClient.delete('/contacts', {
-        data: { ownerId: currentUserId, userId: user.id }, // optional, consistent
+        data: { ownerId: currentUserId, userId: user.id },
       });
     } catch {
       setError('Failed to delete contact.');
@@ -169,7 +200,7 @@ export default function StartChatModal({ currentUserId, onClose }) {
     try {
       if (isLikelyPhone(raw)) {
         await axiosClient.post('/contacts', {
-          ownerId: currentUserId,        // ✅ include ownerId
+          ownerId: currentUserId,
           externalPhone: raw,
           externalName: addAlias || '',
           alias: addAlias || undefined,
@@ -182,13 +213,13 @@ export default function StartChatModal({ currentUserId, onClose }) {
 
         if (u) {
           await axiosClient.post('/contacts', {
-            ownerId: currentUserId,      // ✅ include ownerId
+            ownerId: currentUserId,
             userId: u.id,
             alias: addAlias || undefined,
           });
         } else {
           await axiosClient.post('/contacts', {
-            ownerId: currentUserId,      // ✅ include ownerId
+            ownerId: currentUserId,
             externalPhone: raw,
             externalName: addAlias || '',
             alias: addAlias || undefined,
@@ -218,23 +249,27 @@ export default function StartChatModal({ currentUserId, onClose }) {
       aria-label="Start a chat"
     >
       <Stack gap="sm">
-        <Group align="end" wrap="nowrap">
-          <TextInput
-            style={{ flex: 1 }}
-            value={query}
-            onChange={(e) => setQuery(e.currentTarget.value)}
-            placeholder="Search by username or phone"
-            aria-label="Search users"
-            autoFocus
-            onKeyDown={(e) => e.key === 'Enter' && search()}
-          />
-          <Button onClick={search} loading={!!loading}>
-            Search
-          </Button>
-        </Group>
+        {/* Optional search row — hide to avoid redundancy with page-level search */}
+        {!hideSearch && (
+          <Group align="end" wrap="nowrap">
+            <TextInput
+              style={{ flex: 1 }}
+              value={query}
+              onChange={(e) => setQuery(e.currentTarget.value)}
+              placeholder="Search by username or phone"
+              aria-label="Search users"
+              autoFocus
+              onKeyDown={(e) => e.key === 'Enter' && runSearch()}
+            />
+            <Button onClick={() => runSearch()} loading={!!loading}>
+              Search
+            </Button>
+          </Group>
+        )}
 
         {error && <Alert color="red">{error}</Alert>}
 
+        {/* Results area */}
         {results.length > 0 ? (
           <Stack gap="xs">
             {results.map((u) => {
@@ -319,9 +354,20 @@ export default function StartChatModal({ currentUserId, onClose }) {
             )}
           </Stack>
         ) : (
-          <Text c="dimmed">No results</Text>
+          <>
+            {hasSearched ? (
+              <Text c="dimmed">No results</Text>
+            ) : (
+              hideSearch ? (
+                <Text c="dimmed">Use the page search to find people, or pick from contacts below.</Text>
+              ) : (
+                <Text c="dimmed">Type a username or phone and press Search.</Text>
+              )
+            )}
+          </>
         )}
 
+        {/* Pick from contacts */}
         <Group justify="center">
           <Divider label="Or pick from contacts" labelPosition="center" my="xs" />
           {!showContacts && (
@@ -335,10 +381,13 @@ export default function StartChatModal({ currentUserId, onClose }) {
           )}
         </Group>
 
-        <ScrollArea style={{ maxHeight: 300 }}>
-          {showContacts ? <ContactList onLoaded={setContacts} /> : null}
-        </ScrollArea>
+        {showContacts && (
+          <ScrollArea style={{ maxHeight: 300 }}>
+            <ContactList currentUserId={currentUserId} onChanged={setContacts} />
+          </ScrollArea>
+        )}
 
+        {/* Add a contact directly */}
         <Divider label="Add a Contact" labelPosition="center" my="xs" />
 
         {!addOpen ? (

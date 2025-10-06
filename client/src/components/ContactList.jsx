@@ -12,7 +12,7 @@ import {
   ActionIcon,
   Skeleton,
 } from '@mantine/core';
-import { IconRefresh, IconTrash, IconMessagePlus } from '@tabler/icons-react';
+import { IconRefresh, IconTrash, IconMessagePlus, IconSearch } from '@tabler/icons-react';
 // import { toast } from '../utils/toast';
 
 export default function ContactList({ currentUserId, onChanged }) {
@@ -21,13 +21,13 @@ export default function ContactList({ currentUserId, onChanged }) {
   const [items, setItems] = useState([]);             // raw contacts from server
   const [nextCursor, setNextCursor] = useState(null); // server pagination cursor (optional)
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState('');           // local (saved contacts) filter
 
   async function fetchContacts({ cursor = null, append = false } = {}) {
     try {
       setLoading(true);
 
-      // Test sometimes returns { data: [...] } and sometimes { data: { items: [...] } }
+      // API sometimes returns { data: [...] } or { data: { items: [...] } }
       const { data } = await axiosClient.get('/contacts', {
         params: { limit: 50, ...(cursor ? { cursor } : {}) },
       });
@@ -47,13 +47,12 @@ export default function ContactList({ currentUserId, onChanged }) {
     }
   }
 
-  // Initial load on mount
   useEffect(() => {
     fetchContacts({ append: false });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ✅ Client-side filtering to satisfy the test
+  // Local saved-contacts filter (client-side)
   const filteredItems = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return items;
@@ -84,11 +83,8 @@ export default function ContactList({ currentUserId, onChanged }) {
         return;
       }
       const { data } = await axiosClient.post(`/chatrooms/direct/${userId}`);
-      if (data?.id) {
-        navigate(`/chat/${data.id}`);
-      } else {
-        toast.err?.('Could not start chat. Please try again.');
-      }
+      if (data?.id) navigate(`/chat/${data.id}`);
+      else toast.err?.('Could not start chat. Please try again.');
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error('Failed to start chat:', e);
@@ -99,7 +95,6 @@ export default function ContactList({ currentUserId, onChanged }) {
   const deleteContact = async (userId, externalPhone) => {
     try {
       await axiosClient.delete('/contacts', {
-        // Test expects ownerId included
         data: userId ? { ownerId: currentUserId, userId } : { ownerId: currentUserId, externalPhone },
       });
       await fetchContacts({ append: false });
@@ -114,7 +109,7 @@ export default function ContactList({ currentUserId, onChanged }) {
   const updateAlias = async (userId, externalPhone, alias) => {
     try {
       await axiosClient.patch('/contacts', {
-        ownerId: currentUserId, // test expects this
+        ownerId: currentUserId,
         ...(userId ? { userId } : { externalPhone }),
         alias: alias || '',
       });
@@ -130,7 +125,8 @@ export default function ContactList({ currentUserId, onChanged }) {
 
   return (
     <Box p="md" maw={560} mx="auto">
-      <Group justify="space-between" align="center" mb="sm">
+      {/* Header row */}
+      <Group justify="space-between" align="center" mb="xs">
         <Title order={4}>Saved Contacts</Title>
         <ActionIcon
           variant="subtle"
@@ -142,11 +138,17 @@ export default function ContactList({ currentUserId, onChanged }) {
         </ActionIcon>
       </Group>
 
+      {/* Compact local filter (no wide global bar, no Search button) */}
       <TextInput
-        placeholder="Search contacts…"
+        placeholder="Filter saved contacts…"
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
+        leftSection={<IconSearch size={16} />}
+        aria-label="Filter saved contacts"
+        size="sm"
         mb="md"
+        // Polished: full width but visually restrained
+        styles={{ input: { maxWidth: 360 } }}
       />
 
       {loading && items.length === 0 ? (
@@ -169,7 +171,6 @@ export default function ContactList({ currentUserId, onChanged }) {
               c.externalPhone ||
               (c.userId ? `User #${c.userId}` : 'External contact');
 
-            // Show BOTH display and canonical username so tests can see "alice" and "Bobby"
             const secondary =
               c.alias && username && c.alias.toLowerCase() !== username.toLowerCase()
                 ? username
@@ -180,7 +181,6 @@ export default function ContactList({ currentUserId, onChanged }) {
                 <button
                   type="button"
                   onClick={() => startChat(c.userId)}
-                  // Accessible name includes both lines (button text content)
                   style={{
                     flex: 1,
                     textAlign: 'left',
