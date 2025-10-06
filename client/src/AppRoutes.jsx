@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import {
-  AppShell,
-  Burger,
-  Button,
-  Group,
-  Title,
-  Text,
-  ScrollArea,
-} from '@mantine/core';
+import { AppShell, Burger, Button, Group, Title, ScrollArea, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useUser } from '@/context/UserContext';
@@ -37,7 +29,6 @@ import AuditLogsPage from '@/pages/AuditLogsPage';
 // Feature flags
 import { fetchFeatures } from '@/lib/features';
 import StatusFeed from '@/pages/StatusFeed.jsx';
-import Advertise from './pages/Advertise';
 
 // Calls (ring modal + in-call UI)
 import IncomingCallModal from '@/components/IncomingCallModal.jsx';
@@ -59,36 +50,37 @@ import HomeIndex from '@/features/chat/HomeIndex';
 import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
 
+/* ---------- PUBLIC PAGES (make sure these files exist, or comment out the routes) ---------- */
+import AboutChatforia from '@/pages/AboutChatforia.jsx';
+import Careers from '@/pages/Careers.jsx';
+import Press from '@/pages/Press.jsx';
+import HelpCenter from '@/pages/HelpCenter.jsx';
+import ContactUs from '@/pages/ContactUs.jsx';
+import Downloads from '@/pages/Downloads.jsx';
+import Advertise from '@/pages/Advertise.jsx';
+
+// Legal
+import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
+import TermsOfService from '@/pages/legal/TermsOfService.jsx';
+import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
+import CookieSettings from '@/pages/legal/CookieSettings.jsx';
+
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { currentUser, setCurrentUser } = useUser();
-
   const [features, setFeatures] = useState({ status: false });
-
-  // Global in-app call state (for VideoCall)
   const [activeCall, setActiveCall] = useState(null);
 
   useEffect(() => {
-    fetchFeatures()
-      .then(setFeatures)
-      .catch(() => setFeatures({ status: false }));
+    fetchFeatures().then(setFeatures).catch(() => setFeatures({ status: false }));
   }, []);
 
-  // Updated logout: call API, then nuke client state and hard-redirect
   const handleLogout = async () => {
-    try {
-      await api.post('/auth/logout');
-    } catch (_err) {
-      // ignore
-    } finally {
-      try {
-        localStorage.clear();
-        sessionStorage.clear();
-      } catch {}
-      setCurrentUser(null);
-      window.location.assign('/login');
-    }
+    try { await api.post('/auth/logout'); } catch {}
+    try { localStorage.clear(); sessionStorage.clear(); } catch {}
+    setCurrentUser(null);
+    window.location.assign('/login');
   };
 
   const handleAcceptIncoming = (payload) => {
@@ -111,12 +103,8 @@ function AuthedLayout() {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'}
-            />
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm"
+              aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'} />
             <Title order={3}>Chatforia</Title>
           </Group>
           <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
@@ -127,32 +115,17 @@ function AuthedLayout() {
 
       <AppShell.Navbar p="md">
         <ScrollArea.Autosize mah="calc(100vh - 120px)">
-          <Sidebar
-            currentUser={currentUser}
-            setSelectedRoom={setSelectedRoom}
-            features={features}
-          />
+          <Sidebar currentUser={currentUser} setSelectedRoom={setSelectedRoom} features={features} />
         </ScrollArea.Autosize>
       </AppShell.Navbar>
 
-      {/* Main content */}
       <AppShell.Main id="main-content" tabIndex={-1}>
-        <IncomingCallModal
-          onAccept={handleAcceptIncoming}
-          onReject={() => setActiveCall(null)}
-        />
-
+        <IncomingCallModal onAccept={handleAcceptIncoming} onReject={() => setActiveCall(null)} />
         {activeCall && (
-          <VideoCall
-            call={activeCall}
-            currentUser={currentUser}
-            onEnd={() => setActiveCall(null)}
-          />
+          <VideoCall call={activeCall} currentUser={currentUser} onEnd={() => setActiveCall(null)} />
         )}
-
         <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
       </AppShell.Main>
-      {/* ⬅️ Footer removed from the authed shell */}
     </AppShell>
   );
 }
@@ -163,13 +136,26 @@ export default function AppRoutes() {
   if (!currentUser) {
     return (
       <Routes>
-        {/* Public pages share AuthLayout which will now include the footer */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/download" element={<Text>Download page coming soon.</Text>} />
+
+          {/* Public marketing/support/legal */}
+          <Route path="/about" element={<AboutChatforia />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/advertise" element={<Advertise />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/download" element={<Downloads />} />
+
+          {/* Legal */}
+          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
+          <Route path="/legal/cookies" element={<CookieSettings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
@@ -182,36 +168,25 @@ export default function AppRoutes() {
       <Route path="/" element={<AuthedLayout />}>
         <Route path="random" element={<RandomChatPage />} />
         <Route index element={<HomeIndex />} />
-
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
 
         <Route
           path="settings/backups"
-          element={
-            <RequirePremium>
-              <SettingsBackups />
-            </RequirePremium>
-          }
+          element={<RequirePremium><SettingsBackups /></RequirePremium>}
         />
-
         <Route path="settings/upgrade" element={<UpgradePage />} />
         <Route path="/join/:code" element={<JoinInvitePage />} />
-
         <Route path="status" element={<StatusFeed />} />
 
-        {/* ✅ NEW: SMS */}
+        {/* SMS */}
         <Route path="sms" element={<SmsThreads />} />
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
 
         {/* Admin */}
         <Route
           path="admin"
-          element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
-          }
+          element={<AdminRoute><AdminLayout /></AdminRoute>}
         >
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />

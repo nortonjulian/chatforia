@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
 import LogoGlyph from '@/components/LogoGlyph';
-import Footer from '@/components/footer/Footer.jsx'; // ✅ add footer
+import Footer from '@/components/footer/Footer.jsx'; // ✅ footer
 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
@@ -51,7 +51,9 @@ function LogoLockup({ size = 64, titleOrder = 4, className }) {
 function MobileTopBar() {
   return (
     <Group hiddenFrom="md" gap="xs" align="center" wrap="nowrap" py="sm">
-      <LogoLockup size={32} titleOrder={4} />
+      <Anchor component={Link} to="/" aria-label="Go home" style={{ textDecoration: 'none' }}>
+        <LogoLockup size={32} titleOrder={4} />
+      </Anchor>
     </Group>
   );
 }
@@ -133,18 +135,43 @@ function GetAppCard() {
 
 /* ---------- Layout ---------- */
 export default function AuthLayout() {
+  const location = useLocation();
+
   return (
     <div id="top" className="auth-page min-h-screen flex flex-col">
       {/* Main public content */}
       <main className="flex-1">
         <Container size="lg" py="xl">
           <MobileTopBar />
+
+          {/* Subtle breadcrumb / back-to-home on non-root routes */}
+          {location.pathname !== '/' && (
+            <Anchor
+              component={Link}
+              to="/"
+              aria-label="Go home"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                fontSize: 14,
+                opacity: 0.85,
+                marginBottom: 12,
+                textDecoration: 'none',
+              }}
+            >
+              ← Home
+            </Anchor>
+          )}
+
           <Grid gutter="xl" align="start">
             {/* Left: Brand + Marketing */}
             <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
               {/* Tight hero spacing */}
               <Stack gap="xs" maw={620}>
-                <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
+                <Anchor component={Link} to="/" aria-label="Go home" style={{ textDecoration: 'none' }}>
+                  <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
+                </Anchor>
 
                 <Title
                   order={1}
@@ -252,7 +279,7 @@ export default function AuthLayout() {
         </Container>
       </main>
 
-      {/* ✅ Footer: always visible on public pages (login/register/forgot/reset) */}
+      {/* ✅ Footer: always visible on public pages (login/register/forgot/reset/marketing/legal) */}
       <Footer />
     </div>
   );

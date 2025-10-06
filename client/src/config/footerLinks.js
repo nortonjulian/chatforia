@@ -40,10 +40,10 @@ export const FOOTER_SECTIONS = [
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/terms" },
-      { label: "Do Not Sell My Info", href: "/privacy/dnsmi" },
-      { label: "Cookie Settings", href: "/cookies" },
+      { label: "Privacy Policy", href: "/legal/privacy" },
+      { label: "Terms of Service", href: "/legal/terms" },
+      { label: "Do Not Sell My Info", href: "/legal/do-not-sell" },
+      { label: "Cookie Settings", href: "/legal/cookies" },
     ],
   },
 ];
