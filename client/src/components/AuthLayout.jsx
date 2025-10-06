@@ -16,8 +16,8 @@ import {
 } from '@mantine/core';
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
 import LogoGlyph from '@/components/LogoGlyph';
-import Footer from '@/components/footer/Footer.jsx'; // ✅ footer
-
+import SupportWidget from '@/components/support/SupportWidget.jsx';
+import Footer from '@/components/footer/Footer.jsx'; 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
 const APP_IOS     = 'https://go.chatforia.com/ios';
@@ -276,6 +276,7 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
           </Grid>
+          <SupportWidget excludeRoutes={['/login', '/reset-password']} />
         </Container>
       </main>
 

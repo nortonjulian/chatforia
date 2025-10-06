@@ -58,6 +58,7 @@ import HelpCenter from '@/pages/HelpCenter.jsx';
 import ContactUs from '@/pages/ContactUs.jsx';
 import Downloads from '@/pages/Downloads.jsx';
 import Advertise from '@/pages/Advertise.jsx';
+import SupportWidget from '@/components/support/SupportWidget.jsx';
 
 // Legal
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
@@ -125,6 +126,7 @@ function AuthedLayout() {
           <VideoCall call={activeCall} currentUser={currentUser} onEnd={() => setActiveCall(null)} />
         )}
         <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
+        <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
       </AppShell.Main>
     </AppShell>
   );
