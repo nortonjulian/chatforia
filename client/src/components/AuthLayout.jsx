@@ -17,13 +17,16 @@ import {
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
 import LogoGlyph from '@/components/LogoGlyph';
 import SupportWidget from '@/components/support/SupportWidget.jsx';
-import Footer from '@/components/footer/Footer.jsx'; 
+import Footer from '@/components/footer/Footer.jsx';
+
+import '@/styles.css';
+
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
 const APP_IOS     = 'https://go.chatforia.com/ios';
 const APP_ANDROID = 'https://go.chatforia.com/android';
 
-/* ---------- BRAND LOCKUP ---------- */
+/* ---------- BRAND LOCKUP (used on mobile top bar) ---------- */
 function LogoLockup({ size = 64, titleOrder = 4, className }) {
   return (
     <Group
@@ -167,104 +170,118 @@ export default function AuthLayout() {
           <Grid gutter="xl" align="start">
             {/* Left: Brand + Marketing */}
             <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
-              {/* Tight hero spacing */}
               <Stack gap="xs" maw={620}>
-                <Anchor component={Link} to="/" aria-label="Go home" style={{ textDecoration: 'none' }}>
-                  <LogoLockup className="auth-hero-lockup" size={90} titleOrder={2} />
-                </Anchor>
+                <section className="hero">
+                  {/* Lockup + H1 grid */}
+                  <div className="hero-bubble-align" style={{ ['--bubble']: '90px' }}>
+                    <span className="brand-logo" aria-hidden="true">
+                      <LogoGlyph size="var(--bubble)" />
+                    </span>
 
-                <Title
-                  order={1}
-                  className="auth-hero-title"
-                  style={{
-                    marginTop: 0,
-                    lineHeight: 1.05,
-                    fontWeight: 800,
-                    letterSpacing: -0.2,
-                    fontSize: 'clamp(34px, 5vw, 56px)',
-                  }}
-                >
-                  Secure, global messaging with{' '}
-                  <span className="text-blue-purple">instant translation</span>
-                </Title>
+                    <Title
+                      order={2}
+                      className="brand-lockup__name brand-lockup__name--solid"
+                      style={{ margin: 0 }}
+                    >
+                      Chatforia
+                    </Title>
 
-                <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
-                  End-to-end encryption, AI-powered translation, disappearing
-                  messages, and voice/video calling.
-                </Text>
+                    <Title
+                      order={1}
+                      className="auth-hero-title hero-bubble-title"
+                      style={{
+                        lineHeight: 1.05,
+                        fontWeight: 800,
+                        letterSpacing: -0.2,
+                        fontSize: 'clamp(34px, 5vw, 56px)',
+                      }}
+                    >
+                      Secure, global messaging with{' '}
+                      <span className="text-blue-purple">instant translation</span>
+                    </Title>
+                  </div>
 
-                <List spacing="sm" size="sm" center className="auth-list">
-                  <List.Item
-                    icon={
-                      <ThemeIcon
-                        variant="filled"
-                        radius="xl"
-                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                  {/* Everything under the hero lockup (aligned to the “C”) */}
+                  <div className="hero-after">
+                    <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
+                      End-to-end encryption, AI-powered translation, disappearing
+                      messages, and voice/video calling.
+                    </Text>
+
+                    <List spacing="sm" size="sm" center className="auth-list">
+                      <List.Item
+                        icon={
+                          <ThemeIcon
+                            variant="filled"
+                            radius="xl"
+                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                          >
+                            <Lock size={16} />
+                          </ThemeIcon>
+                        }
                       >
-                        <Lock size={16} />
-                      </ThemeIcon>
-                    }
-                  >
-                    End-to-end encryption by default
-                  </List.Item>
-                  <List.Item
-                    icon={
-                      <ThemeIcon
-                        variant="filled"
-                        radius="xl"
-                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                        End-to-end encryption by default
+                      </List.Item>
+                      <List.Item
+                        icon={
+                          <ThemeIcon
+                            variant="filled"
+                            radius="xl"
+                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                          >
+                            <Globe size={16} />
+                          </ThemeIcon>
+                        }
                       >
-                        <Globe size={16} />
-                      </ThemeIcon>
-                    }
-                  >
-                    Auto-translate 100+ languages
-                  </List.Item>
-                  <List.Item
-                    icon={
-                      <ThemeIcon
-                        variant="filled"
-                        radius="xl"
-                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                        Auto-translate 100+ languages
+                      </List.Item>
+                      <List.Item
+                        icon={
+                          <ThemeIcon
+                            variant="filled"
+                            radius="xl"
+                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                          >
+                            <MessageCircle size={16} />
+                          </ThemeIcon>
+                        }
                       >
-                        <MessageCircle size={16} />
-                      </ThemeIcon>
-                    }
-                  >
-                    Disappearing messages & read receipts
-                  </List.Item>
-                  <List.Item
-                    icon={
-                      <ThemeIcon
-                        variant="filled"
-                        radius="xl"
-                        style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                        Disappearing messages & read receipts
+                      </List.Item>
+                      <List.Item
+                        icon={
+                          <ThemeIcon
+                            variant="filled"
+                            radius="xl"
+                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                          >
+                            <ShieldCheck size={16} />
+                          </ThemeIcon>
+                        }
                       >
-                        <ShieldCheck size={16} />
-                      </ThemeIcon>
-                    }
-                  >
-                    Privacy-first. Your data, your control.
-                  </List.Item>
-                </List>
+                        Privacy-first. Your data, your control.
+                      </List.Item>
+                    </List>
 
-                <Group gap="sm">
-                  <Button component={Link} to="/register" size="md" radius="xl">
-                    Create free account
-                  </Button>
-                  <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
-                    Status
-                  </Anchor>
-                  <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
-                    Upgrade
-                  </Anchor>
-                </Group>
+                    <Group gap="sm">
+                      <Button component={Link} to="/register" size="md" radius="xl">
+                        Create free account
+                      </Button>
+                      <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
+                        Status
+                      </Anchor>
+                      <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
+                        Upgrade
+                      </Anchor>
+                    </Group>
 
-                <Paper p="sm" withBorder radius="md">
-                  <Text size="xs" style={{ color: 'var(--fg)', opacity: 0.85 }}>
-                    Tip: Use the same account on web and mobile. Your messages stay synced.
-                  </Text>
-                </Paper>
+                    <Paper p="sm" withBorder radius="md">
+                      <Text size="xs" style={{ color: 'var(--fg)', opacity: 0.85 }}>
+                        Tip: Use the same account on web and mobile. Your messages stay synced.
+                      </Text>
+                    </Paper>
+                  </div>
+                </section>
               </Stack>
             </Grid.Col>
 
@@ -276,11 +293,13 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
           </Grid>
+
+          {/* Support widget visible on public pages (except specific routes) */}
           <SupportWidget excludeRoutes={['/login', '/reset-password']} />
         </Container>
       </main>
 
-      {/* ✅ Footer: always visible on public pages (login/register/forgot/reset/marketing/legal) */}
+      {/* Footer: always visible on public pages */}
       <Footer />
     </div>
   );

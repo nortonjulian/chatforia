@@ -4,25 +4,35 @@
 /* --- CTA & control gradients --- */
 :root { --switch-gradient: var(--cta-gradient); }
 
-/* ---------- Logo theming tokens (NEW) ---------- */
+/* ---------- Logo theming tokens (ONE source of truth) ---------- */
 :root {
-  /* default light theme: orange bubble, white C */
-  --logo-bubble: #FFA51A;
-  --logo-c: #FFFFFF;
+  --logo-bubble: #FFA51A; /* not used for bubble fill anymore, but kept as a token */
+  --logo-c: #FFFFFF;      /* the “C” */
 }
+/* Theme variants for the “C” if desired */
 :root[data-theme="dark"],
 :root[data-theme="midnight"],
-:root[data-theme="amoled"] {
-  /* keep strong bubble, keep C high-contrast */
-  --logo-bubble: #FFA51A;
-  --logo-c: #0b0b0c; /* if you prefer white C on dark, set to #fff */
-}
-/* Violet theme example: purple bubble + white C */
+:root[data-theme="amoled"] { --logo-bubble: #FFA51A; --logo-c: #0b0b0c; }
 :root[data-theme="violet"] { --logo-bubble: #6A3CC1; --logo-c: #FFFFFF; }
-/* Blue theme example */
 :root[data-theme="blue"]   { --logo-bubble: #0B84F3; --logo-c: #FFFFFF; }
-/* Rose theme example */
 :root[data-theme="rose"]   { --logo-bubble: #FF3E88; --logo-c: #FFFFFF; }
+
+/* === Brand gold (single source) — bubble, CTAs, headline match === */
+:root{
+  --gold-1: #FFC83A;  /* light */
+  --gold-2: #FFB300;  /* mid  */
+  --gold-3: #FF8A00;  /* deep */
+  --brand-gold-gradient: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+
+  /* CTAs use same ramp so buttons match the bubble/text */
+  --cta-gradient: var(--brand-gold-gradient);
+  --cta-label: #1f1200;
+
+  /* Map gradient stops for LogoGlyph */
+  --logo-stop-1: var(--gold-1);
+  --logo-stop-2: var(--gold-2);
+  --logo-stop-3: var(--gold-3);
+}
 
 /* ================== CTAs / Links / Badges (site-wide) ================== */
 .button-primary {
@@ -33,153 +43,81 @@
   box-shadow: 0 6px 20px var(--shadow-accent);
   transition: filter .15s ease, box-shadow .15s ease, transform .05s ease;
 }
-.button-primary::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--cta-overlay, transparent);
-  pointer-events: none;
-}
+.button-primary::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--cta-overlay, transparent); pointer-events: none; }
 .button-primary > * { position: relative; z-index: 1; }
-.button-primary:hover { filter: brightness(1.03); }
+.button-primary:hover  { filter: brightness(1.03); }
 .button-primary:active { transform: translateY(1px); }
 
-.oauth-button,
-.secondary-cta {
-  background: var(--card);
-  color: var(--accent);
-  border: 1px solid var(--border);
-  box-shadow: none;
-}
-
+.oauth-button, .secondary-cta { background: var(--card); color: var(--accent); border: 1px solid var(--border); box-shadow: none; }
 a, .link { color: var(--accent); }
 a:hover, .link:hover { text-decoration: underline; filter: none; }
 
 .badge-gold {
-  background: color-mix(in oklab, var(--brand-gold) 14%, transparent);
-  color: color-mix(in oklab, var(--brand-gold) 78%, #111);
-  border: 1px solid color-mix(in oklab, var(--brand-gold) 35%, transparent);
+  background: color-mix(in oklab, var(--gold-1) 14%, transparent);
+  color: color-mix(in oklab, var(--gold-3) 78%, #111);
+  border: 1px solid color-mix(in oklab, var(--gold-2) 35%, transparent);
 }
 
-/* ---------- Brand lockup (logo + word) ---------- */
-.brand-lockup {
+/* ================== Brand lockup / logo row ================== */
+.brand-lockup{
+  --logo-size: 64px;
   display: inline-flex;
-  align-items: center;        /* perfect baseline alignment */
-  gap: 0.18rem;               /* tight default gap */
+  align-items: center;
+  gap: 8px;
 }
-
-/* === LOGO: prevent tilt, theme with variables (UPDATED) === */
-.brand-logo {
-  width: var(--logo-size, 44px);
-  height: var(--logo-size, 44px);
+.brand-logo{
+  width: var(--logo-size);
+  height: var(--logo-size);
+  line-height: 0;
   display: inline-block;
   vertical-align: baseline;
   overflow: visible;
-  /* IMPORTANT: absolutely no rotation/3D tilt */
-  transform: none !important;
-  transform-style: flat !important;
-  backface-visibility: hidden;
-  margin-right: -0.26em; /* keep your optical tuck */
+  margin-right: -0.26em; /* small optical tuck (canceled/tweaked in hero) */
 }
-.brand-logo svg { width: 100%; height: 100%; display: block; }
-/* Fill control for the two paths coming from LogoGlyph.jsx */
-.brand-logo .cf-bubble { fill: var(--logo-bubble); }
-.brand-logo .cf-c      { fill: var(--logo-c); }
-
-/* Ensure no upstream transform leaks down to children */
-.brand-lockup *, .brand-logo *, .brand-logo svg * {
-  transform: none !important;
-}
-
-/* Wordmark color */
-.brand-lockup__name--solid {
-  color: var(--fg);             /* solid dark/light word */
-  background: none;
-  -webkit-text-fill-color: currentColor;
-}
-
-.auth-hero-lockup { margin-bottom: -34px; }
-/* .auth-hero-lockup { margin-bottom: 8px; }    */
-.auth-hero-title  { margin-top: 0; }
-
-/* ================== (kept) Optional text-based wordmark ================== */
-.brand-wordmark {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 2px;
-  font-family: Inter, ui-sans-serif, system-ui;
-  font-weight: 800;
-  font-size: var(--wm-size, 28px);
-  line-height: 1;
-  letter-spacing: -0.01em;
-}
-.brand-wordmark__c {
-  font-family: 'Syne', Inter, ui-sans-serif, system-ui;
-  font-weight: 800;
-  font-size: calc(var(--wm-size, 28px) * 1.25);
-  line-height: .8;
-  background: linear-gradient(90deg, var(--logo-stop-1, #FFB300), var(--logo-stop-2, #FF8A00), var(--logo-stop-3, #FF6A00));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.04));
-}
-.brand-wordmark__rest { color: var(--fg); }
+.brand-logo svg{ width:100%; height:100%; display:block; }
+.brand-lockup__name{ margin:0; line-height:1; }
 
 /* ================== Auth background (theme-aware) ================== */
 .auth-page {
   min-height: 100vh;
   background:
-    radial-gradient(1200px 600px at 10% -10%,
-      color-mix(in oklab, var(--brand-purple) 22%, transparent), transparent),
-    radial-gradient(900px 500px at 110% 110%,
-      color-mix(in oklab, var(--brand-gold) 14%, transparent), transparent);
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand-purple) 22%, transparent), transparent),
+    radial-gradient(900px 500px at 110% 110%, color-mix(in oklab, var(--gold-1) 14%, transparent), transparent);
 }
 :root[data-theme="dark"] .auth-page,
 :root[data-theme="midnight"] .auth-page,
 :root[data-theme="amoled"] .auth-page {
   background:
-    radial-gradient(1200px 600px at 10% -10%,
-      color-mix(in oklab, var(--brand-indigo) 26%, transparent), transparent),
-    radial-gradient(900px 500px at 110% 110%,
-      color-mix(in oklab, var(--brand-blue) 16%, transparent), transparent);
+    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand-indigo) 26%, transparent), transparent),
+    radial-gradient(900px 500px at 110% 110%, color-mix(in oklab, var(--brand-blue) 16%, transparent), transparent);
 }
 
-/* ================== Gradient text helpers (for accents only) ================== */
-.text-logo-gradient {
-  background: var(--logo-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent;
+/* ================== Gradient text helpers ================== */
+.text-logo-gradient { background: var(--brand-gold-gradient); -webkit-background-clip: text; background-clip: text; color: transparent !important; -webkit-text-fill-color: transparent; }
+/* Use brand gold for the H1 accent */
+.text-blue-purple{
+  background: none !important;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: var(--gold-2);
+  color: var(--gold-2) !important;
 }
-.text-blue-purple,
+
+
 .auth-page .mantine-Anchor-root,
-.auth-page a.auth-link-gradient {
-  background: var(--cta-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent !important;
-  -webkit-text-fill-color: transparent;
-}
-.auth-page .mantine-Anchor-root,
-.auth-page a.auth-link-gradient { text-decoration: none; }
+.auth-page a.auth-link-gradient { background: var(--cta-gradient); -webkit-background-clip: text; background-clip: text; color: transparent !important; -webkit-text-fill-color: transparent; text-decoration: none; }
 .auth-page .mantine-Anchor-root:hover,
 .auth-page a.auth-link-gradient:hover { text-decoration: underline; filter: brightness(1.05); }
 
 /* ================== Optional light-mode page tint ================== */
 .app-surface--tint {
   background:
-    radial-gradient(800px 480px at 10% -10%,
-      color-mix(in oklab, var(--brand-violet) 8%, transparent), transparent),
-    radial-gradient(700px 420px at 110% 110%,
-      color-mix(in oklab, var(--brand-cyan) 10%, transparent), transparent),
+    radial-gradient(800px 480px at 10% -10%, color-mix(in oklab, var(--brand-violet) 8%, transparent), transparent),
+    radial-gradient(700px 420px at 110% 110%, color-mix(in oklab, var(--brand-cyan) 10%, transparent), transparent),
     var(--bg);
 }
 
-/* ================== App-wide Surfaces & Mantine mapping ================== */
+/* ================== App-wide surfaces & Mantine mapping ================== */
 html, body, #root { background: var(--bg); color: var(--fg); }
 .mantine-AppShell-root, .mantine-AppShell-main { background: var(--bg); color: var(--fg); }
 .sidebar, .left-rail, .content-panel, .chat-main { background: var(--bg); color: var(--fg); border-color: var(--border); }
@@ -193,175 +131,111 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 
 /* ================== Switch & Checkbox gradients (global) ================== */
 .mantine-Switch-track[data-checked],
-.mantine-Switch-track[data-checked="true"] {
-  background: var(--switch-gradient) !important;
-  border-color: transparent !important;
-}
-.mantine-Checkbox-input:checked + .mantine-Checkbox-inner {
-  background: var(--switch-gradient) !important;
-  border-color: transparent !important;
-}
+.mantine-Switch-track[data-checked="true"] { background: var(--switch-gradient) !important; border-color: transparent !important; }
+.mantine-Checkbox-input:checked + .mantine-Checkbox-inner { background: var(--switch-gradient) !important; border-color: transparent !important; }
 .mantine-Checkbox-input:checked + .mantine-Checkbox-inner .mantine-Checkbox-icon { color: #fff; }
-
-/* Robust ON-state selectors (v7) */
 .mantine-Switch-root[data-checked] .mantine-Switch-track,
 .mantine-Switch-root[data-checked="true"] .mantine-Switch-track,
-.mantine-Switch-input:checked ~ .mantine-Switch-track {
-  background: var(--switch-gradient) !important;
-  border-color: transparent !important;
-}
-.mantine-Checkbox-input:checked + .mantine-Checkbox-inner {
-  background: var(--switch-gradient) !important;
-  border-color: transparent !important;
-}
-.mantine-Checkbox-input:checked + .mantine-Checkbox-inner .mantine-Checkbox-icon { color: #fff !important; }
+.mantine-Switch-input:checked ~ .mantine-Switch-track { background: var(--switch-gradient) !important; border-color: transparent !important; }
 
-/* ================== Sun / Moon Theme Chips ================== */
-/* Pill-shaped, touch-friendly, with selected state and dark-mode support */
+/* ================== Theme chips ================== */
 .theme-chip {
-  --radius: 9999px;            /* pill */
-  --pad-x: 12px;
-  --pad-y: 8px;
-  --gap: 6px;
-
-  display: inline-flex;
-  align-items: center;
-  gap: var(--gap);
-  padding: var(--pad-y) var(--pad-x);
-  border-radius: var(--radius);
-  border: 1px solid rgba(0,0,0,.12);
-  background: #fff;
-  color: #111;
-  font-size: 14px;
-  line-height: 1;
-  cursor: pointer;
-  min-height: 44px;            /* touch target */
+  --radius: 9999px; --pad-x: 12px; --pad-y: 8px; --gap: 6px;
+  display: inline-flex; align-items: center; gap: var(--gap);
+  padding: var(--pad-y) var(--pad-x); border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,.12); background: #fff; color: #111;
+  font-size: 14px; line-height: 1; cursor: pointer; min-height: 44px;
   transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
 .theme-chip svg { width: 18px; height: 18px; }
-.theme-chip:hover {
-  background: #fff8f0;
-  border-color: rgba(0,0,0,.2);
-}
-.theme-chip:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 165, 0, .35);
-}
-/* Selected state (maps to aria-pressed or data-selected) */
-.theme-chip[aria-pressed="true"],
-.theme-chip[data-selected="true"] {
-  background: #ffedd5;         /* warm highlight */
-  border-color: #f59e0b;
-  color: #7c2d12;
-}
-.theme-chip--sun { /* optional hook */ }
-.theme-chip--moon { /* optional hook */ }
-/* Dark mode */
+.theme-chip:hover { background: #fff8f0; border-color: rgba(0,0,0,.2); }
+.theme-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(255,165,0,.35); }
+.theme-chip[aria-pressed="true"], .theme-chip[data-selected="true"] { background: #ffedd5; border-color: #f59e0b; color: #7c2d12; }
 @media (prefers-color-scheme: dark) {
-  .theme-chip {
-    background: #0f0f10;
-    color: #e7e7e7;
-    border-color: rgba(255,255,255,.12);
-  }
+  .theme-chip { background: #0f0f10; color: #e7e7e7; border-color: rgba(255,255,255,.12); }
   .theme-chip:hover { background: #171718; border-color: rgba(255,255,255,.2); }
-  .theme-chip[aria-pressed="true"],
-  .theme-chip[data-selected="true"] {
-    background: rgba(245, 158, 11, .18);
-    border-color: #f59e0b;
-    color: #ffedd5;
-  }
+  .theme-chip[aria-pressed="true"], .theme-chip[data-selected="true"] { background: rgba(245,158,11,.18); border-color: #f59e0b; color: #ffedd5; }
 }
 
-/* Smooth theme flips; respect reduced motion */
-:root, .auth-page,
-.mantine-Paper-root, .mantine-TextInput-input, .mantine-PasswordInput-input {
+/* ================== Smooth theme flips; respect reduced motion ================== */
+:root, .auth-page, .mantine-Paper-root, .mantine-TextInput-input, .mantine-PasswordInput-input {
   transition: background-color .25s ease, color .25s ease, border-color .25s ease, box-shadow .25s ease;
 }
 @media (prefers-reduced-motion: reduce) {
-  :root, .auth-page,
-  .mantine-Paper-root, .mantine-TextInput-input, .mantine-PasswordInput-input {
-    transition: none;
-  }
+  :root, .auth-page, .mantine-Paper-root, .mantine-TextInput-input, .mantine-PasswordInput-input { transition: none; }
 }
 
-/* Headline readability */
+/* ================== Headline readability ================== */
 .auth-hero-title { color: var(--fg); }
 :root[data-theme="dark"] .auth-hero-title,
-:root[data-theme="midnight"] .auth-hero-title {
-  color: #eef2ff;
-  text-shadow: 0 1px 0 rgba(0,0,0,.18);
-}
+:root[data-theme="midnight"] .auth-hero-title { color: #eef2ff; text-shadow: 0 1px 0 rgba(0,0,0,.18); }
 
-/* Right column (form) essentials */
-.auth-login .mantine-InputWrapper-label,
-.auth-login .mantine-Checkbox-label,
-.auth-login .mantine-Divider-label { color: var(--fg) !important; }
-.auth-login .mantine-TextInput-input,
-.auth-login .mantine-PasswordInput-input {
-  color: var(--fg) !important;
-  background: var(--card);
-  border-color: var(--border);
-}
-
-/* Make placeholders visible on dark themes */
-.auth-login .mantine-TextInput-input::placeholder,
-.auth-login .mantine-PasswordInput-input::placeholder {
-  color: color-mix(in oklab, var(--fg) 72%, transparent) !important;
-}
-.auth-login .mantine-TextInput-input::-webkit-input-placeholder,
-.auth-login .mantine-PasswordInput-input::-webkit-input-placeholder {
-  color: color-mix(in oklab, var(--fg) 72%, transparent) !important;
-}
-.auth-login .mantine-TextInput-input:-ms-input-placeholder,
-.auth-login .mantine-PasswordInput-input:-ms-input-placeholder {
-  color: color-mix(in oklab, var(--fg) 72%, transparent) !important;
-}
-
-/* Auth page readability */
+/* ================== Auth page readability ================== */
 .auth-page .mantine-InputWrapper-label,
 .auth-page .mantine-Text-root,
 .auth-page .mantine-Title-root,
 .auth-page .mantine-List-itemLabel,
 .auth-page .mantine-Alert-message,
 .auth-page .mantine-Divider-label { color: var(--fg) !important; opacity: 1 !important; }
-
 .auth-page .mantine-TextInput-input::placeholder,
 .auth-page .mantine-PasswordInput-input::placeholder,
 .auth-page input::placeholder,
-.auth-page textarea::placeholder {
-  color: color-mix(in oklab, var(--fg) 72%, transparent) !important;
-  opacity: 1 !important;
-}
-
+.auth-page textarea::placeholder { color: color-mix(in oklab, var(--fg) 72%, transparent) !important; opacity: 1 !important; }
 .auth-page .mantine-Anchor-root { color: var(--accent) !important; }
 .auth-page .mantine-ThemeIcon-root { color: var(--cta-label) !important; }
 .auth-page .mantine-Divider-label { color: var(--fg) !important; opacity: .85 !important; }
 
-/* ================== Chatforia Logo Gradient Mapping (kept) ================== */
-:root {
-  --logo-stop-1: #FFC83A;
-  --logo-stop-2: #FFB300;
-  --logo-stop-3: #FF8A00;
+/* ================== HERO: bubble + wordmark + headline grid ================== */
+.hero{
+  --bubble: clamp(64px, 9vw, 90px);
+  --c-offset: calc((31 / 256) * var(--bubble));
+  --gap: 3px;   
+  --hug-x: -6px;
+  --hug-y: -5px;
 }
-:root[data-theme="dark"],
-:root[data-theme="midnight"],
-:root[data-theme="amoled"] {
-  --logo-stop-1: #FFD24D;
-  --logo-stop-2: #FF9F2B;
-  --logo-stop-3: #FF7A1A;
+@media (min-width: 1024px){
+  .hero{ --gap: 2px; --hug-x: -7px; --hug-y: -6px; }
 }
-:root[data-theme="violet"] {
-  --logo-stop-1: #B47FFF;
-  --logo-stop-2: #8C5AFF;
-  --logo-stop-3: #6A3CC1;
+
+.hero-bubble-align{
+  display:grid;
+  grid-template-columns: var(--bubble) 1fr;
+  column-gap: var(--gap);
+  row-gap: 0;
+  align-items:center;
 }
-:root[data-theme="blue"] {
-  --logo-stop-1: #5AC8FA;
-  --logo-stop-2: #2EA8F7;
-  --logo-stop-3: #0B84F3;
+
+.hero-bubble-align .brand-logo{ width: var(--bubble); height: var(--bubble); margin-right: -3px; }
+.hero-bubble-align .brand-logo svg{ display:block; vertical-align:top; }
+.hero-bubble-align .brand-lockup__name{ margin:0; line-height:1; transform: translate(var(--hug-x), -2px); }
+
+/* Headline aligned to the “C” */
+.hero-bubble-title{
+  grid-column: 1 / -1;
+  margin: 0;
+  margin-top: var(--hug-y);
+  margin-left: var(--c-offset);
 }
-:root[data-theme="rose"] {
-  --logo-stop-1: #FF8AD0;
-  --logo-stop-2: #FF66A8;
-  --logo-stop-3: #FF3E88;
+
+/* Body block aligned to the same “C” edge */
+.hero-after{
+  margin-left: var(--c-offset);
+  display: grid;
+  gap: 12px;
 }
+@media (max-width: 640px){
+  .hero-bubble-title, .hero-after { margin-left: 0; }
+}
+
+/* ================== Hanging icons for the feature list ================== */
+.auth-list{
+  --icon: 28px; --gap: 10px; --hang: calc(var(--icon) + var(--gap));
+  padding-left: var(--hang);
+}
+.auth-list [class*="mantine-List-itemIcon"]{
+  width: var(--icon);
+  margin-left: calc(-1 * var(--hang));
+  margin-right: var(--gap);
+  display:flex; align-items:center; justify-content:center;
+}
+.auth-list [class*="mantine-List-itemWrapper"]{ padding-left:0; }

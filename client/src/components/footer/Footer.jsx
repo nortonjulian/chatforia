@@ -1,5 +1,8 @@
 import "./Footer.css";
 import { FOOTER_SECTIONS, SOCIALS, COPYRIGHT_TEXT } from "../../config/footerLinks";
+import { Group, Anchor, Text } from "@mantine/core";
+import { Link } from "react-router-dom";
+import LogoGlyph from "@/components/LogoGlyph";
 
 // Compact inline SVGs for icons
 const icons = {
@@ -37,8 +40,27 @@ export default function Footer() {
         {/* Top row: brand + socials */}
         <div className="cf-footer__top">
           <div className="cf-footer__brand">
-            <img src="/logo-chatforia-mark.svg" alt="Chatforia logo" />
-            <span>Chatforia</span>
+            <Anchor
+              component={Link}
+              to="/"
+              aria-label="Chatforia home"
+              style={{ textDecoration: "none" }}
+            >
+              <Group
+                gap="xs"
+                align="center"
+                wrap="nowrap"
+                className="brand-lockup footer-lockup"
+                style={{ "--logo-size": "28px" }}
+              >
+                <span className="brand-logo" aria-hidden="true">
+                  <LogoGlyph size="var(--logo-size)" />
+                </span>
+                <Text fw={800} size="lg" className="brand-lockup__name">
+                  Chatforia
+                </Text>
+              </Group>
+            </Anchor>
           </div>
 
           <div className="cf-footer__social">

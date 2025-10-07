@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback } from 'react';
+// src/pages/RandomChatPage.jsx
+import { useEffect, useState, useCallback, useRef } from 'react';
 import {
   Paper, Title, Text, Button, Group, Loader, TextInput, Stack, Badge, Card
 } from '@mantine/core';
@@ -9,23 +10,38 @@ import socket from '@/lib/socket'; // singleton client
 export default function RandomChatPage() {
   const { currentUser } = useUser();
   const [searching, setSearching] = useState(false);
-  const [active, setActive] = useState(null); // { roomId, partner, partnerId }
+  const [active, setActive] = useState(null); // { roomId, partner, partnerId, isAI? }
   const [messages, setMessages] = useState([]);
   const [draft, setDraft] = useState('');
   const [status, setStatus] = useState('');
+  // Tracks whether the *next* pair_found is for the AI flow
+  const aiRequestedRef = useRef(false);
 
   // --- Socket listeners
   useEffect(() => {
     if (!socket) return;
 
     const onPairFound = (payload) => {
-      setActive(payload);
+      // If we asked for AI, normalize the payload to show "Foria"
+      const isAI =
+        aiRequestedRef.current ||
+        payload?.isAI === true ||
+        /bot|ai/i.test(String(payload?.partner || ''));
+
+      const normalized = isAI
+        ? { ...payload, isAI: true, partner: 'Foria' }
+        : payload;
+
+      aiRequestedRef.current = false; // clear the hint once used
+      setActive(normalized);
       setSearching(false);
       setStatus('');
       setMessages([]);
     };
+
     const onReceiveMessage = (msg) => setMessages((p) => [...p, msg]);
-    const onPartnerDisconnected = (txt) => setStatus(txt || 'Your partner disconnected.');
+    const onPartnerDisconnected = (txt) =>
+      setStatus(txt || 'Your partner disconnected.');
     const onChatSkipped = (txt) => {
       setSearching(false);
       setActive(null);
@@ -48,6 +64,7 @@ export default function RandomChatPage() {
   // --- Actions
   const startSearch = () => {
     if (!socket || !currentUser) return;
+    aiRequestedRef.current = false;
     setSearching(true);
     setStatus('Looking for someone…');
     socket.emit('find_random_chat');
@@ -55,8 +72,9 @@ export default function RandomChatPage() {
 
   const startAIChat = () => {
     if (!socket) return;
+    aiRequestedRef.current = true;
     setSearching(true);
-    setStatus('Starting an AI chat…');
+    setStatus('Starting a chat with Foria…');
     socket.emit('start_ai_chat');
   };
 
@@ -76,6 +94,7 @@ export default function RandomChatPage() {
     setActive(null);
     setMessages([]);
     setStatus('Cancelled.');
+    aiRequestedRef.current = false;
 
     // Tell server to remove from queue / leave active room if any
     try {
@@ -94,12 +113,17 @@ export default function RandomChatPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [cancelAll]);
 
+  const partnerLabel =
+    active?.isAI ? 'Foria' : String(active?.partner ?? 'Partner');
+
   return (
     <Paper withBorder radius="xl" p="lg" maw={720} mx="auto">
       <Group justify="space-between" align="center">
         <Title order={3}>Random Chat</Title>
         {active ? (
-          <Badge color="grape" variant="light">Connected</Badge>
+          <Badge color={active.isAI ? 'grape' : 'green'} variant="light">
+            {active.isAI ? 'With Foria' : 'Connected'}
+          </Badge>
         ) : searching ? (
           <Badge color="blue" variant="light">Searching…</Badge>
         ) : (
@@ -117,7 +141,6 @@ export default function RandomChatPage() {
             <Button onClick={startSearch} leftSection={<IconPlayerPlay size={16} />}>
               {searching ? 'Finding…' : 'Find me a match'}
             </Button>
-            {/* ✅ Always enabled now */}
             <Button
               variant="light"
               color="gray"
@@ -126,8 +149,12 @@ export default function RandomChatPage() {
             >
               Cancel
             </Button>
-            <Button variant="subtle" leftSection={<IconRobot size={16} />} onClick={startAIChat}>
-              Try ForiaBot instead
+            <Button
+              variant="subtle"
+              leftSection={<IconRobot size={16} />}
+              onClick={startAIChat}
+            >
+              Chat with Foria
             </Button>
           </Group>
 
@@ -146,16 +173,26 @@ export default function RandomChatPage() {
             <Group justify="space-between">
               <Group>
                 <IconMessageCircle size={16} />
-                <Text fw={600}>You’re chatting with {String(active.partner)}</Text>
+                <Text fw={600}>
+                  You’re chatting with {partnerLabel}
+                </Text>
+                {active.isAI && <Badge size="xs" variant="light">BOT</Badge>}
               </Group>
-              {/* Also leaves the room if active */}
               <Button color="red" variant="light" size="xs" onClick={cancelAll}>
                 Leave
               </Button>
             </Group>
           </Card>
 
-          <div style={{ border: '1px solid var(--mantine-color-gray-3)', borderRadius: 12, padding: 12, height: 360, overflow: 'auto' }}>
+          <div
+            style={{
+              border: '1px solid var(--mantine-color-gray-3)',
+              borderRadius: 12,
+              padding: 12,
+              height: 360,
+              overflow: 'auto'
+            }}
+          >
             {messages.length === 0 ? (
               <Text c="dimmed">Say hi 👋</Text>
             ) : (
@@ -163,7 +200,8 @@ export default function RandomChatPage() {
                 {messages.map((m, i) => (
                   <div key={i}>
                     <Text size="sm" fw={600}>
-                      {m.sender?.username || (m.senderId === currentUser?.id ? 'You' : 'Partner')}
+                      {m.sender?.username ||
+                        (m.senderId === currentUser?.id ? 'You' : partnerLabel)}
                     </Text>
                     <Text size="sm">{m.content}</Text>
                   </div>
