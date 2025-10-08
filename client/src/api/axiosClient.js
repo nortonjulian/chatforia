@@ -2,27 +2,30 @@ import axios from 'axios';
 
 /** -------- Base URL detection (Vite first) -------- */
 const viteBase =
-  (typeof import.meta !== 'undefined' && import.meta.env && (
-    import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL
-  )) || null;
+  (typeof import.meta !== 'undefined' &&
+    import.meta.env &&
+    (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL)) ||
+  null;
 
 const winBase =
   (typeof window !== 'undefined' && window.__API_URL__) || null;
 
 const nodeBase =
-  (typeof process !== 'undefined' && process.env && (
-    process.env.VITE_API_BASE_URL || process.env.VITE_API_URL
-  )) || null;
+  (typeof process !== 'undefined' &&
+    process.env &&
+    (process.env.VITE_API_BASE_URL || process.env.VITE_API_URL)) ||
+  null;
 
+// Fallback to local API during dev if nothing is provided
 const baseURL = viteBase || winBase || nodeBase || 'http://localhost:5002';
 
 /** -------- Axios instance -------- */
 const axiosClient = axios.create({
   baseURL,
-  withCredentials: true,           // <- REQUIRED so cookies are sent/stored
+  withCredentials: true,           // send/receive auth cookies
   timeout: 20000,
-  xsrfCookieName: 'XSRF-TOKEN',    // <- cookie name we read from
-  xsrfHeaderName: 'X-XSRF-TOKEN',  // <- header name we send
+  xsrfCookieName: 'XSRF-TOKEN',    // cookie set by the API
+  xsrfHeaderName: 'X-CSRF-Token',  // header we send back (server should accept this)
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
@@ -37,47 +40,48 @@ function readCookie(name) {
 }
 
 async function ensureCsrfPrimed() {
-  // If we already have a header set globally, skip
-  const existing = axiosClient.defaults.headers.common['X-XSRF-TOKEN'];
+  // If already set globally, skip
+  const existing = axiosClient.defaults.headers.common['X-CSRF-Token'];
   if (existing) return;
 
   try {
-    // Ask the server to set cookies and return a token
+    // Ask the server to set cookies and (optionally) return a token body
     const res = await axiosClient.get('/auth/csrf', { withCredentials: true });
     const tokenFromBody = res?.data?.csrfToken || res?.data?.token;
 
-    // Try cookie first (your current approach)
+    // Prefer cookie
     const tokenFromCookie = readCookie('XSRF-TOKEN');
-
     const token = tokenFromCookie || tokenFromBody;
+
     if (token) {
-      axiosClient.defaults.headers.common['X-XSRF-TOKEN'] = token;
+      axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
     }
   } catch {
-    // If this fails, POSTs will still 403 until we can reach /auth/csrf
+    // If this fails, POSTs may 403 until /auth/csrf is reachable
   }
 }
 
 /** -------- Interceptors -------- */
 
-// Attach CSRF for mutating requests and ensure it’s primed.
+// Attach CSRF token for mutating requests
 axiosClient.interceptors.request.use(async (config) => {
   const method = String(config.method || 'get').toUpperCase();
-  const isMutating = method === 'POST' || method === 'PUT' || method === 'PATCH' || method === 'DELETE';
+  const isMutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
 
   if (isMutating) {
     await ensureCsrfPrimed();
 
-    // If axios xsrf machinery didn’t add the header yet, set it from cookie manually.
+    // If axios xsrf machinery didn’t add the header yet, set it manually
     const hasHeader =
-      (config.headers && (config.headers['X-XSRF-TOKEN'] || config.headers['x-xsrf-token'])) ||
-      (axiosClient.defaults.headers.common && axiosClient.defaults.headers.common['X-XSRF-TOKEN']);
+      (config.headers &&
+        (config.headers['X-CSRF-Token'] || config.headers['x-csrf-token'])) ||
+      axiosClient.defaults.headers.common['X-CSRF-Token'];
 
     if (!hasHeader) {
       const token = readCookie('XSRF-TOKEN');
       if (token) {
         config.headers = config.headers || {};
-        config.headers['X-XSRF-TOKEN'] = token;
+        config.headers['X-CSRF-Token'] = token;
       }
     }
   }
@@ -85,7 +89,7 @@ axiosClient.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Dev-friendly error log
+// Helpful error log in dev
 axiosClient.interceptors.response.use(
   (res) => res,
   (err) => {

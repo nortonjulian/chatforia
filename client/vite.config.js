@@ -16,7 +16,6 @@ export default defineConfig(async ({ mode, command }) => {
     !!env.VITE_SENTRY_PROJECT &&
     !!env.SENTRY_AUTH_TOKEN;
 
-  // Only attempt Sentry upload on production builds when env is configured.
   if (command === 'build' && hasSentryEnv) {
     try {
       const { sentryVitePlugin } = await import('@sentry/vite-plugin');
@@ -24,29 +23,26 @@ export default defineConfig(async ({ mode, command }) => {
         sentryVitePlugin({
           org: env.VITE_SENTRY_ORG,
           project: env.VITE_SENTRY_PROJECT,
-          authToken: env.SENTRY_AUTH_TOKEN, // set in CI
+          authToken: env.SENTRY_AUTH_TOKEN,
           release:
             env.VITE_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || undefined,
           sourcemaps: { assets: './dist/**' },
           telemetry: false,
         })
       );
-      enableSourcemaps = true; // only generate sourcemaps when uploading
+      enableSourcemaps = true;
     } catch {
-      console.warn(
-        '[vite] @sentry/vite-plugin not installed; skipping Sentry upload.'
-      );
+      console.warn('[vite] @sentry/vite-plugin not installed; skipping Sentry upload.');
     }
   }
 
+  // NOTE: your env uses VITE_API_BASE here; that’s fine for dev proxy target.
   const apiTarget = env.VITE_API_BASE || 'http://localhost:5002';
 
   return {
     plugins,
     resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
-      },
+      alias: { '@': path.resolve(__dirname, './src') },
       dedupe: [
         'react',
         'react-dom',
@@ -62,11 +58,12 @@ export default defineConfig(async ({ mode, command }) => {
       port: 5173,
       cors: true,
       proxy: {
-        // Proxy API to avoid CORS in dev
+        // ✅ Proxy API to avoid CORS in dev; strip the /api prefix before sending to backend
         '/api': {
           target: apiTarget,
           changeOrigin: true,
           secure: false,
+          rewrite: (p) => p.replace(/^\/api/, ''), // <— this is the key line
         },
         // If you use Socket.IO or websockets, proxy them too
         '/socket.io': {

@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import http from 'http';
 import { createApp } from './app.js';
 import { initSocket } from './socket.js';
@@ -11,7 +12,7 @@ import logger from './utils/logger.js';
 export function makeApp() {
   const app = createApp();
 
-  // Route dumper for tests/dev introspection
+  // Route dumper for tests/dev introspection (lightweight)
   app.get('/__routes_dump', (req, res) => {
     const layers = app._router?.stack || [];
     const hasStatusRouter = layers.some((layer) => {

@@ -42,6 +42,9 @@ import { getTheme, setTheme, onThemeChange, isLightTheme } from '../utils/themeM
 import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
 import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
 
+/* NEW: phone number manager */
+import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
+
 /* ---------------- helpers: safer lazy import + section boundary ---------------- */
 
 function lazyWithFallback(importer, Fallback = () => null) {
@@ -414,7 +417,7 @@ export default function UserProfile({ onLanguageChange }) {
         multiple
         variant="separated"
         radius="md"
-        defaultValue={['profile', 'appearance', 'privacy']}
+        defaultValue={['profile', 'phone-number', 'appearance', 'privacy']}
       >
         {/* Profile */}
         <Accordion.Item value="profile">
@@ -467,6 +470,14 @@ export default function UserProfile({ onLanguageChange }) {
                 aria-label={t('profile.enableReadReceipts', 'Enable read receipts')}
               />
             </Stack>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Phone number (NEW) */}
+        <Accordion.Item value="phone-number">
+          <Accordion.Control>{t('profile.phoneNumber', 'Phone number')}</Accordion.Control>
+          <Accordion.Panel>
+            <PhoneNumberManager />
           </Accordion.Panel>
         </Accordion.Item>
 

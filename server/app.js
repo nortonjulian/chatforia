@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -72,6 +73,11 @@ import { secureHeaders } from './middleware/secureHeaders.js';
 import { csp } from './middleware/csp.js';
 import { hppGuard } from './middleware/hpp.js';
 import { httpsRedirect } from './middleware/httpsRedirect.js';
+
+// ✅ NEW: session + passport + oauth routes
+import session from 'express-session';
+import passport from './auth/passport.js';
+import oauthRouter from './routes/oauth.routes.js'; // must export /google, /apple, etc. (no /oauth prefix)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -166,13 +172,32 @@ export function createApp() {
     app.use(Sentry.Handlers.tracingHandler());
   }
 
+  /* ---------- Session + Passport (must be before OAuth routes) ---------- */
+  app.use(
+    session({
+      secret: process.env.SESSION_SECRET || 'change-me',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: isProd ? 'none' : 'lax',
+        secure: isProd, // requires HTTPS in prod
+      },
+    })
+  );
+  app.use(passport.initialize());
+  // Ensure your strategies are imported somewhere before use, e.g.:
+  // import './auth/passport.js';
+
   /* CSRF */
   const csrfMw = isTest
     ? (_req, _res, next) => next()
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
+  // Bypass CSRF for raw webhook and Apple POST callback
+  const CSRF_BYPASS = new Set(['/billing/webhook', '/auth/apple/callback']);
+
   app.use((req, res, next) => {
-    if (req.path === '/billing/webhook') return next();
+    if (CSRF_BYPASS.has(req.path)) return next();
     return csrfMw(req, res, next);
   });
 
@@ -191,8 +216,7 @@ export function createApp() {
   app.get('/health', (_req, res) => res.json({ ok: true }));
   app.use('/healthz', healthzRouter);
 
-  /* Rate limiters
-     In TEST we disable them to avoid 429s that break behavioral tests. */
+  /* Rate limiters (disabled in tests) */
   const PASS = (_req, _res, next) => next();
   const RL = (mw) => (isTest ? PASS : mw);
 
@@ -202,7 +226,6 @@ export function createApp() {
   app.use('/invites', RL(limiterInvites));
   app.use('/ai', RL(limiterAI));
   app.use('/media', RL(limiterMedia));
-
   app.use((req, res, next) => {
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
       return RL(limiterGenericMutations)(req, res, next);
@@ -217,8 +240,12 @@ export function createApp() {
   app.use('/billing', billingWebhook);
   app.use('/billing', billingRouter);
 
-  // Primary
+  // ✅ OAuth flows live under /auth: /auth/google, /auth/google/callback, /auth/apple, /auth/apple/callback
+  app.use('/auth', oauthRouter);
+
+  // Primary auth API routes
   app.use('/auth', authRouter);
+
   app.use('/users', usersRouter);
   app.use('/calls', callsRouter);
   app.use('/webhooks/sms', smsWebhooks);
@@ -228,7 +255,7 @@ export function createApp() {
   app.use('/chatrooms', roomsRouter);
   app.use('/messages', messagesRouter);
 
-  app.use(a11yRouter); 
+  app.use(a11yRouter);
 
   app.use('/follows', followsRouter);
   app.use('/random-chats', randomChatsRouter);
@@ -236,7 +263,7 @@ export function createApp() {
   app.use('/invites', invitesRouter);
   app.use('/media', mediaRouter);
   app.use('/devices', devicesRouter);
-  // 🔐 Backups should require auth (fixes: expected 401 got 200)
+  // 🔐 Backups should require auth
   app.use('/backups', requireAuth, backupsRouter);
   app.use('/uploads', uploadsRouter);
   app.use('/sms', smsRouter);
@@ -245,7 +272,7 @@ export function createApp() {
   app.use('/translations', translationsRouter);
   app.use('/stories', storiesRouter);
 
-  // Contacts bulk import (mounted under /api to match your Vite proxy)
+  // Contacts bulk import (under /api to match Vite proxy)
   app.use('/api', contactsImportRouter);
 
   app.use('/calendar', calendarRouter);

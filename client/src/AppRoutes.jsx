@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { AppShell, Burger, Button, Group, Title, ScrollArea, Text } from '@mantine/core';
+import { AppShell, Burger, Button, Group, Title, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useUser } from '@/context/UserContext';
@@ -46,11 +46,11 @@ import SettingsPage from '@/features/settings/SettingsPage';
 // Index route content — reads selectedRoom from Outlet context
 import HomeIndex from '@/features/chat/HomeIndex';
 
-// ✅ NEW: SMS pages
+// ✅ SMS pages
 import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
 
-/* ---------- PUBLIC PAGES (make sure these files exist, or comment out the routes) ---------- */
+/* ---------- PUBLIC PAGES ---------- */
 import AboutChatforia from '@/pages/AboutChatforia.jsx';
 import Careers from '@/pages/Careers.jsx';
 import Press from '@/pages/Press.jsx';
@@ -65,6 +65,9 @@ import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
 import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
+
+// ✅ NEW: OAuth completion screen
+import OAuthComplete from '@/pages/OAuthComplete.jsx';
 
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
@@ -104,8 +107,12 @@ function AuthedLayout() {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Group>
-            <Burger opened={opened} onClick={toggle} hiddenFrom="sm"
-              aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'} />
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              hiddenFrom="sm"
+              aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'}
+            />
             <Title order={3}>Chatforia</Title>
           </Group>
           <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
@@ -138,11 +145,15 @@ export default function AppRoutes() {
   if (!currentUser) {
     return (
       <Routes>
+        {/* Public auth layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* ✅ OAuth completes here (works even before currentUser is loaded) */}
+          <Route path="/auth/complete" element={<OAuthComplete />} />
 
           {/* Public marketing/support/legal */}
           <Route path="/about" element={<AboutChatforia />} />
@@ -159,6 +170,7 @@ export default function AppRoutes() {
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     );
@@ -167,15 +179,23 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/forbidden" element={<Forbidden />} />
+
+      {/* If a logged-in user somehow lands on /auth/complete, just bounce home */}
+      <Route path="/auth/complete" element={<Navigate to="/" replace />} />
+
       <Route path="/" element={<AuthedLayout />}>
-        <Route path="random" element={<RandomChatPage />} />
         <Route index element={<HomeIndex />} />
+        <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
 
         <Route
           path="settings/backups"
-          element={<RequirePremium><SettingsBackups /></RequirePremium>}
+          element={
+            <RequirePremium>
+              <SettingsBackups />
+            </RequirePremium>
+          }
         />
         <Route path="settings/upgrade" element={<UpgradePage />} />
         <Route path="/join/:code" element={<JoinInvitePage />} />
@@ -188,7 +208,11 @@ export default function AppRoutes() {
         {/* Admin */}
         <Route
           path="admin"
-          element={<AdminRoute><AdminLayout /></AdminRoute>}
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
         >
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />

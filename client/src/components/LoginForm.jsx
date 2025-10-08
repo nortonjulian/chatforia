@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../context/UserContext';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosClient from '@/api/axiosClient';
@@ -7,9 +7,21 @@ import {
   Stack, Group, Divider, Checkbox,
 } from '@mantine/core';
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
-// import { toast } from '../utils/toast';
 
-/* ---------------- CSRF helpers ---------------- */
+/* ---------------- env + helpers ---------------- */
+
+// Prefer an absolute API in prod; fall back to a same-origin dev proxy.
+const apiBase =
+  import.meta.env.VITE_API_BASE_URL ||
+  import.meta.env.VITE_API_URL || '';
+
+const oauthBase = (import.meta.env.VITE_OAUTH_BASE_PATH || '/auth').replace(/\/$/, '');
+const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '/api';
+
+function absoluteApi(path) {
+  const clean = path.startsWith('/') ? path : `/${path}`;
+  return apiBase ? `${apiBase}${clean}` : `${webPrefix}${clean}`;
+}
 
 // Read the CSRF token from cookie if present (double-submit pattern)
 function readXsrfCookie(name = 'XSRF-TOKEN') {
@@ -18,29 +30,26 @@ function readXsrfCookie(name = 'XSRF-TOKEN') {
   return m ? decodeURIComponent(m[1]) : '';
 }
 
-// Fetch a CSRF token (and ensure cookies are set). Your server currently
-// returns `{ ok: true }` at /auth/csrf and also sets the XSRF-TOKEN cookie.
-// This function supports BOTH styles:
-//  - JSON `{ csrfToken: "..." }` (if you update the route later), OR
-//  - reading the `XSRF-TOKEN` cookie set by `setCsrfCookie`.
+// Fetch CSRF token (supports both JSON {csrfToken} or cookie-only styles)
 async function getCsrfToken() {
   try {
-    const res = await fetch('http://localhost:5002/auth/csrf', {
-      credentials: 'include',
-    });
-    // Try JSON first
+    const res = await fetch(absoluteApi('/auth/csrf'), { credentials: 'include' });
     try {
       const data = await res.json();
-      if (data && typeof data.csrfToken === 'string' && data.csrfToken.length) {
-        return data.csrfToken;
-      }
+      if (data && typeof data.csrfToken === 'string' && data.csrfToken.length) return data.csrfToken;
     } catch {
-      /* ignore JSON parse errors; fall back to cookie */
+      /* ignore JSON parse; fall back to cookie */
     }
   } catch {
     /* ignore; fall back to cookie */
   }
   return readXsrfCookie('XSRF-TOKEN');
+}
+
+// Begin an OAuth flow on the API, with a clean return to the app
+function startOAuth(provider) {
+  const next = `${window.location.origin}/auth/complete`;
+  window.location.assign(absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}`));
 }
 
 /* ---------------- Component ---------------- */
@@ -52,6 +61,11 @@ export default function LoginForm({ onLoginSuccess }) {
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // SSO availability (runtime)
+  const [hasGoogle, setHasGoogle] = useState(true);
+  const [hasApple, setHasApple] = useState(false);
+
   const navigate = useNavigate();
 
   // UI-only hinting; payload will include username for backend compatibility.
@@ -61,8 +75,24 @@ export default function LoginForm({ onLoginSuccess }) {
   const idPlaceholder = isEmailMode ? 'you@example.com' : 'Your username';
   const idAutoComplete = isEmailMode ? 'email' : 'username';
 
-  // Token-driven placeholder color for dark backgrounds
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
+
+  useEffect(() => {
+  let cancelled = false;
+  (async () => {
+    try {
+      const res = await fetch(absoluteApi(`${oauthBase}/debug`), { credentials: 'include' });
+      const j = await res.json();
+      if (cancelled) return;
+      setHasGoogle(!!j.hasGoogle);
+      setHasApple(!!j.hasApple);
+    } catch {
+      // leave optimistic values in place
+    }
+  })();
+  return () => { cancelled = true; };
+}, []);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -71,29 +101,21 @@ export default function LoginForm({ onLoginSuccess }) {
 
     const idValue = identifier.trim();
     const pwd = password.trim();
-
     if (!idValue || !pwd) {
-      const msg = 'Please enter your credentials.';
-      setError(msg);
-      // toast?.err?.(msg);
+      setError('Please enter your credentials.');
       setLoading(false);
       return;
     }
 
-    // Backend accepts { email | identifier | username, password }.
-    // We’ll send `username` to hit the union logic (works for username or email).
     const payload = { username: idValue, password: pwd };
 
     try {
       // --- CSRF bootstrap ---
       const csrfToken = await getCsrfToken();
       if (csrfToken) {
-        // set default header for this axios instance (keeps tests happy: still only two args on .post)
-        axiosClient.defaults.headers.common['X-CSRF-Token'] = csrfToken;
+        // Server expects X-XSRF-TOKEN (matches axiosClient xsrfHeaderName)
+        axiosClient.defaults.headers.common['X-XSRF-TOKEN'] = csrfToken;
       }
-
-      // If you want to pass "remember me" to the server, add it to payload or a header.
-      // Your server currently sets a 30d cookie by default, so we leave it as-is.
 
       const res = await axiosClient.post('/auth/login', payload);
       const user = res?.data?.user ?? res?.data;
@@ -104,8 +126,6 @@ export default function LoginForm({ onLoginSuccess }) {
       setIdentifier('');
       setPassword('');
 
-      const name = user?.displayName || user?.username;
-      // toast?.ok?.(name ? `Welcome back, ${name}!` : 'Welcome back!');
       navigate('/');
     } catch (err) {
       const status = err?.response?.status;
@@ -113,45 +133,21 @@ export default function LoginForm({ onLoginSuccess }) {
       const apiMsg = data.message || data.error || data.details || '';
       const reason = data.reason || data.code;
 
-      if (status === 400) {
-        const msg = apiMsg || 'Missing credentials.';
-        setError(msg);
-        // toast?.err?.(msg);
-      } else if (status === 401) {
-        const msg = apiMsg || 'Invalid username or password';
-        setError(msg);
-        // toast?.err?.(msg);
-      } else if (status === 403) {
-        const msg = apiMsg || 'Access denied.';
-        setError(msg);
-        // toast?.err?.(msg);
-      } else if (status === 422) {
-        const msg = apiMsg || 'Invalid request. Check your username/email and password.';
-        setError(msg);
-        // toast?.err?.(msg);
-      } else if (status === 402) {
+      if (status === 400) setError(apiMsg || 'Missing credentials.');
+      else if (status === 401) setError(apiMsg || 'Invalid username or password');
+      else if (status === 403) setError(apiMsg || 'Access denied.');
+      else if (status === 422) setError(apiMsg || 'Invalid request. Check your username/email and password.');
+      else if (status === 402) {
         if (reason === 'DEVICE_LIMIT') {
-          const msg =
-            'Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.';
-          setError(msg);
-          // toast?.info?.(msg);
+          setError('Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.');
         } else {
-          const msg = apiMsg || 'This action requires a Premium plan.';
-          setError(msg);
-          // toast?.info?.(msg);
+          setError(apiMsg || 'This action requires a Premium plan.');
         }
-      } else {
-        const msg = apiMsg || 'Login failed. Please try again.';
-        setError(msg);
-        // toast?.err?.(msg);
-      }
+      } else setError(apiMsg || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
-  const handleGoogle = () => window.location.assign('/api/auth/google');
-  const handleApple = () => window.location.assign('/api/auth/apple');
 
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">
@@ -167,7 +163,9 @@ export default function LoginForm({ onLoginSuccess }) {
           className="oauth-button"
           variant="light"
           leftSection={<IconBrandGoogle size={18} />}
-          onClick={handleGoogle}
+          onClick={() => startOAuth('google')}
+          disabled={!hasGoogle}
+          title={hasGoogle ? 'Continue with Google' : 'Google sign-in unavailable'}
         >
           Continue with Google
         </Button>
@@ -175,11 +173,19 @@ export default function LoginForm({ onLoginSuccess }) {
           className="oauth-button"
           variant="light"
           leftSection={<IconBrandApple size={18} />}
-          onClick={handleApple}
+          onClick={() => startOAuth('apple')}
+          disabled={!hasApple}
+          title={hasApple ? 'Continue with Apple' : 'Apple sign-in unavailable'}
         >
           Continue with Apple
         </Button>
       </Group>
+
+      {!hasGoogle && !hasApple && (
+        <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.7 }} mb="xs">
+          Single-sign-on is currently unavailable. Use username &amp; password instead.
+        </Text>
+      )}
 
       <Divider label="or" my="sm" styles={{ label: { color: 'var(--fg)', opacity: 0.75 } }} />
 
@@ -192,7 +198,6 @@ export default function LoginForm({ onLoginSuccess }) {
             onChange={(e) => setIdentifier(e.currentTarget.value)}
             required
             autoComplete={idAutoComplete}
-            // make label/placeholder readable on dark
             labelProps={{ style: { color: 'var(--fg)' } }}
             styles={{
               input: {
@@ -232,18 +237,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
           {error && (
             <Alert color="red" variant="light" role="alert" styles={{ message: { color: 'var(--fg)' } }}>
-              {error}{' '}
-              {error.includes('Premium') && (
-                <>
-                  <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
-                    Upgrade
-                  </Anchor>{' '}
-                  or{' '}
-                  <Anchor component={Link} to="/settings/devices" style={{ color: 'var(--accent)' }}>
-                    manage devices
-                  </Anchor>.
-                </>
-              )}
+              {error}
             </Alert>
           )}
 
