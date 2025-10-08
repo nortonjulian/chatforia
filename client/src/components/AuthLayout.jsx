@@ -23,7 +23,7 @@ import '@/styles.css';
 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
-const APP_IOS     = 'https://go.chatforia.com/ios';
+const APP_IOS = 'https://go.chatforia.com/ios';
 const APP_ANDROID = 'https://go.chatforia.com/android';
 
 /* ---------- BRAND LOCKUP (used on mobile top bar) ---------- */
@@ -65,6 +65,7 @@ function MobileTopBar() {
 function GetAppCard() {
   const BADGE_H = 'clamp(52px, 6vw, 72px)';
   const QR_SIZE = 'calc(1.1 * (clamp(52px, 6vw, 72px)))';
+  const APPLE_SCALE = 0.78; // tweak between 0.83–0.87 if needed
 
   return (
     <Paper withBorder shadow="xs" radius="xl" p="md">
@@ -86,8 +87,9 @@ function GetAppCard() {
               w={QR_SIZE}
               radius="md"
               onError={(e) => {
-                e.currentTarget.src =
-                  `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(APP_GENERIC)}`;
+                e.currentTarget.src = `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(
+                  APP_GENERIC
+                )}`;
               }}
             />
           </Anchor>
@@ -98,36 +100,58 @@ function GetAppCard() {
 
         {/* Badges */}
         <Stack gap="sm" align="stretch" style={{ minWidth: 260 }}>
+          {/* App Store */}
           <Anchor
             href={APP_IOS}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Download on the App Store"
             title="Download on the App Store"
-            style={{ display: 'inline-flex', padding: 6, borderRadius: 12 }}
+            style={{
+              display: 'inline-flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 6,
+              borderRadius: 12,
+              width: 220,
+            }}
           >
             <MantineImage
-              src="/badges/app-store-badge.png"
-              h={BADGE_H}
+              src="/badges/AppStore.svg"
               fit="contain"
               alt="Download on the App Store"
-              style={{ width: 'auto' }}
+              h={BADGE_H}
+              style={{
+                width: 'auto',
+                transform: `scale(${APPLE_SCALE})`,
+                transformOrigin: 'center',
+                display: 'block',
+              }}
             />
           </Anchor>
+
+          {/* Google Play */}
           <Anchor
             href={APP_ANDROID}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Get it on Google Play"
             title="Get it on Google Play"
-            style={{ display: 'inline-flex', padding: 6, borderRadius: 12 }}
+            style={{
+              display: 'inline-flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 6,
+              borderRadius: 12,
+              width: 220,
+            }}
           >
             <MantineImage
-              src="/badges/google-play-badge.png"
-              h={BADGE_H}
+              src="/badges/GooglePlay.svg"
               fit="contain"
               alt="Get it on Google Play"
-              style={{ width: 'auto' }}
+              h={BADGE_H}
+              style={{ width: 'auto', display: 'block' }}
             />
           </Anchor>
         </Stack>
@@ -204,8 +228,8 @@ export default function AuthLayout() {
                   {/* Everything under the hero lockup (aligned to the “C”) */}
                   <div className="hero-after">
                     <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
-                      End-to-end encryption, AI-powered translation, disappearing
-                      messages, and voice/video calling.
+                      End-to-end encryption, AI-powered translation, disappearing messages,
+                      and voice/video calling.
                     </Text>
 
                     <List spacing="sm" size="sm" center className="auth-list">
@@ -214,7 +238,10 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
-                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                            style={{
+                              background: 'var(--cta-gradient)',
+                              color: 'var(--cta-label)',
+                            }}
                           >
                             <Lock size={16} />
                           </ThemeIcon>
@@ -227,7 +254,10 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
-                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                            style={{
+                              background: 'var(--cta-gradient)',
+                              color: 'var(--cta-label)',
+                            }}
                           >
                             <Globe size={16} />
                           </ThemeIcon>
@@ -240,7 +270,10 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
-                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                            style={{
+                              background: 'var(--cta-gradient)',
+                              color: 'var(--cta-label)',
+                            }}
                           >
                             <MessageCircle size={16} />
                           </ThemeIcon>
@@ -253,7 +286,10 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
-                            style={{ background: 'var(--cta-gradient)', color: 'var(--cta-label)' }}
+                            style={{
+                              background: 'var(--cta-gradient)',
+                              color: 'var(--cta-label)',
+                            }}
                           >
                             <ShieldCheck size={16} />
                           </ThemeIcon>
@@ -270,7 +306,11 @@ export default function AuthLayout() {
                       <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
                         Status
                       </Anchor>
-                      <Anchor component={Link} to="/settings/upgrade" style={{ color: 'var(--accent)' }}>
+                      <Anchor
+                        component={Link}
+                        to="/settings/upgrade"
+                        style={{ color: 'var(--accent)' }}
+                      >
                         Upgrade
                       </Anchor>
                     </Group>
