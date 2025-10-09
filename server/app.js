@@ -3,7 +3,7 @@ import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import listEndpoints from 'express-list-endpoints';
+// import listEndpoints from 'express-list-endpoints';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initCrons } from './cron/index.js';
@@ -48,7 +48,7 @@ import eventLinksRouter from './routes/eventLinks.js';
 import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
 import storiesRouter from './routes/stories.js';
-import numbersRouter from './routes/numbers.js'; // <-- numbers routes
+import numbersRouter from './routes/numbers.js'; 
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
@@ -56,7 +56,7 @@ import { requireAuth } from './middleware/auth.js';
 import {
   requirePhoneVerified,
   requireStaff2FA,
-  requirePremium, // <-- new
+  requirePremium, 
 } from './middleware/enforcement.js';
 
 // ✅ auth sub-routers

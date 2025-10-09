@@ -11,8 +11,7 @@ import {
   Button,
 } from '@mantine/core';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Plus, Users, Settings, PhoneForwarded } from 'lucide-react';
-import { Dice5 } from 'lucide-react';
+import { Plus, Users, Settings, PhoneForwarded, Dice5 } from 'lucide-react';
 
 import StartChatModal from './StartChatModal';
 import ChatroomsSidebar from './ChatroomsSidebar';
@@ -22,12 +21,10 @@ import UserProfile from './UserProfile';
 import AdSlot from '../ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
-// NEW
-import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
-
 function Sidebar({ currentUser, setSelectedRoom, features }) {
   const [showStartModal, setShowStartModal] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [profileTarget, setProfileTarget] = useState(null); // 'forwarding' | null
   const navigate = useNavigate();
 
   const isPremium = useMemo(
@@ -64,7 +61,11 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
         <ActionIcon
           variant="subtle"
           aria-label="Settings"
-          onClick={() => currentUser && setProfileOpen(true)}
+          onClick={() => {
+            if (!currentUser) return;
+            setProfileTarget(null); // open drawer at top, no auto-scroll
+            setProfileOpen(true);
+          }}
           disabled={!currentUser}
         >
           <Settings size={22} />
@@ -75,7 +76,6 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
 
       {/* Quick links */}
       <Stack gap="xs" mb="sm">
-        {/* 🎲 Random Chat entry point */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -91,13 +91,16 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
 
         {features?.status && <NavLink to="/status">Status</NavLink>}
 
-        {/* NEW: Forwarding link (jumps into settings drawer) */}
+        {/* Open user profile drawer and jump to the Forwarding section */}
         {currentUser && (
           <Button
             variant="subtle"
             size="xs"
             leftSection={<PhoneForwarded size={16} />}
-            onClick={() => setProfileOpen(true)}
+            onClick={() => {
+              setProfileTarget('forwarding');
+              setProfileOpen(true);
+            }}
             aria-label="Open call and text forwarding settings"
           >
             Call & Text Forwarding
@@ -132,7 +135,10 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
       {/* Settings drawer */}
       <Drawer
         opened={profileOpen}
-        onClose={() => setProfileOpen(false)}
+        onClose={() => {
+          setProfileOpen(false);
+          setProfileTarget(null);
+        }}
         position="right"
         size="md"
         radius="lg"
@@ -140,10 +146,7 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
       >
         {currentUser ? (
           <Stack gap="xl">
-            <UserProfile onLanguageChange={() => {}} />
-            <Divider />
-            {/* Forwarding section inside drawer */}
-            <ForwardingSettings />
+            <UserProfile onLanguageChange={() => {}} openSection={profileTarget} />
           </Stack>
         ) : (
           <Stack gap="sm">

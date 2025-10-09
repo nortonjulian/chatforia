@@ -1,71 +1,53 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Switch } from '@mantine/core';
+import { Switch, Title } from '@mantine/core';
 import PremiumGuard from '../components/PremiumGuard';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 
 const FONT_OPTIONS = ['sm', 'md', 'lg', 'xl'];
-const BG_OPTIONS = ['light', 'dark', 'transparent'];
-
-// Tailwind helpers: keep UI modest by default
 const UI_FONT_SIZE_CLASSES = { sm: 'text-sm', md: 'text-base', lg: 'text-lg', xl: 'text-xl' };
-
-// 🔧 Adjust this if your router is mounted with a prefix (e.g., '/api')
 const A11Y_PATH = '/users/me/a11y';
 
 export default function SettingsAccessibility() {
   const { currentUser } = useUser();
 
-  const [loaded, setLoaded] = useState(!!currentUser);
-  const [error, setError] = useState('');
-  const [saving, setSaving] = useState(false);
-
-  // Keep raw user and a separate prefs object that drives the UI
+  // Drive UI from currentUser; no separate load call
   const [user, setUser] = useState(currentUser || null);
   const [prefs, setPrefs] = useState(() => projectPrefs(currentUser));
-
-  // Field-level error map so a failing toggle shows an inline hint, not a global rollback
+  const [saving, setSaving] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
+  const [error, setError] = useState(''); // shown only if !user
 
-  // Capability checks
+  // Keep in sync if currentUser changes
+  useEffect(() => {
+    if (currentUser) {
+      setUser(currentUser);
+      setPrefs(projectPrefs(currentUser));
+      setError('');
+    } else {
+      setUser(null);
+      setError('Failed to load settings');
+    }
+  }, [currentUser]);
+
   const vibSupported = typeof navigator !== 'undefined' && 'vibrate' in navigator;
   const reduceMotion =
     typeof window !== 'undefined' &&
     window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
 
-  // Small by default; user can opt into bigger
   const uiFont = prefs.a11yUiFont || 'md';
-  const uiFontClass = useMemo(() => UI_FONT_SIZE_CLASSES[uiFont] || UI_FONT_SIZE_CLASSES.md, [uiFont]);
+  const uiFontClass = useMemo(
+    () => UI_FONT_SIZE_CLASSES[uiFont] || UI_FONT_SIZE_CLASSES.md,
+    [uiFont]
+  );
 
-  // Load fresh user (and merge prefs)
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const { data } = await axiosClient.get('/users/me');
-        if (cancelled) return;
-        const fresh = data.user || data;
-        setUser(fresh);
-        setPrefs((prev) => ({ ...prev, ...projectPrefs(fresh) }));
-        setError('');
-      } catch (e) {
-        if (!cancelled) setError('Failed to load settings');
-      } finally {
-        if (!cancelled) setLoaded(true);
-      }
-    })();
-    return () => { cancelled = true; };
-  }, []);
-
-  // Generic optimistic saver: updates UI first, persists second, shows inline error if it fails
   async function savePref(field, value) {
     setFieldErrors((m) => ({ ...m, [field]: '' }));
-    setPrefs((p) => ({ ...p, [field]: value })); // 👈 instant UI change
+    setPrefs((p) => ({ ...p, [field]: value })); // optimistic
     setSaving(true);
     try {
       const body = { [field]: value };
       const { data } = await axiosClient.patch(A11Y_PATH, body);
-      // Merge server echo if present
       const serverUser = data?.user || null;
       if (serverUser) {
         setUser((u) => ({ ...(u || {}), ...serverUser }));
@@ -74,25 +56,29 @@ export default function SettingsAccessibility() {
     } catch (e) {
       const msg = readableAxiosError(e) || 'Save failed';
       setFieldErrors((m) => ({ ...m, [field]: msg }));
-      // ❗ We DO NOT roll back the UI; the user keeps their toggle visually on.
-      // If you prefer rollback, uncomment:
-      // setPrefs((p) => ({ ...p, [field]: user?.[field] ?? defaultFor(field) }));
     } finally {
       setSaving(false);
     }
   }
 
-  if (!loaded) return <div className="p-4">Loading…</div>;
-  if (error && !user) return <div className="p-4 text-red-600">{error}</div>;
+  // If we truly have no user, show the error; otherwise never show the red banner
+  if (!user) {
+    return (
+      <div className="p-4">
+        <Title order={3} className="mb-1">Accessibility &amp; Alerts</Title>
+        <div className="text-sm text-red-600">{error || 'Failed to load settings'}</div>
+      </div>
+    );
+  }
 
   return (
     <div className={`p-4 max-w-3xl ${uiFontClass}`}>
-      <h1 className="font-semibold mb-1">Accessibility &amp; Alerts</h1>
-      <p className="text-gray-500 mb-4">Options to make Chatforia easier to use without relying on sound.</p>
-      {error && <div className="mb-3 text-sm text-red-600">{error}</div>}
+      <Title order={3} className="mb-1">Accessibility &amp; Alerts</Title>
+      <p className="text-gray-500 mb-4">
+        Options to make Chatforia easier to use without relying on sound.
+      </p>
 
       <section className="space-y-4">
-        {/* Interface font size (controls overall size of this panel) */}
         <Card>
           <CardTitle>Interface font size</CardTitle>
           <SelectRow
@@ -101,7 +87,7 @@ export default function SettingsAccessibility() {
             value={prefs.a11yUiFont || 'md'}
             onChange={(v) => savePref('a11yUiFont', v)}
           />
-          {fieldErrors.a11yUiFont && <FieldError msg={fieldErrors.a11yUiFont} />}
+          <FieldError msg={fieldErrors.a11yUiFont} />
           <div className="text-xs text-gray-500">
             Starts at normal size. Increase if you prefer larger text in accessibility settings.
           </div>
@@ -109,7 +95,6 @@ export default function SettingsAccessibility() {
 
         <Card>
           <CardTitle>Notifications</CardTitle>
-
           <SwitchRow
             label="Visual alerts for messages & calls"
             desc="Show banners and title blink so you don’t miss activity."
@@ -117,7 +102,6 @@ export default function SettingsAccessibility() {
             onChange={(v) => savePref('a11yVisualAlerts', v)}
             errorMsg={fieldErrors.a11yVisualAlerts}
           />
-
           <SwitchRow
             label="Vibrate on new messages (when supported)"
             desc={vibSupported ? 'Trigger device vibration with notifications.' : 'Not supported on this device.'}
@@ -126,7 +110,6 @@ export default function SettingsAccessibility() {
             disabled={!vibSupported}
             errorMsg={fieldErrors.a11yVibrate}
           />
-
           <SwitchRow
             label="Flash screen on incoming call"
             desc={reduceMotion ? 'Disabled due to system reduce-motion.' : 'Brief bright flash when a call rings.'}
@@ -156,7 +139,7 @@ export default function SettingsAccessibility() {
               value={prefs.a11yCaptionFont || 'lg'}
               onChange={(v) => savePref('a11yCaptionFont', v)}
             />
-            {fieldErrors.a11yCaptionFont && <FieldError msg={fieldErrors.a11yCaptionFont} />}
+            <FieldError msg={fieldErrors.a11yCaptionFont} />
 
             <SelectRow
               label="Caption background"
@@ -164,7 +147,7 @@ export default function SettingsAccessibility() {
               value={prefs.a11yCaptionBg || 'dark'}
               onChange={(v) => savePref('a11yCaptionBg', v)}
             />
-            {fieldErrors.a11yCaptionBg && <FieldError msg={fieldErrors.a11yCaptionBg} />}
+            <FieldError msg={fieldErrors.a11yCaptionBg} />
           </div>
         </Card>
 
@@ -180,7 +163,9 @@ export default function SettingsAccessibility() {
         </Card>
       </section>
 
-      <div className="pt-4 text-sm text-gray-500">{saving ? 'Saving…' : 'Changes are saved instantly.'}</div>
+      <div className="pt-4 text-sm text-gray-500">
+        {saving ? 'Saving…' : 'Changes are saved instantly.'}
+      </div>
     </div>
   );
 }
@@ -188,16 +173,18 @@ export default function SettingsAccessibility() {
 /* ---------------- helpers & presentational ---------------- */
 
 function projectPrefs(u) {
-  if (!u) return {
-    a11yUiFont: 'md',
-    a11yVisualAlerts: false,
-    a11yVibrate: false,
-    a11yFlashOnCall: false,
-    a11yLiveCaptions: false,
-    a11yVoiceNoteSTT: false,
-    a11yCaptionFont: 'lg',
-    a11yCaptionBg: 'dark',
-  };
+  if (!u) {
+    return {
+      a11yUiFont: 'md',
+      a11yVisualAlerts: false,
+      a11yVibrate: false,
+      a11yFlashOnCall: false,
+      a11yLiveCaptions: false,
+      a11yVoiceNoteSTT: false,
+      a11yCaptionFont: 'lg',
+      a11yCaptionBg: 'dark',
+    };
+  }
   return {
     a11yUiFont: u.a11yUiFont ?? 'md',
     a11yVisualAlerts: !!u.a11yVisualAlerts,
@@ -229,11 +216,9 @@ function FieldError({ msg }) {
 function Card({ children }) {
   return <div className="rounded-2xl border p-4 shadow-sm bg-white space-y-3">{children}</div>;
 }
-
 function CardTitle({ children }) {
   return <h2 className="font-medium">{children}</h2>;
 }
-
 function SwitchRow({ label, desc, checked, onChange, disabled, errorMsg }) {
   return (
     <div className="flex items-start justify-between gap-4">
@@ -245,19 +230,16 @@ function SwitchRow({ label, desc, checked, onChange, disabled, errorMsg }) {
       <Switch
         checked={!!checked}
         onChange={(e) => {
-          // Ensure the handler fires even if some parent is inert
           e.stopPropagation?.();
           onChange(e.currentTarget.checked);
         }}
         disabled={disabled}
         aria-label={label}
-        // Prevent any parent container from swallowing clicks
         style={{ pointerEvents: 'auto' }}
       />
     </div>
   );
 }
-
 function SelectRow({ label, options, value, onChange }) {
   return (
     <label className="flex items-center justify-between gap-4">

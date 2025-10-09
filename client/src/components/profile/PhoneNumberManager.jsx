@@ -29,6 +29,36 @@ const daysLeft = (expiresAt) => {
   return Math.max(0, Math.ceil((t - Date.now()) / (1000 * 60 * 60 * 24)));
 };
 
+/* ---- Country options (many countries; auto-localized at runtime) ---- */
+const SUPPORTED_COUNTRY_ISO2 = [
+  'US','CA','GB','AU','AR','AT','BE','BG','BR','CH','CL','CO','CR','CY','CZ','DE','DK','DO','DZ',
+  'EC','EE','EG','ES','FI','FR','GE','GH','GR','GT','HK','HN','HR','HU','ID','IE','IL','IN','IS',
+  'IT','JM','JO','JP','KE','KW','KZ','LB','LT','LU','LV','MA','MT','MX','MY','NG','NI','NL','NO',
+  'NZ','OM','PA','PE','PH','PK','PL','PT','PY','QA','RO','RS','RU','SA','SE','SG','SI','SK','SV',
+  'TH','TN','TR','TW','UA','AE','UY','VN','ZA','KR'
+];
+
+const flagEmoji = (iso2) =>
+  iso2
+    .toUpperCase()
+    .replace(/./g, (c) => String.fromCodePoint(127397 + c.charCodeAt(0)));
+
+const COUNTRY_OPTIONS = (() => {
+  try {
+    const dn = new Intl.DisplayNames(
+      [typeof navigator !== 'undefined' ? navigator.language : 'en'],
+      { type: 'region' }
+    );
+    return SUPPORTED_COUNTRY_ISO2.map((cc) => ({
+      value: cc,
+      label: `${flagEmoji(cc)} ${dn.of(cc) || cc}`,
+    }));
+  } catch {
+    // Fallback: English-ish labels without localization
+    return SUPPORTED_COUNTRY_ISO2.map((cc) => ({ value: cc, label: cc }));
+  }
+})();
+
 /* ---------------- Number Picker (modal) ---------------- */
 function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [country, setCountry] = useState('US');
@@ -60,7 +90,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
       const items = Array.isArray(data) ? data : (data?.results || []);
       setResults(items.slice(0, 15));
     } catch {
-      setErr('Could not load available numbers. Try a nearby area code.');
+      setErr('Could not load available numbers. Try a nearby area code or a different country.');
       setResults([]);
     } finally {
       setLoading(false);
@@ -81,7 +111,6 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
         lock: !!lockOnAssign,
       });
 
-      // Let parent show a success banner and refresh
       onAssigned?.({ type: 'success', message: 'Number assigned.' });
       onClose();
     } catch {
@@ -99,13 +128,10 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
             label="Country"
             value={country}
             onChange={setCountry}
-            data={[
-              { value: 'US', label: 'United States' },
-              { value: 'CA', label: 'Canada' },
-              { value: 'GB', label: 'United Kingdom' },
-              { value: 'AU', label: 'Australia' },
-            ]}
-            style={{ minWidth: 200 }}
+            data={COUNTRY_OPTIONS}
+            searchable
+            nothingFoundMessage="No matches"
+            style={{ minWidth: 260 }}
           />
           <TextInput
             label="Area code / Region"
@@ -192,10 +218,7 @@ export default function PhoneNumberManager() {
   const [status, setStatus] = useState(null); // { e164, locked, state:'none|active|expiring', expiresAt }
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  // Inline banner (no toasts)
-  const [banner, setBanner] = useState(null); // { type, message, action?: {label, href} }
-
-  // Avoid StrictMode double-fetch
+  const [banner, setBanner] = useState(null); // { type, message, action? }
   const ran = useRef(false);
 
   const reload = async () => {
@@ -225,11 +248,7 @@ export default function PhoneNumberManager() {
       return;
     }
     if (!isPremium) {
-      setBanner({
-        type: 'warning',
-        message: 'Locking numbers is a Premium feature.',
-        action: { label: 'Upgrade', href: '/settings/upgrade' },
-      });
+      setBanner({ type: 'warning', message: 'Locking numbers is a Premium feature.', action: { label: 'Upgrade', href: '/settings/upgrade' } });
       return;
     }
     try {
@@ -237,12 +256,8 @@ export default function PhoneNumberManager() {
       setBanner({ type: 'success', message: 'Number locked.' });
       reload();
     } catch (e) {
-      if (e?.response?.status === 402 || e?.response?.data?.error === 'premium_required') {
-        setBanner({
-          type: 'warning',
-          message: 'Locking numbers is a Premium feature.',
-          action: { label: 'Upgrade', href: '/settings/upgrade' },
-        });
+      if (e?.response?.status === 402 || e?.response?.data?.reason === 'premium_required') {
+        setBanner({ type: 'warning', message: 'Locking numbers is a Premium feature.', action: { label: 'Upgrade', href: '/settings/upgrade' } });
       } else {
         setBanner({ type: 'error', message: 'Could not lock the number.' });
       }
@@ -296,7 +311,6 @@ export default function PhoneNumberManager() {
   return (
     <>
       <Card withBorder radius="lg" p="lg">
-        {/* Inline banner instead of toast */}
         {banner?.message && (
           <Alert color={bannerColor} withCloseButton onClose={() => setBanner(null)} mb="sm">
             <Group justify="space-between" align="center" wrap="nowrap">

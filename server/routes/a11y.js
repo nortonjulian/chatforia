@@ -82,21 +82,62 @@ async function computeQuota(userId) {
 // ---------- routes ----------
 
 // Update accessibility preferences
+// Update accessibility preferences
 router.patch('/users/me/a11y', requireAuth, async (req, res) => {
   try {
+    const body = req.body || {};
     const updates = {};
-    for (const [k, v] of Object.entries(req.body || {})) {
-      if (A11Y_KEYS.has(k)) updates[k] = v;
+
+    // Allowed options
+    const FONT = new Set(['sm', 'md', 'lg', 'xl']);
+    const BG   = new Set(['light', 'dark', 'transparent']);
+
+    // Strings / enums (validate)
+    if (typeof body.a11yUiFont === 'string' && FONT.has(body.a11yUiFont)) {
+      updates.a11yUiFont = body.a11yUiFont;
     }
-    if (!Object.keys(updates).length) {
+    if (typeof body.a11yCaptionFont === 'string' && FONT.has(body.a11yCaptionFont)) {
+      updates.a11yCaptionFont = body.a11yCaptionFont;
+    }
+    if (typeof body.a11yCaptionBg === 'string' && BG.has(body.a11yCaptionBg)) {
+      updates.a11yCaptionBg = body.a11yCaptionBg;
+    }
+
+    // Booleans (coerce)
+    if (body.a11yVisualAlerts !== undefined) updates.a11yVisualAlerts = !!body.a11yVisualAlerts;
+    if (body.a11yVibrate !== undefined)      updates.a11yVibrate      = !!body.a11yVibrate;
+    if (body.a11yFlashOnCall !== undefined)  updates.a11yFlashOnCall  = !!body.a11yFlashOnCall;
+    if (body.a11yVoiceNoteSTT !== undefined) updates.a11yVoiceNoteSTT = !!body.a11yVoiceNoteSTT;
+
+    // Premium-gated: live captions
+    if (body.a11yLiveCaptions !== undefined) {
+      const wantOn = !!body.a11yLiveCaptions;
+      if (wantOn) {
+        const me = await prisma.user.findUnique({ where: { id: req.user.id }, select: { plan: true } });
+        if (String(me?.plan || 'FREE').toUpperCase() === 'FREE') {
+          return res.status(402).json({ error: 'Premium required' });
+        }
+      }
+      updates.a11yLiveCaptions = wantOn;
+    }
+
+    // Optional Phase-2 extras (only if your schema has them)
+    if ('a11yStoreTranscripts' in body)         updates.a11yStoreTranscripts = !!body.a11yStoreTranscripts;
+    if ('a11yTranscriptRetentionDays' in body)  updates.a11yTranscriptRetentionDays = Number(body.a11yTranscriptRetentionDays) || 0;
+    if ('a11yCaptionPosition' in body && typeof body.a11yCaptionPosition === 'string') updates.a11yCaptionPosition = body.a11yCaptionPosition;
+    if ('a11yCaptionMaxLines' in body && Number.isFinite(Number(body.a11yCaptionMaxLines))) updates.a11yCaptionMaxLines = Number(body.a11yCaptionMaxLines);
+
+    if (Object.keys(updates).length === 0) {
       return res.status(400).json({ error: 'No valid accessibility fields provided' });
     }
 
     const user = await prisma.user.update({
       where: { id: req.user.id },
       data: updates,
+      // ⚠️ Select only fields you actually have in your Prisma schema.
       select: {
         id: true,
+        a11yUiFont: true,
         a11yVisualAlerts: true,
         a11yVibrate: true,
         a11yFlashOnCall: true,
@@ -104,18 +145,22 @@ router.patch('/users/me/a11y', requireAuth, async (req, res) => {
         a11yVoiceNoteSTT: true,
         a11yCaptionFont: true,
         a11yCaptionBg: true,
-        a11yUiFont: true,    
-        a11yStoreTranscripts: true,
-        a11yTranscriptRetentionDays: true,
-        a11yCaptionPosition: true,
-        a11yCaptionMaxLines: true,
+        // Uncomment these only if they exist in your schema:
+        // a11yStoreTranscripts: true,
+        // a11yTranscriptRetentionDays: true,
+        // a11yCaptionPosition: true,
+        // a11yCaptionMaxLines: true,
       },
     });
 
-    res.json({ ok: true, user });
+    return res.json({ ok: true, user });
   } catch (err) {
-    console.error('PATCH /users/me/a11y error', err);
-    res.status(500).json({ error: 'Failed to update accessibility settings' });
+    console.error('PATCH /users/me/a11y error', {
+        body: req.body,
+        code: err.code,
+        message: err.message,
+    });
+    return res.status(500).json({ error: 'Failed to update accessibility settings' });
   }
 });
 

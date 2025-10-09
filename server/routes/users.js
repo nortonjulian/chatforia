@@ -311,6 +311,20 @@ router.get('/me', requireAuth, async (req, res) => {
         notifyOnCopy: true,
         strictE2EE: true,
 
+        // ✅ accessibility prefs
+        a11yUiFont: true,
+        a11yVisualAlerts: true,
+        a11yVibrate: true,
+        a11yFlashOnCall: true,
+        a11yLiveCaptions: true,
+        a11yVoiceNoteSTT: true,
+        a11yCaptionFont: true,
+        a11yCaptionBg: true,
+        a11yStoreTranscripts: true,
+        a11yTranscriptRetentionDays: true,
+        a11yCaptionPosition: true,
+        a11yCaptionMaxLines: true,
+
         // age prefs for Random Chat
         ageBand: true,
         ageAttestedAt: true,

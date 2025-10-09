@@ -19,14 +19,10 @@ import {
   Alert,
   Accordion,
   useMantineColorScheme,
+  Divider,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import {
-  IconUpload,
-  IconCloudUpload,
-  IconSun,
-  IconMoon,
-} from '@tabler/icons-react';
+import { IconUpload, IconCloudUpload, IconSun, IconMoon } from '@tabler/icons-react';
 
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
@@ -42,14 +38,14 @@ import { getTheme, setTheme, onThemeChange, isLightTheme } from '../utils/themeM
 import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
 import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
 
-/* NEW: phone number manager */
+/* Phone number */
 import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
-
-/* NEW: 2FA section (uses your existing TwoFASetupModal internally) */
+/* 2FA */
 import TwoFASection from '@/components/security/TwoFASection.jsx';
+/* ✅ Forwarding lives outside the accordion */
+import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
 
-/* ---------------- helpers: safer lazy import + section boundary ---------------- */
-
+/* ---------- helpers ---------- */
 function lazyWithFallback(importer, Fallback = () => null) {
   return React.lazy(() =>
     importer()
@@ -57,23 +53,15 @@ function lazyWithFallback(importer, Fallback = () => null) {
       .catch(() => ({ default: Fallback }))
   );
 }
-
 const LazyAISettings = lazyWithFallback(() => import('../pages/AISettings').catch(() => ({ default: () => null })));
 const LazySettingsAccessibility = lazyWithFallback(() =>
   import('../pages/SettingsAccessibility').catch(() => ({ default: () => null }))
 );
 
 class SectionBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { err: null };
-  }
-  static getDerivedStateFromError(err) {
-    return { err };
-  }
-  componentDidCatch(err, info) {
-    console.error('[UserProfile] section crashed:', err, info);
-  }
+  constructor(props) { super(props); this.state = { err: null }; }
+  static getDerivedStateFromError(err) { return { err }; }
+  componentDidCatch(err, info) { console.error('[UserProfile] section crashed:', err, info); }
   render() {
     if (this.state.err) {
       return (
@@ -86,16 +74,7 @@ class SectionBoundary extends React.Component {
   }
 }
 
-/* ---------------- small UI piece ---------------- */
-
 function AdvancedTtlControls({ value, onChange }) {
-  const presets = [
-    { label: '1 hour', sec: 3600 },
-    { label: '8 hours', sec: 8 * 3600 },
-    { label: '24 hours', sec: 24 * 3600 },
-    { label: '3 days', sec: 3 * 24 * 3600 },
-    { label: '7 days', sec: 7 * 24 * 3600 },
-  ];
   return (
     <Group align="flex-end" gap="sm">
       <NumberInput
@@ -117,9 +96,20 @@ function AdvancedTtlControls({ value, onChange }) {
   );
 }
 
-/* ---------------- main component ---------------- */
+/* Utility: find the nearest scrollable parent (Drawer content, etc.) */
+function getScrollParent(el) {
+  let p = el?.parentElement;
+  while (p) {
+    const style = window.getComputedStyle(p);
+    const oy = style.overflowY;
+    if ((oy === 'auto' || oy === 'scroll') && p.scrollHeight > p.clientHeight) return p;
+    p = p.parentElement;
+  }
+  return document.scrollingElement || document.documentElement;
+}
 
-export default function UserProfile({ onLanguageChange }) {
+/* ---------- main ---------- */
+export default function UserProfile({ onLanguageChange, openSection }) {
   const { t } = useTranslation();
   const { currentUser, setCurrentUser } = useUser();
   const params = useParams();
@@ -127,38 +117,27 @@ export default function UserProfile({ onLanguageChange }) {
   const viewingAnother = !!(viewUserId && currentUser && viewUserId !== currentUser.id);
 
   const importFileRef = useRef(null);
+  const forwardingAnchorRef = useRef(null);
 
-  // Keep Mantine color scheme in sync with our theme tokens
   const { setColorScheme } = useMantineColorScheme();
-
-  // Track active theme reactively (so UI toggles respond instantly)
   const [themeNow, setThemeNow] = useState(getTheme());
   useEffect(() => onThemeChange(setThemeNow), []);
+  useEffect(() => { setColorScheme(isLightTheme(getTheme()) ? 'light' : 'dark'); }, [setColorScheme]);
 
-  // 🔒 INITIAL SYNC: ensure Mantine scheme matches persisted theme on mount
-  useEffect(() => {
-    setColorScheme(isLightTheme(getTheme()) ? 'light' : 'dark');
-  }, [setColorScheme]);
-
-  // Track whether “cool CTAs on Midnight” is on (driven by <html data-cta="cool">)
   const [coolCtasOnMidnight, setCoolCtasOnMidnight] = useState(
-    typeof document !== 'undefined' &&
-      document.documentElement.getAttribute('data-cta') === 'cool'
+    typeof document !== 'undefined' && document.documentElement.getAttribute('data-cta') === 'cool'
   );
 
-  // Utility to apply a theme consistently
   const applyTheme = (themeName) => {
-    setTheme(themeName); // sets localStorage + <html data-theme=...> and notifies listeners
+    setTheme(themeName);
     setColorScheme(isLightTheme(themeName) ? 'light' : 'dark');
-
-    // If we leave Midnight, drop the optional CTA override
     if (themeName !== 'midnight') {
       document.documentElement.removeAttribute('data-cta');
       setCoolCtasOnMidnight(false);
     }
   };
 
-  /* ------- view another user (follow UI) ------- */
+  /* ------- view another user ------- */
   const [loadingView, setLoadingView] = useState(viewingAnother);
   const [viewUser, setViewUser] = useState(null);
   const [followStats, setFollowStats] = useState(null);
@@ -174,10 +153,7 @@ export default function UserProfile({ onLanguageChange }) {
           axiosClient.get(`/users/${viewUserId}`),
           axiosClient.get(`/follows/${viewUserId}/stats`),
         ]);
-        if (!cancelled) {
-          setViewUser(u);
-          setFollowStats(stats);
-        }
+        if (!cancelled) { setViewUser(u); setFollowStats(stats); }
       } catch (e) {
         console.error('load profile failed', e);
         notifications.show({ color: 'red', message: t('profile.loadFailed', 'Failed to load profile') });
@@ -186,9 +162,7 @@ export default function UserProfile({ onLanguageChange }) {
       }
     };
     fetchAll();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [viewingAnother, viewUserId, t]);
 
   const doFollow = async () => {
@@ -201,9 +175,7 @@ export default function UserProfile({ onLanguageChange }) {
     } catch (e) {
       console.error(e);
       notifications.show({ color: 'red', message: t('profile.followFailed', 'Failed to follow') });
-    } finally {
-      setFollowBusy(false);
-    }
+    } finally { setFollowBusy(false); }
   };
   const doUnfollow = async () => {
     try {
@@ -215,18 +187,14 @@ export default function UserProfile({ onLanguageChange }) {
     } catch (e) {
       console.error(e);
       notifications.show({ color: 'red', message: t('profile.unfollowFailed', 'Failed to unfollow') });
-    } finally {
-      setFollowBusy(false);
-    }
+    } finally { setFollowBusy(false); }
   };
 
   if (viewingAnother) {
     return (
       <Paper withBorder shadow="sm" radius="xl" p="lg" maw={560} mx="auto">
         {loadingView ? (
-          <Group align="center" justify="center" mih={120}>
-            <Loader />
-          </Group>
+          <Group align="center" justify="center" mih={120}><Loader /></Group>
         ) : viewUser ? (
           <Stack gap="md">
             <Group align="center" justify="space-between">
@@ -253,12 +221,8 @@ export default function UserProfile({ onLanguageChange }) {
                 )}
               </Group>
             </Group>
-
             <Text c="dimmed" size="sm">
-              {t(
-                'profile.followHint',
-                'Their stories will appear in your Following feed if they post with audience Followers (or Public).'
-              )}
+              {t('profile.followHint', 'Their stories will appear in your Following feed if they post with audience Followers (or Public).')}
             </Text>
           </Stack>
         ) : (
@@ -268,19 +232,19 @@ export default function UserProfile({ onLanguageChange }) {
     );
   }
 
-  /* ------- own profile (settings) ------- */
+  /* ------- own profile ------- */
   if (!currentUser) return <Text c="dimmed">{t('profile.mustLogin')}</Text>;
 
   const planUpper = (currentUser.plan || 'FREE').toUpperCase();
   const isPremium = planUpper === 'PREMIUM';
 
+  // ✅ Defaults are OFF unless set
   const [preferredLanguage, setPreferredLanguage] = useState(currentUser.preferredLanguage || 'en');
-  const [autoTranslate, setAutoTranslate] = useState(currentUser.autoTranslate ?? true);
+  const [autoTranslate, setAutoTranslate] = useState(currentUser.autoTranslate ?? false);
   const [showOriginalAndTranslation, setShowOriginalAndTranslation] = useState(
     currentUser.showOriginalAndTranslation ?? false
   );
-
-  const [allowExplicitContent, setAllowExplicitContent] = useState(currentUser.allowExplicitContent ?? true);
+  const [allowExplicitContent, setAllowExplicitContent] = useState(currentUser.allowExplicitContent ?? false);
   const [enableReadReceipts, setEnableReadReceipts] = useState(currentUser.enableReadReceipts ?? false);
   const [autoDeleteSeconds, setAutoDeleteSeconds] = useState(currentUser.autoDeleteSeconds || 0);
   const [privacyBlurEnabled, setPrivacyBlurEnabled] = useState(currentUser.privacyBlurEnabled ?? false);
@@ -288,13 +252,33 @@ export default function UserProfile({ onLanguageChange }) {
   const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(currentUser.privacyHoldToReveal ?? false);
   const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser.notifyOnCopy ?? false);
 
-  // 🔁 Refresh current user (used after enabling/disabling 2FA)
+  // Nothing auto-opened
+  const [openItems, setOpenItems] = useState([]);
+
+  // If requested, scroll to forwarding section (which is outside the accordion)
+  useEffect(() => {
+    if (openSection === 'forwarding' && forwardingAnchorRef.current) {
+      const el = forwardingAnchorRef.current;
+      const scrollToAnchor = () => {
+        const parent = getScrollParent(el);
+        const rect = el.getBoundingClientRect();
+        const parentRect = parent.getBoundingClientRect ? parent.getBoundingClientRect() : { top: 0 };
+        const top = (parent.scrollTop || 0) + (rect.top - parentRect.top) - 12;
+        parent.scrollTo({ top, behavior: 'smooth' });
+      };
+      // Do it after layout; repeat once in case content expands
+      requestAnimationFrame(() => {
+        scrollToAnchor();
+        setTimeout(scrollToAnchor, 80);
+      });
+    }
+  }, [openSection]);
+
+  // Refresh auth user after 2FA changes
   const refreshAuthUser = async () => {
     try {
       const { data } = await axiosClient.get('/auth/me');
-      if (data?.user) {
-        setCurrentUser((prev) => ({ ...prev, ...data.user }));
-      }
+      if (data?.user) setCurrentUser((prev) => ({ ...prev, ...data.user }));
     } catch (e) {
       console.error('Failed to refresh /auth/me', e);
     }
@@ -303,12 +287,10 @@ export default function UserProfile({ onLanguageChange }) {
   const saveSettings = async () => {
     try {
       const chosenTheme = getTheme();
-
       await axiosClient.patch(`/users/${currentUser.id}`, {
         preferredLanguage,
         autoTranslate,
         showOriginalAndTranslation,
-
         theme: chosenTheme,
         allowExplicitContent,
         enableReadReceipts,
@@ -318,10 +300,8 @@ export default function UserProfile({ onLanguageChange }) {
         privacyHoldToReveal,
         notifyOnCopy,
       });
-
       i18n.changeLanguage(preferredLanguage);
       onLanguageChange?.(preferredLanguage);
-
       setCurrentUser((prev) => ({
         ...prev,
         preferredLanguage,
@@ -336,7 +316,6 @@ export default function UserProfile({ onLanguageChange }) {
         privacyHoldToReveal,
         notifyOnCopy,
       }));
-
       notifications.show({ color: 'green', message: t('profile.saveSuccess', 'Settings saved') });
     } catch (error) {
       console.error('Failed to save settings', error);
@@ -373,7 +352,6 @@ export default function UserProfile({ onLanguageChange }) {
       }
       const pwd = window.prompt(t('profile.setBackupPassword', 'Set a password to encrypt your backup'));
       if (!pwd) return;
-
       const blob = await exportEncryptedPrivateKey(privateKey, pwd);
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -383,7 +361,6 @@ export default function UserProfile({ onLanguageChange }) {
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-
       notifications.show({ color: 'green', message: t('profile.backupDownloaded', 'Backup downloaded') });
     } catch (e) {
       console.error(e);
@@ -396,11 +373,9 @@ export default function UserProfile({ onLanguageChange }) {
       if (!file) return;
       const pwd = window.prompt(t('profile.enterBackupPassword', 'Enter your backup password'));
       if (!pwd) return;
-
       const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
       const existing = await loadKeysLocal();
       await saveKeysLocal({ publicKey: existing.publicKey, privateKey: privateKeyB64 });
-
       notifications.show({ color: 'green', message: t('profile.importSuccess', 'Backup imported successfully') });
       if (importFileRef.current) importFileRef.current.value = null;
     } catch (e) {
@@ -425,15 +400,10 @@ export default function UserProfile({ onLanguageChange }) {
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg" maw={640} mx="auto">
       <Group justify="space-between" align="center" mb="md">
-        <Title order={3}>{t('profile.title', 'Profile')}</Title>
+        <Title order={3}>{t('profile.title', 'User Profile')}</Title>
       </Group>
 
-      <Accordion
-        multiple
-        variant="separated"
-        radius="md"
-        defaultValue={['profile', 'phone-number', 'appearance', 'privacy']}
-      >
+      <Accordion multiple variant="separated" radius="md" value={openItems} onChange={setOpenItems}>
         {/* Profile */}
         <Accordion.Item value="profile">
           <Accordion.Control>{t('profile.sectionProfile', 'Profile')}</Accordion.Control>
@@ -488,7 +458,7 @@ export default function UserProfile({ onLanguageChange }) {
           </Accordion.Panel>
         </Accordion.Item>
 
-        {/* Phone number (NEW) */}
+        {/* Phone number */}
         <Accordion.Item value="phone-number">
           <Accordion.Control>{t('profile.phoneNumber', 'Phone number')}</Accordion.Control>
           <Accordion.Panel>
@@ -507,7 +477,6 @@ export default function UserProfile({ onLanguageChange }) {
                 </Text>
               </Card>
 
-              {/* Quick Sun/Moon shortcuts (free options) */}
               <Group gap="xs">
                 <button
                   type="button"
@@ -532,7 +501,6 @@ export default function UserProfile({ onLanguageChange }) {
                 </button>
               </Group>
 
-              {/* Premium theme selector (hides free Light/Dark) */}
               <ThemeSelect isPremium={isPremium} hideFreeOptions />
             </Stack>
           </Accordion.Panel>
@@ -664,10 +632,7 @@ export default function UserProfile({ onLanguageChange }) {
         <Accordion.Item value="security">
           <Accordion.Control>{t('profile.security', 'Security')}</Accordion.Control>
           <Accordion.Panel>
-            {/* NEW: 2FA section (status + enable/disable) */}
             <TwoFASection user={currentUser} onChange={refreshAuthUser} />
-
-            {/* Existing key tools */}
             <Group mt="md">
               <Button variant="light" onClick={exportKey} aria-label={t('profile.exportKey', 'Export key')}>
                 {t('profile.exportKey', 'Export key')}
@@ -694,6 +659,13 @@ export default function UserProfile({ onLanguageChange }) {
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
+
+      {/* ✅ Standalone Forwarding section (not an accordion) */}
+      <Divider my="lg" />
+      <div id="forwarding" ref={forwardingAnchorRef} style={{ scrollMarginTop: 16 }}>
+        <Title order={4} mb="xs">{t('profile.forwarding', 'Call & Text Forwarding')}</Title>
+        <ForwardingSettings />
+      </div>
 
       <Group justify="flex-end" mt="md">
         <Button onClick={saveSettings}>{t('common.save', 'Save')}</Button>

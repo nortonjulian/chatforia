@@ -120,6 +120,19 @@ enum PortStatus {
   PORTED_OUT
 }
 
+enum A11YFont { 
+  sm 
+  md 
+  lg 
+  xl 
+}
+
+enum A11YBg { 
+  light 
+  dark 
+  transparent 
+}
+
 // ===================== 1) Core User & Access =====================
 
 model User {
@@ -129,7 +142,7 @@ model User {
   password                    String
   phoneNumber                 String?     @db.VarChar(32)
   preferredLanguage           String      @default("en")
-  allowExplicitContent        Boolean     @default(true)
+  allowExplicitContent        Boolean     @default(false)
   showOriginalWithTranslation Boolean     @default(true)
   role                        String      @default("USER")
   enableAIResponder           Boolean     @default(false)
@@ -219,13 +232,18 @@ model User {
   randomChatAllowedBands Json?
 
   // Accessibility preferences (hearing-impaired support)
-  a11yVisualAlerts Boolean @default(true)
-  a11yVibrate      Boolean @default(true)
-  a11yFlashOnCall  Boolean @default(false)
-  a11yLiveCaptions Boolean @default(false)
-  a11yVoiceNoteSTT Boolean @default(true)
-  a11yCaptionFont  String  @default("lg")
-  a11yCaptionBg    String  @default("dark")
+  a11yUiFont                  String  @default("md")       // sm | md | lg | xl
+  a11yVisualAlerts            Boolean @default(false)
+  a11yVibrate                 Boolean @default(false)
+  a11yFlashOnCall             Boolean @default(false)
+  a11yLiveCaptions            Boolean @default(false)
+  a11yVoiceNoteSTT            Boolean @default(false)
+  a11yCaptionFont             String  @default("lg")       // sm | md | lg | xl
+  a11yCaptionBg               String  @default("dark")     // light | dark | transparent
+  a11yStoreTranscripts        Boolean @default(true)
+  a11yTranscriptRetentionDays Int?                       // null = keep forever
+  a11yCaptionPosition         String  @default("bottom")   // e.g., bottom | top
+  a11yCaptionMaxLines         Int     @default(3)
 }
 
 enum VerificationType {
