@@ -45,6 +45,9 @@ import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/k
 /* NEW: phone number manager */
 import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
 
+/* NEW: 2FA section (uses your existing TwoFASetupModal internally) */
+import TwoFASection from '@/components/security/TwoFASection.jsx';
+
 /* ---------------- helpers: safer lazy import + section boundary ---------------- */
 
 function lazyWithFallback(importer, Fallback = () => null) {
@@ -284,6 +287,18 @@ export default function UserProfile({ onLanguageChange }) {
   const [privacyBlurOnUnfocus, setPrivacyBlurOnUnfocus] = useState(currentUser.privacyBlurOnUnfocus ?? false);
   const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(currentUser.privacyHoldToReveal ?? false);
   const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser.notifyOnCopy ?? false);
+
+  // 🔁 Refresh current user (used after enabling/disabling 2FA)
+  const refreshAuthUser = async () => {
+    try {
+      const { data } = await axiosClient.get('/auth/me');
+      if (data?.user) {
+        setCurrentUser((prev) => ({ ...prev, ...data.user }));
+      }
+    } catch (e) {
+      console.error('Failed to refresh /auth/me', e);
+    }
+  };
 
   const saveSettings = async () => {
     try {
@@ -649,7 +664,11 @@ export default function UserProfile({ onLanguageChange }) {
         <Accordion.Item value="security">
           <Accordion.Control>{t('profile.security', 'Security')}</Accordion.Control>
           <Accordion.Panel>
-            <Group>
+            {/* NEW: 2FA section (status + enable/disable) */}
+            <TwoFASection user={currentUser} onChange={refreshAuthUser} />
+
+            {/* Existing key tools */}
+            <Group mt="md">
               <Button variant="light" onClick={exportKey} aria-label={t('profile.exportKey', 'Export key')}>
                 {t('profile.exportKey', 'Export key')}
               </Button>

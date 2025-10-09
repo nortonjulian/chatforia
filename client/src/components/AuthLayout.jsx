@@ -65,7 +65,7 @@ function MobileTopBar() {
 function GetAppCard() {
   const BADGE_H = 'clamp(52px, 6vw, 72px)';
   const QR_SIZE = 'calc(1.1 * (clamp(52px, 6vw, 72px)))';
-  const APPLE_SCALE = 0.78; // tweak between 0.83–0.87 if needed
+  const APPLE_SCALE = 0.76; // tweak between 0.83–0.87 if needed
 
   return (
     <Paper withBorder shadow="xs" radius="xl" p="md">

@@ -135,10 +135,21 @@ model User {
   enableAIResponder           Boolean     @default(false)
   enableSmartReplies          Boolean     @default(false)
   theme                       String      @default("dawn")
-  cycling  Boolean @default(false)
+  cycling                     Boolean     @default(false)
   strictE2EE                  Boolean     @default(false)
   uploads                     Upload[]    @relation("UserUploads")
   smsThreads                  SmsThread[] @relation("UserSmsThreads")
+
+  // --- NEW: verification & 2FA (fixed typo here) ---
+  emailVerifiedAt        DateTime?
+  emailVerifiedIp        String?
+  phoneVerifiedAt        DateTime?
+  phoneVerifiedIp        String?
+  twoFactorEnabled       Boolean                 @default(false)
+  totpSecretEnc          String?
+  twoFactorEnrolledAt    DateTime?
+  verificationTokens     VerificationToken[] // <— keep only once
+  twoFactorRecoveryCodes TwoFactorRecoveryCode[] // <— keep only once
 
   autoResponderMode        AutoResponderMode @default(DM)
   autoResponderCooldownSec Int               @default(120)
@@ -153,7 +164,7 @@ model User {
   privateKey String?
 
   // Relations
-  followers                  Follow[]             @relation("follower") // who follows THIS user
+  followers                  Follow[]             @relation("follower")
   following                  Follow[]             @relation("following")
   passwordResetTokens        PasswordResetToken[] @relation("UserPasswordResetTokens")
   roomsOwned                 ChatRoom[]           @relation("ChatRoomOwner")
@@ -208,22 +219,55 @@ model User {
   randomChatAllowedBands Json?
 
   // Accessibility preferences (hearing-impaired support)
-  a11yVisualAlerts Boolean @default(true) // banners/title-blink instead of relying on sound
+  a11yVisualAlerts Boolean @default(true)
   a11yVibrate      Boolean @default(true)
-  a11yFlashOnCall  Boolean @default(false) // optional screen flash on incoming call
-  a11yLiveCaptions Boolean @default(false) // premium toggle for live call captions
-  a11yVoiceNoteSTT Boolean @default(true) // auto-transcribe voice notes
-  a11yCaptionFont  String  @default("lg") // sm|md|lg|xl
-  a11yCaptionBg    String  @default("dark") // light|dark|transparent
+  a11yFlashOnCall  Boolean @default(false)
+  a11yLiveCaptions Boolean @default(false)
+  a11yVoiceNoteSTT Boolean @default(true)
+  a11yCaptionFont  String  @default("lg")
+  a11yCaptionBg    String  @default("dark")
+}
+
+enum VerificationType {
+  EMAIL
+  PHONE
+  MFA_LOGIN
+}
+
+model VerificationToken {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  type      VerificationType
+  tokenHash String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([expiresAt])
+}
+
+model TwoFactorRecoveryCode {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  codeHash  String
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model PasswordResetToken {
-  id         Int       @id @default(autoincrement())
-  userId     Int
-  user       User     @relation("UserPasswordResetTokens", fields: [userId], references: [id], onDelete: Cascade)
-  tokenHash  String    @db.VarChar(64)
-  expiresAt  DateTime
-  usedAt     DateTime?
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation("UserPasswordResetTokens", fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @db.VarChar(64)
+  expiresAt DateTime
+  usedAt    DateTime?
 
   @@index([tokenHash])
   @@index([userId, usedAt])
@@ -281,7 +325,6 @@ model ProvisionLink {
 
   @@index([userId])
 }
-
 
 // ===================== 2) Conversation & Participation =====================
 

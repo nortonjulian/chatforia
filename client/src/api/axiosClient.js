@@ -16,8 +16,11 @@ const nodeBase =
     (process.env.VITE_API_BASE_URL || process.env.VITE_API_URL)) ||
   null;
 
-// Fallback to local API during dev if nothing is provided
-const baseURL = viteBase || winBase || nodeBase || 'http://localhost:5002';
+const isDev = typeof import.meta !== 'undefined' && !!import.meta.env?.DEV;
+
+// In dev use Vite proxy (`/api` → proxy → backend). In prod use configured base.
+const computedBase = viteBase || winBase || nodeBase || '';
+const baseURL = isDev ? '/api' : computedBase;
 
 /** -------- Axios instance -------- */
 const axiosClient = axios.create({
@@ -57,7 +60,7 @@ async function ensureCsrfPrimed() {
       axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
     }
   } catch {
-    // If this fails, POSTs may 403 until /auth/csrf is reachable
+    // If this fails, POSTs may 4xx until /auth/csrf is reachable
   }
 }
 

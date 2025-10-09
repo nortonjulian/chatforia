@@ -9,7 +9,6 @@
     "dev": "cross-env DOTENV_CONFIG_PATH=.env node -r dotenv/config index.js",
     "start": "cross-env NODE_ENV=production DOTENV_CONFIG_PATH=.env.production node -r dotenv/config index.js",
     "dev:watch": "cross-env DOTENV_CONFIG_PATH=.env node --watch -r dotenv/config index.js",
-
     "pretest": "prisma generate --schema=prisma/schema.prisma",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ./jest.config.cjs",
@@ -81,6 +80,7 @@
     "sharp": "^0.34.3",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
+    "speakeasy": "^2.0.0",
     "stripe": "^18.5.0",
     "telnyx": "^2.0.1",
     "tweetnacl": "^1.0.3",

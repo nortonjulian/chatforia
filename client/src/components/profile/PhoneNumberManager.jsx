@@ -1,12 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Card, Group, Stack, Title, Text, Badge, Button, Divider,
-  TextInput, Select, Modal, Loader, Switch, Tooltip
+  Alert, Badge, Button, Card, Divider, Group, Loader, Modal, Select,
+  Stack, Text, TextInput, Title, Switch, Tooltip
 } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
 import {
-  IconPhone, IconSearch, IconLock, IconLockOpen,
-  IconAlertTriangle, IconCircleCheck, IconTrash, IconReplace
+  IconAlertTriangle, IconCircleCheck, IconLock, IconLockOpen, IconPhone,
+  IconReplace, IconSearch, IconTrash
 } from '@tabler/icons-react';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
@@ -73,7 +73,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
     setAssigningId(numberId);
     setErr('');
     try {
-      // Optional: reserve (no-op if backend doesn’t support)
+      // Optional: reserve (best-effort)
       try { await axiosClient.post('/numbers/reserve', { numberId }); } catch {}
 
       await axiosClient.post('/numbers/purchase', {
@@ -81,8 +81,8 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
         lock: !!lockOnAssign,
       });
 
-      notifications.show({ color: 'green', message: 'Number assigned.' });
-      onAssigned?.();
+      // Let parent show a success banner and refresh
+      onAssigned?.({ type: 'success', message: 'Number assigned.' });
       onClose();
     } catch {
       setErr('Could not assign that number. It may have just been taken—try another.');
@@ -141,7 +141,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
           <Text size="sm" c="dimmed">Prevents recycling while your plan is active.</Text>
         </Group>
 
-        {err ? <Text c="red" size="sm">{err}</Text> : null}
+        {err ? <Alert color="red">{err}</Alert> : null}
 
         <Divider label="Available numbers" />
 
@@ -160,7 +160,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
                       <IconPhone size={18} />
                       <Stack gap={0}>
                         <Text fw={600}>{fmtLocal(n.local || n.display || n.e164 || n.number)}</Text>
-                        <Text size="xs" c="dimmed">{n.e164 || n.number}</Text>
+                        <Text size="sm" c="dimmed">{n.e164 || n.number}</Text>
                       </Stack>
                       <Group gap={6}>
                         {(n.capabilities || n.caps || []).map((c) => (
@@ -186,9 +186,17 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
 /* ---------------- Manager (main card) ---------------- */
 export default function PhoneNumberManager() {
   const { currentUser } = useUser();
+  const plan = (currentUser?.plan || 'FREE').toUpperCase();
+  const isPremium = plan === 'PREMIUM';
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null); // { e164, locked, state:'none|active|expiring', expiresAt }
   const [pickerOpen, setPickerOpen] = useState(false);
+
+  // Inline banner (no toasts)
+  const [banner, setBanner] = useState(null); // { type, message, action?: {label, href} }
+
+  // Avoid StrictMode double-fetch
+  const ran = useRef(false);
 
   const reload = async () => {
     setLoading(true);
@@ -196,42 +204,69 @@ export default function PhoneNumberManager() {
       const { data } = await axiosClient.get('/numbers/status');
       setStatus(data || { state: 'none' });
     } catch {
-      notifications.show({ color: 'red', message: 'Unable to load phone number status.' });
+      setBanner({ type: 'error', message: 'Unable to load phone number status.' });
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { reload(); }, []);
+  useEffect(() => {
+    if (ran.current) return;
+    ran.current = true;
+    reload();
+  }, []);
 
   const dLeft = useMemo(() => daysLeft(status?.expiresAt), [status]);
 
   const lock = async () => {
+    const hasNumber = status?.state === 'active';
+    if (!hasNumber) {
+      setBanner({ type: 'info', message: 'Assign a number first.' });
+      return;
+    }
+    if (!isPremium) {
+      setBanner({
+        type: 'warning',
+        message: 'Locking numbers is a Premium feature.',
+        action: { label: 'Upgrade', href: '/settings/upgrade' },
+      });
+      return;
+    }
     try {
       await axiosClient.post('/numbers/lock');
-      notifications.show({ color: 'green', message: 'Number locked.' });
+      setBanner({ type: 'success', message: 'Number locked.' });
       reload();
-    } catch {
-      notifications.show({ color: 'red', message: 'Could not lock the number.' });
+    } catch (e) {
+      if (e?.response?.status === 402 || e?.response?.data?.error === 'premium_required') {
+        setBanner({
+          type: 'warning',
+          message: 'Locking numbers is a Premium feature.',
+          action: { label: 'Upgrade', href: '/settings/upgrade' },
+        });
+      } else {
+        setBanner({ type: 'error', message: 'Could not lock the number.' });
+      }
     }
   };
+
   const unlock = async () => {
     try {
       await axiosClient.post('/numbers/unlock');
-      notifications.show({ color: 'green', message: 'Number unlocked.' });
+      setBanner({ type: 'success', message: 'Number unlocked.' });
       reload();
     } catch {
-      notifications.show({ color: 'red', message: 'Could not unlock the number.' });
+      setBanner({ type: 'error', message: 'Could not unlock the number.' });
     }
   };
+
   const releaseNumber = async () => {
     if (!window.confirm('Release your current number? It may be assigned to someone else.')) return;
     try {
       await axiosClient.post('/numbers/release');
-      notifications.show({ color: 'orange', message: 'Number released.' });
+      setBanner({ type: 'warning', message: 'Number released.' });
       reload();
     } catch {
-      notifications.show({ color: 'red', message: 'Could not release the number.' });
+      setBanner({ type: 'error', message: 'Could not release the number.' });
     }
   };
 
@@ -252,9 +287,29 @@ export default function PhoneNumberManager() {
     return <Badge variant="outline">No number</Badge>;
   };
 
+  const bannerColor =
+    banner?.type === 'error' ? 'red'
+    : banner?.type === 'warning' ? 'yellow'
+    : banner?.type === 'success' ? 'green'
+    : 'blue';
+
   return (
     <>
       <Card withBorder radius="lg" p="lg">
+        {/* Inline banner instead of toast */}
+        {banner?.message && (
+          <Alert color={bannerColor} withCloseButton onClose={() => setBanner(null)} mb="sm">
+            <Group justify="space-between" align="center" wrap="nowrap">
+              <Text>{banner.message}</Text>
+              {banner?.action && (
+                <Button component={Link} to={banner.action.href} size="xs" radius="xl">
+                  {banner.action.label}
+                </Button>
+              )}
+            </Group>
+          </Alert>
+        )}
+
         <Group justify="space-between" align="start" mb="xs">
           <Group>
             <IconPhone size={20} />
@@ -263,9 +318,28 @@ export default function PhoneNumberManager() {
           </Group>
           <Group gap="xs">
             {status?.locked ? (
-              <Button variant="light" leftSection={<IconLockOpen size={16} />} onClick={unlock}>Unlock</Button>
+              <Button variant="light" leftSection={<IconLockOpen size={16} />} onClick={unlock}>
+                Unlock
+              </Button>
             ) : (
-              <Button variant="light" leftSection={<IconLock size={16} />} onClick={lock}>Lock</Button>
+              <Tooltip
+                label={
+                  status?.state !== 'active'
+                    ? 'Assign a number first'
+                    : !isPremium
+                    ? 'Premium feature'
+                    : 'Lock your number'
+                }
+              >
+                <Button
+                  variant="light"
+                  leftSection={<IconLock size={16} />}
+                  onClick={lock}
+                  disabled={status?.state !== 'active'}
+                >
+                  Lock
+                </Button>
+              </Tooltip>
             )}
             {status?.state === 'active' ? (
               <>
@@ -292,8 +366,8 @@ export default function PhoneNumberManager() {
               <Text fw={600} size="lg">{fmtLocal(status.local || status.display || status.e164)}</Text>
               <Text size="sm" c="dimmed">{status.e164}</Text>
               <Group gap="xs" mt="xs">
-                <Badge variant="outline">{status.capabilities?.includes('sms') ? 'SMS' : null}</Badge>
-                <Badge variant="outline">{status.capabilities?.includes('voice') ? 'VOICE' : null}</Badge>
+                {status.capabilities?.includes('sms') && <Badge variant="outline">SMS</Badge>}
+                {status.capabilities?.includes('voice') && <Badge variant="outline">VOICE</Badge>}
                 {status.locked ? <Badge leftSection={<IconLock size={12} />}>Locked</Badge> : <Badge>Not locked</Badge>}
                 {status.expiresAt ? (
                   <Badge color={status.state === 'expiring' ? 'yellow' : 'gray'} variant="light">
@@ -311,7 +385,11 @@ export default function PhoneNumberManager() {
       <NumberPickerModal
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
-        onAssigned={reload}
+        onAssigned={(msg) => {
+          setBanner(msg || { type: 'success', message: 'Number assigned.' });
+          setPickerOpen(false);
+          reload();
+        }}
       />
     </>
   );

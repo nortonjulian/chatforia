@@ -48,9 +48,21 @@ import eventLinksRouter from './routes/eventLinks.js';
 import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
 import storiesRouter from './routes/stories.js';
+import numbersRouter from './routes/numbers.js'; // <-- numbers routes
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
+// ✅ enforcement gates
+import {
+  requirePhoneVerified,
+  requireStaff2FA,
+  requirePremium, // <-- new
+} from './middleware/enforcement.js';
+
+// ✅ auth sub-routers
+import { router as emailVerification } from './routes/auth/emailVerification.js';
+import { router as phoneVerification } from './routes/auth/phoneVerification.js';
+import { router as mfaTotp } from './routes/auth/mfaTotp.js';
 
 // Errors
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
@@ -67,17 +79,17 @@ import {
   limiterGenericMutations,
 } from './middleware/rateLimits.js';
 
-// 🔐 Security middlewares
+// Security middlewares
 import { corsConfigured } from './middleware/cors.js';
 import { secureHeaders } from './middleware/secureHeaders.js';
 import { csp } from './middleware/csp.js';
 import { hppGuard } from './middleware/hpp.js';
 import { httpsRedirect } from './middleware/httpsRedirect.js';
 
-// ✅ NEW: session + passport + oauth routes
+// Session + passport + oauth routes
 import session from 'express-session';
 import passport from './auth/passport.js';
-import oauthRouter from './routes/oauth.routes.js'; // must export /google, /apple, etc. (no /oauth prefix)
+import oauthRouter from './routes/oauth.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -180,21 +192,24 @@ export function createApp() {
       saveUninitialized: false,
       cookie: {
         sameSite: isProd ? 'none' : 'lax',
-        secure: isProd, // requires HTTPS in prod
+        secure: isProd,
       },
     })
   );
   app.use(passport.initialize());
-  // Ensure your strategies are imported somewhere before use, e.g.:
-  // import './auth/passport.js';
 
   /* CSRF */
   const csrfMw = isTest
     ? (_req, _res, next) => next()
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
-  // Bypass CSRF for raw webhook and Apple POST callback
-  const CSRF_BYPASS = new Set(['/billing/webhook', '/auth/apple/callback']);
+  // TEMP bypasses for first-run auth flows (remove later!)
+  const CSRF_BYPASS = new Set([
+    '/billing/webhook',
+    '/auth/apple/callback',
+    '/auth/register',
+    '/auth/login',
+  ]);
 
   app.use((req, res, next) => {
     if (CSRF_BYPASS.has(req.path)) return next();
@@ -236,20 +251,39 @@ export function createApp() {
   /* Base routes */
   app.get('/', (_req, res) => res.send('Welcome to Chatforia API!'));
 
-  // Webhook + Billing
+  // Webhook + Billing (UI/API under /billing requires staff 2FA)
   app.use('/billing', billingWebhook);
-  app.use('/billing', billingRouter);
+  app.use('/billing', requireAuth, requireStaff2FA, billingRouter);
 
-  // ✅ OAuth flows live under /auth: /auth/google, /auth/google/callback, /auth/apple, /auth/apple/callback
+  // OAuth under /auth
   app.use('/auth', oauthRouter);
 
-  // Primary auth API routes
+  // Auth sub-routers before primary auth
+  app.use('/auth', emailVerification);                        // /auth/email/*
+  app.use('/auth/phone', requireAuth, phoneVerification);     // /auth/phone/*
+  app.use('/auth/2fa', requireAuth, mfaTotp);                 // /auth/2fa/*
+
+  // Primary auth API
   app.use('/auth', authRouter);
 
   app.use('/users', usersRouter);
-  app.use('/calls', callsRouter);
+
+  // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
-  app.use('/voice', voiceRouter);
+
+  // PSTN/telephony surfaces (require phone verification)
+  app.use('/voice', requireAuth, requirePhoneVerified, voiceRouter);
+  app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
+  app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
+
+  // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
+  app.post('/numbers/lock',
+    requireAuth,
+    requirePhoneVerified,
+    requirePremium,
+    (req, _res, next) => next() // forward to the router handler
+  );
+  app.use('/numbers', requireAuth, requirePhoneVerified, numbersRouter);
 
   app.use('/rooms', roomsRouter);
   app.use('/chatrooms', roomsRouter);
@@ -263,10 +297,11 @@ export function createApp() {
   app.use('/invites', invitesRouter);
   app.use('/media', mediaRouter);
   app.use('/devices', devicesRouter);
-  // 🔐 Backups should require auth
+
+  // Backups require auth
   app.use('/backups', requireAuth, backupsRouter);
+
   app.use('/uploads', uploadsRouter);
-  app.use('/sms', smsRouter);
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
   app.use('/translations', translationsRouter);
@@ -297,20 +332,6 @@ export function createApp() {
     });
     app.use('/status', statusReadLimiter);
     app.use('/status', statusRoutes);
-  }
-
-  /* Dev: route dump */
-  if (!isProd) {
-    app.get('/__routes_dump', (_req, res) => {
-      const routes = listEndpoints(app)
-        .flatMap((r) => (r.methods || []).map((m) => ({ method: m, path: r.path })))
-        .sort((a, b) => a.path.localeCompare(b.path) || a.method.localeCompare(b.method));
-      res.json({
-        statusFlag: String(process.env.STATUS_ENABLED || ''),
-        hasStatusRouter: routes.some((r) => String(r.path).startsWith('/status')),
-        routes,
-      });
-    });
   }
 
   /* Errors */

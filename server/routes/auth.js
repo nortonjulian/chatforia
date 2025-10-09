@@ -12,6 +12,10 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 // CSRF cookie refresher on GETs is handled in app.js; we also expose an explicit 200 endpoint here.
 import { setCsrfCookie } from '../middleware/csrf.js';
 
+// 2FA deps (NEW)
+import speakeasy from 'speakeasy';
+import { open } from '../utils/secretBox.js'; // AES-GCM decrypt of totpSecretEnc
+
 // Keep registerSchema logic inline here for independence
 const RegisterSchema = z.object({
   username: z.string().min(3),
@@ -84,6 +88,38 @@ let transporter;
     transporter = nodemailer.createTransport({ jsonTransport: true });
   }
 })();
+
+/* =========================
+ *        2FA helpers (NEW)
+ * ========================= */
+function sha256(s) {
+  return crypto.createHash('sha256').update(s, 'utf8').digest('hex');
+}
+function createMfaJWT(userId) {
+  // short-lived token that authorizes the /2fa/login step
+  return jwt.sign({ sub: Number(userId), typ: 'mfa' }, JWT_SECRET, { expiresIn: '5m' });
+}
+function verifyMfaJWT(token) {
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (decoded?.typ !== 'mfa') throw new Error('wrong typ');
+    return { ok: true, userId: Number(decoded.sub) };
+  } catch {
+    return { ok: false };
+  }
+}
+function issueSession(res, user) {
+  const payload = {
+    id: Number(user.id),
+    email: user.email,
+    username: user.username,
+    role: user.role,
+    plan: user.plan,
+  };
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+  setJwtCookie(res, token);
+  return payload;
+}
 
 /* =========================
  *         CSRF
@@ -165,7 +201,7 @@ router.post(
           publicKey,
           privateKey: null,
         },
-        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true },
+        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true, twoFactorEnabled: true },
       });
     } catch {
       user = await prisma.user.create({
@@ -179,19 +215,12 @@ router.post(
           publicKey,
           privateKey: null,
         },
-        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true },
+        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true, twoFactorEnabled: true },
       });
     }
 
-    const payload = {
-      id: user.id,
-      username: user.username,
-      role: user.role,
-      plan: user.plan,
-      email: user.email,
-    };
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
-    setJwtCookie(res, token);
+    // Issue session immediately on register (you can also require email verify first)
+    const payload = issueSession(res, user);
 
     return res.status(201).json({
       message: 'user registered',
@@ -226,7 +255,7 @@ router.post(
         })) ||
         (await prisma.user.findUnique({ where: { username: idOrEmail } }));
 
-      // 2) If not found, auto-provision (works in tests; harmless elsewhere)
+      // 2) If not found, auto-provision (test-friendly)
       if (!user) {
         const hashed = await bcrypt.hash(password, 10);
         const { publicKey } = generateKeyPair();
@@ -256,7 +285,6 @@ router.post(
               },
             });
           } catch {
-            // last resort: try to re-find in case of race
             user =
               (await prisma.user.findFirst({
                 where: { email: { equals: idOrEmail, mode: 'insensitive' } },
@@ -294,9 +322,7 @@ router.post(
 
       // 5) Compare; if compare fails in tests, heal the hash
       let ok = false;
-      try {
-        ok = await bcrypt.compare(password, hash);
-      } catch {}
+      try { ok = await bcrypt.compare(password, hash); } catch {}
       if (!ok && String(process.env.NODE_ENV) === 'test') {
         const newHash = await bcrypt.hash(password, 10);
         try {
@@ -308,16 +334,24 @@ router.post(
       }
       if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
 
-      const payload = {
-        id: Number(user.id),
-        email: user.email,
-        username: user.username,
-        role: user.role,
-        plan: user.plan,
-      };
-      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
-      setJwtCookie(res, token);
+      // 6) If user has 2FA enabled, DO NOT issue a session yet.
+      if (user.twoFactorEnabled) {
+        const mfaToken = createMfaJWT(user.id);
+        return res.json({
+          mfaRequired: true,
+          mfaToken,
+          user: {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            role: user.role ?? 'USER',
+            plan: user.plan ?? 'FREE',
+          },
+        });
+      }
 
+      // 7) Normal session
+      const payload = issueSession(res, user);
       return res.json({
         message: 'logged in',
         user: {
@@ -330,7 +364,6 @@ router.post(
         },
       });
     } catch (e) {
-      // Test-friendly fallback: succeed with minimal payload
       if (String(process.env.NODE_ENV) === 'test') {
         const emailSafe = idOrEmail.includes('@') ? idOrEmail : `${idOrEmail}@example.com`;
         const payload = {
@@ -346,6 +379,73 @@ router.post(
       }
       throw e;
     }
+  })
+);
+
+/* =========================
+ *   MFA LOGIN STEP (NEW)
+ *   POST /auth/2fa/login { mfaToken, code }
+ * ========================= */
+router.post(
+  '/2fa/login',
+  asyncHandler(async (req, res) => {
+    const { mfaToken, code } = req.body || {};
+    if (!mfaToken || !code) return res.status(400).json({ ok: false, error: 'Missing fields' });
+
+    // Verify short-lived MFA token
+    const decoded = verifyMfaJWT(mfaToken);
+    if (!decoded.ok) return res.status(401).json({ ok: false, error: 'Invalid mfaToken' });
+    const userId = decoded.userId;
+
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user || !user.twoFactorEnabled || !user.totpSecretEnc) {
+      return res.status(400).json({ ok: false, error: '2FA not enabled' });
+    }
+
+    const secret = open(user.totpSecretEnc);
+
+    // 1) Try TOTP
+    const okTOTP = speakeasy.totp.verify({
+      secret,
+      encoding: 'base32',
+      token: String(code),
+      window: 1,
+    });
+
+    // 2) Fallback to backup code
+    let okBackup = false;
+    if (!okTOTP) {
+      const h = sha256(String(code).toUpperCase().replace(/[^A-Z0-9]/g, ''));
+      const rc = await prisma.twoFactorRecoveryCode.findFirst({
+        where: { userId, codeHash: h, usedAt: null },
+      });
+      if (rc) {
+        okBackup = true;
+        await prisma.twoFactorRecoveryCode.update({
+          where: { id: rc.id },
+          data: { usedAt: new Date() },
+        });
+      }
+    }
+
+    if (!(okTOTP || okBackup)) {
+      return res.status(400).json({ ok: false, reason: 'bad_code' });
+    }
+
+    // Success → issue normal session
+    const payload = issueSession(res, user);
+    return res.json({
+      ok: true,
+      message: 'logged in',
+      user: {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        publicKey: user.publicKey ?? null,
+        plan: user.plan ?? 'FREE',
+        role: user.role ?? 'USER',
+      },
+    });
   })
 );
 

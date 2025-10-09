@@ -36,6 +36,7 @@ import VideoCall from '@/components/VideoCall.jsx';
 
 // HTTP
 import api from '@/api/axiosClient';
+import { primeCsrf } from '@/api/axiosClient';
 
 // Public layout
 import AuthLayout from '@/components/AuthLayout';
@@ -141,6 +142,10 @@ function AuthedLayout() {
 
 export default function AppRoutes() {
   const { currentUser } = useUser();
+
+  useEffect(() => {
+    primeCsrf().catch(() => {});
+  }, []);
 
   if (!currentUser) {
     return (
