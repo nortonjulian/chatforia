@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
@@ -6,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { PLACEMENT_CONFIG } from './placements';
 
 /**
  * One flag to rule them all:
@@ -67,6 +68,31 @@ export function AdProvider({ isPremium = false, children }) {
   const [ready, setReady] = useState(false);
   const loadedRef = useRef(false); // StrictMode guard
 
+  // ╭──────────────────────────────────────────────────────────────────────────╮
+  // │            Impression caps / cool-downs (per session)                    │
+  // ╰──────────────────────────────────────────────────────────────────────────╯
+  // imps = { "placement:key": { count: number, last: timestampMs } }
+  const [imps, setImps] = useState({});
+
+  const canShow = (placement, key = 'global') => {
+    if (isPremium) return false;
+    const cfg = PLACEMENT_CONFIG[placement] || {};
+    const cap = cfg.cap || { perSession: Infinity, coolMs: 0 };
+    const k = `${placement}:${key}`;
+    const it = imps[k] || { count: 0, last: 0 };
+    if (it.count >= cap.perSession) return false;
+    if (Date.now() - it.last < cap.coolMs) return false;
+    return true;
+  };
+
+  const markShown = (placement, key = 'global') => {
+    const k = `${placement}:${key}`;
+    setImps((prev) => {
+      const it = prev[k] || { count: 0, last: 0 };
+      return { ...prev, [k]: { count: it.count + 1, last: Date.now() } };
+    });
+  };
+
   // ---- Prebid/GAM dynamic registries (dedupe across slots) ----
   // window-scoped so repeated mounts don’t redefine
   function ensureGlobals() {
@@ -118,6 +144,7 @@ export function AdProvider({ isPremium = false, children }) {
     }
   }
 
+  // Load libraries for chosen adapter
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -163,8 +190,7 @@ export function AdProvider({ isPremium = false, children }) {
 
           // GPT initial setup
           window.googletag.cmd.push(() => {
-            // We call enableServices lazily in ensurePrebid()
-            // after the first slot is defined.
+            // enableServices is called lazily in ensurePrebid()
           });
         }
       } catch (e) {
@@ -191,10 +217,13 @@ export function AdProvider({ isPremium = false, children }) {
         gamPath: GAM_AD_UNIT_PATH,
         timeoutMs: PREBID_TIMEOUT,
       },
-      // AdSlot calls this before bidding/display
+      // Slot helpers
       ensurePrebid,
+      // Caps API (used by AdSlot)
+      canShow,
+      markShown,
     }),
-    [isPremium, ready, consent]
+    [isPremium, ready, consent, imps]
   );
 
   return <AdCtx.Provider value={value}>{children}</AdCtx.Provider>;

@@ -4,11 +4,21 @@ import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
 import socket from '../lib/socket';
 
+// 🔒 Premium check
+import useIsPremium from '@/hooks/useIsPremium';
+
+// 🧱 Ads
+import AdSlot from '../ads/AdSlot';
+import HouseAdSlot from '../ads/HouseAdSlot';
+import { PLACEMENTS } from '@/ads/placements';
+
 export default function ChatroomList({ onSelect, currentUser, selectedRoom, openNewChatModal }) {
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
   const [loading, setLoading] = useState(true); // start true to avoid initial flicker
   const viewportRef = useRef(null);
+
+  const isPremium = useIsPremium();
 
   async function loadMore(initial = false) {
     if (loading || !currentUser?.id) return;
@@ -30,7 +40,7 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
       setItems((prev) => (initial ? data.items : [...prev, ...data.items]));
       setCursor(data.nextCursor);
     } catch (e) {
-      // optional: show a toast
+      // optional: toast
       // console.error(e);
     } finally {
       setLoading(false);
@@ -41,7 +51,6 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
   useEffect(() => {
     setItems([]);
     setCursor(null);
-    // kick off initial load
     (async () => {
       setLoading(true);
       await loadMore(true);
@@ -76,48 +85,75 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
   // Empty state (no rooms)
   if (!loading && items.length === 0) {
     return (
-      <EmptyState
-        title="No conversations yet"
-        subtitle="Start a chat to get rolling."
-        cta="+ New Chat"
-        onCta={() => openNewChatModal?.(true)}
-      />
+      <Box>
+        <EmptyState
+          title="No conversations yet"
+          subtitle="Start a chat to get rolling."
+          cta="+ New Chat"
+          onCta={() => openNewChatModal?.(true)}
+        />
+        {/* Optional house promo when list is empty */}
+        {!isPremium && (
+          <Box mt="sm">
+            <HouseAdSlot type="upgrade" />
+          </Box>
+        )}
+      </Box>
     );
   }
 
   // Normal render
   return (
     <Box>
+      {/* Optional: a slim banner above the list */}
+      {!isPremium && (
+        <Box mb="xs">
+          <AdSlot placement={PLACEMENTS.CONTACTS_TOP_BANNER} capKey="chatlist" />
+        </Box>
+      )}
+
       <ScrollArea.Autosize
         mah="calc(100vh - 160px)"
         type="auto"
         viewportRef={viewportRef}
       >
         <Stack gap="xs" p={0}>
-          {items.map((room) => {
+          {items.map((room, idx) => {
             const isSelected = selectedRoom?.id === room.id;
             const roomName = room.name || `Room #${room.id}`;
             const isGroup = (room.participants?.length || 0) > 2;
 
             return (
-              <NavLink
-                key={room.id}
-                label={roomName}
-                active={isSelected}
-                onClick={() => handleSelect(room)}
-                rightSection={
-                  isGroup ? (
-                    <Badge size="xs" variant="light" radius="sm">
-                      Group
-                    </Badge>
-                  ) : null
-                }
-                variant="light"
-                radius="md"
-                aria-label={`Open chat ${roomName}`}
-              />
+              <Box key={room.id}>
+                <NavLink
+                  label={roomName}
+                  active={isSelected}
+                  onClick={() => handleSelect(room)}
+                  rightSection={
+                    isGroup ? (
+                      <Badge size="xs" variant="light" radius="sm">
+                        Group
+                      </Badge>
+                    ) : null
+                  }
+                  variant="light"
+                  radius="md"
+                  aria-label={`Open chat ${roomName}`}
+                />
+
+                {/* Native ad tile after the 3rd chat (idx === 2) */}
+                {!isPremium && idx === 3 && (
+                  <Box my="xs">
+                    <AdSlot
+                      placement={PLACEMENTS.INBOX_NATIVE_1}
+                      capKey="inbox"
+                    />
+                  </Box>
+                )}
+              </Box>
             );
           })}
+
           {loading && items.length > 0 && (
             <Text ta="center" c="dimmed" py="xs">
               Loading…

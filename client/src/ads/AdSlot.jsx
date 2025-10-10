@@ -1,70 +1,126 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import { useAds } from './AdProvider';
+import { getPlacementConfig } from './placements';
 
-/**
- * Usage (AdSense today):
- *   <AdSlot placement="chat-list-top" adsenseSlot={import.meta.env.VITE_ADSENSE_SLOT_CHAT_TOP} />
- *
- * Usage (Prebid+GAM later):
- *   <AdSlot placement="chat-list-top" sizes={[[300,250],[320,50]]} />
- *
- * Optional house fallback:
- *   <AdSlot ... fallback={<UpgradeCard />} />
- */
+function canShowHouseOnceEvery(placement, capKey, cooldownMs) {
+  const k = `housecap:${placement}:${capKey}`;
+  const until = Number(localStorage.getItem(k) || 0);
+  const ok = Date.now() >= until;
+  return {
+    ok,
+    mark: () => localStorage.setItem(k, String(Date.now() + cooldownMs)),
+  };
+}
+
 export default function AdSlot({
   placement,
   className,
-  // AdSense:
-  adsenseSlot,
-  // Prebid:
-  sizes = [[300, 250], [320, 50]],
-  // Common:
+  adsenseSlot,      // optional override
+  sizes,            // optional override
   style,
   fallback = null,
+  capKey = 'global',
+  /** NEW: show house fallback at most once per this many ms (per placement/capKey) */
+  fallbackCooldownMs = 15 * 60 * 1000, // 15 minutes
+  /** NEW: chance to show house when there is no-fill (0..1) */
+  fallbackChance = 0.6,
+  lazy = true,
+  forceHouse = true
 }) {
-  // ☂️ Tests often run without a provider; don't destructure a null context.
   const ctx = typeof useAds === 'function' ? useAds() : null;
-  const adapter = ctx?.adapter;
-  const isPremium = ctx?.isPremium;
-  const ready = ctx?.ready;
-  const adsense = ctx?.adsense;
-  const prebid = ctx?.prebid;
-  const ensurePrebid = ctx?.ensurePrebid;
+  const { adapter, isPremium, ready, adsense, prebid, ensurePrebid, canShow, markShown } = ctx || {};
+
+  const cfg = useMemo(() => getPlacementConfig(placement) || {}, [placement]);
+  const resolvedSizes = sizes || cfg.sizes || [[300, 250], [320, 50]];
+  const resolvedAdsenseSlot = adsenseSlot ?? cfg.adsenseSlot ?? null;
+  const rootMargin = cfg.lazyMargin || '200px';
 
   const [shown, setShown] = useState(false);
+  const [useFallback, setUseFallback] = useState(false);
   const containerRef = useRef(null);
   const renderedRef = useRef(false);
   const viewedRef = useRef(false);
 
-  // If no ads context/adapter (or user is premium), render fallback or nothing.
-  if (!ctx || !adapter || isPremium) {
-    return fallback ? (
-      <div className={className} aria-label={`ad-${placement}`}>{fallback}</div>
-    ) : null;
+  // Premium (or no provider): render fallback if provided
+  if (!ctx || isPremium) {
+    return fallback ? <div className={className} aria-label={`ad-${placement}`}>{fallback}</div> : null;
   }
 
-  // Lazy render (first viewport entry)
+  // Respect your global caps for the slot itself
+  const eligible = canShow?.(placement, capKey) !== false;
+  if (!eligible) {
+    return fallback ? <div className={className} aria-label={`ad-${placement}`}>{fallback}</div> : null;
+  }
+
+  if (forceHouse && fallback) {
+    return (
+      <div className={className} aria-label={`ad-${placement}`} style={{ width: '100%', ...(style || {}) }}>
+        {fallback}
+      </div>
+    );
+  }
+
+
+
+  const markHouseIfAllowed = () => {
+    const { ok, mark } = canShowHouseOnceEvery(placement, capKey, fallbackCooldownMs);
+    if (!ok) return false;
+    if (Math.random() > fallbackChance) return false;
+    mark();                // start cooldown
+    return true;
+  };
+
+  // If adapter is clearly misconfigured, go straight to house — but still obey house cooldown/chance
+  const adapterMisconfigured =
+    (adapter === 'adsense' && (!adsense?.client || !resolvedAdsenseSlot)) ||
+    (adapter === 'prebid' && (!window.googletag || !window.pbjs));
+
+  // Lazy init
   useEffect(() => {
     if (!containerRef.current || viewedRef.current) return;
+
+    if (!lazy) {
+      viewedRef.current = true;
+      setShown(true);
+      markShown?.(placement, capKey);
+      return;
+    } 
+
+
+
+    if (adapterMisconfigured) {
+      if (fallback && markHouseIfAllowed()) setUseFallback(true);
+      viewedRef.current = true;
+      markShown?.(placement, capKey);
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
           viewedRef.current = true;
           setShown(true);
+          markShown?.(placement, capKey);
           io.disconnect();
         }
       },
-      { rootMargin: '0px 0px 200px 0px', threshold: 0.01 }
+      { rootMargin, threshold: 0.1 }
     );
     io.observe(containerRef.current);
     return () => io.disconnect();
-  }, []);
+  // 
+  
 
-  // AdSense flow
+  // --- AdSense flow ---
   useEffect(() => {
     if (!shown || !ready || renderedRef.current) return;
     if (adapter !== 'adsense') return;
-    if (!adsense?.client || !adsenseSlot) return;
+
+    if (!adsense?.client || !resolvedAdsenseSlot) {
+      // No config → maybe show house (periodically)
+      if (fallback && markHouseIfAllowed()) setUseFallback(true);
+      return;
+    }
 
     try {
       let ins = containerRef.current?.querySelector('ins.adsbygoogle');
@@ -73,31 +129,41 @@ export default function AdSlot({
         ins.className = 'adsbygoogle';
         ins.style.display = 'block';
         ins.setAttribute('data-ad-client', adsense.client);
-        ins.setAttribute('data-ad-slot', adsenseSlot);
+        ins.setAttribute('data-ad-slot', resolvedAdsenseSlot);
         ins.setAttribute('data-ad-format', 'auto');
         ins.setAttribute('data-full-width-responsive', 'true');
+        if (import.meta.env.DEV) ins.setAttribute('data-adtest', 'on');
         containerRef.current.appendChild(ins);
       }
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       renderedRef.current = true;
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.warn('[ads] AdSense render failed', e);
-    }
-  }, [shown, ready, adapter, adsense?.client, adsenseSlot]);
 
-  // Prebid + GPT flow
+      // No-fill / blocked detection → maybe show house
+      const t = setTimeout(() => {
+        const h = containerRef.current?.offsetHeight || 0;
+        if (h < 10 && fallback && markHouseIfAllowed()) setUseFallback(true);
+      }, 1500);
+      return () => clearTimeout(t);
+    } catch (e) {
+      console.warn('[ads] AdSense render failed', e);
+      if (fallback && markHouseIfAllowed()) setUseFallback(true);
+    }
+  }, [shown, ready, adapter, adsense?.client, resolvedAdsenseSlot, fallbackCooldownMs, fallbackChance]);
+  }, [lazy, adapterMisconfigured, capKey, markShown, placement, rootMargin, fallbackCooldownMs, fallbackChance]);
+
+  // --- Prebid + GPT flow ---
   useEffect(() => {
     if (!shown || !ready || renderedRef.current) return;
     if (adapter !== 'prebid') return;
 
     const { googletag, pbjs } = window;
-    if (!googletag || !pbjs) return;
+    if (!googletag || !pbjs) {
+      if (fallback && markHouseIfAllowed()) setUseFallback(true);
+      return;
+    }
 
-    // 1) Ensure adUnit + GPT slot are defined for this placement
-    ensurePrebid?.(placement, sizes);
+    ensurePrebid?.(placement, resolvedSizes);
 
-    // 2) Ensure the GPT container div exists
     const slotId = `gpt-${placement}`;
     let el = document.getElementById(slotId);
     if (!el && containerRef.current) {
@@ -108,36 +174,42 @@ export default function AdSlot({
     }
     if (!el) return;
 
-    // 3) Request bids, then display/refresh GPT
     pbjs.que.push(() => {
       pbjs.requestBids({
         adUnitCodes: [placement],
         timeout: prebid?.timeoutMs || 1000,
         bidsBackHandler: () => {
-          pbjs.setTargetingForGPTAsync([placement]);
-          googletag.cmd.push(() => {
-            googletag.display(slotId);
-            googletag.pubads().refresh();
-          });
-          renderedRef.current = true;
+          try {
+            pbjs.setTargetingForGPTAsync([placement]);
+            googletag.cmd.push(() => {
+              googletag.display(slotId);
+              googletag.pubads().refresh();
+            });
+            renderedRef.current = true;
+
+            // If slot didn't expand → maybe house
+            setTimeout(() => {
+              const h = containerRef.current?.offsetHeight || 0;
+              if (h < 10 && fallback && markHouseIfAllowed()) setUseFallback(true);
+            }, 1500);
+          } catch (err) {
+            console.warn('[ads] GPT render failed', err);
+            if (fallback && markHouseIfAllowed()) setUseFallback(true);
+          }
         },
       });
     });
-  }, [shown, ready, adapter, placement, sizes, prebid, ensurePrebid]);
+  }, [shown, ready, adapter, placement, resolvedSizes, prebid, ensurePrebid, fallbackCooldownMs, fallbackChance]);
 
+  console.log('[AdSlot]', { placement, shown, useFallback, adapter, eligible: canShow?.(placement, capKey) });
   return (
     <div
       ref={containerRef}
       className={className}
-      style={{
-        minHeight: 64,
-        display: 'block',
-        width: '100%',
-        ...(style || {}),
-      }}
+      style={{ minHeight: 64, display: 'block', width: '100%', ...(style || {}) }}
       aria-label={`ad-${placement}`}
     >
-      {!shown && fallback ? fallback : null}
+      {(!shown || useFallback) && fallback ? fallback : null}
     </div>
   );
 }

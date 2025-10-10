@@ -15,7 +15,7 @@ import './styles/themes.css';
 
 import './i18n';
 
-import { AdProvider } from './ads/AdProvider';
+import { AdProvider } from '@/ads/AdProvider';
 import { SocketProvider } from './context/SocketContext';
 import { UserProvider } from './context/UserContext';
 import { CallProvider } from './context/CallContext';
@@ -179,3 +179,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Root />
   </React.StrictMode>
 );
+

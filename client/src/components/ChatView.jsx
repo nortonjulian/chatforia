@@ -57,10 +57,13 @@ import { playSound } from '../lib/sounds.js';
 // 🔒 Premium check
 import useIsPremium from '@/hooks/useIsPremium';
 
-// Ads (render only for Free users)
+// 🧱 Ads (render only for Free users)
 import AdSlot from '../ads/AdSlot';
+import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
+import { useAds } from '@/ads/AdProvider';
 
+/* ---------- utils ---------- */
 function getTimeLeftString(expiresAt) {
   const now = Date.now();
   const expires = new Date(expiresAt).getTime();
@@ -81,6 +84,21 @@ function useNow(interval = 1000) {
   return now;
 }
 
+/** Dismiss & remember for N days (localStorage) */
+function useDismissed(key, days = 14) {
+  const storageKey = `dismiss:${key}`;
+  const [dismissed, setDismissed] = useState(() => {
+    const until = Number(localStorage.getItem(storageKey) || 0);
+    return Date.now() < until;
+  });
+  const dismiss = () => {
+    localStorage.setItem(storageKey, String(Date.now() + days * 24 * 60 * 60 * 1000));
+    setDismissed(true);
+  };
+  return [dismissed, dismiss];
+}
+
+/* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [messages, setMessages] = useState([]); // oldest → newest for render
   const [typingUser, setTypingUser] = useState('');
@@ -139,6 +157,20 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const navigate = useNavigate();
   const isPremium = useIsPremium();
+
+  // Ads context (caps / cool-downs)
+  const ads = useAds();
+  const canShow = ads?.canShow || (() => true);
+  const markShown = ads?.markShown || (() => {});
+
+  // Empty-state promo control
+  const [emptyDismissed, dismissEmpty] = useDismissed('empty_state_promo', 14);
+  const shouldShowEmptyPromo =
+    !chatroom && !isPremium && !emptyDismissed && canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app');
+
+  useEffect(() => {
+    if (shouldShowEmptyPromo) markShown(PLACEMENTS.EMPTY_STATE_PROMO, 'app');
+  }, [shouldShowEmptyPromo, markShown]);
 
   const handleEditMessage = async (msg) => {
     const newText = prompt('Edit:', msg.rawContent || msg.content);
@@ -477,20 +509,40 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     );
   };
 
-  // Decide where to inject a single inline ad in the thread (Free users)
-  const inlineAdIndex = useMemo(() => {
-    if (isPremium) return -1;
-    // After roughly a dozen messages (but not if thread is too short)
-    return messages.length >= 12 ? 11 : -1; // zero-based index
+  // Decide where to inject inline ads in the thread (Free users)
+  const inlineAdPositions = useMemo(() => {
+    if (isPremium || messages.length < 12) return [];
+    const positions = [11]; // first inline after ~12 messages
+    for (let i = 31; i < messages.length; i += 20) positions.push(i); // then every +20
+    return positions;
   }, [isPremium, messages.length]);
 
+  /* ---------- empty state (no chat selected) ---------- */
   if (!chatroom) {
     return (
       <Box p="md">
         <Title order={4} mb="xs">
           Select a chatroom
         </Title>
-        <Text c="dimmed">Pick a chat on the left to get started.</Text>
+        <Text c="dimmed" mb="md">
+          Pick a chat on the left to get started.
+        </Text>
+
+        {/* House-only, small, dismissible, and capped */}
+        {shouldShowEmptyPromo && (
+          <Box mt="lg" maw={360}>
+            <HouseAdSlot placement="empty_state_promo" />
+            <Button
+              size="xs"
+              variant="subtle"
+              mt="xs"
+              onClick={dismissEmpty}
+              aria-label="Hide promotion"
+            >
+              Hide for now
+            </Button>
+          </Box>
+        )}
       </Box>
     );
   }
@@ -756,10 +808,16 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   )}
                 </Group>
 
-                {/* Inline ad after a dozen messages (Free only) */}
-                {!isPremium && i === inlineAdIndex && (
+                {/* Inline ad insertions (Free only) */}
+                {!isPremium && inlineAdPositions.includes(i) && (
                   <Box my="sm">
-                    <AdSlot placement={PLACEMENTS.THREAD_INLINE_1} />
+                    <AdSlot
+                      placement={PLACEMENTS.THREAD_INLINE_1}
+                      capKey={String(chatroom.id)}
+                      fallback={<HouseAdSlot placement="thread_inline_1" />}
+                      fallbackCooldownMs={20 * 60 * 1000}
+                      fallbackChance={0.4}
+                    />
                   </Box>
                 )}
               </div>
@@ -802,10 +860,29 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       {/* 📅 Calendar suggestion bar */}
       <EventSuggestionBar messages={messages} currentUser={currentUser} chatroom={chatroom} />
 
+
+      {/* Footer ad just above the composer (Free only) */}
+      {/* {!isPremium && (
+        <Box mt="sm">
+          <AdSlot
+            placement={PLACEMENTS.CHAT_FOOTER}
+            capKey={String(chatroom.id)}
+            fallback={<HouseAdSlot placement="chat_footer" />}
+          />
+        </Box>
+      )} */}
+
       {/* Footer ad just above the composer (Free only) */}
       {!isPremium && (
         <Box mt="sm">
-          <AdSlot placement={PLACEMENTS.CHAT_FOOTER} />
+          <AdSlot
+            placement={PLACEMENTS.CHAT_FOOTER}
+            capKey={String(chatroom.id)}
+            fallback={<HouseAdSlot placement="chat_footer" />}
+            fallbackChance={1}           // ← force ON
+            fallbackCooldownMs={0}       // ← no cooldown
+            lazy={false}
+          />
         </Box>
       )}
 

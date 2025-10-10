@@ -1,11 +1,9 @@
-// 1) Enum of placement keys you use across the app
 export const PLACEMENTS = {
-  // existing
   SIDEBAR_PRIMARY: 'sidebar_primary',
   THREAD_INLINE_1: 'thread_inline_1',
   CHAT_FOOTER: 'chat_footer',
-
   // new
+  INBOX_NATIVE_1: 'inbox_native_1',
   CONTACTS_TOP_BANNER: 'contacts_top_banner',
   CONTACTS_INLINE_1: 'contacts_inline_1',
   START_CHAT_MODAL_FOOTER: 'start_chat_modal_footer',
@@ -13,12 +11,18 @@ export const PLACEMENTS = {
   SIDEBAR_SECONDARY: 'sidebar_secondary',
   DISCOVER_TOP_BANNER: 'discover_top_banner',
   DISCOVER_INLINE_1: 'discover_inline_1',
-  EMPTY_STATE_PROMO: 'empty_state_promo',        // house-only
-  HOUSE_UPGRADE_CARD: 'house_upgrade_card',      // house-only
+  EMPTY_STATE_PROMO: 'empty_state_promo',
+  HOUSE_UPGRADE_CARD: 'house_upgrade_card',
 };
 
-// 2) Config by placement id (used by AdSlot internally)
 export const PLACEMENT_CONFIG = {
+  [PLACEMENTS.INBOX_NATIVE_1]: {
+    sizes: [[300, 250], [320, 100]],
+    adsenseSlot: import.meta.env.VITE_ADSENSE_SLOT_INBOX_NATIVE_1,
+    label: 'Sponsored',
+    lazyMargin: '200px',
+    cap: { perSession: 2, coolMs: 0 },       // ✅ new
+  },
   // ===== Sidebars =====
   [PLACEMENTS.SIDEBAR_PRIMARY]: {
     sizes: [[300, 250], [300, 600], [160, 600]],

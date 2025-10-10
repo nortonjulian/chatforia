@@ -26,6 +26,18 @@ const APP_GENERIC = 'https://go.chatforia.com/app';
 const APP_IOS = 'https://go.chatforia.com/ios';
 const APP_ANDROID = 'https://go.chatforia.com/android';
 
+import HouseAdSlot from '@/ads/HouseAdSlot';
+
+function DebugBar() {
+  return (
+    <div style={{ padding: 12, background: '#111', border: '2px dashed magenta' }}>
+      <div style={{ color: 'white', marginBottom: 8 }}>DEBUG: HouseAdSlot direct render</div>
+      <HouseAdSlot placement="chat_footer" />
+    </div>
+  );
+}
+
+
 /* ---------- BRAND LOCKUP (used on mobile top bar) ---------- */
 function LogoLockup({ size = 64, titleOrder = 4, className }) {
   return (
