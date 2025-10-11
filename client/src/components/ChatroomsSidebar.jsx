@@ -13,15 +13,16 @@ import {
 import { IconMessagePlus } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 
-import AdSlot from '../ads/AdSlot';
+import AdSlot from '@/ads/AdSlot';
+import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import useIsPremium from '@/hooks/useIsPremium';
 
 export default function ChatroomsSidebar({
-  onStartNewChat,         // () => void
-  onSelect,               // (room) => void
-  hideEmpty = false,      // if true, render null when no rooms
-  activeRoomId = null,    // highlight currently opened room
+  onStartNewChat,
+  onSelect,
+  hideEmpty = false,
+  activeRoomId = null,
 }) {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,16 +63,19 @@ export default function ChatroomsSidebar({
     };
   }, []);
 
+  // ---------- Loading ----------
   if (loading) {
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
+
         {!isPremium && (
           <>
             <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
             <Divider my={6} />
           </>
         )}
+
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} height={46} radius="md" />
         ))}
@@ -79,29 +83,32 @@ export default function ChatroomsSidebar({
     );
   }
 
+  // ---------- Error ----------
   if (err) {
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
+
         {!isPremium && (
           <>
             <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
             <Divider my={6} />
           </>
         )}
+
         <Alert color="red" variant="light">{err}</Alert>
         <Button onClick={() => window.location.reload()}>Retry</Button>
       </Stack>
     );
   }
 
+  // ---------- Empty list ----------
   if (!rooms.length) {
     if (hideEmpty) return null;
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
 
-        {/* Top banner ad in the sidebar (free only) */}
         {!isPremium && (
           <>
             <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
@@ -114,19 +121,21 @@ export default function ChatroomsSidebar({
           New chat
         </Button>
 
-        {/* House promo for empty state (free only; house-only placement) */}
+        {/* Small house promo under the CTA (free only) */}
         {!isPremium && (
-          <AdSlot placement={PLACEMENTS.EMPTY_STATE_PROMO} />
+          <div style={{ marginTop: 6 }}>
+            <HouseAdSlot placement="empty_state_promo" variant="pill" />
+          </div>
         )}
       </Stack>
     );
   }
 
+  // ---------- Populated list ----------
   return (
     <Stack p="sm" gap="xs">
       <Text fw={600}>Chatrooms</Text>
 
-      {/* Primary sidebar ad at the top of the list (free only) */}
       {!isPremium && (
         <>
           <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
@@ -163,7 +172,7 @@ export default function ChatroomsSidebar({
               )}
             </UnstyledButton>
 
-            {/* Inject a secondary sidebar ad after a few items (free only) */}
+            {/* Secondary sidebar ad after a few items (free only) */}
             {!isPremium && idx === 2 && (
               <>
                 <Divider my={6} />

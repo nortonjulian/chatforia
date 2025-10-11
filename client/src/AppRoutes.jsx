@@ -30,24 +30,23 @@ import AuditLogsPage from '@/pages/AuditLogsPage';
 import { fetchFeatures } from '@/lib/features';
 import StatusFeed from '@/pages/StatusFeed.jsx';
 
-// Calls (ring modal + in-call UI)
+// Calls
 import IncomingCallModal from '@/components/IncomingCallModal.jsx';
 import VideoCall from '@/components/VideoCall.jsx';
 
 // HTTP
-import api from '@/api/axiosClient';
-import { primeCsrf } from '@/api/axiosClient';
+import api, { primeCsrf } from '@/api/axiosClient';
 
 // Public layout
 import AuthLayout from '@/components/AuthLayout';
 
-// New: settings page (Appearance + Sounds)
+// Settings
 import SettingsPage from '@/features/settings/SettingsPage';
 
-// Index route content — reads selectedRoom from Outlet context
+// Index route content
 import HomeIndex from '@/features/chat/HomeIndex';
 
-// ✅ SMS pages
+// SMS
 import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
 
@@ -67,8 +66,16 @@ import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 
-// ✅ NEW: OAuth completion screen
+// OAuth completion
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
+
+// DEV ChatView mount
+import ChatView from '@/components/ChatView';
+
+// Ads
+import { AdProvider } from '@/ads/AdProvider';
+import { CardAdWrap } from '@/ads/AdWrappers';
+import HouseAdSlot from '@/ads/HouseAdSlot';
 
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
@@ -99,10 +106,17 @@ function AuthedLayout() {
     });
   };
 
+  const isPremium = Boolean(
+    currentUser?.isPremium ||
+    currentUser?.plan === 'premium' ||
+    currentUser?.subscription?.tier === 'premium'
+  );
+
   return (
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      aside={{ width: 280, breakpoint: 'lg', collapsed: { mobile: true } }}
       padding="md"
     >
       <AppShell.Header>
@@ -128,13 +142,28 @@ function AuthedLayout() {
         </ScrollArea.Autosize>
       </AppShell.Navbar>
 
+      {/* Right rail (Free tier only) */}
+      <AppShell.Aside p="md">
+        {!isPremium && (
+          <div style={{ position: 'sticky', top: 12 }}>
+            <CardAdWrap>
+              <HouseAdSlot placement="right_rail" variant="card" />
+            </CardAdWrap>
+          </div>
+        )}
+      </AppShell.Aside>
+
       <AppShell.Main id="main-content" tabIndex={-1}>
         <IncomingCallModal onAccept={handleAcceptIncoming} onReject={() => setActiveCall(null)} />
         {activeCall && (
           <VideoCall call={activeCall} currentUser={currentUser} onEnd={() => setActiveCall(null)} />
         )}
-        <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
-        <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
+
+        {/* Provide ads context */}
+        <AdProvider isPremium={isPremium}>
+          <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
+          <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
+        </AdProvider>
       </AppShell.Main>
     </AppShell>
   );
@@ -150,6 +179,39 @@ export default function AppRoutes() {
   if (!currentUser) {
     return (
       <Routes>
+        {/* DEV: mount ChatView even with no real data (no auth) */}
+        {import.meta.env.DEV && (
+          <Route
+            path="/dev/chat"
+            element={
+              <AdProvider isPremium={false}>
+                <div style={{ padding: 16 }}>
+                  <div
+                    style={{
+                      outline: '1px dashed #0aa',
+                      padding: 6,
+                      borderRadius: 8,
+                      marginBottom: 8,
+                      fontSize: 12,
+                      color: '#0a6',
+                    }}
+                  >
+                    [DEV] ChatView dev route mounted
+                  </div>
+
+                  <div className="main-route">
+                    <ChatView
+                      chatroom={{ id: 'dev1', name: 'Dev Room', participants: [] }}
+                      currentUserId="u1"
+                      currentUser={{ id: 'u1', username: 'Dev User', enableSmartReplies: false }}
+                    />
+                  </div>
+                </div>
+              </AdProvider>
+            }
+          />
+        )}
+
         {/* Public auth layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
@@ -157,10 +219,10 @@ export default function AppRoutes() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
 
-          {/* ✅ OAuth completes here (works even before currentUser is loaded) */}
+          {/* OAuth completes here */}
           <Route path="/auth/complete" element={<OAuthComplete />} />
 
-          {/* Public marketing/support/legal */}
+          {/* Marketing/support/legal */}
           <Route path="/about" element={<AboutChatforia />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/press" element={<Press />} />
@@ -184,9 +246,38 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/forbidden" element={<Forbidden />} />
-
-      {/* If a logged-in user somehow lands on /auth/complete, just bounce home */}
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
+
+      {/* DEV while authed */}
+      {import.meta.env.DEV && (
+        <Route
+          path="/dev/chat"
+          element={
+            <AdProvider isPremium={false}>
+              <div style={{ padding: 16 }}>
+                <div
+                  style={{
+                    outline: '1px dashed #0aa',
+                    padding: 6,
+                    borderRadius: 8,
+                    marginBottom: 8,
+                    fontSize: 12,
+                    color: '#0a6',
+                  }}
+                >
+                  [DEV] ChatView dev route mounted
+                </div>
+
+                <ChatView
+                  chatroom={{ id: 'dev1', name: 'Dev Room', participants: [] }}
+                  currentUserId="u1"
+                  currentUser={{ id: 'u1', username: 'Dev User', enableSmartReplies: false }}
+                />
+              </div>
+            </AdProvider>
+          }
+        />
+      )}
 
       <Route path="/" element={<AuthedLayout />}>
         <Route index element={<HomeIndex />} />

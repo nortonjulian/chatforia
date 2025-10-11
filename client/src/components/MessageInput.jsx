@@ -1,19 +1,10 @@
 import { useState, useMemo } from 'react';
-import {
-  Group,
-  TextInput,
-  ActionIcon,
-  Loader,
-  Select,
-  Textarea,
-  Button,
-  Badge,
-} from '@mantine/core';
+import { Group, ActionIcon, Loader, Select, Textarea, Button, Badge } from '@mantine/core';
 import { IconSend, IconPaperclip } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 import StickerPicker from './StickerPicker.jsx';
 import FileUploader from './FileUploader.jsx';
-// import { toast } from '../utils/toast';
+import { toast } from '../utils/toast';
 import { encryptForRoom } from '@/utils/encryptionClient';
 
 const TTL_OPTIONS = [
@@ -140,7 +131,6 @@ export default function MessageInput({
       const reason = err?.response?.data?.reason;
 
       if (status === 402) {
-        // Premium gate (e.g., trying to use a gated feature)
         toast.err(
           reason === 'PREMIUM_REQUIRED'
             ? 'This action requires Premium.'
@@ -179,20 +169,32 @@ export default function MessageInput({
     <form onSubmit={handleSend}>
       <Group align="end" gap="xs" wrap="nowrap">
         {/* Text */}
-        <TextInput
+        <Textarea
+          className='message-input'
           aria-label="Message input"
           placeholder="Say something…"
+          autosize
+          minRows={2}
+          maxRows={3}
           value={content}
           onChange={(e) => setContent(e.currentTarget.value)}
-          rightSection={sending ? <Loader size="xs" /> : null}
           disabled={sending}
           onKeyDown={(e) => {
+            // Enter sends; Shift+Enter makes a new line
             if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
               handleSend();
             }
           }}
-          style={{ flex: 1 }}
+          styles={{
+            root: { flex: 1, minWidth: 0 },   // ← makes the input expand to fill the row
+            input: { 
+              fontSize: '1rem',
+              lineHeight: 1.45, 
+              paddingTop: 8,
+              paddingBottom: 8,
+            },
+          }}
         />
 
         {/* TTL */}
@@ -236,7 +238,6 @@ export default function MessageInput({
             toast.ok('Attachment added.');
           }}
           onError={(message) => {
-            // If FileUploader surfaces errors
             toast.err(message || 'Failed to upload file.');
           }}
         />

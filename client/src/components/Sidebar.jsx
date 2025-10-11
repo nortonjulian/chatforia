@@ -10,6 +10,8 @@ import {
   Text,
   Button,
 } from '@mantine/core';
+import { useMantineTheme } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Plus, Users, Settings, PhoneForwarded, Dice5 } from 'lucide-react';
 
@@ -31,6 +33,9 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
     () => String(currentUser?.plan || 'FREE').toUpperCase() === 'PREMIUM',
     [currentUser?.plan]
   );
+
+  const theme = useMantineTheme();
+  const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const handleStartChat = () => {
     if (!currentUser) return;
@@ -116,10 +121,13 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
             onSelect={setSelectedRoom}
           />
 
-          {!isPremium && (
+          {/* Desktop-only ad tile for Free users */}
+          {!isPremium && !isMobile && (
             <>
               <Divider my="xs" />
-              <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
+              <Box>
+                <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
+              </Box>
             </>
           )}
         </Stack>

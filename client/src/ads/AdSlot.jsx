@@ -20,12 +20,12 @@ export default function AdSlot({
   style,
   fallback = null,
   capKey = 'global',
-  /** NEW: show house fallback at most once per this many ms (per placement/capKey) */
+  /** show house fallback at most once per this many ms (per placement/capKey) */
   fallbackCooldownMs = 15 * 60 * 1000, // 15 minutes
-  /** NEW: chance to show house when there is no-fill (0..1) */
+  /** chance to show house when there is no-fill (0..1) */
   fallbackChance = 0.6,
   lazy = true,
-  forceHouse = true
+  forceHouse = true,
 }) {
   const ctx = typeof useAds === 'function' ? useAds() : null;
   const { adapter, isPremium, ready, adsense, prebid, ensurePrebid, canShow, markShown } = ctx || {};
@@ -43,16 +43,22 @@ export default function AdSlot({
 
   // Premium (or no provider): render fallback if provided
   if (!ctx || isPremium) {
-    return fallback ? <div className={className} aria-label={`ad-${placement}`}>{fallback}</div> : null;
+    return fallback ? (
+      <div className={className} aria-label={`ad-${placement}`}>{fallback}</div>
+    ) : null;
   }
 
-  // Respect your global caps for the slot itself
+  // Respect global caps for the slot itself
   const eligible = canShow?.(placement, capKey) !== false;
   if (!eligible) {
-    return fallback ? <div className={className} aria-label={`ad-${placement}`}>{fallback}</div> : null;
+    return fallback ? (
+      <div className={className} aria-label={`ad-${placement}`}>{fallback}</div>
+    ) : null;
   }
 
+  // Force house immediately (useful during house-only/dev)
   if (forceHouse && fallback) {
+    if (import.meta.env.DEV) console.log('[AdSlot] forceHouse → showing fallback', placement);
     return (
       <div className={className} aria-label={`ad-${placement}`} style={{ width: '100%', ...(style || {}) }}>
         {fallback}
@@ -60,34 +66,33 @@ export default function AdSlot({
     );
   }
 
-
-
   const markHouseIfAllowed = () => {
     const { ok, mark } = canShowHouseOnceEvery(placement, capKey, fallbackCooldownMs);
     if (!ok) return false;
     if (Math.random() > fallbackChance) return false;
-    mark();                // start cooldown
+    mark(); // start cooldown
     return true;
   };
 
-  // If adapter is clearly misconfigured, go straight to house — but still obey house cooldown/chance
   const adapterMisconfigured =
     (adapter === 'adsense' && (!adsense?.client || !resolvedAdsenseSlot)) ||
     (adapter === 'prebid' && (!window.googletag || !window.pbjs));
 
-  // Lazy init
+  // ────────────────────────────────────────────────────────────────────────────
+  // 1) Lazy / viewability observer
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (!containerRef.current || viewedRef.current) return;
 
+    // Eager render
     if (!lazy) {
       viewedRef.current = true;
       setShown(true);
       markShown?.(placement, capKey);
       return;
-    } 
+    }
 
-
-
+    // If adapter clearly misconfigured, go straight to house (obey cooldown/chance)
     if (adapterMisconfigured) {
       if (fallback && markHouseIfAllowed()) setUseFallback(true);
       viewedRef.current = true;
@@ -108,16 +113,27 @@ export default function AdSlot({
     );
     io.observe(containerRef.current);
     return () => io.disconnect();
-  // 
-  
+  }, [
+    lazy,
+    adapterMisconfigured,
+    capKey,
+    markShown,
+    placement,
+    rootMargin,
+    fallback,           // safe
+    fallbackCooldownMs, // safe for markHouseIfAllowed
+    fallbackChance,     // safe for markHouseIfAllowed
+  ]);
 
-  // --- AdSense flow ---
+  // ────────────────────────────────────────────────────────────────────────────
+  // 2) AdSense flow
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (!shown || !ready || renderedRef.current) return;
     if (adapter !== 'adsense') return;
 
     if (!adsense?.client || !resolvedAdsenseSlot) {
-      // No config → maybe show house (periodically)
+      // No config → maybe show house periodically
       if (fallback && markHouseIfAllowed()) setUseFallback(true);
       return;
     }
@@ -148,10 +164,20 @@ export default function AdSlot({
       console.warn('[ads] AdSense render failed', e);
       if (fallback && markHouseIfAllowed()) setUseFallback(true);
     }
-  }, [shown, ready, adapter, adsense?.client, resolvedAdsenseSlot, fallbackCooldownMs, fallbackChance]);
-  }, [lazy, adapterMisconfigured, capKey, markShown, placement, rootMargin, fallbackCooldownMs, fallbackChance]);
+  }, [
+    shown,
+    ready,
+    adapter,
+    adsense?.client,
+    resolvedAdsenseSlot,
+    fallback,           // safe
+    fallbackCooldownMs, // safe for markHouseIfAllowed
+    fallbackChance,     // safe
+  ]);
 
-  // --- Prebid + GPT flow ---
+  // ────────────────────────────────────────────────────────────────────────────
+  // 3) Prebid + GPT flow
+  // ────────────────────────────────────────────────────────────────────────────
   useEffect(() => {
     if (!shown || !ready || renderedRef.current) return;
     if (adapter !== 'prebid') return;
@@ -187,7 +213,6 @@ export default function AdSlot({
             });
             renderedRef.current = true;
 
-            // If slot didn't expand → maybe house
             setTimeout(() => {
               const h = containerRef.current?.offsetHeight || 0;
               if (h < 10 && fallback && markHouseIfAllowed()) setUseFallback(true);
@@ -199,9 +224,29 @@ export default function AdSlot({
         },
       });
     });
-  }, [shown, ready, adapter, placement, resolvedSizes, prebid, ensurePrebid, fallbackCooldownMs, fallbackChance]);
+  }, [
+    shown,
+    ready,
+    adapter,
+    placement,
+    resolvedSizes,
+    prebid,
+    ensurePrebid,
+    fallback,           // safe
+    fallbackCooldownMs, // safe
+    fallbackChance,     // safe
+  ]);
 
-  console.log('[AdSlot]', { placement, shown, useFallback, adapter, eligible: canShow?.(placement, capKey) });
+  if (import.meta.env.DEV) {
+    console.log('[AdSlot]', {
+      placement,
+      shown,
+      useFallback,
+      adapter,
+      eligible: canShow?.(placement, capKey),
+    });
+  }
+
   return (
     <div
       ref={containerRef}

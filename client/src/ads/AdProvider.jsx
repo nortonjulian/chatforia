@@ -46,9 +46,11 @@ function useConsent() {
   return { hasConsent: true, tcfString: null, usPrivacy: null };
 }
 
-const AdCtx = createContext(null);
+/** ✅ Export a named AdsContext for consumers that import it directly */
+export const AdsContext = createContext(null);
+/** ✅ Hook for convenience */
 export function useAds() {
-  return useContext(AdCtx);
+  return useContext(AdsContext);
 }
 
 function loadScriptOnce(src, attrs = {}) {
@@ -226,5 +228,7 @@ export function AdProvider({ isPremium = false, children }) {
     [isPremium, ready, consent, imps]
   );
 
-  return <AdCtx.Provider value={value}>{children}</AdCtx.Provider>;
+  return <AdsContext.Provider value={value}>{children}</AdsContext.Provider>;
 }
+
+export default AdProvider;

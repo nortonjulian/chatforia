@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
+import HouseAdSlot from '@/ads/HouseAdSlot';
 
 export default function App() {
   const { pathname } = useLocation();
@@ -10,5 +11,9 @@ export default function App() {
     if (el) el.focus();
   }, [pathname]);
 
-  return <AppRoutes />;
+  return(
+    <>
+    <AppRoutes />;
+    </>
+  )
 }

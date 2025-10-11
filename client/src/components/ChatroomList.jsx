@@ -11,11 +11,12 @@ import useIsPremium from '@/hooks/useIsPremium';
 import AdSlot from '../ads/AdSlot';
 import HouseAdSlot from '../ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
+import { CardAdWrap } from '@/ads/AdWrappers';
 
 export default function ChatroomList({ onSelect, currentUser, selectedRoom, openNewChatModal }) {
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
-  const [loading, setLoading] = useState(true); // start true to avoid initial flicker
+  const [loading, setLoading] = useState(true);
   const viewportRef = useRef(null);
 
   const isPremium = useIsPremium();
@@ -39,15 +40,13 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
       const data = await res.json(); // { items, nextCursor }
       setItems((prev) => (initial ? data.items : [...prev, ...data.items]));
       setCursor(data.nextCursor);
-    } catch (e) {
-      // optional: toast
-      // console.error(e);
+    } catch {
+      /* no-op */
     } finally {
       setLoading(false);
     }
   }
 
-  // initial load / reload on user change
   useEffect(() => {
     setItems([]);
     setCursor(null);
@@ -58,7 +57,6 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.id]);
 
-  // infinite scroll
   useEffect(() => {
     const el = viewportRef.current;
     if (!el) return;
@@ -77,7 +75,6 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
     onSelect?.(room);
   };
 
-  // Loading (first page)
   if (loading && items.length === 0) {
     return <ChatListSkeleton />;
   }
@@ -91,11 +88,14 @@ export default function ChatroomList({ onSelect, currentUser, selectedRoom, open
           subtitle="Start a chat to get rolling."
           cta="+ New Chat"
           onCta={() => openNewChatModal?.(true)}
+          isPremium={isPremium}
         />
-        {/* Optional house promo when list is empty */}
+
         {!isPremium && (
-          <Box mt="sm">
-            <HouseAdSlot type="upgrade" />
+          <Box mt="sm" style={{ display: 'flex', justifyContent: 'center' }}>
+            <CardAdWrap>
+              <HouseAdSlot placement="empty_state_promo" variant="card" />
+            </CardAdWrap>
           </Box>
         )}
       </Box>

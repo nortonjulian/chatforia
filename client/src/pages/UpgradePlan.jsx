@@ -121,7 +121,7 @@ export default function UpgradePage() {
 
         <PlanCard
           title="Premium"
-          price="$9.99 / mo"
+          price="$24.99 / mo"
           features={[
             'All Free features',
             'Custom ringtones & message tones',

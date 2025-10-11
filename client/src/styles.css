@@ -239,3 +239,57 @@ html, body, #root { background: var(--bg); color: var(--fg); }
   display:flex; align-items:center; justify-content:center;
 }
 .auth-list [class*="mantine-List-itemWrapper"]{ padding-left:0; }
+
+/* Chat layout: let the footer auto-size */
+.chatgrid {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto; /* header | messages | footer-ad | composer */
+  min-height: 100dvh;                      /* viewport-based height */
+  min-width: 0;
+}
+
+/* Let the ScrollArea’s row actually scroll */
+.chat-scroll-region {
+  min-height: 0;
+  overflow: auto;
+}
+
+/* Footer ad above the composer */
+.chat-footer-ad {
+  padding: 8px 12px 0;
+}
+
+/* Composer at the bottom + iOS safe area */
+.chat-footer {
+  padding: 8px 12px;
+  border-top: 1px solid rgba(0,0,0,.06);
+  background: var(--mantine-color-body);
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+}
+
+/* Make sure the Textarea never collapses */
+.message-input .mantine-Textarea-input,
+.message-input textarea {
+  min-height: 44px;
+}
+
+/* iOS home indicator clearance for the composer */
+.chat-footer { padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
+
+/* Sensible body defaults */
+body { font-size: 16px; line-height: 1.4; }
+
+
+html, body, #root { height: 100%; }
+
+.app-shell, .app, .main-route {
+  min-height: 100dvh;   /* or 100vh if you prefer */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;        /* guard for nested flex scrollers */
+}
+
+.main-route > * {
+  flex: 1 1 auto;
+  min-height: 0;        /* lets children like ScrollArea actually scroll */
+}
