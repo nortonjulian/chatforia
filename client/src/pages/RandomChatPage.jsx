@@ -1,4 +1,3 @@
-// src/pages/RandomChatPage.jsx
 import { useEffect, useState, useCallback, useRef } from 'react';
 import {
   Paper, Title, Text, Button, Group, Loader, TextInput, Stack, Badge, Card
