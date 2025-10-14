@@ -1,6 +1,6 @@
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import AuthLayout from '@/layouts/AuthLayout'; // <-- update if needed
+import AuthLayout from '@/components/AuthLayout';
 
 // ---- Mocks ----
 
@@ -35,7 +35,7 @@ jest.mock('@mantine/core', () => {
     Stack: Noop,
     Title: ({ children, ...p }) => <h1 {...p}>{children}</h1>,
     Text: ({ children, ...p }) => <p {...p}>{children}</p>,
-    Image: MantineImage, // supports "import { Image as MantineImage }"
+    Image: MantineImage,
     ThemeIcon: Noop,
     List,
     Anchor,
@@ -63,12 +63,13 @@ jest.mock('@/components/LogoGlyph', () => ({
   default: ({ size }) => <div data-testid="logo-glyph" data-size={String(size)} />,
 }));
 
-const supportMock = jest.fn((props) => (
+// IMPORTANT: name starts with "mock" so it can be referenced in the mock factory
+const mockSupport = jest.fn((props) => (
   <div data-testid="support-widget" data-props={JSON.stringify(props)} />
 ));
 jest.mock('@/components/support/SupportWidget.jsx', () => ({
   __esModule: true,
-  default: (props) => supportMock(props),
+  default: (props) => mockSupport(props),
 }));
 
 jest.mock('@/components/footer/Footer.jsx', () => ({
@@ -96,6 +97,10 @@ const renderAt = (path) =>
 
 // ---- Tests ----
 describe('AuthLayout', () => {
+  beforeEach(() => {
+    mockSupport.mockClear();
+  });
+
   test('renders layout at root (no breadcrumb) and shows outlet, app card, footer, support widget', () => {
     renderAt('/');
 
@@ -142,8 +147,8 @@ describe('AuthLayout', () => {
     expect(screen.getByTestId('outlet')).toHaveTextContent('Login Outlet');
 
     // Breadcrumb present and links to "/"
-    const home = screen.getByRole('link', { name: /home/i });
-    expect(home).toHaveAttribute('href', '/');
+    const breadcrumbLink = screen.getByText('← Home').closest('a');
+    expect(breadcrumbLink).toHaveAttribute('href', '/');
   });
 
   test('QR image falls back to generated URL on error', () => {

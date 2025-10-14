@@ -29,22 +29,22 @@ jest.mock('@mantine/core', () => {
 });
 
 // Entitlements hook
-const useEntitlementsMock = jest.fn();
+const mockUseEntitlements = jest.fn();
 jest.mock('@/hooks/useEntitlements', () => ({
   __esModule: true,
-  default: () => useEntitlementsMock(),
+  default: () => mockUseEntitlements(),
 }));
 
 // SUT
-import ExpirePicker from './ExpirePicker';
+import ExpirePicker from '../messages/ExpirePicker';
 
 describe('ExpirePicker', () => {
   beforeEach(() => {
-    useEntitlementsMock.mockReset();
-  });
+  mockUseEntitlements.mockReset();
+});
 
   test('builds options with maxDays = 1 (hours + 1 day)', () => {
-    useEntitlementsMock.mockReturnValue({ entitlements: { expireMaxDays: 1 } });
+    mockUseEntitlements.mockReturnValue({ entitlements: { expireMaxDays: 1 } });
 
     render(<ExpirePicker value={0} onChange={jest.fn()} />);
 
@@ -66,7 +66,7 @@ describe('ExpirePicker', () => {
   });
 
   test('builds options with maxDays = 30 (includes 1,3,7,14,30 days)', () => {
-    useEntitlementsMock.mockReturnValue({ entitlements: { expireMaxDays: 30 } });
+    mockUseEntitlements.mockReturnValue({ entitlements: { expireMaxDays: 30 } });
     render(<ExpirePicker value={0} onChange={jest.fn()} />);
 
     const labels = screen.getAllByTestId('opt').map((o) => o.textContent);
@@ -78,7 +78,7 @@ describe('ExpirePicker', () => {
   });
 
   test('respects custom label and converts onChange value to Number', () => {
-    useEntitlementsMock.mockReturnValue({ entitlements: { expireMaxDays: 7 } });
+    mockUseEntitlements.mockReturnValue({ entitlements: { expireMaxDays: 7 } });
     const onChange = jest.fn();
 
     render(<ExpirePicker label="Expire after" value={null} onChange={onChange} />);

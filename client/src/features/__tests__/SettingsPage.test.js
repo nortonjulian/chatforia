@@ -39,7 +39,7 @@ jest.mock('@/features/settings/ForwardingSettings.jsx', () => ({
 }));
 
 // SUT
-import SettingsPage from './SettingsPage';
+import SettingsPage from '../settings/SettingsPage';
 
 describe('SettingsPage', () => {
   test('renders sections, dividers, and child components', () => {

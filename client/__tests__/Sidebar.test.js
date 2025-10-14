@@ -18,24 +18,28 @@ jest.mock('@mantine/core', () => {
     </button>
   );
 
-  // Make Button honor Link-style props when component={Link}
-  const Button = ({ children, onClick, component, to, 'aria-label': aria, ...p }) => {
+  // Button mock: when `component={Link}` we render an <a>, and we STRIP props
+  // that React would warn about on DOM (<a>/<button>) such as `leftSection`.
+  const Button = ({ children, onClick, component, to, 'aria-label': aria, leftSection, ...rest }) => {
     if (component && to) {
+      // It's a link-like button
       return (
-        <a href={to} aria-label={aria} data-button-link {...p} onClick={onClick}>
+        <a href={to} aria-label={aria} data-button-link {...rest} onClick={onClick}>
           {children}
         </a>
       );
     }
     return (
-      <button type="button" onClick={onClick} aria-label={aria} {...p}>
+      <button type="button" onClick={onClick} aria-label={aria} {...rest}>
         {children}
       </button>
     );
   };
 
   // ScrollArea.Autosize passthrough
-  const ScrollAreaAutosize = ({ children, ...p }) => <div data-testid="scrollarea" {...p}>{children}</div>;
+  const ScrollAreaAutosize = ({ children, ...p }) => (
+    <div data-testid="scrollarea" {...p}>{children}</div>
+  );
   const ScrollArea = { Autosize: ScrollAreaAutosize };
 
   // Super-simple Drawer: show children when opened, expose an onClose hook via testid
@@ -57,18 +61,18 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// Mantine hooks: make useMediaQuery controllable
-let isMobile = false;
+// Mantine hooks: control useMediaQuery via a mock function (names must start with "mock")
+export const mockUseMediaQuery = jest.fn();
 jest.mock('@mantine/hooks', () => ({
-  useMediaQuery: jest.fn(() => isMobile),
+  useMediaQuery: (...args) => mockUseMediaQuery(...args),
 }));
 
 // Router: Link/NavLink + navigate
-const navigateMock = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   Link: ({ to, children, ...p }) => <a href={to} {...p}>{children}</a>,
   NavLink: ({ to, children, ...p }) => <a href={to} data-nav {...p}>{children}</a>,
-  useNavigate: () => navigateMock,
+  useNavigate: () => mockNavigate,
 }));
 
 // Icons (no-op)
@@ -84,38 +88,45 @@ jest.mock('lucide-react', () => {
 });
 
 // Children components
-const startChatModalMock = jest.fn((p) => <div data-testid="start-chat-modal" data-user={p.currentUserId} />);
+const mockStartChatModal = jest.fn((p) => (
+  <div data-testid="start-chat-modal" data-user={p.currentUserId} />
+));
 jest.mock('@/components/StartChatModal', () => ({
   __esModule: true,
-  default: (p) => startChatModalMock(p),
+  default: (p) => mockStartChatModal(p),
 }));
 
-const chatroomsSidebarMock = jest.fn((p) => (
+const mockChatroomsSidebar = jest.fn((p) => (
   <div data-testid="chatrooms-sidebar">
-    <button onClick={p.onStartNewChat} aria-label="trigger-start-from-sidebar">open start modal</button>
+    <button onClick={p.onStartNewChat} aria-label="trigger-start-from-sidebar">
+      open start modal
+    </button>
   </div>
 ));
 jest.mock('@/components/ChatroomsSidebar', () => ({
   __esModule: true,
-  default: (p) => chatroomsSidebarMock(p),
+  default: (p) => mockChatroomsSidebar(p),
 }));
 
-const userProfileMock = jest.fn((p) => <div data-testid="user-profile" data-open-section={p.openSection || ''} />);
+const mockUserProfile = jest.fn((p) => (
+  <div data-testid="user-profile" data-open-section={p.openSection || ''} />
+));
 jest.mock('@/components/UserProfile', () => ({
   __esModule: true,
-  default: (p) => userProfileMock(p),
+  default: (p) => mockUserProfile(p),
 }));
 
 // Ads + placements
-const adSlotMock = jest.fn((p) => <div data-testid={`adslot-${p.placement}`} />);
-jest.mock('@/ads/AdSlot', () => ({ __esModule: true, default: (p) => adSlotMock(p) }));
+const mockAdSlot = jest.fn((p) => <div data-testid={`adslot-${p.placement}`} />);
+jest.mock('@/ads/AdSlot', () => ({ __esModule: true, default: (p) => mockAdSlot(p) }));
 jest.mock('@/ads/placements', () => ({
   PLACEMENTS: { SIDEBAR_PRIMARY: 'SIDEBAR_PRIMARY' },
 }));
 
 beforeEach(() => {
   jest.clearAllMocks();
-  isMobile = false;
+  mockUseMediaQuery.mockReturnValue(false); // default: desktop
+  mockNavigate.mockClear();
 });
 
 // -------------------- Tests --------------------
@@ -128,35 +139,39 @@ describe('Sidebar', () => {
 
     // Users navigates to /people
     fireEvent.click(screen.getByRole('button', { name: /users/i }));
-    expect(navigateMock).toHaveBeenCalledWith('/people');
+    expect(mockNavigate).toHaveBeenCalledWith('/people');
 
     // Settings disabled without user
-    expect(screen.getByRole('button', { name: /settings/i })).toBeDisabled();
+    expect(screen.getByRole('button', { name: /^settings$/i })).toBeDisabled();
   });
 
   test('opens StartChatModal via top icon and via ChatroomsSidebar onStartNewChat', () => {
     render(<Sidebar currentUser={{ id: 'me-1', plan: 'FREE' }} setSelectedRoom={jest.fn()} features={{}} />);
 
     // Top icon
-    fireEvent.click(screen.getByRole('button', { name: /start chat/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^start chat$/i }));
     expect(screen.getByTestId('start-chat-modal')).toBeInTheDocument();
     expect(screen.getByTestId('start-chat-modal').dataset.user).toBe('me-1');
 
-    // Close modal by clicking it again through sidebar trigger
+    // Trigger via ChatroomsSidebar
     fireEvent.click(screen.getByRole('button', { name: /trigger-start-from-sidebar/i }));
-    expect(screen.getAllByTestId('start-chat-modal').length).toBeGreaterThan(0); // shown again (idempotent open)
+    expect(screen.getAllByTestId('start-chat-modal').length).toBeGreaterThan(0);
   });
 
   test('quick links: Random Chat button only when logged in; Status only when features.status', () => {
-    const { rerender } = render(<Sidebar currentUser={null} setSelectedRoom={() => {}} features={{ status: true }} />);
+    const { rerender } = render(
+      <Sidebar currentUser={null} setSelectedRoom={() => {}} features={{ status: true }} />
+    );
     // No Random Chat (requires currentUser)
     expect(screen.queryByText(/random chat/i)).not.toBeInTheDocument();
     // Status visible
     expect(screen.getByRole('link', { name: /status/i })).toHaveAttribute('href', '/status');
 
-    rerender(<Sidebar currentUser={{ id: 'u1', plan: 'FREE' }} setSelectedRoom={() => {}} features={{ status: false }} />);
-    // Random Chat shows
-    expect(screen.getByRole('button', { name: /open random chat/i })).toBeInTheDocument();
+    rerender(
+      <Sidebar currentUser={{ id: 'u1', plan: 'FREE' }} setSelectedRoom={() => {}} features={{ status: false }} />
+    );
+    // Random Chat renders as a LINK in our mock (component={Link})
+    expect(screen.getByRole('link', { name: /open random chat/i })).toBeInTheDocument();
     // No Status link now
     expect(screen.queryByRole('link', { name: /status/i })).not.toBeInTheDocument();
   });
@@ -164,8 +179,8 @@ describe('Sidebar', () => {
   test('open settings drawer (general) and forwarding section', () => {
     render(<Sidebar currentUser={{ id: 'me-2', plan: 'FREE' }} setSelectedRoom={() => {}} features={{}} />);
 
-    // Open general settings (no target)
-    fireEvent.click(screen.getByRole('button', { name: /settings/i }));
+    // Use an exact match so we don't collide with "Open call and text forwarding settings"
+    fireEvent.click(screen.getByRole('button', { name: /^settings$/i }));
     expect(screen.getByTestId('drawer')).toBeInTheDocument();
     expect(screen.getByTestId('user-profile').dataset.openSection).toBe('');
 
@@ -177,29 +192,20 @@ describe('Sidebar', () => {
     expect(screen.getByTestId('user-profile').dataset.openSection).toBe('forwarding');
   });
 
-  test('drawer shows guest message with login/register links when no user', () => {
-    render(<Sidebar currentUser={null} setSelectedRoom={() => {}} features={{}} />);
-
-    // Settings is disabled without user; but simulate opening by clicking Users then Settings shouldn't open.
-    // Instead ensure guest-facing content is present when drawer would open via code path:
-    // We can’t open it through Settings (disabled), so confirm guest CTA exists in the tree when opened = false (not rendered).
-    // Render again but temporarily enable opening by triggering props (simulate by editing component behavior is complex).
-    // Instead, verify the login/register links exist when Drawer content renders by toggling state through a re-render with user then logout flow:
-  });
-
   test('desktop-only ad tile shows only when FREE and not mobile', () => {
-    // FREE user, desktop -> shows
-    isMobile = false;
-    render(<Sidebar currentUser={{ id: 'u1', plan: 'FREE' }} setSelectedRoom={() => {}} features={{}} />);
+    // Start FREE, desktop -> shows
+    mockUseMediaQuery.mockReturnValue(false);
+    const { rerender } = render(
+      <Sidebar currentUser={{ id: 'u1', plan: 'FREE' }} setSelectedRoom={() => {}} features={{}} />
+    );
     expect(screen.getByTestId('adslot-SIDEBAR_PRIMARY')).toBeInTheDocument();
 
-    // PREMIUM user -> no ad
-    isMobile = false;
-    const { rerender } = render(<Sidebar currentUser={{ id: 'u2', plan: 'PREMIUM' }} setSelectedRoom={() => {}} features={{}} />);
+    // Now PREMIUM -> no ad (reuse same render container)
+    rerender(<Sidebar currentUser={{ id: 'u2', plan: 'PREMIUM' }} setSelectedRoom={() => {}} features={{}} />);
     expect(screen.queryByTestId('adslot-SIDEBAR_PRIMARY')).not.toBeInTheDocument();
 
     // FREE but mobile -> no ad
-    isMobile = true;
+    mockUseMediaQuery.mockReturnValue(true);
     rerender(<Sidebar currentUser={{ id: 'u3', plan: 'FREE' }} setSelectedRoom={() => {}} features={{}} />);
     expect(screen.queryByTestId('adslot-SIDEBAR_PRIMARY')).not.toBeInTheDocument();
   });

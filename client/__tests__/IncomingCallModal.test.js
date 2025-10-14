@@ -1,26 +1,34 @@
-/**
- * @file __tests__/IncomingCallModal.test.js
- */
 import { render, screen, fireEvent } from '@testing-library/react';
 
-/* ---------- Default mock: there IS an incoming call ---------- */
-/* IMPORTANT: mock the EXACT path used by the component from THIS test file */
+// ----- Controlled test doubles (allowed in mock factory because names start with "mock") -----
+let mockIncoming = {
+  mode: 'VIDEO',
+  fromUser: { username: 'alice' },
+};
 const mockAccept = jest.fn();
 const mockReject = jest.fn();
 
-jest.mock('../src/context/CallContext', () => ({
+// Mock the exact modules the component imports
+jest.mock('@/context/CallContext', () => ({
   __esModule: true,
   useCall: () => ({
-    incoming: {
-      mode: 'VIDEO',
-      fromUser: { username: 'alice' }, // shape is flexible; we don't assert on it
-    },
+    incoming: mockIncoming,
     acceptCall: mockAccept,
     rejectCall: mockReject,
   }),
-}), { virtual: true });
+}));
 
-import IncomingCallModal from '../src/components/IncomingCallModal.jsx';
+jest.mock('@/utils/safeToast', () => ({
+  __esModule: true,
+  toast: {
+    ok: jest.fn(),
+    info: jest.fn(),
+    err: jest.fn(),
+  },
+}));
+
+// SUT
+import IncomingCallModal from '@/components/IncomingCallModal';
 
 describe('IncomingCallModal', () => {
   beforeEach(() => {
@@ -29,13 +37,14 @@ describe('IncomingCallModal', () => {
   });
 
   test('renders and wires Accept/Reject', () => {
+    // incoming call present
+    mockIncoming = { mode: 'VIDEO', fromUser: { username: 'alice' } };
+
     render(<IncomingCallModal />);
 
-    // Title appears
     expect(screen.getByText(/incoming/i)).toBeInTheDocument();
 
-    // Buttons (tolerant to label variations)
-    const acceptBtn = screen.getByRole('button', { name: /accept|answer/i });
+    const acceptBtn  = screen.getByRole('button', { name: /accept|answer/i });
     const declineBtn = screen.getByRole('button', { name: /decline|reject|deny/i });
 
     fireEvent.click(acceptBtn);
@@ -46,23 +55,12 @@ describe('IncomingCallModal', () => {
   });
 
   test('renders nothing if no incoming call', () => {
-    // Re-mock with incoming: null and reload the component in isolation
-    jest.resetModules();
-    jest.doMock('../src/context/CallContext', () => ({
-      __esModule: true,
-      useCall: () => ({
-        incoming: null,
-        acceptCall: jest.fn(),
-        rejectCall: jest.fn(),
-      }),
-    }), { virtual: true });
+    // no incoming call
+    mockIncoming = null;
 
-    let FreshModal;
-    jest.isolateModules(() => {
-      FreshModal = require('../src/components/IncomingCallModal.jsx').default;
-    });
-
-    const { queryByText } = render(<FreshModal />);
+    const { queryByText, queryByRole } = render(<IncomingCallModal />);
     expect(queryByText(/incoming/i)).toBeNull();
+    expect(queryByRole('button', { name: /accept|answer/i })).toBeNull();
+    expect(queryByRole('button', { name: /decline|reject|deny/i })).toBeNull();
   });
 });

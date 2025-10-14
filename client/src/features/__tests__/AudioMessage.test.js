@@ -9,7 +9,8 @@ jest.mock('@/components/TranscriptBubble', () => ({
 }));
 
 // SUT
-import AudioMessage from './AudioMessage';
+import AudioMessage from '../../messages/AudioMessage';
+
 
 describe('AudioMessage', () => {
   let originalFetch;
@@ -44,12 +45,9 @@ describe('AudioMessage', () => {
         currentUser={{ a11yVoiceNoteSTT: true }}
       />
     );
-
     // Audio element and initial placeholder
-    const audio = screen.getByRole('audio', { hidden: true }) || screen.getByRole('audio', { name: '' });
-    // jsdom may not map <audio> to an ARIA role reliably—fallback to query by element:
     const audioEls = document.getElementsByTagName('audio');
-    expect(audioEls.length).toBe(1);
+    expect(audioEls).toHaveLength(1);
     expect(audioEls[0]).toHaveAttribute('src', '/audio/a1.mp3');
 
     // While loading, placeholder shows

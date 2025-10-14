@@ -13,7 +13,6 @@ jest.mock('@mantine/core', () => {
 
   const Select = ({ label, data, value, onChange }) => (
     <div data-testid="select" data-label={label} data-value={value}>
-      {/* Expose grouped options as buttons for easy clicking */}
       {(data || []).flatMap((g, gi) =>
         (g.items || []).map((opt, oi) => (
           <button
@@ -33,28 +32,28 @@ jest.mock('@mantine/core', () => {
 });
 
 // Router
-const navigateMock = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   __esModule: true,
-  useNavigate: () => navigateMock,
+  useNavigate: () => mockNavigate,
 }));
 
 // API
-const getMock = jest.fn();
-const patchMock = jest.fn();
+const mockGet = jest.fn();
+const mockPatch = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => getMock(...a),
-    patch: (...a) => patchMock(...a),
+    get: (...a) => mockGet(...a),
+    patch: (...a) => mockPatch(...a),
   },
 }));
 
 // Entitlements
-const useEntitlementsMock = jest.fn();
+const mockUseEntitlements = jest.fn();
 jest.mock('@/hooks/useEntitlements', () => ({
   __esModule: true,
-  default: () => useEntitlementsMock(),
+  default: () => mockUseEntitlements(),
 }));
 
 // PremiumGuard passthrough
@@ -64,7 +63,7 @@ jest.mock('@/components/PremiumGuard', () => ({
 }));
 
 // SUT
-import ThemePicker from './ThemePicker';
+import ThemePicker from '../settings/ThemePicker';
 
 const serverCatalog = {
   current: { theme: 'dark' },
@@ -77,13 +76,13 @@ const serverCatalog = {
 };
 
 function baseArrange({ entitlementsPlan = 'FREE', server = serverCatalog } = {}) {
-  navigateMock.mockReset();
-  getMock.mockReset();
-  patchMock.mockReset();
-  useEntitlementsMock.mockReset();
+  mockNavigate.mockReset();
+  mockGet.mockReset();
+  mockPatch.mockReset();
+  mockUseEntitlements.mockReset();
 
-  useEntitlementsMock.mockReturnValue({ entitlements: { plan: entitlementsPlan }, loading: false });
-  getMock.mockResolvedValueOnce({ data: server });
+  mockUseEntitlements.mockReturnValue({ entitlements: { plan: entitlementsPlan }, loading: false });
+  mockGet.mockResolvedValueOnce({ data: server });
 }
 
 describe('ThemePicker', () => {
@@ -92,9 +91,9 @@ describe('ThemePicker', () => {
   });
 
   test('renders nothing while entitlements are loading', () => {
-    useEntitlementsMock.mockReturnValue({ entitlements: null, loading: true });
+    mockUseEntitlements.mockReturnValue({ entitlements: null, loading: true });
     // GET is still called by useEffect but we'll ignore since component returns null first
-    getMock.mockResolvedValueOnce({ data: serverCatalog });
+    mockGet.mockResolvedValueOnce({ data: serverCatalog });
 
     const { container } = render(<ThemePicker />);
     expect(container).toBeEmptyDOMElement();
@@ -106,7 +105,7 @@ describe('ThemePicker', () => {
 
     // Wait for GET to resolve and Select to show current
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/features/themes');
+      expect(mockGet).toHaveBeenCalledWith('/features/themes');
       expect(screen.getByTestId('select')).toHaveAttribute('data-value', 'dark');
     });
 
@@ -123,59 +122,67 @@ describe('ThemePicker', () => {
     baseArrange({ entitlementsPlan: 'FREE' });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
-    patchMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPatch.mockResolvedValueOnce({ data: { ok: true } });
 
     // Choose "light"
     fireEvent.click(screen.getByTestId('opt-light'));
 
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/features/theme', { theme: 'light' });
+      expect(mockPatch).toHaveBeenCalledWith('/features/theme', { theme: 'light' });
       expect(screen.getByTestId('select')).toHaveAttribute('data-value', 'light');
     });
 
     // No navigation for free choice
-    expect(navigateMock).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 
   test('selecting a premium theme while not premium navigates to /settings/upgrade', async () => {
-    baseArrange({ entitlementsPlan: 'FREE' });
+    // Make premium option clickable in UI but keep user FREE so navigation happens
+    baseArrange({
+      entitlementsPlan: 'FREE',
+      server: { ...serverCatalog, canUsePremium: true },
+    });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
+
+    // Ensure the premium option is clickable (not disabled)
+    expect(screen.getByTestId('opt-neon')).not.toBeDisabled();
 
     fireEvent.click(screen.getByTestId('opt-neon'));
 
-    expect(navigateMock).toHaveBeenCalledWith('/settings/upgrade');
-    expect(patchMock).not.toHaveBeenCalled();
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/settings/upgrade'));
+    expect(mockPatch).not.toHaveBeenCalled();
   });
 
   test('saveTheme error: 402 or PREMIUM_REQUIRED -> navigate to upgrade', async () => {
-    baseArrange({ entitlementsPlan: 'PREMIUM' }); // user is premium in entitlements
+    // Ensure premium option is clickable
+    baseArrange({ entitlementsPlan: 'PREMIUM', server: { ...serverCatalog, canUsePremium: true } });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
     // Simulate server enforcing paywall anyway
-    patchMock.mockRejectedValueOnce({ response: { status: 402 } });
+    mockPatch.mockRejectedValueOnce({ response: { status: 402 } });
     fireEvent.click(screen.getByTestId('opt-neon'));
-    await waitFor(() => expect(navigateMock).toHaveBeenCalledWith('/settings/upgrade'));
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/settings/upgrade'));
 
     // PREMIUM_REQUIRED code path
-    navigateMock.mockReset();
-    patchMock.mockRejectedValueOnce({ response: { data: { code: 'PREMIUM_REQUIRED' } } });
+    mockNavigate.mockReset();
+    mockPatch.mockRejectedValueOnce({ response: { data: { code: 'PREMIUM_REQUIRED' } } });
     fireEvent.click(screen.getByTestId('opt-neon'));
-    await waitFor(() => expect(navigateMock).toHaveBeenCalledWith('/settings/upgrade'));
+    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/settings/upgrade'));
   });
 
   test('saveTheme error: 409 -> schema guidance alert', async () => {
     baseArrange({ entitlementsPlan: 'PREMIUM' });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
-    patchMock.mockRejectedValueOnce({ response: { status: 409 } });
+    mockPatch.mockRejectedValueOnce({ response: { status: 409 } });
     fireEvent.click(screen.getByTestId('opt-dark')); // still invokes saveTheme with 'dark'
 
     await waitFor(() => expect(window.alert).toHaveBeenCalledWith(
@@ -187,9 +194,9 @@ describe('ThemePicker', () => {
     baseArrange({ entitlementsPlan: 'PREMIUM' });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
-    patchMock.mockRejectedValueOnce(new Error('boom'));
+    mockPatch.mockRejectedValueOnce(new Error('boom'));
     fireEvent.click(screen.getByTestId('opt-dark'));
 
     await waitFor(() => expect(window.alert).toHaveBeenCalledWith(
@@ -201,7 +208,7 @@ describe('ThemePicker', () => {
     baseArrange({ entitlementsPlan: 'PREMIUM' });
     render(<ThemePicker />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
     expect(screen.queryByTestId('alert')).toBeNull();
   });
 });

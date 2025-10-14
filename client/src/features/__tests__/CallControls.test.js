@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import CallControls from './CallControls';
+import CallControls from '../call/components/CallControls';
 
 describe('CallControls', () => {
   test('renders with initial states and labels', () => {

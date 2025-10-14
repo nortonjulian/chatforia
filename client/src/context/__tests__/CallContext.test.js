@@ -42,11 +42,6 @@ Object.defineProperty(global.navigator, 'mediaDevices', {
   configurable: true,
 });
 
-// mock import.meta.env for version fallback path
-global.importMeta = { env: { VITE_APP_VERSION: 'test-ver' } };
-// Jest doesn't expose import.meta; the code uses optional chaining and fallback,
-// so we don't need to polyfill further.
-
 // Fetch mock that routes by URL
 const fetchMock = jest.fn(async (url, opts = {}) => {
   if (url.includes('/ice-servers')) {
@@ -79,15 +74,16 @@ const socketMock = {
   emit: (ev, payload) => { (listeners[ev] || []).forEach((cb) => cb(payload)); },
 };
 jest.mock('@/lib/socket', () => ({ __esModule: true, default: socketMock }));
-
 jest.mock('@/config', () => ({ __esModule: true, API_BASE: '/api' }));
 
 // ---- SUT ----
-import { CallProvider, useCall } from './CallContext';
+// Use alias import (preferred). If you don't have moduleNameMapper for "@",
+// change this to:  import { CallProvider, useCall } from '../CallContext';
+import { CallProvider, useCall } from '@/context/CallContext';
 
 // Convenience harness to grab context API
 let ctxRef;
-function Harness({ children, me }) {
+function Harness({ children }) {
   const ctx = useCall();
   useEffect(() => { ctxRef = ctx; });
   return children || null;
@@ -106,7 +102,6 @@ beforeEach(() => {
   ctxRef = null;
   fetchMock.mockClear();
   Object.keys(listeners).forEach((k) => delete listeners[k]); // reset socket listeners
-  // Reset user media spy results if needed
   navigator.mediaDevices.getUserMedia.mockClear();
 });
 
@@ -135,7 +130,6 @@ describe('CallContext', () => {
     });
 
     expect(ctxRef.active).toEqual(expect.objectContaining({ callId: 'call-123' }));
-    // Ensure the peer consumed remote answer (implicit via our mock storing it)
     expect(ctxRef.pcRef.current._remoteDescription).toEqual(answer);
   });
 

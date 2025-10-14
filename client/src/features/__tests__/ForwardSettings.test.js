@@ -1,22 +1,20 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
-// -------- Mocks --------
-const apiGet = jest.fn();
-const apiPatch = jest.fn();
+// -------- Mocks (must be declared BEFORE imports that use them) --------
+const mockApiGet = jest.fn();
+const mockApiPatch = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => apiGet(...a),
-    patch: (...a) => apiPatch(...a),
+    get: (...a) => mockApiGet(...a),
+    patch: (...a) => mockApiPatch(...a),
   },
 }));
 
-// Mantine notifications (we just ensure no crashes; banner text is our source of truth)
-const notificationsShow = jest.fn();
+const mockNotificationsShow = jest.fn();
 jest.mock('@mantine/notifications', () => ({
   __esModule: true,
-  notifications: { show: (...a) => notificationsShow(...a) },
+  notifications: { show: (...a) => mockNotificationsShow(...a) },
 }));
 
 // Minimal Mantine core stubs with prop-based surface we can interact with
@@ -90,10 +88,10 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// SUT
-import ForwardingSettings from './ForwardSettings';
+// -------- SUT --------
+import ForwardingSettings from '../settings/ForwardingSettings.jsx';
 
-// -------- Helpers --------
+// -------- Helpers / Fixtures --------
 const initialServerData = {
   forwardingEnabledSms: false,
   forwardSmsToPhone: false,
@@ -107,18 +105,15 @@ const initialServerData = {
 };
 
 function renderWithApi(data = initialServerData) {
-  apiGet.mockReset();
-  apiPatch.mockReset();
-  notificationsShow.mockReset();
+  mockApiGet.mockReset();
+  mockApiPatch.mockReset();
+  mockNotificationsShow.mockReset();
 
-  // GET resolves to provided data
-  apiGet.mockResolvedValueOnce({ data });
-
+  mockApiGet.mockResolvedValueOnce({ data });
   return render(<ForwardingSettings />);
 }
 
 async function waitLoaded() {
-  // Wait for loading card to be replaced by the main card
   await waitFor(() => {
     expect(screen.queryByText(/Loading forwarding settings/i)).not.toBeInTheDocument();
   });
@@ -128,11 +123,12 @@ function getButton(name) {
   return screen.getByTestId(`btn-${name.toLowerCase()}`);
 }
 
+// -------- Tests --------
 describe('ForwardingSettings', () => {
   test('shows loading, then bootstraps from GET /settings/forwarding', async () => {
     // keep GET pending briefly to see loading UI
     let resolveGet;
-    apiGet.mockImplementationOnce(() => new Promise((res) => { resolveGet = res; }));
+    mockApiGet.mockImplementationOnce(() => new Promise((res) => { resolveGet = res; }));
 
     render(<ForwardingSettings />);
 
@@ -147,7 +143,7 @@ describe('ForwardingSettings', () => {
     expect(screen.getByTestId('divider-Call Forwarding (alias bridging)')).toBeInTheDocument();
   });
 
-  test('change detection toggles Reset/Save availability', async () => {
+  test('change detection toggles Reset availability (Save may remain disabled until valid)', async () => {
     renderWithApi();
     await waitLoaded();
 
@@ -158,12 +154,13 @@ describe('ForwardingSettings', () => {
     expect(reset).toBeDisabled();
     expect(save).toBeDisabled();
 
-    // Enable text forwarding -> changes present
+    // Enable text forwarding -> we consider this a change
     const smsToggle = screen.getByTestId('chk-Enable text forwarding').querySelector('input');
     fireEvent.click(smsToggle);
 
+    // Reset enabled due to change; Save can remain disabled until validation passes
     expect(reset).not.toBeDisabled();
-    expect(save).not.toBeDisabled(); // will still be disabled later by validation if present
+    expect(save).toBeDisabled();
   });
 
   test('SMS validation: requires at least one destination; validates phone/email; enables inputs when toggled', async () => {
@@ -199,7 +196,7 @@ describe('ForwardingSettings', () => {
     fireEvent.change(emailInput, { target: { value: 'me@example.com' } });
     expect(screen.queryByTestId('err-Destination email')).toBeNull();
 
-    // Destination error (none selected) should be gone since phone/email are checked
+    // Destination error gone since phone/email are checked
     expect(screen.queryByText(/Choose at least one destination/i)).toBeNull();
   });
 
@@ -246,7 +243,6 @@ describe('ForwardingSettings', () => {
 
   test('Save success: normalizes E.164, PATCHes, shows banner, resets hasChanges', async () => {
     renderWithApi();
-
     await waitLoaded();
 
     // Enable SMS -> phone + email
@@ -266,7 +262,7 @@ describe('ForwardingSettings', () => {
     fireEvent.change(screen.getByTestId('numinput-End hour (0–23)'), { target: { value: '7' } });
 
     // PATCH returns server-shaped data (could echo back)
-    apiPatch.mockResolvedValueOnce({
+    mockApiPatch.mockResolvedValueOnce({
       data: {
         forwardingEnabledSms: true,
         forwardSmsToPhone: true,
@@ -285,10 +281,10 @@ describe('ForwardingSettings', () => {
     expect(save).not.toBeDisabled();
     fireEvent.click(save);
 
-    await waitFor(() => expect(apiPatch).toHaveBeenCalled());
+    await waitFor(() => expect(mockApiPatch).toHaveBeenCalled());
 
     // Payload sent to server should be normalized
-    const [url, body] = apiPatch.mock.calls[0];
+    const [url, body] = mockApiPatch.mock.calls[0];
     expect(url).toBe('/settings/forwarding');
     expect(body).toEqual(
       expect.objectContaining({
@@ -321,7 +317,7 @@ describe('ForwardingSettings', () => {
     fireEvent.click(screen.getByTestId('chk-Forward texts to phone').querySelector('input'));
     fireEvent.change(screen.getByTestId('input-Destination phone (E.164)'), { target: { value: '+15551234567' } });
 
-    apiPatch.mockRejectedValueOnce(new Error('nope'));
+    mockApiPatch.mockRejectedValueOnce(new Error('nope'));
 
     fireEvent.click(getButton('Save'));
 
@@ -343,10 +339,9 @@ describe('ForwardingSettings', () => {
     renderWithApi(serverData);
     await waitLoaded();
 
-    // Change phone number & show banner somehow
+    // Change phone number & show banner somehow (simulate a prior save by setting banner through the UI flow later)
     fireEvent.change(screen.getByTestId('input-Destination phone (E.164)'), { target: { value: '+15558889999' } });
-    // Fake a banner (simulate prior save)
-    // (In real flow, banner is set on save; for this test we just imitate a state where it exists.)
+
     // Click Reset
     fireEvent.click(getButton('Reset'));
 

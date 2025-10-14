@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCall } from '@/context/CallContext';
-import { toast } from '@/utils/toast';
+import { toast } from '@/utils/safeToast';
+
 
 export default function VideoCall() {
   const { active, localStream, remoteStream, endCall } = useCall();

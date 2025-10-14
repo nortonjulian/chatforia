@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import RttSidebar from './RttSidebar';
+import RttSidebar from '../call/components/RttSidebar';
 
 describe('RttSidebar', () => {
   beforeEach(() => {

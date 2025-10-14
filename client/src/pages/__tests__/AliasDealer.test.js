@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 // ---- Mocks ----
-const postMock = jest.fn();
+const mockPost = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { post: (...a) => postMock(...a) },
+  default: { post: (...a) => mockPost(...a) },
 }));
 
 // Minimal Mantine stubs
@@ -35,11 +35,11 @@ jest.mock('@mantine/core', () => {
 });
 
 // SUT
-import AliasDialer from './AliasDealer';
+import AliasDialer from '../AliasDialer'
 
 describe('AliasDialer', () => {
   beforeEach(() => {
-    postMock.mockReset();
+    mockPost.mockReset();
   });
 
   test('renders input and disabled button initially', () => {
@@ -64,17 +64,17 @@ describe('AliasDialer', () => {
     expect(button).not.toBeDisabled();
 
     // Click to place call
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/voice/call', { to: '+15551234567' });
+      expect(mockPost).toHaveBeenCalledWith('/voice/call', { to: '+15551234567' });
     });
   });
 
   test('does not post when empty (button disabled)', () => {
     render(<AliasDialer />);
     fireEvent.click(screen.getByTestId('button')); // still disabled
-    expect(postMock).not.toHaveBeenCalled();
+    expect(mockPost).not.toHaveBeenCalled();
   });
 });

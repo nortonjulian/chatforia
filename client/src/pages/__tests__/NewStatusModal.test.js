@@ -3,22 +3,24 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 // ---------- Mocks ----------
 
 // axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
+const mockGet = jest.fn();
+const mockPost = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => getMock(...a),
-    post: (...a) => postMock(...a),
+    get: (...a) => mockGet(...a),
+    post: (...a) => mockPost(...a),
   },
 }));
 
-// mantine notifications
-const notifyShow = jest.fn();
+// mantine notifications  ✅ rename to start with "mock"
+const mockNotifyShow = jest.fn();
 jest.mock('@mantine/notifications', () => ({
   __esModule: true,
-  notifications: { show: (...a) => notifyShow(...a) },
+  notifications: { show: (...a) => mockNotifyShow(...a) },
 }));
+
+
 
 // Mantine-core lightweight stubs
 jest.mock('@mantine/core', () => {
@@ -167,7 +169,7 @@ jest.mock('@mantine/core', () => {
 });
 
 // SUT
-import NewStatusModal from './NewStatusModal';
+import NewStatusModal from '../NewStatusModal';
 
 // -------- helpers --------
 function formDataToObject(fd) {

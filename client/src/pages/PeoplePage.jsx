@@ -1,4 +1,3 @@
-// src/pages/PeoplePage.jsx
 import { useEffect, useRef, useState } from 'react';
 import {
   Title,

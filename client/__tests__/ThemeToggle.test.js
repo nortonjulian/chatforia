@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ThemeToggle from '@/components/ThemeToggle'; // adjust path if necessary
+import ThemeToggle from '@/components/ThemeToggle';
 
 // ---- Mocks ----
 
@@ -26,15 +26,16 @@ jest.mock('lucide-react', () => ({
   Moon: (props) => <span data-testid="icon-moon" {...props} />,
 }));
 
-// themeManager functions
-const getTheme = jest.fn();
-const setTheme = jest.fn();
-const isDarkTheme = jest.fn();
+// themeManager functions (names must start with "mock" to be referenced in jest.mock factory)
+const mockGetTheme = jest.fn();
+const mockSetTheme = jest.fn();
+const mockIsDarkTheme = jest.fn();
 
 jest.mock('@/utils/themeManager', () => ({
-  getTheme: (...args) => getTheme(...args),
-  setTheme: (...args) => setTheme(...args),
-  isDarkTheme: (...args) => isDarkTheme(...args),
+  __esModule: true,
+  getTheme: (...args) => mockGetTheme(...args),
+  setTheme: (...args) => mockSetTheme(...args),
+  isDarkTheme: (...args) => mockIsDarkTheme(...args),
 }));
 
 beforeEach(() => {
@@ -43,8 +44,8 @@ beforeEach(() => {
 
 describe('ThemeToggle', () => {
   test('dark-like theme: shows Sun icon, tooltip says switch to Dawn, aria-pressed=true; click sets theme to dawn', () => {
-    getTheme.mockReturnValue('midnight');
-    isDarkTheme.mockReturnValue(true);
+    mockGetTheme.mockReturnValue('midnight');
+    mockIsDarkTheme.mockReturnValue(true);
 
     render(<ThemeToggle />);
 
@@ -55,18 +56,18 @@ describe('ThemeToggle', () => {
     expect(screen.getByTestId('icon-sun')).toBeInTheDocument();
     expect(screen.queryByTestId('icon-moon')).not.toBeInTheDocument();
 
-    const btn = screen.getByRole('button', { name: /toggle theme/i });
+    const btn = screen.getByRole('switch', { name: /toggle theme/i });
     expect(btn).toHaveAttribute('aria-pressed', 'true');
 
     fireEvent.click(btn);
 
     // onToggle not provided -> setTheme called with dawn
-    expect(setTheme).toHaveBeenCalledWith('dawn');
+    expect(mockSetTheme).toHaveBeenCalledWith('dawn');
   });
 
   test('light theme: shows Moon icon, tooltip says switch to Midnight, aria-pressed=false; click sets theme to midnight', () => {
-    getTheme.mockReturnValue('dawn');
-    isDarkTheme.mockReturnValue(false);
+    mockGetTheme.mockReturnValue('dawn');
+    mockIsDarkTheme.mockReturnValue(false);
 
     render(<ThemeToggle />);
 
@@ -75,23 +76,23 @@ describe('ThemeToggle', () => {
     expect(screen.getByTestId('icon-moon')).toBeInTheDocument();
     expect(screen.queryByTestId('icon-sun')).not.toBeInTheDocument();
 
-    const btn = screen.getByRole('button', { name: /toggle theme/i });
+    const btn = screen.getByRole('switch', { name: /toggle theme/i });
     expect(btn).toHaveAttribute('aria-pressed', 'false');
 
     fireEvent.click(btn);
-    expect(setTheme).toHaveBeenCalledWith('midnight');
+    expect(mockSetTheme).toHaveBeenCalledWith('midnight');
   });
 
   test('onToggle prop overrides default: calls onToggle and does not call setTheme', () => {
-    getTheme.mockReturnValue('midnight');
-    isDarkTheme.mockReturnValue(true);
+    mockGetTheme.mockReturnValue('midnight');
+    mockIsDarkTheme.mockReturnValue(true);
 
     const onToggle = jest.fn();
     render(<ThemeToggle onToggle={onToggle} />);
 
-    fireEvent.click(screen.getByRole('button', { name: /toggle theme/i }));
+    fireEvent.click(screen.getByRole('switch', { name: /toggle theme/i }));
 
     expect(onToggle).toHaveBeenCalledTimes(1);
-    expect(setTheme).not.toHaveBeenCalled();
+    expect(mockSetTheme).not.toHaveBeenCalled();
   });
 });

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import EventCard from './EventCard';
+import EventCard from '../messages/EventCard';
 
 describe('EventCard', () => {
   const baseEvent = {

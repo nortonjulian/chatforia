@@ -29,10 +29,10 @@ jest.mock('@mantine/core', () => {
 });
 
 // axios client
-const patchMock = jest.fn();
+const mockPatch = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { patch: (...a) => patchMock(...a) },
+  default: { patch: (...a) => mockPatch(...a) },
 }));
 
 // PremiumGuard passthrough
@@ -42,56 +42,54 @@ jest.mock('@/components/PremiumGuard', () => ({
 }));
 
 // Premium status hook
-let isPremiumFlag = false;
+let mockIsPremiumFlag = false;
 jest.mock('@/hooks/useIsPremium', () => ({
   __esModule: true,
-  default: () => isPremiumFlag,
+  default: () => mockIsPremiumFlag,
 }));
 
 // Router navigate
-const navigateMock = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   __esModule: true,
-  useNavigate: () => navigateMock,
+  useNavigate: () => mockNavigate,
 }));
 
-// User context (mutable source so we can rehydrate between renders)
-let currentUserState;
-const setCurrentUserMock = jest.fn();
+// User context (mutable mocks; names start with "mock" to satisfy Jest)
+let mockCurrentUserState;
+const mockSetCurrentUser = jest.fn();
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
   useUser: () => ({
-    currentUser: currentUserState,
-    setCurrentUser: setCurrentUserMock,
+    currentUser: mockCurrentUserState,
+    setCurrentUser: mockSetCurrentUser,
   }),
 }));
 
-// SUT
-import PrivacyToggles from './PrivacyToggles';
+// SUT (real file lives under features/settings)
+import PrivacyToggles from '../settings/PrivacyToggles';
 
 // Helpers
 function renderWithUser(user = {}) {
-  currentUserState = user;
-  setCurrentUserMock.mockReset();
-  patchMock.mockReset();
-  navigateMock.mockReset();
+  mockCurrentUserState = user;
+  mockSetCurrentUser.mockReset();
+  mockPatch.mockReset();
+  mockNavigate.mockReset();
   return render(<PrivacyToggles />);
 }
 
 function getSwitch(labelRegex) {
-  // return the input by aria-label
   return screen.getByRole('checkbox', { name: labelRegex });
 }
 
 describe('PrivacyToggles', () => {
   beforeEach(() => {
-    isPremiumFlag = false;
-    // silence alert popups in test env
+    mockIsPremiumFlag = false;
     jest.spyOn(window, 'alert').mockImplementation(() => {});
   });
 
   test('initializes from currentUser and updates when currentUser changes', () => {
-    renderWithUser({
+   const { rerender } = renderWithUser({
       showReadReceipts: false,
       allowExplicitContent: true,
       privacyBlurEnabled: false,
@@ -102,26 +100,24 @@ describe('PrivacyToggles', () => {
     expect(getSwitch(/Send read receipts/i)).not.toBeChecked();
     expect(getSwitch(/Allow explicit content/i)).toBeChecked();
     expect(getSwitch(/Blur chat content until focus/i)).not.toBeChecked();
-    // Hold to reveal reflects state but disabled because blur is off
     const hold = getSwitch(/Hold to reveal/i);
     expect(hold).toBeChecked();
     expect(screen.getByTestId('switch-Hold to reveal')).toHaveAttribute('aria-disabled', 'true');
 
-    // Simulate context change: toggle some flags in currentUser and re-render
-    currentUserState = {
+    // Simulate context change
+    mockCurrentUserState = {
       showReadReceipts: true,
       allowExplicitContent: false,
       privacyBlurEnabled: true,
       privacyHoldToReveal: false,
       notifyOnCopy: true,
     };
-    render(<PrivacyToggles />); // simple re-render to trigger useEffect with new currentUser
+    rerender(<PrivacyToggles />); // re-render to pick up new context
 
     expect(getSwitch(/Send read receipts/i)).toBeChecked();
     expect(getSwitch(/Allow explicit content/i)).not.toBeChecked();
     expect(getSwitch(/Blur chat content until focus/i)).toBeChecked();
     expect(getSwitch(/Hold to reveal/i)).not.toBeChecked();
-    // with blur on, hold-to-reveal is enabled
     expect(screen.getByTestId('switch-Hold to reveal')).toHaveAttribute('aria-disabled', 'false');
     expect(getSwitch(/Notify me if someone copies my message/i)).toBeChecked();
   });
@@ -135,41 +131,35 @@ describe('PrivacyToggles', () => {
       notifyOnCopy: false,
     });
 
-    // Toggle "Send read receipts" ON
-    patchMock.mockResolvedValueOnce({ data: { showReadReceipts: true, serverEcho: 1 } });
+    mockPatch.mockResolvedValueOnce({ data: { showReadReceipts: true, serverEcho: 1 } });
     const rr = getSwitch(/Send read receipts/i);
     expect(rr).not.toBeChecked();
     fireEvent.click(rr);
 
-    // Optimistic update reflects immediately
     expect(rr).toBeChecked();
 
-    await waitFor(() => expect(patchMock).toHaveBeenCalledWith('/users/me', { showReadReceipts: true }));
+    await waitFor(() => expect(mockPatch).toHaveBeenCalledWith('/users/me', { showReadReceipts: true }));
 
-    // setCurrentUser called with updater function that merges server response
-    expect(setCurrentUserMock).toHaveBeenCalledTimes(1);
-    const updater = setCurrentUserMock.mock.calls[0][0];
+    expect(mockSetCurrentUser).toHaveBeenCalledTimes(1);
+    const updater = mockSetCurrentUser.mock.calls[0][0];
     expect(typeof updater).toBe('function');
     const merged = updater({ id: 1, showReadReceipts: false });
     expect(merged).toEqual(expect.objectContaining({ id: 1, showReadReceipts: true, serverEcho: 1 }));
   });
 
   test('reverts on failure and alerts user', async () => {
-    renderWithUser({
-      allowExplicitContent: false,
-    });
+    renderWithUser({ allowExplicitContent: false });
 
-    patchMock.mockRejectedValueOnce(new Error('nope'));
+    mockPatch.mockRejectedValueOnce(new Error('nope'));
 
     const explicit = getSwitch(/Allow explicit content/i);
     expect(explicit).not.toBeChecked();
 
-    fireEvent.click(explicit); // optimistic -> becomes checked
+    fireEvent.click(explicit); // optimistic
     expect(explicit).toBeChecked();
 
-    await waitFor(() => expect(patchMock).toHaveBeenCalledWith('/users/me', { allowExplicitContent: true }));
+    await waitFor(() => expect(mockPatch).toHaveBeenCalledWith('/users/me', { allowExplicitContent: true }));
 
-    // After failure, state should revert to currentUser (false)
     await waitFor(() => expect(explicit).not.toBeChecked());
     expect(window.alert).toHaveBeenCalled();
   });
@@ -183,41 +173,37 @@ describe('PrivacyToggles', () => {
     const blur = getSwitch(/Blur chat content until focus/i);
     const hold = getSwitch(/Hold to reveal/i);
 
-    // Initially disabled
     expect(screen.getByTestId('switch-Hold to reveal')).toHaveAttribute('aria-disabled', 'true');
 
-    // Enable blur -> hold becomes enabled
-    patchMock.mockResolvedValueOnce({ data: { privacyBlurEnabled: true } });
+    mockPatch.mockResolvedValueOnce({ data: { privacyBlurEnabled: true } });
     fireEvent.click(blur);
-    await waitFor(() => expect(patchMock).toHaveBeenCalledWith('/users/me', { privacyBlurEnabled: true }));
+    await waitFor(() => expect(mockPatch).toHaveBeenCalledWith('/users/me', { privacyBlurEnabled: true }));
     expect(screen.getByTestId('switch-Hold to reveal')).toHaveAttribute('aria-disabled', 'false');
 
-    // Toggle hold on
-    patchMock.mockResolvedValueOnce({ data: { privacyHoldToReveal: true } });
+    mockPatch.mockResolvedValueOnce({ data: { privacyHoldToReveal: true } });
     fireEvent.click(hold);
-    await waitFor(() => expect(patchMock).toHaveBeenCalledWith('/users/me', { privacyHoldToReveal: true }));
+    await waitFor(() => expect(mockPatch).toHaveBeenCalledWith('/users/me', { privacyHoldToReveal: true }));
     expect(hold).toBeChecked();
   });
 
   test('Premium-only toggle navigates to upgrade when not premium', () => {
-    isPremiumFlag = false;
+    mockIsPremiumFlag = false;
     renderWithUser({});
 
     const premiumToggle = getSwitch(/Auto-translate all incoming messages \(Premium\)/i);
     fireEvent.click(premiumToggle);
 
-    expect(navigateMock).toHaveBeenCalledWith('/settings/upgrade');
+    expect(mockNavigate).toHaveBeenCalledWith('/settings/upgrade');
   });
 
   test('Premium-only toggle does not navigate when premium', () => {
-    isPremiumFlag = true;
+    mockIsPremiumFlag = true;
     renderWithUser({});
 
     const premiumToggle = getSwitch(/Auto-translate all incoming messages \(Premium\)/i);
     fireEvent.click(premiumToggle);
 
-    expect(navigateMock).not.toHaveBeenCalled();
-    // (No patch occurs yet because implementation is commented out.)
-    expect(patchMock).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+    expect(mockPatch).not.toHaveBeenCalled();
   });
 });

@@ -1,17 +1,22 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-// ---- Mocks ----
-const patchMock = jest.fn();
+/* ===========================
+   Mocks
+   =========================== */
+
+// axiosClient.patch — use a variable that starts with "mock" so Jest allows closure.
+const mockPatch = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { patch: (...args) => patchMock(...args) },
+  default: { patch: (...args) => mockPatch(...args) },
 }));
 
-const useUserMock = jest.fn();
+// User context
+const mockUseUser = jest.fn();
 const setCurrentUserMock = jest.fn();
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
-  useUser: () => useUserMock(),
+  useUser: () => mockUseUser(),
 }));
 
 // Minimal Mantine stubs (prop-driven, easy to interact with)
@@ -87,19 +92,34 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// SUT
-import AgeSettings from './AgeSettings';
+/* ===========================
+   SUT
+   =========================== */
 
-// Helpers
+import AgeSettings from '../settings/AgeSettings.jsx';
+
+/* ===========================
+   Helpers
+   =========================== */
+
 function renderWithUser(user) {
-  useUserMock.mockReturnValue({
+  mockUseUser.mockReturnValue({
     currentUser: user,
     setCurrentUser: setCurrentUserMock,
   });
-  patchMock.mockReset();
   setCurrentUserMock.mockReset();
   return render(<AgeSettings />);
 }
+
+beforeEach(() => {
+  mockPatch.mockReset();
+  mockUseUser.mockReset?.();
+  setCurrentUserMock.mockReset();
+});
+
+/* ===========================
+   Tests
+   =========================== */
 
 describe('AgeSettings', () => {
   test('initializes from currentUser (adult) and hides teen alert', () => {
@@ -196,8 +216,6 @@ describe('AgeSettings', () => {
   });
 
   test('save sends PATCH and merges into setCurrentUser', async () => {
-    patchMock.mockResolvedValueOnce({ data: { plan: 'pro' } });
-
     const currentUser = {
       id: 5,
       ageBand: 'ADULT_35_49',
@@ -205,7 +223,11 @@ describe('AgeSettings', () => {
       randomChatAllowedBands: ['ADULT_35_49'],
       name: 'Riley',
     };
+
     renderWithUser(currentUser);
+
+    // Set the mock response for PATCH (do this after any global resets)
+    mockPatch.mockResolvedValueOnce({ data: { plan: 'pro' } });
 
     // Change age to 50+
     fireEvent.click(screen.getByTestId('age-opt-ADULT_50_PLUS'));
@@ -218,10 +240,10 @@ describe('AgeSettings', () => {
     // Save
     fireEvent.click(screen.getByText(/^Save$/));
 
-    await waitFor(() => expect(patchMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockPatch).toHaveBeenCalled());
 
     // Payload correctness
-    const [url, body] = patchMock.mock.calls[0];
+    const [url, body] = mockPatch.mock.calls[0];
     expect(url).toBe('/users/me');
     expect(body).toEqual({
       ageBand: 'ADULT_50_PLUS',

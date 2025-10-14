@@ -1,40 +1,54 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import CallManager, { useCall } from '@/components/CallManager'; // <-- update if needed
+import CallManager, { useCall } from '@/components/CallManager.jsx';
 
-// -------------------- Mocks --------------------
+/* -------------------- Mocks -------------------- */
 
-// Socket mock with event map
-const handlers = {};
-const socketMock = {
-  on: jest.fn((event, cb) => { handlers[event] = cb; }),
-  off: jest.fn((event, cb) => { if (handlers[event] === cb) delete handlers[event]; }),
+// Socket mock with event map (names prefixed with "mock" to satisfy Jest's rule)
+const mockHandlers = {};
+const mockSocket = {
+  on: jest.fn((event, cb) => { mockHandlers[event] = cb; }),
+  off: jest.fn((event, cb) => { if (mockHandlers[event] === cb) delete mockHandlers[event]; }),
   emit: jest.fn(),
 };
 
-jest.mock('../lib/socket', () => socketMock);
+// Resolve modules **as if imported from the component file**
+const path = require('path');
+const componentDir = path.dirname(require.resolve('../src/components/CallManager.jsx'));
+
+// Socket
+jest.mock(
+  require.resolve('../lib/socket', { paths: [componentDir] }),
+  () => mockSocket
+);
 
 // Sound + prefs
-const pauseFn = jest.fn();
-let audioObj = { pause: pauseFn, currentTime: 0 };
-const playSoundMock = jest.fn(() => audioObj);
-const unlockAudioMock = jest.fn();
-const getVolumeMock = jest.fn(() => 0.7);
-const ringtoneUrlMock = jest.fn(() => 'ringtone.mp3');
-const messageToneUrlMock = jest.fn(() => 'message.mp3');
+const mockPause = jest.fn();
+let mockAudioObj = { pause: mockPause, currentTime: 0 };
+const mockPlaySound = jest.fn(() => mockAudioObj);
+const mockUnlockAudio = jest.fn();
+const mockGetVolume = jest.fn(() => 0.7);
+const mockRingtoneUrl = jest.fn(() => 'ringtone.mp3');
+const mockMessageToneUrl = jest.fn(() => 'message.mp3');
 
-jest.mock('../lib/sound', () => ({
-  playSound: (...args) => playSoundMock(...args),
-  unlockAudio: (...args) => unlockAudioMock(...args),
-}));
+jest.mock(
+  require.resolve('../lib/sound', { paths: [componentDir] }),
+  () => ({
+    playSound: (...args) => mockPlaySound(...args),
+    unlockAudio: (...args) => mockUnlockAudio(...args),
+  })
+);
 
-jest.mock('../lib/soundPrefs', () => ({
-  getVolume: () => getVolumeMock(),
-  ringtoneUrl: () => ringtoneUrlMock(),
-  messageToneUrl: () => messageToneUrlMock(),
-}));
+jest.mock(
+  require.resolve('../lib/soundPrefs', { paths: [componentDir] }),
+  () => ({
+    getVolume: () => mockGetVolume(),
+    ringtoneUrl: () => mockRingtoneUrl(),
+    messageToneUrl: () => mockMessageToneUrl(),
+  })
+);
 
 // User context
-jest.mock('../context/UserContext', () => ({
+jest.mock('@/context/UserContext', () => ({
   useUser: () => ({ currentUser: { id: 'me-1', username: 'Me' } }),
 }));
 
@@ -64,7 +78,7 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// Utility: render with a consumer to access context value (optional checks)
+/* -------------------- Utilities -------------------- */
 function renderWithConsumer() {
   function Consumer() {
     const ctx = useCall();
@@ -85,26 +99,25 @@ function renderWithConsumer() {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  for (const k of Object.keys(handlers)) delete handlers[k];
+  for (const k of Object.keys(mockHandlers)) delete mockHandlers[k];
 
   // Reset audio object used by playSound
-  pauseFn.mockClear();
-  audioObj = { pause: pauseFn, currentTime: 0 };
+  mockPause.mockClear();
+  mockAudioObj = { pause: mockPause, currentTime: 0 };
 
   // Ensure document is visible by default
   Object.defineProperty(document, 'hidden', { value: false, configurable: true });
 });
 
+/* -------------------- Tests -------------------- */
 describe('CallManager', () => {
   test('registers unlockAudio on first click/touch and calls it', () => {
     renderWithConsumer();
-    // Simulate first user interaction (click)
     window.dispatchEvent(new Event('click'));
-    expect(unlockAudioMock).toHaveBeenCalledTimes(1);
+    expect(mockUnlockAudio).toHaveBeenCalledTimes(1);
 
-    // Touchstart should also call (may be swallowed by { once: true } in real DOM; JSDOM might not)
     window.dispatchEvent(new Event('touchstart'));
-    expect(unlockAudioMock).toHaveBeenCalled(); // ≥ 1
+    expect(mockUnlockAudio).toHaveBeenCalled(); // still >= 1
   });
 
   test('incoming call shows modal and starts ringtone; Accept flow emits accept_call and stops ring', () => {
@@ -113,24 +126,24 @@ describe('CallManager', () => {
     // Receive incoming call
     const fromUser = { id: 'u2', username: 'Alice', avatarUrl: 'a.png' };
     const roomId = 'room-1';
-    handlers['incoming_call']?.({ fromUser, roomId });
+    mockHandlers['incoming_call']?.({ fromUser, roomId });
 
     // Modal shows caller
     expect(screen.getByRole('dialog', { name: /incoming call/i })).toBeInTheDocument();
     expect(screen.getByText('Alice')).toBeInTheDocument();
 
     // Ringtone played with loop
-    expect(playSoundMock).toHaveBeenCalledWith('ringtone.mp3', expect.objectContaining({ volume: 0.7, loop: true }));
+    expect(mockPlaySound).toHaveBeenCalledWith('ringtone.mp3', expect.objectContaining({ volume: 0.7, loop: true }));
 
     // Accept
     fireEvent.click(screen.getByRole('button', { name: /accept/i }));
 
     // Should pause + reset ring
-    expect(pauseFn).toHaveBeenCalled();
-    expect(audioObj.currentTime).toBe(0);
+    expect(mockPause).toHaveBeenCalled();
+    expect(mockAudioObj.currentTime).toBe(0);
 
     // Emits accept_call with ids + room
-    expect(socketMock.emit).toHaveBeenCalledWith('accept_call', {
+    expect(mockSocket.emit).toHaveBeenCalledWith('accept_call', {
       fromUserId: 'u2',
       roomId: 'room-1',
     });
@@ -143,11 +156,11 @@ describe('CallManager', () => {
   test('Decline flow emits reject_call and clears incoming', () => {
     renderWithConsumer();
 
-    handlers['incoming_call']?.({ fromUser: { id: 'u3', username: 'Bob' }, roomId: 'r-2' });
+    mockHandlers['incoming_call']?.({ fromUser: { id: 'u3', username: 'Bob' }, roomId: 'r-2' });
     expect(screen.getByRole('dialog', { name: /incoming call/i })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /decline/i }));
-    expect(socketMock.emit).toHaveBeenCalledWith('reject_call', { fromUserId: 'u3' });
+    expect(mockSocket.emit).toHaveBeenCalledWith('reject_call', { fromUserId: 'u3' });
 
     expect(screen.queryByRole('dialog', { name: /incoming call/i })).not.toBeInTheDocument();
   });
@@ -167,14 +180,14 @@ describe('CallManager', () => {
     fireEvent.click(screen.getByText('Start'));
 
     // Ringback and emit
-    expect(playSoundMock).toHaveBeenCalledWith('ringtone.mp3', expect.objectContaining({ loop: true }));
-    expect(socketMock.emit).toHaveBeenCalledWith('start_call', { toUserId: 'u9' });
+    expect(mockPlaySound).toHaveBeenCalledWith('ringtone.mp3', expect.objectContaining({ loop: true }));
+    expect(mockSocket.emit).toHaveBeenCalledWith('start_call', { toUserId: 'u9' });
 
     // Simulate remote acceptance
-    handlers['call_accepted']?.({ peerUser: { id: 'u9', username: 'Zoe' }, roomId: 'r-accept' });
+    mockHandlers['call_accepted']?.({ peerUser: { id: 'u9', username: 'Zoe' }, roomId: 'r-accept' });
 
     // Ring should stop
-    expect(pauseFn).toHaveBeenCalled();
+    expect(mockPause).toHaveBeenCalled();
 
     // In-call pill appears, outgoing cleared
     expect(screen.getByText(/in call with zoe/i)).toBeInTheDocument();
@@ -192,9 +205,9 @@ describe('CallManager', () => {
     );
 
     fireEvent.click(screen.getByText('Start'));
-    handlers['call_rejected']?.();
+    mockHandlers['call_rejected']?.();
 
-    expect(pauseFn).toHaveBeenCalled();
+    expect(mockPause).toHaveBeenCalled();
     // No in-call UI
     expect(screen.queryByText(/in call with/i)).not.toBeInTheDocument();
   });
@@ -203,19 +216,19 @@ describe('CallManager', () => {
     renderWithConsumer();
 
     // Incoming then cancelled
-    handlers['incoming_call']?.({ fromUser: { id: 'u2', username: 'Alice' }, roomId: 'r1' });
-    expect(playSoundMock).toHaveBeenCalled();
-    handlers['call_cancelled']?.();
-    expect(pauseFn).toHaveBeenCalled();
+    mockHandlers['incoming_call']?.({ fromUser: { id: 'u2', username: 'Alice' }, roomId: 'r1' });
+    expect(mockPlaySound).toHaveBeenCalled();
+    mockHandlers['call_cancelled']?.();
+    expect(mockPause).toHaveBeenCalled();
     expect(screen.queryByRole('dialog', { name: /incoming call/i })).not.toBeInTheDocument();
 
     // Simulate in-call, then ended
-    handlers['incoming_call']?.({ fromUser: { id: 'u3', username: 'Bob' }, roomId: 'r2' });
+    mockHandlers['incoming_call']?.({ fromUser: { id: 'u3', username: 'Bob' }, roomId: 'r2' });
     fireEvent.click(screen.getByRole('button', { name: /accept/i }));
     expect(screen.getByText(/in call with bob/i)).toBeInTheDocument();
 
-    handlers['call_ended']?.();
-    expect(pauseFn).toHaveBeenCalled();
+    mockHandlers['call_ended']?.();
+    expect(mockPause).toHaveBeenCalled();
     expect(screen.queryByText(/in call with/i)).not.toBeInTheDocument();
   });
 
@@ -223,27 +236,26 @@ describe('CallManager', () => {
     renderWithConsumer();
 
     // Enter an in-call state via incoming+accept
-    handlers['incoming_call']?.({ fromUser: { id: 'u7', username: 'Nia' }, roomId: 'r7' });
+    mockHandlers['incoming_call']?.({ fromUser: { id: 'u7', username: 'Nia' }, roomId: 'r7' });
     fireEvent.click(screen.getByRole('button', { name: /accept/i }));
     expect(screen.getByText(/in call with nia/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button', { name: /end/i }));
-    expect(socketMock.emit).toHaveBeenCalledWith('end_call', { peerUserId: 'u7', roomId: 'r7' });
+    expect(mockSocket.emit).toHaveBeenCalledWith('end_call', { peerUserId: 'u7', roomId: 'r7' });
     expect(screen.queryByText(/in call with/i)).not.toBeInTheDocument();
   });
 
   test('plays message tone when a message arrives, not mine, while tab is hidden', () => {
     renderWithConsumer();
-    // Hidden tab
     Object.defineProperty(document, 'hidden', { value: true, configurable: true });
 
     // From someone else
-    handlers['receive_message']?.({ senderId: 'someone-else' });
-    expect(playSoundMock).toHaveBeenCalledWith('message.mp3', expect.objectContaining({ volume: 0.7 }));
+    mockHandlers['receive_message']?.({ senderId: 'someone-else' });
+    expect(mockPlaySound).toHaveBeenCalledWith('message.mp3', expect.objectContaining({ volume: 0.7 }));
 
     // From me -> no extra play
-    playSoundMock.mockClear();
-    handlers['receive_message']?.({ senderId: 'me-1' });
-    expect(playSoundMock).not.toHaveBeenCalled();
+    mockPlaySound.mockClear();
+    mockHandlers['receive_message']?.({ senderId: 'me-1' });
+    expect(mockPlaySound).not.toHaveBeenCalled();
   });
 });
