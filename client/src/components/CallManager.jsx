@@ -8,9 +8,11 @@ import {
   useState,
 } from 'react';
 import { Modal, Group, Button, Text, Avatar, Stack } from '@mantine/core';
+
+// NOTE: filenames/paths align with your project
 import socket from '../lib/socket';
-import { playSound, unlockAudio } from '../lib/sound';
-import { getVolume, messageToneUrl, ringtoneUrl } from '../lib/soundPrefs';
+import { playSound, unlockAudio } from '../lib/sounds';
+import { getVolume, messageToneUrl, ringtoneUrl } from '../utils/sounds';
 import { useUser } from '../context/UserContext';
 
 const CallContext = createContext(null);
@@ -23,13 +25,13 @@ export function useCall() {
  * - Listens for incoming_call / cancelled / ended
  * - Can start outgoing calls
  * - Plays ringtone (loop) and stops it on accept/decline/cancel
- * - Future: plug in WebRTC here
+ * - Exposes a context API (startCall/accept/decline/end + state)
  */
-export default function CallManager() {
+export default function CallManager({ children }) {
   const { currentUser } = useUser();
   const [incoming, setIncoming] = useState(null); // { fromUser, roomId }
   const [outgoing, setOutgoing] = useState(null); // { toUser, ringing }
-  const [inCall, setInCall] = useState(null); // { peer, roomId }
+  const [inCall, setInCall] = useState(null);     // { peer, roomId }
   const ringRef = useRef(null);
   const vol = getVolume();
 
@@ -178,6 +180,9 @@ export default function CallManager() {
 
   return (
     <CallContext.Provider value={value}>
+      {/* ensure children are rendered inside the provider so tests can mount triggers */}
+      {children}
+
       <Modal
         opened={!!incoming}
         onClose={() => setIncoming(null)}

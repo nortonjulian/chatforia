@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { render, act } from '@testing-library/react';
+import { useEffect } from 'react';
+import { render, act, waitFor } from '@testing-library/react';
 
 // ---- Mocks ----
 const listeners = new Map();
@@ -19,26 +19,26 @@ const mockSocket = {
 };
 
 // Allow creating a fresh socket per makeSocket() call
-const ioMock = jest.fn(() => {
+const mockIo = jest.fn(() => {
   // reset per-instance state
   mockSocket.connected = true; // act like we connect immediately
   return mockSocket;
 });
-jest.mock('socket.io-client', () => ({ __esModule: true, io: (...args) => ioMock(...args) }));
+jest.mock('socket.io-client', () => ({ __esModule: true, io: (...args) => mockIo(...args) }));
 
 // js-cookie
-const cookieGetMock = jest.fn();
-jest.mock('js-cookie', () => ({ __esModule: true, default: { get: (...a) => cookieGetMock(...a) } }));
+const mockCookieGet = jest.fn();
+jest.mock('js-cookie', () => ({ __esModule: true, default: { get: (...a) => mockCookieGet(...a) } }));
 
 // axios client (GET only used here)
-const axiosGetMock = jest.fn();
+const mockAxiosGet = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { get: (...a) => axiosGetMock(...a) },
+  default: { get: (...a) => mockAxiosGet(...a) },
 }));
 
 // SUT
-import { SocketProvider, useSocket } from './SocketContext';
+import { SocketProvider, useSocket } from '../SocketContext';
 
 // Harness to capture context
 let ctxRef;
@@ -51,11 +51,11 @@ function Harness() {
 function renderWithProvider(props = {}) {
   ctxRef = null;
   listeners.clear();
-  ioMock.mockClear();
+  mockIo.mockClear();
   mockSocket.emit.mockClear();
   mockSocket.disconnect.mockClear();
-  axiosGetMock.mockReset();
-  cookieGetMock.mockReset();
+  mockAxiosGet.mockReset();
+  mockCookieGet.mockReset();
 
   return render(
     <SocketProvider {...props}>
@@ -66,7 +66,7 @@ function renderWithProvider(props = {}) {
 
 // Helpers
 const setAuthed = (token = 'jwt-123', cookieName = 'foria_jwt') => {
-  cookieGetMock.mockImplementation((name) => (name === cookieName ? token : undefined));
+  mockCookieGet.mockImplementation((name) => (name === cookieName ? token : undefined));
   // also backstop localStorage and document.cookie
   window.localStorage.setItem(cookieName, token);
   Object.defineProperty(document, 'cookie', {
@@ -76,7 +76,7 @@ const setAuthed = (token = 'jwt-123', cookieName = 'foria_jwt') => {
   });
 };
 const clearAuth = (cookieName = 'foria_jwt') => {
-  cookieGetMock.mockReturnValue(undefined);
+  mockCookieGet.mockReturnValue(undefined);
   window.localStorage.removeItem(cookieName);
   Object.defineProperty(document, 'cookie', { value: '', writable: true, configurable: true });
 };
@@ -91,7 +91,7 @@ beforeEach(() => {
   // default: authed
   setAuthed();
   // default axios candidates: first 404, second returns items
-  axiosGetMock
+  mockAxiosGet
     .mockRejectedValueOnce({ response: { status: 404 } }) // /chatrooms/mine
     .mockResolvedValueOnce({ data: { items: [{ id: 1 }, { id: '2' }] } }); // /rooms/mine
 });
@@ -100,43 +100,57 @@ describe('SocketContext', () => {
   test('does not connect without auth', () => {
     clearAuth();
     renderWithProvider();
-    expect(ioMock).not.toHaveBeenCalled();
+    expect(mockIo).not.toHaveBeenCalled();
     expect(ctxRef.socket).toBeNull();
   });
 
   test('connects when auth is present and sets socket instance', () => {
     renderWithProvider();
-    expect(ioMock).toHaveBeenCalledTimes(1);
+    expect(mockIo).toHaveBeenCalledTimes(1);
     expect(ctxRef.socket).toBeTruthy();
   });
 
   test('auto-joins rooms on connect: refreshRooms tries candidates and emits join:rooms', async () => {
-    renderWithProvider(); // autoJoin default true
+  renderWithProvider(); // autoJoin default true; this mount will call an initial onConnected,
+                        // but we’ll re-trigger connect after setting mocks.
 
-    // Simulate socket 'connect' (our mock marks connected=true immediately, but we still emit)
-    await act(async () => {
-      emit('connect');
-    });
+  // Configure axios NOW (renderWithProvider reset it).
+  mockAxiosGet.mockReset()
+    .mockRejectedValueOnce({ response: { status: 404 } }) // /chatrooms/mine
+    .mockResolvedValueOnce({ data: { items: [{ id: 1 }, { id: '2' }] } }); // /rooms/mine
 
-    // It should have tried first 404 route then succeeded on second
-    expect(axiosGetMock).toHaveBeenCalledWith('/chatrooms/mine?select=id');
-    expect(axiosGetMock).toHaveBeenCalledWith('/rooms/mine?select=id');
+  // Clean previous emits/calls so we assert only this run.
+  mockSocket.emit.mockClear();
 
-    // Should emit join:rooms with ['1','2']
-    expect(mockSocket.emit).toHaveBeenCalledWith('join:rooms', ['1', '2']);
-  });
+  // Re-trigger the connect handler after mocks are set.
+  act(() => emit('connect'));
+
+  // Wait for refresh → emit chain
+  await waitFor(() =>
+    expect(mockAxiosGet).toHaveBeenCalledWith('/chatrooms/mine?select=id')
+  );
+  await waitFor(() =>
+    expect(mockAxiosGet).toHaveBeenCalledWith('/rooms/mine?select=id')
+  );
+  await waitFor(() =>
+    expect(mockSocket.emit).toHaveBeenCalledWith('join:rooms', ['1', '2'])
+  );
+});
 
   test('non-autojoin mode: does not emit join:rooms automatically', async () => {
     renderWithProvider({ autoJoin: false });
 
-    await act(async () => { emit('connect'); });
+    act(() => { emit('connect'); });
 
-    expect(mockSocket.emit).not.toHaveBeenCalledWith('join:rooms', expect.any(Array));
+    // Give the effect a tick; nothing should be emitted
+    await waitFor(() => {
+      expect(mockSocket.emit).not.toHaveBeenCalledWith('join:rooms', expect.any(Array));
+    });
   });
 
   test('refreshRooms handles 401 by clearing roomIds and returning []', async () => {
-    axiosGetMock.mockReset().mockRejectedValueOnce({ response: { status: 401 } });
-    renderWithProvider();
+    mockAxiosGet.mockReset().mockRejectedValueOnce({ response: { status: 401 } });
+    renderWithProvider({ autoJoin: false });
 
     let ids;
     await act(async () => {
@@ -148,20 +162,20 @@ describe('SocketContext', () => {
   });
 
   test('refreshRooms ignores 404s and continues, finally returns [] if all fail/404', async () => {
-    axiosGetMock
+    mockAxiosGet
       .mockReset()
       .mockRejectedValueOnce({ response: { status: 404 } })
       .mockRejectedValueOnce({ response: { status: 404 } })
       .mockRejectedValueOnce({ response: { status: 404 } });
 
-    renderWithProvider();
+    renderWithProvider({ autoJoin: false });
 
     let ids;
     await act(async () => {
       ids = await ctxRef.refreshRooms();
     });
 
-    expect(axiosGetMock).toHaveBeenCalledTimes(3);
+    expect(mockAxiosGet).toHaveBeenCalledTimes(3);
     expect(ids).toEqual([]);
   });
 
@@ -176,13 +190,13 @@ describe('SocketContext', () => {
     // reconnect
     act(() => ctxRef.reconnect());
     expect(mockSocket.disconnect).toHaveBeenCalledTimes(1); // not called again during reconnect (we already cleared)
-    expect(ioMock).toHaveBeenCalledTimes(2); // initial connect + reconnect
+    expect(mockIo).toHaveBeenCalledTimes(2); // initial connect + reconnect
     expect(ctxRef.socket).toBeTruthy();
   });
 
   test('storage event for token triggers reconnect', () => {
     renderWithProvider();
-    const connectsBefore = ioMock.mock.calls.length;
+    const connectsBefore = mockIo.mock.calls.length;
 
     act(() => {
       window.dispatchEvent(new StorageEvent('storage', { key: 'foria_jwt', newValue: 'jwt-NEW' }));
@@ -190,7 +204,7 @@ describe('SocketContext', () => {
 
     // disconnect then connect
     expect(mockSocket.disconnect).toHaveBeenCalled();
-    expect(ioMock.mock.calls.length).toBe(connectsBefore + 1);
+    expect(mockIo.mock.calls.length).toBe(connectsBefore + 1);
   });
 
   test('joinRooms/leaveRoom helpers emit with normalized strings', () => {
