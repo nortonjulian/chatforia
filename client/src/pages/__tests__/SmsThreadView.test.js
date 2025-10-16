@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-// ---- Mantine minimal stubs ----
+/* ---------------- Mantine minimal stubs ---------------- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const passthru = (tid) => ({ children, ...props }) => (
@@ -32,35 +32,40 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// ---- Router params ----
-let routeId = 't1';
-jest.mock('react-router-dom', () => ({
-  __esModule: true,
-  useParams: () => ({ id: routeId }),
-}));
+/* ---------------- Router params ---------------- */
+global.__mockRouteId = 't1';
+jest.mock('react-router-dom', () => {
+  const React = require('react');
+  return {
+    __esModule: true,
+    useParams: () => ({ id: global.__mockRouteId }),
+    Link: ({ to, children, ...p }) => <a href={to} {...p}>{children}</a>,
+  };
+});
 
-// ---- axios client ----
-const getMock = jest.fn();
-const postMock = jest.fn();
+/* ---------------- axios client ---------------- */
+// Use names prefixed with "mock" so Jest allows them in the mock factory
+const mockGet = jest.fn();
+const mockPost = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => getMock(...a),
-    post: (...a) => postMock(...a),
+    get: (...a) => mockGet(...a),
+    post: (...a) => mockPost(...a),
   },
 }));
 
-// ---- SUT ----
-import SmsThreadView from './SmsThreadView';
+/* ---------------- SUT ---------------- */
+import SmsThreadView from '../SmsThreadView';
 
 describe('SmsThreadView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    routeId = 't1';
+    global.__mockRouteId = 't1';
   });
 
   test('loads thread on mount and renders messages (inbound and outbound)', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         id: 't1',
         contactPhone: '+15551230001',
@@ -74,27 +79,25 @@ describe('SmsThreadView', () => {
     render(<SmsThreadView />);
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/sms/threads/t1');
+      expect(mockGet).toHaveBeenCalledWith('/sms/threads/t1');
       expect(screen.getByText(/Chat with \+15551230001/i)).toBeInTheDocument();
     });
 
-    // Inbound message label uses fromNumber
     expect(screen.getByText(/\+15551230001:/)).toBeInTheDocument();
     expect(screen.getByText(/Hi there/)).toBeInTheDocument();
 
-    // Outbound message label uses "You"
     expect(screen.getByText(/^You:/)).toBeInTheDocument();
     expect(screen.getByText(/Hello!/)).toBeInTheDocument();
   });
 
   test('Send button disabled until trimmed body is non-empty', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: { id: 't1', contactPhone: '+1555123', messages: [] },
     });
 
     render(<SmsThreadView />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
     const input = screen.getByPlaceholderText(/Reply…/i);
     const sendBtn = screen.getByRole('button', { name: /send/i });
@@ -109,7 +112,7 @@ describe('SmsThreadView', () => {
 
   test('sending posts to /sms/send, clears input, and reloads thread with new message', async () => {
     // First load
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         id: 't1',
         contactPhone: '+15551230001',
@@ -117,7 +120,7 @@ describe('SmsThreadView', () => {
       },
     });
     // After send -> reload returns new list including our sent one
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         id: 't1',
         contactPhone: '+15551230001',
@@ -127,7 +130,7 @@ describe('SmsThreadView', () => {
         ],
       },
     });
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     render(<SmsThreadView />);
 
@@ -140,33 +143,30 @@ describe('SmsThreadView', () => {
     fireEvent.click(sendBtn);
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/sms/send', {
+      expect(mockPost).toHaveBeenCalledWith('/sms/send', {
         to: '+15551230001',
         body: 'Pong',
       });
     });
 
-    // Input cleared
     expect(input).toHaveValue('');
 
-    // Reload called again
-    await waitFor(() => expect(getMock).toHaveBeenLastCalledWith('/sms/threads/t1'));
+    await waitFor(() => expect(mockGet).toHaveBeenLastCalledWith('/sms/threads/t1'));
 
-    // New outbound message rendered
     expect(screen.getByText(/^You:/)).toBeInTheDocument();
     expect(screen.getByText('Pong')).toBeInTheDocument();
   });
 
   test('uses route param id in request (different id)', async () => {
-    routeId = 'abc999';
-    getMock.mockResolvedValueOnce({
+    global.__mockRouteId = 'abc999';
+    mockGet.mockResolvedValueOnce({
       data: { id: 'abc999', contactPhone: '+18885550000', messages: [] },
     });
 
     render(<SmsThreadView />);
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/sms/threads/abc999');
+      expect(mockGet).toHaveBeenCalledWith('/sms/threads/abc999');
       expect(screen.getByText(/Chat with \+18885550000/i)).toBeInTheDocument();
     });
   });

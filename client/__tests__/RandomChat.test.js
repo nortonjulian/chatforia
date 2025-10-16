@@ -1,14 +1,16 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import RandomChat from '@/components/RandomChat';
+import path from 'path';
 
-// -------------------- Mocks --------------------
+// -------------------- Mocks (non-hoisted via doMock) --------------------
 
 // Mantine primitives -> simple HTML
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const Noop = ({ children, ...p }) => <div {...p}>{children}</div>;
   const Button = ({ children, onClick, disabled, ...p }) => (
-    <button type="button" onClick={onClick} disabled={disabled} {...p}>{children}</button>
+    <button type="button" onClick={onClick} disabled={disabled} {...p}>
+      {children}
+    </button>
   );
   const TextInput = ({ value, onChange, onKeyDown, placeholder, style }) => (
     <input
@@ -21,36 +23,78 @@ jest.mock('@mantine/core', () => {
   );
   // Keep API shape: viewportRef gets assigned a DOM ref to the inner container
   const ScrollArea = ({ children, viewportRef, ...p }) => (
-    <div data-testid="scrollarea" ref={viewportRef} {...p}>{children}</div>
+    <div data-testid="scrollarea" ref={viewportRef} {...p}>
+      {children}
+    </div>
   );
-  const Badge = ({ children, ...p }) => <span data-testid="badge" {...p}>{children}</span>;
+  const Badge = ({ children, ...p }) => (
+    <span data-testid="badge" {...p}>
+      {children}
+    </span>
+  );
   const Text = ({ children, ...p }) => <p {...p}>{children}</p>;
   const Title = ({ children, ...p }) => <h2 {...p}>{children}</h2>;
   const Box = ({ children, ...p }) => <div {...p}>{children}</div>;
   const Tooltip = ({ children }) => <>{children}</>;
   return {
-    Box, Paper: Noop, Title, Text, Button, Group: Noop, TextInput, ScrollArea, Stack: Noop, Badge, Tooltip,
+    Box,
+    Paper: Noop,
+    Title,
+    Text,
+    Button,
+    Group: Noop,
+    TextInput,
+    ScrollArea,
+    Stack: Noop,
+    Badge,
+    Tooltip,
   };
 });
 
 // Socket mock with event map
 const handlers = {};
-const socketMock = {
-  on: jest.fn((event, cb) => { handlers[event] = cb; }),
-  off: jest.fn((event, cb) => { if (handlers[event] === cb) delete handlers[event]; }),
+const mockSocket = {
+  on: jest.fn((event, cb) => {
+    handlers[event] = cb;
+  }),
+  off: jest.fn((event, cb) => {
+    if (handlers[event] === cb) delete handlers[event];
+  }),
   emit: jest.fn(),
 };
-jest.mock('@/components/../socket', () => socketMock);
 
 // axios client (used for save)
-const postMock = jest.fn();
-jest.mock('@/components/../api/axiosClient', () => ({
-  __esModule: true,
-  default: { post: (...args) => postMock(...args) },
-}));
+const mockPost = jest.fn();
 
 // window.alert
 const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+// -------------------- Load SUT after dynamic mocks --------------------
+let RandomChat;
+
+beforeAll(() => {
+
+  // Real locations (your socket is in src/lib)
+  const socketModulePath = path.resolve(__dirname, '../src/lib/socket');
+  const axiosModulePath = path.resolve(__dirname, '../src/api/axiosClient');
+
+  // Mock BEFORE requiring the SUT
+  jest.doMock(socketModulePath, () => mockSocket, { virtual: false });
+  jest.doMock(
+    axiosModulePath,
+    () => ({ __esModule: true, default: { post: (...a) => mockPost(...a) } }),
+    { virtual: false }
+  );
+
+  const randomChatPath = path.resolve(__dirname, '../src/components/RandomChat.jsx');
+  // eslint-disable-next-line global-require
+  RandomChat = require(randomChatPath).default;
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  Object.keys(handlers).forEach((k) => delete handlers[k]);
+});
 
 // -------------------- Helpers --------------------
 const me = { id: 'me-1', username: 'Me' };
@@ -59,7 +103,12 @@ function pairFound({ roomId = 123, partner = 'Alice', partnerId = 'u-2' } = {}) 
   handlers['pair_found']?.({ roomId, partner, partnerId });
 }
 
-function receiveMessage({ roomId = 123, senderId = 'u-2', content = 'hi', sender = { id: 'u-2', username: 'Alice' } } = {}) {
+function receiveMessage({
+  roomId = 123,
+  senderId = 'u-2',
+  content = 'hi',
+  sender = { id: 'u-2', username: 'Alice' },
+} = {}) {
   handlers['receive_message']?.({
     content,
     senderId,
@@ -69,18 +118,12 @@ function receiveMessage({ roomId = 123, senderId = 'u-2', content = 'hi', sender
   });
 }
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  Object.keys(handlers).forEach(k => delete handlers[k]);
-  // Render will register event listeners and emit 'find_random_chat'
-});
-
 // -------------------- Tests --------------------
 describe('RandomChat', () => {
   test('on mount emits find_random_chat and handles waiting/no_partner (AI offer)', () => {
     render(<RandomChat currentUser={me} />);
 
-    expect(socketMock.emit).toHaveBeenCalledWith('find_random_chat');
+    expect(mockSocket.emit).toHaveBeenCalledWith('find_random_chat');
 
     // waiting
     handlers['waiting']?.('Queueing up…');
@@ -93,12 +136,10 @@ describe('RandomChat', () => {
     expect(aiBtn).toBeInTheDocument();
 
     // Start AI -> emits, status, clears messages
-    // Preload a msg then ensure cleared
     handlers['receive_message']?.({ randomChatRoomId: 'ai-room', content: 'temp' });
     fireEvent.click(aiBtn);
-    expect(socketMock.emit).toHaveBeenCalledWith('start_ai_chat');
+    expect(mockSocket.emit).toHaveBeenCalledWith('start_ai_chat');
     expect(screen.getByText(/connected to foriabot/i)).toBeInTheDocument();
-    // No messages rendered
     expect(screen.queryByText('temp')).not.toBeInTheDocument();
   });
 
@@ -122,11 +163,14 @@ describe('RandomChat', () => {
     fireEvent.click(send);
 
     // socket emit with outgoing payload
-    expect(socketMock.emit).toHaveBeenCalledWith('send_message', expect.objectContaining({
-      content: 'hello',
-      senderId: 'me-1',
-      randomChatRoomId: 123,
-    }));
+    expect(mockSocket.emit).toHaveBeenCalledWith(
+      'send_message',
+      expect.objectContaining({
+        content: 'hello',
+        senderId: 'me-1',
+        randomChatRoomId: 123,
+      })
+    );
 
     // Optimistic message appears with "You"
     expect(screen.getByText('You')).toBeInTheDocument();
@@ -144,9 +188,12 @@ describe('RandomChat', () => {
     fireEvent.change(input, { target: { value: 'enter send' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', shiftKey: false });
 
-    expect(socketMock.emit).toHaveBeenCalledWith('send_message', expect.objectContaining({
-      content: 'enter send',
-    }));
+    expect(mockSocket.emit).toHaveBeenCalledWith(
+      'send_message',
+      expect.objectContaining({
+        content: 'enter send',
+      })
+    );
     expect(input.value).toBe('');
   });
 
@@ -159,7 +206,11 @@ describe('RandomChat', () => {
     expect(screen.queryByText('wrong room')).not.toBeInTheDocument();
 
     // Correct room -> shown
-    receiveMessage({ roomId: 456, content: 'hey there', sender: { id: 'u-9', username: 'Bob' } });
+    receiveMessage({
+      roomId: 456,
+      content: 'hey there',
+      sender: { id: 'u-9', username: 'Bob' },
+    });
     expect(screen.getByText('Bob')).toBeInTheDocument();
     expect(screen.getByText('hey there')).toBeInTheDocument();
   });
@@ -169,7 +220,7 @@ describe('RandomChat', () => {
     pairFound();
 
     fireEvent.click(screen.getByRole('button', { name: /skip/i }));
-    expect(socketMock.emit).toHaveBeenCalledWith('skip_random_chat');
+    expect(mockSocket.emit).toHaveBeenCalledWith('skip_random_chat');
 
     // Composer should disappear (no Send)
     expect(screen.queryByRole('button', { name: /^send$/i })).not.toBeInTheDocument();
@@ -196,7 +247,7 @@ describe('RandomChat', () => {
     expect(screen.queryByRole('button', { name: /^send$/i })).not.toBeInTheDocument();
   });
 
-  test('Save is enabled for human-to-human (numeric roomId & partnerId) and posts messages', async () => {
+  test('Save is enabled for human-to-human and posts messages', async () => {
     render(<RandomChat currentUser={me} />);
     pairFound({ roomId: 77, partner: 'Dana', partnerId: 'u-44' });
 
@@ -206,21 +257,29 @@ describe('RandomChat', () => {
     fireEvent.change(input, { target: { value: 'my msg' } });
     fireEvent.click(screen.getByRole('button', { name: /^send$/i }));
     // Receive from partner
-    receiveMessage({ roomId: 77, content: 'their msg', senderId: 'u-44', sender: { id: 'u-44', username: 'Dana' } });
+    receiveMessage({
+      roomId: 77,
+      content: 'their msg',
+      senderId: 'u-44',
+      sender: { id: 'u-44', username: 'Dana' },
+    });
 
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     // Click Save
     fireEvent.click(screen.getByRole('button', { name: /^save$/i }));
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/random-chats', expect.objectContaining({
-        participants: ['me-1', 'u-44'],
-        messages: expect.arrayContaining([
-          expect.objectContaining({ content: 'my msg', senderId: 'me-1' }),
-          expect.objectContaining({ content: 'their msg', senderId: 'u-44' }),
-        ]),
-      }));
+      expect(mockPost).toHaveBeenCalledWith(
+        '/random-chats',
+        expect.objectContaining({
+          participants: ['me-1', 'u-44'],
+          messages: expect.arrayContaining([
+            expect.objectContaining({ content: 'my msg', senderId: 'me-1' }),
+            expect.objectContaining({ content: 'their msg', senderId: 'u-44' }),
+          ]),
+        })
+      );
     });
 
     expect(alertSpy).toHaveBeenCalledWith('Chat saved!');
@@ -230,7 +289,7 @@ describe('RandomChat', () => {
     render(<RandomChat currentUser={me} />);
     pairFound({ roomId: 42, partnerId: 'u-2' });
 
-    postMock.mockRejectedValueOnce(new Error('nope'));
+    mockPost.mockRejectedValueOnce(new Error('nope'));
     fireEvent.click(screen.getByRole('button', { name: /^save$/i }));
 
     await waitFor(() => {
@@ -245,7 +304,10 @@ describe('RandomChat', () => {
     // Composer only renders when roomId truthy; here it is, but Save must be disabled per prop
     const saveBtn = screen.getByRole('button', { name: /^save$/i });
     expect(saveBtn).toBeDisabled();
-    expect(saveBtn).toHaveAttribute('title', expect.stringMatching(/only human-to-human/i));
+    expect(saveBtn).toHaveAttribute(
+      'title',
+      expect.stringMatching(/only human-to-human/i)
+    );
 
     // If numeric room but missing partnerId, disabled too
     rerender(<RandomChat currentUser={me} />);
@@ -256,14 +318,9 @@ describe('RandomChat', () => {
   test('auto-scrolls to end on new messages', () => {
     // Spy on scrollIntoView of the sentinel
     const scrollSpy = jest.fn();
-    // JSDOM: after render, replace the ref target
-    const { container } = render(<RandomChat currentUser={me} />);
+    render(<RandomChat currentUser={me} />);
     pairFound();
 
-    // Push a message (receive event)
-    // Ensure the sentinel exists and patch it
-    const sentinel = container.querySelector('div[ref]'); // won't work; we'll rely on DOM traversal:
-    // Instead, just mock scrollIntoView on all divs and assert it was called at least once
     Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
       configurable: true,
       value: scrollSpy,

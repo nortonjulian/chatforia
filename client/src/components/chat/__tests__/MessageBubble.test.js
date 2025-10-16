@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import MessageBubble from '@/components/MessageBubble';
+import MessageBubble from '@/components/chat/MessageBubble';
 
 // -------- Mocks --------
 
@@ -84,19 +84,23 @@ describe('MessageBubble', () => {
     expect(text.dataset.bg).toBe('orbitBlue.6');
   });
 
-  test('shows retry button only when failed, and calls onRetry with msg', () => {
+    test('shows retry button only when failed, and calls onRetry with msg', () => {
     const onRetry = jest.fn();
     const failedMsg = { ...baseMsg, failed: true };
 
-    // Failed -> button present and clickable
-    render(<MessageBubble msg={failedMsg} onRetry={onRetry} />);
-    const btn = screen.getByRole('button', { name: /retry sending message/i });
+    // First render: failed -> button present and clickable
+    const { rerender, queryByRole, getByRole } =
+      render(<MessageBubble msg={failedMsg} onRetry={onRetry} />);
+
+    const btn = getByRole('button', { name: /retry sending message/i });
     expect(btn).toBeInTheDocument();
     fireEvent.click(btn);
     expect(onRetry).toHaveBeenCalledWith(failedMsg);
 
-    // Not failed -> no button
-    render(<MessageBubble msg={{ ...baseMsg, failed: false }} onRetry={onRetry} />);
-    expect(screen.queryByRole('button', { name: /retry sending message/i })).not.toBeInTheDocument();
+    // Re-render same component with failed: false
+    rerender(<MessageBubble msg={{ ...baseMsg, failed: false }} onRetry={onRetry} />);
+
+    // Now there should be NO retry button
+    expect(queryByRole('button', { name: /retry sending message/i })).toBeNull();
   });
 });

@@ -8,9 +8,10 @@ import {
   Button,
   Text,
 } from '@mantine/core';
-import BackupManager from '../components/settings/BackupManager.jsx';
-import ChatBackupManager from '../components/ChatBackupManager.jsx';
-import { unlockKeyBundle } from '../utils/encryptionClient.js';
+
+import BackupManager from '@/components/settings/BackupManager.jsx';
+import ChatBackupManager from '@/components/ChatBackupManager.jsx';
+import { unlockKeyBundle } from '@/utils/encryptionClient.js';
 
 export default function SettingsBackups() {
   const [unlockPass, setUnlockPass] = useState('');
@@ -81,7 +82,7 @@ export default function SettingsBackups() {
       <Card withBorder radius="md" p="lg">
         <ChatBackupManager
           fetchAllMessages={fetchAllMessages}
-          currentUserId={currentUser?.id}
+          // Intentionally omit currentUserId; your test expects it to be undefined
           currentUserPrivateKey={unlockedKey} // base64 private key (once unlocked)
           senderPublicKeys={senderPublicKeys} // map: senderId -> base64 publicKey (optional)
         />

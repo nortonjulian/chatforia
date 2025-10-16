@@ -2,6 +2,7 @@
 module.exports = {
   rootDir: '.',
   testEnvironment: 'jsdom',
+  moduleDirectories: ['node_modules'],
 
   // Transform JS/TS/JSX/TSX via Babel
   transform: {
@@ -30,6 +31,10 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@src/(.*)$': '<rootDir>/src/$1',
     '^@src/config$': '<rootDir>/__tests__/__mocks__/config.js',
+
+    // force a single React copy (from repo root)
+    '^react$': '<rootDir>/../node_modules/react',
+    '^react-dom$': '<rootDir>/../node_modules/react-dom',
   },
 
   // Transpile selected ESM deps

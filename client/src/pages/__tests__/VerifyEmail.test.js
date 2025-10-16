@@ -3,11 +3,19 @@ import { render, screen, waitFor } from '@testing-library/react';
 // ---- Mantine minimal shims ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const passthru = tid => ({ children, ...p }) => <div data-testid={tid} {...p}>{children}</div>;
+  const passthru = (tid) => ({ children, ...p }) => (
+    <div data-testid={tid} {...p}>
+      {children}
+    </div>
+  );
   const Button = ({ children, component, to, ...p }) => {
     // support Button component={Link} to="/path"
     if (component) {
-      return <a href={to} {...p}>{children}</a>;
+      return (
+        <a href={to} {...p}>
+          {children}
+        </a>
+      );
     }
     return <button {...p}>{children}</button>;
   };
@@ -21,20 +29,26 @@ jest.mock('@mantine/core', () => {
 });
 
 // ---- Router params + Link shim ----
-let uid = 'u123';
-let token = 't456';
+// IMPORTANT: use names prefixed with "mock" so Jest allows closing over them in the mock factory.
+let mockUid = 'u123';
+let mockToken = 't456';
+
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   useSearchParams: () => [
     {
-      get: (k) => (k === 'uid' ? uid : k === 'token' ? token : null),
+      get: (k) => (k === 'uid' ? mockUid : k === 'token' ? mockToken : null),
     },
   ],
-  Link: ({ to, children, ...p }) => <a href={to} {...p}>{children}</a>,
+  Link: ({ to, children, ...p }) => (
+    <a href={to} {...p}>
+      {children}
+    </a>
+  ),
 }));
 
 // ---- SUT ----
-import VerifyEmail from './VerifyEmail';
+import VerifyEmail from '../VerifyEmail';
 
 describe('VerifyEmail', () => {
   const originalFetch = global.fetch;
@@ -46,8 +60,8 @@ describe('VerifyEmail', () => {
   afterEach(() => {
     global.fetch = originalFetch;
     // reset default params
-    uid = 'u123';
-    token = 't456';
+    mockUid = 'u123';
+    mockToken = 't456';
   });
 
   test('calls verify endpoint with uid & token, then shows success with login link', async () => {
@@ -78,7 +92,7 @@ describe('VerifyEmail', () => {
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
 
-    expect(screen.getByText(/invalid or expired/i)).toBeInTheDocument();
+    expect(await screen.findByText(/invalid or expired/i)).toBeInTheDocument();
     const resend = screen.getByRole('link', { name: /Resend verification email/i });
     expect(resend).toHaveAttribute('href', '/resend');
   });
@@ -92,7 +106,8 @@ describe('VerifyEmail', () => {
   });
 
   test('missing params -> does not call fetch and shows error', async () => {
-    uid = null; token = null;
+    mockUid = null;
+    mockToken = null;
     global.fetch = jest.fn();
 
     render(<VerifyEmail />);

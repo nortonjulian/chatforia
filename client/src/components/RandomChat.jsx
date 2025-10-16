@@ -1,5 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
-import socket from '../socket';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import socket from '../lib/socket';
 import axiosClient from '../api/axiosClient';
 import {
   Box,
@@ -16,7 +17,7 @@ import {
 } from '@mantine/core';
 
 export default function RandomChat({ currentUser }) {
-  const [roomId, setRoomId] = useState(null);         // number or string (AI)
+  const [roomId, setRoomId] = useState(null); // number or string (AI)
   const [partnerName, setPartnerName] = useState(null);
   const [partnerId, setPartnerId] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -27,40 +28,69 @@ export default function RandomChat({ currentUser }) {
   const endRef = useRef(null);
   const viewportRef = useRef(null);
 
+  // keep the latest roomId for event handlers without re-registering them
+  const roomIdRef = useRef(null);
   useEffect(() => {
-    // Begin matching
+    roomIdRef.current = roomId;
+  }, [roomId]);
+
+  // Register socket listeners synchronously on mount so tests can trigger them immediately
+  useLayoutEffect(() => {
     socket.emit('find_random_chat');
 
-    const onWaiting = (msg) => setStatus(msg || 'Looking for a partner…');
+    const onWaiting = (msg) => {
+      flushSync(() => {
+        setStatus(msg || 'Looking for a partner…');
+      });
+    };
+
     const onNoPartner = ({ message }) => {
-      setStatus(message || 'No partner found right now.');
-      setOfferAI(true);
+      flushSync(() => {
+        setStatus(message || 'No partner found right now.');
+        setOfferAI(true);
+      });
     };
+
     const onPairFound = ({ roomId, partner, partnerId }) => {
-      setRoomId(roomId);
-      setPartnerName(partner || 'Partner');
-      setPartnerId(partnerId ?? null);
-      setStatus(`Connected to ${partner || 'Partner'}`);
-      setMessages([]);
+      flushSync(() => {
+        setRoomId(roomId);
+        setPartnerName(partner || 'Partner');
+        setPartnerId(partnerId ?? null);
+        setStatus(`Connected to ${partner || 'Partner'}`);
+        setMessages([]);
+        setOfferAI(false);
+      });
     };
+
     const onSkipped = (msg) => {
-      setStatus(msg || 'Stopped searching.');
-      setRoomId(null);
-      setPartnerName(null);
-      setPartnerId(null);
+      flushSync(() => {
+        setStatus(msg || 'Stopped.');
+        setRoomId(null);
+        setPartnerName(null);
+        setPartnerId(null);
+        setOfferAI(false);
+        setMessages([]);
+      });
     };
+
     const onPartnerLeft = (msg) => {
-      setStatus(msg || 'Partner disconnected.');
-      setRoomId(null);
-      setPartnerName(null);
-      setPartnerId(null);
-      setOfferAI(false);
+      flushSync(() => {
+        setStatus(msg || 'Partner left.');
+        setRoomId(null);
+        setPartnerName(null);
+        setPartnerId(null);
+        setOfferAI(false);
+        setMessages([]);
+      });
     };
+
     const onReceive = (msg) => {
-      // Expect: { content, senderId, randomChatRoomId, sender, createdAt }
-      if (!roomId) return;
-      if (String(msg.randomChatRoomId) !== String(roomId)) return;
-      setMessages((prev) => [...prev, msg]);
+      const currentRoom = roomIdRef.current;
+      if (!currentRoom) return;
+      if (String(msg.randomChatRoomId) !== String(currentRoom)) return;
+      flushSync(() => {
+        setMessages((prev) => [...prev, msg]);
+      });
     };
 
     socket.on('waiting', onWaiting);
@@ -78,8 +108,7 @@ export default function RandomChat({ currentUser }) {
       socket.off('partner_disconnected', onPartnerLeft);
       socket.off('receive_message', onReceive);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, []);
 
   const handleSend = () => {
     const text = input.trim();
@@ -129,6 +158,7 @@ export default function RandomChat({ currentUser }) {
       });
       alert('Chat saved!');
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error saving chat:', error);
       alert('Failed to save chat');
     }
@@ -141,9 +171,9 @@ export default function RandomChat({ currentUser }) {
     setMessages([]);
   };
 
-  // auto-scroll on new messages
+  // auto-scroll on new messages (guard for jsdom)
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+    endRef.current?.scrollIntoView?.({ behavior: 'smooth' });
   }, [messages]);
 
   return (
@@ -158,24 +188,19 @@ export default function RandomChat({ currentUser }) {
       <Group justify="space-between" mb="xs">
         <Title order={4}>Random Chat</Title>
         {roomId ? (
-          <Badge variant="light" radius="sm">
-            {partnerName || 'ForiaBot'}
+          <Badge variant="light" radius="sm" data-testid="badge">
+            Partner: {partnerName || 'ForiaBot'}
           </Badge>
         ) : null}
       </Group>
+
 
       <Text size="sm" c="dimmed">
         {status}
       </Text>
 
       {offerAI && (
-        <Button
-          onClick={handleStartAI}
-          variant="filled"
-          color="violet"
-          mt="xs"
-          maw={220}
-        >
+        <Button onClick={handleStartAI} variant="filled" color="violet" mt="xs" maw={220}>
           Chat with ForiaBot
         </Button>
       )}

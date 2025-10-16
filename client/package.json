@@ -5,17 +5,17 @@
   "type": "module",
   "main": "index.js",
   "description": "",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "test": "jest --passWithNoTests",
-    "test:watch": "jest --watch",
-    "test:ui": "jest -t .",
-    "deps:check": "npm outdated || true",
-    "audit": "npm audit || true",
-    "qr": "node scripts/make-qr.mjs"
-  },
+ "scripts": {
+  "test": "jest --config ./jest.config.cjs --passWithNoTests",
+  "test:watch": "jest --config ./jest.config.cjs --watch",
+  "test:ui": "jest --config ./jest.config.cjs -t .",
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "deps:check": "npm outdated || true",
+  "audit": "npm audit || true",
+  "qr": "node scripts/make-qr.mjs"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

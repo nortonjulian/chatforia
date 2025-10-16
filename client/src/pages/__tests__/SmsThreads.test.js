@@ -41,13 +41,14 @@ jest.mock('react-router-dom', () => ({
 }));
 
 // ---- axios client ----
-const getMock = jest.fn();
-const postMock = jest.fn();
+// Use names starting with "mock" so Jest's hoisting rule allows them
+const mockGet = jest.fn();
+const mockPost = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => getMock(...a),
-    post: (...a) => postMock(...a),
+    get: (...a) => mockGet(...a),
+    post: (...a) => mockPost(...a),
   },
 }));
 
@@ -58,7 +59,8 @@ jest.mock('@/pages/AliasDialer.jsx', () => ({
 }));
 
 // ---- SUT ----
-import SmsThreads from './SmsThreads';
+// Use the alias (or change to `../SmsThreads` if you prefer relative)
+import SmsThreads from '@/pages/SmsThreads.jsx';
 
 describe('SmsThreads', () => {
   beforeEach(() => {
@@ -66,7 +68,7 @@ describe('SmsThreads', () => {
   });
 
   test('loads threads on mount and renders links', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         items: [
           { id: 't1', contactPhone: '+15551230001' },
@@ -78,7 +80,7 @@ describe('SmsThreads', () => {
     render(<SmsThreads />);
 
     // GET called
-    await waitFor(() => expect(getMock).toHaveBeenCalledWith('/sms/threads'));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledWith('/sms/threads'));
 
     // Links rendered with correct hrefs and text
     const links = screen.getAllByTestId('link');
@@ -93,7 +95,7 @@ describe('SmsThreads', () => {
   });
 
   test('send button disabled until both To and Message are non-empty (message trimmed)', async () => {
-    getMock.mockResolvedValueOnce({ data: { items: [] } });
+    mockGet.mockResolvedValueOnce({ data: { items: [] } });
     render(<SmsThreads />);
 
     const toInput = screen.getByLabelText(/To \(E\.164\)/i);
@@ -117,8 +119,8 @@ describe('SmsThreads', () => {
   });
 
   test('clicking Send posts to /sms/send and clears only the message input', async () => {
-    getMock.mockResolvedValueOnce({ data: { items: [] } });
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockGet.mockResolvedValueOnce({ data: { items: [] } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     render(<SmsThreads />);
 
@@ -132,7 +134,7 @@ describe('SmsThreads', () => {
     fireEvent.click(sendBtn);
 
     await waitFor(() =>
-      expect(postMock).toHaveBeenCalledWith('/sms/send', {
+      expect(mockPost).toHaveBeenCalledWith('/sms/send', {
         to: '+15559876543',
         body: ' Hi there ', // component sends as-is; disable checks only trim for button state
       })
@@ -147,10 +149,10 @@ describe('SmsThreads', () => {
   });
 
   test('handles empty fetch results gracefully', async () => {
-    getMock.mockResolvedValueOnce({ data: { items: [] } });
+    mockGet.mockResolvedValueOnce({ data: { items: [] } });
     render(<SmsThreads />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
     // No links rendered
     expect(screen.queryByTestId('link')).toBeNull();
   });

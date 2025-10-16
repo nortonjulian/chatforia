@@ -1,5 +1,6 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
-import TwoFASetupModal from '@/components/TwoFASetupModal';
+import TwoFASetupModal from '../TwoFASetupModal';
+
 
 // ---------- Mocks ----------
 
@@ -97,8 +98,8 @@ describe('TwoFASetupModal', () => {
     });
 
     // Backup codes now visible
-    expect(screen.getByText('A1B2-C3D4')).toBeInTheDocument();
-    expect(screen.getByText('E5F6-G7H8')).toBeInTheDocument();
+    expect(await screen.findByText('A1B2-C3D4')).toBeInTheDocument();
+    expect(await screen.findByText('E5F6-G7H8')).toBeInTheDocument();
     // Done button visible
     expect(screen.getByRole('button', { name: /done/i })).toBeInTheDocument();
   });

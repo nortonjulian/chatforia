@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
-// ---- Mantine stubs ----
+/* ---------------- Mantine stubs ---------------- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const passthru = (tid) => ({ children, ...props }) => (
@@ -29,14 +29,20 @@ jest.mock('@mantine/core', () => {
   return { __esModule: true, Card, Stack, Title, PasswordInput, Group, Button, Text };
 });
 
-// ---- Children component stubs ----
-jest.mock('../components/settings/BackupManager.jsx', () => ({
+/* ---------------- Children component stubs ---------------- */
+/* Correct relative paths from this test file:
+   test:       src/pages/__tests__/SettingsBackups.test.js
+   components: src/components/settings/BackupManager.jsx
+               src/components/ChatBackupManager.jsx
+   relatives:  ../../components/settings/BackupManager.jsx
+               ../../components/ChatBackupManager.jsx
+*/
+jest.mock('../../components/settings/BackupManager.jsx', () => ({
   __esModule: true,
   default: () => <div data-testid="backup-manager">backup</div>,
 }));
 
-// ChatBackupManager stub exposes a button to invoke fetchAllMessages
-jest.mock('../components/ChatBackupManager.jsx', () => ({
+jest.mock('../../components/ChatBackupManager.jsx', () => ({
   __esModule: true,
   default: ({ fetchAllMessages, currentUserId, currentUserPrivateKey }) => (
     <div
@@ -49,10 +55,10 @@ jest.mock('../components/ChatBackupManager.jsx', () => ({
           try {
             const res = await fetchAllMessages();
             const ok = res && (res.items || res.data || res).length >= 0;
-            const el = document.querySelector('[data-testid="fetch-status"]');
+            const el = global.document.querySelector('[data-testid="fetch-status"]');
             if (el) el.textContent = ok ? 'fetch-ok' : 'fetch-empty';
           } catch (e) {
-            const el = document.querySelector('[data-testid="fetch-status"]');
+            const el = global.document.querySelector('[data-testid="fetch-status"]');
             if (el) el.textContent = 'fetch-error';
           }
         }}
@@ -63,29 +69,31 @@ jest.mock('../components/ChatBackupManager.jsx', () => ({
   ),
 }));
 
-// ---- Encryption client ----
-const unlockKeyBundle = jest.fn();
-jest.mock('../utils/encryptionClient.js', () => ({
+/* ---------------- Encryption client ---------------- */
+global.__unlockKeyBundleMock = jest.fn();
+jest.mock('../../utils/encryptionClient.js', () => ({
   __esModule: true,
-  unlockKeyBundle: (...a) => unlockKeyBundle(...a),
+  unlockKeyBundle: (...a) => global.__unlockKeyBundleMock(...a),
 }));
 
-// ---- SUT ----
-import SettingsBackups from './SettingsBackups';
+/* ---------------- SUT ---------------- */
+import SettingsBackups from '../SettingsBackups';
 
 describe('SettingsBackups', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    global.__unlockKeyBundleMock.mockReset();
   });
 
   test('renders title and BackupManager', () => {
     render(<SettingsBackups />);
-    expect(screen.getByTestId('title')).toHaveTextContent(/Backups/i);
+    // Use a role-based query to disambiguate multiple <h3 data-testid="title"> elements
+    expect(screen.getByRole('heading', { name: /Backups/i })).toBeInTheDocument();
     expect(screen.getByTestId('backup-manager')).toBeInTheDocument();
   });
 
   test('unlock button disabled until passcode >= 6; success path sets status and passes key to ChatBackupManager', async () => {
-    unlockKeyBundle.mockResolvedValueOnce({ privateKey: 'PK_BASE64' });
+    global.__unlockKeyBundleMock.mockResolvedValueOnce({ privateKey: 'PK_BASE64' });
 
     render(
       <div>
@@ -107,7 +115,7 @@ describe('SettingsBackups', () => {
 
     fireEvent.click(unlockBtn);
 
-    await waitFor(() => expect(unlockKeyBundle).toHaveBeenCalledWith('123456'));
+    await waitFor(() => expect(global.__unlockKeyBundleMock).toHaveBeenCalledWith('123456'));
     await waitFor(() => expect(screen.getByText(/Unlocked ✓/i)).toBeInTheDocument());
 
     // Private key flowed into ChatBackupManager stub
@@ -116,7 +124,7 @@ describe('SettingsBackups', () => {
   });
 
   test('unlock failure shows error status', async () => {
-    unlockKeyBundle.mockRejectedValueOnce(new Error('bad pass'));
+    global.__unlockKeyBundleMock.mockRejectedValueOnce(new Error('bad pass'));
 
     render(<SettingsBackups />);
 
@@ -145,7 +153,10 @@ describe('SettingsBackups', () => {
     fireEvent.click(screen.getByText('run-fetch'));
 
     await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith('/messages/all?limit=5000', expect.objectContaining({ credentials: 'include' }));
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/messages/all?limit=5000',
+        expect.objectContaining({ credentials: 'include' })
+      );
     });
     await waitFor(() => expect(screen.getByTestId('fetch-status')).toHaveTextContent('fetch-ok'));
 

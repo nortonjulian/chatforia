@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import UnverifiedBanner from '@/components/UnverifiedBanner'; // adjust path if needed
+import UnverifiedBanner from '@/components/auth/UnverifiedBanner';
 
 // ---- Mocks ----
 jest.mock('@mantine/core', () => {
