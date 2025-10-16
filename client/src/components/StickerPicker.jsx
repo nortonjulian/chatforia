@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Modal,
   Tabs,
@@ -7,23 +7,21 @@ import {
   Group,
   Image,
   Loader,
-  Badge,
   Box,
   Text,
-  ActionIcon,
-  Tooltip,
 } from '@mantine/core';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
-// Turn a native emoji → Twemoji SVG URL (works with no keys/assets)
+// Turn a native emoji → Twemoji SVG URL (no keys/assets needed)
 function emojiToTwemojiUrl(native) {
-  // split surrogate pairs into code points, lower-case hex, join with '-'
-  const codepoints = Array.from(native).map((c) =>
-    c.codePointAt(0).toString(16)
-  );
+  // Split into code points, lowercase hex. Filter VS-16 (fe0f) for better Twemoji coverage.
+  const codepoints = Array.from(native)
+    .map((c) => c.codePointAt(0)?.toString(16))
+    .filter(Boolean)
+    .filter((cp) => cp !== 'fe0f'); // drop variation selector-16
   const fn = codepoints.join('-');
-  // twemoji official CDN path for SVG
+  // Twemoji CDN path for SVGs
   return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${fn}.svg`;
 }
 
@@ -46,18 +44,25 @@ export default function StickerPicker({ opened, onClose, onPick }) {
     try {
       const res = await fetch(endpoint);
       const json = await res.json();
-      const items = (json.results || json.gifs || []).map((it) => {
-        // Tenor v2 shape
-        const media = it.media_formats || it.media || {};
-        const gif = media.gif || media.mediumgif || media.tinygif || media.nanogif || {};
-        return {
-          id: it.id,
-          url: gif.url,
-          width: Number(gif.dims?.[0] || gif.width || 480),
-          height: Number(gif.dims?.[1] || gif.height || 270),
-          durationSec: Number(gif.duration || 0),
-        };
-      }).filter((x) => x.url);
+      const items = (json.results || json.gifs || [])
+        .map((it) => {
+          // Tenor v2 shape
+          const media = it.media_formats || it.media || {};
+          const gif =
+            media.gif ||
+            media.mediumgif ||
+            media.tinygif ||
+            media.nanogif ||
+            {};
+          return {
+            id: it.id,
+            url: gif.url,
+            width: Number(gif.dims?.[0] || gif.width || 480),
+            height: Number(gif.dims?.[1] || gif.height || 270),
+            durationSec: Number(gif.duration || 0),
+          };
+        })
+        .filter((x) => x.url);
       setGifs(items);
     } catch (e) {
       console.error('Tenor fetch failed', e);
@@ -67,9 +72,9 @@ export default function StickerPicker({ opened, onClose, onPick }) {
     }
   }
 
+  // Initial trending when opened
   useEffect(() => {
     if (!opened || !canUseTenor) return;
-    // initial trending
     const url = new URL('https://tenor.googleapis.com/v2/featured');
     url.searchParams.set('key', TENOR_KEY);
     url.searchParams.set('client_key', TENOR_CLIENT);
@@ -77,8 +82,10 @@ export default function StickerPicker({ opened, onClose, onPick }) {
     url.searchParams.set('media_filter', 'gif');
     url.searchParams.set('contentfilter', 'high');
     fetchGifs(url.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opened, canUseTenor]);
 
+  // Debounced search / featured
   useEffect(() => {
     if (!canUseTenor) return;
     const id = setTimeout(() => {
@@ -96,6 +103,7 @@ export default function StickerPicker({ opened, onClose, onPick }) {
       fetchGifs(endpoint.toString());
     }, 300);
     return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, canUseTenor]);
 
   // Reset when reopened
@@ -149,7 +157,8 @@ export default function StickerPicker({ opened, onClose, onPick }) {
                 }}
               />
               <Text size="xs" c="dimmed" mt="xs">
-                Tip: Tap any emoji to add it as a sticker. (Sent as an image via Twemoji CDN.)
+                Tip: Tap any emoji to add it as a sticker. (Sent as an image via
+                Twemoji CDN.)
               </Text>
             </Box>
           </ScrollArea>
@@ -159,7 +168,9 @@ export default function StickerPicker({ opened, onClose, onPick }) {
         <Tabs.Panel value="gifs" pt="sm">
           {!canUseTenor ? (
             <Box p="md">
-              <Text fw={600} mb={6}>GIFs unavailable</Text>
+              <Text fw={600} mb={6}>
+                GIFs unavailable
+              </Text>
               <Text size="sm" c="dimmed">
                 Add a Tenor API key to your <code>.env</code>:
               </Text>
@@ -167,7 +178,11 @@ export default function StickerPicker({ opened, onClose, onPick }) {
                 component="pre"
                 mt="xs"
                 p="xs"
-                style={{ background: 'var(--mantine-color-gray-1)', borderRadius: 8, overflow: 'auto' }}
+                style={{
+                  background: 'var(--mantine-color-gray-1)',
+                  borderRadius: 8,
+                  overflow: 'auto',
+                }}
               >
                 VITE_TENOR_KEY=YOUR_TENOR_API_KEY
               </Box>

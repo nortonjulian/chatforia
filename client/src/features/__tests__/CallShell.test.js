@@ -1,13 +1,13 @@
-import React, { createRef } from 'react';
+import { createRef } from 'react';
 import { render, screen } from '@testing-library/react';
-import CallShell from './CallShell';
+import CallShell from '../call/CallShell.jsx';
 
 describe('CallShell', () => {
   test('renders structure, videos, refs, and slots', () => {
     const remoteVideoRef = createRef();
     const localVideoRef = createRef();
 
-    render(
+    const { container } = render(
       <CallShell
         callId="call-xyz"
         remoteVideoRef={remoteVideoRef}
@@ -19,39 +19,31 @@ describe('CallShell', () => {
       </CallShell>
     );
 
-    // Call ID text
+    // Slots/labels
     expect(screen.getByText(/Call ID:\s*call-xyz/i)).toBeInTheDocument();
-
-    // Overlay/children slot
     expect(screen.getByTestId('overlay-child')).toBeInTheDocument();
-
-    // Top-right slot
     expect(screen.getByTestId('top-right')).toBeInTheDocument();
-
-    // Bottom bar slot
     expect(screen.getByTestId('bottom-bar')).toBeInTheDocument();
 
     // Videos
-    const videos = screen.getAllByRole('video');
+    const videos = container.querySelectorAll('video');
     expect(videos).toHaveLength(2);
-
     const [remoteVid, localVid] = videos;
 
-    // Remote video: autoplay + playsInline, not muted
-    expect(remoteVid).toHaveAttribute('autoplay');
-    expect(remoteVid).toHaveAttribute('playsinline');
-    expect(remoteVid).not.toHaveAttribute('muted');
+    // Prefer DOM properties; fall back to attributes when properties aren't modeled by JSDOM
+    expect(remoteVid.autoplay || remoteVid.hasAttribute('autoplay')).toBe(true);
+    expect(remoteVid.playsInline || remoteVid.hasAttribute('playsinline')).toBe(true);
+    expect(remoteVid.muted).toBe(false);
 
-    // Local video: autoplay + playsInline + muted
-    expect(localVid).toHaveAttribute('autoplay');
-    expect(localVid).toHaveAttribute('playsinline');
-    expect(localVid).toHaveAttribute('muted');
+    expect(localVid.autoplay || localVid.hasAttribute('autoplay')).toBe(true);
+    expect(localVid.playsInline || localVid.hasAttribute('playsinline')).toBe(true);
+    expect(localVid.muted).toBe(true); // <-- property check fixes your failure
 
-    // Refs are attached to the right elements
+    // Refs attached
     expect(remoteVideoRef.current).toBe(remoteVid);
     expect(localVideoRef.current).toBe(localVid);
 
-    // "You" badge on local video container
+    // "You" badge
     expect(screen.getByText(/^You$/)).toBeInTheDocument();
   });
 });

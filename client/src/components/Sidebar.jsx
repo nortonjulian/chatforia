@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   Box,
   Group,
@@ -19,9 +19,7 @@ import StartChatModal from './StartChatModal';
 import ChatroomsSidebar from './ChatroomsSidebar';
 import UserProfile from './UserProfile';
 
-// Ads
-import AdSlot from '../ads/AdSlot';
-import { PLACEMENTS } from '@/ads/placements';
+// (We keep the ad imports out of Sidebar to avoid duplicate promos)
 
 function Sidebar({ currentUser, setSelectedRoom, features }) {
   const [showStartModal, setShowStartModal] = useState(false);
@@ -41,6 +39,13 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
     if (!currentUser) return;
     setShowStartModal(true);
   };
+
+  // Listen for the global event fired by HomeIndex (opens StartChatModal)
+  useEffect(() => {
+    const onOpen = () => setShowStartModal(true);
+    window.addEventListener('open-new-chat-modal', onOpen);
+    return () => window.removeEventListener('open-new-chat-modal', onOpen);
+  }, []);
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -120,16 +125,8 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
             onStartNewChat={() => setShowStartModal(true)}
             onSelect={setSelectedRoom}
           />
-
-          {/* Desktop-only ad tile for Free users */}
-          {!isPremium && !isMobile && (
-            <>
-              <Divider my="xs" />
-              <Box>
-                <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-              </Box>
-            </>
-          )}
+          {/* ⛔️ Removed any sidebar “Go Premium” or ad tiles to avoid duplicates.
+              The right rail (AppShell.Aside) will show the single HouseAdSlot. */}
         </Stack>
       </ScrollArea.Autosize>
 

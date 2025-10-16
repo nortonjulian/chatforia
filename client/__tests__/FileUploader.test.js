@@ -1,14 +1,14 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import FileUploader from '@/components/FileUploader'; // update path if needed
+import FileUploader from '@/components/FileUploader';
 
-// ---- Mocks ----
-const postMock = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { post: (...args) => postMock(...args) },
+  default: { post: jest.fn() }, // <-- no out-of-scope vars
 }));
 
-// Spy on FormData.append to ensure field name is "file"
+import axiosClient from '@/api/axiosClient'; // <-- use the mocked module
+
+// Spy on FormData.append
 const appendSpy = jest.spyOn(FormData.prototype, 'append');
 
 beforeEach(() => {
@@ -23,59 +23,44 @@ describe('FileUploader', () => {
   test('successful upload posts FormData with headers, calls onUploaded, resets input and UI', async () => {
     const onUploaded = jest.fn();
     const payload = { ok: true, url: 'https://cdn/x.png', key: 'k', contentType: 'image/png', size: 1 };
-    // Keep promise controllable to assert interim "Uploading…" state
+
     let resolve;
     const promise = new Promise((res) => (resolve = res));
-    postMock.mockReturnValue(promise);
+    axiosClient.post.mockReturnValue(promise); // <-- use the mock here
 
     render(<FileUploader onUploaded={onUploaded} />);
 
     const fileInput = screen.getByLabelText(/choose file/i, { selector: 'input[type="file"]' });
     const button = screen.getByRole('button', { name: /choose file/i });
 
-    // Select a file => triggers upload
-    const file = makeFile();
-    fireEvent.change(fileInput, { target: { files: [file] } });
+    fireEvent.change(fileInput, { target: { files: [makeFile()] } });
 
-    // While pending
     expect(button).toBeDisabled();
     expect(button).toHaveTextContent('Uploading…');
 
-    // Resolve the request
     resolve({ data: payload });
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledTimes(1);
+      expect(axiosClient.post).toHaveBeenCalledTimes(1);
     });
 
-    // Axios args
-    const [url, formData, config] = postMock.mock.calls[0];
+    const [url, formData, config] = axiosClient.post.mock.calls[0];
     expect(url).toBe('/media/upload');
     expect(formData).toBeInstanceOf(FormData);
     expect(config.headers['Content-Type']).toBe('multipart/form-data');
     expect(config.headers['X-Requested-With']).toBe('XMLHttpRequest');
     expect(typeof config.onUploadProgress).toBe('function');
 
-    // FormData field name "file" was appended
-    expect(appendSpy).toHaveBeenCalledWith('file', file);
-
-    // Callback received server data
+    expect(appendSpy).toHaveBeenCalledWith('file', expect.any(File));
     expect(onUploaded).toHaveBeenCalledWith(payload);
-
-    // Input reset so same file can be picked again
     expect(fileInput.value).toBe('');
-
-    // UI restored
     expect(button).not.toBeDisabled();
     expect(button).toHaveTextContent('Choose file');
-
-    // No error
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });
 
   test('failed upload shows server error and re-enables controls', async () => {
-    const serverErr = { response: { data: { error: 'Upload blocked' } } };
-    postMock.mockRejectedValue(serverErr);
+    axiosClient.post.mockRejectedValue({ response: { data: { error: 'Upload blocked' } } });
 
     render(<FileUploader onUploaded={jest.fn()} />);
 
@@ -84,11 +69,9 @@ describe('FileUploader', () => {
 
     fireEvent.change(fileInput, { target: { files: [makeFile()] } });
 
-    // After failure, alert appears and controls are enabled
     expect(await screen.findByRole('alert')).toHaveTextContent('Upload blocked');
     expect(button).not.toBeDisabled();
     expect(button).toHaveTextContent('Choose file');
-    // Input reset after attempt
     expect(fileInput.value).toBe('');
   });
 
@@ -97,6 +80,6 @@ describe('FileUploader', () => {
     const fileInput = screen.getByLabelText(/choose file/i, { selector: 'input[type="file"]' });
 
     fireEvent.change(fileInput, { target: { files: [] } });
-    expect(postMock).not.toHaveBeenCalled();
+    expect(axiosClient.post).not.toHaveBeenCalled();
   });
 });

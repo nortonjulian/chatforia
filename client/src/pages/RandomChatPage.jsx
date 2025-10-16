@@ -4,10 +4,13 @@ import {
 } from '@mantine/core';
 import { IconMessageCircle, IconPlayerPlay, IconPlayerStop, IconRobot } from '@tabler/icons-react';
 import { useUser } from '@/context/UserContext';
+import { useNavigate } from 'react-router-dom';
 import socket from '@/lib/socket'; // singleton client
 
 export default function RandomChatPage() {
   const { currentUser } = useUser();
+  const navigate = useNavigate();
+
   const [searching, setSearching] = useState(false);
   const [active, setActive] = useState(null); // { roomId, partner, partnerId, isAI? }
   const [messages, setMessages] = useState([]);
@@ -16,12 +19,11 @@ export default function RandomChatPage() {
   // Tracks whether the *next* pair_found is for the AI flow
   const aiRequestedRef = useRef(false);
 
-  // --- Socket listeners
+  /* ---------- Socket listeners ---------- */
   useEffect(() => {
     if (!socket) return;
 
     const onPairFound = (payload) => {
-      // If we asked for AI, normalize the payload to show "Foria"
       const isAI =
         aiRequestedRef.current ||
         payload?.isAI === true ||
@@ -31,7 +33,7 @@ export default function RandomChatPage() {
         ? { ...payload, isAI: true, partner: 'Foria' }
         : payload;
 
-      aiRequestedRef.current = false; // clear the hint once used
+      aiRequestedRef.current = false;
       setActive(normalized);
       setSearching(false);
       setStatus('');
@@ -60,7 +62,7 @@ export default function RandomChatPage() {
     };
   }, []);
 
-  // --- Actions
+  /* ---------- Actions ---------- */
   const startSearch = () => {
     if (!socket || !currentUser) return;
     aiRequestedRef.current = false;
@@ -86,24 +88,21 @@ export default function RandomChatPage() {
     setDraft('');
   };
 
-  // ✅ Always works: clears local state and tells the server to stop anything pending.
+  // ✅ central cancel/reset (used by Close + Cancel + unmount)
   const cancelAll = useCallback(() => {
-    // Local UI reset first (instant feedback)
     setSearching(false);
     setActive(null);
     setMessages([]);
     setStatus('Cancelled.');
     aiRequestedRef.current = false;
-
-    // Tell server to remove from queue / leave active room if any
     try {
       socket?.emit?.('skip_random_chat');
     } catch {
-      // ignore network errors; local UI already reset
+      // ignore; local UI already reset
     }
   }, []);
 
-  // Bonus: ESC = Cancel
+  // ESC = Cancel
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') cancelAll();
@@ -112,22 +111,45 @@ export default function RandomChatPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [cancelAll]);
 
+  // 🧹 Clean up server state if user navigates away from /random
+  useEffect(() => {
+    return () => {
+      try {
+        socket?.emit?.('skip_random_chat');
+      } catch {}
+    };
+  }, []);
+
   const partnerLabel =
     active?.isAI ? 'Foria' : String(active?.partner ?? 'Partner');
+
+  // 🚪 Close button: cancel + navigate home
+  const closePage = () => {
+    cancelAll();
+    navigate('/');
+  };
 
   return (
     <Paper withBorder radius="xl" p="lg" maw={720} mx="auto">
       <Group justify="space-between" align="center">
         <Title order={3}>Random Chat</Title>
-        {active ? (
-          <Badge color={active.isAI ? 'grape' : 'green'} variant="light">
-            {active.isAI ? 'With Foria' : 'Connected'}
-          </Badge>
-        ) : searching ? (
-          <Badge color="blue" variant="light">Searching…</Badge>
-        ) : (
-          <Badge color="gray" variant="light">Idle</Badge>
-        )}
+
+        <Group gap="xs">
+          {active ? (
+            <Badge color={active.isAI ? 'grape' : 'green'} variant="light">
+              {active.isAI ? 'With Foria' : 'Connected'}
+            </Badge>
+          ) : searching ? (
+            <Badge color="blue" variant="light">Searching…</Badge>
+          ) : (
+            <Badge color="gray" variant="light">Idle</Badge>
+          )}
+
+          {/* New Close button */}
+          <Button variant="subtle" color="gray" size="xs" onClick={closePage}>
+            Close
+          </Button>
+        </Group>
       </Group>
 
       {!active && (
@@ -136,10 +158,18 @@ export default function RandomChatPage() {
             Meet someone new instantly. We’ll match you and open a temporary chat room.
           </Text>
 
-          <Group>
+          {/* Button row: centered block, left-aligned buttons */}
+          <Group
+            maw={560}
+            mx="auto"
+            justify="flex-start"
+            wrap="wrap"
+            gap="md"
+          >
             <Button onClick={startSearch} leftSection={<IconPlayerPlay size={16} />}>
               {searching ? 'Finding…' : 'Find me a match'}
             </Button>
+
             <Button
               variant="light"
               color="gray"
@@ -148,6 +178,7 @@ export default function RandomChatPage() {
             >
               Cancel
             </Button>
+
             <Button
               variant="subtle"
               leftSection={<IconRobot size={16} />}

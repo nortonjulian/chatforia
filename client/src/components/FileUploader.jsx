@@ -41,6 +41,7 @@ export default function FileUploader({ onUploaded }) {
     <div>
       <label>
         <input
+          aria-label="Choose file"
           type="file"
           onChange={handleChange}
           disabled={uploading}

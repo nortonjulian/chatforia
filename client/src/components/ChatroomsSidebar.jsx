@@ -14,7 +14,6 @@ import { IconMessagePlus } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 
 import AdSlot from '@/ads/AdSlot';
-import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import useIsPremium from '@/hooks/useIsPremium';
 
@@ -23,6 +22,7 @@ export default function ChatroomsSidebar({
   onSelect,
   hideEmpty = false,
   activeRoomId = null,
+  onCountChange, // ⬅️ NEW: let parent (Sidebar) know how many rooms there are
 }) {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -63,19 +63,17 @@ export default function ChatroomsSidebar({
     };
   }, []);
 
-  // ---------- Loading ----------
+  // 🔔 Report room count to parent whenever it changes
+  useEffect(() => {
+    onCountChange?.(Array.isArray(rooms) ? rooms.length : 0);
+  }, [rooms, onCountChange]);
+
+  /* ---------- Loading ---------- */
   if (loading) {
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
-
-        {!isPremium && (
-          <>
-            <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-            <Divider my={6} />
-          </>
-        )}
-
+        {/* No ads in loading to keep the UI calm */}
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} height={46} radius="md" />
         ))}
@@ -83,59 +81,42 @@ export default function ChatroomsSidebar({
     );
   }
 
-  // ---------- Error ----------
+  /* ---------- Error ---------- */
   if (err) {
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
-
-        {!isPremium && (
-          <>
-            <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-            <Divider my={6} />
-          </>
-        )}
-
+        {/* No ads in error state */}
         <Alert color="red" variant="light">{err}</Alert>
         <Button onClick={() => window.location.reload()}>Retry</Button>
       </Stack>
     );
   }
 
-  // ---------- Empty list ----------
+  /* ---------- Empty list ---------- */
   if (!rooms.length) {
     if (hideEmpty) return null;
     return (
       <Stack p="sm" gap="sm">
         <Text fw={600}>Chatrooms</Text>
 
-        {!isPremium && (
-          <>
-            <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-            <Divider my={6} />
-          </>
-        )}
-
         <Text c="dimmed" size="sm">No conversations yet.</Text>
         <Button leftSection={<IconMessagePlus size={16} />} onClick={onStartNewChat}>
           New chat
         </Button>
 
-        {/* Small house promo under the CTA (free only) */}
-        {!isPremium && (
-          <div style={{ marginTop: 6 }}>
-            <HouseAdSlot placement="empty_state_promo" variant="pill" />
-          </div>
-        )}
+        {/* ⛔️ Removed the “New Chat” house promo/ad to avoid duplicate CTA.
+            Sidebar will show the Go Premium card in empty state instead. */}
       </Stack>
     );
   }
 
-  // ---------- Populated list ----------
+  /* ---------- Populated list ---------- */
   return (
     <Stack p="sm" gap="xs">
       <Text fw={600}>Chatrooms</Text>
 
+      {/* Keep a single sidebar ad only once there are chats */}
       {!isPremium && (
         <>
           <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
@@ -160,6 +141,7 @@ export default function ChatroomsSidebar({
                     ? 'var(--mantine-color-gray-1)'
                     : 'transparent',
               }}
+              title={title}
             >
               <Group justify="space-between" wrap="nowrap">
                 <Text truncate fw={500}>{title}</Text>

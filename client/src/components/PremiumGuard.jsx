@@ -1,6 +1,6 @@
 import { useUser } from '../context/UserContext';
 import { Alert, Anchor, Card, Stack, Text, Button } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 /**
  * PremiumGuard
@@ -23,7 +23,8 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
   if (variant === 'inline') {
     return (
       <Alert variant="light" color="blue">
-        This is a Premium feature. <Anchor href="/settings/upgrade">Upgrade</Anchor> to unlock.
+        This is a Premium feature.{' '}
+        <Anchor component={Link} to="/settings/upgrade">Upgrade</Anchor> to unlock.
       </Alert>
     );
   }
@@ -32,9 +33,7 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
   return (
     <Card withBorder radius="md" p="md" shadow="sm">
       <Stack gap="xs" align="center">
-        <Text size="sm" c="dimmed">
-          This feature requires a Premium plan.
-        </Text>
+        <Text size="sm" c="dimmed">This feature requires a Premium plan.</Text>
         <Button color="yellow" onClick={() => navigate('/settings/upgrade')}>
           Upgrade Now
         </Button>

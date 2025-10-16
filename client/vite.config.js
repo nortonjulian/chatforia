@@ -36,13 +36,23 @@ export default defineConfig(async ({ mode, command }) => {
     }
   }
 
-  // NOTE: your env uses VITE_API_BASE here; that’s fine for dev proxy target.
   const apiTarget = env.VITE_API_BASE || 'http://localhost:5002';
 
   return {
     plugins,
+
+    // 👇 NEW: make large JSONs load via JSON.parse at runtime
+    json: {
+      stringify: true,
+    },
+
     resolve: {
-      alias: { '@': path.resolve(__dirname, './src') },
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+
+        // 👇 NEW: neutralize any deep import to the big native.json
+        '@emoji-mart/data/sets/15/native.json': '@emoji-mart/data',
+      },
       dedupe: [
         'react',
         'react-dom',
@@ -52,20 +62,20 @@ export default defineConfig(async ({ mode, command }) => {
         '@mantine/dates',
       ],
     },
+
     build: { sourcemap: enableSourcemaps },
+
     server: {
       host: true,
       port: 5173,
       cors: true,
       proxy: {
-        // ✅ Proxy API to avoid CORS in dev; strip the /api prefix before sending to backend
         '/api': {
           target: apiTarget,
           changeOrigin: true,
           secure: false,
-          rewrite: (p) => p.replace(/^\/api/, ''), // <— this is the key line
+          rewrite: (p) => p.replace(/^\/api/, ''),
         },
-        // If you use Socket.IO or websockets, proxy them too
         '/socket.io': {
           target: apiTarget,
           ws: true,
@@ -74,6 +84,7 @@ export default defineConfig(async ({ mode, command }) => {
         },
       },
     },
+
     preview: { port: 5174 },
   };
 });

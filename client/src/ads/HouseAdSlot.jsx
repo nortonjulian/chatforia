@@ -32,7 +32,7 @@ export default function HouseAdSlot({
       ? nav(creative.href)
       : window.open(creative.href, '_blank', 'noopener,noreferrer');
 
-  // alignment + variant sizing (with min widths to avoid CTA truncation)
+  // alignment + variant sizing
   const outerJustify =
     align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center';
 
@@ -76,7 +76,14 @@ export default function HouseAdSlot({
               {creative.body}
             </Text>
           )}
-          <Button size="xs" radius="xl" onClick={open}>
+          <Button
+            size="xs"
+            radius="xl"
+            onClick={open}
+            // ✅ never truncate CTA
+            style={{ whiteSpace: 'nowrap', minWidth: 96, flexShrink: 0 }}
+            styles={{ label: { whiteSpace: 'nowrap' } }}
+          >
             {creative.cta || 'Learn more'}
           </Button>
         </Card>
@@ -86,33 +93,55 @@ export default function HouseAdSlot({
 
   /* ---------- BANNER (slim horizontal) ---------- */
   if (variant === 'banner') {
-  return (
-    <Box style={outerStyle}>
-      <Card withBorder={!frameless} radius="md" p="sm"
-            style={{ width:'100%', background: frameless ? 'transparent' : undefined, boxShadow: frameless ? 'none' : undefined, border: frameless ? 'none' : undefined }}>
-        <Group justify="space-between" align="center" wrap="nowrap">
-          <div style={{ display:'flex', gap:8, alignItems:'center', minWidth:0 }}>
-            {creative.img && (
-              <Image src={creative.img} alt={creative.alt || 'Advertisement'} width={32} height={32} radius="sm" style={{ objectFit:'cover' }} />
-            )}
-            <div style={{ minWidth:0 }}>
-              <Text fw={600} size="sm" lineClamp={1}>{creative.title}</Text>
-              {creative.body && <Text size="xs" c="dimmed" lineClamp={2}>{creative.body}</Text>}
+    return (
+      <Box style={outerStyle}>
+        <Card
+          withBorder={!frameless}
+          radius="md"
+          p="sm"
+          style={{
+            width: '100%',
+            background: frameless ? 'transparent' : undefined,
+            boxShadow: frameless ? 'none' : undefined,
+            border: frameless ? 'none' : undefined,
+          }}
+        >
+          <Group justify="space-between" align="center" wrap="nowrap">
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', minWidth: 0 }}>
+              {creative.img && (
+                <Image
+                  src={creative.img}
+                  alt={creative.alt || 'Advertisement'}
+                  width={32}
+                  height={32}
+                  radius="sm"
+                  style={{ objectFit: 'cover' }}
+                />
+              )}
+              <div style={{ minWidth: 0 }}>
+                <Text fw={600} size="sm" lineClamp={1}>{creative.title}</Text>
+                {creative.body && (
+                  <Text size="xs" c="dimmed" lineClamp={2}>
+                    {creative.body}
+                  </Text>
+                )}
+              </div>
             </div>
-          </div>
 
-          <Button
-            onClick={open}
-            size="xs"
-            styles={{ root: { whiteSpace: 'normal', maxWidth: 160 } }}
-          >
-            {creative.cta || 'Learn more'}
-          </Button>
-        </Group>
-      </Card>
-    </Box>
-  );
-}
+            <Button
+              onClick={open}
+              size="xs"
+              // ✅ never truncate CTA
+              style={{ whiteSpace: 'nowrap', minWidth: 100, flexShrink: 0 }}
+              styles={{ label: { whiteSpace: 'nowrap' } }}
+            >
+              {creative.cta || 'Learn more'}
+            </Button>
+          </Group>
+        </Card>
+      </Box>
+    );
+  }
 
   /* ---------- CARD (image creative) ---------- */
   if (creative.kind === 'image') {
@@ -154,7 +183,13 @@ export default function HouseAdSlot({
             <Text fw={600}>{creative.title}</Text>
             {creative.body ? <Text c="dimmed" size="sm">{creative.body}</Text> : null}
           </div>
-          <Button onClick={open} styles={{ root: { whiteSpace: 'normal' } }}>
+          <Button
+            onClick={open}
+            size="sm"
+            // ✅ never truncate CTA
+            style={{ whiteSpace: 'nowrap', minWidth: 100, flexShrink: 0 }}
+            styles={{ label: { whiteSpace: 'nowrap' } }}
+          >
             {creative.cta || 'Learn more'}
           </Button>
         </Group>

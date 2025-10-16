@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import GlobalPeopleSearch from '@/components/GlobalPeopleSearch'; // <-- update if needed
+import GlobalPeopleSearch from '@/components/GlobalPeopleSearch';
 
-// ---------------- Mocks ----------------
+// ---------- Mocks ----------
 
-// Mantine components: simple primitives
+// Mantine -> simple primitives
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const TextInput = ({ value, onChange, onKeyDown, placeholder, 'aria-label': aria, style }) => (
@@ -21,35 +21,38 @@ jest.mock('@mantine/core', () => {
       {children}
     </button>
   );
-  return { TextInput, Button };
+  return { __esModule: true, TextInput, Button };
 });
 
-// Icon not relevant to behavior
+// Icon (not behavior-critical)
 jest.mock('@tabler/icons-react', () => ({
+  __esModule: true,
   IconSearch: (props) => <span data-testid="icon-search" {...props} />,
 }));
 
-// Router navigate
-const navigateMock = jest.fn();
+// Router: expose a global mock (allowed in factory)
+global.mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-  useNavigate: () => navigateMock,
+  __esModule: true,
+  useNavigate: () => global.mockNavigate,
 }));
 
-// axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
+// axios client: define fns inside factory, then use imported mock
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...args) => getMock(...args),
-    post: (...args) => postMock(...args),
+    get: jest.fn(),
+    post: jest.fn(),
   },
 }));
+import axiosClient from '@/api/axiosClient'; // <-- use these mocks
 
 beforeEach(() => {
   jest.clearAllMocks();
+  global.mockNavigate.mockReset();
 });
 
+// helpers
 function typeInSearch(value) {
   const input = screen.getByLabelText(/global people search/i);
   fireEvent.change(input, { target: { value } });
@@ -59,13 +62,11 @@ function typeInSearch(value) {
 describe('GlobalPeopleSearch', () => {
   test('respects layout props: default align left, custom align center and maxWidth', () => {
     const { container, rerender } = render(<GlobalPeopleSearch />);
-    // Outer container is first div, inner row is second div
+
     const outer = container.querySelector('div');
     const inner = outer.querySelector('div');
 
-    // Default align = left
     expect(outer.style.justifyContent).toBe('flex-start');
-    // Default maxWidth = 640
     expect(inner.style.maxWidth).toBe('640px');
 
     rerender(<GlobalPeopleSearch align="center" maxWidth={720} />);
@@ -75,98 +76,92 @@ describe('GlobalPeopleSearch', () => {
     expect(inner2.style.maxWidth).toBe('720px');
   });
 
-  test('does nothing on empty or whitespace-only query', async () => {
+  test('does nothing on empty or whitespace-only query', () => {
     render(<GlobalPeopleSearch />);
 
-    // Click search with empty input
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    expect(getMock).not.toHaveBeenCalled();
-    expect(navigateMock).not.toHaveBeenCalled();
+    expect(axiosClient.get).not.toHaveBeenCalled();
+    expect(global.mockNavigate).not.toHaveBeenCalled();
 
-    // Whitespace only
     typeInSearch('   ');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
-    expect(getMock).not.toHaveBeenCalled();
-    expect(navigateMock).not.toHaveBeenCalled();
+    expect(axiosClient.get).not.toHaveBeenCalled();
+    expect(global.mockNavigate).not.toHaveBeenCalled();
   });
 
-  test('successful flow: finds user (array form) -> creates room -> navigates to /chat/:id', async () => {
+  test('successful flow: finds user (array) -> creates room -> navigates to /chat/:id', async () => {
     render(<GlobalPeopleSearch />);
 
-    getMock.mockResolvedValueOnce({ data: [{ id: 'u123' }] });
-    postMock.mockResolvedValueOnce({ data: { id: 'r999' } });
+    axiosClient.get.mockResolvedValueOnce({ data: [{ id: 'u123' }] });
+    axiosClient.post.mockResolvedValueOnce({ data: { id: 'r999' } });
 
-    typeInSearch('  alice  '); // ensure trimming
+    typeInSearch('  alice  ');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/search/users', { params: { q: 'alice' } });
+      expect(axiosClient.get).toHaveBeenCalledWith('/search/users', { params: { q: 'alice' } });
     });
-    expect(postMock).toHaveBeenCalledWith('/chatrooms/direct/u123');
+    expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/u123');
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/chat/r999');
+      expect(global.mockNavigate).toHaveBeenCalledWith('/chat/r999');
     });
   });
 
-  test('successful flow: finds user (object form) -> room missing id => navigates to /people?q=', async () => {
+  test('successful flow: finds user (object) -> room missing id => navigates to /people?q=', async () => {
     render(<GlobalPeopleSearch />);
 
-    getMock.mockResolvedValueOnce({ data: { user: { id: 'u55' } } });
-    postMock.mockResolvedValueOnce({ data: {} });
+    axiosClient.get.mockResolvedValueOnce({ data: { user: { id: 'u55' } } });
+    axiosClient.post.mockResolvedValueOnce({ data: {} });
 
     typeInSearch('bob');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
-    await waitFor(() => {
-      expect(getMock).toHaveBeenCalled();
-    });
-    expect(postMock).toHaveBeenCalledWith('/chatrooms/direct/u55');
+    await waitFor(() => expect(axiosClient.get).toHaveBeenCalled());
+    expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/u55');
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/people?q=bob');
+      expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=bob');
     });
   });
 
   test('no user found -> navigates to /people?q=', async () => {
     render(<GlobalPeopleSearch />);
 
-    getMock.mockResolvedValueOnce({ data: [] }); // array but empty
+    axiosClient.get.mockResolvedValueOnce({ data: [] });
 
     typeInSearch('charlie');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
-    await waitFor(() => {
-      expect(getMock).toHaveBeenCalled();
-    });
-    expect(postMock).not.toHaveBeenCalled();
-    expect(navigateMock).toHaveBeenCalledWith('/people?q=charlie');
+    await waitFor(() => expect(axiosClient.get).toHaveBeenCalled());
+    expect(axiosClient.post).not.toHaveBeenCalled();
+    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=charlie');
   });
 
   test('any error falls back to /people?q=', async () => {
     render(<GlobalPeopleSearch />);
 
-    getMock.mockRejectedValueOnce(new Error('network down'));
+    axiosClient.get.mockRejectedValueOnce(new Error('network down'));
 
     typeInSearch('daisy');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/people?q=daisy');
+      expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=daisy');
     });
   });
 
-  test('pressing Enter in the input triggers submit', async () => {
+  test('pressing Enter triggers submit', async () => {
     render(<GlobalPeopleSearch />);
 
-    getMock.mockResolvedValueOnce({ data: [] });
+    axiosClient.get.mockResolvedValueOnce({ data: [] });
 
     const input = typeInSearch('eve');
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/search/users', { params: { q: 'eve' } });
+      expect(axiosClient.get).toHaveBeenCalledWith('/search/users', { params: { q: 'eve' } });
     });
-    expect(navigateMock).toHaveBeenCalledWith('/people?q=eve');
+    expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=eve');
   });
 });

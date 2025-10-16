@@ -69,9 +69,6 @@ import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 // OAuth completion
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
 
-// DEV ChatView mount
-import ChatView from '@/components/ChatView';
-
 // Ads
 import { AdProvider } from '@/ads/AdProvider';
 import { CardAdWrap } from '@/ads/AdWrappers';
@@ -179,37 +176,9 @@ export default function AppRoutes() {
   if (!currentUser) {
     return (
       <Routes>
-        {/* DEV: mount ChatView even with no real data (no auth) */}
+        {/* DEV helper route removed; redirect if someone visits it */}
         {import.meta.env.DEV && (
-          <Route
-            path="/dev/chat"
-            element={
-              <AdProvider isPremium={false}>
-                <div style={{ padding: 16 }}>
-                  <div
-                    style={{
-                      outline: '1px dashed #0aa',
-                      padding: 6,
-                      borderRadius: 8,
-                      marginBottom: 8,
-                      fontSize: 12,
-                      color: '#0a6',
-                    }}
-                  >
-                    [DEV] ChatView dev route mounted
-                  </div>
-
-                  <div className="main-route">
-                    <ChatView
-                      chatroom={{ id: 'dev1', name: 'Dev Room', participants: [] }}
-                      currentUserId="u1"
-                      currentUser={{ id: 'u1', username: 'Dev User', enableSmartReplies: false }}
-                    />
-                  </div>
-                </div>
-              </AdProvider>
-            }
-          />
+          <Route path="/dev/chat" element={<Navigate to="/" replace />} />
         )}
 
         {/* Public auth layout */}
@@ -248,35 +217,9 @@ export default function AppRoutes() {
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
 
-      {/* DEV while authed */}
+      {/* DEV helper route removed; redirect if someone visits it */}
       {import.meta.env.DEV && (
-        <Route
-          path="/dev/chat"
-          element={
-            <AdProvider isPremium={false}>
-              <div style={{ padding: 16 }}>
-                <div
-                  style={{
-                    outline: '1px dashed #0aa',
-                    padding: 6,
-                    borderRadius: 8,
-                    marginBottom: 8,
-                    fontSize: 12,
-                    color: '#0a6',
-                  }}
-                >
-                  [DEV] ChatView dev route mounted
-                </div>
-
-                <ChatView
-                  chatroom={{ id: 'dev1', name: 'Dev Room', participants: [] }}
-                  currentUserId="u1"
-                  currentUser={{ id: 'u1', username: 'Dev User', enableSmartReplies: false }}
-                />
-              </div>
-            </AdProvider>
-          }
-        />
+        <Route path="/dev/chat" element={<Navigate to="/" replace />} />
       )}
 
       <Route path="/" element={<AuthedLayout />}>

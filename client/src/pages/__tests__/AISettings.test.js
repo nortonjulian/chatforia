@@ -1,35 +1,42 @@
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 
-// ---------- Mocks ----------
-const patchMock = jest.fn();
-jest.mock('@/api/axiosClient', () => ({
-  __esModule: true,
-  default: { patch: (...a) => patchMock(...a) },
-}));
+/* ---------- Mocks (keep everything in-factory or on global) ---------- */
 
-const setCurrentUserMock = jest.fn();
-let currentUserState;
-jest.mock('@/context/UserContext', () => ({
+// axios client — define jest.fn inside the factory, then import and use it
+jest.mock('../../api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    patch: jest.fn(),
+  },
+}));
+import axiosClient from '../../api/axiosClient';
+
+// UserContext — expose mutable values on global so the factory can read them
+global.__mockCurrentUser = null;
+global.__setCurrentUserMock = jest.fn();
+jest.mock('../../context/UserContext', () => ({
   __esModule: true,
   useUser: () => ({
-    currentUser: currentUserState,
-    setCurrentUser: setCurrentUserMock,
+    currentUser: global.__mockCurrentUser,
+    setCurrentUser: (...args) => global.__setCurrentUserMock(...args),
   }),
 }));
 
-const setPrefMock = jest.fn();
-jest.mock('@/utils/prefsStore', () => ({
+// prefs store — define fns inside the factory; import named exports in tests
+jest.mock('../../utils/prefsStore', () => ({
   __esModule: true,
-  setPref: (...a) => setPrefMock(...a),
+  setPref: jest.fn(),
   PREF_SMART_REPLIES: 'PREF_SMART_REPLIES',
 }));
+import { setPref, PREF_SMART_REPLIES } from '../../utils/prefsStore';
 
-jest.mock('@/components/PremiumGuard', () => ({
+// PremiumGuard — passthrough stub
+jest.mock('../../components/PremiumGuard', () => ({
   __esModule: true,
   default: ({ children }) => <div data-testid="premium-guard">{children}</div>,
 }));
 
-// Mantine core stubs (prop-driven & simple)
+// Mantine core stubs (simple, prop-driven)
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const passthru = (tid) => ({ children, ...props }) => (
@@ -119,8 +126,12 @@ jest.mock('@mantine/core', () => {
 jest.mock('@mantine/dates', () => ({
   __esModule: true,
   DateTimePicker: ({ label, value, onChange, disabled }) => (
-    <div data-testid={`dtp-${label}`} data-disabled={String(!!disabled)} data-value={value ? new Date(value).toISOString() : ''}>
-      {/* Expose a helper button to set a known date */}
+    <div
+      data-testid={`dtp-${label}`}
+      data-disabled={String(!!disabled)}
+      data-value={value ? new Date(value).toISOString() : ''}
+    >
+      {/* helper buttons to control the value in tests */}
       <button
         type="button"
         data-testid="set-datetime"
@@ -129,7 +140,6 @@ jest.mock('@mantine/dates', () => ({
       >
         set test date
       </button>
-      {/* Clear button */}
       <button
         type="button"
         data-testid="clear-datetime"
@@ -142,16 +152,21 @@ jest.mock('@mantine/dates', () => ({
   ),
 }));
 
-// SUT
-import AISettings from './AISettings';
+/* ---------- SUT ---------- */
+
+import AISettings from '../AISettings';
+
+/* ---------- Test helpers ---------- */
 
 function renderWithUser(user) {
-  currentUserState = user;
-  setCurrentUserMock.mockReset();
-  patchMock.mockReset();
-  setPrefMock.mockReset();
+  global.__mockCurrentUser = user;
+  global.__setCurrentUserMock.mockReset();
+  axiosClient.patch.mockReset();
+  setPref.mockReset();
   return render(<AISettings />);
 }
+
+/* ---------- Tests ---------- */
 
 describe('AISettings', () => {
   beforeAll(() => {
@@ -176,14 +191,16 @@ describe('AISettings', () => {
     });
 
     // Translation select uses lowercased value
-    expect(screen.getByTestId('select-Auto-translate incoming messages')).toHaveAttribute('data-value', 'tagged');
+    expect(
+      screen.getByTestId('select-Auto-translate incoming messages')
+    ).toHaveAttribute('data-value', 'tagged');
 
     // Smart Replies + Mask profanity + show original
     expect(screen.getByRole('checkbox', { name: /Enable Smart Replies/i })).not.toBeChecked();
     expect(screen.getByRole('checkbox', { name: /Mask profanity/i })).toBeChecked();
     expect(screen.getByRole('checkbox', { name: /Show original text/i })).not.toBeChecked();
 
-    // Auto-responder master switch off; child controls disabled
+    // Auto-responder off; child controls disabled
     const responderSwitch = screen.getByRole('checkbox', { name: /Enable auto-reply/i });
     expect(responderSwitch).not.toBeChecked();
     expect(screen.getByTestId('select-Auto-reply mode')).toHaveAttribute('data-value', 'off');
@@ -195,9 +212,8 @@ describe('AISettings', () => {
   test('enabling auto-responder unlocks its controls', () => {
     renderWithUser({ id: 1 });
 
-    // enable
     fireEvent.click(screen.getByRole('checkbox', { name: /Enable auto-reply/i }));
-    // controls enabled
+
     expect(screen.getByTestId('dtp-Active until (optional)')).toHaveAttribute('data-disabled', 'false');
     expect(screen.getByLabelText('Signature')).not.toBeDisabled();
     expect(screen.getByRole('spinbutton', { name: /Cooldown/i })).not.toBeDisabled();
@@ -218,86 +234,71 @@ describe('AISettings', () => {
     });
 
     // Set values:
-    // autoTranslateMode -> all
-    fireEvent.click(screen.getByTestId('opt-Auto-translate incoming messages-Translate all incoming messages'));
-
-    // showOriginalWithTranslation -> false
-    fireEvent.click(screen.getByRole('checkbox', { name: /Show original text/i }));
-
-    // enable Smart Replies & mask profanity
+    fireEvent.click(
+      screen.getByTestId('opt-Auto-translate incoming messages-all')
+    );
+    fireEvent.click(screen.getByRole('checkbox', { name: /Show original text/i })); // -> false
     fireEvent.click(screen.getByRole('checkbox', { name: /Enable Smart Replies/i }));
     fireEvent.click(screen.getByRole('checkbox', { name: /Mask profanity/i }));
-
-    // Enable responder and set fields
     fireEvent.click(screen.getByRole('checkbox', { name: /Enable auto-reply/i }));
-    // mode -> dm
-    fireEvent.click(screen.getByTestId('opt-Auto-reply mode-1:1 chats only'));
-    // cooldown -> 45
+    fireEvent.click(screen.getByTestId('opt-Auto-reply mode-dm'));
     fireEvent.change(screen.getByRole('spinbutton', { name: /Cooldown/i }), { target: { value: '45' } });
-    // signature
     fireEvent.change(screen.getByLabelText('Signature'), { target: { value: 'BRB' } });
-    // set until date via helper
     fireEvent.click(screen.getByTestId('set-datetime'));
 
-    // Server echoes some extra field
-    patchMock.mockResolvedValueOnce({ data: { serverFlag: true } });
+    axiosClient.patch.mockResolvedValueOnce({ data: { serverFlag: true } });
 
-    // Save
     fireEvent.click(screen.getByText(/Save AI Settings/i));
 
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledTimes(1);
+      expect(axiosClient.patch).toHaveBeenCalledTimes(1);
     });
 
-    // Payload verification
-    const [url, body] = patchMock.mock.calls[0];
+    const [url, body] = axiosClient.patch.mock.calls[0];
     expect(url).toBe('/users/7');
     expect(body).toEqual({
       enableSmartReplies: true,
       aiFilterProfanity: true,
       showOriginalWithTranslation: false,
-      autoTranslateMode: 'ALL',            // uppercased
+      autoTranslateMode: 'ALL',
       enableAIResponder: true,
       autoResponderMode: 'dm',
-      autoResponderCooldownSec: 45,        // number
+      autoResponderCooldownSec: 45,
       autoResponderSignature: 'BRB',
-      autoResponderActiveUntil: '2025-02-03T04:05:06.000Z', // ISO string
+      autoResponderActiveUntil: '2025-02-03T04:05:06.000Z',
     });
 
     // setCurrentUser merge
-    expect(setCurrentUserMock).toHaveBeenCalledTimes(1);
-    const updater = setCurrentUserMock.mock.calls[0][0];
-    expect(typeof updater).toBe('function');
+    expect(global.__setCurrentUserMock).toHaveBeenCalledTimes(1);
+    const updater = global.__setCurrentUserMock.mock.calls[0][0];
     const merged = updater({ id: 7, prev: 1 });
-    expect(merged).toEqual(expect.objectContaining({
-      id: 7,
-      prev: 1,
-      serverFlag: true,
-      autoTranslateMode: 'ALL',
-      enableSmartReplies: true,
-    }));
+    expect(merged).toEqual(
+      expect.objectContaining({
+        id: 7,
+        prev: 1,
+        serverFlag: true,
+        autoTranslateMode: 'ALL',
+        enableSmartReplies: true,
+      })
+    );
 
     // prefs sync
-    expect(setPrefMock).toHaveBeenCalledWith('PREF_SMART_REPLIES', true);
+    expect(setPref).toHaveBeenCalledWith(PREF_SMART_REPLIES, true);
 
-    // Success alert appears…
+    // success alert appears and auto-clears
     expect(await screen.findByText(/AI preferences saved/i)).toBeInTheDocument();
-    // …and auto-clears after 3s
     act(() => { jest.advanceTimersByTime(3000); });
     await waitFor(() => expect(screen.queryByText(/AI preferences saved/i)).toBeNull());
   });
 
   test('failed save shows error alert and clears after 3s', async () => {
     renderWithUser({ id: 33 });
-    patchMock.mockRejectedValueOnce(new Error('boom'));
+    axiosClient.patch.mockRejectedValueOnce(new Error('boom'));
 
-    // Make a trivial change so save does something
     fireEvent.click(screen.getByRole('checkbox', { name: /Enable Smart Replies/i }));
     fireEvent.click(screen.getByText(/Save AI Settings/i));
 
-    // Error status
     expect(await screen.findByText(/Failed to save AI settings/i)).toBeInTheDocument();
-
     act(() => { jest.advanceTimersByTime(3000); });
     await waitFor(() => expect(screen.queryByText(/Failed to save AI settings/i)).toBeNull());
   });
@@ -309,18 +310,17 @@ describe('AISettings', () => {
       autoResponderActiveUntil: '2025-02-03T04:05:06.000Z',
     });
 
-    // date picker initially has value; then clear it
     expect(screen.getByTestId('dtp-Active until (optional)')).toHaveAttribute(
       'data-value',
       '2025-02-03T04:05:06.000Z'
     );
     fireEvent.click(screen.getByTestId('clear-datetime'));
 
-    patchMock.mockResolvedValueOnce({ data: {} });
+    axiosClient.patch.mockResolvedValueOnce({ data: {} });
     fireEvent.click(screen.getByText(/Save AI Settings/i));
 
-    await waitFor(() => expect(patchMock).toHaveBeenCalled());
-    const [, body] = patchMock.mock.calls[0];
+    await waitFor(() => expect(axiosClient.patch).toHaveBeenCalled());
+    const [, body] = axiosClient.patch.mock.calls[0];
     expect(body.autoResponderActiveUntil).toBeNull();
   });
 });

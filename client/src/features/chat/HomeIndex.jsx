@@ -1,32 +1,40 @@
-import { Card, Stack, Text, Button, Divider, Box } from '@mantine/core';
-import { useAds } from '@/ads/AdProvider';
-import { CardAdWrap } from '@/ads/AdWrappers';
-import HouseAdSlot from '@/ads/HouseAdSlot';
+import { Box, Card, Stack, Text, Button } from '@mantine/core';
 
 export default function HomeIndex() {
-  const { isPremium } = useAds();
+  const handleSendMessage = () => {
+    // Open the StartChatModal via the global event.
+    window.dispatchEvent(new CustomEvent('open-new-chat-modal'));
+    // No fallback navigation — this should ONLY open the modal.
+  };
 
   return (
-    <Box w="100%" mih={420} display="grid" style={{ placeItems: 'center' }}>
-      <Card withBorder radius="lg" p="lg" maw={420} w="100%">
+    <Box
+      role="region"
+      aria-label="Home"
+      w="100%"
+      mih="70vh"
+      display="grid"
+      style={{ placeItems: 'center' }}
+    >
+      <Card
+        withBorder
+        radius="lg"
+        p="lg"
+        maw={380}
+        w="100%"
+        style={{ textAlign: 'center' }}
+      >
         <Stack gap="xs" align="center">
-          <Text fw={600} ta="center">
-            Select a text or chatroom to begin chatting
-          </Text>
+          <Text fw={700} size="lg">Your messages</Text>
+          <Text c="dimmed" size="sm" mb="xs">Send a message to start a chat.</Text>
 
-          <Button size="md" variant="filled" color="yellow" component="a" href="/random">
-            Start your first chat
+          <Button
+            size="md"
+            onClick={handleSendMessage}
+            style={{ whiteSpace: 'nowrap' }}
+          >
+            Send message
           </Button>
-
-          {/* Empty-state house promo (non-premium) */}
-          {!isPremium && (
-            <>
-              <Divider label="Sponsored" labelPosition="center" my="xs" />
-              <CardAdWrap>
-                <HouseAdSlot placement="empty_state_promo" variant="card" />
-              </CardAdWrap>
-            </>
-          )}
         </Stack>
       </Card>
     </Box>
