@@ -241,16 +241,16 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   // ✅ Defaults
   const [preferredLanguage, setPreferredLanguage] = useState(currentUser.preferredLanguage || 'en');
   const [autoTranslate, setAutoTranslate] = useState(
-    typeof currentUser.autoTranslate === 'boolean' ? currentUser.autoTranslate : true
+    typeof currentUser.autoTranslate === 'boolean' ? currentUser.autoTranslate : false
   );
   const [showOriginalWithTranslation, setShowOriginalWithTranslation] = useState(
     typeof currentUser.showOriginalWithTranslation === 'boolean'
       ? currentUser.showOriginalWithTranslation
-      : true
+      : false
   );
   const [allowExplicitContent, setAllowExplicitContent] = useState(currentUser.allowExplicitContent ?? false);
   const [showReadReceipts, setShowReadReceipts] = useState(
-    typeof currentUser.showReadReceipts === 'boolean' ? currentUser.showReadReceipts : true
+    typeof currentUser.showReadReceipts === 'boolean' ? currentUser.showReadReceipts : false
   );
   const [autoDeleteSeconds, setAutoDeleteSeconds] = useState(currentUser.autoDeleteSeconds || 0);
   const [privacyBlurEnabled, setPrivacyBlurEnabled] = useState(currentUser.privacyBlurEnabled ?? false);
