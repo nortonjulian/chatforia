@@ -1,7 +1,7 @@
 import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
-import { sendSmsWithFallback } from '../lib/telco/index.js';
+import { sendSms } from '../lib/telco/index.js';
 
 /**
  * Pick a user's outbound "from" number (first assigned).
@@ -40,9 +40,10 @@ export async function sendUserSms({ userId, to, body }) {
   const from = await getUserFromNumber(userId);
   const thread = await upsertThread(userId, toPhone);
 
-  // Telco send
+  // Telco send (Twilio-only)
   const clientRef = `smsout:${userId}:${Date.now()}`;
-  const result = await sendSmsWithFallback({ to: toPhone, text: body, clientRef });
+  const result = await sendSms({ to: toPhone, text: body, clientRef });
+  const provider = result?.provider || 'twilio';
 
   // Persist message
   await prisma.smsMessage.create({
@@ -52,11 +53,12 @@ export async function sendUserSms({ userId, to, body }) {
       fromNumber: from,
       toNumber: toPhone,
       body,
-      provider: result?.provider || null,
+      provider,
+      // providerMessageId: result?.messageSid || null, // ← uncomment if your schema supports it
     },
   });
 
-  return { ok: true, threadId: thread.id, provider: result?.provider || null };
+  return { ok: true, threadId: thread.id, provider, messageSid: result?.messageSid || null };
 }
 
 /**

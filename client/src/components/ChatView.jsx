@@ -33,7 +33,6 @@ import TranslatedText from './chat/TranslatedText.jsx';
 import socket from '../lib/socket';
 import { decryptFetchedMessages } from '../utils/encryptionClient';
 import axiosClient from '../api/axiosClient';
-import { toast } from '../utils/toast';
 
 import '@/styles.css';
 
@@ -207,10 +206,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             : m
         )
       );
-      toast.ok('Message updated.');
+      // no toast; silent success
     } catch (error) {
-      toast.err('Message edit failed.');
-      console.error(error);
+      console.error('Message edit failed', error);
+      // no toast
     }
   };
 
@@ -260,7 +259,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
       addMessages(chatroom.id, chronological).catch(() => {});
     } catch (err) {
-      toast.err('Failed to load messages.');
       console.error('Failed to fetch/decrypt paged messages', err);
     } finally {
       setLoading(false);
@@ -441,8 +439,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   // === Premium toolbar actions (handler-level guard) ===
   const runPowerAi = async () => {
     if (!isPremium) {
-      toast.info('This feature requires Premium.');
-      return navigate('/settings/upgrade');
+      // silent redirect to Upgrade page
+      return navigate('/upgrade'); // ← updated
     }
     try {
       const { data } = await axiosClient.post('/ai/power-feature', {
@@ -450,15 +448,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       });
       console.log('AI power result', data);
     } catch (e) {
-      console.error(e);
-      toast.err('Power AI failed.');
+      console.error('Power AI failed', e);
     }
   };
 
   const openSchedulePrompt = async () => {
     if (!isPremium) {
-      toast.info('Scheduling messages is a Premium feature.');
-      return navigate('/settings/upgrade');
+      return navigate('/upgrade'); // ← updated
     }
     const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
     if (!iso || !chatroom?.id) return;
@@ -466,7 +462,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     try {
       scheduledAt = new Date(iso).toISOString();
     } catch {
-      toast.err('Invalid date');
+      console.error('Invalid date input for scheduling');
       return;
     }
     try {
@@ -474,10 +470,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         content: '(scheduled message)',
         scheduledAt,
       });
-      toast.ok('Scheduled ✓');
+      // silent success
     } catch (e) {
-      console.error(e);
-      toast.err('Schedule failed.');
+      console.error('Schedule failed', e);
     }
   };
 
@@ -496,9 +491,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       setMessages((prev) =>
         prev.map((m) => (m.id === failedMsg.id ? { ...saved } : m))
       );
-      toast.ok('Message delivered.');
     } catch (e) {
-      toast.err('Still failed. Check your connection and try again.');
+      console.error('Retry send failed', e);
     }
   }
 

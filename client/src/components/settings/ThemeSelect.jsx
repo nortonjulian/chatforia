@@ -1,29 +1,15 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Select, Switch, Stack } from '@mantine/core';
+import { Select, Stack } from '@mantine/core';
 import { getTheme, setTheme } from '../../utils/themeManager';
 import { THEME_CATALOG, THEME_LABELS } from '../../config/themes';
 
 export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
   const [value, setValue] = useState(getTheme());
-  const [coolOnMidnight, setCoolOnMidnight] = useState(
-    typeof window !== 'undefined' ? localStorage.getItem('co-cta') === 'cool' : false
-  );
 
   useEffect(() => {
+    // ensure current theme applied on mount
     setTheme(value);
-  }, []); // on mount
-
-  // Apply/remember blue→purple override on Midnight
-  useEffect(() => {
-    const root = document.documentElement;
-    if (value === 'midnight' && coolOnMidnight) {
-      root.setAttribute('data-cta', 'cool');
-      localStorage.setItem('co-cta', 'cool');
-    } else {
-      root.removeAttribute('data-cta');
-      localStorage.removeItem('co-cta');
-    }
-  }, [value, coolOnMidnight]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const toOpt = (t) => ({ value: t, label: THEME_LABELS[t] || t });
 
@@ -52,7 +38,7 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
           if (!v) return;
           if (!isPremium && THEME_CATALOG.premium.includes(v)) return;
           setValue(v);
-          setTheme(v);
+          setTheme(v); // updates <html data-theme> and localStorage
         }}
         id="theme"
         withinPortal

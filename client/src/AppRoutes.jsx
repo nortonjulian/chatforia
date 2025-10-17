@@ -32,7 +32,7 @@ import StatusFeed from '@/pages/StatusFeed.jsx';
 
 // Calls
 import IncomingCallModal from '@/components/IncomingCallModal.jsx';
-import VideoCall from '@/components/VideoCall.jsx';
+import VideoCall from '@/video/VideoCall.jsx';
 
 // HTTP
 import api, { primeCsrf } from '@/api/axiosClient';
@@ -103,10 +103,11 @@ function AuthedLayout() {
     });
   };
 
+  // Treat PLUS and PREMIUM as paid (ad-free)
+  const plan = (currentUser?.plan || 'free').toLowerCase();
+  const tier = (currentUser?.subscription?.tier || '').toLowerCase();
   const isPremium = Boolean(
-    currentUser?.isPremium ||
-    currentUser?.plan === 'premium' ||
-    currentUser?.subscription?.tier === 'premium'
+    currentUser?.isPremium || plan === 'premium' || plan === 'plus' || tier === 'premium' || tier === 'plus'
   );
 
   return (
@@ -153,7 +154,7 @@ function AuthedLayout() {
       <AppShell.Main id="main-content" tabIndex={-1}>
         <IncomingCallModal onAccept={handleAcceptIncoming} onReject={() => setActiveCall(null)} />
         {activeCall && (
-          <VideoCall call={activeCall} currentUser={currentUser} onEnd={() => setActiveCall(null)} />
+          <VideoCall identity={me.username} room={`dm:${peerId}`} onEnd={() => setActiveCall(null)} />
         )}
 
         {/* Provide ads context */}
@@ -188,6 +189,10 @@ export default function AppRoutes() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
 
+          {/* Public upgrade/pricing routes (standalone under AuthLayout) */}
+          <Route path="/upgrade" element={<UpgradePage variant="public" />} />
+          <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
+
           {/* OAuth completes here */}
           <Route path="/auth/complete" element={<OAuthComplete />} />
 
@@ -214,6 +219,10 @@ export default function AppRoutes() {
 
   return (
     <Routes>
+      {/* Standalone authed upgrade page (NOT inside AuthedLayout) */}
+      <Route path="/upgrade" element={<UpgradePage variant="account" />} />
+      <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
+
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
 
@@ -236,8 +245,10 @@ export default function AppRoutes() {
             </RequirePremium>
           }
         />
-        <Route path="settings/upgrade" element={<UpgradePage />} />
-        <Route path="/join/:code" element={<JoinInvitePage />} />
+
+        {/* NOTE: Removed the nested settings/upgrade route so it won't render inline */}
+
+        <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="status" element={<StatusFeed />} />
 
         {/* SMS */}

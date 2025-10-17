@@ -63,8 +63,12 @@ export default function validateEnv() {
       console.warn('[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)');
     }
   } else {
-    invariant(hasCorsList || hasFrontend || IS_TEST, '[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)');
+    invariant(
+      hasCorsList || hasFrontend || IS_TEST,
+      '[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)'
+    );
   }
+
 
   // ─────────────────────────────────────────────────────────────
   // Stripe: if one is set, require the other (optional overall)
@@ -73,43 +77,95 @@ export default function validateEnv() {
     requireNonEmpty(ENV.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY', { soft: SOFT });
     requireNonEmpty(ENV.STRIPE_WEBHOOK_SECRET, 'STRIPE_WEBHOOK_SECRET', { soft: SOFT });
   }
-
+  
   // ─────────────────────────────────────────────────────────────
   // Telco: only validate if provider selected AND not disabled
+  // ─────────────────────────────────────────────────────────────
+  // const telcoValidationDisabled =
+  //   String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
+
+  // if (!telcoValidationDisabled) {
+  //   if (ENV.TELCO_PROVIDER === 'telnyx') {
+  //     requireNonEmpty(ENV.TELNYX_API_KEY, 'TELNYX_API_KEY', { soft: SOFT });
+  //     const hasFrom =
+  //       !!ENV.TELNYX_MESSAGING_PROFILE_ID || !!ENV.TELNYX_FROM_NUMBER;
+  //     if (SOFT) {
+  //       if (!hasFrom) {
+  //         // eslint-disable-next-line no-console
+  //         console.warn(
+  //           '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
+  //         );
+  //       }
+  //     } else {
+  //       invariant(
+  //         hasFrom,
+  //         '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
+  //       );
+  //     }
+  //   }
+  //   if (ENV.TELCO_PROVIDER === 'bandwidth') {
+  //     requireNonEmpty(ENV.BANDWIDTH_ACCOUNT_ID, 'BANDWIDTH_ACCOUNT_ID', { soft: SOFT });
+  //     requireNonEmpty(ENV.BANDWIDTH_USER_ID, 'BANDWIDTH_USER_ID', { soft: SOFT });
+  //     requireNonEmpty(ENV.BANDWIDTH_PASSWORD, 'BANDWIDTH_PASSWORD', { soft: SOFT });
+  //     requireNonEmpty(ENV.BANDWIDTH_MESSAGING_APPLICATION_ID, 'BANDWIDTH_MESSAGING_APPLICATION_ID', { soft: SOFT });
+  //     requireNonEmpty(ENV.BANDWIDTH_FROM_NUMBER, 'BANDWIDTH_FROM_NUMBER', { soft: SOFT });
+  //   }
+  // } else if (!IS_TEST) {
+  //   // eslint-disable-next-line no-console
+  //   console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
+  // }
+
+  // ─────────────────────────────────────────────────────────────
+  // Telco: Twilio (selected provider)
+  // Only validate if Twilio is selected OR any Twilio vars are present.
+  // You can disable with DISABLE_TELCO_VALIDATION=true
   // ─────────────────────────────────────────────────────────────
   const telcoValidationDisabled =
     String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
 
   if (!telcoValidationDisabled) {
-    if (ENV.TELCO_PROVIDER === 'telnyx') {
-      requireNonEmpty(ENV.TELNYX_API_KEY, 'TELNYX_API_KEY', { soft: SOFT });
-      const hasFrom =
-        !!ENV.TELNYX_MESSAGING_PROFILE_ID || !!ENV.TELNYX_FROM_NUMBER;
+    const wantsTwilio =
+      (String(ENV.DEFAULT_PROVIDER || '').toLowerCase() === 'twilio') ||
+      !!ENV.TWILIO_ACCOUNT_SID ||
+      !!ENV.TWILIO_AUTH_TOKEN ||
+      !!ENV.TWILIO_MESSAGING_SERVICE_SID ||
+      !!ENV.TWILIO_FROM_NUMBER;
+
+    if (wantsTwilio) {
+      requireNonEmpty(ENV.TWILIO_ACCOUNT_SID, 'TWILIO_ACCOUNT_SID', { soft: SOFT });
+      requireNonEmpty(ENV.TWILIO_AUTH_TOKEN, 'TWILIO_AUTH_TOKEN', { soft: SOFT });
+
+      const hasMessagingId = !!ENV.TWILIO_MESSAGING_SERVICE_SID || !!ENV.TWILIO_FROM_NUMBER;
       if (SOFT) {
-        if (!hasFrom) {
+        if (!hasMessagingId) {
           // eslint-disable-next-line no-console
           console.warn(
-            '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
+            '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
           );
         }
       } else {
         invariant(
-          hasFrom,
-          '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
+          hasMessagingId,
+          '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
         );
       }
-    }
-    if (ENV.TELCO_PROVIDER === 'bandwidth') {
-      requireNonEmpty(ENV.BANDWIDTH_ACCOUNT_ID, 'BANDWIDTH_ACCOUNT_ID', { soft: SOFT });
-      requireNonEmpty(ENV.BANDWIDTH_USER_ID, 'BANDWIDTH_USER_ID', { soft: SOFT });
-      requireNonEmpty(ENV.BANDWIDTH_PASSWORD, 'BANDWIDTH_PASSWORD', { soft: SOFT });
-      requireNonEmpty(ENV.BANDWIDTH_MESSAGING_APPLICATION_ID, 'BANDWIDTH_MESSAGING_APPLICATION_ID', { soft: SOFT });
-      requireNonEmpty(ENV.BANDWIDTH_FROM_NUMBER, 'BANDWIDTH_FROM_NUMBER', { soft: SOFT });
+
+      // Optional: voice settings sanity check (warn-only).
+      if (!IS_TEST && !ENV.TWILIO_VOICE_TWIML_APP_SID && !ENV.TWILIO_VOICE_WEBHOOK_URL) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[env] Twilio voice not configured (set TWILIO_VOICE_TWIML_APP_SID or TWILIO_VOICE_WEBHOOK_URL) — OK if you are not using voice yet'
+        );
+      }
     }
   } else if (!IS_TEST) {
     // eslint-disable-next-line no-console
     console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
   }
+
+  // (Legacy Telnyx/Bandwidth validation kept for future re-enable)
+  // if (ENV.TELCO_PROVIDER === 'telnyx') { ... }
+  // if (ENV.TELCO_PROVIDER === 'bandwidth') { ... }
 
   // ─────────────────────────────────────────────────────────────
   // Upload target

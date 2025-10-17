@@ -129,7 +129,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   );
 
   const applyTheme = (themeName) => {
-    setTheme(themeName);
+    setTheme(themeName); // sets <html data-theme=...> + persists locally
     setColorScheme(isLightTheme(themeName) ? 'light' : 'dark');
     if (themeName !== 'midnight') {
       document.documentElement.removeAttribute('data-cta');
@@ -238,19 +238,31 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const planUpper = (currentUser.plan || 'FREE').toUpperCase();
   const isPremium = planUpper === 'PREMIUM';
 
-  // ✅ Defaults are OFF unless set
+  // ✅ Defaults
   const [preferredLanguage, setPreferredLanguage] = useState(currentUser.preferredLanguage || 'en');
-  const [autoTranslate, setAutoTranslate] = useState(currentUser.autoTranslate ?? false);
-  const [showOriginalAndTranslation, setShowOriginalAndTranslation] = useState(
-    currentUser.showOriginalAndTranslation ?? false
+  const [autoTranslate, setAutoTranslate] = useState(
+    typeof currentUser.autoTranslate === 'boolean' ? currentUser.autoTranslate : true
+  );
+  const [showOriginalWithTranslation, setShowOriginalWithTranslation] = useState(
+    typeof currentUser.showOriginalWithTranslation === 'boolean'
+      ? currentUser.showOriginalWithTranslation
+      : true
   );
   const [allowExplicitContent, setAllowExplicitContent] = useState(currentUser.allowExplicitContent ?? false);
-  const [enableReadReceipts, setEnableReadReceipts] = useState(currentUser.enableReadReceipts ?? false);
+  const [showReadReceipts, setShowReadReceipts] = useState(
+    typeof currentUser.showReadReceipts === 'boolean' ? currentUser.showReadReceipts : true
+  );
   const [autoDeleteSeconds, setAutoDeleteSeconds] = useState(currentUser.autoDeleteSeconds || 0);
   const [privacyBlurEnabled, setPrivacyBlurEnabled] = useState(currentUser.privacyBlurEnabled ?? false);
   const [privacyBlurOnUnfocus, setPrivacyBlurOnUnfocus] = useState(currentUser.privacyBlurOnUnfocus ?? false);
   const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(currentUser.privacyHoldToReveal ?? false);
   const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser.notifyOnCopy ?? false);
+
+  // Keep UI theme in sync if user state changes (e.g., login in another tab)
+  useEffect(() => {
+    if (currentUser?.theme) applyTheme(currentUser.theme);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser?.theme]);
 
   // Nothing auto-opened
   const [openItems, setOpenItems] = useState([]);
@@ -266,7 +278,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         const top = (parent.scrollTop || 0) + (rect.top - parentRect.top) - 12;
         parent.scrollTo({ top, behavior: 'smooth' });
       };
-      // Do it after layout; repeat once in case content expands
       requestAnimationFrame(() => {
         scrollToAnchor();
         setTimeout(scrollToAnchor, 80);
@@ -287,35 +298,26 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const saveSettings = async () => {
     try {
       const chosenTheme = getTheme();
-      await axiosClient.patch(`/users/${currentUser.id}`, {
+      const payload = {
         preferredLanguage,
         autoTranslate,
-        showOriginalAndTranslation,
+        showOriginalWithTranslation,
         theme: chosenTheme,
         allowExplicitContent,
-        enableReadReceipts,
+        showReadReceipts,
         autoDeleteSeconds: parseInt(autoDeleteSeconds || 0, 10),
         privacyBlurEnabled,
         privacyBlurOnUnfocus,
         privacyHoldToReveal,
         notifyOnCopy,
-      });
+      };
+      await axiosClient.patch(`/users/${currentUser.id}`, payload);
+
+      // reflect locally
       i18n.changeLanguage(preferredLanguage);
       onLanguageChange?.(preferredLanguage);
-      setCurrentUser((prev) => ({
-        ...prev,
-        preferredLanguage,
-        autoTranslate,
-        showOriginalAndTranslation,
-        theme: chosenTheme,
-        allowExplicitContent,
-        enableReadReceipts,
-        autoDeleteSeconds: parseInt(autoDeleteSeconds || 0, 10),
-        privacyBlurEnabled,
-        privacyBlurOnUnfocus,
-        privacyHoldToReveal,
-        notifyOnCopy,
-      }));
+      setCurrentUser((prev) => ({ ...prev, ...payload }));
+
       notifications.show({ color: 'green', message: t('profile.saveSuccess', 'Settings saved') });
     } catch (error) {
       console.error('Failed to save settings', error);
@@ -442,15 +444,15 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 aria-label={t('profile.autoTranslate', 'Auto-translate messages')}
               />
               <Switch
-                checked={showOriginalAndTranslation}
-                onChange={(e) => setShowOriginalAndTranslation(e.currentTarget.checked)}
+                checked={showOriginalWithTranslation}
+                onChange={(e) => setShowOriginalWithTranslation(e.currentTarget.checked)}
                 label={t('profile.showOriginalAndTranslation', 'Show original alongside translation')}
                 aria-label={t('profile.showOriginalAndTranslation', 'Show original alongside translation')}
               />
 
               <Switch
-                checked={enableReadReceipts}
-                onChange={(e) => setEnableReadReceipts(e.currentTarget.checked)}
+                checked={showReadReceipts}
+                onChange={(e) => setShowReadReceipts(e.currentTarget.checked)}
                 label={t('profile.enableReadReceipts', 'Enable read receipts')}
                 aria-label={t('profile.enableReadReceipts', 'Enable read receipts')}
               />

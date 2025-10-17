@@ -1,18 +1,20 @@
 import express from 'express';
 import Boom from '@hapi/boom';
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit'; // ⬅️ import helper
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
 import { translateBatch } from '../services/translation/index.js';
 
 const router = express.Router();
 
+// Per-user key when logged in; otherwise IPv6-safe IP key.
 const translateLimiter = rateLimit({
   windowMs: 15 * 1000,
-  max: 60,                   // burst per user
+  limit: 60,                             // v7+/v8 option name (alias of "max")
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => String(req.user?.id || req.ip),
+  keyGenerator: (req, res) =>
+    req.user?.id ? String(req.user.id) : ipKeyGenerator(req, res), // ✅
 });
 
 router.post(

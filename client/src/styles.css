@@ -74,7 +74,7 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
   overflow: visible;
   margin-right: -0.26em; /* small optical tuck (canceled/tweaked in hero) */
 }
-.brand-logo svg{ width:100%; height:100%; display:block; }
+.brand-logo svg{ width:100%; height:100%; display:block; } /* removed vertical-align */
 .brand-lockup__name{ margin:0; line-height:1; }
 
 /* ================== Auth background (theme-aware) ================== */
@@ -102,7 +102,6 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
   -webkit-text-fill-color: var(--gold-2);
   color: var(--gold-2) !important;
 }
-
 
 .auth-page .mantine-Anchor-root,
 .auth-page a.auth-link-gradient { background: var(--cta-gradient); -webkit-background-clip: text; background-clip: text; color: transparent !important; -webkit-text-fill-color: transparent; text-decoration: none; }
@@ -206,7 +205,7 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 }
 
 .hero-bubble-align .brand-logo{ width: var(--bubble); height: var(--bubble); margin-right: -3px; }
-.hero-bubble-align .brand-logo svg{ display:block; vertical-align:top; }
+.hero-bubble-align .brand-logo svg{ display:block; }
 .hero-bubble-align .brand-lockup__name{ margin:0; line-height:1; transform: translate(var(--hug-x), -2px); }
 
 /* Headline aligned to the “C” */
@@ -239,6 +238,18 @@ html, body, #root { background: var(--bg); color: var(--fg); }
   display:flex; align-items:center; justify-content:center;
 }
 .auth-list [class*="mantine-List-itemWrapper"]{ padding-left:0; }
+
+/* ================== Auth column responsiveness ================== */
+.auth-login {
+  max-width: 440px;
+  margin-inline: auto; /* center at small widths */
+}
+@media (min-width: 62em) { /* Mantine md ≈ 992px */
+  .auth-login {
+    margin-right: 0;
+    margin-left: auto;  /* right-align on md+ */
+  }
+}
 
 /* Chat layout: let the footer auto-size */
 .chatgrid {
@@ -278,7 +289,6 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 
 /* Sensible body defaults */
 body { font-size: 16px; line-height: 1.4; }
-
 
 html, body, #root { height: 100%; }
 

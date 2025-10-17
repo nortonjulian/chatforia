@@ -39,7 +39,7 @@ globalThis.__BW_NUMBERS = {
 };
 
 // Now import the real adapter (it will use the globals above)
-const BandwidthProvider = (await import('../lib/telco/bandwidth.js')).default;
+const BandwidthProvider = (await import('../../lib/telco/legacy/bandwidth.js')).default;
 
 describe('BandwidthProvider', () => {
   beforeAll(() => {

@@ -7,7 +7,7 @@ import { transporter as mailTransporter } from '../services/mailer.js';
 import { formatDate, formatTime } from '../utils/date.js';
 import { createInviteTemplate } from '../utils/inviteTemplate.js';
 import prisma from '../utils/prismaClient.js';
-import { sendSmsWithFallback as realSendSmsWithFallback } from '../lib/telco/index.js';
+import { sendSms as realSendSms } from '../lib/telco/index.js';
 import {
   limiterInvites,
   invitesSmsLimiter,
@@ -18,7 +18,6 @@ const router = express.Router();
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
 
 const {
-  INVITES_PROVIDER,
   APP_DOWNLOAD_URL,
   MAIL_FROM,
   APP_ORIGIN,
@@ -133,14 +132,16 @@ async function collectSelfEmails(req, auth) {
   return out;
 }
 
-async function sendSmsTestSafe({ to, text, clientRef, preferred }) {
+async function sendSmsTestSafe({ to, text, clientRef }) {
   try {
-    if (typeof realSendSmsWithFallback === 'function') {
-      return await realSendSmsWithFallback({ to, text, clientRef, preferred });
+    if (typeof realSendSms === 'function') {
+      // Twilio-only send; no multi-provider fallback
+      return await realSendSms({ to, text, clientRef });
     }
   } catch {}
   if (IS_TEST) {
-    return { provider: 'telnyx', messageId: `m_${to}_${Date.now()}` };
+    // Test stub: mimic Twilio shape
+    return { provider: 'twilio', messageSid: `SM_${Date.now()}` };
   }
   throw Boom.badGateway('SMS provider unavailable');
 }
@@ -153,7 +154,7 @@ router.post(
   invitesSmsLimiter,
   express.json(),
   asyncHandler(async (req, res) => {
-    const { phone, message, preferredProvider } = req.body || {};
+    const { phone, message /* preferredProvider */ } = req.body || {};
     if (!phone) throw Boom.badRequest('phone is required');
 
     const to = normalizeE164(phone);
@@ -169,12 +170,14 @@ router.post(
         `${inviter} invited you to try Chatforia. Download here: ${APP_DOWNLOAD_URL || ''}`
     );
 
-    const pref = String(preferredProvider || INVITES_PROVIDER || '').toLowerCase();
-    const preferred = pref === 'telnyx' || pref === 'bandwidth' ? pref : undefined;
-
+    // preferredProvider (telnyx|bandwidth) is now ignored; Twilio-only
     const clientRef = `invite:${auth.id || 'anon'}:${Date.now()}`;
-    const result = await sendSmsTestSafe({ to, text, clientRef, preferred });
-    return res.json({ sent: true, provider: result.provider, id: result.messageId });
+    const result = await sendSmsTestSafe({ to, text, clientRef });
+    return res.json({
+      sent: true,
+      provider: result.provider || 'twilio',
+      id: result.messageSid || result.messageId || null,
+    });
   })
 );
 
@@ -243,7 +246,7 @@ router.post(
       }
 
       const info = await transporter.sendMail({
-        from: MAIL_FROM || 'noreply@chatforia.app',
+        from: MAIL_FROM || 'noreply@chatforia.com',
         to: recipients,
         subject: outSubject,
         html: outHtml,

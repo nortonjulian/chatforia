@@ -18,48 +18,60 @@ router.use(rateLimit({ windowMs: 60_000, max: 20 }));
 router.get('/', (req, res) => {
   const provider = String(req.query.provider || 'all').toLowerCase();
 
+  const TWILIO_STUN = process.env.TWILIO_STUN || 'stun:global.stun.twilio.com:3478';
+  const turnUrl = process.env.TWILIO_TURN_URL || '';
+  const turnUser = process.env.TWILIO_TURN_USER || '';
+  const turnPass = process.env.TWILIO_TURN_PASS || '';
+
   // --- STUN defaults (safe to ship both) ---
-  const TELNYX_STUN = process.env.TELNYX_STUN || 'stun:stun.telnyx.com:3478';
-  const BW_STUN     = process.env.BW_STUN     || 'stun:stun.l.google.com:19302'; // Bandwidth doesn’t require their own STUN; Google STUN is fine as a second.
+  // const TELNYX_STUN = process.env.TELNYX_STUN || 'stun:stun.telnyx.com:3478';
+  // const BW_STUN     = process.env.BW_STUN     || 'stun:stun.l.google.com:19302'; // Bandwidth doesn’t require their own STUN; Google STUN is fine as a second.
 
   // --- Telnyx TURN (optional) ---
-  const tTurn = (process.env.TELNYX_TURN_URL && process.env.TELNYX_TURN_USER && process.env.TELNYX_TURN_PASS)
-    ? {
-        urls: process.env.TELNYX_TURN_URL,      // e.g. turn:turn.telnyx.com:3478
-        username: process.env.TELNYX_TURN_USER,
-        credential: process.env.TELNYX_TURN_PASS,
-      }
-    : null;
+  // const tTurn = (process.env.TELNYX_TURN_URL && process.env.TELNYX_TURN_USER && process.env.TELNYX_TURN_PASS)
+  //   ? {
+  //       urls: process.env.TELNYX_TURN_URL,      // e.g. turn:turn.telnyx.com:3478
+  //       username: process.env.TELNYX_TURN_USER,
+  //       credential: process.env.TELNYX_TURN_PASS,
+  //     }
+  //   : null;
 
   // --- Bandwidth TURN (optional) ---
-  const bTurn = (process.env.BW_TURN_URL && process.env.BW_TURN_USER && process.env.BW_TURN_PASS)
-    ? {
-        urls: process.env.BW_TURN_URL,          // e.g. turn:turn.bandwidth.com:3478
-        username: process.env.BW_TURN_USER,
-        credential: process.env.BW_TURN_PASS,
-      }
-    : null;
+  // const bTurn = (process.env.BW_TURN_URL && process.env.BW_TURN_USER && process.env.BW_TURN_PASS)
+  //   ? {
+  //       urls: process.env.BW_TURN_URL,          // e.g. turn:turn.bandwidth.com:3478
+  //       username: process.env.BW_TURN_USER,
+  //       credential: process.env.BW_TURN_PASS,
+  //     }
+  //   : null;
 
   // Build per-provider arrays
-  const telnyxICE = [
-    { urls: TELNYX_STUN },
-    ...(tTurn ? [tTurn] : []),
-  ];
+  // const telnyxICE = [
+  //   { urls: TELNYX_STUN },
+  //   ...(tTurn ? [tTurn] : []),
+  // ];
 
-  const bandwidthICE = [
-    { urls: BW_STUN },
-    ...(bTurn ? [bTurn] : []),
-  ];
+  // const bandwidthICE = [
+  //   { urls: BW_STUN },
+  //   ...(bTurn ? [bTurn] : []),
+  // ];
 
   // Merge by provider preference
-  let iceServers = [];
-  if (provider === 'telnyx')      iceServers = telnyxICE;
-  else if (provider === 'bandwidth') iceServers = bandwidthICE;
-  else /* all */                  iceServers = [...telnyxICE, ...bandwidthICE];
+  // let iceServers = [];
+  // if (provider === 'telnyx')      iceServers = telnyxICE;
+  // else if (provider === 'bandwidth') iceServers = bandwidthICE;
+  // else /* all */                  iceServers = [...telnyxICE, ...bandwidthICE];
+
+  const iceServersRaw = [
+    { urls: TWILIO_STUN },
+    ...(turnUrl && turnUser && turnPass
+      ? [{ urls: turnUrl, username: turnUser, credential: turnPass }]
+      : []),
+  ];
 
   // Deduplicate by (urls, username, credential) to keep the payload tidy
   const seen = new Set();
-  iceServers = iceServers.filter(s => {
+  const iceServers = iceServers.filter(s => {
     const urls = Array.isArray(s.urls) ? s.urls.join(',') : s.urls;
     const key = `${urls}|${s.username || ''}|${s.credential || ''}`;
     if (seen.has(key)) return false;

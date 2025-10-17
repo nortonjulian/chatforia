@@ -16,10 +16,12 @@ export default function GoPremiumCard({ compact = false }) {
 
         <Button
           component={Link}
-          to="/settings/upgrade"                 // matches AppRoutes mounting of UpgradePlan
+          to="/settings/upgrade"
           size={compact ? 'sm' : 'md'}
           variant="filled"
-          style={{ whiteSpace: 'nowrap', minWidth: compact ? 96 : 110 }} // never clip “Upgrade”
+          style={{ whiteSpace: 'nowrap', minWidth: compact ? 96 : 110 }}
+          aria-label="Upgrade to Chatforia Premium"
+          onClick={(e) => e.stopPropagation()}
         >
           Upgrade
         </Button>

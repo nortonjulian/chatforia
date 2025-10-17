@@ -143,11 +143,23 @@ model User {
   phoneNumber                 String?     @db.VarChar(32)
   preferredLanguage           String      @default("en")
   allowExplicitContent        Boolean     @default(false)
+
+  // NOTE: existing field uses "...WithTranslation"
   showOriginalWithTranslation Boolean     @default(true)
+
   role                        String      @default("USER")
   enableAIResponder           Boolean     @default(false)
   enableSmartReplies          Boolean     @default(false)
+
+  // palette/theme family key (e.g., "dawn" | "midnight" | "amoled" ...)
   theme                       String      @default("dawn")
+
+  // NEW: global auto-translate toggle (was used in UI already)
+  autoTranslate               Boolean     @default(true)
+
+  // If you want a separate explicit light/dark/system switch add this:
+  // themeMode                String      @default("system") // "light" | "dark" | "system"
+
   cycling                     Boolean     @default(false)
   strictE2EE                  Boolean     @default(false)
   uploads                     Upload[]    @relation("UserUploads")
@@ -231,18 +243,18 @@ model User {
   wantsAgeFilter         Boolean   @default(true)
   randomChatAllowedBands Json?
 
-  // Accessibility preferences (hearing-impaired support)
-  a11yUiFont                  String  @default("md")       // sm | md | lg | xl
+  // Accessibility preferences...
+  a11yUiFont                  String  @default("md")
   a11yVisualAlerts            Boolean @default(false)
   a11yVibrate                 Boolean @default(false)
   a11yFlashOnCall             Boolean @default(false)
   a11yLiveCaptions            Boolean @default(false)
   a11yVoiceNoteSTT            Boolean @default(false)
-  a11yCaptionFont             String  @default("lg")       // sm | md | lg | xl
-  a11yCaptionBg               String  @default("dark")     // light | dark | transparent
+  a11yCaptionFont             String  @default("lg")
+  a11yCaptionBg               String  @default("dark")
   a11yStoreTranscripts        Boolean @default(true)
-  a11yTranscriptRetentionDays Int?                       // null = keep forever
-  a11yCaptionPosition         String  @default("bottom")   // e.g., bottom | top
+  a11yTranscriptRetentionDays Int?
+  a11yCaptionPosition         String  @default("bottom")
   a11yCaptionMaxLines         Int     @default(3)
 }
 

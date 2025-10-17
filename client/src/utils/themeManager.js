@@ -1,51 +1,42 @@
-// import { ALL_THEMES } from '../config/themes';
-
-// const LS_KEY = 'co-theme';
-// const DEFAULT_THEME = 'light';
-
-// export function getTheme() {
-//   const t = localStorage.getItem(LS_KEY);
-//   return ALL_THEMES.includes(t) ? t : DEFAULT_THEME; // all lowercase keys
-// }
-
-// export function applyTheme(name = getTheme()) {
-//   // ensure lowercase keys only
-//   document.documentElement.setAttribute('data-theme', name);
-// }
-
-// export function setTheme(name) {
-//   const next = ALL_THEMES.includes(name) ? name : DEFAULT_THEME;
-//   localStorage.setItem(LS_KEY, next);
-//   applyTheme(next);
-// }
-
-// // optional: react to storage events across tabs
-// export function onThemeChange(cb) {
-//   const handler = (e) => {
-//     if (e.key === LS_KEY) cb?.(getTheme());
-//   };
-//   window.addEventListener('storage', handler);
-//   return () => window.removeEventListener('storage', handler);
-// }
-
+// themeManager.js
+// Single source of truth for Chatforia's palette theme (e.g., 'dawn', 'midnight', ...)
+// - Persists to localStorage (keys preserved: 'co-theme', 'co-cta')
+// - Applies <html data-theme="..."> and a generic data-color-scheme for libraries
+// - Cross-tab sync + (optional) follow-system for generic 'light'/'dark'
+// - Tiny migration from legacy key if present
 
 import { ALL_THEMES } from '../config/themes';
 
 const LS_KEY_THEME = 'co-theme';
-const LS_KEY_CTA = 'co-cta';
+const LS_KEY_CTA   = 'co-cta';
+const LEGACY_KEYS  = ['chatforia:themeMode']; // migrate-if-found (from earlier drafts)
 
 /** ------- DEFAULT: Dawn (warm light) ------- */
 const DEFAULT_THEME = 'dawn';
 
-/** If you add new dark-like themes later, list them here */
-const DARK_THEMES = new Set(['dark', 'midnight', 'amoled', 'neon']);
+/** Add any dark-like palettes here */
+const DARK_THEMES = new Set(['dark', 'midnight', 'amoled', 'neon', 'velvet']);
 
 let current = null;
 const subs = new Set();
 
 /* ---------------- helpers ---------------- */
+function coerce(theme) {
+  return ALL_THEMES.includes(theme) ? theme : DEFAULT_THEME;
+}
+
+function notify(theme) {
+  for (const fn of subs) {
+    try { fn(theme); } catch {}
+  }
+  try {
+    window.dispatchEvent(new CustomEvent('chatforia:theme', { detail: { theme } }));
+  } catch {}
+}
+
+/* ---------------- public light/dark helpers ---------------- */
 export function isLightTheme(themeName) {
-  // Treat Dawn and other warm/calm palettes as light-like
+  // Treat these as light-like; everything else is dark-like if listed in DARK_THEMES
   return themeName === 'dawn' || themeName === 'light' || themeName === 'sunset' || themeName === 'solarized';
 }
 
@@ -53,36 +44,42 @@ export function isDarkTheme(theme = getTheme()) {
   return DARK_THEMES.has(theme);
 }
 
-function coerce(theme) {
-  return ALL_THEMES.includes(theme) ? theme : DEFAULT_THEME;
-}
-
-function notify(theme) {
-  for (const fn of subs) fn(theme);
-  window.dispatchEvent(new CustomEvent('chatforia:theme', { detail: { theme } }));
-}
-
-/* ---------------- public API ---------------- */
+/* ---------------- core getters/setters ---------------- */
 export function getTheme() {
-  const t = localStorage.getItem(LS_KEY_THEME);
-  return coerce(t);
+  // 1) current key
+  let t = null;
+  try { t = localStorage.getItem(LS_KEY_THEME); } catch {}
+  if (!t) {
+    // 2) try legacy keys and migrate forward
+    for (const k of LEGACY_KEYS) {
+      try {
+        const legacy = localStorage.getItem(k);
+        if (legacy) {
+          const migrated = coerce(legacy);
+          try { localStorage.setItem(LS_KEY_THEME, migrated); } catch {}
+          t = migrated;
+          break;
+        }
+      } catch {}
+    }
+  }
+  return coerce(t || DEFAULT_THEME);
 }
 
+/** Applies attributes but does NOT write to storage (use setTheme to persist) */
 export function applyTheme(theme = getTheme()) {
   current = theme;
   const html = document.documentElement;
   html.setAttribute('data-theme', theme);
-  // Hint for libs that read a generic scheme flag
   html.setAttribute('data-color-scheme', isLightTheme(theme) ? 'light' : 'dark');
   notify(theme);
 }
 
+/** Persists + applies */
 export function setTheme(theme) {
   const next = coerce(theme);
   if (next === current) return;
-  try {
-    localStorage.setItem(LS_KEY_THEME, next);
-  } catch {}
+  try { localStorage.setItem(LS_KEY_THEME, next); } catch {}
   applyTheme(next);
 }
 
@@ -93,25 +90,50 @@ export function onThemeChange(cb) {
   return () => subs.delete(cb);
 }
 
-/* ---------------- CTA style helpers (optional) ---------------- */
+/* ---------------- CTA style helpers (optional accent variant) ---------------- */
 export function setCTAStyle(mode /* 'warm' | 'cool' */) {
-  document.documentElement.setAttribute('data-cta', mode);
-  try {
-    localStorage.setItem(LS_KEY_CTA, mode);
-  } catch {}
+  const root = document.documentElement;
+  if (mode) {
+    root.setAttribute('data-cta', mode);
+    try { localStorage.setItem(LS_KEY_CTA, mode); } catch {}
+  } else {
+    root.removeAttribute('data-cta');
+    try { localStorage.removeItem(LS_KEY_CTA); } catch {}
+  }
 }
 
 export function getCTAStyle() {
-  return localStorage.getItem(LS_KEY_CTA) || '';
+  try { return localStorage.getItem(LS_KEY_CTA) || ''; } catch { return ''; }
+}
+
+/* ---------------- Account-level sync helpers ----------------
+   Use these if you load a server preference (e.g., user.theme).
+---------------------------------------------------------------- */
+
+/**
+ * Apply a theme coming from the server (account-level).
+ * Also caches locally so pre-auth screens match next visit.
+ */
+export function applyAccountTheme(themeFromServer) {
+  if (!themeFromServer) return;
+  setTheme(themeFromServer);
+}
+
+/**
+ * Read the locally cached theme to send on signup/login if you want to seed the account.
+ */
+export function getLocalThemeForServer() {
+  return getTheme();
 }
 
 /* ---------------- global wiring (call-once IIFE) ----------------
-   - set initial theme (defaults to Dawn)
-   - keep tabs in sync
-   - map system light/dark only if user is on those generic modes
+   - Set initial theme as soon as this module loads
+   - Restore CTA style
+   - Cross-tab sync
+   - Follow system only when using generic 'light'/'dark'
 ----------------------------------------------------------------- */
 (function wireGlobal() {
-  // 1) apply initial theme before app renders
+  // 1) apply initial theme before app renders components that rely on it
   applyTheme(getTheme());
 
   // 2) restore CTA style if previously set
@@ -128,9 +150,9 @@ export function getCTAStyle() {
     }
   });
 
-  // 4) follow system only when using generic light/dark themes
+  // 4) follow system only when using generic light/dark
   const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
-  if (mq) {
+  if (mq?.addEventListener) {
     mq.addEventListener('change', () => {
       const t = getTheme();
       if (t === 'light' || t === 'dark') {

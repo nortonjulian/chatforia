@@ -9,9 +9,10 @@ import { fileURLToPath } from 'url';
 import { initCrons } from './cron/index.js';
 initCrons();
 
-// Sentry + logging
-import * as Sentry from '@sentry/node';
-import { nodeProfilingIntegration } from '@sentry/profiling-node';
+// SAFE Sentry wrappers (no-op when DSN is missing/invalid)
+import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
+
+// Request ID + logging
 import { requestId } from './middleware/requestId.js';
 import pinoHttp from 'pino-http';
 import logger from './utils/logger.js';
@@ -49,6 +50,8 @@ import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
 import storiesRouter from './routes/stories.js';
 import numbersRouter from './routes/numbers.js'; 
+import voiceWebhooks from './routes/voiceWebhooks.js';
+import videoTokens from './routes/videoTokens.js';
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
@@ -119,6 +122,11 @@ export function createApp() {
   app.use(express.json({ limit: '1mb' }));
   app.use(express.urlencoded({ extended: true, limit: '512kb' }));
 
+  // Attach Sentry request handler early (no-op if Sentry is disabled)
+  if (isProd) {
+    app.use(sentryRequestHandler);
+  }
+
   // Auto XHR header in tests/dev fallbacks
   const AUTO_XHR =
     isTest || String(process.env.DEV_FALLBACKS || '').toLowerCase() === 'true';
@@ -163,27 +171,6 @@ export function createApp() {
     })
   );
 
-  /* Sentry (prod only) */
-  if (isProd) {
-    Sentry.init({
-      dsn: process.env.SENTRY_DSN,
-      environment: process.env.NODE_ENV || 'dev',
-      release: process.env.COMMIT_SHA,
-      integrations: [nodeProfilingIntegration()],
-      tracesSampleRate: Number(process.env.SENTRY_TRACES_RATE ?? 0.2),
-      profilesSampleRate: Number(process.env.SENTRY_PROFILES_RATE ?? 0.1),
-      beforeSend(event) {
-        if (event.request) {
-          delete event.request.headers?.cookie;
-          delete event.request.headers?.authorization;
-        }
-        return event;
-      },
-    });
-    app.use(Sentry.Handlers.requestHandler());
-    app.use(Sentry.Handlers.tracingHandler());
-  }
-
   /* ---------- Session + Passport (must be before OAuth routes) ---------- */
   app.use(
     session({
@@ -193,6 +180,7 @@ export function createApp() {
       cookie: {
         sameSite: isProd ? 'none' : 'lax',
         secure: isProd,
+        // domain: optionally set process.env.COOKIE_DOMAIN
       },
     })
   );
@@ -275,6 +263,8 @@ export function createApp() {
   app.use('/voice', requireAuth, requirePhoneVerified, voiceRouter);
   app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
+  app.use('/webhooks/voice', voiceWebhooks);
+  app.use('/tokens', videoTokens);
 
   // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
   app.post('/numbers/lock',
@@ -334,9 +324,9 @@ export function createApp() {
     app.use('/status', statusRoutes);
   }
 
-  /* Errors */
+  /* Errors (Sentry-safe first, then your handlers) */
   if (isProd) {
-    app.use(Sentry.Handlers.errorHandler());
+    app.use(sentryErrorHandler); // no-op if Sentry disabled/invalid DSN
   }
   app.use(notFoundHandler);
   app.use(errorHandler);

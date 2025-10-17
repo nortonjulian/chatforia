@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PremiumGuard from '@/components/PremiumGuard';
 
@@ -80,22 +80,29 @@ function NumberPickerButton() {
 function NumberPickerModal({ onClose }) {
   const [areaCode, setAreaCode] = useState('');
   const [list, setList] = useState([]);
-  const [provider, setProvider] = useState('telnyx');
   const [loading, setLoading] = useState(false);
 
   async function search() {
     setLoading(true);
-    const res = await fetch(`/numbers/available?areaCode=${areaCode}&provider=${provider}`);
+    const res = await fetch(`/numbers/available?areaCode=${areaCode}`);
     const json = await res.json();
     setList(json.numbers || []);
     setLoading(false);
   }
 
   async function reserveThenClaim(e164) {
-    const r = await fetch('/numbers/reserve', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e164, provider }) });
+    const r = await fetch('/numbers/reserve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ e164 }),
+    });
     if (!r.ok) { alert('Failed to reserve'); return; }
     // TODO: integrate Stripe checkout if charging here; otherwise claim directly
-    const c = await fetch('/numbers/claim', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ e164, provider }) });
+    const c = await fetch('/numbers/claim', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ e164 }),
+    });
     if (!c.ok) { alert('Failed to claim'); return; }
     window.location.reload();
   }
@@ -109,11 +116,14 @@ function NumberPickerModal({ onClose }) {
         </div>
 
         <div className="flex gap-2">
-          <input value={areaCode} onChange={e=>setAreaCode(e.target.value)} placeholder="Area code (e.g., 303)" className="border rounded px-2 py-1 flex-1" />
-          <select value={provider} onChange={e=>setProvider(e.target.value)} className="border rounded px-2 py-1">
-            <option value="telnyx">Telnyx</option>
-            <option value="bandwidth">Bandwidth</option>
-          </select>
+          <input
+            value={areaCode}
+            onChange={e=>setAreaCode(e.target.value)}
+            placeholder="Area code (e.g., 303)"
+            className="border rounded px-2 py-1 flex-1"
+          />
+          {/* Provider is fixed server-side: Twilio */}
+          <span className="text-xs text-gray-500 self-center">Provider: Twilio</span>
           <button className="px-3 py-1 rounded bg-black text-white" onClick={search} disabled={loading}>
             {loading ? 'Searching…' : 'Search'}
           </button>
@@ -121,12 +131,12 @@ function NumberPickerModal({ onClose }) {
 
         <div className="max-h-64 overflow-auto divide-y border rounded">
           {list.map(n => (
-            <div key={n.e164} className="p-2 flex items-center justify-between">
+            <div key={n.e164 || n} className="p-2 flex items-center justify-between">
               <div>
-                <div className="font-medium">{n.e164}</div>
-                <div className="text-xs text-gray-500">AC {n.areaCode}</div>
+                <div className="font-medium">{n.e164 || n}</div>
+                {n.areaCode && <div className="text-xs text-gray-500">AC {n.areaCode}</div>}
               </div>
-              <button className="px-3 py-1 rounded border" onClick={() => reserveThenClaim(n.e164)}>Select</button>
+              <button className="px-3 py-1 rounded border" onClick={() => reserveThenClaim(n.e164 || n)}>Select</button>
             </div>
           ))}
           {list.length === 0 && <div className="p-4 text-sm text-gray-500">No results yet.</div>}

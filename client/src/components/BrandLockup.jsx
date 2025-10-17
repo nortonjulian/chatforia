@@ -4,9 +4,9 @@ const DARK_THEMES = new Set(['dark', 'midnight', 'amoled', 'neon']);
 
 export default function BrandLockup({
   className = '',
-  logoSize = 64,          // bump default for the hero
+  logoSize = 64,
   wordmark = 'Chatforia',
-  gradientWordmark = true // keeps the gradient wordmark you styled in CSS
+  gradientWordmark = true,
 }) {
   const [theme, setTheme] = useState(
     document.documentElement.getAttribute('data-theme') || 'light'
@@ -21,8 +21,8 @@ export default function BrandLockup({
     return () => obs.disconnect();
   }, []);
 
-  // If you later want a different asset in dark themes, swap here based on `theme`.
-  const src = '/brand/ppog.png'; // or '/brand/chameleon.png'
+  // Swap asset per theme if desired
+  const src = '/brand/ppog.png';
 
   return (
     <div
@@ -33,7 +33,7 @@ export default function BrandLockup({
         src={src}
         alt="Chatforia logo"
         className="brand-lockup__logo"
-        // IMPORTANT: no width/height props, no inline size here
+        style={{ width: 'var(--logo-size)', height: 'var(--logo-size)' }}
       />
       <h1 className={`brand-lockup__name ${gradientWordmark ? 'text-blue-purple bp-wordmark' : ''}`}>
         {wordmark}

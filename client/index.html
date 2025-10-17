@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatforia</title>
 
+    <!-- Early theme boot: apply theme before paint to avoid FOUC -->
+    <script>
+      (function() {
+        try {
+          const KEY = 'chatforia:themeMode'; // stored by themeManager (palette key)
+          // We store actual palette keys (e.g. 'dawn', 'midnight'); decide light/dark by helper later.
+          const saved = localStorage.getItem(KEY);
+          const fallback = 'dawn';
+          const mode = saved || fallback;
+          document.documentElement.setAttribute('data-theme', mode);
+        } catch (_) {
+          document.documentElement.setAttribute('data-theme', 'dawn');
+        }
+      })();
+    </script>
+
     <!-- Fonts (Inter for UI, Syne for the big “C”) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +28,9 @@
 
     <!-- Safari pinned tabs (accent color is the warm amber) -->
     <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#FFB300">
+
+    <!-- Theme-aware favicon (updated dynamically below) -->
+    <link id="cf-favicon" rel="icon" href="/brand/favicon-dawn.svg" />
 
     <!-- Optional: fallback theme color for some UAs -->
     <meta name="theme-color" content="#FFF7F0" />
@@ -31,9 +50,12 @@
           light: '/brand/favicon-dawn.svg',
           dark: '/brand/favicon-midnight.svg',
           midnight: '/brand/favicon-midnight.svg',
-          neon: '/brand/favicon-neon.svg',       // add file when ready
-          amoled: '/brand/favicon-neon.svg',     // reuse neon set
-          sunset: '/brand/favicon-sunset.svg'    // add file when ready
+          neon: '/brand/favicon-neon.svg',
+          amoled: '/brand/favicon-neon.svg',
+          sunset: '/brand/favicon-sunset.svg',
+          aurora: '/brand/favicon-aurora.svg',
+          solarized: '/brand/favicon-solarized.svg',
+          velvet: '/brand/favicon-velvet.svg',
         };
 
         let lastHref = null;
@@ -46,12 +68,10 @@
           }
         };
 
-        // initial apply + observe attribute changes
         apply();
         new MutationObserver(apply)
           .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
-        // Also re-apply when system scheme changes (in case app mirrors system)
         const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
         mq && mq.addEventListener && mq.addEventListener('change', apply);
       })();

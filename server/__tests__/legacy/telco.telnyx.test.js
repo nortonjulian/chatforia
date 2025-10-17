@@ -60,7 +60,7 @@ const mockFetch = jest.fn(async (url, opts) => {
 });
 global.fetch = mockFetch;
 
-import TelnyxProvider from '../lib/telco/telnyx.js';
+import TelnyxProvider from '../../lib/telco/legacy/telnyx.js';
 
 describe('TelnyxProvider', () => {
   beforeAll(() => {

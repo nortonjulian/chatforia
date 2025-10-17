@@ -37,7 +37,6 @@ function DebugBar() {
   );
 }
 
-
 /* ---------- BRAND LOCKUP (used on mobile top bar) ---------- */
 function LogoLockup({ size = 64, titleOrder = 4, className }) {
   return (
@@ -204,8 +203,11 @@ export default function AuthLayout() {
           )}
 
           <Grid gutter="xl" align="start">
-            {/* Left: Brand + Marketing */}
-            <Grid.Col span={{ base: 12, md: 6, lg: 7 }} visibleFrom="md">
+            {/* Left: Brand + Marketing — always visible, stacks first on mobile */}
+            <Grid.Col
+              span={{ base: 12, md: 6, lg: 7 }}
+              order={{ base: 1, md: 1 }}
+            >
               <Stack gap="xs" maw={620}>
                 <section className="hero">
                   {/* Lockup + H1 grid */}
@@ -320,7 +322,7 @@ export default function AuthLayout() {
                       </Anchor>
                       <Anchor
                         component={Link}
-                        to="/settings/upgrade"
+                        to="/upgrade"    // ← canonical path
                         style={{ color: 'var(--accent)' }}
                       >
                         Upgrade
@@ -337,9 +339,13 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
 
-            {/* Right: Auth form + Get app */}
-            <Grid.Col span={{ base: 12, md: 6, lg: 5 }} style={{ alignSelf: 'start' }}>
-              <Stack gap="lg" style={{ maxWidth: 440, marginLeft: 'auto' }} className="auth-login">
+            {/* Right: Auth form + Get app — stacks second on mobile */}
+            <Grid.Col
+              span={{ base: 12, md: 6, lg: 5 }}
+              order={{ base: 2, md: 2 }}
+              style={{ alignSelf: 'start' }}
+            >
+              <Stack gap="lg" className="auth-login">
                 <Outlet />
                 <GetAppCard />
               </Stack>
