@@ -1,14 +1,12 @@
-// Everything here is easy to edit without touching layout code.
-
 export const FOOTER_SECTIONS = [
   {
     title: "Company",
     links: [
+      { label: "Plans & Pricing", href: "/upgrade" }, // public + authed route
       { label: "About Chatforia", href: "/about" },
       { label: "Careers", href: "/careers" },
       { label: "Press", href: "/press" },
       { label: "Advertise", href: "/advertise" },
-      // add “Investors” if you ever want it
     ],
   },
   {
@@ -25,11 +23,9 @@ export const FOOTER_SECTIONS = [
       { label: "Blog", href: "/blog" },
       { label: "User Guides", href: "/guides" },
       { label: "Tips & Tutorials", href: "/tips" },
-      // add “API Docs” later if you ship one
     ],
   },
   {
-    // We’ll render downloads with badges component, but keep a stub for consistency
     title: "Downloads",
     links: [
       { label: "iOS / App Store", href: "https://apps.apple.com/app/idXXXXXXXX", external: true },

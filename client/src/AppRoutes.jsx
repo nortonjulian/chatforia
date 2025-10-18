@@ -175,47 +175,42 @@ export default function AppRoutes() {
   }, []);
 
   if (!currentUser) {
-    return (
-      <Routes>
-        {/* DEV helper route removed; redirect if someone visits it */}
-        {import.meta.env.DEV && (
-          <Route path="/dev/chat" element={<Navigate to="/" replace />} />
-        )}
+  return (
+    <Routes>
+      {/* 👉 Standalone public upgrade/pricing page */}
+      <Route path="/upgrade" element={<UpgradePage variant="public" />} />
+      {/* Keep old path working */}
+      <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
 
-        {/* Public auth layout */}
-        <Route element={<AuthLayout />}>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+      {/* Everything else under AuthLayout */}
+      <Route element={<AuthLayout />}>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
-          {/* Public upgrade/pricing routes (standalone under AuthLayout) */}
-          <Route path="/upgrade" element={<UpgradePage variant="public" />} />
-          <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
+        <Route path="/auth/complete" element={<OAuthComplete />} />
 
-          {/* OAuth completes here */}
-          <Route path="/auth/complete" element={<OAuthComplete />} />
+        {/* Marketing/support/legal */}
+        <Route path="/about" element={<AboutChatforia />} />
+        <Route path="/careers" element={<Careers />} />
+        <Route path="/press" element={<Press />} />
+        <Route path="/advertise" element={<Advertise />} />
+        <Route path="/help" element={<HelpCenter />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/download" element={<Downloads />} />
 
-          {/* Marketing/support/legal */}
-          <Route path="/about" element={<AboutChatforia />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/press" element={<Press />} />
-          <Route path="/advertise" element={<Advertise />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/download" element={<Downloads />} />
+        {/* Legal */}
+        <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+        <Route path="/legal/terms" element={<TermsOfService />} />
+        <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
+        <Route path="/legal/cookies" element={<CookieSettings />} />
+      </Route>
 
-          {/* Legal */}
-          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
-          <Route path="/legal/terms" element={<TermsOfService />} />
-          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
-          <Route path="/legal/cookies" element={<CookieSettings />} />
-        </Route>
-
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    );
-  }
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+}
 
   return (
     <Routes>
