@@ -36,8 +36,8 @@ import randomChatsRouter from './routes/randomChats.js';
 import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
-import billingRouter from './routes/billing.js';
-import billingWebhook from './routes/billingWebhook.js';
+import billingRouter from './routes/billing.js';              // ✅ single billing router
+// import billingWebhook from './routes/billingWebhook.js';    // ❌ removed (now unified)
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
 import smsRouter from './routes/sms.js';
@@ -113,12 +113,12 @@ export function createApp() {
   app.use(secureHeaders());
   app.use(csp());
 
-  /* Stripe webhook (raw) */
-  app.post('/billing/webhook', express.raw({ type: 'application/json' }), (req, res, next) => {
-    next('route');
-  });
+  /* -------------------------------------------------
+   * Stripe webhook: MUST receive raw Buffer body
+   * -------------------------------------------------*/
+  app.use('/billing/webhook', express.raw({ type: 'application/json' }));
 
-  /* Core middleware */
+  /* Core middleware (after webhook raw) */
   app.use(cookieParser());
   app.use(compression());
   app.use(requestId());
@@ -196,7 +196,7 @@ export function createApp() {
 
   // TEMP bypasses for first-run auth flows (remove later!)
   const CSRF_BYPASS = new Set([
-    '/billing/webhook',
+    '/billing/webhook',           // ✅ webhook stays bypassed
     '/auth/apple/callback',
     '/auth/register',
     '/auth/login',
@@ -242,9 +242,13 @@ export function createApp() {
   /* Base routes */
   app.get('/', (_req, res) => res.send('Welcome to Chatforia API!'));
 
-  // Webhook + Billing (UI/API under /billing requires staff 2FA)
-  app.use('/billing', billingWebhook);
-  app.use('/billing', requireAuth, requireStaff2FA, billingRouter);
+  /* -------------------------------------------
+   * Billing: unified router
+   *  - /billing/webhook uses raw body (set above)
+   *  - Other /billing routes use JSON body
+   *  - Each endpoint in billing.js does its own auth check
+   * -------------------------------------------*/
+  app.use('/billing', billingRouter);
 
   // OAuth under /auth
   app.use('/auth', oauthRouter);

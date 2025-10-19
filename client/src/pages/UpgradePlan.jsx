@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, Title, Text, Button, Group, Stack, Badge } from '@mantine/core';
+import { Card, Title, Text, Button, Group, Stack, Badge, Alert } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -47,17 +47,23 @@ export default function UpgradePage({ variant = 'account' }) {
   const navigate = useNavigate();
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
+  const [loadingKeep, setLoadingKeep] = useState(false);
 
   const isAuthed = !!currentUser;
   const planName = (currentUser?.plan || 'FREE').toUpperCase();
   const isFree = planName === 'FREE';
   const isPlus = planName === 'PLUS';
   const isPremium = planName === 'PREMIUM';
-  const isPaid = isPlus || isPremium; // use this to hide ads sitewide
+  const isPaid = isPlus || isPremium; // hide ads sitewide
+
+  // If cancel_at_period_end is true, your backend sets planExpiresAt.
+  // Treat a future planExpiresAt as "scheduled to downgrade".
+  const cancelAt = currentUser?.planExpiresAt ? new Date(currentUser.planExpiresAt) : null;
+  const hasScheduledDowngrade =
+    Boolean(isAuthed && isPaid && cancelAt && !Number.isNaN(cancelAt.getTime()) && cancelAt > new Date());
 
   const startCheckout = async (plan = 'PREMIUM_MONTHLY') => {
     if (!isAuthed) {
-      // send to login, then return here
       return navigate('/login?next=/upgrade');
     }
     try {
@@ -88,12 +94,62 @@ export default function UpgradePage({ variant = 'account' }) {
     }
   };
 
+  const refreshMe = async () => {
+    try {
+      const { data } = await axiosClient.get('/auth/me');
+      // If your context exposes a setter, update it here. As a safe fallback:
+      if (!data?.user) return;
+      window.location.reload();
+    } catch {}
+  };
+
+  const unCancel = async () => {
+    if (!isAuthed) return;
+    try {
+      setLoadingKeep(true);
+      await axiosClient.post('/billing/uncancel');
+      await refreshMe();
+    } catch (e) {
+      console.error('Uncancel error', e);
+    } finally {
+      setLoadingKeep(false);
+    }
+  };
+
   return (
     <Stack gap="lg" maw={900} mx="auto" p="md">
       <Title order={2}>Upgrade</Title>
       <Text c="dimmed">
         Unlock the right plan for you: go ad-free with Plus, or get our full power features with Premium.
       </Text>
+
+      {/* Scheduled downgrade banner */}
+      {hasScheduledDowngrade && (
+        <Alert color="orange" variant="light" title="Subscription will end">
+          You’ll revert to Free on <strong>{cancelAt.toLocaleDateString()}</strong>.
+          <Button
+            size="xs"
+            ml="sm"
+            variant="filled"
+            onClick={unCancel}
+            loading={loadingKeep}
+            aria-busy={loadingKeep ? 'true' : 'false'}
+          >
+            Keep {isPlus ? 'Plus' : 'Premium'}
+          </Button>
+          <Button
+            size="xs"
+            ml="xs"
+            variant="light"
+            onClick={openBillingPortal}
+            disabled={loadingPortal}
+            loading={loadingPortal}
+            aria-busy={loadingPortal ? 'true' : 'false'}
+          >
+            Manage billing
+          </Button>
+        </Alert>
+      )}
 
       <Group grow align="stretch">
         {/* Free */}

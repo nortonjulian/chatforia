@@ -10,6 +10,7 @@ import { RequirePremium } from '@/routes/guards';
 import SettingsBackups from '@/pages/SettingsBackups.jsx';
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
+import BillingReturn from '@/pages/BillingReturn.jsx';
 import Sidebar from '@/components/Sidebar';
 import RandomChatPage from '@/pages/RandomChatPage.jsx';
 import LoginForm from '@/components/LoginForm';
@@ -67,8 +68,11 @@ import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 
-// OAuth completion (🔧 this import was missing)
+// OAuth completion
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
+
+// Guides
+import GettingStarted from '@/pages/guides/GettingStarted.jsx';
 
 // Ads
 import { AdProvider } from '@/ads/AdProvider';
@@ -182,6 +186,7 @@ export default function AppRoutes() {
         {/* Standalone public upgrade routes (NOT in AuthLayout) */}
         <Route path="/upgrade" element={<UpgradePage variant="public" />} />
         <Route path="/upgrade/success" element={<UpgradeSuccess />} />
+        <Route path="/billing/return" element={<BillingReturn />} />
         <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
 
         {/* Everything else under the public layout */}
@@ -202,6 +207,12 @@ export default function AppRoutes() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/download" element={<Downloads />} />
 
+          {/* Guides */}
+          <Route path="/guides/getting-started" element={<GettingStarted />} />
+          <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
+
           {/* Legal */}
           <Route path="/legal/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
@@ -220,6 +231,7 @@ export default function AppRoutes() {
       {/* Standalone authed upgrade pages (outside AuthedLayout so they don't render inline) */}
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
       <Route path="/upgrade/success" element={<UpgradeSuccess />} />
+      <Route path="/billing/return" element={<BillingReturn />} />
       <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
 
       <Route path="/forbidden" element={<Forbidden />} />
@@ -244,7 +256,11 @@ export default function AppRoutes() {
           }
         />
 
-        {/* NOTE: keep upgrade outside AuthedLayout to avoid inline rendering */}
+        {/* Guides */}
+        <Route path="guides/getting-started" element={<GettingStarted />} />
+        <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
+        <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
+        <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
 
         <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="status" element={<StatusFeed />} />

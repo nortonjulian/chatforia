@@ -34,6 +34,8 @@ import PrivacySection from '../pages/PrivacySection';
 
 import ThemeSelect from '../components/settings/ThemeSelect.jsx';
 import { getTheme, setTheme, onThemeChange, isLightTheme } from '../utils/themeManager.js';
+import { setFaviconForTheme } from '../utils/favicon.js';
+import { premiumPreviewEnabled } from '../utils/premiumPreview.js';
 
 import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
 import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
@@ -122,7 +124,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const { setColorScheme } = useMantineColorScheme();
   const [themeNow, setThemeNow] = useState(getTheme());
   useEffect(() => onThemeChange(setThemeNow), []);
-  useEffect(() => { setColorScheme(isLightTheme(getTheme()) ? 'light' : 'dark'); }, [setColorScheme]);
+  useEffect(() => {
+    const theme = getTheme();
+    setColorScheme(isLightTheme(theme) ? 'light' : 'dark');
+    setFaviconForTheme(theme);
+  }, [setColorScheme]);
 
   const [coolCtasOnMidnight, setCoolCtasOnMidnight] = useState(
     typeof document !== 'undefined' && document.documentElement.getAttribute('data-cta') === 'cool'
@@ -131,6 +137,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const applyTheme = (themeName) => {
     setTheme(themeName); // sets <html data-theme=...> + persists locally
     setColorScheme(isLightTheme(themeName) ? 'light' : 'dark');
+    setFaviconForTheme(themeName);
     if (themeName !== 'midnight') {
       document.documentElement.removeAttribute('data-cta');
       setCoolCtasOnMidnight(false);
@@ -236,7 +243,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   if (!currentUser) return <Text c="dimmed">{t('profile.mustLogin')}</Text>;
 
   const planUpper = (currentUser.plan || 'FREE').toUpperCase();
-  const isPremium = planUpper === 'PREMIUM';
+  const isPremiumPlan = planUpper === 'PREMIUM';
+  const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
 
   // ✅ Defaults
   const [preferredLanguage, setPreferredLanguage] = useState(currentUser.preferredLanguage || 'en');
@@ -261,7 +269,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   // Keep UI theme in sync if user state changes (e.g., login in another tab)
   useEffect(() => {
     if (currentUser?.theme) applyTheme(currentUser.theme);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.theme]);
 
   // Nothing auto-opened
@@ -473,11 +481,13 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Control>{t('profile.appearance', 'Appearance')}</Accordion.Control>
           <Accordion.Panel>
             <Stack gap="sm">
-              <Card withBorder radius="lg" p="sm">
-                <Text size="sm" c="blue.6">
-                  {t('profile.themeFreeNotice', 'You’re on Free—use the quick Sun/Moon options below. Upgrade to unlock more themes.')}
-                </Text>
-              </Card>
+              {!isPremiumPlan && (
+                <Card withBorder radius="lg" p="sm">
+                  <Text size="sm" c="blue.6">
+                    {t('profile.themeFreeNotice', 'You’re on Free—use the quick Sun/Moon options below. Upgrade to unlock more themes.')}
+                  </Text>
+                </Card>
+              )}
 
               <Group gap="xs">
                 <button
@@ -503,7 +513,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 </button>
               </Group>
 
-              <ThemeSelect isPremium={isPremium} hideFreeOptions />
+              <ThemeSelect isPremium={canSeePremiumThemes} hideFreeOptions />
             </Stack>
           </Accordion.Panel>
         </Accordion.Item>

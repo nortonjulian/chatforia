@@ -5,75 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatforia</title>
 
-    <!-- Early theme boot: apply theme before paint to avoid FOUC -->
+    <!-- Apply saved theme before first paint to avoid a flash -->
     <script>
-      (function() {
+      (function () {
         try {
-          const KEY = 'chatforia:themeMode'; // stored by themeManager (palette key)
-          // We store actual palette keys (e.g. 'dawn', 'midnight'); decide light/dark by helper later.
-          const saved = localStorage.getItem(KEY);
-          const fallback = 'dawn';
-          const mode = saved || fallback;
-          document.documentElement.setAttribute('data-theme', mode);
-        } catch (_) {
+          const KEY = 'chatforia:themeMode'; // e.g. 'dawn', 'midnight', etc.
+          const saved = localStorage.getItem(KEY) || 'dawn';
+          document.documentElement.setAttribute('data-theme', saved);
+        } catch {
           document.documentElement.setAttribute('data-theme', 'dawn');
         }
       })();
     </script>
 
-    <!-- Fonts (Inter for UI, Syne for the big “C”) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
-    <!-- Safari pinned tabs (accent color is the warm amber) -->
-    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg" color="#FFB300">
-
-    <!-- Theme-aware favicon (updated dynamically below) -->
-    <link id="cf-favicon" rel="icon" href="/brand/favicon-dawn.svg" />
-
-    <!-- Optional: fallback theme color for some UAs -->
-    <meta name="theme-color" content="#FFF7F0" />
+    <!-- Favicons (light/dark) + Safari pinned tab -->
+    <link id="favicon-light" rel="icon" type="image/svg+xml" href="/favicons/favicon-light.svg" media="(prefers-color-scheme: light)">
+    <link id="favicon-dark"  rel="icon" type="image/svg+xml" href="/favicons/favicon-dark.svg"  media="(prefers-color-scheme: dark)">
+    <link id="mask-icon" rel="mask-icon" href="/favicons/pinned-tab.svg" color="#111111">
+    <meta name="theme-color" content="#ffffff">
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
 
-    <!-- Theme-aware favicon swapper (keeps in sync with <html data-theme="...">) -->
+    <!-- Keep favicon + theme-color in sync with app theme -->
     <script>
       (function () {
-        const link = document.getElementById('cf-favicon');
-        if (!link) return;
-
-        const ICON_BY_THEME = {
-          dawn: '/brand/favicon-dawn.svg',
-          light: '/brand/favicon-dawn.svg',
-          dark: '/brand/favicon-midnight.svg',
-          midnight: '/brand/favicon-midnight.svg',
-          neon: '/brand/favicon-neon.svg',
-          amoled: '/brand/favicon-neon.svg',
-          sunset: '/brand/favicon-sunset.svg',
-          aurora: '/brand/favicon-aurora.svg',
-          solarized: '/brand/favicon-solarized.svg',
-          velvet: '/brand/favicon-velvet.svg',
+        // Map your named themes -> light/dark boolean
+        const isLightTheme = (name) => {
+          const n = String(name || '').toLowerCase();
+          return ['dawn', 'light', 'sunset', 'velvet', 'aurora', 'solarized'].includes(n);
         };
 
-        let lastHref = null;
-        const apply = () => {
-          const theme = document.documentElement.getAttribute('data-theme') || 'dawn';
-          const next = ICON_BY_THEME[theme] || ICON_BY_THEME.dawn;
-          if (next !== lastHref) {
-            link.href = next;
-            lastHref = next;
+        function applyFaviconForTheme(themeName) {
+          const light = isLightTheme(themeName);
+          const lightLink = document.getElementById('favicon-light');
+          const darkLink  = document.getElementById('favicon-dark');
+          const themeMeta = document.querySelector('meta[name="theme-color"]');
+          const maskIcon  = document.getElementById('mask-icon');
+
+          if (lightLink && darkLink) {
+            // Ensure only one is active at a time
+            lightLink.media = light ? 'all' : 'not all';
+            darkLink.media  = light ? 'not all' : 'all';
           }
-        };
+          if (themeMeta) themeMeta.setAttribute('content', light ? '#ffffff' : '#0b0b0b');
+          if (maskIcon)  maskIcon.setAttribute('color', light ? '#111111' : '#f5f5f5');
+        }
 
-        apply();
-        new MutationObserver(apply)
+        const current = () => document.documentElement.getAttribute('data-theme') || 'dawn';
+        applyFaviconForTheme(current());
+
+        // React to app-driven theme changes: <html data-theme="...">
+        new MutationObserver(() => applyFaviconForTheme(current()))
           .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
+        // Also react when system dark-mode flips (in case your theme follows system)
         const mq = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
-        mq && mq.addEventListener && mq.addEventListener('change', apply);
+        if (mq && mq.addEventListener) mq.addEventListener('change', () => applyFaviconForTheme(current()));
       })();
     </script>
   </body>

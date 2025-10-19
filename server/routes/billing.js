@@ -8,15 +8,14 @@ const router = express.Router();
  * Utilities
  * --------------------------------------------*/
 
-// Lazily create a Stripe client.
+// Lazily create a Stripe client (only when needed).
 function getStripe() {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('STRIPE_SECRET_KEY is not set');
   return new Stripe(key, { apiVersion: '2023-10-16' });
 }
 
-// Safe parse when we skip signature verification.
-// Handles: Buffer (from express.raw), string, or already-parsed object.
+// Safe parse when we intentionally skip signature checks in dev/test.
 function parseLoose(body) {
   if (!body) return {};
   if (Buffer.isBuffer(body)) {
@@ -25,7 +24,7 @@ function parseLoose(body) {
   if (typeof body === 'string') {
     try { return JSON.parse(body); } catch { return {}; }
   }
-  return body;
+  return body; // already parsed object
 }
 
 // Ensure the authed user has a Stripe Customer and return its id.
@@ -43,7 +42,7 @@ async function ensureStripeCustomerId(user) {
   return customer.id;
 }
 
-// Map plan code -> Stripe Price ID (env)
+// Map plan code -> Stripe Price ID (from env)
 function priceIdForPlan(plan) {
   switch (plan) {
     case 'PLUS_MONTHLY': return process.env.STRIPE_PRICE_PLUS;
@@ -78,9 +77,8 @@ router.post('/checkout', async (req, res) => {
       cancel_url: cancelUrl,
       allow_promotion_codes: true,
       automatic_tax: { enabled: true },
-      // Helps you correlate in the webhook:
-      client_reference_id: String(req.user.id),
-      metadata: { userId: String(req.user.id), plan },
+      client_reference_id: String(req.user.id),        // correlate in webhook
+      metadata: { userId: String(req.user.id), plan }, // helpful in webhook
     });
 
     return res.json({ url: session.url, checkoutUrl: session.url });
@@ -93,13 +91,16 @@ router.post('/checkout', async (req, res) => {
 /* ----------------------------------------------
  * Billing Portal (manage/cancel/change payment)
  * --------------------------------------------*/
+// POST /billing/portal
 router.post('/portal', async (req, res) => {
   try {
     if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId(req.user);
 
-    const returnUrl = `${process.env.APP_URL}/upgrade`;
+    // We use a simple return page that brings users back to Upgrade.
+    const returnUrl = `${process.env.APP_URL}/billing/return`;
+
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: returnUrl,
@@ -112,7 +113,124 @@ router.post('/portal', async (req, res) => {
 });
 
 /* ----------------------------------------------
- * Webhook (mounted with express.raw() in app.js)
+ * Cancel at period end (opt out of next month)
+ * --------------------------------------------*/
+// POST /billing/cancel
+router.post('/cancel', async (req, res) => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const stripe = getStripe();
+
+    const subId = req.user.stripeSubscriptionId;
+    if (!subId) return res.status(400).json({ error: 'No active subscription' });
+
+    const sub = await stripe.subscriptions.update(subId, { cancel_at_period_end: true });
+
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: { planExpiresAt: new Date(sub.current_period_end * 1000) },
+    });
+
+    res.json({ ok: true, currentPeriodEnd: sub.current_period_end });
+  } catch (err) {
+    console.error('cancel error:', err);
+    return res.status(500).json({ error: 'Cancel failed' });
+  }
+});
+
+/* ----------------------------------------------
+ * Un-cancel (keep subscription next month)
+ * --------------------------------------------*/
+// POST /billing/uncancel
+router.post('/uncancel', async (req, res) => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+
+    if (!req.user?.stripeSubscriptionId) {
+      return res.status(400).json({ error: 'No active subscription' });
+    }
+
+    const stripe = getStripe();
+    const sub = await stripe.subscriptions.update(
+      req.user.stripeSubscriptionId,
+      { cancel_at_period_end: false }
+    );
+
+    // Optional: keep planExpiresAt synced to the current period end (or null).
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: { planExpiresAt: new Date(sub.current_period_end * 1000) },
+    });
+
+    return res.json({ ok: true, currentPeriodEnd: sub.current_period_end });
+  } catch (err) {
+    console.error('uncancel error:', err);
+    return res.status(500).json({ error: 'Uncancel failed' });
+  }
+});
+
+/* ----------------------------------------------
+ * Cancel now (immediate) + optional refund
+ * --------------------------------------------*/
+// POST /billing/cancel-now
+router.post('/cancel-now', async (req, res) => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const stripe = getStripe();
+
+    const subId = req.user.stripeSubscriptionId;
+    if (!subId) return res.status(400).json({ error: 'No active subscription' });
+
+    const deleted = await stripe.subscriptions.del(subId);
+
+    // Optional: refund the latest invoice
+    if (process.env.REFUND_ON_IMMEDIATE_CANCEL === 'true' && deleted.latest_invoice) {
+      const inv = await stripe.invoices.retrieve(deleted.latest_invoice);
+      if (inv.payment_intent) {
+        await stripe.refunds.create({ payment_intent: inv.payment_intent });
+      }
+    }
+
+    await prisma.user.update({
+      where: { id: req.user.id },
+      data: { plan: 'FREE', stripeSubscriptionId: null, planExpiresAt: null },
+    });
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('cancel-now error:', err);
+    return res.status(500).json({ error: 'Immediate cancel failed' });
+  }
+});
+
+/* ----------------------------------------------
+ * Refund a specific invoice (admin/back-office)
+ * --------------------------------------------*/
+// POST /billing/refund-invoice   { invoiceId, amountOptionalCents }
+router.post('/refund-invoice', async (req, res) => {
+  try {
+    // TODO: add admin/staff check here if this route is exposed beyond internal use
+    const { invoiceId, amountOptionalCents } = req.body || {};
+    if (!invoiceId) return res.status(400).json({ error: 'Missing invoiceId' });
+
+    const stripe = getStripe();
+    const inv = await stripe.invoices.retrieve(invoiceId);
+    if (!inv.payment_intent) return res.status(400).json({ error: 'No payment intent for invoice' });
+
+    await stripe.refunds.create({
+      payment_intent: inv.payment_intent,
+      amount: amountOptionalCents || undefined, // full refund if omitted
+    });
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('refund-invoice error:', err);
+    return res.status(500).json({ error: 'Refund failed' });
+  }
+});
+
+/* ----------------------------------------------
+ * Stripe Webhook (mount with express.raw in app.js)
  * --------------------------------------------*/
 router.post('/webhook', async (req, res) => {
   const stripe = getStripe();
@@ -125,7 +243,7 @@ router.post('/webhook', async (req, res) => {
   try {
     if (!skipSig) {
       if (!endpointSecret) return res.status(500).end();
-      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret); // req.body must be Buffer
     } else {
       event = parseLoose(req.body);
     }
@@ -138,6 +256,7 @@ router.post('/webhook', async (req, res) => {
     const obj = event?.data?.object || {};
     const type = event?.type || '';
 
+    // Helper
     const setPlan = async (userId, plan, extras = {}) => {
       await prisma.user.update({
         where: { id: Number(userId) },
@@ -145,7 +264,7 @@ router.post('/webhook', async (req, res) => {
       });
     };
 
-    // Which user? Prefer explicit user id from session metadata.
+    // Identify user
     const userIdFromEvent = (() => {
       const ref = Number(obj.client_reference_id);
       if (Number.isFinite(ref)) return ref;
@@ -154,15 +273,13 @@ router.post('/webhook', async (req, res) => {
       return null;
     })();
 
-    // Map subscription → plan (Plus vs Premium) if you sell both with different prices.
-    // If you only have PREMIUM today, you can hardcode 'PREMIUM' like before.
+    // Infer PLUS vs PREMIUM based on price ids (if you sell both)
     const planFromLines = () => {
       const lines = obj.lines?.data || [];
-      const first = lines[0];
-      const price = first?.price?.id || obj.plan?.product; // best-effort
-      if (price === process.env.STRIPE_PRICE_PLUS) return 'PLUS';
-      if (price === process.env.STRIPE_PRICE_PREMIUM) return 'PREMIUM';
-      return 'PREMIUM'; // default
+      const priceId = lines[0]?.price?.id;
+      if (priceId === process.env.STRIPE_PRICE_PLUS) return 'PLUS';
+      if (priceId === process.env.STRIPE_PRICE_PREMIUM) return 'PREMIUM';
+      return 'PREMIUM';
     };
 
     switch (type) {
@@ -194,10 +311,13 @@ router.post('/webhook', async (req, res) => {
           stripeSubscriptionId: obj.id ? String(obj.id) : undefined,
           planExpiresAt: obj.current_period_end ? new Date(obj.current_period_end * 1000) : null,
         };
+
         if (userIdFromEvent) {
-          await setPlan(userIdFromEvent, activeish ? plan : 'FREE', activeish ? extras : {
-            stripeSubscriptionId: null, planExpiresAt: null,
-          });
+          await setPlan(
+            userIdFromEvent,
+            activeish ? plan : 'FREE',
+            activeish ? extras : { stripeSubscriptionId: null, planExpiresAt: null }
+          );
         } else if (obj.customer) {
           await prisma.user.updateMany({
             where: { stripeCustomerId: String(obj.customer) },
@@ -222,7 +342,6 @@ router.post('/webhook', async (req, res) => {
       }
 
       default:
-        // ignore others
         break;
     }
 

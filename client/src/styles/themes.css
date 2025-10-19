@@ -130,56 +130,85 @@
 }
 
 /* =====================================================================
-   NEON / AMOLED (premium cool/dark)
+   NEON (premium cool/dark) — slate + cyan/magenta neon gradient & glow
 ====================================================================== */
-:root[data-theme="neon"],
-:root[data-theme="amoled"] {
-  --bg: #000000;
+:root[data-theme="neon"] {
+  --bg: #0B0F14;          /* dark slate, not pure black */
   --fg: #EAF2FF;
-  --card: #0B0B0F;
+  --card: #0F141D;
   --border: #171821;
   --muted: #9FB3D1;
   --ring: color-mix(in oklab, var(--brand-cyan) 45%, transparent);
 
   --primary: var(--brand-violet);
-  --accent:  var(--brand-cyan);
-  --accent-alt: var(--brand-mint);
+  --accent:  var(--brand-cyan);     /* neon cyan */
+  --accent-alt: var(--brand-mint);  /* cool green */
 
   --logo-gradient: linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
-  --cta-gradient:  linear-gradient(90deg, var(--brand-violet), var(--brand-cyan));
+  --cta-gradient:  linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
   --bubble-outgoing: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
 
-  --cta-label: #fff;
+  --cta-label: #081016;
   --cta-overlay: radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.10), rgba(255,255,255,0));
-  --shadow-accent: color-mix(in oklab, var(--brand-cyan) 35%, transparent);
+  --shadow-accent: 0 0 28px rgba(0,229,255,.35), 0 0 18px rgba(106,60,193,.25);
 
+  /* Chameleon / favicon stops */
   --logo-stop-1: #5B8CFF;
   --logo-stop-2: #00C2A8;
   --logo-stop-3: #3CF9FF;
 }
 
 /* =====================================================================
-   SUNSET (premium warm) — coral/peach live here
+   AMOLED (premium dark) — true black, solid violet CTA (no gradient)
+====================================================================== */
+:root[data-theme="amoled"] {
+  --bg: #000000;          /* pure black canvas */
+  --fg: #F2F2F2;
+  --card: #0A0A0A;
+  --border: #141414;
+  --muted: #A3A3A3;
+  --ring: color-mix(in oklab, var(--brand-violet) 45%, transparent);
+
+  --primary: var(--brand-violet);
+  --accent:  #7C3AED;     /* royal violet */
+  --accent-alt: #7C3AED;
+
+  --logo-gradient: linear-gradient(90deg, #7C3AED, var(--brand-violet));
+  --cta-gradient:  var(--accent);   /* SOLID, no gradient */
+  --bubble-outgoing: linear-gradient(135deg, #7C3AED, #5932C7);
+
+  --cta-label: #FFFFFF;
+  --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  --shadow-accent: 0 6px 18px rgba(124,58,237,.28);
+
+  /* Chameleon / favicon stops (deeper violet look) */
+  --logo-stop-1: #7C3AED;
+  --logo-stop-2: #5932C7;
+  --logo-stop-3: #A78BFA;
+}
+
+/* =====================================================================
+   SUNSET (premium warm) — peach paper + orange→rose gradient
 ====================================================================== */
 :root[data-theme="sunset"] {
-  --bg: #FFFBF0;
+  --bg: #FFF1E8;          /* peach vs Dawn’s cream */
   --fg: #2C1A10;
-  --card: #FFFFFF;
-  --border: #F2E7D6;
+  --card: #FFF7F3;
+  --border: #F2D9CB;
   --muted: #7B6152;
-  --ring: color-mix(in oklab, var(--brand-amber) 35%, transparent);
+  --ring: color-mix(in oklab, var(--brand-coral) 35%, transparent);
 
   --primary: var(--brand-purple);
-  --accent:  var(--brand-amber);
-  --accent-alt: var(--brand-coral);
+  --accent:  var(--brand-orange);  /* orange */
+  --accent-alt: var(--brand-coral);/* rose/coral */
 
   --logo-gradient: linear-gradient(90deg, var(--brand-coral), var(--brand-peach), var(--brand-gold));
-  --cta-gradient:  linear-gradient(90deg, var(--brand-amber), var(--brand-orange));
-  --bubble-outgoing: linear-gradient(135deg, var(--brand-peach), var(--brand-amber));
+  --cta-gradient:  linear-gradient(90deg, var(--brand-orange), var(--brand-coral));
+  --bubble-outgoing: linear-gradient(135deg, var(--brand-peach), var(--brand-orange));
 
   --cta-label: #22160E;
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0));
-  --shadow-accent: color-mix(in oklab, var(--brand-orange) 28%, transparent);
+  --shadow-accent: color-mix(in oklab, var(--brand-coral) 28%, transparent);
 
   --logo-stop-1: var(--brand-coral);
   --logo-stop-2: var(--brand-peach);

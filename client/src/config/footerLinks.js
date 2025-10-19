@@ -2,7 +2,7 @@ export const FOOTER_SECTIONS = [
   {
     title: "Company",
     links: [
-      { label: "Plans & Pricing", href: "/upgrade" }, // public + authed route
+      { label: "Plans & Pricing", href: "/upgrade" },
       { label: "About Chatforia", href: "/about" },
       { label: "Careers", href: "/careers" },
       { label: "Press", href: "/press" },
@@ -12,25 +12,33 @@ export const FOOTER_SECTIONS = [
   {
     title: "Support",
     links: [
+      { label: "Getting Started", href: "/guides/getting-started" }, // ← temporarily lives here
       { label: "Help Center", href: "/help" },
       { label: "Contact Us", href: "/contact" },
       { label: "Status Page", href: "https://status.chatforia.com", external: true },
     ],
   },
-  {
-    title: "Resources",
-    links: [
-      { label: "Blog", href: "/blog" },
-      { label: "User Guides", href: "/guides" },
-      { label: "Tips & Tutorials", href: "/tips" },
-    ],
-  },
+
+  // --- Resources (parked for launch) -----------------------------------------
+  // When you have at least 2 items, uncomment this block and consider
+  // moving "Getting Started" back here.
+  //
+  // {
+  //   title: "Resources",
+  //   links: [
+  //     { label: "Getting Started", href: "/guides/getting-started" },
+  //     // Later:
+  //     // { label: "User Guides", href: "/guides" },
+  //     // { label: "Tips & Tutorials", href: "/tips" },
+  //     // { label: "Blog", href: "/blog" },
+  //   ],
+  // },
+
   {
     title: "Downloads",
     links: [
       { label: "iOS / App Store", href: "https://apps.apple.com/app/idXXXXXXXX", external: true },
       { label: "Android / Google Play", href: "https://play.google.com/store/apps/details?id=xxx", external: true },
-      // { label: "Desktop", href: "/download" },
     ],
   },
   {
