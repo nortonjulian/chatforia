@@ -9,6 +9,7 @@ import { RequirePremium } from '@/routes/guards';
 // pages / components
 import SettingsBackups from '@/pages/SettingsBackups.jsx';
 import UpgradePage from '@/pages/UpgradePlan';
+import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
 import Sidebar from '@/components/Sidebar';
 import RandomChatPage from '@/pages/RandomChatPage.jsx';
 import LoginForm from '@/components/LoginForm';
@@ -66,7 +67,7 @@ import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 
-// OAuth completion
+// OAuth completion (🔧 this import was missing)
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
 
 // Ads
@@ -174,54 +175,56 @@ export default function AppRoutes() {
     primeCsrf().catch(() => {});
   }, []);
 
+  // ---------- PUBLIC (not logged in) ----------
   if (!currentUser) {
+    return (
+      <Routes>
+        {/* Standalone public upgrade routes (NOT in AuthLayout) */}
+        <Route path="/upgrade" element={<UpgradePage variant="public" />} />
+        <Route path="/upgrade/success" element={<UpgradeSuccess />} />
+        <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
+
+        {/* Everything else under the public layout */}
+        <Route element={<AuthLayout />}>
+          <Route path="/" element={<LoginForm />} />
+          <Route path="/register" element={<Registration />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+
+          <Route path="/auth/complete" element={<OAuthComplete />} />
+
+          {/* Marketing/support/legal */}
+          <Route path="/about" element={<AboutChatforia />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/advertise" element={<Advertise />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/download" element={<Downloads />} />
+
+          {/* Legal */}
+          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
+          <Route path="/legal/cookies" element={<CookieSettings />} />
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    );
+  }
+
+  // ---------- AUTHED ----------
   return (
     <Routes>
-      {/* 👉 Standalone public upgrade/pricing page */}
-      <Route path="/upgrade" element={<UpgradePage variant="public" />} />
-      {/* Keep old path working */}
-      <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
-
-      {/* Everything else under AuthLayout */}
-      <Route element={<AuthLayout />}>
-        <Route path="/" element={<LoginForm />} />
-        <Route path="/register" element={<Registration />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-
-        <Route path="/auth/complete" element={<OAuthComplete />} />
-
-        {/* Marketing/support/legal */}
-        <Route path="/about" element={<AboutChatforia />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/press" element={<Press />} />
-        <Route path="/advertise" element={<Advertise />} />
-        <Route path="/help" element={<HelpCenter />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/download" element={<Downloads />} />
-
-        {/* Legal */}
-        <Route path="/legal/privacy" element={<PrivacyPolicy />} />
-        <Route path="/legal/terms" element={<TermsOfService />} />
-        <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
-        <Route path="/legal/cookies" element={<CookieSettings />} />
-      </Route>
-
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
-}
-
-  return (
-    <Routes>
-      {/* Standalone authed upgrade page (NOT inside AuthedLayout) */}
+      {/* Standalone authed upgrade pages (outside AuthedLayout so they don't render inline) */}
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
+      <Route path="/upgrade/success" element={<UpgradeSuccess />} />
       <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
 
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
 
-      {/* DEV helper route removed; redirect if someone visits it */}
       {import.meta.env.DEV && (
         <Route path="/dev/chat" element={<Navigate to="/" replace />} />
       )}
@@ -241,7 +244,7 @@ export default function AppRoutes() {
           }
         />
 
-        {/* NOTE: Removed the nested settings/upgrade route so it won't render inline */}
+        {/* NOTE: keep upgrade outside AuthedLayout to avoid inline rendering */}
 
         <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="status" element={<StatusFeed />} />

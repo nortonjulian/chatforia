@@ -1,5 +1,6 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
+import twilio from 'twilio';
 
 const router = express.Router();
 
@@ -14,6 +15,10 @@ router.use(rateLimit({ windowMs: 60_000, max: 20 }));
  *
  * Optional query:
  *   GET /ice-servers?provider=telnyx | bandwidth | all (default: all)
+ *
+ * NOTE:
+ * For Twilio, we prefer dynamic TURN creds via /token (below).
+ * This GET route returns static env-based ICE only (no secrets minted).
  */
 router.get('/', (req, res) => {
   const provider = String(req.query.provider || 'all').toLowerCase();
@@ -58,10 +63,11 @@ router.get('/', (req, res) => {
 
   // Merge by provider preference
   // let iceServers = [];
-  // if (provider === 'telnyx')      iceServers = telnyxICE;
+  // if (provider === 'telnyx')         iceServers = telnyxICE;
   // else if (provider === 'bandwidth') iceServers = bandwidthICE;
-  // else /* all */                  iceServers = [...telnyxICE, ...bandwidthICE];
+  // else /* all */                     iceServers = [...telnyxICE, ...bandwidthICE];
 
+  // For Twilio (static env-based). Prefer POST /token below for dynamic creds.
   const iceServersRaw = [
     { urls: TWILIO_STUN },
     ...(turnUrl && turnUser && turnPass
@@ -71,7 +77,7 @@ router.get('/', (req, res) => {
 
   // Deduplicate by (urls, username, credential) to keep the payload tidy
   const seen = new Set();
-  const iceServers = iceServers.filter(s => {
+  const iceServers = iceServersRaw.filter(s => {
     const urls = Array.isArray(s.urls) ? s.urls.join(',') : s.urls;
     const key = `${urls}|${s.username || ''}|${s.credential || ''}`;
     if (seen.has(key)) return false;
@@ -80,6 +86,42 @@ router.get('/', (req, res) => {
   });
 
   res.json({ iceServers });
+});
+
+/**
+ * Twilio Network Traversal: mint dynamic TURN creds
+ * POST /ice-servers/token
+ * Returns: { iceServers: [...] }
+ *
+ * Uses:
+ *   TWILIO_ACCOUNT_SID
+ *   TWILIO_AUTH_TOKEN
+ *
+ * Client flow:
+ *   1) POST to this endpoint (authenticated by your app’s session/JWT).
+ *   2) Use returned iceServers when creating RTCPeerConnection.
+ *
+ * Benefit:
+ *   - Rotating credentials with TTL, safer than static TURN user/pass.
+ */
+router.post('/token', async (req, res) => {
+  try {
+    const sid = process.env.TWILIO_ACCOUNT_SID;
+    const auth = process.env.TWILIO_AUTH_TOKEN;
+
+    if (!sid || !auth) {
+      return res.status(500).json({ error: 'Twilio credentials not configured' });
+    }
+
+    const client = twilio(sid, auth);
+    const token = await client.tokens.create(); // response: { iceServers: [...] }
+    // You can optionally filter/transform here (e.g., strip expiry if undesired).
+    res.json({ iceServers: token.iceServers || [] });
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('[ice] /token error:', err);
+    res.status(500).json({ error: 'Failed to fetch ICE servers from Twilio' });
+  }
 });
 
 export default router;

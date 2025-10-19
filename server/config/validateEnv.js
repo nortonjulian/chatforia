@@ -69,7 +69,6 @@ export default function validateEnv() {
     );
   }
 
-
   // ─────────────────────────────────────────────────────────────
   // Stripe: if one is set, require the other (optional overall)
   // ─────────────────────────────────────────────────────────────
@@ -77,13 +76,23 @@ export default function validateEnv() {
     requireNonEmpty(ENV.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY', { soft: SOFT });
     requireNonEmpty(ENV.STRIPE_WEBHOOK_SECRET, 'STRIPE_WEBHOOK_SECRET', { soft: SOFT });
   }
-  
+
+  // ─────────────────────────────────────────────────────────────
+  // eSIM / Connectivity (Teal) — only if explicitly enabled
+  // ─────────────────────────────────────────────────────────────
+  const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
+  if (esimEnabled) {
+    requireNonEmpty(ENV.TEAL_API_KEY, 'TEAL_API_KEY', { soft: SOFT });
+    requireNonEmpty(ENV.TEAL_BASE_URL, 'TEAL_BASE_URL', { soft: SOFT });
+  }
+
   // ─────────────────────────────────────────────────────────────
   // Telco: only validate if provider selected AND not disabled
+  // (Original Telnyx/Bandwidth block kept commented)
   // ─────────────────────────────────────────────────────────────
   // const telcoValidationDisabled =
   //   String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
-
+  //
   // if (!telcoValidationDisabled) {
   //   if (ENV.TELCO_PROVIDER === 'telnyx') {
   //     requireNonEmpty(ENV.TELNYX_API_KEY, 'TELNYX_API_KEY', { soft: SOFT });
@@ -135,6 +144,10 @@ export default function validateEnv() {
       requireNonEmpty(ENV.TWILIO_ACCOUNT_SID, 'TWILIO_ACCOUNT_SID', { soft: SOFT });
       requireNonEmpty(ENV.TWILIO_AUTH_TOKEN, 'TWILIO_AUTH_TOKEN', { soft: SOFT });
 
+      // Needed to mint Access Tokens for Video/Voice/WebRTC, etc.
+      requireNonEmpty(ENV.TWILIO_API_KEY_SID, 'TWILIO_API_KEY_SID', { soft: SOFT });
+      requireNonEmpty(ENV.TWILIO_API_KEY_SECRET, 'TWILIO_API_KEY_SECRET', { soft: SOFT });
+
       const hasMessagingId = !!ENV.TWILIO_MESSAGING_SERVICE_SID || !!ENV.TWILIO_FROM_NUMBER;
       if (SOFT) {
         if (!hasMessagingId) {
@@ -166,6 +179,16 @@ export default function validateEnv() {
   // (Legacy Telnyx/Bandwidth validation kept for future re-enable)
   // if (ENV.TELCO_PROVIDER === 'telnyx') { ... }
   // if (ENV.TELCO_PROVIDER === 'bandwidth') { ... }
+
+  // ─────────────────────────────────────────────────────────────
+  // Optional STUN/TURN guard (warn-only)
+  // ─────────────────────────────────────────────────────────────
+  if (!IS_TEST && ENV.TWILIO_TURN_USER && !ENV.TWILIO_TURN_PASS) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[env] TWILIO_TURN_USER is set without TWILIO_TURN_PASS; consider using Twilio Network Traversal tokens instead of static TURN creds.'
+    );
+  }
 
   // ─────────────────────────────────────────────────────────────
   // Upload target
