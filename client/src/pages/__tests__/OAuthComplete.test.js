@@ -20,30 +20,30 @@ jest.mock('@mantine/core', () => {
 });
 
 // Router
-const navigateMock = jest.fn();
-let searchParams = new URLSearchParams(); // will be set per test
+const mockNavigate = jest.fn();
+let mockSearchParams = new URLSearchParams(); // will be set per test
 jest.mock('react-router-dom', () => ({
   __esModule: true,
-  useNavigate: () => navigateMock,
-  useSearchParams: () => [searchParams],
+  useNavigate: () => mockNavigate,
+  useSearchParams: () => [mockSearchParams],
 }));
 
 // User context
-const setCurrentUserMock = jest.fn();
+const mockSetCurrentUser = jest.fn();
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
-  useUser: () => ({ setCurrentUser: setCurrentUserMock }),
+  useUser: () => ({ setCurrentUser: mockSetCurrentUser }),
 }));
 
 // API client
-const getMock = jest.fn();
+const mockGet = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { get: (...a) => getMock(...a) },
+  default: { get: (...a) => mockGet(...a) },
 }));
 
 // SUT
-import OAuthComplete from './OAuthComplete';
+import OAuthComplete from '../OAuthComplete';
 
 // Helpers
 const deferred = () => {
@@ -54,15 +54,15 @@ const deferred = () => {
 
 describe('OAuthComplete', () => {
   beforeEach(() => {
-    navigateMock.mockReset();
-    setCurrentUserMock.mockReset();
-    getMock.mockReset();
-    searchParams = new URLSearchParams(); // default no "next"
+    mockNavigate.mockReset();
+    mockSetCurrentUser.mockReset();
+    mockGet.mockReset();
+    mockSearchParams = new URLSearchParams(); // default no "next"
   });
 
   test('renders loading UI', () => {
     // Leave requests pending
-    getMock.mockReturnValue(new Promise(() => {}));
+    mockGet.mockReturnValue(new Promise(() => {}));
 
     render(<OAuthComplete />);
     expect(screen.getByTestId('loader')).toBeInTheDocument();
@@ -70,58 +70,58 @@ describe('OAuthComplete', () => {
   });
 
   test('success via /auth/me: sets user and navigates to next path', async () => {
-    searchParams = new URLSearchParams('next=/inbox');
-    getMock.mockResolvedValueOnce({ data: { user: { id: 1, name: 'A' } } });
+    mockSearchParams = new URLSearchParams('next=/inbox');
+    mockGet.mockResolvedValueOnce({ data: { user: { id: 1, name: 'A' } } });
 
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(setCurrentUserMock).toHaveBeenCalledWith({ id: 1, name: 'A' });
-      expect(navigateMock).toHaveBeenCalledWith('/inbox', { replace: true });
+      expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 1, name: 'A' });
+      expect(mockNavigate).toHaveBeenCalledWith('/inbox', { replace: true });
     });
     // Only /auth/me called
-    expect(getMock).toHaveBeenCalledTimes(1);
-    expect(getMock).toHaveBeenCalledWith('/auth/me');
+    expect(mockGet).toHaveBeenCalledTimes(1);
+    expect(mockGet).toHaveBeenCalledWith('/auth/me');
   });
 
   test('fallback: /auth/me fails, /users/me succeeds', async () => {
-    getMock
+    mockGet
       .mockRejectedValueOnce(new Error('nope'))                 // /auth/me
       .mockResolvedValueOnce({ data: { id: 2, name: 'B' } });   // /users/me (plain user)
 
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(setCurrentUserMock).toHaveBeenCalledWith({ id: 2, name: 'B' });
-      expect(navigateMock).toHaveBeenCalledWith('/', { replace: true });
+      expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 2, name: 'B' });
+      expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
     });
-    expect(getMock.mock.calls[0][0]).toBe('/auth/me');
-    expect(getMock.mock.calls[1][0]).toBe('/users/me');
+    expect(mockGet.mock.calls[0][0]).toBe('/auth/me');
+    expect(mockGet.mock.calls[1][0]).toBe('/users/me');
   });
 
   test('failure: both endpoints fail (or no user) -> navigate to /login?error=sso_failed', async () => {
     // Case A: both reject
-    getMock
+    mockGet
       .mockRejectedValueOnce(new Error('x')) // /auth/me
       .mockRejectedValueOnce(new Error('y')); // /users/me
 
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/login?error=sso_failed', { replace: true });
+      expect(mockNavigate).toHaveBeenCalledWith('/login?error=sso_failed', { replace: true });
     });
 
     // Case B: endpoints resolve but without user
-    navigateMock.mockReset();
-    getMock.mockReset();
-    getMock
+    mockNavigate.mockReset();
+    mockGet.mockReset();
+    mockGet
       .mockResolvedValueOnce({ data: {} })     // /auth/me
       .mockResolvedValueOnce({ data: null });  // /users/me
 
     render(<OAuthComplete />);
 
     await waitFor(() => {
-      expect(navigateMock).toHaveBeenCalledWith('/login?error=sso_failed', { replace: true });
+      expect(mockNavigate).toHaveBeenCalledWith('/login?error=sso_failed', { replace: true });
     });
   });
 
@@ -131,7 +131,7 @@ describe('OAuthComplete', () => {
 
     // First call returns nullish (simulate /auth/me failing to produce user but not throwing),
     // second also returns nullish; but we'll unmount before they finish.
-    getMock
+    mockGet
       .mockReturnValueOnce(authDef.promise)   // /auth/me
       .mockReturnValueOnce(usersDef.promise); // /users/me
 
@@ -142,11 +142,10 @@ describe('OAuthComplete', () => {
     await act(async () => {
       authDef.resolve({ data: null });
       usersDef.resolve({ data: null });
-      // allow effect microtasks to flush
     });
 
     // No navigation or context updates after unmount
-    expect(setCurrentUserMock).not.toHaveBeenCalled();
-    expect(navigateMock).not.toHaveBeenCalled();
+    expect(mockSetCurrentUser).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

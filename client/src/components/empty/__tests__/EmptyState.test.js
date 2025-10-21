@@ -1,5 +1,6 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import EmptyState from '@/components/EmptyState';
+import EmptyState from '../EmptyState.jsx'; // ✅ relative import
 
 // -------------------- Mocks --------------------
 
@@ -17,25 +18,35 @@ jest.mock('@mantine/core', () => {
 });
 
 // Ads: component + wrappers + placements + provider
-const houseAdMock = jest.fn((p) => <div data-testid={`house-ad-${p.placement}`} data-variant={p.variant} />);
-jest.mock('@/ads/HouseAdSlot', () => ({ __esModule: true, default: (p) => houseAdMock(p) }));
+const mockHouseAd = jest.fn((p) => (
+  <div data-testid={`house-ad-${p.placement}`} data-variant={p.variant} />
+));
+jest.mock('../../../ads/HouseAdSlot', () => ({
+  __esModule: true,
+  default: (p) => mockHouseAd(p),
+}));
 
-const cardWrapMock = jest.fn(({ children }) => <div data-testid="card-wrap">{children}</div>);
-jest.mock('@/ads/AdWrappers', () => ({ __esModule: true, CardAdWrap: (p) => cardWrapMock(p) }));
+const mockCardWrap = jest.fn(({ children }) => <div data-testid="card-wrap">{children}</div>);
+jest.mock('../../../ads/AdWrappers', () => ({
+  __esModule: true,
+  CardAdWrap: (p) => mockCardWrap(p),
+}));
 
-jest.mock('@/ads/placements', () => ({
-  PLACEMENTS: { EMPTY_STATE_PROMO: 'EMPTY_STATE_PROMO' },
+// In your code you do PLACEMENTS.EMPTY_STATE_PROMO and pass that into canShow/markShown.
+// Define the value to the exact string the component ultimately uses ("empty_state_promo").
+jest.mock('../../../ads/placements', () => ({
+  PLACEMENTS: { EMPTY_STATE_PROMO: 'empty_state_promo' },
 }));
 
 // useAds hook
-const canShowMock = jest.fn(() => true);
-const markShownMock = jest.fn();
-jest.mock('@/ads/AdProvider', () => ({
-  useAds: () => ({ canShow: canShowMock, markShown: markShownMock }),
+const mockCanShow = jest.fn(() => true);
+const mockMarkShown = jest.fn();
+jest.mock('../../../ads/AdProvider', () => ({
+  useAds: () => ({ canShow: mockCanShow, markShown: mockMarkShown }),
 }));
 
 // ADS_CONFIG (only used for logging; keep simple)
-jest.mock('@/ads/config', () => ({ ADS_CONFIG: { house: { a: 1, b: 2 } } }));
+jest.mock('../../../ads/config', () => ({ ADS_CONFIG: { house: { a: 1, b: 2 } } }));
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -70,7 +81,7 @@ describe('EmptyState', () => {
   });
 
   test('non-premium + allowed by ads -> shows house promo and calls markShown with capKey', () => {
-    canShowMock.mockReturnValueOnce(true);
+    mockCanShow.mockReturnValueOnce(true);
 
     render(
       <EmptyState
@@ -83,16 +94,16 @@ describe('EmptyState', () => {
 
     // House ad visible inside CardAdWrap
     expect(screen.getByTestId('card-wrap')).toBeInTheDocument();
-    const ad = screen.getByTestId('house-ad-EMPTY_STATE_PROMO');
+    const ad = screen.getByTestId('house-ad-empty_state_promo'); // ✅ lowercase
     expect(ad).toBeInTheDocument();
     expect(ad.dataset.variant).toBe('card');
 
-    // markShown called with placement and capKey
-    expect(markShownMock).toHaveBeenCalledWith('EMPTY_STATE_PROMO', 'app');
+    // markShown called with placement and capKey (lowercase key)
+    expect(mockMarkShown).toHaveBeenCalledWith('empty_state_promo', 'app');
   });
 
   test('premium users do not see promo even if ads allow it', () => {
-    canShowMock.mockReturnValueOnce(true);
+    mockCanShow.mockReturnValueOnce(true);
 
     render(
       <EmptyState
@@ -103,12 +114,12 @@ describe('EmptyState', () => {
       />
     );
 
-    expect(screen.queryByTestId('house-ad-EMPTY_STATE_PROMO')).not.toBeInTheDocument();
-    expect(markShownMock).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('house-ad-empty_state_promo')).not.toBeInTheDocument();
+    expect(mockMarkShown).not.toHaveBeenCalled();
   });
 
   test('enableHousePromo=false hides promo regardless of ads/premium', () => {
-    canShowMock.mockReturnValueOnce(true);
+    mockCanShow.mockReturnValueOnce(true);
 
     render(
       <EmptyState
@@ -119,12 +130,12 @@ describe('EmptyState', () => {
       />
     );
 
-    expect(screen.queryByTestId('house-ad-EMPTY_STATE_PROMO')).not.toBeInTheDocument();
-    expect(markShownMock).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('house-ad-empty_state_promo')).not.toBeInTheDocument();
+    expect(mockMarkShown).not.toHaveBeenCalled();
   });
 
   test('ads.canShow=false hides promo and does not call markShown', () => {
-    canShowMock.mockReturnValueOnce(false);
+    mockCanShow.mockReturnValueOnce(false);
 
     render(
       <EmptyState
@@ -135,12 +146,12 @@ describe('EmptyState', () => {
       />
     );
 
-    expect(screen.queryByTestId('house-ad-EMPTY_STATE_PROMO')).not.toBeInTheDocument();
-    expect(markShownMock).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('house-ad-empty_state_promo')).not.toBeInTheDocument();
+    expect(mockMarkShown).not.toHaveBeenCalled();
   });
 
   test('dismiss button hides promo immediately and persists dismissal for 14 days', () => {
-    canShowMock.mockReturnValueOnce(true);
+    mockCanShow.mockReturnValueOnce(true);
 
     render(
       <EmptyState
@@ -152,13 +163,13 @@ describe('EmptyState', () => {
     );
 
     // Promo visible
-    expect(screen.getByTestId('house-ad-EMPTY_STATE_PROMO')).toBeInTheDocument();
+    expect(screen.getByTestId('house-ad-empty_state_promo')).toBeInTheDocument();
 
     // Click "Hide for now"
-    fireEvent.click(screen.getByRole('button', { name: /hide for now/i }));
+    fireEvent.click(screen.getByRole('button', { name: /hide promotion/i }));
 
     // Promo disappears
-    expect(screen.queryByTestId('house-ad-EMPTY_STATE_PROMO')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('house-ad-empty_state_promo')).not.toBeInTheDocument();
 
     // LocalStorage key written with (now + 14d)
     const key = 'dismiss:empty_state_promo';
@@ -168,7 +179,7 @@ describe('EmptyState', () => {
   });
 
   test('capKey is passed to canShow/markShown', () => {
-    canShowMock.mockReturnValueOnce(true);
+    mockCanShow.mockReturnValueOnce(true);
     render(
       <EmptyState
         title="t"
@@ -177,7 +188,7 @@ describe('EmptyState', () => {
         capKey="my-cap"
       />
     );
-    expect(canShowMock).toHaveBeenCalledWith('EMPTY_STATE_PROMO', 'my-cap');
-    expect(markShownMock).toHaveBeenCalledWith('EMPTY_STATE_PROMO', 'my-cap');
+    expect(mockCanShow).toHaveBeenCalledWith('empty_state_promo', 'my-cap');
+    expect(mockMarkShown).toHaveBeenCalledWith('empty_state_promo', 'my-cap');
   });
 });

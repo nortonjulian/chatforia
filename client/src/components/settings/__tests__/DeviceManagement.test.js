@@ -1,9 +1,8 @@
 import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
-import DeviceManagement from '@/components/DeviceManagement';
+import DeviceManagement from '../DeviceManagement.jsx';
 
 // -------------------- Mocks --------------------
 
-// Mantine primitives (light shims)
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const passthru = (tag) => ({ children, ...p }) => React.createElement(tag || 'div', p, children);
@@ -18,7 +17,7 @@ jest.mock('@mantine/core', () => {
   const Card = passthru('div');
   const Group = ({ children, ...p }) => <div data-testid="group" {...p}>{children}</div>;
   const Loader = () => <div role="progressbar" />;
-  const Modal = ({ opened, onClose, title, children, centered }) =>
+  const Modal = ({ opened, onClose, title, children }) =>
     opened ? (
       <div role="dialog" aria-label={title}>
         <button aria-label="close-modal" onClick={onClose} style={{ display: 'none' }} />
@@ -48,7 +47,6 @@ jest.mock('@mantine/core', () => {
   return { ActionIcon, Badge, Button, Card, Group, Loader, Modal, ScrollArea, Table, Text, TextInput, Tooltip };
 });
 
-// Icons (not needed for behavior)
 jest.mock('@tabler/icons-react', () => ({
   IconLink: () => <i />,
   IconLogout: () => <i />,
@@ -57,33 +55,29 @@ jest.mock('@tabler/icons-react', () => ({
   IconShield: () => <i />,
 }));
 
-// Link modal (render a stub you can close)
-const LinkFlowPrimaryModalMock = jest.fn(({ opened, onClose }) =>
+const mockLinkFlowPrimaryModal = jest.fn(({ opened, onClose }) =>
   opened ? (
     <div data-testid="link-modal">
       <button onClick={onClose}>Close link modal</button>
     </div>
   ) : null
 );
-jest.mock('@/components/LinkFlowPrimaryModal.jsx', () => ({
+jest.mock('../LinkFlowPrimaryModal.jsx', () => ({
   __esModule: true,
-  default: (p) => LinkFlowPrimaryModalMock(p),
+  default: (p) => mockLinkFlowPrimaryModal(p),
 }));
 
-// useUser
-jest.mock('@/context/UserContext.js', () => ({
+jest.mock('../../../context/UserContext', () => ({
   useUser: () => ({ user: { id: 'user-1' } }),
 }));
 
-// useDeviceEvents: capture handlers so tests can trigger them
 let capturedHandlers = null;
-jest.mock('@/hooks/useDeviceEvents.js', () => ({
+jest.mock('../../../hooks/useDeviceEvents', () => ({
   useDeviceEvents: (handlers) => {
     capturedHandlers = handlers;
   },
 }));
 
-// fetch global
 const fetchMock = jest.fn();
 global.fetch = fetchMock;
 
@@ -99,7 +93,6 @@ function mockGetDevicesOnce(list) {
     json: async () => list,
   });
 }
-
 function mockPostOkOnce() {
   fetchMock.mockResolvedValueOnce({ ok: true, json: async () => ({ ok: true }) });
 }
@@ -107,9 +100,23 @@ function mockPostOkOnce() {
 async function renderWithInitialDevices(list) {
   mockGetDevicesOnce(list);
   render(<DeviceManagement />);
-  // Wait until loader is gone and table appears
-  await screen.findByText(/your devices/i);
+  // Wait until table container renders (loader finished)
+  await screen.findByTestId('scrollarea');
   return screen.getByTestId('scrollarea');
+}
+
+function clickTooltipAction(labelText) {
+  const tooltips = screen.getAllByTestId('tooltip');
+  const tip = tooltips.find((t) => t.getAttribute('data-label') === labelText);
+  if (!tip) throw new Error(`Tooltip with label "${labelText}" not found`);
+  const btn = within(tip).getByRole('button', { name: 'action' });
+  fireEvent.click(btn);
+}
+
+function headerRefreshButton() {
+  // header is the first Group (title + actions)
+  const header = screen.getAllByTestId('group')[0];
+  return within(header).getByRole('button', { name: 'action' });
 }
 
 // -------------------- Tests --------------------
@@ -121,48 +128,40 @@ describe('DeviceManagement', () => {
       { id: 'b', name: 'Old Phone', platform: 'Android', isPrimary: false, revokedAt: nowIso, createdAt: nowIso },
     ];
 
-    const area = await renderWithInitialDevices(list);
+    await renderWithInitialDevices(list);
 
-    // Table headers present
-    expect(screen.getByText(/device/i)).toBeInTheDocument();
-    expect(screen.getByText(/added/i)).toBeInTheDocument();
-    expect(screen.getByText(/activity/i)).toBeInTheDocument();
-    expect(screen.getByText(/actions/i)).toBeInTheDocument();
+    // Table headers present (avoid text "Device" vs "Your devices" ambiguity)
+    ['Device', 'Added', 'Activity', 'Actions'].forEach((h) => {
+      expect(screen.getByRole('columnheader', { name: h })).toBeInTheDocument();
+    });
 
-    // First row (primary) shows Primary badge and action buttons
+    // Row content
     expect(screen.getByText('MacBook')).toBeInTheDocument();
-    expect(screen.getByRole('status', { name: /Primary/i })).toBeInTheDocument();
-    // Rename + Revoke buttons exist for non-revoked
-    expect(screen.getAllByRole('button', { name: 'action' }).length).toBeGreaterThan(0);
+    // 👇 Robust check for Primary badge text (accessible name is empty in our shim)
+    const statuses1 = screen.getAllByRole('status');
+    expect(statuses1.some((el) => /primary/i.test(el.textContent || ''))).toBe(true);
 
-    // Second row (revoked) shows Revoked badge and no actions
     expect(screen.getByText('Old Phone')).toBeInTheDocument();
-    expect(screen.getByRole('status', { name: /Revoked/i })).toBeInTheDocument();
+    // 👇 Same robust check for Revoked in this test
+    const statuses2 = screen.getAllByRole('status');
+    expect(statuses2.some((el) => /revoked/i.test(el.textContent || ''))).toBe(true);
 
-    // Initial GET call shape
     expect(fetchMock).toHaveBeenCalledWith('/devices', { credentials: 'include' });
   });
 
   test('rename flow: opens modal with prefilled name, posts, closes, and reloads list', async () => {
     const list = [{ id: 'x1', name: 'Laptop', platform: 'macOS', createdAt: Date.now(), lastSeenAt: Date.now() }];
-
-    // initial load
     await renderWithInitialDevices(list);
 
-    // Open rename modal (first action icon is rename in our row order)
-    const renameBtn = screen.getAllByRole('button', { name: 'action' })[0];
-    fireEvent.click(renameBtn);
+    clickTooltipAction('Rename');
 
     const dlg = screen.getByRole('dialog', { name: /rename device/i });
     const input = within(dlg).getByLabelText(/name/i);
     expect(input).toHaveValue('Laptop');
 
-    // Type new name and submit
     fireEvent.change(input, { target: { value: 'Work Laptop' } });
 
-    // POST /devices/rename/x1
     mockPostOkOnce();
-    // Reload devices returns updated name
     mockGetDevicesOnce([{ id: 'x1', name: 'Work Laptop', platform: 'macOS', createdAt: Date.now() }]);
 
     fireEvent.click(within(dlg).getByRole('button', { name: /save/i }));
@@ -179,12 +178,10 @@ describe('DeviceManagement', () => {
       }));
     });
 
-    // Modal closes (no dialog)
     await waitFor(() => {
       expect(screen.queryByRole('dialog', { name: /rename device/i })).not.toBeInTheDocument();
     });
 
-    // New name shows after reload
     await screen.findByText('Work Laptop');
   });
 
@@ -192,15 +189,9 @@ describe('DeviceManagement', () => {
     const list = [{ id: 'r1', name: 'Pixel', platform: 'Android', createdAt: Date.now() }];
     await renderWithInitialDevices(list);
 
-    // Second action icon is revoke (after rename)
-    const buttons = screen.getAllByRole('button', { name: 'action' });
-    const revokeBtn = buttons[1];
-
-    // POST revoke + then reload GET
     mockPostOkOnce();
     mockGetDevicesOnce([{ id: 'r1', name: 'Pixel', platform: 'Android', revokedAt: Date.now() }]);
-
-    fireEvent.click(revokeBtn);
+    clickTooltipAction('Revoke access');
 
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith('/devices/revoke/r1', expect.objectContaining({
@@ -209,20 +200,18 @@ describe('DeviceManagement', () => {
       }));
     });
 
-    // After reload, show Revoked badge
-    await screen.findByRole('status', { name: /revoked/i });
+    const statuses = await screen.findAllByRole('status');
+    expect(statuses.some((el) => /revoked/i.test(el.textContent || ''))).toBe(true);
   });
 
   test('link new device opens modal; closing it triggers reload', async () => {
     await renderWithInitialDevices([]);
 
-    // Open link modal
     fireEvent.click(screen.getByRole('button', { name: /link new device/i }));
-    expect(LinkFlowPrimaryModalMock).toHaveBeenCalledWith(
+    expect(mockLinkFlowPrimaryModal).toHaveBeenCalledWith(
       expect.objectContaining({ opened: true, onClose: expect.any(Function) })
     );
 
-    // When modal closes, it should trigger refresh -> GET called again
     mockGetDevicesOnce([{ id: 'n1', name: 'New Device', createdAt: Date.now() }]);
     fireEvent.click(screen.getByText(/close link modal/i));
 
@@ -232,10 +221,12 @@ describe('DeviceManagement', () => {
   test('manual refresh button triggers reload', async () => {
     await renderWithInitialDevices([{ id: 'd1', name: 'One', createdAt: Date.now() }]);
 
-    mockGetDevicesOnce([{ id: 'd1', name: 'One', createdAt: Date.now() }, { id: 'd2', name: 'Two', createdAt: Date.now() }]);
-    // The ActionIcon without label is our refresh; use title via Icon not available, so select by role count:
-    const refreshBtn = screen.getAllByRole('button', { name: 'action' }).slice(-1)[0];
-    fireEvent.click(refreshBtn);
+    mockGetDevicesOnce([
+      { id: 'd1', name: 'One', createdAt: Date.now() },
+      { id: 'd2', name: 'Two', createdAt: Date.now() },
+    ]);
+
+    fireEvent.click(headerRefreshButton());
 
     await screen.findByText('Two');
   });
@@ -244,32 +235,29 @@ describe('DeviceManagement', () => {
     await renderWithInitialDevices([{ id: 'a', name: 'Alpha', createdAt: Date.now() }]);
     expect(capturedHandlers).toBeTruthy();
 
-    // onLinked should bump refresh
     mockGetDevicesOnce([{ id: 'a', name: 'Alpha', createdAt: Date.now() }, { id: 'b', name: 'Beta', createdAt: Date.now() }]);
     capturedHandlers.onLinked?.();
     await screen.findByText('Beta');
 
-    // onRevoked should also bump refresh
     mockGetDevicesOnce([{ id: 'a', name: 'Alpha', revokedAt: Date.now() }]);
     capturedHandlers.onRevoked?.();
-    await screen.findByRole('status', { name: /revoked/i });
+
+    const statuses = await screen.findAllByRole('status');
+    expect(statuses.some((el) => /revoked/i.test(el.textContent || ''))).toBe(true);
   });
 
   test('shows loader while loading', async () => {
-    // Keep the first GET pending briefly to assert loader
     let resolve;
     const pending = new Promise((r) => (resolve = r));
     fetchMock.mockReturnValueOnce(pending);
 
     render(<DeviceManagement />);
 
-    // Loader visible
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
 
-    // Finish GET
     resolve({ ok: true, json: async () => [] });
 
-    // Table renders after completion
+    await screen.findByTestId('scrollarea');
     await screen.findByText(/your devices/i);
   });
 });

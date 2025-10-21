@@ -1,5 +1,6 @@
+import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import PhoneVerifyModal from '@/components/PhoneVerifyModal'; // update path if needed
+import PhoneVerifyModal from '../PhoneVerifyModal.jsx'; // ⬅️ relative from __tests__ → auth
 
 // ---------- Mocks ----------
 
@@ -28,7 +29,7 @@ jest.mock('@mantine/core', () => {
 
   const Group = ({ children }) => <div>{children}</div>;
 
-  return { Modal, TextInput, Button, Group };
+  return { __esModule: true, Modal, TextInput, Button, Group };
 });
 
 // Global fetch mock

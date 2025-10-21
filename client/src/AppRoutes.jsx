@@ -48,9 +48,13 @@ import SettingsPage from '@/features/settings/SettingsPage';
 // Index route content
 import HomeIndex from '@/features/chat/HomeIndex';
 
-// SMS
+// Existing SMS pages
 import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
+
+// ✅ New SMS pages
+import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
+import SmsCompose from '@/pages/SmsCompose.jsx';
 
 /* ---------- PUBLIC PAGES ---------- */
 import AboutChatforia from '@/pages/AboutChatforia.jsx';
@@ -115,6 +119,10 @@ function AuthedLayout() {
     currentUser?.isPremium || plan === 'premium' || plan === 'plus' || tier === 'premium' || tier === 'plus'
   );
 
+  // NOTE: `me` and `peerId` references in your original file looked undefined; keep your real values here
+  const me = currentUser || {};
+  const peerId = null;
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -162,7 +170,6 @@ function AuthedLayout() {
           <VideoCall identity={me.username} room={`dm:${peerId}`} onEnd={() => setActiveCall(null)} />
         )}
 
-        {/* Provide ads context */}
         <AdProvider isPremium={isPremium}>
           <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
           <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
@@ -179,26 +186,22 @@ export default function AppRoutes() {
     primeCsrf().catch(() => {});
   }, []);
 
-  // ---------- PUBLIC (not logged in) ----------
+  // ---------- PUBLIC ----------
   if (!currentUser) {
     return (
       <Routes>
-        {/* Standalone public upgrade routes (NOT in AuthLayout) */}
         <Route path="/upgrade" element={<UpgradePage variant="public" />} />
         <Route path="/upgrade/success" element={<UpgradeSuccess />} />
         <Route path="/billing/return" element={<BillingReturn />} />
         <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
 
-        {/* Everything else under the public layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-
           <Route path="/auth/complete" element={<OAuthComplete />} />
 
-          {/* Marketing/support/legal */}
           <Route path="/about" element={<AboutChatforia />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/press" element={<Press />} />
@@ -207,13 +210,11 @@ export default function AppRoutes() {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/download" element={<Downloads />} />
 
-          {/* Guides */}
           <Route path="/guides/getting-started" element={<GettingStarted />} />
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
 
-          {/* Legal */}
           <Route path="/legal/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
@@ -228,7 +229,6 @@ export default function AppRoutes() {
   // ---------- AUTHED ----------
   return (
     <Routes>
-      {/* Standalone authed upgrade pages (outside AuthedLayout so they don't render inline) */}
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
       <Route path="/upgrade/success" element={<UpgradeSuccess />} />
       <Route path="/billing/return" element={<BillingReturn />} />
@@ -236,10 +236,7 @@ export default function AppRoutes() {
 
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
-
-      {import.meta.env.DEV && (
-        <Route path="/dev/chat" element={<Navigate to="/" replace />} />
-      )}
+      {import.meta.env.DEV && <Route path="/dev/chat" element={<Navigate to="/" replace />} />}
 
       <Route path="/" element={<AuthedLayout />}>
         <Route index element={<HomeIndex />} />
@@ -265,9 +262,13 @@ export default function AppRoutes() {
         <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="status" element={<StatusFeed />} />
 
-        {/* SMS */}
+        {/* SMS (existing) */}
         <Route path="sms" element={<SmsThreads />} />
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
+
+        {/* ✅ New SMS routes */}
+        <Route path="sms/:threadId" element={<SmsThreadPage />} />
+        <Route path="sms/compose" element={<SmsCompose />} />
 
         {/* Admin */}
         <Route

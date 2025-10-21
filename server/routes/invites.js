@@ -132,15 +132,37 @@ async function collectSelfEmails(req, auth) {
   return out;
 }
 
+/* ------------ dev/real SMS send helper ------------ */
+// Decide if we should mock-skip actual SMS in this environment
+const USE_SMS_MOCK =
+  String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
+  (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);
+
 async function sendSmsTestSafe({ to, text, clientRef }) {
+  if (!to || !text) throw Boom.badRequest('to and text required');
+
+  // Dev / mock path: short-circuit with a fake response
+  if (USE_SMS_MOCK) {
+    const fakeSid = `SM_mock_${Date.now().toString(36)}`;
+    console.info('[invites] MOCK SMS →', { to, text, sid: fakeSid });
+    return { provider: 'mock', messageSid: fakeSid };
+  }
+
+  // Real provider path via Twilio adapter
   try {
     if (typeof realSendSms === 'function') {
-      // Twilio-only send; no multi-provider fallback
-      return await realSendSms({ to, text, clientRef });
+      const out = await realSendSms({ to, text, clientRef });
+      // Expect Twilio-like shape
+      if (!out?.messageSid) throw Boom.badGateway('SMS provider unavailable');
+      return { provider: out.provider || 'twilio', messageSid: out.messageSid };
     }
-  } catch {}
+  } catch (e) {
+    // Surface a clean 502 to the route
+    throw Boom.badGateway('SMS provider unavailable');
+  }
+
+  // Fallback for test envs without the adapter
   if (IS_TEST) {
-    // Test stub: mimic Twilio shape
     return { provider: 'twilio', messageSid: `SM_${Date.now()}` };
   }
   throw Boom.badGateway('SMS provider unavailable');
@@ -170,9 +192,9 @@ router.post(
         `${inviter} invited you to try Chatforia. Download here: ${APP_DOWNLOAD_URL || ''}`
     );
 
-    // preferredProvider (telnyx|bandwidth) is now ignored; Twilio-only
     const clientRef = `invite:${auth.id || 'anon'}:${Date.now()}`;
     const result = await sendSmsTestSafe({ to, text, clientRef });
+
     return res.json({
       sent: true,
       provider: result.provider || 'twilio',
@@ -235,12 +257,16 @@ router.post(
     );
 
     let transporter = mailTransporter;
-    if (!transporter && IS_TEST) transporter = { sendMail: async () => ({ messageId: `email_${Date.now()}` }) };
+    if (!transporter && IS_TEST) {
+      transporter = { sendMail: async () => ({ messageId: `email_${Date.now()}` }) };
+    }
 
     try {
       if (!transporter || typeof transporter.sendMail !== 'function') {
         if (IS_TEST) {
-          return res.status(202).json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
+          return res
+            .status(202)
+            .json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
         }
         throw Boom.preconditionFailed('Email transporter not configured');
       }
@@ -258,7 +284,9 @@ router.post(
         .json({ ok: true, sent: recipients.length, messageId: info?.messageId || null });
     } catch (_err) {
       if (IS_TEST) {
-        return res.status(202).json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
+        return res
+          .status(202)
+          .json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
       }
       throw Boom.badGateway('Failed to send email invite');
     }

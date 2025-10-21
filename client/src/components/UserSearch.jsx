@@ -21,23 +21,26 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
   const [error, setError] = useState('');
 
   const handleSearch = async () => {
-    if (!query.trim()) {
+    const q = query.trim();
+    if (!q) {
+      // Clear whitespace-only input so UI doesn't show "No user found"
+      if (query !== '') setQuery('');
       setResults([]);
+      setError('');
+      setLoading(false);
       return;
     }
 
     setLoading(true);
     setError('');
     try {
-      const res = await axiosClient.get(
-        `/users/search?query=${encodeURIComponent(query)}`
-      );
-
-      const filtered = res.data.filter((user) => user.id !== currentUser.id);
+      const res = await axiosClient.get(`/users/search?query=${encodeURIComponent(q)}`);
+      const filtered = (res.data || []).filter((user) => user.id !== currentUser.id);
       setResults(filtered);
-    } catch (error) {
-      console.error('Search error:', error);
+    } catch (err) {
+      console.error('Search error:', err);
       setError('Unable to fetch users. Please try again');
+      setResults([]);
     } finally {
       setLoading(false);
     }
@@ -51,17 +54,15 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
       });
       const chatroomId = res.data;
       onNavigateToChatRoom(chatroomId);
-    } catch (error) {
-      console.error('Failed to start chat', error);
+    } catch (err) {
+      console.error('Failed to start chat', err);
       setError('Failed to start chat with this user.');
     }
   };
 
   return (
     <Paper withBorder radius="lg" shadow="sm" p="md" maw={480} mx="auto">
-      <Title order={4} mb="sm">
-        Search Users
-      </Title>
+      <Title order={4} mb="sm">Search Users</Title>
 
       <Group gap="sm" mb="sm">
         <TextInput
@@ -72,12 +73,7 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
           leftSection={<IconSearch size={16} />}
           style={{ flex: 1 }}
         />
-        <Button
-          onClick={handleSearch}
-          loading={loading}
-          variant="filled"
-          color="blue"
-        >
+        <Button onClick={handleSearch} loading={loading} variant="filled" color="blue">
           Search
         </Button>
       </Group>
@@ -89,9 +85,7 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
       )}
 
       {!loading && results.length === 0 && query && !error && (
-        <Text size="sm" c="dimmed">
-          No user found
-        </Text>
+        <Text size="sm" c="dimmed">No user found</Text>
       )}
 
       {loading && <Loader size="sm" mt="sm" />}
@@ -104,9 +98,7 @@ const UserSearch = ({ currentUser, onNavigateToChatRoom }) => {
               <div>
                 <Text fw={500}>{user.username}</Text>
                 {user.phoneNumber && (
-                  <Text size="sm" c="dimmed">
-                    {user.phoneNumber}
-                  </Text>
+                  <Text size="sm" c="dimmed">{user.phoneNumber}</Text>
                 )}
               </div>
               <Button

@@ -22,7 +22,7 @@ import {
 } from '@tabler/icons-react';
 import LinkFlowPrimaryModal from './LinkFlowPrimaryModal.jsx';
 import { useDeviceEvents } from '../../hooks/useDeviceEvents.js';
-import { useUser } from '../../context/UserContext.js';
+import { useUser } from '../../context/UserContext.jsx';
 
 export default function DeviceManagement() {
   const [devices, setDevices] = useState([]);

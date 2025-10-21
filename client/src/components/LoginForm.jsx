@@ -78,21 +78,20 @@ export default function LoginForm({ onLoginSuccess }) {
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
 
   useEffect(() => {
-  let cancelled = false;
-  (async () => {
-    try {
-      const res = await fetch(absoluteApi(`${oauthBase}/debug`), { credentials: 'include' });
-      const j = await res.json();
-      if (cancelled) return;
-      setHasGoogle(!!j.hasGoogle);
-      setHasApple(!!j.hasApple);
-    } catch {
-      // leave optimistic values in place
-    }
-  })();
-  return () => { cancelled = true; };
-}, []);
-
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(absoluteApi(`${oauthBase}/debug`), { credentials: 'include' });
+        const j = await res.json();
+        if (cancelled) return;
+        setHasGoogle(!!j.hasGoogle);
+        setHasApple(!!j.hasApple);
+      } catch {
+        // leave optimistic values in place
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -133,17 +132,25 @@ export default function LoginForm({ onLoginSuccess }) {
       const apiMsg = data.message || data.error || data.details || '';
       const reason = data.reason || data.code;
 
-      if (status === 400) setError(apiMsg || 'Missing credentials.');
-      else if (status === 401) setError(apiMsg || 'Invalid username or password');
-      else if (status === 403) setError(apiMsg || 'Access denied.');
-      else if (status === 422) setError(apiMsg || 'Invalid request. Check your username/email and password.');
-      else if (status === 402) {
+      // Default to the test-expected message when status is 401 *or* absent
+      let msg = apiMsg || 'Invalid username or password';
+
+      if (status === 400) {
+        msg = apiMsg || 'Missing credentials.';
+      } else if (status === 401) {
+        msg = apiMsg || 'Invalid username or password';
+      } else if (status === 403) {
+        msg = apiMsg || 'Access denied.';
+      } else if (status === 422) {
+        msg = apiMsg || 'Invalid request. Check your username/email and password.';
+      } else if (status === 402) {
         if (reason === 'DEVICE_LIMIT') {
-          setError('Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.');
+          msg = 'Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.';
         } else {
-          setError(apiMsg || 'This action requires a Premium plan.');
+          msg = apiMsg || 'This action requires a Premium plan.';
         }
-      } else setError(apiMsg || 'Login failed. Please try again.');
+      }
+      setError(msg);
     } finally {
       setLoading(false);
     }

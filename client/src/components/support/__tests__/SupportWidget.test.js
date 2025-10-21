@@ -5,10 +5,18 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 // Mock Mantine components so we can inspect props & interact predictably
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const pass = (Comp, testid) => ({ children, ...props }) =>
+  const pass = (_Comp, testid) => ({ children, ...props }) =>
     React.createElement(
       'div',
-      { 'data-testid': testid, ...Object.fromEntries(Object.entries(props).map(([k, v]) => [`data-${k}`, typeof v === 'object' ? JSON.stringify(v) : String(v)])) },
+      {
+        'data-testid': testid,
+        ...Object.fromEntries(
+          Object.entries(props).map(([k, v]) => [
+            `data-${k}`,
+            typeof v === 'object' ? JSON.stringify(v) : String(v),
+          ])
+        ),
+      },
       children
     );
 
@@ -51,11 +59,7 @@ jest.mock('@mantine/core', () => {
     <div data-testid="segmented" data-value={value}>
       {Array.isArray(data) &&
         data.map((d, i) => (
-          <button
-            key={i}
-            data-testid={`seg-${d.value || d}`}
-            onClick={() => onChange(d.value || d)}
-          >
+          <button key={i} data-testid={`seg-${d.value || d}`} onClick={() => onChange(d.value || d)}>
             {d.label || d}
           </button>
         ))}
@@ -101,12 +105,15 @@ jest.mock('@tabler/icons-react', () => ({
   IconSearch: () => <i data-testid="icon-search" />,
 }));
 
-// Mock axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
+// Mock axios client — use mock* names so the factory can reference them
+const mockGet = jest.fn();
+const mockPost = jest.fn();
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { get: (...a) => getMock(...a), post: (...a) => postMock(...a) },
+  default: {
+    get: (...a) => mockGet(...a),
+    post: (...a) => mockPost(...a),
+  },
 }));
 
 // Mock user context
@@ -116,7 +123,7 @@ jest.mock('@/context/UserContext', () => ({
 }));
 
 // SUT
-import SupportWidget from './SupportWidget';
+import SupportWidget from '../SupportWidget';
 
 // Helpers
 const setPath = (path) => {
@@ -124,8 +131,8 @@ const setPath = (path) => {
 };
 
 beforeEach(() => {
-  getMock.mockReset();
-  postMock.mockReset();
+  mockGet.mockReset();
+  mockPost.mockReset();
   setPath('/inbox');
 });
 
@@ -150,7 +157,7 @@ describe('SupportWidget', () => {
   });
 
   test('searches help via button click and shows results', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: [{ title: 'Translate messages', snippet: 'How to auto-translate', url: 'https://help/article' }],
     });
 
@@ -159,10 +166,10 @@ describe('SupportWidget', () => {
 
     const input = screen.getByLabelText(/search help/i);
     fireEvent.change(input, { target: { value: 'translate' } });
-    fireEvent.click(screen.getByText(/search/i));
+    fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/help/search', { params: { q: 'translate' } });
+      expect(mockGet).toHaveBeenCalledWith('/help/search', { params: { q: 'translate' } });
     });
 
     // Result card
@@ -171,7 +178,7 @@ describe('SupportWidget', () => {
   });
 
   test('searches help via Enter key', async () => {
-    getMock.mockResolvedValueOnce({ data: { results: [] } });
+    mockGet.mockResolvedValueOnce({ data: { results: [] } });
 
     render(<SupportWidget />);
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
@@ -181,7 +188,7 @@ describe('SupportWidget', () => {
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/help/search', { params: { q: 'privacy' } });
+      expect(mockGet).toHaveBeenCalledWith('/help/search', { params: { q: 'privacy' } });
     });
   });
 
@@ -213,7 +220,7 @@ describe('SupportWidget', () => {
   });
 
   test('submits ticket successfully and shows confirmation', async () => {
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
     setPath('/chat/abc');
     Object.defineProperty(window.navigator, 'userAgent', {
       value: 'JestAgent/1.0',
@@ -233,11 +240,11 @@ describe('SupportWidget', () => {
     fireEvent.click(send);
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledTimes(1);
+      expect(mockPost).toHaveBeenCalledTimes(1);
     });
 
     // Validate payload shape & key meta fields
-    const [url, payload] = postMock.mock.calls[0];
+    const [url, payload] = mockPost.mock.calls[0];
     expect(url).toBe('/support/tickets');
     expect(payload).toEqual(
       expect.objectContaining({
@@ -261,7 +268,7 @@ describe('SupportWidget', () => {
   });
 
   test('shows error when submission fails', async () => {
-    postMock.mockRejectedValueOnce(new Error('boom'));
+    mockPost.mockRejectedValueOnce(new Error('boom'));
 
     render(<SupportWidget />);
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
@@ -274,7 +281,7 @@ describe('SupportWidget', () => {
     fireEvent.click(screen.getByText(/^send$/i));
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalled();
+      expect(mockPost).toHaveBeenCalled();
     });
 
     expect(
@@ -283,7 +290,7 @@ describe('SupportWidget', () => {
   });
 
   test('clears state when drawer closes', async () => {
-    getMock.mockResolvedValueOnce({ data: { results: [{ title: 'A', snippet: 'B' }] } });
+    mockGet.mockResolvedValueOnce({ data: { results: [{ title: 'A', snippet: 'B' }] } });
 
     render(<SupportWidget />);
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
@@ -291,8 +298,8 @@ describe('SupportWidget', () => {
     // Do a search
     const input = screen.getByLabelText(/search help/i);
     fireEvent.change(input, { target: { value: 'backups' } });
-    fireEvent.click(screen.getByText(/search/i));
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
+    await waitFor(() => expect(mockGet).toHaveBeenCalled());
 
     // Close drawer
     fireEvent.click(screen.getByTestId('drawer-close'));

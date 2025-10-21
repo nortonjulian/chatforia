@@ -5,9 +5,15 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 // Mantine minimal stubs
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const passthru = (tid) => ({ children, ...props }) => <div data-testid={tid} {...props}>{children}</div>;
+  const passthru = (tid) => ({ children, ...props }) => (
+    <div data-testid={tid} {...props}>
+      {children}
+    </div>
+  );
   const Button = ({ children, onClick, disabled, ...rest }) => (
-    <button data-testid="btn-begin" onClick={onClick} disabled={!!disabled} {...rest}>{children}</button>
+    <button data-testid="btn-begin" onClick={onClick} disabled={!!disabled} {...rest}>
+      {children}
+    </button>
   );
   const Text = ({ children, ...rest }) => <div {...rest}>{children}</div>;
   const TextInput = ({ label, value, onChange, ...rest }) => (
@@ -19,7 +25,13 @@ jest.mock('@mantine/core', () => {
   const PasswordInput = ({ label, value, onChange, ...rest }) => (
     <label>
       {label}
-      <input type="password" aria-label={label} value={value ?? ''} onChange={onChange} {...rest} />
+      <input
+        type="password"
+        aria-label={label}
+        value={value ?? ''}
+        onChange={onChange}
+        {...rest}
+      />
     </label>
   );
   const Textarea = ({ label, value, onChange, ...rest }) => (
@@ -41,24 +53,30 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// Crypto helpers
-const deriveSharedKeyBrowser = jest.fn();
-const openWithKey = jest.fn();
-jest.mock('../utils/cryptoProvisionClient.js', () => ({
-  __esModule: true,
-  deriveSharedKeyBrowser: (...a) => deriveSharedKeyBrowser(...a),
-  openWithKey: (...a) => openWithKey(...a),
-}));
+// Crypto helpers (define fns inside the factory to avoid out-of-scope references)
+jest.mock('../../utils/cryptoProvisionClient.js', () => {
+  return {
+    __esModule: true,
+    deriveSharedKeyBrowser: jest.fn(),
+    openWithKey: jest.fn(),
+  };
+});
 
 // Encryption client
-const installLocalPrivateKeyBundle = jest.fn();
-jest.mock('../utils/encryptionClient.js', () => ({
+jest.mock('../../utils/encryptionClient.js', () => ({
   __esModule: true,
-  installLocalPrivateKeyBundle: (...a) => installLocalPrivateKeyBundle(...a),
+  installLocalPrivateKeyBundle: jest.fn(),
 }));
 
+// Pull the mocks for easy reference
+import {
+  deriveSharedKeyBrowser,
+  openWithKey,
+} from '../../utils/cryptoProvisionClient.js';
+import { installLocalPrivateKeyBundle } from '../../utils/encryptionClient.js';
+
 // SUT
-import LinkOnNewDevice from './LinkOnNewDevice';
+import LinkOnNewDevice from '../LinkOnNewDevice';
 
 describe('LinkOnNewDevice', () => {
   let originalFetch;
@@ -69,13 +87,18 @@ describe('LinkOnNewDevice', () => {
     originalFetch = global.fetch;
     // Force a deterministic platform default
     originalUA = window.navigator.userAgent;
-    Object.defineProperty(window.navigator, 'userAgent', { value: 'Macintosh; Intel Mac OS X', configurable: true });
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Macintosh; Intel Mac OS X',
+      configurable: true,
+    });
   });
 
   afterAll(() => {
     jest.useRealTimers();
     global.fetch = originalFetch;
-    Object.defineProperty(window.navigator, 'userAgent', { value: originalUA });
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: originalUA,
+    });
   });
 
   beforeEach(() => {
@@ -98,7 +121,10 @@ describe('LinkOnNewDevice', () => {
         if (pollCalls < readyAfter) {
           return { ok: true, json: async () => ({ ready: false }) };
         }
-        return { ok: true, json: async () => ({ ready: true, sPub: 'SPUB', nonce: 'NONCE', ciphertext: 'CIPH' }) };
+        return {
+          ok: true,
+          json: async () => ({ ready: true, sPub: 'SPUB', nonce: 'NONCE', ciphertext: 'CIPH' }),
+        };
       }
       if (url.startsWith('/devices/register')) {
         return { ok: true, json: async () => ({ ok: true }) };
@@ -130,39 +156,55 @@ describe('LinkOnNewDevice', () => {
 
     render(<LinkOnNewDevice />);
 
-    // Fill in QR JSON + passcode + (optionally) custom device name / platform
+    // Fill in QR JSON + passcode + custom device name / platform
     const payload = {
       type: 'chatforia-provision',
       linkId: 'LINK-XYZ',
       secret: 'SECRET-ABC',
       sas: 'ignored-here',
     };
-    fireEvent.change(screen.getByLabelText(/QR payload/i), { target: { value: JSON.stringify(payload) } });
+    fireEvent.change(screen.getByLabelText(/QR payload/i), {
+      target: { value: JSON.stringify(payload) },
+    });
     fireEvent.change(screen.getByLabelText(/Set a passcode/i), { target: { value: 'hunter2' } });
 
-    // Also change device name + platform to verify they flow into the register call
-    fireEvent.change(screen.getByLabelText(/^Device name$/i), { target: { value: 'My Laptop' } });
-    fireEvent.change(screen.getByLabelText(/^Platform$/i),    { target: { value: 'macOS' } });
+    fireEvent.change(screen.getByLabelText(/^Device name$/i), {
+      target: { value: 'My Laptop' },
+    });
+    fireEvent.change(screen.getByLabelText(/^Platform$/i), {
+      target: { value: 'macOS' },
+    });
 
     // Begin
     fireEvent.click(screen.getByText(/Begin Linking/i));
 
     // After init call, SAS status should appear
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(
-      '/devices/provision/client-init',
-      expect.objectContaining({ method: 'POST' })
-    ));
-    expect(screen.getByText(/SAS:\s*321-654\. Awaiting approval…/i)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/devices/provision/client-init',
+        expect.objectContaining({ method: 'POST' })
+      )
+    );
+    await screen.findByText(/SAS:\s*321-654\. Awaiting approval…/i);
 
     // First poll (ready:false)
-    await act(async () => { jest.advanceTimersByTime(1500); });
-    await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/devices/provision/poll?linkId=LINK-XYZ'),
-      undefined
-    ));
+    await act(async () => {
+      jest.advanceTimersByTime(1500);
+    });
+    await waitFor(() => {
+      // We only care that a call was made whose URL contains the poll endpoint
+      expect(
+        global.fetch.mock.calls.some(
+          ([u]) =>
+            typeof u === 'string' && u.includes('/devices/provision/poll?linkId=LINK-XYZ')
+        )
+      ).toBe(true);
+    });
 
     // Second poll (ready:true) -> triggers crypto + install + register
-    await act(async () => { jest.advanceTimersByTime(1500); });
+    await act(async () => {
+      jest.advanceTimersByTime(1500);
+    });
 
     await waitFor(() => {
       expect(deriveSharedKeyBrowser).toHaveBeenCalledWith('SECRET-ABC', 'SPUB', '');

@@ -1,18 +1,18 @@
-import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 
 // ---- Router mocks ----
-const navigateMock = jest.fn();
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   useParams: () => ({ callId: 'abc123' }),
-  useNavigate: () => navigateMock,
+  useNavigate: () => mockNavigate,
 }));
 
 // ---- Hook & component mocks ----
-const useLiveCaptionsMock = jest.fn(() => ({ segments: [{ text: 'hello' }] }));
+const mockUseLiveCaptions = jest.fn(() => ({ segments: [{ text: 'hello' }] }));
 jest.mock('@/hooks/useLiveCaptions', () => ({
   __esModule: true,
-  useLiveCaptions: (args) => useLiveCaptionsMock(args),
+  useLiveCaptions: (args) => mockUseLiveCaptions(args),
 }));
 
 // CallShell renders slots so we can interact with topRight/bottomBar/children easily
@@ -54,7 +54,7 @@ jest.mock('@/components/CaptionOverlay', () => ({
 }));
 
 // ---- SUT ----
-import CallView from './CallView';
+import CallView from '../CallView';
 
 describe('CallView', () => {
   let originalFetch;
@@ -74,11 +74,13 @@ describe('CallView', () => {
     jest.clearAllMocks();
 
     // Mock /me and /users/me/a11y
-    global.fetch = jest.fn(async (url, opts) => {
+    global.fetch = jest.fn(async (url) => {
       if (url === '/me') {
         return {
           ok: true,
-          json: async () => ({ user: { id: 1, a11yLiveCaptions: true, a11yCaptionFont: 'lg', a11yCaptionBg: 'dark' } }),
+          json: async () => ({
+            user: { id: 1, a11yLiveCaptions: true, a11yCaptionFont: 'lg', a11yCaptionBg: 'dark' },
+          }),
         };
       }
       if (url === '/users/me/a11y') {
@@ -118,7 +120,7 @@ describe('CallView', () => {
     expect(screen.getByTestId('captions')).toHaveAttribute('data-bg', 'dark');
 
     // Hook called with expected params
-    expect(useLiveCaptionsMock).toHaveBeenCalledWith(
+    expect(mockUseLiveCaptions).toHaveBeenCalledWith(
       expect.objectContaining({ callId: 'abc123', enabled: true, language: 'en-US' })
     );
   });
@@ -146,7 +148,7 @@ describe('CallView', () => {
     await waitFor(() => screen.getByTestId('callcontrols'));
 
     fireEvent.click(screen.getByTestId('btn-end'));
-    expect(navigateMock).toHaveBeenCalledWith(-1);
+    expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 
   test('caption toggle PATCHes and shows/hides CaptionOverlay accordingly', async () => {
@@ -157,7 +159,7 @@ describe('CallView', () => {
 
     // Initially captions on
     expect(screen.getByTestId('captions')).toBeInTheDocument();
-    expect(useLiveCaptionsMock).toHaveBeenLastCalledWith(
+    expect(mockUseLiveCaptions).toHaveBeenLastCalledWith(
       expect.objectContaining({ enabled: true })
     );
 
@@ -177,7 +179,7 @@ describe('CallView', () => {
 
     // Overlay removed and hook called with enabled=false on next render
     await waitFor(() => expect(screen.queryByTestId('captions')).toBeNull());
-    expect(useLiveCaptionsMock).toHaveBeenLastCalledWith(
+    expect(mockUseLiveCaptions).toHaveBeenLastCalledWith(
       expect.objectContaining({ enabled: false })
     );
 

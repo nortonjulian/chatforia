@@ -1,18 +1,20 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ChatBackupManager from '@/components/BackupManager'; // adjust path if needed
+import ChatBackupManager from '../BackupManager.jsx'; // relative from __tests__ → settings
 
-// ---- Mocks for backupClient ----
-const createEncryptedKeyBackup = jest.fn();
-const restoreEncryptedKeyBackup = jest.fn();
-const createEncryptedChatBackup = jest.fn();
-const restoreEncryptedChatBackup = jest.fn();
+// ---- Mocks for backupClient (prefix with "mock*" so Jest allows access) ----
+const mockCreateEncryptedKeyBackup = jest.fn();
+const mockRestoreEncryptedKeyBackup = jest.fn();
+const mockCreateEncryptedChatBackup = jest.fn();
+const mockRestoreEncryptedChatBackup = jest.fn();
 
-jest.mock('@/utils/backupClient.js', () => ({
+// NOTE: this path is relative to THIS TEST file:
+// src/components/settings/__tests__/ -> up to settings (..), components (../..), src (../../..), then utils/
+jest.mock('../../../utils/backupClient.js', () => ({
   __esModule: true,
-  createEncryptedKeyBackup: (...args) => createEncryptedKeyBackup(...args),
-  restoreEncryptedKeyBackup: (...args) => restoreEncryptedKeyBackup(...args),
-  createEncryptedChatBackup: (...args) => createEncryptedChatBackup(...args),
-  restoreEncryptedChatBackup: (...args) => restoreEncryptedChatBackup(...args),
+  createEncryptedKeyBackup: (...args) => mockCreateEncryptedKeyBackup(...args),
+  restoreEncryptedKeyBackup: (...args) => mockRestoreEncryptedKeyBackup(...args),
+  createEncryptedChatBackup: (...args) => mockCreateEncryptedChatBackup(...args),
+  restoreEncryptedChatBackup: (...args) => mockRestoreEncryptedChatBackup(...args),
 }));
 
 // ---- URL & <a> download plumbing ----
@@ -22,16 +24,26 @@ global.URL.createObjectURL = createObjectURLMock;
 global.URL.revokeObjectURL = revokeObjectURLMock;
 
 let anchorClickMock;
+let originalCreateElement;
+
 beforeEach(() => {
   jest.clearAllMocks();
   anchorClickMock = jest.fn();
-  // Only intercept anchor creation; everything else can be native
-  jest.spyOn(document, 'createElement').mockImplementation((tag) => {
-    if (tag === 'a') {
-      return { set href(v) {}, get href() { return ''; }, set download(v) {}, click: anchorClickMock };
+
+  // Save original and intercept only <a> creation
+  originalCreateElement = document.createElement.bind(document);
+  jest.spyOn(document, 'createElement').mockImplementation((tagName) => {
+    if (tagName.toLowerCase() === 'a') {
+      return {
+        set href(v) {},
+        get href() {
+          return '';
+        },
+        set download(v) {},
+        click: anchorClickMock,
+      };
     }
-    // fallback minimal element
-    return document.createElementNS('http://www.w3.org/1999/xhtml', tag);
+    return originalCreateElement(tagName);
   });
 });
 
@@ -68,13 +80,11 @@ function setup(props = {}) {
 describe('BackupManager / ChatBackupManager', () => {
   test('restore buttons are disabled until a file is selected', () => {
     setup();
+
     expect(screen.getByRole('button', { name: /restore keys/i })).toBeDisabled();
     expect(screen.getByRole('button', { name: /restore chat/i })).toBeDisabled();
 
-    const fileInput = screen.getByLabelText(/file/i) || screen.getByRole('textbox', { hidden: true }); // fallback
-    const fileEl = screen.getByRole('textbox', { hidden: false }) || screen.getByRole('button'); // ensure query doesn't fail
-
-    // More reliable: query by input[type="file"]
+    // Select file input directly (no label in component)
     const fileElInput = document.querySelector('input[type="file"]');
     setFile(fileElInput);
 
@@ -84,7 +94,7 @@ describe('BackupManager / ChatBackupManager', () => {
 
   test('key backup: success triggers download & status', async () => {
     const blob = new Blob(['{}'], { type: 'application/json' });
-    createEncryptedKeyBackup.mockResolvedValueOnce({ blob, filename: 'keys-2025.json' });
+    mockCreateEncryptedKeyBackup.mockResolvedValueOnce({ blob, filename: 'keys-2025.json' });
 
     setup();
 
@@ -95,7 +105,7 @@ describe('BackupManager / ChatBackupManager', () => {
     fireEvent.click(screen.getByRole('button', { name: /backup keys/i }));
 
     await waitFor(() => {
-      expect(createEncryptedKeyBackup).toHaveBeenCalledWith({
+      expect(mockCreateEncryptedKeyBackup).toHaveBeenCalledWith({
         unlockPasscode: 'local-123',
         backupPassword: 'pw-456',
       });
@@ -111,7 +121,7 @@ describe('BackupManager / ChatBackupManager', () => {
   });
 
   test('key backup: failure surfaces error', async () => {
-    createEncryptedKeyBackup.mockRejectedValueOnce(new Error('nope'));
+    mockCreateEncryptedKeyBackup.mockRejectedValueOnce(new Error('nope'));
     setup();
 
     fireEvent.click(screen.getByRole('button', { name: /backup keys/i }));
@@ -120,26 +130,26 @@ describe('BackupManager / ChatBackupManager', () => {
   });
 
   test('key restore: success and failure status updates', async () => {
-    const { } = setup();
+    setup();
 
     // Select file + enter passwords
     const fileEl = document.querySelector('input[type="file"]');
-    const file = setFile(fileEl, 'keys.json');
+    setFile(fileEl, 'keys.json');
     type(screen.getByLabelText(/backup password/i), 'pw');
     type(screen.getByLabelText(/local passcode/i), 'local');
 
     // Success
-    restoreEncryptedKeyBackup.mockResolvedValueOnce({ ok: true });
+    mockRestoreEncryptedKeyBackup.mockResolvedValueOnce({ ok: true });
     fireEvent.click(screen.getByRole('button', { name: /restore keys/i }));
     expect(await screen.findByText(/Key backup restored!/i)).toBeInTheDocument();
 
     // Failure
-    restoreEncryptedKeyBackup.mockRejectedValueOnce(new Error('bad key file'));
+    mockRestoreEncryptedKeyBackup.mockRejectedValueOnce(new Error('bad key file'));
     fireEvent.click(screen.getByRole('button', { name: /restore keys/i }));
     expect(await screen.findByText(/Key restore failed: bad key file/i)).toBeInTheDocument();
 
     // Call shape
-    expect(restoreEncryptedKeyBackup).toHaveBeenCalledWith({
+    expect(mockRestoreEncryptedKeyBackup).toHaveBeenCalledWith({
       file: expect.any(File),
       backupPassword: 'pw',
       setLocalPasscode: 'local',
@@ -148,7 +158,7 @@ describe('BackupManager / ChatBackupManager', () => {
 
   test('chat backup: success triggers download & passes through options', async () => {
     const blob = new Blob(['{}'], { type: 'application/json' });
-    createEncryptedChatBackup.mockResolvedValueOnce({ blob, filename: 'chat-r1-u1.json' });
+    mockCreateEncryptedChatBackup.mockResolvedValueOnce({ blob, filename: 'chat-r1-u1.json' });
 
     const { fetchPage, fetchPublicKeys } = setup();
 
@@ -158,7 +168,7 @@ describe('BackupManager / ChatBackupManager', () => {
     fireEvent.click(screen.getByRole('button', { name: /backup chat/i }));
 
     await waitFor(() => {
-      expect(createEncryptedChatBackup).toHaveBeenCalledWith({
+      expect(mockCreateEncryptedChatBackup).toHaveBeenCalledWith({
         roomId: 'r1',
         currentUserId: 'u1',
         passcodeToUnlockKeys: 'unlock-me',
@@ -177,7 +187,7 @@ describe('BackupManager / ChatBackupManager', () => {
   });
 
   test('chat backup: failure surfaces error', async () => {
-    createEncryptedChatBackup.mockRejectedValueOnce(new Error('chat nope'));
+    mockCreateEncryptedChatBackup.mockRejectedValueOnce(new Error('chat nope'));
     setup();
 
     fireEvent.click(screen.getByRole('button', { name: /backup chat/i }));
@@ -193,17 +203,17 @@ describe('BackupManager / ChatBackupManager', () => {
     type(screen.getByLabelText(/backup password/i), 'pw');
 
     // Success
-    restoreEncryptedChatBackup.mockResolvedValueOnce({ messages: [{}, {}, {}] });
+    mockRestoreEncryptedChatBackup.mockResolvedValueOnce({ messages: [{}, {}, {}] });
     fireEvent.click(screen.getByRole('button', { name: /restore chat/i }));
     expect(await screen.findByText(/Chat backup restored with 3 messages/i)).toBeInTheDocument();
 
     // Failure
-    restoreEncryptedChatBackup.mockRejectedValueOnce(new Error('bad chat file'));
+    mockRestoreEncryptedChatBackup.mockRejectedValueOnce(new Error('bad chat file'));
     fireEvent.click(screen.getByRole('button', { name: /restore chat/i }));
     expect(await screen.findByText(/Chat restore failed: bad chat file/i)).toBeInTheDocument();
 
     // Call shape
-    expect(restoreEncryptedChatBackup).toHaveBeenCalledWith({
+    expect(mockRestoreEncryptedChatBackup).toHaveBeenCalledWith({
       file: expect.any(File),
       password: 'pw',
     });

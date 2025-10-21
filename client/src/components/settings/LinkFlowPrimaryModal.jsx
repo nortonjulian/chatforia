@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Button, Group, Loader, Modal, Stack, Text } from '@mantine/core';
 import QRCode from 'react-qr-code';
 import {
@@ -42,15 +42,19 @@ export default function LinkFlowPrimaryModal({ opened, onClose }) {
                 setSPub(json.sPub);
                 setStep('waitingClient');
               }
-            } catch (e) {}
+            } catch (_e) {
+              // swallow polling errors; next tick may succeed
+            }
           }, 1500);
         } catch (e) {
-          setError(e.message || 'Failed to start provisioning');
+          setError(e?.message || 'Failed to start provisioning');
           setStep('error');
         }
       })();
     }
-    return () => interval && clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [opened]);
 
   const qrText = useMemo(
@@ -66,7 +70,7 @@ export default function LinkFlowPrimaryModal({ opened, onClose }) {
       // 3) export local key bundle (plaintext in memory only)
       const bundle = await exportLocalPrivateKeyBundle();
 
-      // 4) derive shared key using secret + sPub (+ optional ePub not required here since HKDF concats)
+      // 4) derive shared key using secret + sPub (+ optional ePub not required here)
       const k = await deriveSharedKeyBrowser(link.qrPayload.secret, sPub, '');
 
       // 5) seal bundle and relay to server
@@ -89,7 +93,7 @@ export default function LinkFlowPrimaryModal({ opened, onClose }) {
 
       setStep('sent');
     } catch (e) {
-      setError(e.message || 'Failed to approve provisioning');
+      setError(e?.message || 'Failed to approve provisioning');
       setStep('error');
     }
   };
@@ -102,21 +106,30 @@ export default function LinkFlowPrimaryModal({ opened, onClose }) {
       centered
       size="lg"
     >
-      {!link || step === 'idle' ? (
+      {step === 'error' ? (
+        <Stack gap="md">
+          <Text c="red">
+            {error || 'Failed to start provisioning'}
+          </Text>
+          <Group justify="end">
+            <Button variant="default" onClick={onClose}>Close</Button>
+          </Group>
+        </Stack>
+      ) : !link || step === 'idle' ? (
         <Group justify="center" p="xl">
           <Loader />
         </Group>
       ) : (
         <Stack gap="md">
           <Text>
-            On your new device, open Chatforia → "Link to existing account" and
+            On your new device, open Chatforia → “Link to existing account” and
             scan this code.
           </Text>
           <Group justify="center">
             <QRCode value={qrText} size={220} />
           </Group>
           <Text ta="center" c="dimmed">
-            SAS code: <strong>{link.qrPayload.sas}</strong> (confirm it matches
+            SAS code: <strong>{link?.qrPayload?.sas ?? ''}</strong> (confirm it matches
             on both devices)
           </Text>
 
@@ -133,8 +146,8 @@ export default function LinkFlowPrimaryModal({ opened, onClose }) {
               {step === 'sent'
                 ? 'Sent ✓'
                 : step === 'approving'
-                  ? 'Sending…'
-                  : 'Approve & Send Key'}
+                ? 'Sending…'
+                : 'Approve & Send Key'}
             </Button>
           </Group>
         </Stack>

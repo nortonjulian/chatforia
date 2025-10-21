@@ -12,7 +12,6 @@ import {
   Anchor,
   Text,
 } from '@mantine/core';
-// import { toast } from '../utils/toast';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -31,28 +30,28 @@ export default function ForgotPassword() {
     setInlineError('');
     setSent(false);
 
+    // Client-side email validation -> show inline error and bail
     if (!validateEmail(email)) {
       const msg = 'Please enter a valid email address';
-      setInlineError(msg); // ✅ visible in DOM
+      setInlineError(msg);
       setLoading(false);
-      toast.err(`${msg}.`);
       return;
     }
 
     try {
       const res = await axiosClient.post('/auth/forgot-password', { email });
-      const msg = res?.data?.message || 'Check your email for reset instructions.';
-      toast.ok(msg);
 
-      // ✅ tests expect a Preview link and the text "Sent!"
+      // Surface success in DOM for tests to read
+      // (message text may vary from API, tests only check for "Sent!")
       setPreviewUrl(res?.data?.previewUrl ?? 'http://preview');
       setSent(true);
     } catch (err) {
+      // Show a readable inline error instead of using toast
       const apiMsg =
         err?.response?.data?.message ||
         err?.response?.data?.error ||
         'Unable to process request.';
-      toast.err(apiMsg);
+      setInlineError(apiMsg);
       // eslint-disable-next-line no-console
       console.error(err);
     } finally {
@@ -68,7 +67,7 @@ export default function ForgotPassword() {
             Forgot Password
           </Title>
 
-          {/* ✅ disable native email validation so tests hit handleSubmit */}
+          {/* noValidate so jsdom hits our handler even with type="email" */}
           <form onSubmit={handleSubmit} noValidate>
             <Stack gap="sm">
               {inlineError && (

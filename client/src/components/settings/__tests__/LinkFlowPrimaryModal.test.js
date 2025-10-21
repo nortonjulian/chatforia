@@ -1,27 +1,27 @@
-import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
-import LinkFlowPrimaryModal from '@/components/LinkFlowPrimaryModal'; // adjust path if needed
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import LinkFlowPrimaryModal from '../LinkFlowPrimaryModal.jsx';
 
 // ---------- Mocks ----------
 
 // Mantine core (light shims)
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const Button = ({ children, onClick, disabled, variant }) => (
-    <button type="button" onClick={onClick} disabled={disabled} data-variant={variant || ''}>
+  const Button = ({ children, onClick, disabled, variant, ...rest }) => (
+    <button type="button" onClick={onClick} disabled={disabled} data-variant={variant || ''} {...rest}>
       {children}
     </button>
   );
-  const Group = ({ children }) => <div data-testid="group">{children}</div>;
+  const Group = ({ children, ...rest }) => <div data-testid="group" {...rest}>{children}</div>;
   const Loader = () => <div role="progressbar" />;
   const Modal = ({ opened, onClose, title, children }) =>
     opened ? (
       <div role="dialog" aria-label={title}>
-        <button aria-label="modal-internal-close" onClick={onClose} style={{ display: 'none' }} />
+        <button aria-label="Close" onClick={onClose} style={{ display: 'none' }} />
         {children}
       </div>
     ) : null;
-  const Stack = ({ children }) => <div data-testid="stack">{children}</div>;
-  const Text = ({ children, c }) => <p data-color={c || ''}>{children}</p>;
+  const Stack = ({ children, ...rest }) => <div data-testid="stack" {...rest}>{children}</div>;
+  const Text = ({ children, c, ...rest }) => <p data-color={c || ''} {...rest}>{children}</p>;
   return { Button, Group, Loader, Modal, Stack, Text };
 });
 
@@ -30,20 +30,21 @@ jest.mock('react-qr-code', () => (props) => (
   <div data-testid="qrcode" data-value={props.value} />
 ));
 
-// Crypto client fns
-const deriveSharedKeyBrowser = jest.fn(async () => 'DERIVED_KEY');
-const sealWithKey = jest.fn(() => ({ nonceB64: 'NONCE', ciphertextB64: 'CIPHERTEXT' }));
-jest.mock('@/utils/cryptoProvisionClient.js', () => ({
+// Crypto client fns (use mock* names so Jest allows them in factory)
+const mockDeriveSharedKeyBrowser = jest.fn(async () => 'DERIVED_KEY');
+const mockSealWithKey = jest.fn(() => ({ nonceB64: 'NONCE', ciphertextB64: 'CIPHERTEXT' }));
+
+jest.mock('../../../utils/cryptoProvisionClient.js', () => ({
   __esModule: true,
-  deriveSharedKeyBrowser: (...args) => deriveSharedKeyBrowser(...args),
-  sealWithKey: (...args) => sealWithKey(...args),
+  deriveSharedKeyBrowser: (...args) => mockDeriveSharedKeyBrowser(...args),
+  sealWithKey: (...args) => mockSealWithKey(...args),
 }));
 
 // Encryption client export
-const exportLocalPrivateKeyBundle = jest.fn(async () => ({ userPrivateKey: 'base64...', metadata: { v: 1 } }));
-jest.mock('@/utils/encryptionClient.js', () => ({
+const mockExportLocalPrivateKeyBundle = jest.fn(async () => ({ userPrivateKey: 'base64...', metadata: { v: 1 } }));
+jest.mock('../../../utils/encryptionClient.js', () => ({
   __esModule: true,
-  exportLocalPrivateKeyBundle: (...args) => exportLocalPrivateKeyBundle(...args),
+  exportLocalPrivateKeyBundle: (...args) => mockExportLocalPrivateKeyBundle(...args),
 }));
 
 // fetch
@@ -53,6 +54,7 @@ global.fetch = fetchMock;
 beforeEach(() => {
   jest.useFakeTimers();
   jest.clearAllMocks();
+  fetchMock.mockReset(); // IMPORTANT: reset implementations & calls per test
 });
 
 afterEach(() => {
@@ -109,21 +111,21 @@ describe('LinkFlowPrimaryModal', () => {
     expect(qrValue).toBe(JSON.stringify({ secret: 'SECRET-XYZ', sas: 'ZX-99' }));
     expect(screen.getByText(/SAS code:/i)).toHaveTextContent('ZX-99');
 
-    // Initially, before sPub, Approve button should be disabled
-    const approveBtn = screen.getByRole('button', { name: /approve & send key/i });
-    expect(approveBtn).toBeDisabled();
+    // Initially disabled
+    expect(screen.getByRole('button', { name: /approve & send key/i })).toBeDisabled();
 
-    // Advance timers to trigger polling twice
-    // Each poll interval is 1500ms
+    // Advance timers to trigger polling twice (interval 1500ms)
     jest.advanceTimersByTime(1500); // triggers 1st poll -> {}
-    // Allow microtasks
     await Promise.resolve();
 
     jest.advanceTimersByTime(1500); // triggers 2nd poll -> { sPub: ... }
     await Promise.resolve();
 
-    // Button becomes enabled after sPub is set
-    expect(approveBtn).not.toBeDisabled();
+    // Button becomes enabled after sPub is set — re-query & wait for enablement
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /approve & send key/i })).not.toBeDisabled()
+    );
+    const approveBtn = screen.getByRole('button', { name: /approve & send key/i });
 
     // Approve flow: export -> derive -> seal -> POST approve
     mockApproveOnce(true); // /devices/provision/approve
@@ -134,9 +136,9 @@ describe('LinkFlowPrimaryModal', () => {
     expect(await screen.findByRole('button', { name: /sending…/i })).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(exportLocalPrivateKeyBundle).toHaveBeenCalledTimes(1);
-      expect(deriveSharedKeyBrowser).toHaveBeenCalledWith('SECRET-XYZ', 'SERVER_PUB', '');
-      expect(sealWithKey).toHaveBeenCalledWith('DERIVED_KEY', { userPrivateKey: 'base64...', metadata: { v: 1 } });
+      expect(mockExportLocalPrivateKeyBundle).toHaveBeenCalledTimes(1);
+      expect(mockDeriveSharedKeyBrowser).toHaveBeenCalledWith('SECRET-XYZ', 'SERVER_PUB', '');
+      expect(mockSealWithKey).toHaveBeenCalledWith('DERIVED_KEY', { userPrivateKey: 'base64...', metadata: { v: 1 } });
     });
 
     await waitFor(() => {
@@ -179,11 +181,15 @@ describe('LinkFlowPrimaryModal', () => {
     fetchMock.mockRejectedValueOnce(new Error('start failed'));
     render(<LinkFlowPrimaryModal opened={true} onClose={() => {}} />);
 
-    // Loader first, then an error message
+    // Loader first
     await screen.findByRole('progressbar');
-    expect(await screen.findByText(/failed to start provisioning|start failed/i)).toBeInTheDocument();
 
-    // Approve button should not be present yet (no link)
+    // Let the async effect catch and set step="error"
+    await waitFor(() =>
+      expect(screen.getByText(/failed to start provisioning|start failed/i)).toBeInTheDocument()
+    );
+
+    // Approve button should not be present in error step
     expect(screen.queryByRole('button', { name: /approve & send key/i })).not.toBeInTheDocument();
   });
 
@@ -191,9 +197,17 @@ describe('LinkFlowPrimaryModal', () => {
     mockStartOnce();
     mockPollOnce({ sPub: 'PUB' });
     await openModal();
-    // allow polling to set sPub
+
+    // Wait until ready UI is shown
+    await screen.findByTestId('qrcode');
+
+    // allow polling to set sPub -> enables button
     jest.advanceTimersByTime(1500);
     await Promise.resolve();
+
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /approve & send key/i })).not.toBeDisabled()
+    );
 
     // Approve fails
     mockApproveOnce(false);

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, Title, Text, Button, Group, Stack, Badge, Alert } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../components/context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 function PlanCard({
@@ -126,7 +126,7 @@ export default function UpgradePage({ variant = 'account' }) {
       {/* Scheduled downgrade banner */}
       {hasScheduledDowngrade && (
         <Alert color="orange" variant="light" title="Subscription will end">
-          You’ll revert to Free on <strong>{cancelAt.toLocaleDateString()}</strong>.
+          Youl revert to Free on <strong>{cancelAt.toLocaleDateString()}</strong>.
           <Button
             size="xs"
             ml="sm"

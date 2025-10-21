@@ -17,6 +17,10 @@ import { requestId } from './middleware/requestId.js';
 import pinoHttp from 'pino-http';
 import logger from './utils/logger.js';
 
+import smsDevRouter from './routes/smsDev.js';
+import smsDevMock from './routes/smsDevMock.js';
+import smsDevInbound from './routes/smsDevInbound.js';
+
 // Deep health
 import healthzRouter from './routes/healthz.js';
 
@@ -290,8 +294,9 @@ export function createApp() {
 
   app.use('/follows', followsRouter);
   app.use('/random-chats', randomChatsRouter);
-  app.use('/contacts', contactRoutes);
-  app.use('/invites', invitesRouter);
+  app.use(['/contacts', '/api/contacts'], contactRoutes);
+  app.use(['/invites', '/api/invites'], RL(limiterInvites));
+  app.use(['/invites', '/api/invites'], invitesRouter);
   app.use('/media', mediaRouter);
   app.use('/devices', devicesRouter);
 
@@ -334,6 +339,25 @@ export function createApp() {
     });
     app.use('/status', statusReadLimiter);
     app.use('/status', statusRoutes);
+  }
+
+    // Dev-only mock endpoints
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(smsDevRouter);                 // exposes POST /_dev/sms/inbound
+  }
+
+    // Enable mock only in dev-like contexts (choose the toggle you prefer)
+  const USE_SMS_MOCK =
+    String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
+    (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);
+
+  if (USE_SMS_MOCK) {
+    // Mount first so it wins for POST /sms/send
+    app.use('/sms', smsDevMock);
+  }
+
+  if (USE_SMS_MOCK) {
+    app.use(smsDevInbound);
   }
 
   /* Errors (Sentry-safe first, then your handlers) */

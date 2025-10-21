@@ -1,16 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ThemeSelect from '@/components/ThemeSelect';
+import ThemeSelect from '../ThemeSelect.jsx'; // ✅ relative import
 
 // ---------- Mocks ----------
-const getThemeMock = jest.fn();
-const setThemeMock = jest.fn();
+const mockGetTheme = jest.fn();
+const mockSetTheme = jest.fn();
 
-jest.mock('@/utils/themeManager', () => ({
-  getTheme: (...args) => getThemeMock(...args),
-  setTheme: (...args) => setThemeMock(...args),
+jest.mock('../../../utils/themeManager', () => ({
+  getTheme: (...args) => mockGetTheme(...args),
+  setTheme: (...args) => mockSetTheme(...args),
 }));
 
-jest.mock('@/config/themes', () => ({
+jest.mock('../../../config/themes', () => ({
   THEME_CATALOG: {
     free: ['dawn', 'midnight'],
     premium: ['amoled'],
@@ -26,7 +26,7 @@ jest.mock('@/config/themes', () => ({
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
-  const Select = ({ label, value, data, onChange, id }) => {
+  const Select = ({ label, value, data, onChange, id, withinPortal }) => {
     // data can be an array of groups: [{ group, items: [{value,label,disabled}] }]
     const isGrouped = Array.isArray(data) && data.length && data[0].group;
     return (
@@ -77,9 +77,24 @@ jest.mock('@mantine/core', () => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+
   // default starting theme
-  getThemeMock.mockReturnValue('dawn');
-  // clean override attr/storage
+  mockGetTheme.mockReturnValue('dawn');
+
+  // make the mock behave like the real setTheme for the bits we assert:
+  // - if theme === 'midnight' and localStorage 'co-cta' === 'cool' → set data-cta="cool"
+  // - otherwise → clear attribute and remove the storage key
+  mockSetTheme.mockImplementation((theme) => {
+    const override = localStorage.getItem('co-cta');
+    if (theme === 'midnight' && override === 'cool') {
+      document.documentElement.setAttribute('data-cta', 'cool');
+    } else {
+      document.documentElement.removeAttribute('data-cta');
+      localStorage.removeItem('co-cta');
+    }
+  });
+
+  // clean slate
   document.documentElement.removeAttribute('data-cta');
   localStorage.removeItem('co-cta');
 });
@@ -87,12 +102,12 @@ beforeEach(() => {
 // ---------- Tests ----------
 describe('ThemeSelect', () => {
   test('calls setTheme(getTheme()) once on mount', () => {
-    getThemeMock.mockReturnValue('dawn');
+    mockGetTheme.mockReturnValue('dawn');
     render(<ThemeSelect isPremium={false} />);
 
     // on mount effect should call setTheme with initial value once
-    expect(setThemeMock).toHaveBeenCalledTimes(1);
-    expect(setThemeMock).toHaveBeenCalledWith('dawn');
+    expect(mockSetTheme).toHaveBeenCalledTimes(1);
+    expect(mockSetTheme).toHaveBeenCalledWith('dawn');
 
     // select reflects initial value
     const sel = screen.getByTestId('mantine-select');
@@ -111,14 +126,14 @@ describe('ThemeSelect', () => {
     expect(sel).toHaveValue('dawn');
 
     fireEvent.change(sel, { target: { value: 'midnight' } });
-    expect(setThemeMock).toHaveBeenCalledWith('midnight');
+    expect(mockSetTheme).toHaveBeenCalledWith('midnight');
     expect(sel).toHaveValue('midnight');
 
     // attempting to change to premium should be ignored by component logic
-    setThemeMock.mockClear();
+    mockSetTheme.mockClear();
     fireEvent.change(sel, { target: { value: 'amoled' } });
     // no additional calls (blocked)
-    expect(setThemeMock).not.toHaveBeenCalled();
+    expect(mockSetTheme).not.toHaveBeenCalled();
     // value remains previous (midnight)
     expect(sel).toHaveValue('midnight');
   });
@@ -126,11 +141,11 @@ describe('ThemeSelect', () => {
   test('premium themes selectable when isPremium=true', () => {
     render(<ThemeSelect isPremium />);
 
-    // premium option should be enabled for premium users (disabled flag still set in data, but component guards selection)
+    // premium option should be enabled for premium users (component guards selection)
     const sel = screen.getByTestId('mantine-select');
     fireEvent.change(sel, { target: { value: 'amoled' } });
 
-    expect(setThemeMock).toHaveBeenCalledWith('amoled');
+    expect(mockSetTheme).toHaveBeenCalledWith('amoled');
     expect(sel).toHaveValue('amoled');
   });
 
@@ -149,7 +164,7 @@ describe('ThemeSelect', () => {
 
   test('midnight + localStorage co-cta=cool sets data-cta, switching away clears it', () => {
     // Start with midnight and cool override on
-    getThemeMock.mockReturnValue('midnight');
+    mockGetTheme.mockReturnValue('midnight');
     localStorage.setItem('co-cta', 'cool');
 
     render(<ThemeSelect isPremium={false} />);

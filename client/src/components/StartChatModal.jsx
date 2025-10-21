@@ -23,6 +23,9 @@ import { PLACEMENTS } from '@/ads/placements';
 // Premium gating
 import useIsPremium from '@/hooks/useIsPremium';
 
+// ✅ NEW: dev-friendly phone normalizer (adds +1 for 10-digit US, strips junk)
+import { toE164Dev } from '@/utils/phoneLocalDev';
+
 function coerceUsers(payload) {
   if (!payload) return [];
   if (Array.isArray(payload)) return payload;
@@ -33,12 +36,6 @@ function coerceUsers(payload) {
 
 /**
  * StartChatModal
- *
- * Props:
- * - currentUserId: number (required)
- * - onClose: () => void
- * - initialQuery?: string      // seed from the page's global search
- * - hideSearch?: boolean       // set true to avoid a second search box in the modal
  */
 export default function StartChatModal({
   currentUserId,
@@ -68,17 +65,16 @@ export default function StartChatModal({
   const navigate = useNavigate();
   const isPremium = useIsPremium();
 
-  // Initial contacts fetch (used by the "Show contacts" pane)
+  // Initial contacts fetch
   useEffect(() => {
     axiosClient
-      .get(`/contacts/${currentUserId}`)
+      .get('/contacts') // ✅ correct endpoint (owner inferred from auth)
       .then((res) =>
         setContacts(Array.isArray(res?.data) ? res.data : (res?.data?.items || []))
       )
       .catch(() => {});
   }, [currentUserId]);
 
-  // Keep a map of saved contacts by userId (for alias prefills)
   const savedMap = useMemo(() => {
     const map = new Map();
     (contacts || []).forEach((c) => {
@@ -87,7 +83,6 @@ export default function StartChatModal({
     return map;
   }, [contacts]);
 
-  // If parent passes a new initialQuery, sync it and (optionally) search
   useEffect(() => {
     setQuery(initialQuery || '');
     if (initialQuery?.trim()) {
@@ -109,7 +104,6 @@ export default function StartChatModal({
 
     setLoading(true);
     try {
-      // Keep endpoint consistent with your API; this modal has historically used /users/search
       const res = await axiosClient.get('/users/search', { params: { query: q } });
       const arr = coerceUsers(res?.data);
       const cleaned = arr.filter((u) => u && u.id !== currentUserId);
@@ -191,6 +185,7 @@ export default function StartChatModal({
 
   const isLikelyPhone = (s) => /\d/.test(s || '');
 
+  // ✅ when adding by phone, send { externalPhone, externalName, alias }
   const handleAddContactDirect = async () => {
     setError('');
     const raw = addValue.trim();
@@ -199,13 +194,16 @@ export default function StartChatModal({
 
     try {
       if (isLikelyPhone(raw)) {
+        const phoneE164 = toE164Dev(raw, 'US'); // dev-friendly
         await axiosClient.post('/contacts', {
           ownerId: currentUserId,
-          externalPhone: raw,
+          externalPhone: phoneE164,
           externalName: addAlias || '',
           alias: addAlias || undefined,
         });
-        axiosClient.post('/invites', { phone: raw, name: addAlias }).catch(() => {});
+
+        // fire & forget optional invite
+        axiosClient.post('/invites', { phone: phoneE164, name: addAlias }).catch(() => {});
       } else {
         const res = await axiosClient.get('/users/search', { params: { query: raw } });
         const arr = coerceUsers(res?.data);
@@ -218,13 +216,12 @@ export default function StartChatModal({
             alias: addAlias || undefined,
           });
         } else {
+          // fallback: treat as free-form “name only”
           await axiosClient.post('/contacts', {
-            ownerId: currentUserId,
-            externalPhone: raw,
-            externalName: addAlias || '',
+            phone: undefined,
+            name: addAlias || raw,
             alias: addAlias || undefined,
           });
-          axiosClient.post('/invites', { phone: raw, name: addAlias }).catch(() => {});
         }
       }
 
@@ -249,7 +246,6 @@ export default function StartChatModal({
       aria-label="Start a chat"
     >
       <Stack gap="sm">
-        {/* Optional search row — hide to avoid redundancy with page-level search */}
         {!hideSearch && (
           <Group align="end" wrap="nowrap">
             <TextInput
@@ -269,7 +265,6 @@ export default function StartChatModal({
 
         {error && <Alert color="red">{error}</Alert>}
 
-        {/* Results area */}
         {results.length > 0 ? (
           <Stack gap="xs">
             {results.map((u) => {
@@ -357,25 +352,18 @@ export default function StartChatModal({
           <>
             {hasSearched ? (
               <Text c="dimmed">No results</Text>
+            ) : hideSearch ? (
+              <Text c="dimmed">Use the page search to find people, or pick from contacts below.</Text>
             ) : (
-              hideSearch ? (
-                <Text c="dimmed">Use the page search to find people, or pick from contacts below.</Text>
-              ) : (
-                <Text c="dimmed">Type a username or phone and press Search.</Text>
-              )
+              <Text c="dimmed">Type a username or phone and press Search.</Text>
             )}
           </>
         )}
 
-        {/* Pick from contacts */}
         <Group justify="center">
           <Divider label="Or pick from contacts" labelPosition="center" my="xs" />
           {!showContacts && (
-            <Button
-              variant="light"
-              onClick={() => setShowContacts(true)}
-              aria-label="Show contacts"
-            >
+            <Button variant="light" onClick={() => setShowContacts(true)} aria-label="Show contacts">
               Show
             </Button>
           )}
@@ -387,7 +375,6 @@ export default function StartChatModal({
           </ScrollArea>
         )}
 
-        {/* Add a contact directly */}
         <Divider label="Add a Contact" labelPosition="center" my="xs" />
 
         {!addOpen ? (

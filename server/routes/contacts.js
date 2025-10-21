@@ -12,20 +12,15 @@ const normalizePhone = (s) => (s || '').toString().replace(/[^\d+]/g, '');
 
 // ------------------------------
 // GET /contacts
-// Lists ONLY the authed user's contacts (internal + external)
-// Supports pagination (?limit=, ?cursor=contactId) and search (?q=)
-//   - search matches alias, externalName, externalPhone (digits only), and linked user's username/displayName
-// Response: { items: [...], nextCursor, count }
 // ------------------------------
 router.get(
   '/',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const ownerId = req.user.id;
+    const ownerId = Number(req.user.id);
 
     const limitRaw = Number(req.query.limit ?? 50);
     const limit = Math.min(Math.max(1, limitRaw), 100);
-
     const cursorId = req.query.cursor ? Number(req.query.cursor) : null;
 
     const q = (req.query.q || '').toString().trim();
@@ -38,15 +33,11 @@ router.get(
             OR: [
               { alias: { contains: q, mode: 'insensitive' } },
               { externalName: { contains: q, mode: 'insensitive' } },
-              ...(qDigits
-                ? [{ externalPhone: { contains: qDigits } }]
-                : []),
+              ...(qDigits ? [{ externalPhone: { contains: qDigits } }] : []),
+              // Search linked user by username only (no displayName in schema)
               {
                 user: {
-                  OR: [
-                    { username: { contains: q, mode: 'insensitive' } },
-                    { displayName: { contains: q, mode: 'insensitive' } },
-                  ],
+                  username: { contains: q, mode: 'insensitive' },
                 },
               },
             ],
@@ -71,8 +62,7 @@ router.get(
           select: {
             id: true,
             username: true,
-            displayName: true,
-            avatarUrl: true,
+            avatarUrl: true, // removed displayName
           },
         },
       },
@@ -85,90 +75,107 @@ router.get(
 
 // ------------------------------
 // POST /contacts
-// Upsert a contact for the authed user by either { userId } OR { externalPhone }
-// Optional: { alias, externalName, favorite }
-// Enforces uniqueness via composite keys (ownerId,userId) and (ownerId,externalPhone)
+// Upsert by { userId } OR { externalPhone }
 // ------------------------------
 router.post(
   '/',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const ownerId = req.user.id;
-    let { userId, alias, externalPhone, externalName, favorite } = req.body;
+    try {
+      const ownerId = Number(req.user.id);
+      let { userId, alias, externalPhone, externalName, favorite } = req.body;
 
-    if (!userId && !externalPhone) {
-      return res.status(400).json({ error: 'Provide userId or externalPhone' });
-    }
-
-    let contact;
-    if (userId) {
-      contact = await prisma.contact.upsert({
-        where: { ownerId_userId: { ownerId, userId: Number(userId) } },
-        update: {
-          alias: alias ?? undefined,
-          favorite: typeof favorite === 'boolean' ? favorite : undefined,
-        },
-        create: {
-          ownerId,
-          userId: Number(userId),
-          alias: alias ?? undefined,
-          favorite: !!favorite,
-        },
-        select: {
-          id: true,
-          alias: true,
-          favorite: true,
-          externalPhone: true,
-          externalName: true,
-          createdAt: true,
-          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
-        },
-      });
-    } else {
-      externalPhone = normalizePhone(externalPhone);
-      if (!externalPhone) {
-        return res.status(400).json({ error: 'externalPhone invalid' });
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('[contacts.post] ownerId=%s body=%o', ownerId, {
+          userId,
+          alias,
+          externalPhone,
+          externalName,
+          favorite,
+        });
       }
 
-      contact = await prisma.contact.upsert({
-        where: { ownerId_externalPhone: { ownerId, externalPhone } },
-        update: {
-          alias: alias ?? undefined,
-          externalName: externalName ?? undefined,
-          favorite: typeof favorite === 'boolean' ? favorite : undefined,
-        },
-        create: {
-          ownerId,
-          externalPhone,
-          externalName: externalName ?? null,
-          alias: alias ?? undefined,
-          favorite: !!favorite,
-        },
-        select: {
-          id: true,
-          alias: true,
-          favorite: true,
-          externalPhone: true,
-          externalName: true,
-          createdAt: true,
-          user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
-        },
-      });
-    }
+      if (!userId && !externalPhone) {
+        return res.status(400).json({ error: 'Provide userId or externalPhone' });
+      }
 
-    res.status(201).json(contact);
+      let contact;
+      if (userId) {
+        contact = await prisma.contact.upsert({
+          where: { ownerId_userId: { ownerId, userId: Number(userId) } },
+          update: {
+            alias: alias ?? undefined,
+            favorite: typeof favorite === 'boolean' ? favorite : undefined,
+          },
+          create: {
+            ownerId,
+            userId: Number(userId),
+            alias: alias ?? undefined,
+            favorite: !!favorite,
+          },
+          select: {
+            id: true,
+            alias: true,
+            favorite: true,
+            externalPhone: true,
+            externalName: true,
+            createdAt: true,
+            user: { select: { id: true, username: true, avatarUrl: true } }, // removed displayName
+          },
+        });
+      } else {
+        externalPhone = normalizePhone(externalPhone);
+        if (!externalPhone) {
+          return res.status(400).json({ error: 'externalPhone invalid' });
+        }
+
+        contact = await prisma.contact.upsert({
+          where: { ownerId_externalPhone: { ownerId, externalPhone } },
+          update: {
+            alias: alias ?? undefined,
+            externalName: externalName ?? undefined,
+            favorite: typeof favorite === 'boolean' ? favorite : undefined,
+          },
+          create: {
+            ownerId,
+            externalPhone,
+            externalName: externalName ?? null,
+            alias: alias ?? undefined,
+            favorite: !!favorite,
+          },
+          select: {
+            id: true,
+            alias: true,
+            favorite: true,
+            externalPhone: true,
+            externalName: true,
+            createdAt: true,
+            user: { select: { id: true, username: true, avatarUrl: true } }, // removed displayName
+          },
+        });
+      }
+
+      res.status(201).json(contact);
+    } catch (err) {
+      console.error('[contacts.post] error:', err);
+      if (process.env.NODE_ENV !== 'production') {
+        return res
+          .status(500)
+          .json({ error: 'Internal Server Error', detail: String(err?.message || err) });
+      }
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
   })
 );
 
 // ------------------------------
 // PATCH /contacts
-// Update by composite key (userId or externalPhone)
 // ------------------------------
 router.patch(
   '/',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const ownerId = req.user.id;
+    const ownerId = Number(req.user.id);
     let { userId, externalPhone, alias, externalName, favorite } = req.body;
 
     if (!userId && !externalPhone) {
@@ -198,7 +205,7 @@ router.patch(
         externalPhone: true,
         externalName: true,
         createdAt: true,
-        user: { select: { id: true, username: true, displayName: true, avatarUrl: true } },
+        user: { select: { id: true, username: true, avatarUrl: true } }, // removed displayName
       },
     });
 
@@ -208,13 +215,12 @@ router.patch(
 
 // ------------------------------
 // DELETE /contacts
-// Delete by composite key (userId or externalPhone)
 // ------------------------------
 router.delete(
   '/',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const ownerId = req.user.id;
+    const ownerId = Number(req.user.id);
     let { userId, externalPhone } = req.body;
 
     if (!userId && !externalPhone) {
@@ -235,15 +241,14 @@ router.delete(
   })
 );
 
-// (Optional legacy) DELETE /contacts/:id by numeric contact id (owner-scoped hardening)
+// Optional helper
 router.delete(
   '/:id',
   requireAuth,
   asyncHandler(async (req, res) => {
     const contactId = Number(req.params.id);
-    const ownerId = req.user.id;
+    const ownerId = Number(req.user.id);
 
-    // ensure the contact belongs to the requester
     const c = await prisma.contact.findUnique({ where: { id: contactId }, select: { ownerId: true } });
     if (!c || c.ownerId !== ownerId) {
       return res.status(404).json({ error: 'Contact not found' });
@@ -253,5 +258,9 @@ router.delete(
     res.json({ success: true });
   })
 );
+
+router.get('/_debug_me', requireAuth, (req, res) => {
+  res.json({ id: req.user?.id, typeof: typeof req.user?.id });
+});
 
 export default router;

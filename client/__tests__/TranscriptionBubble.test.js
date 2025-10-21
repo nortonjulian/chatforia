@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import TranscriptionBubble from '@/components/TranscriptionBubble'; // adjust path if needed
+import TranscriptionBubble from '../src/components/TranscriptionBubble';
 
-describe('TranscriptionBubble / TranscriptBubble', () => {
+describe('TranscriptionBubble', () => {
   test('renders placeholder when segments are empty', () => {
     render(<TranscriptionBubble />);
     expect(screen.getByText('Transcribing…')).toBeInTheDocument();

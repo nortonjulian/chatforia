@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 // Mock Mantine so we can easily inspect props without relying on DOM structure
@@ -18,8 +19,8 @@ jest.mock('@mantine/core', () => ({
   ),
 }));
 
-// Adjust the import path to where the component lives
-import ChatListSkeleton from './ChatListSketelon';
+// ✅ Correct relative path from __tests__ → skeletons
+import ChatListSkeleton from '../ChatListSkeleton.jsx';
 
 describe('ChatListSkeleton', () => {
   it('renders a Stack with the expected spacing props', () => {

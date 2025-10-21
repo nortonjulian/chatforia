@@ -11,9 +11,16 @@ import {
   Group,
   ActionIcon,
   Skeleton,
+  Tooltip,
 } from '@mantine/core';
-import { IconRefresh, IconTrash, IconMessagePlus, IconSearch } from '@tabler/icons-react';
-// import { toast } from '../utils/toast';
+import { IconRefresh, IconTrash, IconMessagePlus, IconSearch, IconMessage } from '@tabler/icons-react';
+
+// --- tiny, safe toast fallback so we don't crash if your toast util isn't wired yet
+const toast = {
+  ok: (m) => console.log(m),
+  err: (m) => console.error(m),
+  info: (m) => console.info(m),
+};
 
 export default function ContactList({ currentUserId, onChanged }) {
   const navigate = useNavigate();
@@ -27,7 +34,6 @@ export default function ContactList({ currentUserId, onChanged }) {
     try {
       setLoading(true);
 
-      // API sometimes returns { data: [...] } or { data: { items: [...] } }
       const { data } = await axiosClient.get('/contacts', {
         params: { limit: 50, ...(cursor ? { cursor } : {}) },
       });
@@ -39,9 +45,8 @@ export default function ContactList({ currentUserId, onChanged }) {
       setNextCursor(data?.nextCursor ?? null);
       onChanged?.(nextList);
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error('Failed to fetch contacts:', err);
-      toast.err?.('Failed to load contacts. Please try again.');
+      toast.err('Failed to load contacts. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -61,7 +66,6 @@ export default function ContactList({ currentUserId, onChanged }) {
       const alias = c.alias || '';
       const display =
         alias ||
-        c.user?.displayName ||
         username ||
         c.externalName ||
         c.externalPhone ||
@@ -79,16 +83,15 @@ export default function ContactList({ currentUserId, onChanged }) {
   const startChat = async (userId) => {
     try {
       if (!userId) {
-        toast.info?.('That contact hasn’t joined Chatforia yet.');
+        toast.info('That contact hasn’t joined Chatforia yet.');
         return;
       }
       const { data } = await axiosClient.post(`/chatrooms/direct/${userId}`);
       if (data?.id) navigate(`/chat/${data.id}`);
-      else toast.err?.('Could not start chat. Please try again.');
+      else toast.err('Could not start chat. Please try again.');
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('Failed to start chat:', e);
-      toast.err?.('Failed to start chat. Please try again.');
+      toast.err('Failed to start chat. Please try again.');
     }
   };
 
@@ -98,11 +101,10 @@ export default function ContactList({ currentUserId, onChanged }) {
         data: userId ? { ownerId: currentUserId, userId } : { ownerId: currentUserId, externalPhone },
       });
       await fetchContacts({ append: false });
-      toast.ok?.('Contact deleted.');
+      toast.ok('Contact deleted.');
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error('Failed to delete contact:', err);
-      toast.err?.('Failed to delete contact. Please try again.');
+      toast.err('Failed to delete contact. Please try again.');
     }
   };
 
@@ -113,11 +115,10 @@ export default function ContactList({ currentUserId, onChanged }) {
         ...(userId ? { userId } : { externalPhone }),
         alias: alias || '',
       });
-      toast.ok?.('Alias updated.');
+      toast.ok('Alias updated.');
     } catch (err) {
-      // eslint-disable-next-line no-console
       console.error('Failed to update alias:', err);
-      toast.err?.('Failed to update alias. Please try again.');
+      toast.err('Failed to update alias. Please try again.');
     } finally {
       await fetchContacts({ append: false });
     }
@@ -138,7 +139,7 @@ export default function ContactList({ currentUserId, onChanged }) {
         </ActionIcon>
       </Group>
 
-      {/* Compact local filter (no wide global bar, no Search button) */}
+      {/* Compact local filter */}
       <TextInput
         placeholder="Filter saved contacts…"
         value={search}
@@ -147,7 +148,6 @@ export default function ContactList({ currentUserId, onChanged }) {
         aria-label="Filter saved contacts"
         size="sm"
         mb="md"
-        // Polished: full width but visually restrained
         styles={{ input: { maxWidth: 360 } }}
       />
 
@@ -165,7 +165,6 @@ export default function ContactList({ currentUserId, onChanged }) {
             const username = c.user?.username || '';
             const displayName =
               c.alias ||
-              c.user?.displayName ||
               username ||
               c.externalName ||
               c.externalPhone ||
@@ -175,6 +174,9 @@ export default function ContactList({ currentUserId, onChanged }) {
               c.alias && username && c.alias.toLowerCase() !== username.toLowerCase()
                 ? username
                 : (c.externalPhone && c.externalPhone !== displayName ? c.externalPhone : '');
+
+            const goCompose = () =>
+              navigate(`/sms/compose?to=${encodeURIComponent(c.externalPhone)}${c.alias ? `&name=${encodeURIComponent(c.alias)}` : ''}`);
 
             return (
               <Group key={key} justify="space-between" align="center">
@@ -209,25 +211,42 @@ export default function ContactList({ currentUserId, onChanged }) {
                 />
 
                 <Group gap="xs">
+                  {/* Internal user → DM */}
                   {c.userId ? (
-                    <ActionIcon
-                      variant="light"
-                      aria-label="Start chat"
-                      title="Start chat"
-                      onClick={() => startChat(c.userId)}
-                    >
-                      <IconMessagePlus size={16} />
-                    </ActionIcon>
+                    <Tooltip label="Start chat">
+                      <ActionIcon
+                        variant="light"
+                        aria-label="Start chat"
+                        onClick={() => startChat(c.userId)}
+                      >
+                        <IconMessagePlus size={16} />
+                      </ActionIcon>
+                    </Tooltip>
                   ) : null}
-                  <ActionIcon
-                    color="red"
-                    variant="subtle"
-                    aria-label="Delete contact"
-                    title="Delete"
-                    onClick={() => deleteContact(c.userId, c.externalPhone)}
-                  >
-                    <IconTrash size={16} />
-                  </ActionIcon>
+
+                  {/* External number → Compose SMS */}
+                  {c.externalPhone ? (
+                    <Tooltip label="Message">
+                      <ActionIcon
+                        variant="light"
+                        aria-label="Message"
+                        onClick={goCompose}
+                      >
+                        <IconMessage size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  ) : null}
+
+                  <Tooltip label="Delete">
+                    <ActionIcon
+                      color="red"
+                      variant="subtle"
+                      aria-label="Delete contact"
+                      onClick={() => deleteContact(c.userId, c.externalPhone)}
+                    >
+                      <IconTrash size={16} />
+                    </ActionIcon>
+                  </Tooltip>
                 </Group>
               </Group>
             );

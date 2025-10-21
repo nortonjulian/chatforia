@@ -105,7 +105,7 @@ describe('CallScreen', () => {
     const { container, rerender } = render(<CallScreen />);
     let [remoteVid, localVid] = container.querySelectorAll('video');
     expect(remoteVid.srcObject).toBe(remoteRef.current);
-    expect(localVid.srcObject).toBe(null);
+    expect(localVid.srcObject).toBeUndefined();
 
     // Change local stream and re-render with a new ref object
     const newLocal = { current: makeStream('l2') };

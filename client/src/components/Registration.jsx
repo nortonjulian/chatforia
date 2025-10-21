@@ -38,10 +38,13 @@ export default function Registration() {
     e?.preventDefault?.();
     setGlobalError('');
     setErrors({});
-    // if (!validate()) {
-    //   toast.err('Please fix the highlighted errors.');
-    //   return;
-    // }
+
+    // ✅ Run client-side validation and stop if invalid
+    if (!validate()) {
+      // Optional global hint alongside field alert
+      // setGlobalError('Please enter a valid email address');
+      return;
+    }
 
     try {
       setSubmitting(true);

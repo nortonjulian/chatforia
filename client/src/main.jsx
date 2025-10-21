@@ -1,4 +1,34 @@
-import React from 'react';
+// import React from 'react';
+
+// 🔎 BEGIN TEMP PATCH — remove after fixing
+import * as React from 'react';
+
+const _createElement = React.createElement;
+React.createElement = function patchedCreateElement(type, props, ...children) {
+  // If any child is literally a semicolon string (possibly with whitespace)
+  if (children && children.some(ch => typeof ch === 'string' && /^\s*;\s*$/.test(ch))) {
+    const name = typeof type === 'function' ? (type.displayName || type.name || 'AnonymousFunction') : String(type);
+    // Print a component hint + a stack to locate the caller
+    // (in modern browsers you’ll see the file:line in the trace)
+    console.group(`⚠️ Semicolon text node created by <${name}>`);
+    console.log('Props:', props);
+    console.log('Children:', children);
+    console.trace('Creation stack');
+    console.groupEnd();
+  }
+  return _createElement.call(this, type, props, ...children);
+};
+// 🔎 END TEMP PATCH
+
+
+
+
+
+
+
+
+
+
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 

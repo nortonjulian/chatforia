@@ -1,16 +1,15 @@
 import { render, screen, waitFor, act } from '@testing-library/react';
 
-// Mock TranscriptBubble to inspect props
-jest.mock('@/components/TranscriptBubble', () => ({
+// Mock TranscriptBubble to inspect props (use RELATIVE path, no "@")
+jest.mock('../../components/TranscriptBubble', () => ({
   __esModule: true,
   default: ({ segments }) => (
     <div data-testid="transcript-bubble">{JSON.stringify(segments || null)}</div>
   ),
 }));
 
-// SUT
+// SUT: AudioMessage lives at src/features/messages/AudioMessage.js(x)
 import AudioMessage from '../../messages/AudioMessage';
-
 
 describe('AudioMessage', () => {
   let originalFetch;
@@ -45,6 +44,7 @@ describe('AudioMessage', () => {
         currentUser={{ a11yVoiceNoteSTT: true }}
       />
     );
+
     // Audio element and initial placeholder
     const audioEls = document.getElementsByTagName('audio');
     expect(audioEls).toHaveLength(1);
@@ -146,8 +146,5 @@ describe('AudioMessage', () => {
 
     // Resolve GET after unmount; should not throw/warn or render
     await act(async () => resolveGet());
-
-    // Nothing to assert in DOM; success is absence of errors/warnings and no throw.
-    // (If setState-after-unmount happened, React would warn; test runner would surface it.)
   });
 });

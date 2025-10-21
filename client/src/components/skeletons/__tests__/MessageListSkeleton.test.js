@@ -24,8 +24,8 @@ jest.mock('@mantine/core', () => ({
   ),
 }));
 
-// Adjust the path if needed
-import MessageListSkeleton from './MessageListSkeleton';
+// ✅ Correct relative path from __tests__ → skeletons
+import MessageListSkeleton from '../MessageListSkeleton.jsx'; // change to .js if your file is .js
 
 describe('MessageListSkeleton', () => {
   it('renders a Stack with the expected spacing props', () => {

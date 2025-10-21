@@ -147,7 +147,8 @@ export default function StickerPicker({ opened, onClose, onPick }) {
                   // e.native is the character
                   const url = emojiToTwemojiUrl(e.native);
                   onPick?.({
-                    kind: 'STICKER',
+                    kind: 'EMOJI',
+                    native: e.native, 
                     url,
                     width: 128,
                     height: 128,

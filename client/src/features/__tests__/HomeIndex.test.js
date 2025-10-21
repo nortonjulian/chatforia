@@ -1,22 +1,16 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 
-// ---- Mocks ----
+// ---- Mantine stubs (lightweight) ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
   const passthru = (testid) => ({ children, ...props }) => (
     <div data-testid={testid} {...props}>{children}</div>
   );
-
-  const Button = ({ children, component, href, ...rest }) => (
-    <button data-testid="button" data-component={component || ''} data-href={href || ''} {...rest}>
+  const Button = ({ children, onClick, ...rest }) => (
+    <button data-testid="button" onClick={onClick} {...rest}>
       {children}
     </button>
   );
-
-  const Divider = ({ label, ...rest }) => (
-    <div data-testid="divider" data-label={label || ''} {...rest} />
-  );
-
   return {
     __esModule: true,
     Box: passthru('box'),
@@ -24,73 +18,33 @@ jest.mock('@mantine/core', () => {
     Stack: passthru('stack'),
     Text: passthru('text'),
     Button,
-    Divider,
   };
 });
 
-// ads provider hook
-const useAdsMock = jest.fn();
-jest.mock('@/ads/AdProvider', () => ({
-  __esModule: true,
-  useAds: () => useAdsMock(),
-}));
-
-// ad wrappers/slot
-jest.mock('@/ads/AdWrappers', () => ({
-  __esModule: true,
-  CardAdWrap: ({ children, ...rest }) => (
-    <div data-testid="card-ad-wrap" {...rest}>{children}</div>
-  ),
-}));
-jest.mock('@/ads/HouseAdSlot', () => ({
-  __esModule: true,
-  default: ({ placement, variant }) => (
-    <div data-testid="house-ad-slot" data-placement={placement} data-variant={variant} />
-  ),
-}));
-
-// SUT
-import HomeIndex from './HomeIndex';
+// SUT (corrected path)
+import HomeIndex from '../../features/chat/HomeIndex';
 
 describe('HomeIndex', () => {
-  beforeEach(() => {
-    useAdsMock.mockReset();
-  });
-
-  test('renders base UI with headline and CTA button', () => {
-    useAdsMock.mockReturnValue({ isPremium: true });
+  test('renders headline, subtext, and button; clicking dispatches open-new-chat-modal', () => {
+    const dispatchSpy = jest.spyOn(window, 'dispatchEvent');
 
     render(<HomeIndex />);
 
-    expect(
-      screen.getByText(/select a text or chatroom to begin chatting/i)
-    ).toBeInTheDocument();
+    // Headline and subtext from the component
+    expect(screen.getByText(/your messages/i)).toBeInTheDocument();
+    expect(screen.getByText(/send a message to start a chat\./i)).toBeInTheDocument();
 
+    // Button & click -> dispatch CustomEvent
     const btn = screen.getByTestId('button');
-    expect(btn).toHaveTextContent(/start your first chat/i);
-    // Button is rendered with component="a" href="/random" in the component; our mock exposes it as data attrs
-    expect(btn).toHaveAttribute('data-component', 'a');
-    expect(btn).toHaveAttribute('data-href', '/random');
+    expect(btn).toHaveTextContent(/send message/i);
 
-    // Premium: no sponsored divider or ads
-    expect(screen.queryByTestId('divider')).toBeNull();
-    expect(screen.queryByTestId('card-ad-wrap')).toBeNull();
-    expect(screen.queryByTestId('house-ad-slot')).toBeNull();
-  });
+    fireEvent.click(btn);
 
-  test('non-premium shows Sponsored divider and house ad inside wrapper with correct props', () => {
-    useAdsMock.mockReturnValue({ isPremium: false });
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    const eventArg = dispatchSpy.mock.calls[0][0];
+    expect(eventArg).toBeInstanceOf(CustomEvent);
+    expect(eventArg.type).toBe('open-new-chat-modal');
 
-    render(<HomeIndex />);
-
-    const divider = screen.getByTestId('divider');
-    expect(divider).toHaveAttribute('data-label', 'Sponsored');
-
-    const wrap = screen.getByTestId('card-ad-wrap');
-    expect(wrap).toBeInTheDocument();
-
-    const ad = screen.getByTestId('house-ad-slot');
-    expect(ad).toHaveAttribute('data-placement', 'empty_state_promo');
-    expect(ad).toHaveAttribute('data-variant', 'card');
+    dispatchSpy.mockRestore();
   });
 });

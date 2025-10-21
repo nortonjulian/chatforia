@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import TranslatedText from '@/components/TranslatedText'; // adjust path if necessary
+import TranslatedText from '../../chat/TranslatedText'; // correct relative path
 
 // ---- Mocks ----
 
@@ -32,13 +32,13 @@ describe('TranslatedText', () => {
   test('only originalText provided -> renders original, no toggle', () => {
     render(<TranslatedText originalText="Original only" translatedText={null} />);
     expect(screen.getByText('Original only')).toBeInTheDocument();
-    expect(screen.queryRole?.('button')).toBeFalsy();
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
   test('only translatedText provided -> renders translated, no toggle', () => {
     render(<TranslatedText originalText="" translatedText="Translated only" />);
     expect(screen.getByText('Translated only')).toBeInTheDocument();
-    expect(screen.queryRole?.('button')).toBeFalsy();
+    expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
   test('both texts with showBothDefault=true -> stacked texts, no toggle', () => {

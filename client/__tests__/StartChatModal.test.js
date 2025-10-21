@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MantineProvider } from '@mantine/core';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
+import { toE164Dev } from '../src/utils/phoneLocalDev';
 import StartChatModal from '../src/components/StartChatModal.jsx';
 
 // --- Stub ContactList to avoid extra network/portals during these tests
@@ -101,42 +102,35 @@ test('Add Contact (direct) path falls back to external contact', async () => {
   const user = userEvent.setup();
 
   // Calls in order for add-contact-direct:
-  // 1) GET /users/search (no existing user)
-  mockGet.mockResolvedValueOnce({ data: [] });
-  // 2) POST /contacts (external)
-  mockPost.mockResolvedValueOnce({});
-  // 3) POST /invites (fire-and-forget)
-  mockPost.mockResolvedValueOnce({});
-  // 4) GET /contacts/:id (refresh)
-  mockGet.mockResolvedValueOnce({ data: [] });
+  mockGet.mockResolvedValueOnce({ data: [] }); // 1) GET /users/search (no existing user)
+  mockPost.mockResolvedValueOnce({});          // 2) POST /contacts (external)
+  mockPost.mockResolvedValueOnce({});          // 3) POST /invites (fire-and-forget)
+  mockGet.mockResolvedValueOnce({ data: [] }); // 4) GET /contacts (refresh)
 
   renderWithProviders(<StartChatModal currentUserId={1} onClose={() => {}} />);
 
   await user.click(screen.getByRole('button', { name: /add/i }));
-  // Anchor placeholders to avoid matching the search field ("Search by username or phone")
-  await user.type(
-    screen.getByPlaceholderText(/^username or phone$/i),
-    '555-555-5555'
-  );
-  await user.type(
-    screen.getByPlaceholderText(/^alias \(optional\)$/i),
-    'Bob'
-  );
+  await user.type(screen.getByPlaceholderText(/^username or phone$/i), '555-555-5555');
+  await user.type(screen.getByPlaceholderText(/^alias \(optional\)$/i), 'Bob');
   await user.click(screen.getByRole('button', { name: /save contact/i }));
+
+  const expectedPhone = toE164Dev('555-555-5555', 'US'); // => '+15555555555'
 
   await waitFor(() =>
     expect(mockPost).toHaveBeenCalledWith(
       '/contacts',
       expect.objectContaining({
         ownerId: 1,
-        externalPhone: '555-555-5555',
+        externalPhone: expectedPhone,
         externalName: 'Bob',
         alias: 'Bob',
       })
     )
   );
+
   expect(mockPost).toHaveBeenCalledWith('/invites', {
-    phone: '555-555-5555',
+    phone: expectedPhone,
     name: 'Bob',
   });
 });
+

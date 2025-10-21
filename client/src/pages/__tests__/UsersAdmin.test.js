@@ -33,7 +33,6 @@ jest.mock('@mantine/core', () => {
       />
     </label>
   );
-  // Minimal Select: renders two options and calls onChange(value)
   const Select = ({ value, data = [], onChange }) => (
     <div data-testid={`select-${value || 'unset'}`}>
       {data.map((opt) => (
@@ -49,7 +48,6 @@ jest.mock('@mantine/core', () => {
     </div>
   );
 
-  // Table shim
   const Table = Object.assign(
     ({ children, ...p }) => <table data-testid="table" {...p}><tbody>{children}</tbody></table>,
     {
@@ -80,20 +78,21 @@ jest.mock('@mantine/core', () => {
 });
 
 // ---- axios client mock ----
-const getMock = jest.fn();
-const patchMock = jest.fn();
-const postMock = jest.fn();
-jest.mock('../api/axiosClient', () => ({
+const mockGet = jest.fn();
+const mockPatch = jest.fn();
+const mockPost = jest.fn();
+
+jest.mock('../../api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...a) => getMock(...a),
-    patch: (...a) => patchMock(...a),
-    post: (...a) => postMock(...a),
+    get: (...a) => mockGet(...a),
+    patch: (...a) => mockPatch(...a),
+    post: (...a) => mockPost(...a),
   },
 }));
 
 // ---- SUT ----
-import UsersAdminPage from './UsersAdmin';
+import UsersAdminPage from '../UsersAdmin';
 
 describe('UsersAdminPage', () => {
   beforeEach(() => {
@@ -101,7 +100,7 @@ describe('UsersAdminPage', () => {
   });
 
   test('fetches users on mount and renders rows', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         items: [
           { id: 1, username: 'alice', email: 'a@x.com', role: 'USER', isBanned: false,
@@ -115,7 +114,7 @@ describe('UsersAdminPage', () => {
     render(<UsersAdminPage />);
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/admin/users', {
+      expect(mockGet).toHaveBeenCalledWith('/admin/users', {
         params: { query: '', take: 50, skip: 0 },
       });
     });
@@ -127,26 +126,26 @@ describe('UsersAdminPage', () => {
   });
 
   test('search with query calls GET with that query', async () => {
-    getMock.mockResolvedValueOnce({ data: { items: [] } }); // initial
-    getMock.mockResolvedValueOnce({ data: { items: [] } }); // after search
+    mockGet.mockResolvedValueOnce({ data: { items: [] } }); // initial
+    mockGet.mockResolvedValueOnce({ data: { items: [] } }); // after search
 
     render(<UsersAdminPage />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(1));
 
     const input = screen.getByLabelText(/Search…/i);
     fireEvent.change(input, { target: { value: 'ali' } });
     fireEvent.click(screen.getByRole('button', { name: /Search/i }));
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenLastCalledWith('/admin/users', {
+      expect(mockGet).toHaveBeenLastCalledWith('/admin/users', {
         params: { query: 'ali', take: 50, skip: 0 },
       });
     });
   });
 
   test('shows error alert when fetch fails', async () => {
-    getMock.mockRejectedValueOnce({ response: { data: { error: 'No auth' } } });
+    mockGet.mockRejectedValueOnce({ response: { data: { error: 'No auth' } } });
 
     render(<UsersAdminPage />);
 
@@ -157,81 +156,80 @@ describe('UsersAdminPage', () => {
 
   test('changing role calls PATCH and then refetches', async () => {
     // initial load
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: { items: [
         { id: 10, username: 'u', email: 'e', role: 'USER', isBanned: false,
           allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
       ]},
     });
     // refetch after role change
-    getMock.mockResolvedValueOnce({ data: { items: [] } });
-    patchMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockGet.mockResolvedValueOnce({ data: { items: [] } });
+    mockPatch.mockResolvedValueOnce({ data: { ok: true } });
 
     render(<UsersAdminPage />);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(1));
 
-    // Click ADMIN option on the select
     fireEvent.click(screen.getByTestId('opt-ADMIN'));
 
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/admin/users/10/role', { role: 'ADMIN' });
-      // refetch called
-      expect(getMock).toHaveBeenCalledTimes(2);
+      expect(mockPatch).toHaveBeenCalledWith('/admin/users/10/role', { role: 'ADMIN' });
+      expect(mockGet).toHaveBeenCalledTimes(2);
     });
   });
 
   test('flag switches send correct payloads and refetch', async () => {
-    // User initial flags:
-    // allowExplicitContent: true  -> "Filter explicit" switch is unchecked
-    // showOriginalWithTranslation: false
-    // enableAIResponder: false
-    // enableReadReceipts: false
-    getMock.mockResolvedValueOnce({
-      data: { items: [
-        { id: 7, username: 'x', email: 'x', role: 'USER', isBanned: false,
-          allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
-      ]},
-    });
-    // After each flag change, component refetches. We'll just resolve all next GETs.
-    getMock.mockResolvedValue({ data: { items: [] } });
+    const user = {
+      id: 7,
+      username: 'x',
+      email: 'x',
+      role: 'USER',
+      isBanned: false,
+      allowExplicitContent: true,
+      showOriginalWithTranslation: false,
+      enableAIResponder: false,
+      enableReadReceipts: false,
+    };
 
-    patchMock.mockResolvedValue({ data: { ok: true } });
+    // Initial load with one user
+    mockGet.mockResolvedValueOnce({ data: { items: [user] } });
+    // All subsequent refetches should keep the same user present
+    mockGet.mockResolvedValue({ data: { items: [user] } });
+
+    mockPatch.mockResolvedValue({ data: { ok: true } });
 
     render(<UsersAdminPage />);
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(1));
 
-    // Filter explicit: toggling will set checked -> true, payload allowExplicitContent: !true = false
-    fireEvent.click(screen.getByRole('switch', { name: /Filter explicit/i }));
+    // Always (re)query switches with findByRole to survive re-renders
+    const filterSwitch = await screen.findByRole('switch', { name: /Filter explicit/i });
+    fireEvent.click(filterSwitch);
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/admin/users/7/flags', { allowExplicitContent: false });
+      expect(mockPatch).toHaveBeenCalledWith('/admin/users/7/flags', { allowExplicitContent: false });
     });
 
-    // Show Orig+Trans: starts false, toggle -> true
-    fireEvent.click(screen.getByRole('switch', { name: /Show Orig\+Trans/i }));
+    const showOrigSwitch = await screen.findByRole('switch', { name: /Show Orig\+Trans/i });
+    fireEvent.click(showOrigSwitch);
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/admin/users/7/flags', { showOriginalWithTranslation: true });
+      expect(mockPatch).toHaveBeenCalledWith('/admin/users/7/flags', { showOriginalWithTranslation: true });
     });
 
-    // AI reply: starts false, toggle -> true
-    fireEvent.click(screen.getByRole('switch', { name: /AI reply/i }));
+    const aiReplySwitch = await screen.findByRole('switch', { name: /AI reply/i });
+    fireEvent.click(aiReplySwitch);
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/admin/users/7/flags', { enableAIResponder: true });
+      expect(mockPatch).toHaveBeenCalledWith('/admin/users/7/flags', { enableAIResponder: true });
     });
 
-    // Read receipts: starts false, toggle -> true
-    fireEvent.click(screen.getByRole('switch', { name: /Read receipts/i }));
+    const receiptsSwitch = await screen.findByRole('switch', { name: /Read receipts/i });
+    fireEvent.click(receiptsSwitch);
     await waitFor(() => {
-      expect(patchMock).toHaveBeenCalledWith('/admin/users/7/flags', { enableReadReceipts: true });
+      expect(mockPatch).toHaveBeenCalledWith('/admin/users/7/flags', { enableReadReceipts: true });
     });
 
-    // Multiple refetches happened
-    expect(getMock).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalled();
   });
 
   test('ban and unban actions hit the right endpoints and refetch', async () => {
-    // First user not banned, second banned
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: { items: [
         { id: 1, username: 'a', email: 'a', role: 'USER', isBanned: false,
           allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
@@ -239,27 +237,32 @@ describe('UsersAdminPage', () => {
           allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
       ]},
     });
-    // Refetch(es)
-    getMock.mockResolvedValue({ data: { items: [] } });
-
-    postMock.mockResolvedValue({ data: { ok: true } });
+    // keep users present on refetch
+    mockGet.mockResolvedValue({
+      data: { items: [
+        { id: 1, username: 'a', email: 'a', role: 'USER', isBanned: false,
+          allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
+        { id: 2, username: 'b', email: 'b', role: 'USER', isBanned: true,
+          allowExplicitContent: true, showOriginalWithTranslation: false, enableAIResponder: false, enableReadReceipts: false },
+      ]},
+    });
+    mockPost.mockResolvedValue({ data: { ok: true } });
 
     render(<UsersAdminPage />);
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(1));
 
-    // Ban first
-    fireEvent.click(screen.getByRole('button', { name: /Ban/i }));
+    // Wait for the specific action buttons instead of gating on username text
+    const banBtn = await screen.findByRole('button', { name: /^Ban$/i });
+    fireEvent.click(banBtn);
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/admin/users/1/ban');
+      expect(mockPost).toHaveBeenCalledWith('/admin/users/1/ban');
     });
 
-    // Unban second
-    fireEvent.click(screen.getByRole('button', { name: /Unban/i }));
+    const unbanBtn = await screen.findByRole('button', { name: /^Unban$/i });
+    fireEvent.click(unbanBtn);
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/admin/users/2/unban');
+      expect(mockPost).toHaveBeenCalledWith('/admin/users/2/unban');
     });
 
-    // Refetch happened multiple times
-    expect(getMock).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalled();
   });
 });

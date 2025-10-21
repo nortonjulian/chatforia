@@ -1,21 +1,33 @@
-import { render, screen, waitFor, withUser } from './test-utils.js';
-import api from '@/api/axiosClient';
+// --- Mock axios client FIRST to avoid parsing import.meta in the real file ---
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
+  },
+}));
+
+// --- Now import test utils and SUT ---
+import { render, screen, waitFor, withUser } from '../../__tests__/test-utils.js';
 import UsersAdminPage from '@/pages/UsersAdminPage.js';
 
-jest.mock('@/api/axiosClient');
-
 describe('UsersAdminPage', () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   test('admin loads user list', async () => {
     const admin = { id: 1, username: 'root', role: 'ADMIN', plan: 'PREMIUM' };
-    api.get.mockResolvedValueOnce({ data: { users: [{ id: 10, username: 'alice' }] } });
+    mockGet.mockResolvedValueOnce({ data: { users: [{ id: 10, username: 'alice' }] } });
 
     // Pass currentUser so the page doesn't render "Forbidden"
     render(<UsersAdminPage currentUser={admin} />, { wrapper: withUser(admin) });
 
     await waitFor(() => {
-      expect(api.get).toHaveBeenCalled();
+      expect(mockGet).toHaveBeenCalledWith('/admin/users');
       expect(screen.getByText(/alice/i)).toBeInTheDocument();
     });
   });

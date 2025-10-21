@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
-import UserSearch from '@/components/UserSearch'; // adjust path if needed
+import UserSearch from '../src/components/UserSearch';
 
 // -------- Mocks --------
 
@@ -36,18 +36,19 @@ jest.mock('@mantine/core', () => {
 
 // Icons (not relevant to behavior)
 jest.mock('@tabler/icons-react', () => ({
+  __esModule: true,
   IconSearch: (props) => <span data-testid="icon-search" {...props} />,
   IconSend: (props) => <span data-testid="icon-send" {...props} />,
 }));
 
-// axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
-jest.mock('@/components/../api/axiosClient', () => ({
+// axios client (mock by RESOLVED PATH so it matches the component's import)
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+jest.mock('../src/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...args) => getMock(...args),
-    post: (...args) => postMock(...args),
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
   },
 }));
 
@@ -80,13 +81,13 @@ describe('UserSearch', () => {
     render(<UserSearch currentUser={me} onNavigateToChatRoom={onNav} />);
     // Empty
     clickSearch();
-    expect(getMock).not.toHaveBeenCalled();
+    expect(mockGet).not.toHaveBeenCalled();
 
     // Whitespace
     typeQuery('   ');
     clickSearch();
-    expect(getMock).not.toHaveBeenCalled();
-    // Also shows no result message only when query present AND not loading & no error; query was whitespace then cleared to empty by guard
+    expect(mockGet).not.toHaveBeenCalled();
+    // No "No user found" because guard short-circuits
     expect(screen.queryByText(/no user found/i)).not.toBeInTheDocument();
   });
 
@@ -95,7 +96,7 @@ describe('UserSearch', () => {
 
     typeQuery('alice');
     // Resolve GET with 3 users (one = current user to be filtered)
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: [
         { id: 'me-1', username: 'Me' },
         { id: 'u-2', username: 'Alice', phoneNumber: '+1-555' },
@@ -106,7 +107,7 @@ describe('UserSearch', () => {
     clickSearch();
 
     await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/users/search?query=alice');
+      expect(mockGet).toHaveBeenCalledWith('/users/search?query=alice');
     });
 
     // Should render Alice and Bob, not Me
@@ -126,7 +127,7 @@ describe('UserSearch', () => {
     // Keep promise pending briefly to assert loading
     let resolve;
     const pending = new Promise((r) => (resolve = r));
-    getMock.mockReturnValueOnce(pending);
+    mockGet.mockReturnValueOnce(pending);
 
     clickSearch();
 
@@ -146,7 +147,7 @@ describe('UserSearch', () => {
     render(<UserSearch currentUser={me} onNavigateToChatRoom={onNav} />);
 
     typeQuery('err');
-    getMock.mockRejectedValueOnce(new Error('boom'));
+    mockGet.mockRejectedValueOnce(new Error('boom'));
     clickSearch();
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Unable to fetch users. Please try again');
@@ -157,7 +158,7 @@ describe('UserSearch', () => {
     render(<UserSearch currentUser={me} onNavigateToChatRoom={onNav} />);
 
     typeQuery('alice');
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: [
         { id: 'u-2', username: 'Alice' },
       ],
@@ -167,11 +168,11 @@ describe('UserSearch', () => {
     // Wait for list
     await screen.findByText('Alice');
 
-    postMock.mockResolvedValueOnce({ data: 'room-99' });
+    mockPost.mockResolvedValueOnce({ data: 'room-99' });
 
     fireEvent.click(screen.getByRole('button', { name: /send/i }));
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/chatrooms/direct', {
+      expect(mockPost).toHaveBeenCalledWith('/chatrooms/direct', {
         userId1: 'me-1',
         userId2: 'u-2',
       });
@@ -184,11 +185,11 @@ describe('UserSearch', () => {
     render(<UserSearch currentUser={me} onNavigateToChatRoom={onNav} />);
 
     typeQuery('alice');
-    getMock.mockResolvedValueOnce({ data: [{ id: 'u-2', username: 'Alice' }] });
+    mockGet.mockResolvedValueOnce({ data: [{ id: 'u-2', username: 'Alice' }] });
     clickSearch();
     await screen.findByText('Alice');
 
-    postMock.mockRejectedValueOnce(new Error('send fail'));
+    mockPost.mockRejectedValueOnce(new Error('send fail'));
 
     fireEvent.click(screen.getByRole('button', { name: /send/i }));
 

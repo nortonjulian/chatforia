@@ -29,15 +29,15 @@ jest.mock('@mantine/core', () => ({
     <div
       data-testid="skeleton"
       data-height={String(height)}
-      data-radius={String(radius)}
+      data-radius={radius ? String(radius) : ''}
       data-mt={mt ? String(mt) : ''}
       data-width={width ? String(width) : ''}
     />
   ),
 }));
 
-// Adjust path if needed
-import StatusFeedSkeleton from './StatusFeedSkeleton';
+// ✅ Correct relative path from __tests__ → skeletons
+import StatusFeedSkeleton from '../StatusFeedSkeleton.jsx'; // change to .js if the file is .js
 
 describe('StatusFeedSkeleton', () => {
   it('renders a SimpleGrid with the expected responsive cols, padding, and spacing', () => {

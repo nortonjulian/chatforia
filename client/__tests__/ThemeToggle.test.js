@@ -3,21 +3,29 @@ import ThemeToggle from '@/components/ThemeToggle';
 
 // ---- Mocks ----
 
-// Mantine primitives
+// Mantine primitives (now includes useMantineColorScheme)
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const ActionIcon = ({ children, onClick, 'aria-label': ariaLabel, ...p }) => (
     <button type="button" aria-label={ariaLabel} onClick={onClick} {...p}>
       {children}
     </button>
   );
+
   const Tooltip = ({ label, children }) => (
     <div>
       <span data-testid="tooltip-label">{label}</span>
       {children}
     </div>
   );
-  return { ActionIcon, Tooltip };
+
+  // Provide a stable mock that returns an object with setColorScheme()
+  const useMantineColorScheme = () => ({
+    setColorScheme: jest.fn(), // fine to create here; Jest is allowed inside factory
+  });
+
+  return { __esModule: true, ActionIcon, Tooltip, useMantineColorScheme };
 });
 
 // Icons
@@ -30,12 +38,17 @@ jest.mock('lucide-react', () => ({
 const mockGetTheme = jest.fn();
 const mockSetTheme = jest.fn();
 const mockIsDarkTheme = jest.fn();
+const mockOnThemeChange = jest.fn((cb) => {
+  // don’t call cb immediately; just return an unsubscribe
+  return () => {};
+});
 
 jest.mock('@/utils/themeManager', () => ({
   __esModule: true,
   getTheme: (...args) => mockGetTheme(...args),
   setTheme: (...args) => mockSetTheme(...args),
   isDarkTheme: (...args) => mockIsDarkTheme(...args),
+  onThemeChange: (...args) => mockOnThemeChange(...args),
 }));
 
 beforeEach(() => {
