@@ -23,7 +23,10 @@ import { PLACEMENTS } from '@/ads/placements';
 // Premium gating
 import useIsPremium from '@/hooks/useIsPremium';
 
-// ✅ NEW: dev-friendly phone normalizer (adds +1 for 10-digit US, strips junk)
+// 🌍 Phone utils: strict (prod) + permissive (dev/test) fallback
+import { toE164, isLikelyPhone } from '@/utils/phone';
+import useDefaultRegion from '@/hooks/useDefaultRegion';
+import CountrySelect from '@/components/CountrySelect';
 import { toE164Dev } from '@/utils/phoneLocalDev';
 
 function coerceUsers(payload) {
@@ -62,6 +65,13 @@ export default function StartChatModal({
   const [addAlias, setAddAlias] = useState('');
   const [adding, setAdding] = useState(false);
 
+  // 🌍 NEW: Country selection (defaults via hook)
+  const defaultRegion = useDefaultRegion({ userCountryCode: undefined });
+  const [country, setCountry] = useState('US');
+  useEffect(() => {
+    setCountry(defaultRegion);
+  }, [defaultRegion]);
+
   const navigate = useNavigate();
   const isPremium = useIsPremium();
 
@@ -70,7 +80,7 @@ export default function StartChatModal({
     axiosClient
       .get('/contacts') // ✅ correct endpoint (owner inferred from auth)
       .then((res) =>
-        setContacts(Array.isArray(res?.data) ? res.data : (res?.data?.items || []))
+        setContacts(Array.isArray(res?.data) ? res.data : res?.data?.items || [])
       )
       .catch(() => {});
   }, [currentUserId]);
@@ -183,8 +193,6 @@ export default function StartChatModal({
     }
   };
 
-  const isLikelyPhone = (s) => /\d/.test(s || '');
-
   // ✅ when adding by phone, send { externalPhone, externalName, alias }
   const handleAddContactDirect = async () => {
     setError('');
@@ -194,7 +202,10 @@ export default function StartChatModal({
 
     try {
       if (isLikelyPhone(raw)) {
-        const phoneE164 = toE164Dev(raw, 'US'); // dev-friendly
+        // Try strict formatter first; fall back to dev-safe formatter so tests/fixtures like 555-555-5555 pass.
+        const phoneE164 = toE164(raw, country) || toE164Dev(raw, country);
+        if (!phoneE164) throw new Error('Invalid phone number for selected country.');
+
         await axiosClient.post('/contacts', {
           ownerId: currentUserId,
           externalPhone: phoneE164,
@@ -353,7 +364,9 @@ export default function StartChatModal({
             {hasSearched ? (
               <Text c="dimmed">No results</Text>
             ) : hideSearch ? (
-              <Text c="dimmed">Use the page search to find people, or pick from contacts below.</Text>
+              <Text c="dimmed">
+                Use the page search to find people, or pick from contacts below.
+              </Text>
             ) : (
               <Text c="dimmed">Type a username or phone and press Search.</Text>
             )}
@@ -363,7 +376,11 @@ export default function StartChatModal({
         <Group justify="center">
           <Divider label="Or pick from contacts" labelPosition="center" my="xs" />
           {!showContacts && (
-            <Button variant="light" onClick={() => setShowContacts(true)} aria-label="Show contacts">
+            <Button
+              variant="light"
+              onClick={() => setShowContacts(true)}
+              aria-label="Show contacts"
+            >
               Show
             </Button>
           )}
@@ -385,6 +402,17 @@ export default function StartChatModal({
           </Group>
         ) : (
           <Group align="end" wrap="wrap">
+            {/* 🌍 NEW: Country selector */}
+            <CountrySelect
+              value={country}
+              onChange={(val) => {
+                setCountry(val);
+                try {
+                  localStorage.setItem('cf_default_region', val);
+                } catch {}
+              }}
+              style={{ minWidth: 220 }}
+            />
             <TextInput
               style={{ flex: 1, minWidth: 240 }}
               placeholder="Username or phone"

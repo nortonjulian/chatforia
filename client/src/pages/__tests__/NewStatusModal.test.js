@@ -13,14 +13,12 @@ jest.mock('@/api/axiosClient', () => ({
   },
 }));
 
-// mantine notifications  ✅ rename to start with "mock"
+// mantine notifications
 const mockNotifyShow = jest.fn();
 jest.mock('@mantine/notifications', () => ({
   __esModule: true,
   notifications: { show: (...a) => mockNotifyShow(...a) },
 }));
-
-
 
 // Mantine-core lightweight stubs
 jest.mock('@mantine/core', () => {
@@ -60,18 +58,6 @@ jest.mock('@mantine/core', () => {
         value={value || ''}
         onChange={onChange}
         onKeyDown={onKeyDown}
-      />
-    </label>
-  );
-
-  const TextInput = ({ label, value, onChange, placeholder, 'aria-label': ariaLabel }) => (
-    <label>
-      {label}
-      <input
-        aria-label={ariaLabel || label}
-        value={value || ''}
-        placeholder={placeholder}
-        onChange={onChange}
       />
     </label>
   );
@@ -168,7 +154,7 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// SUT
+// -------- SUT --------
 import NewStatusModal from '../NewStatusModal';
 
 // -------- helpers --------
@@ -187,9 +173,9 @@ function formDataToObject(fd) {
 
 describe('NewStatusModal', () => {
   beforeEach(() => {
-    getMock.mockReset();
-    postMock.mockReset();
-    notifyShow.mockReset();
+    mockGet.mockReset();
+    mockPost.mockReset();
+    mockNotifyShow.mockReset();
   });
 
   const renderModal = (props = {}) =>
@@ -215,7 +201,7 @@ describe('NewStatusModal', () => {
   });
 
   test('successful post builds proper FormData and resets state', async () => {
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
     const onClose = jest.fn();
     render(<NewStatusModal opened={true} onClose={onClose} />);
 
@@ -227,10 +213,10 @@ describe('NewStatusModal', () => {
     // Submit
     fireEvent.click(screen.getByRole('button', { name: /post status/i }));
 
-    await waitFor(() => expect(postMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockPost).toHaveBeenCalled());
 
     // inspect FormData
-    const [, fd] = postMock.mock.calls[0];
+    const [, fd] = mockPost.mock.calls[0];
     const obj = formDataToObject(fd);
     expect(obj.caption).toBe('My status');
     expect(obj.audience).toBe('MUTUALS');
@@ -240,7 +226,7 @@ describe('NewStatusModal', () => {
     expect(obj.customAudienceIds).toBeUndefined();
 
     // success notification + onClose + resets
-    expect(notifyShow).toHaveBeenCalledWith(expect.objectContaining({ message: 'Status posted' }));
+    expect(mockNotifyShow).toHaveBeenCalledWith(expect.objectContaining({ message: 'Status posted', withBorder: true }));
     expect(onClose).toHaveBeenCalled();
 
     // Fields reset
@@ -252,18 +238,18 @@ describe('NewStatusModal', () => {
 
   test('audience CUSTOM loads contacts and includes selected IDs in payload', async () => {
     // server returns two shapes (the code supports items[] or plain array)
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: { items: [{ user: { id: 11, username: 'alpha' } }, { contactUserId: 22 }] },
     });
 
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     renderModal();
 
     // Choose "Custom..." audience
     fireEvent.click(screen.getByTestId('opt-Audience-CUSTOM'));
 
-    await waitFor(() => expect(getMock).toHaveBeenCalledWith('/contacts'));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledWith('/contacts'));
 
     // Pick both contacts
     fireEvent.click(screen.getByTestId('multiopt-11'));
@@ -273,9 +259,9 @@ describe('NewStatusModal', () => {
     fireEvent.change(screen.getByLabelText(/Status message/i), { target: { value: 'hello' } });
 
     fireEvent.click(screen.getByRole('button', { name: /post status/i }));
-    await waitFor(() => expect(postMock).toHaveBeenCalled());
+    await waitFor(() => expect(mockPost).toHaveBeenCalled());
 
-    const [, fd] = postMock.mock.calls[0];
+    const [, fd] = mockPost.mock.calls[0];
     const obj = formDataToObject(fd);
 
     // Should be stringified numbers
@@ -284,7 +270,7 @@ describe('NewStatusModal', () => {
   });
 
   test('can change expiry seconds and value is sent', async () => {
-    postMock.mockResolvedValueOnce({ data: {} });
+    mockPost.mockResolvedValueOnce({ data: {} });
     renderModal();
 
     // change expiry to 3600
@@ -294,23 +280,23 @@ describe('NewStatusModal', () => {
     fireEvent.change(screen.getByLabelText(/Status message/i), { target: { value: 'x' } });
     fireEvent.click(screen.getByRole('button', { name: /post status/i }));
 
-    await waitFor(() => expect(postMock).toHaveBeenCalled());
-    const [, fd] = postMock.mock.calls[0];
+    await waitFor(() => expect(mockPost).toHaveBeenCalled());
+    const [, fd] = mockPost.mock.calls[0];
     const obj = formDataToObject(fd);
     expect(obj.expireSeconds).toBe('3600');
   });
 
   test('failure path shows error notification and keeps modal open', async () => {
-    postMock.mockRejectedValueOnce(new Error('nope'));
+    mockPost.mockRejectedValueOnce(new Error('nope'));
     const onClose = jest.fn();
     render(<NewStatusModal opened={true} onClose={onClose} />);
 
     fireEvent.change(screen.getByLabelText(/Status message/i), { target: { value: 'fail me' } });
     fireEvent.click(screen.getByRole('button', { name: /post status/i }));
 
-    await waitFor(() => expect(postMock).toHaveBeenCalled());
-    expect(notifyShow).toHaveBeenCalledWith(
-      expect.objectContaining({ message: 'Failed to post status', color: 'red' })
+    await waitFor(() => expect(mockPost).toHaveBeenCalled());
+    expect(mockNotifyShow).toHaveBeenCalledWith(
+      expect.objectContaining({ message: 'Failed to post status', color: 'red', withBorder: true })
     );
     expect(onClose).not.toHaveBeenCalled();
   });

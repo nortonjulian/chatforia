@@ -1,7 +1,6 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Sidebar from '@/components/Sidebar';
+const { render, screen, fireEvent } = require('@testing-library/react');
 
-// -------------------- Mocks --------------------
+// -------------------- Mocks that don't trigger Vite syntax --------------------
 
 // Mantine core: light wrappers with a few conveniences
 jest.mock('@mantine/core', () => {
@@ -18,11 +17,9 @@ jest.mock('@mantine/core', () => {
     </button>
   );
 
-  // Button mock: when `component={Link}` we render an <a>, and we STRIP props
-  // that React would warn about on DOM (<a>/<button>) such as `leftSection`.
+  // Button mock: when `component={Link}` we render an <a>, and we strip props React would warn about
   const Button = ({ children, onClick, component, to, 'aria-label': aria, leftSection, ...rest }) => {
     if (component && to) {
-      // It's a link-like button
       return (
         <a href={to} aria-label={aria} data-button-link {...rest} onClick={onClick}>
           {children}
@@ -42,7 +39,7 @@ jest.mock('@mantine/core', () => {
   );
   const ScrollArea = { Autosize: ScrollAreaAutosize };
 
-  // Super-simple Drawer: show children when opened, expose an onClose hook via testid
+  // Super-simple Drawer
   const Drawer = ({ opened, onClose, children, ...p }) =>
     opened ? (
       <div data-testid="drawer" data-opened="true" {...p}>
@@ -61,8 +58,8 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// Mantine hooks: control useMediaQuery via a mock function (names must start with "mock")
-export const mockUseMediaQuery = jest.fn();
+// Mantine hooks: control useMediaQuery via a mock function
+const mockUseMediaQuery = jest.fn();
 jest.mock('@mantine/hooks', () => ({
   useMediaQuery: (...args) => mockUseMediaQuery(...args),
 }));
@@ -73,6 +70,7 @@ jest.mock('react-router-dom', () => ({
   Link: ({ to, children, ...p }) => <a href={to} {...p}>{children}</a>,
   NavLink: ({ to, children, ...p }) => <a href={to} data-nav {...p}>{children}</a>,
   useNavigate: () => mockNavigate,
+  useLocation: () => ({ pathname: '/' }),
 }));
 
 // Icons (no-op)
@@ -84,6 +82,8 @@ jest.mock('lucide-react', () => {
     Settings: I('Settings'),
     PhoneForwarded: I('PhoneForwarded'),
     Dice5: I('Dice5'),
+    RefreshCw: I('RefreshCw'),
+    MessageSquarePlus: I('MessageSquarePlus'),
   };
 });
 
@@ -122,6 +122,21 @@ jest.mock('@/ads/AdSlot', () => ({ __esModule: true, default: (p) => mockAdSlot(
 jest.mock('@/ads/placements', () => ({
   PLACEMENTS: { SIDEBAR_PRIMARY: 'SIDEBAR_PRIMARY' },
 }));
+
+// -------------------- The critical part: virtual mock for axiosClient --------------------
+// This prevents Jest from ever parsing the real axiosClient (which uses import.meta)
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn().mockResolvedValue({ data: [] }),
+    post: jest.fn().mockResolvedValue({ data: {} }),
+    patch: jest.fn().mockResolvedValue({ data: {} }),
+    delete: jest.fn().mockResolvedValue({ data: {} }),
+  },
+}), { virtual: true });
+
+// Import Sidebar AFTER mocks are defined (require ensures order in CJS)
+const { default: Sidebar } = require('@/components/Sidebar');
 
 beforeEach(() => {
   jest.clearAllMocks();

@@ -45,6 +45,8 @@ import billingRouter from './routes/billing.js';              // ✅ single bill
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
 import smsRouter from './routes/sms.js';
+import smsThreadsRouter from './routes/smsThreads.js';
+import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
 import settingsForwardingRouter from './routes/settings.forwarding.js';
 import calendarRouter from './routes/calendar.js';
@@ -53,7 +55,7 @@ import eventLinksRouter from './routes/eventLinks.js';
 import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
 import storiesRouter from './routes/stories.js';
-import numbersRouter from './routes/numbers.js'; 
+import numbersRouter from './routes/numbers.js';
 import voiceWebhooks from './routes/voiceWebhooks.js';
 import videoTokens from './routes/videoTokens.js';
 import connectivityRouter from './routes/connectivity.js';
@@ -66,13 +68,16 @@ import { requireAuth } from './middleware/auth.js';
 import {
   requirePhoneVerified,
   requireStaff2FA,
-  requirePremium, 
+  requirePremium,
 } from './middleware/enforcement.js';
 
 // ✅ auth sub-routers
 import { router as emailVerification } from './routes/auth/emailVerification.js';
 import { router as phoneVerification } from './routes/auth/phoneVerification.js';
 import { router as mfaTotp } from './routes/auth/mfaTotp.js';
+
+// 🌍 region inference (for phone parsing defaults, etc.)
+import { inferRegion } from './middleware/region.js';
 
 // Errors
 import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
@@ -129,6 +134,9 @@ export function createApp() {
   app.use(express.json({ limit: '1mb' }));
   app.use(express.urlencoded({ extended: true, limit: '512kb' }));
 
+  // 🌍 Make region available to all downstream routes (uses Accept-Language)
+  app.use(inferRegion);
+
   // Attach Sentry request handler early (no-op if Sentry is disabled)
   if (isProd) {
     app.use(sentryRequestHandler);
@@ -162,6 +170,7 @@ export function createApp() {
         userId: req.user?.id ?? null,
         method: req.method,
         path: req.originalUrl || req.url,
+        region: req.region || null, // 👈 handy for debugging
       }),
       customLogLevel: (req, res, err) => {
         if (err || res.statusCode >= 500) return 'error';
@@ -274,15 +283,18 @@ export function createApp() {
   app.use('/voice', requireAuth, requirePhoneVerified, voiceRouter);
   app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
+  app.use('/sms/threads', requireAuth, smsThreadsRouter);
+  app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/tokens', videoTokens);
 
   // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
-  app.post('/numbers/lock',
+  app.post(
+    '/numbers/lock',
     requireAuth,
     requirePhoneVerified,
     requirePremium,
-    (req, _res, next) => next() // forward to the router handler
+    (req, _res, next) => next()
   );
   app.use('/numbers', requireAuth, requirePhoneVerified, numbersRouter);
 
@@ -341,12 +353,12 @@ export function createApp() {
     app.use('/status', statusRoutes);
   }
 
-    // Dev-only mock endpoints
+  // Dev-only mock endpoints
   if (process.env.NODE_ENV !== 'production') {
-    app.use(smsDevRouter);                 // exposes POST /_dev/sms/inbound
+    app.use(smsDevRouter); // exposes POST /_dev/sms/inbound
   }
 
-    // Enable mock only in dev-like contexts (choose the toggle you prefer)
+  // Enable mock only in dev-like contexts (choose the toggle you prefer)
   const USE_SMS_MOCK =
     String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
     (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);

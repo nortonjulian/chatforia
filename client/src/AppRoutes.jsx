@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AppShell, Burger, Button, Group, Title, ScrollArea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useUser } from '@/context/UserContext';
 import { RequirePremium } from '@/routes/guards';
 
-// pages / components
 import SettingsBackups from '@/pages/SettingsBackups.jsx';
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
@@ -20,7 +19,6 @@ import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 
-// Admin
 import AdminReportsPage from '@/pages/AdminReports';
 import AdminRoute from '@/routes/AdminRoute';
 import AdminLayout from '@/pages/AdminLayout';
@@ -28,35 +26,22 @@ import UsersAdminPage from '@/pages/UsersAdminPage';
 import Forbidden from '@/pages/Forbidden';
 import AuditLogsPage from '@/pages/AuditLogsPage';
 
-// Feature flags
 import { fetchFeatures } from '@/lib/features';
-import StatusFeed from '@/pages/StatusFeed.jsx';
 
-// Calls
 import IncomingCallModal from '@/components/IncomingCallModal.jsx';
 import VideoCall from '@/video/VideoCall.jsx';
 
-// HTTP
 import api, { primeCsrf } from '@/api/axiosClient';
 
-// Public layout
 import AuthLayout from '@/components/AuthLayout';
-
-// Settings
 import SettingsPage from '@/features/settings/SettingsPage';
-
-// Index route content
 import HomeIndex from '@/features/chat/HomeIndex';
 
-// Existing SMS pages
 import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
-
-// ✅ New SMS pages
 import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
 import SmsCompose from '@/pages/SmsCompose.jsx';
 
-/* ---------- PUBLIC PAGES ---------- */
 import AboutChatforia from '@/pages/AboutChatforia.jsx';
 import Careers from '@/pages/Careers.jsx';
 import Press from '@/pages/Press.jsx';
@@ -66,32 +51,58 @@ import Downloads from '@/pages/Downloads.jsx';
 import Advertise from '@/pages/Advertise.jsx';
 import SupportWidget from '@/components/support/SupportWidget.jsx';
 
-// Legal
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
 import TermsOfService from '@/pages/legal/TermsOfService.jsx';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 
-// OAuth completion
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
-
-// Guides
 import GettingStarted from '@/pages/guides/GettingStarted.jsx';
 
-// Ads
 import { AdProvider } from '@/ads/AdProvider';
 import { CardAdWrap } from '@/ads/AdWrappers';
 import HouseAdSlot from '@/ads/HouseAdSlot';
+
+import NewStatusModal from '@/pages/NewStatusModal.jsx';
+
+const NAV_W = 300;   // keep in sync with AppShell.navbar width
+const ASIDE_W = 280; // keep in sync with AppShell.aside width
 
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { currentUser, setCurrentUser } = useUser();
-  const [features, setFeatures] = useState({ status: false });
+
+  // show Status by default in dev
+  const [features, setFeatures] = useState({ status: true });
   const [activeCall, setActiveCall] = useState(null);
 
+  const [showNewStatus, setShowNewStatus] = useState(false);
+  const [hideStatusFab, setHideStatusFab] = useState(false);
+  const location = useLocation();
+
   useEffect(() => {
-    fetchFeatures().then(setFeatures).catch(() => setFeatures({ status: false }));
+    fetchFeatures()
+      .then((f) => setFeatures({ ...f, status: f?.status ?? true }))
+      .catch(() => setFeatures({ status: true }));
+  }, []);
+
+  useEffect(() => {
+    const onFocusIn = (e) => {
+      const el = e.target;
+      if (!el) return;
+      const tag = String(el.tagName || '').toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || el.getAttribute('role') === 'textbox') {
+        setHideStatusFab(true);
+      }
+    };
+    const onFocusOut = () => setHideStatusFab(false);
+    window.addEventListener('focusin', onFocusIn);
+    window.addEventListener('focusout', onFocusOut);
+    return () => {
+      window.removeEventListener('focusin', onFocusIn);
+      window.removeEventListener('focusout', onFocusOut);
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -112,26 +123,30 @@ function AuthedLayout() {
     });
   };
 
-  // Treat PLUS and PREMIUM as paid (ad-free)
   const plan = (currentUser?.plan || 'free').toLowerCase();
   const tier = (currentUser?.subscription?.tier || '').toLowerCase();
   const isPremium = Boolean(
     currentUser?.isPremium || plan === 'premium' || plan === 'plus' || tier === 'premium' || tier === 'plus'
   );
 
-  // NOTE: `me` and `peerId` references in your original file looked undefined; keep your real values here
   const me = currentUser || {};
   const peerId = null;
+
+  const showStatusPill =
+    Boolean(features?.status) &&
+    location.pathname === '/' &&
+    !hideStatusFab;
 
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      aside={{ width: 280, breakpoint: 'lg', collapsed: { mobile: true } }}
+      navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+      aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
+        {/* Make this relative so we can absolutely-position the Status pill */}
+        <Group h="100%" px="md" justify="space-between" style={{ position: 'relative' }}>
           <Group>
             <Burger
               opened={opened}
@@ -141,6 +156,28 @@ function AuthedLayout() {
             />
             <Title order={3}>Chatforia</Title>
           </Group>
+
+          {/* ✅ Status pill lives in the header, not in Main */}
+          {showStatusPill && (
+            <div
+              style={{
+                position: 'absolute',
+                left: NAV_W + 16,        // put it just past the vertical rail
+                top: '50%',
+                transform: 'translateY(-50%)',
+              }}
+            >
+              <Button
+                size="xs"
+                variant="light"
+                onClick={() => setShowNewStatus(true)}
+                aria-label="Create new Status"
+              >
+                New Status
+              </Button>
+            </div>
+          )}
+
           <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
             Log Out
           </Button>
@@ -149,11 +186,10 @@ function AuthedLayout() {
 
       <AppShell.Navbar p="md">
         <ScrollArea.Autosize mah="calc(100vh - 120px)">
-          <Sidebar currentUser={currentUser} setSelectedRoom={setSelectedRoom} features={features} />
+          <Sidebar currentUser={currentUser} setSelectedRoom={setSelectedRoom} />
         </ScrollArea.Autosize>
       </AppShell.Navbar>
 
-      {/* Right rail (Free tier only) */}
       <AppShell.Aside p="md">
         {!isPremium && (
           <div style={{ position: 'sticky', top: 12 }}>
@@ -174,6 +210,10 @@ function AuthedLayout() {
           <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
           <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
         </AdProvider>
+
+        {features?.status && (
+          <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
+        )}
       </AppShell.Main>
     </AppShell>
   );
@@ -186,7 +226,6 @@ export default function AppRoutes() {
     primeCsrf().catch(() => {});
   }, []);
 
-  // ---------- PUBLIC ----------
   if (!currentUser) {
     return (
       <Routes>
@@ -226,7 +265,6 @@ export default function AppRoutes() {
     );
   }
 
-  // ---------- AUTHED ----------
   return (
     <Routes>
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
@@ -253,24 +291,19 @@ export default function AppRoutes() {
           }
         />
 
-        {/* Guides */}
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
 
         <Route path="join/:code" element={<JoinInvitePage />} />
-        <Route path="status" element={<StatusFeed />} />
 
-        {/* SMS (existing) */}
         <Route path="sms" element={<SmsThreads />} />
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
 
-        {/* ✅ New SMS routes */}
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
 
-        {/* Admin */}
         <Route
           path="admin"
           element={

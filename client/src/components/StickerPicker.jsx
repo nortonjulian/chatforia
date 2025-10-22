@@ -13,15 +13,13 @@ import {
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
-// Turn a native emoji → Twemoji SVG URL (no keys/assets needed)
+// Turn a native emoji → Twemoji SVG URL
 function emojiToTwemojiUrl(native) {
-  // Split into code points, lowercase hex. Filter VS-16 (fe0f) for better Twemoji coverage.
   const codepoints = Array.from(native)
     .map((c) => c.codePointAt(0)?.toString(16))
     .filter(Boolean)
-    .filter((cp) => cp !== 'fe0f'); // drop variation selector-16
+    .filter((cp) => cp !== 'fe0f');
   const fn = codepoints.join('-');
-  // Twemoji CDN path for SVGs
   return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${fn}.svg`;
 }
 
@@ -29,14 +27,18 @@ const TENOR_KEY = import.meta.env.VITE_TENOR_KEY || '';
 const TENOR_CLIENT = 'chatforia-web';
 const TENOR_LIMIT = 36;
 
-export default function StickerPicker({ opened, onClose, onPick }) {
-  const [tab, setTab] = useState('emoji');
+export default function StickerPicker({ opened, onClose, onPick, initialTab = 'emoji' }) {
+  const [tab, setTab] = useState(initialTab);
+
+  // keep tab in sync with caller
+  useEffect(() => {
+    if (opened) setTab(initialTab || 'emoji');
+  }, [opened, initialTab]);
 
   // ---- GIF state ----
   const [q, setQ] = useState('');
   const [loading, setLoading] = useState(false);
   const [gifs, setGifs] = useState([]);
-
   const canUseTenor = Boolean(TENOR_KEY);
 
   async function fetchGifs(endpoint) {
@@ -46,14 +48,9 @@ export default function StickerPicker({ opened, onClose, onPick }) {
       const json = await res.json();
       const items = (json.results || json.gifs || [])
         .map((it) => {
-          // Tenor v2 shape
           const media = it.media_formats || it.media || {};
           const gif =
-            media.gif ||
-            media.mediumgif ||
-            media.tinygif ||
-            media.nanogif ||
-            {};
+            media.gif || media.mediumgif || media.tinygif || media.nanogif || {};
           return {
             id: it.id,
             url: gif.url,
@@ -106,12 +103,9 @@ export default function StickerPicker({ opened, onClose, onPick }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, canUseTenor]);
 
-  // Reset when reopened
+  // Reset search on open
   useEffect(() => {
-    if (opened) {
-      setTab('emoji');
-      setQ('');
-    }
+    if (opened) setQ('');
   }, [opened]);
 
   return (
@@ -122,10 +116,7 @@ export default function StickerPicker({ opened, onClose, onPick }) {
       centered
       size="lg"
       overlayProps={{ blur: 2 }}
-      styles={{
-        content: { overflow: 'hidden' },
-        body: { paddingTop: 0 },
-      }}
+      styles={{ content: { overflow: 'hidden' }, body: { paddingTop: 0 } }}
     >
       <Tabs value={tab} onChange={setTab} keepMounted={false}>
         <Tabs.List grow>
@@ -133,7 +124,7 @@ export default function StickerPicker({ opened, onClose, onPick }) {
           <Tabs.Tab value="gifs">GIFs</Tabs.Tab>
         </Tabs.List>
 
-        {/* ---------- Emoji tab ---------- */}
+        {/* Emoji */}
         <Tabs.Panel value="emoji" pt="sm">
           <ScrollArea style={{ height: '62vh' }} type="auto">
             <Box p="xs">
@@ -144,52 +135,35 @@ export default function StickerPicker({ opened, onClose, onPick }) {
                 navPosition="bottom"
                 previewPosition="none"
                 onEmojiSelect={(e) => {
-                  // e.native is the character
                   const url = emojiToTwemojiUrl(e.native);
                   onPick?.({
                     kind: 'EMOJI',
-                    native: e.native, 
+                    native: e.native,
                     url,
                     width: 128,
                     height: 128,
-                    // carry a hint so you can distinguish later if needed
                     _source: 'emoji',
                   });
                 }}
               />
               <Text size="xs" c="dimmed" mt="xs">
-                Tip: Tap any emoji to add it as a sticker. (Sent as an image via
-                Twemoji CDN.)
+                Tip: Tap any emoji to add it as a sticker (sent as an image via Twemoji).
               </Text>
             </Box>
           </ScrollArea>
         </Tabs.Panel>
 
-        {/* ---------- GIFs tab ---------- */}
+        {/* GIFs */}
         <Tabs.Panel value="gifs" pt="sm">
           {!canUseTenor ? (
             <Box p="md">
-              <Text fw={600} mb={6}>
-                GIFs unavailable
-              </Text>
+              <Text fw={600} mb={6}>GIFs unavailable</Text>
               <Text size="sm" c="dimmed">
                 Add a Tenor API key to your <code>.env</code>:
               </Text>
-              <Box
-                component="pre"
-                mt="xs"
-                p="xs"
-                style={{
-                  background: 'var(--mantine-color-gray-1)',
-                  borderRadius: 8,
-                  overflow: 'auto',
-                }}
-              >
+              <Box component="pre" mt="xs" p="xs" style={{ background: 'var(--mantine-color-gray-1)', borderRadius: 8, overflow: 'auto' }}>
                 VITE_TENOR_KEY=YOUR_TENOR_API_KEY
               </Box>
-              <Text size="sm" c="dimmed" mt="xs">
-                Then restart the dev server. (Free keys available on Tenor.)
-              </Text>
             </Box>
           ) : (
             <>
@@ -201,13 +175,9 @@ export default function StickerPicker({ opened, onClose, onPick }) {
               />
               <ScrollArea style={{ height: '58vh' }} type="auto">
                 {loading ? (
-                  <Group justify="center" py="xl">
-                    <Loader />
-                  </Group>
+                  <Group justify="center" py="xl"><Loader /></Group>
                 ) : gifs.length === 0 ? (
-                  <Group justify="center" py="xl">
-                    <Text c="dimmed">No results.</Text>
-                  </Group>
+                  <Group justify="center" py="xl"><Text c="dimmed">No results.</Text></Group>
                 ) : (
                   <div
                     style={{
@@ -240,14 +210,7 @@ export default function StickerPicker({ opened, onClose, onPick }) {
                         }}
                         title="Add GIF"
                       >
-                        <Image
-                          src={g.url}
-                          alt="gif"
-                          fit="cover"
-                          height={120}
-                          fallbackSrc=""
-                          loading="lazy"
-                        />
+                        <Image src={g.url} alt="gif" fit="cover" height={120} fallbackSrc="" loading="lazy" />
                       </button>
                     ))}
                   </div>

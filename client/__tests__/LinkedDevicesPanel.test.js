@@ -1,5 +1,5 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import LinkedDevicesPanel from '@/components/LinkedDevicesPanel'; // <-- update if needed
+import LinkedDevicesPanel from '@/components/LinkedDevicesPanel'; // keep alias import
 
 // -------------------- Mocks --------------------
 
@@ -42,14 +42,25 @@ jest.mock('@tabler/icons-react', () => ({
   IconTrash: (p) => <span data-testid="icon-trash" {...p} />,
 }));
 
-// axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
+// axios client — name variables with "mock*" so Jest allows capture
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+
+// Mock by alias path
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...args) => getMock(...args),
-    post: (...args) => postMock(...args),
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
+  },
+}));
+
+// Also mock the relative path some components might use (../api/axiosClient)
+jest.mock('../src/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
   },
 }));
 
@@ -65,34 +76,34 @@ beforeEach(() => {
 
 // Helper to resolve initial GET
 function resolveDevices(data) {
-  getMock.mockResolvedValueOnce({ data });
+  mockGet.mockResolvedValueOnce({ data });
 }
 function rejectDevices(error) {
-  getMock.mockRejectedValueOnce(error instanceof Error ? error : Object.assign(new Error('x'), error));
+  mockGet.mockRejectedValueOnce(error instanceof Error ? error : Object.assign(new Error('x'), error));
 }
 
 describe('LinkedDevicesPanel', () => {
   test('initially loads devices (once), shows loading skeletons, and supports Refresh', async () => {
     // Keep first promise pending while we check loading UI
-    let res;
-    const pending = new Promise((r) => { res = r; });
-    getMock.mockReturnValueOnce(pending);
+    let resolvePending;
+    const pending = new Promise((r) => { resolvePending = r; });
+    mockGet.mockReturnValueOnce(pending);
 
-    const { rerender } = render(<LinkedDevicesPanel />);
+    render(<LinkedDevicesPanel />);
 
     // Loading: two skeletons present
     const skels = screen.getAllByRole('progressbar');
     expect(skels).toHaveLength(2);
 
     // Finish first request -> empty list
-    res({ data: [] });
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(1));
+    resolvePending({ data: [] });
+    await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(1));
     expect(screen.getByText(/no linked devices/i)).toBeInTheDocument();
 
     // Click Refresh -> triggers another GET
     resolveDevices([]);
     fireEvent.click(screen.getByRole('button', { name: /refresh/i }));
-    await waitFor(() => expect(getMock).toHaveBeenCalledTimes(2));
+    await waitFor(() => expect(mockGet).toHaveBeenCalledTimes(2));
   });
 
   test('404 on fetch does not toast an error and shows empty state', async () => {
@@ -153,16 +164,16 @@ describe('LinkedDevicesPanel', () => {
     // Cancel (returns null/empty) => no POST
     const promptSpy = jest.spyOn(window, 'prompt').mockReturnValue('');
     fireEvent.click(renameBtn);
-    expect(postMock).not.toHaveBeenCalled();
+    expect(mockPost).not.toHaveBeenCalled();
 
     // Success path
     promptSpy.mockReturnValue(' New Name ');
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     fireEvent.click(renameBtn);
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/devices/rename/x', { name: 'New Name' });
+      expect(mockPost).toHaveBeenCalledWith('/devices/rename/x', { name: 'New Name' });
     });
 
     // UI updated + success toast
@@ -171,7 +182,7 @@ describe('LinkedDevicesPanel', () => {
 
     // Failure path
     promptSpy.mockReturnValue('Another Name');
-    postMock.mockRejectedValueOnce(new Error('rename failed'));
+    mockPost.mockRejectedValueOnce(new Error('rename failed'));
     fireEvent.click(renameBtn);
 
     await waitFor(() => expect(global.toast.err).toHaveBeenCalledWith('Could not rename device'));
@@ -183,7 +194,7 @@ describe('LinkedDevicesPanel', () => {
     await screen.findByText('iPhone');
 
     const revokeBtn = screen.getByRole('button', { name: /revoke device/i });
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     fireEvent.click(revokeBtn);
 
@@ -201,7 +212,7 @@ describe('LinkedDevicesPanel', () => {
     fireEvent.click(screen.getByRole('button', { name: /refresh/i }));
     await screen.findByText('Pixel');
 
-    postMock.mockRejectedValueOnce(new Error('revoke failed'));
+    mockPost.mockRejectedValueOnce(new Error('revoke failed'));
     const revokeBtn3 = screen.getByRole('button', { name: /revoke device/i });
     fireEvent.click(revokeBtn3);
 

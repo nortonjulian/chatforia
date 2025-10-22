@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import {
   Box,
   Group,
@@ -9,23 +9,34 @@ import {
   Drawer,
   Text,
   Button,
+  TextInput,
 } from '@mantine/core';
 import { useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Plus, Users, Settings, PhoneForwarded, Dice5, RefreshCw, MessageSquarePlus } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  Plus,
+  Users,
+  Settings,
+  PhoneForwarded,
+  Dice5,
+  RefreshCw,
+  Search as SearchIcon,
+} from 'lucide-react';
 
 import StartChatModal from './StartChatModal';
-import ChatroomsSidebar from './ChatroomsSidebar';
+import ChatroomsSidebar from './ChatroomsSidebar'; // now used in list-only mode
 import UserProfile from './UserProfile';
-import axiosClient from '@/api/axiosClient';
 
-function Sidebar({ currentUser, setSelectedRoom, features }) {
+// Ads
+import AdSlot from '@/ads/AdSlot';
+import { PLACEMENTS } from '@/ads/placements';
+
+function Sidebar({ currentUser, setSelectedRoom }) {
   const [showStartModal, setShowStartModal] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const isPremium = useMemo(
     () => String(currentUser?.plan || 'FREE').toUpperCase() === 'PREMIUM',
@@ -47,39 +58,13 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
     return () => window.removeEventListener('open-new-chat-modal', onOpen);
   }, []);
 
-  /* ---------------- SMS Threads (left-rail "Texts") ---------------- */
-  const [threads, setThreads] = useState([]);
-  const [threadsLoading, setThreadsLoading] = useState(false);
-
-  async function loadThreads() {
-    if (!currentUser) return;
-    try {
-      setThreadsLoading(true);
-      const res = await axiosClient.get('/sms/threads', { params: { limit: 50 } });
-      const items = Array.isArray(res?.data?.items)
-        ? res.data.items
-        : Array.isArray(res?.data)
-        ? res.data
-        : [];
-      setThreads(items);
-    } catch (e) {
-      // keep sidebar quiet; log for dev
-      console.error('Failed to load SMS threads', e);
-      setThreads([]);
-    } finally {
-      setThreadsLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadThreads();
-  }, [currentUser?.id, location.pathname]);
-
-  // active thread id from URL (/sms/threads/:id)
-  const activeSmsId = (() => {
-    const m = location.pathname.match(/\/sms\/threads\/(\d+)/);
-    return m ? Number(m[1]) : null;
-  })();
+  // search state (client-side filter)
+  const [query, setQuery] = useState('');
+  const [roomCount, setRoomCount] = useState(0);
+  const refreshRoomsRef = useCallback(() => {
+    // ChatroomsSidebar will expose a reload handler via CustomEvent
+    window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
+  }, []);
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -133,8 +118,6 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
           </Button>
         )}
 
-        {features?.status && <NavLink to="/status">Status</NavLink>}
-
         {currentUser && (
           <Button
             variant="subtle"
@@ -151,75 +134,49 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
         )}
       </Stack>
 
-      {/* Main sidebar content */}
-      <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 200px)">
+      {/* 🧱 Desktop-only ad (FREE plan only) */}
+      {!isPremium && !isMobile && (
+        <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
+      )}
+
+      {/* Conversations header + refresh */}
+      <Group justify="space-between" mt="md" mb={6}>
+        <Text size="sm" fw={700}>
+          Conversations
+          {roomCount > 0 ? '' : ''}
+        </Text>
+        <ActionIcon
+          variant="subtle"
+          aria-label="Refresh conversations"
+          onClick={refreshRoomsRef}
+          title="Refresh"
+        >
+          <RefreshCw size={16} />
+        </ActionIcon>
+      </Group>
+
+      {/* Search box under Conversations */}
+      <TextInput
+        placeholder="Search conversations.."
+        leftSection={<SearchIcon size={14} />}
+        value={query}
+        onChange={(e) => setQuery(e.currentTarget.value)}
+        mb="sm"
+        aria-label="Search conversations"
+      />
+
+      {/* Main list area */}
+      <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
-          {/* In-app chatrooms/DMs */}
+          {/* List-only mode: no header, no empty-state CTA */}
           <ChatroomsSidebar
             onStartNewChat={() => setShowStartModal(true)}
             onSelect={setSelectedRoom}
+            hideEmpty
+            listOnly
+            filterQuery={query}
+            onCountChange={setRoomCount}
           />
-
-          {/* Texts (SMS/MMS) */}
-          {currentUser && (
-            <Stack gap="xs">
-              <Group justify="space-between" align="center">
-                <Text size="sm" fw={600}>Texts</Text>
-                <ActionIcon
-                  variant="subtle"
-                  title="Refresh texts"
-                  aria-label="Refresh texts"
-                  onClick={loadThreads}
-                  loading={threadsLoading}
-                >
-                  <RefreshCw size={16} />
-                </ActionIcon>
-              </Group>
-
-              <Button
-                variant="subtle"
-                size="xs"
-                leftSection={<MessageSquarePlus size={16} />}
-                onClick={() => navigate('/sms/compose')}
-              >
-                New text
-              </Button>
-
-              <Stack gap={4}>
-                {threads.length === 0 && !threadsLoading ? (
-                  <Text c="dimmed" size="xs">No texts yet.</Text>
-                ) : (
-                  threads.map((t) => {
-                    const title = t.contactPhone || t.toNumber || 'Unknown';
-                    const preview =
-                      t.lastMessageSnippet ||
-                      t.lastMessage?.body ||
-                      '';
-                    const isActive = Number(t.id) === activeSmsId;
-
-                    return (
-                      <Button
-                        key={t.id}
-                        variant={isActive ? 'light' : 'subtle'}
-                        size="xs"
-                        onClick={() => navigate(`/sms/threads/${t.id}`)}
-                        styles={{ root: { justifyContent: 'flex-start' } }}
-                      >
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                          <span style={{ lineHeight: 1.2 }}>{title}</span>
-                          {preview ? (
-                            <span style={{ fontSize: 11, opacity: 0.7, lineHeight: 1.2, maxWidth: 220, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                              {preview}
-                            </span>
-                          ) : null}
-                        </div>
-                      </Button>
-                    );
-                  })
-                )}
-              </Stack>
-            </Stack>
-          )}
         </Stack>
       </ScrollArea.Autosize>
 
@@ -250,12 +207,8 @@ function Sidebar({ currentUser, setSelectedRoom, features }) {
           <Stack gap="sm">
             <Text c="dimmed">Log in to edit your settings.</Text>
             <Group>
-              <Button component={Link} to="/" variant="filled">
-                Log in
-              </Button>
-              <Button component={Link} to="/register" variant="light">
-                Create account
-              </Button>
+              <Button component={Link} to="/" variant="filled">Log in</Button>
+              <Button component={Link} to="/register" variant="light">Create account</Button>
             </Group>
           </Stack>
         )}

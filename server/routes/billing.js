@@ -45,16 +45,21 @@ async function ensureStripeCustomerId(user) {
 // Map plan code -> Stripe Price ID (from env)
 function priceIdForPlan(plan) {
   switch (plan) {
-    case 'PLUS_MONTHLY': return process.env.STRIPE_PRICE_PLUS;
-    case 'PREMIUM_MONTHLY': return process.env.STRIPE_PRICE_PREMIUM;
-    default: return null;
+    case 'PLUS_MONTHLY':
+      return process.env.STRIPE_PRICE_PLUS;               // e.g. price_xxx
+    case 'PREMIUM_MONTHLY':
+      return process.env.STRIPE_PRICE_PREMIUM;            // e.g. price_yyy ($24.99/mo)
+    case 'PREMIUM_ANNUAL':
+      return process.env.STRIPE_PRICE_PREMIUM_ANNUAL;     // e.g. price_zzz ($225/yr)
+    default:
+      return null;
   }
 }
 
 /* ----------------------------------------------
  * Checkout
  * --------------------------------------------*/
-// POST /billing/checkout  { plan: "PLUS_MONTHLY" | "PREMIUM_MONTHLY" }
+// POST /billing/checkout  { plan: "PLUS_MONTHLY" | "PREMIUM_MONTHLY" | "PREMIUM_ANNUAL" }
 router.post('/checkout', async (req, res) => {
   try {
     if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
@@ -273,18 +278,21 @@ router.post('/webhook', async (req, res) => {
       return null;
     })();
 
-    // Infer PLUS vs PREMIUM based on price ids (if you sell both)
+    // Infer PLUS vs PREMIUM based on price ids (support monthly + annual)
     const planFromLines = () => {
       const lines = obj.lines?.data || [];
       const priceId = lines[0]?.price?.id;
       if (priceId === process.env.STRIPE_PRICE_PLUS) return 'PLUS';
       if (priceId === process.env.STRIPE_PRICE_PREMIUM) return 'PREMIUM';
+      if (priceId === process.env.STRIPE_PRICE_PREMIUM_ANNUAL) return 'PREMIUM';
       return 'PREMIUM';
     };
 
     switch (type) {
       case 'checkout.session.completed': {
-        const plan = obj.metadata?.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
+        // PREMIUM_ANNUAL still maps to 'PREMIUM' plan on our side
+        const plan =
+          obj.metadata?.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
         const extras = {
           stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
           stripeSubscriptionId: obj.subscription ? String(obj.subscription) : undefined,

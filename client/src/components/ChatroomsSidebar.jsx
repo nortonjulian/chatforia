@@ -10,7 +10,6 @@ import {
   UnstyledButton,
   Divider,
 } from '@mantine/core';
-import { IconMessagePlus } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 
 import AdSlot from '@/ads/AdSlot';
@@ -22,58 +21,64 @@ export default function ChatroomsSidebar({
   onSelect,
   hideEmpty = false,
   activeRoomId = null,
-  onCountChange, // ⬅️ NEW: let parent (Sidebar) know how many rooms there are
+  onCountChange,
+  listOnly = false,        // NEW: suppress header/ads/empty CTA
+  filterQuery = '',        // NEW: filter client-side by title/snippet
 }) {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState('');
   const isPremium = useIsPremium();
 
+  // expose reload via a window event so Sidebar can trigger it
   useEffect(() => {
-    let mounted = true;
-    const ctrl = new AbortController();
-
-    (async () => {
-      try {
-        setLoading(true);
-        setErr('');
-        const res = await axiosClient.get('/rooms', { signal: ctrl.signal });
-        if (!mounted) return;
-        const data = res?.data;
-        const list = Array.isArray(data) ? data : (data?.rooms || []);
-        setRooms(list);
-      } catch (e) {
-        if (!mounted) return;
-        if (e.name !== 'CanceledError') {
-          setErr(
-            e?.response?.data?.error ||
-              e?.response?.data?.message ||
-              e?.message ||
-              'Failed to load chats'
-          );
-        }
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    })();
-
-    return () => {
-      mounted = false;
-      ctrl.abort();
-    };
+    const handler = () => load();
+    window.addEventListener('sidebar:reload-rooms', handler);
+    return () => window.removeEventListener('sidebar:reload-rooms', handler);
   }, []);
 
-  // 🔔 Report room count to parent whenever it changes
+  async function load() {
+    try {
+      setLoading(true);
+      setErr('');
+      const res = await axiosClient.get('/rooms');
+      const data = res?.data;
+      const list = Array.isArray(data) ? data : (data?.rooms || []);
+      setRooms(list);
+    } catch (e) {
+      setErr(
+        e?.response?.data?.error ||
+          e?.response?.data?.message ||
+          e?.message ||
+          'Failed to load chats'
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
   useEffect(() => {
     onCountChange?.(Array.isArray(rooms) ? rooms.length : 0);
   }, [rooms, onCountChange]);
+
+  const q = filterQuery.trim().toLowerCase();
+  const visible = q
+    ? rooms.filter((r) => {
+        const title = (r.title || r.name || r.displayName || '').toLowerCase();
+        const snippet = (r.lastMessage?.content || '').toLowerCase();
+        return title.includes(q) || snippet.includes(q);
+      })
+    : rooms;
 
   /* ---------- Loading ---------- */
   if (loading) {
     return (
       <Stack p="sm" gap="sm">
-        <Text fw={600}>Chatrooms</Text>
-        {/* No ads in loading to keep the UI calm */}
+        {!listOnly && <Text fw={600}>Conversations</Text>}
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} height={46} radius="md" />
         ))}
@@ -85,28 +90,24 @@ export default function ChatroomsSidebar({
   if (err) {
     return (
       <Stack p="sm" gap="sm">
-        <Text fw={600}>Chatrooms</Text>
-        {/* No ads in error state */}
+        {!listOnly && <Text fw={600}>Conversations</Text>}
         <Alert color="red" variant="light">{err}</Alert>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
+        {!listOnly && <Button onClick={load}>Retry</Button>}
       </Stack>
     );
   }
 
   /* ---------- Empty list ---------- */
-  if (!rooms.length) {
+  if (!visible.length) {
     if (hideEmpty) return null;
     return (
       <Stack p="sm" gap="sm">
-        <Text fw={600}>Chatrooms</Text>
-
+        {!listOnly && <Text fw={600}>Conversations</Text>}
+        {/* With listOnly or hideEmpty, Sidebar handles empty-state UX */}
         <Text c="dimmed" size="sm">No conversations yet.</Text>
-        <Button leftSection={<IconMessagePlus size={16} />} onClick={onStartNewChat}>
-          New chat
-        </Button>
-
-        {/* ⛔️ Removed the “New Chat” house promo/ad to avoid duplicate CTA.
-            Sidebar will show the Go Premium card in empty state instead. */}
+        {!listOnly && (
+          <Button onClick={onStartNewChat}>Start a chat</Button>
+        )}
       </Stack>
     );
   }
@@ -114,17 +115,15 @@ export default function ChatroomsSidebar({
   /* ---------- Populated list ---------- */
   return (
     <Stack p="sm" gap="xs">
-      <Text fw={600}>Chatrooms</Text>
-
-      {/* Keep a single sidebar ad only once there are chats */}
-      {!isPremium && (
+      {!listOnly && <Text fw={600}>Conversations</Text>}
+      {!listOnly && !isPremium && (
         <>
           <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
           <Divider my={6} />
         </>
       )}
 
-      {rooms.map((r, idx) => {
+      {visible.map((r, idx) => {
         const title = r.title || r.name || r.displayName || `Room #${r.id}`;
         const unread = r.unreadCount || r._count?.unread || 0;
 
@@ -154,8 +153,7 @@ export default function ChatroomsSidebar({
               )}
             </UnstyledButton>
 
-            {/* Secondary sidebar ad after a few items (free only) */}
-            {!isPremium && idx === 2 && (
+            {!listOnly && !isPremium && idx === 2 && (
               <>
                 <Divider my={6} />
                 <AdSlot placement={PLACEMENTS.SIDEBAR_SECONDARY} />
