@@ -13,6 +13,10 @@ import {
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
+// ---- shared tab values (inline constants) ----
+const TAB_EMOJI = 'emoji';
+const TAB_GIFS = 'gifs';
+
 // Turn a native emoji → Twemoji SVG URL
 function emojiToTwemojiUrl(native) {
   const codepoints = Array.from(native)
@@ -27,13 +31,15 @@ const TENOR_KEY = import.meta.env.VITE_TENOR_KEY || '';
 const TENOR_CLIENT = 'chatforia-web';
 const TENOR_LIMIT = 36;
 
-export default function StickerPicker({ opened, onClose, onPick, initialTab = 'emoji' }) {
+export default function StickerPicker({ opened, onClose, onPick, initialTab = TAB_EMOJI }) {
   const [tab, setTab] = useState(initialTab);
 
-  // keep tab in sync with caller
+  // keep tab in sync with caller (works when modal is already open too)
   useEffect(() => {
-    if (opened) setTab(initialTab || 'emoji');
-  }, [opened, initialTab]);
+    const next = (initialTab === TAB_GIFS || initialTab === TAB_EMOJI) ? initialTab : TAB_EMOJI;
+    if (next !== tab) setTab(next);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTab]);
 
   // ---- GIF state ----
   const [q, setQ] = useState('');
@@ -103,7 +109,7 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = 'e
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, canUseTenor]);
 
-  // Reset search on open
+  // Reset search whenever the modal opens
   useEffect(() => {
     if (opened) setQ('');
   }, [opened]);
@@ -120,12 +126,12 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = 'e
     >
       <Tabs value={tab} onChange={setTab} keepMounted={false}>
         <Tabs.List grow>
-          <Tabs.Tab value="emoji">Emoji</Tabs.Tab>
-          <Tabs.Tab value="gifs">GIFs</Tabs.Tab>
+          <Tabs.Tab value={TAB_EMOJI}>Emoji</Tabs.Tab>
+          <Tabs.Tab value={TAB_GIFS}>GIFs</Tabs.Tab>
         </Tabs.List>
 
         {/* Emoji */}
-        <Tabs.Panel value="emoji" pt="sm">
+        <Tabs.Panel value={TAB_EMOJI} pt="sm">
           <ScrollArea style={{ height: '62vh' }} type="auto">
             <Box p="xs">
               <Picker
@@ -154,7 +160,7 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = 'e
         </Tabs.Panel>
 
         {/* GIFs */}
-        <Tabs.Panel value="gifs" pt="sm">
+        <Tabs.Panel value={TAB_GIFS} pt="sm">
           {!canUseTenor ? (
             <Box p="md">
               <Text fw={600} mb={6}>GIFs unavailable</Text>
