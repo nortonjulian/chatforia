@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Modal,
   Textarea,
@@ -10,15 +10,21 @@ import {
   Text,
   MultiSelect,
   NumberInput,
+  Tooltip,
+  Badge,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import axiosClient from '@/api/axiosClient';
+
+const HOUR_MIN = 1;
+const HOUR_MAX = 7 * 24; // 168h (7d)
+const PRESETS = [6, 12, 24, 48, 72];
 
 export default function NewStatusModal({ opened, onClose }) {
   const [caption, setCaption] = useState('');
   const [audience, setAudience] = useState('MUTUALS');
   const [customIds, setCustomIds] = useState([]);
-  const [expire, setExpire] = useState(24 * 3600);
+  const [expireHours, setExpireHours] = useState(24); // <-- hours now
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
 
@@ -37,7 +43,6 @@ export default function NewStatusModal({ opened, onClose }) {
           }));
       setContactOptions(opts);
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('load contacts failed', e);
     }
   };
@@ -49,7 +54,9 @@ export default function NewStatusModal({ opened, onClose }) {
       const form = new FormData();
       form.set('caption', caption);
       form.set('audience', audience);
-      form.set('expireSeconds', String(expire));
+      // API remains seconds:
+      form.set('expireSeconds', String((Number(expireHours) || 24) * 3600));
+
       if (audience === 'CUSTOM' && customIds.length) {
         form.set('customAudienceIds', JSON.stringify(customIds.map((v) => Number(v))));
       }
@@ -64,9 +71,8 @@ export default function NewStatusModal({ opened, onClose }) {
       setFiles([]);
       setCustomIds([]);
       setAudience('MUTUALS');
-      setExpire(24 * 3600);
+      setExpireHours(24); // reset to 24h
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error('post status failed', e);
       notifications.show({
         message: 'Failed to post status',
@@ -79,6 +85,11 @@ export default function NewStatusModal({ opened, onClose }) {
   };
 
   const isEmptyPost = !caption.trim() && files.length === 0;
+
+  const expiresAtText = useMemo(() => {
+    const ms = (Number(expireHours) || 24) * 3600 * 1000;
+    return new Date(Date.now() + ms).toLocaleString();
+  }, [expireHours]);
 
   return (
     <Modal
@@ -123,13 +134,39 @@ export default function NewStatusModal({ opened, onClose }) {
             ]}
             withinPortal
           />
-          <NumberInput
-            label="Expires (seconds)"
-            min={60}
-            max={7 * 24 * 3600}
-            value={expire}
-            onChange={(v) => setExpire(Number(v) || 24 * 3600)}
-          />
+
+          <div>
+            <NumberInput
+              label="Expires (hours)"
+              min={HOUR_MIN}
+              max={HOUR_MAX}
+              step={1}
+              clampOnBlur
+              value={expireHours}
+              onChange={(v) => {
+                const n = Number(v);
+                setExpireHours(Number.isFinite(n) ? n : 24);
+              }}
+            />
+            <Group gap="xs" mt={6} wrap="wrap">
+              {PRESETS.map((h) => (
+                <Button
+                  key={h}
+                  size="xs"
+                  variant={h === expireHours ? 'filled' : 'light'}
+                  onClick={() => setExpireHours(h)}
+                >
+                  {h}h
+                </Button>
+              ))}
+              <Tooltip label="Maximum 7 days">
+                <Badge variant="light">{HOUR_MAX}h max</Badge>
+              </Tooltip>
+            </Group>
+            <Text size="xs" c="dimmed" mt={4}>
+              Expires on: {expiresAtText}
+            </Text>
+          </div>
         </Group>
 
         {audience === 'CUSTOM' ? (
@@ -161,7 +198,7 @@ export default function NewStatusModal({ opened, onClose }) {
             type="button"
             variant="light"
             onClick={onClose}
-            aria-label="Cancel"         // <-- was "Cancel posting status"
+            aria-label="Cancel"
           >
             Cancel
           </Button>
@@ -172,7 +209,7 @@ export default function NewStatusModal({ opened, onClose }) {
               if (!caption.trim() && files.length === 0) return;
               onSubmit();
             }}
-            aria-label="Post status"           // <-- was "Post status"
+            aria-label="Post status"
             disabled={isEmptyPost}
           >
             Post

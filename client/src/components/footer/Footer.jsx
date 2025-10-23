@@ -48,10 +48,10 @@ export default function Footer() {
                 align="center"
                 wrap="nowrap"
                 className="brand-lockup footer-lockup"
-                style={{ "--logo-size": "28px" }}
+                style={{ "--logo-size": "40px" }}
               >
                 <span className="brand-logo" aria-hidden="true">
-                  <LogoGlyph size={28} />
+                  <LogoGlyph />
                 </span>
                 <Text fw={800} size="lg" className="brand-lockup__name">
                   Chatforia

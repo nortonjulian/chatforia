@@ -5,7 +5,7 @@ import StickerPicker from '@/components/StickerPicker.jsx';
 
 const NAV_W = 300;   // match AppRoutes
 const ASIDE_W = 280; // match AppRoutes
-const GUTTER = 32;   // small breathing room across center
+const GUTTER = 32;   // visual breathing room across center (set to 0 for true edge-to-edge)
 
 export default function HomeIndex() {
   const [msg, setMsg] = useState('');
@@ -39,15 +39,14 @@ export default function HomeIndex() {
         </Card>
       </Box>
 
-      {/* Fixed bottom composer — spans entire middle between rails */}
+      {/* Fixed bottom composer — exactly spans the middle between rails */}
       <div
         style={{
           position: 'fixed',
-          left: '50%',
-          bottom: 12,
-          transform: 'translateX(-50%)',
-          width: `calc(100vw - ${NAV_W + ASIDE_W + GUTTER}px)`,
-          maxWidth: 'calc(100vw - 16px)', // guard for very small widths
+          bottom: `calc(12px + env(safe-area-inset-bottom))`,
+          // Anchor to the rails; add small inset using GUTTER/2
+          left: NAV_W + GUTTER / 2,
+          right: ASIDE_W + GUTTER / 2,
           zIndex: 10,
           pointerEvents: 'none',
         }}
@@ -56,9 +55,14 @@ export default function HomeIndex() {
           withBorder
           radius="lg"
           p="xs"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)', pointerEvents: 'auto' }}
+          style={{
+            boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+            pointerEvents: 'auto',
+            width: '100%',   // fill all space between left/right anchors
+            margin: 0,
+          }}
         >
-          <Group gap="xs" wrap="nowrap">
+          <Group gap="xs" wrap="nowrap" style={{ width: '100%' }}>
             <ActionIcon
               variant="light"
               aria-label="Emoji & GIFs"
@@ -80,9 +84,11 @@ export default function HomeIndex() {
 
             <TextInput
               placeholder="Type a message…"
+              aria-label="Message composer"
               value={msg}
               onChange={(e) => setMsg(e.currentTarget.value)}
-              style={{ flex: 1 }}
+              // flex grow + allow true expansion/shrink in a flex row
+              style={{ flex: 1, minWidth: 0 }}
             />
 
             <Button rightSection={<Send size={16} />} onClick={handleSendMessage}>

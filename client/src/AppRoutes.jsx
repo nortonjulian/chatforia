@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
-import { AppShell, Burger, Button, Group, Title, ScrollArea } from '@mantine/core';
+import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
+import {
+  AppShell,
+  Burger,
+  Button,
+  Group,
+  Title,
+  ScrollArea,
+  Anchor,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import { useUser } from '@/context/UserContext';
@@ -65,6 +73,9 @@ import HouseAdSlot from '@/ads/HouseAdSlot';
 
 import NewStatusModal from '@/pages/NewStatusModal.jsx';
 
+// ✅ Import your LogoGlyph component
+import LogoGlyph from '@/components/LogoGlyph.jsx';
+
 const NAV_W = 300;   // keep in sync with AppShell.navbar width
 const ASIDE_W = 280; // keep in sync with AppShell.aside width
 
@@ -73,10 +84,8 @@ function AuthedLayout() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { currentUser, setCurrentUser } = useUser();
 
-  // show Status by default in dev
   const [features, setFeatures] = useState({ status: true });
   const [activeCall, setActiveCall] = useState(null);
-
   const [showNewStatus, setShowNewStatus] = useState(false);
   const [hideStatusFab, setHideStatusFab] = useState(false);
   const location = useLocation();
@@ -126,7 +135,11 @@ function AuthedLayout() {
   const plan = (currentUser?.plan || 'free').toLowerCase();
   const tier = (currentUser?.subscription?.tier || '').toLowerCase();
   const isPremium = Boolean(
-    currentUser?.isPremium || plan === 'premium' || plan === 'plus' || tier === 'premium' || tier === 'plus'
+    currentUser?.isPremium ||
+    plan === 'premium' ||
+    plan === 'plus' ||
+    tier === 'premium' ||
+    tier === 'plus'
   );
 
   const me = currentUser || {};
@@ -145,7 +158,6 @@ function AuthedLayout() {
       padding="md"
     >
       <AppShell.Header>
-        {/* Make this relative so we can absolutely-position the Status pill */}
         <Group h="100%" px="md" justify="space-between" style={{ position: 'relative' }}>
           <Group>
             <Burger
@@ -154,7 +166,20 @@ function AuthedLayout() {
               hiddenFrom="sm"
               aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'}
             />
-            <Title order={3}>Chatforia</Title>
+
+            {/* ✅ Logo + title (linked to home) */}
+            <Anchor
+              component={Link}
+              to="/"
+              underline="never"
+              aria-label="Chatforia Home"
+              style={{ color: 'inherit' }}
+            >
+              <Group gap={8}>
+                <LogoGlyph size={30} />
+                <Title order={3} m={0}>Chatforia</Title>
+              </Group>
+            </Anchor>
           </Group>
 
           {/* ✅ Status pill lives in the header, not in Main */}
@@ -162,7 +187,7 @@ function AuthedLayout() {
             <div
               style={{
                 position: 'absolute',
-                left: NAV_W + 16,        // put it just past the vertical rail
+                left: NAV_W + 16,
                 top: '50%',
                 transform: 'translateY(-50%)',
               }}
@@ -203,7 +228,11 @@ function AuthedLayout() {
       <AppShell.Main id="main-content" tabIndex={-1}>
         <IncomingCallModal onAccept={handleAcceptIncoming} onReject={() => setActiveCall(null)} />
         {activeCall && (
-          <VideoCall identity={me.username} room={`dm:${peerId}`} onEnd={() => setActiveCall(null)} />
+          <VideoCall
+            identity={me.username}
+            room={`dm:${peerId}`}
+            onEnd={() => setActiveCall(null)}
+          />
         )}
 
         <AdProvider isPremium={isPremium}>
@@ -300,7 +329,6 @@ export default function AppRoutes() {
 
         <Route path="sms" element={<SmsThreads />} />
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
-
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
 
