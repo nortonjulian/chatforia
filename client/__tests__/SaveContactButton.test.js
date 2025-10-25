@@ -22,14 +22,25 @@ jest.mock('@tabler/icons-react', () => ({
   IconCheck: (props) => <span data-testid="icon-check" {...props} />,
 }));
 
-// axios client
-const getMock = jest.fn();
-const postMock = jest.fn();
+// axios client (use names starting with "mock" so Jest allows capture)
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+
+// Mock by alias path
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
-    get: (...args) => getMock(...args),
-    post: (...args) => postMock(...args),
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
+  },
+}));
+
+// Also mock the relative path the component uses: ../api/axiosClient -> src/api/axiosClient
+jest.mock('../src/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
   },
 }));
 
@@ -44,7 +55,7 @@ const props = { currentUserId: 'me-1', otherUserId: 'u-2' };
 
 describe('SaveContactButton', () => {
   test('already saved: shows "Saved" state from initial GET', async () => {
-    getMock.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: [{ userId: 'u-2', alias: 'Ally' }, { userId: 'u-9', alias: 'Other' }],
     });
 
@@ -59,8 +70,8 @@ describe('SaveContactButton', () => {
   });
 
   test('not saved: shows "Save Contact", then input + save; success posts and flips to "Saved"', async () => {
-    getMock.mockResolvedValueOnce({ data: [{ userId: 'someone-else' }] });
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockGet.mockResolvedValueOnce({ data: [{ userId: 'someone-else' }] });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     render(<SaveContactButton {...props} />);
 
@@ -79,10 +90,10 @@ describe('SaveContactButton', () => {
     fireEvent.click(saveBtn);
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/contacts', {
+      expect(mockPost).toHaveBeenCalledWith('/contacts', {
         ownerId: 'me-1',
         userId: 'u-2',
-        alias: ' Pal ', // component sends the current alias value as-is (trimming not enforced here)
+        alias: ' Pal ', // component sends current alias value as-is (no trimming)
       });
     });
 
@@ -91,8 +102,8 @@ describe('SaveContactButton', () => {
   });
 
   test('POST failure keeps input visible and logs error', async () => {
-    getMock.mockResolvedValueOnce({ data: [] });
-    postMock.mockRejectedValueOnce(new Error('save failed'));
+    mockGet.mockResolvedValueOnce({ data: [] });
+    mockPost.mockRejectedValueOnce(new Error('save failed'));
 
     render(<SaveContactButton {...props} />);
 
@@ -117,7 +128,7 @@ describe('SaveContactButton', () => {
   });
 
   test('GET failure logs error and defaults to unsaved UI', async () => {
-    getMock.mockRejectedValueOnce(new Error('fetch failed'));
+    mockGet.mockRejectedValueOnce(new Error('fetch failed'));
 
     render(<SaveContactButton {...props} />);
 
@@ -133,8 +144,8 @@ describe('SaveContactButton', () => {
   });
 
   test('can save with empty alias (optional field)', async () => {
-    getMock.mockResolvedValueOnce({ data: [] });
-    postMock.mockResolvedValueOnce({ data: { ok: true } });
+    mockGet.mockResolvedValueOnce({ data: [] });
+    mockPost.mockResolvedValueOnce({ data: { ok: true } });
 
     render(<SaveContactButton {...props} />);
 
@@ -143,7 +154,7 @@ describe('SaveContactButton', () => {
     fireEvent.click(screen.getByRole('button', { name: /^save$/i }));
 
     await waitFor(() => {
-      expect(postMock).toHaveBeenCalledWith('/contacts', {
+      expect(mockPost).toHaveBeenCalledWith('/contacts', {
         ownerId: 'me-1',
         userId: 'u-2',
         alias: '',

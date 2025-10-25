@@ -5,9 +5,26 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import { renderWithRouter } from '../src/test-utils.js';
 
-// ---- Inline mock for @mantine/core ----
-// Make sure you DON'T have a moduleNameMapper redirecting @mantine/core;
-// otherwise this inline mock will be ignored.
+// ---- Mock toast (avoids evaluating import.meta.env in src/utils/toast) ----
+jest.mock('../src/utils/toast', () => ({
+  __esModule: true,
+  toast: {
+    ok: jest.fn(),
+    err: jest.fn(),
+    info: jest.fn(),
+  },
+}));
+
+// ---- Mock encryption (keeps tests fast and avoids pulling extra deps) ----
+jest.mock('@/utils/encryptionClient', () => ({
+  __esModule: true,
+  encryptForRoom: jest.fn(async (_participants, text) => ({
+    iv: 'iv',
+    ct: `enc:${text}`,
+    alg: 'mock-aes',
+    keyIds: [],
+  })),
+}));
 
 // ---- axiosClient mock ----
 const mockPost = jest.fn();
@@ -33,7 +50,7 @@ jest.mock('../src/components/StickerPicker.jsx', () => ({
     ) : null,
 }));
 
-// Import component AFTER mocks
+// ---- SUT (import AFTER mocks) ----
 import MessageInput from '../src/components/MessageInput.jsx';
 
 beforeEach(() => {

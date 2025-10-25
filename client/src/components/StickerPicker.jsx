@@ -27,7 +27,28 @@ function emojiToTwemojiUrl(native) {
   return `https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/${fn}.svg`;
 }
 
-const TENOR_KEY = import.meta.env.VITE_TENOR_KEY || '';
+// ---- SAFE Tenor key resolution (works in Vite and Jest/CJS) ----
+const TENOR_KEY = (() => {
+  // 1) Jest / Node tests set this:
+  if (typeof process !== 'undefined' && process.env && process.env.VITE_TENOR_KEY) {
+    return process.env.VITE_TENOR_KEY;
+  }
+  // 2) Optional global override for tests or non-Vite envs
+  if (typeof globalThis !== 'undefined' && globalThis.__ENV?.VITE_TENOR_KEY) {
+    return globalThis.__ENV.VITE_TENOR_KEY;
+  }
+  // 3) Vite runtime (avoid parsing `import.meta` in CJS by using Function)
+  try {
+    // eslint-disable-next-line no-new-func
+    const readVite = new Function(
+      'try { return import.meta && import.meta.env && import.meta.env.VITE_TENOR_KEY } catch { return "" }'
+    );
+    return readVite() || '';
+  } catch {
+    return '';
+  }
+})();
+
 const TENOR_CLIENT = 'chatforia-web';
 const TENOR_LIMIT = 36;
 
@@ -36,7 +57,8 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = TA
 
   // keep tab in sync with caller (works when modal is already open too)
   useEffect(() => {
-    const next = (initialTab === TAB_GIFS || initialTab === TAB_EMOJI) ? initialTab : TAB_EMOJI;
+    const next =
+      initialTab === TAB_GIFS || initialTab === TAB_EMOJI ? initialTab : TAB_EMOJI;
     if (next !== tab) setTab(next);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialTab]);
@@ -68,6 +90,7 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = TA
         .filter((x) => x.url);
       setGifs(items);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error('Tenor fetch failed', e);
       setGifs([]);
     } finally {

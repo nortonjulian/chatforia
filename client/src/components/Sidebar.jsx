@@ -24,18 +24,19 @@ import {
   Search as SearchIcon,
 } from 'lucide-react';
 
-import StartChatModal from './StartChatModal';
-import ChatroomsSidebar from './ChatroomsSidebar'; // now used in list-only mode
-import UserProfile from './UserProfile';
+import StartChatModal from '@/components/StartChatModal';
+import ChatroomsSidebar from '@/components/ChatroomsSidebar';
+import UserProfile from '@/components/UserProfile';
 
 // Ads
 import AdSlot from '@/ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
-function Sidebar({ currentUser, setSelectedRoom }) {
+function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
   const [showStartModal, setShowStartModal] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
+
   const navigate = useNavigate();
 
   const isPremium = useMemo(
@@ -51,24 +52,25 @@ function Sidebar({ currentUser, setSelectedRoom }) {
     setShowStartModal(true);
   };
 
-  // open StartChatModal via global event
+  // Allow external code to open the StartChatModal by dispatching window event
   useEffect(() => {
     const onOpen = () => setShowStartModal(true);
     window.addEventListener('open-new-chat-modal', onOpen);
     return () => window.removeEventListener('open-new-chat-modal', onOpen);
   }, []);
 
-  // search state (client-side filter)
+  // Local chatroom search/filter state
   const [query, setQuery] = useState('');
   const [roomCount, setRoomCount] = useState(0);
+
   const refreshRoomsRef = useCallback(() => {
-    // ChatroomsSidebar will expose a reload handler via CustomEvent
+    // ChatroomsSidebar listens for this custom event to reload its data
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* Top icons */}
+      {/* Top icons row */}
       <Group justify="space-between" mb="sm">
         <ActionIcon
           variant="subtle"
@@ -105,6 +107,7 @@ function Sidebar({ currentUser, setSelectedRoom }) {
 
       {/* Quick links */}
       <Stack gap="xs" mb="sm">
+        {/* Random Chat: only when logged in */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -118,6 +121,20 @@ function Sidebar({ currentUser, setSelectedRoom }) {
           </Button>
         )}
 
+        {/* Status link: behind feature flag, shown whether logged in or not */}
+        {features?.status && (
+          <Button
+            variant="subtle"
+            size="xs"
+            component={Link}
+            to="/status"
+            aria-label="Status"
+          >
+            Status
+          </Button>
+        )}
+
+        {/* Forwarding settings: only when logged in */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -134,7 +151,7 @@ function Sidebar({ currentUser, setSelectedRoom }) {
         )}
       </Stack>
 
-      {/* 🧱 Desktop-only ad (FREE plan only) */}
+      {/* Desktop-only ad (FREE plan only) */}
       {!isPremium && !isMobile && (
         <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
       )}
@@ -155,7 +172,7 @@ function Sidebar({ currentUser, setSelectedRoom }) {
         </ActionIcon>
       </Group>
 
-      {/* Search box under Conversations */}
+      {/* Conversation search box */}
       <TextInput
         placeholder="Search conversations.."
         leftSection={<SearchIcon size={14} />}
@@ -165,10 +182,9 @@ function Sidebar({ currentUser, setSelectedRoom }) {
         aria-label="Search conversations"
       />
 
-      {/* Main list area */}
+      {/* Chatroom list area */}
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
-          {/* List-only mode: no header, no empty-state CTA */}
           <ChatroomsSidebar
             onStartNewChat={() => setShowStartModal(true)}
             onSelect={setSelectedRoom}
@@ -180,6 +196,7 @@ function Sidebar({ currentUser, setSelectedRoom }) {
         </Stack>
       </ScrollArea.Autosize>
 
+      {/* Start New Chat modal */}
       {showStartModal && currentUser && (
         <StartChatModal
           currentUserId={currentUser?.id}
@@ -201,14 +218,21 @@ function Sidebar({ currentUser, setSelectedRoom }) {
       >
         {currentUser ? (
           <Stack gap="xl">
-            <UserProfile onLanguageChange={() => {}} openSection={profileTarget} />
+            <UserProfile
+              onLanguageChange={() => {}}
+              openSection={profileTarget}
+            />
           </Stack>
         ) : (
           <Stack gap="sm">
             <Text c="dimmed">Log in to edit your settings.</Text>
             <Group>
-              <Button component={Link} to="/" variant="filled">Log in</Button>
-              <Button component={Link} to="/register" variant="light">Create account</Button>
+              <Button component={Link} to="/" variant="filled">
+                Log in
+              </Button>
+              <Button component={Link} to="/register" variant="light">
+                Create account
+              </Button>
             </Group>
           </Stack>
         )}

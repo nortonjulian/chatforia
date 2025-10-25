@@ -3,12 +3,19 @@ import http from 'http';
 import { createApp } from './app.js';
 import { initSocket } from './socket.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
+import { initCrons } from './cron/index.js'; // moved here from app.js
 
 import validateEnv from './config/validateEnv.js';
 import { ENV } from './config/env.js';
 import logger from './utils/logger.js';
 
-/** Build the express app instance (exported for tests) */
+/**
+ * Build the express app instance (exported for tests)
+ * This uses createApp() from app.js, which should now be PURE:
+ * - no app.listen()
+ * - no initCrons()
+ * - no long-lived timers
+ */
 export function makeApp() {
   const app = createApp();
 
@@ -16,11 +23,15 @@ export function makeApp() {
   app.get('/__routes_dump', (req, res) => {
     const layers = app._router?.stack || [];
     const hasStatusRouter = layers.some((layer) => {
-      if (layer?.name === 'router' && layer?.regexp) return String(layer.regexp).includes('^\\/status');
+      if (layer?.name === 'router' && layer?.regexp)
+        return String(layer.regexp).includes('^\\/status');
       if (layer?.route?.path === '/status') return true;
       return false;
     });
-    res.json({ statusFlag: String(process.env.STATUS_ENABLED || ''), hasStatusRouter });
+    res.json({
+      statusFlag: String(process.env.STATUS_ENABLED || ''),
+      hasStatusRouter,
+    });
   });
 
   return app;
@@ -40,18 +51,28 @@ process.on('uncaughtException', (err) => {
 validateEnv();
 
 if (ENV.IS_TEST) {
-  // In tests we only export the factory; the test harness will call makeApp()
+  // In tests we only export makeApp(); Jest will import app.js directly
+  // or call makeApp() if it wants an isolated instance.
   logger.info({ env: ENV.NODE_ENV }, 'Loaded server in test mode (no listener)');
 } else {
+  // ---- REAL RUNTIME (dev/prod) ----
   const app = makeApp();
   const server = http.createServer(app);
 
-  // Wire Socket.IO (and stash helpers on app for routes/services)
+  // Start cron jobs (ONLY in real runtime, NOT in tests)
+  try {
+    initCrons();
+    logger.info('Cron jobs started');
+  } catch (e) {
+    logger.warn({ err: e }, 'Cron init failed');
+  }
+
+  // Wire up Socket.IO and stash helpers so routes/services can emit
   const { io, emitToUser, close: closeSockets } = initSocket(server);
   app.set('io', io);
   app.set('emitToUser', emitToUser);
 
-  // Start background cleanup cron
+  // Start background cleanup cron (auto-delete expired messages, etc.)
   try {
     startCleanupJobs();
     logger.info('Cleanup jobs started');
@@ -59,16 +80,19 @@ if (ENV.IS_TEST) {
     logger.warn({ err: e }, 'Failed to start cleanup jobs');
   }
 
-  // Start HTTP
+  // Start HTTP server
   server.listen(ENV.PORT, () => {
-    logger.info({ port: ENV.PORT, env: ENV.NODE_ENV }, '🚀 Chatforia server listening');
+    logger.info(
+      { port: ENV.PORT, env: ENV.NODE_ENV },
+      '🚀 Chatforia server listening'
+    );
   });
 
   // Graceful shutdown
   async function shutdown(sig) {
     logger.warn({ sig }, 'Shutting down...');
 
-    // Stop cron tasks first to avoid new work
+    // Stop cron tasks first so no new work is scheduled
     try {
       stopCleanupJobs();
       logger.info('Cleanup jobs stopped');
@@ -76,7 +100,7 @@ if (ENV.IS_TEST) {
       logger.warn({ err: e }, 'Cleanup stop error');
     }
 
-    // Close websockets/redis adapter
+    // Close websockets / Socket.IO adapters
     try {
       if (closeSockets) await closeSockets();
       logger.info('Socket layer closed');
@@ -84,7 +108,7 @@ if (ENV.IS_TEST) {
       logger.warn({ err: e }, 'Socket close error');
     }
 
-    // Disconnect Prisma
+    // Disconnect Prisma (DB pool)
     try {
       const { default: prisma } = await import('./utils/prismaClient.js');
       await prisma.$disconnect?.();

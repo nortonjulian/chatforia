@@ -6,8 +6,6 @@ import rateLimit from 'express-rate-limit';
 // import listEndpoints from 'express-list-endpoints';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initCrons } from './cron/index.js';
-initCrons();
 
 // SAFE Sentry wrappers (no-op when DSN is missing/invalid)
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';

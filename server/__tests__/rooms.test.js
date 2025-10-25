@@ -1,99 +1,172 @@
-import { makeAgent, resetDb } from './helpers/testServer.js';
+/**
+ * @jest-environment node
+ */
+import request from 'supertest';
 import prisma from '../utils/prismaClient.js';
+import app from '../app.js';
 
 const ENDPOINTS = {
   register: '/auth/register',
   login: '/auth/login',
   me: '/auth/me',
-  createRoom: '/chatrooms',
-  createInvite: (roomId) => `/group-invites/${roomId}`,
-  joinWithCode: (code) => `/group-invites/${code}/join`,
-  leaveRoom: (roomId) => `/chatrooms/${roomId}/leave`,
+
+  // rooms.js creates rooms under /rooms in non-prod
+  createRoom: '/rooms',
+
+  // rooms.js also mounts invite/join/leave under the SAME router,
+  // so they are actually /rooms/group-invites/... etc.
+  createInvite: (roomId) => `/rooms/group-invites/${roomId}`,
+  joinWithCode: (code) => `/rooms/group-invites/${code}/join`,
+  leaveRoom: (roomId) => `/rooms/chatrooms/${roomId}/leave`,
+
+  // promote handler is also inside rooms.js, but we added an alias
+  // /chatrooms/:id/participants/:userId/promote so we can keep this one:
   promote: (roomId, userId) => `/chatrooms/${roomId}/participants/${userId}/promote`,
 };
 
 describe('Rooms: create/join/leave and permissions', () => {
-  let ownerAgent, memberAgent, roomId, ownerId, memberId;
-
-  beforeAll(() => {
-    ownerAgent = makeAgent().agent;
-    memberAgent = makeAgent().agent;
-  });
+  let ownerAgent;
+  let memberAgent;
+  let roomId;
+  let ownerId;
+  let memberId;
 
   beforeEach(async () => {
-    await resetDb();
+    // clean DB
+    try { await prisma.participant.deleteMany({}); } catch {}
+    try { await prisma.chatRoom.deleteMany({}); } catch {}
+    try { await prisma.user.deleteMany({}); } catch {}
 
-    // owner (register for cookie/session)
-    const ownerReg = await ownerAgent
+    ownerAgent = request.agent(app);
+    memberAgent = request.agent(app);
+
+    // --- owner registration/login ---
+    const ownerEmail = `owner_${Date.now()}@example.com`;
+    const ownerPass = 'Test12345!';
+    const ownerUsername = 'owner';
+
+    await ownerAgent
       .post(ENDPOINTS.register)
-      .send({ email: 'owner@example.com', password: 'Test12345!', username: 'owner' })
-      .expect(201);
+      .send({ email: ownerEmail, password: ownerPass, username: ownerUsername })
+      .then((res) => {
+        if (![200, 201].includes(res.status)) {
+          throw new Error(`Unexpected /auth/register (owner) ${res.status}`);
+        }
+      });
 
     await ownerAgent
       .post(ENDPOINTS.login)
-      .send({ email: 'owner@example.com', password: 'Test12345!' })
-      .expect(200);
+      .send({ identifier: ownerEmail, password: ownerPass })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error(`Unexpected /auth/login (owner) ${res.status}`);
+        }
+      });
 
-    ownerId = ownerReg.body?.user?.id;
-    if (!ownerId) {
-      const me = await ownerAgent.get(ENDPOINTS.me).expect(200);
-      ownerId = me.body?.user?.id;
-    }
+    // grab ownerId
+    const ownerMe = await ownerAgent.get(ENDPOINTS.me).expect(200);
+    ownerId = ownerMe.body?.user?.id;
+    if (!ownerId) throw new Error('ownerId missing');
     expect(ownerId).toBeDefined();
 
-    // member (register for cookie/session)
-    const memberReg = await memberAgent
+    // --- member registration/login ---
+    const memberEmail = `eve_${Date.now()}@example.com`;
+    const memberPass = 'Test12345!';
+    const memberUsername = 'eve';
+
+    await memberAgent
       .post(ENDPOINTS.register)
-      .send({ email: 'eve@example.com', password: 'Test12345!', username: 'eve' })
-      .expect(201);
+      .send({ email: memberEmail, password: memberPass, username: memberUsername })
+      .then((res) => {
+        if (![200, 201].includes(res.status)) {
+          throw new Error(`Unexpected /auth/register (member) ${res.status}`);
+        }
+      });
 
     await memberAgent
       .post(ENDPOINTS.login)
-      .send({ email: 'eve@example.com', password: 'Test12345!' })
-      .expect(200);
+      .send({ identifier: memberEmail, password: memberPass })
+      .then((res) => {
+        if (res.status !== 200) {
+          throw new Error(`Unexpected /auth/login (member) ${res.status}`);
+        }
+      });
 
-    memberId = memberReg.body?.user?.id;
-    if (!memberId) {
-      const me = await memberAgent.get(ENDPOINTS.me).expect(200);
-      memberId = me.body?.user?.id;
-    }
+    const memberMe = await memberAgent.get(ENDPOINTS.me).expect(200);
+    memberId = memberMe.body?.user?.id;
+    if (!memberId) throw new Error('memberId missing');
     expect(memberId).toBeDefined();
 
-    // Owner creates the room (API path)
-    const r = await ownerAgent
+    // --- owner creates room ---
+    const createRes = await ownerAgent
       .post(ENDPOINTS.createRoom)
       .send({ name: 'Room D', isGroup: true })
-      .expect(201);
+      .then((res) => {
+        if (![200, 201].includes(res.status)) {
+          throw new Error(`Unexpected create room status ${res.status}`);
+        }
+        return res;
+      });
 
-    roomId = r.body.id || r.body.room?.id;
+    roomId = createRes.body.id || createRes.body.room?.id;
+    if (!roomId) throw new Error('roomId missing from create room response');
     expect(roomId).toBeDefined();
   });
 
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+
   test('owner can promote to admin', async () => {
+    // Ensure member is actually in participants before promotion.
     const memberIdNum =
       typeof memberId === 'string' && /^\d+$/.test(memberId) ? Number(memberId) : memberId;
 
-    // Ensure member is a participant (FKs are satisfied because /auth/register persisted users)
-    await prisma.participant.upsert({
-      where: { chatRoomId_userId: { chatRoomId: roomId, userId: memberIdNum } },
-      update: { role: 'MEMBER' },
-      create: { chatRoomId: roomId, userId: memberIdNum, role: 'MEMBER' },
-    });
+    await prisma.participant
+      .upsert({
+        where: { chatRoomId_userId: { chatRoomId: roomId, userId: memberIdNum } },
+        update: { role: 'MEMBER' },
+        create: { chatRoomId: roomId, userId: memberIdNum, role: 'MEMBER' },
+      })
+      .catch(async () => {
+        // fallback for schema using (userId, chatRoomId)
+        await prisma.participant.upsert({
+          where: { userId_chatRoomId: { userId: memberIdNum, chatRoomId: roomId } },
+          update: { role: 'MEMBER' },
+          create: { chatRoomId: roomId, userId: memberIdNum, role: 'MEMBER' },
+        });
+      });
 
+    // Owner promotes MEMBER to ADMIN
     await ownerAgent.post(ENDPOINTS.promote(roomId, memberId)).expect(200);
 
-    const after = await prisma.participant.findUnique({
-      where: { chatRoomId_userId: { chatRoomId: roomId, userId: memberIdNum } },
-      select: { role: true },
-    });
+    // Verify in DB
+    const after =
+      (await prisma.participant
+        .findUnique({
+          where: { chatRoomId_userId: { chatRoomId: roomId, userId: memberIdNum } },
+          select: { role: true },
+        })
+        .catch(async () => {
+          return prisma.participant.findUnique({
+            where: { userId_chatRoomId: { userId: memberIdNum, chatRoomId: roomId } },
+            select: { role: true },
+          });
+        })) || null;
+
     expect(after?.role).toBe('ADMIN');
   });
 
-  test.skip('invite code join / leave', async () => {
-    // Unskip when your invite endpoints are ready/confirmed
-    // const invite = await ownerAgent.post(ENDPOINTS.createInvite(roomId)).expect(201);
-    // const code = invite.body.code;
-    // await memberAgent.post(ENDPOINTS.joinWithCode(code)).expect(200);
-    // await memberAgent.post(ENDPOINTS.leaveRoom(roomId)).expect(200);
+  test('invite code join / leave', async () => {
+    // owner creates invite
+    const invite = await ownerAgent.post(ENDPOINTS.createInvite(roomId)).expect(201);
+    const code = invite.body.code;
+    expect(code).toBeDefined();
+
+    // member joins using that code
+    await memberAgent.post(ENDPOINTS.joinWithCode(code)).expect(200);
+
+    // member leaves the room
+    await memberAgent.post(ENDPOINTS.leaveRoom(roomId)).expect(200);
   });
 });

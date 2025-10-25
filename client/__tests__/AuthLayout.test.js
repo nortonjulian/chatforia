@@ -116,10 +116,7 @@ describe('AuthLayout', () => {
 
     // Status + Upgrade links
     expect(screen.getByRole('link', { name: /status/i })).toHaveAttribute('href', '/status');
-    expect(screen.getByRole('link', { name: /upgrade/i })).toHaveAttribute(
-      'href',
-      '/settings/upgrade'
-    );
+    expect(screen.getByRole('link', { name: /upgrade/i })).toHaveAttribute('href', '/upgrade');
 
     // App Store / Google Play links present
     expect(screen.getByRole('link', { name: /download on the app store/i })).toHaveAttribute(

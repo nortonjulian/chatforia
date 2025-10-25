@@ -13,7 +13,13 @@ import {
   Skeleton,
   Tooltip,
 } from '@mantine/core';
-import { IconRefresh, IconTrash, IconMessagePlus, IconSearch, IconMessage } from '@tabler/icons-react';
+import {
+  IconRefresh,
+  IconTrash,
+  IconMessagePlus,
+  IconSearch,
+  IconMessage,
+} from '@tabler/icons-react';
 
 // --- tiny, safe toast fallback so we don't crash if your toast util isn't wired yet
 const toast = {
@@ -25,10 +31,10 @@ const toast = {
 export default function ContactList({ currentUserId, onChanged }) {
   const navigate = useNavigate();
 
-  const [items, setItems] = useState([]);             // raw contacts from server
+  const [items, setItems] = useState([]); // raw contacts from server
   const [nextCursor, setNextCursor] = useState(null); // server pagination cursor (optional)
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');           // local (saved contacts) filter
+  const [search, setSearch] = useState(''); // local (saved contacts) filter
 
   async function fetchContacts({ cursor = null, append = false } = {}) {
     try {
@@ -38,7 +44,11 @@ export default function ContactList({ currentUserId, onChanged }) {
         params: { limit: 50, ...(cursor ? { cursor } : {}) },
       });
 
-      const list = Array.isArray(data) ? data : Array.isArray(data?.items) ? data.items : [];
+      const list = Array.isArray(data)
+        ? data
+        : Array.isArray(data?.items)
+        ? data.items
+        : [];
       const nextList = append ? [...items, ...list] : list;
 
       setItems(nextList);
@@ -98,7 +108,9 @@ export default function ContactList({ currentUserId, onChanged }) {
   const deleteContact = async (userId, externalPhone) => {
     try {
       await axiosClient.delete('/contacts', {
-        data: userId ? { ownerId: currentUserId, userId } : { ownerId: currentUserId, externalPhone },
+        data: userId
+          ? { ownerId: currentUserId, userId }
+          : { ownerId: currentUserId, externalPhone },
       });
       await fetchContacts({ append: false });
       toast.ok('Contact deleted.');
@@ -157,11 +169,14 @@ export default function ContactList({ currentUserId, onChanged }) {
           <Skeleton h={52} />
         </Stack>
       ) : filteredItems.length === 0 ? (
-        <Text c="dimmed" size="sm">No contacts found.</Text>
+        <Text c="dimmed" size="sm">
+          No contacts found.
+        </Text>
       ) : (
         <Stack gap="xs">
           {filteredItems.map((c) => {
-            const key = c.id ?? `${c.userId ?? c.externalPhone ?? Math.random()}`;
+            const key =
+              c.id ?? `${c.userId ?? c.externalPhone ?? Math.random()}`;
             const username = c.user?.username || '';
             const displayName =
               c.alias ||
@@ -171,12 +186,24 @@ export default function ContactList({ currentUserId, onChanged }) {
               (c.userId ? `User #${c.userId}` : 'External contact');
 
             const secondary =
-              c.alias && username && c.alias.toLowerCase() !== username.toLowerCase()
+              c.alias &&
+              username &&
+              c.alias.toLowerCase() !== username.toLowerCase()
                 ? username
-                : (c.externalPhone && c.externalPhone !== displayName ? c.externalPhone : '');
+                : c.externalPhone && c.externalPhone !== displayName
+                ? c.externalPhone
+                : '';
 
             const goCompose = () =>
-              navigate(`/sms/compose?to=${encodeURIComponent(c.externalPhone)}${c.alias ? `&name=${encodeURIComponent(c.alias)}` : ''}`);
+              navigate(
+                `/sms/compose?to=${encodeURIComponent(
+                  c.externalPhone
+                )}${
+                  c.alias
+                    ? `&name=${encodeURIComponent(c.alias)}`
+                    : ''
+                }`
+              );
 
             return (
               <Group key={key} justify="space-between" align="center">
@@ -192,10 +219,22 @@ export default function ContactList({ currentUserId, onChanged }) {
                     cursor: c.userId ? 'pointer' : 'default',
                   }}
                 >
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                    }}
+                  >
                     <span>{displayName}</span>
                     {secondary ? (
-                      <span style={{ fontSize: 12, opacity: 0.65 }}>{secondary}</span>
+                      <span
+                        style={{
+                          fontSize: 12,
+                          opacity: 0.65,
+                        }}
+                      >
+                        {secondary}
+                      </span>
                     ) : null}
                   </div>
                 </button>
@@ -206,7 +245,11 @@ export default function ContactList({ currentUserId, onChanged }) {
                   size="xs"
                   maw={180}
                   onBlur={(e) =>
-                    updateAlias(c.userId, c.externalPhone, e.currentTarget.value)
+                    updateAlias(
+                      c.userId,
+                      c.externalPhone,
+                      e.currentTarget.value
+                    )
                   }
                 />
 
@@ -242,7 +285,9 @@ export default function ContactList({ currentUserId, onChanged }) {
                       color="red"
                       variant="subtle"
                       aria-label="Delete contact"
-                      onClick={() => deleteContact(c.userId, c.externalPhone)}
+                      onClick={() =>
+                        deleteContact(c.userId, c.externalPhone)
+                      }
                     >
                       <IconTrash size={16} />
                     </ActionIcon>
@@ -258,7 +303,9 @@ export default function ContactList({ currentUserId, onChanged }) {
         <Group justify="center" mt="md">
           <Button
             variant="light"
-            onClick={() => fetchContacts({ cursor: nextCursor, append: true })}
+            onClick={() =>
+              fetchContacts({ cursor: nextCursor, append: true })
+            }
           >
             Load more
           </Button>

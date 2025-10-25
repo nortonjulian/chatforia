@@ -267,7 +267,7 @@ enum VerificationType {
 model VerificationToken {
   id        Int              @id @default(autoincrement())
   userId    Int
-  type      VerificationType
+  type      String 
   tokenHash String
   expiresAt DateTime
   usedAt    DateTime?

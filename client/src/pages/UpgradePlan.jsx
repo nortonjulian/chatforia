@@ -24,9 +24,16 @@ function PlanCard({
   disabled = false,
   loading = false,
   badge,
+  testId, // NEW
 }) {
   return (
-    <Card withBorder radius="xl" shadow={highlight ? 'md' : 'sm'} p="lg">
+    <Card
+      withBorder
+      radius="xl"
+      shadow={highlight ? 'md' : 'sm'}
+      p="lg"
+      data-testid={testId} // NEW
+    >
       <Stack gap="xs">
         <Group justify="space-between" align="center">
           <Title order={3}>{title}</Title>
@@ -157,10 +164,12 @@ export default function UpgradePage({ variant = 'account' }) {
         </Alert>
       )}
 
-      {/* 2×2 grid: Free / Plus on the top row, Premium Monthly / Premium Annual on the bottom row */}
+      {/* 2×2 grid: Free / Plus / Premium Monthly / Premium Annual */}
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+
         {/* Free */}
         <PlanCard
+          testId="plan-free"
           title="Free"
           price="$0"
           features={[
@@ -175,6 +184,7 @@ export default function UpgradePage({ variant = 'account' }) {
 
         {/* Plus (Ad-free) */}
         <PlanCard
+          testId="plan-plus"
           title="Plus"
           price="$4.99 / mo"
           features={[
@@ -196,11 +206,16 @@ export default function UpgradePage({ variant = 'account' }) {
               ? (isPlus || isPremium ? openBillingPortal() : startCheckout('PLUS_MONTHLY'))
               : navigate('/login?next=/upgrade')
           }
-          loading={isAuthed ? (isPlus || isPremium ? loadingPortal : loadingCheckout) : false}
+          loading={
+            isAuthed
+              ? (isPlus || isPremium ? loadingPortal : loadingCheckout)
+              : false
+          }
         />
 
         {/* Premium — Monthly */}
         <PlanCard
+          testId="plan-premium-monthly"
           title="Premium (Monthly)"
           price="$24.99 / mo"
           features={[
@@ -217,18 +232,23 @@ export default function UpgradePage({ variant = 'account' }) {
               ? (isPremium
                   ? (loadingPortal ? 'Opening…' : 'Manage Billing')
                   : (loadingCheckout ? 'Redirecting…' : 'Upgrade (Monthly)'))
-            : 'Continue'
+              : 'Continue'
           }
           onClick={() =>
             isAuthed
               ? (isPremium ? openBillingPortal() : startCheckout('PREMIUM_MONTHLY'))
               : navigate('/login?next=/upgrade')
           }
-          loading={isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false}
+          loading={
+            isAuthed
+              ? (isPremium ? loadingPortal : loadingCheckout)
+              : false
+          }
         />
 
         {/* Premium — Annual */}
         <PlanCard
+          testId="plan-premium-annual"
           title="Premium (Annual)"
           price="$225 / year"
           features={[

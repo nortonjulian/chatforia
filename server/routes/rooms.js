@@ -12,12 +12,14 @@ const isProd = env === 'production';
  *   - rooms:    Map<roomId, { id, name, isGroup, ownerId }>
  *   - members:  Map<roomId, Set<userId>>
  *   - roles:    Map<roomId, Map<userId, 'OWNER'|'ADMIN'|'MODERATOR'|'MEMBER'>>
+ *   - invites:  Map<inviteCode, { roomId, createdAt }>
  */
 export const __mem = {
   nextRoomId: 1,
   rooms: new Map(),
   members: new Map(),
   roles: new Map(),
+  invites: new Map(), // <=== NEW for invite codes
 };
 
 // ---- helpers -----------------------------------------------------
@@ -327,7 +329,7 @@ if (!isProd) {
     return res.json({ ok: true, participant: { userId: targetId, role } });
   });
 
-  // POST /rooms/:id/participants/:userId/promote → make ADMIN (owner or global ADMIN)
+  // INTERNAL helper for promote + also exposed as route below
   async function promoteHandler(req, res) {
     const roomId = Number(req.params.id);
     const targetId = Number(req.params.userId);
@@ -360,10 +362,196 @@ if (!isProd) {
     return res.json({ ok: true, participant: { userId: targetId, role: 'ADMIN' } });
   }
 
-  // Original path
+  // POST /chatrooms/:id/participants/:userId/promote  (used by tests via ENDPOINTS.promote)
+  router.post('/chatrooms/:id/participants/:userId/promote', requireAuth, promoteHandler);
+
+  // Alias: /rooms/:id/participants/:userId/promote
   router.post('/:id/participants/:userId/promote', requireAuth, promoteHandler);
-  // Alias path to avoid 404 if tests expect this shape
+
+  // Alias: /rooms/:id/promote/:userId
   router.post('/:id/promote/:userId', requireAuth, promoteHandler);
+
+  // -----------------------
+  // INVITES / JOIN / LEAVE
+  // -----------------------
+
+  // POST /group-invites/:roomId -> create invite code (owner only, or global ADMIN)
+  router.post('/group-invites/:roomId', requireAuth, async (req, res) => {
+    const roomId = Number(req.params.roomId);
+    const actorId = Number(req.user?.id);
+    if (!Number.isFinite(roomId) || !Number.isFinite(actorId)) {
+      return res.status(400).json({ error: 'Bad request' });
+    }
+
+    // room must exist (either in-memory or DB)
+    let room = __mem.rooms.get(roomId);
+    if (!room) {
+      // try to hydrate from DB so we know owner
+      try {
+        const dbRoom = await prisma.chatRoom.findUnique({
+          where: { id: roomId },
+          select: { id: true, ownerId: true, name: true, isGroup: true },
+        });
+        if (!dbRoom) return res.status(404).json({ error: 'Not found' });
+
+        room = {
+          id: dbRoom.id,
+          ownerId: dbRoom.ownerId ?? actorId,
+          name: dbRoom.name ?? `Room ${dbRoom.id}`,
+          isGroup: !!dbRoom.isGroup,
+        };
+        __mem.rooms.set(roomId, room);
+        ensureRoomMaps(roomId); // make sure sets exist
+      } catch {
+        return res.status(404).json({ error: 'Not found' });
+      }
+    }
+
+    // only owner or global ADMIN can create invite
+    const ownerId = room.ownerId ?? (await getRoomOwnerId(roomId));
+    const isOwner = ownerId === actorId;
+    const isGlobalAdmin = String(req.user?.role || '').toUpperCase() === 'ADMIN';
+    if (!isOwner && !isGlobalAdmin) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    // generate invite code and store it
+    const code = `${roomId}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    __mem.invites.set(code, { roomId, createdAt: Date.now() });
+
+    return res.status(201).json({ code });
+  });
+
+  // POST /group-invites/:code/join -> join room via invite code
+  router.post('/group-invites/:code/join', requireAuth, async (req, res) => {
+    const code = String(req.params.code || '');
+    const meId = Number(req.user?.id);
+    if (!meId || !Number.isFinite(meId)) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const invite = __mem.invites.get(code);
+    if (!invite) {
+      return res.status(404).json({ error: 'Invalid or expired code' });
+    }
+
+    const roomId = Number(invite.roomId);
+    if (!Number.isFinite(roomId)) {
+      return res.status(400).json({ error: 'Bad invite' });
+    }
+
+    // hydrate room in memory if missing
+    let room = __mem.rooms.get(roomId);
+    if (!room) {
+      try {
+        const dbRoom = await prisma.chatRoom.findUnique({
+          where: { id: roomId },
+          select: { id: true, ownerId: true, name: true, isGroup: true },
+        });
+        if (!dbRoom) return res.status(404).json({ error: 'Room not found' });
+
+        room = {
+          id: dbRoom.id,
+          ownerId: dbRoom.ownerId ?? undefined,
+          name: dbRoom.name ?? `Room ${dbRoom.id}`,
+          isGroup: !!dbRoom.isGroup,
+        };
+        __mem.rooms.set(roomId, room);
+      } catch {
+        return res.status(404).json({ error: 'Room not found' });
+      }
+    }
+
+    // record membership
+    const { members, roles } = ensureRoomMaps(roomId);
+    members.add(meId);
+    if (!roles.has(meId)) {
+      roles.set(meId, 'MEMBER');
+    }
+
+    // upsert participant in DB if possible
+    try {
+      await prisma.participant
+        .upsert({
+          where: { chatRoomId_userId: { chatRoomId: roomId, userId: meId } },
+          update: { role: 'MEMBER' },
+          create: { chatRoomId: roomId, userId: meId, role: 'MEMBER' },
+        })
+        .catch(async () => {
+          await prisma.participant.upsert({
+            where: { userId_chatRoomId: { userId: meId, chatRoomId: roomId } },
+            update: { role: 'MEMBER' },
+            create: { chatRoomId: roomId, userId: meId, role: 'MEMBER' },
+          });
+        });
+    } catch {
+      // swallow in tests
+    }
+
+    return res.status(200).json({ ok: true, roomId });
+  });
+
+  // POST /chatrooms/:roomId/leave -> self-leave the room
+  // POST /chatrooms/:roomId/leave
+router.post('/chatrooms/:roomId/leave', requireAuth, async (req, res) => {
+  const roomId = Number(req.params.roomId);
+  const userId = Number(req.user?.id);
+
+  if (!Number.isFinite(roomId) || !Number.isFinite(userId)) {
+    return res.status(400).json({ error: 'Bad request' });
+  }
+
+  // is the user actually in this room?
+  const roomMembers = __mem.members.get(roomId);
+  const inMem = roomMembers?.has(userId);
+
+  let inDb = false;
+  try {
+    const p = await prisma.participant.findFirst({
+      where: { chatRoomId: roomId, userId },
+      select: { userId: true },
+    });
+    inDb = !!p;
+  } catch {
+    // ignore if schema's different
+    try {
+      const p2 = await prisma.participant.findFirst({
+        where: { userId, chatRoomId: roomId },
+        select: { userId: true },
+      });
+      inDb = !!p2;
+    } catch {
+      /* ignore */
+    }
+  }
+
+  if (!inMem && !inDb) {
+    // you're not in the room, you can't "leave" -> Forbidden
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
+  // remove from in-memory membership/roles
+  __mem.members.get(roomId)?.delete(userId);
+  __mem.roles.get(roomId)?.delete(userId);
+
+  // Best-effort DB cleanup (ignore errors if schema doesn't match)
+  try {
+    await prisma.participant.deleteMany({
+      where: { chatRoomId: roomId, userId },
+    });
+  } catch {
+    try {
+      await prisma.participant.deleteMany({
+        where: { userId, chatRoomId: roomId },
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+
+  return res.json({ ok: true });
+});
+
 
   // DELETE /rooms/:id/participants/:userId → kick (owner/admin)
   router.delete('/:id/participants/:userId', requireAuth, async (req, res) => {

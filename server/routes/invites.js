@@ -17,11 +17,7 @@ import {
 const router = express.Router();
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
 
-const {
-  APP_DOWNLOAD_URL,
-  MAIL_FROM,
-  APP_ORIGIN,
-} = process.env;
+const { APP_DOWNLOAD_URL, MAIL_FROM, APP_ORIGIN } = process.env;
 
 const JWT_SECRET =
   process.env.JWT_SECRET ||
@@ -35,19 +31,23 @@ function normalizeE164(input) {
   if (!/^\+?[1-9]\d{7,14}$/.test(digits)) return null;
   return digits.startsWith('+') ? digits : `+${digits}`;
 }
+
 function isValidEmail(e) {
   return typeof e === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
+
 function coerceRecipients(to) {
   if (Array.isArray(to)) return to.filter(isValidEmail).map((x) => x.toLowerCase());
   if (isValidEmail(to)) return [String(to).toLowerCase()];
   return [];
 }
+
 function capMsg(s, max = 480) {
   if (!s) return '';
   const clean = String(s).replace(/\s+/g, ' ').trim();
   return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
 }
+
 function decodeCookieJwt(req) {
   const raw = req.headers?.cookie || '';
   const m = raw.match(/(?:^|;\s*)(?:foria_jwt|JWT|token)=([^;]+)/);
@@ -58,6 +58,7 @@ function decodeCookieJwt(req) {
     return null;
   }
 }
+
 function getAuth(req) {
   const h = String(req.headers.authorization || '');
   if (h.startsWith('Bearer ')) {
@@ -70,6 +71,7 @@ function getAuth(req) {
           role: decoded.role || 'USER',
           email: decoded.email || null,
           plan: decoded.plan || 'FREE',
+          phoneNumber: decoded.phoneNumber || null,
         };
         req.auth = a;
         return a;
@@ -86,24 +88,26 @@ function getAuth(req) {
       role: c.role || 'USER',
       email: c.email || null,
       plan: c.plan || 'FREE',
+      phoneNumber: c.phoneNumber || null,
     };
   }
   return {};
 }
+
 async function collectSelfEmails(req, auth) {
   const out = new Set();
-
-  // From bearer/auth & req.user
   const add = (v) => v && out.add(String(v).toLowerCase());
+
+  // from bearer/auth & req.user
   add(auth?.email);
   add(req.user?.email);
   add(req.auth?.email);
 
-  // Username sometimes is an email in tests
+  // username can sometimes be an email
   if (isValidEmail(auth?.username)) add(auth.username);
   if (isValidEmail(req.user?.username)) add(req.user.username);
 
-  // From cookie JWT
+  // from cookie JWT
   const c = decodeCookieJwt(req);
   add(c?.email);
   if (isValidEmail(c?.username)) add(c.username);
@@ -132,8 +136,42 @@ async function collectSelfEmails(req, auth) {
   return out;
 }
 
+// NEW: collect phone numbers we consider "self"
+async function collectSelfPhones(auth) {
+  const out = new Set();
+  const add = (v) => v && out.add(normalizeE164(v));
+
+  // from auth decoded token
+  add(auth?.phoneNumber);
+
+  // from DB by ID or username
+  const uid = Number(auth?.id);
+  if (Number.isFinite(uid)) {
+    try {
+      const me = await prisma.user.findUnique({
+        where: { id: uid },
+        select: { phoneNumber: true },
+      });
+      add(me?.phoneNumber);
+    } catch {}
+  } else if (auth?.username) {
+    try {
+      const me2 = await prisma.user.findUnique({
+        where: { username: auth.username },
+        select: { phoneNumber: true },
+      });
+      add(me2?.phoneNumber);
+    } catch {}
+  }
+
+  // remove nulls
+  [...out].forEach((v) => {
+    if (!v) out.delete(v);
+  });
+  return out;
+}
+
 /* ------------ dev/real SMS send helper ------------ */
-// Decide if we should mock-skip actual SMS in this environment
 const USE_SMS_MOCK =
   String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
   (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);
@@ -141,27 +179,22 @@ const USE_SMS_MOCK =
 async function sendSmsTestSafe({ to, text, clientRef }) {
   if (!to || !text) throw Boom.badRequest('to and text required');
 
-  // Dev / mock path: short-circuit with a fake response
   if (USE_SMS_MOCK) {
     const fakeSid = `SM_mock_${Date.now().toString(36)}`;
     console.info('[invites] MOCK SMS →', { to, text, sid: fakeSid });
     return { provider: 'mock', messageSid: fakeSid };
   }
 
-  // Real provider path via Twilio adapter
   try {
     if (typeof realSendSms === 'function') {
       const out = await realSendSms({ to, text, clientRef });
-      // Expect Twilio-like shape
       if (!out?.messageSid) throw Boom.badGateway('SMS provider unavailable');
       return { provider: out.provider || 'twilio', messageSid: out.messageSid };
     }
-  } catch (e) {
-    // Surface a clean 502 to the route
+  } catch (_e) {
     throw Boom.badGateway('SMS provider unavailable');
   }
 
-  // Fallback for test envs without the adapter
   if (IS_TEST) {
     return { provider: 'twilio', messageSid: `SM_${Date.now()}` };
   }
@@ -176,15 +209,17 @@ router.post(
   invitesSmsLimiter,
   express.json(),
   asyncHandler(async (req, res) => {
-    const { phone, message /* preferredProvider */ } = req.body || {};
+    const { phone, message } = req.body || {};
     if (!phone) throw Boom.badRequest('phone is required');
 
     const to = normalizeE164(phone);
     if (!to) throw Boom.badRequest('Invalid phone');
 
     const auth = getAuth(req);
-    const myPhone = normalizeE164(auth.phoneNumber);
-    if (myPhone && myPhone === to) throw Boom.badRequest('Cannot invite your own number');
+    const myPhones = await collectSelfPhones(auth); // <-- new
+    if (myPhones.has(to)) {
+      throw Boom.badRequest('Cannot invite your own number');
+    }
 
     const inviter = auth.username || 'A friend';
     const text = capMsg(
@@ -220,7 +255,6 @@ router.post(
       throw Boom.badRequest('Valid "to" is required (email or array of emails)');
     }
 
-    // self-invite guard (bearer + cookie + req.user + DB)
     const auth = getAuth(req);
     const myEmails = await collectSelfEmails(req, auth);
     const isSelf = recipients.some((r) => myEmails.has(String(r).toLowerCase()));
@@ -293,4 +327,12 @@ router.post(
   })
 );
 
+// export helpers for testing
+export {
+  getAuth,
+  normalizeE164,
+  capMsg,
+  collectSelfEmails,
+  collectSelfPhones,
+};
 export default router;

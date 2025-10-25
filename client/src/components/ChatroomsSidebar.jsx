@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import {
   Stack,
   Skeleton,
@@ -10,7 +10,7 @@ import {
   UnstyledButton,
   Divider,
 } from '@mantine/core';
-import axiosClient from '../api/axiosClient';
+import axiosClient from '@/api/axiosClient';
 
 import AdSlot from '@/ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
@@ -22,22 +22,15 @@ export default function ChatroomsSidebar({
   hideEmpty = false,
   activeRoomId = null,
   onCountChange,
-  listOnly = false,        // NEW: suppress header/ads/empty CTA
-  filterQuery = '',        // NEW: filter client-side by title/snippet
+  listOnly = false,        // suppress header/ads/CTA when embedded in Sidebar
+  filterQuery = '',        // client-side filter text
 }) {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState('');
   const isPremium = useIsPremium();
 
-  // expose reload via a window event so Sidebar can trigger it
-  useEffect(() => {
-    const handler = () => load();
-    window.addEventListener('sidebar:reload-rooms', handler);
-    return () => window.removeEventListener('sidebar:reload-rooms', handler);
-  }, []);
-
-  async function load() {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       setErr('');
@@ -55,18 +48,27 @@ export default function ChatroomsSidebar({
     } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    load();
   }, []);
 
+  // initial load
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  // let Sidebar trigger reload via CustomEvent
+  useEffect(() => {
+    const handler = () => load();
+    window.addEventListener('sidebar:reload-rooms', handler);
+    return () => window.removeEventListener('sidebar:reload-rooms', handler);
+  }, [load]);
+
+  // bubble up count
   useEffect(() => {
     onCountChange?.(Array.isArray(rooms) ? rooms.length : 0);
   }, [rooms, onCountChange]);
 
   const q = filterQuery.trim().toLowerCase();
-  const visible = q
+  const visibleRooms = q
     ? rooms.filter((r) => {
         const title = (r.title || r.name || r.displayName || '').toLowerCase();
         const snippet = (r.lastMessage?.content || '').toLowerCase();
@@ -74,11 +76,15 @@ export default function ChatroomsSidebar({
       })
     : rooms;
 
-  /* ---------- Loading ---------- */
+  // -------- loading --------
   if (loading) {
     return (
       <Stack p="sm" gap="sm">
-        {!listOnly && <Text fw={600}>Conversations</Text>}
+        {!listOnly && (
+          <Text fw={600} aria-label="Conversations header">
+            Conversations
+          </Text>
+        )}
         {Array.from({ length: 7 }).map((_, i) => (
           <Skeleton key={i} height={46} radius="md" />
         ))}
@@ -86,36 +92,59 @@ export default function ChatroomsSidebar({
     );
   }
 
-  /* ---------- Error ---------- */
+  // -------- error --------
   if (err) {
     return (
       <Stack p="sm" gap="sm">
-        {!listOnly && <Text fw={600}>Conversations</Text>}
-        <Alert color="red" variant="light">{err}</Alert>
-        {!listOnly && <Button onClick={load}>Retry</Button>}
-      </Stack>
-    );
-  }
-
-  /* ---------- Empty list ---------- */
-  if (!visible.length) {
-    if (hideEmpty) return null;
-    return (
-      <Stack p="sm" gap="sm">
-        {!listOnly && <Text fw={600}>Conversations</Text>}
-        {/* With listOnly or hideEmpty, Sidebar handles empty-state UX */}
-        <Text c="dimmed" size="sm">No conversations yet.</Text>
         {!listOnly && (
-          <Button onClick={onStartNewChat}>Start a chat</Button>
+          <Text fw={600} aria-label="Conversations header">
+            Conversations
+          </Text>
+        )}
+        <Alert color="red" variant="light">
+          {err}
+        </Alert>
+        {!listOnly && (
+          <Button onClick={load}>
+            Retry
+          </Button>
         )}
       </Stack>
     );
   }
 
-  /* ---------- Populated list ---------- */
+  // -------- empty list --------
+  if (!visibleRooms.length) {
+    if (hideEmpty) return null;
+    return (
+      <Stack p="sm" gap="sm">
+        {!listOnly && (
+          <Text fw={600} aria-label="Conversations header">
+            Conversations
+          </Text>
+        )}
+        <Text c="dimmed" size="sm">
+          No conversations yet.
+        </Text>
+        {!listOnly && (
+          <Button onClick={onStartNewChat}>
+            Start a chat
+          </Button>
+        )}
+      </Stack>
+    );
+  }
+
+  // -------- populated --------
   return (
     <Stack p="sm" gap="xs">
-      {!listOnly && <Text fw={600}>Conversations</Text>}
+      {!listOnly && (
+        <Text fw={600} aria-label="Conversations header">
+          Conversations
+        </Text>
+      )}
+
+      {/* Top ad strip (only free users, only when showing list, not in Sidebar's listOnly mode) */}
       {!listOnly && !isPremium && (
         <>
           <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
@@ -123,9 +152,10 @@ export default function ChatroomsSidebar({
         </>
       )}
 
-      {visible.map((r, idx) => {
+      {visibleRooms.map((r, idx) => {
         const title = r.title || r.name || r.displayName || `Room #${r.id}`;
         const unread = r.unreadCount || r._count?.unread || 0;
+        const isActive = String(r.id) === String(activeRoomId);
 
         return (
           <div key={r.id}>
@@ -135,24 +165,30 @@ export default function ChatroomsSidebar({
                 width: '100%',
                 padding: '10px 12px',
                 borderRadius: 12,
-                background:
-                  String(r.id) === String(activeRoomId)
-                    ? 'var(--mantine-color-gray-1)'
-                    : 'transparent',
+                background: isActive
+                  ? 'var(--mantine-color-gray-1)'
+                  : 'transparent',
+                textAlign: 'left',
               }}
               title={title}
             >
               <Group justify="space-between" wrap="nowrap">
-                <Text truncate fw={500}>{title}</Text>
-                {!!unread && <Badge size="sm" variant="light">{unread}</Badge>}
+                <Text fw={500}>{title}</Text>
+                {!!unread && (
+                  <Badge size="sm" variant="light" data-testid="badge">
+                    {unread}
+                  </Badge>
+                )}
               </Group>
+
               {r.lastMessage?.content && (
-                <Text size="sm" c="dimmed" lineClamp={1} mt={4}>
+                <Text size="sm" c="dimmed" mt={4}>
                   {r.lastMessage.content}
                 </Text>
               )}
             </UnstyledButton>
 
+            {/* secondary ad after the 3rd item (idx === 2), only if free and not listOnly */}
             {!listOnly && !isPremium && idx === 2 && (
               <>
                 <Divider my={6} />

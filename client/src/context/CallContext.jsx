@@ -49,7 +49,7 @@ export function CallProvider({ children, me }) {
     if (pcRef.current) {
       try { pcRef.current.close(); } catch {}
     }
-    const res = await fetch(`${API_BASE}/ice-servers`, { credentials: 'include' });
+    const res = await fetch(`${API_BASE}/ice-servers?provider=all`, { credentials: 'include' });
     const { iceServers } = await res.json();
 
     const pc = new RTCPeerConnection({ iceServers });

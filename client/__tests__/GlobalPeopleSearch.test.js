@@ -89,17 +89,20 @@ describe('GlobalPeopleSearch', () => {
     expect(global.mockNavigate).not.toHaveBeenCalled();
   });
 
-  test('successful flow: finds user (array) -> creates room -> navigates to /chat/:id', async () => {
+  test('successful flow: finds user (items) -> creates room -> navigates to /chat/:id', async () => {
     render(<GlobalPeopleSearch />);
 
-    axiosClient.get.mockResolvedValueOnce({ data: [{ id: 'u123' }] });
+    // New API shape: { items: [...] }
+    axiosClient.get.mockResolvedValueOnce({
+      data: { items: [{ kind: 'user', userId: 'u123' }] },
+    });
     axiosClient.post.mockResolvedValueOnce({ data: { id: 'r999' } });
 
     typeInSearch('  alice  ');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
-      expect(axiosClient.get).toHaveBeenCalledWith('/search/users', { params: { q: 'alice' } });
+      expect(axiosClient.get).toHaveBeenCalledWith('/search/people', { params: { q: 'alice', limit: 8 } });
     });
     expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/u123');
 
@@ -108,10 +111,13 @@ describe('GlobalPeopleSearch', () => {
     });
   });
 
-  test('successful flow: finds user (object) -> room missing id => navigates to /people?q=', async () => {
+  test('successful flow: finds user but room missing id => navigates to /people?q=', async () => {
     render(<GlobalPeopleSearch />);
 
-    axiosClient.get.mockResolvedValueOnce({ data: { user: { id: 'u55' } } });
+    axiosClient.get.mockResolvedValueOnce({
+      data: { items: [{ kind: 'user', userId: 'u55' }] },
+    });
+    // Room creation returns object without id -> fallback to results page
     axiosClient.post.mockResolvedValueOnce({ data: {} });
 
     typeInSearch('bob');
@@ -125,10 +131,10 @@ describe('GlobalPeopleSearch', () => {
     });
   });
 
-  test('no user found -> navigates to /people?q=', async () => {
+  test('no match: navigates to /people?q=', async () => {
     render(<GlobalPeopleSearch />);
 
-    axiosClient.get.mockResolvedValueOnce({ data: [] });
+    axiosClient.get.mockResolvedValueOnce({ data: { items: [] } });
 
     typeInSearch('charlie');
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
@@ -154,13 +160,13 @@ describe('GlobalPeopleSearch', () => {
   test('pressing Enter triggers submit', async () => {
     render(<GlobalPeopleSearch />);
 
-    axiosClient.get.mockResolvedValueOnce({ data: [] });
+    axiosClient.get.mockResolvedValueOnce({ data: { items: [] } });
 
     const input = typeInSearch('eve');
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
 
     await waitFor(() => {
-      expect(axiosClient.get).toHaveBeenCalledWith('/search/users', { params: { q: 'eve' } });
+      expect(axiosClient.get).toHaveBeenCalledWith('/search/people', { params: { q: 'eve', limit: 8 } });
     });
     expect(global.mockNavigate).toHaveBeenCalledWith('/people?q=eve');
   });

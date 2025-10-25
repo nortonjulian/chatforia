@@ -2,6 +2,7 @@
  * @file ContactList.test.js
  * Tests for client/src/components/ContactList.jsx
  */
+
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
@@ -10,7 +11,11 @@ import { MantineProvider } from '@mantine/core';
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => {
   const real = jest.requireActual('react-router-dom');
-  return { ...real, useNavigate: () => mockNavigate, MemoryRouter: real.MemoryRouter };
+  return {
+    ...real,
+    useNavigate: () => mockNavigate,
+    MemoryRouter: real.MemoryRouter,
+  };
 });
 
 /* ---- axiosClient mock (path MUST match the component import) ---- */
@@ -37,10 +42,12 @@ const renderSut = (props = {}) =>
   render(
     <MantineProvider>
       <MemoryRouter>
-          <ContactList currentUserId={props.currentUserId ?? 1} onChanged={props.onChanged} />
+        <ContactList
+          currentUserId={props.currentUserId ?? 1}
+          onChanged={props.onChanged}
+        />
       </MemoryRouter>
     </MantineProvider>
-    
   );
 
 describe('ContactList', () => {
@@ -56,15 +63,19 @@ describe('ContactList', () => {
 
     expect(screen.getByText(/saved contacts/i)).toBeInTheDocument();
 
-    // Wait for contacts
+    // Wait for contacts to render
     expect(await screen.findByText('alice')).toBeInTheDocument();
     expect(screen.getByText('Bobby')).toBeInTheDocument();
 
     // Filter to "ali"
-    fireEvent.change(screen.getByPlaceholderText(/search contacts/i), {
-      target: { value: 'ali' },
-    });
+    fireEvent.change(
+      screen.getByPlaceholderText(/filter saved contacts/i),
+      {
+        target: { value: 'ali' },
+      }
+    );
 
+    // alice should remain, Bobby should be filtered out
     expect(await screen.findByText('alice')).toBeInTheDocument();
     expect(screen.queryByText('Bobby')).not.toBeInTheDocument();
   });
@@ -77,17 +88,23 @@ describe('ContactList', () => {
 
     renderSut();
 
-    // our NavLink mock is a <button> with label content
+    // row button is rendered with the contact's display name text
     const row = await screen.findByRole('button', { name: /zoe/i });
     fireEvent.click(row);
 
-    expect(axiosClient.post).toHaveBeenCalledWith('/chatrooms/direct/42');
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/chat/777'));
+    expect(axiosClient.post).toHaveBeenCalledWith(
+      '/chatrooms/direct/42'
+    );
+    await waitFor(() =>
+      expect(mockNavigate).toHaveBeenCalledWith('/chat/777')
+    );
   });
 
   test('delete contact calls API and refreshes the list', async () => {
     axiosClient.get
-      .mockResolvedValueOnce({ data: [{ userId: 9, alias: '', user: { username: 'nina' } }] }) // initial
+      .mockResolvedValueOnce({
+        data: [{ userId: 9, alias: '', user: { username: 'nina' } }],
+      }) // initial load
       .mockResolvedValueOnce({ data: [] }); // after refresh
     axiosClient.delete.mockResolvedValueOnce({ status: 200 });
 
@@ -96,22 +113,39 @@ describe('ContactList', () => {
 
     expect(await screen.findByText('nina')).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /delete/i }));
-
-    await waitFor(() =>
-      expect(axiosClient.delete).toHaveBeenCalledWith('/contacts', {
-        data: { ownerId: 1, userId: 9 },
-      })
+    fireEvent.click(
+      screen.getByRole('button', { name: /delete contact/i })
     );
 
-    expect(await screen.findByText(/no contacts found/i)).toBeInTheDocument();
+    await waitFor(() =>
+      expect(axiosClient.delete).toHaveBeenCalledWith(
+        '/contacts',
+        {
+          data: { ownerId: 1, userId: 9 },
+        }
+      )
+    );
+
+    expect(
+      await screen.findByText(/no contacts found/i)
+    ).toBeInTheDocument();
     expect(onChanged).toHaveBeenCalled();
   });
 
   test('editing alias triggers PATCH on blur', async () => {
     axiosClient.get
-      .mockResolvedValueOnce({ data: [{ userId: 5, alias: '', user: { username: 'amy' } }] }) // initial
-      .mockResolvedValueOnce({ data: [{ userId: 5, alias: 'Bestie', user: { username: 'amy' } }] }); // refresh
+      .mockResolvedValueOnce({
+        data: [{ userId: 5, alias: '', user: { username: 'amy' } }],
+      }) // initial
+      .mockResolvedValueOnce({
+        data: [
+          {
+            userId: 5,
+            alias: 'Bestie',
+            user: { username: 'amy' },
+          },
+        ],
+      }); // refresh after PATCH
     axiosClient.patch.mockResolvedValueOnce({ status: 200 });
 
     renderSut();
@@ -119,17 +153,24 @@ describe('ContactList', () => {
     expect(await screen.findByText('amy')).toBeInTheDocument();
 
     const aliasInput = screen.getByPlaceholderText(/alias/i);
-    fireEvent.change(aliasInput, { target: { value: 'Bestie' } });
+    fireEvent.change(aliasInput, {
+      target: { value: 'Bestie' },
+    });
     fireEvent.blur(aliasInput);
 
     await waitFor(() =>
-      expect(axiosClient.patch).toHaveBeenCalledWith('/contacts', {
-        ownerId: 1,
-        userId: 5,
-        alias: 'Bestie',
-      })
+      expect(axiosClient.patch).toHaveBeenCalledWith(
+        '/contacts',
+        {
+          ownerId: 1,
+          userId: 5,
+          alias: 'Bestie',
+        }
+      )
     );
 
-    expect(await screen.findByText('Bestie')).toBeInTheDocument();
+    expect(
+      await screen.findByText('Bestie')
+    ).toBeInTheDocument();
   });
 });

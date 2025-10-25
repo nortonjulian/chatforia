@@ -11,7 +11,13 @@ import {
   Text,
   Stack,
 } from '@mantine/core';
-// import { toast } from '../utils/toast';
+
+// Safe no-op toast shim for tests/SSR (avoids importing a module that uses import.meta)
+const toast = {
+  ok: () => {},
+  err: () => {},
+  info: () => {},
+};
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -50,8 +56,6 @@ export default function ResetPassword() {
       toast.err(msg + '.');
       return;
     }
-
-    // NOTE: tests submit "x", so do not enforce a client-side min length here.
 
     setLoading(true);
     try {

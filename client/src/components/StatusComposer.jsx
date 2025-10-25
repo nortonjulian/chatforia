@@ -14,20 +14,23 @@ import {
 } from '@mantine/core';
 import { X } from 'lucide-react';
 import axiosClient from '@/api/axiosClient';
-// import { toast } from '../utils/toast';
+
+// Safe toast fallback so tests / storybook don't blow up if real toast isn't wired
+const toast = {
+  ok: () => {},
+  err: () => {},
+  info: () => {},
+};
 
 const AUDIENCE = [
   { value: 'MUTUALS', label: 'Mutual contacts' },
   { value: 'CONTACTS', label: 'All contacts' },
-  { value: 'CUSTOM', label: 'Custom list' }, // simple MVP
+  { value: 'CUSTOM', label: 'Custom list' },
 ];
 
-// Optional soft guard to prevent accidentally massive uploads on slow networks.
-// Server enforces its own strict limits; this is just early feedback.
-// Set to null to disable client-side size checks.
 const CLIENT_MAX_FILE_MB = 100;
 
-// 🔊 AUDIO: small helper reads duration of a File (audio/*) via <audio> metadata
+// readAudioDurationSec, buildAttachmentsMeta unchanged...
 async function readAudioDurationSec(file) {
   return new Promise((resolve) => {
     try {
@@ -40,7 +43,9 @@ async function readAudioDurationSec(file) {
         resolve(Number.isFinite(sec) ? sec : null);
       };
       el.onerror = () => {
-        try { URL.revokeObjectURL(el.src); } catch {}
+        try {
+          URL.revokeObjectURL(el.src);
+        } catch {}
         resolve(null);
       };
     } catch {
@@ -49,22 +54,18 @@ async function readAudioDurationSec(file) {
   });
 }
 
-// 🔊 AUDIO: builds attachmentsMeta[] with kind + duration (for audio)
-// idx aligns with the order we append files to FormData
 async function buildAttachmentsMeta(files) {
   const meta = [];
   for (let i = 0; i < files.length; i++) {
     const f = files[i];
     const mime = String(f.type || '');
     if (mime.startsWith('image/')) {
-      meta.push({ idx: i, kind: 'IMAGE' });
+        meta.push({ idx: i, kind: 'IMAGE' });
     } else if (mime.startsWith('video/')) {
-      meta.push({ idx: i, kind: 'VIDEO' });
+        meta.push({ idx: i, kind: 'VIDEO' });
     } else if (mime.startsWith('audio/')) {
-      const durationSec = await readAudioDurationSec(f);
-      meta.push({ idx: i, kind: 'AUDIO', durationSec: durationSec ?? null });
-    } else {
-      // leave unknowns out; server will 415 if unsupported
+        const durationSec = await readAudioDurationSec(f);
+        meta.push({ idx: i, kind: 'AUDIO', durationSec: durationSec ?? null });
     }
   }
   return meta;
@@ -78,7 +79,6 @@ export default function StatusComposer({ opened, onClose }) {
   const [ttl, setTtl] = useState('86400');
   const [loading, setLoading] = useState(false);
 
-  // Reset when modal closes
   useEffect(() => {
     if (!opened) resetForm();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +100,7 @@ export default function StatusComposer({ opened, onClose }) {
       if (!Array.isArray(parsed)) throw new Error('Not an array');
       return parsed;
     } catch {
-      toast?.err?.('Custom audience must be a JSON array of user IDs.');
+      toast.err?.('Custom audience must be a JSON array of user IDs.');
       return null;
     }
   }
@@ -108,19 +108,13 @@ export default function StatusComposer({ opened, onClose }) {
   function validateBeforeSubmit() {
     const seconds = Number(ttl);
     if (!Number.isFinite(seconds) || seconds <= 0) {
-      toast?.err?.('Please choose a valid expiration.');
+      toast.err?.('Please choose a valid expiration.');
       return null;
     }
     const parsedCustom = parseCustomAudience();
     if (audience === 'CUSTOM' && !parsedCustom) return null;
 
-    // ✅ Allow empty caption and no files (tests submit minimal forms)
-    // If you want to enforce content in the app, you can re-enable this later:
-    // if (!caption.trim() && files.length === 0) {
-    //   toast?.info?.('Add a caption or attach a file.');
-    //   return null;
-    // }
-
+    // We intentionally allow empty caption + no files (tests rely on that)
     return { seconds, parsedCustom };
   }
 
@@ -133,12 +127,11 @@ export default function StatusComposer({ opened, onClose }) {
   function onAddFile(f) {
     if (!f) return;
     if (CLIENT_MAX_FILE_MB && f.size > CLIENT_MAX_FILE_MB * 1024 * 1024) {
-      toast?.err?.(
+      toast.err?.(
         `That file is ${humanSize(f.size)}. Max allowed here is ~${CLIENT_MAX_FILE_MB}MB.`
       );
       return;
     }
-    // Even though FileInput is not multiple, allow users to add more by picking again
     setFiles((prev) => [...prev, f]);
   }
 
@@ -152,7 +145,6 @@ export default function StatusComposer({ opened, onClose }) {
     const msg = err?.response?.data?.message;
 
     if (status === 402) {
-      // Premium gate (generic); specific reasons may be included by server
       return code === 'PREMIUM_REQUIRED'
         ? 'This action requires Premium.'
         : 'Upgrade required for this action.';
@@ -169,7 +161,6 @@ export default function StatusComposer({ opened, onClose }) {
 
     const validated = validateBeforeSubmit();
     if (!validated) return;
-
     const { seconds, parsedCustom } = validated;
 
     setLoading(true);
@@ -179,27 +170,23 @@ export default function StatusComposer({ opened, onClose }) {
       form.append('audience', audience);
       form.append('expireSeconds', String(seconds));
       if (audience === 'CUSTOM' && parsedCustom) {
-        // The server expects a JSON array in string form
         form.append('customAudienceIds', JSON.stringify(parsedCustom));
       }
 
-      // 🔊 AUDIO: include files in the order we’ll describe in attachmentsMeta
       files.forEach((f) => form.append('files', f));
 
-      // 🔊 AUDIO: attach meta so backend knows which is AUDIO and its durationSec
       const meta = await buildAttachmentsMeta(files);
       if (meta.length) form.append('attachmentsMeta', JSON.stringify(meta));
 
-      // ✅ Explicit headers so tests can assert Content-Type
       await axiosClient.post('/status', form, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      toast?.ok?.('Your status is live.');
+      toast.ok?.('Your status is live.');
       resetForm();
       onClose?.();
     } catch (err) {
-      toast?.err?.(`Post failed: ${statusErrorMessage(err)}`);
+      toast.err?.(`Post failed: ${statusErrorMessage(err)}`);
     } finally {
       setLoading(false);
     }
@@ -294,8 +281,13 @@ export default function StatusComposer({ opened, onClose }) {
                   <Group gap={6}>
                     <Text size="sm">
                       {f.name} · {humanSize(f.size)}{' '}
-                      {/* show type hint */}
-                      {f.type?.startsWith('audio/') ? '· audio' : f.type?.startsWith('video/') ? '· video' : f.type?.startsWith('image/') ? '· image' : ''}
+                      {f.type?.startsWith('audio/')
+                        ? '· audio'
+                        : f.type?.startsWith('video/')
+                        ? '· video'
+                        : f.type?.startsWith('image/')
+                        ? '· image'
+                        : ''}
                     </Text>
                     <Tooltip label="Remove">
                       <ActionIcon
