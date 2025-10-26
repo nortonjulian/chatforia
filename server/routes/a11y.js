@@ -28,13 +28,20 @@ const A11Y_KEYS = new Set([
 async function userCanAccessMessage(userId, messageId) {
   const msg = await prisma.message.findUnique({
     where: { id: messageId },
-    select: { chatRoomId: true, senderId: true },
+    select: {
+      chatRoomId: true,
+      sender: { select: { id: true } },
+    },
   });
+
   if (!msg) return false;
-  if (msg.senderId === userId) return true;
+  if (msg.sender?.id === userId) return true;
+
   const part = await prisma.participant.findFirst({
     where: { chatRoomId: msg.chatRoomId, userId },
+    select: { id: true },
   });
+
   return !!part;
 }
 
