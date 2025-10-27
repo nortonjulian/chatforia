@@ -55,7 +55,56 @@ let seededUserId;
 let seededMessageId;
 
 async function globalSeed() {
-  // 1. create user
+  // Clean up anything left over from previous runs that would collide.
+  // We assume:
+  //  - message depends on chatRoom and user via FKs
+  //  - transcript depends on message/user
+  // We'll just do broad cleanup for that email and any related data.
+
+  // Find an existing user with the test email
+  const existing = await prisma.user.findUnique({
+    where: { email: 'cap@example.com' },
+    select: { id: true },
+  });
+
+  if (existing) {
+    const uid = existing.id;
+
+    // delete transcripts for that user
+    await prisma.transcript.deleteMany({
+      where: { userId: uid },
+    });
+
+    // find that user's messages so we can clean them + their rooms if orphan
+    const msgs = await prisma.message.findMany({
+      where: { senderId: uid },
+      select: { id: true, chatRoomId: true },
+    });
+
+    const roomIds = [...new Set(msgs.map((m) => m.chatRoomId))];
+
+    // delete those messages
+    await prisma.message.deleteMany({
+      where: { senderId: uid },
+    });
+
+    // delete participants tied to those rooms, then the rooms themselves
+    if (roomIds.length > 0) {
+      await prisma.participant.deleteMany({
+        where: { chatRoomId: { in: roomIds } },
+      });
+      await prisma.chatRoom.deleteMany({
+        where: { id: { in: roomIds } },
+      });
+    }
+
+    // finally delete the user
+    await prisma.user.delete({
+      where: { id: uid },
+    });
+  }
+
+  // Now create a fresh user
   const user = await prisma.user.create({
     data: {
       username: 'captain',
@@ -70,7 +119,7 @@ async function globalSeed() {
   });
   seededUserId = user.id;
 
-  // 2. create chat room
+  // fresh 1:1 DM-style room
   const room = await prisma.chatRoom.create({
     data: {
       isGroup: false,
@@ -78,7 +127,7 @@ async function globalSeed() {
     select: { id: true },
   });
 
-  // 3. create an audio message in that room from that user
+  // create an audio message in that room from that user
   const m = await prisma.message.create({
     data: {
       rawContent: '',
@@ -89,6 +138,7 @@ async function globalSeed() {
     },
     select: { id: true },
   });
+
   seededMessageId = m.id;
 }
 
@@ -96,6 +146,7 @@ async function globalSeed() {
 beforeAll(async () => {
   await globalSeed();
 });
+
 
 describe('A11Y/AI quotas and guards (integration-ish)', () => {
   test('PATCH /a11y/users/me/a11y updates allowed prefs for the authed user', async () => {

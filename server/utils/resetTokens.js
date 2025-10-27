@@ -1,266 +1,107 @@
-import { jest } from '@jest/globals';
+import crypto from 'crypto';
+import prisma from '@utils/prismaClient.js';
 
-// We'll dynamically import ../../utils/resetTokens.js after mocking its deps.
-// We'll mock crypto to make output deterministic.
-// We'll mock prisma.passwordResetToken methods and capture their calls.
-// We'll control time with jest.useFakeTimers().
+// how long tokens last, in minutes
+const TTL_MINUTES = Number(process.env.PASSWORD_RESET_TOKEN_TTL_MINUTES || 30);
 
-let prismaMock;
-let randomBytesQueue;
-let cryptoHashMock;
-const ORIGINAL_ENV = { ...process.env };
-
-function setupCryptoMock() {
-  // We'll make crypto.randomBytes() pull fixed values from a queue so the
-  // plaintext token returned by issueResetToken() is predictable.
-  // We'll also mock createHash('sha256').update(...).digest('hex')
-  // to return "HASH_<plaintext>".
-
-  randomBytesQueue = [];
-
-  const randomBytes = (len) => {
-    const next =
-      randomBytesQueue.length > 0
-        ? randomBytesQueue.shift()
-        : 'RANDOM_DEFAULT';
-    return Buffer.from(next, 'utf8'); // .toString('hex') will be deterministic
-  };
-
-  const createHash = (algo) => {
-    let data = '';
-    return {
-      update(str) {
-        data += str;
-        return this;
-      },
-      digest(fmt) {
-        if (fmt === 'hex') {
-          return 'HASH_' + data.replace(/[^a-zA-Z0-9]/g, '_');
-        }
-        return 'UNSUPPORTED_FORMAT';
-      },
-    };
-  };
-
-  jest.unstable_mockModule('node:crypto', () => ({
-    default: { randomBytes, createHash },
-    randomBytes,
-    createHash,
-  }));
-
-  return {
-    pushRandom(value) {
-      randomBytesQueue.push(value);
-    },
-  };
+// deterministic sha256 hex
+export function hashToken(token) {
+  return crypto.createHash('sha256').update(token, 'utf8').digest('hex');
 }
 
-function setupPrismaMock() {
-  const deleteMany = jest.fn(async () => ({ count: 0 }));
-  const create = jest.fn(async () => ({}));
-  const findFirst = jest.fn(async () => null);
-  const update = jest.fn(async () => ({}));
+/**
+ * issueResetToken(userId)
+ * - generate random token
+ * - hash it
+ * - delete any older unused tokens for this user
+ * - insert new row with expiresAt (now + TTL_MINUTES)
+ * - return plaintext token so caller can email it
+ */
+export async function issueResetToken(userId) {
+  const raw = crypto.randomBytes(32).toString('hex');
+  const tokenHash = hashToken(raw);
 
-  prismaMock = {
-    passwordResetToken: {
-      deleteMany,
-      create,
-      findFirst,
-      update,
+  const expiresAt = new Date(
+    Date.now() + TTL_MINUTES * 60 * 1000
+  );
+
+  // wipe previous unused tokens for this user
+  await prisma.passwordResetToken.deleteMany({
+    where: { userId, usedAt: null },
+  });
+
+  // store only the hash
+  await prisma.passwordResetToken.create({
+    data: {
+      userId,
+      tokenHash,
+      expiresAt,
+      usedAt: null,
     },
-  };
+  });
 
-  jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
-    default: prismaMock,
-  }));
-
-  return {
-    spies: {
-      deleteMany,
-      create,
-      findFirst,
-      update,
-    },
-  };
+  // caller will email/sms this plaintext
+  return raw;
 }
 
-async function loadModuleFresh() {
-  jest.resetModules();
-  const mod = await import('../../utils/resetTokens.js');
-  return mod;
+/**
+ * consumeResetToken(plaintext)
+ * - return null if invalid/expired/used
+ * - otherwise mark token used and return userId
+ */
+export async function consumeResetToken(plaintext) {
+  if (!plaintext) return null;
+  const tokenHash = hashToken(plaintext);
+
+  // find unused + not expired
+  const now = new Date();
+  const rec = await prisma.passwordResetToken.findFirst({
+    where: {
+      tokenHash,
+      usedAt: null,
+      expiresAt: { gt: now },
+    },
+    select: { id: true, userId: true },
+  });
+
+  if (!rec) return null;
+
+  // mark used
+  await prisma.passwordResetToken.update({
+    where: { id: rec.id },
+    data: { usedAt: now },
+  });
+
+  return rec.userId;
 }
 
-afterEach(() => {
-  process.env = { ...ORIGINAL_ENV };
-  jest.useRealTimers();
-  jest.resetModules();
-  jest.restoreAllMocks();
-});
+/**
+ * purgeResetTokens({ expiredOnly = true, userId } = {})
+ * - if expiredOnly === true:
+ *     delete tokens where expiresAt < now
+ *     (optionally scoped to userId)
+ * - if expiredOnly === false:
+ *     delete ALL tokens for that user (must have userId)
+ *
+ * returns { count }
+ */
+export async function purgeResetTokens(opts = {}) {
+  const { expiredOnly = true, userId } = opts;
+  const where = {};
 
-describe('resetTokens utils', () => {
-  test('issueResetToken() returns plaintext token, stores hash+expiry, and deletes previous unused tokens', async () => {
-    // Freeze time
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-01T12:00:00.000Z'));
+  if (expiredOnly) {
+    where.expiresAt = { lt: new Date(Date.now()) };
+  }
 
-    const cryptoCtl = setupCryptoMock();
-    const { spies } = setupPrismaMock();
+  if (userId !== undefined) {
+    where.userId = Number(userId);
+  }
 
-    // Push deterministic "random" bytes that will become plaintext token.
-    // plaintext token = randomBytes(32).toString('hex')
-    // We'll enqueue "TOKEN1" -> Buffer("TOKEN1").toString('hex') = "544f4b454e31"
-    cryptoCtl.pushRandom('TOKEN1');
+  // special case: expiredOnly === false means "delete all tokens for this user"
+  // (this skips expiresAt filter entirely, but requires userId)
+  if (expiredOnly === false && userId !== undefined) {
+    delete where.expiresAt;
+  }
 
-    const { issueResetToken } = await loadModuleFresh();
-
-    const token = await issueResetToken(42);
-
-    // 1. plaintext token equals the deterministic hex
-    expect(token).toBe('544f4b454e31');
-
-    // 2. deleteMany called first to clean old unused tokens for that user
-    expect(spies.deleteMany).toHaveBeenCalledWith({
-      where: { userId: 42, usedAt: null },
-    });
-
-    // 3. create called with hashed token and 30min expiry
-    expect(spies.create).toHaveBeenCalledTimes(1);
-    const arg = spies.create.mock.calls[0][0];
-
-    expect(arg.data.userId).toBe(42);
-
-    // hashToken logic: "HASH_<plaintext>"
-    expect(arg.data.tokenHash).toBe('HASH_544f4b454e31');
-
-    // expiresAt should be now + 30 minutes (TTL_MINUTES = 30)
-    expect(arg.data.expiresAt.toISOString()).toBe(
-      '2035-06-01T12:30:00.000Z'
-    );
-  });
-
-  test('consumeResetToken() returns null on bad input', async () => {
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    const { consumeResetToken } = await loadModuleFresh();
-
-    await expect(consumeResetToken('')).resolves.toBeNull();
-    await expect(consumeResetToken(null)).resolves.toBeNull();
-    await expect(consumeResetToken(undefined)).resolves.toBeNull();
-
-    expect(spies.findFirst).not.toHaveBeenCalled();
-  });
-
-  test('consumeResetToken() returns null if no matching valid token', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-01T12:00:00.000Z'));
-
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    // default spies.findFirst resolves to null
-    const { consumeResetToken } = await loadModuleFresh();
-
-    const out = await consumeResetToken('SOMEPLAINTEXT');
-
-    // We expect null for invalid / no-hit
-    expect(out).toBeNull();
-
-    // Ensure prisma.findFirst looked for unused, unexpired token
-    expect(spies.findFirst).toHaveBeenCalledWith({
-      where: {
-        tokenHash: 'HASH_SOMEPLAINTEXT',
-        usedAt: null,
-        expiresAt: { gt: new Date('2035-06-01T12:00:00.000Z') },
-      },
-      select: { id: true, userId: true },
-    });
-  });
-
-  test('consumeResetToken() returns userId and marks usedAt when valid token exists', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-01T12:00:00.000Z'));
-
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    // Simulate a valid token row from DB
-    spies.findFirst.mockResolvedValueOnce({
-      id: 999,
-      userId: 123,
-    });
-
-    const { consumeResetToken } = await loadModuleFresh();
-
-    const out = await consumeResetToken('VALIDTOKEN');
-    expect(out).toBe(123);
-
-    // It should have updated usedAt
-    expect(spies.update).toHaveBeenCalledWith({
-      where: { id: 999 },
-      data: { usedAt: expect.any(Date) },
-    });
-
-    // usedAt should be "now"
-    const usedAtVal = spies.update.mock.calls[0][0].data.usedAt;
-    expect(usedAtVal.toISOString()).toBe(
-      '2035-06-01T12:00:00.000Z'
-    );
-  });
-
-  test('purgeResetTokens() default: expiredOnly true, no userId -> deletes expired tokens only', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-10T00:00:00.000Z'));
-
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    const { purgeResetTokens } = await loadModuleFresh();
-
-    await purgeResetTokens(); // defaults
-
-    expect(spies.deleteMany).toHaveBeenCalledTimes(1);
-    const arg = spies.deleteMany.mock.calls[0][0];
-
-    // should match { where: { expiresAt: { lt: now } } }
-    expect(arg.where).toHaveProperty('expiresAt');
-    expect(arg.where.expiresAt.lt).toEqual(
-      new Date('2035-06-10T00:00:00.000Z')
-    );
-    expect(arg.where.userId).toBeUndefined();
-  });
-
-  test('purgeResetTokens({ expiredOnly:false, userId }) deletes all tokens for that user', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-10T00:00:00.000Z'));
-
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    const { purgeResetTokens } = await loadModuleFresh();
-
-    await purgeResetTokens({ expiredOnly: false, userId: 55 });
-
-    expect(spies.deleteMany).toHaveBeenCalledTimes(1);
-    const arg = spies.deleteMany.mock.calls[0][0];
-
-    // when expiredOnly=false, we should NOT include expiresAt filter
-    // but we SHOULD include userId filter
-    expect(arg.where.expiresAt).toBeUndefined();
-    expect(arg.where.userId).toBe(55);
-  });
-
-  test('purgeResetTokens({ userId }) combines expired filter + user filter', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2035-06-10T00:00:00.000Z'));
-
-    setupCryptoMock();
-    const { spies } = setupPrismaMock();
-
-    const { purgeResetTokens } = await loadModuleFresh();
-
-    await purgeResetTokens({ userId: '99' }); // string is allowed
-
-    const arg = spies.deleteMany.mock.calls[0][0];
-
-    // both filters present
-    expect(arg.where.userId).toBe(99); // coerced to Number
-    expect(arg.where.expiresAt.lt).toEqual(
-      new Date('2035-06-10T00:00:00.000Z')
-    );
-  });
-});
+  return prisma.passwordResetToken.deleteMany({ where });
+}

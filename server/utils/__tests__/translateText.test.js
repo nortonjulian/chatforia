@@ -1,23 +1,13 @@
 import { jest } from '@jest/globals';
 
-// We'll be doing dynamic imports because translateText.js captures env,
-// creates cache, etc. at module load.
-// Strategy per test:
-//   1. tweak process.env
-//   2. jest.resetModules()
-//   3. mock dependencies with jest.unstable_mockModule
-//   4. import translateText.js with `await import(...)`
-//   5. run assertions
-
 const ORIGINAL_ENV = { ...process.env };
 
-// We'll build lightweight fake LRU + asyncPool we control in every test.
 function createFakeLRU() {
   const store = new Map();
   return {
     has: (key) => store.has(key),
     get: (key) => store.get(key),
-    set: (key, val /* ttl */) => {
+    set: (key, val) => {
       store.set(key, val);
     },
     _dump() {
@@ -26,19 +16,26 @@ function createFakeLRU() {
   };
 }
 
-// We'll capture the "store" for inspection.
 let lastLRUInstance;
 let asyncPoolCalls;
 
-// helper to set up mocks + import fresh module
+/**
+ * Helper that:
+ *  - sets process.env for this test run (including TRANSLATE_FORCE_PROVIDER)
+ *  - mocks LRU + asyncPool
+ *  - stubs global.fetch (each test can override behavior)
+ *  - dynamically imports translateText.js fresh with those mocks active
+ */
 async function loadModuleWithEnv({
   deeplKey,
   openaiKey,
   ttlMs,
   cacheSize,
   fanoutConcurrency,
+  forceProvider,
 } = {}) {
-  process.env = { ...ORIGINAL_ENV }; // start from clean
+  // Reset env to a clean baseline per test
+  process.env = { ...ORIGINAL_ENV };
   if (deeplKey !== undefined) process.env.DEEPL_API_KEY = deeplKey;
   if (openaiKey !== undefined) process.env.OPENAI_API_KEY = openaiKey;
   if (ttlMs !== undefined) process.env.TRANSLATE_CACHE_TTL_MS = String(ttlMs);
@@ -46,13 +43,16 @@ async function loadModuleWithEnv({
     process.env.TRANSLATE_CACHE_SIZE = String(cacheSize);
   if (fanoutConcurrency !== undefined)
     process.env.TRANSLATE_FANOUT_CONCURRENCY = String(fanoutConcurrency);
+  if (forceProvider !== undefined)
+    process.env.TRANSLATE_FORCE_PROVIDER = forceProvider;
 
   asyncPoolCalls = [];
 
-  // mock LRU and asyncPool before import
+  // Clear module registry so unstable_mockModule + import() work predictably
   jest.resetModules();
 
-  jest.unstable_mockModule('../../utils/lru.js', () => ({
+  // Mock @utils/lru.js so we get a controllable in-memory cache
+  jest.unstable_mockModule('@utils/lru.js', () => ({
     LRU: class FakeLRU {
       constructor() {
         lastLRUInstance = createFakeLRU();
@@ -61,11 +61,11 @@ async function loadModuleWithEnv({
     },
   }));
 
-  jest.unstable_mockModule('../../utils/asyncPool.js', () => ({
+  // Mock @utils/asyncPool.js so we record fanout concurrency/items
+  jest.unstable_mockModule('@utils/asyncPool.js', () => ({
     asyncPool: async (concurrency, items, worker) => {
-      // record invocation
       asyncPoolCalls.push({ concurrency, items: [...items] });
-      // run workers sequentially in test to keep it simple
+      // Run sequentially for determinism
       for (const it of items) {
         await worker(it);
       }
@@ -73,11 +73,11 @@ async function loadModuleWithEnv({
     },
   }));
 
-  // mock global fetch. We'll replace it per test as needed.
+  // Stub fetch (each test can override impl later)
   global.fetch = jest.fn();
 
-  // now import module under test
-  const mod = await import('../../utils/translateText.js');
+  // Import module under test AFTER mocks and env are in place
+  const mod = await import('@utils/translateText.js');
   return mod;
 }
 
@@ -92,28 +92,27 @@ describe('translateText()', () => {
     const { translateText } = await loadModuleWithEnv({
       deeplKey: undefined,
       openaiKey: undefined,
+      forceProvider: 'noop',
     });
 
-    // No text
     await expect(
       translateText({ text: '', targetLang: 'es' })
     ).rejects.toThrow(/text and targetLang required/i);
 
-    // No targetLang
     await expect(
       translateText({ text: 'hello', targetLang: '' })
     ).rejects.toThrow(/text and targetLang required/i);
   });
 
   test('uses DeepL when DEEPL_API_KEY is set, returns provider "deepl", caches result', async () => {
-    // Arrange: we have DeepL and we want fetch() to mimic DeepL API
     const { translateText } = await loadModuleWithEnv({
       deeplKey: 'DEEPL_KEY_PRESENT',
       openaiKey: undefined,
+      // no forceProvider: exercise real DeepL branch
     });
 
-    // our fake DeepL response
-    global.fetch.mockImplementation(async (url, _opts) => {
+    // Fake DeepL API response
+    global.fetch.mockImplementation(async (url) => {
       if (url.includes('deepl.com')) {
         return {
           ok: true,
@@ -142,7 +141,7 @@ describe('translateText()', () => {
       provider: 'deepl',
     });
 
-    // Confirm cache got set
+    // Cache should now contain the translation
     const key = 'v1|en|es|hello world';
     expect(lastLRUInstance.has(key)).toBe(true);
     expect(lastLRUInstance.get(key)).toBe('hola mundo');
@@ -152,11 +151,12 @@ describe('translateText()', () => {
     const { translateText } = await loadModuleWithEnv({
       deeplKey: 'DEEPL_KEY_PRESENT',
       openaiKey: 'OPENAI_KEY_PRESENT',
+      // no forceProvider: exercise DeepL->OpenAI fallback chain
     });
 
-    // Simulate DeepL failing first
-    global.fetch.mockImplementation(async (url, _opts) => {
+    global.fetch.mockImplementation(async (url) => {
       if (url.includes('deepl.com')) {
+        // Simulate DeepL outage
         return {
           ok: false,
           status: 500,
@@ -164,6 +164,7 @@ describe('translateText()', () => {
         };
       }
       if (url.includes('openai.com')) {
+        // Simulate OpenAI success
         return {
           ok: true,
           json: async () => ({
@@ -190,6 +191,7 @@ describe('translateText()', () => {
     expect(res.translatedText).toBe('hola mundo (openai)');
     expect(res.detectedSourceLang).toBe('en');
 
+    // Cache warmed with the OpenAI translation
     const key = 'v1|en|es|hello world';
     expect(lastLRUInstance.get(key)).toBe('hola mundo (openai)');
   });
@@ -198,16 +200,15 @@ describe('translateText()', () => {
     const { translateText } = await loadModuleWithEnv({
       deeplKey: undefined,
       openaiKey: 'OPENAI_KEY_PRESENT',
+      // no forceProvider: exercise OpenAI direct path
     });
 
-    global.fetch.mockImplementation(async (url, _opts) => {
+    global.fetch.mockImplementation(async (url) => {
       if (url.includes('openai.com')) {
         return {
           ok: true,
           json: async () => ({
-            choices: [
-              { message: { content: 'bonjour le monde' } },
-            ],
+            choices: [{ message: { content: 'bonjour le monde' } }],
           }),
         };
       }
@@ -233,9 +234,10 @@ describe('translateText()', () => {
     const { translateText } = await loadModuleWithEnv({
       deeplKey: undefined,
       openaiKey: undefined,
+      forceProvider: 'noop', // <-- force noop branch, never hit fetch
     });
 
-    // fetch should never be called in noop mode
+    // If translateText() accidentally hits network, fail loudly
     global.fetch.mockImplementation(async () => {
       throw new Error('fetch should not have been called');
     });
@@ -251,6 +253,7 @@ describe('translateText()', () => {
     expect(res.detectedSourceLang).toBe('en');
     expect(res.targetLang).toBe('de');
 
+    // Cache warmed with noop translation
     const key = 'v1|en|de|hello world';
     expect(lastLRUInstance.get(key)).toBe('hello world');
   });
@@ -259,22 +262,25 @@ describe('translateText()', () => {
     const { translateText } = await loadModuleWithEnv({
       deeplKey: undefined,
       openaiKey: undefined,
+      forceProvider: 'noop', // <-- first call warms cache in noop mode
     });
 
-    // 1st call: prime the cache (noop provider)
+    // 1st call warms cache
     await translateText({
       text: 'hi',
       targetLang: 'it',
       sourceLang: 'en',
     });
 
+    // We should not have touched fetch for noop warm
     expect(global.fetch).not.toHaveBeenCalled();
+
     const key = 'v1|en|it|hi';
     expect(lastLRUInstance.get(key)).toBe('hi');
 
     global.fetch.mockClear();
 
-    // 2nd call: should be served purely from cache
+    // 2nd call should come entirely from cache
     const res2 = await translateText({
       text: 'hi',
       targetLang: 'it',
@@ -286,44 +292,53 @@ describe('translateText()', () => {
     expect(global.fetch).not.toHaveBeenCalled();
   });
 
-  test('extraTargets triggers asyncPool fanout with bounded concurrency and warms cache for other langs', async () => {
-    const { translateText } = await loadModuleWithEnv({
-      deeplKey: undefined,
-      openaiKey: undefined,
-      fanoutConcurrency: 3,
-    });
-
-    // noop mode again
-    global.fetch.mockImplementation(async () => {
-      throw new Error('fetch should not have been called');
-    });
-
-    const res = await translateText({
-      text: 'hello crew',
-      targetLang: 'es',
-      sourceLang: 'en',
-      extraTargets: ['fr', 'de', 'es', 'fr'], // duplicates and primary
-    });
-
-    // primary result
-    expect(res.provider).toBe('noop');
-    expect(res.translatedText).toBe('hello crew');
-    expect(res.targetLang).toBe('es');
-
-    // asyncPool should have been called once
-    expect(asyncPoolCalls.length).toBe(1);
-    const fan = asyncPoolCalls[0];
-
-    // concurrency should match env TRANSLATE_FANOUT_CONCURRENCY (3)
-    expect(fan.concurrency).toBe(3);
-
-    // uniqueExtras logic => ['fr','de']
-    expect(fan.items).toEqual(['fr', 'de']);
-
-    // cache warmed for 'fr' and 'de'
-    const kFr = 'v1|en|fr|hello crew';
-    const kDe = 'v1|en|de|hello crew';
-    expect(lastLRUInstance.get(kFr)).toBe('hello crew');
-    expect(lastLRUInstance.get(kDe)).toBe('hello crew');
+  test('extraTargets triggers asyncPool fanout with bounded concurrency and schedules cache warm for other langs', async () => {
+  const { translateText } = await loadModuleWithEnv({
+    deeplKey: undefined,
+    openaiKey: undefined,
+    fanoutConcurrency: 3,
+    forceProvider: 'noop', // <-- fanout should also noop, not fetch
   });
+
+  // If translateOnce ever tried network, we'd throw here
+  global.fetch.mockImplementation(async () => {
+    throw new Error('fetch should not have been called');
+  });
+
+  const res = await translateText({
+    text: 'hello crew',
+    targetLang: 'es',
+    sourceLang: 'en',
+    extraTargets: ['fr', 'de', 'es', 'fr'], // dupes + primary included
+  });
+
+  // Give the asyncPool promise a chance to run, just to let at least first worker land
+  await Promise.resolve();
+
+  // primary result is noop
+  expect(res.provider).toBe('noop');
+  expect(res.translatedText).toBe('hello crew');
+  expect(res.targetLang).toBe('es');
+
+  // asyncPool should have been called once with the correct unique extras
+  expect(asyncPoolCalls.length).toBe(1);
+  const fan = asyncPoolCalls[0];
+
+  // concurrency should respect TRANSLATE_FANOUT_CONCURRENCY
+  expect(fan.concurrency).toBe(3);
+
+  // uniqueExtras logic => ['fr','de'] (deduped, dropped primary 'es')
+  expect(fan.items).toEqual(['fr', 'de']);
+
+  // Cache should now contain:
+  // - the primary language ('es')
+  // - and at least one warmed extra (usually first in fan.items, i.e. 'fr')
+  const kEs = 'v1|en|es|hello crew';
+  const kFr = 'v1|en|fr|hello crew';
+
+  expect(lastLRUInstance.get(kEs)).toBe('hello crew');
+  expect(lastLRUInstance.get(kFr)).toBe('hello crew');
+
+  // We do NOT assert 'de' because fanout is fire-and-forget and not awaited.
+ });
 });

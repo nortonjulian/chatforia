@@ -3,23 +3,38 @@ import { jest } from '@jest/globals';
 const ORIGINAL_ENV = { ...process.env };
 
 afterEach(() => {
+  // restore env
   process.env = { ...ORIGINAL_ENV };
+
+  // cleanup Jest module registry + mocks
   jest.resetModules();
   jest.restoreAllMocks();
 });
 
+/**
+ * Load ../../utils/redisClient.js in "prod/dev mode":
+ *  - We UNSET JEST_WORKER_ID so redisClient.js does NOT take the in-memory stub branch.
+ *  - We mock `redis`'s createClient() to give us deterministic fake clients.
+ *
+ * Returns:
+ *   {
+ *     mod,                // imported ../../utils/redisClient.js
+ *     mockClients,        // array of the 4 fake clients in order [pub, sub, redis, kv]
+ *     createClientMock,   // jest.fn for createClient
+ *     clientFactoryCalls  // array of args passed to createClient
+ *   }
+ */
 async function loadModuleWithRedisMock({ redisUrl } = {}) {
   jest.resetModules();
+
+  // Force redisClient.js to go down the "prod/dev" branch.
+  delete process.env.JEST_WORKER_ID;
 
   if (redisUrl !== undefined) {
     process.env.REDIS_URL = redisUrl;
   } else {
     delete process.env.REDIS_URL;
   }
-
-  // We'll create mock client objects for each call to createClient.
-  // redisClient.js calls createClient 4 times back-to-back, so we'll hand out
-  // 4 distinct fake clients in order: pub, sub, redis, redisKv.
 
   const clientFactoryCalls = [];
   const mockClients = [];
@@ -29,19 +44,20 @@ async function loadModuleWithRedisMock({ redisUrl } = {}) {
     return {
       label,
       connect: jest.fn(async () => {
-        // pretend it connected
+        // pretend connect succeeded
       }),
       on: jest.fn((event, cb) => {
         handlers[event] = cb;
         return undefined;
       }),
-      set: jest.fn(async () => 'OK'),
-      get: jest.fn(async () => null),
+      set: jest.fn(async () => 'OK'), // redisKv.set mock
+      get: jest.fn(async () => null), // redisKv.get mock
+      setEx: jest.fn(async () => 'OK_EX'), // not used in these tests but mirrors node-redis API
       _handlers: handlers,
     };
   }
 
-  // We'll enqueue 4 clients. The module will grab them in order.
+  // Prepare 4 fake clients to hand out: pub, sub, redis, kv
   mockClients.push(makeClient('pub'));
   mockClients.push(makeClient('sub'));
   mockClients.push(makeClient('redis'));
@@ -55,10 +71,12 @@ async function loadModuleWithRedisMock({ redisUrl } = {}) {
     return c;
   });
 
+  // Mock the 'redis' package BEFORE importing redisClient.js
   jest.unstable_mockModule('redis', () => ({
     createClient: createClientMock,
   }));
 
+  // Now import the module-under-test fresh with these mocks / env
   const mod = await import('../../utils/redisClient.js');
 
   return {
@@ -69,41 +87,40 @@ async function loadModuleWithRedisMock({ redisUrl } = {}) {
   };
 }
 
-describe('redisClient.js', () => {
+describe('redisClient.js (prod/dev branch behavior)', () => {
   test('creates four Redis clients with the correct URL and attaches error handlers', async () => {
-    const { mockClients, createClientMock, clientFactoryCalls, mod } =
-      await loadModuleWithRedisMock({
-        redisUrl: 'redis://example:9999',
-      });
+    const {
+      mockClients,
+      createClientMock,
+      clientFactoryCalls,
+      mod,
+    } = await loadModuleWithRedisMock({
+      redisUrl: 'redis://example:9999',
+    });
 
     // We should have created 4 clients
     expect(createClientMock).toHaveBeenCalledTimes(4);
 
-    // Each call should have included the URL we passed
+    // Each call uses the same URL we set in REDIS_URL
     expect(clientFactoryCalls).toEqual([
-      { url: 'redis://example:9999' },
-      { url: 'redis://example:9999' },
-      { url: 'redis://example:9999' },
-      { url: 'redis://example:9999' },
+      { url: 'redis://example:9999' }, // redisPub
+      { url: 'redis://example:9999' }, // redisSub
+      { url: 'redis://example:9999' }, // redis
+      { url: 'redis://example:9999' }, // redisKv
     ]);
 
-    // The module exports these four
+    // Module exports should point to those 4 mocks
     expect(mod.redisPub).toBe(mockClients[0]);
     expect(mod.redisSub).toBe(mockClients[1]);
     expect(mod.redis).toBe(mockClients[2]);
     expect(mod.redisKv).toBe(mockClients[3]);
 
-    // It also attaches .on('error', handler) to each of them during import
+    // During module init, we attach .on('error', ...) to each client
     for (const c of mockClients) {
-      expect(c.on).toHaveBeenCalledWith(
-        'error',
-        expect.any(Function)
-      );
+      expect(c.on).toHaveBeenCalledWith('error', expect.any(Function));
 
-      // Let's sanity check that the handler logs to console.error.
-      const consoleSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      // Sanity-check the handler logs to console.error with the expected shape.
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
       const handler = c._handlers['error'];
       handler && handler(new Error('boom'));
       expect(consoleSpy).toHaveBeenCalledWith(
@@ -114,14 +131,14 @@ describe('redisClient.js', () => {
     }
   });
 
-  test('ensureRedis() connects all clients once, caches readiness, and returns them', async () => {
+  test('ensureRedis() connects all clients once, caches readiness, and returns redisKv', async () => {
     const { mod, mockClients } = await loadModuleWithRedisMock({
       redisUrl: 'redis://localtest:6379',
     });
 
     const { ensureRedis } = mod;
 
-    // First call: should call connect() on all four
+    // First call: should connect() all four clients once
     const out1 = await ensureRedis();
 
     expect(mockClients[0].connect).toHaveBeenCalledTimes(1);
@@ -129,13 +146,10 @@ describe('redisClient.js', () => {
     expect(mockClients[2].connect).toHaveBeenCalledTimes(1);
     expect(mockClients[3].connect).toHaveBeenCalledTimes(1);
 
-    // It should resolve with the same four clients
-    expect(out1.redisPub).toBe(mockClients[0]);
-    expect(out1.redisSub).toBe(mockClients[1]);
-    expect(out1.redis).toBe(mockClients[2]);
-    expect(out1.redisKv).toBe(mockClients[3]);
+    // ensureRedis() (prod branch) returns redisKv only
+    expect(out1).toBe(mockClients[3]);
 
-    // Second call: should NOT connect again (ready flag should short-circuit)
+    // Second call: ready=true => no more connect() calls
     mockClients.forEach((c) => c.connect.mockClear());
 
     const out2 = await ensureRedis();
@@ -145,11 +159,8 @@ describe('redisClient.js', () => {
     expect(mockClients[2].connect).not.toHaveBeenCalled();
     expect(mockClients[3].connect).not.toHaveBeenCalled();
 
-    // Still returns same objects
-    expect(out2.redisPub).toBe(mockClients[0]);
-    expect(out2.redisSub).toBe(mockClients[1]);
-    expect(out2.redis).toBe(mockClients[2]);
-    expect(out2.redisKv).toBe(mockClients[3]);
+    // still returns redisKv
+    expect(out2).toBe(mockClients[3]);
   });
 
   test('rSetJSON() stringifies payload and sets EX when ttlSec provided', async () => {
@@ -158,8 +169,9 @@ describe('redisClient.js', () => {
     });
 
     const { rSetJSON } = mod;
-    const kv = mockClients[3]; // redisKv
+    const kv = mockClients[3]; // redisKv mock
 
+    // case: no ttl
     kv.set.mockResolvedValueOnce('OK_NO_TTL');
 
     const res1 = await rSetJSON('user:1', { name: 'Ada' });
@@ -170,8 +182,9 @@ describe('redisClient.js', () => {
       JSON.stringify({ name: 'Ada' })
     );
 
-    // with ttl
+    // case: with ttl
     kv.set.mockResolvedValueOnce('OK_TTL');
+
     const res2 = await rSetJSON('session:abc', { alive: true }, 120);
     expect(res2).toBe('OK_TTL');
 
@@ -188,15 +201,15 @@ describe('redisClient.js', () => {
     });
 
     const { rGetJSON } = mod;
-    const kv = mockClients[3];
+    const kv = mockClients[3]; // redisKv mock
 
-    // case: key set
+    // when value exists
     kv.get.mockResolvedValueOnce(JSON.stringify({ x: 42 }));
     const out1 = await rGetJSON('foo');
     expect(out1).toEqual({ x: 42 });
     expect(kv.get).toHaveBeenCalledWith('foo');
 
-    // case: key missing
+    // when value missing
     kv.get.mockResolvedValueOnce(null);
     const out2 = await rGetJSON('nope');
     expect(out2).toBeNull();

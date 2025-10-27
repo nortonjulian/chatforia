@@ -2,7 +2,7 @@ import { jest } from '@jest/globals';
 
 const ORIGINAL_ENV = { ...process.env };
 
-afterEach(() => {
+afterEach(() => { 
   process.env = { ...ORIGINAL_ENV };
   jest.resetModules();
   jest.restoreAllMocks();
@@ -12,20 +12,41 @@ afterEach(() => {
 // 1. sets env vars
 // 2. mocks AWS SDK modules
 // 3. imports ../../utils/r2.js
-async function loadR2Module({
-  accessKeyId = 'AKIA_TEST',
-  secretAccessKey = 'SECRET_TEST',
-  endpointHost = 'abc123.r2.cloudflarestorage.com',
-  bucket = 'chatforia-prod',
-  publicBase = 'https://media.chatforia.com',
-} = {}) {
+async function loadR2Module(opts = {}) {
   jest.resetModules();
+
+  const {
+    accessKeyId,
+    secretAccessKey,
+    endpointHost,
+    bucket,
+    publicBase,
+  } = {
+    accessKeyId: 'AKIA_TEST',
+    secretAccessKey: 'SECRET_TEST',
+    endpointHost: 'abc123.r2.cloudflarestorage.com',
+    bucket: 'chatforia-prod',
+    publicBase: 'https://media.chatforia.com',
+    ...opts,
+  };
 
   process.env.R2_ACCESS_KEY_ID = accessKeyId;
   process.env.R2_SECRET_ACCESS_KEY = secretAccessKey;
   process.env.R2_S3_ENDPOINT = endpointHost;
   process.env.R2_BUCKET = bucket;
-  process.env.R2_PUBLIC_BASE = publicBase;
+
+  // Only set R2_PUBLIC_BASE if caller explicitly provided something
+  // other than undefined. If they passed undefined, we DELETE it.
+  if (opts.hasOwnProperty('publicBase')) {
+    if (publicBase === undefined) {
+      delete process.env.R2_PUBLIC_BASE;
+    } else {
+      process.env.R2_PUBLIC_BASE = publicBase;
+    }
+  } else {
+    // caller didn't mention publicBase, use resolved default
+    process.env.R2_PUBLIC_BASE = publicBase;
+  }
 
   // We'll capture ctor args for S3Client and for commands.
   const s3ClientSendMock = jest.fn(async (cmd) => {
@@ -88,13 +109,8 @@ async function loadR2Module({
 
 describe('r2.js', () => {
   test('constructs S3Client with correct endpoint, creds, and forcePathStyle, and warns when env missing', async () => {
-    // We'll run twice:
-    //   1. With all env vars to assert no missing-var warnings.
-    //   2. With missing vars to assert warnings.
-
     // --- Case 1: all env provided ---
     const {
-      mod,
       s3ClientCtorArgs,
       consoleWarnSpy,
     } = await loadR2Module({
@@ -125,15 +141,19 @@ describe('r2.js', () => {
     // --- Case 2: missing env triggers warnings ---
     jest.resetModules();
     jest.restoreAllMocks();
-    const consoleWarnSpy2 = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    process.env = { ...ORIGINAL_ENV }; // reset
-    // Intentionally leave out accessKeyId / etc.
+
+    const consoleWarnSpy2 = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+
+    process.env = { ...ORIGINAL_ENV };
+
     await loadR2Module({
       accessKeyId: '',            // missing
       secretAccessKey: '',        // missing
       endpointHost: '',           // missing
       bucket: '',                 // missing
-      publicBase: undefined,      // doesn't matter for warnings
+      publicBase: 'https://does-not-matter.test', // doesn't affect warnings
     });
 
     // We expect at least two warnings:
@@ -292,14 +312,24 @@ describe('r2.js', () => {
       'https://cdn.example.com/avatars/user123.jpg'
     );
 
-    // Case 2: no R2_PUBLIC_BASE in env
+    // Case 2: no R2_PUBLIC_BASE in env at all
     jest.resetModules();
     jest.restoreAllMocks();
+
+    const consoleWarnSpy3 = jest
+      .spyOn(console, 'warn')
+      .mockImplementation(() => {});
+
+    process.env = { ...ORIGINAL_ENV };
+
+    // Explicitly request "unset" by passing { publicBase: undefined }
     const { mod: mod2 } = await loadR2Module({
       publicBase: undefined,
     });
 
     const { r2PublicUrl: r2PublicUrl2 } = mod2;
     expect(r2PublicUrl2('avatars/user123.jpg')).toBeNull();
+
+    consoleWarnSpy3.mockRestore();
   });
 });

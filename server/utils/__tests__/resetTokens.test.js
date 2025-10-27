@@ -1,5 +1,9 @@
 import { jest } from '@jest/globals';
 
+// Make sure the global jest.setup.js skips touching the real DB (and importing prisma)
+// for this entire file. This must run before anything else in this test file executes.
+process.env.__SKIP_DB_WIPE__ = '1';
+
 // We'll dynamically import ../../utils/resetTokens.js after mocking its deps.
 // We'll mock crypto to make output deterministic.
 // We'll mock prisma.passwordResetToken methods and capture their calls.
@@ -17,7 +21,7 @@ function setupCryptoMock() {
 
   randomBytesQueue = [];
 
-  const randomBytes = (len) => {
+  const randomBytes = (_len) => {
     const next =
       randomBytesQueue.length > 0
         ? randomBytesQueue.shift()
@@ -41,7 +45,9 @@ function setupCryptoMock() {
     };
   };
 
-  jest.unstable_mockModule('node:crypto', () => ({
+  // Use node:crypto here ONLY if resetTokens.js imports from 'node:crypto'.
+  // If resetTokens.js imports from 'crypto', then mock 'crypto' instead.
+  jest.unstable_mockModule('crypto', () => ({
     default: { randomBytes, createHash },
     randomBytes,
     createHash,
@@ -69,10 +75,13 @@ function setupPrismaMock() {
     },
   };
 
-  // ✅ IMPORTANT: this path must match how resetTokens.js imports prismaClient
-  // resetTokens.js does: import prisma from './prismaClient.js'
-  // from THIS test file (utils/__tests__/...), that module is at ../../utils/prismaClient.js
-  jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
+  // SUPER IMPORTANT:
+  // Your app code (resetTokens.js) should now import prisma like:
+  //   import prisma from '@utils/prismaClient.js';
+  //
+  // We must mock that same specifier here so resetTokens.js
+  // sees our fake prisma instead of trying to load the real one.
+  jest.unstable_mockModule('@utils/prismaClient.js', () => ({
     default: prismaMock,
   }));
 
@@ -87,13 +96,21 @@ function setupPrismaMock() {
 }
 
 async function loadModuleFresh() {
+  // blow away Jest's module cache before re-importing with fresh mocks
   jest.resetModules();
-  const mod = await import('../../utils/resetTokens.js');
+
+  // Reapply SKIP_DB_WIPE for the newly loaded module environment
+  process.env.__SKIP_DB_WIPE__ = '1';
+
+  // crypto + prisma mocks must be set up BEFORE this import
+  const mod = await import('@utils/resetTokens.js');
   return mod;
 }
 
 afterEach(() => {
   process.env = { ...ORIGINAL_ENV };
+  process.env.__SKIP_DB_WIPE__ = '1'; // keep future tests safe in this file
+
   jest.useRealTimers();
   jest.resetModules();
   jest.restoreAllMocks();
@@ -133,7 +150,7 @@ describe('resetTokens utils', () => {
     // hashToken logic: "HASH_<plaintext>"
     expect(arg.data.tokenHash).toBe('HASH_544f4b454e31');
 
-    // expiresAt should be now + 30 minutes (TTL_MINUTES = 30)
+    // expiresAt should be now + 30 minutes (TTL_MINUTES = 30 default)
     expect(arg.data.expiresAt.toISOString()).toBe(
       '2035-06-01T12:30:00.000Z'
     );
@@ -202,9 +219,7 @@ describe('resetTokens utils', () => {
 
     // usedAt should be "now"
     const usedAtVal = spies.update.mock.calls[0][0].data.usedAt;
-    expect(usedAtVal.toISOString()).toBe(
-      '2035-06-01T12:00:00.000Z'
-    );
+    expect(usedAtVal.toISOString()).toBe('2035-06-01T12:00:00.000Z');
   });
 
   test('purgeResetTokens() default: expiredOnly true, no userId -> deletes expired tokens only', async () => {
@@ -260,7 +275,7 @@ describe('resetTokens utils', () => {
     const arg = spies.deleteMany.mock.calls[0][0];
 
     // both filters present
-    expect(arg.where.userId).toBe(99); // coerced to Number
+    expect(arg.where.userId).toBe(99); // coerced to Number in your code
     expect(arg.where.expiresAt.lt).toEqual(
       new Date('2035-06-10T00:00:00.000Z')
     );

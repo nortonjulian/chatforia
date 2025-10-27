@@ -172,7 +172,8 @@ describe('hkdf', () => {
 
     const out = hkdf('ABC', 'custom-info', 16);
 
-    const [alg, salt, ikm, info, length] = mocks.hkdfSyncMock.mock.calls[1];
+    // only one call in this fresh module instance
+    const [alg, salt, ikm, info, length] = mocks.hkdfSyncMock.mock.calls[0];
     expect(info).toEqual(Buffer.from('custom-info'));
     expect(length).toBe(16);
 
@@ -180,6 +181,7 @@ describe('hkdf', () => {
     expect(out.length).toBeLessThanOrEqual(16);
   });
 });
+
 
 describe('deriveSharedKey', () => {
   test('scalarMult(ePriv, otherPub), concat shared||secret, hkdf(...,"provision-v1",32)', async () => {

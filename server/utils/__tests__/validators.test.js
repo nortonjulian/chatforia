@@ -1,51 +1,41 @@
-import { jest } from '@jest/globals';
+/**
+ * server/utils/__tests__/validators.test.js
+ *
+ * We test the real Zod schemas in utils/validators.js with the real
+ * normalizeE164() from utils/phone.js.
+ *
+ * No mocking.
+ */
 
-// ---- Mock normalizeE164 so we can assert transform() is applied ----
-// We mock BEFORE importing validators.js, because validators.js imports normalizeE164 at module load.
-jest.unstable_mockModule('./phone.js', () => ({
-  // Fake normalizeE164. We'll treat any non-empty string as "valid"
-  // and map it to a predictable E.164 string. Otherwise return '' so
-  // the refine(Boolean, 'Invalid phone') fails.
-  normalizeE164: (input) => {
-    if (!input || typeof input !== 'string') return '';
-    return '+19995551234';
-  },
-}));
+import {
+  SmsInviteSchema,
+  EmailInviteSchema,
+} from '../../utils/validators.js';
 
-// Now import the schemas under test (must be dynamic import after mock).
-let SmsInviteSchema;
-let EmailInviteSchema;
-
-beforeAll(async () => {
-  const m = await import('../../utils/validators.js');
-  SmsInviteSchema = m.SmsInviteSchema;
-  EmailInviteSchema = m.EmailInviteSchema;
-});
-
-describe('SmsInviteSchema', () => {
+describe('SmsInviteSchema (integration with real normalizeE164)', () => {
   test('accepts valid phone and normalizes it', () => {
     const input = {
-      phone: '999-555-1234',
+      phone: '415-555-2671', // US 10-digit, will normalize to +14155552671
       message: 'hey join my chat',
       preferredProvider: 'telnyx',
     };
 
     const parsed = SmsInviteSchema.parse(input);
 
-    // phone got run through normalizeE164 mock
-    expect(parsed.phone).toBe('+19995551234');
+    // normalizeE164 should have turned this into +1E164 form
+    expect(parsed.phone).toBe('+14155552671');
 
-    // message is optional but when provided it should round-trip
+    // message should round-trip
     expect(parsed.message).toBe('hey join my chat');
 
-    // enum should allow "telnyx"
+    // enum value should be allowed
     expect(parsed.preferredProvider).toBe('telnyx');
   });
 
   test('rejects invalid preferredProvider', () => {
     const bad = {
-      phone: '999-555-1234',
-      preferredProvider: 'twilio', // not allowed in enum
+      phone: '4155552671', // still valid as US
+      preferredProvider: 'twilio', // not in the enum
     };
 
     expect(() => SmsInviteSchema.parse(bad)).toThrow(
@@ -54,19 +44,25 @@ describe('SmsInviteSchema', () => {
   });
 
   test('rejects if normalizeE164 returns falsy (invalid phone)', () => {
-    // Our mock normalizeE164 returns '' when input is falsy/garbage.
-    const bad = {
-      phone: '', // empty
-    };
+  // Use a string that:
+  //  - is at least 3 chars (so .min(3) passes),
+  //  - but still cannot be normalized to valid E.164.
+  //
+  // "123" is too short to become a valid US E.164 in our normalizeE164/toE164 logic,
+  // so normalizeE164('123') => null, then refine(Boolean, 'Invalid phone') should fire.
+  const bad = {
+    phone: '123',
+  };
 
-    expect(() => SmsInviteSchema.parse(bad)).toThrow(/Invalid phone/i);
-  });
+  expect(() => SmsInviteSchema.parse(bad)).toThrow(/Invalid phone/i);
+});
+
 
   test('rejects message longer than 480 chars', () => {
     const longMessage = 'x'.repeat(481);
 
     const tooLong = {
-      phone: '999-555-1234',
+      phone: '4155552671',
       message: longMessage,
     };
 
@@ -77,13 +73,12 @@ describe('SmsInviteSchema', () => {
 
   test('allows missing optional fields', () => {
     const minimal = {
-      phone: '555',
+      phone: '4155552671',
     };
 
-    // mock normalizes anyway
     const parsed = SmsInviteSchema.parse(minimal);
-    expect(parsed.phone).toBe('+19995551234');
-    // message and preferredProvider should be undefined
+
+    expect(parsed.phone).toBe('+14155552671');
     expect(parsed.message).toBeUndefined();
     expect(parsed.preferredProvider).toBeUndefined();
   });

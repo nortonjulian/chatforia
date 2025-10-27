@@ -7,37 +7,58 @@ let sendSmsMock;
 let createInvitesAndText;
 
 beforeAll(async () => {
-  // Mock prisma client module BEFORE importing the service
-  jest.unstable_mockModule('../../server/utils/prismaClient.js', () => {
-    const event = { findUnique: jest.fn() };
+  // 1. mock prisma BEFORE importing the service
+  jest.unstable_mockModule('../utils/prismaClient.js', () => {
+    const event = {
+      findUnique: jest.fn(),
+    };
     const eventInvite = {
       create: jest.fn(),
       update: jest.fn(),
     };
+
+    const prismaStub = {
+      event,
+      eventInvite,
+    };
+
     return {
       __esModule: true,
-      default: {
-        event,
-        eventInvite,
-      },
+      default: prismaStub,
+      prisma: prismaStub,
     };
   });
 
-  // Mock SMS util BEFORE importing the service
-  jest.unstable_mockModule('../../server/utils/sms.js', () => {
+  // 2. mock the FINAL Twilio layer BEFORE importing the service.
+  // invites.js -> ../utils/sms.js -> ../lib/telco/index.js -> sendSms()
+  // We mock that last one so nothing ever touches Twilio.
+  jest.unstable_mockModule('../lib/telco/index.js', () => {
     return {
       __esModule: true,
-      sendSms: jest.fn(async () => ({ ok: true })),
+      // matches the real named export
+      sendSms: jest.fn(async ({ to, text, clientRef }) => ({
+        provider: 'mock',
+        messageSid: `SM_TEST_${to}`,
+        to,
+        text,
+        clientRef,
+      })),
+      // if something in utils/sms.js imports default getProvider() or providerName etc,
+      // it's safe to stub those too so it doesn't blow up.
+      default: { providerName: 'mock' },
+      getProvider: jest.fn(() => ({ providerName: 'mock' })),
+      providerName: 'mock',
+      providers: {},
     };
   });
 
-  // Now import the mocked modules and the service under test
-  const prismaModule = await import('../../server/utils/prismaClient.js');
-  const smsModule = await import('../../server/utils/sms.js');
-  const invitesModule = await import('../../server/services/invites.js');
+  // 3. NOW import modules under test (after mocks are registered)
+  const prismaModule = await import('../utils/prismaClient.js');
+  const telcoModule = await import('../lib/telco/index.js');
+  const invitesModule = await import('../services/invites.js');
 
   prismaMock = prismaModule.default;
-  sendSmsMock = smsModule.sendSms;
+  sendSmsMock = telcoModule.sendSms;
   createInvitesAndText = invitesModule.createInvitesAndText;
 });
 
@@ -46,7 +67,7 @@ beforeEach(() => {
 });
 
 test('creates invites and sends SMS', async () => {
-  // Arrange: set up prisma mock return values for this run
+  // Arrange: fake event row
   prismaMock.event.findUnique.mockResolvedValueOnce({
     id: 'evt',
     title: 'Demo',
@@ -55,11 +76,13 @@ test('creates invites and sends SMS', async () => {
     endUTC: new Date('2025-01-01T01:00:00Z'),
   });
 
+  // When invites.js calls prisma.eventInvite.create(...)
   prismaMock.eventInvite.create.mockImplementation(async ({ data }) => ({
     id: 'inv-' + data.phoneE164,
     ...data,
   }));
 
+  // After SMS send, invites.js calls prisma.eventInvite.update(...)
   prismaMock.eventInvite.update.mockResolvedValue({});
 
   const recipients = [
@@ -70,19 +93,17 @@ test('creates invites and sends SMS', async () => {
   // Act
   const out = await createInvitesAndText({ eventId: 'evt', recipients });
 
-  // Assert
+  // Assert basic shape
   expect(out).toHaveLength(2);
 
   // We texted each recipient once
   expect(sendSmsMock).toHaveBeenCalledTimes(2);
 
-  // We updated each invite with delivery status/etc
+  // We updated each invite (deliveredAt, etc.)
   expect(prismaMock.eventInvite.update).toHaveBeenCalledTimes(2);
 
-  // (optional deeper checks if you want — safe to skip but nice to have:)
-  // expect(prismaMock.eventInvite.create).toHaveBeenCalledWith(
-  //   expect.objectContaining({
-  //     data: expect.objectContaining({ phoneE164: '+15550001' }),
-  //   })
+  // (Optional deeper assertions)
+  // expect(sendSmsMock).toHaveBeenCalledWith(
+  //   expect.objectContaining({ to: '+15550001' })
   // );
 });

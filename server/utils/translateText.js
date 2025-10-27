@@ -1,18 +1,22 @@
-// Node >= 18 has global fetch; no import needed.
 import Boom from '@hapi/boom';
-import { LRU } from './lru.js';
-import { asyncPool } from './asyncPool.js';
+import { LRU } from '@utils/lru.js';
+import { asyncPool } from '@utils/asyncPool.js';
 
+// pull keys at module load (unchanged)
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
 const DEEPL_KEY = process.env.DEEPL_API_KEY;
 
-// Cache up to ~2k unique translations; default TTL 10 minutes
+// test override: force provider behavior
+// e.g. TRANSLATE_FORCE_PROVIDER=noop
+const FORCE_PROVIDER = process.env.TRANSLATE_FORCE_PROVIDER || null;
+
+// Cache config
 const CACHE_TTL_MS = Number(
   process.env.TRANSLATE_CACHE_TTL_MS ?? 10 * 60 * 1000
 );
 const cache = new LRU(Number(process.env.TRANSLATE_CACHE_SIZE ?? 2000));
 
-/** Provider: DeepL (preferred when key present) */
+/** Provider: DeepL */
 async function deeplTranslate({ text, targetLang, sourceLang }) {
   const resp = await fetch('https://api-free.deepl.com/v2/translate', {
     method: 'POST',
@@ -41,9 +45,10 @@ async function deeplTranslate({ text, targetLang, sourceLang }) {
   return { translatedText, detectedSourceLang, provider: 'deepl' };
 }
 
-/** Provider: OpenAI (fallback) */
+/** Provider: OpenAI */
 async function openaiTranslate({ text, targetLang, sourceLang }) {
   const system = `You are a translator. Translate the user's message to ${targetLang}. Return only the translation.`;
+
   const resp = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -78,24 +83,38 @@ async function openaiTranslate({ text, targetLang, sourceLang }) {
   };
 }
 
-/** One-shot translation via preferred provider (DeepL → OpenAI → echo) */
+/** Choose provider: DeepL → OpenAI → noop (with override support) */
 async function translateOnce({ text, targetLang, sourceLang }) {
-  // Prefer DeepL if configured
+  // 🚦 test override wins completely
+  if (FORCE_PROVIDER === 'noop') {
+    return {
+      translatedText: text,
+      detectedSourceLang: sourceLang?.trim() || null,
+      provider: 'noop',
+    };
+  }
+  if (FORCE_PROVIDER === 'openai') {
+    return openaiTranslate({ text, targetLang, sourceLang });
+  }
+  if (FORCE_PROVIDER === 'deepl') {
+    return deeplTranslate({ text, targetLang, sourceLang });
+  }
+
+  // Normal runtime fallback chain
   if (DEEPL_KEY) {
     try {
       return await deeplTranslate({ text, targetLang, sourceLang });
     } catch (e) {
-      // fall through to OpenAI if available
       if (!OPENAI_KEY) throw e;
+      // else fall through to OpenAI
     }
   }
 
-  // Fallback: OpenAI
   if (OPENAI_KEY) {
-    return await openaiTranslate({ text, targetLang, sourceLang });
+    return openaiTranslate({ text, targetLang, sourceLang });
   }
 
-  // No provider keys? Echo back to avoid breaking flows
+  // Neither key available
   return {
     translatedText: text,
     detectedSourceLang: sourceLang?.trim() || null,
@@ -105,9 +124,7 @@ async function translateOnce({ text, targetLang, sourceLang }) {
 
 /**
  * translateText({ text, targetLang, sourceLang?, extraTargets? })
- * - Returns the primary translation quickly (uses cache)
- * - Optionally warms cache for extraTargets in parallel (limited concurrency)
- * - Return shape keeps backward-compat `translated` and adds richer fields
+ * ...unchanged below this point...
  */
 export async function translateText({
   text,
@@ -129,14 +146,13 @@ export async function translateText({
     return {
       text: t,
       translatedText: cached,
-      translated: cached, // backward compat
+      translated: cached,
       targetLang: tgt,
       detectedSourceLang: src || null,
       provider: 'cache',
     };
   }
 
-  // Primary translation — the only awaited call (user-facing latency)
   const primary = await translateOnce({
     text: t,
     targetLang: tgt,
@@ -144,15 +160,15 @@ export async function translateText({
   });
   cache.set(key, primary.translatedText, CACHE_TTL_MS);
 
-  // Fire-and-forget warming for other viewer languages (bounded concurrency)
   const uniqueExtras = [...new Set(extraTargets.filter((x) => x && x !== tgt))];
   if (uniqueExtras.length) {
-    const CONCURRENCY = Number(process.env.TRANSLATE_FANOUT_CONCURRENCY ?? 4);
+    const CONCURRENCY = Number(
+      process.env.TRANSLATE_FANOUT_CONCURRENCY ?? 4
+    );
 
     asyncPool(CONCURRENCY, uniqueExtras, async (lang) => {
       const k = `v1|${src}|${lang}|${t}`;
       if (cache.has(k)) return;
-
       try {
         const r = await translateOnce({
           text: t,
@@ -161,7 +177,7 @@ export async function translateText({
         });
         cache.set(k, r.translatedText, CACHE_TTL_MS);
       } catch {
-        // swallow background warming failures
+        // ignore fanout errors
       }
     }).catch(() => {});
   }
@@ -169,7 +185,7 @@ export async function translateText({
   return {
     text: t,
     translatedText: primary.translatedText,
-    translated: primary.translatedText, // backward compat
+    translated: primary.translatedText,
     targetLang: tgt,
     detectedSourceLang: primary.detectedSourceLang ?? (src || null),
     provider: primary.provider,

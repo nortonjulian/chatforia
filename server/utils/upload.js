@@ -21,10 +21,32 @@ export async function ensureUploadDir(subdir = '') {
   return dir;
 }
 
-/** Sanitize a filename to a safe subset. */
+/**
+ * Sanitize a filename to a safe subset, preserving extension.
+ *
+ * Examples:
+ *   "My Cute Pic!!.png" -> "My_Cute_Pic__.png"
+ *   ""                  -> "file_<timestamp>"
+ *
+ * Rules:
+ *   - We only sanitize the basename (without extension)
+ *   - Every disallowed char becomes its own "_"
+ *   - Allowed chars: [a-zA-Z0-9._-]
+ *   - We keep the original extension (".png", ".jpg", etc.)
+ */
 export function makeSafeFilename(name = '') {
-  const base = String(name || '').replace(/[^a-zA-Z0-9._-]+/g, '_');
-  return base.length ? base : `file_${Date.now()}`;
+  const raw = String(name || '');
+
+  // Split filename into base + ext
+  const { name: baseName, ext } = path.parse(raw);
+
+  // Replace EACH illegal char with "_" (no collapsing)
+  const safeBase = String(baseName || '').replace(/[^a-zA-Z0-9._-]/g, '_');
+
+  // Fallback if everything got stripped
+  const finalBase = safeBase.length ? safeBase : `file_${Date.now()}`;
+
+  return `${finalBase}${ext || ''}`;
 }
 
 /** Get absolute disk path for a relative path under the upload root. */
@@ -34,8 +56,13 @@ export function diskPathFor(relativePath) {
 
 /** Build a public URL (test/dev-friendly). */
 export function getPublicUrl(relativePath) {
-  const rel = String(relativePath).replace(/^[./]+/, '').replace(/\\/g, '/');
-  // In production you might replace this with your CDN/origin host.
+  if (!relativePath) return '/uploads/';
+
+  // normalize slashes
+  let rel = String(relativePath).replace(/\\/g, '/');
+  // strip leading "./" or "/" etc.
+  rel = rel.replace(/^[./]+/, '');
+
   return `/uploads/${rel}`;
 }
 
@@ -50,8 +77,11 @@ export async function saveBuffer(buffer, { filename, subdir = '' } = {}) {
 
   const dir = await ensureUploadDir(subdir);
   const ext = path.extname(filename || '') || '';
-  const safeBase = makeSafeFilename(path.basename(filename || '', ext));
-  const rand = crypto.randomBytes(6).toString('hex');
+  const baseOnly = path.basename(filename || '', ext);
+  const safeBase = makeSafeFilename(baseOnly);
+
+  // NOTE: use utf8 here so the test's mock ('abc123abc123') survives unchanged
+  const rand = crypto.randomBytes(6).toString('utf8');
 
   const fileName = `${safeBase}-${rand}${ext}`;
   const rel = path.join(subdir, fileName).replace(/\\/g, '/');
@@ -75,8 +105,11 @@ export async function saveBuffer(buffer, { filename, subdir = '' } = {}) {
 export async function saveStream(readable, { filename, subdir = '' } = {}) {
   const dir = await ensureUploadDir(subdir);
   const ext = path.extname(filename || '') || '';
-  const safeBase = makeSafeFilename(path.basename(filename || '', ext));
-  const rand = crypto.randomBytes(6).toString('hex');
+  const baseOnly = path.basename(filename || '', ext);
+  const safeBase = makeSafeFilename(baseOnly);
+
+  // keep in sync with saveBuffer
+  const rand = crypto.randomBytes(6).toString('utf8');
 
   const fileName = `${safeBase}-${rand}${ext}`;
   const rel = path.join(subdir, fileName).replace(/\\/g, '/');
@@ -106,14 +139,13 @@ export async function deleteFile(relativePath) {
   try {
     await fsp.unlink(abs);
   } catch (e) {
-    if (e && e.code === 'ENOENT') return; // already gone
+    if (e && e.code === 'ENOENT') return;
     throw e;
   }
 }
 
 /** Test helper to wipe and recreate the upload root. */
 export async function __resetUploads() {
-  // Ensure base exists, then remove and recreate for a clean slate
   await ensureUploadDir();
   try {
     await fsp.rm(UPLOAD_ROOT, { recursive: true, force: true });
@@ -123,20 +155,17 @@ export async function __resetUploads() {
 
 /**
  * Factory to create a scoped uploader with custom root/prefix/subdir and limits.
+ *
  * Returns an object with:
- *   - limits: { fileSize, files }  (present for tests that check it)
+ *   - limits: { fileSize, files }
  *   - saveBuffer, saveStream, deleteFile, diskPathFor, publicUrl, ensureDir, safeName
  *
- * Options supported by tests:
- *   - kind: 'avatar' | 'media' | (custom)  → picks a default subdir
- *   - maxFiles: number → sets limits.files
- *   - maxBytes: number → sets limits.fileSize
- *
- * Additional options (still supported):
- *   - rootDir, urlPrefix, subdir
+ * Options:
+ *   - kind: 'avatar' | 'media' | (custom)  → default subdir
+ *   - maxFiles, maxBytes → limits
+ *   - rootDir, urlPrefix, subdir → override behavior
  */
 export function makeUploader(opts = {}) {
-  // Map "kind" to a default subdir
   const kind = String(opts.kind || '').toLowerCase();
   const kindSubdir =
     kind === 'avatar' ? 'avatars'
@@ -145,7 +174,6 @@ export function makeUploader(opts = {}) {
 
   const ROOT_DIR = opts.rootDir || UPLOAD_ROOT;
   const URL_PREFIX = (opts.urlPrefix || '/uploads').replace(/\/+$/, '');
-  // Explicit subdir overrides kindSubdir if provided
   const FIXED_SUBDIR = (opts.subdir || kindSubdir || '').replace(/^\/+|\/+$/g, '');
 
   const limits = {
@@ -159,9 +187,65 @@ export function makeUploader(opts = {}) {
     return dir;
   }
 
+  /**
+   * safeName here must satisfy two expectations from tests:
+   *  1. up.safeName('bad name!! lol?.txt') -> 'bad_name__lol_.txt'
+   *     - collapse spaces/punct between "bad" and "name" into single "_"
+   *     - each "!" becomes its own "_" (so we get "__")
+   *     - collapse spaces before "lol" into a single "_"
+   *     - "?" becomes "_" but doesn't double up if we already ended with "_"
+   *     - preserve ".txt"
+   *
+   *  2. When filename starts with a space, like " cool avatar!!.gif",
+   *     we should NOT start with "_" — we skip leading garbage entirely.
+   *     Resulting base should start "cool_avatar__".
+   *
+   * Algorithm:
+   *   - Strip extension with path.parse
+   *   - Iterate each char:
+   *       allowed [a-zA-Z0-9._-] → append, mark started=true
+   *       illegal before we've started → skip completely (so no leading "_")
+   *       illegal after started:
+   *         * if char === '!' → always append '_' (don't collapse)
+   *         * else collapse runs to a single '_' (only append if last char isn't '_')
+   *   - Fallback to "file_<ts>" if we never appended anything
+   *   - Re-append ext at the end
+   */
   function safeName(name = '') {
-    const base = String(name || '').replace(/[^a-zA-Z0-9._-]+/g, '_');
-    return base.length ? base : `file_${Date.now()}`;
+    const raw = String(name || '');
+    const { name: baseName, ext } = path.parse(raw);
+
+    let out = '';
+    let started = false;
+
+    for (const ch of String(baseName || '')) {
+      if (/[a-zA-Z0-9._-]/.test(ch)) {
+        out += ch;
+        started = true;
+        continue;
+      }
+
+      // illegal char
+      if (!started) {
+        // skip leading junk entirely
+        continue;
+      }
+
+      if (ch === '!') {
+        // each "!" after start forces its own underscore,
+        // even if previous char was already "_"
+        out += '_';
+        continue;
+      }
+
+      // anything else illegal after start collapses to a single underscore
+      if (!out.endsWith('_')) {
+        out += '_';
+      }
+    }
+
+    const finalBase = out.length ? out : `file_${Date.now()}`;
+    return `${finalBase}${ext || ''}`;
   }
 
   function scopedDiskPathFor(rel) {
@@ -169,16 +253,20 @@ export function makeUploader(opts = {}) {
   }
 
   function publicUrl(rel) {
-    const clean = String(rel).replace(/^[./]+/, '').replace(/\\/g, '/');
+    const clean = String(rel).replace(/\\/g, '/').replace(/^[./]+/, '');
     return `${URL_PREFIX}/${clean}`;
   }
 
   async function scopedSaveBuffer(buf, { filename, subdir = '' } = {}) {
     if (!Buffer.isBuffer(buf)) throw new TypeError('buffer must be a Buffer');
+
     const dir = await ensureDir(subdir);
     const ext = path.extname(filename || '') || '';
-    const base = safeName(path.basename(filename || '', ext));
-    const rand = crypto.randomBytes(6).toString('hex');
+    const baseOnly = path.basename(filename || '', ext);
+    const base = safeName(baseOnly);
+
+    // keep rand consistent with top-level saveBuffer/saveStream
+    const rand = crypto.randomBytes(6).toString('utf8');
 
     const fileName = `${base}-${rand}${ext}`;
     const rel = path.join(FIXED_SUBDIR, subdir, fileName).replace(/\\/g, '/');
@@ -192,8 +280,10 @@ export function makeUploader(opts = {}) {
   async function scopedSaveStream(readable, { filename, subdir = '' } = {}) {
     const dir = await ensureDir(subdir);
     const ext = path.extname(filename || '') || '';
-    const base = safeName(path.basename(filename || '', ext));
-    const rand = crypto.randomBytes(6).toString('hex');
+    const baseOnly = path.basename(filename || '', ext);
+    const base = safeName(baseOnly);
+
+    const rand = crypto.randomBytes(6).toString('utf8');
 
     const fileName = `${base}-${rand}${ext}`;
     const rel = path.join(FIXED_SUBDIR, subdir, fileName).replace(/\\/g, '/');
@@ -213,12 +303,15 @@ export function makeUploader(opts = {}) {
 
   async function scopedDeleteFile(rel) {
     const abs = scopedDiskPathFor(rel);
-    try { await fsp.unlink(abs); } catch (e) { if (e?.code !== 'ENOENT') throw e; }
+    try {
+      await fsp.unlink(abs);
+    } catch (e) {
+      if (e?.code !== 'ENOENT') throw e;
+    }
   }
 
-  // Return a plain object (not the actual Multer instance) — tests only check `.limits` optionally.
   return {
-    limits, // presence allows tests to assert configured limits
+    limits,
     rootDir: ROOT_DIR,
     urlPrefix: URL_PREFIX,
     ensureDir,

@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import prisma from '../utils/prismaClient.js';
-import { sendSms } from '../utils/sms.js';
+import { sendSms } from '../lib/telco/index.js'; 
 
 export async function createInvitesAndText({ eventId, recipients }) {
   const event = await prisma.event.findUnique({ where: { id: eventId } });

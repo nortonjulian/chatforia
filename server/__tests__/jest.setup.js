@@ -1,61 +1,58 @@
 import { beforeEach, afterAll, jest } from '@jest/globals';
-import prismaRaw from '../utils/prismaClient.js';
 
-const prisma = prismaRaw.default || prismaRaw;
+/**
+ * IMPORTANT:
+ * We intentionally do NOT wipe the database globally here.
+ *
+ * Why:
+ * - Some unit tests (e.g. resetTokens, tokenStore) fully mock ../utils/prismaClient.js.
+ *   Jest runs this file (setupFilesAfterEnv) BEFORE those tests get a chance to
+ *   register their jest.unstable_mockModule() mocks.
+ *
+ *   If we tried to import prismaClient.js here (directly or indirectly by wiping
+ *   tables), we'd eagerly load the real Prisma client first, which crashes those tests.
+ *
+ * Policy:
+ * - Lightweight / pure unit tests: they should not pay for DB setup or be forced
+ *   to import Prisma at all.
+ * - Integration / DB-backed tests: if they need a clean DB, they are responsible
+ *   for truncating/wiping tables in their own beforeEach within that test file,
+ *   using the real prisma client.
+ */
 
-async function wipeDatabase() {
-  // CHILD TABLES FIRST, PARENTS LAST.
-  // Anything that FK's something else needs to be deleted before that something else.
-
-  // --- STATUS FEATURE ---
-  // These likely FK Status or User or both
-  await prisma.statusReaction?.deleteMany?.();
-  await prisma.statusView?.deleteMany?.();
-  await prisma.statusKey?.deleteMany?.();
-  await prisma.statusAsset?.deleteMany?.();
-  await prisma.status?.deleteMany?.();
-
-  // --- MESSAGING / CHAT ---
-  // Messages usually FK userId and chatRoomId
-  await prisma.message?.deleteMany?.();
-
-  // Participant links user <-> chatRoom
-  await prisma.participant?.deleteMany?.();
-
-  // --- PER-USER AUXILIARY TABLES ---
-  // Transcript FK's userId (your error showed Transcript_userId_fkey)
-  await prisma.transcript?.deleteMany?.();
-
-  // If you have other per-user tables (quotaUsage, session, tokens, etc.),
-  // they go here too, ABOVE user.deleteMany().
-
-  // --- ROOMS ---
-  await prisma.chatRoom?.deleteMany?.();
-
-  // --- USERS LAST ---
-  await prisma.user?.deleteMany?.();
-}
-
-// THIS MUST BE beforeEach, not beforeAll.
-beforeEach(async () => {
-  await wipeDatabase();
+/**
+ * beforeEach:
+ * Always clear Jest mocks so tests don't leak call history or spies.
+ * Do NOT import prisma here.
+ */
+beforeEach(() => {
   jest.clearAllMocks();
-  // DO NOT call jest.resetModules() here.
 });
 
-// Close prisma after the whole suite (once)
+/**
+ * afterAll:
+ * Best-effort Prisma disconnect.
+ *
+ * We only attempt this at the very end of the entire Jest run, and we wrap it
+ * in a try/catch so tests that never import prismaClient.js won't fail.
+ *
+ * We ALSO import prismaClient.js via a relative path from this file
+ * (../utils/prismaClient.js). That path matches how server tests typically
+ * import the client, which maximizes the chance that if Prisma WAS imported,
+ * we're referring to the same module instance here.
+ */
 afterAll(async () => {
   try {
     const prismaModule = await import('../utils/prismaClient.js');
-    const prismaMaybe =
-      prismaModule.default ||
-      prismaModule.prisma ||
-      prismaModule;
+    const prisma =
+      prismaModule.default || prismaModule.prisma || prismaModule;
 
-    if (prismaMaybe?.$disconnect) {
-      await prismaMaybe.$disconnect();
+    if (prisma?.$disconnect) {
+      await prisma.$disconnect();
     }
   } catch {
-    // swallow to avoid noisy shutdown
+    // swallow:
+    // - prismaClient.js may not exist in certain mock-heavy tests
+    // - or it may never have been imported at all
   }
 });
