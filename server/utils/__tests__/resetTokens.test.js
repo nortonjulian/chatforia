@@ -7,7 +7,6 @@ import { jest } from '@jest/globals';
 
 let prismaMock;
 let randomBytesQueue;
-let cryptoHashMock;
 const ORIGINAL_ENV = { ...process.env };
 
 function setupCryptoMock() {
@@ -26,7 +25,7 @@ function setupCryptoMock() {
     return Buffer.from(next, 'utf8'); // .toString('hex') will be deterministic
   };
 
-  const createHash = (algo) => {
+  const createHash = (_algo) => {
     let data = '';
     return {
       update(str) {
@@ -70,6 +69,9 @@ function setupPrismaMock() {
     },
   };
 
+  // ✅ IMPORTANT: this path must match how resetTokens.js imports prismaClient
+  // resetTokens.js does: import prisma from './prismaClient.js'
+  // from THIS test file (utils/__tests__/...), that module is at ../../utils/prismaClient.js
   jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
     default: prismaMock,
   }));

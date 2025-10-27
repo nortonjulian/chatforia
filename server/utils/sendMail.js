@@ -19,9 +19,13 @@ export async function sendMail(to, subject, html) {
       subject,
       html,
     });
+
     console.log(`📧 Email sent: ${info.messageId}`);
+
     const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewURL) console.log(`Preview URL: ${previewUrl}`);
+    if (previewUrl) {
+      console.log(`Preview URL: ${previewUrl}`);
+    }
 
     return { success: true, info, previewUrl };
   } catch (error) {
