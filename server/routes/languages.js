@@ -1,3 +1,5 @@
+import express from 'express';
+
 export const LANGUAGES = [
   { code: 'af', name: 'Afrikaans' },
   { code: 'ak', name: 'Akan (Twi)' },
@@ -140,3 +142,12 @@ export const LANGUAGES = [
 ];
 
 export const SUPPORTED_LNGS = LANGUAGES.map((l) => l.code);
+
+// ✅ Express route to serve the languages
+const router = express.Router();
+
+router.get('/', (req, res) => {
+  res.json(LANGUAGES);
+});
+
+export default router;

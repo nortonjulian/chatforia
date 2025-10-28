@@ -52,6 +52,7 @@ import shareEventRouter from './routes/shareEvent.js';
 import eventLinksRouter from './routes/eventLinks.js';
 import a11yRouter from './routes/a11y.js';
 import translationsRouter from './routes/translations.js';
+import languagesRouter from './routes/languages.js';
 import storiesRouter from './routes/stories.js';
 import numbersRouter from './routes/numbers.js';
 import voiceWebhooks from './routes/voiceWebhooks.js';
@@ -93,7 +94,7 @@ import {
 } from './middleware/rateLimits.js';
 
 // Security middlewares
-import { corsConfigured } from './middleware/cors.js';
+import cors from 'cors';
 import { secureHeaders } from './middleware/secureHeaders.js';
 import { csp } from './middleware/csp.js';
 import { hppGuard } from './middleware/hpp.js';
@@ -116,7 +117,12 @@ export function createApp() {
 
   /* Early security */
   app.use(httpsRedirect());
-  app.use(corsConfigured());
+
+  app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }));
+
   app.use(secureHeaders());
   app.use(csp());
 
@@ -199,6 +205,13 @@ export function createApp() {
     })
   );
   app.use(passport.initialize());
+  app.use(passport.session());
+
+  // Optional debug logging
+  app.use((req, _res, next) => {
+    console.log('💡 After passport.session:', req.user);
+    next();
+  });
 
   /* CSRF */
   const csrfMw = isTest
@@ -317,6 +330,7 @@ export function createApp() {
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
   app.use('/translations', translationsRouter);
+  app.use('/languages', languagesRouter);
   app.use('/stories', storiesRouter);
   app.use('/connectivity', connectivityRouter);
   app.use('/esim', esimRouter);

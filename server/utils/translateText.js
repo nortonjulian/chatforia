@@ -1,6 +1,6 @@
 import Boom from '@hapi/boom';
-import { LRU } from '@utils/lru.js';
-import { asyncPool } from '@utils/asyncPool.js';
+import { LRU } from './lru.js';
+import { asyncPool } from './asyncPool.js';
 
 // pull keys at module load (unchanged)
 const OPENAI_KEY = process.env.OPENAI_API_KEY;

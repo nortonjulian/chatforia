@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { fetchLanguages } from '@/api/languages';
 
 export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
   const { t, i18n } = useTranslation();
@@ -12,16 +13,18 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
   // Keep internal state in sync if parent updates currentLanguage
   useEffect(() => setSelected(currentLanguage), [currentLanguage]);
 
-  // Load available language codes from the manifest written by the generator
+  // Load language codes from the server
   useEffect(() => {
     let cancelled = false;
-    const v = import.meta.env?.VITE_APP_VERSION || '';
-    const bust = import.meta.env?.DEV ? `?t=${Date.now()}` : (v ? `?v=${v}` : '');
     setLoading(true);
-    fetch(`/locales/manifest.json${bust}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(r.statusText))))
-      .then(({ codes }) => {
-        if (!cancelled) setCodes(Array.isArray(codes) ? codes : []);
+    fetchLanguages()
+      .then((list) => {
+        if (!cancelled) {
+          const safeCodes = Array.isArray(list)
+            ? list.map((l) => l.code).filter((code) => typeof code === 'string')
+            : [];
+          setCodes(safeCodes);
+        }
       })
       .catch(() => {
         if (!cancelled) setCodes([]);
@@ -36,7 +39,6 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
 
   // Localized labels for language codes
   const options = useMemo(() => {
-    // robust Intl.DisplayNames creation (fallback to 'en' if current locale unsupported)
     const makeDN = (loc) => {
       try {
         return new Intl.DisplayNames([loc], { type: 'language' });
@@ -46,7 +48,6 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
     };
     const dn = makeDN(i18n.resolvedLanguage);
 
-    // Some codes aren't well-covered by Intl yet; map a few friendly names
     const special = {
       'zh-CN': 'Chinese (Simplified)',
       'zh-TW': 'Chinese (Traditional)',
@@ -56,10 +57,11 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
       'mni-Mtei': 'Meiteilon (Manipuri)',
     };
 
-    const unique = Array.from(new Set([...codes, i18n.resolvedLanguage]));
+    const unique = Array.from(new Set([...codes, i18n.resolvedLanguage])).filter(Boolean);
     const list = unique.map((code) => {
-      const base = code.split('-')[0];
-      const label = special[code] || dn.of(code) || dn.of(base) || code;
+      const base = code?.split?.('-')?.[0];
+      const label =
+        special[code] || dn.of(code) || (base && dn.of(base)) || code || 'Unknown';
       return { value: code, label: capitalize(label) };
     });
     return list.sort((a, b) => a.label.localeCompare(b.label));
@@ -75,7 +77,7 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
         if (!cancelled) return i18n.changeLanguage(selected);
       })
       .then(() => {
-        if (!cancelled) onChange?.(selected); // persist if desired
+        if (!cancelled) onChange?.(selected);
       })
       .catch((err) => console.error('changeLanguage error', err));
     return () => {

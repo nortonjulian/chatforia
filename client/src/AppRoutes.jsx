@@ -72,12 +72,12 @@ import { CardAdWrap } from '@/ads/AdWrappers';
 import HouseAdSlot from '@/ads/HouseAdSlot';
 
 import NewStatusModal from '@/pages/NewStatusModal.jsx';
-
-// ✅ Import your LogoGlyph component
 import LogoGlyph from '@/components/LogoGlyph.jsx';
 
-const NAV_W = 300;   // keep in sync with AppShell.navbar width
-const ASIDE_W = 280; // keep in sync with AppShell.aside width
+import i18n from '@/i18n'; // ✅ i18n added
+
+const NAV_W = 300;
+const ASIDE_W = 280;
 
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
@@ -95,6 +95,13 @@ function AuthedLayout() {
       .then((f) => setFeatures({ ...f, status: f?.status ?? true }))
       .catch(() => setFeatures({ status: true }));
   }, []);
+
+  // ✅ i18n dynamic language switch
+  useEffect(() => {
+    if (currentUser?.preferredLanguage) {
+      i18n.changeLanguage(currentUser.preferredLanguage);
+    }
+  }, [currentUser?.preferredLanguage]);
 
   useEffect(() => {
     const onFocusIn = (e) => {
@@ -166,8 +173,6 @@ function AuthedLayout() {
               hiddenFrom="sm"
               aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'}
             />
-
-            {/* ✅ Logo + title (linked to home) */}
             <Anchor
               component={Link}
               to="/"
@@ -182,7 +187,6 @@ function AuthedLayout() {
             </Anchor>
           </Group>
 
-          {/* ✅ Status pill lives in the header, not in Main */}
           {showStatusPill && (
             <div
               style={{
@@ -269,7 +273,6 @@ export default function AppRoutes() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/complete" element={<OAuthComplete />} />
-
           <Route path="/about" element={<AboutChatforia />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/press" element={<Press />} />
@@ -277,12 +280,10 @@ export default function AppRoutes() {
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/download" element={<Downloads />} />
-
           <Route path="/guides/getting-started" element={<GettingStarted />} />
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
-
           <Route path="/legal/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
@@ -300,7 +301,6 @@ export default function AppRoutes() {
       <Route path="/upgrade/success" element={<UpgradeSuccess />} />
       <Route path="/billing/return" element={<BillingReturn />} />
       <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
-
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
       {import.meta.env.DEV && <Route path="/dev/chat" element={<Navigate to="/" replace />} />}
@@ -310,41 +310,21 @@ export default function AppRoutes() {
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
-
-        <Route
-          path="settings/backups"
-          element={
-            <RequirePremium>
-              <SettingsBackups />
-            </RequirePremium>
-          }
-        />
-
+        <Route path="settings/backups" element={<RequirePremium><SettingsBackups /></RequirePremium>} />
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
-
         <Route path="join/:code" element={<JoinInvitePage />} />
-
         <Route path="sms" element={<SmsThreads />} />
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
-
-        <Route
-          path="admin"
-          element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
-          }
-        >
+        <Route path="admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />
           <Route path="audit" element={<AuditLogsPage />} />
         </Route>
-
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>

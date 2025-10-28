@@ -437,13 +437,21 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
               <LanguageSelector
                 currentLanguage={currentUser.preferredLanguage || 'en'}
-                onChange={(lng) => {
+                onChange={async (lng) => {
                   setPreferredLanguage(lng);
-                  setCurrentUser((prev) => ({ ...prev, preferredLanguage: lng }));
-                  i18n.changeLanguage(lng);
-                  onLanguageChange?.(lng);
+                  setCurrentUser(prev => ({ ...prev, preferredLanguage: lng }));
+                  await i18n.changeLanguage(lng);
+                  localStorage.setItem('preferredLanguage', lng); // optional
+
+                  try {
+                    await axiosClient.get('/auth/csrf'); 
+                    await axiosClient.patch('/users/me', { preferredLanguage: lng });
+                  } catch (err) {
+                    console.error('Failed to update language preference', err);
+                  }
                 }}
               />
+
 
               <Switch
                 checked={autoTranslate}

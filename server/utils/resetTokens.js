@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import prisma from '@utils/prismaClient.js';
+import prisma from './prismaClient.js';
 
 // how long tokens last, in minutes
 const TTL_MINUTES = Number(process.env.PASSWORD_RESET_TOKEN_TTL_MINUTES || 30);

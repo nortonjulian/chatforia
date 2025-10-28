@@ -7,7 +7,8 @@ import {
   useCallback,
 } from 'react';
 import axiosClient from '@/api/axiosClient';
-import { useSocket } from './SocketContext'; // socket lifecycle
+import { useSocket } from './SocketContext';
+import i18n from '@/i18n';
 
 const UserContext = createContext(null);
 
@@ -22,24 +23,31 @@ export function UserProvider({ children }) {
     setAuthLoading(true);
     setAuthError(null);
     try {
-      const { data } = await axiosClient.get('/auth/me'); // cookie-only auth
-      // support either { user: ... } or a plain user object
+      const { data } = await axiosClient.get('/auth/me');
       const user = data?.user ?? data;
+
+      // ✅ Apply user's preferred language or fallback to browser default
+      if (user?.preferredLanguage) {
+        await i18n.changeLanguage(user.preferredLanguage);
+      } else {
+        const browserLng = navigator.language?.split('-')?.[0];
+        if (browserLng) {
+          await i18n.changeLanguage(browserLng);
+        }
+      }
+
       setCurrentUser(user);
 
-      // Ensure socket is up and joined to rooms for this user
-      reconnect?.();           // re-init socket for this identity (safe if already connected)
-      await refreshRooms?.();  // triggers join:rooms
+      reconnect?.();
+      await refreshRooms?.();
     } catch (err) {
       if (err?.response?.status === 401) {
-        // not logged in — normal in fresh sessions
         setCurrentUser(null);
       } else {
         console.warn('Failed to load /auth/me', err?.message || err);
         setAuthError('Failed to verify session');
         setCurrentUser(null);
       }
-      // Not logged in or errored → ensure socket is disconnected
       disconnect?.();
     } finally {
       setAuthLoading(false);
@@ -49,7 +57,6 @@ export function UserProvider({ children }) {
   useEffect(() => {
     bootstrap();
 
-    // Optional: global 401 -> treat as logout
     const onUnauthorized = () => {
       setCurrentUser(null);
       disconnect?.();
@@ -58,21 +65,16 @@ export function UserProvider({ children }) {
     return () => window.removeEventListener('auth-unauthorized', onUnauthorized);
   }, [bootstrap, disconnect]);
 
-  // Explicit logout helper
   const logout = useCallback(async () => {
     try {
-      await axiosClient.post(
-        '/auth/logout',
-        null,
-        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-      );
+      await axiosClient.post('/auth/logout', null, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
     } catch {
       // ignore
     }
-    // Clear any dev tokens that might keep sockets reconnecting
     localStorage.removeItem('token');
     localStorage.removeItem('foria_jwt');
-    // If you ever stored a non-HttpOnly cookie in dev, clear it too:
     document.cookie = 'foria_jwt=; Max-Age=0; path=/';
     setCurrentUser(null);
     disconnect?.();
