@@ -234,9 +234,10 @@ model User {
   messageTone       String? @default("default.mp3")
   ringtone          String? @default("classic.mp3")
 
-  privacyBlurEnabled  Boolean @default(false)
-  privacyHoldToReveal Boolean @default(false)
-  notifyOnCopy        Boolean @default(false)
+  privacyBlurEnabled      Boolean @default(false)
+  privacyBlurOnUnfocus    Boolean @default(false) 
+  privacyHoldToReveal     Boolean @default(false)
+  notifyOnCopy            Boolean @default(false)
 
   ageBand                AgeBand?
   ageAttestedAt          DateTime?
@@ -344,6 +345,17 @@ model Language {
   displayName String         // e.g. 'English', 'Español'
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Translation {
+  id        Int      @id @default(autoincrement())
+  language  String
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([language, key])
 }
 
 model ProvisionLink {

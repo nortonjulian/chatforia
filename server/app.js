@@ -219,15 +219,14 @@ export function createApp() {
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
   // TEMP bypasses for first-run auth flows (remove later!)
-  const CSRF_BYPASS = new Set([
-    '/billing/webhook',           // ✅ webhook stays bypassed
-    '/auth/apple/callback',
-    '/auth/register',
-    '/auth/login',
-  ]);
+  const csrfBypassPattern = /^\/auth\/(login|register|apple\/callback)$|^\/billing\/webhook$/;
 
   app.use((req, res, next) => {
-    if (CSRF_BYPASS.has(req.path)) return next();
+    const path = req.path;
+    if (csrfBypassPattern.test(path)) {
+    console.log('⚠️ CSRF bypass for:', path);
+    return next();
+    }
     return csrfMw(req, res, next);
   });
 
@@ -329,7 +328,7 @@ export function createApp() {
   app.use('/uploads', uploadsRouter);
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
-  app.use('/translations', translationsRouter);
+  app.use('/api/translations', translationsRouter);
   app.use('/languages', languagesRouter);
   app.use('/stories', storiesRouter);
   app.use('/connectivity', connectivityRouter);

@@ -92,9 +92,11 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
       searchable
       clearable={false}
       data={options}
-      value={selected}
+      value={currentLanguage}              // <- parent is the source of truth
       onChange={(val) => {
-        if (typeof val === 'string' && val) setSelected(val);
+        if (typeof val === 'string' && val) {
+          onChange?.(val);                 // <- just notify parent
+        }
       }}
       nothingFoundMessage={t('common.noMatches')}
       radius="md"

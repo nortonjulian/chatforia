@@ -74,7 +74,6 @@ export default defineConfig(async ({ mode, command }) => {
           target: apiTarget,
           changeOrigin: true,
           secure: false,
-          rewrite: (p) => p.replace(/^\/api/, ''),
         },
         '/socket.io': {
           target: apiTarget,

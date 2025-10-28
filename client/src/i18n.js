@@ -30,7 +30,7 @@ i18n
 
     backend: {
       // Served from client/public
-      loadPath: '/locales/{{lng}}',
+      loadPath: '/api/translations?lng={{lng}}',
       // optional cache-buster if you set a version env
       queryStringParams: { v: import.meta.env?.VITE_APP_VERSION || '' },
     },

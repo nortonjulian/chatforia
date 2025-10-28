@@ -55,4 +55,26 @@ router.post(
   }
 );
 
+// Serve translation JSON for i18next backend
+router.get('/', async (req, res, next) => {
+  const { lng } = req.query;
+  if (!lng) return res.status(400).json({ error: 'Missing lng query param' });
+
+  try {
+    const strings = await prisma.translation.findMany({
+      where: { language: lng },
+      select: { key: true, value: true }, // Adjust based on your schema
+    });
+
+    const messages = Object.fromEntries(
+      strings.map(({ key, value }) => [key, value])
+    );
+
+    res.json(messages);
+  } catch (err) {
+    next(err.isBoom ? err : Boom.badImplementation(err.message));
+  }
+});
+
+
 export default router;

@@ -16,7 +16,7 @@ const apiBase =
   import.meta.env.VITE_API_URL || '';
 
 const oauthBase = (import.meta.env.VITE_OAUTH_BASE_PATH || '/auth').replace(/\/$/, '');
-const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '/api';
+const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '';
 
 function absoluteApi(path) {
   const clean = path.startsWith('/') ? path : `/${path}`;

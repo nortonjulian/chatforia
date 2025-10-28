@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import path from 'path';
-import fs from 'fs';
+// import path from 'path';
+// import fs from 'fs';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -37,10 +37,11 @@ router.post('/', async (req, res) => {
     const user = await prisma.user.create({
       data: { username, email, password: hashedPassword, role: 'USER' },
     });
+
     const { password: _omit, ...userWithoutPassword } = user;
     res.status(201).json(userWithoutPassword);
   } catch (error) {
-    console.log('Error creating user:', error);
+    console.error('Error creating user:', error);
     res.status(500).json({ error: 'Failed to create user' });
   }
 });
@@ -70,90 +71,168 @@ router.patch('/me', requireAuth, async (req, res) => {
       cycling,
     } = req.body ?? {};
 
+    // Build whitelist of updatable fields
     const data = {};
-    if (typeof enableSmartReplies === 'boolean') data.enableSmartReplies = enableSmartReplies;
-    if (typeof showReadReceipts === 'boolean') data.showReadReceipts = showReadReceipts;
-    if (typeof allowExplicitContent === 'boolean') data.allowExplicitContent = allowExplicitContent;
-    if (typeof privacyBlurEnabled === 'boolean') data.privacyBlurEnabled = privacyBlurEnabled;
-    if (typeof privacyBlurOnUnfocus === 'boolean') data.privacyBlurOnUnfocus = privacyBlurOnUnfocus;
-    if (typeof privacyHoldToReveal === 'boolean') data.privacyHoldToReveal = privacyHoldToReveal;
-    if (typeof notifyOnCopy === 'boolean') data.notifyOnCopy = notifyOnCopy;
+
+    if (typeof enableSmartReplies === 'boolean') {
+      data.enableSmartReplies = enableSmartReplies;
+    }
+
+    if (typeof showReadReceipts === 'boolean') {
+      data.showReadReceipts = showReadReceipts;
+    }
+
+    if (typeof allowExplicitContent === 'boolean') {
+      data.allowExplicitContent = allowExplicitContent;
+    }
+
+    if (typeof privacyBlurEnabled === 'boolean') {
+      data.privacyBlurEnabled = privacyBlurEnabled;
+    }
+
+    if (typeof privacyBlurOnUnfocus === 'boolean') {
+      data.privacyBlurOnUnfocus = privacyBlurOnUnfocus;
+    }
+
+    if (typeof privacyHoldToReveal === 'boolean') {
+      data.privacyHoldToReveal = privacyHoldToReveal;
+    }
+
+    if (typeof notifyOnCopy === 'boolean') {
+      data.notifyOnCopy = notifyOnCopy;
+    }
+
     if (typeof preferredLanguage === 'string' && preferredLanguage.trim()) {
+      // trim + length cap so junk can't blow up DB
       data.preferredLanguage = preferredLanguage.trim().slice(0, 16);
     }
-    if (typeof strictE2EE === 'boolean') data.strictE2EE = strictE2EE;
 
+    if (typeof strictE2EE === 'boolean') {
+      data.strictE2EE = strictE2EE;
+    }
+
+    // Theme (with premium enforcement)
     if (typeof theme === 'string') {
       const t = theme.trim();
-      if (!ALL_THEMES.has(t)) return res.status(400).json({ error: 'Invalid theme' });
+      if (!ALL_THEMES.has(t)) {
+        return res.status(400).json({ error: 'Invalid theme' });
+      }
 
+      // If it's a premium theme, verify the user's plan
       if (isPremiumTheme(t)) {
         const me = await prisma.user.findUnique({
           where: { id: req.user.id },
           select: { plan: true },
         });
+
         if (!me?.plan || me.plan === 'FREE') {
-          return res.status(402).json({ error: 'Premium theme requires an upgraded plan' });
+          return res.status(402).json({
+            error: 'Premium theme requires an upgraded plan',
+          });
         }
       }
+
       data.theme = t;
     }
 
-    if (typeof cycling === 'boolean') data.cycling = cycling;
+    if (typeof cycling === 'boolean') {
+      data.cycling = cycling;
+    }
 
-    const AGE_VALUES = ['TEEN_13_17','ADULT_18_24','ADULT_25_34','ADULT_35_49','ADULT_50_PLUS'];
+    // Age stuff
+    const AGE_VALUES = [
+      'TEEN_13_17',
+      'ADULT_18_24',
+      'ADULT_25_34',
+      'ADULT_35_49',
+      'ADULT_50_PLUS',
+    ];
+
     if (typeof ageBand === 'string' && AGE_VALUES.includes(ageBand)) {
       data.ageBand = ageBand;
       data.ageAttestedAt = new Date();
     }
-    if (typeof wantsAgeFilter === 'boolean') data.wantsAgeFilter = wantsAgeFilter;
+
+    if (typeof wantsAgeFilter === 'boolean') {
+      data.wantsAgeFilter = wantsAgeFilter;
+    }
 
     if (Array.isArray(randomChatAllowedBands)) {
-      const cleaned = randomChatAllowedBands.map(String).filter((v) => AGE_VALUES.includes(v));
-      const meBand = ageBand || (
-        await prisma.user.findUnique({
-          where: { id: req.user.id },
-          select: { ageBand: true },
-        })
-      )?.ageBand;
+      // sanitize incoming bands
+      const cleaned = randomChatAllowedBands
+        .map(String)
+        .filter((v) => AGE_VALUES.includes(v));
+
+      // get their current or updated band so we can enforce teen isolation
+      const meBand =
+        ageBand ||
+        (
+          await prisma.user.findUnique({
+            where: { id: req.user.id },
+            select: { ageBand: true },
+          })
+        )?.ageBand;
 
       if (meBand === 'TEEN_13_17') {
+        // teens can only match other teens; also force filter on
         data.randomChatAllowedBands = ['TEEN_13_17'];
         data.wantsAgeFilter = true;
       } else {
-        data.randomChatAllowedBands = cleaned.filter((v) => v !== 'TEEN_13_17');
+        // adults cannot include TEEN_13_17
+        data.randomChatAllowedBands = cleaned.filter(
+          (v) => v !== 'TEEN_13_17'
+        );
       }
     }
 
-    if (Object.keys(data).length === 0) return res.status(400).json({ error: 'No valid fields to update' });
+    // Nothing to update?
+    if (Object.keys(data).length === 0) {
+      return res.status(400).json({ error: 'No valid fields to update' });
+    }
 
-    const updated = await prisma.user.update({
-      where: { id: Number(req.user.id) },
-      data,
-      select: {
-        id: true,
-        enableSmartReplies: true,
-        showReadReceipts: true,
-        allowExplicitContent: true,
-        privacyBlurEnabled: true,
-        privacyBlurOnUnfocus: true,
-        privacyHoldToReveal: true,
-        notifyOnCopy: true,
-        preferredLanguage: true,
-        strictE2EE: true,
-        theme: true,
-        cycling: true,
-        ageBand: true,
-        ageAttestedAt: true,
-        wantsAgeFilter: true,
-        randomChatAllowedBands: true,
-      },
-    });
+    // 🚨 THIS IS WHERE YOUR 500 IS COMING FROM
+    // If `preferredLanguage` (or any other field here) does not exist
+    // in your Prisma `User` model, prisma.user.update() will throw
+    // and you'll see a 500 in the browser.
+    let updated;
+    try {
+      updated = await prisma.user.update({
+        where: { id: Number(req.user.id) },
+        data,
+        select: {
+          id: true,
+          enableSmartReplies: true,
+          showReadReceipts: true,
+          allowExplicitContent: true,
+          privacyBlurEnabled: true,
+          privacyBlurOnUnfocus: true,
+          privacyHoldToReveal: true,
+          notifyOnCopy: true,
+          preferredLanguage: true,
+          strictE2EE: true,
+          theme: true,
+          cycling: true,
+          ageBand: true,
+          ageAttestedAt: true,
+          wantsAgeFilter: true,
+          randomChatAllowedBands: true,
+        },
+      });
+    } catch (err) {
+      console.error('💥 prisma.user.update failed in PATCH /users/me', {
+        userId: req.user.id,
+        dataTryingToWrite: data,
+        err,
+      });
+      return res
+        .status(500)
+        .json({ error: 'Failed to update profile (db write failed)' });
+    }
 
-    res.json(updated);
+    return res.json(updated);
   } catch (e) {
-    console.error('PATCH /users/me failed', e);
-    res.status(500).json({ error: 'Failed to update profile' });
+    console.error('PATCH /users/me failed (outer catch)', e);
+    return res.status(500).json({ error: 'Failed to update profile' });
   }
 });
 

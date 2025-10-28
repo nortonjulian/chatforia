@@ -20,7 +20,7 @@ const isDev = typeof import.meta !== 'undefined' && !!import.meta.env?.DEV;
 
 // In dev use Vite proxy (`/api` → proxy → backend). In prod use configured base.
 const computedBase = viteBase || winBase || nodeBase || '';
-const baseURL = isDev ? '/api' : computedBase;
+const baseURL = computedBase || '';
 
 /** -------- Axios instance -------- */
 const axiosClient = axios.create({
