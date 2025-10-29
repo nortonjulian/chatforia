@@ -17,16 +17,17 @@ import {
 import { Lock, Globe, MessageCircle, ShieldCheck } from 'lucide-react';
 import LogoGlyph from '@/components/LogoGlyph';
 import SupportWidget from '@/components/support/SupportWidget.jsx';
+import { useTranslation } from 'react-i18next';
 import Footer from '@/components/footer/Footer.jsx';
 
 import '@/styles.css';
+
+import HouseAdSlot from '@/ads/HouseAdSlot';
 
 // Smart links
 const APP_GENERIC = 'https://go.chatforia.com/app';
 const APP_IOS = 'https://go.chatforia.com/ios';
 const APP_ANDROID = 'https://go.chatforia.com/android';
-
-import HouseAdSlot from '@/ads/HouseAdSlot';
 
 function DebugBar() {
   return (
@@ -63,9 +64,16 @@ function LogoLockup({ size = 64, titleOrder = 4, className }) {
 
 /* ---------- Mobile-only brand bar ---------- */
 function MobileTopBar() {
+  const { t } = useTranslation();
+
   return (
     <Group hiddenFrom="md" gap="xs" align="center" wrap="nowrap" py="sm">
-      <Anchor component={Link} to="/" aria-label="Go home" style={{ textDecoration: 'none' }}>
+      <Anchor
+        component={Link}
+        to="/"
+        aria-label={t('auth.goHome', 'Go home')}
+        style={{ textDecoration: 'none' }}
+      >
         <LogoLockup size={32} titleOrder={4} />
       </Anchor>
     </Group>
@@ -74,12 +82,15 @@ function MobileTopBar() {
 
 /* ---------- “Get the app” card ---------- */
 function GetAppCard() {
+  const { t } = useTranslation();
+
   const BADGE_H = 'clamp(52px, 6vw, 72px)';
   const QR_SIZE = 'calc(1.1 * (clamp(52px, 6vw, 72px)))';
-  const APPLE_SCALE = 0.76; // tweak between 0.83–0.87 if needed
+  const APPLE_SCALE = 0.76;
 
   return (
     <Paper withBorder shadow="xs" radius="xl" p="md">
+      {/* Visible label must stay "Get the app" exactly like screenshot */}
       <Divider mb="md" label="Get the app" />
       <Group justify="space-between" wrap="nowrap" align="center">
         {/* QR: show on tablet/desktop */}
@@ -88,22 +99,23 @@ function GetAppCard() {
             href={APP_GENERIC}
             target="_blank"
             rel="noopener noreferrer"
-            title="Open the download link"
+            title={t('auth.openDownload', 'Open the download link')}
             style={{ display: 'inline-flex', padding: 6, borderRadius: 12 }}
           >
             <MantineImage
               src="/qr-chatforia.png"
-              alt="Scan to get Chatforia"
+              alt={t('auth.qrAlt', 'Scan to get Chatforia')}
               h={QR_SIZE}
               w={QR_SIZE}
               radius="md"
               onError={(e) => {
-                e.currentTarget.src = `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(
-                  APP_GENERIC
-                )}`;
+                e.currentTarget.src =
+                  `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(APP_GENERIC)}`;
               }}
             />
           </Anchor>
+
+          {/* keep visible text unchanged */}
           <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.85 }} maw={240}>
             On desktop? Scan with your phone to get the app.
           </Text>
@@ -116,8 +128,8 @@ function GetAppCard() {
             href={APP_IOS}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Download on the App Store"
-            title="Download on the App Store"
+            aria-label={t('auth.iosAria', 'Download on the App Store')}
+            title={t('auth.iosTitle', 'Download on the App Store')}
             style={{
               display: 'inline-flex',
               justifyContent: 'center',
@@ -130,7 +142,7 @@ function GetAppCard() {
             <MantineImage
               src="/badges/AppStore.svg"
               fit="contain"
-              alt="Download on the App Store"
+              alt={t('auth.iosBadgeAlt', 'Download on the App Store')}
               h={BADGE_H}
               style={{
                 width: 'auto',
@@ -146,8 +158,8 @@ function GetAppCard() {
             href={APP_ANDROID}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Get it on Google Play"
-            title="Get it on Google Play"
+            aria-label={t('auth.androidAria', 'Get it on Google Play')}
+            title={t('auth.androidTitle', 'Get it on Google Play')}
             style={{
               display: 'inline-flex',
               justifyContent: 'center',
@@ -160,7 +172,7 @@ function GetAppCard() {
             <MantineImage
               src="/badges/GooglePlay.svg"
               fit="contain"
-              alt="Get it on Google Play"
+              alt={t('auth.androidBadgeAlt', 'Get it on Google Play')}
               h={BADGE_H}
               style={{ width: 'auto', display: 'block' }}
             />
@@ -173,6 +185,7 @@ function GetAppCard() {
 
 /* ---------- Layout ---------- */
 export default function AuthLayout() {
+  const { t } = useTranslation();
   const location = useLocation();
 
   return (
@@ -182,12 +195,12 @@ export default function AuthLayout() {
         <Container size="lg" py="xl">
           <MobileTopBar />
 
-          {/* Subtle breadcrumb / back-to-home on non-root routes */}
+          {/* breadcrumb/back link */}
           {location.pathname !== '/' && (
             <Anchor
               component={Link}
               to="/"
-              aria-label="Go home"
+              aria-label={t('auth.goHome', 'Go home')}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -198,12 +211,13 @@ export default function AuthLayout() {
                 textDecoration: 'none',
               }}
             >
+              {/* visible string must stay exactly like screenshot */}
               ← Home
             </Anchor>
           )}
 
           <Grid gutter="xl" align="start">
-            {/* Left: Brand + Marketing — always visible, stacks first on mobile */}
+            {/* LEFT COLUMN */}
             <Grid.Col
               span={{ base: 12, md: 6, lg: 7 }}
               order={{ base: 1, md: 1 }}
@@ -216,6 +230,7 @@ export default function AuthLayout() {
                       <LogoGlyph size="var(--bubble)" />
                     </span>
 
+                    {/* Chatforia wordmark */}
                     <Title
                       order={2}
                       className="brand-lockup__name brand-lockup__name--solid"
@@ -224,6 +239,7 @@ export default function AuthLayout() {
                       Chatforia
                     </Title>
 
+                    {/* BIG HEADLINE - keep identical to screenshot */}
                     <Title
                       order={1}
                       className="auth-hero-title hero-bubble-title"
@@ -234,18 +250,22 @@ export default function AuthLayout() {
                         fontSize: 'clamp(34px, 5vw, 56px)',
                       }}
                     >
-                      Secure, global messaging with{' '}
+                      Secure, global
+                      <br />
+                      messaging with{' '}
                       <span className="text-blue-purple">instant translation</span>
                     </Title>
                   </div>
 
-                  {/* Everything under the hero lockup (aligned to the “C”) */}
+                  {/* Copy block under headline */}
                   <div className="hero-after">
+                    {/* keep paragraph as-is */}
                     <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
                       End-to-end encryption, AI-powered translation, disappearing messages,
                       and voice/video calling.
                     </Text>
 
+                    {/* feature bullets */}
                     <List spacing="sm" size="sm" center className="auth-list">
                       <List.Item
                         icon={
@@ -263,6 +283,7 @@ export default function AuthLayout() {
                       >
                         End-to-end encryption by default
                       </List.Item>
+
                       <List.Item
                         icon={
                           <ThemeIcon
@@ -279,6 +300,7 @@ export default function AuthLayout() {
                       >
                         Auto-translate 100+ languages
                       </List.Item>
+
                       <List.Item
                         icon={
                           <ThemeIcon
@@ -293,8 +315,9 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        Disappearing messages & read receipts
+                        Disappearing messages &amp; read receipts
                       </List.Item>
+
                       <List.Item
                         icon={
                           <ThemeIcon
@@ -313,24 +336,47 @@ export default function AuthLayout() {
                       </List.Item>
                     </List>
 
+                    {/* CTA row */}
                     <Group gap="sm">
-                      <Button component={Link} to="/register" size="md" radius="xl">
+                      <Button
+                        component={Link}
+                        to="/register"
+                        size="md"
+                        radius="xl"
+                        aria-label={t('auth.createAccount', 'Create free account')}
+                      >
                         Create free account
                       </Button>
-                      <Anchor component={Link} to="/status" style={{ color: 'var(--accent)' }}>
-                        Status
-                      </Anchor>
+
                       <Anchor
                         component={Link}
-                        to="/upgrade"    // ← canonical path
+                        to="/status"
                         style={{ color: 'var(--accent)' }}
+                        aria-label={t('auth.status', 'Status')}
+                      >
+                        Status
+                      </Anchor>
+
+                      <Anchor
+                        component={Link}
+                        to="/upgrade"
+                        style={{ color: 'var(--accent)' }}
+                        aria-label={t('auth.upgrade', 'Upgrade')}
                       >
                         Upgrade
                       </Anchor>
                     </Group>
 
+                    {/* Tip box under row */}
                     <Paper p="sm" withBorder radius="md">
-                      <Text size="xs" style={{ color: 'var(--fg)', opacity: 0.85 }}>
+                      <Text
+                        size="xs"
+                        style={{ color: 'var(--fg)', opacity: 0.85 }}
+                        aria-label={t(
+                          'auth.tip',
+                          'Tip: Use the same account on web and mobile. Your messages stay synced.'
+                        )}
+                      >
                         Tip: Use the same account on web and mobile. Your messages stay synced.
                       </Text>
                     </Paper>
@@ -339,7 +385,7 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
 
-            {/* Right: Auth form + Get app — stacks second on mobile */}
+            {/* RIGHT COLUMN: login card + GetApp card */}
             <Grid.Col
               span={{ base: 12, md: 6, lg: 5 }}
               order={{ base: 2, md: 2 }}
@@ -352,12 +398,12 @@ export default function AuthLayout() {
             </Grid.Col>
           </Grid>
 
-          {/* Support widget visible on public pages (except specific routes) */}
+          {/* SupportWidget under grid */}
           <SupportWidget excludeRoutes={['/login', '/reset-password']} />
         </Container>
       </main>
 
-      {/* Footer: always visible on public pages */}
+      {/* footer at bottom */}
       <Footer />
     </div>
   );

@@ -25,10 +25,10 @@ const baseURL = computedBase || '';
 /** -------- Axios instance -------- */
 const axiosClient = axios.create({
   baseURL,
-  withCredentials: true,           // send/receive auth cookies
+  withCredentials: true,
   timeout: 20000,
-  xsrfCookieName: 'XSRF-TOKEN',    // cookie set by the API
-  xsrfHeaderName: 'X-CSRF-Token',  // header we send back (server should accept this)
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-CSRF-Token',
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
@@ -43,16 +43,12 @@ function readCookie(name) {
 }
 
 async function ensureCsrfPrimed() {
-  // If already set globally, skip
   const existing = axiosClient.defaults.headers.common['X-CSRF-Token'];
   if (existing) return;
 
   try {
-    // Ask the server to set cookies and (optionally) return a token body
     const res = await axiosClient.get('/auth/csrf', { withCredentials: true });
     const tokenFromBody = res?.data?.csrfToken || res?.data?.token;
-
-    // Prefer cookie
     const tokenFromCookie = readCookie('XSRF-TOKEN');
     const token = tokenFromCookie || tokenFromBody;
 
@@ -60,7 +56,7 @@ async function ensureCsrfPrimed() {
       axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
     }
   } catch {
-    // If this fails, POSTs may 4xx until /auth/csrf is reachable
+    // Fail silently
   }
 }
 
@@ -72,9 +68,12 @@ axiosClient.interceptors.request.use(async (config) => {
   const isMutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
 
   if (isMutating) {
+    if (method === 'PATCH') {
+      console.log('🔍 PATCH to:', config.url); // <—— added logging here
+    }
+
     await ensureCsrfPrimed();
 
-    // If axios xsrf machinery didn’t add the header yet, set it manually
     const hasHeader =
       (config.headers &&
         (config.headers['X-CSRF-Token'] || config.headers['x-csrf-token'])) ||
@@ -97,7 +96,6 @@ axiosClient.interceptors.response.use(
   (res) => res,
   (err) => {
     if (typeof window !== 'undefined' && import.meta?.env?.DEV) {
-      // eslint-disable-next-line no-console
       console.error('axios error:', {
         url: err?.config?.url,
         method: err?.config?.method,

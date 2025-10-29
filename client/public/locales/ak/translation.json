@@ -1,112 +1,553 @@
 {
   "common": {
-    "save": "Kyere",
+    "save": "Sie",
     "cancel": "Twa mu",
-    "refresh": "San hyɛ",
-    "noMatches": "Nnyinaso biara nni hɔ"
+    "refresh": "To so foforo",
+    "noMatches": "Biribiara nsi ani"
   },
+
   "profile": {
-    "title": "Adwumayɛni Profayl",
+    "title": "Fayɛl (User Profile)",
 
-    "preferredLanguage": "Kasa a wopɛ",
-    "chooseLanguage": "Paw kasa bi",
-    "mustLogin": "Ɛsɛ sɛ wokɔ mu ansa na wubetumi ahwɛ nhyehyɛe no.",
+    "preferredLanguage": "Kasafua a wopɛ",
+    "chooseLanguage": "Paw kasa",
+    "mustLogin": "Ɛsɛ sɛ wokɔ mu ansa na wuhu nhyehyɛe no.",
 
-    "autoTranslate": "Kyerɛ ase nkrataa no ho nkɔmmɔbɔ no nkyerɛase",
-    "showOriginalWithTranslation": "Kyerɛ nkrataa a wɔkyerɛɛ ase no ne nea wɔkyerɛɛ mu no",
-    "showOriginalAndTranslation": "Kyerɛ nea wɔkyerɛɛ ase ne nea wɔkyerɛɛ mu abom",
+    "autoTranslate": "Kɔsɛ kɔsɛ kɔkyerɛ ase ntɛm ara",
+    "showOriginalWithTranslation": "Kyerɛ nea wɔkaa kan ne n’akyerɛase",
+    "showOriginalAndTranslation": "Kyerɛ deɛ wɔkae kan ne n’akyerɛase ɛkɔ mu",
 
-    "filterExplicit": "Sɛe nsɛm a ɛyɛ mpɔtam",
-    "aiReply": "AI mmuaeɛ",
-    "enableReadReceipts": "Sɔ anwonwaso a wɔkenkan ho",
-    "allowExplicitContent": "Ma nsɛm a ɛyɛ mpɔtam ho kwan",
-    "disappearingMessages": "Sɔ nkrataa a wɔyera no ho",
-    "autoDeleteSeconds": "Sɛkɛnd biara akyi a ɛsɛ sɛ wɔpepa",
+    "filterExplicit": "Hwehwɛ nsɛm brɔbrɔ (nsɛmmɔne) mu",
+    "aiReply": "AI mmuae",
+    "enableReadReceipts": "Kyerɛ sɛ wɔakan me asɛmmisa (read receipt)",
+    "allowExplicitContent": "Ma asɛm brɔbrɔ no tumi ba",
+    "disappearingMessages": "Ma nsɛm no nyerae wɔ bere tiaa mu",
+    "autoDeleteSeconds": "Nsɛnimuka ansa na wɔpopa no kɔ",
 
-    "saveSuccess": "Wɔasie nhyehyɛe no yie!",
-    "saveError": "Mfomso: Entumi ankyerɛ nhyehyɛe no yie",
+    "saveSuccess": "W’ahyɛ nhyehyɛe so!",
+    "saveError": "Mfomso: Yennyae nhyehyɛe no so",
 
-    "avatarAlt": "Profayl mfonini",
-    "uploadAvatar": "Tow mfonini foforo so",
-    "avatarSuccess": "Wɔato mfonini no so!",
-    "avatarError": "Mfomso wɔ mfonini tow so mu",
+    "avatarAlt": "W’animdefo (avatar)",
+    "uploadAvatar": "To foforo so (upload) ma w’animdefo",
+    "avatarSuccess": "W’animdefo atwe akɔ!",
+    "avatarError": "Animdefo no antumi antwe kɔ",
 
-    "noPrivateKey": "Kɔn a ɛyɛ dea koro nni ha sɛ wobɛtumi asɔ mu.",
-    "setBackupPassword": "Hyɛ ehintasɛmfua ma sɛ wopɛ sɛ wokora wo nsie:",
-    "backupDownloaded": "Wɔatwe nsie a wɔabɔ ho ban no.",
-    "exportFailed": "Kɔn so mu yɛɛ mfomso",
-    "enterBackupPassword": "Kyerɛ ehintasɛmfua a wode bɔɔ nsie yi ho ban:",
-    "importSuccess": "Kɔn a ɛyɛ dea koro no aba afidie yi mu yie.",
-    "importFailed": "Entumi amfa kɔn no mmra (ehintasɛmfua ankyerɛ anaa fael no abɔne).",
-    "keysRotated": "Wɔbɔɔ kɔn foforo na wɔde kɔɔn a ɛda ho adi kɔɔ sorosoro.",
-    "rotateFailed": "Kɔn nsakrae yɛɛ mfomso.",
+    "noPrivateKey": "Sɛkrɛt safoa biara nni saa afidie yi so a wobɛtumi asie.",
+    "setBackupPassword": "Fa password hyɛ mu na ɛbɛkora wo backup no mu:",
+    "backupDownloaded": "Backup a wɔabɔ ho ban no atwe aba ha.",
+    "exportFailed": "Safoa no antumi amfi ha kɔ (export) mu",
+    "enterBackupPassword": "Kyerɛ password a ɛwɔ saa backup yi mu:",
+    "importSuccess": "Wode wo safoa kookurokoo aba saa afidie yi so.",
+    "importFailed": "Safoa no antumi amfa (password dii mfomso anaa fael no nni mfaso).",
+    "keysRotated": "Wɔayɛ wo safoa foforo na wɔde wo public key kɔe.",
+    "rotateFailed": "Yennyae safoa foforo no.",
     "security": "Banbɔ",
-    "exportKey": "Sɔ kɔn a ɛyɛ dea koro no mu",
-    "importKey": "Fa kɔn a wɔabɔ ho ban a wɔsiee no bra",
-    "rotateKeys": "Bɔ kɔn foforo",
-    "keyDisclaimer": "Wo kɔn a ɛyɛ dea koro no nnya fi afidie yi so. Sɔ kɔpie a wɔabɔ ho ban mu na woatumi asan abɔ no wɔ afidie foforo so.",
+    "exportKey": "Yi me safoa kookurokoo (export)",
+    "importKey": "Fa backup a wɔabɔ ho ban bra (import)",
+    "rotateKeys": "Yɛ me safoa foforo",
+    "keyDisclaimer": "Wo safoa kookurokoo no nfi saa afidie yi so. Twe (export) deɛ wɔde bɔ ho password na wubetumi asan de aba afidie foforo so bio.",
 
-    "sectionProfile": "Profayl",
-    "phoneNumber": "Nɔmba fɔn",
-    "appearance": "Ahoɔfɛ",
-    "soundSettings": "Asɛm ahosiesie",
-    "disappearing": "Nkrataa a wɔyera",
-    "backupSync": "Nsie & Nsianhyɛ",
+    "sectionProfile": "Fayɛl",
+    "phoneNumber": "Telefon nɔma",
+    "appearance": "Anihwɛ (Appearance)",
+    "soundSettings": "Asound",
+    "disappearing": "Nsɛm a ɛyera",
+    "backupSync": "Backup & Sync",
     "ai": "AI",
-    "accessibility": "Wɔkwan so ho nsiesie",
-    "privacy": "Ahintasɛm",
-    "devices": "Afidie a wɔaka ho",
+    "accessibility": "Wopɛ sɛ wohu dɛw (Accessibility)",
+    "privacy": "Sikasɛm-fĩ (Privacy)",
+    "devices": "Afidie a wode hyɛ mu",
 
-    "themeFreeNotice": "Wɔda ho kwa—fa Sun/Moon a ɛwɔ ase ha. Kɔ soro nkɔ upgrade na nya nsɛntitiriw foforo.",
-    "sunTheme": "Fa abɔdeɛ Dawuro ho tema no",
-    "moonTheme": "Fa Abɔdeɛ Anadwo (Midnight) tema no",
-    "sun": "Awia",
-    "moon": "Anadwo",
+    "themeFreeNotice": "Woyɛ Free—fa Owia/Osram (Sun/Moon) no ntɛmntɛm wɔ ha. Sɔ kɔ Premium na nya theme pii.",
+    "sunTheme": "Fa Dawn theme",
+    "moonTheme": "Fa Moon (Anadwo) theme",
+    "sun": "Owia",
+    "moon": "Osram",
 
-    "backupTitle": "Nsie a wɔabɔ ho ban ne Afidie nsianhyɛ",
-    "openBackupTools": "Bue nsie mmoa no",
-    "backupDesc": "Bɔ nsie a wɔabɔ ho ban a wode ehintasɛmfua bɔ ho ban, na san fa no bra wɔ afidie foforo so ma ɛyɛ nsianhyɛ.",
+    "backupTitle": "Backup a wɔabɔ ho ban & Afidie Sync",
+    "openBackupTools": "Bue Backup Tools",
+    "backupDesc": "Bɔ wo safoa ho ban wɔ password mu na si sie. Afei san fa (restore) no bra afidie foforo so na yɛ sync.",
 
-    "privacyBlurEnabled": "Bɔ nkrataa no ho dɛw daa",
-    "privacyBlurOnUnfocus": "Bɔ dɛw bere a app no m’ani nni so",
-    "holdToReveal": "Kura mu na kyerɛ",
-    "notifyOnCopy": "Ka kyerɛ me sɛ obi yɛɛ kɔpie me nkrataa",
+    "privacyBlurEnabled": "Brɛ nsɛm no dɔm (blur) defɔlt",
+    "privacyBlurOnUnfocus": "Brɛ nsɛm no dɔm bere a app no nyɛ active",
+    "holdToReveal": "Kura so kɔsi wuhu",
+    "notifyOnCopy": "Ka me kyerɛ sɛ obi copye me asɛm",
 
-    "loadFailed": "Entumi anload profayl no",
-    "followed": "Wodi akyi",
-    "followFailed": "Entumi ankyerɛ sɛ wodi akyi",
-    "unfollowed": "Wogyae di akyi",
-    "unfollowFailed": "Entumi angyae di akyi",
-    "follow": "Di akyi",
-    "unfollow": "Gyae di akyi",
-    "followHint": "Wɔbɛkyerɛ wɔn nsɛm wɔ wo Following feed mu sɛ wɔde bɔ wɔn Follower (anaa Public) ho.",
-    "userNotFound": "Wɔanhunu adwumayɛni no",
-    "followsYou": "Wodi wo akyi",
+    "loadFailed": "Yennyae wo fayɛl (profile) no",
+    "followed": "Wode wo ho aka no",
+    "followFailed": "Yentumi annya akɔdi no akyi",
+    "unfollowed": "Wʼagyae no akyi",
+    "unfollowFailed": "Yennyae agyae no akyi",
+    "follow": "Di no akyi",
+    "unfollow": "Gyae di no akyi",
+    "followHint": "Ne status/beats bɛda wo Following mu sɛ ɔde bɛto Followers (anaa Public).",
+    "userNotFound": "Yennhu ɔdehye yi",
+    "followsYou": "Ɔdi wo akyi",
 
-    "sectionCrashedTitle": "Akyerɛwbea no yɛɛ mfomso",
-    "sectionCrashedBody": "Ɛyɛɛ mfomso wɔ akyerɛwbea yi mu.",
+    "sectionCrashedTitle": "Beae yi antumi annyina",
+    "sectionCrashedBody": "Ade bi ankɔ yie wɔ beae yi.",
 
-    "forwarding": "Afrɛ ne Nsɛm ahyɛso",
-    "callTextForwardingSection": "Afrɛ ne Nsɛm ahyɛso",
-    "callTextForwardingTitle": "Afrɛ anaa Nsɛm ahyɛso",
-    "callTextForwardingDescription": "Fa afrɛ ne nsɛm a wɔreba no kɔ wo nɔmba fɔn anaa email a wɔasɔ mu. Afrɛ/ntam nkrataa a wokɔ no betumi akyerɛ wo Chatforia nɔmba.",
-    "enableTextForwarding": "Sɔ nsɛm ahyɛso",
-    "forwardTextsToPhone": "Ma nsɛm kɔ fɔn so",
-    "forwardTextsToEmail": "Ma nsɛm kɔ email so",
-    "destinationPhone": "Fɔn nɔmba a ɛkɔ (E.164)",
-    "destinationEmail": "Email a ɛkɔ",
-    "enableCallForwarding": "Sɔ afrɛ ahyɛso",
-    "destinationPhoneForCalls": "Fɔn nɔmba (E.164) ma afrɛ",
-    "aliasBridging": "Afrɛ ahyɛso (alias bridging)",
-    "quietHoursOptional": "Afe a ɛyɛ dinn (wɔpɛ a wode bɛka ho)",
-    "startHour": "Afe a ɛfiri (0–23)",
-    "endHour": "Afe a ɛtwa mu (0–23)",
-    "reset": "San hyɛ",
-    "saveBtn": "Kyere"
+    "forwarding": "Frɛ & Nkratoɔ Kɔkɔɔ (Forwarding)",
+    "callTextForwardingSection": "Frɛ & Nkratoɔ Kɔkɔɔ",
+    "callTextForwardingTitle": "Frɛ ne anaa Nkratoɔ Kɔkɔɔ",
+    "callTextForwardingDescription": "Ma nkɔmbɔfrɛ ne nkratoɔ a wɔrebɛba no nkɔ wo fon a woadi akode anaa wo email. Sɛ worefrɛ/woretwerɛ afi ha a, wɔn bɛhunu wo Chatforia nɔma.",
+    "enableTextForwarding": "Ma nkratoɔ nkɔkɔɔ no so",
+    "forwardTextsToPhone": "Ma nkratoɔ no nkɔ me fon so",
+    "forwardTextsToEmail": "Ma nkratoɔ no nkɔ me email",
+    "destinationPhone": "Fon nɔma a wobɛkɔ so (E.164)",
+    "destinationEmail": "Email a wobɛkɔ so",
+    "enableCallForwarding": "Ma frɛ kɔkɔɔ no so",
+    "destinationPhoneForCalls": "Fon nɔma a frɛ no nkɔ so (E.164)",
+    "aliasBridging": "Frɛ kɔkɔɔ (alias bridging)",
+    "quietHoursOptional": "Bere a wonnfrɛ me (Quiet Hours) (ɛyɛ kama na wode bɛhyɛ)",
+    "startHour": "Fi dɔnhwere yi so (0–23)",
+    "endHour": "Kɔsi dɔnhwere yi (0–23)",
+    "reset": "San hyɛ no te sɛ kan",
+    "saveBtn": "Sie"
   },
+
   "chat": {
-    "selectPrompt": "Paw nkrataa anaa nkɔmmɔbea bi na fi ase nkɔmmɔ",
-    "newMessages": "Nkrataa foforo",
-    "typing": "{{name}} rekyerɛw..."
+    "selectPrompt": "Paw asɛm bi anaa chat room bi na fi ase nkasa",
+    "newMessages": "Nsɛm foforo aba",
+    "typing": "{{name}} rekɔtwerɛ...",
+    "emptyTitle": "Wo nsɛm",
+    "emptySubtitle": "Twerɛ asɛmmisa na fi asɛm mu.",
+    "startChatButton": "Twerɛ nkratoɔ"
+  },
+
+  "topbar": {
+    "newStatus": "Status Foforo",
+    "logout": "Fi mu (Log Out)"
+  },
+
+  "sidebar": {
+    "randomChat": "Nkasasɛm nnɔnhwere (Random Chat)",
+    "callTextForwarding": "Frɛ & Nkratoɔ Kɔkɔɔ",
+    "conversations": "Nkɔmmɔ",
+    "searchPlaceholder": "Hwehwɛ nkɔmmɔ...",
+    "errorLoading": "Yenntumi anload chats no",
+    "empty": "Nnya nkɔmmɔ da.",
+    "startChat": "Fi nkɔmmɔ ase",
+    "people": "Nnipa",
+    "settings": "Nhyehyɛe",
+    "status": "Status",
+    "forwarding": "Frɛ & Nkratoɔ Kɔkɔɔ",
+    "refresh": "To so foforo",
+    "search": "Hwehwɛ nkɔmmɔ",
+    "loginPrompt": "Kɔ mu na sesa wo nhyehyɛe.",
+    "login": "Kɔ mu",
+    "register": "Yɛ akawunt (Create account)",
+
+    "chatrooms": "Chat Room",
+    "logout": "Fi mu",
+    "startChatAlt": "Fi nkɔmmɔ foforo ase"
+  },
+
+  "premium": {
+    "heading": "Kɔ Premium",
+    "description": "Gye tumi mmɔdenfo nneɛma na yi adwumadi (ads) nyinaa.",
+    "upgrade": "Sɔ kɔ (Upgrade)"
+  },
+
+  "auth": {
+    "headline": "Banbɔ mu asɛmkɔkɔɔ a ɛkasa wo kasa ntɛm ara",
+    "description": "End-to-end banbɔ (encryption), AI nkyerɛase ntɛm ara, nsɛm a ɛyera, ne frɛ/mfonini kasa.",
+    "feature": {
+      "encryption": "End-to-end banbɔ defɔlt",
+      "translation": "Kɔkyerɛ ase kɔkɔɔ kasa 100+ mu ntɛm ara",
+      "disappearing": "Nsɛm a ɛyera ne read receipt",
+      "privacy": "Sikasɛm-fĩ di kan. Wo data yɛ wo dea.",
+      "translate": "Nkyerɛase ntɛm ara",
+      "disappear": "Nsɛm a ɛyera",
+      "privacyAlt": "Sikasɛm-fĩ design"
+    },
+    "welcomeBack": "Akwaaba bio",
+    "continueGoogle": "Kɔ so fa Google",
+    "continueApple": "Kɔ so fa Apple",
+    "username": "Din a wode ba mu (Username)",
+    "password": "Password",
+    "keepSignedIn": "Ma menka mu",
+    "forgotPassword": "Wo werɛ afi password no?",
+    "loginButton": "Kɔ mu",
+    "createAccount": "Yɛ akawunt",
+    "freeAccountButton": "Yɛ akawunt kwa",
+    "newHere": "Woyɛ foforo ha?",
+    "getApp": "Fa app no",
+    "desktopTip": "Wɔ kɔmputa so? Fa wo fon scan na nya app no.",
+
+    "goHome": "Kɔ fie (Home)",
+    "home": "Fie",
+
+    "headlineAlt": {
+      "main": "Asɛmkɔkɔɔ a ɛwɔ banbɔ mu",
+      "highlight": "na ɛkasa wo kasa"
+    },
+    "subhead": "Asɛm a wɔde abɔ ho ban, atwere mu asɛm, ne nkyerɛase ntɛm ara — kɛse biara nni mu.",
+
+    "status": "Hwɛ status",
+    "upgrade": "Sɔ kɔ seisei ara",
+    "tip": "Wubetumi de Chatforia yɛ adwuma wɔ afidie biara so — na sɛ wotwe app no a ɛyɛ asɛmpa koraa.",
+    "openDownload": "Bue krataa a wobɛtwe fi so (download page)",
+    "qrAlt": "QR koodu ma Chatforia",
+    "scanHint": "Scan na twe app no anaa bue wɔ wo brawsa mu.",
+    "iosAria": "Twe fi App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Fa fi Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+
+    "login": "Kɔ mu",
+    "signup": "Kyerɛw wo din (Sign Up)",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Nhyehyɛe ne sika a wobɛtua",
+    "about": "Fa Chatforia ho",
+    "careers": "Adwuma (Careers)",
+    "press": "Press",
+    "advertise": "Bɔ dawuru (Advertise)",
+    "contact": "Frɛ yɛn",
+    "help": "Mmoa Fie (Help Center)",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Sikasɛm-fĩ (Privacy Policy)",
+    "terms": "Nhyiam Ntotoho (Terms of Service)",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Mfrɛ me data 'tɔn'",
+
+    "language": "Kasa",
+    "contactShort": "Frɛ yɛn"
+  },
+
+  "home": {
+    "title": "Fie",
+    "header": "Wo nsɛm",
+    "subheader": "Twerɛ asɛmmisa na fi nkɔmmɔ ase.",
+    "sendButton": "Twerɛ nkratoɔ",
+    "gifPicker": "Bue GIF picker",
+    "emoji": "Emoji",
+    "upload": "To mfonini anaa video so",
+    "inputPlaceholder": "Kyerɛw asɛmmisa…",
+    "inputLabel": "Beae a wotwerɛ asɛm (Message composer)",
+    "sendTooltip": "Twerɛ kɔ",
+    "sendTooltipEmpty": "Kyerɛw biribi ansa",
+    "send": "Twerɛ kɔ",
+
+    "welcomeMessage": "Akwaaba ba Chatforia",
+    "getStarted": "Fi ase"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "Sɛ wopɛ asɛm ama media a, frɛ yɛn wɔ <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Sɛ wopɛ asɛm ama media a, frɛ yɛn wɔ press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia yɛ asɛmkɔkɔɔ a ɛwɔ banbɔ mu a ɛde nkyerɛase ntɛm ara ne E2E banbɔ (encryption) baabiara, ma ɛyɛ mmerante ne mmea a wɔwɔ wiase nyinaa ho mmerɛw sɛ wobenya ne ho ne ho akasa fa asɛm a wɔn ara pɛ ho.",
+    "assetsTitle": "Brand nneɛma",
+    "assetsText": "Logo, screenshots, ne mfonini a ɛkyerɛ pɔgrame no (reba ntɛm)."
+  },
+
+  "careers": {
+    "title": "Adwuma (Careers)",
+    "intro": "Yɛ yɛn ketewa team. Yɛreyɛ asɛmkɔkɔɔ a ɛwɔ banbɔ mu, a obiara betumi de ayɛ adwuma wɔ wiase nyinaa. Sɛ banbɔ, ahoɔden (Accessibility), ne adeyɛ dɛ (UX) yɛ wo deɛ a, yɛpɛ wo.",
+    "openRoles": "<b>Adwuma a ɛwɔ hɔ:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
+    "apply": "<b>Sɛ wopɛ adwuma no:</b> Fa wo resume/anɔpa (links) brɛ yɛn wɔ <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Fa wo resume brɛ yɛn"
+  },
+
+  "about": {
+    "title": "Fa Chatforia ho",
+    "description": "Chatforia yɛ asɛmkɔkɔɔ a ɛwɔ banbɔ mu a ɛka kasa bebree; ɛde end-to-end banbɔ (encryption), nkyerɛase ntɛm ara, ne frɛ/video ba mu. Yɛbotae tenten ne sɛ: ma nnipa nyinaa nkasa — wɔban mu, wɔhome mu, na kasa biara nsi wɔn ntam.",
+    "valuesTitle": "Deɛ yɛgyedi mu",
+    "values": {
+      "privacy": "<b>Sikasɛm-fĩ:</b> Banbɔ (E2E) fi fĩ mu.",
+      "access": "<b>Kɔ so ma obiara:</b> Nkyerɛase kɔkɔɔ kasa 100+ mu.",
+      "control": "<b>Wo na wowura so:</b> Nsɛm a ɛyera ne read receipt yɛ nea wopɛ."
+    },
+    "howTitle": "Ɛyɛ dɛn na Chatforia di dwuma",
+    "howDescription": "Wɔde wo nsɛm bɔ ho ban wɔ wo afidie so ansa na wɔmfa kɔ baabia. Nkyerɛase, backup, ne afidie-sync no yɛ adwuma sɛnea ɛbɛyɛ a yɛn server renhu woade pii."
+  },
+
+  "advertise": {
+    "title": "Bɔ dawuru wɔ Chatforia so",
+    "description": "Kɔpɛ nnipa a wɔde asɛmkɔkɔɔ yɛ adwuma daa, na kyerɛ wo brand no fɛfɛɛfɛ. Yɛwɔ bannaa beae (banner), sponsorships, ne yɛ ankasa promo. Sikafo a wɔwɔ Premium renhunu adwumadi (ads).",
+    "adsense": {
+      "withPubId": "Seesei yɛde <b>Google AdSense</b> na yɛma adwumadi ba. Sɛ wopɛ sɛ wode Google Ads kɔ yɛn so a, fa publisher ID <code>{{pubId}}</code> na bisa managed placement wɔ units a ɛwɔ ase ha. Sponsorship kɛse nso wɔ hɔ — fa form no fa brɛ yɛn.",
+      "noPubId": "Seesei yɛde <b>Google AdSense</b> na yɛma adwumadi ba. Sponsorship kɛse nso wɔ hɔ — fa form no fa brɛ yɛn daabiara."
+    },
+    "inventoryHeader": "Beae & Nsɛmfa (Specs)",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Nɔtreɛ a yɛgye tom",
+      "adsenseSlot": "AdSense beae:"
+    },
+    "noPlacements": "Beae biara nnhyehyɛɛ. Fa ka ho wɔ ads/placements.js.",
+    "whyHeader": "Adɛn Chatforia?",
+    "why": {
+      "highSession": "Nnipa kɔ baako so bebree na wɔtena mu akɔ akyiri wɔ chat mu",
+      "brandSafe": "Ɛyɛ brand-safe; yɛnhyɛ wo so adwumadi pii",
+      "sponsoredMoments": "Yɛwɔ bere a wobɛtumi asponsoa (sɛ 'Fi Nkɔmmɔ' pop-up no)",
+      "deals": "Direct deals anaa Google Ads/AdSense so"
+    },
+    "contactHeader": "Frɛ yɛn",
+    "form": {
+      "submittedMsg": "Meda wo ase! Yɛanya wo asɛmmisa. Yɛbɛsan aba ntɛm.",
+      "missingRequired": "Fa wo din, email, ne asɛmmisa hyɛ mu ansa.",
+      "successToast": "Meda wo ase! Yɛbɛka wo ho ntɛm.",
+      "mailtoInfo": "Rebue wo email app na ɛde asɛmmisa no akɔ…",
+      "nameLabel": "Wo din",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "wo@company.com",
+      "companyLabel": "Kompin din",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Sika a wobɛtow gu so bosome biara (pɛ)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Ka ho asɛm kyerɛ yɛn",
+      "messagePlaceholder": "Deɛn na wopɛ, bere bɛn, sika bɛn, beae a wobɛpɛ…",
+      "sendCta": "Mane asɛmmisa kɔ"
+    },
+    "legal": {
+      "disclaimerStart": "Sɛ wode yɛn krataa yi brɛ yɛn a, wopene so kyerɛ sɛ wote yɛn",
+      "terms": "Nhyiam Ntotoho (Terms)",
+      "and": "ne",
+      "privacy": "Sikasɛm-fĩ (Privacy Policy)"
+    }
+  },
+
+  "upgrade": {
+    "title": "Sɔ kɔ (Upgrade)",
+    "subtitle": "Fa nhyehyɛe a ɛfata wo: Yi adwumadi (ads) koraa fi Plus mu anaa nya tumi kɛse nyinaa wɔ Premium mu.",
+    "scheduleBanner": {
+      "title": "Wo akonta-bɔ bɛyɛ nʼawieɛ",
+      "body": "Wobesanhyia Free wɔ",
+      "keepPlanCta": "Kɔ so fa Plus",
+      "manageBillingCta": "Hwɛ sika a wobɔ (billing)"
+    },
+    "billing": {
+      "opening": "Rebue...",
+      "manage": "Hwɛ Billing"
+    },
+    "checkout": {
+      "redirecting": "Rekɔ hɔ..."
+    },
+    "auth": {
+      "continue": "Kɔ so",
+      "createAccount": "Yɛ akawunt",
+      "signIn": "Kɔ mu"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 ne Group nkɔmmɔ",
+          "aiBasic": "AI mmuae a ɛtɔ so kakra",
+          "attachments": "Attachments a ɛteɛ (standard)"
+        },
+        "ctaCurrent": "Nhyehyɛe a wowɔ seesei",
+        "ctaUnavailable": "San kɔ Free (da ho nnsi)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / bosome",
+        "features": {
+          "noAds": "Yi adwumadi (ads) nyinaa",
+          "msg": "1:1 ne Group nkɔmmɔ",
+          "attachments": "Attachments kɛse",
+          "aiBasic": "AI mmuae a ɛtɔ so kakra"
+        },
+        "badge": "Dɔɔso pɛ",
+        "cta": "Yi adwumadi (Go Ad-Free)"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Bosome mu)",
+        "price": "$24.99 / bosome",
+        "features": {
+          "plusAll": "Biribiara a ɛwɔ Plus mu",
+          "ringtones": "Wo ara wopaw wo ring tone ne asɛmpae mmɔden",
+          "powerAi": "AI tumi kɛse",
+          "priorityUpdates": "Ntosoɔ a ɛkɔ ntɛm ma wo",
+          "backups": "Backups & afidie sync"
+        },
+        "badge": "Sika pa",
+        "cta": "Sɔ kɔ (Bosome mu)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Afe mu)",
+        "price": "$225 / afe",
+        "features": {
+          "allPremium": "Biribiara a ɛwɔ Premium mu",
+          "annualBilling": "Wotua sika afe baako mu",
+          "save25": "Gye ~25% kyɛn bosome-bosome",
+          "sameFeatures": "Nneɛma pɛpɛɛpɛ te sɛ Bosome mu no"
+        },
+        "badge": "Gye 25%",
+        "cta": "Sɔ kɔ (Afe mu)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Fi ase",
+    "subtitle": "Woyɛ foforo wɔ Chatforia? Krataa yi bɛma wo ahu nea ehia na woatumi atwitwa bere.",
+    "alert": {
+      "text": "Yɛbɛto so de nneɛma foforo ka ho bere a yɛde nneɛma foforo rebɛto so. Sɛ biribi nni hɔ a, kɔ",
+      "contactLink": "Frɛ Yɛn"
+    },
+    "section1": {
+      "title": "1) Yɛ wo akawunt",
+      "signup": "Kyerɛw wo din (Sign up)",
+      "or": "anaa",
+      "login": "kɔ mu",
+      "loginText": "fa wo akawunt a wowɔ dedaw mu.",
+      "prefsStart": "Hyɛ wo",
+      "prefsLink": "pɛpɛɛpɛ (preferences)",
+      "prefsRest": "mu (kasa, read receipt, theme)."
+    },
+    "section2": {
+      "title": "2) Fi nkɔmmɔ ase",
+      "item1": "Yɛ DM anaa Group na twerɛ wo asɛm a edi kan.",
+      "item2": "Fa nkyerɛase ntɛm ara no na kasa akyirikyiri kasa 100+ mu.",
+      "item3": "Sɔ nsɛm a ɛyera ne read receipt wɔ Profile → Privacy mu."
+    },
+    "section3": {
+      "title": "3) Kɔ so",
+      "item1Part1": "Hwɛ wo plan wɔ",
+      "upgradeLink": "Upgrade",
+      "item1Part2": "krataafa no (Plus = tumi nkɔmmɔ a ɛnni adwumadi, Premium = tumi nyinaa).",
+      "item2Part1": "Fa afidie foforo ka ho na hyɛ backups a wɔabɔ ho ban wɔ",
+      "settingsLink": "Settings"
+    },
+    "cta": {
+      "seePlans": "Hwɛ nhyehyɛe",
+      "openSettings": "Bue nhyehyɛe"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Mmoa Fie",
+    "faq": {
+      "account": {
+        "q": "Ɛyɛ dɛn na mɛbɛyɛ akawunt anaa asan anya me akawunt?",
+        "a": "Twe app no anaa fa web so, kɔ “Yɛ akawunt”, na kyerɛ wo email/fon. Sɛ woresan pɛ deɛ na wo werɛ afi a, fa “Wo werɛ afi password no?” so."
+      },
+      "privacy": {
+        "q": "Asɛm no wɔ banbɔ (end-to-end encryption) mu anaa?",
+        "a": "Yiw. Nsɛm ne frɛ nyinaa wɔ end-to-end banbɔ mu defɔlt. Wo ne obi a woka no nko na mote no."
+      },
+      "translate": {
+        "q": "Nkyerɛase ntɛm ara no yɛ dɛn di dwuma?",
+        "a": "Fa “Auto-translate” to so wɔ Settings → Appearance & Language mu. Sɛ ɛbɛtumi aye a, yɛde wo afidie ara na yɛkyerɛ ase. Sɛ ɛnyɛ yi a, yɛfa banbɔ so API a ɛkɔ no mu na yɛde metadata ketewa kɔ."
+      },
+      "contact": {
+        "q": "Frɛ support",
+        "a": "Fa email brɛ yɛn wɔ support@chatforia.com. Fa screenshot ne wo app version ka ho."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Frɛ Yɛn",
+    "successMsg": "Meda wo ase — yɛbɛsan afrɛ wo wɔ email mu.",
+    "errorSend": "Yennyae tumi manane. Fa email brɛ yɛn wɔ support@chatforia.com.",
+    "form": {
+      "nameLabel": "Din",
+      "emailLabel": "Email",
+      "messageLabel": "Asɛmmisa",
+      "sendCta": "Mane kɔ"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Sikasɛm-fĩ (Privacy Policy)",
+    "lastUpdated": "Wɔto so a etwa toɔ kɔtɔ so:",
+    "intro": {
+      "body": "Krataa yi kyerɛ sɛnea Chatforia (“yɛn”, “yɛ”) boaboa infɔmehyɛn ano, de di dwuma, na fa kyɛ bere a wokɔ so de yɛn app ne yɛn dwumadie di dwuma. Yɛde yɛn ho bɔ yɛn ho ban na ɛnnyɛ mmerɛw ma yɛahu wo data."
+    },
+    "infoWeCollect": {
+      "title": "Infɔmehyɛn a yɛkɔboa",
+      "account": "Akawunt infɔ (te sɛ email/fon) de yɛ wo akawunt na yɛbɔ ho ban.",
+      "encrypted": "Asɛm a wɔabɔ ho ban (nsɛm/frɛ) wɔ end-to-end banbɔ mu; yɛn nsa nte so.",
+      "diagnostics": "Diagnostic / dwumadie infɔ te sɛ crash logs, afidie type, anaa nsɛnsɛnee ketewa, na yɛde yɛ dwumadie no yɛ kama."
+    },
+    "howWeUse": {
+      "title": "Sɛnea yɛde infɔ no di dwuma",
+      "provide": "Ma dwumadie no ntena hɔ yie na yɛbɔ ho ban (akode kɔ mu, spam/abuse ahwehwɛ).",
+      "improve": "Siesie nneɛma (nkyerɛase pa, adwumadi a ɛkɔ ntɛm).",
+      "legal": "Di mmara so sɛ ɛsɛ."
+    },
+    "sharing": {
+      "title": "Sɛnea yɛkyɛ",
+      "body": "Yɛntɔn data. Yebetumi de infɔ ketewa akɔ ma nnipa anaa dwumadie a wɔboa yɛn (te sɛ push notification, analytics) wɔ ntam bɔ ahorow mu."
+    },
+    "rights": {
+      "title": "Wo mmra",
+      "body": "Ɛwɔ he na wofi (te sɛ GDPR/UK GDPR/CPRA) so nti wubetumi abisa wo data, asesa no, ama yɛapopa no, anaa agyae nneɛma bi ho. Frɛ yɛn: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Bere a yɛkora data ne banbɔ",
+      "body": "Yɛkora nea ehia na dwumadie no atumi adi dwuma. Yɛde banbɔ a ɛyɛ pɔtee di dwuma. Nsɛm a wɔde abɔ ho ban (E2E) yentumi mmue no."
+    },
+    "children": {
+      "title": "Mmɔfra",
+      "body": "Chatforia mmfa mmaa anaa mmɔfra a wɔwɔ mfe 13 nkyɛ (anaa sɛ wo mmara kyerɛ bɛboro saa)."
+    },
+    "changes": {
+      "title": "Nsakrae",
+      "body": "Sɛ yɛsesaa biribi a, yɛde bɛto ha na yɛasan asesa “Wɔto so a etwa toɔ” da no."
+    },
+    "contact": {
+      "title": "Frɛ yɛn",
+      "body": "privacy@chatforia.com • [Kompin din a ɛwɔ mmara mu], [Adrɛs]"
+    }
+  },
+
+  "terms": {
+    "title": "Nhyiam Ntotoho (Terms of Service)",
+    "lastUpdated": "Wɔto so a etwa toɔ kɔtɔ so:",
+    "intro": {
+      "body": "Sɛ wode Chatforia di dwuma a, ɛkyerɛ sɛ wopene so kyerɛ sɛ wugye saa Ntotoho yi tom. Sɛ wompene so a, ɛnsɔre yɛ adwuma."
+    },
+    "accounts": {
+      "title": "Akawunt",
+      "itemAccurateInfo": "Fa infɔ ankasa (nokware) na kora wo akode mu yie.",
+      "itemResponsibility": "Woyɛ nea ɔhwɛ biribiara a ɛkɔ so wɔ wo akawunt mu so."
+    },
+    "acceptableUse": {
+      "title": "Sɛnea ɛfata sɛ wɔde dwumadie di dwuma",
+      "itemNoAbuse": "Mmfa biribi a ɛmmfata (abuse), mmfiri mmara so, mmfa spam, na mmnyɛ bot abusua kɔkɔɔ.",
+      "itemSuspend": "Yebetumi agyae anaa atwa wo so beretia sɛ wubu saa mmara yi so."
+    },
+    "yourContent": {
+      "title": "Wo nsɛm",
+      "body": "Wo na wo nsɛm yɛ dea. Wode kwan ma yɛn sɛ yɛde betumi asan de dwumadie no ayɛ (te sɛ kɔ so, sie, nkyerɛase)."
+    },
+    "disclaimer": {
+      "title": "Atirimuɔden & ahuhudeɛ a yɛnnye so",
+      "body": "Dwumadie no ba sɛ “nea ɛte saa” na yɛmma ho ntamgyina biara. Sɛ wɔmma kwan a, Chatforia nni tɛkyerɛma ho haw anaa nsɛnhweree kɛse a ɛto wo efisɛ wode yɛɛ adwuma no."
+    },
+    "changes": {
+      "title": "Nsakrae",
+      "body": "Yebetumi asesa saa Ntotoho yi; sɛ wokɔ so de dwumadie no di dwuma akyiri a, ɛkyerɛ sɛ wugye nsakrae no tom."
+    },
+    "contact": {
+      "title": "Frɛ yɛn",
+      "body": "support@chatforia.com • [Kompin din a ɛwɔ mmara mu], [Adrɛs]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Mfrɛ me data 'tɔn' anaaso 'kyɛ'",
+    "body": "Chatforia nntɔn data. Nanso California nkurɔfo tumi bisa so wɔ CPRA fam. Fa boton no so na bisa.",
+    "cta": "Bisa (Submit request)"
+  },
+
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia de cookies ketewa pɛ (te sɛ session ne security) di dwuma. Yɛmmfa adwumadi a ɛfiri afoforo (third-party ads cookies). Tumi sesa cookies wɔ wo brawsa no mu."
   }
 }

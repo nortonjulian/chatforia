@@ -16,6 +16,9 @@ import './styles/themes.css';
 
 import './i18n';
 
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+
 import { AdProvider } from '@/ads/AdProvider';
 import { SocketProvider } from './context/SocketContext';
 import { UserProvider } from './context/UserContext';
@@ -177,7 +180,10 @@ function Root() {
 /* ---------------- Mount ---------------- */
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Root />
+    {/* ✅ Wrap the entire app with I18nextProvider so every child
+        (Sidebar, header buttons, drawers, etc.) responds to language changes */}
+    <I18nextProvider i18n={i18n}>
+      <Root />
+    </I18nextProvider>
   </React.StrictMode>
 );
-

@@ -329,7 +329,7 @@ export function createApp() {
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
   app.use('/api/translations', translationsRouter);
-  app.use('/languages', languagesRouter);
+  app.use('/api/languages', languagesRouter);
   app.use('/stories', storiesRouter);
   app.use('/connectivity', connectivityRouter);
   app.use('/esim', esimRouter);

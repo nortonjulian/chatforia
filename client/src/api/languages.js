@@ -1,7 +1,6 @@
-// import api from './axiosClient';
+import axios from './axiosClient';
 
-export async function fetchLanguages() {
-  const res = await fetch('/languages');
-  if (!res.ok) throw new Error('Failed to load languages');
-  return await res.json();
-}
+export const fetchLanguages = async () => {
+  const res = await axios.get('/api/languages');
+  return res.data; 
+};

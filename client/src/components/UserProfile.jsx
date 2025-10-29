@@ -319,7 +319,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         privacyHoldToReveal,
         notifyOnCopy,
       };
-      await axiosClient.patch(`/users/${currentUser.id}`, payload);
+      await axiosClient.patch(`/users/me`, payload);
 
       // reflect locally
       i18n.changeLanguage(preferredLanguage);
@@ -443,15 +443,14 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                   await i18n.changeLanguage(lng);
                   localStorage.setItem('preferredLanguage', lng);
 
-                  // Try to update on server:
                   try {
-                    await axiosClient.get('/auth/csrf');
-                    await axiosClient.patch('/users/me', { preferredLanguage: lng });
+                    await axiosClient.patch(`/users/me`, { preferredLanguage: lng });
                   } catch (err) {
                     console.error('Failed to update language preference', err);
                   }
                 }}
               />
+
 
 
 

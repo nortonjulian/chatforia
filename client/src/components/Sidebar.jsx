@@ -27,6 +27,7 @@ import {
 import StartChatModal from '@/components/StartChatModal';
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
 import UserProfile from '@/components/UserProfile';
+import { useTranslation } from 'react-i18next';
 
 // Ads
 import AdSlot from '@/ads/AdSlot';
@@ -38,6 +39,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
   const [profileTarget, setProfileTarget] = useState(null);
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const isPremium = useMemo(
     () => String(currentUser?.plan || 'FREE').toUpperCase() === 'PREMIUM',
@@ -115,9 +117,9 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
             leftSection={<Dice5 size={16} />}
             component={Link}
             to="/random"
-            aria-label="Open Random Chat"
+            aria-label={t('sidebar.randomChat', 'Open Random Chat')}
           >
-            Random Chat
+            {t('sidebar.randomChat', 'Random Chat')}
           </Button>
         )}
 
@@ -128,9 +130,9 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
             size="xs"
             component={Link}
             to="/status"
-            aria-label="Status"
+            aria-label={t('sidebar.status', 'Status')}
           >
-            Status
+            {t('sidebar.status', 'Status')}
           </Button>
         )}
 
@@ -144,9 +146,9 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
               setProfileTarget('forwarding');
               setProfileOpen(true);
             }}
-            aria-label="Open call and text forwarding settings"
+            aria-label={t('sidebar.forwarding', 'Open call and text forwarding settings')}
           >
-            Call & Text Forwarding
+            {t('sidebar.forwarding', 'Call & Text Forwarding')}
           </Button>
         )}
       </Stack>
@@ -159,7 +161,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       {/* Conversations header + refresh */}
       <Group justify="space-between" mt="md" mb={6}>
         <Text size="sm" fw={700}>
-          Conversations
+          {t('sidebar.conversations', 'Conversations')}
           {roomCount > 0 ? '' : ''}
         </Text>
         <ActionIcon
@@ -174,12 +176,12 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
 
       {/* Conversation search box */}
       <TextInput
-        placeholder="Search conversations.."
+        placeholder={t('sidebar.searchPlaceholder', 'Search conversations..')}
         leftSection={<SearchIcon size={14} />}
         value={query}
         onChange={(e) => setQuery(e.currentTarget.value)}
         mb="sm"
-        aria-label="Search conversations"
+        aria-label={t('sidebar.searchAriaLabel', 'Search conversations')}
       />
 
       {/* Chatroom list area */}
@@ -225,13 +227,13 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
           </Stack>
         ) : (
           <Stack gap="sm">
-            <Text c="dimmed">Log in to edit your settings.</Text>
+            <Text c="dimmed">{t('sidebar.loginPrompt', 'Log in to edit your settings.')}</Text>
             <Group>
               <Button component={Link} to="/" variant="filled">
-                Log in
+                {t('auth.login', 'Log in')}
               </Button>
               <Button component={Link} to="/register" variant="light">
-                Create account
+                {t('auth.signup', 'Create account')}
               </Button>
             </Group>
           </Stack>

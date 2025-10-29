@@ -15,6 +15,7 @@ import axiosClient from '@/api/axiosClient';
 import AdSlot from '@/ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import useIsPremium from '@/hooks/useIsPremium';
+import { useTranslation } from 'react-i18next';
 
 export default function ChatroomsSidebar({
   onStartNewChat,
@@ -25,6 +26,7 @@ export default function ChatroomsSidebar({
   listOnly = false,        // suppress header/ads/CTA when embedded in Sidebar
   filterQuery = '',        // client-side filter text
 }) {
+  const { t } = useTranslation();
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState('');
@@ -43,26 +45,23 @@ export default function ChatroomsSidebar({
         e?.response?.data?.error ||
           e?.response?.data?.message ||
           e?.message ||
-          'Failed to load chats'
+          t('sidebar.errorLoading')
       );
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
-  // initial load
   useEffect(() => {
     load();
   }, [load]);
 
-  // let Sidebar trigger reload via CustomEvent
   useEffect(() => {
     const handler = () => load();
     window.addEventListener('sidebar:reload-rooms', handler);
     return () => window.removeEventListener('sidebar:reload-rooms', handler);
   }, [load]);
 
-  // bubble up count
   useEffect(() => {
     onCountChange?.(Array.isArray(rooms) ? rooms.length : 0);
   }, [rooms, onCountChange]);
@@ -76,13 +75,12 @@ export default function ChatroomsSidebar({
       })
     : rooms;
 
-  // -------- loading --------
   if (loading) {
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
           <Text fw={600} aria-label="Conversations header">
-            Conversations
+            {t('sidebar.conversations', 'Conversations')}
           </Text>
         )}
         {Array.from({ length: 7 }).map((_, i) => (
@@ -92,59 +90,55 @@ export default function ChatroomsSidebar({
     );
   }
 
-  // -------- error --------
   if (err) {
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
           <Text fw={600} aria-label="Conversations header">
-            Conversations
+            {t('sidebar.conversations', 'Conversations')}
           </Text>
         )}
         <Alert color="red" variant="light">
-          {err}
+          {err || t('sidebar.errorLoading', 'Something went wrong')}
         </Alert>
         {!listOnly && (
           <Button onClick={load}>
-            Retry
+            {t('common.retry', 'Retry')}
           </Button>
         )}
       </Stack>
     );
   }
 
-  // -------- empty list --------
   if (!visibleRooms.length) {
     if (hideEmpty) return null;
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
           <Text fw={600} aria-label="Conversations header">
-            Conversations
+            {t('sidebar.conversations', 'Conversations')}
           </Text>
         )}
         <Text c="dimmed" size="sm">
-          No conversations yet.
+          {t('sidebar.empty', 'No conversations yet.')}
         </Text>
         {!listOnly && (
           <Button onClick={onStartNewChat}>
-            Start a chat
+            {t('sidebar.startChat', 'Start a new chat')}
           </Button>
         )}
       </Stack>
     );
   }
 
-  // -------- populated --------
   return (
     <Stack p="sm" gap="xs">
       {!listOnly && (
         <Text fw={600} aria-label="Conversations header">
-          Conversations
+          {t('sidebar.conversations', 'Conversations')}
         </Text>
       )}
 
-      {/* Top ad strip (only free users, only when showing list, not in Sidebar's listOnly mode) */}
       {!listOnly && !isPremium && (
         <>
           <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
@@ -188,7 +182,6 @@ export default function ChatroomsSidebar({
               )}
             </UnstyledButton>
 
-            {/* secondary ad after the 3rd item (idx === 2), only if free and not listOnly */}
             {!listOnly && !isPremium && idx === 2 && (
               <>
                 <Divider my={6} />

@@ -74,7 +74,7 @@ import HouseAdSlot from '@/ads/HouseAdSlot';
 import NewStatusModal from '@/pages/NewStatusModal.jsx';
 import LogoGlyph from '@/components/LogoGlyph.jsx';
 
-import i18n from '@/i18n'; // ✅ i18n added
+import i18n from '@/i18n'; // ✅ keep using the shared i18n instance
 
 const NAV_W = 300;
 const ASIDE_W = 280;
@@ -96,7 +96,7 @@ function AuthedLayout() {
       .catch(() => setFeatures({ status: true }));
   }, []);
 
-  // ✅ i18n dynamic language switch
+  // ✅ Sync UI language to the logged-in user's preference
   useEffect(() => {
     if (currentUser?.preferredLanguage) {
       i18n.changeLanguage(currentUser.preferredLanguage);
@@ -310,7 +310,14 @@ export default function AppRoutes() {
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="settings/backups" element={<RequirePremium><SettingsBackups /></RequirePremium>} />
+        <Route
+          path="settings/backups"
+          element={
+            <RequirePremium>
+              <SettingsBackups />
+            </RequirePremium>
+          }
+        />
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
@@ -320,7 +327,14 @@ export default function AppRoutes() {
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
-        <Route path="admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+        <Route
+          path="admin"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />
           <Route path="audit" element={<AuditLogsPage />} />

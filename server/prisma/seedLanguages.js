@@ -29,7 +29,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const EN_STRINGS = {
-  'profile.preferredLanguage': 'Preferred language',
+  'preferredLanguage': 'Preferred language',
   'profile.chooseLanguage': 'Choose your language',
   'common.noMatches': 'No matches',
   'profile.autoTranslate': 'Auto-translate messages',

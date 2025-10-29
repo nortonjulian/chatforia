@@ -1,5 +1,16 @@
 import { useRef, useState } from 'react';
-import { Box, Card, Stack, Text, Button, TextInput, Group, ActionIcon, Tooltip } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
+import {
+  Box,
+  Card,
+  Stack,
+  Text,
+  Button,
+  TextInput,
+  Group,
+  ActionIcon,
+  Tooltip
+} from '@mantine/core';
 import { Smile, Image as ImageIcon, Send } from 'lucide-react';
 import StickerPicker from '@/components/StickerPicker.jsx';
 
@@ -12,16 +23,15 @@ const ASIDE_W = 280; // match AppRoutes
 const GUTTER = 32;   // visual breathing room across center (set to 0 for true edge-to-edge)
 
 export default function HomeIndex() {
+  const { t } = useTranslation();
   const [msg, setMsg] = useState('');
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerTab, setPickerTab] = useState(TAB_EMOJI);
   const fileRef = useRef(null);
 
   const handleSendMessage = () => {
-    if (!msg.trim()) return; // guard against empty sends
+    if (!msg.trim()) return;
     window.dispatchEvent(new CustomEvent('open-new-chat-modal'));
-    // OPTIONAL: clear input after "send"
-    // setMsg('');
   };
 
   const openImageVideo = () => fileRef.current?.click();
@@ -39,14 +49,18 @@ export default function HomeIndex() {
       >
         <Card withBorder radius="lg" p="lg" maw={380} w="100%" style={{ textAlign: 'center', margin: '0 auto' }}>
           <Stack gap="xs" align="center">
-            <Text fw={700} size="lg">Your messages</Text>
-            <Text c="dimmed" size="sm" mb="xs">Send a message to start a chat.</Text>
-            <Button size="md" onClick={handleSendMessage}>Send message</Button>
+            <Text fw={700} size="lg">{t('home.header', 'Your messages')}</Text>
+            <Text c="dimmed" size="sm" mb="xs">
+              {t('home.subheader', 'Send a message to start a chat.')}
+            </Text>
+            <Button size="md" onClick={handleSendMessage}>
+              {t('home.cta', 'Send message')}
+            </Button>
           </Stack>
         </Card>
       </Box>
 
-      {/* Fixed bottom composer — exactly spans the middle between rails */}
+      {/* Fixed bottom composer */}
       <div
         style={{
           position: 'fixed',
@@ -70,48 +84,44 @@ export default function HomeIndex() {
           }}
         >
           <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
-            {/* GIF pill – explicit label, themed via styles.css tokens */}
             <Button
               variant="filled"
               radius="xl"
               size="compact-md"
-              aria-label="Open GIF picker"
+              aria-label={t('home.gifPicker', 'Open GIF picker')}
               onClick={() => { setPickerTab(TAB_GIFS); setPickerOpen(true); }}
               className="composer-btn gif-button gif-button--filled"
             >
               GIF
             </Button>
 
-            {/* Emoji */}
             <ActionIcon
               variant="default"
               size="lg"
               radius="md"
-              aria-label="Emoji"
+              aria-label={t('home.emoji', 'Emoji')}
               onClick={() => { setPickerTab(TAB_EMOJI); setPickerOpen(true); }}
-              title="Emoji"
+              title={t('home.emoji', 'Emoji')}
               className="composer-btn icon-button"
             >
               <Smile size={18} />
             </ActionIcon>
 
-            {/* Image / video */}
             <ActionIcon
               variant="default"
               size="lg"
               radius="md"
-              aria-label="Upload photo or video"
+              aria-label={t('home.upload', 'Upload photo or video')}
               onClick={openImageVideo}
-              title="Photo / video"
+              title={t('home.upload', 'Photo / video')}
               className="composer-btn icon-button"
             >
               <ImageIcon size={18} />
             </ActionIcon>
 
-            {/* Text input (compact, but grows) */}
             <TextInput
-              placeholder="Type a message…"
-              aria-label="Message composer"
+              placeholder={t('home.inputPlaceholder', 'Type a message…')}
+              aria-label={t('home.inputAriaLabel', 'Message composer')}
               value={msg}
               onChange={(e) => setMsg(e.currentTarget.value)}
               style={{ flex: 1, minWidth: 0 }}
@@ -125,13 +135,19 @@ export default function HomeIndex() {
               }}
             />
 
-            {/* Send = round, high contrast; keep visually enabled and guard in handler */}
-            <Tooltip label={msg.trim() ? 'Send' : 'Type a message to send'} openDelay={400}>
+            <Tooltip
+              label={
+                msg.trim()
+                  ? t('home.send', 'Send')
+                  : t('home.sendDisabled', 'Type a message to send')
+              }
+              openDelay={400}
+            >
               <ActionIcon
                 size="lg"
                 radius="xl"
                 variant="filled"
-                aria-label="Send"
+                aria-label={t('home.send', 'Send')}
                 onClick={handleSendMessage}
                 className="composer-btn send-button"
                 data-empty={msg.trim() === '' ? 'true' : 'false'}
@@ -140,7 +156,6 @@ export default function HomeIndex() {
               </ActionIcon>
             </Tooltip>
 
-            {/* Hidden input stays as-is */}
             <input
               ref={fileRef}
               type="file"

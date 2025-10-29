@@ -1,112 +1,555 @@
 {
   "common": {
     "save": "አስቀምጥ",
-    "cancel": "ተወው",
+    "cancel": "ሰርዝ",
     "refresh": "አድስ",
-    "noMatches": "ምንም አይዛመድም"
+    "noMatches": "ምንም ተመሳሳይ አልተገኘም"
   },
-  "profile": {
-    "title": "የተጠቃሚ መገለጫ",
 
-    "preferredLanguage": "ተመራጭ ቋንቋ",
+  "profile": {
+    "title": "የተጠቃሚ ፕሮፋይል",
+
+    "preferredLanguage": "የሚመርጡት ቋንቋ",
     "chooseLanguage": "ቋንቋ ይምረጡ",
     "mustLogin": "ቅንብሮችን ለማየት መግባት አለብዎት።",
 
-    "autoTranslate": "መልዕክቶችን በራስ ተርጉም",
-    "showOriginalWithTranslation": "ዋናውንና የተተረጎመውን መልዕክት አሳይ",
-    "showOriginalAndTranslation": "ዋናውን ጋር ተተርጓሚውን አሳይ",
+    "autoTranslate": "መልዕክቶችን በራስ-ሰር ተርጓሚ",
+    "showOriginalWithTranslation": "ዋናውንና ትርጉሙን በአንድ ጊዜ አሳይ",
+    "showOriginalAndTranslation": "ዋናውን መልዕክት ከትርጉሙ ጋር በአንድ ገጽ አሳይ",
 
-    "filterExplicit": "ግልፅ ይዘት አጣራ",
-    "aiReply": "የአ.ኢ. መልስ",
-    "enableReadReceipts": "የተነበበ የሚያመለክቱን አንቀሳቃሽ አብራ",
-    "allowExplicitContent": "ግልፅ ይዘት ፍቀድ",
-    "disappearingMessages": "የሚጠፉ መልዕክቶችን አብራ",
-    "autoDeleteSeconds": "ስንት ሰከንድ በኋላ እንዲሰረዝ",
+    "filterExplicit": "የግል ይዘት አጣራ",
+    "aiReply": "የኤ.አይ. መልስ",
+    "enableReadReceipts": "የተነበበ ማረጋገጫ አንቃ",
+    "allowExplicitContent": "የግል ይዘት ፍቀድ",
+    "disappearingMessages": "የሚጠፉ መልዕክቶችን አንቃ",
+    "autoDeleteSeconds": "በስከንድ ውስጥ ራሱን ያጥፋ",
 
     "saveSuccess": "ቅንብሮች ተቀምጠዋል!",
-    "saveError": "ስህተት፡ ቅንብሮችን ማስቀመጥ አልተቻለም።",
+    "saveError": "ስህተት፡ ቅንብሮች ሊቀመጡ አልቻሉም",
 
-    "avatarAlt": "የመገለጫ ፎቶ",
+    "avatarAlt": "የፕሮፋይል ምስል",
     "uploadAvatar": "አዲስ ፎቶ አስገባ",
     "avatarSuccess": "ፎቶ ተሰቀለ!",
-    "avatarError": "ፎቶ ማስገባት አልተሳካም።",
+    "avatarError": "ፎቶ በመስቀል ላይ ስህተት ተፈጥሯል",
 
-    "noPrivateKey": "በዚህ መሳሪያ ላይ የግል ቁልፍ የለም።",
-    "setBackupPassword": "ለመደረጊያው የይለፍ ቃል ያዘጋጁ፦",
-    "backupDownloaded": "የተመሰጠ መደረጊያ ወረድቷል።",
-    "exportFailed": "የቁልፍ መላክ አልተሳካም።",
-    "enterBackupPassword": "ለዚህ መደረጊያ የይለፍ ቃል ያስገቡ፦",
-    "importSuccess": "የግል ቁልፍ ወደ መሳሪያው ተገብቷል።",
-    "importFailed": "መደረጊያውን ማስገባት አልተሳካም።",
-    "keysRotated": "አዲስ ቁልፍ ተፈጥሯል እና የህዝብ ቁልፉ ተላክ።",
-    "rotateFailed": "ቁልፍ መቀየር አልተሳካም።",
+    "noPrivateKey": "በዚህ መሣሪያ ላይ ለማውጣት የግል ቁልፍ የለም።",
+    "setBackupPassword": "ለመተኪያ መጠባበቂያው የሚጠቅም የይለፍ ቃል ያቅርቡ፦",
+    "backupDownloaded": "የተመሸገ ቅጂ ተወርዷል።",
+    "exportFailed": "ቁልፉን ማውጣት አልተሳካም",
+    "enterBackupPassword": "ለዚህ ቅጂ የይለፍ ቃሉን ያስገቡ፦",
+    "importSuccess": "የግል ቁልፉ ወደዚህ መሣሪያ ተገብቷል።",
+    "importFailed": "ቁልፉን ማምጣት አልተቻለም (የተሳሳተ ይለፍ ቃል ወይም የተበላሸ ፋይል)።",
+    "keysRotated": "አዲስ የቁልፍ ጥምረት ተፈጥሯል እና የይፋው ቁልፍ ተሰቀለ።",
+    "rotateFailed": "ቁልፎችን መቀየር አልተሳካም።",
     "security": "ደህንነት",
-    "exportKey": "የግል ቁልፍን አስወጣ",
-    "importKey": "የተመሰጠ ቁልፍ መደረጊያ አስገባ",
-    "rotateKeys": "ቁልፍ ቀይር",
-    "keyDisclaimer": "የግል ቁልፍዎ ከዚህ መሳሪያ አይወጣም። በይለፍ ቃል የተጠበቀ ቅጂ ያስወግዱ።",
+    "exportKey": "የግል ቁልፍን አውጣ",
+    "importKey": "የተመሸገ ቁልፍ ቅጂ አስገባ",
+    "rotateKeys": "የቁልፍ ጥምረት ቀይር",
+    "keyDisclaimer": "የግል ቁልፍዎ ከዚህ መሣሪያ አይወጣም። በሌላ መሣሪያ ለመመለስ በይለፍ ቃል የተጠበቀ ቅጂ ያስመዝግቡ።",
 
-    "sectionProfile": "መገለጫ",
+    "sectionProfile": "ፕሮፋይል",
     "phoneNumber": "ስልክ ቁጥር",
-    "appearance": "አቀማመጥ",
+    "appearance": "መልክ / ገጽታ",
     "soundSettings": "ድምጽ",
     "disappearing": "የሚጠፉ መልዕክቶች",
-    "backupSync": "መደረጊያ እና መተላለፊያ",
-    "ai": "አ.ኢ.",
-    "accessibility": "አግልጋይነት",
+    "backupSync": "መተኪያ & ማስማማት",
+    "ai": "ኤ.አይ.",
+    "accessibility": "የተደራሽነት አማራጮች",
     "privacy": "ግላዊነት",
-    "devices": "የተገናኙ መሳሪያዎች",
+    "devices": "የተገናኙ መሣሪያዎች",
 
-    "themeFreeNotice": "ነፃ ነው፤ የፀሀይ/ጨረቃ አማራጮችን ብቻ ይጠቀሙ። ለተጨማሪ ገጽታዎች ይሻሉ።",
-    "sunTheme": "የፀሀይ (Dawn) ገጽታ ተጠቀም",
-    "moonTheme": "የጨረቃ (Midnight) ገጽታ ተጠቀም",
-    "sun": "ፀሀይ",
+    "themeFreeNotice": "በነጻ ዕቃ ላይ ነዎት — የፀሐይ/ጨረቃ አማራጮችን ከስር ይጠቀሙ። ሌሎች ገጽታዎችን ለመክፈት ያሻሽሉ።",
+    "sunTheme": "የንጋት (‘Dawn’) ገጽታ ተጠቀም",
+    "moonTheme": "የጨረቃ (ድርቅ ሌሊት) ገጽታ ተጠቀም",
+    "sun": "ፀሐይ",
     "moon": "ጨረቃ",
 
-    "backupTitle": "የተመሰጡ መደረጊያዎች እና መሳሪያ መተላለፊያ",
-    "openBackupTools": "የመደረጊያ መሳሪያዎችን ክፈት",
-    "backupDesc": "በይለፍ ቃል የተጠበቁ መደረጊያዎችን ይፍጠሩ፣ በሌላ መሳሪያ ላይ ይመልሱ።",
+    "backupTitle": "የተመሸጉ መተኪያዎች & መሣሪያ ማስማማት",
+    "openBackupTools": "መተኪያ መሳሪያዎችን ክፈት",
+    "backupDesc": "ቁልፎችዎን በይለፍ ቃል የተጠበቁ ቅጂዎች ይፍጠሩ፣ እና በሌላ መሣሪያ ላይ ይመልሱ እንዲተዛማሩ።",
 
-    "privacyBlurEnabled": "መልዕክቶችን በድብቅ አሳይ",
-    "privacyBlurOnUnfocus": "መተግበሪያው ሲተወ ድብቅ አድርግ",
-    "holdToReveal": "ለመግለጽ ይጫኑ",
-    "notifyOnCopy": "መልዕክቴ ከተቀየረ ይጠብቁኝ",
+    "privacyBlurEnabled": "መልዕክቶችን በነባሪ ደብቅ",
+    "privacyBlurOnUnfocus": "መመልከቻው ሲወገድ ደብቅ",
+    "holdToReveal": "ለማሳየት ይጫኑ እና ይይዙ",
+    "notifyOnCopy": "መልዕክቴ ካተከለ አሳውቀኝ",
 
-    "loadFailed": "መገለጫ መጫን አልተሳካም",
-    "followed": "ተከታታለሁ",
+    "loadFailed": "ፕሮፋይል መጫን አልተሳካም",
+    "followed": "ተከታታይ ሆነዋል",
     "followFailed": "መከተል አልተሳካም",
-    "unfollowed": "ተቋረጠ",
-    "unfollowFailed": "መቋረጥ አልተሳካም",
+    "unfollowed": "መከተሉን አቋርጧል",
+    "unfollowFailed": "መተው አልተሳካም",
     "follow": "ተከተል",
-    "unfollow": "አቁም",
-    "followHint": "ታሪኮቻቸው በ“የተከተሉት” መገለጫዎ ውስጥ ይታያሉ።",
-    "userNotFound": "ተጠቃሚ አልተገኘም",
-    "followsYou": "እርስዎን ይከታተላል",
+    "unfollow": "መከተል አቁም",
+    "followHint": "እነሱ ወደ ተከታዮች (ወይም ወደ ህዝብ) ካሳተፉ ታሪኮቻቸው በ«የምታከታቸው» ፊድ ውስጥ ይታያሉ።",
+    "userNotFound": "ተጠቃሚው አልተገኘም",
+    "followsYou": "እርስዎን ይከተላሉ",
 
     "sectionCrashedTitle": "ክፍሉ መጫን አልተሳካም",
     "sectionCrashedBody": "በዚህ ክፍል ውስጥ ችግኝ ተከስቷል።",
 
-    "forwarding": "የመጥሪያና የቴክስት መላኪያ",
-    "callTextForwardingSection": "የመጥሪያና የቴክስት መላኪያ",
-    "callTextForwardingTitle": "የመጥሪያ እና/ወይም የቴክስት መላኪያ",
-    "callTextForwardingDescription": "የሚገቡ ጥሪዎችንና ቴክስቶችን ወደ የተረጋገጠ ስልክዎ ወይም ኢሜይል ያውሩ። የወጣ ጥሪዎች/ቴክስቶች የChatforia ቁጥርዎን ሊያሳዩ ይችላሉ።",
-    "enableTextForwarding": "የቴክስት መላኪያ አብራ",
-    "forwardTextsToPhone": "ቴክስቶችን ወደ ስልክ ያውሩ",
-    "forwardTextsToEmail": "ቴክስቶችን ወደ ኢሜይል ያውሩ",
+    "forwarding": "መስጫ ደውል & መልዕክት ማስተላለፊያ",
+    "callTextForwardingSection": "መስጫ ደውል & መልዕክት ማስተላለፊያ",
+    "callTextForwardingTitle": "የደውል / መልዕክት ማስተላለፊያ",
+    "callTextForwardingDescription": "ገቢ ደውሎችንና መልዕክቶችን ወደ የተረጋገጠ ስልክዎ ወይም ኢሜልዎ ያቅርቡ። የወጪ ደውሎች/መልዕክቶች የChatforia ቁጥርዎን ሊያሳዩ ይችላሉ።",
+    "enableTextForwarding": "መልዕክት ማስተላለፊያ አንቃ",
+    "forwardTextsToPhone": "መልዕክቶችን ወደ ስልክ ላክ",
+    "forwardTextsToEmail": "መልዕክቶችን ወደ ኢሜል ላክ",
     "destinationPhone": "የመድረሻ ስልክ (E.164)",
-    "destinationEmail": "የመድረሻ ኢሜይል",
-    "enableCallForwarding": "የጥሪ መላኪያ አብራ",
-    "destinationPhoneForCalls": "የጥሪ መድረሻ (E.164)",
-    "aliasBridging": "የጥሪ መላኪያ (alias bridging)",
-    "quietHoursOptional": "የዝምታ ሰዓቶች (አማራጭ)",
-    "startHour": "መጀመሪያ ሰዓት (0–23)",
-    "endHour": "መጨረሻ ሰዓት (0–23)",
-    "reset": "እንደገና አስጀምር",
+    "destinationEmail": "የመድረሻ ኢሜል",
+    "enableCallForwarding": "የደውል ማስተላለፊያ አንቃ",
+    "destinationPhoneForCalls": "ለደውሎች መድረሻ (E.164)",
+    "aliasBridging": "የደውል ማስተላለፊያ (alias bridging)",
+    "quietHoursOptional": "የመዝሙር ሰዓታት / መዝጋት (አማራጭ)",
+    "startHour": "የመጀመሪያ ሰዓት (0–23)",
+    "endHour": "የመጨረሻ ሰዓት (0–23)",
+    "reset": "እንደነበር መመለስ",
     "saveBtn": "አስቀምጥ"
   },
+
   "chat": {
-    "selectPrompt": "መልዕክት ወይም የቻት ክፍል ይምረጡ ለመጀመር",
-    "newMessages": "አዲስ መልዕክቶች",
-    "typing": "{{name}} በመጻፍ ላይ ነው..."
+    "selectPrompt": "ለመጀመር ጽሑፍ ወይም ውይይት ይምረጡ",
+    "newMessages": "አዳዲስ መልዕክቶች",
+    "typing": "{{name}} በመጻፍ ላይ…",
+    "emptyTitle": "መልዕክቶችህ",
+    "emptySubtitle": "ግባ እና መልዕክት ላክ ለመጀመር።",
+    "startChatButton": "መልዕክት ላክ"
+  },
+
+  "topbar": {
+    "newStatus": "አዲስ ሁኔታ",
+    "logout": "ዘግተህ ውጣ"
+  },
+
+  "sidebar": {
+    "randomChat": "የዘንግ ውይይት",
+    "callTextForwarding": "መስጫ ደውል & መልዕክት ማስተላለፊያ",
+    "conversations": "ውይይቶች",
+    "searchPlaceholder": "በውይይቶች ውስጥ ፈልግ...",
+    "errorLoading": "ውይይቶችን መጫን አልተሳካም",
+    "empty": "እስካሁን ውይይት የለም።",
+    "startChat": "ውይይት ጀምር",
+    "people": "ሰዎች",
+    "settings": "ቅንብሮች",
+    "status": "ሁኔታ",
+    "forwarding": "መስጫ ደውል & መልዕክት ማስተላለፊያ",
+    "refresh": "አድስ",
+    "search": "ውይይቶችን ፈልግ",
+    "loginPrompt": "ቅንብሮችህን ለማርትዕ ይግቡ።",
+    "login": "ግባ",
+    "register": "መለያ ፍጠር",
+
+    "chatrooms": "የውይይት ክፍሎች",
+    "logout": "ውጣ",
+    "startChatAlt": "አዲስ ውይይት ጀምር"
+  },
+
+  "premium": {
+    "heading": "ፕሪሚየም ሂዱ",
+    "description": "ኃይለኛ ባህሪያትን ክፈትና ማስታወቂያዎችን አጥፋ።",
+    "upgrade": "ያሻሽሉ"
+  },
+
+  "auth": {
+    "headline": "ደህና የተጠበቀ፣ ዓለም አቀፍ መልዕክት አቅርቦት ከወቅታዊ ትርጉም ጋር",
+    "description": "መጨረሻ-ወደ-መጨረሻ መመርመር፣ በኤ.አይ. የሚመጣ ትርጉም፣ የሚጠፉ መልዕክቶች፣ ድምጽ/ቪዲዮ ጥሪዎች።",
+    "feature": {
+      "encryption": "ከመጀመሪያው ጀምሮ መጨረሻ-ወደ-መጨረሻ መመርመር",
+      "translation": "100+ ቋንቋዎችን በራስ-ሰር ተርጓሚ",
+      "disappearing": "የሚጠፉ መልዕክቶች & የተነበበ ማረጋገጫ",
+      "privacy": "ግላዊነት መጀመሪያ። መረጃዎ የእርስዎ ነው።",
+      "translate": "በቅጽበት የሚሰራ ትርጉም",
+      "disappear": "የሚጠፉ መልዕክቶች",
+      "privacyAlt": "ግላዊነትን የሚቀድም ንድፍ"
+    },
+    "welcomeBack": "እንኳን ደህና መጣችሁ",
+    "continueGoogle": "በGoogle ቀጥል",
+    "continueApple": "በApple ቀጥል",
+    "username": "የተጠቃሚ ስም",
+    "password": "ይለፍ ቃል",
+    "keepSignedIn": "ያለ መውጣት ቆይ",
+    "forgotPassword": "የይለፍ ቃልን ረሱ?",
+    "loginButton": "ግባ",
+    "createAccount": "መለያ ፍጠር",
+    "freeAccountButton": "ነጻ መለያ ፍጠር",
+    "newHere": "አዲስ ነዎት?",
+    "getApp": "መተግበሪያውን ያግኙ",
+    "desktopTip": "በኮምፒውተር ላይ ነህ? መተግበሪያውን ለማግኘት በስልክህ ስክን አንብብ።",
+
+    "goHome": "ወደ መነሻ ገፅ ተመለስ",
+    "home": "መነሻ",
+
+    "headlineAlt": {
+      "main": "የተጠበቀው መልዕክት መላኪያ",
+      "highlight": "ቋንቋዎን የሚናገር"
+    },
+    "subhead": "ግል፣ የተመረጠ፣ በቅጽበት የሚተረጉም ውይይት — ወዲያውኑ።",
+
+    "status": "ሁኔታ ይመልከቱ",
+    "upgrade": "አሁን ያሻሽሉ",
+    "tip": "Chatforiaን በማንኛውም መሣሪያ መጠቀም ትችላለህ — ወይም ለምርጥ ልምድ መተግበሪያውን ያውርዱ።",
+    "openDownload": "የተውረድ ገጽን ክፈት",
+    "qrAlt": "ለChatforia የQR ኮድ",
+    "scanHint": "መተግበሪያውን ለማውረድ ወይም በአሳሽዎ ለመክፈት ይስክኑ።",
+    "iosAria": "በApp Store አውርድ",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "የApp Store ባጅ",
+    "androidAria": "በGoogle Play አግኝ",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "የGoogle Play ባጅ",
+
+    "login": "ግባ",
+    "signup": "መመዝገብ",
+    "email": "ኢሜል"
+  },
+
+  "footer": {
+    "plans": "ዕቃዎች & ዋጋ",
+    "about": "ስለ Chatforia",
+    "careers": "የስራ እድሎች",
+    "press": "ለጋዜጣ/መንግስት መረጃ",
+    "advertise": "ማስታወቂያ",
+    "contact": "ያግኙን",
+    "help": "የእርዳታ ማእከል",
+    "status": "የአገልግሎት ሁኔታ",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "የግላዊነት ፖሊሲ",
+    "terms": "የአጠቃቀም ውሎች",
+    "cookies": "የኩኪ ቅንብሮች",
+    "doNotSell": "መረጃዬን አትሸጥ",
+
+    "language": "ቋንቋ",
+    "contactShort": "አግኙን"
+  },
+
+  "home": {
+    "title": "መነሻ",
+    "header": "መልዕክቶችህ",
+    "subheader": "መልዕክት ላክ እና ውይይት ጀምር።",
+    "sendButton": "መልዕክት ላክ",
+    "gifPicker": "GIF መምረጫ ክፈት",
+    "emoji": "ኢሞጂ",
+    "upload": "ፎቶ ወይም ቪዲዮ አስገባ",
+    "inputPlaceholder": "መልዕክት ጻፍ…",
+    "inputLabel": "መልዕክት መጻፊያ",
+    "sendTooltip": "ላክ",
+    "sendTooltipEmpty": "ለመላክ መልዕክት ጻፍ",
+    "send": "ላክ",
+
+    "welcomeMessage": "እንኳን ወደ Chatforia በደህና መጡ",
+    "getStarted": "ጀምር"
+  },
+
+  "press": {
+    "title": "ለጋዜጣ",
+    "contact": "ለመዘዋወር ጥያቄዎች ወደ <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a> ይጻፉ።",
+    "contactText": "ለመዘዋወር ጥያቄዎች ወደ press@chatforia.com ይጻፉ።",
+    "boilerplateTitle": "መግለጫ",
+    "boilerplateText": "Chatforia በደህንነት የተጠበቀ መልዕክት መላኪያ ሲሆን ወዲያውኑ ትርጉም እና መጨረሻ-ወደ-መጨረሻ መመርመር ይሰጣል። ዓለም አቀፍ ውይይትን ቀላልና ግል ለማድረግ ታስቦ ተዘጋጀ።",
+    "assetsTitle": "የብራንድ ንብረቶች",
+    "assetsText": "ሎጎዎች፣ ስክሪንሾቶች፣ የመሣሪያ ምስሎች (በቅርብ ጊዜ ይመጣሉ)።"
+  },
+
+  "careers": {
+    "title": "የስራ እድሎች",
+    "intro": "ትንሽ ቡድን ነን፣ የግል እና ዓለም አቀፍ መልዕክት መላኪያ እንገነባለን። በመመርመር፣ በተደራሽነት፣ በጥሩ ተሞክሮ ካለህ፣ እንድታደርግ እንፈልጋለን።",
+    "openRoles": "<b>የተከፈቱ ሚናዎች:</b> ኢንጅነሪንግ (Full-stack፣ iOS፣ Android)፣ ምርት፣ ድጋፍ።",
+    "apply": "<b>እንዴት ልታመልክ?</b> ሪዞሜዎን/ሊንኮችዎን ወደ <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> ይላኩ።",
+    "emailCta": "ሪዞሜዎን በኢሜል ላክ"
+  },
+
+  "about": {
+    "title": "ስለ Chatforia",
+    "description": "Chatforia የመጨረሻ-ወደ-መጨረሻ መመርመር፣ ወዲያውኑ ትርጉም፣ የድምጽ/ቪዲዮ ጥሪ የሚያቀርብ ብዙ-ቋንቋ የመልዕክት መላኪያ ነው። ተልዕኳችን ቀላል ነው፦ ሰዎች በግል፣ በደህና፣ እና ከቋንቋ ግድብ ውጭ እንዲገናኙ መርዳት።",
+    "valuesTitle": "የምንጠብቀው",
+    "values": {
+      "privacy": "<b>ግላዊነት መጀመሪያ:</b> መጨረሻ-ወደ-መጨረሻ መመርመር በነባሪነት።",
+      "access": "<b>ለሁሉም መዳረሻ:</b> 100+ ቋንቋዎችን በራስ-ሰር ተርጓሚ።",
+      "control": "<b>ቁጥጥር:</b> የሚጠፉ መልዕክቶች & የተነበበ ማረጋገጫ እርስዎ ይመርጣሉ።"
+    },
+    "howTitle": "Chatforia እንዴት ይሰራ",
+    "howDescription": "መልዕክቶች ከመሣሪያዎ ሳይወጡ በፊት ይታመራሉ። ትርጉም፣ መተኪያዎች፣ መሣሪያ ማስማማት በአገልጋዮቻችን ያለ የሚታይ መረጃ እንዲሆን ተነድፈዋል።"
+  },
+
+  "advertise": {
+    "title": "ከChatforia ጋር ማስታወቂያ አድርጉ",
+    "description": "በከፍተኛ ተሳትፎ ያሉ ተጠቃሚዎች ዘንድ ይድረሱ። ንፁህ የባህርይ ይዘት ያላቸው ባነር ቦታዎች፣ ስፖንሰርሺፕ እና የቤት ማስታወቂያዎች እናቀርባለን። የፕሪሚየም አባል ማስታወቂያ አያዩም።",
+    "adsense": {
+      "withPubId": "አሁን ማስታወቂያዎችን በ<b>Google AdSense</b> እናቀርባለን። በGoogle Ads እንዲግቡ የpublisher ID <code>{{pubId}}</code> ይጠቀሙ እና ያሉትን የታቀዱ ቦታዎቻችን ይጠይቁ። ቀጥታ ስፖንሰርሺፕ ይገኛል — ቅጹን ተጠቀሙ።",
+      "noPubId": "አሁን ማስታወቂያዎችን በ<b>Google AdSense</b> እናቀርባለን። ቀጥታ ስፖንሰርሺፕም ይገኛል — ከዚህ ቅጽ ይጠቀሙ።"
+    },
+    "inventoryHeader": "እቃ & መግለጫዎች",
+    "placement": {
+      "displayBadge": "ማሳያ",
+      "acceptedSizes": "የሚቀበሉት መጠኖች",
+      "adsenseSlot": "የAdSense ቦታ፦"
+    },
+    "noPlacements": "እስካሁን የተዘጋጀ ቦታ የለም። በ ads/placements.js ያክሉ።",
+    "whyHeader": "ለምን Chatforia?",
+    "why": {
+      "highSession": "በውይይት አማቂ ገጽ ውስጥ ከፍተኛ ጊዜ የሚቆይ ተሳትፎ",
+      "brandSafe": "የብራንድ ደህንነት ያላቸው ቅርጾች፣ አክሲዮን መጠን በሚታወቀው መንገድ",
+      "sponsoredMoments": "የተስፖንሰሩ ቀጥታ ቦታዎች (ለምሳሌ፣ “ውይይት ጀምር” ሞዳል)",
+      "deals": "ቀጥታ ስምምነቶች ወይም በAdSense/Google Ads በኩል"
+    },
+    "contactHeader": "አግኙን",
+    "form": {
+      "submittedMsg": "አመሰግናለን! ጥያቄዎ ተልኳል። በቅርቡ እንመልስልዎታለን።",
+      "missingRequired": "ስም፣ ኢሜል፣ መልዕክት መሙላት አለብዎት።",
+      "successToast": "አመሰግናለን! በቅርቡ እንገናኝዎታለን።",
+      "mailtoInfo": "ጥያቄዎን ለመላክ የኢሜል አፕሊኬሽኑን እንክፈታለን…",
+      "nameLabel": "ስምዎ",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "ኢሜል",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "ኩባንያ",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "ወርሃዊ በጀት (አማራጭ)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "ስለ ዘመቻዎ ይንገሩን",
+      "messagePlaceholder": "መዳረሻ፣ ቀናት፣ ዋና ግብ፣ የማቅረብ ምርጫዎች…",
+      "sendCta": "ጥያቄ ላክ"
+    },
+    "legal": {
+      "disclaimerStart": "በመላክዎ የእኛን",
+      "terms": "ውሎች",
+      "and": "እና",
+      "privacy": "የግላዊነት ፖሊሲ"
+    }
+  },
+
+  "upgrade": {
+    "title": "ያሻሽሉ",
+    "subtitle": "ለእርስዎ ተስማሚ እቃ ይክፈቱ፦ Plus ማስታወቂያ የሌለው ነው፣ Premium ሙሉ ኃይል ባህሪያት ነው።",
+    "scheduleBanner": {
+      "title": "ልማትዎ ይያዙበታል",
+      "body": "ወደ ነጻ እቃ ትመለሳለህ በ",
+      "keepPlanCta": "Plus ቆይ",
+      "manageBillingCta": "የክፍያ አስተዳደር"
+    },
+    "billing": {
+      "opening": "በመክፈት ላይ…",
+      "manage": "ክፍያን አስተዳድር"
+    },
+    "checkout": {
+      "redirecting": "በመምራት ላይ…"
+    },
+    "auth": {
+      "continue": "ቀጥል",
+      "createAccount": "መለያ ፍጠር",
+      "signIn": "ግባ"
+    },
+    "plans": {
+      "free": {
+        "title": "ነጻ",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 እና ቡድን መልዕክት መላኪያ",
+          "aiBasic": "መሰረታዊ የኤ.አይ. መልሶች",
+          "attachments": "መደበኛ አባሪ ፋይሎች"
+        },
+        "ctaCurrent": "አሁን ያለዎት እቃ",
+        "ctaUnavailable": "ወደ ነጻ መቀየር (አይገኝም)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / ወር",
+        "features": {
+          "noAds": "ማስታወቂያ ሙሉ በሙሉ አልባ",
+          "msg": "1:1 እና ቡድን መልዕክት መላኪያ",
+          "attachments": "ትልቅ አባሪ ፋይሎች",
+          "aiBasic": "መሰረታዊ የኤ.አይ. መልሶች"
+        },
+        "badge": "ታዋቂ",
+        "cta": "ማስታወቂያ ያለው ይሁን"
+      },
+      "premiumMonthly": {
+        "title": "ፕሪሚየም (ወርሃዊ)",
+        "price": "$24.99 / ወር",
+        "features": {
+          "plusAll": "ሁሉም ነገር ከPlus ጋር",
+          "ringtones": "የብጁ የስልክ ጥሪ ድምጾች & መልዕክት ማስጠንቀቂያዎች",
+          "powerAi": "ከፍተኛ የኤ.አይ. ባህሪያት",
+          "priorityUpdates": "ቅድሚያ ዝማኔዎች",
+          "backups": "መተኪያዎች & መሣሪያ ማስማማት"
+        },
+        "badge": "የከፍተኛ እሴት",
+        "cta": "ያሻሽሉ (ወርሃዊ)"
+      },
+      "premiumAnnual": {
+        "title": "ፕሪሚየም (አመታዊ)",
+        "price": "$225 / አመት",
+        "features": {
+          "allPremium": "ሁሉም ነገር ከፕሪሚየም ጋር",
+          "annualBilling": "በአመት ክፍያ",
+          "save25": "ከወርሃዊ ክፍያ ጋር እ.ኤ.አ ~25% ቆጥብ",
+          "sameFeatures": "ከወርሃዊው ጋር ተመሳሳይ ባህሪያት"
+        },
+        "badge": "25% ቅናሽ",
+        "cta": "ያሻሽሉ (አመታዊ)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "መጀመር",
+    "subtitle": "በChatforia አዲስ ነዎት? በጥቂት ደቂቃዎች ውስጥ እንዲጀምሩ ይህ ፈጣን መመሪያ ያሳያችሁ።",
+    "alert": {
+      "text": "እዚህ መመሪያ አዲስ ባህሪያትን ሲከፍት ይድጋል። ነገር ካጎዱ በ",
+      "contactLink": "ያግኙን",
+      "contactRest": " ያሳውቁን።"
+    },
+    "section1": {
+      "title": "1) መለያህን ፍጠር",
+      "signup": "ተመዝገብ",
+      "or": "ወይም",
+      "login": "ግባ",
+      "loginText": "በነባር መለያህ ግባ።",
+      "prefsStart": "የእርስዎን",
+      "prefsLink": "ምርጫዎች",
+      "prefsRest": " (ቋንቋ፣ የተነበበ ማረጋገጫ፣ ገጽታዎች) ያቀናብሩ።"
+    },
+    "section2": {
+      "title": "2) መልዕክት ጀምር",
+      "item1": "የግል DM ወይም ቡድን ፍጠር እና መጀመሪያ መልዕክትህን ላክ።",
+      "item2": "100+ ቋንቋዎችን በወቅቱ ለመነጋገር ፈጣን ትርጉም ተጠቀም።",
+      "item3": "በፕሮፋይል → ግላዊነት ውስጥ የሚጠፉ መልዕክቶችን እና የተነበበ ማረጋገጫን ሞክር።"
+    },
+    "section3": {
+      "title": "3) ወደ ፊት ሂዱ",
+      "item1Part1": "ዕቃዎችዎን በ",
+      "upgradeLink": "ያሻሽሉ",
+      "item1Part2": " ገጽ ይቆጥቡ (Plus = ያለ ማስታወቂያ፣ Premium = ሙሉ ባህሪያት)።",
+      "item2Part1": "ተጨማሪ መሣሪያዎችን ያገናኙ እና በ",
+      "settingsLink": "ቅንብሮች",
+      "item2Part2": " ውስጥ የተመሸጉ መተኪያዎችን አቋቋሙ።"
+    },
+    "cta": {
+      "seePlans": "ዕቃዎችን ይመልከቱ",
+      "openSettings": "ቅንብሮችን ክፈት"
+    }
+  },
+
+  "helpCenter": {
+    "title": "የእርዳታ ማእከል",
+    "faq": {
+      "account": {
+        "q": "መለያ እንዴት ልፍጠር ወይም እንዴት ልመልስው?",
+        "a": "መተግበሪያውን ያውርዱ ወይም ዌብ ተጠቀሙ፣ “መለያ ፍጠር” ይጫኑ፣ ኢሜል/ስልክዎን ያረጋግጡ። ለመመለስ “የይለፍ ቃል ረስቻለሁ” ይጠቀሙ።"
+      },
+      "privacy": {
+        "q": "መልዕክቶች መጨረሻ-ወደ-መጨረሻ የተመረመሩ ናቸው?",
+        "a": "አዎን። መልዕክቶችና ደውሎች በነባሪነት መጨረሻ-ወደ-መጨረሻ ይታመራሉ። እርስዎና ተቀባዩ ብቻ ማንበብ ይችላሉ።"
+      },
+      "translate": {
+        "q": "ወቅታዊ ትርጉም እንዴት ይሰራ?",
+        "a": "በቅንብሮች → መልክ & ቋንቋ ውስጥ “በራስ-ሰር ትርጉም” ያንቁ። የሚደገፉ በመሣሪያ ላይ ይተረጉማሉ፣ ካልሆነ በደህንነት በኔትወርክ እንተርጓማለን እና ዝቅተኛ መረጃ ብቻ እንልካለን።"
+      },
+      "contact": {
+        "q": "ድጋፍን እንዴት ልደርስ?",
+        "a": "ወደ support@chatforia.com ይጻፉ። ስክሪንሾቶችን እና የመተግበሪያ ስሪትዎን ያካትቱ።"
+      }
+    }
+  },
+
+  "contact": {
+    "title": "ያግኙን",
+    "successMsg": "አመሰግናለን — በኢሜል እንመልስልዎታለን።",
+    "errorSend": "መላክ አልተሳካም። እባክዎን ወደ support@chatforia.com ይጻፉ።",
+    "form": {
+      "nameLabel": "ስም",
+      "emailLabel": "ኢሜል",
+      "messageLabel": "መልዕክት",
+      "sendCta": "ላክ"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "የግላዊነት ፖሊሲ",
+    "lastUpdated": "መጨረሻ የተዘመነበት:",
+    "intro": {
+      "body": "ይህ የግላዊነት ፖሊሲ Chatforia (“እኛ”) መረጃ እንዴት እንሰብስባለን፣ እንጠቀምበታለን፣ እና እንካፈላለን ያሳያል። Chatforiaን ያንን መረጃ የምንመለከተውን እንዲገባ እንደተቀናጀ እናደርገዋለን።"
+    },
+    "infoWeCollect": {
+      "title": "የምንሰበስበው መረጃ",
+      "account": "መለያ መረጃ (ለምሳሌ፣ ኢሜል/ስልክ) መለያዎን ለመፍጠርና ለማስጠበቅ።",
+      "encrypted": "የተመረመረ ይዘት (መልዕክቶች/ደውሎች) መጨረሻ-ወደ-መጨረሻ ይታመራሉ፤ እኛ ማንበብ አንችልም።",
+      "diagnostics": "የስህተት መግቢያ፣ የመሣሪያ አይነት፣ ቀላል ትንታኔ የሚመለከቱ መረጃዎች ለአፈፃፀም ማሻሻያ።"
+    },
+    "howWeUse": {
+      "title": "መረጃውን እንዴት እንጠቀማለን",
+      "provide": "አገልግሎቱን ለመስጠትና ለማስጠበቅ (ማረጋገጫ፣ spam/መጥፎ አጠቃቀም መቆጣጠር)።",
+      "improve": "ባህሪያትን ለማሻሻል (የትርጉም ጥራት፣ የተስማሚነት እርግጠኝነት)።",
+      "legal": "ሕጋዊ ግዴታዎችን ለመፈጸም።"
+    },
+    "sharing": {
+      "title": "መካፈል",
+      "body": "የግል መረጃ አንሸጥም። እባኮትን የጥቅም አብራሪዎች ጋር (ለምሳሌ፣ የpush ማስጠንቀቂያዎች፣ ትንታኔ) በጥብቅ ውል ስር የተገደበ መረጃ ሊካፈል ይችላል።"
+    },
+    "rights": {
+      "title": "መብቶችዎ",
+      "body": "በአካባቢዎ (ለምሳሌ፣ GDPR / UK GDPR / CPRA) መሠረት መዳረሻ፣ ማረም፣ መሰረዝ ወይም አንዳንድ ሂደቶችን መከልከል መጠየቅ ይችላሉ። ያግኙን፦ privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "መዝግብ & ደህንነት",
+      "body": "ለአገልግሎቱ የሚያስፈልገውን ብቻ እንጠብቃለን። የኢንትርኔት ደህንነት መስፈርቶችን እንተግባለን። የመጨረሻ-ወደ-መጨረሻ ይዘት እኛ ልንከፍተው አንችልም።"
+    },
+    "children": {
+      "title": "ህፃናት",
+      "body": "Chatforia ለ13 ዓመት በታች (ወይም በአካባቢዎ ሕግ መሠረት እንደሚፈለግ) ልጆች አይታሰብም።"
+    },
+    "changes": {
+      "title": "ለውጦች",
+      "body": "እዚህ ማስታወቂያዎችን እናወጣለን እና “መጨረሻ የተዘመነበት” ቀን እንቀይራለን።"
+    },
+    "contact": {
+      "title": "አግኙን",
+      "body": "privacy@chatforia.com • [የኩባንያ ህጋዊ ስም], [አድራሻ]"
+    }
+  },
+
+  "terms": {
+    "title": "የአጠቃቀም ውሎች",
+    "lastUpdated": "መጨረሻ የተዘመነበት:",
+    "intro": {
+      "body": "Chatforiaን በመጠቀም እነዚህን ውሎች ታረጋግጣለህ። ካልተስማማህ አገልግሎቱን አትጠቀም።"
+    },
+    "accounts": {
+      "title": "መለያዎች",
+      "itemAccurateInfo": "እውነተኛ መረጃ ያቅርቡ እና መረጃዎን ያስተምሩ።",
+      "itemResponsibility": "በመለያዎ ላይ ለሚፈጠረው እርስዎ ተጠያቂ ናቸው።"
+    },
+    "acceptableUse": {
+      "title": "ተገቢ አጠቃቀም",
+      "itemNoAbuse": "የሕግ ውስጥ ያልሆነ፣ ጥቃቅን፣ የመብት ጥሰት ያለው ይዘት አይፍቀዱ፤ spam ወይም ራስ-ሰር ጥቅም አይውሉ።",
+      "itemSuspend": "መጣስ ወይም መከልከል ሊፈጽም እንችላለን።"
+    },
+    "yourContent": {
+      "title": "ይዘትዎ",
+      "body": "በይዘትዎ መብትዎን ትጠብቃላችሁ። አገልግሎቱን ለማስኬድ (ለምሳሌ፣ መላክ፣ ማከማቻ፣ ትርጉም) የሚያስፈልገንን መብት ትሰጡናላችሁ።"
+    },
+    "disclaimer": {
+      "title": "መግለጫ & ሃላፊነት",
+      "body": "አገልግሎቱ “እንዳለ” ነው፣ ያለ ዋስትና። በሕግ እንዲፈቀድልን እስከሚቻል ድረስ፣ Chatforia ለቀጣይ ወይም ለተከታታይ ጉዳት አታስቀምጥ።"
+    },
+    "changes": {
+      "title": "ለውጦች",
+      "body": "እነዚህን ውሎች ሊያዘምን እንችላለን፤ ከለውጡ በኋላ መቀጠል ማለት ተስማማህ ማለት ነው።"
+    },
+    "contact": {
+      "title": "አግኙን",
+      "body": "support@chatforia.com • [የኩባንያ ህጋዊ ስም], [አድራሻ]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "የግል መረጃዬን አታሽጥ እና አትካፈል",
+    "body": "Chatforia የግል መረጃ አትሸጥም። ነገር ግን የካሊፎርኒያ ነዋሪዎች CPRA መሠረት ጥያቄ ማቅረብ ይችላሉ።",
+    "cta": "ጥያቄ አስገባ"
+  },
+
+  "cookies": {
+    "title": "የኩኪ ቅንብሮች",
+    "body": "Chatforia አስፈላጊ ኩኪዎችን (ክፍያ ስብስብ፣ ደህንነት) ብቻ ተጠቅመዋል። የሶስተኛ ወገን ማስታወቂያ ኩኪ አናጠቀምም። ኩኪዎችን በአሳሽዎ ቅንብር ውስጥ መቆጣጠር ትችላላችሁ።"
   }
 }
