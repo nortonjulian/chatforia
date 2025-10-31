@@ -15,12 +15,15 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import axiosClient from '@/api/axiosClient';
+import { useTranslation } from 'react-i18next';
 
 const HOUR_MIN = 1;
 const HOUR_MAX = 7 * 24; // 168h (7d)
 const PRESETS = [6, 12, 24, 48, 72];
 
 export default function NewStatusModal({ opened, onClose }) {
+  const { t } = useTranslation();
+
   const [caption, setCaption] = useState('');
   const [audience, setAudience] = useState('MUTUALS');
   const [customIds, setCustomIds] = useState([]);
@@ -35,11 +38,13 @@ export default function NewStatusModal({ opened, onClose }) {
       const opts = data.items
         ? data.items.map((c) => ({
             value: String(c.user?.id || c.contactUserId),
-            label: c.user?.username || `User #${c.contactUserId}`,
+            label:
+              c.user?.username ||
+              t('status.userNumber', { defaultValue: 'User #{{id}}', id: c.contactUserId }),
           }))
         : (data || []).map((u) => ({
             value: String(u.id),
-            label: u.username || `User #${u.id}`,
+            label: u.username || t('status.userNumber', { defaultValue: 'User #{{id}}', id: u.id }),
           }));
       setContactOptions(opts);
     } catch (e) {
@@ -64,7 +69,10 @@ export default function NewStatusModal({ opened, onClose }) {
 
       await axiosClient.post('/status', form);
 
-      notifications.show({ message: 'Status posted', withBorder: true });
+      notifications.show({
+        message: t('status.posted', { defaultValue: 'Status posted' }),
+        withBorder: true,
+      });
 
       onClose?.();
       setCaption('');
@@ -75,7 +83,7 @@ export default function NewStatusModal({ opened, onClose }) {
     } catch (e) {
       console.error('post status failed', e);
       notifications.show({
-        message: 'Failed to post status',
+        message: t('status.postFailed', { defaultValue: 'Failed to post status' }),
         color: 'red',
         withBorder: true,
       });
@@ -95,18 +103,18 @@ export default function NewStatusModal({ opened, onClose }) {
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Create a status"
+      title={t('status.createTitle', { defaultValue: 'Create a status' })}
       centered
       withCloseButton
       closeOnEscape
       trapFocus
-      aria-label="New status"
+      aria-label={t('status.modalAriaLabel', { defaultValue: 'New status' })}
     >
       <Stack>
         <Textarea
-          label="What’s on your mind?"
-          placeholder="Share an update…"
-          aria-label="Status message"
+          label={t('status.captionLabel', { defaultValue: 'What’s on your mind?' })}
+          placeholder={t('status.captionPlaceholder', { defaultValue: 'Share an update…' })}
+          aria-label={t('status.captionAria', { defaultValue: 'Status message' })}
           value={caption}
           onChange={(e) => setCaption(e.currentTarget.value)}
           onKeyDown={(e) => {
@@ -118,7 +126,7 @@ export default function NewStatusModal({ opened, onClose }) {
 
         <Group grow>
           <Select
-            label="Audience"
+            label={t('status.audienceLabel', { defaultValue: 'Audience' })}
             value={audience}
             onChange={(v) => {
               const next = v || 'MUTUALS';
@@ -126,18 +134,27 @@ export default function NewStatusModal({ opened, onClose }) {
               if (next === 'CUSTOM' && contactOptions.length === 0) loadContacts();
             }}
             data={[
-              { value: 'PUBLIC', label: 'Public' },
-              { value: 'FOLLOWERS', label: 'Followers' },
-              { value: 'CONTACTS', label: 'Contacts' },
-              { value: 'MUTUALS', label: 'Mutuals' },
-              { value: 'CUSTOM', label: 'Custom...' },
+              { value: 'PUBLIC', label: t('status.audience.public', { defaultValue: 'Public' }) },
+              {
+                value: 'FOLLOWERS',
+                label: t('status.audience.followers', { defaultValue: 'Followers' }),
+              },
+              {
+                value: 'CONTACTS',
+                label: t('status.audience.contacts', { defaultValue: 'Contacts' }),
+              },
+              {
+                value: 'MUTUALS',
+                label: t('status.audience.mutuals', { defaultValue: 'Mutuals' }),
+              },
+              { value: 'CUSTOM', label: t('status.audience.custom', { defaultValue: 'Custom...' }) },
             ]}
             withinPortal
           />
 
           <div>
             <NumberInput
-              label="Expires (hours)"
+              label={t('status.expiresHoursLabel', { defaultValue: 'Expires (hours)' })}
               min={HOUR_MIN}
               max={HOUR_MAX}
               step={1}
@@ -159,20 +176,24 @@ export default function NewStatusModal({ opened, onClose }) {
                   {h}h
                 </Button>
               ))}
-              <Tooltip label="Maximum 7 days">
-                <Badge variant="light">{HOUR_MAX}h max</Badge>
+              <Tooltip label={t('status.maxTooltip', { defaultValue: 'Maximum 7 days' })}>
+                <Badge variant="light">
+                  {HOUR_MAX}
+                  {t('status.hoursAbbrev', { defaultValue: 'h' })}{' '}
+                  {t('status.maxShort', { defaultValue: 'max' })}
+                </Badge>
               </Tooltip>
             </Group>
             <Text size="xs" c="dimmed" mt={4}>
-              Expires on: {expiresAtText}
+              {t('status.expiresOn', { defaultValue: 'Expires on:' })} {expiresAtText}
             </Text>
           </div>
         </Group>
 
         {audience === 'CUSTOM' ? (
           <MultiSelect
-            label="Choose recipients"
-            placeholder="Select contacts"
+            label={t('status.chooseRecipients', { defaultValue: 'Choose recipients' })}
+            placeholder={t('status.selectContacts', { defaultValue: 'Select contacts' })}
             data={contactOptions}
             value={customIds}
             onChange={setCustomIds}
@@ -182,15 +203,19 @@ export default function NewStatusModal({ opened, onClose }) {
         ) : null}
 
         <FileInput
-          label="Attachments"
-          placeholder="Add images/videos"
+          label={t('status.attachmentsLabel', { defaultValue: 'Attachments' })}
+          placeholder={t('status.attachmentsPlaceholder', {
+            defaultValue: 'Add images/videos',
+          })}
           multiple
           accept="image/*,video/*,audio/*"
           value={files}
           onChange={setFiles}
         />
         <Text size="xs" c="dimmed">
-          Up to 5 files. 24h expiry by default.
+          {t('status.filesNote', {
+            defaultValue: 'Up to 5 files. 24h expiry by default.',
+          })}
         </Text>
 
         <Group justify="flex-end" mt="sm">
@@ -198,9 +223,9 @@ export default function NewStatusModal({ opened, onClose }) {
             type="button"
             variant="light"
             onClick={onClose}
-            aria-label="Cancel"
+            aria-label={t('common.cancelAria', { defaultValue: 'Cancel' })}
           >
-            Cancel
+            {t('common.cancel', { defaultValue: 'Cancel' })}
           </Button>
           <Button
             type="button"
@@ -209,10 +234,10 @@ export default function NewStatusModal({ opened, onClose }) {
               if (!caption.trim() && files.length === 0) return;
               onSubmit();
             }}
-            aria-label="Post status"
+            aria-label={t('status.postAria', { defaultValue: 'Post status' })}
             disabled={isEmptyPost}
           >
-            Post
+            {t('status.post', { defaultValue: 'Post' })}
           </Button>
         </Group>
       </Stack>

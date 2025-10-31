@@ -2,111 +2,592 @@
   "common": {
     "save": "Txuag",
     "cancel": "Tso tseg",
-    "refresh": "Rov tshiab dua",
-    "noMatches": "Tsis muaj kev phim"
+    "refresh": "Rov tshiab",
+    "noMatches": "Tsis pom ib qho phim",
+    "cancelAria": "Tso tseg"
   },
+
   "profile": {
-    "title": "Tus Neeg Siv Tus Kheej",
+    "title": "Ntaub Ntawv Tus Neeg Siv",
 
-    "preferredLanguage": "Lus nyiam siv tshaj",
+    "preferredLanguage": "Lus nyiam siv",
     "chooseLanguage": "Xaiv ib hom lus",
-    "mustLogin": "Koj yuav tsum nkag mus ua ntej thiaj pom tau qhov chaw teeb tsa.",
+    "mustLogin": "Koj yuav tsum nkag mus ua ntej thiaj pom qhov chaw teeb tsa.",
 
-    "autoTranslate": "Txhais lus rau cov lus xa tawm los ntawm nws tus kheej",
-    "showOriginalWithTranslation": "Qhia qhov qub thiab qhov txhais ua ke",
-    "showOriginalAndTranslation": "Qhia qhov qub thiab qhov txhais ua ke rau ib sab",
+    "autoTranslate": "Txhais lus cia li rau cov lus",
+    "showOriginalWithTranslation": "Qhia thawj daim thiab qhov txhais lus",
+    "showOriginalAndTranslation": "Qhia thawj daim ib sab rau qhov txhais",
 
-    "filterExplicit": "Lim tawm cov ntsiab lus tsis tsim nyog",
+    "filterExplicit": "Lim cov ntsiab lus tsis tsim nyog",
     "aiReply": "AI teb rov qab",
-    "enableReadReceipts": "Qhib kev paub thaum tau nyeem lawm",
-    "allowExplicitContent": "Pub cov ntsiab lus tsis tsim nyog",
-    "disappearingMessages": "Qhib cov lus yuav ploj mus tom qab",
-    "autoDeleteSeconds": "Vaj huam sib luag ploj tom qab vib nas this",
+    "enableReadReceipts": "Qhib ntawv lees nyeem",
+    "allowExplicitContent": "Tso cai ntsiab lus tsis tsim nyog",
+    "disappearingMessages": "Qhib lus ploj lawm tom qab",
+    "autoDeleteSeconds": "Vais ploj tom qab (vib nas this)",
 
-    "saveSuccess": "Cov kev teeb tsa tau khaws cia lawm!",
-    "saveError": "Yuav tsis khaws tau: muaj kev ua yuam kev",
+    "saveSuccess": "Tau txuag chaw teeb tsa!",
+    "saveError": "Yuav tsis tau txuag: Muaj teeb meem",
 
-    "avatarAlt": "Daim duab tus kheej",
-    "uploadAvatar": "Xa daim duab tshiab",
-    "avatarSuccess": "Daim duab tau xa lawm!",
-    "avatarError": "Muaj kev ua yuam kev thaum xa daim duab",
+    "avatarAlt": "Duab avatar",
+    "uploadAvatar": "Upload avatar tshiab",
+    "avatarSuccess": "Avatar tau upload!",
+    "avatarError": "Muaj teeb meem thaum upload avatar",
 
-    "noPrivateKey": "Tsis muaj tus yuam sij ntiag tug hauv no ntaus ntawv.",
-    "setBackupPassword": "Tso ib lo lus zais rau kev thaub qab:",
-    "backupDownloaded": "Tau rub tawm tus thaub qab uas tau muab zais.",
-    "exportFailed": "Kev xa tawm tus yuam sij tsis tiav",
-    "enterBackupPassword": "Sau lo lus zais rau qhov thaub qab no:",
-    "importSuccess": "Tus yuam sij ntiag tug tau nkag rau hauv no ntaus ntawv lawm.",
-    "importFailed": "Kev nkag yuam sij tsis tiav (lo lus zais tsis raug lossis ntaub ntawv puas).",
-    "keysRotated": "Tsim ob tus yuam sij tshiab thiab xa tawm tus pej xeem yuam sij.",
-    "rotateFailed": "Kev hloov yuam sij tsis tiav.",
-    "security": "Kev Nyab Xeeb",
-    "exportKey": "Xa tawm tus yuam sij ntiag tug",
-    "importKey": "Nkag tus yuam sij thaub qab uas tau muab zais",
-    "rotateKeys": "Hloov ob tus yuam sij",
-    "keyDisclaimer": "Koj tus yuam sij ntiag tug yeej tsis tawm hauv no ntaus ntawv. Xa ib daim thaub qab uas muaj lo lus zais kom rov siv tau ntawm lwm ntaus ntawv.",
+    "noPrivateKey": "Tsis muaj yuam sij ntiag tug hauv lub khoom siv no los export.",
+    "setBackupPassword": "Teem lo lus zais rau kev thaub qab kom muaj kev nyab xeeb:",
+    "backupDownloaded": "Tau rub tawm daim thaub qab encrypted.",
+    "exportFailed": "Export yuam sij tsis tau",
+    "enterBackupPassword": "Sau lo lus zais rau daim thaub qab no:",
+    "importSuccess": "Yuam sij ntiag tug tau muab nkag rau hauv lub khoom siv no.",
+    "importFailed": "Import tsis tau (lo lus zais tsis yog lossis ntaub ntawv puas).",
+    "keysRotated": "Tsim yuam sij khub tshiab thiab xa tawm yuam sij pej xeem lawm.",
+    "rotateFailed": "Hloov yuam sij tsis tau.",
+    "security": "Kev ruaj ntseg",
+    "exportKey": "Xa tawm yuam sij ntiag tug",
+    "importKey": "Ntshuam daim thaub qab yuam sij encrypted",
+    "rotateKeys": "Hloov yuam sij khub",
+    "keyDisclaimer": "Koj yuam sij ntiag tug yeej tsis tawm ntawm lub khoom siv no. Xa tawm ib daim thaiv-zais kom rov muab tau rau lwm lub khoom siv.",
 
-    "sectionProfile": "Tus Kheej",
+    "sectionProfile": "Tus kheej",
     "phoneNumber": "Tus xov tooj",
-    "appearance": "Qhov tsos",
-    "soundSettings": "Suab nrov",
-    "disappearing": "Cov lus yuav ploj mus",
-    "backupSync": "Thaub qab & Kev sib phim",
+    "appearance": "Kev zoo saib",
+    "soundSettings": "Suab",
+    "disappearing": "Lus ploj lawm",
+    "backupSync": "Thaub qab & Sync",
     "ai": "AI",
-    "accessibility": "Kev siv tau yooj yim",
-    "privacy": "Kev ceev ntiag tug",
-    "devices": "Cov ntaus ntawv txuas nrog",
+    "accessibility": "Kev nkag siv",
+    "privacy": "Kev ntiag tug",
+    "devices": "Cov khoom siv txuas",
 
-    "themeFreeNotice": "Koj nyob rau hom Dawb— siv cov kev xaiv Hnub / Hli hauv qab no. Hloov mus rau hom siab dua kom qhib tau ntau yam kev zoo nkauj ntxiv.",
-    "sunTheme": "Siv hom Hnub tuaj",
-    "moonTheme": "Siv hom Hli (Hmo ntuj)",
+    "themeFreeNotice": "Koj siv Qib Dawb—siv kev xaiv Sun/Moon hauv qab no. Nce qib kom qhib tau ntau yam theme ntxiv.",
+    "sunTheme": "Siv theme Dawn",
+    "moonTheme": "Siv theme Moon (Hmo Ntuj)",
     "sun": "Hnub",
     "moon": "Hli",
 
-    "backupTitle": "Kev Thaub Qab & Kev Sib Phim Ntaus Ntawv",
-    "openBackupTools": "Qhib cov cuab yeej thaub qab",
-    "backupDesc": "Tsim kev thaub qab uas muaj lo lus zais rau koj cov yuam sij, thiab rov siv tau rau lwm lub ntaus ntawv kom sib phim.",
+    "backupTitle": "Thaub Qab Encrypted & Khoom Siv Sync",
+    "openBackupTools": "Qhib Cuab Yeej Thaub Qab",
+    "backupDesc": "Tsim cov thaub qab muaj lo lus zais, thiab rov muab rau lwm lub khoom siv kom sync tau.",
 
-    "privacyBlurEnabled": "Ua rau cov lus xob tom qab los ntawm kev xaiv ua ntej",
-    "privacyBlurOnUnfocus": "Ua xob thaum daim ntawv thov tsis raug xaiv",
-    "holdToReveal": "Cia nias kom pom",
-    "notifyOnCopy": "Qhia kuv thaum kuv cov lus raug luam tawm",
+    "privacyBlurEnabled": "Ua kom lus plooj los ntawm lub neej ntawd",
+    "privacyBlurOnUnfocus": "Ua plooj thaum app tsis nquag siv",
+    "holdToReveal": "Tuav kom pom",
+    "notifyOnCopy": "Ceeb toom yog kuv lus raug luam theej",
 
-    "loadFailed": "Tsis ua tiav rau kev thauj tus kheej",
-    "followed": "Tau ua raws lawm",
-    "followFailed": "Tsis ua raws tau",
-    "unfollowed": "Tso tsis ua raws lawm",
-    "unfollowFailed": "Tsis tso tseg tau kev ua raws",
+    "loadFailed": "Muab profile thauj tsis tau",
+    "followed": "Tau ua raws",
+    "followFailed": "Ua raws tsis tau",
+    "unfollowed": "Tseg ua raws lawm",
+    "unfollowFailed": "Tsis tshem tau kev ua raws",
     "follow": "Ua raws",
-    "unfollow": "Tso tsis ua raws",
-    "followHint": "Lawv zaj dab neeg yuav tshwm hauv koj daim ntawv ua raws yog lawv tshaj tawm rau cov neeg ua raws lossis pej xeem.",
+    "unfollow": "Tsis ua raws",
+    "followHint": "Lawv zaj dab neeg yuav tshwm hauv koj Qhov Koj Ua Raws yog lawv tso rau cov Ua Raws (lossis Rau Tsoo Nto).",
     "userNotFound": "Tsis pom tus neeg siv",
     "followsYou": "Ua raws koj",
 
-    "sectionCrashedTitle": "Qhov seem no tsis qhib tau",
-    "sectionCrashedBody": "Muaj teeb meem tshwm sim hauv qhov seem no.",
+    "sectionCrashedTitle": "Qhov seem thauj tsis tau",
+    "sectionCrashedBody": "Muaj dab tsi yuam kev hauv seem no.",
 
     "forwarding": "Hu & Lus xa mus rau lwm tus",
-    "callTextForwardingSection": "Hu & Lus xa mus rau lwm tus",
-    "callTextForwardingTitle": "Hu thiab / lossis Lus xa mus rau lwm tus",
-    "callTextForwardingDescription": "Xa cov kev hu thiab cov lus tuaj rau koj tus xov tooj lossis email uas tau txheeb xyuas lawm. Cov kev hu / lus tawm tuaj yuav qhia koj tus lej Chatforia.",
-    "enableTextForwarding": "Qhib kev xa lus mus rau lwm tus",
-    "forwardTextsToPhone": "Xa cov lus mus rau xov tooj",
-    "forwardTextsToEmail": "Xa cov lus mus rau email",
-    "destinationPhone": "Tus xov tooj uas yuav txais (E.164)",
-    "destinationEmail": "Tus email uas yuav txais",
-    "enableCallForwarding": "Qhib kev xa kev hu mus rau lwm tus",
-    "destinationPhoneForCalls": "Tus xov tooj uas yuav txais kev hu (E.164)",
-    "aliasBridging": "Kev xa kev hu (alias bridging)",
-    "quietHoursOptional": "Sijhawm ntsiag to (yeem xaiv)",
-    "startHour": "Sijhawm pib (0–23)",
-    "endHour": "Sijhawm xaus (0–23)",
-    "reset": "Pib dua",
+    "callTextForwardingSection": "Hu & Lus xa mus",
+    "callTextForwardingTitle": "Hu thiab/los sis Lus xa mus",
+    "callTextForwardingDescription": "Xa cov hu tuaj thiab cov lus tuaj mus rau koj tus xov tooj lossis email uas tau txheeb xyuas. Thaum hu/lus tawm, tuaj yeem qhia koj tus lej Chatforia.",
+    "enableTextForwarding": "Qhib lus xa mus",
+    "forwardTextsToPhone": "Xa lus mus rau xov tooj",
+    "forwardTextsToEmail": "Xa lus mus rau email",
+    "destinationPhone": "Xov tooj txais (E.164)",
+    "destinationEmail": "Email txais",
+    "enableCallForwarding": "Qhib hu xa mus",
+    "destinationPhoneForCalls": "Chaw txais (E.164) rau kev hu",
+    "aliasBridging": "Hu xa mus (alias bridging)",
+    "quietHoursOptional": "Sijhawm ntsiag to (yeem siv)",
+    "startHour": "Pib teev (0–23)",
+    "endHour": "Xaus teev (0–23)",
+    "reset": "Rov teeb",
     "saveBtn": "Txuag"
   },
+
   "chat": {
-    "selectPrompt": "Xaiv ib qho kev sib tham los pib tham",
+    "selectPrompt": "Xaiv ib qho lus lossis chav sib tham kom pib sib tham",
     "newMessages": "Cov lus tshiab",
-    "typing": "{{name}} tab tom sau..."
+    "typing": "{{name}} tab tom ntaus...",
+    "emptyTitle": "Koj cov lus",
+    "emptySubtitle": "Xa ib qho lus los pib kev sib tham.",
+    "startChatButton": "Xa lus"
+  },
+
+  "topbar": {
+    "newStatus": "Status tshiab",
+    "logout": "Tawm Nkag"
+  },
+
+  "status": {
+    "userNumber": "Neeg siv #{{id}}",
+
+    "posted": "Tau tshaj tawm status",
+    "postFailed": "Tsaus siab! Tsis tshaj tawm tau status",
+
+    "createTitle": "Tsim ib qho status",
+    "modalAriaLabel": "Status tshiab",
+
+    "captionLabel": "Koj tab tom xav li cas?",
+    "captionPlaceholder": "Qhia ib qhov xov xwm…",
+    "captionAria": "Lus status",
+
+    "audienceLabel": "Cov neeg mloog",
+    "audience": {
+      "public": "Rau Tsoo Nto",
+      "followers": "Cov Ua Raws",
+      "contacts": "Cov txheeb ze",
+      "mutuals": "Ob tog ua raws",
+      "custom": "Yeem xaiv..."
+    },
+
+    "expiresHoursLabel": "Xaus sijhawm (teev)",
+    "maxTooltip": "Ntau tshaj 7 hnub tsis pub dhau",
+    "hoursAbbrev": "teev",
+    "maxShort": "max",
+    "expiresOn": "Xaus rau:",
+
+    "chooseRecipients": "Xaiv cov yuav txais",
+    "selectContacts": "Xaiv cov txheeb ze",
+
+    "attachmentsLabel": "Ntxiv ntaub ntawv",
+    "attachmentsPlaceholder": "Ntxiv duab/videos",
+    "filesNote": "Mus txog 5 cov ntaub ntawv. 24 teev thiaj ploj los ntawm lub neej ntawd.",
+
+    "postAria": "Tso status",
+    "post": "Tso"
+  },
+
+  "sidebar": {
+    "randomChat": "Sib tham random",
+    "callTextForwarding": "Hu & Lus xa mus",
+    "conversations": "Kev sib tham",
+    "searchPlaceholder": "Nrhiav kev sib tham...",
+    "errorLoading": "Thauj cov chats tsis tau",
+    "empty": "Tsis tau muaj kev sib tham.",
+    "startChat": "Pib sib tham",
+    "people": "Tib neeg",
+    "settings": "Chaw teeb tsa",
+    "status": "Status",
+    "forwarding": "Hu & Lus xa mus",
+    "refresh": "Rov tshiab",
+    "search": "Nrhiav kev sib tham",
+    "loginPrompt": "Nkag mus kom kho tau koj qhov chaw teeb tsa.",
+    "login": "Nkag mus",
+    "register": "Tsim account",
+
+    "chatrooms": "Chav sib tham",
+    "logout": "Tawm nkag",
+    "startChatAlt": "Pib ib qho kev sib tham tshiab"
+  },
+
+  "premium": {
+    "heading": "Mus rau Premium",
+    "description": "Qhib cov yam ntxwv muaj zog & tshem tawm tshaj tawm.",
+    "upgrade": "Nce qib"
+  },
+
+  "auth": {
+    "headline": "Kev sib txuas lus thoob ntiaj teb nrog kev txhais lus tam sim",
+    "description": "End-to-end encryption, AI txhais lus, lus ploj lawm, thiab hu/yeej suab yees duab.",
+    "feature": {
+      "encryption": "End-to-end encryption los ntawm lub neej ntawd",
+      "translation": "Txhais lus cia li 100+ hom lus",
+      "disappearing": "Lus ploj lawm & ntawv lees nyeem",
+      "privacy": "Kev ntiag tug ua ntej. Koj cov ntaub ntawv, koj tswj.",
+      "translate": "Txhais lus tam sim",
+      "disappear": "Lus ploj lawm",
+      "privacyAlt": "Tsim qauv rau kev ntiag tug"
+      },
+    "welcomeBack": "Zoo siab txais tos rov qab",
+    "continueGoogle": "Mus ntxiv nrog Google",
+    "continueApple": "Mus ntxiv nrog Apple",
+    "username": "Lub npe siv",
+    "password": "Lo lus zais",
+    "keepSignedIn": "Khaws kuv nyob rau hauv",
+    "forgotPassword": "Tsis nco lo lus zais?",
+    "loginButton": "Nkag mus",
+    "createAccount": "Tsim ib account",
+    "freeAccountButton": "Tsim account dawb",
+    "newHere": "Tshiab rau hauv no?",
+    "getApp": "Tau lub app",
+    "desktopTip": "Nyob rau desktop? Luam theej duab nrog koj lub xov tooj kom tau lub app.",
+
+    "goHome": "Mus rau nplooj tsev",
+    "home": "Tsev",
+
+    "headlineAlt": {
+      "main": "Tus messenger muaj kev ruaj ntseg uas",
+      "highlight": "hais tau koj hom lus"
+    },
+    "subhead": "Ntiag tug, encrypted, thiab txhais lus tam sim—tam sim ntawd.",
+
+    "status": "Saib status",
+    "upgrade": "Nce qib tam sim no",
+    "tip": "Koj siv tau Chatforia rau txhua yam khoom siv — lossis rub lub app kom tau qhov kev paub zoo tshaj.",
+    "openDownload": "Qhib nplooj rub tawm",
+    "qrAlt": "QR code rau Chatforia",
+    "scanHint": "Luam theej duab kom rub lub app los yog qhib hauv browser.",
+    "iosAria": "Rub tawm hauv App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Rub tawm hauv Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+
+    "login": "Nkag mus",
+    "signup": "Sau npe",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Phiaj Xwm & Nqe",
+    "about": "Txog Chatforia",
+    "careers": "Kev Ua Haujlwm",
+    "press": "Xovxwm",
+    "advertise": "Tshawb fawb tshaj tawm",
+    "contact": "Tiv tauj Peb",
+    "help": "Chaw Pab",
+    "status": "Nplooj Xwm Txog Qhov Ua Haujlwm",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Kev Cai Ntiag Tug",
+    "terms": "Qauv Cai Siv",
+    "cookies": "Chaw Teem Ncuav Qab Zib",
+    "doNotSell": "Tsis Muag Kuv Cov Ntaub Ntawv",
+
+    "language": "Lus",
+    "contactShort": "Tiv tauj"
+  },
+
+  "home": {
+    "title": "Tsev",
+    "header": "Koj cov lus",
+    "subheader": "Xa ib qho lus los pib sib tham.",
+    "sendButton": "Xa lus",
+    "gifPicker": "Qhib GIF picker",
+    "emoji": "Emoji",
+    "upload": "Upload duab lossis video",
+    "inputPlaceholder": "Sau ib qho lus…",
+    "inputLabel": "Chaw sau lus",
+    "sendTooltip": "Xa",
+    "sendTooltipEmpty": "Sau ib qho lus ua ntej mam xa",
+    "send": "Xa",
+
+    "welcomeMessage": "Zoo siab txais tos rau Chatforia",
+    "getStarted": "Pib siv"
+  },
+
+  "press": {
+    "title": "Xovxwm",
+    "contact": "Yog muaj lus nug rau xovxwm, sau rau <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Yog muaj lus nug rau xovxwm, sau rau press@chatforia.com.",
+    "boilerplateTitle": "Lus piav luv",
+    "boilerplateText": "Chatforia yog ib lub messenger muaj kev ruaj ntseg nrog kev txhais lus tam sim thiab E2E encryption, tsim los pab kom kev sib tham thoob ntiaj teb muaj kev ntiag tug thiab yooj yim.",
+    "assetsTitle": "Khoom siv npe hom",
+    "assetsText": "Logos, screenshots, thiab duab khoom (muaj tuaj sai sai no)."
+  },
+
+  "careers": {
+    "title": "Kev Ua Haujlwm",
+    "intro": "Peb yog ib pab pawg me tab tom tsim ib lub messenger ntiag tug, thoob ntiaj teb. Yog koj saib xyuas kev encryption, kev nkag siv, thiab UX zoo siab, peb xav hnov ntawm koj.",
+    "openRoles": "<b>Chaw qhib:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
+    "apply": "<b>Yuav thov li cas:</b> Email koj daim resume/links rau <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Email koj daim resume"
+  },
+
+  "about": {
+    "title": "Txog Chatforia",
+    "description": "Chatforia yog ib lub messenger ntau hom lus nrog end-to-end encryption, txhais lus tam sim, thiab hu suab/yeej suab. Peb lub hom phiaj yog yooj yim: pab neeg txuas ntxiv—nyab xeeb, ntiag tug, thiab dhau los ntawm lus sib txawv.",
+    "valuesTitle": "Peb txoj kev ntseeg",
+    "values": {
+      "privacy": "<b>Kev ntiag tug ua ntej:</b> E2E encryption los ntawm lub neej ntawd.",
+      "access": "<b>Nkag tau rau txhua tus:</b> Txhais lus cia li 100+ hom lus.",
+      "control": "<b>Kev tswj:</b> Lus ploj lawm & ntawv lees nyeem yog xaiv tau."
+    },
+    "howTitle": "Chatforia ua haujlwm li cas",
+    "howDescription": "Cov lus raug encrypted hauv koj lub khoom siv ua ntej xa tawm. Kev txhais lus, thaub qab, thiab sync khoom siv raug tsim kom peb cov servers pom tsawg kawg nkaus."
+  },
+
+  "advertise": {
+    "title": "Tshaj tawm nrog Chatforia",
+    "description": "Mus cuag cov neeg siv messenger nquag nrog cov chaw tso ntawv hwm hom. Peb muaj banner hauv qhov chaw pom tseeb, kev txhawb nqa, thiab house promos. Cov neeg sau npe Premium tsis pom tshaj tawm.",
+    "adsense": {
+      "withPubId": "Tam sim no peb siv <b>Google AdSense</b>. Yog koj xav tsom peb hauv Google Ads, siv publisher ID <code>{{pubId}}</code> thiab thov managed placement rau peb cov unit hauv qab no. Muaj kev txhawb ncaj qha—siv daim foos.",
+      "noPubId": "Tam sim no peb siv <b>Google AdSense</b>. Muaj kev txhawb ncaj qha thiab—siv daim foos hauv qab no."
+    },
+    "inventoryHeader": "Cov Khoom Muag & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Qhov loj txais",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacements": "Tsis tau teem chaw tso ntxiv. Ntxiv rau hauv ads/placements.js.",
+    "whyHeader": "Vim li cas thiaj xaiv Chatforia?",
+    "why": {
+      "highSession": "Zaus siv siab thiab nyob ntev hauv chat UI",
+      "brandSafe": "Hom-nyab xeeb; tswj zaus tshwm sim kom hwm",
+      "sponsoredMoments": "Sponsored moments (piv txwv, “Start a Chat” modal) muaj",
+      "deals": "Kev cog lus ncaj qha los yog programmatic los ntawm AdSense/Google Ads"
+    },
+    "contactHeader": "Tiv tauj",
+    "form": {
+      "submittedMsg": "Ua tsaug! Koj qhov kev nug tab tom mus lawm. Peb mam teb sai sai.",
+      "missingRequired": "Thov sau npe, email, thiab lus.",
+      "successToast": "Ua tsaug! Peb mam cuag koj tsis ntev.",
+      "mailtoInfo": "Qhib koj tus email client los xa qhov kev nug…",
+      "nameLabel": "Koj lub npe",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Lub tuam txhab",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Nqe peev hli (yeem)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Qhia txog koj txoj kev tshaj tawm",
+      "messagePlaceholder": "Kev tsom, hnub tim, KPIs, chaw nyiam tso…",
+      "sendCta": "Xa daim foos"
+    },
+    "legal": {
+      "disclaimerStart": "Thaum koj xa mus, koj pom zoo rau peb",
+      "terms": "Qauv Cai",
+      "and": "thiab",
+      "privacy": "Kev Cai Ntiag Tug"
+    }
+  },
+
+  "upgrade": {
+    "title": "Nce Qib",
+    "subtitle": "Nrhiav txoj kev phim rau koj: tshem tshaj tawm nrog Plus, lossis tau tag nrho yam muaj zog nrog Premium.",
+    "scheduleBanner": {
+      "title": "Kev sau npe yuav xaus",
+      "body": "Koj yuav rov los rau Dawb rau",
+      "keepPlanCta": "Khaws Plus",
+      "manageBillingCta": "Tswj kev them nqi"
+    },
+    "billing": {
+      "opening": "Qhib…",
+      "manage": "Tswj Kev Them Nqi"
+    },
+    "checkout": {
+      "redirecting": "Hloov mus…"
+    },
+    "auth": {
+      "continue": "Mus ntxiv",
+      "createAccount": "Tsim account",
+      "signIn": "Nkag mus"
+    },
+    "plans": {
+      "free": {
+        "title": "Dawb",
+        "price": "$0",
+        "features": {
+          "msg": "Lus 1:1 thiab pawg",
+          "aiBasic": "AI teb yooj yim",
+          "attachments": "Ntaub ntawv txuas txheem"
+        },
+        "ctaCurrent": "Qhov Kev Npaj Tam Sim No",
+        "ctaUnavailable": "Hloov mus Dawb (tsis muaj)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / hli",
+        "features": {
+          "noAds": "Tshem txhua yam tshaj tawm",
+          "msg": "Lus 1:1 thiab pawg",
+          "attachments": "Ntaub ntawv txuas loj dua",
+          "aiBasic": "AI teb yooj yim"
+        },
+        "badge": "Nrov",
+        "cta": "Tshem Tshaj Tawm"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Txhua Hli)",
+        "price": "$24.99 / hli",
+        "features": {
+          "plusAll": "Txhua yam hauv Plus",
+          "ringtones": "Ringtones & suab lus xaiv tau",
+          "powerAi": "AI muaj zog",
+          "priorityUpdates": "Hloov tshiab tseem ceeb",
+          "backups": "Thaub qab & sync khoom siv"
+        },
+        "badge": "Nqe zoo tshaj",
+        "cta": "Nce qib (Txhua Hli)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Txhua Xyoo)",
+        "price": "$225 / xyoo",
+        "features": {
+          "allPremium": "Txhua yam hauv Premium",
+          "annualBilling": "Them ib xyoos ib zaug",
+          "save25": "Txuag ~25% piv rau txhua hli",
+          "sameFeatures": "Zoo ib yam li Txhua Hli"
+        },
+        "badge": "Txuag 25%",
+        "cta": "Nce qib (Txhua Xyoo)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Pib Siv",
+    "subtitle": "Tshiab rau Chatforia? Daim no yuav qhia yam tseem ceeb kom koj pib siv tau hauv ob peb feeb.",
+    "alert": {
+      "text": "Phau qhia no yuav loj hlob ntxiv thaum peb tso tawm yam tshiab. Yog tsis muaj yam koj xav tau, qhia rau peb los ntawm",
+      "contactLink": "Tiv tauj Peb"
+    },
+    "section1": {
+      "title": "1) Tsim koj account",
+      "signup": "Sau npe",
+      "or": "lossis",
+      "login": "nkag mus",
+      "loginText": "nrog koj account twb muaj lawm.",
+      "prefsStart": "Teem koj",
+      "prefsLink": "kev nyiam",
+      "prefsRest": "(lus, ntawv lees nyeem, themes)."
+    },
+    "section2": {
+      "title": "2) Pib xa lus",
+      "item1": "Tsim DM lossis Pab Pawg thiab xa koj thawj qho lus.",
+      "item2": "Siv kev txhais lus tam sim los sib tham hla 100+ hom lus.",
+      "item3": "Sim lus ploj lawm thiab ntawv lees nyeem hauv Profile → Kev Ntiag Tug."
+    },
+    "section3": {
+      "title": "3) Mus deb dua",
+      "item1Part1": "Tswj koj txoj kev npaj hauv",
+      "upgradeLink": "Nce Qib",
+      "item1Part2": "nplooj (Plus = tsis muaj tshaj tawm, Premium = yam muaj zog).",
+      "item2Part1": "Txuas ntxiv lwm yam khoom siv thiab teeb thaub qab encrypted hauv",
+      "settingsLink": "Chaw Teeb Tsa"
+    },
+    "cta": {
+      "seePlans": "Saib cov kev npaj",
+      "openSettings": "Qhib chaw teeb tsa"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Chaw Pab",
+    "faq": {
+      "account": {
+        "q": "Yuav tsim lossis rov tau kuv account li cas?",
+        "a": "Rub lub app lossis siv web, nias “Tsim account”, xyuas koj email/xov tooj. Yuav rov qab, siv “Tsis nco lo lus zais”."
+      },
+      "privacy": {
+        "q": "Cov lus puas muaj end-to-end encryption?",
+        "a": "Yog. Cov lus thiab hu muaj end-to-end encryption los ntawm lub neej ntawd. Tsuas yog koj thiab tus txais thiaj nyeem tau."
+      },
+      "translate": {
+        "q": "Kev txhais lus tam sim ua haujlwm li cas?",
+        "a": "Qhib “Txhais lus cia li” hauv Chaw Teeb Tsa → Kev Zoo Saib & Lus. Peb txhais hauv-khoom siv thaum tau, yog tsis tau ces los ntawm API uas muaj kev nyab xeeb nrog cov ntaub ntawv tsawg kawg nkaus."
+      },
+      "contact": {
+        "q": "Tiv tauj kev pab",
+        "a": "Tiv tauj peb ntawm support@chatforia.com. Ntxiv screenshots thiab koj qhov version app."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Tiv Tauj Peb",
+    "successMsg": "Ua tsaug—peb pab neeg yuav teb los ntawm email.",
+    "errorSend": "Xa tsis tau. Thov email rau support@chatforia.com.",
+    "form": {
+      "nameLabel": "Lub npe",
+      "emailLabel": "Email",
+      "messageLabel": "Lus",
+      "sendCta": "Xa"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Kev Cai Ntiag Tug",
+    "lastUpdated": "Hloov kho kawg:",
+    "intro": {
+      "body": "Kev Cai Ntiag Tug no piav qhia tias Chatforia (“peb”) khaws, siv, thiab qhia ntaub ntawv li cas thaum koj siv peb cov apps thiab kev pab. Peb tsim Chatforia kom peb pom tau cov ntaub ntawv tsawg kawg nkaus."
+    },
+    "infoWeCollect": {
+      "title": "Ntaub ntawv peb khaws",
+      "account": "Ntaub ntawv account (piv txwv, email/xov tooj) los tsim thiab tiv thaiv koj account.",
+      "encrypted": "Cov ntsiab lus encrypted (lus/hu) yog end-to-end; peb nyeem tsis tau.",
+      "diagnostics": "Diagnostics/siv xws li crash logs, hom khoom siv, lossis analytics me me los txhim kho kev ua haujlwm."
+    },
+    "howWeUse": {
+      "title": "Peb siv ntaub ntawv li cas",
+      "provide": "Muab thiab tiv thaiv kev pab (auth, nrhiav spam/kev tsim txom).",
+      "improve": "Txhim kho yam (zoo txhais lus, ntseeg tau).",
+      "legal": "Ua raws cai lij choj."
+    },
+    "sharing": {
+      "title": "Kev sib qhia",
+      "body": "Peb tsis muag ntaub ntawv tus kheej. Peb tej zaum tuaj yeem qhia me ntsis rau cov koom tes ua haujlwm (piv txwv, push, analytics) raws li kev cog lus nruj."
+    },
+    "rights": {
+      "title": "Koj txoj cai",
+      "body": "Nyob ntawm koj cheeb tsam (piv txwv, GDPR/UK GDPR/CPRA), koj yuav thov nkag, kho kom raug, rho tawm, lossis tsis kam qee yam kev ua. Tiv tauj: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Khaws cia & kev ruaj ntseg",
+      "body": "Peb tsuas khaws yam tsim nyog los khiav kev pab thiab siv kev ruaj ntseg raws kev lag luam. Cov ntsiab lus E2E peb tsis tuaj yeem qhib tau."
+    },
+    "children": {
+      "title": "Menyuam yaus",
+      "body": "Chatforia tsis npaj rau menyuam yaus qis dua 13 xyoos (lossis raws koj txoj cai hauv zos)."
+    },
+    "changes": {
+      "title": "Kev hloov",
+      "body": "Peb yuav tshaj tawm hloov kho ntawm no thiab hloov “Hloov kho kawg” hnub."
+    },
+    "contact": {
+      "title": "Tiv tauj",
+      "body": "privacy@chatforia.com • [Lub npe tuam txhab raug cai], [Chaw nyob]"
+    }
+  },
+
+  "terms": {
+    "title": "Qauv Cai Siv",
+    "lastUpdated": "Hloov kho kawg:",
+    "intro": {
+      "body": "Thaum koj siv Chatforia ces koj pom zoo rau cov Qauv Cai no. Yog koj tsis pom zoo, thov tsis txhob siv kev pab."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Muab ntaub ntawv raug thiab khaws tus lej nkag kom nyab xeeb.",
+      "itemResponsibility": "Koj yog tus saib xyuas yam ua hauv koj account."
+    },
+    "acceptableUse": {
+      "title": "Kev siv raug cai",
+      "itemNoAbuse": "Tsis pub muaj yam txhaum cai, tsim txom, lossis rhuav cai; tsis pub spam lossis siv cuab yeej automated.",
+      "itemSuspend": "Peb yuav txiav/txiav txim thaum muaj kev ua txhaum."
+    },
+    "yourContent": {
+      "title": "Koj cov ntsiab lus",
+      "body": "Koj tuav cai ntawm koj cov ntsiab lus. Koj pub rau peb cov cai tsim nyog los khiav kev pab (piv txwv, xa, cia, txhais lus)."
+    },
+    "disclaimer": {
+      "title": "Kev tsis lees paub & lub luag hauj lwm",
+      "body": "Kev pab muab “raws li muaj” tsis muaj kev cog lus. Raws li txoj cai pub, Chatforia tsis lav rau kev puas tsuaj ncaj tsis mus ncaj qha lossis cuam tshuam."
+    },
+    "changes": {
+      "title": "Kev hloov",
+      "body": "Peb yuav hloov cov cai no; kev siv txuas ntxiv txhais tau tias koj lees txais."
+    },
+    "contact": {
+      "title": "Tiv tauj",
+      "body": "support@chatforia.com • [Lub npe tuam txhab raug cai], [Chaw nyob]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Tsis Muag lossis Sib Qhia Kuv Cov Ntaub Ntawv Tus Kheej",
+    "body": "Chatforia tsis muag ntaub ntawv tus kheej. Cov neeg nyob California tseem tuaj yeem xa kev thov raws CPRA siv lub khawm hauv qab no.",
+    "cta": "Xa ib qho kev thov"
+  },
+
+  "cookies": {
+    "title": "Chaw Teem Ncuav Qab Zib",
+    "body": "Chatforia siv ncuav qab zib me me xwb (piv txwv, session, kev ruaj ntseg). Peb tsis siv ncuav qab zib tshaj tawm sab thib peb. Koj tswj tau ncuav qab zib hauv chaw teeb tsa ntawm koj browser."
   }
 }

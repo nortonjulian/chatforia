@@ -84,7 +84,7 @@ export default function Advertise() {
         `Company: ${contact.company}\n` +
         `Budget: ${contact.budget}\n\n` +
         `${contact.message}`;
-      const mail = `mailto:ads@chatforia.example?subject=Advertising%20Inquiry&body=${encodeURIComponent(
+      const mail = `mailto:ads@chatforia.com?subject=Advertising%20Inquiry&body=${encodeURIComponent(
         body
       )}`;
       window.location.href = mail;
@@ -363,9 +363,9 @@ export default function Advertise() {
               />
 
               <Group justify="space-between" mt="xs">
-                <Anchor href="mailto:ads@chatforia.example">
+                <Anchor href="mailto:ads@chatforia.com">
                   <Group gap={6}>
-                    <IconMail size={16} /> ads@chatforia.example
+                    <IconMail size={16} /> ads@chatforia.com
                   </Group>
                 </Anchor>
 

@@ -3,8 +3,10 @@
     "save": "Guardar",
     "cancel": "Cancelar",
     "refresh": "Actualizar",
-    "noMatches": "Sin coincidencias"
+    "noMatches": "Sin coincidencias",
+    "cancelAria": "Cancelar"
   },
+
   "profile": {
     "title": "Perfil de usuario",
 
@@ -13,22 +15,22 @@
     "mustLogin": "Debes iniciar sesión para ver la configuración.",
 
     "autoTranslate": "Traducir mensajes automáticamente",
-    "showOriginalWithTranslation": "Mostrar mensajes originales y traducidos",
+    "showOriginalWithTranslation": "Mostrar original y traducido",
     "showOriginalAndTranslation": "Mostrar original junto a la traducción",
 
     "filterExplicit": "Filtrar contenido explícito",
-    "aiReply": "Respuesta de IA",
+    "aiReply": "Respuesta con IA",
     "enableReadReceipts": "Habilitar confirmaciones de lectura",
     "allowExplicitContent": "Permitir contenido explícito",
-    "disappearingMessages": "Activar mensajes que desaparecen",
-    "autoDeleteSeconds": "Segundos hasta la eliminación automática",
+    "disappearingMessages": "Habilitar mensajes que desaparecen",
+    "autoDeleteSeconds": "Segundos hasta el borrado automático",
 
     "saveSuccess": "¡Configuración guardada!",
-    "saveError": "Error: No se pudieron guardar los ajustes",
+    "saveError": "Error: No se pudo guardar la configuración",
 
     "avatarAlt": "Avatar del perfil",
     "uploadAvatar": "Subir nuevo avatar",
-    "avatarSuccess": "¡Avatar subido correctamente!",
+    "avatarSuccess": "¡Avatar subido!",
     "avatarError": "Error al subir el avatar",
 
     "noPrivateKey": "No hay ninguna clave privada en este dispositivo para exportar.",
@@ -36,15 +38,15 @@
     "backupDownloaded": "Copia de seguridad cifrada descargada.",
     "exportFailed": "Error al exportar la clave",
     "enterBackupPassword": "Introduce la contraseña de esta copia de seguridad:",
-    "importSuccess": "Clave privada importada correctamente en este dispositivo.",
-    "importFailed": "Error al importar la clave (contraseña incorrecta o archivo dañado).",
-    "keysRotated": "Nuevo par de claves generado y clave pública cargada.",
+    "importSuccess": "Clave privada importada en este dispositivo.",
+    "importFailed": "No se pudo importar la clave (contraseña incorrecta o archivo dañado).",
+    "keysRotated": "Se generó un nuevo par de claves y se subió la clave pública.",
     "rotateFailed": "No se pudieron rotar las claves.",
     "security": "Seguridad",
     "exportKey": "Exportar clave privada",
-    "importKey": "Importar copia de seguridad cifrada",
+    "importKey": "Importar copia de seguridad cifrada de la clave",
     "rotateKeys": "Rotar par de claves",
-    "keyDisclaimer": "Tu clave privada nunca abandona este dispositivo. Exporta una copia protegida con contraseña para restaurarla en otro dispositivo.",
+    "keyDisclaimer": "Tu clave privada nunca sale de este dispositivo. Exporta una copia protegida con contraseña para restaurarla en otro dispositivo.",
 
     "sectionProfile": "Perfil",
     "phoneNumber": "Número de teléfono",
@@ -57,56 +59,535 @@
     "privacy": "Privacidad",
     "devices": "Dispositivos vinculados",
 
-    "themeFreeNotice": "Estás en el plan gratuito: usa las opciones rápidas de Sol/Luna a continuación. Mejora tu plan para desbloquear más temas.",
+    "themeFreeNotice": "Estás en Gratis—usa las opciones rápidas Sol/Luna abajo. Mejora para desbloquear más temas.",
     "sunTheme": "Usar tema Amanecer",
     "moonTheme": "Usar tema Luna (Medianoche)",
     "sun": "Sol",
     "moon": "Luna",
 
-    "backupTitle": "Copias de seguridad cifradas y sincronización de dispositivos",
+    "backupTitle": "Copias cifradas y sincronización de dispositivos",
     "openBackupTools": "Abrir herramientas de copia de seguridad",
-    "backupDesc": "Crea copias de seguridad cifradas con contraseña de tus claves y restáuralas en otro dispositivo para sincronizar.",
+    "backupDesc": "Crea copias de seguridad con contraseña de tus claves y restáuralas en otro dispositivo para sincronizar.",
 
     "privacyBlurEnabled": "Difuminar mensajes por defecto",
-    "privacyBlurOnUnfocus": "Difuminar cuando la aplicación esté en segundo plano",
-    "holdToReveal": "Mantener presionado para mostrar",
-    "notifyOnCopy": "Notificarme si mi mensaje es copiado",
+    "privacyBlurOnUnfocus": "Difuminar cuando la app pierde foco",
+    "holdToReveal": "Mantener pulsado para mostrar",
+    "notifyOnCopy": "Notificarme si se copia mi mensaje",
 
-    "loadFailed": "Error al cargar el perfil",
+    "loadFailed": "No se pudo cargar el perfil",
     "followed": "Seguido",
-    "followFailed": "No se pudo seguir al usuario",
+    "followFailed": "No se pudo seguir",
     "unfollowed": "Dejado de seguir",
     "unfollowFailed": "No se pudo dejar de seguir",
     "follow": "Seguir",
     "unfollow": "Dejar de seguir",
-    "followHint": "Sus historias aparecerán en tu feed de Seguidos si publica con audiencia de Seguidores (o Pública).",
+    "followHint": "Sus historias aparecerán en tu feed de Siguiendo si publican con audiencia Seguidores (o Público).",
     "userNotFound": "Usuario no encontrado",
     "followsYou": "Te sigue",
 
-    "sectionCrashedTitle": "Error al cargar la sección",
+    "sectionCrashedTitle": "La sección no se pudo cargar",
     "sectionCrashedBody": "Algo salió mal en esta sección.",
 
-    "forwarding": "Reenvío de llamadas y mensajes",
-    "callTextForwardingSection": "Reenvío de llamadas y mensajes",
-    "callTextForwardingTitle": "Reenvío de llamadas y/o mensajes",
-    "callTextForwardingDescription": "Reenvía las llamadas y mensajes entrantes a tu teléfono o correo electrónico verificado. Las llamadas/mensajes salientes pueden mostrar tu número de Chatforia.",
-    "enableTextForwarding": "Activar reenvío de mensajes",
-    "forwardTextsToPhone": "Reenviar mensajes al teléfono",
-    "forwardTextsToEmail": "Reenviar mensajes al correo electrónico",
+    "forwarding": "Desvío de llamadas y mensajes",
+    "callTextForwardingSection": "Desvío de llamadas y mensajes",
+    "callTextForwardingTitle": "Desvío de llamadas y/o mensajes",
+    "callTextForwardingDescription": "Desvía las llamadas y mensajes entrantes a tu teléfono o correo verificados. Las salidas pueden mostrar tu número de Chatforia.",
+    "enableTextForwarding": "Habilitar desvío de mensajes",
+    "forwardTextsToPhone": "Desviar mensajes al teléfono",
+    "forwardTextsToEmail": "Desviar mensajes al correo",
     "destinationPhone": "Teléfono de destino (E.164)",
-    "destinationEmail": "Correo electrónico de destino",
-    "enableCallForwarding": "Activar reenvío de llamadas",
-    "destinationPhoneForCalls": "Teléfono de destino (E.164) para llamadas",
-    "aliasBridging": "Reenvío de llamadas (alias bridging)",
-    "quietHoursOptional": "Horas silenciosas (opcional)",
+    "destinationEmail": "Correo de destino",
+    "enableCallForwarding": "Habilitar desvío de llamadas",
+    "destinationPhoneForCalls": "Destino (E.164) para llamadas",
+    "aliasBridging": "Desvío de llamadas (alias bridging)",
+    "quietHoursOptional": "Horas de silencio (opcional)",
     "startHour": "Hora de inicio (0–23)",
     "endHour": "Hora de fin (0–23)",
     "reset": "Restablecer",
     "saveBtn": "Guardar"
   },
+
   "chat": {
-    "selectPrompt": "Selecciona un chat o sala para comenzar a conversar",
+    "selectPrompt": "Selecciona un texto o una sala para empezar a chatear",
     "newMessages": "Nuevos mensajes",
-    "typing": "{{name}} está escribiendo..."
+    "typing": "{{name}} está escribiendo...",
+    "emptyTitle": "Tus mensajes",
+    "emptySubtitle": "Envía un mensaje para iniciar un chat.",
+    "startChatButton": "Enviar mensaje"
+  },
+
+  "topbar": {
+    "newStatus": "Nuevo estado",
+    "logout": "Cerrar sesión"
+  },
+
+  "status": {
+    "userNumber": "Usuario #{{id}}",
+
+    "posted": "Estado publicado",
+    "postFailed": "No se pudo publicar el estado",
+
+    "createTitle": "Crear un estado",
+    "modalAriaLabel": "Nuevo estado",
+
+    "captionLabel": "¿Qué estás pensando?",
+    "captionPlaceholder": "Comparte una actualización...",
+    "captionAria": "Mensaje de estado",
+
+    "audienceLabel": "Audiencia",
+    "audience": {
+      "public": "Público",
+      "followers": "Seguidores",
+      "contacts": "Contactos",
+      "mutuals": "Mutuos",
+      "custom": "Personalizado..."
+    },
+
+    "expiresHoursLabel": "Expira (horas)",
+    "maxTooltip": "Máximo 7 días",
+    "hoursAbbrev": "h",
+    "maxShort": "máx",
+    "expiresOn": "Expira el:",
+
+    "chooseRecipients": "Elige destinatarios",
+    "selectContacts": "Selecciona contactos",
+
+    "attachmentsLabel": "Adjuntos",
+    "attachmentsPlaceholder": "Añadir imágenes/videos",
+    "filesNote": "Hasta 5 archivos. Caducan en 24 h por defecto.",
+
+    "postAria": "Publicar estado",
+    "post": "Publicar"
+  },
+
+  "sidebar": {
+    "randomChat": "Chat aleatorio",
+    "callTextForwarding": "Desvío de llamadas y mensajes",
+    "conversations": "Conversaciones",
+    "searchPlaceholder": "Buscar conversaciones...",
+    "errorLoading": "No se pudieron cargar los chats",
+    "empty": "Aún no hay conversaciones.",
+    "startChat": "Iniciar un chat",
+    "people": "Personas",
+    "settings": "Ajustes",
+    "status": "Estado",
+    "forwarding": "Desvío de llamadas y mensajes",
+    "refresh": "Actualizar",
+    "search": "Buscar conversaciones",
+    "loginPrompt": "Inicia sesión para editar tus ajustes.",
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+
+    "chatrooms": "Salas de chat",
+    "logout": "Cerrar sesión",
+    "startChatAlt": "Iniciar un chat nuevo"
+  },
+
+  "premium": {
+    "heading": "Hazte Premium",
+    "description": "Desbloquea funciones potentes y elimina anuncios.",
+    "upgrade": "Actualizar"
+  },
+
+  "auth": {
+    "headline": "Mensajería segura y global con traducción instantánea",
+    "description": "Cifrado de extremo a extremo, traducción con IA, mensajes que desaparecen y llamadas de voz/video.",
+    "feature": {
+      "encryption": "Cifrado de extremo a extremo por defecto",
+      "translation": "Traducción automática de 100+ idiomas",
+      "disappearing": "Mensajes que desaparecen y confirmaciones de lectura",
+      "privacy": "Privacidad primero. Tus datos, tu control.",
+      "translate": "Traducción en tiempo real",
+      "disappear": "Mensajes que desaparecen",
+      "privacyAlt": "Diseño centrado en la privacidad"
+    },
+    "welcomeBack": "Bienvenido de nuevo",
+    "continueGoogle": "Continuar con Google",
+    "continueApple": "Continuar con Apple",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "keepSignedIn": "Mantener la sesión iniciada",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "loginButton": "Iniciar sesión",
+    "createAccount": "Crear una cuenta",
+    "freeAccountButton": "Crear cuenta gratuita",
+    "newHere": "¿Nuevo aquí?",
+    "getApp": "Obtener la app",
+    "desktopTip": "¿En escritorio? Escanea con tu teléfono para obtener la app.",
+
+    "goHome": "Ir al inicio",
+    "home": "Inicio",
+
+    "headlineAlt": {
+      "main": "El mensajero seguro que",
+      "highlight": "habla tu idioma"
+    },
+    "subhead": "Mensajería privada, cifrada y traducida — al instante.",
+
+    "status": "Ver estado",
+    "upgrade": "Actualizar ahora",
+    "tip": "Puedes usar Chatforia en cualquier dispositivo — o descarga la app para la mejor experiencia.",
+    "openDownload": "Abrir página de descarga",
+    "qrAlt": "Código QR de Chatforia",
+    "scanHint": "Escanea para descargar la app o abrir en tu navegador.",
+    "iosAria": "Descargar en App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Insignia de App Store",
+    "androidAria": "Disponible en Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Insignia de Google Play",
+
+    "login": "Iniciar sesión",
+    "signup": "Registrarse",
+    "email": "Correo"
+  },
+
+  "footer": {
+    "plans": "Planes y precios",
+    "about": "Acerca de Chatforia",
+    "careers": "Empleo",
+    "press": "Prensa",
+    "advertise": "Anunciarse",
+    "contact": "Contáctanos",
+    "help": "Centro de ayuda",
+    "status": "Página de estado",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "cookies": "Configuración de cookies",
+    "doNotSell": "No vender mi información",
+
+    "language": "Idioma",
+    "contactShort": "Contacto"
+  },
+
+  "home": {
+    "title": "Inicio",
+    "header": "Tus mensajes",
+    "subheader": "Envía un mensaje para iniciar un chat.",
+    "sendButton": "Enviar mensaje",
+    "gifPicker": "Abrir selector de GIF",
+    "emoji": "Emoji",
+    "upload": "Subir foto o video",
+    "inputPlaceholder": "Escribe un mensaje…",
+    "inputLabel": "Redactor de mensajes",
+    "sendTooltip": "Enviar",
+    "sendTooltipEmpty": "Escribe un mensaje para enviar",
+    "send": "Enviar",
+
+    "welcomeMessage": "Bienvenido a Chatforia",
+    "getStarted": "Comenzar"
+  },
+
+  "press": {
+    "title": "Prensa",
+    "contact": "Para consultas de medios, escríbenos a <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Para consultas de medios, escríbenos a press@chatforia.com.",
+    "boilerplateTitle": "Descripción",
+    "boilerplateText": "Chatforia es un mensajero seguro con traducción instantánea y cifrado E2E, diseñado para que las conversaciones globales sean privadas y sencillas.",
+    "assetsTitle": "Recursos de marca",
+    "assetsText": "Logotipos, capturas y material del producto (próximamente)."
+  },
+
+  "careers": {
+    "title": "Empleo",
+    "intro": "Somos un equipo pequeño construyendo un mensajero privado y global. Si te importan el cifrado, la accesibilidad y una UX encantadora, nos encantaría saber de ti.",
+    "openRoles": "<b>Puestos abiertos:</b> Ingeniería (Full-stack, iOS, Android), Producto, Soporte.",
+    "apply": "<b>Cómo postular:</b> Envía tu CV/enlaces a <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Enviar CV por correo"
+  },
+
+  "about": {
+    "title": "Acerca de Chatforia",
+    "description": "Chatforia es un mensajero seguro y multilingüe con cifrado de extremo a extremo, traducción instantánea y llamadas de voz/video. Nuestra misión es simple: ayudar a la gente a conectarse—de forma segura, privada y entre idiomas.",
+    "valuesTitle": "Lo que valoramos",
+    "values": {
+      "privacy": "<b>Privacidad primero:</b> Cifrado E2E por defecto.",
+      "access": "<b>Acceso para todos:</b> Traducción automática de 100+ idiomas.",
+      "control": "<b>Control:</b> Los mensajes que desaparecen y las confirmaciones de lectura son opcionales."
+    },
+    "howTitle": "Cómo funciona Chatforia",
+    "howDescription": "Los mensajes se cifran en tu dispositivo antes de salir de él. La traducción, copias de seguridad y sincronización de dispositivos están diseñadas para minimizar lo que nuestros servidores pueden ver."
+    },
+
+  "advertise": {
+    "title": "Anuncia con Chatforia",
+    "description": "Llega a usuarios de mensajería comprometidos con ubicaciones visibles y seguras para la marca. Ofrecemos inventario de banners, patrocinios y promociones propias. Los suscriptores Premium no ven anuncios.",
+    "adsense": {
+      "withPubId": "Actualmente servimos anuncios a través de <b>Google AdSense</b>. Si deseas dirigir campañas mediante Google Ads, usa el ID de publicador <code>{{pubId}}</code> y solicita ubicación gestionada en nuestras unidades de abajo. También hay patrocinios directos: usa el formulario.",
+      "noPubId": "Actualmente servimos anuncios a través de <b>Google AdSense</b>. También hay patrocinios directos: usa el formulario de abajo."
+    },
+    "inventoryHeader": "Inventario y especificaciones",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Tamaños aceptados",
+      "adsenseSlot": "Slot de AdSense:"
+    },
+    "noPlacements": "Aún no hay ubicaciones configuradas. Añádelas en ads/placements.js.",
+    "whyHeader": "¿Por qué Chatforia?",
+    "why": {
+      "highSession": "Alta frecuencia de sesiones y permanencia en la UI de chat",
+      "brandSafe": "Formatos seguros para la marca; limitación de frecuencia respetuosa",
+      "sponsoredMoments": "Momentos patrocinados (p. ej., modal “Iniciar un chat”) disponibles",
+      "deals": "Acuerdos directos o programáticos vía AdSense/Google Ads"
+    },
+    "contactHeader": "Contacto",
+    "form": {
+      "submittedMsg": "¡Gracias! Tu consulta está en camino. Te responderemos pronto.",
+      "missingRequired": "Completa nombre, correo y mensaje.",
+      "successToast": "¡Gracias! Nos pondremos en contacto pronto.",
+      "mailtoInfo": "Abriendo tu cliente de correo para enviar la consulta…",
+      "nameLabel": "Tu nombre",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "tu@empresa.com",
+      "companyLabel": "Empresa",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Presupuesto mensual (opcional)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Cuéntanos sobre tu campaña",
+      "messagePlaceholder": "Segmentación, fechas, KPIs, preferencias de ubicación…",
+      "sendCta": "Enviar consulta"
+    },
+    "legal": {
+      "disclaimerStart": "Al enviar, aceptas nuestros",
+      "terms": "Términos",
+      "and": "y",
+      "privacy": "Política de privacidad"
+    }
+  },
+
+  "upgrade": {
+    "title": "Actualizar",
+    "subtitle": "Desbloquea el plan adecuado para ti: quita anuncios con Plus o consigue todas las funciones con Premium.",
+    "scheduleBanner": {
+      "title": "La suscripción terminará",
+      "body": "Volverás a Gratis el",
+      "keepPlanCta": "Mantener Plus",
+      "manageBillingCta": "Gestionar facturación"
+    },
+    "billing": {
+      "opening": "Abriendo…",
+      "manage": "Gestionar facturación"
+    },
+    "checkout": {
+      "redirecting": "Redirigiendo…"
+    },
+    "auth": {
+      "continue": "Continuar",
+      "createAccount": "Crear cuenta",
+      "signIn": "Iniciar sesión"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "features": {
+          "msg": "Mensajería 1:1 y en grupo",
+          "aiBasic": "Respuestas básicas con IA",
+          "attachments": "Adjuntos estándar"
+        },
+        "ctaCurrent": "Plan actual",
+        "ctaUnavailable": "Cambiar a Gratis (no disponible)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mes",
+        "features": {
+          "noAds": "Eliminar todos los anuncios",
+          "msg": "Mensajería 1:1 y en grupo",
+          "attachments": "Adjuntos más grandes",
+          "aiBasic": "Respuestas básicas con IA"
+        },
+        "badge": "Popular",
+        "cta": "Sin anuncios"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mensual)",
+        "price": "$24.99 / mes",
+        "features": {
+          "plusAll": "Todo en Plus",
+          "ringtones": "Tonos de llamada y mensajes personalizados",
+          "powerAi": "Funciones de IA avanzadas",
+          "priorityUpdates": "Actualizaciones prioritarias",
+          "backups": "Copias de seguridad y sincronización de dispositivos"
+        },
+        "badge": "Mejor valor",
+        "cta": "Actualizar (Mensual)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Anual)",
+        "price": "$225 / año",
+        "features": {
+          "allPremium": "Todo en Premium",
+          "annualBilling": "Facturación anual",
+          "save25": "Ahorra ~25% vs mensual",
+          "sameFeatures": "Mismas funciones que Mensual"
+        },
+        "badge": "Ahorra 25%",
+        "cta": "Actualizar (Anual)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Primeros pasos",
+    "subtitle": "¿Nuevo en Chatforia? Esta guía rápida muestra lo esencial para ser productivo en minutos.",
+    "alert": {
+      "text": "Esta guía crecerá conforme lancemos nuevas funciones. Si falta algo, avísanos vía",
+      "contactLink": "Contáctanos"
+    },
+    "section1": {
+      "title": "1) Crea tu cuenta",
+      "signup": "Registrarte",
+      "or": "o",
+      "login": "iniciar sesión",
+      "loginText": "con tu cuenta existente.",
+      "prefsStart": "Configura tus",
+      "prefsLink": "preferencias",
+      "prefsRest": "(idioma, confirmaciones de lectura, temas)."
+    },
+    "section2": {
+      "title": "2) Empieza a enviar mensajes",
+      "item1": "Crea un DM o Grupo y envía tu primer mensaje.",
+      "item2": "Usa traducción instantánea para chatear en 100+ idiomas.",
+      "item3": "Prueba los mensajes que desaparecen y las confirmaciones de lectura en Perfil → Privacidad."
+    },
+    "section3": {
+      "title": "3) Ve más allá",
+      "item1Part1": "Gestiona tu plan en la página de",
+      "upgradeLink": "Actualizar",
+      "item1Part2": "(Plus = sin anuncios, Premium = todas las funciones).",
+      "item2Part1": "Vincula dispositivos adicionales y configura copias de seguridad cifradas en",
+      "settingsLink": "Ajustes"
+    },
+    "cta": {
+      "seePlans": "Ver planes",
+      "openSettings": "Abrir ajustes"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Centro de ayuda",
+    "faq": {
+      "account": {
+        "q": "¿Cómo creo o recupero mi cuenta?",
+        "a": "Descarga la app o usa la web, toca “Crear cuenta”, verifica tu correo/teléfono. Para recuperar, usa “¿Olvidaste tu contraseña?”."
+      },
+      "privacy": {
+        "q": "¿Los mensajes están cifrados de extremo a extremo?",
+        "a": "Sí. Los mensajes y llamadas están cifrados de extremo a extremo por defecto. Solo tú y el destinatario pueden leerlos."
+      },
+      "translate": {
+        "q": "¿Cómo funciona la traducción instantánea?",
+        "a": "Activa “Traducción automática” en Ajustes → Apariencia e idioma. Traducimos en el dispositivo donde sea compatible; de lo contrario, mediante APIs seguras con metadatos mínimos."
+      },
+      "contact": {
+        "q": "Contactar soporte",
+        "a": "Escríbenos a support@chatforia.com. Incluye capturas y la versión de tu app."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contáctanos",
+    "successMsg": "Gracias—nuestro equipo responderá por correo.",
+    "errorSend": "No se pudo enviar. Por favor escribe a support@chatforia.com.",
+    "form": {
+      "nameLabel": "Nombre",
+      "emailLabel": "Correo",
+      "messageLabel": "Mensaje",
+      "sendCta": "Enviar"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Política de privacidad",
+    "lastUpdated": "Última actualización:",
+    "intro": {
+      "body": "Esta Política de Privacidad explica cómo Chatforia (“nosotros”) recopila, usa y comparte información cuando utilizas nuestras apps y servicios. Diseñamos Chatforia para minimizar los datos a los que podemos acceder."
+    },
+    "infoWeCollect": {
+      "title": "Información que recopilamos",
+      "account": "Información de la cuenta (p. ej., correo/teléfono) para crear y proteger tu cuenta.",
+      "encrypted": "El contenido cifrado (mensajes/llamadas) está cifrado de extremo a extremo; no podemos leerlo.",
+      "diagnostics": "Diagnóstico/uso como registros de fallos, tipo de dispositivo o analítica general para mejorar el rendimiento."
+    },
+    "howWeUse": {
+      "title": "Cómo usamos la información",
+      "provide": "Proporcionar y proteger el servicio (autenticación, detección de spam/abuso).",
+      "improve": "Mejorar funciones (calidad de traducción, fiabilidad).",
+      "legal": "Cumplir obligaciones legales."
+    },
+    "sharing": {
+      "title": "Compartir",
+      "body": "No vendemos datos personales. Podemos compartir datos limitados con encargados (p. ej., notificaciones push, analítica) bajo contratos estrictos."
+    },
+    "rights": {
+      "title": "Tus derechos",
+      "body": "Según tu región (p. ej., RGPD/UK GDPR/CPRA), puedes solicitar acceso, corrección, eliminación u optar por no participar en ciertos tratamientos. Contacto: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Conservación y seguridad de datos",
+      "body": "Conservamos solo lo necesario para operar el servicio y aplicamos seguridad estándar del sector. El contenido E2E no puede ser descifrado por nosotros."
+    },
+    "children": {
+      "title": "Menores",
+      "body": "Chatforia no está dirigido a menores de 13 años (o según lo requiera tu legislación local)."
+    },
+    "changes": {
+      "title": "Cambios",
+      "body": "Publicaremos actualizaciones aquí y revisaremos la fecha de “Última actualización”."
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "privacy@chatforia.com • [Nombre legal de la empresa], [Dirección]"
+    }
+  },
+
+  "terms": {
+    "title": "Términos de servicio",
+    "lastUpdated": "Última actualización:",
+    "intro": {
+      "body": "Al usar Chatforia aceptas estos Términos. Si no estás de acuerdo, no uses el servicio."
+    },
+    "accounts": {
+      "title": "Cuentas",
+      "itemAccurateInfo": "Proporciona información precisa y mantiene seguras tus credenciales.",
+      "itemResponsibility": "Eres responsable de la actividad en tu cuenta."
+    },
+    "acceptableUse": {
+      "title": "Uso aceptable",
+      "itemNoAbuse": "Sin contenido ilegal, abusivo o que infrinja derechos; sin spam ni abuso automatizado.",
+      "itemSuspend": "Podemos suspender/terminar por violaciones."
+    },
+    "yourContent": {
+      "title": "Tu contenido",
+      "body": "Conservas los derechos sobre tu contenido. Nos otorgas los derechos necesarios para operar el servicio (p. ej., enrutamiento, almacenamiento, traducción)."
+    },
+    "disclaimer": {
+      "title": "Exenciones y responsabilidad",
+      "body": "El servicio se proporciona “tal cual”, sin garantías. En la máxima medida permitida por la ley, Chatforia no es responsable por daños indirectos o consecuentes."
+    },
+    "changes": {
+      "title": "Cambios",
+      "body": "Podemos actualizar estos términos; el uso continuado después de los cambios implica aceptación."
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "support@chatforia.com • [Nombre legal de la empresa], [Dirección]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "No vender ni compartir mi información personal",
+    "body": "Chatforia no vende información personal. Los residentes de California aún pueden enviar solicitudes bajo CPRA usando el botón de abajo.",
+    "cta": "Enviar una solicitud"
+  },
+
+  "cookies": {
+    "title": "Configuración de cookies",
+    "body": "Chatforia usa cookies mínimas (p. ej., sesión, seguridad). No usamos cookies de anuncios de terceros. Gestiona las cookies desde los ajustes de tu navegador."
   }
 }

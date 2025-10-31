@@ -1,112 +1,593 @@
 {
   "common": {
     "save": "Imaña",
-    "cancel": "Chhaqhtayaña",
-    "refresh": "Machaqtayaña",
-    "noMatches": "Jani jiskt’äwinaka jikxatasi"
+    "cancel": "Jani",
+    "refresh": "Machaqaptayaña",
+    "noMatches": "Jani kasqaki kipka",
+    "cancelAria": "Jani"
   },
+
   "profile": {
-    "title": "Usuario wakichäwi",
+    "title": "Usuario perfil",
 
-    "preferredLanguage": "Aka aru ajllita",
-    "chooseLanguage": "Mä aru ajlliñamawa",
-    "mustLogin": "Aka wakichäwinaka uñjañataki mantañamawa.",
+    "preferredLanguage": "Aka aru munt’ata",
+    "chooseLanguage": "Aru ajlliña",
+    "mustLogin": "Ajustes uñjañataki, qillqantamaxa mant’añamawa.",
 
-    "autoTranslate": "Yänak qillqatanaka jist’aririn aru tuqita jaqukipaña",
-    "showOriginalWithTranslation": "Qillqata ch’iqanakamp uñachayaña",
-    "showOriginalAndTranslation": "Qillqata ukan mayacht’ata uñachayaña",
+    "autoTranslate": "Sapa kuti juk’ampi jaqukipaña (auto)",
+    "showOriginalWithTranslation": "Qallta qillqata ukhamaraki jaqukipata uñachayaña",
+    "showOriginalAndTranslation": "Qallta qillqata ukhamaraki jaqukipata mayachata",
 
-    "filterExplicit": "Jisk’aptäwi jan wali uñt’atanaka chhaqtayaña",
-    "aiReply": "AI kutichäwi",
-    "enableReadReceipts": "Uñt’awi qillqanak uñachayaña",
-    "allowExplicitContent": "Jan wali uñt’atanak yatichaña",
-    "disappearingMessages": "Jani qhipar qillqatanaka uñstayapxañapataki",
-    "autoDeleteSeconds": "Sapa pachan chhaqtayañapataki",
+    "filterExplicit": "Contenido ch’ama chhaqtayaña",
+    "aiReply": "IA kutichawi",
+    "enableReadReceipts": "Uñt’awi chimpupa uñachayaña",
+    "allowExplicitContent": "Contenido ch’ama iyawsaña",
+    "disappearingMessages": "Jakhthapiña yatiykipanakapa",
+    "autoDeleteSeconds": "Jakhthapiñatakixa segundos",
 
-    "saveSuccess": "Wakichäwinaka imatäxiwa!",
-    "saveError": "Pantjata: Wakichäwinaka imañatäniwa.",
+    "saveSuccess": "Ajustes imata!",
+    "saveError": "Pantjata: Janiwa imasiti",
 
-    "avatarAlt": "Usuario rixita",
-    "uploadAvatar": "Machaq rixita apachaña",
-    "avatarSuccess": "Rixita apakatäxiwa!",
-    "avatarError": "Pantjata rixita apachäwi.",
+    "avatarAlt": "Perfil uñacht’aya",
+    "uploadAvatar": "Machaqa uñacht’aya apxataña",
+    "avatarSuccess": "Uñacht’aya apxatata!",
+    "avatarError": "Uñacht’aya apxatañaxa pantjta",
 
-    "noPrivateKey": "Aka wakichäwi manqhan jani mayjt’ayata llavja utjiti.",
-    "setBackupPassword": "Qhipa wakichäwita imaña llavjañam imantaña:",
-    "backupDownloaded": "Imantata wakichäwi apsutäxiwa.",
-    "exportFailed": "Llavja qhantayaña pantjatäxiwa",
-    "enterBackupPassword": "Aka wakichäwita llavja apayaña:",
-    "importSuccess": "Manqha llavja aka wakichäwiru mantatäxiwa.",
-    "importFailed": "Pantjatäxiwa llavja apayaña (jan wali llavja jan ukaxa jani sum wakichata).",
-    "keysRotated": "Machaq llavjanaka luraña, llavja qhantatäxiwa.",
-    "rotateFailed": "Llavjanaka mayjt’ayaña pantjatäxiwa.",
-    "security": "Arkañäwi",
-    "exportKey": "Manqha llavja qhantayaña",
-    "importKey": "Imantata llavja mantaña",
-    "rotateKeys": "Llavjanaka mayjt’ayaña",
-    "keyDisclaimer": "Manqha llavjam jani aka imañat mistxiti. Yant’añataki imantata copia luraña mä yatiyäwimpi.",
+    "noPrivateKey": "Aka dispositivo taypina janiwa privado llave utjkiti apaqañataki.",
+    "setBackupPassword": "Respaldo imañatakixa imaña arkañ chimpu churaña:",
+    "backupDownloaded": "Respaldo imata (encriptado) apaqata.",
+    "exportFailed": "Llave apaqaña pantjta",
+    "enterBackupPassword": "Aka respaldotaki chimpu qillqaña:",
+    "importSuccess": "Privado llave aka dispositivo ukaru apanaqata.",
+    "importFailed": "Llave apanaqaña pantjta (chimpu pantjata janicha archivo chhaqta).",
+    "keysRotated": "Machaqa par llaveta lurata, público llave apxarata.",
+    "rotateFailed": "Llaves mutaña pantjta.",
+    "security": "Seguridad",
+    "exportKey": "Privado llave apaqaña",
+    "importKey": "Respaldo encriptado mantaña",
+    "rotateKeys": "Llaves mutaña",
+    "keyDisclaimer": "Privado llavema janiw dispositivos ukat mistkiti. Mayni dispositivotaki chuymachata kópia apaqam, chimpuñani.",
 
     "sectionProfile": "Perfil",
-    "phoneNumber": "Jawsaña numeropa",
-    "appearance": "Uñtawi",
-    "soundSettings": "Ist’awi",
-    "disappearing": "Chhaqtayata qillqatanaka",
-    "backupSync": "Qhipa imaña & mayachäwi",
-    "ai": "AI",
-    "accessibility": "Jikxataña",
-    "privacy": "Jark’aqawi",
-    "devices": "Mayachata yänaka",
+    "phoneNumber": "Jawsaña numero",
+    "appearance": "Uñacht’äwi",
+    "soundSettings": "Sonaqa",
+    "disappearing": "Jakhthapiña yatiykipanakapa",
+    "backupSync": "Respaldo & Sincroniza",
+    "ai": "IA",
+    "accessibility": "Accesibilidad",
+    "privacy": "Privacidad",
+    "devices": "Dispositivos mayachata",
 
-    "themeFreeNotice": "Jani pagata wakichäwita — Inti/Phaxsi uñacht’ayawinaka apnaqam. Jach’a wakichäwinaka katuqañatakix jach’a churawi ajllima.",
-    "sunTheme": "Inti uñacht’awi apnaqaña",
-    "moonTheme": "Phaxsi (Arumawka) uñacht’awi apnaqaña",
+    "themeFreeNotice": "Gratis ukankta — akankir Inti/Phaxsi ajlliñamawa. Jach’a temas wakichañatakixa, jach’aru saram.",
+    "sunTheme": "Aka Inti (Dawn) apnaqaña",
+    "moonTheme": "Phaxsi (Ch’iyarapacha) apnaqaña",
     "sun": "Inti",
     "moon": "Phaxsi",
 
-    "backupTitle": "Imantata qhipanakampi mayachäwi",
-    "openBackupTools": "Qhipa imañanaka qhantayaña",
-    "backupDesc": "Llavjam imaña wakichäwimpi imaña luraña, ukhamaraki mayni wakichäwiru mayachaña.",
+    "backupTitle": "Respaldo encriptado & Dispositivo mayachawi",
+    "openBackupTools": "Respaldo yänaka qhantayaña",
+    "backupDesc": "Llavesimaru chimputayna respaldosa luram, mayni dispositivoresti mantam ukhamaraki sincronizasa.",
 
-    "privacyBlurEnabled": "Qillqatanaka jani ch’iqachata uñachayaña",
-    "privacyBlurOnUnfocus": "Aka wakichäwi jani apnaqasina ch’iqachaña",
-    "holdToReveal": "Uñachayañataki ch’iqt’aña",
-    "notifyOnCopy": "Qillqayata qillqata yapxatañapataki yatiyaña",
+    "privacyBlurEnabled": "Yatiykipanakaru qhipara ch’iyxuntaña",
+    "privacyBlurOnUnfocus": "Aplicación jani katjkasaxa ch’iyxuntaña",
+    "holdToReveal": "Lurjañatakixa katuqaña",
+    "notifyOnCopy": "Yatiyapxita kunjamatixa yatiykipajax kópiañäni",
 
-    "loadFailed": "Perfil qhantayaña pantjatäxiwa",
-    "followed": "Arsuqatäxiwa",
-    "followFailed": "Arsuqaña pantjatäxiwa",
-    "unfollowed": "Jani arsuqatäxiwa",
-    "unfollowFailed": "Jani arsuqaña pantjatäxiwa",
-    "follow": "Arsuqaña",
-    "unfollow": "Jani arsuqaña",
-    "followHint": "Jupanakan qillqatanaka uka 'Arsuqata' ukhamaraki 'Ch’iqaqa' qillqanakama uñjasispa.",
-    "userNotFound": "Usuario jani jikxatasi",
-    "followsYou": "Juma arsuqatawa",
+    "loadFailed": "Perfil uka janiw uñstaykiti",
+    "followed": "Arkaqata",
+    "followFailed": "Arkaña pantjta",
+    "unfollowed": "Janiw arkaskiti",
+    "unfollowFailed": "Jani arkaña pantjta",
+    "follow": "Arkaña",
+    "unfollow": "Jani arkaña",
+    "followHint": "Jupanakan qillqt’äwinakapa ‘Arkanaka’ ukaru uñstani (janicha Público).",
+    "userNotFound": "Usuario jani jikxatasiti",
+    "followsYou": "Jumaraki arkaña",
 
-    "sectionCrashedTitle": "Wakichäwi jani qhantatäxiwa",
-    "sectionCrashedBody": "Aka wakichäwina pantjasiwa.",
+    "sectionCrashedTitle": "Sección janiw uñstaykiti",
+    "sectionCrashedBody": "Aka secciónan mä pantjata utjxiwa.",
 
-    "forwarding": "Llamanakampi qillqanakampi apachäwi",
-    "callTextForwardingSection": "Llamanakampi qillqanakampi apachäwi",
-    "callTextForwardingTitle": "Llamanakampi ukhamaraki qillqanakampi apachäwi",
-    "callTextForwardingDescription": "Jutiri llamanakampi qillqanakampi suma jawsaña numeropa ukhamaraki correo electrónico ukaru apacham. Misturi llamanakaxa qillqanakax Chatforia numerom uñachayaspa.",
-    "enableTextForwarding": "Qillqanak apachäwi qhantayaña",
-    "forwardTextsToPhone": "Qillqanak telefonor apachaña",
-    "forwardTextsToEmail": "Qillqanak correor apachaña",
-    "destinationPhone": "Jawsaña teléfono (E.164)",
-    "destinationEmail": "Jawsaña correo electrónico",
-    "enableCallForwarding": "Llamanak apachäwi qhantayaña",
-    "destinationPhoneForCalls": "Jawsaña teléfono (E.164) llamanakata",
-    "aliasBridging": "Llamanak apachäwi (alias mayachäwi)",
-    "quietHoursOptional": "Samartäwi urunak (ajllita)",
-    "startHour": "Qallta uruta (0–23)",
-    "endHour": "Tukuy uruta (0–23)",
-    "reset": "Kutt’ayaña",
+    "forwarding": "Llamada & Texto apnaqaña",
+    "callTextForwardingSection": "Llamada & Texto apnaqaña",
+    "callTextForwardingTitle": "Llamada ukhamaraki texto apnaqawi",
+    "callTextForwardingDescription": "Mantqirin llamadas ukhamaraki textonakaru celularima janicha correo ukan apnaqam. Mistu lurki ukasti Chatforia numeromampi uñstani.",
+    "enableTextForwarding": "Texto apnaqaña qhantayaña",
+    "forwardTextsToPhone": "Textonaka celulararu apnaqaña",
+    "forwardTextsToEmail": "Textonaka correoru apnaqaña",
+    "destinationPhone": "Destino celular (E.164)",
+    "destinationEmail": "Destino correo",
+    "enableCallForwarding": "Llamada apnaqaña qhantayaña",
+    "destinationPhoneForCalls": "Destino (E.164) llamadasatakixa",
+    "aliasBridging": "Llamada apnaqaña (alias bridging)",
+    "quietHoursOptional": "Horarionaka amukt’aña (opcional)",
+    "startHour": "Qallta ura (0–23)",
+    "endHour": "Tukuta ura (0–23)",
+    "reset": "Qalltayaña",
     "saveBtn": "Imaña"
   },
+
   "chat": {
-    "selectPrompt": "Mä qillqata jan ukax mä tantachäwi ajllima aruskipañataki",
-    "newMessages": "Machaq qillqatanaka",
-    "typing": "{{name}} qillqaski..."
+    "selectPrompt": "Chat qalltayañataki, texto janicha sala ajllim",
+    "newMessages": "Machaqa yatiykipanakaxa",
+    "typing": "{{name}} qillqt’aski…",
+    "emptyTitle": "Yatiykipamasa",
+    "emptySubtitle": "Mä yatiyawi apayañamawa chat qalltayañataki.",
+    "startChatButton": "Yatiyawi apayaña"
+  },
+
+  "topbar": {
+    "newStatus": "Machaqa estado",
+    "logout": "Mistuña"
+  },
+
+  "status": {
+    "userNumber": "Usuario #{{id}}",
+
+    "posted": "Estado apayata",
+    "postFailed": "Estado apayaña pantjta",
+
+    "createTitle": "Mä estado luraña",
+    "modalAriaLabel": "Machaqa estado",
+
+    "captionLabel": "Kunsa amuyt’ta?",
+    "captionPlaceholder": "Mä yatiyaña…",
+    "captionAria": "Estado yatiyawi",
+
+    "audienceLabel": "Uñjañataki",
+    "audience": {
+      "public": "Público",
+      "followers": "Arkanaka",
+      "contacts": "Contactos",
+      "mutuals": "Mutuos",
+      "custom": "Personaliza…"
+    },
+
+    "expiresHoursLabel": "Tukusi (horas)",
+    "maxTooltip": "Juk’ampi jani: 7 uru",
+    "hoursAbbrev": "h",
+    "maxShort": "máx",
+    "expiresOn": "Ukax tukusiña pacha:",
+
+    "chooseRecipients": "Khitis katuqani ajlliña",
+    "selectContacts": "Contactos ajlliña",
+
+    "attachmentsLabel": "Archivos lip’iyata",
+    "attachmentsPlaceholder": "Imágen/video yapxataña",
+    "filesNote": "Jani qhipara 5 archivo. 24h tukusiña ch’ama.",
+
+    "postAria": "Estado apayaña",
+    "post": "Apayaña"
+  },
+
+  "sidebar": {
+    "randomChat": "Chat sapakiwa",
+    "callTextForwarding": "Llamada & Texto apnaqaña",
+    "conversations": "Charjanaka",
+    "searchPlaceholder": "Charlanakaru thaqaña…",
+    "errorLoading": "Chats janiw uñstaykiti",
+    "empty": "Janiw charja utjkiti.",
+    "startChat": "Mä chat qalltayaña",
+    "people": "Jaquirinaka",
+    "settings": "Ajustes",
+    "status": "Estado",
+    "forwarding": "Llamada & Texto apnaqaña",
+    "refresh": "Machaqaptayaña",
+    "search": "Charlanakaru thaqaña",
+    "loginPrompt": "Ajustes askichañataki qillqantamxa mant’ama.",
+    "login": "Mant’aña",
+    "register": "Kutiqaña",
+
+    "chatrooms": "Salanakapa",
+    "logout": "Mistuña",
+    "startChatAlt": "Machaqa chat qalltayaña"
+  },
+
+  "premium": {
+    "heading": "Premium ukaru saraña",
+    "description": "Ch’ama yäni wanakampi jist’arañampi.",
+    "upgrade": "Jach’aru saraña"
+  },
+
+  "auth": {
+    "headline": "Seguro, global yatiyawi — ukatpachasa jaqukipawi wakt’ata",
+    "description": "Pacha pachatpacha encriptación, IA jaqukipawi, jakhthapiña yatiykipanakapa, uka tuqita llamada/vidio.",
+    "feature": {
+      "encryption": "Encriptación pacha pachatpacha",
+      "translation": "Auto-jaqukipaña 100+ arutaki",
+      "disappearing": "Jakhthapiña yatiykipanakapa & uñt’awi",
+      "privacy": "Privacidad nayraqata. Datosmasti, juman iyawsama.",
+      "translate": "Pachaspa jaqukipaña",
+      "disappear": "Jakhthapiña yatiykipanakapa",
+      "privacyAlt": "Privacidad nayraqata diseño"
+    },
+    "welcomeBack": "Kusikipt’äma",
+    "continueGoogle": "Google ukan qhantayaña",
+    "continueApple": "Apple ukan qhantayaña",
+    "username": "Suti apnaqiri",
+    "password": "Chimpu",
+    "keepSignedIn": "Mä qhipataki mant’asma",
+    "forgotPassword": "¿Chimpu armasi?",
+    "loginButton": "Mant’aña",
+    "createAccount": "Mä cuenta luraña",
+    "freeAccountButton": "Cuenta Gratis luraña",
+    "newHere": "¿Machaqa?",
+    "getApp": "Aplicación katuqaña",
+    "desktopTip": "Escritorio ukana? Telefonomampi QR uñjasa aplicación apsma.",
+
+    "goHome": "Utaru saraña",
+    "home": "Uta",
+
+    "headlineAlt": {
+      "main": "Seguro mensajero uka",
+      "highlight": "aru mamäma parla"
+    },
+    "subhead": "Privado, encriptado, ukhamaraki jaqukipata yatiyawi — jank’aki.",
+
+    "status": "Estado uñjaña",
+    "upgrade": "Jach’aru saraña",
+    "tip": "Chatforia janiw mä dispositivo saparaki ukaru q’ipxkiti — aplicación apsuta sumäni.",
+    "openDownload": "Apsuña qhantayaña",
+    "qrAlt": "Chatforia QR",
+    "scanHint": "Escanéa ukhamaraki apkatam janicha navegadoran qhantayam.",
+    "iosAria": "App Store ukan apsuña",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store chapa",
+    "androidAria": "Google Play ukan apsuña",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play chapa",
+
+    "login": "Mant’aña",
+    "signup": "Qillqantaña",
+    "email": "Correo"
+  },
+
+  "footer": {
+    "plans": "Planes & Precios",
+    "about": "Chatforia tanta",
+    "careers": "Trabajos",
+    "press": "Prensa",
+    "advertise": "Anuncios",
+    "contact": "Contacto",
+    "help": "Yänaka ch’ama",
+    "status": "Estado pachapa",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "cookies": "Cookie ajlliñanaka",
+    "doNotSell": "Jani aljañama yatiyawi",
+
+    "language": "Aru",
+    "contactShort": "Contacto"
+  },
+
+  "home": {
+    "title": "Uta",
+    "header": "Yatiykipamasa",
+    "subheader": "Mä yatiyawi apayañamawa chat qalltayañataki.",
+    "sendButton": "Yatiyawi apayaña",
+    "gifPicker": "GIF ajlliri qhantayaña",
+    "emoji": "Emoji",
+    "upload": "Foto janicha video apxataña",
+    "inputPlaceholder": "Mä yatiyawi qillqama…",
+    "inputLabel": "Yatiyawi qillqañataki",
+    "sendTooltip": "Apayaña",
+    "sendTooltipEmpty": "Qillqata qillqama ukjaxa apayasma",
+    "send": "Apayaña",
+
+    "welcomeMessage": "Chatforia ukaru walikipt’ätawa",
+    "getStarted": "Qalltayaña"
+  },
+
+  "press": {
+    "title": "Prensa",
+    "contact": "Medios ukatakixa qillqt’am: <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Medios ukatakixa qillqt’am press@chatforia.com.",
+    "boilerplateTitle": "Resumen",
+    "boilerplateText": "Chatforia mä seguro mensajerowa jaqukipawi ukhamaraki E2E encriptación-ni, markachirinakaru privado ukhamaraki jank’aki aruskipayañataki.",
+    "assetsTitle": "Marca yänaka",
+    "assetsText": "Logos, pantallazos, producto uñacht’awinaka (jasaki)."
+  },
+
+  "careers": {
+    "title": "Trabajos",
+    "intro": "Jisk’a tama jawsañani, privado global mensajerosa. Encriptación, accesibilidad, ukhamaraki kusisiña UX muniñamawa.",
+    "openRoles": "<b>K’achata:</b> Ingeniería (Full-stack, iOS, Android), Producto, Soporte.",
+    "apply": "<b>Aplica kuna:</b> CV/enlaces apayam <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "CV apayaña"
+  },
+
+  "about": {
+    "title": "Chatforia tanta",
+    "description": "Chatforia mä seguro, aru walja-ni mensajerowa E2E encriptación-ni, jaqukipawi ukhamaraki llamada voz/video. Misiónasa: jaqinakar yanapt’aña — privado, amuyt’ata, arunaka qhiparu.",
+    "valuesTitle": "Kunjamsa jaysaña",
+    "values": {
+      "privacy": "<b>Privacidad nayraqata:</b> E2E encriptación por defecto.",
+      "access": "<b>Taqpachanakataki:</b> 100+ aru auto-jaqukipaña.",
+      "control": "<b>Apnaqawi:</b> Jakhthapiña ukhamaraki uñt’awi ajlliñani."
+    },
+    "howTitle": "Kunjamsa Chatforia lurasi",
+    "howDescription": "Yatiykipanakaxa dispositivo taypina encriptañawa mistuñkamaxa. Jaqukipaña, respaldos, mayachawi-naka ukaxa servidoran uñt’asiñapa juk’ampi jisk’achañawa."
+  },
+
+  "advertise": {
+    "title": "Anuncia Chatforia ukana",
+    "description": "Mensaje apnaqirinakaru sum uñt’ayaña, marca ch’amanakan q’uma wakichäwinaka. Bannernaka, esponsorización, ukhamaraki casa promos. Premium ukan janiw anuncios uñjkti.",
+    "adsense": {
+      "withPubId": "Jichhaxa <b>Google AdSense</b> apnaqta. Google Ads-mpita thaqañäni ukhaxa publisher ID <code>{{pubId}}</code> apnaqam ukhamaraki unidades mayjt’äwinakatsa mayim. Esponsorización directa-naka utji — formulario apnaqam.",
+      "noPubId": "Jichhaxa <b>Google AdSense</b> apnaqta. Esponsorización directa-naka utji — formulario apnaqam."
+    },
+    "inventoryHeader": "Inventario & Especificaciones",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Taqi tallanakasa",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacements": "Janiw wakichata utjkiti. ads/placements.js ukaru yapxatam.",
+    "whyHeader": "¿Kunatsa Chatforia?",
+    "why": {
+      "highSession": "Chat UI-n sapa kuti jaqthapi ukhamaraki qhipa qamaña",
+      "brandSafe": "Formato q’uma; frecuencia kontrolata",
+      "sponsoredMoments": "Sponsorizata ‘momentos’ (e.g., “Start a Chat” modal)",
+      "deals": "Tratos directonaka janicha programático AdSense/Google Ads-mpi"
+    },
+    "contactHeader": "Contacto",
+    "form": {
+      "submittedMsg": "Yuspajarapxsma! Yatiyawimaxa apanaqata. Jank’aki q’ipïni.",
+      "missingRequired": "Sutixa, correo, yatiyawi phuqaña.",
+      "successToast": "Yuspajarapxsma! Jank’aki jawst’asiña.",
+      "mailtoInfo": "Correo apnaqiri qhantayaski…",
+      "nameLabel": "Suti",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "juma@empresa.com",
+      "companyLabel": "Empresa",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Phaxsi qutu (opcional)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Kunsa kamachäma kampañamataki",
+      "messagePlaceholder": "Targeting, urunaka, KPI, wakichäwi…",
+      "sendCta": "Sarta apayaña"
+    },
+    "legal": {
+      "disclaimerStart": "Sarta apayamaxa, iyawsañamawa",
+      "terms": "Términos",
+      "and": "ukhamaraki",
+      "privacy": "Privacidad Política"
+    }
+  },
+
+  "upgrade": {
+    "title": "Jach’aru saraña",
+    "subtitle": "Ajlli plan: Plus ukhamaraki anuncios jani, jan ukasti Premium ukhamaraki ch’ama yänaka taqi.",
+    "scheduleBanner": {
+      "title": "Suscripción tukusiñani",
+      "body": "Kutt’asma Gratis ukaru",
+      "keepPlanCta": "Plus ukar qhipstayma",
+      "manageBillingCta": "Pagaña apnaqaña"
+    },
+    "billing": {
+      "opening": "Qhantaskiwa…",
+      "manage": "Pagaña apnaqaña"
+    },
+    "checkout": {
+      "redirecting": "Tukuyaskiwa…"
+    },
+    "auth": {
+      "continue": "Qhantayaña",
+      "createAccount": "Cuenta luraña",
+      "signIn": "Mant’aña"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 ukhamaraki grupo yatiykipanakapa",
+          "aiBasic": "IA kutichawi básico",
+          "attachments": "Archivos estandar"
+        },
+        "ctaCurrent": "Plan actual",
+        "ctaUnavailable": "Gratis ukaru mayjaña (janiwa)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / phaxsi",
+        "features": {
+          "noAds": "Taqi anuncios chhaqtata",
+          "msg": "1:1 ukhamaraki grupo yatiykipanakapa",
+          "attachments": "Archivos jach’a",
+          "aiBasic": "IA básico"
+        },
+        "badge": "Aka qhipa",
+        "cta": "Jani anuncios"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Phaxsi sapa)",
+        "price": "$24.99 / phaxsi",
+        "features": {
+          "plusAll": "Plus ukana taqi",
+          "ringtones": "Sonido personalizado (llamada/yatiyawi)",
+          "powerAi": "IA ch’ama yänaka",
+          "priorityUpdates": "Jach’a jank’aki mayjt’äwinaka",
+          "backups": "Respaldo & dispositivo mayachawi"
+        },
+        "badge": "Aski chanini",
+        "cta": "Jach’aru saraña (Phaxsi)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Mara sapa)",
+        "price": "$225 / mara",
+        "features": {
+          "allPremium": "Premium ukana taqi",
+          "annualBilling": "Mara sapa pagu",
+          "save25": "~25% jilt’ata phaxsi ukata juk’ampi",
+          "sameFeatures": "Phaxsi ukjama yänaka"
+        },
+        "badge": "25% jiwt’aña",
+        "cta": "Jach’aru saraña (Mara)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Qalltayaña",
+    "subtitle": "Machaqa Chatforia ukana? Aka jank’aki irpawi uñacht’ayiña minutos taypina q’amachañataki.",
+    "alert": {
+      "text": "Aka guía jach’aptani jichha yänaka qhantayasasa. Jani utjkchi ukhaxa, qillqt’am",
+      "contactLink": "Contacto"
+    },
+    "section1": {
+      "title": "1) Cuenta luraña",
+      "signup": "Qillqantaña",
+      "or": "janicha",
+      "login": "mant’aña",
+      "loginText": "qillqantata cuentasampi.",
+      "prefsStart": "Ajustesimaru uñjaña",
+      "prefsLink": "preferencias",
+      "prefsRest": "(aru, uñt’awi, temas)."
+    },
+    "section2": {
+      "title": "2) Yatiykipaña qalltaña",
+      "item1": "DM janicha Grupo luraña ukhamaraki nayriri yatiyawi apayaña.",
+      "item2": "100+ arunaka ch’iqi aruskipaña jaqukipasa.",
+      "item3": "Perfil → Privacidad ukana jakhthapiña ukhamaraki uñt’awi yant’aña."
+    },
+    "section3": {
+      "title": "3) Juk’amp saraña",
+      "item1Part1": "Plan apnaqaña",
+      "upgradeLink": "Jach’aru saraña",
+      "item1Part2": "laphi (Plus = jani anuncios, Premium = taqi ch’ama yänaka).",
+      "item2Part1": "Dispositivos yapxataña ukhamaraki respaldo encriptado wakichaña",
+      "settingsLink": "Ajustes"
+    },
+    "cta": {
+      "seePlans": "Planes uñjaña",
+      "openSettings": "Ajustes qhantayaña"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Yänaka ch’ama",
+    "faq": {
+      "account": {
+        "q": "¿Kunjamsa cuenta luraña janicha kutt’aña?",
+        "a": "Aplicación apasma janicha web apnaqam, “Cuenta luraña” limt’am, correo/telefono chimpuma uñt’aya. Kutt’añatakixa, “Chimpu armasi” apnaqam."
+      },
+      "privacy": {
+        "q": "¿Yatiykipanakaxa E2E encriptañani?",
+        "a": "Jisa. Yatiykipanakasa ukhamaraki llamadasasa por defecto E2E encriptañani. Jumas ukhamaraki katuqiriw uñt’apxi."
+      },
+      "translate": {
+        "q": "¿Kunjamsa jaqukipaña jank’aki lurasi?",
+        "a": "Ajustes → Uñacht’äwi & Aru ukana “Auto-jaqukipaña” qhantayama. Dispositivona ukhamaraki segura API-naka apnaqasa, juk’ampi jisk’a yatiyawi ukampi."
+      },
+      "contact": {
+        "q": "Soporte",
+        "a": "support@chatforia.com ukan qillqt’am. Pantjatanaka pantallazo ukhamaraki aplicación versión apayam."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Contacto",
+    "successMsg": "Yuspajarapxsma — correo-mpiwa kutiyapxani.",
+    "errorSend": "Janiw apayasiti. support@chatforia.com ukaru qillqt’am.",
+    "form": {
+      "nameLabel": "Suti",
+      "emailLabel": "Correo",
+      "messageLabel": "Yatiyawi",
+      "sendCta": "Sarta apayaña"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Política de privacidad",
+    "lastUpdated": "Qhipa jakhthapi:",
+    "intro": {
+      "body": "Aka Política ukaxa kunjamsa Chatforia (“jiwasa”, “jiwasanaka”) yatiyawi jikxataspa, apnaqaspa, ukhamaraki jaktaytaspa ukanak uñacht’ayi. Chatforia ukaxa jisk’achasa yatiyawi uñt’ayañataki wakichatawa."
+    },
+    "infoWeCollect": {
+      "title": "Jikxatasini yatiyawi",
+      "account": "Cuenta yatiyawi (e.g., correo/telefono) cuenta lurañatakixa.",
+      "encrypted": "Encriptato contenido (yatiykipanakasa/llamadasa) E2E encriptañawa; jiwasaxa janiwa ullarasipkiti.",
+      "diagnostics": "Diagnóstico/apnaqawi jan walt’awinaka, dispositivo kasta, janicha jisk’a analítica, suma irnaqañataki."
+    },
+    "howWeUse": {
+      "title": "Kunjamsa apnaqta",
+      "provide": "Servicio lurayaña ukhamaraki seguraña (auth, spam/abuso uñakipaña).",
+      "improve": "Yänaka jach’aptayaña (jaqukipawi ch’ama, iyawsawi).",
+      "legal": "Leyinakataki phuqaña."
+    },
+    "sharing": {
+      "title": "Akatanaka chikaña",
+      "body": "Janiwa datos personales aljapkti. Procesadorinaka (push, analítica) utjaski ukhaxa contrato ch’ama wakichäwinakwa apnaqta."
+    },
+    "rights": {
+      "title": "Derechonaka",
+      "body": "Sityomampi (GDPR/UK GDPR/CPRA) mayisiñawa uñjaña, churjaña, chhaqhtayaña, janichasa walja apnaqawi-nakat jitheqaña. Contacto: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Imata & seguridad",
+      "body": "Servicio apnaqañatakixa sapüru wali wakiskataki imaña, seguridad industria kasta apnaqaña. E2E contenido jiwasampixa janiw qhispiykiti."
+    },
+    "children": {
+      "title": "Wawanaka",
+      "body": "Chatforia janiw wawa 13 maranaka (janicha kamachinaka) ukatakixa lurata."
+    },
+    "changes": {
+      "title": "Mayjt’äwinaka",
+      "body": "Akan uñachayäni ukhamaraki “Qhipa jakhthapi” ukarusa mayjt’äwi luräni."
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "privacy@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "terms": {
+    "title": "Términos de servicio",
+    "lastUpdated": "Qhipa jakhthapi:",
+    "intro": {
+      "body": "Chatforia apnaqasma ukaxa aka Términos-naka arkañawa. Jan iyawsasma ukhaxa, jani apnaqamti."
+    },
+    "accounts": {
+      "title": "Cuentanaka",
+      "itemAccurateInfo": "Chiqap yatiyawi churama ukhamaraki credenciales imaña.",
+      "itemResponsibility": "Cuentama taypina luräwinakaxa jumanakiw muna."
+    },
+    "acceptableUse": {
+      "title": "Aka apnaqawi luräwi",
+      "itemNoAbuse": "Jani ilegal, abusivo janicha qillqa usuchjayaña; jani spam janicha automático abuso.",
+      "itemSuspend": "Kamachäwinaka jani phuqaski ukhaxa jark’aqañasa/tukuyasa."
+    },
+    "yourContent": {
+      "title": "Contenido jmama",
+      "body": "Jumanakan derecho utji. Servicio irpayañatakixa (ruteo, almacenaje, jaqukipaña) wakiskiri derecho jiwasa churapxama."
+    },
+    "disclaimer": {
+      "title": "Jani iyawsawi & kamachi",
+      "body": "Servicio “kunjämsa” uñstayata. Leyinakaxa yatiyawi katuqt’ani ukhama, Chatforiaxa janiw jan wali qhipa usuchjasiwinakataki irnaqkiti."
+    },
+    "changes": {
+      "title": "Mayjt’äwi",
+      "body": "Aka términos mayjt’asispa; apnaqañaxa mayjt’äwinaka katuqtasma ukaxa iyawsmawa."
+    },
+    "contact": {
+      "title": "Contacto",
+      "body": "support@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Jani aljañama janicha jaytañama yatiyawi",
+    "body": "Chatforia janiw datos personales aljkti. California-naka CPRA ukampi mayisipxasma mä botónampi.",
+    "cta": "Mä mayi apayaña"
+  },
+
+  "cookies": {
+    "title": "Cookie ajlliñanaka",
+    "body": "Chatforia juk’a cookienakaki apnaqxi (sesión, seguridad). Janiw terceros anuncios cookie apnaqkti. Navegadorama ajlliñanakampi apnaqama."
   }
 }

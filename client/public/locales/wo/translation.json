@@ -3,110 +3,591 @@
     "save": "Aar",
     "cancel": "Neenal",
     "refresh": "Yeesal",
-    "noMatches": "Lu jëm ci loolu amul"
+    "noMatches": "Gisuwul benn",
+    "cancelAria": "Neenal"
   },
-  "profile": {
-    "title": "Jëmmalin njabootu jëfandikukat",
 
-    "preferredLanguage": "Làkk bu la neex",
-    "chooseLanguage": "Fal làkk",
-    "mustLogin": "Danga war a dugg ngir gis tànneef yi.",
+  "profile": {
+    "title": "Profilu jëfandikukat",
+
+    "preferredLanguage": "Làkk bi nga bàyyi-bàyyi",
+    "chooseLanguage": "Tànn benn làkk",
+    "mustLogin": "War nga dugg ngir mëna gis tegtal yi.",
 
     "autoTranslate": "Tekki bataaxal yi boppam",
-    "showOriginalWithTranslation": "Wone bataaxal bi ak tekki gi",
-    "showOriginalAndTranslation": "Wone li ñu bind ak li ñu tekki",
+    "showOriginalWithTranslation": "Wone mool ak tekki",
+    "showOriginalAndTranslation": "Wone mool ak tekki bi ci benn benn",
 
-    "filterExplicit": "Sànni mbir yu xóot",
-    "aiReply": "Tontu bu AI",
-    "enableReadReceipts": "Suqali liñ xam ni bataaxal bi ñu jàng na ko",
-    "allowExplicitContent": "Jox ndigal mbir yu xóot",
-    "disappearingMessages": "Suqali bataaxal yi di réer",
-    "autoDeleteSeconds": "Seken yu laata ñu màbb bataaxal bi",
+    "filterExplicit": "Seetoo ci mbir yu leerle (explicit)",
+    "aiReply": "Tontu AI",
+    "enableReadReceipts": "Suqali xame-xame wu ñu jàng",
+    "allowExplicitContent": "Màkkaanu mbir yu leerle",
+    "disappearingMessages": "Suqali bataaxal yi di màbb",
+    "autoDeleteSeconds": "Simili yu kañ gëna teq (bu màbb)",
 
-    "saveSuccess": "Tànneef yi ñaar nañu!",
-    "saveError": "Njumte: Mënul aar tànneef yi.",
+    "saveSuccess": "Tegtal yi aarsees na!",
+    "saveError": "Njumte: Mënula aaru tegtal yi",
 
-    "avatarAlt": "Nataalu jëfandikukat",
-    "uploadAvatar": "Yeb nataal bu bees",
-    "avatarSuccess": "Nataal bi yeb nañu ko!",
-    "avatarError": "Njumte bu yeb nataal bi.",
+    "avatarAlt": "Avataru profil",
+    "uploadAvatar": "Yebal avatar bu bees",
+    "avatarSuccess": "Avatar yebees na!",
+    "avatarError": "Njumte ci yebum avatar",
 
-    "noPrivateKey": "Jàllukaay bi amul caabi biir bu kenn mën a jàll.",
-    "setBackupPassword": "Tànnal baatu jàll ngir sutura sa coppite:",
-    "backupDownloaded": "Coppite bu sutur bés nañu ko.",
-    "exportFailed": "Jàll caabi bi lajj na",
-    "enterBackupPassword": "Dugal baatu jàll ngir coppite bi:",
-    "importSuccess": "Caabi biir bi dugg na ci jàllukaay bi.",
-    "importFailed": "Duggal caabi bi lajj na (baatu jàll bu lajj walla dencukaay bi dafa ñàkk).",
-    "keysRotated": "Ñu sos caabi yu bees te caabi géej bi yeb nañu ko.",
-    "rotateFailed": "Soppi caabi yi lajj na.",
-    "security": "Karu-kàttan",
-    "exportKey": "Jàll caabi biir bi",
-    "importKey": "Duggal coppite caabi bi sutur",
-    "rotateKeys": "Soppi caabi yi",
-    "keyDisclaimer": "Sa caabi biir du génn jàllukaay bi. Jàllal njëkk ndigal bu sutur ngir dugg ci beneen jàllukaay.",
+    "noPrivateKey": "Amul caabi biir ci masin bii ngir génne.",
+    "setBackupPassword": "Fal caabi baatu-bès ngir aar sa day-dox:",
+    "backupDownloaded": "Day-dox bu aar (encrypté) yebees na.",
+    "exportFailed": "Génne caabi biir dafa lajj",
+    "enterBackupPassword": "Dugalal baatu-bèsu day-dox bii:",
+    "importSuccess": "Caabi biir bi dugg na ci masin bii.",
+    "importFailed": "Lajje na jëmm (baatu-bèsu baaxul walla fiiche bi warwi).",
+    "keysRotated": "Caabi yu bees sànni nañu te caabi u public yónnee na.",
+    "rotateFailed": "Lajje na wuutu caabi yi.",
+    "security": "Kaarange",
+    "exportKey": "Génne caabi biir",
+    "importKey": "Duggal day-dox bu aar",
+    "rotateKeys": "Wuutal caabi yi",
+    "keyDisclaimer": "Sa caabi biir du génn masin bii. Génneal copia bu aar ak baatu-bès ngir delloo ko ci beneen masin.",
 
-    "sectionProfile": "Jëmmalin",
-    "phoneNumber": "Nimero telefon",
-    "appearance": "Nataal",
-    "soundSettings": "Dendu-wute yi",
-    "disappearing": "Bataaxal yi di réer",
-    "backupSync": "Coppite ak jokkoo",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Nombar telefon",
+    "appearance": "Xoolu bopp",
+    "soundSettings": "Dabalukaayu waxtaan",
+    "disappearing": "Bataaxal yi di màbb",
+    "backupSync": "Day-dox & Jappante",
     "ai": "AI",
-    "accessibility": "Doxalin ci lépp",
-    "privacy": "Boppam",
-    "devices": "Jàllukaay yi",
+    "accessibility": "Doxalin buñ fàttali",
+    "privacy": "Sutura",
+    "devices": "Masin yi jappante",
 
-    "themeFreeNotice": "Danga ci ndimbal bu ñu jox—jëlal doxalin jant/weer yi ci suuf. Yeesal ngir ubbi doxalin yu gëna bari.",
-    "sunTheme": "Jëfandikool doxalin jant bi",
-    "moonTheme": "Jëfandikool doxalin weer wi (guddi)",
+    "themeFreeNotice": "Daa ngi ci Free — jëfandikoo Sun/Moon bés-bés yi ci suuf. Yéegal ngir ubbi temas yu gëna bari.",
+    "sunTheme": "Jëfandikoo bésu Tëmɛri (Dawn)",
+    "moonTheme": "Jëfandikoo bésu Wér-gu-yoon (Moon/Minuit)",
     "sun": "Jant",
-    "moon": "Weer",
+    "moon": "Wéy",
 
-    "backupTitle": "Coppite yi sutur ak jokkoo jàllukaay",
-    "openBackupTools": "Ubbi jumtukaay yu coppite",
-    "backupDesc": "Sos coppite yu sutur ak baatu jàll, te dellu ci beneen jàllukaay ngir jokkoo.",
+    "backupTitle": "Day-dox yu aar & Jappante ci masin",
+    "openBackupTools": "Ubbi jumtukaayi Day-dox",
+    "backupDesc": "Defar day-dox yu aar ak baatu-bès, te delloo leen ci beneen masin ngir jappante.",
 
-    "privacyBlurEnabled": "Nattu bataaxal yi ndimbalal",
-    "privacyBlurOnUnfocus": "Nattu su jëfandikookat du dikk ci jamono ji",
-    "holdToReveal": "Jàllal ngir gis",
-    "notifyOnCopy": "Yëgal ma su ñu duppi sama bataaxal",
+    "privacyBlurEnabled": "Fànn baxal bataaxal yi ci ndorteel",
+    "privacyBlurOnUnfocus": "Baxal su aplikasioŋ bi dëppoo",
+    "holdToReveal": "Moñal ngir wone",
+    "notifyOnCopy": "Xamal ma su ñu dajale sama bataaxal",
 
-    "loadFailed": "Jëmmalin jëfandikukat bi kenn mënu ko ubbi",
-    "followed": "La topp nañu",
-    "followFailed": "Mënul topp",
-    "unfollowed": "Topp bi dafa neen",
-    "unfollowFailed": "Neenal topp bi lajj na",
+    "loadFailed": "Lajje na yebum profil",
+    "followed": "Topp nañu ko",
+    "followFailed": "Lajje na topp",
+    "unfollowed": "Daje topp bi",
+    "unfollowFailed": "Lajje na wóotal topp",
     "follow": "Topp",
-    "unfollow": "Neenal topp",
-    "followHint": "Ndimbal yi ñu bind dinañu wone ci sa xët topp bi su ñu bindoon ci toppkat yi walla yeneen ñi.",
-    "userNotFound": "Jëfandikukat bi kenn gisuko",
-    "followsYou": "Dafay topp la",
+    "unfollow": "Wóotal topp",
+    "followHint": "Sañ naa ñu feeñal seen xew-xew ci sa Feed bu Topp su ñu bind ci ‘Followers’ walla ‘Public’.",
+    "userNotFound": "Jëfandikukat gi gisuwul",
+    "followsYou": "Mi ngi topp la",
 
-    "sectionCrashedTitle": "Fas yi mënul ubbi",
-    "sectionCrashedBody": "Am na lu lajj ci fas bi.",
+    "sectionCrashedTitle": "Këmb gi lajj na yeb",
+    "sectionCrashedBody": "Benn lu lajj na ci kêmb gi.",
 
-    "forwarding": "Yónnee njuumte ak bataaxal",
-    "callTextForwardingSection": "Yónnee njuumte ak bataaxal",
-    "callTextForwardingTitle": "Yónnee njuumte walla bataaxal",
-    "callTextForwardingDescription": "Yónnee njuumte ak bataaxal yu ñu jot ci sa telefon bu ñu dëggal walla sa imeel. Njuumte yi nga yónnee mën nañu wone sa nimero Chatforia.",
-    "enableTextForwarding": "Suqali yónnee bataaxal yi",
-    "forwardTextsToPhone": "Yónnee bataaxal yi ci telefon",
-    "forwardTextsToEmail": "Yónnee bataaxal yi ci imeel",
-    "destinationPhone": "Telefon bi nga di yónnee (E.164)",
-    "destinationEmail": "Imeel bi nga di yónnee",
-    "enableCallForwarding": "Suqali yónnee njuumte yi",
-    "destinationPhoneForCalls": "Telefon bi nga di yónnee njuumte (E.164)",
-    "aliasBridging": "Yónnee njuumte (ñu doon yëngu ci beneen tur)",
-    "quietHoursOptional": "Waxtu yu jàmm (falal)",
+    "forwarding": "Ciy-jëleel & Yónnee teks ak wañ",
+    "callTextForwardingSection": "Ciy-jëleel wañ & teks",
+    "callTextForwardingTitle": "Ciy-jëleel wañ ak/wala teks",
+    "callTextForwardingDescription": "Jëleel wañ ak teks yi ñu indil ci sa telefon bu dëgg walla sa imeel bu wóor. Wañ/teks yi nga yónnee man naa feeñ seen nombar Chatforia.",
+    "enableTextForwarding": "Suqali jëleelu teks",
+    "forwardTextsToPhone": "Jëleel teks yi ci telefon",
+    "forwardTextsToEmail": "Jëleel teks yi ci imeel",
+    "destinationPhone": "Telefon bi ñuy jëleel (E.164)",
+    "destinationEmail": "Imeel bi ñuy jëleel",
+    "enableCallForwarding": "Suqali jëleelu wañ",
+    "destinationPhoneForCalls": "Telefon bu ñuy jëleel (E.164) ngir wañ",
+    "aliasBridging": "Jëleelu wañ (alias bridging)",
+    "quietHoursOptional": "Waxtu wetu-fecc (falal)",
     "startHour": "Waxtu tàmbali (0–23)",
-    "endHour": "Waxtu jeex (0–23)",
-    "reset": "Dellu ci ndimbal",
+    "endHour": "Waxtu jeexital (0–23)",
+    "reset": "Delloo ndorteel",
     "saveBtn": "Aar"
   },
+
   "chat": {
-    "selectPrompt": "Fal bataaxal walla bërëb ngir tambali waxtaan",
+    "selectPrompt": "Tànn benn teks walla kër-waxtaan ngir tàmbali waxtaan",
     "newMessages": "Bataaxal yu bees",
-    "typing": "{{name}} dafay bind..."
+    "typing": "{{name}} mi ngi bind…",
+    "emptyTitle": "Sa bataaxal yi",
+    "emptySubtitle": "Yónnee benn bataaxal ngir tàmbali waxtaan.",
+    "startChatButton": "Yónnee bataaxal"
+  },
+
+  "topbar": {
+    "newStatus": "Nekkin bu bees",
+    "logout": "Génn"
+  },
+
+  "status": {
+    "userNumber": "Jëfandikukat #{{id}}",
+
+    "posted": "Nekkin bi yónnee na",
+    "postFailed": "Lajje na yónnee nekkin bi",
+
+    "createTitle": "Defar benn nekkin",
+    "modalAriaLabel": "Nekkin bu bees",
+
+    "captionLabel": "Lan la nekk ci sa xalaat?",
+    "captionPlaceholder": "Bokkal benn xibaar…",
+    "captionAria": "Bataaxalu nekkin",
+
+    "audienceLabel": "Ñi ñuy gis",
+    "audience": {
+      "public": "Ëmb lépp",
+      "followers": "Toppkat yi",
+      "contacts": "Konta yi",
+      "mutuals": "Toppante yi",
+      "custom": "Ñu tànn…"
+    },
+
+    "expiresHoursLabel": "Jeex (waxtu yi)",
+    "maxTooltip": "Dayo gëna bari: 7 fan",
+    "hoursAbbrev": "t",
+    "maxShort": "max",
+    "expiresOn": "Dina jeex ci:",
+
+    "chooseRecipients": "Tànn ñi ñu jot",
+    "selectContacts": "Tànn konta yi",
+
+    "attachmentsLabel": "Yokkante yi",
+    "attachmentsPlaceholder": "Yokk nataal/wideo",
+    "filesNote": "Ba noppi 5 fis. Dayo 24 waxtu ndax ndorteel.",
+
+    "postAria": "Yónnee nekkin",
+    "post": "Yónnee"
+  },
+
+  "sidebar": {
+    "randomChat": "Waxtaan bu lu yàggul",
+    "callTextForwarding": "Jëleelu wañ & teks",
+    "conversations": "Këru-waxtaan yi",
+    "searchPlaceholder": "Seet kër-waxtaan yi…",
+    "errorLoading": "Lajje na yebu kër-waxtaan yi",
+    "empty": "Amul benn kër-waxtaan.",
+    "startChat": "Tàmbali waxtaan",
+    "people": "Nit ñi",
+    "settings": "Tegtal",
+    "status": "Nekkin",
+    "forwarding": "Jëleelu wañ & teks",
+    "refresh": "Yeesal",
+    "search": "Seet kër-waxtaan yi",
+    "loginPrompt": "Dugg ngir soppali sa tegtal.",
+    "login": "Dugg",
+    "register": "Sos kont",
+
+    "chatrooms": "Këru-waxtaan yi",
+    "logout": "Génn",
+    "startChatAlt": "Tàmbali kër-waxtaan bu bees"
+  },
+
+  "premium": {
+    "heading": "Dugg ci Premium",
+    "description": "Ubbi jëf jëf yu am doole & yRemovee ad yi.",
+    "upgrade": "Yéeg"
+  },
+
+  "auth": {
+    "headline": "Waxtaan bu kaarange, gu àdduna, ak tekki boppam",
+    "description": "Kaarange ba noppi (E2E), tekki AI, bataaxal yi di màbb, ak wañ/wideo.",
+    "feature": {
+      "encryption": "Kaarange-mbetteel ba noppi",
+      "translation": "Tekki boppam 100+ làkk",
+      "disappearing": "Bataaxal yu màbb & xame-xame wu ñu jàng",
+      "privacy": "Sutura jëmm. Sa rootaan, sa kayout.",
+      "translate": "Tekki ci saa-saa",
+      "disappear": "Bataaxal yu màbb",
+      "privacyAlt": "Pànneer sutura ci ndorteel"
+    },
+    "welcomeBack": "Nangadef, dellusi",
+    "continueGoogle": "Dellu ak Google",
+    "continueApple": "Dellu ak Apple",
+    "username": "Turu jëfandikukat",
+    "password": "Baatu-jàll",
+    "keepSignedIn": "Bàyyi ma dugg",
+    "forgotPassword": "Maññee baatu-jàll?",
+    "loginButton": "Dugg",
+    "createAccount": "Sos benn kont",
+    "freeAccountButton": "Sos kontu free",
+    "newHere": "Di nga bees fii?",
+    "getApp": "Jël aplikasioŋ bi",
+    "desktopTip": "Ci ordinatëër? Skanal ak sa telefon ngir jël aplikasioŋ bi.",
+
+    "goHome": "Dem yoonu ëttu bi",
+    "home": "Ëttu",
+
+    "headlineAlt": {
+      "main": "Messenger bi ñu kaarange",
+      "highlight": "mi ngi wax sa làkk"
+    },
+    "subhead": "Waxtaan bu sutura, kaarange, te tekki — ci saa-saa.",
+
+    "status": "Seet nekkin",
+    "upgrade": "Yéegal léegi",
+    "tip": "Mën nga jëfandikoo Chatforia ci benn yite — walla nga yeb aplikasioŋ bi ngir gëna wóor.",
+    "openDownload": "Ubbi xëtu yeb",
+    "qrAlt": "Koodu QR ngir Chatforia",
+    "scanHint": "Skanal ngir yeb aplikasioŋ bi walla ubbi ko ci sa joowkat.",
+    "iosAria": "Yeb ci App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Baji App Store",
+    "androidAria": "Jël ko ci Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Baji Google Play",
+
+    "login": "Dugg",
+    "signup": "Bindu",
+    "email": "Imeel"
+  },
+
+  "footer": {
+    "plans": "Planu sarwiis yi & Nettali",
+    "about": "Lu jëm ci Chatforia",
+    "careers": "Ligéey yi",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Jokkool nag",
+    "help": "Xëtu Ndimbal",
+    "status": "Xëtu Nekkin",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Politigu Sutura",
+    "terms": "Teere yu jëfandikoo",
+    "cookies": "Tegtal cookies",
+    "doNotSell": "Bul jaay sama rootaan",
+
+    "language": "Làkk",
+    "contactShort": "Jokkool"
+  },
+
+  "home": {
+    "title": "Ëttu",
+    "header": "Sa bataaxal yi",
+    "subheader": "Yónnee benn bataaxal ngir tàmbali waxtaan.",
+    "sendButton": "Yónnee bataaxal",
+    "gifPicker": "Ubbi tëralu GIF",
+    "emoji": "Emoji",
+    "upload": "Yebal nataal walla wideo",
+    "inputPlaceholder": "Bindal benn bataaxal…",
+    "inputLabel": "Bindukaayu bataaxal",
+    "sendTooltip": "Yónnee",
+    "sendTooltipEmpty": "Bindal bataaxal ngir yónnee",
+    "send": "Yónnee",
+
+    "welcomeMessage": "Dalal jamm ci Chatforia",
+    "getStarted": "Tàmbali"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "Ngir mbir yu press, bindleen ci <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Ngir mbir yu press, bindleen ci press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia mooy messenger bu kaarange ak tekki ci saa-saa ak E2E, ngir waxtaan yu sutura di yomb te gaaw àdduna sépp.",
+    "assetsTitle": "Alala yi bu mark bi",
+    "assetsText": "Logo, nataali ekran, ak nataali produkt (bi ñu ngi ñëw)."
+  },
+
+  "careers": {
+    "title": "Ligéey",
+    "intro": "Benn ndimbalinu ñu ndaw lanu ñuy def messenger bu sutura, àdduna sépp. Soo bëggee kaarange, doxalin, ak UX bu gëna neex, nanu bëgg la ko.",
+    "openRoles": "<b>Njiitu ligéey yu ubbeeku:</b> Engineer (Full-stack, iOS, Android), Produkt, Ndimbal.",
+    "apply": "<b>Na nga申请:</b> Yónnee sa CV/liggéey yi ci <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Yónnee sa CV"
+  },
+
+  "about": {
+    "title": "Lu jëm ci Chatforia",
+    "description": "Chatforia mooy messenger bu làkk yu bari, ak kaarange ba noppi, tekki ci saa-saa, ak wañ/wideo. Sunu jom: jàppale ñi ñu jokkoo—ak sutura, kaarange, te sawara làkk.",
+    "valuesTitle": "Lii lanu di soxla",
+    "values": {
+      "privacy": "<b>Sutura ci ndorteel:</b> E2E dafa default.",
+      "access": "<b>Ñëw ci lépp:</b> Tekki boppam 100+ làkk.",
+      "control": "<b>Kontorool:</b> Bataaxal yu màbb & xame-xame wu ñu jàng dañu yentoo."
+    },
+    "howTitle": "Naka la Chatforia di dox",
+    "howDescription": "Bataaxal yi ñu aar leen ci sa masin laata ñuy génn. Tekki, day-dox, ak jappante dañu def ko ngir mbañax sa rootaan lu ngirëmu server yi."
+  },
+
+  "advertise": {
+    "title": "Reklam ak Chatforia",
+    "description": "Gis jëfandikukat yu waxtaan ak bannaa bu sell, bu wóor. Nanu am bannaa ci yoon yu xam-xam, sponsòor, ak promosu kër. Ñi ci Premium duñu gis ad.",
+    "adsense": {
+      "withPubId": "Leegi nu ngi jëfandikoo <b>Google AdSense</b>. Soo bëggee doxal ci Google Ads, jëfandikoo publisher ID <code>{{pubId}}</code> te laaj managed placement ci seen yunit yii ci suuf. Sponsòor bu jub dafa am — jëfandikoo form bi.",
+      "noPubId": "Leegi nu ngi jëfandikoo <b>Google AdSense</b>. Sponsòor bu jub it am na — jëfandikoo form bi ci suuf."
+    },
+    "inventoryHeader": "Inventaar & Spec",
+    "placement": {
+      "displayBadge": "Affichage",
+      "acceptedSizes": "Rafeet yi ñu nangu",
+      "adsenseSlot": "Kàllaama AdSense:"
+    },
+    "noPlacements": "Amul placeman yu ñu samp ba léegi. Yokk leen ci ads/placements.js.",
+    "whyHeader": "Loolu tax Chatforia?",
+    "why": {
+      "highSession": "Doxandéem yu bari ak waxtu yàgg ci UI bu waxtaan",
+      "brandSafe": "Formaat yu sell; taxawal doole bu yóbbu yóbbu",
+      "sponsoredMoments": "Waxtu yu sponsòor (misal, “Tàmbali Waxtaan”) am na",
+      "deals": "Dàgg yu jub walla programmatik ci AdSense/Google Ads"
+    },
+    "contactHeader": "Jokkool",
+    "form": {
+      "submittedMsg": "Jërëjëf! Sa laaj mi daldi dem. Dinañu la topp ci kanam.",
+      "missingRequired": "Fattalal tur, imeel, ak bataaxal.",
+      "successToast": "Jërëjëf! Dinañu la jot leegi.",
+      "mailtoInfo": "Mi ngi ubbi sa joowkat ngir yónnee laaj bi…",
+      "nameLabel": "Sa tur",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Imeel",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Kër-gu liggéey",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Njariñu weer-wéer (falal)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Waxal nu sa kanamu kampaaŋ bi",
+      "messagePlaceholder": "Target, bes yi, KPI, yéene yi ci placement…",
+      "sendCta": "Yónnee laaj"
+    },
+    "legal": {
+      "disclaimerStart": "Su laaj bi dugg, da ngay Mënaale ak sunu",
+      "terms": "Teere",
+      "and": "ak",
+      "privacy": "Politigu Sutura"
+    }
+  },
+
+  "upgrade": {
+    "title": "Yéegal",
+    "subtitle": "Tànn plan bi la gëna ëpp: neexul ad ak Plus, walla jël jëf jëf yu am doole yépp ak Premium.",
+    "scheduleBanner": {
+      "title": "Sottu dina jeex",
+      "body": "Dinaa dellu ci Free ci",
+      "keepPlanCta": "Baal Plus",
+      "manageBillingCta": "Saytu fattur"
+    },
+    "billing": {
+      "opening": "Mi ngi ubbi…",
+      "manage": "Saytu Fattur"
+    },
+    "checkout": {
+      "redirecting": "Mi ngi jublu…"
+    },
+    "auth": {
+      "continue": "Kontineel",
+      "createAccount": "Sos kont",
+      "signIn": "Dugg"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "Bataaxal 1:1 ak kër",
+          "aiBasic": "Tontu AI bu ndaw",
+          "attachments": "Yokkante yu standaard"
+        },
+        "ctaCurrent": "Planu leegi",
+        "ctaUnavailable": "Wóorul bay Free"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / weer",
+        "features": {
+          "noAds": "Neenal ad yépp",
+          "msg": "Bataaxal 1:1 ak kër",
+          "attachments": "Yokkante yu réy gëna",
+          "aiBasic": "Tontu AI bu ndaw"
+        },
+        "badge": "Lii lañu gën a jëfandikoo",
+        "cta": "Duggul ad"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Weer-weeri)",
+        "price": "$24.99 / weer",
+        "features": {
+          "plusAll": "Lépp ci Plus",
+          "ringtones": "Ringtòn & xeb-xeb yu bopp",
+          "powerAi": "AI bu dooley",
+          "priorityUpdates": "Yeesal yu jiitu",
+          "backups": "Day-dox & jappante masin"
+        },
+        "badge": "Dolli njariñ",
+        "cta": "Yéeg (Weer)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (At)",
+        "price": "$225 / at",
+        "features": {
+          "allPremium": "Lépp ci Premium",
+          "annualBilling": "Fattur at-at",
+          "save25": "Aar ~25% def ci weer",
+          "sameFeatures": "Jëf jëf yi mel ni Weer"
+        },
+        "badge": "Aar 25%",
+        "cta": "Yéeg (At)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Tàmbali",
+    "subtitle": "Begg nga Chatforia? Jukki bu gaaw bii dina la wone yoon yi, ngir nga tàmbali ci simili.",
+    "alert": {
+      "text": "Jàngoro bii dina gën a yomb su nu sàjj jëf jëf yu bees. Soo gisoo lu nekkul, waxleen nu ci",
+      "contactLink": "Jokkool"
+    },
+    "section1": {
+      "title": "1) Sos sa kont",
+      "signup": "Bindu",
+      "or": "walla",
+      "login": "dugg",
+      "loginText": "ak sa kont bu am.",
+      "prefsStart": "Teg sa",
+      "prefsLink": "màkkaan yi",
+      "prefsRest": "(làkk, xame-xame, temas)."
+    },
+    "section2": {
+      "title": "2) Tàmbali waxtaan",
+      "item1": "Sos DM walla Kër te yónnee sa bataaxal ba jëkk.",
+      "item2": "Jëfandikoo tekki ci saa-saa ngir waxtaan ci 100+ làkk.",
+      "item3": "Jëfandikoo bataaxal yu màbb ak xame-xame ci Profil → Sutura."
+    },
+    "section3": {
+      "title": "3) Dem gëna jëm",
+      "item1Part1": "Saytu sa plaan ci xëtu",
+      "upgradeLink": "Yéeg",
+      "item1Part2": "(Plus = amul ad, Premium = jëf jëf yépp).",
+      "item2Part1": "Jappal masin yu aju te teg day-dox yu aar ci",
+      "settingsLink": "Tegtal"
+    },
+    "cta": {
+      "seePlans": "Seet plan yi",
+      "openSettings": "Ubbi tegtal"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Xëtu Ndimbal",
+    "faq": {
+      "account": {
+        "q": "Nan laa sos walla delloo sama kont?",
+        "a": "Yeb aplikasioŋ bi walla jëfandikoo web, bës “Sos kont”, dëggal sa imeel/telefon. Ngir delloo, jëfandikoo “Maññee baatu-jàll”."
+      },
+      "privacy": {
+        "q": "Ndax bataaxal yi dañu aar ba noppi?",
+        "a": "Waaw. Bataaxal ak wañ da ñu aar ba noppi (E2E) ci default. Yaw ak ki nga waxtaan rekk moñu mën a jàng."
+      },
+      "translate": {
+        "q": "Naka la tekki ci saa-saa di dox?",
+        "a": "Suqal “Tekki boppam” ci Tegtal → Xoolu bopp & Làkk. Nu tekki ci masin bii su mënnee, walla nu jëfandikoo API yu aar ak rootaan tuuti rekk."
+      },
+      "contact": {
+        "q": "Jokkool ndimbal",
+        "a": "Bindleen ci support@chatforia.com. Booleel nataal yu ekran ak sa wersiyon."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Jokkool",
+    "successMsg": "Jërëjëf — sunu ekip dina tontu ci imeel.",
+    "errorSend": "Mënula yónnee. Bindleen ci support@chatforia.com.",
+    "form": {
+      "nameLabel": "Tur",
+      "emailLabel": "Imeel",
+      "messageLabel": "Bataaxal",
+      "sendCta": "Yónnee"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Politigu Sutura",
+    "lastUpdated": "Yeesal bi mujj:",
+    "intro": {
+      "body": "Politig bii jot na ñu xamal ni Chatforia (“ñu”, “sunuy”) di jëm ci japp, jëfandikoo, ak bokk xibaar bi su ngeen jëfandikoo sunu aplikasioŋ ak sarwiis yi. Nu door a def Chatforia ngir wóor sa rootaan yi nu mën a gis."
+    },
+    "infoWeCollect": {
+      "title": "Lii lanu japp",
+      "account": "Xibaaru kont (misal, imeel/telefon) ngir sos te aar sa kont.",
+      "encrypted": "Xibaaru aar (bataaxal/wañ) da ñu aar ba noppi; nu mënul leen a jàng.",
+      "diagnostics": "Jàngoro/doxalin ni logu lajj, xeetu masin, walla analitik yu tuuti ngir soppali doxalin."
+    },
+    "howWeUse": {
+      "title": "Naka lanu ko jëfandikoo",
+      "provide": "Joxe ak aar sarwiis bi (auth, seetlu spam/bonnaanu).",
+      "improve": "Soppali jëf jëf yi (kàddug tekki, wóoru doxalin).",
+      "legal": "Dànkoo ak li yoon di sant."
+    },
+    "sharing": {
+      "title": "Bokk",
+      "body": "Duñu jaay xibaaru nit. Man nañu bokk xibaar tuuti ak ñi di doxal sunu sarwiis (misal, push, analitik) ci kaw dundin yu wóor."
+    },
+    "rights": {
+      "title": "Sañ sañ yi",
+      "body": "Gannaaw sa barab (misal, GDPR/UK GDPR/CPRA), mën nga laaj gis, soppali, màbb, walla dëggandigal jëfandikoo yu eene. Jokkool: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Doxalin ak kaarange",
+      "body": "Nu denc doxalin bi ñu soxla ngir doxal sarwiis bi te jëfandikoo kaarange bu aju ci industrie. Xibaar E2E mënunu leen a barke."
+    },
+    "children": {
+      "title": "Xale yi",
+      "body": "Chatforia du sarwiis bu ñuy jox xale yu ci suuf 13 (wallu ni yoon di ko sant ci sa barab)."
+    },
+    "changes": {
+      "title": "Yeesal",
+      "body": "Dinaañu fippu yeesal fii te soppi “Yeesal bi mujj”."
+    },
+    "contact": {
+      "title": "Jokkool",
+      "body": "privacy@chatforia.com • [Turu kërgu yoon], [Màkkaan]"
+    }
+  },
+
+  "terms": {
+    "title": "Teere yu Jëfandikoo",
+    "lastUpdated": "Yeesal bi mujj:",
+    "intro": {
+      "body": "Su ngeen jëfandikoo Chatforia, dangay nangu teere yii. Soo nanguwul, buleen jëfandikoo sarwiis bi."
+    },
+    "accounts": {
+      "title": "Kont yi",
+      "itemAccurateInfo": "Jox xibaar yu dëgg te aar sa caabi yi.",
+      "itemResponsibility": "Yaw la war a sukkandiku ci li am ci sa kont."
+    },
+    "acceptableUse": {
+      "title": "Jëfandikoo bu wóor",
+      "itemNoAbuse": "Buleen yébbi wànte yu soppeeku yoon, bonnaanu, walla mbaa jëfandikoo auto yi; bul spam.",
+      "itemSuspend": "Mën nañu taxaw/tëye soo daldi yegg yoon."
+    },
+    "yourContent": {
+      "title": "Sa mbir yi",
+      "body": "Yaw nga am sa njariñ ci sa mbir. Nga joxe nu sañ-sañ yi japp ngir doxal sarwiis bi (misal, yónnee, denc, tekki)."
+    },
+    "disclaimer": {
+      "title": "Ndigeelu kaw ak lajj",
+      "body": "Sarwiis bi ñu joxe ko “ni mu nekk” akul ndigeelu. Ci lu yoon man, Chatforia du wara def lajj ci mbir yu jëkka-ñaane walla yu sonn yi."
+    },
+    "changes": {
+      "title": "Yeesal",
+      "body": "Mën nañu soppali teere yii; jëfandikoo bi ci kanam mooy tekki nangu gi."
+    },
+    "contact": {
+      "title": "Jokkool",
+      "body": "support@chatforia.com • [Turu kërgu yoon], [Màkkaan]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Bul Jaay walla Bokku Sama Xibaaru Kii",
+    "body": "Chatforia du jaay xibaaru nit. Waaye ñi dëkk California mën nañu dalal laaj ci suñu CPRA ci butoŋ bi ci suuf.",
+    "cta": "Dugal laaj"
+  },
+
+  "cookies": {
+    "title": "Tegtal Cookies",
+    "body": "Chatforia jëfandikoo cookies tuuti (misal, sesioŋ, kaarange). Duñu jëfandikoo cookiesu ad yu ñeneen. Jappoŋeel cookies yi ci tegtali sa joowkat."
   }
 }

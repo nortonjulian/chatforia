@@ -1,112 +1,593 @@
 {
   "common": {
-    "save": "Isalba",
-    "cancel": "Kanselahin",
+    "save": "I-salba",
+    "cancel": "Ikansela",
     "refresh": "I-refresh",
-    "noMatches": "Ala yang katugma"
+    "noMatches": "Ala yang tumugma",
+    "cancelAria": "Ikansela"
   },
+
   "profile": {
-    "title": "Profile ning Gumagamit",
+    "title": "Profil ning Gumagamit",
 
-    "preferredLanguage": "Paborung amanu",
-    "chooseLanguage": "Pili kang amanu",
-    "mustLogin": "Kailangan mung mag-log in para akit deng settings.",
+    "preferredLanguage": "Pabor a amanu",
+    "chooseLanguage": "Pumili amanu",
+    "mustLogin": "Kailangan mung mag-sign in para akit deng settings.",
 
-    "autoTranslate": "Awtomatikung isalin deng mensahi",
-    "showOriginalWithTranslation": "Ipakit deng original at isinalin a mensahi",
-    "showOriginalAndTranslation": "Ipakit deng original at salin kapamilatan",
+    "autoTranslate": "I-auto-translate deng mensahi",
+    "showOriginalWithTranslation": "Ipakiteng orihinal at me-translate a mensahi",
+    "showOriginalAndTranslation": "Ipakiteng orihinal kayabe na ing salin",
 
-    "filterExplicit": "Salain deng maselan a laman",
-    "aiReply": "AI sagut",
-    "enableReadReceipts": "I-enable deng read receipts",
-    "allowExplicitContent": "Payagan deng maselan a laman",
-    "disappearingMessages": "I-enable deng makapupus a mensahi",
-    "autoDeleteSeconds": "Sekundu bago awtomatikung mabura",
+    "filterExplicit": "Salà ing explicit a contenuto",
+    "aiReply": "AI a sagut",
+    "enableReadReceipts": "I-on deng read receipts",
+    "allowExplicitContent": "Paburen ing explicit a contenuto",
+    "disappearingMessages": "I-on deng mawalang mensahi",
+    "autoDeleteSeconds": "Sekundu anggang mag-auto-delete",
 
-    "saveSuccess": "Naisalba deng settings!",
-    "saveError": "May mali: E me maisalba deng settings",
+    "saveSuccess": "Misasalba ne deng settings!",
+    "saveError": "Mekasala: Ali misalba deng settings",
 
-    "avatarAlt": "Avatar ning profile",
+    "avatarAlt": "Profil a avatar",
     "uploadAvatar": "I-upload yang bayung avatar",
-    "avatarSuccess": "Me-upload ne ing avatar!",
-    "avatarError": "Malyari ne e me-upload ing avatar",
+    "avatarSuccess": "Meg-upload ne ing avatar!",
+    "avatarError": "Mekasala keng pag-upload ning avatar",
 
-    "noPrivateKey": "Ala yang private key king device a ini para i-export.",
-    "setBackupPassword": "Magsalâ password para encrypt deng backup mu:",
-    "backupDownloaded": "Me-download ne ing encrypted backup.",
-    "exportFailed": "E me-export ing key",
-    "enterBackupPassword": "Ilagay ing password para king backup a ini:",
-    "importSuccess": "Me-import ne ing private key king device a ini.",
-    "importFailed": "E me-import ing key (maling password o corrupt a file).",
-    "keysRotated": "Me-gawa yang bayung pares a key at me-upload ne ing public key.",
-    "rotateFailed": "E me-rotate deng keys.",
+    "noPrivateKey": "Ala yang private key king device a iti para i-export.",
+    "setBackupPassword": "Magtakda password para i-encrypt ing backup:",
+    "backupDownloaded": "Midaunlad ne ing encrypted a backup.",
+    "exportFailed": "Mekasala ing key export",
+    "enterBackupPassword": "Ilagay ya ing password king backup a ini:",
+    "importSuccess": "Meya-import ne ing private key king device a iti.",
+    "importFailed": "Mekasala ya ing import ning key (mali password o marupok a file).",
+    "keysRotated": "Mekagawa yang bayung key pair at me-upload ne ing public key.",
+    "rotateFailed": "Mekasala ya ing pamilukas key.",
     "security": "Seguridad",
     "exportKey": "I-export ing private key",
     "importKey": "I-import ing encrypted key backup",
-    "rotateKeys": "I-rotate deng keys",
-    "keyDisclaimer": "Ing private key mu ali yang lalabas king device a ini. I-export ya ing password-protected copy para ibalik king aliwang device.",
+    "rotateKeys": "Palitan ing key pair",
+    "keyDisclaimer": "Ali lulual ing private key mu king device. Mag-export kang kopyang may password para mag-restore king aliwang device.",
 
-    "sectionProfile": "Profile",
-    "phoneNumber": "Numero ning telepono",
-    "appearance": "Kasantingan",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Telepunu",
+    "appearance": "Itsura",
     "soundSettings": "Tunog",
-    "disappearing": "Makapupus a mensahi",
-    "backupSync": "Backup at Sync",
+    "disappearing": "Mawalang mensahi",
+    "backupSync": "Backup & Sync",
     "ai": "AI",
     "accessibility": "Accessibility",
-    "privacy": "Pribasiya",
-    "devices": "Kaugnay a devices",
+    "privacy": "Pribasi",
+    "devices": "Makataling device",
 
-    "themeFreeNotice": "Libre ka pa — gamitan deng madali a opsyon a Aldo/Bulan king baba. Mag-upgrade para buksan deng karagdagang tema.",
-    "sunTheme": "Gamitan ing Tema ning Aldo",
-    "moonTheme": "Gamitan ing Tema ning Bulan (Midnight)",
-    "sun": "Aldo",
-    "moon": "Bulan",
+    "themeFreeNotice": "Free ka pa — gamit neng malyaring Sun/Moon a opsyun king ibaba. Mag-upgrade para buklat deng aduang tema.",
+    "sunTheme": "Gamit neng Dawn a tema",
+    "moonTheme": "Gamit neng Moon (Midnight) a tema",
+    "sun": "Sun",
+    "moon": "Moon",
 
-    "backupTitle": "Encrypted Backups at Device Sync",
+    "backupTitle": "Encrypted a Backups & Device Sync",
     "openBackupTools": "Buksan deng Backup Tools",
-    "backupDesc": "Gumawa kang password-protected backups ding keys mu, at ibalik la king aliwang device para magsync.",
+    "backupDesc": "Gumawa kang password-protected a backups ning keys, at i-restore la king aliwang device para mag-sync.",
 
     "privacyBlurEnabled": "I-blur deng mensahi by default",
-    "privacyBlurOnUnfocus": "I-blur nung e naka-focus ing app",
-    "holdToReveal": "Pindutan para makitang muli",
-    "notifyOnCopy": "Sabian nakung me-kopya deng mensahi ku",
+    "privacyBlurOnUnfocus": "I-blur nung ali naka-focus ing app",
+    "holdToReveal": "Pipigil para akit",
+    "notifyOnCopy": "Abisuan na ku nung mekopya la deng mensahi ku",
 
-    "loadFailed": "E me-load ing profile",
-    "followed": "Me-sunod",
-    "followFailed": "E me-sunod",
-    "unfollowed": "Ali ne sinusundan",
-    "unfollowFailed": "E me-unfollow",
-    "follow": "Sundin",
-    "unfollow": "E sundin",
-    "followHint": "Mekikit la deng istorya da king Following feed mu nung mag-post la king Followers o Public.",
-    "userNotFound": "E mekitang user",
-    "followsYou": "Sinusundan naka",
+    "loadFailed": "Mekasala ya keng pamang-load ning profil",
+    "followed": "Mefollow ne",
+    "followFailed": "Mekasala keng paman-follow",
+    "unfollowed": "Mekayawas follow",
+    "unfollowFailed": "Mekasala keng paman-unfollow",
+    "follow": "I-follow",
+    "unfollow": "I-unfollow",
+    "followHint": "Mikit la reng karelang istorya king Following mu nung mag-post la keng audience a Followers (o Public).",
+    "userNotFound": "Ali meakita ing gumagamit",
+    "followsYou": "Mefollow ya keka",
 
-    "sectionCrashedTitle": "E me-load ing Seksyon",
-    "sectionCrashedBody": "Atin yang meging mali king seksyung ini.",
+    "sectionCrashedTitle": "Mekasala ya ing Seksyon",
+    "sectionCrashedBody": "Atin meging sali king sektsyung ini.",
 
-    "forwarding": "Call at Text Forwarding",
-    "callTextForwardingSection": "Call at Text Forwarding",
-    "callTextForwardingTitle": "Call at/o Text Forwarding",
-    "callTextForwardingDescription": "I-forward deng daratang a tawag at text king verified mong telepono o email. Deng lalabas a tawag/text makapakit yang Chatforia number mu.",
-    "enableTextForwarding": "I-enable ing text forwarding",
-    "forwardTextsToPhone": "I-forward deng text king telepono",
+    "forwarding": "Call & Text Forwarding",
+    "callTextForwardingSection": "Call & Text Forwarding",
+    "callTextForwardingTitle": "Call at/aliwa pa Text Forwarding",
+    "callTextForwardingDescription": "I-forward deng papasok a tawag at text king verified a telepunu mu o email. Ing makyalis a tawag/text atin yang Chatforia number mu.",
+    "enableTextForwarding": "I-on ing text forwarding",
+    "forwardTextsToPhone": "I-forward deng text king telepunu",
     "forwardTextsToEmail": "I-forward deng text king email",
-    "destinationPhone": "Teleponung pupuntalan (E.164)",
-    "destinationEmail": "Email a pupuntalan",
-    "enableCallForwarding": "I-enable ing call forwarding",
-    "destinationPhoneForCalls": "Teleponung pupuntalan para king tawag (E.164)",
+    "destinationPhone": "Destino a telepunu (E.164)",
+    "destinationEmail": "Destino a email",
+    "enableCallForwarding": "I-on ing call forwarding",
+    "destinationPhoneForCalls": "Destino (E.164) para keng tawag",
     "aliasBridging": "Call Forwarding (alias bridging)",
-    "quietHoursOptional": "Oras ning kapayapan (optional)",
-    "startHour": "Panimulang oras (0–23)",
-    "endHour": "Pangpupus a oras (0–23)",
+    "quietHoursOptional": "Quiet Hours (opsyonal)",
+    "startHour": "Oras a umpisa (0–23)",
+    "endHour": "Oras a kapupusan (0–23)",
     "reset": "I-reset",
-    "saveBtn": "Isalba"
+    "saveBtn": "I-salba"
   },
+
   "chat": {
-    "selectPrompt": "Pili kang mensahi o chat room para umpisan ing pamikpami",
+    "selectPrompt": "Pumili text o chat room para mag-umpisa king pamag-chat",
     "newMessages": "Bayung mensahi",
-    "typing": "Gagawa yang mensahi si {{name}}..."
+    "typing": "Mag-type ya si {{name}}...",
+    "emptyTitle": "Deng mensahi mu",
+    "emptySubtitle": "Magpadalang mensahi para mag-umpisa chat.",
+    "startChatButton": "Magpadalang mensahi"
+  },
+
+  "topbar": {
+    "newStatus": "Bayung Status",
+    "logout": "Mag-Log Out"
+  },
+
+  "status": {
+    "userNumber": "Gumagamit #{{id}}",
+
+    "posted": "Mepost ne ing status",
+    "postFailed": "Mekasala keng pame-post ning status",
+
+    "createTitle": "Gumawa status",
+    "modalAriaLabel": "Bayung status",
+
+    "captionLabel": "Nanu ing atsu king isip mu?",
+    "captionPlaceholder": "Magbahagi update...",
+    "captionAria": "Mensahing status",
+
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Public",
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
+    },
+
+    "expiresHoursLabel": "Mamayakap (oras)",
+    "maxTooltip": "Maximu 7 aldo",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Mamayakap king:",
+
+    "chooseRecipients": "Pumili recipient",
+    "selectContacts": "Pumili contacts",
+
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Magdagdag larawan/bidyu",
+    "filesNote": "Anggang 5 a file. 24h a pamayakap by default.",
+
+    "postAria": "I-post ing status",
+    "post": "Post"
+  },
+
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call & Text Forwarding",
+    "conversations": "Usapan",
+    "searchPlaceholder": "Maghanap usapan...",
+    "errorLoading": "Mekasala keng paman-load deng chat",
+    "empty": "Ala pang usapan.",
+    "startChat": "Umpisan ya ing chat",
+    "people": "Tawu",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Call & Text Forwarding",
+    "refresh": "I-refresh",
+    "search": "Hanapan deng usapan",
+    "loginPrompt": "Mag-log in para i-edit deng settings.",
+    "login": "Mag-log in",
+    "register": "Gumawa account",
+
+    "chatrooms": "Chatrooms",
+    "logout": "Mag-log out",
+    "startChatAlt": "Umpisan bayung chat"
+  },
+
+  "premium": {
+    "heading": "Mag-Premium",
+    "description": "Buksan deng makapangyariang features at alisdan deng ads.",
+    "upgrade": "Mag-upgrade"
+  },
+
+  "auth": {
+    "headline": "Seguru, global a mensahing atin instant a salin",
+    "description": "End-to-end encryption, AI-powered a salin, mawalang mensahi, at voice/video calling.",
+    "feature": {
+      "encryption": "End-to-end encryption by default",
+      "translation": "Auto-translate 100+ amanu",
+      "disappearing": "Mawalang mensahi & read receipts",
+      "privacy": "Privacy-first. Datu mu, kontrol mu.",
+      "translate": "Real-time a salin",
+      "disappear": "Mawalang mensahi",
+      "privacyAlt": "Privacy-first a disenyu"
+    },
+    "welcomeBack": "Malaus kayung pasibayu",
+    "continueGoogle": "Magpatuloy king Google",
+    "continueApple": "Magpatuloy king Apple",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Panatilian kung naka-sign in",
+    "forgotPassword": "Mekalimu password?",
+    "loginButton": "Mag-Log In",
+    "createAccount": "Gumawa account",
+    "freeAccountButton": "Gumawa free account",
+    "newHere": "Bayu ka pay?",
+    "getApp": "Kuayan ing app",
+    "desktopTip": "Keng desktop ka? I-scan mu gamit ing telepunu mu para kuayan ing app.",
+
+    "goHome": "Muli king home",
+    "home": "Home",
+
+    "headlineAlt": {
+      "main": "Ing segurung messenger a",
+      "highlight": "makasabi king amanu mu"
+    },
+    "subhead": "Pribadu, encrypted, at me-salin a pamanalita — agad-agad.",
+
+    "status": "Lawen ing status",
+    "upgrade": "Mag-upgrade ngeni",
+    "tip": "Malyari meng gamit ing Chatforia king ninuman a device — o idaunlad ya ing app para keng pekamasanting a eksperyensya.",
+    "openDownload": "Buksan ing download a page",
+    "qrAlt": "QR code para Chatforia",
+    "scanHint": "I-scan para idaunlad ing app o buksan king browser mu.",
+    "iosAria": "I-download king App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store a badge",
+    "androidAria": "Kuayan ya king Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play a badge",
+
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Plano & Presyu",
+    "about": "Tungkul king Chatforia",
+    "careers": "Trabaho",
+    "press": "Press",
+    "advertise": "Mag-anunsyu",
+    "contact": "Kontakan mi",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Ali Benta Ing Impormasyun Ku",
+
+    "language": "Amanu",
+    "contactShort": "Kontak"
+  },
+
+  "home": {
+    "title": "Home",
+    "header": "Deng mensahi mu",
+    "subheader": "Magpadalang mensahi para mag-umpisa chat.",
+    "sendButton": "Magpadalang mensahi",
+    "gifPicker": "Buksan ing GIF picker",
+    "emoji": "Emoji",
+    "upload": "I-upload larawan o bidyu",
+    "inputPlaceholder": "Mag-type kayung mensahi…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Ipadala",
+    "sendTooltipEmpty": "Mag-type kang mensahi para ipadala",
+    "send": "Ipadala",
+
+    "welcomeMessage": "Malaus ka king Chatforia",
+    "getStarted": "Umpisan ne"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "Para king media inquiries, sulatan yami king <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Para king media inquiries, sulatan yami king press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Ing Chatforia metung yang segurung messenger a atin instant a salin at E2E encryption, a me-design para gawang pribadu at madali deng pamanalita king yatu.",
+    "assetsTitle": "Brand assets",
+    "assetsText": "Logo, screenshot, at larawan ning produk (mipalyari pasibayu)."
+  },
+
+  "careers": {
+    "title": "Trabaho",
+    "intro": "Maliit kami a team a gagawa segurung, global a messenger. Nung maniwala ka king encryption, accessibility, at malugod a UX, manyulat ka.",
+    "openRoles": "<b>Buklat a puesto:</b> Engineering (Full-stack, iOS, Android), Produk, Suporta.",
+    "apply": "<b>Nukumaga mag-apply:</b> I-email me ing resume/links mu king <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "I-email me ing resume mu"
+  },
+
+  "about": {
+    "title": "Tungkul king Chatforia",
+    "description": "Ing Chatforia metung yang segurung, multi-lingual a messenger a atin end-to-end encryption, instant a salin, at voice/video calling. Ing misyun mi simple mu: pakisabian deng tau—saupan, pribadu, at atyu ketang ali-aliwang amanu.",
+    "valuesTitle": "Nanu reng pakananu mi",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Para kareng sabla:</b> Auto-translate 100+ amanu.",
+      "control": "<b>Kontrol:</b> Opsyunal deng mawalang mensahi at read receipts."
+    },
+    "howTitle": "Nanu ing pamangobra ning Chatforia",
+    "howDescription": "Ding mensahi me-encrypt la king device mu bayu la lumual. Ing salin, backups, at device sync me-design da para malati mu ing makit ming data."
+  },
+
+  "advertise": {
+    "title": "Mag-anunsyu kayabe ing Chatforia",
+    "description": "Abutan deng aktibong gagamit ning mensahing app gamit deng maayos at brand-safe a puwesta. Atin kaming banner king makikitang lugar, sponsorships, at house promos. Ali akit deng ads deng Premium.",
+    "adsense": {
+      "withPubId": "Gagamit kami ngeni king <b>Google AdSense</b>. Nung buri meng targetan king Google Ads, gamit neng publisher ID <code>{{pubId}}</code> at sabyan yung managad managed placement kareng unit king baba. Atin direct sponsorships — gamit neng porma.",
+      "noPubId": "Gagamit kami ngeni king <b>Google AdSense</b>. Atin mu rin direct sponsorships — gamit neng porma king baba."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Mekatulad a sukat",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacements": "Ala pang me-configure a puwesta. Idagdag la king ads/placements.js.",
+    "whyHeader": "Baketu Chatforia?",
+    "why": {
+      "highSession": "Maraas a dalas at pamanantili king chat UI",
+      "brandSafe": "Brand-safe a pormat; maayos a frequency capping",
+      "sponsoredMoments": "Atin sponsored moments (e.g., “Start a Chat” modal)",
+      "deals": "Direct deals o programmatic king AdSense/Google Ads"
+    },
+    "contactHeader": "Kontak",
+    "form": {
+      "submittedMsg": "Dakal a salamat! Mipadala ne ing pamanusulat yu. Sumubli kami payuli.",
+      "missingRequired": "Pakipunan la ing lagyu, email, at mensahi.",
+      "successToast": "Dakal a salamat! Mipabalik kami kapilan man.",
+      "mailtoInfo": "Bubuksan ne ing email client mu para mipadala ing pamanusulat…",
+      "nameLabel": "Lagyu mu",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Kumpanya",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Buwan-buwan a budget (opsyonal)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Sabian mu ing tungkul king kampanya",
+      "messagePlaceholder": "Target, petsa, KPI, pabor a puwesta…",
+      "sendCta": "Ipadalang pamanusulat"
+    },
+    "legal": {
+      "disclaimerStart": "Kapamilatan ning pamag-submit, sumasang-ayon ka king",
+      "terms": "Terms",
+      "and": "at",
+      "privacy": "Privacy Policy"
+    }
+  },
+
+  "upgrade": {
+    "title": "Mag-Upgrade",
+    "subtitle": "Pili ing ustung plano: alisdan deng ads keng Plus, o kuanan deng ganap a features keng Premium.",
+    "scheduleBanner": {
+      "title": "Mitatapos ne ing suskripyun",
+      "body": "Mibalik ka king Free king",
+      "keepPlanCta": "I-salese ing Plus",
+      "manageBillingCta": "I-manage ing billing"
+    },
+    "billing": {
+      "opening": "Bubuksan…",
+      "manage": "I-Manage ing Billing"
+    },
+    "checkout": {
+      "redirecting": "Mimiriktu…"
+    },
+    "auth": {
+      "continue": "Magpatuloy",
+      "createAccount": "Gumawa account",
+      "signIn": "Mag sign in"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 at group a pamanalita",
+          "aiBasic": "Pabanal a AI replies",
+          "attachments": "Standard a attachments"
+        },
+        "ctaCurrent": "Kasalukuyang Plano",
+        "ctaUnavailable": "Lumipat king Free (ali magamit)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / bulan",
+        "features": {
+          "noAds": "Alisdan deng sablang ads",
+          "msg": "1:1 at group a pamanalita",
+          "attachments": "Mas dakul a attachments",
+          "aiBasic": "Pabanal a AI replies"
+        },
+        "badge": "Popular",
+        "cta": "Go Ad-Free"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Bulan-bulan)",
+        "price": "$24.99 / bulan",
+        "features": {
+          "plusAll": "Sablang atyu king Plus",
+          "ringtones": "Custom a ringtones & message tones",
+          "powerAi": "Mas makapangyariang AI",
+          "priorityUpdates": "Priority a updates",
+          "backups": "Backups & device syncing"
+        },
+        "badge": "Best value",
+        "cta": "Mag-Upgrade (Bulan-bulan)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Taunan)",
+        "price": "$225 / banwa",
+        "features": {
+          "allPremium": "Sabla keng Premium",
+          "annualBilling": "Taunan a bayad",
+          "save25": "Misanup ~25% kumpara king bulan-bulan",
+          "sameFeatures": "Mefatulad deng features king Bulan-bulan"
+        },
+        "badge": "I-salba 25%",
+        "cta": "Mag-Upgrade (Taunan)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Pangumpisa",
+    "subtitle": "Bayu ka king Chatforia? Ing malating gabay a ini misasabyan deng dapat mu para magamit keng pira mung minute.",
+    "alert": {
+      "text": "Lumawak ya ing gabay a ini kabang milunsad deng bayung features. Nung atin kulang, manyulat ka king",
+      "contactLink": "Kontak Kami"
+    },
+    "section1": {
+      "title": "1) Gumawa kang account",
+      "signup": "Mag-sign up",
+      "or": "o",
+      "login": "mag-log in",
+      "loginText": "gamit ing atyu mu nang account.",
+      "prefsStart": "Itakda deng",
+      "prefsLink": "pabor mu",
+      "prefsRest": "(amanu, read receipts, tema)."
+    },
+    "section2": {
+      "title": "2) Magsimula king pamanalita",
+      "item1": "Gumawa kang DM o Group at ipadala ing mumunang mensahi mu.",
+      "item2": "Gamit neng instant a salin para makipag-chat king 100+ amanu.",
+      "item3": "SUSI: Subukan deng mawalang mensahi at read receipts king Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Lumub ya pa",
+      "item1Part1": "I-manage ing plano mu king",
+      "upgradeLink": "Upgrade",
+      "item1Part2": "a page (Plus = alis ads, Premium = ganap a features).",
+      "item2Part1": "I-link deng aduang device at i-setup deng encrypted backups king",
+      "settingsLink": "Settings"
+    },
+    "cta": {
+      "seePlans": "Lawen deng plano",
+      "openSettings": "Buksan deng settings"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "Nanu ing pamag-gawa o pamanguli account?",
+        "a": "I-download ing app o gamit neng web, tap “Gumawa account”, i-verify ing email/telepunu mu. Para bawi, gamit neng “Mekalimu password”."
+      },
+      "privacy": {
+        "q": "E2E encrypted la reng mensahi?",
+        "a": "Wa. Ding mensahi at tawag E2E encrypted la by default. Ika mu at ing tumanggap ing makabasa."
+      },
+      "translate": {
+        "q": "Nanu ing pamangobra ning instant a salin?",
+        "a": "I-enable ing “Auto-translate” king Settings → Appearance & Language. Manalakad ya on-device nung atsu, aliwa naman king segurung API a atin malating metadata."
+      },
+      "contact": {
+        "q": "Kontakan ing suporta",
+        "a": "Sulatan yamu kami king support@chatforia.com. Isali mo rin screenshot at bersyun ning app mu."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Kontakan mi",
+    "successMsg": "Dakal a salamat—mipabalik kami king email.",
+    "errorSend": "Ali mepadala. Pakisulat king support@chatforia.com.",
+    "form": {
+      "nameLabel": "Lagyu",
+      "emailLabel": "Email",
+      "messageLabel": "Mensahi",
+      "sendCta": "Ipadala"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Pekabayung panaun:",
+    "intro": {
+      "body": "Ing Privacy Policy a ini misasabyan nanu ing kolekta, gamit, at pamye-sali ning Chatforia (“mi”, “kami”) nung gamit me deng app at serbisyo mi. Me-design ya ing Chatforia para malati mu ing data a ating kakit mi."
+    },
+    "infoWeCollect": {
+      "title": "Ing kolektang impormasyun",
+      "account": "Impormasyun king Account (e.g., email/telepunu) para gawang at segpawan ing account mu.",
+      "encrypted": "Encrypted a contenuto (mensahi/tawag) E2E encrypted la; e mi la mabasa.",
+      "diagnostics": "Diagnostic/usage anti mo ring crash logs, device type, o malating analytics para pa-yamyaman ing performance."
+    },
+    "howWeUse": {
+      "title": "Nanu ing gamit mi king impormasyun",
+      "provide": "Ibigay at segpawan ing serbisyo (auth, spam/abuse detection).",
+      "improve": "Pa-yamyaman deng features (kalidad ning salin, kasalpantayanan).",
+      "legal": "Sumunod king legal a obligasyun."
+    },
+    "sharing": {
+      "title": "Pamye-sali",
+      "body": "Ali mi benta personal a data. Maliari kaming manyali malating data kareng processors (e.g., push notifications, analytics) king masikap a kontrata."
+    },
+    "rights": {
+      "title": "Deng karapatan mu",
+      "body": "Agpang king lugar mu (e.g., GDPR/UK GDPR/CPRA), malyari kang mangayaka access, koreksyun, pamurul, o opt-out kareng pekadakalan a pamamagamit. Kontak: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Pamayakup data & seguridad",
+      "body": "Tinatagalan mi mu ing makasaup keng pamag-obra ning serbisyo at gagamit kaming industria-standard a seguridad. E2E a contenuto e mi ya malyaring i-decrypt."
+    },
+    "children": {
+      "title": "Anak",
+      "body": "Ali ya para kareng anak a lullub keng 13 (o agpang king lokal a ligal a edad) ing Chatforia."
+    },
+    "changes": {
+      "title": "Pamye-bayu",
+      "body": "I-post mi reng bayung pamye-bayu keni at baywan mi ing “Pekabayung panaun”."
+    },
+    "contact": {
+      "title": "Kontak",
+      "body": "privacy@chatforia.com • [Pangalang legal ning Kumpanya], [Address]"
+    }
+  },
+
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Pekabayung panaun:",
+    "intro": {
+      "body": "Kapamilatan ning pamaggamit mu king Chatforia, sumasang-ayon ka kareng Terms a ini. Nung e ka sang-ayon, ali mu gamit ing serbisyo."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Magbigay tumpak a impormasyun at salese deng kredensyal mu.",
+      "itemResponsibility": "Aka-salese ka king gaganap king account mu."
+    },
+    "acceptableUse": {
+      "title": "Katanggap-tanggap a gamit",
+      "itemNoAbuse": "Ali marapat ing ilegal, abusadu, o meka-lako a contenuto; ali rin spam o automated a pangaabuso.",
+      "itemSuspend": "Malyari ming i-suspend/terminate nung atin sali."
+    },
+    "yourContent": {
+      "title": "Ing contenuto mu",
+      "body": "Ika pa rin ing atin karapatan king contenuto mu. Minye ka mu karapatan a kailangan para pamanalakad ning serbisyo (e.g., routing, imbakan, salin)."
+    },
+    "disclaimer": {
+      "title": "Disclaimer & responsabilidad",
+      "body": "Ibigay ya ing Serbisyo “as is” alang warranty. Hangganing a makayan mi ligal, ali ya manibat ing Chatforia kareng indirect o consequential a kasala."
+    },
+    "changes": {
+      "title": "Pamye-bayu",
+      "body": "Malyari ming i-update deng terms; ing tuluy mu pang gamit kaybat ning bayu a terms ay kayabe ya king kayang pamangayon."
+    },
+    "contact": {
+      "title": "Kontak",
+      "body": "support@chatforia.com • [Pangalang legal ning Kumpanya], [Address]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Ali Benta o I-Share Ing Personal Kung Impormasyun",
+    "body": "E mibenta ning Chatforia ing personal a impormasyun. Atin pa mu ring karapatan deng California residents agpang CPRA para mag-submit request gamit ing button king baba.",
+    "cta": "Mag-submit request"
+  },
+
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Maggamit ing Chatforia malating cookies mu (e.g., session, seguridad). Ali kami gagamit third-party ads cookies. I-manage deng cookies king settings ning browser mu."
   }
 }

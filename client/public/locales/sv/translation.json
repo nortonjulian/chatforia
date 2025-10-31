@@ -3,8 +3,10 @@
     "save": "Spara",
     "cancel": "Avbryt",
     "refresh": "Uppdatera",
-    "noMatches": "Inga träffar"
+    "noMatches": "Inga träffar",
+    "cancelAria": "Avbryt"
   },
+
   "profile": {
     "title": "Användarprofil",
 
@@ -14,35 +16,35 @@
 
     "autoTranslate": "Översätt meddelanden automatiskt",
     "showOriginalWithTranslation": "Visa original och översättning",
-    "showOriginalAndTranslation": "Visa original tillsammans med översättning",
+    "showOriginalAndTranslation": "Visa original bredvid översättning",
 
-    "filterExplicit": "Filtrera olämpligt innehåll",
+    "filterExplicit": "Filtrera explicit innehåll",
     "aiReply": "AI-svar",
     "enableReadReceipts": "Aktivera läskvitton",
-    "allowExplicitContent": "Tillåt olämpligt innehåll",
+    "allowExplicitContent": "Tillåt explicit innehåll",
     "disappearingMessages": "Aktivera försvinnande meddelanden",
-    "autoDeleteSeconds": "Sekunder innan automatisk radering",
+    "autoDeleteSeconds": "Sekunder till auto-radering",
 
-    "saveSuccess": "Inställningarna har sparats!",
-    "saveError": "Fel: Kunde inte spara inställningarna.",
+    "saveSuccess": "Inställningar sparade!",
+    "saveError": "Fel: Kunde inte spara inställningar",
 
-    "avatarAlt": "Profilbild",
-    "uploadAvatar": "Ladda upp ny profilbild",
-    "avatarSuccess": "Profilbilden har laddats upp!",
-    "avatarError": "Fel vid uppladdning av profilbild.",
+    "avatarAlt": "Profilavatar",
+    "uploadAvatar": "Ladda upp ny avatar",
+    "avatarSuccess": "Avatar uppladdad!",
+    "avatarError": "Fel vid uppladdning av avatar",
 
     "noPrivateKey": "Det finns ingen privat nyckel på den här enheten att exportera.",
-    "setBackupPassword": "Ange ett lösenord för att kryptera din säkerhetskopia:",
-    "backupDownloaded": "Krypterad säkerhetskopia har laddats ned.",
+    "setBackupPassword": "Ställ in ett lösenord för att kryptera din säkerhetskopia:",
+    "backupDownloaded": "Krypterad säkerhetskopia nedladdad.",
     "exportFailed": "Export av nyckel misslyckades",
-    "enterBackupPassword": "Ange lösenordet för denna säkerhetskopia:",
-    "importSuccess": "Privat nyckel importerad till denna enhet.",
-    "importFailed": "Import misslyckades (fel lösenord eller skadad fil).",
-    "keysRotated": "Nytt nyckelpar har skapats och den publika nyckeln har laddats upp.",
-    "rotateFailed": "Misslyckades med att rotera nycklarna.",
+    "enterBackupPassword": "Ange lösenordet för den här säkerhetskopian:",
+    "importSuccess": "Privat nyckel har importerats till den här enheten.",
+    "importFailed": "Misslyckades med att importera nyckel (fel lösenord eller skadad fil).",
+    "keysRotated": "Nyckelpar genererat och publik nyckel uppladdad.",
+    "rotateFailed": "Misslyckades med att rotera nycklar.",
     "security": "Säkerhet",
     "exportKey": "Exportera privat nyckel",
-    "importKey": "Importera krypterad säkerhetskopierad nyckel",
+    "importKey": "Importera krypterad nyckelkopiering",
     "rotateKeys": "Rotera nyckelpar",
     "keyDisclaimer": "Din privata nyckel lämnar aldrig den här enheten. Exportera en lösenordsskyddad kopia för att återställa på en annan enhet.",
 
@@ -51,62 +53,541 @@
     "appearance": "Utseende",
     "soundSettings": "Ljud",
     "disappearing": "Försvinnande meddelanden",
-    "backupSync": "Säkerhetskopiering och synkronisering",
+    "backupSync": "Säkerhetskopia & synk",
     "ai": "AI",
     "accessibility": "Tillgänglighet",
     "privacy": "Integritet",
     "devices": "Länkade enheter",
 
-    "themeFreeNotice": "Du använder gratisversionen — använd snabbvalen Sol/Måne nedan. Uppgradera för att låsa upp fler teman.",
-    "sunTheme": "Använd Gryning-temat",
-    "moonTheme": "Använd Mån-/Midnatts-temat",
+    "themeFreeNotice": "Du använder Free – använd de snabba Sol/Måne-alternativen nedan. Uppgradera för att låsa upp fler teman.",
+    "sunTheme": "Använd Gryningstema",
+    "moonTheme": "Använd Måne (Midnatt)",
     "sun": "Sol",
     "moon": "Måne",
 
-    "backupTitle": "Krypterade säkerhetskopior och enhetssynkronisering",
+    "backupTitle": "Krypterade säkerhetskopior & enhetssynk",
     "openBackupTools": "Öppna säkerhetskopieringsverktyg",
-    "backupDesc": "Skapa lösenordsskyddade säkerhetskopior av dina nycklar och återställ på en annan enhet för att synkronisera.",
+    "backupDesc": "Skapa lösenordsskyddade säkerhetskopior av dina nycklar och återställ på en annan enhet för att synka.",
 
-    "privacyBlurEnabled": "Gör meddelanden suddiga som standard",
-    "privacyBlurOnUnfocus": "Gör suddigt när appen inte är i fokus",
-    "holdToReveal": "Håll ned för att visa",
+    "privacyBlurEnabled": "Suddra meddelanden som standard",
+    "privacyBlurOnUnfocus": "Suddra när appen inte är aktiv",
+    "holdToReveal": "Håll för att visa",
     "notifyOnCopy": "Meddela mig om mitt meddelande kopieras",
 
-    "loadFailed": "Det gick inte att läsa in profilen",
-    "followed": "Följd",
-    "followFailed": "Det gick inte att följa",
-    "unfollowed": "Avföljd",
-    "unfollowFailed": "Det gick inte att avfölja",
+    "loadFailed": "Misslyckades med att läsa in profil",
+    "followed": "Följer",
+    "followFailed": "Misslyckades med att följa",
+    "unfollowed": "Slutade följa",
+    "unfollowFailed": "Misslyckades med att sluta följa",
     "follow": "Följ",
-    "unfollow": "Avfölj",
-    "followHint": "Deras inlägg visas i ditt flöde om de publicerar till Följare (eller offentligt).",
-    "userNotFound": "Användare hittades inte",
+    "unfollow": "Sluta följa",
+    "followHint": "Deras stories visas i din Följ-feed om de publicerar med målgrupp Följare (eller Offentligt).",
+    "userNotFound": "Användaren hittades inte",
     "followsYou": "Följer dig",
 
-    "sectionCrashedTitle": "Avsnittet kunde inte laddas",
-    "sectionCrashedBody": "Något gick fel i detta avsnitt.",
+    "sectionCrashedTitle": "Sektionen kunde inte laddas",
+    "sectionCrashedBody": "Något gick fel i den här sektionen.",
 
-    "forwarding": "Vidarekoppling av samtal och SMS",
-    "callTextForwardingSection": "Vidarekoppling av samtal och SMS",
-    "callTextForwardingTitle": "Vidarekoppling av samtal och/eller SMS",
-    "callTextForwardingDescription": "Vidarebefordra inkommande samtal och meddelanden till ditt verifierade telefonnummer eller e-post. Utgående samtal/meddelanden kan visa ditt Chatforia-nummer.",
-    "enableTextForwarding": "Aktivera SMS-vidarekoppling",
-    "forwardTextsToPhone": "Vidarebefordra meddelanden till telefon",
-    "forwardTextsToEmail": "Vidarebefordra meddelanden till e-post",
-    "destinationPhone": "Mottagande telefon (E.164)",
-    "destinationEmail": "Mottagande e-postadress",
-    "enableCallForwarding": "Aktivera samtalsvidarekoppling",
-    "destinationPhoneForCalls": "Mottagande telefon (E.164) för samtal",
-    "aliasBridging": "Samtalsvidarekoppling (alias-länkning)",
-    "quietHoursOptional": "Tysta timmar (valfritt)",
-    "startHour": "Starttid (0–23)",
-    "endHour": "Sluttid (0–23)",
+    "forwarding": "Vidarekoppling av samtal & sms",
+    "callTextForwardingSection": "Vidarekoppling av samtal & sms",
+    "callTextForwardingTitle": "Vidarekoppling av samtal och/eller sms",
+    "callTextForwardingDescription": "Vidarekoppla inkommande samtal och sms till ditt verifierade telefonnummer eller e-post. Utgående samtal/sms kan visa ditt Chatforia-nummer.",
+    "enableTextForwarding": "Aktivera vidarekoppling av sms",
+    "forwardTextsToPhone": "Vidarekoppla sms till telefon",
+    "forwardTextsToEmail": "Vidarekoppla sms till e-post",
+    "destinationPhone": "Måltelefon (E.164)",
+    "destinationEmail": "Måladress (e-post)",
+    "enableCallForwarding": "Aktivera vidarekoppling av samtal",
+    "destinationPhoneForCalls": "Mål (E.164) för samtal",
+    "aliasBridging": "Vidarekoppling av samtal (alias-bryggning)",
+    "quietHoursOptional": "Stör ej-tider (valfritt)",
+    "startHour": "Starttimme (0–23)",
+    "endHour": "Sluttimme (0–23)",
     "reset": "Återställ",
     "saveBtn": "Spara"
   },
+
   "chat": {
-    "selectPrompt": "Välj en chatt eller text för att börja chatta",
+    "selectPrompt": "Välj en text eller chatt för att börja chatta",
     "newMessages": "Nya meddelanden",
-    "typing": "{{name}} skriver..."
+    "typing": "{{name}} skriver...",
+    "emptyTitle": "Dina meddelanden",
+    "emptySubtitle": "Skicka ett meddelande för att starta en chatt.",
+    "startChatButton": "Skicka meddelande"
+  },
+
+  "topbar": {
+    "newStatus": "Ny status",
+    "logout": "Logga ut"
+  },
+
+  "status": {
+    "userNumber": "Användare #{{id}}",
+
+    "posted": "Status publicerad",
+    "postFailed": "Misslyckades med att publicera status",
+
+    "createTitle": "Skapa en status",
+    "modalAriaLabel": "Ny status",
+
+    "captionLabel": "Vad har du på hjärtat?",
+    "captionPlaceholder": "Dela en uppdatering...",
+    "captionAria": "Statusmeddelande",
+
+    "audienceLabel": "Målgrupp",
+    "audience": {
+      "public": "Offentligt",
+      "followers": "Följare",
+      "contacts": "Kontakter",
+      "mutuals": "Ömsesidiga",
+      "custom": "Anpassad..."
+    },
+
+    "expiresHoursLabel": "Går ut (timmar)",
+    "maxTooltip": "Maximalt 7 dagar",
+    "hoursAbbrev": "t",
+    "maxShort": "max",
+    "expiresOn": "Går ut den:",
+
+    "chooseRecipients": "Välj mottagare",
+    "selectContacts": "Välj kontakter",
+
+    "attachmentsLabel": "Bilagor",
+    "attachmentsPlaceholder": "Lägg till bilder/videor",
+    "filesNote": "Upp till 5 filer. Går ut efter 24 h som standard.",
+
+    "postAria": "Publicera status",
+    "post": "Publicera"
+  },
+
+  "sidebar": {
+    "randomChat": "Slumpmässig chatt",
+    "callTextForwarding": "Vidarekoppling av samtal & sms",
+    "conversations": "Konversationer",
+    "searchPlaceholder": "Sök i konversationer...",
+    "errorLoading": "Misslyckades med att läsa in chattar",
+    "empty": "Inga konversationer ännu.",
+    "startChat": "Starta en chatt",
+    "people": "Personer",
+    "settings": "Inställningar",
+    "status": "Status",
+    "forwarding": "Vidarekoppling av samtal & sms",
+    "refresh": "Uppdatera",
+    "search": "Sök i konversationer",
+    "loginPrompt": "Logga in för att ändra dina inställningar.",
+    "login": "Logga in",
+    "register": "Skapa konto",
+
+    "chatrooms": "Chattrum",
+    "logout": "Logga ut",
+    "startChatAlt": "Starta en ny chatt"
+  },
+
+  "premium": {
+    "heading": "Bli Premium",
+    "description": "Lås upp kraftfulla funktioner och ta bort annonser.",
+    "upgrade": "Uppgradera"
+  },
+
+  "auth": {
+    "headline": "Säker, global meddelanden med omedelbar översättning",
+    "description": "Ände-till-ände-kryptering, AI-driven översättning, försvinnande meddelanden och röst/video-samtal.",
+    "feature": {
+      "encryption": "Ände-till-ände-kryptering som standard",
+      "translation": "Auto-översätt 100+ språk",
+      "disappearing": "Försvinnande meddelanden & läskvitton",
+      "privacy": "Integritet först. Dina data, din kontroll.",
+      "translate": "Översättning i realtid",
+      "disappear": "Försvinnande meddelanden",
+      "privacyAlt": "Integritetsförst-design"
+    },
+    "welcomeBack": "Välkommen tillbaka",
+    "continueGoogle": "Fortsätt med Google",
+    "continueApple": "Fortsätt med Apple",
+    "username": "Användarnamn",
+    "password": "Lösenord",
+    "keepSignedIn": "Håll mig inloggad",
+    "forgotPassword": "Glömt lösenord?",
+    "loginButton": "Logga in",
+    "createAccount": "Skapa ett konto",
+    "freeAccountButton": "Skapa gratis konto",
+    "newHere": "Ny här?",
+    "getApp": "Hämta appen",
+    "desktopTip": "På dator? Skanna med din telefon för att hämta appen.",
+
+    "goHome": "Gå till startsidan",
+    "home": "Start",
+
+    "headlineAlt": {
+      "main": "Den säkra meddelandeappen som",
+      "highlight": "talar ditt språk"
+    },
+    "subhead": "Privata, krypterade och översatta meddelanden — direkt.",
+
+    "status": "Visa status",
+    "upgrade": "Uppgradera nu",
+    "tip": "Du kan använda Chatforia på alla enheter — eller ladda ner appen för bästa upplevelse.",
+    "openDownload": "Öppna nedladdningssidan",
+    "qrAlt": "QR-kod för Chatforia",
+    "scanHint": "Skanna för att ladda ner appen eller öppna i din webbläsare.",
+    "iosAria": "Hämta i App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Märke för App Store",
+    "androidAria": "Hämta på Google Play",
+    "androidTitle": "Google Play",
+    "androidBadgeAlt": "Märke för Google Play",
+
+    "login": "Logga in",
+    "signup": "Registrera dig",
+    "email": "E-post"
+  },
+
+  "footer": {
+    "plans": "Planer & priser",
+    "about": "Om Chatforia",
+    "careers": "Karriär",
+    "press": "Press",
+    "advertise": "Annonsera",
+    "contact": "Kontakta oss",
+    "help": "Hjälpcenter",
+    "status": "Driftsstatus",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Integritetspolicy",
+    "terms": "Användarvillkor",
+    "cookies": "Cookie-inställningar",
+    "doNotSell": "Sälj inte min information",
+
+    "language": "Språk",
+    "contactShort": "Kontakt"
+  },
+
+  "home": {
+    "title": "Start",
+    "header": "Dina meddelanden",
+    "subheader": "Skicka ett meddelande för att starta en chatt.",
+    "sendButton": "Skicka meddelande",
+    "gifPicker": "Öppna GIF-väljare",
+    "emoji": "Emoji",
+    "upload": "Ladda upp foto eller video",
+    "inputPlaceholder": "Skriv ett meddelande…",
+    "inputLabel": "Meddelandefält",
+    "sendTooltip": "Skicka",
+    "sendTooltipEmpty": "Skriv ett meddelande för att skicka",
+    "send": "Skicka",
+
+    "welcomeMessage": "Välkommen till Chatforia",
+    "getStarted": "Kom igång"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "För medieförfrågningar, kontakta oss på <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "För medieförfrågningar, kontakta oss på press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia är en säker meddelandeapp med omedelbar översättning och änd-till-änd-kryptering, utformad för att göra globala samtal privata och enkla.",
+    "assetsTitle": "Varumärkesmaterial",
+    "assetsText": "Logotyper, skärmdumpar och produktbilder (kommer snart)."
+  },
+
+  "careers": {
+    "title": "Karriär",
+    "intro": "Vi är ett litet team som bygger en privat, global meddelandeapp. Om du bryr dig om kryptering, tillgänglighet och fantastisk UX vill vi gärna höra från dig.",
+    "openRoles": "<b>Lediga roller:</b> Engineering (Full-stack, iOS, Android), Produkt, Support.",
+    "apply": "<b>Ansök så här:</b> Mejla ditt CV/länkar till <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Mejla ditt CV"
+  },
+
+  "about": {
+    "title": "Om Chatforia",
+    "description": "Chatforia är en säker, flerspråkig meddelandeapp med änd-till-änd-kryptering, omedelbar översättning och röst/video-samtal. Vårt mål är enkelt: hjälpa människor att knyta kontakt — säkert, privat och över språkgränser.",
+    "valuesTitle": "Vad vi värdesätter",
+    "values": {
+      "privacy": "<b>Integritet först:</b> Ände-till-ände-kryptering som standard.",
+      "access": "<b>Tillgång för alla:</b> Auto-översätt 100+ språk.",
+      "control": "<b>Kontroll:</b> Försvinnande meddelanden och läskvitton är valfria."
+    },
+    "howTitle": "Så fungerar Chatforia",
+    "howDescription": "Meddelanden krypteras på din enhet innan de lämnar den. Översättning, säkerhetskopior och enhetssynk är utformade för att minimera vad våra servrar kan se."
+  },
+
+  "advertise": {
+    "title": "Annonsera hos Chatforia",
+    "description": "Nå engagerade meddelandeanvändare med smakfulla, varumärkessäkra placeringar. Vi erbjuder bannerutrymme på platser med hög synlighet, sponsringar och egna kampanjer. Premiumabonnenter ser inte annonser.",
+    "adsense": {
+      "withPubId": "Vi visar för närvarande annonser via <b>Google AdSense</b>. Om du vill rikta via Google Ads, använd publicist-ID <code>{{pubId}}</code> och be om hanterad placering på våra enheter nedan. Direktsponsring finns – använd formuläret.",
+      "noPubId": "Vi visar för närvarande annonser via <b>Google AdSense</b>. Direktsponsring finns också – använd formuläret nedan."
+    },
+    "inventoryHeader": "Inventarie & specifikationer",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Godkända storlekar",
+      "adsenseSlot": "AdSense-plats:"
+    },
+    "noPlacements": "Inga placeringar konfigurerade ännu. Lägg till dem i ads/placements.js.",
+    "whyHeader": "Varför Chatforia?",
+    "why": {
+      "highSession": "Hög sessionsfrekvens och lång tid i chatt-UI",
+      "brandSafe": "Varumärkessäkra format; respektfull frekvensbegränsning",
+      "sponsoredMoments": "Sponsrade ögonblick (t.ex. ”Starta en chatt”-modal) tillgängliga",
+      "deals": "Direktavtal eller programmatiskt via AdSense/Google Ads"
+    },
+    "contactHeader": "Kontakt",
+    "form": {
+      "submittedMsg": "Tack! Din förfrågan är på väg. Vi återkommer snart.",
+      "missingRequired": "Fyll i namn, e-post och meddelande.",
+      "successToast": "Tack! Vi hör av oss snart.",
+      "mailtoInfo": "Öppnar ditt e-postprogram för att skicka förfrågan…",
+      "nameLabel": "Ditt namn",
+      "namePlaceholder": "Anna Andersson",
+      "emailLabel": "E-post",
+      "emailPlaceholder": "du@företag.se",
+      "companyLabel": "Företag",
+      "companyPlaceholder": "Acme AB",
+      "budgetLabel": "Månadskostnad (valfritt)",
+      "budgetPlaceholder": "5 000 kr",
+      "messageLabel": "Berätta om din kampanj",
+      "messagePlaceholder": "Målgrupp, datum, KPI:er, placeringsönskemål…",
+      "sendCta": "Skicka förfrågan"
+    },
+    "legal": {
+      "disclaimerStart": "Genom att skicka godkänner du våra",
+      "terms": "Villkor",
+      "and": "och",
+      "privacy": "Integritetspolicy"
+    }
+  },
+
+  "upgrade": {
+    "title": "Uppgradera",
+    "subtitle": "Lås upp rätt plan för dig: bli annonsfri med Plus, eller få alla kraftfunktioner med Premium.",
+    "scheduleBanner": {
+      "title": "Abonnemanget avslutas",
+      "body": "Du återgår till Free den",
+      "keepPlanCta": "Behåll Plus",
+      "manageBillingCta": "Hantera fakturering"
+    },
+    "billing": {
+      "opening": "Öppnar…",
+      "manage": "Hantera fakturering"
+    },
+    "checkout": {
+      "redirecting": "Omdirigerar…"
+    },
+    "auth": {
+      "continue": "Fortsätt",
+      "createAccount": "Skapa konto",
+      "signIn": "Logga in"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 och gruppchatt",
+          "aiBasic": "Grundläggande AI-svar",
+          "attachments": "Standardbilagor"
+        },
+        "ctaCurrent": "Aktuell plan",
+        "ctaUnavailable": "Byt till Free (inte tillgängligt)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mån",
+        "features": {
+          "noAds": "Ta bort alla annonser",
+          "msg": "1:1 och gruppchatt",
+          "attachments": "Större bilagor",
+          "aiBasic": "Grundläggande AI-svar"
+        },
+        "badge": "Populär",
+        "cta": "Bli annonsfri"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Månad)",
+        "price": "$24.99 / mån",
+        "features": {
+          "plusAll": "Allt i Plus",
+          "ringtones": "Egna ringsignaler & meddelandeljud",
+          "powerAi": "Kraftfulla AI-funktioner",
+          "priorityUpdates": "Prioriterade uppdateringar",
+          "backups": "Säkerhetskopior & enhetssynk"
+        },
+        "badge": "Bäst värde",
+        "cta": "Uppgradera (månad)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (År)",
+        "price": "$225 / år",
+        "features": {
+          "allPremium": "Allt i Premium",
+          "annualBilling": "Faktureras årligen",
+          "save25": "Spara ~25% jämfört med månad",
+          "sameFeatures": "Samma funktioner som Månad"
+        },
+        "badge": "Spara 25%",
+        "cta": "Uppgradera (år)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Kom igång",
+    "subtitle": "Ny på Chatforia? Den här snabbstarten visar det viktigaste så att du blir produktiv på några minuter.",
+    "alert": {
+      "text": "Guiden växer när vi lanserar nya funktioner. Om något saknas, meddela oss via",
+      "contactLink": "Kontakta oss"
+    },
+    "section1": {
+      "title": "1) Skapa ditt konto",
+      "signup": "Registrera dig",
+      "or": "eller",
+      "login": "logga in",
+      "loginText": "med ditt befintliga konto.",
+      "prefsStart": "Ställ in dina",
+      "prefsLink": "inställningar",
+      "prefsRest": "(språk, läskvitton, teman)."
+    },
+    "section2": {
+      "title": "2) Börja chatta",
+      "item1": "Skapa ett DM eller en grupp och skicka ditt första meddelande.",
+      "item2": "Använd omedelbar översättning för att chatta över 100+ språk.",
+      "item3": "Prova försvinnande meddelanden och läskvitton i Profil → Integritet."
+    },
+    "section3": {
+      "title": "3) Gå vidare",
+      "item1Part1": "Hantera din plan på sidan",
+      "upgradeLink": "Uppgradera",
+      "item1Part2": "(Plus = annonsfri, Premium = alla funktioner).",
+      "item2Part1": "Länka fler enheter och ställ in krypterade säkerhetskopior i",
+      "settingsLink": "Inställningar"
+    },
+    "cta": {
+      "seePlans": "Visa planer",
+      "openSettings": "Öppna inställningar"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Hjälpcenter",
+    "faq": {
+      "account": {
+        "q": "Hur skapar eller återställer jag mitt konto?",
+        "a": "Ladda ner appen eller använd webben, tryck på ”Skapa konto”, verifiera din e-post/telefon. För att återställa, använd ”Glömt lösenord”."
+      },
+      "privacy": {
+        "q": "Är meddelanden änd-till-änd-krypterade?",
+        "a": "Ja. Meddelanden och samtal är änd-till-änd-krypterade som standard. Bara du och mottagaren kan läsa dem."
+      },
+      "translate": {
+        "q": "Hur fungerar omedelbar översättning?",
+        "a": "Aktivera ”Auto-översätt” i Inställningar → Utseende & språk. Vi översätter på enheten där det stöds, annars via säkra API:er med minimal metadata."
+      },
+      "contact": {
+        "q": "Kontakta support",
+        "a": "Nå oss på support@chatforia.com. Inkludera skärmbilder och din appversion."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Kontakta oss",
+    "successMsg": "Tack – vårt team svarar via e-post.",
+    "errorSend": "Kunde inte skicka. Mejla gärna support@chatforia.com.",
+    "form": {
+      "nameLabel": "Namn",
+      "emailLabel": "E-post",
+      "messageLabel": "Meddelande",
+      "sendCta": "Skicka"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Integritetspolicy",
+    "lastUpdated": "Senast uppdaterad:",
+    "intro": {
+      "body": "Denna integritetspolicy förklarar hur Chatforia (”vi”, ”oss”) samlar in, använder och delar information när du använder våra appar och tjänster. Vi utformar Chatforia för att minimera den data vi kan komma åt."
+    },
+    "infoWeCollect": {
+      "title": "Information vi samlar in",
+      "account": "Kontoinfo (t.ex. e-post/telefon) för att skapa och skydda ditt konto.",
+      "encrypted": "Krypterat innehåll (meddelanden/samtal) är änd-till-änd-krypterat; vi kan inte läsa det.",
+      "diagnostics": "Diagnostik/användning som kraschloggar, enhetstyp eller grov analys för att förbättra prestanda."
+    },
+    "howWeUse": {
+      "title": "Hur vi använder information",
+      "provide": "Tillhandahålla och säkra tjänsten (autentisering, skräppost/missbruksdetektering).",
+      "improve": "Förbättra funktioner (översättningskvalitet, tillförlitlighet).",
+      "legal": "Följa juridiska skyldigheter."
+    },
+    "sharing": {
+      "title": "Delning",
+      "body": "Vi säljer inte personuppgifter. Vi kan dela begränsad data med personuppgiftsbiträden (t.ex. pushnotiser, analys) under strikta avtal."
+    },
+    "rights": {
+      "title": "Dina rättigheter",
+      "body": "Beroende på din region (t.ex. GDPR/UK GDPR/CPRA) kan du begära åtkomst, rättelse, radering eller välja bort viss behandling. Kontakt: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Lagring & säkerhet",
+      "body": "Vi behåller endast vad som behövs för att driva tjänsten och använder branschstandard för säkerhet. Änd-till-änd-innehåll kan inte dekrypteras av oss."
+    },
+    "children": {
+      "title": "Barn",
+      "body": "Chatforia är inte avsedd för barn under 13 år (eller enligt din lokala lag)."
+    },
+    "changes": {
+      "title": "Ändringar",
+      "body": "Vi publicerar uppdateringar här och ändrar datumet ”Senast uppdaterad”."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "privacy@chatforia.com • [Företagets juridiska namn], [Adress]"
+    }
+  },
+
+  "terms": {
+    "title": "Användarvillkor",
+    "lastUpdated": "Senast uppdaterad:",
+    "intro": {
+      "body": "Genom att använda Chatforia godkänner du dessa villkor. Om du inte godkänner dem, använd inte tjänsten."
+    },
+    "accounts": {
+      "title": "Konton",
+      "itemAccurateInfo": "Lämna korrekt information och håll dina inloggningsuppgifter säkra.",
+      "itemResponsibility": "Du ansvarar för aktivitet på ditt konto."
+    },
+    "acceptableUse": {
+      "title": "Godtagbar användning",
+      "itemNoAbuse": "Inget olagligt, kränkande eller intrångsgörande innehåll; ingen spam eller automatiserat missbruk.",
+      "itemSuspend": "Vi kan stänga av/avsluta vid överträdelser."
+    },
+    "yourContent": {
+      "title": "Ditt innehåll",
+      "body": "Du behåller rättigheterna till ditt innehåll. Du ger oss nödvändiga rättigheter för att driva tjänsten (t.ex. dirigering, lagring, översättning)."
+    },
+    "disclaimer": {
+      "title": "Ansvarsfriskrivning & ansvar",
+      "body": "Tjänsten tillhandahålls ”i befintligt skick” utan garantier. I den utsträckning lagen tillåter är Chatforia inte ansvarigt för indirekta eller följdskador."
+    },
+    "changes": {
+      "title": "Ändringar",
+      "body": "Vi kan uppdatera dessa villkor; fortsatt användning efter ändringar innebär att du godkänner dem."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "support@chatforia.com • [Företagets juridiska namn], [Adress]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Sälj inte min personliga information",
+    "body": "Chatforia säljer inte personlig information. Invånare i Kalifornien kan ändå skicka förfrågningar enligt CPRA via knappen nedan.",
+    "cta": "Skicka en förfrågan"
+  },
+
+  "cookies": {
+    "title": "Cookie-inställningar",
+    "body": "Chatforia använder minimala cookies (t.ex. session, säkerhet). Vi använder inte cookies från tredje part för annonser. Hantera cookies via din webbläsares inställningar."
   }
 }

@@ -43,12 +43,12 @@ export default function Press() {
           <Text
             aria-label={t(
               'press.boilerplateText',
-              'Chatforia is a secure messenger with instant translation and E2E encryption, designed to make global conversations private and effortless.'
+              'Chatforia is a secure messenger with instant translation and E2EE encryption, designed to make global conversations private and effortless.'
             )}
           >
             {t(
               'press.boilerplateText',
-              'Chatforia is a secure messenger with instant translation and E2E encryption, designed to make global conversations private and effortless.'
+              'Chatforia is a secure messenger with instant translation and E2EE encryption, designed to make global conversations private and effortless.'
             )}
           </Text>
         </Paper>

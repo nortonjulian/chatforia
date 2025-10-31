@@ -3,110 +3,591 @@
     "save": "Yadda saxla",
     "cancel": "Ləğv et",
     "refresh": "Yenilə",
-    "noMatches": "Uyğun nəticə tapılmadı"
+    "noMatches": "Uyğunluq tapılmadı",
+    "cancelAria": "Ləğv et"
   },
+
   "profile": {
     "title": "İstifadəçi Profili",
 
     "preferredLanguage": "Üstünlük verilən dil",
     "chooseLanguage": "Dil seçin",
-    "mustLogin": "Ayarları görmək üçün daxil olmalısınız.",
+    "mustLogin": "Parametrləri görmək üçün daxil olmalısınız.",
 
     "autoTranslate": "Mesajları avtomatik tərcümə et",
-    "showOriginalWithTranslation": "Əsl və tərcümə olunmuş mesajları göstər",
-    "showOriginalAndTranslation": "Əsl mətni tərcümə ilə yanaşı göstər",
+    "showOriginalWithTranslation": "Orijinalı və tərcüməni göstər",
+    "showOriginalAndTranslation": "Orijinalı tərcümə ilə birlikdə göstər",
 
-    "filterExplicit": "Açıq məzmunu filtrlə",
-    "aiReply": "Süni intellekt cavabı",
+    "filterExplicit": "Açıq məzmunu filtrə et",
+    "aiReply": "AI cavabı",
     "enableReadReceipts": "Oxundu bildirişlərini aktiv et",
     "allowExplicitContent": "Açıq məzmuna icazə ver",
-    "disappearingMessages": "Yoxa çıxan mesajları aktiv et",
-    "autoDeleteSeconds": "Avtomatik silmə müddəti (saniyə)",
+    "disappearingMessages": "Mesajların yox olmasını aktiv et",
+    "autoDeleteSeconds": "Avtomatik silinmə üçün saniyələr",
 
-    "saveSuccess": "Ayarlar yadda saxlanıldı!",
-    "saveError": "Xəta: Ayarları saxlamaq mümkün olmadı.",
+    "saveSuccess": "Parametrlər yadda saxlanıldı!",
+    "saveError": "Səhv: Parametrlər yadda saxlanmadı",
 
-    "avatarAlt": "Profil şəkli",
+    "avatarAlt": "Profil avatarı",
     "uploadAvatar": "Yeni avatar yüklə",
-    "avatarSuccess": "Avatar uğurla yükləndi!",
-    "avatarError": "Avatar yüklənərkən xəta baş verdi.",
+    "avatarSuccess": "Avatar yükləndi!",
+    "avatarError": "Avatar yüklənərkən səhv baş verdi",
 
-    "noPrivateKey": "Bu cihazda ixrac üçün gizli açar yoxdur.",
-    "setBackupPassword": "Ehtiyat nüsxəni şifrələmək üçün parol təyin edin:",
-    "backupDownloaded": "Şifrələnmiş ehtiyat nüsxə endirildi.",
-    "exportFailed": "Açarın ixracı alınmadı.",
-    "enterBackupPassword": "Bu ehtiyat nüsxə üçün parolu daxil edin:",
-    "importSuccess": "Gizli açar bu cihazda idxal edildi.",
-    "importFailed": "İdxal alınmadı (yanlış parol və ya fayl pozulub).",
+    "noPrivateKey": "Bu cihazda ixrac üçün şəxsi açar yoxdur.",
+    "setBackupPassword": "Ehtiyat surəti şifrələmək üçün şifrəni təyin edin:",
+    "backupDownloaded": "Şifrələnmiş ehtiyat surəti yükləndi.",
+    "exportFailed": "Açar ixracı alınmadı",
+    "enterBackupPassword": "Bu ehtiyat üçün şifrəni daxil edin:",
+    "importSuccess": "Şəxsi açar bu cihazda idxal edildi.",
+    "importFailed": "Açar idxalı alınmadı (yanlış şifrə və ya fayl korlanmış).",
     "keysRotated": "Yeni açar cütü yaradıldı və açıq açar yükləndi.",
-    "rotateFailed": "Açarları dəyişmək alınmadı.",
+    "rotateFailed": "Açarkütləri fırlatma alınmadı.",
     "security": "Təhlükəsizlik",
-    "exportKey": "Gizli açarı ixrac et",
-    "importKey": "Şifrələnmiş açar ehtiyat nüsxəsini idxal et",
-    "rotateKeys": "Açar cütünü yenilə",
-    "keyDisclaimer": "Gizli açarınız heç vaxt bu cihazı tərk etmir. Onu başqa cihazda bərpa etmək üçün parol ilə qorunan nüsxə ixrac edin.",
+    "exportKey": "Şəxsi açarı ixrac et",
+    "importKey": "Şifrələnmiş açar ehtiyatını idxal et",
+    "rotateKeys": "Açarkütləri fırlat",
+    "keyDisclaimer": "Şəxsi açar heç vaxt bu cihazdan çıxmır. Başqa cihazda bərpa etmək üçün şifrəli nüsxəni ixrac edin.",
 
     "sectionProfile": "Profil",
     "phoneNumber": "Telefon nömrəsi",
     "appearance": "Görünüş",
     "soundSettings": "Səslər",
-    "disappearing": "Yoxa çıxan mesajlar",
-    "backupSync": "Ehtiyat nüsxə və Sinxronizasiya",
-    "ai": "Süni intellekt",
-    "accessibility": "Əlçatanlıq",
-    "privacy": "Məxfilik",
+    "disappearing": "Yox olan mesajlar",
+    "backupSync": "Ehtiyat & Sinxronizasiya",
+    "ai": "AI",
+    "accessibility": "Çatımlılıq",
+    "privacy": "Gizlilik",
     "devices": "Qoşulmuş cihazlar",
 
-    "themeFreeNotice": "Hazırda pulsuz versiyadasınız — Aşağıdakı Gün/Ay variantlarından istifadə edin. Daha çox mövzu üçün yüksəldin.",
-    "sunTheme": "Səhər mövzusunu seç",
-    "moonTheme": "Gecə (Ay) mövzusunu seç",
-    "sun": "Gün",
+    "themeFreeNotice": "Siz Free planındasınız — aşağıda təcili Günəş/Ay seçimlərindən istifadə edin. Daha çox mövzu açmaq üçün yüksəldin.",
+    "sunTheme": "Gündüz temasından istifadə et",
+    "moonTheme": "Ay (Geceyarısı) temasından istifadə et",
+    "sun": "Günəş",
     "moon": "Ay",
 
-    "backupTitle": "Şifrələnmiş Ehtiyat Nüsxələr və Cihaz Sinxronizasiyası",
-    "openBackupTools": "Ehtiyat alətlərini aç",
-    "backupDesc": "Açarlarınızın parol ilə qorunan ehtiyat nüsxəsini yaradın və digər cihazda bərpa edin.",
+    "backupTitle": "Şifrələnmiş Ehtiyatlar & Cihaz Sinxronizasiyası",
+    "openBackupTools": "Ehtiyat Alətlərini aç",
+    "backupDesc": "Açarlarınızın şifrə ilə qorunmuş ehtiyatlarını yaradın və başqa cihazda bərpa edin.",
 
-    "privacyBlurEnabled": "Mesajları standart olaraq bulanıq göstər",
-    "privacyBlurOnUnfocus": "Tətbiq aktiv olmadıqda mesajları bulanıq göstər",
-    "holdToReveal": "Göstərmək üçün basıb saxla",
-    "notifyOnCopy": "Mesajım kopyalandıqda məni xəbərdar et",
+    "privacyBlurEnabled": "Mesajlar standartda bulanıqlı göstərilsin",
+    "privacyBlurOnUnfocus": "Tətbiq fokusdan çıxdıqda bulanıqlasın",
+    "holdToReveal": "Açmaq üçün basıb saxlayın",
+    "notifyOnCopy": "Mesajım köçürüldükdə bildiriş al",
 
     "loadFailed": "Profil yüklənmədi",
-    "followed": "İzlənildi",
-    "followFailed": "İzləmək alınmadı",
-    "unfollowed": "İzləmədən çıxarıldı",
-    "unfollowFailed": "İzləmədən çıxarma alınmadı",
-    "follow": "İzlə",
-    "unfollow": "İzləmədən çıxar",
-    "followHint": "Əgər paylaşımını 'İzləyicilər' və ya 'Açıq' olaraq edərlərsə, onların hekayələri sizin lentenizdə görünəcək.",
+    "followed": "Abunə oldunuz",
+    "followFailed": "Abunə alınmadı",
+    "unfollowed": "Abunəlik dayandırıldı",
+    "unfollowFailed": "Abunəlik dayandırmaq alınmadı",
+    "follow": "Abunə ol",
+    "unfollow": "Abunəlikdən çıx",
+    "followHint": "Onların hekayələri sizin “İzləyirlər” lentində görünəcək əgər onlar Followers (və ya Public) auditoriyası ilə paylaşarsa.",
     "userNotFound": "İstifadəçi tapılmadı",
     "followsYou": "Sizi izləyir",
 
     "sectionCrashedTitle": "Bölmə yüklənmədi",
-    "sectionCrashedBody": "Bu bölmədə nəsə səhv getdi.",
+    "sectionCrashedBody": "Bu bölmə ilə bağlı bir şey səhv getdi.",
 
-    "forwarding": "Zəng və Mətn Yönləndirmə",
-    "callTextForwardingSection": "Zəng və Mətn Yönləndirmə",
-    "callTextForwardingTitle": "Zəng və/və ya Mətn Yönləndirmə",
-    "callTextForwardingDescription": "Daxil olan zəngləri və mesajları təsdiqlənmiş telefonunuza və ya e-poçtunuza yönləndirin. Çıxan zənglər/mesajlar Chatforia nömrənizi göstərə bilər.",
-    "enableTextForwarding": "Mətn yönləndirməsini aktiv et",
+    "forwarding": "Zəng & Mətn İrəli göndərmə",
+    "callTextForwardingSection": "Zəng & Mətn İrəli göndərmə",
+    "callTextForwardingTitle": "Zəng və/və ya Mətn İrəli göndərmə",
+    "callTextForwardingDescription": "Gələn zəngləri və mesajları təsdiqlənmiş telefonunuza və ya e-poçt ünvanınıza yönəldin. Gələn zəng/mesajlar sizin Chatforia nömrəniz kimi görünə bilər.",
+    "enableTextForwarding": "Mesaj yönləndirməni aktiv et",
     "forwardTextsToPhone": "Mesajları telefona yönləndir",
     "forwardTextsToEmail": "Mesajları e-poçta yönləndir",
-    "destinationPhone": "Təyinat telefonu (E.164)",
-    "destinationEmail": "Təyinat e-poçtu",
-    "enableCallForwarding": "Zəng yönləndirməsini aktiv et",
-    "destinationPhoneForCalls": "Zənglər üçün təyinat telefonu (E.164)",
-    "aliasBridging": "Zəng Yönləndirmə (lazım olduqda körpüləmə)",
-    "quietHoursOptional": "Sakit saatlar (isteğe bağlı)",
-    "startHour": "Başlama saatı (0–23)",
+    "destinationPhone": "Təyinatlı telefon (E.164)",
+    "destinationEmail": "Təyinatlı e-poçt",
+    "enableCallForwarding": "Zəng yönləndirməni aktiv et",
+    "destinationPhoneForCalls": "Zənglər üçün təyinat (E.164)",
+    "aliasBridging": "Zəng yönləndirmə (pseudonim körpüləndirmə)",
+    "quietHoursOptional": "Sakit saatlar (ixtiyari)",
+    "startHour": "Başlanğıc saat (0–23)",
     "endHour": "Bitmə saatı (0–23)",
     "reset": "Sıfırla",
     "saveBtn": "Yadda saxla"
   },
+
   "chat": {
-    "selectPrompt": "Söhbətə başlamaq üçün mətn və ya otaq seçin",
+    "selectPrompt": "Söhbəti başlatmaq üçün tekst və ya chat otağı seçin",
     "newMessages": "Yeni mesajlar",
-    "typing": "{{name}} yazır..."
+    "typing": "{{name}} yazır…",
+    "emptyTitle": "Mesajlarınız",
+    "emptySubtitle": "Söhbətə başlamaq üçün mesaj göndərin.",
+    "startChatButton": "Mesaj göndər"
+  },
+
+  "topbar": {
+    "newStatus": "Yeni Status",
+    "logout": "Çıxış"
+  },
+
+  "status": {
+    "userNumber": "İstifadəçi #{{id}}",
+
+    "posted": "Status paylaşıldı",
+    "postFailed": "Status paylaşmaq alınmadı",
+
+    "createTitle": "Status yaradın",
+    "modalAriaLabel": "Yeni status",
+
+    "captionLabel": "Nə düşünürsünüz?",
+    "captionPlaceholder": "Bir yeniləmə paylaşın…",
+    "captionAria": "Status mesajı",
+
+    "audienceLabel": "Auditoriya",
+    "audience": {
+      "public": "İctimai",
+      "followers": "İzləyənlər",
+      "contacts": "Əlaqələr",
+      "mutuals": "Əməkdaşlar",
+      "custom": "Fərdi..."
+    },
+
+    "expiresHoursLabel": "Bitmə (saatlarda)",
+    "maxTooltip": "Maksimum 7 gün",
+    "hoursAbbrev": "s",
+    "maxShort": "maks",
+    "expiresOn": "Bitmə tarixi:",
+
+    "chooseRecipients": "Alıcıları seçin",
+    "selectContacts": "Əlaqələri seçin",
+
+    "attachmentsLabel": "Əlavələr",
+    "attachmentsPlaceholder": "Şəkil/video əlavə edin",
+    "filesNote": "5-ə qədər fayl. Ümumi müddət 24 saat.",
+
+    "postAria": "Statusu paylaş",
+    "post": "Paylaş"
+  },
+
+  "sidebar": {
+    "randomChat": "Təsadüfi Söhbət",
+    "callTextForwarding": "Zəng & Mətn İrəli göndərmə",
+    "conversations": "Söhbətlər",
+    "searchPlaceholder": "Söhbətlərdə axtar…",
+    "errorLoading": "Söhbətlər yüklənmədi",
+    "empty": "Hələ söhbət yoxdur.",
+    "startChat": "Söhbət başlat",
+    "people": "Şəxslər",
+    "settings": "Parametrlər",
+    "status": "Status",
+    "forwarding": "Zəng & Mətn İrəli göndərmə",
+    "refresh": "Yenilə",
+    "search": "Söhbətlərdə axtar",
+    "loginPrompt": "Parametrləri redaktə etmək üçün giriş edin.",
+    "login": "Daxil ol",
+    "register": "Hesab yaradın",
+
+    "chatrooms": "Söhbət otaqları",
+    "logout": "Çıxış",
+    "startChatAlt": "Yeni söhbət başlat"
+  },
+
+  "premium": {
+    "heading": "Premium keçid et",
+    "description": "Güclü xüsusiyyətləri aç & reklamları sil.",
+    "upgrade": "Yüksəlt"
+  },
+
+  "auth": {
+    "headline": "Təhlükəsiz, qlobal mesajlaşma – ani tərcümə ilə",
+    "description": "Standart üzrə son-dən-sona şifrələmə, AI tərcümə, yox olan mesajlar və səs/video zəngləri.",
+    "feature": {
+      "encryption": "Ön-də son şifrələmə standart üzrə",
+      "translation": "100+ dilə avtomatik tərcümə",
+      "disappearing": "Yox olan mesajlar & oxunma bildirişləri",
+      "privacy": "Gizlilik önəmlidir. Sizin məlumatınız, sizin nəzarətinizdədir.",
+      "translate": "Real vaxt tərcüməsi",
+      "disappear": "Yox olan mesajlar",
+      "privacyAlt": "Gizlilik ön planda dizayn"
+    },
+    "welcomeBack": "Xoş gəlmisiniz",
+    "continueGoogle": "Google ilə davam et",
+    "continueApple": "Apple ilə davam et",
+    "username": "İstifadəçi adı",
+    "password": "Şifrə",
+    "keepSignedIn": "Girişdə qal",
+    "forgotPassword": "Şifrəni unutdunuz?",
+    "loginButton": "Daxil ol",
+    "createAccount": "Hesab yaradın",
+    "freeAccountButton": "Pulsuz hesab yaradın",
+    "newHere": "Yeni misiniz?",
+    "getApp": "Tətbiqi əldə edin",
+    "desktopTip": "Masaüstü? QR-kodla mobilinizdən skan edin tətbiqi götürmək üçün.",
+
+    "goHome": "Əsas səhifəyə keç",
+    "home": "Əsas",
+
+    "headlineAlt": {
+      "main": "Təhlükəsiz mesajlaşma",
+      "highlight": "öz dilinizdə danışır"
+    },
+    "subhead": "Şəxsi, şifrələnmiş və tərcüməli mesajlaşma — dərhal.",
+
+    "status": "Statusu gör",
+    "upgrade": "İndi yüksəlt",
+    "tip": "Chatforia-dan istənilən cihazda istifadə edə bilərsiniz — və ya daha yaxşı təcrübə üçün tətbiqi yükləyin.",
+    "openDownload": "Yükləmə səhifəsini aç",
+    "qrAlt": "Chatforia üçün QR kod",
+    "scanHint": "Tətbiqi yükləmək və ya brauzerdə açmaq üçün skan edin.",
+    "iosAria": "App Store-da yükləyin",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store nişanı",
+    "androidAria": "Google Play-də əldə et",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play nişanı",
+
+    "login": "Daxil ol",
+    "signup": "Qeydiyyatdan keç",
+    "email": "E-poçt"
+  },
+
+  "footer": {
+    "plans": "Planlar & Qiymətlər",
+    "about": "Chatforia haqqında",
+    "careers": "Karyera",
+    "press": "Mətbuat",
+    "advertise": "Reklam",
+    "contact": "Bizimlə əlaqə",
+    "help": "Kömək Mərkəzi",
+    "status": "Status Səhifəsi",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Gizlilik Siyasəti",
+    "terms": "Xidmət Şərtləri",
+    "cookies": "Cookie Parametrləri",
+    "doNotSell": "Məlumatımı satma",
+
+    "language": "Dil",
+    "contactShort": "Əlaqə"
+  },
+
+  "home": {
+    "title": "Əsas",
+    "header": "Mesajlarınız",
+    "subheader": "Söhbət başlamaq üçün mesaj göndərin.",
+    "sendButton": "Mesaj göndər",
+    "gifPicker": "GIF seçicisini aç",
+    "emoji": "Emoji",
+    "upload": "Foto və ya video yüklə",
+    "inputPlaceholder": "Mesaj yazın…",
+    "inputLabel": "Mesaj kompozitoru",
+    "sendTooltip": "Göndər",
+    "sendTooltipEmpty": "Göndərmək üçün mesaj yazın",
+    "send": "Göndər",
+
+    "welcomeMessage": "Chatforia-ya xoş gəlmisiniz",
+    "getStarted": "Başla"
+  },
+
+  "press": {
+    "title": "Mətbuat",
+    "contact": "Media sorğuları üçün bizə yazın: <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Media sorğuları üçün bizə yazın: press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia son-dən-sona şifrələmə, ani tərcümə və səs/video zəngləri ilə qlobal, təhlükəsiz mesajlaşmadır.",
+    "assetsTitle": "Brend materialları",
+    "assetsText": "Loqolar, ekran görüntüləri və məhsul görüntüləri (tezliklə)."
+  },
+
+  "careers": {
+    "title": "Karyera",
+    "intro": "Biz kiçik komandayıq — şəxsi, qlobal mesajlaşma qururuq. Əgər şifrələmə, əlçatanlıq və xoş UX sizin üçün vacibdirsə, bizə yazın.",
+    "openRoles": "<b>Açıq vakansiyalar:</b> Mühəndislik (Full-stack, iOS, Android), Məhsul, Dəstək.",
+    "apply": "<b>Müraciət necə edilir:</b> CV/nümunələrinizi <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> ünvanına göndərin.",
+    "emailCta": "CV göndərin"
+  },
+
+  "about": {
+    "title": "Chatforia haqqında",
+    "description": "Chatforia son-dən-sona şifrələmə, ani tərcümə və səs/video zəngləri olan təhlükəsiz, çoxdilli mesajlaşmadır. Missiyamız sadədir: insanları — təhlükəsiz, özəl və dillərarası şəkildə birləşdirmək.",
+    "valuesTitle": "Dəyərlərimiz",
+    "values": {
+      "privacy": "<b>Gizlilik ön planda:</b> Standart üzrə son-dən-sona şifrələmə.",
+      "access": "<b>Hamı üçün çıxış:</b> Avtomatik tərcümə 100+ dilə.",
+      "control": "<b>Nəzarət:</b> Yox olan mesajlar & oxunma bildirişləri ixtiyaridir."
+    },
+    "howTitle": "Chatforia necə işləyir",
+    "howDescription": "Mesajlar cihazınızda şifrələnir və yalnız sonra çıxır. Tərcümə, ehtiyat və cihaz sinxronizasiyası serverlərimizin gördüklərini minimumda saxlamaq üçün dizayn edilib."
+  },
+
+  "advertise": {
+    "title": "Chatforia-da reklam edin",
+    "description": "Dəyərli, marka-təhlükəsiz yerləşdirmələrlə məşğul söhbət istifadəçilərinə çatın. Banner inventarı yüksək görünürlüğlü yerlərdədir, sponsorluq və daxili promosiyalar mövcuddur. Premium abunəçilər reklamlara baxmır.",
+    "adsense": {
+      "withPubId": "Hal-hazırda <b>Google AdSense</b> vasitəsilə reklam göstəririk. Əgər Google Ads vasitəsilə bizi hədəfləmək istəsəniz, nəşriyyatçı ID-si <code>{{pubId}}</code> istifadə edin və birbaşa yerləşdirilmiş bloklar tələb edin. Birbaşa sponsorluq da mövcuddur — formdan müraciət edin.",
+      "noPubId": "Hal-hazırda <b>Google AdSense</b> vasitəsilə reklam göstəririk. Birbaşa sponsorluq da mümkündür — formu doldurun."
+    },
+    "inventoryHeader": "İnventar & Texniki tələblər",
+    "placement": {
+      "displayBadge": "Ekran",
+      "acceptedSizes": "Qəbul edilən ölçülər",
+      "adsenseSlot": "AdSense slotu:"
+    },
+    "noPlacements": "Hələ yerləşdirmə konfiqurasiya edilməyib. ads/placements.js faylına əlavə edin.",
+    "whyHeader": "Niyə Chatforia?",
+    "why": {
+      "highSession": "Söhbət UI-ında yüksək sessiya tezliyi və qalma müddəti",
+      "brandSafe": "Marka-təhlükəsiz formatlar; hörmətli tezlik məhdudiyyəti",
+      "sponsoredMoments": "Sponsorlu anlar (məsələn, “Söhbət başlat” modalı) mövcuddur",
+      "deals": "Birbaşa razılaşmalar və ya proqramlaşdırılmış vasitəçi AdSense/Google Ads"
+    },
+    "contactHeader": "Əlaqə",
+    "form": {
+      "submittedMsg": "Təşəkkürlər! Müraciətiniz yolda. Tezliklə əlaqə saxlayacağıq.",
+      "missingRequired": "Zəhmət olmasa ad, e-poçt və mesajı doldurun.",
+      "successToast": "Təşəkkürlər! Tezliklə əlaqə saxlayacağıq.",
+      "mailtoInfo": "E-poçt müştərinizi açırıq …",
+      "nameLabel": "Adınız",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "E-poçt",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Şirkət",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Aylıq büdcə (ixtiyari)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Kampaniyanız haqqında məlumat verin",
+      "messagePlaceholder": "Hədəfləriniz, tarixlər, KPI-lar, yerləşdirmə üstünlükləri…",
+      "sendCta": "Sorğu göndər"
+    },
+    "legal": {
+      "disclaimerStart": "Təqdim etməklə, bizim",
+      "terms": "Xidmət Şərtlərinə",
+      "and": "və",
+      "privacy": "Gizlilik Siyasətinə razı olursunuz"
+    }
+  },
+
+  "upgrade": {
+    "title": "Yüksəlt",
+    "subtitle": "Sizin üçün uyğun planı açın: Plus ilə reklamlar olmadan, ya da Premium ilə tam güc xüsusiyyətlər.",
+    "scheduleBanner": {
+      "title": "Abunə bitəcək",
+      "body": "Siz Free planına keçəcəksiniz",
+      "keepPlanCta": "Plus-da qal",
+      "manageBillingCta": "Ödənişi idarə et"
+    },
+    "billing": {
+      "opening": "Açılır…",
+      "manage": "Ödənişi idarə et"
+    },
+    "checkout": {
+      "redirecting": "Yönləndirilir…"
+    },
+    "auth": {
+      "continue": "Davam et",
+      "createAccount": "Hesab yaradın",
+      "signIn": "Daxil ol"
+    },
+    "plans": {
+      "free": {
+        "title": "Pulsuz",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 və qrup mesajlaşması",
+          "aiBasic": "Əsas AI cavabları",
+          "attachments": "Standart əlavələr"
+        },
+        "ctaCurrent": "Cari Plan",
+        "ctaUnavailable": "Pulsuz plana keç (mövcud deyil)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / ay",
+        "features": {
+          "noAds": "Bütün reklamları sil",
+          "msg": "1:1 və qrup mesajlaşması",
+          "attachments": "Böyük əlavələr",
+          "aiBasic": "Əsas AI cavabları"
+        },
+        "badge": "Populyar",
+        "cta": "Reklamsız ol"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Aylıq)",
+        "price": "$24.99 / ay",
+        "features": {
+          "plusAll": "Plus-dakı hamısı",
+          "ringtones": "Fərdi zəng/təhlükətonları",
+          "powerAi": "Güclü AI xüsusiyyətləri",
+          "priorityUpdates": "Üstün yeniləmələr",
+          "backups": "Ehtiyatlar & cihaz sinxronizasiyası"
+        },
+        "badge": "Ən yaxşı dəyər",
+        "cta": "Yüksəlt (Aylıq)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (İllik)",
+        "price": "$225 / il",
+        "features": {
+          "allPremium": "Premium-dakı hamısı",
+          "annualBilling": "İllik ödənişlə",
+          "save25": "Aylığa müqayisədə ~25% qənaət",
+          "sameFeatures": "Aylıq ilə eyni xüsusiyyətlər"
+        },
+        "badge": "25% qənaət",
+        "cta": "Yüksəlt (İllik)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Başlayaq",
+    "subtitle": "Chatforia-ya yeni? Bu sürətli bələdçi əsasları göstərir ki, bir neçə dəqiqədə işləməyə başlaya bilərsiniz.",
+    "alert": {
+      "text": "Bu bələdçi yeni xüsusiyyətlər çıxarkən böyüyəcək. Nəsə əksikdirsə, bizə bildirin:",
+      "contactLink": "Bizimlə əlaqə"
+    },
+    "section1": {
+      "title": "1) Hesab yaradın",
+      "signup": "Qeydiyyatdan keçin",
+      "or": "və ya",
+      "login": "daxil olun",
+      "loginText": "mövcud hesabınızla.",
+      "prefsStart": "Təyin edin",
+      "prefsLink": "üstünlüklərinizi",
+      "prefsRest": "(dil, oxunma bildirişləri, mövzular)."
+    },
+    "section2": {
+      "title": "2) Mesajlaşmağa başlayın",
+      "item1": "DM və ya Qrup yaradın və ilk mesajınızı göndərin.",
+      "item2": "Ani tərcümədən istifadə edərək 100+ dildə söhbət edin.",
+      "item3": "Profil → Gizlilik bölümündə yox olan mesajlar və oxunma bildirişlərini sınayın."
+    },
+    "section3": {
+      "title": "3) Daha da irəli gedin",
+      "item1Part1": "Planınızı idarə edin",
+      "upgradeLink": "Yüksəlt",
+      "item1Part2": "səhifəsində (Plus = reklamsız, Premium = tam xüsusiyyətlər).",
+      "item2Part1": "Əlavə cihazlar qoşun və şifrəli ehtiyatlar yaradın",
+      "settingsLink": "Parametrlər"
+    },
+    "cta": {
+      "seePlans": "Planlara baxın",
+      "openSettings": "Parametrləri açın"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Kömək Mərkəzi",
+    "faq": {
+      "account": {
+        "q": "Hesabı necə yaradıram və ya bərpa edirəm?",
+        "a": "Tətbiqi yükləyin və ya vebdə istifadə edin, “Hesab yaradın” seçin, e-poçt/telefonu təsdiqləyin. Bərpa üçün “Şifrəni unutdum”u seçin."
+      },
+      "privacy": {
+        "q": "Mesajlar son-dən-sona şifrələnib?",
+        "a": "Bəli. Mesajlar və zənglər standart üzrə son-dən-sona şifrələnir. Yalnız siz və alıcı oxuya bilər."
+      },
+      "translate": {
+        "q": "Ani tərcümə necə işləyir?",
+        "a": "Parametrlər → Görünüş & Dil → “Avtomatik tərcümə”ni aktiv et. Cihazda dəstəklənirsə tərcümə cihazda baş verir, yoxdursa minimum meta-məlumatla təhlükəsiz API-lər vasitəsilə."
+      },
+      "contact": {
+        "q": "Dəstək ilə əlaqə necə?",
+        "a": "Bizimlə support@chatforia.com ünvanında əlaqə saxlayın. Ekran görüntüləri və tətbiq versiyanızı əlavə edin."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Bizimlə əlaqə",
+    "successMsg": "Təşəkkürlər—komandamız tezliklə e-poçt vasitəsilə cavab verəcək.",
+    "errorSend": "Göndərmək alınmadı. Zəhmət olmasa support@chatforia.com ünvanına yazın.",
+    "form": {
+      "nameLabel": "Ad",
+      "emailLabel": "E-poçt",
+      "messageLabel": "Mesaj",
+      "sendCta": "Göndər"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Gizlilik Siyasəti",
+    "lastUpdated": "Son yeniləmə:",
+    "intro": {
+      "body": "Bu Gizlilik Siyasəti Chatforia (“biz”, “bizə”) tətbiqləri və xidmətləri istifadə edərkən məlumatların necə toplanmasını, istifadə edilməsini və paylaşılmasını izah edir. Chatforia-nı bizim serverlərin görəcəklərini minimumda saxlamaq üçün dizayn edirik."
+    },
+    "infoWeCollect": {
+      "title": "Topladığımız məlumatlar",
+      "account": "Hesab məlumatları (məs., e-poçt/telefon) hesabınızı yaratmaq və qorumaq üçün.",
+      "encrypted": "Şifrələnmiş məzmun (mesajlar/zənglər) son-dən-sona şifrələnir; biz oxuya bilmərik.",
+      "diagnostics": "Diaqnostika/istifadəçi məlumatları kimi çöküş gündəlikləri, cihaz növü və ya xam analizlər performansı yaxşılaşdırmaq üçün."
+    },
+    "howWeUse": {
+      "title": "Məlumatdan necə istifadə edirik",
+      "provide": "Xidməti təmin et və qorumaq (avtorizasiya, spam/istismar aşkarlanması).",
+      "improve": "Xüsusiyyətləri yaxşılaşdır (tərcümə keyfiyyəti, etibarlılıq).",
+      "legal": "Hüquqi öhdəliklərə riayət et."
+    },
+    "sharing": {
+      "title": "Paylaşma",
+      "body": "Biz şəxsi məlumatınızı satmırıq. Məhdud məlumatı tərəfdaşlarla (məs., push bildirişləri, analizlər) ciddi müqavilələrlə paylaşa bilərik."
+    },
+    "rights": {
+      "title": "Sizin hüquqlarınız",
+      "body": "Regionunuza (məs., GDPR/UK GDPR/CPRA) əsasən sizin çıxış, düzəliş, silmə və müəyyən emaldan imtina etmək hüququnuz var. Əlaqə: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Məlumat saxlanması & təhlükəsizlik",
+      "body": "Xidməti işlətmək üçün lazım olanı saxlayırıq və sənaye standartlarına uyğun təhlükəsizlik tətbiq edirik. Son-dən-sona şifrələnmiş məzmun biz tərəfindən deşifrə edilə bilməz."
+    },
+    "children": {
+      "title": "Uşaqlar",
+      "body": "Chatforia 13 yaşından kiçik uşaqlara yönəlməyib (və ya sizin lokal qanununuza uyğun)."
+    },
+    "changes": {
+      "title": "Dəyişikliklər",
+      "body": "Yeniləmələri burada yerləşdirəcəyik və “Son yeniləmə” tarixini yeniləyəcəyik."
+    },
+    "contact": {
+      "title": "Əlaqə",
+      "body": "privacy@chatforia.com • [Şirkətin hüquqi adı], [Ünvan]"
+    }
+  },
+
+  "terms": {
+    "title": "Xidmət Şərtləri",
+    "lastUpdated": "Son yeniləmə:",
+    "intro": {
+      "body": "Chatforia-dan istifadə etməklə bu Şərtləri qəbul edirsiniz. Əgər razı deyilsinizsə, xidmətdən istifadə etməyin."
+    },
+    "accounts": {
+      "title": "Hesablar",
+      "itemAccurateInfo": "Dəqiq məlumat təqdim edin və giriş məlumatlarınızı təhlükəsiz saxlayın.",
+      "itemResponsibility": "Hesabınızdakı fəaliyyətə görə siz məsuliyyət daşıyırsınız."
+    },
+    "acceptableUse": {
+      "title": "Qəbuledilən istifadə",
+      "itemNoAbuse": "Qanunsuz, mənfi və ya hüquq pozan məzmun olmaz; spam və avtomatik sui-istifadə olmaz.",
+      "itemSuspend": "Pozuntular üçün hesabınızı dayandırmaq və ya ləğv etmək hüququmuz var."
+    },
+    "yourContent": {
+      "title": "Sizin məzmununuz",
+      "body": "Məzmununuzun hüquqları sizə qalır. Xidməti işlətmək üçün bizə (məs., yönləndirmə, saxlanma, tərcümə) zəruri hüquqları verirsiniz."
+    },
+    "disclaimer": {
+      "title": "İmtina & məsuliyyət",
+      "body": "Xidmət “olduğu kimi” təqdim edilir və heç bir zəmanət verilmir. Qanunun icazə verdiyi ən geniş çərçivədə Chatforia dolayı və ya ardıcıl zərərlərə görə məsuliyyət daşımır."
+    },
+    "changes": {
+      "title": "Dəyişikliklər",
+      "body": "Bu şərtləri yeniləyə bilərik; yeniləmələrdən sonra istifadəyə davam etmək qəbul deməkdir."
+    },
+    "contact": {
+      "title": "Əlaqə",
+      "body": "support@chatforia.com • [Şirkətin hüquqi adı], [Ünvan]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Məlumatımı sat və ya paylaşma",
+    "body": "Chatforia şəxsi məlumatları satmır. Kaliforniya sakinləri hələ də CPRA çərçivəsində sorğu göndərə bilərlər aşağıdakı düymədən.",
+    "cta": "Sorğu göndər"
+  },
+
+  "cookies": {
+    "title": "Cookie Parametrləri",
+    "body": "Chatforia minimal cookies istifadə edir (məs., sessiya, təhlükəsizlik). Üçüncü tərəf reklam cookies-lərindən istifadə etmirik. Cookie-ləri brauzerinizin parametrləri vasitəsilə idarə edin."
   }
 }

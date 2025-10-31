@@ -2,111 +2,592 @@
   "common": {
     "save": "Boloka",
     "cancel": "Khansela",
-    "refresh": "Tsosolosa",
-    "noMatches": "Ga go kitla go fitlhelwa sepe se se tshwanelang"
+    "refresh": "Refresha",
+    "noMatches": "Ga go na tse di tshwanang",
+    "cancelAria": "Khansela"
   },
+
   "profile": {
-    "title": "Porofaele ya Modirisi",
+    "title": "Profailo ya Modirisi",
 
-    "preferredLanguage": "Puo e e ratwang",
-    "chooseLanguage": "Tlhopha puo",
-    "mustLogin": "O tshwanetse go tsena go bona dipeakanyo.",
+    "preferredLanguage": "Leleme le o le ratang",
+    "chooseLanguage": "Tlhopha leleme",
+    "mustLogin": "O tshwanetse go tsena (sign in) go bona ditlhophiso.",
 
-    "autoTranslate": "Fetolela melaetsa ka boeona",
-    "showOriginalWithTranslation": "Bontsha molaetsa wa pele le o o fetotsweng",
-    "showOriginalAndTranslation": "Bontsha wa pele le wa phetolelo mmogo",
+    "autoTranslate": "Fetolela melaetsa ka boitshediso",
+    "showOriginalWithTranslation": "Bontsha molaetsa wa ntlha le o o fetotsweng",
+    "showOriginalAndTranslation": "Bontsha wa ntlha pelenyana le phetolelo",
 
-    "filterExplicit": "Tlhopha diteng tse di sa tshwaneng",
+    "filterExplicit": "Kgaola dikateng tse di kgopisang",
     "aiReply": "Karabo ya AI",
-    "enableReadReceipts": "Dirisa tshedimosetso ya gore molaetsa o buletswe",
-    "allowExplicitContent": "Letla diteng tse di sa tshwaneng",
-    "disappearingMessages": "Dirisa melaetsa e e nyelelang",
-    "autoDeleteSeconds": "Metsotswana pele molaetsa o phimolwa",
+    "enableReadReceipts": "Bulegisa ditshupo tsa go buisiwa",
+    "allowExplicitContent": "Letla dikateng tse di kgopisang",
+    "disappearingMessages": "Bulegisa melaetsa e e nyelelang",
+    "autoDeleteSeconds": "Metsotswana go fitlha e phimolwa ka boyona",
 
-    "saveSuccess": "Dipeakanyo di bolokilwe!",
-    "saveError": "Phoso: Ga e a kgona go boloka dipeakanyo.",
+    "saveSuccess": "Ditlhophiso di bolokilwe!",
+    "saveError": "Phoso: Ga e a kgona go boloka ditlhophiso",
 
-    "avatarAlt": "Senepe sa porofaele",
-    "uploadAvatar": "Tsenya senepe se sesha",
-    "avatarSuccess": "Senepe se tsentswe!",
-    "avatarError": "Phoso fa o ne o tsenya senepe.",
+    "avatarAlt": "Setshwantsho sa profailo",
+    "uploadAvatar": "Tsenya setshwantsho se sesha",
+    "avatarSuccess": "Setshwantsho se tsentswe!",
+    "avatarError": "Phoso fa o tsenya setshwantsho",
 
-    "noPrivateKey": "Ga go na senotlolo sa poraefete mo sediring seno go romelwa.",
-    "setBackupPassword": "Tlhoma password go sireletsa backup ya gago:",
-    "backupDownloaded": "Backup e e sireleditsweng e laisitswe.",
+    "noPrivateKey": "Ga go na senotlolo sa poraefete mo sedirisong seno go se romela.",
+    "setBackupPassword": "Bea khunololamoraba go sireletsa bekapo:",
+    "backupDownloaded": "Bekapo e e sirilweng e kopolotswe.",
     "exportFailed": "Go romela senotlolo go retetse",
-    "enterBackupPassword": "Tsenya password ya backup eno:",
-    "importSuccess": "Senotlolo sa poraefete se tsentswe mo sediring seno.",
-    "importFailed": "Go tsenya senotlolo go retetse (password e e sa siamang kgotsa faele e senyegile).",
-    "keysRotated": "Senotlolo se sesha se tlhamiwe mme sa romelwa.",
-    "rotateFailed": "Go fetola dinotlolo go retetse.",
+    "enterBackupPassword": "Tsenya khunololamoraba ya bekapo eno:",
+    "importSuccess": "Senotlolo sa poraefete se tsentswe mo sedirisong seno.",
+    "importFailed": "Go retetse go tsenya senotlolo (khunololamoraba e phoso kgotsa faele e senyegile).",
+    "keysRotated": "Dinotlolo tse dintsha di agilwe mme senotlolo sa setšhaba sa rometswe.",
+    "rotateFailed": "Go retetse go fetola dinotlolo.",
     "security": "Tshireletso",
     "exportKey": "Romela senotlolo sa poraefete",
-    "importKey": "Tsenya backup e e sireleditsweng ya senotlolo",
+    "importKey": "Tsenya bekapo ya senotlolo se se sirilweng",
     "rotateKeys": "Fetola dinotlolo",
-    "keyDisclaimer": "Senotlolo sa poraefete sa gago ga se tloge mo sediring seno. Romela kopi e e sireletsweng ka password go kgona go e busetsa mo sediring se sengwe.",
+    "keyDisclaimer": "Senotlolo sa gago sa poraefete ga se tswe mo sedirising seno. Romela kopi e e sireleditsweng ka khunololamoraba go kgona go e busetsa mo sedirisong se sengwe.",
 
-    "sectionProfile": "Porofaele",
+    "sectionProfile": "Profailo",
     "phoneNumber": "Nomoro ya mogala",
     "appearance": "Ponalo",
     "soundSettings": "Modumo",
     "disappearing": "Melaetsa e e nyelelang",
-    "backupSync": "Backup le go tshwantsha",
+    "backupSync": "Bekapo & Tsamaisano",
     "ai": "AI",
-    "accessibility": "Go fitlhelela",
-    "privacy": "Boipuso",
-    "devices": "Didiriswa tse di golaganeng",
+    "accessibility": "Go kgonagala",
+    "privacy": "Poraefete",
+    "devices": "Didiriswa tse di golagantsweng",
 
-    "themeFreeNotice": "O mo pegong ya mahala — dirisa dikgetho tsa Letsatsi / Ngwedi tse di fa tlase. Ntšhafatsa go bula ditlhopha tse dingwe.",
-    "sunTheme": "Dirisa tema ya Letsatsi",
-    "moonTheme": "Dirisa tema ya Ngwedi (Bosigo)",
+    "themeFreeNotice": "O mo Morerong wa Mahala—dirisa dikgetho tsa Letsatsi/Ngwedi fa tlase. Ntšhwafatsa go bula metheme e mentsi.",
+    "sunTheme": "Dirisa themi ya Phatsimo (Dawn)",
+    "moonTheme": "Dirisa themi ya Ngwedi (Bosigo)",
     "sun": "Letsatsi",
     "moon": "Ngwedi",
 
-    "backupTitle": "Backup e e sireleditsweng le go tshwantsha didiriswa",
-    "openBackupTools": "Bula didiriswa tsa Backup",
-    "backupDesc": "Tlhama backup e e sireleditsweng ka password ya dinotlolo tsa gago, mme o kgone go e busetsa mo sediring se sengwe.",
+    "backupTitle": "Dibekapo tse di Sirilweng & Tsamaisano ya Didiriswa",
+    "openBackupTools": "Bula Didiriswa tsa Bekapo",
+    "backupDesc": "Bopa dibekapo tse di nang le khunololamoraba tsa dinotlolo tsa gago, mme o di busetse mo sedirisong se sengwe go tsamaisanya.",
 
-    "privacyBlurEnabled": "Phimola molaetsa ka boeona",
-    "privacyBlurOnUnfocus": "Phimola fa app e sa dirisiwe",
-    "holdToReveal": "Tshwara go bona",
-    "notifyOnCopy": "Ntsa tshedimosetso fa molaetsa wa me o kopiwe",
+    "privacyBlurEnabled": "Swara melaetsa e patilwe ka kaelo",
+    "privacyBlurOnUnfocus": "Pata fa app e sa tsepamwe",
+    "holdToReveal": "Tshwara go bonatsa",
+    "notifyOnCopy": "Ntsibose fa molaetsa wa me o kopolotswe",
 
-    "loadFailed": "Porofaele ga e a laisiwa",
-    "followed": "O latetswe",
-    "followFailed": "Go latela go retetse",
-    "unfollowed": "Go latelwa go kgaotswe",
-    "unfollowFailed": "Go kgaola go latela go retetse",
+    "loadFailed": "Go retetse go laisa profailo",
+    "followed": "O mo setatelong",
+    "followFailed": "Go retetse go latela",
+    "unfollowed": "O sa tlhole o mo setatelong",
+    "unfollowFailed": "Go retetse go kgaotsa go latela",
     "follow": "Latela",
-    "unfollow": "Kgaotsa go latela",
-    "followHint": "Dintlha tsa bone di tla bonala mo feed ya gago ya Balateli fa ba romela mo phuthegong ya Balateli kgotsa Phatlalatsa.",
-    "userNotFound": "Modirisi ga a bonwe",
+    "unfollow": "Tlogela go latela",
+    "followHint": "Dipego tsa bone di tla tlhaga mo go Following fa ba romela ka setlhopha sa Balatelwa (kgotsa Sephatlalatsa).",
+    "userNotFound": "Modirisi ga a bonwa",
     "followsYou": "O a go latela",
 
-    "sectionCrashedTitle": "Karolo e paletswe go laisiwa",
-    "sectionCrashedBody": "Go diragetse phoso mo karolong eno.",
+    "sectionCrashedTitle": "Karolo e retetse go laisa",
+    "sectionCrashedBody": "Go na le sengwe se se sa tsamayang sentle mo karolong eno.",
 
-    "forwarding": "Go romela mopelelong wa megala le melaetsa",
-    "callTextForwardingSection": "Go romela mopelelong wa megala le melaetsa",
-    "callTextForwardingTitle": "Go romela mehala le / kgotsa melaetsa",
-    "callTextForwardingDescription": "Romela mehala le melaetsa e e tsenang kwa mogaleng kgotsa imeileng e e netefaditsweng. Mehala/melaetsa e e tswang e ka bontsha nomoro ya gago ya Chatforia.",
-    "enableTextForwarding": "Dirisa go romela melaetsa pele",
-    "forwardTextsToPhone": "Romela melaetsa kwa mogaleng",
-    "forwardTextsToEmail": "Romela melaetsa kwa imeileng",
-    "destinationPhone": "Nomoro ya mogala (E.164)",
-    "destinationEmail": "Imeile ya lefelo",
-    "enableCallForwarding": "Dirisa go romela mehala pele",
-    "destinationPhoneForCalls": "Nomoro ya mogala (E.164) ya mehala",
-    "aliasBridging": "Go romela mehala (go amanya maina)",
-    "quietHoursOptional": "Diora tsa go iketla (boikgethelo)",
-    "startHour": "Nako ya go simolola (0–23)",
-    "endHour": "Nako ya go fela (0–23)",
-    "reset": "Simolola sešwa",
+    "forwarding": "Go fetisetsa Mehala & Melaetsa",
+    "callTextForwardingSection": "Go fetisetsa Mehala & Melaetsa",
+    "callTextForwardingTitle": "Go fetisetsa Mehala le/gongwe Melaetsa",
+    "callTextForwardingDescription": "Fetisetsa mehala le melaetsa e e tsenang kwa mo mogaleng kgotsa eposeng ya gago e e netefaditsweng. Mehala/melaetsa e e yang kwa ntle e ka bontsha nomoro ya gago ya Chatforia.",
+    "enableTextForwarding": "Bulegisa go fetisetsa melaetsa",
+    "forwardTextsToPhone": "Fetisetsa melaetsa kwa mogaleng",
+    "forwardTextsToEmail": "Fetisetsa melaetsa kwa eposeng",
+    "destinationPhone": "Nomoro ya go amogela (E.164)",
+    "destinationEmail": "Aterese ya eposo ya go amogela",
+    "enableCallForwarding": "Bulegisa go fetisetsa mehala",
+    "destinationPhoneForCalls": "Nomoro ya go amogela (E.164) ya mehala",
+    "aliasBridging": "Go Fetisetsa Mehala (alias bridging)",
+    "quietHoursOptional": "Diura tsa Tidimalo (boikgethelo)",
+    "startHour": "Sešupo sa nako ya tshimologo (0–23)",
+    "endHour": "Sešupo sa nako ya bokhutlo (0–23)",
+    "reset": "Seta sesha",
     "saveBtn": "Boloka"
   },
+
   "chat": {
     "selectPrompt": "Tlhopha molaetsa kgotsa phaposi ya puisano go simolola go bua",
     "newMessages": "Melaetsa e mesha",
-    "typing": "{{name}} o a kwala..."
+    "typing": "{{name}} o a kwala...",
+    "emptyTitle": "Melaetsa ya gago",
+    "emptySubtitle": "Romela molaetsa go simolola puisano.",
+    "startChatButton": "Romela molaetsa"
+  },
+
+  "topbar": {
+    "newStatus": "Boemo jo Bosha",
+    "logout": "Tswa"
+  },
+
+  "status": {
+    "userNumber": "Modirisi #{{id}}",
+
+    "posted": "Boemo bo rometswe",
+    "postFailed": "Go retetse go romela boemo",
+
+    "createTitle": "Bopa boemo",
+    "modalAriaLabel": "Boemo jo bosha",
+
+    "captionLabel": "O akanya eng?",
+    "captionPlaceholder": "Abelana ka se o se akanyang...",
+    "captionAria": "Molaetsa wa boemo",
+
+    "audienceLabel": "Bamogedi",
+    "audience": {
+      "public": "Sephatlalatsa",
+      "followers": "Balatelwa",
+      "contacts": "Bokgoni jwa dintlhatlha (Contacts)",
+      "mutuals": "Ba lo latelanang",
+      "custom": "Tlwaelafatsa..."
+    },
+
+    "expiresHoursLabel": "Fela (diura)",
+    "maxTooltip": "Bogolo ke malatsi a le 7",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "E fela ka:",
+
+    "chooseRecipients": "Tlhopha baamogedi",
+    "selectContacts": "Tlhopha dintlhatlha",
+
+    "attachmentsLabel": "Ditshwantsho/Difaele",
+    "attachmentsPlaceholder": "Tsenya ditshwantsho/didipeo",
+    "filesNote": "Go fitlha 5 difaele. Ka tlwaelo di fela ka diura 24.",
+
+    "postAria": "Romela boemo",
+    "post": "Romela"
+  },
+
+  "sidebar": {
+    "randomChat": "Puisano ka Tshegofatso (Random)",
+    "callTextForwarding": "Go fetisetsa Mehala & Melaetsa",
+    "conversations": "Dipuisano",
+    "searchPlaceholder": "Batla dipuisano...",
+    "errorLoading": "Go retetse go laisa dipuisano",
+    "empty": "Ga go na dipuisano go fitlha jaanong.",
+    "startChat": "Simolola puisano",
+    "people": "Batho",
+    "settings": "Ditlhophiso",
+    "status": "Boemo",
+    "forwarding": "Go fetisetsa Mehala & Melaetsa",
+    "refresh": "Refresha",
+    "search": "Batla dipuisano",
+    "loginPrompt": "Tsena go fetola ditlhophiso.",
+    "login": "Tsena",
+    "register": "Bopa akhaonto",
+
+    "chatrooms": "Diphaposi tsa puisano",
+    "logout": "Tswa",
+    "startChatAlt": "Simolola puisano e ntšha"
+  },
+
+  "premium": {
+    "heading": "Ntshefatsa (Go Premium)",
+    "description": "Bula ditshebeletso tse di maatla & tlose dipapatso.",
+    "upgrade": "Ntshefatsa"
+  },
+
+  "auth": {
+    "headline": "Melaetsa e e sireleditsweng, ya lefatshe ka bophara ka phetolelo ya ka bonako",
+    "description": "Enkripshene ya bokhutlo-go-ya-bokhutlo, phetolelo e tsamaiswang ke AI, melaetsa e e nyelelang, le mehala ya lentswe/lebidio.",
+    "feature": {
+      "encryption": "Enkripshene ya bokhutlo-go-ya-bokhutlo ka kaelo",
+      "translation": "Fetolela dipuo di feta 100 ka boitshediso",
+      "disappearing": "Melaetsa e e nyelelang & ditshupo tsa go buisiwa",
+      "privacy": "Poraefete pele. Data ya gago, taolo ya gago.",
+      "translate": "Phetolelo ya ka pela",
+      "disappear": "Melaetsa e e nyelelang",
+      "privacyAlt": "Moralo o o rotloetsang poraefete"
+    },
+    "welcomeBack": "O amogetswe gape",
+    "continueGoogle": "Tswelela ka Google",
+    "continueApple": "Tswelela ka Apple",
+    "username": "Leina la modirisi",
+    "password": "Khunololamoraba",
+    "keepSignedIn": "Ntsa ke tsentswe",
+    "forgotPassword": "O lebetse khunololamoraba?",
+    "loginButton": "Tsena",
+    "createAccount": "Bopa akhaonto",
+    "freeAccountButton": "Bopa akhaonto ya mahala",
+    "newHere": "O mosha fano?",
+    "getApp": "Tsenya app",
+    "desktopTip": "O mo khomphuteng? Skena ka founo go tsaya app.",
+
+    "goHome": "Ya kwa gae",
+    "home": "Gae",
+
+    "headlineAlt": {
+      "main": "Mosele wa melaetsa o o sireletsegileng o",
+      "highlight": "buang leleme la gago"
+    },
+    "subhead": "Melaetsa ya poraefete, e e sireleditsweng, e e fetolelwang — ka pela.",
+
+    "status": "Leba boemo",
+    "upgrade": "Ntshefatsa jaanong",
+    "tip": "O ka dirisa Chatforia mo sedirisong sengwe le sengwe — kgotsa o tle o itlhafile app.",
+    "openDownload": "Bula tsebego ya go itelela",
+    "qrAlt": "Khoutu ya QR ya Chatforia",
+    "scanHint": "Skena go itelela app kgotsa go bula mo sebrowsereng.",
+    "iosAria": "Itseele mo App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Letshwao la App Store",
+    "androidAria": "Fumana mo Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Letshwao la Google Play",
+
+    "login": "Tsena",
+    "signup": "Saena o tsene",
+    "email": "Eposo"
+  },
+
+  "footer": {
+    "plans": "Dikopano & Ditlhwatlhwa",
+    "about": "Ka ga Chatforia",
+    "careers": "Mesebetsi",
+    "press": "Metshameko/Seipolelo sa boralitaba",
+    "advertise": "Papatsa",
+    "contact": "Ikgolaganye le rona",
+    "help": "Setsi sa Thuso",
+    "status": "Tsebego ya Boemo",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Pholisi ya Poraefete",
+    "terms": "Dipeelo tsa Tšebeliso",
+    "cookies": "Dithulaganyo tsa Dikuki",
+    "doNotSell": "Se rekise Tshedimosetso ya Me",
+
+    "language": "Leleme",
+    "contactShort": "Ikgolaganye"
+  },
+
+  "home": {
+    "title": "Gae",
+    "header": "Melaetsa ya gago",
+    "subheader": "Romela molaetsa go simolola puisano.",
+    "sendButton": "Romela molaetsa",
+    "gifPicker": "Bula setlhopha sa GIF",
+    "emoji": "Emoji",
+    "upload": "Tsenya setshwantsho kgotsa video",
+    "inputPlaceholder": "Kwala molaetsa…",
+    "inputLabel": "Sebopi sa molaetsa",
+    "sendTooltip": "Romela",
+    "sendTooltipEmpty": "Kwala molaetsa pele",
+    "send": "Romela",
+
+    "welcomeMessage": "O amogetswe mo Chatforia",
+    "getStarted": "Simolola"
+  },
+
+  "press": {
+    "title": "Boralitaba",
+    "contact": "Go dipotso tsa boralitaba, re ngoke ka <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Go dipotso tsa boralitaba, re ngoke kwa press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia ke mosele wa melaetsa o o sireletsegileng ka phetolelo ya ka pela le enkripshene ya E2E, o rulagantsweng go dira puisano ya lefatshe ka bophara e nne ya poraefete ebile e se ka mathata.",
+    "assetsTitle": "Dithoto tsa leina",
+    "assetsText": "Dilogong, dikarolo tsa skrini, le ditshwantsho tsa sehlahisoa (di tlaa tla)."
+  },
+
+  "careers": {
+    "title": "Mesebetsi",
+    "intro": "Re setlhopha se sennye re agile mosele wa melaetsa wa lefatshe ka bophara o o ikaelelang poraefete. Fa o tlhokomela enkripshene, go kgonagala, le UX e e itumedisang, re rata go utlwa ka wena.",
+    "openRoles": "<b>Dikgapo tse di bulegileng:</b> Boenjiniere (Full-stack, iOS, Android), Sehlahisoa, Tshireletso/Thuso.",
+    "apply": "<b>Tsela ya go dira kopo:</b> Romela CV/di-link kwa <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Romela CV ya gago"
+  },
+
+  "about": {
+    "title": "Ka ga Chatforia",
+    "description": "Chatforia ke mosele wa melaetsa o o sireletsegileng, o o buang dipuo di le dintsi ka enkripshene ya bokhutlo-go-ya-bokhutlo, phetolelo ya ka pela, le mehala ya lentswe/lebidio. Maikaelelo a rona a motlhofo: go thusa batho go golagana—ka tshireletso, ka poraefete, le mo dipuong tsotlhe.",
+    "valuesTitle": "Se re se tlhokomelang",
+    "values": {
+      "privacy": "<b>Poraefete pele:</b> Enkripshene ya E2E ka kaelo.",
+      "access": "<b>Go fitlhelela botlhe:</b> Phetolelo ya boitshediso ya dipuo 100+.",
+      "control": "<b>Taolo:</b> Melaetsa e e nyelelang & ditshupo tsa go buisiwa ke boikgethelo."
+    },
+    "howTitle": "Chatforia e dira jang",
+    "howDescription": "Melaetsa e sirelediwa mo sedirisong sa gago pele e tswa. Phetolelo, dibekapo, le tsamaisano ya didiriswa di rulagantswe go fokotsa se diseravara tsa rona di ka se bonang."
+  },
+
+  "advertise": {
+    "title": "Papatsa ka Chatforia",
+    "description": "Fitlha badirisi ba melaetsa ba ba ikaganyeng ka diyuniti tse di nang le tlotlo. Re na le dibenara mo mafelong a a bonalang, ditshegetso, le dipapatso tsa rona. Babereki ba Premium ga ba bone dipapatso.",
+    "adsense": {
+      "withPubId": "Gompieno re dirisa <b>Google AdSense</b>. Fa o batla go re lebisa ka Google Ads, dirisa ID ya mopegisi <code>{{pubId}}</code> mme o kope managed placement mo diuniting tse di fa tlase. Ditshegetso tsa tlhamalalo di a gona—dirisa foromo.",
+      "noPubId": "Gompieno re dirisa <b>Google AdSense</b>. Ditshegetso tsa tlhamalalo le tsone di a gona—dirisa foromo e e fa tlase."
+    },
+    "inventoryHeader": "Diteng & Dintlha",
+    "placement": {
+      "displayBadge": "Pontsho",
+      "acceptedSizes": "Bokete jo bo amogelwang",
+      "adsenseSlot": "Sekoti sa AdSense:"
+    },
+    "noPlacements": "Ga go a ise ga bewa mafelo a dipapatso. Akena mo ads/placements.js.",
+    "whyHeader": "Goreng Chatforia?",
+    "why": {
+      "highSession": "Dikopano di le dintsi le nako e telele mo UI ya puisano",
+      "brandSafe": "Diformete tse di sireletsang leina; go laola bonako jwa go ipheta",
+      "sponsoredMoments": "Dinomoro tse di tshegetsweng (mokaloto wa “Simolola Puisano”) di a gona",
+      "deals": "Dikonteraka tsa tlhamalalo kgotsa ka AdSense/Google Ads"
+    },
+    "contactHeader": "Ikgolaganye",
+    "form": {
+      "submittedMsg": "Re leboga! Kopo ya gago e rometswe. Re tlaa ikgolaganya ka bonako.",
+      "missingRequired": "Tlatša leina, eposo, le molaetsa.",
+      "successToast": "Re leboga! Re tla boela morago kapele.",
+      "mailtoInfo": "Re bula modirisi wa eposo go romela kopo…",
+      "nameLabel": "Leina la gago",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Eposo",
+      "emailPlaceholder": "wena@khamphani.com",
+      "companyLabel": "Khamphani",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Tekanyetsokabo ya kgwedi (boikgethelo)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Re bolelele ka kgaso ya gago",
+      "messagePlaceholder": "Go lebisa, malatsi, KPIs, dikgetho tsa mafelo…",
+      "sendCta": "Romela kopo"
+    },
+    "legal": {
+      "disclaimerStart": "Ka go romela, o dumalana le rona",
+      "terms": "Dipeelo",
+      "and": "le",
+      "privacy": "Pholisi ya Poraefete"
+    }
+  },
+
+  "upgrade": {
+    "title": "Ntshefatsa",
+    "subtitle": "Bula leano le le go tshwanetseng: tlosang dipapatso ka Plus, kgotsa tsaya ditshebeletso tsotlhe ka Premium.",
+    "scheduleBanner": {
+      "title": "Sengwe sa peeletso se tla fela",
+      "body": "O tla boela mo Mahala ka",
+      "keepPlanCta": "Boloka Plus",
+      "manageBillingCta": "Laola tefo"
+    },
+    "billing": {
+      "opening": "Re bula…",
+      "manage": "Laola Tefo"
+    },
+    "checkout": {
+      "redirecting": "Re go isa…"
+    },
+    "auth": {
+      "continue": "Tswelela",
+      "createAccount": "Bopa akhaonto",
+      "signIn": "Tsena"
+    },
+    "plans": {
+      "free": {
+        "title": "Mahala",
+        "price": "$0",
+        "features": {
+          "msg": "Melaetsa ya 1:1 le ya setlhopha",
+          "aiBasic": "Dikarabo tsa AI tsa motheo",
+          "attachments": "Ditamaiso tsa ditshwantsho tsa motheo"
+        },
+        "ctaCurrent": "Leano la Gompieno",
+        "ctaUnavailable": "Fetola go Mahala (ga e teng)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / kgwedi",
+        "features": {
+          "noAds": "Tlosang dipapatso tsotlhe",
+          "msg": "Melaetsa ya 1:1 le ya setlhopha",
+          "attachments": "Ditlamelo tse dikgolo tsa difaele",
+          "aiBasic": "Dikarabo tsa AI tsa motheo"
+        },
+        "badge": "E tuma",
+        "cta": "Nna Se na Dipapatso"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Ya Kgwedi)",
+        "price": "$24.99 / kgwedi",
+        "features": {
+          "plusAll": "Tsotlhe mo Plus",
+          "ringtones": "Meriti ya mehala & medumo ya melaetsa e e tlwaelegang",
+          "powerAi": "Dikarolo tsa AI tse di maatla",
+          "priorityUpdates": "Dintšhwafatso tsa botlhokwa",
+          "backups": "Dibekapo & tsamaisano ya didiriswa"
+        },
+        "badge": "Boleng jo bogolo",
+        "cta": "Ntshefatsa (Ya Kgwedi)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Ya Ngwaga)",
+        "price": "$225 / ngwaga",
+        "features": {
+          "allPremium": "Tsotlhe mo Premium",
+          "annualBilling": "E lefisiwa gangwaga",
+          "save25": "Boloka ~25% go na le ya kgwedi",
+          "sameFeatures": "Dikarolo tse di tshwanang le Ya Kgwedi"
+        },
+        "badge": "Boloka 25%",
+        "cta": "Ntshefatsa (Ya Ngwaga)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Go Simolola",
+    "subtitle": "O mosha mo Chatforia? Tataiso eno e go bontsha dintlha tsa botlhokwa gore o nne le thuso ka metsotso.",
+    "alert": {
+      "text": "Tataiso eno e tla gola fa re lansa ditiro tse dintsha. Fa go le sengwe se se sa bonaleng, re itsise ka",
+      "contactLink": "Ikgolaganye le Rona"
+    },
+    "section1": {
+      "title": "1) Bopa akhaonto ya gago",
+      "signup": "Saena o tsene",
+      "or": "kgotsa",
+      "login": "tsena",
+      "loginText": "ka akhaonto ya gago e e leng teng.",
+      "prefsStart": "Bea",
+      "prefsLink": "ditlhopho",
+      "prefsRest": "(leleme, ditshupo tsa go buisiwa, metheme)."
+    },
+    "section2": {
+      "title": "2) Simolola melaetsa",
+      "item1": "Bopa DM kgotsa Setlhopha mme o romele molaetsa wa ntlha.",
+      "item2": "Dirisa phetolelo ya ka pela go bua le dipuo di feta 100.",
+      "item3": "Leka melaetsa e e nyelelang le ditshupo tsa go buisiwa mo Profailo → Poraefete."
+    },
+    "section3": {
+      "title": "3) Tswelela pele",
+      "item1Part1": "Laola leano mo",
+      "upgradeLink": "Ntshefatsa",
+      "item1Part2": "tsebe (Plus = se na dipapatso, Premium = tsotlhe).",
+      "item2Part1": "Golaganya didiriswa tse dingwe mme o tlhoma dibekapo tse di sireleditsweng mo",
+      "settingsLink": "Ditlhophisong"
+    },
+    "cta": {
+      "seePlans": "Bona dikopano",
+      "openSettings": "Bula ditlhophiso"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Setši sa Thuso",
+    "faq": {
+      "account": {
+        "q": "Ke bopa kgotsa ke busetsa jang akhaonto ya me?",
+        "a": "Itseele app kgotsa dirisa web, tobetsa “Bopa akhaonto”, netefatsa eposo/mogala. Go busetsa, dirisa “O lebetse khunololamoraba”."
+      },
+      "privacy": {
+        "q": "A melaetsa e sireleditswe ka bokhutlo-go-ya-bokhutlo?",
+        "a": "Ee. Melaetsa le mehala di sireleditswe ka E2E ka kaelo. Ke wena le moamogedi fela ba ka e buang."
+      },
+      "translate": {
+        "q": "Phetolelo ya ka pela e dira jang?",
+        "a": "Bulegisa “Fetolela ka boitshediso” mo Ditlhophiso → Ponalo & Leleme. Re fetolela mo sedirisong fa go kgonega, kgotsa ka di-API tse di sireletsegileng ka metadata e e bannye."
+      },
+      "contact": {
+        "q": "Ikgolaganye le tshegetso",
+        "a": "Re ngoke kwa support@chatforia.com. Akarelanya ditshwantsho le mofuta wa app."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Ikgolaganye le Rona",
+    "successMsg": "Re leboga—setlhopha sa rona se tla araba ka eposo.",
+    "errorSend": "Ga e a kgona go romela. Ka kopo romela eposo kwa support@chatforia.com.",
+    "form": {
+      "nameLabel": "Leina",
+      "emailLabel": "Eposo",
+      "messageLabel": "Molaetsa",
+      "sendCta": "Romela"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Pholisi ya Poraefete",
+    "lastUpdated": "Go ntšhwafaditswe go tsa bofelo:",
+    "intro": {
+      "body": "Pholisi eno ya Poraefete e tlhalosa gore Chatforia (“rona”, “re”) re kokoanya, re dirisa, le go abelana ka tshedimosetso fa o dirisa ditiriso le ditshebeletso tsa rona. Re rulaganya Chatforia go fokotsa tshedimosetso e re ka e bonang."
+    },
+    "infoWeCollect": {
+      "title": "Tshedimosetso e re e kokoanyang",
+      "account": "Tshedimosetso ya akhaonto (m.e., eposo/mogala) go bopa le go sireletsa akhaonto ya gago.",
+      "encrypted": "Dikagare tse di sirilweng (melaetsa/mehala) di E2E; ga re kgone go di buisa.",
+      "diagnostics": "Dikotsi/tshegetso jaaka log tsa go thubega, mofuta wa sediriso, kgotsa dianalotse tse di bontshang go tokafatsa tshebetso."
+    },
+    "howWeUse": {
+      "title": "Re dirisa tshedimosetso jang",
+      "provide": "Go fana le go sireletsa tirelo (tseno, go lemoga spam/tsenyetso).",
+      "improve": "Go tokafatsa ditiro (boleng jwa phetolelo, botshepegi).",
+      "legal": "Go latela melao."
+    },
+    "sharing": {
+      "title": "Go abelana",
+      "body": "Ga re rekise tshedimosetso ya botho. Re ka abelana tse di lekanyeditsweng le bareki-mmogo (m.e., dikitsiso, dianalotse) ka dikonteraka tse di tiileng."
+    },
+    "rights": {
+      "title": "Ditokelo tsa gago",
+      "body": "Go ikaegile ka kgaolo ya gago (m.e., GDPR/UK GDPR/CPRA), o ka kopa go tsena, go lokisa, go phimola, kgotsa go itlhagisa mo ditshebedisong dingwe. Ikgolaganye: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Go boloka data & tshireletso",
+      "body": "Re boloka fela se se tlhokegang go tsamaisa tirelo mme re dira tshireletso ya maemo a indasteri. Dikagare tsa E2E ga re kgone go di buisa."
+    },
+    "children": {
+      "title": "Bana",
+      "body": "Chatforia ga e etselitswe bana ba ba kwa tlase ga dingwaga di le 13 (kgotsa go ya ka molao wa mo lefatsheng la gago)."
+    },
+    "changes": {
+      "title": "Diphetogo",
+      "body": "Re tla bega ntšhwafatso fano mme re fetole letsatsi la “Go ntšhwafaditswe go tsa bofelo”."
+    },
+    "contact": {
+      "title": "Ikgolaganye",
+      "body": "privacy@chatforia.com • [Leina la khamphani ya molao], [Aterese]"
+    }
+  },
+
+  "terms": {
+    "title": "Dipeelo tsa Tšebeliso",
+    "lastUpdated": "Go ntšhwafaditswe go tsa bofelo:",
+    "intro": {
+      "body": "Ka go dirisa Chatforia o dumalana le Dipeelo tseno. Fa o sa dumele, o se ka wa e dirisa."
+    },
+    "accounts": {
+      "title": "Diakhaonto",
+      "itemAccurateInfo": "Naya tshedimosetso e e boammaaruri mme o sireletse dikunolo.",
+      "itemResponsibility": "O ikarabela ka sengwe le sengwe mo akhaontong ya gago."
+    },
+    "acceptableUse": {
+      "title": "Tiriso e e amogelesegang",
+      "itemNoAbuse": "Se romele dikagare tse di seng molaong, tsa go bogisa kgotsa tsa go roba ditokelo; se romele spam kgotsa tlhekefetso e e ikatisang.",
+      "itemSuspend": "Re ka emisa/ema tiriso ka ntlha ya ditlolo."
+    },
+    "yourContent": {
+      "title": "Dikagare tsa gago",
+      "body": "O boloka ditokelo mo dikagareng tsa gago. O re naya ditshwanelo tse di tlhokegang go tsamaisa tirelo (m.e., go tsamaisa, polokelo, phetolelo)."
+    },
+    "disclaimer": {
+      "title": "Boikgogomoso & maikarabelo",
+      "body": "Tirelo e fiwa “jaaka e ntse” ntle le tiiso. Go ya ka molao, Chatforia ga e ikarabele ka ditshenyegelo tsa tiragalo kgotsa tse di tsenyang bopelotelele."
+    },
+    "changes": {
+      "title": "Diphetogo",
+      "body": "Re ka ntšhwafatsa dipeelo; go tswelela o dirisa morago ga diphetogo go raya go dumalana."
+    },
+    "contact": {
+      "title": "Ikgolaganye",
+      "body": "support@chatforia.com • [Leina la khamphani ya molao], [Aterese]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Se Rekise kgotsa O Abeleng Tshedimosetso ya Me ya Botho",
+    "body": "Chatforia ga e rekise tshedimosetso ya botho. Le fa go ntse jalo, banni ba California ba ka tswelela ba romela dikopo go ya ka CPRA ka konopo e e fa tlase.",
+    "cta": "Romela kopo"
+  },
+
+  "cookies": {
+    "title": "Dithulaganyo tsa Dikuki",
+    "body": "Chatforia e dirisa dikuki tse dinnye (m.e., sedulo, tshireletso). Ga re dirise dikuki tsa dipapatso tse di tswang kwa go ba boraro. Laola dikuki ka dithulaganyo tsa sebrowsera sa gago."
   }
 }

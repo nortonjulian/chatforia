@@ -2,111 +2,592 @@
   "common": {
     "save": "Tereka",
     "cancel": "Sazaamu",
-    "refresh": "Ddamu otandise",
-    "noMatches": "Tewali kifanana"
+    "refresh": "Zzamu",
+    "noMatches": "Tewali bikwatagana",
+    "cancelAria": "Sazaamu"
   },
+
   "profile": {
-    "title": "Profayilo y’omukozesa",
+    "title": "Profayilo y’Omukozesa",
 
-    "preferredLanguage": "Olulimi olusanyizo",
+    "preferredLanguage": "Olulimi lw’osinga okwagala",
     "chooseLanguage": "Londa olulimi",
-    "mustLogin": "Wetaaga okuyingira okusobola okulaba entereeza.",
+    "mustLogin": "Olina okuyingira okusobola okulaba enteekateeka.",
 
-    "autoTranslate": "Funa obutaputa bw’obubaka bwokka",
-    "showOriginalWithTranslation": "Laga obubaka obw’olubereberye n’obutaputiddwa",
-    "showOriginalAndTranslation": "Laga ebyawandiikiddwa n’obutaputiddwa wamu",
+    "autoTranslate": "Vvuunula obubaka mu bw’otoma",
+    "showOriginalWithTranslation": "Laga ekyo ekyasooka n’obuvvuunulo",
+    "showOriginalAndTranslation": "Laga ekyasooka wamu n’obuvvuunulo",
 
-    "filterExplicit": "Futula ebirimu obutali bulungi",
+    "filterExplicit": "Ffira ebirimu eby’obugwagwa",
     "aiReply": "Okuddamu kwa AI",
-    "enableReadReceipts": "Ggalawo obubonero bw’obusome",
-    "allowExplicitContent": "Kiriza ebirimu obutali bulungi",
-    "disappearingMessages": "Funa obubaka obubula mu budde",
-    "autoDeleteSeconds": "Sikonda nga bubula obubaka mu budde",
+    "enableReadReceipts": "Kola ku ‘read receipts’",
+    "allowExplicitContent": "Kkiriza ebirimu eby’obugwagwa",
+    "disappearingMessages": "Sobozesa obubaka obuzikirira",
+    "autoDeleteSeconds": "Obutikitiki okutuusa lwe busangulwawo",
 
-    "saveSuccess": "Enteekateeka ziterekeddwa bulungi!",
-    "saveError": "Waliwo ensobi: Enteekateeka teziterekeddwa.",
+    "saveSuccess": "Enteekateeka ziterekeddwa!",
+    "saveError": "Kiremya: Enteekateeka tezasobodde kuterekezebwa",
 
-    "avatarAlt": "Ekifaananyi kya profayilo",
-    "uploadAvatar": "Teeka ekifaananyi kipya",
-    "avatarSuccess": "Ekifaananyi kiteekeddwa bulungi!",
-    "avatarError": "Waliwo ensobi mu kuteka ekifaananyi.",
+    "avatarAlt": "Akafaananyi k’omukozesa",
+    "uploadAvatar": "Teeka waggulu akafaananyi akapya",
+    "avatarSuccess": "Akafaananyi kateekeddwawo!",
+    "avatarError": "Wabaddewo ensobi mu kutikka akafaananyi",
 
-    "noPrivateKey": "Tewali ki y’obwannannyini ku kiseera kino ey’okusasanya.",
-    "setBackupPassword": "Teeka akasumuluzo okutereka ekisoboka okukuuma backup:",
-    "backupDownloaded": "Backup ekuumiddwa mu ngeri ey’ekyama ekoleddwa.",
-    "exportFailed": "Okusasanya ekyama kulemye.",
-    "enterBackupPassword": "Yingiza akasumuluzo ak’okutereka kino:",
-    "importSuccess": "Ekisumuluzo ekya bwannannyini kisobodde okutwalibwa ku kyuma kino.",
-    "importFailed": "Okutwala ekisumuluzo kulemye (akasumuluzo si katufu oba fayiro eyononese).",
-    "keysRotated": "Ekisumuluzo ekipya kyatondebwa era eky’obweru kyanonyeseddwa.",
-    "rotateFailed": "Okukyusa ekisumuluzo kulemye.",
+    "noPrivateKey": "Tewali ‘private key’ ku kyuma kino eky’okufulumya.",
+    "setBackupPassword": "Teekawo akasumuluzo okukumira backup yo:",
+    "backupDownloaded": "Backup esibiddwa ewanuddwa.",
+    "exportFailed": "Okufulumya okukyusibwa kwagaanye",
+    "enterBackupPassword": "Yingiza akasumuluzo ka backup eno:",
+    "importSuccess": "Private key etekeddwa ku kyuma kino.",
+    "importFailed": "Okuteekamu kulemye (akasumuluzo kali kke oba fayiro eyononeka).",
+    "keysRotated": "Key pair empya ekoleddwa ne public key ewerezeddwa.",
+    "rotateFailed": "Okukyusa keys kulemye.",
     "security": "Obukuumi",
-    "exportKey": "Sasanya ekisumuluzo ekya bwannannyini",
-    "importKey": "Twala backup ekisumuluzo ekikuumiddwa",
-    "rotateKeys": "Kyusa ekisumuluzo",
-    "keyDisclaimer": "Ekisumuluzo kyo eky’obwannannyini tekivamu ku kyuma kino. Sasanya koppi ekumiddwa n’akasumuluzo okukizza ku kyuma ekirala.",
+    "exportKey": "Fulumya private key",
+    "importKey": "Tekaamu backup esibiddwa",
+    "rotateKeys": "Kyusa key pair",
+    "keyDisclaimer": "Private key yo teriva ku kyuma kino. Fulumya akkopi esibiddwa n’akasumuluzo okuddamu okugikomyawo ku kyuma ekirala.",
 
     "sectionProfile": "Profayilo",
-    "phoneNumber": "Namba y’essimu",
+    "phoneNumber": "Ennamba ya ssimu",
     "appearance": "Endabika",
-    "soundSettings": "Eddoboozi",
-    "disappearing": "Obubaka obubula",
-    "backupSync": "Okutereka & Okugatta",
+    "soundSettings": "Eddobozi",
+    "disappearing": "Obubaka obuzikirira",
+    "backupSync": "Backup & Okugatta ebyuma",
     "ai": "AI",
-    "accessibility": "Okuyamba okuyingira",
-    "privacy": "Obukuumi bw’ebyama",
-    "devices": "Ebyuma ebyagattiddwa",
+    "accessibility": "Okuyambako (Accessibility)",
+    "privacy": "Ebyekyama",
+    "devices": "Ebyuma ebigattiddwa",
 
-    "themeFreeNotice": "Oli ku plan ya Free — kozesa Sun/Moon wano wansi. Ggula plan okufuna engeri endala.",
-    "sunTheme": "Kozesa omutindo gwa Dawning",
-    "moonTheme": "Kozesa omutindo gwa Moon (Ekiro)",
-    "sun": "Enjuba",
-    "moon": "Omwezi",
+    "themeFreeNotice": "Oli ku Free—kozesamu Sun/Moon wammanga. W’ogula okufuna emizingo emirala.",
+    "sunTheme": "Kozesa omusingo gwa Dawn",
+    "moonTheme": "Kozesa Moon (ekiro) theme",
+    "sun": "Sun",
+    "moon": "Moon",
 
-    "backupTitle": "Backup ezikuumiddwa & Okugatta ebyuma",
-    "openBackupTools": "Bikkula ebintu eby’okutereka",
-    "backupDesc": "Tonda backup ezikuumiddwa n’akasumuluzo era ozikozese ku kyuma ekirala okuziyunga.",
+    "backupTitle": "Backups Ezisibiddwa & Okugatta ebyuma",
+    "openBackupTools": "Bikkula Backup Tools",
+    "backupDesc": "Kola backups ezisibiddwa n’akasumuluzo, era odzireetere ku kyuma ekirala okugatta ebintu byo.",
 
-    "privacyBlurEnabled": "Funa obubaka bubikkiddwa byokka",
-    "privacyBlurOnUnfocus": "Bikka obubaka nga app tekulabiddwa",
-    "holdToReveal": "Kkumikiriza okulaba obubaka",
-    "notifyOnCopy": "Mbulira singa obubaka bwange bukopeddwa",
+    "privacyBlurEnabled": "Fiira/zikiza obubaka byonna mu kusooka",
+    "privacyBlurOnUnfocus": "Zikiza nga app teretunuddeko",
+    "holdToReveal": "Kakasa nga okutteku okulaga",
+    "notifyOnCopy": "Ntegeeza bwe banaakoppa obubaka bwange",
 
-    "loadFailed": "Okutikka profayilo kulemye",
-    "followed": "Omutambi waggaddwaamu",
-    "followFailed": "Okugatta kulemye",
-    "unfollowed": "Okukoma okulondoola",
-    "unfollowFailed": "Okulekera okulondoola kulemye",
-    "follow": "Gatta",
-    "unfollow": "Ggyako",
-    "followHint": "Ebyaabwe bijja kulabika mu feed yo nga bawaddeyo ebya Followers oba Public.",
-    "userNotFound": "Omukozesa tazuliddwa",
-    "followsYou": "Akulondoola",
+    "loadFailed": "Okuttika profayilo kulemye",
+    "followed": "Okugoberera kukakanyiziddwa",
+    "followFailed": "Okugoberera kulemye",
+    "unfollowed": "Okuva ku kugoberera kukakanyiziddwa",
+    "unfollowFailed": "Okujjako okugoberera kulemye",
+    "follow": "Goberera",
+    "unfollow": "Lekeraawo okugoberera",
+    "followHint": "Ebyaabwe bijja kulabikira mu Following bw’oba babikka Status ne ‘Followers’ oba ‘Public’.",
+    "userNotFound": "Omukozesa tasangiddwa",
+    "followsYou": "Akugoberera",
 
-    "sectionCrashedTitle": "Ekibanja kino tekikole",
-    "sectionCrashedBody": "Waliwo ensobi mu kitundu kino.",
+    "sectionCrashedTitle": "Ekitundu kilemye okutikkulwa",
+    "sectionCrashedBody": "Wabaddewo ensobi mu kitundu kino.",
 
-    "forwarding": "Okutambuza okusooka ne obubaka",
-    "callTextForwardingSection": "Okutambuza okusooka ne obubaka",
-    "callTextForwardingTitle": "Okutambuza okusooka oba obubaka",
-    "callTextForwardingDescription": "Tambuza okusooka oba obubaka ku ssimu yo oba email ekoleddwa. Ebivuddemu biraga ennamba yo ya Chatforia.",
-    "enableTextForwarding": "Kakasa okutambuza obubaka",
-    "forwardTextsToPhone": "Tambuza obubaka ku ssimu",
-    "forwardTextsToEmail": "Tambuza obubaka ku email",
-    "destinationPhone": "Namba y’okusindikira (E.164)",
-    "destinationEmail": "Email ey’okusindikira",
-    "enableCallForwarding": "Kakasa okutambuza okusooka",
-    "destinationPhoneForCalls": "Namba ey’okusindikira okusooka (E.164)",
-    "aliasBridging": "Okutambuza okusooka (alias bridging)",
-    "quietHoursOptional": "Ssaawa ez’okw’eddembe (sikyasobola)",
-    "startHour": "Ssaawa ey’okutandika (0–23)",
-    "endHour": "Ssaawa ey’okukoma (0–23)",
-    "reset": "Zzayo",
+    "forwarding": "Okufulumya (Forwarding) Kw’amasimu n’Obubaka",
+    "callTextForwardingSection": "Okufulumya Kw’amasimu n’Obubaka",
+    "callTextForwardingTitle": "Okufulumya amasimu oba/oba obubaka",
+    "callTextForwardingDescription": "Fulumya amasimu n’obubaka ebiyingira ku ssimu/imeyilo byo ebiwangiddwa. Amasimu/obubaka ebifuluma biyinza kulaga ennamba ya Chatforia yo.",
+    "enableTextForwarding": "Kola ku kufulumya obubaka",
+    "forwardTextsToPhone": "Fulumya obubaka ku ssimu",
+    "forwardTextsToEmail": "Fulumya obubaka ku email",
+    "destinationPhone": "Ssimu gy’ogenda okuweereza (E.164)",
+    "destinationEmail": "Email gy’ogenda okuweereza",
+    "enableCallForwarding": "Kola ku kufulumya amasimu",
+    "destinationPhoneForCalls": "Ssimu gy’amasimu (E.164)",
+    "aliasBridging": "Okufulumya amasimu (alias bridging)",
+    "quietHoursOptional": "Ssaawa ez’okuwummula (ky’osobola obutabaamu)",
+    "startHour": "Ssaawa entandikwa (0–23)",
+    "endHour": "Ssaawa enkomerero (0–23)",
+    "reset": "Dda ku ntandikwa",
     "saveBtn": "Tereka"
   },
+
   "chat": {
-    "selectPrompt": "Londa obubaka oba ekisenge okutandika okwogera",
-    "newMessages": "Obubaka obupya",
-    "typing": "{{name}} ali mu kuwandiika..."
+    "selectPrompt": "Londa obubaka oba ekisenge ky’okweyogerera otandike okuteeka obubaka",
+    "newMessages": "Obubaka obuggya",
+    "typing": "{{name}} awandiika...",
+    "emptyTitle": "Obubaka bwo",
+    "emptySubtitle": "Wereza obubaka otandike okunyumya.",
+    "startChatButton": "Wereza obubaka"
+  },
+
+  "topbar": {
+    "newStatus": "Status Empya",
+    "logout": "Fuluma"
+  },
+
+  "status": {
+    "userNumber": "Omukozesa #{{id}}",
+
+    "posted": "Status ewerezeddwa",
+    "postFailed": "Okuteeka status kulemye",
+
+    "createTitle": "Kola status",
+    "modalAriaLabel": "Status empya",
+
+    "captionLabel": "Kiki ekiri mu mutwe gwo?",
+    "captionPlaceholder": "Gabana ekikwatako...",
+    "captionAria": "Obubaka bwa status",
+
+    "audienceLabel": "Abalirwana",
+    "audience": {
+      "public": "Buli omu",
+      "followers": "Abagoberera",
+      "contacts": "Kontakti",
+      "mutuals": "Abeewalirana (Mutuals)",
+      "custom": "Bulambiro..."
+    },
+
+    "expiresHoursLabel": "Ekkomerero (saawa)",
+    "maxTooltip": "Waggulu ddala ennaku 7",
+    "hoursAbbrev": "s",
+    "maxShort": "max",
+    "expiresOn": "Ekomawo ku:",
+
+    "chooseRecipients": "Londa abaanatwalirwa",
+    "selectContacts": "Londa kontakti",
+
+    "attachmentsLabel": "Ebigattiddwa",
+    "attachmentsPlaceholder": "Teeka ku bifaananyi/vidiyo",
+    "filesNote": "Okutuuka ku fayiro 5. Ekomawo mu ssaawa 24 ku mukutu ogw’obusosoze.",
+
+    "postAria": "Teeka status",
+    "post": "Teeka"
+  },
+
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Okufulumya Kw’amasimu n’Obubaka",
+    "conversations": "Okunyumya",
+    "searchPlaceholder": "Noonya mu kunyumya...",
+    "errorLoading": "Kulemya okutikka ebinyumya",
+    "empty": "Tewalina kunyumya kati.",
+    "startChat": "Tandikka okunyumya",
+    "people": "Abantu",
+    "settings": "Enteekateeka",
+    "status": "Status",
+    "forwarding": "Okufulumya Kw’amasimu n’Obubaka",
+    "refresh": "Zzamu",
+    "search": "Noonya ebinyumya",
+    "loginPrompt": "Yingira olungamye okuteekateeka.",
+    "login": "Yingira",
+    "register": "Kola akawunti",
+
+    "chatrooms": "Ebiseŋŋenge by’okuyogerera",
+    "logout": "Fuluma",
+    "startChatAlt": "Tandikka okunyumya okumpi"
+  },
+
+  "premium": {
+    "heading": "Funa Premium",
+    "description": "Bikkula ebintu eby’amaanyi & ggyamu eby’okulanga.",
+    "upgrade": "W’akula"
+  },
+
+  "auth": {
+    "headline": "Obubaka obukuuma obutonde n’okuvvuunulwa amangwago",
+    "description": "Okusiba okuva ku nkomerero okutuuka ku nkomerero, AI evvuunula, obubaka obuzikirira, ne kuyita/mu vidiyo.",
+    "feature": {
+      "encryption": "Okusiba okuva ku nkomerero okutuuka ku nkomerero",
+      "translation": "Vvuunula olulimi 100+ mu bw’otoma",
+      "disappearing": "Obubaka obuzikirira & ‘read receipts’",
+      "privacy": "Ebyekyama mu maaso. Obubaka bwo, obulamulizi bwo.",
+      "translate": "Obuvvuunulo mu kiseera ekyo ekyo",
+      "disappear": "Obubaka obuzikirira",
+      "privacyAlt": "Entegeka eyenyigira mu byekyama"
+    },
+    "welcomeBack": "Tusanyuse okukulaba",
+    "continueGoogle": "Genda mu maaso ne Google",
+    "continueApple": "Genda mu maaso ne Apple",
+    "username": "Erinnya ly’omukozesa",
+    "password": "Akasumuluzo",
+    "keepSignedIn": "Nkuume ndi muyingirizi",
+    "forgotPassword": "Werabidde akasumuluzo?",
+    "loginButton": "Yingira",
+    "createAccount": "Kola akawunti",
+    "freeAccountButton": "Kola akawunti ya bwereere",
+    "newHere": " Oli mupya wano?",
+    "getApp": "Funa app",
+    "desktopTip": "Ku kompyuta? Skenna ne ssimu wo ofune app.",
+
+    "goHome": "Ddayo eka",
+    "home": "Eka",
+
+    "headlineAlt": {
+      "main": "Omusenge ogukuuma ebyekyama ogu",
+      "highlight": "vvuunula olulimi lwo"
+    },
+    "subhead": "Obubaka bw’ekyama, obusibiddwa, obuvvuunulwa—mu bwangu.",
+
+    "status": "Laba status",
+    "upgrade": "W’akula kati",
+    "tip": "Osobola okukozesa Chatforia ku kyuma kyonna — oba okudda ku app okufuna obumanyirivu obusinga obulungi.",
+    "openDownload": "Bikkula omuko oguwanula",
+    "qrAlt": "QR code ya Chatforia",
+    "scanHint": "Skenna ofune app oba ogifungule mu burawuza bwo.",
+    "iosAria": "Wanula ku App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Akabonero ka App Store",
+    "androidAria": "Funa ku Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Akabonero ka Google Play",
+
+    "login": "Yingira",
+    "signup": "Wewandiise",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Emisomo & Ebisale",
+    "about": "Ebikwata ku Chatforia",
+    "careers": "Emirimu",
+    "press": "By’amawulire",
+    "advertise": "Okulanga",
+    "contact": "Tuweeyo obubaka",
+    "help": "Help Center",
+    "status": "Omuko gwa Status",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Ekiragiro ky’Ebyekyama",
+    "terms": "Amateeka g’okukozesa",
+    "cookies": "Enteekateeka za Cookie",
+    "doNotSell": "Togula Bwiino Bwange",
+
+    "language": "Olulimi",
+    "contactShort": "Tukwatako"
+  },
+
+  "home": {
+    "title": "Eka",
+    "header": "Obubaka bwo",
+    "subheader": "Wereza obubaka otandike okunyumya.",
+    "sendButton": "Wereza obubaka",
+    "gifPicker": "Bikkula akalondoozzi ka GIF",
+    "emoji": "Emoji",
+    "upload": "Teeka ku kifaananyi oba vidiyo",
+    "inputPlaceholder": "Wandiika obubaka…",
+    "inputLabel": "Ky’okuwandiikiramu obubaka",
+    "sendTooltip": "Wereza",
+    "sendTooltipEmpty": "Wandiika obubaka olowoze ku kweereza",
+    "send": "Wereza",
+
+    "welcomeMessage": "Tuyitira mu Chatforia",
+    "getStarted": "Tandika kati"
+  },
+
+  "press": {
+    "title": "By’amawulire",
+    "contact": "Bw’oba olina ebibuuzo by’amawulire, tuwandiikire ku <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Bw’oba olina ebibuuzo by’amawulire, tuwandiikire ku press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia ye nsengeka y’obubaka ey’ebyekyama n’okuvvuunula amangwago, ng’eyoleka E2E encryption okusobozesa okunnyonnyola mu ngeri eyekyama n’eyangu.",
+    "assetsTitle": "Ebintu eby’omu brand",
+    "assetsText": "Logos, ebifaananyi bya pulogulaamu, n’ebifaananyi by’emprodaka (bijja)."
+  },
+
+  "careers": {
+    "title": "Emirimu",
+    "intro": "Tuli ttiimu entono etondawo omusenge ogw’ebyekyama ogw’ensi yonna. Bw’oyagala encryption, accessibility, n’eby’obulungi mu UX, twandisanyukidde okuwulira ku ggwe.",
+    "openRoles": "<b’>Emirimu egyaggulwo:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
+    "apply": "<b>Engeri y’okuwandiika:</b> Tuweeyo CV/enkolagana ku <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Sindikira CV yo ku email"
+  },
+
+  "about": {
+    "title": "Ebikwata ku Chatforia",
+    "description": "Chatforia ye messenger ey’ebyekyama, ey’olulimi lwo zonna n’okusiba okuva ku nkomerero okutuuka ku nkomerero, n’okuvvuunula amangwago n’okuyita/vidiyo. Omulamwa gwaffe gwangu: okuyamba abantu okweyambisa—mu byekyama, obutebenkevu, era mu nnimi ez’enjawulo.",
+    "valuesTitle": "Bye tussaamu amaanyi",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption mu kusooka.",
+      "access": "<b>Byonna by’atuukirizibwa:</b> Vvuunula olulimi 100+ mu bw’otoma.",
+      "control": "<b>Obulamulizi:</b> Obubaka obuzikirira & ‘read receipts’ by’esalirawo."
+    },
+    "howTitle": "Engeri Chatforia gy’ekola",
+    "howDescription": "Obubaka busibibwa ku kyuma kyo nga tebunavaamu. Obuvvuunulo, backups, n’okugatta ebyuma byakolebwa nga tukendeeza ku bintu bye tuyinza okulaba."
+  },
+
+  "advertise": {
+    "title": "Olanga ne Chatforia",
+    "description": "Tuukirira bakozesa b’obubaka abeenyigira nnyo n’ebitundu eby’obulungi eby’ekitiibwa. Tuweerayo ebitundu bya bannera, sponsorships, n’eby’obulambuzi bya fayiro. Abalina Premium tebabona kulanga.",
+    "adsense": {
+      "withPubId": "Kati tuweereza kulanga okuyita mu <b>Google AdSense</b>. Bw’oyagala okutulondoola mu Google Ads, kozesa publisher ID <code>{{pubId}}</code> era osabe managed placement ku bitundu wammanga. Sponsorships ez’oku m meeza ziriyo—kozesamu fom.",
+      "noPubId": "Kati tuweereza kulanga okuyita mu <b>Google AdSense</b>. Sponsorships ez’oku m meeza nazo ziriyo—kozesamu fom wammanga."
+    },
+    "inventoryHeader": "Ebitundu & Obulambulukufu",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Obunene obukkirizibwa",
+      "adsenseSlot": "Ekifo kya AdSense:"
+    },
+    "noPlacements": "Tewali bifo byategekeddwa kati. Bizzemu mu ads/placements.js.",
+    "whyHeader": "Lwaki Chatforia?",
+    "why": {
+      "highSession": "Okukozesa kungi n’essaawa empanvu mu chat UI",
+      "brandSafe": "Ebitundu eby’obulungi ku brand; okukoma ku bungi obutennya",
+      "sponsoredMoments": "Emirundi egyasponsoriibwa (nga “Start a Chat” modal) giriyo",
+      "deals": "Endagaano ez’oku m meeza oba okuyita mu AdSense/Google Ads"
+    },
+    "contactHeader": "Tukwatirako",
+    "form": {
+      "submittedMsg": "Webale! Okubuuza kwo kugenze. Tunaakuddamu mangu.",
+      "missingRequired": "Jjaza erinnya, email, n’obubaka.",
+      "successToast": "Webale! Tunaakukwatako mangu.",
+      "mailtoInfo": "Tuggalawo kadi y’email yo okutuma okubuuza…",
+      "nameLabel": "Erinnya lyo",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ggwe@kampuni.com",
+      "companyLabel": "Kampuni",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Omuwendo gw’omwezi (ky’osobola obutabaamu)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Laga entambula y’ekkampuni yo",
+      "messagePlaceholder": "Targeting, ennaku, KPIs, ebifo by’oyagala…",
+      "sendCta": "Tuma okubuuza"
+    },
+    "legal": {
+      "disclaimerStart": "Bw’otereza, okkiriza",
+      "terms": "Amateeka",
+      "and": "ne",
+      "privacy": "Ekiragiro ky’Ebyekyama"
+    }
+  },
+
+  "upgrade": {
+    "title": "W’akula",
+    "subtitle": "Londa pulaani ekutuukirira: Plus eggyamu kulanga, Premium efuna eby’amaanyi byonna.",
+    "scheduleBanner": {
+      "title": "Ebbeyi z’okwewandiisa zigenda kuggwaako",
+      "body": "Ojja kuddayo ku Free ku",
+      "keepPlanCta": "Kuumira ku Plus",
+      "manageBillingCta": "Funa eby’ebbeyi"
+    },
+    "billing": {
+      "opening": "Okuggulawo…",
+      "manage": "Funa Ebikola by’Okusasula"
+    },
+    "checkout": {
+      "redirecting": "Okuviirayo…"
+    },
+    "auth": {
+      "continue": "Genda mu maaso",
+      "createAccount": "Kola akawunti",
+      "signIn": "Yingira"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "Obubaka 1:1 n’ebibiina",
+          "aiBasic": "Okuddamu kwa AI okw’awansi",
+          "attachments": "Ebigattiddwa ebyawamu"
+        },
+        "ctaCurrent": "Pulaani eriwo",
+        "ctaUnavailable": "Kyusa ku Free (tekiriwo)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / omwezi",
+        "features": {
+          "noAds": "Ggyamu kulanga kwonna",
+          "msg": "Obubaka 1:1 n’ebibiina",
+          "attachments": "Ebigattiddwa ebinene",
+          "aiBasic": "Okuddamu kwa AI okw’awansi"
+        },
+        "badge": "Popular",
+        "cta": "Genda nga tolabako kulanga"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Omwezi)",
+        "price": "$24.99 / omwezi",
+        "features": {
+          "plusAll": "Byonna ebiri mu Plus",
+          "ringtones": "Eddobozi n’amu tono ag’enkola",
+          "powerAi": "Ebintu bya AI eby’amaanyi",
+          "priorityUpdates": "Okufunirwa bavaamu mangu",
+          "backups": "Backups & okugatta ebyuma"
+        },
+        "badge": "Best value",
+        "cta": "W’akula (Omwezi)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Omwaka)",
+        "price": "$225 / mwaka",
+        "features": {
+          "allPremium": "Byonna ebiri mu Premium",
+          "annualBilling": "Osasulwa omulundi gumu mu mwaka",
+          "save25": "Bikuggyira ku 25% okusinga omwezi",
+          "sameFeatures": "By’endala bye bimu n’Omwezi"
+        },
+        "badge": "Save 25%",
+        "cta": "W’akula (Omwaka)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Okutandika",
+    "subtitle": "Oli mupya ku Chatforia? Kanu kalagiro kagufulumya mu ddakiika ntono.",
+    "alert": {
+      "text": "Akalagiro kano kajja kwongera bwe tuna launching ebirala. Bw’olaba ekibula, tuweeyo ku",
+      "contactLink": "Tukwatirako"
+    },
+    "section1": {
+      "title": "1) Kola akawunti",
+      "signup": "Wewandiise",
+      "or": "oba",
+      "login": "yingira",
+      "loginText": "n’akawunti yo eyaliwo.",
+      "prefsStart": "Tegeka",
+      "prefsLink": "enteekateeka zo",
+      "prefsRest": "(olulimi, read receipts, themes)."
+    },
+    "section2": {
+      "title": "2) Tandika obubaka",
+      "item1": "Kola DM oba Group oteeke obubaka bwo obwasooka.",
+      "item2": "Kozesa obuvvuunulo bw’amangu okwogerera mu nnimi 100+.",
+      "item3": "Gezaako obubaka obuzikirira n’‘read receipts’ mu Profayilo → Privacy."
+    },
+    "section3": {
+      "title": "3) Genda mu maaso",
+      "item1Part1": "Fuga pulaani yo ku",
+      "upgradeLink": "W’akula",
+      "item1Part2": "omuko (Plus = tewali kulanga, Premium = eby’amaanyi byonna).",
+      "item2Part1": "Gattako ebyuma ebirala era otekewo backups ezisibiddwa mu",
+      "settingsLink": "Enteekateeka"
+    },
+    "cta": {
+      "seePlans": "Laba pulaani",
+      "openSettings": "Bikkula enteekateeka"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "Nkola ntya oba nkomyawo akawunti yange?",
+        "a": "Wanula app oba kozesa web, koona ku “Kola akawunti”, kakasa email/ssimu. Okuddamu, koona “Werabidde akasumuluzo”."
+      },
+      "privacy": {
+        "q": "Obubaka busibiddwa okuva ku nkomerero okutuuka ku nkomerero?",
+        "a": "Yee. Obubaka n’okuyita bisibiddwa mu kusooka. Ggwe n’oyo gw’owerezayo mwe musobola okubusoma."
+      },
+      "translate": {
+        "q": "Obuvvuunulo bw’amangu bukola bitya?",
+        "a": "Kozesa “Auto-translate” mu Settings → Appearance & Language. Tuvvuunula ku kyuma nga kisoboka; bwe kitakya, tukozesa APIs ez’ensimbi ez’ekyama ne data entono."
+      },
+      "contact": {
+        "q": "Tukwatirako",
+        "a": "Tuwandiikire ku support@chatforia.com. Teekamu ebifaananyi n’enkyusa ya app gy’okozeza."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Tukwatirako",
+    "successMsg": "Webale—tujja kuddamu ku email.",
+    "errorSend": "Tekisobose okuweereza. Bambi wandiika ku support@chatforia.com.",
+    "form": {
+      "nameLabel": "Erinnya",
+      "emailLabel": "Email",
+      "messageLabel": "Obubaka",
+      "sendCta": "Tuma"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Ekiragiro ky’Ebyekyama",
+    "lastUpdated": "Kyazuliddwa ku:",
+    "intro": {
+      "body": "Ekiragiro kino kinnyonnyola engeri Chatforia (“fffe”, “ffe”) gy’ekungaanya, ng’ekozesa, era n’engeri gye gisasangamu amawulire bwe oba okozesa pulogulaamu ne by’obuweereza. Tuteekateeka Chatforia okwewala nnyo ddala data gye tuyinza okulaba."
+    },
+    "infoWeCollect": {
+      "title": "Bye tukungaanya",
+      "account": "Ebikwata ku akawunti (n.g., email/ssimu) okuzimba n’okukuuma akawunti.",
+      "encrypted": "Ebikukusiddwa (obubaka/okuyita) bisibiddwa E2E; tetusobola kubisoma.",
+      "diagnostics": "Ebifa ku by’okuzikirira/okukozesebwa nga crash logs, ekika ky’ekyuma, oba analytics entono okuzimba enkola."
+    },
+    "howWeUse": {
+      "title": "Engeri gye tukozesa amawulire",
+      "provide": "Okuweereza n’okukuuma (okuyingira, okuzuula spam/obutasiima).",
+      "improve": "Okulongoosa ebintu (obuvvuunulo, obwesigwa).",
+      "legal": "Okugoberera amateeka agaliwo."
+    },
+    "sharing": {
+      "title": "Okusasaanya",
+      "body": "Tetutunda bwiino bw’abantu. Tuyinza okusasanya data entono n’abo abatuyamba (n.g., push, analytics) nga waliwo endagaano enkakanyavu."
+    },
+    "rights": {
+      "title": "Eddembe lyo",
+      "body": "Okusinziira ku kitundu kyo (n.g., GDPR/UK GDPR/CPRA), osobola okusaba okutuukirira, okukyusa, okuggyawo, oba okugaana empereza ezimu. Tuwandiikire: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Okutereka & Obukuumi",
+      "body": "Tutereka kyetaagisa kyokka okukola obuweereza era tukozesa obukuumi obw’ensi yonna. E2E content tetusobola kugisaasaanya."
+    },
+    "children": {
+      "title": "Abaana",
+      "body": "Chatforia teyaweereddwa baana abali wansi w’emyaka 13 (oba nga bw’eteekeddwa mu mateeka go)."
+    },
+    "changes": {
+      "title": "Enkyukakyuka",
+      "body": "Tujja kubiteeka wano ne tukebera ‘Last updated’ ennaku."
+    },
+    "contact": {
+      "title": "Tukwatirako",
+      "body": "privacy@chatforia.com • [Erinnya ly’enkompaniya ly’amateeka], [Endagiriro]"
+    }
+  },
+
+  "terms": {
+    "title": "Amateeka g’Okukozesa",
+    "lastUpdated": "Kyazuliddwa ku:",
+    "intro": {
+      "body": "Bw’okoza Chatforia okkiriza amateeka gano. Bw’otokikkiriza, tokozesa buweereza."
+    },
+    "accounts": {
+      "title": "Akaawunti",
+      "itemAccurateInfo": "Wa bwiino amatuufu era okuume ebyokuyingira byo bulungi.",
+      "itemResponsibility": "Ggwe asinga obuvunaanyizibwa ku by’akawunti yo."
+    },
+    "acceptableUse": {
+      "title": "Enkozesa entuufu",
+      "itemNoAbuse": "Tewali biragalalalira, bya bumenyi bw’amateeka, oba eby’okwesimba; tewali spam oba kukozesa okutambuza ebiyitirivu.",
+      "itemSuspend": "Tuyinza okulekeraawo/okukumira bw’oba onnyaga amateeka."
+    },
+    "yourContent": {
+      "title": "Ebyo by’owandiika",
+      "body": "Ofuga eby’owandiika ggwe. Otuwa eddembe eryetaagisa okukola obuweereza (n.g., okutambuza, okutereka, obuvvuunulo)."
+    },
+    "disclaimer": {
+      "title": "Okwewala n’obuvunaanyizibwa",
+      "body": "Obuweereza buweebwa ‘nga bwe buli’ awatali buweereza bwa bwesige. Okutuuka we kisoboka mu mateeka, Chatforia terivunaanyizibwa ku bibi eby’omu maaso oba eby’ennaku z’omumaaso ebiva mu kukozesa."
+    },
+    "changes": {
+      "title": "Enkyukakyuka",
+      "body": "Tuyinza okuteekamu enkyukakyuka; okukozesa okweyongera ng’olowooza ku nkyukakyuka kitegeeza okukkiriza."
+    },
+    "contact": {
+      "title": "Tukwatirako",
+      "body": "support@chatforia.com • [Erinnya ly’enkompaniya ly’amateeka], [Endagiriro]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Togula Wadde Okugabana Bwiino Bwange",
+    "body": "Chatforia tegula bwiino bw’abantu. Abatuuze ba California basobola okwongera okubuuza nga bawandiika wammanga nga CPRA bw’eteeka.",
+    "cta": "Tereza okusaba"
+  },
+
+  "cookies": {
+    "title": "Enteekateeka za Cookie",
+    "body": "Chatforia ekolawo kuki ntono (n.g., session, security). Tetukozesa kuki za kulanga eziva ebweru. Fuga kuki mu nteekateeka za burawuza bwo."
   }
 }

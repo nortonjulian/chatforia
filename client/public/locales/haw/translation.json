@@ -1,112 +1,593 @@
 {
   "common": {
-    "save": "E mālama",
+    "save": "Mālama",
     "cancel": "Hoʻōki",
-    "refresh": "Hoʻoulu hou",
-    "noMatches": "ʻAʻohe mea like"
+    "refresh": "Hoʻouka hou",
+    "noMatches": "ʻAʻohe hālike",
+    "cancelAria": "Hoʻōki"
   },
+
   "profile": {
-    "title": "Hoʻoponopono ʻIkepili Mea Hoʻohana",
+    "title": "Pilikino Mea hoʻohana",
 
-    "preferredLanguage": "ʻŌlelo punahele",
+    "preferredLanguage": "ʻŌlelo i makemake ʻia",
     "chooseLanguage": "Koho i ka ʻōlelo",
-    "mustLogin": "Pono ʻoe e komo mua e ʻike i nā hoʻonohonoho.",
+    "mustLogin": "Pono ʻoe e komo i loko e ʻike i nā hoʻonā.",
 
-    "autoTranslate": "Unuhi ʻakomi i nā leka",
-    "showOriginalWithTranslation": "Hōʻike i ka leka kumu me ka unuhi",
-    "showOriginalAndTranslation": "Hōʻike i ka kumu a me ka unuhi pū",
+    "autoTranslate": "Unuhi-ʻakomi i nā leka",
+    "showOriginalWithTranslation": "Hōʻike i ka mea kumu a me ka unuhi",
+    "showOriginalAndTranslation": "Hōʻike i ka mea kumu me ka unuhi",
 
-    "filterExplicit": "Kānana i nā mea ʻike ʻino",
+    "filterExplicit": "Kāohi i ka ʻike ʻino maopopo",
     "aiReply": "Pane AI",
-    "enableReadReceipts": "Hoʻā i nā hōʻailona heluhelu",
-    "allowExplicitContent": "ʻAe i nā mea ʻike ʻino",
-    "disappearingMessages": "Hoʻā i nā leka nalo ʻakomi",
-    "autoDeleteSeconds": "Nā kekona a hiki i ka holoi ʻakomi",
+    "enableReadReceipts": "Hōʻā i nā hōʻoia heluhelu",
+    "allowExplicitContent": "ʻAe i ka ʻike ʻino maopopo",
+    "disappearingMessages": "Hōʻā i nā leka nalo",
+    "autoDeleteSeconds": "Kekona a hiki i ka holoi ʻakomi",
 
-    "saveSuccess": "Ua mālama maikaʻi ʻia nā hoʻonohonoho!",
-    "saveError": "Kuhi hewa: ʻAʻole hiki ke mālama i nā hoʻonohonoho.",
+    "saveSuccess": "Ua mālama ʻia nā hoʻonā!",
+    "saveError": "Hewa: ʻAʻole hiki ke mālama i nā hoʻonā",
 
-    "avatarAlt": "Kiʻi maka mea hoʻohana",
-    "uploadAvatar": "Hoʻouka kiʻi maka hou",
-    "avatarSuccess": "Ua hoʻouka maikaʻi ʻia ka kiʻi maka!",
-    "avatarError": "Ua hewa ka hoʻouka ʻana i ka kiʻi maka.",
+    "avatarAlt": "Kiʻi maka",
+    "uploadAvatar": "Hoʻouka i kahi kiʻi maka hou",
+    "avatarSuccess": "Ua hoʻouka ʻia ka kiʻi maka!",
+    "avatarError": "Hewa i ka hoʻouka ʻana i ke kiʻi",
 
-    "noPrivateKey": "ʻAʻohe kī pilikino ma kēia hāmeʻa e hoʻoili aku ai.",
-    "setBackupPassword": "E hoʻonohonoho i ka ʻōlelo huna no ka pale ʻana i kāu kope:",
-    "backupDownloaded": "Ua hoʻoili ʻia ka kope pale ʻia.",
-    "exportFailed": "Ua hāʻule ka hoʻoili ʻana i ke kī.",
-    "enterBackupPassword": "E hoʻokomo i ka ʻōlelo huna no kēia kope:",
-    "importSuccess": "Ua hoʻokomo maikaʻi ʻia ke kī pilikino i kēia hāmeʻa.",
-    "importFailed": "Hewa ka hoʻokomo ʻana (hewa ka ʻōlelo huna a i ʻole ua ʻino ke faila).",
-    "keysRotated": "Ua hana ʻia nā kī hou a hoʻouka ʻia ke kī lehulehu.",
-    "rotateFailed": "Hewa ka hoʻohuli ʻana i nā kī.",
+    "noPrivateKey": "ʻAʻohe kī pilikino ma kēia mīkini e hoʻolilo.",
+    "setBackupPassword": "E hoʻonohonoho i huaʻōlelo hūnā no ke kope kākoʻo:",
+    "backupDownloaded": "Ua hoʻoili ʻia ke kope kākoʻo i hoʻopaʻa ʻia.",
+    "exportFailed": "Hāʻule ka hoʻolilo kī",
+    "enterBackupPassword": "E hoʻokomo i ka huaʻōlelo no kēia kope kākoʻo:",
+    "importSuccess": "Ua hoʻokomo ʻia ka kī pilikino i kēia mīkini.",
+    "importFailed": "Hāʻule ka hoʻokomo kī (huaʻōlelo hewa a i ʻole faila haki).",
+    "keysRotated": "Ua hana ʻia he pūʻulu kī hou a ua hoʻouka ʻia ka kī lehulehu.",
+    "rotateFailed": "Hāʻule ka hoʻohuli kī.",
     "security": "Palekana",
-    "exportKey": "Hoʻokuʻu i ke kī pilikino",
-    "importKey": "Hoʻokomo i ke kope kī pale ʻia",
-    "rotateKeys": "Hoʻohuli i nā kī hou",
-    "keyDisclaimer": "ʻAʻole hele aku kāu kī pilikino mai kēia hāmeʻa. E hoʻokuʻu i kahi kope pale ʻia e hoʻihoʻi ma kekahi hāmeʻa ʻē aʻe.",
+    "exportKey": "Hoʻolilo i ke kī pilikino",
+    "importKey": "Hoʻokomo i ke kope kī i hoʻopaʻa ʻia",
+    "rotateKeys": "Hoʻohuli i ka pūʻulu kī",
+    "keyDisclaimer": "ʻAʻole haʻalele kou kī pilikino i kēia mīkini. E hoʻolilo i kahi kope i pale ʻia e hoʻihoʻi ma kekahi mīkini ʻē aʻe.",
 
-    "sectionProfile": "ʻIkepili",
+    "sectionProfile": "Pilikino",
     "phoneNumber": "Helu kelepona",
-    "appearance": "ʻAno Helehelena",
-    "soundSettings": "Nā kani",
+    "appearance": "ʻAno hiʻona",
+    "soundSettings": "Leo",
     "disappearing": "Nā leka nalo",
-    "backupSync": "Kope & Hoʻohui",
+    "backupSync": "Kope Kākoʻo & Hoʻohui",
     "ai": "AI",
-    "accessibility": "Hoʻokomo maʻalahi",
-    "privacy": "Nūhou pilikino",
-    "devices": "Nā hāmeʻa pili",
+    "accessibility": "Loaʻa",
+    "privacy": "Pilikino",
+    "devices": "Nā lako i pili pū",
 
-    "themeFreeNotice": "Aia ʻoe ma ka hoʻolālā manuahi — e hoʻohana i nā koho Lā/Mahina ma lalo nei. E hoʻomaikaʻi i kāu hoʻolālā e wehe i nā kumu hou.",
-    "sunTheme": "Hoʻohana i ka kumu ʻĀnuenue (Dawn)",
-    "moonTheme": "Hoʻohana i ka kumu Mahina (Midnight)",
+    "themeFreeNotice": "Aia ʻoe ma Free—e hoʻohana i ka Lā/Mahina ma lalo. E hoʻougrade e wehe i nā kumuhana hou.",
+    "sunTheme": "E hoʻohana i ke kumuhana Kakahiaka",
+    "moonTheme": "E hoʻohana i ke kumuhana Mahina (ʻAumoe)",
     "sun": "Lā",
     "moon": "Mahina",
 
-    "backupTitle": "Nā Kope Pale ʻia & Hoʻohui Hāmeʻa",
-    "openBackupTools": "Wehe i nā Mea Hana Kope",
-    "backupDesc": "E hana i nā kope pale ʻia o kāu mau kī, a e hoʻihoʻi iā lākou ma kekahi hāmeʻa ʻē aʻe no ka hoʻohui ʻana.",
+    "backupTitle": "Nā Kope Kākoʻo i hoʻopaʻa ʻia & Hoʻohui Lako",
+    "openBackupTools": "Wehe i nā Mea Hana Kope Kākoʻo",
+    "backupDesc": "Hana i nā kope kākoʻo i pale huaʻōlelo no kāu mau kī, a hoʻihoʻi ma kekahi mīkini ʻē aʻe e hoʻohui ai.",
 
-    "privacyBlurEnabled": "Hoʻopaʻa ʻālohilohi i nā leka ma ke ʻano maʻamau",
-    "privacyBlurOnUnfocus": "Hoʻopaʻa ʻālohilohi inā ʻaʻole e hoʻohana ʻia ka polokalamu",
-    "holdToReveal": "Paʻa e ʻike",
-    "notifyOnCopy": "Hāʻi mai inā ua kope ʻia kaʻu leka",
+    "privacyBlurEnabled": "Pālupalu i nā leka ma ke ʻano paʻamau",
+    "privacyBlurOnUnfocus": "Pālupalu ke ʻole ka nānā i ka polokalamu",
+    "holdToReveal": "Paʻa e hōʻike",
+    "notifyOnCopy": "Hōʻike mai iā wau inā kope ʻia kaʻu leka",
 
-    "loadFailed": "Hewa ka hoʻouka ʻana i ka ʻike pilikino",
+    "loadFailed": "Hāʻule ka hoʻouka ʻana i ka pilikino",
     "followed": "Ua hahai ʻia",
-    "followFailed": "Hewa ka hahai ʻana",
-    "unfollowed": "Ua hōʻalo ʻia ka hahai",
-    "unfollowFailed": "Hewa ka hōʻalo hahai ʻana",
+    "followFailed": "Hāʻule ka hahai ʻana",
+    "unfollowed": "Ua pau ka hahai",
+    "unfollowFailed": "Hāʻule ka hoʻopau hahai",
     "follow": "Hahai",
-    "unfollow": "Hōʻalo",
-    "followHint": "E ʻike ʻoe i kā lākou moʻolelo ma kāu hānai ʻana inā hoʻouna lākou i ka lehulehu a i ʻole nā poʻe hahai.",
+    "unfollow": "Hoʻopau hahai",
+    "followHint": "E ʻike ʻia kā lākou moʻolelo ma kāu hāmeʻa Hahai ke paʻi lākou me ka lehulehu ‘Followers’ (a i ʻole ‘Public’).",
     "userNotFound": "ʻAʻole i loaʻa ka mea hoʻohana",
     "followsYou": "Ke hahai nei iā ʻoe",
 
-    "sectionCrashedTitle": "Hewa ka hoʻouka ʻana i ka ʻāpana",
-    "sectionCrashedBody": "Ua hana hewa kekahi mea i kēia ʻāpana.",
+    "sectionCrashedTitle": "Hāʻule ka ʻāpana hoʻouka",
+    "sectionCrashedBody": "Ua hewa kekahi mea i kēia ʻāpana.",
 
-    "forwarding": "Hoʻouna aku i nā kelepona & leka",
-    "callTextForwardingSection": "Hoʻouna aku i nā kelepona & leka",
-    "callTextForwardingTitle": "Hoʻouna aku i nā kelepona a me nā leka",
-    "callTextForwardingDescription": "Hoʻouna aku i nā kelepona komo mai a me nā leka i kāu kelepona a i ʻole leka uila i hōʻoia ʻia. Hiki i nā kelepona/leka e hele aku ke hōʻike i kāu helu Chatforia.",
-    "enableTextForwarding": "Hoʻā i ka hoʻouna leka",
-    "forwardTextsToPhone": "Hoʻouna i nā leka i ka kelepona",
+    "forwarding": "Hoʻouna mua Kelepona & Leka",
+    "callTextForwardingSection": "Hoʻouna mua Kelepona & Leka",
+    "callTextForwardingTitle": "Hoʻouna mua i ke kelepona a/i ʻole nā leka",
+    "callTextForwardingDescription": "E hoʻouna mua i nā kelepona a me nā leka komo i kāu kelepona a i ʻole īmela i hōʻoia ʻia. Hiki i nā kelepona/lekauila puka ke hōʻike i kāu helu Chatforia.",
+    "enableTextForwarding": "Hōʻā i ka hoʻouna mua leka",
+    "forwardTextsToPhone": "Hoʻouna i nā leka i ke kelepona",
     "forwardTextsToEmail": "Hoʻouna i nā leka i ka leka uila",
-    "destinationPhone": "Helu kelepona e lawe ai (E.164)",
-    "destinationEmail": "Leka uila e lawe ai",
-    "enableCallForwarding": "Hoʻā i ka hoʻouna kelepona",
-    "destinationPhoneForCalls": "Helu kelepona no nā kelepona (E.164)",
-    "aliasBridging": "Hoʻouna kelepona (hoʻohui inoa ʻē aʻe)",
-    "quietHoursOptional": "Nā hola mālie (koho ʻole)",
-    "startHour": "Hora hoʻomaka (0–23)",
-    "endHour": "Hora pau (0–23)",
-    "reset": "Hoʻomaka hou",
-    "saveBtn": "E mālama"
+    "destinationPhone": "Helu kelepona pahuhopu (E.164)",
+    "destinationEmail": "Leka uila pahuhopu",
+    "enableCallForwarding": "Hōʻā i ka hoʻouna mua kelepona",
+    "destinationPhoneForCalls": "Pahuhopu (E.164) no nā kelepona",
+    "aliasBridging": "Hoʻouna mua kelepona (alias bridging)",
+    "quietHoursOptional": "Nā hola mālie (koho)",
+    "startHour": "Hola hoʻomaka (0–23)",
+    "endHour": "Hola pau (0–23)",
+    "reset": "Hoʻihoʻi hou",
+    "saveBtn": "Mālama"
   },
+
   "chat": {
-    "selectPrompt": "E koho i kahi leka a i ʻole lumi kamaʻilio e hoʻomaka ai",
+    "selectPrompt": "Koho i kahi leka a i ʻole lumi kamaʻilio e hoʻomaka ai",
     "newMessages": "Nā leka hou",
-    "typing": "{{name}} ke kākau nei..."
+    "typing": "Ke kākau nei ʻo {{name}}...",
+    "emptyTitle": "Kou mau leka",
+    "emptySubtitle": "E hoʻouna i kahi leka e hoʻomaka i ka kamaʻilio.",
+    "startChatButton": "Hoʻouna leka"
+  },
+
+  "topbar": {
+    "newStatus": "Kūlana hou",
+    "logout": "Lele i waho"
+  },
+
+  "status": {
+    "userNumber": "Mea hoʻohana #{{id}}",
+
+    "posted": "Ua paʻi ʻia ke kūlana",
+    "postFailed": "Hāʻule ka paʻi kūlana",
+
+    "createTitle": "Hana i ke kūlana",
+    "modalAriaLabel": "Kūlana hou",
+
+    "captionLabel": "He aha kou noʻonoʻo?",
+    "captionPlaceholder": "Kaʻana i kahi mea hou...",
+    "captionAria": "Leka kūlana",
+
+    "audienceLabel": "Lehulehu i koho ʻia",
+    "audience": {
+      "public": "Lehulehu",
+      "followers": "Nā mea hahai",
+      "contacts": "Nā pilina",
+      "mutuals": "Nā hoa hahai like",
+      "custom": "Koho ponoʻī..."
+    },
+
+    "expiresHoursLabel": "Pau i (nā hola)",
+    "maxTooltip": "Ka palena kiʻekiʻe he 7 lā",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "E pau ana ma:",
+
+    "chooseRecipients": "Koho i nā mea e loaʻa",
+    "selectContacts": "Koho i nā pilina",
+
+    "attachmentsLabel": "Nā hoʻopili",
+    "attachmentsPlaceholder": "Hoʻohui i nā kiʻi/wikiō",
+    "filesNote": "A hiki i 5 faila. Pau i loko o 24h ma ke kūlana paʻamau.",
+
+    "postAria": "Paʻi i ke kūlana",
+    "post": "Paʻi"
+  },
+
+  "sidebar": {
+    "randomChat": "Kamaʻilio kūkala ʻole",
+    "callTextForwarding": "Hoʻouna mua Kelepona & Leka",
+    "conversations": "Nā kamaʻilio",
+    "searchPlaceholder": "Huli i nā kamaʻilio...",
+    "errorLoading": "Hāʻule ka hoʻouka ʻana i nā kamaʻilio",
+    "empty": "ʻAʻohe kamaʻilio i kēia manawa.",
+    "startChat": "Hoʻomaka i kahi kamaʻilio",
+    "people": "Nā kānaka",
+    "settings": "Nā hoʻonā",
+    "status": "Kūlana",
+    "forwarding": "Hoʻouna mua Kelepona & Leka",
+    "refresh": "Hoʻouka hou",
+    "search": "Huli i nā kamaʻilio",
+    "loginPrompt": "Komo i loko e hoʻoponopono i kāu hoʻonā.",
+    "login": "Komo",
+    "register": "Hana moʻokāki",
+
+    "chatrooms": "Nā lumi kamaʻilio",
+    "logout": "Lele i waho",
+    "startChatAlt": "Hoʻomaka i kahi kamaʻilio hou"
+  },
+
+  "premium": {
+    "heading": "E lilo i Premium",
+    "description": "Wehe i nā hiʻohiʻona mana a wehe i nā hoʻolaha.",
+    "upgrade": "Hoʻougrade"
+  },
+
+  "auth": {
+    "headline": "Kamaʻilio palekana, honua me ka unuhi koke",
+    "description": "Palekana pau-ā-pau, unuhi i hoʻokele ʻia e ka AI, nā leka nalo, a me ke kelepona leo/wikiō.",
+    "feature": {
+      "encryption": "Palekana pau-ā-pau ma ke ʻano paʻamau",
+      "translation": "Unuhi ʻakomi i 100+ ʻōlelo",
+      "disappearing": "Nā leka nalo & nā hōʻoia heluhelu",
+      "privacy": "Pilikino mua. Kou ʻike, kou mana.",
+      "translate": "Unuhi i ka manawa maoli",
+      "disappear": "Nā leka nalo",
+      "privacyAlt": "Papahana pilikino-mua"
+    },
+    "welcomeBack": "Welina hou",
+    "continueGoogle": "E hoʻomau me Google",
+    "continueApple": "E hoʻomau me Apple",
+    "username": "Inoa mea hoʻohana",
+    "password": "Huaʻōlelo hūnā",
+    "keepSignedIn": "E mālama iaʻu i loko mau",
+    "forgotPassword": "Poina i ka huaʻōlelo?",
+    "loginButton": "Komo",
+    "createAccount": "Hana moʻokāki",
+    "freeAccountButton": "Hana moʻokāki manuahi",
+    "newHere": "Mea hou mai?",
+    "getApp": "Kiʻi i ka polokalamu",
+    "desktopTip": "Ma ka kamepiula? E kāmiko me kāu kelepona e kiʻi i ka polokalamu.",
+
+    "goHome": "Hele i ka papa home",
+    "home": "Home",
+
+    "headlineAlt": {
+      "main": "Ka mea hoʻomaopopo palekana",
+      "highlight": "e ʻōlelo ana i kou ʻōlelo"
+    },
+    "subhead": "Kamaʻilio pilikino, i hoʻopaʻa ʻia, a i unuhi ʻia — koke nō.",
+
+    "status": "Nānā i ke kūlana",
+    "upgrade": "Hoʻougrade i kēia manawa",
+    "tip": "Hiki iā ʻoe ke hoʻohana i ka Chatforia ma kekahi hāmeʻa — a i ʻole hoʻoili i ka polokalamu no ka ʻike ʻoi.",
+    "openDownload": "Wehe i ka ʻaoʻao hoʻoili",
+    "qrAlt": "QR no Chatforia",
+    "scanHint": "Kāmiko e hoʻoili i ka polokalamu a i ʻole wehe ma ka polokalamu kele pūnaewele.",
+    "iosAria": "Hoʻoiho ma ka App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Badge App Store",
+    "androidAria": "Kiʻi ma Google Play",
+    "androidTitle": "Kelepona Google Play",
+    "androidBadgeAlt": "Badge Google Play",
+
+    "login": "Komo",
+    "signup": "Kakau inoa",
+    "email": "Leka uila"
+  },
+
+  "footer": {
+    "plans": "Nā Papahana & Kumukūʻai",
+    "about": "E pili ana iā Chatforia",
+    "careers": "Nā hana",
+    "press": "Nūpepa",
+    "advertise": "Hōʻolaha",
+    "contact": "Kāhea mai iā mākou",
+    "help": "Kikowaena Kōkua",
+    "status": "ʻAoʻao Kūlana",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Kulekele Pilikino",
+    "terms": "Nā Kumu Hana",
+    "cookies": "Nā Hoʻonohonoho Kukī",
+    "doNotSell": "Mai kūʻai i koʻu ʻike pilikino",
+
+    "language": "ʻŌlelo",
+    "contactShort": "Kāhea"
+  },
+
+  "home": {
+    "title": "Home",
+    "header": "Kou mau leka",
+    "subheader": "E hoʻouna i kahi leka e hoʻomaka i ka kamaʻilio.",
+    "sendButton": "Hoʻouna leka",
+    "gifPicker": "Wehe i ke koho GIF",
+    "emoji": "Emoji",
+    "upload": "Hoʻouka kiʻi a i ʻole wikiō",
+    "inputPlaceholder": "Kākau i kahi leka…",
+    "inputLabel": "Mea kākau leka",
+    "sendTooltip": "Hoʻouna",
+    "sendTooltipEmpty": "Kākau i kahi leka e hoʻouna",
+    "send": "Hoʻouna",
+
+    "welcomeMessage": "Welina mai i Chatforia",
+    "getStarted": "Hoʻomaka"
+  },
+
+  "press": {
+    "title": "Nūpepa",
+    "contact": "No nā nīnau pāpaho, kākau iā māua ma <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "No nā nīnau pāpaho, kākau iā press@chatforia.com.",
+    "boilerplateTitle": "Palapala pōkole",
+    "boilerplateText": "He mea hoʻomaopopo palekana ʻo Chatforia me ka unuhi koke a me ka palekana pau-ā-pau, i hoʻolālā ʻia no ka hoʻokaʻawale pilikino a maʻalahi hoʻi i nā kamaʻilio honua.",
+    "assetsTitle": "Nā waiwai hōʻailona",
+    "assetsText": "Nā ʻologo, nā kiʻi pale, a me nā kiʻi huahana (e hiki mai ana)."
+  },
+
+  "careers": {
+    "title": "Nā hana",
+    "intro": "He hui liʻiliʻi mākou e kūkulu ana i kahi mea hoʻomaopopo pilikino, honua. Inā mālama ʻoe i ka palekana, ka hiki ke komo, a me ka UX leʻaleʻa, makemake mākou e lohe iā ʻoe.",
+    "openRoles": "<b>Nā kūlana hāmama:</b> ʻEnehana (Full-stack, iOS, Android), Huahana, Kākoʻo.",
+    "apply": "<b>Pehea e noi ai:</b> E leka uila i kāu resume/nā loulou i <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Leka uila i kāu resume"
+  },
+
+  "about": {
+    "title": "E pili ana iā Chatforia",
+    "description": "He mea hoʻomaopopo palekana, he ʻōlelo he nui ʻo Chatforia me ka palekana pau-ā-pau, ka unuhi koke, a me ke kelepona leo/wikiō. ʻO kā mākou pahuhopu: e kōkua i nā kānaka e hoʻopili—ma ka palekana, pilikino, a ma waena o nā ʻōlelo.",
+    "valuesTitle": "Nā mea a mākou e hoʻohanohano ai",
+    "values": {
+      "privacy": "<b>Pilikino mua:</b> Palekana pau-ā-pau ma ke ʻano paʻamau.",
+      "access": "<b>Komo no nā mea a pau:</b> Unuhi ʻakomi i 100+ ʻōlelo.",
+      "control": "<b>Mana:</b> Nā leka nalo & nā hōʻoia heluhelu he koho."
+    },
+    "howTitle": "Pehea e hana ai ʻo Chatforia",
+    "howDescription": "Hoʻopaʻa ʻia nā leka ma kou mīkini ma mua o ka hoʻouna ʻana. Hoʻolālā ʻia ka unuhi, nā kope kākoʻo, a me ka hoʻohui lako i ka hōʻemi ʻana i ka mea a kā mākou kikowaena hiki ke ʻike."
+  },
+
+  "advertise": {
+    "title": "Hōʻolaha me Chatforia",
+    "description": "E hiki i nā mea hoʻohana kamaʻilio koʻikoʻi me nā wahi nani a palekana i ka lama. Hāʻawi mākou i nā kahua hōʻike, nā kākoʻo, a me nā pāpaho hale. ʻAʻohe hoʻolaha no ka poʻe Premium.",
+    "adsense": {
+      "withPubId": "Ke lawelawe nei mākou i nā hoʻolaha ma o <b>Google AdSense</b>. Inā makemake ʻoe e kuhikuhi ma o Google Ads, e hoʻohana i ka ID mea paʻi <code>{{pubId}}</code> a noi i ka hoʻonohonoho i nā ʻāpana ma lalo nei. Loaʻa nā kākoʻo pololei—e hoʻohana i ka palapala.",
+      "noPubId": "Ke lawelawe nei mākou i nā hoʻolaha ma o <b>Google AdSense</b>. Loaʻa pū nā kākoʻo pololei—e hoʻohana i ka palapala ma lalo nei."
+    },
+    "inventoryHeader": "Waihona & Nā kikoʻī",
+    "placement": {
+      "displayBadge": "Hōʻike",
+      "acceptedSizes": "Nā nui i ʻae ʻia",
+      "adsenseSlot": "ʻāpana AdSense:"
+    },
+    "noPlacements": "ʻAʻohe hoʻonohonoho i kēia manawa. E hoʻohui i ads/placements.js.",
+    "whyHeader": "No ke aha ʻo Chatforia?",
+    "why": {
+      "highSession": "Ka pinepine komo kiʻekiʻe a me ka lōʻihi o ka noho i ka UI kamaʻilio",
+      "brandSafe": "Nā ʻano palekana lama; ka helu palena pinepine i mahalo ʻia",
+      "sponsoredMoments": "Nā “Sponsored moments” (laʻana, “Start a Chat” modal) i loaʻa",
+      "deals": "Nā ʻaelike pololei a i ʻole ma o AdSense/Google Ads"
+    },
+    "contactHeader": "Kāhea",
+    "form": {
+      "submittedMsg": "Mahalo! Ke hele mai nei kāu nīnau. E pane koke mākou.",
+      "missingRequired": "E hoʻopihapiha i ka inoa, leka uila, a me ka leka.",
+      "successToast": "Mahalo! E launa koke mākou.",
+      "mailtoInfo": "Ke wehe nei i kāu polokalamu leka uila e hoʻouna i ka nīnau…",
+      "nameLabel": "Kou inoa",
+      "namePlaceholder": "Iane K. Doe",
+      "emailLabel": "Leka uila",
+      "emailPlaceholder": "oe@company.com",
+      "companyLabel": "Hui",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Kālā mahina (koho)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "E haʻi mai i kou hoʻolaha",
+      "messagePlaceholder": "Kuhikuhi, lā, KPIs, makemake wahi…",
+      "sendCta": "Hoʻouna i ka nīnau"
+    },
+    "legal": {
+      "disclaimerStart": "Ma ka hoʻouna ʻana, ʻae ʻoe i kā mākou",
+      "terms": "Nā Kumu",
+      "and": "a me",
+      "privacy": "Kulekele Pilikino"
+    }
+  },
+
+  "upgrade": {
+    "title": "Hoʻougrade",
+    "subtitle": "Wehe i ka papahana kūpono: e ʻole nā hoʻolaha me Plus, a loaʻa nā hiʻohiʻona mana piha me Premium.",
+    "scheduleBanner": {
+      "title": "E pau ka hoʻohui",
+      "body": "E hoʻi ʻoe i Free ma",
+      "keepPlanCta": "E mālama i Plus",
+      "manageBillingCta": "Hoʻokele uku"
+    },
+    "billing": {
+      "opening": "Ke wehe nei…",
+      "manage": "Hoʻokele uku"
+    },
+    "checkout": {
+      "redirecting": "Ke hoʻolilo nei…"
+    },
+    "auth": {
+      "continue": "Hoʻomau",
+      "createAccount": "Hana moʻokāki",
+      "signIn": "Komo"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "Kamaʻilio 1:1 a me ka pūʻulu",
+          "aiBasic": "Nā pane AI kumu",
+          "attachments": "Nā hoʻopili maʻamau"
+        },
+        "ctaCurrent": "Pāpahana i kēia manawa",
+        "ctaUnavailable": "Kalihune i Free (ʻaʻohe i loaʻa)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mahina",
+        "features": {
+          "noAds": "Wehe i nā hoʻolaha a pau",
+          "msg": "Kamaʻilio 1:1 a me ka pūʻulu",
+          "attachments": "Nā hoʻopili nui aʻe",
+          "aiBasic": "Nā pane AI kumu"
+        },
+        "badge": "Kaulana",
+        "cta": "Hele Ad-Free"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mahina)",
+        "price": "$24.99 / mahina",
+        "features": {
+          "plusAll": "Nā mea a pau ma Plus",
+          "ringtones": "Nā kani kelepona & kani leka i hoʻopilikino ʻia",
+          "powerAi": "Nā hiʻohiʻona AI mana",
+          "priorityUpdates": "Nā whakahou mua",
+          "backups": "Nā kope kākoʻo & hoʻohui lako"
+        },
+        "badge": "Kūʻai ʻoi",
+        "cta": "Hoʻougrade (Mahina)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Makahiki)",
+        "price": "$225 / makahiki",
+        "features": {
+          "allPremium": "Nā mea a pau ma Premium",
+          "annualBilling": "Uku makahiki",
+          "save25": "Mālama ~25% ma mua o ka mahina",
+          "sameFeatures": "Nā hiʻohiʻona like me ka Mahina"
+        },
+        "badge": "Mālama 25%",
+        "cta": "Hoʻougrade (Makahiki)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "E hoʻomaka ana",
+    "subtitle": "ʻŌlelo hou iā Chatforia? Hō‘ike pōkole kēia e hiki iā ʻoe ke lilo i mea hana i loko o kekahi mau minuke.",
+    "alert": {
+      "text": "E ulu ana kēia alakaʻi i ko mākou hoʻokō ʻana i nā hiʻohiʻona hou. Inā he mea i nalowale, e haʻi mai ma",
+      "contactLink": "Kāhea mai iā mākou"
+    },
+    "section1": {
+      "title": "1) E hana i kāu moʻokāki",
+      "signup": "Kakau inoa",
+      "or": "a i ʻole",
+      "login": "komo i loko",
+      "loginText": "me kāu moʻokāki i kū.",
+      "prefsStart": "E hoʻonohonoho i kāu",
+      "prefsLink": "mau makemake",
+      "prefsRest": "(ʻōlelo, hōʻoia heluhelu, kumuhana)."
+    },
+    "section2": {
+      "title": "2) E hoʻomaka i ke kamaʻilio",
+      "item1": "Hana i kahi DM a i ʻole Pūʻulu a hoʻouna i kāu leka mua.",
+      "item2": "E hoʻohana i ka unuhi koke e kamaʻilio ma nā ʻōlelo 100+.",
+      "item3": "E hoʻāʻo i nā leka nalo a me nā hōʻoia heluhelu ma Pilikino → Nā koho."
+    },
+    "section3": {
+      "title": "3) E hele i mua",
+      "item1Part1": "Hoʻokele i kāu papahana ma ka ʻaoʻao",
+      "upgradeLink": "Hoʻougrade",
+      "item1Part2": "(Plus = ʻaʻohe hoʻolaha, Premium = hiʻohiʻona piha).",
+      "item2Part1": "E hoʻohui i nā lako hou a hoʻonohonoho i nā kope kākoʻo i hoʻopaʻa ʻia ma",
+      "settingsLink": "Nā Hoʻonā"
+    },
+    "cta": {
+      "seePlans": "Nānā i nā papahana",
+      "openSettings": "Wehe i nā hoʻonā"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Kikowaena Kōkua",
+    "faq": {
+      "account": {
+        "q": "Pehea e hana ai a i ʻole e hoʻihoʻi ai i kaʻu moʻokāki?",
+        "a": "Hoʻoiho i ka polokalamu a i ʻole e hoʻohana i ka pūnaewele, kaomi “Hana moʻokāki”, hōʻoia i kāu leka uila/kelepona. No ka hoʻihoʻi, e hoʻohana i “Poina i ka huaʻōlelo”."
+      },
+      "privacy": {
+        "q": "He palekana pau-ā-pau anei nā leka?",
+        "a": "ʻAe. Palekana pau-ā-pau nā leka a me nā kelepona ma ke ʻano paʻamau. ʻO ʻoe wale nō a me ka mea e loaʻa ka mea hiki ke heluhelu."
+      },
+      "translate": {
+        "q": "Pehea e hana ai ka unuhi koke?",
+        "a": "E hoʻohui i “Unuhi-ʻakomi” ma Nā Hoʻonā → Hiʻona & ʻŌlelo. Hana mākou ma ka mīkini ke kākoʻo ʻia, a i ʻole ma o nā API palekana me ka ʻike liʻiliʻi loa."
+      },
+      "contact": {
+        "q": "Kākoʻo",
+        "a": "Kākau iā mākou ma support@chatforia.com. E hoʻopili nā kiʻi ʻoniʻoni a me kou mana polokalamu."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Kāhea mai iā mākou",
+    "successMsg": "Mahalo—e pane mākou ma ka leka uila.",
+    "errorSend": "ʻAʻole hiki ke hoʻouna. E leka iā support@chatforia.com.",
+    "form": {
+      "nameLabel": "Inoa",
+      "emailLabel": "Leka uila",
+      "messageLabel": "Leka",
+      "sendCta": "Hoʻouna"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Kulekele Pilikino",
+    "lastUpdated": "Hoʻohou hope loa:",
+    "intro": {
+      "body": "Wehewehe kēia Kulekele Pilikino i ke ala e hōʻiliʻili, hoʻohana, a kaʻana ai ʻo Chatforia (“mākou”) i ka ʻike ke hoʻohana ʻoe i kā mākou mau polokalamu a me nā lawelawe. Hoʻolālā mākou iā Chatforia e hōʻemi i ka ʻike hiki iā mākou ke ʻike."
+    },
+    "infoWeCollect": {
+      "title": "Ka ʻike a mākou e hōʻiliʻili ai",
+      "account": "ʻIke moʻokāki (laʻana, leka uila/kelepona) e hana a e palekana i kāu moʻokāki.",
+      "encrypted": "ʻIke i hoʻopaʻa ʻia (nā leka/kelepona) he palekana pau-ā-pau; ʻaʻole mākou e heluhelu.",
+      "diagnostics": "Kūkākūkā/kūkulu e like me nā moʻopuna haki, ʻano lako, a i ʻole ka loiloi maʻalahi no ka hoʻomaikaʻi ʻana i ka hana."
+    },
+    "howWeUse": {
+      "title": "Pehea mākou e hoʻohana ai",
+      "provide": "Hāʻawi a palekana i ka lawelawe (komo, ʻike spam/ʻino).",
+      "improve": "Hoʻomaikaʻi i nā hiʻohiʻona (kūlana unuhi, paʻa).",
+      "legal": "Kūlike me nā koi kānāwai."
+    },
+    "sharing": {
+      "title": "Kaʻana ʻana",
+      "body": "ʻAʻole mākou e kūʻai i ka ʻike pilikino. Hiki ke kaʻana iki ʻia me nā mea hana (laʻana, hoʻoāla pū, loiloi) ma lalo o nā ʻaelike paʻa."
+    },
+    "rights": {
+      "title": "Kou kuleana",
+      "body": "E like me kou ʻāina (laʻana, GDPR/UK GDPR/CPRA), hiki iā ʻoe ke noi i ke komo, ka hoʻoponopono, ka holoi, a i ʻole ke koho i waho o kekahi hana. Kāhea: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Mālama ʻike & palekana",
+      "body": "Mālama wale mākou i ka mea e pono ai no ka lawelawe, a hoʻohana i ka palekana maʻamau o ka ʻoihana. ʻAʻole hiki iā mākou ke unuhi i ka ʻike pau-ā-pau."
+    },
+    "children": {
+      "title": "Nā keiki",
+      "body": "ʻAʻole no nā keiki ma lalo o 13 makahiki ʻo Chatforia (a i ʻole e like me ke kānāwai kūloko)."
+    },
+    "changes": {
+      "title": "Loli",
+      "body": "E kau mākou i nā hoʻouka ma ʻaneʻi a hoʻololi i ka “Hoʻohou hope loa”."
+    },
+    "contact": {
+      "title": "Kāhea",
+      "body": "privacy@chatforia.com • [Inoa kānāwai o ka hui], [Wahi]"
+    }
+  },
+
+  "terms": {
+    "title": "Nā Kumu Hana",
+    "lastUpdated": "Hoʻohou hope loa:",
+    "intro": {
+      "body": "Ma ka hoʻohana ʻana i Chatforia ʻoe e ʻae i kēia mau Kumu. Inā ʻaʻole ʻoe e ʻae, mai hoʻohana i ka lawelawe."
+    },
+    "accounts": {
+      "title": "Nā moʻokāki",
+      "itemAccurateInfo": "E hāʻawi i ka ʻike pololei a mālama i nā kikokikona palekana.",
+      "itemResponsibility": "No kāu hana ma kāu moʻokāki kāu kuleana."
+    },
+    "acceptableUse": {
+      "title": "Hoʻohana ʻae ʻia",
+      "itemNoAbuse": "ʻAʻohe ʻike kānāwai ʻole, ʻino, a kīpī; ʻaʻohe spam a i ʻole hana ʻakomi ʻino.",
+      "itemSuspend": "Hiki iā mākou ke kaomi/kāpae no nā kipi."
+    },
+    "yourContent": {
+      "title": "Kou ʻike",
+      "body": "Noū nō nā kuleana ma kou ʻike. Hāʻawi ʻoe i nā kuleana e pono ai no ka lawelawe (laʻana, ala, mālama, unuhi)."
+    },
+    "disclaimer": {
+      "title": "Hōʻole & kuleana",
+      "body": "Hāʻawi ʻia ka lawelawe “me ia” me ka ʻole o nā hōʻoia. I ka palena nui loa i ʻae ʻia e ke kānāwai, ʻaʻole kuleana ʻo Chatforia no nā poino kūʻē a nui hoʻi."
+    },
+    "changes": {
+      "title": "Nā loli",
+      "body": "Hiki iā mākou ke hoʻouka i kēia mau kumu; ʻo ka hoʻomau ʻana ma hope o nā loli he ʻae ia."
+    },
+    "contact": {
+      "title": "Kāhea",
+      "body": "support@chatforia.com • [Inoa kānāwai o ka hui], [Wahi]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Mai kūʻai a kaʻana aku i kaʻu ʻike pilikino",
+    "body": "ʻAʻole kūʻai ʻo Chatforia i ka ʻike pilikino. Hiki nō i nā kamaʻāina o Kaleponi ke hoʻouna i nā noi ma lalo o CPRA me ke pihi ma lalo nei.",
+    "cta": "Hoʻouna i kahi noi"
+  },
+
+  "cookies": {
+    "title": "Nā Hoʻonohonoho Kukī",
+    "body": "Hoʻohana ʻo Chatforia i nā kukī liʻiliʻi (laʻana, hālāwai, palekana). ʻAʻole mākou e hoʻohana i nā kukī hoʻolaha ʻaoʻao ʻekolu. Hoʻokele i nā kukī ma o nā hoʻonā o kāu polokalamu kele pūnaewele."
   }
 }

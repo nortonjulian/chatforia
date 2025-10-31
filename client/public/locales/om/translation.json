@@ -1,113 +1,595 @@
 {
   "common": {
-    "save": "Olkaa'aa",
-    "cancel": "Haquu",
-    "refresh": "Haaraa godhaa",
-    "noMatches": "Waan walfakkaatu hin jiru"
+    "save": "Olkaa'i",
+    "cancel": "Dhiisi",
+    "refresh": "Itti haaromsi",
+    "noMatches": "Waan walfakkaatu hin jiru",
+    "cancelAria": "Dhiisi"
   },
+
   "profile": {
-    "title": "Piroofaayilii fayyadamaa",
+    "title": "Profaayila Fayyadamaa",
 
-    "preferredLanguage": "Afaan filatame",
-    "chooseLanguage": "Afaan fili",
-    "mustLogin": "Sajoo irratti ilaaluuf seenuu qabda.",
+    "preferredLanguage": "Afaan filatamaa",
+    "chooseLanguage": "Afaan filadhu",
+    "mustLogin": "Qindaa'inoota ilaaluu dura seenuu qabda.",
 
-    "autoTranslate": "Ergaa ofiin hiikaa",
-    "showOriginalWithTranslation": "Ergaa asalii fi hiikaa isaa agarsiisi",
-    "showOriginalAndTranslation": "Ergaa asalii fi hiikaa waliin agarsiisi",
+    "autoTranslate": "Ergaawwan ofumaan hiiki",
+    "showOriginalWithTranslation": "Ergaa asilii fi hiika isaa agarsiisi",
+    "showOriginalAndTranslation": "Asilii fi hiika waliin agarsiisi",
 
-    "filterExplicit": "Qabiyyee ifa ta’e hin agarsiisin",
+    "filterExplicit": "Qabeenya iftoomina qabaatu hir'isi",
     "aiReply": "Deebii AI",
-    "enableReadReceipts": "Beekamtii dubbifamuu dandeessi",
-    "allowExplicitContent": "Qabiyyee ifa ta’e eeyyami",
-    "disappearingMessages": "Ergaa baduu dandeessisi",
-    "autoDeleteSeconds": "Ergaan ofiin haqamuu hanga sekondii",
+    "enableReadReceipts": "Dubbifamuu agarsiisi",
+    "allowExplicitContent": "Qabeenya iftoomina qabu eeyyami",
+    "disappearingMessages": "Ergaawwan baduu dandeessisi",
+    "autoDeleteSeconds": "Sakondii fixiin ofumaa haqi",
 
-    "saveSuccess": "Sirnaawwan ni olkaa’ame!",
-    "saveError": "Dogoggora: sirnaawwan olkaa’u hin dandeenye",
+    "saveSuccess": "Qindaa'inni olkaa'ame!",
+    "saveError": "Dogoggora: Qindaa'inoota olkaa'uu hin dandeenye",
 
-    "avatarAlt": "Avaataarii piroofaayilii",
-    "uploadAvatar": "Avaataarii haaraa olkaa’i",
-    "avatarSuccess": "Avaataarii olkaa’ame!",
-    "avatarError": "Avaataarii olkaa’u hin dandeenye.",
+    "avatarAlt": "Suuraa profaayilaa",
+    "uploadAvatar": "Suuraa haaraa fe'i",
+    "avatarSuccess": "Suuraan fe'ame!",
+    "avatarError": "Suuraa fe'uu irratti dogoggora",
 
-    "noPrivateKey": "Makiinaa kana irratti furtuu dhuunfaa hin jiru.",
-    "setBackupPassword": "Furtuu sirrii ta’e tursiisuuf jecha iccitii kaa’i:",
-    "backupDownloaded": "Bakka-bu’iinsi iccitii olkaa’ame.",
-    "exportFailed": "Furtuu baasuun hin milkoofne",
-    "enterBackupPassword": "Jecha iccitii bakka-bu’iinsa kanaa galchi:",
-    "importSuccess": "Furtuu dhuunfaa kana makiinaa kana keessatti galchame.",
-    "importFailed": "Furtuu galchuun hin milkoofne (jecha iccitii dogoggoraa ykn faayilii cabsame).",
-    "keysRotated": "Furtuu haaraa uumame, furtuu waliigalaa olkaa’ame.",
-    "rotateFailed": "Furtuu jijjiiru hin milkoofne.",
+    "noPrivateKey": "Meeshaa kana irratti furtuun dhuunfaa hin jiru akka ergu.",
+    "setBackupPassword": "Bakka-bu'aa eeguuf jecha icciitii kaa'i:",
+    "backupDownloaded": "Bakka-bu'aan icciitiin eegu qabame buufate.",
+    "exportFailed": "Furtuu erguu hin milkoofne",
+    "enterBackupPassword": "Bakka-bu'aa kanaaf jecha icciitii galchi:",
+    "importSuccess": "Furtuun dhuunfaa meeshaa kana irratti ni fe'ame.",
+    "importFailed": "Furtuu fe'uu hin milkoofne (jecha icciitii dogoggora ykn faayilii caccabaa).",
+    "keysRotated": "Furtuuwwan haarawni uumamanii furtuun ummataa olkaa'ame.",
+    "rotateFailed": "Furtuuwwan haaromsuu hin milkoofne.",
     "security": "Nageenya",
-    "exportKey": "Furtuu dhuunfaa baasi",
-    "importKey": "Bakka-bu’iinsa furtuu iccitii galchi",
-    "rotateKeys": "Furtuu jijjiiri",
-    "keyDisclaimer": "Furtuu dhuunfaa kee makiinaa kana irraa hin ba’u. Faayilii iccitii olkaa’amee baasi, makiinaa biraatti deebisuuf.",
+    "exportKey": "Furtuu dhuunfaa ergi",
+    "importKey": "Bakka-bu'aa icciitii eegu qabame fe'i",
+    "rotateKeys": "Furtuu lama haaromsi",
+    "keyDisclaimer": "Furtuun dhuunfaa kee meeshaa kanaa hin keessaa ba'u. Meeshaa biraatti deebisuuf kophaa icciitiin eegu qabdu ergi.",
 
-    "sectionProfile": "Piroofaayilii",
+    "sectionProfile": "Profaayila",
     "phoneNumber": "Lakkoofsa bilbilaa",
-    "appearance": "Fakkii fi agarsiiftuu",
+    "appearance": "Fakkii",
     "soundSettings": "Sagalee",
-    "disappearing": "Ergaa baduuf saaxilame",
-    "backupSync": "Bakka-bu’iinsa & Waliin deemsa",
+    "disappearing": "Ergaawwan badanii",
+    "backupSync": "Bakka-bu'aa & Sindooqaa",
     "ai": "AI",
-    "accessibility": "Amantaa fayyadamummaa",
-    "privacy": "Iccitii",
-    "devices": "Meeshaalee walqabatan",
+    "accessibility": "Suuqaa fayyadamummaa",
+    "privacy": "Sirna dhuunfaa",
+    "devices": "Meeshaalee walitti hidhaman",
 
-    "themeFreeNotice": "Karaa bilisaa irratti jirtu—filannoo Adduu/Du’aa asii gadii fayyadami. Tarsiimoo dabalataa banaa taasisuuf olka’aa.",
-    "sunTheme": "Tarsiimoo aduu fayyadami",
-    "moonTheme": "Tarsiimoo ji’aa (Halkan) fayyadami",
-    "sun": "Aduu",
-    "moon": "Ji’a",
+    "themeFreeNotice": "Free irra jirta—filannoo aduu/ji'a armaan gadii fayyadami. Dhiyeessa garaagaraa banachuuf ol-ka'i.",
+    "sunTheme": "Dhaamsa Dawn fayyadami",
+    "moonTheme": "Dhaamsa Moon (Halkan) fayyadami",
+    "sun": "Adu",
+    "moon": "Ji'a",
 
-    "backupTitle": "Bakka-bu’iinsa iccitii fi makiinaa waliin deemsa",
-    "openBackupTools": "Meeshaalee bakka-bu’iinsa banaa",
-    "backupDesc": "Furtuuwwan kee iccitii qabu tolchi, makiinaa biraatti deebisuuf fayyadami.",
+    "backupTitle": "Bakka-bu'aa Icciitii fi Wal-sindooqa Meeshaalee",
+    "openBackupTools": "Meeshaalee Bakka-bu'aa banu",
+    "backupDesc": "Furtuuwwan keetiif bakka-bu'aa jecha icciitiin eegu qopheessi; irratti fe'iitii meeshaa biraatti wal-sindooqi.",
 
-    "privacyBlurEnabled": "Ergaa duraan bokeessa godhi",
-    "privacyBlurOnUnfocus": "Appii yeroon hin fayyadaminitti bokeessa godhi",
-    "holdToReveal": "Agarsiisuuf harkaan qabu",
-    "notifyOnCopy": "Ergaa koo yoo kophii godhame na beeksiisi",
+    "privacyBlurEnabled": "Ergaawwan duraan dhiphisi (blur) godhi",
+    "privacyBlurOnUnfocus": "Appiin gara biraatti yoo tarkaanfatte dhiphisi",
+    "holdToReveal": "Mul'isuuf qabadhu",
+    "notifyOnCopy": "Ergaan koon yoo koopeessame na beeksisi",
 
-    "loadFailed": "Piroofaayilii fe’uun hin milkoofne",
+    "loadFailed": "Profaayila fe'uu hin dandeenye",
     "followed": "Hordofame",
-    "followFailed": "Hordofu hin milkoofne",
-    "unfollowed": "Hordofuu dhiisee",
-    "unfollowFailed": "Hordofuu dhiisuun hin milkoofne",
+    "followFailed": "Hordofuu hin milkoofne",
+    "unfollowed": "Hordoffii haqame",
+    "unfollowFailed": "Hordoffii haaquu hin milkoofne",
     "follow": "Hordofi",
-    "unfollow": "Hordofuu dhiisi",
-    "followHint": "Yaada isaanii yoo maxxansan, seenaa hordoffii kee keessatti ni mul’ata.",
+    "unfollow": "Hordoffii haqi",
+    "followHint": "Yeroo seenaa isaanii maxxansan, fuula Hordoftoota keessanitti ni mul'atu (ykn Ummataaf).",
     "userNotFound": "Fayyadamaan hin argamne",
-    "followsYou": "Sinni hordofaa jira",
+    "followsYou": "Si hordofa",
 
-    "sectionCrashedTitle": "Kutaan fe’uun hin milkoofne",
-    "sectionCrashedBody": "Kutaawwan kana keessatti dogoggorri uumame.",
+    "sectionCrashedTitle": "Kutaan fe'uu hin dandeenye",
+    "sectionCrashedBody": "Haala keessa ta'een dogoggorri uumame.",
 
-    "forwarding": "Bilbila fi barruu dabarsuu",
-    "callTextForwardingSection": "Bilbila fi barruu dabarsuu",
-    "callTextForwardingTitle": "Bilbila fi/ykn barruu dabarsuu",
-    "callTextForwardingDescription": "Bilbila fi barruu dhufu bilbila ykn imeelii mirkanaa’eetti dabarsi. Bilbila/barruun bahaa lakkoofsa Chatforia kee agarsiisuu danda’a.",
-    "enableTextForwarding": "Barruu dabarsuu dandeessi",
-    "forwardTextsToPhone": "Barruu bilbilatti dabarsi",
-    "forwardTextsToEmail": "Barruu imeelitti dabarsi",
-    "destinationPhone": "Lakkoofsa bilbilaa bakka deemuu (E.164)",
-    "destinationEmail": "Imeelii bakka deemuu",
-    "enableCallForwarding": "Bilbila dabarsuu dandeessi",
-    "destinationPhoneForCalls": "Lakkoofsa bilbilaa bakka bilbilli deemu (E.164)",
-    "aliasBridging": "Bilbila dabarsuu (walqunnamtii maqaa biraatiin)",
-
-    "quietHoursOptional": "Sa’aatii tasgabbaa’aa (filannoo)",
-    "startHour": "Sa’aatii jalqaba (0–23)",
-    "endHour": "Sa’aatii dhuma (0–23)",
-    "reset": "Deebisi",
-    "saveBtn": "Olkaa’i"
+    "forwarding": "Guddifannoo Bilbila & Ergaa",
+    "callTextForwardingSection": "Guddifannoo Bilbila & Ergaa",
+    "callTextForwardingTitle": "Bilbila fi/ yookaan Ergaa Guddifachiisi",
+    "callTextForwardingDescription": "Bilbiloota fi ergaawwan ittiin si ga'ani gara bilbila ykn imeelii mirkanaa'ee geessi. Kan ba'uu lakkaddaa Chatforia kee agarsiisuu danda'a.",
+    "enableTextForwarding": "Ergaa guddifachiisi",
+    "forwardTextsToPhone": "Ergaawwan gara bilbilaatti geessi",
+    "forwardTextsToEmail": "Ergaawwan gara imeelii geessi",
+    "destinationPhone": "Bilbila geessu (E.164)",
+    "destinationEmail": "Imeelii geessu",
+    "enableCallForwarding": "Bilbila guddifachiisi",
+    "destinationPhoneForCalls": "Iddoo geessu (E.164) bilbilootaaf",
+    "aliasBridging": "Guddifannoo Bilbila (maqaa-biraatiin walitti hidhuu)",
+    "quietHoursOptional": "Sa'aatii tasgabbaa'aa (filannoo)",
+    "startHour": "Sa'aatii jalqabaa (0–23)",
+    "endHour": "Sa'aatii xumuraa (0–23)",
+    "reset": "Deebi'ee qindeessi",
+    "saveBtn": "Olkaa'i"
   },
+
   "chat": {
-    "selectPrompt": "Barreeffama ykn kutaa chaatii fili itti jalqabuuf",
-    "newMessages": "Ergaa haaraa",
-    "typing": "{{name}} barreessaa jira..."
+    "selectPrompt": "Barreeffama yookaan chat filadhu jalqabuu uchun",
+    "newMessages": "Ergaawwan haaraa",
+    "typing": "{{name}} barreessaa jira...",
+    "emptyTitle": "Ergaawwan kee",
+    "emptySubtitle": "Ergaa ergiit chat jalqabi.",
+    "startChatButton": "Ergaa ergi"
+  },
+
+  "topbar": {
+    "newStatus": "Haala Haaraa",
+    "logout": "Ba'i"
+  },
+
+  "status": {
+    "userNumber": "Fayyadamaa #{{id}}",
+
+    "posted": "Haalli maxxanfame",
+    "postFailed": "Haala maxxansuu hin milkoofne",
+
+    "createTitle": "Haala uumi",
+    "modalAriaLabel": "Haala haaraa",
+
+    "captionLabel": "Maaltu sammuu kee irratti jira?",
+    "captionPlaceholder": "Odeeffannoo qoodii...",
+    "captionAria": "Ergaa haala",
+
+    "audienceLabel": "Dhaggeeffattoota",
+    "audience": {
+      "public": "Ummataaf",
+      "followers": "Hordoftoota",
+      "contacts": "Lakkoofsa qunnamtii",
+      "mutuals": "Wal-hordoftoota",
+      "custom": "Kan ofii..."
+    },
+
+    "expiresHoursLabel": "Yeroo fixuu (sa'aatii)",
+    "maxTooltip": "Hanga guyyaa 7tti",
+    "hoursAbbrev": "sa",
+    "maxShort": "ol'aanaa",
+    "expiresOn": "Yeroo fixuu:",
+
+    "chooseRecipients": "Warra fudhattoota filadhu",
+    "selectContacts": "Qunnamtoota filadhu",
+
+    "attachmentsLabel": "Ilaallattoota",
+    "attachmentsPlaceholder": "Suuraa/viidiyoo dabaluu",
+    "filesNote": "Faayilii hanga 5. Itti-ansuun 24sa'a booda ni fixxa.",
+
+    "postAria": "Haala maxxansi",
+    "post": "Maxxansi"
+  },
+
+  "sidebar": {
+    "randomChat": "Chat Saanduqaa",
+    "callTextForwarding": "Guddifannoo Bilbila & Ergaa",
+    "conversations": "Mari'iiwwan",
+    "searchPlaceholder": "Mari'ii barbaadi...",
+    "errorLoading": "Chatii fe'uu hin dandeenye",
+    "empty": "Mari'ii hin jiru amma.",
+    "startChat": "Chat jalqabi",
+    "people": "Namoota",
+    "settings": "Qindaa'inoota",
+    "status": "Haala",
+    "forwarding": "Guddifannoo Bilbila & Ergaa",
+    "refresh": "Itti haaromsi",
+    "search": "Mari'ii barbaadi",
+    "loginPrompt": "Qindaa'inoota gulaaluuf seeni.",
+    "login": "Seeni",
+    "register": "Akkaawuntii uumi",
+
+    "chatrooms": "Kutaa chaatii",
+    "logout": "Ba'i",
+    "startChatAlt": "Chat haaraa jalqabi"
+  },
+
+  "premium": {
+    "heading": "Premiumitti ol-ka'i",
+    "description": "Amaloota humnaa bani & beeksisa dhabamsiisi.",
+    "upgrade": "Ol-ka'i"
+  },
+
+  "auth": {
+    "headline": "Ergaa nageenyaan addunyaa guutuu hiikni dafaa",
+    "description": "E2E icciitii, hiika AI, ergaawwan badanii, fi bilbila sagalee/viidiyoo.",
+
+    "feature": {
+      "encryption": "E2E icciitii duraanuu",
+      "translation": "Afaanota 100+ ofumaan hiika",
+      "disappearing": "Ergaawwan badanii & mallattoolee dubbisuu",
+      "privacy": "Dhuunfaa dura—daataan kee, too'annaa kee.",
+      "translate": "Hiika yeroo-dhabaa",
+      "disappear": "Ergaawwan badanii",
+      "privacyAlt": "Dizaayinii dhuunfaa-dura"
+    },
+
+    "welcomeBack": "Baga nagaan deebi'te",
+    "continueGoogle": "Google itti fufi",
+    "continueApple": "Apple itti fufi",
+    "username": "Maqaa fayyadamaa",
+    "password": "Jecha icciitii",
+    "keepSignedIn": "Na seensifame tursiisi",
+    "forgotPassword": "Jecha icciitii dagatte?",
+    "loginButton": "Seeni",
+    "createAccount": "Akkaawuntii uumi",
+    "freeAccountButton": "Akkaawuntii bilisaa uumi",
+    "newHere": "As haaraa?",
+    "getApp": "App dhaan fuudhi",
+    "desktopTip": "Kompiitara irra? App argachuuf bilbila keetiin sgoon qaaqa suuqii.",
+
+    "goHome": "Gara manaatti deemi",
+    "home": "Mana",
+
+    "headlineAlt": {
+      "main": "Ergaa nageenyi qabu kan",
+      "highlight": "afaan kee dubbatu"
+    },
+    "subhead": "Ergaa dhuunfaa, icciitiin eegame, hiikni saffisaa — yeroodhuma sana.",
+
+    "status": "Haala ilaali",
+    "upgrade": "Amma ol-ka'i",
+    "tip": "Chatforia meeshaa kamirrattis fayyadamu dandeessa — yookaan app buufadhu carraa gaarii argachuuf.",
+    "openDownload": "Fuula buufataa banu",
+    "qrAlt": "QR Chatforia",
+    "scanHint": "App buufachuuf yookaan browseriin banuuf sgan godhi.",
+    "iosAria": "App Store irraa buufadhu",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Mallattoo App Store",
+    "androidAria": "Google Play irraa argadhu",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Mallattoo Google Play",
+
+    "login": "Seeni",
+    "signup": "Galmaa'i",
+    "email": "Imeelii"
+  },
+
+  "footer": {
+    "plans": "Karoora & Kaffaltii",
+    "about": "Waa'ee Chatforia",
+    "careers": "Hojii",
+    "press": "Miidiyaa",
+    "advertise": "Beeksisa",
+    "contact": "Nu qunnami",
+    "help": "Gargaarsa",
+    "status": "Fuula Haala",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Ilaalcha Dhuunfaa",
+    "terms": "Kaa'ama Tajaajilaa",
+    "cookies": "Sirna Kukii",
+    "doNotSell": "Odeeffannoo koo hin gurguriin",
+
+    "language": "Afaan",
+    "contactShort": "Qunnamtii"
+  },
+
+  "home": {
+    "title": "Mana",
+    "header": "Ergaawwan kee",
+    "subheader": "Ergaa ergiit chat jalqabi.",
+    "sendButton": "Ergaa ergi",
+    "gifPicker": "GIF fili bani",
+    "emoji": "Emoji",
+    "upload": "Suuraa ykn viidiyoo fe'i",
+    "inputPlaceholder": "Ergaa barreessi…",
+    "inputLabel": "Gulaalaa ergaa",
+    "sendTooltip": "Ergi",
+    "sendTooltipEmpty": "Ergaa barreessi erguuf",
+    "send": "Ergi",
+
+    "welcomeMessage": "Baga gara Chatforia dhuftan",
+    "getStarted": "Jalqabi"
+  },
+
+  "press": {
+    "title": "Miidiyaa",
+    "contact": "Gaaffii miidiyaaf, nu qunnamaa <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Gaaffii miidiyaaf, nu qunnamaa press@chatforia.com.",
+    "boilerplateTitle": "Ibsa gabaabaa",
+    "boilerplateText": "Chatforia ergaa nageenyaan icciitiin eegame fi hiika saffisaa qabu, waliigaltee addunyaa tajaajiluuf qophaa'e.",
+    "assetsTitle": "Qabeenya mallattoo",
+    "assetsText": "Logoo, suuraalee, fi fakkii oomishaa (dhiyootti)."
+  },
+
+  "careers": {
+    "title": "Hojii",
+    "intro": "Nu garee xiqqoo ergaa dhuunfaa, addunyaa guutuu tajaajilu ijaarra jirra. Yoo icciitii, dandeettii fayyadamaa, fi UX jaallattu, nuuf barreessi.",
+    "openRoles": "<b>Hojii banaa:</b> Injiinariingii (Full-stack, iOS, Android), Piroodaktii, Deeggarsa.",
+    "apply": "<b>Akkaataa itti galmamtan:</b> ICV/links gara <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> nuuf ergii.",
+    "emailCta": "ICV email godhi"
+  },
+
+  "about": {
+    "title": "Waa'ee Chatforia",
+    "description": "Chatforia ergaa hedduu afaanota waliin qabdu, icciitiin E2E eegamte, hiika saffisaa, fi bilbila sagalee/viidiyoo qabu. Kaayyon keenya salphaa: namoota walitti hidhuu — nageenyaan, dhuunfaadhaan, fi afaan wal-jijjiiruun.",
+    "valuesTitle": "Waan nu kabajnu",
+    "values": {
+      "privacy": "<b>Dhuunfaa-dura:</b> E2E icciitii duraanuu.",
+      "access": "<b>Hundaaf argamuu:</b> Afaanota 100+ ofumaan hiika.",
+      "control": "<b>Too'annaa:</b> Ergaawwan badanii & mallattoolee dubbisuu filannoo dha."
+    },
+    "howTitle": "Akkaataa Chatforia dalagu",
+    "howDescription": "Ergaawwan kee dura meeshaa irratti icciitiin eeggamu; sana booda ergu. Hiika, bakka-bu'aa, fi sindooqni akkasumas tajaajilli keenya waan daangaa xiqqoo qofa akka arguuf qophaaye."
+  },
+
+  "advertise": {
+    "title": "Beeksisaa Chatforia irratti",
+    "description": "Fayyadamtota ergaa socho'oo bakka gaarii fi amanamaa ta'een ga'u. Bakka beeksisaa mul'ataa, hirmaannaa, fi deggera gurguddaa ni kennina. Warri Premium beeksisa hin ilaalan.",
+    "adsense": {
+      "withPubId": "Amma <b>Google AdSense</b> fayyadamna. Yoo Google Ads keessaa nuun tiksu barbaadde, ID maxxansaa <code>{{pubId}}</code> fayyadami; bakka keenya keessaa filannoo to'ataa gaafadhu. Hojii waliigalaa toora tooraas ni jira—foorma fayyadami.",
+      "noPubId": "Amma <b>Google AdSense</b> fayyadamna. Waliigaltee toora tooraa immoo ni jira—foorma kana fayyadami."
+    },
+    "inventoryHeader": "Qabeenya & Ijaarsa",
+    "placement": {
+      "displayBadge": "Agarsiisa",
+      "acceptedSizes": "Hammamtaa fudhataman",
+      "adsenseSlot": "Iddoo AdSense:"
+    },
+    "noPlacements": "Bakka beeksisaa hin qophaa'in amma. ads/placements.js keessatti dabali.",
+    "whyHeader": "Maaliif Chatforia?",
+    "why": {
+      "highSession": "Irra deddeebi'amee fayyadama fi turtii cimaa kutaa chatiin",
+      "brandSafe": "Fakkii amanamaa; daangaa yeroo mul'isuun kabajamaa",
+      "sponsoredMoments": "Yeroo deeggartootaa (fkn, “Start a Chat”) ni jira",
+      "deals": "Waliigaltee toora tooraa yookaan AdSense/Google Ads"
+    },
+    "contactHeader": "Nu qunnami",
+    "form": {
+      "submittedMsg": "Galatoomi! Gaaffiin keessan ergameera. Gariin keenya si qunnama.",
+      "missingRequired": "Maqaa, imeelii, fi ergaa guuti.",
+      "successToast": "Galatoomi! Yeroo dhihoo keessatti si qunnanna.",
+      "mailtoInfo": "Gaaffii erguuf imeelii keessan ni banu…",
+      "nameLabel": "Maqaa kee",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Imeelii",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Kampaniin",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Baajata ji'aa (filannoo)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Kampaayinii keessan nuu himaa",
+      "messagePlaceholder": "Kaayyoo, guyyaa, KPI, filannoo bakka beeksisaa…",
+      "sendCta": "Gaaffii ergi"
+      },
+    "legal": {
+      "disclaimerStart": "Ergaa erguun",
+      "terms": "Kaa'ama",
+      "and": "fi",
+      "privacy": "Ilaalcha Dhuunfaa" 
+    }
+  },
+
+  "upgrade": {
+    "title": "Ol-ka'i",
+    "subtitle": "Karoora siif mijataa banu: Plusiin beeksisa dhabamsiisi, Premiumiin ammoo amaloota cimsaman hunda argadhu.",
+    "scheduleBanner": {
+      "title": "Faayidaan xumura",
+      "body": "Guyyaa kana booda gara Free deebita",
+      "keepPlanCta": "Plus eegi",
+      "manageBillingCta": "Kaffaltii bulchi"
+    },
+    "billing": {
+      "opening": "Banaa jiru…",
+      "manage": "Kaffaltii Bulchi"
+    },
+    "checkout": {
+      "redirecting": "Itti geessaa jira…"
+    },
+    "auth": {
+      "continue": "Itti fufi",
+      "createAccount": "Akkaawuntii uumi",
+      "signIn": "Seeni"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "Ergaa nama-namaa fi garee",
+          "aiBasic": "Deebii AI bu'uuraa",
+          "attachments": "Faayiloota idilee"
+        },
+        "ctaCurrent": "Karoora ammaa",
+        "ctaUnavailable": "Free'tti ce'u (hin jiruu)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / ji'a",
+        "features": {
+          "noAds": "Beeksisa hunda dhabamsiisi",
+          "msg": "Ergaa nama-namaa fi garee",
+          "attachments": "Faayiloota gurguddoo",
+          "aiBasic": "Deebii AI bu'uuraa"
+        },
+        "badge": "Kan filatamu",
+        "cta": "Beeksisa dhabamsiisi"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Ji'a-Ji'a)",
+        "price": "$24.99 / ji'a",
+        "features": {
+          "plusAll": "Wanti Plus keessaa hunda",
+          "ringtones": "Ringtone fi sagalee ergaa ofii",
+          "powerAi": "Amaloota AI cimaa",
+          "priorityUpdates": "Fooyya'iinsa dursa qabuu",
+          "backups": "Bakka-bu'aa & wal-sindooqa"
+        },
+        "badge": "Gatii gaarii",
+        "cta": "Ol-ka'i (Ji'a)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Waggaa)",
+        "price": "$225 / waggaa",
+        "features": {
+          "allPremium": "Wanti Premium keessaa hunda",
+          "annualBilling": "Waggaa tokkoon kaffalamu",
+          "save25": "Ji'a-ji'aan yoo wal bira qabne ~25% ni tajaajila",
+          "sameFeatures": "Amaloota wal-fakkaataa akka Ji'a"
+        },
+        "badge": "25% Ol'aansi",
+        "cta": "Ol-ka'i (Waggaa)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Akkaataa Jalqabuu",
+    "subtitle": "Chatforia haaraa? Qajeelfamni gabaabaan kun daqiiqaa muraasa keessatti si qopheessa.",
+    "alert": {
+      "text": "Qajeelfamni kun amaloota haaraa waliin ni dagaaga. Yoo waan dhabame jiraate, nu qunnamaa",
+      "contactLink": "Nu qunnami"
+    },
+    "section1": {
+      "title": "1) Akkaawuntii kee uumi",
+      "signup": "Galmaa'i",
+      "or": "yookaan",
+      "login": "seeni",
+      "loginText": "akkaawuntii jiruun.",
+      "prefsStart": "Qindaa'inoota kee",
+      "prefsLink": "filadhu",
+      "prefsRest": "(afaan, mallattoolee dubbisuu, dhiyeessa)."
+    },
+    "section2": {
+      "title": "2) Ergaa jalqabi",
+      "item1": "DM yookaan Garee uumi; ergaa jalqabaa ergi.",
+      "item2": "Afaanota 100+ waliin haasa'uuf hiika saffisaa fayyadami.",
+      "item3": "Profaayila → Dhuunfaa keessatti ergaawwan badanii fi mallattoolee dubbisuu yaali."
+    },
+    "section3": {
+      "title": "3) Dabalata deemuu",
+      "item1Part1": "Karoora kee irratti",
+      "upgradeLink": "Ol-ka'i",
+      "item1Part2": "fuula irratti bulchi (Plus = beeksisa hinqabne, Premium = amaloota guutuu).",
+      "item2Part1": "Meeshaalee dabalataa walitti hidhii fi bakka-bu'aa icciitii qindeessi",
+      "settingsLink": "Qindaa'inoota"
+    },
+    "cta": {
+      "seePlans": "Karoora ilaali",
+      "openSettings": "Qindaa'inoota banu"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Giddugala Gargaarsaa",
+    "faq": {
+      "account": {
+        "q": "Akkaawuntii akkamitti uuma yookaan deebi'ee argadha?",
+        "a": "App buufadhu yookaan weeb fayyadami, “Akkaawuntii uumi” tuqi, imeelii/bilbila mirkaneessi. Deebi'uu yoo barbaadde, “Jecha icciitii dagatte” fayyadami."
+      },
+      "privacy": {
+        "q": "Ergaawwan E2E icciitiin eegamu?",
+        "a": "Eeyyee. Ergaa fi bilbiloonni duraan dursee icciitiin E2E eeggamu. Ati fi fudhattoonni qofatu dubbisa."
+      },
+      "translate": {
+        "q": "Hiikni saffisaa akkamitti dalaga?",
+        "a": "Qindaa'inoota → Fakkaatti & Afaan keessa “Ofumaan hiiki” dandeessisi. Meeshaa irratti yoo danda'ame hiikna; alatti ammoo API eeggumsa qabu fayyadamna, odeeffannoo xiqqoo qofa dabarsina."
+      },
+      "contact": {
+        "q": "Deggarsa qunnami",
+        "a": "support@chatforia.com nu qunnamaa. Suuraalee fi lakkoofsa version app keetiis dabaluu yaali."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Nu qunnami",
+    "successMsg": "Galatoomi—gareen keenya imeeliin siif deebisa.",
+    "errorSend": "Erguu hin dandeenye. Mee support@chatforia.comitti imeelii ergi.",
+    "form": {
+      "nameLabel": "Maqaa",
+      "emailLabel": "Imeelii",
+      "messageLabel": "Ergaa",
+      "sendCta": "Ergi"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Ilaalcha Dhuunfaa",
+    "lastUpdated": "Kan xumura irratti haaromsame:",
+    "intro": {
+      "body": "Ilaalchi Dhuunfaa kun erga Chatforia (“nuti”) tajaajila keenya fayyadamu yeroo odeeffannoo akkamitti walitti qabnu, itti fayyadamnu, fi qooddannu ibsa. Chatforia odeeffannoo nuti arguu dandeenyu xiqqeessuuf qophaa'e."
+    },
+    "infoWeCollect": {
+      "title": "Odeeffannoo nuti walitti qabnu",
+      "account": "Odeeffannoo akkaawuntii (fkn, imeelii/bilbila) akkaawuntii uumuu fi eeguu.",
+      "encrypted": "Qabiyyee icciitiin eeggamu (ergaa/bilbila) E2E dha; nuti dubbisuu hin dandeenyu.",
+      "diagnostics": "Qorannoo/deeggarsa akka falli, gosa meeshaa, ykn herrega xiqqaa fooyya'iinsa gochuuf."
+    },
+    "howWeUse": {
+      "title": "Akka itti fayyadamnu",
+      "provide": "Tajaajila kennuu fi eegu (seensa, saaphana/miidhaa to'achuu).",
+      "improve": "Amaloota fooyyessuu (qulqullina hiikaa, amanamummaa).",
+      "legal": "Seera hordofuu."
+    },
+    "sharing": {
+      "title": "Qoodinsa",
+      "body": "Odeeffannoo dhuunfaa hin gurgurru. Ogeessa hojii waliin (fkn, beeksisaa tajaajilaa, qorannoo) waliigaltee cimaa jalatti xiqqoo qooduu dandeenya."
+    },
+    "rights": {
+      "title": "Mirga kee",
+      "body": "Naannoo kee irratti hunda'ee (fkn, GDPR/UK GDPR/CPRA), seerota akka mirga argachuu, sirreessuu, haqamuu, ykn sosochii muraasa irraa of-duraa dhaabbachuu gaafachuu dandeessa. Ittiin nu qunnami: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Kuusaa odeeffannoo & nageenya",
+      "body": "Tajaajila tiksuuf barbaachisu qofa ni kuusna; nageenya sadarkaa ogummaa irratti ni hojjanna. Qabiyyeen E2E nuti hiiku hin dandeenyu."
+    },
+    "children": {
+      "title": "Daa'imman",
+      "body": "Chatforia daa'imman umurii 13 gadii (ykn seera naannoo keetiin barbaadamu) hin ilaallatu."
+    },
+    "changes": {
+      "title": "Jijjiirraa",
+      "body": "Immoo as irratti ni beeksifna; guyyaa “Kan xumura irratti haaromsame” ni haaromfama."
+    },
+    "contact": {
+      "title": "Nu qunnami",
+      "body": "privacy@chatforia.com • [Maqaa seeraa kampanii], [Teessoo]"
+    }
+  },
+
+  "terms": {
+    "title": "Kaa'ama Tajaajilaa",
+    "lastUpdated": "Kan xumura irratti haaromsame:",
+    "intro": {
+      "body": "Chatforia fayyadamuun Kaa'ama kanatti walii-galuudha. Yoo hin walii-galin, tajaajila hin fayyadamne."
+    },
+    "accounts": {
+      "title": "Akkaawuntii",
+      "itemAccurateInfo": "Odeeffannoo sirrii kenni; icciitii eegadhu.",
+      "itemResponsibility": "Karoora keessan irratti dalagaa raawwatamuuf itti gaafatamtu."
+    },
+    "acceptableUse": {
+      "title": "Fayyadama falaa",
+      "itemNoAbuse": "Qabiyyee seeraan alaa, hacuuccaa, yookaan mirga cabsu hin eeyyamamu; spam ykn miidhaa ofumaan raawwachuu hin eeyyamamu.",
+      "itemSuspend": "Qabxiilee kana cabsuun yoo mul'ate, dhaabuu/ykn ugguru dandeenya."
+    },
+    "yourContent": {
+      "title": "Qabiyyee kee",
+      "body": "Mirgi qabiyyee kee kan si'iti. Tajaajila oolchuuf mirga barbaachisu nuuf kenna (fkn, dabarsu, kuusuu, hiiku)."
+    },
+    "disclaimer": {
+      "title": "Ibsa fi itti gaafatamummaa",
+      "body": "Tajaajilli akkuma jirutti kennameera; waadaa hin kenninu. Sadarkaa seeraan hayyamamu hunda keessatti, miidhaa wal-xaxaa yookaan hordoftuu irratti itti gaafatamummaa hin fudhannu."
+    },
+    "changes": {
+      "title": "Jijjiirraa",
+      "body": "Kaa'ama kana ni haaromsina; itti fayyadamuun itti aanee waliigaluu jechuu dha."
+    },
+    "contact": {
+      "title": "Nu qunnami",
+      "body": "support@chatforia.com • [Maqaa seeraa kampanii], [Teessoo]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Odeeffannoo Koo Hin Gurguriin yookaan Hin Qoodin",
+    "body": "Chatforia odeeffannoo dhuunfaa hin gurgurru. Jiraattotni Kaaliifoorniyaa garuu kadhata CPRA ni dhiyeessuu danda'u.",
+    "cta": "Gaaffii dhiyeessi"
+  },
+
+  "cookies": {
+    "title": "Sirna Kukii",
+    "body": "Chatforia kukii xiqqoo (fkn, kutaa, nageenya) fayyadama. Kukii beeksisaa sadarkaa sadaffaa hin fayyadamnu. Kukiiwwan sirreessu browser kee keessaa to'achi."
   }
 }

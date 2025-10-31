@@ -1,112 +1,591 @@
 {
   "common": {
-    "save": "ސޭވްކުރޭ",
-    "cancel": "ކެންސަލްކުރޭ",
-    "refresh": "ރިފްރެޝްކުރޭ",
-    "noMatches": "އެއްވެސް މެޓްޗު ނުފެނުނު"
+    "save": "ސޭވް",
+    "cancel": "ކެންސަލް",
+    "refresh": "ރިފްރެޝް",
+    "noMatches": "އެއްވެސް މެޗްކުރެއްވި ނެތް",
+    "cancelAria": "ކެންސަލް"
   },
+
   "profile": {
-    "title": "ޔޫޒަރު ޕްރޮފައިލް",
+    "title": "ޔޫސަރ ޕްރޮފައިލް",
 
-    "preferredLanguage": "އެންމެ ބަހެއް ހިމެނޭނެއް",
-    "chooseLanguage": "ބަހެއް ހިމެނޭ",
-    "mustLogin": "ސެޓިންގްސް ބަލާލައްވާން ލޮގިން ވެސްކޮށްލާ.",
+    "preferredLanguage": "ބޭނުން ބެލި ބަސް",
+    "chooseLanguage": "ބަސް ނަގާ",
+    "mustLogin": "ސެޓިންގްސް ބަލައިދާއިރު ދެއްވޭނެއަކަ، އަހަރެން ސައިން އިން ވާނެ.",
 
-    "autoTranslate": "މެސެޖުތައް އޮޓޯ ޓްރެންސްލޭޓްކުރޭ",
-    "showOriginalWithTranslation": "އޮރިޖިނަލްއާއި ޓްރެންސްލޭޓްކުރެވުން ހަދާން",
-    "showOriginalAndTranslation": "އޮރިޖިނަލްއާއި އެއްޗެއްގައި ޓްރެންސްލޭޓް ދައްކާ",
+    "autoTranslate": "މެސެޖުތައް އޮޓޯ އިން ތަރުޖަމާ ކުރޭ",
+    "showOriginalWithTranslation": "އޮރިޖިނަލް އަށް ތަރުޖަމާ އަށް އިން އަދި ދެއްވާ",
+    "showOriginalAndTranslation": "އޮރިޖިނަލް އަދި ތަރުޖަމާ އަށް އެއްގައި",
 
-    "filterExplicit": "ސެންސިޓިވް ކޮންޓެންޓް ފިލްޓަރކުރޭ",
-    "aiReply": "އެއައި ޖަހާ",
-    "enableReadReceipts": "ރީޑް ރިސީޕްޓްސް ހެދުން ހަދާ",
-    "allowExplicitContent": "ސެންސިޓިވް ކޮންޓެންޓް ހުރިހާންކުރޭ",
-    "disappearingMessages": "މެސެޖުތައް އަލުން ހަދާ",
-    "autoDeleteSeconds": "އޮޓޯ ޑީލީޓްކުރުން ކުރެވޭ ސިކަންޑްތައް",
+    "filterExplicit": "އެކްސްޕްލިސިޓް ކޫންޓެންޓް ފިލްޓަރ ކުރޭ",
+    "aiReply": "AI ޖަވާ",
+    "enableReadReceipts": "ރީޑް ރިސީޕްޓްތައް ސިއަލު ކުރޭ",
+    "allowExplicitContent": "އެކްސްޕްލިސިޓް ކޫންޓެންޓް ހުށަހަޅާ",
+    "disappearingMessages": "މެސެޖު ދިނުމަށް ސިއަލު ކުރޭ",
+    "autoDeleteSeconds": "އޮޓޯ ޑިލީޓް ވަނީ (ސިކަންޑް)",
 
-    "saveSuccess": "ސެޓިންގްސް ސޭވްވެއްޖެ!",
-    "saveError": "އެއްޗެއް ބަލަހައްޓައި: ސެޓިންގްސް ސޭވްކުރާން ނުވާނެއް.",
+    "saveSuccess": "ސެޓިންގްސް ސޭވް ވެއްޖެ!",
+    "saveError": "އެރަރ: ސެޓިންގްސް ސޭވް ނުކުރެވޭނެ",
 
-    "avatarAlt": "ޕްރޮފައިލް އެވާޓާ",
-    "uploadAvatar": "އެވާޓާ އަޕްލޯޑްކުރޭ",
-    "avatarSuccess": "އެވާޓާ އަޕްލޯޑްވެއްޖެ!",
-    "avatarError": "އެވާޓާ އަޕްލޯޑްކުރާން ނުވާނެއް.",
+    "avatarAlt": "ޕްރޮފައިލް އެވެޓަރ",
+    "uploadAvatar": "އެވެޓަރ އަޕްލޯޑް ކުރޭ",
+    "avatarSuccess": "އެވެޓަރ އަޕްލޯޑް ވެއްޖެ!",
+    "avatarError": "އެވެޓަރ އަޕްލޯޑް ނުވާ އެރަރ",
 
-    "noPrivateKey": "މި ޑިވައިސްގައި ޕްރައިވެޓް ކީ ނުފެނުނު.",
-    "setBackupPassword": "ބެކަޕް އެންކްރިޕްޓްކުރުން ޕާސްވޯޑެއް ސެޓްކުރޭ:",
-    "backupDownloaded": "އެންކްރިޕްޓް ބެކަޕް ޑައުންލޯޑްވެއްޖެ.",
-    "exportFailed": "ކީ އެކްސްޕޯރޓް ފެއިލްވެއްޖެ.",
-    "enterBackupPassword": "ބެކަޕް ޕާސްވޯޑް ލިޔޭ:",
-    "importSuccess": "ޕްރައިވެޓް ކީ މި ޑިވައިސްގައި އިމްޕޯޓްވެއްޖެ.",
-    "importFailed": "އިމްޕޯޓް ފެއިލްވެއްޖެ (ޕާސްވޯޑް ނުދައްކާ ނުވަތަ ފައިލް ކުރައްޫގެ).",
-    "keysRotated": "އައިޑު ކީތައް އައުކަނޑެއް ހެދި، ޕަބްލިކް ކީ އަޕްލޯޑްވެއްޖެ.",
-    "rotateFailed": "ކީތައް ރޮޓޭޓްކުރާން ނުވާނެއް.",
+    "noPrivateKey": "މި ޑިވައިސްގައި ޕްރައިވެޓް ކީ ނެތް.",
+    "setBackupPassword": "ބެކަޕް އެންކްރިޕްޓް ކުރަން ޕާހޮރޑް ސެޓް ކުރޭ:",
+    "backupDownloaded": "އެންކްރިޕްޓް ބެކަޕް ޑައުންލޯޑް ވެއްޖެ.",
+    "exportFailed": "ކީ އެކްސްޕޯޓް ނުވާ",
+    "enterBackupPassword": "މި ބެކަޕްގެ ޕާހޮރޑް ލިޔުއްވާ:",
+    "importSuccess": "ޕްރައިވެޓް ކީ މި ޑިވައިސްގައި އިމްޕޯޓް ވެއްޖެ.",
+    "importFailed": "ކީ އިމްޕޯޓް ނުވާ (ޕާހޮރޑް ގާތު ނުކުރެ، ނުވާ ފައިލް).",
+    "keysRotated": "އައު ކީ ޕެއިރ ދެއްވި، ޕަބްލިކް ކީ އަޕްލޯޑް ވެއްޖެ.",
+    "rotateFailed": "ކީ ރޮޓޭޓް ނުވާ.",
     "security": "ސިކިއުރިޓީ",
-    "exportKey": "ޕްރައިވެޓް ކީ އެކްސްޕޯރޓްކުރޭ",
-    "importKey": "އެންކްރިޕްޓް ބެކަޕް ކީ އިމްޕޯޓްކުރޭ",
-    "rotateKeys": "ކީތައް ރޮޓޭޓްކުރޭ",
-    "keyDisclaimer": "ޕްރައިވެޓް ކީ މި ޑިވައިސް ބައިވެސް ނުލިބޭނެއް. ބެކަޕް އެންކްރިޕްޓްކުރުން ޕާސްވޯޑެއް ސެޓްކޮށް އެކްސްޕޯރޓްކުރޭ.",
+    "exportKey": "ޕްރައިވެޓް ކީ އެކްސްޕޯޓް ކުރޭ",
+    "importKey": "އެންކްރިޕްޓެޑް ކީ ބެކަޕް އިމްޕޯޓް ކުރޭ",
+    "rotateKeys": "ކީ ޕެއިރ ރޮޓޭޓް ކުރޭ",
+    "keyDisclaimer": "މި ޑިވައިސް ގައިއްޔާ ޕްރައިވެޓް ކީ ހިނގާ. އެއް ޑިވައިސަށް ރިސްޓޯރ ކުރަން ޕާހޮރޑް އަށް ސޭފް ކުރެވި ބެކަޕް އެކްސްޕޯޓް ކުރޭ.",
 
     "sectionProfile": "ޕްރޮފައިލް",
-    "phoneNumber": "ފޯން ނަންބަރު",
-    "appearance": "ފޯރމް އާއި ސްޓައިލް",
-    "soundSettings": "ސައުންޑްސް",
-    "disappearing": "މެސެޖުތައް ހުޅުވިފައިވާން",
-    "backupSync": "ބެކަޕް އާއި ސިންކު",
-    "ai": "އެއައި",
+    "phoneNumber": "ފޯން ނަންބަރ",
+    "appearance": "އެޕީރަންސް",
+    "soundSettings": "ސައުންޑް",
+    "disappearing": "ދިނުމަށް ދަންނާ މެސެޖު",
+    "backupSync": "ބެކަޕް & ސިންކް",
+    "ai": "AI",
     "accessibility": "އެކްސެސިބިލިޓީ",
     "privacy": "ޕްރައިވެސީ",
-    "devices": "ޑިވައިސްތައް",
+    "devices": "ލިންކް ދެވިސް",
 
-    "themeFreeNotice": "ފްރީ ޕްލޭންގައި ހުރިހާ—މިހާރު ސަން/މޫން އޮޕްޝަންތައް ބޭނުންކުރޭ. ތީމްތައް އަލުންކުރުމަށް އަޕްގްރޭޑްކުރޭ.",
-    "sunTheme": "ދައްކަވައި ތީމް ބޭނުންކުރޭ",
-    "moonTheme": "މޫން (މިޑްނައިޓް) ތީމް ބޭނުންކުރޭ",
-    "sun": "ދައްކަ",
+    "themeFreeNotice": "ފްރީ ޕްލެނަކަށް ވަނީ — ތިބާ މިން ސަން/މޫން އޮޕްޝަންތަކު ބޭނުން. އަޑު ތީމްތަކު އަށް އަޕްގްރޭޑް ކުރޭ.",
+    "sunTheme": "ޑޯން (Sun) ތީމް ބޭނުން",
+    "moonTheme": "މޫން (Midnight) ތީމް ބޭނުން",
+    "sun": "ސަން",
     "moon": "މޫން",
 
-    "backupTitle": "އެންކްރިޕްޓް ބެކަޕްތައް އާއި ޑިވައިސް ސިންކު",
-    "openBackupTools": "ބެކަޕް ޓޫލްސް ހުޅުވާ",
-    "backupDesc": "ކީތައްގެ ބެކަޕް ޕާސްވޯޑެއްގައި އެންކްރިޕްޓްކުރޭ، އެއްވެސް ޑިވައިސްގައި އަލުން ހަދާ ސިންކުކުރޭ.",
+    "backupTitle": "އެންކްރިޕްޓެޑް ބެކަޕް & ޑިވައިސް ސިންކް",
+    "openBackupTools": "ބެކަޕް ޓޫލްތައް ދެއްކޭ",
+    "backupDesc": "ކީތައް ޕާހޮރޑް އަށް ސޭފް ކުރެވި ބެކަޕް ނެގޭ، އެއް ޑިވައިސަށް ރިސްޓޯރ ކުރަން ސިންކް ކުރޭ.",
 
-    "privacyBlurEnabled": "މެސެޖުތައް ބްލާރކުރޭ",
-    "privacyBlurOnUnfocus": "އެޕް ނުފޮހެވުން ބްލާރކުރޭ",
-    "holdToReveal": "ހޯލްކުރޭ އަދި ދައްކާ",
-    "notifyOnCopy": "މެސެޖެއް ކޮޕީކުރުން ނޮޓިފައިކޭޝަން ލިބޭނެއް",
+    "privacyBlurEnabled": "އަންނަ ބަލާ ގޮތަށް މެސެޖު ބުލަރ ކުރޭ",
+    "privacyBlurOnUnfocus": "އާޕް އަންފޮކަސް ނޫން ގޮތަށް ބުލަރ ކުރޭ",
+    "holdToReveal": "ބުލަރ ފޮނުވާން ހޯލްޑް ކުރޭ",
+    "notifyOnCopy": "މެސެޖެއް ކޮޕީ ކުރެވޭނެއެވެ އެންނަ ނޮޓިފައި ކުރޭ",
 
-    "loadFailed": "ޕްރޮފައިލް ލޯޑްކުރާން ނުވާނެއް",
-    "followed": "ފޮލޯވެއްޖެ",
-    "followFailed": "ފޮލޯކުރާން ނުވާނެއް",
-    "unfollowed": "އަންފޮލޯވެއްޖެ",
-    "unfollowFailed": "އަންފޮލޯ ކުރާން ނުވާނެއް",
-    "follow": "ފޮލޯކުރޭ",
-    "unfollow": "އަންފޮލޯކުރޭ",
-    "followHint": "އެއީގެ ސްޓޯރީތައް ފޮލޯވާ ފީޑުގައި ދައްކާ ނަމަ އެއީ ޕަބްލިކް ނުވަތަ ފޮލޯވަރުގެ ޑްލާދުން ޕޯސްޓްކުރީ.",
-    "userNotFound": "ޔޫޒަރު ނުފެނުނު",
-    "followsYou": "އައީ ތިބާއަށް ފޮލޯކޮށްފިން",
+    "loadFailed": "ޕްރޮފައިލް ލޯޑު ނުވާ",
+    "followed": "ފޮލޯ ވެއްޖެ",
+    "followFailed": "ފޮލޯ ނުވާ",
+    "unfollowed": "އަންފޮލޯ ވެއްޖެ",
+    "unfollowFailed": "އަންފޮލޯ ނުވާ",
+    "follow": "ފޮލޯ ކުރޭ",
+    "unfollow": "އަންފޮލޯ ކުރޭ",
+    "followHint": "އައީ ފޮލޯއަށް (ނުވަތަ ޕަބްލިކް) އޮޑިއަންސް ސެޓް ކުރެވޭ ސްޓޯރީ ޕޯސްޓު ކުރިއްޖެނަމަ ތިބާގެ ފޮލޯއިން ފީޑުގައި ދެވޭ.",
+    "userNotFound": "ޔޫސަރ ނެތް",
+    "followsYou": "ތިބާ ފޮލޯ ކުރެވިފަ",
 
-    "sectionCrashedTitle": "ސެކްޝަން ލޯޑް ނުވާނެއް",
-    "sectionCrashedBody": "މި ސެކްޝަންގައި އެއްޗެއް ބަލަހައްޓެވެ.",
+    "sectionCrashedTitle": "ސެކްޝަން ލޯޑު ނުވާ",
+    "sectionCrashedBody": "މި ސެކްޝަންގައި އެކްސެޕްޝަން ވެސް ވެއްޖެ.",
 
-    "forwarding": "ކޯލް އާއި ޓެކްސްޓް ފޯވާޑިންގް",
-    "callTextForwardingSection": "ކޯލް އާއި ޓެކްސްޓް ފޯވާޑިންގް",
-    "callTextForwardingTitle": "ކޯލް އާއި/ނުވަތަ ޓެކްސްޓް ފޯވާޑިންގް",
-    "callTextForwardingDescription": "އިންކަމިން ކޯލްތައް އާއި ޓެކްސްޓްތައް ތިޔަ ވެރިފައިޑު ފޯން ނަންބަރުން ނުވަތަ އީމެއިލަކަށް ފޯވާޑުކުރޭ. އައިޓްގޯއުޓް ކޯލްތައް/ޓެކްސްޓްތައް ތިބާގެ Chatforia ނަންބަރު ދައްކާން ހުރިޔާން.",
-    "enableTextForwarding": "ޓެކްސްޓް ފޯވާޑިންގް ހެދުން ހަދާ",
-    "forwardTextsToPhone": "ޓެކްސްޓްތައް ފޯނަށް ފޯވާޑުކުރޭ",
-    "forwardTextsToEmail": "ޓެކްސްޓްތައް އީމެއިލަށް ފޯވާޑުކުރޭ",
+    "forwarding": "ކޯލް & ޓެކްސް ފޯވަޑިންގ",
+    "callTextForwardingSection": "ކޯލް & ޓެކްސް ފޯވަޑިންގ",
+    "callTextForwardingTitle": "ކޯލް/ޓެކްސް ފޯވަޑިންގ",
+    "callTextForwardingDescription": "އިންކަމިން ކޯލް އަދި ޓެކްސް ވެރިފައިޑް ފޯން/އީމެއިލަށް ފޯވަޑު ކުރޭ. އައުޓްގޯއުއިން ކޯލް/ޓެކްސް އަށް ޗެޓްފޯރިއާ ނަންބަރ ދައްކާ.",
+    "enableTextForwarding": "ޓެކްސް ފޯވަޑިންގ ސިއަލު ކުރޭ",
+    "forwardTextsToPhone": "ޓެކްސް ފޯނަށް ފޯވަޑު ކުރޭ",
+    "forwardTextsToEmail": "ޓެކްސް އީމެއިލަށް ފޯވަޑު ކުރޭ",
     "destinationPhone": "ޑެސްޓިނޭޝަން ފޯން (E.164)",
     "destinationEmail": "ޑެސްޓިނޭޝަން އީމެއިލް",
-    "enableCallForwarding": "ކޯލް ފޯވާޑިންގް ހެދުން ހަދާ",
-    "destinationPhoneForCalls": "ކޯލްތައްގެ ޑެސްޓިނޭޝަން (E.164)",
-    "aliasBridging": "ކޯލް ފޯވާޑިންގް (އެލިއަސް ބްރިޖިންގް)",
-    "quietHoursOptional": "ހުޅުވާ ގަޑި (އޮޕްޝަނަލް)",
-    "startHour": "ފެންނަ ގަޑި (0–23)",
-    "endHour": "ނިމުން ގަޑި (0–23)",
-    "reset": "ރީސެޓް",
-    "saveBtn": "ސޭވްކުރޭ"
+    "enableCallForwarding": "ކޯލް ފޯވަޑިންގ ސިއަލު ކުރޭ",
+    "destinationPhoneForCalls": "ކޯލް ފޯވަޑިންގ ޑެސްޓިނޭޝަން (E.164)",
+    "aliasBridging": "ކޯލް ފޯވަޑިންގ (alias bridging)",
+    "quietHoursOptional": "ކޯއިއެޓް ހަވާ (އޮޕްޝަނަލް)",
+    "startHour": "ހައްދަ (0–23)",
+    "endHour": "ނިމުންވަނީ (0–23)",
+    "reset": "ރިސެޓް",
+    "saveBtn": "ސޭވް"
   },
+
   "chat": {
-    "selectPrompt": "ޗެޓް ކުރުމަށް ޓެކްސްޓް ނުވަތަ ޗެޓް ރޫމެއް ހިމެނޭ",
-    "newMessages": "އައުލަތްކޮށްފި މެސެޖުތައް",
-    "typing": "{{name}} ލިޔެވެސް އެވެ..."
+    "selectPrompt": "ޓެކްސް ނުވަތަ ޗެއަޓް ރޫމެއް ނަގާ ޗެއަޓް ކުރޭ",
+    "newMessages": "އައު މެސެޖު",
+    "typing": "{{name}} ޓައިޕް ކޮށްފި...",
+    "emptyTitle": "ތިބާގެ މެސެޖު",
+    "emptySubtitle": "މެސެޖެއް ފޮނުވާ ޗެއަޓް ފެށުން.",
+    "startChatButton": "މެސެޖެއް ފޮނުވާ"
+  },
+
+  "topbar": {
+    "newStatus": "އައު ސްޓޭޓަސް",
+    "logout": "ލޮގް އައުޓް"
+  },
+
+  "status": {
+    "userNumber": "ޔޫސަރ #{{id}}",
+
+    "posted": "ސްޓޭޓަސް ޕޯސްޓު ވެއްޖެ",
+    "postFailed": "ސްޓޭޓަސް ޕޯސްޓު ނުވާ",
+
+    "createTitle": "ސްޓޭޓަސް ނެގޭ",
+    "modalAriaLabel": "އައު ސްޓޭޓަސް",
+
+    "captionLabel": "ކަޕްޝަން",
+    "captionPlaceholder": "އަޕްޑޭޓެއް ލިޔުއްވާ...",
+    "captionAria": "ސްޓޭޓަސް މެސެޖު",
+
+    "audienceLabel": "ޑެއުޑިއަންސް",
+    "audience": {
+      "public": "ޕަބްލިކް",
+      "followers": "ފޮލޯއަރސް",
+      "contacts": "ކޮންޓެކްޓް",
+      "mutuals": "މިއުޓުއަލް",
+      "custom": "ކަސްޓަމް..."
+    },
+
+    "expiresHoursLabel": "އެކްސްޕައިރ (ހަވާ)",
+    "maxTooltip": "އަދިއި 7 ދުވަސް",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "ނިމުން ވެއްޖެ:",
+
+    "chooseRecipients": "ރިސިޕިއެންޓް ނަގާ",
+    "selectContacts": "ކޮންޓެކްޓް ނަގާ",
+
+    "attachmentsLabel": "އެޓެޗްމަންޓް",
+    "attachmentsPlaceholder": "ފޮޓޯ/ވީޑިއޯ އިތުރު",
+    "filesNote": "5 ފައިލް ދެއްވޭ. 24 ގަޑި އެކްސްޕައިރ ޑިފޯލްޓް.",
+
+    "postAria": "ސްޓޭޓަސް ޕޯސްޓު ކުރޭ",
+    "post": "ޕޯސްޓު"
+  },
+
+  "sidebar": {
+    "randomChat": "ރެންޑަމް ޗެއާޓް",
+    "callTextForwarding": "ކޯލް & ޓެކްސް ފޯވަޑިންގ",
+    "conversations": "ކޮންވެރސޭޝަން",
+    "searchPlaceholder": "ކޮންވެރސޭޝަން ހޯދާ...",
+    "errorLoading": "ޗެއާޓްތައް ލޯޑު ނުވާ",
+    "empty": "ކޮންވެރސޭޝަނެއް ނެތް.",
+    "startChat": "ޗެއަޓް ފެށޭ",
+    "people": "ޕީޕަލް",
+    "settings": "ސެޓިންގްސް",
+    "status": "ސްޓޭޓަސް",
+    "forwarding": "ކޯލް & ޓެކްސް ފޯވަޑިންގ",
+    "refresh": "ރިފްރެޝް",
+    "search": "ކޮންވެރސޭޝަން ހޯދާ",
+    "loginPrompt": "ސެޓިންގްސް އެޑިޓު ކުރަން ލޮގިން ކުރޭ.",
+    "login": "ލޮގް އިން",
+    "register": "އެކެއުންޓް ނެގޭ",
+
+    "chatrooms": "ޗެއާޓް ރޫމް",
+    "logout": "ލޮގް އައުޓް",
+    "startChatAlt": "އައު ޗެއާޓް ފެށޭ"
+  },
+
+  "premium": {
+    "heading": "ގޯ ޕްރީމިއަމް",
+    "description": "ޕައެވަރ ފީޗަރސް ހުށަހަޅާ އަދި އެޑް ނުބެހޭ.",
+    "upgrade": "އަޕްގްރޭޑް"
+  },
+
+  "auth": {
+    "headline": "ސިއުކިއުރު، ގްލޯބަލް މެސެޖިންގް — އިންސްޓަންޓް ތަރުޖަމާ",
+    "description": "އެންޑް-ޓޫ-އެންޑް އިން އެންކްރިޕްޝަން، AI ތަރުޖަމާ، ދިނުމަށް ހުރި މެސެޖު، ވޮއިސް/ވީޑިއޯ ކޯލިންގ.",
+    "feature": {
+      "encryption": "ޑިފޯލްޓް އެންޑް-ޓޫ-އެންޑް އިން އެންކްރިޕްޝަން",
+      "translation": "100+ ބަސް އޮޓޯ ތަރުޖަމާ",
+      "disappearing": "ދިނުމަށް ހުރި މެސެޖު & ރީޑް ރިސީޕްޓް",
+      "privacy": "ޕްރައިވެސީ-ފަރސްޓް. ތިބާގެ ޑޭޓާ، ތިބާގެ ކަންޓްރޯލް.",
+      "translate": "ރިއަލް-ޓައިމް ތަރުޖަމާ",
+      "disappear": "ދިނުމަށް ހުރި މެސެޖު",
+      "privacyAlt": "ޕްރައިވެސީ-ފިކަސް ޑިޒައިން"
+    },
+    "welcomeBack": "އަވަހަ އިން ވާނެ",
+    "continueGoogle": "Google އަށް ކޮންޓިނިއު ކުރޭ",
+    "continueApple": "Apple އަށް ކޮންޓިނިއު ކުރޭ",
+    "username": "ޔޫޒަރނޭމް",
+    "password": "ޕާހޮރޑް",
+    "keepSignedIn": "ސައިން އިން ދެން ދައްކާ",
+    "forgotPassword": "ޕާހޮރޑް ނުވަތަ؟",
+    "loginButton": "ލޮގް އިން",
+    "createAccount": "އެކެއުންޓް ނެގޭ",
+    "freeAccountButton": "ފުރި އެކެއުންޓް ނެގޭ",
+    "newHere": "އަލުން އިން ހުރިހާ؟",
+    "getApp": "އެޕް ނެގޭ",
+    "desktopTip": "ޑެސްކްޓޮޕް އަކީ؟ ފޯނަށް ސްކޭން ކުރަން އެޕް ނެގޭ.",
+
+    "goHome": "ހޯމަށް ދައްކާ",
+    "home": "ހޯމް",
+
+    "headlineAlt": {
+      "main": "ތިބާގެ ބަސް އެއްކަން ބަލާ ސިކިއުރު މެސެޖަރ",
+      "highlight": "ތިބާގެ ބަސްތަކާ ބަލާ"
+    },
+    "subhead": "ޕްރައިވެޓް، އެންކްރިޕްޓެޑް، އިންސްޓަންޓް ތަރުޖަމާ މެސެޖިންގ.",
+
+    "status": "ސްޓޭޓަސް ބަލާ",
+    "upgrade": "އަޕްގްރޭޑް ކުރޭ",
+    "tip": "ޗެޓްފޯރިއާ އެކަނި ޑިވައިސަކަށް އެކު ބޭނުން — އެޕް ޑައުންލޯޑް ކުރަން އަދި ބެހޭ އިކްސްޕިރިއެންސް.",
+    "openDownload": "ޑައުންލޯޑް ޞަފްޙާ ދެއްކޭ",
+    "qrAlt": "Chatforia ކޯޑް (QR)",
+    "scanHint": "އެޕް ޑައުންލޯޑް ކުރަން ނުވަތަ ބަލާބަލާ ހުރި ބަލާން ސްކޭން ކުރޭ.",
+    "iosAria": "App Store އަށް",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store ބެޖް",
+    "androidAria": "Google Play އަށް",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play ބެޖް",
+
+    "login": "ލޮގް އިން",
+    "signup": "ސައިން އަޕް",
+    "email": "އީމެއިލް"
+  },
+
+  "footer": {
+    "plans": "ޕްލާން & ޕްރައިސިންގ",
+    "about": "Chatforia އެންގެ",
+    "careers": "ކެރިއަރސް",
+    "press": "ޕްރެސް",
+    "advertise": "އެޑް ކުރޭ",
+    "contact": "ގުޅިގެން",
+    "help": "ހެލްޕް ސެންޓަރ",
+    "status": "ސްޓޭޓަސް ޞަފްޙާ",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "ޕްރައިވެސީ ޕޮލިސީ",
+    "terms": "ޓަރމްސް އޮފް ސަރވިސް",
+    "cookies": "ކުކީ ސެޓިންގް",
+    "doNotSell": "މައްސަލަ އެއް ނުދިޔަ މި ޕަރސަނަލް އިންފޯ",
+    "language": "ބަސް",
+    "contactShort": "ގުޅިގެން"
+  },
+
+  "home": {
+    "title": "ހޯމް",
+    "header": "ތިބާގެ މެސެޖު",
+    "subheader": "ޗެއަޓް ފެށޭ މެސެޖެއް ފޮނުވާ.",
+    "sendButton": "މެސެޖެއް ފޮނުވާ",
+    "gifPicker": "GIF ޕިކަރ ދެއްކޭ",
+    "emoji": "އިމޯޖީ",
+    "upload": "ފޮޓޯ/ވީޑިއޯ އަޕްލޯޑް ކުރޭ",
+    "inputPlaceholder": "މެސެޖެއް ލިޔުއްވާ…",
+    "inputLabel": "މެސެޖު ކޮމްޕޯޒަރ",
+    "sendTooltip": "ފޮނުވާ",
+    "sendTooltipEmpty": "ފޮނުވާން މެސެޖެއް ލިޔާ",
+    "send": "ފޮނުވާ",
+    "welcomeMessage": "Chatforia އަށް އެވެން ކޮށްފި",
+    "getStarted": "އެންމެ ފެށޭ"
+  },
+
+  "press": {
+    "title": "ޕްރެސް",
+    "contact": "މީޑިއާ އިންކުރީ އެދެން <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "މީޑިއާ އިންކުރީ: press@chatforia.com",
+    "boilerplateTitle": "ބޮއިލަރޕްލޭޓް",
+    "boilerplateText": "Chatforia އަކީ ސިކިއުރު މެސެޖަރ — އިންސްޓަންޓް ތަރުޖަމާ އަދި E2E އެންކްރިޕްޝަން އިން ގެނެސްޓެޑް ކުރެވި ގްލޯބަލް ކޮންވެރސޭޝަން ހުރި.",
+    "assetsTitle": "ބްރެންޑް އެސެޓްސް",
+    "assetsText": "ލޮގޯ، ސޭންޝޮޓް، ޕްރޮޑަކްޓް ފޮޓޯ (އިންކަމިން ސޫން)."
+  },
+
+  "careers": {
+    "title": "ކެރިއަރސް",
+    "intro": "ޕްރައިވެޓް، ގްލޯބަލް މެސެޖަރ ހެދި ގޮތަށް ވަނީ މިހާރު ސުވާލު ޓީމެއް. އެންކްރިޕްޝަން، އެކްސެސިބިލިޓީ، ޔޫއެކްސް އަށް ވަނީ އިންޓެރެސްޓް ނަމަ — ތިބާ އަން އެއް ފަހު ދެއްވާ.",
+    "openRoles": "<b>އޯޕަން ރޯލްސް:</b> އެންޖިނިއަރިންގ (ފުލް-ސްޓޭކް، iOS، Android)، ޕްރޮޑަކްޓް، ސަޕޯޓް.",
+    "apply": "<b>ހިންގާ ގޮތް:</b> ރިޒިއުމޭ/ލިންކްސް އެމޭލް ކުރޭ: <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "ރިޒިއުމޭ އެމޭލް ކުރޭ"
+  },
+
+  "about": {
+    "title": "Chatforia އެންގެ",
+    "description": "Chatforia އަކީ ސިކިއުރު، މަލްޓި-ލިންގުއިޖު މެސެޖަރ — E2E އެންކްރިޕްޝަން، އިންސްޓަންޓް ތަރުޖަމާ، ވޮއިސް/ވީޑިއޯ ކޯލް އިން ހުރި. މިހާރުގެ މިޝަން: ބައި ކޮންވެރސޭޝަން ސޭފްލީ، ޕްރައިވެޓްލީ، ބަސް ދެވޭނެއެވެ އަދި ހެދި ކުރެވޭ.",
+    "valuesTitle": "މިހާރު ބަލާ ކަމެއް",
+    "values": {
+      "privacy": "<b>ޕްރައިވެސީ-ފަރސްޓް:</b> E2E އެންކްރިޕްޝަން ޑިފޯލްޓް.",
+      "access": "<b>ހުރިހާ ދައްކާ:</b> 100+ ބަސް އޮޓޯ ތަރުޖަމާ.",
+      "control": "<b>ކަންޓްރޯލް:</b> ދިނުމަށް ހުރި މެސެޖު އަދި ރީޑް ރިސީޕްޓް އޮޕްޝަނަލް."
+    },
+    "howTitle": "Chatforia ކޮށްފި ގޮތް",
+    "howDescription": "މެސެޖު ފަހަރު ތިބާގެ ޑިވައިސް މައުލޫމާތުގައި އެންކްރިޕްޓެޑް ވެއްޖެ. ތަރުޖަމާ، ބެކަޕް، ސިންކް — ސާރވަރސް ބަލާ ގޮތަށް މިންވަރިބައި ޑޭޓާ ކުރެވޭ."
+  },
+
+  "advertise": {
+    "title": "Chatforia އަށް އެޑް ކުރޭ",
+    "description": "ޗެއާޓް ޔޫއަރސް އަށް ސަތޭކަން ބްރެންޑް-ސޭފް ޕްލޭސްމެންޓް. ބެނަރ، ސްޕޮންސަރޝިޕް، ހައުސް ޕްރޮމޯ. ޕްރީމިއަމް ސަބްސްކްރިބަރުން އެޑް ނުބެހޭ.",
+    "adsense": {
+      "withPubId": "މި ވަގުތު އަޕްލޯޑް ވެއްޖެ <b>Google AdSense</b>. Google Ads އަށް ޓާގެޓް ކުރަން ނަމަ، ޕަބްލިޝަރ ID <code>{{pubId}}</code> އަށް ބޭނުން، މި ޔުނިޓްސް މެނޭޖް ޕްލޭސްމެންޓް އެންކެއުރެޖް ކުރޭ.",
+      "noPubId": "މި ވަގުތު އަޕްލޯޑް ވެއްޖެ <b>Google AdSense</b>. ޑިރެކްޓް ޑީލްތަކާ އަދި ހުރި — ފޯމް ފުރިހަމަ."
+    },
+    "inventoryHeader": "އިންވެންޓަރީ & ސްޕެކްސް",
+    "placement": {
+      "displayBadge": "ޑިސްޕްލޭ",
+      "acceptedSizes": "ހުރި ސައިޒް",
+      "adsenseSlot": "AdSense ސްލޮޓް:"
+    },
+    "noPlacements": "ޕްލޭސްމެންޓް ނެތް ބޭނުން. ads/placements.js ގައި އިއްޑެ ކުރޭ.",
+    "whyHeader": "ކީބައި ކެއުސް؟",
+    "why": {
+      "highSession": "ޗެއާޓް UI ގައި ހުރި ސެޝަން ފްރީކުއެންސީ/ޑުއެލް ޓައިމް މަދު",
+      "brandSafe": "ބްރެންޑް-ސޭފް ފޮރމެޓް؛ ފްރީކުއެންސީ ކެޕް",
+      "sponsoredMoments": "ސްޕޮންސަރޑް މޯމެންޓް (\"Start a Chat\" މޮޑަލް އަދިއެ.)",
+      "deals": "ޑިރެކްޓް ޑީލް ނުވަތަ AdSense/Google Ads"
+    },
+    "contactHeader": "ގުޅިގެން",
+    "form": {
+      "submittedMsg": "ޝުކުރިއްޔާ! އިންކުރީ އަށް ޖެހިއްޖެ. ކުރިޔަށް ދައްކާ.",
+      "missingRequired": "ނަން، އީމެއިލް، މެސެޖު ފުރި ބައި ލިޔާ.",
+      "successToast": "ޝުކުރިއްޔާ! އެމޭލް ކުރެވޭ.",
+      "mailtoInfo": "ތިބާގެ އެމޭލް ކްލައިންޓް ދެއްކެވޭ…",
+      "nameLabel": "ތިބާގެ ނަން",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "އީމެއިލް",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "ކަމަށް",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "މަސް ބަޖެޓް (އޮޕްޝަނަލް)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "ކެމްޕޭން އަށް ބެހި ކަމެއް ލިޔާ",
+      "messagePlaceholder": "ޓާގެޓްޓިންގ، ތާރީޚް، KPI، ޕްލޭސްމެންޓް…",
+      "sendCta": "އިންކުރީ ފޮނުވާ"
+    },
+    "legal": {
+      "disclaimerStart": "ސަބްމިޓް ކުރެވޭނެއެވެ މިއަށް އެންގެނުމަށް",
+      "terms": "ޓާމްސް",
+      "and": "އަދި",
+      "privacy": "ޕްރައިވެސީ"
+    }
+  },
+
+  "upgrade": {
+    "title": "އަޕްގްރޭޑް",
+    "subtitle": "ތިބާ އަށް ހުރި ޕްލާން ނަގާ: Plus އަށް އެޑް-ފްރީ، ނުވަތަ Premium އަށް ފުރަތަމަ ޕައެވަރ.",
+    "scheduleBanner": {
+      "title": "ސަބްސްކްރިޕްޝަން ނިމިން ވާނެ",
+      "body": "ތިބާ ފްރީ ޕްލޭނަށް އެންމެ ދައްކާ",
+      "keepPlanCta": "Plus ކަންކުރޭ",
+      "manageBillingCta": "ބިލިންގ މެނޭޖް ކުރޭ"
+    },
+    "billing": {
+      "opening": "އޮޕަން ވެއްޖެ…",
+      "manage": "ބިލިންގ މެނޭޖް ކުރޭ"
+    },
+    "checkout": {
+      "redirecting": "ރިޑިރެކްޓް ކުރެވޭ…"
+    },
+    "auth": {
+      "continue": "ކޮންޓިނިއު",
+      "createAccount": "އެކެއުންޓް ނެގޭ",
+      "signIn": "ސައިން އިން"
+    },
+    "plans": {
+      "free": {
+        "title": "ފުރި",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 އަދި ގްރޫޕް މެސެޖިންގ",
+          "aiBasic": "ބޭސިކް AI ޖަވާ",
+          "attachments": "ސްޓެންޑަރޑް އެޓެޗްމަންޓް"
+        },
+        "ctaCurrent": "މިހާރު ޕްލާން",
+        "ctaUnavailable": "ފުރި އަށް ސުވާލު ނުކުރެވޭ"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / މަސް",
+        "features": {
+          "noAds": "އެޑް ހުރިހާ ނުބެހޭ",
+          "msg": "1:1 އަދި ގްރޫޕް މެސެޖިންގ",
+          "attachments": "ބޮޑު އެޓެޗްމަންޓް",
+          "aiBasic": "ބޭސިކް AI ޖަވާ"
+        },
+        "badge": "ޕޮޕިއުލާ",
+        "cta": "އެޑް-ފްރީ ނަގާ"
+      },
+      "premiumMonthly": {
+        "title": "Premium (މަސްފުޅު)",
+        "price": "$24.99 / މަސް",
+        "features": {
+          "plusAll": "Plus ގެ ހުރި އަދި އެހެން",
+          "ringtones": "ކަސްޓަމް ރިންގްޓޯން/މެސެޖް ޓޯން",
+          "powerAi": "ޕައްވަރ AI ފީޗަރސް",
+          "priorityUpdates": "ޕްރައިޔޮރިޓީ އަޕްޑޭޓް",
+          "backups": "ބެކަޕް & ޑިވައިސް ސިންކް"
+        },
+        "badge": "ބެސްޓް ވޭލިއު",
+        "cta": "އަޕްގްރޭޑް (މަސް)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (އަންޔުއަލް)",
+        "price": "$225 / އަހަރު",
+        "features": {
+          "allPremium": "Premium ގެ ހުރި އަދި އެހެން",
+          "annualBilling": "އަހަރުގައި ބިލު",
+          "save25": "މަސްފުޅު ބިލިންގ ނަމަ ~25% ސޭވް",
+          "sameFeatures": "މަސް ޕްލާން ގެ ފީޗަރ އެއް"
+        },
+        "badge": "25% ސޭވް",
+        "cta": "އަޕްގްރޭޑް (އަހަރު)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "ފަހުރެއް ފެށޭ",
+    "subtitle": "Chatforia އަށް އަލުން؟ މި ކުރީ ގައިޑް ހުރީ އެންމެ ކަނޑައި މިނެޓްސް ގައި ޕްރޮޑަކްޓިވް ކުރެވޭ.",
+    "alert": {
+      "text": "މި ގައިޑް ފީޗަރ ލޯންޗް ވެއްޖެނެއެވެ ބަލާ ވާ. ކަމެއް ނުވަތަ އެ ބޭނުން،",
+      "contactLink": "ގުޅިގެން"
+    },
+    "section1": {
+      "title": "1) އެކެއުންޓް ނެގޭ",
+      "signup": "ސައިން އަޕް",
+      "or": "ނުވަތަ",
+      "login": "ލޮގް އިން",
+      "loginText": "މިހާރު އެކެއުންޓް އަށް.",
+      "prefsStart": "ތިބާގެ",
+      "prefsLink": "ޕްރެފެރެންސް",
+      "prefsRest": "(ބަސް، ރީޑް ރިސީޕްޓް، ތީމް)."
+    },
+    "section2": {
+      "title": "2) މެސެޖިންގް ފެށޭ",
+      "item1": "DM ނުވަތަ ގްރޫޕް ނެގޭ އަދި ފަހަ މެސެޖެއް ފޮނުވާ.",
+      "item2": "އިންސްޓަންޓް ތަރުޖަމާ ބެލި 100+ ބަސް އަށް ޗެއާޓް ކުރޭ.",
+      "item3": "ޕްރޮފައިލް → ޕްރައިވެސީ ގައި ދިނު މެސެޖު އަދި ރީޑް ރިސީޕްޓް ޖަވާ."
+    },
+    "section3": {
+      "title": "3) އަދި ކުރޭ",
+      "item1Part1": "ޕްލާން މެނޭޖް ކުރޭ",
+      "upgradeLink": "އަޕްގްރޭޑް",
+      "item1Part2": "ޞަފްޙާ (Plus = އެޑް-ފްރީ، Premium = ފުރަތަމަ ފީޗަރ).",
+      "item2Part1": "އެޑިޝަނަލް ޑިވައިސް ލިންކް ކުރޭ އަދި އެންކްރިޕްޓެޑް ބެކަޕް ސެޓް ކުރޭ",
+      "settingsLink": "ސެޓިންގްސް"
+    },
+    "cta": {
+      "seePlans": "ޕްލާން ބަލާ",
+      "openSettings": "ސެޓިންގްސް ދެއްކޭ"
+    }
+  },
+
+  "helpCenter": {
+    "title": "ހެލްޕް ސެންޓަރ",
+    "faq": {
+      "account": {
+        "q": "އެކެއުންޓް ނެގޭ ނުވަތަ ރިކަވަރ ކުރޭ ކަމަކީ؟",
+        "a": "އެޕް ނުވަތަ ވެބް އަށް ދުރުވާ، “Create account” މަތީ އިންޓަރެކްޝަން ކުރޭ، އީމެއިލް/ފޯން ވަޞީލު. ރިކަވަރ ކުރަން “Forgot password”."
+      },
+      "privacy": {
+        "q": "މެސެޖު އެންޑް-ޓޫ-އެންޑް އިން އެންކްރިޕްޓެޑް އެއް؟",
+        "a": "އެއް. މެސެޖު އަދި ކޯލް ޑިފޯލްޓް E2E އިން އެންކްރިޕްޓެޑް. ތިބާ އަދި ރިސިޕިއެންޓް އެކަލަ ލިބެނެ."
+      },
+      "translate": {
+        "q": "އިންސްޓަންޓް ތަރުޖަމާ ކޮށްފި ގޮތް؟",
+        "a": "Settings → Appearance & Language ގައި “Auto-translate” ސިއަލު ކުރޭ. އޮން-ޑިވައިސް ސަޕޯޓް ހުރި ގޮތަށް މިން ޓްރެންސްލޭޓް އޮން-ޑިވައިސް، ނުވަތަ ސެކިއުރ އެޕީއައި އަށް މިންމަ ޓަޓާ އިން ކޮންޓެއިންސް."
+      },
+      "contact": {
+        "q": "ސަޕޯޓް ގެން ގޮޅިގެން",
+        "a": "support@chatforia.com އަށް އެމޭލް ކުރޭ. ސްކްރީންޝޯޓް އަދި އެޕް ވަރޝަން އިން ދޭ."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "ގުޅިގެން",
+    "successMsg": "ޝުކުރިއްޔާ — ޓީމް އެމޭލް ކުރެވޭ.",
+    "errorSend": "ފޮނުވާ ނުވާ. support@chatforia.com އަށް އެމޭލް ކުރޭ.",
+    "form": {
+      "nameLabel": "ނަން",
+      "emailLabel": "އީމެއިލް",
+      "messageLabel": "މެސެޖު",
+      "sendCta": "ފޮނުވާ"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "ޕްރައިވެސީ ޕޮލިސީ",
+    "lastUpdated": "ފަހު އަޕްޑޭޓް:",
+    "intro": {
+      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+    },
+    "infoWeCollect": {
+      "title": "Information we collect",
+      "account": "Account info (e.g., email/phone) to create and secure your account.",
+      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+    },
+    "howWeUse": {
+      "title": "How we use information",
+      "provide": "Provide and secure the service (auth, spam/abuse detection).",
+      "improve": "Improve features (translation quality, reliability).",
+      "legal": "Comply with legal obligations."
+    },
+    "sharing": {
+      "title": "Sharing",
+      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+    },
+    "rights": {
+      "title": "Your rights",
+      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Data retention & security",
+      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+    },
+    "children": {
+      "title": "Children",
+      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We’ll post updates here and revise the “Last updated” date."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "terms": {
+    "title": "ސަރވިސް ޓަރމްސް",
+    "lastUpdated": "ފަހު އަޕްޑޭޓް:",
+    "intro": {
+      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+      "itemResponsibility": "You’re responsible for activity on your account."
+    },
+    "acceptableUse": {
+      "title": "Acceptable use",
+      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+      "itemSuspend": "We may suspend/terminate for violations."
+    },
+    "yourContent": {
+      "title": "Your content",
+      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+    },
+    "disclaimer": {
+      "title": "Disclaimers & liability",
+      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+    },
+    "changes": {
+      "title": "Changes",
+      "body": "We may update these terms; continued use after changes means acceptance."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "މި ޕަރސަނަލް އިންފޯ އެއްގައި ނުދިޔަ",
+    "body": "Chatforia ޕަރސަނަލް ޑޭޓާ އެއްގައި ނުދިޔަ. ކެލިފޯނިއާ ރެޒިޑެންޓުން ނުވަތަ ސަބްމިޓް ރިކުއެސްޓް ކުރެވޭ.",
+    "cta": "ރިކުއެސްޓް ފޮނުވާ"
+  },
+
+  "cookies": {
+    "title": "ކުކީ ސެޓިންގް",
+    "body": "Chatforia މިންވަރ ކުކީ އެއްގައި (ސެޝަން، ސިކިއުރިޓީ). 3rd-party އެޑް ކުކީ ނުބެހޭ. ބަލާންތަކެއް ހަދާން ބްރައުޒަރ ސެޓިންގް ބޭނުން."
   }
 }

@@ -1,112 +1,593 @@
 {
   "common": {
     "save": "I-save",
-    "cancel": "Kanselahon",
+    "cancel": "Ikansela",
     "refresh": "I-refresh",
-    "noMatches": "Walay natagboan"
+    "noMatches": "Walay nakit-ang tugma",
+    "cancelAria": "Ikansela"
   },
-  "profile": {
-    "title": "Profile sa Gumagamit",
 
-    "preferredLanguage": "Pinili nga pinulongan",
+  "profile": {
+    "title": "Profile sa Tiggamit",
+
+    "preferredLanguage": "Gipili nga pinulongan",
     "chooseLanguage": "Pilia ang usa ka pinulongan",
-    "mustLogin": "Kinahanglan ka mosulod aron makita ang mga setting.",
+    "mustLogin": "Kinahanglan mong mosulod aron makita ang mga setting.",
 
     "autoTranslate": "Awtomatikong hubaron ang mga mensahe",
-    "showOriginalWithTranslation": "Ipakita ang orihinal ug ang gihubad nga mensahe",
+    "showOriginalWithTranslation": "Ipakita ang orihinal ug gihubad nga mga mensahe",
     "showOriginalAndTranslation": "Ipakita ang orihinal tupad sa hubad",
 
-    "filterExplicit": "Salain ang mga lantad nga sulod",
+    "filterExplicit": "I-sala ang eksplisit nga sulod",
     "aiReply": "Tubag sa AI",
-    "enableReadReceipts": "Ipaandar ang mga basahon nga resibo",
-    "allowExplicitContent": "Tugoti ang lantad nga sulod",
-    "disappearingMessages": "Ipaandar ang nagkahanaw nga mga mensahe",
-    "autoDeleteSeconds": "Sekundos sa wala pa mahuwasan",
+    "enableReadReceipts": "Paandara ang resibo sa pagbasa",
+    "allowExplicitContent": "Tugoti ang eksplisit nga sulod",
+    "disappearingMessages": "Paandara ang nagkahanaw nga mga mensahe",
+    "autoDeleteSeconds": "Segundo sa dili pa awtomatikong mapapas",
 
-    "saveSuccess": "Na-save ang mga setting!",
-    "saveError": "Sayop: Dili ma-save ang mga setting",
+    "saveSuccess": "Naluwas ang mga setting!",
+    "saveError": "Sayop: Dili maluwas ang mga setting",
 
     "avatarAlt": "Avatar sa profile",
     "uploadAvatar": "I-upload ang bag-ong avatar",
-    "avatarSuccess": "Malampusong na-upload ang avatar!",
+    "avatarSuccess": "Na-upload ang avatar!",
     "avatarError": "Sayop sa pag-upload sa avatar",
 
-    "noPrivateKey": "Walay pribadong yawe sa kini nga device nga ma-export.",
-    "setBackupPassword": "Paghimo ug password aron i-encrypt ang imong backup:",
-    "backupDownloaded": "Na-download ang naka-encrypt nga backup.",
+    "noPrivateKey": "Walay pribadong yawe niini nga device para i-export.",
+    "setBackupPassword": "Ibutang ang password aron i-encrypt ang imong backup:",
+    "backupDownloaded": "Na-download ang gi-encrypt nga backup.",
     "exportFailed": "Napakyas ang pag-export sa yawe",
-    "enterBackupPassword": "Ibutang ang password para sa kini nga backup:",
-    "importSuccess": "Na-import ang pribadong yawe sa kini nga device.",
-    "importFailed": "Napakyas ang pag-import (sayop nga password o daot nga file).",
-    "keysRotated": "Bag-ong pares sa yawe nga nahimo ug na-upload ang public key.",
-    "rotateFailed": "Napakyas ang pag-rotate sa mga yawe.",
+    "enterBackupPassword": "Ibutang ang password niini nga backup:",
+    "importSuccess": "Na-import ang pribadong yawe niini nga device.",
+    "importFailed": "Napakyas ang pag-import sa yawe (sayop nga password o nadaot nga file).",
+    "keysRotated": "Bag-ong pares sa yawe nahimo ug gi-upload ang pampublikong yawe.",
+    "rotateFailed": "Napakyas sa pag-rotate sa mga yawe.",
     "security": "Seguridad",
     "exportKey": "I-export ang pribadong yawe",
-    "importKey": "I-import ang naka-encrypt nga backup sa yawe",
+    "importKey": "I-import ang gi-encrypt nga backup sa yawe",
     "rotateKeys": "I-rotate ang pares sa yawe",
-    "keyDisclaimer": "Ang imong pribadong yawe dili mobiya sa kini nga device. I-export ang protektado nga kopya aron maibalik kini sa lain nga device.",
+    "keyDisclaimer": "Ang imong pribadong yawe dili gayud mobiya niini nga device. I-export ang kopyang protektado sa password aron maibalik kini sa lain nga device.",
 
     "sectionProfile": "Profile",
     "phoneNumber": "Numero sa telepono",
-    "appearance": "Hitsura",
-    "soundSettings": "Tunog",
+    "appearance": "Panagway",
+    "soundSettings": "Mga tingog",
     "disappearing": "Nagkahanaw nga mga mensahe",
-    "backupSync": "Backup ug Pag-sync",
+    "backupSync": "Backup ug Sync",
     "ai": "AI",
     "accessibility": "Aksesibilidad",
     "privacy": "Pagkapribado",
-    "devices": "Nakonektang mga device",
+    "devices": "Nalambigit nga mga device",
 
-    "themeFreeNotice": "Naa ka sa Free — gamita ang dali nga Sun/Moon nga opsyon sa ubos. I-upgrade aron ma-unlock ang uban pang tema.",
-    "sunTheme": "Gamita ang Dawn nga tema",
-    "moonTheme": "Gamita ang Moon (Midnight) nga tema",
+    "themeFreeNotice": "Naa ka sa Free—gamita ang dali nga kapilian sa ubos (Sun/Moon). Pag-upgrade aron maablihan ang mas daghang tema.",
+    "sunTheme": "Gamita ang tema nga Dawn",
+    "moonTheme": "Gamita ang tema nga Moon (Midnight)",
     "sun": "Adlaw",
     "moon": "Bulan",
 
-    "backupTitle": "Naka-encrypt nga Backup ug Device Sync",
-    "openBackupTools": "Ablihi ang mga Backup Tool",
-    "backupDesc": "Paghimo ug password-protected nga mga backup sa imong mga yawe ug ibalik kini sa lain nga device aron ma-sync.",
+    "backupTitle": "Gi-encrypt nga Backups ug Pag-sync sa Device",
+    "openBackupTools": "Ablihi ang mga himan sa Backup",
+    "backupDesc": "Paghimo og mga backup sa imong mga yawe nga protektado sa password, ug i-restore sa lain nga device aron mag-sync.",
 
-    "privacyBlurEnabled": "I-blur ang mga mensahe sa default",
-    "privacyBlurOnUnfocus": "I-blur kung wala sa pokus ang app",
-    "holdToReveal": "Pugngi aron ipakita",
+    "privacyBlurEnabled": "I-blur ang mga mensahe by default",
+    "privacyBlurOnUnfocus": "I-blur kung dili aktibo ang app",
+    "holdToReveal": "Pugngi aron maipakita",
     "notifyOnCopy": "Pahibaloa ko kung makopya ang akong mensahe",
 
     "loadFailed": "Napakyas sa pag-load sa profile",
-    "followed": "Nasundan",
+    "followed": "Gisundan",
     "followFailed": "Napakyas sa pagsunod",
     "unfollowed": "Wala na gisundan",
-    "unfollowFailed": "Napakyas sa pag-undang sa pagsunod",
+    "unfollowFailed": "Napakyas sa pag-unfollow",
     "follow": "Sunda",
     "unfollow": "Hunongi ang pagsunod",
-    "followHint": "Ang ilang mga istorya makita sa imong Following feed kung mag-post sila nga 'Followers' o 'Public'.",
-    "userNotFound": "Wala makit-i ang user",
+    "followHint": "Mopakita ang ilang mga istorya sa imong Following feed kung mag-post sila nga ang audience kay Followers (o Public).",
+    "userNotFound": "Wala makit-i ang tiggamit",
     "followsYou": "Nagasunod nimo",
 
     "sectionCrashedTitle": "Napakyas sa pag-load ang seksyon",
-    "sectionCrashedBody": "Naay sayop nga nahitabo sa kini nga seksyon.",
+    "sectionCrashedBody": "Adunay nasayop niini nga seksyon.",
 
-    "forwarding": "Pagpadala sa Tawag ug Mensahe",
-    "callTextForwardingSection": "Pagpadala sa Tawag ug Mensahe",
-    "callTextForwardingTitle": "Pagpadala sa Tawag ug/o Mensahe",
-    "callTextForwardingDescription": "Ipadala ang mga tawag ug mensahe sa imong napatunayan nga telepono o email. Ang mga outgoing call/text mahimong magpakita sa imong Chatforia number.",
-    "enableTextForwarding": "Ipaandar ang pagpadala sa mensahe",
-    "forwardTextsToPhone": "Ipadala ang mensahe sa telepono",
-    "forwardTextsToEmail": "Ipadala ang mensahe sa email",
-    "destinationPhone": "Numero sa destinasyon (E.164)",
-    "destinationEmail": "Email sa destinasyon",
-    "enableCallForwarding": "Ipaandar ang pagpadala sa tawag",
-    "destinationPhoneForCalls": "Numero sa destinasyon (E.164) para sa mga tawag",
-    "aliasBridging": "Pagpadala sa Tawag (alias bridging)",
-    "quietHoursOptional": "Oras sa kahilum (opsyonal)",
+    "forwarding": "Pagpasa sa Tawag ug Text",
+    "callTextForwardingSection": "Pagpasa sa Tawag ug Text",
+    "callTextForwardingTitle": "Pagpasa sa tawag ug/o text",
+    "callTextForwardingDescription": "Ipasa ang mosulod nga mga tawag ug text sa imong na-verify nga telepono o email. Ang paggawas nga tawag/text makapakita sa imong numero sa Chatforia.",
+    "enableTextForwarding": "Paandara ang pagpasa sa text",
+    "forwardTextsToPhone": "Ipasa ang mga text sa telepono",
+    "forwardTextsToEmail": "Ipasa ang mga text sa email",
+    "destinationPhone": "Telepono nga padulngan (E.164)",
+    "destinationEmail": "Email nga padulngan",
+    "enableCallForwarding": "Paandara ang pagpasa sa tawag",
+    "destinationPhoneForCalls": "Padulngan (E.164) para sa mga tawag",
+    "aliasBridging": "Pagpasa sa Tawag (alias bridging)",
+    "quietHoursOptional": "Hilum nga Oras (opsyonal)",
     "startHour": "Oras sa pagsugod (0–23)",
     "endHour": "Oras sa pagtapos (0–23)",
     "reset": "I-reset",
     "saveBtn": "I-save"
   },
+
   "chat": {
-    "selectPrompt": "Pilia ang usa ka chat o kwarto aron magsugod ug istorya",
+    "selectPrompt": "Pilia ang usa ka teksto o chat room aron makasugod og chat",
     "newMessages": "Bag-ong mga mensahe",
-    "typing": "Nag-type si {{name}}..."
+    "typing": "{{name}} nagta-type...",
+    "emptyTitle": "Imong mga mensahe",
+    "emptySubtitle": "Pagpadala ug mensahe aron makasugod og chat.",
+    "startChatButton": "Ipadala ang mensahe"
+  },
+
+  "topbar": {
+    "newStatus": "Bag-ong Status",
+    "logout": "Pag-log out"
+  },
+
+  "status": {
+    "userNumber": "Tiggamit #{{id}}",
+
+    "posted": "Na-post ang status",
+    "postFailed": "Napakyas sa pag-post sa status",
+
+    "createTitle": "Paghimo og status",
+    "modalAriaLabel": "Bag-ong status",
+
+    "captionLabel": "Unsa imong gihuna-huna?",
+    "captionPlaceholder": "Pagpaambit og update...",
+    "captionAria": "Mensahe sa status",
+
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Publiko",
+      "followers": "Mga Tigsunod",
+      "contacts": "Mga Kontak",
+      "mutuals": "Mga Mutual",
+      "custom": "Custom..."
+    },
+
+    "expiresHoursLabel": "Maundang (oras)",
+    "maxTooltip": "Pinakataas 7 ka adlaw",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Maundang sa:",
+
+    "chooseRecipients": "Pilia ang mga tatanggap",
+    "selectContacts": "Pilia ang mga kontak",
+
+    "attachmentsLabel": "Mga attachment",
+    "attachmentsPlaceholder": "Idugang mga hulagway/bidyo",
+    "filesNote": "Hangtod 5 ka file. 24h ang expiry by default.",
+
+    "postAria": "I-post ang status",
+    "post": "Post"
+  },
+
+  "sidebar": {
+    "randomChat": "Random nga Chat",
+    "callTextForwarding": "Pagpasa sa Tawag ug Text",
+    "conversations": "Mga panag-istorya",
+    "searchPlaceholder": "Pangita ug panag-istorya...",
+    "errorLoading": "Napakyas sa pag-load sa mga chat",
+    "empty": "Wala pay panag-istorya.",
+    "startChat": "Sugdi ang usa ka chat",
+    "people": "Mga tawo",
+    "settings": "Mga setting",
+    "status": "Status",
+    "forwarding": "Pagpasa sa Tawag ug Text",
+    "refresh": "I-refresh",
+    "search": "Pangita sa panag-istorya",
+    "loginPrompt": "Mag-log in aron ma-edit ang imong mga setting.",
+    "login": "Mag-log in",
+    "register": "Paghimo ug account",
+
+    "chatrooms": "Mga chatroom",
+    "logout": "Pag-log out",
+    "startChatAlt": "Sugdi ang bag-ong chat"
+  },
+
+  "premium": {
+    "heading": "Mag-Premium",
+    "description": "Maablihan ang mga power feature ug tangtangon ang mga ad.",
+    "upgrade": "Pag-upgrade"
+  },
+
+  "auth": {
+    "headline": "Luwas, tibuok-kalibutan nga pagmensahe nga adunay dali nga hubad",
+    "description": "End-to-end encryption, AI-powered nga paghubad, nagkahanaw nga mga mensahe, ug voice/video calling.",
+    "feature": {
+      "encryption": "End-to-end encryption by default",
+      "translation": "Awtomatikong paghubad sa 100+ ka pinulongan",
+      "disappearing": "Nagkahanaw nga mga mensahe ug read receipts",
+      "privacy": "Privacy-first. Imong datos, imong kontrol.",
+      "translate": "Real-time nga paghubad",
+      "disappear": "Nagkahanaw nga mga mensahe",
+      "privacyAlt": "Privacy-first nga disenyo"
+    },
+    "welcomeBack": "Welcome balik",
+    "continueGoogle": "Padayon gamit ang Google",
+    "continueApple": "Padayon gamit ang Apple",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Pabilina kong naka-log in",
+    "forgotPassword": "Nakalimot sa password?",
+    "loginButton": "Mag-log in",
+    "createAccount": "Paghimo ug account",
+    "freeAccountButton": "Paghimo og libreng account",
+    "newHere": "Bag-o ka diri?",
+    "getApp": "Kuhai ang app",
+    "desktopTip": "Naggamit og desktop? I-scan gamit imong telepono aron makuha ang app.",
+
+    "goHome": "Moadto sa home",
+    "home": "Home",
+
+    "headlineAlt": {
+      "main": "Ang luwas nga mensahero nga",
+      "highlight": "mosulti sa imong pinulongan"
+    },
+    "subhead": "Pribado, gi-encrypt, ug gihubad nga pagmensahe — dayon.",
+
+    "status": "Tan-awa ang status",
+    "upgrade": "Mag-upgrade karon",
+    "tip": "Mahimo nimo gamiton ang Chatforia sa bisan unsang device — o i-download ang app para sa labing maayong kasinatian.",
+    "openDownload": "Ablihi ang download page",
+    "qrAlt": "QR code para sa Chatforia",
+    "scanHint": "I-scan aron ma-download ang app o ablihan sa imong browser.",
+    "iosAria": "Download sa App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Kuhai sa Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+
+    "login": "Mag-log in",
+    "signup": "Sign Up",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Mga Plano ug Presyo",
+    "about": "Mahitungod sa Chatforia",
+    "careers": "Mga Trabaho",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Kontaka mi",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Patakaran sa Pagkapribado",
+    "terms": "Mga Termino sa Serbisyo",
+    "cookies": "Mga Setting sa Cookie",
+    "doNotSell": "Ayaw ibaligya ang akong impormasyon",
+
+    "language": "Pinulongan",
+    "contactShort": "Kontak"
+  },
+
+  "home": {
+    "title": "Home",
+    "header": "Imong mga mensahe",
+    "subheader": "Pagpadala ug mensahe aron makasugod og chat.",
+    "sendButton": "Ipadala ang mensahe",
+    "gifPicker": "Ablihi ang GIF picker",
+    "emoji": "Emoji",
+    "upload": "I-upload hulagway o bidyo",
+    "inputPlaceholder": "Pagsulat og mensahe…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Ipadala",
+    "sendTooltipEmpty": "Pagsulat og mensahe aron ipadala",
+    "send": "Ipadala",
+
+    "welcomeMessage": "Maayong pag-abot sa Chatforia",
+    "getStarted": "Sugdi"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "Alang sa pangutana sa media, i-email kami sa <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Alang sa pangutana sa media, i-email kami sa press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Ang Chatforia usa ka luwas nga mensahero nga adunay dali nga hubad ug E2E encryption, gidesinyo aron ang internasyonal nga panag-istorya mahimong pribado ug sayon.",
+    "assetsTitle": "Mga brand asset",
+    "assetsText": "Mga logo, screenshot, ug hulagway sa produkto (moabut pa)."
+  },
+
+  "careers": {
+    "title": "Mga Trabaho",
+    "intro": "Gamay pa among team nga nagtukod og pribado, global nga mensahero. Kung nahigugma ka sa encryption, aksesibilidad, ug malipayong UX, ganahan mi makadungog nimo.",
+    "openRoles": "<b>Mga bukas nga papel:</b> Engineering (Full-stack, iOS, Android), Produkto, Suporta.",
+    "apply": "<b>Pag-aplikar:</b> I-email ang imong resume/link sa <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "I-email ang imong resume"
+  },
+
+  "about": {
+    "title": "Mahitungod sa Chatforia",
+    "description": "Ang Chatforia usa ka luwas, multilinggwal nga mensahero nga adunay end-to-end encryption, dali nga hubad, ug voice/video calling. Among misyon: tabangan ang mga tawo nga magkonektar—luwas, pribado, ug tabok sa pinulongan.",
+    "valuesTitle": "Unsa among gipalabi",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access para sa tanan:</b> Awtomatikong paghubad sa 100+ ka pinulongan.",
+      "control": "<b>Kontrol:</b> Optional ang nagkahanaw nga mga mensahe ug read receipts."
+    },
+    "howTitle": "Giunsa pagtrabaho ang Chatforia",
+    "howDescription": "Gi-encrypt ang mga mensahe sa imong device sa dili pa mogula. Ang paghubad, backup, ug pag-sync sa device gidesinyo aron mapaminusan ang makita sa among mga server."
+  },
+
+  "advertise": {
+    "title": "Pagpahibalo uban ang Chatforia",
+    "description": "Maabot ang mga aktibong tiggamit sa pagmensahe gamit ang hapsay, luwas sa brand nga mga placement. Naghatag kami og banner sa taas nga visibility, sponsorships, ug house promos. Ang Premium nga subscriber dili makakita og ads.",
+    "adsense": {
+      "withPubId": "Karon nagserbisyo kami og ads pinaagi sa <b>Google AdSense</b>. Kung gusto nimo targeton kami pinaagi sa Google Ads, gamita ang publisher ID <code>{{pubId}}</code> ug pangayo og managed placement sa among mga yunit sa ubos. Adunay direktang sponsorships—gamita ang porma.",
+      "noPubId": "Karon nagserbisyo kami og ads pinaagi sa <b>Google AdSense</b>. Adunay usab direktang sponsorships—gamita ang porma sa ubos."
+    },
+    "inventoryHeader": "Imbentaryo ug Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Gidawat nga gidak-on",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacements": "Walay nakakonpigurang placement pa. Idungag kini sa ads/placements.js.",
+    "whyHeader": "Ngano ang Chatforia?",
+    "why": {
+      "highSession": "Taas ang kalagmitan og balik-balik ug dugay nga pagpabilin sa chat UI",
+      "brandSafe": "Brand-safe nga mga porma; respetado ang frequency capping",
+      "sponsoredMoments": "Sponsored moments (pananglitan, “Start a Chat” modal) anaa",
+      "deals": "Direktang deals o programmatic pinaagi sa AdSense/Google Ads"
+    },
+    "contactHeader": "Kontak",
+    "form": {
+      "submittedMsg": "Salamat! Naabot na ang imong pangutana. Motubag kami sa dili madugay.",
+      "missingRequired": "Palihog pun-a ang ngalan, email, ug mensahe.",
+      "successToast": "Salamat! Motubag kami sa dili madugay.",
+      "mailtoInfo": "Pag-abli sa imong email client aron ipadala ang pangutana…",
+      "nameLabel": "Imong ngalan",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "ikaw@kompanya.com",
+      "companyLabel": "Kompanya",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Buwanang badyet (opsyonal)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Isulti ang bahin sa imong kampanya",
+      "messagePlaceholder": "Targeting, petsa, KPI, mga paboritong placement…",
+      "sendCta": "Ipadala ang pangutana"
+    },
+    "legal": {
+      "disclaimerStart": "Pinaagi sa pagsumite, mouyon ka sa among",
+      "terms": "Mga Termino",
+      "and": "ug",
+      "privacy": "Patakaran sa Pagkapribado"
+    }
+  },
+
+  "upgrade": {
+    "title": "Pag-upgrade",
+    "subtitle": "Pilia ang hustong plano para nimo: ad-free sa Plus, o kompleto nga power features sa Premium.",
+    "scheduleBanner": {
+      "title": "Moundang ang subscription",
+      "body": "Mobalik ka sa Free sa",
+      "keepPlanCta": "Padayon sa Plus",
+      "manageBillingCta": "Pagdumala sa billing"
+    },
+    "billing": {
+      "opening": "Nagaabli…",
+      "manage": "Pagdumala sa Billing"
+    },
+    "checkout": {
+      "redirecting": "Naga-redirect…"
+    },
+    "auth": {
+      "continue": "Padayon",
+      "createAccount": "Paghimo og account",
+      "signIn": "Sign in"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 ug group messaging",
+          "aiBasic": "Basic nga AI replies",
+          "attachments": "Standard nga attachment"
+        },
+        "ctaCurrent": "Karon nga Plano",
+        "ctaUnavailable": "Mobalhin sa Free (dili magamit)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mo",
+        "features": {
+          "noAds": "Tangtangon ang tanan nga ads",
+          "msg": "1:1 ug group messaging",
+          "attachments": "Mas dagkong attachment",
+          "aiBasic": "Basic nga AI replies"
+        },
+        "badge": "Popular",
+        "cta": "Go Ad-Free"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Buwan-buwan)",
+        "price": "$24.99 / mo",
+        "features": {
+          "plusAll": "Tanan sa Plus",
+          "ringtones": "Custom nga ringtones ug message tones",
+          "powerAi": "Power AI features",
+          "priorityUpdates": "Priority nga updates",
+          "backups": "Backups ug pag-sync sa device"
+        },
+        "badge": "Labing suliton",
+        "cta": "Pag-upgrade (Buwan-buwan)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Tinuig)",
+        "price": "$225 / tuig",
+        "features": {
+          "allPremium": "Tanan sa Premium",
+          "annualBilling": "Gi-bill tinuig",
+          "save25": "Makatipid ~25% kumpara sa buwan-buwan",
+          "sameFeatures": "Parehong features sa Buwan-buwan"
+        },
+        "badge": "I-save ang 25%",
+        "cta": "Pag-upgrade (Tinuig)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Pagsugod",
+    "subtitle": "Bag-o sa Chatforia? Kini nga mubo nga giya magpakita sa mga kinahanglanon aron mahimong produktibo sa pipila ka minuto.",
+    "alert": {
+      "text": "Motubo pa kini nga giya samtang maglansar kami ug bag-ong features. Kung adunay kulang, pahibaloa kami pinaagi sa",
+      "contactLink": "Kontaka Mi"
+    },
+    "section1": {
+      "title": "1) Paghimo sa imong account",
+      "signup": "Sign up",
+      "or": "o",
+      "login": "mag-log in",
+      "loginText": "gamit ang imong kasamtangang account.",
+      "prefsStart": "I-set ang imong",
+      "prefsLink": "mga paborito",
+      "prefsRest": "(pinulongan, read receipts, mga tema)."
+    },
+    "section2": {
+      "title": "2) Sugdi ang pagmensahe",
+      "item1": "Paghimo og DM o Grupo ug ipadala ang imong unang mensahe.",
+      "item2": "Gamita ang dali nga paghubad aron makigsulti tabok sa 100+ ka pinulongan.",
+      "item3": "Sulayi ang nagkahanaw nga mga mensahe ug read receipts sa Profile → Privacy."
+    },
+    "section3": {
+      "title": "3) Lakang paingon",
+      "item1Part1": "Pagdumala sa imong plano sa",
+      "upgradeLink": "Pag-upgrade",
+      "item1Part2": "nga panid (Plus = ad-free, Premium = kompleto nga features).",
+      "item2Part1": "I-link ang dugang nga mga device ug i-setup ang gi-encrypt nga backup sa",
+      "settingsLink": "Mga Setting"
+    },
+    "cta": {
+      "seePlans": "Tan-awa ang mga plano",
+      "openSettings": "Ablihi ang mga setting"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "Unsaon paghimo o pag-recover sa akong account?",
+        "a": "I-download ang app o gamita ang web, i-tap ang “Create account”, i-verify ang imong email/telepono. Para sa pag-recover, gamita ang “Forgot password”."
+      },
+      "privacy": {
+        "q": "Gi-end-to-end encrypt ba ang mga mensahe?",
+        "a": "Oo. Ang mga mensahe ug tawag gi-end-to-end encrypt by default. Ikaw ug ang makadawat ra ang makabasa."
+      },
+      "translate": {
+        "q": "Giunsa ang dali nga paghubad?",
+        "a": "Paandara ang “Auto-translate” sa Settings → Appearance & Language. Nagahubad kami sa device kung suportado; kung dili, pinaagi sa luwas nga API nga may gamay ra kaayong metadata."
+      },
+      "contact": {
+        "q": "Kontaka ang suporta",
+        "a": "Abuta mi sa support@chatforia.com. Ilakip ang mga screenshot ug ang version sa imong app."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Kontaka Mi",
+    "successMsg": "Salamat—motubag among team pinaagi sa email.",
+    "errorSend": "Dili mapadala. Palihog i-email ang support@chatforia.com.",
+    "form": {
+      "nameLabel": "Ngalan",
+      "emailLabel": "Email",
+      "messageLabel": "Mensahe",
+      "sendCta": "Ipadala"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Patakaran sa Pagkapribado",
+    "lastUpdated": "Katapusang gi-update:",
+    "intro": {
+      "body": "Kini nga Patakaran sa Pagkapribado nagpasabot kung giunsa sa Chatforia (“kami”, “amo”) pagkolekta, paggamit, ug pagpaambit sa impormasyon kung mogamit ka sa among mga app ug serbisyo. Gidesinyo namo ang Chatforia aron maminusan ang datos nga among makita."
+    },
+    "infoWeCollect": {
+      "title": "Impormasyon nga among gipanag-iya",
+      "account": "Impormasyon sa account (pananglitan, email/telepono) aron paghimo ug pagsiguro sa imong account.",
+      "encrypted": "Gi-encrypt nga sulod (mga mensahe/tawag) kay end-to-end encrypted; dili namo kini mabasa.",
+      "diagnostics": "Diagnostic/paggamit sama sa crash logs, klase sa device, o coarse analytics aron mapaayo ang performance."
+    },
+    "howWeUse": {
+      "title": "Giunsa namo gamiton ang impormasyon",
+      "provide": "Paghatag ug pagsiguro sa serbisyo (auth, pag-ila sa spam/abuso).",
+      "improve": "Pagpauswag sa mga feature ( kalidad sa paghubad, kasaligan ).",
+      "legal": "Pagsunod sa mga legal nga obligasyon."
+    },
+    "sharing": {
+      "title": "Pagpaambit",
+      "body": "Dili namo ibaligya ang personal nga datos. Posibleng ipaambit namo ang limitadong datos sa mga processor (pananglitan, push notifications, analytics) ubos sa hugot nga kasabutan."
+    },
+    "rights": {
+      "title": "Imong mga katungod",
+      "body": "Depende sa imong rehiyon (pananglitan, GDPR/UK GDPR/CPRA), mahimo kang mangayo og access, pag-ayo, pagpanas, o pag-opt-out sa pipila ka pagproseso. Kontaka: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Pagtipig sa datos ug seguridad",
+      "body": "Gi-tipigan namo ang igo ra aron mapadagan ang serbisyo ug naggamit ug industry-standard nga seguridad. Dili namo ma-decrypt ang E2E nga sulod."
+    },
+    "children": {
+      "title": "Kabataan",
+      "body": "Ang Chatforia dili para sa mga bata ubos sa 13 (o sumala sa balaod sa inyong lugar)."
+    },
+    "changes": {
+      "title": "Mga kausaban",
+      "body": "Mag-post kami og update dinhi ug i-revise ang “Katapusang gi-update” nga petsa."
+    },
+    "contact": {
+      "title": "Kontak",
+      "body": "privacy@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "terms": {
+    "title": "Mga Termino sa Serbisyo",
+    "lastUpdated": "Katapusang gi-update:",
+    "intro": {
+      "body": "Pinaagi sa paggamit sa Chatforia, mouyon ka niining mga Termino. Kon dili ka mouyon, ayaw gamita ang serbisyo."
+    },
+    "accounts": {
+      "title": "Mga account",
+      "itemAccurateInfo": "Paghatag og husto nga impormasyon ug bantayi ang imong kredensyal.",
+      "itemResponsibility": "Ikaw ang responsable sa kalihokan sa imong account."
+    },
+    "acceptableUse": {
+      "title": "Tinugot nga paggamit",
+      "itemNoAbuse": "Walay ilegal, abusado, o nakasupak sa katungod nga sulod; walay spam o awtomatikong abuso.",
+      "itemSuspend": "Mahimo namong isuspinde/undangon kung adunay paglapas."
+    },
+    "yourContent": {
+      "title": "Imong sulod",
+      "body": "Naa gihapon nimo ang katungod sa imong sulod. Gihatagan nimo kami sa kinahanglanon nga katungod aron padaganon ang serbisyo (pananglitan, routing, storage, paghubad)."
+    },
+    "disclaimer": {
+      "title": "Mga pahimangno ug pananagutan",
+      "body": "Gihatag ang serbisyo “as is” nga walay garantiya. Sa labing gitugot sa balaod, dili manubag ang Chatforia sa di-tuwirang o konsekensyal nga kadaot."
+    },
+    "changes": {
+      "title": "Mga kausaban",
+      "body": "Mahimo namong i-update kini nga mga termino; ang padayon nga paggamit human sa mga kausaban nagpasabot og pagdawat."
+    },
+    "contact": {
+      "title": "Kontak",
+      "body": "support@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Ayaw Pagbaligya o Pagpaambit sa Akong Personal nga Impormasyon",
+    "body": "Dili mobaligya ang Chatforia og personal nga impormasyon. Ang mga residente sa California makapadala gihapon og hangyo ubos sa CPRA gamit ang buton sa ubos.",
+    "cta": "Isumite ang hangyo"
+  },
+
+  "cookies": {
+    "title": "Mga Setting sa Cookie",
+    "body": "Gamay ra kaayo ang cookies sa Chatforia (pananglitan, session, seguridad). Dili kami mogamit og third-party ads cookies. Pwede nimong dumalahon ang cookies pinaagi sa mga setting sa imong browser."
   }
 }

@@ -2,111 +2,592 @@
   "common": {
     "save": "Bewarje",
     "cancel": "Annulearje",
-    "refresh": "Fernije",
-    "noMatches": "Gjin oerienkomsten"
+    "refresh": "Ferfarskje",
+    "noMatches": "Gjin oerienkomsten",
+    "cancelAria": "Annulearje"
   },
+
   "profile": {
     "title": "Brûkersprofyl",
 
     "preferredLanguage": "Foarkarstaal",
     "chooseLanguage": "Kies in taal",
-    "mustLogin": "Do moatst ynlogge om de ynstellings te sjen.",
+    "mustLogin": "Do moatst oanmelde om de ynstellingen te besjen.",
 
     "autoTranslate": "Berjochten automatysk oersette",
-    "showOriginalWithTranslation": "Lit orizjinele en oerset berjocht sjen",
-    "showOriginalAndTranslation": "Lit orizjineel neist oersetting sjen",
+    "showOriginalWithTranslation": "Toan orizjineel en oersetting",
+    "showOriginalAndTranslation": "Toan orizjineel njonken de oersetting",
 
-    "filterExplicit": "Filter eksplisite ynhâld",
-    "aiReply": "AI antwurd",
-    "enableReadReceipts": "Lêsbefêstigingen ynskeakelje",
-    "allowExplicitContent": "Eksplisite ynhâld tastean",
+    "filterExplicit": "Eksplysyt ynhâld filterje",
+    "aiReply": "AI-antwurd",
+    "enableReadReceipts": "Lêsbefêstigings ynskeakelje",
+    "allowExplicitContent": "Eksplysyt ynhâld tastean",
     "disappearingMessages": "Ferdwinnende berjochten ynskeakelje",
     "autoDeleteSeconds": "Sekonden oant automatysk wiskjen",
 
-    "saveSuccess": "Ynstellings bewarre!",
-    "saveError": "Flater: koe ynstellings net bewarje",
+    "saveSuccess": "Ynstellingen bewarre!",
+    "saveError": "Flater: koe ynstellingen net bewarje",
 
-    "avatarAlt": "Profyl-avatar",
+    "avatarAlt": "Profylavatar",
     "uploadAvatar": "Nije avatar oplade",
     "avatarSuccess": "Avatar opladen!",
-    "avatarError": "Flater by it opladen fan avatar",
+    "avatarError": "Flater by it opladen fan de avatar",
 
-    "noPrivateKey": "Der is gjin privee-kaai op dit apparaat om te eksportearjen.",
+    "noPrivateKey": "Der is gjin privee kaai op dit apparaat om te eksportearjen.",
     "setBackupPassword": "Stel in wachtwurd yn om dyn reservekopy te fersiferjen:",
     "backupDownloaded": "Fersifere reservekopy downloade.",
     "exportFailed": "Kaai-eksport mislearre",
     "enterBackupPassword": "Fier it wachtwurd yn foar dizze reservekopy:",
-    "importSuccess": "Privee-kaai ymportearre op dit apparaat.",
-    "importFailed": "Ymport mislearre (ferkeard wachtwurd of bestân beskeadige).",
-    "keysRotated": "Nije kaaipaar oanmakke en publike kaai opladen.",
-    "rotateFailed": "It rotearjen fan kaaien is mislearre.",
+    "importSuccess": "Privee kaai op dit apparaat ymportearre.",
+    "importFailed": "Ymportearjen fan kaai mislearre (ferkeard wachtwurd of bestân skansearre).",
+    "keysRotated": "Nij kaaipaar generearre en iepenbiere kaai opladen.",
+    "rotateFailed": "Kaai-rotaasje mislearre.",
     "security": "Feiligens",
-    "exportKey": "Eksportearje privee-kaai",
-    "importKey": "Ymportearje fersifere reservekaai",
-    "rotateKeys": "Roteer kaaipaar",
-    "keyDisclaimer": "Dyn privee-kaai ferlit dit apparaat nea. Eksportearje in wachtwurd-beskerme kopy om it op in oar apparaat werom te setten.",
+    "exportKey": "Privee kaai eksportearje",
+    "importKey": "Fersifere kaaiback-up ymportearje",
+    "rotateKeys": "Kaaipaar rotearje",
+    "keyDisclaimer": "Dyn privee kaai ferlit dit apparaat nea. Eksportearje in wachtwurd-beskerme kopy om it op in oar apparaat te werstellen.",
 
     "sectionProfile": "Profyl",
     "phoneNumber": "Telefoannûmer",
     "appearance": "Uterlik",
     "soundSettings": "Lûden",
     "disappearing": "Ferdwinnende berjochten",
-    "backupSync": "Reservekopy & Syngronisaasje",
+    "backupSync": "Reservekopy & syngronisaasje",
     "ai": "AI",
     "accessibility": "Tagonklikens",
     "privacy": "Privacy",
     "devices": "Ferbûne apparaten",
 
-    "themeFreeNotice": "Do bist op de fergese ferzje — brûk de flugge sinne/moanne-opsjes hjirûnder. Upgraden om mear tema's te ûntsluten.",
-    "sunTheme": "Brûk moarnstema",
-    "moonTheme": "Brûk nacht (middernacht) tema",
+    "themeFreeNotice": "Do bist op Free — brûk de flugge Sinne/Moanne-opsjes hjirûnder. Upgrade om mear tema’s te ûntsluten.",
+    "sunTheme": "Brûk Dawn-tema",
+    "moonTheme": "Brûk Moanne (Midnight) tema",
     "sun": "Sinne",
     "moon": "Moanne",
 
-    "backupTitle": "Fersifere reservekopieën & apparaat-syngronisaasje",
-    "openBackupTools": "Iepenje reservekopy-ark",
-    "backupDesc": "Meitsje wachtwurd-beskerme reservekopieën fan dyn kaaien en set se werom op in oar apparaat om te syngronisearjen.",
+    "backupTitle": "Fersifere reservekopyen & apparaat-syngronisaasje",
+    "openBackupTools": "Iepenje backup-ark",
+    "backupDesc": "Meitsje wachtwurd-beskerme reservekopyen fan dyn kaaien en herstel op in oar apparaat om te syngronisearjen.",
 
-    "privacyBlurEnabled": "Berjochten standert wazig meitsje",
-    "privacyBlurOnUnfocus": "Wazig meitsje as app net aktyf is",
-    "holdToReveal": "Ynhâld sjen litte troch fêst te hâlden",
+    "privacyBlurEnabled": "Berjochten standert ferblurrje",
+    "privacyBlurOnUnfocus": "Blurrje as de app net aktyf is",
+    "holdToReveal": "Ynhâld toane troch fêst te hâlden",
     "notifyOnCopy": "Mij warskôgje as myn berjocht kopiearre wurdt",
 
-    "loadFailed": "It laden fan profyl is mislearre",
+    "loadFailed": "Profyl laden mislearre",
     "followed": "Folge",
-    "followFailed": "It folgjen is mislearre",
+    "followFailed": "Folgen mislearre",
     "unfollowed": "Net mear folge",
-    "unfollowFailed": "It stopjen fan folgjen is mislearre",
-    "follow": "Folgje",
-    "unfollow": "Net mear folgje",
-    "followHint": "Harren ferhalen ferskine yn dyn Folgjen-feed as se poste foar Folgers of Iepenbier.",
+    "unfollowFailed": "Net mear folgjen mislearre",
+    "follow": "Folje",
+    "unfollow": "Ophâlde mei folgjen",
+    "followHint": "Harren ferhalen ferskine yn dyn Folgjende-feed as se pleatse mei publyk ‘Followers’ (of ‘Public’).",
     "userNotFound": "Brûker net fûn",
     "followsYou": "Folget dy",
 
-    "sectionCrashedTitle": "Diel koe net laden wurde",
-    "sectionCrashedBody": "Der is wat misgien yn dizze seksje.",
+    "sectionCrashedTitle": "Seksje koe net laden wurde",
+    "sectionCrashedBody": "Der gong wat mis yn dizze seksje.",
 
     "forwarding": "Bel- & SMS-trochstjoering",
     "callTextForwardingSection": "Bel- & SMS-trochstjoering",
     "callTextForwardingTitle": "Bel- en/of SMS-trochstjoering",
-    "callTextForwardingDescription": "Stjoer ynkommende petearen en berjochten troch nei dyn ferifiearre telefoan of e-mail. Utgeande petearen/berjochten kinne dyn Chatforia-nûmer sjen litte.",
+    "callTextForwardingDescription": "Stjoer ynkommende petearen en SMS’kes troch nei dyn ferifiearre tillefoan of e-mail. Utgeande petearen/SMS’kes kinne dyn Chatforia-nûmer toane.",
     "enableTextForwarding": "SMS-trochstjoering ynskeakelje",
-    "forwardTextsToPhone": "Stjoer SMS'kes troch nei telefoan",
-    "forwardTextsToEmail": "Stjoer SMS'kes troch nei e-mail",
-    "destinationPhone": "Bestimming telefoannûmer (E.164)",
-    "destinationEmail": "Bestimming e-mailadres",
+    "forwardTextsToPhone": "SMS’kes trochstjoere nei tillefoan",
+    "forwardTextsToEmail": "SMS’kes trochstjoere nei e-mail",
+    "destinationPhone": "Bestimmingstillefoan (E.164)",
+    "destinationEmail": "Bestimming e-mail",
     "enableCallForwarding": "Bel-trochstjoering ynskeakelje",
     "destinationPhoneForCalls": "Bestimming (E.164) foar petearen",
-    "aliasBridging": "Bel-trochstjoering (aliasferbining)",
-    "quietHoursOptional": "Stille oeren (opsjoneel)",
-    "startHour": "Begjinoere (0–23)",
+    "aliasBridging": "Beltrochstjoering (alias-bridging)",
+    "quietHoursOptional": "Stiltiids (opsjoneel)",
+    "startHour": "Startoere (0–23)",
     "endHour": "Ein-oere (0–23)",
-    "reset": "Weromsette",
+    "reset": "Opnij ynstelle",
     "saveBtn": "Bewarje"
   },
+
   "chat": {
-    "selectPrompt": "Kies in tekst of chatkeamer om te begjinnen mei petearjen",
+    "selectPrompt": "Selektearje in tekst of chatkeamer om te begjinnen mei praten",
     "newMessages": "Nije berjochten",
-    "typing": "{{name}} is oan it typen..."
+    "typing": "{{name}} is oan it typen…",
+    "emptyTitle": "Dyn berjochten",
+    "emptySubtitle": "Stjoer in berjocht om in chat te starten.",
+    "startChatButton": "Berjocht stjoere"
+  },
+
+  "topbar": {
+    "newStatus": "Nije Status",
+    "logout": "Ofmelde"
+  },
+
+  "status": {
+    "userNumber": "Brûker #{{id}}",
+
+    "posted": "Status pleatst",
+    "postFailed": "Status pleatsen mislearre",
+
+    "createTitle": "Meitsje in status",
+    "modalAriaLabel": "Nije status",
+
+    "captionLabel": "Wat giet der troch dyn holle?",
+    "captionPlaceholder": "Diel in update…",
+    "captionAria": "Statusberjocht",
+
+    "audienceLabel": "Publyk",
+    "audience": {
+      "public": "Iepenbier",
+      "followers": "Followers",
+      "contacts": "Kontakten",
+      "mutuals": "Mutuals",
+      "custom": "Oanpast…"
+    },
+
+    "expiresHoursLabel": "Ferrint (oeren)",
+    "maxTooltip": "Maksimaal 7 dagen",
+    "hoursAbbrev": "o",
+    "maxShort": "maks",
+    "expiresOn": "Ferrint op:",
+
+    "chooseRecipients": "Kies ûntfangers",
+    "selectContacts": "Selektearje kontakten",
+
+    "attachmentsLabel": "Taheaksels",
+    "attachmentsPlaceholder": "Foegje ôfbyldings/fideo’s ta",
+    "filesNote": "Oant 5 triemmen. Standert 24 oeren jildich.",
+
+    "postAria": "Status pleatse",
+    "post": "Pleatse"
+  },
+
+  "sidebar": {
+    "randomChat": "Tafallich petear",
+    "callTextForwarding": "Bel- & SMS-trochstjoering",
+    "conversations": "Petearen",
+    "searchPlaceholder": "Sykje yn petearen…",
+    "errorLoading": "Chats laden mislearre",
+    "empty": "Noch gjin petearen.",
+    "startChat": "Begjin in petear",
+    "people": "Minsken",
+    "settings": "Ynstellingen",
+    "status": "Status",
+    "forwarding": "Bel- & SMS-trochstjoering",
+    "refresh": "Ferfarskje",
+    "search": "Sykje yn petearen",
+    "loginPrompt": "Meld dy oan om dyn ynstellingen te bewurkjen.",
+    "login": "Oanmelde",
+    "register": "Akkount meitsje",
+
+    "chatrooms": "Chatkeamers",
+    "logout": "Ofmelde",
+    "startChatAlt": "Start in nije chat"
+  },
+
+  "premium": {
+    "heading": "Gean Premium",
+    "description": "Untslút krêftfunksjes en ferwiderje advertinsjes.",
+    "upgrade": "Upgrade"
+  },
+
+  "auth": {
+    "headline": "Feilige, wrâldwide berjochten mei direkte oersetting",
+    "description": "End-to-end-fersifering, AI-oersetting, ferdwinnende berjochten, en belje/fideobelje.",
+    "feature": {
+      "encryption": "End-to-end-fersifering standert",
+      "translation": "Auto-oerset 100+ talen",
+      "disappearing": "Ferdwinnende berjochten & lêsbefêstigings",
+      "privacy": "Privacy-earst. Dyn gegevens, dyn kontrôle.",
+      "translate": "Oersetting yn realtime",
+      "disappear": "Ferdwinnende berjochten",
+      "privacyAlt": "Privacy-earst ûntwerp"
+      },
+    "welcomeBack": "Wolkom werom",
+    "continueGoogle": "Trochgean mei Google",
+    "continueApple": "Trochgean mei Apple",
+    "username": "Brûkersnamme",
+    "password": "Wachtwurd",
+    "keepSignedIn": "Mij oanmeld litte",
+    "forgotPassword": "Wachtwurd fergetten?",
+    "loginButton": "Oanmelde",
+    "createAccount": "Akkount oanmeitsje",
+    "freeAccountButton": "Fergees akkount oanmeitsje",
+    "newHere": "Nij hjir?",
+    "getApp": "Download de app",
+    "desktopTip": "Op desktop? Scan mei dyn tillefoan om de app te krijen.",
+
+    "goHome": "Nei startside",
+    "home": "Startside",
+
+    "headlineAlt": {
+      "main": "De feilige messenger dy’t",
+      "highlight": "dyn taal sprekt"
+    },
+    "subhead": "Privee, fersifere en oersette berjochten — daliks.",
+
+    "status": "Sjoch status",
+    "upgrade": "No upgrade",
+    "tip": "Do kinst Chatforia op elk apparaat brûke — of download de app foar de bêste ûnderfining.",
+    "openDownload": "Iepenje downloadside",
+    "qrAlt": "QR-koade foar Chatforia",
+    "scanHint": "Scan om de app te downloaden of yn dyn blêder te iepenjen.",
+    "iosAria": "Download yn de App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store-badge",
+    "androidAria": "Krij it yn Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play-badge",
+
+    "login": "Oanmelde",
+    "signup": "Registere",
+    "email": "E-mail"
+  },
+
+  "footer": {
+    "plans": "Abonneminten & prizen",
+    "about": "Oer Chatforia",
+    "careers": "Karriêre",
+    "press": "Parse",
+    "advertise": "Advertearje",
+    "contact": "Kontakt",
+    "help": "Help Sintrum",
+    "status": "Statusside",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacybelied",
+    "terms": "Tsjinstbetingsten",
+    "cookies": "Cookie-ynstellingen",
+    "doNotSell": "Ferkeapje myn ynfo net",
+
+    "language": "Taal",
+    "contactShort": "Kontakt"
+  },
+
+  "home": {
+    "title": "Startside",
+    "header": "Dyn berjochten",
+    "subheader": "Stjoer in berjocht om in chat te starten.",
+    "sendButton": "Berjocht stjoere",
+    "gifPicker": "GIF-kiezer iepenje",
+    "emoji": "Emoji",
+    "upload": "Foto of fideo oplade",
+    "inputPlaceholder": "Typ in berjocht…",
+    "inputLabel": "Berjochtkomponist",
+    "sendTooltip": "Ferstiure",
+    "sendTooltipEmpty": "Typ in berjocht om te ferstjoeren",
+    "send": "Ferstiure",
+
+    "welcomeMessage": "Wolkom by Chatforia",
+    "getStarted": "Los"
+  },
+
+  "press": {
+    "title": "Parse",
+    "contact": "Foar parsefraachstikken: <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Foar parsefraachstikken: press@chatforia.com.",
+    "boilerplateTitle": "Basistekst",
+    "boilerplateText": "Chatforia is in feilige messenger mei direkte oersetting en E2E-fersifering, ûntwurpen om wrâldwide petearen privee en muoitleas te meitsjen.",
+    "assetsTitle": "Merkyndiel",
+    "assetsText": "Logo’s, skermôfbyldings en produktbylden (komt gau)."
+  },
+
+  "careers": {
+    "title": "Karriêre",
+    "intro": "Wy binne in lyts team dat oan in privee, wrâldwide messenger wurket. Hâldsto fan fersifering, tagonklikens en in prachtich UX? Dan hearre wy graach fan dy.",
+    "openRoles": "<b>Fakatueren:</b> Engineering (Full-stack, iOS, Android), Produkt, Stipe.",
+    "apply": "<b>Sa dochst mei:</b> Stjoer dyn CV/links nei <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Stjoer dyn CV"
+  },
+
+  "about": {
+    "title": "Oer Chatforia",
+    "description": "Chatforia is in feilige, meartalige messenger mei end-to-end-fersifering, direkte oersetting en belje/fideobelje. Us misje is simpel: minsken helpe te ferbinen — feilich, privee en oer talen hinne.",
+    "valuesTitle": "Wat wy weardearje",
+    "values": {
+      "privacy": "<b>Privacy-earst:</b> E2E-fersifering standert.",
+      "access": "<b>Tagong foar elkenien:</b> Auto-oerset 100+ talen.",
+      "control": "<b>Kontrôle:</b> Ferdwinnende berjochten & lêsbefêstigings binne opsjoneel."
+    },
+    "howTitle": "Hoe wurket Chatforia",
+    "howDescription": "Berjochten wurde op dyn apparaat fersifere foardat se ferstjoerd wurde. Oersetting, reservekopyen en syngronisaasje binne sa ûntwurpen dat ús servers sa min mooglik sjogge."
+  },
+
+  "advertise": {
+    "title": "Advertearje mei Chatforia",
+    "description": "Beriik belutsen messaging-brûkers mei smaakfolle, merkfeilige pleatsen. Wy biede bannerplakken op goed sichtbere plakken, sponsorings en eigen promo’s. Premium-abonnees sjogge gjin advertinsjes.",
+    "adsense": {
+      "withPubId": "Wy servearje op it stuit advertinsjes fia <b>Google AdSense</b>. Assto ús fia Google Ads targete wolst, brûk útjouwer-ID <code>{{pubId}}</code> en freegje om behearde pleatsing op ús ienheden hjirûnder. Direkt sponsorje kin ek — brûk it formulier.",
+      "noPubId": "Wy servearje op it stuit advertinsjes fia <b>Google AdSense</b>. Direkt sponsorje kin ek — brûk it formulier hjirûnder."
+    },
+    "inventoryHeader": "Foarrie & spesifikaasjes",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Akseptearre maten",
+      "adsenseSlot": "AdSense-slot:"
+    },
+    "noPlacements": "Gjin pleatsingen konfigurearre. Foegje se ta yn ads/placements.js.",
+    "whyHeader": "Wêrom Chatforia?",
+    "why": {
+      "highSession": "Hege sesjefrekwinsje en ferbliuwstiid yn de chat-UI",
+      "brandSafe": "Merkfeilige formaten; respektfolle frekwinsjekap",
+      "sponsoredMoments": "Sponsore mominten (bgl. “Start in Chat”-modal) beskikber",
+      "deals": "Direkte deals of programmatisch fia AdSense/Google Ads"
+    },
+    "contactHeader": "Kontakt",
+    "form": {
+      "submittedMsg": "Tige tank! Dyn fraach is ferstjoerd. Wy nimme gau kontakt op.",
+      "missingRequired": "Folje namme, e-mail en berjocht yn.",
+      "successToast": "Tige tank! Wy melde ús gau.",
+      "mailtoInfo": "Dyn e-mailklant wurdt iepene om de fraach te ferstjoeren…",
+      "nameLabel": "Dyn namme",
+      "namePlaceholder": "Janne de Vries",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "do@bedriuw.com",
+      "companyLabel": "Bedriuw",
+      "companyPlaceholder": "Acme BV",
+      "budgetLabel": "Moanliks budzjet (opsjoneel)",
+      "budgetPlaceholder": "$5.000",
+      "messageLabel": "Fertel oer dyn kampanje",
+      "messagePlaceholder": "Targeting, datums, KPI’s, plak-preferinsjes…",
+      "sendCta": "Fraach ferstjoere"
+    },
+    "legal": {
+      "disclaimerStart": "Troch yn te tsjinjen, geansto akkoard mei ús",
+      "terms": "Betingsten",
+      "and": "en",
+      "privacy": "Privacybelied"
+    }
+  },
+
+  "upgrade": {
+    "title": "Upgrade",
+    "subtitle": "Untslút it juste plan foar dy: gean advertinsjefrij mei Plus, of krij ús folsleine krêftfunksjes mei Premium.",
+    "scheduleBanner": {
+      "title": "Abonnemint einiget",
+      "body": "Do giest werom nei Free op",
+      "keepPlanCta": "Plus hâlde",
+      "manageBillingCta": "Faktuering beheare"
+    },
+    "billing": {
+      "opening": "Iepenje…",
+      "manage": "Faktuering beheare"
+    },
+    "checkout": {
+      "redirecting": "Trochstjoere…"
+    },
+    "auth": {
+      "continue": "Trochgean",
+      "createAccount": "Akkount oanmeitsje",
+      "signIn": "Oanmelde"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1-op-1 en groepsberjochten",
+          "aiBasic": "Basale AI-antwurden",
+          "attachments": "Standert taheaksels"
+        },
+        "ctaCurrent": "Aktueel plan",
+        "ctaUnavailable": "Oerskeakelje nei Free (net beskikber)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4,99 / mo",
+        "features": {
+          "noAds": "Alle advertinsjes fuort",
+          "msg": "1-op-1 en groepsberjochten",
+          "attachments": "Gruttere taheaksels",
+          "aiBasic": "Basale AI-antwurden"
+        },
+        "badge": "Populêr",
+        "cta": "Gean advertinsjefrij"
+      },
+      "premiumMonthly": {
+        "title": "Premium (moanliks)",
+        "price": "$24,99 / mo",
+        "features": {
+          "plusAll": "Alles yn Plus",
+          "ringtones": "Oanpaste bel- en berjochtswizen",
+          "powerAi": "Krêftige AI-funksjes",
+          "priorityUpdates": "Prioriteitsupdates",
+          "backups": "Reservekopyen & apparaat-syngronisaasje"
+        },
+        "badge": "Bêste kar",
+        "cta": "Upgrade (moanliks)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (jierrich)",
+        "price": "$225 / jier",
+        "features": {
+          "allPremium": "Alles yn Premium",
+          "annualBilling": "Jierliks fakturearre",
+          "save25": "Bespaar ~25% f.s. moanliks",
+          "sameFeatures": "Deselde funksjes as moanliks"
+        },
+        "badge": "Bespaar 25%",
+        "cta": "Upgrade (jierrich)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Aan it start",
+    "subtitle": "Nij by Chatforia? Dizze fluchstart lit de essinsjes sjen, sadatst yn minuten oan ’e slach kinst.",
+    "alert": {
+      "text": "Dizze gids groeit mei as wy nije funksjes lansearje. Mist der wat? Lit it ús witte fia",
+      "contactLink": "Kontakt"
+    },
+    "section1": {
+      "title": "1) Meitsje dyn akkount",
+      "signup": "Registrearje",
+      "or": "of",
+      "login": "meld dy oan",
+      "loginText": "mei dyn besteand akkount.",
+      "prefsStart": "Set dyn",
+      "prefsLink": "foarkarren",
+      "prefsRest": "(taal, lêsbefêstigings, tema’s)."
+    },
+    "section2": {
+      "title": "2) Begjin te praten",
+      "item1": "Meitsje in DM of Groep en stjoer dyn earste berjocht.",
+      "item2": "Brûk direkte oersetting om oer 100+ talen hinne te praten.",
+      "item3": "Probearje ferdwinnende berjochten en lêsbefêstigings yn Profyl → Privacy."
+    },
+    "section3": {
+      "title": "3) Gean fierder",
+      "item1Part1": "Behear dyn plan op de",
+      "upgradeLink": "Upgrade",
+      "item1Part2": "side (Plus = advertinsjefrij, Premium = folsleine funksjes).",
+      "item2Part1": "Ferbine ekstra apparaten en set fersifere reservekopyen op yn",
+      "settingsLink": "Ynstellingen"
+    },
+    "cta": {
+      "seePlans": "Sjoch plannen",
+      "openSettings": "Iepenje ynstellingen"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Help Sintrum",
+    "faq": {
+      "account": {
+        "q": "Hoe meitsje of herstel ik myn akkount?",
+        "a": "Download de app of brûk it web, tik op “Akkount oanmeitsje”, ferifiearje dyn e-mail/tillefoan. Foar herstel: “Wachtwurd fergetten”."
+      },
+      "privacy": {
+        "q": "Binne berjochten end-to-end fersifere?",
+        "a": "Ja. Berjochten en petearen binne standert end-to-end fersifere. Allinnich do en de ûntfanger kinne se lêze."
+      },
+      "translate": {
+        "q": "Hoe wurket direkte oersetting?",
+        "a": "Skeakelje “Auto-oersetting” yn by Ynstellingen → Uterlik & Taal. Wy oersette op it apparaat as dat kin; oars fia befeilige API’s mei minimaal metadata."
+      },
+      "contact": {
+        "q": "Kontakt mei stipe",
+        "a": "Stjoer ús op support@chatforia.com. Foegje skermôfbyldings en dyn appferzje ta."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Kontakt mei ús",
+    "successMsg": "Tige tank — ús team reagearret per e-mail.",
+    "errorSend": "Koe net ferstjoere. E-mail dan support@chatforia.com.",
+    "form": {
+      "nameLabel": "Namme",
+      "emailLabel": "E-mail",
+      "messageLabel": "Berjocht",
+      "sendCta": "Ferstjoere"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Privacybelied",
+    "lastUpdated": "Lêst bywurke:",
+    "intro": {
+      "body": "Dit Privacybelied leit út hoe’t Chatforia (“wy”, “ús”) ynformaasje sammelt, brûkt en dielt assto ús apps en tsjinsten brûkst. Wy ûntwerpe Chatforia om de gegevens dy’t wy sjen kinne te minimalisearjen."
+    },
+    "infoWeCollect": {
+      "title": "Ynformaasje dy’t wy sammelje",
+      "account": "Akkountynfo (bgl. e-mail/tillefoan) om dyn akkount te meitsjen en te beskermjen.",
+      "encrypted": "Fersifere ynhâld (berjochten/petearen) is end-to-end fersifere; wy kinne it net lêze.",
+      "diagnostics": "Diagnostyk/gebruik lykas crashlogs, apparaatstype of globale analyze om prestaasjes te ferbetterjen."
+    },
+    "howWeUse": {
+      "title": "Hoe’t wy ynformaasje brûke",
+      "provide": "De tsjinst leverje en befeiligje (autentikaasje, spam/misbrûk deteksje).",
+      "improve": "Funksjes ferbetterje (oersetkwaliteit, betrouberens).",
+      "legal": "Neikommen fan juridyske ferplichtingen."
+    },
+    "sharing": {
+      "title": "Dielen",
+      "body": "Wy ferkeapje gjin persoansgegevens. Wy kinne beheinde gegevens diele mei ferwurkers (bgl. push-notifikaasjes, analyze) ûnder strange kontrakten."
+    },
+    "rights": {
+      "title": "Dyn rjochten",
+      "body": "Ôfhinklik fan dyn regio (bgl. GDPR/UK GDPR/CPRA) kinst tagong, korreksje, wissing oanfreegje of fan bepaalde ferwurking ôfmelde. Kontakt: privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Bewarring & feiligens",
+      "body": "Wy bewarje allinnich wat nedich is om de tsjinst te betsjinjen en tapasse yndustrystandert-feiligens. E2E-ynhâld kin troch ús net ûntsletten wurde."
+    },
+    "children": {
+      "title": "Bern",
+      "body": "Chatforia is net rjochte op bern ûnder de 13 (of sa’t dyn lokale wet fereasket)."
+    },
+    "changes": {
+      "title": "Wizigings",
+      "body": "Wy publisearje hjir updates en passe de datum ‘Lêst bywurke’ oan."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "privacy@chatforia.com • [Juridyske bedrûfsnamme], [Adres]"
+    }
+  },
+
+  "terms": {
+    "title": "Tsjinstbetingsten",
+    "lastUpdated": "Lêst bywurke:",
+    "intro": {
+      "body": "Troch Chatforia te brûken geanst akkoard mei dizze betingsten. Aksjonearje net assto it net iens bist."
+    },
+    "accounts": {
+      "title": "Akkounts",
+      "itemAccurateInfo": "Jou krekte ynfo en hâld referinsjes feilich.",
+      "itemResponsibility": "Do bist ferantwurdlik foar aktiviteit op dyn akkount."
+    },
+    "acceptableUse": {
+      "title": "Akseptabel gebrûk",
+      "itemNoAbuse": "Gjin yllegale, misledigjende of ynbrekkende ynhâld; gjin spam of automatisearre misbrûk.",
+      "itemSuspend": "Wy kinne by oertreding skorsje/ûntslaan."
+    },
+    "yourContent": {
+      "title": "Dyn ynhâld",
+      "body": "Do hâldst rjochten op dyn ynhâld. Do joust ús de nedige rjochten om de tsjinst te betsjinjen (bgl. rûting, opslach, oersetting)."
+    },
+    "disclaimer": {
+      "title": "Frijwarjen & oanspraaklikens",
+      "body": "Tsjinst ‘sa’t er is’ sûnder garânsjes. Sa fier’t de wet tastiet, is Chatforia net oanspraaklik foar yndirekte of gefolchskea."
+    },
+    "changes": {
+      "title": "Wizigings",
+      "body": "Wy kinne dizze betingsten bywurkje; fierder gebrûk nei wizigings betsjut akkoard."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "body": "support@chatforia.com • [Juridyske bedrûfsnamme], [Adres]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Ferkeapje of diel myn persoanlike ynformaasje net",
+    "body": "Chatforia ferkeapet gjin persoanlike ynformaasje. Kalifornyske ynwenners kinne dochs fersiken yntsjinje ûnder CPRA mei de knop hjirûnder.",
+    "cta": "Dien in fersyk"
+  },
+
+  "cookies": {
+    "title": "Cookie-ynstellingen",
+    "body": "Chatforia brûkt minimale cookies (bgl. sesje, feiligens). Wy brûke gjin cookies fan tredde-partij-advertinsjes. Behear cookies fia de ynstellingen fan dyn blêder."
   }
 }

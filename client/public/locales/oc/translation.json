@@ -1,10 +1,12 @@
 {
   "common": {
-    "save": "Salvar",
+    "save": "Enregistrar",
     "cancel": "Anullar",
     "refresh": "Actualizar",
-    "noMatches": "Cap de correspondéncia"
+    "noMatches": "Cap de correspondéncia",
+    "cancelAria": "Anullar"
   },
+
   "profile": {
     "title": "Perfil d’utilizaire",
 
@@ -13,100 +15,580 @@
     "mustLogin": "Vos cal vos connectar per veire los paramètres.",
 
     "autoTranslate": "Tradusir automaticament los messatges",
-    "showOriginalWithTranslation": "Afichar l’original e los messatges tradusits",
-    "showOriginalAndTranslation": "Afichar l’original a costat de la traduccion",
+    "showOriginalWithTranslation": "Afichar l’original e la revirada",
+    "showOriginalAndTranslation": "Afichar l’original a costat de la revirada",
 
     "filterExplicit": "Filtrar lo contengut explicit",
     "aiReply": "Responsa IA",
-    "enableReadReceipts": "Activar los acuses de lectura",
+    "enableReadReceipts": "Activar los acusats de lectura",
     "allowExplicitContent": "Autorizar lo contengut explicit",
-    "disappearingMessages": "Activar los messatges que s’escafan",
+    "disappearingMessages": "Activar los messatges efemèrs",
     "autoDeleteSeconds": "Segondas abans supression automatica",
 
-    "saveSuccess": "Paramètres salvats !",
-    "saveError": "Error : impossible de salvar los paramètres",
+    "saveSuccess": "Paramètres enregistrats !",
+    "saveError": "Error : impossible d’enregistrar los paramètres",
 
     "avatarAlt": "Avatar del perfil",
     "uploadAvatar": "Telecargar un avatar novèl",
     "avatarSuccess": "Avatar telecargat !",
-    "avatarError": "Error de telecargament de l’avatar",
+    "avatarError": "Error al moment de telecargar l’avatar",
 
-    "noPrivateKey": "Cap de clau privada sus aqueste aparelh per l’exportar.",
-    "setBackupPassword": "Definissètz un senhal per chifrar vòstre salvament :",
-    "backupDownloaded": "Salvament chifrat telecargat.",
-    "exportFailed": "Fracàs de l’exportacion de la clau",
-    "enterBackupPassword": "Picatz lo senhal d’aqueste salvament :",
+    "noPrivateKey": "I a pas cap de clau privada sus aqueste aparelh d’exportar.",
+    "setBackupPassword": "Definissètz un senhal per chifrar vòstra còpia de salvament :",
+    "backupDownloaded": "Còpia de salvament chifrada telecargada.",
+    "exportFailed": "Fracàs de l’export de la clau",
+    "enterBackupPassword": "Picatz lo senhal per aquesta còpia :",
     "importSuccess": "Clau privada importada sus aqueste aparelh.",
-    "importFailed": "Fracàs de l’importacion (senhal incorrècte o fichièr corromput).",
-    "keysRotated": "Novèl parelh de claus generat e clau publica televersada.",
-    "rotateFailed": "Fracàs del cambiament de claus.",
+    "importFailed": "Fracàs d’importacion de la clau (senhal incorrècte o fichièr corromput).",
+    "keysRotated": "Parelh de claus novèl generat e clau publica telecargada.",
+    "rotateFailed": "Fracàs de la rotacion de las claus.",
     "security": "Seguretat",
     "exportKey": "Exportar la clau privada",
-    "importKey": "Importar lo salvament chifrat de la clau",
-    "rotateKeys": "Cambiar las claus",
-    "keyDisclaimer": "Vòstra clau privada quita pas jamai aqueste aparelh. Exportatz-ne una còpia protegida per senhal per la restablir sus un autre aparelh.",
+    "importKey": "Importar una còpia chifrada de la clau",
+    "rotateKeys": "Far rotar lo parelh de claus",
+    "keyDisclaimer": "Vòstra clau privada quita pas jamai aqueste aparelh. Exportatz una còpia protegida per senhal per la restablir sus un autre aparelh.",
 
     "sectionProfile": "Perfil",
     "phoneNumber": "Numèro de telefòn",
     "appearance": "Aparéncia",
     "soundSettings": "Sons",
-    "disappearing": "Messatges que s’escafan",
+    "disappearing": "Messatges efemèrs",
     "backupSync": "Salvament & Sincronizacion",
     "ai": "IA",
     "accessibility": "Accessibilitat",
-    "privacy": "Vida privada",
+    "privacy": "Confidencialitat",
     "devices": "Aparelhs ligats",
 
-    "themeFreeNotice": "Sètz sul plan gratuit — utilisatz los botons Solelh/Luna çaijós. Passatz a Premium per desblocar mai de tèmas.",
-    "sunTheme": "Utilizar lo tèma Dawn",
-    "moonTheme": "Utilizar lo tèma Moon (Mièjanuèch)",
+    "themeFreeNotice": "Sètz sus Free — utilizatz las opcions Solelh/Luna çai-jos. Actualizatz per desbloccar mai de tèmas.",
+    "sunTheme": "Utilizar lo tèma Auba",
+    "moonTheme": "Utilizar lo tèma Luna (Mièjanuèch)",
     "sun": "Solelh",
     "moon": "Luna",
 
-    "backupTitle": "Salvaments chifrats & Sincronizacion d’aparelhs",
-    "openBackupTools": "Dobrir los espleches de salvament",
-    "backupDesc": "Creeatz de salvaments chifrats de vòstras claus e restablissètz-las sus un autre aparelh per sincronizar.",
+    "backupTitle": "Còpias chifradas & Sincronizacion d’aparelhs",
+    "openBackupTools": "Dobrir las Aisinas de Salvament",
+    "backupDesc": "Creatz de còpias protegidas per senhal de vòstras claus e restabligatz-las sus un autre aparelh per sincronizar.",
 
-    "privacyBlurEnabled": "Blurar los messatges per defaut",
-    "privacyBlurOnUnfocus": "Blurar quand l’aplicacion es pas al primièr plan",
-    "holdToReveal": "Téner per revelar",
+    "privacyBlurEnabled": "Flocar los messatges per defaut",
+    "privacyBlurOnUnfocus": "Flocar quand l’aplicacion es al segond plan",
+    "holdToReveal": "Manténer per revelar",
     "notifyOnCopy": "M’avisar se mon messatge es copiat",
 
-    "loadFailed": "Impossible de cargar lo perfil",
+    "loadFailed": "Fracàs del cargament del perfil",
     "followed": "Seguit",
     "followFailed": "Fracàs del seguiment",
     "unfollowed": "Desseguit",
     "unfollowFailed": "Fracàs del desseguiment",
-    "follow": "Seguir",
+    "follow": "Seguire",
     "unfollow": "Quitar de seguir",
-    "followHint": "Lors istòrias apareisseràn dins vòstre flux « Seguissètz » se publican per Seguaires (o Public).",
+    "followHint": "Lors istòrias apareràn dins vòstre flux Seguiments se publican amb l’audiéncia Seguidors (o Public).",
     "userNotFound": "Utilizaire pas trobat",
     "followsYou": "Vos seguís",
 
-    "sectionCrashedTitle": "La seccion a pas pogut se cargar",
-    "sectionCrashedBody": "Quicòm s’es mal passat dins aquesta seccion.",
+    "sectionCrashedTitle": "Seccion impossibla de cargar",
+    "sectionCrashedBody": "Quicòm a pas foncionat dins aquesta seccion.",
 
-    "forwarding": "Redireccion de cridas & SMS",
-    "callTextForwardingSection": "Redireccion de cridas & SMS",
-    "callTextForwardingTitle": "Redireccion de cridas e/o SMS",
-    "callTextForwardingDescription": "Redirigissètz las cridas e SMS entrants cap a vòstre telefòn o corrièl verificat. Las sortidas pòdon afichar vòstre numèro Chatforia.",
-    "enableTextForwarding": "Activar la redireccion dels SMS",
-    "forwardTextsToPhone": "Redirigir los SMS cap al telefòn",
-    "forwardTextsToEmail": "Redirigir los SMS cap al corrièl",
+    "forwarding": "Desviacion d’apèl & de tèxtes",
+    "callTextForwardingSection": "Desviacion d’apèl & de tèxtes",
+    "callTextForwardingTitle": "Desviacion d’apèls e/o de messatges",
+    "callTextForwardingDescription": "Desviaz los apèls e messatges entrants cap a vòstre telefòn o vòstre email verifikat. Los sortents pòdon afichar vòstre numèro Chatforia.",
+    "enableTextForwarding": "Activar la desviacion dels tèxtes",
+    "forwardTextsToPhone": "Desviar los tèxtes cap al telefòn",
+    "forwardTextsToEmail": "Desviar los tèxtes cap a l’email",
     "destinationPhone": "Telefòn de destinacion (E.164)",
-    "destinationEmail": "Corrièl de destinacion",
-    "enableCallForwarding": "Activar la redireccion de cridas",
-    "destinationPhoneForCalls": "Telefòn de destinacion (E.164) per las cridas",
-    "aliasBridging": "Redireccion de cridas (alias bridging)",
-    "quietHoursOptional": "Oras de silenci (opcional)",
+    "destinationEmail": "Email de destinacion",
+    "enableCallForwarding": "Activar la desviacion dels apèls",
+    "destinationPhoneForCalls": "Destinacion (E.164) pels apèls",
+    "aliasBridging": "Desviacion d’apèl (alias bridging)",
+    "quietHoursOptional": "Oras de calma (opc.)",
     "startHour": "Ora de començament (0–23)",
     "endHour": "Ora de fin (0–23)",
     "reset": "Reïnicializar",
-    "saveBtn": "Salvar"
+    "saveBtn": "Enregistrar"
   },
+
   "chat": {
-    "selectPrompt": "Seleccionatz un tèxte o un salon de discussion per començar a chatar",
+    "selectPrompt": "Seleccionatz un tèxt o un salon per començar de charrar",
     "newMessages": "Messatges novèls",
-    "typing": "{{name}} es a escriure…"
+    "typing": "{{name}} escriu…",
+    "emptyTitle": "Vòstres messatges",
+    "emptySubtitle": "Mandatz un messatge per començar una discussion.",
+    "startChatButton": "Enviar un messatge"
+  },
+
+  "topbar": {
+    "newStatus": "Estat novèl",
+    "logout": "Se desconnectar"
+  },
+
+  "status": {
+    "userNumber": "Utilizaire #{{id}}",
+
+    "posted": "Estat publicat",
+    "postFailed": "Fracàs de publicacion de l’estat",
+
+    "createTitle": "Crear un estat",
+    "modalAriaLabel": "Estat novèl",
+
+    "captionLabel": "De qué pensatz ?",
+    "captionPlaceholder": "Partejatz una novèla…",
+    "captionAria": "Messatge d’estat",
+
+    "audienceLabel": "Audiéncia",
+    "audience": {
+      "public": "Public",
+      "followers": "Seguidors",
+      "contacts": "Contactes",
+      "mutuals": "Reciprocs",
+      "custom": "Personalizat…"
+    },
+
+    "expiresHoursLabel": "Expira (oras)",
+    "maxTooltip": "Maxim 7 jorns",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Expira lo:",
+
+    "chooseRecipients": "Causissètz los destinataris",
+    "selectContacts": "Seleccionar de contactes",
+
+    "attachmentsLabel": "Pèças juntas",
+    "attachmentsPlaceholder": "Apondre imatges/videos",
+    "filesNote": "Fins a 5 fichièrs. Expira en 24h per defaut.",
+
+    "postAria": "Publicar l’estat",
+    "post": "Publicar"
+  },
+
+  "sidebar": {
+    "randomChat": "Chat aleatòri",
+    "callTextForwarding": "Desviacion d’apèl & de tèxtes",
+    "conversations": "Conversacions",
+    "searchPlaceholder": "Cercar de conversacions…",
+    "errorLoading": "Fracàs del cargament dels chats",
+    "empty": "Encara pas cap de conversacion.",
+    "startChat": "Començar un chat",
+    "people": "Gents",
+    "settings": "Paramètres",
+    "status": "Estat",
+    "forwarding": "Desviacion d’apèl & de tèxtes",
+    "refresh": "Actualizar",
+    "search": "Cercar de conversacions",
+    "loginPrompt": "Connectatz-vos per modificar vòstres paramètres.",
+    "login": "Se connectar",
+    "register": "Crear un compte",
+
+    "chatrooms": "Salons",
+    "logout": "Se desconnectar",
+    "startChatAlt": "Començar una conversacion novèla"
+  },
+
+  "premium": {
+    "heading": "Passar a Premium",
+    "description": "Desblocatz de foncionalitats potentas e suprimissètz las anóncias.",
+    "upgrade": "Actualizar"
+  },
+
+  "auth": {
+    "headline": "Messatjariá segura e globala amb traduccion instantanèa",
+    "description": "Chiframent de cap a cap, traduccion amb IA, messatges efemèrs e apèls votz/vídeo.",
+    "feature": {
+      "encryption": "Chiframent de cap a cap per defaut",
+      "translation": "Traduccion automatica de mai de 100 lengas",
+      "disappearing": "Messatges efemèrs & acusats de lectura",
+      "privacy": "Confidencialitat primièra. Vòstres donadas, vòstre contraròtle.",
+      "translate": "Traduccion en temps real",
+      "disappear": "Messatges efemèrs",
+      "privacyAlt": "Concepcion orientada confidencialitat"
+    },
+    "welcomeBack": "Benvenguda tornarmai",
+    "continueGoogle": "Contunhar amb Google",
+    "continueApple": "Contunhar amb Apple",
+    "username": "Nom d’utilizaire",
+    "password": "Senhal",
+    "keepSignedIn": "Demorar connectat",
+    "forgotPassword": "Senhal oblidat ?",
+    "loginButton": "Se connectar",
+    "createAccount": "Crear un compte",
+    "freeAccountButton": "Crear un compte gratuit",
+    "newHere": "Novèl aquí ?",
+    "getApp": "Telecargar l’aplicacion",
+    "desktopTip": "Sus ordenador ? Escanatz amb lo telefòn per obténer l’aplicacion.",
+
+    "goHome": "Tornar a l’acuèlh",
+    "home": "Acuèlh",
+
+    "headlineAlt": {
+      "main": "Lo messatgièr segur que",
+      "highlight": "parla vòstra lenga"
+    },
+    "subhead": "Messatjariá privada, chifrada e revirada — instantanèament.",
+
+    "status": "Veire l’estat",
+    "upgrade": "Actualizar ara",
+    "tip": "Podètz utilizar Chatforia sus quin aparelh que siá — o telecargar l’aplicacion per una melhora experiéncia.",
+    "openDownload": "Dobrir la pagina de telecargament",
+    "qrAlt": "Còdi QR per Chatforia",
+    "scanHint": "Escanatz per telecargar l’aplicacion o dobrir dins lo navegador.",
+    "iosAria": "Telecargar sus l’App Store",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "Insigna App Store",
+    "androidAria": "Obténer sus Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Insigna Google Play",
+
+    "login": "Connexion",
+    "signup": "Inscripcion",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Formulas & Tarifas",
+    "about": "A prepaus de Chatforia",
+    "careers": "Emplecs",
+    "press": "Premsa",
+    "advertise": "Publicitat",
+    "contact": "Nos contactar",
+    "help": "Centre d’ajuda",
+    "status": "Pagina d’estat",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Politica de confidencialitat",
+    "terms": "Conditions d’utilizacion",
+    "cookies": "Paramètres dels cookies",
+    "doNotSell": "Vendre pas mas informacions",
+
+    "language": "Lenga",
+    "contactShort": "Contacte"
+  },
+
+  "home": {
+    "title": "Acuèlh",
+    "header": "Vòstres messatges",
+    "subheader": "Mandatz un messatge per començar una conversacion.",
+    "sendButton": "Enviar un messatge",
+    "gifPicker": "Dobrir lo selector de GIF",
+    "emoji": "Emoji",
+    "upload": "Telecargar una fòto o una vidèo",
+    "inputPlaceholder": "Escrivètz un messatge…",
+    "inputLabel": "Compositor de messatges",
+    "sendTooltip": "Enviar",
+    "sendTooltipEmpty": "Picatz un messatge per enviar",
+    "send": "Enviar",
+
+    "welcomeMessage": "Benvenguda a Chatforia",
+    "getStarted": "Començar"
+  },
+
+  "press": {
+    "title": "Premsa",
+    "contact": "Per las demandes mediaticas, escrivètz-nos a <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Per las demandas mediaticas, escrivètz-nos a press@chatforia.com.",
+    "boilerplateTitle": "Presentacion",
+    "boilerplateText": "Chatforia es un messatgièr segur amb traduccion instantanèa e chiframent E2E, concebut per rendre las conversacions mondialas privadas e simplas.",
+    "assetsTitle": "Ressorsas de marca",
+    "assetsText": "Logotips, capturas d’ecran e imatjariá produit (leu disponible)."
+  },
+
+  "careers": {
+    "title": "Emplecs",
+    "intro": "Sèm una pichona còla que bastís un messatgièr privat e mondial. Se vos empenchètz per la seguretat, l’accessibilitat e una UX polida, nos agradariá de vos legir.",
+    "openRoles": "<b>Postes dobèrts :</b> Enginyaria (Full-stack, iOS, Android), Producte, Suport.",
+    "apply": "<b>Coma candidatar :</b> Mandatz vòstre CV/ligams a <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "Enviar vòstre CV per email"
+  },
+
+  "about": {
+    "title": "A prepaus de Chatforia",
+    "description": "Chatforia es un messatgièr segur e multilingüe amb chiframent de cap a cap, traduccion instantanèa e apèls votz/vídeo. Nòstra mission es simpla : ajudar lo mond a se connectar — en seguretat, en privat, e a travèrs de las lengas.",
+    "valuesTitle": "Cossí valoram",
+    "values": {
+      "privacy": "<b>Confidencialitat primièra :</b> chiframent E2E per defaut.",
+      "access": "<b>Accès per totes :</b> traduccion automatica de mai de 100 lengas.",
+      "control": "<b>Contraròtle :</b> los messatges efemèrs e los acusats de lectura son opcionals."
+    },
+    "howTitle": "Cossí fonciona Chatforia",
+    "howDescription": "Los messatges son chifrats sus vòstre aparelh abans de partir. La traduccion, las còpias e la sincronizacion d’aparelhs son pensadas per minimizar çò que nòstres servidors pòdon veire."
+  },
+
+  "advertise": {
+    "title": "Far de publicitat amb Chatforia",
+    "description": "Tocatz d’utilizaires implicats amb d’emplaçaments elegants e segurs per la marca. Prepausam d’afichatges en zònas de visibilitat nauta, d’esponsorizacions e de promos ostalas. Los abonats Premium venon sens pub.",
+    "adsense": {
+      "withPubId": "Servissèm actualament d’anóncias via <b>Google AdSense</b>. Se volètz nos visar via Google Ads, utilizatz l’ID editor <code>{{pubId}}</code> e demandatz un emplaçament gerit sus nòstras unitats çai-jos. D’acòrdis dirèctes possibles — utilizatz lo formulari.",
+      "noPubId": "Servissèm actualament d’anóncias via <b>Google AdSense</b>. D’esponsorizacions dirèctas son tanben disponiblas — utilizatz lo formulari çai-jos."
+    },
+    "inventoryHeader": "Inventari & Especificacions",
+    "placement": {
+      "displayBadge": "Afichatge",
+      "acceptedSizes": "Talhas acceptadas",
+      "adsenseSlot": "Slot AdSense :"
+    },
+    "noPlacements": "Cap d’emplaçament pas encara configurat. Apondètz-los dins ads/placements.js.",
+    "whyHeader": "Perqué Chatforia ?",
+    "why": {
+      "highSession": "Frequéncia de sesilhas nauta e temps passat long dins l’UI de chat",
+      "brandSafe": "Formats segurs per la marca ; limitacion de frequéncia respectuosa",
+      "sponsoredMoments": "Moments esponsorats disponibles (p.ex. « Començar un Chat »)",
+      "deals": "Acorcis dirèctes o programatics via AdSense/Google Ads"
+    },
+    "contactHeader": "Contacte",
+    "form": {
+      "submittedMsg": "Mercé ! Vòstra demanda es en camin. Tornarem lèu.",
+      "missingRequired": "Emplenatz lo nom, l’email e lo messatge, se vos plai.",
+      "successToast": "Mercé ! Vos contactarem lèu.",
+      "mailtoInfo": "Dobertura de vòstre client de corrièr per enviar la demanda…",
+      "nameLabel": "Vòstre nom",
+      "namePlaceholder": "Joana Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "vos@entrepresa.com",
+      "companyLabel": "Entreprisa",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Budget mensual (opc.)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "Contatz-nos vòstra campanha",
+      "messagePlaceholder": "Targeting, datas, KPI, preferéncias d’emplaçament…",
+      "sendCta": "Enviar la demanda"
+    },
+    "legal": {
+      "disclaimerStart": "En sometent, acceptatz nòstres",
+      "terms": "Tèrmes",
+      "and": "e",
+      "privacy": "Politica de confidencialitat"
+    }
+  },
+
+  "upgrade": {
+    "title": "Actualizar",
+    "subtitle": "Desblocatz la formula que vos conven : Plus sens pub, o Premium amb totas las foncionalitats.",
+
+    "scheduleBanner": {
+      "title": "L’abonament s’acabarà",
+      "body": "Tornaretz a Free lo",
+      "keepPlanCta": "Conservar Plus",
+      "manageBillingCta": "Gerir la facturacion"
+    },
+    "billing": {
+      "opening": "Dobertura…",
+      "manage": "Gerir la facturacion"
+    },
+    "checkout": {
+      "redirecting": "Redireccion…"
+    },
+    "auth": {
+      "continue": "Contunhar",
+      "createAccount": "Crear un compte",
+      "signIn": "Se connectar"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "Messatjariá 1:1 e de grop",
+          "aiBasic": "Responsas IA basicas",
+          "attachments": "Pèças juntas estandards"
+        },
+        "ctaCurrent": "Formula actuala",
+        "ctaUnavailable": "Passar a Free (indisponible)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mes",
+        "features": {
+          "noAds": "Suprimir totas las anóncias",
+          "msg": "Messatjariá 1:1 e de grop",
+          "attachments": "Pèças juntas mai grandas",
+          "aiBasic": "Responsas IA basicas"
+        },
+        "badge": "Populara",
+        "cta": "Sens Pub"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mensual)",
+        "price": "$24.99 / mes",
+        "features": {
+          "plusAll": "Tot çò de Plus",
+          "ringtones": "Sonerias & tons de messatge personalizats",
+          "powerAi": "Foncionalitats IA avançadas",
+          "priorityUpdates": "Mesas a jorn prioritàrias",
+          "backups": "Còpias & sincronizacion d’aparelhs"
+        },
+        "badge": "Melhor rapòrt qualitat/preu",
+        "cta": "Actualizar (mensual)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Annadièr)",
+        "price": "$225 / an",
+        "features": {
+          "allPremium": "Tot Premium",
+          "annualBilling": "Facturat annadièrament",
+          "save25": "Estalviatz ~25% vs mensual",
+          "sameFeatures": "Las meteissas foncionalitats que Mensual"
+        },
+        "badge": "Estalvi 25%",
+        "cta": "Actualizar (annadièr)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Per començar",
+    "subtitle": "Novèl sus Chatforia ? Aquesta guida rapida vos mòstra l’essencial — en qualques minutas seretz operatiu.",
+    "alert": {
+      "text": "Aquesta guida s’enriquirà a mesura que lancem de foncionalitats. Se quicòm manca, senhalatz-o via",
+      "contactLink": "Contacte"
+    },
+    "section1": {
+      "title": "1) Creatz vòstre compte",
+      "signup": "S’inscriure",
+      "or": "o",
+      "login": "se connectar",
+      "loginText": "amb vòstre compte existent.",
+      "prefsStart": "Definissètz vòstras",
+      "prefsLink": "preferéncias",
+      "prefsRest": "(lenga, acusats de lectura, tèmas)."
+    },
+    "section2": {
+      "title": "2) Començatz de charrar",
+      "item1": "Creatz un DM o un Grop e mandatz vòstre primièr messatge.",
+      "item2": "Utilizatz la traduccion instantanèa per charrar en mai de 100 lengas.",
+      "item3": "Ensajatz los messatges efemèrs e los acusats de lectura dins Perfil → Confidencialitat."
+    },
+    "section3": {
+      "title": "3) Anatz pus luènh",
+      "item1Part1": "Gerissètz vòstra formula sus la pagina",
+      "upgradeLink": "Actualizar",
+      "item1Part2": "(Plus = sens pub, Premium = totas las foncionalitats).",
+      "item2Part1": "Ligatz d’autres aparelhs e configuratz de còpias chifradas dins",
+      "settingsLink": "Paramètres"
+    },
+    "cta": {
+      "seePlans": "Vejatz las formulas",
+      "openSettings": "Dobrir los paramètres"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Centre d’ajuda",
+    "faq": {
+      "account": {
+        "q": "Cossí crear o recobrar mon compte ?",
+        "a": "Telecargatz l’aplicacion o utilizatz la version web, tocatz « Crear un compte », verifikatz vòstre email/telefòn. Per recobrar, utilizatz « Senhal oblidat »."
+      },
+      "privacy": {
+        "q": "Los messatges son chifrats de cap a cap ?",
+        "a": "Òc. Los messatges e los apèls son chifrats E2E per defaut. I a pas que vosautres dos que los podètz legir."
+      },
+      "translate": {
+        "q": "Cossí fonciona la traduccion instantanèa ?",
+        "a": "Activatz « Traduccion automatica » dins Paramètres → Aparéncia & Lenga. Tradusèm en local quand es possible, siquenon via d’API seguras amb un minimum de metadonadas."
+      },
+      "contact": {
+        "q": "Contactar lo supòrt",
+        "a": "Escrivètz-nos a support@chatforia.com. Apondètz de capturas e la version de l’aplicacion."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Nos contactar",
+    "successMsg": "Mercé — nòstra còla vos respondrà per email.",
+    "errorSend": "Impossible d’enviar. Mandatz un email a support@chatforia.com.",
+    "form": {
+      "nameLabel": "Nom",
+      "emailLabel": "Email",
+      "messageLabel": "Messatge",
+      "sendCta": "Enviar"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Politica de confidencialitat",
+    "lastUpdated": "Darrièra mesa a jorn :",
+    "intro": {
+      "body": "Aquesta Politica explica cossí Chatforia (« nosautres ») recampa, utiliza e parteja d’informacions quand utilizatz nòstras aplicacions e servicis. Concepcion de Chatforia : minimizar las donadas que podem veire."
+    },
+    "infoWeCollect": {
+      "title": "Informacions que recampam",
+      "account": "Informacions de compte (p.ex. email/telefòn) per crear e securizar vòstre compte.",
+      "encrypted": "Lo contengut chifrat (messatges/apèls) es E2E ; lo podem pas legir.",
+      "diagnostics": "Diagnostic/usage coma logs de crash, tipe d’aparelh, o analiticas grossièras per melhorar las performanças."
+    },
+    "howWeUse": {
+      "title": "Cossí utilizam las informacions",
+      "provide": "Provesir e securizar lo servici (autentificacion, deteccion d’abús/spam).",
+      "improve": "Melhorar las foncionalitats (qualitat de traduccion, fiabilitat).",
+      "legal": "Respectar las obligacions legalas."
+    },
+    "sharing": {
+      "title": "Partiment",
+      "body": "Vendèm pas las donadas personalas. Podèm partejar de donadas limitadas amb de soscontractants (p.ex. notificacions push, analiticas) jos contractes estrictes."
+    },
+    "rights": {
+      "title": "Vòstres dreches",
+      "body": "Segon vòstra region (p.ex. RGPD/UK RGPD/CPRA), podètz demandar accès, correccion, supression, o refusar certans tractaments. Contacte : privacy@chatforia.com."
+    },
+    "retention": {
+      "title": "Conservacion de las donadas & seguretat",
+      "body": "Conservam sonque lo necessari per far virar lo servici e aplicam de practicas de seguretat industri standard. Lo contengut E2E pòt pas èsser deschifrat per nosautres."
+    },
+    "children": {
+      "title": "Enfants",
+      "body": "Chatforia es pas destinada als enfants de mens de 13 ans (o segon la lei locala)."
+    },
+    "changes": {
+      "title": "Cambiaments",
+      "body": "Publicarem de mesas a jorn aquí e actualizarem la data « Darrièra mesa a jorn »."
+    },
+    "contact": {
+      "title": "Contacte",
+      "body": "privacy@chatforia.com • [Nom legal de l’entitat], [Adreça]"
+    }
+  },
+
+  "terms": {
+    "title": "Conditions d’utilizacion",
+    "lastUpdated": "Darrièra mesa a jorn :",
+    "intro": {
+      "body": "En utilizant Chatforia, acceptatz aquelas Condicions. S’acceptatz pas, utilizatz pas lo servici."
+    },
+    "accounts": {
+      "title": "Comptes",
+      "itemAccurateInfo": "Fornissètz d’informacions exactas e gardatz vòstres identificants segurs.",
+      "itemResponsibility": "Sètz responsable de l’activitat sus vòstre compte."
+    },
+    "acceptableUse": {
+      "title": "Usatge acceptable",
+      "itemNoAbuse": "Pas de contengut ilegal, abusiu o que viola de dreches ; pas d’spam o d’abús automatizat.",
+      "itemSuspend": "Podèm suspendre/terminar en cas de violacion."
+    },
+    "yourContent": {
+      "title": "Vòstre contengut",
+      "body": "Conservatz vòstres dreches sus vòstre contengut. Nos balhatz los dreches necessaris per far virar lo servici (p.ex. rutament, estocatge, traduccion)."
+    },
+    "disclaimer": {
+      "title": "Exclusions & responsabilitat",
+      "body": "Servici provesit « tal coma es » sens garantia. Dins la mesura maxima autorizada per la lei, Chatforia respond pas dels damatges indirèctes o conseqüencials."
+    },
+    "changes": {
+      "title": "Cambiaments",
+      "body": "Podèm metre a jorn aquelas condicions ; contunhar d’utilizar après los cambiaments val acceptacion."
+    },
+    "contact": {
+      "title": "Contacte",
+      "body": "support@chatforia.com • [Nom legal de l’entitat], [Adreça]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Vendre pas o partejar mas informacions personalas",
+    "body": "Chatforia ven pas d’informacions personalas. Los residents de California pòdon totjorn someter de demandas jos la CPRA amb lo boton çai-jos.",
+    "cta": "Sometre una demanda"
+  },
+
+  "cookies": {
+    "title": "Paramètres dels cookies",
+    "body": "Chatforia utiliza de cookies minimals (p.ex. sesilha, seguretat). Utilizam pas de cookies publicitàrias tèrças. Gerissètz los cookies dins los paramètres de vòstre navigador."
   }
 }

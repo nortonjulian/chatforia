@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '@/api/axiosClient';
 import ContactList from './ContactList';
+import RecipientSelector from '@/components/compose/RecipientSelector.jsx';
 import {
   Modal,
   TextInput,
@@ -14,6 +15,7 @@ import {
   ScrollArea,
   Text,
   Paper,
+  Badge,
 } from '@mantine/core';
 
 // Ads
@@ -37,15 +39,127 @@ function coerceUsers(payload) {
   return [payload];
 }
 
-/**
- * StartChatModal
- */
 export default function StartChatModal({
   currentUserId,
   onClose,
   initialQuery = '',
   hideSearch = false,
 }) {
+  // ---------- NEW: quick-pick recipients ----------
+  const [recipients, setRecipients] = useState([]); // [{id, display, type, ...}]
+  const [startingBulk, setStartingBulk] = useState(false);
+  const [pickerInfo, setPickerInfo] = useState('');
+
+  // Suggestions: merge contacts + users (dedup by id), filter out self
+  const fetchSuggestions = useCallback(async (q) => {
+    const query = (q || '').trim();
+    if (!query) return [];
+
+    try {
+      // Try contacts (if endpoint supports query); ignore failures silently
+      const [contactsRes, usersRes] = await Promise.allSettled([
+        axiosClient.get('/contacts', { params: { query, limit: 20 } }),
+        axiosClient.get('/users/search', { params: { query } }),
+      ]);
+
+      const contacts = contactsRes.status === 'fulfilled'
+        ? (Array.isArray(contactsRes.value?.data)
+            ? contactsRes.value.data
+            : contactsRes.value?.data?.items || [])
+        : [];
+
+      const users = usersRes.status === 'fulfilled' ? coerceUsers(usersRes.value?.data) : [];
+
+      // Normalize to RecipientSelector's shape
+      const contactItems = contacts
+        .map((c) => ({
+          id: c.userId || c.id, // prefer linked userId when present
+          display: c.alias || c.name || c.phone || c.email || 'Contact',
+          type: 'contact',
+          phone: c.phone,
+          email: c.email,
+        }))
+        .filter((it) => it.id && it.id !== currentUserId);
+
+      const userItems = users
+        .map((u) => ({
+          id: u.id,
+          display: u.username || u.name || u.phoneNumber || u.email || 'User',
+          type: 'user',
+          phone: u.phoneNumber,
+          email: u.email,
+        }))
+        .filter((it) => it.id && it.id !== currentUserId);
+
+      // Dedup by id preferring user over contact when both exist
+      const map = new Map();
+      for (const it of [...userItems, ...contactItems]) {
+        if (!map.has(it.id)) map.set(it.id, it);
+      }
+      return Array.from(map.values()).slice(0, 20);
+    } catch {
+      // Fallback to just user search if anything explodes
+      try {
+        const res = await axiosClient.get('/users/search', { params: { query } });
+        const users = coerceUsers(res?.data);
+        return users
+          .filter((u) => u && u.id !== currentUserId)
+          .map((u) => ({
+            id: u.id,
+            display: u.username || u.name || u.phoneNumber || u.email || 'User',
+            type: 'user',
+            phone: u.phoneNumber,
+            email: u.email,
+          }));
+      } catch {
+        return [];
+      }
+    }
+  }, [currentUserId]);
+
+  const handleStartWithRecipients = async () => {
+    setPickerInfo('');
+    if (!recipients.length) {
+      setPickerInfo('Pick at least one recipient.');
+      return;
+    }
+
+    // We only start chats with recipients that resolve to a known userId.
+    const ids = recipients
+      .filter((r) => r.id && r.type !== 'raw')
+      .map((r) => r.id);
+
+    const hasRaw = recipients.some((r) => r.type === 'raw');
+    if (hasRaw) {
+      // Optional UX hint: raw entries need to be saved or invited first
+      setPickerInfo('Phone/email entries will be available after you save them as contacts.');
+    }
+
+    if (!ids.length) return;
+
+    try {
+      setStartingBulk(true);
+      if (ids.length === 1) {
+        // Use your existing 1:1 endpoint for consistency
+        const chatRes = await axiosClient.post(`/chatrooms/direct/${ids[0]}`);
+        const chatroom = chatRes?.data;
+        onClose?.();
+        if (chatroom?.id) navigate(`/chat/${chatroom.id}`);
+        return;
+      }
+      // Group chat upsert (expects backend route)
+      const chatRes = await axiosClient.post('/chatrooms', { participantIds: ids });
+      const chatroom = chatRes?.data;
+      onClose?.();
+      if (chatroom?.id) navigate(`/chat/${chatroom.id}`);
+    } catch {
+      setPickerInfo('Failed to start chat with selected recipients.');
+    } finally {
+      setStartingBulk(false);
+    }
+  };
+
+  // ---------- Existing state/logic (untouched) ----------
   const [query, setQuery] = useState(initialQuery);
   const [hasSearched, setHasSearched] = useState(false);
 
@@ -257,6 +371,38 @@ export default function StartChatModal({
       aria-label="Start a chat"
     >
       <Stack gap="sm">
+        {/* ---------- NEW: Quick picker using RecipientSelector ---------- */}
+        <Stack gap="xs">
+          <Group justify="space-between" align="center">
+            <Text fw={600}>Quick picker</Text>
+            {recipients.length > 1 && <Badge variant="light">{recipients.length} selected</Badge>}
+          </Group>
+
+          <RecipientSelector
+            value={recipients}
+            onChange={setRecipients}
+            fetchSuggestions={fetchSuggestions}
+            onRequestBrowse={() => setShowContacts(true)} // reuse your existing contacts section
+            maxRecipients={50}
+            placeholder="Type a name, username, phone, or email…"
+          />
+
+          <Group justify="flex-end">
+            <Button
+              onClick={handleStartWithRecipients}
+              disabled={!recipients.length}
+              loading={startingBulk}
+            >
+              Start chat with selected
+            </Button>
+          </Group>
+
+          {pickerInfo && <Text size="sm" c="dimmed">{pickerInfo}</Text>}
+
+          <Divider my="xs" />
+        </Stack>
+
+        {/* ---------- Existing search box ---------- */}
         {!hideSearch && (
           <Group align="end" wrap="nowrap">
             <TextInput
@@ -388,6 +534,7 @@ export default function StartChatModal({
 
         {showContacts && (
           <ScrollArea style={{ maxHeight: 300 }}>
+            {/* NOTE: If/when ContactList supports picker mode, pass onSelect to push into `recipients` */}
             <ContactList currentUserId={currentUserId} onChanged={setContacts} />
           </ScrollArea>
         )}

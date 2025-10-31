@@ -1,112 +1,594 @@
 {
   "common": {
-    "save": "Hlawhtlin ang che",
-    "cancel": "Thlawh chhuah",
+    "save": "Sak",
+    "cancel": "Cancel",
     "refresh": "Thar leh",
-    "noMatches": "A awm lo"
+    "noMatches": "Inkhâwmna awm lo",
+    "cancelAria": "Cancel"
   },
+
   "profile": {
-    "title": "User Profile",
+    "title": "Hmanrua Profile",
 
-    "preferredLanguage": "I lo ngaihtuah zawng zawng tawh chhan",
-    "chooseLanguage": "Hnam chhan lo thlang rawh",
-    "mustLogin": "Settings chu i en theih nan i login tur a ngai.",
+    "preferredLanguage": "Hmanh tur ṭawng",
+    "chooseLanguage": "Ṭawng thlang rawh",
+    "mustLogin": "Setting hmu theih nan i lo signin vek a ngai.",
 
-    "autoTranslate": "Message te chu hman lo zawng zawng tur",
-    "showOriginalWithTranslation": "Thumal phar leh an zirna a sawi te chu en",
-    "showOriginalAndTranslation": "Thumal leh an zirna chu an ni te in en",
+    "autoTranslate": "Thu (message) ṭawng ṭhinna",
+    "showOriginalWithTranslation": "Thumal hmasa leh ṭawng thar anṭhem",
+    "showOriginalAndTranslation": "Thumal hmasa leh ṭawng thar an lo telin langh",
 
-    "filterExplicit": "A tum tak takte chu chhuahsan rawh",
-    "aiReply": "AI chhung zawng",
-    "enableReadReceipts": "Read receipts tih activate rawh",
-    "allowExplicitContent": "Tum tak takte chu phal rawh",
-    "disappearingMessages": "Message chu van leh a tih",
-    "autoDeleteSeconds": "Auto delete ni turin second te",
+    "filterExplicit": "Inthup theih lo zawng zawng ṭhinna",
+    "aiReply": "AI chhungin chhanna",
+    "enableReadReceipts": "Chhiar niha hriattîrna (read receipts) hman",
+    "allowExplicitContent": "Explicit content hman theih",
+    "disappearingMessages": "Message lo vanneih (disappearing) hman",
+    "autoDeleteSeconds": "Auto-delete ni tur hun (second)",
 
-    "saveSuccess": "Settings chu a hlawhtlin ta!",
-    "saveError": "Error: Settings chu a hlawhtlin lo.",
+    "saveSuccess": "Setting a la sak ta!",
+    "saveError": "Thiltihtheih lo: Setting a la sak thei lo",
 
     "avatarAlt": "Profile avatar",
     "uploadAvatar": "Avatar thar upload rawh",
-    "avatarSuccess": "Avatar upload a ni ta!",
-    "avatarError": "Avatar upload a hlawhtlin lo.",
+    "avatarSuccess": "Avatar a upload ta!",
+    "avatarError": "Avatar upload a lêm lêm",
 
-    "noPrivateKey": "He device ah private key awm lo.",
-    "setBackupPassword": "Backup tur password a siam rawh:",
-    "backupDownloaded": "Backup a hman theih nan encrypt a ni ta.",
-    "exportFailed": "Key export a hlawhtlin lo.",
-    "enterBackupPassword": "He backup tur password dah rawh:",
-    "importSuccess": "Private key chu he device ah a luh ta.",
-    "importFailed": "Key import a hlawhtlin lo (password dik lo emaw file tihsual emaw a ni).",
-    "keysRotated": "Key thar a siam leh ta, public key upload a ni ta.",
-    "rotateFailed": "Key rotate a hlawhtlin lo.",
-    "security": "Hruaitu",
-    "exportKey": "Private key export rawh",
-    "importKey": "Encrypted key backup import rawh",
-    "rotateKeys": "Key siam thar leh rawh",
-    "keyDisclaimer": "I private key chu he device atangin a chhuak dawn lo. Password neih angin backup siam rawh chuan a hman leh theih ang.",
+    "noPrivateKey": "Hei device ah private key awm lo. Export theih lo.",
+    "setBackupPassword": "I backup chungah ziahna (password) siam rawh:",
+    "backupDownloaded": "Encrypted backup a download ta.",
+    "exportFailed": "Key export a lêm lêm",
+    "enterBackupPassword": "He backup hian ziahna chu ṭha rawh:",
+    "importSuccess": "Private key hei device ah a import ta.",
+    "importFailed": "Key import a lêm (ziahna dik lo emaw file tihsual).",
+    "keysRotated": "Key pair thar siam a ni a, public key a upload ta.",
+    "rotateFailed": "Key rotate a lêm lêm.",
+    "security": "Hriat tur/Thlamuânna",
+    "exportKey": "Private key export",
+    "importKey": "Encrypted key backup import",
+    "rotateKeys": "Key pair thar siam (rotate)",
+    "keyDisclaimer": "I private key hi device aṭang khân a la kal lo vang. A hnuaia ziahna hmangin copy export la, a dang device a lo chhuahsan theihna tûra.",
 
     "sectionProfile": "Profile",
     "phoneNumber": "Phone number",
-    "appearance": "A ropui dan",
-    "soundSettings": "Rawng zawng",
-    "disappearing": "Message thleng zawng",
-    "backupSync": "Backup leh Sync",
+    "appearance": "Hrilhfiahna/Enna",
+    "soundSettings": "Hla, aw & ṭawngkam",
+    "disappearing": "Disappearing messages",
+    "backupSync": "Backup & Sync",
     "ai": "AI",
-    "accessibility": "Thil hmuh theih dan",
-    "privacy": "Thil hriat theih lohna",
-    "devices": "Device siam te",
+    "accessibility": "Dikna hmang theihna",
+    "privacy": "Rinna/Privacy",
+    "devices": "Link a ni device-te",
 
-    "themeFreeNotice": "Free plan atang hian Sun leh Moon theme tur hi hman theih a ni. Theme dang te chu i upgrade a ngai.",
-    "sunTheme": "Dawn theme hman rawh",
-    "moonTheme": "Moon (Midnight) theme hman rawh",
+    "themeFreeNotice": "Free a ni—Sun/Moon enkawlna danglamna te chauh a awm. Theme tam zawk atan Upgrade la.",
+    "sunTheme": "Dawn theme hmang",
+    "moonTheme": "Moon (Midnight) theme hmang",
     "sun": "Sun",
     "moon": "Moon",
 
-    "backupTitle": "Encrypted Backup leh Device Sync",
-    "openBackupTools": "Backup Tools chawlh rawh",
-    "backupDesc": "I key te chu password hmangin encrypt rawh, device dangah restore leh sync turin.",
+    "backupTitle": "Encrypted Backups & Device Sync",
+    "openBackupTools": "Backup ṭools ṭhiar",
+    "backupDesc": "Key-te password-in enkawlhin backup siam la, a dang device-ah restore nghâl thei tûr.",
 
-    "privacyBlurEnabled": "Message te chu a tha takin blur rawh",
-    "privacyBlurOnUnfocus": "App chu unfocus ni zawngin blur rawh",
-    "holdToReveal": "Hneh chhuak nan i la lo",
-    "notifyOnCopy": "Ka message copy a ni chuan min hrilh rawh",
+    "privacyBlurEnabled": "Message-te aṭanga blur a ni mek (default)",
+    "privacyBlurOnUnfocus": "App a unfocus ni chuan blur rawh",
+    "holdToReveal": "Langh tûra ti—ti lo khawsak (hold)",
+    "notifyOnCopy": "Ka message copy ni ang che kha min hriat rawh",
 
-    "loadFailed": "Profile load a hlawhtlin lo",
-    "followed": "A chhan ta",
-    "followFailed": "Follow a hlawhtlin lo",
+    "loadFailed": "Profile load a lêm",
+    "followed": "Follow a ni ta",
+    "followFailed": "Follow a lêm lêm",
     "unfollowed": "Unfollow a ni ta",
-    "unfollowFailed": "Unfollow a hlawhtlin lo",
-    "follow": "Follow rawh",
-    "unfollow": "Unfollow rawh",
-    "followHint": "An story chu i Following feed ah a lang ang, Followers (ema Public) audience in an post chuan.",
-    "userNotFound": "User chu awm lo",
-    "followsYou": "I chhan a ni",
+    "unfollowFailed": "Unfollow a lêm lêm",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followHint": "An thawnthu (status) chu Followers (emaw Public) audience hmangin an post a nih chuan i Following feed-ah an lang ang.",
+    "userNotFound": "User hmuh lo",
+    "followsYou": "I hnêna follow a ni",
 
-    "sectionCrashedTitle": "Section load a hlawhtlin lo",
-    "sectionCrashedBody": "He thil ah chuan eng emaw i tihsual a awm.",
+    "sectionCrashedTitle": "Section load a lêm",
+    "sectionCrashedBody": "He section ah thil tihsual a awm.",
 
-    "forwarding": "Call leh Text Forwarding",
-    "callTextForwardingSection": "Call leh Text Forwarding",
-    "callTextForwardingTitle": "Call leh/ema Text Forwarding",
-    "callTextForwardingDescription": "Incoming call leh text te chu i verify phone emaw email-ah forward rawh. Outgoing call/text te chu i Chatforia number an hmu theih ang.",
-    "enableTextForwarding": "Text forwarding enable rawh",
-    "forwardTextsToPhone": "Text te chu phone ah forward rawh",
-    "forwardTextsToEmail": "Text te chu email ah forward rawh",
+    "forwarding": "Call & Text Forwarding",
+    "callTextForwardingSection": "Call & Text Forwarding",
+    "callTextForwardingTitle": "Call leh Text Forwarding",
+    "callTextForwardingDescription": "Inṭanpui call leh text-te chu i hriatthiam phone emaw email-ah forward rawh. I chhuah dan call/text-ah chuan i Chatforia number chu a lang thei.",
+    "enableTextForwarding": "Text forwarding hman",
+    "forwardTextsToPhone": "Text-te phone-ah forward",
+    "forwardTextsToEmail": "Text-te email-ah forward",
     "destinationPhone": "Destination phone (E.164)",
     "destinationEmail": "Destination email",
-    "enableCallForwarding": "Call forwarding enable rawh",
-    "destinationPhoneForCalls": "Destination (E.164) call tur",
+    "enableCallForwarding": "Call forwarding hman",
+    "destinationPhoneForCalls": "Call-te tûra destination (E.164)",
     "aliasBridging": "Call Forwarding (alias bridging)",
     "quietHoursOptional": "Quiet Hours (optional)",
     "startHour": "Start hour (0–23)",
     "endHour": "End hour (0–23)",
-    "reset": "Reset rawh",
-    "saveBtn": "Hlawhtlin ang che"
+    "reset": "Reset",
+    "saveBtn": "Sak"
   },
+
   "chat": {
-    "selectPrompt": "Text emaw chat room emaw thlang la chhiar rawh",
-    "newMessages": "Message thar te",
-    "typing": "{{name}} a ziak mek..."
+    "selectPrompt": "Text emaw chat room kha thlang la, inṭanpui hman rawh",
+    "newMessages": "Message thar",
+    "typing": "{{name}} a ziak mek...",
+    "emptyTitle": "I message-te",
+    "emptySubtitle": "Message ziah la chat chu a hruai rawh.",
+    "startChatButton": "Message chhuah"
+  },
+
+  "topbar": {
+    "newStatus": "Status thar",
+    "logout": "Logout"
+  },
+
+  "status": {
+    "userNumber": "User #{{id}}",
+
+    "posted": "Status a post ta",
+    "postFailed": "Status post a lêm",
+
+    "createTitle": "Status siam rawh",
+    "modalAriaLabel": "Status thar",
+
+    "captionLabel": "Eng nge i thin?",
+    "captionPlaceholder": "Update pe rawh...",
+    "captionAria": "Status thu",
+
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Public",
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
+    },
+
+    "expiresHoursLabel": "Tiin (hour) a tawp",
+    "maxTooltip": "7 ni (days) chu tam ber a ni",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Tiin hun a tawp:",
+
+    "chooseRecipients": "Lo dawngtûr an thlang rawh",
+    "selectContacts": "Contacts an thlang rawh",
+
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Image/video te dah",
+    "filesNote": "File 5 vel thleng. A dâna 24 h an ni ṭhin.",
+
+    "postAria": "Status post",
+    "post": "Post"
+  },
+
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call & Text Forwarding",
+    "conversations": "Inṭanpui",
+    "searchPlaceholder": "Conversations zawng...",
+    "errorLoading": "Chats load a lêm",
+    "empty": "Conversation awm lo.",
+    "startChat": "Chat hruai rawh",
+    "people": "Mihring",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Call & Text Forwarding",
+    "refresh": "Thar leh",
+    "search": "Conversations zawng",
+    "loginPrompt": "Settings zir tûrin log in rawh.",
+    "login": "Log in",
+    "register": "Account siam",
+
+    "chatrooms": "Chatrooms",
+    "logout": "Log out",
+    "startChatAlt": "Chat thar hruai"
+  },
+
+  "premium": {
+    "heading": "Go Premium",
+    "description": "Hmanrua ṭha zawk te hmu & ad-te paihawm rawh.",
+    "upgrade": "Upgrade"
+  },
+
+  "auth": {
+    "headline": "Hrilhchhuah theih, hnam zâwl inṭanpui—ṭawngṭhin an lo ni",
+    "description": "End-to-end encryption, AI-ṭhinna, disappearing messages, leh voice/video call a awm.",
+    "feature": {
+      "encryption": "End-to-end encryption a ni vek",
+      "translation": "100+ ṭawng auto-translate",
+      "disappearing": "Disappearing messages & read receipts",
+      "privacy": "Privacy-a nghâk. I data hi i chhandamna.",
+      "translate": "Real-time translation",
+      "disappear": "Disappearing messages",
+      "privacyAlt": "Privacy-first design"
+    },
+    "welcomeBack": "Welcome back",
+    "continueGoogle": "Google hmangin a chhunzawm",
+    "continueApple": "Apple hmangin a chhunzawm",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Ka sign-in vek mai rawh",
+    "forgotPassword": "Password i dawng theih lo?",
+    "loginButton": "Log In",
+    "createAccount": "Account siam",
+    "freeAccountButton": "Free account siam",
+    "newHere": "Hemiah kha thar em?",
+    "getApp": "App dawn rawh",
+    "desktopTip": "Desktop-ah nge? Phone hmangin scan la app dawn rawh.",
+
+    "goHome": "Home ah kal",
+    "home": "Home",
+
+    "headlineAlt": {
+      "main": "Hriat thiam leh ngaihdam zawng zawng a nei",
+      "highlight": "i ṭawng a chhiar theih ang"
+    },
+    "subhead": "Private, encrypted, a ṭawngṭhin inṭanpui — khân khânin.",
+
+    "status": "Status en",
+    "upgrade": "Upgrade ni lawk",
+    "tip": "Chatforia chu device dang zawng zawng ah i hmang thei — app dawn chuan a ṭha zawk e.",
+    "openDownload": "Download page hawng",
+    "qrAlt": "Chatforia QR code",
+    "scanHint": "App dawn tûra scan rawh emaw browser-ah hawng.",
+
+    "iosAria": "App Store-ah download",
+    "iosTitle": "App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Google Play-ah dawn",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email"
+  },
+
+  "footer": {
+    "plans": "Dawngṭu leh Ṭhan",
+    "about": "Chatforia chungchâng",
+    "careers": "Thiamna hnathawh",
+    "press": "Press",
+    "advertise": "Advertise",
+    "contact": "Min biak rawh",
+    "help": "Help Center",
+    "status": "Status Page",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Settings",
+    "doNotSell": "Ka thil hlui chu min beih lo rawh",
+
+    "language": "Ṭawng",
+    "contactShort": "Contact"
+  },
+
+  "home": {
+    "title": "Home",
+    "header": "I message-te",
+    "subheader": "Message ziah la chat hruai rawh.",
+    "sendButton": "Message chhuah",
+    "gifPicker": "GIF picker hawng",
+    "emoji": "Emoji",
+    "upload": "Photo emaw video upload",
+    "inputPlaceholder": "Message ziah…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Thawn",
+    "sendTooltipEmpty": "Message ziak chuan thawn thei ang",
+    "send": "Thawn",
+
+    "welcomeMessage": "Chatforia-ah lo lawm ve",
+    "getStarted": "Hruai rawh"
+  },
+
+  "press": {
+    "title": "Press",
+    "contact": "Media chungchangin, hei hian min biak rawh: <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "Media chungchangin, press@chatforia.com-ah min biak rawh.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia chu security a nei bawk, translation danglam zet leh E2E encryption nei a ni a, hnam zâwl inṭanpui kha a fel theih tûrin a siam a ni.",
+    "assetsTitle": "Brand assets",
+    "assetsText": "Logo, screenshot leh product thilthlâwm (kal tawh chiah)."
+  },
+
+  "careers": {
+    "title": "Careers",
+    "intro": "Kan team a chhimchhiah zâwk a, hnam zâwl, private messenger siam hi kan thawk a ni. Encryption, accessibility leh UX ṭhin a hmangaih em ni? Chutiang chuan i thawn teh.",
+    "openRoles": "<b>Open roles:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
+    "apply": "<b>Eng emaw eng:</b> I resume/link-te chu <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>-ah thawn rawh.",
+    "emailCta": "Resume thawn"
+  },
+
+  "about": {
+    "title": "Chatforia chungchâng",
+    "description": "Chatforia chu hnam zâwl, thilsiamna nei messenger a ni a; end-to-end encryption, ṭawngṭhin danglamna, leh voice/video call a tel. Kan thu a pawimawh chu: mimalte an inṭanpui theih thei—him leh ṭawng kaih lo, hnam zâwl pawh an zung zung.",
+    "valuesTitle": "Kan ngaihdan",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption a ni vek.",
+      "access": "<b>Access for all:</b> 100+ ṭawng auto-translate.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts chu optional."
+    },
+    "howTitle": "Chatforia engtin nge a kal",
+    "howDescription": "I device aṭang chuan message-te a encrypt zawng zawng a ni. Translation, backup leh device sync pawh kan server hriatna remchânna (minimize) a nih tûrin a lo siam."
+  },
+
+  "advertise": {
+    "title": "Chatforia-ah Advertise rawh",
+    "description": "Messaging hmangtute an hmu ṭhinna aṭangin, ti theih dân ṭha takin i inkhâwm thei ang. Kan hnathawh a ni display banner, sponsorships, leh house promo. Premium dawngtute chuan ad an hmu lo.",
+    "adsense": {
+      "withPubId": "Tuna kan ad chu <b>Google AdSense</b> hmangin kan thawn a ni. Google Ads-ah i tih theih chuan publisher ID <code>{{pubId}}</code> hmang la unit-te han ziah chhuak rawh. Sponsorship pawh a awm—form hmang rawh.",
+      "noPubId": "Tuna kan ad chu <b>Google AdSense</b> hmangin kan thawn a ni. Sponsorship direct pawh a awm—form hnuaia pe rawh."
+    },
+    "inventoryHeader": "Inventory & Specs",
+    "placement": {
+      "displayBadge": "Display",
+      "acceptedSizes": "Size an dawng theih",
+      "adsenseSlot": "AdSense slot:"
+    },
+    "noPlacements": "Placement siamna awm lo. ads/placements.js-ah dawng rawh.",
+    "whyHeader": "Engtin nge Chatforia?",
+    "why": {
+      "highSession": "Chat UI-ah session ṭha leh hun a lo nghâl ṭhin",
+      "brandSafe": "Brand-safe format; frequency capping a chhun",
+      "sponsoredMoments": "“Start a Chat” modal ang chi (sponsored moments) a awm",
+      "deals": "Direct deal emaw AdSense/Google Ads programmatic"
+    },
+    "contactHeader": "Contact",
+    "form": {
+      "submittedMsg": "Thil i pe ta. Kan inṭanpui khân chuan kan lo thawn ang.",
+      "missingRequired": "Name, email, message te tarlang rawh.",
+      "successToast": "Thil i pe ta! Kan inṭanpui hun rei loh a ni ang.",
+      "mailtoInfo": "I email client kha min hawng mek…",
+      "nameLabel": "I hming",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Company",
+      "companyPlaceholder": "Acme Inc.",
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "$5,000",
+      "messageLabel": "I campaign chungchâng ziah rawh",
+      "messagePlaceholder": "Targeting, hun, KPI, placement duhthlanna, etc.",
+      "sendCta": "Inquiry thawn"
+    },
+    "legal": {
+      "disclaimerStart": "I dahna hi kan hriat a, i lo tum a ni",
+      "terms": "Terms",
+      "and": "leh",
+      "privacy": "Privacy Policy"
+    }
+  },
+
+  "upgrade": {
+    "title": "Upgrade",
+    "subtitle": "I duh ang zawng plan thlang rawh: Plus hmang chuan ad-te a paihawm, Premium hmang chuan power feature zawng zawng a hmu.",
+    "scheduleBanner": {
+      "title": "Subscription a tawp dâwn",
+      "body": "He ni atangin i Free a lo ni leh ang",
+      "keepPlanCta": "Plus zui vek rawh",
+      "manageBillingCta": "Billing ṭhiar"
+    },
+    "billing": {
+      "opening": "Hawng mek…",
+      "manage": "Billing ṭhiar"
+    },
+    "checkout": {
+      "redirecting": "Redirect mek…"
+    },
+    "auth": {
+      "continue": "Chhunzawm",
+      "createAccount": "Account siam",
+      "signIn": "Sign in"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "features": {
+          "msg": "1:1 leh group messaging",
+          "aiBasic": "AI chhanna (basic)",
+          "attachments": "Attachment (standard)"
+        },
+        "ctaCurrent": "Plan zir chhuak a ni",
+        "ctaUnavailable": "Free-ah kal leh (a la hman theih lo)"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$4.99 / mo",
+        "features": {
+          "noAds": "Ad zawng zawng paihawm",
+          "msg": "1:1 leh group messaging",
+          "attachments": "Attachment lâr zawk",
+          "aiBasic": "AI chhanna (basic)"
+        },
+        "badge": "Popular",
+        "cta": "Ad-Lo"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Monthly)",
+        "price": "$24.99 / mo",
+        "features": {
+          "plusAll": "Plus-a a awm zawng zawng",
+          "ringtones": "Custom ringtone & message tone",
+          "powerAi": "AI feature ṭha zawk",
+          "priorityUpdates": "Update pawimawh (priority)",
+          "backups": "Backups & device syncing"
+        },
+        "badge": "Best value",
+        "cta": "Upgrade (Monthly)"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Annual)",
+        "price": "$225 / year",
+        "features": {
+          "allPremium": "Premium-a a awm zawng zawng",
+          "annualBilling": "Kum khata bill",
+          "save25": "Monthly aṭangin ~25% chhum",
+          "sameFeatures": "Monthly ang khân feature a ṭang"
+        },
+        "badge": "Save 25%",
+        "cta": "Upgrade (Annual)"
+      }
+    }
+  },
+
+  "gettingStarted": {
+    "title": "Getting Started",
+    "subtitle": "Chatforia-ah thar zawng zawng tan—hêng hian hmanrua pawimawh berte chu min zirtîr ang a, m'mins a tawp lo.",
+    "alert": {
+      "text": "Kan feature thar an lo awm chuan he guide hi kan siam chhun vek ang. Eng mah a awm lo a nih chuan min hrilhfiah rawh via",
+      "contactLink": "Contact Us"
+    },
+    "section1": {
+      "title": "1) I account siam rawh",
+      "signup": "Sign up",
+      "or": "emaw",
+      "login": "log in",
+      "loginText": "i account a la awm tawh chuan.",
+      "prefsStart": "I",
+      "prefsLink": "preferences",
+      "prefsRest": " (ṭawng, read receipts, theme) siamna rawh."
+    },
+    "section2": {
+      "title": "2) Message hruai rawh",
+      "item1": "DM emaw Group siam la message a hruai rawh.",
+      "item2": "Instant translation hmangin 100+ ṭawng inṭanpui ang che.",
+      "item3": "Profile → Privacy-ah disappearing messages leh read receipts en rawh."
+    },
+    "section3": {
+      "title": "3) Aṭanga lo kal rawh",
+      "item1Part1": "I plan hi",
+      "upgradeLink": "Upgrade",
+      "item1Part2": "page-ah ṭhiar rawh (Plus = ad-lo, Premium = power feature zawng zawng).",
+      "item2Part1": "Device dang link la backup encrypted siam a",
+      "settingsLink": "Settings"
+    },
+    "cta": {
+      "seePlans": "Plan en rawh",
+      "openSettings": "Settings hawng"
+    }
+  },
+
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "Engtin nge account ka siam theih/emaw ka dawn leh theih?",
+        "a": "App dawn emaw web hmang la, “Create account” ti la email/phone i hriatthiam rawh. Dawn leh tûrin “Forgot password” hmang rawh."
+      },
+      "privacy": {
+        "q": "Message-te hi end-to-end a encrypt em?",
+        "a": "A ni. Message leh call-te chu end-to-end a encrypt zâng a ni. Nangni leh dawngtute chauh an chhiar theih."
+      },
+      "translate": {
+        "q": "Instant translation engtin nge a kal?",
+        "a": "Settings → Appearance & Language-ah “Auto-translate” la hman rawh. Device-ah ṭhin theih a ni chuan a theihna kan hman, vawiin saktu API hmang ngai a nih chuan metadata tam tak kan la hmu lo ang."
+      },
+      "contact": {
+        "q": "Support min biak rawh",
+        "a": "support@chatforia.com-ah min thawn rawh. Screenshot leh app version tel rawh."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Min biak rawh",
+    "successMsg": "Lawm e—kan team chuan emailin min thawn ang.",
+    "errorSend": "Thawn theih lo. support@chatforia.com-ah email rawh.",
+    "form": {
+      "nameLabel": "Hming",
+      "emailLabel": "Email",
+      "messageLabel": "Message",
+      "sendCta": "Thawn"
+    }
+  },
+
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Châng tharna:",
+    "intro": {
+      "body": "He Privacy Policy hian Chatforia (“kan”, “kanni”) hi i app leh kan hnathawh hmanga in hman ṭhin chungchâng—engtin nge infomation kan khâr leh kan hman tih a thlir chhuak a ni. Chatforia chu kan lo kalpui dan aṭanga data i lang thiam thiamna chu kan la târ lang fo loh nân kan inthlang a ni."
+    },
+    "infoWeCollect": {
+      "title": "Kan khâr ṭhin",
+      "account": "Account chungchâng (e.g., email/phone) i account siam leh chhawrâwng tûra.",
+      "encrypted": "Encrypted content (message/call) chu end-to-end a encrypt a ni; kan chhiar theih lo.",
+      "diagnostics": "Diagnostic/usage ang chi—crash log, device type, a chungchang analytics hlauhawm lo—performance ṭha tûra."
+    },
+    "howWeUse": {
+      "title": "Engtin nge kan hmang",
+      "provide": "Hnathawh siam leh chhawrâwng (auth, spam/abuse detection).",
+      "improve": "Feature ṭha zâwk (translation ṭha zâwk, reliability).",
+      "legal": "Danah ṭhenkhat a lo thlen chuan a zawh tûra."
+    },
+    "sharing": {
+      "title": "Dâltu leh pêkna",
+      "body": "Kan personal data kan beih lo. Processor-te (e.g., push notification, analytics) nen contract ṭha takin data tam tak kan pêk thei."
+    },
+    "rights": {
+      "title": "I dikna",
+      "body": "I vênhimna (e.g., GDPR/UK GDPR/CPRA) angin, i data chu i en leh, ṭhaṭa ṭhaṭa i thleng theih, thim theih, emaw a khâwmna te i tlâk theih a ni. privacy@chatforia.com-ah min hrilh rawh."
+    },
+    "retention": {
+      "title": "Data innghahna & security",
+      "body": "Service kal zêl tûra a pawimawh chauh kan innghah a, security standard chuan kan hman. E2E content chu kan decrypt theih lo."
+    },
+    "children": {
+      "title": "Hriatpuite",
+      "body": "Chatforia hi 13 chhung (emaw i ṭawngdang leh danin a ngai a nih chuan) hminga naupangte an ni lo tûr."
+    },
+    "changes": {
+      "title": "Thar siam",
+      "body": "Heng page-ah kan châng thar a ni chuan kan dah leh ang a, “Châng thar” ni pawh kan thlâk leh ang."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "privacy@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Châng tharna:",
+    "intro": {
+      "body": "Chatforia i hmang dân chuan he Terms-te i hmantîr a ni. I lo pawm loh chuan, hman suh."
+    },
+    "accounts": {
+      "title": "Accounts",
+      "itemAccurateInfo": "Thil dik tak pe leh credential chhawrâwng rawh.",
+      "itemResponsibility": "I account hmang dân hrang hrangah chuan i hnathawh i hriat chhoh a ngai."
+    },
+    "acceptableUse": {
+      "title": "Hman theih dân",
+      "itemNoAbuse": "Dan tawh lo, hnehna/nunna awm loh, tihhlum emaw spam/automation hnathawh lo.",
+      "itemSuspend": "Kan dan tawh lo chuan kan suspend/terminate thei."
+    },
+    "yourContent": {
+      "title": "I content",
+      "body": "I content chungchângah i thuneihna i nei zêl. Service kalpui tûra (e.g., routing, storage, translation) tih a ngai thil te chu kan hman theih nân i min pe vek ang."
+    },
+    "disclaimer": {
+      "title": "Hrilhchiahna & hnathawh chungchâng",
+      "body": "Service chu “as is” a ni a, thil ṭha zawk tihna a awm lo. Danin kan tih theih ber aṭang khân, Chatforia chu chutiang thil tihhlum zawng zawngah innghatna a awm lo."
+    },
+    "changes": {
+      "title": "Thar siam",
+      "body": "He terms kan thlak thei; thlakna hnu a hman zêl chuan i pawm a ni tih a kâwk."
+    },
+    "contact": {
+      "title": "Contact",
+      "body": "support@chatforia.com • [Company legal name], [Address]"
+    }
+  },
+
+  "doNotSell": {
+    "title": "Ka Thil Hluite min beih suh/Min pêk suh",
+    "body": "Chatforia chuan personal information kan beih lo. California mi zawng zawng chuan CPRA hnuaiah an dil theih a ni—button hnuaiah.",
+    "cta": "Dilna thawn"
+    },
+
+  "cookies": {
+    "title": "Cookie Settings",
+    "body": "Chatforia chuan cookie tam tak kan hman lo (e.g., session, security). Third-party ads cookie kan hman lo. I browser setting hmanga i manage thei."
   }
 }
