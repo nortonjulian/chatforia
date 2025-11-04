@@ -6,7 +6,7 @@ import {
   Stack,
   Text,
   Button,
-  TextInput,
+  Textarea,
   Group,
   ActionIcon,
   Tooltip
@@ -14,13 +14,12 @@ import {
 import { Smile, Image as ImageIcon, Send } from 'lucide-react';
 import StickerPicker from '@/components/StickerPicker.jsx';
 
-// ---- shared tab values (inline constants) ----
 const TAB_EMOJI = 'emoji';
 const TAB_GIFS = 'gifs';
 
-const NAV_W = 300;   // match AppRoutes
-const ASIDE_W = 280; // match AppRoutes
-const GUTTER = 32;   // visual breathing room across center (set to 0 for true edge-to-edge)
+const NAV_W = 300;
+const ASIDE_W = 280;
+const GUTTER = 32;
 
 export default function HomeIndex() {
   const { t } = useTranslation();
@@ -30,15 +29,22 @@ export default function HomeIndex() {
   const fileRef = useRef(null);
 
   const handleSendMessage = () => {
-    if (!msg.trim()) return;
-    window.dispatchEvent(new CustomEvent('open-new-chat-modal'));
+    const text = msg.trim();
+    if (!text) return;
+    // Send text draft to StartChatModal
+    window.dispatchEvent(
+      new CustomEvent('open-new-chat-modal', {
+        detail: { draft: { text } },
+      })
+    );
+    setMsg('');
   };
 
   const openImageVideo = () => fileRef.current?.click();
 
   return (
     <Box role="region" aria-label="Home" w="100%" style={{ position: 'relative' }}>
-      {/* Centered empty-state card */}
+      {/* Center card */}
       <Box
         style={{
           minHeight: 'calc(100vh - 140px)',
@@ -119,14 +125,31 @@ export default function HomeIndex() {
               <ImageIcon size={18} />
             </ActionIcon>
 
-            <TextInput
+            {/* Textarea that wraps & autosizes (use rows, not style maxHeight) */}
+            <Textarea
+              data-composer="home-textarea"
               placeholder={t('home.inputPlaceholder', 'Type a message…')}
               aria-label={t('home.inputAriaLabel', 'Message composer')}
               value={msg}
               onChange={(e) => setMsg(e.currentTarget.value)}
-              style={{ flex: 1, minWidth: 0 }}
               variant="filled"
               radius="md"
+              autosize
+              minRows={2}
+              maxRows={6}
+              styles={{
+                root: { flex: 1, minWidth: 0 },
+                input: {
+                  overflowX: 'hidden',
+                  whiteSpace: 'pre-wrap',
+                  overflowWrap: 'anywhere',
+                  wordBreak: 'break-word',
+                  lineHeight: 1.45,
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  resize: 'none',
+                },
+              }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -162,7 +185,17 @@ export default function HomeIndex() {
               multiple
               accept="image/*,video/*,application/pdf,.doc,.docx,.xls,.xlsx,.zip"
               style={{ display: 'none' }}
-              onChange={() => {}}
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                window.dispatchEvent(
+                  new CustomEvent('open-new-chat-modal', {
+                    detail: { draft: { text: msg.trim(), files } },
+                  })
+                );
+                // optional: clear local state
+                e.target.value = '';
+                setMsg((m) => m); // keep text unless you want to clear it too
+              }}
             />
           </Group>
         </Card>

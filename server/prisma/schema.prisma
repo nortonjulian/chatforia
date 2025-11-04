@@ -133,6 +133,28 @@ enum A11YBg {
   transparent 
 }
 
+enum RegionTier {
+  T1
+  T2
+  T3
+  T4
+  ROW // Rest of World (fallback)
+}
+
+model RegionRule {
+  id           String    @id @default(cuid())
+  countryCode  String    @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
+  tier         RegionTier
+
+  @@unique([countryCode])
+}
+
+enum VerificationType {
+  EMAIL
+  PHONE
+  MFA_LOGIN
+}
+
 // ===================== 1) Core User & Access =====================
 
 model User {
@@ -181,9 +203,15 @@ model User {
   autoResponderActiveUntil DateTime?
   autoResponderSignature   String?
 
-  // Billing
+  // ---------- Billing ----------
   stripeCustomerId     String? @unique
   stripeSubscriptionId String?
+
+  // Regional pricing (added)
+  pricingRegion        RegionTier?          // e.g., T1/T2/T3/T4/ROW
+  billingCountry       String?   @db.VarChar(2)  // ISO-3166-1 alpha-2, e.g. "US"
+  currency             String?   @db.VarChar(8)  // e.g. "USD", "INR"
+  firstPaidAt          DateTime?
 
   publicKey  String?
   privateKey String?
@@ -235,7 +263,7 @@ model User {
   ringtone          String? @default("classic.mp3")
 
   privacyBlurEnabled      Boolean @default(false)
-  privacyBlurOnUnfocus    Boolean @default(false) 
+  privacyBlurOnUnfocus    Boolean @default(false)
   privacyHoldToReveal     Boolean @default(false)
   notifyOnCopy            Boolean @default(false)
 
@@ -259,11 +287,22 @@ model User {
   a11yCaptionMaxLines         Int     @default(3)
 }
 
-enum VerificationType {
-  EMAIL
-  PHONE
-  MFA_LOGIN
+
+model Price {
+  id            String     @id @default(cuid())
+  product       String     @db.VarChar(64) // e.g., "chatforia_premium"
+  tier          RegionTier
+  currency      String     @db.VarChar(8)  // e.g., "USD", "INR"
+  unitAmount    Int        // integer minor units (e.g., $9.99 => 999)
+  stripePriceId String?    @unique
+  appleSku      String?    // App Store product ID per storefront (optional)
+  googleSku     String?    // Play Store product ID (optional)
+  active        Boolean    @default(true)
+
+  @@index([product, tier, currency])
+  @@unique([product, tier, currency])
 }
+
 
 model VerificationToken {
   id        Int              @id @default(autoincrement())

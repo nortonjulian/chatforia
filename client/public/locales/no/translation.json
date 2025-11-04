@@ -4,7 +4,9 @@
     "cancel": "Avbryt",
     "refresh": "Oppdater",
     "noMatches": "Ingen treff",
-    "cancelAria": "Avbryt"
+    "cancelAria": "Avbryt",
+    "copy": "Kopier",
+    "copied": "Kopiert!"
   },
 
   "profile": {
@@ -14,29 +16,29 @@
     "chooseLanguage": "Velg et språk",
     "mustLogin": "Du må logge inn for å se innstillingene.",
 
-    "autoTranslate": "Oversett meldinger automatisk",
-    "showOriginalWithTranslation": "Vis original og oversettelse",
-    "showOriginalAndTranslation": "Vis original ved siden av oversettelsen",
+    "autoTranslate": "Auto-oversett meldinger",
+    "showOriginalWithTranslation": "Vis original og oversatt tekst",
+    "showOriginalAndTranslation": "Vis original ved siden av oversettelse",
 
     "filterExplicit": "Filtrer grovt innhold",
     "aiReply": "AI-svar",
-    "enableReadReceipts": "Aktiver lestekvitteringer",
+    "enableReadReceipts": "Aktiver lese­kvitteringer",
     "allowExplicitContent": "Tillat grovt innhold",
     "disappearingMessages": "Aktiver forsvinnende meldinger",
-    "autoDeleteSeconds": "Sekunder til automatisk sletting",
+    "autoDeleteSeconds": "Sekunder til auto-sletting",
 
-    "saveSuccess": "Innstillingene er lagret!",
+    "saveSuccess": "Innstillinger lagret!",
     "saveError": "Feil: Kunne ikke lagre innstillinger",
 
     "avatarAlt": "Profilbilde",
     "uploadAvatar": "Last opp nytt profilbilde",
-    "avatarSuccess": "Profilbilde lastet opp!",
-    "avatarError": "Feil ved opplasting av profilbilde",
+    "avatarSuccess": "Avatar lastet opp!",
+    "avatarError": "Feil ved opplasting av avatar",
 
     "noPrivateKey": "Det finnes ingen privat nøkkel på denne enheten å eksportere.",
     "setBackupPassword": "Angi et passord for å kryptere sikkerhetskopien:",
     "backupDownloaded": "Kryptert sikkerhetskopi lastet ned.",
-    "exportFailed": "Eksport av nøkkel mislyktes",
+    "exportFailed": "Nøkkel­eksport mislyktes",
     "enterBackupPassword": "Skriv inn passordet for denne sikkerhetskopien:",
     "importSuccess": "Privat nøkkel importert til denne enheten.",
     "importFailed": "Kunne ikke importere nøkkel (feil passord eller korrupt fil).",
@@ -46,7 +48,7 @@
     "exportKey": "Eksporter privat nøkkel",
     "importKey": "Importer kryptert nøkkelsikkerhetskopi",
     "rotateKeys": "Roter nøkkelpar",
-    "keyDisclaimer": "Din private nøkkel forlater aldri denne enheten. Eksporter en passordbeskyttet kopi for å gjenopprette den på en annen enhet.",
+    "keyDisclaimer": "Din private nøkkel forlater aldri denne enheten. Eksporter en passordbeskyttet kopi for å gjenopprette på en annen enhet.",
 
     "sectionProfile": "Profil",
     "phoneNumber": "Telefonnummer",
@@ -59,7 +61,7 @@
     "privacy": "Personvern",
     "devices": "Koblede enheter",
 
-    "themeFreeNotice": "Du er på Gratis—bruk de raske Sol/Måne-valgene nedenfor. Oppgrader for å låse opp flere temaer.",
+    "themeFreeNotice": "Du er på Gratis — bruk de raske Sol/Måne-valgene nedenfor. Oppgrader for å låse opp flere temaer.",
     "sunTheme": "Bruk Daggry-tema",
     "moonTheme": "Bruk Måne (Midnatt)-tema",
     "sun": "Sol",
@@ -67,10 +69,10 @@
 
     "backupTitle": "Krypterte sikkerhetskopier og enhetssynk",
     "openBackupTools": "Åpne sikkerhetskopiverktøy",
-    "backupDesc": "Opprett passordbeskyttede sikkerhetskopier av nøklene dine, og gjenopprett på en annen enhet for å synkronisere.",
+    "backupDesc": "Lag passordbeskyttede sikkerhetskopier av nøklene dine, og gjenopprett på en annen enhet for å synkronisere.",
 
     "privacyBlurEnabled": "Gjør meldinger uskarpe som standard",
-    "privacyBlurOnUnfocus": "Gjør uskarpt når appen mister fokus",
+    "privacyBlurOnUnfocus": "Gjør uskarp når appen mister fokus",
     "holdToReveal": "Hold for å vise",
     "notifyOnCopy": "Varsle meg hvis meldingen min kopieres",
 
@@ -81,44 +83,52 @@
     "unfollowFailed": "Kunne ikke slutte å følge",
     "follow": "Følg",
     "unfollow": "Slutt å følge",
-    "followHint": "Historiene deres vises i strømmen «Følger» hvis de poster med publikum Følgere (eller Offentlig).",
+    "followHint": "Historiene deres vises i Følger-feeden din hvis de publiserer med publikum Følgere (eller Offentlig).",
     "userNotFound": "Bruker ikke funnet",
     "followsYou": "Følger deg",
 
     "sectionCrashedTitle": "Seksjonen kunne ikke lastes",
     "sectionCrashedBody": "Noe gikk galt i denne seksjonen.",
 
-    "forwarding": "Viderekobling av anrop og tekst",
-    "callTextForwardingSection": "Viderekobling av anrop og tekst",
-    "callTextForwardingTitle": "Viderekobling av anrop og/eller tekst",
-    "callTextForwardingDescription": "Videresend innkommende anrop og tekstmeldinger til din verifiserte telefon eller e-post. Utgående anrop/tekster kan vise ditt Chatforia-nummer.",
-    "enableTextForwarding": "Aktiver tekstviderekobling",
-    "forwardTextsToPhone": "Videresend tekster til telefon",
-    "forwardTextsToEmail": "Videresend tekster til e-post",
-    "destinationPhone": "Mål-telefon (E.164)",
+    "forwarding": "Viderekobling av samtaler og SMS",
+    "callTextForwardingSection": "Viderekobling av samtaler og SMS",
+    "callTextForwardingTitle": "Viderekobling av samtaler og/eller SMS",
+    "callTextForwardingDescription": "Videresend innkommende samtaler og SMS til verifisert telefon eller e-post. Utgående samtaler/SMS kan vise Chatforia-nummeret ditt.",
+    "enableTextForwarding": "Aktiver SMS-viderekobling",
+    "forwardTextsToPhone": "Videresend SMS til telefon",
+    "forwardTextsToEmail": "Videresend SMS til e-post",
+    "destinationPhone": "Måltelefon (E.164)",
     "destinationEmail": "Mål-e-post",
-    "enableCallForwarding": "Aktiver anropsviderekobling",
-    "destinationPhoneForCalls": "Mål (E.164) for anrop",
-    "aliasBridging": "Anropsviderekobling (alias-bro)",
+    "enableCallForwarding": "Aktiver samtale­viderekobling",
+    "destinationPhoneForCalls": "Mål (E.164) for samtaler",
+    "aliasBridging": "Samtale­viderekobling (alias bridging)",
     "quietHoursOptional": "Stilletid (valgfritt)",
     "startHour": "Starttime (0–23)",
-    "endHour": "Slutttid (0–23)",
+    "endHour": "Sluttime (0–23)",
     "reset": "Tilbakestill",
-    "saveBtn": "Lagre"
+    "saveBtn": "Lagre",
+
+    "forwardSaved": "Viderekoblings­innstillinger lagret",
+    "forwardSaveFailed": "Kunne ikke lagre innstillinger",
+    "errE164": "Skriv inn et gyldig E.164-nummer (f.eks. +15551234567).",
+    "errEmail": "Skriv inn en gyldig e-post.",
+    "errSmsDest": "Velg minst ett mål (telefon eller e-post).",
+    "errQuietHours": "Stilletid må være mellom 0 og 23."
   },
 
   "chat": {
-    "selectPrompt": "Velg en tekst eller chat for å begynne å chatte",
+    "selectPrompt": "Velg en tekst eller chatrom for å starte",
     "newMessages": "Nye meldinger",
-    "typing": "{{name}} skriver …",
-    "emptyTitle": "Meldingene dine",
+    "typing": "{{name}} skriver…",
+    "emptyTitle": "Dine meldinger",
     "emptySubtitle": "Send en melding for å starte en chat.",
     "startChatButton": "Send melding"
   },
 
   "topbar": {
     "newStatus": "Ny status",
-    "logout": "Logg ut"
+    "logout": "Logg ut",
+    "help": "Hjelp"
   },
 
   "status": {
@@ -131,16 +141,16 @@
     "modalAriaLabel": "Ny status",
 
     "captionLabel": "Hva tenker du på?",
-    "captionPlaceholder": "Del en oppdatering …",
+    "captionPlaceholder": "Del en oppdatering…",
     "captionAria": "Statusmelding",
 
-    "audienceLabel": "Publikum",
+    "audienceLabel": "Målgruppe",
     "audience": {
       "public": "Offentlig",
       "followers": "Følgere",
       "contacts": "Kontakter",
       "mutuals": "Gjensidige",
-      "custom": "Tilpasset …"
+      "custom": "Tilpasset…"
     },
 
     "expiresHoursLabel": "Utløper (timer)",
@@ -156,46 +166,47 @@
     "attachmentsPlaceholder": "Legg til bilder/videoer",
     "filesNote": "Opptil 5 filer. 24 t standard utløp.",
 
-    "postAria": "Post status",
-    "post": "Post"
+    "postAria": "Publiser status",
+    "post": "Publiser"
   },
 
   "sidebar": {
     "randomChat": "Tilfeldig chat",
-    "callTextForwarding": "Viderekobling av anrop og tekst",
+    "callTextForwarding": "Viderekobling av samtaler og SMS",
     "conversations": "Samtaler",
-    "searchPlaceholder": "Søk i samtaler …",
+    "searchPlaceholder": "Søk i samtaler…",
     "errorLoading": "Kunne ikke laste chatter",
     "empty": "Ingen samtaler ennå.",
     "startChat": "Start en chat",
     "people": "Personer",
     "settings": "Innstillinger",
     "status": "Status",
-    "forwarding": "Viderekobling av anrop og tekst",
+    "forwarding": "Viderekobling av samtaler og SMS",
     "refresh": "Oppdater",
     "search": "Søk i samtaler",
-    "loginPrompt": "Logg inn for å redigere innstillingene dine.",
+    "loginPrompt": "Logg inn for å redigere innstillingene.",
     "login": "Logg inn",
     "register": "Opprett konto",
 
-    "chatrooms": "Chatterom",
+    "chatrooms": "Chatrom",
     "logout": "Logg ut",
     "startChatAlt": "Start en ny chat"
   },
 
   "premium": {
     "heading": "Bli Premium",
-    "description": "Lås opp kraftige funksjoner og fjern annonser.",
-    "upgrade": "Oppgrader"
+    "description": "Lås opp kraftfunksjoner og fjern annonser.",
+    "upgrade": "Oppgrader",
+    "upgradeAria": "Oppgrader til Chatforia Premium"
   },
 
   "auth": {
-    "headline": "Sikker, global meldingsapp med øyeblikkelig oversettelse",
-    "description": "Ende-til-ende-kryptering, KI-drevet oversettelse, forsvinnende meldinger og tale/video-anrop.",
+    "headline": "Sikker, global meldinger med umiddelbar oversettelse",
+    "description": "Ende-til-ende-kryptering, AI-drevet oversettelse, forsvinnende meldinger og tale/video-anrop.",
     "feature": {
       "encryption": "Ende-til-ende-kryptering som standard",
       "translation": "Auto-oversett 100+ språk",
-      "disappearing": "Forsvinnende meldinger og lestekvitteringer",
+      "disappearing": "Forsvinnende meldinger og lese­kvitteringer",
       "privacy": "Personvern først. Dine data, din kontroll.",
       "translate": "Sanntidsoversettelse",
       "disappear": "Forsvinnende meldinger",
@@ -215,26 +226,26 @@
     "getApp": "Hent appen",
     "desktopTip": "På desktop? Skann med telefonen for å få appen.",
 
-    "goHome": "Gå til start",
+    "goHome": "Gå til hjem",
     "home": "Hjem",
 
     "headlineAlt": {
       "main": "Den sikre meldingsappen som",
-      "highlight": "snakker ditt språk"
+      "highlight": "snakker språket ditt"
     },
-    "subhead": "Privat, kryptert og oversatt meldingsutveksling — umiddelbart.",
+    "subhead": "Privat, kryptert og oversatt meldinger — umiddelbart.",
 
-    "status": "Vis status",
+    "status": "Se status",
     "upgrade": "Oppgrader nå",
-    "tip": "Du kan bruke Chatforia på alle enheter — eller laste ned appen for best opplevelse.",
-    "openDownload": "Åpne nedlastingssiden",
+    "tip": "Du kan bruke Chatforia på enhver enhet — eller laste ned appen for den beste opplevelsen.",
+    "openDownload": "Åpne nedlastingsside",
     "qrAlt": "QR-kode for Chatforia",
     "scanHint": "Skann for å laste ned appen eller åpne i nettleseren.",
     "iosAria": "Last ned på App Store",
     "iosTitle": "App Store",
     "iosBadgeAlt": "App Store-merke",
     "androidAria": "Hent den på Google Play",
-    "androidTitle": "Google Play-butikk",
+    "androidTitle": "Google Play Butikk",
     "androidBadgeAlt": "Google Play-merke",
 
     "login": "Logg inn",
@@ -255,8 +266,8 @@
     "androidDownload": "Android / Google Play",
     "privacy": "Personvernerklæring",
     "terms": "Vilkår for bruk",
-    "cookies": "Informasjonskapsler",
-    "doNotSell": "Ikke selg informasjonen min",
+    "cookies": "Innstillinger for informasjonskapsler",
+    "doNotSell": "Ikke selg opplysningene mine",
 
     "language": "Språk",
     "contactShort": "Kontakt"
@@ -264,14 +275,14 @@
 
   "home": {
     "title": "Hjem",
-    "header": "Meldingene dine",
+    "header": "Dine meldinger",
     "subheader": "Send en melding for å starte en chat.",
     "sendButton": "Send melding",
     "gifPicker": "Åpne GIF-velger",
     "emoji": "Emoji",
     "upload": "Last opp bilde eller video",
-    "inputPlaceholder": "Skriv en melding …",
-    "inputLabel": "Meldingsskriver",
+    "inputPlaceholder": "Skriv en melding…",
+    "inputLabel": "Meldingskomponist",
     "sendTooltip": "Send",
     "sendTooltipEmpty": "Skriv en melding for å sende",
     "send": "Send",
@@ -282,76 +293,76 @@
 
   "press": {
     "title": "Presse",
-    "contact": "For pressehenvendelser, kontakt oss på <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
-    "contactText": "For pressehenvendelser, kontakt oss på press@chatforia.com.",
-    "boilerplateTitle": "Selskapsbeskrivelse",
-    "boilerplateText": "Chatforia er en sikker meldingsapp med øyeblikkelig oversettelse og E2E-kryptering, laget for å gjøre globale samtaler private og enkle.",
-    "assetsTitle": "Merkevareressurser",
+    "contact": "For mediehenvendelser, kontakt oss på <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
+    "contactText": "For mediehenvendelser, kontakt oss på press@chatforia.com.",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateText": "Chatforia er en sikker meldingsapp med umiddelbar oversettelse og E2E-kryptering, designet for å gjøre globale samtaler private og enkle.",
+    "assetsTitle": "Merkevare-ressurser",
     "assetsText": "Logoer, skjermbilder og produktbilder (kommer snart)."
   },
 
   "careers": {
     "title": "Karriere",
-    "intro": "Vi er et lite team som bygger en privat, global meldingsapp. Hvis du brenner for kryptering, tilgjengelighet og flott brukeropplevelse, vil vi gjerne høre fra deg.",
+    "intro": "Vi er et lite team som bygger en privat, global meldingsapp. Bryr du deg om kryptering, tilgjengelighet og god brukeropplevelse, vil vi gjerne høre fra deg.",
     "openRoles": "<b>Ledige roller:</b> Engineering (Full-stack, iOS, Android), Produkt, Support.",
     "apply": "<b>Slik søker du:</b> Send CV/lenker til <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Send CV på e-post"
+    "emailCta": "Send inn CV"
   },
 
   "about": {
     "title": "Om Chatforia",
-    "description": "Chatforia er en sikker, flerspråklig meldingsapp med ende-til-ende-kryptering, øyeblikkelig oversettelse og tale/video-anrop. Vårt mål er enkelt: hjelpe folk å knytte kontakt — trygt, privat og på tvers av språk.",
+    "description": "Chatforia er en sikker, flerspråklig meldingsapp med ende-til-ende-kryptering, umiddelbar oversettelse og tale/video-anrop. Vårt mål er enkelt: hjelpe folk å knytte kontakt — trygt, privat og på tvers av språk.",
     "valuesTitle": "Hva vi verdsetter",
     "values": {
       "privacy": "<b>Personvern først:</b> E2E-kryptering som standard.",
       "access": "<b>Tilgang for alle:</b> Auto-oversett 100+ språk.",
-      "control": "<b>Kontroll:</b> Forsvinnende meldinger og lestekvitteringer er valgfrie."
+      "control": "<b>Kontroll:</b> Forsvinnende meldinger og lese­kvitteringer er valgfrie."
     },
     "howTitle": "Slik fungerer Chatforia",
-    "howDescription": "Meldinger krypteres på enheten din før de sendes. Oversettelse, sikkerhetskopier og enhetssynk er designet for å minimere hva serverne våre kan se."
+    "howDescription": "Meldinger krypteres på enheten din før de sendes. Oversettelse, sikkerhetskopier og enhetssynk er laget for å minimere hva serverne våre kan se."
   },
 
   "advertise": {
     "title": "Annonser hos Chatforia",
-    "description": "Nå engasjerte meldingsbrukere med smakfulle og trygge plasseringer. Vi tilbyr bannerplasseringer på synlige steder, sponsorater og egne kampanjer. Premium-abonnenter ser ikke annonser.",
+    "description": "Nå engasjerte meldingsbrukere med smakfulle, merkevare-sikre plasseringer. Vi tilbyr bannerplasseringer på synlige steder, sponsorater og egne kampanjer. Premium-abonnenter ser ikke annonser.",
     "adsense": {
-      "withPubId": "Vi leverer for tiden annonser via <b>Google AdSense</b>. Hvis du vil målrette oss gjennom Google Ads, bruk publisher-ID <code>{{pubId}}</code> og be om administrert plassering på enhetene nedenfor. Direkte sponsorater er tilgjengelige — bruk skjemaet.",
+      "withPubId": "Vi leverer for tiden annonser via <b>Google AdSense</b>. Hvis du vil målrette oss gjennom Google Ads, bruk utgiver-ID <code>{{pubId}}</code> og be om administrert plassering på enhetene nedenfor. Direkte sponsorater er tilgjengelig — bruk skjemaet.",
       "noPubId": "Vi leverer for tiden annonser via <b>Google AdSense</b>. Direkte sponsorater er også tilgjengelige — bruk skjemaet nedenfor."
     },
-    "inventoryHeader": "Inventar og spesifikasjoner",
+    "inventoryHeader": "Lager og spesifikasjoner",
     "placement": {
       "displayBadge": "Display",
       "acceptedSizes": "Godkjente størrelser",
-      "adsenseSlot": "AdSense-plass:"
+      "adsenseSlot": "AdSense-slot:"
     },
     "noPlacements": "Ingen plasseringer er konfigurert ennå. Legg dem til i ads/placements.js.",
     "whyHeader": "Hvorfor Chatforia?",
     "why": {
-      "highSession": "Hyppige økter og lang tilstedeværelse i chat-UI",
-      "brandSafe": "Merkevaresikre formater; respektfull frekvensstyring",
-      "sponsoredMoments": "Sponsede øyeblikk (f.eks. «Start en chat»-modal) er tilgjengelige",
+      "highSession": "Høy besøksfrekvens og lang tid i chat-UI",
+      "brandSafe": "Merkevare-sikre formater; respektfull frekvensstyring",
+      "sponsoredMoments": "Sponsede øyeblikk (f.eks. «Start en chat»-modal) tilgjengelige",
       "deals": "Direkte avtaler eller programmatiske via AdSense/Google Ads"
     },
     "contactHeader": "Kontakt",
     "form": {
-      "submittedMsg": "Takk! Forespørselen er sendt. Vi følger opp snart.",
+      "submittedMsg": "Takk! Forespørselen din er sendt. Vi følger opp snart.",
       "missingRequired": "Fyll inn navn, e-post og melding.",
       "successToast": "Takk! Vi tar kontakt snart.",
-      "mailtoInfo": "Åpner e-postklienten din for å sende forespørselen …",
-      "nameLabel": "Ditt navn",
+      "mailtoInfo": "Åpner e-postklienten din for å sende forespørselen…",
+      "nameLabel": "Navn",
       "namePlaceholder": "Ola Nordmann",
       "emailLabel": "E-post",
-      "emailPlaceholder": "deg@selskap.no",
+      "emailPlaceholder": "du@selskap.no",
       "companyLabel": "Selskap",
-      "companyPlaceholder": "Acme AS",
+      "companyPlaceholder": "Eksempel AS",
       "budgetLabel": "Månedlig budsjett (valgfritt)",
-      "budgetPlaceholder": "kr 5 000",
+      "budgetPlaceholder": "5 000 kr",
       "messageLabel": "Fortell oss om kampanjen",
-      "messagePlaceholder": "Målgrupper, datoer, KPI-er, plasseringspreferanser …",
+      "messagePlaceholder": "Målretting, datoer, KPIer, plasseringer…",
       "sendCta": "Send forespørsel"
     },
     "legal": {
-      "disclaimerStart": "Ved innsending godtar du våre",
+      "disclaimerStart": "Ved å sende godtar du våre",
       "terms": "Vilkår",
       "and": "og",
       "privacy": "Personvern"
@@ -362,17 +373,17 @@
     "title": "Oppgrader",
     "subtitle": "Lås opp riktig plan for deg: gå annonsefri med Plus, eller få alle kraftfunksjonene med Premium.",
     "scheduleBanner": {
-      "title": "Abonnementet vil avsluttes",
+      "title": "Abonnementet avsluttes",
       "body": "Du går tilbake til Gratis den",
       "keepPlanCta": "Behold Plus",
       "manageBillingCta": "Administrer fakturering"
     },
     "billing": {
-      "opening": "Åpner …",
+      "opening": "Åpner…",
       "manage": "Administrer fakturering"
     },
     "checkout": {
-      "redirecting": "Omdirigerer …"
+      "redirecting": "Videresender…"
     },
     "auth": {
       "continue": "Fortsett",
@@ -384,32 +395,32 @@
         "title": "Gratis",
         "price": "$0",
         "features": {
-          "msg": "1:1 og gruppechat",
-          "aiBasic": "Grunnleggende KI-svar",
+          "msg": "1:1 og gruppe­meldinger",
+          "aiBasic": "Grunnleggende AI-svar",
           "attachments": "Standard vedlegg"
         },
-        "ctaCurrent": "Gjeldende plan",
+        "ctaCurrent": "Nåværende plan",
         "ctaUnavailable": "Bytt til Gratis (ikke tilgjengelig)"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4,99 / mnd",
+        "price": "$4.99 / mnd",
         "features": {
           "noAds": "Fjern alle annonser",
-          "msg": "1:1 og gruppechat",
+          "msg": "1:1 og gruppe­meldinger",
           "attachments": "Større vedlegg",
-          "aiBasic": "Grunnleggende KI-svar"
+          "aiBasic": "Grunnleggende AI-svar"
         },
         "badge": "Populær",
         "cta": "Bli annonsefri"
       },
       "premiumMonthly": {
         "title": "Premium (Månedlig)",
-        "price": "$24,99 / mnd",
+        "price": "$24.99 / mnd",
         "features": {
           "plusAll": "Alt i Plus",
-          "ringtones": "Egendefinerte ringetoner og meldingslyder",
-          "powerAi": "Kraftige KI-funksjoner",
+          "ringtones": "Egne ringe- og meldingstoner",
+          "powerAi": "Kraftige AI-funksjoner",
           "priorityUpdates": "Prioriterte oppdateringer",
           "backups": "Sikkerhetskopier og enhetssynk"
         },
@@ -433,9 +444,9 @@
 
   "gettingStarted": {
     "title": "Kom i gang",
-    "subtitle": "Ny i Chatforia? Denne hurtigstarten viser det viktigste, så du kan være i gang på minutter.",
+    "subtitle": "Ny i Chatforia? Denne hurtigstarten viser det viktigste så du er i gang på minutter.",
     "alert": {
-      "text": "Denne veiledningen vil vokse etter hvert som vi lanserer nye funksjoner. Hvis noe mangler, gi oss beskjed via",
+      "text": "Denne veiledningen vil vokse når vi lanserer nye funksjoner. Hvis noe mangler, gi oss beskjed via",
       "contactLink": "Kontakt oss"
     },
     "section1": {
@@ -446,19 +457,19 @@
       "loginText": "med din eksisterende konto.",
       "prefsStart": "Angi dine",
       "prefsLink": "preferanser",
-      "prefsRest": "(språk, lestekvitteringer, temaer)."
+      "prefsRest": "(språk, lese­kvitteringer, temaer)."
     },
     "section2": {
       "title": "2) Start å sende meldinger",
       "item1": "Opprett en DM eller gruppe og send din første melding.",
-      "item2": "Bruk øyeblikkelig oversettelse for å chatte på tvers av 100+ språk.",
-      "item3": "Prøv forsvinnende meldinger og lestekvitteringer i Profil → Personvern."
+      "item2": "Bruk umiddelbar oversettelse for å chatte på tvers av 100+ språk.",
+      "item3": "Prøv forsvinnende meldinger og lese­kvitteringer i Profil → Personvern."
     },
     "section3": {
       "title": "3) Gå videre",
       "item1Part1": "Administrer planen din på",
       "upgradeLink": "Oppgrader",
-      "item1Part2": "siden (Plus = annonsefri, Premium = full funksjonalitet).",
+      "item1Part2": "-siden (Plus = annonsefri, Premium = full pakke).",
       "item2Part1": "Koble til flere enheter og sett opp krypterte sikkerhetskopier i",
       "settingsLink": "Innstillinger"
     },
@@ -473,15 +484,15 @@
     "faq": {
       "account": {
         "q": "Hvordan oppretter eller gjenoppretter jeg kontoen min?",
-        "a": "Last ned appen eller bruk web, trykk «Opprett konto», verifiser e-post/telefon. For å gjenopprette, bruk «Glemt passord»."
+        "a": "Last ned appen eller bruk web, trykk «Opprett konto», verifiser e-post/telefon. For gjenoppretting, bruk «Glemt passord»."
       },
       "privacy": {
-        "q": "Er meldinger ende-til-ende kryptert?",
+        "q": "Er meldinger ende-til-ende-kryptert?",
         "a": "Ja. Meldinger og anrop er ende-til-ende-kryptert som standard. Bare du og mottakeren kan lese dem."
       },
       "translate": {
-        "q": "Hvordan fungerer øyeblikkelig oversettelse?",
-        "a": "Aktiver «Auto-oversett» i Innstillinger → Utseende og språk. Vi oversetter på enheten der det støttes, ellers via sikre API-er med minimal metadata."
+        "q": "Hvordan fungerer umiddelbar oversettelse?",
+        "a": "Aktiver «Auto-oversett» i Innstillinger → Utseende og språk. Vi oversetter på enheten der det støttes, ellers via sikre APIer med minimal metadata."
       },
       "contact": {
         "q": "Kontakt support",
@@ -506,39 +517,39 @@
     "title": "Personvernerklæring",
     "lastUpdated": "Sist oppdatert:",
     "intro": {
-      "body": "Denne personvernerklæringen forklarer hvordan Chatforia («vi», «oss») samler inn, bruker og deler informasjon når du bruker appene og tjenestene våre. Vi designer Chatforia for å minimere dataene vi kan få tilgang til."
+      "body": "Denne personvernerklæringen forklarer hvordan Chatforia («vi», «oss») samler inn, bruker og deler informasjon når du bruker appene og tjenestene våre. Vi utformer Chatforia for å minimere dataene vi kan få tilgang til."
     },
     "infoWeCollect": {
       "title": "Informasjon vi samler inn",
-      "account": "Kontoinfo (f.eks. e-post/telefon) for å opprette og sikre kontoen din.",
+      "account": "Kontoinformasjon (f.eks. e-post/telefon) for å opprette og sikre kontoen din.",
       "encrypted": "Kryptert innhold (meldinger/anrop) er ende-til-ende-kryptert; vi kan ikke lese det.",
-      "diagnostics": "Diagnostikk/bruk som krasjlogger, enhetstype eller grove analyser for å forbedre ytelse."
+      "diagnostics": "Diagnose/bruk som krasjlogger, enhetstype eller grov analyse for å forbedre ytelsen."
     },
     "howWeUse": {
       "title": "Hvordan vi bruker informasjon",
-      "provide": "Levere og sikre tjenesten (autentisering, søppel/overgreps-deteksjon).",
+      "provide": "Levere og sikre tjenesten (autentisering, spam/overvåking av misbruk).",
       "improve": "Forbedre funksjoner (oversettelseskvalitet, pålitelighet).",
       "legal": "Overholde juridiske forpliktelser."
     },
     "sharing": {
       "title": "Deling",
-      "body": "Vi selger ikke persondata. Vi kan dele begrensede data med databehandlere (f.eks. pushvarsler, analyser) under strenge avtaler."
+      "body": "Vi selger ikke persondata. Vi kan dele begrensede data med databehandlere (f.eks. pushvarsler, analyse) under strenge avtaler."
     },
     "rights": {
       "title": "Dine rettigheter",
-      "body": "Avhengig av region (f.eks. GDPR/UK GDPR/CPRA) kan du be om innsyn, retting, sletting eller reservasjon mot visse behandlinger. Kontakt: privacy@chatforia.com."
+      "body": "Avhengig av region (f.eks. GDPR/UK GDPR/CPRA) kan du be om innsyn, retting, sletting eller reservere deg mot visse behandlinger. Kontakt: privacy@chatforia.com."
     },
     "retention": {
       "title": "Lagring og sikkerhet",
-      "body": "Vi lagrer bare det som trengs for å drive tjenesten og bruker bransjestandard sikkerhet. E2E-innhold kan ikke dekrypteres av oss."
+      "body": "Vi beholder bare det som trengs for å drive tjenesten og bruker bransjestandard sikkerhet. E2E-innhold kan ikke dekrypteres av oss."
     },
     "children": {
       "title": "Barn",
-      "body": "Chatforia er ikke rettet mot barn under 13 år (eller som krevd av gjeldende lov)."
+      "body": "Chatforia er ikke rettet mot barn under 13 år (eller som krevd av lokalt lovverk)."
     },
     "changes": {
       "title": "Endringer",
-      "body": "Vi publiserer oppdateringer her og oppdaterer datoen «Sist oppdatert»."
+      "body": "Vi publiserer oppdateringer her og reviderer «Sist oppdatert»-datoen."
     },
     "contact": {
       "title": "Kontakt",
@@ -550,29 +561,29 @@
     "title": "Vilkår for bruk",
     "lastUpdated": "Sist oppdatert:",
     "intro": {
-      "body": "Ved å bruke Chatforia godtar du disse vilkårene. Hvis du ikke godtar, må du ikke bruke tjenesten."
+      "body": "Ved å bruke Chatforia godtar du disse vilkårene. Hvis du ikke godtar, ikke bruk tjenesten."
     },
     "accounts": {
       "title": "Kontoer",
-      "itemAccurateInfo": "Oppgi korrekt informasjon og hold legitimasjonen sikker.",
+      "itemAccurateInfo": "Oppgi korrekt informasjon og hold legitimasjon sikker.",
       "itemResponsibility": "Du er ansvarlig for aktivitet på kontoen din."
     },
     "acceptableUse": {
       "title": "Akseptabel bruk",
-      "itemNoAbuse": "Ingen ulovlig, krenkende eller rettighetsstridig innhold; ingen spam eller automatisert misbruk.",
-      "itemSuspend": "Vi kan suspendere/terminere ved brudd."
+      "itemNoAbuse": "Ingen ulovlig, krenkende eller rettighetskrenkende innhold; ingen spam eller automatisert misbruk.",
+      "itemSuspend": "Vi kan suspendere/avslutte ved brudd."
     },
     "yourContent": {
-      "title": "Ditt innhold",
+      "title": "Innholdet ditt",
       "body": "Du beholder rettighetene til innholdet ditt. Du gir oss nødvendige rettigheter for å drive tjenesten (f.eks. ruting, lagring, oversettelse)."
     },
     "disclaimer": {
-      "title": "Ansvarsfraskrivelser og ansvar",
-      "body": "Tjenesten leveres «som den er» uten garantier. I den grad loven tillater, er Chatforia ikke ansvarlig for indirekte eller følgeskader."
+      "title": "Ansvarsfraskrivelse og ansvar",
+      "body": "Tjenesten leveres «som den er» uten garantier. I den grad loven tillater det, er Chatforia ikke ansvarlig for indirekte eller følgeskader."
     },
     "changes": {
       "title": "Endringer",
-      "body": "Vi kan oppdatere disse vilkårene; fortsatt bruk etter endringer innebærer aksept."
+      "body": "Vi kan oppdatere disse vilkårene; videre bruk etter endringer innebærer aksept."
     },
     "contact": {
       "title": "Kontakt",
@@ -581,13 +592,208 @@
   },
 
   "doNotSell": {
-    "title": "Ikke selg eller del min personlige informasjon",
-    "body": "Chatforia selger ikke personopplysninger. Beboere i California kan likevel sende forespørsler i henhold til CPRA ved å bruke knappen nedenfor.",
+    "title": "Ikke selg eller del mine personopplysninger",
+    "body": "Chatforia selger ikke personopplysninger. Innbyggere i California kan likevel sende forespørsler i henhold til CPRA via knappen under.",
     "cta": "Send en forespørsel"
   },
 
   "cookies": {
     "title": "Innstillinger for informasjonskapsler",
-    "body": "Chatforia bruker minimale informasjonskapsler (f.eks. økt, sikkerhet). Vi bruker ikke tredjeparts annonsekapsler. Administrer kapsler i nettleserens innstillinger."
+    "body": "Chatforia bruker et minimum av informasjonskapsler (f.eks. økt, sikkerhet). Vi bruker ikke tredjeparts annonsekapsler. Administrer informasjonskapsler i nettleseren din."
+  },
+
+  "phoneNumberManager": {
+    "unableToLoadStatus": "Kan ikke laste status for telefonnummer.",
+    "lock": "Lås",
+    "noNumberAssigned": "Ingen nummer er tilordnet. Velg etter retningsnummer for å begynne å sende SMS.",
+    "pickNumber": "Velg et nummer",
+    "phoneNumber": "Telefonnummer"
+  },
+
+  "startChatModal": {
+    "title": "Start en chat",
+    "quickPicker": "Hurtigvelger",
+    "to": "Til",
+    "nameOrUsername": "Skriv et navn, brukernavn",
+    "nameUsernamePhoneEmail": "Skriv navn, brukernavn, telefon eller e-post…",
+    "startWithSelected": "Start chat med valgte",
+    "searchByUsernameOrPhone": "Søk etter brukernavn eller telefon",
+    "search": "Søk",
+    "searchPrompt": "Skriv et brukernavn eller telefon og trykk Søk.",
+    "pickFromContacts": "Eller velg fra kontakter",
+    "addContact": "Legg til en kontakt",
+    "show": "Vis",
+    "add": "Legg til",
+    "close": "Lukk",
+    "selectedCount": "{{count}} valgt",
+    "pickAtLeastOne": "Velg minst én mottaker.",
+    "saveContactsHint": "Telefon/e-post-oppføringer blir tilgjengelige etter at du lagrer dem som kontakter.",
+    "failedBulkStart": "Kunne ikke starte chat med valgte mottakere.",
+    "noResults": "Ingen resultater"
+  },
+
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Solnedgang",
+    "solarized": "Solarized",
+    "velvet": "Fløyel"
+  },
+
+  "sounds": {
+    "freeNotice": "Du er på Gratis — premiumtoner vises men er låst. Oppgrader for å låse opp alle.",
+    "preview": "Forhåndslyt",
+    "resetToDefaults": "Tilbakestill til standard",
+    "notificationSounds": "Varsellyder",
+    "messageTone": "Meldingstone",
+    "default": "Standard",
+    "vibrate": "Vibrer",
+    "dreamer": "Drømmer",
+    "notify": "Varsle",
+    "pop": "Pop",
+    "pulsatingSound": "Pulserende lyd",
+    "textMessage": "Tekstmelding",
+    "xylophone": "Xylofon",
+    "classic": "Klassisk",
+    "urgency": "Hast",
+    "bells": "Bjeller",
+    "chimes": "Klokker",
+    "digitalPhone": "Digital telefon",
+    "melodic": "Melodisk",
+    "organNotes": "Orgeltoner",
+    "soundReality": "Lydvirkelighet",
+    "street": "Gate",
+    "universfield": "Universfelt"
+  },
+
+  "premiumGuard": {
+    "requiresPremium": "Denne funksjonen krever et Premium-abonnement."
+  },
+
+  "aiSettings": {
+    "title": "AI-innstillinger",
+    "controlIntro": "Kontroller oversettelse, smarte svar og ForiaBot auto-svar.",
+    "save": "Lagre AI-innstillinger",
+    "autoTranslateIncoming": "Auto-oversett innkommende meldinger",
+    "showOriginalAlongside": "Vis originaltekst ved siden av oversettelse",
+    "enableSmartReplies": "Aktiver smarte svar",
+    "smartRepliesHint": "Send de siste mottatte meldingene (sanitert) til AI for å foreslå hurtigsvar.",
+    "maskProfanity": "Masker banning i AI-forslag",
+    "maskProfanityHint": "Hvis på, vil AI-forslag maskere flaggede ord",
+    "foriaBot": "ForiaBot auto-svarer",
+    "enableAutoReply": "Aktiver auto-svar når jeg er opptatt",
+    "autoReplyMode": "Auto-svarsmodus",
+    "cooldownSeconds": "Ventetid (sekunder)",
+    "off": "Av",
+    "on": "På",
+    "signature": "Signatur",
+    "autoReply": "Auto-svar",
+    "activeUntilOptional": "Aktiv til (valgfritt)",
+    "saved": "AI-preferanser lagret",
+    "saveFailed": "Kunne ikke lagre AI-innstillinger",
+    "translateOff": "Av",
+    "translateTagged": "Bare når @translated eller tagget",
+    "translateAll": "Oversett alle innkommende meldinger",
+    "modeDm": "Kun 1:1-chatter",
+    "modeMention": "Bare når jeg blir @nevnt",
+    "modeAll": "Alle innkommende meldinger"
+  },
+
+  "accessibilitySettings": {
+    "title": "Tilgjengelighet og varsler",
+    "accessibility": "Tilgjengelighet",
+    "accessibilityDesc": "Alternativer som gjør Chatforia enklere å bruke uten å være avhengig av lyd.",
+    "interfaceFontSize": "Skriftstørrelse i grensesnitt",
+    "interfaceFontSizeHelp": "Starter på normal størrelse. Øk hvis du foretrekker større tekst.",
+    "sm": "sm",
+    "md": "md",
+    "lg": "lg",
+    "xl": "xl",
+    "notifications": "Varsler",
+    "notificationsDesc": "Visuelle varsler for meldinger og anrop\nVis bannere og tittelblinking så du ikke går glipp av aktivitet.",
+    "vibrateOnNew": "Vibrer ved nye meldinger (når støttet)\nUtløs enhetsvibrasjon med varsler.",
+    "flashOnCall": "Blink skjermen ved innkommende anrop\nKort lysblink når det ringer.",
+    "liveCaptions": "Direkte teksting (anrop)",
+    "captionFontSize": "Tekstingsskrift-størrelse",
+    "captionBackground": "Bakgrunn for teksting",
+    "light": "lys",
+    "dark": "mørk",
+    "transparent": "transparent",
+    "voiceNotes": "Taleopptak",
+    "autoTranscribeVoiceNotes": "Auto-transkriber taleopptak\nLegg ved en transkripsjon til mottatte lydmeldinger.",
+    "changesSavedInstantly": "Endringer lagres umiddelbart.",
+    "loadFailed": "Kunne ikke laste innstillinger",
+    "visualAlerts": "Visuelle varsler for meldinger og anrop",
+    "visualAlertsDesc": "Vis bannere og tittelblinking så du ikke går glipp av aktivitet.",
+    "vibrateOnNewShort": "Vibrer ved nye meldinger (når støttet)",
+    "vibrateOnNewDesc": "Utløs enhetsvibrasjon med varsler.",
+    "flashOnCallShort": "Blink skjermen ved innkommende anrop",
+    "flashOnCallDesc": "Kort lysblink når det ringer."
+  },
+
+  "privacySection": {
+    "strictE2EE": "Streng ende-til-ende-kryptering",
+    "ciphertextOnlyNote": "Lagre kun chiffertekst på serveren. Deaktiverer AI/Oversettelse og modereringsforhåndsvisninger."
+  },
+
+  "linkedDevicesPanel": {
+    "title": "Koblede enheter",
+    "noneFound": "Ingen koblede enheter funnet.",
+    "refresh": "Oppdater"
+  },
+
+  "help": {
+    "title": "Hjelp",
+    "howCanWeHelp": "Hvordan kan vi hjelpe?",
+    "helpCenter": "Hjelpesenter",
+    "contactUs": "Kontakt oss",
+    "quickTopics": "Raske temaer",
+    "searchExamples": "Prøv å søke etter «oversett», «sikkerhetskopier» eller «personvern».",
+    "cantLogin": "Får ikke logget inn",
+    "paymentsBilling": "Betaling/fakturering",
+    "reportAbuse": "Rapporter misbruk",
+    "searchHelpArticles": "Søk i hjelpartikler",
+    "search": "Søk"
+  },
+
+  "peoplePage": {
+    "people": "Personer",
+    "search": "Søk",
+    "searchPlaceholder": "Søk etter alias, navn, brukernavn eller telefon",
+    "filterSaved": "Filtrer lagrede kontakter",
+    "noContactsFound": "Fant ingen kontakter",
+    "quickStart": "Hurtigstart",
+    "quickStartDesc": "Noen raske måter å komme i gang.",
+    "importContacts": "Importer kontaktene dine",
+    "add": "Legg til",
+    "focusSearch": "Fokuser søk",
+    "import": "Importer",
+    "findOrAdd": "Finn eller legg til noen",
+    "searchByPhoneOrUsername": "Søk etter telefon / brukernavn",
+    "inviteFriends": "Inviter venner",
+    "inviteDesc": "Del invitasjonslenken din for å starte chat umiddelbart.",
+    "getTheApp": "Få appen",
+    "getTheAppDesc": "Hold kontakt på farten med Chatforia for iOS og Android.",
+    "download": "Last ned",
+    "syncTip": "Tips: Meldingene dine holder seg synkronisert mellom web og mobil."
+  },
+
+  "randomChat": {
+    "title": "Tilfeldig chat",
+    "description": "Møt noen nye på et øyeblikk. Vi matcher deg og åpner et midlertidig chatrom.",
+    "findMatch": "Finn en match",
+    "chatWithForia": "Chat med Foria",
+    "chatWithForiaBot": "Chat med ForiaBot",
+    "cancel": "Avbryt",
+    "close": "Lukk",
+    "searching": "Søker…",
+    "noPartner": "Ingen partner funnet akkurat nå.",
+    "connectedTo": "Koblet til {{name}}",
+    "partnerLeft": "Partneren forlot.",
+    "stopped": "Stoppet.",
+    "skip": "Hopp over",
+    "save": "Lagre",
+    "saveGuard": "Kun menneske-til-menneske-chatter kan lagres"
   }
 }

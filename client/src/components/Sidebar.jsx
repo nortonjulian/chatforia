@@ -22,6 +22,7 @@ import {
   Dice5,
   RefreshCw,
   Search as SearchIcon,
+  MessageSquare, // messages/home icon
 } from 'lucide-react';
 
 import StartChatModal from '@/components/StartChatModal';
@@ -35,6 +36,7 @@ import { PLACEMENTS } from '@/ads/placements';
 
 function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
   const [showStartModal, setShowStartModal] = useState(false);
+  const [initialDraft, setInitialDraft] = useState(null); // ⬅️ NEW: carries { text, files }
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
 
@@ -51,12 +53,18 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
 
   const handleStartChat = () => {
     if (!currentUser) return;
+    setInitialDraft(null);
     setShowStartModal(true);
   };
 
   // Allow external code to open the StartChatModal by dispatching window event
   useEffect(() => {
-    const onOpen = () => setShowStartModal(true);
+    const onOpen = (ev) => {
+      // Accept optional draft payload: { text?: string, files?: File[] }
+      const draft = ev?.detail?.draft || null;
+      setInitialDraft(draft);
+      setShowStartModal(true);
+    };
     window.addEventListener('open-new-chat-modal', onOpen);
     return () => window.removeEventListener('open-new-chat-modal', onOpen);
   }, []);
@@ -74,6 +82,15 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
       {/* Top icons row */}
       <Group justify="space-between" mb="sm">
+        {/* Messages/Home */}
+        <ActionIcon
+          variant="subtle"
+          aria-label="Messages"
+          onClick={() => navigate('/chat')}
+        >
+          <MessageSquare size={22} />
+        </ActionIcon>
+
         <ActionIcon
           variant="subtle"
           onClick={handleStartChat}
@@ -146,7 +163,10 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
               setProfileTarget('forwarding');
               setProfileOpen(true);
             }}
-            aria-label={t('sidebar.forwarding', 'Open call and text forwarding settings')}
+            aria-label={t(
+              'sidebar.forwarding',
+              'Open call and text forwarding settings'
+            )}
           >
             {t('sidebar.forwarding', 'Call & Text Forwarding')}
           </Button>
@@ -188,7 +208,10 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
           <ChatroomsSidebar
-            onStartNewChat={() => setShowStartModal(true)}
+            onStartNewChat={() => {
+              setInitialDraft(null);
+              setShowStartModal(true);
+            }}
             onSelect={setSelectedRoom}
             hideEmpty
             listOnly
@@ -202,7 +225,11 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       {showStartModal && currentUser && (
         <StartChatModal
           currentUserId={currentUser?.id}
-          onClose={() => setShowStartModal(false)}
+          initialDraft={initialDraft}             // ⬅️ pass draft through
+          onClose={() => {
+            setShowStartModal(false);
+            setInitialDraft(null);                // clear draft on close
+          }}
         />
       )}
 
@@ -227,7 +254,9 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
           </Stack>
         ) : (
           <Stack gap="sm">
-            <Text c="dimmed">{t('sidebar.loginPrompt', 'Log in to edit your settings.')}</Text>
+            <Text c="dimmed">
+              {t('sidebar.loginPrompt', 'Log in to edit your settings.')}
+            </Text>
             <Group>
               <Button component={Link} to="/" variant="filled">
                 {t('auth.login', 'Log in')}

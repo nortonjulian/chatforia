@@ -218,37 +218,6 @@ export default function RecipientSelector({
                 styles={{
                   input: { padding: 0, minHeight: rem(24) },
                 }}
-                rightSection={
-                  <Group gap={4}>
-                    <Tooltip label="Browse contacts">
-                      <ActionIcon
-                        size="sm"
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => onRequestBrowse?.()}
-                      >
-                        <IconUserPlus size={16} />
-                      </ActionIcon>
-                    </Tooltip>
-                    <Tooltip
-                      label={
-                        <Group gap={6}>
-                          <Text size="xs">Tips:</Text>
-                          <Kbd>Enter</Kbd>
-                          <Text size="xs">add</Text>
-                          <Kbd>↑/↓</Kbd>
-                          <Text size="xs">navigate</Text>
-                          <Kbd>⌫</Kbd>
-                          <Text size="xs">remove last</Text>
-                        </Group>
-                      }
-                    >
-                      <ActionIcon size="sm" variant="subtle">
-                        <IconChevronsDown size={16} />
-                      </ActionIcon>
-                    </Tooltip>
-                  </Group>
-                }
-                rightSectionWidth={72}
               />
             </Popover.Target>
 

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '@/api/axiosClient';
 import ContactList from './ContactList';
-import RecipientSelector from '@/components/compose/RecipientSelector.jsx';
+import RecipientSelector from './RecipientSelector.jsx';
+import PhoneField from '@/components/PhoneField.jsx';
 import {
   Modal,
   TextInput,
@@ -25,12 +26,6 @@ import { PLACEMENTS } from '@/ads/placements';
 // Premium gating
 import useIsPremium from '@/hooks/useIsPremium';
 
-// 🌍 Phone utils: strict (prod) + permissive (dev/test) fallback
-import { toE164, isLikelyPhone } from '@/utils/phone';
-import useDefaultRegion from '@/hooks/useDefaultRegion';
-import CountrySelect from '@/components/CountrySelect';
-import { toE164Dev } from '@/utils/phoneLocalDev';
-
 function coerceUsers(payload) {
   if (!payload) return [];
   if (Array.isArray(payload)) return payload;
@@ -50,72 +45,82 @@ export default function StartChatModal({
   const [startingBulk, setStartingBulk] = useState(false);
   const [pickerInfo, setPickerInfo] = useState('');
 
+  const navigate = useNavigate();
+  const isPremium = useIsPremium();
+
   // Suggestions: merge contacts + users (dedup by id), filter out self
-  const fetchSuggestions = useCallback(async (q) => {
-    const query = (q || '').trim();
-    if (!query) return [];
+  const fetchSuggestions = useCallback(
+    async (q) => {
+      const query = (q || '').trim();
+      if (!query) return [];
 
-    try {
-      // Try contacts (if endpoint supports query); ignore failures silently
-      const [contactsRes, usersRes] = await Promise.allSettled([
-        axiosClient.get('/contacts', { params: { query, limit: 20 } }),
-        axiosClient.get('/users/search', { params: { query } }),
-      ]);
-
-      const contacts = contactsRes.status === 'fulfilled'
-        ? (Array.isArray(contactsRes.value?.data)
-            ? contactsRes.value.data
-            : contactsRes.value?.data?.items || [])
-        : [];
-
-      const users = usersRes.status === 'fulfilled' ? coerceUsers(usersRes.value?.data) : [];
-
-      // Normalize to RecipientSelector's shape
-      const contactItems = contacts
-        .map((c) => ({
-          id: c.userId || c.id, // prefer linked userId when present
-          display: c.alias || c.name || c.phone || c.email || 'Contact',
-          type: 'contact',
-          phone: c.phone,
-          email: c.email,
-        }))
-        .filter((it) => it.id && it.id !== currentUserId);
-
-      const userItems = users
-        .map((u) => ({
-          id: u.id,
-          display: u.username || u.name || u.phoneNumber || u.email || 'User',
-          type: 'user',
-          phone: u.phoneNumber,
-          email: u.email,
-        }))
-        .filter((it) => it.id && it.id !== currentUserId);
-
-      // Dedup by id preferring user over contact when both exist
-      const map = new Map();
-      for (const it of [...userItems, ...contactItems]) {
-        if (!map.has(it.id)) map.set(it.id, it);
-      }
-      return Array.from(map.values()).slice(0, 20);
-    } catch {
-      // Fallback to just user search if anything explodes
       try {
-        const res = await axiosClient.get('/users/search', { params: { query } });
-        const users = coerceUsers(res?.data);
-        return users
-          .filter((u) => u && u.id !== currentUserId)
+        // Try contacts (if endpoint supports query); ignore failures silently
+        const [contactsRes, usersRes] = await Promise.allSettled([
+          axiosClient.get('/contacts', { params: { query, limit: 20 } }),
+          axiosClient.get('/users/search', { params: { query } }),
+        ]);
+
+        const contacts =
+          contactsRes.status === 'fulfilled'
+            ? Array.isArray(contactsRes.value?.data)
+              ? contactsRes.value.data
+              : contactsRes.value?.data?.items || []
+            : [];
+
+        const users =
+          usersRes.status === 'fulfilled'
+            ? coerceUsers(usersRes.value?.data)
+            : [];
+
+        // Normalize to RecipientSelector's shape
+        const contactItems = contacts
+          .map((c) => ({
+            id: c.userId || c.id, // prefer linked userId when present
+            display: c.alias || c.name || c.phone || c.email || 'Contact',
+            type: 'contact',
+            phone: c.phone,
+            email: c.email,
+          }))
+          .filter((it) => it.id && it.id !== currentUserId);
+
+        const userItems = users
           .map((u) => ({
             id: u.id,
             display: u.username || u.name || u.phoneNumber || u.email || 'User',
             type: 'user',
             phone: u.phoneNumber,
             email: u.email,
-          }));
+          }))
+          .filter((it) => it.id && it.id !== currentUserId);
+
+        // Dedup by id preferring user over contact when both exist
+        const map = new Map();
+        for (const it of [...userItems, ...contactItems]) {
+          if (!map.has(it.id)) map.set(it.id, it);
+        }
+        return Array.from(map.values()).slice(0, 20);
       } catch {
-        return [];
+        // Fallback to just user search if anything explodes
+        try {
+          const res = await axiosClient.get('/users/search', { params: { query } });
+          const users = coerceUsers(res?.data);
+          return users
+            .filter((u) => u && u.id !== currentUserId)
+            .map((u) => ({
+              id: u.id,
+              display: u.username || u.name || u.phoneNumber || u.email || 'User',
+              type: 'user',
+              phone: u.phoneNumber,
+              email: u.email,
+            }));
+        } catch {
+          return [];
+        }
       }
-    }
-  }, [currentUserId]);
+    },
+    [currentUserId]
+  );
 
   const handleStartWithRecipients = async () => {
     setPickerInfo('');
@@ -140,7 +145,6 @@ export default function StartChatModal({
     try {
       setStartingBulk(true);
       if (ids.length === 1) {
-        // Use your existing 1:1 endpoint for consistency
         const chatRes = await axiosClient.post(`/chatrooms/direct/${ids[0]}`);
         const chatroom = chatRes?.data;
         onClose?.();
@@ -159,7 +163,7 @@ export default function StartChatModal({
     }
   };
 
-  // ---------- Existing state/logic (untouched) ----------
+  // ---------- Existing state/logic (search & contacts) ----------
   const [query, setQuery] = useState(initialQuery);
   const [hasSearched, setHasSearched] = useState(false);
 
@@ -174,25 +178,18 @@ export default function StartChatModal({
   const [error, setError] = useState('');
 
   const [showContacts, setShowContacts] = useState(false);
+
+  // "Add a Contact" inline UI state
   const [addOpen, setAddOpen] = useState(false);
-  const [addValue, setAddValue] = useState('');
   const [addAlias, setAddAlias] = useState('');
+  const [addUsernameOrEmail, setAddUsernameOrEmail] = useState('');
+  const [addPhone, setAddPhone] = useState(); // E.164 from PhoneField
   const [adding, setAdding] = useState(false);
 
-  // 🌍 NEW: Country selection (defaults via hook)
-  const defaultRegion = useDefaultRegion({ userCountryCode: undefined });
-  const [country, setCountry] = useState('US');
-  useEffect(() => {
-    setCountry(defaultRegion);
-  }, [defaultRegion]);
-
-  const navigate = useNavigate();
-  const isPremium = useIsPremium();
-
-  // Initial contacts fetch
+  // Load contacts initially
   useEffect(() => {
     axiosClient
-      .get('/contacts') // ✅ correct endpoint (owner inferred from auth)
+      .get('/contacts')
       .then((res) =>
         setContacts(Array.isArray(res?.data) ? res.data : res?.data?.items || [])
       )
@@ -307,29 +304,26 @@ export default function StartChatModal({
     }
   };
 
-  // ✅ when adding by phone, send { externalPhone, externalName, alias }
+  // ✅ Add contact: prefer PhoneField (E.164). If not provided, try username/email search path.
   const handleAddContactDirect = async () => {
     setError('');
-    const raw = addValue.trim();
-    if (!raw) return;
+    const phone = addPhone; // already E.164 from PhoneField
+    const raw = addUsernameOrEmail.trim();
+    if (!phone && !raw) return;
+
     setAdding(true);
-
     try {
-      if (isLikelyPhone(raw)) {
-        // Try strict formatter first; fall back to dev-safe formatter so tests/fixtures like 555-555-5555 pass.
-        const phoneE164 = toE164(raw, country) || toE164Dev(raw, country);
-        if (!phoneE164) throw new Error('Invalid phone number for selected country.');
-
+      if (phone) {
         await axiosClient.post('/contacts', {
           ownerId: currentUserId,
-          externalPhone: phoneE164,
+          externalPhone: phone,
           externalName: addAlias || '',
           alias: addAlias || undefined,
         });
-
         // fire & forget optional invite
-        axiosClient.post('/invites', { phone: phoneE164, name: addAlias }).catch(() => {});
+        axiosClient.post('/invites', { phone, name: addAlias }).catch(() => {});
       } else {
+        // No phone provided; treat as username/email lookup
         const res = await axiosClient.get('/users/search', { params: { query: raw } });
         const arr = coerceUsers(res?.data);
         const u = arr.find((x) => x && x.id !== currentUserId);
@@ -341,17 +335,18 @@ export default function StartChatModal({
             alias: addAlias || undefined,
           });
         } else {
-          // fallback: treat as free-form “name only”
+          // fallback: free-form name only
           await axiosClient.post('/contacts', {
-            phone: undefined,
             name: addAlias || raw,
             alias: addAlias || undefined,
           });
         }
       }
 
-      setAddValue('');
+      // reset inputs
       setAddAlias('');
+      setAddUsernameOrEmail('');
+      setAddPhone(undefined);
       setAddOpen(false);
     } catch (e) {
       setError(e?.response?.data?.message || e.message || 'Failed to add contact.');
@@ -375,14 +370,16 @@ export default function StartChatModal({
         <Stack gap="xs">
           <Group justify="space-between" align="center">
             <Text fw={600}>Quick picker</Text>
-            {recipients.length > 1 && <Badge variant="light">{recipients.length} selected</Badge>}
+            {recipients.length > 1 && (
+              <Badge variant="light">{recipients.length} selected</Badge>
+            )}
           </Group>
 
           <RecipientSelector
             value={recipients}
             onChange={setRecipients}
             fetchSuggestions={fetchSuggestions}
-            onRequestBrowse={() => setShowContacts(true)} // reuse your existing contacts section
+            onRequestBrowse={() => setShowContacts(true)}
             maxRecipients={50}
             placeholder="Type a name, username, phone, or email…"
           />
@@ -397,7 +394,11 @@ export default function StartChatModal({
             </Button>
           </Group>
 
-          {pickerInfo && <Text size="sm" c="dimmed">{pickerInfo}</Text>}
+          {pickerInfo && (
+            <Text size="sm" c="dimmed">
+              {pickerInfo}
+            </Text>
+          )}
 
           <Divider my="xs" />
         </Stack>
@@ -548,45 +549,46 @@ export default function StartChatModal({
             </Button>
           </Group>
         ) : (
-          <Group align="end" wrap="wrap">
-            {/* 🌍 NEW: Country selector */}
-            <CountrySelect
-              value={country}
-              onChange={(val) => {
-                setCountry(val);
-                try {
-                  localStorage.setItem('cf_default_region', val);
-                } catch {}
-              }}
-              style={{ minWidth: 220 }}
-            />
-            <TextInput
-              style={{ flex: 1, minWidth: 240 }}
-              placeholder="Username or phone"
-              value={addValue}
-              onChange={(e) => setAddValue(e.currentTarget.value)}
-            />
-            <TextInput
-              style={{ flex: 1, minWidth: 200 }}
-              placeholder="Alias (optional)"
-              value={addAlias}
-              onChange={(e) => setAddAlias(e.currentTarget.value)}
-            />
-            <Button loading={adding} onClick={handleAddContactDirect}>
-              Save Contact
-            </Button>
-            <Button
-              variant="light"
-              color="gray"
-              onClick={() => {
-                setAddValue('');
-                setAddAlias('');
-                setAddOpen(false);
-              }}
-            >
-              Cancel
-            </Button>
-          </Group>
+          <Stack gap="xs">
+            <Group align="end" wrap="wrap">
+              <PhoneField
+                label="Phone (optional)"
+                value={addPhone}
+                onChange={setAddPhone}
+                defaultCountry="US"
+              />
+              <TextInput
+                style={{ flex: 1, minWidth: 240 }}
+                placeholder="Username or email (optional)"
+                value={addUsernameOrEmail}
+                onChange={(e) => setAddUsernameOrEmail(e.currentTarget.value)}
+              />
+              <TextInput
+                style={{ flex: 1, minWidth: 200 }}
+                placeholder="Alias (optional)"
+                value={addAlias}
+                onChange={(e) => setAddAlias(e.currentTarget.value)}
+              />
+            </Group>
+
+            <Group>
+              <Button loading={adding} onClick={handleAddContactDirect}>
+                Save Contact
+              </Button>
+              <Button
+                variant="light"
+                color="gray"
+                onClick={() => {
+                  setAddAlias('');
+                  setAddUsernameOrEmail('');
+                  setAddPhone(undefined);
+                  setAddOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
+            </Group>
+          </Stack>
         )}
 
         <Group justify="flex-end" mt="xs">

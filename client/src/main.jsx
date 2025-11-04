@@ -11,6 +11,7 @@ installThemeFaviconObserver();
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
+import 'react-phone-number-input/style.css';
 import './styles.css';
 import './styles/themes.css';
 

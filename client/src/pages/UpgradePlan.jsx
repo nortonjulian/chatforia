@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// client/src/pages/UpgradePlan.jsx
+import { useEffect, useMemo, useState } from 'react';
 import {
   Card,
   Title,
@@ -13,8 +14,26 @@ import {
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
-
 import { useTranslation } from 'react-i18next';
+
+// ⬇️ NEW: region-aware pricing quotes
+import { getPricingQuote } from '@/api/pricing';
+
+// ---- helpers ----
+function formatMoney(amountMinor, currency = 'USD', locale = undefined) {
+  // amountMinor is in "cents" (Stripe-style) or minor units
+  const nf = new Intl.NumberFormat(locale || undefined, {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 2,
+  });
+  // For zero-decimal currencies (e.g., JPY), amountMinor is already full amount.
+  // Heuristic: if currency has 0 minor units, do not divide by 100.
+  // A small map or try/catch on formatting can be used; keep simple here:
+  const zeroDecimal = ['JPY', 'KRW', 'VND'].includes(currency);
+  const major = zeroDecimal ? amountMinor : amountMinor / 100;
+  return nf.format(major);
+}
 
 function PlanCard({
   title,
@@ -29,7 +48,6 @@ function PlanCard({
   testId,
 }) {
   const { t } = useTranslation();
-
   return (
     <Card
       withBorder
@@ -72,9 +90,15 @@ export default function UpgradePage({ variant = 'account' }) {
   const { t } = useTranslation();
   const { currentUser } = useUser();
   const navigate = useNavigate();
+
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
   const [loadingKeep, setLoadingKeep] = useState(false);
+
+  // ⬇️ NEW: pricing quotes (nullable until loaded)
+  const [qPlus, setQPlus] = useState(null);
+  const [qPremMonthly, setQPremMonthly] = useState(null);
+  const [qPremAnnual, setQPremAnnual] = useState(null);
 
   const isAuthed = !!currentUser;
   const planName = (currentUser?.plan || 'FREE').toUpperCase();
@@ -86,19 +110,66 @@ export default function UpgradePage({ variant = 'account' }) {
   const cancelAt = currentUser?.planExpiresAt
     ? new Date(currentUser.planExpiresAt)
     : null;
-  const hasScheduledDowngrade = Boolean(
-    isAuthed &&
-      isPaid &&
-      cancelAt &&
-      !Number.isNaN(cancelAt.getTime()) &&
-      cancelAt > new Date()
-  );
+  const hasScheduledDowngrade =
+    Boolean(isAuthed && isPaid && cancelAt && !Number.isNaN(cancelAt.getTime()) && cancelAt > new Date());
 
-  const startCheckout = async (plan) => {
+  // ⬇️ NEW: fetch region-aware quotes on mount
+  useEffect(() => {
+    (async () => {
+      try {
+        // Assumptions:
+        // - Backend supports these product slugs; adjust to your actual keys.
+        // - If your backend only exposes one product (e.g., "chatforia_premium"),
+        //   you can add a "plan" param to your /pricing/quote and pass it here.
+        const [plus, premM, premA] = await Promise.allSettled([
+          getPricingQuote({ product: 'chatforia_plus' }),
+          getPricingQuote({ product: 'chatforia_premium_monthly' }),
+          getPricingQuote({ product: 'chatforia_premium_annual' }),
+        ]);
+
+        if (plus.status === 'fulfilled') setQPlus(plus.value);
+        if (premM.status === 'fulfilled') setQPremMonthly(premM.value);
+        if (premA.status === 'fulfilled') setQPremAnnual(premA.value);
+      } catch {
+        // Silent fail; UI will show hard-coded labels
+      }
+    })();
+  }, []);
+
+  // ⬇️ NEW: nicely formatted price labels with fallback
+  const labelPlus = useMemo(() => {
+    if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
+      return `${formatMoney(qPlus.unitAmount, qPlus.currency)} / ${t('upgrade.perMonth', 'mo')}`;
+    }
+    return t('upgrade.plans.plus.price', '$4.99 / mo');
+  }, [qPlus, t]);
+
+  const labelPremMonthly = useMemo(() => {
+    if (qPremMonthly?.currency && typeof qPremMonthly?.unitAmount === 'number') {
+      return `${formatMoney(qPremMonthly.unitAmount, qPremMonthly.currency)} / ${t('upgrade.perMonth', 'mo')}`;
+    }
+    return t('upgrade.plans.premiumMonthly.price', '$24.99 / mo');
+  }, [qPremMonthly, t]);
+
+  const labelPremAnnual = useMemo(() => {
+    if (qPremAnnual?.currency && typeof qPremAnnual?.unitAmount === 'number') {
+      return `${formatMoney(qPremAnnual.unitAmount, qPremAnnual.currency)} / ${t('upgrade.perYear', 'year')}`;
+    }
+    return t('upgrade.plans.premiumAnnual.price', '$225 / year');
+  }, [qPremAnnual, t]);
+
+  // ⬇️ Updated checkout: prefer priceId when we have a quote
+  const startCheckout = async (planOrPrice) => {
     if (!isAuthed) return navigate('/login?next=/upgrade');
+
+    // Accept either a plan code (legacy) or a Stripe priceId (new).
+    const body = planOrPrice?.startsWith('price_')
+      ? { priceId: planOrPrice }
+      : { plan: planOrPrice };
+
     try {
       setLoadingCheckout(true);
-      const { data } = await axiosClient.post('/billing/checkout', { plan });
+      const { data } = await axiosClient.post('/billing/checkout', body);
       const url = data?.checkoutUrl || data?.url;
       if (url) window.location.href = url;
     } catch (e) {
@@ -145,9 +216,7 @@ export default function UpgradePage({ variant = 'account' }) {
 
   return (
     <Stack gap="lg" maw={900} mx="auto" p="md">
-      <Title order={2}>
-        {t('upgrade.title', 'Upgrade')}
-      </Title>
+      <Title order={2}>{t('upgrade.title', 'Upgrade')}</Title>
 
       <Text c="dimmed">
         {t(
@@ -156,20 +225,9 @@ export default function UpgradePage({ variant = 'account' }) {
         )}
       </Text>
 
-      {/* Scheduled downgrade banner */}
       {hasScheduledDowngrade && (
-        <Alert
-          color="orange"
-          variant="light"
-          title={t(
-            'upgrade.scheduleBanner.title',
-            'Subscription will end'
-          )}
-        >
-          {t(
-            'upgrade.scheduleBanner.body',
-            'You’ll revert to Free on'
-          )}{' '}
+        <Alert color="orange" variant="light" title={t('upgrade.scheduleBanner.title', 'Subscription will end')}>
+          {t('upgrade.scheduleBanner.body', 'You’ll revert to Free on')}{' '}
           <strong>{cancelAt.toLocaleDateString()}</strong>.
           <Button
             size="xs"
@@ -179,10 +237,7 @@ export default function UpgradePage({ variant = 'account' }) {
             loading={loadingKeep}
             aria-busy={loadingKeep ? 'true' : 'false'}
           >
-            {t(
-              'upgrade.scheduleBanner.keepPlanCta',
-              `Keep ${isPlus ? 'Plus' : 'Premium'}`
-            )}
+            {t('upgrade.scheduleBanner.keepPlanCta', `Keep ${isPlus ? 'Plus' : 'Premium'}`)}
           </Button>
           <Button
             size="xs"
@@ -193,15 +248,11 @@ export default function UpgradePage({ variant = 'account' }) {
             loading={loadingPortal}
             aria-busy={loadingPortal ? 'true' : 'false'}
           >
-            {t(
-              'upgrade.scheduleBanner.manageBillingCta',
-              'Manage billing'
-            )}
+            {t('upgrade.scheduleBanner.manageBillingCta', 'Manage billing')}
           </Button>
         </Alert>
       )}
 
-      {/* 2×2 grid: Free / Plus / Premium Monthly / Premium Annual */}
       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
         {/* Free */}
         <PlanCard
@@ -209,29 +260,14 @@ export default function UpgradePage({ variant = 'account' }) {
           title={t('upgrade.plans.free.title', 'Free')}
           price={t('upgrade.plans.free.price', '$0')}
           features={[
-            t(
-              'upgrade.plans.free.features.msg',
-              '1:1 and group messaging'
-            ),
-            t(
-              'upgrade.plans.free.features.aiBasic',
-              'Basic AI replies'
-            ),
-            t(
-              'upgrade.plans.free.features.attachments',
-              'Standard attachments'
-            ),
+            t('upgrade.plans.free.features.msg', '1:1 and group messaging'),
+            t('upgrade.plans.free.features.aiBasic', 'Basic AI replies'),
+            t('upgrade.plans.free.features.attachments', 'Standard attachments'),
           ]}
           cta={
             isFree
-              ? t(
-                  'upgrade.plans.free.ctaCurrent',
-                  'Current Plan'
-                )
-              : t(
-                  'upgrade.plans.free.ctaUnavailable',
-                  'Switch to Free (not available)'
-                )
+              ? t('upgrade.plans.free.ctaCurrent', 'Current Plan')
+              : t('upgrade.plans.free.ctaUnavailable', 'Switch to Free (not available)')
           }
           onClick={() => {}}
           disabled={!isPaid}
@@ -241,199 +277,84 @@ export default function UpgradePage({ variant = 'account' }) {
         <PlanCard
           testId="plan-plus"
           title={t('upgrade.plans.plus.title', 'Plus')}
-          price={t('upgrade.plans.plus.price', '$4.99 / mo')}
+          price={labelPlus}
           features={[
-            t(
-              'upgrade.plans.plus.features.noAds',
-              'Remove all ads'
-            ),
-            t(
-              'upgrade.plans.plus.features.msg',
-              '1:1 and group messaging'
-            ),
-            t(
-              'upgrade.plans.plus.features.attachments',
-              'Larger attachments'
-            ),
-            t(
-              'upgrade.plans.plus.features.aiBasic',
-              'Basic AI replies'
-            ),
+            t('upgrade.plans.plus.features.noAds', 'Remove all ads'),
+            t('upgrade.plans.plus.features.msg', '1:1 and group messaging'),
+            t('upgrade.plans.plus.features.attachments', 'Larger attachments'),
+            t('upgrade.plans.plus.features.aiBasic', 'Basic AI replies'),
           ]}
-          badge={
-            !isPremium && !isPlus
-              ? t('upgrade.plans.plus.badge', 'Popular')
-              : undefined
-          }
+          badge={!isPremium && !isPlus ? t('upgrade.plans.plus.badge', 'Popular') : undefined}
           cta={
             isAuthed
               ? isPlus || isPremium
-                ? (loadingPortal
-                    ? t(
-                        'upgrade.billing.opening',
-                        'Opening…'
-                      )
-                    : t(
-                        'upgrade.billing.manage',
-                        'Manage Billing'
-                      ))
-                : (loadingCheckout
-                    ? t(
-                        'upgrade.checkout.redirecting',
-                        'Redirecting…'
-                      )
-                    : t(
-                        'upgrade.plans.plus.cta',
-                        'Go Ad-Free'
-                      ))
+                ? (loadingPortal ? t('upgrade.billing.opening', 'Opening…') : t('upgrade.billing.manage', 'Manage Billing'))
+                : (loadingCheckout ? t('upgrade.checkout.redirecting', 'Redirecting…') : t('upgrade.plans.plus.cta', 'Go Ad-Free'))
               : t('upgrade.auth.continue', 'Continue')
           }
           onClick={() =>
             isAuthed
               ? isPlus || isPremium
                 ? openBillingPortal()
-                : startCheckout('PLUS_MONTHLY')
+                : startCheckout(qPlus?.stripePriceId || 'PLUS_MONTHLY')
               : navigate('/login?next=/upgrade')
           }
-          loading={
-            isAuthed
-              ? isPlus || isPremium
-                ? loadingPortal
-                : loadingCheckout
-              : false
-          }
+          loading={isAuthed ? (isPlus || isPremium ? loadingPortal : loadingCheckout) : false}
         />
 
         {/* Premium — Monthly */}
         <PlanCard
           testId="plan-premium-monthly"
-          title={t(
-            'upgrade.plans.premiumMonthly.title',
-            'Premium (Monthly)'
-          )}
-          price={t(
-            'upgrade.plans.premiumMonthly.price',
-            '$24.99 / mo'
-          )}
+          title={t('upgrade.plans.premiumMonthly.title', 'Premium (Monthly)')}
+          price={labelPremMonthly}
           features={[
-            t(
-              'upgrade.plans.premiumMonthly.features.plusAll',
-              'Everything in Plus'
-            ),
-            t(
-              'upgrade.plans.premiumMonthly.features.ringtones',
-              'Custom ringtones & message tones'
-            ),
-            t(
-              'upgrade.plans.premiumMonthly.features.powerAi',
-              'Power AI features'
-            ),
-            t(
-              'upgrade.plans.premiumMonthly.features.priorityUpdates',
-              'Priority updates'
-            ),
-            t(
-              'upgrade.plans.premiumMonthly.features.backups',
-              'Backups & device syncing'
-            ),
+            t('upgrade.plans.premiumMonthly.features.plusAll', 'Everything in Plus'),
+            t('upgrade.plans.premiumMonthly.features.ringtones', 'Custom ringtones & message tones'),
+            t('upgrade.plans.premiumMonthly.features.powerAi', 'Power AI features'),
+            t('upgrade.plans.premiumMonthly.features.priorityUpdates', 'Priority updates'),
+            t('upgrade.plans.premiumMonthly.features.backups', 'Backups & device syncing'),
           ]}
           highlight
           badge={t('upgrade.plans.premiumMonthly.badge', 'Best value')}
           cta={
             isAuthed
               ? isPremium
-                ? (loadingPortal
-                    ? t(
-                        'upgrade.billing.opening',
-                        'Opening…'
-                      )
-                    : t(
-                        'upgrade.billing.manage',
-                        'Manage Billing'
-                      ))
-                : (loadingCheckout
-                    ? t(
-                        'upgrade.checkout.redirecting',
-                        'Redirecting…'
-                      )
-                    : t(
-                        'upgrade.plans.premiumMonthly.cta',
-                        'Upgrade (Monthly)'
-                      ))
+                ? (loadingPortal ? t('upgrade.billing.opening', 'Opening…') : t('upgrade.billing.manage', 'Manage Billing'))
+                : (loadingCheckout ? t('upgrade.checkout.redirecting', 'Redirecting…') : t('upgrade.plans.premiumMonthly.cta', 'Upgrade (Monthly)'))
               : t('upgrade.auth.continue', 'Continue')
           }
           onClick={() =>
             isAuthed
               ? isPremium
                 ? openBillingPortal()
-                : startCheckout('PREMIUM_MONTHLY')
+                : startCheckout(qPremMonthly?.stripePriceId || 'PREMIUM_MONTHLY')
               : navigate('/login?next=/upgrade')
           }
-          loading={
-            isAuthed
-              ? isPremium
-                ? loadingPortal
-                : loadingCheckout
-              : false
-          }
+          loading={isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false}
         />
 
         {/* Premium — Annual */}
         <PlanCard
           testId="plan-premium-annual"
-          title={t(
-            'upgrade.plans.premiumAnnual.title',
-            'Premium (Annual)'
-          )}
-          price={t(
-            'upgrade.plans.premiumAnnual.price',
-            '$225 / year'
-          )}
+          title={t('upgrade.plans.premiumAnnual.title', 'Premium (Annual)')}
+          price={labelPremAnnual}
           features={[
-            t(
-              'upgrade.plans.premiumAnnual.features.allPremium',
-              'Everything in Premium'
-            ),
-            t(
-              'upgrade.plans.premiumAnnual.features.annualBilling',
-              'Billed annually'
-            ),
-            t(
-              'upgrade.plans.premiumAnnual.features.save25',
-              'Save ~25% vs monthly'
-            ),
-            t(
-              'upgrade.plans.premiumAnnual.features.sameFeatures',
-              'Same features as Monthly'
-            ),
+            t('upgrade.plans.premiumAnnual.features.allPremium', 'Everything in Premium'),
+            t('upgrade.plans.premiumAnnual.features.annualBilling', 'Billed annually'),
+            t('upgrade.plans.premiumAnnual.features.save25', 'Save ~25% vs monthly'),
+            t('upgrade.plans.premiumAnnual.features.sameFeatures', 'Same features as Monthly'),
           ]}
           badge={t('upgrade.plans.premiumAnnual.badge', 'Save 25%')}
           cta={
             isAuthed
               ? isPremium
-                ? (loadingPortal
-                    ? t(
-                        'upgrade.billing.opening',
-                        'Opening…'
-                      )
-                    : t(
-                        'upgrade.billing.manage',
-                        'Manage Billing'
-                      ))
-                : (loadingCheckout
-                    ? t(
-                        'upgrade.checkout.redirecting',
-                        'Redirecting…'
-                      )
-                    : t(
-                        'upgrade.plans.premiumAnnual.cta',
-                        'Upgrade (Annual)'
-                      ))
+                ? (loadingPortal ? t('upgrade.billing.opening', 'Opening…') : t('upgrade.billing.manage', 'Manage Billing'))
+                : (loadingCheckout ? t('upgrade.checkout.redirecting', 'Redirecting…') : t('upgrade.plans.premiumAnnual.cta', 'Upgrade (Annual)'))
               : t('upgrade.auth.continue', 'Continue')
           }
           onClick={() =>
             isAuthed
-              ? startCheckout('PREMIUM_ANNUAL')
+              ? startCheckout(qPremAnnual?.stripePriceId || 'PREMIUM_ANNUAL')
               : navigate('/login?next=/upgrade')
           }
           loading={isAuthed ? loadingCheckout : false}
@@ -442,18 +363,10 @@ export default function UpgradePage({ variant = 'account' }) {
 
       {!isAuthed && (
         <Group mt="xs" gap="sm">
-          <Button
-            component={Link}
-            to="/register?next=/upgrade"
-            variant="light"
-          >
+          <Button component={Link} to="/register?next=/upgrade" variant="light">
             {t('upgrade.auth.createAccount', 'Create account')}
           </Button>
-          <Button
-            component={Link}
-            to="/login?next=/upgrade"
-            variant="subtle"
-          >
+          <Button component={Link} to="/login?next=/upgrade" variant="subtle">
             {t('upgrade.auth.signIn', 'Sign in')}
           </Button>
         </Group>

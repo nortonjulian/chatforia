@@ -1,7 +1,7 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
-import { Box, Group, Text, Button, TextInput, FileButton } from '@mantine/core';
+import { Box, Group, Text, Button, TextInput, Textarea, FileButton } from '@mantine/core';
 import { IconMoodSmile, IconGif, IconPaperclip, IconSend, IconX } from '@tabler/icons-react';
 import StickerPicker from '@/components/StickerPicker'; // ⬅️ add this import
 
@@ -19,7 +19,7 @@ export default function SmsCompose() {
   const [to, setTo] = useState(presetTo);
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
-  const [pickerOpen, setPickerOpen] = useState(false); // ⬅️
+  const [pickerOpen, setPickerOpen] = useState(false);
   const navigate = useNavigate();
   const inputRef = useRef(null);
 
@@ -118,17 +118,41 @@ export default function SmsCompose() {
             )}
           </FileButton>
 
-          <TextInput
+          {/* ⬇️ CHANGED: TextInput → Textarea (multi-line) */}
+          <Textarea
+            data-composer="textarea"
             ref={inputRef}
-            style={{ flex: 1 }}
+            className="message-input"
+            variant="filled"
             placeholder="Type a message…"
             value={text}
             onChange={(e) => setText(e.currentTarget.value)}
+            autosize
+            minRows={2}
+            maxRows={6}
+            // Enter sends; Shift+Enter inserts newline
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSend();
               }
+            }}
+            styles={{
+              root: { flex: 1, minWidth: 0 },
+              input: {
+                height: 'auto !important',
+                minHeight: 72,
+                maxHeight: 160,
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'anywhere',
+                wordBreak: 'break-word',
+                lineHeight: 1.45,
+                paddingTop: 8,
+                paddingBottom: 8,
+                resize: 'none',
+              },
             }}
           />
 

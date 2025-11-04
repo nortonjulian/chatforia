@@ -6,8 +6,13 @@ import { useMemo } from "react";
  * - Forward-facing "C"
  * - Vertical amber gradient + soft shadow
  * - Solid-color fallback so the bubble never disappears
+ *
+ * Props:
+ *  - size: number|string (px or any CSS size)
+ *  - className: string
+ *  - ariaLabel: string (defaults to "Chatforia")
  */
-export default function LogoGlyph({ size = 64, className = "" }) {
+export default function LogoGlyph({ size = 64, className = "", ariaLabel = "Chatforia" }) {
   const px = typeof size === "number" ? `${size}px` : size;
 
   // SAFE alphanumeric ids for SVG defs
@@ -48,7 +53,7 @@ export default function LogoGlyph({ size = 64, className = "" }) {
       viewBox="0 0 256 256"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
-      aria-label="Chatforia"
+      aria-label={ariaLabel}
       style={{ display: "block" }}
     >
       <defs>

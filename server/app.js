@@ -60,6 +60,7 @@ import videoTokens from './routes/videoTokens.js';
 import connectivityRouter from './routes/connectivity.js';
 import esimRouter from './routes/esim.js';
 import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
+import pricingRouter from './routes/pricing.js';
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
@@ -297,6 +298,7 @@ export function createApp() {
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/tokens', videoTokens);
+  app.use('/pricing', pricingRouter);
 
   // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
   app.post(

@@ -304,3 +304,36 @@ html, body, #root { height: 100%; }
   min-height: 0;        /* lets children like ScrollArea actually scroll */
 }
 
+/* scope to the selector wrapper you use */
+.recipient-selector .browse-chip {
+  position: static !important;   /* or place it above the input */
+  margin-bottom: 6px;
+  box-shadow: none;              /* remove gold glow */
+  background: var(--card);
+  z-index: 1;
+}
+
+/* If it’s absolutely positioned, at least keep it fully visible */
+.recipient-selector .browse-chip.is-absolute {
+  top: -10px;
+  left: 8px;
+  z-index: 3;
+}
+
+.cf-phone-input {
+  width: 100%;
+}
+.cf-phone-input .PhoneInputInput {
+  width: 100%;
+  height: var(--input-height-md, 36px);
+  padding: 8px 12px;
+  border: 1px solid var(--mantine-color-default-border);
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+  border-radius: var(--mantine-radius-md);
+  outline: none;
+}
+.cf-phone-input .PhoneInputInput:focus {
+  border-color: var(--mantine-primary-color-filled);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mantine-primary-color-filled) 15%, transparent);
+}
