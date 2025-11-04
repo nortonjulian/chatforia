@@ -67,7 +67,7 @@ export default function ProfileSounds({ currentUser }) {
       <Group align="end" justify="space-between" wrap="wrap">
         <Select
           label="Message tone"
-          data={messageToneOptions}             // [{ label, value }]
+          data={messageToneOptions}             
           value={messageTone}                   // 'Default.mp3'
           onChange={(val) => {
             if (!val) return;
@@ -90,7 +90,7 @@ export default function ProfileSounds({ currentUser }) {
         <Select
           label="Ringtone"
           data={ringtoneOptions}
-          value={ringtone}                      // 'Classic.mp3'
+          value={ringtone}                     
           onChange={(val) => {
             if (!val) return;
             setRingtone(val);

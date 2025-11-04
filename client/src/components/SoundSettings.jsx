@@ -6,7 +6,17 @@ import { useUser } from '../context/UserContext';
 // import { toast } from '../utils/toast';
 import axiosClient from '../api/axiosClient';
 
-import { playSound } from '../lib/sounds';
+// OLD helper kept for non-preview SFX; not used for previews anymore
+// import { playSound } from '../lib/sounds';
+
+// NEW: singleton preview controller
+import {
+  playPreview,
+  stopPreview,
+  subscribePreview,
+  isPreviewing,
+  previewLabel,
+} from '../lib/sounds';
 
 import {
   // catalogs & config
@@ -92,6 +102,17 @@ export default function SoundSettings() {
   const [volume, setVol] = useState(getVolume());
   const [saving, setSaving] = useState(false);
 
+  // Preview UI state from singleton
+  const [previewState, setPreviewState] = useState({
+    playing: isPreviewing(),
+    label: previewLabel(),
+  });
+
+  useEffect(() => {
+    const unsub = subscribePreview(setPreviewState);
+    return unsub;
+  }, []);
+
   // a) Grouped (for UI) — shows Free + Premium (disabled for Free)
   const groupedMessage = useMemo(() => buildGroupedOptions('message', isPremium), [isPremium]);
   const groupedRing = useMemo(() => buildGroupedOptions('ring', isPremium), [isPremium]);
@@ -159,6 +180,32 @@ export default function SoundSettings() {
     toast.info('Reset to defaults (not yet saved).');
   };
 
+  // Preview lengths (tweak to taste)
+  const MESSAGE_PREVIEW_SECONDS = 3;
+  const RING_PREVIEW_SECONDS = 7;
+
+  const handleMessagePreview = () => {
+    if (previewState.playing && previewState.label === 'message') {
+      stopPreview();
+      return;
+    }
+    playPreview(
+      messageToneUrl(messageTone),
+      { seconds: MESSAGE_PREVIEW_SECONDS, volume, label: 'message' }
+    );
+  };
+
+  const handleRingPreview = () => {
+    if (previewState.playing && previewState.label === 'ring') {
+      stopPreview();
+      return;
+    }
+    playPreview(
+      ringtoneUrl(ringtone),
+      { seconds: RING_PREVIEW_SECONDS, volume, label: 'ring' }
+    );
+  };
+
   return (
     <Stack gap="sm">
       <Group justify="space-between" align="center">
@@ -179,7 +226,7 @@ export default function SoundSettings() {
       <Group gap="sm" align="end" wrap="wrap">
         <Select
           label="Message tone"
-          data={groupedMessage}            // [{ group, items: [{label,value,disabled}] }]
+          data={groupedMessage}
           value={messageTone}
           onChange={(v) => {
             if (!v) return;
@@ -195,13 +242,15 @@ export default function SoundSettings() {
           nothingFoundMessage="Put files in /public/sounds/Message_Tones"
           w={400}
           withinPortal
+          // lock the select while the *ring* preview is playing (optional)
+          disabled={previewState.playing && previewState.label === 'ring'}
         />
         <Button
           variant="light"
-          onClick={() => playSound(messageToneUrl(messageTone), { volume })}
+          onClick={handleMessagePreview}
           disabled={!messageTone}
         >
-          Preview
+          {previewState.playing && previewState.label === 'message' ? 'Stop' : 'Preview'}
         </Button>
       </Group>
 
@@ -225,13 +274,15 @@ export default function SoundSettings() {
           nothingFoundMessage="Put files in /public/sounds/Ringtones"
           w={400}
           withinPortal
+          // lock the select while the *message* preview is playing (optional)
+          disabled={previewState.playing && previewState.label === 'message'}
         />
         <Button
           variant="light"
-          onClick={() => playSound(ringtoneUrl(ringtone), { volume })}
+          onClick={handleRingPreview}
           disabled={!ringtone}
         >
-          Preview
+          {previewState.playing && previewState.label === 'ring' ? 'Stop' : 'Preview'}
         </Button>
       </Group>
 
