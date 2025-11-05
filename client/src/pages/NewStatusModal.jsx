@@ -25,9 +25,9 @@ export default function NewStatusModal({ opened, onClose }) {
   const { t } = useTranslation();
 
   const [caption, setCaption] = useState('');
-  const [audience, setAudience] = useState('MUTUALS');
+  const [audience, setAudience] = useState('CONTACTS'); // ← default to Contacts (privacy-first)
   const [customIds, setCustomIds] = useState([]);
-  const [expireHours, setExpireHours] = useState(24); // <-- hours now
+  const [expireHours, setExpireHours] = useState(24); // hours
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
 
@@ -59,13 +59,18 @@ export default function NewStatusModal({ opened, onClose }) {
       const form = new FormData();
       form.set('caption', caption);
       form.set('audience', audience);
-      // API remains seconds:
+      // API expects seconds:
       form.set('expireSeconds', String((Number(expireHours) || 24) * 3600));
 
       if (audience === 'CUSTOM' && customIds.length) {
         form.set('customAudienceIds', JSON.stringify(customIds.map((v) => Number(v))));
       }
+
       for (const f of files) form.append('files', f);
+
+      // pass media metadata (incl. audio duration)
+      const meta = await buildAttachmentsMeta(files);
+      if (meta.length) form.set('attachmentsMeta', JSON.stringify(meta));
 
       await axiosClient.post('/status', form);
 
@@ -78,8 +83,8 @@ export default function NewStatusModal({ opened, onClose }) {
       setCaption('');
       setFiles([]);
       setCustomIds([]);
-      setAudience('MUTUALS');
-      setExpireHours(24); // reset to 24h
+      setAudience('CONTACTS'); // reset to default
+      setExpireHours(24);
     } catch (e) {
       console.error('post status failed', e);
       notifications.show({
@@ -122,6 +127,7 @@ export default function NewStatusModal({ opened, onClose }) {
           }}
           autosize
           minRows={3}
+          maxLength={1000}
         />
 
         <Group grow>
@@ -129,25 +135,14 @@ export default function NewStatusModal({ opened, onClose }) {
             label={t('status.audienceLabel', { defaultValue: 'Audience' })}
             value={audience}
             onChange={(v) => {
-              const next = v || 'MUTUALS';
+              const next = v || 'CONTACTS';
               setAudience(next);
               if (next === 'CUSTOM' && contactOptions.length === 0) loadContacts();
             }}
             data={[
-              { value: 'PUBLIC', label: t('status.audience.public', { defaultValue: 'Public' }) },
-              {
-                value: 'FOLLOWERS',
-                label: t('status.audience.followers', { defaultValue: 'Followers' }),
-              },
-              {
-                value: 'CONTACTS',
-                label: t('status.audience.contacts', { defaultValue: 'Contacts' }),
-              },
-              {
-                value: 'MUTUALS',
-                label: t('status.audience.mutuals', { defaultValue: 'Mutuals' }),
-              },
-              { value: 'CUSTOM', label: t('status.audience.custom', { defaultValue: 'Custom...' }) },
+              { value: 'PUBLIC',   label: t('status.audience.public',   { defaultValue: 'Public' }) },
+              { value: 'CONTACTS', label: t('status.audience.contacts', { defaultValue: 'Contacts' }) },
+              { value: 'CUSTOM',   label: t('status.audience.custom',   { defaultValue: 'Custom…' }) },
             ]}
             withinPortal
           />
@@ -243,4 +238,45 @@ export default function NewStatusModal({ opened, onClose }) {
       </Stack>
     </Modal>
   );
+}
+
+/* -------------------- Helpers -------------------- */
+async function readAudioDurationSec(file) {
+  return new Promise((resolve) => {
+    try {
+      const el = document.createElement('audio');
+      el.preload = 'metadata';
+      el.src = URL.createObjectURL(file);
+      el.onloadedmetadata = () => {
+        const sec = Math.round(el.duration || 0);
+        URL.revokeObjectURL(el.src);
+        resolve(Number.isFinite(sec) ? sec : null);
+      };
+      el.onerror = () => {
+        try {
+          URL.revokeObjectURL(el.src);
+        } catch {}
+        resolve(null);
+      };
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
+async function buildAttachmentsMeta(files) {
+  const meta = [];
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    const mime = String(f.type || '');
+    if (mime.startsWith('image/')) {
+      meta.push({ idx: i, kind: 'IMAGE' });
+    } else if (mime.startsWith('video/')) {
+      meta.push({ idx: i, kind: 'VIDEO' });
+    } else if (mime.startsWith('audio/')) {
+      const durationSec = await readAudioDurationSec(f);
+      meta.push({ idx: i, kind: 'AUDIO', durationSec: durationSec ?? null });
+    }
+  }
+  return meta;
 }

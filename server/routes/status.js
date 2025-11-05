@@ -53,7 +53,8 @@ function normalizeAudience(input) {
   if (A === 'FRIENDS') return 'MUTUALS';
   if (A === 'PUBLIC') return 'EVERYONE';
   const allowed = new Set(['MUTUALS', 'CONTACTS', 'CUSTOM', 'EVERYONE', 'FOLLOWERS']);
-  return allowed.has(A) ? A : 'MUTUALS';
+  // ✅ Default privacy-first: CONTACTS (matches client UX)
+  return allowed.has(A) ? A : 'CONTACTS';
 }
 
 async function ensureUserExists(id) {
@@ -79,8 +80,7 @@ async function ensureUserExists(id) {
 /** Short-lived signed URL for private /media/* paths */
 function toSigned(rel, ownerId) {
   if (!rel) return null;
-  // If it's already an absolute URL, keep as-is
-  if (/^https?:\/\//i.test(rel)) return rel;
+  if (/^https?:\/\//i.test(rel)) return rel; // already absolute
   const token = signDownloadToken({ path: rel, ownerId, ttlSec: 300 });
   return `/files?token=${encodeURIComponent(token)}`;
 }
@@ -208,7 +208,6 @@ async function tolerantUpsertView(statusId, viewerId) {
 
 /** Toggle a reaction with tolerant fallbacks (and in-mem ultimate fallback) */
 async function tolerantToggleReaction(statusId, userId, emoji) {
-  // Strict composite unique
   try {
     const existing = await prisma.statusReaction.findUnique({
       where: { statusId_userId_emoji: { statusId, userId, emoji } },
@@ -230,7 +229,6 @@ async function tolerantToggleReaction(statusId, userId, emoji) {
       return { op: 'added', count };
     }
   } catch {
-    // Loose find/delete/create
     try {
       const existing = await prisma.statusReaction.findFirst({
         where: { statusId, userId, emoji },
@@ -245,9 +243,76 @@ async function tolerantToggleReaction(statusId, userId, emoji) {
       const count = await prisma.statusReaction.count({ where: { statusId, emoji } }).catch(() => 1);
       return { op: 'added', count };
     } catch {
-      // Final fallback: fully in-memory (never throws)
       return memToggleReaction(statusId, userId, emoji);
     }
+  }
+}
+
+/* ============================================================
+ * Helper: compute audience targets + emitter for status:posted
+ * ============================================================ */
+async function collectAudienceUserIds(authorId, A, customIds) {
+  const uid = Number(authorId);
+  const out = new Set();
+
+  // Followers (accepted) → who follows the author
+  const followers = await prisma.follow.findMany({
+    where: { followeeId: uid, accepted: true },
+    select: { followerId: true },
+  });
+  const followerIds = new Set(followers.map((f) => f.followerId));
+
+  // Followees (accepted) → whom the author follows
+  const followees = await prisma.follow.findMany({
+    where: { followerId: uid, accepted: true },
+    select: { followeeId: true },
+  });
+  const followeeIds = new Set(followees.map((f) => f.followeeId));
+
+  // Contacts: owners who saved the author
+  const contacts = await prisma.contact.findMany({
+    where: { contactUserId: uid },
+    select: { ownerId: true },
+  });
+  const contactOwnerIds = new Set(contacts.map((c) => c.ownerId));
+
+  if (A === 'EVERYONE') {
+    for (const x of followerIds) out.add(x);
+    for (const x of contactOwnerIds) out.add(x);
+  } else if (A === 'FOLLOWERS') {
+    for (const x of followerIds) out.add(x);
+  } else if (A === 'CONTACTS') {
+    for (const x of contactOwnerIds) out.add(x);
+  } else if (A === 'MUTUALS') {
+    for (const x of followerIds) {
+      if (followeeIds.has(x)) out.add(x);
+    }
+  } else if (A === 'CUSTOM') {
+    for (const x of (Array.isArray(customIds) ? customIds : [])) out.add(Number(x));
+  }
+
+  // Always include author (so they see success UX)
+  out.add(uid);
+  return Array.from(out);
+}
+
+function emitStatusPosted(io, targets, statusRecord) {
+  if (!io || !targets?.length || !statusRecord) return;
+  const firstMedia = Array.isArray(statusRecord.assets) ? statusRecord.assets[0] : null;
+
+  const payload = {
+    statusId: statusRecord.id,
+    authorId: statusRecord.authorId,
+    createdAt: statusRecord.createdAt,
+    preview:
+      (statusRecord.captionCiphertext &&
+        String(statusRecord.captionCiphertext).slice(0, 140)) ||
+      null,
+    mediaUrl: firstMedia?.url || null,
+  };
+
+  for (const uid of targets) {
+    io.to(`user:${uid}`).emit('status:posted', payload);
   }
 }
 
@@ -261,18 +326,18 @@ async function tolerantToggleReaction(statusId, userId, emoji) {
 router.post(
   '/',
   requireAuth,
-  uploadMedia.array('files', 5), // 🔐 hardened storage (same as messages.js)
+  uploadMedia.array('files', 5),
   asyncHandler(async (req, res) => {
     const authorId = Number(req.user.id);
 
     let {
-      audience = 'MUTUALS',
+      audience = 'CONTACTS', // ✅ default privacy-first
       caption,
-      content,                 // alias used by tests
+      content, // alias used by tests
       customAudienceIds,
       expireSeconds,
       attachmentsInline,
-      attachmentsMeta,         // 👈 NEW: enrich file metadata (e.g., audio duration)
+      attachmentsMeta, // enrich file metadata (e.g., audio duration)
     } = req.body || {};
     if (!caption && typeof content === 'string') caption = content;
 
@@ -283,10 +348,14 @@ router.post(
     try {
       meta = JSON.parse(attachmentsMeta || '[]');
       if (!Array.isArray(meta)) meta = [];
-    } catch { meta = []; }
+    } catch {
+      meta = [];
+    }
 
     let inline = [];
-    try { inline = JSON.parse(attachmentsInline || '[]') || []; } catch {}
+    try {
+      inline = JSON.parse(attachmentsInline || '[]') || [];
+    } catch {}
     inline = inline
       .filter((a) => a && a.url && a.kind)
       .map((a) => ({
@@ -310,7 +379,9 @@ router.post(
       // Antivirus scan; delete & skip if bad
       const av = await scanFile(f.path);
       if (!av.ok) {
-        try { await fs.promises.unlink(f.path); } catch {}
+        try {
+          await fs.promises.unlink(f.path);
+        } catch {}
         continue;
       }
 
@@ -335,7 +406,9 @@ router.post(
     }
 
     let customIds = [];
-    try { customIds = JSON.parse(customAudienceIds || '[]') || []; } catch {}
+    try {
+      customIds = JSON.parse(customAudienceIds || '[]') || [];
+    } catch {}
     if (A === 'CUSTOM' && (!Array.isArray(customIds) || customIds.length === 0)) {
       customIds = [authorId];
     }
@@ -362,6 +435,11 @@ router.post(
           : [],
       };
 
+      // === status:posted (service path)
+      const io = req.app.get('io');
+      const targets = await collectAudienceUserIds(authorId, A, customIds);
+      emitStatusPosted(io, targets, shaped);
+
       return res.status(201).json(shaped);
     } catch (e) {
       if (IS_DEV_FALLBACKS) {
@@ -386,11 +464,16 @@ router.post(
               : [],
           };
 
+          // === status:posted (fallback path)
+          const io = req.app.get('io');
+          const targets = await collectAudienceUserIds(authorId, A, customIds);
+          emitStatusPosted(io, targets, shaped);
+
           return res.status(201).json(shaped);
-        } catch (fallbackErr) {
+        } catch {
           // FINAL ultra-safe dev path: fabricate an in-memory stub instead of 500
           const fakeId = Math.floor(Math.random() * 1e9);
-          return res.status(201).json({
+          const shaped = {
             id: fakeId,
             author: { id: authorId, username: `user${authorId}`, avatarUrl: null },
             audience: A,
@@ -400,7 +483,15 @@ router.post(
             expiresAt: new Date(Date.now() + 24 * 3600 * 1000).toISOString(),
             createdAt: new Date().toISOString(),
             reactionSummary: {},
-          });
+            authorId, // ensure emit helper has it
+          };
+
+          // === status:posted (fabricated dev stub)
+          const io = req.app.get('io');
+          const targets = await collectAudienceUserIds(authorId, A, customIds);
+          emitStatusPosted(io, targets, shaped);
+
+          return res.status(201).json(shaped);
         }
       }
       return res.status(400).json({ error: e?.message || 'Bad request' });
@@ -442,6 +533,13 @@ router.get(
       if (!followingIds.length) return res.json({ items: [], nextCursor: null });
     }
 
+    // 🔎 Which authors have saved ME as a contact? (I can see their CONTACTS posts)
+    const savedMeByAuthors = await prisma.contact.findMany({
+      where: { contactUserId: userId },
+      select: { ownerId: true },
+    });
+    const authorsWhoSavedMeIds = savedMeByAuthors.map((c) => c.ownerId);
+
     const myKeyRows = await prisma.statusKey.findMany({
       where: { userId },
       select: { statusId: true },
@@ -454,6 +552,10 @@ router.get(
         { authorId: userId },
         { audience: 'EVERYONE' },
         idsWithKey.size ? { id: { in: Array.from(idsWithKey) } } : { id: -1 },
+        // ✅ Include CONTACTS posts authored by people who saved me
+        authorsWhoSavedMeIds.length
+          ? { AND: [{ audience: 'CONTACTS' }, { authorId: { in: authorsWhoSavedMeIds } }] }
+          : { id: -1 },
       ],
     };
 
@@ -489,7 +591,7 @@ router.get(
           select: { statusId: true, encryptedKey: true },
         })
       : [];
-    const keyByStatus = myKeys.reduce((m, r) => (m[r.statusId] = r.encryptedKey, m), {});
+    const keyByStatus = myKeys.reduce((m, r) => ((m[r.statusId] = r.encryptedKey), m), {});
 
     const shaped = items.map((s) => ({
       id: s.id,
@@ -549,15 +651,18 @@ router.get(
     const isOwner = status.authorId === me.id;
     const isAdmin = me.role === 'ADMIN';
 
-    const keyRow = await prisma.statusKey.findUnique({
-      where: { statusId_userId: { statusId, userId: me.id } },
-      select: { encryptedKey: true },
-    }).catch(async () => {
-      return await prisma.statusKey.findFirst({
-        where: { statusId, userId: me.id },
-        select: { encryptedKey: true },
-      });
-    });
+    const keyRow =
+      (await prisma.statusKey
+        .findUnique({
+          where: { statusId_userId: { statusId, userId: me.id } },
+          select: { encryptedKey: true },
+        })
+        .catch(async () => {
+          return await prisma.statusKey.findFirst({
+            where: { statusId, userId: me.id },
+            select: { encryptedKey: true },
+          });
+        })) || null;
     const hasKey = !!keyRow;
 
     let allowed = false;
@@ -617,9 +722,6 @@ router.get(
 /**
  * PATCH /status/:id/view
  */
-/**
- * PATCH /status/:id/view
- */
 router.patch(
   '/:id/view',
   requireAuth,
@@ -656,15 +758,18 @@ router.patch(
     } else if (status.audience === 'EVERYONE') {
       allowed = true;
     } else {
-      const hasKey = await prisma.statusKey.findUnique({
-        where: { statusId_userId: { statusId, userId: me.id } },
-        select: { userId: true },
-      }).catch(async () => {
-        return await prisma.statusKey.findFirst({
-          where: { statusId, userId: me.id },
-          select: { userId: true },
-        });
-      });
+      const hasKey =
+        (await prisma.statusKey
+          .findUnique({
+            where: { statusId_userId: { statusId, userId: me.id } },
+            select: { userId: true },
+          })
+          .catch(async () => {
+            return await prisma.statusKey.findFirst({
+              where: { statusId, userId: me.id },
+              select: { userId: true },
+            });
+          })) || null;
 
       allowed = !!hasKey;
     }
@@ -683,7 +788,6 @@ router.patch(
     return res.status(204).end();
   })
 );
-
 
 /**
  * POST /status/:id/reactions   (toggle)
@@ -717,12 +821,18 @@ router.post(
     if (isOwner || isAdmin) allowed = true;
     else if (status.audience === 'EVERYONE') allowed = true;
     else {
-      const hasKey = await prisma.statusKey.findUnique({
-        where: { statusId_userId: { statusId, userId: me.id } },
-        select: { userId: true },
-      }).catch(async () => {
-        return await prisma.statusKey.findFirst({ where: { statusId, userId: me.id }, select: { userId: true } });
-      });
+      const hasKey =
+        (await prisma.statusKey
+          .findUnique({
+            where: { statusId_userId: { statusId, userId: me.id } },
+            select: { userId: true },
+          })
+          .catch(async () => {
+            return await prisma.statusKey.findFirst({
+              where: { statusId, userId: me.id },
+              select: { userId: true },
+            });
+          })) || null;
       allowed = !!hasKey;
     }
     if (!allowed) return res.status(403).json({ error: 'Forbidden' });
@@ -748,11 +858,13 @@ router.delete(
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    const keys = await prisma.statusKey.findMany({
-      where: { statusId: id },
-      select: { userId: true },
-    }).catch(() => []);
-    const audienceUserIds = keys.map(k => k.userId).filter(uid => uid !== s.authorId);
+    const keys = await prisma.statusKey
+      .findMany({
+        where: { statusId: id },
+        select: { userId: true },
+      })
+      .catch(() => []);
+    const audienceUserIds = keys.map((k) => k.userId).filter((uid) => uid !== s.authorId);
 
     await prisma.status.delete({ where: { id } });
 

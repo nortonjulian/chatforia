@@ -14,7 +14,7 @@ if (!navigator.mediaDevices) {
     configurable: true,
     value: {
       getUserMedia: jest.fn().mockResolvedValue({
-        getTracks: () => [{ kind: 'video', stop: jest.fn() }, { kind: 'audio', stop: jest.fn() }],
+        getTracks: () => [{ kind: 'video', stop: jest.fn() }, { kind: , stop: jest.fn() }],
       }),
     },
   });

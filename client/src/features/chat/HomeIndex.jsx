@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { Smile, Image as ImageIcon, Send } from 'lucide-react';
 import StickerPicker from '@/components/StickerPicker.jsx';
+import MicButton from '@/components/MicButton.jsx';
 
 const TAB_EMOJI = 'emoji';
 const TAB_GIFS = 'gifs';
@@ -21,6 +22,10 @@ const NAV_W = 300;
 const ASIDE_W = 280;
 const GUTTER = 32;
 
+// Feature flag so you can roll out safely
+const FEATURE_HOME_MIC =
+  (import.meta.env.VITE_FEATURE_HOME_MIC ?? 'true').toString() !== 'false';
+
 export default function HomeIndex() {
   const { t } = useTranslation();
   const [msg, setMsg] = useState('');
@@ -28,15 +33,14 @@ export default function HomeIndex() {
   const [pickerTab, setPickerTab] = useState(TAB_EMOJI);
   const fileRef = useRef(null);
 
+  const openNewChatDraft = (draft) => {
+    window.dispatchEvent(new CustomEvent('open-new-chat-modal', { detail: { draft } }));
+  };
+
   const handleSendMessage = () => {
     const text = msg.trim();
     if (!text) return;
-    // Send text draft to StartChatModal
-    window.dispatchEvent(
-      new CustomEvent('open-new-chat-modal', {
-        detail: { draft: { text } },
-      })
-    );
+    openNewChatDraft({ text });
     setMsg('');
   };
 
@@ -113,6 +117,25 @@ export default function HomeIndex() {
               <Smile size={18} />
             </ActionIcon>
 
+            {/* 🎙️ Voice-first entry (feature-flagged) */}
+            {FEATURE_HOME_MIC && (
+              <MicButton
+                // Home has no room; just prepare a draft with one audio attachment
+                onUploaded={(fileMeta) => {
+                  // Open StartChatModal prefilled with any typed text + the audio meta
+                  const text = msg.trim();
+                  openNewChatDraft({ text, attachments: [fileMeta] });
+                  // keep text unless you prefer to clear it
+                }}
+                // Optional: make the button visually consistent with the other icons
+                variant="default"
+                size="lg"
+                radius="md"
+                className="composer-btn icon-button"
+                tooltip={t('home.voiceNote', 'Record a voice note')}
+              />
+            )}
+
             <ActionIcon
               variant="default"
               size="lg"
@@ -125,7 +148,7 @@ export default function HomeIndex() {
               <ImageIcon size={18} />
             </ActionIcon>
 
-            {/* Textarea that wraps & autosizes (use rows, not style maxHeight) */}
+            {/* Textarea that wraps & autosizes */}
             <Textarea
               data-composer="home-textarea"
               placeholder={t('home.inputPlaceholder', 'Type a message…')}
@@ -183,15 +206,11 @@ export default function HomeIndex() {
               ref={fileRef}
               type="file"
               multiple
-              accept="image/*,video/*,application/pdf,.doc,.docx,.xls,.xlsx,.zip"
+              accept="image/*,video/*,audio/*,application/pdf,.doc,.docx,.xls,.xlsx,.zip"
               style={{ display: 'none' }}
               onChange={(e) => {
                 const files = Array.from(e.target.files || []);
-                window.dispatchEvent(
-                  new CustomEvent('open-new-chat-modal', {
-                    detail: { draft: { text: msg.trim(), files } },
-                  })
-                );
+                openNewChatDraft({ text: msg.trim(), files });
                 // optional: clear local state
                 e.target.value = '';
                 setMsg((m) => m); // keep text unless you want to clear it too

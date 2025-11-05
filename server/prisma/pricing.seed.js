@@ -1,13 +1,12 @@
-// prisma/seed/pricing.seed.js
 // Prereqs in your Prisma schema:
 // 1) model RegionRule { countryCode String @id @db.VarChar(2) tier String }
 // 2) model Price {
-//      id          Int     @id @default(autoincrement())
-//      product     String
-//      tier        String   // e.g. "T1" | "T2" | "T3" | "T4" | "ROW"
-//      currency    String
-//      unitAmount  Int      // smallest currency unit
-//      active      Boolean  @default(true)
+//      id            Int     @id @default(autoincrement())
+//      product       String
+//      tier          String   // e.g. "T1" | "T2" | "T3" | "T4" | "ROW"
+//      currency      String
+//      unitAmount    Int      // smallest currency unit
+//      active        Boolean  @default(true)
 //      stripePriceId String?
 //      appleSku      String?
 //      googleSku     String?
@@ -79,8 +78,9 @@ export async function seedPricing() {
     { countryCode: 'ID', tier: 'T3' },
     { countryCode: 'TR', tier: 'T3' },
     { countryCode: 'CO', tier: 'T3' },
+    { countryCode: 'PEN' /* Peru’s currency; country code is PE */, tier: 'T3' }, // keep rule below for PE
     { countryCode: 'PE', tier: 'T3' },
-    // T4: low-income
+    // T4: lower income
     { countryCode: 'NG', tier: 'T4' },
     { countryCode: 'KE', tier: 'T4' },
     { countryCode: 'EG', tier: 'T4' },
@@ -98,37 +98,86 @@ export async function seedPricing() {
     )
   );
 
-  // 2) Prices by tier + currency (starter matrix)
-  const product = 'chatforia_premium';
+  // 2) Price matrices for three products:
+  //    - chatforia_plus            (entry plan)
+  //    - chatforia_premium_monthly (full premium monthly)
+  //    - chatforia_premium_annual  (discounted annual)
+  //
+  // NOTE: unitAmount is in the *smallest currency unit*.
+  // Replace stripePriceId with your real live price IDs from Stripe.
 
-  // T1
-  await upsertPrice({ product, tier: 'T1', currency: 'USD', unitAmount: 999,  stripePriceId: 'price_cf_t1_usd_999' });
-  await upsertPrice({ product, tier: 'T1', currency: 'EUR', unitAmount: 999,  stripePriceId: 'price_cf_t1_eur_999' });
-  await upsertPrice({ product, tier: 'T1', currency: 'GBP', unitAmount: 899,  stripePriceId: 'price_cf_t1_gbp_899' });
-  await upsertPrice({ product, tier: 'T1', currency: 'AUD', unitAmount: 1499, stripePriceId: 'price_cf_t1_aud_1499' });
-  await upsertPrice({ product, tier: 'T1', currency: 'JPY', unitAmount: 980,  stripePriceId: 'price_cf_t1_jpy_980' });
+  const PLUS = 'chatforia_plus';
+  const PREMIUM_M = 'chatforia_premium_monthly';
+  const PREMIUM_Y = 'chatforia_premium_annual';
 
-  // T2
-  await upsertPrice({ product, tier: 'T2', currency: 'ZAR', unitAmount: 9900, stripePriceId: 'price_cf_t2_zar_9900' });
-  await upsertPrice({ product, tier: 'T2', currency: 'MXN', unitAmount: 9900, stripePriceId: 'price_cf_t2_mxn_9900' });
-  await upsertPrice({ product, tier: 'T2', currency: 'PLN', unitAmount: 2999, stripePriceId: 'price_cf_t2_pln_2999' });
-  await upsertPrice({ product, tier: 'T2', currency: 'EUR', unitAmount: 799,  stripePriceId: 'price_cf_t2_eur_799' });
+  // --- T1 currencies we’ll support ---
+  const T1 = [
+    // currency,  plus, premium_m, premium_y
+    ['USD',   499,   2499, 22500,  'price_live_plus_t1_usd',   'price_live_premM_t1_usd',   'price_live_premY_t1_usd'  ],
+    ['EUR',   499,   2499, 22500,  'price_live_plus_t1_eur',   'price_live_premM_t1_eur',   'price_live_premY_t1_eur'  ],
+    ['GBP',   449,   2199, 19900,  'price_live_plus_t1_gbp',   'price_live_premM_t1_gbp',   'price_live_premY_t1_gbp'  ],
+    ['AUD',   799,   3499, 31500,  'price_live_plus_t1_aud',   'price_live_premM_t1_aud',   'price_live_premY_t1_aud'  ],
+    ['JPY',   600,   3200, 28800,  'price_live_plus_t1_jpy',   'price_live_premM_t1_jpy',   'price_live_premY_t1_jpy'  ],
+    ['CAD',   599,   2999, 27000,  'price_live_plus_t1_cad',   'price_live_premM_t1_cad',   'price_live_premY_t1_cad'  ],
+    ['CHF',   499,   2499, 22500,  'price_live_plus_t1_chf',   'price_live_premM_t1_chf',   'price_live_premY_t1_chf'  ],
+    ['SEK',   5900,  24900,225000, 'price_live_plus_t1_sek',   'price_live_premM_t1_sek',   'price_live_premY_t1_sek'  ],
+    ['NOK',   5900,  24900,225000, 'price_live_plus_t1_nok',   'price_live_premM_t1_nok',   'price_live_premY_t1_nok'  ],
+    ['DKK',   3900,  17900,159000, 'price_live_plus_t1_dkk',   'price_live_premM_t1_dkk',   'price_live_premY_t1_dkk'  ],
+    ['SGD',   690,   2990, 26900,  'price_live_plus_t1_sgd',   'price_live_premM_t1_sgd',   'price_live_premY_t1_sgd'  ],
+    ['KRW',   6500,  33000,300000, 'price_live_plus_t1_krw',   'price_live_premM_t1_krw',   'price_live_premY_t1_krw'  ],
+  ];
 
-  // T3
-  await upsertPrice({ product, tier: 'T3', currency: 'INR', unitAmount: 39900, stripePriceId: 'price_cf_t3_inr_39900' });
-  await upsertPrice({ product, tier: 'T3', currency: 'BRL', unitAmount: 1990,  stripePriceId: 'price_cf_t3_brl_1990' });
-  await upsertPrice({ product, tier: 'T3', currency: 'PHP', unitAmount: 14900, stripePriceId: 'price_cf_t3_php_14900' });
-  await upsertPrice({ product, tier: 'T3', currency: 'THB', unitAmount: 12900, stripePriceId: 'price_cf_t3_thb_12900' });
+  // --- T2 currencies ---
+  const T2 = [
+    ['EUR',   399,   1999, 17900,  'price_live_plus_t2_eur',   'price_live_premM_t2_eur',   'price_live_premY_t2_eur'  ],
+    ['PLN',   1499,  2999, 26900,  'price_live_plus_t2_pln',   'price_live_premM_t2_pln',   'price_live_premY_t2_pln'  ],
+    ['MXN',   6900,  12900,115000, 'price_live_plus_t2_mxn',   'price_live_premM_t2_mxn',   'price_live_premY_t2_mxn'  ],
+    ['ZAR',   5900,  10900,99000,  'price_live_plus_t2_zar',   'price_live_premM_t2_zar',   'price_live_premY_t2_zar'  ],
+  ];
 
-  // T4
-  await upsertPrice({ product, tier: 'T4', currency: 'NGN', unitAmount: 120000, stripePriceId: 'price_cf_t4_ngn_120000' });
-  await upsertPrice({ product, tier: 'T4', currency: 'EGP', unitAmount: 7900,   stripePriceId: 'price_cf_t4_egp_7900' });
-  await upsertPrice({ product, tier: 'T4', currency: 'KES', unitAmount: 29900,  stripePriceId: 'price_cf_t4_kes_29900' });
+  // --- T3 currencies ---
+  const T3 = [
+    ['INR',   19900, 39900,359000, 'price_live_plus_t3_inr',   'price_live_premM_t3_inr',   'price_live_premY_t3_inr'  ],
+    ['BRL',   990,   1990, 17900,  'price_live_plus_t3_brl',   'price_live_premM_t3_brl',   'price_live_premY_t3_brl'  ],
+    ['PHP',   7900,  14900,135000, 'price_live_plus_t3_php',   'price_live_premM_t3_php',   'price_live_premY_t3_php'  ],
+    ['THB',   5900,  12900,115000, 'price_live_plus_t3_thb',   'price_live_premM_t3_thb',   'price_live_premY_t3_thb'  ],
+    ['IDR',   59000, 129000,1150000,'price_live_plus_t3_idr',  'price_live_premM_t3_idr',   'price_live_premY_t3_idr'  ],
+    ['TRY',   9900,  19900,179000, 'price_live_plus_t3_try',   'price_live_premM_t3_try',   'price_live_premY_t3_try'  ],
+    ['COP',   19900, 39900,359000, 'price_live_plus_t3_cop',   'price_live_premM_t3_cop',   'price_live_premY_t3_cop'  ],
+    ['PEN',   1490,  2990, 26900,  'price_live_plus_t3_pen',   'price_live_premM_t3_pen',   'price_live_premY_t3_pen'  ],
+  ];
 
-  // ROW fallback (USD)
-  await upsertPrice({ product, tier: 'ROW', currency: 'USD', unitAmount: 899, stripePriceId: 'price_cf_row_usd_899' });
+  // --- T4 currencies ---
+  const T4 = [
+    ['NGN',   69000, 120000,1080000,'price_live_plus_t4_ngn',  'price_live_premM_t4_ngn',   'price_live_premY_t4_ngn'  ],
+    ['EGP',   4900,  7900,  69900,  'price_live_plus_t4_egp',  'price_live_premM_t4_egp',   'price_live_premY_t4_egp'  ],
+    ['KES',   14900, 29900, 269000, 'price_live_plus_t4_kes',  'price_live_premM_t4_kes',   'price_live_premY_t4_kes'  ],
+    ['PKR',   14900, 29900, 269000, 'price_live_plus_t4_pkr',  'price_live_premM_t4_pkr',   'price_live_premY_t4_pkr'  ],
+    ['BDT',   39900, 79900, 719000, 'price_live_plus_t4_bdt',  'price_live_premM_t4_bdt',   'price_live_premY_t4_bdt'  ],
+  ];
 
-  console.log('✅ Pricing seeds completed');
+  // --- ROW fallback (USD) for each product ---
+  const ROW = [
+    // currency, plus, premium_m, premium_y
+    ['USD', 499, 899, 7999, 'price_live_plus_row_usd', 'price_live_premM_row_usd', 'price_live_premY_row_usd'],
+  ];
+
+  // Helper to seed a tier list
+  async function seedTierRows(tier, rows) {
+    for (const [currency, plusAmt, premMAmt, premYAmt, plusId, premMId, premYId] of rows) {
+      await upsertPrice({ product: PLUS,      tier, currency, unitAmount: plusAmt,  stripePriceId: plusId });
+      await upsertPrice({ product: PREMIUM_M, tier, currency, unitAmount: premMAmt, stripePriceId: premMId });
+      await upsertPrice({ product: PREMIUM_Y, tier, currency, unitAmount: premYAmt, stripePriceId: premYId });
+    }
+  }
+
+  await seedTierRows('T1', T1);
+  await seedTierRows('T2', T2);
+  await seedTierRows('T3', T3);
+  await seedTierRows('T4', T4);
+  await seedTierRows('ROW', ROW);
+
+  console.log('✅ Pricing seeds completed for Plus, Premium Monthly, and Premium Annual.');
 }
 
 const isMain = (() => {

@@ -9,7 +9,7 @@ function openDB() {
     req.onupgradeneeded = () => {
       const db = req.result;
       if (!db.objectStoreNames.contains(STORE)) {
-        const os = db.createObjectStore(STORE, { keyPath: 'key' }); // key: `${roomId}`
+        db.createObjectStore(STORE, { keyPath: 'key' }); // key: `${roomId}`
       }
     };
     req.onsuccess = () => {
@@ -28,9 +28,14 @@ async function _getConn(mode = 'readonly') {
 export async function addMessages(roomId, msgs) {
   const os = await _getConn('readwrite');
   const key = String(roomId);
+
   const existing = await getRoomMessages(roomId);
   const map = new Map((existing || []).map((m) => [m.id, m]));
-  for (const m of msgs) map.set(m.id, m);
+
+  for (const m of msgs) {
+    map.set(m.id, m);
+  }
+
   return new Promise((resolve, reject) => {
     const req = os.put({ key, messages: Array.from(map.values()) });
     req.onsuccess = () => resolve();
@@ -59,7 +64,73 @@ export async function searchRoom(roomId, query) {
   });
 }
 
+/**
+ * Return normalized media entries from a room for gallery views.
+ * Each item: { id?, kind: 'IMAGE'|'VIDEO'|'AUDIO', url, mimeType?, caption?, width?, height?, durationSec?, messageId? }
+ * Sources:
+ *  - Modern: message.attachments[]
+ *  - Legacy:  message.imageUrl, message.audioUrl (+ audioDurationSec)
+ */
 export async function getMediaInRoom(roomId) {
   const all = await getRoomMessages(roomId);
-  return all.filter((m) => !!m.imageUrl); // adapt if you store videos/files differently
+  const out = [];
+
+  const MEDIA_KINDS = new Set(['IMAGE', 'VIDEO', 'AUDIO']);
+
+  for (const m of all) {
+    const messageId = m.id;
+
+    // 1) Modern attachments
+    if (Array.isArray(m.attachments)) {
+      for (const a of m.attachments) {
+        if (!a || !a.url || !a.kind) continue;
+        const kind = String(a.kind).toUpperCase();
+        if (!MEDIA_KINDS.has(kind)) continue;
+
+        out.push({
+          id: a.id ?? `att-${messageId}-${kind}-${a.url}`,
+          kind,
+          url: a.url,
+          mimeType: a.mimeType || undefined,
+          width: a.width ?? undefined,
+          height: a.height ?? undefined,
+          durationSec: a.durationSec ?? undefined,
+          caption: a.caption ?? undefined,
+          messageId,
+        });
+      }
+    }
+
+    // 2) Legacy fallbacks (keep so older rows still display in gallery)
+    if (m.imageUrl) {
+      out.push({
+        id: `legacy-img-${messageId}`,
+        kind: 'IMAGE',
+        url: m.imageUrl,
+        mimeType: undefined,
+        caption: undefined,
+        width: undefined,
+        height: undefined,
+        durationSec: undefined,
+        messageId,
+      });
+    }
+
+    if (m.audioUrl) {
+      out.push({
+        id: `legacy-aud-${messageId}`,
+        kind: 'AUDIO',
+        url: m.audioUrl,
+        mimeType: undefined,
+        caption: undefined,
+        width: undefined,
+        height: undefined,
+        durationSec: m.audioDurationSec ?? undefined,
+        messageId,
+      });
+    }
+  }
+
+  // Return newest first (MediaGalleryModal expects reverse chronological)
+  return out.sort((a, b) => (b.messageId ?? 0) - (a.messageId ?? 0));
 }

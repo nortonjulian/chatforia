@@ -20,6 +20,9 @@ import { signDownloadToken } from '../utils/downloadTokens.js';
 // 🔁 Lazy, on-read translation (Google Cloud)
 import { maybeTranslateForTarget } from '../services/translation/translateMessage.js';
 
+// Media probe (durationSec for audio)
+import { probeDurationSec } from '../utils/probeMedia.js';
+
 // In test mode, allow membership fallback & message memory
 import { __mem as roomsMem } from './rooms.js';
 
@@ -175,7 +178,20 @@ router.post(
         durationSec: m.durationSec ?? null,
         caption: m.caption ?? null,
         _thumb: thumbRel,
+        // keep local path for probing duration
+        _fsPath: f.path,
       });
+    }
+
+    // 🔎 Fill missing durationSec for audio (local-probe)
+    for (const att of uploaded) {
+      if (att.kind === 'AUDIO' && (att.durationSec == null || att.durationSec <= 0)) {
+        const fsPath = att._fsPath || null;
+        if (fsPath) {
+          const dur = await probeDurationSec(fsPath);
+          if (dur) att.durationSec = dur;
+        }
+      }
     }
 
     // Inline attachments
@@ -506,18 +522,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         try {
           const { translatedText } = await maybeTranslateForTarget(src, null, myLang);
           translatedForMeMap.set(m.id, translatedText || null);
-
-          // OPTIONAL DB cache (keep GET side-effect free by default)
-          // if (translatedText) {
-          //   const nextTranslations =
-          //     (m.translations && typeof m.translations === 'object') ? { ...m.translations } : {};
-          //   nextTranslations[myLang] = translatedText;
-          //   await prisma.message.update({
-          //     where: { id: m.id },
-          //     data: { translations: nextTranslations },
-          //     select: { id: true },
-          //   });
-          // }
         } catch {
           translatedForMeMap.set(m.id, null);
         }

@@ -48,7 +48,10 @@ process.on('uncaughtException', (err) => {
 });
 
 // Fail fast if misconfigured (throws on missing/unsafe env combos)
-validateEnv();
+// ⚠️ In test mode, skip strict validation to avoid requiring prod env vars.
+if (!ENV.IS_TEST) {
+  validateEnv();
+}
 
 if (ENV.IS_TEST) {
   // In tests we only export makeApp(); Jest will import app.js directly
@@ -86,6 +89,12 @@ if (ENV.IS_TEST) {
       { port: ENV.PORT, env: ENV.NODE_ENV },
       '🚀 Chatforia server listening'
     );
+  });
+
+  // Log hard server errors (EADDRINUSE, EACCES, etc.)
+  server.on('error', (err) => {
+    logger.error({ err }, 'HTTP server error');
+    // Let process-level handlers decide on exit; in prod you typically crash to be restarted.
   });
 
   // Graceful shutdown
@@ -126,4 +135,10 @@ if (ENV.IS_TEST) {
 
   process.on('SIGTERM', () => shutdown('SIGTERM'));
   process.on('SIGINT', () => shutdown('SIGINT'));
+
+  // Nodemon/pm2 reloads sometimes send SIGUSR2
+  process.on('SIGUSR2', async () => {
+    await shutdown('SIGUSR2');
+    process.kill(process.pid, 'SIGUSR2'); // hand control back to nodemon
+  });
 }

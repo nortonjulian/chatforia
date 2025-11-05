@@ -67,6 +67,12 @@ import { useAds } from '@/ads/AdProvider';
 
 import { ADS_CONFIG } from '@/ads/config';
 
+// 🔊 Voice notes (audio)
+import AudioMessage from '@/messages/AudioMessage.jsx';
+
+// 🌊 Waveform bar for audio attachments
+import WaveformBar from '@/components/WaveformBar.jsx';
+
 /* ---------- layout constants ---------- */
 const CONTENT_MAX = 900;
 
@@ -599,7 +605,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             {isOwnerOrAdmin && (
               <Tooltip label="Room settings">
                 <ActionIcon variant="subtle" onClick={() => setSettingsOpen(true)} aria-label="Room settings">
-                  <IconSettings size={18} />
+                <IconSettings size={18} />
                 </ActionIcon>
               </Tooltip>
             )}
@@ -649,7 +655,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 : { bg: 'gray.2', c: 'black', ta: 'left' };
 
               const ts = dayjs(msg.createdAt || msg.sentAt || msg.created_at)
-                .format('MMM D, YYYY • h:mm A');
+                .format('MMM D,  YYYY • h:mm A');
+
+              // For caption summary below, avoid duplicating audio captions that AudioMessage renders
+              const nonAudioCaptions = (msg.attachments || [])
+                .filter((a) => a?.caption && a.kind !== 'AUDIO')
+                .map((a) => a.caption);
 
               return (
                 <div key={msg.id}>
@@ -752,33 +763,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                             />
                           ))}
 
+                        {/* 🔊 Centralized audio rendering (attachments + legacy audioUrl) */}
+                        <AudioMessage msg={msg} currentUser={currentUser} />
+
+                        {/* 🌊 Add a waveform under each audio attachment (no duplicate <audio/>) */}
                         {msg.attachments
                           ?.filter((a) => a.kind === 'AUDIO')
                           .map((a) => (
-                            <audio
-                              key={a.id || a.url}
-                              controls
-                              preload="metadata"
-                              style={{ width: 260, marginTop: 6 }}
-                              src={a.url}
-                            />
+                            <div key={a.id || a.url} style={{ marginTop: 4 }}>
+                              <WaveformBar src={a.url} durationSec={a.durationSec ?? undefined} />
+                            </div>
                           ))}
 
-                        {msg.audioUrl && (
-                          <audio
-                            controls
-                            preload="metadata"
-                            style={{ width: 260, marginTop: 6 }}
-                            src={msg.audioUrl}
-                          />
-                        )}
-
-                        {msg.attachments?.some((a) => a.caption) && (
+                        {/* Summarize captions for non-audio attachments only to avoid duplication */}
+                        {nonAudioCaptions.length > 0 && (
                           <Text size="xs" mt={4}>
-                            {msg.attachments
-                              .map((a) => a.caption)
-                              .filter(Boolean)
-                              .join(' • ')}
+                            {nonAudioCaptions.join(' • ')}
                           </Text>
                         )}
 
@@ -807,7 +807,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         <ActionIcon
                           variant="subtle"
                           aria-label="Retry sending message"
-                          onClick={() => handleRetry(msg)}
+                          onClick={() => {
+                            handleRetry(msg);
+                          }}
                         >
                           <IconRotateClockwise size={18} />
                         </ActionIcon>

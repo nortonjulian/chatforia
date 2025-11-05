@@ -14,8 +14,26 @@ for (const p of [ROOT, AVATARS_DIR, MEDIA_DIR]) {
 
 // ---- MIME allowlist (trim as needed) ----
 const IMAGE = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-const AUDIO = ['audio/mpeg', 'audio/aac', 'audio/ogg', 'audio/wav', 'audio/webm', 'audio/mp4'];
-const VIDEO = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+const AUDIO = [
+  'audio/mpeg',      // mp3
+  'audio/mp4',       // m4a
+  'audio/x-m4a',     // iOS/FFmpeg variants
+  'audio/aac',
+  'audio/ogg',       // ogg/opus container
+  'audio/opus',
+  'audio/wav',
+  'audio/x-wav',
+  'audio/webm',
+  'audio/flac',
+];
+const VIDEO = [
+  'video/mp4',
+  'video/webm',
+  'video/ogg',
+  'video/quicktime',
+  'video/3gpp',
+  'video/3gpp2',
+];
 const DOCS  = ['application/pdf', 'text/plain'];
 const ALLOWED = new Set([...IMAGE, ...AUDIO, ...VIDEO, ...DOCS]);
 
@@ -60,7 +78,11 @@ function makeFileFilter({ imagesOnly = false } = {}) {
   };
 }
 
-function makeUploader({ kind = 'media', maxFiles = 10, maxBytes = 15 * 1024 * 1024, imagesOnly = false } = {}) {
+// tweak these if you want different caps per endpoint
+const DEFAULT_MEDIA_MAX = 100 * 1024 * 1024; // 100MB for multi-file endpoints
+const DEFAULT_SINGLE_MAX = 25 * 1024 * 1024; // 25MB for singleUploadMemory
+
+function makeUploader({ kind = 'media', maxFiles = 10, maxBytes = DEFAULT_MEDIA_MAX, imagesOnly = false } = {}) {
   const fileFilter = makeFileFilter({ imagesOnly });
 
   // choose per-kind disk destination if using disk
@@ -81,7 +103,7 @@ function makeUploader({ kind = 'media', maxFiles = 10, maxBytes = 15 * 1024 * 10
 export const singleUploadMemory = multer({
   storage: multer.memoryStorage(),
   fileFilter: makeFileFilter({ imagesOnly: false }),
-  limits: { files: 1, fileSize: 15 * 1024 * 1024 }, // 15MB default; tune as needed
+  limits: { files: 1, fileSize: DEFAULT_SINGLE_MAX },
 }).single('file');
 
 /** SHA-256 of a Buffer (for dedup keys) */
@@ -102,13 +124,19 @@ export function buildSafeName(mime, originalName) {
     'audio/mpeg': 'mp3',
     'audio/aac': 'aac',
     'audio/ogg': 'ogg',
+    'audio/opus': 'opus',
     'audio/wav': 'wav',
+    'audio/x-wav': 'wav',
     'audio/webm': 'webm',
+    'audio/flac': 'flac',
     'audio/mp4': 'm4a',
+    'audio/x-m4a': 'm4a',
     'video/mp4': 'mp4',
     'video/webm': 'webm',
     'video/ogg': 'ogv',
     'video/quicktime': 'mov',
+    'video/3gpp': '3gp',
+    'video/3gpp2': '3g2',
   }[mime];
 
   const orig = String(originalName || '');
@@ -129,6 +157,6 @@ export function buildSafeName(mime, originalName) {
 
 // Export ready-to-use middlewares
 export const uploadAvatar = makeUploader({ kind: 'avatar', maxFiles: 1, maxBytes: 5 * 1024 * 1024, imagesOnly: true });
-export const uploadMedia  = makeUploader({ kind: 'media',  maxFiles: 10, maxBytes: 100 * 1024 * 1024 });
+export const uploadMedia  = makeUploader({ kind: 'media',  maxFiles: 10, maxBytes: DEFAULT_MEDIA_MAX });
 
 export const uploadDirs = { ROOT, AVATARS_DIR, MEDIA_DIR, TARGET };

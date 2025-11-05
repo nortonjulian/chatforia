@@ -42,13 +42,27 @@ async function ensureStripeCustomerId(user) {
   return customer.id;
 }
 
-// Map plan code -> Stripe Price ID (from env)
+/* ----------------------------------------------
+ * Region-aware product/price helpers
+ * --------------------------------------------*/
+
+// Map plan -> logical product key in your pricing table
+function productForPlan(plan) {
+  switch (plan) {
+    case 'PLUS_MONTHLY': return 'chatforia_plus';
+    case 'PREMIUM_MONTHLY': return 'chatforia_premium_monthly';
+    case 'PREMIUM_ANNUAL': return 'chatforia_premium_annual';
+    default: return null;
+  }
+}
+
+// Env fallbacks (ROW/USD etc)
 function priceIdForPlan(plan) {
   switch (plan) {
     case 'PLUS_MONTHLY':
       return process.env.STRIPE_PRICE_PLUS;               // e.g. price_xxx
     case 'PREMIUM_MONTHLY':
-      return process.env.STRIPE_PRICE_PREMIUM;            // e.g. price_yyy ($24.99/mo)
+      return process.env.STRIPE_PRICE_PREMIUM_MONTHLY;    // e.g. price_yyy ($24.99/mo)
     case 'PREMIUM_ANNUAL':
       return process.env.STRIPE_PRICE_PREMIUM_ANNUAL;     // e.g. price_zzz ($225/yr)
     default:
@@ -56,34 +70,85 @@ function priceIdForPlan(plan) {
   }
 }
 
+// Resolve a Stripe price_... from DB by (product, tier, currency) for this user
+async function resolveStripePriceIdForUserPlan(user, plan, opts = {}) {
+  const product = productForPlan(plan);
+  if (!product) return null;
+
+  const COUNTRY_CURRENCY = {
+    US:'USD', CA:'CAD', GB:'GBP', IE:'EUR', DE:'EUR', FR:'EUR', NL:'EUR', SE:'SEK',
+    NO:'NOK', DK:'DKK', FI:'EUR', CH:'CHF', AU:'AUD', NZ:'NZD', JP:'JPY', KR:'KRW',
+    SG:'SGD', PL:'PLN', CZ:'CZK', PT:'EUR', ES:'EUR', IT:'EUR', ZA:'ZAR', MX:'MXN',
+    CL:'CLP', AR:'ARS', AE:'AED', IN:'INR', BR:'BRL', PH:'PHP', TH:'THB', VN:'VND',
+    ID:'IDR', TR:'TRY', CO:'COP', PE:'PEN', NG:'NGN', KE:'KES', EG:'EGP', PK:'PKR',
+    BD:'BDT'
+  };
+
+  // Determine country/tier/currency similarly to /pricing/quote
+  const country = (user?.billingCountry || opts.country || 'US').toUpperCase();
+
+  const rule = await prisma.regionRule.findUnique({ where: { countryCode: country } });
+  const tier = user?.pricingRegion || rule?.tier || 'ROW';
+
+  const currency = (user?.currency || COUNTRY_CURRENCY[country] || 'USD').toUpperCase();
+
+  // Primary lookup
+  let price = await prisma.price.findUnique({
+    where: { product_tier_currency: { product, tier, currency } },
+  });
+  // Fallback 1: same tier in USD
+  if (!price && currency !== 'USD') {
+    price = await prisma.price.findUnique({
+      where: { product_tier_currency: { product, tier, currency: 'USD' } },
+    });
+  }
+  // Fallback 2: ROW/USD
+  if (!price) {
+    price = await prisma.price.findUnique({
+      where: { product_tier_currency: { product, tier: 'ROW', currency: 'USD' } },
+    });
+  }
+  return price?.stripePriceId || null;
+}
+
 /* ----------------------------------------------
  * Checkout
  * --------------------------------------------*/
-// POST /billing/checkout  { plan: "PLUS_MONTHLY" | "PREMIUM_MONTHLY" | "PREMIUM_ANNUAL" }
+// POST /billing/checkout  { plan?: "PLUS_MONTHLY"|"PREMIUM_MONTHLY"|"PREMIUM_ANNUAL", priceId?: "price_..." }
 router.post('/checkout', async (req, res) => {
   try {
     if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
 
-    const { plan } = req.body || {};
-    const priceId = priceIdForPlan(plan);
-    if (!priceId) return res.status(400).json({ error: 'Unknown plan' });
-
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId(req.user);
 
-    const successUrl = `${process.env.APP_URL}/upgrade/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl  = `${process.env.APP_URL}/upgrade?canceled=1`;
+    // A) If the client sent a concrete Stripe price ID, use it (safest)
+    const clientPriceId = req.body?.priceId;
+
+    // B) Otherwise resolve dynamically from your pricing table based on user/country
+    let effectivePriceId = clientPriceId;
+    if (!effectivePriceId && req.body?.plan) {
+      effectivePriceId = await resolveStripePriceIdForUserPlan(req.user, req.body.plan);
+    }
+
+    // C) Final fallback to envs (legacy)
+    if (!effectivePriceId && req.body?.plan) {
+      effectivePriceId = priceIdForPlan(req.body.plan);
+    }
+    if (!effectivePriceId) {
+      return res.status(400).json({ error: 'Missing or unknown price' });
+    }
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customerId,
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl,
-      cancel_url: cancelUrl,
+      line_items: [{ price: effectivePriceId, quantity: 1 }],
+      success_url: `${process.env.WEB_URL}/upgrade/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.WEB_URL}/upgrade?canceled=1`,
       allow_promotion_codes: true,
       automatic_tax: { enabled: true },
-      client_reference_id: String(req.user.id),        // correlate in webhook
-      metadata: { userId: String(req.user.id), plan }, // helpful in webhook
+      client_reference_id: String(req.user.id),
+      metadata: { userId: String(req.user.id), plan: req.body?.plan || 'BY_PRICE_ID' },
     });
 
     return res.json({ url: session.url, checkoutUrl: session.url });
@@ -104,7 +169,7 @@ router.post('/portal', async (req, res) => {
     const customerId = await ensureStripeCustomerId(req.user);
 
     // We use a simple return page that brings users back to Upgrade.
-    const returnUrl = `${process.env.APP_URL}/billing/return`;
+    const returnUrl = `${process.env.WEB_URL}/billing/return`;
 
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
@@ -280,11 +345,16 @@ router.post('/webhook', async (req, res) => {
 
     // Infer PLUS vs PREMIUM based on price ids (support monthly + annual)
     const planFromLines = () => {
+      // Works for invoice.* events
       const lines = obj.lines?.data || [];
-      const priceId = lines[0]?.price?.id;
+      const priceId = lines[0]?.price?.id
+        // Fallbacks for subscription.* objects
+        ?? obj.items?.data?.[0]?.price?.id;
+
       if (priceId === process.env.STRIPE_PRICE_PLUS) return 'PLUS';
-      if (priceId === process.env.STRIPE_PRICE_PREMIUM) return 'PREMIUM';
+      if (priceId === process.env.STRIPE_PRICE_PREMIUM_MONTHLY) return 'PREMIUM';
       if (priceId === process.env.STRIPE_PRICE_PREMIUM_ANNUAL) return 'PREMIUM';
+      // Optional: DB lookup could go here if you want perfect mapping
       return 'PREMIUM';
     };
 
@@ -344,6 +414,31 @@ router.post('/webhook', async (req, res) => {
           await prisma.user.updateMany({
             where: { stripeCustomerId: String(obj.customer) },
             data: { plan: 'FREE', stripeSubscriptionId: null, planExpiresAt: null },
+          });
+        }
+        break;
+      }
+
+      case 'invoice.paid': {
+        // Renewal or first invoice succeeded: keep plan and refresh period end.
+        const customerId = obj.customer ? String(obj.customer) : null;
+        const currentPeriodEnd = obj.lines?.data?.[0]?.period?.end;
+        if (customerId && currentPeriodEnd) {
+          await prisma.user.updateMany({
+            where: { stripeCustomerId: customerId },
+            data: { planExpiresAt: new Date(currentPeriodEnd * 1000) },
+          });
+        }
+        break;
+      }
+
+      case 'invoice.payment_failed': {
+        // Stripe will retry; flagging allows gentle in-app nudges.
+        const customerId = obj.customer ? String(obj.customer) : null;
+        if (customerId) {
+          await prisma.user.updateMany({
+            where: { stripeCustomerId: customerId },
+            data: { /* e.g. billingPastDue: true */ },
           });
         }
         break;

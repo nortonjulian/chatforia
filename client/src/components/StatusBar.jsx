@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import {
   Avatar,
   Group,
@@ -7,29 +7,45 @@ import {
   Tooltip,
   Loader,
 } from '@mantine/core';
-import axiosClient from '../api/axiosClient';
-import socket from '../lib/socket';
-import { decryptFetchedMessages } from '../utils/encryptionClient'; // we’ll reuse this
+import axiosClient from '@/api/axiosClient';
+import { useSocket } from '@/context/SocketContext';
+import { decryptFetchedMessages } from '@/utils/encryptionClient';
 
 export default function StatusBar({ currentUserId, onOpenViewer }) {
-  const [items, setItems] = useState([]); // [{id, author, assets[], captionCiphertext, encryptedKeyForMe, ...}]
+  const { socket } = useSocket();
+  const [items, setItems] = useState([]); // [{id, author, assets[], captionCiphertext, encryptedKeyForMe, viewerSeen, ...}]
   const [loading, setLoading] = useState(false);
 
-  async function load() {
+  const load = useCallback(async () => {
+    let alive = true;
     setLoading(true);
     try {
       const { data } = await axiosClient.get('/status/feed');
-      const list = Array.isArray(data?.items) ? data.items : (Array.isArray(data) ? data : []);
+      const list = Array.isArray(data?.items)
+        ? data.items
+        : Array.isArray(data)
+        ? data
+        : [];
 
-      // Decrypt captions by tricking decryptFetchedMessages with a minimal shape.
+      // Prepare minimal messages for decryption
       const fakeMsgs = list.map((s) => ({
         id: s.id,
         contentCiphertext: s.captionCiphertext,
         encryptedKeyForMe: s.encryptedKeyForMe,
         sender: { id: s.author?.id, username: s.author?.username },
       }));
-      const decrypted = await decryptFetchedMessages(fakeMsgs, currentUserId);
+
+      const needsDecrypt = fakeMsgs.some(
+        (m) => m.contentCiphertext && m.encryptedKeyForMe
+      );
+
+      const decrypted = needsDecrypt
+        ? await decryptFetchedMessages(fakeMsgs, currentUserId)
+        : [];
+
       const map = new Map(decrypted.map((m) => [m.id, m.decryptedContent]));
+
+      if (!alive) return;
       setItems(
         list.map((s) => ({
           ...s,
@@ -38,30 +54,48 @@ export default function StatusBar({ currentUserId, onOpenViewer }) {
       );
     } catch (e) {
       console.error('status feed failed', e);
+      if (!alive) return;
+      setItems([]);
     } finally {
-      setLoading(false);
+      if (alive) setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    load();
+    return () => {
+      alive = false;
+    };
   }, [currentUserId]);
 
+  // Initial load / when user changes
   useEffect(() => {
+    load();
+  }, [load]);
+
+  // Live updates from socket
+  useEffect(() => {
+    if (!socket) return;
+
     const onPosted = () => load();
     const onExpired = () => load();
     const onDeleted = () => load();
+    const onViewed = ({ statusId }) => {
+      setItems((prev) =>
+        prev.map((s) => (s.id === statusId ? { ...s, viewerSeen: true } : s))
+      );
+    };
+
     socket.on('status_posted', onPosted);
     socket.on('status_expired', onExpired);
     socket.on('status_deleted', onDeleted);
+    socket.on('status_viewed', onViewed);
+
     return () => {
       socket.off('status_posted', onPosted);
       socket.off('status_expired', onExpired);
       socket.off('status_deleted', onDeleted);
+      socket.off('status_viewed', onViewed);
     };
-  }, []);
+  }, [socket, load]);
 
-  // group by author
+  // Group by author and sort: unseen first, then most recent
   const authors = useMemo(() => {
     const by = new Map();
     for (const s of items) {
@@ -69,7 +103,16 @@ export default function StatusBar({ currentUserId, onOpenViewer }) {
       if (!by.has(key)) by.set(key, { author: s.author, list: [] });
       by.get(key).list.push(s);
     }
-    return Array.from(by.values());
+    const arr = Array.from(by.values());
+    arr.sort((a, b) => {
+      const aUnseen = a.list.some((s) => !s.viewerSeen);
+      const bUnseen = b.list.some((s) => !s.viewerSeen);
+      if (aUnseen !== bUnseen) return aUnseen ? -1 : 1;
+      const aMax = Math.max(...a.list.map((s) => new Date(s.createdAt).getTime() || 0));
+      const bMax = Math.max(...b.list.map((s) => new Date(s.createdAt).getTime() || 0));
+      return bMax - aMax;
+    });
+    return arr;
   }, [items]);
 
   if (loading && !items.length) {
@@ -86,18 +129,26 @@ export default function StatusBar({ currentUserId, onOpenViewer }) {
   return (
     <ScrollArea
       type="never"
-      style={{ borderBottom: '1px solid var(--mantine-color-gray-3)' }}
+      style={{ borderBottom: '1px solid var(--mantine-color-gray-3)', maxHeight: 104 }}
     >
       <Group gap="md" p="xs" wrap="nowrap" style={{ overflowX: 'auto' }}>
         {authors.map(({ author, list }) => {
           const unseen = list.some((s) => !s.viewerSeen);
+          const label = `${author?.username} — ${list.length} post${
+            list.length > 1 ? 's' : ''
+          }${unseen ? ' — new' : ''}`;
+
           return (
-            <Tooltip
-              key={author?.id}
-              label={`${author?.username} — ${list.length} post${list.length > 1 ? 's' : ''}`}
-            >
+            <Tooltip key={author?.id} label={label}>
               <div
+                role="button"
+                tabIndex={0}
+                aria-label={`Open stories from ${author?.username}${unseen ? ', new items' : ''}`}
                 onClick={() => onOpenViewer?.({ author, stories: list })}
+                onKeyDown={(e) =>
+                  (e.key === 'Enter' || e.key === ' ') &&
+                  onOpenViewer?.({ author, stories: list })
+                }
                 style={{ cursor: 'pointer', textAlign: 'center' }}
               >
                 <div
@@ -105,7 +156,7 @@ export default function StatusBar({ currentUserId, onOpenViewer }) {
                     padding: 2,
                     borderRadius: '50%',
                     border: unseen
-                      ? '2px solid var(--mantine-color-orbit-6, #7b5ef8)'
+                      ? '2px solid var(--mantine-color-orbit-6, var(--mantine-primary-color-filled))'
                       : '2px solid transparent',
                   }}
                 >

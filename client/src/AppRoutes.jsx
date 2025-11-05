@@ -74,6 +74,9 @@ import HouseAdSlot from '@/ads/HouseAdSlot';
 import NewStatusModal from '@/pages/NewStatusModal.jsx';
 import LogoGlyph from '@/components/LogoGlyph.jsx';
 
+import StatusFeed from '@/pages/StatusFeed.jsx';
+import StatusBadge from '@/components/StatusBadge.jsx';
+
 import i18n from '@/i18n'; // ✅ keep using the shared i18n instance
 
 const NAV_W = 300;
@@ -207,9 +210,14 @@ function AuthedLayout() {
             </div>
           )}
 
-          <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
-            Log Out
-          </Button>
+          <Group gap="sm">
+            {/* Always-visible status badge (unseen counter) */}
+            {features?.status && <StatusBadge />}
+
+            <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
+              Log Out
+            </Button>
+          </Group>
         </Group>
       </AppShell.Header>
 
@@ -307,6 +315,7 @@ export default function AppRoutes() {
 
       <Route path="/" element={<AuthedLayout />}>
         <Route index element={<HomeIndex />} />
+        <Route path="status" element={<StatusFeed />} />
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />

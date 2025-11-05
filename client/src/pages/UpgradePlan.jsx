@@ -1,4 +1,3 @@
-// client/src/pages/UpgradePlan.jsx
 import { useEffect, useMemo, useState } from 'react';
 import {
   Card,
@@ -20,18 +19,36 @@ import { useTranslation } from 'react-i18next';
 import { getPricingQuote } from '@/api/pricing';
 
 // ---- helpers ----
-function formatMoney(amountMinor, currency = 'USD', locale = undefined) {
-  // amountMinor is in "cents" (Stripe-style) or minor units
+function formatMoney(amountMinor, currency = 'USD', locale) {
+  const ZERO_DECIMAL = new Set([
+    'BIF','CLP','DJF','GNF','JPY','KMF','KRW','PYG','RWF','UGX','VND','VUV','XAF','XOF','XPF'
+  ]);
+
+  // Some currencies have 3 minor units
+  const THREE_DECIMAL = new Set(['BHD','JOD','KWD','OMR','TND']);
+
+  const c = String(currency || 'USD').toUpperCase();
+
+  let divisor = 100;
+  let fractionDigits = 2;
+
+  if (ZERO_DECIMAL.has(c)) {
+    divisor = 1;
+    fractionDigits = 0;
+  } else if (THREE_DECIMAL.has(c)) {
+    divisor = 1000;
+    fractionDigits = 3;
+  }
+
+  const major = amountMinor / divisor;
+
   const nf = new Intl.NumberFormat(locale || undefined, {
     style: 'currency',
-    currency,
-    maximumFractionDigits: 2,
+    currency: c,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   });
-  // For zero-decimal currencies (e.g., JPY), amountMinor is already full amount.
-  // Heuristic: if currency has 0 minor units, do not divide by 100.
-  // A small map or try/catch on formatting can be used; keep simple here:
-  const zeroDecimal = ['JPY', 'KRW', 'VND'].includes(currency);
-  const major = zeroDecimal ? amountMinor : amountMinor / 100;
+
   return nf.format(major);
 }
 
@@ -117,10 +134,6 @@ export default function UpgradePage({ variant = 'account' }) {
   useEffect(() => {
     (async () => {
       try {
-        // Assumptions:
-        // - Backend supports these product slugs; adjust to your actual keys.
-        // - If your backend only exposes one product (e.g., "chatforia_premium"),
-        //   you can add a "plan" param to your /pricing/quote and pass it here.
         const [plus, premM, premA] = await Promise.allSettled([
           getPricingQuote({ product: 'chatforia_plus' }),
           getPricingQuote({ product: 'chatforia_premium_monthly' }),

@@ -17,7 +17,10 @@ import {
   Text,
   Paper,
   Badge,
+  SegmentedControl,
 } from '@mantine/core';
+// Optional icons (safe to remove if you prefer text-only labels)
+// import { IconUsers, IconMegaphone } from '@tabler/icons-react';
 
 // Ads
 import AdSlot from '../ads/AdSlot';
@@ -40,10 +43,15 @@ export default function StartChatModal({
   initialQuery = '',
   hideSearch = false,
 }) {
-  // ---------- NEW: quick-pick recipients ----------
-  const [recipients, setRecipients] = useState([]); // [{id, display, type, ...}]
+  // ---------- NEW: quick-pick recipients + modes ----------
+  const [recipients, setRecipients] = useState([]); // [{id, display, type, phone, email} or {type:'raw', ...}]
   const [startingBulk, setStartingBulk] = useState(false);
   const [pickerInfo, setPickerInfo] = useState('');
+
+  // Mode: 'group' | 'broadcast'
+  const [mode, setMode] = useState('group');
+  const [groupName, setGroupName] = useState('');
+  const [seedMessage, setSeedMessage] = useState(''); // used for broadcast
 
   const navigate = useNavigate();
   const isPremium = useIsPremium();
@@ -142,20 +150,61 @@ export default function StartChatModal({
 
     if (!ids.length) return;
 
+    // Validate selection by mode
+    if (mode === 'group' && ids.length < 2) {
+      setPickerInfo('Select at least 2 recipients for a group.');
+      return;
+    }
+
     try {
       setStartingBulk(true);
-      if (ids.length === 1) {
-        const chatRes = await axiosClient.post(`/chatrooms/direct/${ids[0]}`);
-        const chatroom = chatRes?.data;
+
+      if (mode === 'group') {
+        // GROUP: one room with all participants (plus optional title)
+        const { data: chatroom } = await axiosClient.post('/chatrooms', {
+          participantIds: ids,
+          title: groupName?.trim() || undefined,
+        });
         onClose?.();
         if (chatroom?.id) navigate(`/chat/${chatroom.id}`);
         return;
       }
-      // Group chat upsert (expects backend route)
-      const chatRes = await axiosClient.post('/chatrooms', { participantIds: ids });
-      const chatroom = chatRes?.data;
+
+      // BROADCAST: N 1:1 rooms (server may support /broadcasts)
+      const payload = {
+        participantIds: ids,
+        message: seedMessage?.trim() || undefined,
+      };
+
+      let createdRoomIds = [];
+      let usedServerBroadcast = false;
+
+      try {
+        const { data } = await axiosClient.post('/broadcasts', payload);
+        createdRoomIds = data?.createdRoomIds || [];
+        usedServerBroadcast = true;
+      } catch {
+        // Fallback: client-side loop to create 1:1 rooms + optional seed message
+        for (const id of ids) {
+          const { data } = await axiosClient.post('/chatrooms', { participantIds: [id] });
+          const roomId = data?.chatRoomId || data?.id; // support either shape
+          if (roomId) {
+            createdRoomIds.push(roomId);
+            if (payload.message) {
+              await axiosClient.post(`/messages`, { chatRoomId: roomId, text: payload.message });
+            }
+          }
+        }
+      }
+
       onClose?.();
-      if (chatroom?.id) navigate(`/chat/${chatroom.id}`);
+      // Navigate to the first created thread for continuity
+      if (createdRoomIds[0]) {
+        navigate(`/chat/${createdRoomIds[0]}`);
+      } else if (usedServerBroadcast) {
+        // In case server broadcast didn't return IDs, fall back to inbox
+        navigate(`/`);
+      }
     } catch {
       setPickerInfo('Failed to start chat with selected recipients.');
     } finally {
@@ -366,6 +415,21 @@ export default function StartChatModal({
       aria-label="Start a chat"
     >
       <Stack gap="sm">
+        {/* ---------- NEW: Mode toggle (Group vs Broadcast) ---------- */}
+        <Group justify="space-between" align="center">
+          <Text fw={600}>Mode</Text>
+          <SegmentedControl
+            value={mode}
+            onChange={setMode}
+            data={[
+              // { label: <Group gap={6}><IconUsers size={16}/> <span>Group</span></Group>, value: 'group' },
+              // { label: <Group gap={6}><IconMegaphone size={16}/> <span>Broadcast</span></Group>, value: 'broadcast' },
+              { label: 'Group', value: 'group' },
+              { label: 'Broadcast', value: 'broadcast' },
+            ]}
+          />
+        </Group>
+
         {/* ---------- NEW: Quick picker using RecipientSelector ---------- */}
         <Stack gap="xs">
           <Group justify="space-between" align="center">
@@ -384,13 +448,36 @@ export default function StartChatModal({
             placeholder="Type a name, username, phone, or email…"
           />
 
+          {/* Group extras */}
+          {mode === 'group' && (
+            <TextInput
+              label="Group name (optional)"
+              placeholder="Ex: Friends in Denver"
+              value={groupName}
+              onChange={(e) => setGroupName(e.currentTarget.value)}
+            />
+          )}
+
+          {/* Broadcast extras */}
+          {mode === 'broadcast' && (
+            <TextInput
+              label="First message (optional but recommended)"
+              placeholder="Hey! Quick update…"
+              value={seedMessage}
+              onChange={(e) => setSeedMessage(e.currentTarget.value)}
+            />
+          )}
+
           <Group justify="flex-end">
             <Button
               onClick={handleStartWithRecipients}
-              disabled={!recipients.length}
+              disabled={
+                !recipients.length ||
+                (mode === 'group' && recipients.filter((r) => r.id && r.type !== 'raw').length < 2)
+              }
               loading={startingBulk}
             >
-              Start chat with selected
+              {mode === 'group' ? 'Create group' : 'Send broadcast'}
             </Button>
           </Group>
 
@@ -535,8 +622,29 @@ export default function StartChatModal({
 
         {showContacts && (
           <ScrollArea style={{ maxHeight: 300 }}>
-            {/* NOTE: If/when ContactList supports picker mode, pass onSelect to push into `recipients` */}
-            <ContactList currentUserId={currentUserId} onChanged={setContacts} />
+            {/* Picker mode with multi-select */}
+            <ContactList
+              currentUserId={currentUserId}
+              onChanged={setContacts}
+              selectionMode="multiple"
+              selectedIds={recipients.map((r) => r.id)}           // keep UI in sync
+              onToggleSelect={(id) => {
+                // resolve the contact by id; then push into recipients (shape { id, display, type })
+                const c = contacts.find((x) => (x.userId || x.externalPhone) === id);
+                if (!c) return;
+                const resolvedId = c.userId || c.externalPhone; // choose your key
+                const display =
+                  c.alias || c.user?.username || c.externalName || c.externalPhone || 'Contact';
+
+                setRecipients((prev) => {
+                  const next = [...prev];
+                  const i = next.findIndex((r) => r.id === resolvedId);
+                  if (i >= 0) next.splice(i, 1);
+                  else next.push({ id: resolvedId, display, type: c.userId ? 'contact' : 'external' });
+                  return next;
+                });
+              }}
+            />
           </ScrollArea>
         )}
 

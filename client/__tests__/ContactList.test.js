@@ -45,6 +45,9 @@ const renderSut = (props = {}) =>
         <ContactList
           currentUserId={props.currentUserId ?? 1}
           onChanged={props.onChanged}
+          selectionMode={props.selectionMode ?? 'single'}
+          selectedIds={props.selectedIds ?? []}
+          onToggleSelect={props.onToggleSelect}
         />
       </MemoryRouter>
     </MantineProvider>
@@ -172,5 +175,55 @@ describe('ContactList', () => {
     expect(
       await screen.findByText('Bestie')
     ).toBeInTheDocument();
+  });
+
+  test('multiple selection mode toggles checkboxes instead of navigating', async () => {
+    // Provide one internal and one external contact to verify both IDs are supported
+    axiosClient.get.mockResolvedValueOnce({
+      data: [
+        { userId: 11, alias: '', user: { username: 'alice' } },      // internal
+        { externalPhone: '+15555550100', alias: 'Carol' },           // external
+      ],
+    });
+
+    const onToggleSelect = jest.fn();
+
+    renderSut({
+      selectionMode: 'multiple',
+      selectedIds: [],
+      onToggleSelect,
+    });
+
+    // Both contacts appear
+    expect(await screen.findByText('alice')).toBeInTheDocument();
+    expect(screen.getByText('Carol')).toBeInTheDocument();
+
+    // Checkboxes are rendered with aria-label "Select <displayName>"
+    const aliceCheckbox = screen.getByRole('checkbox', { name: /select alice/i });
+    const carolCheckbox = screen.getByRole('checkbox', { name: /select carol/i });
+
+    // Clicking the row should toggle selection (not navigate)
+    const aliceRow = screen.getByRole('button', { name: /alice/i });
+    fireEvent.click(aliceRow);
+
+    expect(onToggleSelect).toHaveBeenCalledWith(11);
+    expect(mockNavigate).not.toHaveBeenCalled(); // no navigation in picker mode
+
+    // Clicking the checkbox itself should also toggle (and stop propagation)
+    fireEvent.click(carolCheckbox);
+    expect(onToggleSelect).toHaveBeenCalledWith('+15555550100');
+
+    // Action buttons in picker mode also toggle rather than navigate/compose
+    // Click "Start chat" action icon for Alice (internal)
+    const startButtons = screen.getAllByRole('button', { name: /start chat/i });
+    fireEvent.click(startButtons[0]);
+    expect(onToggleSelect).toHaveBeenCalledWith(11);
+    expect(axiosClient.post).not.toHaveBeenCalled(); // no POST in picker toggle
+
+    // Click "Message" action for Carol (external)
+    const messageButtons = screen.getAllByRole('button', { name: /message/i });
+    fireEvent.click(messageButtons[0]);
+    expect(onToggleSelect).toHaveBeenCalledWith('+15555550100');
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

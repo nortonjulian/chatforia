@@ -12,6 +12,7 @@ import {
   ActionIcon,
   Skeleton,
   Tooltip,
+  Checkbox,
 } from '@mantine/core';
 import {
   IconRefresh,
@@ -28,7 +29,26 @@ const toast = {
   info: (m) => console.info(m),
 };
 
-export default function ContactList({ currentUserId, onChanged }) {
+/**
+ * ContactList
+ *
+ * Default (single) mode:
+ *  - Clicking a contact with userId starts a direct chat
+ *  - Buttons for DM / SMS compose / delete / alias update
+ *
+ * Picker (multiple) mode:
+ *  - Pass selectionMode="multiple", selectedIds (string[]), onToggleSelect(id)
+ *  - Renders a checkbox on each row; clicking the row does NOT navigate
+ *  - DM/SMS/Delete actions remain visible; you can hide them via CSS if desired
+ */
+export default function ContactList({
+  currentUserId,
+  onChanged,
+  // --- new optional picker props (fully backward compatible) ---
+  selectionMode = 'single',            // 'single' | 'multiple'
+  selectedIds = [],                    // string[]
+  onToggleSelect,                      // (id: string) => void
+}) {
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]); // raw contacts from server
@@ -199,46 +219,81 @@ export default function ContactList({ currentUserId, onChanged }) {
                 `/sms/compose?to=${encodeURIComponent(
                   c.externalPhone
                 )}${
-                  c.alias
-                    ? `&name=${encodeURIComponent(c.alias)}`
-                    : ''
+                  c.alias ? `&name=${encodeURIComponent(c.alias)}` : ''
                 }`
               );
+
+            const selectableId = c.userId || c.externalPhone || key; // stable-ish fallback for picker
+            const isMultiple = selectionMode === 'multiple';
+            const checked = isMultiple ? selectedIds.includes(selectableId) : false;
+
+            const handleRowPrimaryClick = () => {
+              if (isMultiple) {
+                // In picker mode, toggle selection instead of navigating
+                onToggleSelect?.(selectableId);
+                return;
+              }
+              // Default behavior: start chat if we have a userId
+              startChat(c.userId);
+            };
 
             return (
               <Group key={key} justify="space-between" align="center">
                 <button
                   type="button"
-                  onClick={() => startChat(c.userId)}
+                  onClick={handleRowPrimaryClick}
                   style={{
                     flex: 1,
                     textAlign: 'left',
                     background: 'none',
                     border: 0,
                     padding: 0,
-                    cursor: c.userId ? 'pointer' : 'default',
+                    cursor: isMultiple ? 'pointer' : (c.userId ? 'pointer' : 'default'),
                   }}
                 >
                   <div
                     style={{
                       display: 'flex',
-                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 12,
                     }}
                   >
-                    <span>{displayName}</span>
-                    {secondary ? (
-                      <span
-                        style={{
-                          fontSize: 12,
-                          opacity: 0.65,
-                        }}
-                      >
-                        {secondary}
+                    {isMultiple && (
+                      <Checkbox
+                        checked={checked}
+                        onChange={() => onToggleSelect?.(selectableId)}
+                        aria-label={`Select ${displayName}`}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    )}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        minWidth: 0,
+                      }}
+                    >
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {displayName}
                       </span>
-                    ) : null}
+                      {secondary ? (
+                        <span
+                          style={{
+                            fontSize: 12,
+                            opacity: 0.65,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {secondary}
+                        </span>
+                      ) : null}
+                    </div>
                   </div>
                 </button>
 
+                {/* Alias editor (kept the same) */}
                 <TextInput
                   placeholder="Alias"
                   defaultValue={c.alias || ''}
@@ -253,6 +308,7 @@ export default function ContactList({ currentUserId, onChanged }) {
                   }
                 />
 
+                {/* Action buttons — shown in both modes (you can conditionally hide in picker mode if desired) */}
                 <Group gap="xs">
                   {/* Internal user → DM */}
                   {c.userId ? (
@@ -260,7 +316,14 @@ export default function ContactList({ currentUserId, onChanged }) {
                       <ActionIcon
                         variant="light"
                         aria-label="Start chat"
-                        onClick={() => startChat(c.userId)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isMultiple) {
+                            onToggleSelect?.(selectableId);
+                          } else {
+                            startChat(c.userId);
+                          }
+                        }}
                       >
                         <IconMessagePlus size={16} />
                       </ActionIcon>
@@ -273,7 +336,14 @@ export default function ContactList({ currentUserId, onChanged }) {
                       <ActionIcon
                         variant="light"
                         aria-label="Message"
-                        onClick={goCompose}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (isMultiple) {
+                            onToggleSelect?.(selectableId);
+                          } else {
+                            goCompose();
+                          }
+                        }}
                       >
                         <IconMessage size={16} />
                       </ActionIcon>
@@ -285,9 +355,10 @@ export default function ContactList({ currentUserId, onChanged }) {
                       color="red"
                       variant="subtle"
                       aria-label="Delete contact"
-                      onClick={() =>
-                        deleteContact(c.userId, c.externalPhone)
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteContact(c.userId, c.externalPhone);
+                      }}
                     >
                       <IconTrash size={16} />
                     </ActionIcon>

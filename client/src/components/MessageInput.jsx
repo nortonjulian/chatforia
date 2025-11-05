@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Group, ActionIcon, Loader, Select, Textarea, Button, Badge } from '@mantine/core';
+import { Group, ActionIcon, Select, Textarea, Button, Badge } from '@mantine/core';
 import { IconSend, IconPaperclip } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 import StickerPicker from './StickerPicker.jsx';
 import FileUploader from './FileUploader.jsx';
 import { toast } from '../utils/toast';
 import { encryptForRoom } from '@/utils/encryptionClient';
+import MicButton from '@/components/MicButton.jsx';
 
 const TTL_OPTIONS = [
   { value: '0', label: 'Off' },
@@ -25,7 +26,7 @@ export default function MessageInput({
   const [content, setContent] = useState('');
   const [ttl, setTtl] = useState(String(currentUser?.autoDeleteSeconds || 0));
 
-  // Files uploaded to R2
+  // Files uploaded to R2 (or mic recordings returned as fileMeta)
   const [uploaded, setUploaded] = useState([]);
   // Stickers / GIFs picked (no upload)
   const [inlinePicks, setInlinePicks] = useState([]);
@@ -187,10 +188,10 @@ export default function MessageInput({
             }
           }}
           styles={{
-            root: { flex: 1, minWidth: 0 },   // ← makes the input expand to fill the row
-            input: { 
+            root: { flex: 1, minWidth: 0 },
+            input: {
               fontSize: '1rem',
-              lineHeight: 1.45, 
+              lineHeight: 1.45,
               paddingTop: 8,
               paddingBottom: 8,
             },
@@ -218,6 +219,15 @@ export default function MessageInput({
         >
           {String.fromCodePoint(0x1f600)}
         </Button>
+
+        {/* 🎙️ Voice message (records → uploads → adds to attachments) */}
+        <MicButton
+          chatRoomId={chatroomId}
+          onUploaded={(fileMeta) => {
+            setUploaded((prev) => [...prev, fileMeta]);
+            toast.ok('Voice note added.');
+          }}
+        />
 
         {/* FileUploader (R2) */}
         <FileUploader
