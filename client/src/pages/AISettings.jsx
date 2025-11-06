@@ -8,14 +8,10 @@ import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
 import PremiumGuard from '@/components/PremiumGuard';
 import { setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
-
-const AUTO_TRANSLATE_OPTIONS = [
-  { value: 'off', label: 'Off' },
-  { value: 'tagged', label: 'Only when @translated or tagged' },
-  { value: 'all', label: 'Translate all incoming messages' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function AISettings() {
+  const { t } = useTranslation();
   const { currentUser, setCurrentUser } = useUser();
   const [status, setStatus] = useState({ kind: '', msg: '' });
   const u = currentUser || {};
@@ -45,6 +41,16 @@ export default function AISettings() {
   );
   const [autoResponderActiveUntil, setAutoResponderActiveUntil] = useState(initialUntil);
 
+  // i18n’d select data (memoized so it doesn’t recreate on every render)
+  const AUTO_TRANSLATE_OPTIONS = useMemo(
+    () => [
+      { value: 'off', label: t('aiSettings.translateOff', 'Off') },
+      { value: 'tagged', label: t('aiSettings.translateTagged', 'Only when @translated or tagged') },
+      { value: 'all', label: t('aiSettings.translateAll', 'Translate all incoming messages') },
+    ],
+    [t]
+  );
+
   const save = async () => {
     try {
       const payload = {
@@ -64,10 +70,10 @@ export default function AISettings() {
       setCurrentUser((prev) => ({ ...prev, ...payload, ...data }));
       // keep local pref in sync for instant UI reactions
       await setPref(PREF_SMART_REPLIES, enableSmartReplies);
-      setStatus({ kind: 'success', msg: 'AI preferences saved' });
+      setStatus({ kind: 'success', msg: t('aiSettings.saved', 'AI preferences saved') });
     } catch (e) {
       console.error(e);
-      setStatus({ kind: 'error', msg: 'Failed to save AI settings' });
+      setStatus({ kind: 'error', msg: t('aiSettings.saveFailed', 'Failed to save AI settings') });
     } finally {
       setTimeout(() => setStatus({ kind: '', msg: '' }), 3000);
     }
@@ -75,17 +81,17 @@ export default function AISettings() {
 
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">
-      <Title order={3} mb="sm">AI Settings</Title>
+      <Title order={3} mb="sm">{t('aiSettings.title', 'AI Settings')}</Title>
       <Text size="sm" c="dimmed" mb="md">
-        Control translation, smart replies, and ForiaBot auto-responses.
+        {t('aiSettings.controlIntro', 'Control translation, smart replies, and ForiaBot auto-responses.')}
       </Text>
 
       <Stack gap="md">
         {/* Translation */}
-        <Divider label="Translation" labelPosition="center" />
+        <Divider label={t('aiSettings.translation', 'Translation')} labelPosition="center" />
         <Stack gap="xs">
           <Select
-            label="Auto-translate incoming messages"
+            label={t('aiSettings.autoTranslateIncoming', 'Auto-translate incoming messages')}
             value={autoTranslateMode}
             onChange={(v) => v && setAutoTranslateMode(v)}
             data={AUTO_TRANSLATE_OPTIONS}
@@ -94,48 +100,48 @@ export default function AISettings() {
           <Switch
             checked={showOriginalWithTranslation}
             onChange={(e) => setShowOriginalWithTranslation(e.currentTarget.checked)}
-            label="Show original text alongside translation"
+            label={t('aiSettings.showOriginalAlongside', 'Show original text alongside translation')}
           />
         </Stack>
 
         {/* Smart Replies */}
-        <Divider label="Smart Replies" labelPosition="center" />
+        <Divider label={t('aiSettings.smartReplies', 'Smart Replies')} labelPosition="center" />
         <Switch
           checked={enableSmartReplies}
           onChange={(e) => setEnableSmartReplies(e.currentTarget.checked)}
-          label="Enable Smart Replies"
-          description="Send the last few received messages (sanitized) to AI to suggest quick replies."
+          label={t('aiSettings.enableSmartReplies', 'Enable Smart Replies')}
+          description={t('aiSettings.smartRepliesHint', 'Send the last few received messages (sanitized) to AI to suggest quick replies.')}
         />
         <Switch
           checked={aiFilterProfanity}
           onChange={(e) => setAiFilterProfanity(e.currentTarget.checked)}
-          label="Mask profanity in AI suggestions"
-          description="If on, suggestions returned by AI will have flagged words masked."
+          label={t('aiSettings.maskProfanity', 'Mask profanity in AI suggestions')}
+          description={t('aiSettings.maskProfanityHint', 'If on, suggestions returned by AI will have flagged words masked')}
         />
 
         {/* Auto-Responder (ForiaBot) */}
-        <Divider label="ForiaBot Auto-Responder" labelPosition="center" />
+        <Divider label={t('aiSettings.foriaBot', 'ForiaBot Auto-Responder')} labelPosition="center" />
         <Switch
           checked={enableAIResponder}
           onChange={(e) => setEnableAIResponder(e.currentTarget.checked)}
-          label="Enable auto-reply when I’m busy"
+          label={t('aiSettings.enableAutoReply', 'Enable auto-reply when I’m busy')}
         />
         <Group grow>
           <Select
-            label="Auto-reply mode"
+            label={t('aiSettings.autoReplyMode', 'Auto-reply mode')}
             value={autoResponderMode}
             onChange={setAutoResponderMode}
             data={[
-              { value: 'dm', label: '1:1 chats only' },
-              { value: 'mention', label: 'Only when I’m @mentioned' },
-              { value: 'all', label: 'All inbound messages' },
-              { value: 'off', label: 'Off' },
+              { value: 'dm', label: t('aiSettings.modeDm', '1:1 chats only') },
+              { value: 'mention', label: t('aiSettings.modeMention', 'Only when I’m @mentioned') },
+              { value: 'all', label: t('aiSettings.modeAll', 'All inbound messages') },
+              { value: 'off', label: t('aiSettings.off', 'Off') },
             ]}
             disabled={!enableAIResponder}
             withinPortal
           />
           <NumberInput
-            label="Cooldown (seconds)"
+            label={t('aiSettings.cooldownSeconds', 'Cooldown (seconds)')}
             min={10}
             value={autoResponderCooldownSec}
             onChange={(v) => setAutoResponderCooldownSec(Number(v) || 120)}
@@ -143,14 +149,14 @@ export default function AISettings() {
           />
         </Group>
         <TextInput
-          label="Signature"
+          label={t('aiSettings.signature', 'Signature')}
           value={autoResponderSignature}
           onChange={(e) => setAutoResponderSignature(e.target.value)}
-          placeholder="🤖 Auto-reply"
+          placeholder={t('aiSettings.autoReply', '🤖 Auto-reply')}
           disabled={!enableAIResponder}
         />
         <DateTimePicker
-          label="Active until (optional)"
+          label={t('aiSettings.activeUntilOptional', 'Active until (optional)')}
           value={autoResponderActiveUntil}
           onChange={setAutoResponderActiveUntil}
           disabled={!enableAIResponder}
@@ -164,7 +170,7 @@ export default function AISettings() {
         )}
 
         <Group justify="flex-end">
-          <Button onClick={save}>Save AI Settings</Button>
+          <Button onClick={save}>{t('aiSettings.save', 'Save AI Settings')}</Button>
         </Group>
 
         <PremiumGuard variant="inline" silent />

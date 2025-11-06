@@ -19,8 +19,7 @@ import {
   Badge,
   SegmentedControl,
 } from '@mantine/core';
-// Optional icons (safe to remove if you prefer text-only labels)
-// import { IconUsers, IconMegaphone } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 // Ads
 import AdSlot from '../ads/AdSlot';
@@ -43,6 +42,8 @@ export default function StartChatModal({
   initialQuery = '',
   hideSearch = false,
 }) {
+  const { t } = useTranslation(); // default ns = 'translation'
+
   // ---------- NEW: quick-pick recipients + modes ----------
   const [recipients, setRecipients] = useState([]); // [{id, display, type, phone, email} or {type:'raw', ...}]
   const [startingBulk, setStartingBulk] = useState(false);
@@ -133,7 +134,9 @@ export default function StartChatModal({
   const handleStartWithRecipients = async () => {
     setPickerInfo('');
     if (!recipients.length) {
-      setPickerInfo('Pick at least one recipient.');
+      setPickerInfo(
+        t('startChatModal.pickAtLeastOne', 'Pick at least one recipient.')
+      );
       return;
     }
 
@@ -145,14 +148,24 @@ export default function StartChatModal({
     const hasRaw = recipients.some((r) => r.type === 'raw');
     if (hasRaw) {
       // Optional UX hint: raw entries need to be saved or invited first
-      setPickerInfo('Phone/email entries will be available after you save them as contacts.');
+      setPickerInfo(
+        t(
+          'startChatModal.saveContactsHint',
+          'Phone/email entries will be available after you save them as contacts.'
+        )
+      );
     }
 
     if (!ids.length) return;
 
     // Validate selection by mode
     if (mode === 'group' && ids.length < 2) {
-      setPickerInfo('Select at least 2 recipients for a group.');
+      setPickerInfo(
+        t(
+          'startChatModal.selectAtLeastTwoForGroup',
+          'Select at least 2 recipients for a group.'
+        )
+      );
       return;
     }
 
@@ -206,7 +219,12 @@ export default function StartChatModal({
         navigate(`/`);
       }
     } catch {
-      setPickerInfo('Failed to start chat with selected recipients.');
+      setPickerInfo(
+        t(
+          'startChatModal.failedBulkStart',
+          'Failed to start chat with selected recipients.'
+        )
+      );
     } finally {
       setStartingBulk(false);
     }
@@ -286,7 +304,7 @@ export default function StartChatModal({
       });
       setAliasEdits((prev) => ({ ...seed, ...prev }));
     } catch {
-      setError('Failed to search users.');
+      setError(t('startChatModal.searchFailed', 'Failed to search users.'));
     } finally {
       setLoading(false);
     }
@@ -302,7 +320,7 @@ export default function StartChatModal({
         alias: aliasEdits[user.id] || undefined,
       });
     } catch {
-      setError('Failed to save contact.');
+      setError(t('startChatModal.saveContactFailed', 'Failed to save contact.'));
     } finally {
       setSavingId(null);
     }
@@ -318,7 +336,7 @@ export default function StartChatModal({
         alias: aliasEdits[user.id] || '',
       });
     } catch {
-      setError('Failed to update alias.');
+      setError(t('startChatModal.updateAliasFailed', 'Failed to update alias.'));
     } finally {
       setUpdatingId(null);
     }
@@ -332,7 +350,7 @@ export default function StartChatModal({
         data: { ownerId: currentUserId, userId: user.id },
       });
     } catch {
-      setError('Failed to delete contact.');
+      setError(t('startChatModal.deleteContactFailed', 'Failed to delete contact.'));
     } finally {
       setDeletingId(null);
     }
@@ -347,7 +365,7 @@ export default function StartChatModal({
       onClose?.();
       if (chatroom?.id) navigate(`/chat/${chatroom.id}`);
     } catch {
-      setError('Failed to start chat.');
+      setError(t('startChatModal.startChatFailed', 'Failed to start chat.'));
     } finally {
       setStartingId(null);
     }
@@ -398,7 +416,11 @@ export default function StartChatModal({
       setAddPhone(undefined);
       setAddOpen(false);
     } catch (e) {
-      setError(e?.response?.data?.message || e.message || 'Failed to add contact.');
+      setError(
+        e?.response?.data?.message ||
+          e.message ||
+          t('startChatModal.saveContactFailed', 'Failed to save contact.')
+      );
     } finally {
       setAdding(false);
     }
@@ -408,24 +430,22 @@ export default function StartChatModal({
     <Modal
       opened
       onClose={onClose}
-      title={<Title order={4}>Start a chat</Title>}
+      title={<Title order={4}>{t('startChatModal.title', 'Start a chat')}</Title>}
       radius="xl"
       centered
       size="lg"
-      aria-label="Start a chat"
+      aria-label={t('startChatModal.title', 'Start a chat')}
     >
       <Stack gap="sm">
         {/* ---------- NEW: Mode toggle (Group vs Broadcast) ---------- */}
         <Group justify="space-between" align="center">
-          <Text fw={600}>Mode</Text>
+          <Text fw={600}>{t('startChatModal.mode', 'Mode')}</Text>
           <SegmentedControl
             value={mode}
             onChange={setMode}
             data={[
-              // { label: <Group gap={6}><IconUsers size={16}/> <span>Group</span></Group>, value: 'group' },
-              // { label: <Group gap={6}><IconMegaphone size={16}/> <span>Broadcast</span></Group>, value: 'broadcast' },
-              { label: 'Group', value: 'group' },
-              { label: 'Broadcast', value: 'broadcast' },
+              { label: t('startChatModal.group', 'Group'), value: 'group' },
+              { label: t('startChatModal.broadcast', 'Broadcast'), value: 'broadcast' },
             ]}
           />
         </Group>
@@ -433,9 +453,13 @@ export default function StartChatModal({
         {/* ---------- NEW: Quick picker using RecipientSelector ---------- */}
         <Stack gap="xs">
           <Group justify="space-between" align="center">
-            <Text fw={600}>Quick picker</Text>
+            <Text fw={600}>{t('startChatModal.quickPicker', 'Quick picker')}</Text>
             {recipients.length > 1 && (
-              <Badge variant="light">{recipients.length} selected</Badge>
+              <Badge variant="light">
+                {t('startChatModal.selectedCount', '{{count}} selected', {
+                  count: recipients.length,
+                })}
+              </Badge>
             )}
           </Group>
 
@@ -445,14 +469,20 @@ export default function StartChatModal({
             fetchSuggestions={fetchSuggestions}
             onRequestBrowse={() => setShowContacts(true)}
             maxRecipients={50}
-            placeholder="Type a name, username, phone, or email…"
+            placeholder={t(
+              'startChatModal.nameUsernamePhoneEmail',
+              'Type a name, username, phone, or email…'
+            )}
           />
 
           {/* Group extras */}
           {mode === 'group' && (
             <TextInput
-              label="Group name (optional)"
-              placeholder="Ex: Friends in Denver"
+              label={t('startChatModal.groupNameOptional', 'Group name (optional)')}
+              placeholder={t(
+                'startChatModal.groupNamePlaceholder',
+                'Ex: Friends in Denver'
+              )}
               value={groupName}
               onChange={(e) => setGroupName(e.currentTarget.value)}
             />
@@ -461,8 +491,11 @@ export default function StartChatModal({
           {/* Broadcast extras */}
           {mode === 'broadcast' && (
             <TextInput
-              label="First message (optional but recommended)"
-              placeholder="Hey! Quick update…"
+              label={t(
+                'startChatModal.firstMessageOptional',
+                'First message (optional but recommended)'
+              )}
+              placeholder={t('startChatModal.firstMessagePlaceholder', 'Hey! Quick update…')}
               value={seedMessage}
               onChange={(e) => setSeedMessage(e.currentTarget.value)}
             />
@@ -477,7 +510,9 @@ export default function StartChatModal({
               }
               loading={startingBulk}
             >
-              {mode === 'group' ? 'Create group' : 'Send broadcast'}
+              {mode === 'group'
+                ? t('startChatModal.createGroup', 'Create group')
+                : t('startChatModal.sendBroadcast', 'Send broadcast')}
             </Button>
           </Group>
 
@@ -497,13 +532,16 @@ export default function StartChatModal({
               style={{ flex: 1 }}
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
-              placeholder="Search by username or phone"
-              aria-label="Search users"
+              placeholder={t(
+                'startChatModal.searchByUsernameOrPhone',
+                'Search by username or phone'
+              )}
+              aria-label={t('startChatModal.searchByUsernameOrPhone', 'Search by username or phone')}
               autoFocus
               onKeyDown={(e) => e.key === 'Enter' && runSearch()}
             />
             <Button onClick={() => runSearch()} loading={!!loading}>
-              Search
+              {t('startChatModal.search', 'Search')}
             </Button>
           </Group>
         )}
@@ -531,7 +569,7 @@ export default function StartChatModal({
                         {u.phoneNumber || u.email || 'User'}
                       </Text>
                       <TextInput
-                        placeholder="Alias (optional)"
+                        placeholder={t('startChatModal.aliasOptional', 'Alias (optional)')}
                         value={aliasEdits[u.id] ?? (saved?.alias || '')}
                         onChange={(e) =>
                           setAliasEdits((prev) => ({
@@ -551,7 +589,7 @@ export default function StartChatModal({
                           onClick={() => handleSave(u)}
                           disabled={busy}
                         >
-                          Save
+                          {t('common.save', 'Save')}
                         </Button>
                       ) : (
                         <>
@@ -561,7 +599,7 @@ export default function StartChatModal({
                             onClick={() => handleUpdateAlias(u)}
                             disabled={busy}
                           >
-                            Update
+                            {t('startChatModal.update', 'Update')}
                           </Button>
                           <Button
                             color="red"
@@ -570,7 +608,7 @@ export default function StartChatModal({
                             onClick={() => handleDelete(u)}
                             disabled={busy}
                           >
-                            Delete
+                            {t('startChatModal.delete', 'Delete')}
                           </Button>
                         </>
                       )}
@@ -579,7 +617,7 @@ export default function StartChatModal({
                         onClick={() => handleStartChat(u)}
                         disabled={busy}
                       >
-                        Start
+                        {t('startChatModal.start', 'Start')}
                       </Button>
                     </Group>
                   </Group>
@@ -596,26 +634,38 @@ export default function StartChatModal({
         ) : (
           <>
             {hasSearched ? (
-              <Text c="dimmed">No results</Text>
+              <Text c="dimmed">{t('startChatModal.noResults', 'No results')}</Text>
             ) : hideSearch ? (
               <Text c="dimmed">
-                Use the page search to find people, or pick from contacts below.
+                {t(
+                  'startChatModal.usePageSearch',
+                  'Use the page search to find people, or pick from contacts below.'
+                )}
               </Text>
             ) : (
-              <Text c="dimmed">Type a username or phone and press Search.</Text>
+              <Text c="dimmed">
+                {t(
+                  'startChatModal.searchPrompt',
+                  'Type a username or phone and press Search.'
+                )}
+              </Text>
             )}
           </>
         )}
 
         <Group justify="center">
-          <Divider label="Or pick from contacts" labelPosition="center" my="xs" />
+          <Divider
+            label={t('startChatModal.pickFromContacts', 'Or pick from contacts')}
+            labelPosition="center"
+            my="xs"
+          />
           {!showContacts && (
             <Button
               variant="light"
               onClick={() => setShowContacts(true)}
-              aria-label="Show contacts"
+              aria-label={t('startChatModal.show', 'Show')}
             >
-              Show
+              {t('startChatModal.show', 'Show')}
             </Button>
           )}
         </Group>
@@ -648,32 +698,39 @@ export default function StartChatModal({
           </ScrollArea>
         )}
 
-        <Divider label="Add a Contact" labelPosition="center" my="xs" />
+        <Divider
+          label={t('startChatModal.addContact', 'Add a Contact')}
+          labelPosition="center"
+          my="xs"
+        />
 
         {!addOpen ? (
           <Group justify="flex-start">
             <Button type="button" onClick={() => setAddOpen(true)}>
-              Add
+              {t('startChatModal.add', 'Add')}
             </Button>
           </Group>
         ) : (
           <Stack gap="xs">
             <Group align="end" wrap="wrap">
               <PhoneField
-                label="Phone (optional)"
+                label={t('startChatModal.phoneOptional', 'Phone (optional)')}
                 value={addPhone}
                 onChange={setAddPhone}
                 defaultCountry="US"
               />
               <TextInput
                 style={{ flex: 1, minWidth: 240 }}
-                placeholder="Username or email (optional)"
+                placeholder={t(
+                  'startChatModal.usernameOrEmailOptional',
+                  'Username or email (optional)'
+                )}
                 value={addUsernameOrEmail}
                 onChange={(e) => setAddUsernameOrEmail(e.currentTarget.value)}
               />
               <TextInput
                 style={{ flex: 1, minWidth: 200 }}
-                placeholder="Alias (optional)"
+                placeholder={t('startChatModal.aliasOptional', 'Alias (optional)')}
                 value={addAlias}
                 onChange={(e) => setAddAlias(e.currentTarget.value)}
               />
@@ -681,7 +738,7 @@ export default function StartChatModal({
 
             <Group>
               <Button loading={adding} onClick={handleAddContactDirect}>
-                Save Contact
+                {t('startChatModal.saveContact', 'Save Contact')}
               </Button>
               <Button
                 variant="light"
@@ -693,7 +750,7 @@ export default function StartChatModal({
                   setAddOpen(false);
                 }}
               >
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </Button>
             </Group>
           </Stack>
@@ -701,7 +758,7 @@ export default function StartChatModal({
 
         <Group justify="flex-end" mt="xs">
           <Button variant="subtle" onClick={onClose}>
-            Close
+            {t('startChatModal.close', 'Close')}
           </Button>
         </Group>
 

@@ -21,6 +21,7 @@ import {
   IconSearch,
   IconMessage,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 // --- tiny, safe toast fallback so we don't crash if your toast util isn't wired yet
 const toast = {
@@ -49,6 +50,7 @@ export default function ContactList({
   selectedIds = [],                    // string[]
   onToggleSelect,                      // (id: string) => void
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]); // raw contacts from server
@@ -76,7 +78,7 @@ export default function ContactList({
       onChanged?.(nextList);
     } catch (err) {
       console.error('Failed to fetch contacts:', err);
-      toast.err('Failed to load contacts. Please try again.');
+      toast.err(t('contactList.loadFailed', 'Failed to load contacts. Please try again.'));
     } finally {
       setLoading(false);
     }
@@ -99,7 +101,7 @@ export default function ContactList({
         username ||
         c.externalName ||
         c.externalPhone ||
-        (c.userId ? `User #${c.userId}` : 'External contact');
+        (c.userId ? t('status.userNumber', 'User #{{id}}', { id: c.userId }) : t('contactList.externalContact', 'External contact'));
 
       return (
         display.toLowerCase().includes(q) ||
@@ -108,20 +110,20 @@ export default function ContactList({
         String(c.externalPhone || '').toLowerCase().includes(q)
       );
     });
-  }, [items, search]);
+  }, [items, search, t]);
 
   const startChat = async (userId) => {
     try {
       if (!userId) {
-        toast.info('That contact hasn’t joined Chatforia yet.');
+        toast.info(t('contactList.notJoined', 'That contact hasn’t joined Chatforia yet.'));
         return;
       }
       const { data } = await axiosClient.post(`/chatrooms/direct/${userId}`);
       if (data?.id) navigate(`/chat/${data.id}`);
-      else toast.err('Could not start chat. Please try again.');
+      else toast.err(t('contactList.couldNotStart', 'Could not start chat. Please try again.'));
     } catch (e) {
       console.error('Failed to start chat:', e);
-      toast.err('Failed to start chat. Please try again.');
+      toast.err(t('contactList.startFailed', 'Failed to start chat. Please try again.'));
     }
   };
 
@@ -133,10 +135,10 @@ export default function ContactList({
           : { ownerId: currentUserId, externalPhone },
       });
       await fetchContacts({ append: false });
-      toast.ok('Contact deleted.');
+      toast.ok(t('contactList.deleted', 'Contact deleted.'));
     } catch (err) {
       console.error('Failed to delete contact:', err);
-      toast.err('Failed to delete contact. Please try again.');
+      toast.err(t('contactList.deleteFailed', 'Failed to delete contact. Please try again.'));
     }
   };
 
@@ -147,10 +149,10 @@ export default function ContactList({
         ...(userId ? { userId } : { externalPhone }),
         alias: alias || '',
       });
-      toast.ok('Alias updated.');
+      toast.ok(t('contactList.aliasUpdated', 'Alias updated.'));
     } catch (err) {
       console.error('Failed to update alias:', err);
-      toast.err('Failed to update alias. Please try again.');
+      toast.err(t('contactList.updateAliasFailed', 'Failed to update alias. Please try again.'));
     } finally {
       await fetchContacts({ append: false });
     }
@@ -160,12 +162,12 @@ export default function ContactList({
     <Box p="md" maw={560} mx="auto">
       {/* Header row */}
       <Group justify="space-between" align="center" mb="xs">
-        <Title order={4}>Saved Contacts</Title>
+        <Title order={4}>{t('contactList.savedContacts', 'Saved Contacts')}</Title>
         <ActionIcon
           variant="subtle"
           onClick={() => fetchContacts({ append: false })}
-          aria-label="Refresh contacts"
-          title="Refresh"
+          aria-label={t('contactList.refreshAria', 'Refresh contacts')}
+          title={t('common.refresh', 'Refresh')}
         >
           <IconRefresh size={18} />
         </ActionIcon>
@@ -173,11 +175,11 @@ export default function ContactList({
 
       {/* Compact local filter */}
       <TextInput
-        placeholder="Filter saved contacts…"
+        placeholder={t('contactList.filterPlaceholder', 'Filter saved contacts…')}
         value={search}
         onChange={(e) => setSearch(e.currentTarget.value)}
         leftSection={<IconSearch size={16} />}
-        aria-label="Filter saved contacts"
+        aria-label={t('contactList.filterAria', 'Filter saved contacts')}
         size="sm"
         mb="md"
         styles={{ input: { maxWidth: 360 } }}
@@ -190,7 +192,7 @@ export default function ContactList({
         </Stack>
       ) : filteredItems.length === 0 ? (
         <Text c="dimmed" size="sm">
-          No contacts found.
+          {t('contactList.noContactsFound', 'No contacts found.')}
         </Text>
       ) : (
         <Stack gap="xs">
@@ -203,7 +205,7 @@ export default function ContactList({
               username ||
               c.externalName ||
               c.externalPhone ||
-              (c.userId ? `User #${c.userId}` : 'External contact');
+              (c.userId ? t('status.userNumber', 'User #{{id}}', { id: c.userId }) : t('contactList.externalContact', 'External contact'));
 
             const secondary =
               c.alias &&
@@ -262,7 +264,7 @@ export default function ContactList({
                       <Checkbox
                         checked={checked}
                         onChange={() => onToggleSelect?.(selectableId)}
-                        aria-label={`Select ${displayName}`}
+                        aria-label={t('contactList.selectContact', 'Select {{name}}', { name: displayName })}
                         onClick={(e) => e.stopPropagation()}
                       />
                     )}
@@ -295,7 +297,7 @@ export default function ContactList({
 
                 {/* Alias editor (kept the same) */}
                 <TextInput
-                  placeholder="Alias"
+                  placeholder={t('contactList.alias', 'Alias')}
                   defaultValue={c.alias || ''}
                   size="xs"
                   maw={180}
@@ -312,10 +314,10 @@ export default function ContactList({
                 <Group gap="xs">
                   {/* Internal user → DM */}
                   {c.userId ? (
-                    <Tooltip label="Start chat">
+                    <Tooltip label={t('contactList.startChat', 'Start chat')}>
                       <ActionIcon
                         variant="light"
-                        aria-label="Start chat"
+                        aria-label={t('contactList.startChat', 'Start chat')}
                         onClick={(e) => {
                           e.stopPropagation();
                           if (isMultiple) {
@@ -332,10 +334,10 @@ export default function ContactList({
 
                   {/* External number → Compose SMS */}
                   {c.externalPhone ? (
-                    <Tooltip label="Message">
+                    <Tooltip label={t('contactList.message', 'Message')}>
                       <ActionIcon
                         variant="light"
-                        aria-label="Message"
+                        aria-label={t('contactList.message', 'Message')}
                         onClick={(e) => {
                           e.stopPropagation();
                           if (isMultiple) {
@@ -350,11 +352,11 @@ export default function ContactList({
                     </Tooltip>
                   ) : null}
 
-                  <Tooltip label="Delete">
+                  <Tooltip label={t('contactList.delete', 'Delete')}>
                     <ActionIcon
                       color="red"
                       variant="subtle"
-                      aria-label="Delete contact"
+                      aria-label={t('contactList.deleteContactAria', 'Delete contact')}
                       onClick={(e) => {
                         e.stopPropagation();
                         deleteContact(c.userId, c.externalPhone);
@@ -378,7 +380,7 @@ export default function ContactList({
               fetchContacts({ cursor: nextCursor, append: true })
             }
           >
-            Load more
+            {t('contactList.loadMore', 'Load more')}
           </Button>
         </Group>
       )}

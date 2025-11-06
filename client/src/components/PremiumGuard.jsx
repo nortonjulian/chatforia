@@ -1,6 +1,7 @@
 import { useUser } from '../context/UserContext';
 import { Alert, Anchor, Card, Stack, Text, Button } from '@mantine/core';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /**
  * PremiumGuard
@@ -11,6 +12,7 @@ import { useNavigate, Link } from 'react-router-dom';
 export default function PremiumGuard({ children, variant = 'card', silent = false }) {
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
   const isPremium =
@@ -22,20 +24,29 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
 
   if (variant === 'inline') {
     return (
-      <Alert variant="light" color="blue">
-        This is a Premium feature.{' '}
-        <Anchor component={Link} to="/settings/upgrade">Upgrade</Anchor> to unlock.
+      <Alert variant="light" color="blue" role="note">
+        {t('premiumGuard.requiresPremium', 'This feature requires a Premium plan.')}{' '}
+        <Anchor component={Link} to="/settings/upgrade" aria-label={t('premium.upgrade', 'Upgrade')}>
+          {t('premium.upgrade', 'Upgrade')}
+        </Anchor>{' '}
+        {t('premiumGuard.toUnlock', 'to unlock.')}
       </Alert>
     );
   }
 
   // default: card
   return (
-    <Card withBorder radius="md" p="md" shadow="sm">
+    <Card withBorder radius="md" p="md" shadow="sm" data-testid="premium-guard-card">
       <Stack gap="xs" align="center">
-        <Text size="sm" c="dimmed">This feature requires a Premium plan.</Text>
-        <Button color="yellow" onClick={() => navigate('/settings/upgrade')}>
-          Upgrade Now
+        <Text size="sm" c="dimmed">
+          {t('premiumGuard.requiresPremium', 'This feature requires a Premium plan.')}
+        </Text>
+        <Button
+          color="yellow"
+          onClick={() => navigate('/settings/upgrade')}
+          aria-label={t('premium.upgrade', 'Upgrade')}
+        >
+          {t('upgrade.auth.continue', t('premium.upgrade', 'Upgrade'))}
         </Button>
       </Stack>
     </Card>

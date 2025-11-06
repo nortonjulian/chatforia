@@ -3,12 +3,14 @@ import { Switch, Title } from '@mantine/core';
 import PremiumGuard from '../components/PremiumGuard';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
+import { useTranslation } from 'react-i18next';
 
 const FONT_OPTIONS = ['sm', 'md', 'lg', 'xl'];
 const UI_FONT_SIZE_CLASSES = { sm: 'text-sm', md: 'text-base', lg: 'text-lg', xl: 'text-xl' };
 const A11Y_PATH = '/users/me/a11y';
 
 export default function SettingsAccessibility() {
+  const { t } = useTranslation();
   const { currentUser } = useUser();
 
   // Drive UI from currentUser; no separate load call
@@ -26,9 +28,9 @@ export default function SettingsAccessibility() {
       setError('');
     } else {
       setUser(null);
-      setError('Failed to load settings');
+      setError(t('accessibilitySettings.loadFailed', 'Failed to load settings'));
     }
-  }, [currentUser]);
+  }, [currentUser, t]);
 
   const vibSupported = typeof navigator !== 'undefined' && 'vibrate' in navigator;
   const reduceMotion =
@@ -54,7 +56,7 @@ export default function SettingsAccessibility() {
         setPrefs((p) => ({ ...p, ...projectPrefs(serverUser) }));
       }
     } catch (e) {
-      const msg = readableAxiosError(e) || 'Save failed';
+      const msg = readableAxiosError(e, t) || t('common.saveError', 'Save failed');
       setFieldErrors((m) => ({ ...m, [field]: msg }));
     } finally {
       setSaving(false);
@@ -65,54 +67,80 @@ export default function SettingsAccessibility() {
   if (!user) {
     return (
       <div className="p-4">
-        <Title order={3} className="mb-1">Accessibility &amp; Alerts</Title>
-        <div className="text-sm text-red-600">{error || 'Failed to load settings'}</div>
+        <Title order={3} className="mb-1">
+          {t('accessibilitySettings.title', 'Accessibility & Alerts')}
+        </Title>
+        <div className="text-sm text-red-600">
+          {error || t('accessibilitySettings.loadFailed', 'Failed to load settings')}
+        </div>
       </div>
     );
   }
 
   return (
     <div className={`p-4 max-w-3xl ${uiFontClass}`}>
-      <Title order={3} className="mb-1">Accessibility &amp; Alerts</Title>
+      <Title order={3} className="mb-1">
+        {t('accessibilitySettings.title', 'Accessibility & Alerts')}
+      </Title>
       <p className="text-gray-500 mb-4">
-        Options to make Chatforia easier to use without relying on sound.
+        {t(
+          'accessibilitySettings.accessibilityDesc',
+          'Options to make Chatforia easier to use without relying on sound.'
+        )}
       </p>
 
       <section className="space-y-4">
         <Card>
-          <CardTitle>Interface font size</CardTitle>
+          <CardTitle>{t('accessibilitySettings.interfaceFontSize', 'Interface font size')}</CardTitle>
           <SelectRow
-            label="Interface font size"
-            options={FONT_OPTIONS}
+            label={t('accessibilitySettings.interfaceFontSize', 'Interface font size')}
+            options={FONT_OPTIONS.map((k) => ({
+              value: k,
+              label: t(`accessibilitySettings.${k}`, k),
+            }))}
             value={prefs.a11yUiFont || 'md'}
             onChange={(v) => savePref('a11yUiFont', v)}
           />
           <FieldError msg={fieldErrors.a11yUiFont} />
           <div className="text-xs text-gray-500">
-            Starts at normal size. Increase if you prefer larger text in accessibility settings.
+            {t(
+              'accessibilitySettings.interfaceFontSizeHelp',
+              'Starts at normal size. Increase if you prefer larger text in accessibility settings.'
+            )}
           </div>
         </Card>
 
         <Card>
-          <CardTitle>Notifications</CardTitle>
+          <CardTitle>{t('accessibilitySettings.notifications', 'Notifications')}</CardTitle>
           <SwitchRow
-            label="Visual alerts for messages & calls"
-            desc="Show banners and title blink so you don’t miss activity."
+            label={t('accessibilitySettings.visualAlerts', 'Visual alerts for messages & calls')}
+            desc={t(
+              'accessibilitySettings.visualAlertsDesc',
+              'Show banners and title blink so you don’t miss activity.'
+            )}
             checked={!!prefs.a11yVisualAlerts}
             onChange={(v) => savePref('a11yVisualAlerts', v)}
             errorMsg={fieldErrors.a11yVisualAlerts}
           />
           <SwitchRow
-            label="Vibrate on new messages (when supported)"
-            desc={vibSupported ? 'Trigger device vibration with notifications.' : 'Not supported on this device.'}
+            label={t('accessibilitySettings.vibrateOnNewShort', 'Vibrate on new messages (when supported)')}
+            desc={
+              vibSupported
+                ? t('accessibilitySettings.vibrateOnNewDesc', 'Trigger device vibration with notifications.')
+                : t('accessibilitySettings.vibrateOnNewDesc', 'Not supported on this device.')
+            }
             checked={!!prefs.a11yVibrate}
             onChange={(v) => savePref('a11yVibrate', v)}
             disabled={!vibSupported}
             errorMsg={fieldErrors.a11yVibrate}
           />
           <SwitchRow
-            label="Flash screen on incoming call"
-            desc={reduceMotion ? 'Disabled due to system reduce-motion.' : 'Brief bright flash when a call rings.'}
+            label={t('accessibilitySettings.flashOnCallShort', 'Flash screen on incoming call')}
+            desc={
+              reduceMotion
+                ? t('accessibilitySettings.flashOnCallDesc', 'Disabled due to system reduce-motion.')
+                : t('accessibilitySettings.flashOnCallDesc', 'Brief bright flash when a call rings.')
+            }
             checked={!!prefs.a11yFlashOnCall}
             onChange={(v) => savePref('a11yFlashOnCall', v)}
             disabled={reduceMotion}
@@ -121,11 +149,17 @@ export default function SettingsAccessibility() {
         </Card>
 
         <Card>
-          <CardTitle>Live captions (calls)</CardTitle>
+          <CardTitle>{t('accessibilitySettings.liveCaptions', 'Live captions (calls)')}</CardTitle>
           <PremiumGuard inline>
             <SwitchRow
-              label="Enable live captions during calls (Premium)"
-              desc="Show real-time captions from the other participant’s audio."
+              label={t(
+                'accessibilitySettings.liveCaptions',
+                'Enable live captions during calls (Premium)'
+              )}
+              desc={t(
+                'accessibilitySettings.liveCaptions',
+                "Show real-time captions from the other participant’s audio."
+              )}
               checked={!!prefs.a11yLiveCaptions}
               onChange={(v) => savePref('a11yLiveCaptions', v)}
               errorMsg={fieldErrors.a11yLiveCaptions}
@@ -134,16 +168,22 @@ export default function SettingsAccessibility() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             <SelectRow
-              label="Caption font size"
-              options={FONT_OPTIONS}
+              label={t('accessibilitySettings.captionFontSize', 'Caption font size')}
+              options={FONT_OPTIONS.map((k) => ({
+                value: k,
+                label: t(`accessibilitySettings.${k}`, k),
+              }))}
               value={prefs.a11yCaptionFont || 'lg'}
               onChange={(v) => savePref('a11yCaptionFont', v)}
             />
             <FieldError msg={fieldErrors.a11yCaptionFont} />
 
             <SelectRow
-              label="Caption background"
-              options={['light', 'dark', 'transparent']}
+              label={t('accessibilitySettings.captionBackground', 'Caption background')}
+              options={['light', 'dark', 'transparent'].map((k) => ({
+                value: k,
+                label: t(`accessibilitySettings.${k}`, k),
+              }))}
               value={prefs.a11yCaptionBg || 'dark'}
               onChange={(v) => savePref('a11yCaptionBg', v)}
             />
@@ -152,10 +192,13 @@ export default function SettingsAccessibility() {
         </Card>
 
         <Card>
-          <CardTitle>Voice notes</CardTitle>
+          <CardTitle>{t('accessibilitySettings.voiceNotes', 'Voice notes')}</CardTitle>
           <SwitchRow
-            label="Auto-transcribe voice notes"
-            desc="Attach a transcript to audio messages you receive."
+            label={t('accessibilitySettings.autoTranscribeVoiceNotes', 'Auto-transcribe voice notes')}
+            desc={t(
+              'accessibilitySettings.autoTranscribeVoiceNotes',
+              'Attach a transcript to audio messages you receive.'
+            )}
             checked={!!prefs.a11yVoiceNoteSTT}
             onChange={(v) => savePref('a11yVoiceNoteSTT', v)}
             errorMsg={fieldErrors.a11yVoiceNoteSTT}
@@ -164,7 +207,9 @@ export default function SettingsAccessibility() {
       </section>
 
       <div className="pt-4 text-sm text-gray-500">
-        {saving ? 'Saving…' : 'Changes are saved instantly.'}
+        {saving
+          ? t('upgrade.checkout.redirecting', 'Saving…')
+          : t('accessibilitySettings.changesSavedInstantly', 'Changes are saved instantly.')}
       </div>
     </div>
   );
@@ -197,15 +242,15 @@ function projectPrefs(u) {
   };
 }
 
-function readableAxiosError(e) {
+function readableAxiosError(e, t) {
   if (!e) return '';
   const status = e.response?.status;
   const msg = e.response?.data?.error || e.message;
-  if (status === 401) return 'Please sign in again.';
-  if (status === 402) return 'Premium required.';
-  if (status === 403) return 'Not allowed.';
-  if (status === 404) return 'Endpoint not found.';
-  return msg || 'Save failed';
+  if (status === 401) return t('auth.login', 'Please sign in again.');
+  if (status === 402) return t('premiumGuard.requiresPremium', 'Premium required.');
+  if (status === 403) return t('profile.saveError', 'Not allowed.');
+  if (status === 404) return t('help.search', 'Endpoint not found.');
+  return msg || t('common.saveError', 'Save failed');
 }
 
 function FieldError({ msg }) {
@@ -249,11 +294,17 @@ function SelectRow({ label, options, value, onChange }) {
         onChange={(e) => onChange(e.target.value)}
         className="border rounded-lg px-3 py-2"
       >
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
+        {options.map((o) =>
+          typeof o === 'string' ? (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ) : (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          )
+        )}
       </select>
     </label>
   );

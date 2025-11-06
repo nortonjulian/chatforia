@@ -19,8 +19,10 @@ import { useUser } from '../context/UserContext';
 import StartChatModal from '../components/StartChatModal';
 import ContactList from '../components/ContactList';
 import ImportContactsModal from '@/components/ImportContactsModal';
+import { useTranslation } from 'react-i18next';
 
 export default function PeoplePage() {
+  const { t } = useTranslation();
   const { currentUser } = useUser();
   const [openStartChat, setOpenStartChat] = useState(false);
   const [openImport, setOpenImport] = useState(false);
@@ -78,7 +80,7 @@ export default function PeoplePage() {
     <Box w="100%" mx="auto" px="md" style={{ maxWidth: 1200 }}>
       {/* Header row: title left, global actions right */}
       <Group justify="space-between" mb="sm">
-        <Title order={4}>People</Title>
+        <Title order={4}>{t('peoplePage.people', 'People')}</Title>
         {/* No header buttons — “+” in sidebar is the universal entry point */}
       </Group>
 
@@ -90,30 +92,38 @@ export default function PeoplePage() {
             <Group wrap="nowrap" gap="sm" align="center">
               <TextInput
                 id="global-people-search"
-                aria-label="Search by alias, name, username, or phone"
-                placeholder="Search by alias, name, username, or phone…"
+                aria-label={t('peoplePage.search', 'Search')}
+                placeholder={t(
+                  'peoplePage.searchPlaceholder',
+                  'Search by alias, name, username, or phone'
+                )}
                 value={input}
                 onChange={(e) => setInput(e.currentTarget.value)}
                 onKeyDown={(e) => e.key === 'Enter' && applySearch()}
                 leftSection={<IconSearch size={16} />}
                 rightSection={
                   input ? (
-                    <ActionIcon aria-label="Clear search" onClick={clearSearch} variant="subtle">
+                    <ActionIcon
+                      aria-label={t('common.cancel', 'Cancel')}
+                      onClick={clearSearch}
+                      variant="subtle"
+                    >
                       <IconX size={16} />
                     </ActionIcon>
                   ) : null
                 }
-                inputRef={globalSearchRef}         // 👈 Mantine’s ref to the <input>
+                inputRef={globalSearchRef}
                 style={{ flex: '1 1 auto', minWidth: 0 }}
               />
               <Button onClick={applySearch} style={{ flex: '0 0 auto' }} w={120}>
-                Search
+                {t('peoplePage.search', 'Search')}
               </Button>
             </Group>
           </Box>
 
           {/* Main card */}
           <Paper withBorder radius="xl" p="md">
+            {/* Note: ContactList currently ignores searchQuery; safe to pass for future support */}
             <ContactList currentUserId={currentUser.id} searchQuery={q} />
           </Paper>
         </Grid.Col>
@@ -123,27 +133,29 @@ export default function PeoplePage() {
           <Stack gap="md" visibleFrom="lg">
             {/* Quick start/checklist */}
             <Paper withBorder radius="lg" p="md">
-              <Text fw={600} mb="xs">Quick start</Text>
+              <Text fw={600} mb="xs">
+                {t('peoplePage.quickStart', 'Quick start')}
+              </Text>
               <Text size="sm" c="dimmed" mb="sm">
-                A few fast ways to get rolling.
+                {t('peoplePage.quickStartDesc', 'A few fast ways to get rolling.')}
               </Text>
               <Stack gap="xs">
                 <Group justify="space-between">
-                  <Text size="sm">Import your contacts</Text>
+                  <Text size="sm">{t('peoplePage.importContacts', 'Import your contacts')}</Text>
                   <Button size="xs" variant="light" onClick={() => setOpenImport(true)}>
-                    Import
+                    {t('peoplePage.import', 'Import')}
                   </Button>
                 </Group>
                 <Group justify="space-between">
-                  <Text size="sm">Find or add someone</Text>
+                  <Text size="sm">{t('peoplePage.findOrAdd', 'Find or add someone')}</Text>
                   <Button size="xs" onClick={() => setOpenStartChat(true)}>
-                    Add
+                    {t('peoplePage.add', 'Add')}
                   </Button>
                 </Group>
                 <Group justify="space-between">
-                  <Text size="sm">Search by phone / username</Text>
+                  <Text size="sm">{t('peoplePage.searchByPhoneOrUsername', 'Search by phone / username')}</Text>
                   <Button size="xs" variant="subtle" onClick={focusGlobalSearch}>
-                    Focus Search
+                    {t('peoplePage.focusSearch', 'Focus Search')}
                   </Button>
                 </Group>
               </Stack>
@@ -151,18 +163,21 @@ export default function PeoplePage() {
 
             {/* Invite friends */}
             <Paper withBorder radius="lg" p="md">
-              <Text fw={600} mb="xs">Invite friends</Text>
+              <Text fw={600} mb="xs">{t('peoplePage.inviteFriends', 'Invite friends')}</Text>
               <Text size="sm" c="dimmed">
-                Share your invite link to start chatting instantly.
+                {t('peoplePage.inviteDesc', 'Share your invite link to start chatting instantly.')}
               </Text>
               <Group mt="sm" wrap="nowrap">
-                <Text size="sm" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
+                <Text
+                  size="sm"
+                  style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}
+                >
                   {inviteUrl}
                 </Text>
                 <CopyButton value={inviteUrl} timeout={1600}>
                   {({ copied, copy }) => (
-                    <Tooltip label={copied ? 'Copied!' : 'Copy'} withArrow>
-                      <ActionIcon variant="light" onClick={copy} aria-label="Copy invite link">
+                    <Tooltip label={copied ? t('common.copied', 'Copied!') : t('common.copy', 'Copy')} withArrow>
+                      <ActionIcon variant="light" onClick={copy} aria-label={t('common.copy', 'Copy')}>
                         {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
                       </ActionIcon>
                     </Tooltip>
@@ -171,11 +186,11 @@ export default function PeoplePage() {
               </Group>
             </Paper>
 
-            {/* Get the app (optional redundancy; keep for convenience) */}
+            {/* Get the app */}
             <Paper withBorder radius="lg" p="md">
-              <Text fw={600} mb="xs">Get the app</Text>
+              <Text fw={600} mb="xs">{t('peoplePage.getTheApp', 'Get the app')}</Text>
               <Text size="sm" c="dimmed">
-                Stay in touch on the go with Chatforia for iOS and Android.
+                {t('peoplePage.getTheAppDesc', 'Stay in touch on the go with Chatforia for iOS and Android.')}
               </Text>
               <Group mt="sm" gap="xs">
                 <Button
@@ -184,12 +199,12 @@ export default function PeoplePage() {
                   component="a"
                   href="/download"
                 >
-                  Download
+                  {t('peoplePage.download', 'Download')}
                 </Button>
               </Group>
               <Divider my="sm" />
               <Text size="xs" c="dimmed">
-                Tip: Your messages stay synced across web and mobile.
+                {t('peoplePage.syncTip', 'Tip: Your messages stay synced across web and mobile.')}
               </Text>
             </Paper>
           </Stack>

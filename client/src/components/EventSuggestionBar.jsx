@@ -26,21 +26,25 @@ export default function EventSuggestionBar({
   messages,
   currentUser,
   chatroom,
+  forcedText,     // optional: parse this specific message text instead of scanning last 5
+  onClearForced,  // optional: called after modal opens when forcedText was used
 }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
 
-  // Scan the last few messages for a natural-language date/time
+  // Scan the last few messages (or a forced message) for a natural-language date/time
   const candidate = useMemo(() => {
-    const last = (messages || []).slice(-5).reverse();
-    for (const m of last) {
-      const text =
-        m.decryptedContent || m.translatedForMe || m.rawContent || '';
-      if (!text) continue;
+    const pool = forcedText
+      ? [forcedText]
+      : (messages || [])
+          .slice(-5)
+          .reverse()
+          .map(m => m.decryptedContent || m.translatedForMe || m.rawContent || '')
+          .filter(Boolean);
 
-      // Use chrono-node to parse with forwardDate (future-bias)
+    for (const text of pool) {
       const res = chrono.parse(text, new Date(), { forwardDate: true })?.[0];
       if (res?.start) {
         const start = res.start.date();
@@ -49,7 +53,6 @@ export default function EventSuggestionBar({
           DateTime.fromJSDate(start).plus({ hours: 1 }).toJSDate();
 
         return {
-          messageId: m.id,
           snippet: text.slice(0, 200),
           startISO: DateTime.fromJSDate(start).toUTC().toISO(),
           endISO: DateTime.fromJSDate(end).toUTC().toISO(),
@@ -58,7 +61,7 @@ export default function EventSuggestionBar({
       }
     }
     return null;
-  }, [messages]);
+  }, [messages, forcedText]);
 
   if (!candidate || !chatroom?.id) return null;
 
@@ -67,6 +70,9 @@ export default function EventSuggestionBar({
     setLocation('');
     setDescription(`From chat: "${candidate.snippet}"`);
     setOpen(true);
+    // If this was opened via a specific message, clear the force so future renders
+    // go back to scanning the last 5 messages.
+    onClearForced?.();
   };
 
   const googleHref = () => {
@@ -94,7 +100,6 @@ export default function EventSuggestionBar({
   };
 
   async function postEventToast(extraLines = []) {
-    // Build the message text that will be posted into the room
     const whenLine = fmtLocalRange(
       candidate.startISO,
       candidate.endISO,
@@ -118,7 +123,7 @@ export default function EventSuggestionBar({
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     } catch (e) {
-      // Non-blocking: if post fails, just ignore so user still gets their calendar action.
+      // Non-blocking: allow calendar action to succeed regardless.
       console.warn('event toast post failed', e);
     }
   }
@@ -139,16 +144,20 @@ export default function EventSuggestionBar({
 
   async function downloadIcs() {
     try {
-      const { data } = await axiosClient.post('/calendar/ics?inline=1', {
+      // Use GET with responseType 'blob' and server-expected params 'start'/'end'
+      const params = new URLSearchParams({
         title,
         description,
         location,
-        startISO: candidate.startISO,
-        endISO: candidate.endISO,
+        start: candidate.startISO,
+        end: candidate.endISO,
+      }).toString();
+
+      const { data } = await axiosClient.get(`/calendar/ics?${params}`, {
+        responseType: 'blob',
       });
-      const blob = new Blob([data.ics], {
-        type: 'text/calendar;charset=utf-8',
-      });
+
+      const blob = new Blob([data], { type: 'text/calendar;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;

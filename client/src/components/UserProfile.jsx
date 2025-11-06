@@ -60,6 +60,12 @@ const LazySettingsAccessibility = lazyWithFallback(() =>
   import('../pages/SettingsAccessibility').catch(() => ({ default: () => null }))
 );
 
+function SectionBoundaryInner({ children, fallbackText }) {
+  return children || (
+    <Alert color="red" variant="light" title={fallbackText} />
+  );
+}
+
 class SectionBoundary extends React.Component {
   constructor(props) { super(props); this.state = { err: null }; }
   static getDerivedStateFromError(err) { return { err }; }
@@ -67,8 +73,8 @@ class SectionBoundary extends React.Component {
   render() {
     if (this.state.err) {
       return (
-        <Alert color="red" variant="light" title="Section failed to load">
-          {this.props.fallbackText || 'Something went wrong in this section.'}
+        <Alert color="red" variant="light" title={this.props.fallbackText}>
+          {this.props.fallbackText}
         </Alert>
       );
     }
@@ -77,10 +83,11 @@ class SectionBoundary extends React.Component {
 }
 
 function AdvancedTtlControls({ value, onChange }) {
+  const { t } = useTranslation();
   return (
     <Group align="flex-end" gap="sm">
       <NumberInput
-        label="Disappear after (seconds)"
+        label={t('profile.disappearAfterSeconds', 'Disappear after (seconds)')}
         min={1}
         max={7 * 24 * 3600}
         step={60}
@@ -89,8 +96,8 @@ function AdvancedTtlControls({ value, onChange }) {
         clampBehavior="strict"
       />
       <NumberInput
-        label="Preset (seconds)"
-        placeholder="Type or pick"
+        label={t('profile.presetSeconds', 'Preset (seconds)')}
+        placeholder={t('profile.typeOrPick', 'Type or pick')}
         value={value}
         onChange={(v) => onChange(Number(v) || 0)}
       />
@@ -208,11 +215,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               <Group>
                 <Avatar src={viewUser.avatarUrl || '/default-avatar.png'} size={64} radius="xl" />
                 <div>
-                  <Title order={3}>{viewUser.username || `User #${viewUser.id}`}</Title>
+                  <Title order={3}>{viewUser.username || t('profile.userFallback', 'User #{{id}}', { id: viewUser.id })}</Title>
                   <Group gap="xs" mt={4}>
-                    <Badge variant="light">{(followStats?.followerCount ?? 0)} followers</Badge>
-                    <Badge variant="light">{(followStats?.followingCount ?? 0)} following</Badge>
-                    {followStats?.doTheyFollowMe ? <Badge color="blue" variant="light">Follows you</Badge> : null}
+                    <Badge variant="light">{(followStats?.followerCount ?? 0)} {t('profile.followers', 'followers')}</Badge>
+                    <Badge variant="light">{(followStats?.followingCount ?? 0)} {t('profile.following', 'following')}</Badge>
+                    {followStats?.doTheyFollowMe ? <Badge color="blue" variant="light">{t('profile.followsYou', 'Follows you')}</Badge> : null}
                   </Group>
                 </div>
               </Group>
@@ -240,7 +247,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   }
 
   /* ------- own profile ------- */
-  if (!currentUser) return <Text c="dimmed">{t('profile.mustLogin')}</Text>;
+  if (!currentUser) return <Text c="dimmed">{t('profile.mustLogin', 'You must sign in to view the settings.')}</Text>;
 
   const planUpper = (currentUser.plan || 'FREE').toUpperCase();
   const isPremiumPlan = planUpper === 'PREMIUM';
@@ -269,7 +276,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   // Keep UI theme in sync if user state changes (e.g., login in another tab)
   useEffect(() => {
     if (currentUser?.theme) applyTheme(currentUser.theme);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exlint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.theme]);
 
   // Nothing auto-opened
@@ -451,9 +458,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 }}
               />
 
-
-
-
               <Switch
                 checked={autoTranslate}
                 onChange={(e) => setAutoTranslate(e.currentTarget.checked)}
@@ -566,16 +570,16 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
         {/* Backup & Sync (Premium) */}
         <Accordion.Item value="backup">
-          <Accordion.Control>Backup & Sync</Accordion.Control>
+          <Accordion.Control>{t('profile.backupSync', 'Backup & Sync')}</Accordion.Control>
           <Accordion.Panel>
             <PremiumGuard>
               <Card withBorder radius="lg" p="md">
                 <Group justify="space-between" align="center">
                   <Group>
                     <IconCloudUpload size={20} />
-                    <Text fw={600}>Encrypted Backups & Device Sync</Text>
+                    <Text fw={600}>{t('profile.encryptedBackupsTitle', 'Encrypted Backups & Device Sync')}</Text>
                   </Group>
-                  <Button variant="light" component="a" href="/settings/backups" aria-label="Open backup tools">
+                  <Button variant="light" component="a" href="/settings/backups" aria-label={t('profile.openBackupTools', 'Open Backup Tools')}>
                     {t('profile.openBackupTools', 'Open Backup Tools')}
                   </Button>
                 </Group>
@@ -589,9 +593,9 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
         {/* AI */}
         <Accordion.Item value="ai">
-          <Accordion.Control>AI</Accordion.Control>
+          <Accordion.Control>{t('profile.ai', 'AI')}</Accordion.Control>
           <Accordion.Panel>
-            <SectionBoundary fallbackText="AI settings failed to load">
+            <SectionBoundary fallbackText={t('profile.aiFailed', 'AI settings failed to load')}>
               <Suspense fallback={null}>
                 <LazyAISettings />
               </Suspense>
@@ -603,7 +607,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         <Accordion.Item value="accessibility">
           <Accordion.Control>{t('profile.accessibility', 'Accessibility')}</Accordion.Control>
           <Accordion.Panel>
-            <SectionBoundary fallbackText="Accessibility settings failed to load">
+            <SectionBoundary fallbackText={t('profile.accessibilityFailed', 'Accessibility settings failed to load')}>
               <Suspense fallback={null}>
                 <LazySettingsAccessibility />
               </Suspense>

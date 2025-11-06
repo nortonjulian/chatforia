@@ -23,6 +23,7 @@ import {
   IconPhoto,
   IconRotateClockwise,
   IconDice5,
+  IconCalendarPlus, // ⬅️ added
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -139,6 +140,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
+
+  // 📅 Optional: force a specific message's text into the thread-level calendar modal
+  const [forcedCalendarText, setForcedCalendarText] = useState(null);
 
   if (import.meta.env.DEV) {
     console.log('[ChatView] PLACEMENTS', PLACEMENTS);
@@ -553,6 +557,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
   const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
 
+  // Feed a specific message's text into the calendar bar
+  const handleAddToCalendarFromMessage = (msg) => {
+    const text =
+      msg?.decryptedContent || msg?.translatedForMe || msg?.rawContent || msg?.content || '';
+    if (text) setForcedCalendarText(text);
+  };
+
   return (
     <Box
       p="md"
@@ -784,6 +795,20 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                         <ReactionBar message={msg} currentUserId={currentUserId} />
 
+                        {/* Tiny calendar trigger (feeds the single thread-level modal) */}
+                        <Group justify="flex-end" mt={4} gap="xs">
+                          <Tooltip label="Add to calendar…" withArrow>
+                            <ActionIcon
+                              size="sm"
+                              variant="subtle"
+                              aria-label="Add to calendar"
+                              onClick={() => handleAddToCalendarFromMessage(msg)}
+                            >
+                              <IconCalendarPlus size={16} />
+                            </ActionIcon>
+                          </Tooltip>
+                        </Group>
+
                         {msg.expiresAt && (
                           <Text size="xs" mt={4} fs="italic" c="red.6" ta="right">
                             Disappears in: {getTimeLeftString(msg.expiresAt)}
@@ -854,11 +879,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           </Group>
         )}
 
-        {/* 📅 Calendar suggestion bar */}
+        {/* 📅 Calendar suggestion bar (single thread-level instance) */}
         <EventSuggestionBar
           messages={messages}
           currentUser={currentUser}
           chatroom={chatroom}
+          forcedText={forcedCalendarText}
+          onClearForced={() => setForcedCalendarText(null)}
         />
       </Box>
 
