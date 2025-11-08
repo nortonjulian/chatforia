@@ -4,7 +4,7 @@ import StatusBar from './StatusBar.jsx';
 import StatusComposer from './StatusComposer.jsx';
 import StatusViewer from './StatusViewer.jsx';
 
-export default function ChatHome({ currentUser, children }) {
+export default function ChatHome({ currentUser, children, showInlineStatusButton = false }) {
   const [composerOpen, setComposerOpen] = useState(false);
   const [viewer, setViewer] = useState(null); // { author, stories }
 
@@ -19,9 +19,12 @@ export default function ChatHome({ currentUser, children }) {
           currentUserId={currentUser?.id}
           onOpenViewer={(payload) => setViewer(payload)}
         />
-        <Button size="xs" variant="light" onClick={() => setComposerOpen(true)}>
-          New Status
-        </Button>
+
+        {showInlineStatusButton && (
+          <Button size="xs" variant="light" onClick={() => setComposerOpen(true)}>
+            New Status
+          </Button>
+        )}
       </Group>
 
       {/* your chat layout below */}

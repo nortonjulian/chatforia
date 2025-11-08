@@ -1,78 +1,45 @@
-import { Container, Title, Text, Paper, Stack } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
+import { Container, Title, Text, Paper, Stack, Button, Group } from '@mantine/core';
+
+// Public assets are served from / (Vite/CRA). Put your zip here: client/public/brand/chatforia-logo-kit.zip
+const MEDIA_KIT_URL = '/brand/chatforia-logo-kit.zip';
 
 export default function Press() {
-  const { t } = useTranslation();
-
   return (
-    <Container size="md" py="xl">
-      {/* Page title */}
-      <Title
-        order={2}
-        aria-label={t('press.title', 'Press')}
-      >
-        {t('press.title', 'Press')}
-      </Title>
+    <Container size="lg" py="xl">
+      <Title order={2} mb="md">Press</Title>
 
-      {/* Contact line with mailto link */}
-      <Text
-        c="dimmed"
-        mb="md"
-        aria-label={t(
-          'press.contactText',
-          'For media inquiries, reach us at press@chatforia.com.'
-        )}
-        dangerouslySetInnerHTML={{
-          __html: t(
-            'press.contact',
-            'For media inquiries, reach us at <a href="mailto:press@chatforia.com">press@chatforia.com</a>.'
-          ),
-        }}
-      />
+      <Text c="dimmed" mb="md">
+        For media inquiries, reach us at <a href="mailto:press@chatforia.com">press@chatforia.com</a>.
+      </Text>
 
-      <Stack>
-        {/* Boilerplate card */}
+      <Stack gap="lg">
+        {/* Boilerplate */}
         <Paper withBorder p="md" radius="md">
-          <Title
-            order={4}
-            aria-label={t('press.boilerplateTitle', 'Boilerplate')}
-          >
-            {t('press.boilerplateTitle', 'Boilerplate')}
-          </Title>
-
-          <Text
-            aria-label={t(
-              'press.boilerplateText',
-              'Chatforia is a secure messenger with instant translation and E2EE encryption, designed to make global conversations private and effortless.'
-            )}
-          >
-            {t(
-              'press.boilerplateText',
-              'Chatforia is a secure messenger with instant translation and E2EE encryption, designed to make global conversations private and effortless.'
-            )}
+          <Title order={4} mb={6}>Boilerplate</Title>
+          <Text>
+            Chatforia is a privacy-first messaging app that makes cross-language chat effortless.
+            Messages are end-to-end encrypted by default, and built-in translation supports 100+
+            languages in real time. Users can enable disappearing messages, keep read receipts
+            optional, and sync across devices. Available on iOS, Android, and the web.
           </Text>
         </Paper>
 
-        {/* Brand assets card */}
+        {/* Brand assets (no “coming soon”) */}
         <Paper withBorder p="md" radius="md">
-          <Title
-            order={4}
-            aria-label={t('press.assetsTitle', 'Brand assets')}
-          >
-            {t('press.assetsTitle', 'Brand assets')}
-          </Title>
-
-          <Text
-            aria-label={t(
-              'press.assetsText',
-              'Logos, screenshots, and product imagery (coming soon).'
-            )}
-          >
-            {t(
-              'press.assetsText',
-              'Logos, screenshots, and product imagery (coming soon).'
-            )}
-          </Text>
+          <Group justify="space-between" align="center" wrap="wrap">
+            <div>
+              <Title order={4} mb={6}>Brand assets</Title>
+              <Text>Logos, screenshots, and product imagery.</Text>
+            </div>
+            <Button
+              component="a"
+              href={MEDIA_KIT_URL}
+              download="chatforia-logo-kit.zip"
+              radius="xl"
+            >
+              Download media kit
+            </Button>
+          </Group>
         </Paper>
       </Stack>
     </Container>

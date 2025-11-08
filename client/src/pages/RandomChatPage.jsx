@@ -5,11 +5,13 @@ import {
 import { IconMessageCircle, IconPlayerPlay, IconPlayerStop, IconRobot } from '@tabler/icons-react';
 import { useUser } from '@/context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import socket from '@/lib/socket'; // singleton client
 
 export default function RandomChatPage() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [searching, setSearching] = useState(false);
   const [active, setActive] = useState(null); // { roomId, partner, partnerId, isAI? }
@@ -30,7 +32,7 @@ export default function RandomChatPage() {
         /bot|ai/i.test(String(payload?.partner || ''));
 
       const normalized = isAI
-        ? { ...payload, isAI: true, partner: 'Foria' }
+        ? { ...payload, isAI: true, partner: t('brand.foria', 'Foria') }
         : payload;
 
       aiRequestedRef.current = false;
@@ -42,11 +44,11 @@ export default function RandomChatPage() {
 
     const onReceiveMessage = (msg) => setMessages((p) => [...p, msg]);
     const onPartnerDisconnected = (txt) =>
-      setStatus(txt || 'Your partner disconnected.');
+      setStatus(txt || t('randomChat.partnerDisconnected', 'Your partner disconnected.'));
     const onChatSkipped = (txt) => {
       setSearching(false);
       setActive(null);
-      setStatus(txt || 'Stopped.');
+      setStatus(txt || t('randomChat.stopped', 'Stopped.'));
     };
 
     socket.on('pair_found', onPairFound);
@@ -60,14 +62,14 @@ export default function RandomChatPage() {
       socket.off('partner_disconnected', onPartnerDisconnected);
       socket.off('chat_skipped', onChatSkipped);
     };
-  }, []);
+  }, [t]);
 
   /* ---------- Actions ---------- */
   const startSearch = () => {
     if (!socket || !currentUser) return;
     aiRequestedRef.current = false;
     setSearching(true);
-    setStatus('Looking for someone…');
+    setStatus(t('randomChat.looking', 'Looking for someone…'));
     socket.emit('find_random_chat');
   };
 
@@ -75,7 +77,7 @@ export default function RandomChatPage() {
     if (!socket) return;
     aiRequestedRef.current = true;
     setSearching(true);
-    setStatus('Starting a chat with Foria…');
+    setStatus(t('randomChat.startingForia', 'Starting a chat with Foria…'));
     socket.emit('start_ai_chat');
   };
 
@@ -93,14 +95,14 @@ export default function RandomChatPage() {
     setSearching(false);
     setActive(null);
     setMessages([]);
-    setStatus('Cancelled.');
+    setStatus(t('randomChat.cancelled', 'Cancelled.'));
     aiRequestedRef.current = false;
     try {
       socket?.emit?.('skip_random_chat');
     } catch {
       // ignore; local UI already reset
     }
-  }, []);
+  }, [t]);
 
   // ESC = Cancel
   useEffect(() => {
@@ -121,7 +123,7 @@ export default function RandomChatPage() {
   }, []);
 
   const partnerLabel =
-    active?.isAI ? 'Foria' : String(active?.partner ?? 'Partner');
+    active?.isAI ? t('brand.foria', 'Foria') : String(active?.partner ?? t('randomChat.partner', 'Partner'));
 
   // 🚪 Close button: cancel + navigate home
   const closePage = () => {
@@ -132,22 +134,22 @@ export default function RandomChatPage() {
   return (
     <Paper withBorder radius="xl" p="lg" maw={720} mx="auto">
       <Group justify="space-between" align="center">
-        <Title order={3}>Random Chat</Title>
+        <Title order={3}>{t('randomChat.title', 'Random Chat')}</Title>
 
         <Group gap="xs">
           {active ? (
             <Badge color={active.isAI ? 'grape' : 'green'} variant="light">
-              {active.isAI ? 'With Foria' : 'Connected'}
+              {active.isAI ? t('randomChat.withForia', 'With Foria') : t('randomChat.connected', 'Connected')}
             </Badge>
           ) : searching ? (
-            <Badge color="blue" variant="light">Searching…</Badge>
+            <Badge color="blue" variant="light">{t('randomChat.searching', 'Searching…')}</Badge>
           ) : (
-            <Badge color="gray" variant="light">Idle</Badge>
+            <Badge color="gray" variant="light">{t('randomChat.idle', 'Idle')}</Badge>
           )}
 
           {/* New Close button */}
           <Button variant="subtle" color="gray" size="xs" onClick={closePage}>
-            Close
+            {t('randomChat.close', 'Close')}
           </Button>
         </Group>
       </Group>
@@ -155,7 +157,7 @@ export default function RandomChatPage() {
       {!active && (
         <Stack mt="md">
           <Text c="dimmed">
-            Meet someone new instantly. We’ll match you and open a temporary chat room.
+            {t('randomChat.description', 'Meet someone new instantly. We’ll match you and open a temporary chat room.')}
           </Text>
 
           {/* Button row: centered block, left-aligned buttons */}
@@ -167,7 +169,7 @@ export default function RandomChatPage() {
             gap="md"
           >
             <Button onClick={startSearch} leftSection={<IconPlayerPlay size={16} />}>
-              {searching ? 'Finding…' : 'Find me a match'}
+              {searching ? t('randomChat.finding', 'Finding…') : t('randomChat.findMatch', 'Find me a match')}
             </Button>
 
             <Button
@@ -176,7 +178,7 @@ export default function RandomChatPage() {
               onClick={cancelAll}
               leftSection={<IconPlayerStop size={16} />}
             >
-              Cancel
+              {t('randomChat.cancel', 'Cancel')}
             </Button>
 
             <Button
@@ -184,7 +186,7 @@ export default function RandomChatPage() {
               leftSection={<IconRobot size={16} />}
               onClick={startAIChat}
             >
-              Chat with Foria
+              {t('randomChat.chatWithForia', 'Chat with Foria')}
             </Button>
           </Group>
 
@@ -204,12 +206,12 @@ export default function RandomChatPage() {
               <Group>
                 <IconMessageCircle size={16} />
                 <Text fw={600}>
-                  You’re chatting with {partnerLabel}
+                  {t('randomChat.youAreChattingWith', 'You’re chatting with {{name}}', { name: partnerLabel })}
                 </Text>
-                {active.isAI && <Badge size="xs" variant="light">BOT</Badge>}
+                {active.isAI && <Badge size="xs" variant="light">{t('randomChat.bot', 'BOT')}</Badge>}
               </Group>
               <Button color="red" variant="light" size="xs" onClick={cancelAll}>
-                Leave
+                {t('randomChat.leave', 'Leave')}
               </Button>
             </Group>
           </Card>
@@ -224,14 +226,14 @@ export default function RandomChatPage() {
             }}
           >
             {messages.length === 0 ? (
-              <Text c="dimmed">Say hi 👋</Text>
+              <Text c="dimmed">{t('randomChat.sayHi', 'Say hi 👋')}</Text>
             ) : (
               <Stack gap="xs">
                 {messages.map((m, i) => (
                   <div key={i}>
                     <Text size="sm" fw={600}>
                       {m.sender?.username ||
-                        (m.senderId === currentUser?.id ? 'You' : partnerLabel)}
+                        (m.senderId === currentUser?.id ? t('randomChat.you', 'You') : partnerLabel)}
                     </Text>
                     <Text size="sm">{m.content}</Text>
                   </div>
@@ -242,13 +244,13 @@ export default function RandomChatPage() {
 
           <Group align="flex-end">
             <TextInput
-              placeholder="Type a message"
+              placeholder={t('randomChat.typeMessage', 'Type a message')}
               value={draft}
               onChange={(e) => setDraft(e.currentTarget.value)}
               style={{ flex: 1 }}
             />
             <Button onClick={sendMessage} disabled={!draft.trim()}>
-              Send
+              {t('randomChat.send', 'Send')}
             </Button>
           </Group>
 

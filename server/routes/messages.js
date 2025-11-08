@@ -21,7 +21,7 @@ import { signDownloadToken } from '../utils/downloadTokens.js';
 import { maybeTranslateForTarget } from '../services/translation/translateMessage.js';
 
 // Media probe (durationSec for audio)
-import { probeDurationSec } from '../utils/probeMedia.js';
+import { probeDurationSec } from '../utils/mediaProbe.js';
 
 // In test mode, allow membership fallback & message memory
 import { __mem as roomsMem } from './rooms.js';

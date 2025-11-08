@@ -14,13 +14,18 @@ export default function StatusBadge() {
   };
 
   const button = (
-    <ActionIcon variant="subtle" aria-label="Open status feed" onClick={openFeed}>
+    <ActionIcon
+      variant="subtle"
+      size="lg" // easier hit target
+      aria-label="Open status feed"
+      onClick={openFeed}
+    >
       <IconPhoto size={18} />
     </ActionIcon>
   );
 
   return (
-    <Tooltip label={unseen > 0 ? `${unseen} new` : 'Status updates'}>
+    <Tooltip label={unseen > 0 ? `${unseen} new` : 'Status updates'} openDelay={300}>
       {unseen > 0 ? (
         <Indicator label={unseen} processing>
           {button}

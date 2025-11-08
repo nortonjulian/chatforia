@@ -1,4 +1,3 @@
-// server/jobs/statusExpiry.js
 import { prisma } from '../utils/prismaClient.js';
 
 export function registerStatusExpiryJob(io, { everyMs = 60_000 } = {}) {

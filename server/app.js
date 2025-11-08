@@ -167,31 +167,38 @@ export function createApp() {
   app.use(hppGuard({ allow: ['tags', 'ids'] }));
 
   app.use(
-    pinoHttp({
-      logger,
-      autoLogging: true,
-      genReqId: (req) => req.id,
-      customProps: (req) => ({
-        requestId: req.id,
-        userId: req.user?.id ?? null,
-        method: req.method,
-        path: req.originalUrl || req.url,
-        region: req.region || null, // 👈 handy for debugging
+  pinoHttp({
+    logger,
+    autoLogging: true,
+    serializers: {
+      err: (e) => ({
+        type: e?.name,
+        message: e?.message,
+        stack: e?.stack,
       }),
-      customLogLevel: (req, res, err) => {
-        if (err || res.statusCode >= 500) return 'error';
-        if (res.statusCode >= 400) return 'warn';
-        return 'info';
-      },
-      redact: {
-        paths: [
-          'req.headers.authorization',
-          'req.headers.cookie',
-          'res.headers["set-cookie"]',
-        ],
-      },
-    })
-  );
+    },
+    genReqId: (req) => req.id || Math.random().toString(36).slice(2),
+    customProps: (req) => ({
+      requestId: req.id,
+      userId: req.user?.id ?? null,
+      method: req.method,
+      path: req.originalUrl || req.url,
+      region: req.region || null,
+    }),
+    customLogLevel: (req, res, err) => {
+      if (err || res.statusCode >= 500) return 'error';
+      if (res.statusCode >= 400) return 'warn';
+      return 'info';
+    },
+    redact: {
+      paths: [
+        'req.headers.authorization',
+        'req.headers.cookie',
+        'res.headers["set-cookie"]',
+      ],
+    },
+  })
+);
 
   /* ---------- Session + Passport (must be before OAuth routes) ---------- */
   app.use(
@@ -397,5 +404,3 @@ export function createApp() {
   return app;
 }
 
-const app = createApp();
-export default app;

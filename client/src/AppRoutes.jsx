@@ -10,6 +10,7 @@ import {
   Anchor,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useTranslation } from 'react-i18next';
 
 import { useUser } from '@/context/UserContext';
 import { RequirePremium } from '@/routes/guards';
@@ -86,6 +87,7 @@ function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
   const { currentUser, setCurrentUser } = useUser();
+  const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
   const [activeCall, setActiveCall] = useState(null);
@@ -169,27 +171,33 @@ function AuthedLayout() {
     >
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between" style={{ position: 'relative' }}>
+          {/* LEFT: burger + brand */}
           <Group>
             <Burger
               opened={opened}
               onClick={toggle}
               hiddenFrom="sm"
-              aria-label={opened ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-label={
+                opened
+                  ? t('header.closeNav', 'Close navigation menu')
+                  : t('header.openNav', 'Open navigation menu')
+              }
             />
             <Anchor
               component={Link}
               to="/"
               underline="never"
-              aria-label="Chatforia Home"
+              aria-label={t('header.homeAria', 'Chatforia Home')}
               style={{ color: 'inherit' }}
             >
               <Group gap={8}>
                 <LogoGlyph size={30} />
-                <Title order={3} m={0}>Chatforia</Title>
+                <Title order={3} m={0}>{t('brand.name', 'Chatforia')}</Title>
               </Group>
             </Anchor>
           </Group>
 
+          {/* MIDDLE: New Status + StatusBadge cluster (paired) */}
           {showStatusPill && (
             <div
               style={{
@@ -199,23 +207,32 @@ function AuthedLayout() {
                 transform: 'translateY(-50%)',
               }}
             >
-              <Button
-                size="xs"
-                variant="light"
-                onClick={() => setShowNewStatus(true)}
-                aria-label="Create new Status"
-              >
-                New Status
-              </Button>
+              <Group gap="xs" align="center">
+                <Button
+                  size="xs"
+                  variant="light"
+                  onClick={() => setShowNewStatus(true)}
+                  aria-label={t('topbar.createStatusAria', 'Create new Status')}
+                >
+                  {t('topbar.newStatus', 'New Status')}
+                </Button>
+
+                {/* Status notifications (moved here, next to New Status) */}
+                {features?.status && <StatusBadge />}
+              </Group>
             </div>
           )}
 
+          {/* RIGHT: account actions only */}
           <Group gap="sm">
-            {/* Always-visible status badge (unseen counter) */}
-            {features?.status && <StatusBadge />}
-
-            <Button color="red" variant="filled" onClick={handleLogout} aria-label="Log out">
-              Log Out
+            {/* StatusBadge removed from here to avoid duplication */}
+            <Button
+              color="red"
+              variant="filled"
+              onClick={handleLogout}
+              aria-label={t('topbar.logout', 'Log Out')}
+            >
+              {t('topbar.logout', 'Log Out')}
             </Button>
           </Group>
         </Group>

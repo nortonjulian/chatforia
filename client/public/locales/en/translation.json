@@ -128,7 +128,8 @@
   "topbar": {
     "newStatus": "New Status",
     "logout": "Log Out",
-    "help": "Help"
+    "help": "Help",
+    "createStatusAria": "Create new Status"
   },
 
   "status": {
@@ -168,6 +169,34 @@
 
     "postAria": "Post status",
     "post": "Post"
+  },
+
+  "contactList": {
+    "savedContacts": "Saved Contacts",
+    "filterPlaceholder": "Filter saved contacts…",
+    "filterAria": "Filter saved contacts",
+    "noContactsFound": "No contacts found.",
+    "refreshAria": "Refresh contacts",
+
+    "loadFailed": "Failed to load contacts. Please try again.",
+    "deleted": "Contact deleted.",
+    "deleteFailed": "Failed to delete contact. Please try again.",
+    "aliasUpdated": "Alias updated.",
+    "updateAliasFailed": "Failed to update alias. Please try again.",
+
+    "notJoined": "That contact hasn’t joined Chatforia yet.",
+    "couldNotStart": "Could not start chat. Please try again.",
+    "startFailed": "Failed to start chat. Please try again.",
+
+    "externalContact": "External contact",
+    "alias": "Alias",
+    "startChat": "Start chat",
+    "message": "Message",
+    "delete": "Delete",
+    "deleteContactAria": "Delete contact",
+
+    "loadMore": "Load more",
+    "selectContact": "Select {{name}}"
   },
 
   "sidebar": {
@@ -294,11 +323,16 @@
   "press": {
     "title": "Press",
     "contact": "For media inquiries, reach us at <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
-    "contactText": "For media inquiries, reach us at press@chatforia.com.",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateText": "Chatforia is a secure messenger with instant translation and E2E encryption, designed to make global conversations private and effortless.",
+    "boilerplateText": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
     "assetsTitle": "Brand assets",
-    "assetsText": "Logos, screenshots, and product imagery (coming soon)."
+    "assetsText": "Download the media kit with logos (SVG/PNG), wordmark lockups, colors, and basic usage notes.",
+    "downloadKit": "Download media kit",
+    "downloadTitle": "Get the app",
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Download on the App Store",
+    "googlePlay": "Get it on Google Play"
   },
 
   "careers": {
@@ -314,9 +348,12 @@
     "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
     "valuesTitle": "What we value",
     "values": {
-      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
-      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
-      "control": "<b>Control:</b> Disappearing messages & read receipts are optional."
+      "privacy": "<bold>Privacy-first:</bold> E2E encryption by default.",
+      "access": "<bold>Access for all:</bold> Auto-translate 100+ languages.",
+      "control": "<bold>Control:</bold> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
     },
     "howTitle": "How Chatforia works",
     "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
@@ -372,39 +409,62 @@
   "upgrade": {
     "title": "Upgrade",
     "subtitle": "Unlock the right plan for you: go ad-free with Plus, or get our full power features with Premium.",
+    "perMonth": "mo",
+    "perYear": "year",
+
+    "toggle": {
+      "monthly": "Monthly",
+      "annual": "Annual (Save 25%)"
+    },
+
     "scheduleBanner": {
       "title": "Subscription will end",
       "body": "You’ll revert to Free on",
-      "keepPlanCta": "Keep Plus",
+      "keepPlanCta": "Keep {{plan}}",
       "manageBillingCta": "Manage billing"
     },
+
     "billing": {
       "opening": "Opening…",
       "manage": "Manage Billing"
     },
+
     "checkout": {
       "redirecting": "Redirecting…"
     },
+
     "auth": {
-      "continue": "Continue",
+      "continue": "Continue to login",
       "createAccount": "Create account",
       "signIn": "Sign in"
     },
+
+    "cta": {
+      "aria": "Select plan",
+      "getPlus": "Upgrade to Plus",
+      "upgradeMonthly": "Upgrade Monthly",
+      "upgradeAnnual": "Upgrade Annual"
+    },
+
     "plans": {
       "free": {
         "title": "Free",
         "price": "$0",
+        "desc": "Start messaging for free.",
         "features": {
           "msg": "1:1 and group messaging",
           "aiBasic": "Basic AI replies",
           "attachments": "Standard attachments"
         },
         "ctaCurrent": "Current Plan",
-        "ctaUnavailable": "Switch to Free (not available)"
+        "ctaUnavailable": "Switch to Free (not available)",
+        "aria": "Free plan (current)"
       },
+
       "plus": {
         "title": "Plus",
         "price": "$4.99 / mo",
+        "desc": "Most affordable ad-free experience.",
         "features": {
           "noAds": "Remove all ads",
           "msg": "1:1 and group messaging",
@@ -412,11 +472,14 @@
           "aiBasic": "Basic AI replies"
         },
         "badge": "Popular",
-        "cta": "Go Ad-Free"
+        "cta": "Go Ad-Free",
+        "aria": "Upgrade to Plus"
       },
+
       "premiumMonthly": {
         "title": "Premium (Monthly)",
         "price": "$24.99 / mo",
+        "desc": "Full features, ringtones, and AI power tools.",
         "features": {
           "plusAll": "Everything in Plus",
           "ringtones": "Custom ringtones & message tones",
@@ -425,11 +488,14 @@
           "backups": "Backups & device syncing"
         },
         "badge": "Best value",
-        "cta": "Upgrade (Monthly)"
+        "cta": "Upgrade (Monthly)",
+        "aria": "Upgrade to Premium Monthly"
       },
+
       "premiumAnnual": {
         "title": "Premium (Annual)",
         "price": "$225 / year",
+        "desc": "Save more when billed yearly.",
         "features": {
           "allPremium": "Everything in Premium",
           "annualBilling": "Billed annually",
@@ -437,14 +503,11 @@
           "sameFeatures": "Same features as Monthly"
         },
         "badge": "Save 25%",
-        "cta": "Upgrade (Annual)"
+        "cta": "Upgrade (Annual)",
+        "aria": "Upgrade to Premium Annual",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
       }
-    },
-
-    "goPremium": "Go Premium",
-    "benefitsLine": "Unlock power features & remove ads.",
-    "cta": "Upgrade",
-    "aria": "Upgrade to Chatforia Premium"
+    }
   },
 
   "gettingStarted": {
@@ -801,12 +864,38 @@
     "cancel": "Cancel",
     "close": "Close",
     "searching": "Searching…",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
     "noPartner": "No partner found right now.",
     "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "idle": "Idle",
     "partnerLeft": "Partner left.",
     "stopped": "Stopped.",
     "skip": "Skip",
     "save": "Save",
-    "saveGuard": "Only human-to-human chats can be saved"
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "leave": "Leave",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withForia": "With Foria"
+  },
+
+  "brand": {
+    "name": "Chatforia",
+    "foria": "Foria"
+  },
+
+  "header": {
+    "openNav": "Open navigation menu",
+    "closeNav": "Close navigation menu",
+    "homeAria": "Chatforia Home"
   }
 }
