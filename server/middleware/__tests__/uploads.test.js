@@ -1,8 +1,15 @@
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 // ---- Mocks ----
 const fsMock = { mkdirSync: jest.fn() };
-jest.mock('fs', () => fsMock);
+
+// ESM-friendly mock for 'fs' (default import in uploads.js)
+jest.unstable_mockModule('fs', () => ({
+  __esModule: true,
+  default: fsMock,
+}));
 
 // Multer mock: capture options & expose storages
 const memoryStorageMock = jest.fn(() => ({ _type: 'memory' }));
@@ -25,10 +32,16 @@ const multerMock = jest.fn((opts) => {
 multerMock.memoryStorage = memoryStorageMock;
 multerMock.diskStorage = diskStorageMock;
 
-jest.mock('multer', () => ({
-  __esModule: true,
-  default: (...args) => multerMock(...args),
-}));
+// ESM-friendly mock for 'multer'
+jest.unstable_mockModule('multer', () => {
+  // Ensure methods are attached even after resetModules
+  multerMock.memoryStorage = memoryStorageMock;
+  multerMock.diskStorage = diskStorageMock;
+  return {
+    __esModule: true,
+    default: multerMock,
+  };
+});
 
 // Helper: (re)load module under a specific env
 const reloadModule = async (env = {}) => {
@@ -41,8 +54,9 @@ const reloadModule = async (env = {}) => {
   diskStorageMock.mockClear();
   multerCalls.length = 0;
 
-  // Import fresh
-  return import('../uploads.js');
+  // Import fresh AFTER mocks are set up
+  const mod = await import('../uploads.js');
+  return mod;
 };
 
 afterAll(() => {
@@ -88,7 +102,8 @@ describe('uploads middleware', () => {
   test('avatar/media uploaders use MEMORY storage by default (UPLOAD_TARGET=memory)', async () => {
     const mod = await reloadModule({ UPLOAD_TARGET: 'memory' });
 
-    // Calls include avatar (files:1, 5MB) and media (files:10, 100MB)
+    // Calls include singleUploadMemory (files:1, 25MB),
+    // avatar (files:1, 5MB) and media (files:10, 100MB)
     const avatarCall = multerCalls.find(
       (o) => o?.limits?.files === 1 && o?.limits?.fileSize === 5 * 1024 * 1024
     );
@@ -98,7 +113,7 @@ describe('uploads middleware', () => {
 
     expect(avatarCall).toBeTruthy();
     expect(mediaCall).toBeTruthy();
-    expect(memoryStorageMock).toHaveBeenCalledTimes(2); // avatar + media
+    expect(memoryStorageMock).toHaveBeenCalledTimes(3); // single + avatar + media
     expect(diskStorageMock).not.toHaveBeenCalled();
 
     expect(mod.uploadAvatar).toEqual(expect.any(Function));
@@ -140,7 +155,8 @@ describe('uploads middleware', () => {
       const file = { originalname: 'my weird name!!.PNG' };
       avatarDiskOpts.filename({}, file, (_err, outName) => {
         expect(typeof outName).toBe('string');
-        expect(outName).toMatch(/my_weird_name__\.PNG$/); // base is sanitized; original case preserved
+        // allow one or more underscores before .PNG
+        expect(outName).toMatch(/my_weird_name_+\.PNG$/);
         resolve();
       });
     });

@@ -1,3 +1,5 @@
+// server/sockets/__tests__/calls.test.js
+import { jest } from '@jest/globals';
 import { registerCallHandlers } from '../calls.js';
 
 function makeIo() {

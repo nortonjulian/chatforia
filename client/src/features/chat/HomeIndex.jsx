@@ -38,11 +38,12 @@ export default function HomeIndex() {
   };
 
   const handleSendMessage = () => {
-    const text = msg.trim();
-    if (!text) return;
-    openNewChatDraft({ text });
-    setMsg('');
-  };
+  const text = msg.trim();
+  // Open the modal either way; include a draft only if non-empty
+  openNewChatDraft(text ? { text } : {});
+  if (text) setMsg(''); // only clear if you actually had text
+ };
+
 
   const openImageVideo = () => fileRef.current?.click();
 

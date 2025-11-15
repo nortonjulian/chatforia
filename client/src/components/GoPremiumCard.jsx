@@ -2,15 +2,18 @@ import { memo } from 'react';
 import { Card, Group, Stack, Text, Button } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import i18n from '@/i18n'; // bind to the app's singleton instance
 
 function GoPremiumCard({ compact = false, className, ...props }) {
-  // Subscribe to the same i18n instance + default "translation" namespace
-  const { t } = useTranslation('translation', { i18n });
+  const { t } = useTranslation('translation');
 
   const padding = compact ? 'sm' : 'md';
   const btnSize = compact ? 'sm' : 'md';
   const minBtnWidth = compact ? 96 : 110;
+
+  const title = t('premium.heading', { defaultValue: 'Go Premium' });
+  const subtitle = t('premium.description', { defaultValue: 'Unlock power features & remove ads.' });
+  const ctaText = t('premium.upgrade', { defaultValue: 'Upgrade' });
+  const aria = t('premium.upgradeAria', { defaultValue: 'Upgrade to Chatforia Premium' });
 
   return (
     <Card
@@ -26,10 +29,10 @@ function GoPremiumCard({ compact = false, className, ...props }) {
       <Group justify="space-between" align="center" wrap="nowrap" gap="md">
         <Stack gap={2} style={{ minWidth: 0 }}>
           <Text fw={600} lh={1.2} truncate="end" data-testid="go-premium-title">
-            {t('upgrade.goPremium')}
+            {title}
           </Text>
           <Text c="dimmed" size="sm" truncate="end" data-testid="go-premium-subtitle">
-            {t('upgrade.benefitsLine')}
+            {subtitle}
           </Text>
         </Stack>
 
@@ -39,11 +42,11 @@ function GoPremiumCard({ compact = false, className, ...props }) {
           size={btnSize}
           variant="filled"
           style={{ whiteSpace: 'nowrap', minWidth: minBtnWidth }}
-          aria-label={t('upgrade.aria')}
+          aria-label={aria}
           onClick={(e) => e.stopPropagation()}
           data-testid="go-premium-cta"
         >
-          {t('upgrade.cta')}
+          {ctaText}
         </Button>
       </Group>
     </Card>

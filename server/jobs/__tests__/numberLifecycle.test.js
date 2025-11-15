@@ -1,18 +1,11 @@
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 // ---- Mocks ----
 const scheduled = [];
-const scheduleMock = jest.fn((expr, fn) => {
-  const task = { stop: jest.fn() };
-  scheduled.push({ expr, fn, task });
-  return task;
-});
 
-jest.mock('node-cron', () => ({
-  __esModule: true,
-  default: { schedule: (...args) => scheduleMock(...args) },
-}));
-
+// prisma mock for this job
 const prismaMock = {
   phoneNumber: {
     findMany: jest.fn(),
@@ -22,20 +15,44 @@ const prismaMock = {
     deleteMany: jest.fn(),
   },
 };
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
+
+// The job (indirectly) uses PrismaClient from @prisma/client via ../utils/prismaClient.js.
+// Mock PrismaClient so any new PrismaClient() returns our prismaMock.
+jest.mock('@prisma/client', () => {
+  class PrismaClient {
+    constructor() {
+      return prismaMock;
+    }
+  }
+  return { __esModule: true, PrismaClient };
+});
+
+// Helper: set up a spy on node-cron.schedule that records scheduled jobs
+const setupCronSpy = async () => {
+  const cron = await import('node-cron');
+  jest
+    .spyOn(cron.default, 'schedule')
+    .mockImplementation((expr, fn) => {
+      const task = { stop: jest.fn() };
+      scheduled.push({ expr, fn, task });
+      return task;
+    });
+};
 
 // ---- Helpers ----
 const reload = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
-  scheduleMock.mockClear();
+
+  // reset tracked state
   scheduled.length = 0;
   prismaMock.phoneNumber.findMany.mockReset();
   prismaMock.phoneNumber.update.mockReset();
   prismaMock.numberReservation.deleteMany.mockReset();
+
+  // spy on cron *before* importing the job module
+  await setupCronSpy();
+
   return import('../numberLifecycle.js');
 };
 
@@ -43,16 +60,17 @@ afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
 
-describe('startNumberLifecycleJob', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
+describe('startNumberLifecycleJob', () => {
   test('schedules cron at 02:15 daily', async () => {
     const mod = await reload();
     mod.startNumberLifecycleJob();
 
-    expect(scheduleMock).toHaveBeenCalledTimes(1);
+    // We intercepted calls via scheduled[]
+    expect(scheduled).toHaveLength(1);
     expect(scheduled[0].expr).toBe('15 2 * * *');
     expect(typeof scheduled[0].fn).toBe('function');
   });
@@ -64,8 +82,7 @@ describe('startNumberLifecycleJob', () => {
 
     // Fixed "now"
     const NOW_MS = Date.UTC(2025, 0, 31, 2, 15, 0); // Jan 31, 2025 02:15:00 UTC
-    const realDateNow = Date.now;
-    jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
 
     const mod = await reload({
       NUMBER_INACTIVITY_DAYS: String(INACTIVITY_DAYS),
@@ -74,13 +91,22 @@ describe('startNumberLifecycleJob', () => {
 
     mod.startNumberLifecycleJob();
 
+    // There should be one scheduled job
+    expect(scheduled[0]).toBeDefined();
     const run = scheduled[0].fn;
 
     // Arrange DB results:
     // Step 1: inactive assigned numbers (two examples)
     const inactiveRows = [
       { id: 1, status: 'ASSIGNED', keepLocked: false, lastOutboundAt: null },
-      { id: 2, status: 'ASSIGNED', keepLocked: false, lastOutboundAt: new Date(NOW_MS - (INACTIVITY_DAYS + 1) * 24 * 60 * 60 * 1000) },
+      {
+        id: 2,
+        status: 'ASSIGNED',
+        keepLocked: false,
+        lastOutboundAt: new Date(
+          NOW_MS - (INACTIVITY_DAYS + 1) * 24 * 60 * 60 * 1000
+        ),
+      },
     ];
     // Step 2: numbers to release
     const toReleaseRows = [
@@ -98,7 +124,9 @@ describe('startNumberLifecycleJob', () => {
     // --- Assertions ---
 
     // Step 1 query: inactive ASSIGNED with keepLocked false and lastOutboundAt null or < cutoff
-    const cutoff = new Date(NOW_MS - INACTIVITY_DAYS * 24 * 60 * 60 * 1000);
+    const cutoff = new Date(
+      NOW_MS - INACTIVITY_DAYS * 24 * 60 * 60 * 1000
+    );
     expect(prismaMock.phoneNumber.findMany).toHaveBeenNthCalledWith(1, {
       where: {
         status: 'ASSIGNED',
@@ -111,7 +139,9 @@ describe('startNumberLifecycleJob', () => {
     });
 
     // Each inactive number should be moved to HOLD with correct holdUntil/releaseAfter
-    const holdUntil = new Date(NOW_MS + HOLD_DAYS * 24 * 60 * 60 * 1000);
+    const holdUntil = new Date(
+      NOW_MS + HOLD_DAYS * 24 * 60 * 60 * 1000
+    );
     expect(prismaMock.phoneNumber.update).toHaveBeenCalledWith({
       where: { id: 1 },
       data: {
@@ -153,25 +183,33 @@ describe('startNumberLifecycleJob', () => {
       where: { expiresAt: { lt: nowDate } },
     });
 
-    // restore
-    Date.now = realDateNow;
+    nowSpy.mockRestore();
   });
 
   test('respects default envs when not provided', async () => {
     // Defaults: inactivityDays=30, holdDays=14
     const NOW_MS = Date.UTC(2025, 4, 10, 2, 15, 0);
-    jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
 
-    const mod = await reload({ NUMBER_INACTIVITY_DAYS: '', NUMBER_HOLD_DAYS: '' });
+    const mod = await reload({
+      NUMBER_INACTIVITY_DAYS: '',
+      NUMBER_HOLD_DAYS: '',
+    });
+
     mod.startNumberLifecycleJob();
 
+    expect(scheduled[0]).toBeDefined();
     await scheduled[0].fn();
 
     // First findMany uses default cutoff = NOW - 30 days
     const firstCall = prismaMock.phoneNumber.findMany.mock.calls[0][0];
     const cutoff = firstCall.where.OR[1].lastOutboundAt.lt;
-    const expectedCutoff = new Date(NOW_MS - 30 * 24 * 60 * 60 * 1000);
+    const expectedCutoff = new Date(
+      NOW_MS - 30 * 24 * 60 * 60 * 1000
+    );
 
     expect(+cutoff).toBeCloseTo(+expectedCutoff, -2); // within a few ms
+
+    nowSpy.mockRestore();
   });
 });

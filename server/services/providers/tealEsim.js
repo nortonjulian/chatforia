@@ -4,10 +4,13 @@ const BASE = process.env.TEAL_BASE_URL;
 const KEY  = process.env.TEAL_API_KEY;
 
 function authHeaders() {
-  return {
-    'Authorization': `Bearer ${KEY}`,
-    'Content-Type': 'application/json',
-  };
+  return { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' };
+}
+
+async function assertOk(res, label) {
+  if (res.ok) return;
+  const text = await res.text().catch(() => '');
+  throw new Error(`${label} failed: ${res.status} ${res.statusText} ${text}`);
 }
 
 export async function reserveEsimProfile({ userId, region }) {
@@ -16,10 +19,8 @@ export async function reserveEsimProfile({ userId, region }) {
     headers: authHeaders(),
     body: JSON.stringify({ userId, region }),
   });
-  if (!res.ok) throw new Error(`Teal reserve failed: ${res.status}`);
-  const data = await res.json();
-  // Expect activationCode / smdp+ / matchingId / qrPayload depending on Teal’s response shape
-  return data;
+  await assertOk(res, 'Teal reserve');
+  return res.json();
 }
 
 export async function suspendLine({ iccid }) {
@@ -27,7 +28,7 @@ export async function suspendLine({ iccid }) {
     method: 'POST',
     headers: authHeaders(),
   });
-  if (!res.ok) throw new Error(`Teal suspend failed: ${res.status}`);
+  await assertOk(res, 'Teal suspend');
   return res.json();
 }
 
@@ -36,6 +37,6 @@ export async function resumeLine({ iccid }) {
     method: 'POST',
     headers: authHeaders(),
   });
-  if (!res.ok) throw new Error(`Teal resume failed: ${res.status}`);
+  await assertOk(res, 'Teal resume');
   return res.json();
 }

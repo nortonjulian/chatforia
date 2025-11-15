@@ -1,6 +1,12 @@
+// server/random/__tests__/queue.test.js
+import { jest } from '@jest/globals';
+
 let fakeRedis;
 
 const ORIGINAL_ENV = process.env;
+
+// Resolve the real module location relative to THIS test file
+const REDIS_URL = new URL('../../utils/redisClient.js', import.meta.url);
 
 function makeFakeRedis() {
   const lists = new Map();   // key -> array of JSON strings
@@ -65,7 +71,7 @@ function makeFakeRedis() {
     },
     async del(key) {
       hashes.delete(key);
-      // leaving lists alone; not needed for pair keys
+      // lists untouched for this use case
     },
 
     // test helpers
@@ -80,10 +86,10 @@ function makeFakeRedis() {
   };
 }
 
-// Mock redis client module with our in-memory fake
-const mockRedisModule = () => {
+// Mock redis client module with our in-memory fake (ESM-safe)
+const mockRedisModule = async () => {
   fakeRedis = makeFakeRedis();
-  jest.doMock('../../utils/redisClient.js', () => ({
+  await jest.unstable_mockModule('@utils/redisClient.js', () => ({
     __esModule: true,
     redis: fakeRedis,
   }));
@@ -92,8 +98,8 @@ const mockRedisModule = () => {
 const reload = async () => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV };
-  mockRedisModule();
-  return import('../queue.js');
+  await mockRedisModule();
+  return import('../queue.js'); // imports AFTER mocks in place
 };
 
 afterAll(() => {
@@ -118,9 +124,10 @@ describe('random queue', () => {
       // wantsAgeFilter omitted → default true
     });
 
-    // Read back via legacy rPop path by peeking internal list
+    // Read back via internal list
     const key = 'random:waiting:v2';
     const stored = fakeRedis._lists.get(key);
+    expect(Array.isArray(stored)).toBe(true);
     expect(stored).toHaveLength(1);
 
     const parsed = JSON.parse(stored[0]);

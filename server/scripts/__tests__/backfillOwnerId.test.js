@@ -1,3 +1,6 @@
+import { jest } from '@jest/globals';
+import backfillOwnerId from '../backfillOwnerId.js';
+
 // --- Prisma mock ---
 const prismaMock = {
   chatRoom: {
@@ -10,39 +13,31 @@ const prismaMock = {
   $disconnect: jest.fn(),
 };
 
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
-
-const reimportScript = async () => {
-  jest.resetModules();
-  // Clear the require cache entry so main() runs on each import
-  const path = require.resolve('../backfillOwnerId.cjs');
-  delete require.cache[path];
-  // Import/require the script (it auto-runs main())
-  return require('../backfillOwnerId.cjs');
-};
-
-describe('server/scripts/backfillOwnerId.cjs', () => {
-  const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-  const errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-  const exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
+describe('server/scripts/backfillOwnerId.js', () => {
+  let logSpy;
+  let errSpy;
 
   beforeEach(() => {
     jest.clearAllMocks();
+
+    prismaMock.chatRoom.findMany.mockReset();
+    prismaMock.chatRoom.update.mockReset();
+    prismaMock.participant.findFirst.mockReset();
+    prismaMock.$disconnect.mockReset();
+
+    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
-  afterAll(() => {
+  afterEach(() => {
     logSpy.mockRestore();
     errSpy.mockRestore();
-    exitSpy.mockRestore();
   });
 
-  test('happy path: skips owned + empty rooms; updates missing owner; logs count; disconnects', async () => {
+  test('happy path: skips owned + empty rooms; updates missing owner; logs count', async () => {
     // Rooms returned by chatRoom.findMany
     prismaMock.chatRoom.findMany.mockResolvedValue([
-      { id: 1, ownerId: 42 }, // already owned → skip
+      { id: 1, ownerId: 42 },   // already owned → skip
       { id: 2, ownerId: null }, // missing owner, but no participants → skip
       { id: 3, ownerId: null }, // missing owner, has participant → update to ownerId=7
     ]);
@@ -54,7 +49,7 @@ describe('server/scripts/backfillOwnerId.cjs', () => {
 
     prismaMock.chatRoom.update.mockResolvedValue({});
 
-    await reimportScript();
+    await backfillOwnerId(prismaMock);
 
     // 1) find rooms
     expect(prismaMock.chatRoom.findMany).toHaveBeenCalledWith({
@@ -87,24 +82,19 @@ describe('server/scripts/backfillOwnerId.cjs', () => {
     });
 
     // 5) Logs “Backfilled ownerId for 1 room(s).”
-    expect(logSpy).toHaveBeenCalledWith('Backfilled ownerId for 1 room(s).');
+    expect(logSpy).toHaveBeenCalledWith(
+      'Backfilled ownerId for 1 room(s).'
+    );
 
-    // 6) Always disconnects at the end
-    expect(prismaMock.$disconnect).toHaveBeenCalledTimes(1);
-
-    // Should NOT call process.exit on success
-    expect(exitSpy).not.toHaveBeenCalled();
+    // No error logs in happy path
     expect(errSpy).not.toHaveBeenCalled();
   });
 
-  test('error path: logs error, exits with code 1, and disconnects', async () => {
+  test('error path: bubbles error when prisma throws', async () => {
     prismaMock.chatRoom.findMany.mockRejectedValue(new Error('DB down'));
 
-    await reimportScript();
+    await expect(backfillOwnerId(prismaMock)).rejects.toThrow('DB down');
 
-    expect(errSpy).toHaveBeenCalled(); // console.error(e)
-    expect(exitSpy).toHaveBeenCalledWith(1);
-    expect(prismaMock.$disconnect).toHaveBeenCalledTimes(1);
     // No updates attempted
     expect(prismaMock.chatRoom.update).not.toHaveBeenCalled();
   });

@@ -1,28 +1,45 @@
-const ORIGINAL_ENV = process.env;
+import { jest } from '@jest/globals';
+
+const ORIGINAL_ENV = { ...process.env };
 
 // ---- Mock @prisma/client ----
 // We expose findUniqueMock so tests can control DB results.
 let findUniqueMock;
-jest.mock('@prisma/client', () => {
-  findUniqueMock = jest.fn();
-  class PrismaClient {
-    constructor() {
-      this.user = { findUnique: findUniqueMock };
+
+const setupPrismaMock = () => {
+  jest.unstable_mockModule('@prisma/client', () => {
+    findUniqueMock = jest.fn();
+
+    class PrismaClient {
+      constructor() {
+        this.user = { findUnique: findUniqueMock };
+      }
     }
-  }
-  // The code does: `import pkg from '@prisma/client'; const { PrismaClient } = pkg;`
-  return {
-    __esModule: true,
-    default: { PrismaClient },
-  };
-});
+
+    // Code under test does:
+    //   import pkg from '@prisma/client';
+    //   const { PrismaClient } = pkg;
+    return {
+      __esModule: true,
+      default: { PrismaClient },
+    };
+  });
+};
+
+// Register the mock before any imports
+setupPrismaMock();
 
 // Helper to reload the middleware with a fresh env
 const reloadWithEnv = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
-  findUniqueMock.mockReset();
-  return import('../requirePremium.js');
+
+  // Re-register the Prisma mock after resetModules
+  setupPrismaMock();
+
+  // Import the module under test (dynamic import required with unstable_mockModule)
+  const mod = await import('../requirePremium.js');
+  return mod;
 };
 
 afterAll(() => {
@@ -34,8 +51,14 @@ const makeReqResNext = (overrides = {}) => {
   const res = {
     statusCode: 200,
     _json: null,
-    status(code) { this.statusCode = code; return this; },
-    json(obj) { this._json = obj; return this; },
+    status(code) {
+      this.statusCode = code;
+      return this;
+    },
+    json(obj) {
+      this._json = obj;
+      return this;
+    },
   };
   const next = jest.fn();
   return { req, res, next };
@@ -44,6 +67,9 @@ const makeReqResNext = (overrides = {}) => {
 describe('requirePremium middleware', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    if (findUniqueMock) {
+      findUniqueMock.mockReset();
+    }
   });
 
   test('bypasses entirely when NODE_ENV=test', async () => {
@@ -59,7 +85,9 @@ describe('requirePremium middleware', () => {
   });
 
   test('401 when req.user.id is missing', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
 
     const { req, res, next } = makeReqResNext(); // no user
 
@@ -72,10 +100,14 @@ describe('requirePremium middleware', () => {
   });
 
   test('401 when user not found in DB', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
     findUniqueMock.mockResolvedValue(null);
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 123 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 123 } },
+    });
 
     await requirePremium(req, res, next);
 
@@ -89,10 +121,14 @@ describe('requirePremium middleware', () => {
   });
 
   test('next() and sets req.userPlan when role=ADMIN (bypass)', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
     findUniqueMock.mockResolvedValue({ role: 'ADMIN', plan: 'FREE' });
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 7 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 7 } },
+    });
 
     await requirePremium(req, res, next);
 
@@ -102,10 +138,14 @@ describe('requirePremium middleware', () => {
   });
 
   test('next() and sets req.userPlan when plan=PREMIUM', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
     findUniqueMock.mockResolvedValue({ role: 'USER', plan: 'PREMIUM' });
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 9 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 9 } },
+    });
 
     await requirePremium(req, res, next);
 
@@ -115,10 +155,14 @@ describe('requirePremium middleware', () => {
   });
 
   test('402 Payment Required when not premium and not admin', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
     findUniqueMock.mockResolvedValue({ role: 'USER', plan: 'FREE' });
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 11 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 11 } },
+    });
 
     await requirePremium(req, res, next);
 
@@ -132,12 +176,18 @@ describe('requirePremium middleware', () => {
   });
 
   test('500 when prisma throws', async () => {
-    const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'development' });
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
 
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     findUniqueMock.mockRejectedValue(new Error('DB down'));
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 99 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 99 } },
+    });
 
     await requirePremium(req, res, next);
 

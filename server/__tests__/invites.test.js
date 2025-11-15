@@ -4,7 +4,10 @@
 import { jest } from '@jest/globals';
 import request from 'supertest';
 import prisma from '../utils/prismaClient.js';
-import app from '../app.js';
+import { createApp } from '../app.js';
+
+// Create a real app instance for these tests
+const app = createApp();
 
 // ---- Mock rate limiter with tiny limits ----
 jest.mock('../middleware/rateLimits.js', () => {

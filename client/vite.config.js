@@ -54,8 +54,12 @@ export default defineConfig(async ({ mode, command }) => {
       port: 5173,
       cors: true,
       proxy: {
+        // ✅ Anything under /api goes to your backend (dev)
         '/api': { target: apiTarget, changeOrigin: true, secure: false },
         '/socket.io': { target: apiTarget, ws: true, changeOrigin: true, secure: false },
+
+        // Optional: support legacy calls to /tokens/* if you have that route on the server
+        '/tokens': { target: apiTarget, changeOrigin: true, secure: false },
       },
     },
 

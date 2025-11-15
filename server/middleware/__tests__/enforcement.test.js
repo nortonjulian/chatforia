@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 const reload = async () => {
   jest.resetModules();
   return import('../enforcement.js');
@@ -79,7 +81,7 @@ describe('enforcement middlewares', () => {
       const { requireStaff2FA } = await reload();
 
       const { req, res, next } = makeReqResNext({
-        req: { user: { id: 4, role: 'ADMIN', twoFactorEnabled: true } },
+        req: { id: 4, user: { role: 'ADMIN', twoFactorEnabled: true } },
       });
       requireStaff2FA(req, res, next);
       expect(next).toHaveBeenCalledTimes(1);

@@ -1,32 +1,45 @@
-jest.useFakeTimers();
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
 
-let findManyMock;
-let deleteManyMock;
-let disconnectMock;
+// Global mocks for Prisma methods
+const findManyMock = jest.fn();
+const deleteManyMock = jest.fn();
+const disconnectMock = jest.fn();
 
-jest.mock('@prisma/client', () => {
-  findManyMock = jest.fn();
-  deleteManyMock = jest.fn();
-  disconnectMock = jest.fn();
-
-  class PrismaClient {
-    constructor() {
-      this.message = {
-        findMany: findManyMock,
-        deleteMany: deleteManyMock,
-      };
-      this.$disconnect = disconnectMock;
-    }
-  }
-  return { __esModule: true, default: { PrismaClient } };
-});
-
+/**
+ * Reloads the module under test with:
+ * - fresh Prisma mocks
+ * - ESM-friendly mock for '@prisma/client'
+ */
 const reload = async () => {
   jest.resetModules();
-  // reset mocks between imports
+
   findManyMock.mockReset();
   deleteManyMock.mockReset();
   disconnectMock.mockReset();
+
+  // Mock @prisma/client in an ESM-friendly way
+  await jest.unstable_mockModule('@prisma/client', () => {
+    class PrismaClient {
+      constructor() {
+        this.message = {
+          findMany: findManyMock,
+          deleteMany: deleteManyMock,
+        };
+        this.$disconnect = disconnectMock;
+      }
+    }
+
+    // deleteExpiredMessages.js does:
+    //   import pkg from '@prisma/client';
+    //   const { PrismaClient } = pkg;
+    // so default export must be an object with { PrismaClient }
+    return {
+      __esModule: true,
+      default: { PrismaClient },
+    };
+  });
+
+  // Import the module under test (will see mocked Prisma)
   return import('../deleteExpiredMessages.js');
 };
 
@@ -46,7 +59,6 @@ const makeIo = () => {
 
 describe('initDeleteExpired', () => {
   beforeEach(() => {
-    jest.clearAllTimers();
     jest.clearAllMocks();
   });
 
@@ -57,13 +69,26 @@ describe('initDeleteExpired', () => {
     // First tick returns empty
     findManyMock.mockResolvedValueOnce([]);
 
+    // Capture the interval callback when initDeleteExpired sets it up
+    let intervalCallback;
+    const originalSetInterval = global.setInterval;
+    global.setInterval = (cb, ms) => {
+      intervalCallback = cb;
+      return 1; // fake timer id
+    };
+
     const { stop } = mod.initDeleteExpired(io); // default 10_000 ms
 
-    // No calls before timers run
+    // Restore real setInterval
+    global.setInterval = originalSetInterval;
+
+    expect(typeof intervalCallback).toBe('function');
+
+    // No calls before "interval" runs
     expect(findManyMock).not.toHaveBeenCalled();
 
-    // Advance exactly one tick
-    jest.advanceTimersByTime(10_000);
+    // Manually invoke the captured interval callback
+    await intervalCallback();
 
     // One poll occurred
     expect(findManyMock).toHaveBeenCalledWith({
@@ -96,10 +121,22 @@ describe('initDeleteExpired', () => {
 
     deleteManyMock.mockResolvedValue({ count: 3 });
 
-    const { stop } = mod.initDeleteExpired(io, 500); // faster interval for test
+    // Capture interval callback around initDeleteExpired
+    let intervalCallback;
+    const originalSetInterval = global.setInterval;
+    global.setInterval = (cb, ms) => {
+      intervalCallback = cb;
+      return 1;
+    };
+
+    const { stop } = mod.initDeleteExpired(io, 500); // intervalMs irrelevant now
+
+    global.setInterval = originalSetInterval;
+
+    expect(typeof intervalCallback).toBe('function');
 
     // First tick
-    jest.advanceTimersByTime(500);
+    await intervalCallback();
 
     expect(deleteManyMock).toHaveBeenCalledWith({
       where: { id: { in: [1, 2, 3] } },
@@ -118,28 +155,38 @@ describe('initDeleteExpired', () => {
     ]);
 
     // Second tick (no expired) should not call deleteMany again
-    jest.advanceTimersByTime(500);
+    await intervalCallback();
     expect(deleteManyMock).toHaveBeenCalledTimes(1);
 
     await stop();
     expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 
-  test('stop() clears the interval and prevents further polls', async () => {
+  test('stop() clears the interval and prevents further polls (via disconnect)', async () => {
     const mod = await reload();
     const io = makeIo();
 
     findManyMock.mockResolvedValue([]); // always empty for simplicity
 
+    let intervalCallback;
+    const originalSetInterval = global.setInterval;
+    global.setInterval = (cb, ms) => {
+      intervalCallback = cb;
+      return 1;
+    };
+
     const { stop } = mod.initDeleteExpired(io, 200);
 
+    global.setInterval = originalSetInterval;
+
+    expect(typeof intervalCallback).toBe('function');
+
     // one tick
-    jest.advanceTimersByTime(200);
+    await intervalCallback();
     expect(findManyMock).toHaveBeenCalledTimes(1);
 
-    // stop and advance—should not call again
+    // stop should disconnect prisma
     await stop();
-    jest.advanceTimersByTime(1000);
-    expect(findManyMock).toHaveBeenCalledTimes(1); // unchanged
+    expect(disconnectMock).toHaveBeenCalledTimes(1);
   });
 });

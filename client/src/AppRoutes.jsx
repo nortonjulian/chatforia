@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { useUser } from '@/context/UserContext';
 import { RequirePremium } from '@/routes/guards';
 
+import SkipLink from '@/components/a11y/SkipLink.jsx';
 import SettingsBackups from '@/pages/SettingsBackups.jsx';
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
@@ -38,7 +39,8 @@ import AuditLogsPage from '@/pages/AuditLogsPage';
 import { fetchFeatures } from '@/lib/features';
 
 import IncomingCallModal from '@/components/IncomingCallModal.jsx';
-import VideoCall from '@/video/VideoCall.jsx';
+import { CallProvider } from '@/context/CallContext';
+import CallScreen from '@/components/call/CallScreen';
 
 import api, { primeCsrf } from '@/api/axiosClient';
 
@@ -78,7 +80,17 @@ import LogoGlyph from '@/components/LogoGlyph.jsx';
 import StatusFeed from '@/pages/StatusFeed.jsx';
 import StatusBadge from '@/components/StatusBadge.jsx';
 
-import i18n from '@/i18n'; // ✅ keep using the shared i18n instance
+import i18n from '@/i18n';
+
+// global modal host
+import NewChatModalHost from '@/components/NewChatModalHost.jsx';
+
+// Calls + Video hub
+import Dialer from '@/components/routes/Dialer.jsx';
+import Video from '@/components/routes/Video.jsx';
+
+// ✅ eSIM activation page
+import EsimActivatePage from '@/pages/EsimActivatePage.jsx';
 
 const NAV_W = 300;
 const ASIDE_W = 280;
@@ -90,7 +102,6 @@ function AuthedLayout() {
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
-  const [activeCall, setActiveCall] = useState(null);
   const [showNewStatus, setShowNewStatus] = useState(false);
   const [hideStatusFab, setHideStatusFab] = useState(false);
   const location = useLocation();
@@ -101,13 +112,14 @@ function AuthedLayout() {
       .catch(() => setFeatures({ status: true }));
   }, []);
 
-  // ✅ Sync UI language to the logged-in user's preference
+  // Sync i18n to user preference
   useEffect(() => {
     if (currentUser?.preferredLanguage) {
       i18n.changeLanguage(currentUser.preferredLanguage);
     }
   }, [currentUser?.preferredLanguage]);
 
+  // Hide floating status pill when focusing inputs
   useEffect(() => {
     const onFocusIn = (e) => {
       const el = e.target;
@@ -133,17 +145,6 @@ function AuthedLayout() {
     window.location.assign('/login');
   };
 
-  const handleAcceptIncoming = (payload) => {
-    setActiveCall({
-      callId: payload.callId,
-      partnerId: payload.fromUserId,
-      chatId: payload.chatId ?? null,
-      mode: payload.mode || 'VIDEO',
-      inbound: true,
-      offerSdp: payload.sdp,
-    });
-  };
-
   const plan = (currentUser?.plan || 'free').toLowerCase();
   const tier = (currentUser?.subscription?.tier || '').toLowerCase();
   const isPremium = Boolean(
@@ -155,7 +156,6 @@ function AuthedLayout() {
   );
 
   const me = currentUser || {};
-  const peerId = null;
 
   const showStatusPill =
     Boolean(features?.status) &&
@@ -163,117 +163,131 @@ function AuthedLayout() {
     !hideStatusFab;
 
   return (
-    <AppShell
-      header={{ height: 60 }}
-      navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-      aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
-      padding="md"
-    >
-      <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between" style={{ position: 'relative' }}>
-          {/* LEFT: burger + brand */}
-          <Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              aria-label={
-                opened
-                  ? t('header.closeNav', 'Close navigation menu')
-                  : t('header.openNav', 'Open navigation menu')
-              }
-            />
-            <Anchor
-              component={Link}
-              to="/"
-              underline="never"
-              aria-label={t('header.homeAria', 'Chatforia Home')}
-              style={{ color: 'inherit' }}
-            >
-              <Group gap={8}>
-                <LogoGlyph size={30} />
-                <Title order={3} m={0}>{t('brand.name', 'Chatforia')}</Title>
-              </Group>
-            </Anchor>
-          </Group>
+    <CallProvider me={me}>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
+        padding="md"
+      >
+        <AppShell.Header>
+          <SkipLink targetId="main-content" />
 
-          {/* MIDDLE: New Status + StatusBadge cluster (paired) */}
-          {showStatusPill && (
-            <div
+          {/* Roomier header so the Log Out button never looks clipped; middle cluster is layered under right group */}
+          <Group
+            h="100%"
+            px="lg"
+            justify="space-between"
+            style={{ position: 'relative', overflow: 'visible' }}
+          >
+            {/* LEFT: burger + brand */}
+            <Group>
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                aria-label={
+                  opened
+                    ? t('header.closeNav', 'Close navigation menu')
+                    : t('header.openNav', 'Open navigation menu')
+                }
+              />
+              <Anchor
+                component={Link}
+                to="/"
+                underline="never"
+                aria-label={t('header.homeAria', 'Chatforia Home')}
+                style={{ color: 'inherit' }}
+              >
+                <Group gap={8}>
+                  <LogoGlyph size={30} />
+                  <Title order={3} m={0}>{t('brand.name', 'Chatforia')}</Title>
+                </Group>
+              </Anchor>
+            </Group>
+
+            {/* MIDDLE: New Status + StatusBadge */}
+            {showStatusPill && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: NAV_W + 16,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  zIndex: 1,
+                  pointerEvents: 'auto',
+                }}
+              >
+                <Group gap="xs" align="center">
+                  <Button
+                    size="xs"
+                    variant="light"
+                    onClick={() => setShowNewStatus(true)}
+                    aria-label={t('topbar.createStatusAria', 'Create new Status')}
+                  >
+                    {t('topbar.newStatus', 'New Status')}
+                  </Button>
+                  {features?.status && <StatusBadge />}
+                </Group>
+              </div>
+            )}
+
+            {/* RIGHT: Log Out */}
+            <Group
+              gap="sm"
               style={{
-                position: 'absolute',
-                left: NAV_W + 16,
-                top: '50%',
-                transform: 'translateY(-50%)',
+                paddingRight: 8,
+                zIndex: 2,
+                position: 'relative',
               }}
             >
-              <Group gap="xs" align="center">
-                <Button
-                  size="xs"
-                  variant="light"
-                  onClick={() => setShowNewStatus(true)}
-                  aria-label={t('topbar.createStatusAria', 'Create new Status')}
-                >
-                  {t('topbar.newStatus', 'New Status')}
-                </Button>
+              <Button
+                color="red"
+                variant="filled"
+                onClick={handleLogout}
+                aria-label={t('topbar.logout', 'Log Out')}
+              >
+                {t('topbar.logout', 'Log Out')}
+              </Button>
+            </Group>
+          </Group>
+        </AppShell.Header>
 
-                {/* Status notifications (moved here, next to New Status) */}
-                {features?.status && <StatusBadge />}
-              </Group>
+        <AppShell.Navbar p="md">
+          <ScrollArea.Autosize mah="calc(100vh - 120px)">
+            <Sidebar currentUser={currentUser} setSelectedRoom={setSelectedRoom} />
+          </ScrollArea.Autosize>
+        </AppShell.Navbar>
+
+        <AppShell.Aside p="md">
+          {!isPremium && (
+            <div style={{ position: 'sticky', top: 12 }}>
+              <CardAdWrap>
+                <HouseAdSlot placement="right_rail" variant="card" />
+              </CardAdWrap>
             </div>
           )}
+        </AppShell.Aside>
 
-          {/* RIGHT: account actions only */}
-          <Group gap="sm">
-            {/* StatusBadge removed from here to avoid duplication */}
-            <Button
-              color="red"
-              variant="filled"
-              onClick={handleLogout}
-              aria-label={t('topbar.logout', 'Log Out')}
-            >
-              {t('topbar.logout', 'Log Out')}
-            </Button>
-          </Group>
-        </Group>
-      </AppShell.Header>
+        <AppShell.Main id="main-content" tabIndex={-1}>
+          {/* Global call UI */}
+          <IncomingCallModal />
+          <CallScreen />
 
-      <AppShell.Navbar p="md">
-        <ScrollArea.Autosize mah="calc(100vh - 120px)">
-          <Sidebar currentUser={currentUser} setSelectedRoom={setSelectedRoom} />
-        </ScrollArea.Autosize>
-      </AppShell.Navbar>
+          <AdProvider isPremium={isPremium}>
+            <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
+            <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
+          </AdProvider>
 
-      <AppShell.Aside p="md">
-        {!isPremium && (
-          <div style={{ position: 'sticky', top: 12 }}>
-            <CardAdWrap>
-              <HouseAdSlot placement="right_rail" variant="card" />
-            </CardAdWrap>
-          </div>
-        )}
-      </AppShell.Aside>
+          {features?.status && (
+            <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
+          )}
 
-      <AppShell.Main id="main-content" tabIndex={-1}>
-        <IncomingCallModal onAccept={handleAcceptIncoming} onReject={() => setActiveCall(null)} />
-        {activeCall && (
-          <VideoCall
-            identity={me.username}
-            room={`dm:${peerId}`}
-            onEnd={() => setActiveCall(null)}
-          />
-        )}
-
-        <AdProvider isPremium={isPremium}>
-          <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
-          <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
-        </AdProvider>
-
-        {features?.status && (
-          <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
-        )}
-      </AppShell.Main>
-    </AppShell>
+          {/* Mount once for StartChat modal */}
+          <NewChatModalHost currentUserId={currentUser?.id} />
+        </AppShell.Main>
+      </AppShell>
+    </CallProvider>
   );
 }
 
@@ -344,6 +358,11 @@ export default function AppRoutes() {
             </RequirePremium>
           }
         />
+
+        {/* Calls + Video hub */}
+        <Route path="dialer" element={<Dialer />} />
+        <Route path="video" element={<Video />} />
+
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
@@ -353,6 +372,10 @@ export default function AppRoutes() {
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
+
+        {/* ✅ eSIM activation route */}
+        <Route path="account/esim" element={<EsimActivatePage />} />
+
         <Route
           path="admin"
           element={
@@ -365,6 +388,7 @@ export default function AppRoutes() {
           <Route path="reports" element={<AdminReportsPage />} />
           <Route path="audit" element={<AuditLogsPage />} />
         </Route>
+
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>

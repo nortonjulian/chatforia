@@ -1,10 +1,14 @@
-const ORIGINAL_ENV = process.env;
+// server/services/__tests__/cache.test.js
+import { jest } from '@jest/globals';
+
+const ORIGINAL_ENV = { ...process.env }; // copy, not reference
 
 const reload = async (env = {}, now = 0) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
   jest.spyOn(Date, 'now').mockReturnValue(now);
-  return import('../cache.js');
+  // point to the real module location
+  return import('../translation/cache.js');
 };
 
 afterAll(() => {

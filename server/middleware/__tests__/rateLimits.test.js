@@ -1,4 +1,6 @@
-const ORIGINAL_ENV = process.env;
+import { jest } from '@jest/globals';
+
+const ORIGINAL_ENV = { ...process.env };
 
 // ---- Mock express-rate-limit (with simple in-memory enforcement) ----
 const rlCallOpts = []; // capture all options passed in
@@ -7,16 +9,18 @@ const bucketCounts = new Map(); // key -> count for enforcement
 // A simple ipKeyGenerator facsimile
 const mockIpKeyGenerator = (req) => {
   // prefer req.ip, then first of req.ips, then connection addr
-  return req?.ip || (Array.isArray(req?.ips) && req.ips[0]) || req?.connection?.remoteAddress || 'unknown';
+  return (
+    req?.ip ||
+    (Array.isArray(req?.ips) && req.ips[0]) ||
+    req?.connection?.remoteAddress ||
+    'unknown'
+  );
 };
 
 // Our rateLimit mock returns a middleware that increments a counter per key
 const rateLimitMock = (opts = {}) => {
   rlCallOpts.push(opts);
-  const {
-    keyGenerator = mockIpKeyGenerator,
-    max = 5,
-  } = opts;
+  const { keyGenerator = mockIpKeyGenerator, max = 5 } = opts;
 
   return (req, res, next) => {
     const key = keyGenerator(req, res);
@@ -33,14 +37,20 @@ const rateLimitMock = (opts = {}) => {
   };
 };
 
-jest.mock('express-rate-limit', () => {
-  const mod = Object.assign((opts) => rateLimitMock(opts), {
-    __esModule: true,
-    default: (opts) => rateLimitMock(opts),
-    ipKeyGenerator: (...args) => mockIpKeyGenerator(...args),
+// Helper to register the ESM mock
+const setupExpressRateLimitMock = () => {
+  jest.unstable_mockModule('express-rate-limit', () => {
+    const fn = (opts) => rateLimitMock(opts);
+    return {
+      __esModule: true,
+      default: fn,
+      ipKeyGenerator: (...args) => mockIpKeyGenerator(...args),
+    };
   });
-  return mod;
-});
+};
+
+// Initial mock registration (before any imports)
+setupExpressRateLimitMock();
 
 // ---- Helpers to (re)load module with clean state ----
 const reloadModuleWithEnv = async (env = {}) => {
@@ -48,6 +58,10 @@ const reloadModuleWithEnv = async (env = {}) => {
   rlCallOpts.length = 0;
   bucketCounts.clear();
   process.env = { ...ORIGINAL_ENV, ...env };
+
+  // Re-apply the mock after resetModules, before re-importing rateLimits.js
+  setupExpressRateLimitMock();
+
   return import('../rateLimits.js');
 };
 
@@ -112,12 +126,16 @@ describe('rateLimits (test env behavior)', () => {
 
     // And limiterInvites actually uses our mock limiter (increments counters)
     const next2 = jest.fn();
-    await limiterInvites({ ip: '2.2.2.2' }, { statusCode: 200, send: jest.fn() }, next2);
+    await limiterInvites(
+      { ip: '2.2.2.2' },
+      { statusCode: 200, send: jest.fn() },
+      next2
+    );
     expect(next2).toHaveBeenCalledTimes(1);
   });
 
   test('keyGenerator prefers req.user.id then req.auth.id; falls back to IP', async () => {
-    const mod = await reloadModuleWithEnv({ NODE_ENV: 'test' });
+    await reloadModuleWithEnv({ NODE_ENV: 'test' });
 
     // The only constructed limiter's opts is for limiterInvites
     const { keyGenerator } = rlCallOpts[0];
@@ -152,7 +170,9 @@ describe('rateLimits (production env behavior)', () => {
     expect(rlCallOpts).toHaveLength(9);
 
     // Find opts for limiterInvites (windowMs 60s, max 5)
-    const invitesOpts = rlCallOpts.find((o) => o.windowMs === 60 * 1000 && o.max === 5);
+    const invitesOpts = rlCallOpts.find(
+      (o) => o.windowMs === 60 * 1000 && o.max === 5
+    );
     expect(invitesOpts).toBeTruthy();
     expect(invitesOpts).toMatchObject({
       standardHeaders: true,

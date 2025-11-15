@@ -1,3 +1,6 @@
+// server/services/__tests__/tealEsim.test.js
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 let fetchMock;
@@ -7,12 +10,15 @@ const reload = async (env = {}) => {
   process.env = { ...ORIGINAL_ENV, ...env };
 
   fetchMock = jest.fn();
-  jest.doMock('node-fetch', () => ({
+
+  // ESM-safe mock for node-fetch
+  await jest.unstable_mockModule('node-fetch', () => ({
     __esModule: true,
     default: fetchMock,
   }));
 
-  return import('../tealEsim.js');
+  // 👇 ensure this matches your actual file path
+  return import('../providers/tealEsim.js');
 };
 
 afterAll(() => {
@@ -37,7 +43,9 @@ describe('tealEsim provider', () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
       status: 200,
+      statusText: 'OK',
       json: async () => fakeResp,
+      text: async () => JSON.stringify(fakeResp),
     });
 
     const userId = 42;
@@ -61,10 +69,14 @@ describe('tealEsim provider', () => {
       TEAL_API_KEY: KEY,
     });
 
+    const errBody = { error: 'unauthorized' };
+
     fetchMock.mockResolvedValueOnce({
       ok: false,
       status: 401,
-      json: async () => ({ error: 'unauthorized' }),
+      statusText: 'Unauthorized',
+      json: async () => errBody,
+      text: async () => JSON.stringify(errBody),
     });
 
     await expect(
@@ -84,7 +96,9 @@ describe('tealEsim provider', () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
       status: 200,
+      statusText: 'OK',
       json: async () => resp,
+      text: async () => JSON.stringify(resp),
     });
 
     const out = await suspendLine({ iccid });
@@ -108,7 +122,9 @@ describe('tealEsim provider', () => {
     fetchMock.mockResolvedValueOnce({
       ok: false,
       status: 500,
+      statusText: 'Server Error',
       json: async () => ({}),
+      text: async () => '',
     });
 
     await expect(suspendLine({ iccid: 'x' })).rejects.toThrow(
@@ -128,7 +144,9 @@ describe('tealEsim provider', () => {
     fetchMock.mockResolvedValueOnce({
       ok: true,
       status: 200,
+      statusText: 'OK',
       json: async () => resp,
+      text: async () => JSON.stringify(resp),
     });
 
     const out = await resumeLine({ iccid });
@@ -152,7 +170,9 @@ describe('tealEsim provider', () => {
     fetchMock.mockResolvedValueOnce({
       ok: false,
       status: 404,
+      statusText: 'Not Found',
       json: async () => ({}),
+      text: async () => '',
     });
 
     await expect(resumeLine({ iccid: 'missing' })).rejects.toThrow(

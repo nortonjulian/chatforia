@@ -1,3 +1,4 @@
+// client/src/components/support/SupportWidget.jsx
 import { useMemo, useState, useEffect } from 'react';
 import {
   Affix,
@@ -18,18 +19,22 @@ import {
 import { IconMessageCircle, IconSearch } from '@tabler/icons-react';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
+import { useTranslation } from 'react-i18next';
 
+// Keep value identifiers here; labels will be localized inside the component.
 const QUICK_TOPICS = [
-  { label: 'Can’t log in', value: 'login' },
-  { label: 'Payments / billing', value: 'billing' },
-  { label: 'Report abuse', value: 'abuse' },
+  { value: 'login', defaultLabel: 'Can’t log in' },
+  { value: 'billing', defaultLabel: 'Payments / billing' },
+  { value: 'abuse', defaultLabel: 'Report abuse' },
 ];
 
 export default function SupportWidget({
   excludeRoutes = [],
   placement = { bottom: 20, right: 20 },
 }) {
+  const { t } = useTranslation();
   const { currentUser } = useUser();
+
   const [opened, setOpened] = useState(false);
   const [tab, setTab] = useState('help');           // 'help' | 'contact'
   const [q, setQ] = useState('');
@@ -81,16 +86,22 @@ export default function SupportWidget({
           version: import.meta.env?.VITE_APP_VERSION || 'web',
         },
       });
-      setOk('Message sent. We’ll reply by email.');
+      setOk(t('support.sent', 'Message sent. We’ll reply by email.'));
       setMessage('');
     } catch {
-      setErr('Could not send. Email support@chatforia.com instead.');
+      setErr(t('support.sendError', 'Could not send. Email support@chatforia.com instead.'));
     } finally {
       setSubmitting(false);
     }
   };
 
   if (shouldHide) return null;
+
+  // Localized quick topics with hardcoded fallbacks
+  const localizedQuickTopics = QUICK_TOPICS.map(({ value, defaultLabel }) => ({
+    value,
+    label: t(`support.quickTopics.${value}`, defaultLabel),
+  }));
 
   return (
     <>
@@ -103,9 +114,9 @@ export default function SupportWidget({
               style={styles}
               radius="xl"
               onClick={() => setOpened(true)}
-              aria-label="Open support"
+              aria-label={t('support.openSupportAria', 'Open support')}
             >
-              Help
+              {t('support.helpFab', 'Help')}
             </Button>
           )}
         </Transition>
@@ -122,8 +133,8 @@ export default function SupportWidget({
         closeOnClickOutside
         title={
           <Group gap="xs">
-            <Badge variant="light">Support</Badge>
-            <Title order={4} m={0}>How can we help?</Title>
+            <Badge variant="light">{t('support.badge', 'Support')}</Badge>
+            <Title order={4} m={0}>{t('support.heading', 'How can we help?')}</Title>
           </Group>
         }
         overlayProps={{ opacity: 0.55, blur: 2 }}
@@ -134,8 +145,8 @@ export default function SupportWidget({
             value={tab}
             onChange={setTab}
             data={[
-              { label: 'Help Center', value: 'help' },
-              { label: 'Contact us', value: 'contact' },
+              { label: t('support.tabs.help', 'Help Center'), value: 'help' },
+              { label: t('support.tabs.contact', 'Contact us'), value: 'contact' },
             ]}
           />
 
@@ -143,31 +154,36 @@ export default function SupportWidget({
             <Stack gap="sm">
               <Group wrap="nowrap">
                 <TextInput
-                  placeholder="Search help articles…"
+                  placeholder={t('support.searchPlaceholder', 'Search help articles…')}
                   leftSection={<IconSearch size={16} />}
                   value={q}
                   onChange={(e) => setQ(e.currentTarget.value)}
                   onKeyDown={(e) => e.key === 'Enter' && searchHelp()}
                   style={{ flex: 1 }}
-                  aria-label="Search help"
+                  aria-label={t('support.searchAria', 'Search help')}
                 />
-                <Button onClick={searchHelp} loading={loading}>Search</Button>
+                <Button onClick={searchHelp} loading={loading}>
+                  {t('support.searchBtn', 'Search')}
+                </Button>
               </Group>
 
-              <Divider label="Quick topics" labelPosition="center" />
+              <Divider
+                label={t('support.quickTopicsLabel', 'Quick topics')}
+                labelPosition="center"
+              />
 
               <Group gap="xs" wrap="wrap">
-                {QUICK_TOPICS.map((t) => (
+                {localizedQuickTopics.map((tItem) => (
                   <Button
-                    key={t.value}
+                    key={tItem.value}
                     size="xs"
-                    variant={topic === t.value ? 'filled' : 'light'}
+                    variant={topic === tItem.value ? 'filled' : 'light'}
                     onClick={() => {
-                      setTopic(t.value);
+                      setTopic(tItem.value);
                       setTab('contact');
                     }}
                   >
-                    {t.label}
+                    {tItem.label}
                   </Button>
                 ))}
               </Group>
@@ -175,14 +191,19 @@ export default function SupportWidget({
               <ScrollArea.Autosize mah={280}>
                 <Stack gap="xs">
                   {results.length === 0 && !loading ? (
-                    <Text c="dimmed" size="sm">Try searching for “translate”, “backups”, or “privacy”.</Text>
+                    <Text c="dimmed" size="sm">
+                      {t(
+                        'support.trySearching',
+                        'Try searching for “translate”, “backups”, or “privacy”.'
+                      )}
+                    </Text>
                   ) : results.map((r, i) => (
                     <Stack key={i} gap={2} p="xs" style={{ border: '1px solid var(--border)', borderRadius: 8 }}>
-                      <Text fw={600}>{r.title || 'Article'}</Text>
+                      <Text fw={600}>{r.title || t('support.article', 'Article')}</Text>
                       <Text size="sm" c="dimmed" lineClamp={3}>{r.snippet || r.excerpt || ''}</Text>
                       {r.url && (
                         <Button component="a" href={r.url} target="_blank" variant="subtle" size="xs">
-                          Open article
+                          {t('support.openArticle', 'Open article')}
                         </Button>
                       )}
                     </Stack>
@@ -193,20 +214,36 @@ export default function SupportWidget({
           ) : (
             <Stack gap="sm">
               <Text size="sm" c="dimmed">
-                We’ll email you a response. Include details to help us reproduce the issue.
+                {t(
+                  'support.contactIntro',
+                  'We’ll email you a response. Include details to help us reproduce the issue.'
+                )}
               </Text>
-              <SegmentedControl value={topic} onChange={setTopic} data={QUICK_TOPICS} />
+
+              <SegmentedControl
+                value={topic}
+                onChange={setTopic}
+                data={localizedQuickTopics}
+                aria-label={t('support.topicAria', 'Select a topic')}
+              />
+
               <Textarea
-                placeholder="Write your message…"
+                placeholder={t('support.messagePlaceholder', 'Write your message…')}
                 minRows={6}
                 value={message}
                 onChange={(e) => setMessage(e.currentTarget.value)}
               />
+
               <Group justify="flex-end">
-                <Button onClick={submitTicket} loading={submitting} disabled={!message.trim()}>
-                  Send
+                <Button
+                  onClick={submitTicket}
+                  loading={submitting}
+                  disabled={!message.trim()}
+                >
+                  {t('support.sendBtn', 'Send')}
                 </Button>
               </Group>
+
               {ok ? <Text c="green">{ok}</Text> : null}
               {err ? <Text c="red">{err}</Text> : null}
             </Stack>

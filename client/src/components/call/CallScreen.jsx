@@ -7,11 +7,17 @@ export default function CallScreen() {
   const remoteRef = useRef(null);
 
   useEffect(() => {
-    if (localRef.current && localStream.current) localRef.current.srcObject = localStream.current;
-  }, [localStream.current]);
+    if (localRef.current && localStream?.current) {
+      localRef.current.srcObject = localStream.current;
+    }
+  }, [active, localStream]);
+
   useEffect(() => {
-    if (remoteRef.current && remoteStream.current) remoteRef.current.srcObject = remoteStream.current;
-  }, [remoteStream.current]);
+    if (remoteRef.current && remoteStream?.current) {
+      remoteRef.current.srcObject = remoteStream.current;
+    }
+  }, [active, remoteStream]);
+
 
   if (!active) return null;
   const isVideo = active.mode === 'VIDEO';

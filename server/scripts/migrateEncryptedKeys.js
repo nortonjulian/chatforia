@@ -1,4 +1,3 @@
-// server/scripts/migrateEncryptedKeys.js
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -36,7 +35,7 @@ async function main() {
   // sanity check: ensure MessageKey table exists
   await prisma.messageKey.count();
 
-  // ---- guarded legacy fetch (THIS is the part you asked about) ----
+  // ---- guarded legacy fetch ----
   let rows = [];
   try {
     if (db === 'postgres') {
@@ -62,19 +61,15 @@ async function main() {
     }
     // SQLite/MySQL might throw different shapes. If it looks like "no such column", exit gracefully.
     if (
-      String(e?.message || '')
-        .toLowerCase()
-        .includes('no such column') ||
-      String(e?.message || '')
-        .toLowerCase()
-        .includes('unknown column')
+      String(e?.message || '').toLowerCase().includes('no such column') ||
+      String(e?.message || '').toLowerCase().includes('unknown column')
     ) {
       console.log('No legacy encryptedKeys column found. Nothing to migrate.');
       process.exit(0);
     }
     throw e;
   }
-  // ----------------------------------------------------------------
+  // -----------------------------
 
   console.log(`Found ${rows.length} messages with encryptedKeys`);
 
@@ -102,7 +97,10 @@ async function main() {
 
     for (const [userIdStr, encryptedKey] of Object.entries(map)) {
       const userId = Number(userIdStr);
+
+      // ❗ Treat empty keys as invalid + all the existing checks
       if (
+        !userIdStr || // empty string → bad
         !Number.isFinite(userId) ||
         typeof encryptedKey !== 'string' ||
         !encryptedKey.length

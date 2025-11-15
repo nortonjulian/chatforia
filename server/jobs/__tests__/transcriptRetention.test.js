@@ -1,35 +1,34 @@
+import { jest } from '@jest/globals';
+import cron from 'node-cron';
+
 const ORIGINAL_ENV = process.env;
 
-// --- Mocks ---
-const scheduled = [];
-const scheduleMock = jest.fn((expr, fn) => {
-  const task = { stop: jest.fn() };
-  scheduled.push({ expr, fn, task });
-  return task;
-});
-
-jest.mock('node-cron', () => ({
-  __esModule: true,
-  default: { schedule: (...args) => scheduleMock(...args) },
-}));
-
+// --- Prisma mock ---
 const prismaMock = {
   user: { findMany: jest.fn() },
   transcript: { deleteMany: jest.fn() },
 };
 
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
+// The job uses PrismaClient directly from @prisma/client, so we mock that
+jest.mock('@prisma/client', () => {
+  class PrismaClient {
+    constructor() {
+      return prismaMock; // every new PrismaClient() returns this mock
+    }
+  }
+  return { __esModule: true, PrismaClient };
+});
 
-// Helpers
+// We'll capture scheduled jobs here
+let scheduled = [];
+
+// ✅ Helper: fresh-ish import of the job module each time,
+// but WITHOUT jest.resetModules (so our cron spy still applies)
 const reload = async () => {
-  jest.resetModules();
-  scheduleMock.mockClear();
-  scheduled.length = 0;
   prismaMock.user.findMany.mockReset();
   prismaMock.transcript.deleteMany.mockReset();
+  // dynamic import is fine; module may be cached, but startTranscriptRetentionJob
+  // is idempotent to call multiple times
   return import('../transcriptRetention.js');
 };
 
@@ -38,7 +37,22 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  // global jest.setup already clears mocks; we also want to reset our local state
+  scheduled = [];
+
+  // Spy on cron.schedule so we see what the job registers
+  jest.spyOn(cron, 'schedule').mockImplementation((expr, fn) => {
+    const task = { stop: jest.fn() };
+    scheduled.push({ expr, fn, task });
+    return task;
+  });
+});
+
+afterEach(() => {
+  // restore cron.schedule so we don't leak state across tests
+  if (jest.isMockFunction(cron.schedule)) {
+    cron.schedule.mockRestore();
+  }
 });
 
 describe('startTranscriptRetentionJob', () => {
@@ -46,7 +60,7 @@ describe('startTranscriptRetentionJob', () => {
     const mod = await reload();
     mod.startTranscriptRetentionJob();
 
-    expect(scheduleMock).toHaveBeenCalledTimes(1);
+    expect(cron.schedule).toHaveBeenCalledTimes(1);
     expect(scheduled[0].expr).toBe('10 3 * * *');
     expect(typeof scheduled[0].fn).toBe('function');
   });
@@ -74,6 +88,7 @@ describe('startTranscriptRetentionJob', () => {
     ]);
 
     // Run the scheduled function
+    expect(scheduled[0]).toBeDefined();
     await scheduled[0].fn();
 
     // u1: delete all transcripts for user 1
@@ -98,6 +113,7 @@ describe('startTranscriptRetentionJob', () => {
     mod.startTranscriptRetentionJob();
 
     prismaMock.user.findMany.mockResolvedValue([]);
+    expect(scheduled[0]).toBeDefined();
     await scheduled[0].fn();
 
     expect(prismaMock.user.findMany).toHaveBeenCalledWith({

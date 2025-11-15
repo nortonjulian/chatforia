@@ -54,7 +54,12 @@ jest.unstable_mockModule('../lib/telco/index.js', () => ({
 }));
 
 // 2. now import app + memTokens AFTER the mock
-const { default: app } = await import('../app.js');
+// ❌ OLD:
+// const { default: app } = await import('../app.js');
+// ✅ NEW: app.js exports createApp(), so call it to get an Express instance
+const { createApp } = await import('../app.js');
+const app = createApp();
+
 const { memTokens } = await import('../routes/auth/phoneVerification.js');
 
 // helper for hashing known code
@@ -144,9 +149,7 @@ describe('phone verification flow (Twilio-only)', () => {
     }
 
     const memTok = memTokens.get(userId);
-    // soft debug (no assert): dbTok or memTok MAY exist,
-    // but it's not guaranteed in every schema variant.
-    // console.log('debug tokens', dbTok, memTok) // (intentionally not logging in committed test)
+    // soft debug only; no asserts on dbTok/memTok
 
     // phoneNumber persistence is optional depending on schema
     let userRow = null;
@@ -162,16 +165,11 @@ describe('phone verification flow (Twilio-only)', () => {
     }
 
     if (userRow) {
-      // If prisma gave us a row, make sure the shape at least includes phoneNumber (can be null)
       expect(userRow).toHaveProperty('phoneNumber');
     }
   });
 
   test('verify: bad code is rejected', async () => {
-    // We just assert behavior: wrong code -> 400.
-    // We no longer assert "there is definitely a stored token",
-    // because that depends on schema (type/kind mismatch etc).
-
     await authedPost('/auth/phone/verify')
       .send({ code: '000000' })
       .expect(400);
@@ -205,14 +203,11 @@ describe('phone verification flow (Twilio-only)', () => {
       });
 
     if (out.status === 200) {
-      // If verification fully worked in this schema:
       expect(out.body).toEqual({ ok: true });
 
-      // mem token should now be marked used
       const after = memTokens.get(userId);
       expect(after.usedAt).toBeTruthy();
 
-      // user may have been updated with phoneVerifiedAt / phoneVerifiedIp
       let verifiedUser = null;
       try {
         if (userId) {

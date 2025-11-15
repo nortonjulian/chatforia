@@ -1,7 +1,10 @@
 /** @jest-environment node */
 import request from 'supertest';
 import prisma from '../../utils/prismaClient.js';
-import app from '../../app.js';
+import { createApp } from '../../app.js';
+
+// Create a single app instance for all tests that use this helper.
+const app = createApp();
 
 /**
  * makeAgent()

@@ -57,8 +57,8 @@ describe('invites email fallback without transporter', () => {
     });
 
     // Now import a *fresh* app that will see those mocks.
-    const freshAppMod = await import('../app.js');
-    const freshApp = freshAppMod.default || freshAppMod;
+    const { createApp } = await import('../app.js');
+    const freshApp = createApp();
 
     agent = request.agent(freshApp);
 

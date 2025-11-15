@@ -107,6 +107,9 @@ import session from 'express-session';
 import passport from './auth/passport.js';
 import oauthRouter from './routes/oauth.routes.js';
 
+// eSIM feature flag
+import { ESIM_ENABLED } from './config/esim.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -167,38 +170,38 @@ export function createApp() {
   app.use(hppGuard({ allow: ['tags', 'ids'] }));
 
   app.use(
-  pinoHttp({
-    logger,
-    autoLogging: true,
-    serializers: {
-      err: (e) => ({
-        type: e?.name,
-        message: e?.message,
-        stack: e?.stack,
+    pinoHttp({
+      logger,
+      autoLogging: true,
+      serializers: {
+        err: (e) => ({
+          type: e?.name,
+          message: e?.message,
+          stack: e?.stack,
+        }),
+      },
+      genReqId: (req) => req.id || Math.random().toString(36).slice(2),
+      customProps: (req) => ({
+        requestId: req.id,
+        userId: req.user?.id ?? null,
+        method: req.method,
+        path: req.originalUrl || req.url,
+        region: req.region || null,
       }),
-    },
-    genReqId: (req) => req.id || Math.random().toString(36).slice(2),
-    customProps: (req) => ({
-      requestId: req.id,
-      userId: req.user?.id ?? null,
-      method: req.method,
-      path: req.originalUrl || req.url,
-      region: req.region || null,
-    }),
-    customLogLevel: (req, res, err) => {
-      if (err || res.statusCode >= 500) return 'error';
-      if (res.statusCode >= 400) return 'warn';
-      return 'info';
-    },
-    redact: {
-      paths: [
-        'req.headers.authorization',
-        'req.headers.cookie',
-        'res.headers["set-cookie"]',
-      ],
-    },
-  })
-);
+      customLogLevel: (req, res, err) => {
+        if (err || res.statusCode >= 500) return 'error';
+        if (res.statusCode >= 400) return 'warn';
+        return 'info';
+      },
+      redact: {
+        paths: [
+          'req.headers.authorization',
+          'req.headers.cookie',
+          'res.headers["set-cookie"]',
+        ],
+      },
+    })
+  );
 
   /* ---------- Session + Passport (must be before OAuth routes) ---------- */
   app.use(
@@ -228,13 +231,15 @@ export function createApp() {
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
   // TEMP bypasses for first-run auth flows (remove later!)
-  const csrfBypassPattern = /^\/auth\/(login|register|apple\/callback)$|^\/billing\/webhook$/;
+  // + Teal webhook bypass
+  const csrfBypassPattern =
+    /^\/auth\/(login|register|apple\/callback)$|^\/billing\/webhook$|^\/esim\/webhooks\/teal$/;
 
   app.use((req, res, next) => {
     const path = req.path;
     if (csrfBypassPattern.test(path)) {
-    console.log('⚠️ CSRF bypass for:', path);
-    return next();
+      console.log('⚠️ CSRF bypass for:', path);
+      return next();
     }
     return csrfMw(req, res, next);
   });
@@ -305,7 +310,7 @@ export function createApp() {
   app.use('/sms/threads', requireAuth, smsThreadsRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
-  app.use('/tokens', videoTokens);
+  app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);
 
   // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
@@ -343,7 +348,12 @@ export function createApp() {
   app.use('/api/languages', languagesRouter);
   app.use('/stories', storiesRouter);
   app.use('/connectivity', connectivityRouter);
-  app.use('/esim', esimRouter);
+
+  // eSIM: mount conditionally via feature flag
+  if (ESIM_ENABLED) {
+    app.use('/esim', esimRouter); // includes POST /esim/webhooks/teal internally
+  }
+
   if (String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true') {
     app.use('/sims', simsRouter);
   }
@@ -403,4 +413,3 @@ export function createApp() {
 
   return app;
 }
-

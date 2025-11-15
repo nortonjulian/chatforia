@@ -50,7 +50,7 @@ export default function ContactList({
   selectedIds = [],                    // string[]
   onToggleSelect,                      // (id: string) => void
 }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
   const [items, setItems] = useState([]); // raw contacts from server
@@ -110,7 +110,7 @@ export default function ContactList({
         String(c.externalPhone || '').toLowerCase().includes(q)
       );
     });
-  }, [items, search, t]);
+  }, [items, search, i18n.language]);
 
   const startChat = async (userId) => {
     try {

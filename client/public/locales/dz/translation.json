@@ -1,635 +1,766 @@
 {
   "common": {
-    "save": "སྲུངས་",
-    "cancel": "ཆ་མེད་བཟོ་",
-    "refresh": "ཡང་བསྐྱར་ཕབ་",
-    "noMatches": "མཐུན་ཟླ་མེད་",
-    "cancelAria": "ཆ་མེད་བཟོ་",
-    "copy": "འདྲ་བཤུས་",
+    "save": "ཉར་ཚགས།",
+    "cancel": "ཆ་མེད་བཟོ།",
+    "refresh": "ཡང་སྐྱར་སྒྲིག",
+    "noMatches": "མཐུན་པ་མེད།",
+    "cancelAria": "ཆ་མེད་བཟོ",
+    "copy": "འདྲ་བཤུས།",
     "copied": "འདྲ་བཤུས་བྱས་ཟིན!"
   },
 
+  "a11y": {
+    "skipToMain": "ནང་དོན་གཙོ་བོ་ལ་མཆོངས།"
+  },
+
   "profile": {
-    "title": "ལག་ལེན་པའི་གསལ་སྡུད་",
+    "title": "སྤྱོད་མཁན་གསལ་སྡུད།",
+    "preferredLanguage": "སྐད་ཡིག་དགའ་མི།",
+    "chooseLanguage": "སྐད་ཡིག་གདམ་ཁ་བརྐྱབས།",
+    "mustLogin": "སྒྲིག་སྟངས་ལ་ལྟ་ནི་ལག་ཁྱེར་ནང་འཛུལ་དགོས།",
+    "autoTranslate": "འཕྲིན་དོན་རང་བཞིན་སྐད་བསྒྱུར།",
+    "showOriginalWithTranslation": "ཐོག་མའི་འཕྲིན་དོན་དང་སྐད་བསྒྱུར་བྱས་མི་གཉིས་ཀྱིས་སྟོན།",
+    "showOriginalAndTranslation": "ཐོག་མ་དང་སྐད་བསྒྱུར་མཉམ་དུ་སྟོན།",
+    "filterExplicit": "གསལ་བཤད་དོན་ཚན་ཚགས་འཇོག",
+    "aiReply": "AI ལན།",
+    "enableReadReceipts": "ཀློག་པའི་རྩིས་ཐོ་ལྕོགས་ཅན་བཟོ།",
+    "allowExplicitContent": "གསལ་བཤད་དོན་ཚན་ཆོག་མཆན་བྱེད།",
+    "disappearingMessages": "བརླག་སྤོར་འཕྲིན་དོན་ལྕོགས་ཅན།",
+    "autoDeleteSeconds": "རང་བཞིན་གསུབ་པའི་སྐར་ཆ།",
+    "saveSuccess": "སྒྲིག་སྟངས་ཉར་ཚགས་བྱས་ཟིན!",
+    "saveError": "འཛོལ་བ། སྒྲིག་སྟངས་ཉར་མ་ཚུགས།",
+    "avatarAlt": "གསལ་སྡུད་གཟུགས་པར།",
+    "uploadAvatar": "གཟུགས་པར་གསར་པ་སྐྱེལ།",
+    "avatarSuccess": "གཟུགས་པར་སྐྱེལ་ཚར!",
+    "avatarError": "གཟུགས་པར་སྐྱེལ་མ་ཚུགས།",
+    "noPrivateKey": "འ་ནི་ཐབས་འཕྲུལ་ནང་སྒེར་གཙང་ལྡེ་མིག་མེད།",
+    "setBackupPassword": "གྲབས་ཉར་ལ་གསང་ཚིག་གཏོང་།",
+    "backupDownloaded": "གསང་བཟོས་པའི་གྲབས་ཉར་ཕབ་ལེན་བྱས་ཟིན།",
+    "exportFailed": "ལྡེ་མིག་ཕྱིར་འདྲེན་མ་ཚུགས།",
+    "enterBackupPassword": "གྲབས་ཉར་གསང་ཚིག་བཙུགས།",
+    "importSuccess": "སྒེར་ལྡེ་མིག་ཐབས་འཕྲུལ་འདིའི་ནང་ནས་ནང་འདྲེན་བྱས་ཟིན།",
+    "importFailed": "ལྡེ་མིག་ནང་འདྲེན་མ་ཚུགས (གསང་ཚིག་བདེན་མེད ཡང་ན་ཡིག་ཆ་ངན་པ)།",
+    "keysRotated": "ལྡེ་མིག་གསར་པ་བཟོས་ཏེ་དྭངས་ལྡེ་མིག་ཕྱིར་གཏོང་བ།",
+    "rotateFailed": "ལྡེ་མིག་བསྐྱར་བརྗེ་མ་ཚུགས།",
+    "security": "བདེ་འཇགས།",
+    "exportKey": "སྒེར་ལྡེ་མིག་ཕྱིར་འདྲེན།",
+    "importKey": "གསང་བཟོས་གྲབས་ཉར་ནང་འདྲེན།",
+    "rotateKeys": "ལྡེ་མིག་བསྐྱར་བརྗེ།",
+    "keyDisclaimer": "ཁྱེད་ཀྱི་སྒེར་ལྡེ་མིག་ཐབས་འཕྲུལ་འདི་ལས་ཕྱིར་མི་འགྱུར། གཞན་ཐབས་འཕྲུལ་ལ་སོར་ཆུད་བྱེད་པར་གསང་ཚིག་བཙུགས་པའི་དོན་ལུ་ཕྱིར་འདྲེན་དགོས།",
+    "sectionProfile": "གསལ་སྡུད།",
+    "phoneNumber": "ཁ་པར་ཨང་།",
+    "appearance": "གཟུགས་སྣང་།",
+    "soundSettings": "སྒྲ་སྒྲིག",
+    "disappearing": "བརླག་སྤོར་འཕྲིན་དོན།",
+    "backupSync": "གྲབས་ཉར་དང་མཉམ་བྱུང་།",
+    "ai": "AI",
+    "accessibility": "འཛུལ་སྤྱོད།",
+    "privacy": "གསང་སྡོམ།",
+    "devices": "འབྲེལ་བའི་ཐབས་འཕྲུལ།",
+    "themeFreeNotice": "ཁྱེད་ཀྱིས་ Free ལག་ལེན་བྱེད་དོ། གཤམ་གྱི་ཉི་མ/ཟླ་བའི་གདམ་ཁ་ལས་མགོ་རེག་ གདུང་འདེབས་བརྒྱབ་ནས་གདམ། ཡར་བསྐྱེད་བྱས་ན་བརྗོད་དོན་གཞན་ཚུལ་ཁག་འགོད་ཚུགས།",
+    "sunTheme": "Dawn བརྗོད་དོན་ལག་ལེན་བྱེད།",
+    "moonTheme": "Moon (Midnight) བརྗོད་དོན་ལག་ལེན་བྱེད།",
+    "sun": "ཉི་མ",
+    "moon": "ཟླ་བ",
+    "backupTitle": "གསང་བཟོས་གྲབས་ཉར་དང་ཐབས་འཕྲུལ་མཉམ་བྱུང་།",
+    "openBackupTools": "གྲབས་ཉར་ལག་ཆ་ཁ་ཕྱེ།",
+    "backupDesc": "ལྡེ་མིག་གི་གྲབས་ཉར་ལ་གསང་ཚིག་བཙུགས་པས་བཟོ། གཞན་ཐབས་འཕྲུལ་ལ་སོར་ཆུད་བྱས་ནས་མཉམ་བྱུང་འབད།",
+    "privacyBlurEnabled": "འཕྲིན་དོན་སྔོན་ལྟར་རབ་རིབ་བཟོ།",
+    "privacyBlurOnUnfocus": "འཇུག་སྣང་མེད་པར་ཡོད་དུས་རབ་རིབ་བཟོ།",
+    "holdToReveal": "བཟུང་ཏེ་གསལ་སྟོན།",
+    "notifyOnCopy": "ངའི་འཕྲིན་དོན་འདྲ་བཤུས་བྱས་ནས་བརྡ་བསྐུལ་འབད།",
+    "loadFailed": "གསལ་སྡུད་མངོན་མ་ཚུགས།",
+    "followed": "རྗེས་འཇུག་བྱས་ཟིན།",
+    "followFailed": "རྗེས་འཇུག་མ་ཚུགས།",
+    "unfollowed": "རྗེས་འཇུག་བཤོལ་བ།",
+    "unfollowFailed": "རྗེས་འཇུག་བཤོལ་མ་ཚུགས།",
+    "follow": "རྗེས་འཇུག",
+    "unfollow": "བཤོལ་བ།",
+    "followHint": "ཁོང་ཚོས་སྒྲུབ་རྒྱུ་འབད་པའི་སྐབས་ Followers (ཡང་ན་ Public) ཟེར་མི་མི་སྣ་དང་སྤྱོད་སྒྲུབ་བྱས་ན་ “Following” གདམ་ཁའི་ནང་ལྟ་ཐུབ།",
+    "userNotFound": "སྤྱོད་མཁན་མ་ཐོབ།",
+    "followsYou": "ཁྱེད་རྗེས་འཇུག་བྱུང་།",
+    "sectionCrashedTitle": "དབྱེ་ཚན་མངོན་མ་ཚུགས།",
+    "sectionCrashedBody": "དབྱེ་ཚན་འདི་ནང་གནད་དོན་ཅིག་བྱུང་བ།",
+    "forwarding": "འབོར་བ་དང་འཕྲིན་གསར་གཏོང་།",
+    "callTextForwardingSection": "འབོར་བ་དང་འཕྲིན་གསར་གཏོང་།",
+    "callTextForwardingTitle": "འབོར་བ་དང་/ཡང་ འཕྲིན་གསར་གཏོང་།",
+    "callTextForwardingDescription": "ཐོབ་བསྐུར་འབོར་བ་དང་འཕྲིན་གསར་ཚུ་ ཁྱེད་ཀྱིས་བདེ་སྐྱིད་བཟོས་པའི་ཁ་པར་ཡང་ན་གློག་འཕྲིན་ལུ་ཕྱིར་གཏོང་། ཕྱིར་འབོར/ཕྱིར་འཕྲིན་གསར་ཚུ་ལ་ Chatforia ཨང་གྲངས་སྟོན་ཚུགས།",
+    "enableTextForwarding": "འཕྲིན་གསར་ཕྱིར་གཏོང་ལྕོགས་ཅན།",
+    "forwardTextsToPhone": "འཕྲིན་གསར་ཁ་པར་ལུ་ཕྱིར་གཏོང་།",
+    "forwardTextsToEmail": "འཕྲིན་གསར་གློག་འཕྲིན་ལུ་ཕྱིར་གཏོགས།",
+    "destinationPhone": "དམིགས་ཡུལ་ཁ་པར (E.164)",
+    "destinationEmail": "དམིགས་ཡུལ་གློག་འཕྲིན།",
+    "enableCallForwarding": "འབོར་བ་ཕྱིར་གཏོང་ལྕོགས་ཅན།",
+    "destinationPhoneForCalls": "འབོར་བའི་དམིགས་ཡུལ (E.164)",
+    "aliasBridging": "འབོར་བ་ཕྱིར་གཏོང་ (alias bridging)",
+    "quietHoursOptional": "ཁ་ལྡན་དུས་ཚོད (གདམ་ཁ)",
+    "startHour": "འགོ་བཙུགས་ཆུ་ཚོད (0–23)",
+    "endHour": "མཇུག་ཆུ་ཚོད (0–23)",
+    "reset": "བསྐྱར་སྒྲིག",
+    "saveBtn": "ཉར་ཚགས།",
+    "forwardSaved": "ཕྱིར་གཏོང་སྒྲིག་སྟངས་ཉར་ཚགས་བྱས་ཟིན།",
+    "forwardSaveFailed": "སྒྲིག་སྟངས་ཉར་མ་ཚུགས།",
+    "errE164": "ནུས་ལྡན་ E.164 ཁ་པར་ཨང་ (དཔེ་: +15551234567) བཙུགས།",
+    "errEmail": "ནུས་ལྡན་གློག་འཕྲིན་བཙུགས།",
+    "errSmsDest": "དམིགས་ཡུལ་ཉུང་མཐའ་གཅིག་གདམ་དགོས (ཁ་པར ཡང་ན་ གློག་འཕྲིན)།",
+    "errQuietHours": "ཁ་ལྡན་དུས་ཚོད་ 0 ལས 23 བར་སྦེ་དགོས།"
+  },
 
-    "preferredLanguage": "སྐད་ཡིག་དགའ་མོས་",
-    "chooseLanguage": "སྐད་ཡིག་གདམ་",
-    "mustLogin": "སྒྲིག་སྟངས་ལུ་མཐུད་བྱེད་པར་ནང་འཛུལ་དགོས་",
-
-    "autoTranslate": "འཕྲུལ་སྒྲིག་སྐད་སྒྱུར་",
-    "showOriginalWithTranslation": "ཐོག་མའི་ཚིག་དང་སྐད་སྒྱུར་མཉམ་སྟོན་",
-    "showOriginalAndTranslation": "ཐོག་མ་དང་སྐད་སྒྱུར་གཉིས་ཀ་མཉམ་དུ་",
-
-    "filterExplicit": "ཚིག་གསལ་ (explicit) ཚིག་གཏོར་",
-    "aiReply": "ཨའི་ལན་འདེབས་",
-    "enableReadReceipts": "ཀློག་ཚར་བའི་བརྡ་འཕྲིན་བཀོལ་",
-    "allowExplicitContent": "ཚིག་གསལ་ནང་དོན་ཆོག་",
-    "disappearingMessages": "འཆར་མེད་འཕྲིན་དོན་བཀོལ་",
-    "autoDeleteSeconds": "དུས་ཚོད་སྐར་ཆ་ (རང་བཞིན་སུབ་)",
-
-    "saveSuccess": "སྒྲིག་སྟངས་བསྲུངས་ཚར!",
-    "saveError": "འཛོལ་: སྒྲིག་སྟངས་བསྲུང་མ་ཚུགས་",
-
-    "avatarAlt": "གསལ་སྡུད་གཟུགས་བརྙན་",
-    "uploadAvatar": "གསར་པའི་གཟུགས་བརྙན་སྐྱེལ་",
-    "avatarSuccess": "གཟུགས་བརྙན་སྐྱེལ་ཚར!",
-    "avatarError": "གཟུགས་བརྙན་སྐྱེལ་མ་ཚུགས་",
-
-    "noPrivateKey": "འ་ནི་ཐོག་ལུ་སྒེར་གསང་ལྡེ་མེད་པས་ཕྱིར་འདྲེན་མི་ཚུགས་",
-    "setBackupPassword": "གྲ་སྒྲིག་ཡིག་ཨང་བཟོ་ (backup) དེ་ལྡེ་ཡིག་བསྲུང་:",
-    "backupDownloaded": "གསང་བ་དམ་བཅའ་བའི་ backup ཕབ་ལེན་བྱས་ཟིན་",
-    "exportFailed": "ལྡེ་མིག་ export མ་བཏུབ་",
-    "enterBackupPassword": "backup ལུ་ལྡེ་ཡིག་བཙུགས་:",
-    "importSuccess": "སྒེར་གསང་ལྡེ་འ་ནི་ཐོག་ལུ་ནང་འདྲེན་ཚར་",
-    "importFailed": "ལྡེ་མིག་ནང་འདྲེན་མ་བཏུབ (ལྡེ་ཡིག་ཕྱིར་འགྱུར་ཡང་ན་པར་གཞི་སོར་)",
-    "keysRotated": "ལྡེ་མིག་གསར་པ་གཉིས་ (key pair) བཟོས་ཏེ་ public key སྐྱེལ་ཚར་",
-    "rotateFailed": "ལྡེ་མིག་བསྒྱུར་མ་བཏུབ་",
-    "security": "མཐའ་བཙན་",
-    "exportKey": "སྒེར་གསང་ལྡེ་ཕྱིར་འདྲེན་",
-    "importKey": "གསང་བ་དམ་བཅའ་བའི་ backup ནང་འདྲེན་",
-    "rotateKeys": "ལྡེ་མིག་བསྒྱུར་",
-    "keyDisclaimer": "ཁྱེད་ཀྱི་པར་གསང་ལྡེ་ཐོག་ལས་མ་འབུད་པས། ཐོག་གཞན་ནས་བསྐྱར་གསོ་བྱེད་པའི་ཆེད་ལྡེ་ཡིག་དམ་བཅའ་བ་དང་བཅས་ཕྱིར་འདྲེན་བྱིན།",
-
-    "sectionProfile": "གསལ་སྡུད་",
-    "phoneNumber": "ཁ་པར་ཨང་",
-    "appearance": "གཟུགས་བརྗོད་",
-    "soundSettings": "སྒྲ་སྒྲིག་",
-    "disappearing": "འཆར་མེད་འཕྲིན་དོན་",
-    "backupSync": "Backup དང་ Sync",
-    "ai": "ཨའི་",
-    "accessibility": "མཐུན་འགྱུར་",
-    "privacy": "སྒེར་གཙང་",
-    "devices": "ཐོག་ལུགས་མཐུད་མཁན་",
-
-    "themeFreeNotice": "ཁྱེད་ Free ལུ་ཡོད་—ཉེ་མདོའི་ ཉི་མ/ཟླ་མཚན གདམ། དེ་ལས་མང་བའི་བརྗོད་གཞི་ལུ་ Upgrade འབད་",
-    "sunTheme": "Dawn བརྗོད་གཞི་ལག་ལེན་",
-    "moonTheme": "Moon (Midnight) བརྗོད་གཞི་",
-    "sun": "ཉི་མ་",
-    "moon": "ཟླ་མཚན་",
-
-    "backupTitle": "གསང་བ་དམ་བཅའ་བའི་ Backup དང་ ཐོག་ལུགས་མཐུད་",
-    "openBackupTools": "Backup ལགའཇུག་ཁ་པར་",
-    "backupDesc": "ལྡེ་མིག་ལུ་ལྡེ་ཡིག་བཙུགས་པའི་ backup བཟོ་ཞིན་དེ་ཐོག་གཞན་ལུ་སོར་ཆུད་ནས་ sync འབད་",
-
-    "privacyBlurEnabled": "བརྡ་འཕྲིན་སྔོན་སྒོ་སྤུས་བཟོས་གཅིག་སྦེ་རབས་ (blur) བཟོ་",
-    "privacyBlurOnUnfocus": "དྲན་ཚོར་མེད་པའི་ཚེ་ blur བཟོ་",
-    "holdToReveal": "བཟུངས་ནས་སྟོན་",
-    "notifyOnCopy": "ངའི་འཕྲིན་དོན་འདྲ་བཤུས་བྱུང་ན་བརྡ་བསྐུལ་འབད་",
-
-    "loadFailed": "གསལ་སྡུད་མངོན་པ་མ་བཏུབ་",
-    "followed": "རྗེས་འབྲངས་ཟིན་",
-    "followFailed": "རྗེས་འབྲངས་མ་བྱུང་",
-    "unfollowed": "རྗེས་འབྲངས་བཤོལ་ཟིན་",
-    "unfollowFailed": "རྗེས་འབྲངས་བཤོལ་མ་བྱུང་",
-    "follow": "རྗེས་འབྲངས་",
-    "unfollow": "བཤོལ་",
-    "followHint": "ཁོང་ཚོས་ Followers ཡང་ན་ Public ལུ་ status བསྒྲིགས་པའི་ཚེ་ “Following” ལུ་འཆར་འོང་",
-    "userNotFound": "ལག་ལེན་པ་མ་ཐོབ་",
-    "followsYou": "ཁྱེད་རྗེས་འབྲངས་",
-
-    "sectionCrashedTitle": "དུམ་བུ་མངོན་པ་མ་བྱུང་",
-    "sectionCrashedBody": "དུམ་བུ་འདི་ནང་གནད་དོན་འདུག་",
-
-    "forwarding": "ཁ་བརྡ/བརྡ་འཕྲིན་སྐུར་བ་",
-    "callTextForwardingSection": "ཁ་བརྡ་དང་ཚིག་སྐུར་",
-    "callTextForwardingTitle": "ཁ་བརྡ་དང་/ཡང་ན་ ཚིག་སྐུར་",
-    "callTextForwardingDescription": "ཐོ་བཀོད་བྱས་པའི་ཁ་པར་/email ལུ་ནང་འབུལ་ཁ་བརྡ་དང་ཚིག་སྐུར་སྐུར་བཅུག། ཕྱིར་བཏང་ཁ་བརྡ/ཚིག་སྐུར་ལུ་ Chatforia ཨང་མངོན་པ་བཏུབ་",
-    "enableTextForwarding": "ཚིག་སྐུར་སྐུར་བ་བཀོལ་",
-    "forwardTextsToPhone": "ཚིག་སྐུར་ཁ་པར་ལུ་སྐུར་",
-    "forwardTextsToEmail": "ཚིག་སྐུར་ email ལུ་སྐུར་",
-    "destinationPhone": "དམིགས་འབེན་ཁ་པར་ (E.164)",
-    "destinationEmail": "དམིགས་འབེན་ email",
-    "enableCallForwarding": "ཁ་བརྡ་སྐུར་བ་བཀོལ་",
-    "destinationPhoneForCalls": "ཁ་བརྡ་གྱི་དམིགས་འབེན་ (E.164)",
-    "aliasBridging": "ཁ་བརྡ་སྐུར་བ་ (alias bridging)",
-    "quietHoursOptional": "ཞིབ་ཆས་ཆུ་ཚོད་ (གདམ་ཁ)",
-    "startHour": "འགོ་བཙུགས་ཆུ་ཚོད་ (0–23)",
-    "endHour": "མཇུག་ཆུ་ཚོད་ (0–23)",
-    "reset": "བསྐྱར་སྒྲིག་",
-    "saveBtn": "སྲུངས་",
-
-    "forwardSaved": "སྐུར་བའི་སྒྲིག་སྟངས་བསྲུངས་ཚར་",
-    "forwardSaveFailed": "སྒྲིག་སྟངས་སྲུང་མ་ཚུགས་",
-    "errE164": "ནུས་ལྡན་ E.164 ཁ་པར་བཙུགས་ (དཔེ: +15551234567)།",
-    "errEmail": "ནུས་ལྡན་ email བཙུགས་",
-    "errSmsDest": "དམིགས་འབེན་ཉུང་མཐའ་རང་གཅིག་གདམ་ (ཁ་པར་ ཡང་ན་ email)།",
-    "errQuietHours": "ཞིབ་ཆས་ཆུ་ཚོད་ 0 ལས་23 བར་དགོས་"
+  "support": {
+    "helpFab": "གྲོགས་རམ།",
+    "openSupportAria": "གྲོགས་རམ་ཁ་ཕྱེ།",
+    "badge": "གྲོགས་རམ།",
+    "heading": "ངེད་ཚོས་གྲོགས་རམ་ག་ཅི་བྱེད་ཐུབ?",
+    "tabs": {
+      "help": "གྲོགས་རམ་ལྡེབ་ཁྲམ།",
+      "contact": "ང་ཚོར་འབྲེལ་བ།"
+    },
+    "searchPlaceholder": "གྲོགས་རམ་རྩོམ་འགྲེལ་འཚོལ་…",
+    "searchAria": "གྲོགས་རམ་འཚོལ།",
+    "searchBtn": "འཚོལ།",
+    "quickTopicsLabel": "མགྱོགས་་དོན་ཚན།",
+    "quickTopics": {
+      "login": "ནང་འཛུལ་མི་ཚུགས",
+      "billing": "དངུལ་སྒྲུབ/གླ་ཆ",
+      "abuse": "མེད་ལས་སྤྱོད་སྙན་ཞུ།"
+    },
+    "trySearching": "“translate”, “backups”, ཡང་ན “privacy” ཟེར་མི་ཚུ་འཚོལ་བཤེར་བརྩེགས།",
+    "article": "རྩོམ་འགྲེལ།",
+    "openArticle": "རྩོམ་འགྲེལ་ཁ་ཕྱེ།",
+    "contactIntro": "ང་ཚོས་གློག་འཕྲིན་ཐོབ་ཚུགས། དཀའ་ངལ་སྒྲུབ་ཐབས་ཁྲོམ་པོ་ཞུ་གནང་།",
+    "topicAria": "དོན་ཚན་གདམ་ཁ།",
+    "messagePlaceholder": "འཕྲིན་དོན་བྲིས་…",
+    "sendBtn": "གཏང་།",
+    "sent": "འཕྲིན་དོན་གཏང་ཟིན། གློག་འཕྲིན་ལས་ལན་ཕྱིར་འབྱོར་འབྱུང་།",
+    "sendError": "གཏང་མ་ཚུགས། support@chatforia.com ལུ་གློག་འཕྲིན་འབྲེལ་གནང་།"
   },
 
   "chat": {
-    "selectPrompt": "ཚིག་ཡིག་ཡང་ན་ chat ཁང་ གདམ་ནས་ཁ་སླབ་",
-    "newMessages": "འཕྲིན་དོན་གསརཔ་",
-    "typing": "{{name}} ཡིས་འབྲི་དོ་…",
-    "emptyTitle": "ཁྱེད་ཀྱི་འཕྲིན་དོན་",
-    "emptySubtitle": "འཕྲིན་དོན་གཅིག་གཏང་ནས་འགོ་བཙུགས་",
-    "startChatButton": "འཕྲིན་དོན་གཏང་"
+    "selectPrompt": "ཡིག་ཚགས་ཡང་ན་ཁ་པར་ཁང་གདམ་ནས་གླེང་མོལ་འགོ་བཙུགས།",
+    "newMessages": "འཕྲིན་དོན་གསར་པ།",
+    "typing": "{{name}} ཡིག་འབིངས་བྱེད་དོ་…",
+    "emptyTitle": "ཁྱེད་ཀྱི་འཕྲིན་དོན།",
+    "emptySubtitle": "འཕྲིན་དོན་གཏང་ནས་གླེང་མོལ་འགོ་བཙུགས།",
+    "startChatButton": "འཕྲིན་དོན་གཏང་།"
   },
 
   "topbar": {
-    "newStatus": "གནས་ཚད་གསརཔ་",
-    "logout": "ཕྱིར་མིང་བཀོད་",
-    "help": "རོགས་རམ་"
+    "newStatus": "གནས་ཚད་གསར་པ།",
+    "logout": "ཕྱིར་འཐེན།",
+    "help": "གྲོགས་རམ།",
+    "createStatusAria": "གནས་ཚད་གསར་པ་གསར་བསྐྲུན།"
   },
 
   "status": {
-    "userNumber": "ལག་ལེན་པ་ #{{id}}",
-
-    "posted": "གནས་ཚད་བསྒྲིགས་ཚར་",
-    "postFailed": "གནས་ཚད་བསྒྲིགས་མ་བྱུང་",
-
-    "createTitle": "གནས་ཚད་བཟོ་",
-    "modalAriaLabel": "གནས་ཚད་གསརཔ་",
-
-    "captionLabel": "ཁྱེད་ཀྱིས་ག་ཅི་བསམ་?",
-    "captionPlaceholder": "དུས་མཐུན་སྐོར་སྐོར་…",
-    "captionAria": "གནས་ཚད་འགྲེལ་བརྗོད་",
-
-    "audienceLabel": "གསལ་གཞི་",
+    "userNumber": "སྤྱོད་མཁན #{{id}}",
+    "posted": "གནས་ཚད་བརྡ་འཕྲིན་གཏང་ཟིན།",
+    "postFailed": "གནས་ཚད་གཏང་མ་ཚུགས།",
+    "createTitle": "གནས་ཚད་གསར་བསྐྲུན།",
+    "modalAriaLabel": "གནས་ཚད་གསར་པ།",
+    "captionLabel": "གནས་ཚད་ནང་དོན།",
+    "captionPlaceholder": "གནས་ཚད་རྗེས་སྤེལ་…",
+    "captionAria": "གནས་ཚད་འཕྲིན་དོན།",
+    "audienceLabel": "ལྟ་སྤྱོད་པ།",
     "audience": {
-      "public": "མི་མང་",
+      "public": "མི་མང་།",
       "followers": "Followers",
       "contacts": "Contacts",
       "mutuals": "Mutuals",
-      "custom": "རང་བཟོ་…"
+      "custom": "Custom..."
     },
+    "expiresHoursLabel": "དུས་ཡོལ (ཆུ་ཚོད)",
+    "maxTooltip": "མང་མཐའ་ 7 ཉིན།",
+    "hoursAbbrev": "ཆ",
+    "maxShort": "མང་མཐའ",
+    "expiresOn": "དུས་ཡོལ་ཚེས:",
+    "chooseRecipients": "ལེན་མཁན་གདམ་ཁ།",
+    "selectContacts": "འབྲེལ་ས་གདམ་།",
+    "attachmentsLabel": "ཟུར་སྣོད།",
+    "attachmentsPlaceholder": "པར/བརྙན་ཟློས་ཁ་སྣོན།",
+    "filesNote": "ཡིག་སྣོད 5 ཚུ་བསྡུས། སྔོན་སྒྲིག 24 ཆུ་ཚོད་ནང་དུས་ཡོལ།",
+    "postAria": "གནས་ཚད་གཏང་།",
+    "post": "གཏང་།"
+  },
 
-    "expiresHoursLabel": "དུས་ཡོལ་ (ཆུ་ཚོད)",
-    "maxTooltip": "མཐའ་མཇུག 7 ཉིན་",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "དུས་ཡོལ།",
-
-    "chooseRecipients": "ལེན་མཁན་གདམ་",
-    "selectContacts": "Contacts གདམ་",
-
-    "attachmentsLabel": "ཟུར་བརྗོད་",
-    "attachmentsPlaceholder": "པར/བརྙན་ལྟར་ ཁ་སྐོང་བཀོལ་",
-    "filesNote": "ཡིག་སྣ 5 ཚུན་ཚོད། སྔོན་སྒྲིག 24h དུས་ཡོལ་",
-
-    "postAria": "གནས་ཚད་གཏང་",
-    "post": "གཏང་"
+  "contactList": {
+    "savedContacts": "ཉར་ཚགས་བྱས་ Contacts",
+    "refreshAria": "Contacts ཡང་སྐྱར་སྒྲིག",
+    "filterPlaceholder": "ཉར་ཚགས་ Contacts འཚག་…",
+    "filterAria": "Contacts འཚག",
+    "noContactsFound": "Contacts མ་ཐོབ།",
+    "externalContact": "ཕྱིའི Contact",
+    "notJoined": "ཁ་གྲངས་འདི་ད་ལྟོ་ Chatforia མ་ཞུགས།",
+    "couldNotStart": "གླེང་མོལ་མགོ་མ་བཙུགས། ལོག་འབད།",
+    "startFailed": "གླེང་མོལ་མགོ་བཙུགས་མ་ཚུགས།",
+    "deleted": "Contact བསུབས་ཟིན།",
+    "deleteFailed": "བསུབ་མ་ཚུགས།",
+    "aliasUpdated": "Alias དུས་མཐུན་བཟོས།",
+    "updateAliasFailed": "Alias དུས་མཐུན་མ་ཚུགས།",
+    "selectContact": "{{name}} གདམ།",
+    "alias": "Alias",
+    "startChat": "གླེང་མོལ་འགོ་བཙུགས།",
+    "message": "འཕྲིན་དོན།",
+    "delete": "བསུབ།",
+    "deleteContactAria": "Contact བསུབ།",
+    "loadFailed": "Contacts ཕབ་ལེན་མ་ཚུགས། ལོག་འབད།",
+    "loadMore": "ཧེང་བཀལ་ཕབ།"
   },
 
   "sidebar": {
-    "randomChat": "གང་རུང་གི་ Chat",
-    "callTextForwarding": "ཁ་བརྡ/ཚིག་སྐུར་སྐུར་བ་",
-    "conversations": "གྲོས་གནས་",
-    "searchPlaceholder": "གྲོས་གནས་འཚོལ་…",
-    "errorLoading": "chat མངོན་པ་མ་བྱུང་",
-    "empty": "chat མ་འདུག་",
-    "startChat": "chat འགོ་བཙུགས་",
-    "people": "མི་",
-    "settings": "སྒྲིག་སྟངས་",
-    "status": "གནས་ཚད་",
-    "forwarding": "ཁ་བརྡ/ཚིག་སྐུར་",
-    "refresh": "ཡང་བསྐྱར་",
-    "search": "གྲོས་གནས་འཚོལ་",
-    "loginPrompt": "སྒྲིག་སྟངས་བསྒྱུར་ནི་ལུ་ནང་འཛུལ་",
-    "login": "ནང་འཛུལ་",
-    "register": "ཐོ་འགོད་",
-
-    "chatrooms": "གྲོས་ཁང་",
-    "logout": "ཕྱིར་མིང་",
-    "startChatAlt": "chat གསརཔ་འགོ་བཙུགས་"
+    "randomChat": "གླེང་མོལ་གང་འབྱུང་།",
+    "callTextForwarding": "འབོར་བ་/འཕྲིན་གསར་ཕྱིར་གཏོང་།",
+    "conversations": "གླེང་མོལ་ཚུ།",
+    "searchPlaceholder": "གླེང་མོལ་འཚོལ་…",
+    "errorLoading": "ཁ་པར་ཁང་མངོན་མ་ཚུགས།",
+    "empty": "གླེང་མོལ་མེད།",
+    "startChat": "གླེང་མོལ་འགོ་བཙུགས།",
+    "people": "མི་སྣ།",
+    "settings": "སྒྲིག་སྟངས།",
+    "status": "གནས་ཚད།",
+    "forwarding": "འབོར་བ་/འཕྲིན་གསར་ཕྱིར་གཏོང་།",
+    "refresh": "ཡང་སྐྱར་སྒྲིག",
+    "search": "གླེང་མོལ་འཚོལ།",
+    "loginPrompt": "སྒྲིག་སྟངས་ཞུན་དག་ལུ་ ནང་འཛུལ།",
+    "login": "ནང་འཛུལ།",
+    "register": "ཐོ་འགོད།",
+    "chatrooms": "Chatrooms",
+    "logout": "ཕྱིར་འཐེན།",
+    "startChatAlt": "གླེང་མོལ་གསར་པ་འགོ་བཙུགས།"
   },
 
   "premium": {
-    "heading": "Premium ལུ་སྤེལ་",
-    "description": "ནུས་པ་མཐོ་བ་དང་ཞབས་བྱུང་བཀོལ་མི་མང་མེད་",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Chatforia Premium ལུ Upgrade"
+    "heading": "Premium ལུ་ཡར་བསྐྱེད།",
+    "description": "ནུས་པ་ཆེན་པོའི་ཁྱད་ཆོས་ཁ་ཕྱེ་ནས་ མ་དགོས་པའི་བསྒྲགས་ཚུ་གཏོང་མི་འབད།",
+    "cta": "ཡར་བསྐྱེད།",
+    "upgrade": "ཡར་བསྐྱེད།",
+    "upgradeAria": "Chatforia Premium ལུ་ཡར་བསྐྱེད།"
   },
 
   "auth": {
-    "headline": "བདེ་འཇགས་ཀྱི་སྐད་སྒྱུར་འཕྲུལ་ཆས་དང་མཉམ་ ཁེངས་སྐུགས་ཅན་གྱི་འཕྲིན་ལས་",
-    "description": "E2E གསང་བ་, ཨའི་སྐད་སྒྱུར་, འཆར་མེད་འཕྲིན་དོན་, ཁ་བརྡ/བརྙན་འཕྲིན་",
+    "headline": "མཐའ་མཚམས་སྦྱོར་བཟོ་བའི་སྐབས་ སྐྱེད་འཕེལ་ཀྱི་གླེང་མོལ།",
+    "description": "མཐའ་མཚམས་སྦྱོར་བཟོས་པ། AI སྒྲུབ་མཁན་སྐད་བསྒྱུར། བརླག་སྤོར་འཕྲིན་དོན། འབོར་བ/བརྡ་བརྒྱུད།",
     "feature": {
-      "encryption": "འགོ་བཙུགས་དང་བཅས་ E2E གསང་བ་",
-      "translation": "སྐད་སྒྱུར 100+ རྒྱུན་སྤྱོད་",
-      "disappearing": "འཆར་མེད་འཕྲིན་དོན་དང་ཀློག་ཚར་བ་",
-      "privacy": "སྒེར་གཙང་དང་ཚོད་འཛིན་",
-      "translate": "དུས་མཉམ་སྐད་སྒྱུར་",
-      "disappear": "འཆར་མེད་འཕྲིན་དོན་",
-      "privacyAlt": "སྒེར་གཙང་བཟོ་བ་"
+      "encryption": "སྔོན་སྒྲིག་ E2E གསང་བཟོས།",
+      "translation": "སྐད་ཡིག 100+ རང་བཞིན་སྐད་བསྒྱུར།",
+      "disappearing": "བརླག་སྤོར་འཕྲིན་དོན་དང་ཀློག་ཐོ།",
+      "privacy": "གསང་སྡོམ་དང་འཛིན་སྐྱོང་།",
+      "translate": "དུས་མཐུན་སྐད་བསྒྱུར།",
+      "disappear": "བརླག་སྤོར་འཕྲིན་དོན།",
+      "privacyAlt": "གསང་སྡོམ་དགོས་གཤིས།"
     },
-    "welcomeBack": "ལོག་སྤྱོད་ལེན་ནུས་སོང་",
-    "continueGoogle": "Google ཐོག་མུ་འགྲོ་",
-    "continueApple": "Apple ཐོག་མུ་འགྲོ་",
-    "username": "མིང་",
-    "password": "གསང་ཡིག་",
-    "keepSignedIn": "ནང་འཛུལ་བཟོས་བཞིན་བཞག་",
-    "forgotPassword": "གསང་ཡིག་བརྗེད་ནུག?",
-    "loginButton": "ནང་འཛུལ་",
-    "createAccount": "ཐོ་འགོད་བཟོ་",
-    "freeAccountButton": "ཐོ་འགོད་སྟོང་",
-    "newHere": "གསར་པ་ཨིན་ན?",
-    "getApp": "གློག་རིག་ལེན་",
-    "desktopTip": "desktop ལུ? ཁ་པར་གྱིས་ཨང་རྟགས་མདོག་བསྒྲིགས་",
-
-    "goHome": "མདུན་ངོས་ལོག་",
-    "home": "མདུན་ངོས་",
-
+    "hero": {
+      "line1": "མཐའ་མཚམས་ཡོངས་སུ་སྦྱོར་བའི་",
+      "beforeEm": "གླེང་མོལ་",
+      "em": "དུས་མཐུན་སྐད་བསྒྱུར",
+      "sub": "མཐའ་མཚམས་སྦྱོར་བཟོས་པ། AI སྒྲུབ་པའི་སྐད་བསྒྱུར། བརླག་སྤོར་འཕྲིན་དོན། འབོར་བ/བརྡ་བརྒྱུད།"
+    },
+    "feat": {
+      "encryption": "སྔོན་སྒྲིག་ E2E གསང་བཟོས།",
+      "translate": "སྐད་ཡིག 100+ རང་བཞིན་སྐད་བསྒྱུར།",
+      "disappear": "བརླག་སྤོར་འཕྲིན་དོན་དང་ཀློག་ཐོ།",
+      "privacy": "གསང་སྡོམ་དང་འཛིན་སྐྱོང་།"
+    },
+    "welcomeBack": "ལོག་འབྱོར་ལེགས་སོ།",
+    "continueGoogle": "Google ཐོག་ལས་མུ་མཐུད།",
+    "continueApple": "Apple ཐོག་ལས་མུ་མཐུད།",
+    "username": "མིང་སྤྲོད་པ།",
+    "password": "གསང་ཚིག",
+    "keepSignedIn": "ནང་འཛུལ་གནས་བཟོ།",
+    "forgotPassword": "གསང་ཚིག་བརྗ་ཡོད་ད?",
+    "loginButton": "ནང་འཛུལ།",
+    "createAccount": "ཐོ་འགོད་བྱེད།",
+    "freeAccountButton": "Free ཐོ་འགོད།",
+    "newHere": "གསར་སྤྲུལ་ཡིན་ན?",
+    "getApp": "དྲི་བ་ལེན་མི་གློག་རིག་ལེན།",
+    "desktopTip": "Desktop ནང་? ཁ་པར་གིས་བཤུད་དེ་ app ལེན།",
+    "scanHelper": "Desktop ནང་? ཁ་པར་གིས་བཤུད་དེ་ app ལེན།",
+    "goHome": "ཁྱིམ་པ་ལོག",
+    "home": "ཁྱིམ།",
     "headlineAlt": {
-      "main": "བདེ་འཇགས་ཀྱི་ messenger",
-      "highlight": "ཁྱེད་ཀྱི་སྐད་ལུ་སྐད་སྒྱུར་འབད་"
+      "main": "གསང་བཟོས་གླེང་མོལ་འདི་",
+      "highlight": "ཁྱེད་ཀྱི་སྐད་ལུ་སྐད་བསྒྱུར་བྱེད།"
     },
-    "subhead": "སྒེར་གཙང་, གསང་བ་, དུས་མཉམ་སྐད་སྒྱུར་",
-
-    "status": "གནས་ཚད་བལྟ་",
-    "upgrade": "ད་ལྟ་སྤེལ་",
-    "tip": "གལ་སྲིད་ཐོག་གཅིག་ལས་ལེན། གློག་རིག་ལེན་པས་ལེགས་པའི་ཉམས་མྱོང་",
-    "openDownload": "ཕབ་ལེན་ཤོག་ལེབ་ཁ་ཕྱེ་",
-    "qrAlt": "Chatforia གི་ QR ཨང་རྟགས་",
-    "scanHint": "ཕབ་ལེན་ཡང་ན་བྱང་སྟོན་ཁྱེད་ཀྱི་བྱེད་ལས་ཁ་ཕྱེ་",
-    "iosAria": "App Store ནས་ཕབ་",
-    "iosTitle": "App Store",
-    "iosBadgeAlt": "App Store རྟགས་",
-    "androidAria": "Google Play ནས་ཕབ་",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play རྟགས་",
-
-    "login": "ནང་འཛུལ་",
-    "signup": "ཐོ་འགོད་",
-    "email": "Email"
+    "subhead": "གསང་བཟོས་པ་ མངོན་མཐར་སྐད་བསྒྱུར་བྱེད་པའི་གླེང་མོལ།",
+    "status": "གནས་ཚད་ལྟ།",
+    "upgrade": "ད་ལྟོ་ཡར་བསྐྱེད།",
+    "tip": "ཕབ་ལེན་/དྲ་ངོས་ནང་གཉིས་ཀྱིས་མཉམ་སྦྱར་འབད། འཕྲིན་དོན་མཉམ་བྱུང་འོང་།",
+    "openDownload": "ཕབ་ལེན་ཤོག་ལེབ་ཁ་ཕྱེ།",
+    "qrAlt": "Chatforia ཀྱི་ QR ཨང།",
+    "scanHint": "app ཕབ་ལེན་ ཡང་ན་བརྡ་འགྲེལ་ཁྱོད་ཀྱི་བརྡ་ལམ་ནང་ཁ་ཕྱེ།",
+    "iosAria": "App Store ནས་ཕབ་ལེན།",
+    "iosTitle": "App Store ནས་ཕབ་ལེན།",
+    "iosBadgeAlt": "App Store བརྡ་རྟགས།",
+    "androidAria": "Google Play ནས་ཕབ་ལེན།",
+    "androidTitle": "Google Play ཚོང་ཁང་།",
+    "androidBadgeAlt": "Google Play བརྡ་རྟགས།",
+    "login": "ནང་འཛུལ།",
+    "signup": "ཐོ་འགོད།",
+    "email": "གློག་འཕྲིན།"
   },
 
   "footer": {
-    "plans": "གདམ་ཁ་དང་གླ་ཆ་",
-    "about": "Chatforia སྐོར་",
-    "careers": "ལས་གཡོག་",
-    "press": "འཕྲིན་བརྙན་",
-    "advertise": "གསར་བསྒྲགས་",
-    "contact": "འབྲེལ་བ་",
-    "help": "རོགས་རམ་",
-    "status": "སྐུལ་འདེབས་ཤོག",
+    "plans": "གཞི་ཚན་དང་གླ་ཆ།",
+    "about": "Chatforia སྐོར།",
+    "careers": "ལས་གཡོག",
+    "press": "བསྒྲགས་གནས།",
+    "advertise": "དྲ་འཛིན།",
+    "contact": "འབྲེལ་བ།",
+    "help": "གྲོགས་རམ་ལྡེབ་ཁྲམ།",
+    "status": "གནས་ཚད་ཤོག་ལེབ།",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "སྒེར་གཙང་སྲིད་བྱུས་",
-    "terms": "ཞབས་ཞུ་ལམ་ལུགས་",
-    "cookies": "Cookies སྒྲིག་སྟངས་",
-    "doNotSell": "ངེས་གསལ་བརྡ་དོན་མ་བཙན་པ།",
+    "privacy": "གསང་སྡོམ་སྒྲིག་ཁྲིམས།",
+    "terms": "སྤྱོད་ཚུལ་ཁྲིམས་ལུགས།",
+    "cookies": "Cookie སྒྲིག་སྟངས།",
+    "doNotSell": "ངོ་སྤྲོད་སྒེར་གཞི་རྩིས་མ་བཙོང་།",
+    "language": "སྐད་ཡིག",
+    "contactShort": "འབྲེལ་བ།",
 
-    "language": "སྐད་ཡིག་",
-    "contactShort": "འབྲེལ་བ་"
+    "aria": "མཇུག་སྒྲོམ།",
+    "homeAria": "Chatforia ཁྱིམ།",
+    "section": {
+      "company": "ཚོང་སྡེ",
+      "support": "གྲོགས་རམ།",
+      "downloads": "ཕབ་ལེན།",
+      "legal": "ཁྲིམས་ལུགས།"
+    },
+    "links": {
+      "plans-pricing": "གཞི་ཚན་དང་གླ་ཆ།",
+      "about-chatforia": "Chatforia སྐོར།",
+      "careers": "ལས་གཡོག",
+      "press": "བསྒྲགས་གནས།",
+      "advertise": "དྲ་འཛིན།",
+      "getting-started": "འགོ་བཙུགས་ཐབས།",
+      "help-center": "གྲོགས་རམ་ལྡེབ་ཁྲམ།",
+      "contact-us": "འབྲེལ་བ།",
+      "status-page": "གནས་ཚད་ཤོག་ལེབ།",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "གསང་སྡོམ།",
+      "terms-of-service": "སྤྱོད་ཚུལ་ཁྲིམས་ལུགས།",
+      "do-not-sell-my-info": "སྒེར་གཞི་རྩིས་མ་བཙོང་།",
+      "cookie-settings": "Cookie སྒྲིག་སྟངས།"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ མགོ་ལུ་ལོག"
   },
 
   "home": {
-    "title": "མདུན་ངོས་",
-    "header": "ཁྱེད་ཀྱི་འཕྲིན་དོན་",
-    "subheader": "འཕྲིན་དོན་གཏང་ནས་ཁ་སླབ་འགོ་བཙུགས་",
-    "sendButton": "འཕྲིན་དོན་གཏང་",
-    "gifPicker": "GIF གདམ་ཆས་",
+    "title": "ཁྱིམ།",
+    "header": "ཁྱེད་ཀྱི་འཕྲིན་དོན།",
+    "subheader": "འཕྲིན་དོན་གཏང་ནས་གླེང་མོལ་འགོ་བཙུགས།",
+    "sendButton": "འཕྲིན་དོན་གཏང་།",
+    "gifPicker": "GIF གདམ་ཁ་ཁ་ཕྱེ།",
     "emoji": "Emoji",
-    "upload": "པར/བརྙན་སྐྱེལ་",
-    "inputPlaceholder": "འཕྲིན་དོན་འབྲི་…",
-    "inputLabel": "འཕྲིན་འབྲི་ཆས་",
-    "sendTooltip": "གཏང་",
-    "sendTooltipEmpty": "འཕྲིན་དོན་འབྲི་རྗེས་གཏང་",
-    "send": "གཏང་",
-
-    "welcomeMessage": "Chatforia ལུ་ཕེབས་བསུ།",
-    "getStarted": "འགོ་བཙུགས་"
+    "upload": "པར/བརྙན་སྐྱེལ།",
+    "inputPlaceholder": "འཕྲིན་དོན་བྲིས་…",
+    "inputLabel": "འཕྲིན་དོན་བྲིས་ཆས།",
+    "sendTooltip": "གཏང་།",
+    "sendTooltipEmpty": "འཕྲིན་དོན་བྲིས་ནས་གཏང་།",
+    "send": "གཏང་།",
+    "welcomeMessage": "Chatforia ལུ་འབྱོར་ལེགས།",
+    "getStarted": "འགོ་བཙུགས།"
   },
 
   "press": {
-    "title": "འཕྲིན་བརྙན་",
-    "contact": "For media inquiries, reach us at <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
-    "contactText": "For media inquiries, reach us at press@chatforia.com.",
+    "title": "བསྒྲགས་གནས།",
+    "contactLine": "བསྒྲགས་མཁན་གྱིས་ འབྲེལ་ལམ་འདི་ལས་འབྲེལ།",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateText": "Chatforia is a secure messenger with instant translation and E2E encryption, designed to make global conversations private and effortless.",
-    "assetsTitle": "Brand assets",
-    "assetsText": "Logos, screenshots, and product imagery (coming soon)."
+    "boilerplateBody": "Chatforia ནི་གསང་སྡོམ་དང་མཉམ་བྱུང་གི་གླེང་མོལ་ལག་ཁྱེར་ཨིན། འཕྲིན་དོན་ཚུ་ E2E གསང་བཟོས་དང་ ནང་ཁུངས་སྐད་བསྒྱུར་ 100+ སྐད་ཡིག་ལུ་འགྱུར་བ། བརླག་སྤོར་འཕྲིན་དོན་དང་ཀློག་ཐོ་གདམ་ཁ་ཡོད། iOS/Android/web ལུ་ཐོབ་ཚུགས།",
+    "assetsTitle": "རྒྱུ་ཆ།",
+    "assetsSubtitle": "ལུགས་རྟགས་ གསལ་སྡུད་ དང་ ཐོན་སྐྱེད།",
+    "downloadCta": "བརྡ་ལམ་སྣོད་ཕབ་ལེན།",
+    "downloadTitle": "App ལེན།",
+    "scanTip": "Desktop ནང་? ཁ་པར་གིས་འདྲ་བཤུས་དང་ app ལེན།",
+    "qrAria": "Chatforia ཝེབ་ས་ཁོངས་ཁ་ཕྱེ།",
+    "appStore": "App Store ནས་ཕབ་ལེན།",
+    "googlePlay": "Google Play ནས་ལེན།"
   },
 
   "careers": {
-    "title": "ལས་གཡོག་",
-    "intro": "ང་ཚོས་སྒེར་གཙང་, སྐད་སྒྱུར་, UX ལ་དགའ་མོས་པའི་མི་སྡེ་ཆུང་ཞིག་ཡིན་",
-    "openRoles": "<b>Open roles:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
-    "apply": "<b>How to apply:</b> Email your resume/links to <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Email གཏང་"
+    "title": "ལས་གཡོག",
+    "intro": "ང་ཚོ་ཆུང་བའི་སྡེ་ཚན་ཞིག་ཡིན་པས་ གསང་བཟོས། འཛུལ་སྤྱོད། UX ལ་དགའ་མི་ཚུ་འཚོལ་དོ།",
+    "openRoles": "<b>ཁ་ཕྱེ་ཡོད་པའི་ལས་གཡོག:</b> བཟོ་ལས (Full-stack, iOS, Android), ཐོན་སྐྱེད, གྲོགས་རམ།",
+    "apply": "<b>སྐུ་ཕྲེང་/links བསྐྱལ་དགོས་པ:</b> <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> ལུ།",
+    "emailCta": "སྐུ་ཕྲེང་གློག་འཕྲིན་བསྐྱལ།"
   },
 
   "about": {
-    "title": "Chatforia སྐོར་",
-    "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
-    "valuesTitle": "ང་ཚོའི་གྲུབ་ལམ་",
+    "title": "Chatforia སྐོར།",
+    "description": "Chatforia ནི་སྐད་ཡིག་མང་པོ་ལུ་བསྟན་སྟེ་མཐའ་མཚམས་སྦྱོར་བཟོས་པའི་གླེང་མོལ་ལག་ཁྱེར་ཨིན། དུས་མཐུན་སྐད་བསྒྱུར་དང་འབོར་བ/བརྡ་བརྒྱུད་ཡོད།",
+    "valuesTitle": "ང་ཚོའི་གནས་གོང་།",
     "values": {
-      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
-      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
-      "control": "<b>Control:</b> Disappearing messages & read receipts are optional."
+      "privacy": "<bold>གསང་སྡོམ་:</bold> སྔོན་སྒྲིག E2E གསང་བཟོས།",
+      "access": "<bold>འཛུལ་སྤྱོད་ཀྱི་ཐོབ་ཐང་:</bold> སྐད་ཡིག 100+ རང་བཞིན་སྐད་བསྒྱུར།",
+      "control": "<bold>ཚོད་འཛིན་:</bold> བརླག་སྤོར་འཕྲིན་དོན་ & ཀློག་ཐོ་ གདམ་ཁ་ཡོད།",
+      "privacy_aria": "གསང་སྡོམ་: E2E གསང་བཟོས།",
+      "access_aria": "འཛུལ་སྤྱོད་: 100+ སྐད་ཡིག་སྐད་བསྒྱུར།",
+      "control_aria": "ཚོད་འཛིན: བརླག་སྤོར་འཕྲིན་དོན་/ཀློག་ཐོ།"
     },
-    "howTitle": "Chatforia ག་དེམ་སྦེ་ལག་ལེན་འབད་",
-    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
+    "howTitle": "Chatforia ག་དེར་ལཱ་འབད་མི།",
+    "howDescription": "འཕྲིན་དོན་ཚུ་ཁྱེད་ཀྱི་ཐབས་འཕྲུལ་ནང་ལས་གསང་བཟོས་བཟོ་བའི་ཤུལ་ལས་བཟོས། སྐད་བསྒྱུར་/གྲབས་ཉར/མཉམ་བྱུང་ཚུ་ང་ཚོའི་སར་བར་གཟིགས་མེད་བཟོ་བའི་དོན་ལས་བཟོས།"
   },
 
   "advertise": {
-    "title": "Chatforia ནང་ལུ་གསར་བསྒྲགས་",
-    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+    "title": "Chatforia དྲ་འཛིན།",
+    "description": "གླེང་མོལ་ལག་ལེན་པ་ཚུ་ལུ་བཟང་པོའི་སྒྲིག་སྲོལ་དྲ་འཛིན། བཀོལ་མི་བསྒྲགས་/sponsorships/house promos ཡོད། Premium མཁོ་མེད་དྲ་འཛིན།",
     "adsense": {
-      "withPubId": "We currently serve ads via <b>Google AdSense</b>. If you’d like to target us through Google Ads, use publisher ID <code>{{pubId}}</code> and ask for managed placement on our units below. Direct sponsorships are available—use the form.",
-      "noPubId": "We currently serve ads via <b>Google AdSense</b>. Direct sponsorships are also available—use the form below."
+      "withPubId": "ད་ལྟོ་ <b>Google AdSense</b> ལས་བཀོལ་དོ། Google Ads ཐོག་ལས་དམིགས་སྟེ་ནང་འཛུལ་དགོས་ན་ Publisher ID <code>{{pubId}}</code> ལྟ་ཞིབ་བྱས་ནས་ managed placement ཞུ་བ། ཐད་ཀར་སྦྱོར་ཡོད།",
+      "noPubId": "ད་ལྟོ་ <b>Google AdSense</b> ལས་བཀོལ་དོ། ཐད་ཀར་སྦྱོར་ཡོད།"
     },
-    "inventoryHeader": "Inventory & Specs",
+    "inventoryHeader": "འཛུལ་སྤྱོད & གསལ་བཀོད།",
     "placement": {
       "displayBadge": "Display",
-      "acceptedSizes": "Accepted sizes",
+      "acceptedSizes": "ཆེ་ཆུང་ཁ་བཀག",
       "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "No placements configured yet. Add them in ads/placements.js.",
-    "whyHeader": "Why Chatforia?",
+    "noPlacements": "གནས་སྟངས་མེད། ads/placements.js ནང་ཁ་སྣོན།",
+    "whyHeader": "ག་རེ་གིས་ Chatforia?",
     "why": {
-      "highSession": "High session frequency and dwell time in chat UI",
-      "brandSafe": "Brand-safe formats; respectful frequency capping",
-      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
-      "deals": "Direct deals or programmatic via AdSense/Google Ads"
+      "highSession": "གླེང་མོལ་ཁང་ནང་འགྲུལ་དུས་མང་ དེབ་ཚོད་མང་།",
+      "brandSafe": "Brand-safe རྣམ་པ། ཚད་འཛིན་བརྒྱབ།",
+      "sponsoredMoments": "“Start a Chat” ལྟ་བུའི་ sponsored moments ཡོད།",
+      "deals": "Direct ཡང་ན་ AdSense/Google Ads ལས།"
     },
-    "contactHeader": "Contact",
+    "contactHeader": "འབྲེལ་བ།",
     "form": {
-      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
-      "missingRequired": "Please fill in name, email, and message.",
-      "successToast": "Thanks! We’ll be in touch soon.",
-      "mailtoInfo": "Opening your email client to send the inquiry…",
-      "nameLabel": "Your name",
+      "submittedMsg": "བཀོལ་སྤྱོད་ཤོག་གིས་ཕྱིར་འབྱོར། ང་ཚོས་འོག་ལེན་འབད།",
+      "missingRequired": "མིང་ གློག་འཕྲིན་ འཕྲིན་དོན་བཀང་།",
+      "successToast": "བཀོལ་སྤྱོད་བཟོ་ཡོད། ཧེང་བཀལ་འབྲེལ་འབྱོར།",
+      "mailtoInfo": "ཁྱེད་ཀྱི་གློག་འཕྲིན་ལག་ཆ་ཁ་ཕྱེ་དོ།",
+      "nameLabel": "ཁྱེད་ཀྱི་མིང་།",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": "Email",
+      "emailLabel": "གློག་འཕྲིན།",
       "emailPlaceholder": "you@company.com",
-      "companyLabel": "Company",
+      "companyLabel": "ཚོང་སྡེ།",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Monthly budget (optional)",
+      "budgetLabel": "ཉེར་སྤྱོད་དངུལ (གདམ་ཁ)",
       "budgetPlaceholder": "$5,000",
-      "messageLabel": "Tell us about your campaign",
-      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
-      "sendCta": "Send inquiry"
+      "messageLabel": "ཁྱེད་རའི་དམིགས་འབོད།",
+      "messagePlaceholder": "Targeting, ཚེས་གྲངས་, KPI, placement དགོས་མཁོ…",
+      "sendCta": "ཞུ་གཏང་།"
     },
     "legal": {
-      "disclaimerStart": "By submitting, you agree to our",
-      "terms": "Terms",
-      "and": "and",
-      "privacy": "Privacy Policy"
+      "disclaimerStart": "ཞུ་འབུལ་བ་དང་བཅས་ ང་ཚོའི",
+      "terms": "ཁྲིམས།",
+      "and": "དང་",
+      "privacy": "གསང་སྡོམ།"
     }
   },
 
   "upgrade": {
-    "title": "རིམ་སྤེལ་",
-    "subtitle": "Plus ལས་ཞབས་བྱུང་མེད་, Premium ལས་ནུས་པ་ཆེན་—ཁྱེད་ལུ་འོས་འཚམ་པའི་གྲལ་ཚན་",
+    "title": "ཡར་བསྐྱེད།",
+    "subtitle": "Plus ཡང་ན Premium གདམ་ནས་ ཁྱེད་ལུ་འོས་པའི་འཇུག་ལས་ཁ་ཕྱེ།",
+    "perMonth": "ཟླ",
+    "perYear": "ལོ",
+    "goPremium": "Premium ལུ་འགྱོ།",
+    "benefitsLine": "ནུས་པ་ཆེན་པོ་ཁ་ཕྱེ་ནས་དྲ་འཛིན་བསྒྲགས་མེད།",
+    "ctaText": "ཡར་བསྐྱེད།",
+    "aria": "Chatforia Premium ལུ་ཡར་བསྐྱེད།",
+    "toggle": {
+      "monthly": "ཟླ་རིམ།",
+      "annual": "ལོ་རིམ (25% ཉམས་སྦྱོར)"
+    },
     "scheduleBanner": {
-      "title": "Subscription མཇུག་བསྡུ་བཞག",
-      "body": "ཁྱེད་ Free ལུ་ ཚུར་འགྱངས་",
-      "keepPlanCta": "Plus བཞག་",
-      "manageBillingCta": "གླ་ཆ་འཛིན་སྐྱོང་"
+      "title": "ཁྱེད་ཀྱི་ངོ་མིང་མཇུག་བསྡུ།",
+      "body": "ཚུར་ Free ལུ་ལོག་",
+      "keepPlanCta": "{{plan}} བཞག",
+      "manageBillingCta": "གླ་ཆ་འཛིན་སྐྱོང་།"
     },
     "billing": {
-      "opening": "ཁ་ཕྱེ་དོ…",
-      "manage": "གླ་ཆ་འཛིན་སྐྱོང་"
+      "opening": "ཁ་ཕྱེ་དོ་…",
+      "manage": "གླ་ཆ་འཛིན་སྐྱོང་།"
     },
     "checkout": {
-      "redirecting": "ལོག་ཕྱོགས་བཟོ་དོ…"
+      "redirecting": "གཏོང་དོ་…"
     },
     "auth": {
-      "continue": "མུར་སྐུར་",
-      "createAccount": "ཐོ་འགོད་",
-      "signIn": "ནང་འཛུལ་"
+      "continue": "ནང་འཛུལ་ལུ་མུ་མཐུད།",
+      "createAccount": "ཐོ་འགོད་བྱེད།",
+      "signIn": "ནང་འཛུལ།"
+    },
+    "cta": {
+      "aria": "གདམ་ཁ་སྦེ་གདམ།",
+      "getPlus": "Plus ལུ་ཡར་བསྐྱེད།",
+      "upgradeMonthly": "ཟླ་རིམ་ལུ་ཡར་བསྐྱེད།",
+      "upgradeAnnual": "ལོ་རིམ་ལུ་ཡར་བསྐྱེད།"
     },
     "plans": {
       "free": {
         "title": "Free",
         "price": "$0",
+        "desc": "Free ཐོག་ལས་གཞི་འཛུགས།",
         "features": {
-          "msg": "1:1 དང་ group འཕྲིན་དོན་",
-          "aiBasic": "ཨའི་ལན་འདེབས་གལ་ཆུང་",
-          "attachments": "རྒྱུན་ལྡན་ཁ་སྐོང་"
+          "msg": "1:1 དང་སྡེ་ཚན་གླེང་མོལ།",
+          "aiBasic": "AI ལན་གཞི་རིམ།",
+          "attachments": "ཟུར་སྣོད་སྔོན་སྒྲིག"
         },
-        "ctaCurrent": "ད་ལྟོའི་གྲལ་ཚན་",
-        "ctaUnavailable": "Free ལུ་བསྒྱུར་ (མེད)"
+        "ctaCurrent": "ད་ལྟོའི་གདམ་ཁ།",
+        "ctaUnavailable": "Free ལུ་བསྒྱུར (མེད)",
+        "aria": "Free འགན་ལས (ད་ལྟོ)"
       },
       "plus": {
         "title": "Plus",
         "price": "$4.99 / mo",
+        "desc": "དྲ་འཛིན་མེད་པའི་གཞི་འཛུགས།",
         "features": {
-          "noAds": "ཞབས་བྱུང་མེད་",
-          "msg": "1:1 དང་ group འཕྲིན་དོན་",
-          "attachments": "ཁ་སྐོང་ཆེན་པོ་",
-          "aiBasic": "ཨའི་ལན་འདེབས་གལ་ཆུང་"
+          "noAds": "དྲ་འཛིན་གཏོང་མི་འབད།",
+          "msg": "1:1 དང་སྡེ་ཚན་གླེང་མོལ།",
+          "attachments": "ཟུར་སྣོད་ཆེ་བ།",
+          "aiBasic": "AI ལན་གཞི་རིམ།"
         },
-        "badge": "མཐོ་མདོག",
-        "cta": "ཞབས་བྱུང་མེད་བཟོ་"
+        "badge": "མཐོ་དམིགས།",
+        "cta": "དྲ་འཛིན་མེད",
+        "aria": "Plus ལུ་ཡར་བསྐྱེད།"
       },
       "premiumMonthly": {
-        "title": "Premium (ཟླ་)",
+        "title": "Premium (ཟླ་རིམ)",
         "price": "$24.99 / mo",
+        "desc": "ཁྱད་ཆོས་ཆ་ཚང་། བསྒྲགས་སྒྲ/AI འཇུག་ལས།",
         "features": {
-          "plusAll": "Plus གི་ཡོངས་རྫས་ཚང་",
-          "ringtones": "ཁ་བརྡ/འཕྲིན་དོན་སྒྲ་སྒྲིག་རང་བཟོ་",
-          "powerAi": "ཨའི་ནུས་པ་མཐོ་",
-          "priorityUpdates": "དཀའ་ཐུབ་དང་དུས་མཉམ་བཟོ་བ་",
-          "backups": "Backup དང་ ཐོག་ལུགས་མཐུད་"
+          "plusAll": "Plus གི་ཐོག་གི་ཆ་ཚང་།",
+          "ringtones": "འབོར་བ་སྒྲ/འཕྲིན་སྒྲ་སྲོལ་གསར།",
+          "powerAi": "AI ནུས་པ་ཆེན་པོ།",
+          "priorityUpdates": "གསར་བསྒྱུར་གཙོ་རིམ།",
+          "backups": "གྲབས་ཉར/མཉམ་བྱུང་།"
         },
-        "badge": "གཙོ་བོ་",
-        "cta": "ད་ལྟ་སྤེལ་ (ཟླ་)"
+        "badge": "ཐོབ་ཐང་མཐོ།",
+        "cta": "ཡར་བསྐྱེད (ཟླ་རིམ)",
+        "aria": "Premium ཟླ་རིམ།"
       },
       "premiumAnnual": {
-        "title": "Premium (ལོའི་)",
+        "title": "Premium (ལོ་རིམ)",
         "price": "$225 / year",
+        "desc": "ལོ་རིམ་གྱིས་ཉམས་སྦྱོར་མང།",
         "features": {
-          "allPremium": "Premium གི་ཡོངས་རྫས་",
-          "annualBilling": "ལོ་རྟག་པར་གླ་ཆ་",
-          "save25": "ཟླ་པར་བསྡུས་25% ཐོབ་",
-          "sameFeatures": "ནང་དོན་གཟིགས་འདི་དང་གཅིག་"
+          "allPremium": "Premium གི་ཆ་ཚང་།",
+          "annualBilling": "ལོ་རིམ་གླ་ཆ།",
+          "save25": "ཟླ་རིམ་ལས 25% ཉམས་སྦྱོར།",
+          "sameFeatures": "ཟླ་རིམ་དང་ཁྱད་མེད།"
         },
-        "badge": "25% ཉམས་མྱོང་",
-        "cta": "ད་ལྟ་སྤེལ་ (ལོ་)"
+        "badge": "25% ཉམས་སྦྱོར།",
+        "cta": "ཡར་བསྐྱེད (ལོ་རིམ)",
+        "aria": "Premium ལོ་རིམ།",
+        "disclaimer": "གདངས་སྒྲིག་ཐོག་ལས། དུས་གཅིག་རང་ཆ་མེད། གསང་གནད་མེད།"
       }
+    },
+    "marketing": {
+      "freeTitle": "Free",
+      "freeDesc": "Free ཐོག་ལས་གཞི་འཛུགས།",
+      "plusTitle": "Plus",
+      "plusBadge": "མཐོ་དམིགས།",
+      "plusDesc": "དྲ་འཛིན་མེད་པའི་གཞི་འཛུགས།",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "ཁྱད་ཆོས་ཆ་ཚང་དང་ AI འཇུག་ལས།",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "ལོ་རིམ་གླ་ཆས་ཉམས་སྦྱོར་ཡོད།",
+      "annualDisclaimer": "གདངས་སྒྲིག་ཐོག་ལས། དུས་གཅིག་རང་ཆ་མེད།"
     }
   },
 
   "gettingStarted": {
-    "title": "འགོ་བཙུགས་",
-    "subtitle": "Chatforia གསར་པ་? འདིས་གཙོ་བོ་སྟོན་པས་མ་ལག་མགྱོགས་",
+    "title": "འགོ་བཙུགས།",
+    "subtitle": "Chatforia ལུ་གསར་པ་ཚུའི་དོན་ལས་ འགོ་མཇུག་འགྲིག་སྟེ་མགྱོགས་པོར་ལཱ་འབད།",
     "alert": {
-      "text": "ཁ་གཏད་འདི་ལུ་གོང་འཕེལ་འབད་འོང་—",
-      "contactLink": "འབྲེལ་བ་"
+      "text": "འ་ནི་ལམ་སྟོན་གསར་བསྒྱུར་འབད་འོང་། མི་འདུག་ན་འབྲེལ་བ་འབད་",
+      "contactLink": "ང་ཚོ་ལུ"
     },
     "section1": {
-      "title": "1) ཐོ་ཁ་བཟོ་",
-      "signup": "ཐོ་འགོད་",
-      "or": "ཡང་ན་",
-      "login": "ནང་འཛུལ་",
-      "loginText": "ཐོ་ཁ་ཡོད་མི་དང་",
+      "title": "1) ཁ་བྱང་གསར་བསྐྲུན།",
+      "signup": "ཐོ་འགོད།",
+      "or": "ཡང་ན",
+      "login": "ནང་འཛུལ།",
+      "loginText": "ཁ་བྱང་གནས་མེད་མི་མཇུག་བསྡུ།",
       "prefsStart": "ཁྱེད་ཀྱི་",
-      "prefsLink": "དགའ་གདམ་",
-      "prefsRest": "(སྐད་ཡིག་, ཀློག་ཚར་བ་, བརྗོད་གཞི་) སྒྲིག་"
+      "prefsLink": "དགའ་གདམ།",
+      "prefsRest": "(སྐད་ཡིག་ ཀློག་ཐོ་ བརྗོད་དོན)།"
     },
     "section2": {
-      "title": "2) འཕྲིན་དོན་འགོ་བཙུགས་",
-      "item1": "DM ཡང་ན་ Group བཟོས་ནས་འཕྲིན་དོན་དང་",
-      "item2": "100+ སྐད་སྒྱུར་དང་མཉམ་ཁ་སླབ་",
-      "item3": "Profile → Privacy ནང་འཆར་མེད་དང་ཀློག་ཚར་བ་ཚུ་ཚོད་འཛིན་"
+      "title": "2) འཕྲིན་དོན་འགོ་བཙུགས།",
+      "item1": "DM ཡང་ན་ Group བཟོས་ནས་འཕྲིན་དོན་གཏང་།",
+      "item2": "དུས་མཐུན་སྐད་བསྒྱུར་ལས་སྐད་ཡིག 100+ ལུ་གླེང་མོལ།",
+      "item3": "Profile → Privacy ནང་ བརླག་སྤོར/ཀློག་ཐོ སྤྱོད།"
     },
     "section3": {
-      "title": "3) ལྷག་སྟེ་འགྱོ་",
-      "item1Part1": "ཁྱེད་ཀྱི་",
+      "title": "3) གོང་འདེགས།",
+      "item1Part1": "ཁྱེད་ཀྱི་འགན་ལས་",
       "upgradeLink": "Upgrade",
-      "item1Part2": "ཤོག་ལེབ་ནང་ལས་འཛིན་",
-      "item2Part1": "ཐོག་ལུགས་མང་བ་མཐུད་ནས་ backup བཟོ་",
-      "settingsLink": "སྒྲིག་སྟངས་"
+      "item1Part2": " ཤོག་ལེབ་ནང་ (Plus = དྲ་འཛིན་མེད, Premium = ཁྱད་ཆོས་ཆ་ཚང)།",
+      "item2Part1": "ཐབས་འཕྲུལ་ཁ་སྣོན་དང་ གསང་བཟོས་གྲབས་ཉར་",
+      "settingsLink": "སྒྲིག་སྟངས།"
     },
     "cta": {
-      "seePlans": "གདམ་ཁ་བལྟ་",
-      "openSettings": "སྒྲིག་སྟངས་ཁ་ཕྱེ་"
+      "seePlans": "གཞི་ཚན་ལྟ།",
+      "openSettings": "སྒྲིག་སྟངས་ཁ་ཕྱེ།"
     }
   },
 
   "helpCenter": {
-    "title": "རོགས་རམ་ལྟེ་གནས་",
+    "title": "གྲོགས་རམ་ལྡེབ་ཁྲམ།",
     "faq": {
       "account": {
-        "q": "ཐོ་ཁ་གསར་པ་བཟོ་ནི/སྲུངས་ནི་ག་དེ་སྦེ?",
-        "a": "App ཡང་ན Web ལག་ལེན་འབད་— “Create account” གཏང་, email/phone བདེ་སྲུང་ དང་ “Forgot password” ལྟ་"
+        "q": "ཁ་བྱང་གསར་བསྐྲུན་ཡང་ན་སླར་གསོ་ག་དེ་བྱེད?",
+        "a": "app ཕབ་ལེན་ ཡང་ན་ web ལས་ “Create account” གདམ། གློག་འཕྲིན/ཁ་པར་བདེན་བཤད། “Forgot password” ལས་སླར་གསོ།"
       },
       "privacy": {
-        "q": "འཕྲིན་དོན་ཚུ་ E2E གསང་བ་ཨིན་ན?",
-        "a": "ཨིན། འཕྲིན་དོན་དང་ཁ་བརྡ་ཚུ་ E2E གསང་བ་ཨིན་—ཁྱེད་དང་ལེན་མཁན་རྐྱངམ་ཅིག་ལས་མི་ཀློག་ཚུགས་"
+        "q": "འཕྲིན་དོན་ཚུ་ E2E གསང་བཟོས་ཡོད་ག?",
+        "a": "ཡོད། འཕྲིན་དོན་དང་འབོར་བ་ཚུ་ སྔོན་སྒྲིག་གསང་བཟོས། ཁྱོད་དང་ལེན་མཁན་མ་གཏོགས་མི་ལྟ་མི་ཚུགས།"
       },
       "translate": {
-        "q": "དུས་མཉམ་སྐད་སྒྱུར་ག་དེ་སྦེ་ལག་ལེན་འབད་ག?",
-        "a": "Settings → Appearance & Language ནང་ “Auto-translate” བཀོལ། ཐོག་གིས་འབད་ཚུགས་པའི་ས་ལུ་ཐོག་གིས་, མི་ཚུགས་པ་ལུ API སྲུངས་བཞག་ཐོག་ལས་"
+        "q": "དུས་མཐུན་སྐད་བསྒྱུར་ག་དེ་ལཱ་འབད་ག?",
+        "a": "Settings → Appearance & Language ནང་ “Auto-translate” ལྕོགས་ཅན། ཐོག་མའི་ཐབས་འཕྲུལ་ཡོད་ཚད་སྟེ་ མེད་ན་ API སྦེ་མུ་མཐུད།"
       },
       "contact": {
-        "q": "རོགས་རམ་འབྲེལ་བ་",
-        "a": "support@chatforia.com ལུ་གཏང་— པར་གྲངས་དང་གློག་རིམ་ཐོན་རིམ་གྲངས་བཙུགས་"
+        "q": "གྲོགས་རམ་འབྲེལ་བ།",
+        "a": "support@chatforia.com ལུ་འབྲེལ། གཟུགས་པར་དང་ app ཐོན་རིམ་བཀང་།"
       }
     }
   },
 
   "contact": {
-    "title": "འབྲེལ་བ་",
-    "successMsg": "བཀའ་དྲིན་ཆེ་— ང་ཚོས་ email ཐོག་ལས་ལན་བྱོས་",
-    "errorSend": "གཏང་མ་ཚུགས། support@chatforia.com ལུ་གཏང་",
+    "title": "ང་ཚོ་ལུ་འབྲེལ།",
+    "successMsg": "བཀོལ་སྤྱོད་བཟོ་ཡོད། གློག་འཕྲིན་ལས་ལན་ཕྱིར་འབྱོར།",
+    "errorSend": "གཏང་མ་ཚུགས། support@chatforia.com ལུ་གློག་འཕྲིན་འབྲེལ།",
     "form": {
-      "nameLabel": "མིང་",
-      "emailLabel": "Email",
-      "messageLabel": "འཕྲིན་དོན་",
-      "sendCta": "གཏང་"
+      "nameLabel": "མིང་།",
+      "emailLabel": "གློག་འཕྲིན།",
+      "messageLabel": "འཕྲིན་དོན།",
+      "sendCta": "གཏང་།"
     }
   },
 
   "privacyPolicy": {
-    "title": "Privacy Policy",
-    "lastUpdated": "Last updated:",
+    "title": "གསང་སྡོམ།",
+    "lastUpdated": "སྒྲིག་བཅོས་མཇུག་བསྡུས:",
     "intro": {
-      "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+      "body": "འ་ནི་གསང་སྡོམ་ནང་ Chatforia (“ངེད” “ང” ) གིས་ ཁྱེད་རང་གི་བརྡ་དོན་ག་དེ་འབྱོར་/ལག་ལེན/བརྗེ་སྤེལ་བྱས་མི་སྐོར་བཤད།"
     },
     "infoWeCollect": {
-      "title": "Information we collect",
-      "account": "Account info (e.g., email/phone) to create and secure your account.",
-      "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
-      "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+      "title": "ང་ཚོས་འབྱོར་མི་བརྡ་དོན།",
+      "account": "ཁ་བྱང་བརྡ་དོན (གློག་འཕྲིན/ཁ་པར)།",
+      "encrypted": "གསང་བཟོས་ནང་དོན (འཕྲིན་དོན/འབོར་བ) ཚུ་ང་ཚོས་ལྟ་མི་ཚུགས།",
+      "diagnostics": "crash logs/ཐབས་འཕྲུལ་དབྱེ་བ/ཁ་བྱང་དཔེ་གཞི་བཟོ་བ"
     },
     "howWeUse": {
-      "title": "How we use information",
-      "provide": "Provide and secure the service (auth, spam/abuse detection).",
-      "improve": "Improve features (translation quality, reliability).",
-      "legal": "Comply with legal obligations."
+      "title": "ང་ཚོས་སྤྱོད་སྟངས།",
+      "provide": "ཞབས་ཏོག་བྱེད་སྐབས་བདེ་འཇགས་བཟོ། (auth/spam)",
+      "improve": "ཁྱད་ཆོས་བརྩེགས་སྤེལ། (སྐད་བསྒྱུར་/ལེགས་སྒྱུར)",
+      "legal": "ཁྲིམས་ལུགས་ལྟར་བྱེད།"
     },
     "sharing": {
-      "title": "Sharing",
-      "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+      "title": "བརྗེ་སྤེལ།",
+      "body": "ང་ཚོས་སྒེར་གཞི་རྩིས་མ་བཙོང་། ལས་བྱེད་པ་ཚུ་ལུ་བརྗེ་སྤེལ་འབད་འོང་།"
     },
     "rights": {
-      "title": "Your rights",
-      "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+      "title": "ཁྱེད་ཀྱི་ཐོབ་ཐང་།",
+      "body": "ལུང་ཕྱོགས་ལྟར (GDPR/CPRA ལོགས་) ཁྱེད་རང་ལུ་ལྟ་ཞིབ་/བཟོ་བཅོས་/བསུབ་/དམིགས་འབོད་འབད་ཚུགས། privacy@chatforia.com"
     },
     "retention": {
-      "title": "Data retention & security",
-      "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+      "title": "ཉར་ཚགས་/བདེ་འཇགས།",
+      "body": "ང་ཚོས་དགོས་མཁོ་ཡོད་མི་རྒྱུ་ཆ་རྐྱངམ་ཅིག་བཞག་པ་དང་ E2E ནང་དོན་ལྟ་མི་ཚུགས།"
     },
     "children": {
-      "title": "Children",
-      "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+      "title": "ཆུང་སྲུང་།",
+      "body": "13 ལས་འོག (ཡང་ན་ ཁྱེད་རའི་ཁྲོད་ལུ) ལུ་མ་བཅུག"
     },
     "changes": {
-      "title": "Changes",
-      "body": "We’ll post updates here and revise the “Last updated” date."
+      "title": "བསྒྲིགས་བཅོས།",
+      "body": "གསར་འགོད་ཚུ་ནཱ་ལུ་བཀོད་ ཚེས་གྲངས་བསྒྱུར།"
     },
     "contact": {
-      "title": "Contact",
+      "title": "འབྲེལ་བ།",
       "body": "privacy@chatforia.com • [Company legal name], [Address]"
     }
   },
 
   "terms": {
-    "title": "Terms of Service",
-    "lastUpdated": "Last updated:",
+    "title": "སྤྱོད་ཚུལ་ཁྲིམས་ལུགས།",
+    "lastUpdated": "སྒྲིག་བཅོས་མཇུག་བསྡུས:",
     "intro": {
-      "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+      "body": "Chatforia ལག་ལེན་བྱེད་པས་ ཁྲིམས་འདི་ལུ་མཐུན། མཐུན་མེད་ན་ལག་ལེན་མ་བཏུབ།"
     },
     "accounts": {
-      "title": "Accounts",
-      "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
-      "itemResponsibility": "You’re responsible for activity on your account."
+      "title": "ཁ་བྱང་།",
+      "itemAccurateInfo": "བདེན་པའི་བརྡ་དོན་བྱིན་ནས་གསང་སྤངས།",
+      "itemResponsibility": "ཁྱེད་ཀྱི་ཁ་བྱང་ལུ་ལས་འགན་ཡོད།"
     },
     "acceptableUse": {
-      "title": "Acceptable use",
-      "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
-      "itemSuspend": "We may suspend/terminate for violations."
+      "title": "བཀོལ་སྤྱོད་འོས་ལྡན།",
+      "itemNoAbuse": "ཁྲིམས་མེད་/ཉེན་ཁ་/འདྲ་བཤུས་མི་བཟོ། spam/automation མེད།",
+      "itemSuspend": "ཁྲིམས་འགན་འཛིན་མི་མཐུན་ན་ བཀག་སྡོམ་འབད།"
     },
     "yourContent": {
-      "title": "Your content",
-      "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+      "title": "ཁྱེད་ཀྱི་ནང་དོན།",
+      "body": "ཁྱེད་ཀྱི་ནང་དོན་ལུ་ཐོབ་ཐང་ཁྱོན་ཡོད། ཞབས་ཏོག་ལེན་དགོ་པའི་དོན་ལུ་དགོས་མཁོའི་ཐོབ་ཐང་ང་ཚོས་དགོས།"
     },
     "disclaimer": {
-      "title": "Disclaimers & liability",
-      "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+      "title": "དམིགས་བསལ/ལས་འགན།",
+      "body": "ཞབས་ཏོག་ནི་ “as is” སྦེ། ཁྲིམས་ལྟར་མཐུན་པའི་ཚད་ལས་ Chatforia མི་འབྲེལ་གནོད་འབྲས་ལས་ལས་འགན་མེད།"
     },
     "changes": {
-      "title": "Changes",
-      "body": "We may update these terms; continued use after changes means acceptance."
+      "title": "བསྒྲིགས་བཅོས།",
+      "body": "ཁྲིམས་ལུགས་གསར་བསྒྱུར་འབད་འོང་། ལག་ལེན་མུ་མཐུད་པས་མིང་ཐོ་འདི་ཁྱབ།"
     },
     "contact": {
-      "title": "Contact",
+      "title": "འབྲེལ་བ།",
       "body": "support@chatforia.com • [Company legal name], [Address]"
     }
   },
 
   "doNotSell": {
-    "title": "ངེས་གསལ་བརྡ་དོན་མ་བཙན་པ།",
-    "body": "Chatforia གིས་སྒེར་གཙང་གནས་སྡུད་བཙོན་མི་བཏུབ། California མི་ཚུ་གིས་ CPRA གྱི་ཐོབ་ཐངས་སྦེ་ཞུ་བ་བཏུབ།",
-    "cta": "ཞུ་བ་བཏུབ་"
+    "title": "སྒེར་གཞི་རྩིས་མ་བཙོང་ ཡང་ན་མ་བརྗེ་སྤེལ།",
+    "body": "Chatforia གིས་སྒེར་གཞི་རྩིས་མ་བཙོང་། California ལུ་གནས་པ་ཚུ་གིས་ CPRA ཐོག་ལས་ཞུ་འབུལ་བཏུབ།",
+    "cta": "ཞུ་འབུལ་བྱེད།"
   },
 
   "cookies": {
-    "title": "Cookie སྒྲིག་སྟངས་",
-    "body": "Chatforia གིས་ cookies ཉུང་ཤོས་ (session, security) ལག་ལེན་འབད། ཕྱི་ ads cookies མེད། དྲ་ལམ་སྒྲིག་སྟངས་ནང་ལས་ལག་ལེན་འབད།"
+    "title": "Cookie སྒྲིག་སྟངས།",
+    "body": "Chatforia ནི་ cookie ཉུང་ཤོས་སྤྱོད། (session/བདེ་འཇགས) དང་ ཕྱིའི་དྲ་འཛིན་ cookie མེད། དྲ་བ་ browser སྒྲིག་སྟངས་ནང་ལས་འཛིན་སྐྱོང་།"
   },
 
   "phoneNumberManager": {
-    "unableToLoadStatus": "ཁ་པར་ཨང་གི་གནས་ཚད་མངོན་པ་མ་བྱུང་",
-    "lock": "ལྡེ་མིག་",
-    "noNumberAssigned": "ཨང་མེད། ཨང་ཁོངས་ལས་གདམ་ནས་ཚིག་སྐུར་འགོ་བཙུགས་",
-    "pickNumber": "ཨང་གདམ་",
-    "phoneNumber": "ཁ་པར་ཨང་"
+    "unableToLoadStatus": "ཁ་པར་ཨང་གྲངས་གནས་ཚད་ཕབ་ལེན་མ་ཚུགས།",
+    "lock": "ལྡེ་མིག",
+    "noNumberAssigned": "ཁ་པར་ཨང་གྲངས་མེད། ཨེརི་ཡ་ཀོཌ་གདམ་ནས་འཕྲིན་གསར་འགོ་བཙུགས།",
+    "pickNumber": "ཨང་གྲངས་གདམ།",
+    "phoneNumber": "ཁ་པར་ཨང་།"
   },
 
   "startChatModal": {
-    "title": "chat འགོ་བཙུགས་",
-    "quickPicker": "མགྱོགས་པར་གདམ་ཆས་",
-    "to": "གཏང་ཡུལ་",
-    "nameOrUsername": "མིང་/username བཙུགས་",
-    "nameUsernamePhoneEmail": "མིང་, username, ཁ་པར་ ཡང་ན་ email བཙུགས་…",
-    "startWithSelected": "གདམས་པ་དང་མཉམ་ chat འགོ་བཙུགས་",
-    "searchByUsernameOrPhone": "username ཡང་ན་ ཁ་པར་གིས་འཚོལ་",
-    "search": "འཚོལ་",
-    "searchPrompt": "username ཡང་ན་ ཁ་པར་བཙུགས་ནས་ འཚོལ་ གཏང་",
-    "pickFromContacts": "contacts ལས་གདམ་",
-    "addContact": "Contact ཁ་སྐོང་",
-    "show": "སྟོན་",
-    "add": "ཁ་སྐོང་",
-    "close": "ཁ་བསྡམས་",
-    "selectedCount": "{{count}} གདམས་",
-    "pickAtLeastOne": "ཉུང་མཐའ་རང་གཅིག་གདམ་",
-    "saveContactsHint": "ཁ་པར/ email ཐོ་བཀོད་བཟོས་རྗེས་རྩིས་ནང་འཐོབ་",
-    "failedBulkStart": "གདམས་པ་ཚུ་དང་མཉམ་ chat འགོ་མ་བཙུགས་",
-    "noResults": "གྲུབ་འབྲས་མེད་"
+    "title": "གླེང་མོལ་འགོ་བཙུགས།",
+    "quickPicker": "མགྱོགས་པོ་གདམ་ཁ།",
+    "to": "གཏང་ས།",
+    "nameOrUsername": "མིང་ ཡང་ན་ username བཙུགས།",
+    "nameUsernamePhoneEmail": "མིང་/username/ཁ་པར/གློག་འཕྲིན་བཙུགས་…",
+    "startWithSelected": "གདམ་མི་ཚུ་དང་བཅས་འགོ་བཙུགས།",
+    "searchByUsernameOrPhone": "username ཡང་ན་ ཁ་པར་ཐོག་ལས་འཚོལ།",
+    "search": "འཚོལ།",
+    "searchPrompt": "username ཡང་ན་ཁ་པར་བཙུགས་ནས་འཚོལ།",
+    "pickFromContacts": "ཡང་ན་ Contacts ནས་གདམ།",
+    "addContact": "Contact ཁ་སྣོན།",
+    "show": "སྟོན།",
+    "add": "ཁ་སྣོན།",
+    "close": "ཁ་རྒྱག",
+    "selectedCount": "{{count}} གདམ་ཟིན།",
+    "pickAtLeastOne": "དམིགས་མཚམས་ཉུང་མཐའ་གཅིག་གདམ།",
+    "saveContactsHint": "ཁ་པར/གློག་འཕྲིན་ཐོ་འགོད་བྱས་རྗེས་ contacts ནང་མཐོང་འོང་།",
+    "failedBulkStart": "གདམ་མི་ཚུ་དང་བཅས་འགོ་བཙུགས་མ་ཚུགས།",
+    "noResults": "གྲུབ་འབྲས་མེད།",
+    "mode": "ཐབས་ལམ།",
+    "group": "གོང་ཚོགས།",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "གོང་ཚོགས་མིང་ (གདམ་ཁ)",
+    "firstMessageOptional": "འཕྲིན་དོན་དང་པམ (གདམ་ཁ)",
+    "createGroup": "གོང་ཚོགས་བཟོ།",
+    "sendBroadcast": "Broadcast གཏང་།"
   },
 
   "themes": {
@@ -642,17 +773,17 @@
   },
 
   "sounds": {
-    "freeNotice": "Free — Premium སྒྲ་སྒྲིག་སྟོན་རྗེས་ལྷོད། Upgrade བསྒྱུར་ནས་ཡོངས་རྫས་ཁ་ཕྱེ་",
-    "preview": "སྔོན་ལྟ་",
-    "resetToDefaults": "སྔོན་སྒྲིག་ལུ་སྒྲིག་",
-    "notificationSounds": "བརྡ་བསྐུལ་སྒྲ་",
-    "messageTone": "འཕྲིན་དོན་སྒྲ་",
-    "default": "སྔོན་སྒྲིག་",
-    "vibrate": "གོས་འགུལ་",
+    "freeNotice": "ཁྱེད་ཀྱིས་ Free ལག་ལེན་བྱེད། སྒྲ་གློག་མཐོ་རིམ་ཚུ་ལྕོགས་མེད།",
+    "preview": "སྔོན་ལྟ།",
+    "resetToDefaults": "སྔོན་སྒྲིག་ལུ་སླར་གསོ།",
+    "notificationSounds": "བརྡ་བསྐུལ་སྒྲ།",
+    "messageTone": "འཕྲིན་སྒྲ།",
+    "default": "སྔོན་སྒྲིག",
+    "vibrate": "རྡེབ་སྤྲོད།",
     "dreamer": "Dreamer",
     "notify": "Notify",
     "pop": "Pop",
-    "pulsatingSound": "Pulsating",
+    "pulsatingSound": "Pulsating Sound",
     "textMessage": "Text Message",
     "xylophone": "Xylophone",
     "classic": "Classic",
@@ -668,132 +799,188 @@
   },
 
   "premiumGuard": {
-    "requiresPremium": "ཁྱད་རྣམ་འདི་ལུ Premium དགོས་"
+    "requiresPremium": "ཁྱད་ཆོས་འདི་ལུ Premium དགོས།"
   },
 
   "aiSettings": {
-    "title": "ཨའི་སྒྲིག་སྟངས་",
-    "controlIntro": "སྐད་སྒྱུར་, ལན་འདེབས་རིམ་གཞི་, ForiaBot རང་ལན་",
-    "save": "ཨའི་སྒྲིག་སྟངས་སྲུངས་",
-    "autoTranslateIncoming": "ནང་འབུལ་འཕྲིན་དོན་རང་བཞིན་སྐད་སྒྱུར་",
-    "showOriginalAlongside": "ཐོག་མ་དང་མཉམ་སྟོན་",
-    "enableSmartReplies": "Smart Replies བཀོལ་",
-    "smartRepliesHint": "འཐོན་རིམ་མཇུག་གྱི་འཕྲིན་དོན་ཚུ་ (sanitized) ཨའི་ལུ་ཕྱིར་འབུལ་ནས་ལན་འདེབས་གྲངས་སྦེ་",
-    "maskProfanity": "མི་འོས་པའི་ཚིག་གདོང་ཁྱེར་",
-    "maskProfanityHint": "ཨའི་ལས་ལོགས་ལས་ལོག་ཡོད་མི་ཚིག་གདོང་ཁྱེར་སྟོན་",
-    "foriaBot": "ForiaBot རང་ལན་",
-    "enableAutoReply": "ཁྱོད་ཁྲ་ཁྲོད་ཡོད་དུས་རང་ལན་བཀོལ་",
-    "autoReplyMode": "རང་ལན་ཐབས་ལམ་",
+    "title": "AI སྒྲིག་སྟངས།",
+    "controlIntro": "སྐད་བསྒྱུར་ ལན་མགྱོགས་ དང་ ForiaBot རང་ལན་ཚུ་ཚོད་འཛིན།",
+    "save": "AI སྒྲིག་སྟངས་ཉར།",
+    "autoTranslateIncoming": "འོག་འབྱུང་འཕྲིན་དོན་རང་བཞིན་སྐད་བསྒྱུར།",
+    "showOriginalAlongside": "ཐོག་མ་དང་མཉམ་དུ་སྟོན།",
+    "enableSmartReplies": "ལན་མགྱོགས་ལྕོགས་ཅན།",
+    "smartRepliesHint": "AI ལུ་འོག་འབྱུང་འཕྲིན་དོན་འགའ་སྤེལ་ནས་ལན་འདེབས་བཟོས།",
+    "maskProfanity": "AI གི་བསྙན་ལན་ནང་ཚིག་སྡུག་ལུ་སྦོམ།",
+    "maskProfanityHint": "ལྕོགས་ཅན་ཡོད་ན་ AI ལས་ལོག་འབྱོར་ཚིག་སྡུག་སྦོམ།",
+    "foriaBot": "ForiaBot རང་ལན།",
+    "enableAutoReply": "ཁྱེད་ཁོམ་མེད་དུས་རང་ལན་ལྕོགས་ཅན།",
+    "autoReplyMode": "རང་ལན་ཐབས་ལམ།",
     "cooldownSeconds": "Cooldown (སྐར་ཆ)",
-    "off": "ཁས་མི་ལེན་",
-    "on": "བཀོལ་",
-    "signature": "མིང་རྟགས་",
-    "autoReply": "རང་ལན་",
-    "activeUntilOptional": "ཚུལ་ལུ་སྤྱོད་ (གདམ་ཁ)",
-    "saved": "AI དགའ་གདམ་སྲུངས་ཚར་",
-    "saveFailed": "AI སྒྲིག་སྟངས་སྲུང་མ་ཚུགས་",
-    "translateOff": "Off",
-    "translateTagged": "@translated ཡང་ན་རྟགས་ཡོད་དུས་རྐྱངམ་ཅིག",
-    "translateAll": "ནང་འབུལ་ཡོངས་རྫས་སྐད་སྒྱུར་",
-    "modeDm": "1:1 ཁོངས་རྐྱང་",
-    "modeMention": "ང་ལུ @ འབོད་དུས་རྐྱང་",
-    "modeAll": "ནང་འབུལ་ཡོངས་རྫས་"
+    "off": "Off",
+    "on": "On",
+    "signature": "མཇུག་བྱང་།",
+    "autoReply": "རང་ལན།",
+    "activeUntilOptional": "དུས་ཡོལ་ཚུན་ (གདམ་ཁ)",
+    "saved": "AI གདམ་ཁ་ཉར་ཚགས་བྱས།",
+    "saveFailed": "AI སྒྲིག་སྟངས་ཉར་མ་ཚུགས།",
+    "translateOff": "མེད།",
+    "translateTagged": "@translated ཡང་ན་ འདྲེན་རྟགས་ཡོད་དུས་ཁོ་ན།",
+    "translateAll": "འོག་འབྱུང་ཚུ་ཆ་མཉམ་སྐད་བསྒྱུར།",
+    "modeDm": "1:1 ཁྱོད་དང་ངོ་མ།",
+    "modeMention": "ང་ལུ @mention ཡོད་དུས་ཁོ་ན།",
+    "modeAll": "འོག་འབྱུང་ཚུ་ཆ་མཉམ།"
   },
 
   "accessibilitySettings": {
-    "title": "མཐུན་འགྱུར་དང་ བརྡ་བསྐུལ་",
-    "accessibility": "མཐུན་འགྱུར་",
-    "accessibilityDesc": "སྒྲ་ལ་གཞིགས་མི་དགོ་པའི་སྐབས་ Chatforia སྟབས་བདེ་བཟོ་",
-    "interfaceFontSize": "ཡིག་ཚད་",
-    "interfaceFontSizeHelp": "སྔོན་སྒྲིག་ཚད། མཐོ་མི་དགོས་ན་འདི་ལས་བསྒྱུར་",
+    "title": "འཛུལ་སྤྱོད & བརྡ་བསྐུལ།",
+    "accessibility": "འཛུལ་སྤྱོད།",
+    "accessibilityDesc": "སྒྲ་ལ་བརྟེན་མ་དགོས་པར་སྤྱོད་སླ་བ།",
+    "interfaceFontSize": "ཡིག་གཟུགས་ཆེ་ཆུང་།",
+    "interfaceFontSizeHelp": "སྔོན་སྒྲིག་ཆ་ཚང་ནས་འགོ་འཛུགས།",
     "sm": "sm",
     "md": "md",
     "lg": "lg",
     "xl": "xl",
-    "notifications": "བརྡ་བསྐུལ་",
-    "notificationsDesc": "འཕྲིན་དོན/ཁ་བརྡ་ལུ་མཐོང་བའི་བརྡ་བསྐུལ་",
-    "vibrateOnNew": "འཕྲིན་དོན་གསརཔ་ལུ་གོས་འགུལ་ (ཆོག་པ་ཡོད་པར)",
-    "flashOnCall": "ཁ་བརྡ་ལུ་གསལ་གྲིབ་སྟོན་",
-    "liveCaptions": "ཁ་བརྡ་ཚུ་ལུ་འགོད་ཡིག་",
-    "captionFontSize": "འགོད་ཡིག་ཚད་",
-    "captionBackground": "འགོད་ཡིག་རྒྱབ་གཞི་",
+    "notifications": "བརྡ་བསྐུལ།",
+    "notificationsDesc": "འཕྲིན་དོན/འབོར་བའི་བརྡ་བསྐུལ། བརྡ་མགོ་དང་མགོ་མཐའ་འབུར།",
+    "vibrateOnNew": "འཕྲིན་དོན་གསར་པ་ལུ་རྡེབ་སྤྲོད། (ཆས་མཐུན་ཡོད་དུས)",
+    "flashOnCall": "འབོར་བ་ཐོབ་དུས་གསལ་དུ་འབར།",
+    "liveCaptions": "འབོར་བའི་ཡིག་བརྡ།",
+    "captionFontSize": "ཡིག་བརྡའི་ཆེ་ཆུང་།",
+    "captionBackground": "ཡིག་བརྡའི་རྒྱབ་གཞི།",
     "light": "light",
     "dark": "dark",
     "transparent": "transparent",
-    "voiceNotes": "སྐད་ཡིག་འགོད་",
-    "autoTranscribeVoiceNotes": "འགོད་ཡིག་རང་བཞིན་གཏང་",
-    "changesSavedInstantly": "བསྒྱུར་བ་ཚུ་འཕྲལ་ལས་སྲུངས་",
-    "loadFailed": "སྒྲིག་སྟངས་མངོན་པ་མ་བྱུང་",
-    "visualAlerts": "མཐོང་བའི་བརྡ་བསྐུལ་",
-    "visualAlertsDesc": "བརྡ་བསྐུལ་དང་ title འཁོར་བ་",
-    "vibrateOnNewShort": "འཕྲིན་དོན་གསརཔ་ལུ་གོས་འགུལ་",
-    "vibrateOnNewDesc": "བརྡ་བསྐུལ་དང་མཉམ་གོས་འགུལ་བཟོ་",
-    "flashOnCallShort": "ཁ་བརྡ་ལུ་གསལ་གྲིབ་",
-    "flashOnCallDesc": "ཁ་བརྡ་འཐོན་སྐབས་བཀྲམ་སྟོན་གཙང་"
+    "voiceNotes": "སྐད་དོན།",
+    "autoTranscribeVoiceNotes": "སྐད་དོན་རང་བཞིན་ཡིག་འབུམ།",
+    "changesSavedInstantly": "བསྒྱུར་བ་ཚུ་དེ་འཕྲལ་ལས་ཉར།",
+    "loadFailed": "སྒྲིག་སྟངས་ཕབ་ལེན་མ་ཚུགས།",
+    "visualAlerts": "མཐའ་མཚམས་བརྡ་བསྐུལ།",
+    "visualAlertsDesc": "བརྡ་མགོ་དང་མགོ་མཐའ་འབུར་སྟོན།",
+    "vibrateOnNewShort": "འཕྲིན་དོན་གསར་པ་ལུ་རྡེབ་སྤྲོད།",
+    "vibrateOnNewDesc": "བརྡ་བསྐུལ་དང་མཉམ་རྡེབ་སྤྲོད།",
+    "flashOnCallShort": "འབོར་བ་ཐོབ་དུས་གསལ་འབར།",
+    "flashOnCallDesc": "འབོར་བ་ལུ་མགྱོགས་པོའི་གསལ་འབར།"
   },
 
   "privacySection": {
-    "strictE2EE": "E2E གསང་བ་དམ་ཅན་",
-    "ciphertextOnlyNote": "server ལུ་ ciphertext ཙམ་སྲུངས། AI/Translate དང་ moderation preview མེད་"
+    "strictE2EE": "གསང་བཟོས་ E2E དམ་བཅའ།",
+    "ciphertextOnlyNote": "server ལུ་ ciphertext ཙམ། AI/Translate དང་ moderation preview མེད།"
   },
 
   "linkedDevicesPanel": {
-    "title": "ཐོག་ལུགས་མཐུད་མཁན་",
-    "noneFound": "མཐུད་མཁན་མ་འཐོབ་",
-    "refresh": "ཡང་བསྐྱར་"
+    "title": "འབྲེལ་བའི་ཐབས་འཕྲུལ།",
+    "noneFound": "ཐབས་འཕྲུལ་མ་ཐོབ།",
+    "refresh": "ཡང་སྐྱར་སྒྲིག"
   },
 
   "help": {
-    "title": "རོགས་རམ་",
-    "howCanWeHelp": "ང་ཚོས་ག་དེ་སྦེ་རོགས་འབད?",
-    "helpCenter": "རོགས་རམ་ལྟེ་གནས་",
-    "contactUs": "འབྲེལ་བ་",
-    "quickTopics": "མྱུར་དུ་གནད་དོན་",
-    "searchExamples": "“translate”, “backups”, “privacy” འཚོལ་བཅུག",
-    "cantLogin": "ནང་འཛུལ་མ་ཚུགས་",
-    "paymentsBilling": "གླ་ཆ་/billing",
-    "reportAbuse": "བརྡ་འཕྲིན་སྐྱོན་སྙན་",
-    "searchHelpArticles": "རོགས་རམ་གསལ་བཤད་འཚོལ་",
-    "search": "འཚོལ་"
+    "title": "གྲོགས་རམ།",
+    "howCanWeHelp": "ང་ཚོས་ག་ཅི་བྱེད་ཐུབ?",
+    "helpCenter": "གྲོགས་རམ་ལྡེབ་ཁྲམ།",
+    "contactUs": "འབྲེལ་བ།",
+    "quickTopics": "མགྱོགས་པོའི་དོན་ཚན།",
+    "searchExamples": "“translate”, “backups”, “privacy” འཚོལ།",
+    "cantLogin": "ནང་འཛུལ་མི་ཚུགས།",
+    "paymentsBilling": "གླ་ཆ/དངུལ་སྒྲུབ།",
+    "reportAbuse": "མེད་ལས་སྤྱོད་སྙན་ཞུ།",
+    "searchHelpArticles": "གྲོགས་རམ་རྩོམ་འགྲེལ་འཚོལ།",
+    "search": "འཚོལ།"
   },
 
   "peoplePage": {
-    "people": "མི་",
-    "search": "འཚོལ་",
-    "searchPlaceholder": "alias, མིང་, username, ཁ་པར་གྱིས་འཚོལ་",
-    "filterSaved": "སྲུངས་པ་ contacts ཚུ་ཚགས་",
-    "noContactsFound": "contacts མེད་",
-    "quickStart": "མགྱོགས་པར་འགོ་བཙུགས་",
-    "quickStartDesc": "འགོ་བཙུགས་ཐབས་ལམ་ཉུང་ཤོས་",
-    "importContacts": "contacts ནང་འདྲེན་",
-    "add": "ཁ་སྐོང་",
-    "focusSearch": "འཚོལ་ནང་དོན་ལེགས་ཤོམ་",
-    "import": "ནང་འདྲེན་",
-    "findOrAdd": "མི་འཚོལ་ ཡང་ན་ ཁ་སྐོང་",
-    "searchByPhoneOrUsername": "ཁ་པར/username གྱིས་འཚོལ་",
-    "inviteFriends": "ཆ་རོགས་འབུལ་ཞུ་",
-    "inviteDesc": "འབྲེལ་ཐོག་ལུགས་སྤེལ་ནས་འཕྲིན་དོན་འགོ་བཙུགས་",
-    "getTheApp": "app ལེན་",
-    "getTheAppDesc": "iOS/Android ཐོག་ལས་གནས་སྐབས་འཛུལ་",
-    "download": "ཕབ་ལེན་",
-    "syncTip": "Tip: ཁྱེད་ཀྱི་འཕྲིན་དོན་ཚུ་ web/ mobile ལུ་ sync བྱུང་"
+    "people": "མི་སྣ།",
+    "search": "འཚོལ།",
+    "searchPlaceholder": "alias/མིང་/username/ཁ་པར་གིས་འཚོལ།",
+    "filterSaved": "ཉར་ཚགས་ contacts འཚག",
+    "noContactsFound": "Contacts མ་ཐོབ།",
+    "quickStart": "མགྱོགས་པོའི་འགོ་བཙུགས།",
+    "quickStartDesc": "འཕྲལ་ལས་འགོ་བཙུགས་ཐབས་འགའ།",
+    "importContacts": "Contacts ནང་འདྲེན།",
+    "add": "ཁ་སྣོན།",
+    "focusSearch": "འཚོལ་ཞིབ་གཙོ་བོ།",
+    "import": "ནང་འདྲེན།",
+    "findOrAdd": "མི་སྣ་འཚོལ་ཡང་ན་ཁ་སྣོན།",
+    "searchByPhoneOrUsername": "ཁ་པར/username ཐོག་ལས་འཚོལ།",
+    "inviteFriends": "ཆོག་མཆན་གསར་པ་འབྲེལ།",
+    "inviteDesc": "ཁྱེད་ཀྱི་གདམ་ཐོག་ལས་སྦྲེལ་བ་སྤེལ།",
+    "getTheApp": "App ལེན།",
+    "getTheAppDesc": "iOS དང་ Android ནང་ལས་སྤྱོད།",
+    "download": "ཕབ་ལེན།",
+    "syncTip": "འཕྲིན་དོན་ཚུ་ཝེབ/ཁ་པར་མཉམ་བྱུང་།"
   },
 
   "randomChat": {
-    "title": "གང་རུང་གི་ Chat",
-    "description": "མི་གསརཔ་ཅིག་དང་སྦྲེལ། ང་ཚོས་མཐུན་སྒྲིག་བྱས་ནས་ གནས་སྐབས་ chat ཁང་ ཁ་ཕྱེ་འོང་",
-    "findMatch": "ང་ལུ་མཐུན་མོངས་འཚོལ་",
-    "chatWithForia": "Foria དང་ chat",
-    "chatWithForiaBot": "ForiaBot དང་ chat",
-    "cancel": "ཆ་མེད་",
-    "close": "ཁ་བསྡམས་",
-    "searching": "འཚོལ་དོ…",
-    "noPartner": "ད་ལྟོ་མཐུན་མོངས་མ་ཐོབ་",
-    "connectedTo": "{{name}} ལུ་མཐུད་ཟིན་",
-    "partnerLeft": "མཐུན་མོངས་པ་ཕྱིར་ཐོན་",
-    "stopped": "བཀག་ཡོད་",
-    "skip": "གོམ་འགྱོ་",
-    "save": "སྲུངས་",
-    "saveGuard": "མི་-མི་ chat རྐྱངམ་ཅིག་སྲུངས་ཚུགས་"
+    "title": "གླེང་མོལ་གང་འབྱུང་།",
+    "description": "མི་གསར་པ་ཅིག་དང་འཕྲལ་ལས་མཐུན། གནས་སྟངས་གནས་སྡོད་ཁང་ཁ་ཕྱེ།",
+    "findMatch": "ངེས་པར་མཐུན་པ་འཚོལ།",
+    "chatWithForia": "Foria དང་གླེང་མོལ།",
+    "chatWithForiaBot": "ForiaBot དང་གླེང་མོལ།",
+    "cancel": "ཆ་མེད།",
+    "close": "ཁ་རྒྱག",
+    "searching": "འཚོལ་བཤེར་བརྩེགས་…",
+    "finding": "འཚོལ་དོ་…",
+    "looking": "མི་ཅིག་འཚོལ་དོ་…",
+    "startingForia": "Foria དང་གླེང་མོལ་འགོ་བཙུགས་…",
+    "partnerDisconnected": "ཁྱེད་ཀྱི་ཟླ་གཅིག་བྲལ་བ།",
+    "noPartner": "ད་ལྟོ་ཟླ་མེད།",
+    "connectedTo": "{{name}} དང་མཐུད་ཡོད།",
+    "connected": "མཐུད་ཡོད།",
+    "idle": "ཁོམ་མེད།",
+    "partnerLeft": "ཟླ་བཞག་ཡོད།",
+    "stopped": "བཀག་ཡོད།",
+    "skip": "མཆོངས།",
+    "save": "ཉར།",
+    "saveGuard": "མི་-མི་གླེང་མོལ་རྐྱངམ་ཅིག་ཉར་ཚུགས།",
+    "youAreChattingWith": "ཁྱེད་ {{name}} དང་གླེང་མོལ་བྱེད་དོ།",
+    "bot": "BOT",
+    "leave": "བཞག",
+    "sayHi": "བྱམས་བརྩེ་བསྐུལ 👋",
+    "you": "ཁྱེད།",
+    "typeMessage": "འཕྲིན་དོན་བྲིས།",
+    "send": "གཏང་།",
+    "partner": "ཟླ།",
+    "withForia": "Foria དང་བཅས།"
+  },
+
+  "brand": {
+    "name": "Chatforia",
+    "foria": "Foria"
+  },
+
+  "header": {
+    "openNav": "ཕྱོགས་སྟོན་ཁ་ཕྱེ།",
+    "closeNav": "ཕྱོགས་སྟོན་ཁ་རྒྱག",
+    "homeAria": "Chatforia ཁྱིམ།"
+  },
+
+  "login": {
+    "title": "ལོག་འབྱོར་ལེགས།",
+    "subtitle": "Chatforia ཁ་བྱང་ལུ་ནང་འཛུལ།",
+    "google": "Google ཐོག་ལས་མུ་མཐུད།",
+    "apple": "Apple ཐོག་ལས་མུ་མཐུད།",
+    "googleUnavailable": "Google ནང་འཛུལ་མེད།",
+    "appleUnavailable": "Apple ནང་འཛུལ་མེད།",
+    "or": "ཡང་ན",
+    "email": "གློག་འཕྲིན།",
+    "emailPh": "you@example.com",
+    "usernameLabel": "Username",
+    "usernamePh": "Username",
+    "passwordLabel": "གསང་ཚིག",
+    "passwordPh": "གསང་ཚིག",
+    "keepSignedIn": "ནང་འཛུལ་གནས་བཟོ།",
+    "forgot": "གསང་ཚིག་བརྗ་ཡོད་ད?",
+    "submit": "ནང་འཛུལ།",
+    "loggingIn": "ནང་འཛུལ་དོ་…",
+    "newHere": "གསར་སྤྲུལ་ཡིན་ན? <link>ཐོ་འགོད།</link>",
+    "ssoUnavailable": "SSO མེད། username དང་ password ལག་ལེན།",
+    "error": {
+      "missing": "ཁྱེད་ཀྱི་གསང་ཚིག/username བཙུགས།",
+      "invalid": "username ཡང་ན་ གསང་ཚིག་ཕན་མེད།",
+      "denied": "ཆོག་མེད།",
+      "unprocessable": "ཞུ་བ་ཕན་མེད། username/email དང་ password བཙུགས་དགོས།",
+      "deviceLimit": "Free ལས་ཐབས་འཕྲུལ་ཚད་ཚུན་ལྷག། གཞན་ཐབས་འཕྲུལ་ལས་ཕྱིར་འཐེན་ཤུགས་བསྐྱེད་ཡང་ན Premium ལུ་ཡར་བསྐྱེད།",
+      "premiumRequired": "བྱ་བ་འདི་ལུ Premium དགོས།"
+    }
   }
 }

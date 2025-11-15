@@ -3,40 +3,49 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpBackend from 'i18next-http-backend';
 
-// No SUPPORTED_LNGS import — accept whatever exists under /public/locales
+// Single-file setup: we only load /locales/<lng>/translation.json
+// All feature areas (e.g., "auth") live under objects inside that file, like "auth": { ... }
 
 i18n
-  .use(HttpBackend)                 // load translations over HTTP
-  .use(LanguageDetector)            // detect user language
+  .use(HttpBackend)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    // Allow any language that has a /locales/<lng>/translation.json
-    supportedLngs: false,           // no hardcoded list; accept all
-    nonExplicitSupportedLngs: true, // map es-MX -> es, pt-BR -> pt, etc.
-    load: 'languageOnly',           // coerce en-US -> en
-    fallbackLng: 'en',              // default to English if nothing is set
+    supportedLngs: false,
+    nonExplicitSupportedLngs: true,
+    load: 'languageOnly',
+    fallbackLng: 'en',
+    defaultNS: 'translation',
 
     interpolation: { escapeValue: false },
-    react: { useSuspense: false },  // avoid suspense boundaries for HTTP loading
+    react: { useSuspense: false },
 
     detection: {
-      // IMPORTANT: do NOT look at the browser or <html lang> by default,
-      // so first-time users fall back to English unless they already chose a language.
-      order: ['localStorage', 'cookie', 'querystring'],
+      // Make ?lng=xx take priority and then get cached
+      order: ['querystring', 'localStorage', 'cookie'],
       caches: ['localStorage', 'cookie'],
+      lookupQuerystring: 'lng',
       lookupLocalStorage: 'i18nextLng',
       lookupCookie: 'i18nextLng',
     },
 
     backend: {
-      // Served from client/public
-      loadPath: '/api/translations?lng={{lng}}',
-      // optional cache-buster if you set a version env
-      queryStringParams: { v: import.meta.env?.VITE_APP_VERSION || '' },
+      loadPath: '/locales/{{lng}}/translation.json',
+      queryStringParams: { v: import.meta.env?.VITE_APP_VERSION || Date.now() },
     },
 
     returnNull: false,
     debug: false,
   });
+
+// Extra guard: if URL has ?lng=, force it immediately (covers edge cases)
+try {
+  const urlLng = new URLSearchParams(window.location.search).get('lng');
+  if (urlLng && i18n.language !== urlLng) i18n.changeLanguage(urlLng);
+} catch {}
+
+if (import.meta.env.MODE !== 'production') {
+  window.i18n = i18n;
+}
 
 export default i18n;

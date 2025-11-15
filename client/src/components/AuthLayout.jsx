@@ -90,8 +90,7 @@ function GetAppCard() {
 
   return (
     <Paper withBorder shadow="xs" radius="xl" p="md">
-      {/* Visible label must stay "Get the app" exactly like screenshot */}
-      <Divider mb="md" label="Get the app" />
+      <Divider mb="md" label={t('auth.getApp', 'Get the app')} />
       <Group justify="space-between" wrap="nowrap" align="center">
         {/* QR: show on tablet/desktop */}
         <Group gap="sm" align="center" visibleFrom="sm">
@@ -115,9 +114,8 @@ function GetAppCard() {
             />
           </Anchor>
 
-          {/* keep visible text unchanged */}
           <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.85 }} maw={240}>
-            On desktop? Scan with your phone to get the app.
+            {t('auth.scanHelper', 'On desktop? Scan with your phone to get the app.')}
           </Text>
         </Group>
 
@@ -211,8 +209,7 @@ export default function AuthLayout() {
                 textDecoration: 'none',
               }}
             >
-              {/* visible string must stay exactly like screenshot */}
-              ← Home
+              ← {t('auth.home', 'Home')}
             </Anchor>
           )}
 
@@ -239,7 +236,7 @@ export default function AuthLayout() {
                       Chatforia
                     </Title>
 
-                    {/* BIG HEADLINE - keep identical to screenshot */}
+                    {/* BIG HEADLINE */}
                     <Title
                       order={1}
                       className="auth-hero-title hero-bubble-title"
@@ -250,19 +247,22 @@ export default function AuthLayout() {
                         fontSize: 'clamp(34px, 5vw, 56px)',
                       }}
                     >
-                      Secure, global
+                      {t('auth.hero.line1', 'Secure, global')}
                       <br />
-                      messaging with{' '}
-                      <span className="text-blue-purple">instant translation</span>
+                      {t('auth.hero.beforeEm', 'messaging with')}{' '}
+                      <span className="text-blue-purple">
+                        {t('auth.hero.em', 'instant translation')}
+                      </span>
                     </Title>
                   </div>
 
                   {/* Copy block under headline */}
                   <div className="hero-after">
-                    {/* keep paragraph as-is */}
                     <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
-                      End-to-end encryption, AI-powered translation, disappearing messages,
-                      and voice/video calling.
+                      {t(
+                        'auth.hero.sub',
+                        'End-to-end encryption, AI-powered translation, disappearing messages, and voice/video calling.'
+                      )}
                     </Text>
 
                     {/* feature bullets */}
@@ -281,7 +281,7 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        End-to-end encryption by default
+                        {t('auth.feat.encryption', 'End-to-end encryption by default')}
                       </List.Item>
 
                       <List.Item
@@ -298,7 +298,7 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        Auto-translate 100+ languages
+                        {t('auth.feat.translate', 'Auto-translate 100+ languages')}
                       </List.Item>
 
                       <List.Item
@@ -315,7 +315,7 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        Disappearing messages &amp; read receipts
+                        {t('auth.feat.disappear', 'Disappearing messages & read receipts')}
                       </List.Item>
 
                       <List.Item
@@ -332,7 +332,7 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        Privacy-first. Your data, your control.
+                        {t('auth.feat.privacy', 'Privacy-first. Your data, your control.')}
                       </List.Item>
                     </List>
 
@@ -345,7 +345,7 @@ export default function AuthLayout() {
                         radius="xl"
                         aria-label={t('auth.createAccount', 'Create free account')}
                       >
-                        Create free account
+                        {t('auth.createAccount', 'Create free account')}
                       </Button>
 
                       <Anchor
@@ -354,7 +354,7 @@ export default function AuthLayout() {
                         style={{ color: 'var(--accent)' }}
                         aria-label={t('auth.status', 'Status')}
                       >
-                        Status
+                        {t('auth.status', 'Status')}
                       </Anchor>
 
                       <Anchor
@@ -363,7 +363,7 @@ export default function AuthLayout() {
                         style={{ color: 'var(--accent)' }}
                         aria-label={t('auth.upgrade', 'Upgrade')}
                       >
-                        Upgrade
+                        {t('auth.upgrade', 'Upgrade')}
                       </Anchor>
                     </Group>
 
@@ -377,7 +377,10 @@ export default function AuthLayout() {
                           'Tip: Use the same account on web and mobile. Your messages stay synced.'
                         )}
                       >
-                        Tip: Use the same account on web and mobile. Your messages stay synced.
+                        {t(
+                          'auth.tip',
+                          'Tip: Use the same account on web and mobile. Your messages stay synced.'
+                        )}
                       </Text>
                     </Paper>
                   </div>

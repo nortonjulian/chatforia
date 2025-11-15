@@ -1,4 +1,4 @@
-import { redis } from '../utils/redisClient.js';
+import { redis } from '@utils/redisClient.js';
 
 const KEY_WAITING = 'random:waiting:v2';   // list of JSON strings (queue of seekers)
 const PAIR_PREFIX = 'random:pair:';        // Redis hash per roomId
@@ -80,7 +80,7 @@ export async function tryDequeuePartner(me) {
     if (cand.socketId === me.socketId) continue;
 
     // If either side wants age filtering, enforce compatibility
-    const filterOn = (cand.wantsAgeFilter !== false) || (me.wantsAgeFilter !== false);
+    const filterOn = (cand.wantsAgeFilter !== false) && (me.wantsAgeFilter !== false);
 
     if (
       !filterOn ||

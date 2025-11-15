@@ -2,9 +2,10 @@
  * Backups export tests – resilient seeding for user/room/message
  */
 import request from 'supertest';
-import app from '../app.js';
+import { createApp } from '../app.js';
 import prisma from '../utils/prismaClient.js';
 
+const app = createApp();
 const ENDPOINT = '/backups/export';
 
 describe('Backups export', () => {

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import i18n from '../i18n';
 import {
@@ -120,6 +120,7 @@ function getScrollParent(el) {
 /* ---------- main ---------- */
 export default function UserProfile({ onLanguageChange, openSection }) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
   const params = useParams();
   const viewUserId = params.userId ? Number(params.userId) : null;
@@ -486,6 +487,23 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Control>{t('profile.phoneNumber', 'Phone number')}</Accordion.Control>
           <Accordion.Panel>
             <PhoneNumberManager />
+
+            {/* ✅ eSIM entry card */}
+            <Card withBorder radius="lg" p="md" mt="md">
+              <Text fw={600}>{t('profile.esim.title', 'Chatforia eSIM (Teal)')}</Text>
+              <Text size="sm" c="dimmed" mt={4}>
+                {t('profile.esim.desc', 'Get mobile data for Chatforia when you’re away from Wi-Fi.')}
+              </Text>
+              <Group justify="flex-start" mt="sm">
+                <Button
+                  onClick={() => navigate('/account/esim')}
+                  variant="filled"
+                  aria-label={t('profile.esim.cta', 'Get eSIM / Show QR')}
+                >
+                  {t('profile.esim.cta', 'Get eSIM / Show QR')}
+                </Button>
+              </Group>
+            </Card>
           </Accordion.Panel>
         </Accordion.Item>
 

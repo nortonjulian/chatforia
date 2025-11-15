@@ -1,3 +1,6 @@
+// server/services/__tests__/googleTranslate.test.js
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 let translateCtorSpy;
@@ -5,7 +8,8 @@ let detectMock;
 let translateMock;
 let pRetryCallSpy;
 
-const mockTranslateModule = () => {
+// NOTE: make these async and use jest.unstable_mockModule for ESM
+const mockTranslateModule = async () => {
   // client methods for v2
   detectMock = jest.fn();
   translateMock = jest.fn();
@@ -19,16 +23,16 @@ const mockTranslateModule = () => {
   });
 
   // @google-cloud/translate v2 exports { v2: { Translate: class … } }
-  jest.doMock('@google-cloud/translate', () => ({
+  await jest.unstable_mockModule('@google-cloud/translate', () => ({
     __esModule: true,
     v2: { Translate: translateCtorSpy },
   }));
 };
 
-const mockPRetryModule = () => {
+const mockPRetryModule = async () => {
   pRetryCallSpy = jest.fn();
   // p-retry default export is a function(fn, opts)
-  jest.doMock('p-retry', () => ({
+  await jest.unstable_mockModule('p-retry', () => ({
     __esModule: true,
     default: (fn, opts) => {
       pRetryCallSpy(opts);
@@ -41,10 +45,11 @@ const reload = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
 
-  mockTranslateModule();
-  mockPRetryModule();
+  await mockTranslateModule();
+  await mockPRetryModule();
 
-  return import('../googleTranslate.js');
+  // ✅ correct path to the implementation:
+  return import('../translation/googleTranslate.js');
 };
 
 afterAll(() => {
@@ -85,9 +90,7 @@ describe('googleTranslate service', () => {
     });
 
     // client.detect returns [detections]; detections can be obj or array-of-obj
-    detectMock.mockResolvedValueOnce([
-      { language: 'es', confidence: 0.76 },
-    ]);
+    detectMock.mockResolvedValueOnce([{ language: 'es', confidence: 0.76 }]);
 
     const out = await detectLanguage('Hola, mundo');
     expect(translateCtorSpy).toHaveBeenCalledWith({

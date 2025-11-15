@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 let createMock;
@@ -12,12 +14,16 @@ jest.mock('twilio', () => {
   return { __esModule: true, default: twilioFactoryMock };
 });
 
+// Note: twilio.js lives inside telco/, so import that path
 const reload = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
-  createMock.mockReset();
-  twilioFactoryMock.mockClear();
-  return import('../twilio.js');
+
+  // Guard: on the very first call after resetModules, these may still be undefined
+  if (createMock) createMock.mockReset();
+  if (twilioFactoryMock) twilioFactoryMock.mockClear();
+
+  return import('../telco/twilio.js');
 };
 
 afterAll(() => {

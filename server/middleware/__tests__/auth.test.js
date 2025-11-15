@@ -1,26 +1,43 @@
+import { jest } from '@jest/globals';
 import { EventEmitter } from 'events';
 
 jest.useFakeTimers();
 
-// ---- Mocks ----
-const verifyMock = jest.fn();
-jest.mock('jsonwebtoken', () => ({
-  __esModule: true,
-  default: { verify: (...args) => verifyMock(...args) },
-  verify: (...args) => verifyMock(...args),
-}));
+// ---- Global env snapshot ----
+const ORIGINAL_ENV = { ...process.env };
 
-// Prisma mock will be (re)defined per test where needed
+// ---- Mocks ----
+let verifyMock;
 const prismaMock = {
   user: {
     findUnique: jest.fn(),
   },
 };
 
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
+// ESM-safe mock setup
+const setupMocks = () => {
+  // jsonwebtoken mock
+  jest.unstable_mockModule('jsonwebtoken', () => {
+    verifyMock = jest.fn();
+    return {
+      __esModule: true,
+      default: {
+        verify: (...args) => verifyMock(...args),
+      },
+      verify: (...args) => verifyMock(...args),
+    };
+  });
+
+  // prisma client mock – MUST match auth.js import
+  // auth.js: import prisma from '../utils/prismaClient.js';
+  jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prismaMock,
+  }));
+};
+
+// Register mocks initially
+setupMocks();
 
 // ---- Helpers ----
 const makeReqResNext = (overrides = {}) => {
@@ -31,37 +48,63 @@ const makeReqResNext = (overrides = {}) => {
     user: undefined,
     ...overrides.req,
   };
+
   const emitter = new EventEmitter();
   const res = Object.assign(emitter, {
     statusCode: 200,
     _json: null,
     headers: {},
-    setHeader(k, v) { this.headers[k] = v; },
-    getHeader(k) { return this.headers[k]; },
-    status(code) { this.statusCode = code; return this; },
-    json(obj) { this._json = obj; return this; },
+    setHeader(k, v) {
+      this.headers[k] = v;
+    },
+    getHeader(k) {
+      return this.headers[k];
+    },
+    status(code) {
+      this.statusCode = code;
+      return this;
+    },
+    json(obj) {
+      this._json = obj;
+      return this;
+    },
     end: jest.fn(),
   });
+
   const next = jest.fn();
   return { req, res, next };
 };
 
 const loadModule = async () => {
   jest.resetModules();
-  // Ensure test defaults for env
-  process.env.NODE_ENV = 'test';
+
+  // Reset env for predictable behavior
+  process.env = { ...ORIGINAL_ENV, NODE_ENV: 'test' };
   delete process.env.JWT_COOKIE_NAME; // default: foria_jwt
   delete process.env.JWT_SECRET;      // auth.js uses 'test_secret' in NODE_ENV=test
+
+  // Reset mocks
+  prismaMock.user.findUnique.mockReset();
+
+  // Re-apply ESM mocks after resetModules
+  setupMocks();
+
   return import('../auth.js');
 };
 
+// ---- Lifecycle ----
+afterAll(() => {
+  process.env = ORIGINAL_ENV;
+});
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  prismaMock.user.findUnique.mockReset();
+  if (verifyMock) verifyMock.mockReset();
+});
+
 // ---- Tests ----
 describe('auth middleware', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    prismaMock.user.findUnique.mockReset();
-  });
-
   describe('requireAuth', () => {
     test('passes through when req.user already set', async () => {
       const mod = await loadModule();
@@ -89,7 +132,9 @@ describe('auth middleware', () => {
 
     test('401 when jwt.verify throws', async () => {
       const mod = await loadModule();
-      verifyMock.mockImplementation(() => { throw new Error('bad token'); });
+      verifyMock.mockImplementation(() => {
+        throw new Error('bad token');
+      });
 
       const { req, res, next } = makeReqResNext({
         req: { cookies: { foria_jwt: 'token123' } },
@@ -120,7 +165,13 @@ describe('auth middleware', () => {
 
     test('sets req.user using freshest DB values when token valid', async () => {
       const mod = await loadModule();
-      verifyMock.mockReturnValue({ id: '42', username: 'cookieU', role: 'USER', plan: 'FREE', email: 'cookie@example.com' });
+      verifyMock.mockReturnValue({
+        id: '42',
+        username: 'cookieU',
+        role: 'USER',
+        plan: 'FREE',
+        email: 'cookie@example.com',
+      });
 
       prismaMock.user.findUnique.mockResolvedValue({
         id: 42,
@@ -138,7 +189,13 @@ describe('auth middleware', () => {
 
       expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
         where: { id: 42 },
-        select: { id: true, email: true, username: true, role: true, plan: true },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          role: true,
+          plan: true,
+        },
       });
       expect(req.user).toEqual({
         id: 42,
@@ -152,7 +209,13 @@ describe('auth middleware', () => {
 
     test('falls back to decoded values when DB user not found', async () => {
       const mod = await loadModule();
-      verifyMock.mockReturnValue({ id: '7', username: 'cookieOnly', role: 'USER', plan: 'FREE', email: 'c@e.com' });
+      verifyMock.mockReturnValue({
+        id: '7',
+        username: 'cookieOnly',
+        role: 'USER',
+        plan: 'FREE',
+        email: 'c@e.com',
+      });
 
       prismaMock.user.findUnique.mockResolvedValue(null);
 
@@ -186,7 +249,9 @@ describe('auth middleware', () => {
 
     test('continues without setting user when verify throws', async () => {
       const mod = await loadModule();
-      verifyMock.mockImplementation(() => { throw new Error('expired'); });
+      verifyMock.mockImplementation(() => {
+        throw new Error('expired');
+      });
 
       const { req, res, next } = makeReqResNext({
         req: { cookies: { foria_jwt: 'bad' } },
@@ -200,7 +265,13 @@ describe('auth middleware', () => {
 
     test('sets req.user when token valid', async () => {
       const mod = await loadModule();
-      verifyMock.mockReturnValue({ id: '5', username: 'alice', role: 'USER', plan: 'FREE', email: 'a@b.com' });
+      verifyMock.mockReturnValue({
+        id: '5',
+        username: 'alice',
+        role: 'USER',
+        plan: 'FREE',
+        email: 'a@b.com',
+      });
 
       prismaMock.user.findUnique.mockResolvedValue({
         id: 5,
@@ -229,7 +300,10 @@ describe('auth middleware', () => {
     test('does not clobber existing req.user', async () => {
       const mod = await loadModule();
       const { req, res, next } = makeReqResNext({
-        req: { user: { id: 99, role: 'ADMIN' }, cookies: { foria_jwt: 'ignored' } },
+        req: {
+          user: { id: 99, role: 'ADMIN' },
+          cookies: { foria_jwt: 'ignored' },
+        },
       });
 
       await mod.verifyTokenOptional(req, res, next);

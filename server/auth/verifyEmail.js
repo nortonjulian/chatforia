@@ -1,6 +1,6 @@
 import express from 'express';
-import prisma from '../../utils/prismaClient.js';
-import { newRawToken, hashToken, verifyHash } from '../../utils/tokens.js';
+import prisma from '../utils/prismaClient.js';
+import { newRawToken, hashToken, verifyHash } from '../utils/tokens.js';
 
 export const router = express.Router();
 
@@ -8,7 +8,9 @@ export const router = express.Router();
 router.post('/register', async (req, res) => {
   const { email, password } = req.body;
   // TODO: validate, hash password, rate-limit, CAPTCHA, generic errors (no user enumeration)
-  const user = await prisma.user.create({ data: { email, /* passwordHash */ } });
+  const user = await prisma.user.create({
+    data: { email /* passwordHash */ },
+  });
 
   // create email verification token
   const raw = newRawToken();
@@ -19,7 +21,7 @@ router.post('/register', async (req, res) => {
       type: 'email',
       tokenHash,
       expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24h
-    }
+    },
   });
 
   // send magic link
@@ -34,8 +36,13 @@ router.post('/register', async (req, res) => {
 router.get('/verify-email', async (req, res) => {
   const { token, uid } = req.query;
   const record = await prisma.verificationToken.findFirst({
-    where: { userId: uid, type: 'email', consumedAt: null, expiresAt: { gt: new Date() } },
-    orderBy: { createdAt: 'desc' }
+    where: {
+      userId: uid,
+      type: 'email',
+      consumedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    orderBy: { createdAt: 'desc' },
   });
   if (!record) return res.status(400).send('Invalid or expired');
 
@@ -43,8 +50,14 @@ router.get('/verify-email', async (req, res) => {
   if (!ok) return res.status(400).send('Invalid or expired');
 
   await prisma.$transaction([
-    prisma.user.update({ where: { id: uid }, data: { emailVerifiedAt: new Date() } }),
-    prisma.verificationToken.update({ where: { id: record.id }, data: { consumedAt: new Date() } }),
+    prisma.user.update({
+      where: { id: uid },
+      data: { emailVerifiedAt: new Date() },
+    }),
+    prisma.verificationToken.update({
+      where: { id: record.id },
+      data: { consumedAt: new Date() },
+    }),
   ]);
 
   // redirect into app

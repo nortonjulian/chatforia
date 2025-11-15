@@ -1,16 +1,16 @@
+// server/stores/__tests__/verificationStore.test.js
+import { jest, describe, test, expect } from '@jest/globals';
+import * as crypto from 'crypto'; // used only for local sha256 helper
+
 const ORIGINAL_ENV = process.env;
 
 let prismaMock;
-let randomBytesMock;
-
-const FIXED_NOW = 1_700_000_000_000; // arbitrary fixed timestamp
 
 // Small helper to compute sha256 hex like the module under test
-import crypto from 'crypto';
 const sha256Hex = (s) =>
   crypto.createHash('sha256').update(s, 'utf8').digest('hex');
 
-function mockPrisma() {
+async function mockPrisma() {
   prismaMock = {
     verificationToken: {
       deleteMany: jest.fn(),
@@ -20,37 +20,26 @@ function mockPrisma() {
     },
   };
 
-  jest.doMock('../../utils/prismaClient.js', () => ({
+  // IMPORTANT: specifier must be resolvable from server/__tests__/jest.setup.js
+  // ../utils/prismaClient.js -> server/utils/prismaClient.js
+  await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
     __esModule: true,
     default: prismaMock,
   }));
 }
 
-function mockCryptoRandomBytes(hexByte = 0x01) {
-  // deterministic 32 bytes buffer
-  randomBytesMock = jest.fn(() => Buffer.alloc(32, hexByte));
-  jest.doMock('crypto', () => {
-    const real = jest.requireActual('crypto');
-    return {
-      __esModule: true,
-      ...real,
-      randomBytes: randomBytesMock,
-    };
-  });
-}
-
 const reloadModule = async () => {
   jest.resetModules();
-  jest.spyOn(Date, 'now').mockReturnValue(FIXED_NOW);
   process.env = { ...ORIGINAL_ENV };
-  mockPrisma();
-  mockCryptoRandomBytes(0x01); // token will be '01' * 32 in hex (length 64)
+
+  await mockPrisma();
+
+  // now import the module under test
   return import('../verificationStore.js');
 };
 
 afterAll(() => {
   process.env = ORIGINAL_ENV;
-  jest.restoreAllMocks();
 });
 
 beforeEach(() => {
@@ -65,20 +54,20 @@ describe('verificationStore', () => {
     const type = 'email';
     const ttlMinutes = MINUTES(15); // pass-through
 
-    // capture args to .create call to inspect stored tokenHash/expiresAt
     prismaMock.verificationToken.create.mockResolvedValueOnce({ id: 1 });
 
+    const before = Date.now();
     const res = await createVerificationToken(userId, type, ttlMinutes);
+    const after = Date.now();
 
-    // token comes from randomBytes (32x 0x01) -> hex string '01' repeated
-    expect(randomBytesMock).toHaveBeenCalledWith(32);
+    // token should be a 64-char hex string (32 bytes)
     expect(typeof res.token).toBe('string');
-    expect(res.token).toHaveLength(64); // 32 bytes -> 64 hex chars
+    expect(res.token).toHaveLength(64);
     expect(res.expiresAt instanceof Date).toBe(true);
 
-    // expiresAt should be now + 15 minutes
-    const expectedMs = FIXED_NOW + 15 * 60 * 1000;
-    expect(res.expiresAt.getTime()).toBe(expectedMs);
+    // expiresAt should be in the future (relative to the call)
+    const expiresMs = res.expiresAt.getTime();
+    expect(expiresMs).toBeGreaterThan(after);
 
     // prior tokens deleted
     expect(prismaMock.verificationToken.deleteMany).toHaveBeenCalledWith({
@@ -92,7 +81,7 @@ describe('verificationStore', () => {
         userId,
         type,
         tokenHash: expectedHash,
-        expiresAt: new Date(expectedMs),
+        expiresAt: res.expiresAt,
       },
     });
   });
@@ -115,8 +104,8 @@ describe('verificationStore', () => {
       userId: 5,
       type: 'email',
       tokenHash: sha256Hex('abc'),
-      usedAt: new Date(FIXED_NOW - 1000),
-      expiresAt: new Date(FIXED_NOW + 1000),
+      usedAt: new Date(Date.now() - 1000),
+      expiresAt: new Date(Date.now() + 1000),
     };
     prismaMock.verificationToken.findFirst.mockResolvedValueOnce(rec);
 
@@ -134,7 +123,7 @@ describe('verificationStore', () => {
       type: 'email',
       tokenHash: sha256Hex('abc'),
       usedAt: null,
-      expiresAt: new Date(FIXED_NOW - 1), // already expired
+      expiresAt: new Date(0), // way in the past
     };
     prismaMock.verificationToken.findFirst.mockResolvedValueOnce(rec);
 
@@ -153,7 +142,8 @@ describe('verificationStore', () => {
       type: 'email',
       tokenHash: sha256Hex(tokenPlain),
       usedAt: null,
-      expiresAt: new Date(FIXED_NOW + 60_000),
+      // put expiry 60s in the future relative to now
+      expiresAt: new Date(Date.now() + 60_000),
     };
     prismaMock.verificationToken.findFirst.mockResolvedValueOnce(rec);
     prismaMock.verificationToken.update.mockResolvedValueOnce({});

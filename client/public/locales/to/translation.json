@@ -1,583 +1,736 @@
 {
   "common": {
     "save": "Seivi",
-    "cancel": "Kansolo",
-    "refresh": "Toe fakafou",
-    "noMatches": "ʻIkai ha meʻa feʻunga",
-    "cancelAria": "Kansolo",
+    "cancel": "ʻAveʻese",
+    "refresh": "Fakahou",
+    "noMatches": "ʻIkai ha feʻunga",
+    "cancelAria": "Fakahū ʻe ʻikai toe fai (Cancel)",
     "copy": "Kopi",
-    "copied": "Kuo kopi!"
+    "copied": "Kopiʻi ʻe ʻosi!"
+  },
+
+  "a11y": {
+    "skipToMain": "Hiki vave ki he konga ʻuluaki"
   },
 
   "profile": {
-    "title": "Profaili ʻUesā",
-    "preferredLanguage": "Lea fili",
+    "title": "Pōfili ʻa e ʻUōsē (User Profile)",
+    "preferredLanguage": "Lea ʻoku ke fie ngaueʻaki",
     "chooseLanguage": "Filifili ha lea",
-    "mustLogin": "Ke saini ki loto ke sio ki he ngaahi setingi.",
-    "autoTranslate": "Liliu lea ʻotometiki ʻa e ngaahi feʻau",
-    "showOriginalWithTranslation": "Fakaʻaliʻali e tohiui mo e liliu",
-    "showOriginalAndTranslation": "Fakaʻaliʻali e tohiui ʻi he ʻao ʻo e liliu",
-    "filterExplicit": "Fakamamaʻo e konga fakatuʻutāmaki",
-    "aiReply": "ʻAI tali",
-    "enableReadReceipts": "Fakamoʻoni lau (read receipts)",
-    "allowExplicitContent": "Ngāueʻaki e konga fakatuʻutāmaki",
-    "disappearingMessages": "Fakamāʻu e ngaahi feʻau mole (disappearing)",
-    "autoDeleteSeconds": "Sekoni ki he tōmuʻa ʻosiʻosi ʻotometiki",
+    "mustLogin": "Kuo fiemaʻu ke ke hū (log in) ke sio ki he setingi.",
+    "autoTranslate": "Liliu lea ʻotometiki ʻi he ngaahi feʻau",
+    "showOriginalWithTranslation": "Fakaha e fakamatala faka Tonga mo e liliu ʻi he taha",
+    "showOriginalAndTranslation": "Fakaha e fakamatala tukufakaholo mo e liliu ʻi he taha",
+    "filterExplicit": "Fakamamaʻo e ngaahi meʻa fakahāhā",
+    "aiReply": "Tali ʻe he AI",
+    "enableReadReceipts": "Fakamāhina e ngaahi tohi-talituli (read receipts)",
+    "allowExplicitContent": "Tefitoʻanga ʻoku fakahāhā ʻae totonu",
+    "disappearingMessages": "Fakamāu e feʻau ngalo ʻi he taimi",
+    "autoDeleteSeconds": "Sekoni ki he ʻaveʻese ʻotometiki",
     "saveSuccess": "Kuo seivi ʻa e ngaahi setingi!",
-    "saveError": "Hala: ʻIkai lava ʻo seivi ʻa e setingi",
-    "avatarAlt": "Ata ʻo e profaili",
-    "uploadAvatar": "ʻApulōti ha ata foʻou",
-    "avatarSuccess": "Kuo ʻapulōti ʻa e ata!",
-    "avatarError": "Hala ʻi he ʻapulōti ʻa e ata",
-    "noPrivateKey": "ʻIkai ha kī fakafoʻituitui ʻi he polokalama ni ke ʻeke pōtai.",
-    "setBackupPassword": "Fokotuʻu ha paasiweti ke fakapōtai hoʻo ngaahi paʻakepi:",
-    "backupDownloaded": "Kuo ʻosi tā ke lalo ʻa e paʻakepi fakapōtai.",
-    "exportFailed": "Hala ʻi he ʻeke kī",
-    "enterBackupPassword": "Tā ha paasiweti ki he paʻakepi ko ʻeni:",
-    "importSuccess": "Kuo ʻeke mai ʻa e kī fakafoʻituitui ki he meʻangaue ni.",
-    "importFailed": "Hala ʻi he ʻeke kī (hala ʻi he paasiweti pe kuo faingataʻa ʻa e faile).",
-    "keysRotated": "Kuo fakatupu ha ongo kī foʻou pea kuo ʻapulōti ʻa e kī fakapaabiki.",
-    "rotateFailed": "Hala ʻi he fakatōli kī.",
-    "security": "Fakapapauʻi (Sikīuriti)",
-    "exportKey": "ʻEke ʻa e kī fakafoʻituitui",
-    "importKey": "ʻEke ʻa e paʻakepi kī fakapōtai",
-    "rotateKeys": "Fakatōli ʻa e ongo kī",
-    "keyDisclaimer": "ʻOku ʻoua naʻa toki ʻalu ʻi tuʻa hoʻo kī fakafoʻituitui. ʻEke ha kopi fakapaasiweti ke toe fakafoki ia ki ha meʻangaue kehe.",
-    "sectionProfile": "Profaili",
+    "saveError": "Fehalaaki: ʻikai lava ʻo seivi e setingi",
+    "avatarAlt": "Ata pōfili",
+    "uploadAvatar": "Tōkia ha ata foʻou",
+    "avatarSuccess": "Kuo ngāueʻaki e ata!",
+    "avatarError": "Fehalaaki ʻi he tō kia e ata",
+    "noPrivateKey": "ʻIkai ha kī fakapīvate ʻi he device ni ke ʻave atu.",
+    "setBackupPassword": "Fai ha ʻupu-fufu (password) ki he koepe pākiupuu:",
+    "backupDownloaded": "Kuo ʻosi ʻasi mai e pākiupuu kuo fakafufuta (encrypted).",
+    "exportFailed": "Naʻe ʻikai lava e ʻave atu ʻae kī",
+    "enterBackupPassword": "Tā e ʻupu-fufu ki he pākiupuu ni:",
+    "importSuccess": "Kuo ʻave mai (import) e kī fakapīvate ki he device ni.",
+    "importFailed": "Naʻe ʻikai lava e ʻave mai ʻae kī (hala ʻupu-fufu pe koepe kuo faingataʻa).",
+    "keysRotated": "Kuo fakatupu ha kī ʻakau foʻou pea kuo ʻupload e kī fakalukufua.",
+    "rotateFailed": "Naʻe ʻikai lava e fakatokaʻi kī.",
+    "security": "Tukuakiʻi (Security)",
+    "exportKey": "ʻAve atu e kī fakapīvate",
+    "importKey": "ʻAve mai e kī kuo pākiupuu",
+    "rotateKeys": "Fakatupu kī ʻakau foʻou",
+    "keyDisclaimer": "ʻOku ʻikai ʻalu hū mai ho kī fakapīvate mei he device ni. ʻAve atu ha kopi ʻoku maluʻi ʻe ha ʻupu-fufu ke toe fakafoki ʻi ha device kehe.",
+    "sectionProfile": "Pōfili",
     "phoneNumber": "Namba telefoni",
-    "appearance": "Fakaʻaliʻali (Appearance)",
-    "soundSettings": "Onioni",
-    "disappearing": "Feʻau mole",
-    "backupSync": "Paʻakepi & Sīnisi",
-    "ai": "ʻAI",
-    "accessibility": "ʻAkesesipiliti",
-    "privacy": "Pālaivāsī",
-    "devices": "Meʻangaue feʻunga",
-    "themeFreeNotice": "ʻOku ke ʻi he Free — fakaʻaongaʻi e Sun/Moon vave ʻi lalo. ʻApukuleiti ke maʻu e ngaahi sīmē lahi ange.",
-    "sunTheme": "Ngaueʻaki e sīmē ʻAho (Dawn)",
-    "moonTheme": "Ngaueʻaki e sīmē ʻAtā (Moon/Midnight)",
+    "appearance": "ʻAʻololoa (Appearance)",
+    "soundSettings": "Ongo",
+    "disappearing": "Ngaahi feʻau ngalo",
+    "backupSync": "Pākiupuu & Sīnuku (Sync)",
+    "ai": "AI",
+    "accessibility": "Faingofua ke ngaueʻaki",
+    "privacy": "Fakapīvate",
+    "devices": "Ngaahi device kuo faifaiʻi",
+    "themeFreeNotice": "ʻOku ke ʻi he Free — fakaʻaongaʻi e Sun/Moon vave ʻi lalo. ʻUpgrade ke maʻu ha ngaahi ʻisimā (themes) lahi ange.",
+    "sunTheme": "Ngaueʻaki ʻa e ʻisimā ʻaho (Dawn)",
+    "moonTheme": "Ngaueʻaki ʻa e ʻisimā ʻaho pō (Moon/Midnight)",
     "sun": "Laʻā",
-    "moon": "Māhina",
-    "backupTitle": "Paʻakepi Fakapōtai & Sīnisi ʻo e Meʻangaue",
-    "openBackupTools": "Fakaava e Ngaahi Meʻaleʻa Paʻakepi",
-    "backupDesc": "Fai ha paʻakepi fakapaasiweti ki hoʻo ngaahi kī, pea toe fakafoki ʻi ha meʻangaue kehe ke sīnisi.",
-    "privacyBlurEnabled": "Fakapouli'i (blur) ʻa e ngaahi feʻau ʻi he kamata",
-    "privacyBlurOnUnfocus": "Fakapouli'i ʻi he taimi ʻoku ʻikai ke fokusi ʻa e ʻapilikesene",
-    "holdToReveal": "Pupuni ke fakahā",
-    "notifyOnCopy": "Fakailoa mai kapau kuo kopi ʻeku feʻau",
-    "loadFailed": "Hala ʻi he lōti ʻo e profaili",
-    "followed": "Kuo muimui",
-    "followFailed": "Hala ʻi he muimui",
-    "unfollowed": "Kuo tuku muimui",
-    "unfollowFailed": "Hala ʻi he tuku muimui",
+    "moon": "Mahina",
+    "backupTitle": "Pākiupuu Kuó Pākitai & Sīnuku ʻo e Device",
+    "openBackupTools": "Fakaha e Ngaahi Meʻa Pākiupuu",
+    "backupDesc": "Fakatupu ha pākiupuu ʻoku maluʻi ʻe ha ʻupu-fufu ʻo e ngaahi kī, pea toe fakafoki ʻi ha device kehe ke sīnuku ai.",
+    "privacyBlurEnabled": "Fakapouliʻi ʻa e feʻau ʻi he kamataʻi",
+    "privacyBlurOnUnfocus": "Fakapouliʻi ʻi he taimi ʻoku ʻikai ke totonu e app",
+    "holdToReveal": "Taofi ke fakahaaʻi",
+    "notifyOnCopy": "Tukupā ʻi hoku feʻau kapau ʻoku kopiʻi",
+    "loadFailed": "Naʻe ʻikai lava e lō ʻi he pōfili",
+    "followed": "Kuo muimui atu",
+    "followFailed": "Naʻe ʻikai lava e muimui atu",
+    "unfollowed": "Kuo taʻe-muimui",
+    "unfollowFailed": "Naʻe ʻikai lava e taʻe-muimui",
     "follow": "Muimui",
-    "unfollow": "ʻOuʻa muimui",
-    "followHint": "ʻE hā ʻenau ngaahi stōlī ʻi hoʻo feed Followers kapau naʻa nau fakapapauʻi hangē ko e Followers pe Public.",
-    "userNotFound": "ʻIkai ke maʻu ʻa e ʻuesā",
-    "followsYou": "ʻOku ne muimui kiate koe",
-    "sectionCrashedTitle": "Naʻe ʻikai lava e sīsini ʻe lōti",
-    "sectionCrashedBody": "Naʻe ʻi ai ha meʻa hala ʻi he sīsini ko ʻeni.",
-    "forwarding": "Hūfanga ʻo e Telefoni & Teki",
-    "callTextForwardingSection": "Hūfanga ʻo e Telefoni & Teki",
-    "callTextForwardingTitle": "Hūfanga telefoni mo e/pe tekineti",
-    "callTextForwardingDescription": "Hūfanga mai e ngaahi telefoni mo e tekineti ki hoʻo telefoni/īmēlifiʻai kuo fakapapauʻi. Kapau ʻe ʻalu atu, ʻe lava ke fakahā hoʻo namba Chatforia.",
-    "enableTextForwarding": "Fakamāʻo e hūfanga tekineti",
-    "forwardTextsToPhone": "Hūfanga e tekineti ki he telefoni",
-    "forwardTextsToEmail": "Hūfanga e tekineti ki he ʻīmēlifiʻai",
-    "destinationPhone": "Telefoni taumuʻa (E.164)",
-    "destinationEmail": "ʻĪmēlifiʻai taumuʻa",
-    "enableCallForwarding": "Fakamāʻo e hūfanga telefoni",
-    "destinationPhoneForCalls": "Telefoni taumuʻa ki he telefoni (E.164)",
-    "aliasBridging": "Hūfanga telefoni (alias bridging)",
-    "quietHoursOptional": "ʻAho taimi nofo mālie (faliki)",
+    "unfollow": "Taʻe-muimui",
+    "followHint": "Te nau ngaahi tala ʻe ʻasi ʻi ho feed ʻAia ʻoku ke muimui ki ai kapau naʻa nau posti ʻaki ʻa e ʻaudience ‘Followers’ pe ‘Public’.",
+    "userNotFound": "ʻIkai ke maʻu ʻa e tokotaha ʻeni",
+    "followsYou": "ʻOku muimui kiate koe",
+    "sectionCrashedTitle": "Naʻe fehalaaki ʻa e konga ni",
+    "sectionCrashedBody": "Naʻe ʻi ai ha meʻa hala ʻi he konga ni.",
+    "forwarding": "Vili & Feʻau ʻoku fakafou (Forwarding)",
+    "callTextForwardingSection": "Vili & Feʻau ʻoku fakafou",
+    "callTextForwardingTitle": "Vili mo/pe Feʻau ʻoku fakafou",
+    "callTextForwardingDescription": "Fakafou mai e ngaahi vili mo e ngaahi feʻau ki ho telefoni pe imeili kuo fakamoʻoni. ʻOku lava ke fakahaaʻi ʻe he vili/feʻau ʻoku ʻalu ʻi he ʻao ho namba Chatforia.",
+    "enableTextForwarding": "Fakamoʻoni e fakafou feʻau",
+    "forwardTextsToPhone": "Fakafou feʻau ki he telefoni",
+    "forwardTextsToEmail": "Fakafou feʻau ki he imeili",
+    "destinationPhone": "Telefoni taunuʻanga (E.164)",
+    "destinationEmail": "Imeili taunuʻanga",
+    "enableCallForwarding": "Fakamoʻoni e fakafou vili",
+    "destinationPhoneForCalls": "Telefoni taunuʻanga ki he ngaahi vili (E.164)",
+    "aliasBridging": "Fakafou Vili (alias bridging)",
+    "quietHoursOptional": "Ngaahi houa nofo-mālie (siʻi ʻi he fie)",
     "startHour": "Houa kamata (0–23)",
-    "endHour": "Houa ʻosi (0–23)",
-    "reset": "Rīsiti",
+    "endHour": "Houa fakaʻosi (0–23)",
+    "reset": "Foki ki he kamata",
     "saveBtn": "Seivi",
-    "forwardSaved": "Kuo seivi ʻa e ngaahi setingi hūfanga",
-    "forwardSaveFailed": "Hala ʻi he seivi ʻa e setingi",
-    "errE164": "Tā ha telefoni E.164 totonu (hange ko +15551234567).",
-    "errEmail": "Tā ha ʻīmēlifiʻai totonu.",
-    "errSmsDest": "Filifili fakataumuʻa siʻisiʻi taha (telefoni pe ʻīmēlifiʻai).",
-    "errQuietHours": "Kuo pau ke ʻi he va ʻo e 0 mo e 23 ʻa e quiet hours."
+    "forwardSaved": "Kuo seivi e ngaahi setingi fakafou",
+    "forwardSaveFailed": "Naʻe ʻikai seivi e setingi",
+    "errE164": "Tā ha telefoni E.164 totonu (e.g., +15551234567).",
+    "errEmail": "Tā ha imeili totonu.",
+    "errSmsDest": "Filifili taʻe iti ʻe taha taunuʻanga (telefoni pe imeili).",
+    "errQuietHours": "Kuo fiemaʻu ke 0–23 ʻa e ngaahi houa nofo-mālie."
+  },
+
+  "support": {
+    "helpFab": "Tokoni",
+    "openSupportAria": "Fakaha e tokoni",
+    "badge": "Tokoni",
+    "heading": "ʻE anga fēfē ʻemau tokoni atu?",
+    "tabs": {
+      "help": "Siaʻi Tokoni",
+      "contact": "Fetuʻutaki mai"
+    },
+    "searchPlaceholder": "Kumi ʻa e ngaahi ʻatikolo tokoni…",
+    "searchAria": "Kumi tokoni",
+    "searchBtn": "Kumi",
+    "quickTopicsLabel": "Ngaahi kaveinga vave",
+    "quickTopics": {
+      "login": "ʻIkai lava ʻo hū",
+      "billing": "Totongi / pili",
+      "abuse": "Lipooti ʻe he fakatupu faʻingataʻa"
+    },
+    "trySearching": "Fakamaʻalaʻala ke kumi ʻa ‘translate’, ‘backups’, pe ‘privacy’.",
+    "article": "ʻAtikolo",
+    "openArticle": "Fakaha ʻa e ʻatikolo",
+    "contactIntro": "Te mau ʻimeili atu ʻa e tali. Talangofua ʻi he fakamatala ke tokoniʻi ai ʻemau toe fakatātā ʻa e palopalema.",
+    "topicAria": "Filifili ha kaveinga",
+    "messagePlaceholder": "Tā hoʻo feʻau…",
+    "sendBtn": "Fetuʻutaki",
+    "sent": "Kuo ʻave ʻa e feʻau. Te mau tali ʻaki ha ʻimeili.",
+    "sendError": "ʻIkai lava ke ʻave. ʻImeili ʻi support@chatforia.com pē."
   },
 
   "chat": {
-    "selectPrompt": "Filifili ha tohi pe potu feʻau ke kamata ai ʻaki ʻa e talanoa",
+    "selectPrompt": "Filifili ha tohi pe potu talanoa ke kamata e talanoa",
     "newMessages": "Ngaahi feʻau foʻou",
-    "typing": "ʻOku tā {{name}}...",
-    "emptyTitle": "Hō ʻaho feʻau",
-    "emptySubtitle": "ʻE ʻave ha feʻau ke kamata ai ha talanoa.",
-    "startChatButton": "ʻE ʻave ha feʻau"
+    "typing": "ʻOku tā ʻe {{name}}…",
+    "emptyTitle": "Hauʻauʻa ho ngaahi feʻau",
+    "emptySubtitle": "ʻAve ha feʻau ke kamata ha talanoa.",
+    "startChatButton": "ʻAve feʻau"
   },
 
   "topbar": {
-    "newStatus": "Sētasi Foʻou",
-    "logout": "Hū ki tuʻa",
-    "help": "Tokoni"
+    "newStatus": "Sitasí foʻou",
+    "logout": "ʻAu ʻaki (Log Out)",
+    "help": "Tokoni",
+    "createStatusAria": "Fakatupu ha Sitasí foʻou"
   },
 
   "status": {
-    "userNumber": "ʻUesā #{{id}}",
-    "posted": "Kuo tuku ʻa e sētasi",
-    "postFailed": "Hala ʻi he tuku sētasi",
-    "createTitle": "Fakatupu ha sētasi",
-    "modalAriaLabel": "Sētasi foʻou",
-    "captionLabel": "Ko e hā ʻoku ʻi hoʻo loto?",
-    "captionPlaceholder": "Vahevahe ha fakamatala...",
-    "captionAria": "Sētasi feʻau",
-    "audienceLabel": "Kakai mamata",
+    "userNumber": "ʻUōsē #{{id}}",
+    "posted": "Kuo posti ʻa e sitasí",
+    "postFailed": "Naʻe ʻikai lava e posti e sitasí",
+    "createTitle": "Fai ha sitasí",
+    "modalAriaLabel": "Sitasí foʻou",
+    "captionLabel": "Ko e hā ʻoku ke ʻilo ai?",
+    "captionPlaceholder": "Fāna ki ha fakamatala…",
+    "captionAria": "Feʻau ʻa e sitasí",
+    "audienceLabel": "Kau Fanongo",
     "audience": {
-      "public": "Pablikī",
-      "followers": "Followers",
+      "public": "Fakapaʻanga (Public)",
+      "followers": "Kau muimui",
       "contacts": "Ngaahi fetuʻutaki",
-      "mutuals": "Mutuals",
-      "custom": "Kasitōmī..."
+      "mutuals": "Kau muimui fakataha",
+      "custom": "Fakafoʻituitui…"
     },
-    "expiresHoursLabel": "ʻAho ʻosi (houa)",
-    "maxTooltip": "Lahi taha ʻaho ʻe 7",
+    "expiresHoursLabel": "ʻAho/houa ʻe ngalo ai (h)",
+    "maxTooltip": "Lau ʻaupito 7 ʻaho",
     "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "ʻE ʻosi ʻi he:",
-    "chooseRecipients": "Filifili kau maʻu",
+    "maxShort": "lahi",
+    "expiresOn": "ʻE ngalo ʻi he:",
+    "chooseRecipients": "Filifili kau tali",
     "selectContacts": "Filifili ngaahi fetuʻutaki",
-    "attachmentsLabel": "Ngaahi ʻaati",
-    "attachmentsPlaceholder": "Fakaopoopo ʻa e ngaahi ʻimisi/vitio",
-    "filesNote": "Hiki ki he faile ʻe 5. ʻAho ʻe 1 ʻenau moʻoni ʻi he faingataʻa.",
-    "postAria": "Tuku sētasi",
-    "post": "Tuku"
+    "attachmentsLabel": "Ngaahi kōpisi",
+    "attachmentsPlaceholder": "Fakai mālohi ʻi he ngaahi ʻata/vitiō",
+    "filesNote": "Ka ʻe 5 pē ngaahi faile. ʻOku 24h e māvahe ʻi he kamata.",
+    "postAria": "Posti ʻa e sitasí",
+    "post": "Posti"
+  },
+
+  "contactList": {
+    "savedContacts": "Ngaahi Fetuʻutaki kuo Seivi",
+    "refreshAria": "Fakahou e fetuʻutaki",
+    "filterPlaceholder": "Filita ʻa e ngaahi fetuʻutaki…",
+    "filterAria": "Filita ʻa e fetuʻutaki kuo seivi",
+    "noContactsFound": "ʻIkai ha fetuʻutaki naʻe maʻu.",
+    "externalContact": "Fetuʻutaki mei tuʻa",
+    "notJoined": "ʻOku ʻikai te ne kau ʻi Chatforia ʻeni.",
+    "couldNotStart": "ʻIkai lava ke kamata ʻa e talanoa. Toe feinga.",
+    "startFailed": "Naʻe ʻikai lava ke kamata ʻa e talanoa. Toe feinga.",
+    "deleted": "Kuo ʻaveʻese ʻa e fetuʻutaki.",
+    "deleteFailed": "Naʻe ʻikai lava e ʻaveʻese. Toe feinga.",
+    "aliasUpdated": "Kuo fakaleleiʻi ʻa e hingoʻi (alias).",
+    "updateAliasFailed": "ʻIkai lava e fakaleleiʻi ʻa e alias. Toe feinga.",
+    "selectContact": "Filifili {{name}}",
+    "alias": "Alias",
+    "startChat": "Kamata ʻa e talanoa",
+    "message": "Feʻau",
+    "delete": "ʻAveʻese",
+    "deleteContactAria": "ʻAveʻese ʻa e fetuʻutaki",
+    "loadFailed": "ʻIkai lava e lō ʻa e fetuʻutaki. Toe feinga.",
+    "loadMore": "Fakaleleiʻi atu (Load more)"
   },
 
   "sidebar": {
-    "randomChat": "Talanoa Tupātuʻa",
-    "callTextForwarding": "Hūfanga Telefoni & Teki",
-    "conversations": "Ngaahi talanoa",
-    "searchPlaceholder": "Kumi ʻi he ngaahi talanoa...",
-    "errorLoading": "Hala ʻi he lōti ʻo e ngaahi talanoa",
-    "empty": "ʻIkai ha ngaahi talanoa.",
+    "randomChat": "Talanoa Fakalataʻha",
+    "callTextForwarding": "Vili & Feʻau fakafou",
+    "conversations": "Ngaahi Talanoa",
+    "searchPlaceholder": "Kumi e ngaahi talanoa…",
+    "errorLoading": "Naʻe ʻikai lava e lō e ngaahi talanoa",
+    "empty": "ʻOku ʻikai ha ngaahi talanoa.",
     "startChat": "Kamata ha talanoa",
     "people": "Kakai",
     "settings": "Setingi",
-    "status": "Sētasi",
-    "forwarding": "Hūfanga Telefoni & Teki",
-    "refresh": "Toe fakafou",
-    "search": "Kumi ʻi he ngaahi talanoa",
-    "loginPrompt": "Saini ki loto ke fakamāu hoʻo setingi.",
-    "login": "Saini ki loto",
-    "register": "Fakatupu ʻekea",
+    "status": "Sitasí",
+    "forwarding": "Vili & Feʻau fakafou",
+    "refresh": "Fakahou",
+    "search": "Kumi e ngaahi talanoa",
+    "loginPrompt": "Hū ʻi he account ke fakaleleiʻi e setingi.",
+    "login": "Hū (Log in)",
+    "register": "Fakatupu account",
     "chatrooms": "Ngaahi potu talanoa",
-    "logout": "Hū ki tuʻa",
+    "logout": "ʻAu ʻaki (Log out)",
     "startChatAlt": "Kamata ha talanoa foʻou"
   },
 
   "premium": {
-    "heading": "Hanga atu ki he Premium",
-    "description": "Fakaava e ngaahi koloa mālohi & toʻo ʻa e fefiofi.",
-    "upgrade": "ʻApukuleiti",
-    "upgradeAria": "ʻApukuleiti ki he Chatforia Premium"
+    "heading": "Faka-Premium",
+    "description": "Tatala e ngaahi meʻa mālohi & ʻikai ha ads.",
+    "cta": "ʻUpgrade",
+    "upgrade": "ʻUpgrade",
+    "upgradeAria": "ʻUpgrade ki Chatforia Premium"
   },
 
   "auth": {
-    "headline": "Fakapapauʻi, feʻau fakafalala ʻoku liliu ʻi he taimi tatau",
-    "description": "Fakamāu e lea (E2E), liliu ʻe he ʻAI, feʻau mole, mo e telefoni leo/vitio.",
+    "headline": "Talanoa malu ʻi mālamalama ʻi māmani kotoa mo e liliu vave",
+    "description": "Fakapākitai tafaʻaki-kotoa (E2E), liliu ʻe he AI, feʻau ngalo, pea mo e vili/visiō.",
     "feature": {
-      "encryption": "E2E (fakapapauʻi) ʻi he kamata",
-      "translation": "Liliu lea ʻotometiki 100+ lea",
-      "disappearing": "Feʻau mole & read receipts",
-      "privacy": "Pālaivāsī-ʻa e ʻuluaki. Hō data, hoʻo pule.",
-      "translate": "Liliu taimi tatau",
-      "disappear": "Feʻau mole",
-      "privacyAlt": "Fakakaukau pālaivāsī"
+      "encryption": "E2E fakapākitai ʻi he kamata",
+      "translation": "Liliu ʻotometiki ki he lea ʻe 100+",
+      "disappearing": "Feʻau ngalo & ngaahi tohi-talituli",
+      "privacy": "Fakapīvate ʻi he kamata. Hoʻo ngaahi data, hoʻo pule.",
+      "translate": "Liliu taimi-moni",
+      "disappear": "Feʻau ngalo",
+      "privacyAlt": "Fakakaukau fakapīvate ʻi he fokotuʻutuʻu"
     },
-    "welcomeBack": "Mālō ʻetau toe fetaulaki",
-    "continueGoogle": "Fakakātoa mo Google",
-    "continueApple": "Fakakātoa mo Apple",
-    "username": "Hingoa ʻUesā",
-    "password": "Paasiweti",
-    "keepSignedIn": "Tauhi au ke saini ʻi loto",
-    "forgotPassword": "Naʻa ke ngalo e paasiweti?",
-    "loginButton": "Saini ki loto",
-    "createAccount": "Fakatupu ha ʻakauni",
-    "freeAccountButton": "Fakatupu ʻakauni Free",
+    "hero": {
+      "line1": "Malu, fakalakalaka",
+      "beforeEm": "talanoa mo",
+      "em": "liliu vave",
+      "sub": "E2E, liliu ʻe he AI, feʻau ngalo, mo e vili/visiō."
+    },
+    "feat": {
+      "encryption": "E2E fakapākitai ʻi he kamata",
+      "translate": "Liliu ʻotometiki 100+ lea",
+      "disappear": "Feʻau ngalo & tohi-talituli",
+      "privacy": "Fakapīvate-ʻuluaki. Ho data, ho pule."
+    },
+    "welcomeBack": "Fēfē hake toe tali mai",
+    "continueGoogle": "Hū ʻaki Google",
+    "continueApple": "Hū ʻaki Apple",
+    "username": "Hingoa ʻetū (Username)",
+    "password": "ʻUpu-fufu",
+    "keepSignedIn": "Taukei ke kei hū ʻi loto",
+    "forgotPassword": "Fepaki ʻi he ʻupu-fufu?",
+    "loginButton": "Log In",
+    "createAccount": "Fakatupu ha account",
+    "freeAccountButton": "Fakatupu account ʻofaʻanga",
     "newHere": "Foʻou heni?",
-    "getApp": "Maʻu e ʻepi",
-    "desktopTip": "ʻI he desktop? Sikalini ʻaki hoʻo telefoni ke maʻu e ʻepi.",
-    "goHome": "Foki ki home",
-    "home": "Home",
+    "getApp": "Maʻu e app",
+    "desktopTip": "ʻOku ke ʻi he desktop? Sini ʻa e QR ʻi ho telefoni ke maʻu ʻae app.",
+    "scanHelper": "ʻOku ke ʻi he desktop? Sini ʻa e telefoni ke maʻu ʻae app.",
+    "goHome": "Foki ki ʻapi",
+    "home": "ʻApi",
     "headlineAlt": {
-      "main": "Ko e feʻau fakapapauʻi ʻoku",
-      "highlight": "lea hoʻo lea"
+      "main": "Ko e messenger malu ʻe",
+      "highlight": "lea ho lea"
     },
-    "subhead": "Feʻau fakapapauʻi, fakapālaivāsī, mo e liliu taimi tatau — fakavavevave.",
-    "status": "Sio ki he sētasi",
-    "upgrade": "ʻApukuleiti he taimi ni",
-    "tip": "ʻE lava ke ke ngāueʻaki ʻi he meʻangaue kotoa — pe download ʻa e ʻepi ke maʻu e ʻao lelei taha.",
-    "openDownload": "Fakaava e peesi download",
-    "qrAlt": "Kōti ʻQR ki Chatforia",
-    "scanHint": "Sikalini ke download ʻa e ʻepi pe fakaava ʻi hoʻo browser.",
+    "subhead": "Talanoa fakapīvate, fakapākitai, pea kuo liliu — ʻi he taimi tatau.",
+    "status": "Sio ki he sitasí",
+    "upgrade": "ʻUpgrade he taimi ni",
+    "tip": "Fakatātā: Ngaoheʻi e account taha ʻi he web mo e mobile. ʻOku sīnuku ho ngaahi feʻau.",
+    "openDownload": "Fakaha ʻae peesi download",
+    "qrAlt": "QR code ki Chatforia",
+    "scanHint": "Sini ke download e app pe ke ʻopen ʻi ho browser.",
     "iosAria": "Download ʻi he App Store",
-    "iosTitle": "App Store",
-    "iosBadgeAlt": "ʻImisi App Store",
+    "iosTitle": "Download ʻi he App Store",
+    "iosBadgeAlt": "App Store badge",
     "androidAria": "Maʻu ʻi he Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "ʻImisi Google Play",
-    "login": "Saini",
-    "signup": "Sainiapiki",
-    "email": "ʻĪmēlifiʻai"
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Imeili"
   },
 
   "footer": {
-    "plans": "Faiʻanga & Fakatata",
-    "about": "Fakaikiiki fekauʻaki mo Chatforia",
-    "careers": "Ngāue",
-    "press": "Palesi",
-    "advertise": "Fai fefakatauʻaki",
+    "plans": "Fokotuʻutuʻu & Totongi",
+    "about": "Fakaikiiki ki Chatforia",
+    "careers": "Ngaahi ngāue",
+    "press": "Press",
+    "advertise": "Fai ʻa e ngaahi fakahā (Advertise)",
     "contact": "Fetuʻutaki mai",
-    "help": "Sentā ʻe Tokoni",
-    "status": "Peesi Sētasi",
+    "help": "Siaʻi Tokoni",
+    "status": "Peji Sitasí",
     "iosDownload": "iOS / App Store",
-    "androidDownload": "ʻEnitolōiti / Google Play",
-    "privacy": "Polosi Pālaivāsī",
-    "terms": "Ngaahi Tuʻutuʻuni ʻo e Ngaue",
-    "cookies": "Setingi kīkī",
-    "doNotSell": "ʻOu pehe: ʻOu kei ʻikai ke fakatau hoku meʻa ʻatamai",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Fakapīvate",
+    "terms": "Ngaahi Tuʻutuʻuni",
+    "cookies": "Ngaahi cookie Setingi",
+    "doNotSell": "ʻOu te ʻikai hoko ʻeku meʻa ʻinifōmeseini ke fakatau atu",
     "language": "Lea",
-    "contactShort": "Fetuʻutaki"
+    "contactShort": "Fetuʻutaki",
+
+    "aria": "Futa (Footer)",
+    "homeAria": "ʻApi ʻo Chatforia",
+    "section": {
+      "company": "KAMUPANI",
+      "support": "TOKONI",
+      "downloads": "DOWNLOADS",
+      "legal": "TULAFONO"
+    },
+    "links": {
+      "plans-pricing": "Fokotuʻutuʻu & Totongi",
+      "about-chatforia": "Fakaikiiki ki Chatforia",
+      "careers": "Ngaahi ngāue",
+      "press": "Press",
+      "advertise": "Fakahā",
+      "getting-started": "Kamata",
+      "help-center": "Siaʻi Tokoni",
+      "contact-us": "Fetuʻutaki mai",
+      "status-page": "Peji Sitasí",
+      "ios-app-store": "iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Polokisi Fakapīvate",
+      "terms-of-service": "Ngaahi Tuʻutuʻuni ʻo e Ngaahi Ngaue",
+      "do-not-sell-my-info": "ʻOu te ʻikai fakatau hoku ʻinifō",
+      "cookie-settings": "Cookie Setingi"
+    },
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "ʻOku ʻi ai ha peteni ʻoku koleʻi",
+    "backToTop": "↑ Foki ki ʻolunga"
   },
 
   "home": {
-    "title": "Home",
-    "header": "Hō ngaahi feʻau",
-    "subheader": "ʻAve ha feʻau ke kamata ai ha talanoa.",
-    "sendButton": "ʻAve ha feʻau",
-    "gifPicker": "Fakaava e filifili GIF",
+    "title": "ʻApi",
+    "header": "Ho ngaahi feʻau",
+    "subheader": "ʻAve ha feʻau ke kamata e talanoa.",
+    "sendButton": "ʻAve feʻau",
+    "gifPicker": "Fakaha e faiʻgif",
     "emoji": "Emoji",
-    "upload": "ʻApulōti ʻimisi pe vitio",
+    "upload": "Tōkia ha ʻata pe vitiō",
     "inputPlaceholder": "Tā ha feʻau…",
-    "inputLabel": "Komiposā feʻau",
+    "inputLabel": "Fai feʻau",
     "sendTooltip": "ʻAve",
     "sendTooltipEmpty": "Tā ha feʻau ke ʻave",
     "send": "ʻAve",
-    "welcomeMessage": "Mālō e meʻa mai ki Chatforia",
-    "getStarted": "Kamata"
+    "welcomeMessage": "Mālō e tauhi ki Chatforia",
+    "getStarted": "Kamata he taimi ni"
   },
 
   "press": {
-    "title": "Palesi",
-    "contact": "Ki he fakamatala ki he ongoongo, fetuʻutaki mai ʻaki <a href=\"mailto:press@chatforia.com\">press@chatforia.com</a>.",
-    "contactText": "Ki he fakamatala ki he ongoongo, fetuʻutaki mai ʻaki press@chatforia.com.",
+    "title": "Press",
+    "contactLine": "Kau ki he media, fetuʻutaki mai ki",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateText": "Ko Chatforia ko ha feʻau fakapapauʻi mo e liliu taimi tatau (E2E), ke faingofua ʻa e talanoa ʻi māmani kotoa ʻi ha founga fakapālaivāsī.",
-    "assetsTitle": "Ngaahi koloa ʻo e fākaʻilo",
-    "assetsText": "Logo, ngaahi screenshot, mo e ʻimisi ʻo e koloa (kuo ʻalu mai)."
+    "boilerplateBody": "ʻOku ʻikai ʻolunga ʻa e taumuʻa ʻo Chatforia ke fai e talanoa kalaimataʻi. ʻOku E2E e feʻau, pea ʻoku liliu taimi-moni e lea ʻe 100+. ʻOku lava ke ke fili ʻae feʻau ngalo, tohi-talituli ʻoku fili, pea sīnuku ʻi he ngaahi device. ʻOku maʻu ʻi he iOS, Android, mo e web.",
+    "assetsTitle": "Ngaahi ʻaseti ʻo e faiva",
+    "assetsSubtitle": "Logo, screenshots, mo e ngaahi ʻimisi ʻo e ngāue.",
+    "downloadCta": "Download ʻa e kiti media",
+    "downloadTitle": "Maʻu e app",
+    "scanTip": "ʻOku ke ʻi he desktop? Sini ʻaki ho telefoni ke maʻu e app.",
+    "qrAria": "Fakaha e saiti ʻo Chatforia",
+    "appStore": "Download ʻi he App Store",
+    "googlePlay": "Maʻu ʻi he Google Play"
   },
 
   "careers": {
-    "title": "Ngāue",
-    "intro": "Ko kimautolu ko ha timi siʻisiʻi ʻoku langa ha feʻau fakapālaivāsī ʻa māmani. Kapau ʻoku ke tokanga ki he fakapapauʻi, ʻakisesipiliti, mo e UX fakafiefia, kei fanongo mai.",
-    "openRoles": "<b>Ngāue ʻoku ʻāu ai:</b> ʻEnisinia (Full-stack, iOS, ʻEnitolōiti), Polokalama, Tokoni.",
-    "apply": "<b>Fēfē hono ʻapulai:</b> ʻĪmēlifiʻai hoʻo CV/ngaahi link ki <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "ʻĪmēlifiʻai hoʻo CV"
+    "title": "Ngaahi ngāue",
+    "intro": "ʻOku mau kulupu siʻisiʻi ʻoku langa ha messenger fakapīvate, fakalakalaka. Kapau ʻoku ke tokanga ki he fakapākitai, faingofua, mo e UX ʻofa, ke tau fanongo mai.",
+    "openRoles": "<b>Ngāue ʻoku ʻasi:</b> ʻInitinia (Full‑stack, iOS, Android), Fokotuʻutuʻu, Tokoni.",
+    "apply": "<b>ʻOku ʻae founga ʻo e kole:</b> ʻImeili hoʻo CV/ngaahi link ki <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
+    "emailCta": "ʻImeili hoʻo CV"
   },
 
   "about": {
-    "title": "Fekauʻaki mo Chatforia",
-    "description": "Ko Chatforia ko ha feʻau fakalea lahi mo e E2E, liliu taimi tatau, mo e leo/vitio. ʻEtau taumuʻa: ke fakaʻafeʻafe ʻa e kakai—fakapālaivāsī, malu, pea ʻi he ngaahi lea kehekehe.",
-    "valuesTitle": "Meʻa ʻoku mau tā 👇",
+    "title": "Fakaikiiki ki Chatforia",
+    "description": "Ko Chatforia ko ha messenger malu, lahi-ʻalea ʻa e lea, mo e E2E, liliu vave, pea mo e vili/visiō. ʻEmau taumuʻa: tokoniʻi e kakai ke feʻiloaki — malu, fakapīvate, pea ʻi he ngaahi lea kehekehe.",
+    "valuesTitle": "ʻOku tau tālanga ʻi he hā",
     "values": {
-      "privacy": "<b>Pālaivāsī-ʻa e ʻuluaki:</b> E2E ʻi he kamata.",
-      "access": "<b>ʻAkesesi ki he kotoa:</b> Liliu ʻotometiki 100+ lea.",
-      "control": "<b>Puleʻanga:</b> Feʻau mole & read receipts ʻoku fili."
+      "privacy": "<bold>Fakapīvate-ʻuluaki:</bold> E2E ʻi he kamata.",
+      "access": "<bold>Fetuʻutaki ki he kotoa:</bold> Liliu ʻotometiki e lea ʻe 100+.",
+      "control": "<bold>Pule:</bold> ʻOku fili ʻa e feʻau ngalo & tohi-talituli.",
+      "privacy_aria": "Fakapīvate-ʻuluaki: E2E ʻi he kamata.",
+      "access_aria": "Fetuʻutaki ki he kotoa: Liliu ʻe 100+ lea.",
+      "control_aria": "Pule: ʻOku fili ʻa e feʻau ngalo mo e tohi-talituli."
     },
-    "howTitle": "Fēfē ʻeni ʻo ngāue",
-    "howDescription": "ʻOku fakapapauʻi e feʻau ʻi hoʻo meʻangaue kimuʻa pea ʻe ʻalu. ʻOku fokotuʻu ʻa e liliu, paʻakepi, mo e sīnisi ke fakasiʻisiʻi ʻa e meʻa ʻe mamata ki ai ʻemau siva."
+    "howTitle": "Fēfē ʻae ngāue ʻa Chatforia",
+    "howDescription": "ʻOku fakapākitai e feʻau ʻi ho device kimuʻa pea ʻalu atu. ʻOku fokotuʻutuʻu e liliu, pākiupuu, mo e sīnuku ke fakasiʻisiʻi ʻa e meʻa ʻe lava ʻe ʻetau server ke sio ki ai."
   },
 
   "advertise": {
-    "title": "Fefakatauʻaki mo Chatforia",
-    "description": "Aʻusia ha kau ngaue feʻau ʻoku nau fetongi ʻi he ngaahi tūʻunga lelei. ʻOku mau ʻoatu ha banā ki he ʻao lahi, fefakaukauʻi (sponsorship), mo e ngaahi hāusi. ʻIkai ha fefiofi ki he kau Premium.",
+    "title": "Fakahā ʻi Chatforia",
+    "description": "Aʻahi ki he kau ngāue talanoa ʻoku fili ʻi he ngaahi ʻasi ʻoku moʻoni. ʻOku ʻi ai ʻa e banner, sponso, mo e ngaahi promo ʻi he ʻapi. ʻOku ʻikai sio ʻa e kau Premium ki he ads.",
     "adsense": {
-      "withPubId": "ʻOku mau ngāueʻaki he taimi ni <b>Google AdSense</b>. Kapau te ke fie‐taimi ʻaki Google Ads, ngāueʻaki ʻa e publisher ID <code>{{pubId}}</code> pea kole ha managed placement ʻi he ngaahi ʻiuniti ʻi lalo. ʻOku lava fefakaukauʻi tuʻutuʻuni — ngāueʻaki e fōmū.",
-      "noPubId": "ʻOku mau ngāueʻaki he taimi ni <b>Google AdSense</b>. ʻOku lava fefakaukauʻi tuʻutuʻuni — ngāueʻaki e fōmū ʻi lalo."
+      "withPubId": "ʻOku mau ngāueʻaki he taimi ni ʻa e <b>Google AdSense</b>. Kapau ʻoku ke fie taumuʻa ʻaki ʻa e Google Ads, ngāueʻaki e publisher ID <code>{{pubId}}</code> pea kole ha managed placement ʻi he ngaahi ʻi lalo. ʻOku ʻi ai foki ʻa e sponso tautea — ngāueʻaki ʻa e fōmū.",
+      "noPubId": "ʻOku mau ngāueʻaki he taimi ni ʻa e <b>Google AdSense</b>. ʻOku ʻi ai foki ʻa e sponso tautea — ngāueʻaki ʻa e fōmū ʻi lalo."
     },
-    "inventoryHeader": "ʻInitōventōri & Sipeki",
+    "inventoryHeader": "ʻInivenitolí & Fakamatalá",
     "placement": {
-      "displayBadge": "Disipulē",
-      "acceptedSizes": "Ngaahi siʻisiʻi ʻoku tali",
-      "adsenseSlot": "ʻAsense slot:"
+      "displayBadge": "Fakahā",
+      "acceptedSizes": "Lahi ʻoku tali",
+      "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "ʻIkai ha ngaahi tūʻunga kuo fokotuʻu. Tānaki ʻenau ngaahi meʻa ʻi he ads/placements.js.",
-    "whyHeader": "Ko e hā ʻoku ke fili ai ʻetau ʻapi?",
+    "noPlacements": "ʻOku ʻikai teuteu ha ʻasi. Fakatokangaʻi ʻi ads/placements.js.",
+    "whyHeader": "Ko e hā ʻa Chatforia?",
     "why": {
-      "highSession": "Laʻā ngaahi sēsini & taimi nofo ʻi he UI ʻo e talanoa",
-      "brandSafe": "ʻŌfunga malu; fakafoki fakamaʻa ʻo e faingataʻa",
-      "sponsoredMoments": "Ngaahi taimi sponisā (hange ko “Start a Chat” modal)",
-      "deals": "Fefakaukauʻi tuʻutuʻuni pe ʻaki AdSense/Google Ads"
+      "highSession": "ʻAho toenga ʻe maʻu ʻi he UI ʻo e talanoa",
+      "brandSafe": "ʻOku malu ʻa e faʻahinga; ʻikai toe haga ʻe lahi ʻae fakahā",
+      "sponsoredMoments": "Ngaahi taimi sponso (e.g., “Kamata ha Talanoa”) ʻoku ʻi ai",
+      "deals": "Fekauʻaki tautea pe ʻaki ʻa e AdSense/Google Ads"
     },
     "contactHeader": "Fetuʻutaki",
     "form": {
-      "submittedMsg": "Mālō! ʻOku ʻalu ʻa hoʻo kole. Te mau tali vave atu.",
-      "missingRequired": "Kātaki ʻo fakakakato e hingoa, ʻīmēili, mo e popoaki.",
-      "successToast": "Mālō! Te mau fetuʻutaki atu ʻi he vave taha.",
-      "mailtoInfo": "ʻOku fakaava hoʻo ʻīmēili kliaeni ke ʻave ʻa e kole…",
+      "submittedMsg": "Mālō! Kuo ʻosi ʻave ho kole. Te mau tali ange ʻikai toe taimi lahi.",
+      "missingRequired": "Fakamolemole, fakakikihi e hingoa, imeili, mo e feʻau.",
+      "successToast": "Mālō! Te mau fetuʻutaki ange ʻi he vave.",
+      "mailtoInfo": "ʻOku fakahū hoʻo ʻimeili klienti ke ʻave e kole…",
       "nameLabel": "Hingoa",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": "ʻĪmēlifiʻai",
+      "emailLabel": "Imeili",
       "emailPlaceholder": "you@company.com",
-      "companyLabel": "Komipani",
+      "companyLabel": "Kamupani",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Pajatī ʻe māhina (faliki)",
+      "budgetLabel": "Pajeti ʻaho kotoa (siʻi ʻi he fie)",
       "budgetPlaceholder": "$5,000",
-      "messageLabel": "Talanoa mai ki he kampēini",
-      "messagePlaceholder": "Tāgeti, ʻaho, KPI, ngaahi fili ʻi he tūʻunga…",
-      "sendCta": "ʻAve e kole"
+      "messageLabel": "Fakamatalaʻi ho kampēini",
+      "messagePlaceholder": "Taumuʻa, ʻaho, KPI, ngaahi fehuʻi ʻi he ʻasi…",
+      "sendCta": "ʻAve ʻa e kole"
     },
     "legal": {
-      "disclaimerStart": "ʻI he ʻave ʻa e fōmū, ʻoku ke tali ki heʻemau",
+      "disclaimerStart": "ʻI he ʻave atu, ʻoku ke tali ʻemau",
       "terms": "Ngaahi Tuʻutuʻuni",
-      "and": "mo e",
-      "privacy": "Polosi Pālaivāsī"
+      "and": "mo",
+      "privacy": "Polokisi Fakapīvate"
     }
   },
 
   "upgrade": {
-    "title": "ʻApukuleiti",
-    "subtitle": "Filifili ʻa e plani ʻoku feʻunga: toʻo e fefiofi ʻaki ʻa e Plus, pe maʻu e ngaahi koloa kotoa ʻaki ʻa e Premium.",
+    "title": "ʻUpgrade",
+    "subtitle": "Filifili ʻa e plani totonu: ʻikai ha ads ʻaki ʻa e Plus, pe maʻu ʻa e mālohi kotoa ʻaki ʻa e Premium.",
+    "perMonth": "mo",
+    "perYear": "taʻu",
+    "goPremium": "Faka-Premium",
+    "benefitsLine": "Tatala e meʻa mālohi & ʻikai ha ads.",
+    "ctaText": "ʻUpgrade",
+    "aria": "ʻUpgrade ki Chatforia Premium",
+    "toggle": {
+      "monthly": "ʻOkatopa ʻi he māhina",
+      "annual": "Taʻu (Save 25%)"
+    },
     "scheduleBanner": {
-      "title": "Te u ʻosi ʻa e saksikirisieni",
-      "body": "Te ke toe foki ki he Free ʻi he",
-      "keepPlanCta": "Tauhi ʻa e Plus",
-      "manageBillingCta": "Fakalele e pili"
+      "title": "Te ke tuku ʻa e sipesi",
+      "body": "Te ke foki ki he Free ʻi",
+      "keepPlanCta": "Tauhi {{plan}}",
+      "manageBillingCta": "Tokangaʻi e pili"
     },
     "billing": {
-      "opening": "Fakaava…",
-      "manage": "Fakalele Pili"
+      "opening": "Fakahū…",
+      "manage": "Tokangaʻi e Pili"
     },
     "checkout": {
-      "redirecting": "Fakavilo atu…"
+      "redirecting": "Fetongi ʻe toe…"
     },
     "auth": {
-      "continue": "Fakakātoa",
-      "createAccount": "Fakatupu ʻakauni",
-      "signIn": "Saini"
+      "continue": "Hū ki he login",
+      "createAccount": "Fakatupu account",
+      "signIn": "Hū ʻi loto"
+    },
+    "cta": {
+      "aria": "Filifili ʻa e plani",
+      "getPlus": "ʻUpgrade ki Plus",
+      "upgradeMonthly": "ʻUpgrade Māhina",
+      "upgradeAnnual": "ʻUpgrade Taʻu"
     },
     "plans": {
       "free": {
         "title": "Free",
         "price": "$0",
+        "desc": "Kamata talanoa taʻefee.",
         "features": {
           "msg": "Feʻau 1:1 mo e kulupu",
-          "aiBasic": "ʻAI tali maʻamaʻa",
-          "attachments": "Ngaahi ʻaati tuʻutāmaki"
+          "aiBasic": "AI tali faingofua",
+          "attachments": "Ngaahi faile tuʻunga maʻolunga"
         },
-        "ctaCurrent": "Plani ʻoku lolotonga",
-        "ctaUnavailable": "Liliu ki he Free (ʻikai lava)"
+        "ctaCurrent": "Plani ʻoku ʻi ai",
+        "ctaUnavailable": "Fetongi ki Free (ʻikai ʻaupito)",
+        "aria": "Plani Free (ʻoku ʻi ai)"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / māhina",
+        "price": "$4.99 / mo",
+        "desc": "Tuʻunga ʻoku ʻofa taha ʻikai ads.",
         "features": {
-          "noAds": "Toʻo kotoa ʻa e fefiofi",
+          "noAds": "Fakaʻosi ʻa e ads kotoa",
           "msg": "Feʻau 1:1 mo e kulupu",
-          "attachments": "Ngaahi ʻaati lahi ange",
-          "aiBasic": "ʻAI tali maʻamaʻa"
+          "attachments": "Faile lahi ange",
+          "aiBasic": "AI tali faingofua"
         },
-        "badge": "Kau lahi",
-        "cta": "Hā ʻi he ʻikai fefiofi"
+        "badge": "Popular",
+        "cta": "ʻOu ʻofa ʻikai ads",
+        "aria": "ʻUpgrade ki Plus"
       },
       "premiumMonthly": {
         "title": "Premium (Māhina)",
-        "price": "$24.99 / māhina",
+        "price": "$24.99 / mo",
+        "desc": "Meʻa kotoa, ringtones, mo e AI mālohi.",
         "features": {
-          "plusAll": "Kotoa ʻi he Plus",
-          "ringtones": "Ringtoni & onioni feʻau kasitōmā",
-          "powerAi": "ʻAI mālohi",
-          "priorityUpdates": "ʻApudēiti ʻe ʻuluaki",
-          "backups": "Paʻakepi & sīnisi meʻangaue"
+          "plusAll": "Meʻa kotoa ʻi he Plus",
+          "ringtones": "Ringtone & ongo feʻau fakafoʻituitui",
+          "powerAi": "AI mālohi",
+          "priorityUpdates": "ʻUpaʻite ʻi muʻa",
+          "backups": "Pākiupuu & sīnuku ʻo e device"
         },
-        "badge": "Melino taha",
-        "cta": "ʻApukuleiti (Māhina)"
+        "badge": "Best value",
+        "cta": "ʻUpgrade (Māhina)",
+        "aria": "ʻUpgrade ki Premium Māhina"
       },
       "premiumAnnual": {
         "title": "Premium (Taʻu)",
-        "price": "$225 / taʻu",
+        "price": "$225 / year",
+        "desc": "Fakahaofi lahi ʻi he totongi taʻu.",
         "features": {
-          "allPremium": "Kotoa ʻi he Premium",
-          "annualBilling": "Totongi taʻu",
-          "save25": "Seivi ~25% ʻi he māhina",
-          "sameFeatures": "Ngaahi koloa tatau mo e Māhina"
+          "allPremium": "Meʻa kotoa ʻi he Premium",
+          "annualBilling": "Totongi ʻi he taʻu",
+          "save25": "Fakahaofi ~25% ki he māhina",
+          "sameFeatures": "Meʻa tatau mo e Māhina"
         },
-        "badge": "Seivi 25%",
-        "cta": "ʻApukuleiti (Taʻu)"
+        "badge": "Save 25%",
+        "cta": "ʻUpgrade (Taʻu)",
+        "aria": "ʻUpgrade ki Premium Taʻu",
+        "disclaimer": "Totongi ʻi muʻa. ʻE lava ke ke ʻterminate ʻi ha taimi. ʻIkai ha totongi hūhā."
       }
+    },
+    "marketing": {
+      "freeTitle": "Free",
+      "freeDesc": "Kamata talanoa taʻefee.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Tuʻunga ʻofa taha ʻikai ads.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Meʻa kotoa, ringtones, mo e AI mālohi.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Fakahaofi lahi ʻi he taʻu.",
+      "annualDisclaimer": "Totongi ʻi muʻa. ʻE lava ke ke ʻterminate ʻi ha taimi. ʻIkai ha totongi hūhā."
     }
   },
 
   "gettingStarted": {
-    "title": "Kamata Vave",
-    "subtitle": "Foʻou ki Chatforia? ʻOku ʻasi heni ʻa e ngaahi konga mahuʻinga ke ke ngāue vave ai.",
+    "title": "Kamata",
+    "subtitle": "Foʻou ki Chatforia? ʻOku ʻi heni ha fakatata vave ke tokoniʻi koe ʻi he miniti siʻisiʻi.",
     "alert": {
-      "text": "Te ne lahi ʻa e taumuʻa ni heʻomau tuku ʻa e ngaahi koloa foʻou. Kapau ʻoku ʻi ai ha meʻa ʻoku mole, tali mai ʻaki",
-      "contactLink": "Fetuʻutaki mai"
+      "text": "Te u fakatupulaki ʻa e taʻiala ni ʻi heʻetau ʻave mai e ngaahi meʻa foʻou. Kapau ʻoku hala ha meʻa, talanoa mai ʻaki e",
+      "contactLink": "Fetuʻutaki Mai"
     },
     "section1": {
-      "title": "1) Fakatupu hoʻo ʻakauni",
-      "signup": "Sainiapiki",
+      "title": "1) Fakatupu ho account",
+      "signup": "Saini ʻaki",
       "or": "pe",
-      "login": "saini",
-      "loginText": "mo hoʻo ʻakauni lolotonga.",
-      "prefsStart": "Fokotuʻu hoʻo",
-      "prefsLink": "ngaahi fili",
-      "prefsRest": "(lea, read receipts, sīmē)."
+      "login": "hū ʻi loto",
+      "loginText": "ʻaki ho account ʻoku ʻi ai kiai.",
+      "prefsStart": "Fokotuʻutuʻu ho",
+      "prefsLink": "meʻa fili",
+      "prefsRest": "(lea, tohi-talituli, ʻisimā)."
     },
     "section2": {
       "title": "2) Kamata talanoa",
-      "item1": "Fakatupu ha DM pe Kulupu pea ʻave ʻaho muʻomuʻa.",
-      "item2": "Ngaueʻaki ʻa e liliu taimi tatau ke talanoa ʻi he 100+ lea.",
-      "item3": "Sio ki he feʻau mole mo e read receipts ʻi he Profaili → Pālaivāsī."
+      "item1": "Fakatupu ha DM pe Kulupu pea ʻave ho feʻau ʻuluaki.",
+      "item2": "Ngaueʻaki e liliu taimi-moni ke talanoa ʻi he lea kehekehe ʻe 100+.",
+      "item3": "Fakafaingofua e feʻau ngalo mo e tohi-talituli ʻi Pōfili → Fakapīvate."
     },
     "section3": {
-      "title": "3) ʻAlu ki Muʻa",
-      "item1Part1": "Fakalele hoʻo plani ʻi he",
-      "upgradeLink": "ʻApukuleiti",
-      "item1Part2": "peesi (Plus = ʻikai fefiofi, Premium = koloa kotoa).",
-      "item2Part1": "Fetongi meʻangaue toe pea fokotuʻu paʻakepi ʻi he",
+      "title": "3) ʻEke foʻou ange",
+      "item1Part1": "Tokangaʻi ho plani ʻi he peesi",
+      "upgradeLink": "ʻUpgrade",
+      "item1Part2": "(Plus = ʻikai ads, Premium = meʻa kotoa).",
+      "item2Part1": "Faifaiʻi e ngaahi device kehe pea seti pākiupuu ʻi",
       "settingsLink": "Setingi"
     },
     "cta": {
       "seePlans": "Sio ki he ngaahi plani",
-      "openSettings": "Fakaava setingi"
+      "openSettings": "Fakaha e setingi"
     }
   },
 
   "helpCenter": {
-    "title": "Sentā ʻe Tokoni",
+    "title": "Siaʻi Tokoni",
     "faq": {
       "account": {
-        "q": "Fēfē ke fakatupu pe toe ʻomai ʻeku ʻakauni?",
-        "a": "Download ʻa e ʻepi pe ngāue ʻi he uepesite, lomiʻi “Fakatupu ʻakauni”, fakapapauʻi ʻīmēili/telefoni. Ki he toe ʻomai, ngāueʻaki “Naʻa ku ngalo e paasiweti”."
+        "q": "Fēfē ke u fakatupu pe toe maʻu hoku account?",
+        "a": "Download ʻa e app pe ngaueʻaki e web, lomiʻi ‘Fakatupu account’, fakamoʻoni ʻaki ho imeili/telefoni. Ke toe maʻu, fili ‘ʻUluaki ʻupu-fufu’ (Forgot password)."
       },
       "privacy": {
-        "q": "ʻOku fakapapauʻi (E2E) ʻa e ngaahi feʻau?",
-        "a": "ʻIo. ʻOku fakapapauʻi ʻi he E2E ʻa e feʻau mo e telefoni ʻi he kamata. Ko koe mo e maʻu pe te mou lava ʻo lau."
+        "q": "ʻOku E2E ʻa e ngaahi feʻau?",
+        "a": "ʻIo. ʻOku E2E ʻa e ngaahi feʻau mo e vili ʻi he kamata. Ko koe mo e tali pē ʻe lava ke ʻiloʻi."
       },
       "translate": {
-        "q": "Fēfē ʻa e liliu taimi tatau?",
-        "a": "Fakaʻaongaʻi “Liliu ʻotometiki” ʻi Setingi → Appearance & Language. ʻOku fai ʻi he meʻangaue kapau ʻoku maʻu, pe ʻaki ha API malu ʻoku siʻisiʻi e metadata."
+        "q": "Fēfē e liliu taimi-moni ʻoku ngāue?",
+        "a": "Fakamāhina ‘Liliu ʻotometiki’ ʻi Setingi → ʻAʻololoa & Lea. ʻOku fai ʻi he device ʻi he feʻunga, pe ʻaki ha API malu ʻoku ʻikai ha metadata lahi."
       },
       "contact": {
-        "q": "Fetuʻutaki mo e tokoni",
-        "a": "Kōlomi mai ki support@chatforia.com. Tanaki mai ha screenshot mo e vesini ʻo e ʻepi."
+        "q": "Fetuʻutaki tokoni",
+        "a": "Fetuʻutaki mai ki support@chatforia.com. ʻAʻahi mai mo e ngaahi screenshot mo ho version ʻa e app."
       }
     }
   },
 
   "contact": {
     "title": "Fetuʻutaki Mai",
-    "successMsg": "Mālō — te mau tali ʻi he ʻīmēili.",
-    "errorSend": "ʻIkai lava. Kātaki ʻo ʻīmēili ki support@chatforia.com.",
+    "successMsg": "Mālō — te mā tali ʻaki ha ʻimeili.",
+    "errorSend": "ʻIkai lava ke ʻave. Kataki ʻimeili ʻi support@chatforia.com.",
     "form": {
       "nameLabel": "Hingoa",
-      "emailLabel": "ʻĪmēlifiʻai",
-      "messageLabel": "Popoaki",
+      "emailLabel": "Imeili",
+      "messageLabel": "Feʻau",
       "sendCta": "ʻAve"
     }
   },
 
   "privacyPolicy": {
-    "title": "Polosi Pālaivāsī",
-    "lastUpdated": "Fakamuimuitaha ʻaupdate:",
+    "title": "Polokisi Fakapīvate",
+    "lastUpdated": "Fakahou fakamuimui:",
     "intro": {
-      "body": "ʻOku fakamatala ʻe he Polosi Pālaivāsī ni pe fēfē ʻe Chatforia (“ʻemau”, “kimautolu”) ʻiloʻi, ngāueʻaki, mo vahevahe e fakamatala ʻi he taimi ʻoku ke ngāueʻaki ai ʻa ʻetau ngaahi ʻepi mo ngāue. ʻOku mau fokotuʻu ʻa Chatforia ke siʻisiʻi e fakamatala ʻe lava ke maʻu ʻe kimautolu."
+      "body": "Ko e Polokisi Fakapīvate ni ʻoku fakamatalaʻi pe fēfē ʻe Chatforia (‘mau’, ‘mau’) ʻiloʻi, ngaueʻaki, pea feʻau e fakamatala ʻi he taimi ʻoku ke ngaueʻaki ai ʻemau ngaahi polokalama mo ngāue. ʻOku mau fokotuʻutuʻu ʻae Chatforia ke fakasiʻisiʻi ʻa e fakamatala ʻe lava ʻa e ʻetau ʻilo ki ai."
     },
     "infoWeCollect": {
-      "title": "Fakamatala ʻoku mau maʻu",
-      "account": "Fakamatala ʻakauni (hange ko ʻīmēili/telefoni) ke fakatupu mo maluʻi hoʻo ʻakauni.",
-      "encrypted": "Fakamatala fakapapauʻi (feʻau/telefoni) ʻoku E2E; ʻikai te mau lava ʻo lau.",
-      "diagnostics": "ʻUinití/ngaahi lō ʻaki hange ko e ʻakapulu hala, meʻangaue, pe ʻanalaisisi siʻisiʻi ke fakaleleiʻi ʻa e ngāue."
+      "title": "Fakamatala ʻoku mau ʻiloʻi",
+      "account": "Fakamatala account (e.g., imeili/telefoni) ke fakatupu mo maluʻi ho account.",
+      "encrypted": "Fakamatala kuo pākitai (feʻau/vili) ʻoku E2E; ʻikai te mau lava ʻilo ki ai.",
+      "diagnostics": "Ngaahi ngāue fakasaienisi/hoko hifo hange ko e crash logs, faiga device, pe ngaahi ʻanalitikí siʻisiʻi ke fakaleleiʻi e ngāue."
     },
     "howWeUse": {
-      "title": "Fēfē ʻetau ngāueʻaki ʻaki",
-      "provide": "Fakahoko mo maluʻi ʻa e ngāue (saini, ʻiloʻilo spam/abuse).",
-      "improve": "Fakaleleiʻi ʻa e ngaahi koloa (liliu lelei ange, fieʻonopōni).",
-      "legal": "Fekauʻaki mo e lao."
+      "title": "Fēfē ʻemau ngaueʻaki",
+      "provide": "Fakafofongaʻi mo maluʻi ʻa e ngāue (auth, ʻiloʻi ʻae spam/abuse).",
+      "improve": "Fakaleleiʻi e ngaahi meʻa (liliu lelei ange, falalaʻanga).",
+      "legal": "Tokangaʻi e ngaahi fatongia fakalegalé."
     },
     "sharing": {
       "title": "Vahevahe",
-      "body": "ʻOku ʻikai te mau fakatau ʻa e fakamatala fakaʻatamai. Te mau lava ke vahevahe siʻisiʻi mo e kautaha ngāue (hange ko ʻanalaisisi, pusi) ʻi he ngaahi koneite fakamaʻamaʻa."
+      "body": "ʻOku ʻikai ke mau fakatau ʻa e fakamatala faka-personal. ʻE lava ke mau tuku atu ha fakamatala siʻisiʻi ki he kau ngāue (e.g., push, ʻanalitikí) ʻi he ngaahi konekaliti malu."
     },
     "rights": {
-      "title": "Hō totonu",
-      "body": "Fakaʻilongaʻi ki hoʻo feituʻu (hange ko GDPR/UK GDPR/CPRA), te ke lava ʻo kole ha aohi, fakaleleiʻi, toʻo, pe ʻoua ʻe ngāueʻaki ha ngaahi founga. Fetuʻutaki: privacy@chatforia.com."
+      "title": "Hauhā ʻo e totonu",
+      "body": "ʻOku fuoloa ho totonu ʻi he funga ʻāina (e.g., GDPR/UK GDPR/CPRA) — ʻe lava ke ke kole ha ʻilo, fakaleleiʻi, ʻaveʻese, pe ke ʻoua ʻe ngāueʻaki ha ngaahi ngaue. Fetuʻutaki: privacy@chatforia.com."
     },
     "retention": {
-      "title": "Tauhi & sikīuriti",
-      "body": "ʻOku mau tauhi pē ʻa e meʻa ʻoku fie maʻu ke fakahoko ai ʻa e ngāue pea fakaʻaongaʻi ʻa e sikīuriti ʻa e pisinisi. ʻIkai te mau lava ke tatala ʻa e E2E."
+      "title": "Tauhi & Maluʻi",
+      "body": "ʻOku tau tauhi pē ha meʻa ʻoku fiemaʻu ke ngaue ʻa e ngāue, pea fakahoko e maluʻi ʻoku ngāue ʻi he ʻinitaneti. ʻOku ʻikai te mau lava fakahokohoko e E2E."
     },
     "children": {
       "title": "Fānau",
-      "body": "ʻOku ʻikai fakaʻata ʻa Chatforia ki he tokotaha ʻi lalo ʻi he taʻu 13 (pe hangē ko e lao ʻa ho feituʻu)."
+      "body": "ʻOku ʻikai ke fakahū ʻe Chatforia ki he fanau ʻi lalo ʻi he 13 (pe ʻoku fie ʻe ho fonua)."
     },
     "changes": {
       "title": "Liliu",
-      "body": "Te mau tuku heni ʻa e ngaahi ʻaupdate pea liliu ʻa e ʻaho “Fakamuimuitaha ʻaupdate”."
+      "body": "Te mau posti heni ʻa e ngaahi fakahou pea liliu ʻae ‘Last updated’."
     },
     "contact": {
       "title": "Fetuʻutaki",
-      "body": "privacy@chatforia.com • [Hingoa faka lao ʻo e Kōmpani], [Tuʻasila]"
+      "body": "privacy@chatforia.com • [Hingoa fakalegalé ʻo e kamupani], [Tuʻasila]"
     }
   },
 
   "terms": {
-    "title": "Ngaahi Tuʻutuʻuni ʻo e Ngaue",
-    "lastUpdated": "Fakamuimuitaha ʻaupdate:",
+    "title": "Ngaahi Tuʻutuʻuni ʻo e Ngaahi Ngaue",
+    "lastUpdated": "Fakahou fakamuimui:",
     "intro": {
-      "body": "ʻI he ngāueʻaki ʻa Chatforia ʻoku ke tali ki he ngaahi Tuʻutuʻuni ko ʻeni. Kapau ʻoku ʻikai ke ke tali, ʻoua ʻe ngāueʻaki e ngāue."
+      "body": "ʻI he ngaueʻaki ʻe koe ʻa e Chatforia, ʻoku ke tali ʻa e ngaahi Tuʻutuʻuni ni. Kapau ʻoku ʻikai ke ke tali, ʻoua ʻe ngaueʻaki e ngāue."
     },
     "accounts": {
       "title": "Ngaahi ʻakauni",
-      "itemAccurateInfo": "Foaki ha fakamatala totonu pea tauhi malu ʻae kī.",
-      "itemResponsibility": "ʻOku ke fatongia ki he meʻa kotoa ʻoku hoko ʻi hoʻo ʻakauni."
+      "itemAccurateInfo": "Fakahī fakamoʻoni ʻa e fakamatala mo tauhi maluʻi ʻa e ngaahi ʻūfunga.",
+      "itemResponsibility": "ʻOku ke tokanga ki he ngāue ʻi ho account."
     },
     "acceptableUse": {
-      "title": "Ngaue totonu",
-      "itemNoAbuse": "ʻOuau ʻa e meʻa ʻi lalo ʻi he lao, fakamamahi, pe fakalao; ʻoua ʻe spam pe ngāue ʻotometiki.",
-      "itemSuspend": "Te mau lava ʻo taʻe ʻai/taʻofi ʻi he hoko kovi."
+      "title": "Ngaue ʻulungaanga lelei",
+      "itemNoAbuse": "ʻOuā e meʻa ʻi he tulafono, fakalilifu, pe ʻiloʻi ʻa e totonu; ʻouā e spam pe meʻa ʻotometiki fakavevesi.",
+      "itemSuspend": "Te mau lava ʻo ʻauha/taʻe-fakamoʻoni ʻi he fakalumaluma."
     },
     "yourContent": {
-      "title": "Hō konga",
-      "body": "ʻOku kei ʻi ai hoʻo totonu ki hoʻo konga. ʻOku ke foaki mai ʻa e totonu ʻoku fie maʻu ke fakahoko ai ʻa e ngāue (hange ko e fakafolau, tauhi, liliu)."
+      "title": "Hau ʻa ho contení",
+      "body": "ʻOku kei ʻi ai haʻo totonu ki ho contení. ʻOku ke ʻai ha totonu ke ʻetau ngaue ʻaki ke fakatotoloʻi ʻa e ngāue (e.g., liliu, teu, ʻaʻu)."
     },
     "disclaimer": {
-      "title": "Fakamālie & fatongia",
-      "body": "ʻOku ʻomai ʻa e ngāue “hange ko ia pe” ʻikai ha fakamoʻoni. ʻI he tuʻunga ʻe lava, ʻikai koeʻuhi ko e kovi lahi pe ngaahi pākanga ʻe maua ʻe Chatforia."
+      "title": "Fakaha ʻikai fatongia & ngaahi palopalema",
+      "body": "ʻOku ʻomai ʻa e ngāue ‘pei pe ai’ ʻikai mo ha palopalema. ʻI he ʻaupito taha ʻo e tulafono, ʻoku ʻikai te Chatforia toe fatongia ki ha melino pe palopalema hange ko e toʻo-ʻuhinga."
     },
     "changes": {
       "title": "Liliu",
-      "body": "Te mau lava ʻo ʻaupdate ʻa e ngaahi tuʻutuʻuni; ʻOku faingofua ke fakahoko ʻe koe ʻa e ngāue ʻi mui ʻi he liliu ʻoku ʻuhinga ia ʻoku ke tali."
+      "body": "Te mau fakahou ʻa e tuʻutuʻuni; kapau ʻoku ke hokohoko atu ʻi he ngaueʻaki ʻi he fakahou, ʻoku ke tali."
     },
     "contact": {
       "title": "Fetuʻutaki",
-      "body": "support@chatforia.com • [Hingoa faka lao ʻo e Kōmpani], [Tuʻasila]"
+      "body": "support@chatforia.com • [Hingoa fakalegalé ʻo e kamupani], [Tuʻasila]"
     }
   },
 
   "doNotSell": {
-    "title": "ʻOu pehē: ʻOu ʻikai ke fakatau pe vahevahe hoku fakamatala fakaʻatamai",
-    "body": "ʻOku ʻikai ʻe Chatforia fakatau e fakamatala fakaʻatamai. Ka ʻoku lava ʻe he kau nofo Kālaiʻfōnia ʻo fai ha kole ʻi lalo ʻi he CPRA ʻaki e pātani ʻi lalo.",
+    "title": "ʻOu te ʻikai fakatau pe vahe ʻeku ʻinifō ʻoku faka-personal",
+    "body": "ʻOku ʻikai fakatau ʻe Chatforia ha ʻinifō faka-personal. Ka ʻi he kakai Kalefōnia, ʻe lava pe ke mou fai ha kole ʻi he CPRA ʻaki e pātini heni.",
     "cta": "Fai ha kole"
   },
 
   "cookies": {
-    "title": "Setingi Kīkī",
-    "body": "ʻOku fakaʻaongaʻi ʻe Chatforia ha kīkī siʻisiʻi pē (hange ko sesiōnē, sikīuriti). ʻIkai ha kīkī ʻa e fefiofi ʻo e tokotaha ke tokotaha. Fai e setingi kīkī ʻi hoʻo browser."
+    "title": "Ngaahi Cookie Setingi",
+    "body": "ʻOku ngaueʻaki ʻe Chatforia ha ngaahi cookie siʻisiʻi (e.g., sesoni, maluʻi). ʻOku ʻikai ngaueʻaki ʻa e cookie ʻa e ads ʻi tuʻapapā. Tokangaʻi e cookie ʻi he setingi ʻa ho browser."
   },
 
   "phoneNumberManager": {
-    "unableToLoadStatus": "ʻIkai lava ʻo lōti e sētasi ʻo e namba telefoni.",
-    "lock": "Loko",
-    "noNumberAssigned": "ʻIkai ha namba kuo fakatuʻutuʻuni. Fili ʻaki ha ʻeaʻea kooti ke kamata ai hono tekineti.",
-    "pickNumber": "Fili ha namba",
+    "unableToLoadStatus": "ʻIkai lava ke lō e sitasí ʻo e namba telefoni.",
+    "lock": "Lokí",
+    "noNumberAssigned": "ʻIkai ha namba kuo tuʻuaki. Filifili ʻaki ʻa e ʻeria kodi ke kamata ʻaki e feʻau.",
+    "pickNumber": "Filifili ha namba",
     "phoneNumber": "Namba telefoni"
   },
 
@@ -585,186 +738,249 @@
     "title": "Kamata ha talanoa",
     "quickPicker": "Filifili vave",
     "to": "Ki",
-    "nameOrUsername": "Tā ha hingoa, hingoa-uesā",
-    "nameUsernamePhoneEmail": "Tā ha hingoa, hingoa-uesā, telefoni, pe ʻīmēlifiʻai…",
-    "startWithSelected": "Kamata talanoa mo kinautolu kuo fili",
-    "searchByUsernameOrPhone": "Kumi ʻaki e hingoa-uesā pe telefoni",
+    "nameOrUsername": "Tā ha hingoa, username",
+    "nameUsernamePhoneEmail": "Tā ha hingoa, username, telefoni, pe imeili…",
+    "startWithSelected": "Kamata mo e kau fili",
+    "searchByUsernameOrPhone": "Kumi ʻaki e username pe telefoni",
     "search": "Kumi",
-    "searchPrompt": "Tā ha hingoa-uesā pe telefoni pea lomiʻi Kumi.",
-    "pickFromContacts": "Pe fili mei he ngaahi fetuʻutaki",
+    "searchPrompt": "Tā ha username pe telefoni pea lomiʻi Kumi.",
+    "pickFromContacts": "Pe fili mei he fetuʻutaki",
     "addContact": "Tānaki ha Fetuʻutaki",
-    "show": "Fakahā",
+    "show": "Fakaha",
     "add": "Tānaki",
-    "close": "Klouosi",
+    "close": "Tāpuni",
     "selectedCount": "{{count}} kuo fili",
-    "pickAtLeastOne": "Fili ki he tokotaha siʻisiʻi taha.",
-    "saveContactsHint": "ʻE lava ke maʻu ʻa e telefoni/ʻīmēili ʻosi pē ʻi he taimi te ke seivi ai ʻenau fetuʻutaki.",
-    "failedBulkStart": "Hala ʻi he kamata talanoa mo e kau kuo fili.",
-    "noResults": "ʻIkai ha ola"
+    "pickAtLeastOne": "Filifili ʻe taha ʻaupito ʻa ia te ke talanoa ki ai.",
+    "saveContactsHint": "Ko e telefoni/imeili te ne maʻu ʻi heʻetau seivi ʻi he fetuʻutaki.",
+    "failedBulkStart": "ʻIkai lava ke kamata mo e kau fili kotoa.",
+    "noResults": "ʻIkai ha ola",
+    "mode": "Founga",
+    "group": "Kulupu",
+    "broadcast": "Fakaha kotoa",
+    "groupNameOptional": "Hingoa kulupu (siʻi ʻi he fie)",
+    "firstMessageOptional": "Feʻau ʻuluaki (siʻi ʻi he fie ka lelei)",
+    "createGroup": "Fakatupu kulupu",
+    "sendBroadcast": "ʻAve fakaha kotoa"
   },
 
   "themes": {
     "amoled": "Amoled",
     "aurora": "Aurora",
     "neon": "Neon",
-    "sunset": "Saniseti",
-    "solarized": "Sōlālaisi",
-    "velvet": "Veliveti"
+    "sunset": "Hūʻeiki ʻaho (Sunset)",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
   },
 
   "sounds": {
-    "freeNotice": "ʻOku ke ʻi he Free — ʻoku hā ʻa e ngaahi tonu premium ka ʻoku loka. ʻApukuleiti ke maʻu kotoa.",
-    "preview": "Pulevisio",
-    "resetToDefaults": "Rīsiti ki he ʻuluaki",
-    "notificationSounds": "Onioni Notifikesini",
-    "messageTone": "Onioni feʻau",
-    "default": "ʻUluaki",
-    "vibrate": "Vaivireiti",
-    "dreamer": "Drīmā",
-    "notify": "Notifaʻi",
-    "pop": "Popi",
-    "pulsatingSound": "Palsētini",
-    "textMessage": "Tekisini",
-    "xylophone": "Sailofōni",
-    "classic": "Kilāsiki",
-    "urgency": "ʻAvaʻava",
-    "bells": "Pelu",
-    "chimes": "Saimi",
-    "digitalPhone": "Tisilolo fonua",
+    "freeNotice": "ʻOku ke ʻi he Free — ʻoku fakahā ʻa e ngaahi tone premium ka ʻoku loka. ʻUpgrade ke tatala kotoa.",
+    "preview": "Sio kimuʻa",
+    "resetToDefaults": "Foki ki he tuʻunga kamata",
+    "notificationSounds": "Ongo fakaʻilonga",
+    "messageTone": "Ongo feʻau",
+    "default": "Tuʻunga kamata",
+    "vibrate": "Vivaileiti",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "pulsatingSound": "Ongo Fakapāluseiti",
+    "textMessage": "Feʻau Telefoni",
+    "xylophone": "Xylophone",
+    "classic": "Kalasiki",
+    "urgency": "Faingataʻa",
+    "bells": "Bells",
+    "chimes": "Chimes",
+    "digitalPhone": "Telefoni Tisitala",
     "melodic": "Melōtiki",
-    "organNotes": "ʻOkani Nōti",
-    "soundReality": "Sāuni Riali",
-    "street": "Siteliti",
-    "universfield": "Iunivasiﬁli"
+    "organNotes": "Organ Notes",
+    "soundReality": "Sound Reality",
+    "street": "Street",
+    "universfield": "Universfield"
   },
 
   "premiumGuard": {
-    "requiresPremium": "ʻOku fie maʻu ha plani Premium ki he koloa ni."
+    "requiresPremium": "ʻOku fiemaʻu ha plani Premium ki he fīcha ni."
   },
 
   "aiSettings": {
-    "title": "Setingi ʻAI",
-    "controlIntro": "Fakahoko e liliu lea, tali poto, mo e ForiaBot ʻotometiki.",
-    "save": "Seivi e Setingi ʻAI",
-    "autoTranslateIncoming": "Liliu ʻotometiki e feʻau ʻoku haʻu",
-    "showOriginalAlongside": "Fakaʻaliʻali e tohiui ʻi ha ʻao mo e liliu",
-    "enableSmartReplies": "Fakaʻata e tali poto",
-    "smartRepliesHint": "ʻAve ʻa e ngaahi feʻau fakamuimui (fakamā) ki he ʻAI ke fakahoko ha tali vave.",
-    "maskProfanity": "Masiki e ngaahi lea taʻefakafonua ʻi he tali ʻAI",
-    "maskProfanityHint": "Kapau ʻoku ʻi ai, ʻe masiki ʻe he ʻAI ʻa e ngaahi lea kuo fakaʻilongaʻi",
+    "title": "AI Setingi",
+    "controlIntro": "Tokangaʻi ʻa e liliu, tali vave ʻe he AI, mo e ForiaBot ʻakau tali ʻotometiki.",
+    "save": "Seivi e AI Setingi",
+    "autoTranslateIncoming": "Liliu ʻotometiki e feʻau ʻoku haʻu mai",
+    "showOriginalAlongside": "Fakaha ʻa e fakamatala tukufakaholo ʻi he taha mo e liliu",
+    "enableSmartReplies": "Fakamāhina e Tali Vave",
+    "smartRepliesHint": "ʻAve ʻa e ngaahi feʻau fakamuimui (kuo fakamā) ki he AI ke fakahoko ha tali vave.",
+    "maskProfanity": "Fufulu e kupu ʻikai lelei ʻi he ngaahi lēsoni a e AI",
+    "maskProfanityHint": "Kapau ʻoku ʻi ai, te u fufulu e ngaahi kupu lea ʻoku fakahā ʻe he AI",
     "foriaBot": "ForiaBot ʻOtometiki",
-    "enableAutoReply": "Fakaʻata e tali ʻotometiki ʻi hoku pisi",
-    "autoReplyMode": "Mouʻi tali ʻotometiki",
-    "cooldownSeconds": "Kuʻulautauni (sekoni)",
-    "off": "Motuʻa",
-    "on": "ʻOngo",
-    "signature": "Saini",
+    "enableAutoReply": "Fai ha tali ʻotometiki ʻi he taimi ʻoku busy au",
+    "autoReplyMode": "Founga tali ʻotometiki",
+    "cooldownSeconds": "Taimi malolo (sekoni)",
+    "off": "Tāmate",
+    "on": "Ngāue",
+    "signature": "Sainiti",
     "autoReply": "Tali ʻotometiki",
-    "activeUntilOptional": "ʻAkitivi ʻo aʻu ki (faliki)",
-    "saved": "Kuo seivi ʻa e ngaahi fili ʻAI",
-    "saveFailed": "Hala ʻi he seivi ʻa e setingi ʻAI",
-    "translateOff": "Motuʻa",
-    "translateTagged": "Naʻeʻo @translated pe kuo fakahā",
-    "translateAll": "Liliu e feʻau kotoa ʻoku haʻu",
-    "modeDm": "DM pē 1:1",
-    "modeMention": "Naʻeʻo ʻeku @menisini pē",
-    "modeAll": "Feʻau kotoa ʻoku haʻu"
+    "activeUntilOptional": "ʻOku ngāue ʻoʻo (siʻi ʻi he fie)",
+    "saved": "Kuo seivi ʻa e ngaahi fili AI",
+    "saveFailed": "Naʻe ʻikai lava e seivi ʻa e AI setingi",
+    "translateOff": "Tāmate",
+    "translateTagged": "Naʻe ʻikai kae ʻi he @translated pe tagiʻi",
+    "translateAll": "Liliu e feʻau kotoa ʻoku haʻu mai",
+    "modeDm": "1:1 pē",
+    "modeMention": "Naʻe ʻikai kae ʻi he taimi ʻoku @mention au",
+    "modeAll": "Feʻau kotoa ʻoku haʻu mai"
   },
 
   "accessibilitySettings": {
-    "title": "ʻAkesesipiliti & ʻAlaati",
-    "accessibility": "ʻAkesesipiliti",
-    "accessibilityDesc": "Ngaahi fili ke faingofua ai ʻa e Chatforia ʻikai oange ki he onioni.",
-    "interfaceFontSize": "Safu ʻi he ʻinitāfesi",
-    "interfaceFontSizeHelp": "Kamata ʻi he fuofua. Lahiʻi kapau ʻoku ke fie lahi ange ʻi he ʻakisesipiliti.",
-    "sm": "siʻi",
-    "md": "loloto",
+    "title": "Faingofua & Ngaahi Fakatokanga",
+    "accessibility": "Faingofua",
+    "accessibilityDesc": "Ngaahi fili ke fakafaingofua ʻaki ʻa e Chatforia ʻikai falala ʻi he ongo.",
+    "interfaceFontSize": "Lahi ʻo e ngaahi lea ʻi he interface",
+    "interfaceFontSizeHelp": "ʻOku kamata ʻi he lahi maʻolunga. Tokoni ke fakalahi kapau ʻoku ke saiʻia ʻi he lea lahi ʻi he setingi faingofua.",
+    "sm": "siʻisiʻi",
+    "md": "falahi",
     "lg": "lahi",
-    "xl": "lahi lahi",
-    "notifications": "Notifi",
-    "notificationsDesc": "Ngaahi ʻalaati visua ki he feʻau & telefoni\nFakaʻali banā mo e title blink ke ʻoua ʻe mole ha gaue.",
-    "vibrateOnNew": "Vaivireiti ʻi he feʻau foʻou (kapau ʻoku tokoni)\nFakaʻaho e vaivireiti ʻi he notifi.",
-    "flashOnCall": "Falesi e sikulīni ʻi he telefoni ʻoku haʻu\nPaka mālohi siʻisiʻi ʻi he taimi ʻoku tangi ai ha telefoni.",
-    "liveCaptions": "Kepisini taimuʻi (telefoni)",
-    "captionFontSize": "Safu ʻo e kepisini",
-    "captionBackground": "Tuʻunga ʻo e ʻamuʻamu",
-    "light": "maama",
+    "xl": "lahi-ʻaupito",
+    "notifications": "Ngaahi fakatokanga",
+    "notificationsDesc": "Ngaahi fakaʻilonga ʻi he fakataha feʻau & vili\nFakaha e ngaahi pepa mo e tefito, ʻoua naʻa mole e ngāue.",
+    "vibrateOnNew": "Vivaileiti ʻi he feʻau foʻou (kapau ʻoku totonu)\nFakatupu ha vivaileiti ʻi he device ʻi he ngaahi fakatokanga.",
+    "flashOnCall": "Fakapoʻuliʻi ʻi he vili ʻoku haʻu mai\nFolahia ʻe ʻeiki ha iho ʻi he taimi ʻoku tangi ai e vili.",
+    "liveCaptions": "ʻUepi fakamatala (vili)",
+    "captionFontSize": "Lahi ʻo e fakamatala",
+    "captionBackground": "Tafaʻaki ʻo e fakamatala",
+    "light": "māmā",
     "dark": "pouli",
-    "transparent": "tulua",
-    "voiceNotes": "Voisi nōti",
-    "autoTranscribeVoiceNotes": "Liliu ʻotometiki e voice notes\nFakaopoopo ha transkripsini ki he ʻaudio ʻoku ke maʻu.",
-    "changesSavedInstantly": "ʻOku seivi vave ʻa e liliu.",
-    "loadFailed": "Hala ʻi he lōti ʻo e setingi",
-    "visualAlerts": "Ngaahi ʻalaati visua ki he feʻau & telefoni",
-    "visualAlertsDesc": "Fakaʻali banā mo e title blink ke ʻoua ʻe mole ha gaue.",
-    "vibrateOnNewShort": "Vaivireiti ʻi he feʻau foʻou (kapau ʻoku tokoni)",
-    "vibrateOnNewDesc": "Fakaʻaho e vaivireiti ʻi he notifi.",
-    "flashOnCallShort": "Falesi e sikulīni ʻi he telefoni ʻoku haʻu",
-    "flashOnCallDesc": "Paka mālohi siʻisiʻi ʻi he taimi ʻoku tangi ai ha telefoni."
+    "transparent": "ʻasi-ʻata",
+    "voiceNotes": "Ngaahi lekooti leo",
+    "autoTranscribeVoiceNotes": "Liliu ʻotometiki ʻae lekooti leo\nFakaopoopo ha transkripi ki he ngaahi sio-ongo ʻoku ke maʻu.",
+    "changesSavedInstantly": "ʻOku seivi vave pe e liliu.",
+    "loadFailed": "Naʻe ʻikai lava e lō ʻa e setingi",
+    "visualAlerts": "Ngaahi fakaʻilonga ʻi he vaʻa fika ki he feʻau & vili",
+    "visualAlertsDesc": "Fakaha e ngaahi pepa mo e taituhi blink ʻoua naʻa mole e ngāue.",
+    "vibrateOnNewShort": "Vivaileiti ʻi he feʻau foʻou",
+    "vibrateOnNewDesc": "Fakatupu e vivaileiti ʻi he ngaahi fakatokanga.",
+    "flashOnCallShort": "Fakahila e ʻolunga ʻi he vili ʻoku haʻu mai",
+    "flashOnCallDesc": "Folahia ʻe ʻeiki ha ʻā ʻi he taimi ʻoku tangi ai e vili."
   },
 
   "privacySection": {
-    "strictE2EE": "Fakapapauʻi E2E mālohi",
-    "ciphertextOnlyNote": "Tauhi ciphertext pē ʻi he siva. Tapuni ʻAI/Liliu mo e mamata ʻi he fakaleleiʻi."
+    "strictE2EE": "E2E fakamaʻopoʻopo",
+    "ciphertextOnlyNote": "Tauhi pē ʻa e ciphertext ʻi he server. ʻOku tamateʻi ʻeni e AI/Translate mo e sivi fakalele."
   },
 
   "linkedDevicesPanel": {
-    "title": "Meʻangaue kuo feʻunga",
-    "noneFound": "ʻIkai ha meʻangaue kuo feʻunga.",
-    "refresh": "Toe fakafou"
+    "title": "Ngaahi Device kuo faifaiʻi",
+    "noneFound": "ʻIkai ha device kuo maʻu.",
+    "refresh": "Fakahou"
   },
 
   "help": {
     "title": "Tokoni",
-    "howCanWeHelp": "Fēfē ke mau tokoni?",
-    "helpCenter": "Sentā ʻe Tokoni",
+    "howCanWeHelp": "Fēfē ʻemau tokoni atu?",
+    "helpCenter": "Siaʻi Tokoni",
     "contactUs": "Fetuʻutaki mai",
-    "quickTopics": "Ngaahi konga vave",
-    "searchExamples": "Kumi heni “translate”, “backups”, pe “privacy”.",
-    "cantLogin": "ʻIkai lava ke saini",
+    "quickTopics": "Ngaahi kaveinga vave",
+    "searchExamples": "Kumi ʻaki ‘translate’, ‘backups’, pe ‘privacy’.",
+    "cantLogin": "ʻIkai lava ke hū",
     "paymentsBilling": "Totongi/ pili",
-    "reportAbuse": "Lipe he kovi",
-    "searchHelpArticles": "Kumi ngaahi ʻātikolō tokoni",
+    "reportAbuse": "Lipooti ʻa e fakatupu faʻingataʻa",
+    "searchHelpArticles": "Kumi ʻa e ngaahi ʻatikolo tokoni",
     "search": "Kumi"
   },
 
   "peoplePage": {
     "people": "Kakai",
     "search": "Kumi",
-    "searchPlaceholder": "Kumi ʻaki e ʻaeliasi, hingoa, hingoa-uesā, pe telefoni",
-    "filterSaved": "Fili ʻa e ngaahi fetuʻutaki kuo seivi",
-    "noContactsFound": "ʻIkai ha fetuʻutaki naʻe maʻu",
+    "searchPlaceholder": "Kumi ʻaki e alias, hingoa, username, pe telefoni",
+    "filterSaved": "Filita ʻa e fetuʻutaki kuo seivi",
+    "noContactsFound": "ʻIkai ha fetuʻutaki",
     "quickStart": "Kamata vave",
-    "quickStartDesc": "Ngaahi founga vave ʻe niʻihi ke kamata vave ai.",
-    "importContacts": "ʻĪmipōti hoʻo ngaahi fetuʻutaki",
+    "quickStartDesc": "Ngaahi founga vave ke kamata.",
+    "importContacts": "ʻĪmipōti ʻa e fetuʻutaki",
     "add": "Tānaki",
     "focusSearch": "Fokusi Kumi",
     "import": "ʻĪmipōti",
     "findOrAdd": "Kumi pe tānaki ha taha",
-    "searchByPhoneOrUsername": "Kumi ʻaki e telefoni / hingoa-uesā",
-    "inviteFriends": "Vēke tō muʻa",
-    "inviteDesc": "Vahevahe hoʻo link fakamonū ʻe lava ke talanoa vave.",
-    "getTheApp": "Maʻu e ʻepi",
-    "getTheAppDesc": "Nofo fetongi ʻi he hala ʻaki e Chatforia ki he iOS mo e ʻEnitolōiti.",
+    "searchByPhoneOrUsername": "Kumi ʻaki e telefoni / username",
+    "inviteFriends": "Vakaʻaʻi ʻae ngaahi kāinga",
+    "inviteDesc": "Vahevahe hoʻo link ʻi he ʻinvite ke kamata talanoa vave.",
+    "getTheApp": "Maʻu e app",
+    "getTheAppDesc": "Ke kei ofi ʻi he ʻalu ʻi he Chatforia ki he iOS mo Android.",
     "download": "Download",
-    "syncTip": "Tokoni: ʻOku sīnisi ʻaupito hoʻo ngaahi feʻau ʻi he uepi mo e mobaili."
+    "syncTip": "Fakatātā: ʻOku sīnuku ho ngaahi feʻau ʻi he web mo e mobile."
   },
 
   "randomChat": {
-    "title": "Talanoa Tupātuʻa",
-    "description": "Feʻiloaki mo ha taha foʻou vave. Te mau fetongi koe pea fakaava ha potu talanoa taimi totonu.",
-    "findMatch": "Kumi ha tokotaha feʻunga",
+    "title": "Talanoa Fakalataʻha",
+    "description": "Feʻiloaki vave mo ha taha foʻou. Te mau fevahevaheʻi ʻakimautolu pea ʻopen ha potu talanoa taimi fakataimi.",
+    "findMatch": "Kumi ha tokanga feʻunga",
     "chatWithForia": "Talanoa mo Foria",
     "chatWithForiaBot": "Talanoa mo ForiaBot",
-    "cancel": "Kansolo",
-    "close": "Klouosi",
+    "cancel": "ʻAveʻese",
+    "close": "Tāpuni",
     "searching": "ʻOku kumi…",
-    "noPartner": "ʻIkai ha kaungā talanoa ʻi he taimi ni.",
-    "connectedTo": "Kuo fehokotaki ki {{name}}",
-    "partnerLeft": "Naʻe ʻalu ʻa e kaungā talanoa.",
-    "stopped": "Kuo totonu.",
-    "skip": "Sikipe",
+    "finding": "ʻOku kumi…",
+    "looking": "ʻOku ʻimi ha taha…",
+    "startingForia": "ʻOku kamata ha talanoa mo Foria…",
+    "partnerDisconnected": "Naʻe motu ho hoa talanoa.",
+    "noPartner": "ʻIkai ha hoa ʻi he taimi ni.",
+    "connectedTo": "Kuo fesoʻotaʻi ki {{name}}",
+    "connected": "Kuo fesoʻotaʻi",
+    "idle": "Taʻe ngāue",
+    "partnerLeft": "Naʻe ʻalu ʻa e hoa.",
+    "stopped": "Kuo ʻosi.",
+    "skip": "Hūfanga",
     "save": "Seivi",
-    "saveGuard": "Ko e talanoa tangata-ki-tangata pē ʻoku lava ke seivi"
+    "saveGuard": "Ko e talanoa tangata‑ki‑tangata pē ʻe lava ke seivi",
+    "youAreChattingWith": "ʻOku ke talanoa mo {{name}}",
+    "bot": "BOT",
+    "leave": "ʻOsi ʻalu",
+    "sayHi": "Talofa 👋",
+    "you": "Koe",
+    "typeMessage": "Tā ha feʻau",
+    "send": "ʻAve",
+    "partner": "Hoa",
+    "withForia": "Mo Foria"
+  },
+
+  "brand": {
+    "name": "Chatforia",
+    "foria": "Foria"
+  },
+
+  "header": {
+    "openNav": "Fakaha e menu navigation",
+    "closeNav": "Tāpuni e menu navigation",
+    "homeAria": "ʻApi ʻo Chatforia"
+  },
+
+  "login": {
+    "title": "Fēfē hake toe tali mai",
+    "subtitle": "Hū ʻi ho account Chatforia",
+    "google": "Hū ʻaki Google",
+    "apple": "Hū ʻaki Apple",
+    "googleUnavailable": "ʻIkai maʻu ʻa e Google sign‑in",
+    "appleUnavailable": "ʻIkai maʻu ʻa e Apple sign‑in",
+    "or": "pe",
+    "email": "Imeili",
+    "emailPh": "you@example.com",
+    "usernameLabel": "Username",
+    "usernamePh": "Ho username",
+    "passwordLabel": "ʻUpu‑fufu",
+    "passwordPh": "Ho ʻupu‑fufu",
+    "keepSignedIn": "Keu kei hū ʻi loto",
+    "forgot": "Naʻe tō e ʻupu‑fufu?",
+    "submit": "Log In",
+    "loggingIn": "ʻOku hū…",
+    "newHere": "Foʻou heni? <link>Fakatupu ha account</link>",
+    "ssoUnavailable": "ʻOku ʻikai maʻu he taimi ni ʻa e SSO. Ngaueʻaki ʻe username & password.",
+    "error": {
+      "missing": "Fakakikihi ho ngaahi ʻūfunga.",
+      "invalid": "Hala e username pe password",
+      "denied": "ʻIkai falalaʻi. (Access denied)",
+      "unprocessable": "Kole hala. Siofi ho username/imeili mo e password.",
+      "deviceLimit": "Kuo ʻosi e device ʻi he plani Free. Hū ʻaki ha device kehe pe ʻupgrade ki Premium ke sīnuku lahi ange.",
+      "premiumRequired": "ʻOku fiemaʻu ha plani Premium ki he ngaue ni."
+    }
   }
 }

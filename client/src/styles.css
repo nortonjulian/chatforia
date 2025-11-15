@@ -337,3 +337,22 @@ html, body, #root { height: 100%; }
   border-color: var(--mantine-primary-color-filled);
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--mantine-primary-color-filled) 15%, transparent);
 }
+
+.skip-link {
+  position: absolute;
+  top: -1000px;
+  left: 8px;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  z-index: 1000;           /* above header content */
+}
+.skip-link:focus {
+  top: 8px;               /* slides into view when focused */
+  outline: 2px solid;
+}
+
+
+

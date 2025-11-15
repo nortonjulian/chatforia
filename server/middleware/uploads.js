@@ -49,7 +49,9 @@ function diskStorageFor(destDir) {
   return multer.diskStorage({
     destination: (_req, _file, cb) => cb(null, destDir),
     filename: (_req, file, cb) => {
-      const safeBase = (file.originalname || 'file').replace(/[^\w.\-]+/g, '_').slice(0, 80);
+      const safeBase = (file.originalname || 'file')
+        .replace(/[^\w.\-]+/g, '_')
+        .slice(0, 80);
       cb(null, `${Date.now()}_${Math.random().toString(36).slice(2)}_${safeBase}`);
     },
   });
@@ -63,15 +65,22 @@ function makeFileFilter({ imagesOnly = false } = {}) {
     const mimeOk = ALLOWED.has(ct);
     if (!mimeOk) return cb(new Error('UNSUPPORTED_FILE_TYPE'), false);
 
-    if (DISALLOWED_EXT.has(ext)) return cb(new Error('UNSUPPORTED_FILE_TYPE'), false);
+    // If it claims to be an image, ensure extension matches common image types
+    if (ct.startsWith('image/')) {
+      const allowedImageExts = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
+      if (!allowedImageExts.includes(ext)) {
+        // For images with a bad/unsupported extension (e.g. .svg), use INVALID_IMAGE_EXTENSION
+        return cb(new Error('INVALID_IMAGE_EXTENSION'), false);
+      }
+    }
+
+    // Disallow dangerous extensions in general (e.g. .html with application/pdf, etc.)
+    if (DISALLOWED_EXT.has(ext)) {
+      return cb(new Error('UNSUPPORTED_FILE_TYPE'), false);
+    }
 
     if (imagesOnly && !ct.startsWith('image/')) {
       return cb(new Error('IMAGE_ONLY'), false);
-    }
-
-    // If it claims to be an image, ensure extension matches common image types
-    if (ct.startsWith('image/') && !['.jpg', '.jpeg', '.png', '.webp', '.gif'].includes(ext)) {
-      return cb(new Error('INVALID_IMAGE_EXTENSION'), false);
     }
 
     cb(null, true);
@@ -82,7 +91,12 @@ function makeFileFilter({ imagesOnly = false } = {}) {
 const DEFAULT_MEDIA_MAX = 100 * 1024 * 1024; // 100MB for multi-file endpoints
 const DEFAULT_SINGLE_MAX = 25 * 1024 * 1024; // 25MB for singleUploadMemory
 
-function makeUploader({ kind = 'media', maxFiles = 10, maxBytes = DEFAULT_MEDIA_MAX, imagesOnly = false } = {}) {
+function makeUploader({
+  kind = 'media',
+  maxFiles = 10,
+  maxBytes = DEFAULT_MEDIA_MAX,
+  imagesOnly = false,
+} = {}) {
   const fileFilter = makeFileFilter({ imagesOnly });
 
   // choose per-kind disk destination if using disk
@@ -156,7 +170,16 @@ export function buildSafeName(mime, originalName) {
 }
 
 // Export ready-to-use middlewares
-export const uploadAvatar = makeUploader({ kind: 'avatar', maxFiles: 1, maxBytes: 5 * 1024 * 1024, imagesOnly: true });
-export const uploadMedia  = makeUploader({ kind: 'media',  maxFiles: 10, maxBytes: DEFAULT_MEDIA_MAX });
+export const uploadAvatar = makeUploader({
+  kind: 'avatar',
+  maxFiles: 1,
+  maxBytes: 5 * 1024 * 1024,
+  imagesOnly: true,
+});
+export const uploadMedia  = makeUploader({
+  kind: 'media',
+  maxFiles: 10,
+  maxBytes: DEFAULT_MEDIA_MAX,
+});
 
 export const uploadDirs = { ROOT, AVATARS_DIR, MEDIA_DIR, TARGET };

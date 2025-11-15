@@ -31,7 +31,6 @@ import { chatforiaTheme } from './theme.js';
 import axiosClient, { primeCsrf } from './api/axiosClient';
 
 // a11y + perf helpers
-import SkipToContent from './components/SkipToContent.jsx';
 import A11yAnnouncer from './components/A11yAnnouncer.jsx';
 import { initWebVitals } from './utils/perf/vitals.js';
 
@@ -150,7 +149,6 @@ function Root() {
         <Notifications position="top-right" limit={3} />
 
         {/* a11y helpers mounted once */}
-        <SkipToContent targetId="main-content" />
         <A11yAnnouncer />
 
         {/* IMPORTANT: SocketProvider must wrap UserProvider */}

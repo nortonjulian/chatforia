@@ -3,6 +3,7 @@ import { FOOTER_SECTIONS, SOCIALS, COPYRIGHT_TEXT } from "../../config/footerLin
 import { Group, Text } from "@mantine/core";
 import { Link } from "react-router-dom";
 import LogoGlyph from "@/components/LogoGlyph";
+import { useTranslation } from "react-i18next";
 
 // Compact inline SVGs for icons
 const icons = {
@@ -33,16 +34,20 @@ const icons = {
   ),
 };
 
+// best-effort slug for labels so we can map to i18n keys if config lacks explicit keys
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
 export default function Footer() {
+  const { t } = useTranslation();
   const isInternal = (href) => typeof href === "string" && href.startsWith("/");
 
   return (
     <footer className="cf-footer">
-      <nav className="cf-footer__nav" aria-label="Footer">
+      <nav className="cf-footer__nav" aria-label={t('footer.aria', 'Footer')}>
         {/* Top row: brand + socials */}
         <div className="cf-footer__top">
           <div className="cf-footer__brand">
-            <Link to="/" aria-label="Chatforia home" className="cf-footer__brandlink">
+            <Link to="/" aria-label={t('footer.homeAria', 'Chatforia home')} className="cf-footer__brandlink">
               <Group
                 gap="xs"
                 align="center"
@@ -65,7 +70,7 @@ export default function Footer() {
               const Icon = icons[s.icon];
               if (!Icon) return null;
               return (
-                <a key={s.name} href={s.href} target="_blank" rel="noreferrer" aria-label={s.name}>
+                <a key={s.name} href={s.href} target="_blank" rel="noreferrer" aria-label={t(`footer.social.${slug(s.name)}`, s.name)}>
                   <Icon />
                 </a>
               );
@@ -77,13 +82,13 @@ export default function Footer() {
         <div className="cf-footer__cols">
           {FOOTER_SECTIONS.map((section) => (
             <div className="cf-footer__col" key={section.title}>
-              <h3>{section.title}</h3>
+              <h3>{t(`footer.section.${section.i18nKey || slug(section.title)}`, section.title)}</h3>
               <ul>
                 {section.links.map((link) => (
                   <li key={link.label}>
                     {isInternal(link.href) ? (
                       <Link to={link.href} className="cf-footer__link">
-                        {link.label}
+                        {t(`footer.links.${link.i18nKey || slug(link.label)}`, link.label)}
                       </Link>
                     ) : (
                       <a
@@ -92,7 +97,7 @@ export default function Footer() {
                         target={link.external ? "_blank" : undefined}
                         rel={link.external ? "noreferrer" : undefined}
                       >
-                        {link.label}
+                        {t(`footer.links.${link.i18nKey || slug(link.label)}`, link.label)}
                       </a>
                     )}
                   </li>
@@ -105,12 +110,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="cf-footer__bottom">
           <p>
-            {COPYRIGHT_TEXT}
+            {t('footer.copyright', COPYRIGHT_TEXT)}
             {" · "}
-            <span>Patent pending</span>
+            <span>{t('footer.patentPending', 'Patent pending')}</span>
           </p>
           <a href="#top" className="cf-footer__toplink">
-            ↑ Back to top
+            {t('footer.backToTop', '↑ Back to top')}
           </a>
         </div>
       </nav>

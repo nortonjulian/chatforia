@@ -33,7 +33,8 @@ jest.mock('../utils/thumbnailer.js', () => {
 });
 
 // Now that heavy stuff is mocked, we can bring in the real app.
-import app from '../app.js';
+import { createApp } from '../app.js';
+const app = createApp();
 
 const ENDPOINTS = {
   register: '/auth/register',
@@ -219,14 +220,7 @@ describe('Messages: create + reactions', () => {
     expect(typeof first.url).toBe('string');
     expect(first.url.startsWith('/files?token=')).toBe(true);
 
-    // Optional sanity on thumbnail mock:
-    // Our mock ensureThumb() returns { rel: "thumbs/<relName>" }
-    // That gets stored in uploaded._thumb but we don't directly expose _thumb
-    // in the final shaped attachment (we only expose mapped props).
-    // So we won't assert _thumb unless you choose to expose it later.
-
     // Also check server echoed dimensions & caption from attachmentsMeta
-    // (Your route maps width/height/caption etc into attachment)
     expect(first.width).toBe(320);
     expect(first.height).toBe(240);
     expect(first.caption).toBe('test pic');

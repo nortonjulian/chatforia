@@ -2,12 +2,15 @@
  * @jest-environment node
  */
 import request from 'supertest';
-import app from '../app.js';
+import { createApp } from '../app.js';
+
+const app = createApp();
 
 describe('security headers & CSP', () => {
   test('GET / responds with secure headers', async () => {
     const res = await request(app).get('/').set('Accept', 'text/html');
-    // Helmet basics
+
+    // Helmet / secure headers
     expect(res.headers['x-dns-prefetch-control']).toBe('off');
     expect(res.headers['x-frame-options']).toBe('DENY');
     expect(res.headers['x-content-type-options']).toBe('nosniff');

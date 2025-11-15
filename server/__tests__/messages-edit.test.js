@@ -3,7 +3,8 @@
  */
 import request from 'supertest';
 import prisma from '../utils/prismaClient.js';
-import app from '../app.js';
+import { createApp } from '../app.js';
+const app = createApp();
 
 const EP = {
   register: '/auth/register',

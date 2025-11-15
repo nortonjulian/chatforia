@@ -86,7 +86,6 @@ export const LANGUAGES = [
   { code: 'mi', name: 'Maori' },
   { code: 'mr', name: 'Marathi' },
   { code: 'mni-Mtei', name: 'Meiteilon (Manipuri)' },
-  { code: 'lus', name: 'Mizo' },
   { code: 'mn', name: 'Mongolian' },
   { code: 'zgh', name: 'Moroccan' },
   { code: 'ne', name: 'Nepali' },

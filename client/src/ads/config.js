@@ -3,11 +3,11 @@ export const ADS_CONFIG = {
     default: [
       {
         kind: 'card',
-        titleKey: 'upgrade.goPremium',
+        titleKey: 'premium.heading',
         title: 'Go Premium',
-        bodyKey: 'upgrade.benefitsLine',
+        bodyKey: 'premium.description',
         body: 'Unlock power features & remove ads.',
-        ctaKey: 'upgrade.cta',
+        ctaKey: 'premium.upgrade',
         cta: 'Upgrade',
         href: '/settings/upgrade',
       },
@@ -24,11 +24,11 @@ export const ADS_CONFIG = {
     upgrade: [
       {
         kind: 'card',
-        titleKey: 'upgrade.goPremium',
+        titleKey: 'premium.heading',
         title: 'Premium for power users',
-        bodyKey: 'upgrade.benefitsLine',
+        bodyKey: 'premium.description',
         body: 'Advanced tools, no ads.',
-        ctaKey: 'upgrade.cta',
+        ctaKey: 'premium.upgrade',
         cta: 'Upgrade',
         href: '/settings/upgrade',
       },

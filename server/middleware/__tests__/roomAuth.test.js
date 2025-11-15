@@ -1,6 +1,13 @@
-// ---- Mocks ----
-// Boom: simulate Boom.forbidden() returning an Error with Boom-ish flags
-jest.mock('@hapi/boom', () => {
+import { jest } from '@jest/globals';
+
+// Shared mock objects
+const prismaMock = {
+  participant: {
+    findUnique: jest.fn(),
+  },
+};
+
+const makeBoomMock = () => {
   const forbidden = (msg) => {
     const err = new Error(msg);
     err.isBoom = true;
@@ -12,22 +19,25 @@ jest.mock('@hapi/boom', () => {
     default: { forbidden },
     forbidden,
   };
-});
-
-// Prisma mock (named export { prisma })
-const prismaMock = {
-  participant: {
-    findUnique: jest.fn(),
-  },
 };
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  prisma: prismaMock,
-}));
 
-// Fresh import helper
+// Helper: (re)load roomAuth.js with fresh mocks each time
 const reloadModule = async () => {
   jest.resetModules();
+
+  // Re-register ESM mocks AFTER reset, BEFORE import
+
+  // Mock Boom
+  jest.unstable_mockModule('@hapi/boom', () => makeBoomMock());
+
+  // Mock prisma wrapper used by roomAuth.js:
+  // roomAuth.js has: import { prisma } from '../utils/prismaClient.js';
+  jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    prisma: prismaMock,
+  }));
+
+  // Now import the module under test
   return import('../roomAuth.js');
 };
 
@@ -46,6 +56,7 @@ const makeReqResNext = (overrides = {}) => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  prismaMock.participant.findUnique.mockReset();
 });
 
 describe('getRoomRole()', () => {
@@ -168,8 +179,6 @@ describe('requireRoomAdmin()', () => {
     });
     await mw2(req2, res2, next2);
     expect(next2).toHaveBeenCalledWith();
-    // getRoomRole short-circuits; ensure zero DB lookups if desired
-    // Note: The middleware still calls getRoomRole which early-returns; prisma only called if not ADMIN
     expect(prismaMock.participant.findUnique).not.toHaveBeenCalled();
   });
 
@@ -196,7 +205,9 @@ describe('assertRoomAdminOrThrow()', () => {
     prismaMock.participant.findUnique.mockResolvedValue({ role: 'MODERATOR' });
     const { assertRoomAdminOrThrow } = await reloadModule();
 
-    await expect(assertRoomAdminOrThrow({ id: 9, role: 'USER' }, 55)).resolves.toBeUndefined();
+    await expect(
+      assertRoomAdminOrThrow({ id: 9, role: 'USER' }, 55)
+    ).resolves.toBeUndefined();
   });
 
   test('throws Boom forbidden when role is null', async () => {

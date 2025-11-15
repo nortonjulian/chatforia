@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 // ---- Mocks ----
 const prismaMock = {
   user: {
@@ -6,38 +8,66 @@ const prismaMock = {
   },
 };
 
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
+let bcryptHashMock;
 
-jest.mock('bcrypt', () => ({
-  __esModule: true,
-  default: {
-    hash: jest.fn(),
-  },
-  hash: jest.fn(),
-}));
+// ESM-safe mock setup
+const setupMocks = () => {
+  // Mock prisma client used by the script:
+  // resetPassword.js: import prisma from '../utils/prismaClient.js';
+  jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prismaMock,
+  }));
 
-const { hash } = jest.requireMock('bcrypt');
+  // Mock bcrypt; always return a deterministic hash
+  jest.unstable_mockModule('bcrypt', () => {
+    bcryptHashMock = jest.fn((pw, rounds) =>
+      Promise.resolve(`hashed-${pw}`)
+    );
+    return {
+      __esModule: true,
+      default: {
+        hash: bcryptHashMock,
+      },
+      hash: bcryptHashMock,
+    };
+  });
+};
+
+// Register mocks before any imports
+setupMocks();
 
 // ---- Helpers ----
 const ORIGINAL_ARGV = process.argv.slice();
+
+/**
+ * Re-import the script with a specific argv.
+ * We rely on top-level main() executing on import.
+ */
 const reimportScript = async (argvArray) => {
   jest.resetModules();
-  // Update argv before import so top-level code reads it
+
+  // Restore argv for this run
   process.argv = argvArray;
-  // Clear module cache so the script runs on import each time
-  const path = require.resolve('../resetPassword.js');
-  delete require.cache[path];
+
+  // Re-register mocks after resetModules, before script import
+  setupMocks();
+
+  // Import the script; it runs main() on import
   return import('../resetPassword.js');
 };
 
 describe('scripts/resetPassword.js', () => {
-  let exitSpy, logSpy, errSpy;
+  let exitSpy;
+  let logSpy;
+  let errSpy;
 
   beforeEach(() => {
     jest.clearAllMocks();
+    prismaMock.user.findFirst.mockReset();
+    prismaMock.user.update.mockReset();
+    if (bcryptHashMock) bcryptHashMock.mockClear();
+
     exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
     logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     errSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
@@ -81,8 +111,12 @@ describe('scripts/resetPassword.js', () => {
       select: { id: true, username: true, email: true },
     });
 
-    expect(errSpy).toHaveBeenCalledWith('No user found for:', 'NoUser@example.com');
+    expect(errSpy).toHaveBeenCalledWith(
+      'No user found for:',
+      'NoUser@example.com'
+    );
     expect(exitSpy).toHaveBeenCalledWith(1);
+    expect(prismaMock.user.update).not.toHaveBeenCalled();
   });
 
   test('happy path: updates passwordHash and exits(0)', async () => {
@@ -91,7 +125,7 @@ describe('scripts/resetPassword.js', () => {
       username: 'JTN',
       email: 'jtn@example.com',
     });
-    hash.mockResolvedValueOnce('hashed_pw');
+
     prismaMock.user.update.mockResolvedValueOnce({}); // first update succeeds
 
     await reimportScript([
@@ -101,12 +135,13 @@ describe('scripts/resetPassword.js', () => {
       'SuperSecret123!',
     ]);
 
-    expect(hash).toHaveBeenCalledWith('SuperSecret123!', 10);
+    // bcrypt.hash called with provided password
+    expect(bcryptHashMock).toHaveBeenCalledWith('SuperSecret123!', 10);
 
     // First attempt: write to passwordHash (and null out legacy column)
     expect(prismaMock.user.update).toHaveBeenCalledWith({
       where: { id: 42 },
-      data: { password: null, passwordHash: 'hashed_pw' },
+      data: { password: null, passwordHash: 'hashed-SuperSecret123!' },
     });
 
     // No fallback update when first succeeds
@@ -127,11 +162,12 @@ describe('scripts/resetPassword.js', () => {
       username: 'legacyUser',
       email: 'legacy@example.com',
     });
-    hash.mockResolvedValueOnce('hashed_pw2');
 
     // First update fails (no passwordHash column in old schema)
     prismaMock.user.update
-      .mockRejectedValueOnce(new Error('column "passwordHash" does not exist'))
+      .mockRejectedValueOnce(
+        new Error('column "passwordHash" does not exist')
+      )
       .mockResolvedValueOnce({}); // fallback succeeds
 
     await reimportScript([
@@ -141,16 +177,19 @@ describe('scripts/resetPassword.js', () => {
       'NewerPass!',
     ]);
 
+    // bcrypt.hash called appropriately
+    expect(bcryptHashMock).toHaveBeenCalledWith('NewerPass!', 10);
+
     // First attempt (fails)
     expect(prismaMock.user.update).toHaveBeenNthCalledWith(1, {
       where: { id: 7 },
-      data: { password: null, passwordHash: 'hashed_pw2' },
+      data: { password: null, passwordHash: 'hashed-NewerPass!' },
     });
 
     // Fallback attempt (legacy schema)
     expect(prismaMock.user.update).toHaveBeenNthCalledWith(2, {
       where: { id: 7 },
-      data: { password: 'hashed_pw2' },
+      data: { password: 'hashed-NewerPass!' },
     });
 
     expect(logSpy).toHaveBeenCalledWith(

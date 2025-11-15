@@ -23,6 +23,8 @@ import {
   RefreshCw,
   Search as SearchIcon,
   MessageSquare, // messages/home icon
+  Phone,         // Calls entry point
+  Video,         // Video hub (DirectVideo + Rooms)
 } from 'lucide-react';
 
 import StartChatModal from '@/components/StartChatModal';
@@ -36,7 +38,7 @@ import { PLACEMENTS } from '@/ads/placements';
 
 function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
   const [showStartModal, setShowStartModal] = useState(false);
-  const [initialDraft, setInitialDraft] = useState(null); // ⬅️ NEW: carries { text, files }
+  const [initialDraft, setInitialDraft] = useState(null); // carries { text, files }
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
 
@@ -153,6 +155,34 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
           </Button>
         )}
 
+        {/* Calls entry point: only when logged in */}
+        {currentUser && (
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={<Phone size={16} />}
+            component={Link}
+            to="/dialer" // or "/calls"
+            aria-label={t('sidebar.calls', 'Calls')}
+          >
+            {t('sidebar.calls', 'Calls')}
+          </Button>
+        )}
+
+        {/* Video hub entry: Direct video + Rooms */}
+        {currentUser && (features?.video ?? true) && (
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={<Video size={16} />}
+            component={Link}
+            to="/video" // page with DirectVideo + Rooms tabs
+            aria-label={t('sidebar.video', 'Video')}
+          >
+            {t('sidebar.video', 'Video')}
+          </Button>
+        )}
+
         {/* Forwarding settings: only when logged in */}
         {currentUser && (
           <Button
@@ -225,10 +255,10 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       {showStartModal && currentUser && (
         <StartChatModal
           currentUserId={currentUser?.id}
-          initialDraft={initialDraft}             // ⬅️ pass draft through
+          initialDraft={initialDraft}
           onClose={() => {
             setShowStartModal(false);
-            setInitialDraft(null);                // clear draft on close
+            setInitialDraft(null);
           }}
         />
       )}

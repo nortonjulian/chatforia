@@ -1,3 +1,5 @@
+import { jest } from '@jest/globals';
+
 const prismaMock = {
   messageKey: {
     count: jest.fn(),
@@ -8,15 +10,11 @@ const prismaMock = {
   $disconnect: jest.fn(),
 };
 
-jest.mock('../../utils/prismaClient.js', () => {
-  // Not used in this script, but in case your jest environment auto-loads it somewhere else
-  return { __esModule: true, default: prismaMock, prisma: prismaMock };
-});
-
 // The script imports { PrismaClient } directly from @prisma/client
 jest.mock('@prisma/client', () => {
   class PrismaClient {
     constructor() {
+      // When the script does `new PrismaClient()`, it will get prismaMock
       return prismaMock;
     }
   }
@@ -25,9 +23,7 @@ jest.mock('@prisma/client', () => {
 
 const reimportScript = async () => {
   jest.resetModules();
-  // Clear Node's module cache for this script so top-level main() runs again
-  const path = require.resolve('../migrateEncryptedKeys.js');
-  delete require.cache[path];
+  // In ESM Jest, this re-import will re-run top-level code (main()).
   return import('../migrateEncryptedKeys.js');
 };
 
@@ -64,31 +60,41 @@ describe('migrateEncryptedKeys script', () => {
     await reimportScript();
 
     expect(logSpy).toHaveBeenCalledWith('DB detected: postgres');
-    expect(logSpy).toHaveBeenCalledWith('No legacy encryptedKeys column found. Nothing to migrate.');
+    expect(logSpy).toHaveBeenCalledWith(
+      'No legacy encryptedKeys column found. Nothing to migrate.'
+    );
     expect(exitSpy).toHaveBeenCalledWith(0);
     expect(prismaMock.$disconnect).toHaveBeenCalledTimes(1);
   });
 
   test('SQLite: legacy column missing → logs and exit(0)', async () => {
     process.env.DATABASE_URL = 'file:./dev.sqlite';
-    prismaMock.$queryRawUnsafe.mockRejectedValueOnce(new Error('no such column: encryptedKeys'));
+    prismaMock.$queryRawUnsafe.mockRejectedValueOnce(
+      new Error('no such column: encryptedKeys')
+    );
 
     await reimportScript();
 
     expect(logSpy).toHaveBeenCalledWith('DB detected: sqlite');
-    expect(logSpy).toHaveBeenCalledWith('No legacy encryptedKeys column found. Nothing to migrate.');
+    expect(logSpy).toHaveBeenCalledWith(
+      'No legacy encryptedKeys column found. Nothing to migrate.'
+    );
     expect(exitSpy).toHaveBeenCalledWith(0);
     expect(prismaMock.$disconnect).toHaveBeenCalledTimes(1);
   });
 
   test('MySQL: legacy column missing → logs and exit(0)', async () => {
     process.env.DATABASE_URL = 'mysql://user:pass@host/db';
-    prismaMock.$queryRawUnsafe.mockRejectedValueOnce(new Error("Unknown column 'encryptedKeys'"));
+    prismaMock.$queryRawUnsafe.mockRejectedValueOnce(
+      new Error("Unknown column 'encryptedKeys'")
+    );
 
     await reimportScript();
 
     expect(logSpy).toHaveBeenCalledWith('DB detected: mysql');
-    expect(logSpy).toHaveBeenCalledWith('No legacy encryptedKeys column found. Nothing to migrate.');
+    expect(logSpy).toHaveBeenCalledWith(
+      'No legacy encryptedKeys column found. Nothing to migrate.'
+    );
     expect(exitSpy).toHaveBeenCalledWith(0);
     expect(prismaMock.$disconnect).toHaveBeenCalledTimes(1);
   });
@@ -103,8 +109,8 @@ describe('migrateEncryptedKeys script', () => {
         id: 1,
         encryptedKeys: JSON.stringify({
           '101': 'encKey101',
-          'bad': 123,          // bad user id/non-string → skip
-          '0': 'zero-is-ok?',  // 0 parses to 0 (allowed? code treats <= not special; will allow 0 but not finite >? It checks Number.isFinite(userId) so 0 is finite, allowed)
+          bad: 123, // bad user id/non-string → skip
+          0: 'zero-is-ok?', // 0 parses to 0 (finite → allowed)
         }),
       },
       // id 2: encryptedKeys as object
@@ -112,7 +118,7 @@ describe('migrateEncryptedKeys script', () => {
         id: 2,
         encryptedKeys: {
           '202': 'encKey202',
-          '': 'nope',          // NaN user id → skip
+          '': 'nope', // NaN user id → skip
         },
       },
       // id 3: unparsable string
@@ -128,16 +134,26 @@ describe('migrateEncryptedKeys script', () => {
 
     // Sanity check logged counts
     expect(logSpy).toHaveBeenCalledWith('DB detected: postgres');
-    expect(logSpy).toHaveBeenCalledWith('Found 4 messages with encryptedKeys');
+    expect(logSpy).toHaveBeenCalledWith(
+      'Found 4 messages with encryptedKeys'
+    );
 
     // Skips unparsable JSON for id 3
-    expect(warnSpy).toHaveBeenCalledWith('Message 3: could not parse encryptedKeys as JSON, skipping');
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Message 3: could not parse encryptedKeys as JSON, skipping'
+    );
     // Skips non-object for id 4
-    expect(warnSpy).toHaveBeenCalledWith('Message 4: encryptedKeys is not an object, skipping');
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Message 4: encryptedKeys is not an object, skipping'
+    );
     // Skips bad user entry in id 1
-    expect(warnSpy).toHaveBeenCalledWith('Message 1: bad entry (bad), skipping');
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Message 1: bad entry (bad), skipping'
+    );
     // For id 2, empty key becomes NaN → skip
-    expect(warnSpy).toHaveBeenCalledWith('Message 2: bad entry (), skipping');
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Message 2: bad entry (), skipping'
+    );
 
     // Upserts expected valid pairs:
     // id 1: 101 + (0 allowed)
@@ -160,7 +176,9 @@ describe('migrateEncryptedKeys script', () => {
     });
 
     // Created/updated count should be logged (3 valid entries)
-    expect(logSpy).toHaveBeenCalledWith('Created/updated 3 MessageKey rows.');
+    expect(logSpy).toHaveBeenCalledWith(
+      'Created/updated 3 MessageKey rows.'
+    );
 
     // Optional nulling of legacy column runs (postgres variant)
     expect(prismaMock.$executeRawUnsafe).toHaveBeenCalledWith(

@@ -1,5 +1,9 @@
-const ORIGINAL_ENV = process.env;
+import { jest, describe, test, expect, afterAll } from '@jest/globals';
 
+const ORIGINAL_ENV = { ...process.env };
+
+// If you really need fake timers, keep this.
+// Not strictly required for these tests, but harmless.
 jest.useFakeTimers();
 
 // ---- Mocks ----
@@ -9,19 +13,23 @@ const prismaMock = {
     update: jest.fn(),
   },
 };
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
 
-jest.mock('../../utils/botSign.js', () => ({
-  __esModule: true,
-  signBody: jest.fn(() => 'signed-body'),
-}));
+const signBodyMock = jest.fn(() => 'signed-body');
 
 // fetch mock on global
 const fetchMock = jest.fn();
 global.fetch = fetchMock;
+
+// ESM-friendly mocking: unstable_mockModule
+jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: prismaMock,
+}));
+
+jest.unstable_mockModule('../utils/botSign.js', () => ({
+  __esModule: true,
+  signBody: signBodyMock,
+}));
 
 // Helpers to reload module with clean state & env
 const reloadWithEnv = async (env = {}) => {
@@ -29,8 +37,13 @@ const reloadWithEnv = async (env = {}) => {
   prismaMock.botEventLog.findMany.mockReset();
   prismaMock.botEventLog.update.mockReset();
   fetchMock.mockReset();
+  signBodyMock.mockClear();
+
   process.env = { ...ORIGINAL_ENV, ...env };
-  return import('../botDispatcher.js');
+
+  // Import after mocks are registered
+  const { startBotDispatcher } = await import('../botDispatcher.js');
+  return { startBotDispatcher };
 };
 
 // Handy builders
@@ -74,7 +87,7 @@ describe('startBotDispatcher', () => {
 
   test('successful delivery marks event as delivered', async () => {
     const NOW = 1_700_000_000_000;
-    jest.spyOn(Date, 'now').mockReturnValue(NOW);
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW);
 
     const { startBotDispatcher } = await reloadWithEnv({
       BOT_WEBHOOKS_ENABLED: 'true',
@@ -98,7 +111,10 @@ describe('startBotDispatcher', () => {
     expect(prismaMock.botEventLog.findMany).toHaveBeenCalledWith({
       where: {
         status: 'pending',
-        OR: [{ nextAttemptAt: null }, { nextAttemptAt: { lte: expect.any(Date) } }],
+        OR: [
+          { nextAttemptAt: null },
+          { nextAttemptAt: { lte: expect.any(Date) } },
+        ],
       },
       orderBy: { createdAt: 'asc' },
       take: 20,
@@ -120,7 +136,7 @@ describe('startBotDispatcher', () => {
           'X-Chatforia-Signature': 'signed-body',
         }),
         body: JSON.stringify({ hello: 'world' }),
-      })
+      }),
     );
 
     // Marked delivered
@@ -129,13 +145,13 @@ describe('startBotDispatcher', () => {
       data: { status: 'delivered', lastError: null },
     });
 
-    jest.spyOn(Date, 'now').mockRestore();
+    nowSpy.mockRestore();
   });
 
   test('failure schedules retry with backoff and increments attempts', async () => {
     // backoff attempt 0 -> 5000ms
     const NOW = 1_800_000_000_000;
-    jest.spyOn(Date, 'now').mockReturnValue(NOW);
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW);
 
     const { startBotDispatcher } = await reloadWithEnv({
       BOT_WEBHOOKS_ENABLED: 'true',
@@ -163,13 +179,13 @@ describe('startBotDispatcher', () => {
     expect(updateArgs.data.status).toBe('pending');
     expect(updateArgs.data.lastError).toMatch(/^http_503:/);
 
-    jest.spyOn(Date, 'now').mockRestore();
+    nowSpy.mockRestore();
   });
 
   test('failure at final retry marks failed and clears nextAttemptAt', async () => {
     // MAX_RETRIES=3; attempts=2 → next becomes 3 => failed
     const NOW = 1_900_000_000_000;
-    jest.spyOn(Date, 'now').mockReturnValue(NOW);
+    const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW);
 
     const { startBotDispatcher } = await reloadWithEnv({
       BOT_WEBHOOKS_ENABLED: 'true',
@@ -196,7 +212,7 @@ describe('startBotDispatcher', () => {
     expect(updateArgs.data.status).toBe('failed');
     expect(updateArgs.data.lastError).toMatch(/^http_500:/);
 
-    jest.spyOn(Date, 'now').mockRestore();
+    nowSpy.mockRestore();
   });
 
   test('invalid config or retries exhausted immediately → failed (no fetch)', async () => {
@@ -212,7 +228,10 @@ describe('startBotDispatcher', () => {
       ])
       .mockResolvedValueOnce([
         // Missing secret
-        makeEvent({ id: 45, install: { bot: { url: 'https://ok', secret: '' } } }),
+        makeEvent({
+          id: 45,
+          install: { bot: { url: 'https://ok', secret: '' } },
+        }),
       ])
       .mockResolvedValueOnce([
         // Already at or above max attempts
@@ -233,6 +252,7 @@ describe('startBotDispatcher', () => {
     });
 
     prismaMock.botEventLog.update.mockClear();
+
     // Case 2: missing secret
     await tick();
     expect(prismaMock.botEventLog.update).toHaveBeenCalledWith({
@@ -244,6 +264,7 @@ describe('startBotDispatcher', () => {
     });
 
     prismaMock.botEventLog.update.mockClear();
+
     // Case 3: attempts >= MAX_RETRIES
     await tick();
     expect(prismaMock.botEventLog.update).toHaveBeenCalledWith({

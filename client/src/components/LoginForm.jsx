@@ -7,6 +7,7 @@ import {
   Stack, Group, Divider, Checkbox,
 } from '@mantine/core';
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
+import { useTranslation, Trans } from 'react-i18next';
 
 /* ---------------- env + helpers ---------------- */
 
@@ -55,6 +56,7 @@ function startOAuth(provider) {
 /* ---------------- Component ---------------- */
 
 export default function LoginForm({ onLoginSuccess }) {
+  const { t } = useTranslation();
   const { setCurrentUser } = useUser();
   const [identifier, setIdentifier] = useState(''); // username or email
   const [password, setPassword] = useState('');
@@ -71,8 +73,8 @@ export default function LoginForm({ onLoginSuccess }) {
   // UI-only hinting; payload will include username for backend compatibility.
   const idField = (import.meta.env.VITE_AUTH_ID_FIELD || 'username').toLowerCase();
   const isEmailMode = idField === 'email';
-  const idLabel = isEmailMode ? 'Email' : 'Username';
-  const idPlaceholder = isEmailMode ? 'you@example.com' : 'Your username';
+  const idLabel = isEmailMode ? t('login.email', 'Email') : t('login.usernameLabel', 'Username');
+  const idPlaceholder = isEmailMode ? t('login.emailPh', 'you@example.com') : t('login.usernamePh', 'Your username');
   const idAutoComplete = isEmailMode ? 'email' : 'username';
 
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
@@ -101,7 +103,7 @@ export default function LoginForm({ onLoginSuccess }) {
     const idValue = identifier.trim();
     const pwd = password.trim();
     if (!idValue || !pwd) {
-      setError('Please enter your credentials.');
+      setError(t('login.error.missing', 'Please enter your credentials.'));
       setLoading(false);
       return;
     }
@@ -132,22 +134,24 @@ export default function LoginForm({ onLoginSuccess }) {
       const apiMsg = data.message || data.error || data.details || '';
       const reason = data.reason || data.code;
 
-      // Default to the test-expected message when status is 401 *or* absent
-      let msg = apiMsg || 'Invalid username or password';
+      let msg = apiMsg || t('login.error.invalid', 'Invalid username or password');
 
       if (status === 400) {
-        msg = apiMsg || 'Missing credentials.';
+        msg = apiMsg || t('login.error.missing', 'Please enter your credentials.');
       } else if (status === 401) {
-        msg = apiMsg || 'Invalid username or password';
+        msg = apiMsg || t('login.error.invalid', 'Invalid username or password');
       } else if (status === 403) {
-        msg = apiMsg || 'Access denied.';
+        msg = apiMsg || t('login.error.denied', 'Access denied.');
       } else if (status === 422) {
-        msg = apiMsg || 'Invalid request. Check your username/email and password.';
+        msg = apiMsg || t('login.error.unprocessable', 'Invalid request. Check your username/email and password.');
       } else if (status === 402) {
         if (reason === 'DEVICE_LIMIT') {
-          msg = 'Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.';
+          msg = t(
+            'login.error.deviceLimit',
+            'Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.'
+          );
         } else {
-          msg = apiMsg || 'This action requires a Premium plan.';
+          msg = apiMsg || t('login.error.premiumRequired', 'This action requires a Premium plan.');
         }
       }
       setError(msg);
@@ -159,9 +163,9 @@ export default function LoginForm({ onLoginSuccess }) {
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">
       <Stack gap="2" mb="sm" align="center">
-        <Title order={3} style={{ color: 'var(--fg)' }}>Welcome back</Title>
+        <Title order={3} style={{ color: 'var(--fg)' }}>{t('login.title', 'Welcome back')}</Title>
         <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.8 }}>
-          Log in to your Chatforia account
+          {t('login.subtitle', 'Log in to your Chatforia account')}
         </Text>
       </Stack>
 
@@ -172,9 +176,9 @@ export default function LoginForm({ onLoginSuccess }) {
           leftSection={<IconBrandGoogle size={18} />}
           onClick={() => startOAuth('google')}
           disabled={!hasGoogle}
-          title={hasGoogle ? 'Continue with Google' : 'Google sign-in unavailable'}
+          title={hasGoogle ? t('login.google', 'Continue with Google') : t('login.googleUnavailable', 'Google sign-in unavailable')}
         >
-          Continue with Google
+          {t('login.google', 'Continue with Google')}
         </Button>
         <Button
           className="oauth-button"
@@ -182,19 +186,19 @@ export default function LoginForm({ onLoginSuccess }) {
           leftSection={<IconBrandApple size={18} />}
           onClick={() => startOAuth('apple')}
           disabled={!hasApple}
-          title={hasApple ? 'Continue with Apple' : 'Apple sign-in unavailable'}
+          title={hasApple ? t('login.apple', 'Continue with Apple') : t('login.appleUnavailable', 'Apple sign-in unavailable')}
         >
-          Continue with Apple
+          {t('login.apple', 'Continue with Apple')}
         </Button>
       </Group>
 
       {!hasGoogle && !hasApple && (
         <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.7 }} mb="xs">
-          Single-sign-on is currently unavailable. Use username &amp; password instead.
+          {t('login.ssoUnavailable', 'Single-sign-on is currently unavailable. Use username & password instead.')}
         </Text>
       )}
 
-      <Divider label="or" my="sm" styles={{ label: { color: 'var(--fg)', opacity: 0.75 } }} />
+      <Divider label={t('login.or', 'or')} my="sm" styles={{ label: { color: 'var(--fg)', opacity: 0.75 } }} />
 
       <form onSubmit={handleLogin} noValidate>
         <Stack gap="sm">
@@ -215,8 +219,8 @@ export default function LoginForm({ onLoginSuccess }) {
           />
 
           <PasswordInput
-            label="Password"
-            placeholder="Your password"
+            label={t('login.passwordLabel', 'Password')}
+            placeholder={t('login.passwordPh', 'Your password')}
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
             required
@@ -232,13 +236,13 @@ export default function LoginForm({ onLoginSuccess }) {
 
           <Group justify="space-between" align="center">
             <Checkbox
-              label="Keep me signed in"
+              label={t('login.keepSignedIn', 'Keep me signed in')}
               checked={remember}
               onChange={(e) => setRemember(e.currentTarget.checked)}
               styles={{ label: { color: 'var(--fg)' } }}
             />
             <Anchor component={Link} to="/forgot-password" size="sm" style={{ color: 'var(--accent)' }}>
-              Forgot password?
+              {t('login.forgot', 'Forgot password?')}
             </Anchor>
           </Group>
 
@@ -249,14 +253,15 @@ export default function LoginForm({ onLoginSuccess }) {
           )}
 
           <Button type="submit" loading={loading} fullWidth>
-            {loading ? 'Logging in…' : 'Log In'}
+            {loading ? t('login.loggingIn', 'Logging in…') : t('login.submit', 'Log In')}
           </Button>
 
           <Text ta="center" size="sm" style={{ color: 'var(--fg)', opacity: 0.85 }}>
-            New here?{' '}
-            <Anchor component={Link} to="/register" style={{ color: 'var(--accent)' }}>
-              Create an account
-            </Anchor>
+            <Trans
+              i18nKey="login.newHere"
+              defaults="New here? <link>Create an account</link>"
+              components={{ link: <Anchor component={Link} to="/register" style={{ color: 'var(--accent)' }} /> }}
+            />
           </Text>
         </Stack>
       </form>

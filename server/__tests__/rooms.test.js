@@ -12,8 +12,10 @@
  */
 
 import request from 'supertest';
-import app from '../app.js';
+import { createApp } from '../app.js';
 import prisma from '../utils/prismaClient.js';
+
+const app = createApp();
 
 async function makeLoggedInAgent(emailBase) {
   const agent = request.agent(app);

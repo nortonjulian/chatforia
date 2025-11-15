@@ -1,7 +1,8 @@
 import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 
 const isProd = process.env.NODE_ENV === 'production';
-const isLoad = process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
+const isLoad =
+  process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
 const IS_TEST = process.env.NODE_ENV === 'test';
 const HUGE = 100000;
 

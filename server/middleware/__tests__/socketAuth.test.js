@@ -1,14 +1,16 @@
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 // ---- Mocks ----
 const cookieParseMock = jest.fn();
-jest.mock('cookie', () => ({
+jest.unstable_mockModule('cookie', () => ({
   __esModule: true,
   default: { parse: (...args) => cookieParseMock(...args) },
 }));
 
 const jwtVerifyMock = jest.fn();
-jest.mock('jsonwebtoken', () => ({
+jest.unstable_mockModule('jsonwebtoken', () => ({
   __esModule: true,
   default: { verify: (...args) => jwtVerifyMock(...args) },
   verify: (...args) => jwtVerifyMock(...args),
@@ -23,6 +25,7 @@ const reloadWithEnv = async (env = {}) => {
   process.env = { ...ORIGINAL_ENV, ...env };
   cookieParseMock.mockReset();
   jwtVerifyMock.mockReset();
+  // IMPORTANT: dynamic import so the unstable_mockModule mocks apply
   return import('../socketAuth.js');
 };
 

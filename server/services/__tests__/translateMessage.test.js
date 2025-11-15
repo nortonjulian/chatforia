@@ -1,35 +1,50 @@
+import { jest } from '@jest/globals';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
 let detectLanguageMock;
 let translateTextMock;
 let getCachedMock;
 let setCachedMock;
 
-const mockDeps = () => {
+const resetLocalMocks = () => {
   detectLanguageMock = jest.fn();
   translateTextMock = jest.fn();
   getCachedMock = jest.fn();
   setCachedMock = jest.fn();
+};
 
-  jest.doMock('../googleTranslate.js', () => ({
+// ---- Build ABSOLUTE filesystem paths so Jest's resolver matches exactly ----
+const THIS_DIR   = path.dirname(fileURLToPath(import.meta.url));                 // .../server/services/__tests__
+const SUT_PATH   = path.resolve(THIS_DIR, '../translation/translateMessage.js'); // .../server/services/translation/translateMessage.js
+const GOOGLE_PATH= path.resolve(THIS_DIR, '../translation/googleTranslate.js');  // .../server/services/translation/googleTranslate.js
+const CACHE_PATH = path.resolve(THIS_DIR, '../translation/cache.js');            // .../server/services/translation/cache.js
+// ----------------------------------------------------------------------------
+
+const reload = async () => {
+  jest.resetModules();
+  resetLocalMocks();
+
+  // ESM-friendly mocks using absolute paths
+  await jest.unstable_mockModule(GOOGLE_PATH, () => ({
     __esModule: true,
     detectLanguage: detectLanguageMock,
     translateText: translateTextMock,
   }));
 
-  jest.doMock('../cache.js', () => ({
+  await jest.unstable_mockModule(CACHE_PATH, () => ({
     __esModule: true,
     getCached: getCachedMock,
     setCached: setCachedMock,
   }));
-};
 
-const reload = async () => {
-  jest.resetModules();
-  mockDeps();
-  return import('../translateMessage.js');
+  // Import SUT by the SAME absolute path so the mocks apply
+  return import(SUT_PATH);
 };
 
 beforeEach(() => {
-  jest.clearAllMocks();
+  jest.clearAllMocks?.();
+  resetLocalMocks();
 });
 
 describe('maybeTranslateForTarget', () => {
@@ -127,7 +142,7 @@ describe('maybeTranslateForTarget', () => {
     const out = await maybeTranslateForTarget('hello', null, 'fr');
     expect(out).toEqual({
       translatedText: 'bonjour',
-      detectedLang: null, // because detection failed and no explicit src
+      detectedLang: null,
       confidence: null,
       provider: 'google',
     });

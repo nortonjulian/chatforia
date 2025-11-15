@@ -1,3 +1,5 @@
+import { jest, describe, test, expect, beforeEach } from '@jest/globals';
+
 // --- Mocks & shared state ---
 const scheduled = []; // [{ expr, fn, task }]
 const scheduleMock = jest.fn((expr, fn) => {
@@ -5,13 +7,6 @@ const scheduleMock = jest.fn((expr, fn) => {
   scheduled.push({ expr, fn, task });
   return task;
 });
-
-jest.mock('node-cron', () => ({
-  __esModule: true,
-  default: {
-    schedule: (...args) => scheduleMock(...args),
-  },
-}));
 
 // Prisma client mock
 const prismaMock = {
@@ -21,16 +16,31 @@ const prismaMock = {
   status: { deleteMany: jest.fn() },
 };
 
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
-
 const reloadModule = async () => {
   jest.resetModules();
+
+  // reset node-cron scheduling mocks
   scheduleMock.mockClear();
   scheduled.length = 0;
+
+  // reset prisma deleteMany mocks
   Object.values(prismaMock).forEach((m) => m.deleteMany.mockReset());
+
+  // ESM-friendly mocks
+  await jest.unstable_mockModule('node-cron', () => ({
+    __esModule: true,
+    default: {
+      schedule: (...args) => scheduleMock(...args),
+    },
+  }));
+
+  // cleanup.js imports: import prisma from '../utils/prismaClient.js';
+  await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prismaMock,
+  }));
+
+  // Import module under test after mocks are in place
   return import('../cleanup.js');
 };
 

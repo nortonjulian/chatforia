@@ -1,3 +1,14 @@
+// server/auth/__tests__/passport.test.js
+import {
+  jest,
+  describe,
+  test,
+  expect,
+  beforeEach,
+  afterEach,
+  afterAll,
+} from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
 let passportUseMock;
@@ -5,19 +16,19 @@ let googleStrategyCtor;
 let appleStrategyCtor;
 let fsReadFileSyncMock;
 
-let lastGoogleStrategy; // capture latest constructed strategy (our mock)
-let lastAppleStrategy;
+let lastGoogleStrategy; // optional capture (used in one test)
+let lastAppleStrategy;  // optional capture (not relied upon for assertions)
 
-const mockPassport = () => {
+// ---- Mocks ----
+const mockPassport = async () => {
   passportUseMock = jest.fn();
-  jest.doMock('passport', () => ({
+  await jest.unstable_mockModule('passport', () => ({
     __esModule: true,
     default: { use: passportUseMock },
   }));
 };
 
-const mockGoogle = () => {
-  // Our fake Strategy captures options and verify
+const mockGoogle = async () => {
   class MockGoogleStrategy {
     constructor(opts, verify) {
       this.name = 'google';
@@ -27,13 +38,14 @@ const mockGoogle = () => {
     }
   }
   googleStrategyCtor = MockGoogleStrategy;
-  jest.doMock('passport-google-oauth20', () => ({
+
+  await jest.unstable_mockModule('passport-google-oauth20', () => ({
     __esModule: true,
     Strategy: MockGoogleStrategy,
   }));
 };
 
-const mockApple = () => {
+const mockApple = async () => {
   class MockAppleStrategy {
     constructor(opts, verify) {
       this.name = 'apple';
@@ -43,33 +55,43 @@ const mockApple = () => {
     }
   }
   appleStrategyCtor = MockAppleStrategy;
-  jest.doMock('passport-apple', () => ({
+
+  await jest.unstable_mockModule('passport-apple', () => ({
     __esModule: true,
     default: MockAppleStrategy,
   }));
 };
 
-const mockFs = () => {
+const mockFs = async (fileContent) => {
   fsReadFileSyncMock = jest.fn();
-  jest.doMock('node:fs', () => ({
+
+  if (fileContent !== undefined) {
+    fsReadFileSyncMock.mockReturnValue(fileContent);
+  }
+
+  await jest.unstable_mockModule('node:fs', () => ({
     __esModule: true,
-    default: {},
+    // We only need readFileSync for the APPLE_PRIVATE_KEY_PATH branch
     readFileSync: fsReadFileSyncMock,
   }));
 };
 
-const reload = async (env = {}) => {
+// Helper to reload module-under-test with fresh mocks/env
+const reload = async (env = {}, opts = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
-  mockPassport();
-  mockGoogle();
-  mockApple();
-  mockFs();
 
-  // Silence console in tests but keep call visibility
+  // register all mocks before importing passport.js
+  await mockPassport();
+  await mockGoogle();
+  await mockApple();
+  await mockFs(opts.fsContent);
+
+  // Silence console output during tests
   jest.spyOn(console, 'warn').mockImplementation(() => {});
   jest.spyOn(console, 'error').mockImplementation(() => {});
   jest.spyOn(console, 'log').mockImplementation(() => {});
+
   return import('../passport.js');
 };
 
@@ -81,6 +103,11 @@ afterEach(() => {
   jest.restoreAllMocks();
   lastGoogleStrategy = undefined;
   lastAppleStrategy = undefined;
+});
+
+beforeEach(() => {
+  // just to be explicit; jest.setup also clears in server/__tests__/jest.setup.js
+  jest.clearAllMocks();
 });
 
 describe('passport auth strategies', () => {
@@ -115,7 +142,7 @@ describe('passport auth strategies', () => {
     const strategyInstance = lastGoogleStrategy;
     expect(strategyInstance).toBeInstanceOf(googleStrategyCtor);
 
-    // Options
+    // Options wired correctly
     expect(strategyInstance.options).toMatchObject({
       clientID: 'gid_123',
       clientSecret: 'gsec_456',
@@ -123,7 +150,7 @@ describe('passport auth strategies', () => {
       passReqToCallback: true,
     });
 
-    // Verify callback: (req, accessToken, refreshToken, profile, done)
+    // Verify callback maps fields → user object
     const done = jest.fn();
     const profile = {
       id: 'google-user-1',
@@ -131,7 +158,6 @@ describe('passport auth strategies', () => {
       emails: [{ value: 'julian@example.com' }],
       photos: [{ value: 'https://example.com/a.jpg' }],
     };
-
     await strategyInstance.verify({}, 'tokA', 'tokR', profile, done);
 
     expect(done).toHaveBeenCalledWith(null, {
@@ -145,7 +171,8 @@ describe('passport auth strategies', () => {
 
   test('Apple enabled via inline APPLE_PRIVATE_KEY: registers strategy and verify maps user', async () => {
     // Inline key with literal \n should be converted to newlines
-    const inlineKey = '-----BEGIN PRIVATE KEY-----\\nline1\\nline2\\n-----END PRIVATE KEY-----';
+    const inlineKey =
+      '-----BEGIN PRIVATE KEY-----\\nline1\\nline2\\n-----END PRIVATE KEY-----';
 
     await reload({
       APPLE_SERVICE_ID: 'com.chatforia.web',
@@ -155,12 +182,14 @@ describe('passport auth strategies', () => {
       APPLE_CALLBACK_URL: 'https://app.chatforia.com/auth/apple/callback',
     });
 
-    // Apple strategy should be registered (plus possibly Google log lines; we only care Apple here)
-    expect(passportUseMock).toHaveBeenCalledTimes(1);
-    const strategyInstance = lastAppleStrategy;
-    expect(strategyInstance).toBeInstanceOf(appleStrategyCtor);
+    // Apple strategy should be registered
+    const appleCall = passportUseMock.mock.calls.find(
+      ([strategy]) => strategy && strategy.name === 'apple'
+    );
+    expect(appleCall).toBeTruthy();
+    const [strategyInstance] = appleCall;
 
-    // Private key should have \n expanded
+    expect(strategyInstance).toBeInstanceOf(appleStrategyCtor);
     expect(strategyInstance.options).toMatchObject({
       clientID: 'com.chatforia.web',
       teamID: 'TEAMID123',
@@ -169,6 +198,7 @@ describe('passport auth strategies', () => {
       scope: ['name', 'email'],
       passReqToCallback: true,
     });
+    // \n expansion validated
     expect(strategyInstance.options.privateKey).toContain('line1\nline2');
 
     // Verify callback maps id/email/name
@@ -188,37 +218,58 @@ describe('passport auth strategies', () => {
   });
 
   test('Apple enabled via APPLE_PRIVATE_KEY_PATH: reads key file and registers strategy', async () => {
-    fsReadFileSyncMock.mockReturnValue('---KEY FROM FILE---');
-
-    await reload({
-      APPLE_SERVICE_ID: 'com.chatforia.web',
-      APPLE_TEAM_ID: 'TEAMID123',
-      APPLE_KEY_ID: 'KEYID456',
-      APPLE_PRIVATE_KEY_PATH: '/secure/key.p8',
-      APPLE_CALLBACK_URL: 'https://app.chatforia.com/auth/apple/callback',
-    });
+    await reload(
+      {
+        APPLE_SERVICE_ID: 'com.chatforia.web',
+        APPLE_TEAM_ID: 'TEAMID123',
+        APPLE_KEY_ID: 'KEYID456',
+        APPLE_PRIVATE_KEY_PATH: '/secure/key.p8',
+        APPLE_CALLBACK_URL: 'https://app.chatforia.com/auth/apple/callback',
+      },
+      { fsContent: '---KEY FROM FILE---' }
+    );
 
     expect(fsReadFileSyncMock).toHaveBeenCalledWith('/secure/key.p8', 'utf8');
-    expect(passportUseMock).toHaveBeenCalledTimes(1);
-    expect(lastAppleStrategy.options.privateKey).toBe('---KEY FROM FILE---');
+
+    // Assert off the actual passport.use call (no reliance on global capture)
+    const appleCall = passportUseMock.mock.calls.find(
+      ([strategy]) => strategy && strategy.name === 'apple'
+    );
+    expect(appleCall).toBeTruthy();
+    const [strategyInstance] = appleCall;
+
+    expect(strategyInstance).toBeInstanceOf(appleStrategyCtor);
+    expect(strategyInstance.options).toMatchObject({
+      clientID: 'com.chatforia.web',
+      teamID: 'TEAMID123',
+      keyID: 'KEYID456',
+      callbackURL: 'https://app.chatforia.com/auth/apple/callback',
+      scope: ['name', 'email'],
+      passReqToCallback: true,
+    });
+    expect(strategyInstance.options.privateKey).toBe('---KEY FROM FILE---');
   });
 
   test('Apple env present but private key resolves empty → logs error and does not register', async () => {
-    // Make readFileSync return empty string, causing falsy privateKey
-    fsReadFileSyncMock.mockReturnValue('');
-
-    await reload({
-      APPLE_SERVICE_ID: 'com.chatforia.web',
-      APPLE_TEAM_ID: 'TEAMID123',
-      APPLE_KEY_ID: 'KEYID456',
-      APPLE_PRIVATE_KEY_PATH: '/secure/key.p8',
-      APPLE_CALLBACK_URL: 'https://app.chatforia.com/auth/apple/callback',
-    });
+    await reload(
+      {
+        APPLE_SERVICE_ID: 'com.chatforia.web',
+        APPLE_TEAM_ID: 'TEAMID123',
+        APPLE_KEY_ID: 'KEYID456',
+        APPLE_PRIVATE_KEY_PATH: '/secure/key.p8',
+        APPLE_CALLBACK_URL: 'https://app.chatforia.com/auth/apple/callback',
+      },
+      { fsContent: '' } // simulate empty file
+    );
 
     expect(console.error).toHaveBeenCalledWith(
       expect.stringMatching(/\[oauth] APPLE private key missing/i)
     );
+
     // Should not have registered Apple strategy
-    expect(passportUseMock).not.toHaveBeenCalled();
+    const appleCall = passportUseMock.mock.calls.find(
+      ([strategy]) => strategy && strategy.name === 'apple'
+    );
+    expect(appleCall).toBeUndefined();
   });
 });

@@ -1,24 +1,38 @@
+import { jest } from '@jest/globals';
+
 // We will re-import the module under different envs — isolate module state each time.
-const ORIGINAL_ENV = process.env;
+const ORIGINAL_ENV = { ...process.env };
 
-const noopMiddleware = (_req, _res, next) => next();
+// We'll capture the csurf mock so tests can inspect calls.
+let csurfMock;
 
-// Mock csurf to capture the options it’s called with and return a stub middleware.
-const csurfMock = jest.fn((_opts) => {
-  const mw = jest.fn((req, res, next) => next && next());
-  mw._isCsurf = true;
-  return mw;
-});
+// Helper to register the csurf mock (ESM-safe)
+const setupCsurfMock = () => {
+  jest.unstable_mockModule('csurf', () => {
+    csurfMock = jest.fn((_opts) => {
+      const mw = jest.fn((req, res, next) => next && next());
+      mw._isCsurf = true;
+      return mw;
+    });
 
-jest.mock('csurf', () => ({
-  __esModule: true,
-  default: (...args) => csurfMock(...args),
-}));
+    return {
+      __esModule: true,
+      default: (...args) => csurfMock(...args),
+    };
+  });
+};
+
+// Register the mock before any imports happen
+setupCsurfMock();
 
 // Helper: load the module fresh with a specific env map
 const loadModuleWithEnv = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
+
+  // Re-apply csurf mock after resetModules, before importing the module under test
+  setupCsurfMock();
+
   // dynamic import after env is set
   return import('../csrf.js');
 };
@@ -31,11 +45,14 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
+// ---- Tests ----
+
 describe('buildCsrf()', () => {
   test('returns NOOP when NODE_ENV=test', async () => {
     const { buildCsrf } = await loadModuleWithEnv({ NODE_ENV: 'test' });
+
+    // In test env, buildCsrf should not call csurf at all
     const mw = buildCsrf();
-    // Our NOOP should call next without touching csurf
     expect(typeof mw).toBe('function');
 
     const next = jest.fn();
@@ -47,6 +64,9 @@ describe('buildCsrf()', () => {
 
   test('constructs csurf with non-prod cookie (secure=false) when NODE_ENV=development', async () => {
     const { buildCsrf } = await loadModuleWithEnv({ NODE_ENV: 'development' });
+
+    // Clear out the call from default export created on import
+    csurfMock.mockClear();
 
     const mw = buildCsrf(); // default isProd inferred from NODE_ENV
     expect(mw._isCsurf).toBe(true);
@@ -66,8 +86,13 @@ describe('buildCsrf()', () => {
   test('constructs csurf with prod cookie (secure=true) and domain when isProd=true + cookieDomain provided', async () => {
     const { buildCsrf } = await loadModuleWithEnv({ NODE_ENV: 'development' });
 
+    // Clear out default export call
+    csurfMock.mockClear();
+
     const mw = buildCsrf({ isProd: true, cookieDomain: 'chatforia.com' });
     expect(mw._isCsurf).toBe(true);
+    expect(csurfMock).toHaveBeenCalledTimes(1);
+
     const opts = csurfMock.mock.calls[0][0];
     expect(opts.cookie).toMatchObject({
       httpOnly: true,
@@ -80,6 +105,10 @@ describe('buildCsrf()', () => {
 
   test('value extractor checks headers/body/query/cookies in order', async () => {
     const { buildCsrf } = await loadModuleWithEnv({ NODE_ENV: 'development' });
+
+    // Clear out default export call
+    csurfMock.mockClear();
+
     buildCsrf(); // triggers csurfMock; capture opts
     const { value } = csurfMock.mock.calls[0][0];
 
@@ -168,7 +197,9 @@ describe('setCsrfCookie()', () => {
   });
 
   test('no-ops if req.csrfToken is not a function', async () => {
-    const { setCsrfCookie } = await loadModuleWithEnv({ NODE_ENV: 'development' });
+    const { setCsrfCookie } = await loadModuleWithEnv({
+      NODE_ENV: 'development',
+    });
 
     const req = {}; // csrfToken missing
     const res = { cookie: jest.fn() };
@@ -178,7 +209,9 @@ describe('setCsrfCookie()', () => {
   });
 
   test('sets XSRF-TOKEN cookie in development (secure=false, no domain)', async () => {
-    const { setCsrfCookie } = await loadModuleWithEnv({ NODE_ENV: 'development' });
+    const { setCsrfCookie } = await loadModuleWithEnv({
+      NODE_ENV: 'development',
+    });
 
     const req = { csrfToken: jest.fn(() => 'token-123') };
     const res = { cookie: jest.fn() };

@@ -47,6 +47,7 @@ module.exports = {
   },
 
   moduleNameMapper: {
+  '^\\.\\./utils/redisClient\\.js$': '<rootDir>/__tests__/mocks/redisClient.dynamic.js',
   'middleware\\/auth\\.js$': '<rootDir>/__tests__/mocks/auth.mock.js',
   'middleware\\/plan\\.js$': '<rootDir>/__tests__/mocks/plan.mock.js',
   '^@sentry/node$': '<rootDir>/__tests__/mocks/sentry.node.mock.js',

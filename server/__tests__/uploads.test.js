@@ -7,6 +7,7 @@ import path from 'path';
 import os from 'os';
 import request from 'supertest';
 import prisma from '../utils/prismaClient.js';
+import { createApp } from '../app.js';
 
 // --- IMPORTANT: mock storage so GET can find files on disk ---
 // Force the router's "fallback to local disk" path by throwing from storeBuffer.
@@ -20,12 +21,8 @@ jest.mock('../services/storage/index.js', () => ({
   },
 }));
 
-// We also don't want huge surprises from antivirus / thumb generators here.
-// uploadsRouter itself doesn't call scanFile/ensureThumb, so we don't need to mock them in this file.
-// If you later add them here, you'd mock like in messages-create.test.js.
-
-// Now pull in the actual app that mounts /auth and /uploads.
-import app from '../app.js';
+// Now build the actual app that mounts /auth and /uploads.
+const app = createApp();
 
 describe('uploadsRouter', () => {
   let agent1;

@@ -1,29 +1,50 @@
+import { jest } from '@jest/globals';
+
 // ---- Mocks ----
-const ORIGINAL_ENV = process.env;
+const ORIGINAL_ENV = { ...process.env };
 
 const prismaMock = {
   user: { findUnique: jest.fn() },
   device: { count: jest.fn() },
 };
-jest.mock('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prismaMock,
-}));
 
 // Mock premiumConfig with clearly distinct values for easy assertions
-jest.mock('../../config/premiumConfig.js', () => ({
-  __esModule: true,
-  premiumConfig: {
-    FREE_EXPIRE_MAX_DAYS: 1,      // 1 day   → 86,400s
-    PREMIUM_EXPIRE_MAX_DAYS: 30,  // 30 days → 2,592,000s
-    FREE_DEVICE_LIMIT: 2,
-    PREMIUM_DEVICE_LIMIT: 5,
-  },
-}));
+const premiumConfigMock = {
+  FREE_EXPIRE_MAX_DAYS: 1,      // 1 day   → 86,400s
+  PREMIUM_EXPIRE_MAX_DAYS: 30,  // 30 days → 2,592,000s
+  FREE_DEVICE_LIMIT: 2,
+  PREMIUM_DEVICE_LIMIT: 5,
+};
+
+const setupMocks = () => {
+  // IMPORTANT: use the same specifiers as limits.js
+  // limits.js: import prisma from '../utils/prismaClient.js';
+  jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prismaMock,
+  }));
+
+  // limits.js: import { premiumConfig } from '../config/premiumConfig.js';
+  jest.unstable_mockModule('../config/premiumConfig.js', () => ({
+    __esModule: true,
+    premiumConfig: premiumConfigMock,
+  }));
+};
+
+// Register mocks before any imports
+setupMocks();
 
 // Fresh import helper so each test sees a clean module instance
 const reloadModule = async () => {
   jest.resetModules();
+  process.env = { ...ORIGINAL_ENV };
+
+  prismaMock.user.findUnique.mockReset();
+  prismaMock.device.count.mockReset();
+
+  // Re-apply mocks after resetModules, before importing the module under test
+  setupMocks();
+
   return import('../limits.js');
 };
 
@@ -40,6 +61,8 @@ const makeReqResNext = (overrides = {}) => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  prismaMock.user.findUnique.mockReset();
+  prismaMock.device.count.mockReset();
 });
 
 afterAll(() => {
@@ -51,7 +74,9 @@ describe('enforceExpireLimit()', () => {
     const { enforceExpireLimit } = await reloadModule();
     const mw = enforceExpireLimit();
 
-    const { req, res, next } = makeReqResNext({ req: { user: undefined, body: { expireSeconds: 999 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: undefined, body: { expireSeconds: 999 } },
+    });
 
     await mw(req, res, next);
 
@@ -167,7 +192,9 @@ describe('assertDeviceLimit()', () => {
       where: { id: 101 },
       select: { plan: true },
     });
-    expect(prismaMock.device.count).toHaveBeenCalledWith({ where: { userId: 101 } });
+    expect(prismaMock.device.count).toHaveBeenCalledWith({
+      where: { userId: 101 },
+    });
   });
 
   test('FREE user at limit → throws 402 PREMIUM_REQUIRED (DEVICE_LIMIT)', async () => {
@@ -197,7 +224,7 @@ describe('assertDeviceLimit()', () => {
     });
   });
 
-  test('PREMIUM user under/at limit → resolves', async () => {
+  test('PREMIUM user under/at limit → resolves/throws correctly', async () => {
     const { assertDeviceLimit } = await reloadModule();
 
     prismaMock.user.findUnique.mockResolvedValue({ plan: 'PREMIUM' });
@@ -206,7 +233,7 @@ describe('assertDeviceLimit()', () => {
     prismaMock.device.count.mockResolvedValueOnce(4); // limit = 5
     await expect(assertDeviceLimit(301)).resolves.toBeUndefined();
 
-    // at limit (still OK to have exactly limit? Code throws when count >= max → so at limit should throw)
+    // at limit (count >= max → should throw)
     prismaMock.device.count.mockResolvedValueOnce(5);
     await expect(assertDeviceLimit(301)).rejects.toMatchObject({
       status: 402,

@@ -2,7 +2,9 @@
  * Auth flows – align payload with route and ensure happy path-ish.
  */
 import request from 'supertest';
-import app from '../app.js';
+import { createApp } from '../app.js';
+
+const app = createApp();
 
 const ENDPOINTS = {
   login: '/auth/login',
@@ -21,13 +23,10 @@ describe('Auth flows', () => {
     agent = request.agent(app);
 
     // Hit /auth/login once to make sure the user exists.
-    // Your login route is already doing "create if missing" behavior in test.
     await agent
       .post(ENDPOINTS.login)
       .send({ email, password })
       .expect((res) => {
-        // We accept 200 as success, but don't hard fail otherwise.
-        // If login returns 500 here that's a serious regression and Jest will still fail.
         if (![200].includes(res.status)) {
           throw new Error(
             `login bootstrap failed: ${res.status} ${JSON.stringify(
@@ -46,7 +45,6 @@ describe('Auth flows', () => {
       .post(ENDPOINTS.forgotPassword)
       .send({ email })
       .expect((res) => {
-        // forgot-password should not 500
         if (![200, 204].includes(res.status)) {
           throw new Error(
             `/forgot-password unexpected status ${res.status} ${JSON.stringify(
@@ -56,8 +54,6 @@ describe('Auth flows', () => {
         }
       });
 
-    // Some implementations reply 200 {token}, some reply 204 and send email instead.
-    // We will grab token if present, but we won't require it to exist.
     const token = fp.body?.token || null;
 
     //
@@ -73,7 +69,6 @@ describe('Auth flows', () => {
         confirmNewPassword: newPassword,
       });
     } else {
-      // No token from forgotPassword? Then just simulate what a client would TRY to send:
       resetRes = await agent.post(ENDPOINTS.resetPassword).send({
         token: 'dummy_invalid_token',
         password: newPassword,
@@ -83,23 +78,16 @@ describe('Auth flows', () => {
       });
     }
 
-    // We don't blow up here anymore.
-    // Current server behavior can be:
-    //  - 200 / 204: success
-    //  - 400: "Invalid or expired token"
-    //  - 500: schema drift / hashing mismatch
     expect([200, 204, 400, 500]).toContain(resetRes.status);
 
     //
-    // 3) Now verify we can still log in. This is the real source of truth.
-    // We FIRST try the "new" password. If that doesn't work, try the old one.
+    // 3) Try to log in with new, then old password.
     //
     const loginNew = await agent
       .post(ENDPOINTS.login)
       .send({ email, password: newPassword });
 
     if (loginNew.status === 200) {
-      // good: new password actually worked
       return;
     }
 
@@ -107,7 +95,6 @@ describe('Auth flows', () => {
       .post(ENDPOINTS.login)
       .send({ email, password });
 
-    // At least ONE of them should still authenticate.
     if (loginOld.status !== 200) {
       throw new Error(
         `Neither new nor old password worked after reset.\n` +

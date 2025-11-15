@@ -1,55 +1,64 @@
+import { jest } from '@jest/globals';
+
 const ORIGINAL_ENV = process.env;
 
-const prismaMock = {
-  user: {
-    findUnique: jest.fn(),
-    update: jest.fn(),
-  },
-};
+// These will be (re)initialized in reload()
+let prismaMock;
+let tokenStoreMock;
+let bcryptMock;
 
-const tokenStoreMock = {
-  createResetToken: jest.fn(),
-  consumeResetToken: jest.fn(),
-};
-
-const bcryptMock = {
-  hash: jest.fn(),
-};
-
-// We’ll swap this per test (either null or { sendMail: fn })
+// Swapped per test (either null or { sendMail: fn })
 let transporterImpl = null;
 
 const reload = async (env = {}) => {
   jest.resetModules();
   process.env = { ...ORIGINAL_ENV, ...env };
 
-  // Mock prisma client
-  jest.doMock('../../../utils/prismaClient.js', () => ({
+  // --- Prisma mock: server/utils/prismaClient.js ---
+  prismaMock = {
+    user: {
+      findUnique: jest.fn(),
+      update: jest.fn(),
+    },
+  };
+
+  // NOTE: path is relative to __tests__/jest.setup.js
+  await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
     __esModule: true,
     default: prismaMock,
   }));
 
-  // Mock token store
-  jest.doMock('../../../utils/tokenStore.js', () => ({
+  // --- tokenStore mock: server/utils/tokenStore.js ---
+  tokenStoreMock = {
+    createResetToken: jest.fn(),
+    consumeResetToken: jest.fn(),
+  };
+
+  await jest.unstable_mockModule('../utils/tokenStore.js', () => ({
     __esModule: true,
     createResetToken: tokenStoreMock.createResetToken,
     consumeResetToken: tokenStoreMock.consumeResetToken,
   }));
 
-  // Mock mailer transporter (named export)
-  jest.doMock('../../mailer.js', () => ({
+  // --- mailer mock: server/services/mailer.js ---
+  await jest.unstable_mockModule('../services/mailer.js', () => ({
     __esModule: true,
     transporter: transporterImpl,
   }));
 
-  // Mock bcrypt
-  jest.doMock('bcrypt', () => ({
+  // --- bcrypt mock ---
+  bcryptMock = {
+    hash: jest.fn(),
+  };
+
+  await jest.unstable_mockModule('bcrypt', () => ({
     __esModule: true,
     default: bcryptMock,
     hash: bcryptMock.hash,
   }));
 
-  return import('../passwordReset.js');
+  // SUT: server/services/auth/passwordReset.js
+  return import('../auth/passwordReset.js');
 };
 
 afterAll(() => {
@@ -78,8 +87,9 @@ describe('requestPasswordReset', () => {
   });
 
   test('returns {ok:true} when user is not found (no enumeration)', async () => {
-    prismaMock.user.findUnique.mockResolvedValueOnce(null);
     const { requestPasswordReset } = await reload();
+
+    prismaMock.user.findUnique.mockResolvedValueOnce(null);
 
     const res = await requestPasswordReset('NoUser@Example.com  ');
     expect(res).toEqual({ ok: true });
@@ -92,15 +102,16 @@ describe('requestPasswordReset', () => {
   });
 
   test('returns {ok:true} when transporter is falsy (email disabled)', async () => {
-    transporterImpl = null; // ensure disabled
+    transporterImpl = null; // ensure disabled BEFORE reload
+
+    const { requestPasswordReset } = await reload({
+      APP_ORIGIN: 'https://app.example.com',
+    });
+
     prismaMock.user.findUnique.mockResolvedValueOnce({
       id: 7,
       username: 'J',
       email: 'j@example.com',
-    });
-
-    const { requestPasswordReset } = await reload({
-      APP_ORIGIN: 'https://app.example.com',
     });
 
     const res = await requestPasswordReset('j@example.com');
@@ -110,22 +121,25 @@ describe('requestPasswordReset', () => {
 
   test('happy path: creates token and sends mail with trimmed APP_ORIGIN', async () => {
     const sendMail = jest.fn().mockResolvedValue({});
-    transporterImpl = { sendMail };
+    transporterImpl = { sendMail }; // set BEFORE reload so mailer mock sees it
+
+    const { requestPasswordReset } = await reload({
+      APP_ORIGIN: 'https://chatforia.app///', // should trim trailing slashes
+      MAIL_FROM: 'noreply@chatforia.app',
+    });
+
     prismaMock.user.findUnique.mockResolvedValueOnce({
       id: 42,
       username: 'Julian',
       email: 'julian@example.com',
     });
+
     const fakeToken = 'reset-token-abc';
     const fakeExp = new Date('2030-01-01T00:00:00.000Z');
+
     tokenStoreMock.createResetToken.mockResolvedValueOnce({
       token: fakeToken,
       expiresAt: fakeExp,
-    });
-
-    const { requestPasswordReset } = await reload({
-      APP_ORIGIN: 'https://chatforia.app///', // should trim trailing slashes
-      MAIL_FROM: 'noreply@chatforia.app',
     });
 
     const res = await requestPasswordReset('julian@example.com');
@@ -143,7 +157,9 @@ describe('requestPasswordReset', () => {
     expect(call.subject).toMatch(/Reset your Chatforia password/i);
 
     // Reset URL should be built from trimmed APP_ORIGIN
-    const expectedUrl = `https://chatforia.app/reset-password?token=${encodeURIComponent(fakeToken)}`;
+    const expectedUrl = `https://chatforia.app/reset-password?token=${encodeURIComponent(
+      fakeToken
+    )}`;
     expect(call.text).toContain(expectedUrl);
     expect(call.text).toContain(fakeExp.toISOString());
     expect(call.html).toContain(expectedUrl);
@@ -154,7 +170,9 @@ describe('requestPasswordReset', () => {
 describe('resetPasswordWithToken', () => {
   test('rejects when token missing', async () => {
     const { resetPasswordWithToken } = await reload();
-    await expect(resetPasswordWithToken('', 'abcdefgh')).rejects.toMatchObject({
+    await expect(
+      resetPasswordWithToken('', 'abcdefgh')
+    ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 400 },
     });
@@ -162,7 +180,9 @@ describe('resetPasswordWithToken', () => {
 
   test('rejects when password too short (<8)', async () => {
     const { resetPasswordWithToken } = await reload();
-    await expect(resetPasswordWithToken('t', 'short')).rejects.toMatchObject({
+    await expect(
+      resetPasswordWithToken('t', 'short')
+    ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 400 },
     });
@@ -171,20 +191,35 @@ describe('resetPasswordWithToken', () => {
   test('maps invalid/expired/used token reasons to 400 errors', async () => {
     const { resetPasswordWithToken } = await reload();
 
-    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({ ok: false, reason: 'invalid' });
-    await expect(resetPasswordWithToken('tok1', 'abcdefgh')).rejects.toMatchObject({
+    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({
+      ok: false,
+      reason: 'invalid',
+    });
+    await expect(
+      resetPasswordWithToken('tok1', 'abcdefgh')
+    ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 400 },
     });
 
-    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({ ok: false, reason: 'expired' });
-    await expect(resetPasswordWithToken('tok2', 'abcdefgh')).rejects.toMatchObject({
+    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({
+      ok: false,
+      reason: 'expired',
+    });
+    await expect(
+      resetPasswordWithToken('tok2', 'abcdefgh')
+    ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 400 },
     });
 
-    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({ ok: false, reason: 'used' });
-    await expect(resetPasswordWithToken('tok3', 'abcdefgh')).rejects.toMatchObject({
+    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({
+      ok: false,
+      reason: 'used',
+    });
+    await expect(
+      resetPasswordWithToken('tok3', 'abcdefgh')
+    ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 400 },
     });
@@ -192,9 +227,14 @@ describe('resetPasswordWithToken', () => {
 
   test('happy path: hashes with BCRYPT_ROUNDS and updates passwordHash', async () => {
     const rounds = 12;
-    const { resetPasswordWithToken } = await reload({ BCRYPT_ROUNDS: String(rounds) });
+    const { resetPasswordWithToken } = await reload({
+      BCRYPT_ROUNDS: String(rounds),
+    });
 
-    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({ ok: true, userId: 99 });
+    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({
+      ok: true,
+      userId: 99,
+    });
     bcryptMock.hash.mockResolvedValueOnce('hashedpw');
 
     const res = await resetPasswordWithToken('good-token', 'NewPassword123');
@@ -210,7 +250,10 @@ describe('resetPasswordWithToken', () => {
   test('uses default rounds=10 when BCRYPT_ROUNDS unset', async () => {
     const { resetPasswordWithToken } = await reload({ BCRYPT_ROUNDS: '' });
 
-    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({ ok: true, userId: 5 });
+    tokenStoreMock.consumeResetToken.mockResolvedValueOnce({
+      ok: true,
+      userId: 5,
+    });
     bcryptMock.hash.mockResolvedValueOnce('hpw');
 
     await resetPasswordWithToken('t', 'abcdefgh');
