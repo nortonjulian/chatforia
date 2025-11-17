@@ -1,5 +1,3 @@
-// -----------------------------------------------------------------------------
-// B2) STT usage helpers — server/services/stt/usage.js
 import prisma from '../../utils/prismaClient.js';
 
 function monthKey(d = new Date()) {

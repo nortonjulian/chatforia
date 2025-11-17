@@ -1,4 +1,3 @@
-// server/auth/__tests__/passport.test.js
 import {
   jest,
   describe,
@@ -10,6 +9,22 @@ import {
 } from '@jest/globals';
 
 const ORIGINAL_ENV = process.env;
+
+// Explicit defaults for all OAuth-related env vars so tests don't pick up your real .env
+const OAUTH_ENV_DEFAULTS = {
+  // GOOGLE
+  GOOGLE_CLIENT_ID: '',
+  GOOGLE_CLIENT_SECRET: '',
+  GOOGLE_CALLBACK_URL: '',
+
+  // APPLE
+  APPLE_SERVICE_ID: '',
+  APPLE_TEAM_ID: '',
+  APPLE_KEY_ID: '',
+  APPLE_PRIVATE_KEY: '',
+  APPLE_PRIVATE_KEY_PATH: '',
+  APPLE_CALLBACK_URL: '',
+};
 
 let passportUseMock;
 let googleStrategyCtor;
@@ -79,7 +94,14 @@ const mockFs = async (fileContent) => {
 // Helper to reload module-under-test with fresh mocks/env
 const reload = async (env = {}, opts = {}) => {
   jest.resetModules();
-  process.env = { ...ORIGINAL_ENV, ...env };
+
+  // Start from ORIGINAL_ENV, but force all OAuth vars to known defaults,
+  // then layer per-test overrides on top.
+  process.env = {
+    ...ORIGINAL_ENV,
+    ...OAUTH_ENV_DEFAULTS,
+    ...env,
+  };
 
   // register all mocks before importing passport.js
   await mockPassport();
@@ -138,6 +160,7 @@ describe('passport auth strategies', () => {
       GOOGLE_CALLBACK_URL: 'https://app.chatforia.com/auth/google/callback',
     });
 
+    // Only Google strategy should be registered
     expect(passportUseMock).toHaveBeenCalledTimes(1);
     const strategyInstance = lastGoogleStrategy;
     expect(strategyInstance).toBeInstanceOf(googleStrategyCtor);

@@ -1,15 +1,16 @@
-// ESM mock for 'openai'
-export default class OpenAI {
+class FakeOpenAI {
   constructor() {}
+
   chat = {
     completions: {
       create: async () => ({
         choices: [
-          { message: { content: JSON.stringify({ suggestions: [] }) } }
+          { message: { content: JSON.stringify({ suggestions: [] }) } },
         ],
       }),
     },
   };
 }
-module.exports = FakeOpenAI;
-module.exports.default = FakeOpenAI;
+
+export default FakeOpenAI;
+export { FakeOpenAI };
