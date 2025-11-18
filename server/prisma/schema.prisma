@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["clientExtensions"]
 }
 
 datasource db {
@@ -120,17 +119,17 @@ enum PortStatus {
   PORTED_OUT
 }
 
-enum A11YFont { 
-  sm 
-  md 
-  lg 
-  xl 
+enum A11YFont {
+  sm
+  md
+  lg
+  xl
 }
 
-enum A11YBg { 
-  light 
-  dark 
-  transparent 
+enum A11YBg {
+  light
+  dark
+  transparent
 }
 
 enum RegionTier {
@@ -142,9 +141,9 @@ enum RegionTier {
 }
 
 model RegionRule {
-  id           String    @id @default(cuid())
-  countryCode  String    @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
-  tier         RegionTier
+  id          String     @id @default(cuid())
+  countryCode String     @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
+  tier        RegionTier
 
   @@unique([countryCode])
 }
@@ -158,34 +157,34 @@ enum VerificationType {
 // ===================== 1) Core User & Access =====================
 
 model User {
-  id                          Int         @id @default(autoincrement())
-  username                    String      @unique
-  email                       String?     @unique
-  password                    String
-  phoneNumber                 String?     @db.VarChar(32)
-  preferredLanguage           String      @default("en")
-  allowExplicitContent        Boolean     @default(false)
+  id                   Int     @id @default(autoincrement())
+  username             String  @unique
+  email                String? @unique
+  password             String
+  phoneNumber          String? @db.VarChar(32)
+  preferredLanguage    String  @default("en")
+  allowExplicitContent Boolean @default(false)
 
   // NOTE: existing field uses "...WithTranslation"
-  showOriginalWithTranslation Boolean     @default(true)
+  showOriginalWithTranslation Boolean @default(true)
 
-  role                        String      @default("USER")
-  enableAIResponder           Boolean     @default(false)
-  enableSmartReplies          Boolean     @default(false)
+  role               String  @default("USER")
+  enableAIResponder  Boolean @default(false)
+  enableSmartReplies Boolean @default(false)
 
   // palette/theme family key (e.g., "dawn" | "midnight" | "amoled" ...)
-  theme                       String      @default("dawn")
+  theme String @default("dawn")
 
   // NEW: global auto-translate toggle (was used in UI already)
-  autoTranslate               Boolean     @default(true)
+  autoTranslate Boolean @default(true)
 
   // If you want a separate explicit light/dark/system switch add this:
   // themeMode                String      @default("system") // "light" | "dark" | "system"
 
-  cycling                     Boolean     @default(false)
-  strictE2EE                  Boolean     @default(false)
-  uploads                     Upload[]    @relation("UserUploads")
-  smsThreads                  SmsThread[] @relation("UserSmsThreads")
+  cycling    Boolean     @default(false)
+  strictE2EE Boolean     @default(false)
+  uploads    Upload[]    @relation("UserUploads")
+  smsThreads SmsThread[] @relation("UserSmsThreads")
 
   // --- NEW: verification & 2FA (fixed typo here) ---
   emailVerifiedAt        DateTime?
@@ -208,10 +207,10 @@ model User {
   stripeSubscriptionId String?
 
   // Regional pricing (added)
-  pricingRegion        RegionTier?          // e.g., T1/T2/T3/T4/ROW
-  billingCountry       String?   @db.VarChar(2)  // ISO-3166-1 alpha-2, e.g. "US"
-  currency             String?   @db.VarChar(8)  // e.g. "USD", "INR"
-  firstPaidAt          DateTime?
+  pricingRegion  RegionTier? // e.g., T1/T2/T3/T4/ROW
+  billingCountry String?     @db.VarChar(2) // ISO-3166-1 alpha-2, e.g. "US"
+  currency       String?     @db.VarChar(8) // e.g. "USD", "INR"
+  firstPaidAt    DateTime?
 
   publicKey  String?
   privateKey String?
@@ -249,6 +248,8 @@ model User {
   assignedNumbers            PhoneNumber[]
   numberReservations         NumberReservation[]  @relation("UserNumberReservations")
   transcripts                Transcript[]
+  foriaRemember              Boolean              @default(true)
+  foriaMessages              ForiaMessage[]
 
   // Usage/analytics
   sttUsage STTUsage[] @relation("UserSTTUsage")
@@ -262,10 +263,10 @@ model User {
   messageTone       String? @default("default.mp3")
   ringtone          String? @default("classic.mp3")
 
-  privacyBlurEnabled      Boolean @default(false)
-  privacyBlurOnUnfocus    Boolean @default(false)
-  privacyHoldToReveal     Boolean @default(false)
-  notifyOnCopy            Boolean @default(false)
+  privacyBlurEnabled   Boolean @default(false)
+  privacyBlurOnUnfocus Boolean @default(false)
+  privacyHoldToReveal  Boolean @default(false)
+  notifyOnCopy         Boolean @default(false)
 
   ageBand                AgeBand?
   ageAttestedAt          DateTime?
@@ -287,31 +288,29 @@ model User {
   a11yCaptionMaxLines         Int     @default(3)
 }
 
-
 model Price {
   id            String     @id @default(cuid())
   product       String     @db.VarChar(64) // e.g., "chatforia_premium"
   tier          RegionTier
-  currency      String     @db.VarChar(8)  // e.g., "USD", "INR"
-  unitAmount    Int        // integer minor units (e.g., $9.99 => 999)
+  currency      String     @db.VarChar(8) // e.g., "USD", "INR"
+  unitAmount    Int // integer minor units (e.g., $9.99 => 999)
   stripePriceId String?    @unique
-  appleSku      String?    // App Store product ID per storefront (optional)
-  googleSku     String?    // Play Store product ID (optional)
+  appleSku      String? // App Store product ID per storefront (optional)
+  googleSku     String? // Play Store product ID (optional)
   active        Boolean    @default(true)
 
-  @@index([product, tier, currency])
   @@unique([product, tier, currency])
+  @@index([product, tier, currency])
 }
 
-
 model VerificationToken {
-  id        Int              @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   userId    Int
-  type      String 
+  type      String
   tokenHash String
   expiresAt DateTime
   usedAt    DateTime?
-  createdAt DateTime         @default(now())
+  createdAt DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -379,9 +378,9 @@ model Device {
 }
 
 model Language {
-  id          Int    @id @default(autoincrement())
-  code        String @unique // e.g. 'en', 'es'
-  displayName String         // e.g. 'English', 'Español'
+  id          Int      @id @default(autoincrement())
+  code        String   @unique // e.g. 'en', 'es'
+  displayName String // e.g. 'English', 'Español'
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -564,8 +563,8 @@ model MessageAttachment {
   height      Int?
   durationSec Int?
   caption     String?
-  fileSize    Int?          // bytes
-  waveform    Json?         // e.g., 64-sample array for visualizer
+  fileSize    Int? // bytes
+  waveform    Json? // e.g., 64-sample array for visualizer
   createdAt   DateTime       @default(now())
 
   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
@@ -846,6 +845,17 @@ model BotEventLog {
   install BotInstall @relation(fields: [installId], references: [id], onDelete: Cascade)
 
   @@index([installId])
+}
+
+model ForiaMessage {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  role      String // 'user' or 'assistant'
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 // ===================== 7) Calls =====================

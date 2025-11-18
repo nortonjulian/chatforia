@@ -69,6 +69,8 @@ router.patch('/me', requireAuth, async (req, res) => {
       randomChatAllowedBands,
       theme,
       cycling,
+      // 👇 NEW: Foria memory toggle
+      foriaRemember,
     } = req.body ?? {};
 
     // Build whitelist of updatable fields
@@ -109,6 +111,11 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     if (typeof strictE2EE === 'boolean') {
       data.strictE2EE = strictE2EE;
+    }
+
+    // 👇 NEW: Foria memory flag
+    if (typeof foriaRemember === 'boolean') {
+      data.foriaRemember = foriaRemember;
     }
 
     // Theme (with premium enforcement)
@@ -190,10 +197,6 @@ router.patch('/me', requireAuth, async (req, res) => {
       return res.status(400).json({ error: 'No valid fields to update' });
     }
 
-    // 🚨 THIS IS WHERE YOUR 500 IS COMING FROM
-    // If `preferredLanguage` (or any other field here) does not exist
-    // in your Prisma `User` model, prisma.user.update() will throw
-    // and you'll see a 500 in the browser.
     let updated;
     try {
       updated = await prisma.user.update({
@@ -216,6 +219,8 @@ router.patch('/me', requireAuth, async (req, res) => {
           ageAttestedAt: true,
           wantsAgeFilter: true,
           randomChatAllowedBands: true,
+          // 👇 include it in response
+          foriaRemember: true,
         },
       });
     } catch (err) {

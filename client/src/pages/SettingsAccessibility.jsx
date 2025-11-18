@@ -194,9 +194,12 @@ export default function SettingsAccessibility() {
         <Card>
           <CardTitle>{t('accessibilitySettings.voiceNotes', 'Voice notes')}</CardTitle>
           <SwitchRow
-            label={t('accessibilitySettings.autoTranscribeVoiceNotes', 'Auto-transcribe voice notes')}
-            desc={t(
+            label={t(
               'accessibilitySettings.autoTranscribeVoiceNotes',
+              'Auto-transcribe voice notes'
+            )}
+            desc={t(
+              'accessibilitySettings.autoTranscribeVoiceNotesDesc',
               'Attach a transcript to audio messages you receive.'
             )}
             checked={!!prefs.a11yVoiceNoteSTT}
@@ -204,6 +207,7 @@ export default function SettingsAccessibility() {
             errorMsg={fieldErrors.a11yVoiceNoteSTT}
           />
         </Card>
+
       </section>
 
       <div className="pt-4 text-sm text-gray-500">
