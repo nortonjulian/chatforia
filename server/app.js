@@ -10,6 +10,8 @@ import { fileURLToPath } from 'url';
 // SAFE Sentry wrappers (no-op when DSN is missing/invalid)
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
 
+import { startTealUsageWorker } from './jobs/tealSync.js';
+
 // Request ID + logging
 import { requestId } from './middleware/requestId.js';
 import pinoHttp from 'pino-http';
@@ -62,6 +64,9 @@ import esimRouter from './routes/esim.js';
 import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
+
+import familyRouter from './routes/family.js';
+import wirelessRouter from './routes/wireless.js';
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
@@ -117,6 +122,10 @@ export function createApp() {
   const app = express();
   const isProd = process.env.NODE_ENV === 'production';
   const isTest = process.env.NODE_ENV === 'test';
+
+  // 🔄 Start Teal usage background worker (no-op unless ENABLE_TEAL_SYNC === "true")
+  // You can comment this out if you want to postpone enabling it entirely.
+  startTealUsageWorker();
 
   app.set('trust proxy', true);
 
@@ -348,6 +357,9 @@ export function createApp() {
   app.use('/api/languages', languagesRouter);
   app.use('/stories', storiesRouter);
   app.use('/connectivity', connectivityRouter);
+
+  app.use('/family', requireAuth, familyRouter);
+  app.use('/api/wireless', wirelessRouter);
 
   // eSIM: mount conditionally via feature flag
   if (ESIM_ENABLED) {

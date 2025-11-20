@@ -64,7 +64,7 @@ export default function RandomChatPage() {
         /bot|ai/i.test(String(payload?.partner || ''));
 
       const normalized = isAI
-        ? { ...payload, isAI: true, partner: t('brand.foria', 'Foria') }
+        ? { ...payload, isAI: true, partner: t('brand.ria', 'Ria') }
         : payload;
 
       aiRequestedRef.current = false;
@@ -144,7 +144,7 @@ export default function RandomChatPage() {
     if (!socket) return;
     aiRequestedRef.current = true;
     setSearching(true);
-    setStatus(t('randomChat.startingForia', 'Starting a chat with Foria…'));
+    setStatus(t('randomChat.startingRia', 'Starting a chat with Ria…'));
     setActive(null);
     setMessages([]);
     socket.emit('start_ai_chat');
@@ -195,7 +195,7 @@ export default function RandomChatPage() {
   }, []);
 
   const partnerLabel = active?.isAI
-    ? t('brand.foria', 'Foria')
+    ? t('brand.ria', 'Ria')
     : String(active?.partner ?? t('randomChat.partner', 'Partner'));
 
   // 🚪 Close button: cancel + navigate home
@@ -213,7 +213,7 @@ export default function RandomChatPage() {
           {active ? (
             <Badge color={active.isAI ? 'grape' : 'green'} variant="light">
               {active.isAI
-                ? t('randomChat.withForia', 'With Foria')
+                ? t('randomChat.withRia', 'With Ria')
                 : t('randomChat.connected', 'Connected')}
             </Badge>
           ) : searching ? (
@@ -273,7 +273,7 @@ export default function RandomChatPage() {
               leftSection={<IconRobot size={16} />}
               onClick={startAIChat}
             >
-              {t('randomChat.chatWithForia', 'Chat with Foria')}
+              {t('randomChat.chatWithRia', 'Chat with Ria')}
             </Button>
           </Group>
 
@@ -287,7 +287,7 @@ export default function RandomChatPage() {
               {' '}
               {t(
                 'randomChat.ageBandCallout',
-                'To match with people (not just ForiaBot), set your age band in Settings → Age & Random Chat.'
+                'To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.'
               )}
             </Text>
           )}

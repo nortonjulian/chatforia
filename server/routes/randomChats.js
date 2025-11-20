@@ -11,7 +11,7 @@ import {
   tryMatch,
 } from '../services/randomChatService.js';
 
-// 🔮 OpenAI (ForiaBot brain)
+// 🔮 OpenAI (Ria bot brain)
 import OpenAI from 'openai';
 
 const prisma = new PrismaClient();
@@ -51,15 +51,16 @@ function isAiRoom(roomId) {
   return typeof roomId === 'string' && roomId.startsWith('random:AI:');
 }
 
-// 🧠 Build a reply from ForiaBot using gpt-4.1-mini, with optional per-user memory
-async function buildForiaReply({ user, text }) {
+// 🧠 Build a reply from Ria using gpt-4.1-mini, with optional per-user memory
+async function buildRiaReply({ user, text }) {
   const client = getOpenAI();
   if (!client) {
-    console.error('[Foria] Missing OPENAI_API_KEY env; returning fallback reply');
+    console.error('[Ria] Missing OPENAI_API_KEY env; returning fallback reply');
     return "I’m having trouble connecting to my brain right now, but I’m here to chat!";
   }
 
   // Default: remember is ON unless explicitly set false
+  // (still using existing foriaRemember column for now)
   const remember = user?.foriaRemember !== false;
 
   // 1) Load recent history ONLY if remember is on
@@ -73,7 +74,7 @@ async function buildForiaReply({ user, text }) {
       });
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error('[Foria] Failed to load history', e);
+      console.error('[Ria] Failed to load history', e);
     }
   }
 
@@ -81,7 +82,7 @@ async function buildForiaReply({ user, text }) {
     {
       role: 'system',
       content: `
-You are Foria, a friendly chat companion inside the Chatforia app.
+You are Ria, a friendly chat companion inside the Chatforia app.
 
 - You are always talking to the SAME user in this conversation. Their internal id is ${user?.id ?? 'unknown'}.
 - You may see previous messages between you and this user. Use them to remember preferences,
@@ -91,7 +92,7 @@ You are Foria, a friendly chat companion inside the Chatforia app.
 - Speak casually, warmly, and helpfully.
 - Answer questions directly, add little bits of personality, and ask simple follow-up questions sometimes.
 - Keep responses short (1–3 sentences) unless the user clearly wants a longer explanation.
-- Never just repeat what they said back to them.
+- Never just repeat what they said back to you.
       `.trim(),
     },
     ...history.map((m) => ({
@@ -116,7 +117,7 @@ You are Foria, a friendly chat companion inside the Chatforia app.
       "Hmm, I'm not sure what to say. Want to try asking that another way?";
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('Foria AI error:', err);
+    console.error('Ria AI error:', err);
     replyText =
       "Oops, I had trouble replying just now. Want to try asking that again or change the topic?";
   }
@@ -132,7 +133,7 @@ You are Foria, a friendly chat companion inside the Chatforia app.
       });
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error('[Foria] Failed to store memory', e);
+      console.error('[Ria] Failed to store memory', e);
     }
   }
 
@@ -189,13 +190,13 @@ export function attachRandomChatSockets(io) {
         createdAt: new Date().toISOString(),
       };
 
-      // 🤖 AI room: echo user message to UI, then send ForiaBot reply
+      // 🤖 AI room: echo user message to UI, then send Ria reply
       if (isAiRoom(roomId)) {
         // show the user's bubble in the UI
         socket.emit('receive_message', userMessage);
 
         try {
-          const replyText = await buildForiaReply({
+          const replyText = await buildRiaReply({
             user: u,
             text: payload.content,
           });
@@ -204,17 +205,17 @@ export function attachRandomChatSockets(io) {
             content: replyText,
             senderId: 0,
             randomChatRoomId: roomId,
-            sender: { id: 0, username: 'ForiaBot' },
+            sender: { id: 0, username: 'Ria' },
             createdAt: new Date().toISOString(),
           });
         } catch (err) {
-          // already logged in buildForiaReply; send a soft fallback
+          // already logged in buildRiaReply; send a soft fallback
           socket.emit('receive_message', {
             content:
               'I had a hiccup replying just now, but I’m still here. Want to try again?',
             senderId: 0,
             randomChatRoomId: roomId,
-            sender: { id: 0, username: 'ForiaBot' },
+            sender: { id: 0, username: 'Ria' },
             createdAt: new Date().toISOString(),
           });
         }
@@ -260,17 +261,17 @@ export function attachRandomChatSockets(io) {
       socket.join(aiRoom);
       socket.emit('pair_found', {
         roomId: aiRoom,
-        partner: 'ForiaBot',
+        partner: 'Ria',
         partnerId: 0,
         isAI: true,
       });
 
       // optional: send a friendly opener right away
       socket.emit('receive_message', {
-        content: 'Hey there 👋 I’m Foria. What’s on your mind?',
+        content: 'Hey there 👋 I’m Ria. What’s on your mind?',
         senderId: 0,
         randomChatRoomId: aiRoom,
-        sender: { id: 0, username: 'ForiaBot' },
+        sender: { id: 0, username: 'Ria' },
         createdAt: new Date().toISOString(),
       });
     });
@@ -373,8 +374,9 @@ router.get('/id/:id', requireAuth, async (req, res) => {
   }
 });
 
-// 🧹 Clear Foria memory for the current user
-router.delete('/foria/memory', requireAuth, async (req, res) => {
+// 🧹 Clear Ria memory for the current user
+// (still stored in prisma.foriaMessage table)
+router.delete('/ria/memory', requireAuth, async (req, res) => {
   try {
     await prisma.foriaMessage.deleteMany({
       where: { userId: req.user.id },
@@ -382,8 +384,8 @@ router.delete('/foria/memory', requireAuth, async (req, res) => {
     res.json({ ok: true });
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('Failed to clear Foria memory', err);
-    res.status(500).json({ error: 'Failed to clear Foria memory' });
+    console.error('Failed to clear Ria memory', err);
+    res.status(500).json({ error: 'Failed to clear Ria memory' });
   }
 });
 

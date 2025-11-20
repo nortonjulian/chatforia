@@ -140,12 +140,16 @@ enum RegionTier {
   ROW // Rest of World (fallback)
 }
 
-model RegionRule {
-  id          String     @id @default(cuid())
-  countryCode String     @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
-  tier        RegionTier
+enum FamilyRole {
+  OWNER
+  MEMBER
+}
 
-  @@unique([countryCode])
+enum FamilyInviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
 }
 
 enum VerificationType {
@@ -212,6 +216,8 @@ model User {
   currency       String?     @db.VarChar(8) // e.g. "USD", "INR"
   firstPaidAt    DateTime?
 
+  tealIccid String? @db.VarChar(64)
+
   publicKey  String?
   privateKey String?
 
@@ -250,6 +256,11 @@ model User {
   transcripts                Transcript[]
   foriaRemember              Boolean              @default(true)
   foriaMessages              ForiaMessage[]
+
+  familyMemberships FamilyMember[]
+  familiesOwned     FamilyGroup[]  @relation("FamilyOwner")
+
+  mobileDataPackPurchases MobileDataPackPurchase[]
 
   // Usage/analytics
   sttUsage STTUsage[] @relation("UserSTTUsage")
@@ -355,6 +366,46 @@ model Follow {
   @@index([followingId])
 }
 
+model FamilyGroup {
+  id          Int    @id @default(autoincrement())
+  ownerId     Int
+  owner       User   @relation("FamilyOwner", fields: [ownerId], references: [id])
+  name        String @default("My Chatforia Family")
+  totalDataMb Int    @default(0)
+  usedDataMb  Int    @default(0)
+
+  members FamilyMember[]
+  invites FamilyInvite[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FamilyMember {
+  id          Int         @id @default(autoincrement())
+  groupId     Int
+  userId      Int
+  group       FamilyGroup @relation(fields: [groupId], references: [id])
+  user        User        @relation(fields: [userId], references: [id])
+  role        FamilyRole  @default(MEMBER)
+  limitDataMb Int?
+  usedDataMb  Int         @default(0)
+  createdAt   DateTime    @default(now())
+}
+
+model FamilyInvite {
+  id         Int                @id @default(autoincrement())
+  groupId    Int
+  group      FamilyGroup        @relation(fields: [groupId], references: [id])
+  email      String?
+  phone      String?
+  token      String             @unique
+  status     FamilyInviteStatus @default(PENDING)
+  expiresAt  DateTime?
+  acceptedAt DateTime?
+  createdAt  DateTime           @default(now())
+}
+
 model Device {
   id String @id @default(cuid())
 
@@ -394,6 +445,37 @@ model Translation {
   updatedAt DateTime @updatedAt
 
   @@unique([language, key])
+}
+
+model RegionRule {
+  id          String     @id @default(cuid())
+  countryCode String     @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
+  tier        RegionTier
+
+  @@unique([countryCode])
+}
+
+model MobileDataPackPurchase {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  kind      String // "ESIM" | "FAMILY"
+  addonKind String // "ESIM_STARTER" | ...
+
+  purchasedAt DateTime  @default(now())
+  expiresAt   DateTime?
+
+  totalDataMb     Int
+  remainingDataMb Int
+
+  stripeCheckoutSessionId String?
+  stripePaymentIntentId   String?
+
+  tealProfileId     String?
+  tealIccid         String?
+  qrCodeSvg         String?
+  provisioningError String?
 }
 
 model ProvisionLink {

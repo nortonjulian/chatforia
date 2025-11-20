@@ -1,6 +1,7 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import Stripe from 'stripe';
+import { provisionEsimPack } from '../utils/tealClient.js';
 
 const router = express.Router();
 
@@ -43,7 +44,7 @@ async function ensureStripeCustomerId(user) {
 }
 
 /* ----------------------------------------------
- * Region-aware product/price helpers
+ * Region-aware product/price helpers (core plans)
  * --------------------------------------------*/
 
 // Map plan -> logical product key in your pricing table
@@ -112,7 +113,62 @@ async function resolveStripePriceIdForUserPlan(user, plan, opts = {}) {
 }
 
 /* ----------------------------------------------
- * Checkout
+ * Add-on config (eSIM + Family data packs)
+ * --------------------------------------------*/
+
+const ADDON_CONFIG = {
+  ESIM_STARTER: {
+    type: 'ESIM',
+    stripeEnv: 'STRIPE_PRICE_ESIM_STARTER',
+    tealPlanEnv: 'TEAL_PLAN_ESIM_STARTER',
+    dataMb: 1024,   // 1 GB
+    daysValid: 30,
+  },
+  ESIM_TRAVELER: {
+    type: 'ESIM',
+    stripeEnv: 'STRIPE_PRICE_ESIM_TRAVELER',
+    tealPlanEnv: 'TEAL_PLAN_ESIM_TRAVELER',
+    dataMb: 3072,   // 3 GB
+    daysValid: 30,
+  },
+  ESIM_POWER: {
+    type: 'ESIM',
+    stripeEnv: 'STRIPE_PRICE_ESIM_POWER',
+    tealPlanEnv: 'TEAL_PLAN_ESIM_POWER',
+    dataMb: 5120,   // 5 GB
+    daysValid: 30,
+  },
+
+  FAMILY_SMALL: {
+    type: 'FAMILY',
+    stripeEnv: 'STRIPE_PRICE_FAMILY_SMALL',
+    dataMb: 10240,  // 10 GB shared
+    daysValid: 30,
+  },
+  FAMILY_MEDIUM: {
+    type: 'FAMILY',
+    stripeEnv: 'STRIPE_PRICE_FAMILY_MEDIUM',
+    dataMb: 25600,  // 25 GB shared
+    daysValid: 30,
+  },
+  FAMILY_LARGE: {
+    type: 'FAMILY',
+    stripeEnv: 'STRIPE_PRICE_FAMILY_LARGE',
+    dataMb: 51200,  // 50 GB shared
+    daysValid: 30,
+  },
+};
+
+function getStripePriceIdForAddon(addonKind) {
+  const cfg = ADDON_CONFIG[addonKind];
+  if (!cfg) return null;
+  const envName = cfg.stripeEnv;
+  const value = envName && process.env[envName];
+  return value || null;
+}
+
+/* ----------------------------------------------
+ * Checkout (subscriptions)
  * --------------------------------------------*/
 // POST /billing/checkout  { plan?: "PLUS_MONTHLY"|"PREMIUM_MONTHLY"|"PREMIUM_ANNUAL", priceId?: "price_..." }
 router.post('/checkout', async (req, res) => {
@@ -155,6 +211,49 @@ router.post('/checkout', async (req, res) => {
   } catch (err) {
     console.error('checkout error:', err);
     return res.status(500).json({ error: 'Checkout creation failed' });
+  }
+});
+
+/* ----------------------------------------------
+ * Checkout (add-ons: eSIM & Family packs)
+ * --------------------------------------------*/
+// POST /billing/checkout-addon  { addonKind: "ESIM_STARTER"|"ESIM_TRAVELER"|"ESIM_POWER"|"FAMILY_SMALL"|"FAMILY_MEDIUM"|"FAMILY_LARGE" }
+router.post('/checkout-addon', async (req, res) => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { addonKind } = req.body || {};
+    if (!addonKind || !ADDON_CONFIG[addonKind]) {
+      return res.status(400).json({ error: 'Unknown or missing addonKind' });
+    }
+
+    const priceId = getStripePriceIdForAddon(addonKind);
+    if (!priceId) {
+      return res.status(500).json({ error: 'Stripe price not configured for this add-on' });
+    }
+
+    const stripe = getStripe();
+    const customerId = await ensureStripeCustomerId(req.user);
+
+    const session = await stripe.checkout.sessions.create({
+      mode: 'payment', // one-time purchase
+      customer: customerId,
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${process.env.WEB_URL}/wireless/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.WEB_URL}/wireless?canceled=1`,
+      automatic_tax: { enabled: true },
+      client_reference_id: String(req.user.id),
+      metadata: {
+        userId: String(req.user.id),
+        addonKind,
+        kind: 'ADDON', // helps us distinguish in webhook
+      },
+    });
+
+    return res.json({ url: session.url, checkoutUrl: session.url });
+  } catch (err) {
+    console.error('checkout-addon error:', err);
+    return res.status(500).json({ error: 'Add-on checkout creation failed' });
   }
 });
 
@@ -300,6 +399,76 @@ router.post('/refund-invoice', async (req, res) => {
 });
 
 /* ----------------------------------------------
+ * Helper: record add-on purchases (eSIM & Family)
+ * --------------------------------------------*/
+
+async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
+  const cfg = ADDON_CONFIG[addonKind];
+  if (!cfg) {
+    console.warn('Unknown addonKind in webhook:', addonKind);
+    return;
+  }
+
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + cfg.daysValid * 24 * 60 * 60 * 1000);
+
+  const baseData = {
+    userId: Number(userId),
+    kind: cfg.type,            // "ESIM" | "FAMILY"
+    addonKind,                 // "ESIM_STARTER", "FAMILY_SMALL", etc.
+    purchasedAt: now,
+    expiresAt,
+    totalDataMb: cfg.dataMb,
+    remainingDataMb: cfg.dataMb,
+    stripeCheckoutSessionId: session.id,
+    stripePaymentIntentId: session.payment_intent
+      ? String(session.payment_intent)
+      : null,
+    tealProfileId: null,
+    tealIccid: null,
+    qrCodeSvg: null,
+  };
+
+  // ESIM: actually provision via Teal
+  if (cfg.type === 'ESIM') {
+    try {
+      const tealPlanCode = cfg.tealPlanEnv
+        ? process.env[cfg.tealPlanEnv]
+        : null;
+
+      if (!tealPlanCode) {
+        console.warn('Teal plan env not configured for', addonKind);
+      } else {
+        const provisioned = await provisionEsimPack({
+          userId,
+          addonKind,
+          planCode: tealPlanCode,
+        });
+
+        baseData.tealProfileId = provisioned.tealProfileId || null;
+        baseData.tealIccid = provisioned.iccid || null;
+        baseData.qrCodeSvg = provisioned.qrCodeSvg || null;
+
+        if (provisioned.expiresAt) {
+          baseData.expiresAt = provisioned.expiresAt;
+        }
+        if (typeof provisioned.dataMb === 'number') {
+          baseData.totalDataMb = provisioned.dataMb;
+          baseData.remainingDataMb = provisioned.dataMb;
+        }
+      }
+    } catch (err) {
+      console.error('Teal provisioning failed for addon', addonKind, err);
+      // You could store an error field if your model has one.
+    }
+  }
+
+  await prisma.mobileDataPackPurchase.create({ data: baseData });
+
+  // If FAMILY: you can also increase the Family shared pool here (if schema supports it).
+}
+
+/* ----------------------------------------------
  * Stripe Webhook (mount with express.raw in app.js)
  * --------------------------------------------*/
 router.post('/webhook', async (req, res) => {
@@ -360,22 +529,52 @@ router.post('/webhook', async (req, res) => {
 
     switch (type) {
       case 'checkout.session.completed': {
-        // PREMIUM_ANNUAL still maps to 'PREMIUM' plan on our side
-        const plan =
-          obj.metadata?.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
-        const extras = {
-          stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
-          stripeSubscriptionId: obj.subscription ? String(obj.subscription) : undefined,
-          planExpiresAt: obj.expires_at ? new Date(obj.expires_at * 1000) : undefined,
-        };
-        if (userIdFromEvent) {
-          await setPlan(userIdFromEvent, plan, extras);
-        } else if (obj.customer) {
-          await prisma.user.updateMany({
-            where: { stripeCustomerId: String(obj.customer) },
-            data: { plan, ...extras },
-          });
+        const mode = obj.mode; // 'subscription' or 'payment'
+        const meta = obj.metadata || {};
+
+        // 1) Add-on one-time purchase (eSIM or Family)
+        if (mode === 'payment' && meta.kind === 'ADDON' && meta.addonKind) {
+          const addonUserId =
+            userIdFromEvent ||
+            (meta.userId && Number(meta.userId)) ||
+            null;
+
+          if (addonUserId) {
+            try {
+              await handleAddonCheckoutCompleted({
+                userId: addonUserId,
+                addonKind: meta.addonKind,
+                session: obj,
+              });
+            } catch (err) {
+              console.error('Failed to handle add-on checkout completion:', err);
+            }
+          } else {
+            console.warn('checkout.session.completed for ADDON without userId', obj.id);
+          }
+          break;
         }
+
+        // 2) Normal subscription flow (Plus / Premium)
+        if (mode === 'subscription') {
+          // PREMIUM_ANNUAL still maps to 'PREMIUM' plan on our side
+          const plan =
+            meta.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
+          const extras = {
+            stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
+            stripeSubscriptionId: obj.subscription ? String(obj.subscription) : undefined,
+            planExpiresAt: obj.expires_at ? new Date(obj.expires_at * 1000) : undefined,
+          };
+          if (userIdFromEvent) {
+            await setPlan(userIdFromEvent, plan, extras);
+          } else if (obj.customer) {
+            await prisma.user.updateMany({
+              where: { stripeCustomerId: String(obj.customer) },
+              data: { plan, ...extras },
+            });
+          }
+        }
+
         break;
       }
 

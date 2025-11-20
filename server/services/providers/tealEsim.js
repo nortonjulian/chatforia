@@ -40,3 +40,19 @@ export async function resumeLine({ iccid }) {
   await assertOk(res, 'Teal resume');
   return res.json();
 }
+
+/**
+ * Top up data on an existing Teal line.
+ * NOTE: adjust the URL + body keys to match Teal’s real “add data” endpoint.
+ */
+export async function topUpLineData({ iccid, mb }) {
+  const res = await fetch(`${BASE}/lines/${iccid}/topups`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({
+      amountMb: mb,
+    }),
+  });
+  await assertOk(res, 'Teal top-up');
+  return res.json();
+}

@@ -29,6 +29,10 @@ import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 
+// ✅ NEW: Family pages
+import FamilyDashboard from '@/pages/FamilyDashboard.jsx';
+import FamilyJoin from '@/pages/FamilyJoin.jsx';
+
 import AdminReportsPage from '@/pages/AdminReports';
 import AdminRoute from '@/routes/AdminRoute';
 import AdminLayout from '@/pages/AdminLayout';
@@ -327,6 +331,9 @@ export default function AppRoutes() {
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
+
+          {/* ✅ Family invite join route (works even when logged out) */}
+          <Route path="/family/join/:token" element={<FamilyJoin />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />
@@ -362,6 +369,11 @@ export default function AppRoutes() {
         {/* Calls + Video hub */}
         <Route path="dialer" element={<Dialer />} />
         <Route path="video" element={<Video />} />
+
+        {/* ✅ Family dashboard (authed users) */}
+        <Route path="family" element={<FamilyDashboard />} />
+        {/* ✅ Family join route (also works when already logged in) */}
+        <Route path="family/join/:token" element={<FamilyJoin />} />
 
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />

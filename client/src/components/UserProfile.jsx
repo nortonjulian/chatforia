@@ -304,6 +304,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const planUpper = (currentUser.plan || 'FREE').toUpperCase();
   const isPremiumPlan = planUpper === 'PREMIUM';
   const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
+  const hasEsim = Boolean(currentUser.tealIccid); // 👈 NEW: detect Teal eSIM on account
 
   // ✅ Defaults
   const [preferredLanguage, setPreferredLanguage] = useState(
@@ -638,21 +639,42 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 {t('profile.esim.title', 'Chatforia eSIM (Teal)')}
               </Text>
               <Text size="sm" c="dimmed" mt={4}>
-                {t(
-                  'profile.esim.desc',
-                  'Get mobile data for Chatforia when you’re away from Wi-Fi.'
-                )}
+                {hasEsim
+                  ? t(
+                      'profile.esim.descActive',
+                      'Your Chatforia eSIM is active. You can view or re-scan your QR code, or manage your line.'
+                    )
+                  : t(
+                      'profile.esim.desc',
+                      'Get mobile data for Chatforia when you’re away from Wi-Fi.'
+                    )}
               </Text>
               <Group justify="flex-start" mt="sm">
                 <Button
                   onClick={() => navigate('/account/esim')}
                   variant="filled"
-                  aria-label={t('profile.esim.cta', 'Get eSIM / Show QR')}
+                  aria-label={
+                    hasEsim
+                      ? t('profile.esim.ctaManage', 'Manage eSIM / Show QR')
+                      : t('profile.esim.cta', 'Get eSIM / Show QR')
+                  }
                 >
-                  {t('profile.esim.cta', 'Get eSIM / Show QR')}
+                  {hasEsim
+                    ? t('profile.esim.ctaManage', 'Manage eSIM / Show QR')
+                    : t('profile.esim.cta', 'Get eSIM / Show QR')}
                 </Button>
               </Group>
             </Card>
+
+            <Group mt="md">
+              <Button
+                variant="light"
+                size="xs"
+                onClick={() => navigate('/family')}
+              >
+                {t('profile.family.manage', 'Manage Family plan')}
+              </Button>
+            </Group>
           </Accordion.Panel>
         </Accordion.Item>
 

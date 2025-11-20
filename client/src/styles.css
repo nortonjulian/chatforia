@@ -354,5 +354,24 @@ html, body, #root { height: 100%; }
   outline: 2px solid;
 }
 
+/* ================== Pricing / plan cards ================== */
+.plan-card {
+  height: 100%;
+}
+
+/* Highlighted “Best value” card, using theme tokens */
+.plan-card--highlight {
+  background: var(--surface-highlight-bg, var(--card));
+  color: var(--surface-highlight-fg, var(--fg));
+}
+
+/* Make sure Mantine text components don’t dim themselves into illegibility
+   over the light coupon background. */
+.plan-card--highlight .mantine-Text-root,
+.plan-card--highlight .mantine-Title-root {
+  color: inherit !important;
+  opacity: 1 !important;
+}
+
 
 
