@@ -1,31 +1,65 @@
-import { useEffect, useRef, useState } from 'react';
-import axiosClient from '../api/axiosClient';
-import { Card, Group, Text, Button, Stack, Skeleton, Badge, ActionIcon, Tooltip } from '@mantine/core';
-import { IconRefresh, IconPencil, IconTrash } from '@tabler/icons-react';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import axiosClient from '@/api/axiosClient';
+import {
+  Card,
+  Group,
+  Text,
+  Button,
+  Stack,
+  Skeleton,
+  Badge,
+  ActionIcon,
+  Tooltip,
+} from '@mantine/core';
+import {
+  IconRefresh,
+  IconPencil,
+  IconTrash,
+} from '@tabler/icons-react';
 
-// Safe toast shim (so we don't crash if your toast util isn't wired)
-const toast = {
-  ok: (m) => console.log(m),
-  err: (m) => console.error(m),
-  info: (m) => console.info(m),
-};
+// Runtime helpers: always read global.toast *when called*
+function toastOk(message) {
+  if (typeof globalThis !== 'undefined' && globalThis.toast?.ok) {
+    globalThis.toast.ok(message);
+  }
+}
+
+function toastErr(message) {
+  if (typeof globalThis !== 'undefined' && globalThis.toast?.err) {
+    globalThis.toast.err(message);
+  }
+}
+
+function formatDate(iso) {
+  if (!iso) return 'Unknown';
+  try {
+    return new Date(iso).toLocaleString();
+  } catch {
+    return 'Unknown';
+  }
+}
 
 export default function LinkedDevicesPanel() {
-  const { t, i18n } = useTranslation();
+  const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState([]);
-  const didRun = useRef(false); // guard StrictMode double-mount in dev
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   async function fetchDevices() {
     try {
       setLoading(true);
       const { data } = await axiosClient.get('/devices');
-      setItems(Array.isArray(data) ? data : []);
-    } catch (e) {
-      // If route is missing you might get 404; avoid spamming the user
-      if (e?.response?.status !== 404) {
-        toast.err(t('common.refresh', 'Failed to load devices'));
+      const list = Array.isArray(data) ? data : Array.isArray(data?.items) ? data.items : [];
+      setDevices(list);
+      setInitialLoaded(true);
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status === 404) {
+        // No linked devices yet — empty state, no error toast
+        setDevices([]);
+        setInitialLoaded(true);
+      } else {
+        console.error('Failed to load linked devices', err);
+        toastErr('Failed to load linked devices');
       }
     } finally {
       setLoading(false);
@@ -33,136 +67,123 @@ export default function LinkedDevicesPanel() {
   }
 
   useEffect(() => {
-    if (didRun.current) return;
-    didRun.current = true;
     fetchDevices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function rename(id, currentName) {
-    // using native prompt to keep UX identical
-    const next = window.prompt(t('linkedDevicesPanel.renamePrompt', 'Rename device'), currentName || '');
-    if (!next || !next.trim()) return;
-    try {
-      await axiosClient.post(`/devices/rename/${id}`, { name: next.trim() });
-      setItems((prev) => prev.map((d) => (d.id === id ? { ...d, name: next.trim() } : d)));
-      toast.ok(t('linkedDevicesPanel.renamed', 'Device renamed'));
-    } catch (e) {
-      toast.err(t('linkedDevicesPanel.renameFailed', 'Could not rename device'));
-    }
-  }
+  const handleRename = async (id) => {
+    const raw = window.prompt('Enter a new name for this device');
+    const name = raw?.trim();
+    if (!name) return; // cancel / empty => no POST
 
-  async function revoke(id) {
     try {
-      await axiosClient.post(`/devices/revoke/${id}`);
-      // Mark as revoked in-place (or filter out if you prefer)
-      setItems((prev) =>
-        prev.map((d) => (d.id === id ? { ...d, revokedAt: new Date().toISOString() } : d))
+      await axiosClient.post(`/devices/rename/${id}`, { name });
+      setDevices((prev) =>
+        prev.map((d) => (d.id === id ? { ...d, name } : d))
       );
-      toast.ok(t('linkedDevicesPanel.revoked', 'Device revoked'));
-    } catch (e) {
-      toast.err(t('linkedDevicesPanel.revokeFailed', 'Could not revoke device'));
-    }
-  }
-
-  // Localized date formatter using current i18n language
-  const fmt = (iso) => {
-    if (!iso) return '—';
-    try {
-      return new Date(iso).toLocaleString(i18n.language || undefined);
-    } catch {
-      return new Date(iso).toLocaleString();
+      toastOk('Device renamed');
+    } catch (err) {
+      console.error('Failed to rename device', err);
+      toastErr('Could not rename device');
     }
   };
 
+  const handleRevoke = async (id) => {
+    try {
+      await axiosClient.post(`/devices/revoke/${id}`);
+      setDevices((prev) =>
+        prev.map((d) =>
+          d.id === id ? { ...d, revoked: true } : d
+        )
+      );
+      toastOk('Device revoked');
+    } catch (err) {
+      console.error('Failed to revoke device', err);
+      toastErr('Could not revoke device');
+    }
+  };
+
+  const showSkeletons = loading && !initialLoaded;
+
   return (
-    <Card withBorder radius="lg" p="lg">
-      <Group justify="space-between" mb="md">
-        <Text fw={700} size="lg">
-          {t('linkedDevicesPanel.title', 'Linked Devices')}
-        </Text>
+    <Stack>
+      <Group justify="space-between" align="center">
+        <Text fw={600}>Linked devices</Text>
         <Button
-          variant="light"
           leftSection={<IconRefresh size={16} />}
           onClick={fetchDevices}
+          aria-label="Refresh"
         >
-          {t('linkedDevicesPanel.refresh', 'Refresh')}
+          Refresh
         </Button>
       </Group>
 
-      {loading ? (
-        <Stack>
-          <Skeleton h={56} />
-          <Skeleton h={56} />
-        </Stack>
-      ) : items.length === 0 ? (
-        <Text c="dimmed">{t('linkedDevicesPanel.noneFound', 'No linked devices found.')}</Text>
+      {showSkeletons ? (
+        <>
+          <Skeleton h={60} />
+          <Skeleton h={60} />
+        </>
+      ) : devices.length === 0 ? (
+        <Text c="dimmed">No linked devices found.</Text>
       ) : (
         <Stack>
-          {items.map((d) => {
-            const isRevoked = !!d.revokedAt;
+          {devices.map((dev) => {
+            const {
+              id,
+              name,
+              isPrimary,
+              platform,
+              createdAt,
+              lastSeenAt,
+              revoked,
+            } = dev;
+
+            const disabled = !!revoked;
+            const displayName =
+              name && name.trim().length > 0 ? name : 'Unnamed device';
+
             return (
-              <Group key={d.id} justify="space-between" align="center">
-                <div>
-                  <Group gap="xs" align="center">
-                    <Text fw={600}>
-                      {d.name || t('linkedDevicesPanel.unnamed', 'Unnamed device')}
+              <Card key={id} shadow="sm" p="md">
+                <Group justify="space-between" align="flex-start">
+                  <Stack gap="xs">
+                    <Text fw={500}>{displayName}</Text>
+                    <Group gap="xs">
+                      {isPrimary && <Badge>Primary</Badge>}
+                      {platform && <Badge>{platform}</Badge>}
+                      {revoked && <Badge>Revoked</Badge>}
+                    </Group>
+                    <Text size="xs" c="dimmed">
+                      Added {formatDate(createdAt)} • Last seen {formatDate(lastSeenAt)}
                     </Text>
-                    {d.isPrimary ? (
-                      <Badge color="green" variant="light">
-                        {t('linkedDevicesPanel.primary', 'Primary')}
-                      </Badge>
-                    ) : null}
-                    {d.platform ? <Badge variant="light">{d.platform}</Badge> : null}
-                    {isRevoked ? (
-                      <Badge color="red" variant="light">
-                        {t('linkedDevicesPanel.revokedBadge', 'Revoked')}
-                      </Badge>
-                    ) : null}
+                  </Stack>
+
+                  <Group gap="xs">
+                    <Tooltip label="Rename device">
+                      <ActionIcon
+                        aria-label="Rename device"
+                        onClick={() => handleRename(id)}
+                        disabled={disabled}
+                      >
+                        <IconPencil size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+
+                    <Tooltip label="Revoke device">
+                      <ActionIcon
+                        aria-label="Revoke device"
+                        onClick={() => handleRevoke(id)}
+                        disabled={disabled}
+                      >
+                        <IconTrash size={16} />
+                      </ActionIcon>
+                    </Tooltip>
                   </Group>
-                  <Text size="sm" c="dimmed">
-                    {t('linkedDevicesPanel.added', 'Added')}{' '}
-                    {d.createdAt ? fmt(d.createdAt) : '—'}
-                    {d.lastSeenAt
-                      ? ` · ${t('linkedDevicesPanel.lastSeen', 'Last seen')} ${fmt(d.lastSeenAt)}`
-                      : ''}
-                  </Text>
-                </div>
-
-                <Group gap="xs">
-                  <Tooltip label={t('linkedDevicesPanel.rename', 'Rename')}>
-                    <ActionIcon
-                      variant="subtle"
-                      onClick={() => rename(d.id, d.name)}
-                      disabled={isRevoked}
-                      aria-label={t('linkedDevicesPanel.rename', 'Rename device')}
-                    >
-                      <IconPencil size={16} />
-                    </ActionIcon>
-                  </Tooltip>
-
-                  <Tooltip
-                    label={
-                      isRevoked
-                        ? t('linkedDevicesPanel.alreadyRevoked', 'Already revoked')
-                        : t('linkedDevicesPanel.revoke', 'Revoke')
-                    }
-                  >
-                    <ActionIcon
-                      color="red"
-                      variant="subtle"
-                      onClick={() => revoke(d.id)}
-                      disabled={isRevoked}
-                      aria-label={t('linkedDevicesPanel.revoke', 'Revoke device')}
-                    >
-                      <IconTrash size={16} />
-                    </ActionIcon>
-                  </Tooltip>
                 </Group>
-              </Group>
+              </Card>
             );
           })}
         </Stack>
       )}
-    </Card>
+    </Stack>
   );
 }

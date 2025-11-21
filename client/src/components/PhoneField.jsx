@@ -27,16 +27,25 @@ export default function PhoneField({
 
   return (
     <Box>
-      <Text
-        size="sm"
-        mb={6}
-        component="label"
-        htmlFor={inputId}
-        fw={500}
-        style={{ display: 'inline-block' }}
-      >
-        {label} {required && <span aria-hidden="true" style={{ color: 'var(--mantine-color-red-6)' }}>*</span>}
-      </Text>
+      {/* Real <label> element for accessibility + tests */}
+      <label htmlFor={inputId} style={{ display: 'inline-block' }}>
+        <Text
+          size="sm"
+          mb={6}
+          fw={500}
+          component="span"
+        >
+          {label}{' '}
+          {required && (
+            <span
+              aria-hidden="true"
+              style={{ color: 'var(--mantine-color-red-6)' }}
+            >
+              *
+            </span>
+          )}
+        </Text>
+      </label>
 
       <PhoneInput
         id={inputId}

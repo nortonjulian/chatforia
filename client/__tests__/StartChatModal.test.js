@@ -40,6 +40,31 @@ jest.mock('../src/components/RecipientSelector.jsx', () => ({
   },
 }));
 
+// --- Mock only Mantine SegmentedControl so we can click "Broadcast" by text
+jest.mock('@mantine/core', () => {
+  const actual = jest.requireActual('@mantine/core');
+
+  const SegmentedControl = ({ value, onChange, data }) => (
+    <div aria-label="mode-toggle">
+      {data.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          aria-pressed={value === opt.value}
+          onClick={() => onChange(opt.value)}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  return {
+    ...actual,
+    SegmentedControl,
+  };
+});
+
 // --- axiosClient mock (top-level)
 const mockGet = jest.fn();
 const mockPost = jest.fn();
@@ -106,10 +131,11 @@ test('searches users, saves contact and starts chat', async () => {
     })
   );
 
-  expect(await screen.findByText(/alice/i)).toBeInTheDocument();
+  // Wait for the result "Save" button to appear (indicates result card rendered)
+  const saveBtn = await screen.findByRole('button', { name: /^save$/i });
 
   // Click the "Save" button in the result card (not "Save Contact")
-  await user.click(screen.getByRole('button', { name: /^save$/i }));
+  await user.click(saveBtn);
   await waitFor(() =>
     expect(mockPost).toHaveBeenCalledWith('/contacts', {
       ownerId: 1,
@@ -119,7 +145,8 @@ test('searches users, saves contact and starts chat', async () => {
   );
 
   // Start chat → POST /chatrooms/direct/2 → navigate → onClose called
-  await user.click(screen.getByRole('button', { name: /^start$/i }));
+  const startBtn = await screen.findByRole('button', { name: /^start$/i });
+  await user.click(startBtn);
   await waitFor(() =>
     expect(mockPost).toHaveBeenCalledWith('/chatrooms/direct/2')
   );
@@ -139,8 +166,10 @@ test('Add Contact (direct) path falls back to external contact', async () => {
 
   renderWithProviders(<StartChatModal currentUserId={1} onClose={() => {}} />);
 
-  // Open "Add a Contact"
-  await user.click(screen.getByRole('button', { name: /add/i }));
+  // Open "Add a Contact" – the last "Add" button is the dedicated one
+  const addButtons = screen.getAllByRole('button', { name: /add/i });
+  const addContactButton = addButtons[addButtons.length - 1];
+  await user.click(addContactButton);
 
   // Enter phone via PhoneField (label-based)
   const rawPhone = '555-555-5555';
@@ -223,8 +252,8 @@ test('sends a broadcast with seed message (server /broadcasts path)', async () =
   const onClose = jest.fn();
   renderWithProviders(<StartChatModal currentUserId={1} onClose={onClose} />);
 
-  // Switch to Broadcast mode
-  await user.click(screen.getByRole('radio', { name: /broadcast/i }));
+  // Switch to Broadcast mode – click the "Broadcast" segment by text
+  await user.click(screen.getByText(/broadcast/i));
 
   // Add two recipients
   await user.click(screen.getByRole('button', { name: /add alice/i }));
@@ -268,8 +297,8 @@ test('broadcast fallback: creates individual rooms and seeds message when /broad
   const onClose = jest.fn();
   renderWithProviders(<StartChatModal currentUserId={1} onClose={onClose} />);
 
-  // Switch to Broadcast mode
-  await user.click(screen.getByRole('radio', { name: /broadcast/i }));
+  // Switch to Broadcast mode – click the "Broadcast" segment by its label
+  await user.click(screen.getByText(/broadcast/i));
 
   // Add two recipients
   await user.click(screen.getByRole('button', { name: /add alice/i }));
@@ -284,33 +313,34 @@ test('broadcast fallback: creates individual rooms and seeds message when /broad
   // Send broadcast
   await user.click(screen.getByRole('button', { name: /send broadcast/i }));
 
-  // 1) Tried /broadcasts first
-  await waitFor(() =>
+  // Wait for all axios calls (broadcast + fallback sequence)
+  await waitFor(() => {
+    // 1) Tried /broadcasts first
     expect(mockPost).toHaveBeenNthCalledWith(1, '/broadcasts', {
       participantIds: [2, 3],
       message: 'Heads up!',
-    })
-  );
+    });
 
-  // 2) Fallback: per-user /chatrooms then /messages
-  // For user 2
-  expect(mockPost).toHaveBeenNthCalledWith(2, '/chatrooms', {
-    participantIds: [2],
-  });
-  // seed message to room-2
-  expect(mockPost).toHaveBeenNthCalledWith(3, '/messages', {
-    chatRoomId: 'room-2',
-    text: 'Heads up!',
-  });
+    // 2) Fallback: per-user /chatrooms then /messages
+    // For user 2
+    expect(mockPost).toHaveBeenNthCalledWith(2, '/chatrooms', {
+      participantIds: [2],
+    });
+    // seed message to room-2
+    expect(mockPost).toHaveBeenNthCalledWith(3, '/messages', {
+      chatRoomId: 'room-2',
+      text: 'Heads up!',
+    });
 
-  // For user 3
-  expect(mockPost).toHaveBeenNthCalledWith(4, '/chatrooms', {
-    participantIds: [3],
-  });
-  // seed message to room-3
-  expect(mockPost).toHaveBeenNthCalledWith(5, '/messages', {
-    chatRoomId: 'room-3',
-    text: 'Heads up!',
+    // For user 3
+    expect(mockPost).toHaveBeenNthCalledWith(4, '/chatrooms', {
+      participantIds: [3],
+    });
+    // seed message to room-3
+    expect(mockPost).toHaveBeenNthCalledWith(5, '/messages', {
+      chatRoomId: 'room-3',
+      text: 'Heads up!',
+    });
   });
 
   expect(onClose).toHaveBeenCalled();

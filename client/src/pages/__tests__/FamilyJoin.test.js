@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
@@ -7,14 +6,14 @@ import { MantineProvider } from '@mantine/core';
 // ---- Mocks ----
 
 // Mock API
-jest.mock('../api/family', () => ({
+jest.mock('../../api/family', () => ({
   joinFamily: jest.fn(),
 }));
-import { joinFamily } from '../api/family';
+import { joinFamily } from '../../api/family';
 
 // Mock UserContext
 const mockUseUser = jest.fn();
-jest.mock('../context/UserContext', () => ({
+jest.mock('../../context/UserContext', () => ({
   useUser: () => mockUseUser(),
 }));
 
@@ -35,10 +34,13 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-import FamilyJoin from './FamilyJoin.jsx';
+import FamilyJoin from '../FamilyJoin.jsx';
 
 // Helper: render with router + Mantine, including proper route pattern
-function renderWithRoute(ui, { route = '/family/join/test-token', path = '/family/join/:token' } = {}) {
+function renderWithRoute(
+  ui,
+  { route = '/family/join/test-token', path = '/family/join/:token' } = {}
+) {
   return render(
     <MantineProvider>
       <MemoryRouter initialEntries={[route]}>

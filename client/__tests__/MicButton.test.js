@@ -106,8 +106,11 @@ describe('<MicButton />', () => {
     t = 4200; // start ~1000 → stop ~4200 → ~3.2s => 3s
     await userEvent.click(stopBtn);
 
-    // While uploading, it shows stop button with spinner disabled
-    expect(stopBtn).toBeDisabled();
+    // NOTE:
+    // We *don't* assert disabled state here because the upload promise
+    // is resolved immediately and userEvent.click awaits the whole cycle.
+    // The "busy disables controls" behavior is covered in the dedicated test
+    // below ("busy state disables controls during upload").
 
     // Wait for upload to finish and callback to fire
     await waitFor(() => {

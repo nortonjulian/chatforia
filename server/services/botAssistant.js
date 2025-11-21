@@ -3,7 +3,9 @@ import { allow } from '../utils/tokenBucket.js';
 import { generateAIResponse } from '../utils/generateAIResponse.js';
 import { createMessageService } from './messageService.js';
 
+// Read env once per module load – tests set env before importing this file
 const BOT_ID = Number(process.env.FORIA_BOT_USER_ID || 0);
+
 const MAX_CHARS = Number(process.env.AI_MAX_INPUT_CHARS || 1500);
 
 /**
@@ -18,24 +20,34 @@ const MAX_CHARS = Number(process.env.AI_MAX_INPUT_CHARS || 1500);
  * - Queued execution to bound concurrency/latency
  */
 export async function maybeInvokeForiaBot({ text, savedMessage, io, prisma }) {
-  // Require a dedicated bot user id
+  // 1) Bot must be configured
   if (!BOT_ID) return;
 
-  // Global kill-switch — don’t leak messages if no API key configured
-  if (!process.env.OPENAI_API_KEY) return;
+  // 2) Global kill-switch — don’t leak messages if no API key configured.
+  //    We check both:
+  //      - that the env var exists as an own property (tests can `delete` it)
+  //      - that it’s non-empty.
+  const hasOwnKey = Object.prototype.hasOwnProperty.call(
+    process.env,
+    'OPENAI_API_KEY'
+  );
+  const openaiKey = hasOwnKey ? process.env.OPENAI_API_KEY : '';
+  if (!hasOwnKey || !openaiKey) return;
 
   const roomId = Number(savedMessage.chatRoomId);
   const senderId = Number(
     savedMessage.sender?.id || savedMessage.senderId || 0
   );
   if (!roomId || !senderId) return;
-  if (senderId === BOT_ID) return; // avoid replying to self
 
-  // Per-room and per-sender rate limits (silent drop on overflow)
+  // 3) Don’t reply to the bot itself
+  if (senderId === BOT_ID) return;
+
+  // 4) Per-room and per-sender rate limits (silent drop on overflow)
   if (!allow(`bot:room:${roomId}`, 6, 10_000)) return; // ~6 calls / 10s per room
   if (!allow(`bot:sender:${senderId}`, 8, 10_000)) return; // ~8 triggers / 10s per sender
 
-  // Fetch room + participants (need allow flags & mode)
+  // 5) Fetch room + participants (need allow flags & mode)
   const room = await prisma.chatRoom.findUnique({
     where: { id: roomId },
     select: {

@@ -20,10 +20,18 @@ function getStripe() {
 function parseLoose(body) {
   if (!body) return {};
   if (Buffer.isBuffer(body)) {
-    try { return JSON.parse(body.toString('utf8')); } catch { return {}; }
+    try {
+      return JSON.parse(body.toString('utf8'));
+    } catch {
+      return {};
+    }
   }
   if (typeof body === 'string') {
-    try { return JSON.parse(body); } catch { return {}; }
+    try {
+      return JSON.parse(body);
+    } catch {
+      return {};
+    }
   }
   return body; // already parsed object
 }
@@ -50,10 +58,14 @@ async function ensureStripeCustomerId(user) {
 // Map plan -> logical product key in your pricing table
 function productForPlan(plan) {
   switch (plan) {
-    case 'PLUS_MONTHLY': return 'chatforia_plus';
-    case 'PREMIUM_MONTHLY': return 'chatforia_premium_monthly';
-    case 'PREMIUM_ANNUAL': return 'chatforia_premium_annual';
-    default: return null;
+    case 'PLUS_MONTHLY':
+      return 'chatforia_plus';
+    case 'PREMIUM_MONTHLY':
+      return 'chatforia_premium_monthly';
+    case 'PREMIUM_ANNUAL':
+      return 'chatforia_premium_annual';
+    default:
+      return null;
   }
 }
 
@@ -61,11 +73,11 @@ function productForPlan(plan) {
 function priceIdForPlan(plan) {
   switch (plan) {
     case 'PLUS_MONTHLY':
-      return process.env.STRIPE_PRICE_PLUS;               // e.g. price_xxx
+      return process.env.STRIPE_PRICE_PLUS; // e.g. price_xxx
     case 'PREMIUM_MONTHLY':
-      return process.env.STRIPE_PRICE_PREMIUM_MONTHLY;    // e.g. price_yyy ($24.99/mo)
+      return process.env.STRIPE_PRICE_PREMIUM_MONTHLY; // e.g. price_yyy ($24.99/mo)
     case 'PREMIUM_ANNUAL':
-      return process.env.STRIPE_PRICE_PREMIUM_ANNUAL;     // e.g. price_zzz ($225/yr)
+      return process.env.STRIPE_PRICE_PREMIUM_ANNUAL; // e.g. price_zzz ($225/yr)
     default:
       return null;
   }
@@ -77,12 +89,47 @@ async function resolveStripePriceIdForUserPlan(user, plan, opts = {}) {
   if (!product) return null;
 
   const COUNTRY_CURRENCY = {
-    US:'USD', CA:'CAD', GB:'GBP', IE:'EUR', DE:'EUR', FR:'EUR', NL:'EUR', SE:'SEK',
-    NO:'NOK', DK:'DKK', FI:'EUR', CH:'CHF', AU:'AUD', NZ:'NZD', JP:'JPY', KR:'KRW',
-    SG:'SGD', PL:'PLN', CZ:'CZK', PT:'EUR', ES:'EUR', IT:'EUR', ZA:'ZAR', MX:'MXN',
-    CL:'CLP', AR:'ARS', AE:'AED', IN:'INR', BR:'BRL', PH:'PHP', TH:'THB', VN:'VND',
-    ID:'IDR', TR:'TRY', CO:'COP', PE:'PEN', NG:'NGN', KE:'KES', EG:'EGP', PK:'PKR',
-    BD:'BDT'
+    US: 'USD',
+    CA: 'CAD',
+    GB: 'GBP',
+    IE: 'EUR',
+    DE: 'EUR',
+    FR: 'EUR',
+    NL: 'EUR',
+    SE: 'SEK',
+    NO: 'NOK',
+    DK: 'DKK',
+    FI: 'EUR',
+    CH: 'CHF',
+    AU: 'AUD',
+    NZ: 'NZD',
+    JP: 'JPY',
+    KR: 'KRW',
+    SG: 'SGD',
+    PL: 'PLN',
+    CZ: 'CZK',
+    PT: 'EUR',
+    ES: 'EUR',
+    IT: 'EUR',
+    ZA: 'ZAR',
+    MX: 'MXN',
+    CL: 'CLP',
+    AR: 'ARS',
+    AE: 'AED',
+    IN: 'INR',
+    BR: 'BRL',
+    PH: 'PHP',
+    TH: 'THB',
+    VN: 'VND',
+    ID: 'IDR',
+    TR: 'TRY',
+    CO: 'COP',
+    PE: 'PEN',
+    NG: 'NGN',
+    KE: 'KES',
+    EG: 'EGP',
+    PK: 'PKR',
+    BD: 'BDT',
   };
 
   // Determine country/tier/currency similarly to /pricing/quote
@@ -121,40 +168,40 @@ const ADDON_CONFIG = {
     type: 'ESIM',
     stripeEnv: 'STRIPE_PRICE_ESIM_STARTER',
     tealPlanEnv: 'TEAL_PLAN_ESIM_STARTER',
-    dataMb: 1024,   // 1 GB
+    dataMb: 1024, // 1 GB
     daysValid: 30,
   },
   ESIM_TRAVELER: {
     type: 'ESIM',
     stripeEnv: 'STRIPE_PRICE_ESIM_TRAVELER',
     tealPlanEnv: 'TEAL_PLAN_ESIM_TRAVELER',
-    dataMb: 3072,   // 3 GB
+    dataMb: 3072, // 3 GB
     daysValid: 30,
   },
   ESIM_POWER: {
     type: 'ESIM',
     stripeEnv: 'STRIPE_PRICE_ESIM_POWER',
     tealPlanEnv: 'TEAL_PLAN_ESIM_POWER',
-    dataMb: 5120,   // 5 GB
+    dataMb: 5120, // 5 GB
     daysValid: 30,
   },
 
   FAMILY_SMALL: {
     type: 'FAMILY',
     stripeEnv: 'STRIPE_PRICE_FAMILY_SMALL',
-    dataMb: 10240,  // 10 GB shared
+    dataMb: 10240, // 10 GB shared
     daysValid: 30,
   },
   FAMILY_MEDIUM: {
     type: 'FAMILY',
     stripeEnv: 'STRIPE_PRICE_FAMILY_MEDIUM',
-    dataMb: 25600,  // 25 GB shared
+    dataMb: 25600, // 25 GB shared
     daysValid: 30,
   },
   FAMILY_LARGE: {
     type: 'FAMILY',
     stripeEnv: 'STRIPE_PRICE_FAMILY_LARGE',
-    dataMb: 51200,  // 50 GB shared
+    dataMb: 51200, // 50 GB shared
     daysValid: 30,
   },
 };
@@ -320,10 +367,9 @@ router.post('/uncancel', async (req, res) => {
     }
 
     const stripe = getStripe();
-    const sub = await stripe.subscriptions.update(
-      req.user.stripeSubscriptionId,
-      { cancel_at_period_end: false }
-    );
+    const sub = await stripe.subscriptions.update(req.user.stripeSubscriptionId, {
+      cancel_at_period_end: false,
+    });
 
     // Optional: keep planExpiresAt synced to the current period end (or null).
     await prisma.user.update({
@@ -384,7 +430,8 @@ router.post('/refund-invoice', async (req, res) => {
 
     const stripe = getStripe();
     const inv = await stripe.invoices.retrieve(invoiceId);
-    if (!inv.payment_intent) return res.status(400).json({ error: 'No payment intent for invoice' });
+    if (!inv.payment_intent)
+      return res.status(400).json({ error: 'No payment intent for invoice' });
 
     await stripe.refunds.create({
       payment_intent: inv.payment_intent,
@@ -414,16 +461,14 @@ async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
 
   const baseData = {
     userId: Number(userId),
-    kind: cfg.type,            // "ESIM" | "FAMILY"
-    addonKind,                 // "ESIM_STARTER", "FAMILY_SMALL", etc.
+    kind: cfg.type, // "ESIM" | "FAMILY"
+    addonKind, // "ESIM_STARTER", "FAMILY_SMALL", etc.
     purchasedAt: now,
     expiresAt,
     totalDataMb: cfg.dataMb,
     remainingDataMb: cfg.dataMb,
     stripeCheckoutSessionId: session.id,
-    stripePaymentIntentId: session.payment_intent
-      ? String(session.payment_intent)
-      : null,
+    stripePaymentIntentId: session.payment_intent ? String(session.payment_intent) : null,
     tealProfileId: null,
     tealIccid: null,
     qrCodeSvg: null,
@@ -432,9 +477,7 @@ async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
   // ESIM: actually provision via Teal
   if (cfg.type === 'ESIM') {
     try {
-      const tealPlanCode = cfg.tealPlanEnv
-        ? process.env[cfg.tealPlanEnv]
-        : null;
+      const tealPlanCode = cfg.tealPlanEnv ? process.env[cfg.tealPlanEnv] : null;
 
       if (!tealPlanCode) {
         console.warn('Teal plan env not configured for', addonKind);
@@ -516,9 +559,10 @@ router.post('/webhook', async (req, res) => {
     const planFromLines = () => {
       // Works for invoice.* events
       const lines = obj.lines?.data || [];
-      const priceId = lines[0]?.price?.id
+      const priceId =
+        lines[0]?.price?.id ??
         // Fallbacks for subscription.* objects
-        ?? obj.items?.data?.[0]?.price?.id;
+        obj.items?.data?.[0]?.price?.id;
 
       if (priceId === process.env.STRIPE_PRICE_PLUS) return 'PLUS';
       if (priceId === process.env.STRIPE_PRICE_PREMIUM_MONTHLY) return 'PREMIUM';
@@ -529,15 +573,23 @@ router.post('/webhook', async (req, res) => {
 
     switch (type) {
       case 'checkout.session.completed': {
-        const mode = obj.mode; // 'subscription' or 'payment'
         const meta = obj.metadata || {};
+
+        // Infer mode if Stripe (or tests) didn't include it explicitly.
+        // - If it's an ADDON checkout, treat as "payment"
+        // - If there is a subscription id, treat as "subscription"
+        const mode =
+          obj.mode ||
+          (meta.kind === 'ADDON'
+            ? 'payment'
+            : obj.subscription
+            ? 'subscription'
+            : undefined);
 
         // 1) Add-on one-time purchase (eSIM or Family)
         if (mode === 'payment' && meta.kind === 'ADDON' && meta.addonKind) {
           const addonUserId =
-            userIdFromEvent ||
-            (meta.userId && Number(meta.userId)) ||
-            null;
+            userIdFromEvent || (meta.userId && Number(meta.userId)) || null;
 
           if (addonUserId) {
             try {
@@ -550,7 +602,10 @@ router.post('/webhook', async (req, res) => {
               console.error('Failed to handle add-on checkout completion:', err);
             }
           } else {
-            console.warn('checkout.session.completed for ADDON without userId', obj.id);
+            console.warn(
+              'checkout.session.completed for ADDON without userId',
+              obj.id
+            );
           }
           break;
         }
@@ -558,12 +613,15 @@ router.post('/webhook', async (req, res) => {
         // 2) Normal subscription flow (Plus / Premium)
         if (mode === 'subscription') {
           // PREMIUM_ANNUAL still maps to 'PREMIUM' plan on our side
-          const plan =
-            meta.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
+          const plan = meta.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
           const extras = {
             stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
-            stripeSubscriptionId: obj.subscription ? String(obj.subscription) : undefined,
-            planExpiresAt: obj.expires_at ? new Date(obj.expires_at * 1000) : undefined,
+            stripeSubscriptionId: obj.subscription
+              ? String(obj.subscription)
+              : undefined,
+            planExpiresAt: obj.expires_at
+              ? new Date(obj.expires_at * 1000)
+              : undefined,
           };
           if (userIdFromEvent) {
             await setPlan(userIdFromEvent, plan, extras);
@@ -581,26 +639,36 @@ router.post('/webhook', async (req, res) => {
       case 'customer.subscription.created':
       case 'customer.subscription.updated': {
         const status = String(obj.status || '').toLowerCase();
-        const activeish = ['active', 'trialing', 'past_due', 'unpaid'].includes(status);
+        const activeish = ['active', 'trialing', 'past_due', 'unpaid'].includes(
+          status
+        );
         const plan = planFromLines();
         const extras = {
           stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
           stripeSubscriptionId: obj.id ? String(obj.id) : undefined,
-          planExpiresAt: obj.current_period_end ? new Date(obj.current_period_end * 1000) : null,
+          planExpiresAt: obj.current_period_end
+            ? new Date(obj.current_period_end * 1000)
+            : null,
         };
 
         if (userIdFromEvent) {
           await setPlan(
             userIdFromEvent,
             activeish ? plan : 'FREE',
-            activeish ? extras : { stripeSubscriptionId: null, planExpiresAt: null }
+            activeish
+              ? extras
+              : { stripeSubscriptionId: null, planExpiresAt: null }
           );
         } else if (obj.customer) {
           await prisma.user.updateMany({
             where: { stripeCustomerId: String(obj.customer) },
             data: activeish
               ? { plan, ...extras }
-              : { plan: 'FREE', stripeSubscriptionId: null, planExpiresAt: null },
+              : {
+                  plan: 'FREE',
+                  stripeSubscriptionId: null,
+                  planExpiresAt: null,
+                },
           });
         }
         break;
@@ -608,11 +676,18 @@ router.post('/webhook', async (req, res) => {
 
       case 'customer.subscription.deleted': {
         if (userIdFromEvent) {
-          await setPlan(userIdFromEvent, 'FREE', { stripeSubscriptionId: null, planExpiresAt: null });
+          await setPlan(userIdFromEvent, 'FREE', {
+            stripeSubscriptionId: null,
+            planExpiresAt: null,
+          });
         } else if (obj.customer) {
           await prisma.user.updateMany({
             where: { stripeCustomerId: String(obj.customer) },
-            data: { plan: 'FREE', stripeSubscriptionId: null, planExpiresAt: null },
+            data: {
+              plan: 'FREE',
+              stripeSubscriptionId: null,
+              planExpiresAt: null,
+            },
           });
         }
         break;
@@ -637,7 +712,9 @@ router.post('/webhook', async (req, res) => {
         if (customerId) {
           await prisma.user.updateMany({
             where: { stripeCustomerId: customerId },
-            data: { /* e.g. billingPastDue: true */ },
+            data: {
+              /* e.g. billingPastDue: true */
+            },
           });
         }
         break;

@@ -1,122 +1,177 @@
-/**
- * @jest-environment jsdom
- */
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import DirectVideo from '../DirectVideo.jsx';
 
-// SUT
-import DirectVideo from '@/video/DirectVideo.jsx';
+/* ------------ Mocks ------------ */
 
-// Mocks
-const getMock = jest.fn();
-jest.mock('@/api/axiosClient', () => ({
-  __esModule: true,
-  default: { get: (...args) => getMock(...args) },
-}));
+const mockStartCall = jest.fn();
 
-const useCallMock = jest.fn();
-const startCallMock = jest.fn();
 jest.mock('@/context/CallContext', () => ({
   __esModule: true,
-  useCall: () => useCallMock(),
+  useCall: () => ({
+    startCall: mockStartCall,
+  }),
 }));
 
-beforeEach(() => {
-  jest.clearAllMocks();
-  useCallMock.mockReturnValue({ startCall: startCallMock });
-});
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    post: jest.fn(),
+    get: jest.fn(),
+  },
+}));
+
+// Simple i18n mock: return defaultValue if provided, otherwise the key
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key, defaultValue) => defaultValue ?? key,
+  }),
+}));
+
+import axiosClient from '@/api/axiosClient';
+
+/* ------------ Helpers ------------ */
+
+const renderWithUser = (props = {}) =>
+  render(<DirectVideo currentUser={{ id: 1, name: 'Caller' }} {...props} />);
+
+/* ------------ Tests ------------ */
 
 describe('DirectVideo', () => {
-  test('renders and disables Search when not logged in', () => {
-    render(<DirectVideo currentUser={null} />);
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    // Static text present
+  test('renders headers and sections when showHeader=true', () => {
+    renderWithUser({ showHeader: true });
+
+    expect(screen.getByText(/Direct Video/i)).toBeInTheDocument();
     expect(
-      screen.getByText(/Start a direct 1:1 video call/i)
+      screen.getByText(/Start a 1:1 video call using a phone number or Chatforia username/i)
     ).toBeInTheDocument();
 
-    // Input present
-    expect(
-      screen.getByLabelText(/Find a user/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Call by phone/i)).toBeInTheDocument();
+    expect(screen.getByText(/Find a user/i)).toBeInTheDocument();
+  });
 
-    // Search button disabled when currentUser is falsy
-    const searchBtn = screen.getByRole('button', { name: /search/i });
-    expect(searchBtn).toBeDisabled();
+  test('phone: disables Call button when no user or no phone, enables otherwise and calls backend', async () => {
+    renderWithUser();
+
+    const input = screen.getByLabelText(/Phone to call/i);
+    const btn = screen.getByRole('button', { name: /Call/i });
+
+    // Initially disabled (no phone)
+    expect(btn).toBeDisabled();
+
+    // Enter phone, button becomes enabled
+    fireEvent.change(input, { target: { value: '+1-555-123-4567' } });
+    expect(btn).toBeEnabled();
+
+    // Backend returns calleeId so we start a direct call
+    axiosClient.post.mockResolvedValueOnce({
+      data: { calleeId: 99 },
+    });
+
+    fireEvent.click(btn);
+
+    await waitFor(() => {
+      expect(axiosClient.post).toHaveBeenCalledWith('/calls/start-by-phone', {
+        phone: '+1-555-123-4567',
+        mode: 'VIDEO',
+      });
+      expect(mockStartCall).toHaveBeenCalledWith({ calleeId: 99, mode: 'VIDEO' });
+    });
+  });
+
+  test('phone: if backend returns inviteCode, calls navigateToJoin with inviteCode', async () => {
+    const navigateToJoin = jest.fn();
+
+    renderWithUser({ navigateToJoin });
+
+    const input = screen.getByLabelText(/Phone to call/i);
+    const btn = screen.getByRole('button', { name: /Call/i });
+
+    fireEvent.change(input, { target: { value: '+1-555-999-0000' } });
+
+    axiosClient.post.mockResolvedValueOnce({
+      data: { inviteCode: 'join-abc' },
+    });
+
+    fireEvent.click(btn);
+
+    await waitFor(() => {
+      expect(axiosClient.post).toHaveBeenCalledWith('/calls/start-by-phone', {
+        phone: '+1-555-999-0000',
+        mode: 'VIDEO',
+      });
+      expect(navigateToJoin).toHaveBeenCalledWith('join-abc');
+    });
   });
 
   test('searches people and shows results, then calls startCall on "Call"', async () => {
-    const results = [
-      { id: 101, name: 'Alice Example', username: 'alice' },
-      { id: 202, username: 'bob' }, // no name, should fall back to username
-    ];
-    getMock.mockResolvedValueOnce({ data: results });
+    renderWithUser();
 
-    render(<DirectVideo currentUser={{ id: 'me' }} />);
+    const searchInput = screen.getByLabelText(/Search by name or username/i);
+    const searchBtn = screen.getByRole('button', { name: /Search/i });
 
-    // Type query
-    const input = screen.getByLabelText(/Find a user/i);
-    fireEvent.change(input, { target: { value: 'ali' } });
-
-    // Click Search
-    const searchBtn = screen.getByRole('button', { name: /search/i });
-    expect(searchBtn).not.toBeDisabled();
-    fireEvent.click(searchBtn);
-
-    // Verify axios called with correct params
-    await waitFor(() => {
-      expect(getMock).toHaveBeenCalledWith('/people', { params: { q: 'ali' } });
+    axiosClient.get.mockResolvedValueOnce({
+      data: [
+        { id: 101, name: 'Alice', username: 'alice' },
+        { id: 102, name: 'Bob', username: 'bob' },
+      ],
     });
 
-    // Results rendered
-    expect(await screen.findByText('Alice Example')).toBeInTheDocument();
-    expect(screen.getByText('@bob')).toBeInTheDocument();
-
-    // Click "Call" for Alice
-    const aliceRow = screen.getByText('Alice Example').closest('div');
-    const callButtons = screen.getAllByRole('button', { name: /call/i });
-    // Choose the first "Call" (Alice)
-    fireEvent.click(callButtons[0]);
-
-    expect(startCallMock).toHaveBeenCalledTimes(1);
-    expect(startCallMock).toHaveBeenCalledWith({ calleeId: 101, mode: 'VIDEO' });
-  });
-
-  test('does not issue request when query is empty/whitespace', async () => {
-    render(<DirectVideo currentUser={{ id: 'me' }} />);
-
-    const input = screen.getByLabelText(/Find a user/i);
-    fireEvent.change(input, { target: { value: '   ' } });
-
-    const searchBtn = screen.getByRole('button', { name: /search/i });
+    // Type query and click Search
+    fireEvent.change(searchInput, { target: { value: 'a' } });
     fireEvent.click(searchBtn);
 
-    // No axios call should happen
-    await new Promise((r) => setTimeout(r, 50));
-    expect(getMock).not.toHaveBeenCalled();
+    // Wait for results
+    await screen.findByText('Alice');
+    await screen.findByText('Bob');
+
+    // We have multiple "Call" buttons:
+    // - the phone Call button
+    // - one per result
+    const callButtons = screen.getAllByRole('button', { name: /Call/i });
+    expect(callButtons.length).toBeGreaterThanOrEqual(2);
+
+    // Click the last Call button, which corresponds to the last result (Bob, id 102)
+    fireEvent.click(callButtons[callButtons.length - 1]);
+
+    expect(mockStartCall).toHaveBeenCalledTimes(1);
+    expect(mockStartCall).toHaveBeenCalledWith({ calleeId: 102, mode: 'VIDEO' });
   });
 
-  test('handles API error and shows no results', async () => {
-    getMock.mockRejectedValueOnce(new Error('network'));
-    render(<DirectVideo currentUser={{ id: 'me' }} />);
+  test('handles API error and shows no search results (only the phone Call remains)', async () => {
+    renderWithUser();
 
-    const input = screen.getByLabelText(/Find a user/i);
-    fireEvent.change(input, { target: { value: 'char' } });
+    const searchInput = screen.getByLabelText(/Search by name or username/i);
+    const searchBtn = screen.getByRole('button', { name: /Search/i });
 
-    const searchBtn = screen.getByRole('button', { name: /search/i });
+    axiosClient.get.mockRejectedValueOnce(new Error('Search failed'));
+
+    fireEvent.change(searchInput, { target: { value: 'x' } });
     fireEvent.click(searchBtn);
 
-    await waitFor(() => expect(getMock).toHaveBeenCalled());
+    await waitFor(() => {
+      // No result name / username text should be present
+      expect(screen.queryByText('Alice')).not.toBeInTheDocument();
+      expect(screen.queryByText('Bob')).not.toBeInTheDocument();
+      expect(screen.queryByText(/@/)).not.toBeInTheDocument();
+    });
 
-    // Should not render any user rows
-    expect(screen.queryByText(/@/)).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /call/i })).not.toBeInTheDocument();
+    // We intentionally do NOT assert about "Call" buttons here, since the
+    // phone Call button still exists.
   });
 
-  test('accepts initialPeerId without crashing', () => {
-    render(<DirectVideo currentUser={{ id: 'me' }} initialPeerId="999" />);
-    // No behavior yet—this just ensures it renders and effect runs
-    expect(
-      screen.getByText(/Start a direct 1:1 video call/i)
-    ).toBeInTheDocument();
+  test('renders without header when showHeader=false', () => {
+    renderWithUser({ showHeader: false });
+
+    // Title text should be absent
+    expect(screen.queryByText(/Direct Video/i)).not.toBeInTheDocument();
+
+    // But the sections still exist
+    expect(screen.getByText(/Call by phone/i)).toBeInTheDocument();
+    expect(screen.getByText(/Find a user/i)).toBeInTheDocument();
   });
 });

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActionIcon,
   Box,
@@ -13,7 +13,6 @@ import {
   Text,
   TextInput,
   Tooltip,
-  rem,
 } from '@mantine/core';
 import { IconUserPlus, IconChevronsDown } from '@tabler/icons-react';
 
@@ -179,8 +178,8 @@ export default function RecipientSelector({
         aria-haspopup="listbox"
         sx={(theme) => ({
           border: `1px solid ${theme.colors.gray[4]}`,
-          borderRadius: rem(8),
-          padding: rem(6),
+          borderRadius: 8,
+          padding: 6,
         })}
         onClick={() => inputRef.current?.focus()}
       >
@@ -216,8 +215,36 @@ export default function RecipientSelector({
                 disabled={!canAddMore}
                 variant="unstyled"
                 styles={{
-                  input: { padding: 0, minHeight: rem(24) },
+                  input: { padding: 0, minHeight: 24 },
                 }}
+                rightSection={
+                  <Group gap={4}>
+                    <Tooltip label="Browse contacts">
+                      <ActionIcon
+                        aria-label="Browse contacts"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRequestBrowse?.();
+                        }}
+                        size="sm"
+                      >
+                        <IconUserPlus size={14} />
+                      </ActionIcon>
+                    </Tooltip>
+                    {value.length > 1 && (
+                      <Tooltip label="Show all recipients">
+                        <ActionIcon
+                          aria-label="Show all recipients"
+                          onClick={(e) => e.stopPropagation()}
+                          size="sm"
+                        >
+                          <IconChevronsDown size={14} />
+                        </ActionIcon>
+                      </Tooltip>
+                    )}
+                  </Group>
+                }
+                rightSectionWidth={80}
               />
             </Popover.Target>
 
@@ -262,11 +289,11 @@ function ChipBadge({ label, onRemove }) {
       sx={(t) => ({
         display: 'inline-flex',
         alignItems: 'center',
-        gap: rem(6),
+        gap: 6,
         background: t.colors.gray[1],
         border: `1px solid ${t.colors.gray[3]}`,
-        borderRadius: rem(999),
-        padding: `${rem(4)} ${rem(8)}`,
+        borderRadius: 999,
+        padding: '4px 8px',
       })}
     >
       <Text size="sm">{label}</Text>

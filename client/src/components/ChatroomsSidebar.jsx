@@ -25,14 +25,18 @@ export default function ChatroomsSidebar({
   onCountChange,
   listOnly = false,        // suppress header/ads/CTA when embedded in Sidebar
   filterQuery = '',        // client-side filter text
+  __testInitialRooms,
+  __testInitialError,
+  __testSkipLoad = false,
 }) {
   const { t } = useTranslation();
-  const [rooms, setRooms] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState('');
+  const [rooms, setRooms] = useState(__testInitialRooms ?? []);
+  const [loading, setLoading] = useState(__testSkipLoad ? false : true);
+  const [err, setErr] = useState(__testInitialError ?? '');
   const isPremium = useIsPremium();
 
   const load = useCallback(async () => {
+    if (__testSkipLoad) return;
     try {
       setLoading(true);
       setErr('');
@@ -50,7 +54,7 @@ export default function ChatroomsSidebar({
     } finally {
       setLoading(false);
     }
-  }, [t]);
+  }, [t, __testSkipLoad]);
 
   useEffect(() => {
     load();

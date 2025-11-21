@@ -3,38 +3,41 @@ import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import { MantineProvider } from '@mantine/core';
 
-import FamilyDashboard from './FamilyDashboard.jsx';
+import FamilyDashboard from '../FamilyDashboard.jsx';
 
 // ---- Mocks ----
 
-// Mock family API
-jest.mock('../api/family', () => ({
+// Mock family API (correct relative path from __tests__)
+jest.mock('@/api/family', () => ({
   getMyFamily: jest.fn(),
   createFamilyInvite: jest.fn(),
 }));
-import { getMyFamily, createFamilyInvite } from '../api/family';
+import { getMyFamily, createFamilyInvite } from '../../api/family';
 
 // Mock UserContext
 const mockUseUser = jest.fn();
-jest.mock('../context/UserContext', () => ({
+jest.mock('../../context/UserContext', () => ({
   useUser: () => mockUseUser(),
 }));
 
 // Mock i18next
+const tImpl = (key, defaultValue, options) => {
+  // basic interpolation for {{role}} so "Owner" etc. show up nicely
+  if (typeof defaultValue === 'string') {
+    if (options && typeof options.role === 'string') {
+      return defaultValue.replace('{{role}}', options.role);
+    }
+    return defaultValue;
+  }
+  return key;
+};
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key, defaultValue, options) => {
-      // basic interpolation for {{role}} so "Owner" etc. show up nicely
-      if (typeof defaultValue === 'string') {
-        if (options && typeof options.role === 'string') {
-          return defaultValue.replace('{{role}}', options.role);
-        }
-        return defaultValue;
-      }
-      return key;
-    },
+    t: tImpl,
   }),
 }));
+
 
 // Mock react-router's useNavigate but keep the rest of the real exports
 const mockNavigate = jest.fn();
@@ -90,14 +93,16 @@ describe('FamilyDashboard', () => {
       expect(screen.getByText('No family set up yet')).toBeInTheDocument();
     });
 
+    // Updated body copy from component
     expect(
       screen.getByText(
-        'To create a Chatforia Family and shared data pool, purchase a Family pack from the Upgrade screen.'
+        'To create a Chatforia Family and shared data pool, start a Family plan.'
       )
     ).toBeInTheDocument();
 
+    // Updated primary CTA label
     expect(
-      screen.getByRole('button', { name: 'Go to Upgrade' })
+      screen.getByRole('button', { name: 'Start a Family plan' })
     ).toBeInTheDocument();
   });
 

@@ -1,81 +1,130 @@
-import { v2 as Translate } from '@google-cloud/translate';
+import { v2 as TranslateV2 } from '@google-cloud/translate';
 import pRetry from 'p-retry';
 
-const enabled = process.env.TRANSLATION_ENABLED === 'true';
+const { Translate } = TranslateV2;
+
+const RETRIES = 3;
+
+function isEnabled() {
+  return process.env.TRANSLATION_ENABLED === 'true';
+}
 
 let client = null;
-if (enabled) {
-  // Requires GOOGLE_PROJECT_ID and GOOGLE_APPLICATION_CREDENTIALS in env
-  client = new Translate.Translate({
-    projectId: process.env.GOOGLE_PROJECT_ID,
-  });
-}
 
-export async function detectLanguage(text) {
-  if (!enabled || !text?.trim()) {
-    return { language: null, confidence: null, provider: 'none' };
+// Lazy-init Google Translate client.
+// In tests, @google-cloud/translate is mocked and this constructor is spied on.
+function getClient() {
+  if (!client) {
+    const projectId = process.env.GOOGLE_PROJECT_ID;
+    // Tests expect exactly { projectId: 'chatforia-xyz' } when set,
+    // and don't assert anything when projectId is missing.
+    client = projectId ? new Translate({ projectId }) : new Translate({});
   }
-
-  const op = async () => {
-    const [detections] = await client.detect(text);
-    const det = Array.isArray(detections) ? detections[0] : detections;
-    return {
-      language: det?.language || null,
-      confidence: typeof det?.confidence === 'number' ? det.confidence : null,
-      provider: 'google',
-    };
-  };
-
-  return pRetry(op, { retries: 3 });
-}
-
-export async function translateText(text, targetLang) {
-  if (!enabled || !text?.trim() || !targetLang) {
-    return { translated: null, provider: 'none' };
-  }
-
-  const op = async () => {
-    const [translations] = await client.translate(text, targetLang);
-    const translated = Array.isArray(translations) ? translations[0] : translations;
-    return { translated, provider: 'google' };
-  };
-
-  return pRetry(op, { retries: 3 });
+  return client;
 }
 
 /**
- * BATCH TRANSLATION — what your resolver expects.
- * Returns array of { translatedText, detectedSourceLanguage }.
+ * Detect language of a single text.
+ * - If disabled or empty text → { language: null, confidence: null, provider: 'none' }
+ * - If enabled → uses client.detect via p-retry({ retries: 3 })
  */
-export async function translateBatch(texts = [], target = 'en') {
-  const arr = Array.isArray(texts) ? texts : [String(texts || '')];
-  if (arr.length === 0) return [];
+export async function detectLanguage(text) {
+  if (!isEnabled() || !text) {
+    return {
+      language: null,
+      confidence: null,
+      provider: 'none',
+    };
+  }
 
-  // If disabled, echo back (useful for local dev)
-  if (!enabled) {
-    return arr.map(t => ({
+  const translate = getClient();
+
+  // client.detect(text) resolves to [detections]
+  const [detections] = await pRetry(
+    () => translate.detect(text),
+    { retries: RETRIES }
+  );
+
+  // detections can be an object or an array of objects
+  const first = Array.isArray(detections) ? detections[0] : detections || {};
+
+  return {
+    language: first.language || null,
+    confidence:
+      typeof first.confidence === 'number' ? first.confidence : null,
+    provider: 'google',
+  };
+}
+
+/**
+ * Translate a single text.
+ * - Disabled or blank inputs → { translated: null, provider: 'none' }
+ * - Enabled → uses client.translate via p-retry({ retries: 3 })
+ */
+export async function translateText(text, targetLang) {
+  if (!isEnabled() || !text || !targetLang) {
+    return {
+      translated: null,
+      provider: 'none',
+    };
+  }
+
+  const translate = getClient();
+
+  // client.translate(text, targetLang) resolves to [translated]
+  let [translated] = await pRetry(
+    () => translate.translate(text, targetLang),
+    { retries: RETRIES }
+  );
+
+  // If API ever returns an array here, pick the first element
+  if (Array.isArray(translated)) {
+    translated = translated[0];
+  }
+
+  return {
+    translated,
+    provider: 'google',
+  };
+}
+
+/**
+ * Translate a batch of texts (or a single string).
+ * - Disabled → echoes inputs with detectedSourceLanguage: null
+ * - Enabled → always calls client.translate with an array, and normalizes output
+ *   to: [{ translatedText, detectedSourceLanguage }, ...]
+ */
+export async function translateBatch(texts, targetLang) {
+  // Normalize input to an array of strings
+  const inputArray = Array.isArray(texts) ? texts : [texts];
+
+  if (!isEnabled()) {
+    // Echo back inputs without calling Google
+    return inputArray.map((t) => ({
       translatedText: t,
       detectedSourceLanguage: null,
     }));
   }
 
-  const op = async () => {
-    // v2 client accepts an array and returns an array of strings
-    const [translations] = await client.translate(arr, target);
-    const list = Array.isArray(translations) ? translations : [translations];
-    // v2 translate() doesn’t return detected language unless you call detect() separately.
-    // If you need it, you can call detectLanguage() per item; here we return null to keep it fast.
-    return list.map(t => ({
-      translatedText: t ?? '',
-      detectedSourceLanguage: null,
-    }));
-  };
+  const translate = getClient();
 
-  return pRetry(op, { retries: 3 });
+  // Always pass an array to the client
+  let [translated] = await pRetry(
+    () => translate.translate(inputArray, targetLang),
+    { retries: RETRIES }
+  );
+
+  // Google can return:
+  // - ['hola']               (single string)
+  // - [['un', 'deux']]       (array-of-strings for batch)
+  if (!Array.isArray(translated)) {
+    // single string → wrap in array
+    translated = [translated];
+  }
+
+  return inputArray.map((src, idx) => ({
+    translatedText:
+      translated[idx] !== undefined ? translated[idx] : translated[0],
+    detectedSourceLanguage: null,
+  }));
 }
-
-// Optional alias that your resolver also accepts
-export const translateBatchGoogle = translateBatch;
-
-// Default export so your resolver can pick that path too
-export default translateBatch;

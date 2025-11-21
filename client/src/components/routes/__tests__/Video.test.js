@@ -4,7 +4,9 @@ import userEvent from '@testing-library/user-event';
 
 // Mock heavyweight children so we can assert render + props
 jest.mock('@/video/DirectVideo.jsx', () => (props) => (
-  <div data-testid="direct-video">DirectVideo initialPeerId={String(props.initialPeerId || '')}</div>
+  <div data-testid="direct-video">
+    DirectVideo initialPeerId={String(props.initialPeerId || '')}
+  </div>
 ));
 jest.mock('@/video/VideoCall.jsx', () => (props) => (
   <div data-testid="video-call">
@@ -30,7 +32,9 @@ describe('VideoHub', () => {
     expect(screen.getByText('Video')).toBeInTheDocument();
     expect(screen.getByText('Choose a video type.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Start' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Join / Create' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Join / Create' })
+    ).toBeInTheDocument();
   });
 
   it('navigates to Direct Video flow when Start is clicked', async () => {
@@ -46,10 +50,14 @@ describe('VideoHub', () => {
     const user = userEvent.setup();
     renderWithRouter('/video');
 
-    await user.click(screen.getByRole('button', { name: 'Join / Create' }));
+    await user.click(
+      screen.getByRole('button', { name: 'Join / Create' })
+    );
     expect(screen.getByText('Rooms')).toBeInTheDocument();
     expect(screen.getByLabelText('Room name')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Join' })).toBeDisabled();
+
+    const joinBtn = screen.getByRole('button', { name: 'Join / Create' });
+    expect(joinBtn).toBeDisabled();
   });
 
   it('Rooms: enables Join button when room is entered and shows VideoCall after join', async () => {
@@ -57,11 +65,15 @@ describe('VideoHub', () => {
     renderWithRouter('/video');
 
     // Go to Rooms tab
-    await user.click(screen.getByRole('button', { name: 'Join / Create' }));
+    await user.click(
+      screen.getByRole('button', { name: 'Join / Create' })
+    );
 
     const roomInput = screen.getByLabelText('Room name');
     await user.type(roomInput, 'team-standup');
-    const joinBtn = screen.getByRole('button', { name: 'Join' });
+
+    // 🔧 Match the actual label text: "Join / Create"
+    const joinBtn = screen.getByRole('button', { name: 'Join / Create' });
     expect(joinBtn).toBeEnabled();
 
     await user.click(joinBtn);

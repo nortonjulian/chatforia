@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
@@ -7,21 +6,19 @@ import { MemoryRouter } from 'react-router-dom';
 import WirelessDashboard from '../WirelessDashboard.jsx';
 
 // ---- Mocks ----
-jest.mock('../../context/UserContext', () => ({
+// IMPORTANT: use the same module IDs as the component: '@/context/UserContext' & '@/api/wireless'
+jest.mock('@/context/UserContext', () => ({
+  __esModule: true,
   useUser: jest.fn(),
 }));
 
-jest.mock('../../api/wireless', () => ({
+jest.mock('@/api/wireless', () => ({
+  __esModule: true,
   fetchWirelessStatus: jest.fn(),
 }));
 
-jest.mock('../../api/billing', () => ({
-  createEsimCheckoutSession: jest.fn(),
-  createFamilyCheckoutSession: jest.fn(),
-}));
-
+// simple i18n mock: returns defaultValue if provided, otherwise key
 jest.mock('react-i18next', () => ({
-  // simple i18n mock: returns defaultValue if provided, otherwise key
   useTranslation: () => ({
     t: (key, defaultValueOrOptions) => {
       if (typeof defaultValueOrOptions === 'string') {
@@ -42,12 +39,9 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-const { useUser } = jest.requireMock('../../context/UserContext');
-const { fetchWirelessStatus } = jest.requireMock('../../api/wireless');
-const {
-  createEsimCheckoutSession,
-  createFamilyCheckoutSession,
-} = jest.requireMock('../../api/billing');
+// grab the mocked fns
+const { useUser } = jest.requireMock('@/context/UserContext');
+const { fetchWirelessStatus } = jest.requireMock('@/api/wireless');
 
 function renderWithRouter(ui) {
   return render(<MemoryRouter>{ui}</MemoryRouter>);
@@ -61,8 +55,10 @@ beforeEach(() => {
     currentUser: { id: 1, username: 'julian' },
   });
 
-  // default window.location mock for redirects
+  // mock window.location (even though we just use navigate)
+  // eslint-disable-next-line no-global-assign
   delete window.location;
+  // @ts-ignore
   window.location = { href: '' };
 });
 
@@ -78,75 +74,83 @@ describe('WirelessDashboard', () => {
     });
   });
 
-  test('shows "No family set up yet" and uses eSIM checkout when mode is NONE', async () => {
+  test('shows "No wireless plan yet" and navigates to /upgrade when viewing plans', async () => {
     fetchWirelessStatus.mockResolvedValue({
       mode: 'NONE',
     });
 
-    createEsimCheckoutSession.mockResolvedValue({
-      url: 'https://example.com/esim-checkout',
-    });
-
     renderWithRouter(<WirelessDashboard />);
 
-    // Wait for data load and NONE branch to render
-    expect(await screen.findByText('No family set up yet')).toBeInTheDocument();
+    // Make sure the fetch actually ran and the effect completed once
+    await waitFor(() => {
+      expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    });
+
+    // Now the loading state should be gone and NONE branch rendered
+    expect(
+      await screen.findByText(/No wireless plan yet/i),
+    ).toBeInTheDocument();
+
     expect(
       screen.getByText(
-        'To create a Chatforia Family and shared data pool, start a Family plan.',
+        /You can buy mobile data to use Chatforia away from Wi-Fi, either just for you or for a Family group\./i,
       ),
     ).toBeInTheDocument();
 
-    const buyBtn = screen.getByRole('button', { name: 'Buy data pack' });
-    await userEvent.click(buyBtn);
+    const viewPlansBtn = screen.getByRole('button', { name: /View plans/i });
+    await userEvent.click(viewPlansBtn);
 
     await waitFor(() => {
-      expect(createEsimCheckoutSession).toHaveBeenCalledWith('STARTER');
-      expect(createFamilyCheckoutSession).not.toHaveBeenCalled();
-      expect(window.location.href).toBe('https://example.com/esim-checkout');
+      expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
     });
   });
 
-  test('shows FAMILY pool details and LOW data alert, and uses Family checkout on top up', async () => {
+  test('shows FAMILY pool details and LOW data alert, and uses /upgrade on top up', async () => {
     fetchWirelessStatus.mockResolvedValue({
       mode: 'FAMILY',
       state: 'LOW',
       source: {
         name: 'Norton Family',
-        totalDataMb: 20480,        // 20 GB
-        remainingDataMb: 1024,     // 1 GB
+        totalDataMb: 20480, // 20 GB
+        remainingDataMb: 1024, // 1 GB
         daysRemaining: 3,
       },
     });
 
-    createFamilyCheckoutSession.mockResolvedValue({
-      url: 'https://example.com/family-checkout',
-    });
-
     renderWithRouter(<WirelessDashboard />);
 
-    // Wait for main view
-    expect(await screen.findByText('Norton Family')).toBeInTheDocument();
-    expect(screen.getByText('Shared data pool')).toBeInTheDocument();
+    // Ensure fetch was called so the effect runs
+    await waitFor(() => {
+      expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    });
+
+    // Wait for main FAMILY view
+    expect(
+      await screen.findByText(/Norton Family/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Shared data pool/i)).toBeInTheDocument();
 
     // Data summary: "20.0 GB / 1.0 GB"
-    expect(screen.getByText(/20\.0 GB \/ 1\.0 GB/)).toBeInTheDocument();
+    expect(
+      screen.getByText(/20\.0 GB \/ 1\.0 GB/),
+    ).toBeInTheDocument();
 
     // Low data alert
     expect(
-      screen.getByText('Your data is running low.'),
+      screen.getByText(/Your data is running low\./i),
     ).toBeInTheDocument();
+    // Our i18n mock doesn’t interpolate {{days}}, so we assert on the default template
     expect(
-      screen.getByText('Expires in 3 days'),
+      screen.getByText(/Expires in \{\{days\}\} days/i),
     ).toBeInTheDocument();
 
-    const topUpBtn = screen.getByRole('button', { name: 'Top up now' });
+    const topUpBtn = screen.getByRole('button', {
+      name: /Top up \/ change plan/i,
+    });
     await userEvent.click(topUpBtn);
 
     await waitFor(() => {
-      expect(createFamilyCheckoutSession).toHaveBeenCalledWith('MEDIUM');
-      expect(createEsimCheckoutSession).not.toHaveBeenCalled();
-      expect(window.location.href).toBe('https://example.com/family-checkout');
+      expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
     });
   });
 
@@ -155,9 +159,16 @@ describe('WirelessDashboard', () => {
 
     renderWithRouter(<WirelessDashboard />);
 
+    // Ensure the fetch ran and the error path executed
+    await waitFor(() => {
+      expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    });
+
     // After failure, we should see the load error text
     expect(
-      await screen.findByText('Failed to load family details.'),
+      await screen.findByText(
+        /Failed to load wireless details\. Please try again\./i,
+      ),
     ).toBeInTheDocument();
   });
 });

@@ -14,12 +14,8 @@ import { useTranslation } from 'react-i18next';
 import { Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { useUser } from '../context/UserContext';
-import { fetchWirelessStatus } from '../api/wireless';
-import {
-  createEsimCheckoutSession,
-  createFamilyCheckoutSession,
-} from '../api/billing';
+import { useUser } from '@/context/UserContext';
+import { fetchWirelessStatus } from '@/api/wireless';
 
 function formatGb(mb) {
   if (!mb || mb <= 0) return '0 GB';
@@ -34,7 +30,6 @@ export default function WirelessDashboard() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
@@ -50,123 +45,59 @@ export default function WirelessDashboard() {
         setStatus(data);
       } catch (e) {
         console.error('Failed to load wireless status', e);
-        setError(t('family.error.load', 'Failed to load family details.'));
+        setError(
+          t(
+            'wireless.error.load',
+            'Failed to load wireless details. Please try again.',
+          ),
+        );
       } finally {
         setLoading(false);
       }
     })();
-  }, [currentUser, navigate, t]);
+    // IMPORTANT: don't depend on `t`, because the test's mock
+    // returns a new function every render and would cause re-fetch loops.
+  }, [currentUser, navigate]);
 
-  const handleBuyPack = async () => {
-    try {
-      setCheckoutLoading(true);
-      setError(null);
-
-      // If they have a family pool, default to a Family pack top-up (MEDIUM)
-      if (status?.mode === 'FAMILY') {
-        const { url } = await createFamilyCheckoutSession('MEDIUM');
-        if (url) window.location.href = url;
-        return;
-      }
-
-      // Otherwise, treat as individual eSIM pack (STARTER by default)
-      const { url } = await createEsimCheckoutSession('STARTER');
-      if (url) window.location.href = url;
-    } catch (e) {
-      console.error('Failed to start checkout for data pack', e);
-      setError(
-        t(
-          'family.error.checkout',
-          'We could not start checkout for a Family plan. Please try again.',
-        ),
-      );
-    } finally {
-      setCheckoutLoading(false);
-    }
+  // Central: always go to the Upgrade / plans page
+  const goToPlans = () => {
+    // later you can do /upgrade?tab=wireless if you add a wireless tab
+    navigate('/upgrade');
   };
 
-  if (loading) {
-    return (
-      <Stack maw={800} mx="auto" p="md" gap="sm">
-        <Title order={2}>{t('family.title', 'Family')}</Title>
-        <Group gap="xs">
-          <Loader size="sm" />
-          <Text c="dimmed">
-            {t('family.loading', 'Loading your family details…')}
-          </Text>
-        </Group>
-      </Stack>
-    );
-  }
+  const isNone = !status || status.mode === 'NONE';
+  const isFamily = status?.mode === 'FAMILY';
 
-  if (!status || status.mode === 'NONE') {
-    return (
-      <Stack maw={800} mx="auto" p="md" gap="lg">
-        <Title order={2}>{t('family.title', 'Family')}</Title>
+  // When we *do* have a plan status, compute data stats
+  let planContent = null;
 
-        {error && (
-          <Alert color="red" variant="light" icon={<Info size={16} />}>
-            {error}
-          </Alert>
-        )}
+  if (!isNone && status) {
+    const src = status.source || {};
+    const total = src.totalDataMb || 0;
+    const remaining =
+      src.remainingDataMb ?? src.remainingDataMb === 0
+        ? src.remainingDataMb
+        : total - (src.usedDataMb || 0);
+    const pct = total > 0 ? Math.min(100, (remaining / total) * 100) : 0;
 
-        <Card radius="xl" withBorder>
-          <Stack gap="sm">
-            <Title order={3}>
-              {t('family.none.title', 'No family set up yet')}
-            </Title>
-            <Text c="dimmed" size="sm">
-              {t(
-                'family.none.body',
-                'To create a Chatforia Family and shared data pool, start a Family plan.',
-              )}
-            </Text>
-            <Group>
-              <Button onClick={handleBuyPack} loading={checkoutLoading}>
-                {t('wireless.buyPack', 'Buy data pack')}
-              </Button>
-            </Group>
-          </Stack>
-        </Card>
-      </Stack>
-    );
-  }
+    const isLow = status.state === 'LOW';
+    const isExhausted = status.state === 'EXHAUSTED' || status.exhausted;
+    const isExpired = status.state === 'EXPIRED' || status.expired;
 
-  const src = status.source || {};
-  const total = src.totalDataMb || 0;
-  const remaining =
-    src.remainingDataMb ?? src.remainingDataMb === 0
-      ? src.remainingDataMb
-      : total - (src.usedDataMb || 0);
-  const pct = total > 0 ? Math.min(100, (remaining / total) * 100) : 0;
-
-  const isLow = status.state === 'LOW';
-  const isExhausted = status.state === 'EXHAUSTED' || status.exhausted;
-  const isExpired = status.state === 'EXPIRED' || status.expired;
-
-  return (
-    <Stack maw={800} mx="auto" p="md" gap="lg">
-      <Title order={2}>{t('family.title', 'Family')}</Title>
-
-      {error && (
-        <Alert color="red" variant="light" icon={<Info size={16} />}>
-          {error}
-        </Alert>
-      )}
-
+    planContent = (
       <Card radius="xl" withBorder>
         <Stack gap="sm">
           <Group justify="space-between">
             <Stack gap={2}>
               <Title order={3}>
-                {status.mode === 'FAMILY'
+                {isFamily
                   ? src.name ||
                     t('family.group.defaultName', 'My Chatforia Family')
                   : t('profile.esim.title', 'Chatforia eSIM (Teal)')}
               </Title>
               <Text size="sm" c="dimmed">
-                {status.mode === 'FAMILY'
-                  ? t('family.data.heading', 'Shared data pool')
+                {isFamily
+                  ? t('wireless.data.familyHeading', 'Shared data pool')
                   : t(
                       'profile.esim.desc',
                       'Get mobile data for Chatforia when you’re away from Wi-Fi.',
@@ -174,10 +105,10 @@ export default function WirelessDashboard() {
               </Text>
             </Stack>
 
-            {status.mode === 'INDIVIDUAL' && (
+            {!isFamily && (
               <Text size="sm" c="dimmed">
                 {src.addonKind ||
-                  t('wireless.esimPackLabel', 'eSIM pack')}
+                  t('wireless.esimPackLabel', 'eSIM data pack')}
               </Text>
             )}
           </Group>
@@ -185,7 +116,9 @@ export default function WirelessDashboard() {
           <Stack gap={4} mt="sm">
             <Group justify="space-between">
               <Text size="sm" fw={500}>
-                {t('family.data.heading', 'Shared data pool')}
+                {isFamily
+                  ? t('wireless.data.familyLabel', 'Family data pool')
+                  : t('wireless.data.yourData', 'Your data')}
               </Text>
               <Text size="sm">
                 {formatGb(total)} / {formatGb(remaining)}
@@ -193,20 +126,39 @@ export default function WirelessDashboard() {
             </Group>
             <Progress value={pct} />
             <Text size="xs" c="dimmed">
-              {t(
-                'family.data.caption',
-                'All members share this pool. We’ll warn you as you approach your limit.',
-              )}
+              {isFamily
+                ? t(
+                    'wireless.data.familyCaption',
+                    'All members share this pool. We’ll warn you as you approach your limit.',
+                  )
+                : t(
+                    'wireless.data.caption',
+                    'We’ll warn you as you approach your limit.',
+                  )}
             </Text>
           </Stack>
 
-          {(isLow || isExhausted || isExpired) && (
+          {(status.state === 'LOW' ||
+            status.state === 'EXHAUSTED' ||
+            status.state === 'EXPIRED' ||
+            status.exhausted ||
+            status.expired) && (
             <Alert
-              color={isExhausted || isExpired ? 'red' : 'yellow'}
+              color={
+                status.state === 'EXHAUSTED' ||
+                status.state === 'EXPIRED' ||
+                status.exhausted ||
+                status.expired
+                  ? 'red'
+                  : 'yellow'
+              }
               variant="light"
               icon={<Info size={16} />}
             >
-              {isExhausted || isExpired ? (
+              {status.state === 'EXHAUSTED' ||
+              status.state === 'EXPIRED' ||
+              status.exhausted ||
+              status.expired ? (
                 <Text>
                   {t(
                     'wireless.exhausted',
@@ -221,9 +173,12 @@ export default function WirelessDashboard() {
 
               {src.daysRemaining != null && (
                 <Text size="xs" c="dimmed" mt={4}>
-                  {t('wireless.expiresIn', 'Expires in {{days}} days', {
-                    days: src.daysRemaining,
-                  })}
+                  {t(
+                    'wireless.expiresIn',
+                    'Expires in {{days}} days',
+                    // our i18n mock in tests returns the default string
+                    { days: src.daysRemaining },
+                  )}
                 </Text>
               )}
 
@@ -231,15 +186,59 @@ export default function WirelessDashboard() {
                 mt="sm"
                 size="xs"
                 variant="light"
-                onClick={handleBuyPack}
-                loading={checkoutLoading}
+                onClick={goToPlans}
               >
-                {t('wireless.topUp', 'Top up now')}
+                {t('wireless.topUp', 'Top up / change plan')}
               </Button>
             </Alert>
           )}
         </Stack>
       </Card>
+    );
+  }
+
+  // NONE / no-status content
+  const noneContent = (
+    <Card radius="xl" withBorder data-testid="card">
+      <Stack gap="sm">
+        <Title order={3}>
+          {t('wireless.none.title', 'No wireless plan yet')}
+        </Title>
+        <Text c="dimmed" size="sm">
+          {t(
+            'wireless.none.body',
+            'You can buy mobile data to use Chatforia away from Wi-Fi, either just for you or for a Family group.',
+          )}
+        </Text>
+        <Group>
+          <Button onClick={goToPlans}>
+            {t('wireless.viewPlans', 'View plans')}
+          </Button>
+        </Group>
+      </Stack>
+    </Card>
+  );
+
+  return (
+    <Stack maw={800} mx="auto" p="md" gap="lg">
+      <Title order={2}>{t('wireless.title', 'Wireless')}</Title>
+
+      {loading && (
+        <Group gap="xs">
+          <Loader size="sm" data-testid="loader" />
+          <Text c="dimmed">
+            {t('wireless.loading', 'Loading your wireless details…')}
+          </Text>
+        </Group>
+      )}
+
+      {error && (
+        <Alert color="red" variant="light" icon={<Info size={16} />}>
+          {error}
+        </Alert>
+      )}
+
+      {isNone ? noneContent : planContent}
     </Stack>
   );
 }

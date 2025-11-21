@@ -10,19 +10,23 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
   const [codes, setCodes] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // keep internal selected in sync with prop
   useEffect(() => {
     setSelected(currentLanguage);
   }, [currentLanguage]);
 
+  // load languages once
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+
     fetchLanguages()
       .then((list) => {
         if (!cancelled) {
           const valid = Array.isArray(list)
             ? list.filter((l) => typeof l.code === 'string' && typeof l.name === 'string')
             : [];
+          // you could use `valid` instead of `list` to enforce shape
           setCodes(Array.isArray(list) ? list : []);
         }
       })
@@ -32,12 +36,13 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
+
     return () => {
       cancelled = true;
     };
   }, []);
 
-    const options = useMemo(() => {
+  const options = useMemo(() => {
     if (!Array.isArray(codes)) return [];
     return codes.map(({ code, name }) => ({
       value: code,
@@ -45,8 +50,8 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
     }));
   }, [codes]);
 
-
-    useEffect(() => {
+  // when `selected` changes, drive i18n
+  useEffect(() => {
     if (!selected || selected === i18n.resolvedLanguage) return;
     let cancelled = false;
 
@@ -55,7 +60,9 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
     i18n
       .loadLanguages(selected)
       .then(() => {
-        if (!cancelled) return i18n.changeLanguage(selected);
+        if (!cancelled) {
+          return i18n.changeLanguage(selected);
+        }
       })
       .catch((err) => console.error('changeLanguage error', err));
 
@@ -90,6 +97,7 @@ LanguageSelector.propTypes = {
   onChange: PropTypes.func,
 };
 
+// (unused helper; safe to remove if you want)
 function capitalize(s) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 }

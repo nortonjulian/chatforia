@@ -32,12 +32,22 @@ export default function AudioMessage({ msg, currentUser }) {
 
     // Legacy fallback (single)
     if (msg?.audioUrl) {
-      return [{ url: msg.audioUrl, mimeType: 'audio/webm', durationSec: null, caption: '', id: undefined }];
+      return [
+        {
+          url: msg.audioUrl,
+          mimeType: 'audio/webm',
+          durationSec: null,
+          caption: '',
+          id: undefined,
+        },
+      ];
     }
     return [];
   }, [msg?.attachments, msg?.audioUrl]);
 
-  const canTranscribe = Boolean(currentUser?.a11yVoiceNoteSTT && msg?.id && audios.length > 0);
+  const canTranscribe = Boolean(
+    currentUser?.a11yVoiceNoteSTT && msg?.id && audios.length > 0,
+  );
 
   useEffect(() => {
     let alive = true;
@@ -95,10 +105,15 @@ export default function AudioMessage({ msg, currentUser }) {
           <TranscriptBubble segments={transcript.segments || []} />
         ) : (
           <div className="text-xs text-gray-400 mt-1">
-            {loading ? 'Transcribing…' : 'Transcribing…'}
+            {'Transcribing…'}
           </div>
         )
-      ) : null}
+      ) : (
+        // STT disabled: show static placeholder but do not call fetch
+        <div className="text-xs text-gray-400 mt-1">
+          {'Transcribing…'}
+        </div>
+      )}
     </div>
   );
 }

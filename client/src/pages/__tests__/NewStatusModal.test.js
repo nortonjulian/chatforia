@@ -20,6 +20,22 @@ jest.mock('@mantine/notifications', () => ({
   notifications: { show: (...a) => mockNotifyShow(...a) },
 }));
 
+// i18n stub – handle both (key, defaultStr) and (key, { defaultValue })
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (key, options) => {
+      // t('key', 'Default text')
+      if (typeof options === 'string') return options;
+      // t('key', { defaultValue: 'Default text', ... })
+      if (options && typeof options.defaultValue === 'string') {
+        return options.defaultValue;
+      }
+      return key;
+    },
+  }),
+}));
+
 // Mantine-core lightweight stubs
 jest.mock('@mantine/core', () => {
   const React = require('react');
@@ -29,7 +45,16 @@ jest.mock('@mantine/core', () => {
     <div data-testid={tid} {...props}>{children}</div>
   );
 
-  const Modal = ({ opened, children, title, ...rest }) =>
+  const Modal = ({
+    opened,
+    children,
+    title,
+    centered,
+    withCloseButton,
+    closeOnEscape,
+    trapFocus,
+    ...rest
+  }) =>
     opened ? (
       <div data-testid="modal" {...rest}>
         <div>{title}</div>
@@ -44,12 +69,14 @@ jest.mock('@mantine/core', () => {
     loading,
     type,
     'aria-label': ariaLabel,
+    ...rest
   }) => (
     <button
       type={type || 'button'}
       aria-label={ariaLabel}
       disabled={!!disabled || !!loading}
       onClick={onClick}
+      {...rest}
     >
       {children}
     </button>
@@ -64,6 +91,7 @@ jest.mock('@mantine/core', () => {
     onKeyDown,
     placeholder,
     'aria-label': ariaLabel,
+    ...rest
   }) => (
     <label>
       {label}
@@ -73,6 +101,7 @@ jest.mock('@mantine/core', () => {
         value={value || ''}
         onChange={onChange}
         onKeyDown={onKeyDown}
+        {...rest}
       />
     </label>
   );
@@ -83,6 +112,7 @@ jest.mock('@mantine/core', () => {
     onChange,
     min,
     max,
+    clampOnBlur, // strip Mantine-only prop
     ...rest
   }) => (
     <label>
@@ -101,7 +131,14 @@ jest.mock('@mantine/core', () => {
   );
 
   // Select renders each option as a clickable button so tests can drive onChange
-  const Select = ({ label, value, onChange, data, ...rest }) => (
+  const Select = ({
+    label,
+    value,
+    onChange,
+    data,
+    withinPortal, // strip Mantine-only prop
+    ...rest
+  }) => (
     <div data-testid={`select-${label}`} data-value={value} {...rest}>
       {(data || []).map((opt) => (
         <button
@@ -117,7 +154,15 @@ jest.mock('@mantine/core', () => {
   );
 
   // MultiSelect toggles presence in array using buttons
-  const MultiSelect = ({ label, data, value, onChange, ...rest }) => (
+  const MultiSelect = ({
+    label,
+    data,
+    value,
+    onChange,
+    searchable,   // strip Mantine-only prop
+    withinPortal, // strip Mantine-only prop
+    ...rest
+  }) => (
     <div data-testid={`multiselect-${label}`} {...rest}>
       {(data || []).map((opt) => {
         const active = (value || []).includes(opt.value);
@@ -181,12 +226,19 @@ jest.mock('@mantine/core', () => {
     </span>
   );
 
+  // Group: strip Mantine-only "grow" prop
+  const Group = ({ children, grow, ...rest }) => (
+    <div data-testid="group" {...rest}>
+      {children}
+    </div>
+  );
+
   return {
     __esModule: true,
     Modal,
     Textarea,
     Button,
-    Group: passthru('group'),
+    Group,
     Select,
     FileInput,
     Stack: passthru('stack'),
@@ -255,7 +307,7 @@ describe('NewStatusModal', () => {
     const onClose = jest.fn();
     render(<NewStatusModal opened={true} onClose={onClose} />);
 
-    // defaults: audience MUTUALS, expireHours = 24
+    // defaults: audience CONTACTS, expireHours = 24
     // caption + one file
     fireEvent.change(
       screen.getByLabelText(/Status message/i),
@@ -273,7 +325,7 @@ describe('NewStatusModal', () => {
     const obj = formDataToObject(fd);
 
     expect(obj.caption).toBe('My status');
-    expect(obj.audience).toBe('MUTUALS');
+    expect(obj.audience).toBe('CONTACTS');
 
     // expireHours defaults to 24, API wants seconds
     expect(obj.expireSeconds).toBe(String(24 * 3600));
@@ -292,10 +344,10 @@ describe('NewStatusModal', () => {
     expect(screen.getByLabelText(/Status message/i)).toHaveValue('');
     expect(screen.getByTestId('file-count')).toHaveTextContent('0');
 
-    // audience select reset to MUTUALS
+    // audience select reset to CONTACTS
     expect(screen.getByTestId('select-Audience')).toHaveAttribute(
       'data-value',
-      'MUTUALS'
+      'CONTACTS'
     );
   });
 

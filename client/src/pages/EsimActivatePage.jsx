@@ -13,9 +13,9 @@ export default function EsimActivatePage() {
 
   // Fallback list (client-side) in case /esim/regions isn't available.
   const [regions, setRegions] = useState([
-  'US','EU','UK','CA','AU','JP','MX','BR','IN','ZA','SG','HK','KR','AE'
+    'US', 'EU', 'UK', 'CA', 'AU', 'JP', 'MX', 'BR', 'IN', 'ZA', 'SG', 'HK', 'KR', 'AE',
   ]);
-  
+
   const [region, setRegion] = useState('US');
 
   useEffect(() => {
@@ -33,7 +33,9 @@ export default function EsimActivatePage() {
         // silently keep fallback regions
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -70,10 +72,11 @@ export default function EsimActivatePage() {
         console.error('QR generation failed', e);
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [qrPayload]);
 
-  // Hardcoded region name fallbacks
   const REGION_NAME_FALLBACKS = {
     US: 'United States',
     EU: 'European Union',
@@ -91,41 +94,53 @@ export default function EsimActivatePage() {
     AE: 'United Arab Emirates',
   };
 
-  const regionLabel = (r) => t(`esim.regions.${r}`, REGION_NAME_FALLBACKS[r] || r);
+  const regionLabel = (r) =>
+    t(`esim.regions.${r}`, REGION_NAME_FALLBACKS[r] || r);
 
-  const instructions = useMemo(() => (
-    <ol className="list-decimal pl-5 text-sm space-y-1">
-      <li>
-        <Trans i18nKey="esim.instructions.step1">
-          On your phone, open <b>Settings → Cellular</b> (iOS) or <b>Network &amp; Internet</b> (Android).
-        </Trans>
-      </li>
-      <li>
-        <Trans i18nKey="esim.instructions.step2">
-          Choose <b>Add eSIM</b> / <b>Download a SIM</b>, then <b>Use QR code</b>.
-        </Trans>
-      </li>
-      <li>
-        <Trans i18nKey="esim.instructions.step3">
-          Scan the code below. If that fails, enter the details manually.
-        </Trans>
-      </li>
-    </ol>
-  ), [t]);
+  const instructions = useMemo(
+    () => (
+      <ol className="list-decimal pl-5 text-sm space-y-1">
+        <li>
+          <Trans i18nKey="esim.instructions.step1">
+            On your phone, open <b>Settings → Cellular</b> (iOS) or{' '}
+            <b>Network &amp; Internet</b> (Android).
+          </Trans>
+        </li>
+        <li>
+          <Trans i18nKey="esim.instructions.step2">
+            Choose <b>Add eSIM</b> / <b>Download a SIM</b>, then{' '}
+            <b>Use QR code</b>.
+          </Trans>
+        </li>
+        <li>
+          <Trans i18nKey="esim.instructions.step3">
+            Scan the code below. If that fails, enter the details manually.
+          </Trans>
+        </li>
+      </ol>
+    ),
+    [t],
+  );
 
   return (
     <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">{t('esim.title', 'Activate your eSIM')}</h1>
+      <h1 className="text-2xl font-bold">
+        {t('esim.title', 'Activate your eSIM')}
+      </h1>
 
       <div className="flex items-center gap-2">
-        <label className="text-sm">{t('esim.regionLabel', 'Region')}</label>
+        <label className="text-sm">
+          {t('esim.regionLabel', 'Region')}
+        </label>
         <select
           className="border rounded px-2 py-1 text-sm"
           value={region}
           onChange={(e) => setRegion(e.target.value)}
         >
           {regions.map((r) => (
-            <option key={r} value={r}>{regionLabel(r)}</option>
+            <option key={r} value={r}>
+              {regionLabel(r)}
+            </option>
           ))}
         </select>
 
@@ -134,7 +149,9 @@ export default function EsimActivatePage() {
           disabled={loading}
           className="ml-auto px-3 py-1.5 rounded bg-black text-white disabled:opacity-60"
         >
-          {loading ? t('esim.ctaReserving', 'Reserving…') : t('esim.ctaGenerate', 'Generate QR')}
+          {loading
+            ? t('esim.ctaReserving', 'Reserving…')
+            : t('esim.ctaGenerate', 'Generate QR')}
         </button>
       </div>
 
@@ -170,8 +187,13 @@ export default function EsimActivatePage() {
           )}
 
           <div className="bg-gray-50 p-3 rounded border text-sm">
-            <div><b>{t('esim.smdp', 'SM-DP+')}:</b> {provision.smdp || '—'}</div>
-            <div><b>{t('esim.activationCode', 'Activation code')}:</b> {provision.activationCode || '—'}</div>
+            <div>
+              <b>{t('esim.smdp', 'SM-DP+')}:</b> {provision.smdp || '—'}
+            </div>
+            <div>
+              <b>{t('esim.activationCode', 'Activation code')}:</b>{' '}
+              {provision.activationCode || '—'}
+            </div>
             {provision.lpaUri && (
               <div className="mt-1 text-xs break-all">
                 <b>{t('esim.lpaUri', 'LPA URI')}:</b> {provision.lpaUri}
@@ -179,13 +201,17 @@ export default function EsimActivatePage() {
             )}
             {provision.iccidHint && (
               <div className="mt-1 text-xs">
-                <b>{t('esim.iccidHint', 'ICCID hint')}:</b> {provision.iccidHint}
+                <b>{t('esim.iccidHint', 'ICCID hint')}:</b>{' '}
+                {provision.iccidHint}
               </div>
             )}
           </div>
 
           <p className="text-xs text-gray-500">
-            {t('esim.secrecyNote', 'Keep this info secret. Treat it like a password until activation completes.')}
+            {t(
+              'esim.secrecyNote',
+              'Keep this info secret. Treat it like a password until activation completes.',
+            )}
           </p>
         </div>
       )}

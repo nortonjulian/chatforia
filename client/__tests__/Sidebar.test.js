@@ -147,6 +147,7 @@ jest.mock('react-router-dom', () => ({
 }));
 
 // -------------------- lucide-react mock --------------------
+// -------------------- lucide-react mock --------------------
 jest.mock('lucide-react', () => {
   const I = (name) => (props) => <span data-icon={name} {...props} />;
   return {
@@ -158,6 +159,10 @@ jest.mock('lucide-react', () => {
     Dice5: I('Dice5'),
     RefreshCw: I('RefreshCw'),
     Search: I('Search'),
+    // Add these three used by Sidebar.jsx:
+    MessageSquare: I('MessageSquare'),
+    Phone: I('Phone'),
+    Video: I('Video'),
   };
 });
 

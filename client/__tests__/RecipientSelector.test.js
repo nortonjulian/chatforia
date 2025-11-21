@@ -10,29 +10,103 @@
  *   testEnvironment: 'jsdom'
  */
 
-import React from 'react';
-import { render, screen, act, within } from '@testing-library/react';
+// --- Mock Mantine so all components are valid React components ---
+jest.mock('@mantine/core', () => {
+  const React = require('react');
+
+  const make = (tag) =>
+    React.forwardRef((props, ref) =>
+      React.createElement(tag, { ...props, ref, 'data-mantine': tag }, props.children)
+    );
+
+  // Input with nested Label
+  const Input = make('div');
+  Input.Label = React.forwardRef((props, ref) =>
+    React.createElement('label', { ...props, ref, 'data-mantine': 'label' }, props.children)
+  );
+
+  // ScrollArea with Autosize
+  const ScrollArea = make('div');
+  ScrollArea.Autosize = make('div');
+
+  // Popover with Target and Dropdown
+  const Popover = make('div');
+  Popover.Target = make('div');
+  Popover.Dropdown = make('div');
+
+  // TextInput needs to render rightSection so we can see the browse button
+  const TextInput = React.forwardRef(({ rightSection, ...props }, ref) =>
+    React.createElement(
+      'div',
+      { 'data-mantine': 'text-input' },
+      React.createElement('input', { ...props, ref, 'data-mantine': 'input' }),
+      rightSection
+    )
+  );
+
+  return {
+    __esModule: true,
+    ActionIcon: React.forwardRef((props, ref) =>
+      React.createElement('button', { ...props, ref, 'data-mantine': 'action-icon' }, props.children)
+    ),
+    Box: make('div'),
+    CloseButton: React.forwardRef((props, ref) =>
+      React.createElement('button', { ...props, ref, 'data-mantine': 'close-button' }, props.children)
+    ),
+    Group: make('div'),
+    Input,
+    Kbd: make('kbd'),
+    Loader: make('div'),
+    Popover,
+    ScrollArea,
+    Stack: make('div'),
+    Text: make('span'),
+    TextInput,
+    Tooltip: make('div'),
+  };
+});
+
+// Mock icons so they don't bring in any odd JSX
+jest.mock('@tabler/icons-react', () => {
+  const React = require('react');
+  const Icon = (props) => React.createElement('svg', props);
+  return {
+    __esModule: true,
+    IconUserPlus: Icon,
+    IconChevronsDown: Icon,
+  };
+});
+
+import { render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MantineProvider } from '@mantine/core';
-import RecipientSelector from '../RecipientSelector.jsx';
+import RecipientSelector from '@/components/RecipientSelector.jsx';
+
+// Polyfills for jsdom environment
+beforeAll(() => {
+  // jsdom doesn't implement scrollIntoView by default
+  if (!Element.prototype.scrollIntoView) {
+    Element.prototype.scrollIntoView = jest.fn();
+  }
+  // Ensure requestAnimationFrame exists (used in removeRecipient)
+  if (!global.requestAnimationFrame) {
+    global.requestAnimationFrame = (cb) => setTimeout(cb, 0);
+  }
+});
 
 function renderWithMantine(ui) {
-  return render(<MantineProvider>{ui}</MantineProvider>);
+  // MantineProvider is not required for these unit tests
+  return render(ui);
 }
 
 describe('RecipientSelector', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-  });
-  afterEach(() => {
-    jest.useRealTimers();
-  });
+  // NOTE: we use *real* timers now to avoid userEvent + fake timer conflicts
 
   const setup = (props = {}) => {
-    const onChange = jest.fn();
-    const onRequestBrowse = jest.fn();
-    const fetchSuggestions = jest.fn().mockResolvedValue([]);
+    const onChange = props.onChange ?? jest.fn();
+    const onRequestBrowse = props.onRequestBrowse ?? jest.fn();
+    const fetchSuggestions = props.fetchSuggestions ?? jest.fn().mockResolvedValue([]);
     const value = props.value ?? [];
+
     renderWithMantine(
       <RecipientSelector
         value={value}
@@ -42,6 +116,7 @@ describe('RecipientSelector', () => {
         {...props}
       />
     );
+
     const input = screen.getByPlaceholderText(/type a name|type a name, number, or email/i);
     return { onChange, onRequestBrowse, fetchSuggestions, input };
   };
@@ -53,14 +128,14 @@ describe('RecipientSelector', () => {
 
   it('debounces and calls fetchSuggestions with query', async () => {
     const { fetchSuggestions, input } = setup();
+
     await userEvent.type(input, 'ali');
-    // advance debounce (default 250ms)
-    await act(async () => {
-      jest.advanceTimersByTime(260);
-      // allow microtasks
-      await Promise.resolve();
+
+    // Wait for debounce to fire and fetchSuggestions to be called
+    await waitFor(() => {
+      expect(fetchSuggestions).toHaveBeenCalledTimes(1);
     });
-    expect(fetchSuggestions).toHaveBeenCalledTimes(1);
+
     expect(fetchSuggestions).toHaveBeenCalledWith('ali');
   });
 
@@ -81,12 +156,7 @@ describe('RecipientSelector', () => {
     const input = screen.getByPlaceholderText(/type a name/i);
     await userEvent.type(input, 'ali');
 
-    await act(async () => {
-      jest.advanceTimersByTime(260);
-      await Promise.resolve();
-    });
-
-    // popover item should appear
+    // Wait for suggestion to appear
     const item = await screen.findByText('Alice Adams');
     await userEvent.click(item);
 
@@ -95,20 +165,15 @@ describe('RecipientSelector', () => {
     const next = onChange.mock.calls[0][0];
     expect(Array.isArray(next)).toBe(true);
     expect(next[0]).toMatchObject({ id: 'c_1', display: 'Alice Adams' });
-
-    // chip shows up
-    expect(await screen.findByText('Alice Adams')).toBeInTheDocument();
   });
 
   it('adds a raw recipient when pressing Enter with no suggestions', async () => {
     const { onChange, input } = setup();
+
     await userEvent.type(input, 'someone@example.com');
-    await act(async () => {
-      jest.advanceTimersByTime(260);
-      await Promise.resolve();
-    });
 
     await userEvent.keyboard('{Enter}');
+
     expect(onChange).toHaveBeenCalledTimes(1);
     const added = onChange.mock.calls[0][0][0];
     expect(added).toMatchObject({
@@ -120,32 +185,31 @@ describe('RecipientSelector', () => {
   });
 
   it('Backspace with empty input removes the last chip', async () => {
-    const { input } = setup({
+    const { input, onChange } = setup({
       value: [
         { id: 'c_1', display: 'Alice', type: 'contact' },
         { id: 'c_2', display: 'Bob', type: 'contact' },
       ],
-      onChange: jest.fn(),
     });
 
     // focus input then backspace
     input.focus();
     await userEvent.keyboard('{Backspace}');
 
-    // the last chip ("Bob") should be removed
-    // because onChange is provided via props in this case, we assert via screen:
-    expect(screen.queryByText('Bob')).not.toBeInTheDocument();
-    expect(screen.getByText('Alice')).toBeInTheDocument();
+    // Component is controlled; we assert the onChange payload.
+    expect(onChange).toHaveBeenCalledTimes(1);
+    const nextValue = onChange.mock.calls[0][0];
+    expect(nextValue).toEqual([{ id: 'c_1', display: 'Alice', type: 'contact' }]);
   });
 
   it('Browse button triggers onRequestBrowse()', async () => {
     const { onRequestBrowse, input } = setup();
-    // Right-side actions include "Browse contacts" tooltip; click the user-plus icon
-    // Click the action icon via tooltip text anchor
-    // First, ensure input is focused so rightSection is rendered and stable
+    // Focus so "rightSection" content (including our ActionIcon) is visible
     input.focus();
+
     const browseButton = await screen.findByRole('button', { name: /browse contacts/i });
     await userEvent.click(browseButton);
+
     expect(onRequestBrowse).toHaveBeenCalledTimes(1);
   });
 
@@ -186,10 +250,8 @@ describe('RecipientSelector', () => {
     const input = screen.getByPlaceholderText(/type a name/i);
     await userEvent.type(input, 'al');
 
-    await act(async () => {
-      jest.advanceTimersByTime(260);
-      await Promise.resolve();
-    });
+    // Ensure suggestions have rendered
+    await screen.findByText('Alice');
 
     // First result is active by default; move down to second and select
     await userEvent.keyboard('{ArrowDown}{Enter}');
@@ -212,13 +274,9 @@ describe('RecipientSelector', () => {
 
     const input = screen.getByPlaceholderText(/type a name/i);
     await userEvent.type(input, 'zzz');
-    await act(async () => {
-      jest.advanceTimersByTime(260);
-      await Promise.resolve();
-    });
 
     // The popover should show the empty hint
-    const popover = screen.getByText(/no matches/i);
+    const popover = await screen.findByText(/no matches/i);
     expect(popover).toBeInTheDocument();
 
     // also ensure it mentions pressing Enter

@@ -16,63 +16,88 @@ export default function MicButton({ chatRoomId, onUploaded, onSent }) {
   const chunksRef = useRef([]);
   const startTimeRef = useRef(0);
 
+  // Handle recorder stop: build blob, upload, fire callback
+  function handleStopped(rec) {
+    // Enter "uploading" state – keep Stop button visible & disabled
+    setBusy(true);
+
+    const mimeType = rec.mimeType || 'audio/webm';
+    const blob = new Blob(chunksRef.current, { type: mimeType });
+
+    const durationSec = Math.max(
+      1,
+      Math.round((performance.now() - startTimeRef.current) / 1000)
+    );
+
+    const file = blobToFile(blob, `voice-${Date.now()}.webm`);
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('kind', 'audio');
+
+    // Fire-and-forget upload: don't `await` so the "busy" UI lives
+    const uploadPromise = axiosClient.post('/files/upload', fd, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+
+    uploadPromise
+      .then(({ data }) => {
+        const fileMeta = {
+          url: data.url,
+          contentType: data.contentType || mimeType,
+          durationSec,
+          caption: null,
+        };
+        onUploaded?.(fileMeta);
+
+        // Optional: auto-send audio message
+        // if (chatRoomId && onSent) {
+        //   const payload = {
+        //     chatRoomId: String(chatRoomId),
+        //     attachmentsInline: [
+        //       {
+        //         kind: 'AUDIO',
+        //         url: fileMeta.url,
+        //         mimeType: fileMeta.contentType,
+        //         durationSec,
+        //       },
+        //     ],
+        //   };
+        //   axiosClient.post('/messages', payload).then(({ data: saved }) => {
+        //     onSent(saved);
+        //   });
+        // }
+      })
+      .catch((e) => {
+        console.error(e);
+        toast.err('Failed to save recording.');
+      })
+      .finally(() => {
+        // After upload finishes (success or error), go back to idle/record UI
+        setBusy(false);
+        setRecording(false);
+      });
+  }
+
   async function start() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const rec = new MediaRecorder(stream, { mimeType: 'audio/webm' });
       chunksRef.current = [];
-      rec.ondataavailable = (e) => e.data?.size && chunksRef.current.push(e.data);
-      rec.onstop = async () => {
-        setBusy(true);
-        try {
-          const blob = new Blob(chunksRef.current, { type: rec.mimeType || 'audio/webm' });
-          // compute duration on client
-          const durationSec = Math.max(1, Math.round((performance.now() - startTimeRef.current) / 1000));
 
-          // upload to your existing file endpoint (assuming FileUploader uses /files/upload)
-          const file = blobToFile(blob, `voice-${Date.now()}.webm`);
-          const fd = new FormData();
-          fd.append('file', file);
-          fd.append('kind', 'audio');
+      rec.ondataavailable = (e) => {
+        if (e.data?.size) chunksRef.current.push(e.data);
+      };
 
-          const { data } = await axiosClient.post('/files/upload', fd, {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          });
-
-          // Expecting data like { url, contentType } from your uploader
-          const fileMeta = {
-            url: data.url,
-            contentType: data.contentType || 'audio/webm',
-            durationSec,
-            caption: null,
-          };
-          onUploaded?.(fileMeta);
-
-          // (Optional) directly send a message with just this audio
-          // If you want this convenience:
-          // const payload = {
-          //   chatRoomId: String(chatRoomId),
-          //   attachmentsInline: [{
-          //     kind: 'AUDIO',
-         //     url: fileMeta.url,
-         //     mimeType: fileMeta.contentType,
-         //     durationSec
-          //   }]
-          // };
-          // const { data: saved } = await axiosClient.post('/messages', payload);
-          // onSent?.(saved);
-        } catch (e) {
-          console.error(e);
-          toast.err('Failed to save recording.');
-        } finally {
-          setBusy(false);
-        }
+      rec.onstop = () => {
+        // When recorder stops, kick off upload flow
+        handleStopped(rec);
       };
 
       rec.start(100);
       startTimeRef.current = performance.now();
       recRef.current = rec;
       setRecording(true);
+      setBusy(false);
     } catch (err) {
       console.error(err);
       toast.err('Microphone permission is required.');
@@ -80,27 +105,54 @@ export default function MicButton({ chatRoomId, onUploaded, onSent }) {
   }
 
   function stop() {
-    setRecording(false);
     const rec = recRef.current;
-    recRef.current = null;
-    if (rec && rec.state !== 'inactive') {
-      rec.stop();
-      // stop all tracks
-      rec.stream?.getTracks?.().forEach((t) => t.stop());
+    if (!rec || rec.state === 'inactive') {
+      return;
     }
+
+    recRef.current = null;
+
+    // Stop all audio tracks safely (handles test mock shape)
+    try {
+      const stream = rec.stream;
+      if (stream && typeof stream.getTracks === 'function') {
+        const tracks = stream.getTracks();
+        if (Array.isArray(tracks)) {
+          tracks.forEach((t) => t && typeof t.stop === 'function' && t.stop());
+        }
+      }
+    } catch (e) {
+      console.error('Error stopping tracks', e);
+    }
+
+    // This will synchronously trigger rec.onstop in the test mock,
+    // which will call handleStopped(rec) and set busy=true + keep recording=true
+    rec.stop();
   }
 
   const disabled = busy;
 
   return recording ? (
     <Tooltip label="Stop recording">
-      <ActionIcon variant="filled" radius="md" onClick={stop} disabled={disabled} aria-label="Stop">
+      <ActionIcon
+        variant="filled"
+        radius="md"
+        onClick={stop}
+        disabled={disabled}
+        aria-label="Stop"
+      >
         {busy ? <IconLoader2 size={18} className="spin" /> : <IconPlayerStop size={18} />}
       </ActionIcon>
     </Tooltip>
   ) : (
     <Tooltip label="Record voice note">
-      <ActionIcon variant="default" radius="md" onClick={start} disabled={disabled} aria-label="Record voice note">
+      <ActionIcon
+        variant="default"
+        radius="md"
+        onClick={start}
+        disabled={disabled}
+        aria-label="Record voice note"
+      >
         <IconMicrophone size={18} />
       </ActionIcon>
     </Tooltip>

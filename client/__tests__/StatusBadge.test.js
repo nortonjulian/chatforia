@@ -17,13 +17,13 @@ jest.mock('react-router-dom', () => {
 });
 
 // ---- mock store ----
-// We’ll vary `unseenValue` per test, and spy on `resetMock`
-let unseenValue = 0;
-const resetMock = jest.fn();
+// We’ll vary `mockUnseenValue` per test, and spy on `mockReset`
+let mockUnseenValue = 0;
+const mockReset = jest.fn();
 
 jest.mock('@/stores/statusNotifStore', () => {
   const useStatusNotifStore = (selector) =>
-    selector({ unseen: unseenValue, reset: resetMock });
+    selector({ unseen: mockUnseenValue, reset: mockReset });
   return { __esModule: true, useStatusNotifStore };
 });
 
@@ -43,12 +43,12 @@ function renderSut() {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  unseenValue = 0;
+  mockUnseenValue = 0;
 });
 
 describe('StatusBadge', () => {
   test('renders the button without an indicator when unseen = 0', () => {
-    unseenValue = 0;
+    mockUnseenValue = 0;
     renderSut();
 
     // Button is present
@@ -56,12 +56,11 @@ describe('StatusBadge', () => {
     expect(btn).toBeInTheDocument();
 
     // No numeric indicator shown
-    // (Indicator renders its label text; with 0 unseen there should be no "0" badge)
     expect(screen.queryByText('0')).not.toBeInTheDocument();
   });
 
   test('shows indicator with count when unseen > 0', () => {
-    unseenValue = 3;
+    mockUnseenValue = 3;
     renderSut();
 
     // Button is present
@@ -70,17 +69,19 @@ describe('StatusBadge', () => {
     ).toBeInTheDocument();
 
     // Indicator label is rendered as text
-    expect(screen.getByText('3')).toBeInTheDocument();
+    const indicatorWrapper = screen.getByLabelText(/3 new/i);
+    expect(indicatorWrapper).toBeInTheDocument();
+    expect(indicatorWrapper).toHaveAttribute('label', '3');
   });
 
   test('clicking the button resets and navigates to /status', () => {
-    unseenValue = 5;
+    mockUnseenValue = 5;
     renderSut();
 
     const btn = screen.getByRole('button', { name: /open status feed/i });
     fireEvent.click(btn);
 
-    expect(resetMock).toHaveBeenCalledTimes(1);
+    expect(mockReset).toHaveBeenCalledTimes(1);
     expect(mockNavigate).toHaveBeenCalledWith('/status');
   });
 });

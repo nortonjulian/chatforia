@@ -1,38 +1,46 @@
-// client/src/components/chat/__tests__/ChatHeaderActions.test.js
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ChatHeaderActions from '../ChatHeaderActions.jsx';
 
-// Mock react-router navigate
-const mockNavigate = vi.fn();
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom');
+/* ---------------- Mocks ---------------- */
+
+// react-router: mock useNavigate but keep real everything else
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
   return {
     ...actual,
     useNavigate: () => mockNavigate,
   };
 });
 
-// Mock CallContext hook
-const mockStartCall = vi.fn();
-vi.mock('@/context/CallContext', () => ({
-  useCall: () => ({
-    startCall: mockStartCall,
-    active: null,
-    incoming: null,
-  }),
+// CallContext: central mutable state object we can tweak in tests
+const mockCallState = {
+  startCall: jest.fn(),
+  active: null,
+  incoming: null,
+};
+
+jest.mock('@/context/CallContext', () => ({
+  __esModule: true,
+  useCall: () => mockCallState,
 }));
 
+/* ---------------- Helpers ---------------- */
+
 function renderUI(ui) {
-  // Wrap in a minimal provider-free render since we mocked navigate/useCall
   return render(ui);
 }
 
+/* ---------------- Tests ---------------- */
+
 describe('ChatHeaderActions', () => {
   beforeEach(() => {
+    jest.clearAllMocks();
+    mockCallState.startCall.mockReset();
+    mockCallState.active = null;
+    mockCallState.incoming = null;
     mockNavigate.mockReset();
-    mockStartCall.mockReset();
   });
 
   test('returns null when peerUser is missing or has no id', () => {
@@ -54,27 +62,20 @@ describe('ChatHeaderActions', () => {
     expect(videoBtn).toBeEnabled();
 
     await user.click(audioBtn);
-    expect(mockStartCall).toHaveBeenCalledWith({ calleeId: 42, mode: 'AUDIO' });
+    expect(mockCallState.startCall).toHaveBeenCalledWith({ calleeId: 42, mode: 'AUDIO' });
 
     await user.click(videoBtn);
-    expect(mockStartCall).toHaveBeenCalledWith({ calleeId: 42, mode: 'VIDEO' });
+    expect(mockCallState.startCall).toHaveBeenCalledWith({ calleeId: 42, mode: 'VIDEO' });
   });
 
-  test('disables buttons when a call is active or incoming (pending state)', async () => {
-    // Re-mock useCall to simulate active call
-    vi.doMock('@/context/CallContext', () => ({
-      useCall: () => ({
-        startCall: mockStartCall,
-        active: { callId: 'abc' },
-        incoming: null,
-      }),
-    }));
-    const { default: ChatHeaderActionsHot } = await vi.importActual('../ChatHeaderActions.jsx');
+  test('disables buttons when a call is active', () => {
+    mockCallState.active = { callId: 'abc' };
 
-    renderUI(<ChatHeaderActionsHot peerUser={{ id: 7 }} />);
-    const audioBtn = screen.queryByRole('button', { name: /start audio call/i });
-    const videoBtn = screen.queryByRole('button', { name: /start video call/i });
-    // For 1:1, both exist but are disabled
+    renderUI(<ChatHeaderActions peerUser={{ id: 7 }} />);
+
+    const audioBtn = screen.getByRole('button', { name: /start audio call/i });
+    const videoBtn = screen.getByRole('button', { name: /start video call/i });
+
     expect(audioBtn).toBeDisabled();
     expect(videoBtn).toBeDisabled();
   });
@@ -102,7 +103,7 @@ describe('ChatHeaderActions', () => {
       />
     );
 
-    // In group mode there is no audio button (always 1:1 only)
+    // In group mode there is no audio button (audio is 1:1 only)
     expect(screen.queryByRole('button', { name: /start audio call/i })).not.toBeInTheDocument();
 
     const groupVideoBtn = screen.getByRole('button', { name: /start group video/i });

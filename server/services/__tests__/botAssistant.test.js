@@ -42,9 +42,12 @@ describe('maybeInvokeForiaBot (gating / early returns)', () => {
     expect(io.to).not.toHaveBeenCalled();
   });
 
-  it('returns early when OPENAI_API_KEY is missing', async () => {
+    it('returns early when OPENAI_API_KEY is missing', async () => {
     process.env.FORIA_BOT_USER_ID = '999'; // non-zero BOT_ID
-    delete process.env.OPENAI_API_KEY;     // kill switch
+
+    // Instead of delete process.env.OPENAI_API_KEY
+    // force it to an empty string so the module sees it as "missing"
+    process.env.OPENAI_API_KEY = '';
 
     const prisma = {
       chatRoom: { findUnique: jest.fn() },
@@ -66,6 +69,7 @@ describe('maybeInvokeForiaBot (gating / early returns)', () => {
     expect(prisma.message.findMany).not.toHaveBeenCalled();
     expect(io.to).not.toHaveBeenCalled();
   });
+
 
   it('returns early when roomId is invalid (0)', async () => {
     process.env.FORIA_BOT_USER_ID = '999';

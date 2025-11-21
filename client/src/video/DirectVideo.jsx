@@ -1,13 +1,16 @@
+// client/src/video/DirectVideo.jsx
 import { useEffect, useState } from 'react';
 import { Box, Card, Group, TextInput, Button, Stack, Text, Title } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useCall } from '@/context/CallContext';
 import axiosClient from '@/api/axiosClient';
 
-export default function DirectVideo({ currentUser, showHeader = true }) {
+export default function DirectVideo({
+  currentUser,
+  showHeader = true,
+  navigateToJoin,
+}) {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const { startCall } = useCall();
 
   // phone flow
@@ -36,7 +39,13 @@ export default function DirectVideo({ currentUser, showHeader = true }) {
       if (data?.calleeId) {
         await startCall({ calleeId: data.calleeId, mode: 'VIDEO' });
       } else if (data?.inviteCode) {
-        navigate(`/join/${data.inviteCode}`);
+        // For join links, use injectable navigation for tests,
+        // and fall back to window.location in the app.
+        if (navigateToJoin) {
+          navigateToJoin(data.inviteCode);
+        } else if (typeof window !== 'undefined') {
+          window.location.href = `/join/${data.inviteCode}`;
+        }
       }
     } finally {
       setCalling(false);
@@ -48,7 +57,7 @@ export default function DirectVideo({ currentUser, showHeader = true }) {
     setLoading(true);
     try {
       const res = await axiosClient.get('/people', { params: { q } });
-      setResults(Array.isArray(res.data) ? res.data : (res.data?.results || []));
+      setResults(Array.isArray(res.data) ? res.data : res.data?.results || []);
     } catch {
       setResults([]);
     } finally {
@@ -82,7 +91,10 @@ export default function DirectVideo({ currentUser, showHeader = true }) {
               value={phone}
               onChange={(e) => setPhone(e.currentTarget.value)}
               // no label to avoid “Call by phone” + “Phone number” duplication
-              placeholder={t('video.direct.phone.placeholder', 'Enter phone (e.g., +1-555-123-4567)')}
+              placeholder={t(
+                'video.direct.phone.placeholder',
+                'Enter phone (e.g., +1-555-123-4567)'
+              )}
               aria-label={t('video.direct.phone.aria', 'Phone to call')}
             />
             <Button
@@ -114,7 +126,9 @@ export default function DirectVideo({ currentUser, showHeader = true }) {
               // no label to avoid “Find a user” + “Search users” duplication
               placeholder={t('video.direct.search.placeholder', 'Search by name or username')}
               aria-label={t('video.direct.search.aria', 'Search by name or username')}
-              onKeyDown={(e) => { if (e.key === 'Enter') searchUsers(); }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') searchUsers();
+              }}
             />
             <Button onClick={searchUsers} loading={loading} disabled={!currentUser}>
               {t('video.direct.search.btn', 'Search')}
@@ -132,7 +146,11 @@ export default function DirectVideo({ currentUser, showHeader = true }) {
                 >
                   <div>
                     <Text fw={600}>{u.name || u.username || `User ${u.id}`}</Text>
-                    {u.username && <Text size="sm" c="dimmed">@{u.username}</Text>}
+                    {u.username && (
+                      <Text size="sm" c="dimmed">
+                        @{u.username}
+                      </Text>
+                    )}
                   </div>
                   <Button
                     variant="light"

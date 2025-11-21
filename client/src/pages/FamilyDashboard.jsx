@@ -17,8 +17,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { Copy, Info, Plus, Users } from 'lucide-react';
 import { useUser } from '../context/UserContext';
-import { getMyFamily, createFamilyInvite } from '../api/family';
-import { createFamilyCheckoutSession } from '../api/billing';
+import { getMyFamily, createFamilyInvite } from '@/api/family';
+import { createFamilyCheckoutSession } from '@/api/billing';
 
 function formatGb(mb) {
   if (!mb || mb <= 0) return '0 GB';

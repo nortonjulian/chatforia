@@ -1,6 +1,6 @@
+import { jest } from '@jest/globals';
 import request from 'supertest';
 import express from 'express';
-import router from './family.js';
 
 // ---- Prisma mock ----
 const mockPrisma = {
@@ -16,9 +16,14 @@ const mockPrisma = {
   $transaction: jest.fn((ops) => Promise.all(ops)),
 };
 
-jest.mock('@prisma/client', () => ({
-  PrismaClient: jest.fn(() => mockPrisma),
+// Mock the shared prisma client module used by routes/family.js
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: mockPrisma,
 }));
+
+// Import router AFTER mocks are in place
+const { default: router } = await import('../routes/family.js');
 
 // Helper to build an app with a given user attached to req.user
 function createTestApp(user = null) {
@@ -139,7 +144,9 @@ describe('family routes', () => {
     it('returns 401 when unauthenticated', async () => {
       const app = createTestApp(null);
 
-      const res = await request(app).post('/family/invite').send({ email: 'friend@example.com' });
+      const res = await request(app)
+        .post('/family/invite')
+        .send({ email: 'friend@example.com' });
 
       expect(res.status).toBe(401);
       expect(res.body).toEqual({ error: 'Not authenticated' });
@@ -155,7 +162,9 @@ describe('family routes', () => {
       });
 
       const app = createTestApp(user);
-      const res = await request(app).post('/family/invite').send({ email: 'friend@example.com' });
+      const res = await request(app)
+        .post('/family/invite')
+        .send({ email: 'friend@example.com' });
 
       expect(res.status).toBe(403);
       expect(res.body).toEqual({ error: 'Not family owner' });
@@ -270,7 +279,8 @@ describe('family routes', () => {
       });
 
       // No existing membership
-      mockPrisma.familyMember.findFirst.mockResolvedValueOnce(null);
+      mockPrisma.familyMember.findFirst
+        .mockResolvedValueOnce(null); // check existing membership
 
       mockPrisma.familyMember.create.mockResolvedValueOnce({
         id: 'fm2',

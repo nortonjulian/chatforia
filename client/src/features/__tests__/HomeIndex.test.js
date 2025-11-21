@@ -61,6 +61,25 @@ jest.mock('@mantine/core', () => {
     />
   );
 
+  const Textarea = ({
+    value,
+    onChange,
+    placeholder,
+    'aria-label': ariaLabel,
+    onKeyDown,
+    ...rest
+  }) => (
+    <textarea
+      data-testid="textarea"
+      aria-label={ariaLabel}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      {...rest}
+    />
+  );
+
   const Tooltip = ({ children, label, ...rest }) => (
     <div data-testid="tooltip" data-label={label} {...rest}>
       {children}
@@ -84,6 +103,7 @@ jest.mock('@mantine/core', () => {
     Group,
     ActionIcon,
     Tooltip,
+    Textarea,
   };
 });
 
@@ -106,6 +126,33 @@ jest.mock('@/components/StickerPicker.jsx', () => ({
       data-tab={initialTab}
     />
   ),
+}));
+
+// ---- MicButton stub ----
+jest.mock('@/components/MicButton.jsx', () => {
+  const React = require('react');
+  return {
+    __esModule: true,
+    default: (props) => (
+      <button
+        type="button"
+        data-testid="mic-button"
+        onClick={
+          props.onUploaded
+            ? () => props.onUploaded({ id: 'fake-audio', name: 'audio.m4a' })
+            : undefined
+        }
+      >
+        Mic
+      </button>
+    ),
+  };
+});
+
+// ---- toast stub (so anything using it is safe in tests) ----
+jest.mock('@/utils/toast', () => ({
+  __esModule: true,
+  toast: jest.fn(),
 }));
 
 // ---- SUT ----

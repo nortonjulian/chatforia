@@ -29,9 +29,12 @@ import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 
-// ✅ NEW: Family pages
+// ✅ Family pages
 import FamilyDashboard from '@/pages/FamilyDashboard.jsx';
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
+
+// ✅ NEW: Wireless dashboard
+import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
 
 import AdminReportsPage from '@/pages/AdminReports';
 import AdminRoute from '@/routes/AdminRoute';
@@ -370,8 +373,12 @@ export default function AppRoutes() {
         <Route path="dialer" element={<Dialer />} />
         <Route path="video" element={<Video />} />
 
-        {/* ✅ Family dashboard (authed users) */}
-        <Route path="family" element={<FamilyDashboard />} />
+        {/* ✅ Wireless dashboard (canonical) */}
+        <Route path="wireless" element={<WirelessDashboard />} />
+
+        {/* ✅ Keep /family working, but point it to /wireless */}
+        <Route path="family" element={<Navigate to="/wireless" replace />} />
+
         {/* ✅ Family join route (also works when already logged in) */}
         <Route path="family/join/:token" element={<FamilyJoin />} />
 

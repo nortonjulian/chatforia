@@ -5,7 +5,11 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 // Mantine core (only the small bits we use)
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const Title = ({ children, ...rest }) => <h3 data-testid="title" {...rest}>{children}</h3>;
+  const Title = ({ children, ...rest }) => (
+    <h3 data-testid="title" {...rest}>
+      {children}
+    </h3>
+  );
   const Switch = ({ checked, onChange, disabled, 'aria-label': ariaLabel, style }) => (
     <label>
       <input
@@ -15,7 +19,10 @@ jest.mock('@mantine/core', () => {
         checked={!!checked}
         disabled={!!disabled}
         onChange={(e) =>
-          onChange?.({ currentTarget: { checked: e.target.checked }, stopPropagation: () => {} })
+          onChange?.({
+            currentTarget: { checked: e.target.checked },
+            stopPropagation: () => {},
+          })
         }
         style={style}
       />
@@ -36,6 +43,17 @@ jest.mock('../../context/UserContext', () => ({
   __esModule: true,
   useUser: () => ({ currentUser: global.mockCurrentUser }),
 }));
+
+// i18n stub so useTranslation() doesn't require a real i18next instance
+jest.mock('react-i18next', () => {
+  const mockT = (key, defaultStr) => defaultStr || key; // stable reference
+  return {
+    __esModule: true,
+    useTranslation: () => ({
+      t: mockT,
+    }),
+  };
+});
 
 // axios client: define mocks inside the factory, then use the imported mock
 jest.mock('../../api/axiosClient', () => ({
@@ -59,7 +77,11 @@ const setNavigatorVibrate = (present) => {
     Object.defineProperty(global.navigator, 'vibrate', {
       configurable: true,
       writable: true,
-      value: present ? function vibrate() { return true; } : undefined,
+      value: present
+        ? function vibrate() {
+            return true;
+          }
+        : undefined,
     });
   } catch {
     // ignore
@@ -70,9 +92,15 @@ const setNavigatorVibrate = (present) => {
       // eslint-disable-next-line no-prototype-builtins
       if (Object.prototype.hasOwnProperty.call(global.navigator, 'vibrate')) {
         // Deleting works only if configurable
-        try { delete global.navigator.vibrate; } catch { /* ignore */ }
+        try {
+          delete global.navigator.vibrate;
+        } catch {
+          /* ignore */
+        }
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }
 };
 
@@ -95,7 +123,10 @@ const setMatchMedia = (matches) => {
 
 const deferred = () => {
   let resolve, reject;
-  const promise = new Promise((res, rej) => { resolve = res; reject = rej; });
+  const promise = new Promise((res, rej) => {
+    resolve = res;
+    reject = rej;
+  });
   return { promise, resolve, reject };
 };
 
@@ -137,28 +168,40 @@ describe('SettingsAccessibility', () => {
 
     // Server responds with user echoing new font
     inFlight.resolve({ data: { user: { a11yUiFont: 'xl' } } });
-    await act(async () => { await inFlight.promise; });
+    await act(async () => {
+      await inFlight.promise;
+    });
 
     await waitFor(() => {
-      expect(screen.getByText(/Changes are saved instantly\./i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Changes are saved instantly\./i)
+      ).toBeInTheDocument();
       expect(root.className).toMatch(/text-xl/);
     });
 
-    expect(axiosClient.patch).toHaveBeenCalledWith('/users/me/a11y', { a11yUiFont: 'xl' });
+    expect(axiosClient.patch).toHaveBeenCalledWith('/users/me/a11y', {
+      a11yUiFont: 'xl',
+    });
   });
 
   test('toggling Visual alerts switch sends PATCH with correct field/value', async () => {
     global.mockCurrentUser = { a11yVisualAlerts: false };
     render(<SettingsAccessibility />);
 
-    const sw = screen.getByRole('switch', { name: /Visual alerts for messages & calls/i });
+    const sw = screen.getByRole('switch', {
+      name: /Visual alerts for messages & calls/i,
+    });
     expect(sw).not.toBeChecked();
 
-    axiosClient.patch.mockResolvedValueOnce({ data: { user: { a11yVisualAlerts: true } } });
+    axiosClient.patch.mockResolvedValueOnce({
+      data: { user: { a11yVisualAlerts: true } },
+    });
     fireEvent.click(sw);
 
     await waitFor(() => {
-      expect(axiosClient.patch).toHaveBeenCalledWith('/users/me/a11y', { a11yVisualAlerts: true });
+      expect(axiosClient.patch).toHaveBeenCalledWith('/users/me/a11y', {
+        a11yVisualAlerts: true,
+      });
     });
   });
 
@@ -166,8 +209,13 @@ describe('SettingsAccessibility', () => {
     global.mockCurrentUser = { a11yLiveCaptions: false };
     render(<SettingsAccessibility />);
 
-    const sw = screen.getByRole('switch', { name: /Enable live captions during calls/i });
-    axiosClient.patch.mockRejectedValueOnce({ response: { status: 402 }, message: 'boom' });
+    const sw = screen.getByRole('switch', {
+      name: /Enable live captions during calls/i,
+    });
+    axiosClient.patch.mockRejectedValueOnce({
+      response: { status: 402 },
+      message: 'boom',
+    });
 
     fireEvent.click(sw);
 
@@ -181,7 +229,9 @@ describe('SettingsAccessibility', () => {
     global.mockCurrentUser = {};
     render(<SettingsAccessibility />);
 
-    const sw = screen.getByRole('switch', { name: /Vibrate on new messages/i });
+    const sw = screen.getByRole('switch', {
+      name: /Vibrate on new messages/i,
+    });
     expect(sw).toBeDisabled();
   });
 
@@ -190,7 +240,9 @@ describe('SettingsAccessibility', () => {
     global.mockCurrentUser = {};
     render(<SettingsAccessibility />);
 
-    const sw = screen.getByRole('switch', { name: /Flash screen on incoming call/i });
+    const sw = screen.getByRole('switch', {
+      name: /Flash screen on incoming call/i,
+    });
     expect(sw).toBeDisabled();
   });
 
@@ -198,13 +250,20 @@ describe('SettingsAccessibility', () => {
     global.mockCurrentUser = { a11yVibrate: false };
     render(<SettingsAccessibility />);
 
-    const sw = screen.getByRole('switch', { name: /Vibrate on new messages/i });
-    axiosClient.patch.mockRejectedValueOnce({ response: { status: 401 }, message: 'unauth' });
+    const sw = screen.getByRole('switch', {
+      name: /Vibrate on new messages/i,
+    });
+    axiosClient.patch.mockRejectedValueOnce({
+      response: { status: 401 },
+      message: 'unauth',
+    });
 
     fireEvent.click(sw);
 
     await waitFor(() => {
-      expect(screen.getByText(/Please sign in again\./i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Please sign in again\./i)
+      ).toBeInTheDocument();
     });
   });
 });

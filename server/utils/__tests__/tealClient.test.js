@@ -22,7 +22,7 @@ jest.unstable_mockModule('node-fetch', () => ({
 jest.unstable_mockModule('../config/esim.js', () => tealConfig);
 
 // Import the module under test *after* setting up mocks.
-const { provisionEsimPack, fetchEsimUsage } = await import('./tealClient.js');
+const { provisionEsimPack, fetchEsimUsage } = await import('../tealClient.js');
 
 describe('tealClient', () => {
   beforeEach(() => {

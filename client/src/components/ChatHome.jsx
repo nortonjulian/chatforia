@@ -10,7 +10,7 @@ export default function ChatHome({
   currentUser,
   peerUser, // ⟵ add this to show call/video actions for the current conversation
   children,
-  showInlineStatusButton = false,
+  showInlineStatusButton = true,
   showConversationHeader = true, // allow hiding if a parent wants a custom header
 }) {
   const [composerOpen, setComposerOpen] = useState(false);

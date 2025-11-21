@@ -18,7 +18,7 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 }));
 
 // Import router after mocks are set up
-const { default: wirelessRouter } = await import('./wireless.js');
+const { default: wirelessRouter } = await import('../routes/wireless.js');
 
 function makeApp({ withUser = true } = {}) {
   const app = express();

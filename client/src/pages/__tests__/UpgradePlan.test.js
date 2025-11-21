@@ -33,6 +33,7 @@ jest.mock('@mantine/core', () => {
       {children}
     </div>
   );
+
   const Button = ({ children, onClick, disabled, loading, ...p }) => (
     <button
       onClick={onClick}
@@ -43,6 +44,7 @@ jest.mock('@mantine/core', () => {
       {children}
     </button>
   );
+
   const Title = passthru('title');
   const Text = passthru('text');
   const Card = passthru('card');
@@ -50,6 +52,8 @@ jest.mock('@mantine/core', () => {
   const Stack = passthru('stack');
   const Badge = passthru('badge');
   const Alert = passthru('alert');
+  const Box = passthru('box');
+
   const SimpleGrid = ({ cols, spacing, children, ...p }) => (
     <div
       data-testid="simplegrid"
@@ -60,6 +64,26 @@ jest.mock('@mantine/core', () => {
       {children}
     </div>
   );
+
+  // Simple SegmentedControl: renders buttons; clicking calls onChange
+  const SegmentedControl = ({ value, onChange, data = [], ...p }) => (
+    <div data-testid="segmented" {...p}>
+      {data.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          data-value={opt.value}
+          aria-pressed={opt.value === value}
+          onClick={() => onChange && onChange(opt.value)}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  );
+
+  const Divider = (props) => <hr data-testid="divider" {...props} />;
+
   return {
     __esModule: true,
     Card,
@@ -71,8 +95,19 @@ jest.mock('@mantine/core', () => {
     Badge,
     Alert,
     SimpleGrid,
+    SegmentedControl,
+    Box,
+    Divider,
   };
 });
+
+// ---- i18n stub ----
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (key, defaultStr) => defaultStr || key,
+  }),
+}));
 
 // ---- Router bits we need ----
 jest.mock('react-router-dom', () => ({
@@ -83,6 +118,12 @@ jest.mock('react-router-dom', () => ({
     </a>
   ),
   useNavigate: () => jest.fn(),
+}));
+
+// ---- region-aware pricing API stub ----
+jest.mock('@/api/pricing', () => ({
+  __esModule: true,
+  getPricingQuote: jest.fn(async () => ({})), // empty -> component falls back to hard-coded labels
 }));
 
 // ---- Auth/User context ----
@@ -123,16 +164,14 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const freeCard = screen.getByTestId('plan-free');
-    const freeBtn = within(freeCard).getByRole('button', {
-      name: /Current Plan/i,
-    });
+    const freeBtn = within(freeCard).getByRole('button');
     expect(freeBtn).toBeDisabled();
+    expect(freeBtn).toHaveTextContent(/Current Plan/i);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Upgrade \(Monthly\)/i,
-    });
+    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button');
     expect(upgradeMonthlyBtn).toBeEnabled();
+    expect(upgradeMonthlyBtn).toHaveTextContent(/Upgrade Monthly/i);
   });
 
   test('FREE user: checkout error does not navigate', async () => {
@@ -144,9 +183,7 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Upgrade \(Monthly\)/i,
-    });
+    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button');
 
     await act(async () => {
       fireEvent.click(upgradeMonthlyBtn);
@@ -167,9 +204,8 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const manageBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Manage Billing/i,
-    });
+    const manageBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(manageBtn).toHaveTextContent(/Manage Billing/i);
 
     await act(async () => {
       fireEvent.click(manageBtn);
@@ -180,7 +216,7 @@ describe('UpgradePage', () => {
     expect(assignedHref).toBe('');
   });
 
-  test('FREE user: clicking "Upgrade (Monthly)" posts checkout and attempts redirect', async () => {
+  test('FREE user: clicking "Upgrade Monthly" posts checkout and attempts redirect', async () => {
     mockCurrentUser = { plan: 'FREE' };
     mockPost.mockResolvedValueOnce({
       data: { checkoutUrl: 'https://pay.example/checkout' },
@@ -189,9 +225,8 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Upgrade \(Monthly\)/i,
-    });
+    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(upgradeMonthlyBtn).toHaveTextContent(/Upgrade Monthly/i);
 
     await act(async () => {
       fireEvent.click(upgradeMonthlyBtn);
@@ -219,9 +254,8 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const manageBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Manage Billing/i,
-    });
+    const manageBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(manageBtn).toHaveTextContent(/Manage Billing/i);
 
     await act(async () => {
       fireEvent.click(manageBtn);
@@ -238,7 +272,7 @@ describe('UpgradePage', () => {
     ).toBeInTheDocument();
   });
 
-  test('FREE user: clicking Upgrade (Monthly) sets button to "Redirecting…" with aria-busy', async () => {
+  test('FREE user: clicking Upgrade Monthly sets button to "Redirecting…" with aria-busy', async () => {
     mockCurrentUser = { plan: 'FREE' };
 
     let resolveCheckout;
@@ -251,16 +285,14 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Upgrade \(Monthly\)/i,
-    });
+    const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(upgradeMonthlyBtn).toHaveTextContent(/Upgrade Monthly/i);
 
     fireEvent.click(upgradeMonthlyBtn);
 
     // while promise is still pending, button should now say "Redirecting…"
-    const redirectingBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Redirecting…/i,
-    });
+    const redirectingBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(redirectingBtn).toHaveTextContent(/Redirecting…/i);
     expect(redirectingBtn).toHaveAttribute('aria-busy', 'true');
 
     // resolve promise so test can cleanly exit
@@ -282,15 +314,13 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
-    const manageBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Manage Billing/i,
-    });
+    const manageBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(manageBtn).toHaveTextContent(/Manage Billing/i);
 
     fireEvent.click(manageBtn);
 
-    const openingBtn = within(premiumMonthlyCard).getByRole('button', {
-      name: /Opening…/i,
-    });
+    const openingBtn = within(premiumMonthlyCard).getByRole('button');
+    expect(openingBtn).toHaveTextContent(/Opening…/i);
     expect(openingBtn).toHaveAttribute('aria-busy', 'true');
 
     await act(async () => {
@@ -303,9 +333,8 @@ describe('UpgradePage', () => {
     render(<UpgradePage />);
 
     const freeCard = screen.getByTestId('plan-free');
-    const btn = within(freeCard).getByRole('button', {
-      name: /Current Plan/i,
-    });
+    const btn = within(freeCard).getByRole('button');
     expect(btn).toBeDisabled();
+    expect(btn).toHaveTextContent(/Current Plan/i);
   });
 });

@@ -61,12 +61,34 @@ const REAL_ERR = console.error.bind(console);
 const REAL_WARN = console.warn.bind(console);
 
 jest.spyOn(console, 'error').mockImplementation((...args) => {
-  const msg = String(args[0] ?? '');
-  // Use a regex to match the exact deprecation warning regardless of quoting/backticks
+  // Join all args so we can catch format-string + params warnings
+  const msg = args.map((a) => String(a ?? '')).join(' ');
+
+  // React Testing Library / ReactDOMTestUtils act() deprecation
   if (/ReactDOMTestUtils\.act is deprecated/i.test(msg)) return;
+
+  // React Router navigation warning already filtered above
   if (msg.includes('Not implemented: navigation (except hash changes)')) return;
 
+  // Optional: ignore "update to VideoHub inside a test was not wrapped in act"
+  if (msg.includes('An update to VideoHub inside a test was not wrapped in act(')) return;
+
   REAL_ERR(...args);
+});
+
+jest.spyOn(console, 'warn').mockImplementation((...args) => {
+  const msg = args.map((a) => String(a ?? '')).join(' ');
+
+  // React Router v7 future flags
+  if (msg.includes('React Router Future Flag Warning')) return;
+
+  // Mantine-ish DOM prop warnings you don’t care about in tests
+  if (msg.includes('Received `true` for a non-boolean attribute `grow`')) return;
+  if (msg.includes('Received `false` for a non-boolean attribute `loading`')) return;
+  if (msg.includes('does not recognize the `withinPortal` prop')) return;
+  if (msg.includes('does not recognize the `withBorder` prop')) return;
+
+  REAL_WARN(...args);
 });
 
 jest.spyOn(console, 'warn').mockImplementation((...args) => {

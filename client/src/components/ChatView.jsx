@@ -616,7 +616,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             {isOwnerOrAdmin && (
               <Tooltip label="Room settings">
                 <ActionIcon variant="subtle" onClick={() => setSettingsOpen(true)} aria-label="Room settings">
-                <IconSettings size={18} />
+                  <IconSettings size={18} />
                 </ActionIcon>
               </Tooltip>
             )}
@@ -673,6 +673,18 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 .filter((a) => a?.caption && a.kind !== 'AUDIO')
                 .map((a) => a.caption);
 
+              // 🔑 Safely derive original / translated text for TranslatedText
+              const original =
+                msg.decryptedContent ??
+                msg.content ??
+                '';
+
+              const translated =
+                msg.decryptedTranslatedContent ??
+                msg.translatedContent ??
+                msg.translatedMessage ??
+                null;
+
               return (
                 <div key={msg.id}>
                   <Group
@@ -715,14 +727,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         )}
 
                         <TranslatedText
-                          originalText={
-                            msg.decryptedContent ?? msg.rawContent ?? msg.content ?? ''
-                          }
-                          translatedText={
-                            (currentUser?.autoTranslate ?? true)
-                              ? (msg.translatedForMe ?? null)
-                              : null
-                          }
+                          originalText={original}
+                          translatedText={translated}
                           showBothDefault={!!currentUser?.showOriginalAndTranslation}
                           condensed
                           onCopy={() => {

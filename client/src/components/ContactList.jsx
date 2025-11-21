@@ -264,7 +264,7 @@ export default function ContactList({
                       <Checkbox
                         checked={checked}
                         onChange={() => onToggleSelect?.(selectableId)}
-                        aria-label={t('contactList.selectContact', 'Select {{name}}', { name: displayName })}
+                        aria-label={`${t('contactList.selectContactPrefix', 'Select')} ${displayName}`}
                         onClick={(e) => e.stopPropagation()}
                       />
                     )}

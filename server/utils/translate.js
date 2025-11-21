@@ -3,7 +3,30 @@ import { v2 } from '@google-cloud/translate';
 import { ensureRedis } from './redisClient.js';
 
 const { Translate } = v2;
-const translate = new Translate({ key: process.env.GOOGLE_API_KEY });
+
+// Support both production and test env var names
+const apiKey =
+  process.env.GOOGLE_TRANSLATE_API_KEY ||
+  process.env.GOOGLE_API_KEY ||
+  null;
+
+// Optional feature flag: if explicitly set to 'false', disable even if key exists
+const translationFlag = process.env.TRANSLATION_ENABLED;
+
+// Enabled if:
+//  - TRANSLATION_ENABLED === 'true', OR
+//  - we have an API key and TRANSLATION_ENABLED is not explicitly 'false'
+const enabled =
+  translationFlag === 'true' ||
+  (!!apiKey && translationFlag !== 'false');
+
+// Only hard-fail if user explicitly turned translation ON but no key is present
+if (translationFlag === 'true' && !apiKey) {
+  throw new Error('GOOGLE_TRANSLATE_API_KEY or GOOGLE_API_KEY is not set');
+}
+
+// When enabled + apiKey, create a real (or mocked) client
+const translate = enabled && apiKey ? new Translate({ key: apiKey }) : null;
 
 // small in-memory fallback cache
 const mem = new Map();
@@ -19,6 +42,9 @@ const memSet = (k, v) => {
 };
 
 async function translateWithCache(text, lang, ttlSec = 60 * 60 * 24 * 30) {
+  // If not enabled or no client, just echo the original
+  if (!enabled || !translate) return text;
+
   const key = `tr:${sha256(text)}:${lang}`;
 
   // 1. memory
@@ -44,8 +70,11 @@ async function translateWithCache(text, lang, ttlSec = 60 * 60 * 24 * 30) {
   memSet(key, translated);
   try {
     const r = await ensureRedis();
+    // In tests, ensureRedis().setEx writes into __redisTestStore
     await r.setEx(key, ttlSec, translated);
-  } catch {}
+  } catch {
+    // ignore redis errors
+  }
 
   return translated;
 }
@@ -76,5 +105,4 @@ export async function translateOne(content, lang) {
   return translateWithCache(content, lang);
 }
 
-// not strictly required but nice for debugging in tests
 export const __testInternals = { mem };

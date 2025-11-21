@@ -16,7 +16,10 @@ export default function Dialer() {
       </Text>
 
       <Text c="dimmed" size="sm" mb="md">
-        {t('dialer.subtitle', 'Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)')}
+        {t(
+          'dialer.subtitle',
+          'Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)'
+        )}
       </Text>
 
       {/* Display */}
@@ -38,7 +41,6 @@ export default function Dialer() {
                 key={d}
                 variant="light"
                 onClick={() => press(d)}
-                aria-label={t('dialer.key', 'Key {{d}}', { d })}
                 style={{ width: 80 }}
               >
                 {d}
@@ -51,14 +53,12 @@ export default function Dialer() {
             color="green"
             onClick={() => { /* TODO: start PSTN call via Twilio Voice JS */ }}
             style={{ flex: 1 }}
-            aria-label={t('dialer.call', 'Call')}
           >
             {t('dialer.call', 'Call')}
           </Button>
           <Button
             variant="default"
             onClick={backspace}
-            aria-label={t('dialer.backspace', 'Backspace')}
             title={t('dialer.backspace', 'Backspace')}
           >
             ⌫

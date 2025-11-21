@@ -37,12 +37,31 @@ ex.Divider = React.forwardRef((props, ref) =>
   React.createElement('div', { role: 'separator', ref, ...props })
 );
 ex.Card = React.forwardRef((props, ref) => {
-  const { children, ...rest } = props || {};
+  const { children, withBorder, ...rest } = props || {}; // strip withBorder
   // Ensure tests relying on data-testid can find the card
   const testId = rest['data-testid'] || 'card';
-  return React.createElement('div', { ref, 'data-testid': testId, ...rest }, renderContent(props, children));
+  return React.createElement(
+    'div',
+    { ref, 'data-testid': testId, ...rest },
+    renderContent(props, children)
+  );
 });
-ex.ScrollArea = passthroughFactory('div');
+
+/**
+ * ScrollArea: special-case to support Mantine's `viewportRef` prop
+ * without leaking it as an unknown DOM attribute.
+ */
+ex.ScrollArea = React.forwardRef((props, ref) => {
+  const { children, viewportRef, onClick, role, ...rest } = props || {};
+  const Tag = onClick && !role ? 'button' : 'div';
+  const mergedRef = viewportRef || ref;
+
+  return React.createElement(
+    Tag,
+    { ref: mergedRef, role, ...rest },
+    renderContent(props, children)
+  );
+});
 
 /* text */
 ex.Text  = passthroughFactory('p');
@@ -60,8 +79,13 @@ ex.Alert  = ({ children, ...p }) => React.createElement('div', { role: 'alert', 
 ex.Loader = () => React.createElement('div', { 'data-testid': 'loader' });
 
 /* buttons */
-ex.Button = ({ children, onClick, type = 'button', disabled, ...p }) =>
-  React.createElement('button', { onClick, type, disabled, ...p }, React.createElement('span', null, children));
+ex.Button = ({ children, onClick, type = 'button', disabled, loading, ...p }) =>
+  // strip `loading` so it doesn't end up as a DOM attribute
+  React.createElement(
+    'button',
+    { onClick, type, disabled, ...p },
+    React.createElement('span', null, children)
+  );
 
 ex.ActionIcon = ({ children, onClick, type = 'button', disabled, 'aria-label': ariaLabel, title, ...p }) =>
   React.createElement(

@@ -14,7 +14,10 @@ if (!navigator.mediaDevices) {
     configurable: true,
     value: {
       getUserMedia: jest.fn().mockResolvedValue({
-        getTracks: () => [{ kind: 'video', stop: jest.fn() }, { kind: , stop: jest.fn() }],
+        getTracks: () => [
+          { kind: 'video', stop: jest.fn() },
+          { kind: 'audio', stop: jest.fn() }, // ✅ give this a valid kind
+        ],
       }),
     },
   });
@@ -33,20 +36,37 @@ class MockRTCPeerConnection {
     this._onicecandidate = null;
     global.__pcs.push(this);
   }
+
   addTrack = jest.fn();
-  setRemoteDescription = jest.fn(async (desc) => { this.remoteDescription = desc; });
+  setRemoteDescription = jest.fn(async (desc) => {
+    this.remoteDescription = desc;
+  });
   createAnswer = jest.fn(async () => ({ type: 'answer', sdp: 'v=0 answer' }));
-  setLocalDescription = jest.fn(async (desc) => { this.localDescription = desc; });
+  setLocalDescription = jest.fn(async (desc) => {
+    this.localDescription = desc;
+  });
   close = jest.fn();
 
-  get ontrack() { return this._ontrack; }
-  set ontrack(fn) { this._ontrack = fn; }
-  get onicecandidate() { return this._onicecandidate; }
-  set onicecandidate(fn) { this._onicecandidate = fn; }
+  get ontrack() {
+    return this._ontrack;
+  }
+  set ontrack(fn) {
+    this._ontrack = fn;
+  }
+  get onicecandidate() {
+    return this._onicecandidate;
+  }
+  set onicecandidate(fn) {
+    this._onicecandidate = fn;
+  }
 
   // Test helpers
-  _emitTrack(stream) { this._ontrack?.({ streams: [stream] }); }
-  _emitIce(candidate) { this._onicecandidate?.({ candidate }); }
+  _emitTrack(stream) {
+    this._ontrack?.({ streams: [stream] });
+  }
+  _emitIce(candidate) {
+    this._onicecandidate?.({ candidate });
+  }
 }
 
 if (!global.RTCPeerConnection) {

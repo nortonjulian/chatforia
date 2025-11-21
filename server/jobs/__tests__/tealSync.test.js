@@ -19,7 +19,7 @@ const setIntervalMock = jest.fn();
 global.setInterval = setIntervalMock;
 
 // Import module under test *after* mocks are in place
-const { startTealUsageWorker } = await import('./tealSync.js');
+const { startTealUsageWorker } = await import('../tealSync.js');
 
 describe('tealSync worker', () => {
   const originalEnv = { ...process.env };

@@ -10,7 +10,10 @@ export default function VideoHub({ currentUser }) {
   const { t } = useTranslation();
   const [params] = useSearchParams();
   const navigate = useNavigate();
-  const identity = useMemo(() => String(currentUser?.id || ''), [currentUser?.id]);
+  const identity = useMemo(
+    () => String(currentUser?.id || ''),
+    [currentUser?.id]
+  );
 
   // Deep-links:
   const deepRoom = params.get('room');         // /video?room=standup -> Rooms flow
@@ -42,11 +45,21 @@ export default function VideoHub({ currentUser }) {
   if (mode === 'direct') {
     return (
       <Box p="md">
-        <Title order={3} mb="sm">{t('video.direct.title', 'Direct Video')}</Title>
+        <Title order={3} mb="sm">
+          {t('video.direct.title', 'Direct Video')}
+        </Title>
         <Text c="dimmed" mb="md">
-          {t('video.direct.subtitle', 'Start a 1:1 video call using a phone number or Chatforia username.')}
+          {t(
+            'video.direct.subtitle',
+            'Start a 1:1 video call using a phone number or Chatforia username.'
+          )}
         </Text>
-        <DirectVideo currentUser={currentUser} showHeader={false} />
+        <DirectVideo
+          currentUser={currentUser}
+          showHeader={false}
+          // 🔧 Pass peerId through as initialPeerId so tests (and UX) match
+          initialPeerId={deepDirectUser || undefined}
+        />
       </Box>
     );
   }
@@ -55,9 +68,14 @@ export default function VideoHub({ currentUser }) {
   if (mode === 'rooms') {
     return (
       <Box p="md">
-        <Title order={3} mb="sm">{t('video.rooms.title', 'Rooms')}</Title>
+        <Title order={3} mb="sm">
+          {t('video.rooms.title', 'Rooms')}
+        </Title>
         <Text c="dimmed" mb="md">
-          {t('video.rooms.subtitle', 'Create a room or join an existing one by typing the same name.')}
+          {t(
+            'video.rooms.subtitle',
+            'Create a room or join an existing one by typing the same name.'
+          )}
         </Text>
 
         {!joined ? (
@@ -65,7 +83,10 @@ export default function VideoHub({ currentUser }) {
             <Group align="end">
               <TextInput
                 label={t('video.rooms.roomLabel', 'Room name')}
-                placeholder={t('video.rooms.roomPlaceholder', 'e.g. team-standup')}
+                placeholder={t(
+                  'video.rooms.roomPlaceholder',
+                  'e.g. team-standup'
+                )}
                 value={room}
                 onChange={(e) => setRoom(e.currentTarget.value)}
                 style={{ flex: 1 }}
@@ -76,14 +97,22 @@ export default function VideoHub({ currentUser }) {
               </Button>
             </Group>
             <Text c="dimmed" size="xs">
-              {t('video.rooms.tip', 'Tip: share this name with others, or deep link to')} <code>/video?room=room-name</code>.
+              {t(
+                'video.rooms.tip',
+                'Tip: share this name with others, or deep link to'
+              )}{' '}
+              <code>/video?room=room-name</code>.
             </Text>
           </Stack>
         ) : (
           <VideoCall
             identity={identity}
             room={room}
-            onEnd={() => { setJoined(false); setRoom(''); navigate('/video'); }}
+            onEnd={() => {
+              setJoined(false);
+              setRoom('');
+              navigate('/video');
+            }}
           />
         )}
       </Box>
@@ -93,7 +122,9 @@ export default function VideoHub({ currentUser }) {
   // Choice screen
   return (
     <Box p="md">
-      <Title order={3} mb="sm">{t('video.hub.title', 'Video')}</Title>
+      <Title order={3} mb="sm">
+        {t('video.hub.title', 'Video')}
+      </Title>
       <Text c="dimmed" mb="lg">
         {t('video.hub.subtitle', 'Choose a video type.')}
       </Text>
@@ -103,10 +134,15 @@ export default function VideoHub({ currentUser }) {
           <Stack gap="xs">
             <Group gap="sm">
               <Video size={18} />
-              <Text fw={600}>{t('video.direct.title', 'Direct Video')}</Text>
+              <Text fw={600}>
+                {t('video.direct.title', 'Direct Video')}
+              </Text>
             </Group>
             <Text c="dimmed" size="sm">
-              {t('video.direct.desc', '1:1 camera call with another user.')}
+              {t(
+                'video.direct.desc',
+                '1:1 camera call with another user.'
+              )}
             </Text>
             <Button onClick={() => setMode('direct')} mt="sm">
               {t('video.direct.start', 'Start')}
@@ -121,7 +157,10 @@ export default function VideoHub({ currentUser }) {
               <Text fw={600}>{t('video.rooms.title', 'Rooms')}</Text>
             </Group>
             <Text c="dimmed" size="sm">
-              {t('video.rooms.desc', 'Multi-party video using a shared room name.')}
+              {t(
+                'video.rooms.desc',
+                'Multi-party video using a shared room name.'
+              )}
             </Text>
             <Button
               onClick={() => {

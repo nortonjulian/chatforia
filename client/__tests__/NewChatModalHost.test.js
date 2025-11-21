@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import NewChatModalHost from '../NewChatModalHost.jsx';
+import NewChatModalHost from '@/components/NewChatModalHost.jsx';
 
 // Mock StartChatModal so we can assert props and trigger onClose
 jest.mock('@/components/StartChatModal.jsx', () => ({
@@ -91,6 +91,6 @@ describe('NewChatModalHost', () => {
 
     // Dispatch again; since listeners are removed, nothing should render
     fireEvent(window, new CustomEvent('open-new-chat-modal', { detail: { draft: { text: 'hi again' } } }));
-    // Nothing to assert in DOM now—just ensure no error and nothing mounted
+    // No assertion needed; just ensuring no error / re-mount
   });
 });
