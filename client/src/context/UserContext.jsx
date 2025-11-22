@@ -6,12 +6,19 @@ import {
   useState,
   useCallback,
 } from 'react';
-import axiosClient, { primeCsrf } from '@/api/axiosClient';
+import axiosClient from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
 import i18n from '@/i18n';
 import { applyAccountTheme } from '@/utils/themeManager';
 
 const UserContext = createContext(null);
+
+// helper to read XSRF-TOKEN from cookies
+function getXsrfToken() {
+  if (typeof document === 'undefined') return null;
+  const m = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+  return m ? decodeURIComponent(m[1]) : null;
+}
 
 export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
@@ -71,23 +78,41 @@ export function UserProvider({ children }) {
     return () => window.removeEventListener('auth-unauthorized', onUnauthorized);
   }, [bootstrap, disconnect]);
 
-    const logout = useCallback(async () => {
-      try {
-        await axiosClient.post('/auth/logout', null, {
-          headers: { 'X-Requested-With': 'XMLHttpRequest' },
-        });
-      } catch (_) {}
+  const logout = useCallback(async () => {
+    try {
+      const xsrf = getXsrfToken();
 
-      // client clean-up
-      localStorage.removeItem('token');
-      localStorage.removeItem('foria_jwt');
-      document.cookie = 'foria_jwt=; Max-Age=0; path=/';
+      await axiosClient.post(
+        '/auth/logout',
+        {}, // 👈 send an empty JSON object, NOT null
+        {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            ...(xsrf
+              ? {
+                  'X-CSRF-Token': xsrf,
+                  'X-XSRF-Token': xsrf,
+                }
+              : {}),
+          },
+        }
+      );
+    } catch (_) {
+      // ignore logout errors
+    }
 
-      setCurrentUser(null);
-      disconnect?.();
-    }, [disconnect]);
+    // client clean-up of any legacy tokens
+    localStorage.removeItem('token');
+    localStorage.removeItem('foria_jwt');
+    localStorage.removeItem('cf_session');
+    // belt-and-suspenders: nuke cookies on the client too
+    document.cookie = 'foria_jwt=; Max-Age=0; path=/';
+    document.cookie = 'cf_session=; Max-Age=0; path=/';
 
-
+    setCurrentUser(null);
+    disconnect?.();
+  }, [disconnect]);
 
   const value = useMemo(
     () => ({ currentUser, setCurrentUser, authLoading, authError, logout }),

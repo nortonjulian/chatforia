@@ -68,23 +68,21 @@ axiosClient.interceptors.request.use(async (config) => {
   const isMutating = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method);
 
   if (isMutating) {
-    if (method === 'PATCH') {
-      console.log('🔍 PATCH to:', config.url); // <—— added logging here
-    }
-
     await ensureCsrfPrimed();
 
-    const hasHeader =
-      (config.headers &&
-        (config.headers['X-CSRF-Token'] || config.headers['x-csrf-token'])) ||
-      axiosClient.defaults.headers.common['X-CSRF-Token'];
+    // Always attach a CSRF header from the cookie or default header
+    const cookieToken = readCookie('XSRF-TOKEN');
+    const defaultToken =
+      axiosClient.defaults.headers.common['X-CSRF-Token'] || null;
+    const token = cookieToken || defaultToken;
 
-    if (!hasHeader) {
-      const token = readCookie('XSRF-TOKEN');
-      if (token) {
-        config.headers = config.headers || {};
-        config.headers['X-CSRF-Token'] = token;
-      }
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers['X-CSRF-Token'] = token;
+    }
+
+    if (isDev && !token) {
+      console.warn('⚠️ No CSRF token available for mutating request:', config.url);
     }
   }
 
