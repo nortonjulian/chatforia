@@ -1,10 +1,19 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import passport from '../auth/passport.js';
+import { setJwtCookie } from './auth.js'; // 👈 reuse the same cookie helper
 
 const router = Router();
 const isProd = process.env.NODE_ENV === 'production';
-const FRONTEND = process.env.FRONTEND_URL || process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+const FRONTEND =
+  process.env.FRONTEND_URL ||
+  process.env.FRONTEND_ORIGIN ||
+  'http://localhost:5173';
+
+const IS_TEST = String(process.env.NODE_ENV) === 'test';
+const JWT_SECRET =
+  process.env.JWT_SECRET ||
+  (IS_TEST ? 'test_secret' : 'dev-secret');
 
 // Health/debug
 router.get('/health', (_req, res) => res.json({ ok: true, oauth: true }));
@@ -22,7 +31,8 @@ router.get('/google', (req, res, next) => {
   })(req, res, next);
 });
 
-router.get('/google/callback',
+router.get(
+  '/google/callback',
   (req, res, next) => {
     if (!passport._strategy('google')) {
       return res.status(501).json({ error: 'Google OAuth not configured' });
@@ -31,23 +41,34 @@ router.get('/google/callback',
   },
   passport.authenticate('google', { failureRedirect: '/auth/failure', session: false }),
   (req, res) => {
-    const token = jwt.sign({ sub: req.user.id }, process.env.JWT_SECRET || 'dev-secret', { expiresIn: '30d' });
-    const cookie = {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? 'none' : 'lax',
-      maxAge: 30 * 24 * 3600 * 1000,
-      ...(isProd && process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
+    // Build the same payload shape as issueSession() in auth.js
+    const user = req.user || {};
+    const payload = {
+      id: Number(user.id),
+      email: user.email || null,
+      username: user.username || null,
+      role: user.role || 'USER',
+      plan: user.plan || 'FREE',
     };
-    res.cookie('cf_session', token, cookie);
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+
+    // Use shared cookie helper → respects JWT_COOKIE_NAME (e.g. cf_session)
+    setJwtCookie(res, token);
 
     let nextUrl = FRONTEND;
     try {
       if (req.query.state) {
-        const { next } = JSON.parse(Buffer.from(req.query.state, 'base64').toString('utf8'));
-        if (typeof next === 'string' && next.startsWith('http')) nextUrl = next;
+        const { next } = JSON.parse(
+          Buffer.from(req.query.state, 'base64').toString('utf8')
+        );
+        if (typeof next === 'string' && next.startsWith('http')) {
+          nextUrl = next;
+        }
       }
-    } catch {}
+    } catch {
+      // ignore bad state
+    }
     res.redirect(nextUrl);
   }
 );
@@ -66,7 +87,8 @@ router.get('/apple', (req, res, next) => {
 });
 
 // Apple typically POSTs the callback
-router.post('/apple/callback',
+router.post(
+  '/apple/callback',
   (req, res, next) => {
     if (!passport._strategy('apple')) {
       return res.status(501).json({ error: 'Apple OAuth not configured' });
@@ -75,23 +97,31 @@ router.post('/apple/callback',
   },
   passport.authenticate('apple', { failureRedirect: '/auth/failure', session: false }),
   (req, res) => {
-    const token = jwt.sign({ sub: req.user.id }, process.env.JWT_SECRET || 'dev-secret', { expiresIn: '30d' });
-    const cookie = {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? 'none' : 'lax',
-      maxAge: 30 * 24 * 3600 * 1000,
-      ...(isProd && process.env.COOKIE_DOMAIN ? { domain: process.env.COOKIE_DOMAIN } : {}),
+    const user = req.user || {};
+    const payload = {
+      id: Number(user.id),
+      email: user.email || null,
+      username: user.username || null,
+      role: user.role || 'USER',
+      plan: user.plan || 'FREE',
     };
-    res.cookie('cf_session', token, cookie);
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+    setJwtCookie(res, token);
 
     let nextUrl = FRONTEND;
     try {
       if (req.query.state) {
-        const { next } = JSON.parse(Buffer.from(req.query.state, 'base64').toString('utf8'));
-        if (typeof next === 'string' && next.startsWith('http')) nextUrl = next;
+        const { next } = JSON.parse(
+          Buffer.from(req.query.state, 'base64').toString('utf8')
+        );
+        if (typeof next === 'string' && next.startsWith('http')) {
+          nextUrl = next;
+        }
       }
-    } catch {}
+    } catch {
+      // ignore bad state
+    }
     res.redirect(nextUrl);
   }
 );
@@ -110,7 +140,9 @@ router.get('/debug', (_req, res) => {
       APPLE_SERVICE_ID: !!process.env.APPLE_SERVICE_ID,
       APPLE_TEAM_ID: !!process.env.APPLE_TEAM_ID,
       APPLE_KEY_ID: !!process.env.APPLE_KEY_ID,
-      APPLE_PRIVATE_KEY_OR_PATH: !!(process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH),
+      APPLE_PRIVATE_KEY_OR_PATH: !!(
+        process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH
+      ),
       APPLE_CALLBACK_URL: !!process.env.APPLE_CALLBACK_URL,
     },
   });

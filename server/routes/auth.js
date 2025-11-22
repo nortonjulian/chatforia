@@ -35,8 +35,10 @@ const JWT_SECRET =
 
 /* ---------------- cookie helpers ---------------- */
 function getCookieName() {
+  // Set JWT_COOKIE_NAME=cf_session in .env/.env.production
   return process.env.JWT_COOKIE_NAME || 'foria_jwt';
 }
+
 function getCookieBase() {
   const isProd = process.env.NODE_ENV === 'production';
   const base = {
@@ -50,12 +52,14 @@ function getCookieBase() {
   }
   return base;
 }
+
 function setJwtCookie(res, token) {
   const isProd = process.env.NODE_ENV === 'production';
   const base = getCookieBase();
   const opts = isProd ? { ...base, maxAge: 30 * 24 * 3600 * 1000 } : base;
   res.cookie(getCookieName(), token, opts);
 }
+
 function clearJwtCookie(res) {
   const base = getCookieBase();
   const name = getCookieName();
@@ -104,10 +108,12 @@ let transporter;
 function sha256(s) {
   return crypto.createHash('sha256').update(s, 'utf8').digest('hex');
 }
+
 function createMfaJWT(userId) {
   // short-lived token that authorizes the /2fa/login step
   return jwt.sign({ sub: Number(userId), typ: 'mfa' }, JWT_SECRET, { expiresIn: '5m' });
 }
+
 function verifyMfaJWT(token) {
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
@@ -117,6 +123,7 @@ function verifyMfaJWT(token) {
     return { ok: false };
   }
 }
+
 function issueSession(res, user) {
   const payload = {
     id: Number(user.id),
@@ -137,6 +144,7 @@ router.get('/csrf', (req, res) => {
   setCsrfCookie(req, res);
   res.json({ ok: true });
 });
+
 router.get('/csrf-token', (req, res) => {
   setCsrfCookie(req, res);
   res.json({ ok: true });
@@ -210,7 +218,15 @@ router.post(
           publicKey,
           privateKey: null,
         },
-        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true, twoFactorEnabled: true },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          role: true,
+          plan: true,
+          publicKey: true,
+          twoFactorEnabled: true,
+        },
       });
     } catch {
       user = await prisma.user.create({
@@ -224,7 +240,15 @@ router.post(
           publicKey,
           privateKey: null,
         },
-        select: { id: true, email: true, username: true, role: true, plan: true, publicKey: true, twoFactorEnabled: true },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          role: true,
+          plan: true,
+          publicKey: true,
+          twoFactorEnabled: true,
+        },
       });
     }
 
@@ -308,7 +332,9 @@ router.post(
         const payload = {
           id: 0,
           email: idOrEmail.includes('@') ? idOrEmail : `${idOrEmail}@example.com`,
-          username: idOrEmail.includes('@') ? idOrEmail.split('@')[0] : idOrEmail,
+          username: idOrEmail.includes('@')
+            ? idOrEmail.split('@')[0]
+            : idOrEmail,
           role: 'USER',
           plan: 'FREE',
         };
@@ -322,22 +348,36 @@ router.post(
       if (!hash) {
         const newHash = await bcrypt.hash(password, 10);
         try {
-          await prisma.user.update({ where: { id: user.id }, data: { password: newHash } });
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { password: newHash },
+          });
         } catch {
-          await prisma.user.update({ where: { id: user.id }, data: { passwordHash: newHash } });
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { passwordHash: newHash },
+          });
         }
         hash = newHash;
       }
 
       // 5) Compare; if compare fails in tests, heal the hash
       let ok = false;
-      try { ok = await bcrypt.compare(password, hash); } catch {}
+      try {
+        ok = await bcrypt.compare(password, hash);
+      } catch {}
       if (!ok && String(process.env.NODE_ENV) === 'test') {
         const newHash = await bcrypt.hash(password, 10);
         try {
-          await prisma.user.update({ where: { id: user.id }, data: { password: newHash } });
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { password: newHash },
+          });
         } catch {
-          await prisma.user.update({ where: { id: user.id }, data: { passwordHash: newHash } });
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { passwordHash: newHash },
+          });
         }
         ok = true;
       }
@@ -374,11 +414,15 @@ router.post(
       });
     } catch (e) {
       if (String(process.env.NODE_ENV) === 'test') {
-        const emailSafe = idOrEmail.includes('@') ? idOrEmail : `${idOrEmail}@example.com`;
+        const emailSafe = idOrEmail.includes('@')
+          ? idOrEmail
+          : `${idOrEmail}@example.com`;
         const payload = {
           id: 0,
           email: emailSafe,
-          username: idOrEmail.includes('@') ? idOrEmail.split('@')[0] : idOrEmail,
+          username: idOrEmail.includes('@')
+            ? idOrEmail.split('@')[0]
+            : idOrEmail,
           role: 'USER',
           plan: 'FREE',
         };
@@ -399,11 +443,15 @@ router.post(
   '/2fa/login',
   asyncHandler(async (req, res) => {
     const { mfaToken, code } = req.body || {};
-    if (!mfaToken || !code) return res.status(400).json({ ok: false, error: 'Missing fields' });
+    if (!mfaToken || !code) {
+      return res.status(400).json({ ok: false, error: 'Missing fields' });
+    }
 
     // Verify short-lived MFA token
     const decoded = verifyMfaJWT(mfaToken);
-    if (!decoded.ok) return res.status(401).json({ ok: false, error: 'Invalid mfaToken' });
+    if (!decoded.ok) {
+      return res.status(401).json({ ok: false, error: 'Invalid mfaToken' });
+    }
     const userId = decoded.userId;
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
@@ -424,7 +472,11 @@ router.post(
     // 2) Fallback to backup code
     let okBackup = false;
     if (!okTOTP) {
-      const h = sha256(String(code).toUpperCase().replace(/[^A-Z0-9]/g, ''));
+      const h = sha256(
+        String(code)
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, '')
+      );
       const rc = await prisma.twoFactorRecoveryCode.findFirst({
         where: { userId, codeHash: h, usedAt: null },
       });
@@ -572,9 +624,15 @@ router.post(
 
     const hashed = await bcrypt.hash(newPassword, 10);
     try {
-      await prisma.user.update({ where: { id: Number(userId) }, data: { password: hashed } });
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: { password: hashed },
+      });
     } catch {
-      await prisma.user.update({ where: { id: Number(userId) }, data: { passwordHash: hashed } });
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: { passwordHash: hashed },
+      });
     }
 
     return res.json({ ok: true });
@@ -587,6 +645,7 @@ router.post(
 router.post(
   '/logout',
   asyncHandler(async (req, res) => {
+    // Clear the main auth cookie (name comes from JWT_COOKIE_NAME, e.g. cf_session)
     clearJwtCookie(res);
 
     // 🧹 Destroy Passport / session state too (if used)
@@ -616,7 +675,7 @@ router.get(
   '/me',
   requireAuth,
   asyncHandler(async (req, res) => {
-    res.set('Cache-Control', 'no-store'); // 👈 add this
+    res.set('Cache-Control', 'no-store');
 
     return res.json({
       user: {
@@ -630,4 +689,5 @@ router.get(
   })
 );
 
+export { setJwtCookie, clearJwtCookie };
 export default router;

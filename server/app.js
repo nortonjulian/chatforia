@@ -230,7 +230,7 @@ export function createApp() {
 
   // Optional debug logging
   app.use((req, _res, next) => {
-    console.log('💡 After passport.session:', req.user);
+    console.log('💡 After passport.session:', req.user && req.user);
     next();
   });
 
