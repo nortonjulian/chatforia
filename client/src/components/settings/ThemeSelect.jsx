@@ -1,15 +1,18 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Select, Stack } from '@mantine/core';
-import { getTheme, setTheme } from '../../utils/themeManager';
+import { getTheme, setTheme, onThemeChange } from '../../utils/themeManager';
 import { THEME_CATALOG, THEME_LABELS } from '../../config/themes';
 
 export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
   const [value, setValue] = useState(getTheme());
 
+  // 🔄 Keep the select in sync with the global theme (Sun/Moon, other tabs, etc.)
   useEffect(() => {
-    // ensure current theme applied on mount
-    setTheme(value);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    const unsubscribe = onThemeChange((theme) => {
+      setValue(theme);
+    });
+    return unsubscribe;
+  }, []);
 
   const toOpt = (t) => ({ value: t, label: THEME_LABELS[t] || t });
 
@@ -38,7 +41,7 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
           if (!v) return;
           if (!isPremium && THEME_CATALOG.premium.includes(v)) return;
           setValue(v);
-          setTheme(v); // updates <html data-theme> and localStorage
+          setTheme(v); // updates <html data-theme>, localStorage, and notifies subscribers
         }}
         id="theme"
         withinPortal

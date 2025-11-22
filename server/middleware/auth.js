@@ -79,20 +79,22 @@ async function hydrateUser(decoded) {
 /** Strict auth: requires a valid JWT; attaches req.user */
 export async function requireAuth(req, res, next) {
   try {
-    // If something upstream already set req.user (rare), trust it.
-    if (req.user && req.user.id) return next();
-
+    // 🔒 Always drive auth from the JWT cookie, ignore any pre-set req.user
     const token = getTokenFromReq(req, { allowBearer: false });
-    if (!token) return res.status(401).json({ error: 'Unauthorized' });
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
     let decoded;
     try {
-        decoded = jwt.verify(token, SECRET);
+      decoded = jwt.verify(token, SECRET);
     } catch {
-        return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    if (!decoded?.id) return res.status(401).json({ error: 'Unauthorized' });
+    if (!decoded?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
     req.user = await hydrateUser(decoded);
     return next();

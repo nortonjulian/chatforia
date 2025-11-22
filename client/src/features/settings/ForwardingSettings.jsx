@@ -251,7 +251,7 @@ export default function ForwardingSettings() {
             disabled={!hasChanges || Object.keys(errors).length > 0}
             onClick={save}
           >
-            {t('profile.saveBtn', 'Save')}
+            {t('profile.saveForwarding', 'Save forwarding')}
           </Button>
         </Group>
       </Stack>

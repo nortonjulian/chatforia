@@ -242,7 +242,7 @@ export function createApp() {
   // TEMP bypasses for first-run auth flows (remove later!)
   // + Teal webhook bypass
   const csrfBypassPattern =
-    /^\/auth\/(login|register|apple\/callback)$|^\/billing\/webhook$|^\/esim\/webhooks\/teal$/;
+  /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/esim\/webhooks\/teal$/;
 
   app.use((req, res, next) => {
     const path = req.path;

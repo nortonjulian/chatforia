@@ -544,7 +544,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   };
 
   return (
-    <Paper withBorder shadow="sm" radius="xl" p="lg" maw={640} mx="auto">
+    <Paper withBorder shadow="sm" radius="xl" p="lg" pb={80} maw={640} mx="auto">
       <Group justify="space-between" align="center" mb="md">
         <Title order={3}>{t('profile.title', 'User Profile')}</Title>
       </Group>
@@ -672,7 +672,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 size="xs"
                 onClick={() => navigate('/wireless')}
               >
-                {t('profile.family.manage', 'Manage wireless')}
+                {t('profile.family.manage', 'Manage Family plan')}
               </Button>
             </Group>
           </Accordion.Panel>
@@ -1087,9 +1087,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         <ForwardingSettings />
       </div>
 
-      <Group justify="flex-end" mt="md">
-        <Button onClick={saveSettings}>{t('common.save', 'Save')}</Button>
-      </Group>
+      <Group justify="flex-end" mt="xl">
+      <Button onClick={saveSettings}>
+        {t('profile.saveProfile', 'Save profile')}
+      </Button>
+    </Group>
     </Paper>
   );
 }

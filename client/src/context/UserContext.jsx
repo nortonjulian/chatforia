@@ -6,9 +6,10 @@ import {
   useState,
   useCallback,
 } from 'react';
-import axiosClient from '@/api/axiosClient';
+import axiosClient, { primeCsrf } from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
 import i18n from '@/i18n';
+import { applyAccountTheme } from '@/utils/themeManager';
 
 const UserContext = createContext(null);
 
@@ -34,6 +35,11 @@ export function UserProvider({ children }) {
         if (browserLng) {
           await i18n.changeLanguage(browserLng);
         }
+      }
+
+      // ✅ Apply account theme if present
+      if (user?.theme) {
+        applyAccountTheme(user.theme);
       }
 
       setCurrentUser(user);
@@ -65,20 +71,23 @@ export function UserProvider({ children }) {
     return () => window.removeEventListener('auth-unauthorized', onUnauthorized);
   }, [bootstrap, disconnect]);
 
-  const logout = useCallback(async () => {
-    try {
-      await axiosClient.post('/auth/logout', null, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      });
-    } catch {
-      // ignore
-    }
-    localStorage.removeItem('token');
-    localStorage.removeItem('foria_jwt');
-    document.cookie = 'foria_jwt=; Max-Age=0; path=/';
-    setCurrentUser(null);
-    disconnect?.();
-  }, [disconnect]);
+    const logout = useCallback(async () => {
+      try {
+        await axiosClient.post('/auth/logout', null, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        });
+      } catch (_) {}
+
+      // client clean-up
+      localStorage.removeItem('token');
+      localStorage.removeItem('foria_jwt');
+      document.cookie = 'foria_jwt=; Max-Age=0; path=/';
+
+      setCurrentUser(null);
+      disconnect?.();
+    }, [disconnect]);
+
+
 
   const value = useMemo(
     () => ({ currentUser, setCurrentUser, authLoading, authError, logout }),

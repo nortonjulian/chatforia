@@ -58,8 +58,17 @@ function setJwtCookie(res, token) {
 }
 function clearJwtCookie(res) {
   const base = getCookieBase();
-  const { maxAge, ...rest } = base;
-  res.clearCookie(getCookieName(), rest);
+  const name = getCookieName();
+
+  // 1) Best-effort clear with the same options used to set it
+  res.clearCookie(name, base);
+
+  // 2) Belt-and-suspenders: explicitly overwrite with an expired cookie
+  res.cookie(name, '', {
+    ...base,
+    maxAge: 0,
+    expires: new Date(0),
+  });
 }
 
 /* ---------------- Nodemailer init ---------------- */
@@ -577,8 +586,25 @@ router.post(
  * ========================= */
 router.post(
   '/logout',
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
     clearJwtCookie(res);
+
+    // 🧹 Destroy Passport / session state too (if used)
+    if (req.logout) {
+      try {
+        // Passport 0.6 supports async callback
+        await new Promise((resolve, reject) =>
+          req.logout((err) => (err ? reject(err) : resolve()))
+        );
+      } catch {
+        // ignore
+      }
+    }
+
+    if (req.session) {
+      req.session.destroy(() => {});
+    }
+
     res.json({ ok: true });
   })
 );
@@ -590,6 +616,8 @@ router.get(
   '/me',
   requireAuth,
   asyncHandler(async (req, res) => {
+    res.set('Cache-Control', 'no-store'); // 👈 add this
+
     return res.json({
       user: {
         id: req.user.id,

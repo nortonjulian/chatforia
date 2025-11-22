@@ -105,7 +105,7 @@ const ASIDE_W = 280;
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const { currentUser, setCurrentUser } = useUser();
+  const { currentUser, logout  } = useUser();
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
@@ -146,10 +146,7 @@ function AuthedLayout() {
   }, []);
 
   const handleLogout = async () => {
-    try { await api.post('/auth/logout'); } catch {}
-    try { localStorage.clear(); sessionStorage.clear(); } catch {}
-    setCurrentUser(null);
-    window.location.assign('/login');
+    await logout();
   };
 
   const plan = (currentUser?.plan || 'free').toLowerCase();
