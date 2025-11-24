@@ -256,7 +256,7 @@ describe('Sidebar', () => {
     expect(start).toBeDisabled();
 
     // Users navigates to /people
-    fireEvent.click(screen.getByRole('button', { name: /users/i }));
+    fireEvent.click(screen.getByRole('button', { name: /people/i }));
     expect(mockNavigate).toHaveBeenCalledWith('/people');
 
     // Settings disabled without user

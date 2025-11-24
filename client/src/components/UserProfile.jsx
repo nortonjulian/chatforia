@@ -22,6 +22,8 @@ import {
   Divider,
   Select,
   MultiSelect,
+  TextInput,
+  Textarea,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconUpload, IconCloudUpload, IconSun, IconMoon } from '@tabler/icons-react';
@@ -57,6 +59,7 @@ function lazyWithFallback(importer, Fallback = () => null) {
       .catch(() => ({ default: Fallback }))
   );
 }
+
 const LazyAISettings = lazyWithFallback(() =>
   import('../pages/AISettings').catch(() => ({ default: () => null }))
 );
@@ -136,6 +139,97 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
   const { setColorScheme } = useMantineColorScheme();
   const [themeNow, setThemeNow] = useState(getTheme());
+  const [coolCtasOnMidnight, setCoolCtasOnMidnight] = useState(
+    typeof document !== 'undefined' &&
+      document.documentElement.getAttribute('data-cta') === 'cool'
+  );
+
+  /* View-another-user state */
+  const [loadingView, setLoadingView] = useState(viewingAnother);
+  const [viewUser, setViewUser] = useState(null);
+  const [followStats, setFollowStats] = useState(null);
+  const [followBusy, setFollowBusy] = useState(false);
+
+  /* Plan section state */
+  const [planInfo, setPlanInfo] = useState(null);
+  const [planLoading, setPlanLoading] = useState(false);
+  const [planError, setPlanError] = useState('');
+  const [portalBusy, setPortalBusy] = useState(false);
+
+  // ✅ Defaults that are safe even if currentUser is temporarily null
+  const [preferredLanguage, setPreferredLanguage] = useState(
+    currentUser?.preferredLanguage || 'en'
+  );
+  const [autoTranslate, setAutoTranslate] = useState(
+    typeof currentUser?.autoTranslate === 'boolean' ? currentUser.autoTranslate : false
+  );
+  const [showOriginalWithTranslation, setShowOriginalWithTranslation] = useState(
+    typeof currentUser?.showOriginalWithTranslation === 'boolean'
+      ? currentUser.showOriginalWithTranslation
+      : false
+  );
+  const [allowExplicitContent, setAllowExplicitContent] = useState(
+    currentUser?.allowExplicitContent ?? false
+  );
+  const [showReadReceipts, setShowReadReceipts] = useState(
+    typeof currentUser?.showReadReceipts === 'boolean'
+      ? currentUser.showReadReceipts
+      : false
+  );
+  const [autoDeleteSeconds, setAutoDeleteSeconds] = useState(
+    currentUser?.autoDeleteSeconds || 0
+  );
+  const [privacyBlurEnabled, setPrivacyBlurEnabled] = useState(
+    currentUser?.privacyBlurEnabled ?? false
+  );
+  const [privacyBlurOnUnfocus, setPrivacyBlurOnUnfocus] = useState(
+    currentUser?.privacyBlurOnUnfocus ?? false
+  );
+  const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(
+    currentUser?.privacyHoldToReveal ?? false
+  );
+  const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser?.notifyOnCopy ?? false);
+
+  // 🔢 Age + Random Chat
+  const [ageBand, setAgeBand] = useState(currentUser?.ageBand || null);
+  const [wantsAgeFilter, setWantsAgeFilter] = useState(
+    typeof currentUser?.wantsAgeFilter === 'boolean'
+      ? currentUser.wantsAgeFilter
+      : true
+  );
+  const [randomChatAllowedBands, setRandomChatAllowedBands] = useState(
+    currentUser?.randomChatAllowedBands || []
+  );
+
+  // 🧠 Foria memory toggle
+  const [foriaRemember, setForiaRemember] = useState(
+    typeof currentUser?.foriaRemember === 'boolean'
+      ? currentUser.foriaRemember
+      : true
+  );
+
+  // 🔔 Voicemail settings
+  const [voicemailEnabled, setVoicemailEnabled] = useState(
+    typeof currentUser?.voicemailEnabled === 'boolean'
+      ? currentUser.voicemailEnabled
+      : true
+  );
+  const [voicemailAutoDeleteDays, setVoicemailAutoDeleteDays] = useState(
+    currentUser?.voicemailAutoDeleteDays ?? null
+  );
+  const [voicemailForwardEmail, setVoicemailForwardEmail] = useState(
+    currentUser?.voicemailForwardEmail || currentUser?.email || ''
+  );
+  const [voicemailGreetingText, setVoicemailGreetingText] = useState(
+    currentUser?.voicemailGreetingText || ''
+  );
+  const [voicemailGreetingUploading, setVoicemailGreetingUploading] = useState(false);
+
+  // Accordion open state
+  const [openItems, setOpenItems] = useState([]);
+
+  /* ---------- effects ---------- */
+
   useEffect(() => onThemeChange(setThemeNow), []);
   useEffect(() => {
     const theme = getTheme();
@@ -143,26 +237,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     setFaviconForTheme(theme);
   }, [setColorScheme]);
 
-  const [coolCtasOnMidnight, setCoolCtasOnMidnight] = useState(
-    typeof document !== 'undefined' && document.documentElement.getAttribute('data-cta') === 'cool'
-  );
-
-  const applyTheme = (themeName) => {
-    setTheme(themeName);
-    setColorScheme(isLightTheme(themeName) ? 'light' : 'dark');
-    setFaviconForTheme(themeName);
-    if (themeName !== 'midnight') {
-      document.documentElement.removeAttribute('data-cta');
-      setCoolCtasOnMidnight(false);
-    }
-  };
-
-  /* ------- view another user ------- */
-  const [loadingView, setLoadingView] = useState(viewingAnother);
-  const [viewUser, setViewUser] = useState(null);
-  const [followStats, setFollowStats] = useState(null);
-  const [followBusy, setFollowBusy] = useState(false);
-
+  // View another user
   useEffect(() => {
     let cancelled = false;
     const fetchAll = async () => {
@@ -193,181 +268,44 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     };
   }, [viewingAnother, viewUserId, t]);
 
-  const doFollow = async () => {
-    try {
-      setFollowBusy(true);
-      await axiosClient.post(`/follows/${viewUserId}`);
-      const { data: stats } = await axiosClient.get(`/follows/${viewUserId}/stats`);
-      setFollowStats(stats);
-      notifications.show({ color: 'green', message: t('profile.followed', 'Followed') });
-    } catch (e) {
-      console.error(e);
-      notifications.show({
-        color: 'red',
-        message: t('profile.followFailed', 'Failed to follow'),
-      });
-    } finally {
-      setFollowBusy(false);
+  // Load plan info
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPlan() {
+      try {
+        setPlanLoading(true);
+        const { data } = await axiosClient.get('/billing/my-plan');
+        if (!cancelled && data?.plan) {
+          setPlanInfo(data.plan);
+        }
+      } catch (e) {
+        console.error('Failed to load plan', e);
+        if (!cancelled) {
+          setPlanError(
+            t('profile.planLoadFailed', 'Failed to load your plan.')
+          );
+        }
+      } finally {
+        if (!cancelled) setPlanLoading(false);
+      }
     }
-  };
-  const doUnfollow = async () => {
-    try {
-      setFollowBusy(true);
-      await axiosClient.delete(`/follows/${viewUserId}`);
-      const { data: stats } = await axiosClient.get(`/follows/${viewUserId}/stats`);
-      setFollowStats(stats);
-      notifications.show({ color: 'green', message: t('profile.unfollowed', 'Unfollowed') });
-    } catch (e) {
-      console.error(e);
-      notifications.show({
-        color: 'red',
-        message: t('profile.unfollowFailed', 'Failed to unfollow'),
-      });
-    } finally {
-      setFollowBusy(false);
-    }
-  };
 
-  if (viewingAnother) {
-    return (
-      <Paper withBorder shadow="sm" radius="xl" p="lg" maw={560} mx="auto">
-        {loadingView ? (
-          <Group align="center" justify="center" mih={120}>
-            <Loader />
-          </Group>
-        ) : viewUser ? (
-          <Stack gap="md">
-            <Group align="center" justify="space-between">
-              <Group>
-                <Avatar
-                  src={viewUser.avatarUrl || '/default-avatar.png'}
-                  size={64}
-                  radius="xl"
-                />
-                <div>
-                  <Title order={3}>
-                    {viewUser.username ||
-                      t('profile.userFallback', 'User #{{id}}', { id: viewUser.id })}
-                  </Title>
-                  <Group gap="xs" mt={4}>
-                    <Badge variant="light">
-                      {(followStats?.followerCount ?? 0)}{' '}
-                      {t('profile.followers', 'followers')}
-                    </Badge>
-                    <Badge variant="light">
-                      {(followStats?.followingCount ?? 0)}{' '}
-                      {t('profile.following', 'following')}
-                    </Badge>
-                    {followStats?.doTheyFollowMe ? (
-                      <Badge color="blue" variant="light">
-                        {t('profile.followsYou', 'Follows you')}
-                      </Badge>
-                    ) : null}
-                  </Group>
-                </div>
-              </Group>
-              <Group>
-                {followStats?.amIFollowing ? (
-                  <Button variant="light" color="red" loading={followBusy} onClick={doUnfollow}>
-                    {t('profile.unfollow', 'Unfollow')}
-                  </Button>
-                ) : (
-                  <Button variant="filled" loading={followBusy} onClick={doFollow}>
-                    {t('profile.follow', 'Follow')}
-                  </Button>
-                )}
-              </Group>
-            </Group>
-            <Text c="dimmed" size="sm">
-              {t(
-                'profile.followHint',
-                'Their stories will appear in your Following feed if they post with audience Followers (or Public).'
-              )}
-            </Text>
-          </Stack>
-        ) : (
-          <Text c="dimmed">{t('profile.userNotFound', 'User not found')}</Text>
-        )}
-      </Paper>
-    );
-  }
-
-  /* ------- own profile ------- */
-  if (!currentUser) {
-    return (
-      <Text c="dimmed">
-        {t('profile.mustLogin', 'You must sign in to view the settings.')}
-      </Text>
-    );
-  }
-
-  const planUpper = (currentUser.plan || 'FREE').toUpperCase();
-  const isPremiumPlan = planUpper === 'PREMIUM';
-  const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
-  const hasEsim = Boolean(currentUser.tealIccid); // 👈 detect Teal eSIM on account
-
-  // ✅ Defaults
-  const [preferredLanguage, setPreferredLanguage] = useState(
-    currentUser.preferredLanguage || 'en'
-  );
-  const [autoTranslate, setAutoTranslate] = useState(
-    typeof currentUser.autoTranslate === 'boolean' ? currentUser.autoTranslate : false
-  );
-  const [showOriginalWithTranslation, setShowOriginalWithTranslation] = useState(
-    typeof currentUser.showOriginalWithTranslation === 'boolean'
-      ? currentUser.showOriginalWithTranslation
-      : false
-  );
-  const [allowExplicitContent, setAllowExplicitContent] = useState(
-    currentUser.allowExplicitContent ?? false
-  );
-  const [showReadReceipts, setShowReadReceipts] = useState(
-    typeof currentUser.showReadReceipts === 'boolean'
-      ? currentUser.showReadReceipts
-      : false
-  );
-  const [autoDeleteSeconds, setAutoDeleteSeconds] = useState(
-    currentUser.autoDeleteSeconds || 0
-  );
-  const [privacyBlurEnabled, setPrivacyBlurEnabled] = useState(
-    currentUser.privacyBlurEnabled ?? false
-  );
-  const [privacyBlurOnUnfocus, setPrivacyBlurOnUnfocus] = useState(
-    currentUser.privacyBlurOnUnfocus ?? false
-  );
-  const [privacyHoldToReveal, setPrivacyHoldToReveal] = useState(
-    currentUser.privacyHoldToReveal ?? false
-  );
-  const [notifyOnCopy, setNotifyOnCopy] = useState(currentUser.notifyOnCopy ?? false);
-
-  // 🔢 Age + Random Chat
-  const [ageBand, setAgeBand] = useState(currentUser.ageBand || null);
-  const [wantsAgeFilter, setWantsAgeFilter] = useState(
-    typeof currentUser.wantsAgeFilter === 'boolean'
-      ? currentUser.wantsAgeFilter
-      : true
-  );
-  const [randomChatAllowedBands, setRandomChatAllowedBands] = useState(
-    currentUser.randomChatAllowedBands || []
-  );
-
-  // 🧠 Foria memory toggle
-  const [foriaRemember, setForiaRemember] = useState(
-    typeof currentUser.foriaRemember === 'boolean'
-      ? currentUser.foriaRemember
-      : true
-  );
+    loadPlan();
+    return () => {
+      cancelled = true;
+    };
+  }, [t]);
 
   // Keep UI theme in sync if user state changes (e.g., login in another tab)
   useEffect(() => {
-    if (currentUser?.theme) applyTheme(currentUser.theme);
+    if (currentUser?.theme) {
+      applyTheme(currentUser.theme);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.theme]);
 
-  // Nothing auto-opened
-  const [openItems, setOpenItems] = useState([]);
-
-  // If requested, scroll to forwarding section (which is outside the accordion)
+  // Scroll to forwarding section (outside accordion) if requested
   useEffect(() => {
     if (openSection === 'forwarding' && forwardingAnchorRef.current) {
       const el = forwardingAnchorRef.current;
@@ -387,7 +325,23 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     }
   }, [openSection]);
 
-  // Refresh auth user after 2FA changes
+  /* ---------- derived values & helpers ---------- */
+
+  const applyTheme = (themeName) => {
+    setTheme(themeName);
+    setColorScheme(isLightTheme(themeName) ? 'light' : 'dark');
+    setFaviconForTheme(themeName);
+    if (themeName !== 'midnight') {
+      document.documentElement.removeAttribute('data-cta');
+      setCoolCtasOnMidnight(false);
+    }
+  };
+
+  const planUpper = ((currentUser?.plan) || 'FREE').toUpperCase();
+  const isPremiumPlan = planUpper === 'PREMIUM';
+  const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
+  const hasEsim = Boolean(currentUser?.tealIccid); // detect Teal eSIM on account
+
   const refreshAuthUser = async () => {
     try {
       const { data } = await axiosClient.get('/auth/me');
@@ -396,6 +350,32 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       console.error('Failed to refresh /auth/me', e);
     }
   };
+
+  const openBillingPortal = async () => {
+    try {
+      setPortalBusy(true);
+
+      // ✅ This MUST be a POST, and MUST go through axiosClient
+      const { data } = await axiosClient.post('/billing/portal');
+
+      const url = data?.url || data?.portalUrl;
+      if (!url) throw new Error('No portal URL returned');
+
+      // ✅ Now do a full page redirect *only* to Stripe URL
+      window.location.href = url;
+    } catch (e) {
+      console.error('Failed to open billing portal', e);
+      notifications.show({
+        color: 'red',
+        message: t(
+          'profile.portalOpenFailed',
+          'Could not open billing portal. Please try again.'
+        ),
+      });
+    } finally {
+      setPortalBusy(false);
+    }
+};
 
   const saveSettings = async () => {
     try {
@@ -412,12 +392,20 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         privacyBlurOnUnfocus,
         privacyHoldToReveal,
         notifyOnCopy,
-        // 👇 Age + Random Chat
+        // Age + Random Chat
         ageBand,
         wantsAgeFilter,
         randomChatAllowedBands,
-        // 👇 Foria memory
+        // Foria memory
         foriaRemember,
+        // Voicemail
+        voicemailEnabled,
+        voicemailAutoDeleteDays:
+          voicemailAutoDeleteDays === '' || voicemailAutoDeleteDays == null
+            ? null
+            : Number(voicemailAutoDeleteDays),
+        voicemailForwardEmail,
+        voicemailGreetingText,
       };
       await axiosClient.patch(`/users/me`, payload);
 
@@ -461,6 +449,43 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         color: 'red',
         message: t('profile.avatarError', 'Failed to upload avatar'),
       });
+    }
+  };
+
+  const handleVoicemailGreetingUpload = async (file) => {
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      setVoicemailGreetingUploading(true);
+      const { data } = await axiosClient.post('/api/voicemail/greeting', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (data.greetingUrl) {
+        setCurrentUser((prev) => ({ ...prev, voicemailGreetingUrl: data.greetingUrl }));
+        notifications.show({
+          color: 'green',
+          message: t(
+            'profile.voicemailGreetingUploaded',
+            'Voicemail greeting uploaded successfully'
+          ),
+        });
+      } else {
+        throw new Error('No greetingUrl returned');
+      }
+    } catch (err) {
+      console.error('Voicemail greeting upload failed', err);
+      notifications.show({
+        color: 'red',
+        message: t(
+          'profile.voicemailGreetingUploadError',
+          'Failed to upload voicemail greeting'
+        ),
+      });
+    } finally {
+      setVoicemailGreetingUploading(false);
     }
   };
 
@@ -542,6 +567,82 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       });
     }
   };
+
+  /* ---------- early-return branches ---------- */
+
+  if (viewingAnother) {
+    return (
+      <Paper withBorder shadow="sm" radius="xl" p="lg" maw={560} mx="auto">
+        {loadingView ? (
+          <Group align="center" justify="center" mih={120}>
+            <Loader />
+          </Group>
+        ) : viewUser ? (
+          <Stack gap="md">
+            <Group align="center" justify="space-between">
+              <Group>
+                <Avatar
+                  src={viewUser.avatarUrl || '/default-avatar.png'}
+                  size={64}
+                  radius="xl"
+                />
+                <div>
+                  <Title order={3}>
+                    {viewUser.username ||
+                      t('profile.userFallback', 'User #{{id}}', { id: viewUser.id })}
+                  </Title>
+                  <Group gap="xs" mt={4}>
+                    <Badge variant="light">
+                      {(followStats?.followerCount ?? 0)}{' '}
+                      {t('profile.followers', 'followers')}
+                    </Badge>
+                    <Badge variant="light">
+                      {(followStats?.followingCount ?? 0)}{' '}
+                      {t('profile.following', 'following')}
+                    </Badge>
+                    {followStats?.doTheyFollowMe ? (
+                      <Badge color="blue" variant="light">
+                        {t('profile.followsYou', 'Follows you')}
+                      </Badge>
+                    ) : null}
+                  </Group>
+                </div>
+              </Group>
+              <Group>
+                {followStats?.amIFollowing ? (
+                  <Button variant="light" color="red" loading={followBusy} onClick={doUnfollow}>
+                    {t('profile.unfollow', 'Unfollow')}
+                  </Button>
+                ) : (
+                  <Button variant="filled" loading={followBusy} onClick={doFollow}>
+                    {t('profile.follow', 'Follow')}
+                  </Button>
+                )}
+              </Group>
+            </Group>
+            <Text c="dimmed" size="sm">
+              {t(
+                'profile.followHint',
+                'Their stories will appear in your Following feed if they post with audience Followers (or Public).'
+              )}
+            </Text>
+          </Stack>
+        ) : (
+          <Text c="dimmed">{t('profile.userNotFound', 'User not found')}</Text>
+        )}
+      </Paper>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <Text c="dimmed">
+        {t('profile.mustLogin', 'You must sign in to view the settings.')}
+      </Text>
+    );
+  }
+
+  /* ---------- main render ---------- */
 
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg" pb={80} maw={640} mx="auto">
@@ -626,6 +727,101 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           </Accordion.Panel>
         </Accordion.Item>
 
+        {/* My plan */}
+        <Accordion.Item value="plan">
+          <Accordion.Control>
+            {t('profile.planSection', 'My plan')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Stack gap="sm">
+              {planLoading && (
+                <Group>
+                  <Loader size="sm" />
+                  <Text size="sm">
+                    {t('profile.planLoading', 'Loading your plan…')}
+                  </Text>
+                </Group>
+              )}
+
+              {planError && !planLoading && (
+                <Text size="sm" c="red">
+                  {planError}
+                </Text>
+              )}
+
+              {!planLoading && planInfo && (
+                <Card withBorder radius="lg" p="md">
+                  <Group justify="space-between" align="flex-start">
+                    <div>
+                      <Text size="sm" c="dimmed">
+                        {t('profile.currentPlan', 'Current plan')}
+                      </Text>
+
+                      <Group gap="xs" mt={4}>
+                        <Title order={4}>
+                          {planInfo.label || 'Chatforia Free'}
+                        </Title>
+                        {!planInfo.isFree && planInfo.status && (
+                          <Badge variant="light">
+                            {planInfo.status}
+                          </Badge>
+                        )}
+                      </Group>
+
+                      {!planInfo.isFree && (
+                        <Text size="sm" mt="xs">
+                          {planInfo.amountFormatted}{' '}
+                          {planInfo.currency?.toUpperCase()}/
+                          {planInfo.interval || 'month'}
+                        </Text>
+                      )}
+
+                      {planInfo.renewsAt && (
+                        <Text size="xs" c="dimmed" mt="xs">
+                          {t('profile.planRenewsOn', 'Renews on')}{' '}
+                          {new Date(planInfo.renewsAt).toLocaleDateString()}
+                        </Text>
+                      )}
+
+                      {planInfo.isFree && (
+                        <Text size="sm" c="dimmed" mt="xs">
+                          {t(
+                            'profile.freePlanCopy',
+                            'You’re on the free plan. Upgrade to unlock more features like backups, extra numbers, and advanced privacy options.'
+                          )}
+                        </Text>
+                      )}
+                    </div>
+
+                    <Stack gap="xs">
+                      <Button
+                        size="xs"
+                        radius="xl"
+                        onClick={() => navigate('/upgrade')}
+                        variant={planInfo.isFree ? 'filled' : 'outline'}
+                      >
+                        {planInfo.isFree
+                          ? t('profile.upgradePlanCta', 'Upgrade plan')
+                          : t('profile.changePlanCta', 'Change plan')}
+                      </Button>
+
+                      <Button
+                        size="xs"
+                        radius="xl"
+                        variant="subtle"
+                        onClick={openBillingPortal}
+                        loading={portalBusy}
+                      >
+                        {t('profile.manageBilling', 'Manage billing')}
+                      </Button>
+                    </Stack>
+                  </Group>
+                </Card>
+              )}
+            </Stack>
+          </Accordion.Panel>
+        </Accordion.Item>
+
         {/* Phone number */}
         <Accordion.Item value="phone-number">
           <Accordion.Control>
@@ -672,9 +868,107 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 size="xs"
                 onClick={() => navigate('/wireless')}
               >
-                {t('profile.family.manage', 'Manage Family plan')}
+                {t('profile.wireless.manage', 'Manage Wireless')}
               </Button>
             </Group>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        {/* Voicemail */}
+        <Accordion.Item value="voicemail">
+          <Accordion.Control>
+            {t('profile.voicemailSection', 'Voicemail')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Stack gap="sm">
+              <Switch
+                checked={voicemailEnabled}
+                onChange={(e) => setVoicemailEnabled(e.currentTarget.checked)}
+                label={t('profile.voicemailEnabled', 'Enable voicemail')}
+              />
+
+              <NumberInput
+                label={t(
+                  'profile.voicemailAutoDeleteDays',
+                  'Auto-delete voicemails after (days)'
+                )}
+                placeholder={t(
+                  'profile.voicemailAutoDeletePlaceholder',
+                  'Leave empty to keep forever'
+                )}
+                min={1}
+                max={3650}
+                value={voicemailAutoDeleteDays ?? ''}
+                onChange={(v) =>
+                  setVoicemailAutoDeleteDays(
+                    v === '' || v === null ? null : Number(v) || null
+                  )
+                }
+              />
+
+              <TextInput
+                label={t(
+                  'profile.voicemailForwardEmail',
+                  'Forward voicemail to email'
+                )}
+                placeholder={t(
+                  'profile.voicemailForwardEmailPlaceholder',
+                  'Email to send voicemail notifications to'
+                )}
+                value={voicemailForwardEmail}
+                onChange={(e) => setVoicemailForwardEmail(e.currentTarget.value)}
+              />
+
+              <Textarea
+                label={t(
+                  'profile.voicemailGreetingText',
+                  'Text fallback greeting'
+                )}
+                description={t(
+                  'profile.voicemailGreetingTextDesc',
+                  'Used when your audio greeting is unavailable.'
+                )}
+                minRows={2}
+                value={voicemailGreetingText}
+                onChange={(e) => setVoicemailGreetingText(e.currentTarget.value)}
+              />
+
+              <Group align="flex-end" gap="sm">
+                <FileInput
+                  accept="audio/*"
+                  leftSection={<IconUpload size={16} />}
+                  aria-label={t(
+                    'profile.voicemailGreetingUpload',
+                    'Upload voicemail greeting'
+                  )}
+                  placeholder={t(
+                    'profile.voicemailGreetingUpload',
+                    'Upload voicemail greeting'
+                  )}
+                  onChange={handleVoicemailGreetingUpload}
+                  disabled={voicemailGreetingUploading}
+                />
+                {currentUser.voicemailGreetingUrl && (
+                  <Button
+                    variant="subtle"
+                    component="a"
+                    href={currentUser.voicemailGreetingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="xs"
+                  >
+                    {t('profile.voicemailPreviewGreeting', 'Preview greeting')}
+                  </Button>
+                )}
+              </Group>
+
+              <Text size="xs" c="dimmed">
+                {t(
+                  'profile.voicemailNote',
+                  'Voicemails from your Chatforia numbers will be stored in your Voicemail inbox. You can enable transcription and forwarding in supported plans.'
+                )}
+              </Text>
+            </Stack>
           </Accordion.Panel>
         </Accordion.Item>
 
@@ -1088,10 +1382,10 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       </div>
 
       <Group justify="flex-end" mt="xl">
-      <Button onClick={saveSettings}>
-        {t('profile.saveProfile', 'Save profile')}
-      </Button>
-    </Group>
+        <Button onClick={saveSettings}>
+          {t('profile.saveProfile', 'Save profile')}
+        </Button>
+      </Group>
     </Paper>
   );
 }

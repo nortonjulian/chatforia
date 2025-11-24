@@ -4,10 +4,18 @@ import ThemeSelect from '../ThemeSelect.jsx'; // ✅ relative import
 // ---------- Mocks ----------
 const mockGetTheme = jest.fn();
 const mockSetTheme = jest.fn();
+const mockOnThemeChange = jest.fn();
 
 jest.mock('../../../utils/themeManager', () => ({
+  __esModule: true,
   getTheme: (...args) => mockGetTheme(...args),
   setTheme: (...args) => mockSetTheme(...args),
+  onThemeChange: (cb) => {
+    // record the subscription (handy if we ever want to assert this)
+    mockOnThemeChange(cb);
+    // return an unsubscribe noop to match the real API shape
+    return () => {};
+  },
 }));
 
 jest.mock('../../../config/themes', () => ({
@@ -41,7 +49,11 @@ jest.mock('@mantine/core', () => {
         >
           {isGrouped
             ? data.map((g) => (
-                <optgroup key={g.group} label={g.group} data-testid={`group-${g.group}`}>
+                <optgroup
+                  key={g.group}
+                  label={g.group}
+                  data-testid={`group-${g.group}`}
+                >
                   {g.items.map((opt) => (
                     <option
                       key={opt.value}

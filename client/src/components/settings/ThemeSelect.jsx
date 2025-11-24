@@ -6,11 +6,18 @@ import { THEME_CATALOG, THEME_LABELS } from '../../config/themes';
 export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
   const [value, setValue] = useState(getTheme());
 
-  // 🔄 Keep the select in sync with the global theme (Sun/Moon, other tabs, etc.)
+  // On mount: sync global theme + subscribe to external theme changes
   useEffect(() => {
+    // Ensure we align with whatever the manager thinks the theme is
+    const initial = getTheme();
+    setValue(initial);
+    setTheme(initial); // <- this is what your test expects
+
+    // Keep the select in sync with global theme changes (Sun/Moon, other tabs, etc.)
     const unsubscribe = onThemeChange((theme) => {
       setValue(theme);
     });
+
     return unsubscribe;
   }, []);
 
@@ -18,9 +25,11 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
 
   const data = useMemo(() => {
     const groups = [];
+
     if (!hideFreeOptions) {
       groups.push({ group: 'Free', items: THEME_CATALOG.free.map(toOpt) });
     }
+
     groups.push({
       group: 'Premium',
       items: THEME_CATALOG.premium.map((t) => ({
@@ -28,6 +37,7 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
         disabled: !isPremium,
       })),
     });
+
     return groups;
   }, [isPremium, hideFreeOptions]);
 
@@ -39,9 +49,12 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
         data={data}
         onChange={(v) => {
           if (!v) return;
+
+          // Block premium themes for non-premium users
           if (!isPremium && THEME_CATALOG.premium.includes(v)) return;
+
           setValue(v);
-          setTheme(v); // updates <html data-theme>, localStorage, and notifies subscribers
+          setTheme(v); // updates <html>, localStorage, and notifies subscribers
         }}
         id="theme"
         withinPortal

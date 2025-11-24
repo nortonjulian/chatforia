@@ -215,6 +215,144 @@ function getStripePriceIdForAddon(addonKind) {
 }
 
 /* ----------------------------------------------
+ * My Plan – return the current user's plan info
+ * --------------------------------------------*/
+router.get('/my-plan', async (req, res) => {
+  try {
+    const userId = req.user?.id ? Number(req.user.id) : null;
+
+    // Helper to normalize plan code -> label
+    const labelForPlan = (code) => {
+      switch ((code || '').toUpperCase()) {
+        case 'PLUS':
+          return 'Chatforia Plus';
+        case 'PREMIUM':
+          return 'Chatforia Premium';
+        case 'FREE':
+        default:
+          return 'Chatforia Free';
+      }
+    };
+
+    let user = null;
+
+    if (userId) {
+      user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: {
+          id: true,
+          email: true,
+          plan: true,
+          stripeCustomerId: true,
+          stripeSubscriptionId: true,
+          planExpiresAt: true,
+        },
+      });
+    }
+
+    // If we have no user (not authed, or not found), just treat as Free,
+    // but still respond 200 so the UI can show a nice card instead of an error.
+    if (!user) {
+      const baseCode = 'FREE';
+      return res.json({
+        plan: {
+          id: null,
+          code: baseCode,
+          label: labelForPlan(baseCode),
+          isFree: true,
+          status: 'inactive',
+          amount: 0,
+          amountFormatted: '0.00',
+          currency: null,
+          interval: null,
+          renewsAt: null,
+        },
+      });
+    }
+
+    const baseCode = (user.plan || 'FREE').toUpperCase();
+
+    const stripeKeyConfigured = !!process.env.STRIPE_SECRET_KEY;
+    const hasStripeSub = !!user.stripeSubscriptionId && stripeKeyConfigured;
+
+    // If no subscription OR Stripe not configured yet, return a simple view.
+    if (!hasStripeSub) {
+      return res.json({
+        plan: {
+          id: user.stripeSubscriptionId || null,
+          code: baseCode,
+          label: labelForPlan(baseCode),
+          isFree: baseCode === 'FREE',
+          status: user.stripeSubscriptionId ? 'active' : 'inactive',
+          amount: 0,
+          amountFormatted: '0.00',
+          currency: null,
+          interval: null,
+          renewsAt: user.planExpiresAt
+            ? user.planExpiresAt.toISOString()
+            : null,
+        },
+      });
+    }
+
+    // Full details from Stripe (only if everything is wired)
+    const stripe = getStripe();
+    const sub = await stripe.subscriptions.retrieve(
+      user.stripeSubscriptionId,
+      { expand: ['items.data.price.product'] }
+    );
+
+    const price = sub.items?.data?.[0]?.price;
+    const amount = price?.unit_amount ?? 0;
+    const currency = price?.currency ?? 'usd';
+    const interval = price?.recurring?.interval ?? null;
+
+    let productName = null;
+    if (price?.product && typeof price.product === 'object') {
+      productName = price.product.name || null;
+    }
+
+    const label = productName || labelForPlan(baseCode);
+
+    return res.json({
+      plan: {
+        id: sub.id,
+        code: baseCode,
+        label,
+        isFree: baseCode === 'FREE',
+        status: sub.status,
+        amount,
+        amountFormatted: amount ? (amount / 100).toFixed(2) : '0.00',
+        currency: currency.toUpperCase(),
+        interval,
+        renewsAt: sub.current_period_end
+          ? new Date(sub.current_period_end * 1000).toISOString()
+          : user.planExpiresAt
+          ? user.planExpiresAt.toISOString()
+          : null,
+      },
+    });
+  } catch (err) {
+    console.error('my-plan error:', err);
+
+    return res.json({
+      plan: {
+        id: null,
+        code: 'FREE',
+        label: 'Chatforia Free',
+        isFree: true,
+        status: 'inactive',
+        amount: 0,
+        amountFormatted: '0.00',
+        currency: null,
+        interval: null,
+        renewsAt: null,
+      },
+    });
+  }
+});
+
+/* ----------------------------------------------
  * Checkout (subscriptions)
  * --------------------------------------------*/
 // POST /billing/checkout  { plan?: "PLUS_MONTHLY"|"PREMIUM_MONTHLY"|"PREMIUM_ANNUAL", priceId?: "price_..." }
@@ -307,26 +445,45 @@ router.post('/checkout-addon', async (req, res) => {
 /* ----------------------------------------------
  * Billing Portal (manage/cancel/change payment)
  * --------------------------------------------*/
-// POST /billing/portal
-router.post('/portal', async (req, res) => {
+router.all('/portal', async (req, res) => {
+  console.log('🔥 /billing/portal hit', {
+    method: req.method,
+    user: req.user,
+    cookies: req.headers.cookie,
+  });
   try {
-    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId(req.user);
 
-    // We use a simple return page that brings users back to Upgrade.
     const returnUrl = `${process.env.WEB_URL}/billing/return`;
 
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: returnUrl,
     });
-    return res.json({ url: portal.url, portalUrl: portal.url });
+
+    const wantsJson =
+      req.xhr ||
+      req.get('x-requested-with') === 'XMLHttpRequest' ||
+      req.accepts('json');
+
+    if (wantsJson) {
+      // XHR from your button
+      return res.json({ url: portal.url, portalUrl: portal.url });
+    }
+
+    // Direct browser GET → just redirect
+    return res.redirect(303, portal.url);
   } catch (err) {
     console.error('portal error:', err);
     return res.status(500).json({ error: 'Portal creation failed' });
   }
 });
+
 
 /* ----------------------------------------------
  * Cancel at period end (opt out of next month)

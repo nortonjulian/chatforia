@@ -1,26 +1,65 @@
 import axios from 'axios';
 
-/** -------- Base URL detection (Vite first) -------- */
+/** -------- Env helpers -------- */
+const isViteEnv =
+  typeof import.meta !== 'undefined' &&
+  typeof import.meta.env !== 'undefined';
+
+const isNodeEnv =
+  typeof process !== 'undefined' &&
+  typeof process.env !== 'undefined';
+
+const isBrowser =
+  typeof window !== 'undefined';
+
+const isDev =
+  (isViteEnv && !!import.meta.env.DEV) ||
+  (isNodeEnv && process.env.NODE_ENV === 'development');
+
+/** -------- Base URL detection --------
+ *
+ * PRODUCTION:
+ *   Set VITE_API_BASE_URL when building the client, e.g.:
+ *     VITE_API_BASE_URL="https://api.chatforia.com"
+ *
+ * DEV:
+ *   Leave it empty; Vite proxy will handle /auth, /billing, etc.
+ */
 const viteBase =
-  (typeof import.meta !== 'undefined' &&
-    import.meta.env &&
-    (import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL)) ||
+  (isViteEnv &&
+    (
+      import.meta.env.VITE_API_BASE_URL ||
+      import.meta.env.VITE_API_BASE ||
+      import.meta.env.VITE_API_URL
+    )) ||
   null;
 
+// Optional: you *can* set window.__API_URL__ from index.html if you ever want.
 const winBase =
-  (typeof window !== 'undefined' && window.__API_URL__) || null;
+  (isBrowser && window.__API_URL__) || null;
 
 const nodeBase =
-  (typeof process !== 'undefined' &&
-    process.env &&
-    (process.env.VITE_API_BASE_URL || process.env.VITE_API_URL)) ||
+  (isNodeEnv &&
+    (
+      process.env.VITE_API_BASE_URL ||
+      process.env.VITE_API_BASE ||
+      process.env.VITE_API_URL
+    )) ||
   null;
 
-const isDev = typeof import.meta !== 'undefined' && !!import.meta.env?.DEV;
+// Last-ditch fallback: same origin as the frontend
+const sameOriginFallback =
+  isBrowser && window.location
+    ? window.location.origin
+    : '';
 
-// In dev use Vite proxy (`/api` → proxy → backend). In prod use configured base.
 const computedBase = viteBase || winBase || nodeBase || '';
-const baseURL = computedBase || '';
+const baseURL = computedBase || (isDev ? '' : sameOriginFallback);
+
+if (isDev) {
+  // Only log in dev to avoid noisy prod logs
+  console.log('[axiosClient] baseURL =', baseURL || '(empty -> Vite proxy)');
+}
 
 /** -------- Axios instance -------- */
 const axiosClient = axios.create({
@@ -56,7 +95,7 @@ async function ensureCsrfPrimed() {
       axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
     }
   } catch {
-    // Fail silently
+    // Fail silently – worst case, CSRF middleware will reject and you'll see it in logs
   }
 }
 
@@ -70,7 +109,6 @@ axiosClient.interceptors.request.use(async (config) => {
   if (isMutating) {
     await ensureCsrfPrimed();
 
-    // Always attach a CSRF header from the cookie or default header
     const cookieToken = readCookie('XSRF-TOKEN');
     const defaultToken =
       axiosClient.defaults.headers.common['X-CSRF-Token'] || null;
@@ -93,7 +131,7 @@ axiosClient.interceptors.request.use(async (config) => {
 axiosClient.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (typeof window !== 'undefined' && import.meta?.env?.DEV) {
+    if (isDev && typeof window !== 'undefined') {
       console.error('axios error:', {
         url: err?.config?.url,
         method: err?.config?.method,
@@ -113,6 +151,8 @@ export async function primeCsrf() {
   if (_csrfPrimed) return;
   try {
     await axiosClient.get('/auth/csrf', { withCredentials: true });
-  } catch {}
+  } catch {
+    // ignore
+  }
   _csrfPrimed = true;
 }

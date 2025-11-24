@@ -24,6 +24,9 @@ import smsDevInbound from './routes/smsDevInbound.js';
 // Deep health
 import healthzRouter from './routes/healthz.js';
 
+import supportRouter from './routes/support.js';
+import adsRouter from './routes/ads.js';
+
 // Routers / middleware
 import premiumRouter from './routes/premium.js';
 import backupsRouter from './routes/backups.js';
@@ -67,6 +70,10 @@ import transcriptsRouter from './routes/transcripts.js';
 
 import familyRouter from './routes/family.js';
 import wirelessRouter from './routes/wireless.js';
+
+import voicemailRouter from './routes/voicemail.js';
+import voicemailGreetingRouter from './routes/voicemailGreeting.js';
+
 
 // 🔒 auth gates
 import { requireAuth } from './middleware/auth.js';
@@ -122,6 +129,10 @@ export function createApp() {
   const app = express();
   const isProd = process.env.NODE_ENV === 'production';
   const isTest = process.env.NODE_ENV === 'test';
+
+  // For your current setup (frontend :5173, API :5002) we want
+  // cookies to be cross-site so the session is sent with XHR.
+  const useCrossSiteCookies = true;
 
   // 🔄 Start Teal usage background worker (no-op unless ENABLE_TEAL_SYNC === "true")
   // You can comment this out if you want to postpone enabling it entirely.
@@ -219,9 +230,12 @@ export function createApp() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: isProd ? 'none' : 'lax',
-        secure: isProd,
-        // domain: optionally set process.env.COOKIE_DOMAIN
+        // Cross-site so 5173 → 5002 requests include the cookie.
+        sameSite: useCrossSiteCookies ? 'none' : 'lax',
+        // In real production (HTTPS) this must be true.
+        // For http://localhost dev it's OK to be false.
+        secure: isProd ? true : false,
+        // domain: process.env.COOKIE_DOMAIN, // e.g. ".chatforia.com" in real prod
       },
     })
   );
@@ -242,7 +256,7 @@ export function createApp() {
   // TEMP bypasses for first-run auth flows (remove later!)
   // + Teal webhook bypass
   const csrfBypassPattern =
-  /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/esim\/webhooks\/teal$/;
+    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/esim\/webhooks\/teal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
 
   app.use((req, res, next) => {
     const path = req.path;
@@ -313,7 +327,10 @@ export function createApp() {
   app.use('/webhooks/sms', smsWebhooks);
 
   // PSTN/telephony surfaces (require phone verification)
-  app.use('/voice', requireAuth, requirePhoneVerified, voiceRouter);
+  // PSTN/telephony surfaces (require phone verification for some routes)
+  app.use('/voice', voiceRouter);
+
+  app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
   app.use('/sms/threads', requireAuth, smsThreadsRouter);
@@ -321,6 +338,13 @@ export function createApp() {
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);
+
+  app.use('/api/voicemail', voicemailRouter);
+  app.use('/api/voicemail/greeting', voicemailGreetingRouter);
+
+  app.use('/support', supportRouter);
+
+  app.use('/ads', adsRouter);
 
   // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
   app.post(

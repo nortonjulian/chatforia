@@ -24,16 +24,31 @@ jest.mock('@mantine/core', () => {
     <div data-testid={tid} {...props}>{children}</div>
   );
 
-  const Button = ({ children, onClick, disabled, loading, ...rest }) => (
-    <button
-      data-testid={`btn-${String(children).toLowerCase()}`}
-      onClick={onClick}
-      disabled={!!disabled || !!loading}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
+  const Button = ({ children, onClick, disabled, loading, ...rest }) => {
+    const label = String(children);
+    // Normalize test IDs so tests can use getButton('Save') / getButton('Reset')
+    let testId = rest['data-testid'];
+    if (!testId) {
+      if (/save/i.test(label)) {
+        testId = 'btn-save';
+      } else if (/reset/i.test(label)) {
+        testId = 'btn-reset';
+      } else {
+        testId = `btn-${label.toLowerCase()}`;
+      }
+    }
+
+    return (
+      <button
+        data-testid={testId}
+        onClick={onClick}
+        disabled={!!disabled || !!loading}
+        {...rest}
+      >
+        {children}
+      </button>
+    );
+  };
 
   const Checkbox = ({ label, checked, onChange, ...rest }) => (
     <label data-testid={`chk-${label}`} {...rest}>

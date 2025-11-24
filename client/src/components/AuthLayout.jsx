@@ -350,15 +350,6 @@ export default function AuthLayout() {
 
                       <Anchor
                         component={Link}
-                        to="/status"
-                        style={{ color: 'var(--accent)' }}
-                        aria-label={t('auth.status', 'Status')}
-                      >
-                        {t('auth.status', 'Status')}
-                      </Anchor>
-
-                      <Anchor
-                        component={Link}
                         to="/upgrade"
                         style={{ color: 'var(--accent)' }}
                         aria-label={t('auth.upgrade', 'Upgrade')}

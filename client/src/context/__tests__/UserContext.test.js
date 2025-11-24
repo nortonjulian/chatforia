@@ -199,7 +199,9 @@ describe('UserContext', () => {
     await waitFor(() => {
       expect(localStorage.getItem('token')).toBeNull();
       expect(localStorage.getItem('foria_jwt')).toBeNull();
-      expect(document.cookie).toMatch(/foria_jwt=;.*Max-Age=0/);
+      // In jsdom + our overrides, only the last cookie assignment "wins",
+      // so we accept either cookie name being cleared.
+      expect(document.cookie).toMatch(/(foria_jwt|cf_session)=;.*Max-Age=0/);
       expect(screen.getByTestId('currentUser').textContent).toBe('');
       expect(mockDisconnect).toHaveBeenCalled();
     });

@@ -25,6 +25,7 @@ import {
   MessageSquare, // messages/home icon
   Phone,         // Calls entry point
   Video,         // Video hub (DirectVideo + Rooms)
+  Voicemail,     // NEW: Voicemail entry
 } from 'lucide-react';
 
 import StartChatModal from '@/components/StartChatModal';
@@ -87,7 +88,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
         {/* Messages/Home */}
         <ActionIcon
           variant="subtle"
-          aria-label="Messages"
+          aria-label={t('sidebar.messages', 'Messages')}
           onClick={() => navigate('/chat')}
         >
           <MessageSquare size={22} />
@@ -96,7 +97,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
         <ActionIcon
           variant="subtle"
           onClick={handleStartChat}
-          aria-label="Start chat"
+          aria-label={t('sidebar.startChat', 'Start chat')}
           disabled={!currentUser}
         >
           <Plus size={22} />
@@ -104,7 +105,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
 
         <ActionIcon
           variant="subtle"
-          aria-label="Users"
+          aria-label={t('sidebar.people', 'People')}
           onClick={() => navigate('/people')}
         >
           <Users size={22} />
@@ -112,7 +113,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
 
         <ActionIcon
           variant="subtle"
-          aria-label="Settings"
+          aria-label={t('sidebar.settings', 'Settings')}
           onClick={() => {
             if (!currentUser) return;
             setProfileTarget(null);
@@ -169,6 +170,20 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
           </Button>
         )}
 
+        {/* NEW: Voicemail entry point */}
+        {currentUser && (
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={<Voicemail size={16} />}
+            component={Link}
+            to="/voicemail"
+            aria-label={t('sidebar.voicemail', 'Voicemail')}
+          >
+            {t('sidebar.voicemail', 'Voicemail')}
+          </Button>
+        )}
+
         {/* Video hub entry: Direct video + Rooms */}
         {currentUser && (features?.video ?? true) && (
           <Button
@@ -216,9 +231,9 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
         </Text>
         <ActionIcon
           variant="subtle"
-          aria-label="Refresh conversations"
+          aria-label={t('sidebar.refreshConversations', 'Refresh conversations')}
           onClick={refreshRoomsRef}
-          title="Refresh"
+          title={t('sidebar.refreshTooltip', 'Refresh')}
         >
           <RefreshCw size={16} />
         </ActionIcon>

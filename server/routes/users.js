@@ -71,6 +71,11 @@ router.patch('/me', requireAuth, async (req, res) => {
       cycling,
       // 👇 NEW: Foria memory toggle
       foriaRemember,
+      // 👇 NEW: Voicemail settings
+      voicemailEnabled,
+      voicemailAutoDeleteDays,
+      voicemailForwardEmail,
+      voicemailGreetingText,
     } = req.body ?? {};
 
     // Build whitelist of updatable fields
@@ -116,6 +121,46 @@ router.patch('/me', requireAuth, async (req, res) => {
     // 👇 NEW: Foria memory flag
     if (typeof foriaRemember === 'boolean') {
       data.foriaRemember = foriaRemember;
+    }
+
+    // 👇 NEW: Voicemail toggles
+    if (typeof voicemailEnabled === 'boolean') {
+      data.voicemailEnabled = voicemailEnabled;
+    }
+
+    if (voicemailAutoDeleteDays !== undefined) {
+      // Allow null/empty string to clear it (keep forever)
+      if (voicemailAutoDeleteDays === null || voicemailAutoDeleteDays === '') {
+        data.voicemailAutoDeleteDays = null;
+      } else {
+        const days = Number(voicemailAutoDeleteDays);
+        if (Number.isFinite(days) && days > 0 && days < 3650) {
+          data.voicemailAutoDeleteDays = days;
+        } else {
+          return res.status(400).json({ error: 'Invalid voicemailAutoDeleteDays' });
+        }
+      }
+    }
+
+    if (typeof voicemailForwardEmail === 'string') {
+      const emailTrimmed = voicemailForwardEmail.trim();
+      // Empty string disables forwarding
+      if (!emailTrimmed) {
+        data.voicemailForwardEmail = null;
+      } else if (emailTrimmed.length > 255) {
+        return res.status(400).json({ error: 'voicemailForwardEmail too long' });
+      } else {
+        // Light sanity check; you can make this stricter if you want.
+        if (!emailTrimmed.includes('@')) {
+          return res.status(400).json({ error: 'Invalid voicemailForwardEmail' });
+        }
+        data.voicemailForwardEmail = emailTrimmed;
+      }
+    }
+
+    if (typeof voicemailGreetingText === 'string') {
+      const txt = voicemailGreetingText.trim();
+      data.voicemailGreetingText = txt || null;
     }
 
     // Theme (with premium enforcement)
@@ -186,9 +231,7 @@ router.patch('/me', requireAuth, async (req, res) => {
         data.wantsAgeFilter = true;
       } else {
         // adults cannot include TEEN_13_17
-        data.randomChatAllowedBands = cleaned.filter(
-          (v) => v !== 'TEEN_13_17'
-        );
+        data.randomChatAllowedBands = cleaned.filter((v) => v !== 'TEEN_13_17');
       }
     }
 
@@ -219,8 +262,14 @@ router.patch('/me', requireAuth, async (req, res) => {
           ageAttestedAt: true,
           wantsAgeFilter: true,
           randomChatAllowedBands: true,
-          // 👇 include it in response
+          // 👇 include in response
           foriaRemember: true,
+          // 👇 NEW: voicemail fields in response
+          voicemailEnabled: true,
+          voicemailAutoDeleteDays: true,
+          voicemailForwardEmail: true,
+          voicemailGreetingText: true,
+          voicemailGreetingUrl: true,
         },
       });
     } catch (err) {

@@ -1,3 +1,4 @@
+// client/src/pages/Advertise.jsx
 import { useMemo, useState } from 'react';
 import {
   Paper,
@@ -20,7 +21,6 @@ import { IconMail, IconInfoCircle, IconCheck } from '@tabler/icons-react';
 import { PLACEMENTS } from '@/ads/placements';
 import axiosClient from '@/api/axiosClient';
 import { toast } from '@/utils/toast';
-
 import { useTranslation } from 'react-i18next';
 
 export default function Advertise() {
@@ -39,18 +39,21 @@ export default function Advertise() {
   // Pull sizes from your declared placements for a quick spec table
   const placementSpecs = useMemo(() => {
     try {
-      return Object.entries(PLACEMENTS).map(([key, cfg]) => {
-        const sizes = Array.isArray(cfg?.sizes) ? cfg.sizes : [];
-        // normalize sizes -> "WxH"
-        const pretty = sizes.map((s) =>
-          Array.isArray(s) ? `${s[0]}x${s[1]}` : String(s)
-        );
-        return {
-          id: key,
-          sizes: pretty,
-          adsenseSlot: cfg?.adsenseSlot || null,
-        };
-      });
+      return Object.entries(PLACEMENTS)
+        .map(([key, cfg]) => {
+          const sizes = Array.isArray(cfg?.sizes) ? cfg.sizes : [];
+          // normalize sizes -> "WxH"
+          const pretty = sizes.map((s) =>
+            Array.isArray(s) ? `${s[0]}x${s[1]}` : String(s)
+          );
+          return {
+            id: key,
+            sizes: pretty,
+            adsenseSlot: cfg?.adsenseSlot || null,
+          };
+        })
+        // Only show placements that actually have configured sizes
+        .filter((p) => p.sizes.length > 0);
     } catch {
       return [];
     }
@@ -70,7 +73,7 @@ export default function Advertise() {
     }
     setSubmitting(true);
     try {
-      // Preferred: send to your server (optional to implement)
+      // Preferred: send to your server
       await axiosClient.post('/ads/inquiries', contact);
       setSubmitted(true);
       toast.ok(
@@ -104,10 +107,7 @@ export default function Advertise() {
     <Paper withBorder shadow="sm" radius="xl" p="lg" maw={880} mx="auto">
       <Stack gap="md">
         <Title order={2}>
-          {t(
-            'advertise.title',
-            'Advertise with Chatforia'
-          )}
+          {t('advertise.title', 'Advertise with Chatforia')}
         </Title>
 
         <Text c="dimmed">
@@ -123,34 +123,19 @@ export default function Advertise() {
           color="blue"
           variant="light"
         >
-          {pubId ? (
-            <>
-              {t(
-                'advertise.adsense.withPubId',
-                'We currently serve ads via <b>Google AdSense</b>. If you’d like to target us through Google Ads, use publisher ID <code>{{pubId}}</code> and ask for managed placement on our units below. Direct sponsorships are available—use the form.',
-              )
-                // simple replacements since we're mixing React nodes:
-                .replace('{{pubId}}', pubId)
-              /* NOTE:
-                 If you want rich markup translated safely,
-                 you’d normally use <Trans>. For now we keep this simple.
-              */}
-            </>
-          ) : (
-            <>
-              {t(
-                'advertise.adsense.noPubId',
-                'We currently serve ads via <b>Google AdSense</b>. Direct sponsorships are also available—use the form below.'
+          {pubId
+            ? t(
+                'advertise.adsense.withPubIdShort',
+                'We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.'
+              ).replace('{{pubId}}', pubId)
+            : t(
+                'advertise.adsense.noPubIdShort',
+                'We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below.'
               )}
-            </>
-          )}
         </Alert>
 
         <Divider
-          label={t(
-            'advertise.inventoryHeader',
-            'Inventory & Specs'
-          )}
+          label={t('advertise.inventoryHeader', 'Inventory & Specs')}
           labelPosition="center"
         />
 
@@ -159,11 +144,7 @@ export default function Advertise() {
             placementSpecs.map((p) => (
               <Grid.Col key={p.id} span={{ base: 12, sm: 6 }}>
                 <Card withBorder radius="lg" p="md">
-                  <Group
-                    justify="space-between"
-                    align="flex-start"
-                    mb="xs"
-                  >
+                  <Group justify="space-between" align="flex-start" mb="xs">
                     <Text fw={600}>{p.id}</Text>
                     <Badge variant="light">
                       {t('advertise.placement.displayBadge', 'Display')}
@@ -178,15 +159,11 @@ export default function Advertise() {
                   </Text>
 
                   <Group gap="xs" mt={6} wrap="wrap">
-                    {p.sizes.length ? (
-                      p.sizes.map((s) => (
-                        <Badge key={s} variant="outline">
-                          {s}
-                        </Badge>
-                      ))
-                    ) : (
-                      <Text size="sm">—</Text>
-                    )}
+                    {p.sizes.map((s) => (
+                      <Badge key={s} variant="outline">
+                        {s}
+                      </Badge>
+                    ))}
                   </Group>
 
                   {p.adsenseSlot && (
@@ -205,8 +182,8 @@ export default function Advertise() {
             <Grid.Col span={12}>
               <Text c="dimmed">
                 {t(
-                  'advertise.noPlacements',
-                  'No placements configured yet. Add them in ads/placements.js.'
+                  'advertise.noPlacementsPublic',
+                  'We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.'
                 )}
               </Text>
             </Grid.Col>
@@ -268,10 +245,7 @@ export default function Advertise() {
             <Stack gap="sm">
               <Group grow wrap="wrap">
                 <TextInput
-                  label={t(
-                    'advertise.form.nameLabel',
-                    'Your name'
-                  )}
+                  label={t('advertise.form.nameLabel', 'Your name')}
                   placeholder={t(
                     'advertise.form.namePlaceholder',
                     'Jane Doe'
@@ -306,10 +280,7 @@ export default function Advertise() {
 
               <Group grow wrap="wrap">
                 <TextInput
-                  label={t(
-                    'advertise.form.companyLabel',
-                    'Company'
-                  )}
+                  label={t('advertise.form.companyLabel', 'Company')}
                   placeholder={t(
                     'advertise.form.companyPlaceholder',
                     'Acme Inc.'
@@ -330,7 +301,7 @@ export default function Advertise() {
                   )}
                   placeholder={t(
                     'advertise.form.budgetPlaceholder',
-                    '$5,000'
+                    'e.g. $1,000–$20,000+'
                   )}
                   value={contact.budget}
                   onChange={(e) =>
@@ -370,10 +341,7 @@ export default function Advertise() {
                 </Anchor>
 
                 <Button loading={submitting} onClick={submit}>
-                  {t(
-                    'advertise.form.sendCta',
-                    'Send inquiry'
-                  )}
+                  {t('advertise.form.sendCta', 'Send inquiry')}
                 </Button>
               </Group>
             </Stack>
@@ -381,19 +349,13 @@ export default function Advertise() {
         )}
 
         <Text size="xs" c="dimmed" ta="center">
-          {t(
-            'advertise.legal.disclaimerStart',
-            'By submitting, you agree to our'
-          )}{' '}
+          {t('advertise.legal.disclaimerStart', 'By submitting, you agree to our')}{' '}
           <Anchor href="/terms" target="_blank">
             {t('advertise.legal.terms', 'Terms')}
           </Anchor>{' '}
           {t('advertise.legal.and', 'and')}{' '}
           <Anchor href="/privacy" target="_blank">
-            {t(
-              'advertise.legal.privacy',
-              'Privacy Policy'
-            )}
+            {t('advertise.legal.privacy', 'Privacy Policy')}
           </Anchor>
           {'.'}
         </Text>

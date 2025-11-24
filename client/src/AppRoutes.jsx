@@ -49,7 +49,7 @@ import IncomingCallModal from '@/components/IncomingCallModal.jsx';
 import { CallProvider } from '@/context/CallContext';
 import CallScreen from '@/components/call/CallScreen';
 
-import api, { primeCsrf } from '@/api/axiosClient';
+import { primeCsrf } from '@/api/axiosClient';
 
 import AuthLayout from '@/components/AuthLayout';
 import SettingsPage from '@/features/settings/SettingsPage';
@@ -59,6 +59,10 @@ import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadView from '@/pages/SmsThreadView.jsx';
 import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
 import SmsCompose from '@/pages/SmsCompose.jsx';
+
+import MyPlan from '@/pages/MyPlan.jsx';
+
+import VoicemailPage from '@/pages/VoicemailPage.jsx';
 
 import AboutChatforia from '@/pages/AboutChatforia.jsx';
 import Careers from '@/pages/Careers.jsx';
@@ -370,6 +374,8 @@ export default function AppRoutes() {
         <Route path="dialer" element={<Dialer />} />
         <Route path="video" element={<Video />} />
 
+        <Route path="voicemail" element={<VoicemailPage />} />
+
         {/* ✅ Wireless dashboard (canonical) */}
         <Route path="wireless" element={<WirelessDashboard />} />
 
@@ -388,6 +394,8 @@ export default function AppRoutes() {
         <Route path="sms/threads/:id" element={<SmsThreadView />} />
         <Route path="sms/:threadId" element={<SmsThreadPage />} />
         <Route path="sms/compose" element={<SmsCompose />} />
+
+        <Route path="/account/plan" element={<MyPlan />} />
 
         {/* ✅ eSIM activation route */}
         <Route path="account/esim" element={<EsimActivatePage />} />

@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig(async ({ mode, command }) => {
-  const env = loadEnv(mode, __dirname, '');   // ✅ reads client/.env* for the config itself
+  const env = loadEnv(mode, __dirname, '');   
   const plugins = [react()];
   let enableSourcemaps = false;
 
@@ -17,14 +17,17 @@ export default defineConfig(async ({ mode, command }) => {
   if (command === 'build' && hasSentryEnv) {
     try {
       const { sentryVitePlugin } = await import('@sentry/vite-plugin');
-      plugins.push(sentryVitePlugin({
-        org: env.VITE_SENTRY_ORG,
-        project: env.VITE_SENTRY_PROJECT,
-        authToken: env.SENTRY_AUTH_TOKEN,
-        release: env.VITE_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || undefined,
-        sourcemaps: { assets: './dist/**' },
-        telemetry: false,
-      }));
+      plugins.push(
+        sentryVitePlugin({
+          org: env.VITE_SENTRY_ORG,
+          project: env.VITE_SENTRY_PROJECT,
+          authToken: env.SENTRY_AUTH_TOKEN,
+          release:
+            env.VITE_COMMIT_SHA || process.env.VERCEL_GIT_COMMIT_SHA || undefined,
+          sourcemaps: { assets: './dist/**' },
+          telemetry: false,
+        })
+      );
       enableSourcemaps = true;
     } catch {
       console.warn('[vite] @sentry/vite-plugin not installed; skipping Sentry upload.');
@@ -35,7 +38,7 @@ export default defineConfig(async ({ mode, command }) => {
 
   return {
     plugins,
-    envDir: __dirname,                     // ✅ THIS is the key line
+    envDir: __dirname, 
 
     json: { stringify: true },
 
@@ -44,7 +47,14 @@ export default defineConfig(async ({ mode, command }) => {
         '@': path.resolve(__dirname, './src'),
         '@emoji-mart/data/sets/15/native.json': '@emoji-mart/data',
       },
-      dedupe: ['react','react-dom','@mantine/core','@mantine/hooks','@mantine/notifications','@mantine/dates'],
+      dedupe: [
+        'react',
+        'react-dom',
+        '@mantine/core',
+        '@mantine/hooks',
+        '@mantine/notifications',
+        '@mantine/dates',
+      ],
     },
 
     build: { sourcemap: enableSourcemaps },
@@ -60,6 +70,9 @@ export default defineConfig(async ({ mode, command }) => {
 
         // Optional: support legacy calls to /tokens/* if you have that route on the server
         '/tokens': { target: apiTarget, changeOrigin: true, secure: false },
+
+        // ✅ NEW: proxy billing routes to the same backend
+        '/billing': { target: apiTarget, changeOrigin: true, secure: false },
       },
     },
 

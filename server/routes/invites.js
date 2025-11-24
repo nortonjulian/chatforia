@@ -202,6 +202,7 @@ async function sendSmsTestSafe({ to, text, clientRef }) {
 }
 
 /* ------------ SMS INVITES ------------ */
+/* ------------ SMS INVITES ------------ */
 router.post(
   '/',
   verifyToken,
@@ -216,7 +217,7 @@ router.post(
     if (!to) throw Boom.badRequest('Invalid phone');
 
     const auth = getAuth(req);
-    const myPhones = await collectSelfPhones(auth); // <-- new
+    const myPhones = await collectSelfPhones(auth);
     if (myPhones.has(to)) {
       throw Boom.badRequest('Cannot invite your own number');
     }
@@ -224,7 +225,9 @@ router.post(
     const inviter = auth.username || 'A friend';
     const text = capMsg(
       (message && message.toString()) ||
-        `${inviter} invited you to try Chatforia. Download here: ${APP_DOWNLOAD_URL || ''}`
+        `${inviter} invited you to try Chatforia. Download here: ${
+          APP_DOWNLOAD_URL || ''
+        }`
     );
 
     const clientRef = `invite:${auth.id || 'anon'}:${Date.now()}`;
@@ -255,18 +258,30 @@ router.post(
       throw Boom.badRequest('Valid "to" is required (email or array of emails)');
     }
 
+    // 🚫 Block sending invites to any email that already belongs to a user
+    const existingUser = await prisma.user.findFirst({
+      where: { email: { in: recipients } },
+      select: { id: true },
+    });
+    if (existingUser) {
+      throw Boom.badRequest('Cannot invite your own email');
+    }
+
     const auth = getAuth(req);
     const myEmails = await collectSelfEmails(req, auth);
     const isSelf = recipients.some((r) => myEmails.has(String(r).toLowerCase()));
     if (isSelf) throw Boom.badRequest('Cannot invite your own email');
 
     const joinUrlBase = (APP_ORIGIN || 'http://localhost:5173').replace(/\/+$/, '');
-    const joinUrl = roomId ? `${joinUrlBase}/join/${encodeURIComponent(String(roomId))}` : null;
+    const joinUrl = roomId
+      ? `${joinUrlBase}/join/${encodeURIComponent(String(roomId))}`
+      : null;
 
     const inviter = auth.username || 'A friend';
     const now = new Date();
     const outSubject = capMsg(
-      subject || (joinUrl ? 'Join me on Chatforia' : 'You’ve been invited to Chatforia'),
+      subject ||
+        (joinUrl ? 'Join me on Chatforia' : 'You’ve been invited to Chatforia'),
       120
     );
     const outHtml =
@@ -292,7 +307,9 @@ router.post(
 
     let transporter = mailTransporter;
     if (!transporter && IS_TEST) {
-      transporter = { sendMail: async () => ({ messageId: `email_${Date.now()}` }) };
+      transporter = {
+        sendMail: async () => ({ messageId: `email_${Date.now()}` }),
+      };
     }
 
     try {
@@ -300,7 +317,11 @@ router.post(
         if (IS_TEST) {
           return res
             .status(202)
-            .json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
+            .json({
+              ok: true,
+              sent: recipients.length,
+              messageId: `email_${Date.now()}`,
+            });
         }
         throw Boom.preconditionFailed('Email transporter not configured');
       }
@@ -315,12 +336,20 @@ router.post(
 
       return res
         .status(202)
-        .json({ ok: true, sent: recipients.length, messageId: info?.messageId || null });
+        .json({
+          ok: true,
+          sent: recipients.length,
+          messageId: info?.messageId || null,
+        });
     } catch (_err) {
       if (IS_TEST) {
         return res
           .status(202)
-          .json({ ok: true, sent: recipients.length, messageId: `email_${Date.now()}` });
+          .json({
+            ok: true,
+            sent: recipients.length,
+            messageId: `email_${Date.now()}`,
+          });
       }
       throw Boom.badGateway('Failed to send email invite');
     }

@@ -106,17 +106,19 @@ beforeEach(() => {
 // ---- Tests ----
 describe('auth middleware', () => {
   describe('requireAuth', () => {
-    test('passes through when req.user already set', async () => {
+    test('ignores pre-set req.user and still requires a valid token cookie', async () => {
       const mod = await loadModule();
       const { req, res, next } = makeReqResNext({
+        // Pretend some upstream middleware set req.user, but no cookie is present
         req: { user: { id: 123, role: 'USER' } },
       });
 
       await mod.requireAuth(req, res, next);
 
-      expect(next).toHaveBeenCalledTimes(1);
-      expect(res.statusCode).toBe(200);
-      expect(res._json).toBeNull();
+      // New contract: must have a valid JWT cookie, otherwise 401
+      expect(next).not.toHaveBeenCalled();
+      expect(res.statusCode).toBe(401);
+      expect(res._json).toEqual({ error: 'Unauthorized' });
     });
 
     test('401 when no token cookie present', async () => {

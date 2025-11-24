@@ -1,29 +1,30 @@
+// server/__tests__/jest.setup.js
 import { beforeEach, afterAll, jest } from '@jest/globals';
 
-/**
- * beforeEach:
- * Always clear Jest mocks so tests don't leak call history or spies.
- * Do NOT import prisma here.
- */
+// ✅ Global mocks for server-side utils ONLY
+// Paths are relative to THIS file: server/__tests__/jest.setup.js
+jest.mock('../utils/logger.js', () => ({
+  __esModule: true,
+  default: {
+    info: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+  },
+}));
+
+jest.mock('../utils/mailer.js', () => ({
+  __esModule: true,
+  sendMail: jest.fn(),
+}));
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-
-afterAll(() => {
-  jest.resetModules();
-});
-
-/**
- * afterAll:
- * Best-effort Prisma disconnect.
- *
- * We only attempt this at the very end of the entire Jest run, and we wrap it
- * in a try/catch so tests that never import prismaClient.js won't fail.
- */
 afterAll(async () => {
+  jest.resetModules();
+
   try {
-    // path is relative to THIS file's location
     const prismaModule = await import('../utils/prismaClient.js');
     const prisma =
       prismaModule.prisma || prismaModule.default || prismaModule;
@@ -32,8 +33,6 @@ afterAll(async () => {
       await prisma.$disconnect();
     }
   } catch {
-    // swallow:
-    // - prismaClient.js may not exist in certain mock-heavy tests
-    // - or it may never have been imported at all
+    // fine if prisma not used
   }
 });

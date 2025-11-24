@@ -158,6 +158,12 @@ enum VerificationType {
   MFA_LOGIN
 }
 
+enum VoicemailTranscriptStatus {
+  PENDING
+  COMPLETE
+  FAILED
+}
+
 // ===================== 1) Core User & Access =====================
 
 model User {
@@ -273,6 +279,15 @@ model User {
   emojiTag          String?
   messageTone       String? @default("default.mp3")
   ringtone          String? @default("classic.mp3")
+
+  voicemailEnabled        Boolean @default(true)
+  voicemailAutoDeleteDays Int? // e.g. null = keep forever, 30 = auto-delete after 30 days
+
+  voicemailGreetingUrl  String? // custom greeting audio
+  voicemailGreetingText String? // optional text fallback
+  voicemailForwardEmail String? // if set, forward VM notifications here
+
+  voicemails Voicemail[]
 
   privacyBlurEnabled   Boolean @default(false)
   privacyBlurOnUnfocus Boolean @default(false)
@@ -739,6 +754,18 @@ model SmsMessage {
   createdAt  DateTime  @default(now())
 }
 
+model AdInquiry {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  company   String?
+  budget    String?   // free-text range, e.g. "$1k–$5k"
+  message   String
+  status    String   @default("new") // new | in_progress | closed (for later)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 // ===================== 4) Contacts, Reports, Auditing =====================
 
 model Contact {
@@ -760,6 +787,16 @@ model Contact {
   @@unique([ownerId, externalPhone], name: "ownerId_externalPhone")
   @@index([ownerId])
   @@index([userId])
+}
+
+model SupportTicket {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  status    String   @default("new") // "new" | "in_progress" | "closed" later if you want
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Report {
@@ -987,9 +1024,35 @@ model PhoneNumber {
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
   reservations NumberReservation[] @relation("PhoneNumberReservations")
 
+  voicemails Voicemail[]
+
   @@index([status])
   @@index([assignedUserId])
   @@index([provider, areaCode, status])
+}
+
+model Voicemail {
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
+
+  phoneNumber   PhoneNumber? @relation(fields: [phoneNumberId], references: [id])
+  phoneNumberId Int?
+
+  fromNumber String
+  toNumber   String
+
+  audioUrl         String // can start as Twilio RecordingUrl; later migrate to R2
+  durationSec      Int?
+  transcript       String?
+  transcriptStatus VoicemailTranscriptStatus @default(PENDING)
+
+  isRead    Boolean   @default(false)
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+
+  createdAt          DateTime  @default(now())
+  forwardedToEmailAt DateTime?
 }
 
 model NumberReservation {
