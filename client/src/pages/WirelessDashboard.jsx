@@ -55,9 +55,7 @@ export default function WirelessDashboard() {
         setLoading(false);
       }
     })();
-    // IMPORTANT: don't depend on `t`, because the test's mock
-    // returns a new function every render and would cause re-fetch loops.
-  }, [currentUser, navigate]);
+  }, [currentUser, navigate, t]);
 
   // Central: always go to the Upgrade / plans page
   const goToPlans = () => {
@@ -199,7 +197,7 @@ export default function WirelessDashboard() {
 
   // NONE / no-status content
   const noneContent = (
-    <Card radius="xl" withBorder data-testid="card">
+    <Card radius="xl" withBorder>
       <Stack gap="sm">
         <Title order={3}>
           {t('wireless.none.title', 'No wireless plan yet')}

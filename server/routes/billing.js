@@ -449,10 +449,11 @@ router.all('/portal', async (req, res) => {
   console.log('🔥 /billing/portal hit', {
     method: req.method,
     user: req.user,
-    cookies: req.headers.cookie,
   });
+
   try {
     if (!req.user?.id) {
+      console.log('❌ /billing/portal: no user on req');
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
@@ -466,24 +467,21 @@ router.all('/portal', async (req, res) => {
       return_url: returnUrl,
     });
 
-    const wantsJson =
-      req.xhr ||
-      req.get('x-requested-with') === 'XMLHttpRequest' ||
-      req.accepts('json');
-
-    if (wantsJson) {
-      // XHR from your button
-      return res.json({ url: portal.url, portalUrl: portal.url });
+    // 🔑 IMPORTANT: branch *only* on HTTP method.
+    // GET  -> redirect to Stripe
+    // POST -> return JSON (for axios in UserProfile)
+    if (req.method === 'GET') {
+      console.log('➡️  /billing/portal GET -> redirect to Stripe');
+      return res.redirect(303, portal.url);
     }
 
-    // Direct browser GET → just redirect
-    return res.redirect(303, portal.url);
+    console.log('📦 /billing/portal POST -> JSON');
+    return res.json({ url: portal.url, portalUrl: portal.url });
   } catch (err) {
     console.error('portal error:', err);
     return res.status(500).json({ error: 'Portal creation failed' });
   }
 });
-
 
 /* ----------------------------------------------
  * Cancel at period end (opt out of next month)

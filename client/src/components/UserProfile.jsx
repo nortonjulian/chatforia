@@ -830,6 +830,14 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Panel>
             <PhoneNumberManager />
 
+            {/* NEW: hint text about porting */}
+            <Text size="sm" c="dimmed" mt="sm">
+              {t(
+                'profile.portHint',
+                'Want to keep your current number? You can port it into Chatforia Wireless.'
+              )}
+            </Text>
+
             <Card withBorder radius="lg" p="md" mt="md">
               <Text fw={600}>
                 {t('profile.esim.title', 'Chatforia eSIM (Teal)')}
@@ -862,13 +870,21 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               </Group>
             </Card>
 
-            <Group mt="md">
+            <Group mt="md" gap="xs">
               <Button
                 variant="light"
                 size="xs"
                 onClick={() => navigate('/wireless')}
               >
-                {t('profile.wireless.manage', 'Manage Wireless')}
+                {t('profile.wireless.manage', 'Manage wireless')}
+              </Button>
+
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => navigate('/wireless/manage#port-number')}
+              >
+                {t('profile.wireless.portCta', 'Port my number')}
               </Button>
             </Group>
           </Accordion.Panel>

@@ -1,4 +1,5 @@
 import 'dotenv/config';
+
 import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
@@ -6,6 +7,8 @@ import rateLimit from 'express-rate-limit';
 // import listEndpoints from 'express-list-endpoints';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import authMiddleware from './middleware/auth.js';
 
 // SAFE Sentry wrappers (no-op when DSN is missing/invalid)
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
@@ -74,9 +77,11 @@ import wirelessRouter from './routes/wireless.js';
 import voicemailRouter from './routes/voicemail.js';
 import voicemailGreetingRouter from './routes/voicemailGreeting.js';
 
+import portingRouter from './routes/porting.js';
+import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
 
 // 🔒 auth gates
-import { requireAuth } from './middleware/auth.js';
+import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 // ✅ enforcement gates
 import {
   requirePhoneVerified,
@@ -125,8 +130,14 @@ import { ESIM_ENABLED } from './config/esim.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
+console.log('[env-debug] STRIPE_SECRET_KEY present =',
+  !!process.env.STRIPE_SECRET_KEY
+);
+
 export function createApp() {
   const app = express();
+
   const isProd = process.env.NODE_ENV === 'production';
   const isTest = process.env.NODE_ENV === 'test';
 
@@ -143,10 +154,23 @@ export function createApp() {
   /* Early security */
   app.use(httpsRedirect());
 
-  app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-  }));
+  // 🔧 CORS: dev vs prod
+  const frontendOrigin = isProd
+    ? process.env.FRONTEND_ORIGIN // e.g. "https://www.chatforia.com"
+    : 'http://localhost:5173';
+
+  if (isProd && !frontendOrigin) {
+    logger.warn(
+      'CORS: FRONTEND_ORIGIN is not set in production; cross-site requests may fail.'
+    );
+  }
+
+  app.use(
+    cors({
+      origin: frontendOrigin,
+      credentials: true,
+    })
+  );
 
   app.use(secureHeaders());
   app.use(csp());
@@ -224,6 +248,15 @@ export function createApp() {
   );
 
   /* ---------- Session + Passport (must be before OAuth routes) ---------- */
+
+  // In prod, share cookies across subdomains via COOKIE_DOMAIN (e.g. ".chatforia.com")
+  const cookieDomain = isProd ? process.env.COOKIE_DOMAIN : undefined;
+  if (isProd && !cookieDomain) {
+    logger.warn(
+      'SESSION: COOKIE_DOMAIN is not set in production; cookies will be scoped to the API host only.'
+    );
+  }
+
   app.use(
     session({
       secret: process.env.SESSION_SECRET || 'change-me',
@@ -235,7 +268,7 @@ export function createApp() {
         // In real production (HTTPS) this must be true.
         // For http://localhost dev it's OK to be false.
         secure: isProd ? true : false,
-        // domain: process.env.COOKIE_DOMAIN, // e.g. ".chatforia.com" in real prod
+        ...(cookieDomain ? { domain: cookieDomain } : {}),
       },
     })
   );
@@ -306,9 +339,9 @@ export function createApp() {
    * Billing: unified router
    *  - /billing/webhook uses raw body (set above)
    *  - Other /billing routes use JSON body
-   *  - Each endpoint in billing.js does its own auth check
+   *  - verifyTokenOptional hydrates req.user from JWT if present
    * -------------------------------------------*/
-  app.use('/billing', billingRouter);
+  app.use('/billing', verifyTokenOptional, billingRouter);
 
   // OAuth under /auth
   app.use('/auth', oauthRouter);
@@ -341,6 +374,9 @@ export function createApp() {
 
   app.use('/api/voicemail', voicemailRouter);
   app.use('/api/voicemail/greeting', voicemailGreetingRouter);
+
+  app.use('/api/porting', authMiddleware, portingRouter);
+  app.use('/webhooks/twilio/porting', express.json(), twilioPortingWebhook);
 
   app.use('/support', supportRouter);
 

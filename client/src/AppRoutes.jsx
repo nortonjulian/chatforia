@@ -35,6 +35,8 @@ import FamilyJoin from '@/pages/FamilyJoin.jsx';
 
 // ✅ NEW: Wireless dashboard
 import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
+import ManageWirelessPage from '@/pages/ManageWireless.jsx';
+
 
 import AdminReportsPage from '@/pages/AdminReports';
 import AdminRoute from '@/routes/AdminRoute';
@@ -378,6 +380,10 @@ export default function AppRoutes() {
 
         {/* ✅ Wireless dashboard (canonical) */}
         <Route path="wireless" element={<WirelessDashboard />} />
+
+        {/* ✅ Wireless: manage plan, numbers & porting */}
+        <Route path="wireless/manage" element={<ManageWirelessPage />} />
+
 
         {/* ✅ Keep /family working, but point it to /wireless */}
         <Route path="family" element={<Navigate to="/wireless" replace />} />

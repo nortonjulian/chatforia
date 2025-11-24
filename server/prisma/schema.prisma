@@ -119,6 +119,11 @@ enum PortStatus {
   PORTED_OUT
 }
 
+enum PhoneNumberSource {
+  PROVISIONED
+  PORTED
+}
+
 enum A11YFont {
   sm
   md
@@ -1020,6 +1025,7 @@ model PhoneNumber {
   portStatus     PortStatus   @default(NONE)
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
+  source         PhoneNumberSource @default(PROVISIONED)
 
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
   reservations NumberReservation[] @relation("PhoneNumberReservations")
@@ -1066,6 +1072,38 @@ model NumberReservation {
   user  User        @relation("UserNumberReservations", fields: [userId], references: [id])
 
   @@index([expiresAt])
+}
+
+model PortRequest {
+  id            String   @id @default(cuid())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        String
+
+  phoneNumber   String
+
+  // Twilio / carrier related IDs
+  externalPortId String?  // e.g. Twilio port order SID
+
+  carrier       String?
+  accountNumber String?
+  pin           String?
+
+  fullName      String
+  addressLine1  String
+  addressLine2  String?
+  city          String
+  state         String
+  postalCode    String
+  country       String    @default("US")
+
+  status        PortStatus  @default(PENDING)
+  statusReason  String?
+
+  scheduledAt   DateTime?
+  completedAt   DateTime?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 // ===================== 9) Accessibility Transcripts =====================

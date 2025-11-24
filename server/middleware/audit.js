@@ -39,15 +39,20 @@ const httpRequestDurationMs = new Histogram({
   registers: [metricsRegistry],
 });
 
-// ---------- Sentry wrappers (safe when DSN missing) ----------
+// ---------- Sentry wrappers (safe when DSN or Handlers missing) ----------
 
-const hasSentryDsn = !!process.env.SENTRY_DSN;
+const hasSentryHandlers =
+  !!process.env.SENTRY_DSN &&
+  Sentry &&
+  Sentry.Handlers &&
+  typeof Sentry.Handlers.requestHandler === 'function' &&
+  typeof Sentry.Handlers.errorHandler === 'function';
 
-export const sentryRequestHandler = hasSentryDsn
+export const sentryRequestHandler = hasSentryHandlers
   ? Sentry.Handlers.requestHandler()
   : (req, res, next) => next();
 
-export const sentryErrorHandler = hasSentryDsn
+export const sentryErrorHandler = hasSentryHandlers
   ? Sentry.Handlers.errorHandler()
   : (err, req, res, next) => next(err);
 

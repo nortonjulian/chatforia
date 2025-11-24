@@ -6,7 +6,7 @@
     "server"
   ],
   "scripts": {
-    "api:dev": "node --env-file=server/.env server/index.js",
+    "api:dev": "NODE_ENV=development node server/index.js",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
