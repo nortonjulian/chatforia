@@ -12,6 +12,7 @@ import {
   Loader,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import axiosClient from '../api/axiosClient';
 
 export default function MyPlan() {
   const { t } = useTranslation();
@@ -19,12 +20,16 @@ export default function MyPlan() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const [loadingPortal, setLoadingPortal] = useState(false);
+  const [loadingCancelNow, setLoadingCancelNow] = useState(false);
+
   useEffect(() => {
     let cancelled = false;
 
     async function fetchPlan() {
       try {
         setLoading(true);
+        setError('');
         const res = await fetch('/api/billing/my-plan', {
           credentials: 'include',
         });
@@ -51,6 +56,67 @@ export default function MyPlan() {
       cancelled = true;
     };
   }, [t]);
+
+  const openBillingPortal = async () => {
+    try {
+      setError('');
+      setLoadingPortal(true);
+      const { data } = await axiosClient.post('/billing/portal', {});
+      const url = data?.portalUrl || data?.url;
+      if (url) {
+        window.location.href = url;
+      } else {
+        setError(
+          t(
+            'billing.portalError',
+            'Unable to open the billing portal right now.'
+          )
+        );
+      }
+    } catch (err) {
+      console.error('Billing portal error', err);
+      setError(
+        t(
+          'billing.portalError',
+          'Unable to open the billing portal right now.'
+        )
+      );
+    } finally {
+      setLoadingPortal(false);
+    }
+  };
+
+  const cancelNow = async () => {
+    if (!plan || plan.isFree) return;
+
+    const confirmed = window.confirm(
+      t(
+        'billing.cancelNowConfirm',
+        'Are you sure you want to cancel your plan immediately? This cannot be undone.'
+      )
+    );
+    if (!confirmed) return;
+
+    try {
+      setError('');
+      setLoadingCancelNow(true);
+      await axiosClient.post('/billing/cancel-now', {});
+      // Reload to reflect new plan status (will come back as Free)
+      window.location.reload();
+    } catch (err) {
+      console.error('Immediate cancel failed', err);
+      setError(
+        t(
+          'billing.cancelNowError',
+          'Unable to cancel your plan right now. Please try again or use Manage billing.'
+        )
+      );
+    } finally {
+      setLoadingCancelNow(false);
+    }
+  };
+
+  const hasPaidPlan = !!plan && !plan.isFree;
 
   return (
     <Container size="sm" py="xl">
@@ -79,16 +145,17 @@ export default function MyPlan() {
                 <Text size="sm" c="dimmed">
                   {t('billing.currentPlan', 'Current plan')}
                 </Text>
+
                 <Group gap="xs" mt={4}>
                   <Title order={3}>{plan.label}</Title>
-                  {!plan.isFree && (
+                  {!plan.isFree && plan.status && (
                     <Badge variant="light" radius="xl">
                       {plan.status}
                     </Badge>
                   )}
                 </Group>
 
-                {!plan.isFree && (
+                {!plan.isFree && plan.amountFormatted && plan.currency && (
                   <Text mt="xs" size="sm">
                     {plan.amountFormatted}{' '}
                     {plan.currency?.toUpperCase()}/
@@ -111,9 +178,18 @@ export default function MyPlan() {
                     )}
                   </Text>
                 )}
+
+                {hasPaidPlan && (
+                  <Text mt="xs" size="xs" c="dimmed">
+                    {t(
+                      'billing.cancelNowHelp',
+                      'You can manage or cancel your subscription in the billing portal, or cancel immediately below.'
+                    )}
+                  </Text>
+                )}
               </div>
 
-              <Stack gap="xs">
+              <Stack gap="xs" align="flex-end">
                 <Button
                   component={Link}
                   to="/upgrade"
@@ -125,15 +201,30 @@ export default function MyPlan() {
                     : t('billing.changePlanCta', 'Change plan')}
                 </Button>
 
-                {/* if you already have a billing-portal route, link to it here */}
-                <Button
-                  component={Link}
-                  to="/billing-portal"
-                  variant="subtle"
-                  radius="xl"
-                >
-                  {t('billing.manageBilling', 'Manage billing')}
-                </Button>
+                {hasPaidPlan && (
+                  <>
+                    <Button
+                      variant="subtle"
+                      radius="xl"
+                      onClick={openBillingPortal}
+                      loading={loadingPortal}
+                      aria-busy={loadingPortal ? 'true' : 'false'}
+                    >
+                      {t('billing.manageBilling', 'Manage billing')}
+                    </Button>
+
+                    <Button
+                      variant="outline"
+                      color="red"
+                      radius="xl"
+                      onClick={cancelNow}
+                      loading={loadingCancelNow}
+                      aria-busy={loadingCancelNow ? 'true' : 'false'}
+                    >
+                      {t('billing.cancelNow', 'Cancel now')}
+                    </Button>
+                  </>
+                )}
               </Stack>
             </Group>
           </Paper>
