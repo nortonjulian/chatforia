@@ -1,7 +1,6 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import Stripe from 'stripe';
-import { provisionEsimPack } from '../utils/tealClient.js';
 
 const router = express.Router();
 
@@ -69,7 +68,7 @@ function productForPlan(plan) {
   }
 }
 
-// Env fallbacks (ROW/USD etc)
+// Env fallbacks (ROW/USD etc) for core plans
 function priceIdForPlan(plan) {
   switch (plan) {
     case 'PLUS_MONTHLY':
@@ -161,57 +160,143 @@ async function resolveStripePriceIdForUserPlan(user, plan, opts = {}) {
 
 /* ----------------------------------------------
  * Add-on config (eSIM + Family data packs)
+ * Using Prisma pricing (product column) instead of env prices.
  * --------------------------------------------*/
 
 const ADDON_CONFIG = {
+  // eSIM packs (Telna-backed in the future; today just one-time data packs)
   ESIM_STARTER: {
     type: 'ESIM',
-    stripeEnv: 'STRIPE_PRICE_ESIM_STARTER',
-    tealPlanEnv: 'TEAL_PLAN_ESIM_STARTER',
-    dataMb: 1024, // 1 GB
+    product: 'chatforia_mobile_small',   // matches your Prisma price.product
+    providerPlanEnv: 'TELNA_PLAN_ESIM_STARTER', // placeholder for Telna later
+    dataMb: 3072, // 3 GB
     daysValid: 30,
   },
   ESIM_TRAVELER: {
     type: 'ESIM',
-    stripeEnv: 'STRIPE_PRICE_ESIM_TRAVELER',
-    tealPlanEnv: 'TEAL_PLAN_ESIM_TRAVELER',
-    dataMb: 3072, // 3 GB
+    product: 'chatforia_mobile_medium',
+    providerPlanEnv: 'TELNA_PLAN_ESIM_TRAVELER',
+    dataMb: 5120, // 5 GB
     daysValid: 30,
   },
   ESIM_POWER: {
     type: 'ESIM',
-    stripeEnv: 'STRIPE_PRICE_ESIM_POWER',
-    tealPlanEnv: 'TEAL_PLAN_ESIM_POWER',
-    dataMb: 5120, // 5 GB
+    product: 'chatforia_mobile_large',
+    providerPlanEnv: 'TELNA_PLAN_ESIM_POWER',
+    dataMb: 10240, // 10 GB
     daysValid: 30,
   },
 
+  // Family shared packs
   FAMILY_SMALL: {
     type: 'FAMILY',
-    stripeEnv: 'STRIPE_PRICE_FAMILY_SMALL',
+    product: 'chatforia_family_small',
     dataMb: 10240, // 10 GB shared
     daysValid: 30,
   },
   FAMILY_MEDIUM: {
     type: 'FAMILY',
-    stripeEnv: 'STRIPE_PRICE_FAMILY_MEDIUM',
+    product: 'chatforia_family_medium',
     dataMb: 25600, // 25 GB shared
     daysValid: 30,
   },
   FAMILY_LARGE: {
     type: 'FAMILY',
-    stripeEnv: 'STRIPE_PRICE_FAMILY_LARGE',
+    product: 'chatforia_family_large',
     dataMb: 51200, // 50 GB shared
     daysValid: 30,
   },
 };
 
-function getStripePriceIdForAddon(addonKind) {
+// Resolve Stripe price for any add-on using Prisma (same pattern as main plans)
+async function getStripePriceIdForAddon(addonKind, user, opts = {}) {
   const cfg = ADDON_CONFIG[addonKind];
-  if (!cfg) return null;
-  const envName = cfg.stripeEnv;
-  const value = envName && process.env[envName];
-  return value || null;
+  if (!cfg?.product) return null;
+
+  const COUNTRY_CURRENCY = {
+    US: 'USD',
+    CA: 'CAD',
+    GB: 'GBP',
+    IE: 'EUR',
+    DE: 'EUR',
+    FR: 'EUR',
+    NL: 'EUR',
+    SE: 'SEK',
+    NO: 'NOK',
+    DK: 'DKK',
+    FI: 'EUR',
+    CH: 'CHF',
+    AU: 'AUD',
+    NZ: 'NZD',
+    JP: 'JPY',
+    KR: 'KRW',
+    SG: 'SGD',
+    PL: 'PLN',
+    CZ: 'CZK',
+    PT: 'EUR',
+    ES: 'EUR',
+    IT: 'EUR',
+    ZA: 'ZAR',
+    MX: 'MXN',
+    CL: 'CLP',
+    AR: 'ARS',
+    AE: 'AED',
+    IN: 'INR',
+    BR: 'BRL',
+    PH: 'PHP',
+    TH: 'THB',
+    VN: 'VND',
+    ID: 'IDR',
+    TR: 'TRY',
+    CO: 'COP',
+    PE: 'PEN',
+    NG: 'NGN',
+    KE: 'KES',
+    EG: 'EGP',
+    PK: 'PKR',
+    BD: 'BDT',
+  };
+
+  const country = (user?.billingCountry || opts.country || 'US').toUpperCase();
+  const rule = await prisma.regionRule.findUnique({ where: { countryCode: country } });
+  const tier = user?.pricingRegion || rule?.tier || 'ROW';
+  const currency = (user?.currency || COUNTRY_CURRENCY[country] || 'USD').toUpperCase();
+
+  let price = await prisma.price.findUnique({
+    where: {
+      product_tier_currency: {
+        product: cfg.product,
+        tier,
+        currency,
+      },
+    },
+  });
+
+  if (!price && currency !== 'USD') {
+    price = await prisma.price.findUnique({
+      where: {
+        product_tier_currency: {
+          product: cfg.product,
+          tier,
+          currency: 'USD',
+        },
+      },
+    });
+  }
+
+  if (!price) {
+    price = await prisma.price.findUnique({
+      where: {
+        product_tier_currency: {
+          product: cfg.product,
+          tier: 'ROW',
+          currency: 'USD',
+        },
+      },
+    });
+  }
+
+  return price?.stripePriceId || null;
 }
 
 /* ----------------------------------------------
@@ -250,8 +335,7 @@ router.get('/my-plan', async (req, res) => {
       });
     }
 
-    // If we have no user (not authed, or not found), just treat as Free,
-    // but still respond 200 so the UI can show a nice card instead of an error.
+    // If we have no user (not authed, or not found), just treat as Free.
     if (!user) {
       const baseCode = 'FREE';
       return res.json({
@@ -373,36 +457,23 @@ router.post('/checkout', async (req, res) => {
       // New flow: client passes explicit Stripe price id
       stripePriceId = priceId;
     } else if (plan) {
-      // Old flow: derive price from plan + region
-      const country = user.billingCountry || user.country || 'US';
-      const regionTier = user.pricingRegion || user.regionTier || 'T1';
-      const currency = (user.currency || 'USD').toUpperCase();
+      // Preferred flow: derive price from plan + region via DB
+      stripePriceId = await resolveStripePriceIdForUserPlan(user, plan);
 
-      // You could map plan -> product here; for now we just use plan as product code
-      const productCode = plan; // e.g. 'chatforia_plus'
+      // Fallback: env-based price ids if DB is missing
+      if (!stripePriceId) {
+        stripePriceId = priceIdForPlan(plan);
+      }
 
-      const priceRow = await prisma.price.findFirst({
-        where: {
-          product: productCode,
-          tier: regionTier,
-          currency,
-        },
-      });
-
-      if (!priceRow || !priceRow.stripePriceId) {
-        console.error('[billing/checkout] No price row / stripePriceId for', {
+      if (!stripePriceId) {
+        console.error('[billing/checkout] No price for plan', {
           plan,
-          productCode,
-          country,
-          regionTier,
-          currency,
+          userId: user.id,
         });
         return res
           .status(400)
           .json({ error: 'No Stripe price configured for this plan.' });
       }
-
-      stripePriceId = priceRow.stripePriceId;
     }
 
     if (!stripePriceId) {
@@ -414,7 +485,6 @@ router.post('/checkout', async (req, res) => {
     console.log('[billing/checkout] Using Stripe price:', stripePriceId);
 
     // 2) Decide if this is a subscription or one-time price
-
     let isSubscription = false;
 
     // Prefer explicit plan, since we know which codes are subscriptions
@@ -444,7 +514,7 @@ router.post('/checkout', async (req, res) => {
           quantity: 1,
         },
       ],
-      allow_promotion_codes: true,
+      allow_promotion_codes: false,
       client_reference_id: String(user.id),
       success_url: `${frontendOrigin}/upgrade?success=1&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${frontendOrigin}/upgrade?canceled=1`,
@@ -476,43 +546,77 @@ router.post('/checkout', async (req, res) => {
 /* ----------------------------------------------
  * Checkout (add-ons: eSIM & Family packs)
  * --------------------------------------------*/
-// POST /billing/checkout-addon  { addonKind: "ESIM_STARTER"|"ESIM_TRAVELER"|"ESIM_POWER"|"FAMILY_SMALL"|"FAMILY_MEDIUM"|"FAMILY_LARGE" }
 router.post('/checkout-addon', async (req, res) => {
   try {
-    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
 
     const { addonKind } = req.body || {};
     if (!addonKind || !ADDON_CONFIG[addonKind]) {
       return res.status(400).json({ error: 'Unknown or missing addonKind' });
     }
 
-    const priceId = getStripePriceIdForAddon(addonKind);
+    // ✅ IMPORTANT: await the DB lookup, and pass the user
+    const priceId = await getStripePriceIdForAddon(addonKind, req.user);
     if (!priceId) {
-      return res.status(500).json({ error: 'Stripe price not configured for this add-on' });
+      console.error('[billing/checkout-addon] No Stripe price configured for', addonKind);
+      return res
+        .status(500)
+        .json({ error: 'Stripe price not configured for this add-on' });
     }
 
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId(req.user);
 
+    const frontendOrigin =
+      process.env.FRONTEND_ORIGIN ||
+      process.env.WEB_URL ||
+      'http://localhost:5173';
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment', // one-time purchase
       customer: customerId,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.WEB_URL}/wireless/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.WEB_URL}/wireless?canceled=1`,
+
+      // 🔐 Tax: let Stripe handle it and collect address
       automatic_tax: { enabled: true },
+      billing_address_collection: 'auto',
+      customer_update: {
+        address: 'auto',   // save the address from Checkout to the Customer
+      },
+
+      success_url: `${frontendOrigin}/wireless/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${frontendOrigin}/wireless?canceled=1`,
       client_reference_id: String(req.user.id),
       metadata: {
         userId: String(req.user.id),
         addonKind,
-        kind: 'ADDON', // helps us distinguish in webhook
+        kind: 'ADDON',
       },
     });
 
+
+    console.log(
+      '[billing/checkout-addon] Created session',
+      session.id,
+      '→',
+      session.url
+    );
+
     return res.json({ url: session.url, checkoutUrl: session.url });
   } catch (err) {
-    console.error('checkout-addon error:', err);
-    return res.status(500).json({ error: 'Add-on checkout creation failed' });
+    console.error('[billing/checkout-addon] Stripe error:', {
+      message: err.message,
+      type: err.type,
+      code: err.code,
+      statusCode: err.statusCode,
+      raw: err.raw,
+    });
+
+    return res
+      .status(500)
+      .json({ error: 'Add-on checkout creation failed', detail: err.message });
   }
 });
 
@@ -534,14 +638,13 @@ router.all('/portal', async (req, res) => {
     const stripe = getStripe();
     const customerId = await ensureStripeCustomerId(req.user);
 
-    const returnUrl = `${process.env.WEB_URL}/billing/return`;
+    const returnUrl = `${process.env.WEB_URL || process.env.FRONTEND_ORIGIN || 'http://localhost:5173'}/billing/return`;
 
     const portal = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: returnUrl,
     });
 
-    // 🔑 IMPORTANT: branch *only* on HTTP method.
     // GET  -> redirect to Stripe
     // POST -> return JSON (for axios in UserProfile)
     if (req.method === 'GET') {
@@ -600,7 +703,6 @@ router.post('/uncancel', async (req, res) => {
       cancel_at_period_end: false,
     });
 
-    // Optional: keep planExpiresAt synced to the current period end (or null).
     await prisma.user.update({
       where: { id: req.user.id },
       data: { planExpiresAt: new Date(sub.current_period_end * 1000) },
@@ -653,7 +755,6 @@ router.post('/cancel-now', async (req, res) => {
 // POST /billing/refund-invoice   { invoiceId, amountOptionalCents }
 router.post('/refund-invoice', async (req, res) => {
   try {
-    // TODO: add admin/staff check here if this route is exposed beyond internal use
     const { invoiceId, amountOptionalCents } = req.body || {};
     if (!invoiceId) return res.status(400).json({ error: 'Missing invoiceId' });
 
@@ -698,40 +799,17 @@ async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
     remainingDataMb: cfg.dataMb,
     stripeCheckoutSessionId: session.id,
     stripePaymentIntentId: session.payment_intent ? String(session.payment_intent) : null,
-    tealProfileId: null,
+    tealProfileId: null, // reused column; will store Telna profile id later if desired
     tealIccid: null,
     qrCodeSvg: null,
   };
 
-  // ESIM: actually provision via Teal
+  // ESIM: Telna provisioning placeholder (NO external call yet).
   if (cfg.type === 'ESIM') {
     try {
-      const tealPlanCode = cfg.tealPlanEnv ? process.env[cfg.tealPlanEnv] : null;
-
-      if (!tealPlanCode) {
-        console.warn('Teal plan env not configured for', addonKind);
-      } else {
-        const provisioned = await provisionEsimPack({
-          userId,
-          addonKind,
-          planCode: tealPlanCode,
-        });
-
-        baseData.tealProfileId = provisioned.tealProfileId || null;
-        baseData.tealIccid = provisioned.iccid || null;
-        baseData.qrCodeSvg = provisioned.qrCodeSvg || null;
-
-        if (provisioned.expiresAt) {
-          baseData.expiresAt = provisioned.expiresAt;
-        }
-        if (typeof provisioned.dataMb === 'number') {
-          baseData.totalDataMb = provisioned.dataMb;
-          baseData.remainingDataMb = provisioned.dataMb;
-        }
-      }
+      // TODO: Telna API integration.
     } catch (err) {
-      console.error('Teal provisioning failed for addon', addonKind, err);
-      // You could store an error field if your model has one.
+      console.error('Telna provisioning failed for addon', addonKind, err);
     }
   }
 
@@ -804,9 +882,6 @@ router.post('/webhook', async (req, res) => {
       case 'checkout.session.completed': {
         const meta = obj.metadata || {};
 
-        // Infer mode if Stripe (or tests) didn't include it explicitly.
-        // - If it's an ADDON checkout, treat as "payment"
-        // - If there is a subscription id, treat as "subscription"
         const mode =
           obj.mode ||
           (meta.kind === 'ADDON'
@@ -841,7 +916,6 @@ router.post('/webhook', async (req, res) => {
 
         // 2) Normal subscription flow (Plus / Premium)
         if (mode === 'subscription') {
-          // PREMIUM_ANNUAL still maps to 'PREMIUM' plan on our side
           const plan = meta.plan === 'PLUS_MONTHLY' ? 'PLUS' : 'PREMIUM';
           const extras = {
             stripeCustomerId: obj.customer ? String(obj.customer) : undefined,
@@ -923,7 +997,6 @@ router.post('/webhook', async (req, res) => {
       }
 
       case 'invoice.paid': {
-        // Renewal or first invoice succeeded: keep plan and refresh period end.
         const customerId = obj.customer ? String(obj.customer) : null;
         const currentPeriodEnd = obj.lines?.data?.[0]?.period?.end;
         if (customerId && currentPeriodEnd) {
@@ -936,13 +1009,12 @@ router.post('/webhook', async (req, res) => {
       }
 
       case 'invoice.payment_failed': {
-        // Stripe will retry; flagging allows gentle in-app nudges.
         const customerId = obj.customer ? String(obj.customer) : null;
         if (customerId) {
           await prisma.user.updateMany({
             where: { stripeCustomerId: customerId },
             data: {
-              /* e.g. billingPastDue: true */
+              // e.g. billingPastDue: true
             },
           });
         }

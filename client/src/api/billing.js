@@ -1,31 +1,29 @@
-export async function startUpgradeCheckout(plan) {
-  // plan: "PLUS_MONTHLY" | "PREMIUM_MONTHLY" | "PREMIUM_ANNUAL"
-  const res = await fetch('/api/billing/checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ plan }),
-  });
+import axiosClient from './axiosClient';
 
-  if (!res.ok) {
+// ---- Core subscription checkout (Plus / Premium) ----
+
+// plan: "PLUS_MONTHLY" | "PREMIUM_MONTHLY" | "PREMIUM_ANNUAL"
+export async function startUpgradeCheckout(plan) {
+  try {
+    const { data } = await axiosClient.post('/billing/checkout', { plan });
+    // { url, checkoutUrl }
+    return data;
+  } catch (err) {
+    console.error('startUpgradeCheckout error:', err?.response?.data || err);
     throw new Error('Failed to start upgrade checkout');
   }
-
-  // { url, checkoutUrl }
-  return res.json();
 }
 
 // Open the Stripe Billing Portal (manage subscription)
 export async function openBillingPortal() {
-  const res = await fetch('/api/billing/portal', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  if (!res.ok) {
+  try {
+    const { data } = await axiosClient.post('/billing/portal', {});
+    // { url, portalUrl }
+    return data;
+  } catch (err) {
+    console.error('openBillingPortal error:', err?.response?.data || err);
     throw new Error('Failed to open billing portal');
   }
-
-  return res.json(); // { url, portalUrl }
 }
 
 // ---- Add-ons: Family data packs & eSIM packs (one-time payments) ----
@@ -34,33 +32,30 @@ export async function openBillingPortal() {
 export async function createFamilyCheckoutSession(size = 'MEDIUM') {
   const addonKind = `FAMILY_${size}`; // e.g. "FAMILY_MEDIUM"
 
-  const res = await fetch('/api/billing/checkout-addon', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ addonKind }),
-  });
-
-  if (!res.ok) {
+  try {
+    const { data } = await axiosClient.post('/billing/checkout-addon', {
+      addonKind,
+    });
+    // { url, checkoutUrl }
+    return data;
+  } catch (err) {
+    console.error('createFamilyCheckoutSession error:', err?.response?.data || err);
     throw new Error('Failed to start Family pack checkout');
   }
-
-  // { url, checkoutUrl }
-  return res.json();
 }
 
 // kind: "STARTER" | "TRAVELER" | "POWER"
 export async function createEsimCheckoutSession(kind = 'STARTER') {
   const addonKind = `ESIM_${kind}`; // e.g. "ESIM_STARTER"
 
-  const res = await fetch('/api/billing/checkout-addon', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ addonKind }),
-  });
-
-  if (!res.ok) {
+  try {
+    const { data } = await axiosClient.post('/billing/checkout-addon', {
+      addonKind,
+    });
+    // { url, checkoutUrl }
+    return data;
+  } catch (err) {
+    console.error('createEsimCheckoutSession error:', err?.response?.data || err);
     throw new Error('Failed to start eSIM pack checkout');
   }
-
-  return res.json();
 }

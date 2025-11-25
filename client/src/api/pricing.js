@@ -22,43 +22,43 @@ const FALLBACKS = {
   // App plans (subscriptions)
   chatforia_plus: {
     currency: 'USD',
-    unitAmount: 499,    // $4.99 / mo
+    unitAmount: 499, // $4.99 / mo
   },
   chatforia_premium_monthly: {
     currency: 'USD',
-    unitAmount: 2499,   // $24.99 / mo
+    unitAmount: 2499, // $24.99 / mo
   },
   chatforia_premium_annual: {
     currency: 'USD',
-    unitAmount: 22500,  // $225 / year
+    unitAmount: 22500, // $225 / year
   },
 
   // Mobile (eSIM) data packs — one time
   chatforia_mobile_small: {
     currency: 'USD',
-    unitAmount: 999,    // $9.99
+    unitAmount: 999, // $9.99
   },
   chatforia_mobile_medium: {
     currency: 'USD',
-    unitAmount: 1799,   // $17.99
+    unitAmount: 1499, // $14.99
   },
   chatforia_mobile_large: {
     currency: 'USD',
-    unitAmount: 2499,   // $24.99
+    unitAmount: 2499, // $24.99
   },
 
   // Family shared data packs — one time
   chatforia_family_small: {
     currency: 'USD',
-    unitAmount: 2999,   // $14.99
+    unitAmount: 2999, // $29.99
   },
   chatforia_family_medium: {
     currency: 'USD',
-    unitAmount: 4999,   // $29.99
+    unitAmount: 4999, // $49.99
   },
   chatforia_family_large: {
     currency: 'USD',
-    unitAmount: 7999,   // $49.99
+    unitAmount: 7999, // $79.99
   },
 };
 
@@ -68,14 +68,14 @@ export async function getPricingQuote(opts = {}) {
   console.log('[getPricingQuote] called with', { product, country, currency });
 
   try {
-    const { data } = await axiosClient.get('/api/pricing/quote', {
+    // IMPORTANT: no extra /api here – axiosClient already has baseURL, e.g. "/api"
+    const { data } = await axiosClient.get('/pricing/quote', {
       params: { product, country, currency },
     });
     console.log('[getPricingQuote] success', data);
     return data;
   } catch (err) {
     console.error('[getPricingQuote] failed; using fallback', err);
-    console.error('getPricingQuote failed; using fallback pricing if available', err);
 
     const fb = FALLBACKS[product];
     if (!fb) return null;

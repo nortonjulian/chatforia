@@ -29,6 +29,8 @@ import {
 
 // region-aware pricing quotes
 import { getPricingQuote } from '@/api/pricing';
+// eSIM / add-on billing helpers
+import { createEsimCheckoutSession } from '@/api/billing';
 
 // ---- helpers ----
 function formatMoney(amountMinor, currency = 'USD', locale) {
@@ -147,7 +149,6 @@ function PlanCard({
   );
 }
 
-
 const SECTION_APP = 'app';
 const SECTION_MOBILE = 'mobile';
 const SECTION_FAMILY = 'family';
@@ -262,72 +263,70 @@ export default function UpgradePage({ variant = 'account' }) {
   }, [qPremAnnual, t]);
 
   // mobile labels — data packs (one-time)
-    const labelMobileSmall = useMemo(() => {
-      if (qMobileSmall?.currency && typeof qMobileSmall?.unitAmount === 'number') {
-        return formatMoney(qMobileSmall.unitAmount, qMobileSmall.currency);
-      }
-      return t('upgrade.mobile.small.price', '$9.99');     // 3 GB
-    }, [qMobileSmall, t]);
+  const labelMobileSmall = useMemo(() => {
+    if (qMobileSmall?.currency && typeof qMobileSmall?.unitAmount === 'number') {
+      return formatMoney(qMobileSmall.unitAmount, qMobileSmall.currency);
+    }
+    return t('upgrade.mobile.small.price', '$9.99');     // 3 GB
+  }, [qMobileSmall, t]);
 
-    const labelMobileMedium = useMemo(() => {
-      if (qMobileMedium?.currency && typeof qMobileMedium?.unitAmount === 'number') {
-        return formatMoney(qMobileMedium.unitAmount, qMobileMedium.currency);
-      }
-      return t('upgrade.mobile.medium.price', '$14.99');   // 5 GB
-    }, [qMobileMedium, t]);
+  const labelMobileMedium = useMemo(() => {
+    if (qMobileMedium?.currency && typeof qMobileMedium?.unitAmount === 'number') {
+      return formatMoney(qMobileMedium.unitAmount, qMobileMedium.currency);
+    }
+    return t('upgrade.mobile.medium.price', '$14.99');   // 5 GB
+  }, [qMobileMedium, t]);
 
-    const labelMobileLarge = useMemo(() => {
-      if (qMobileLarge?.currency && typeof qMobileLarge?.unitAmount === 'number') {
-        return formatMoney(qMobileLarge.unitAmount, qMobileLarge.currency);
-      }
-      return t('upgrade.mobile.large.price', '$19.99');    // 10 GB
-    }, [qMobileLarge, t]);
-
+  const labelMobileLarge = useMemo(() => {
+    if (qMobileLarge?.currency && typeof qMobileLarge?.unitAmount === 'number') {
+      return formatMoney(qMobileLarge.unitAmount, qMobileLarge.currency);
+    }
+    return t('upgrade.mobile.large.price', '$24.99');    // 10 GB
+  }, [qMobileLarge, t]);
 
   // family labels — shared pool packs (one-time)
-    const labelFamilySmall = useMemo(() => {
-      if (qFamilySmall?.currency && typeof qFamilySmall?.unitAmount === 'number') {
-        return formatMoney(qFamilySmall.unitAmount, qFamilySmall.currency);
-      }
-      return t('upgrade.family.small.price', '$29.99');    // 20 GB
-    }, [qFamilySmall, t]);
+  const labelFamilySmall = useMemo(() => {
+    if (qFamilySmall?.currency && typeof qFamilySmall?.unitAmount === 'number') {
+      return formatMoney(qFamilySmall.unitAmount, qFamilySmall.currency);
+    }
+    return t('upgrade.family.small.price', '$29.99');    // 20 GB
+  }, [qFamilySmall, t]);
 
-    const labelFamilyMedium = useMemo(() => {
-      if (qFamilyMedium?.currency && typeof qFamilyMedium?.unitAmount === 'number') {
-        return formatMoney(qFamilyMedium.unitAmount, qFamilyMedium.currency);
-      }
-      return t('upgrade.family.medium.price', '$49.99');   // 40 GB
-    }, [qFamilyMedium, t]);
+  const labelFamilyMedium = useMemo(() => {
+    if (qFamilyMedium?.currency && typeof qFamilyMedium?.unitAmount === 'number') {
+      return formatMoney(qFamilyMedium.unitAmount, qFamilyMedium.currency);
+    }
+    return t('upgrade.family.medium.price', '$49.99');   // 40 GB
+  }, [qFamilyMedium, t]);
 
-    const labelFamilyLarge = useMemo(() => {
-      if (qFamilyLarge?.currency && typeof qFamilyLarge?.unitAmount === 'number') {
-        return formatMoney(qFamilyLarge.unitAmount, qFamilyLarge.currency);
-      }
-      return t('upgrade.family.large.price', '$79.99');    // 80 GB
-    }, [qFamilyLarge, t]);
+  const labelFamilyLarge = useMemo(() => {
+    if (qFamilyLarge?.currency && typeof qFamilyLarge?.unitAmount === 'number') {
+      return formatMoney(qFamilyLarge.unitAmount, qFamilyLarge.currency);
+    }
+    return t('upgrade.family.large.price', '$79.99');    // 80 GB
+  }, [qFamilyLarge, t]);
 
- 
-const startCheckout = async ({ plan, priceId } = {}) => {
-  if (!isAuthed) return navigate('/login?next=/upgrade');
+  const startCheckout = async ({ plan, priceId } = {}) => {
+    if (!isAuthed) return navigate('/login?next=/upgrade');
 
-  const body = {};
+    const body = {};
 
-  if (plan) body.plan = plan;
-  if (priceId) body.priceId = priceId;
+    if (plan) body.plan = plan;
+    if (priceId) body.priceId = priceId;
 
-  try {
-    setLoadingCheckout(true);
-    const { data } = await axiosClient.post('/billing/checkout', body);
-    const url = data?.checkoutUrl || data?.url;
-    if (url) window.location.href = url;
-  } catch (e) {
-    console.error('Checkout error', e);
-  } finally {
-    setLoadingCheckout(false);
-  }
-};
+    try {
+      setLoadingCheckout(true);
+      const { data } = await axiosClient.post('/billing/checkout', body);
+      const url = data?.checkoutUrl || data?.url;
+      if (url) window.location.href = url;
+    } catch (e) {
+      console.error('Checkout error', e);
+    } finally {
+      setLoadingCheckout(false);
+    }
+  };
 
-    // New: lookup Stripe price from pricing API, then call /billing/checkout
+  // New: lookup Stripe price from pricing API, then call /billing/checkout
   const startCheckoutWithProduct = async (product, fallbackPlanCode) => {
     if (!isAuthed) return navigate('/login?next=/upgrade');
 
@@ -356,6 +355,23 @@ const startCheckout = async ({ plan, priceId } = {}) => {
       if (url) window.location.href = url;
     } catch (e) {
       console.error('Checkout error', e);
+    } finally {
+      setLoadingCheckout(false);
+    }
+  };
+
+  // New: eSIM add-on checkout using /billing/checkout-addon
+  const buyEsimPack = async (kind) => {
+    if (!isAuthed) return navigate('/login?next=/upgrade');
+
+    try {
+      setLoadingCheckout(true);
+      // kind: "STARTER" | "TRAVELER" | "POWER"
+      const data = await createEsimCheckoutSession(kind);
+      const url = data?.checkoutUrl || data?.url;
+      if (url) window.location.href = url;
+    } catch (e) {
+      console.error('eSIM checkout failed', e);
     } finally {
       setLoadingCheckout(false);
     }
@@ -663,11 +679,7 @@ const startCheckout = async ({ plan, priceId } = {}) => {
               icon={<Wallet size={18} />}
               cta={mobileCta}
               ariaLabel={t('upgrade.mobile.small.aria', 'Buy starter data pack')}
-              onClick={() =>
-                isAuthed
-                  ? startCheckout(qMobileSmall?.stripePriceId || 'MOBILE_SMALL')
-                  : navigate('/login?next=/upgrade')
-              }
+              onClick={() => buyEsimPack('STARTER')}
               loading={isAuthed ? loadingCheckout : false}
             />
 
@@ -688,11 +700,7 @@ const startCheckout = async ({ plan, priceId } = {}) => {
               icon={<Wallet size={18} />}
               cta={mobileCta}
               ariaLabel={t('upgrade.mobile.medium.aria', 'Buy traveler data pack')}
-              onClick={() =>
-                isAuthed
-                  ? startCheckout(qMobileMedium?.stripePriceId || 'MOBILE_MEDIUM')
-                  : navigate('/login?next=/upgrade')
-              }
+              onClick={() => buyEsimPack('TRAVELER')}
               loading={isAuthed ? loadingCheckout : false}
             />
 
@@ -713,11 +721,7 @@ const startCheckout = async ({ plan, priceId } = {}) => {
               icon={<Wallet size={18} />}
               cta={mobileCta}
               ariaLabel={t('upgrade.mobile.large.aria', 'Buy power data pack')}
-              onClick={() =>
-                isAuthed
-                  ? startCheckout(qMobileLarge?.stripePriceId || 'MOBILE_LARGE')
-                  : navigate('/login?next=/upgrade')
-              }
+              onClick={() => buyEsimPack('POWER')}
               loading={isAuthed ? loadingCheckout : false}
               footer={
                 <Text size="xs" c="dimmed" mt="xs">
@@ -792,7 +796,7 @@ const startCheckout = async ({ plan, priceId } = {}) => {
               icon={<Wallet size={18} />}
               cta={mobileCta}
               ariaLabel={t('upgrade.family.medium.aria', 'Buy Family Medium pack')}
-             onClick={() =>
+              onClick={() =>
                 isAuthed
                   ? startCheckoutWithProduct('chatforia_family_medium', 'FAMILY_MEDIUM')
                   : navigate('/login?next=/upgrade')

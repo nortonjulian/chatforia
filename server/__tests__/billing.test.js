@@ -138,7 +138,7 @@ describe('POST /billing/checkout', () => {
       line_items: [{ price: 'price_explicit', quantity: 1 }],
       success_url: 'https://app.test/upgrade/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'https://app.test/upgrade?canceled=1',
-      allow_promotion_codes: true,
+      allow_promotion_codes: false,
       automatic_tax: { enabled: true },
       client_reference_id: '1',
       metadata: { userId: '1', plan: 'PLUS_MONTHLY' },

@@ -183,7 +183,7 @@ export async function seedPricing() {
   const MOBILE_FAMILY_ROW_USD = [
     // product,                 amountMinor
     ['chatforia_mobile_small',  999],  // $9.99
-    ['chatforia_mobile_medium', 1799], // $17.99
+    ['chatforia_mobile_medium', 1499], // $14.99
     ['chatforia_mobile_large',  2499], // $24.99
     ['chatforia_family_small',  2999], // $24.99
     ['chatforia_family_medium', 4999], // $49.99
