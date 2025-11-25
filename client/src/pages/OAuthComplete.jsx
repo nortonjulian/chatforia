@@ -3,12 +3,16 @@ import { Center, Stack, Text, Loader } from '@mantine/core';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
+import { useTranslation } from 'react-i18next';
+
+const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 
 export default function OAuthComplete() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { setCurrentUser } = useUser?.() || {};
   const alive = useRef(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     alive.current = true;
@@ -18,7 +22,17 @@ export default function OAuthComplete() {
 
       const safeFinish = (userObj) => {
         if (!alive.current) return;
+
         if (userObj) {
+          // Mark this device as having successfully logged in via OAuth
+          try {
+            if (typeof window !== 'undefined') {
+              window.localStorage.setItem(LOGIN_FLAG_KEY, 'true');
+            }
+          } catch {
+            // ignore storage errors
+          }
+
           setCurrentUser?.(userObj);
           navigate(next, { replace: true });
         } else {
@@ -65,9 +79,10 @@ export default function OAuthComplete() {
   return (
     <Center mih={160} data-testid="center">
       <Stack align="center" gap="xs" data-testid="stack">
-        {/* Only one element with data-testid="loader" */}
         <Loader data-testid="loader" />
-        <Text c="dimmed">Completing sign-in…</Text>
+        <Text c="dimmed">
+          {t('oauth.completing', 'Completing sign-in…')}
+        </Text>
       </Stack>
     </Center>
   );

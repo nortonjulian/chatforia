@@ -55,6 +55,8 @@ function startOAuth(provider) {
 
 /* ---------------- Component ---------------- */
 
+const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
+
 export default function LoginForm({ onLoginSuccess }) {
   const { t } = useTranslation();
   const { setCurrentUser } = useUser();
@@ -67,6 +69,9 @@ export default function LoginForm({ onLoginSuccess }) {
   // SSO availability (runtime)
   const [hasGoogle, setHasGoogle] = useState(true);
   const [hasApple, setHasApple] = useState(false);
+
+  // UI state: has this device logged in before?
+  const [hasBeenHere, setHasBeenHere] = useState(false);
 
   const navigate = useNavigate();
 
@@ -93,6 +98,17 @@ export default function LoginForm({ onLoginSuccess }) {
       }
     })();
     return () => { cancelled = true; };
+  }, []);
+
+  // Check localStorage to see if this device has logged in before
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const flag = window.localStorage.getItem(LOGIN_FLAG_KEY);
+      setHasBeenHere(flag === 'true');
+    } catch {
+      // ignore storage errors
+    }
   }, []);
 
   const handleLogin = async (e) => {
@@ -123,6 +139,14 @@ export default function LoginForm({ onLoginSuccess }) {
 
       setCurrentUser(user);
       onLoginSuccess?.(user);
+
+      // mark this device as having successfully logged in
+      try {
+        window.localStorage.setItem(LOGIN_FLAG_KEY, 'true');
+        setHasBeenHere(true);
+      } catch {
+        // ignore storage errors
+      }
 
       setIdentifier('');
       setPassword('');
@@ -160,12 +184,22 @@ export default function LoginForm({ onLoginSuccess }) {
     }
   };
 
+  const titleText = hasBeenHere
+    ? t('login.welcomeBack', 'Welcome back')
+    : t('login.title', 'Continue to Chatforia');
+
+  const subtitleText = hasBeenHere
+    ? t('login.subtitleReturning', 'Log in to your Chatforia account')
+    : t('login.subtitle', 'Sign in or create an account');
+
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">
       <Stack gap="2" mb="sm" align="center">
-        <Title order={3} style={{ color: 'var(--fg)' }}>{t('login.title', 'Welcome back')}</Title>
+        <Title order={3} style={{ color: 'var(--fg)' }}>
+          {titleText}
+        </Title>
         <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.8 }}>
-          {t('login.subtitle', 'Log in to your Chatforia account')}
+          {subtitleText}
         </Text>
       </Stack>
 

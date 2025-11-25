@@ -273,6 +273,8 @@ model User {
 
   mobileDataPackPurchases MobileDataPackPurchase[]
 
+  portRequests PortRequest[]
+
   // Usage/analytics
   sttUsage STTUsage[] @relation("UserSTTUsage")
 
@@ -764,7 +766,7 @@ model AdInquiry {
   name      String
   email     String
   company   String?
-  budget    String?   // free-text range, e.g. "$1k–$5k"
+  budget    String? // free-text range, e.g. "$1k–$5k"
   message   String
   status    String   @default("new") // new | in_progress | closed (for later)
   createdAt DateTime @default(now())
@@ -1010,21 +1012,21 @@ model Call {
 // ===================== 8) Phone Numbers =====================
 
 model PhoneNumber {
-  id             Int          @id @default(autoincrement())
-  e164           String       @unique
+  id             Int               @id @default(autoincrement())
+  e164           String            @unique
   provider       String // 'telnyx' | 'bandwidth'
   areaCode       String?
-  vanity         Boolean      @default(false)
-  status         NumberStatus @default(AVAILABLE)
+  vanity         Boolean           @default(false)
+  status         NumberStatus      @default(AVAILABLE)
   assignedUserId Int?
   assignedAt     DateTime?
   lastOutboundAt DateTime?
-  keepLocked     Boolean      @default(false)
+  keepLocked     Boolean           @default(false)
   holdUntil      DateTime?
   releaseAfter   DateTime?
-  portStatus     PortStatus   @default(NONE)
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  portStatus     PortStatus        @default(NONE)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
   source         PhoneNumberSource @default(PROVISIONED)
 
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
@@ -1075,35 +1077,36 @@ model NumberReservation {
 }
 
 model PortRequest {
-  id            String   @id @default(cuid())
-  user          User     @relation(fields: [userId], references: [id])
-  userId        String
+  id     String @id @default(cuid())
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 
-  phoneNumber   String
+  phoneNumber String
 
   // Twilio / carrier related IDs
-  externalPortId String?  // e.g. Twilio port order SID
+  externalPortId String? // e.g. Twilio port order SID
 
   carrier       String?
   accountNumber String?
   pin           String?
 
-  fullName      String
-  addressLine1  String
-  addressLine2  String?
-  city          String
-  state         String
-  postalCode    String
-  country       String    @default("US")
+  fullName     String
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  postalCode   String
+  country      String  @default("US")
 
-  status        PortStatus  @default(PENDING)
-  statusReason  String?
+  status PortStatus @default(NONE)
 
-  scheduledAt   DateTime?
-  completedAt   DateTime?
+  statusReason String?
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  scheduledAt DateTime?
+  completedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ===================== 9) Accessibility Transcripts =====================

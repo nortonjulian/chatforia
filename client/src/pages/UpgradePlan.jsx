@@ -1,4 +1,3 @@
-// client/src/pages/UpgradePlan.jsx
 import { useEffect, useMemo, useState } from 'react';
 import {
   Card,
@@ -263,61 +262,97 @@ export default function UpgradePage({ variant = 'account' }) {
   }, [qPremAnnual, t]);
 
   // mobile labels — data packs (one-time)
-  const labelMobileSmall = useMemo(() => {
-    if (qMobileSmall?.currency && typeof qMobileSmall?.unitAmount === 'number') {
-      return formatMoney(qMobileSmall.unitAmount, qMobileSmall.currency);
-    }
-    return t('upgrade.mobile.small.price', '$7.99');
-  }, [qMobileSmall, t]);
+    const labelMobileSmall = useMemo(() => {
+      if (qMobileSmall?.currency && typeof qMobileSmall?.unitAmount === 'number') {
+        return formatMoney(qMobileSmall.unitAmount, qMobileSmall.currency);
+      }
+      return t('upgrade.mobile.small.price', '$9.99');     // 3 GB
+    }, [qMobileSmall, t]);
 
-  const labelMobileMedium = useMemo(() => {
-    if (qMobileMedium?.currency && typeof qMobileMedium?.unitAmount === 'number') {
-      return formatMoney(qMobileMedium.unitAmount, qMobileMedium.currency);
-    }
-    return t('upgrade.mobile.medium.price', '$17.99');
-  }, [qMobileMedium, t]);
+    const labelMobileMedium = useMemo(() => {
+      if (qMobileMedium?.currency && typeof qMobileMedium?.unitAmount === 'number') {
+        return formatMoney(qMobileMedium.unitAmount, qMobileMedium.currency);
+      }
+      return t('upgrade.mobile.medium.price', '$14.99');   // 5 GB
+    }, [qMobileMedium, t]);
 
-  const labelMobileLarge = useMemo(() => {
-    if (qMobileLarge?.currency && typeof qMobileLarge?.unitAmount === 'number') {
-      return formatMoney(qMobileLarge.unitAmount, qMobileLarge.currency);
-    }
-    return t('upgrade.mobile.large.price', '$24.99');
-  }, [qMobileLarge, t]);
+    const labelMobileLarge = useMemo(() => {
+      if (qMobileLarge?.currency && typeof qMobileLarge?.unitAmount === 'number') {
+        return formatMoney(qMobileLarge.unitAmount, qMobileLarge.currency);
+      }
+      return t('upgrade.mobile.large.price', '$19.99');    // 10 GB
+    }, [qMobileLarge, t]);
+
 
   // family labels — shared pool packs (one-time)
-  const labelFamilySmall = useMemo(() => {
-    if (qFamilySmall?.currency && typeof qFamilySmall?.unitAmount === 'number') {
-      return formatMoney(qFamilySmall.unitAmount, qFamilySmall.currency);
-    }
-    return t('upgrade.family.small.price', '$14.99');
-  }, [qFamilySmall, t]);
+    const labelFamilySmall = useMemo(() => {
+      if (qFamilySmall?.currency && typeof qFamilySmall?.unitAmount === 'number') {
+        return formatMoney(qFamilySmall.unitAmount, qFamilySmall.currency);
+      }
+      return t('upgrade.family.small.price', '$29.99');    // 20 GB
+    }, [qFamilySmall, t]);
 
-  const labelFamilyMedium = useMemo(() => {
-    if (qFamilyMedium?.currency && typeof qFamilyMedium?.unitAmount === 'number') {
-      return formatMoney(qFamilyMedium.unitAmount, qFamilyMedium.currency);
-    }
-    return t('upgrade.family.medium.price', '$29.99');
-  }, [qFamilyMedium, t]);
+    const labelFamilyMedium = useMemo(() => {
+      if (qFamilyMedium?.currency && typeof qFamilyMedium?.unitAmount === 'number') {
+        return formatMoney(qFamilyMedium.unitAmount, qFamilyMedium.currency);
+      }
+      return t('upgrade.family.medium.price', '$49.99');   // 40 GB
+    }, [qFamilyMedium, t]);
 
-  const labelFamilyLarge = useMemo(() => {
-    if (qFamilyLarge?.currency && typeof qFamilyLarge?.unitAmount === 'number') {
-      return formatMoney(qFamilyLarge.unitAmount, qFamilyLarge.currency);
-    }
-    return t('upgrade.family.large.price', '$49.99');
-  }, [qFamilyLarge, t]);
+    const labelFamilyLarge = useMemo(() => {
+      if (qFamilyLarge?.currency && typeof qFamilyLarge?.unitAmount === 'number') {
+        return formatMoney(qFamilyLarge.unitAmount, qFamilyLarge.currency);
+      }
+      return t('upgrade.family.large.price', '$79.99');    // 80 GB
+    }, [qFamilyLarge, t]);
 
-  // Updated checkout: prefer priceId when we have a quote
-  const startCheckout = async (planOrPrice) => {
+ 
+const startCheckout = async ({ plan, priceId } = {}) => {
+  if (!isAuthed) return navigate('/login?next=/upgrade');
+
+  const body = {};
+
+  if (plan) body.plan = plan;
+  if (priceId) body.priceId = priceId;
+
+  try {
+    setLoadingCheckout(true);
+    const { data } = await axiosClient.post('/billing/checkout', body);
+    const url = data?.checkoutUrl || data?.url;
+    if (url) window.location.href = url;
+  } catch (e) {
+    console.error('Checkout error', e);
+  } finally {
+    setLoadingCheckout(false);
+  }
+};
+
+    // New: lookup Stripe price from pricing API, then call /billing/checkout
+  const startCheckoutWithProduct = async (product, fallbackPlanCode) => {
     if (!isAuthed) return navigate('/login?next=/upgrade');
-
-    const body = planOrPrice?.startsWith('price_')
-      ? { priceId: planOrPrice }
-      : { plan: planOrPrice };
 
     try {
       setLoadingCheckout(true);
-      const { data } = await axiosClient.post('/billing/checkout', body);
-      const url = data?.checkoutUrl || data?.url;
+
+      let priceId = null;
+
+      // Prefer a fresh quote from the API so we always use the live DB price
+      try {
+        const { data } = await axiosClient.get('/api/pricing/quote', {
+          params: { product },
+        });
+        priceId = data?.stripePriceId || null;
+        if (!priceId) {
+          console.warn('No stripePriceId on quote, falling back to plan code', data);
+        }
+      } catch (err) {
+        console.warn('get /api/pricing/quote failed for', product, err);
+      }
+
+      const body = priceId ? { priceId } : { plan: fallbackPlanCode };
+
+      const res = await axiosClient.post('/billing/checkout', body);
+      const url = res?.data?.checkoutUrl || res?.data?.url;
       if (url) window.location.href = url;
     } catch (e) {
       console.error('Checkout error', e);
@@ -511,7 +546,10 @@ export default function UpgradePage({ variant = 'account' }) {
                 isAuthed
                   ? (isPlus || isPremium)
                     ? openBillingPortal()
-                    : startCheckout(qPlus?.stripePriceId || 'PLUS_MONTHLY')
+                    : startCheckout({
+                        plan: 'PLUS_MONTHLY',
+                        priceId: qPlus?.stripePriceId,
+                      })
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? (isPlus || isPremium ? loadingPortal : loadingCheckout) : false}
@@ -540,7 +578,12 @@ export default function UpgradePage({ variant = 'account' }) {
               ariaLabel={t('upgrade.plans.premiumMonthly.aria', 'Upgrade to Premium Monthly')}
               onClick={() =>
                 isAuthed
-                  ? (isPremium ? openBillingPortal() : startCheckout(qPremMonthly?.stripePriceId || 'PREMIUM_MONTHLY'))
+                  ? (isPremium
+                      ? openBillingPortal()
+                      : startCheckout({
+                          plan: 'PREMIUM_MONTHLY',
+                          priceId: qPremMonthly?.stripePriceId,
+                        }))
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false}
@@ -568,7 +611,10 @@ export default function UpgradePage({ variant = 'account' }) {
               ariaLabel={t('upgrade.plans.premiumAnnual.aria', 'Upgrade to Premium Annual')}
               onClick={() =>
                 isAuthed
-                  ? startCheckout(qPremAnnual?.stripePriceId || 'PREMIUM_ANNUAL')
+                  ? startCheckout({
+                      plan: 'PREMIUM_ANNUAL',
+                      priceId: qPremAnnual?.stripePriceId,
+                    })
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? loadingCheckout : false}
@@ -607,7 +653,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelMobileSmall} ${t('upgrade.mobile.perPack', '/ pack')}`}
               description={t(
                 'upgrade.mobile.small.desc',
-                'Includes 1 GB of high-speed data — ideal for light messaging and occasional calls.',
+                'Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.',
               )}
               features={[
                 t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
@@ -632,7 +678,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelMobileMedium} ${t('upgrade.mobile.perPack', '/ pack')}`}
               description={t(
                 'upgrade.mobile.medium.desc',
-                'Includes 3 GB of high-speed data for trips, commuting, and regular VoIP calls.',
+                'Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.',
               )}
               features={[
                 t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
@@ -657,7 +703,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelMobileLarge} ${t('upgrade.mobile.perPack', '/ pack')}`}
               description={t(
                 'upgrade.mobile.large.desc',
-                'Includes 5 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.',
+                'Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.',
               )}
               features={[
                 t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
@@ -711,7 +757,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelFamilySmall} ${t('upgrade.family.perPack', '/ pack')}`}
               description={t(
                 'upgrade.family.small.desc',
-                'Includes 5 GB of shared high-speed data — great for 2–3 light users.',
+                'Includes 20 GB of shared high-speed data — great for 2–3 light users.',
               )}
               features={[
                 t('upgrade.family.feature.shared', 'Shared data pool for your family'),
@@ -723,7 +769,7 @@ export default function UpgradePage({ variant = 'account' }) {
               ariaLabel={t('upgrade.family.small.aria', 'Buy Family Small pack')}
               onClick={() =>
                 isAuthed
-                  ? startCheckout(qFamilySmall?.stripePriceId || 'FAMILY_SMALL')
+                  ? startCheckoutWithProduct('chatforia_family_small', 'FAMILY_SMALL')
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? loadingCheckout : false}
@@ -736,7 +782,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelFamilyMedium} ${t('upgrade.family.perPack', '/ pack')}`}
               description={t(
                 'upgrade.family.medium.desc',
-                'Includes 15 GB of shared high-speed data — ideal for 3–5 active members.',
+                'Includes 40 GB of shared high-speed data — ideal for 3–5 active members.',
               )}
               features={[
                 t('upgrade.family.feature.shared', 'Shared data pool for your family'),
@@ -746,9 +792,9 @@ export default function UpgradePage({ variant = 'account' }) {
               icon={<Wallet size={18} />}
               cta={mobileCta}
               ariaLabel={t('upgrade.family.medium.aria', 'Buy Family Medium pack')}
-              onClick={() =>
+             onClick={() =>
                 isAuthed
-                  ? startCheckout(qFamilyMedium?.stripePriceId || 'FAMILY_MEDIUM')
+                  ? startCheckoutWithProduct('chatforia_family_medium', 'FAMILY_MEDIUM')
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? loadingCheckout : false}
@@ -761,7 +807,7 @@ export default function UpgradePage({ variant = 'account' }) {
               price={`${labelFamilyLarge} ${t('upgrade.family.perPack', '/ pack')}`}
               description={t(
                 'upgrade.family.large.desc',
-                'Includes 30 GB of shared high-speed data — for power families that are always online.',
+                'Includes 80 GB of shared high-speed data — for power families that are always online.',
               )}
               features={[
                 t('upgrade.family.feature.shared', 'Shared data pool for your family'),
@@ -773,7 +819,7 @@ export default function UpgradePage({ variant = 'account' }) {
               ariaLabel={t('upgrade.family.large.aria', 'Buy Family Large pack')}
               onClick={() =>
                 isAuthed
-                  ? startCheckout(qFamilyLarge?.stripePriceId || 'FAMILY_LARGE')
+                  ? startCheckoutWithProduct('chatforia_family_large', 'FAMILY_LARGE')
                   : navigate('/login?next=/upgrade')
               }
               loading={isAuthed ? loadingCheckout : false}

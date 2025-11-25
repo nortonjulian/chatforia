@@ -371,6 +371,7 @@ export function createApp() {
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);
   app.use('/pricing', pricingRouter);
+  app.use('/api/pricing', pricingRouter);
 
   app.use('/api/voicemail', voicemailRouter);
   app.use('/api/voicemail/greeting', voicemailGreetingRouter);

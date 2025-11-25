@@ -70,7 +70,6 @@ export async function seedPricing() {
     { countryCode: 'AR', tier: 'T2' },
     { countryCode: 'AE', tier: 'T2' },
     // T3: large emerging
-    { countryCode: 'IN', tier: 'T3' },
     { countryCode: 'BR', tier: 'T3' },
     { countryCode: 'PH', tier: 'T3' },
     { countryCode: 'TH', tier: 'T3' },
@@ -78,8 +77,8 @@ export async function seedPricing() {
     { countryCode: 'ID', tier: 'T3' },
     { countryCode: 'TR', tier: 'T3' },
     { countryCode: 'CO', tier: 'T3' },
-    { countryCode: 'PEN' /* Peru’s currency; country code is PE */, tier: 'T3' }, // keep rule below for PE
     { countryCode: 'PE', tier: 'T3' },
+
     // T4: lower income
     { countryCode: 'NG', tier: 'T4' },
     { countryCode: 'KE', tier: 'T4' },
@@ -98,7 +97,7 @@ export async function seedPricing() {
     )
   );
 
-  // 2) Price matrices for three products:
+  // 2) Price matrices for three app subscription products:
   //    - chatforia_plus            (entry plan)
   //    - chatforia_premium_monthly (full premium monthly)
   //    - chatforia_premium_annual  (discounted annual)
@@ -156,10 +155,10 @@ export async function seedPricing() {
     ['BDT',   39900, 79900, 719000, 'price_live_plus_t4_bdt',  'price_live_premM_t4_bdt',   'price_live_premY_t4_bdt'  ],
   ];
 
-  // --- ROW fallback (USD) for each product ---
+  // --- ROW fallback (USD) for each subscription product ---
   const ROW = [
     // currency, plus, premium_m, premium_y
-    ['USD', 499, 899, 7999, 'price_live_plus_row_usd', 'price_live_premM_row_usd', 'price_live_premY_row_usd'],
+    ['USD', 499, 2499, 22500, 'price_live_plus_row_usd', 'price_live_premM_row_usd', 'price_live_premY_row_usd'],
   ];
 
   // Helper to seed a tier list
@@ -177,7 +176,31 @@ export async function seedPricing() {
   await seedTierRows('T4', T4);
   await seedTierRows('ROW', ROW);
 
-  console.log('✅ Pricing seeds completed for Plus, Premium Monthly, and Premium Annual.');
+  // 3) One simple ROW/USD matrix for Mobile & Family packs.
+  //    These are one-time data packs, not subscriptions, so we keep it simple
+  //    and let the pricing route fall back to ROW/USD for all regions.
+
+  const MOBILE_FAMILY_ROW_USD = [
+    // product,                 amountMinor
+    ['chatforia_mobile_small',  999],  // $9.99
+    ['chatforia_mobile_medium', 1799], // $17.99
+    ['chatforia_mobile_large',  2499], // $24.99
+    ['chatforia_family_small',  2999], // $24.99
+    ['chatforia_family_medium', 4999], // $49.99
+    ['chatforia_family_large',  7999], // $79.99
+  ];
+
+  for (const [product, unitAmount] of MOBILE_FAMILY_ROW_USD) {
+    await upsertPrice({
+      product,
+      tier: 'ROW',
+      currency: 'USD',
+      unitAmount,
+      stripePriceId: null,
+    });
+  }
+
+  console.log('✅ Pricing seeds completed for Plus, Premium Monthly/Annual, Mobile packs, and Family packs.');
 }
 
 const isMain = (() => {

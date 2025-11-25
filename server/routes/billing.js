@@ -353,49 +353,123 @@ router.get('/my-plan', async (req, res) => {
 });
 
 /* ----------------------------------------------
- * Checkout (subscriptions)
+ * Checkout (subscriptions + one-time)
  * --------------------------------------------*/
 // POST /billing/checkout  { plan?: "PLUS_MONTHLY"|"PREMIUM_MONTHLY"|"PREMIUM_ANNUAL", priceId?: "price_..." }
 router.post('/checkout', async (req, res) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const stripe = getStripe();
+  const { plan, priceId } = req.body || {};
+
   try {
-    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    // 1) Decide which price to use
+    let stripePriceId = null;
 
-    const stripe = getStripe();
-    const customerId = await ensureStripeCustomerId(req.user);
+    if (priceId && typeof priceId === 'string' && priceId.startsWith('price_')) {
+      // New flow: client passes explicit Stripe price id
+      stripePriceId = priceId;
+    } else if (plan) {
+      // Old flow: derive price from plan + region
+      const country = user.billingCountry || user.country || 'US';
+      const regionTier = user.pricingRegion || user.regionTier || 'T1';
+      const currency = (user.currency || 'USD').toUpperCase();
 
-    // A) If the client sent a concrete Stripe price ID, use it (safest)
-    const clientPriceId = req.body?.priceId;
+      // You could map plan -> product here; for now we just use plan as product code
+      const productCode = plan; // e.g. 'chatforia_plus'
 
-    // B) Otherwise resolve dynamically from your pricing table based on user/country
-    let effectivePriceId = clientPriceId;
-    if (!effectivePriceId && req.body?.plan) {
-      effectivePriceId = await resolveStripePriceIdForUserPlan(req.user, req.body.plan);
+      const priceRow = await prisma.price.findFirst({
+        where: {
+          product: productCode,
+          tier: regionTier,
+          currency,
+        },
+      });
+
+      if (!priceRow || !priceRow.stripePriceId) {
+        console.error('[billing/checkout] No price row / stripePriceId for', {
+          plan,
+          productCode,
+          country,
+          regionTier,
+          currency,
+        });
+        return res
+          .status(400)
+          .json({ error: 'No Stripe price configured for this plan.' });
+      }
+
+      stripePriceId = priceRow.stripePriceId;
     }
 
-    // C) Final fallback to envs (legacy)
-    if (!effectivePriceId && req.body?.plan) {
-      effectivePriceId = priceIdForPlan(req.body.plan);
+    if (!stripePriceId) {
+      return res
+        .status(400)
+        .json({ error: 'Missing plan or priceId for checkout.' });
     }
-    if (!effectivePriceId) {
-      return res.status(400).json({ error: 'Missing or unknown price' });
+
+    console.log('[billing/checkout] Using Stripe price:', stripePriceId);
+
+    // 2) Decide if this is a subscription or one-time price
+
+    let isSubscription = false;
+
+    // Prefer explicit plan, since we know which codes are subscriptions
+    if (plan) {
+      const code = String(plan).toUpperCase();
+      isSubscription = ['PLUS_MONTHLY', 'PREMIUM_MONTHLY', 'PREMIUM_ANNUAL'].includes(code);
+    } else if (priceId) {
+      // No plan provided – inspect the Stripe Price to see if it is recurring
+      const priceObj = await stripe.prices.retrieve(stripePriceId);
+      isSubscription = !!priceObj.recurring;
     }
+
+    const mode = isSubscription ? 'subscription' : 'payment';
+
+    // 3) Ensure the user has a Stripe customer
+    const customerId = await ensureStripeCustomerId(user);
+
+    const frontendOrigin =
+      process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
 
     const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+      mode,
       customer: customerId,
-      line_items: [{ price: effectivePriceId, quantity: 1 }],
-      success_url: `${process.env.WEB_URL}/upgrade/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.WEB_URL}/upgrade?canceled=1`,
+      line_items: [
+        {
+          price: stripePriceId,
+          quantity: 1,
+        },
+      ],
       allow_promotion_codes: true,
-      automatic_tax: { enabled: true },
-      client_reference_id: String(req.user.id),
-      metadata: { userId: String(req.user.id), plan: req.body?.plan || 'BY_PRICE_ID' },
+      client_reference_id: String(user.id),
+      success_url: `${frontendOrigin}/upgrade?success=1&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${frontendOrigin}/upgrade?canceled=1`,
     });
 
-    return res.json({ url: session.url, checkoutUrl: session.url });
+    console.log(
+      '[billing/checkout] Created session',
+      session.id,
+      '→',
+      session.url
+    );
+
+    return res.json({ checkoutUrl: session.url });
   } catch (err) {
-    console.error('checkout error:', err);
-    return res.status(500).json({ error: 'Checkout creation failed' });
+    console.error('[billing/checkout] Stripe error:', {
+      message: err.message,
+      type: err.type,
+      code: err.code,
+      statusCode: err.statusCode,
+      raw: err.raw,
+    });
+
+    return res
+      .status(500)
+      .json({ error: 'Checkout creation failed', detail: err.message });
   }
 });
 

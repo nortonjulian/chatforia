@@ -106,6 +106,8 @@
     "endHour": "End hour (0–23)",
     "reset": "Reset",
     "saveBtn": "Save",
+    "saveProfile": "Save profile",
+    "saveForwarding": "Save forwarding",
     "forwardSaved": "Forwarding settings saved",
     "forwardSaveFailed": "Failed to save settings",
     "errE164": "Enter a valid E.164 phone (e.g., +15551234567).",
@@ -128,6 +130,23 @@
     "teenMatchingNote": "For safety, accounts in the 13–17 age range can only be matched with other 13–17 accounts in Random Chat.",
     "foriaRemember": "Let Foria remember things you tell it",
     "foriaRememberDesc": "When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Enable voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete voicemails after (days)",
+    "voicemailAutoDeletePlaceholder": "Leave empty to keep forever",
+    "voicemailForwardEmail": "Forward voicemail to email",
+    "voicemailForwardEmailPlaceholder": "Email to send voicemail notifications to",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable.",
+    "voicemailGreetingUpload": "Upload voicemail greeting",
+    "voicemailPreviewGreeting": "Preview greeting",
+    "voicemailGreetingUploaded": "Voicemail greeting uploaded successfully",
+    "voicemailGreetingUploadError": "Failed to upload voicemail greeting",
+    "voicemailNote": "Voicemails from your Chatforia numbers will be stored in your Voicemail inbox. You can enable transcription and forwarding in supported plans.",
+    "portHint": "Want to keep your current number? You can port it into Chatforia Wireless.",
+    "wireless": {
+      "manage": "Manage wireless"
+    },
     "esim": {
       "title": "Chatforia eSIM (Teal)",
       "desc": "Get mobile data for Chatforia when you’re away from Wi-Fi.",
@@ -135,6 +154,50 @@
     }
   },
   "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Manage your Chatforia mobile plan, numbers, forwarding, and number porting.",
+    "options": {
+      "heading": "Choose how you want to use Chatforia",
+      "subheading": "You can get a new Chatforia number, or bring your existing number from another carrier.",
+      "newNumber": "Get a new Chatforia number",
+      "portNumber": "Port your current number into Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Port your existing number",
+      "subheading": "Move your current phone number from your existing carrier into Chatforia. Make sure the details match your carrier account exactly to avoid delays.",
+      "phoneNumberLabel": "Phone number to port",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Current carrier",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Account number",
+      "pinLabel": "Port-out PIN / password",
+      "fullNameLabel": "Full name on the account",
+      "address1Label": "Address line 1",
+      "address2Label": "Address line 2 (optional)",
+      "cityLabel": "City",
+      "stateLabel": "State / Province",
+      "postalCodeLabel": "Postal code",
+      "countryLabel": "Country",
+      "submitButton": "Submit port request",
+      "success": "Port request submitted! We’ll keep you updated.",
+      "genericError": "Something went wrong."
+    },
+    "status": {
+      "heading": "Porting status",
+      "subheading": "Track the status of your number port requests.",
+      "loading": "Loading…",
+      "loadError": "Failed to load port requests.",
+      "none": "No porting activity yet.",
+      "pending": "Pending review",
+      "submitted": "Submitted to carrier",
+      "inProgress": "In progress",
+      "completed": "Completed",
+      "failed": "Failed",
+      "canceled": "Canceled",
+      "created": "Created:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completed:"
+    },
     "dataLow": "Your data is running low.",
     "topUp": "Top up now",
     "expiresIn": "Expires in {{days}} days",
@@ -196,6 +259,26 @@
       "goFamily": "Go to family dashboard",
       "error": "We could not add you to this family. The invite may be invalid or expired."
     }
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "From",
+    "to": "To",
+    "unknownCaller": "Unknown",
+    "yourNumber": "Your Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Transcribing voicemail…",
+    "transcriptFailed": "Transcript unavailable.",
+    "loading": "Loading voicemail…",
+    "errorLoading": "Failed to load voicemail.",
+    "empty": "No voicemails yet.",
+    "deleteConfirm": "Delete this voicemail?",
+    "deleteError": "Failed to delete voicemail.",
+    "markRead": "Mark as read",
+    "delete": "Delete",
+    "unreadDotAria": "Unread voicemail indicator"
   },
   "support": {
     "helpFab": "Help",
@@ -313,7 +396,8 @@
     "logout": "Log out",
     "startChatAlt": "Start a new chat",
     "calls": "Calls",
-    "video": "Video"
+    "video": "Video",
+    "voicemail": "Voicemail"
   },
   "premium": {
     "heading": "Go Premium",
@@ -346,7 +430,6 @@
       "disappear": "Disappearing messages & read receipts",
       "privacy": "Privacy-first. Your data, your control."
     },
-    "welcomeBack": "Welcome back",
     "continueGoogle": "Continue with Google",
     "continueApple": "Continue with Apple",
     "username": "Username",
@@ -491,8 +574,8 @@
     "title": "Advertise with Chatforia",
     "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
     "adsense": {
-      "withPubId": "We currently serve ads via <b>Google AdSense</b>. If you’d like to target us through Google Ads, use publisher ID <code>{{pubId}}</code> and ask for managed placement on our units below. Direct sponsorships are available—use the form.",
-      "noPubId": "We currently serve ads via <b>Google AdSense</b>. Direct sponsorships are also available—use the form below."
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
     },
     "inventoryHeader": "Inventory & Specs",
     "placement": {
@@ -500,7 +583,7 @@
       "acceptedSizes": "Accepted sizes",
       "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "No placements configured yet. Add them in ads/placements.js.",
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
     "whyHeader": "Why Chatforia?",
     "why": {
       "highSession": "High session frequency and dwell time in chat UI",
@@ -521,7 +604,7 @@
       "companyLabel": "Company",
       "companyPlaceholder": "Acme Inc.",
       "budgetLabel": "Monthly budget (optional)",
-      "budgetPlaceholder": "$5,000",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
       "messageLabel": "Tell us about your campaign",
       "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
       "sendCta": "Send inquiry"
@@ -643,6 +726,20 @@
       "premiumAnnualTitle": "Premium",
       "premiumAnnualDesc": "Save more when billed yearly.",
       "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
+    },
+    "mobile": {
+      "small": {
+        "price": "$9.99",
+        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls."
+      },
+      "medium": {
+        "price": "$17.99",
+        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls."
+      },
+      "large": {
+        "price": "$24.99",
+        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network."
+      }
     }
   },
   "gettingStarted": {
@@ -1016,7 +1113,9 @@
     "homeAria": "Chatforia Home"
   },
   "login": {
-    "title": "Welcome back",
+    "welcomeBack": "Welcome back",
+    "title": "Continue to Chatforia",
+    "subtitleReturning": "Log in to your Chatforia account",
     "subtitle": "Log in to your Chatforia account",
     "google": "Continue with Google",
     "apple": "Continue with Apple",
@@ -1043,6 +1142,9 @@
       "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
       "premiumRequired": "This action requires a Premium plan."
     }
+  },
+  "oauth": {
+    "completing": "Completing sign-in…"
   },
   "dialer": {
     "title": "Calls",
