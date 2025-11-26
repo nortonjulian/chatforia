@@ -22,6 +22,50 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import socket from '@/lib/socket'; // singleton client
 
+// ---------- Ria greeting helpers ----------
+
+function getFriendlyName(t, currentUser) {
+  // Prefer some real-ish name if you have one; otherwise username; otherwise fallback
+  return (
+    currentUser?.displayName ||
+    currentUser?.fullName ||
+    currentUser?.username ||
+    t('ria.fallbackName', 'there')
+  );
+}
+
+function pickGreeting(t, currentUser, isLong) {
+  const name = getFriendlyName(t, currentUser);
+
+  const longOptions = [
+    t('ria.greetings.long1', 'Hey {{name}} 👋 I’m here. What’s on your mind?', { name }),
+    t('ria.greetings.long2', 'Hi {{name}} 😊 What would you like to talk about today?', { name }),
+    t('ria.greetings.long3', 'Hey {{name}}! I’m all ears — what’s up?', { name }),
+    t('ria.greetings.long4', 'Nice to see you, {{name}} 👋 What’s on your mind today?', { name }),
+    t('ria.greetings.long5', 'Hey {{name}} 🙂 Want to vent, ask, or just chat?', { name }),
+    t('ria.greetings.long6', 'Hi {{name}}! I’ve got time — what would you like to talk about?', { name }),
+  ];
+
+  const shortOptions = [
+    t('ria.greetings.short1', 'Hey {{name}}, I’m still here. What’s up?', { name }),
+    t(
+      'ria.greetings.short2',
+      'Welcome back {{name}} 👋 Anything else you wanted to add?',
+      { name }
+    ),
+    t('ria.greetings.short3', 'Back again, {{name}}? 😊 Tell me what’s on your mind.', { name }),
+    t('ria.greetings.short4', 'Hey {{name}} ✨ Ready to pick up where we left off?', { name }),
+    t('ria.greetings.short5', 'Yes {{name}}? I’m listening 👂', { name }),
+    t('ria.greetings.short6', 'Oh hey {{name}}! Got something new on your mind?', { name }),
+  ];
+
+  const list = isLong ? longOptions : shortOptions;
+  const idx = Math.floor(Math.random() * list.length);
+  return list[idx];
+}
+
+// ---------- main component ----------
+
 export default function RandomChatPage() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
@@ -71,7 +115,32 @@ export default function RandomChatPage() {
       setActive(normalized);
       setSearching(false);
       setStatus('');
-      setMessages([]);
+
+      if (isAI) {
+        // Decide whether to use a "long" or "short" greeting based on last time we greeted
+        const userId = currentUser?.id || 'anon';
+        const key = `ria:lastGreetingAt:${userId}`;
+        const now = Date.now();
+        const last = Number(localStorage.getItem(key) || 0);
+        const twelveHoursMs = 12 * 60 * 60 * 1000;
+
+        const isLongGreeting = !last || now - last > twelveHoursMs;
+        localStorage.setItem(key, String(now));
+
+        const introText = pickGreeting(t, currentUser, isLongGreeting);
+
+        const introMsg = {
+          content: introText,
+          senderId: 0,
+          randomChatRoomId: normalized.roomId,
+          sender: { id: 0, username: t('brand.ria', 'Ria') },
+          createdAt: new Date().toISOString(),
+        };
+
+        setMessages([introMsg]);
+      } else {
+        setMessages([]);
+      }
     };
 
     const onReceiveMessage = (msg) => {
@@ -83,7 +152,9 @@ export default function RandomChatPage() {
     };
 
     const onPartnerDisconnected = (txt) => {
-      setStatus(txt || t('randomChat.partnerDisconnected', 'Your partner disconnected.'));
+      setStatus(
+        txt || t('randomChat.partnerDisconnected', 'Your partner disconnected.')
+      );
       setActive(null);
       setSearching(false);
     };
@@ -116,7 +187,7 @@ export default function RandomChatPage() {
       socket.off('chat_skipped', onChatSkipped);
       socket.off('no_partner', onNoPartner);
     };
-  }, [t, active?.roomId]);
+  }, [t, active?.roomId, currentUser?.id]);
 
   /* ---------- Actions ---------- */
   const startSearch = () => {
@@ -284,7 +355,6 @@ export default function RandomChatPage() {
                 'profile.ageBandHint',
                 'We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable.'
               )}{' '}
-              {' '}
               {t(
                 'randomChat.ageBandCallout',
                 'To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.'
@@ -308,9 +378,13 @@ export default function RandomChatPage() {
               <Group>
                 <IconMessageCircle size={16} />
                 <Text fw={600}>
-                  {t('randomChat.youAreChattingWith', 'You’re chatting with {{name}}', {
-                    name: partnerLabel,
-                  })}
+                  {t(
+                    'randomChat.youAreChattingWith',
+                    'You’re chatting with {{name}}',
+                    {
+                      name: partnerLabel,
+                    }
+                  )}
                 </Text>
                 {active.isAI && (
                   <Badge size="xs" variant="light">

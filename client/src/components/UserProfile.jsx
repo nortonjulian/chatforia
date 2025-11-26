@@ -158,7 +158,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
   // ✅ Defaults that are safe even if currentUser is temporarily null
   const [preferredLanguage, setPreferredLanguage] = useState(
-    currentUser?.preferredLanguage || 'en'
+    currentUser?.preferredLanguage || i18n.language || 'en'
   );
   const [autoTranslate, setAutoTranslate] = useState(
     typeof currentUser?.autoTranslate === 'boolean' ? currentUser.autoTranslate : false
@@ -681,7 +681,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               </Group>
 
               <LanguageSelector
-                currentLanguage={currentUser.preferredLanguage || 'en'}
+                currentLanguage={preferredLanguage || 'en'}
                 onChange={async (lng) => {
                   setPreferredLanguage(lng);
                   setCurrentUser((prev) => ({ ...prev, preferredLanguage: lng }));

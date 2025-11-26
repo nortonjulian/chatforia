@@ -78,32 +78,65 @@ export function initSocket(httpServer) {
   }
 
   // ---- Auth middleware ----
-  io.use((socket, next) => {
-    try {
-      const token = getTokenFromHandshake(socket.handshake);
-      if (!token) {
-        console.warn('[WS] no token in handshake', {
-          origin: socket.handshake?.headers?.origin,
-          hasCookie: Boolean(socket.handshake?.headers?.cookie),
-          queryKeys: Object.keys(socket.handshake?.query || {}),
-          authKeys: Object.keys(socket.handshake?.auth || {}),
-        });
-        return next(new Error('Unauthorized: no token'));
-      }
-      const secret = process.env.JWT_SECRET;
-      if (!secret) return next(new Error('Server misconfiguration: JWT secret missing'));
-
-      const decoded = jwt.verify(token, secret); // { id, username, ... }
-      socket.user = decoded;
-      socket.data.user = decoded;
-
-      if (decoded?.id) socket.join(`user:${decoded.id}`); // personal unicast room
-      next();
-    } catch (err) {
-      console.error('Socket auth failed:', err?.message || err);
-      next(new Error('Unauthorized'));
+  // ---- Auth middleware ----
+io.use(async (socket, next) => {
+  try {
+    const token = getTokenFromHandshake(socket.handshake);
+    if (!token) {
+      console.warn('[WS] no token in handshake', {
+        origin: socket.handshake?.headers?.origin,
+        hasCookie: Boolean(socket.handshake?.headers?.cookie),
+        queryKeys: Object.keys(socket.handshake?.query || {}),
+        authKeys: Object.keys(socket.handshake?.auth || {}),
+      });
+      return next(new Error('Unauthorized: no token'));
     }
-  });
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) return next(new Error('Server misconfiguration: JWT secret missing'));
+
+    const decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
+
+    // 🔍 Hydrate full user from DB so we get preferredLanguage + foriaRemember
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        plan: true,
+        preferredLanguage: true,
+        foriaRemember: true,
+      },
+    });
+
+    if (!user) {
+      console.warn('[WS] no user found for decoded token id:', decoded.id);
+      return next(new Error('Unauthorized'));
+    }
+
+    // Attach hydrated user to socket
+    socket.user = user;
+    socket.data.user = user;
+
+    if (user.id) socket.join(`user:${user.id}`); // personal unicast room
+
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('[WS] authed socket user:', {
+        id: user.id,
+        username: user.username,
+        preferredLanguage: user.preferredLanguage,
+        foriaRemember: user.foriaRemember,
+      });
+    }
+
+    next();
+  } catch (err) {
+    console.error('Socket auth failed:', err?.message || err);
+    next(new Error('Unauthorized'));
+  }
+});
 
   // ---- Feature sockets that need an authenticated socket (if available) ----
   if (typeof attachRandomChatSockets === 'function') {

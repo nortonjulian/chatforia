@@ -684,6 +684,7 @@ router.get(
         username: req.user.username || null,
         role: req.user.role || 'USER',
         plan: req.user.plan || 'FREE',
+        preferredLanguage: req.user.preferredLanguage || 'en',
       },
     });
   })

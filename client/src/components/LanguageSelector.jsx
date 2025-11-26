@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchLanguages } from '@/api/languages';
 
 export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(currentLanguage);
   const [codes, setCodes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,9 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
       .then((list) => {
         if (!cancelled) {
           const valid = Array.isArray(list)
-            ? list.filter((l) => typeof l.code === 'string' && typeof l.name === 'string')
+            ? list.filter(
+                (l) => typeof l.code === 'string' && typeof l.name === 'string'
+              )
             : [];
           // you could use `valid` instead of `list` to enforce shape
           setCodes(Array.isArray(list) ? list : []);
@@ -50,31 +52,10 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
     }));
   }, [codes]);
 
-  // when `selected` changes, drive i18n
-  useEffect(() => {
-    if (!selected || selected === i18n.resolvedLanguage) return;
-    let cancelled = false;
-
-    console.log('🌐 Changing language to:', selected);
-
-    i18n
-      .loadLanguages(selected)
-      .then(() => {
-        if (!cancelled) {
-          return i18n.changeLanguage(selected);
-        }
-      })
-      .catch((err) => console.error('changeLanguage error', err));
-
-    return () => {
-      cancelled = true;
-    };
-  }, [selected, i18n]);
-
   return (
     <Select
-      label={t('profile.preferredLanguage')}
-      placeholder={t('profile.chooseLanguage')}
+      label={t('profile.preferredLanguage', 'Preferred language')}
+      placeholder={t('profile.chooseLanguage', 'Choose a language')}
       searchable
       clearable={false}
       data={options}
@@ -85,7 +66,7 @@ export default function LanguageSelector({ currentLanguage = 'en', onChange }) {
           onChange?.(val);
         }
       }}
-      nothingFoundMessage={t('common.noMatches')}
+      nothingFoundMessage={t('common.noMatches', 'No matches')}
       radius="md"
       disabled={loading || options.length === 0}
     />
@@ -96,8 +77,3 @@ LanguageSelector.propTypes = {
   currentLanguage: PropTypes.string,
   onChange: PropTypes.func,
 };
-
-// (unused helper; safe to remove if you want)
-function capitalize(s) {
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-}

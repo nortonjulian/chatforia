@@ -62,6 +62,7 @@ async function buildRiaReply({ user, text }) {
   // Default: remember is ON unless explicitly set false
   // (still using existing foriaRemember column for now)
   const remember = user?.foriaRemember !== false;
+  const preferredLang = user?.preferredLanguage || 'en';
 
   // 1) Load recent history ONLY if remember is on
   let history = [];
@@ -84,11 +85,17 @@ async function buildRiaReply({ user, text }) {
       content: `
 You are Ria, a friendly chat companion inside the Chatforia app.
 
-- You are always talking to the SAME user in this conversation. Their internal id is ${user?.id ?? 'unknown'}.
-- You may see previous messages between you and this user. Use them to remember preferences,
-  work, hobbies, and past topics so it feels like an ongoing friendship.
-- If you do not see any previous messages, just act like this is a fresh chat.
-- Do NOT mention databases, logs, or that you're using "stored messages".
+- Always reply in the user's preferred language: ${preferredLang}.
+- The user's internal id is ${user?.id ?? 'unknown'}.
+- The user's memory setting is currently ${remember ? 'ON' : 'OFF'}.
+  - When memory is ON, you may rely on earlier messages from this user to remember their name, preferences, work, hobbies, and past topics so it feels like an ongoing friendship.
+  - When memory is OFF, DO NOT rely on earlier messages; treat each turn more like a fresh chat and don't claim to remember details.
+
+- You are always talking to the SAME user in this conversation.
+- If the user tells you their name or what they prefer to be called, use that name naturally in future replies (while memory is ON).
+- If you don't know their name yet and it feels natural, you may politely ask once (for example: "What should I call you?").
+- If the user has both a real name and a username/nickname, you can occasionally mix them in a friendly way (like a nickname), but don't switch so often that it feels unnatural.
+- You may see previous messages between you and this user. Never mention "stored messages", databases, or logs.
 - Speak casually, warmly, and helpfully.
 - Answer questions directly, add little bits of personality, and ask simple follow-up questions sometimes.
 - Keep responses short (1–3 sentences) unless the user clearly wants a longer explanation.
@@ -232,7 +239,8 @@ export function attachRandomChatSockets(io) {
       // If queued, remove and inform client
       if (queues.waitingBySocket.has(socket.id)) {
         removeFromQueue(queues, socket.id);
-        socket.emit('chat_skipped', 'Stopped searching.');
+        // Let the client localize the status message
+        socket.emit('chat_skipped');
         return;
       }
 
@@ -243,15 +251,14 @@ export function attachRandomChatSockets(io) {
         const peerSocket = getSocketById(peerSocketId);
         if (peerSocket) {
           peerSocket.leave(`random:${roomId}`);
-          peerSocket.emit(
-            'partner_disconnected',
-            'Your partner left the chat.'
-          );
+          // Client will show localized "partner disconnected" message
+          peerSocket.emit('partner_disconnected');
           queues.activeRoomBySocket.delete(peerSocketId);
         }
         socket.leave(`random:${roomId}`);
         queues.activeRoomBySocket.delete(socket.id);
-        socket.emit('chat_skipped', 'You left the chat.');
+        // Localized "you left / cancelled" on client
+        socket.emit('chat_skipped');
       }
     });
 
@@ -266,14 +273,8 @@ export function attachRandomChatSockets(io) {
         isAI: true,
       });
 
-      // optional: send a friendly opener right away
-      socket.emit('receive_message', {
-        content: 'Hey there 👋 I’m Ria. What’s on your mind?',
-        senderId: 0,
-        randomChatRoomId: aiRoom,
-        sender: { id: 0, username: 'Ria' },
-        createdAt: new Date().toISOString(),
-      });
+      // 👇 Ria's intro message is now created client-side via i18n,
+      // so we don't emit a hard-coded English string here.
     });
 
     socket.on('disconnect', () => {
@@ -286,10 +287,8 @@ export function attachRandomChatSockets(io) {
         const peerSocket = getSocketById(peerSocketId);
         if (peerSocket) {
           peerSocket.leave(`random:${roomId}`);
-          peerSocket.emit(
-            'partner_disconnected',
-            'Your partner disconnected.'
-          );
+          // Again, client will localize the message
+          peerSocket.emit('partner_disconnected');
           queues.activeRoomBySocket.delete(peerSocketId);
         }
         queues.activeRoomBySocket.delete(socket.id);
