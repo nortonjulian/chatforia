@@ -189,6 +189,17 @@ export function createApp() {
   // 🌍 Make region available to all downstream routes (uses Accept-Language)
   app.use(inferRegion);
 
+  // 🌍 Geo country (from CDN/proxy header, e.g. Cloudflare)
+  // Adjust the header name if your provider uses something else.
+  app.use((req, _res, next) => {
+    const cfCountry = req.headers['cf-ipcountry']; // e.g. "US", "FR"
+    if (cfCountry && cfCountry !== 'XX') {
+      req.geoCountry = String(cfCountry).toUpperCase();
+    }
+    next();
+  });
+
+
   // Attach Sentry request handler early (no-op if Sentry is disabled)
   if (isProd) {
     app.use(sentryRequestHandler);

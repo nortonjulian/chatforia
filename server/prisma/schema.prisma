@@ -21,7 +21,9 @@ datasource db {
 
 enum Plan {
   FREE
+  PLUS
   PREMIUM
+  WIRELESS
 }
 
 enum RoomRole {
@@ -340,22 +342,12 @@ model Price {
 model PriceOverride {
   id            String @id @default(cuid())
   countryCode   String
-  planId        String
-  plan          Plan   @relation(fields: [planId], references: [id])
+  plan          Plan   // enum Plan, no @relation, no planId
   currency      String
   priceCents    Int
   stripePriceId String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-}
-
-model Plan {
-  id          String   @id @default(cuid())
-  name        String
-  basePriceCents Int
-  baseCurrency  String
-  type        String   // esim_starter, esim_traveler, family_small, etc.
-  PriceOverride PriceOverride[]
 }
 
 model VerificationToken {

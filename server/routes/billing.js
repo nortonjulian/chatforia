@@ -985,6 +985,7 @@ router.post('/webhook', async (req, res) => {
               ? new Date(obj.expires_at * 1000)
               : undefined,
           };
+
           if (userIdFromEvent) {
             await setPlan(userIdFromEvent, plan, extras);
           } else if (obj.customer) {
@@ -992,6 +993,35 @@ router.post('/webhook', async (req, res) => {
               where: { stripeCustomerId: String(obj.customer) },
               data: { plan, ...extras },
             });
+          }
+
+          // ✅ NEW: sync billingCountry from Stripe Customer → User
+          if (obj.customer) {
+            try {
+              const stripeCustomer = await stripe.customers.retrieve(
+                String(obj.customer)
+              );
+              const billingCountry = stripeCustomer.address?.country || null;
+
+              if (billingCountry) {
+                if (userIdFromEvent) {
+                  await prisma.user.update({
+                    where: { id: Number(userIdFromEvent) },
+                    data: { billingCountry },
+                  });
+                } else {
+                  await prisma.user.updateMany({
+                    where: { stripeCustomerId: String(obj.customer) },
+                    data: { billingCountry },
+                  });
+                }
+              }
+            } catch (err) {
+              console.error(
+                'Failed to sync billingCountry from Stripe customer:',
+                err
+              );
+            }
           }
         }
 

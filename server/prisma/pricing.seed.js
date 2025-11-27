@@ -176,31 +176,85 @@ export async function seedPricing() {
   await seedTierRows('T4', T4);
   await seedTierRows('ROW', ROW);
 
-  // 3) One simple ROW/USD matrix for Mobile & Family packs.
-  //    These are one-time data packs, not subscriptions, so we keep it simple
-  //    and let the pricing route fall back to ROW/USD for all regions.
+  // 3) Tiered pricing for Mobile & Family packs
+  //    Tiers:
+  //    - ROW  : global default
+  //    - T1   : high-income
+  //    - T2   : mid-high (slight discount vs T1)
+  //    - T3   : emerging (INR pricing)
+  //    - T4   : lower-income (biggest discount vs T1)
 
-  const MOBILE_FAMILY_ROW_USD = [
-    // product,                 amountMinor
-    ['chatforia_mobile_small',  999],  // $9.99
-    ['chatforia_mobile_medium', 1499], // $14.99
-    ['chatforia_mobile_large',  2499], // $24.99
-    ['chatforia_family_small',  2999], // $24.99
-    ['chatforia_family_medium', 4999], // $49.99
-    ['chatforia_family_large',  7999], // $79.99
+  // --- MOBILE PACKS (single-user eSIM data) ---
+
+  const MOBILE_PACKS = [
+    // product,                 tier,  currency, unitAmount (minor units)
+
+    // ROW fallback – same as US retail pricing
+    ['chatforia_mobile_small',  'ROW', 'USD',  999],  // $9.99
+    ['chatforia_mobile_medium', 'ROW', 'USD', 1499],  // $14.99
+    ['chatforia_mobile_large',  'ROW', 'USD', 2499],  // $24.99
+
+    // T1 – high-income regions (US/CA/UK/etc.) – same as ROW for now
+    ['chatforia_mobile_small',  'T1',  'USD',  999],
+    ['chatforia_mobile_medium', 'T1',  'USD', 1499],
+    ['chatforia_mobile_large',  'T1',  'USD', 2499],
+
+    // T2 – mid-high income (slightly cheaper than T1)
+    ['chatforia_mobile_small',  'T2',  'USD',  899],  // $8.99
+    ['chatforia_mobile_medium', 'T2',  'USD', 1299],  // $12.99
+    ['chatforia_mobile_large',  'T2',  'USD', 1999],  // $19.99
+
+    // T3 – emerging markets: INR pricing (cheapest in local currency)
+    ['chatforia_mobile_small',  'T3',  'INR', 199],   // ₹199
+    ['chatforia_mobile_medium', 'T3',  'INR', 449],   // ₹449
+    ['chatforia_mobile_large',  'T3',  'INR', 599],   // ₹599
+
+    // T4 – lowest-income: bigger USD discount
+    ['chatforia_mobile_small',  'T4',  'USD',  599],  // $5.99
+    ['chatforia_mobile_medium', 'T4',  'USD',  999],  // $9.99
+    ['chatforia_mobile_large',  'T4',  'USD', 1499],  // $14.99
   ];
 
-  for (const [product, unitAmount] of MOBILE_FAMILY_ROW_USD) {
-    await upsertPrice({
-      product,
-      tier: 'ROW',
-      currency: 'USD',
-      unitAmount,
-      stripePriceId: null,
-    });
+  for (const [product, tier, currency, unitAmount] of MOBILE_PACKS) {
+    await upsertPrice({ product, tier, currency, unitAmount });
   }
 
-  console.log('✅ Pricing seeds completed for Plus, Premium Monthly/Annual, Mobile packs, and Family packs.');
+  // --- FAMILY PACKS (shared data pool) ---
+
+  const FAMILY_PACKS = [
+    // product,                 tier,  currency, unitAmount (minor units)
+
+    // ROW fallback – same as “headline” USD prices on the site
+    ['chatforia_family_small',  'ROW', 'USD', 2999],  // $29.99
+    ['chatforia_family_medium', 'ROW', 'USD', 4999],  // $49.99
+    ['chatforia_family_large',  'ROW', 'USD', 7999],  // $79.99
+
+    // T1 – high-income (same as ROW for now)
+    ['chatforia_family_small',  'T1',  'USD', 2999],
+    ['chatforia_family_medium', 'T1',  'USD', 4999],
+    ['chatforia_family_large',  'T1',  'USD', 7999],
+
+    // T2 – mid-high income (moderate discount)
+    ['chatforia_family_small',  'T2',  'USD', 2499],  // $24.99
+    ['chatforia_family_medium', 'T2',  'USD', 4499],  // $44.99
+    ['chatforia_family_large',  'T2',  'USD', 6999],  // $69.99
+
+    // T3 – emerging markets (INR, much lower)
+    ['chatforia_family_small',  'T3',  'INR',  499],  // ₹499
+    ['chatforia_family_medium', 'T3',  'INR',  999],  // ₹999
+    ['chatforia_family_large',  'T3',  'INR', 1499],  // ₹1499
+
+    // T4 – lowest-income: deepest USD discount
+    ['chatforia_family_small',  'T4',  'USD', 1499],  // $14.99
+    ['chatforia_family_medium', 'T4',  'USD', 2499],  // $24.99
+    ['chatforia_family_large',  'T4',  'USD', 3999],  // $39.99
+  ];
+
+  for (const [product, tier, currency, unitAmount] of FAMILY_PACKS) {
+    await upsertPrice({ product, tier, currency, unitAmount });
+  }
+
+  console.log('✅ Pricing seeds completed for Plus/Premium + tiered Mobile & Family packs.');
 }
 
 const isMain = (() => {
