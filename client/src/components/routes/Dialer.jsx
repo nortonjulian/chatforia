@@ -1,13 +1,40 @@
 import { useState } from 'react';
 import { Box, Group, Button, TextInput, Stack, Text, Divider } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { usePstnCall } from '@/hooks/usePstnCall';
+import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 
 export default function Dialer() {
   const { t } = useTranslation();
   const [digits, setDigits] = useState('');
 
+  // PSTN (alias call via Twilio → real phone network)
+  const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
+
+  // Browser-based Twilio Voice call
+  const {
+    startBrowserCall,
+    ready: voiceReady,
+    calling: browserCalling,
+    error: voiceError,
+  } = useTwilioVoice();
+
   const press = (d) => setDigits((s) => (s + d).slice(0, 32));
   const backspace = () => setDigits((s) => s.slice(0, -1));
+
+  const handlePstnCall = async () => {
+    const to = digits.trim();
+    if (!to) return;
+    await placeCall(to);
+  };
+
+  const handleBrowserCall = async () => {
+    const to = digits.trim();
+    if (!to || !voiceReady) return;
+    await startBrowserCall(to);
+  };
+
+  const disabledNumber = !digits.trim();
 
   return (
     <Box p="md">
@@ -28,31 +55,43 @@ export default function Dialer() {
         onChange={(e) => setDigits(e.currentTarget.value)}
         placeholder={t('dialer.enterNumber', 'Enter number')}
         size="lg"
-        mb="sm"
+        mb="xs"
         aria-label={t('dialer.enterNumberAria', 'Enter number')}
       />
 
-      {/* Keypad */}
+      {(pstnError || voiceError) && (
+        <Text c="red" size="xs" mb="sm">
+          {pstnError || voiceError}
+        </Text>
+      )}
+
+      {/* Keypad + actions */}
       <Stack gap={6} w={260}>
-        {[['1','2','3'],['4','5','6'],['7','8','9'],['*','0','#']].map((row, i) => (
-          <Group key={i} gap={6}>
-            {row.map((d) => (
-              <Button
-                key={d}
-                variant="light"
-                onClick={() => press(d)}
-                style={{ width: 80 }}
-              >
-                {d}
-              </Button>
-            ))}
-          </Group>
-        ))}
+        {[['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['*', '0', '#']].map(
+          (row, i) => (
+            <Group key={i} gap={6}>
+              {row.map((d) => (
+                <Button
+                  key={d}
+                  variant="light"
+                  onClick={() => press(d)}
+                  style={{ width: 80 }}
+                >
+                  {d}
+                </Button>
+              ))}
+            </Group>
+          )
+        )}
+
+        {/* PSTN: Chatforia number → phone network */}
         <Group gap={6}>
           <Button
             color="green"
-            onClick={() => { /* TODO: start PSTN call via Twilio Voice JS */ }}
+            onClick={handlePstnCall}
             style={{ flex: 1 }}
+            loading={pstnLoading}
+            disabled={disabledNumber || pstnLoading}
           >
             {t('dialer.call', 'Call')}
           </Button>
@@ -64,6 +103,15 @@ export default function Dialer() {
             ⌫
           </Button>
         </Group>
+
+        {/* Browser-based Twilio Voice call */}
+        <Button
+          variant="outline"
+          onClick={handleBrowserCall}
+          disabled={disabledNumber || !voiceReady || browserCalling}
+        >
+          {t('dialer.callBrowser', 'Call via browser')}
+        </Button>
       </Stack>
 
       <Divider my="lg" />

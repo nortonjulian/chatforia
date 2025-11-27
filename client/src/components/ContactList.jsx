@@ -20,6 +20,7 @@ import {
   IconMessagePlus,
   IconSearch,
   IconMessage,
+  IconPhoneCall,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
@@ -101,7 +102,9 @@ export default function ContactList({
         username ||
         c.externalName ||
         c.externalPhone ||
-        (c.userId ? t('status.userNumber', 'User #{{id}}', { id: c.userId }) : t('contactList.externalContact', 'External contact'));
+        (c.userId
+          ? t('status.userNumber', 'User #{{id}}', { id: c.userId })
+          : t('contactList.externalContact', 'External contact'));
 
       return (
         display.toLowerCase().includes(q) ||
@@ -110,7 +113,7 @@ export default function ContactList({
         String(c.externalPhone || '').toLowerCase().includes(q)
       );
     });
-  }, [items, search, i18n.language]);
+  }, [items, search, i18n.language, t]);
 
   const startChat = async (userId) => {
     try {
@@ -155,6 +158,25 @@ export default function ContactList({
       toast.err(t('contactList.updateAliasFailed', 'Failed to update alias. Please try again.'));
     } finally {
       await fetchContacts({ append: false });
+    }
+  };
+
+  const callNumber = async (externalPhone) => {
+    if (!externalPhone) return;
+    try {
+      await axiosClient.post('/voice/alias/start', { to: externalPhone });
+      toast.ok(
+        t(
+          'contactList.callStarted',
+          'Calling this number via your Chatforia number…'
+        )
+      );
+    } catch (err) {
+      console.error('Failed to start call:', err);
+      const msg =
+        err?.response?.data?.error ||
+        t('contactList.callFailed', 'Failed to start call. Please try again.');
+      toast.err(msg);
     }
   };
 
@@ -205,7 +227,9 @@ export default function ContactList({
               username ||
               c.externalName ||
               c.externalPhone ||
-              (c.userId ? t('status.userNumber', 'User #{{id}}', { id: c.userId }) : t('contactList.externalContact', 'External contact'));
+              (c.userId
+                ? t('status.userNumber', 'User #{{id}}', { id: c.userId })
+                : t('contactList.externalContact', 'External contact'));
 
             const secondary =
               c.alias &&
@@ -275,7 +299,13 @@ export default function ContactList({
                         minWidth: 0,
                       }}
                     >
-                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <span
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
                         {displayName}
                       </span>
                       {secondary ? (
@@ -351,6 +381,22 @@ export default function ContactList({
                       </ActionIcon>
                     </Tooltip>
                   ) : null}
+
+                  {/* External number → PSTN Call via Twilio alias */}
+                  {c.externalPhone && (
+                    <Tooltip label={t('contactList.call', 'Call')}>
+                      <ActionIcon
+                        variant="light"
+                        aria-label={t('contactList.call', 'Call')}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          callNumber(c.externalPhone);
+                        }}
+                      >
+                        <IconPhoneCall size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
 
                   <Tooltip label={t('contactList.delete', 'Delete')}>
                     <ActionIcon

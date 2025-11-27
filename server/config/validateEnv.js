@@ -78,51 +78,15 @@ export default function validateEnv() {
   }
 
   // ─────────────────────────────────────────────────────────────
-  // eSIM / Connectivity (Teal) — only if explicitly enabled
+  // eSIM / Connectivity (Telna) — only if explicitly enabled
   // ─────────────────────────────────────────────────────────────
   const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
   if (esimEnabled) {
-    requireNonEmpty(ENV.TEAL_API_KEY, 'TEAL_API_KEY', { soft: SOFT });
-    requireNonEmpty(ENV.TEAL_BASE_URL, 'TEAL_BASE_URL', { soft: SOFT });
+    requireNonEmpty(ENV.TELNA_API_KEY, 'TELNA_API_KEY', { soft: SOFT });
+    // accept either TELNA_BASE_URL or TELNA_API_BASE
+    const telnaBase = ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE;
+    requireNonEmpty(telnaBase, 'TELNA_BASE_URL / TELNA_API_BASE', { soft: SOFT });
   }
-
-  // ─────────────────────────────────────────────────────────────
-  // Telco: only validate if provider selected AND not disabled
-  // (Original Telnyx/Bandwidth block kept commented)
-  // ─────────────────────────────────────────────────────────────
-  // const telcoValidationDisabled =
-  //   String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
-  //
-  // if (!telcoValidationDisabled) {
-  //   if (ENV.TELCO_PROVIDER === 'telnyx') {
-  //     requireNonEmpty(ENV.TELNYX_API_KEY, 'TELNYX_API_KEY', { soft: SOFT });
-  //     const hasFrom =
-  //       !!ENV.TELNYX_MESSAGING_PROFILE_ID || !!ENV.TELNYX_FROM_NUMBER;
-  //     if (SOFT) {
-  //       if (!hasFrom) {
-  //         // eslint-disable-next-line no-console
-  //         console.warn(
-  //           '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
-  //         );
-  //       }
-  //     } else {
-  //       invariant(
-  //         hasFrom,
-  //         '[env] TELNYX_MESSAGING_PROFILE_ID or TELNYX_FROM_NUMBER is required for Telnyx'
-  //       );
-  //     }
-  //   }
-  //   if (ENV.TELCO_PROVIDER === 'bandwidth') {
-  //     requireNonEmpty(ENV.BANDWIDTH_ACCOUNT_ID, 'BANDWIDTH_ACCOUNT_ID', { soft: SOFT });
-  //     requireNonEmpty(ENV.BANDWIDTH_USER_ID, 'BANDWIDTH_USER_ID', { soft: SOFT });
-  //     requireNonEmpty(ENV.BANDWIDTH_PASSWORD, 'BANDWIDTH_PASSWORD', { soft: SOFT });
-  //     requireNonEmpty(ENV.BANDWIDTH_MESSAGING_APPLICATION_ID, 'BANDWIDTH_MESSAGING_APPLICATION_ID', { soft: SOFT });
-  //     requireNonEmpty(ENV.BANDWIDTH_FROM_NUMBER, 'BANDWIDTH_FROM_NUMBER', { soft: SOFT });
-  //   }
-  // } else if (!IS_TEST) {
-  //   // eslint-disable-next-line no-console
-  //   console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
-  // }
 
   // ─────────────────────────────────────────────────────────────
   // Telco: Twilio (selected provider)
@@ -175,10 +139,6 @@ export default function validateEnv() {
     // eslint-disable-next-line no-console
     console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
   }
-
-  // (Legacy Telnyx/Bandwidth validation kept for future re-enable)
-  // if (ENV.TELCO_PROVIDER === 'telnyx') { ... }
-  // if (ENV.TELCO_PROVIDER === 'bandwidth') { ... }
 
   // ─────────────────────────────────────────────────────────────
   // Optional STUN/TURN guard (warn-only)

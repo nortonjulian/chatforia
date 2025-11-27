@@ -1,391 +1,186 @@
-import express from 'express';
-import prisma from '../utils/prismaClient.js';
-import Stripe from 'stripe';
-import { reserveEsimProfile, topUpLineData } from '../services/providers/tealEsim.js';
+import invariant from '../utils/invariant.js';
+import { ENV } from './env.js';
 
-const router = express.Router();
+/** soft-capable validator: warn in dev/test, throw in prod (or when soft=false) */
+function requireNonEmpty(value, name, { advice, soft = false } = {}) {
+  const ok = !!value && String(value).trim().length > 0;
+  if (ok) return true;
 
-// Single Stripe client (used both for webhook verification & listLineItems)
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
-
-/**
- * Resolve the Chatforia user for a given Checkout Session.
- * - Prefer metadata.userId or client_reference_id (int)
- * - Fallback to stripeCustomerId lookup
- */
-async function resolveUserForCheckoutSession({ customerId, session }) {
-  // Try explicit metadata or client_reference_id first
-  const rawId = session?.metadata?.userId ?? session?.client_reference_id;
-  const uid = Number(rawId);
-  if (Number.isFinite(uid)) {
-    const user = await prisma.user.findUnique({ where: { id: uid } });
-    if (user) {
-      // Ensure we remember the Stripe customer id if not set yet
-      if (customerId && !user.stripeCustomerId) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { stripeCustomerId: String(customerId) },
-        });
-      }
-      return user;
-    }
+  const msg = `[env] ${name} is required${advice ? `: ${advice}` : ''}`;
+  if (soft) {
+    // eslint-disable-next-line no-console
+    console.warn(msg);
+    return false;
   }
-
-  // Fallback: look up by stored stripeCustomerId
-  if (customerId) {
-    const user = await prisma.user.findFirst({
-      where: { stripeCustomerId: String(customerId) },
-    });
-    if (user) return user;
-  }
-
-  return null;
+  invariant(false, msg);
 }
 
 /**
- * Handle a FAMILY pack purchase:
- * - Map product -> GB
- * - Create/ensure FamilyGroup + FamilyMember
- * - Top up totalDataMb
- * - Call Teal stub to allocate data
+ * Validate critical configuration. Throw early if something is off (prod).
+ * In dev/test we prefer WARN + continue so local DX isn't blocked.
  */
-async function handleFamilyPackPurchase({ user, priceRow }) {
-  if (!user) {
-    console.warn('Family pack purchase with no resolved user', {
-      product: priceRow.product,
-      priceId: priceRow.stripePriceId,
-    });
-    return;
-  }
+export default function validateEnv() {
+  const { IS_PROD, IS_TEST } = ENV;
+  const SOFT = !IS_PROD; // dev/test => warn instead of throw
 
-  let addedMb = 0;
-  switch (priceRow.product) {
-    case 'chatforia_family_small':
-      addedMb = 5 * 1024; // 5 GB
-      break;
-    case 'chatforia_family_medium':
-      addedMb = 15 * 1024; // 15 GB
-      break;
-    case 'chatforia_family_large':
-      addedMb = 30 * 1024; // 30 GB
-      break;
-    default:
-      console.warn('Unknown family product', priceRow.product);
-      return;
-  }
-
-  let group;
-
-  // Does this user already belong to a family?
-  const existingMembership = await prisma.familyMember.findFirst({
-    where: { userId: user.id },
-    include: { group: true },
+  // ─────────────────────────────────────────────────────────────
+  // Core required
+  // ─────────────────────────────────────────────────────────────
+  requireNonEmpty(ENV.DATABASE_URL, 'DATABASE_URL', { soft: SOFT });
+  requireNonEmpty(ENV.JWT_SECRET, 'JWT_SECRET', {
+    advice: 'use a long random string (>= 32 chars recommended)',
+    soft: SOFT,
   });
 
-  if (!existingMembership) {
-    // Create a new family group and make the user the owner
-    await prisma.$transaction(async (tx) => {
-      group = await tx.familyGroup.create({
-        data: {
-          ownerId: user.id,
-          name: `${user.displayName || 'My'} Chatforia Family`,
-          totalDataMb: addedMb,
-          usedDataMb: 0,
-          packProduct: priceRow.product,
-        },
-      });
+  if (IS_PROD) {
+    invariant(
+      ENV.JWT_SECRET && ENV.JWT_SECRET.length >= 16,
+      '[env] JWT_SECRET should be at least 16 chars in production'
+    );
+  }
 
-      await tx.familyMember.create({
-        data: {
-          groupId: group.id,
-          userId: user.id,
-          role: 'OWNER',
-          usedDataMb: 0,
-          limitDataMb: null,
-        },
-      });
-    });
+  // ─────────────────────────────────────────────────────────────
+  // HTTPS / cookies
+  // ─────────────────────────────────────────────────────────────
+  if (IS_PROD) {
+    invariant(ENV.FORCE_HTTPS, '[env] FORCE_HTTPS must be true in production');
+    // COOKIE_DOMAIN is optional but recommended in prod
+    if (!ENV.COOKIE_DOMAIN) {
+      // eslint-disable-next-line no-console
+      console.warn('[env] Consider setting COOKIE_DOMAIN for cross-subdomain cookies');
+    }
+    invariant(ENV.COOKIE_SECURE, '[env] COOKIE_SECURE must be true in production');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // CORS: at least one allowed origin (frontend)
+  // ─────────────────────────────────────────────────────────────
+  const hasCorsList = Array.isArray(ENV.CORS_ORIGINS) && ENV.CORS_ORIGINS.length > 0;
+  const hasFrontend = !!ENV.FRONTEND_ORIGIN;
+  if (SOFT) {
+    if (!hasCorsList && !hasFrontend && !IS_TEST) {
+      // eslint-disable-next-line no-console
+      console.warn('[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)');
+    }
   } else {
-    group = await prisma.familyGroup.update({
-      where: { id: existingMembership.group.id },
-      data: {
-        totalDataMb: { increment: addedMb },
-        packProduct: priceRow.product,
-      },
-    });
+    invariant(
+      hasCorsList || hasFrontend || IS_TEST,
+      '[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)'
+    );
   }
 
-  // Call Teal stub (safe no-op until wired)
-  try {
-    await allocateFamilyDataInTeal({ user, group, addedMb });
-  } catch (e) {
-    console.error('Teal allocation failed for family pack', e);
-    // You might want to set a "needsSync" flag here in the DB
-  }
-}
-
-/**
- * Handle a MOBILE (single-user) pack purchase.
- * For now this is a stub that just logs; once you have a field such as
- * user.mobileDataMb, you can increment it here similarly to FamilyGroup.
- */
-async function handleMobilePackPurchase({ user, priceRow }) {
-  if (!user) {
-    console.warn('Mobile pack purchase with no resolved user', {
-      product: priceRow.product,
-      priceId: priceRow.stripePriceId,
-    });
-    return;
+  // ─────────────────────────────────────────────────────────────
+  // Stripe: if one is set, require the other (optional overall)
+  // ─────────────────────────────────────────────────────────────
+  if (ENV.STRIPE_SECRET_KEY || ENV.STRIPE_WEBHOOK_SECRET) {
+    requireNonEmpty(ENV.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY', { soft: SOFT });
+    requireNonEmpty(ENV.STRIPE_WEBHOOK_SECRET, 'STRIPE_WEBHOOK_SECRET', { soft: SOFT });
   }
 
-  // Example mapping — adjust once you decide exact MB amounts
-  let addedMb = 0;
-  switch (priceRow.product) {
-    case 'chatforia_mobile_small':
-      addedMb = 1 * 1024; // 1 GB
-      break;
-    case 'chatforia_mobile_medium':
-      addedMb = 3 * 1024; // 3 GB
-      break;
-    case 'chatforia_mobile_large':
-      addedMb = 5 * 1024; // 5 GB
-      break;
-    default:
-      console.warn('Unknown mobile product', priceRow.product);
-      return;
+  // ─────────────────────────────────────────────────────────────
+  // eSIM / Connectivity (Telna) — only if explicitly enabled
+  // ─────────────────────────────────────────────────────────────
+  const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
+  if (esimEnabled) {
+    requireNonEmpty(ENV.TELNA_API_KEY, 'TELNA_API_KEY', { soft: SOFT });
+    // accept either TELNA_BASE_URL or TELNA_API_BASE
+    const telnaBase = ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE;
+    requireNonEmpty(telnaBase, 'TELNA_BASE_URL / TELNA_API_BASE', { soft: SOFT });
   }
 
-  // TODO: once you add a field, e.g. user.mobileDataMb, update it here:
-  // await prisma.user.update({
-  //   where: { id: user.id },
-  //   data: { mobileDataMb: { increment: addedMb } },
-  // });
+  // ─────────────────────────────────────────────────────────────
+  // Telco: Twilio (selected provider)
+  // Only validate if Twilio is selected OR any Twilio vars are present.
+  // You can disable with DISABLE_TELCO_VALIDATION=true
+  // ─────────────────────────────────────────────────────────────
+  const telcoValidationDisabled =
+    String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
 
-  console.log('Mobile pack purchased (stub)', {
-    userId: user.id,
-    product: priceRow.product,
-    addedMb,
-  });
-}
+  if (!telcoValidationDisabled) {
+    const wantsTwilio =
+      (String(ENV.DEFAULT_PROVIDER || '').toLowerCase() === 'twilio') ||
+      !!ENV.TWILIO_ACCOUNT_SID ||
+      !!ENV.TWILIO_AUTH_TOKEN ||
+      !!ENV.TWILIO_MESSAGING_SERVICE_SID ||
+      !!ENV.TWILIO_FROM_NUMBER;
 
-/**
- * Teal stub: allocate data in Teal for a family.
- * Replace this with real Teal API calls later.
- */
-async function allocateFamilyDataInTeal({ user, group, addedMb }) {
-  // We treat the family owner’s Teal line as the “anchor” for the shared pool.
-  // Later you can move to per-member lines if you want.
+    if (wantsTwilio) {
+      requireNonEmpty(ENV.TWILIO_ACCOUNT_SID, 'TWILIO_ACCOUNT_SID', { soft: SOFT });
+      requireNonEmpty(ENV.TWILIO_AUTH_TOKEN, 'TWILIO_AUTH_TOKEN', { soft: SOFT });
 
-  if (!process.env.TEAL_BASE_URL || !process.env.TEAL_API_KEY) {
-    console.warn('Teal not configured; skipping Teal allocation');
-    return;
-  }
+      // Needed to mint Access Tokens for Video/Voice/WebRTC, etc.
+      requireNonEmpty(ENV.TWILIO_API_KEY_SID, 'TWILIO_API_KEY_SID', { soft: SOFT });
+      requireNonEmpty(ENV.TWILIO_API_KEY_SECRET, 'TWILIO_API_KEY_SECRET', { soft: SOFT });
 
-  // 1) Ensure we have an ICCID for this user
-  let iccid = user.tealIccid;
-
-  if (!iccid) {
-    // You can derive region from user.billingCountry, profile, etc.
-    const region = user.billingCountry || 'GLOBAL';
-
-    const profile = await reserveEsimProfile({
-      userId: user.id,
-      region,
-    });
-
-    // Adjust these property names to match the Teal response shape
-    iccid = profile.iccid || profile.lineIccid;
-
-    if (!iccid) {
-      console.warn('Teal reserveEsimProfile did not return an ICCID', profile);
-      return;
-    }
-
-    // Persist ICCID on the user so future packs just top up
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { tealIccid: iccid },
-    });
-  }
-
-  // 2) Top up that line with addedMb
-  try {
-    await topUpLineData({ iccid, mb: addedMb });
-    console.log('Teal line topped up for family pack', {
-      userId: user.id,
-      familyGroupId: group.id,
-      iccid,
-      addedMb,
-    });
-  } catch (e) {
-    console.error('Teal top-up failed for family pack', {
-      userId: user.id,
-      familyGroupId: group.id,
-      iccid,
-      addedMb,
-      error: e?.message,
-    });
-    // Optional: mark group as needing sync
-    // await prisma.familyGroup.update({ where: { id: group.id }, data: { needsTealSync: true } });
-  }
-}
-
-
-// -------------------- Webhook route --------------------
-
-router.post(
-  '/webhook',
-  express.raw({ type: 'application/json' }),
-  async (req, res, next) => {
-    try {
-      const skipSig = String(process.env.STRIPE_SKIP_SIG_CHECK || '').toLowerCase() === 'true';
-      let event;
-
-      if (skipSig) {
-        // Tests post JSON; depending on where json/raw ran, req.body may be:
-        // - a Buffer (from express.raw)
-        // - already an object (if a previous json() touched it)
-        if (Buffer.isBuffer(req.body)) {
-          event = JSON.parse(req.body.toString('utf8'));
-        } else if (typeof req.body === 'string') {
-          event = JSON.parse(req.body);
-        } else {
-          event = req.body;
+      const hasMessagingId = !!ENV.TWILIO_MESSAGING_SERVICE_SID || !!ENV.TWILIO_FROM_NUMBER;
+      if (SOFT) {
+        if (!hasMessagingId) {
+          // eslint-disable-next-line no-console
+          console.warn(
+            '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
+          );
         }
       } else {
-        // Real signature verification path (works in prod)
-        const sig = req.headers['stripe-signature'];
-        event = stripe.webhooks.constructEvent(
-          req.body, // Buffer (express.raw)
-          sig,
-          process.env.STRIPE_WEBHOOK_SECRET
+        invariant(
+          hasMessagingId,
+          '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
         );
       }
 
-      const type = event?.type;
-      const obj = event?.data?.object || {};
-
-      // Helper to update a user's plan by Stripe customer id or explicit user id
-      async function upsertPlanByEvent({ customerId, subscriptionId, plan }) {
-        // Prefer explicit metadata userId if present
-        const metaUserId = Number(obj?.metadata?.userId);
-        if (Number.isFinite(metaUserId)) {
-          await prisma.user.update({
-            where: { id: metaUserId },
-            data: {
-              plan,
-              stripeCustomerId: customerId ?? undefined,
-              stripeSubscriptionId: subscriptionId ?? undefined,
-            },
-          });
-          return;
-        }
-
-        // Otherwise, look up by customer id
-        if (customerId) {
-          await prisma.user.updateMany({
-            where: { stripeCustomerId: String(customerId) },
-            data: {
-              plan,
-              stripeSubscriptionId: subscriptionId ?? undefined,
-            },
-          });
-        }
+      // Optional: voice settings sanity check (warn-only).
+      if (!IS_TEST && !ENV.TWILIO_VOICE_TWIML_APP_SID && !ENV.TWILIO_VOICE_WEBHOOK_URL) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[env] Twilio voice not configured (set TWILIO_VOICE_TWIML_APP_SID or TWILIO_VOICE_WEBHOOK_URL) — OK if you are not using voice yet'
+        );
       }
-
-      switch (type) {
-        case 'checkout.session.completed': {
-          const customerId = obj.customer || null;
-          const subId = obj.subscription || null;
-          const mode = obj.mode || 'subscription';
-
-          // Resolve the app user (used for family/mobile handling)
-          const user = await resolveUserForCheckoutSession({
-            customerId,
-            session: obj,
-          });
-
-          // 1) Handle subscriptions (app plans: Plus/Premium)
-          if (mode === 'subscription') {
-            // For now, keep your existing logic: treat as PREMIUM.
-            // Later you can differentiate PLUS vs PREMIUM based on priceRow.product.
-            // Tests put the app user id in client_reference_id
-            const uid = Number(obj.client_reference_id);
-            if (Number.isFinite(uid)) {
-              await prisma.user.update({
-                where: { id: uid },
-                data: {
-                  plan: 'PREMIUM',
-                  stripeCustomerId: customerId,
-                  stripeSubscriptionId: subId,
-                },
-              });
-            } else {
-              await upsertPlanByEvent({
-                customerId,
-                subscriptionId: subId,
-                plan: 'PREMIUM',
-              });
-            }
-          }
-
-          // 2) Handle one-time products (Family packs + Mobile packs)
-          //    We always inspect line items, because a session may include both
-          //    a subscription and add-on packs.
-          try {
-            const lineItems = await stripe.checkout.sessions.listLineItems(obj.id, {
-              expand: ['data.price'],
-            });
-
-            for (const line of lineItems.data) {
-              const priceId = line.price?.id;
-              if (!priceId) continue;
-
-              const priceRow = await prisma.price.findUnique({
-                where: { stripePriceId: priceId },
-              });
-              if (!priceRow) continue;
-
-              if (priceRow.product.startsWith('chatforia_family_')) {
-                await handleFamilyPackPurchase({ user, priceRow });
-              } else if (priceRow.product.startsWith('chatforia_mobile_')) {
-                await handleMobilePackPurchase({ user, priceRow });
-              }
-              // Other products (e.g. plain Plus/Premium prices) are handled by the
-              // subscription logic above and can be ignored here.
-            }
-          } catch (e) {
-            console.error('Error handling line items in checkout.session.completed', e);
-          }
-
-          break;
-        }
-
-        case 'customer.subscription.updated': {
-          const subStatus = String(obj.status || '').toLowerCase();
-          const customerId = obj.customer || null;
-          const subId = obj.id || null;
-
-          const activeStates = new Set(['active', 'trialing', 'past_due', 'unpaid']); // treat as paid for UX
-          const plan = activeStates.has(subStatus) ? 'PREMIUM' : 'FREE';
-
-          await upsertPlanByEvent({ customerId, subscriptionId: subId, plan });
-          break;
-        }
-
-        default:
-          // No-op for unhandled events
-          break;
-      }
-
-      return res.status(200).json({ received: true });
-    } catch (err) {
-      // Surface in tests; return 500 so we see it
-      return next(err);
     }
+  } else if (!IS_TEST) {
+    // eslint-disable-next-line no-console
+    console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
   }
-);
 
-export default router;
+  // ─────────────────────────────────────────────────────────────
+  // Optional STUN/TURN guard (warn-only)
+  // ─────────────────────────────────────────────────────────────
+  if (!IS_TEST && ENV.TWILIO_TURN_USER && !ENV.TWILIO_TURN_PASS) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      '[env] TWILIO_TURN_USER is set without TWILIO_TURN_PASS; consider using Twilio Network Traversal tokens instead of static TURN creds.'
+    );
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Upload target
+  // ─────────────────────────────────────────────────────────────
+  const allowedTargets = ['memory', 'local', 'disk'];
+  if (SOFT) {
+    if (!allowedTargets.includes(ENV.UPLOAD_TARGET)) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[env] UPLOAD_TARGET should be one of ${allowedTargets.join('|')} (got "${ENV.UPLOAD_TARGET}"). Defaulting to "memory" may be unsafe in prod.`
+      );
+    }
+  } else {
+    invariant(
+      allowedTargets.includes(ENV.UPLOAD_TARGET),
+      `[env] UPLOAD_TARGET must be one of ${allowedTargets.join('|')} (got "${ENV.UPLOAD_TARGET}")`
+    );
+  }
+
+  // Optional heads-up if you're on memory in dev
+  if (SOFT && ENV.UPLOAD_TARGET === 'memory') {
+    // eslint-disable-next-line no-console
+    console.warn('[uploads] Using memory storage — fine for dev/test, not for production');
+  }
+
+  // ─────────────────────────────────────────────────────────────
+  // Sentry (optional): warn in prod if missing
+  // ─────────────────────────────────────────────────────────────
+  if (IS_PROD && !ENV.SENTRY_DSN) {
+    // eslint-disable-next-line no-console
+    console.warn('[env] SENTRY_DSN not set — error visibility will be reduced in production');
+  }
+
+  // Test-specific relaxations currently handled by SOFT flag
+}

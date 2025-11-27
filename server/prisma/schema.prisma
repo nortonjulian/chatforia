@@ -109,6 +109,7 @@ enum NumberStatus {
   ASSIGNED
   HOLD
   RELEASING
+  RELEASED
 }
 
 enum PortStatus {
@@ -227,7 +228,7 @@ model User {
   currency       String?     @db.VarChar(8) // e.g. "USD", "INR"
   firstPaidAt    DateTime?
 
-  tealIccid String? @db.VarChar(64)
+  esimIccid     String? @db.VarChar(64) @map("tealIccid")
 
   publicKey  String?
   privateKey String?
@@ -334,6 +335,27 @@ model Price {
 
   @@unique([product, tier, currency])
   @@index([product, tier, currency])
+}
+
+model PriceOverride {
+  id            String @id @default(cuid())
+  countryCode   String
+  planId        String
+  plan          Plan   @relation(fields: [planId], references: [id])
+  currency      String
+  priceCents    Int
+  stripePriceId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Plan {
+  id          String   @id @default(cuid())
+  name        String
+  basePriceCents Int
+  baseCurrency  String
+  type        String   // esim_starter, esim_traveler, family_small, etc.
+  PriceOverride PriceOverride[]
 }
 
 model VerificationToken {
@@ -478,24 +500,27 @@ model RegionRule {
 }
 
 model MobileDataPackPurchase {
-  id     Int  @id @default(autoincrement())
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
 
-  kind      String // "ESIM" | "FAMILY"
-  addonKind String // "ESIM_STARTER" | ...
-
-  purchasedAt DateTime  @default(now())
+  kind        String        // "ESIM" | "FAMILY"
+  addonKind   String        // "ESIM_STARTER" | "FAMILY_SMALL" etc.
+  purchasedAt DateTime      @default(now())
   expiresAt   DateTime?
 
   totalDataMb     Int
   remainingDataMb Int
 
-  stripeCheckoutSessionId String?
-  stripePaymentIntentId   String?
+  stripeCheckoutSessionId String? @db.Text
+  stripePaymentIntentId   String? @db.Text
 
-  tealProfileId     String?
-  tealIccid         String?
+  /// ICCID for the carrier line (legacy column tealIccid)
+  esimIccid   String? @map("tealIccid")
+
+  /// Carrier profile id (legacy column tealProfileId)
+  esimProfileId String? @map("tealProfileId")
+
   qrCodeSvg         String?
   provisioningError String?
 }
@@ -1014,7 +1039,8 @@ model Call {
 model PhoneNumber {
   id             Int               @id @default(autoincrement())
   e164           String            @unique
-  provider       String // 'telnyx' | 'bandwidth'
+  provider       String            @default("twilio")
+  twilioSid      String?           // SID from Twilio incoming phone number
   areaCode       String?
   vanity         Boolean           @default(false)
   status         NumberStatus      @default(AVAILABLE)
@@ -1037,6 +1063,20 @@ model PhoneNumber {
   @@index([status])
   @@index([assignedUserId])
   @@index([provider, areaCode, status])
+}
+
+model VoiceLog {
+  id          Int      @id @default(autoincrement())
+  callSid     String   @unique
+  status      String
+  from        String?
+  to          String?
+  direction   String?
+  answeredBy  String?
+  timestamp   DateTime @default(now())
+  durationSec Int?
+  rawPayload  Json?
+  createdAt   DateTime @default(now())
 }
 
 model Voicemail {

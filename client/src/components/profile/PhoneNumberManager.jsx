@@ -91,7 +91,7 @@ const COUNTRY_OPTIONS = (() => {
 function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [country, setCountry] = useState('US');
   const [area, setArea] = useState('');
-  const [capability, setCapability] = useState('sms'); // sms | voice | both
+  const [capability, setCapability] = useState('sms'); // sms | voice | both (currently informational)
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [assigningId, setAssigningId] = useState(null);
@@ -112,13 +112,16 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
     setLoading(true);
     setErr('');
     axiosClient
-      .get('/numbers/search', {
-        params: { country, areaCode: area.trim(), capability },
+      .get('/numbers/available', {
+        params: {
+          country,
+          areaCode: area.trim() || undefined,
+          type: 'local',
+          limit: 15,
+        },
       })
       .then(({ data }) => {
-        const items = Array.isArray(data)
-          ? data
-          : data?.results || [];
+        const items = Array.isArray(data?.numbers) ? data.numbers : [];
         setResults(items.slice(0, 15));
       })
       .catch(() => {
@@ -133,23 +136,22 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
   };
 
   const assign = (n) => {
-    const numberId =
-      n.id || n.numberId || n.e164 || n.number;
-    if (!numberId) return;
+    const e164 = n.e164 || n.number;
+    if (!e164) return;
 
-    setAssigningId(numberId);
+    setAssigningId(e164);
     setErr('');
 
-    // reserve (best-effort), then purchase, then notify parent
+    // Reserve best-effort, then claim/purchase
     axiosClient
-      .post('/numbers/reserve', { numberId })
+      .post('/numbers/reserve', { e164 })
       .catch(() => {
-        /* soft-fail OK */
+        // soft-fail ok; claim will still attempt purchase
       })
       .then(() =>
-        axiosClient.post('/numbers/purchase', {
-          numberId,
-          lock: !!lockOnAssign,
+        axiosClient.post('/numbers/claim', {
+          e164,
+          // future: you could send a keepLocked flag and wire that to premium
         })
       )
       .then(() => {
@@ -252,8 +254,8 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
         ) : (
           <Stack>
             {results.map((n) => {
-              const id =
-                n.id || n.e164 || n.number;
+              const id = n.id || n.e164 || n.number;
+              const caps = n.capabilities || n.caps || [];
               return (
                 <Card
                   key={id}
@@ -284,19 +286,17 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
                         </Text>
                       </Stack>
                       <Group gap={6}>
-                        {(n.capabilities ||
-                          n.caps ||
-                          []
-                        ).map((c) => (
-                          <Badge
-                            key={c}
-                            variant="light"
-                          >
-                            {String(
-                              c
-                            ).toUpperCase()}
-                          </Badge>
-                        ))}
+                        {Array.isArray(caps) &&
+                          caps.map((c) => (
+                            <Badge
+                              key={c}
+                              variant="light"
+                            >
+                              {String(
+                                c
+                              ).toUpperCase()}
+                            </Badge>
+                          ))}
 
                         {n.price ? (
                           <Badge variant="outline">
@@ -309,7 +309,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
                     <Button
                       onClick={() => assign(n)}
                       loading={
-                        assigningId === id
+                        assigningId === e164
                       }
                     >
                       Select
@@ -338,15 +338,43 @@ export default function PhoneNumberManager() {
   const [banner, setBanner] = useState(null); // { type, message, action? }
   const ran = useRef(false);
 
-  // UPDATED: promise chain instead of async/await
+  // UPDATED: load from /numbers/my instead of /numbers/status
   const reload = () => {
     setLoading(true);
     axiosClient
-      .get('/numbers/status')
+      .get('/numbers/my')
       .then(({ data }) => {
-        setStatus(data || { state: 'none' });
+        const num = data?.number || null;
+
+        if (!num) {
+          setStatus({ state: 'none' });
+          return;
+        }
+
+        // Map backend shape -> UI shape
+        const e164 = num.e164;
+        const capabilities =
+          num.capabilities && Array.isArray(num.capabilities)
+            ? num.capabilities
+            : ['sms', 'voice'];
+
+        const expiresAt = num.releaseAfter || null;
+        const d = daysLeft(expiresAt);
+        const state =
+          expiresAt && d !== null && d <= 14 ? 'expiring' : 'active';
+
+        setStatus({
+          state,
+          e164,
+          local: e164,
+          display: e164,
+          capabilities,
+          locked: !!num.keepLocked,
+          expiresAt,
+        });
       })
       .catch(() => {
+        setStatus({ state: 'none' });
         setBanner({
           type: 'error',
           message:
@@ -371,7 +399,7 @@ export default function PhoneNumberManager() {
   );
 
   const lock = () => {
-    const hasNumber = status?.state === 'active';
+    const hasNumber = status?.state === 'active' || status?.state === 'expiring';
     if (!hasNumber) {
       setBanner({
         type: 'info',
@@ -393,7 +421,7 @@ export default function PhoneNumberManager() {
     }
 
     axiosClient
-      .post('/numbers/lock')
+      .post('/numbers/keep/enable')
       .then(() => {
         setBanner({
           type: 'success',
@@ -428,7 +456,7 @@ export default function PhoneNumberManager() {
 
   const unlock = () => {
     axiosClient
-      .post('/numbers/unlock')
+      .post('/numbers/keep/disable')
       .then(() => {
         setBanner({
           type: 'success',
@@ -589,7 +617,8 @@ export default function PhoneNumberManager() {
             ) : (
               <Tooltip
                 label={
-                  status?.state !== 'active'
+                  status?.state !== 'active' &&
+                  status?.state !== 'expiring'
                     ? 'Assign a number first'
                     : !isPremium
                     ? 'Premium feature'
@@ -603,7 +632,8 @@ export default function PhoneNumberManager() {
                   }
                   onClick={lock}
                   disabled={
-                    status?.state !== 'active'
+                    status?.state !== 'active' &&
+                    status?.state !== 'expiring'
                   }
                 >
                   Lock
@@ -611,7 +641,8 @@ export default function PhoneNumberManager() {
               </Tooltip>
             )}
 
-            {status?.state === 'active' ? (
+            {status?.state === 'active' ||
+            status?.state === 'expiring' ? (
               <>
                 <Button
                   color="orange"
@@ -653,7 +684,8 @@ export default function PhoneNumberManager() {
         <Stack gap={4}>
           {loading ? (
             <Text c="dimmed">Loading…</Text>
-          ) : status?.state === 'active' ? (
+          ) : status?.state === 'active' ||
+            status?.state === 'expiring' ? (
             <>
               <Text fw={600} size="lg">
                 {fmtLocal(
@@ -719,8 +751,7 @@ export default function PhoneNumberManager() {
             </>
           ) : (
             <Text c="dimmed">
-              No number assigned. Pick one by
-              area code to start texting.
+              You don’t have a Chatforia number yet. Pick one by area code to start texting and calling.
             </Text>
           )}
         </Stack>

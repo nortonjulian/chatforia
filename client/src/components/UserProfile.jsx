@@ -340,7 +340,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const planUpper = ((currentUser?.plan) || 'FREE').toUpperCase();
   const isPremiumPlan = planUpper === 'PREMIUM';
   const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
-  const hasEsim = Boolean(currentUser?.tealIccid); // detect Teal eSIM on account
+  const hasEsim = Boolean(currentUser?.esimIccid); 
 
   const refreshAuthUser = async () => {
     try {
@@ -840,7 +840,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
 
             <Card withBorder radius="lg" p="md" mt="md">
               <Text fw={600}>
-                {t('profile.esim.title', 'Chatforia eSIM (Teal)')}
+                {t('profile.esim.title', 'Chatforia eSIM')}
               </Text>
               <Text size="sm" c="dimmed" mt={4}>
                 {hasEsim
@@ -882,7 +882,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               <Button
                 variant="outline"
                 size="xs"
-                onClick={() => navigate('/wireless/manage#port-number')}
+                onClick={() => navigate('/wireless/#port-number')}
               >
                 {t('profile.wireless.portCta', 'Port my number')}
               </Button>

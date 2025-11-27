@@ -6,7 +6,7 @@ function EsimEntry() {
 
   return (
     <div className="p-3 rounded-lg border bg-white/60">
-      <div className="font-medium mb-1">Chatforia eSIM (Teal)</div>
+      <div className="font-medium mb-1">Chatforia eSIM</div>
       <p className="text-sm text-gray-600">
         Get mobile data for Chatforia when you’re away from Wi-Fi.
       </p>

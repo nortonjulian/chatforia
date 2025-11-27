@@ -5,10 +5,10 @@ import {
   activateProfile,
   suspendProfile,
   resumeProfile,
-  handleTealWebhook,
+  handleEsimWebhook,
 } from '../controllers/esimController.js';
 
-import { ESIM_ENABLED, TEAL } from '../config/esim.js';
+import { ESIM_ENABLED, TELNA } from '../config/esim.js';
 // import { requireAuth } from '../middleware/auth.js'; // enable when ready
 
 const router = express.Router();
@@ -20,10 +20,11 @@ const router = express.Router();
 router.get('/health', (req, res) => {
   res.json({
     enabled: ESIM_ENABLED,
-    baseUrlConfigured: Boolean(TEAL?.baseUrl),
-    apiKeyConfigured: Boolean(TEAL?.apiKey),
-    partnerId: TEAL?.partnerId ?? null,
-    defaultPlanId: TEAL?.defaultPlanId ?? null,
+    provider: 'telna',
+    baseUrlConfigured: Boolean(TELNA?.baseUrl),
+    apiKeyConfigured: Boolean(TELNA?.apiKey),
+    partnerId: TELNA?.partnerId ?? null,
+    defaultPlanId: TELNA?.defaultPlanId ?? null,
   });
 });
 
@@ -33,20 +34,22 @@ router.get('/health', (req, res) => {
  */
 router.get('/regions', listRegions);
 
-// --- eSIM actions (server → Teal). Protect with auth later ---
+// --- eSIM actions (server → provider). Protect with auth later ---
 router.post('/profiles', /* requireAuth, */ reserveProfile);
 router.post('/activate', /* requireAuth, */ activateProfile);
 router.post('/suspend',  /* requireAuth, */ suspendProfile);
 router.post('/resume',   /* requireAuth, */ resumeProfile);
 
 /**
- * Webhook endpoint (Teal → server)
+ * Webhook endpoint (provider → server)
  * MUST use raw body for signature validation
+ *
+ * You’ll point Telna’s webhook URL to this path.
  */
 router.post(
-  '/webhooks/teal',
+  '/webhooks/telna',
   express.raw({ type: '*/*' }), // prevent JSON middleware from altering the body
-  handleTealWebhook
+  handleEsimWebhook
 );
 
 export default router;

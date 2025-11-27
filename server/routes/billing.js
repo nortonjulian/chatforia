@@ -5,6 +5,54 @@ import Stripe from 'stripe';
 const router = express.Router();
 
 /* ----------------------------------------------
+ * Shared country → currency mapping (used in several helpers)
+ * --------------------------------------------*/
+// NEW: moved this to the top so everything can share it
+const COUNTRY_CURRENCY = {
+  US: 'USD',
+  CA: 'CAD',
+  GB: 'GBP',
+  IE: 'EUR',
+  DE: 'EUR',
+  FR: 'EUR',
+  NL: 'EUR',
+  SE: 'SEK',
+  NO: 'NOK',
+  DK: 'DKK',
+  FI: 'EUR',
+  CH: 'CHF',
+  AU: 'AUD',
+  NZ: 'NZD',
+  JP: 'JPY',
+  KR: 'KRW',
+  SG: 'SGD',
+  PL: 'PLN',
+  CZ: 'CZK',
+  PT: 'EUR',
+  ES: 'EUR',
+  IT: 'EUR',
+  ZA: 'ZAR',
+  MX: 'MXN',
+  CL: 'CLP',
+  AR: 'ARS',
+  AE: 'AED',
+  IN: 'INR',
+  BR: 'BRL',
+  PH: 'PHP',
+  TH: 'THB',
+  VN: 'VND',
+  ID: 'IDR',
+  TR: 'TRY',
+  CO: 'COP',
+  PE: 'PEN',
+  NG: 'NGN',
+  KE: 'KES',
+  EG: 'EGP',
+  PK: 'PKR',
+  BD: 'BDT',
+};
+
+/* ----------------------------------------------
  * Utilities
  * --------------------------------------------*/
 
@@ -87,50 +135,6 @@ async function resolveStripePriceIdForUserPlan(user, plan, opts = {}) {
   const product = productForPlan(plan);
   if (!product) return null;
 
-  const COUNTRY_CURRENCY = {
-    US: 'USD',
-    CA: 'CAD',
-    GB: 'GBP',
-    IE: 'EUR',
-    DE: 'EUR',
-    FR: 'EUR',
-    NL: 'EUR',
-    SE: 'SEK',
-    NO: 'NOK',
-    DK: 'DKK',
-    FI: 'EUR',
-    CH: 'CHF',
-    AU: 'AUD',
-    NZ: 'NZD',
-    JP: 'JPY',
-    KR: 'KRW',
-    SG: 'SGD',
-    PL: 'PLN',
-    CZ: 'CZK',
-    PT: 'EUR',
-    ES: 'EUR',
-    IT: 'EUR',
-    ZA: 'ZAR',
-    MX: 'MXN',
-    CL: 'CLP',
-    AR: 'ARS',
-    AE: 'AED',
-    IN: 'INR',
-    BR: 'BRL',
-    PH: 'PHP',
-    TH: 'THB',
-    VN: 'VND',
-    ID: 'IDR',
-    TR: 'TRY',
-    CO: 'COP',
-    PE: 'PEN',
-    NG: 'NGN',
-    KE: 'KES',
-    EG: 'EGP',
-    PK: 'PKR',
-    BD: 'BDT',
-  };
-
   // Determine country/tier/currency similarly to /pricing/quote
   const country = (user?.billingCountry || opts.country || 'US').toUpperCase();
 
@@ -191,19 +195,19 @@ const ADDON_CONFIG = {
   FAMILY_SMALL: {
     type: 'FAMILY',
     product: 'chatforia_family_small',
-    dataMb: 10240, // 10 GB shared
+    dataMb: 20 * 1024, // 20 GB shared
     daysValid: 30,
   },
   FAMILY_MEDIUM: {
     type: 'FAMILY',
     product: 'chatforia_family_medium',
-    dataMb: 25600, // 25 GB shared
+    dataMb: 40 * 1024, // 40 GB shared
     daysValid: 30,
   },
   FAMILY_LARGE: {
     type: 'FAMILY',
     product: 'chatforia_family_large',
-    dataMb: 51200, // 50 GB shared
+    dataMb: 80 * 1024, // 80 GB shared
     daysValid: 30,
   },
 };
@@ -212,50 +216,6 @@ const ADDON_CONFIG = {
 async function getStripePriceIdForAddon(addonKind, user, opts = {}) {
   const cfg = ADDON_CONFIG[addonKind];
   if (!cfg?.product) return null;
-
-  const COUNTRY_CURRENCY = {
-    US: 'USD',
-    CA: 'CAD',
-    GB: 'GBP',
-    IE: 'EUR',
-    DE: 'EUR',
-    FR: 'EUR',
-    NL: 'EUR',
-    SE: 'SEK',
-    NO: 'NOK',
-    DK: 'DKK',
-    FI: 'EUR',
-    CH: 'CHF',
-    AU: 'AUD',
-    NZ: 'NZD',
-    JP: 'JPY',
-    KR: 'KRW',
-    SG: 'SGD',
-    PL: 'PLN',
-    CZ: 'CZK',
-    PT: 'EUR',
-    ES: 'EUR',
-    IT: 'EUR',
-    ZA: 'ZAR',
-    MX: 'MXN',
-    CL: 'CLP',
-    AR: 'ARS',
-    AE: 'AED',
-    IN: 'INR',
-    BR: 'BRL',
-    PH: 'PHP',
-    TH: 'THB',
-    VN: 'VND',
-    ID: 'IDR',
-    TR: 'TRY',
-    CO: 'COP',
-    PE: 'PEN',
-    NG: 'NGN',
-    KE: 'KES',
-    EG: 'EGP',
-    PK: 'PKR',
-    BD: 'BDT',
-  };
 
   const country = (user?.billingCountry || opts.country || 'US').toUpperCase();
   const rule = await prisma.regionRule.findUnique({ where: { countryCode: country } });
@@ -298,6 +258,105 @@ async function getStripePriceIdForAddon(addonKind, user, opts = {}) {
 
   return price?.stripePriceId || null;
 }
+
+/**
+ * NEW: get full price row (amount + currency + stripePriceId) for an add-on
+ */
+async function getAddonPriceRow(addonKind, user, opts = {}) {
+  const cfg = ADDON_CONFIG[addonKind];
+  if (!cfg?.product) return null;
+
+  const country = (user?.billingCountry || opts.country || 'US').toUpperCase();
+  const rule = await prisma.regionRule.findUnique({ where: { countryCode: country } });
+  const tier = user?.pricingRegion || rule?.tier || 'ROW';
+  const currency = (user?.currency || COUNTRY_CURRENCY[country] || 'USD').toUpperCase();
+
+  let price = await prisma.price.findUnique({
+    where: {
+      product_tier_currency: {
+        product: cfg.product,
+        tier,
+        currency,
+      },
+    },
+  });
+
+  if (!price && currency !== 'USD') {
+    price = await prisma.price.findUnique({
+      where: {
+        product_tier_currency: {
+          product: cfg.product,
+          tier,
+          currency: 'USD',
+        },
+      },
+    });
+  }
+
+  if (!price) {
+    price = await prisma.price.findUnique({
+      where: {
+        product_tier_currency: {
+          product: cfg.product,
+          tier: 'ROW',
+          currency: 'USD',
+        },
+      },
+    });
+  }
+
+  return price; // can be null if not configured
+}
+
+/* ----------------------------------------------
+ * NEW: Region-aware price API for eSIM + Family packs
+ * --------------------------------------------*/
+// GET /api/billing/mobile-family-prices?country=US
+router.get('/mobile-family-prices', async (req, res) => {
+  try {
+    const user = req.user || null;
+    const countryOverride = req.query.country ? String(req.query.country) : undefined;
+
+    const country = (user?.billingCountry || countryOverride || 'US').toUpperCase();
+    const rule = await prisma.regionRule.findUnique({ where: { countryCode: country } });
+    const tier = user?.pricingRegion || rule?.tier || 'ROW';
+
+    // Map addonKind -> key used by the frontend
+    const mapping = {
+      ESIM_STARTER: 'mobileSmall',
+      ESIM_TRAVELER: 'mobileMedium',
+      ESIM_POWER: 'mobileLarge',
+      FAMILY_SMALL: 'familySmall',
+      FAMILY_MEDIUM: 'familyMedium',
+      FAMILY_LARGE: 'familyLarge',
+    };
+
+    const plans = {};
+
+    for (const [addonKind, key] of Object.entries(mapping)) {
+      const price = await getAddonPriceRow(addonKind, user, { country: countryOverride });
+      if (!price) continue; // if not configured, skip
+
+      plans[key] = {
+        addonKind,             // e.g. "ESIM_STARTER"
+        product: price.product,
+        tier: price.tier,
+        currency: price.currency,      // "USD", "INR", etc.
+        amountMinor: price.unitAmount, // integer minor units
+        stripePriceId: price.stripePriceId,
+      };
+    }
+
+    return res.json({
+      countryCode: country,
+      tier,
+      plans,
+    });
+  } catch (err) {
+    console.error('[billing/mobile-family-prices] error:', err);
+    return res.status(500).json({ error: 'Unable to load mobile/family prices' });
+  }
+});
 
 /* ----------------------------------------------
  * My Plan – return the current user's plan info
@@ -799,8 +858,8 @@ async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
     remainingDataMb: cfg.dataMb,
     stripeCheckoutSessionId: session.id,
     stripePaymentIntentId: session.payment_intent ? String(session.payment_intent) : null,
-    tealProfileId: null, // reused column; will store Telna profile id later if desired
-    tealIccid: null,
+    esimProfileId: null, // mapped to tealProfileId in DB
+    esimIccid: null,     // mapped to tealIccid in DB
     qrCodeSvg: null,
   };
 

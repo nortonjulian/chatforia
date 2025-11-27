@@ -1,5 +1,6 @@
 import prisma from '../utils/prismaClient.js';
 import cron from 'node-cron';
+import twilioClient from '../utils/twilioClient.js';
 
 const inactivityDays = Number(process.env.NUMBER_INACTIVITY_DAYS) || 30;
 const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
@@ -29,29 +30,66 @@ export function startNumberLifecycleJob() {
       );
       await prisma.phoneNumber.update({
         where: { id: n.id },
-        data: { status: 'HOLD', holdUntil, releaseAfter: holdUntil },
+        data: {
+          status: 'HOLD',
+          holdUntil,
+          releaseAfter: holdUntil,
+        },
       });
       // TODO: notify user Day 30 warning -> email/push/in-app banner
     }
 
     // 2) Release HOLD past holdUntil
     const toRelease = await prisma.phoneNumber.findMany({
-      where: { status: 'HOLD', releaseAfter: { lt: now } },
+      where: {
+        status: 'HOLD',
+        releaseAfter: { lt: now },
+        provider: 'twilio',        // 🔐 safety: only touch Twilio-owned pool
+      },
     });
 
     for (const n of toRelease || []) {
-      // provider release best-effort
-      await prisma.phoneNumber.update({
-        where: { id: n.id },
-        data: {
-          status: 'RELEASING',
-          assignedUserId: null,
-          assignedAt: null,
-          keepLocked: false,
-          holdUntil: null,
-          releaseAfter: null,
-        },
-      });
+      // If Twilio isn't configured, don't nuke your DB state silently
+      if (!twilioClient) {
+        console.warn(
+          '[numberLifecycle] Twilio not configured; skipping release for phoneNumber id=',
+          n.id
+        );
+        continue;
+      }
+
+      try {
+        // Best-effort provider release
+        if (n.twilioSid) {
+          await twilioClient
+            .incomingPhoneNumbers(n.twilioSid)
+            .remove();
+        } else {
+          console.warn(
+            '[numberLifecycle] phoneNumber missing twilioSid; cannot release upstream. id=',
+            n.id
+          );
+        }
+
+        await prisma.phoneNumber.update({
+          where: { id: n.id },
+          data: {
+            status: 'RELEASED',     // or AVAILABLE if you keep rows for history
+            assignedUserId: null,
+            assignedAt: null,
+            keepLocked: false,
+            holdUntil: null,
+            releaseAfter: null,
+          },
+        });
+      } catch (err) {
+        console.error(
+          '[numberLifecycle] Failed to release Twilio number',
+          { id: n.id, e164: n.e164, twilioSid: n.twilioSid },
+          err
+        );
+        // You might choose to keep status=HOLD here so it retries tomorrow
+      }
     }
 
     // 3) Cleanup expired reservations

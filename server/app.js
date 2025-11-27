@@ -10,10 +10,12 @@ import { fileURLToPath } from 'url';
 
 import authMiddleware from './middleware/auth.js';
 
+import voiceClientRouter from './routes/voiceClient.js';
+
 // SAFE Sentry wrappers (no-op when DSN is missing/invalid)
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
 
-import { startTealUsageWorker } from './jobs/tealSync.js';
+import adminVoiceLogsRouter from './routes/adminVoiceLogs.js';
 
 // Request ID + logging
 import { requestId } from './middleware/requestId.js';
@@ -46,7 +48,7 @@ import randomChatsRouter from './routes/randomChats.js';
 import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
-import billingRouter from './routes/billing.js';              // ✅ single billing router
+import billingRouter from './routes/billing.js';              
 // import billingWebhook from './routes/billingWebhook.js';    // ❌ removed (now unified)
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
@@ -54,6 +56,7 @@ import smsRouter from './routes/sms.js';
 import smsThreadsRouter from './routes/smsThreads.js';
 import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
+import voiceCallsRouter from './routes/voiceCalls.js';
 import settingsForwardingRouter from './routes/settings.forwarding.js';
 import calendarRouter from './routes/calendar.js';
 import shareEventRouter from './routes/shareEvent.js';
@@ -144,10 +147,6 @@ export function createApp() {
   // For your current setup (frontend :5173, API :5002) we want
   // cookies to be cross-site so the session is sent with XHR.
   const useCrossSiteCookies = true;
-
-  // 🔄 Start Teal usage background worker (no-op unless ENABLE_TEAL_SYNC === "true")
-  // You can comment this out if you want to postpone enabling it entirely.
-  startTealUsageWorker();
 
   app.set('trust proxy', true);
 
@@ -286,10 +285,8 @@ export function createApp() {
     ? (_req, _res, next) => next()
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
-  // TEMP bypasses for first-run auth flows (remove later!)
-  // + Teal webhook bypass
   const csrfBypassPattern =
-    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/esim\/webhooks\/teal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
+  /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
 
   app.use((req, res, next) => {
     const path = req.path;
@@ -363,6 +360,13 @@ export function createApp() {
   // PSTN/telephony surfaces (require phone verification for some routes)
   app.use('/voice', voiceRouter);
 
+  app.use(
+    '/voice/client',
+    requireAuth,
+    requirePhoneVerified,
+    voiceClientRouter
+  );
+
   app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
   app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
@@ -397,6 +401,8 @@ export function createApp() {
   app.use('/chatrooms', roomsRouter);
   app.use('/messages', messagesRouter);
 
+  app.use('/calls', voiceCallsRouter);
+
   app.use(a11yRouter);
 
   app.use('/follows', followsRouter);
@@ -424,7 +430,7 @@ export function createApp() {
 
   // eSIM: mount conditionally via feature flag
   if (ESIM_ENABLED) {
-    app.use('/esim', esimRouter); // includes POST /esim/webhooks/teal internally
+    app.use('/esim', esimRouter); // includes POST /esim/webhooks/
   }
 
   if (String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true') {
@@ -437,6 +443,8 @@ export function createApp() {
   app.use('/calendar', calendarRouter);
   app.use('/', shareEventRouter);
   app.use('/', eventLinksRouter);
+
+  app.use('/admin/voice-logs', adminVoiceLogsRouter);
 
   /* Status flag */
   const STATUS_ENABLED_FLAG = String(process.env.STATUS_ENABLED || '').toLowerCase() === 'true';

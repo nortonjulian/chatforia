@@ -1,7 +1,12 @@
 import { ENV } from '../config/env.js';
-import * as teal from '../services/providers/tealEsim.js';
+import { ESIM_ENABLED } from '../config/esim.js';
+import * as esimProvider from '../services/providers/esimProvider.js';
 
 function isEnabled() {
+  // Prefer ESIM_ENABLED from config/esim.js, but fall back to ENV.FEATURE_ESIM
+  if (typeof ESIM_ENABLED === 'boolean') {
+    return ESIM_ENABLED;
+  }
   const v = ENV?.FEATURE_ESIM;
   return v === true || String(v).toLowerCase() === 'true';
 }
@@ -37,13 +42,17 @@ export async function reserveProfile(req, res) {
     const region = String(regionRaw).trim().toUpperCase();
     const userId = req.user?.id ?? null; // assumes auth middleware (ok if null for now)
 
-    if (typeof teal.reserveEsimProfile !== 'function') {
-      return res.status(501).json({ error: 'reserveEsimProfile not implemented' });
+    if (typeof esimProvider.reserveEsimProfile !== 'function') {
+      return res
+        .status(501)
+        .json({ error: 'reserveEsimProfile not implemented' });
     }
 
-    const data = await teal.reserveEsimProfile({ userId, region });
+    const data = await esimProvider.reserveEsimProfile({ userId, region });
     if (!data || typeof data !== 'object') {
-      return res.status(502).json({ error: 'Invalid response from eSIM provider' });
+      return res
+        .status(502)
+        .json({ error: 'Invalid response from eSIM provider' });
     }
 
     const smdp = data.smdp || data.smDpPlus || null;
@@ -75,18 +84,22 @@ export async function activateProfile(req, res) {
   if (!ensureEnabled(res)) return;
 
   try {
-    if (typeof teal.activateProfile !== 'function') {
-      return res.status(501).json({ error: 'activateProfile not implemented' });
+    if (typeof esimProvider.activateProfile !== 'function') {
+      return res
+        .status(501)
+        .json({ error: 'activateProfile not implemented' });
     }
 
     const iccid = String(req.body?.iccid || '').trim();
     const code = String(req.body?.code || '').trim();
 
     if (!iccid || !code) {
-      return res.status(400).json({ error: 'iccid and code are required' });
+      return res
+        .status(400)
+        .json({ error: 'iccid and code are required' });
     }
 
-    const out = await teal.activateProfile({ iccid, code });
+    const out = await esimProvider.activateProfile({ iccid, code });
     return res.json({ ok: true, ...out });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -99,14 +112,18 @@ export async function suspendProfile(req, res) {
   if (!ensureEnabled(res)) return;
 
   try {
-    if (typeof teal.suspendLine !== 'function') {
-      return res.status(501).json({ error: 'suspendLine not implemented' });
+    if (typeof esimProvider.suspendLine !== 'function') {
+      return res
+        .status(501)
+        .json({ error: 'suspendLine not implemented' });
     }
 
     const iccid = String(req.body?.iccid || '').trim();
-    if (!iccid) return res.status(400).json({ error: 'iccid is required' });
+    if (!iccid) {
+      return res.status(400).json({ error: 'iccid is required' });
+    }
 
-    const out = await teal.suspendLine({ iccid });
+    const out = await esimProvider.suspendLine({ iccid });
     return res.json({ ok: true, ...out });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -119,14 +136,18 @@ export async function resumeProfile(req, res) {
   if (!ensureEnabled(res)) return;
 
   try {
-    if (typeof teal.resumeLine !== 'function') {
-      return res.status(501).json({ error: 'resumeLine not implemented' });
+    if (typeof esimProvider.resumeLine !== 'function') {
+      return res
+        .status(501)
+        .json({ error: 'resumeLine not implemented' });
     }
 
     const iccid = String(req.body?.iccid || '').trim();
-    if (!iccid) return res.status(400).json({ error: 'iccid is required' });
+    if (!iccid) {
+      return res.status(400).json({ error: 'iccid is required' });
+    }
 
-    const out = await teal.resumeLine({ iccid });
+    const out = await esimProvider.resumeLine({ iccid });
     return res.json({ ok: true, ...out });
   } catch (err) {
     // eslint-disable-next-line no-console
@@ -136,14 +157,14 @@ export async function resumeProfile(req, res) {
 }
 
 /**
- * POST /esim/webhooks/teal
- * Webhook endpoint called by Teal to notify about line/profile events.
+ * POST /esim/webhooks/telna
+ * Webhook endpoint called by the eSIM provider (Telna) to notify about line/profile events.
  * (Currently just logs + 200; expand when you wire up real DB updates.)
  */
-export async function handleTealWebhook(req, res) {
+export async function handleEsimWebhook(req, res) {
   try {
     // eslint-disable-next-line no-console
-    console.info('[esim] teal webhook received:', {
+    console.info('[esim] provider webhook received:', {
       headers: req.headers,
       body: req.body,
     });
@@ -152,7 +173,7 @@ export async function handleTealWebhook(req, res) {
     return res.status(200).json({ ok: true });
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error('[esim] teal webhook error:', err);
-    return res.status(500).json({ error: 'Failed to process Teal webhook' });
+    console.error('[esim] provider webhook error:', err);
+    return res.status(500).json({ error: 'Failed to process eSIM webhook' });
   }
 }

@@ -91,7 +91,7 @@ export default function WirelessDashboard() {
                 {isFamily
                   ? src.name ||
                     t('family.group.defaultName', 'My Chatforia Family')
-                  : t('profile.esim.title', 'Chatforia eSIM (Teal)')}
+                  : t('profile.esim.title', 'Chatforia eSIM')}
               </Title>
               <Text size="sm" c="dimmed">
                 {isFamily

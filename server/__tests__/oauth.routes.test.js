@@ -5,6 +5,8 @@ import { jest } from '@jest/globals';
 import request from 'supertest';
 import express from 'express';
 
+const COOKIE_NAME = process.env.JWT_COOKIE_NAME || 'foria_jwt';
+
 const strategies = {}; // map to toggle google/apple on and off in tests
 
 // Global mock for passport.authenticate
@@ -112,7 +114,8 @@ describe('oauth.routes', () => {
 
     const cookies = res.headers['set-cookie'];
     expect(cookies).toBeDefined();
-    expect(cookies[0]).toMatch(/cf_session=mock\.jwt\.token/);
+    expect(cookies[0]).toMatch(new RegExp(`${COOKIE_NAME}=mock\\.jwt\\.token`));
+
     expect(cookies[0]).toMatch(/HttpOnly/);
     // non-prod => no Secure flag
     expect(cookies[0]).not.toMatch(/Secure/);
@@ -191,9 +194,10 @@ describe('oauth.routes', () => {
 
     const cookies = res.headers['set-cookie'];
     expect(cookies).toBeDefined();
-    expect(cookies[0]).toMatch(/cf_session=mock\.jwt\.token/);
+    expect(cookies[0]).toMatch(new RegExp(`${COOKIE_NAME}=mock\\.jwt\\.token`));
+
     expect(cookies[0]).toMatch(/HttpOnly/);
-    expect(cookies[0]).not.toMatch(/Secure/);
+    expect(cookies[0]).toMatch(/Secure/);
 
     expect(signSpy).toHaveBeenCalledWith(
       { sub: 'user-123' },
