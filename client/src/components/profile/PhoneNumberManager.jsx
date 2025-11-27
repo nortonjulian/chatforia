@@ -46,10 +46,7 @@ const fmtLocal = (n) => {
 const daysLeft = (expiresAt) => {
   if (!expiresAt) return null;
   const t = new Date(expiresAt).getTime();
-  return Math.max(
-    0,
-    Math.ceil((t - Date.now()) / (1000 * 60 * 60 * 24))
-  );
+  return Math.max(0, Math.ceil((t - Date.now()) / (1000 * 60 * 60 * 24)));
 };
 
 /* ---- Country options (many countries; auto-localized at runtime) ---- */
@@ -64,9 +61,7 @@ const SUPPORTED_COUNTRY_ISO2 = [
 const flagEmoji = (iso2) =>
   iso2
     .toUpperCase()
-    .replace(/./g, (c) =>
-      String.fromCodePoint(127397 + c.charCodeAt(0))
-    );
+    .replace(/./g, (c) => String.fromCodePoint(127397 + c.charCodeAt(0)));
 
 const COUNTRY_OPTIONS = (() => {
   try {
@@ -105,17 +100,28 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
       setErr('');
       setCapability('sms');
       setLockOnAssign(false);
+      setAssigningId(null);
     }
   }, [opened]);
 
   const search = () => {
     setLoading(true);
     setErr('');
+    setResults([]);
+
+    const digits = (area || '').replace(/\D/g, '');
+
+    if (digits.length !== 3) {
+      setLoading(false);
+      setErr('Please enter a 3-digit area code (e.g., 415).');
+      return;
+    }
+
     axiosClient
       .get('/numbers/available', {
         params: {
           country,
-          areaCode: area.trim() || undefined,
+          areaCode: digits,
           type: 'local',
           limit: 15,
         },
@@ -123,6 +129,9 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
       .then(({ data }) => {
         const items = Array.isArray(data?.numbers) ? data.numbers : [];
         setResults(items.slice(0, 15));
+        if (!items.length) {
+          setErr('No numbers found for that area code. Try a nearby one.');
+        }
       })
       .catch(() => {
         setErr(
@@ -151,7 +160,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
       .then(() =>
         axiosClient.post('/numbers/claim', {
           e164,
-          // future: you could send a keepLocked flag and wire that to premium
+          // future: send keepLocked flag if you want to use lockOnAssign
         })
       )
       .then(() => {
@@ -191,12 +200,10 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
             style={{ minWidth: 260 }}
           />
           <TextInput
-            label="Area code / Region"
+            label="Area code"
             placeholder="e.g., 415"
             value={area}
-            onChange={(e) =>
-              setArea(e.currentTarget.value)
-            }
+            onChange={(e) => setArea(e.currentTarget.value)}
             style={{ minWidth: 160 }}
           />
           <Select
@@ -225,20 +232,21 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
         <Group gap="sm" align="center">
           <Switch
             checked={lockOnAssign}
-            onChange={(e) =>
-              setLockOnAssign(e.currentTarget.checked)
-            }
+            onChange={(e) => setLockOnAssign(e.currentTarget.checked)}
             onLabel={<IconLock size={14} />}
             offLabel={<IconLockOpen size={14} />}
             label="Lock this number (Premium)"
           />
           <Text size="sm" c="dimmed">
-            Prevents recycling while your plan is
-            active.
+            Prevents recycling while your plan is active (feature wiring TBD).
           </Text>
         </Group>
 
-        {err ? <Alert color="red">{err}</Alert> : null}
+        {err ? (
+          <Alert color="red" icon={<IconAlertTriangle size={16} />}>
+            {err}
+          </Alert>
+        ) : null}
 
         <Divider label="Available numbers" />
 
@@ -248,53 +256,37 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
           </Group>
         ) : results.length === 0 ? (
           <Text c="dimmed" size="sm">
-            Enter a country &amp; area code, then
-            search.
+            Enter a country &amp; 3-digit area code, then search.
           </Text>
         ) : (
           <Stack>
             {results.map((n) => {
-              const id = n.id || n.e164 || n.number;
+              const e164 = n.e164 || n.number;
               const caps = n.capabilities || n.caps || [];
+              const displayLocal =
+                n.local ||
+                n.locality ||
+                n.display ||
+                e164;
+
               return (
-                <Card
-                  key={id}
-                  withBorder
-                  radius="md"
-                  p="sm"
-                >
-                  <Group
-                    justify="space-between"
-                    align="center"
-                  >
+                <Card key={e164} withBorder radius="md" p="sm">
+                  <Group justify="space-between" align="center">
                     <Group>
                       <IconPhone size={18} />
                       <Stack gap={0}>
                         <Text fw={600}>
-                          {fmtLocal(
-                            n.local ||
-                              n.display ||
-                              n.e164 ||
-                              n.number
-                          )}
+                          {fmtLocal(displayLocal)}
                         </Text>
-                        <Text
-                          size="sm"
-                          c="dimmed"
-                        >
-                          {n.e164 || n.number}
+                        <Text size="sm" c="dimmed">
+                          {e164}
                         </Text>
                       </Stack>
                       <Group gap={6}>
                         {Array.isArray(caps) &&
                           caps.map((c) => (
-                            <Badge
-                              key={c}
-                              variant="light"
-                            >
-                              {String(
-                                c
-                              ).toUpperCase()}
+                            <Badge key={c} variant="light">
+                              {String(c).toUpperCase()}
                             </Badge>
                           ))}
 
@@ -308,9 +300,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
 
                     <Button
                       onClick={() => assign(n)}
-                      loading={
-                        assigningId === e164
-                      }
+                      loading={assigningId === e164}
                     >
                       Select
                     </Button>
@@ -338,7 +328,6 @@ export default function PhoneNumberManager() {
   const [banner, setBanner] = useState(null); // { type, message, action? }
   const ran = useRef(false);
 
-  // UPDATED: load from /numbers/my instead of /numbers/status
   const reload = () => {
     setLoading(true);
     axiosClient
@@ -351,7 +340,6 @@ export default function PhoneNumberManager() {
           return;
         }
 
-        // Map backend shape -> UI shape
         const e164 = num.e164;
         const capabilities =
           num.capabilities && Array.isArray(num.capabilities)
@@ -377,8 +365,7 @@ export default function PhoneNumberManager() {
         setStatus({ state: 'none' });
         setBanner({
           type: 'error',
-          message:
-            'Unable to load phone number status.',
+          message: 'Unable to load phone number status.',
         });
       })
       .finally(() => {
@@ -393,10 +380,7 @@ export default function PhoneNumberManager() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const dLeft = useMemo(
-    () => daysLeft(status?.expiresAt),
-    [status]
-  );
+  const dLeft = useMemo(() => daysLeft(status?.expiresAt), [status]);
 
   const lock = () => {
     const hasNumber = status?.state === 'active' || status?.state === 'expiring';
@@ -410,8 +394,7 @@ export default function PhoneNumberManager() {
     if (!isPremium) {
       setBanner({
         type: 'warning',
-        message:
-          'Locking numbers is a Premium feature.',
+        message: 'Locking numbers is a Premium feature.',
         action: {
           label: 'Upgrade',
           href: '/settings/upgrade',
@@ -432,13 +415,11 @@ export default function PhoneNumberManager() {
       .catch((e) => {
         if (
           e?.response?.status === 402 ||
-          e?.response?.data?.reason ===
-            'premium_required'
+          e?.response?.data?.reason === 'premium_required'
         ) {
           setBanner({
             type: 'warning',
-            message:
-              'Locking numbers is a Premium feature.',
+            message: 'Locking numbers is a Premium feature.',
             action: {
               label: 'Upgrade',
               href: '/settings/upgrade',
@@ -447,8 +428,7 @@ export default function PhoneNumberManager() {
         } else {
           setBanner({
             type: 'error',
-            message:
-              'Could not lock the number.',
+            message: 'Could not lock the number.',
           });
         }
       });
@@ -467,8 +447,7 @@ export default function PhoneNumberManager() {
       .catch(() => {
         setBanner({
           type: 'error',
-          message:
-            'Could not unlock the number.',
+          message: 'Could not unlock the number.',
         });
       });
   };
@@ -493,13 +472,11 @@ export default function PhoneNumberManager() {
       .catch(() => {
         setBanner({
           type: 'error',
-          message:
-            'Could not release the number.',
+          message: 'Could not release the number.',
         });
       });
   };
 
-  // aria-labels for test stability
   const headerBadge = () => {
     if (loading) return null;
 
@@ -509,9 +486,7 @@ export default function PhoneNumberManager() {
           aria-label="badge-active"
           color="green"
           variant="light"
-          leftSection={
-            <IconCircleCheck size={14} />
-          }
+          leftSection={<IconCircleCheck size={14} />}
         >
           Active
         </Badge>
@@ -520,32 +495,21 @@ export default function PhoneNumberManager() {
 
     if (status?.state === 'expiring') {
       return (
-        <Tooltip
-          label={`Expires in ${dLeft} day${
-            dLeft === 1 ? '' : 's'
-          }`}
-        >
+        <Tooltip label={`Expires in ${dLeft} day${dLeft === 1 ? '' : 's'}`}>
           <Badge
             aria-label="badge-expiring"
             color="yellow"
             variant="light"
-            leftSection={
-              <IconAlertTriangle size={14} />
-            }
+            leftSection={<IconAlertTriangle size={14} />}
           >
-            {`Expiring${
-              dLeft != null ? ` (${dLeft}d)` : ''
-            }`}
+            {`Expiring${dLeft != null ? ` (${dLeft}d)` : ''}`}
           </Badge>
         </Tooltip>
       );
     }
 
     return (
-      <Badge
-        aria-label="badge-none"
-        variant="outline"
-      >
+      <Badge aria-label="badge-none" variant="outline">
         No number
       </Badge>
     );
@@ -570,11 +534,7 @@ export default function PhoneNumberManager() {
             onClose={() => setBanner(null)}
             mb="sm"
           >
-            <Group
-              justify="space-between"
-              align="center"
-              wrap="nowrap"
-            >
+            <Group justify="space-between" align="center" wrap="nowrap">
               <Text>{banner.message}</Text>
               {banner?.action && (
                 <Button
@@ -590,11 +550,7 @@ export default function PhoneNumberManager() {
           </Alert>
         )}
 
-        <Group
-          justify="space-between"
-          align="start"
-          mb="xs"
-        >
+        <Group justify="space-between" align="start" mb="xs">
           <Group>
             <IconPhone size={20} />
             <Title order={4} m={0}>
@@ -607,9 +563,7 @@ export default function PhoneNumberManager() {
             {status?.locked ? (
               <Button
                 variant="light"
-                leftSection={
-                  <IconLockOpen size={16} />
-                }
+                leftSection={<IconLockOpen size={16} />}
                 onClick={unlock}
               >
                 Unlock
@@ -617,8 +571,7 @@ export default function PhoneNumberManager() {
             ) : (
               <Tooltip
                 label={
-                  status?.state !== 'active' &&
-                  status?.state !== 'expiring'
+                  status?.state !== 'active' && status?.state !== 'expiring'
                     ? 'Assign a number first'
                     : !isPremium
                     ? 'Premium feature'
@@ -627,52 +580,36 @@ export default function PhoneNumberManager() {
               >
                 <Button
                   variant="light"
-                  leftSection={
-                    <IconLock size={16} />
-                  }
+                  leftSection={<IconLock size={16} />}
                   onClick={lock}
-                  disabled={
-                    status?.state !== 'active' &&
-                    status?.state !== 'expiring'
-                  }
+                  disabled={status?.state !== 'active' && status?.state !== 'expiring'}
                 >
                   Lock
                 </Button>
               </Tooltip>
             )}
 
-            {status?.state === 'active' ||
-            status?.state === 'expiring' ? (
+            {status?.state === 'active' || status?.state === 'expiring' ? (
               <>
                 <Button
                   color="orange"
                   variant="light"
-                  leftSection={
-                    <IconReplace size={16} />
-                  }
-                  onClick={() =>
-                    setPickerOpen(true)
-                  }
+                  leftSection={<IconReplace size={16} />}
+                  onClick={() => setPickerOpen(true)}
                 >
                   Replace
                 </Button>
                 <Button
                   color="red"
                   variant="light"
-                  leftSection={
-                    <IconTrash size={16} />
-                  }
+                  leftSection={<IconTrash size={16} />}
                   onClick={releaseNumber}
                 >
                   Release
                 </Button>
               </>
             ) : (
-              <Button
-                onClick={() =>
-                  setPickerOpen(true)
-                }
-              >
+              <Button onClick={() => setPickerOpen(true)}>
                 Pick a number
               </Button>
             )}
@@ -684,74 +621,45 @@ export default function PhoneNumberManager() {
         <Stack gap={4}>
           {loading ? (
             <Text c="dimmed">Loading…</Text>
-          ) : status?.state === 'active' ||
-            status?.state === 'expiring' ? (
+          ) : status?.state === 'active' || status?.state === 'expiring' ? (
             <>
               <Text fw={600} size="lg">
-                {fmtLocal(
-                  status.local ||
-                    status.display ||
-                    status.e164
-                )}
+                {fmtLocal(status.local || status.display || status.e164)}
               </Text>
-              <Text
-                size="sm"
-                c="dimmed"
-              >
+              <Text size="sm" c="dimmed">
                 {status.e164}
               </Text>
 
               <Group gap="xs" mt="xs">
-                {status.capabilities?.includes(
-                  'sms'
-                ) && (
-                  <Badge variant="outline">
-                    SMS
-                  </Badge>
+                {status.capabilities?.includes('sms') && (
+                  <Badge variant="outline">SMS</Badge>
                 )}
-                {status.capabilities?.includes(
-                  'voice'
-                ) && (
-                  <Badge variant="outline">
-                    VOICE
-                  </Badge>
+                {status.capabilities?.includes('voice') && (
+                  <Badge variant="outline">VOICE</Badge>
                 )}
 
                 {status.locked ? (
-                  <Badge
-                    leftSection={
-                      <IconLock size={12} />
-                    }
-                  >
-                    Locked
-                  </Badge>
+                  <Badge leftSection={<IconLock size={12} />}>Locked</Badge>
                 ) : (
                   <Badge>Not locked</Badge>
                 )}
 
                 {status.expiresAt ? (
                   <Badge
-                    color={
-                      status.state ===
-                      'expiring'
-                        ? 'yellow'
-                        : 'gray'
-                    }
+                    color={status.state === 'expiring' ? 'yellow' : 'gray'}
                     variant="light"
                   >
-                    {status.state ===
-                    'expiring'
+                    {status.state === 'expiring'
                       ? `Expires in ${dLeft}d`
-                      : `Renews ${new Date(
-                          status.expiresAt
-                        ).toLocaleDateString()}`}
+                      : `Renews ${new Date(status.expiresAt).toLocaleDateString()}`}
                   </Badge>
                 ) : null}
               </Group>
             </>
           ) : (
             <Text c="dimmed">
-              You don’t have a Chatforia number yet. Pick one by area code to start texting and calling.
+              You don’t have a Chatforia number yet. Pick one by area code to start
+              texting and calling.
             </Text>
           )}
         </Stack>
@@ -764,8 +672,7 @@ export default function PhoneNumberManager() {
           setBanner(
             msg || {
               type: 'success',
-              message:
-                'Number assigned.',
+              message: 'Number assigned.',
             }
           );
           setPickerOpen(false);

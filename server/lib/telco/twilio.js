@@ -6,9 +6,6 @@ function getClient() {
 
   if (!sid || !token) throw new Error('Missing Twilio credentials');
 
-  // Support both:
-  //  - real Twilio default export (function)
-  //  - Jest mock shape: { default: fn }
   const TwilioFn =
     typeof Twilio === 'function'
       ? Twilio
@@ -24,18 +21,24 @@ function getClient() {
 }
 
 /**
- * sendSms({ to, text, clientRef })
- * Return shape mirrors what smsService expects today.
+ * sendSms({ to, text, clientRef, from })
+ * - If `from` is provided, use that (user’s DID).
+ * - Else fall back to Messaging Service or global number.
  */
-export async function sendSms({ to, text, clientRef }) {
+export async function sendSms({ to, text, clientRef, from }) {
   const client = getClient();
 
-  // Prefer a Messaging Service SID if you have one; else fall back to a number.
-  const fromConfig = process.env.TWILIO_MESSAGING_SERVICE_SID
-    ? { messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID }
-    : (process.env.TWILIO_PHONE_NUMBER
-        ? { from: process.env.TWILIO_PHONE_NUMBER }
-        : {}); // if neither set, pass neither (Twilio will reject)
+  let fromConfig;
+  if (from) {
+    // ✅ Use the user’s dedicated Twilio number
+    fromConfig = { from };
+  } else if (process.env.TWILIO_MESSAGING_SERVICE_SID) {
+    fromConfig = { messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID };
+  } else if (process.env.TWILIO_PHONE_NUMBER) {
+    fromConfig = { from: process.env.TWILIO_PHONE_NUMBER };
+  } else {
+    fromConfig = {}; // Twilio will reject if nothing valid is present
+  }
 
   const payload = {
     to,
@@ -55,3 +58,113 @@ export async function sendSms({ to, text, clientRef }) {
     clientRef: clientRef || null,
   };
 }
+
+/**
+ * searchAvailable({ areaCode, postalCode, country, type, limit })
+ * - `areaCode` = classic NPA (e.g. "415")
+ * - `postalCode` = ZIP (e.g. "94105")
+ * We support both: if postalCode is present we use it; otherwise areaCode.
+ */
+async function searchAvailable({ areaCode, postalCode, country = 'US', type = 'local', limit = 20 }) {
+  const client = getClient();
+
+  const base = client.availablePhoneNumbers(country);
+
+  const params = {
+    limit,
+    smsEnabled: true,
+    voiceEnabled: true,
+  };
+
+  if (postalCode) {
+    params.inPostalCode = String(postalCode);
+  } else if (areaCode) {
+    params.areaCode = String(areaCode);
+  }
+
+  let list;
+  if (type === 'tollfree') {
+    list = await base.tollFree.list(params);
+  } else if (type === 'mobile') {
+    list = await base.mobile.list(params);
+  } else {
+    // default: local
+    list = await base.local.list(params);
+  }
+
+  const items = list.map((n) => ({
+    e164: n.phoneNumber,
+    number: n.phoneNumber,
+    region: n.region,
+    locality: n.locality || n.friendlyName || null,
+    isoCountry: n.isoCountry,
+    postalCode: n.postalCode || null,
+    capabilities: n.capabilities
+      ? Object.entries(n.capabilities)
+          .filter(([, v]) => v)
+          .map(([k]) => k) // e.g. sms, voice, mms
+      : ['sms', 'voice'],
+    // Placeholder: Twilio pricing is separate API; you can plug that in later
+    price: null,
+  }));
+
+  return { items };
+}
+
+/**
+ * purchaseNumber({ phoneNumber })
+ * - Actually buys the number from Twilio
+ */
+async function purchaseNumber({ phoneNumber }) {
+  const client = getClient();
+
+  const res = await client.incomingPhoneNumbers.create({
+    phoneNumber,
+    // later: smsUrl, voiceUrl, etc.
+  });
+
+  return {
+    ok: true,
+    sid: res.sid,
+    e164: res.phoneNumber,
+    order: {
+      sid: res.sid,
+    },
+  };
+}
+
+/**
+ * releaseNumber({ phoneNumber })
+ * - Releases an owned Twilio number
+ */
+async function releaseNumber({ phoneNumber }) {
+  const client = getClient();
+
+  const existing = await client.incomingPhoneNumbers.list({
+    phoneNumber,
+    limit: 1,
+  });
+
+  const num = existing[0];
+  if (!num) {
+    return { ok: false, reason: 'not-found' };
+  }
+
+  await client.incomingPhoneNumbers(num.sid).remove();
+  return { ok: true };
+}
+
+export const providerName = 'twilio';
+
+/**
+ * Default adapter object used by ../lib/telco/index.js
+ */
+const adapter = {
+  providerName,
+  sendSms,
+  searchAvailable,
+  purchaseNumber,
+  releaseNumber,
+};
+
+export default adapter;

@@ -199,6 +199,16 @@ model User {
   // If you want a separate explicit light/dark/system switch add this:
   // themeMode                String      @default("system") // "light" | "dark" | "system"
 
+  forwardingEnabledSms   Boolean  @default(false)
+  forwardSmsToPhone      Boolean  @default(false)
+  forwardPhoneNumber     String?  @db.VarChar(32)
+  forwardSmsToEmail      Boolean  @default(false)
+  forwardEmail           String?  @db.VarChar(255)
+  forwardingEnabledCalls Boolean  @default(false)
+  forwardToPhoneE164     String?  @db.VarChar(32)
+  forwardQuietHoursStart Int?
+  forwardQuietHoursEnd   Int?
+
   cycling    Boolean     @default(false)
   strictE2EE Boolean     @default(false)
   uploads    Upload[]    @relation("UserUploads")

@@ -882,7 +882,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               <Button
                 variant="outline"
                 size="xs"
-                onClick={() => navigate('/wireless/#port-number')}
+                onClick={() => navigate('/wireless/manage#port-number')}
               >
                 {t('profile.wireless.portCta', 'Port my number')}
               </Button>

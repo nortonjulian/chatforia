@@ -1,9 +1,26 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PortNumberForm from '../components/wireless/PortNumberForm.jsx';
 import PortRequestsList from '../components/wireless/PortRequestsList.jsx';
 
 export default function ManageWirelessPage() {
   const { t } = useTranslation();
+  const location = useLocation();
+
+  useEffect(() => {
+    // If we came from "Port my number" button
+    const scrollTo = location.state && location.state.scrollTo;
+    if (scrollTo === 'port-number') {
+      const el = document.getElementById('port-number');
+      if (el) {
+        // tiny delay so layout is painted
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 0);
+      }
+    }
+  }, [location.state]);
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-4">
@@ -45,7 +62,11 @@ export default function ManageWirelessPage() {
       </section>
 
       {/* 🔑 Actual port form */}
-      <section id="port-number" className="rounded-lg border p-4">
+      <section
+        id="port-number"
+        className="rounded-lg border p-4"
+        style={{ scrollMarginTop: 80 }} // helps if you have a sticky header
+      >
         <h2 className="text-lg font-semibold">
           {t('wireless.port.heading', 'Port your existing number')}
         </h2>

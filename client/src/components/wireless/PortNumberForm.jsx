@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@mantine/core';
 
 export default function PortNumberForm({ onSubmitted }) {
   const { t } = useTranslation();
@@ -199,15 +200,16 @@ export default function PortNumberForm({ onSubmitted }) {
         </p>
       )}
 
-      <button
+      <Button
         type="submit"
-        disabled={loading}
-        className="rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+        size="sm"
+        radius="xl"
+        loading={loading}
+        mt="md"
+        className="mt-4"       
       >
-        {loading
-          ? t('wireless.port.submitting')
-          : t('wireless.port.submitButton')}
-      </button>
+        {t('wireless.port.submitButton')}
+      </Button>
     </form>
   );
 }

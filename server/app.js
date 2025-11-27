@@ -74,6 +74,8 @@ import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
 
+import webhooksTwilio from './routes/webhooksTwilio.js';
+
 import familyRouter from './routes/family.js';
 import wirelessRouter from './routes/wireless.js';
 
@@ -366,6 +368,7 @@ export function createApp() {
 
   // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
+  app.use('/webhooks', webhooksTwilio);
 
   // PSTN/telephony surfaces (require phone verification)
   // PSTN/telephony surfaces (require phone verification for some routes)
