@@ -7,19 +7,17 @@ function getCookieName() {
 }
 
 /**
- * Returns the JWT string from (1) cookie [preferred],
- * or (2) Authorization: Bearer ... if you explicitly allow it.
+ * Returns the JWT string from the cookie (preferred).
+ * If you later want Bearer support, we can extend this.
  */
-function getTokenFromReq(req, { allowBearer = false } = {}) {
+function getTokenFromReq(req) {
   // 1) Cookie (preferred)
   const cookieToken = req.cookies?.[getCookieName()] || null;
   if (cookieToken) return cookieToken;
 
-  // 2) Optional Bearer header (handy for tools; disabled by default)
-  if (allowBearer) {
-    const header = req.headers.authorization || '';
-    if (header.startsWith('Bearer ')) return header.slice(7);
-  }
+  // 2) (Disabled for now) Authorization: Bearer ...
+  // const header = req.headers.authorization || '';
+  // if (header.startsWith('Bearer ')) return header.slice(7);
 
   return null;
 }
@@ -43,6 +41,9 @@ async function hydrateUser(decoded) {
       role: decoded.role || 'USER',
       email: decoded.email || null,
       plan: decoded.plan || 'FREE',
+      emailVerifiedAt: decoded.emailVerifiedAt || null,
+      phoneVerifiedAt: decoded.phoneVerifiedAt || null,
+      twoFactorEnabled: !!decoded.twoFactorEnabled,
     };
   }
 
@@ -50,7 +51,16 @@ async function hydrateUser(decoded) {
   try {
     const dbUser = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, email: true, username: true, role: true, plan: true },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        plan: true,
+        emailVerifiedAt: true,
+        phoneVerifiedAt: true,
+        twoFactorEnabled: true,
+      },
     });
 
     if (dbUser) {
@@ -60,6 +70,9 @@ async function hydrateUser(decoded) {
         role: dbUser.role || decoded.role || 'USER',
         email: dbUser.email || decoded.email || null,
         plan: dbUser.plan || decoded.plan || 'FREE',
+        emailVerifiedAt: dbUser.emailVerifiedAt || null,
+        phoneVerifiedAt: dbUser.phoneVerifiedAt || null,
+        twoFactorEnabled: !!dbUser.twoFactorEnabled,
       };
     }
   } catch {
@@ -73,6 +86,9 @@ async function hydrateUser(decoded) {
     role: decoded.role || 'USER',
     email: decoded.email || null,
     plan: decoded.plan || 'FREE',
+    emailVerifiedAt: decoded.emailVerifiedAt || null,
+    phoneVerifiedAt: decoded.phoneVerifiedAt || null,
+    twoFactorEnabled: !!decoded.twoFactorEnabled,
   };
 }
 
@@ -80,7 +96,7 @@ async function hydrateUser(decoded) {
 export async function requireAuth(req, res, next) {
   try {
     // 🔒 Always drive auth from the JWT cookie, ignore any pre-set req.user
-    const token = getTokenFromReq(req, { allowBearer: false });
+    const token = getTokenFromReq(req);
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
@@ -109,7 +125,7 @@ export async function verifyTokenOptional(req, _res, next) {
     // don't clobber if already present
     if (req.user && req.user.id) return next();
 
-    const token = getTokenFromReq(req, { allowBearer: false });
+    const token = getTokenFromReq(req);
     if (!token) return next();
 
     let decoded;

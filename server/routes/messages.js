@@ -87,6 +87,8 @@ const postMessageLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => req.method !== 'POST',
+  // 👇 be explicit so it doesn't freak out when app.set('trust proxy') is true
+  trustProxy: false,
 });
 
 /**
@@ -102,14 +104,21 @@ router.post(
     if (!senderId) throw Boom.unauthorized();
 
     // Accept both 'chatRoomId' (our API) and 'roomId' (tests)
+    const body = req.body || {};
+
+    const content =
+      body.content ??
+      body.text ?? // legacy callers (older frontend)
+      body.message ??
+      '';
+
     const {
-      content,
       expireSeconds,
       attachmentsMeta,
       attachmentsInline,
       chatRoomId: chatRoomIdRaw,
       roomId: roomIdRaw, // tests send this
-    } = req.body || {};
+    } = body;
 
     const chatRoomId = Number(chatRoomIdRaw ?? roomIdRaw);
     if (!Number.isFinite(chatRoomId)) {
@@ -234,13 +243,17 @@ router.post(
         attachments,
       });
     } catch (_err) {
-      // Minimal DB attempt #1: schema with required relation -> connect sender
+      // 🔁 Minimal DB fallback that matches your current Prisma schema:
+      // - `sender` relation is required
+      // - `contentCiphertext` must be a non-null String
       try {
         saved = await prisma.message.create({
           data: {
             chatRoomId,
             rawContent: content || '',
-            contentCiphertext: null,
+            // For now, just mirror the raw content so the field is non-null.
+            // (Once encryption is fully wired, this should hold the ciphertext.)
+            contentCiphertext: content || '',
             isExplicit: false,
             sender: { connect: { id: senderId } },
             ...(attachments.length
@@ -264,42 +277,11 @@ router.post(
           include: { attachments: true },
         });
       } catch (_e1) {
-        // Minimal DB attempt #2: schema that allows scalar FK (senderId)
-        try {
-          saved = await prisma.message.create({
-            data: {
-              chatRoomId,
-              senderId,
-              rawContent: content || '',
-              contentCiphertext: null,
-              isExplicit: false,
-              ...(attachments.length
-                ? {
-                    attachments: {
-                      createMany: {
-                        data: attachments.map((a) => ({
-                          kind: a.kind,
-                          url: a.url,
-                          mimeType: a.mimeType || '',
-                          width: a.width ?? null,
-                          height: a.height ?? null,
-                          durationSec: a.durationSec ?? null,
-                          caption: a.caption ?? null,
-                        })),
-                      },
-                    },
-                  }
-                : {}),
-            },
-            include: { attachments: true },
-          });
-        } catch (_e2) {
-          // Test-only: final fallback — store in memory to keep tests green without DB User rows
-          if (IS_TEST) {
-            saved = memSaveMessage({ chatRoomId, senderId, content, attachments });
-          } else {
-            throw _e2;
-          }
+        // Test-only: final fallback — store in memory to keep tests green without DB User rows
+        if (IS_TEST) {
+          saved = memSaveMessage({ chatRoomId, senderId, content, attachments });
+        } else {
+          throw _e1;
         }
       }
     }

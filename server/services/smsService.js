@@ -7,21 +7,40 @@ async function getUserFromNumber(userId) {
   const user = await prisma.user.findUnique({
     where: { id: Number(userId) },
     select: {
-      assignedNumbers: { select: { e164: true }, take: 1, orderBy: { id: 'asc' } },
+      assignedNumbers: {
+        select: { e164: true },
+        take: 1,
+        orderBy: { id: 'asc' },
+      },
     },
   });
+
   const num = user?.assignedNumbers?.[0]?.e164 || null;
-  if (!num) throw Boom.preconditionFailed('No assigned number for user');
+
+  if (!num) {
+    const err = Boom.preconditionFailed('No assigned number for user');
+    // frontend expects this to trigger NumberPickerModal
+    err.output.payload.code = 'NO_NUMBER';
+    throw err;
+  }
+
   return normalizeE164(num);
 }
 
 async function upsertThread(userId, contactPhone) {
   const phone = normalizeE164(contactPhone);
   if (!isE164(phone)) throw Boom.badRequest('Invalid destination phone');
-  let thread = await prisma.smsThread.findFirst({ where: { userId, contactPhone: phone } });
+
+  let thread = await prisma.smsThread.findFirst({
+    where: { userId, contactPhone: phone },
+  });
+
   if (!thread) {
-    thread = await prisma.smsThread.create({ data: { userId, contactPhone: phone } });
+    thread = await prisma.smsThread.create({
+      data: { userId, contactPhone: phone },
+    });
   }
+
   return thread;
 }
 
@@ -63,7 +82,12 @@ export async function sendUserSms({ userId, to, body }) {
   };
 }
 
-export async function recordInboundSms({ toNumber, fromNumber, body, provider }) {
+export async function recordInboundSms({
+  toNumber,
+  fromNumber,
+  body,
+  provider,
+}) {
   const owner = await prisma.user.findFirst({
     where: { assignedNumbers: { some: { e164: normalizeE164(toNumber) } } },
     select: { id: true },
@@ -71,6 +95,7 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider })
   if (!owner) return { ok: false, reason: 'no-owner' };
 
   const thread = await upsertThread(owner.id, fromNumber);
+
   await prisma.smsMessage.create({
     data: {
       threadId: thread.id,
@@ -81,6 +106,7 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider })
       provider: provider || null,
     },
   });
+
   return { ok: true, userId: owner.id, threadId: thread.id };
 }
 
@@ -91,7 +117,7 @@ export async function listThreads(userId) {
   });
 }
 
-export async function getThread({ userId, threadId }) {
+export async function getThread(userId, threadId) {
   const thread = await prisma.smsThread.findFirst({
     where: {
       id: Number(threadId),

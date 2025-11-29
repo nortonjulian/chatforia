@@ -50,6 +50,8 @@ export default function StartChatModal({
   const [pickerInfo, setPickerInfo] = useState('');
 
   // Mode: 'group' | 'broadcast'
+  // - group      -> one shared room with many participants
+  // - broadcast  -> separate 1:1 chats (multi-send)
   const [mode, setMode] = useState('group');
   const [groupName, setGroupName] = useState('');
   const [seedMessage, setSeedMessage] = useState('');
@@ -130,12 +132,14 @@ export default function StartChatModal({
 
   const handleStartWithRecipients = async () => {
     setPickerInfo('');
+
     if (!recipients.length) {
       setPickerInfo(t('startChatModal.pickAtLeastOne', 'Pick at least one recipient.'));
       return;
     }
 
-    const ids = recipients.filter((r) => r.id && r.type !== 'raw').map((r) => r.id);
+    const nonRawRecipients = recipients.filter((r) => r.id && r.type !== 'raw');
+    const ids = nonRawRecipients.map((r) => r.id);
     const hasRaw = recipients.some((r) => r.type === 'raw');
 
     if (hasRaw) {
@@ -163,6 +167,7 @@ export default function StartChatModal({
       setStartingBulk(true);
 
       if (mode === 'group') {
+        // One shared room with all participants
         const { data: chatroom } = await axiosClient.post('/chatrooms', {
           participantIds: ids,
           title: groupName?.trim() || undefined,
@@ -172,37 +177,34 @@ export default function StartChatModal({
         return;
       }
 
-      const payload = {
-        participantIds: ids,
-        message: seedMessage?.trim() || undefined,
-      };
+      // Separate 1:1 chats (multi-send / "broadcast")
+      const messageText = seedMessage?.trim() || undefined;
+      const createdRoomIds = [];
 
-      let createdRoomIds = [];
-      let usedServerBroadcast = false;
+      for (const id of ids) {
+        const { data } = await axiosClient.post('/chatrooms', {
+          participantIds: [id],
+        });
+        const roomId = data?.chatRoomId || data?.id;
+        if (!roomId) continue;
 
-      try {
-        const { data } = await axiosClient.post('/broadcasts', payload);
-        createdRoomIds = data?.createdRoomIds || [];
-        usedServerBroadcast = true;
-      } catch {
-        for (const id of ids) {
-          const { data } = await axiosClient.post('/chatrooms', { participantIds: [id] });
-          const roomId = data?.chatRoomId || data?.id;
-          if (roomId) {
-            createdRoomIds.push(roomId);
-            if (payload.message) {
-              await axiosClient.post(`/messages`, {
-                chatRoomId: roomId,
-                text: payload.message,
-              });
-            }
-          }
+        createdRoomIds.push(roomId);
+
+        if (messageText) {
+          // /messages accepts { chatRoomId, content }
+          await axiosClient.post('/messages', {
+            chatRoomId: roomId,
+            content: messageText,
+          });
         }
       }
 
       onClose?.();
-      if (createdRoomIds[0]) navigate(`/chat/${createdRoomIds[0]}`);
-      else if (usedServerBroadcast) navigate(`/`);
+      if (createdRoomIds[0]) {
+        navigate(`/chat/${createdRoomIds[0]}`);
+      } else {
+        navigate(`/`);
+      }
     } catch {
       setPickerInfo(
         t(
@@ -397,9 +399,7 @@ export default function StartChatModal({
         }
       }
 
-      //
-      // 🔥 TEST-FIX: refresh contacts with limit=50 (required by Jest tests)
-      //
+      // 🔥 Refresh contacts with limit=50 (required by Jest tests)
       try {
         const refreshed = await axiosClient.get('/contacts', {
           params: { limit: 50 },
@@ -427,6 +427,8 @@ export default function StartChatModal({
     }
   };
 
+  const nonRawCount = recipients.filter((r) => r.id && r.type !== 'raw').length;
+
   return (
     <Modal
       opened
@@ -445,8 +447,11 @@ export default function StartChatModal({
             value={mode}
             onChange={setMode}
             data={[
-              { label: t('startChatModal.group', 'Group'), value: 'group' },
-              { label: t('startChatModal.broadcast', 'Broadcast'), value: 'broadcast' },
+              { label: t('startChatModal.group', 'Group chat'), value: 'group' },
+              {
+                label: t('startChatModal.broadcast', 'Separate chats'),
+                value: 'broadcast',
+              },
             ]}
           />
         </Group>
@@ -515,7 +520,13 @@ export default function StartChatModal({
             >
               {mode === 'group'
                 ? t('startChatModal.createGroup', 'Create group')
-                : t('startChatModal.sendBroadcast', 'Send broadcast')}
+                : nonRawCount === 1
+                  ? t('startChatModal.sendSingle', 'Send message')
+                  : t(
+                      'startChatModal.sendBroadcast',
+                      'Send to {{count}} chats',
+                      { count: nonRawCount || 0 }
+                    )}
             </Button>
           </Group>
 

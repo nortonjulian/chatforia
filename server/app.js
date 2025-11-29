@@ -48,7 +48,7 @@ import randomChatsRouter from './routes/randomChats.js';
 import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
-import billingRouter from './routes/billing.js';              
+import billingRouter from './routes/billing.js';
 // import billingWebhook from './routes/billingWebhook.js';    // ❌ removed (now unified)
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
@@ -89,6 +89,7 @@ import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 // ✅ enforcement gates
 import {
+  requireEmailVerified,
   requirePhoneVerified,
   requireStaff2FA,
   requirePremium,
@@ -135,8 +136,8 @@ import { ESIM_ENABLED } from './config/esim.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-console.log('[env-debug] STRIPE_SECRET_KEY present =',
+console.log(
+  '[env-debug] STRIPE_SECRET_KEY present =',
   !!process.env.STRIPE_SECRET_KEY
 );
 
@@ -150,7 +151,12 @@ export function createApp() {
   // cookies to be cross-site so the session is sent with XHR.
   const useCrossSiteCookies = true;
 
-  app.set('trust proxy', true);
+    if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+  } else {
+    app.set('trust proxy', false);
+  }
+
 
   /* Early security */
   app.use(httpsRedirect());
@@ -200,7 +206,6 @@ export function createApp() {
     }
     next();
   });
-
 
   // Attach Sentry request handler early (no-op if Sentry is disabled)
   if (isProd) {
@@ -299,7 +304,7 @@ export function createApp() {
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
   const csrfBypassPattern =
-  /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
+    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
 
   app.use((req, res, next) => {
     const path = req.path;
@@ -357,9 +362,9 @@ export function createApp() {
   app.use('/auth', oauthRouter);
 
   // Auth sub-routers before primary auth
-  app.use('/auth', emailVerification);                        // /auth/email/*
-  app.use('/auth/phone', requireAuth, phoneVerification);     // /auth/phone/*
-  app.use('/auth/2fa', requireAuth, mfaTotp);                 // /auth/2fa/*
+  app.use('/auth', emailVerification); // /auth/email/*
+  app.use('/auth/phone', requireAuth, phoneVerification); // /auth/phone/*
+  app.use('/auth/2fa', requireAuth, mfaTotp); // /auth/2fa/*
 
   // Primary auth API
   app.use('/auth', authRouter);
@@ -370,20 +375,18 @@ export function createApp() {
   app.use('/webhooks/sms', smsWebhooks);
   app.use('/webhooks', webhooksTwilio);
 
-  // PSTN/telephony surfaces (require phone verification)
-  // PSTN/telephony surfaces (require phone verification for some routes)
+  // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
 
   app.use(
     '/voice/client',
     requireAuth,
-    requirePhoneVerified,
+    requireEmailVerified,
     voiceClientRouter
   );
 
-  app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
-  app.use('/calls', requireAuth, requirePhoneVerified, callsRouter);
-  app.use('/sms', requireAuth, requirePhoneVerified, smsRouter);
+  app.use('/calls', requireAuth, requireEmailVerified, callsRouter);
+  app.use('/sms', requireAuth, requireEmailVerified, smsRouter);
   app.use('/sms/threads', requireAuth, smsThreadsRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
@@ -401,15 +404,15 @@ export function createApp() {
 
   app.use('/ads', adsRouter);
 
-  // 🔢 Numbers API: gate entire router; also pre-guard /numbers/lock with Premium
+  // 🔢 Numbers API: gate entire router by auth + email verification; lock is Premium
   app.post(
     '/numbers/lock',
     requireAuth,
-    requirePhoneVerified,
+    requireEmailVerified,
     requirePremium,
     (req, _res, next) => next()
   );
-  app.use('/numbers', requireAuth, requirePhoneVerified, numbersRouter);
+  app.use('/numbers', requireAuth, requireEmailVerified, numbersRouter);
 
   app.use('/rooms', roomsRouter);
   app.use('/chatrooms', roomsRouter);
@@ -447,7 +450,9 @@ export function createApp() {
     app.use('/esim', esimRouter); // includes POST /esim/webhooks/
   }
 
-  if (String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true') {
+  if (
+    String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true'
+  ) {
     app.use('/sims', simsRouter);
   }
 
@@ -461,14 +466,16 @@ export function createApp() {
   app.use('/admin/voice-logs', adminVoiceLogsRouter);
 
   /* Status flag */
-  const STATUS_ENABLED_FLAG = String(process.env.STATUS_ENABLED || '').toLowerCase() === 'true';
+  const STATUS_ENABLED_FLAG =
+    String(process.env.STATUS_ENABLED || '').toLowerCase() === 'true';
   const STATUS_ENABLED = isTest ? true : STATUS_ENABLED_FLAG;
   logger.info(
     { service: 'chatforia-server', env: process.env.NODE_ENV, STATUS_ENABLED },
     'Status routes feature flag'
   );
   if (STATUS_ENABLED) {
-    const isLoad = process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
+    const isLoad =
+      process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
     const RL_HUGE = 100000;
     const statusReadLimiter = rateLimit({
       windowMs: 60 * 1000,
@@ -488,7 +495,8 @@ export function createApp() {
   // Enable mock only in dev-like contexts (choose the toggle you prefer)
   const USE_SMS_MOCK =
     String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
-    (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);
+    (process.env.NODE_ENV !== 'production' &&
+      !process.env.TWILIO_ACCOUNT_SID);
 
   if (USE_SMS_MOCK) {
     // Mount first so it wins for POST /sms/send

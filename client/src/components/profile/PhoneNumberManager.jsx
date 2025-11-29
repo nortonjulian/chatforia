@@ -74,7 +74,6 @@ const COUNTRY_OPTIONS = (() => {
       label: `${flagEmoji(cc)} ${dn.of(cc) || cc}`,
     }));
   } catch {
-    // Fallback: English-ish labels without localization
     return SUPPORTED_COUNTRY_ISO2.map((cc) => ({
       value: cc,
       label: cc,
@@ -83,10 +82,11 @@ const COUNTRY_OPTIONS = (() => {
 })();
 
 /* ---------------- Number Picker (modal) ---------------- */
-function NumberPickerModal({ opened, onClose, onAssigned }) {
+// 🔹 NOTE: exported so SmsCompose can reuse this same picker
+export function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [country, setCountry] = useState('US');
   const [area, setArea] = useState('');
-  const [capability, setCapability] = useState('sms'); // sms | voice | both (currently informational)
+  const [capability, setCapability] = useState('sms'); // sms | voice | both (informational)
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [assigningId, setAssigningId] = useState(null);
@@ -151,7 +151,6 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
     setAssigningId(e164);
     setErr('');
 
-    // Reserve best-effort, then claim/purchase
     axiosClient
       .post('/numbers/reserve', { e164 })
       .catch(() => {
@@ -167,8 +166,9 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
         onAssigned?.({
           type: 'success',
           message: 'Number assigned.',
+          e164,
         });
-        onClose();
+        onClose?.();
       })
       .catch(() => {
         setErr(
@@ -213,10 +213,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
             data={[
               { value: 'sms', label: 'SMS' },
               { value: 'voice', label: 'Voice' },
-              {
-                value: 'both',
-                label: 'SMS + Voice',
-              },
+              { value: 'both', label: 'SMS + Voice' },
             ]}
             style={{ minWidth: 180 }}
           />
@@ -264,10 +261,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
               const e164 = n.e164 || n.number;
               const caps = n.capabilities || n.caps || [];
               const displayLocal =
-                n.local ||
-                n.locality ||
-                n.display ||
-                e164;
+                n.local || n.locality || n.display || e164;
 
               return (
                 <Card key={e164} withBorder radius="md" p="sm">
@@ -275,9 +269,7 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
                     <Group>
                       <IconPhone size={18} />
                       <Stack gap={0}>
-                        <Text fw={600}>
-                          {fmtLocal(displayLocal)}
-                        </Text>
+                        <Text fw={600}>{fmtLocal(displayLocal)}</Text>
                         <Text size="sm" c="dimmed">
                           {e164}
                         </Text>
@@ -289,11 +281,8 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
                               {String(c).toUpperCase()}
                             </Badge>
                           ))}
-
                         {n.price ? (
-                          <Badge variant="outline">
-                            ${n.price}/mo
-                          </Badge>
+                          <Badge variant="outline">${n.price}/mo</Badge>
                         ) : null}
                       </Group>
                     </Group>
@@ -315,17 +304,16 @@ function NumberPickerModal({ opened, onClose, onAssigned }) {
   );
 }
 
-/* ---------------- Manager (main card) ---------------- */
+/* ---------------- Manager (main card in Profile) ---------------- */
 export default function PhoneNumberManager() {
   const { currentUser } = useUser();
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
   const isPremium = plan === 'PREMIUM';
 
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState(null); // { e164, locked, state:'none|active|expiring', expiresAt }
+  const [status, setStatus] = useState(null);
   const [pickerOpen, setPickerOpen] = useState(false);
-
-  const [banner, setBanner] = useState(null); // { type, message, action? }
+  const [banner, setBanner] = useState(null);
   const ran = useRef(false);
 
   const reload = () => {
@@ -377,7 +365,6 @@ export default function PhoneNumberManager() {
     if (ran.current) return;
     ran.current = true;
     reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const dLeft = useMemo(() => daysLeft(status?.expiresAt), [status]);

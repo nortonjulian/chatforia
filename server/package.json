@@ -26,7 +26,8 @@
     "deps:check": "npm outdated || true",
     "audit": "npm audit || true",
     "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
-    "seed:languages": "node prisma/seedLanguages.js"
+    "seed:languages": "node prisma/seedLanguages.js",
+    "twilio-dev": "node scripts/miniserver.js"
   },
   "prisma": {
     "seed": "node prisma/seedTranslations.js"

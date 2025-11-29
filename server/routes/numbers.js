@@ -150,7 +150,14 @@ router.post('/claim', requireAuth, async (req, res) => {
 
     res.json({ ok: true, provider: providerName, order: result?.order || null });
   } catch (err) {
-    console.error('Claim failed:', err);
+    console.error('Claim failed:', {
+      message: err?.message,
+      code: err?.code,
+      status: err?.status,
+      moreInfo: err?.moreInfo,
+      details: err?.details,
+      stack: err?.stack,
+    });
     res.status(502).json({ error: 'Claim/purchase failed' });
   }
 });
