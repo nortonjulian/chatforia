@@ -333,7 +333,7 @@ export default function AppRoutes() {
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/legal/privacy" element={<PrivacyPolicy />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
