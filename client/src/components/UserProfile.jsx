@@ -130,6 +130,24 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
+
+  const API_BASE =
+    import.meta.env.VITE_API_ORIGIN ||
+    import.meta.env.VITE_API_BASE_URL ||
+    ''; // '' works in dev if Vite proxies /uploads to the API
+
+  const getAvatarSrc = (userLike) => {
+    if (!userLike?.avatarUrl) return '/default-avatar.png';
+
+    // If backend already stored a full URL, just use it
+    if (userLike.avatarUrl.startsWith('http')) {
+      return userLike.avatarUrl;
+    }
+
+    // Otherwise treat it as a path on the API host
+    return `${API_BASE}${userLike.avatarUrl}`;
+  };
+
   const params = useParams();
   const viewUserId = params.userId ? Number(params.userId) : null;
   const viewingAnother = !!(viewUserId && currentUser && viewUserId !== currentUser.id);
@@ -430,30 +448,42 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     }
   };
 
-  const handleAvatarUpload = async (file) => {
-  if (!file) return;
-  setAvatarError('');
-  setAvatarUploading(true);
+    const handleAvatarUpload = async (file) => {
+    if (!file) return;
 
-  const formData = new FormData();
-  formData.append('avatar', file); // 👈 field name matches uploadAvatar.single('avatar')
+    setAvatarError('');
+    setAvatarUploading(true);
 
-  try {
-    const { data } = await axiosClient.post('/users/me/avatar', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    if (data.avatarUrl) {
-      setCurrentUser((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
-    } else {
-      throw new Error('No avatarUrl returned');
+    const formData = new FormData();
+    // 👇 MUST match uploadAvatar.single('avatar') in users.js
+    formData.append('avatar', file);
+
+    try {
+      const { data } = await axiosClient.post('/users/me/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (!data?.avatarUrl) {
+        throw new Error('No avatarUrl returned from server');
+      }
+
+      // Update currentUser in context so Avatar re-renders immediately
+      setCurrentUser((prev) => ({
+        ...prev,
+        avatarUrl: data.avatarUrl,
+      }));
+
+      notifications.show({
+        color: 'green',
+        message: t('profile.avatarUpdated', 'Avatar updated!'),
+      });
+    } catch (err) {
+      console.error('Avatar upload failed', err);
+      setAvatarError(t('profile.avatarError', 'Failed to upload avatar'));
+    } finally {
+      setAvatarUploading(false);
     }
-  } catch (err) {
-    console.error('Avatar upload failed', err);
-    setAvatarError(t('profile.avatarError', 'Failed to upload avatar'));
-  } finally {
-    setAvatarUploading(false);
-  }
-};
+  };
 
   const handleVoicemailGreetingUpload = async (file) => {
     if (!file) return;
@@ -585,7 +615,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             <Group align="center" justify="space-between">
               <Group>
                 <Avatar
-                  src={currentUser.avatarUrl || '/default-avatar.png'}
+                  src={getAvatarSrc(viewUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
@@ -670,25 +700,36 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             <Stack gap="md">
               <Group align="center">
                 <Avatar
-                  src={currentUser.avatarUrl || '/default-avatar.png'}
+                  src={getAvatarSrc(currentUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
                 />
-                <FileInput
-                  accept="image/*"
-                  leftSection={<IconUpload size={16} />}
-                  aria-label={t('profile.uploadAvatar', 'Upload avatar')}
-                  placeholder={t('profile.uploadAvatar', 'Upload avatar')}
-                  onChange={handleAvatarUpload}
-                />
+                <Stack gap={4}>
+                  <FileInput
+                    accept="image/*"
+                    leftSection={<IconUpload size={16} />}
+                    aria-label={t('profile.uploadAvatar', 'Upload avatar')}
+                    placeholder={t('profile.uploadAvatar', 'Upload avatar')}
+                    onChange={handleAvatarUpload}
+                    disabled={avatarUploading}
+                  />
+                  {avatarUploading && (
+                    <Group gap="xs">
+                      <Loader size="xs" />
+                      <Text size="xs" c="dimmed">
+                        {t('profile.uploadingAvatar', 'Uploading avatar…')}
+                      </Text>
+                    </Group>
+                  )}
+                </Stack>
               </Group>
               {avatarError && (
                 <Text size="xs" c="red">
                   {avatarError}
                 </Text>
               )}
-
+              
               <LanguageSelector
                 currentLanguage={preferredLanguage || 'en'}
                 onChange={async (lng) => {
