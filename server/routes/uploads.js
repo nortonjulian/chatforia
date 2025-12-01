@@ -6,10 +6,10 @@ import multer from 'multer';
 
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
-import { buildSafeName, sha256 } from '../middleware/uploads.js';
 import storage from '../services/storage/index.js';
 import { STORAGE_DRIVER } from '../utils/uploadConfig.js';
 import { keyToAbsolute } from '../services/storage/localStorage.js';
+import { buildSafeName, sha256, uploadDirs } from '../middleware/uploads.js';
 
 const router = express.Router();
 
@@ -180,6 +180,22 @@ router.post('/', requireAuth, runUpload, async (req, res, next) => {
     });
   } catch (e) {
     next(e.isBoom ? e : Boom.badRequest(e.message || 'Upload failed'));
+  }
+});
+
+/* ---------------- GET /uploads/avatar/:filename ---------------- */
+router.get('/avatar/:filename', async (req, res, next) => {
+  try {
+    // prevent path traversal – only use the basename
+    const fileName = path.basename(req.params.filename);
+    const fullPath = path.join(uploadDirs.AVATARS_DIR, fileName);
+
+    await fs.promises.access(fullPath, fs.constants.R_OK);
+
+    res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
+    res.sendFile(fullPath);
+  } catch (e) {
+    return next(Boom.notFound('avatar not found'));
   }
 });
 

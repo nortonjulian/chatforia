@@ -225,12 +225,16 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   );
   const [voicemailGreetingUploading, setVoicemailGreetingUploading] = useState(false);
 
+  // Avatar upload state (inline error instead of toast)
+  const [avatarError, setAvatarError] = useState('');
+  const [avatarUploading, setAvatarUploading] = useState(false);
+
   // Accordion open state
   const [openItems, setOpenItems] = useState([]);
 
   /* ---------- effects ---------- */
 
-  useEffect(() => onThemeChange(setThemeNow), []);
+  useEffect(() => onThemeChange(setThemeNow), [onThemeChange]);
   useEffect(() => {
     const theme = getTheme();
     setColorScheme(isLightTheme(theme) ? 'light' : 'dark');
@@ -375,7 +379,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     } finally {
       setPortalBusy(false);
     }
-};
+  };
 
   const saveSettings = async () => {
     try {
@@ -427,30 +431,29 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   };
 
   const handleAvatarUpload = async (file) => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const { data } = await axiosClient.post('/users/me/avatar', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      if (data.avatarUrl) {
-        setCurrentUser((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
-        notifications.show({
-          color: 'green',
-          message: t('profile.avatarSuccess', 'Avatar updated'),
-        });
-      } else {
-        throw new Error('No avatarUrl returned');
-      }
-    } catch (err) {
-      console.error('Avatar upload failed', err);
-      notifications.show({
-        color: 'red',
-        message: t('profile.avatarError', 'Failed to upload avatar'),
-      });
+  if (!file) return;
+  setAvatarError('');
+  setAvatarUploading(true);
+
+  const formData = new FormData();
+  formData.append('avatar', file); // 👈 field name matches uploadAvatar.single('avatar')
+
+  try {
+    const { data } = await axiosClient.post('/users/me/avatar', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    if (data.avatarUrl) {
+      setCurrentUser((prev) => ({ ...prev, avatarUrl: data.avatarUrl }));
+    } else {
+      throw new Error('No avatarUrl returned');
     }
-  };
+  } catch (err) {
+    console.error('Avatar upload failed', err);
+    setAvatarError(t('profile.avatarError', 'Failed to upload avatar'));
+  } finally {
+    setAvatarUploading(false);
+  }
+};
 
   const handleVoicemailGreetingUpload = async (file) => {
     if (!file) return;
@@ -582,7 +585,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             <Group align="center" justify="space-between">
               <Group>
                 <Avatar
-                  src={viewUser.avatarUrl || '/default-avatar.png'}
+                  src={currentUser.avatarUrl || '/default-avatar.png'}
+                  alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
                 />
@@ -679,6 +683,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                   onChange={handleAvatarUpload}
                 />
               </Group>
+              {avatarError && (
+                <Text size="xs" c="red">
+                  {avatarError}
+                </Text>
+              )}
 
               <LanguageSelector
                 currentLanguage={preferredLanguage || 'en'}
@@ -1403,5 +1412,5 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         </Button>
       </Group>
     </Paper>
-  );
+  )
 }

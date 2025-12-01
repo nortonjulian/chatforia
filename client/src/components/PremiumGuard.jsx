@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
  * - variant="card" (default): renders a card with Upgrade CTA
  * - variant="inline": renders a subtle inline alert (no card)
  * - silent: renders nothing if not premium
+ *
+ * Used for true Premium-only features (e.g. unlimited translation, advanced AI tools).
  */
 export default function PremiumGuard({ children, variant = 'card', silent = false }) {
   const { currentUser } = useUser();
@@ -15,9 +17,11 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
   const { t } = useTranslation();
 
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
+
+  // Only real premium tiers count here
   const isPremium =
     currentUser?.role === 'ADMIN' ||
-    ['PREMIUM', 'PRO', 'PLUS'].includes(plan);
+    ['PREMIUM', 'PRO'].includes(plan);
 
   if (isPremium) return children;
   if (silent) return null;
@@ -26,7 +30,11 @@ export default function PremiumGuard({ children, variant = 'card', silent = fals
     return (
       <Alert variant="light" color="blue" role="note">
         {t('premiumGuard.requiresPremium', 'This feature requires a Premium plan.')}{' '}
-        <Anchor component={Link} to="/settings/upgrade" aria-label={t('premium.upgrade', 'Upgrade')}>
+        <Anchor
+          component={Link}
+          to="/settings/upgrade"
+          aria-label={t('premium.upgrade', 'Upgrade')}
+        >
           {t('premium.upgrade', 'Upgrade')}
         </Anchor>{' '}
         {t('premiumGuard.toUnlock', 'to unlock.')}

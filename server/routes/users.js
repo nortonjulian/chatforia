@@ -1,7 +1,8 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-// import path from 'path';
-// import fs from 'fs';
+import path from 'path';
+import fs from 'fs';
+
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
@@ -10,7 +11,6 @@ import { validateRegistrationInput } from '../utils/validateUser.js';
 // 🔐 secure upload utilities
 import { uploadAvatar, uploadDirs } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
-import { signDownloadToken } from '../utils/downloadTokens.js';
 
 const router = express.Router();
 
@@ -289,5 +289,70 @@ router.patch('/me', requireAuth, async (req, res) => {
     return res.status(500).json({ error: 'Failed to update profile' });
   }
 });
+
+/* ---------------------- POST /users/me/avatar ---------------------- */
+router.post(
+  '/me/avatar',
+  requireAuth,
+  uploadAvatar.single('avatar'), // field name must match formData.append('avatar', file)
+  async (req, res) => {
+    try {
+      if (!req.user) {
+        console.warn('⚠️ POST /users/me/avatar — req.user missing');
+        return res.status(403).json({ error: 'Not authenticated' });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded' });
+      }
+
+      // --- decide filename ---
+      const ext = path.extname(req.file.originalname || '').toLowerCase() || '.jpg';
+
+      const safeBase = (req.file.originalname || 'avatar')
+        .replace(/[^\w.\-]+/g, '_')
+        .slice(0, 80);
+
+      const filename = `${req.user.id}_${Date.now()}_${safeBase}${ext}`;
+
+
+      // --- write file, depending on TARGET ---
+      let finalFilename = filename;
+
+      if (uploadDirs.TARGET === 'memory') {
+        // memory → write to AVATARS_DIR ourselves
+        const fullPath = path.join(uploadDirs.AVATARS_DIR, filename);
+        await fs.promises.writeFile(fullPath, req.file.buffer);
+      } else {
+        // disk mode: multer already wrote a file into AVATARS_DIR
+        // use the actual stored name in case diskStorage changed it
+        finalFilename = req.file.filename || filename;
+      }
+
+      // optional antivirus scan
+      try {
+        const fullForScan = path.join(uploadDirs.AVATARS_DIR, finalFilename);
+        await scanFile(fullForScan);
+      } catch (e) {
+        console.error('🚨 Avatar failed antivirus scan', e);
+        return res.status(400).json({ error: 'File failed security checks' });
+      }
+
+      // URL that frontend will use
+      const avatarUrl = `/uploads/avatar/${finalFilename}`;
+
+      const updated = await prisma.user.update({
+        where: { id: Number(req.user.id) },
+        data: { avatarUrl },
+        select: { avatarUrl: true },
+      });
+
+      return res.json({ avatarUrl: updated.avatarUrl });
+    } catch (err) {
+      console.error('💥 POST /users/me/avatar failed', err);
+      return res.status(500).json({ error: 'Failed to upload avatar' });
+    }
+  }
+);
 
 export default router;
