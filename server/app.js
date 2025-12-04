@@ -130,6 +130,10 @@ import session from 'express-session';
 import passport from './auth/passport.js';
 import oauthRouter from './routes/oauth.routes.js';
 
+import twilioStatusWebhook from './webhooks/status.js'; 
+
+import phoneRoutes from './routes/api/phone.js';
+
 // eSIM feature flag
 import { ESIM_ENABLED } from './config/esim.js';
 
@@ -374,6 +378,7 @@ export function createApp() {
   // Inbound SMS webhooks (ungated)
   app.use('/webhooks/sms', smsWebhooks);
   app.use('/webhooks', webhooksTwilio);
+  app.use('/webhooks/status', twilioStatusWebhook);
 
   // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
@@ -458,6 +463,8 @@ export function createApp() {
 
   // Contacts bulk import (under /api to match Vite proxy)
   app.use('/api', contactsImportRouter);
+
+  app.use('/api/phone', phoneRoutes);
 
   app.use('/calendar', calendarRouter);
   app.use('/', shareEventRouter);

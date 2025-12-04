@@ -51,7 +51,7 @@ export async function sendSms({ to, text, clientRef, from }) {
     body: text,
   };
 
-  // Prefer Messaging Service if configured (pool management)
+  // Prefer Messaging Service if configured (pool management, advanced opt-out, etc.)
   if (!from && TWILIO_MESSAGING_SERVICE_SID) {
     params.messagingServiceSid = TWILIO_MESSAGING_SERVICE_SID;
   } else {

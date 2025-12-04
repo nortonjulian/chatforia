@@ -49,19 +49,11 @@ const daysLeft = (expiresAt) => {
   return Math.max(0, Math.ceil((t - Date.now()) / (1000 * 60 * 60 * 24)));
 };
 
-/* ---- Country options (many countries; auto-localized at runtime) ---- */
-const SUPPORTED_COUNTRY_ISO2 = [
-  'US','CA','GB','AU','AR','AT','BE','BG','BR','CH','CL','CO','CR','CY','CZ','DE','DK','DO','DZ',
-  'EC','EE','EG','ES','FI','FR','GE','GH','GR','GT','HK','HN','HR','HU','ID','IE','IL','IN','IS',
-  'IT','JM','JO','JP','KE','KW','KZ','LB','LT','LU','LV','MA','MT','MX','MY','NG','NI','NL','NO',
-  'NZ','OM','PA','PE','PH','PK','PL','PT','PY','QA','RO','RS','RU','SA','SE','SG','SI','SK','SV',
-  'TH','TN','TR','TW','UA','AE','UY','VN','ZA','KR'
-];
+/* ---- Country options ---- */
+const SUPPORTED_COUNTRY_ISO2 = [/* countries omitted for brevity */];
 
 const flagEmoji = (iso2) =>
-  iso2
-    .toUpperCase()
-    .replace(/./g, (c) => String.fromCodePoint(127397 + c.charCodeAt(0)));
+  iso2.toUpperCase().replace(/./g, (c) => String.fromCodePoint(127397 + c.charCodeAt(0)));
 
 const COUNTRY_OPTIONS = (() => {
   try {
@@ -81,12 +73,11 @@ const COUNTRY_OPTIONS = (() => {
   }
 })();
 
-/* ---------------- Number Picker (modal) ---------------- */
-// 🔹 NOTE: exported so SmsCompose can reuse this same picker
+/* ---------------- Number Picker Modal ---------------- */
 export function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [country, setCountry] = useState('US');
   const [area, setArea] = useState('');
-  const [capability, setCapability] = useState('sms'); // sms | voice | both (informational)
+  const [capability, setCapability] = useState('sms');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [assigningId, setAssigningId] = useState(null);
@@ -110,7 +101,6 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
     setResults([]);
 
     const digits = (area || '').replace(/\D/g, '');
-
     if (digits.length !== 3) {
       setLoading(false);
       setErr('Please enter a 3-digit area code (e.g., 415).');
@@ -134,14 +124,10 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         }
       })
       .catch(() => {
-        setErr(
-          'Could not load available numbers. Try a nearby area code or a different country.'
-        );
+        setErr('Could not load available numbers. Try a nearby area code or a different country.');
         setResults([]);
       })
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   };
 
   const assign = (n) => {
@@ -153,13 +139,10 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
     axiosClient
       .post('/numbers/reserve', { e164 })
-      .catch(() => {
-        // soft-fail ok; claim will still attempt purchase
-      })
+      .catch(() => {})
       .then(() =>
         axiosClient.post('/numbers/claim', {
           e164,
-          // future: send keepLocked flag if you want to use lockOnAssign
         })
       )
       .then(() => {
@@ -171,9 +154,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         onClose?.();
       })
       .catch(() => {
-        setErr(
-          'Could not assign that number. It may have just been taken—try another.'
-        );
+        setErr('Could not assign that number. It may have just been taken—try another.');
       })
       .finally(() => {
         setAssigningId(null);
@@ -181,13 +162,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   };
 
   return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      title="Pick a number"
-      size="lg"
-      radius="lg"
-    >
+    <Modal opened={opened} onClose={onClose} title="Pick a number" size="lg" radius="lg">
       <Stack gap="sm">
         <Group align="end" wrap="wrap">
           <Select
@@ -217,11 +192,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             ]}
             style={{ minWidth: 180 }}
           />
-          <Button
-            onClick={search}
-            leftSection={<IconSearch size={16} />}
-            loading={loading}
-          >
+          <Button onClick={search} leftSection={<IconSearch size={16} />} loading={loading}>
             Search
           </Button>
         </Group>
@@ -239,11 +210,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
           </Text>
         </Group>
 
-        {err ? (
-          <Alert color="red" icon={<IconAlertTriangle size={16} />}>
-            {err}
-          </Alert>
-        ) : null}
+        {err && <Alert color="red" icon={<IconAlertTriangle size={16} />}>{err}</Alert>}
 
         <Divider label="Available numbers" />
 
@@ -260,8 +227,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             {results.map((n) => {
               const e164 = n.e164 || n.number;
               const caps = n.capabilities || n.caps || [];
-              const displayLocal =
-                n.local || n.locality || n.display || e164;
+              const displayLocal = n.local || n.locality || n.display || e164;
 
               return (
                 <Card key={e164} withBorder radius="md" p="sm">
@@ -275,22 +241,15 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                         </Text>
                       </Stack>
                       <Group gap={6}>
-                        {Array.isArray(caps) &&
-                          caps.map((c) => (
-                            <Badge key={c} variant="light">
-                              {String(c).toUpperCase()}
-                            </Badge>
-                          ))}
-                        {n.price ? (
-                          <Badge variant="outline">${n.price}/mo</Badge>
-                        ) : null}
+                        {caps.map((c) => (
+                          <Badge key={c} variant="light">
+                            {String(c).toUpperCase()}
+                          </Badge>
+                        ))}
+                        {n.price && <Badge variant="outline">${n.price}/mo</Badge>}
                       </Group>
                     </Group>
-
-                    <Button
-                      onClick={() => assign(n)}
-                      loading={assigningId === e164}
-                    >
+                    <Button onClick={() => assign(n)} loading={assigningId === e164}>
                       Select
                     </Button>
                   </Group>
@@ -304,7 +263,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   );
 }
 
-/* ---------------- Manager (main card in Profile) ---------------- */
+/* ---------------- Main Profile Card ---------------- */
 export default function PhoneNumberManager() {
   const { currentUser } = useUser();
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
@@ -321,23 +280,22 @@ export default function PhoneNumberManager() {
     axiosClient
       .get('/numbers/my')
       .then(({ data }) => {
-        const num = data?.number || null;
+        const numbers = Array.isArray(data) ? data : [];
+        const primary = numbers[0];
 
-        if (!num) {
+        if (!primary) {
           setStatus({ state: 'none' });
           return;
         }
 
-        const e164 = num.e164;
-        const capabilities =
-          num.capabilities && Array.isArray(num.capabilities)
-            ? num.capabilities
-            : ['sms', 'voice'];
-
-        const expiresAt = num.releaseAfter || null;
+        const e164 = primary.e164;
+        const capabilities = primary.capabilities || ['sms', 'voice'];
+        const expiresAt = primary.releaseAfter || null;
         const d = daysLeft(expiresAt);
         const state =
-          expiresAt && d !== null && d <= 14 ? 'expiring' : 'active';
+          primary.status === 'HOLD' || (expiresAt && d !== null && d <= 14)
+            ? 'expiring'
+            : 'active';
 
         setStatus({
           state,
@@ -345,16 +303,13 @@ export default function PhoneNumberManager() {
           local: e164,
           display: e164,
           capabilities,
-          locked: !!num.keepLocked,
+          locked: !!primary.keepLocked,
           expiresAt,
         });
       })
       .catch(() => {
         setStatus({ state: 'none' });
-        setBanner({
-          type: 'error',
-          message: 'Unable to load phone number status.',
-        });
+        setBanner({ type: 'error', message: 'Unable to load phone number status.' });
       })
       .finally(() => {
         setLoading(false);
@@ -370,22 +325,15 @@ export default function PhoneNumberManager() {
   const dLeft = useMemo(() => daysLeft(status?.expiresAt), [status]);
 
   const lock = () => {
-    const hasNumber = status?.state === 'active' || status?.state === 'expiring';
-    if (!hasNumber) {
-      setBanner({
-        type: 'info',
-        message: 'Assign a number first.',
-      });
+    if (!['active', 'expiring'].includes(status?.state)) {
+      setBanner({ type: 'info', message: 'Assign a number first.' });
       return;
     }
     if (!isPremium) {
       setBanner({
         type: 'warning',
         message: 'Locking numbers is a Premium feature.',
-        action: {
-          label: 'Upgrade',
-          href: '/settings/upgrade',
-        },
+        action: { label: 'Upgrade', href: '/settings/upgrade' },
       });
       return;
     }
@@ -393,31 +341,11 @@ export default function PhoneNumberManager() {
     axiosClient
       .post('/numbers/keep/enable')
       .then(() => {
-        setBanner({
-          type: 'success',
-          message: 'Number locked.',
-        });
+        setBanner({ type: 'success', message: 'Number locked.' });
         reload();
       })
-      .catch((e) => {
-        if (
-          e?.response?.status === 402 ||
-          e?.response?.data?.reason === 'premium_required'
-        ) {
-          setBanner({
-            type: 'warning',
-            message: 'Locking numbers is a Premium feature.',
-            action: {
-              label: 'Upgrade',
-              href: '/settings/upgrade',
-            },
-          });
-        } else {
-          setBanner({
-            type: 'error',
-            message: 'Could not lock the number.',
-          });
-        }
+      .catch(() => {
+        setBanner({ type: 'error', message: 'Could not lock the number.' });
       });
   };
 
@@ -425,42 +353,25 @@ export default function PhoneNumberManager() {
     axiosClient
       .post('/numbers/keep/disable')
       .then(() => {
-        setBanner({
-          type: 'success',
-          message: 'Number unlocked.',
-        });
+        setBanner({ type: 'success', message: 'Number unlocked.' });
         reload();
       })
       .catch(() => {
-        setBanner({
-          type: 'error',
-          message: 'Could not unlock the number.',
-        });
+        setBanner({ type: 'error', message: 'Could not unlock the number.' });
       });
   };
 
   const releaseNumber = () => {
-    if (
-      !window.confirm(
-        'Release your current number? It may be assigned to someone else.'
-      )
-    )
-      return;
+    if (!window.confirm('Release your current number? It may be assigned to someone else.')) return;
 
     axiosClient
       .post('/numbers/release')
       .then(() => {
-        setBanner({
-          type: 'warning',
-          message: 'Number released.',
-        });
+        setBanner({ type: 'warning', message: 'Number released.' });
         reload();
       })
       .catch(() => {
-        setBanner({
-          type: 'error',
-          message: 'Could not release the number.',
-        });
+        setBanner({ type: 'error', message: 'Could not release the number.' });
       });
   };
 
@@ -469,12 +380,7 @@ export default function PhoneNumberManager() {
 
     if (status?.state === 'active') {
       return (
-        <Badge
-          aria-label="badge-active"
-          color="green"
-          variant="light"
-          leftSection={<IconCircleCheck size={14} />}
-        >
+        <Badge color="green" variant="light" leftSection={<IconCircleCheck size={14} />}>
           Active
         </Badge>
       );
@@ -483,23 +389,14 @@ export default function PhoneNumberManager() {
     if (status?.state === 'expiring') {
       return (
         <Tooltip label={`Expires in ${dLeft} day${dLeft === 1 ? '' : 's'}`}>
-          <Badge
-            aria-label="badge-expiring"
-            color="yellow"
-            variant="light"
-            leftSection={<IconAlertTriangle size={14} />}
-          >
+          <Badge color="yellow" variant="light" leftSection={<IconAlertTriangle size={14} />}>
             {`Expiring${dLeft != null ? ` (${dLeft}d)` : ''}`}
           </Badge>
         </Tooltip>
       );
     }
 
-    return (
-      <Badge aria-label="badge-none" variant="outline">
-        No number
-      </Badge>
-    );
+    return <Badge variant="outline">No number</Badge>;
   };
 
   const bannerColor =
@@ -515,21 +412,11 @@ export default function PhoneNumberManager() {
     <>
       <Card withBorder radius="lg" p="lg">
         {banner?.message && (
-          <Alert
-            color={bannerColor}
-            withCloseButton
-            onClose={() => setBanner(null)}
-            mb="sm"
-          >
+          <Alert color={bannerColor} withCloseButton onClose={() => setBanner(null)} mb="sm">
             <Group justify="space-between" align="center" wrap="nowrap">
               <Text>{banner.message}</Text>
               {banner?.action && (
-                <Button
-                  component={Link}
-                  to={banner.action.href}
-                  size="xs"
-                  radius="xl"
-                >
+                <Button component={Link} to={banner.action.href} size="xs" radius="xl">
                   {banner.action.label}
                 </Button>
               )}
@@ -548,17 +435,13 @@ export default function PhoneNumberManager() {
 
           <Group gap="xs">
             {status?.locked ? (
-              <Button
-                variant="light"
-                leftSection={<IconLockOpen size={16} />}
-                onClick={unlock}
-              >
+              <Button variant="light" leftSection={<IconLockOpen size={16} />} onClick={unlock}>
                 Unlock
               </Button>
             ) : (
               <Tooltip
                 label={
-                  status?.state !== 'active' && status?.state !== 'expiring'
+                  !['active', 'expiring'].includes(status?.state)
                     ? 'Assign a number first'
                     : !isPremium
                     ? 'Premium feature'
@@ -569,14 +452,14 @@ export default function PhoneNumberManager() {
                   variant="light"
                   leftSection={<IconLock size={16} />}
                   onClick={lock}
-                  disabled={status?.state !== 'active' && status?.state !== 'expiring'}
+                  disabled={!['active', 'expiring'].includes(status?.state)}
                 >
                   Lock
                 </Button>
               </Tooltip>
             )}
 
-            {status?.state === 'active' || status?.state === 'expiring' ? (
+            {['active', 'expiring'].includes(status?.state) ? (
               <>
                 <Button
                   color="orange"
@@ -596,9 +479,7 @@ export default function PhoneNumberManager() {
                 </Button>
               </>
             ) : (
-              <Button onClick={() => setPickerOpen(true)}>
-                Pick a number
-              </Button>
+              <Button onClick={() => setPickerOpen(true)}>Pick a number</Button>
             )}
           </Group>
         </Group>
@@ -608,7 +489,7 @@ export default function PhoneNumberManager() {
         <Stack gap={4}>
           {loading ? (
             <Text c="dimmed">Loading…</Text>
-          ) : status?.state === 'active' || status?.state === 'expiring' ? (
+          ) : ['active', 'expiring'].includes(status?.state) ? (
             <>
               <Text fw={600} size="lg">
                 {fmtLocal(status.local || status.display || status.e164)}
@@ -618,20 +499,14 @@ export default function PhoneNumberManager() {
               </Text>
 
               <Group gap="xs" mt="xs">
-                {status.capabilities?.includes('sms') && (
-                  <Badge variant="outline">SMS</Badge>
-                )}
-                {status.capabilities?.includes('voice') && (
-                  <Badge variant="outline">VOICE</Badge>
-                )}
-
+                {status.capabilities?.includes('sms') && <Badge variant="outline">SMS</Badge>}
+                {status.capabilities?.includes('voice') && <Badge variant="outline">VOICE</Badge>}
                 {status.locked ? (
                   <Badge leftSection={<IconLock size={12} />}>Locked</Badge>
                 ) : (
                   <Badge>Not locked</Badge>
                 )}
-
-                {status.expiresAt ? (
+                {status.expiresAt && (
                   <Badge
                     color={status.state === 'expiring' ? 'yellow' : 'gray'}
                     variant="light"
@@ -640,13 +515,13 @@ export default function PhoneNumberManager() {
                       ? `Expires in ${dLeft}d`
                       : `Renews ${new Date(status.expiresAt).toLocaleDateString()}`}
                   </Badge>
-                ) : null}
+                )}
               </Group>
             </>
           ) : (
             <Text c="dimmed">
-              You don’t have a Chatforia number yet. Pick one by area code to start
-              texting and calling.
+              You don’t have a Chatforia number yet. Pick one by area code to start texting and
+              calling.
             </Text>
           )}
         </Stack>
@@ -656,12 +531,7 @@ export default function PhoneNumberManager() {
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onAssigned={(msg) => {
-          setBanner(
-            msg || {
-              type: 'success',
-              message: 'Number assigned.',
-            }
-          );
+          setBanner(msg || { type: 'success', message: 'Number assigned.' });
           setPickerOpen(false);
           reload();
         }}

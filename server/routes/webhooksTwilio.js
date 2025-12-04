@@ -139,4 +139,35 @@ r.post(
   })
 );
 
+/**
+ * POST /webhooks/status
+ * Twilio delivery status callback
+ */
+r.post(
+  '/status',
+  express.urlencoded({ extended: false }),
+  asyncHandler(async (req, res) => {
+    const {
+      MessageSid,
+      MessageStatus,
+      To,
+      From,
+      ErrorCode,
+      ErrorMessage,
+    } = req.body || {};
+
+    console.log(`[Twilio Status] ${MessageSid}: ${MessageStatus}`, {
+      To,
+      From,
+      ErrorCode,
+      ErrorMessage,
+    });
+
+    // Optional: forward to messageMonitor (if created)
+    // await messageMonitor.handleStatusUpdate({ ...req.body });
+
+    res.status(200).send('ok');
+  })
+);
+
 export default r;

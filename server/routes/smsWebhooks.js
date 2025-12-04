@@ -36,9 +36,28 @@ router.post(
 
       const toNumber = normalizeE164(To);
       const fromNumber = normalizeE164(From);
+      const bodyText = String(Body);
+      const upperBody = bodyText.trim().toUpperCase();
+
+      // --- NEW: handle carrier keywords (STOP/START/etc) --------------------
+      const STOP_KEYWORDS = ['STOP', 'STOPALL', 'UNSUBSCRIBE', 'CANCEL', 'END', 'QUIT'];
+      const START_KEYWORDS = ['START', 'YES', 'UNSTOP'];
+
+      // If this is a STOP/START keyword, we don't treat it as a user message.
+      // With Twilio's Advanced Opt-Out enabled on your Messaging Service,
+      // Twilio will handle the subscription state and confirmation text.
+      if (STOP_KEYWORDS.includes(upperBody) || START_KEYWORDS.includes(upperBody)) {
+        req.log?.info?.(
+          { fromNumber, toNumber, body: upperBody },
+          '[webhook][twilio] received carrier keyword; letting Twilio Advanced Opt-Out handle it'
+        );
+        // We still 200 to avoid Twilio retries.
+        return res.sendStatus(200);
+      }
+      // ----------------------------------------------------------------------
 
       // Basic validation (ack 200 to avoid retries on non-inbound noise)
-      if (!isE164(toNumber) || !isE164(fromNumber) || !Body) {
+      if (!isE164(toNumber) || !isE164(fromNumber) || !bodyText) {
         req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored');
         return res.sendStatus(200);
       }
@@ -47,7 +66,7 @@ router.post(
       const rec = await recordInboundSms({
         toNumber,
         fromNumber,
-        body: String(Body),
+        body: bodyText,
         provider: 'twilio',
         providerMessageId: MessageSid || null,
       });
@@ -72,7 +91,7 @@ router.post(
           if (user.forwardSmsToPhone && isE164(user.forwardPhoneNumber)) {
             await sendSms({
               to: normalizeE164(user.forwardPhoneNumber),
-              text: `From ${fromNumber}: ${String(Body)}`.slice(0, 800),
+              text: `From ${fromNumber}: ${bodyText}`.slice(0, 800),
               clientRef: `fwd:${rec.userId}:${Date.now()}`,
             });
           }
@@ -82,7 +101,7 @@ router.post(
               to: user.forwardEmail,
               from: process.env.MAIL_FROM || 'noreply@chatforia.app',
               subject: `SMS from ${fromNumber}`,
-              text: String(Body),
+              text: bodyText,
             });
           }
         }
@@ -96,7 +115,6 @@ router.post(
     }
   }
 );
-
 
 /* ----------------------------------------------------------------------------
  * TELNYX webhook

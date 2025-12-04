@@ -46,6 +46,9 @@ import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/k
 
 /* Phone number */
 import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
+
+import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
+
 /* 2FA */
 import TwoFASection from '@/components/security/TwoFASection.jsx';
 /* ✅ Forwarding lives outside the accordion */
@@ -879,7 +882,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           </Accordion.Control>
           <Accordion.Panel>
             <PhoneNumberManager />
-
+              <PhoneWarningBanner key={phone.id} phone={phone} onReactivate={refreshAuthUser} />
             {/* NEW: hint text about porting */}
             <Text size="sm" c="dimmed" mt="sm">
               {t(
