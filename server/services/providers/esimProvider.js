@@ -1,11 +1,26 @@
-// Right now we only support Telna.
-// If you ever add more providers, you can switch on process.env.ESIM_PROVIDER here.
-import * as telna from './telnaEsim.js';
-import { ESIM_ENABLED } from '../../config/esim.js';
+// Right now we only support 1GLOBAL.
+// If you ever add more providers, you can switch on ESIM_PROVIDER here.
+import * as oneglobal from './oneglobalEsim.js';
+import { ESIM_ENABLED, ESIM_PROVIDER } from '../../config/esim.js';
 
 function ensureEnabled() {
   if (!ESIM_ENABLED) {
     throw new Error('eSIM feature is disabled');
+  }
+}
+
+/**
+ * Resolve the active eSIM provider implementation.
+ * Currently only supports "oneglobal".
+ */
+function ensureProvider() {
+  const provider = (ESIM_PROVIDER || 'oneglobal').toLowerCase();
+
+  switch (provider) {
+    case 'oneglobal':
+      return oneglobal;
+    default:
+      throw new Error(`Unsupported eSIM provider: ${provider}`);
   }
 }
 
@@ -15,10 +30,13 @@ function ensureEnabled() {
  */
 export async function reserveEsimProfile(params) {
   ensureEnabled();
-  if (typeof telna.reserveEsimProfile !== 'function') {
-    throw new Error('reserveEsimProfile not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.reserveEsimProfile !== 'function') {
+    throw new Error('reserveEsimProfile not implemented for current eSIM provider');
   }
-  return telna.reserveEsimProfile(params);
+
+  return provider.reserveEsimProfile(params);
 }
 
 /**
@@ -27,10 +45,13 @@ export async function reserveEsimProfile(params) {
  */
 export async function activateProfile(params) {
   ensureEnabled();
-  if (typeof telna.activateProfile !== 'function') {
-    throw new Error('activateProfile not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.activateProfile !== 'function') {
+    throw new Error('activateProfile not implemented for current eSIM provider');
   }
-  return telna.activateProfile(params);
+
+  return provider.activateProfile(params);
 }
 
 /**
@@ -39,10 +60,13 @@ export async function activateProfile(params) {
  */
 export async function suspendLine(params) {
   ensureEnabled();
-  if (typeof telna.suspendLine !== 'function') {
-    throw new Error('suspendLine not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.suspendLine !== 'function') {
+    throw new Error('suspendLine not implemented for current eSIM provider');
   }
-  return telna.suspendLine(params);
+
+  return provider.suspendLine(params);
 }
 
 /**
@@ -51,10 +75,13 @@ export async function suspendLine(params) {
  */
 export async function resumeLine(params) {
   ensureEnabled();
-  if (typeof telna.resumeLine !== 'function') {
-    throw new Error('resumeLine not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.resumeLine !== 'function') {
+    throw new Error('resumeLine not implemented for current eSIM provider');
   }
-  return telna.resumeLine(params);
+
+  return provider.resumeLine(params);
 }
 
 /**
@@ -63,10 +90,13 @@ export async function resumeLine(params) {
  */
 export async function provisionEsimPack(params) {
   ensureEnabled();
-  if (typeof telna.provisionEsimPack !== 'function') {
-    throw new Error('provisionEsimPack not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.provisionEsimPack !== 'function') {
+    throw new Error('provisionEsimPack not implemented for current eSIM provider');
   }
-  return telna.provisionEsimPack(params);
+
+  return provider.provisionEsimPack(params);
 }
 
 /**
@@ -74,8 +104,11 @@ export async function provisionEsimPack(params) {
  */
 export async function fetchEsimUsage(profileId) {
   ensureEnabled();
-  if (typeof telna.fetchEsimUsage !== 'function') {
-    throw new Error('fetchEsimUsage not implemented for Telna');
+  const provider = ensureProvider();
+
+  if (typeof provider.fetchEsimUsage !== 'function') {
+    throw new Error('fetchEsimUsage not implemented for current eSIM provider');
   }
-  return telna.fetchEsimUsage(profileId);
+
+  return provider.fetchEsimUsage(profileId);
 }

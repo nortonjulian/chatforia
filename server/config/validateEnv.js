@@ -78,14 +78,41 @@ export default function validateEnv() {
   }
 
   // ─────────────────────────────────────────────────────────────
-  // eSIM / Connectivity (Telna) — only if explicitly enabled
+    // eSIM / Connectivity — only if explicitly enabled
   // ─────────────────────────────────────────────────────────────
-  const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
+  const esimEnabled = !!ENV.FEATURE_ESIM;
   if (esimEnabled) {
-    requireNonEmpty(ENV.TELNA_API_KEY, 'TELNA_API_KEY', { soft: SOFT });
-    // accept either TELNA_BASE_URL or TELNA_API_BASE
-    const telnaBase = ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE;
-    requireNonEmpty(telnaBase, 'TELNA_BASE_URL / TELNA_API_BASE', { soft: SOFT });
+    requireNonEmpty(ENV.ESIM_PROVIDER, 'ESIM_PROVIDER', {
+      soft: SOFT,
+      advice: 'e.g. "oneglobal"',
+    });
+
+    const provider = (ENV.ESIM_PROVIDER || '').toLowerCase();
+
+    if (provider === 'oneglobal') {
+      requireNonEmpty(ENV.ONEGLOBAL_API_KEY, 'ONEGLOBAL_API_KEY', { soft: SOFT });
+      requireNonEmpty(ENV.ONEGLOBAL_BASE_URL, 'ONEGLOBAL_BASE_URL', { soft: SOFT });
+
+      if (!ENV.ONEGLOBAL_CALLBACK_URL && SOFT) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[env] ONEGLOBAL_CALLBACK_URL should be set for eSIM webhooks (e.g. https://your-domain.com/api/esim/webhooks/oneglobal)'
+        );
+      }
+    } else {
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[env] Unknown ESIM_PROVIDER "${provider}" — no provider-specific validation applied.`
+      );
+    }
+
+    // Optional: warn if legacy TELNA_* are still set (so you remember to delete them later).
+    if (ENV.TELNA_API_KEY || ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[env] TELNA_* variables detected but ESIM_PROVIDER != "telna" — they are now unused.'
+      );
+    }
   }
 
   // ─────────────────────────────────────────────────────────────

@@ -1,10 +1,10 @@
-import { TELNA } from '../../config/esim.js';
-import { telnaRequest } from '../../utils/telnaClient.js';
+import { ONEGLOBAL } from '../../config/esim.js';
+import { oneglobalRequest } from '../../utils/oneglobalClient.js';
 
 // Helper to check config
 function ensureConfigured() {
-  if (!TELNA?.apiKey) {
-    throw new Error('Telna is not configured (missing API key)');
+  if (!ONEGLOBAL?.apiKey) {
+    throw new Error('1GLOBAL is not configured (missing API key)');
   }
 }
 
@@ -15,19 +15,17 @@ function ensureConfigured() {
 export async function reserveEsimProfile({ userId, region }) {
   ensureConfigured();
 
-  // TODO: adapt to Telna’s real API – path, payload, and response fields.
   const payload = {
     externalUserId: userId ? String(userId) : undefined,
     region, // 'US', 'EU', etc.
   };
 
-  const data = await telnaRequest('/esim/reserve', {
+  // TODO: adapt to 1GLOBAL’s real API – path, payload, and response fields.
+  const data = await oneglobalRequest('/esim/reserve', {
     method: 'POST',
     body: payload,
   });
 
-  // Normalize into the shape esimController expects:
-  // { smdp, activationCode, lpaUri, qrPayload, iccid, iccidHint }
   return {
     smdp: data.smdp || data.smDpPlus || null,
     activationCode: data.activationCode || data.matchingId || null,

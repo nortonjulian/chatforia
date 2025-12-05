@@ -1,15 +1,29 @@
-// More forgiving flag: "true", "1", "TRUE" all work
-export const ESIM_ENABLED = (() => {
-  const raw = String(process.env.FEATURE_ESIM ?? '').toLowerCase();
-  return raw === 'true' || raw === '1' || raw === 'yes';
-})();
+import { ENV } from './env.js';
 
-// Telna eSIM configuration
-export const TELNA = {
-  baseUrl: process.env.TELNA_BASE_URL || process.env.TELNA_API_BASE || null,
-  apiKey: process.env.TELNA_API_KEY || null,
-  webhookSecret: process.env.TELNA_WEBHOOK_SECRET || null,
-  callbackUrl: process.env.TELNA_CALLBACK_URL || null,
-  partnerId: process.env.TELNA_PARTNER_ID || null,
-  defaultPlanId: process.env.TELNA_DEFAULT_PLAN_ID || null,
+export const ESIM_ENABLED = !!ENV.FEATURE_ESIM;
+
+export const ESIM_PROVIDER = (ENV.ESIM_PROVIDER || 'oneglobal').toLowerCase();
+
+/**
+ * 1GLOBAL provider config
+ */
+export const ONEGLOBAL = {
+  apiKey: ENV.ONEGLOBAL_API_KEY || '',
+  baseUrl: ENV.ONEGLOBAL_BASE_URL || '',
+  webhookSecret: ENV.ONEGLOBAL_WEBHOOK_SECRET || '',
+  callbackUrl: ENV.ONEGLOBAL_CALLBACK_URL || '',
+  partnerId: ENV.ONEGLOBAL_PARTNER_ID || '',
+  defaultPlanId: ENV.ONEGLOBAL_DEFAULT_PLAN_ID || '',
 };
+
+/**
+ * Convenience switcher if/when you add more providers.
+ */
+export function getEsimProviderConfig() {
+  switch (ESIM_PROVIDER) {
+    case 'oneglobal':
+      return ONEGLOBAL;
+    default:
+      return null;
+  }
+}

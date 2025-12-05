@@ -450,7 +450,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       });
     }
   };
-
+  
     const handleAvatarUpload = async (file) => {
     if (!file) return;
 
@@ -935,7 +935,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               <Button
                 variant="outline"
                 size="xs"
-                onClick={() => navigate('/wireless/manage#port-number')}
+                onClick={() => navigate('/wireless/manage', { state: { scrollTo: 'port-number' } })
+                }
               >
                 {t('profile.wireless.portCta', 'Port my number')}
               </Button>

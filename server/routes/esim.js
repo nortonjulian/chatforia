@@ -8,7 +8,7 @@ import {
   handleEsimWebhook,
 } from '../controllers/esimController.js';
 
-import { ESIM_ENABLED, TELNA } from '../config/esim.js';
+import { ESIM_ENABLED, ESIM_PROVIDER, ONEGLOBAL } from '../config/esim.js';
 // import { requireAuth } from '../middleware/auth.js'; // enable when ready
 
 const router = express.Router();
@@ -18,13 +18,16 @@ const router = express.Router();
  * Basic read-only status for debugging (no secrets exposed)
  */
 router.get('/health', (req, res) => {
+  const provider = ESIM_PROVIDER || 'oneglobal';
+  const cfg = provider === 'oneglobal' ? ONEGLOBAL : null;
+
   res.json({
     enabled: ESIM_ENABLED,
-    provider: 'telna',
-    baseUrlConfigured: Boolean(TELNA?.baseUrl),
-    apiKeyConfigured: Boolean(TELNA?.apiKey),
-    partnerId: TELNA?.partnerId ?? null,
-    defaultPlanId: TELNA?.defaultPlanId ?? null,
+    provider,
+    baseUrlConfigured: Boolean(cfg?.baseUrl),
+    apiKeyConfigured: Boolean(cfg?.apiKey),
+    partnerId: cfg?.partnerId ?? null,
+    defaultPlanId: cfg?.defaultPlanId ?? null,
   });
 });
 
@@ -47,7 +50,7 @@ router.post('/resume',   /* requireAuth, */ resumeProfile);
  * You’ll point Telna’s webhook URL to this path.
  */
 router.post(
-  '/webhooks/telna',
+  '/webhooks/oneglobal',
   express.raw({ type: '*/*' }), // prevent JSON middleware from altering the body
   handleEsimWebhook
 );
