@@ -49,6 +49,20 @@ export default function PrivacyPolicy() {
         </List.Item>
       </List>
 
+      {/* 🔹 New: Mobile phone numbers and SMS */}
+      <Title order={4} mt="md" mb="xs">
+        {t(
+          'privacyPolicy.sms.title',
+          'Mobile phone numbers and SMS'
+        )}
+      </Title>
+      <Text mb="md">
+        {t(
+          'privacyPolicy.sms.body',
+          'If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.'
+        )}
+      </Text>
+
       <Title order={4} mt="md" mb="xs">
         {t(
           'privacyPolicy.howWeUse.title',
@@ -135,7 +149,7 @@ export default function PrivacyPolicy() {
       <Text>
         {t(
           'privacyPolicy.contact.body',
-          'privacy@chatforia.com • [Company legal name], [Address]'
+          'privacy@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA'
         )}
       </Text>
     </Container>

@@ -7,11 +7,17 @@ import {
   Button,
   Stack,
   Alert,
+  Text,
+  Anchor,
 } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 // import { toast } from '../utils/toast';
 
 export default function Registration() {
+  const { t } = useTranslation();
+
   const [form, setForm] = useState({ username: '', email: '', password: '' });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -41,8 +47,6 @@ export default function Registration() {
 
     // ✅ Run client-side validation and stop if invalid
     if (!validate()) {
-      // Optional global hint alongside field alert
-      // setGlobalError('Please enter a valid email address');
       return;
     }
 
@@ -78,7 +82,6 @@ export default function Registration() {
         }
 
         if (Object.keys(nxt).length) setErrors(nxt);
-        // toast.err('Please correct the highlighted fields.');
       } else if (status === 409) {
         const code = data?.code;
         const nxt = {};
@@ -93,13 +96,10 @@ export default function Registration() {
         } else {
           setErrors(nxt);
         }
-        // toast.err('Username or email already in use.');
       } else if (status === 429) {
         setGlobalError('Too many attempts. Please try again later.');
-        // toast.err('Too many attempts. Please try again later.');
       } else {
         setGlobalError(data?.message || 'Registration failed. Please try again.');
-        // toast.err('Registration failed. Please try again.');
       }
     } finally {
       setSubmitting(false);
@@ -110,7 +110,10 @@ export default function Registration() {
     <Paper withBorder shadow="sm" radius="xl" p="lg">
       {/* Use a real <form> so submit + validation fire in tests */}
       <form onSubmit={onSubmit} style={{ maxWidth: 420, margin: '0 auto' }}>
-        <Title order={3} mb="sm">Create account</Title>
+        <Title order={3} mb="sm">
+          {/* you can localize this later if you want */}
+          Create account
+        </Title>
 
         <Stack>
           {/* Ensure at least one element with role="alert" exists for invalid email */}
@@ -174,6 +177,24 @@ export default function Registration() {
           >
             Create account
           </Button>
+
+          {/* 🔹 New: SMS consent + legal links */}
+          <Text size="xs" c="dimmed" mt="xs">
+            {t(
+              'auth.registration.smsConsent',
+              'By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings.'
+            )}
+          </Text>
+
+          <Text size="xs" mt={4}>
+            <Anchor component={Link} to="/legal/terms">
+              {t('auth.registration.termsLink', 'Terms of Service')}
+            </Anchor>
+            {' · '}
+            <Anchor component={Link} to="/legal/privacy">
+              {t('auth.registration.privacyLink', 'Privacy Policy')}
+            </Anchor>
+          </Text>
         </Stack>
       </form>
     </Paper>

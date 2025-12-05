@@ -14,7 +14,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { IconUserPlus, IconChevronsDown } from '@tabler/icons-react';
+import { IconChevronsDown } from '@tabler/icons-react';
 
 /**
  * Recipient object shape:
@@ -218,33 +218,19 @@ export default function RecipientSelector({
                   input: { padding: 0, minHeight: 24 },
                 }}
                 rightSection={
-                  <Group gap={4}>
-                    <Tooltip label="Browse contacts">
+                  value.length > 1 ? (
+                    <Tooltip label="Show all recipients">
                       <ActionIcon
-                        aria-label="Browse contacts"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onRequestBrowse?.();
-                        }}
+                        aria-label="Show all recipients"
+                        onClick={(e) => e.stopPropagation()}
                         size="sm"
                       >
-                        <IconUserPlus size={14} />
+                        <IconChevronsDown size={14} />
                       </ActionIcon>
                     </Tooltip>
-                    {value.length > 1 && (
-                      <Tooltip label="Show all recipients">
-                        <ActionIcon
-                          aria-label="Show all recipients"
-                          onClick={(e) => e.stopPropagation()}
-                          size="sm"
-                        >
-                          <IconChevronsDown size={14} />
-                        </ActionIcon>
-                      </Tooltip>
-                    )}
-                  </Group>
+                  ) : null
                 }
-                rightSectionWidth={80}
+                rightSectionWidth={40}
               />
             </Popover.Target>
 

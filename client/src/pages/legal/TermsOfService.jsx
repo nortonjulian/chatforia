@@ -58,6 +58,17 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
+      {/* 🔹 New: SMS communications section */}
+      <Title order={4} mt="md" mb="xs">
+        {t('terms.sms.title', 'SMS communications')}
+      </Title>
+      <Text mb="md">
+        {t(
+          'terms.sms.body',
+          'If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app.'
+        )}
+      </Text>
+
       <Title order={4} mt="md" mb="xs">
         {t('terms.yourContent.title', 'Your content')}
       </Title>
@@ -94,7 +105,7 @@ export default function TermsOfService() {
       <Text>
         {t(
           'terms.contact.body',
-          'support@chatforia.com • [Company legal name], [Address]'
+          'support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA'
         )}
       </Text>
     </Container>

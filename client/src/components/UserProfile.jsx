@@ -882,7 +882,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           </Accordion.Control>
           <Accordion.Panel>
             <PhoneNumberManager />
-              <PhoneWarningBanner key={phone.id} phone={phone} onReactivate={refreshAuthUser} />
+        
             {/* NEW: hint text about porting */}
             <Text size="sm" c="dimmed" mt="sm">
               {t(

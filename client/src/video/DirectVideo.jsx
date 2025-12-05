@@ -1,4 +1,3 @@
-// client/src/video/DirectVideo.jsx
 import { useEffect, useState } from 'react';
 import { Box, Card, Group, TextInput, Button, Stack, Text, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';

@@ -29,6 +29,7 @@ import {
 } from '@tabler/icons-react';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
+import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
 
 /* ---------------- helpers ---------------- */
 const fmtLocal = (n) => {
@@ -273,6 +274,7 @@ export default function PhoneNumberManager() {
   const [status, setStatus] = useState(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [banner, setBanner] = useState(null);
+  const [primaryPhone, setPrimaryPhone] = useState(null);
   const ran = useRef(false);
 
   const reload = () => {
@@ -284,9 +286,13 @@ export default function PhoneNumberManager() {
         const primary = numbers[0];
 
         if (!primary) {
+          setPrimaryPhone(null);
           setStatus({ state: 'none' });
           return;
         }
+
+        // Save the raw phone object for warnings / reactivation
+        setPrimaryPhone(primary);
 
         const e164 = primary.e164;
         const capabilities = primary.capabilities || ['sms', 'voice'];
@@ -308,6 +314,7 @@ export default function PhoneNumberManager() {
         });
       })
       .catch(() => {
+        setPrimaryPhone(null);
         setStatus({ state: 'none' });
         setBanner({ type: 'error', message: 'Unable to load phone number status.' });
       })
@@ -411,6 +418,11 @@ export default function PhoneNumberManager() {
   return (
     <>
       <Card withBorder radius="lg" p="lg">
+        {/* Expiring-number warning (uses raw primary phone record) */}
+        {primaryPhone && (
+          <PhoneWarningBanner phone={primaryPhone} onReactivate={reload} />
+        )}
+        
         {banner?.message && (
           <Alert color={bannerColor} withCloseButton onClose={() => setBanner(null)} mb="sm">
             <Group justify="space-between" align="center" wrap="nowrap">
