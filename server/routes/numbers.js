@@ -20,10 +20,26 @@ async function resolveTwilioProvider() {
 }
 
 /** Policy helper (shown to client) */
-function getPolicy() {
+function getPolicy(plan = 'FREE') {
   const inactivityDays = Number(process.env.NUMBER_INACTIVITY_DAYS) || 30;
   const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
-  return { inactivityDays, holdDays };
+
+  if (plan === 'FREE') {
+    return {
+      mode: 'AUTO_RECYCLE',
+      inactivityDays,
+      holdDays,
+      description: 'Numbers may be recycled after inactivity on the Free plan.',
+    };
+  }
+
+  return {
+    mode: 'PROTECTED',
+    inactivityDays: null,
+    holdDays: null,
+    description:
+      'Your number is protected from automatic recycling while your subscription is active.',
+  };
 }
 
 /**

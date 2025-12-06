@@ -5,6 +5,9 @@ import { initSocket } from './socket.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
 import { initCrons } from './cron/index.js'; // moved here from app.js
 
+import { startNumberLifecycleJob } from './jobs/numberLifecycle.js';
+import { startMessageRetentionJob } from './jobs/messageRetention.js';
+
 import validateEnv from './config/validateEnv.js';
 import { ENV } from './config/env.js';
 import logger from './utils/logger.js';
@@ -68,6 +71,15 @@ if (ENV.IS_TEST) {
     logger.info('Cron jobs started');
   } catch (e) {
     logger.warn({ err: e }, 'Cron init failed');
+  }
+
+    // Start number lifecycle + message retention jobs
+  try {
+    startNumberLifecycleJob();
+    startMessageRetentionJob();
+    logger.info('Number lifecycle + message retention jobs started');
+  } catch (e) {
+    logger.warn({ err: e }, 'Failed to start number/message jobs');
   }
 
   // Wire up Socket.IO and stash helpers so routes/services can emit

@@ -1,12 +1,33 @@
 export const FOOTER_SECTIONS = [
   {
-    title: "Company",
+    title: 'Company',
+    i18nKey: 'company',
     links: [
-      { label: "Plans & Pricing", href: "/upgrade" },
-      { label: "About Chatforia", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Advertise", href: "/advertise" },
+      {
+        label: 'Plans & Pricing',
+        href: '/pricing',            // 👈 important: goes to pricing page
+        i18nKey: 'plans-pricing',
+      },
+      {
+        label: 'About Chatforia',
+        href: '/about',
+        i18nKey: 'about-chatforia',
+      },
+      {
+        label: 'Careers',
+        href: '/careers',
+        i18nKey: 'careers',
+      },
+      {
+        label: 'Press',
+        href: '/press',
+        i18nKey: 'press',
+      },
+      {
+        label: 'Advertise',
+        href: '/advertise',
+        i18nKey: 'advertise',
+      },
     ],
   },
   {

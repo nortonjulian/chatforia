@@ -77,19 +77,55 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
 .brand-logo svg{ width:100%; height:100%; display:block; } /* removed vertical-align */
 .brand-lockup__name{ margin:0; line-height:1; }
 
-/* ================== Auth background (theme-aware) ================== */
-.auth-page {
+/* ================== Page backgrounds (shared gradient) ================== */
+
+/* Light / Sun / default themes */
+.auth-page,
+.public-page,
+.app-surface--tint {
   min-height: 100vh;
   background:
-    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand-purple) 22%, transparent), transparent),
-    radial-gradient(900px 500px at 110% 110%, color-mix(in oklab, var(--gold-1) 14%, transparent), transparent);
+    radial-gradient(
+      1200px 700px at 10% -10%,
+      color-mix(in oklab, var(--brand-purple) 22%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      1100px 650px at 110% 110%,
+      color-mix(in oklab, var(--gold-1) 22%, transparent),
+      transparent
+    ),
+    var(--bg);
 }
+
+/* Extra padding only for public / marketing pages */
+.public-page,
+.app-surface--tint {
+  padding-block: 32px 48px;
+}
+
+/* Dark / midnight / amoled variants */
 :root[data-theme="dark"] .auth-page,
+:root[data-theme="dark"] .public-page,
+:root[data-theme="dark"] .app-surface--tint,
 :root[data-theme="midnight"] .auth-page,
-:root[data-theme="amoled"] .auth-page {
+:root[data-theme="midnight"] .public-page,
+:root[data-theme="midnight"] .app-surface--tint,
+:root[data-theme="amoled"] .auth-page,
+:root[data-theme="amoled"] .public-page,
+:root[data-theme="amoled"] .app-surface--tint {
   background:
-    radial-gradient(1200px 600px at 10% -10%, color-mix(in oklab, var(--brand-indigo) 26%, transparent), transparent),
-    radial-gradient(900px 500px at 110% 110%, color-mix(in oklab, var(--brand-blue) 16%, transparent), transparent);
+    radial-gradient(
+      1200px 700px at 10% -10%,
+      color-mix(in oklab, var(--brand-indigo) 30%, transparent),
+      transparent
+    ),
+    radial-gradient(
+      1100px 650px at 110% 110%,
+      color-mix(in oklab, var(--brand-blue) 22%, transparent),
+      transparent
+    ),
+    var(--bg);
 }
 
 /* ================== Gradient text helpers ================== */
@@ -103,17 +139,35 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
   color: var(--gold-2) !important;
 }
 
-.auth-page .mantine-Anchor-root,
-.auth-page a.auth-link-gradient { background: var(--cta-gradient); -webkit-background-clip: text; background-clip: text; color: transparent !important; -webkit-text-fill-color: transparent; text-decoration: none; }
-.auth-page .mantine-Anchor-root:hover,
-.auth-page a.auth-link-gradient:hover { text-decoration: underline; filter: brightness(1.05); }
+/* Gradient links used for "← Home" etc. */
+a.auth-link-gradient {
+  background: var(--cta-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
 
-/* ================== Optional light-mode page tint ================== */
-.app-surface--tint {
-  background:
-    radial-gradient(800px 480px at 10% -10%, color-mix(in oklab, var(--brand-violet) 8%, transparent), transparent),
-    radial-gradient(700px 420px at 110% 110%, color-mix(in oklab, var(--brand-cyan) 10%, transparent), transparent),
-    var(--bg);
+a.auth-link-gradient:hover {
+  text-decoration: underline;
+  filter: brightness(1.05);
+}
+
+.auth-page .mantine-Anchor-root,
+.auth-page .auth-link-gradient {
+  background: var(--cta-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+}
+
+.auth-page .mantine-Anchor-root:hover,
+.auth-link-gradient:hover {
+  text-decoration: underline;
+  filter: brightness(1.05);
 }
 
 /* ================== App-wide surfaces & Mantine mapping ================== */
@@ -373,5 +427,35 @@ html, body, #root { height: 100%; }
   opacity: 1 !important;
 }
 
+/* Final gradient "← Home" link (public pages) */
+a.home-link-pure {
+  display: inline-block;
 
+  /* text styling */
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
 
+  /* purple → teal gradient */
+  background-image: linear-gradient(
+    90deg,
+    #7c3aed 0%,   /* purple at left (arrow/start) */
+    #22d3ee 100%  /* teal at right */
+  );
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  /* crush global `a { color: var(--accent) }` */
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  /* remove default underline */
+  text-decoration: none !important;
+}
+
+a.home-link-pure:hover {
+  text-decoration: underline !important;
+  filter: brightness(1.05);
+}

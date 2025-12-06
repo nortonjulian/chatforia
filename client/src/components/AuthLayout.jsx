@@ -258,15 +258,40 @@ export default function AuthLayout() {
 
                   {/* Copy block under headline */}
                   <div className="hero-after">
-                    <Text size="lg" style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}>
+                    <Text
+                      size="lg"
+                      style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}
+                    >
                       {t(
                         'auth.hero.sub',
-                        'End-to-end encryption, AI-powered translation, disappearing messages, and voice/video calling.'
+                        'Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, AI-powered translation in 100+ languages, disappearing messages, and HD voice/video calling.'
+                      )}
+                    </Text>
+
+                    {/* small clarifier */}
+                    <Text
+                      size="xs"
+                      style={{
+                        color: 'var(--fg)',
+                        opacity: 0.7,
+                        marginTop: 8,          // was 4 → a bit more space from subheadline
+                        maxWidth: 560,
+                      }}
+                    >
+                      {t(
+                        'auth.hero.freeNote',
+                        'Basic calling and texting are free. Advanced AI and premium features require an upgrade.'
                       )}
                     </Text>
 
                     {/* feature bullets */}
-                    <List spacing="sm" size="sm" center className="auth-list">
+                    <List 
+                      spacing="sm" 
+                      size="sm" 
+                      center 
+                      className="auth-list"
+                      style={{ marginTop: 8 }} 
+                    >
                       <List.Item
                         icon={
                           <ThemeIcon
@@ -391,7 +416,7 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
           </Grid>
-
+                      
           {/* SupportWidget under grid */}
           <SupportWidget excludeRoutes={['/login', '/reset-password']} />
         </Container>

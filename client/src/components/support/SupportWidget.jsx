@@ -1,4 +1,3 @@
-// client/src/components/support/SupportWidget.jsx
 import { useMemo, useState, useEffect } from 'react';
 import {
   Affix,

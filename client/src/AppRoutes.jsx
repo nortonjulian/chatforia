@@ -29,6 +29,7 @@ import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 
+
 // ✅ Family pages
 import FamilyDashboard from '@/pages/FamilyDashboard.jsx';
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
@@ -309,47 +310,51 @@ export default function AppRoutes() {
   }, []);
 
   if (!currentUser) {
-    return (
-      <Routes>
-        <Route path="/upgrade" element={<UpgradePage variant="public" />} />
-        <Route path="/upgrade/success" element={<UpgradeSuccess />} />
-        <Route path="/billing/return" element={<BillingReturn />} />
-        <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />
+  return (
+    <Routes>
+      {/* Public pricing / upgrade page (no AuthLayout hero) */}
+      <Route path="/upgrade" element={<UpgradePage variant="public" />} />
+      <Route path="/pricing" element={<UpgradePage variant="public" />} />
 
-        <Route element={<AuthLayout />}>
-          <Route path="/" element={<LoginForm />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/auth/complete" element={<OAuthComplete />} />
-          <Route path="/about" element={<AboutChatforia />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/press" element={<Press />} />
-          <Route path="/advertise" element={<Advertise />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/download" element={<Downloads />} />
-          <Route path="/guides/getting-started" element={<GettingStarted />} />
-          <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/legal/terms" element={<TermsOfService />} />
-          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
-          <Route path="/legal/cookies" element={<CookieSettings />} />
+      {/* Auth + marketing layout (hero + auth forms, guides, etc.) */}
+      <Route element={<AuthLayout />}>
+        <Route path="/" element={<LoginForm />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/auth/complete" element={<OAuthComplete />} />
+        <Route path="/about" element={<AboutChatforia />} />
+        <Route path="/careers" element={<Careers />} />
+        <Route path="/press" element={<Press />} />
+        <Route path="/advertise" element={<Advertise />} />
+        <Route path="/help" element={<HelpCenter />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/download" element={<Downloads />} />
+        <Route path="/guides/getting-started" element={<GettingStarted />} />
+        <Route
+          path="/guides"
+          element={<Navigate to="/guides/getting-started" replace />}
+        />
+        <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
+        <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/legal/terms" element={<TermsOfService />} />
+        <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
+        <Route path="/legal/cookies" element={<CookieSettings />} />
 
-          {/* ✅ Family invite join route (works even when logged out) */}
-          <Route path="/family/join/:token" element={<FamilyJoin />} />
-        </Route>
+        {/* Family invite join route (works even when logged out) */}
+        <Route path="/family/join/:token" element={<FamilyJoin />} />
+      </Route>
 
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    );
-  }
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
+}
 
   return (
     <Routes>
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
+      <Route path="/pricing" element={<Navigate to="/upgrade" replace />} />
       <Route path="/upgrade/success" element={<UpgradeSuccess />} />
       <Route path="/billing/return" element={<BillingReturn />} />
       <Route path="/settings/upgrade" element={<Navigate to="/upgrade" replace />} />

@@ -1,4 +1,3 @@
-// client/src/pages/Advertise.jsx
 import { useMemo, useState } from 'react';
 import {
   Paper,

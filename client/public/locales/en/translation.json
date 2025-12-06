@@ -30,7 +30,9 @@
     "avatarAlt": "Profile avatar",
     "uploadAvatar": "Upload new avatar",
     "avatarSuccess": "Avatar uploaded!",
-    "avatarError": "Error uploading avatar",
+    "avatarError": "Failed to upload avatar",
+    "avatarUpdated": "Avatar updated!",
+    "uploadingAvatar": "Uploading avatar…",
     "noPrivateKey": "There is no private key on this device to export.",
     "setBackupPassword": "Set a password to encrypt your backup:",
     "backupDownloaded": "Encrypted backup downloaded.",
@@ -148,7 +150,7 @@
       "manage": "Manage wireless"
     },
     "esim": {
-      "title": "Chatforia eSIM (Teal)",
+      "title": "Chatforia eSIM",
       "desc": "Get mobile data for Chatforia when you’re away from Wi-Fi.",
       "cta": "Get eSIM / Show QR"
     }
@@ -389,7 +391,10 @@
     "delete": "Delete",
     "deleteContactAria": "Delete contact",
     "loadFailed": "Failed to load contacts. Please try again.",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "call": "Call",
+    "callStarted": "Calling this number via your Chatforia number…",
+    "callFailed": "Failed to start call. Please try again."
   },
   "sidebar": {
     "randomChat": "Random Chat",
@@ -438,7 +443,8 @@
       "line1": "Secure, global",
       "beforeEm": "messaging with",
       "em": "instant translation",
-      "sub": "End-to-end encryption, AI-powered translation, disappearing messages, and voice/video calling."
+      "sub": "Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, AI-powered translation in 100+ languages, disappearing messages, and HD voice/video calling.",
+      "freeNote": "Basic calling and texting are free. Advanced AI and premium features require an upgrade."
     },
     "feat": {
       "encryption": "End-to-end encryption by default",
@@ -479,7 +485,12 @@
     "androidBadgeAlt": "Google Play badge",
     "login": "Log In",
     "signup": "Sign Up",
-    "email": "Email"
+    "email": "Email",
+    "registration": {
+      "smsConsent": "By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings.",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy"
+    }
   },
   "footer": {
     "plans": "Plans & Pricing",
@@ -566,23 +577,25 @@
   },
   "careers": {
     "title": "Careers",
-    "intro": "We’re a small team building a private, global messenger. If you care about encryption, accessibility, and delightful UX, we’d love to hear from you.",
-    "openRoles": "<b>Open roles:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
-    "apply": "<b>How to apply:</b> Email your resume/links to <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Email your resume"
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS — maintain &amp; improve), Mobile Engineer (Android — maintain &amp; improve), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales."
   },
   "about": {
     "title": "About Chatforia",
     "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
     "valuesTitle": "What we value",
     "values": {
-    "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
-    "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
-    "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
-    "privacy_aria": "Privacy-first: E2E encryption by default.",
-    "access_aria": "Access for all: Auto-translate 100+ languages.",
-    "control_aria": "Control: Disappearing messages and read receipts are optional."
-  },
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+      "privacy_aria": "Privacy-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Disappearing messages and read receipts are optional."
+    },
     "howTitle": "How Chatforia works",
     "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
   },
@@ -635,7 +648,7 @@
   "upgrade": {
     "title": "Upgrade",
     "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place.",
-    "subtitle.app": "Unlock the right plan for you: go ad-free with Plus, or get our full power features with Premium.",
+    "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
     "subtitle.mobile": "Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.",
     "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
     "perMonth": "mo",
@@ -676,11 +689,14 @@
       "free": {
         "title": "Free",
         "price": "$0",
-        "desc": "Start messaging for free.",
+        "desc": "Get a free Chatforia number, calling, and messaging over Wi-Fi or data — supported by ads.",
         "features": {
+          "number": "Free Chatforia phone number",
+          "callsSms": "Calling & texting over Wi-Fi or data (fair-use limits)",
           "msg": "1:1 and group messaging",
-          "aiBasic": "Basic AI replies",
-          "attachments": "Standard attachments"
+          "aiBasic": "Auto-translation & basic AI replies (fair-use limits)",
+          "attachments": "Standard attachments",
+          "ads": "Ad-supported experience"
         },
         "ctaCurrent": "Current Plan",
         "ctaUnavailable": "Switch to Free (not available)",
@@ -691,10 +707,9 @@
         "price": "$4.99 / mo",
         "desc": "Most affordable ad-free experience.",
         "features": {
-          "noAds": "Remove all ads",
-          "msg": "1:1 and group messaging",
-          "attachments": "Larger attachments",
-          "aiBasic": "Basic AI replies"
+          "allFree": "Everything in Free, without ads",
+          "attachments": "Larger attachments & more media history",
+          "aiBasic": "More generous AI & translation limits"
         },
         "badge": "Popular",
         "cta": "Go Ad-Free",
@@ -707,9 +722,10 @@
         "features": {
           "plusAll": "Everything in Plus",
           "ringtones": "Custom ringtones & message tones",
-          "powerAi": "Power AI features",
+          "powerAi": "Advanced AI tools: rewrites, tones, smart replies, summaries",
           "priorityUpdates": "Priority updates",
-          "backups": "Backups & device syncing"
+          "backups": "Backups, device syncing, and priority updates",
+          "unlimitedTranslate": "Unlimited auto-translation (100+ languages)"
         },
         "badge": "Best value",
         "cta": "Upgrade (Monthly)",
@@ -723,7 +739,7 @@
           "allPremium": "Everything in Premium",
           "annualBilling": "Billed annually",
           "save25": "Save ~25% vs monthly",
-          "sameFeatures": "Same features as Monthly"
+          "sameFeatures": "Same AI, translation, and power features as Monthly"
         },
         "badge": "Save 25%",
         "cta": "Upgrade (Annual)",
@@ -744,18 +760,98 @@
       "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
     },
     "mobile": {
+      "title": "Chatforia Mobile (eSIM data)",
+      "subtitle": "Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.",
+      "perPack": "/ pack",
+      "cta": "Get this data pack",
+      "checkout": {
+        "redirecting": "Redirecting…"
+      },
       "small": {
-        "price": "$9.99",
-        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls."
+        "title": "Starter pack",
+        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.",
+        "price": "$9.99"
       },
       "medium": {
-        "price": "$14.99",
-        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls."
+        "title": "Traveler pack",
+        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.",
+        "price": "$14.99"
       },
       "large": {
-        "price": "$24.99",
-        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network."
-      }
+        "title": "Power pack",
+        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.",
+        "price": "$24.99"
+      },
+     "why": {
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
+        }
+      },
+      "tableTitle": "How Chatforia compares",
+      "col": {
+        "feature": "Feature"
+      },
+      "feature": {
+        "freeNumber": "Free phone number",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Ad-free option",
+        "history": "Message history"
+      },
+      "yes": "Yes",
+      "no": "No",
+      "yesPremium": "Yes (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limited",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Limited / account-based"
+      },
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
+    },
+    "family": {
+      "title": "Chatforia Family (shared data)",
+      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
+        "price": "$29.99"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
+        "price": "$49.99"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
+        "price": "$79.99"
+      },
+      "feature": {
+        "shared": "Shared data pool for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "Manage limits for each member",
+        "topUp": "Add more packs anytime",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
+      },
+      "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime."
     }
   },
   "gettingStarted": {
@@ -838,6 +934,10 @@
       "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
       "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
     },
+    "sms": {
+      "title": "Mobile phone numbers and SMS",
+      "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing."
+    },
     "howWeUse": {
       "title": "How we use information",
       "provide": "Provide and secure the service (auth, spam/abuse detection).",
@@ -866,7 +966,7 @@
     },
     "contact": {
       "title": "Contact",
-      "body": "privacy@chatforia.com • [Company legal name], [Address]"
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
   "terms": {
@@ -885,6 +985,10 @@
       "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
       "itemSuspend": "We may suspend/terminate for violations."
     },
+    "sms": {
+      "title": "SMS communications",
+      "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+    },
     "yourContent": {
       "title": "Your content",
       "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
@@ -899,7 +1003,7 @@
     },
     "contact": {
       "title": "Contact",
-      "body": "support@chatforia.com • [Company legal name], [Address]"
+      "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
     }
   },
   "doNotSell": {
@@ -1086,97 +1190,98 @@
     "syncTip": "Tip: Your messages stay synced across web and mobile."
   },
   "randomChat": {
-  "title": "Random Chat",
-  "description": "Meet someone new instantly. We’ll match you and open a temporary chat room.",
-  "findMatch": "Find me a match",
-  "chatWithForia": "Chat with Foria",
-  "chatWithForiaBot": "Chat with ForiaBot",
-  "cancel": "Cancel",
-  "close": "Close",
-  "searching": "Searching…",
-  "finding": "Finding…",
-  "looking": "Looking for someone…",
-  "startingForia": "Starting a chat with Foria…",
-  "partnerDisconnected": "Your partner disconnected.",
-  "noPartner": "No partner found right now.",
-  "connectedTo": "Connected to {{name}}",
-  "connected": "Connected",
-  "idle": "Idle",
-  "partnerLeft": "Partner left.",
-  "stopped": "Stopped.",
-  "skip": "Skip",
-  "save": "Save",
-  "saveGuard": "Only human-to-human chats can be saved",
-  "youAreChattingWith": "You’re chatting with {{name}}",
-  "bot": "BOT",
-  "leave": "Leave",
-  "sayHi": "Say hi 👋",
-  "you": "You",
-  "typeMessage": "Type a message",
-  "send": "Send",
-  "partner": "Partner",
-  "withRia": "With Ria",
-  "chatWithRia": "Chat with Ria",
-  "startingRia": "Starting a chat with Ria…",
-  "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
-  "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
-  "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat."
-},
+    "title": "Random Chat",
+    "description": "Meet someone new instantly. We’ll match you and open a temporary chat room.",
+    "findMatch": "Find me a match",
+    "chatWithForia": "Chat with Foria",
+    "chatWithForiaBot": "Chat with ForiaBot",
+    "cancel": "Cancel",
+    "close": "Close",
+    "searching": "Searching…",
+    "finding": "Finding…",
+    "looking": "Looking for someone…",
+    "startingForia": "Starting a chat with Foria…",
+    "partnerDisconnected": "Your partner disconnected.",
+    "noPartner": "No partner found right now.",
+    "connectedTo": "Connected to {{name}}",
+    "connected": "Connected",
+    "idle": "Idle",
+    "partnerLeft": "Partner left.",
+    "stopped": "Stopped.",
+    "skip": "Skip",
+    "save": "Save",
+    "saveGuard": "Only human-to-human chats can be saved",
+    "youAreChattingWith": "You’re chatting with {{name}}",
+    "bot": "BOT",
+    "leave": "Leave",
+    "sayHi": "Say hi 👋",
+    "you": "You",
+    "typeMessage": "Type a message",
+    "send": "Send",
+    "partner": "Partner",
+    "withRia": "With Ria",
+    "chatWithRia": "Chat with Ria",
+    "startingRia": "Starting a chat with Ria…",
+    "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+    "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+    "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat."
+  },
   "brand": {
     "name": "Chatforia",
     "ria": "Ria"
   },
   "ria": {
-  "fallbackName": "there",
-  "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
-  "greetings": {
-    "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
-    "long2": "Hi {{name}} 😊 What would you like to talk about today?",
-    "long3": "Hey {{name}}! I’m all ears — what’s up?",
-    "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
-    "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
-    "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
-    "short1": "Hey {{name}}, I’m still here. What’s up?",
-    "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
-    "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
-    "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
-    "short5": "Yes {{name}}? I’m listening 👂",
-    "short6": "Oh hey {{name}}! Got something new on your mind?"
-  },
-  "header": {
-    "openNav": "Open navigation menu",
-    "closeNav": "Close navigation menu",
-    "homeAria": "Chatforia Home"
-  },
-  "login": {
-    "welcomeBack": "Welcome back",
-    "title": "Continue to Chatforia",
-    "subtitleReturning": "Log in to your Chatforia account",
-    "subtitle": "Log in to your Chatforia account",
-    "google": "Continue with Google",
-    "apple": "Continue with Apple",
-    "googleUnavailable": "Google sign-in unavailable",
-    "appleUnavailable": "Apple sign-in unavailable",
-    "or": "or",
-    "email": "Email",
-    "emailPh": "you@example.com",
-    "usernameLabel": "Username",
-    "usernamePh": "Your username",
-    "passwordLabel": "Password",
-    "passwordPh": "Your password",
-    "keepSignedIn": "Keep me signed in",
-    "forgot": "Forgot password?",
-    "submit": "Log In",
-    "loggingIn": "Logging in…",
-    "newHere": "New here? <link>Create an account</link>",
-    "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
-    "error": {
-      "missing": "Please enter your credentials.",
-      "invalid": "Invalid username or password",
-      "denied": "Access denied.",
-      "unprocessable": "Invalid request. Check your username/email and password.",
-      "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
-      "premiumRequired": "This action requires a Premium plan."
+    "fallbackName": "there",
+    "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+    "greetings": {
+      "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+      "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+      "long3": "Hey {{name}}! I’m all ears — what’s up?",
+      "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+      "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+      "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+      "short1": "Hey {{name}}, I’m still here. What’s up?",
+      "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+      "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+      "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+      "short5": "Yes {{name}}? I’m listening 👂",
+      "short6": "Oh hey {{name}}! Got something new on your mind?"
+    },
+    "header": {
+      "openNav": "Open navigation menu",
+      "closeNav": "Close navigation menu",
+      "homeAria": "Chatforia Home"
+    },
+    "login": {
+      "welcomeBack": "Welcome back",
+      "title": "Continue to Chatforia",
+      "subtitleReturning": "Log in to your Chatforia account",
+      "subtitle": "Log in to your Chatforia account",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "googleUnavailable": "Google sign-in unavailable",
+      "appleUnavailable": "Apple sign-in unavailable",
+      "or": "or",
+      "email": "Email",
+      "emailPh": "you@example.com",
+      "usernameLabel": "Username",
+      "usernamePh": "Your username",
+      "passwordLabel": "Password",
+      "passwordPh": "Your password",
+      "keepSignedIn": "Keep me signed in",
+      "forgot": "Forgot password?",
+      "submit": "Log In",
+      "loggingIn": "Logging in…",
+      "newHere": "New here? <link>Create an account</link>",
+      "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+      "error": {
+        "missing": "Please enter your credentials.",
+        "invalid": "Invalid username or password",
+        "denied": "Access denied.",
+        "unprocessable": "Invalid request. Check your username/email and password.",
+        "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+        "premiumRequired": "This action requires a Premium plan."
+      }
     }
   },
   "oauth": {
@@ -1252,6 +1357,11 @@
     "findUserPh": "Search by name or username",
     "search": "Search",
     "call": "Call"
+  },
+  "phoneWarning": {
+    "title": "Your number is expiring soon",
+    "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+    "button": "Keep My Number"
   }
  }
 }

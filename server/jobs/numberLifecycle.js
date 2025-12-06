@@ -17,14 +17,21 @@ export function startNumberLifecycleJob() {
     console.log(`[NumberLifecycle] Job started at ${now.toISOString()}`);
 
     // 1) Move ASSIGNED but inactive to HOLD (unless keepLocked)
-    const inactive = await prisma.phoneNumber.findMany({
+    const inactiveFree = await prisma.phoneNumber.findMany({
       where: {
         status: 'ASSIGNED',
         keepLocked: false,
+        // Only Free users are subject to auto-recycling
+        assignedUser: {
+          plan: 'FREE', // adjust if your User.plan is an enum or lowercased string
+        },
         OR: [
           { lastOutboundAt: null },
           { lastOutboundAt: { lt: inactivityCutoff } },
         ],
+      },
+      include: {
+        assignedUser: { select: { id: true, plan: true, email: true } },
       },
     });
 

@@ -12,6 +12,7 @@ import {
   SegmentedControl,
   Box,
   Divider,
+  Table,
 } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
@@ -71,7 +72,7 @@ function formatMoney(amountMinor, currency = 'USD', locale) {
   return nf.format(major);
 }
 
-function PlanCard({
+export function PlanCard({
   title,
   price,
   description,
@@ -152,6 +153,156 @@ function PlanCard({
         {footer}
       </Stack>
     </Card>
+  );
+}
+
+function WhyChatforiaSection() {
+  const { t } = useTranslation();
+
+  return (
+    <Stack gap="md" mt="xl">
+      <Divider my="sm" />
+
+      <Title order={3}>
+        {t('upgrade.why.title', 'Why people switch to Chatforia')}
+      </Title>
+
+      <Text size="sm" c="dimmed">
+        {t(
+          'upgrade.why.subtitle',
+          'Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.'
+        )}
+      </Text>
+
+      {/* Small comparison cards */}
+      <SimpleGrid cols={{ base: 1, md: 3 }} spacing="md">
+        <Card withBorder radius="lg" p="md">
+          <Text fw={600} size="sm">
+            {t('upgrade.why.card.textnow.title', 'Chatforia vs TextNow')}
+          </Text>
+          <Text size="xs" c="dimmed" mt={4}>
+            {t(
+              'upgrade.why.card.textnow.body',
+              'Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer.'
+            )}
+          </Text>
+        </Card>
+
+        <Card withBorder radius="lg" p="md">
+          <Text fw={600} size="sm">
+            {t('upgrade.why.card.voice.title', 'Chatforia vs Google Voice')}
+          </Text>
+          <Text size="xs" c="dimmed" mt={4}>
+            {t(
+              'upgrade.why.card.voice.body',
+              'Modern app, global-first design, and built-in translation instead of old-school call forwarding.'
+            )}
+          </Text>
+        </Card>
+
+        <Card withBorder radius="lg" p="md">
+          <Text fw={600} size="sm">
+            {t('upgrade.why.card.messengers.title', 'Chatforia vs chat apps')}
+          </Text>
+          <Text size="xs" c="dimmed" mt={4}>
+            {t(
+              'upgrade.why.card.messengers.body',
+              'Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe.'
+            )}
+          </Text>
+        </Card>
+      </SimpleGrid>
+
+      {/* Compact comparison table */}
+      <Card withBorder radius="lg" p="md">
+        <Text fw={600} size="sm" mb={8}>
+          {t('upgrade.why.tableTitle', 'How Chatforia compares')}
+        </Text>
+
+        <Table
+          highlightOnHover
+          striped
+          verticalSpacing="xs"
+          horizontalSpacing="md"
+        >
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>{t('upgrade.why.col.feature', 'Feature')}</Table.Th>
+              <Table.Th>Chatforia</Table.Th>
+              <Table.Th>TextNow</Table.Th>
+              <Table.Th>Google Voice</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            <Table.Tr>
+              <Table.Td>
+                {t('upgrade.why.feature.freeNumber', 'Free phone number')}
+              </Table.Td>
+              <Table.Td>{t('upgrade.why.yes', 'Yes')}</Table.Td>
+              <Table.Td>{t('upgrade.why.yes', 'Yes')}</Table.Td>
+              <Table.Td>{t('upgrade.why.yes', 'Yes')}</Table.Td>
+            </Table.Tr>
+
+            <Table.Tr>
+              <Table.Td>
+                {t(
+                  'upgrade.why.feature.translation',
+                  'Built-in auto-translation'
+                )}
+              </Table.Td>
+              <Table.Td>{t('upgrade.why.yes', 'Yes')}</Table.Td>
+              <Table.Td>{t('upgrade.why.no', 'No')}</Table.Td>
+              <Table.Td>{t('upgrade.why.no', 'No')}</Table.Td>
+            </Table.Tr>
+
+            <Table.Tr>
+              <Table.Td>
+                {t(
+                  'upgrade.why.feature.aiTools',
+                  'AI tools (rewrites, replies, summaries)'
+                )}
+              </Table.Td>
+              <Table.Td>
+                {t('upgrade.why.yesPremium', 'Yes (Premium)')}
+              </Table.Td>
+              <Table.Td>{t('upgrade.why.no', 'No')}</Table.Td>
+              <Table.Td>{t('upgrade.why.no', 'No')}</Table.Td>
+            </Table.Tr>
+
+            <Table.Tr>
+              <Table.Td>{t('upgrade.why.feature.ads', 'Ad-free option')}</Table.Td>
+              <Table.Td>
+                {t('upgrade.why.plusPremium', 'Plus & Premium')}
+              </Table.Td>
+              <Table.Td>{t('upgrade.why.limited', 'Limited')}</Table.Td>
+              <Table.Td>{t('upgrade.why.nA', 'N/A')}</Table.Td>
+            </Table.Tr>
+
+            <Table.Tr>
+              <Table.Td>
+                {t('upgrade.why.feature.history', 'Message history')}
+              </Table.Td>
+              <Table.Td>
+                {t('upgrade.why.history.chatforia', 'Up to 12+ months')}
+              </Table.Td>
+              <Table.Td>
+                {t('upgrade.why.history.textnow', 'Varies by account')}
+              </Table.Td>
+              <Table.Td>
+                {t('upgrade.why.history.voice', 'Limited / account-based')}
+              </Table.Td>
+            </Table.Tr>
+          </Table.Tbody>
+        </Table>
+
+        <Text size="xs" c="dimmed" mt="xs">
+          {t(
+            'upgrade.why.disclaimer',
+            'Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow.'
+          )}
+        </Text>
+      </Card>
+    </Stack>
   );
 }
 
@@ -356,7 +507,7 @@ export default function UpgradePage({ variant = 'account' }) {
       let priceId = null;
 
       try {
-        const { data } = await axiosClient.get('/api/pricing/quote', {
+        const { data } = await axiosClient.get('/pricing/quote', {
           params: { product },
         });
         priceId = data?.stripePriceId || null;
@@ -469,15 +620,36 @@ export default function UpgradePage({ variant = 'account' }) {
       : t('upgrade.mobile.cta', 'Get this data pack')
     : t('upgrade.auth.continue', 'Continue to login');
 
-  return (
+    // ⬇️ put this at the bottom of UpgradePage, instead of your current `return (...)` + extra const
+
+  const content = (
     <Stack gap="lg" maw={900} mx="auto" p="md">
+      {variant === 'public' && (
+        <Link
+          to="/"
+          className="home-link-pure"
+          style={{
+            backgroundImage: 'linear-gradient(90deg, #7c3aed 0%, #22d3ee 100%)',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+            WebkitTextFillColor: 'transparent',
+            textDecoration: 'none',
+            fontWeight: 500,
+            fontSize: '0.875rem', // same as Mantine sm
+          }}
+        >
+          ← Home
+        </Link>
+      )}
+
       <Title order={2}>{t('upgrade.title', 'Upgrade')}</Title>
 
       <Text c="dimmed">
         {section === SECTION_APP &&
           t(
             'upgrade.subtitle.app',
-            'Unlock the right plan for you: go ad-free with Plus, or get our full power features with Premium.'
+            'Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.'
           )}
 
         {section === SECTION_MOBILE &&
@@ -564,12 +736,22 @@ export default function UpgradePage({ variant = 'account' }) {
               price={t('upgrade.plans.free.price', '$0')}
               description={t('upgrade.plans.free.desc', 'Start messaging for free.')}
               features={[
+                t(
+                  'upgrade.plans.free.features.history',
+                  'Message history: 30 days'
+                ),
+                t('upgrade.plans.free.features.number', 'Free Chatforia phone number'),
+                t(
+                  'upgrade.plans.free.features.callsSms',
+                  'Calling & texting over Wi-Fi or data (fair-use limits)'
+                ),
                 t('upgrade.plans.free.features.msg', '1:1 and group messaging'),
                 t(
                   'upgrade.plans.free.features.aiBasic',
                   'Auto-translation & basic AI replies (fair-use limits)'
                 ),
                 t('upgrade.plans.free.features.attachments', 'Standard attachments'),
+                t('upgrade.plans.free.features.ads', 'Ad-supported experience'),
               ]}
               icon={<MessageSquare size={18} />}
               cta={
@@ -587,11 +769,23 @@ export default function UpgradePage({ variant = 'account' }) {
               testId="plan-plus"
               title={t('upgrade.plans.plus.title', 'Plus')}
               price={labelPlus}
-              description={t('upgrade.plans.plus.desc', 'Most affordable ad-free experience.')}
-              // Plus
+              description={t(
+                'upgrade.plans.plus.desc',
+                'Most affordable ad-free experience.'
+              )}
               features={[
-                t('upgrade.plans.plus.features.noAds', 'Remove all ads'),
-                t('upgrade.plans.plus.features.msg', '1:1 and group messaging'),
+                t(
+                  'upgrade.plans.plus.features.allFree',
+                  'Everything in Free, without ads'
+                ),
+                t(
+                  'upgrade.plans.plus.features.history',
+                  'Message history: 6 months'
+                ),
+                t(
+                  'upgrade.plans.plus.features.prioritySupport',
+                  'Priority support (faster email replies)'
+                ),
                 t(
                   'upgrade.plans.plus.features.attachments',
                   'Larger attachments & more media history'
@@ -601,7 +795,11 @@ export default function UpgradePage({ variant = 'account' }) {
                   'More generous AI & translation limits'
                 ),
               ]}
-              badge={!isPremium && !isPlus ? t('upgrade.plans.plus.badge', 'Popular') : undefined}
+              badge={
+                !isPremium && !isPlus
+                  ? t('upgrade.plans.plus.badge', 'Popular')
+                  : undefined
+              }
               badgeColor="orange"
               icon={<Ban size={18} />}
               cta={ctaPlus}
@@ -616,20 +814,36 @@ export default function UpgradePage({ variant = 'account' }) {
                       })
                   : navigate('/login?next=/upgrade')
               }
-              loading={isAuthed ? (isPlus || isPremium ? loadingPortal : loadingCheckout) : false}
+              loading={
+                isAuthed ? (isPlus || isPremium ? loadingPortal : loadingCheckout) : false
+              }
             />
 
             {/* Premium — Monthly */}
             <PlanCard
               testId="plan-premium-monthly"
-              title={t('upgrade.plans.premiumMonthly.title', 'Premium (Monthly)')}
+              title={t(
+                'upgrade.plans.premiumMonthly.title',
+                'Premium (Monthly)'
+              )}
               price={labelPremMonthly}
               description={t(
                 'upgrade.plans.premiumMonthly.desc',
                 'Full features, ringtones, and AI power tools.'
               )}
               features={[
-                t('upgrade.plans.premiumMonthly.features.plusAll', 'Everything in Plus'),
+                t(
+                  'upgrade.plans.premiumMonthly.features.plusAll',
+                  'Everything in Plus'
+                ),
+                t(
+                  'upgrade.plans.premiumMonthly.features.history',
+                  'Message history: 12+ months'
+                ),
+                t(
+                  'upgrade.plans.premiumMonthly.features.numberLock',
+                  'Number protection: keep your Chatforia number even if you take a break'
+                ),
                 t(
                   'upgrade.plans.premiumMonthly.features.unlimitedTranslate',
                   'Unlimited auto-translation (100+ languages)'
@@ -645,6 +859,10 @@ export default function UpgradePage({ variant = 'account' }) {
                 t(
                   'upgrade.plans.premiumMonthly.features.backups',
                   'Backups, device syncing, and priority updates'
+                ),
+                t(
+                  'upgrade.plans.premiumMonthly.features.earlyAccess',
+                  'Early access to new features & betas'
                 ),
               ]}
               highlight={billingCycle === 'monthly'}
@@ -668,7 +886,9 @@ export default function UpgradePage({ variant = 'account' }) {
                       })
                   : navigate('/login?next=/upgrade')
               }
-              loading={isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false}
+              loading={
+                isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false
+              }
             />
 
             {/* Premium — Annual */}
@@ -915,16 +1135,35 @@ export default function UpgradePage({ variant = 'account' }) {
         </>
       )}
 
+      {variant === 'public' && <WhyChatforiaSection />}
       {!isAuthed && (
-        <Group mt="xs" gap="sm">
-          <Button component={Link} to="/login?next=/upgrade">
+        <Group mt="lg" gap="sm" justify="center">
+          <Button
+            component={Link}
+            to="/login?next=/upgrade"
+            size="sm"
+            variant="default"
+          >
             {t('upgrade.auth.signIn', 'Sign in')}
           </Button>
-          <Button component={Link} to="/register?next=/upgrade" variant="light">
+          <Button
+            component={Link}
+            to="/register?next=/upgrade"
+            size="sm"
+            variant="light"
+          >
             {t('upgrade.auth.createAccount', 'Create account')}
           </Button>
         </Group>
       )}
     </Stack>
   );
+
+  // Wrap with gradient tint only for the public pricing page
+  if (variant === 'public') {
+    return <div className="public-page">{content}</div>;
+  }
+
+  // Account/inside-app view (no extra tint)
+  return content;
 }
