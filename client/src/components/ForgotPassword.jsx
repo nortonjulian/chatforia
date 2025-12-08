@@ -2,9 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axiosClient from '@/api/axiosClient';
 import {
-  Center,
-  Container,
-  Paper,
   Title,
   TextInput,
   Button,
@@ -32,7 +29,7 @@ export default function ForgotPassword() {
 
     // Client-side email validation -> show inline error and bail
     if (!validateEmail(email)) {
-      const msg = 'Please enter a valid email address';
+      const msg = 'Please enter a valid email address.';
       setInlineError(msg);
       setLoading(false);
       return;
@@ -50,7 +47,7 @@ export default function ForgotPassword() {
       const apiMsg =
         err?.response?.data?.message ||
         err?.response?.data?.error ||
-        'Unable to process request.';
+        'Unable to process request. Please try again in a moment.';
       setInlineError(apiMsg);
       // eslint-disable-next-line no-console
       console.error(err);
@@ -60,58 +57,69 @@ export default function ForgotPassword() {
   };
 
   return (
-    <Center style={{ minHeight: '100vh' }}>
-      <Container size="xs" px="md">
-        <Paper withBorder shadow="sm" radius="xl" p="lg">
-          <Title order={3} mb="md">
-            Forgot Password
-          </Title>
+    <>
+      <Title order={3} mb="xs">
+        Forgot Password
+      </Title>
 
-          {/* noValidate so jsdom hits our handler even with type="email" */}
-          <form onSubmit={handleSubmit} noValidate>
-            <Stack gap="sm">
-              {inlineError && (
-                <Text role="alert" c="red">
-                  {inlineError}
-                </Text>
-              )}
+      <Text size="sm" c="dimmed" mb="md">
+        Enter the email you used to create your Chatforia account and we&apos;ll
+        send you a secure link to reset your password.
+      </Text>
 
-              <TextInput
-                type="email"
-                label="Email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-                required
-              />
+      {/* noValidate so jsdom hits our handler even with type="email" */}
+      <form onSubmit={handleSubmit} noValidate>
+        <Stack gap="sm">
+          {inlineError && (
+            <Text role="alert" c="red">
+              {inlineError}
+            </Text>
+          )}
 
-              <Button type="submit" loading={loading} fullWidth>
-                Send Reset Link
-              </Button>
+          <TextInput
+            type="email"
+            label="Email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
+            required
+          />
 
-              {sent && <Text>Sent!</Text>}
+          <Button type="submit" loading={loading} fullWidth>
+            {loading ? 'Sending reset link...' : 'Send Reset Link'}
+          </Button>
 
-              {previewUrl && (
-                <Text ta="center" size="sm">
-                  <Anchor
-                    href={previewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Preview Email (Dev)
-                  </Anchor>
-                </Text>
-              )}
-
-              <Text ta="center" mt="sm">
-                <Anchor component={Link} to="/">
-                  Back to Login
-                </Anchor>
+          {sent && (
+            <>
+              {/* Keeps tests happy */}
+              <Text>Sent!</Text>
+              <Text size="sm" c="dimmed">
+                If an account exists with that email, we&apos;ve sent a password
+                reset link. It may take a few minutes to arrive. Be sure to
+                check your spam or promotions folder.
               </Text>
-            </Stack>
-          </form>
-        </Paper>
-      </Container>
-    </Center>
+            </>
+          )}
+
+          {previewUrl && (
+            <Text ta="center" size="sm">
+              <Anchor
+                href={previewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Preview Email (Dev)
+              </Anchor>
+            </Text>
+          )}
+
+          <Text ta="center" mt="sm">
+            <Anchor component={Link} to="/">
+              Back to Login
+            </Anchor>
+          </Text>
+        </Stack>
+      </form>
+    </>
   );
 }

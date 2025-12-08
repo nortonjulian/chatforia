@@ -191,6 +191,8 @@ export default function AuthLayout() {
   const pathname = location.pathname || '';
   const isLoginPage = pathname.startsWith('/login');
   const isRegisterPage = pathname.startsWith('/register');
+  const isForgotPasswordPage =
+    pathname.startsWith('/reset-password') || pathname.startsWith('/forgot-password');
   const PUBLIC_PRICING_ROUTE = '/pricing';
 
   return (
@@ -405,7 +407,7 @@ export default function AuthLayout() {
 
                           <Anchor
                             component={Link}
-                            to={PUBLIC_PRICING_ROUTE}   // <-- changed from "/upgrade"
+                            to={PUBLIC_PRICING_ROUTE}
                             style={{ fontSize: 14, color: 'var(--accent)' }}
                             aria-label={t('auth.seePlans', 'See plans & pricing')}
                           >
@@ -428,7 +430,7 @@ export default function AuthLayout() {
                           </Button>
                           <Anchor
                             component={Link}
-                            to={PUBLIC_PRICING_ROUTE}   // <-- changed from "/upgrade"
+                            to={PUBLIC_PRICING_ROUTE}
                             style={{ fontSize: 14, color: 'var(--accent)' }}
                             aria-label={t('auth.seePlans', 'See plans & pricing')}
                           >
@@ -459,15 +461,18 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
 
-            {/* RIGHT COLUMN: login card + GetApp card */}
+            {/* RIGHT COLUMN: login/forgot card + conditional GetApp card */}
             <Grid.Col
               span={{ base: 12, md: 6, lg: 5 }}
               order={{ base: 2, md: 2 }}
               style={{ alignSelf: 'start' }}
             >
-              <Stack gap="lg" className="auth-login">
+              <Stack
+                gap="lg"
+                className={`auth-login ${isForgotPasswordPage ? 'auth-login--forgot' : ''}`}
+              >
                 <Outlet />
-                <GetAppCard />
+                {!isForgotPasswordPage && <GetAppCard />}
               </Stack>
             </Grid.Col>
           </Grid>

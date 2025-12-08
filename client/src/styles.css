@@ -454,6 +454,13 @@ html, body, #root { background: var(--bg); color: var(--fg); }
   }
 }
 
+/* Only bump the Forgot Password card up on desktop */
+@media (min-width: 62em) {
+  .auth-login--forgot {
+    margin-top: 12px;
+  }
+}
+
 /* Chat layout: let the footer auto-size */
 .chatgrid {
   display: grid;
