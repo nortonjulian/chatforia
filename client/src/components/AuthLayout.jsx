@@ -195,6 +195,12 @@ export default function AuthLayout() {
     pathname.startsWith('/reset-password') || pathname.startsWith('/forgot-password');
   const PUBLIC_PRICING_ROUTE = '/pricing';
 
+  const showGetAppCard =
+    pathname === '/' ||
+    pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/getting-started');
+
   return (
     <div
       id="top"
@@ -472,7 +478,7 @@ export default function AuthLayout() {
                 className={`auth-login ${isForgotPasswordPage ? 'auth-login--forgot' : ''}`}
               >
                 <Outlet />
-                {!isForgotPasswordPage && <GetAppCard />}
+                {!isForgotPasswordPage && showGetAppCard && <GetAppCard />}
               </Stack>
             </Grid.Col>
           </Grid>

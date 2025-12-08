@@ -47,7 +47,7 @@ export default function GettingStarted() {
             {t('gettingStarted.section1.signup', 'Sign up')}
           </Anchor>{' '}
           {t('gettingStarted.section1.or', 'or')}{' '}
-          <Anchor component={Link} to="/">
+          <Anchor component={Link} to="/login">
             {t('gettingStarted.section1.login', 'log in')}
           </Anchor>{' '}
           {t(
@@ -59,11 +59,8 @@ export default function GettingStarted() {
         <List.Item>
           {t(
             'gettingStarted.section1.prefsStart',
-            'Set your'
+            'In the app, open Settings to set your preferences'
           )}{' '}
-          <Anchor component={Link} to="/settings">
-            {t('gettingStarted.section1.prefsLink', 'preferences')}
-          </Anchor>{' '}
           {t(
             'gettingStarted.section1.prefsRest',
             '(language, read receipts, themes).'
@@ -102,35 +99,34 @@ export default function GettingStarted() {
         <List.Item>
           {t(
             'gettingStarted.section3.item1Part1',
-            'Manage your plan on the'
+            'Compare plans on the'
           )}{' '}
-          <Anchor component={Link} to="/upgrade">
-            {t('gettingStarted.section3.upgradeLink', 'Upgrade')}
+          <Anchor component={Link} to="/pricing">
+            {t(
+              'gettingStarted.section3.pricingLink',
+              'Plans & pricing page'
+            )}
           </Anchor>{' '}
           {t(
             'gettingStarted.section3.item1Part2',
-            'page (Plus = ad-free, Premium = full features).'
+            'before upgrading inside the app.'
           )}
         </List.Item>
 
         <List.Item>
           {t(
             'gettingStarted.section3.item2Part1',
-            'Link additional devices and set up encrypted backups in'
-          )}{' '}
-          <Anchor component={Link} to="/settings">
-            {t('gettingStarted.section3.settingsLink', 'Settings')}
-          </Anchor>
-          {'.'}
+            'Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app.'
+          )}
         </List.Item>
       </List>
 
       <Group>
-        <Button component={Link} to="/upgrade" variant="light">
-          {t('gettingStarted.cta.seePlans', 'See plans')}
+        <Button component={Link} to="/pricing" variant="light">
+          {t('gettingStarted.cta.seePlans', 'See plans & pricing')}
         </Button>
-        <Button component={Link} to="/settings" variant="subtle">
-          {t('gettingStarted.cta.openSettings', 'Open settings')}
+        <Button component={Link} to="/register" variant="subtle">
+          {t('gettingStarted.cta.createAccount', 'Create an account')}
         </Button>
       </Group>
     </Stack>

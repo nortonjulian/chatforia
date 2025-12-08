@@ -31,30 +31,44 @@ export default function Careers() {
       </Text>
 
       <Stack gap="xs" mb="lg">
-        {/* Open roles line */}
+        {/* Open founding roles */}
         <Text
           aria-label={t(
             'careers.openRoles',
-            'Open founding roles: Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS — maintain & improve), Mobile Engineer (Android — maintain & improve), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
+            'Open founding roles: Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
           )}
           dangerouslySetInnerHTML={{
             __html: t(
               'careers.openRoles',
-              '<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS — maintain &amp; improve), Mobile Engineer (Android — maintain &amp; improve), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
+              '<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).'
             ),
           }}
         />
 
-        {/* How to apply (no email link — CTA button only) */}
+        {/* Future leadership opportunities */}
+        <Text
+          aria-label={t(
+            'careers.futureRoles',
+            'Future leadership opportunities (accepting interest): CTO (founding-level role — future hire), Engineering Manager (future leadership position).'
+          )}
+          dangerouslySetInnerHTML={{
+            __html: t(
+              'careers.futureRoles',
+              '<b>Future leadership opportunities (accepting interest):</b> CTO (founding-level role — future hire), Engineering Manager (future leadership position).'
+            ),
+          }}
+        />
+
+        {/* How to apply */}
         <Text
           aria-label={t(
             'careers.apply',
-            'How to apply: Use the button below to email your resume and links.'
+            'How to apply: Use the button below to email your resume, GitHub, and links.'
           )}
         >
           {t(
             'careers.apply',
-            'How to apply: Use the button below to email your resume and links.'
+            'How to apply: Use the button below to email your resume, GitHub, and links.'
           )}
         </Text>
       </Stack>
@@ -88,7 +102,7 @@ export default function Careers() {
         mt="lg"
         size="md"
         component="a"
-        href="mailto:jobs@chatforia.com"
+        href="mailto:careers@chatforia.com"
         aria-label={t('careers.emailCta', 'Email your resume')}
       >
         {t('careers.emailCta', 'Email your resume')}
