@@ -89,7 +89,7 @@ function GetAppCard() {
   const APPLE_SCALE = 0.76;
 
   return (
-    <Paper withBorder shadow="xs" radius="xl" p="md">
+    <Paper withBorder shadow="xs" radius="xl" p="md" className="auth-get-app-card">
       <Divider mb="md" label={t('auth.getApp', 'Get the app')} />
       <Group justify="space-between" wrap="nowrap" align="center">
         {/* QR: show on tablet/desktop */}
@@ -109,7 +109,9 @@ function GetAppCard() {
               radius="md"
               onError={(e) => {
                 e.currentTarget.src =
-                  `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(APP_GENERIC)}`;
+                  `https://api.qrserver.com/v1/create-qr-code/?size=192x192&data=${encodeURIComponent(
+                    APP_GENERIC
+                  )}`;
               }}
             />
           </Anchor>
@@ -186,11 +188,19 @@ export default function AuthLayout() {
   const { t } = useTranslation();
   const location = useLocation();
 
+  const pathname = location.pathname || '';
+  const isLoginPage = pathname.startsWith('/login');
+  const isRegisterPage = pathname.startsWith('/register');
+  const PUBLIC_PRICING_ROUTE = '/pricing';
+
   return (
-    <div id="top" className="auth-page min-h-screen flex flex-col">
+    <div
+      id="top"
+      className="auth-page public-page flex flex-col min-h-screen"
+    >
       {/* Main public content */}
-      <main className="flex-1">
-        <Container size="lg" py="xl">
+      <main className="flex-1 auth-main-container">
+        <Container size="lg">
           <MobileTopBar />
 
           {/* breadcrumb/back link */}
@@ -199,14 +209,13 @@ export default function AuthLayout() {
               component={Link}
               to="/"
               aria-label={t('auth.goHome', 'Go home')}
+              className="auth-link-gradient"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 fontSize: 14,
-                opacity: 0.85,
                 marginBottom: 12,
-                textDecoration: 'none',
               }}
             >
               ← {t('auth.home', 'Home')}
@@ -236,7 +245,7 @@ export default function AuthLayout() {
                       Chatforia
                     </Title>
 
-                    {/* BIG HEADLINE */}
+                    {/* BIG HEADLINE (Option A) */}
                     <Title
                       order={1}
                       className="auth-hero-title hero-bubble-title"
@@ -247,11 +256,12 @@ export default function AuthLayout() {
                         fontSize: 'clamp(34px, 5vw, 56px)',
                       }}
                     >
-                      {t('auth.hero.line1', 'Secure, global')}
-                      <br />
-                      {t('auth.hero.beforeEm', 'messaging with')}{' '}
+                      {t(
+                        'auth.hero.line1',
+                        'Secure messaging for anyone, anywhere — with'
+                      )}{' '}
                       <span className="text-blue-purple">
-                        {t('auth.hero.em', 'instant translation')}
+                        {t('auth.hero.em', 'translation to 100+ languages')}
                       </span>
                     </Title>
                   </div>
@@ -260,11 +270,12 @@ export default function AuthLayout() {
                   <div className="hero-after">
                     <Text
                       size="lg"
+                      className="hero-subcopy"
                       style={{ color: 'var(--fg)', opacity: 0.9, maxWidth: 560 }}
                     >
                       {t(
                         'auth.hero.sub',
-                        'Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, AI-powered translation in 100+ languages, disappearing messages, and HD voice/video calling.'
+                        'Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, disappearing messages, and HD voice/video calling — with built-in tools that help you stay connected across borders.'
                       )}
                     </Text>
 
@@ -274,7 +285,7 @@ export default function AuthLayout() {
                       style={{
                         color: 'var(--fg)',
                         opacity: 0.7,
-                        marginTop: 8,          // was 4 → a bit more space from subheadline
+                        marginTop: 8,
                         maxWidth: 560,
                       }}
                     >
@@ -285,18 +296,19 @@ export default function AuthLayout() {
                     </Text>
 
                     {/* feature bullets */}
-                    <List 
-                      spacing="sm" 
-                      size="sm" 
-                      center 
+                    <List
+                      spacing="sm"
+                      size="sm"
+                      center
                       className="auth-list"
-                      style={{ marginTop: 8 }} 
+                      style={{ marginTop: 8 }}
                     >
                       <List.Item
                         icon={
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
+                            className="auth-list-icon"
                             style={{
                               background: 'var(--cta-gradient)',
                               color: 'var(--cta-label)',
@@ -306,7 +318,10 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        {t('auth.feat.encryption', 'End-to-end encryption by default')}
+                        {t(
+                          'auth.feat.encryption',
+                          'End-to-end encryption, always on'
+                        )}
                       </List.Item>
 
                       <List.Item
@@ -314,6 +329,7 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
+                            className="auth-list-icon"
                             style={{
                               background: 'var(--cta-gradient)',
                               color: 'var(--cta-label)',
@@ -323,7 +339,10 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        {t('auth.feat.translate', 'Auto-translate 100+ languages')}
+                        {t(
+                          'auth.feat.translate',
+                          'Break language barriers in your conversations'
+                        )}
                       </List.Item>
 
                       <List.Item
@@ -331,6 +350,7 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
+                            className="auth-list-icon"
                             style={{
                               background: 'var(--cta-gradient)',
                               color: 'var(--cta-label)',
@@ -340,7 +360,10 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        {t('auth.feat.disappear', 'Disappearing messages & read receipts')}
+                        {t(
+                          'auth.feat.disappear',
+                          'Disappearing messages & read receipts'
+                        )}
                       </List.Item>
 
                       <List.Item
@@ -348,6 +371,7 @@ export default function AuthLayout() {
                           <ThemeIcon
                             variant="filled"
                             radius="xl"
+                            className="auth-list-icon"
                             style={{
                               background: 'var(--cta-gradient)',
                               color: 'var(--cta-label)',
@@ -357,34 +381,65 @@ export default function AuthLayout() {
                           </ThemeIcon>
                         }
                       >
-                        {t('auth.feat.privacy', 'Privacy-first. Your data, your control.')}
+                        {t(
+                          'auth.feat.privacy',
+                          'Privacy-first. Your data, your control.'
+                        )}
                       </List.Item>
                     </List>
 
-                    {/* CTA row */}
+                    {/* CTA row — route-aware */}
                     <Group gap="sm">
-                      <Button
-                        component={Link}
-                        to="/register"
-                        size="md"
-                        radius="xl"
-                        aria-label={t('auth.createAccount', 'Create free account')}
-                      >
-                        {t('auth.createAccount', 'Create free account')}
-                      </Button>
+                      {/* LOGIN PAGE → primary: create account + optional plans link */}
+                      {isLoginPage && (
+                        <>
+                          <Button
+                            component={Link}
+                            to="/register"
+                            size="md"
+                            radius="xl"
+                            aria-label={t('auth.createAccount', 'Create free account')}
+                          >
+                            {t('auth.createAccount', 'Create free account')}
+                          </Button>
 
-                      <Anchor
-                        component={Link}
-                        to="/upgrade"
-                        style={{ color: 'var(--accent)' }}
-                        aria-label={t('auth.upgrade', 'Upgrade')}
-                      >
-                        {t('auth.upgrade', 'Upgrade')}
-                      </Anchor>
+                          <Anchor
+                            component={Link}
+                            to={PUBLIC_PRICING_ROUTE}   // <-- changed from "/upgrade"
+                            style={{ fontSize: 14, color: 'var(--accent)' }}
+                            aria-label={t('auth.seePlans', 'See plans & pricing')}
+                          >
+                            {t('auth.seePlans', 'See plans & pricing')}
+                          </Anchor>
+                        </>
+                      )}
+
+                      {/* PUBLIC / OTHER AUTH ROUTES (if you use this layout elsewhere) */}
+                      {!isLoginPage && !isRegisterPage && (
+                        <>
+                          <Button
+                            component={Link}
+                            to="/register"
+                            size="md"
+                            radius="xl"
+                            aria-label={t('auth.createAccount', 'Create free account')}
+                          >
+                            {t('auth.createAccount', 'Create free account')}
+                          </Button>
+                          <Anchor
+                            component={Link}
+                            to={PUBLIC_PRICING_ROUTE}   // <-- changed from "/upgrade"
+                            style={{ fontSize: 14, color: 'var(--accent)' }}
+                            aria-label={t('auth.seePlans', 'See plans & pricing')}
+                          >
+                            {t('auth.seePlans', 'See plans & pricing')}
+                          </Anchor>
+                        </>
+                      )}
                     </Group>
 
                     {/* Tip box under row */}
-                    <Paper p="sm" withBorder radius="md">
+                    <Paper p="sm" withBorder radius="md" className="auth-tip">
                       <Text
                         size="xs"
                         style={{ color: 'var(--fg)', opacity: 0.85 }}
@@ -416,7 +471,7 @@ export default function AuthLayout() {
               </Stack>
             </Grid.Col>
           </Grid>
-                      
+
           {/* SupportWidget under grid */}
           <SupportWidget excludeRoutes={['/login', '/reset-password']} />
         </Container>

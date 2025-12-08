@@ -1,4 +1,3 @@
-// client/src/ads/HouseAdSlot.jsx
 import { Card, Group, Text, Button, Image, Box, Badge } from '@mantine/core';
 import { ADS_CONFIG } from './config';
 import { useNavigate } from 'react-router-dom';

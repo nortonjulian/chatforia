@@ -43,19 +43,73 @@
   box-shadow: 0 6px 20px var(--shadow-accent);
   transition: filter .15s ease, box-shadow .15s ease, transform .05s ease;
 }
-.button-primary::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--cta-overlay, transparent); pointer-events: none; }
-.button-primary > * { position: relative; z-index: 1; }
-.button-primary:hover  { filter: brightness(1.03); }
-.button-primary:active { transform: translateY(1px); }
 
-.oauth-button, .secondary-cta { background: var(--card); color: var(--accent); border: 1px solid var(--border); box-shadow: none; }
-a, .link { color: var(--accent); }
-a:hover, .link:hover { text-decoration: underline; filter: none; }
+.button-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--cta-overlay, transparent);
+  pointer-events: none;
+}
 
-.badge-gold {
-  background: color-mix(in oklab, var(--gold-1) 14%, transparent);
-  color: color-mix(in oklab, var(--gold-3) 78%, #111);
-  border: 1px solid color-mix(in oklab, var(--gold-2) 35%, transparent);
+.button-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.button-primary:hover {
+  filter: brightness(1.03);
+}
+
+.button-primary:active {
+  transform: translateY(1px);
+}
+
+.oauth-button,
+.secondary-cta {
+  background: var(--card);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+
+/* Baseline links everywhere */
+a,
+.link {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* underline normal links, but NOT the gradient Home link */
+a:hover:not(.auth-link-gradient),
+.link:hover {
+  text-decoration: underline;
+  filter: none;
+}
+
+/* Gradient “← Home” (and any other special link you mark) */
+a.auth-link-gradient {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  background: var(--cta-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+
+  text-decoration: none !important;
+}
+
+a.auth-link-gradient:hover {
+  text-decoration: none !important;
+  filter: brightness(1.05);
 }
 
 /* ================== Brand lockup / logo row ================== */
@@ -79,8 +133,25 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
 
 /* ================== Page backgrounds (shared gradient) ================== */
 
+
 /* Light / Sun / default themes */
-.auth-page,
+
+/* Auth: soft premium hero gradient */
+.auth-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left,
+      color-mix(in oklab, var(--gold-1) 70%, #ffffff 30%) 0%,
+      transparent 55%
+    ),
+    radial-gradient(circle at bottom right,
+      color-mix(in oklab, var(--gold-3) 55%, #ffffff 45%) 0%,
+      transparent 55%
+    ),
+    #fff7ef;
+}
+
+/* Marketing / app-tint surfaces keep the existing brandy gradient */
 .public-page,
 .app-surface--tint {
   min-height: 100vh;
@@ -128,6 +199,74 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
     var(--bg);
 }
 
+.auth-main-container {
+  padding-top: clamp(40px, 7vh, 80px);
+  padding-bottom: clamp(40px, 7vh, 80px);
+}
+
+/* keep auth content nicely centered on wide screens */
+.auth-page .mantine-Container-root {
+  max-width: 1120px;
+}
+
+/* -------- Hero tweaks -------- */
+
+.hero-heading-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-subcopy {
+  margin-top: 6px;
+}
+
+/* extra micro-adjust for the H1 */
+.auth-hero-title {
+  margin-top: 2px;
+}
+
+/* Bullet list spacing */
+.auth-list .mantine-List-item {
+  align-items: center;
+}
+
+.auth-list-icon {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Tip card under CTAs */
+.auth-tip {
+  border-color: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* -------- Login / right column -------- */
+
+.auth-login {
+  align-self: stretch;          /* fill column height */
+}
+
+.auth-login-card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.auth-login-card .oauth-button {
+  font-weight: 500;
+}
+
+.auth-sso-buttons {
+  margin-top: 4px;
+}
+
+/* QR / Get app card */
+.auth-get-app-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.04);
+}
+
 /* ================== Gradient text helpers ================== */
 .text-logo-gradient { background: var(--brand-gold-gradient); -webkit-background-clip: text; background-clip: text; color: transparent !important; -webkit-text-fill-color: transparent; }
 /* Use brand gold for the H1 accent */
@@ -139,18 +278,23 @@ a:hover, .link:hover { text-decoration: underline; filter: none; }
   color: var(--gold-2) !important;
 }
 
-/* Gradient links used for "← Home" etc. */
-a.auth-link-gradient {
+/* Gradient links used for "← Home" etc. (auth + public pages) */
+.auth-link-gradient {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
   background: var(--cta-gradient);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
   -webkit-text-fill-color: transparent;
-  text-decoration: none;
+  text-decoration: none !important;   /* no underline */
 }
 
-a.auth-link-gradient:hover {
-  text-decoration: underline;
+.auth-link-gradient:hover {
+  text-decoration: none !important;   /* still no underline */
   filter: brightness(1.05);
 }
 
@@ -168,6 +312,11 @@ a.auth-link-gradient:hover {
 .auth-link-gradient:hover {
   text-decoration: underline;
   filter: brightness(1.05);
+}
+
+.auth-inline-link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* ================== App-wide surfaces & Mantine mapping ================== */
@@ -301,7 +450,7 @@ html, body, #root { background: var(--bg); color: var(--fg); }
 @media (min-width: 62em) { /* Mantine md ≈ 992px */
   .auth-login {
     margin-right: 0;
-    margin-left: auto;  /* right-align on md+ */
+    margin-left: -6px;  /* right-align on md+ */
   }
 }
 
@@ -411,51 +560,56 @@ html, body, #root { height: 100%; }
 /* ================== Pricing / plan cards ================== */
 .plan-card {
   height: 100%;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  transition:
+    box-shadow .18s ease,
+    border-color .18s ease,
+    background-color .18s ease;
 }
 
-/* Highlighted “Best value” card, using theme tokens */
+/* NO MOVEMENT – just visual emphasis */
 .plan-card--highlight {
-  background: var(--surface-highlight-bg, var(--card));
-  color: var(--surface-highlight-fg, var(--fg));
+  transform: none;  /* <- key: no jump */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .18);
 }
 
-/* Make sure Mantine text components don’t dim themselves into illegibility
-   over the light coupon background. */
+/* Sun / Dawn / default – actually apply the tints.
+   Use !important so we beat Mantine's inline background: var(--card) */
+:root:not([data-theme]) .plan-card--highlight-yellow,
+:root[data-theme="sun"] .plan-card--highlight-yellow,
+:root[data-theme="dawn"] .plan-card--highlight-yellow {
+  background: color-mix(in oklab, var(--gold-1) 18%, var(--card)) !important;
+  border-color: color-mix(in oklab, var(--gold-2) 60%, transparent) !important;
+}
+
+:root:not([data-theme]) .plan-card--highlight-green,
+:root[data-theme="sun"] .plan-card--highlight-green,
+:root[data-theme="dawn"] .plan-card--highlight-green {
+  background: color-mix(in oklab, #16a34a 16%, var(--card)) !important;
+  border-color: color-mix(in oklab, #16a34a 60%, transparent) !important;
+}
+
+/* Optional: explicitly keep non-Sun themes neutral, if you ever add tints there */
+:root[data-theme="dark"] .plan-card--highlight-yellow,
+:root[data-theme="midnight"] .plan-card--highlight-yellow,
+:root[data-theme="amoled"] .plan-card--highlight-yellow,
+:root[data-theme="violet"] .plan-card--highlight-yellow,
+:root[data-theme="blue"] .plan-card--highlight-yellow,
+:root[data-theme="rose"] .plan-card--highlight-yellow,
+:root[data-theme="dark"] .plan-card--highlight-green,
+:root[data-theme="midnight"] .plan-card--highlight-green,
+:root[data-theme="amoled"] .plan-card--highlight-green,
+:root[data-theme="violet"] .plan-card--highlight-green,
+:root[data-theme="blue"] .plan-card--highlight-green,
+:root[data-theme="rose"] .plan-card--highlight-green {
+  background: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+/* Make sure text stays readable when highlighted */
 .plan-card--highlight .mantine-Text-root,
 .plan-card--highlight .mantine-Title-root {
   color: inherit !important;
   opacity: 1 !important;
-}
-
-/* Final gradient "← Home" link (public pages) */
-a.home-link-pure {
-  display: inline-block;
-
-  /* text styling */
-  font-size: var(--mantine-font-size-sm);
-  font-weight: 500;
-
-  /* purple → teal gradient */
-  background-image: linear-gradient(
-    90deg,
-    #7c3aed 0%,   /* purple at left (arrow/start) */
-    #22d3ee 100%  /* teal at right */
-  );
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  /* crush global `a { color: var(--accent) }` */
-  color: transparent !important;
-  -webkit-text-fill-color: transparent !important;
-
-  /* remove default underline */
-  text-decoration: none !important;
-}
-
-a.home-link-pure:hover {
-  text-decoration: underline !important;
-  filter: brightness(1.05);
 }

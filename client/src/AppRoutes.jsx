@@ -313,7 +313,7 @@ export default function AppRoutes() {
   return (
     <Routes>
       {/* Public pricing / upgrade page (no AuthLayout hero) */}
-      <Route path="/upgrade" element={<UpgradePage variant="public" />} />
+      <Route path="/upgrade" element={<UpgradePage variant="account" />} />
       <Route path="/pricing" element={<UpgradePage variant="public" />} />
 
       {/* Auth + marketing layout (hero + auth forms, guides, etc.) */}

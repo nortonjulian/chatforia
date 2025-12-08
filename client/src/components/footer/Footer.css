@@ -1,8 +1,8 @@
 /* ---------- Footer styles (theme-aware) ---------- */
 .cf-footer {
+  /* Keep a subtle line, but let the page gradient show through */
   border-top: 1px solid var(--border, rgba(0, 0, 0, 0.08));
-  /* Slightly elevated surface over whatever gradient is behind */
-  background: color-mix(in oklab, var(--bg) 96%, black 4%);
+  background: transparent !important;
 }
 
 .cf-footer__nav {
@@ -61,7 +61,6 @@
 .cf-footer__social svg {
   width: 16px;
   height: 16px;
-  /* Use muted color so it flips correctly in dark themes */
   fill: var(--muted, #525252);
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
@@ -81,9 +80,21 @@
   font-size: 14px;
 }
 
-@media (min-width: 640px) { .cf-footer__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 900px) { .cf-footer__cols { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (min-width: 1200px) { .cf-footer__cols { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 640px) {
+  .cf-footer__cols {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .cf-footer__cols {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .cf-footer__cols {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
 
 .cf-footer__col h3 {
   margin: 0 0 10px;
@@ -94,8 +105,14 @@
   letter-spacing: 0.02em;
 }
 
-.cf-footer__col ul { list-style: none; margin: 0; padding: 0; }
-.cf-footer__col li { margin: 8px 0; }
+.cf-footer__col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cf-footer__col li {
+  margin: 8px 0;
+}
 
 /* Links (inherit text color / override Mantine Anchor) */
 .cf-footer .cf-footer__link,

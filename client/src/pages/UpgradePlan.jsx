@@ -1,3 +1,4 @@
+// client/src/pages/UpgradePlan.jsx
 import { useEffect, useMemo, useState } from 'react';
 import {
   Card,
@@ -13,6 +14,7 @@ import {
   Box,
   Divider,
   Table,
+  Accordion,
 } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
@@ -86,26 +88,24 @@ export function PlanCard({
   badgeColor = 'gray',
   icon,
   testId,
-  tint = false, // mapped to CSS class
-  tintColor = 'yellow',
+  tint = false, // whether to apply a color tint
+  tintColor, // theme decides; no default
   ariaLabel,
   footer,
 }) {
   const { t } = useTranslation();
 
-  const cardClassName = [
-    'plan-card',
-    tint ? 'plan-card--highlight' : '',
-    // if you later want variants: tint && tintColor ? `plan-card--highlight-${tintColor}` : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  // Build classes purely from props; no auth/theme coupling
+  const classNames = ['plan-card'];
+  if (highlight) classNames.push('plan-card--highlight');
+  if (tint && tintColor) classNames.push(`plan-card--highlight-${tintColor}`);
+  const cardClassName = classNames.join(' ');
 
   return (
     <Card
       withBorder
       radius="xl"
-      shadow={highlight ? 'md' : 'sm'}
+      shadow="sm"
       p="lg"
       data-testid={testId}
       className={cardClassName}
@@ -128,11 +128,18 @@ export function PlanCard({
 
         <Title order={2}>{price}</Title>
 
-        <Stack gap={4}>
+        <Stack
+          gap={4}
+          component="ul"
+          className="plan-card-features"
+          style={{ margin: 0, paddingLeft: '1.2rem' }}
+        >
           {features.map((f) => (
-            <Text key={f} size="sm">
-              • {f}
-            </Text>
+            <li key={f}>
+              <Text size="sm" component="span">
+                {f}
+              </Text>
+            </li>
           ))}
         </Stack>
 
@@ -163,7 +170,8 @@ function WhyChatforiaSection() {
     <Stack gap="md" mt="xl">
       <Divider my="sm" />
 
-      <Title order={3}>
+      {/* H2: Why people switch */}
+      <Title order={2}>
         {t('upgrade.why.title', 'Why people switch to Chatforia')}
       </Title>
 
@@ -306,6 +314,152 @@ function WhyChatforiaSection() {
   );
 }
 
+function EsimCompareTable() {
+  const { t } = useTranslation();
+
+  return (
+    <Card withBorder radius="lg" p="md" mt="md">
+      <Text fw={600} size="sm" mb={8}>
+        {t('upgrade.mobile.compare.title', 'Compare eSIM data packs')}
+      </Text>
+
+      <Table highlightOnHover striped verticalSpacing="xs" horizontalSpacing="md">
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>{t('upgrade.mobile.compare.col.pack', 'Pack')}</Table.Th>
+            <Table.Th>{t('upgrade.mobile.compare.col.data', 'Approx. data')}</Table.Th>
+            <Table.Th>{t('upgrade.mobile.compare.col.bestFor', 'Best for')}</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          <Table.Tr>
+            <Table.Td>{t('upgrade.mobile.small.title', 'Starter pack')}</Table.Td>
+            <Table.Td>{t('upgrade.mobile.small.data', 'About 3 GB')}</Table.Td>
+            <Table.Td>
+              {t(
+                'upgrade.mobile.small.bestFor',
+                'Short trips, light messaging, and occasional calls'
+              )}
+            </Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>{t('upgrade.mobile.medium.title', 'Traveler pack')}</Table.Td>
+            <Table.Td>{t('upgrade.mobile.medium.data', 'About 5 GB')}</Table.Td>
+            <Table.Td>
+              {t(
+                'upgrade.mobile.medium.bestFor',
+                'Weekend trips, regular VoIP calls, and maps'
+              )}
+            </Table.Td>
+          </Table.Tr>
+          <Table.Tr>
+            <Table.Td>{t('upgrade.mobile.large.title', 'Power pack')}</Table.Td>
+            <Table.Td>{t('upgrade.mobile.large.data', 'About 10 GB')}</Table.Td>
+            <Table.Td>
+              {t(
+                'upgrade.mobile.large.bestFor',
+                'Heavy chat, calls, video, and hotspot use'
+              )}
+            </Table.Td>
+          </Table.Tr>
+        </Table.Tbody>
+      </Table>
+
+      <Text size="xs" c="dimmed" mt="xs">
+        {t(
+          'upgrade.mobile.compare.disclaimer',
+          'Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone).'
+        )}
+      </Text>
+    </Card>
+  );
+}
+
+function PricingFaqSection() {
+  const { t } = useTranslation();
+
+  return (
+    <Stack gap="md" mt="xl">
+      <Divider my="sm" />
+
+      {/* H2: Pricing & plans FAQ */}
+      <Title order={2}>{t('upgrade.faq.title', 'Pricing & plans FAQ')}</Title>
+
+      <Accordion multiple>
+        <Accordion.Item value="free-plan">
+          <Accordion.Control>
+            {t('upgrade.faq.free.q', 'Is the Free plan really free?')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text size="sm">
+              {t(
+                'upgrade.faq.free.a',
+                'Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features.'
+              )}
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item value="plus-vs-premium">
+          <Accordion.Control>
+            {t('upgrade.faq.plusPremium.q', 'What’s the difference between Plus and Premium?')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text size="sm">
+              {t(
+                'upgrade.faq.plusPremium.a',
+                'Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users.'
+              )}
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item value="esim-availability">
+          <Accordion.Control>
+            {t('upgrade.faq.esim.q', 'Where do eSIM data packs work?')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text size="sm">
+              {t(
+                'upgrade.faq.esim.a',
+                'Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app.'
+              )}
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item value="cancel">
+          <Accordion.Control>
+            {t('upgrade.faq.cancel.q', 'Can I cancel or change plans anytime?')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text size="sm">
+              {t(
+                'upgrade.faq.cancel.a',
+                'Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period.'
+              )}
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+
+        <Accordion.Item value="family">
+          <Accordion.Control>
+            {t('upgrade.faq.family.q', 'How do Family packs work?')}
+          </Accordion.Control>
+          <Accordion.Panel>
+            <Text size="sm">
+              {t(
+                'upgrade.faq.family.a',
+                'Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person.'
+              )}
+            </Text>
+          </Accordion.Panel>
+        </Accordion.Item>
+      </Accordion>
+    </Stack>
+  );
+}
+
 const SECTION_APP = 'app';
 const SECTION_MOBILE = 'mobile';
 const SECTION_FAMILY = 'family';
@@ -314,6 +468,8 @@ export default function UpgradePage({ variant = 'account' }) {
   const { t } = useTranslation();
   const { currentUser } = useUser();
   const navigate = useNavigate();
+
+  const isPublic = variant === 'public';
 
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
@@ -566,7 +722,9 @@ export default function UpgradePage({ variant = 'account' }) {
       const { data } = await axiosClient.get('/auth/me');
       if (!data?.user) return;
       window.location.reload();
-    } catch {}
+    } catch {
+      // ignore
+    }
   };
 
   const unCancel = async () => {
@@ -583,6 +741,14 @@ export default function UpgradePage({ variant = 'account' }) {
   };
 
   // CTA labels (app plans)
+  const ctaFree = isAuthed
+    ? isFree
+      ? t('upgrade.plans.free.ctaCurrent', 'Current plan')
+      : t('upgrade.plans.free.ctaManage', 'Manage in billing')
+    : isPublic
+    ? t('upgrade.plans.free.ctaPublic', 'Get started – continue to login')
+    : t('upgrade.auth.continue', 'Continue to login');
+
   const ctaPlus = isAuthed
     ? isPlus || isPremium
       ? loadingPortal
@@ -591,6 +757,8 @@ export default function UpgradePage({ variant = 'account' }) {
       : loadingCheckout
       ? t('upgrade.checkout.redirecting', 'Redirecting…')
       : t('upgrade.cta.getPlus', 'Upgrade to Plus')
+    : isPublic
+    ? t('upgrade.cta.public.plus', 'Get Plus – continue to login')
     : t('upgrade.auth.continue', 'Continue to login');
 
   const ctaPremMonthly = isAuthed
@@ -601,6 +769,8 @@ export default function UpgradePage({ variant = 'account' }) {
       : loadingCheckout
       ? t('upgrade.checkout.redirecting', 'Redirecting…')
       : t('upgrade.cta.upgradeMonthly', 'Upgrade Monthly')
+    : isPublic
+    ? t('upgrade.cta.public.premiumMonthly', 'Unlock Premium – continue to login')
     : t('upgrade.auth.continue', 'Continue to login');
 
   const ctaPremAnnual = isAuthed
@@ -611,6 +781,11 @@ export default function UpgradePage({ variant = 'account' }) {
       : loadingCheckout
       ? t('upgrade.checkout.redirecting', 'Redirecting…')
       : t('upgrade.cta.upgradeAnnual', 'Upgrade Annual')
+    : isPublic
+    ? t(
+        'upgrade.cta.public.premiumAnnual',
+        'Save 25% with annual – continue to login'
+      )
     : t('upgrade.auth.continue', 'Continue to login');
 
   // CTA for mobile/family packs (one-time purchases)
@@ -618,52 +793,39 @@ export default function UpgradePage({ variant = 'account' }) {
     ? loadingCheckout
       ? t('upgrade.mobile.checkout.redirecting', 'Redirecting…')
       : t('upgrade.mobile.cta', 'Get this data pack')
+    : isPublic
+    ? t('upgrade.mobile.ctaPublic', 'Get this data pack – continue to login')
     : t('upgrade.auth.continue', 'Continue to login');
 
-    // ⬇️ put this at the bottom of UpgradePage, instead of your current `return (...)` + extra const
-
   const content = (
-    <Stack gap="lg" maw={900} mx="auto" p="md">
-      {variant === 'public' && (
-        <Link
-          to="/"
-          className="home-link-pure"
-          style={{
-            backgroundImage: 'linear-gradient(90deg, #7c3aed 0%, #22d3ee 100%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
-            WebkitTextFillColor: 'transparent',
-            textDecoration: 'none',
-            fontWeight: 500,
-            fontSize: '0.875rem', // same as Mantine sm
-          }}
-        >
-          ← Home
-        </Link>
-      )}
+    <Stack gap="xl" maw={900} mx="auto" p="md">
+      {/* H1: main page title */}
+      <Title order={1}>
+        {t('upgrade.h1', 'Chatforia Pricing & Plans')}
+      </Title>
 
-      <Title order={2}>{t('upgrade.title', 'Upgrade')}</Title>
-
-      <Text c="dimmed">
-        {section === SECTION_APP &&
-          t(
-            'upgrade.subtitle.app',
-            'Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.'
-          )}
-
-        {section === SECTION_MOBILE &&
-          t(
-            'upgrade.subtitle.mobile',
-            'Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.'
-          )}
-
-        {section === SECTION_FAMILY &&
-          t(
-            'upgrade.subtitle.family',
-            'Create a shared data pool for your family and manage everyone’s usage from one place.'
-          )}
+      {/* Subtitle under H1 */}
+      <Text c="dimmed" size="sm">
+        {t(
+          'upgrade.h1Subtitle',
+          'Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.'
+        )}
       </Text>
+
+      {/* Top-level section toggle: App vs Mobile vs Family (logged-in only) */}
+      {!isPublic && (
+        <Group justify="flex-start">
+          <SegmentedControl
+            value={section}
+            onChange={setSection}
+            data={[
+              { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
+              { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
+              { label: t('upgrade.section.family', 'Family plans'), value: SECTION_FAMILY },
+            ]}
+          />
+        </Group>
+      )}
 
       {hasScheduledDowngrade && (
         <Alert
@@ -700,24 +862,16 @@ export default function UpgradePage({ variant = 'account' }) {
         </Alert>
       )}
 
-      {/* Top-level section toggle: App vs Mobile vs Family */}
-      <Group justify="flex-start">
-        <SegmentedControl
-          value={section}
-          onChange={setSection}
-          data={[
-            { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
-            { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
-            { label: t('upgrade.section.family', 'Family plans'), value: SECTION_FAMILY },
-          ]}
-        />
-      </Group>
-
       {/* APP PLANS SECTION */}
       {section === SECTION_APP && (
         <>
+          {/* H2: Free, Plus, and Premium */}
+          <Title order={2}>
+            {t('upgrade.h2.app', 'Free, Plus, and Premium plans')}
+          </Title>
+
           {/* Monthly / Annual emphasis toggle */}
-          <Group justify="flex-start">
+          <Group justify="flex-start" mt="sm">
             <SegmentedControl
               value={billingCycle}
               onChange={setBillingCycle}
@@ -728,40 +882,47 @@ export default function UpgradePage({ variant = 'account' }) {
             />
           </Group>
 
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg" mt="sm">
             {/* Free */}
             <PlanCard
               testId="plan-free"
               title={t('upgrade.plans.free.title', 'Free')}
               price={t('upgrade.plans.free.price', '$0')}
-              description={t('upgrade.plans.free.desc', 'Start messaging for free.')}
+              description={t(
+                'upgrade.plans.free.desc',
+                'Start messaging for free. Ideal if you’re just trying Chatforia.'
+              )}
               features={[
                 t(
-                  'upgrade.plans.free.features.history',
-                  'Message history: 30 days'
+                  'upgrade.plans.free.features.chat',
+                  'Real-time 1:1 and group chat, plus voice and video calls'
                 ),
-                t('upgrade.plans.free.features.number', 'Free Chatforia phone number'),
                 t(
-                  'upgrade.plans.free.features.callsSms',
-                  'Calling & texting over Wi-Fi or data (fair-use limits)'
+                  'upgrade.plans.free.features.media',
+                  'Share photos, voice messages, and short videos'
                 ),
-                t('upgrade.plans.free.features.msg', '1:1 and group messaging'),
                 t(
-                  'upgrade.plans.free.features.aiBasic',
-                  'Auto-translation & basic AI replies (fair-use limits)'
+                  'upgrade.plans.free.features.ai',
+                  'AI-powered smart replies and instant translation (fair use)'
                 ),
-                t('upgrade.plans.free.features.attachments', 'Standard attachments'),
-                t('upgrade.plans.free.features.ads', 'Ad-supported experience'),
+                t(
+                  'upgrade.plans.free.features.disappearing',
+                  'Disappearing messages and basic privacy controls'
+                ),
+                t(
+                  'upgrade.plans.free.features.ads',
+                  'Free forever with ads in the app'
+                ),
               ]}
               icon={<MessageSquare size={18} />}
-              cta={
-                isFree
-                  ? t('upgrade.plans.free.ctaCurrent', 'Current Plan')
-                  : t('upgrade.plans.free.ctaUnavailable', 'Switch to Free (not available)')
-              }
-              ariaLabel={t('upgrade.plans.free.aria', 'Free plan (current)')}
-              onClick={() => {}}
-              disabled={!isPaid}
+              cta={ctaFree}
+              ariaLabel={t('upgrade.plans.free.aria', 'Free plan')}
+              onClick={() => {
+                if (!isAuthed) {
+                  navigate('/login?next=/upgrade');
+                }
+              }}
+              disabled={isAuthed}
             />
 
             {/* Plus (Ad-free) */}
@@ -771,28 +932,24 @@ export default function UpgradePage({ variant = 'account' }) {
               price={labelPlus}
               description={t(
                 'upgrade.plans.plus.desc',
-                'Most affordable ad-free experience.'
+                'All the essentials, without ads. Great for everyday messaging and calling.'
               )}
               features={[
                 t(
                   'upgrade.plans.plus.features.allFree',
-                  'Everything in Free, without ads'
+                  'Everything in Free, with no ads'
+                ),
+                t(
+                  'upgrade.plans.plus.features.forwarding',
+                  'Forward calls and texts to your real phone number'
                 ),
                 t(
                   'upgrade.plans.plus.features.history',
-                  'Message history: 6 months'
+                  'Longer message history (up to 6 months)'
                 ),
                 t(
-                  'upgrade.plans.plus.features.prioritySupport',
-                  'Priority support (faster email replies)'
-                ),
-                t(
-                  'upgrade.plans.plus.features.attachments',
-                  'Larger attachments & more media history'
-                ),
-                t(
-                  'upgrade.plans.plus.features.aiBasic',
-                  'More generous AI & translation limits'
+                  'upgrade.plans.plus.features.support',
+                  'Faster support when something goes wrong'
                 ),
               ]}
               badge={
@@ -822,53 +979,31 @@ export default function UpgradePage({ variant = 'account' }) {
             {/* Premium — Monthly */}
             <PlanCard
               testId="plan-premium-monthly"
-              title={t(
-                'upgrade.plans.premiumMonthly.title',
-                'Premium (Monthly)'
-              )}
+              title={t('upgrade.plans.premiumMonthly.title', 'Premium (Monthly)')}
               price={labelPremMonthly}
               description={t(
                 'upgrade.plans.premiumMonthly.desc',
-                'Full features, ringtones, and AI power tools.'
+                'The full Chatforia experience: AI power tools, customization, and priority support.'
               )}
               features={[
+                t('upgrade.plans.premiumMonthly.features.plusAll', 'Everything in Plus'),
                 t(
-                  'upgrade.plans.premiumMonthly.features.plusAll',
-                  'Everything in Plus'
+                  'upgrade.plans.premiumMonthly.features.themes',
+                  'Unlock all premium color themes and app customizations'
                 ),
                 t(
-                  'upgrade.plans.premiumMonthly.features.history',
-                  'Message history: 12+ months'
+                  'upgrade.plans.premiumMonthly.features.ai',
+                  'Premium-only AI power tools for rewrites, smart replies, and summaries'
                 ),
                 t(
-                  'upgrade.plans.premiumMonthly.features.numberLock',
-                  'Number protection: keep your Chatforia number even if you take a break'
-                ),
-                t(
-                  'upgrade.plans.premiumMonthly.features.unlimitedTranslate',
-                  'Unlimited auto-translation (100+ languages)'
-                ),
-                t(
-                  'upgrade.plans.premiumMonthly.features.powerAi',
-                  'Advanced AI tools: rewrites, tones, smart replies, summaries'
-                ),
-                t(
-                  'upgrade.plans.premiumMonthly.features.ringtones',
-                  'Custom ringtones & message tones'
-                ),
-                t(
-                  'upgrade.plans.premiumMonthly.features.backups',
-                  'Backups, device syncing, and priority updates'
-                ),
-                t(
-                  'upgrade.plans.premiumMonthly.features.earlyAccess',
-                  'Early access to new features & betas'
+                  'upgrade.plans.premiumMonthly.features.support',
+                  'Priority support when you need help most'
                 ),
               ]}
               highlight={billingCycle === 'monthly'}
               tint={billingCycle === 'monthly'}
               tintColor="yellow"
-              badge={t('upgrade.plans.premiumMonthly.badge', 'Best value')}
+              badge={t('upgrade.plans.premiumMonthly.badge', 'Recommended')}
               badgeColor="yellow"
               icon={<Star size={18} />}
               cta={ctaPremMonthly}
@@ -886,9 +1021,7 @@ export default function UpgradePage({ variant = 'account' }) {
                       })
                   : navigate('/login?next=/upgrade')
               }
-              loading={
-                isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false
-              }
+              loading={isAuthed ? (isPremium ? loadingPortal : loadingCheckout) : false}
             />
 
             {/* Premium — Annual */}
@@ -896,14 +1029,26 @@ export default function UpgradePage({ variant = 'account' }) {
               testId="plan-premium-annual"
               title={t('upgrade.plans.premiumAnnual.title', 'Premium (Annual)')}
               price={labelPremAnnual}
-              description={t('upgrade.plans.premiumAnnual.desc', 'Save more when billed yearly.')}
+              description={t(
+                'upgrade.plans.premiumAnnual.desc',
+                'Save more when billed yearly — including extra color themes, AI tools, and priority support.'
+              )}
               features={[
-                t('upgrade.plans.premiumAnnual.features.allPremium', 'Everything in Premium'),
-                t('upgrade.plans.premiumAnnual.features.annualBilling', 'Billed annually'),
-                t('upgrade.plans.premiumAnnual.features.save25', 'Save ~25% vs monthly'),
                 t(
-                  'upgrade.plans.premiumAnnual.features.sameFeatures',
-                  'Same AI, translation, and power features as Monthly'
+                  'upgrade.plans.premiumAnnual.features.allPremium',
+                  'Everything in Premium Monthly — including extra color themes'
+                ),
+                t(
+                  'upgrade.plans.premiumAnnual.features.annualBilling',
+                  'Billed once per year'
+                ),
+                t(
+                  'upgrade.plans.premiumAnnual.features.save25',
+                  'Save around 25% compared to paying monthly'
+                ),
+                t(
+                  'upgrade.plans.premiumAnnual.features.bestFor',
+                  'Best for power users, remote workers, and heavy travelers'
                 ),
               ]}
               highlight={billingCycle === 'annual'}
@@ -940,104 +1085,156 @@ export default function UpgradePage({ variant = 'account' }) {
       )}
 
       {/* MOBILE (eSIM) SECTION */}
-      {section === SECTION_MOBILE && (
+      {(section === SECTION_MOBILE || variant === 'public') && (
         <>
           <Divider my="sm" />
 
           <Stack gap="xs">
-            <Title order={3}>
-              {t('upgrade.mobile.title', 'Chatforia Mobile (eSIM data)')}
+            {/* H2: Mobile (eSIM) */}
+            <Title order={2}>
+              {t('upgrade.mobile.title', 'Chatforia Mobile (eSIM data packs)')}
             </Title>
             <Text c="dimmed" size="sm">
               {t(
-                'upgrade.mobile.subtitle',
-                'Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.'
+                'upgrade.mobile.subtitle.detail',
+                'Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.'
               )}
             </Text>
           </Stack>
 
           <SimpleGrid cols={{ base: 1, md: 3 }} spacing="lg" mt="sm">
-            {/* Small pack */}
+            {/* Starter / Small */}
             <PlanCard
               testId="plan-mobile-small"
-              title={t('upgrade.mobile.small.title', 'Starter pack')}
-              price={`${labelMobileSmall} ${t('upgrade.mobile.perPack', '/ pack')}`}
+              title={t('upgrade.mobile.small.title', 'Starter data pack')}
+              price={labelMobileSmall}
               description={t(
                 'upgrade.mobile.small.desc',
-                'Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.'
+                'Roughly 3 GB of global data — great for quick trips or light chat and calling.'
               )}
               features={[
-                t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
-                t('upgrade.mobile.feature.noSim', 'No physical SIM required – instant eSIM'),
-                t('upgrade.mobile.feature.keepNumber', 'Keep your existing carrier number'),
+                t(
+                  'upgrade.mobile.feature.esim',
+                  'Instant eSIM activation on supported devices'
+                ),
+                t(
+                  'upgrade.mobile.feature.roaming',
+                  'Use Chatforia without searching for Wi-Fi'
+                ),
+                t(
+                  'upgrade.mobile.feature.oneTime',
+                  'One-time pack, no contract'
+                ),
               ]}
               icon={<Wallet size={18} />}
               cta={mobileCta}
-              ariaLabel={t('upgrade.mobile.small.aria', 'Buy starter data pack')}
-              onClick={() => buyEsimPack('STARTER')}
+              ariaLabel={t(
+                'upgrade.mobile.small.aria',
+                'Buy Starter eSIM data pack'
+              )}
+              onClick={() =>
+                isAuthed
+                  ? buyEsimPack('STARTER')
+                  : navigate('/login?next=/upgrade')
+              }
               loading={isAuthed ? loadingCheckout : false}
             />
 
-            {/* Medium pack */}
+            {/* Traveler / Medium */}
             <PlanCard
               testId="plan-mobile-medium"
-              title={t('upgrade.mobile.medium.title', 'Traveler pack')}
-              price={`${labelMobileMedium} ${t('upgrade.mobile.perPack', '/ pack')}`}
+              title={t('upgrade.mobile.medium.title', 'Traveler data pack')}
+              price={labelMobileMedium}
               description={t(
                 'upgrade.mobile.medium.desc',
-                'Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.'
+                'Around 5 GB of global data — ideal for weekend trips or moderate usage.'
               )}
               features={[
-                t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
-                t('upgrade.mobile.feature.sms', 'Use Chatforia SMS & calls on the go'),
-                t('upgrade.mobile.feature.topUp', 'Top up anytime with another pack'),
+                t(
+                  'upgrade.mobile.feature.esim',
+                  'Instant eSIM activation on supported devices'
+                ),
+                t(
+                  'upgrade.mobile.feature.share',
+                  'Perfect for calls, texts, and light browsing'
+                ),
+                t(
+                  'upgrade.mobile.feature.topUp',
+                  'Top up anytime with another pack'
+                ),
               ]}
               icon={<Wallet size={18} />}
               cta={mobileCta}
-              ariaLabel={t('upgrade.mobile.medium.aria', 'Buy traveler data pack')}
-              onClick={() => buyEsimPack('TRAVELER')}
+              ariaLabel={t(
+                'upgrade.mobile.medium.aria',
+                'Buy Traveler eSIM data pack'
+              )}
+              onClick={() =>
+                isAuthed
+                  ? buyEsimPack('TRAVELER')
+                  : navigate('/login?next=/upgrade')
+              }
               loading={isAuthed ? loadingCheckout : false}
             />
 
-            {/* Large pack */}
+            {/* Power / Large */}
             <PlanCard
               testId="plan-mobile-large"
-              title={t('upgrade.mobile.large.title', 'Power pack')}
-              price={`${labelMobileLarge} ${t('upgrade.mobile.perPack', '/ pack')}`}
+              title={t('upgrade.mobile.large.title', 'Power user data pack')}
+              price={labelMobileLarge}
               description={t(
                 'upgrade.mobile.large.desc',
-                'Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.'
+                'Roughly 10 GB of global data — best for long trips, hotspots, or heavy use.'
               )}
               features={[
-                t('upgrade.mobile.feature.global', 'Works in 200+ countries'),
-                t('upgrade.mobile.feature.priority', 'Best value for frequent travelers'),
-                t('upgrade.mobile.feature.fairUse', 'Subject to fair-use policy and local limits'),
+                t(
+                  'upgrade.mobile.feature.esim',
+                  'Instant eSIM activation on supported devices'
+                ),
+                t(
+                  'upgrade.mobile.feature.heavy',
+                  'Enough for heavy chat, calls, and browsing'
+                ),
+                t(
+                  'upgrade.mobile.feature.bestValue',
+                  'Best value per GB'
+                ),
               ]}
               icon={<Wallet size={18} />}
               cta={mobileCta}
-              ariaLabel={t('upgrade.mobile.large.aria', 'Buy power data pack')}
-              onClick={() => buyEsimPack('POWER')}
-              loading={isAuthed ? loadingCheckout : false}
-              footer={
-                <Text size="xs" c="dimmed" mt="xs">
-                  {t(
-                    'upgrade.mobile.disclaimer',
-                    'Data packs are billed once. You can add additional packs anytime; availability varies by country.'
-                  )}
-                </Text>
+              ariaLabel={t(
+                'upgrade.mobile.large.aria',
+                'Buy Power user eSIM data pack'
+              )}
+              onClick={() =>
+                isAuthed
+                  ? buyEsimPack('POWER')
+                  : navigate('/login?next=/upgrade')
               }
+              loading={isAuthed ? loadingCheckout : false}
             />
           </SimpleGrid>
+
+          {/* eSIM device compatibility disclaimer */}
+          <Text size="xs" c="dimmed" mt="xs">
+            {t(
+              'upgrade.mobile.disclaimer.devices',
+              'eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region.'
+            )}
+          </Text>
+
+          {variant === 'public' && <EsimCompareTable />}
         </>
       )}
 
       {/* FAMILY SECTION */}
-      {section === SECTION_FAMILY && (
+      {(section === SECTION_FAMILY || variant === 'public') && (
         <>
           <Divider my="sm" />
 
           <Stack gap="xs">
-            <Title order={3}>
+            {/* H2: Family shared data */}
+            <Title order={2}>
               {t('upgrade.family.title', 'Chatforia Family (shared data)')}
             </Title>
             <Text c="dimmed" size="sm">
@@ -1132,10 +1329,21 @@ export default function UpgradePage({ variant = 'account' }) {
               }
             />
           </SimpleGrid>
+
+          {variant === 'public' && (
+            <Text size="xs" c="dimmed" mt="xs">
+              {t(
+                'upgrade.family.footnote',
+                'Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations.'
+              )}
+            </Text>
+          )}
         </>
       )}
 
       {variant === 'public' && <WhyChatforiaSection />}
+      {variant === 'public' && <PricingFaqSection />}
+
       {!isAuthed && (
         <Group mt="lg" gap="sm" justify="center">
           <Button
@@ -1161,7 +1369,7 @@ export default function UpgradePage({ variant = 'account' }) {
 
   // Wrap with gradient tint only for the public pricing page
   if (variant === 'public') {
-    return <div className="public-page">{content}</div>;
+    return <div className="public-page auth-page">{content}</div>;
   }
 
   // Account/inside-app view (no extra tint)

@@ -111,8 +111,7 @@ export default function Registration() {
       {/* Use a real <form> so submit + validation fire in tests */}
       <form onSubmit={onSubmit} style={{ maxWidth: 420, margin: '0 auto' }}>
         <Title order={3} mb="sm">
-          {/* you can localize this later if you want */}
-          Create account
+          {t('auth.registration.title', 'Create account')}
         </Title>
 
         <Stack>
@@ -129,8 +128,8 @@ export default function Registration() {
           )}
 
           <TextInput
-            label="Username"
-            placeholder="yourusername"
+            label={t('auth.registration.usernameLabel', 'Username')}
+            placeholder={t('auth.registration.usernamePlaceholder', 'yourusername')}
             required
             value={form.username}
             onChange={onChange('username')}
@@ -142,8 +141,8 @@ export default function Registration() {
           />
 
           <TextInput
-            label="Email"
-            placeholder="you@example.com"
+            label={t('auth.registration.emailLabel', 'Email')}
+            placeholder={t('auth.registration.emailPlaceholder', 'you@example.com')}
             required
             value={form.email}
             onChange={onChange('email')}
@@ -155,8 +154,8 @@ export default function Registration() {
           />
 
           <PasswordInput
-            label="Password"
-            placeholder="Your password"
+            label={t('auth.registration.passwordLabel', 'Password')}
+            placeholder={t('auth.registration.passwordPlaceholder', 'Your password')}
             required
             value={form.password}
             onChange={onChange('password')}
@@ -172,13 +171,13 @@ export default function Registration() {
             type="submit"
             loading={!!submitting}
             fullWidth
-            aria-label="Register"
+            aria-label={t('auth.registration.submitAria', 'Register')}
             disabled={submitting}
           >
-            Create account
+            {t('auth.registration.submit', 'Create account')}
           </Button>
 
-          {/* 🔹 New: SMS consent + legal links */}
+          {/* 🔹 SMS consent + legal links */}
           <Text size="xs" c="dimmed" mt="xs">
             {t(
               'auth.registration.smsConsent',
@@ -191,8 +190,21 @@ export default function Registration() {
               {t('auth.registration.termsLink', 'Terms of Service')}
             </Anchor>
             {' · '}
-            <Anchor component={Link} to="/legal/privacy">
+            <Anchor component={Link} to="/privacy">
               {t('auth.registration.privacyLink', 'Privacy Policy')}
+            </Anchor>
+          </Text>
+
+          {/* 🔹 Inline "Already have an account? Log in" */}
+          <Text size="sm" mt="md">
+            {t('auth.registration.already', 'Already have an account?')}{' '}
+            <Anchor
+              component={Link}
+              to="/login"
+              fw={600}
+              className="auth-inline-link"
+            >
+              {t('auth.logIn', 'Log in')}
             </Anchor>
           </Text>
         </Stack>

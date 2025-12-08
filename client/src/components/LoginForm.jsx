@@ -3,8 +3,18 @@ import { useUser } from '../context/UserContext';
 import { useNavigate, Link } from 'react-router-dom';
 import axiosClient from '@/api/axiosClient';
 import {
-  Paper, Title, Text, TextInput, PasswordInput, Button, Anchor, Alert,
-  Stack, Group, Divider, Checkbox,
+  Paper,
+  Title,
+  Text,
+  TextInput,
+  PasswordInput,
+  Button,
+  Anchor,
+  Alert,
+  Stack,
+  Group,
+  Divider,
+  Checkbox,
 } from '@mantine/core';
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
 import { useTranslation, Trans } from 'react-i18next';
@@ -14,7 +24,8 @@ import { useTranslation, Trans } from 'react-i18next';
 // Prefer an absolute API in prod; fall back to a same-origin dev proxy.
 const apiBase =
   import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL || '';
+  import.meta.env.VITE_API_URL ||
+  '';
 
 const oauthBase = (import.meta.env.VITE_OAUTH_BASE_PATH || '/auth').replace(/\/$/, '');
 const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '';
@@ -37,7 +48,9 @@ async function getCsrfToken() {
     const res = await fetch(absoluteApi('/auth/csrf'), { credentials: 'include' });
     try {
       const data = await res.json();
-      if (data && typeof data.csrfToken === 'string' && data.csrfToken.length) return data.csrfToken;
+      if (data && typeof data.csrfToken === 'string' && data.csrfToken.length) {
+        return data.csrfToken;
+      }
     } catch {
       /* ignore JSON parse; fall back to cookie */
     }
@@ -50,7 +63,9 @@ async function getCsrfToken() {
 // Begin an OAuth flow on the API, with a clean return to the app
 function startOAuth(provider) {
   const next = `${window.location.origin}/auth/complete`;
-  window.location.assign(absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}`));
+  window.location.assign(
+    absoluteApi(`${oauthBase}/${provider}?next=${encodeURIComponent(next)}`)
+  );
 }
 
 /* ---------------- Component ---------------- */
@@ -78,17 +93,27 @@ export default function LoginForm({ onLoginSuccess }) {
   // UI-only hinting; payload will include username for backend compatibility.
   const idField = (import.meta.env.VITE_AUTH_ID_FIELD || 'username').toLowerCase();
   const isEmailMode = idField === 'email';
-  const idLabel = isEmailMode ? t('login.email', 'Email') : t('login.usernameLabel', 'Username');
-  const idPlaceholder = isEmailMode ? t('login.emailPh', 'you@example.com') : t('login.usernamePh', 'Your username');
+  const idLabel = isEmailMode
+    ? t('login.email', 'Email')
+    : t('login.usernameLabel', 'Username');
+  const idPlaceholder = isEmailMode
+    ? t('login.emailPh', 'you@example.com')
+    : t('login.usernamePh', 'Your username');
   const idAutoComplete = isEmailMode ? 'email' : 'username';
 
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
+
+  // Short visual labels for the SSO buttons (avoid truncation)
+  const googleVisualLabel = t('login.googleShort', 'Google');
+  const appleVisualLabel = t('login.appleShort', 'Apple');
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(absoluteApi(`${oauthBase}/debug`), { credentials: 'include' });
+        const res = await fetch(absoluteApi(`${oauthBase}/debug`), {
+          credentials: 'include',
+        });
         const j = await res.json();
         if (cancelled) return;
         setHasGoogle(!!j.hasGoogle);
@@ -97,7 +122,9 @@ export default function LoginForm({ onLoginSuccess }) {
         // leave optimistic values in place
       }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Check localStorage to see if this device has logged in before
@@ -167,7 +194,12 @@ export default function LoginForm({ onLoginSuccess }) {
       } else if (status === 403) {
         msg = apiMsg || t('login.error.denied', 'Access denied.');
       } else if (status === 422) {
-        msg = apiMsg || t('login.error.unprocessable', 'Invalid request. Check your username/email and password.');
+        msg =
+          apiMsg ||
+          t(
+            'login.error.unprocessable',
+            'Invalid request. Check your username/email and password.'
+          );
       } else if (status === 402) {
         if (reason === 'DEVICE_LIMIT') {
           msg = t(
@@ -175,7 +207,12 @@ export default function LoginForm({ onLoginSuccess }) {
             'Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.'
           );
         } else {
-          msg = apiMsg || t('login.error.premiumRequired', 'This action requires a Premium plan.');
+          msg =
+            apiMsg ||
+            t(
+              'login.error.premiumRequired',
+              'This action requires a Premium plan.'
+            );
         }
       }
       setError(msg);
@@ -193,26 +230,40 @@ export default function LoginForm({ onLoginSuccess }) {
     : t('login.subtitle', 'Sign in or create an account');
 
   return (
-    <Paper withBorder shadow="sm" radius="xl" p="lg">
-      <Stack gap="2" mb="sm" align="center">
-        <Title order={3} style={{ color: 'var(--fg)' }}>
+    <Paper
+      withBorder
+      shadow="md"
+      radius="xl"
+      p="lg"
+      className="auth-login-card"
+    >
+      <Stack gap={4} mb="sm" align="center">
+        <Title order={3} style={{ color: 'var(--fg)', letterSpacing: -0.2 }}>
           {titleText}
         </Title>
-        <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.8 }}>
+        <Text
+          size="sm"
+          style={{ color: 'var(--fg)', opacity: 0.8, textAlign: 'center' }}
+        >
           {subtitleText}
         </Text>
       </Stack>
 
-      <Group grow mb="xs">
+      <Group grow mb="xs" className="auth-sso-buttons">
         <Button
           className="oauth-button"
           variant="light"
           leftSection={<IconBrandGoogle size={18} />}
           onClick={() => startOAuth('google')}
           disabled={!hasGoogle}
-          title={hasGoogle ? t('login.google', 'Continue with Google') : t('login.googleUnavailable', 'Google sign-in unavailable')}
+          title={
+            hasGoogle
+              ? t('login.google', 'Continue with Google')
+              : t('login.googleUnavailable', 'Google sign-in unavailable')
+          }
+          aria-label={t('login.google', 'Continue with Google')}
         >
-          {t('login.google', 'Continue with Google')}
+          {googleVisualLabel}
         </Button>
         <Button
           className="oauth-button"
@@ -220,19 +271,31 @@ export default function LoginForm({ onLoginSuccess }) {
           leftSection={<IconBrandApple size={18} />}
           onClick={() => startOAuth('apple')}
           disabled={!hasApple}
-          title={hasApple ? t('login.apple', 'Continue with Apple') : t('login.appleUnavailable', 'Apple sign-in unavailable')}
+          title={
+            hasApple
+              ? t('login.apple', 'Continue with Apple')
+              : t('login.appleUnavailable', 'Apple sign-in unavailable')
+          }
+          aria-label={t('login.apple', 'Continue with Apple')}
         >
-          {t('login.apple', 'Continue with Apple')}
+          {appleVisualLabel}
         </Button>
       </Group>
 
       {!hasGoogle && !hasApple && (
         <Text size="sm" style={{ color: 'var(--fg)', opacity: 0.7 }} mb="xs">
-          {t('login.ssoUnavailable', 'Single-sign-on is currently unavailable. Use username & password instead.')}
+          {t(
+            'login.ssoUnavailable',
+            'Single-sign-on is currently unavailable. Use username & password instead.'
+          )}
         </Text>
       )}
 
-      <Divider label={t('login.or', 'or')} my="sm" styles={{ label: { color: 'var(--fg)', opacity: 0.75 } }} />
+      <Divider
+        label={t('login.or', 'or')}
+        my="sm"
+        styles={{ label: { color: 'var(--fg)', opacity: 0.75 } }}
+      />
 
       <form onSubmit={handleLogin} noValidate>
         <Stack gap="sm">
@@ -268,33 +331,58 @@ export default function LoginForm({ onLoginSuccess }) {
             }}
           />
 
-          <Group justify="space-between" align="center">
+          <Group justify="space-between" align="center" mt={2}>
             <Checkbox
               label={t('login.keepSignedIn', 'Keep me signed in')}
               checked={remember}
               onChange={(e) => setRemember(e.currentTarget.checked)}
               styles={{ label: { color: 'var(--fg)' } }}
             />
-            <Anchor component={Link} to="/forgot-password" size="sm" style={{ color: 'var(--accent)' }}>
+            <Anchor
+              component={Link}
+              to="/forgot-password"
+              size="sm"
+              style={{ color: 'var(--accent)' }}
+            >
               {t('login.forgot', 'Forgot password?')}
             </Anchor>
           </Group>
 
           {error && (
-            <Alert color="red" variant="light" role="alert" styles={{ message: { color: 'var(--fg)' } }}>
+            <Alert
+              color="red"
+              variant="light"
+              role="alert"
+              styles={{ message: { color: 'var(--fg)' } }}
+            >
               {error}
             </Alert>
           )}
 
-          <Button type="submit" loading={loading} fullWidth>
-            {loading ? t('login.loggingIn', 'Logging in…') : t('login.submit', 'Log In')}
+          <Button type="submit" loading={loading} fullWidth mt="xs">
+            {loading
+              ? t('login.loggingIn', 'Logging in…')
+              : t('login.submit', 'Log In')}
           </Button>
 
-          <Text ta="center" size="sm" style={{ color: 'var(--fg)', opacity: 0.85 }}>
+          <Text
+            ta="center"
+            size="sm"
+            mt={4}
+            style={{ color: 'var(--fg)', opacity: 0.85 }}
+          >
             <Trans
               i18nKey="login.newHere"
               defaults="New here? <link>Create an account</link>"
-              components={{ link: <Anchor component={Link} to="/register" style={{ color: 'var(--accent)' }} /> }}
+              components={{
+                link: (
+                  <Anchor
+                    component={Link}
+                    to="/register"
+                    style={{ color: 'var(--accent)' }}
+                  />
+                ),
+              }}
             />
           </Text>
         </Stack>
