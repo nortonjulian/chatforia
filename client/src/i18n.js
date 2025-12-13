@@ -21,13 +21,19 @@ i18n
     react: { useSuspense: false },
 
     detection: {
-      // Make ?lng=xx take priority and then get cached
-      order: ['querystring', 'localStorage', 'cookie'],
+      // Priority:
+      // 1) ?lng=xx in the URL
+      // 2) previously chosen language (localStorage / cookie)
+      // 3) browser language (navigator)
+      order: ['querystring', 'localStorage', 'cookie', 'navigator'],
+
       caches: ['localStorage', 'cookie'],
+
       lookupQuerystring: 'lng',
       lookupLocalStorage: 'i18nextLng',
       lookupCookie: 'i18nextLng',
     },
+
 
     backend: {
       loadPath: '/locales/{{lng}}/translation.json',

@@ -98,18 +98,8 @@ export default function GettingStarted() {
       <List withPadding>
         <List.Item>
           {t(
-            'gettingStarted.section3.item1Part1',
-            'Compare plans on the'
-          )}{' '}
-          <Anchor component={Link} to="/pricing">
-            {t(
-              'gettingStarted.section3.pricingLink',
-              'Plans & pricing page'
-            )}
-          </Anchor>{' '}
-          {t(
-            'gettingStarted.section3.item1Part2',
-            'before upgrading inside the app.'
+            'gettingStarted.section3.item1',
+            'You can upgrade to a paid plan anytime inside the app.'
           )}
         </List.Item>
 
