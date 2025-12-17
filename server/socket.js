@@ -3,20 +3,28 @@ import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 import prisma from './utils/prismaClient.js';
 import { setSocketIo } from './services/socketBus.js';
+
 // If your random chat module does not export this, either add a no-op export there or comment this out:
 import { attachRandomChatSockets } from './routes/randomChats.js';
 
 /** CORS origins */
 function parseOrigins() {
   const fallback = ['http://localhost:5173', 'http://localhost:5002'];
-  const raw = process.env.CORS_ORIGINS || process.env.FRONTEND_ORIGIN || process.env.WEB_ORIGIN || '';
-  const list = raw.split(',').map((s) => s.trim()).filter(Boolean);
+  const raw =
+    process.env.CORS_ORIGINS ||
+    process.env.FRONTEND_ORIGIN ||
+    process.env.WEB_ORIGIN ||
+    '';
+  const list = raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   return list.length ? list : fallback;
 }
 
 /** Extract JWT from handshake */
 function getTokenFromHandshake(handshake) {
-  if (handshake.auth?.token) return handshake.auth.token;   // preferred: socket.auth.token
+  if (handshake.auth?.token) return handshake.auth.token; // preferred
   if (handshake.query?.token) return handshake.query.token; // optional fallback
 
   if (handshake.headers?.cookie) {
@@ -78,67 +86,66 @@ export function initSocket(httpServer) {
   }
 
   // ---- Auth middleware ----
-  // ---- Auth middleware ----
-io.use(async (socket, next) => {
-  try {
-    const token = getTokenFromHandshake(socket.handshake);
-    if (!token) {
-      console.warn('[WS] no token in handshake', {
-        origin: socket.handshake?.headers?.origin,
-        hasCookie: Boolean(socket.handshake?.headers?.cookie),
-        queryKeys: Object.keys(socket.handshake?.query || {}),
-        authKeys: Object.keys(socket.handshake?.auth || {}),
+  io.use(async (socket, next) => {
+    try {
+      const token = getTokenFromHandshake(socket.handshake);
+      if (!token) {
+        console.warn('[WS] no token in handshake', {
+          origin: socket.handshake?.headers?.origin,
+          hasCookie: Boolean(socket.handshake?.headers?.cookie),
+          queryKeys: Object.keys(socket.handshake?.query || {}),
+          authKeys: Object.keys(socket.handshake?.auth || {}),
+        });
+        return next(new Error('Unauthorized: no token'));
+      }
+
+      const secret = process.env.JWT_SECRET;
+      if (!secret) return next(new Error('Server misconfiguration: JWT secret missing'));
+
+      const decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
+
+      // Hydrate from DB (preferredLanguage, etc.)
+      const user = await prisma.user.findUnique({
+        where: { id: decoded.id },
+        select: {
+          id: true,
+          email: true,
+          username: true,
+          role: true,
+          plan: true,
+          preferredLanguage: true,
+          foriaRemember: true,
+        },
       });
-      return next(new Error('Unauthorized: no token'));
+
+      if (!user) {
+        console.warn('[WS] no user found for decoded token id:', decoded.id);
+        return next(new Error('Unauthorized'));
+      }
+
+      socket.user = user;
+      socket.data.user = user;
+
+      // personal unicast room
+      socket.join(`user:${user.id}`);
+
+      if (process.env.NODE_ENV !== 'test') {
+        console.log('[WS] authed socket user:', {
+          id: user.id,
+          username: user.username,
+          preferredLanguage: user.preferredLanguage,
+          foriaRemember: user.foriaRemember,
+        });
+      }
+
+      next();
+    } catch (err) {
+      console.error('[WS] auth failed:', err?.message || err);
+      next(new Error('Unauthorized'));
     }
+  });
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) return next(new Error('Server misconfiguration: JWT secret missing'));
-
-    const decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
-
-    // 🔍 Hydrate full user from DB so we get preferredLanguage + foriaRemember
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        role: true,
-        plan: true,
-        preferredLanguage: true,
-        foriaRemember: true,
-      },
-    });
-
-    if (!user) {
-      console.warn('[WS] no user found for decoded token id:', decoded.id);
-      return next(new Error('Unauthorized'));
-    }
-
-    // Attach hydrated user to socket
-    socket.user = user;
-    socket.data.user = user;
-
-    if (user.id) socket.join(`user:${user.id}`); // personal unicast room
-
-    if (process.env.NODE_ENV !== 'test') {
-      console.log('[WS] authed socket user:', {
-        id: user.id,
-        username: user.username,
-        preferredLanguage: user.preferredLanguage,
-        foriaRemember: user.foriaRemember,
-      });
-    }
-
-    next();
-  } catch (err) {
-    console.error('Socket auth failed:', err?.message || err);
-    next(new Error('Unauthorized'));
-  }
-});
-
-  // ---- Feature sockets that need an authenticated socket (if available) ----
+  // ---- Feature sockets that need an authenticated socket ----
   if (typeof attachRandomChatSockets === 'function') {
     attachRandomChatSockets(io);
   }
@@ -146,11 +153,12 @@ io.use(async (socket, next) => {
   // ---- Connection handler ----
   io.on('connection', async (socket) => {
     const userId = socket.user?.id;
+
     if (process.env.NODE_ENV !== 'test') {
       console.log('[WS] connected user:', socket.user?.username || userId);
     }
 
-    // Optional auto-join existing rooms (opt-in)
+    // Optional auto-join all rooms this user is in
     if (process.env.SOCKET_AUTOJOIN === 'true' && userId) {
       try {
         const rooms = await getUserRoomIds(userId);
@@ -163,7 +171,7 @@ io.use(async (socket, next) => {
       }
     }
 
-    // Bulk join (client can send a batch)
+    // Bulk join
     socket.on('join:rooms', async (roomIds) => {
       try {
         if (!Array.isArray(roomIds)) return;
@@ -181,23 +189,11 @@ io.use(async (socket, next) => {
       await socket.join(String(roomId));
       console.log(`[WS] user:${userId} joined room ${roomId}`);
     });
+
     socket.on('leave_room', async (roomId) => {
       if (!roomId) return;
       await socket.leave(String(roomId));
       console.log(`[WS] user:${userId} left room ${roomId}`);
-    });
-
-    // Optional UX signal in dev
-    socket.on('message_copied', ({ messageId }) => {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`[WS] user:${userId} copied message ${messageId}`);
-      }
-    });
-
-    // WebRTC: relay ICE candidates to a user-specific room
-    socket.on('call:candidate', ({ callId, to, candidate }) => {
-      if (!callId || !to || !candidate) return;
-      io.to(`user:${to}`).emit('call:candidate', { callId, candidate });
     });
 
     socket.on('disconnect', (reason) => {
@@ -211,13 +207,11 @@ io.use(async (socket, next) => {
     io.to(`user:${userId}`).emit(event, payload);
   }
 
-  // Expose to HTTP layer
+  // Expose to HTTP layer (other services can broadcast)
   setSocketIo(io, emitToUser);
 
-  // Defer Redis adapter init until after IO up
   void maybeAttachRedisAdapter();
 
-  // Provide a cleanup hook for graceful shutdowns
   async function close() {
     try {
       if (pub) await pub.quit();

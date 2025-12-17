@@ -44,12 +44,14 @@ async function upsertThread(userId, contactPhone) {
   return thread;
 }
 
-export async function sendUserSms({ userId, to, body }) {
+export async function sendUserSms({ userId, to, body, from }) {
   const toPhone = normalizeE164(to);
   if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
 
-  // ✅ User’s Chatforia DID
-  const from = await getUserFromNumber(userId);
+  // If UI passes a specific DID, verify the user owns it; otherwise use default DID.
+  const fromNumber = from
+    ? await assertUserOwnsFromNumber(userId, from)
+    : await getUserFromNumber(userId);
 
   const thread = await upsertThread(userId, toPhone);
 
@@ -58,19 +60,19 @@ export async function sendUserSms({ userId, to, body }) {
     to: toPhone,
     text: body,
     clientRef,
-    from, // ✅ key line
+    from: fromNumber,
   });
+
   const provider = result?.provider || 'twilio';
 
   await prisma.smsMessage.create({
     data: {
       threadId: thread.id,
       direction: 'out',
-      fromNumber: from,
+      fromNumber,
       toNumber: toPhone,
       body,
       provider,
-      // providerMessageId: result?.messageSid || null,
     },
   });
 
@@ -81,6 +83,20 @@ export async function sendUserSms({ userId, to, body }) {
     messageSid: result?.messageSid || null,
   };
 }
+
+async function assertUserOwnsFromNumber(userId, from) {
+  const e164 = normalizeE164(from);
+  if (!isE164(e164)) throw Boom.badRequest('Invalid from number');
+
+  const owns = await prisma.phoneNumber.findFirst({
+    where: { assignedUserId: Number(userId), e164, status: { in: ['ASSIGNED', 'HOLD'] } },
+    select: { id: true },
+  });
+
+  if (!owns) throw Boom.forbidden('from number is not assigned to this user');
+  return e164;
+}
+
 
 export async function recordInboundSms({
   toNumber,

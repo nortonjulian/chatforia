@@ -99,12 +99,17 @@ export default function MessageInput({
       attachmentsInline,
     };
 
-    // Strict E2EE: encrypt content for room participants; otherwise send plaintext
+    // Strict E2EE: client encrypts and sends ciphertext + per-user sealed keys
     if (text) {
       if (currentUser?.strictE2EE) {
         try {
-          const { iv, ct, alg, keyIds } = await encryptForRoom(roomParticipants, text);
-          payload.contentCiphertext = { iv, ct, alg, keyIds };
+          // IMPORTANT: encryptForRoom must return { ciphertext, encryptedKeys }
+          const { ciphertext, encryptedKeys } = await encryptForRoom(roomParticipants, text);
+          payload.contentCiphertext = ciphertext;
+          payload.encryptedKeys = encryptedKeys;
+
+          // optional: omit plaintext entirely
+          // payload.content = '';
         } catch (err) {
           console.error('Encryption failed', err);
           toast.err('Encryption failed. Message not sent.');

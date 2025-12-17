@@ -2,21 +2,38 @@ import crypto from 'crypto';
 import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
 
-// Optional worker pool; if absent, we fall back to inline sealing
-let pool = null;
-try {
-  const { getCryptoPool } = await import('../services/cryptoPool.js');
-  pool = getCryptoPool?.();
-} catch {
-  // No pool available – will seal inline when needed
-}
-
-// Threshold for switching to parallel sealing via worker threads
-const PARALLEL_THRESHOLD = Number(process.env.ENCRYPT_PARALLEL_THRESHOLD || 8);
-
 // Helper: Buffer → Uint8Array
 const toU8 = (buf) => new Uint8Array(buf);
 
+/**
+ * Decode either standard base64 OR base64url (and tolerate missing padding/newlines).
+ * tweetnacl-util expects standard base64; this normalizes first.
+ */
+function decodeB64Any(input, label = 'key') {
+  if (!input || typeof input !== 'string') {
+    throw new Error(`[E2EE] ${label}: missing or not a string`);
+  }
+
+  // trim + remove whitespace/newlines
+  let s = input.trim().replace(/\s+/g, '');
+
+  // strip common prefixes if they ever show up
+  s = s.replace(/^base64:/i, '');
+
+  // base64url -> base64
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+
+  // pad to multiple of 4
+  const pad = s.length % 4;
+  if (pad) s += '='.repeat(4 - pad);
+
+  return naclUtil.decodeBase64(s);
+}
+
+/**
+ * Generate a NaCl box keypair.
+ * NOTE: In true E2EE, the privateKey should only ever be stored client-side.
+ */
 export function generateKeyPair() {
   const keyPair = nacl.box.keyPair();
   return {
@@ -26,106 +43,9 @@ export function generateKeyPair() {
 }
 
 /**
- * Seal a session key for one recipient using the *sender's* keypair.
- * Output (base64) packs: [nonce(24) | box]
- */
-function sealKeyInline(sessionKeyBuf, senderSecretB64, recipientPublicB64) {
-  const nonce = crypto.randomBytes(24);
-  const recipientPublic = naclUtil.decodeBase64(recipientPublicB64);
-  const senderSecret = naclUtil.decodeBase64(senderSecretB64);
-
-  const boxed = nacl.box(
-    toU8(sessionKeyBuf),
-    toU8(nonce),
-    recipientPublic,
-    senderSecret
-  );
-  const packed = Buffer.concat([nonce, Buffer.from(boxed)]);
-  return naclUtil.encodeBase64(packed);
-}
-
-/**
- * AES-256-GCM message encryption; session key sealed for each participant with NaCl box.
- * @param {string} message - UTF-8 plaintext
- * @param {{ id:number, publicKey:string(base64), privateKey:string(base64) }} sender
- * @param {Array<{ id:number, publicKey:string(base64) }>} recipients
- * @returns {{ciphertext:string, encryptedKeys:Record<string,string>}}
- */
-export async function encryptMessageForParticipants(
-  message,
-  sender,
-  recipients
-) {
-  // 1) Symmetric encrypt the message once
-  const sessionKey = crypto.randomBytes(32); // 256-bit key
-  const iv = crypto.randomBytes(12); // GCM 96-bit IV
-  const cipher = crypto.createCipheriv('aes-256-gcm', sessionKey, iv);
-  const enc = Buffer.concat([cipher.update(message, 'utf8'), cipher.final()]);
-  const tag = cipher.getAuthTag();
-  const ciphertext = Buffer.concat([iv, tag, enc]).toString('base64');
-
-  // 2) Dedupe recipients
-  const encryptedKeys = {};
-  const uniqueRecipients = [];
-  const seen = new Set();
-  for (const r of recipients || []) {
-    if (!r?.id || !r?.publicKey) continue;
-    if (seen.has(r.id)) continue;
-    seen.add(r.id);
-    uniqueRecipients.push(r);
-  }
-
-  // Use worker pool for large groups if available
-  const usePool = pool?.run && uniqueRecipients.length >= PARALLEL_THRESHOLD;
-  if (usePool) {
-    const senderSecretB64 = sender.privateKey;
-    const msgKeyB64 = naclUtil.encodeBase64(sessionKey);
-
-    const results = await Promise.all(
-      uniqueRecipients.map(async (r) => {
-        try {
-          const out = await pool.run({
-            msgKeyB64, // base64 of the session key
-            senderSecretB64,
-            recipientPubB64: r.publicKey,
-          });
-          return { userId: r.id, sealed: out.sealedKeyB64 };
-        } catch {
-          // Per-recipient fallback
-          return {
-            userId: r.id,
-            sealed: sealKeyInline(sessionKey, sender.privateKey, r.publicKey),
-          };
-        }
-      })
-    );
-
-    for (const { userId, sealed } of results) {
-      encryptedKeys[userId] = sealed;
-    }
-  } else {
-    // Small rooms → inline sealing
-    for (const r of uniqueRecipients) {
-      encryptedKeys[r.id] = sealKeyInline(
-        sessionKey,
-        sender.privateKey,
-        r.publicKey
-      );
-    }
-  }
-
-  // Always seal to the sender (for multi-device/re-download)
-  encryptedKeys[sender.id] = sealKeyInline(
-    sessionKey,
-    sender.privateKey,
-    sender.publicKey
-  );
-
-  return { ciphertext, encryptedKeys };
-}
-
-/**
- * Decrypts a message for a user.
+ * (Optional) Decrypts a message for a user.
+ * In true E2EE, decryption should happen on the client.
+ *
  * @param {string} ciphertext - base64 of [iv(12) | tag(16) | enc]
  * @param {string} encryptedSessionKey - base64 of [nonce(24) | box]
  * @param {string} currentUserPrivateKey - base64
@@ -138,15 +58,15 @@ export function decryptMessageForUser(
   currentUserPrivateKey,
   senderPublicKey
 ) {
-  const keyBuf = naclUtil.decodeBase64(encryptedSessionKey);
+  const keyBuf = decodeB64Any(encryptedSessionKey, 'encryptedSessionKey');
   const nonce = keyBuf.slice(0, 24);
   const boxData = keyBuf.slice(24);
 
   const sessionKeyU8 = nacl.box.open(
     boxData,
     nonce,
-    naclUtil.decodeBase64(senderPublicKey),
-    naclUtil.decodeBase64(currentUserPrivateKey)
+    decodeB64Any(senderPublicKey, 'senderPublicKey'),
+    decodeB64Any(currentUserPrivateKey, 'currentUserPrivateKey')
   );
   if (!sessionKeyU8) throw new Error('Unable to decrypt session key');
 
@@ -162,3 +82,9 @@ export function decryptMessageForUser(
   const dec = Buffer.concat([decipher.update(enc), decipher.final()]);
   return dec.toString('utf8');
 }
+
+/* -------------------------------------------------------------------------
+  Option A note:
+  - encryptMessageForParticipants() has been intentionally removed.
+  - Message encryption + per-recipient key sealing must happen on the client.
+--------------------------------------------------------------------------- */

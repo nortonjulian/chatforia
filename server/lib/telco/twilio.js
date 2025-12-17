@@ -161,7 +161,7 @@ async function purchaseNumber({ phoneNumber }) {
 
   // Inbound SMS → your webhook
   if (base) {
-    createParams.smsUrl = `${base}/webhooks/sms/twilio`;
+    createParams.smsUrl = `${base}/webhooks/sms/inbound`;
     createParams.smsMethod = 'POST';
   }
 

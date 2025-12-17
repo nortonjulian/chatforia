@@ -100,17 +100,18 @@ export async function sendSms({ to, from, text, clientRef } = {}) {
   };
 
   // Prefer Messaging Service if configured (it manages from numbers/pools)
-  if (TWILIO_MESSAGING_SERVICE_SID && !from) {
-    params.messagingServiceSid = TWILIO_MESSAGING_SERVICE_SID;
-  } else {
-    const resolvedFrom = from || TWILIO_FROM_NUMBER;
-    if (!resolvedFrom) {
-      throw new Error(
-        'Twilio messaging requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER'
-      );
-    }
-    params.from = resolvedFrom;
-  }
+// 🚨 Authoritative sender logic
+// If `from` is provided, ALWAYS use it (user-selected number)
+if (from) {
+  params.from = from;
+} else if (TWILIO_MESSAGING_SERVICE_SID) {
+  // Only system / fallback messages should ever reach here
+  params.messagingServiceSid = TWILIO_MESSAGING_SERVICE_SID;
+} else if (TWILIO_FROM_NUMBER) {
+  params.from = TWILIO_FROM_NUMBER;
+} else {
+  throw new Error('No valid SMS sender configured');
+}
 
   if (TWILIO_STATUS_CALLBACK_URL) {
     params.statusCallback = TWILIO_STATUS_CALLBACK_URL;

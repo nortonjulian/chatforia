@@ -243,7 +243,6 @@ model User {
   esimIccid     String? @db.VarChar(64) @map("tealIccid")
 
   publicKey  String?
-  privateKey String?
 
   // Relations
   followers                  Follow[]             @relation("follower")
@@ -616,8 +615,8 @@ model RandomChatRoom {
 
 model Message {
   id                Int       @id @default(autoincrement())
-  contentCiphertext String    @default("")
-  rawContent        String
+  contentCiphertext Json?     
+  rawContent        String?
   translations      Json?
   translatedFrom    String?
   translatedContent String?

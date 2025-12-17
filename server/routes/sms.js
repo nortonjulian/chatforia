@@ -30,14 +30,15 @@ r.get(
 
 /* ---------- SEND (prod path, via provider/service) ---------- */
 // POST /sms/send { to, body }
+// POST /sms/send { to, body, from? }
 r.post(
   '/send',
   requireAuth,
   express.json(),
   asyncHandler(async (req, res) => {
-    const { to, body } = req.body || {};
+    const { to, body, from } = req.body || {};
     if (!to || !body) throw Boom.badRequest('to and body required');
-    const out = await sendUserSms({ userId: req.user.id, to, body });
+    const out = await sendUserSms({ userId: req.user.id, to, body, from });
     res.status(202).json(out);
   })
 );

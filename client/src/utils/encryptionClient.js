@@ -1,5 +1,7 @@
 import { get, set, del } from 'idb-keyval';
 import { decryptMessageForUserBrowser } from './decryptionClient.js';
+import nacl from 'tweetnacl';
+import naclUtil from 'tweetnacl-util';
 
 /* ============================================================
  * Tiny byte and WebCrypto helpers
@@ -50,6 +52,38 @@ async function importAesKey(key) {
   if (key instanceof CryptoKey) return key;
   const raw = guessToBytes(key);
   return importAesKeyRaw(raw);
+}
+
+/**
+ * Decode either standard base64 OR base64url (and tolerate missing padding/newlines).
+ * This matches the server’s tolerant decoder.
+ */
+function decodeB64Any(input, label = 'key') {
+  if (!input || typeof input !== 'string') {
+    throw new Error(`${label}: missing or not a string`);
+  }
+
+  // trim + remove whitespace/newlines
+  let s = input.trim().replace(/\s+/g, '');
+
+  // PEM detected? This is NOT a NaCl key.
+  if (s.includes('-----BEGIN')) {
+    throw new Error(
+      `${label}: looks like PEM (RSA) but NaCl base64 key is required for E2EE. Regenerate/migrate keys.`
+    );
+  }
+
+  // strip common prefixes if they ever show up
+  s = s.replace(/^base64:/i, '');
+
+  // base64url -> base64
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+
+  // pad to multiple of 4
+  const pad = s.length % 4;
+  if (pad) s += '='.repeat(4 - pad);
+
+  return naclUtil.decodeBase64(s);
 }
 
 /* ============================================================
@@ -257,62 +291,6 @@ export async function clearLocalKeyBundle() {
 }
 
 /* ============================================================
- * RSA key import (PEM/PKCS8 for private, SPKI for public)
- * ========================================================== */
-
-/** Strips PEM headers/footers and whitespace; returns Uint8Array DER. */
-function pemToDer(pem) {
-  const s = String(pem || '')
-    .replace(/-----BEGIN [^-]+-----/g, '')
-    .replace(/-----END [^-]+-----/g, '')
-    .replace(/\s+/g, '');
-  return b642bytes(s);
-}
-
-async function importRsaPrivateKeyPkcs8(pemOrB64) {
-  const der = pemToDer(pemOrB64);
-  return crypto.subtle.importKey(
-    'pkcs8',
-    der,
-    { name: 'RSA-OAEP', hash: 'SHA-256' },
-    false,
-    ['decrypt']
-  );
-}
-
-async function importRsaPublicKeySpki(pemOrB64) {
-  const der = pemToDer(pemOrB64);
-  return crypto.subtle.importKey(
-    'spki',
-    der,
-    { name: 'RSA-OAEP', hash: 'SHA-256' },
-    false,
-    ['encrypt']
-  );
-}
-
-/**
- * Unwrap a per-recipient symmetric key for the current user.
- * - `encryptedKeyForMe`: typically base64 RSA-OAEP ciphertext from server.
- * Returns an AES-GCM CryptoKey ready for use with `decryptSym`.
- */
-export async function unwrapForMe(encryptedKeyForMe) {
-  if (!encryptedKeyForMe) throw new Error('Missing encryptedKeyForMe');
-
-  // Ensure we have the user's private key available (unlocked or legacy)
-  const { privateKey } = await getUnlockedBundleOrThrow();
-
-  const rsaPriv = await importRsaPrivateKeyPkcs8(privateKey);
-  const wrappedBytes = guessToBytes(encryptedKeyForMe);
-  const rawAesKeyBytes = new Uint8Array(
-    await crypto.subtle.decrypt({ name: 'RSA-OAEP' }, rsaPriv, wrappedBytes)
-  );
-
-  // Convert to usable AES-GCM key
-  return importAesKeyRaw(rawAesKeyBytes);
-}
-
-/* ============================================================
  * Symmetric helpers (encrypt/decrypt)
  * ========================================================== */
 
@@ -332,21 +310,27 @@ export async function decryptSym({ key, iv, ciphertext }) {
 /**
  * Encrypt plaintext with a fresh 256-bit AES-GCM key.
  * Returns base64 iv/ct, algorithm tag, and the raw AES key bytes for wrapping.
+ *
+ * NOTE: WebCrypto returns ct as [enc | tag] (tag appended).
+ * Our server expects ciphertext layout base64([iv | tag | enc]).
  */
 export async function encryptSym(plaintext) {
   const rawKey = randBytes(32); // 256-bit AES key
   const aesKey = await importAesKeyRaw(rawKey);
   const iv = randBytes(12);
+
+  // WebCrypto output = enc||tag (tag is last 16 bytes)
   const ctBuf = await crypto.subtle.encrypt(
     { name: 'AES-GCM', iv },
     aesKey,
     te.encode(String(plaintext ?? ''))
   );
+
   return {
     keyRaw: rawKey,              // Uint8Array (32 bytes)
-    iv: bytes2b64(iv),           // base64
-    ct: bytes2b64(ctBuf),        // base64
-    alg: 'A256GCM',              // tag used by server/clients
+    ivBytes: iv,                 // Uint8Array (12 bytes)
+    ctBytes: new Uint8Array(ctBuf), // Uint8Array (enc||tag)
+    alg: 'A256GCM',
   };
 }
 
@@ -354,14 +338,6 @@ export async function encryptSym(plaintext) {
  * Message decryption pipeline (existing usage)
  * ========================================================== */
 
-/**
- * Decrypts an array of messages for the current user.
- * Expects server to include `encryptedKeyForMe` (preferred) or legacy `encryptedKeys[currentUserId]`.
- * @param {Array} messages - Messages fetched from backend.
- * @param {string} currentUserPrivateKey - Base64/PEM private key (legacy path).
- * @param {Object} senderPublicKeys - Map senderId → publicKey (base64/PEM).
- * @param {number} currentUserId - ID of the logged-in user.
- */
 export async function decryptFetchedMessages(
   messages,
   currentUserPrivateKey,
@@ -380,7 +356,6 @@ export async function decryptFetchedMessages(
           senderPublicKeys?.[msg.sender?.id] || msg.sender?.publicKey || null;
 
         if (!encryptedKey || !senderPublicKey) {
-          // Graceful UX: show placeholder and allow "request key" in future
           return { ...msg, decryptedContent: '[Encrypted – key unavailable]' };
         }
 
@@ -444,60 +419,97 @@ export async function installLocalPrivateKeyBundle(received, passcode) {
 }
 
 /* ============================================================
- * NEW: Wrap AES key for many recipients & high-level encryptForRoom
+ * NEW: Strict E2EE encryptor for MessageInput
+ * Produces EXACT server format:
+ *   - ciphertext: base64([iv(12) | tag(16) | enc])
+ *   - encryptedKeys: { [userId]: base64([nonce(24) | box]) }
  * ========================================================== */
 
-/**
- * Wrap a raw AES key (Uint8Array) for many recipients using RSA-OAEP.
- * `recipients` shape: [{ userId, keyId?, publicKey }, ...]
- * Returns: [{ userId, keyId, wrappedKey }, ...] with base64-wrapped keys.
- */
-export async function wrapForMany(rawAesKey, recipients = []) {
-  const out = [];
-  const src = rawAesKey instanceof Uint8Array ? rawAesKey : guessToBytes(rawAesKey);
-
-  for (const r of recipients) {
-    if (!r || !r.publicKey || r.publicKey.length < 32) continue; // skip invalid
-    try {
-      const rsaPub = await importRsaPublicKeySpki(r.publicKey);
-      const wrapped = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, rsaPub, src);
-      out.push({
-        userId: r.userId ?? r.id,
-        keyId: r.keyId ?? r.publicKeyId ?? r.id,
-        wrappedKey: bytes2b64(wrapped),
-      });
-    } catch (e) {
-      // Skip recipients whose keys fail to import/encrypt (do not break send)
-      console.warn('wrapForMany: failed to wrap for recipient', r?.userId ?? r?.id, e);
-    }
+function concatBytes(...parts) {
+  const total = parts.reduce((n, p) => n + (p?.length || 0), 0);
+  const out = new Uint8Array(total);
+  let off = 0;
+  for (const p of parts) {
+    if (!p?.length) continue;
+    out.set(p, off);
+    off += p.length;
   }
-
   return out;
 }
 
 /**
- * High-level encryptor used by the message composer.
- * - Generates a fresh AES-GCM key
- * - Encrypts plaintext once
- * - Wraps the AES key for each participant who has a publicKey
- * Returns: { iv, ct, alg, keyIds }
+ * Seal a 32-byte session key for one recipient using NaCl box.
+ * Output (base64) packs: [nonce(24) | box]
+ */
+function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPubB64, meta = {}) {
+  const nonce = randBytes(24);
+
+  let recipientPub;
+  let senderPriv;
+  try {
+    recipientPub = decodeB64Any(recipientPubB64, `recipientPublicKey userId=${meta.recipientId ?? 'unknown'}`);
+    senderPriv = decodeB64Any(senderPrivB64, `senderPrivateKey userId=${meta.senderId ?? 'unknown'}`);
+  } catch (e) {
+    throw new Error(`[E2EE] Base64 decode failed (${e.message}). senderId=${meta.senderId ?? 'unknown'} recipientId=${meta.recipientId ?? 'unknown'}`);
+  }
+
+  const boxed = nacl.box(sessionKeyRawU8, nonce, recipientPub, senderPriv);
+  const packed = concatBytes(nonce, boxed);
+  return naclUtil.encodeBase64(packed);
+}
+
+/**
+ * High-level encryptor used by the message composer (STRICT E2EE).
+ * Returns: { ciphertext, encryptedKeys }
  */
 export async function encryptForRoom(participants = [], plaintext = '') {
-  // 1) symmetric encryption
-  const { keyRaw, iv, ct, alg } = await encryptSym(plaintext);
+  // 0) Need sender keypair locally (unlocked if passcode enabled)
+  const { publicKey: senderPubB64, privateKey: senderPrivB64 } = await getUnlockedBundleOrThrow();
 
-  // 2) recipient list (id + publicKey)
-  const recipients = (participants || [])
-    .filter((p) => p && p.publicKey)
-    .map((p) => ({
-      userId: p.id,
-      keyId: p.publicKeyId || p.id,
-      publicKey: p.publicKey,
-    }));
+  // 1) Encrypt the plaintext once with AES-GCM (WebCrypto)
+  const { keyRaw, ivBytes, ctBytes } = await encryptSym(plaintext);
 
-  // 3) wrap the AES key for each recipient
-  const keyIds = await wrapForMany(keyRaw, recipients);
+  // WebCrypto ctBytes = enc||tag (tag appended)
+  const tagLen = 16; // AES-GCM 128-bit tag
+  if (ctBytes.length < tagLen) throw new Error('Ciphertext too short');
 
-  // 4) return ciphertext + wrapped keys
-  return { iv, ct, alg, keyIds };
+  const encPart = ctBytes.slice(0, ctBytes.length - tagLen);
+  const tagPart = ctBytes.slice(ctBytes.length - tagLen);
+
+  // Server expects base64([iv | tag | enc])
+  const packedCiphertext = concatBytes(ivBytes, tagPart, encPart);
+  const ciphertext = bytes2b64(packedCiphertext);
+
+  // 2) Build encryptedKeys map for all participants (and always include self)
+  const encryptedKeys = {};
+
+  const uniq = new Map();
+  for (const p of participants || []) {
+    if (!p?.id || !p?.publicKey) continue;
+    if (!uniq.has(p.id)) uniq.set(p.id, p.publicKey);
+  }
+  // always include self if not present
+  if (!uniq.has('self')) {
+    // nothing, we’ll seal to self below using senderPubB64
+  }
+
+  // Seal to each participant
+  for (const [userId, recipientPub] of uniq.entries()) {
+    encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
+      keyRaw,
+      senderPrivB64,
+      recipientPub,
+      { senderId: 'me', recipientId: userId }
+    );
+  }
+
+  // Always seal to the sender as well (multi-device / re-download)
+  encryptedKeys['me'] = sealSessionKeyForRecipient(
+    keyRaw,
+    senderPrivB64,
+    senderPubB64,
+    { senderId: 'me', recipientId: 'me' }
+  );
+
+  return { ciphertext, encryptedKeys };
 }

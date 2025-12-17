@@ -308,7 +308,7 @@ export function createApp() {
     : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
   const csrfBypassPattern =
-    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$/;
+    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)/;
 
   app.use((req, res, next) => {
     const path = req.path;
