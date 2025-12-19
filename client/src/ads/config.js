@@ -1,8 +1,11 @@
 export const ADS_CONFIG = {
   house: {
+    /* --------------------------------------------------
+     * Fallback (used if placement key is missing)
+     * -------------------------------------------------- */
     default: [
       {
-        kind: 'card',
+        kind: 'native',
         titleKey: 'premium.heading',
         title: 'Go Premium',
         bodyKey: 'premium.description',
@@ -12,18 +15,65 @@ export const ADS_CONFIG = {
         href: '/settings/upgrade',
       },
     ],
+
+    /* --------------------------------------------------
+     * Empty state (no chat selected)
+     * -------------------------------------------------- */
     empty_state_promo: [
-      { kind: 'card', title: 'Start your first chat', body: 'Invite a friend or try Random Chat!', cta: 'New Chat', href: '/new-chat' },
+      {
+        kind: 'native',
+        title: 'Start your first chat',
+        body: 'Invite a friend or try Random Chat!',
+        cta: 'New Chat',
+        href: '/new-chat',
+      },
     ],
+
+    /* --------------------------------------------------
+     * Footer (above composer)
+     * -------------------------------------------------- */
     chat_footer: [
-      { kind: 'card', title: 'Boost your chat experience', body: 'Upgrade to remove ads.', cta: 'Upgrade', href: '/settings/upgrade' },
+      {
+        kind: 'native',
+        title: 'Boost your chat experience',
+        body: 'Upgrade to remove ads.',
+        cta: 'Upgrade',
+        href: '/settings/upgrade',
+      },
     ],
+
+    /* --------------------------------------------------
+     * Inline message-list card
+     * -------------------------------------------------- */
     thread_inline_1: [
-      { kind: 'card', title: 'Smart replies + translate', body: 'Try Premium features.', cta: 'Learn more', href: '/settings/upgrade' },
+      {
+        kind: 'native',
+        title: 'Smart replies + translate',
+        body: 'Try Premium features.',
+        cta: 'Learn more',
+        href: '/settings/upgrade',
+      },
     ],
+
+    /* --------------------------------------------------
+     * Top-of-thread promo
+     * -------------------------------------------------- */
+    thread_top: [
+      {
+        kind: 'native',
+        title: 'Go Premium',
+        body: 'Unlock power features & remove ads.',
+        cta: 'Upgrade',
+        href: '/settings/upgrade',
+      },
+    ],
+
+    /* --------------------------------------------------
+     * Upgrade page / settings surfaces
+     * -------------------------------------------------- */
     upgrade: [
       {
-        kind: 'card',
+        kind: 'native',
         titleKey: 'premium.heading',
         title: 'Premium for power users',
         bodyKey: 'premium.description',
@@ -35,3 +85,5 @@ export const ADS_CONFIG = {
     ],
   },
 };
+
+export default ADS_CONFIG;

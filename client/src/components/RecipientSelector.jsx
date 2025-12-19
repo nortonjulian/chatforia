@@ -36,6 +36,7 @@ export default function RecipientSelector({
   onRequestBrowse,
   maxRecipients,
   placeholder = 'Type a name, number, or email…',
+  allowRaw = true,
 }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -51,17 +52,29 @@ export default function RecipientSelector({
   const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
   const isPhone = (s) => /^\+?[0-9().\-\s]{7,}$/.test(s);
 
+  const toE164Maybe = (raw) => {
+    const s = String(raw || '').replace(/[^\d+]/g, '');
+    if (!s) return '';
+    if (s.startsWith('+')) return s;
+    if (s.length === 10) return `+1${s}`;          // dev default
+    if (s.length === 11 && s.startsWith('1')) return `+${s}`;
+    return s.startsWith('+') ? s : `+${s}`;
+  };
+
   const normalizeRaw = (s) => {
     const trimmed = s.trim();
     if (!trimmed) return null;
+
     if (isEmail(trimmed)) {
       return { id: `raw:${trimmed}`, display: trimmed, type: 'raw', email: trimmed };
     }
+
     if (isPhone(trimmed)) {
-      const digits = trimmed.replace(/[^\d+]/g, '');
-      return { id: `raw:${digits}`, display: trimmed, type: 'raw', phone: digits };
+      const e164 = toE164Maybe(trimmed);
+      if (!e164) return null;
+      return { id: `raw:${e164}`, display: trimmed, type: 'raw', phone: e164 };
     }
-    // Allow arbitrary text as a last resort (can be resolved server-side)
+
     return { id: `raw:${trimmed}`, display: trimmed, type: 'raw' };
   };
 
@@ -151,8 +164,10 @@ export default function RecipientSelector({
         return;
       }
       // add raw if there is a query
-      const raw = normalizeRaw(query);
-      if (raw) addRecipient(raw);
+      if (allowRaw) {
+        const raw = normalizeRaw(query);
+        if (raw) addRecipient(raw);
+      }
       return;
     }
     if (e.key === 'Escape') {
@@ -243,7 +258,7 @@ export default function RecipientSelector({
                 onHover={(idx) => setActiveIndex(idx)}
                 onSelect={(item) => addRecipient(item)}
                 emptyHint={
-                  query ? (
+                  query && allowRaw ? (
                     <Box p="sm">
                       <Text size="sm" c="dimmed">
                         No matches. Press <Kbd>Enter</Kbd> to add “{query}”.

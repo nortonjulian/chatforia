@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import { IconSearch, IconX, IconCopy, IconCheck, IconDeviceMobile } from '@tabler/icons-react';
 import { useUser } from '../context/UserContext';
-import StartChatModal from '../components/StartChatModal';
+import NewConversationModal from '@/components/NewConversationModal';
 import ContactList from '../components/ContactList';
 import ImportContactsModal from '@/components/ImportContactsModal';
 import { useTranslation } from 'react-i18next';
@@ -212,7 +212,7 @@ export default function PeoplePage() {
       </Grid>
 
       {openStartChat && (
-        <StartChatModal currentUserId={currentUser.id} onClose={() => setOpenStartChat(false)} />
+        <NewConversationModal currentUserId={currentUser.id} onClose={() => setOpenStartChat(false)} />
       )}
 
       <ImportContactsModal

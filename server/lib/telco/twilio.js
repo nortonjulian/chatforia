@@ -37,36 +37,76 @@ function getClient() {
  * - If `from` is provided, use that (user’s DID).
  * - Else prefer TWILIO_MESSAGING_SERVICE_SID, then TWILIO_FROM_NUMBER.
  */
-export async function sendSms({ to, text, clientRef, from }) {
+// server/lib/telco/twilio.js
+
+export async function sendSms({ to, text, clientRef, from, mediaUrls }) {
   const {
-    TWILIO_MESSAGING_SERVICE_SID,
     TWILIO_FROM_NUMBER,
+    TWILIO_MESSAGING_SERVICE_SID,
     TWILIO_STATUS_CALLBACK_URL,
+    NODE_ENV,
   } = process.env;
 
   const client = getClient();
 
+  const cleanTo = typeof to === 'string' ? to.trim() : to;
+  const body = typeof text === 'string' ? text : String(text ?? '');
+
+  const cleanServiceSid =
+    typeof TWILIO_MESSAGING_SERVICE_SID === 'string'
+      ? TWILIO_MESSAGING_SERVICE_SID.trim()
+      : '';
+
+  const cleanFrom =
+    typeof from === 'string' ? from.trim() : from;
+
+  const cleanDefaultFrom =
+    typeof TWILIO_FROM_NUMBER === 'string'
+      ? TWILIO_FROM_NUMBER.trim()
+      : '';
+
   const params = {
-    to,
-    body: text,
+    to: cleanTo,
+    body,
   };
 
-  // Prefer Messaging Service if configured (pool management, advanced opt-out, etc.)
-  if (!from && TWILIO_MESSAGING_SERVICE_SID) {
-    params.messagingServiceSid = TWILIO_MESSAGING_SERVICE_SID;
+  // ✅ A2P RULE (US): prefer Messaging Service routing when available
+  // ✅ if caller gave `from`, it MUST win
+  if (cleanFrom) {
+    params.from = cleanFrom;
+  } else if (cleanServiceSid) {
+    params.messagingServiceSid = cleanServiceSid;
   } else {
-    const resolvedFrom = from || TWILIO_FROM_NUMBER;
-    if (!resolvedFrom) {
-      throw new Error(
-        'Twilio messaging requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER'
-      );
-    }
-    params.from = resolvedFrom;
+    if (!cleanDefaultFrom) throw new Error('Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER');
+    params.from = cleanDefaultFrom;
   }
 
-  if (TWILIO_STATUS_CALLBACK_URL) {
-    params.statusCallback = TWILIO_STATUS_CALLBACK_URL;
+  // ✅ MMS support (optional)
+  // Twilio expects `mediaUrl` as string or array of strings
+  if (Array.isArray(mediaUrls) && mediaUrls.length) {
+    params.mediaUrl = mediaUrls.filter(Boolean);
   }
+
+  // ✅ Status callback: Twilio requires public HTTPS; avoid localhost in dev
+  if (TWILIO_STATUS_CALLBACK_URL) {
+    const url = TWILIO_STATUS_CALLBACK_URL.trim();
+    const isHttps = /^https:\/\//i.test(url);
+    const isLocalhost = /localhost|127\.0\.0\.1|0\.0\.0\.0/i.test(url);
+
+    if (isHttps && !isLocalhost) {
+      params.statusCallback = url;
+    } else if (NODE_ENV === 'production') {
+      console.warn('[twilio-sendSms] Ignoring invalid TWILIO_STATUS_CALLBACK_URL in production:', url);
+    }
+  }
+
+  console.log('[twilio-sendSms]', {
+    to: params.to,
+    using: params.from ? 'from' : 'messagingServiceSid',
+    from: params.from || null,
+    messagingServiceSid: params.messagingServiceSid || null,
+    hasMedia: Boolean(params.mediaUrl?.length),
+  });
 
   const msg = await client.messages.create(params);
 
@@ -77,6 +117,7 @@ export async function sendSms({ to, text, clientRef, from }) {
     clientRef: clientRef || null,
   };
 }
+
 
 /* -------------------------------------------------------------------------- */
 /*  Number search (for pool picker UI)                                       */
@@ -148,33 +189,22 @@ async function searchAvailable({
  */
 async function purchaseNumber({ phoneNumber }) {
   const client = getClient();
+  const base = process.env.TWILIO_WEBHOOK_BASE_URL;
 
-  const base = process.env.TWILIO_WEBHOOK_BASE_URL; // e.g. https://api.chatforia.com
-
-  // trim and validate TwiML App SID
   const rawVoiceAppSid = (process.env.TWILIO_VOICE_APPLICATION_SID || '').trim();
   const hasValidVoiceAppSid = /^AP[a-f0-9]{32}$/i.test(rawVoiceAppSid);
 
-  const createParams = {
-    phoneNumber,
-  };
+  const createParams = { phoneNumber };
 
-  // Inbound SMS → your webhook
   if (base) {
-    createParams.smsUrl = `${base}/webhooks/sms/inbound`;
+    // ✅ keep smsWebhooks.js as the single inbound handler
+    createParams.smsUrl = `${base}/webhooks/sms/twilio`;
     createParams.smsMethod = 'POST';
   }
 
-  // Voice: prefer TwiML app *if* SID is valid; else direct webhook if base URL is set
   if (hasValidVoiceAppSid) {
     createParams.voiceApplicationSid = rawVoiceAppSid;
   } else if (base) {
-    if (rawVoiceAppSid) {
-      console.warn(
-        '[twilio] Ignoring invalid TWILIO_VOICE_APPLICATION_SID value:',
-        rawVoiceAppSid
-      );
-    }
     createParams.voiceUrl = `${base}/webhooks/voice/inbound`;
     createParams.voiceMethod = 'POST';
   }
@@ -185,9 +215,9 @@ async function purchaseNumber({ phoneNumber }) {
     ok: true,
     sid: res.sid,
     e164: res.phoneNumber,
-    order: {
-      sid: res.sid,
-    },
+    isoCountry: res.isoCountry || null,
+    capabilities: res.capabilities || null,
+    order: { sid: res.sid },
   };
 }
 

@@ -1,11 +1,14 @@
 import { sendSms as telcoSendSms } from '../lib/telco/index.js';
-import { normalizeE164, isE164 } from './phone.js';
+import { normalizeE164, isE164 } from '../utils/phone.js';
 
-export async function sendSms(to, text) {
+/**
+ * System/verification/invite texts:
+ * Always send from a stable DID (not a leased user DID).
+ */
+export async function sendSystemSms({ to, text }) {
   const toPhone = normalizeE164(to);
   if (!isE164(toPhone)) throw new Error('Invalid destination phone');
 
-  // System/verification/invite texts should always have a stable sender DID
   const from =
     process.env.TWILIO_FROM_NUMBER ||
     process.env.TWILIO_PHONE_NUMBER ||
@@ -17,7 +20,7 @@ export async function sendSms(to, text) {
 
   return telcoSendSms({
     to: toPhone,
-    text,
-    from, // <-- forces Twilio to use `from`, never the Messaging Service
+    text: String(text ?? ''),
+    from, // stable DID
   });
 }

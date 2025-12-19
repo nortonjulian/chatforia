@@ -41,16 +41,16 @@ function getCookieName() {
 
 function getCookieBase() {
   const isProd = process.env.NODE_ENV === 'production';
-  const base = {
+
+  const cookieDomain = isProd ? process.env.COOKIE_DOMAIN : undefined;
+
+  return {
     httpOnly: true,
-    secure: isProd || String(process.env.COOKIE_SECURE || '').toLowerCase() === 'true',
-    sameSite: isProd ? 'none' : 'lax',
     path: '/',
+    secure: isProd,                    
+    sameSite: isProd ? 'none' : 'lax', 
+    ...(cookieDomain ? { domain: cookieDomain } : {}),
   };
-  if (isProd && process.env.COOKIE_DOMAIN) {
-    base.domain = process.env.COOKIE_DOMAIN;
-  }
-  return base;
 }
 
 function setJwtCookie(res, token) {

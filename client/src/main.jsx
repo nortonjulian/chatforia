@@ -1,13 +1,10 @@
 import React from 'react';
-
 import ReactDOM from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 
 import { MantineProvider, createTheme } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { BrowserRouter } from 'react-router-dom';
-import { installThemeFaviconObserver } from '@/utils/themeFavicon';
-installThemeFaviconObserver();
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
@@ -43,49 +40,45 @@ import {
   isDarkTheme,
 } from './utils/themeManager';
 
-// Apply stored/default theme on boot (defaults to "dawn" now)
-applyTheme();
+import { installThemeFaviconObserver } from '@/utils/themeFavicon';
 
-// Best-effort: if user is already authenticated, pull their server-stored theme
-(async () => {
-  try {
-    await primeCsrf();
-    const { data: me } = await axiosClient.get('/users/me');
-    if (me?.theme && me.theme !== getTheme()) {
-      setTheme(me.theme); // updates <html data-theme> and Mantine scheme via onThemeChange
-    }
-  } catch {
-    // not logged in or endpoint unavailable — ignore
-  }
-})();
-
-const isProd = import.meta.env.PROD;
+/* ---------------- Global hard-error logging ---------------- */
+window.addEventListener('error', (e) => {
+  console.error('[window.error]', e.error || e.message, e);
+});
+window.addEventListener('unhandledrejection', (e) => {
+  console.error('[unhandledrejection]', e.reason, e);
+});
 
 /* ---------------- Sentry (prod only) ---------------- */
+const isProd = import.meta.env.PROD;
+
 if (isProd && import.meta.env.VITE_SENTRY_DSN) {
   (async () => {
-    const integrations = [Sentry.browserTracingIntegration()];
+    try {
+      const integrations = [Sentry.browserTracingIntegration()];
 
-    if (import.meta.env.VITE_SENTRY_REPLAY === 'true') {
-      try {
-        const { replayIntegration } = await import('@sentry/replay');
-        integrations.push(replayIntegration());
-      } catch {
-        // eslint-disable-next-line no-console
-        console.warn('[sentry] @sentry/replay not installed; continuing without it');
+      if (import.meta.env.VITE_SENTRY_REPLAY === 'true') {
+        try {
+          const { replayIntegration } = await import('@sentry/replay');
+          integrations.push(replayIntegration());
+        } catch {
+          console.warn('[sentry] @sentry/replay not installed; continuing without it');
+        }
       }
-    }
 
-    Sentry.init({
-      dsn: import.meta.env.VITE_SENTRY_DSN,
-      environment: import.meta.env.MODE,
-      release: import.meta.env.VITE_COMMIT_SHA,
-      integrations,
-      tracesSampleRate: Number(import.meta.env.VITE_SENTRY_TRACES_RATE ?? 0.15),
-      // (only used if Replay is enabled)
-      replaysSessionSampleRate: 0.1,
-      replaysOnErrorSampleRate: 1.0,
-    });
+      Sentry.init({
+        dsn: import.meta.env.VITE_SENTRY_DSN,
+        environment: import.meta.env.MODE,
+        release: import.meta.env.VITE_COMMIT_SHA,
+        integrations,
+        tracesSampleRate: Number(import.meta.env.VITE_SENTRY_TRACES_RATE ?? 0.15),
+        replaysSessionSampleRate: 0.1,
+        replaysOnErrorSampleRate: 1.0,
+      });
+    } catch (err) {
+      console.error('[sentry.init] failed', err);
+    }
   })();
 }
 
@@ -94,7 +87,6 @@ const theme = createTheme({
   ...chatforiaTheme,
   primaryShade: 5,
   components: {
-    // keep all styles/variants from chatforiaTheme
     ...chatforiaTheme.components,
 
     TextInput: {
@@ -126,26 +118,76 @@ const theme = createTheme({
   },
 });
 
-
 /* ---------------- Root ---------------- */
 function Root() {
-  // Mantine wants 'light' | 'dark'; map custom themes with isDarkTheme
-  const [scheme, setScheme] = React.useState(isDarkTheme(getTheme()) ? 'dark' : 'light');
+  // Ensure theme is applied, but never let it kill mounting
+  React.useEffect(() => {
+    try {
+      applyTheme();
+    } catch (e) {
+      console.error('[applyTheme] failed', e);
+    }
+
+    try {
+      installThemeFaviconObserver();
+    } catch (e) {
+      console.error('[installThemeFaviconObserver] failed', e);
+    }
+  }, []);
+
+  // Mantine wants 'light' | 'dark'
+  const [scheme, setScheme] = React.useState(
+    isDarkTheme(getTheme()) ? 'dark' : 'light'
+  );
 
   // Keep Mantine scheme in sync with our theme manager
   React.useEffect(() => {
-    const unsub = onThemeChange((t) => setScheme(isDarkTheme(t) ? 'dark' : 'light'));
-    return unsub;
+    try {
+      const unsub = onThemeChange((t) =>
+        setScheme(isDarkTheme(t) ? 'dark' : 'light')
+      );
+      return unsub;
+    } catch (e) {
+      console.error('[onThemeChange] failed', e);
+      return undefined;
+    }
   }, []);
 
   // start collecting Web Vitals (lazy-loaded)
   React.useEffect(() => {
-    initWebVitals();
+    try {
+      initWebVitals();
+    } catch (e) {
+      console.error('[initWebVitals] failed', e);
+    }
+  }, []);
+
+  // Best-effort: pull server-stored theme (do NOT block mount)
+  React.useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        await primeCsrf();
+        const { data: me } = await axiosClient.get('/users/me');
+        if (!alive) return;
+        if (me?.theme && me.theme !== getTheme()) {
+          setTheme(me.theme);
+        }
+      } catch (e) {
+        // not logged in / endpoint unavailable — ignore
+        if (import.meta.env.DEV) console.warn('[boot theme] skipped', e);
+      }
+    })();
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
   return (
     <ErrorBoundary>
-      <MantineProvider theme={theme} defaultColorScheme={scheme}>
+      {/* IMPORTANT: use forceColorScheme so changes actually apply immediately */}
+      <MantineProvider theme={theme} defaultColorScheme={scheme} forceColorScheme={scheme}>
         <Notifications position="top-right" limit={3} />
 
         {/* a11y helpers mounted once */}
@@ -154,14 +196,12 @@ function Root() {
         {/* IMPORTANT: SocketProvider must wrap UserProvider */}
         <SocketProvider>
           <UserProvider>
-            {/* AdProvider inside UserProvider so it can read plan and disable ads for Premium */}
             <AdProvider>
               <CallProvider>
                 <BrowserRouter>
                   <App
                     themeScheme={scheme}
                     onToggleTheme={() => {
-                      // Flip specifically between Dawn (light) <-> Midnight (flagship dark)
                       const next = scheme === 'light' ? 'midnight' : 'dawn';
                       setTheme(next);
                     }}
@@ -177,12 +217,16 @@ function Root() {
 }
 
 /* ---------------- Mount ---------------- */
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    {/* ✅ Wrap the entire app with I18nextProvider so every child
-        (Sidebar, header buttons, drawers, etc.) responds to language changes */}
-    <I18nextProvider i18n={i18n}>
-      <Root />
-    </I18nextProvider>
-  </React.StrictMode>
-);
+const rootEl = document.getElementById('root');
+if (!rootEl) {
+  console.error('[main.jsx] #root element not found. Check index.html');
+} else {
+  console.log('[main.jsx] mounting app ✅');
+  ReactDOM.createRoot(rootEl).render(
+    <React.StrictMode>
+      <I18nextProvider i18n={i18n}>
+        <Root />
+      </I18nextProvider>
+    </React.StrictMode>
+  );
+}

@@ -3,28 +3,29 @@ import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
 
-async function getUserFromNumber(userId) {
-  const user = await prisma.user.findUnique({
-    where: { id: Number(userId) },
-    select: {
-      assignedNumbers: {
-        select: { e164: true },
-        take: 1,
-        orderBy: { id: 'asc' },
-      },
+/**
+ * Get the user's current active number (TextNow-style lease model):
+ * - Look up the PhoneNumber row assigned to the user
+ * - status must be ASSIGNED or HOLD
+ */
+async function getUserActiveDid(userId) {
+  const num = await prisma.phoneNumber.findFirst({
+    where: {
+      assignedUserId: Number(userId),
+      status: { in: ['ASSIGNED', 'HOLD'] },
     },
+    select: { id: true, e164: true, status: true },
+    orderBy: { assignedAt: 'desc' },
   });
 
-  const num = user?.assignedNumbers?.[0]?.e164 || null;
-
-  if (!num) {
+  if (!num?.e164) {
     const err = Boom.preconditionFailed('No assigned number for user');
     // frontend expects this to trigger NumberPickerModal
     err.output.payload.code = 'NO_NUMBER';
     throw err;
   }
 
-  return normalizeE164(num);
+  return { id: num.id, e164: normalizeE164(num.e164) };
 }
 
 async function upsertThread(userId, contactPhone) {
@@ -32,56 +33,16 @@ async function upsertThread(userId, contactPhone) {
   if (!isE164(phone)) throw Boom.badRequest('Invalid destination phone');
 
   let thread = await prisma.smsThread.findFirst({
-    where: { userId, contactPhone: phone },
+    where: { userId: Number(userId), contactPhone: phone },
   });
 
   if (!thread) {
     thread = await prisma.smsThread.create({
-      data: { userId, contactPhone: phone },
+      data: { userId: Number(userId), contactPhone: phone },
     });
   }
 
   return thread;
-}
-
-export async function sendUserSms({ userId, to, body, from }) {
-  const toPhone = normalizeE164(to);
-  if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
-
-  // If UI passes a specific DID, verify the user owns it; otherwise use default DID.
-  const fromNumber = from
-    ? await assertUserOwnsFromNumber(userId, from)
-    : await getUserFromNumber(userId);
-
-  const thread = await upsertThread(userId, toPhone);
-
-  const clientRef = `smsout:${userId}:${Date.now()}`;
-  const result = await sendSms({
-    to: toPhone,
-    text: body,
-    clientRef,
-    from: fromNumber,
-  });
-
-  const provider = result?.provider || 'twilio';
-
-  await prisma.smsMessage.create({
-    data: {
-      threadId: thread.id,
-      direction: 'out',
-      fromNumber,
-      toNumber: toPhone,
-      body,
-      provider,
-    },
-  });
-
-  return {
-    ok: true,
-    threadId: thread.id,
-    provider,
-    messageSid: result?.messageSid || null,
-  };
 }
 
 async function assertUserOwnsFromNumber(userId, from) {
@@ -89,41 +50,139 @@ async function assertUserOwnsFromNumber(userId, from) {
   if (!isE164(e164)) throw Boom.badRequest('Invalid from number');
 
   const owns = await prisma.phoneNumber.findFirst({
-    where: { assignedUserId: Number(userId), e164, status: { in: ['ASSIGNED', 'HOLD'] } },
-    select: { id: true },
+    where: {
+      assignedUserId: Number(userId),
+      e164,
+      status: { in: ['ASSIGNED', 'HOLD'] },
+    },
+    select: { id: true, e164: true },
   });
 
   if (!owns) throw Boom.forbidden('from number is not assigned to this user');
-  return e164;
+  return normalizeE164(owns.e164);
+}
+
+export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
+  const uid = Number(userId);
+
+  const toPhone = normalizeE164(to);
+  if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
+
+  const safeBody = String(body ?? '').trim();
+  const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
+
+  if (!safeBody && safeMediaUrls.length === 0) {
+    throw Boom.badRequest('body or mediaUrls required');
+  }
+
+  // If UI passes a specific DID, verify the user owns it; otherwise use current leased DID.
+  const fromNumber = from
+    ? await assertUserOwnsFromNumber(uid, from)
+    : (await getUserActiveDid(uid)).e164;
+
+  const thread = await upsertThread(uid, toPhone);
+  const clientRef = `smsout:${uid}:${Date.now()}`;
+
+  console.log('[smsService] sending', {
+    userId: uid,
+    to: toPhone,
+    fromNumber,
+    bodyLen: safeBody.length,
+    mediaCount: safeMediaUrls.length,
+  });
+
+  const result = await sendSms({
+    to: toPhone,
+    text: safeBody,
+    clientRef,
+    from: fromNumber,
+    mediaUrls: safeMediaUrls, // ✅ MMS
+  });
+
+  const provider = result?.provider || 'twilio';
+
+  await prisma.$transaction(async (tx) => {
+    await tx.smsMessage.create({
+      data: {
+        threadId: thread.id,
+        direction: 'out',
+        fromNumber,
+        toNumber: toPhone,
+        body: safeBody,
+        provider,
+        // if you have a column, store media too:
+        // mediaUrls: safeMediaUrls,
+      },
+    });
+
+    await tx.phoneNumber.updateMany({
+      where: {
+        assignedUserId: uid,
+        e164: fromNumber,
+        status: { in: ['ASSIGNED', 'HOLD'] },
+      },
+      data: { lastOutboundAt: new Date() },
+    });
+
+    await tx.smsThread.update({
+      where: { id: thread.id },
+      data: { updatedAt: new Date() },
+    });
+  });
+
+  return {
+    ok: true,
+    threadId: thread.id,
+    provider,
+    messageSid: result?.messageSid || null,
+    clientRef: result?.clientRef || null,
+  };
 }
 
 
-export async function recordInboundSms({
-  toNumber,
-  fromNumber,
-  body,
-  provider,
-}) {
-  const owner = await prisma.user.findFirst({
-    where: { assignedNumbers: { some: { e164: normalizeE164(toNumber) } } },
-    select: { id: true },
-  });
-  if (!owner) return { ok: false, reason: 'no-owner' };
+export async function recordInboundSms({ toNumber, fromNumber, body, provider, providerMessageId }) {
+  const toE164 = normalizeE164(toNumber);
+  const fromE164 = normalizeE164(fromNumber);
 
-  const thread = await upsertThread(owner.id, fromNumber);
+  if (!isE164(toE164) || !isE164(fromE164)) {
+    return { ok: false, reason: 'invalid-e164' };
+  }
 
-  await prisma.smsMessage.create({
-    data: {
-      threadId: thread.id,
-      direction: 'in',
-      fromNumber: normalizeE164(fromNumber),
-      toNumber: normalizeE164(toNumber),
-      body,
-      provider: provider || null,
+  // Owner is the user currently assigned this DID (lease model)
+  const owner = await prisma.phoneNumber.findFirst({
+    where: {
+      e164: toE164,
+      status: { in: ['ASSIGNED', 'HOLD'] },
+      assignedUserId: { not: null },
     },
+    select: { assignedUserId: true },
   });
 
-  return { ok: true, userId: owner.id, threadId: thread.id };
+  if (!owner?.assignedUserId) return { ok: false, reason: 'no-owner' };
+
+  const safeBody = String(body ?? '').trim();
+  const thread = await upsertThread(owner.assignedUserId, fromE164);
+
+  await prisma.$transaction(async (tx) => {
+    await tx.smsMessage.create({
+      data: {
+        threadId: thread.id,
+        direction: 'in',
+        fromNumber: fromE164,
+        toNumber: toE164,
+        body: safeBody,
+        provider: provider || null,
+        providerMessageId: providerMessageId || null,
+      },
+    });
+
+    await tx.smsThread.update({
+      where: { id: thread.id },
+      data: { updatedAt: new Date() },
+    });
+  });
+
+  return { ok: true, userId: owner.assignedUserId, threadId: thread.id };
 }
 
 export async function listThreads(userId) {
@@ -141,9 +200,7 @@ export async function getThread(userId, threadId) {
     },
   });
 
-  if (!thread) {
-    throw Boom.notFound('Thread not found');
-  }
+  if (!thread) throw Boom.notFound('Thread not found');
 
   const messages = await prisma.smsMessage.findMany({
     where: { threadId: thread.id },

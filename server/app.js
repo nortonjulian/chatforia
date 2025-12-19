@@ -53,7 +53,6 @@ import billingRouter from './routes/billing.js';
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
 import smsRouter from './routes/sms.js';
-import smsThreadsRouter from './routes/smsThreads.js';
 import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
 import voiceCallsRouter from './routes/voiceCalls.js';
@@ -73,6 +72,8 @@ import esimRouter from './routes/esim.js';
 import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
+
+import conversationsRouter from './routes/conversations.js';
 
 import webhooksTwilio from './routes/webhooksTwilio.js';
 
@@ -130,7 +131,7 @@ import session from 'express-session';
 import passport from './auth/passport.js';
 import oauthRouter from './routes/oauth.routes.js';
 
-import twilioStatusWebhook from './webhooks/status.js'; 
+import twilioStatusWebhook from './webhooks/status.js';
 
 import phoneRoutes from './routes/api/phone.js';
 
@@ -140,10 +141,7 @@ import { ESIM_ENABLED } from './config/esim.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log(
-  '[env-debug] STRIPE_SECRET_KEY present =',
-  !!process.env.STRIPE_SECRET_KEY
-);
+console.log('[env-debug] STRIPE_SECRET_KEY present =', !!process.env.STRIPE_SECRET_KEY);
 
 export function createApp() {
   const app = express();
@@ -155,25 +153,22 @@ export function createApp() {
   // cookies to be cross-site so the session is sent with XHR.
   const useCrossSiteCookies = true;
 
-    if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     app.set('trust proxy', 1);
   } else {
     app.set('trust proxy', false);
   }
 
+  console.log('[boot] createApp reached', { cwd: process.cwd() });
 
   /* Early security */
   app.use(httpsRedirect());
 
   // 🔧 CORS: dev vs prod
-  const frontendOrigin = isProd
-    ? process.env.FRONTEND_ORIGIN // e.g. "https://www.chatforia.com"
-    : 'http://localhost:5173';
+  const frontendOrigin = isProd ? process.env.FRONTEND_ORIGIN : 'http://localhost:5173';
 
   if (isProd && !frontendOrigin) {
-    logger.warn(
-      'CORS: FRONTEND_ORIGIN is not set in production; cross-site requests may fail.'
-    );
+    logger.warn('CORS: FRONTEND_ORIGIN is not set in production; cross-site requests may fail.');
   }
 
   app.use(
@@ -217,8 +212,7 @@ export function createApp() {
   }
 
   // Auto XHR header in tests/dev fallbacks
-  const AUTO_XHR =
-    isTest || String(process.env.DEV_FALLBACKS || '').toLowerCase() === 'true';
+  const AUTO_XHR = isTest || String(process.env.DEV_FALLBACKS || '').toLowerCase() === 'true';
   if (AUTO_XHR) {
     app.use((req, _res, next) => {
       const m = req.method.toUpperCase();
@@ -259,11 +253,7 @@ export function createApp() {
         return 'info';
       },
       redact: {
-        paths: [
-          'req.headers.authorization',
-          'req.headers.cookie',
-          'res.headers["set-cookie"]',
-        ],
+        paths: ['req.headers.authorization', 'req.headers.cookie', 'res.headers["set-cookie"]'],
       },
     })
   );
@@ -303,12 +293,11 @@ export function createApp() {
   });
 
   /* CSRF */
-  const csrfMw = isTest
-    ? (_req, _res, next) => next()
-    : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
+  const csrfMw = isTest ? (_req, _res, next) => next() : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
+  // ✅ UPDATED: include ^\/_debug(\/|$)
   const csrfBypassPattern =
-    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)/;
+    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
   app.use((req, res, next) => {
     const path = req.path;
@@ -356,9 +345,6 @@ export function createApp() {
 
   /* -------------------------------------------
    * Billing: unified router
-   *  - /billing/webhook uses raw body (set above)
-   *  - Other /billing routes use JSON body
-   *  - verifyTokenOptional hydrates req.user from JWT if present
    * -------------------------------------------*/
   app.use('/billing', verifyTokenOptional, billingRouter);
 
@@ -380,19 +366,15 @@ export function createApp() {
   app.use('/webhooks', webhooksTwilio);
   app.use('/webhooks/status', twilioStatusWebhook);
 
+  app.use('/conversations', conversationsRouter);
+
   // PSTN/telephony surfaces (require at least email verification)
   app.use('/voice', voiceRouter);
 
-  app.use(
-    '/voice/client',
-    requireAuth,
-    requireEmailVerified,
-    voiceClientRouter
-  );
+  app.use('/voice/client', requireAuth, requireEmailVerified, voiceClientRouter);
 
   app.use('/calls', requireAuth, requireEmailVerified, callsRouter);
   app.use('/sms', requireAuth, requireEmailVerified, smsRouter);
-  app.use('/sms/threads', requireAuth, smsThreadsRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);
@@ -406,17 +388,10 @@ export function createApp() {
   app.use('/webhooks/twilio/porting', express.json(), twilioPortingWebhook);
 
   app.use('/support', supportRouter);
-
   app.use('/ads', adsRouter);
 
   // 🔢 Numbers API: gate entire router by auth + email verification; lock is Premium
-  app.post(
-    '/numbers/lock',
-    requireAuth,
-    requireEmailVerified,
-    requirePremium,
-    (req, _res, next) => next()
-  );
+  app.post('/numbers/lock', requireAuth, requireEmailVerified, requirePremium, (req, _res, next) => next());
   app.use('/numbers', requireAuth, requireEmailVerified, numbersRouter);
 
   app.use('/rooms', roomsRouter);
@@ -455,9 +430,7 @@ export function createApp() {
     app.use('/esim', esimRouter); // includes POST /esim/webhooks/
   }
 
-  if (
-    String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true'
-  ) {
+  if (String(process.env.FEATURE_PHYSICAL_SIM || '').toLowerCase() === 'true') {
     app.use('/sims', simsRouter);
   }
 
@@ -473,16 +446,11 @@ export function createApp() {
   app.use('/admin/voice-logs', adminVoiceLogsRouter);
 
   /* Status flag */
-  const STATUS_ENABLED_FLAG =
-    String(process.env.STATUS_ENABLED || '').toLowerCase() === 'true';
+  const STATUS_ENABLED_FLAG = String(process.env.STATUS_ENABLED || '').toLowerCase() === 'true';
   const STATUS_ENABLED = isTest ? true : STATUS_ENABLED_FLAG;
-  logger.info(
-    { service: 'chatforia-server', env: process.env.NODE_ENV, STATUS_ENABLED },
-    'Status routes feature flag'
-  );
+  logger.info({ service: 'chatforia-server', env: process.env.NODE_ENV, STATUS_ENABLED }, 'Status routes feature flag');
   if (STATUS_ENABLED) {
-    const isLoad =
-      process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
+    const isLoad = process.env.NODE_ENV === 'loadtest' || process.env.LOADTEST === '1';
     const RL_HUGE = 100000;
     const statusReadLimiter = rateLimit({
       windowMs: 60 * 1000,
@@ -502,8 +470,14 @@ export function createApp() {
   // Enable mock only in dev-like contexts (choose the toggle you prefer)
   const USE_SMS_MOCK =
     String(process.env.SMS_PROVIDER || '').toLowerCase() === 'mock' ||
-    (process.env.NODE_ENV !== 'production' &&
-      !process.env.TWILIO_ACCOUNT_SID);
+    (process.env.NODE_ENV !== 'production' && !process.env.TWILIO_ACCOUNT_SID);
+
+  console.log('[sms-boot]', {
+    NODE_ENV: process.env.NODE_ENV,
+    SMS_PROVIDER: process.env.SMS_PROVIDER,
+    hasTWILIO_ACCOUNT_SID: !!process.env.TWILIO_ACCOUNT_SID,
+    USE_SMS_MOCK,
+  });
 
   if (USE_SMS_MOCK) {
     // Mount first so it wins for POST /sms/send
@@ -512,6 +486,29 @@ export function createApp() {
 
   if (USE_SMS_MOCK) {
     app.use(smsDevInbound);
+  }
+
+  // ✅ NEW: DEV-only debug endpoint (ungated; CSRF bypassed by ^\/_debug)
+  // NOTE: Place this BEFORE notFoundHandler/errorHandler.
+  if (process.env.NODE_ENV !== 'production') {
+    app.post('/_debug/sms/send', express.json(), async (req, res) => {
+      try {
+        const { sendSms } = await import('./lib/telco/index.js');
+        const to = String(req.body?.to || '').trim();
+
+        if (!to) return res.status(400).json({ ok: false, error: 'to is required' });
+
+        const out = await sendSms({
+          to,
+          text: 'debug test',
+          from: process.env.TWILIO_FROM_NUMBER, // force DID path
+        });
+
+        return res.json({ ok: true, out });
+      } catch (e) {
+        return res.status(500).json({ ok: false, error: e?.message || String(e) });
+      }
+    });
   }
 
   /* Errors (Sentry-safe first, then your handlers) */

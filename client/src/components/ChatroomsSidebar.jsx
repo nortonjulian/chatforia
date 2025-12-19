@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import {
   Stack,
   Skeleton,
@@ -10,46 +10,59 @@ import {
   UnstyledButton,
   Divider,
 } from '@mantine/core';
-import axiosClient from '@/api/axiosClient';
 
 import AdSlot from '@/ads/AdSlot';
+import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import useIsPremium from '@/hooks/useIsPremium';
 import { useTranslation } from 'react-i18next';
+import axiosClient from '@/api/axiosClient';
 
 export default function ChatroomsSidebar({
   onStartNewChat,
   onSelect,
   hideEmpty = false,
-  activeRoomId = null,
+  activeId = null,          // active conversation id
+  activeKind = null,        // 'chat' | 'sms'
   onCountChange,
-  listOnly = false,        // suppress header/ads/CTA when embedded in Sidebar
-  filterQuery = '',        // client-side filter text
-  __testInitialRooms,
+  listOnly = false,
+  filterQuery = '',
+  __testInitialRooms,       // legacy name, still accepted
   __testInitialError,
   __testSkipLoad = false,
 }) {
   const { t } = useTranslation();
-  const [rooms, setRooms] = useState(__testInitialRooms ?? []);
+  const isPremium = useIsPremium();
+
+  const [items, setItems] = useState(__testInitialRooms ?? []);
   const [loading, setLoading] = useState(__testSkipLoad ? false : true);
   const [err, setErr] = useState(__testInitialError ?? '');
-  const isPremium = useIsPremium();
 
   const load = useCallback(async () => {
     if (__testSkipLoad) return;
     try {
       setLoading(true);
       setErr('');
-      const res = await axiosClient.get('/rooms');
+
+      // ✅ Unified endpoint
+      const res = await axiosClient.get('/conversations');
       const data = res?.data;
-      const list = Array.isArray(data) ? data : (data?.rooms || []);
-      setRooms(list);
+
+      // Accept either shape:
+      // { conversations: [...] } OR { items: [...] }
+      const list = Array.isArray(data?.conversations)
+        ? data.conversations
+        : Array.isArray(data?.items)
+          ? data.items
+          : [];
+
+      setItems(list);
     } catch (e) {
       setErr(
         e?.response?.data?.error ||
           e?.response?.data?.message ||
           e?.message ||
-          t('sidebar.errorLoading')
+          t('sidebar.errorLoading', 'Something went wrong')
       );
     } finally {
       setLoading(false);
@@ -67,17 +80,27 @@ export default function ChatroomsSidebar({
   }, [load]);
 
   useEffect(() => {
-    onCountChange?.(Array.isArray(rooms) ? rooms.length : 0);
-  }, [rooms, onCountChange]);
+    onCountChange?.(Array.isArray(items) ? items.length : 0);
+  }, [items, onCountChange]);
 
   const q = filterQuery.trim().toLowerCase();
-  const visibleRooms = q
-    ? rooms.filter((r) => {
-        const title = (r.title || r.name || r.displayName || '').toLowerCase();
-        const snippet = (r.lastMessage?.content || '').toLowerCase();
-        return title.includes(q) || snippet.includes(q);
-      })
-    : rooms;
+
+  const visible = useMemo(() => {
+    const base = Array.isArray(items) ? items : [];
+    if (!q) return base;
+
+    return base.filter((c) => {
+      const title = (c.title || '').toLowerCase();
+      const snippet = (c.last?.text || '').toLowerCase();
+      const phone = (c.phone || c.contactPhone || c.to || '').toLowerCase();
+      return title.includes(q) || snippet.includes(q) || phone.includes(q);
+    });
+  }, [items, q]);
+
+  const activeBg = useMemo(
+    () => 'color-mix(in oklab, var(--mantine-color-blue-2) 22%, transparent)',
+    []
+  );
 
   if (loading) {
     return (
@@ -103,19 +126,18 @@ export default function ChatroomsSidebar({
           </Text>
         )}
         <Alert color="red" variant="light">
-          {err || t('sidebar.errorLoading', 'Something went wrong')}
+          {err}
         </Alert>
         {!listOnly && (
-          <Button onClick={load}>
-            {t('common.retry', 'Retry')}
-          </Button>
+          <Button onClick={load}>{t('common.retry', 'Retry')}</Button>
         )}
       </Stack>
     );
   }
 
-  if (!visibleRooms.length) {
+  if (!visible.length) {
     if (hideEmpty) return null;
+
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
@@ -123,9 +145,23 @@ export default function ChatroomsSidebar({
             {t('sidebar.conversations', 'Conversations')}
           </Text>
         )}
+
+        {!listOnly && !isPremium && (
+          <>
+            <AdSlot
+              placement={PLACEMENTS.SIDEBAR_PRIMARY}
+              fallback={<HouseAdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
+            />
+            <Divider my={6} />
+          </>
+        )}
+
         <Text c="dimmed" size="sm">
-          {t('sidebar.empty', 'No conversations yet.')}
+          {q
+            ? t('sidebar.noResults', 'No matches.')
+            : t('sidebar.empty', 'No conversations yet.')}
         </Text>
+
         {!listOnly && (
           <Button onClick={onStartNewChat}>
             {t('sidebar.startChat', 'Start a new chat')}
@@ -145,33 +181,51 @@ export default function ChatroomsSidebar({
 
       {!listOnly && !isPremium && (
         <>
-          <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
+          <AdSlot
+            placement={PLACEMENTS.SIDEBAR_PRIMARY}
+            fallback={<HouseAdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
+          />
           <Divider my={6} />
         </>
       )}
 
-      {visibleRooms.map((r, idx) => {
-        const title = r.title || r.name || r.displayName || `Room #${r.id}`;
-        const unread = r.unreadCount || r._count?.unread || 0;
-        const isActive = String(r.id) === String(activeRoomId);
+      {visible.map((c, idx) => {
+        const title =
+          c.title ||
+          (c.kind === 'sms'
+            ? (c.contactName ||
+              c.contactPhone ||
+              c.phone ||
+              t('sms.thread', 'SMS'))
+            : t('chat.thread', 'Chat'));
+
+        const unread = Number(c.unreadCount || 0);
+
+        const isActive =
+          String(c.id) === String(activeId) &&
+          (activeKind ? String(c.kind) === String(activeKind) : true);
 
         return (
-          <div key={r.id}>
+          <div key={`${c.kind}:${c.id}`}>
             <UnstyledButton
-              onClick={() => onSelect?.(r)}
+              onClick={() => onSelect?.(c)}
               style={{
                 width: '100%',
                 padding: '10px 12px',
                 borderRadius: 12,
-                background: isActive
-                  ? 'var(--mantine-color-gray-1)'
-                  : 'transparent',
+                background: isActive ? activeBg : 'transparent',
                 textAlign: 'left',
+                outline: 'none',
               }}
               title={title}
+              aria-current={isActive ? 'true' : undefined}
+              data-active={isActive ? 'true' : undefined}
             >
               <Group justify="space-between" wrap="nowrap">
-                <Text fw={500}>{title}</Text>
+                <Text fw={500} lineClamp={1}>
+                  {title}
+                </Text>
+
                 {!!unread && (
                   <Badge size="sm" variant="light" data-testid="badge">
                     {unread}
@@ -179,9 +233,9 @@ export default function ChatroomsSidebar({
                 )}
               </Group>
 
-              {r.lastMessage?.content && (
-                <Text size="sm" c="dimmed" mt={4}>
-                  {r.lastMessage.content}
+              {!!c.last?.text && (
+                <Text size="sm" c="dimmed" mt={4} lineClamp={1}>
+                  {c.last.text}
                 </Text>
               )}
             </UnstyledButton>
@@ -189,7 +243,10 @@ export default function ChatroomsSidebar({
             {!listOnly && !isPremium && idx === 2 && (
               <>
                 <Divider my={6} />
-                <AdSlot placement={PLACEMENTS.SIDEBAR_SECONDARY} />
+                <AdSlot
+                  placement={PLACEMENTS.SIDEBAR_SECONDARY}
+                  fallback={<HouseAdSlot placement={PLACEMENTS.SIDEBAR_SECONDARY} />}
+                />
                 <Divider my={6} />
               </>
             )}

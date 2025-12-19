@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import StartChatModal from '@/components/StartChatModal.jsx';
+import NewConversationModal from '@/components/NewConversationModal';
 
 export default function NewChatModalHost({ currentUserId }) {
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function NewChatModalHost({ currentUserId }) {
   // You can pass draft.text into StartChatModal via initialQuery if you like,
   // or ignore it and just let the user pick recipients first.
   return (
-    <StartChatModal
+    <NewConversationModal
       currentUserId={currentUserId}
       onClose={handleClose}
       initialQuery={(draft?.text || '').slice(0, 120)} // optional

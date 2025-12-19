@@ -175,7 +175,7 @@ export default function SmsCompose() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             autosize
-            minRows={2}
+            minRows={3}
             maxRows={6}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -186,9 +186,6 @@ export default function SmsCompose() {
             styles={{
               root: { flex: 1, minWidth: 0 },
               input: {
-                height: 'auto !important',
-                minHeight: 72,
-                maxHeight: 160,
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 whiteSpace: 'pre-wrap',

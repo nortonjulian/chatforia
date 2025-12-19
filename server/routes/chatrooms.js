@@ -129,6 +129,41 @@ router.get(
   })
 );
 
+// GET /chatrooms/:id  (full room payload for ChatView)
+router.get(
+  '/:id',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');
+
+    const me = Number(req.user.id);
+
+    // Ensure requester is a participant
+    const isParticipant = await prisma.participant.findFirst({
+      where: { chatRoomId: id, userId: me },
+      select: { userId: true },
+    });
+    if (!isParticipant) throw Boom.forbidden('Not a participant');
+
+    const room = await prisma.chatRoom.findUnique({
+      where: { id },
+      include: {
+        participants: {
+          include: {
+            user: { select: { id: true, username: true, avatarUrl: true } },
+          },
+          orderBy: [{ role: 'desc' }, { userId: 'asc' }],
+        },
+      },
+    });
+
+    if (!room) throw Boom.notFound('Not found');
+    return res.json(room);
+  })
+);
+
+
 /* =========================
  * DIRECT / GROUP
  * ========================= */

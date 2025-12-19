@@ -28,7 +28,7 @@ import ForgotPassword from '@/components/ForgotPassword';
 import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
-
+import ChatThreadRoute from './pages/ChatThreadRoute';
 
 // ✅ Family pages
 import FamilyDashboard from '@/pages/FamilyDashboard.jsx';
@@ -59,9 +59,9 @@ import SettingsPage from '@/features/settings/SettingsPage';
 import HomeIndex from '@/features/chat/HomeIndex';
 
 import SmsThreads from '@/pages/SmsThreads.jsx';
-import SmsThreadView from '@/pages/SmsThreadView.jsx';
 import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
 import SmsCompose from '@/pages/SmsCompose.jsx';
+import SmsLayout from '@/pages/SmsLayout.jsx';
 
 import MyPlan from '@/pages/MyPlan.jsx';
 
@@ -383,6 +383,9 @@ export default function AppRoutes() {
 
         <Route path="voicemail" element={<VoicemailPage />} />
 
+        <Route path="chat/:id" element={<ChatThreadRoute />} />
+
+
         {/* ✅ Wireless dashboard (canonical) */}
         <Route path="wireless" element={<WirelessDashboard />} />
 
@@ -401,10 +404,17 @@ export default function AppRoutes() {
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="join/:code" element={<JoinInvitePage />} />
-        <Route path="sms" element={<SmsThreads />} />
-        <Route path="sms/threads/:id" element={<SmsThreadView />} />
-        <Route path="sms/:threadId" element={<SmsThreadPage />} />
-        <Route path="sms/compose" element={<SmsCompose />} />
+
+        <Route path="sms" element={<SmsLayout />}>
+          <Route index element={<SmsThreads />} />
+          <Route path="compose" element={<SmsCompose />} />
+
+          {/* legacy redirect: /sms/threads/:id -> /sms/:id */}
+          <Route path="threads/:id" element={<Navigate to="../:id" replace />} />
+
+          <Route path=":threadId" element={<SmsThreadPage />} />
+        </Route>
+
 
         <Route path="/account/plan" element={<MyPlan />} />
 

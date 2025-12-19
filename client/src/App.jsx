@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import DevErrorBoundary from '@/components/DevErrorBoundary.jsx';
 import AppRoutes from './AppRoutes';
 
 export default function App() {
@@ -12,7 +13,9 @@ export default function App() {
 
   return(
     <>
-    <AppRoutes />
+     <DevErrorBoundary>
+      <AppRoutes />
+     </DevErrorBoundary>
     </>
   )
 }

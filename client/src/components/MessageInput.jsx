@@ -104,7 +104,7 @@ export default function MessageInput({
       if (currentUser?.strictE2EE) {
         try {
           // IMPORTANT: encryptForRoom must return { ciphertext, encryptedKeys }
-          const { ciphertext, encryptedKeys } = await encryptForRoom(roomParticipants, text);
+          const { ciphertext, encryptedKeys } = await encryptForRoom(roomParticipants, text, currentUser?.id);
           payload.contentCiphertext = ciphertext;
           payload.encryptedKeys = encryptedKeys;
 

@@ -199,13 +199,13 @@ model User {
   // If you want a separate explicit light/dark/system switch add this:
   // themeMode                String      @default("system") // "light" | "dark" | "system"
 
-  forwardingEnabledSms   Boolean  @default(false)
-  forwardSmsToPhone      Boolean  @default(false)
-  forwardPhoneNumber     String?  @db.VarChar(32)
-  forwardSmsToEmail      Boolean  @default(false)
-  forwardEmail           String?  @db.VarChar(255)
-  forwardingEnabledCalls Boolean  @default(false)
-  forwardToPhoneE164     String?  @db.VarChar(32)
+  forwardingEnabledSms   Boolean @default(false)
+  forwardSmsToPhone      Boolean @default(false)
+  forwardPhoneNumber     String? @db.VarChar(32)
+  forwardSmsToEmail      Boolean @default(false)
+  forwardEmail           String? @db.VarChar(255)
+  forwardingEnabledCalls Boolean @default(false)
+  forwardToPhoneE164     String? @db.VarChar(32)
   forwardQuietHoursStart Int?
   forwardQuietHoursEnd   Int?
 
@@ -240,9 +240,9 @@ model User {
   currency       String?     @db.VarChar(8) // e.g. "USD", "INR"
   firstPaidAt    DateTime?
 
-  esimIccid     String? @db.VarChar(64) @map("tealIccid")
+  esimIccid String? @map("tealIccid") @db.VarChar(64)
 
-  publicKey  String?
+  publicKey String?
 
   // Relations
   followers                  Follow[]             @relation("follower")
@@ -349,9 +349,9 @@ model Price {
 }
 
 model PriceOverride {
-  id            String @id @default(cuid())
+  id            String   @id @default(cuid())
   countryCode   String
-  plan          Plan   // enum Plan, no @relation, no planId
+  plan          Plan // enum Plan, no @relation, no planId
   currency      String
   priceCents    Int
   stripePriceId String
@@ -501,13 +501,13 @@ model RegionRule {
 }
 
 model MobileDataPackPurchase {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  id     Int  @id @default(autoincrement())
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 
-  kind        String        // "ESIM" | "FAMILY"
-  addonKind   String        // "ESIM_STARTER" | "FAMILY_SMALL" etc.
-  purchasedAt DateTime      @default(now())
+  kind        String // "ESIM" | "FAMILY"
+  addonKind   String // "ESIM_STARTER" | "FAMILY_SMALL" etc.
+  purchasedAt DateTime  @default(now())
   expiresAt   DateTime?
 
   totalDataMb     Int
@@ -517,7 +517,7 @@ model MobileDataPackPurchase {
   stripePaymentIntentId   String? @db.Text
 
   /// ICCID for the carrier line (legacy column tealIccid)
-  esimIccid   String? @map("tealIccid")
+  esimIccid String? @map("tealIccid")
 
   /// Carrier profile id (legacy column tealProfileId)
   esimProfileId String? @map("tealProfileId")
@@ -615,7 +615,7 @@ model RandomChatRoom {
 
 model Message {
   id                Int       @id @default(autoincrement())
-  contentCiphertext Json?     
+  contentCiphertext Json?
   rawContent        String?
   translations      Json?
   translatedFrom    String?
@@ -1041,9 +1041,12 @@ model PhoneNumber {
   id             Int               @id @default(autoincrement())
   e164           String            @unique
   provider       String            @default("twilio")
-  twilioSid      String?           // SID from Twilio incoming phone number
+  twilioSid      String?
   areaCode       String?
+  isoCountry     String?           @db.VarChar(2) // ✅ NEW: 'US', 'CA', ...
+  capabilities   Json?
   vanity         Boolean           @default(false)
+  forSale        Boolean           @default(false)
   status         NumberStatus      @default(AVAILABLE)
   assignedUserId Int?
   assignedAt     DateTime?
@@ -1055,15 +1058,18 @@ model PhoneNumber {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   source         PhoneNumberSource @default(PROVISIONED)
+  voicemails     Voicemail[]       @relation("PhoneNumberVoicemails")
 
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
   reservations NumberReservation[] @relation("PhoneNumberReservations")
 
-  voicemails Voicemail[]
-
   @@index([status])
   @@index([assignedUserId])
   @@index([provider, areaCode, status])
+  @@index([isoCountry, status])
+
+  @@index([isoCountry, areaCode, status, forSale])
+  @@index([provider, isoCountry, areaCode, status, forSale])
 }
 
 model VoiceLog {
@@ -1085,7 +1091,7 @@ model Voicemail {
   user   User   @relation(fields: [userId], references: [id])
   userId Int
 
-  phoneNumber   PhoneNumber? @relation(fields: [phoneNumberId], references: [id])
+  phoneNumber   PhoneNumber? @relation("PhoneNumberVoicemails", fields: [phoneNumberId], references: [id])
   phoneNumberId Int?
 
   fromNumber String

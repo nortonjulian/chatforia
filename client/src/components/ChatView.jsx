@@ -1,3 +1,4 @@
+// client/src/components/ChatView.jsx
 import { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
 import {
@@ -23,7 +24,7 @@ import {
   IconPhoto,
   IconRotateClockwise,
   IconDice5,
-  IconCalendarPlus, // ⬅️ added
+  IconCalendarPlus,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -32,7 +33,8 @@ import ReactionBar from './ReactionBar.jsx';
 import EventSuggestionBar from './EventSuggestionBar.jsx';
 import TranslatedText from './chat/TranslatedText.jsx';
 import socket from '../lib/socket';
-import { decryptFetchedMessages } from '../utils/encryptionClient';
+import { isOutgoingMessage, isSystemMessage } from '../utils/messageDirection.js';
+import { decryptFetchedMessages, getUnlockedPrivateKey } from '../utils/encryptionClient';
 import axiosClient from '../api/axiosClient';
 
 import '@/styles.css';
@@ -216,10 +218,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             : m
         )
       );
-      // no toast; silent success
     } catch (error) {
       console.error('Message edit failed', error);
-      // no toast
     }
   };
 
@@ -241,8 +241,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         `/messages/${chatroom.id}?${params.toString()}`
       );
 
+      let priv = null;
+      try {
+        priv = await getUnlockedPrivateKey();
+      } catch {}
+
       const decrypted = await decryptFetchedMessages(
         data.items || [],
+        priv,
+        null,
         currentUserId
       );
 
@@ -303,7 +310,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     v.addEventListener('scroll', onScroll);
     return () => v.removeEventListener('scroll', onScroll);
-  }, [cursor, loading]);
+  }, [cursor, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // --- Realtime: receiving new messages ---
   useEffect(() => {
@@ -311,21 +318,28 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     const handleReceiveMessage = async (data) => {
       if (data.chatRoomId !== chatroom.id) return;
+
       try {
-        const [decrypted] = await decryptFetchedMessages([data], currentUserId);
+        let priv = null;
+        try {
+          priv = await getUnlockedPrivateKey();
+        } catch {}
+
+        const [decrypted] = await decryptFetchedMessages(
+          [data],
+          priv,
+          null,
+          currentUserId
+        );
 
         setMessages((prev) => [...prev, decrypted]);
         addMessages(chatroom.id, [decrypted]).catch(() => {});
 
         const v = scrollViewportRef.current;
-        const atBottom =
-          v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
 
-        if (atBottom) {
-          scrollToBottom();
-        } else {
-          setShowNewMessage(true);
-        }
+        if (atBottom) scrollToBottom();
+        else setShowNewMessage(true);
 
         const isMine = decrypted?.sender?.id === currentUserId;
         const tabHidden = document.hidden;
@@ -334,13 +348,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         }
       } catch (e) {
         console.error('Failed to decrypt incoming message', e);
+
         setMessages((prev) => [...prev, data]);
         setShowNewMessage(true);
 
-        const isMine = data?.senderId === currentUserId;
         const v = scrollViewportRef.current;
-        const atBottom =
-          v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+        const isMine = data?.senderId === currentUserId;
         const tabHidden = document.hidden;
         if (!isMine && (!atBottom || tabHidden)) {
           playSound('/sounds/new-message.mp3', { volume: 0.6 });
@@ -374,7 +389,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // --- Copy notice listener ---
   useEffect(() => {
-    const onCopyNotice = ({ messageId, toUserId }) => {
+    const onCopyNotice = ({ toUserId }) => {
       if (toUserId !== currentUserId) return;
     };
     socket.on('message_copy_notice', onCopyNotice);
@@ -448,14 +463,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // === Premium toolbar actions (handler-level guard) ===
   const runPowerAi = async () => {
-    if (!isPremium) {
-      // silent redirect to Upgrade page
-      return navigate('/upgrade'); // ← updated
-    }
+    if (!isPremium) return navigate('/upgrade');
     try {
-      const { data } = await axiosClient.post('/ai/power-feature', {
-        context: [],
-      });
+      const { data } = await axiosClient.post('/ai/power-feature', { context: [] });
       console.log('AI power result', data);
     } catch (e) {
       console.error('Power AI failed', e);
@@ -463,9 +473,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   };
 
   const openSchedulePrompt = async () => {
-    if (!isPremium) {
-      return navigate('/upgrade'); // ← updated
-    }
+    if (!isPremium) return navigate('/upgrade');
     const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
     if (!iso || !chatroom?.id) return;
     let scheduledAt;
@@ -480,7 +488,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         content: '(scheduled message)',
         scheduledAt,
       });
-      // silent success
     } catch (e) {
       console.error('Schedule failed', e);
     }
@@ -528,8 +535,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const inlineAdPositions = useMemo(() => {
     if (isPremium) return [];
     if (messages.length === 0) return [];
-    const positions = [0]; // first card right after the first message
-    for (let i = 12; i < messages.length; i += 20) positions.push(i);
+    const positions = [4];
+    for (let i = 12; i < messages.length; i += 35) positions.push(i);
     return positions;
   }, [isPremium, messages.length]);
 
@@ -560,15 +567,27 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   // Feed a specific message's text into the calendar bar
   const handleAddToCalendarFromMessage = (msg) => {
     const text =
-      msg?.decryptedContent || msg?.translatedForMe || msg?.rawContent || msg?.content || '';
+      msg?.decryptedContent ||
+      msg?.translatedForMe ||
+      msg?.rawContent ||
+      msg?.content ||
+      '';
     if (text) setForcedCalendarText(text);
   };
+
+  // Thread-top ad should be shown ONCE, deterministically
+  const showThreadTop =
+    !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
+
+  useEffect(() => {
+    if (showThreadTop) markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
+  }, [showThreadTop, markShown, chatroom?.id]);
 
   return (
     <Box
       p="md"
       className={clsx(
-        'chatgrid', // grid that keeps composer at the bottom
+        'chatgrid',
         privacyActive && !reveal && 'privacy-blur',
         reveal && 'privacy-revealed'
       )}
@@ -632,8 +651,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         type="auto"
       >
         <Box mx="auto" maw={CONTENT_MAX} w="100%">
-          {/* Top-of-thread house card for Free users */}
-          {!isPremium && (
+          {/* ✅ Top-of-thread promo (show ONCE; respect caps) */}
+          {!isPremium && showThreadTop && (
             <div style={{ padding: '8px 12px' }}>
               <CardAdWrap>
                 <HouseAdSlot placement="thread_top" variant="card" />
@@ -657,23 +676,32 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             )}
 
             {messages.map((msg, i) => {
-              const isCurrentUser = msg.sender?.id === currentUserId;
+              const isSystem = isSystemMessage?.(msg) ?? false;
+              const isMine = !isSystem && isOutgoingMessage(msg, currentUserId);
+
+
+              // ✅ fix: your code was using `isCurrentUser` but never defined it
+              const isCurrentUser = isMine;
+
               const expMs = msg.expiresAt ? new Date(msg.expiresAt).getTime() - now : null;
               const fading = msg.expiresAt && expMs <= 5000;
 
-              const bubbleProps = isCurrentUser
-                ? { bg: 'blue.6', c: 'white', ta: 'right' }
-                : { bg: 'gray.2', c: 'black', ta: 'left' };
+              // ✅ fix: Mantine Paper doesn't accept bg/c/ta props like that.
+              // Use styles instead.
+              const bubbleStyle = {
+                maxWidth: 360,
+                opacity: fading ? 0.5 : 1,
+                background: isCurrentUser ? 'var(--mantine-color-blue-filled)' : 'var(--mantine-color-gray-2)',
+                color: isCurrentUser ? 'white' : 'var(--mantine-color-text)',
+              };
 
               const ts = dayjs(msg.createdAt || msg.sentAt || msg.created_at)
                 .format('MMM D,  YYYY • h:mm A');
 
-              // For caption summary below, avoid duplicating audio captions that AudioMessage renders
               const nonAudioCaptions = (msg.attachments || [])
                 .filter((a) => a?.caption && a.kind !== 'AUDIO')
                 .map((a) => a.caption);
 
-              // 🔑 Safely derive original / translated text for TranslatedText
               const original =
                 msg.decryptedContent ??
                 msg.content ??
@@ -688,7 +716,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               return (
                 <div key={msg.id}>
                   <Group
-                    justify={isCurrentUser ? 'flex-end' : 'flex-start'}
+                     justify={isSystem ? 'center' : isMine ? 'flex-end' : 'flex-start'}
                     align="flex-end"
                     wrap="nowrap"
                     onPointerDown={(e) => {
@@ -716,8 +744,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         py="xs"
                         radius="lg"
                         withBorder={false}
-                        style={{ maxWidth: 360, opacity: fading ? 0.5 : 1 }}
-                        {...bubbleProps}
+                        style={bubbleStyle}
                         aria-label={`Message sent ${ts}`}
                       >
                         {!isCurrentUser && (
@@ -783,7 +810,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         {/* 🔊 Centralized audio rendering (attachments + legacy audioUrl) */}
                         <AudioMessage msg={msg} currentUser={currentUser} />
 
-                        {/* 🌊 Add a waveform under each audio attachment (no duplicate <audio/>) */}
+                        {/* 🌊 waveform under each audio attachment */}
                         {msg.attachments
                           ?.filter((a) => a.kind === 'AUDIO')
                           .map((a) => (
@@ -792,7 +819,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                             </div>
                           ))}
 
-                        {/* Summarize captions for non-audio attachments only to avoid duplication */}
                         {nonAudioCaptions.length > 0 && (
                           <Text size="xs" mt={4}>
                             {nonAudioCaptions.join(' • ')}
@@ -801,7 +827,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                         <ReactionBar message={msg} currentUserId={currentUserId} />
 
-                        {/* Tiny calendar trigger (feeds the single thread-level modal) */}
                         <Group justify="flex-end" mt={4} gap="xs">
                           <Tooltip label="Add to calendar…" withArrow>
                             <ActionIcon
@@ -853,7 +878,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                       <AdSlot
                         placement={PLACEMENTS.THREAD_INLINE_1}
                         capKey={String(chatroom.id)}
-                        forceHouse
                         lazy={false}
                         fallback={
                           <HouseAdSlot placement="thread_inline_1" variant="card" />
@@ -885,7 +909,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           </Group>
         )}
 
-        {/* 📅 Calendar suggestion bar (single thread-level instance) */}
         <EventSuggestionBar
           messages={messages}
           currentUser={currentUser}
@@ -907,7 +930,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       {/* Composer at the very bottom (row 4) */}
       {chatroom && (
         <Box className="chat-footer" mt="sm" mx="auto" maw={CONTENT_MAX} w="100%">
-          {/* Smart Replies lives with the composer controls */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
             <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
               <input
@@ -933,14 +955,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           <MessageInput
             chatroomId={chatroom.id}
             currentUser={currentUser}
+            roomParticipants={chatroom?.participants || []}
             getLastInboundText={() => {
               const lastInbound = messages
                 .slice()
                 .reverse()
                 .find((m) => m.sender?.id !== currentUserId);
-              return (
-                lastInbound?.decryptedContent || lastInbound?.content || ''
-              );
+              return lastInbound?.decryptedContent || lastInbound?.content || '';
             }}
             onMessageSent={(msg) => {
               setMessages((prev) => [...prev, msg]);

@@ -193,6 +193,11 @@ async function getUnlockedBundleOrThrow() {
  * Public: local key bundle metadata & management
  * ========================================================== */
 
+export async function getUnlockedPrivateKey() {
+  const { privateKey } = await getUnlockedBundleOrThrow();
+  return privateKey;
+}
+
 export async function getLocalKeyBundleMeta() {
   const rec = await get(DB_KEY);
   if (rec)
@@ -349,7 +354,7 @@ export async function decryptFetchedMessages(
       try {
         const encryptedKey =
           msg.encryptedKeyForMe ??
-          (msg.encryptedKeys && msg.encryptedKeys[currentUserId]) ??
+          (msg.encryptedKeys && (msg.encryptedKeys[currentUserId] || msg.encryptedKeys['me'])) ??
           null;
 
         const senderPublicKey =
@@ -462,7 +467,7 @@ function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPub
  * High-level encryptor used by the message composer (STRICT E2EE).
  * Returns: { ciphertext, encryptedKeys }
  */
-export async function encryptForRoom(participants = [], plaintext = '') {
+export async function encryptForRoom(participants = [], plaintext = '', currentUserId) {
   // 0) Need sender keypair locally (unlocked if passcode enabled)
   const { publicKey: senderPubB64, privateKey: senderPrivB64 } = await getUnlockedBundleOrThrow();
 
@@ -495,20 +500,20 @@ export async function encryptForRoom(participants = [], plaintext = '') {
 
   // Seal to each participant
   for (const [userId, recipientPub] of uniq.entries()) {
-    encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
+    encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(
       keyRaw,
       senderPrivB64,
       recipientPub,
-      { senderId: 'me', recipientId: userId }
+      { senderId: currentUserId, recipientId: currentUserId }
     );
   }
 
   // Always seal to the sender as well (multi-device / re-download)
-  encryptedKeys['me'] = sealSessionKeyForRecipient(
+  encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(
     keyRaw,
     senderPrivB64,
     senderPubB64,
-    { senderId: 'me', recipientId: 'me' }
+    { senderId: currentUserId, recipientId: currentUserId }
   );
 
   return { ciphertext, encryptedKeys };

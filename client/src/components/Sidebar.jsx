@@ -22,13 +22,13 @@ import {
   Dice5,
   RefreshCw,
   Search as SearchIcon,
-  MessageSquare, // messages/home icon
-  Phone,         // Calls entry point
-  Video,         // Video hub (DirectVideo + Rooms)
-  Voicemail,     // NEW: Voicemail entry
+  MessageSquare,
+  Phone,
+  Video,
+  Voicemail,
 } from 'lucide-react';
 
-import StartChatModal from '@/components/StartChatModal';
+import NewConversationModal from '@/components/NewConversationModal';
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
@@ -37,9 +37,9 @@ import { useTranslation } from 'react-i18next';
 import AdSlot from '@/ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
-function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
+function Sidebar({ currentUser, features = {} }) {
   const [showStartModal, setShowStartModal] = useState(false);
-  const [initialDraft, setInitialDraft] = useState(null); // carries { text, files }
+  const [initialDraft, setInitialDraft] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
 
@@ -60,10 +60,8 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
     setShowStartModal(true);
   };
 
-  // Allow external code to open the StartChatModal by dispatching window event
   useEffect(() => {
     const onOpen = (ev) => {
-      // Accept optional draft payload: { text?: string, files?: File[] }
       const draft = ev?.detail?.draft || null;
       setInitialDraft(draft);
       setShowStartModal(true);
@@ -72,24 +70,30 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
     return () => window.removeEventListener('open-new-chat-modal', onOpen);
   }, []);
 
-  // Local chatroom search/filter state
   const [query, setQuery] = useState('');
-  const [roomCount, setRoomCount] = useState(0);
+  const [count, setCount] = useState(0);
 
-  const refreshRoomsRef = useCallback(() => {
-    // ChatroomsSidebar listens for this custom event to reload its data
+  const refreshConversations = useCallback(() => {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
+
+  const onSelectConversation = useCallback((c) => {
+  console.log('[select conversation]', c);
+  if (!c) return;
+
+  if (c.kind === 'sms') navigate(`/sms/${c.id}`);
+  else navigate(`/chat/${c.id}`);
+}, [navigate]);
+
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
       {/* Top icons row */}
       <Group justify="space-between" mb="sm">
-        {/* Messages/Home */}
         <ActionIcon
           variant="subtle"
           aria-label={t('sidebar.messages', 'Messages')}
-          onClick={() => navigate('/chat')}
+          onClick={() => navigate('/')}
         >
           <MessageSquare size={22} />
         </ActionIcon>
@@ -129,7 +133,6 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
 
       {/* Quick links */}
       <Stack gap="xs" mb="sm">
-        {/* Random Chat: only when logged in */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -137,40 +140,29 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
             leftSection={<Dice5 size={16} />}
             component={Link}
             to="/random"
-            aria-label={t('sidebar.randomChat', 'Open Random Chat')}
           >
             {t('sidebar.randomChat', 'Random Chat')}
           </Button>
         )}
 
-        {/* Status link: behind feature flag, shown whether logged in or not */}
         {features?.status && (
-          <Button
-            variant="subtle"
-            size="xs"
-            component={Link}
-            to="/status"
-            aria-label={t('sidebar.status', 'Status')}
-          >
+          <Button variant="subtle" size="xs" component={Link} to="/status">
             {t('sidebar.status', 'Status')}
           </Button>
         )}
 
-        {/* Calls entry point: only when logged in */}
         {currentUser && (
           <Button
             variant="subtle"
             size="xs"
             leftSection={<Phone size={16} />}
             component={Link}
-            to="/dialer" // or "/calls"
-            aria-label={t('sidebar.calls', 'Calls')}
+            to="/dialer"
           >
             {t('sidebar.calls', 'Calls')}
           </Button>
         )}
 
-        {/* NEW: Voicemail entry point */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -178,27 +170,23 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
             leftSection={<Voicemail size={16} />}
             component={Link}
             to="/voicemail"
-            aria-label={t('sidebar.voicemail', 'Voicemail')}
           >
             {t('sidebar.voicemail', 'Voicemail')}
           </Button>
         )}
 
-        {/* Video hub entry: Direct video + Rooms */}
         {currentUser && (features?.video ?? true) && (
           <Button
             variant="subtle"
             size="xs"
             leftSection={<Video size={16} />}
             component={Link}
-            to="/video" // page with DirectVideo + Rooms tabs
-            aria-label={t('sidebar.video', 'Video')}
+            to="/video"
           >
             {t('sidebar.video', 'Video')}
           </Button>
         )}
 
-        {/* Forwarding settings: only when logged in */}
         {currentUser && (
           <Button
             variant="subtle"
@@ -208,10 +196,6 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
               setProfileTarget('forwarding');
               setProfileOpen(true);
             }}
-            aria-label={t(
-              'sidebar.forwarding',
-              'Open call and text forwarding settings'
-            )}
           >
             {t('sidebar.forwarding', 'Call & Text Forwarding')}
           </Button>
@@ -219,20 +203,18 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       </Stack>
 
       {/* Desktop-only ad (FREE plan only) */}
-      {!isPremium && !isMobile && (
-        <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-      )}
+      {!isPremium && !isMobile && <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
 
       {/* Conversations header + refresh */}
       <Group justify="space-between" mt="md" mb={6}>
         <Text size="sm" fw={700}>
           {t('sidebar.conversations', 'Conversations')}
-          {roomCount > 0 ? '' : ''}
+          {count > 0 ? '' : ''}
         </Text>
         <ActionIcon
           variant="subtle"
           aria-label={t('sidebar.refreshConversations', 'Refresh conversations')}
-          onClick={refreshRoomsRef}
+          onClick={refreshConversations}
           title={t('sidebar.refreshTooltip', 'Refresh')}
         >
           <RefreshCw size={16} />
@@ -249,7 +231,7 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
         aria-label={t('sidebar.searchAriaLabel', 'Search conversations')}
       />
 
-      {/* Chatroom list area */}
+      {/* Unified conversation list */}
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
           <ChatroomsSidebar
@@ -257,18 +239,18 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
               setInitialDraft(null);
               setShowStartModal(true);
             }}
-            onSelect={setSelectedRoom}
+            onSelect={onSelectConversation}
             hideEmpty
             listOnly
             filterQuery={query}
-            onCountChange={setRoomCount}
+            onCountChange={setCount}
           />
         </Stack>
       </ScrollArea.Autosize>
 
-      {/* Start New Chat modal */}
+      {/* Start New Chat modal (Chatforia app-to-app only) */}
       {showStartModal && currentUser && (
-        <StartChatModal
+        <NewConversationModal
           currentUserId={currentUser?.id}
           initialDraft={initialDraft}
           onClose={() => {
@@ -292,16 +274,11 @@ function Sidebar({ currentUser, setSelectedRoom, features = {} }) {
       >
         {currentUser ? (
           <Stack gap="xl">
-            <UserProfile
-              onLanguageChange={() => {}}
-              openSection={profileTarget}
-            />
+            <UserProfile onLanguageChange={() => {}} openSection={profileTarget} />
           </Stack>
         ) : (
           <Stack gap="sm">
-            <Text c="dimmed">
-              {t('sidebar.loginPrompt', 'Log in to edit your settings.')}
-            </Text>
+            <Text c="dimmed">{t('sidebar.loginPrompt', 'Log in to edit your settings.')}</Text>
             <Group>
               <Button component={Link} to="/" variant="filled">
                 {t('auth.login', 'Log in')}

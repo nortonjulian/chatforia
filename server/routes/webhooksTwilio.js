@@ -9,31 +9,6 @@ const { VoiceResponse, MessagingResponse } = twilio.twiml;
 const r = express.Router();
 
 /**
- * POST /webhooks/sms/inbound
- * Twilio inbound SMS → store + no-op response.
- */
-r.post(
-  '/sms/inbound',
-  express.urlencoded({ extended: false }),
-  asyncHandler(async (req, res) => {
-    const { From, To, Body } = req.body || {};
-    console.log('Twilio inbound SMS:', req.body); // simple logging
-
-    if (From && To && Body) {
-      await recordInboundSms({
-        toNumber: To,
-        fromNumber: From,
-        body: Body,
-        provider: 'twilio',
-      });
-    }
-
-    const twiml = new MessagingResponse();
-    res.type('text/xml').send(twiml.toString());
-  })
-);
-
-/**
  * Leg A of alias call: user’s forwarding phone.
  */
 r.post(

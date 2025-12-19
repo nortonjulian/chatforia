@@ -28,17 +28,34 @@ r.get(
   })
 );
 
+
 /* ---------- SEND (prod path, via provider/service) ---------- */
-// POST /sms/send { to, body }
-// POST /sms/send { to, body, from? }
+// server/routes/sms.js
+r.post('/_debug_send', requireAuth, express.json(), asyncHandler(async (req, res) => {
+  const { to, body, from, mediaUrls } = req.body || {};
+  const out = await sendUserSms({ userId: req.user.id, to, body: body || 'debug test', from, mediaUrls });
+  res.json(out);
+}));
+
+
 r.post(
   '/send',
   requireAuth,
   express.json(),
   asyncHandler(async (req, res) => {
-    const { to, body, from } = req.body || {};
-    if (!to || !body) throw Boom.badRequest('to and body required');
-    const out = await sendUserSms({ userId: req.user.id, to, body, from });
+    const { to, body, from, mediaUrls } = req.body || {};
+    if (!to || (!body && (!Array.isArray(mediaUrls) || mediaUrls.length === 0))) {
+      throw Boom.badRequest('to and body (or mediaUrls) required');
+    }
+
+    const out = await sendUserSms({
+      userId: req.user.id,
+      to,
+      body,
+      from,
+      mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
+    });
+
     res.status(202).json(out);
   })
 );

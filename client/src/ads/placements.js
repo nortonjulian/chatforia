@@ -1,5 +1,6 @@
 export const PLACEMENTS = {
   SIDEBAR_PRIMARY: 'sidebar_primary',
+  THREAD_TOP: 'thread_top',
   THREAD_INLINE_1: 'thread_inline_1',
   CHAT_FOOTER: 'chat_footer',
   // new
@@ -35,6 +36,11 @@ export const PLACEMENT_CONFIG = {
     adsenseSlot: import.meta.env.VITE_ADSENSE_SLOT_SIDEBAR_SECONDARY,
     label: 'Sponsored',
     lazyMargin: '200px',
+  },
+  [PLACEMENTS.THREAD_TOP]: {
+    houseOnly: true,
+    label: 'Promotion',
+    cap: { perSession: 1, coolMs: 30 * 60 * 1000 }, // once per thread / 30 min
   },
 
   // ===== Chat thread placements =====
