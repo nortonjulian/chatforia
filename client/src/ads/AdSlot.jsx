@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Box } from '@mantine/core';
-import { useAds } from './AdProvider';
+import { AdProvider, useAds } from '@/ads/AdProvider';
 import { ADS_CONFIG } from './config';
 
 /**

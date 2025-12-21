@@ -19,6 +19,27 @@
   --brand-pink:   #E91E63;
 }
 
+/* --- Global UI tokens / aliases -------------------------------------- */
+:root {
+  /* canonical bubble text token */
+  --bubble-outgoing-text: #fff; /* safe default for gradients */
+  --bubble-incoming-text: var(--fg);
+
+  /* legacy aliases (one-way only) */
+  --bubble-outgoing-fg: var(--bubble-outgoing-text);
+  --bubble-incoming-fg: var(--bubble-incoming-text);
+
+  /* -------------------------------------------------------------------
+     CTA text token (THIS is what Buttons/Upgrade/Help/Log Out/GIF should use)
+     - Keep compatibility with your existing token name
+  ------------------------------------------------------------------- */
+  --cta-label-on-gradient: var(--cta-label, #fff);
+  --cta-on: var(--cta-label-on-gradient);
+
+  /* optional: improve readability over mixed gradients (Velvet especially) */
+  --cta-on-shadow: none;
+}
+
 /* =====================================================================
    DEFAULT THEME = EUPHORIA DAWN (warm, amber-first)
    Using :root and :root[data-theme="dawn"] so first paint is warm with no FOUC
@@ -60,6 +81,9 @@
   /* CTAs: amber → orange (warm, energetic) */
   --cta-gradient: linear-gradient(90deg, var(--brand-amber), var(--brand-orange));
   --cta-label: #2B1712;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-orange) 28%, transparent);
 
@@ -70,6 +94,12 @@
   --logo-stop-1: var(--brand-gold);
   --logo-stop-2: var(--brand-amber);
   --logo-stop-3: var(--brand-orange);
+
+  /* Chat bubbles */
+  --bubble-incoming-bg: #FFFFFF;
+  --bubble-incoming-fg: var(--fg);
+
+  --bubble-outgoing-text: #2B1712;
 }
 
 /* =====================================================================
@@ -100,6 +130,9 @@
 
   --ring:          color-mix(in oklab, var(--brand-mint) 35%, transparent);
   --cta-label:     #fff;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay:   linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-mint) 30%, transparent);
 
@@ -133,12 +166,22 @@
   --bubble-outgoing: linear-gradient(135deg, var(--brand-violet), var(--brand-mint));
 
   --cta-label: #fff;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-mint) 30%, transparent);
 
   --logo-stop-1: var(--brand-violet);
   --logo-stop-2: var(--brand-mint);
   --logo-stop-3: var(--brand-cyan);
+
+  /* Chat bubbles */
+  --bubble-incoming-bg: color-mix(in oklab, var(--card) 92%, #000);
+  --bubble-incoming-fg: var(--fg);
+
+  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.35);
 }
 
 /* =====================================================================
@@ -164,7 +207,15 @@
   --cta-gradient:  linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
   --bubble-outgoing: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
 
-  --cta-label: #081016;
+    /* Force white CTA text like your “good” screenshots */
+  --cta-label: #FFFFFF;
+  --cta-label-on-gradient: #FFFFFF;
+  --cta-on: var(--cta-label-on-gradient);
+
+  /* Helps white stay readable over bright cyan edges */
+  --cta-on-shadow: 0 1px 2px rgba(0,0,0,.45);
+
+
   --cta-overlay: radial-gradient(60% 100% at 50% 0%, rgba(255,255,255,.10), rgba(255,255,255,0));
   --shadow-accent: 0 0 28px rgba(0,229,255,.35), 0 0 18px rgba(106,60,193,.25);
 
@@ -172,6 +223,9 @@
   --logo-stop-1: #5B8CFF;
   --logo-stop-2: #00C2A8;
   --logo-stop-3: #3CF9FF;
+
+  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.40);
 }
 
 /* =====================================================================
@@ -198,6 +252,9 @@
   --bubble-outgoing: linear-gradient(135deg, #7C3AED, #5932C7);
 
   --cta-label: #FFFFFF;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
   --shadow-accent: 0 6px 18px rgba(124,58,237,.28);
 
@@ -205,6 +262,9 @@
   --logo-stop-1: #7C3AED;
   --logo-stop-2: #5932C7;
   --logo-stop-3: #A78BFA;
+
+  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.45);
 }
 
 /* =====================================================================
@@ -231,12 +291,18 @@
   --bubble-outgoing: linear-gradient(135deg, var(--brand-peach), var(--brand-orange));
 
   --cta-label: #22160E;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-coral) 28%, transparent);
 
   --logo-stop-1: var(--brand-coral);
   --logo-stop-2: var(--brand-peach);
   --logo-stop-3: var(--brand-gold);
+
+  --bubble-outgoing-text: #22160E; /* warm dark */
+  --bubble-outgoing-shadow: none;
 }
 
 /* =====================================================================
@@ -262,13 +328,26 @@
   --cta-gradient:  linear-gradient(90deg, var(--brand-mint), #29D39A);
   --bubble-outgoing: linear-gradient(135deg, #29D39A, var(--brand-blue));
 
-  --cta-label: #04110F;
+  /* IMPORTANT: buttons on this gradient need dark text */
+    /* Force white CTA text like your “good” screenshots */
+  --cta-label: #FFFFFF;
+  --cta-label-on-gradient: #FFFFFF;
+  --cta-on: var(--cta-label-on-gradient);
+
+  /* Helps white stay readable on the mint side */
+  --cta-on-shadow: 0 1px 2px rgba(0,0,0,.40);
+
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, #29D39A 30%, transparent);
 
   --logo-stop-1: var(--brand-mint);
   --logo-stop-2: #29D39A;
   --logo-stop-3: var(--brand-blue);
+
+  /* keep your bubbles as you had them */
+  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-shadow: none;
 }
 
 /* ------------------------------- */
@@ -299,29 +378,34 @@
 
   /* UI effects */
   --cta-label: #1B1200;
+  --cta-label-on-gradient: var(--cta-label);
+  --cta-on: var(--cta-label-on-gradient);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, #B58900 30%, transparent);
+
+  --bubble-outgoing-text: #1B1200; /* matches your CTA label */
+  --bubble-incoming-text: var(--fg);
 }
 
 /* ---- Chameleon favicon/wordmark stops (used by themeFavicon & C wordmark) ---- */
-:root[data-theme="solarized"] { 
-  --logo-stop-1:#B58900; 
-  --logo-stop-2:#CB4B16; 
-  --logo-stop-3:#DC322F; 
+:root[data-theme="solarized"] {
+  --logo-stop-1:#B58900;
+  --logo-stop-2:#CB4B16;
+  --logo-stop-3:#DC322F;
 }
 
 /* If not already present, add stops for these existing themes too */
-:root[data-theme="aurora"]  { 
+:root[data-theme="aurora"]  {
   --logo-stop-1:#00C2A8;   /* mint */
   --logo-stop-2:#29D39A;   /* accent green */
   --logo-stop-3:#2979FF;   /* blue tip */
 }
-:root[data-theme="velvet"]  { 
+:root[data-theme="velvet"]  {
   --logo-stop-1:#6A3CC1;   /* violet */
   --logo-stop-2:#E91E63;   /* pink */
   --logo-stop-3:#FFB300;   /* gold highlight */
 }
-
 
 /* =====================================================================
    VELVET (premium romantic)
@@ -346,11 +430,27 @@
   --cta-gradient:  linear-gradient(90deg, var(--brand-pink), var(--brand-gold));
   --bubble-outgoing: linear-gradient(135deg, var(--brand-violet), var(--brand-pink));
 
-  --cta-label: #2A0E20;
+  /* CTA label: force white for Velvet controls so it reads on the gold side */
+  --cta-label: #FFFFFF;
+  --cta-label-on-gradient: #FFFFFF;
+  --cta-on: var(--cta-label-on-gradient);
+
+  /* add subtle shadow so white stays readable on the gold edge */
+  --cta-on-shadow: 0 1px 2px rgba(0,0,0,.45);
+
   --cta-overlay: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,0));
   --shadow-accent: color-mix(in oklab, var(--brand-pink) 30%, transparent);
 
   --logo-stop-1: var(--brand-violet);
   --logo-stop-2: var(--brand-pink);
   --logo-stop-3: var(--brand-gold);
+
+  --bubble-outgoing-text: #FFFFFF;
+  --bubble-outgoing-shadow: 0 1px 2px rgba(0,0,0,.40);
+}
+
+/* --- Premium bubble embellishments ----------------------------------- */
+:root {
+  --bubble-premium-outline: color-mix(in oklab, var(--accent-alt) 55%, transparent);
+  --bubble-premium-glow: 0 8px 20px color-mix(in oklab, var(--accent) 18%, transparent);
 }

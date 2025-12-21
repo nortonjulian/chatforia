@@ -776,15 +776,20 @@ model SmsThread {
 }
 
 model SmsMessage {
-  id         Int       @id @default(autoincrement())
-  thread     SmsThread @relation(fields: [threadId], references: [id])
-  threadId   Int
-  direction  String // 'in' | 'out'
-  fromNumber String    @db.VarChar(32)
-  toNumber   String    @db.VarChar(32)
-  body       String
-  provider   String?
-  createdAt  DateTime  @default(now())
+  id                Int       @id @default(autoincrement())
+  thread            SmsThread  @relation(fields: [threadId], references: [id])
+  threadId          Int
+  direction         String // 'in' | 'out'
+  fromNumber        String    @db.VarChar(32)
+  toNumber          String    @db.VarChar(32)
+  body              String
+  provider          String?
+  providerMessageId String?   @db.VarChar(128)
+  mediaUrls         Json?
+  createdAt         DateTime  @default(now())
+
+  @@index([threadId])
+  @@index([providerMessageId])
 }
 
 model AdInquiry {

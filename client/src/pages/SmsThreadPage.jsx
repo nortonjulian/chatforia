@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box } from '@mantine/core';
+import { Box, Group, Paper, Text } from '@mantine/core';
 
 import axiosClient from '@/api/axiosClient';
 import BottomComposer from '@/components/BottomComposer.jsx';
+import { isOutgoingMessage } from '@/utils/messageDirection';
 
 export default function SmsThreadPage() {
   const { threadId } = useParams();
@@ -37,7 +38,6 @@ export default function SmsThreadPage() {
     const body = text.trim();
     if (!toNumber || !body) return;
 
-    // optimistic clear
     setText('');
 
     try {
@@ -51,34 +51,79 @@ export default function SmsThreadPage() {
 
   if (!thread) return null;
 
+  const currentUserIdForSmsDirection = 'sms:self'; // dummy id for utility fallback if needed
+
   return (
-    <Box w="100%" style={{ position: 'relative' }}>
-      {/* Messages area (pad bottom so it doesn't hide behind fixed composer) */}
+    <Box
+      style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+      }}
+    >
+      {/* Messages (flex:1, scrolls, and anchors to bottom when short) */}
       <Box
-        className="sms-messages"
         style={{
-          minHeight: 'calc(100vh - 160px)',
-          paddingBottom: 140,
+          flex: 1,
+          overflowY: 'auto',
+          padding: 16,
+          paddingBottom: 140, // space for fixed composer
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          gap: 10,
         }}
       >
-        {(thread.messages || []).map((m) => (
-          <div key={m.id} className={m.direction === 'out' ? 'msg out' : 'msg in'}>
-            {m.body}
-          </div>
-        ))}
+        {(thread.messages || []).map((m) => {
+          // Normalize direction better than `=== 'out'`
+          const isMine =
+            isOutgoingMessage(m, currentUserIdForSmsDirection) ||
+            ['out', 'outbound', 'sent', 'outbound-api', 'outgoing'].includes(
+              String(m.direction || '').toLowerCase()
+            );
+
+          const bubbleStyle = {
+            maxWidth: 420,
+            background: isMine
+              ? 'var(--mantine-color-blue-filled)'
+              : 'var(--mantine-color-gray-2)',
+            color: isMine ? 'white' : 'var(--mantine-color-text)',
+          };
+
+          return (
+            <Group
+              key={m.id}
+              justify={isMine ? 'flex-end' : 'flex-start'}
+              align="flex-end"
+              wrap="nowrap"
+            >
+              <Paper
+                radius="lg"
+                px="md"
+                py="xs"
+                withBorder={false}
+                style={bubbleStyle}
+              >
+                <Text style={{ whiteSpace: 'pre-wrap' }}>
+                  {m.body || m.content || ''}
+                </Text>
+              </Paper>
+            </Group>
+          );
+        })}
       </Box>
 
+      {/* Fixed Bottom Composer (SMS-only features) */}
       <BottomComposer
         value={text}
         onChange={setText}
         placeholder="Type a message…"
-        // SMS for now: disable features you don’t support yet
         showGif={false}
         showEmoji={false}
         showMic={false}
         showUpload={false}
         onSend={(payload = {}) => {
-          // If something tries to pass attachments, ignore (SMS-only)
           if (payload.files?.length || payload.attachments?.length) return;
           return sendTextOnly();
         }}

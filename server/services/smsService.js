@@ -62,6 +62,9 @@ async function assertUserOwnsFromNumber(userId, from) {
   return normalizeE164(owns.e164);
 }
 
+/**
+ * OUTBOUND SMS/MMS
+ */
 export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   const uid = Number(userId);
 
@@ -110,10 +113,10 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
         toNumber: toPhone,
         body: safeBody,
         provider,
-        // if you have a column, store media too:
-        // mediaUrls: safeMediaUrls,
+        providerMessageId: result?.messageSid || result?.messageId || null,
+        mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
       },
-    });
+});
 
     await tx.phoneNumber.updateMany({
       where: {
@@ -124,6 +127,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       data: { lastOutboundAt: new Date() },
     });
 
+    // updatedAt is @updatedAt, but we can still touch it explicitly if desired
     await tx.smsThread.update({
       where: { id: thread.id },
       data: { updatedAt: new Date() },
@@ -139,8 +143,17 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   };
 }
 
-
-export async function recordInboundSms({ toNumber, fromNumber, body, provider, providerMessageId }) {
+/**
+ * INBOUND SMS (called by webhook handler)
+ */
+export async function recordInboundSms({
+  toNumber,
+  fromNumber,
+  body,
+  provider,
+  providerMessageId,
+  mediaUrls,
+}) {
   const toE164 = normalizeE164(toNumber);
   const fromE164 = normalizeE164(fromNumber);
 
@@ -148,7 +161,6 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider, p
     return { ok: false, reason: 'invalid-e164' };
   }
 
-  // Owner is the user currently assigned this DID (lease model)
   const owner = await prisma.phoneNumber.findFirst({
     where: {
       e164: toE164,
@@ -161,6 +173,8 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider, p
   if (!owner?.assignedUserId) return { ok: false, reason: 'no-owner' };
 
   const safeBody = String(body ?? '').trim();
+  const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
+
   const thread = await upsertThread(owner.assignedUserId, fromE164);
 
   await prisma.$transaction(async (tx) => {
@@ -173,6 +187,7 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider, p
         body: safeBody,
         provider: provider || null,
         providerMessageId: providerMessageId || null,
+        mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
       },
     });
 
@@ -185,6 +200,10 @@ export async function recordInboundSms({ toNumber, fromNumber, body, provider, p
   return { ok: true, userId: owner.assignedUserId, threadId: thread.id };
 }
 
+
+/**
+ * LIST THREADS (for left "Conversations" list)
+ */
 export async function listThreads(userId) {
   return prisma.smsThread.findMany({
     where: { userId: Number(userId) },
@@ -192,6 +211,9 @@ export async function listThreads(userId) {
   });
 }
 
+/**
+ * GET A SINGLE THREAD + MESSAGES
+ */
 export async function getThread(userId, threadId) {
   const thread = await prisma.smsThread.findFirst({
     where: {
@@ -208,4 +230,30 @@ export async function getThread(userId, threadId) {
   });
 
   return { thread, messages };
+}
+
+/**
+ * ✅ DELETE THREAD (DB-only)
+ * - Removes the thread from your Conversations list
+ * - Deletes local message history for that thread
+ * - DOES NOT delete provider (Twilio) history
+ */
+export async function deleteThread(userId, threadId) {
+  const uid = Number(userId);
+  const tid = Number(threadId);
+  if (!Number.isFinite(tid)) throw Boom.badRequest('Invalid thread id');
+
+  const thread = await prisma.smsThread.findFirst({
+    where: { id: tid, userId: uid },
+    select: { id: true },
+  });
+
+  if (!thread) throw Boom.notFound('Thread not found');
+
+  await prisma.$transaction(async (tx) => {
+    await tx.smsMessage.deleteMany({ where: { threadId: tid } });
+    await tx.smsThread.delete({ where: { id: tid } });
+  });
+
+  return { ok: true, threadId: tid };
 }

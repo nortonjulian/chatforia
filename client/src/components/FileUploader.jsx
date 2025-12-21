@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import axiosClient from '../api/axiosClient';
 
-export default function FileUploader({ onUploaded }) {
+export default function FileUploader({ onUploaded, onError, button }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const inputRef = useRef(null);
 
   async function handleChange(e) {
     const file = e.target.files?.[0];
@@ -14,47 +15,59 @@ export default function FileUploader({ onUploaded }) {
 
     try {
       const fd = new FormData();
-      fd.append('file', file); // field name must be "file"
+      fd.append('file', file);
 
       const res = await axiosClient.post('/media/upload', fd, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'X-Requested-With': 'XMLHttpRequest', // matches server's CSRF check
-        },
-        onUploadProgress: (evt) => {
-          // optional: progress UI
-          // const pct = Math.round((evt.loaded / (evt.total || 1)) * 100);
+          'X-Requested-With': 'XMLHttpRequest',
         },
       });
 
-      // res.data -> { ok, key, url, contentType, size }
       onUploaded?.(res.data);
     } catch (err) {
-      setError(err?.response?.data?.error || 'Upload failed');
+      const msg = err?.response?.data?.error || 'Upload failed';
+      setError(msg);
+      onError?.(msg);
     } finally {
       setUploading(false);
-      e.target.value = ''; // allow re-selecting same file
+      e.target.value = '';
     }
   }
 
+  const trigger = button ? (
+    <span
+      onClick={() => !uploading && inputRef.current?.click()}
+      style={{ display: 'inline-flex' }}
+    >
+      {button}
+    </span>
+  ) : (
+    <button type="button" disabled={uploading} onClick={() => inputRef.current?.click()}>
+      {uploading ? 'Uploading…' : 'Choose file'}
+    </button>
+  );
+
   return (
     <div>
-      <label>
-        <input
-          aria-label="Choose file"
-          type="file"
-          onChange={handleChange}
-          disabled={uploading}
-          // optional: accept to guide users (server still enforces MIME)
-          accept="image/*,audio/*,video/mp4,video/webm,application/pdf"
-          style={{ display: 'none' }}
-        />
-        <button type="button" disabled={uploading}>
-          {uploading ? 'Uploading…' : 'Choose file'}
-        </button>
-      </label>
+      <input
+        ref={inputRef}
+        aria-label="Choose file"
+        type="file"
+        onChange={handleChange}
+        disabled={uploading}
+        accept="image/*,audio/*,video/mp4,video/webm,application/pdf"
+        style={{ display: 'none' }}
+      />
 
-      {error && <p role="alert" style={{ color: 'red' }}>{error}</p>}
+      {trigger}
+
+      {/* Only show inline error UI if no onError handler is provided */}
+      {error && !onError && (
+        <p role="alert" style={{ color: 'red' }}>
+          {error}
+        </p>
+      )}
     </div>
   );
 }

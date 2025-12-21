@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import NewConversationModal from '@/components/NewConversationModal';
+
 
 export default function NewChatModalHost({ currentUserId }) {
   const [open, setOpen] = useState(false);

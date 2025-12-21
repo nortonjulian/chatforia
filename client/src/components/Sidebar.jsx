@@ -28,7 +28,6 @@ import {
   Voicemail,
 } from 'lucide-react';
 
-import NewConversationModal from '@/components/NewConversationModal';
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';

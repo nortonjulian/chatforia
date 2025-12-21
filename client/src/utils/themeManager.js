@@ -15,7 +15,7 @@ const LEGACY_KEYS  = ['chatforia:themeMode']; // migrate-if-found (from earlier 
 const DEFAULT_THEME = 'dawn';
 
 /** Add any dark-like palettes here */
-const DARK_THEMES = new Set(['dark', 'midnight', 'amoled', 'neon', 'velvet']);
+const DARK_THEMES = new Set(['dark', 'midnight', 'amoled', 'neon', 'velvet', 'aurora']);
 
 let current = null;
 const subs = new Set();

@@ -19,20 +19,17 @@
 
 /* === Brand gold (single source) — bubble, CTAs, headline match === */
 :root{
-  --gold-1: #FFC83A;  /* light */
-  --gold-2: #FFB300;  /* mid  */
-  --gold-3: #FF8A00;  /* deep */
-  --brand-gold-gradient: linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
-
-  /* CTAs use same ramp so buttons match the bubble/text */
-  --cta-gradient: var(--brand-gold-gradient);
-  --cta-label: #1f1200;
-
-  /* Map gradient stops for LogoGlyph */
-  --logo-stop-1: var(--gold-1);
-  --logo-stop-2: var(--gold-2);
-  --logo-stop-3: var(--gold-3);
+  --gold-1: #FFC83A;
+  --gold-2: #FFB300;
+  --gold-3: #FF8A00;
+  --brand-gold-gradient: 
+  linear-gradient(180deg, 
+  var(--gold-1) 0%, 
+  var(--gold-2) 55%, 
+  var(--gold-3) 100%);
 }
+/* do NOT define --cta-gradient or --cta-label here */
+
 
 /* ================== CTAs / Links / Badges (site-wide) ================== */
 .button-primary {
@@ -620,4 +617,10 @@ html, body, #root { height: 100%; }
 .plan-card--highlight .mantine-Title-root {
   color: inherit !important;
   opacity: 1 !important;
+}
+
+/* ---- Bubble token aliasing (keeps old + new code consistent) ---- */
+:root {
+  --bubble-outgoing-fg: var(--bubble-outgoing-text);
+  --bubble-incoming-fg: var(--bubble-incoming-text);
 }

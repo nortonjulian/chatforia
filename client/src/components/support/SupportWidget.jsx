@@ -35,7 +35,7 @@ export default function SupportWidget({
   const { currentUser } = useUser();
 
   const [opened, setOpened] = useState(false);
-  const [tab, setTab] = useState('help');           // 'help' | 'contact'
+  const [tab, setTab] = useState('help'); // 'help' | 'contact'
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,13 +46,27 @@ export default function SupportWidget({
   const [ok, setOk] = useState('');
   const [err, setErr] = useState('');
 
+  // Theme-safe CTA label style (fixes Help button + gradient/filled labels)
+  const ctaLabelStyles = {
+    label: {
+      color: 'var(--cta-on)',
+      textShadow: 'var(--cta-on-shadow)',
+    },
+  };
+
   const shouldHide = useMemo(() => {
     const path = window.location.pathname;
     return excludeRoutes.some((p) => path.startsWith(p));
   }, [excludeRoutes]);
 
   useEffect(() => {
-    if (!opened) { setQ(''); setResults([]); setOk(''); setErr(''); setMessage(''); }
+    if (!opened) {
+      setQ('');
+      setResults([]);
+      setOk('');
+      setErr('');
+      setMessage('');
+    }
   }, [opened]);
 
   const searchHelp = async () => {
@@ -72,7 +86,8 @@ export default function SupportWidget({
 
   const submitTicket = async () => {
     setSubmitting(true);
-    setOk(''); setErr('');
+    setOk('');
+    setErr('');
     try {
       await axiosClient.post('/support/tickets', {
         topic,
@@ -114,6 +129,7 @@ export default function SupportWidget({
               radius="xl"
               onClick={() => setOpened(true)}
               aria-label={t('support.openSupportAria', 'Open support')}
+              styles={ctaLabelStyles}
             >
               {t('support.helpFab', 'Help')}
             </Button>
@@ -133,7 +149,9 @@ export default function SupportWidget({
         title={
           <Group gap="xs">
             <Badge variant="light">{t('support.badge', 'Support')}</Badge>
-            <Title order={4} m={0}>{t('support.heading', 'How can we help?')}</Title>
+            <Title order={4} m={0}>
+              {t('support.heading', 'How can we help?')}
+            </Title>
           </Group>
         }
         overlayProps={{ opacity: 0.55, blur: 2 }}
@@ -161,15 +179,12 @@ export default function SupportWidget({
                   style={{ flex: 1 }}
                   aria-label={t('support.searchAria', 'Search help')}
                 />
-                <Button onClick={searchHelp} loading={loading}>
+                <Button onClick={searchHelp} loading={loading} styles={ctaLabelStyles}>
                   {t('support.searchBtn', 'Search')}
                 </Button>
               </Group>
 
-              <Divider
-                label={t('support.quickTopicsLabel', 'Quick topics')}
-                labelPosition="center"
-              />
+              <Divider label={t('support.quickTopicsLabel', 'Quick topics')} labelPosition="center" />
 
               <Group gap="xs" wrap="wrap">
                 {localizedQuickTopics.map((tItem) => (
@@ -181,6 +196,7 @@ export default function SupportWidget({
                       setTopic(tItem.value);
                       setTab('contact');
                     }}
+                    styles={topic === tItem.value ? ctaLabelStyles : undefined}
                   >
                     {tItem.label}
                   </Button>
@@ -191,22 +207,34 @@ export default function SupportWidget({
                 <Stack gap="xs">
                   {results.length === 0 && !loading ? (
                     <Text c="dimmed" size="sm">
-                      {t(
-                        'support.trySearching',
-                        'Try searching for “translate”, “backups”, or “privacy”.'
-                      )}
+                      {t('support.trySearching', 'Try searching for “translate”, “backups”, or “privacy”.')}
                     </Text>
-                  ) : results.map((r, i) => (
-                    <Stack key={i} gap={2} p="xs" style={{ border: '1px solid var(--border)', borderRadius: 8 }}>
-                      <Text fw={600}>{r.title || t('support.article', 'Article')}</Text>
-                      <Text size="sm" c="dimmed" lineClamp={3}>{r.snippet || r.excerpt || ''}</Text>
-                      {r.url && (
-                        <Button component="a" href={r.url} target="_blank" variant="subtle" size="xs">
-                          {t('support.openArticle', 'Open article')}
-                        </Button>
-                      )}
-                    </Stack>
-                  ))}
+                  ) : (
+                    results.map((r, i) => (
+                      <Stack
+                        key={i}
+                        gap={2}
+                        p="xs"
+                        style={{ border: '1px solid var(--border)', borderRadius: 8 }}
+                      >
+                        <Text fw={600}>{r.title || t('support.article', 'Article')}</Text>
+                        <Text size="sm" c="dimmed" lineClamp={3}>
+                          {r.snippet || r.excerpt || ''}
+                        </Text>
+                        {r.url && (
+                          <Button
+                            component="a"
+                            href={r.url}
+                            target="_blank"
+                            variant="subtle"
+                            size="xs"
+                          >
+                            {t('support.openArticle', 'Open article')}
+                          </Button>
+                        )}
+                      </Stack>
+                    ))
+                  )}
                 </Stack>
               </ScrollArea.Autosize>
             </Stack>
@@ -238,6 +266,7 @@ export default function SupportWidget({
                   onClick={submitTicket}
                   loading={submitting}
                   disabled={!message.trim()}
+                  styles={ctaLabelStyles}
                 >
                   {t('support.sendBtn', 'Send')}
                 </Button>

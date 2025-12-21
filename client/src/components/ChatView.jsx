@@ -1,4 +1,3 @@
-// client/src/components/ChatView.jsx
 import { useEffect, useRef, useState, useMemo } from 'react';
 import clsx from 'clsx';
 import {
@@ -8,6 +7,8 @@ import {
   Paper,
   Text,
   Button,
+  Menu,
+  Divider,
   Stack,
   ScrollArea,
   Title,
@@ -24,18 +25,22 @@ import {
   IconPhoto,
   IconRotateClockwise,
   IconDice5,
+  IconDotsVertical,
   IconCalendarPlus,
+  IconSparkles,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
-import MessageInput from './MessageInput';
 import ReactionBar from './ReactionBar.jsx';
 import EventSuggestionBar from './EventSuggestionBar.jsx';
 import TranslatedText from './chat/TranslatedText.jsx';
 import socket from '../lib/socket';
 import { isOutgoingMessage, isSystemMessage } from '../utils/messageDirection.js';
 import { decryptFetchedMessages, getUnlockedPrivateKey } from '../utils/encryptionClient';
+import ThreadComposer from '@/threads/ThreadComposer.jsx';
+import ThreadShell from '../threads/ThreadShell.jsx';
 import axiosClient from '../api/axiosClient';
+import MessageInput from './MessageInput';
 
 import '@/styles.css';
 
@@ -77,7 +82,13 @@ import AudioMessage from '@/messages/AudioMessage.jsx';
 import WaveformBar from '@/components/WaveformBar.jsx';
 
 /* ---------- layout constants ---------- */
-const CONTENT_MAX = 900;
+/**
+ * IMPORTANT:
+ * - We no longer constrain ChatView to CONTENT_MAX.
+ * - The thread should span the full center panel width (between conversations + ads).
+ * - Message bubbles still keep their own maxWidth for readability.
+ */
+// const CONTENT_MAX = 900;
 
 /* ---------- helpers ---------- */
 function getTimeLeftString(expiresAt) {
@@ -143,6 +154,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
 
+  const [draft, setDraft] = useState('');
+
   // 📅 Optional: force a specific message's text into the thread-level calendar modal
   const [forcedCalendarText, setForcedCalendarText] = useState(null);
 
@@ -162,7 +175,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       (Array.isArray(chatroom?.tags) && chatroom.tags.includes('random'))
   );
 
-  // ✅ Smart Replies toggle
+  // ✅ Smart Replies toggle (single source of truth)
   const [smartEnabled, setSmartEnabled] = useState(
     () => currentUser?.enableSmartReplies ?? false
   );
@@ -223,10 +236,24 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   };
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    setShowNewMessage(false);
-  };
+  const scrollToBottomNow = (behavior = 'auto') => {
+  const v = scrollViewportRef.current;
+  if (v) {
+    // make the ScrollArea viewport the scroll owner
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        v.scrollTop = v.scrollHeight;
+      });
+    });
+  } else {
+    messagesEndRef.current?.scrollIntoView({ behavior });
+  }
+  setShowNewMessage(false);
+};
+
+// keep existing name if you want
+const scrollToBottom = () => scrollToBottomNow('smooth');
+
 
   // --- Pagination loader (initial + older pages) ---
   async function loadMore(initial = false) {
@@ -259,7 +286,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (initial) {
         setMessages(chronological);
         setCursor(data.nextCursor ?? null);
-        setTimeout(scrollToBottom, 0);
+        setTimeout(scrollToBottomNow, 0);
       } else {
         const v = scrollViewportRef.current;
         const prevHeight = v ? v.scrollHeight : 0;
@@ -338,7 +365,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         const v = scrollViewportRef.current;
         const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
 
-        if (atBottom) scrollToBottom();
+        if (atBottom) scrollToBottomNow();
         else setShowNewMessage(true);
 
         const isMine = decrypted?.sender?.id === currentUserId;
@@ -476,6 +503,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (!isPremium) return navigate('/upgrade');
     const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
     if (!iso || !chatroom?.id) return;
+
     let scheduledAt;
     try {
       scheduledAt = new Date(iso).toISOString();
@@ -483,6 +511,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       console.error('Invalid date input for scheduling');
       return;
     }
+
     try {
       await axiosClient.post(`/messages/${chatroom.id}/schedule`, {
         content: '(scheduled message)',
@@ -534,9 +563,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   // Decide where to inject inline ads in the thread (Free users)
   const inlineAdPositions = useMemo(() => {
     if (isPremium) return [];
-    if (messages.length === 0) return [];
-    const positions = [4];
-    for (let i = 12; i < messages.length; i += 35) positions.push(i);
+    const n = messages.length;
+    if (n < 8) return [];
+    const positions = [];
+    positions.push(6);
+    for (let i = 36; i < n - 3; i += 30) positions.push(i);
     return positions;
   }, [isPremium, messages.length]);
 
@@ -553,9 +584,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     return (
       <Box p="md">
-        <Box mx="auto" maw={CONTENT_MAX}>
-          <Title order={4} mb="xs">Select a chatroom</Title>
-          <Text c="dimmed" mb="md">Pick a chat on the left to get started.</Text>
+        <Box mx="auto" maw={900}>
+          <Title order={4} mb="xs">
+            Select a conversation
+          </Title>
+          <Text c="dimmed" mb="md">
+            Pick a chat on the left to get started.
+          </Text>
         </Box>
       </Box>
     );
@@ -564,7 +599,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
   const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
 
-  // Feed a specific message's text into the calendar bar
   const handleAddToCalendarFromMessage = (msg) => {
     const text =
       msg?.decryptedContent ||
@@ -575,7 +609,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (text) setForcedCalendarText(text);
   };
 
-  // Thread-top ad should be shown ONCE, deterministically
   const showThreadTop =
     !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
 
@@ -584,393 +617,303 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [showThreadTop, markShown, chatroom?.id]);
 
   return (
-    <Box
-      p="md"
-      className={clsx(
-        'chatgrid',
-        privacyActive && !reveal && 'privacy-blur',
-        reveal && 'privacy-revealed'
-      )}
-      onMouseDown={holdToReveal ? () => setReveal(true) : undefined}
-      onMouseUp={holdToReveal ? () => setReveal(false) : undefined}
-      onMouseLeave={holdToReveal ? () => setReveal(false) : undefined}
-      onTouchStart={holdToReveal ? () => setReveal(true) : undefined}
-      onTouchEnd={holdToReveal ? () => setReveal(false) : undefined}
-    >
-      {/* Header (row 1) */}
-      <Box mx="auto" maw={CONTENT_MAX} w="100%">
-        <Group mb="sm" justify="space-between">
-          <Title order={4}>{chatroom?.name || 'Chat'}</Title>
-          <Group gap="xs">
-            {isRandomRoom && (
-              <Badge variant="light" radius="sm" leftSection={<IconDice5 size={14} />}>
-                Random
-              </Badge>
-            )}
-            {chatroom?.participants?.length > 2 && (
-              <Badge variant="light" radius="sm">Group</Badge>
-            )}
-            <Tooltip label="About">
-              <ActionIcon variant="subtle" onClick={() => setAboutOpen(true)} aria-label="About">
-                <IconInfoCircle size={18} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Search">
-              <ActionIcon variant="subtle" onClick={() => setSearchOpen(true)} aria-label="Search messages">
-                <IconSearch size={18} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip label="Media">
-              <ActionIcon variant="subtle" onClick={() => setGalleryOpen(true)} aria-label="Open media gallery">
-                <IconPhoto size={18} />
-              </ActionIcon>
-            </Tooltip>
-            {isOwnerOrAdmin && (
-              <Tooltip label="Invite people">
-                <ActionIcon variant="subtle" onClick={() => setInviteOpen(true)} aria-label="Invite people">
-                  <IconUserPlus size={18} />
-                </ActionIcon>
-              </Tooltip>
-            )}
-            {isOwnerOrAdmin && (
-              <Tooltip label="Room settings">
-                <ActionIcon variant="subtle" onClick={() => setSettingsOpen(true)} aria-label="Room settings">
-                  <IconSettings size={18} />
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </Group>
-        </Group>
-      </Box>
-
-      {/* Messages scroller (row 2) */}
-      <ScrollArea
-        className="chat-scroll-region"
-        style={{ minHeight: 0 }}
-        viewportRef={scrollViewportRef}
-        type="auto"
-      >
-        <Box mx="auto" maw={CONTENT_MAX} w="100%">
-          {/* ✅ Top-of-thread promo (show ONCE; respect caps) */}
-          {!isPremium && showThreadTop && (
-            <div style={{ padding: '8px 12px' }}>
-              <CardAdWrap>
-                <HouseAdSlot placement="thread_top" variant="card" />
-              </CardAdWrap>
-            </div>
+    <ThreadShell
+      header={
+        <Box
+          p="md"
+          className={clsx(
+            'chatgrid',
+            privacyActive && !reveal && 'privacy-blur',
+            reveal && 'privacy-revealed'
           )}
-
-          <Stack gap="xs" p="xs">
-            {loading && messages.length === 0 && (
-              <>
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <Group key={i} justify={i % 2 ? 'flex-end' : 'flex-start'} align="flex-end">
-                    <Skeleton height={18} width={i % 2 ? 220 : 280} radius="lg" />
-                  </Group>
-                ))}
-              </>
-            )}
-
-            {!loading && messages.length === 0 && (
-              <Text c="dimmed" ta="center" py="md">Say hello 👋</Text>
-            )}
-
-            {messages.map((msg, i) => {
-              const isSystem = isSystemMessage?.(msg) ?? false;
-              const isMine = !isSystem && isOutgoingMessage(msg, currentUserId);
-
-
-              // ✅ fix: your code was using `isCurrentUser` but never defined it
-              const isCurrentUser = isMine;
-
-              const expMs = msg.expiresAt ? new Date(msg.expiresAt).getTime() - now : null;
-              const fading = msg.expiresAt && expMs <= 5000;
-
-              // ✅ fix: Mantine Paper doesn't accept bg/c/ta props like that.
-              // Use styles instead.
-              const bubbleStyle = {
-                maxWidth: 360,
-                opacity: fading ? 0.5 : 1,
-                background: isCurrentUser ? 'var(--mantine-color-blue-filled)' : 'var(--mantine-color-gray-2)',
-                color: isCurrentUser ? 'white' : 'var(--mantine-color-text)',
-              };
-
-              const ts = dayjs(msg.createdAt || msg.sentAt || msg.created_at)
-                .format('MMM D,  YYYY • h:mm A');
-
-              const nonAudioCaptions = (msg.attachments || [])
-                .filter((a) => a?.caption && a.kind !== 'AUDIO')
-                .map((a) => a.caption);
-
-              const original =
-                msg.decryptedContent ??
-                msg.content ??
-                '';
-
-              const translated =
-                msg.decryptedTranslatedContent ??
-                msg.translatedContent ??
-                msg.translatedMessage ??
-                null;
-
-              return (
-                <div key={msg.id}>
-                  <Group
-                     justify={isSystem ? 'center' : isMine ? 'flex-end' : 'flex-start'}
-                    align="flex-end"
-                    wrap="nowrap"
-                    onPointerDown={(e) => {
-                      const target = e.target;
-                      const timeout = setTimeout(() => {
-                        if (isCurrentUser && (msg.readBy?.length || 0) === 0) handleEditMessage(msg);
-                      }, 600);
-                      target.onpointerup = () => clearTimeout(timeout);
-                      target.onpointerleave = () => clearTimeout(timeout);
-                    }}
-                  >
-                    {!isCurrentUser && (
-                      <Avatar
-                        src={msg.sender?.avatarUrl || '/default-avatar.png'}
-                        alt={msg.sender?.username || 'avatar'}
-                        radius="xl"
-                        size={32}
-                      />
-                    )}
-
-                    <Tooltip label={ts} withinPortal>
-                      <Paper
-                        className="message-bubble"
-                        px="md"
-                        py="xs"
-                        radius="lg"
-                        withBorder={false}
-                        style={bubbleStyle}
-                        aria-label={`Message sent ${ts}`}
-                      >
-                        {!isCurrentUser && (
-                          <Text size="xs" fw={600} c="dark.6" mb={4} className="sender-name">
-                            {msg.sender?.username}
-                          </Text>
-                        )}
-
-                        <TranslatedText
-                          originalText={original}
-                          translatedText={translated}
-                          showBothDefault={!!currentUser?.showOriginalAndTranslation}
-                          condensed
-                          onCopy={() => {
-                            if (currentUser?.notifyOnCopy && socket && msg?.id) {
-                              socket.emit('message_copied', { messageId: msg.id });
-                            }
-                          }}
-                        />
-
-                        {Array.isArray(msg.attachments) &&
-                          msg.attachments.some((a) => a.kind === 'IMAGE') && (
-                            <div
-                              style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(2, 1fr)',
-                                gap: 6,
-                                marginTop: 6,
-                              }}
-                            >
-                              {msg.attachments
-                                .filter((a) => a.kind === 'IMAGE')
-                                .map((a) => (
-                                  <img
-                                    key={a.id || a.url}
-                                    src={a.url}
-                                    alt={a.caption || 'image'}
-                                    style={{
-                                      width: 160,
-                                      height: 160,
-                                      objectFit: 'cover',
-                                      borderRadius: 8,
-                                      cursor: 'pointer',
-                                    }}
-                                    onClick={() => {}}
-                                  />
-                                ))}
-                            </div>
-                          )}
-
-                        {msg.attachments
-                          ?.filter((a) => a.kind === 'VIDEO')
-                          .map((a) => (
-                            <video
-                              key={a.id || a.url}
-                              controls
-                              preload="metadata"
-                              style={{ width: 260, marginTop: 6 }}
-                              src={a.url}
-                            />
-                          ))}
-
-                        {/* 🔊 Centralized audio rendering (attachments + legacy audioUrl) */}
-                        <AudioMessage msg={msg} currentUser={currentUser} />
-
-                        {/* 🌊 waveform under each audio attachment */}
-                        {msg.attachments
-                          ?.filter((a) => a.kind === 'AUDIO')
-                          .map((a) => (
-                            <div key={a.id || a.url} style={{ marginTop: 4 }}>
-                              <WaveformBar src={a.url} durationSec={a.durationSec ?? undefined} />
-                            </div>
-                          ))}
-
-                        {nonAudioCaptions.length > 0 && (
-                          <Text size="xs" mt={4}>
-                            {nonAudioCaptions.join(' • ')}
-                          </Text>
-                        )}
-
-                        <ReactionBar message={msg} currentUserId={currentUserId} />
-
-                        <Group justify="flex-end" mt={4} gap="xs">
-                          <Tooltip label="Add to calendar…" withArrow>
-                            <ActionIcon
-                              size="sm"
-                              variant="subtle"
-                              aria-label="Add to calendar"
-                              onClick={() => handleAddToCalendarFromMessage(msg)}
-                            >
-                              <IconCalendarPlus size={16} />
-                            </ActionIcon>
-                          </Tooltip>
-                        </Group>
-
-                        {msg.expiresAt && (
-                          <Text size="xs" mt={4} fs="italic" c="red.6" ta="right">
-                            Disappears in: {getTimeLeftString(msg.expiresAt)}
-                          </Text>
-                        )}
-
-                        {msg.isAutoReply && (
-                          <Group justify="flex-end" mt={4}>
-                            <Badge size="xs" variant="light" color="grape">
-                              Auto-reply
-                            </Badge>
-                          </Group>
-                        )}
-
-                        {renderReadBy(msg)}
-                      </Paper>
-                    </Tooltip>
-
-                    {msg.failed && (
-                      <Tooltip label="Retry send">
-                        <ActionIcon
-                          variant="subtle"
-                          aria-label="Retry sending message"
-                          onClick={() => {
-                            handleRetry(msg);
-                          }}
-                        >
-                          <IconRotateClockwise size={18} />
-                        </ActionIcon>
-                      </Tooltip>
-                    )}
-                  </Group>
-
-                  {!isPremium && inlineAdPositions.includes(i) && (
-                    <CardAdWrap>
-                      <AdSlot
-                        placement={PLACEMENTS.THREAD_INLINE_1}
-                        capKey={String(chatroom.id)}
-                        lazy={false}
-                        fallback={
-                          <HouseAdSlot placement="thread_inline_1" variant="card" />
-                        }
-                      />
-                    </CardAdWrap>
-                  )}
-                </div>
-              );
-            })}
-            <div ref={messagesEndRef} />
-          </Stack>
-        </Box>
-      </ScrollArea>
-
-      {/* Typing + new messages helper (row 2.5) */}
-      <Box mx="auto" maw={CONTENT_MAX} w="100%">
-        {typingUser && (
-          <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
-            {typingUser} is typing...
-          </Text>
-        )}
-
-        {showNewMessage && (
-          <Group justify="center" mt="xs">
-            <Button onClick={scrollToBottom} aria-label="Jump to newest">
-              New Messages
-            </Button>
-          </Group>
-        )}
-
-        <EventSuggestionBar
-          messages={messages}
-          currentUser={currentUser}
-          chatroom={chatroom}
-          forcedText={forcedCalendarText}
-          onClearForced={() => setForcedCalendarText(null)}
-        />
-      </Box>
-
-      {/* Footer ad just ABOVE the composer (row 3) */}
-      {!isPremium && (
-        <Box className="chat-footer-ad" mx="auto" maw={CONTENT_MAX} w="100%" mt="xs">
-          <CardAdWrap>
-            <HouseAdSlot placement="chat_footer" variant="card" />
-          </CardAdWrap>
-        </Box>
-      )}
-
-      {/* Composer at the very bottom (row 4) */}
-      {chatroom && (
-        <Box className="chat-footer" mt="sm" mx="auto" maw={CONTENT_MAX} w="100%">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-              <input
-                type="checkbox"
-                checked={smartEnabled}
-                onChange={(e) => {
-                  const v = e.target.checked;
-                  setSmartEnabled(v);
-                  setPref(PREF_SMART_REPLIES, v);
-                }}
-                aria-label="Enable Smart Replies"
-              />
-              Enable Smart Replies (sends last message to server for AI)
-            </label>
-
-            <SmartReplyBar
-              suggestions={suggestions}
-              onPick={(t) => sendSmartReply(t)}
-              compact
-            />
-          </div>
-
-          <MessageInput
-            chatroomId={chatroom.id}
-            currentUser={currentUser}
-            roomParticipants={chatroom?.participants || []}
-            getLastInboundText={() => {
-              const lastInbound = messages
-                .slice()
-                .reverse()
-                .find((m) => m.sender?.id !== currentUserId);
-              return lastInbound?.decryptedContent || lastInbound?.content || '';
+          onMouseDown={holdToReveal ? () => setReveal(true) : undefined}
+          onMouseUp={holdToReveal ? () => setReveal(false) : undefined}
+          onMouseLeave={holdToReveal ? () => setReveal(false) : undefined}
+          onTouchStart={holdToReveal ? () => setReveal(true) : undefined}
+          onTouchEnd={holdToReveal ? () => setReveal(false) : undefined}
+        >
+          {/* Full width header (no max-width cap) */}
+          <Box
+            w="100%"
+            style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              minHeight: 0,
             }}
-            onMessageSent={(msg) => {
-              setMessages((prev) => [...prev, msg]);
-              addMessages(chatroom.id, [msg]).catch(() => {});
-              scrollToBottom();
+          >
+            <Group mb="sm" justify="space-between" wrap="nowrap">
+              <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
+                {/* ✅ remove useless "Chat" label; show name only */}
+                <Title
+                  order={4}
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '100%',
+                  }}
+                >
+                  {chatroom?.name || ''}
+                </Title>
+
+                {isRandomRoom && (
+                  <Badge
+                    variant="light"
+                    radius="sm"
+                    leftSection={<IconDice5 size={14} />}
+                  >
+                    Random
+                  </Badge>
+                )}
+                {chatroom?.participants?.length > 2 && (
+                  <Badge variant="light" radius="sm">
+                    Group
+                  </Badge>
+                )}
+              </Group>
+
+              {/* ✅ toolbar should live here, always */}
+              <Group gap="xs" wrap="nowrap">
+                <Tooltip label="Search" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={() => setSearchOpen(true)}
+                    aria-label="Search messages"
+                  >
+                    <IconSearch size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                <Tooltip label="Media" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={() => setGalleryOpen(true)}
+                    aria-label="Open media gallery"
+                  >
+                    <IconPhoto size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                <Menu position="bottom-end" withinPortal shadow="md" radius="md">
+                  <Menu.Target>
+                    <ActionIcon variant="subtle" aria-label="Thread menu">
+                      <IconDotsVertical size={18} />
+                    </ActionIcon>
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Label>Premium</Menu.Label>
+
+                    <Menu.Item
+                      leftSection={<IconSparkles size={16} />}
+                      onClick={runPowerAi}
+                    >
+                      AI Power {isPremium ? '' : '(Upgrade)'}
+                    </Menu.Item>
+
+                    <Menu.Item
+                      leftSection={<IconCalendarPlus size={16} />}
+                      onClick={openSchedulePrompt}
+                    >
+                      Schedule {isPremium ? '' : '(Upgrade)'}
+                    </Menu.Item>
+
+                    <Divider my="xs" />
+
+                    <Menu.Label>Thread</Menu.Label>
+
+                    <Menu.Item
+                      leftSection={<IconInfoCircle size={16} />}
+                      onClick={() => setAboutOpen(true)}
+                    >
+                      About
+                    </Menu.Item>
+
+                    <Menu.Item
+                      leftSection={<IconSearch size={16} />}
+                      onClick={() => setSearchOpen(true)}
+                    >
+                      Search
+                    </Menu.Item>
+
+                    <Menu.Item
+                      leftSection={<IconPhoto size={16} />}
+                      onClick={() => setGalleryOpen(true)}
+                    >
+                      Media
+                    </Menu.Item>
+
+                    {isOwnerOrAdmin && (
+                      <Menu.Item
+                        leftSection={<IconUserPlus size={16} />}
+                        onClick={() => setInviteOpen(true)}
+                      >
+                        Invite people
+                      </Menu.Item>
+                    )}
+
+                    {isOwnerOrAdmin && (
+                      <Menu.Item
+                        leftSection={<IconSettings size={16} />}
+                        onClick={() => setSettingsOpen(true)}
+                      >
+                        Room settings
+                      </Menu.Item>
+                    )}
+                  </Menu.Dropdown>
+                </Menu>
+              </Group>
+            </Group>
+          </Box>
+        </Box>
+      }
+      composer={
+        // ✅ full-width composer (between conversations list and ads)
+        <Box w="100%">
+          <ThreadComposer
+            value={draft}
+            onChange={setDraft}
+            placeholder="Type a message…"
+            topSlot={
+              <Group gap="sm" align="center" wrap="wrap">
+                {/* ✅ ONE Smart Replies toggle only (no duplicate row) */}
+                <label
+                  style={{
+                    fontSize: 12,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 6,
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={smartEnabled}
+                    onChange={(e) => {
+                      const v = e.target.checked;
+                      setSmartEnabled(v);
+                      setPref(PREF_SMART_REPLIES, v);
+                    }}
+                    aria-label="Enable Smart Replies"
+                  />
+                  Smart Replies
+                </label>
+
+                <SmartReplyBar
+                  suggestions={suggestions}
+                  onPick={(t) => sendSmartReply(t)}
+                  compact
+                />
+              </Group>
+            }
+            onSend={async (payload) => {
+              // payload can be undefined, or { attachments: [fileMeta] }, or { files: [...] }
+              const text = (draft || '').trim();
+
+              // 1) attachments from MicButton (already uploaded -> fileMeta)
+              if (payload?.attachments?.length) {
+                socket.emit('send_message', {
+                  chatRoomId: chatroom.id,
+                  content: text || '',             // optional caption if you typed
+                  attachmentsInline: payload.attachments.map((f) => ({
+                    kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
+                    url: f.url,
+                    mimeType: f.contentType || 'audio/webm',
+                    durationSec: f.durationSec || null,
+                    caption: f.caption || null,
+                  })),
+                });
+                setDraft('');
+                return;
+              }
+
+              // 2) file picker fallback (only happens if onUploadFiles is not provided)
+              if (payload?.files?.length) {
+                // You likely want to upload via your FileUploader flow instead of raw files.
+                // For now: just warn and keep text.
+                console.warn('ThreadComposer provided raw files; wire onUploadFiles to handle uploads.');
+                return;
+              }
+
+              // 3) normal text send
+              if (!text) return;
+              socket.emit('send_message', {
+                content: text,
+                chatRoomId: chatroom.id,
+              });
+              setDraft('');
             }}
           />
         </Box>
-      )}
+      }
+    >
+      {/* Messages area (full width like composer) */}
+      <Box
+        w="100%"
+        style={{
+          height: '100%',
+          minHeight: 0,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {/* Thread top promo */}
+        {!isPremium && showThreadTop && (
+          <div style={{ padding: '8px 12px', flex: '0 0 auto' }}>
+            <CardAdWrap>
+              <HouseAdSlot placement="thread_top" variant="card" />
+            </CardAdWrap>
+          </div>
+        )}
+
+        <ScrollArea
+          style={{ flex: '1 1 auto', minHeight: 0 }}
+          viewportRef={scrollViewportRef}
+          type="auto"
+        >
+          <Box
+            style={{
+              minHeight: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* ✅ This spacer pushes messages to the bottom when there aren't many */}
+            <Box style={{ flex: '1 1 auto' }} />
+
+            <Stack gap="xs" p="xs">
+              {/* ...messages... */}
+              <div ref={messagesEndRef} />
+            </Stack>
+          </Box>
+        </ScrollArea>
+
+
+        {/* Typing + new msg helper + suggestions */}
+        <Box style={{ flex: '0 0 auto' }}>
+          {typingUser && (
+            <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
+              {typingUser} is typing...
+            </Text>
+          )}
+
+          {showNewMessage && (
+            <Group justify="center" mt="xs">
+              <Button onClick={scrollToBottom} aria-label="Jump to newest">
+                New Messages
+              </Button>
+            </Group>
+          )}
+
+          <EventSuggestionBar
+            messages={messages}
+            currentUser={currentUser}
+            chatroom={chatroom}
+            forcedText={forcedCalendarText}
+            onClearForced={() => setForcedCalendarText(null)}
+          />
+        </Box>
+      </Box>
 
       {/* Modals & drawers */}
       <RoomSettingsModal
@@ -998,6 +941,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         onClose={() => setGalleryOpen(false)}
         roomId={chatroom.id}
       />
-    </Box>
+    </ThreadShell>
   );
 }

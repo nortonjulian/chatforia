@@ -38,7 +38,6 @@ import FamilyJoin from '@/pages/FamilyJoin.jsx';
 import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
 import ManageWirelessPage from '@/pages/ManageWireless.jsx';
 
-
 import AdminReportsPage from '@/pages/AdminReports';
 import AdminRoute from '@/routes/AdminRoute';
 import AdminLayout from '@/pages/AdminLayout';
@@ -112,13 +111,21 @@ const ASIDE_W = 280;
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const { currentUser, logout  } = useUser();
+  const { currentUser, logout } = useUser();
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
   const [showNewStatus, setShowNewStatus] = useState(false);
   const [hideStatusFab, setHideStatusFab] = useState(false);
   const location = useLocation();
+
+  // Theme-safe CTA label style (fixes Log Out text on gradient themes)
+  const ctaLabelStyles = {
+    label: {
+      color: 'var(--cta-on)',
+      textShadow: 'var(--cta-on-shadow)',
+    },
+  };
 
   useEffect(() => {
     fetchFeatures()
@@ -160,10 +167,10 @@ function AuthedLayout() {
   const tier = (currentUser?.subscription?.tier || '').toLowerCase();
   const isPremium = Boolean(
     currentUser?.isPremium ||
-    plan === 'premium' ||
-    plan === 'plus' ||
-    tier === 'premium' ||
-    tier === 'plus'
+      plan === 'premium' ||
+      plan === 'plus' ||
+      tier === 'premium' ||
+      tier === 'plus'
   );
 
   const me = currentUser || {};
@@ -212,7 +219,9 @@ function AuthedLayout() {
               >
                 <Group gap={8}>
                   <LogoGlyph size={30} />
-                  <Title order={3} m={0}>{t('brand.name', 'Chatforia')}</Title>
+                  <Title order={3} m={0}>
+                    {t('brand.name', 'Chatforia')}
+                  </Title>
                 </Group>
               </Anchor>
             </Group>
@@ -257,6 +266,7 @@ function AuthedLayout() {
                 variant="filled"
                 onClick={handleLogout}
                 aria-label={t('topbar.logout', 'Log Out')}
+                styles={ctaLabelStyles}
               >
                 {t('topbar.logout', 'Log Out')}
               </Button>
@@ -310,46 +320,43 @@ export default function AppRoutes() {
   }, []);
 
   if (!currentUser) {
-  return (
-    <Routes>
-      {/* Public pricing / upgrade page (no AuthLayout hero) */}
-      <Route path="/upgrade" element={<UpgradePage variant="account" />} />
-      <Route path="/pricing" element={<UpgradePage variant="public" />} />
+    return (
+      <Routes>
+        {/* Public pricing / upgrade page (no AuthLayout hero) */}
+        <Route path="/upgrade" element={<UpgradePage variant="account" />} />
+        <Route path="/pricing" element={<UpgradePage variant="public" />} />
 
-      {/* Auth + marketing layout (hero + auth forms, guides, etc.) */}
-      <Route element={<AuthLayout />}>
-        <Route path="/" element={<LoginForm />} />
-        <Route path="/register" element={<Registration />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/auth/complete" element={<OAuthComplete />} />
-        <Route path="/about" element={<AboutChatforia />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/press" element={<Press />} />
-        <Route path="/advertise" element={<Advertise />} />
-        <Route path="/help" element={<HelpCenter />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/download" element={<Downloads />} />
-        <Route path="/guides/getting-started" element={<GettingStarted />} />
-        <Route
-          path="/guides"
-          element={<Navigate to="/guides/getting-started" replace />}
-        />
-        <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
-        <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/legal/terms" element={<TermsOfService />} />
-        <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
-        <Route path="/legal/cookies" element={<CookieSettings />} />
+        {/* Auth + marketing layout (hero + auth forms, guides, etc.) */}
+        <Route element={<AuthLayout />}>
+          <Route path="/" element={<LoginForm />} />
+          <Route path="/register" element={<Registration />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/auth/complete" element={<OAuthComplete />} />
+          <Route path="/about" element={<AboutChatforia />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/press" element={<Press />} />
+          <Route path="/advertise" element={<Advertise />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/download" element={<Downloads />} />
+          <Route path="/guides/getting-started" element={<GettingStarted />} />
+          <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
+          <Route path="/legal/cookies" element={<CookieSettings />} />
 
-        {/* Family invite join route (works even when logged out) */}
-        <Route path="/family/join/:token" element={<FamilyJoin />} />
-      </Route>
+          {/* Family invite join route (works even when logged out) */}
+          <Route path="/family/join/:token" element={<FamilyJoin />} />
+        </Route>
 
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
-}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    );
+  }
 
   return (
     <Routes>
@@ -385,13 +392,11 @@ export default function AppRoutes() {
 
         <Route path="chat/:id" element={<ChatThreadRoute />} />
 
-
         {/* ✅ Wireless dashboard (canonical) */}
         <Route path="wireless" element={<WirelessDashboard />} />
 
         {/* ✅ Wireless: manage plan, numbers & porting */}
         <Route path="wireless/manage" element={<ManageWirelessPage />} />
-
 
         {/* ✅ Keep /family working, but point it to /wireless */}
         <Route path="family" element={<Navigate to="/wireless" replace />} />
@@ -414,7 +419,6 @@ export default function AppRoutes() {
 
           <Route path=":threadId" element={<SmsThreadPage />} />
         </Route>
-
 
         <Route path="/account/plan" element={<MyPlan />} />
 

@@ -16,7 +16,6 @@ import {
 } from '@mantine/core';
 import { IconSearch, IconX, IconCopy, IconCheck, IconDeviceMobile } from '@tabler/icons-react';
 import { useUser } from '../context/UserContext';
-import NewConversationModal from '@/components/NewConversationModal';
 import ContactList from '../components/ContactList';
 import ImportContactsModal from '@/components/ImportContactsModal';
 import { useTranslation } from 'react-i18next';

@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
-import { Group, ActionIcon, Select, Textarea, Button, Badge } from '@mantine/core';
-import { IconSend, IconPaperclip } from '@tabler/icons-react';
+import { Group, Card, ActionIcon, Select, Textarea, Button, Badge, Tooltip, Menu, Divider } from '@mantine/core';
+import { IconSend, IconPaperclip, IconClock } from '@tabler/icons-react';
 import axiosClient from '../api/axiosClient';
 import StickerPicker from './StickerPicker.jsx';
 import FileUploader from './FileUploader.jsx';
@@ -172,60 +172,46 @@ export default function MessageInput({
   };
 
   return (
-    <form onSubmit={handleSend}>
-      <Group align="end" gap="xs" wrap="nowrap">
-        {/* Text */}
-        <Textarea
-          className='message-input'
-          aria-label="Message input"
-          placeholder="Say something…"
-          autosize
-          minRows={2}
-          maxRows={3}
-          value={content}
-          onChange={(e) => setContent(e.currentTarget.value)}
-          disabled={sending}
-          onKeyDown={(e) => {
-            // Enter sends; Shift+Enter makes a new line
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault();
-              handleSend();
-            }
-          }}
-          styles={{
-            root: { flex: 1, minWidth: 0 },
-            input: {
-              fontSize: '1rem',
-              lineHeight: 1.45,
-              paddingTop: 8,
-              paddingBottom: 8,
-            },
-          }}
-        />
-
-        {/* TTL */}
-        <Select
-          value={ttl}
-          onChange={handleTtlChange}
-          data={TTL_OPTIONS}
-          w={110}
-          aria-label="Message timer"
-          disabled={sending}
-        />
-
-        {/* Emoji / Sticker picker trigger */}
+  <form onSubmit={handleSend} style={{ width: '100%' }}>
+    <Card
+      withBorder
+      radius="md"
+      p="xs"
+      style={{
+        width: '100%',
+        background: 'var(--mantine-color-body)',
+      }}
+    >
+      <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+        {/* GIF / Stickers */}
         <Button
-          variant="light"
+          variant="filled"
+          radius="xl"
+          size="compact-md"
           onClick={() => setPickerOpen(true)}
           disabled={sending}
           type="button"
-          aria-label={String.fromCodePoint(0x1f600)}
+          aria-label="Stickers & GIFs"
           title="Stickers & GIFs"
         >
-          {String.fromCodePoint(0x1f600)}
+          GIF
         </Button>
 
-        {/* 🎙️ Voice message (records → uploads → adds to attachments) */}
+        {/* Emoji (same picker for now) */}
+        <ActionIcon
+          variant="default"
+          size="lg"
+          radius="md"
+          disabled={sending}
+          aria-label="Emoji"
+          title="Emoji"
+          onClick={() => setPickerOpen(true)}
+          type="button"
+        >
+          {String.fromCodePoint(0x1f600)}
+        </ActionIcon>
+
+        {/* 🎙️ Voice */}
         <MicButton
           chatRoomId={chatroomId}
           onUploaded={(fileMeta) => {
@@ -234,19 +220,20 @@ export default function MessageInput({
           }}
         />
 
-        {/* FileUploader (R2) */}
+        {/* Upload */}
         <FileUploader
           button={
-            <Button
-              variant="light"
-              leftSection={<IconPaperclip size={16} />}
+            <ActionIcon
+              variant="default"
+              size="lg"
+              radius="md"
               disabled={sending}
-              aria-label="Attach files"
+              aria-label="Upload"
+              title="Photo / video / file"
               type="button"
-              title="Attach files"
             >
-              Attach
-            </Button>
+              <IconPaperclip size={18} />
+            </ActionIcon>
           }
           onUploaded={(fileMeta) => {
             setUploaded((prev) => [...prev, fileMeta]);
@@ -257,21 +244,90 @@ export default function MessageInput({
           }}
         />
 
-        {/* Send */}
-        <ActionIcon
-          type="submit"
+        {/* Text */}
+        <Textarea
+          placeholder="Type a message…"
+          aria-label="Message composer"
+          value={content}
+          onChange={(e) => setContent(e.currentTarget.value)}
           variant="filled"
-          radius="xl"
-          size="lg"
-          disabled={sending || nothingToSend}
-          aria-label="Send message"
-          title="Send (Enter)"
+          radius="md"
+          autosize
+          minRows={2}
+          maxRows={6}
+          disabled={sending}
+          styles={{
+            root: { flex: 1, minWidth: 0 },
+            input: {
+              overflowX: 'hidden',
+              whiteSpace: 'pre-wrap',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word',
+              lineHeight: 1.45,
+              paddingTop: 8,
+              paddingBottom: 8,
+              resize: 'none',
+            },
+          }}
+          onKeyDown={(e) => {
+            // Enter sends; Shift+Enter newline
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              handleSend();
+            }
+          }}
+        />
+
+        {/* TTL moved into a small menu (keeps layout clean like BottomComposer) */}
+        <Menu withinPortal position="top-end" shadow="md">
+          <Menu.Target>
+            <Tooltip label="Auto-delete timer" openDelay={400}>
+              <ActionIcon
+                variant="default"
+                size="lg"
+                radius="md"
+                disabled={sending}
+                aria-label="Auto-delete timer"
+                type="button"
+              >
+                <IconClock size={18} />
+              </ActionIcon>
+            </Tooltip>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Auto-delete</Menu.Label>
+            <Divider my="xs" />
+            <Select
+              value={ttl}
+              onChange={handleTtlChange}
+              data={TTL_OPTIONS}
+              aria-label="Message timer"
+              disabled={sending}
+              w={180}
+            />
+          </Menu.Dropdown>
+        </Menu>
+
+        {/* Send */}
+        <Tooltip
+          label={nothingToSend ? 'Type a message to send' : 'Send'}
+          openDelay={400}
         >
-          <IconSend size={18} />
-        </ActionIcon>
+          <ActionIcon
+            type="submit"
+            size="lg"
+            radius="xl"
+            variant="filled"
+            disabled={sending || nothingToSend}
+            aria-label="Send"
+            title="Send (Enter)"
+          >
+            <IconSend size={18} />
+          </ActionIcon>
+        </Tooltip>
       </Group>
 
-      {/* Uploaded files with optional captions */}
+      {/* Uploaded files with optional captions (keep your existing UI) */}
       {uploaded.length > 0 && (
         <div style={{ marginTop: 8 }}>
           {uploaded.map((f, i) => (
@@ -342,7 +398,7 @@ export default function MessageInput({
         </div>
       )}
 
-      {/* Inline stickers / GIFs preview badges */}
+      {/* Inline picks preview (keep your existing UI) */}
       {inlinePicks.length > 0 && (
         <div style={{ marginTop: 8 }}>
           {inlinePicks.map((a, i) => (
@@ -377,17 +433,17 @@ export default function MessageInput({
           </Button>
         </div>
       )}
+    </Card>
 
-      {/* Sticker / GIF picker modal */}
-      <StickerPicker
-        opened={pickerOpen}
-        onClose={() => setPickerOpen(false)}
-        onPick={(att) => {
-          setInlinePicks((prev) => [...prev, att]);
-          setPickerOpen(false);
-          toast.ok(att.kind === 'GIF' ? 'GIF added.' : 'Sticker added.');
-        }}
-      />
-    </form>
-  );
+    <StickerPicker
+      opened={pickerOpen}
+      onClose={() => setPickerOpen(false)}
+      onPick={(att) => {
+        setInlinePicks((prev) => [...prev, att]);
+        setPickerOpen(false);
+        toast.ok(att.kind === 'GIF' ? 'GIF added.' : 'Sticker added.');
+      }}
+    />
+  </form>
+ );
 }

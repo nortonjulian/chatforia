@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Group, Button, ActionIcon, Textarea, Tooltip } from '@mantine/core';
+import { Card, Group, Button, ActionIcon, Textarea, Tooltip} from '@mantine/core';
 import { Smile, Image as ImageIcon, Send } from 'lucide-react';
 import StickerPicker from '@/components/StickerPicker.jsx';
 import MicButton from '@/components/MicButton.jsx';
+import FileUploader from '@/components/FileUploader.jsx';
 
 const TAB_EMOJI = 'emoji';
 const TAB_GIFS = 'gifs';
@@ -13,6 +14,7 @@ export default function BottomComposer({
   onChange,
   onSend,
   placeholder,
+  topSlot,
 
   // NEW: layout mode
   // - embedded: parent layout controls placement (recommended for SmsLayout / chat grid)
@@ -36,8 +38,8 @@ export default function BottomComposer({
 
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerTab, setPickerTab] = useState(TAB_EMOJI);
-
-  const openImageVideo = () => fileRef.current?.click();
+  const uploadTriggerRef = useRef(null);
+  const openUploader = () => uploadTriggerRef.current?.click?.();
 
   const handleSend = async (payload) => {
     if (disabled) return;
@@ -74,12 +76,16 @@ export default function BottomComposer({
             background: 'var(--mantine-color-body)',
           }}
         >
+          {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
           <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
             {showGif && (
               <Button
                 variant="filled"
                 radius="xl"
                 size="compact-md"
+                styles={{
+                    label: { color: 'var(--cta-on)', textShadow: 'var(--cta-on-shadow)' },
+                }}
                 aria-label={t('composer.gifPicker', 'Open GIF picker')}
                 onClick={() => {
                   setPickerTab(TAB_GIFS);
@@ -120,17 +126,23 @@ export default function BottomComposer({
             )}
 
             {showUpload && (
-              <ActionIcon
-                variant="default"
-                size="lg"
-                radius="md"
-                aria-label={t('composer.upload', 'Upload')}
-                onClick={openImageVideo}
-                title={t('composer.upload', 'Photo / video')}
-              >
-                <ImageIcon size={18} />
-              </ActionIcon>
-            )}
+                <FileUploader
+                    button={
+                    <ActionIcon
+                        variant="default"
+                        size="lg"
+                        radius="md"
+                        aria-label={t('composer.upload', 'Upload')}
+                        title={t('composer.upload', 'Photo / video')}
+                        disabled={disabled}
+                    >
+                        <ImageIcon size={18} />
+                    </ActionIcon>
+                    }
+                    onUploaded={(fileMeta) => handleSend({ attachments: [fileMeta] })}
+                    onError={() => {}}
+                />
+                )}
 
             <Textarea
               placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
@@ -204,7 +216,7 @@ export default function BottomComposer({
           </Group>
         </Card>
       </div>
-
+        
       <StickerPicker
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
