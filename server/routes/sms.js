@@ -17,8 +17,8 @@ const r = express.Router();
  * Typical Twilio payload is application/x-www-form-urlencoded:
  *  - From, To, Body, MessageSid, NumMedia, MediaUrl0..N
  *
- * Mount path example (depending on your server prefix):
- *   POST /api/sms/webhooks/twilio/inbound
+ * Mount path example:
+ *   POST /sms/webhooks/twilio/inbound
  */
 r.post(
   '/webhooks/twilio/inbound',
@@ -66,7 +66,7 @@ r.post(
 // JSON bodies for authenticated app routes
 r.use(express.json());
 
-/* ---------- LIST THREADS (prod path, via service) ---------- */
+/* ---------- LIST THREADS ---------- */
 // GET /sms/threads
 r.get(
   '/threads',
@@ -94,10 +94,46 @@ r.get(
   })
 );
 
-/* ---------- DELETE / ARCHIVE THREAD (for chat list delete) ---------- */
+/* ---------- ✅ EDIT INDIVIDUAL SMS MESSAGE (DB-only) ---------- */
+// PATCH /sms/messages/:id
+r.patch(
+  '/messages/:id',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    if (typeof smsService.updateMessage !== 'function') {
+      throw Boom.notImplemented(
+        'SMS message edit not implemented yet. Add smsService.updateMessage(userId, messageId, { body }).'
+      );
+    }
+
+    const body = String(req.body?.body || '').trim();
+    if (!body) throw Boom.badRequest('body is required');
+
+    const out = await smsService.updateMessage(req.user.id, req.params.id, { body });
+    res.json({ ok: true, message: out });
+  })
+);
+
+
+/* ---------- ✅ DELETE INDIVIDUAL SMS MESSAGE (DB-only) ---------- */
+// DELETE /sms/messages/:id
+r.delete(
+  '/messages/:id',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    if (typeof smsService.deleteMessage !== 'function') {
+      throw Boom.notImplemented(
+        'SMS message delete not implemented yet. Add smsService.deleteMessage(userId, messageId).'
+      );
+    }
+
+    const out = await smsService.deleteMessage(req.user.id, req.params.id);
+    res.json({ ok: true, result: out ?? null });
+  })
+);
+
+/* ---------- DELETE THREAD (DB-only) ---------- */
 // DELETE /sms/threads/:id
-// NOTE: implement smsService.deleteThread(userId, threadId) to hard-delete OR soft-archive.
-// I recommend soft-archive for safety.
 r.delete(
   '/threads/:id',
   requireAuth,
@@ -115,7 +151,7 @@ r.delete(
   })
 );
 
-/* ---------- SEND (prod path, via provider/service) ---------- */
+/* ---------- SEND ---------- */
 // POST /sms/_debug_send
 r.post(
   '/_debug_send',

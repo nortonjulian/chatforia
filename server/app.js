@@ -374,7 +374,7 @@ export function createApp() {
   app.use('/voice/client', requireAuth, requireEmailVerified, voiceClientRouter);
 
   app.use('/calls', requireAuth, requireEmailVerified, callsRouter);
-  app.use('/sms', requireAuth, requireEmailVerified, smsRouter);
+  app.use('/sms', smsRouter)
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);

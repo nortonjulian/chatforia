@@ -66,7 +66,10 @@ export default function ChatroomList({
     if (!currentUser?.id) return;
     const qs = new URLSearchParams();
     qs.set('limit', initial ? '50' : '30');
-    if (cursor && !initial) qs.set('cursor', String(cursor));
+    if (cursor?.id && cursor?.updatedAt && !initial) {
+      qs.set('cursorId', String(cursor.id));
+      qs.set('cursorUpdatedAt', String(cursor.updatedAt));
+    }
 
     const res = await fetch(
       `${import.meta.env.VITE_API_BASE}/chatrooms?${qs.toString()}`,

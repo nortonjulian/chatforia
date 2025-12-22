@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Group, Paper, Text } from '@mantine/core';
+import dayjs from 'dayjs';
+import {
+  Box,
+  Group,
+  Paper,
+  Text,
+  ActionIcon,
+  Menu,
+  Tooltip,
+} from '@mantine/core';
+import { IconDotsVertical, IconTrash } from '@tabler/icons-react';
 
 import axiosClient from '@/api/axiosClient';
 import BottomComposer from '@/components/BottomComposer.jsx';
@@ -49,9 +59,37 @@ export default function SmsThreadPage() {
     }
   };
 
+  const deleteMessage = async (messageId) => {
+    const ok = window.confirm('Delete this message for you?');
+    if (!ok) return;
+
+    // optimistic remove
+    setThread((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        messages: (prev.messages || []).filter((m) => m.id !== messageId),
+      };
+    });
+
+    try {
+      await axiosClient.delete(`/sms/messages/${messageId}`);
+      await loadThread();
+    } catch (e) {
+      console.error('SMS delete failed', e);
+      await loadThread();
+    }
+  };
+
   if (!thread) return null;
 
-  const currentUserIdForSmsDirection = 'sms:self'; // dummy id for utility fallback if needed
+  const currentUserIdForSmsDirection = 'sms:self'; // dummy id for utility fallback
+
+  if (typeof window !== 'undefined') {
+  window.__SMS_RENDERER__ = 'SmsThreadPage.jsx ✅';
+  console.log(window.__SMS_RENDERER__);
+}
+
 
   return (
     <Box
@@ -62,7 +100,32 @@ export default function SmsThreadPage() {
         position: 'relative',
       }}
     >
-      {/* Messages (flex:1, scrolls, and anchors to bottom when short) */}
+      {/* Hover-only styling for per-message dots */}
+      <style>{`
+        .sms-message-row .sms-message-menu {
+          opacity: 0;
+          transition: opacity 120ms ease;
+        }
+        .sms-message-row:hover .sms-message-menu {
+          opacity: 1;
+        }
+      `}</style>
+
+      <Box
+        style={{
+          background: 'red',
+          color: 'white',
+          padding: 8,
+          fontWeight: 800,
+          borderRadius: 8,
+          margin: 8,
+        }}
+      >
+        RENDERER: SmsThreadPage.jsx ✅
+      </Box>
+
+
+      {/* Messages */}
       <Box
         style={{
           flex: 1,
@@ -76,45 +139,98 @@ export default function SmsThreadPage() {
         }}
       >
         {(thread.messages || []).map((m) => {
-          // Normalize direction better than `=== 'out'`
           const isMine =
             isOutgoingMessage(m, currentUserIdForSmsDirection) ||
             ['out', 'outbound', 'sent', 'outbound-api', 'outgoing'].includes(
               String(m.direction || '').toLowerCase()
             );
 
+          const ts = dayjs(m.createdAt || m.sentAt || m.created_at).format(
+            'MMM D, YYYY • h:mm A'
+          );
+
           const bubbleStyle = {
             maxWidth: 420,
             background: isMine
-              ? 'var(--mantine-color-blue-filled)'
-              : 'var(--mantine-color-gray-2)',
-            color: isMine ? 'white' : 'var(--mantine-color-text)',
+              ? 'var(--bubble-outgoing, #ffb000)'
+              : 'var(--bubble-incoming-bg, rgba(255,255,255,0.6))',
+            color: isMine
+              ? 'var(--bubble-outgoing-text, #111)'
+              : 'var(--fg, #111)',
+            borderRadius: 18,
           };
+
+          const menu = (
+            <Menu
+              position={isMine ? 'bottom-start' : 'bottom-end'}
+              withinPortal
+              shadow="md"
+              radius="md"
+            >
+              <Menu.Target>
+                <ActionIcon
+                  className="sms-message-menu"
+                  variant="subtle"
+                  size="sm"
+                  aria-label="Message actions"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }}
+                  style={{ alignSelf: 'flex-start', marginTop: 2 }}
+                >
+                  <IconDotsVertical size={18} />
+                </ActionIcon>
+              </Menu.Target>
+
+              <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                <Menu.Item
+                  color="red"
+                  leftSection={<IconTrash size={16} />}
+                  onClick={() => deleteMessage(m.id)}
+                >
+                  Delete
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          );
 
           return (
             <Group
               key={m.id}
+              className="sms-message-row"
               justify={isMine ? 'flex-end' : 'flex-start'}
-              align="flex-end"
+              align="flex-start"
               wrap="nowrap"
+              gap={6}
+              style={{ width: '100%' }}
             >
-              <Paper
-                radius="lg"
-                px="md"
-                py="xs"
-                withBorder={false}
-                style={bubbleStyle}
-              >
-                <Text style={{ whiteSpace: 'pre-wrap' }}>
-                  {m.body || m.content || ''}
-                </Text>
-              </Paper>
+              {/* ✅ SENT: dots on LEFT */}
+              {isMine ? menu : null}
+
+              {/* Bubble */}
+              <Tooltip label={ts} withinPortal>
+                <Paper
+                  px="md"
+                  py="xs"
+                  radius="lg"
+                  withBorder={false}
+                  style={bubbleStyle}
+                >
+                  <Text style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
+                    {m.body || m.content || ''}
+                  </Text>
+                </Paper>
+              </Tooltip>
+
+              {/* ✅ RECEIVED: dots on RIGHT */}
+              {!isMine ? menu : null}
             </Group>
           );
         })}
       </Box>
 
-      {/* Fixed Bottom Composer (SMS-only features) */}
+      {/* Fixed Bottom Composer */}
       <BottomComposer
         value={text}
         onChange={setText}

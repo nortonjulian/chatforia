@@ -624,3 +624,32 @@ html, body, #root { height: 100%; }
   --bubble-outgoing-fg: var(--bubble-outgoing-text);
   --bubble-incoming-fg: var(--bubble-incoming-text);
 }
+
+.sidebar-row .sidebar-row-more { opacity: 0.25; }
+.sidebar-row:hover .sidebar-row-more { opacity: 1; }
+
+.sms-msg-more { opacity: 0.15; transition: opacity .12s ease; }
+.sms-msg-more:hover { opacity: 1; }
+
+/* styles.css (or wherever your global styles live) */
+/* SMS per-message dots: hidden until hover (thread-style) */
+
+.sms-message-menu {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.sms-message-row:hover .sms-message-menu {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Keep visible when menu is open / focused (keyboard + click) */
+.sms-message-row:focus-within .sms-message-menu,
+.sms-message-menu:focus,
+.sms-message-menu:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import {
@@ -61,6 +62,7 @@ import SmsThreads from '@/pages/SmsThreads.jsx';
 import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
 import SmsCompose from '@/pages/SmsCompose.jsx';
 import SmsLayout from '@/pages/SmsLayout.jsx';
+import SmsThreadView from './pages/SmsThreadView';
 
 import MyPlan from '@/pages/MyPlan.jsx';
 
@@ -187,6 +189,11 @@ function AuthedLayout() {
         navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
         padding="md"
+        styles={{
+          navbar: { flexShrink: 0 },
+          aside: { flexShrink: 0 },
+          main: { minWidth: 0 }, 
+        }}
       >
         <AppShell.Header>
           <SkipLink targetId="main-content" />
@@ -418,6 +425,7 @@ export default function AppRoutes() {
           <Route path="threads/:id" element={<Navigate to="../:id" replace />} />
 
           <Route path=":threadId" element={<SmsThreadPage />} />
+          <Route path=":threadId" element={<SmsThreadView currentUserId={currentUser?.id} currentUser={currentUser} />} />
         </Route>
 
         <Route path="/account/plan" element={<MyPlan />} />

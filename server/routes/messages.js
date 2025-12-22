@@ -100,6 +100,28 @@ const postMessageLimiter = rateLimit({
   trustProxy: false,
 });
 
+function normalizeMediaKind(kind, mimeType) {
+  const k = String(kind || '').toLowerCase();
+  if (k === 'image' || k === 'video' || k === 'audio' || k === 'file') return k;
+  if (k === 'image' || k === 'video' || k === 'audio' || k === 'file') return k;
+
+  // Prisma enums like IMAGE/VIDEO/AUDIO/FILE
+  if (k === 'image' || k === 'video' || k === 'audio' || k === 'file') return k;
+  if (k === 'image') return 'image';
+
+  const up = String(kind || '').toUpperCase();
+  if (up === 'IMAGE') return 'image';
+  if (up === 'VIDEO') return 'video';
+  if (up === 'AUDIO') return 'audio';
+  if (up === 'FILE') return 'file';
+
+  const mt = String(mimeType || '');
+  if (mt.startsWith('image/')) return 'image';
+  if (mt.startsWith('video/')) return 'video';
+  if (mt.startsWith('audio/')) return 'audio';
+  return 'file';
+}
+
 /**
  * CREATE message (HTTP)
  */
@@ -226,26 +248,33 @@ router.post(
     }
 
     // Inline attachments
-    let inline = [];
+  let inline = [];
     try {
-      inline = JSON.parse(attachmentsInline || '[]');
+      if (Array.isArray(attachmentsInline)) {
+        inline = attachmentsInline;
+      } else if (typeof attachmentsInline === 'string') {
+        inline = JSON.parse(attachmentsInline || '[]');
+      } else {
+        inline = [];
+      }
       if (!Array.isArray(inline)) inline = [];
     } catch {
       inline = [];
     }
-    inline = inline
-      .filter((a) => a && a.url && a.kind)
-      .map((a) => ({
-        kind: a.kind,
-        url: a.url,
-        mimeType: a.mimeType || (a.kind === 'STICKER' ? 'image/webp' : ''),
-        width: a.width ?? null,
-        height: a.height ?? null,
-        durationSec: a.durationSec ?? null,
-        caption: a.caption ?? null,
-      }));
 
-    const attachments = [...uploaded, ...inline];
+  inline = inline
+    .filter((a) => a && a.url && a.kind)
+    .map((a) => ({
+      kind: a.kind,
+      url: a.url,
+      mimeType: a.mimeType || '',
+      width: a.width ?? null,
+      height: a.height ?? null,
+      durationSec: a.durationSec ?? null,
+      caption: a.caption ?? null,
+      // optional: pass thumbUrl through for sidebar later
+      thumbUrl: a.thumbUrl ?? a.thumbnailUrl ?? null,
+    }));
 
     // strict-E2EE gating
     const sender = await prisma.user.findUnique({
@@ -421,6 +450,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     };
 
+    // ✅ UPDATED: include delete-for-me (deletions) + delete-for-all tombstone flags
     const baseSelect = {
       id: true,
       contentCiphertext: true,
@@ -434,7 +464,22 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       createdAt: true,
       expiresAt: true,
       rawContent: true,
+
+      // legacy (keep for compatibility while migrating)
       deletedBySender: true,
+
+      // ✅ NEW fields (require prisma schema changes)
+      deletedForAll: true,
+      deletedAt: true,
+      deletedById: true,
+
+      // ✅ delete-for-me marker (requires MessageDeletion model)
+      deletions: {
+        where: { userId: requesterId },
+        select: { id: true },
+        take: 1,
+      },
+
       sender: { select: { id: true, username: true, publicKey: true } },
       readBy: { select: { id: true, username: true, avatarUrl: true } },
       attachments: {
@@ -500,8 +545,18 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const translationEnabled = process.env.TRANSLATION_ENABLED === 'true';
     const translatedForMeMap = new Map();
 
+    // ✅ UPDATED: do not translate tombstones, and skip delete-for-me messages
     if (translationEnabled && items.length && myLang) {
       const jobs = items.map(async (m) => {
+        // delete-for-me => hide later; no work
+        if (m.deletions?.length) return;
+
+        // delete-for-all => tombstone; no translate
+        if (m.deletedForAll) {
+          translatedForMeMap.set(m.id, null);
+          return;
+        }
+
         const preCached =
           m.translations && typeof m.translations === 'object'
             ? (m.translations[myLang] ?? null)
@@ -531,11 +586,52 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       await Promise.all(jobs);
     }
 
+    // ✅ UPDATED: delete-for-me is handled by the deletions relation,
+    // and delete-for-all becomes a tombstone object.
     const shapedDb = items
+      // delete-for-me hides it for this requester
+      .filter((m) => !(m.deletions?.length))
+
+      // legacy fallback (your current behavior): sender hiding their own "deletedBySender" messages
+      // keep this while migrating; you can remove later once everything uses MessageDeletion
       .filter((m) => !(m.deletedBySender && m.sender.id === requesterId))
+
       .map((m) => {
         const isSender = m.sender.id === requesterId;
 
+        const reactionSummary = reactionSummaryByMessage[m.id] || {};
+        const myReactions = Array.from(myReactionsByMessage[m.id] || []);
+
+        // ✅ Tombstone for delete-for-everyone
+        if (m.deletedForAll) {
+          return {
+            id: m.id,
+            chatRoomId: m.chatRoomId,
+            createdAt: m.createdAt,
+            expiresAt: m.expiresAt,
+            sender: m.sender,
+            readBy: m.readBy,
+
+            // markers
+            deletedForAll: true,
+            deletedAt: m.deletedAt,
+            deletedById: m.deletedById,
+
+            // content cleared
+            isExplicit: false,
+            rawContent: null,
+            contentCiphertext: null,
+            attachments: [],
+
+            // feature payloads disabled
+            encryptedKeyForMe: null,
+            translatedForMe: null,
+            reactionSummary,
+            myReactions,
+          };
+        }
+
+        // normal translation
         const preCached =
           m.translations && typeof m.translations === 'object'
             ? (m.translations[myLang] ?? null)
@@ -547,10 +643,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
         const encryptedKeyForMe = m.keys?.[0]?.encryptedKey || null;
 
-        const reactionSummary = reactionSummaryByMessage[m.id] || {};
-        const myReactions = Array.from(myReactionsByMessage[m.id] || []);
-
-        const { translations, translatedContent, translatedTo, keys, ...rest } = m;
+        // remove fields we don't want to send
+        const { translations, translatedContent, translatedTo, keys, deletions, ...rest } = m;
 
         const base = {
           ...rest,
@@ -584,6 +678,11 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           translatedForMe: null,
           reactionSummary: {},
           myReactions: [],
+
+          // keep these present so frontend won't crash if it expects them
+          deletedForAll: false,
+          deletedAt: null,
+          deletedById: null,
         }));
     }
 
@@ -597,6 +696,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     return res.status(500).json({ error: 'Failed to fetch messages' });
   }
 });
+
 
 // PATCH /messages/:id/read
 router.patch(
@@ -886,41 +986,108 @@ router.delete(
     const messageId = Number(req.params.id);
     const requesterId = Number(req.user?.id);
     const isAdmin = req.user?.role === 'ADMIN';
+    const scope = String(req.query.scope || req.query.mode || req.body?.scope || req.body?.mode || 'me');
 
     if (!Number.isFinite(messageId)) throw Boom.badRequest('Invalid id');
 
+    // ---- TEST MEMORY MODE ----
     if (IS_TEST) {
       const mm = memGetMessage(messageId);
-      if (mm) {
+      if (!mm) throw Boom.notFound('Message not found');
+
+      // delete-for-all in mem: actually remove (fine for tests)
+      if (scope === 'all') {
         if (!isAdmin && mm.senderId !== requesterId) {
-          throw Boom.forbidden('Unauthorized to delete this message');
+          throw Boom.forbidden('Unauthorized to delete for everyone');
         }
         mem.byId.delete(messageId);
         const arr = mem.byRoom.get(mm.chatRoomId) || [];
-        mem.byRoom.set(
-          mm.chatRoomId,
-          arr.filter((id) => id !== messageId)
-        );
-        return res.json({ success: true });
+        mem.byRoom.set(mm.chatRoomId, arr.filter((id) => id !== messageId));
+
+        req.app.get('io')?.to(String(mm.chatRoomId)).emit('message_deleted', {
+          messageId,
+          chatRoomId: mm.chatRoomId,
+          scope: 'all',
+        });
+
+        return res.json({ success: true, scope: 'all' });
       }
+
+      // delete-for-me in mem: also remove (fine for tests)
+      mem.byId.delete(messageId);
+      const arr = mem.byRoom.get(mm.chatRoomId) || [];
+      mem.byRoom.set(mm.chatRoomId, arr.filter((id) => id !== messageId));
+
+      req.app.get('io')?.to(String(mm.chatRoomId)).emit('message_deleted', {
+        messageId,
+        chatRoomId: mm.chatRoomId,
+        scope: 'me',
+        userId: requesterId,
+      });
+
+      return res.json({ success: true, scope: 'me' });
     }
 
     const message = await prisma.message.findUnique({
       where: { id: messageId },
-      select: { senderId: true },
+      select: { id: true, senderId: true, chatRoomId: true },
     });
-
     if (!message) throw Boom.notFound('Message not found');
-    if (!isAdmin && message.senderId !== requesterId) {
-      throw Boom.forbidden('Unauthorized to delete this message');
+
+    // must be a participant to delete for-me (prevents random deletes)
+    const member = await prisma.participant.findFirst({
+      where: { chatRoomId: message.chatRoomId, userId: requesterId },
+      select: { id: true },
+    });
+    if (!member && !isAdmin) throw Boom.forbidden('Forbidden');
+
+    // delete for everyone
+    if (scope === 'all') {
+      if (!isAdmin && message.senderId !== requesterId) {
+        throw Boom.forbidden('Unauthorized to delete for everyone');
+      }
+
+      await prisma.message.update({
+        where: { id: messageId },
+        data: {
+          deletedForAll: true,
+          deletedAt: new Date(),
+          deletedById: requesterId,
+          // optional: also clear plaintext to reduce leakage
+          rawContent: null,
+          translatedContent: null,
+          translations: null,
+          contentCiphertext: null,
+        },
+      });
+
+      req.app.get('io')?.to(String(message.chatRoomId)).emit('message_deleted', {
+        messageId,
+        chatRoomId: message.chatRoomId,
+        scope: 'all',
+        deletedAt: new Date().toISOString(),
+        deletedById: requesterId,
+      });
+
+      return res.json({ success: true, scope: 'all' });
     }
 
-    await prisma.message.update({
-      where: { id: messageId },
-      data: { deletedBySender: true },
+    // delete for me (per-user)
+    await prisma.messageDeletion.upsert({
+      where: { messageId_userId: { messageId, userId: requesterId } },
+      update: {},
+      create: { messageId, userId: requesterId },
     });
 
-    return res.json({ success: true });
+    // Emit to just that user if you have user rooms; otherwise emit to room and let clients ignore if not requester
+    req.app.get('io')?.to(String(message.chatRoomId)).emit('message_deleted', {
+      messageId,
+      chatRoomId: message.chatRoomId,
+      scope: 'me',
+      userId: requesterId,
+    });
+
+    return res.json({ success: true, scope: 'me' });
   })
 );
 

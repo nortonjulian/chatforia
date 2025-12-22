@@ -4,6 +4,27 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// ==============================================
+// Chatforia Prisma Schema (organized by domains)
+// ==============================================
+//
+// Order rationale (high-level):
+// 0) Generator/Datasource
+// 1) Enums
+// 2) Core Identity & Access (User + auth + devices + social)
+// 3) Config & Localization (language/i18n + region + pricing)
+// 4) Family / Purchases / Provisioning
+// 5) Conversations (rooms + membership)
+// 6) Messaging (messages + E2EE + media + scheduling + uploads + SMS)
+// 7) Contacts / Moderation / Support / Auditing
+// 8) Status / Stories
+// 9) Bots & Automation
+// 10) Telecom (calls, numbers, voicemail, porting)
+// 11) Accessibility / Usage (transcripts, STT usage)
+//
+// NOTE: Keep generator/datasource matching your project.
+// ----------------------------------------------
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,11 +34,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// =======================================================
-// Chatforia Prisma Schema (ordered + normalized)
-// =======================================================
-
-// ===================== 0) Global Enums =====================
+// ===================== 1) Global Enums =====================
 
 enum Plan {
   FREE
@@ -172,7 +189,7 @@ enum VoicemailTranscriptStatus {
   FAILED
 }
 
-// ===================== 1) Core User & Access =====================
+// ===================== 2) Core Identity & Access =====================
 
 model User {
   id                   Int     @id @default(autoincrement())
@@ -193,11 +210,8 @@ model User {
   // palette/theme family key (e.g., "dawn" | "midnight" | "amoled" ...)
   theme String @default("dawn")
 
-  // NEW: global auto-translate toggle (was used in UI already)
+  // global auto-translate toggle
   autoTranslate Boolean @default(true)
-
-  // If you want a separate explicit light/dark/system switch add this:
-  // themeMode                String      @default("system") // "light" | "dark" | "system"
 
   forwardingEnabledSms   Boolean @default(false)
   forwardSmsToPhone      Boolean @default(false)
@@ -214,7 +228,7 @@ model User {
   uploads    Upload[]    @relation("UserUploads")
   smsThreads SmsThread[] @relation("UserSmsThreads")
 
-  // --- NEW: verification & 2FA (fixed typo here) ---
+  // --- verification & 2FA ---
   emailVerifiedAt        DateTime?
   emailVerifiedIp        String?
   phoneVerifiedAt        DateTime?
@@ -222,8 +236,8 @@ model User {
   twoFactorEnabled       Boolean                 @default(false)
   totpSecretEnc          String?
   twoFactorEnrolledAt    DateTime?
-  verificationTokens     VerificationToken[] // <— keep only once
-  twoFactorRecoveryCodes TwoFactorRecoveryCode[] // <— keep only once
+  verificationTokens     VerificationToken[]
+  twoFactorRecoveryCodes TwoFactorRecoveryCode[]
 
   autoResponderMode        AutoResponderMode @default(DM)
   autoResponderCooldownSec Int               @default(120)
@@ -235,9 +249,9 @@ model User {
   stripeSubscriptionId String?
 
   // Regional pricing (added)
-  pricingRegion  RegionTier? // e.g., T1/T2/T3/T4/ROW
-  billingCountry String?     @db.VarChar(2) // ISO-3166-1 alpha-2, e.g. "US"
-  currency       String?     @db.VarChar(8) // e.g. "USD", "INR"
+  pricingRegion  RegionTier?
+  billingCountry String?     @db.VarChar(2)
+  currency       String?     @db.VarChar(8)
   firstPaidAt    DateTime?
 
   esimIccid String? @map("tealIccid") @db.VarChar(64)
@@ -258,6 +272,7 @@ model User {
   contactsSaved              Contact[]            @relation("ContactsSaved")
   auditLogs                  AuditLog[]           @relation("AuditActor")
   messageKeys                MessageKey[]
+  messageDeletions           MessageDeletion[]
   devices                    Device[]
   deviceRevocations          Device[]             @relation("DeviceRevokedBy")
   createdInvites             ChatRoomInvite[]     @relation("InviteCreator")
@@ -300,11 +315,11 @@ model User {
   ringtone          String? @default("classic.mp3")
 
   voicemailEnabled        Boolean @default(true)
-  voicemailAutoDeleteDays Int? // e.g. null = keep forever, 30 = auto-delete after 30 days
+  voicemailAutoDeleteDays Int?
 
-  voicemailGreetingUrl  String? // custom greeting audio
-  voicemailGreetingText String? // optional text fallback
-  voicemailForwardEmail String? // if set, forward VM notifications here
+  voicemailGreetingUrl  String?
+  voicemailGreetingText String?
+  voicemailForwardEmail String?
 
   voicemails Voicemail[]
 
@@ -331,32 +346,6 @@ model User {
   a11yTranscriptRetentionDays Int?
   a11yCaptionPosition         String  @default("bottom")
   a11yCaptionMaxLines         Int     @default(3)
-}
-
-model Price {
-  id            String     @id @default(cuid())
-  product       String     @db.VarChar(64) // e.g., "chatforia_premium"
-  tier          RegionTier
-  currency      String     @db.VarChar(8) // e.g., "USD", "INR"
-  unitAmount    Int // integer minor units (e.g., $9.99 => 999)
-  stripePriceId String?    @unique
-  appleSku      String? // App Store product ID per storefront (optional)
-  googleSku     String? // Play Store product ID (optional)
-  active        Boolean    @default(true)
-
-  @@unique([product, tier, currency])
-  @@index([product, tier, currency])
-}
-
-model PriceOverride {
-  id            String   @id @default(cuid())
-  countryCode   String
-  plan          Plan // enum Plan, no @relation, no planId
-  currency      String
-  priceCents    Int
-  stripePriceId String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 }
 
 model VerificationToken {
@@ -411,6 +400,85 @@ model Follow {
   @@index([followingId])
 }
 
+model Device {
+  id String @id @default(cuid())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  publicKey  String
+  name       String?
+  platform   String?
+  isPrimary  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  lastSeenAt DateTime?
+  revokedAt  DateTime?
+
+  revokedById Int?
+  revokedBy   User? @relation("DeviceRevokedBy", fields: [revokedById], references: [id])
+
+  messageSessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Device")
+
+  @@index([userId])
+}
+
+// ===================== 3) Config & Localization =====================
+
+model Language {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique // e.g. 'en', 'es'
+  displayName String // e.g. 'English', 'Español'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Translation {
+  id        Int      @id @default(autoincrement())
+  language  String
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([language, key])
+}
+
+model RegionRule {
+  id          String     @id @default(cuid())
+  countryCode String     @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
+  tier        RegionTier
+
+  @@unique([countryCode])
+}
+
+model Price {
+  id            String     @id @default(cuid())
+  product       String     @db.VarChar(64) // e.g., "chatforia_premium"
+  tier          RegionTier
+  currency      String     @db.VarChar(8) // e.g., "USD", "INR"
+  unitAmount    Int // minor units (e.g., $9.99 => 999)
+  stripePriceId String?    @unique
+  appleSku      String? // App Store product ID per storefront (optional)
+  googleSku     String? // Play Store product ID (optional)
+  active        Boolean    @default(true)
+
+  @@unique([product, tier, currency])
+  @@index([product, tier, currency])
+}
+
+model PriceOverride {
+  id            String   @id @default(cuid())
+  countryCode   String
+  plan          Plan
+  currency      String
+  priceCents    Int
+  stripePriceId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// ===================== 4) Family / Purchases / Provisioning =====================
+
 model FamilyGroup {
   id          Int    @id @default(autoincrement())
   ownerId     Int
@@ -451,62 +519,14 @@ model FamilyInvite {
   createdAt  DateTime           @default(now())
 }
 
-model Device {
-  id String @id @default(cuid())
-
-  userId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  publicKey  String
-  name       String?
-  platform   String?
-  isPrimary  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  lastSeenAt DateTime?
-  revokedAt  DateTime?
-
-  revokedById Int?
-  revokedBy   User? @relation("DeviceRevokedBy", fields: [revokedById], references: [id])
-
-  messageSessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Device")
-
-  @@index([userId])
-}
-
-model Language {
-  id          Int      @id @default(autoincrement())
-  code        String   @unique // e.g. 'en', 'es'
-  displayName String // e.g. 'English', 'Español'
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Translation {
-  id        Int      @id @default(autoincrement())
-  language  String
-  key       String
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([language, key])
-}
-
-model RegionRule {
-  id          String     @id @default(cuid())
-  countryCode String     @db.VarChar(2) // ISO 3166-1 alpha-2 (e.g., "US")
-  tier        RegionTier
-
-  @@unique([countryCode])
-}
-
 model MobileDataPackPurchase {
   id     Int  @id @default(autoincrement())
   userId Int
   user   User @relation(fields: [userId], references: [id])
 
-  kind        String // "ESIM" | "FAMILY"
-  addonKind   String // "ESIM_STARTER" | "FAMILY_SMALL" etc.
+  kind      String // "ESIM" | "FAMILY"
+  addonKind String // "ESIM_STARTER" | "FAMILY_SMALL" etc.
+
   purchasedAt DateTime  @default(now())
   expiresAt   DateTime?
 
@@ -544,7 +564,7 @@ model ProvisionLink {
   @@index([userId])
 }
 
-// ===================== 2) Conversation & Participation =====================
+// ===================== 5) Conversations & Participation =====================
 
 model ChatRoom {
   id              Int             @id @default(autoincrement())
@@ -582,6 +602,8 @@ model Participant {
   joinedAt   DateTime @default(now())
   allowAIBot Boolean  @default(true)
 
+  archivedAt DateTime?
+
   @@unique([chatRoomId, userId])
   @@index([chatRoomId], map: "part_room")
 }
@@ -611,7 +633,7 @@ model RandomChatRoom {
   aiEnabled    Boolean   @default(false)
 }
 
-// ===================== 3) Messaging =====================
+// ===================== 6) Messaging (Messages + E2EE + Media + Scheduling) =====================
 
 model Message {
   id                Int       @id @default(autoincrement())
@@ -626,7 +648,11 @@ model Message {
   audioUrl          String?
   audioDurationSec  Int?
   expiresAt         DateTime?
-  deletedBySender   Boolean   @default(false)
+
+  deletedBySender Boolean   @default(false)
+  deletedAt       DateTime?
+  deletedForAll   Boolean   @default(false)
+  deletedById     Int? // who triggered delete-for-everyone (sender/admin)
 
   senderId   Int
   chatRoomId Int
@@ -648,9 +674,23 @@ model Message {
 
   sessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Message")
 
+  deletions MessageDeletion[]
+
   @@index([expiresAt])
   @@index([chatRoomId, id], map: "msg_room_id")
   @@index([chatRoomId, createdAt], map: "msg_room_time")
+}
+
+model MessageKey {
+  messageId    Int
+  userId       Int
+  encryptedKey String
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([messageId, userId])
+  @@index([userId])
 }
 
 model MessageSessionKey {
@@ -671,16 +711,18 @@ model MessageSessionKey {
   @@index([recipientDeviceId])
 }
 
-model MessageKey {
-  messageId    Int
-  userId       Int
-  encryptedKey String
+model MessageDeletion {
+  id        Int      @id @default(autoincrement())
+  messageId Int
+  userId    Int
+  createdAt DateTime @default(now())
 
   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([messageId, userId])
+  @@unique([messageId, userId])
   @@index([userId])
+  @@index([messageId])
 }
 
 model MessageAttachment {
@@ -730,10 +772,10 @@ model ScheduledMessage {
 
   @@index([chatRoomId])
   @@index([senderId])
-  @@index([scheduledAt]) // ⬅️ new
+  @@index([scheduledAt])
 }
 
-// Upload
+// Uploads (media storage metadata)
 model Upload {
   id           Int      @id @default(autoincrement())
   ownerId      Int
@@ -745,13 +787,12 @@ model Upload {
   driver       String // 'local' | 's3'
   createdAt    DateTime @default(now())
 
-  // Name the relation to match User.uploads
   owner User @relation("UserUploads", fields: [ownerId], references: [id], onDelete: Cascade)
 
   // choose ONE of these uniqueness guarantees:
   // key is globally unique:
   // @unique on key:
-  // key          String   @unique
+  // key String @unique
   //
   // OR key is unique per owner:
   // @@unique([ownerId, key])
@@ -760,51 +801,42 @@ model Upload {
   @@index([sha256])
 }
 
+// SMS threads/messages (Twilio-style external SMS)
 model SmsThread {
   id           Int          @id @default(autoincrement())
   userId       Int
-  contactPhone String       @db.VarChar(32) // normalized E.164 of the *other party*
+  contactPhone String       @db.VarChar(32) // normalized E.164 of the other party
   createdAt    DateTime     @default(now())
   updatedAt    DateTime     @updatedAt
   messages     SmsMessage[]
 
-  // single relation to User, named to match User.smsThreads
   user User @relation("UserSmsThreads", fields: [userId], references: [id], onDelete: Cascade)
+
+  archivedAt DateTime?
 
   @@unique([userId, contactPhone])
   @@index([userId])
 }
 
 model SmsMessage {
-  id                Int       @id @default(autoincrement())
-  thread            SmsThread  @relation(fields: [threadId], references: [id])
+  id                Int      @id @default(autoincrement())
   threadId          Int
   direction         String // 'in' | 'out'
-  fromNumber        String    @db.VarChar(32)
-  toNumber          String    @db.VarChar(32)
+  fromNumber        String   @db.VarChar(32)
+  toNumber          String   @db.VarChar(32)
   body              String
   provider          String?
-  providerMessageId String?   @db.VarChar(128)
+  providerMessageId String?  @db.VarChar(128)
   mediaUrls         Json?
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime @default(now())
+
+  thread SmsThread @relation(fields: [threadId], references: [id])
 
   @@index([threadId])
   @@index([providerMessageId])
 }
 
-model AdInquiry {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  company   String?
-  budget    String? // free-text range, e.g. "$1k–$5k"
-  message   String
-  status    String   @default("new") // new | in_progress | closed (for later)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// ===================== 4) Contacts, Reports, Auditing =====================
+// ===================== 7) Contacts / Moderation / Support / Auditing =====================
 
 model Contact {
   id            Int      @id @default(autoincrement())
@@ -817,7 +849,6 @@ model Contact {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  // name the two different relations to User:
   owner User  @relation("ContactsOwned", fields: [ownerId], references: [id])
   user  User? @relation("ContactsSaved", fields: [userId], references: [id])
 
@@ -825,16 +856,6 @@ model Contact {
   @@unique([ownerId, externalPhone], name: "ownerId_externalPhone")
   @@index([ownerId])
   @@index([userId])
-}
-
-model SupportTicket {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  message   String
-  status    String   @default("new") // "new" | "in_progress" | "closed" later if you want
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Report {
@@ -872,12 +893,33 @@ model AuditLog {
   @@index([action, createdAt])
 }
 
-// ===================== 5) Status / Stories =====================
+model SupportTicket {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  status    String   @default("new") // "new" | "in_progress" | "closed"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AdInquiry {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  company   String?
+  budget    String? // free-text range, e.g. "$1k–$5k"
+  message   String
+  status    String   @default("new") // new | in_progress | closed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ===================== 8) Status / Stories =====================
 
 model Status {
   id                Int            @id @default(autoincrement())
   authorId          Int
-  author            User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
   captionCiphertext String?
   encryptedKeys     Json?
   translatedFrom    String?
@@ -886,6 +928,8 @@ model Status {
   audience          StatusAudience @default(MUTUALS)
   expiresAt         DateTime
   createdAt         DateTime       @default(now())
+
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
   assets    StatusAsset[]
   keys      StatusKey[]
@@ -898,7 +942,6 @@ model Status {
 model StatusAsset {
   id          Int             @id @default(autoincrement())
   statusId    Int
-  status      Status          @relation(fields: [statusId], references: [id], onDelete: Cascade)
   kind        StatusAssetKind
   url         String
   mimeType    String
@@ -907,6 +950,8 @@ model StatusAsset {
   durationSec Int?
   caption     String?
   createdAt   DateTime        @default(now())
+
+  status Status @relation(fields: [statusId], references: [id], onDelete: Cascade)
 
   @@index([statusId])
 }
@@ -947,7 +992,7 @@ model StatusReaction {
   @@index([statusId, emoji], map: "status_emoji")
 }
 
-// ===================== 6) Bots & Automation =====================
+// ===================== 9) Bots & Automation =====================
 
 model Bot {
   id      Int  @id @default(autoincrement())
@@ -1006,16 +1051,17 @@ model BotEventLog {
 
 model ForiaMessage {
   id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id])
   userId    Int
   role      String // 'user' or 'assistant'
   content   String   @db.Text
   createdAt DateTime @default(now())
 
+  user User @relation(fields: [userId], references: [id])
+
   @@index([userId, createdAt])
 }
 
-// ===================== 7) Calls =====================
+// ===================== 10) Telecom: Calls / Numbers / Voicemail / Porting =====================
 
 model Call {
   id       Int        @id @default(autoincrement())
@@ -1031,7 +1077,6 @@ model Call {
   startedAt DateTime?
   endedAt   DateTime?
 
-  // ⬇️ use the SAME relation names as User.callsPlaced / callsReceived
   caller User @relation("CallCaller", fields: [callerId], references: [id])
   callee User @relation("CallCallee", fields: [calleeId], references: [id])
 
@@ -1040,15 +1085,13 @@ model Call {
   @@index([roomId])
 }
 
-// ===================== 8) Phone Numbers =====================
-
 model PhoneNumber {
   id             Int               @id @default(autoincrement())
   e164           String            @unique
   provider       String            @default("twilio")
   twilioSid      String?
   areaCode       String?
-  isoCountry     String?           @db.VarChar(2) // ✅ NEW: 'US', 'CA', ...
+  isoCountry     String?           @db.VarChar(2) // 'US', 'CA', ...
   capabilities   Json?
   vanity         Boolean           @default(false)
   forSale        Boolean           @default(false)
@@ -1063,7 +1106,8 @@ model PhoneNumber {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   source         PhoneNumberSource @default(PROVISIONED)
-  voicemails     Voicemail[]       @relation("PhoneNumberVoicemails")
+
+  voicemails Voicemail[] @relation("PhoneNumberVoicemails")
 
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
   reservations NumberReservation[] @relation("PhoneNumberReservations")
@@ -1072,47 +1116,8 @@ model PhoneNumber {
   @@index([assignedUserId])
   @@index([provider, areaCode, status])
   @@index([isoCountry, status])
-
   @@index([isoCountry, areaCode, status, forSale])
   @@index([provider, isoCountry, areaCode, status, forSale])
-}
-
-model VoiceLog {
-  id          Int      @id @default(autoincrement())
-  callSid     String   @unique
-  status      String
-  from        String?
-  to          String?
-  direction   String?
-  answeredBy  String?
-  timestamp   DateTime @default(now())
-  durationSec Int?
-  rawPayload  Json?
-  createdAt   DateTime @default(now())
-}
-
-model Voicemail {
-  id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
-
-  phoneNumber   PhoneNumber? @relation("PhoneNumberVoicemails", fields: [phoneNumberId], references: [id])
-  phoneNumberId Int?
-
-  fromNumber String
-  toNumber   String
-
-  audioUrl         String // can start as Twilio RecordingUrl; later migrate to R2
-  durationSec      Int?
-  transcript       String?
-  transcriptStatus VoicemailTranscriptStatus @default(PENDING)
-
-  isRead    Boolean   @default(false)
-  deleted   Boolean   @default(false)
-  deletedAt DateTime?
-
-  createdAt          DateTime  @default(now())
-  forwardedToEmailAt DateTime?
 }
 
 model NumberReservation {
@@ -1130,8 +1135,8 @@ model NumberReservation {
 
 model PortRequest {
   id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
   userId Int
+  user   User   @relation(fields: [userId], references: [id])
 
   phoneNumber String
 
@@ -1161,7 +1166,45 @@ model PortRequest {
   updatedAt DateTime @updatedAt
 }
 
-// ===================== 9) Accessibility Transcripts =====================
+model VoiceLog {
+  id          Int      @id @default(autoincrement())
+  callSid     String   @unique
+  status      String
+  from        String?
+  to          String?
+  direction   String?
+  answeredBy  String?
+  timestamp   DateTime @default(now())
+  durationSec Int?
+  rawPayload  Json?
+  createdAt   DateTime @default(now())
+}
+
+model Voicemail {
+  id     String @id @default(cuid())
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
+
+  phoneNumberId Int?
+  phoneNumber   PhoneNumber? @relation("PhoneNumberVoicemails", fields: [phoneNumberId], references: [id])
+
+  fromNumber String
+  toNumber   String
+
+  audioUrl         String
+  durationSec      Int?
+  transcript       String?
+  transcriptStatus VoicemailTranscriptStatus @default(PENDING)
+
+  isRead    Boolean   @default(false)
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+
+  createdAt          DateTime  @default(now())
+  forwardedToEmailAt DateTime?
+}
+
+// ===================== 11) Accessibility / Usage =====================
 
 model Transcript {
   id        String   @id @default(uuid())
@@ -1183,7 +1226,7 @@ model STTUsage {
   id        Int      @id @default(autoincrement())
   userId    Int
   monthKey  String // e.g., '2025-08'
-  seconds   Int      @default(0) // consumed STT seconds (voice notes + live captions)
+  seconds   Int      @default(0) // consumed STT seconds
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 

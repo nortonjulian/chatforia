@@ -4,34 +4,59 @@ import jwt from 'jsonwebtoken';
 import prisma from './utils/prismaClient.js';
 import { setSocketIo } from './services/socketBus.js';
 
-// If your random chat module does not export this, either add a no-op export there or comment this out:
-import { attachRandomChatSockets } from './routes/randomChats.js';
+/** Env helpers */
+const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
+const IS_PROD = String(process.env.NODE_ENV || '') === 'production';
 
-/** CORS origins */
+/**
+ * Parse allowed CORS origins for Socket.IO.
+ *
+ * Recommended:
+ * - set CORS_ORIGINS="https://chatforia.com,https://www.chatforia.com,http://localhost:5173"
+ *
+ * Behavior:
+ * - If env is provided, we use it exactly.
+ * - If env is missing:
+ *   - dev/test fallback: localhost
+ *   - prod fallback: chatforia.com domains (so you don't brick prod if env missing)
+ */
 function parseOrigins() {
-  const fallback = ['http://localhost:5173', 'http://localhost:5002'];
   const raw =
     process.env.CORS_ORIGINS ||
     process.env.FRONTEND_ORIGIN ||
     process.env.WEB_ORIGIN ||
     '';
+
   const list = raw
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-  return list.length ? list : fallback;
+
+  if (list.length) return list;
+
+  // Sensible defaults if env isn't set
+  if (IS_PROD) {
+    return ['https://chatforia.com', 'https://www.chatforia.com'];
+  }
+
+  return ['http://localhost:5173', 'http://localhost:5002'];
 }
 
 /** Extract JWT from handshake */
 function getTokenFromHandshake(handshake) {
-  if (handshake.auth?.token) return handshake.auth.token; // preferred
-  if (handshake.query?.token) return handshake.query.token; // optional fallback
+  // 1) Preferred: explicit auth token
+  if (handshake.auth?.token) return handshake.auth.token;
 
+  // 2) Optional fallback: query token
+  if (handshake.query?.token) return handshake.query.token;
+
+  // 3) Cookie token (preferred if you’re using cookie auth on web)
   if (handshake.headers?.cookie) {
     const cookies = cookie.parse(handshake.headers.cookie || '');
     const name = process.env.JWT_COOKIE_NAME || 'foria_jwt';
     if (cookies[name]) return cookies[name];
   }
+
   return null;
 }
 
@@ -50,7 +75,10 @@ async function getUserRoomIds(userId) {
  */
 export function initSocket(httpServer) {
   const io = new Server(httpServer, {
-    cors: { origin: parseOrigins(), credentials: true },
+    cors: {
+      origin: parseOrigins(),
+      credentials: true,
+    },
     path: '/socket.io',
   });
 
@@ -99,14 +127,21 @@ export function initSocket(httpServer) {
         return next(new Error('Unauthorized: no token'));
       }
 
-      const secret = process.env.JWT_SECRET;
-      if (!secret) return next(new Error('Server misconfiguration: JWT secret missing'));
+      // ✅ Match server/middleware/auth.js fallback behavior
+      const secret =
+        process.env.JWT_SECRET || (IS_TEST ? 'test_secret' : 'dev_secret');
 
-      const decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
+      let decoded;
+      try {
+        decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
+      } catch (e) {
+        console.warn('[WS] jwt verify failed', e?.message || e);
+        return next(new Error('Unauthorized'));
+      }
 
       // Hydrate from DB (preferredLanguage, etc.)
       const user = await prisma.user.findUnique({
-        where: { id: decoded.id },
+        where: { id: Number(decoded.id) },
         select: {
           id: true,
           email: true,
@@ -126,10 +161,10 @@ export function initSocket(httpServer) {
       socket.user = user;
       socket.data.user = user;
 
-      // personal unicast room
+      // personal unicast room (for per-user events like delete-for-me)
       socket.join(`user:${user.id}`);
 
-      if (process.env.NODE_ENV !== 'test') {
+      if (!IS_TEST) {
         console.log('[WS] authed socket user:', {
           id: user.id,
           username: user.username,
@@ -138,23 +173,33 @@ export function initSocket(httpServer) {
         });
       }
 
-      next();
+      return next();
     } catch (err) {
       console.error('[WS] auth failed:', err?.message || err);
-      next(new Error('Unauthorized'));
+      return next(new Error('Unauthorized'));
     }
   });
 
-  // ---- Feature sockets that need an authenticated socket ----
-  if (typeof attachRandomChatSockets === 'function') {
-    attachRandomChatSockets(io);
-  }
+  // ---- Attach feature sockets (safe import) ----
+  (async () => {
+    try {
+      const mod = await import('./routes/randomChats.js');
+      if (typeof mod.attachRandomChatSockets === 'function') {
+        mod.attachRandomChatSockets(io);
+      }
+    } catch (e) {
+      // random chats are optional — never crash socket layer
+      if (!IS_TEST) {
+        console.warn('[WS] random chat sockets not attached:', e?.message || e);
+      }
+    }
+  })().catch(() => {});
 
   // ---- Connection handler ----
   io.on('connection', async (socket) => {
     const userId = socket.user?.id;
 
-    if (process.env.NODE_ENV !== 'test') {
+    if (!IS_TEST) {
       console.log('[WS] connected user:', socket.user?.username || userId);
     }
 
@@ -171,13 +216,13 @@ export function initSocket(httpServer) {
       }
     }
 
-    // Bulk join
+    // Bulk join (preferred)
     socket.on('join:rooms', async (roomIds) => {
       try {
         if (!Array.isArray(roomIds)) return;
         const ids = roomIds.map((r) => String(r)).filter(Boolean);
         for (const rid of ids) await socket.join(rid);
-        console.log(`[WS] user:${userId} joined rooms:`, ids);
+        if (!IS_TEST) console.log(`[WS] user:${userId} joined rooms:`, ids);
       } catch (e) {
         console.warn('[WS] join:rooms error', e?.message || e);
       }
@@ -185,19 +230,27 @@ export function initSocket(httpServer) {
 
     // Back-compat: single join/leave
     socket.on('join_room', async (roomId) => {
-      if (!roomId) return;
-      await socket.join(String(roomId));
-      console.log(`[WS] user:${userId} joined room ${roomId}`);
+      try {
+        if (!roomId) return;
+        await socket.join(String(roomId));
+        if (!IS_TEST) console.log(`[WS] user:${userId} joined room ${roomId}`);
+      } catch (e) {
+        console.warn('[WS] join_room error', e?.message || e);
+      }
     });
 
     socket.on('leave_room', async (roomId) => {
-      if (!roomId) return;
-      await socket.leave(String(roomId));
-      console.log(`[WS] user:${userId} left room ${roomId}`);
+      try {
+        if (!roomId) return;
+        await socket.leave(String(roomId));
+        if (!IS_TEST) console.log(`[WS] user:${userId} left room ${roomId}`);
+      } catch (e) {
+        console.warn('[WS] leave_room error', e?.message || e);
+      }
     });
 
     socket.on('disconnect', (reason) => {
-      if (process.env.NODE_ENV !== 'test') {
+      if (!IS_TEST) {
         console.log(`[WS] user:${userId} disconnected:`, reason);
       }
     });

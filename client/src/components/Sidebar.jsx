@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
+import NewConversationModal from './NewChatModalHost';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
 
@@ -76,14 +77,14 @@ function Sidebar({ currentUser, features = {} }) {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
 
-  const onSelectConversation = useCallback((c) => {
-  console.log('[select conversation]', c);
-  if (!c) return;
-
-  if (c.kind === 'sms') navigate(`/sms/${c.id}`);
-  else navigate(`/chat/${c.id}`);
-}, [navigate]);
-
+  const onSelectConversation = useCallback(
+  (thread) => {
+    if (!thread) return;
+    if (thread.kind === 'sms') navigate(`/sms/${thread.id}`);
+    else navigate(`/chat/${thread.id}`);
+  },
+  [navigate]
+);
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -240,7 +241,7 @@ function Sidebar({ currentUser, features = {} }) {
             }}
             onSelect={onSelectConversation}
             hideEmpty
-            listOnly
+            listOnly={false}
             filterQuery={query}
             onCountChange={setCount}
           />

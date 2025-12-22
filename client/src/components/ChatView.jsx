@@ -1,106 +1,68 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import clsx from 'clsx';
 import {
   Box,
   Group,
-  Avatar,
-  Paper,
   Text,
   Button,
-  Menu,
-  Divider,
   Stack,
   ScrollArea,
   Title,
   Badge,
   ActionIcon,
   Tooltip,
-  Skeleton,
 } from '@mantine/core';
 import {
-  IconSettings,
-  IconUserPlus,
-  IconInfoCircle,
   IconSearch,
   IconPhoto,
-  IconRotateClockwise,
   IconDice5,
-  IconDotsVertical,
-  IconCalendarPlus,
-  IconSparkles,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import dayjs from 'dayjs';
-import ReactionBar from './ReactionBar.jsx';
-import EventSuggestionBar from './EventSuggestionBar.jsx';
-import TranslatedText from './chat/TranslatedText.jsx';
-import socket from '../lib/socket';
-import { isOutgoingMessage, isSystemMessage } from '../utils/messageDirection.js';
-import { decryptFetchedMessages, getUnlockedPrivateKey } from '../utils/encryptionClient';
-import ThreadComposer from '@/threads/ThreadComposer.jsx';
-import ThreadShell from '../threads/ThreadShell.jsx';
-import axiosClient from '../api/axiosClient';
-import MessageInput from './MessageInput';
 
-import '@/styles.css';
+import ThreadComposer from '@/threads/ThreadComposer.jsx';
+import ThreadShell from '@/threads/ThreadShell.jsx';
+import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
+
+import socket from '@/lib/socket';
+import axiosClient from '@/api/axiosClient';
+
+import { decryptFetchedMessages, getUnlockedPrivateKey } from '@/utils/encryptionClient';
 
 // ✅ Smart Replies
-import SmartReplyBar from './SmartReplyBar.jsx';
-import { useSmartReplies } from '../hooks/useSmartReplies.js';
+import SmartReplyBar from '@/components/SmartReplyBar.jsx';
+import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 
 // ✅ Prefs cache (IndexedDB)
-import { getPref, setPref, PREF_SMART_REPLIES } from '../utils/prefsStore';
+import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
 // ✅ Local message cache for search/media
-import { addMessages } from '../utils/messagesStore';
+import { addMessages } from '@/utils/messagesStore';
 
 // ✅ Modals
-import RoomSettingsModal from './RoomSettingsModal.jsx';
-import RoomInviteModal from './RoomInviteModal.jsx';
-import RoomAboutModal from './RoomAboutModal.jsx';
-import RoomSearchDrawer from './RoomSearchDrawer.jsx';
-import MediaGalleryModal from './MediaGalleryModal.jsx';
+import RoomSettingsModal from '@/components/RoomSettingsModal.jsx';
+import RoomInviteModal from '@/components/RoomInviteModal.jsx';
+import RoomAboutModal from '@/components/RoomAboutModal.jsx';
+import RoomSearchDrawer from '@/components/RoomSearchDrawer.jsx';
+import MediaGalleryModal from '@/components/MediaGalleryModal.jsx';
 
-import { playSound } from '../lib/sounds.js';
+import { playSound } from '@/lib/sounds.js';
 
 // 🔒 Premium check
 import useIsPremium from '@/hooks/useIsPremium';
 
 // 🧱 Ads (render only for Free users)
 import { CardAdWrap } from '@/ads/AdWrappers';
-import AdSlot from '@/ads/AdSlot';
 import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import { useAds } from '@/ads/AdProvider';
-
 import { ADS_CONFIG } from '@/ads/config';
 
-// 🔊 Voice notes (audio)
-import AudioMessage from '@/messages/AudioMessage.jsx';
+// ✅ Message row UI (menu + tombstone)
+import MessageBubble from '@/components/chat/MessageBubble.jsx';
 
-// 🌊 Waveform bar for audio attachments
-import WaveformBar from '@/components/WaveformBar.jsx';
-
-/* ---------- layout constants ---------- */
-/**
- * IMPORTANT:
- * - We no longer constrain ChatView to CONTENT_MAX.
- * - The thread should span the full center panel width (between conversations + ads).
- * - Message bubbles still keep their own maxWidth for readability.
- */
-// const CONTENT_MAX = 900;
+import '@/styles.css';
 
 /* ---------- helpers ---------- */
-function getTimeLeftString(expiresAt) {
-  const now = Date.now();
-  const expires = new Date(expiresAt).getTime();
-  const diff = expires - now;
-  if (diff <= 0) return 'Expired';
-  const seconds = Math.floor(diff / 1000);
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins > 0 ? `${mins}m ` : ''}${secs}s`;
-}
 
 function useNow(interval = 1000) {
   const [now, setNow] = useState(Date.now());
@@ -131,6 +93,7 @@ function useDismissed(key, days = 14) {
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
+  const navigate = useNavigate();
 
   const [messages, setMessages] = useState([]); // oldest → newest
   const [typingUser, setTypingUser] = useState('');
@@ -156,14 +119,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const [draft, setDraft] = useState('');
 
-  // 📅 Optional: force a specific message's text into the thread-level calendar modal
-  const [forcedCalendarText, setForcedCalendarText] = useState(null);
+  // Ads context (caps / cool-downs)
+  const ads = useAds();
+  const canShow = ads?.canShow || (() => true);
+  const markShown = ads?.markShown || (() => {});
 
-  if (import.meta.env.DEV) {
-    console.log('[ChatView] PLACEMENTS', PLACEMENTS);
-    console.log('[ChatView] isPremium', isPremium);
-  }
-
+  // “owner/admin” controls
   const isOwnerOrAdmin =
     currentUser?.role === 'ADMIN' || currentUser?.id === chatroom?.ownerId;
 
@@ -195,13 +156,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const messagesEndRef = useRef(null);
   const scrollViewportRef = useRef(null);
-  const now = useNow();
-  const navigate = useNavigate();
-
-  // Ads context (caps / cool-downs)
-  const ads = useAds();
-  const canShow = ads?.canShow || (() => true);
-  const markShown = ads?.markShown || (() => {});
+  useNow(); // keeps any “time-based” UI responsive if you add countdowns later
 
   // Center-panel empty-state promo control
   const [emptyDismissed] = useDismissed('empty_state_promo', 14);
@@ -215,50 +170,145 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (shouldShowEmptyPromo) markShown(PLACEMENTS.EMPTY_STATE_PROMO, 'app');
   }, [shouldShowEmptyPromo, markShown]);
 
-  const handleEditMessage = async (msg) => {
-    const newText = prompt('Edit:', msg.rawContent || msg.content);
-    if (!newText || newText === msg.rawContent) return;
+  /* ---------- message normalization ---------- */
+
+  const normalizeMsg = useCallback(
+    (m) => {
+      const mine =
+        Boolean(m.mine) ||
+        m.sender?.id === currentUserId ||
+        m.senderId === currentUserId;
+
+      const content =
+        m.decryptedContent ||
+        m.translatedForMe ||
+        m.rawContent ||
+        m.content ||
+        '';
+
+      return { ...m, mine, content };
+    },
+    [currentUserId]
+  );
+
+  const canEditMessage = useCallback(
+    (m) => {
+      if ((m.sender?.id || m.senderId) !== currentUserId) return false;
+      if (m.deletedForAll) return false;
+      return true;
+    },
+    [currentUserId]
+  );
+
+  const canDeleteForEveryone = useCallback(
+    (m) => {
+      if ((m.sender?.id || m.senderId) !== currentUserId) return false;
+      if (m.deletedForAll) return false;
+      return true;
+    },
+    [currentUserId]
+  );
+
+  /* ---------- scrolling ---------- */
+
+  const scrollToBottomNow = useCallback(() => {
+    const v = scrollViewportRef.current;
+    if (v) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          v.scrollTop = v.scrollHeight;
+        });
+      });
+    } else {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+    }
+    setShowNewMessage(false);
+  }, []);
+
+  const scrollToBottom = useCallback(() => {
+    const v = scrollViewportRef.current;
+    if (!v) return messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    requestAnimationFrame(() => {
+      v.scrollTop = v.scrollHeight;
+    });
+    setShowNewMessage(false);
+  }, []);
+
+  /* ---------- backend ops: edit/delete ---------- */
+
+  const handleEditMessage = useCallback(async (msg) => {
+    const current = msg.rawContent ?? msg.content ?? '';
+    const newText = prompt('Edit:', current);
+    if (!newText || newText === current) return;
 
     try {
       const { data: updated } = await axiosClient.patch(
         `/messages/${msg.id}/edit`,
         { newContent: newText }
       );
+
+      // Local patch (socket will also patch other devices)
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === updated.id
-            ? { ...m, rawContent: newText, content: newText }
+          m.id === (updated?.id ?? msg.id)
+            ? {
+                ...m,
+                rawContent: newText,
+                content: newText,
+                editedAt: updated?.editedAt ?? new Date().toISOString(),
+              }
             : m
         )
       );
     } catch (error) {
       console.error('Message edit failed', error);
     }
-  };
+  }, []);
 
-  const scrollToBottomNow = (behavior = 'auto') => {
-  const v = scrollViewportRef.current;
-  if (v) {
-    // make the ScrollArea viewport the scroll owner
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        v.scrollTop = v.scrollHeight;
+  const handleDeleteMessage = useCallback(
+    async (msg, mode = 'me') => {
+      const ok = window.confirm(
+        mode === 'all' ? 'Delete for everyone?' : 'Delete this message for you?'
+      );
+      if (!ok) return;
+
+      // Optimistic UI
+      setMessages((prev) => {
+        if (mode === 'me') return prev.filter((m) => m.id !== msg.id);
+        return prev.map((m) =>
+          m.id === msg.id
+            ? {
+                ...m,
+                deletedForAll: true,
+                rawContent: '',
+                content: '',
+                translatedForMe: null,
+                attachments: [],
+              }
+            : m
+        );
       });
-    });
-  } else {
-    messagesEndRef.current?.scrollIntoView({ behavior });
-  }
-  setShowNewMessage(false);
-};
 
-// keep existing name if you want
-const scrollToBottom = () => scrollToBottomNow('smooth');
+      try {
+        await axiosClient.delete(`/messages/${msg.id}`, {
+          params: { mode },
+          data: { mode },
+        });
+      } catch (e) {
+        console.error('Delete failed', e);
+        loadMore(true);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
+  /* ---------- pagination loader (initial + older pages) ---------- */
 
-  // --- Pagination loader (initial + older pages) ---
   async function loadMore(initial = false) {
     if (!chatroom?.id || loading) return;
     setLoading(true);
+
     try {
       const params = new URLSearchParams();
       params.set('limit', initial ? '50' : '30');
@@ -271,7 +321,9 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
       let priv = null;
       try {
         priv = await getUnlockedPrivateKey();
-      } catch {}
+      } catch {
+        // ignore
+      }
 
       const decrypted = await decryptFetchedMessages(
         data.items || [],
@@ -280,7 +332,7 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
         currentUserId
       );
 
-      // newest → oldest from server; render oldest → newest
+      // server: newest → oldest; UI: oldest → newest
       const chronological = decrypted.slice().reverse();
 
       if (initial) {
@@ -309,23 +361,27 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
     }
   }
 
-  // --- Initial load / room change ---
+  /* ---------- initial load / room change ---------- */
+
   useEffect(() => {
     setMessages([]);
     setCursor(null);
     setShowNewMessage(false);
+
     if (chatroom?.id) {
       loadMore(true);
       socket.emit('join:rooms', [String(chatroom.id)]);
       socket.emit('join_room', chatroom.id); // back-compat
     }
+
     return () => {
       if (chatroom?.id) socket.emit('leave_room', chatroom.id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatroom?.id]);
 
-  // --- Infinite scroll: load older when near TOP ---
+  /* ---------- infinite scroll: load older when near TOP ---------- */
+
   useEffect(() => {
     const v = scrollViewportRef.current;
     if (!v) return;
@@ -339,7 +395,8 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
     return () => v.removeEventListener('scroll', onScroll);
   }, [cursor, loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // --- Realtime: receiving new messages ---
+  /* ---------- realtime: new messages + typing ---------- */
+
   useEffect(() => {
     if (!chatroom || !currentUserId) return;
 
@@ -350,7 +407,9 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
         let priv = null;
         try {
           priv = await getUnlockedPrivateKey();
-        } catch {}
+        } catch {
+          // ignore
+        }
 
         const [decrypted] = await decryptFetchedMessages(
           [data],
@@ -390,7 +449,7 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
       }
     };
 
-    const handleTyping = ({ username }) => setTypingUser(username);
+    const handleTyping = ({ username }) => setTypingUser(username || '');
     const handleStopTyping = () => setTypingUser('');
 
     socket.on('receive_message', handleReceiveMessage);
@@ -402,9 +461,10 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
       socket.off('user_typing', handleTyping);
       socket.off('user_stopped_typing', handleStopTyping);
     };
-  }, [chatroom, currentUserId]);
+  }, [chatroom, currentUserId, scrollToBottomNow]);
 
-  // --- Expired message listener ---
+  /* ---------- realtime: expired messages ---------- */
+
   useEffect(() => {
     if (!chatroom) return;
     const onExpired = ({ id }) => {
@@ -414,19 +474,76 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
     return () => socket.off('message_expired', onExpired);
   }, [chatroom?.id]);
 
-  // --- Copy notice listener ---
+  /* ---------- realtime: message edited/deleted ---------- */
+
   useEffect(() => {
-    const onCopyNotice = ({ toUserId }) => {
-      if (toUserId !== currentUserId) return;
+    const onEdited = (payload) => {
+      const messageId = payload?.messageId ?? payload?.id ?? payload?.message?.id;
+      const rawContent =
+        payload?.rawContent ??
+        payload?.content ??
+        payload?.message?.rawContent ??
+        payload?.message?.content;
+
+      const editedAt =
+        payload?.editedAt ?? payload?.message?.editedAt ?? new Date().toISOString();
+
+      if (!messageId) return;
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === messageId ? { ...m, rawContent, content: rawContent, editedAt } : m
+        )
+      );
     };
-    socket.on('message_copy_notice', onCopyNotice);
-    return () => socket.off('message_copy_notice', onCopyNotice);
+
+    socket.on('message_edited', onEdited);
+    return () => socket.off('message_edited', onEdited);
+  }, []);
+
+  useEffect(() => {
+    const onDeleted = (payload) => {
+      const messageId = payload?.messageId ?? payload?.id ?? payload?.message?.id;
+      if (!messageId) return;
+
+      const scope = payload?.scope ?? payload?.mode ?? payload?.message?.scope ?? 'me';
+      const deletedForAll = scope === 'all';
+
+      if (!deletedForAll) {
+        const targetUserId = Number(payload?.userId);
+        if (Number.isFinite(targetUserId) && targetUserId !== Number(currentUserId)) return;
+        setMessages((prev) => prev.filter((m) => m.id !== messageId));
+        return;
+      }
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === messageId
+            ? {
+                ...m,
+                deletedForAll: true,
+                deletedAt: payload?.deletedAt ?? new Date().toISOString(),
+                deletedById: payload?.deletedById ?? payload?.deletedById,
+                rawContent: '',
+                content: '',
+                translatedForMe: null,
+                attachments: [],
+              }
+            : m
+        )
+      );
+    };
+
+    socket.on('message_deleted', onDeleted);
+    return () => socket.off('message_deleted', onDeleted);
   }, [currentUserId]);
 
-  // 🔔 Real-time: read receipts
+  /* ---------- realtime: read receipts ---------- */
+
   useEffect(() => {
     const onRead = ({ messageId, reader }) => {
       if (!reader || reader.id === currentUserId) return;
+
       setMessages((prev) =>
         prev.map((m) =>
           m.id === messageId
@@ -442,11 +559,13 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
         )
       );
     };
+
     socket.on('message_read', onRead);
     return () => socket.off('message_read', onRead);
   }, [currentUserId]);
 
-  // ✅ Reactions live updates
+  /* ---------- realtime: reactions ---------- */
+
   useEffect(() => {
     const onReaction = ({ messageId, emoji, op, user, count }) => {
       setMessages((prev) =>
@@ -470,11 +589,13 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
         })
       );
     };
+
     socket.on('reaction_updated', onReaction);
     return () => socket.off('reaction_updated', onReaction);
   }, [currentUserId]);
 
-  // ✅ Smart Replies
+  /* ---------- smart replies ---------- */
+
   const { suggestions, clear } = useSmartReplies({
     messages,
     currentUserId,
@@ -488,7 +609,8 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
     clear();
   };
 
-  // === Premium toolbar actions (handler-level guard) ===
+  /* ---------- premium toolbar actions ---------- */
+
   const runPowerAi = async () => {
     if (!isPremium) return navigate('/upgrade');
     try {
@@ -522,7 +644,31 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
     }
   };
 
-  // === Retry failed optimistic message ===
+  /* ---------- ✅ Block (added for parity with SMS) ---------- */
+
+  const handleBlock = useCallback(async () => {
+    const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
+    const other =
+      participants.find((p) => String(p?.id) !== String(currentUserId)) || null;
+
+    const name =
+      other?.username || other?.displayName || other?.phone || other?.id || 'this user';
+
+    const ok = window.confirm(`Block ${name}? You won’t receive messages from them.`);
+    if (!ok) return;
+
+    try {
+      // TODO: wire to real block endpoint
+      // await axiosClient.post('/blocks', { targetUserId: other?.id, scope: 'chat' });
+
+      console.log('[block] todo', { chatRoomId: chatroom?.id, targetUserId: other?.id });
+    } catch (e) {
+      console.error('Block failed', e);
+    }
+  }, [chatroom?.id, chatroom?.participants, currentUserId]);
+
+  /* ---------- retry failed optimistic message ---------- */
+
   async function handleRetry(failedMsg) {
     try {
       const payload = {
@@ -534,53 +680,20 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
       const { data: saved } = await axiosClient.post('/messages', payload, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
-      setMessages((prev) =>
-        prev.map((m) => (m.id === failedMsg.id ? { ...saved } : m))
-      );
+      setMessages((prev) => prev.map((m) => (m.id === failedMsg.id ? { ...saved } : m)));
     } catch (e) {
       console.error('Retry send failed', e);
     }
   }
 
-  const renderReadBy = (msg) => {
-    if (!currentUser?.showReadReceipts) return null;
-    if (msg.sender?.id !== currentUserId) return null;
-    const readers = (msg.readBy || []).filter((u) => u.id !== currentUserId);
-    if (!readers.length) return null;
-
-    const limit = 3;
-    const shown = readers.slice(0, limit).map((u) => u.username).join(', ');
-    const extra = readers.length - limit;
-
-    return (
-      <Text size="xs" mt={4} c="gray.6" ta="right" fs="italic">
-        Read by: {shown}
-        {extra > 0 ? ` +${extra}` : ''}
-      </Text>
-    );
-  };
-
-  // Decide where to inject inline ads in the thread (Free users)
-  const inlineAdPositions = useMemo(() => {
-    if (isPremium) return [];
-    const n = messages.length;
-    if (n < 8) return [];
-    const positions = [];
-    positions.push(6);
-    for (let i = 36; i < n - 3; i += 30) positions.push(i);
-    return positions;
-  }, [isPremium, messages.length]);
-
   /* ---------- empty state (no chat selected) ---------- */
+
   if (!chatroom) {
-    if (import.meta.env.DEV) {
-      console.log('[ChatView] empty-state flags', {
-        isPremium,
-        emptyDismissed,
-        canShow: ads?.canShow && ads.canShow('empty_state_promo', 'app'),
-        houseKeys: Object.keys(ADS_CONFIG?.house || {}),
-      });
-    }
+    const showPromo =
+      !isPremium &&
+      !emptyDismissed &&
+      canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
+      Object.keys(ADS_CONFIG?.house || {}).length > 0;
 
     return (
       <Box p="md">
@@ -591,30 +704,31 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
           <Text c="dimmed" mb="md">
             Pick a chat on the left to get started.
           </Text>
+
+          {!isPremium && showPromo && (
+            <CardAdWrap>
+              <HouseAdSlot placement="empty_state_promo" variant="card" />
+            </CardAdWrap>
+          )}
         </Box>
       </Box>
     );
   }
 
+  /* ---------- privacy settings ---------- */
+
   const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
   const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
 
-  const handleAddToCalendarFromMessage = (msg) => {
-    const text =
-      msg?.decryptedContent ||
-      msg?.translatedForMe ||
-      msg?.rawContent ||
-      msg?.content ||
-      '';
-    if (text) setForcedCalendarText(text);
-  };
+  /* ---------- ads inside thread ---------- */
 
-  const showThreadTop =
-    !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
+  const showThreadTop = !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
 
   useEffect(() => {
     if (showThreadTop) markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
   }, [showThreadTop, markShown, chatroom?.id]);
+
+  /* ---------- render ---------- */
 
   return (
     <ThreadShell
@@ -632,7 +746,6 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
           onTouchStart={holdToReveal ? () => setReveal(true) : undefined}
           onTouchEnd={holdToReveal ? () => setReveal(false) : undefined}
         >
-          {/* Full width header (no max-width cap) */}
           <Box
             w="100%"
             style={{
@@ -644,7 +757,6 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
           >
             <Group mb="sm" justify="space-between" wrap="nowrap">
               <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
-                {/* ✅ remove useless "Chat" label; show name only */}
                 <Title
                   order={4}
                   style={{
@@ -658,11 +770,7 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
                 </Title>
 
                 {isRandomRoom && (
-                  <Badge
-                    variant="light"
-                    radius="sm"
-                    leftSection={<IconDice5 size={14} />}
-                  >
+                  <Badge variant="light" radius="sm" leftSection={<IconDice5 size={14} />}>
                     Random
                   </Badge>
                 )}
@@ -673,7 +781,6 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
                 )}
               </Group>
 
-              {/* ✅ toolbar should live here, always */}
               <Group gap="xs" wrap="nowrap">
                 <Tooltip label="Search" withArrow>
                   <ActionIcon
@@ -695,81 +802,26 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
                   </ActionIcon>
                 </Tooltip>
 
-                <Menu position="bottom-end" withinPortal shadow="md" radius="md">
-                  <Menu.Target>
-                    <ActionIcon variant="subtle" aria-label="Thread menu">
-                      <IconDotsVertical size={18} />
-                    </ActionIcon>
-                  </Menu.Target>
-
-                  <Menu.Dropdown>
-                    <Menu.Label>Premium</Menu.Label>
-
-                    <Menu.Item
-                      leftSection={<IconSparkles size={16} />}
-                      onClick={runPowerAi}
-                    >
-                      AI Power {isPremium ? '' : '(Upgrade)'}
-                    </Menu.Item>
-
-                    <Menu.Item
-                      leftSection={<IconCalendarPlus size={16} />}
-                      onClick={openSchedulePrompt}
-                    >
-                      Schedule {isPremium ? '' : '(Upgrade)'}
-                    </Menu.Item>
-
-                    <Divider my="xs" />
-
-                    <Menu.Label>Thread</Menu.Label>
-
-                    <Menu.Item
-                      leftSection={<IconInfoCircle size={16} />}
-                      onClick={() => setAboutOpen(true)}
-                    >
-                      About
-                    </Menu.Item>
-
-                    <Menu.Item
-                      leftSection={<IconSearch size={16} />}
-                      onClick={() => setSearchOpen(true)}
-                    >
-                      Search
-                    </Menu.Item>
-
-                    <Menu.Item
-                      leftSection={<IconPhoto size={16} />}
-                      onClick={() => setGalleryOpen(true)}
-                    >
-                      Media
-                    </Menu.Item>
-
-                    {isOwnerOrAdmin && (
-                      <Menu.Item
-                        leftSection={<IconUserPlus size={16} />}
-                        onClick={() => setInviteOpen(true)}
-                      >
-                        Invite people
-                      </Menu.Item>
-                    )}
-
-                    {isOwnerOrAdmin && (
-                      <Menu.Item
-                        leftSection={<IconSettings size={16} />}
-                        onClick={() => setSettingsOpen(true)}
-                      >
-                        Room settings
-                      </Menu.Item>
-                    )}
-                  </Menu.Dropdown>
-                </Menu>
+                <ThreadActionsMenu
+                  isPremium={isPremium}
+                  showPremiumSection
+                  showThreadSection
+                  isOwnerOrAdmin={isOwnerOrAdmin}
+                  onAiPower={runPowerAi}
+                  onSchedule={openSchedulePrompt}
+                  onAbout={() => setAboutOpen(true)}
+                  onSearch={() => setSearchOpen(true)}
+                  onMedia={() => setGalleryOpen(true)}
+                  onInvitePeople={() => setInviteOpen(true)}
+                  onRoomSettings={() => setSettingsOpen(true)}
+                  onBlock={handleBlock}   // ✅ NEW
+                />
               </Group>
             </Group>
           </Box>
         </Box>
       }
       composer={
-        // ✅ full-width composer (between conversations list and ads)
         <Box w="100%">
           <ThreadComposer
             value={draft}
@@ -777,15 +829,7 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
             placeholder="Type a message…"
             topSlot={
               <Group gap="sm" align="center" wrap="wrap">
-                {/* ✅ ONE Smart Replies toggle only (no duplicate row) */}
-                <label
-                  style={{
-                    fontSize: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}
-                >
+                <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <input
                     type="checkbox"
                     checked={smartEnabled}
@@ -799,22 +843,17 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
                   Smart Replies
                 </label>
 
-                <SmartReplyBar
-                  suggestions={suggestions}
-                  onPick={(t) => sendSmartReply(t)}
-                  compact
-                />
+                <SmartReplyBar suggestions={suggestions} onPick={sendSmartReply} compact />
               </Group>
             }
             onSend={async (payload) => {
-              // payload can be undefined, or { attachments: [fileMeta] }, or { files: [...] }
               const text = (draft || '').trim();
 
-              // 1) attachments from MicButton (already uploaded -> fileMeta)
+              // 1) attachments already uploaded -> fileMeta
               if (payload?.attachments?.length) {
                 socket.emit('send_message', {
                   chatRoomId: chatroom.id,
-                  content: text || '',             // optional caption if you typed
+                  content: text || '',
                   attachmentsInline: payload.attachments.map((f) => ({
                     kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
                     url: f.url,
@@ -827,27 +866,23 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
                 return;
               }
 
-              // 2) file picker fallback (only happens if onUploadFiles is not provided)
+              // 2) raw files fallback (warn)
               if (payload?.files?.length) {
-                // You likely want to upload via your FileUploader flow instead of raw files.
-                // For now: just warn and keep text.
-                console.warn('ThreadComposer provided raw files; wire onUploadFiles to handle uploads.');
+                console.warn(
+                  'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
+                );
                 return;
               }
 
               // 3) normal text send
               if (!text) return;
-              socket.emit('send_message', {
-                content: text,
-                chatRoomId: chatroom.id,
-              });
+              socket.emit('send_message', { content: text, chatRoomId: chatroom.id });
               setDraft('');
             }}
           />
         </Box>
       }
     >
-      {/* Messages area (full width like composer) */}
       <Box
         w="100%"
         style={{
@@ -866,30 +901,34 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
           </div>
         )}
 
-        <ScrollArea
-          style={{ flex: '1 1 auto', minHeight: 0 }}
-          viewportRef={scrollViewportRef}
-          type="auto"
-        >
-          <Box
-            style={{
-              minHeight: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            {/* ✅ This spacer pushes messages to the bottom when there aren't many */}
+        <ScrollArea style={{ flex: '1 1 auto', minHeight: 0 }} viewportRef={scrollViewportRef} type="auto">
+          <Box style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+            {/* spacer pushes messages down */}
             <Box style={{ flex: '1 1 auto' }} />
 
             <Stack gap="xs" p="xs">
-              {/* ...messages... */}
+              {messages.map((m, idx) => {
+                const msg = normalizeMsg(m);
+                return (
+                  <MessageBubble
+                    key={msg.id ?? `${msg.createdAt}-${idx}`}
+                    msg={msg}
+                    onRetry={handleRetry}
+                    onEdit={(mm) => handleEditMessage(mm)}
+                    onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
+                    onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
+                    canEdit={canEditMessage(msg)}
+                    canDeleteAll={canDeleteForEveryone(msg)}
+                  />
+                );
+              })}
+
               <div ref={messagesEndRef} />
             </Stack>
           </Box>
         </ScrollArea>
 
-
-        {/* Typing + new msg helper + suggestions */}
+        {/* Typing + new msg helper */}
         <Box style={{ flex: '0 0 auto' }}>
           {typingUser && (
             <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
@@ -904,43 +943,15 @@ const scrollToBottom = () => scrollToBottomNow('smooth');
               </Button>
             </Group>
           )}
-
-          <EventSuggestionBar
-            messages={messages}
-            currentUser={currentUser}
-            chatroom={chatroom}
-            forcedText={forcedCalendarText}
-            onClearForced={() => setForcedCalendarText(null)}
-          />
         </Box>
       </Box>
 
       {/* Modals & drawers */}
-      <RoomSettingsModal
-        opened={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        room={chatroom}
-      />
-      <RoomInviteModal
-        opened={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-        roomId={chatroom.id}
-      />
-      <RoomAboutModal
-        opened={aboutOpen}
-        onClose={() => setAboutOpen(false)}
-        room={chatroom}
-      />
-      <RoomSearchDrawer
-        opened={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        roomId={chatroom.id}
-      />
-      <MediaGalleryModal
-        opened={galleryOpen}
-        onClose={() => setGalleryOpen(false)}
-        roomId={chatroom.id}
-      />
+      <RoomSettingsModal opened={settingsOpen} onClose={() => setSettingsOpen(false)} room={chatroom} />
+      <RoomInviteModal opened={inviteOpen} onClose={() => setInviteOpen(false)} roomId={chatroom.id} />
+      <RoomAboutModal opened={aboutOpen} onClose={() => setAboutOpen(false)} room={chatroom} />
+      <RoomSearchDrawer opened={searchOpen} onClose={() => setSearchOpen(false)} roomId={chatroom.id} />
+      <MediaGalleryModal opened={galleryOpen} onClose={() => setGalleryOpen(false)} roomId={chatroom.id} />
     </ThreadShell>
   );
 }

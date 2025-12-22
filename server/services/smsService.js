@@ -116,7 +116,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
         providerMessageId: result?.messageSid || result?.messageId || null,
         mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
       },
-});
+    });
 
     await tx.phoneNumber.updateMany({
       where: {
@@ -127,7 +127,6 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       data: { lastOutboundAt: new Date() },
     });
 
-    // updatedAt is @updatedAt, but we can still touch it explicitly if desired
     await tx.smsThread.update({
       where: { id: thread.id },
       data: { updatedAt: new Date() },
@@ -200,7 +199,6 @@ export async function recordInboundSms({
   return { ok: true, userId: owner.assignedUserId, threadId: thread.id };
 }
 
-
 /**
  * LIST THREADS (for left "Conversations" list)
  */
@@ -212,7 +210,9 @@ export async function listThreads(userId) {
 }
 
 /**
- * GET A SINGLE THREAD + MESSAGES
+ * ✅ GET A SINGLE THREAD + MESSAGES (shape matches SmsThreadPage expectations)
+ * Returns:
+ *   { id, userId, contactPhone, updatedAt, ..., messages: [...] }
  */
 export async function getThread(userId, threadId) {
   const thread = await prisma.smsThread.findFirst({
@@ -229,7 +229,41 @@ export async function getThread(userId, threadId) {
     orderBy: { createdAt: 'asc' },
   });
 
-  return { thread, messages };
+  return { ...thread, messages };
+}
+
+/**
+ * ✅ DELETE SINGLE MESSAGE (DB-only, scoped to owner via thread.userId)
+ */
+export async function deleteMessage(userId, messageId) {
+  const uid = Number(userId);
+  const mid = Number(messageId);
+  if (!Number.isFinite(mid)) throw Boom.badRequest('Invalid message id');
+
+  // Verify the message belongs to a thread owned by this user
+  const msg = await prisma.smsMessage.findFirst({
+    where: { id: mid },
+    select: { id: true, threadId: true },
+  });
+
+  if (!msg) throw Boom.notFound('Message not found');
+
+  const thread = await prisma.smsThread.findFirst({
+    where: { id: msg.threadId, userId: uid },
+    select: { id: true },
+  });
+
+  if (!thread) throw Boom.notFound('Message not found');
+
+  await prisma.smsMessage.delete({ where: { id: mid } });
+
+  // Optional: keep thread ordering sane if you delete the latest message
+  await prisma.smsThread.update({
+    where: { id: msg.threadId },
+    data: { updatedAt: new Date() },
+  });
+
+  return { ok: true, messageId: mid, threadId: msg.threadId };
 }
 
 /**
@@ -256,4 +290,54 @@ export async function deleteThread(userId, threadId) {
   });
 
   return { ok: true, threadId: tid };
+}
+
+/**
+ * ✅ UPDATE SINGLE MESSAGE (DB-only, scoped to owner via thread.userId)
+ * - Only edits local DB history (does NOT edit provider history)
+ * - Restrict editing to outbound messages by default (optional but recommended)
+ */
+export async function updateMessage(userId, messageId, { body }) {
+  const uid = Number(userId);
+  const mid = Number(messageId);
+  if (!Number.isFinite(mid)) throw Boom.badRequest('Invalid message id');
+
+  const nextBody = String(body ?? '').trim();
+  if (!nextBody) throw Boom.badRequest('body is required');
+
+  // Verify message exists
+  const msg = await prisma.smsMessage.findFirst({
+    where: { id: mid },
+    select: { id: true, threadId: true, direction: true },
+  });
+
+  if (!msg) throw Boom.notFound('Message not found');
+
+  // Verify the thread belongs to the user
+  const thread = await prisma.smsThread.findFirst({
+    where: { id: msg.threadId, userId: uid },
+    select: { id: true },
+  });
+
+  if (!thread) throw Boom.notFound('Message not found');
+
+  // Optional policy: only allow editing outbound messages
+  if (String(msg.direction).toLowerCase() !== 'out') {
+    throw Boom.forbidden('Only sent messages can be edited');
+  }
+
+  const updated = await prisma.smsMessage.update({
+    where: { id: mid },
+    data: {
+      body: nextBody,
+      editedAt: new Date(), // ✅ add this field in schema if not present
+    },
+  });
+
+  await prisma.smsThread.update({
+    where: { id: msg.threadId },
+    data: { updatedAt: new Date() },
+  });
+
+  return updated;
 }

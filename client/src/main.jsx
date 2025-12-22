@@ -17,10 +17,8 @@ import './i18n';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
-import { AdProvider } from '@/ads/AdProvider';
 import { SocketProvider } from './context/SocketContext';
 import { UserProvider } from './context/UserContext';
-import { CallProvider } from './context/CallContext';
 
 import ErrorBoundary from './ErrorBoundary';
 import App from './App.jsx';
@@ -32,13 +30,7 @@ import A11yAnnouncer from './components/A11yAnnouncer.jsx';
 import { initWebVitals } from './utils/perf/vitals.js';
 
 // THEME MANAGER: single source of truth
-import {
-  applyTheme,
-  getTheme,
-  onThemeChange,
-  setTheme,
-  isDarkTheme,
-} from './utils/themeManager';
+import { applyTheme, getTheme, onThemeChange, setTheme, isDarkTheme } from './utils/themeManager';
 
 import { installThemeFaviconObserver } from '@/utils/themeFavicon';
 
@@ -136,16 +128,12 @@ function Root() {
   }, []);
 
   // Mantine wants 'light' | 'dark'
-  const [scheme, setScheme] = React.useState(
-    isDarkTheme(getTheme()) ? 'dark' : 'light'
-  );
+  const [scheme, setScheme] = React.useState(isDarkTheme(getTheme()) ? 'dark' : 'light');
 
   // Keep Mantine scheme in sync with our theme manager
   React.useEffect(() => {
     try {
-      const unsub = onThemeChange((t) =>
-        setScheme(isDarkTheme(t) ? 'dark' : 'light')
-      );
+      const unsub = onThemeChange((t) => setScheme(isDarkTheme(t) ? 'dark' : 'light'));
       return unsub;
     } catch (e) {
       console.error('[onThemeChange] failed', e);
@@ -170,11 +158,8 @@ function Root() {
         await primeCsrf();
         const { data: me } = await axiosClient.get('/users/me');
         if (!alive) return;
-        if (me?.theme && me.theme !== getTheme()) {
-          setTheme(me.theme);
-        }
+        if (me?.theme && me.theme !== getTheme()) setTheme(me.theme);
       } catch (e) {
-        // not logged in / endpoint unavailable — ignore
         if (import.meta.env.DEV) console.warn('[boot theme] skipped', e);
       }
     })();
@@ -186,8 +171,8 @@ function Root() {
 
   return (
     <ErrorBoundary>
-      {/* IMPORTANT: use forceColorScheme so changes actually apply immediately */}
       <MantineProvider theme={theme} defaultColorScheme={scheme} forceColorScheme={scheme}>
+        {/* Global notifications host */}
         <Notifications position="top-right" limit={3} />
 
         {/* a11y helpers mounted once */}
@@ -196,19 +181,15 @@ function Root() {
         {/* IMPORTANT: SocketProvider must wrap UserProvider */}
         <SocketProvider>
           <UserProvider>
-            <AdProvider>
-              <CallProvider>
-                <BrowserRouter>
-                  <App
-                    themeScheme={scheme}
-                    onToggleTheme={() => {
-                      const next = scheme === 'light' ? 'midnight' : 'dawn';
-                      setTheme(next);
-                    }}
-                  />
-                </BrowserRouter>
-              </CallProvider>
-            </AdProvider>
+            <BrowserRouter>
+              <App
+                themeScheme={scheme}
+                onToggleTheme={() => {
+                  const next = scheme === 'light' ? 'midnight' : 'dawn';
+                  setTheme(next);
+                }}
+              />
+            </BrowserRouter>
           </UserProvider>
         </SocketProvider>
       </MantineProvider>

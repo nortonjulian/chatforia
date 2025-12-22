@@ -1,4 +1,11 @@
-import { useEffect, useMemo, useRef, useState, useCallback, useLayoutEffect } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import {
@@ -13,18 +20,27 @@ import {
   Tooltip,
   Menu,
   Divider,
+  Textarea,
+  Button,
 } from '@mantine/core';
-import { IconDotsVertical, IconSearch, IconPhoto } from '@tabler/icons-react';
+import {
+  IconSearch,
+  IconPhoto,
+  IconDotsVertical,
+  IconTrash,
+  IconPencil,
+} from '@tabler/icons-react';
 
 import axiosClient from '@/api/axiosClient';
 import ThreadShell from '@/threads/ThreadShell';
 import ThreadComposer from '@/threads/ThreadComposer.jsx';
+import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 
 import SmartReplyBar from '@/components/SmartReplyBar.jsx';
 import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
-export default function SmsThreadPage({ currentUserId, currentUser }) {
+export default function SmsLayout({ currentUserId, currentUser }) {
   const { threadId } = useParams();
   const navigate = useNavigate();
 
@@ -34,6 +50,10 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
   const [smartEnabled, setSmartEnabled] = useState(
     () => currentUser?.enableSmartReplies ?? false
   );
+
+  // ✅ Edit state
+  const [editingId, setEditingId] = useState(null);
+  const [editingText, setEditingText] = useState('');
 
   const loadingRef = useRef(false);
   const bottomRef = useRef(null);
@@ -54,6 +74,8 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
   const titleText = useMemo(() => {
     return thread?.displayName || thread?.contactName || toNumber || 'Message';
   }, [thread, toNumber]);
+
+  const isPremium = Boolean(currentUser?.plan && currentUser.plan !== 'FREE');
 
   async function loadThread() {
     if (!threadId || loadingRef.current) return;
@@ -86,6 +108,8 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
   useEffect(() => {
     setThread(null);
     setDraft('');
+    setEditingId(null);
+    setEditingText('');
     loadThread();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threadId]);
@@ -121,6 +145,65 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
     }
   };
 
+  const deleteMessage = async (messageId) => {
+    const ok = window.confirm('Delete this message for you?');
+    if (!ok) return;
+
+    // optimistic remove
+    setThread((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        messages: (prev.messages || []).filter((m) => m.id !== messageId),
+      };
+    });
+
+    try {
+      await axiosClient.delete(`/sms/messages/${messageId}`);
+      await loadThread();
+    } catch (e) {
+      console.error('SMS delete failed', e);
+      await loadThread();
+    }
+  };
+
+  // ✅ Edit handlers
+  const startEdit = (m) => {
+    setEditingId(m.id);
+    setEditingText(String(m.body || ''));
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingText('');
+  };
+
+  const saveEdit = async (m) => {
+    const body = String(editingText || '').trim();
+    if (!body) return;
+
+    // optimistic update
+    setThread((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        messages: (prev.messages || []).map((x) =>
+          x.id === m.id ? { ...x, body } : x
+        ),
+      };
+    });
+
+    try {
+      // ✅ requires backend PATCH /sms/messages/:id
+      await axiosClient.patch(`/sms/messages/${m.id}`, { body });
+      cancelEdit();
+      await loadThread();
+    } catch (e) {
+      console.error('SMS edit failed', e);
+      await loadThread();
+    }
+  };
+
   if (!thread) return null;
 
   return (
@@ -132,30 +215,57 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
 
             <Group gap="xs">
               <Tooltip label="Search" withArrow>
-                <ActionIcon variant="subtle" aria-label="Search (coming soon)" onClick={() => {}}>
+                <ActionIcon
+                  variant="subtle"
+                  aria-label="Search (coming soon)"
+                  onClick={() => {}}
+                >
                   <IconSearch size={18} />
                 </ActionIcon>
               </Tooltip>
 
               <Tooltip label="Media" withArrow>
-                <ActionIcon variant="subtle" aria-label="Media (coming soon)" onClick={() => {}}>
+                <ActionIcon
+                  variant="subtle"
+                  aria-label="Media (coming soon)"
+                  onClick={() => {}}
+                >
                   <IconPhoto size={18} />
                 </ActionIcon>
               </Tooltip>
 
-              <Menu position="bottom-end" withinPortal shadow="md" radius="md">
-                <Menu.Target>
-                  <ActionIcon variant="subtle" aria-label="Thread menu">
-                    <IconDotsVertical size={18} />
-                  </ActionIcon>
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Label>Thread</Menu.Label>
-                  <Menu.Item onClick={() => navigate('/upgrade')}>Upgrade</Menu.Item>
-                  <Divider my="xs" />
-                  <Menu.Item color="red">Block (later)</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
+              {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Block */}
+              <ThreadActionsMenu
+                isPremium={isPremium}
+                showPremiumSection
+                showThreadSection
+
+                // ✅ Force-show the group rows for UI parity
+                isOwnerOrAdmin={true}
+
+                onAiPower={() => {
+                    if (!isPremium) return navigate('/upgrade');
+                    console.log('SMS AI Power (todo)');
+                }}
+                onSchedule={() => {
+                    if (!isPremium) return navigate('/upgrade');
+                    console.log('SMS Schedule (todo)');
+                }}
+
+                onAbout={() => console.log('SMS About (todo)')}
+                onSearch={() => console.log('SMS Search (todo)')}
+                onMedia={() => console.log('SMS Media (todo)')}
+
+                // ✅ These rows now appear (but are placeholders for SMS)
+                onInvitePeople={() => console.log('SMS Invite people (todo)')}
+                onRoomSettings={() => console.log('SMS Room settings (todo)')}
+
+                onBlock={() => {
+                    const ok = window.confirm(`Block ${titleText || toNumber}?`);
+                    if (!ok) return;
+                    console.log('SMS Block (todo)', { toNumber });
+                }}
+                />
             </Group>
           </Group>
         </Box>
@@ -190,7 +300,11 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
                   Smart Replies
                 </label>
 
-                <SmartReplyBar suggestions={suggestions} onPick={(t) => sendSms(t)} compact />
+                <SmartReplyBar
+                  suggestions={suggestions}
+                  onPick={(t) => sendSms(t)}
+                  compact
+                />
               </Group>
             }
             onSend={async (payload) => {
@@ -259,18 +373,16 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
           style={{ flex: '1 1 auto', minHeight: 0 }}
           viewportProps={{ className: 'sms-thread-viewport' }}
           type="auto"
-          // ✅ THIS is the important part: viewport + content become flex columns
           styles={{
             viewport: { display: 'flex', flexDirection: 'column' },
-            content: { display: 'flex', flexDirection: 'column', flex: '1 1 auto' },
+            content: {
+              display: 'flex',
+              flexDirection: 'column',
+              flex: '1 1 auto',
+            },
           }}
         >
-          <Stack
-            gap="xs"
-            p="xs"
-            // ✅ pushes messages to bottom when there are only a few
-            style={{ marginTop: 'auto' }}
-          >
+          <Stack gap="xs" p="xs" style={{ marginTop: 'auto' }}>
             {(thread.messages || []).length ? (
               (thread.messages || []).map((m) => {
                 const isOut = m.direction === 'out';
@@ -278,42 +390,166 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
                   'MMM D, YYYY • h:mm A'
                 );
 
-                const isPremium = currentUser?.plan && currentUser.plan !== 'FREE';
-
                 const bubbleStyle = {
-                maxWidth: 360,
-                background: isOut
+                  maxWidth: 360,
+                  background: isOut
                     ? 'var(--bubble-outgoing)'
                     : 'var(--bubble-incoming-bg, var(--card))',
-                color: isOut
+                  color: isOut
                     ? 'var(--bubble-outgoing-text, #fff)'
                     : 'var(--bubble-incoming-text, var(--fg))',
-
-                // optional: helps gradients look nicer and feel more “bubble”
-                borderRadius: 18,
-
-                ...(isPremium
+                  borderRadius: 18,
+                  ...(isPremium
                     ? {
                         border: '1px solid var(--bubble-premium-outline)',
                         boxShadow: 'var(--bubble-premium-glow)',
-                    }
+                      }
                     : {}),
                 };
+
+                const isEditing = editingId === m.id;
 
                 return (
                   <Group
                     key={m.id}
+                    className="sms-message-row"
                     justify={isOut ? 'flex-end' : 'flex-start'}
-                    align="flex-end"
+                    align="flex-start"
                     wrap="nowrap"
+                    gap={6}
+                    style={{ width: '100%' }}
                   >
+                    {/* ✅ SENT: dots on LEFT */}
+                    {isOut && (
+                      <Menu
+                        position="bottom-start"
+                        withinPortal
+                        shadow="md"
+                        radius="md"
+                      >
+                        <Menu.Target>
+                          <ActionIcon
+                            className="sms-message-menu"
+                            aria-label="Message actions"
+                            variant="subtle"
+                            size="sm"
+                            style={{ marginTop: 2 }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </ActionIcon>
+                        </Menu.Target>
+
+                        <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                          <Menu.Item
+                            leftSection={<IconPencil size={16} />}
+                            onClick={() => startEdit(m)}
+                          >
+                            Edit
+                          </Menu.Item>
+
+                          <Menu.Item
+                            color="red"
+                            leftSection={<IconTrash size={16} />}
+                            onClick={() => deleteMessage(m.id)}
+                          >
+                            Delete
+                          </Menu.Item>
+                        </Menu.Dropdown>
+                      </Menu>
+                    )}
+
+                    {/* Bubble */}
                     <Tooltip label={ts} withinPortal>
-                      <Paper px="md" py="xs" radius="lg" withBorder={false} style={bubbleStyle}>
-                        <Text c="inherit" style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>
-                          {m.body}
-                        </Text>
+                      <Paper
+                        px="md"
+                        py="xs"
+                        radius="lg"
+                        withBorder={false}
+                        style={bubbleStyle}
+                        className="sms-bubble"
+                      >
+                        {isEditing ? (
+                          <Box style={{ minWidth: 240 }}>
+                            <Textarea
+                              value={editingText}
+                              onChange={(e) => setEditingText(e.target.value)}
+                              autosize
+                              minRows={2}
+                              styles={{
+                                input: {
+                                  background: 'transparent',
+                                  color: 'inherit',
+                                  borderColor: 'rgba(255,255,255,0.25)',
+                                },
+                              }}
+                            />
+                            <Group justify="flex-end" gap="xs" mt={6}>
+                              <Button
+                                variant="subtle"
+                                size="xs"
+                                onClick={cancelEdit}
+                              >
+                                Cancel
+                              </Button>
+                              <Button size="xs" onClick={() => saveEdit(m)}>
+                                Save
+                              </Button>
+                            </Group>
+                          </Box>
+                        ) : (
+                          <Text
+                            c="inherit"
+                            style={{
+                              whiteSpace: 'pre-wrap',
+                              overflowWrap: 'anywhere',
+                            }}
+                          >
+                            {m.body}
+                          </Text>
+                        )}
                       </Paper>
                     </Tooltip>
+
+                    {/* ✅ RECEIVED: dots on RIGHT */}
+                    {!isOut && (
+                      <Menu
+                        position="bottom-end"
+                        withinPortal
+                        shadow="md"
+                        radius="md"
+                      >
+                        <Menu.Target>
+                          <ActionIcon
+                            className="sms-message-menu"
+                            aria-label="Message actions"
+                            variant="subtle"
+                            size="sm"
+                            style={{ marginTop: 2 }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                          >
+                            <IconDotsVertical size={18} />
+                          </ActionIcon>
+                        </Menu.Target>
+
+                        <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                          {/* Typically: you cannot edit received messages */}
+                          <Menu.Item
+                            color="red"
+                            leftSection={<IconTrash size={16} />}
+                            onClick={() => deleteMessage(m.id)}
+                          >
+                            Delete
+                          </Menu.Item>
+                        </Menu.Dropdown>
+                      </Menu>
+                    )}
                   </Group>
                 );
               })
@@ -323,7 +559,6 @@ export default function SmsThreadPage({ currentUserId, currentUser }) {
               </Text>
             )}
 
-            {/* ✅ target for scrollIntoView */}
             <div ref={bottomRef} />
           </Stack>
         </ScrollArea>
