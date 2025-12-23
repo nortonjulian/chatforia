@@ -1,12 +1,36 @@
-import { useState } from 'react';
-import { Box, Group, Button, TextInput, Stack, Text, Divider } from '@mantine/core';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+  Box,
+  Group,
+  Button,
+  TextInput,
+  Stack,
+  Text,
+  Divider,
+} from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import axiosClient from '@/api/axiosClient';
 import { usePstnCall } from '@/hooks/usePstnCall';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 
+// keep digits and a leading +
+function normalizePhone(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  return s.replace(/[^\d+]/g, '');
+}
+
 export default function Dialer() {
   const { t } = useTranslation();
+  const [params] = useSearchParams();
+
+  const qpTo = params.get('to');         // /dialer?to=+1301...
+  const qpUserId = params.get('userId'); // /dialer?userId=123
+
   const [digits, setDigits] = useState('');
+  const [resolving, setResolving] = useState(false);
+  const [resolveError, setResolveError] = useState('');
 
   // PSTN (alias call via Twilio → real phone network)
   const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
@@ -19,22 +43,81 @@ export default function Dialer() {
     error: voiceError,
   } = useTwilioVoice();
 
+  // ✅ Prefill from query params
+  useEffect(() => {
+    let mounted = true;
+
+    async function run() {
+      setResolveError('');
+
+      // 1) If explicit ?to=, prefer it
+      if (qpTo) {
+        const next = normalizePhone(qpTo);
+        if (mounted) setDigits(next);
+        return;
+      }
+
+      // 2) If ?userId=, resolve to a callable target
+      if (qpUserId) {
+        const userId = String(qpUserId || '').trim();
+        if (!userId) return;
+
+        setResolving(true);
+        try {
+          /**
+           * Recommended backend:
+           * GET /users/:id/call-target  -> { to: "+1555..." } OR { to: "client:user:123" }
+           */
+          const { data } = await axiosClient.get(
+            `/users/${encodeURIComponent(userId)}/call-target`
+          );
+
+          const to = normalizePhone(data?.to || '');
+          if (!to) {
+            throw new Error(
+              data?.error || 'No callable target for this user (missing phone number).'
+            );
+          }
+
+          if (mounted) setDigits(to);
+        } catch (e) {
+          console.error('Dialer: failed to resolve call target', e);
+          if (mounted) {
+            setResolveError(
+              e?.response?.data?.error ||
+                e?.message ||
+                t('dialer.resolveFailed', 'Could not resolve call target.')
+            );
+          }
+        } finally {
+          if (mounted) setResolving(false);
+        }
+      }
+    }
+
+    run();
+    return () => {
+      mounted = false;
+    };
+  }, [qpTo, qpUserId, t]);
+
   const press = (d) => setDigits((s) => (s + d).slice(0, 32));
   const backspace = () => setDigits((s) => s.slice(0, -1));
 
+  const toNumber = useMemo(() => digits.trim(), [digits]);
+  const disabledNumber = !toNumber;
+
   const handlePstnCall = async () => {
-    const to = digits.trim();
-    if (!to) return;
-    await placeCall(to);
+    if (!toNumber) return;
+    await placeCall(toNumber);
   };
 
   const handleBrowserCall = async () => {
-    const to = digits.trim();
-    if (!to || !voiceReady) return;
-    await startBrowserCall(to);
+    if (!toNumber || !voiceReady) return;
+    await startBrowserCall(toNumber);
   };
 
-  const disabledNumber = !digits.trim();
+  const anyError = resolveError || pstnError || voiceError;
 
   return (
     <Box p="md">
@@ -57,11 +140,12 @@ export default function Dialer() {
         size="lg"
         mb="xs"
         aria-label={t('dialer.enterNumberAria', 'Enter number')}
+        disabled={resolving}
       />
 
-      {(pstnError || voiceError) && (
-        <Text c="red" size="xs" mb="sm">
-          {pstnError || voiceError}
+      {(resolving || anyError) && (
+        <Text c={anyError ? 'red' : 'dimmed'} size="xs" mb="sm">
+          {resolving ? t('dialer.resolving', 'Resolving call target…') : anyError}
         </Text>
       )}
 
@@ -76,6 +160,7 @@ export default function Dialer() {
                   variant="light"
                   onClick={() => press(d)}
                   style={{ width: 80 }}
+                  disabled={resolving}
                 >
                   {d}
                 </Button>
@@ -91,7 +176,7 @@ export default function Dialer() {
             onClick={handlePstnCall}
             style={{ flex: 1 }}
             loading={pstnLoading}
-            disabled={disabledNumber || pstnLoading}
+            disabled={disabledNumber || pstnLoading || resolving}
           >
             {t('dialer.call', 'Call')}
           </Button>
@@ -99,6 +184,7 @@ export default function Dialer() {
             variant="default"
             onClick={backspace}
             title={t('dialer.backspace', 'Backspace')}
+            disabled={resolving}
           >
             ⌫
           </Button>
@@ -108,7 +194,7 @@ export default function Dialer() {
         <Button
           variant="outline"
           onClick={handleBrowserCall}
-          disabled={disabledNumber || !voiceReady || browserCalling}
+          disabled={disabledNumber || !voiceReady || browserCalling || resolving}
         >
           {t('dialer.callBrowser', 'Call via browser')}
         </Button>

@@ -42,7 +42,8 @@ import socket from '@/lib/socket';
  * @typedef {Object} Thread
  * @property {ThreadKind} kind
  * @property {string|number} id
- * @property {string} title
+ * @property {string=} title
+ * @property {string=} displayName
  * @property {(string|null)=} updatedAt
  * @property {boolean=} isGroup
  * @property {number=} unreadCount
@@ -151,7 +152,9 @@ function formatLastPreview(last, t) {
   if (!last) return '';
 
   const text = String(last.text || '').trim();
-  const hasMedia = Boolean(last.hasMedia) || (Array.isArray(last.mediaKinds) && last.mediaKinds.length);
+  const hasMedia =
+    Boolean(last.hasMedia) ||
+    (Array.isArray(last.mediaKinds) && last.mediaKinds.length);
 
   if (text) return text;
 
@@ -247,7 +250,7 @@ export default function ChatroomsSidebar({
     if (!q) return base;
 
     return base.filter((c) => {
-      const title = (c.title || '').toLowerCase();
+      const title = (c.title || c.displayName || '').toLowerCase();
       const snippet = formatLastPreview(c.last, t).toLowerCase();
       const phone = (c.phone || '').toLowerCase();
       return title.includes(q) || snippet.includes(q) || phone.includes(q);
@@ -381,7 +384,8 @@ export default function ChatroomsSidebar({
       const text = getTextFromPayload(payload) || '';
       const messageId = getMessageIdFromPayload(payload);
       const media = getMediaFromPayload(payload);
-      const safeText = 
+
+      const safeText =
         text ||
         (media?.hasMedia
           ? media.mediaKinds?.includes('image')
@@ -391,7 +395,6 @@ export default function ChatroomsSidebar({
               : media.mediaKinds?.includes('audio')
                 ? t('messages.mediaAudio', '🎙️ Audio')
                 : t('messages.mediaFile', '📎 Attachment')
-          
           : '');
 
       const isActive =
@@ -410,7 +413,8 @@ export default function ChatroomsSidebar({
 
         return {
           ...c,
-          updatedAt: payload?.createdAt || payload?.at || payload?.message?.createdAt || c.updatedAt,
+          updatedAt:
+            payload?.createdAt || payload?.at || payload?.message?.createdAt || c.updatedAt,
           last: {
             ...(c.last || {}),
             text: safeText,
@@ -424,7 +428,6 @@ export default function ChatroomsSidebar({
 
       bumpToTop(kind, roomId);
     };
-    
 
     // 2) Edit: update preview only if edited msg is currently shown as last
     const onMessageEdited = (payload) => {
@@ -432,7 +435,8 @@ export default function ChatroomsSidebar({
       const messageId = getMessageIdFromPayload(payload);
       const text = getTextFromPayload(payload);
       const media = getMediaFromPayload(payload);
-      const safeText = 
+
+      const safeText =
         text ||
         (media?.hasMedia
           ? media.mediaKinds?.includes('image')
@@ -442,7 +446,6 @@ export default function ChatroomsSidebar({
               : media.mediaKinds?.includes('audio')
                 ? t('messages.mediaAudio', '🎙️ Audio')
                 : t('messages.mediaFile', '📎 Attachment')
-          
           : '');
 
       if (!messageId) return;
@@ -460,8 +463,8 @@ export default function ChatroomsSidebar({
           ...c,
           last: {
             ...(c.last || {}),
-            text: text ?? c.last?.text,
-            ...ActionIcon(safeText ? { text: safeText } : null),
+            // ✅ prefer safeText so edited media-only messages still show placeholders
+            text: safeText,
             ...media,
           },
         };
@@ -602,8 +605,16 @@ export default function ChatroomsSidebar({
       )}
 
       {visible.map((c, idx) => {
+        // ✅ "SMS #123" guard so we don’t show junk titles if we have a better fallback
+        const rawTitle = String(c.title || '').trim();
+        const looksLikeAutoSmsTitle =
+          String(c.kind) === 'sms' && /^sms\s*#\s*\d+$/i.test(rawTitle);
+
         const title =
-          c.title ||
+          // prefer server-provided friendly name if present
+          String(c.displayName || '').trim() ||
+          // if server sent "SMS #id", ignore it and fall back to phone
+          (!looksLikeAutoSmsTitle ? rawTitle : '') ||
           (c.kind === 'sms'
             ? c.phone || t('sms.thread', 'SMS')
             : t('chat.thread', 'Chat'));
@@ -648,7 +659,7 @@ export default function ChatroomsSidebar({
 
                       {Number(c?.last?.mediaCount || 0) > 1 && (
                         <Badge size="sm" variant="light">
-                           {t('messages.mediaCount', '{{count}}', { count: c.last.mediaCount })}
+                          {t('messages.mediaCount', '{{count}}', { count: c.last.mediaCount })}
                         </Badge>
                       )}
 

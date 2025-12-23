@@ -18,13 +18,15 @@ import { IconSearch, IconX, IconCopy, IconCheck, IconDeviceMobile } from '@table
 import { useUser } from '../context/UserContext';
 import ContactList from '../components/ContactList';
 import ImportContactsModal from '@/components/ImportContactsModal';
+import AddContactModal from '@/components/AddContactModal';
 import { useTranslation } from 'react-i18next';
 
 export default function PeoplePage() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
-  const [openStartChat, setOpenStartChat] = useState(false);
+
   const [openImport, setOpenImport] = useState(false);
+  const [openAddContact, setOpenAddContact] = useState(false);
 
   // global search state (for the row above the card)
   const [q, setQ] = useState('');
@@ -33,8 +35,10 @@ export default function PeoplePage() {
   // 👇 authoritative global search input reference
   const globalSearchRef = useRef(null);
 
+  // used to force a refresh of ContactList after add/delete/import
+  const [contactsRefreshKey, setContactsRefreshKey] = useState(0);
+
   useEffect(() => {
-    // Optional: preload from URL ?q=
     const params = new URLSearchParams(window.location.search);
     const initial = params.get('q') || '';
     if (initial) {
@@ -63,30 +67,23 @@ export default function PeoplePage() {
     globalSearchRef.current?.focus();
   };
 
-  // Right-rail shortcut → focus/scroll to the ONE global search
   const focusGlobalSearch = () => {
     const el = globalSearchRef.current;
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => el.focus(), 160); // let the scroll finish
+    setTimeout(() => el.focus(), 160);
   };
 
-  // simple invite URL (adjust to your real invite flow if needed)
   const inviteUrl = `${window.location.origin}/join`;
 
   return (
-    // Page column: centered container with a sensible cap
     <Box w="100%" mx="auto" px="md" style={{ maxWidth: 1200 }}>
-      {/* Header row: title left, global actions right */}
       <Group justify="space-between" mb="sm">
         <Title order={4}>{t('peoplePage.people', 'People')}</Title>
-        {/* No header buttons — “+” in sidebar is the universal entry point */}
       </Group>
 
       <Grid align="start" gutter="lg">
-        {/* LEFT: main content */}
         <Grid.Col span={{ base: 12, lg: 8 }}>
-          {/* Global search row (capped so it never looks comically wide) */}
           <Box w="100%" mb="sm" mx={0} style={{ maxWidth: 640 }}>
             <Group wrap="nowrap" gap="sm" align="center">
               <TextInput
@@ -94,7 +91,7 @@ export default function PeoplePage() {
                 aria-label={t('peoplePage.search', 'Search')}
                 placeholder={t(
                   'peoplePage.searchPlaceholder',
-                  'Search by alias, name, username, or phone'
+                  'Search saved contacts by alias, name, username, or phone'
                 )}
                 value={input}
                 onChange={(e) => setInput(e.currentTarget.value)}
@@ -120,24 +117,25 @@ export default function PeoplePage() {
             </Group>
           </Box>
 
-          {/* Main card */}
           <Paper withBorder radius="xl" p="md">
-            {/* Note: ContactList currently ignores searchQuery; safe to pass for future support */}
-            <ContactList currentUserId={currentUser.id} searchQuery={q} />
+            <ContactList
+              key={contactsRefreshKey}
+              currentUserId={currentUser.id}
+              searchQuery={q}
+            />
           </Paper>
         </Grid.Col>
 
-        {/* RIGHT: helpful aside (hidden on mobile, shown >= lg) */}
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="md" visibleFrom="lg">
-            {/* Quick start/checklist */}
             <Paper withBorder radius="lg" p="md">
               <Text fw={600} mb="xs">
                 {t('peoplePage.quickStart', 'Quick start')}
               </Text>
               <Text size="sm" c="dimmed" mb="sm">
-                {t('peoplePage.quickStartDesc', 'A few fast ways to get rolling.')}
+                {t('peoplePage.quickStartDesc', 'Manage your contacts and invite friends.')}
               </Text>
+
               <Stack gap="xs">
                 <Group justify="space-between">
                   <Text size="sm">{t('peoplePage.importContacts', 'Import your contacts')}</Text>
@@ -145,22 +143,16 @@ export default function PeoplePage() {
                     {t('peoplePage.import', 'Import')}
                   </Button>
                 </Group>
+
                 <Group justify="space-between">
-                  <Text size="sm">{t('peoplePage.findOrAdd', 'Find or add someone')}</Text>
-                  <Button size="xs" onClick={() => setOpenStartChat(true)}>
+                  <Text size="sm">{t('peoplePage.addContact', 'Add a contact')}</Text>
+                  <Button size="xs" onClick={() => setOpenAddContact(true)}>
                     {t('peoplePage.add', 'Add')}
-                  </Button>
-                </Group>
-                <Group justify="space-between">
-                  <Text size="sm">{t('peoplePage.searchByPhoneOrUsername', 'Search by phone / username')}</Text>
-                  <Button size="xs" variant="subtle" onClick={focusGlobalSearch}>
-                    {t('peoplePage.focusSearch', 'Focus Search')}
                   </Button>
                 </Group>
               </Stack>
             </Paper>
 
-            {/* Invite friends */}
             <Paper withBorder radius="lg" p="md">
               <Text fw={600} mb="xs">{t('peoplePage.inviteFriends', 'Invite friends')}</Text>
               <Text size="sm" c="dimmed">
@@ -185,7 +177,6 @@ export default function PeoplePage() {
               </Group>
             </Paper>
 
-            {/* Get the app */}
             <Paper withBorder radius="lg" p="md">
               <Text fw={600} mb="xs">{t('peoplePage.getTheApp', 'Get the app')}</Text>
               <Text size="sm" c="dimmed">
@@ -210,14 +201,18 @@ export default function PeoplePage() {
         </Grid.Col>
       </Grid>
 
-      {openStartChat && (
-        <NewConversationModal currentUserId={currentUser.id} onClose={() => setOpenStartChat(false)} />
-      )}
+      <AddContactModal
+        opened={openAddContact}
+        onClose={() => setOpenAddContact(false)}
+        currentUserId={currentUser.id}
+        onAdded={() => setContactsRefreshKey((k) => k + 1)}
+      />
 
       <ImportContactsModal
         opened={openImport}
         onClose={() => setOpenImport(false)}
         defaultCountry="US"
+        onImported={() => setContactsRefreshKey((k) => k + 1)}
       />
     </Box>
   );

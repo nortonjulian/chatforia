@@ -116,8 +116,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
+  
 
   const [draft, setDraft] = useState('');
+
+  const [forcedCalendarText, setForcedCalendarText] = useState(null);
 
   // Ads context (caps / cool-downs)
   const ads = useAds();
@@ -233,6 +236,19 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     });
     setShowNewMessage(false);
   }, []);
+
+  const handleAddToCalendarFromMessage = (msg) => {
+  const text =
+    msg?.decryptedContent ||
+    msg?.translatedForMe ||
+    msg?.rawContent ||
+    msg?.content ||
+    '';
+
+  if (!text) return;
+  setForcedCalendarText(text);
+  openSchedulePrompt();
+};
 
   /* ---------- backend ops: edit/delete ---------- */
 
@@ -463,6 +479,42 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     };
   }, [chatroom, currentUserId, scrollToBottomNow]);
 
+    // ✅ Block (safety feature — FREE)
+  const handleBlockThread = useCallback(async () => {
+    // Find "other user" for 1:1 rooms
+    const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
+    const other =
+      participants.find((p) => Number(p?.id) !== Number(currentUserId)) ||
+      participants.find((p) => Number(p?.userId) !== Number(currentUserId));
+
+    const otherId = Number(other?.id ?? other?.userId);
+
+    const name =
+      other?.username || other?.displayName || other?.name || 'this user';
+
+    const ok = window.confirm(`Block ${name}? You won't receive messages from them.`);
+    if (!ok) return;
+
+    try {
+      // ✅ Recommended: implement this endpoint
+      // POST /blocks  { targetUserId }
+      if (Number.isFinite(otherId)) {
+        await axiosClient.post('/blocks', { targetUserId: otherId });
+      } else {
+        // If it's not a 1:1 room, you can decide what block means later.
+        // For now: fail gracefully.
+        throw new Error('Could not determine a target user to block.');
+      }
+
+      window.alert(`Blocked ${name}.`);
+      navigate('/'); // or navigate to your threads list route
+    } catch (e) {
+      console.error('Block failed', e);
+      window.alert('Block failed (backend not wired yet).');
+    }
+  }, [chatroom?.participants, currentUserId, navigate]);
+
+
   /* ---------- realtime: expired messages ---------- */
 
   useEffect(() => {
@@ -622,27 +674,31 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   };
 
   const openSchedulePrompt = async () => {
-    if (!isPremium) return navigate('/upgrade');
-    const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
-    if (!iso || !chatroom?.id) return;
+  if (!isPremium) return navigate('/upgrade');
 
-    let scheduledAt;
-    try {
-      scheduledAt = new Date(iso).toISOString();
-    } catch {
-      console.error('Invalid date input for scheduling');
-      return;
-    }
+  const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
+  if (!iso || !chatroom?.id) return;
 
-    try {
-      await axiosClient.post(`/messages/${chatroom.id}/schedule`, {
-        content: '(scheduled message)',
-        scheduledAt,
-      });
-    } catch (e) {
-      console.error('Schedule failed', e);
-    }
-  };
+  let scheduledAt;
+  try {
+    scheduledAt = new Date(iso).toISOString();
+  } catch {
+    console.error('Invalid date input for scheduling');
+    return;
+  }
+
+  try {
+    await axiosClient.post(`/messages/${chatroom.id}/schedule`, {
+      content: forcedCalendarText || '(scheduled message)',
+      scheduledAt,
+    });
+  } catch (e) {
+    console.error('Schedule failed', e);
+  } finally {
+    // ✅ always reset so the next schedule isn’t accidentally pre-filled
+    setForcedCalendarText(null);
+  }
+};
 
   /* ---------- ✅ Block (added for parity with SMS) ---------- */
 
@@ -814,7 +870,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   onMedia={() => setGalleryOpen(true)}
                   onInvitePeople={() => setInviteOpen(true)}
                   onRoomSettings={() => setSettingsOpen(true)}
-                  onBlock={handleBlock}   // ✅ NEW
+                  onBlock={handleBlockThread} 
                 />
               </Group>
             </Group>
@@ -917,6 +973,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     onEdit={(mm) => handleEditMessage(mm)}
                     onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
                     onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
+                    onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
                     canEdit={canEditMessage(msg)}
                     canDeleteAll={canDeleteForEveryone(msg)}
                   />

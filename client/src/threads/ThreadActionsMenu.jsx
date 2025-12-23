@@ -12,16 +12,6 @@ import {
   IconBan,
 } from '@tabler/icons-react';
 
-/**
- * ThreadActionsMenu
- *
- * Shared 3-dot menu for:
- *  - app-to-app chats (1:1 + groups)
- *  - SMS threads
- *
- * Goal: SMS menu should look identical to chat menu (icons, spacing, labels),
- * just with fewer items.
- */
 export default function ThreadActionsMenu({
   // context
   isPremium = false,
@@ -30,8 +20,12 @@ export default function ThreadActionsMenu({
   showPremiumSection = true,
   showThreadSection = true,
 
-  // permissions (groups)
+  // legacy permissions (groups)
   isOwnerOrAdmin = false,
+
+  // ✅ new explicit toggles (don’t force isOwnerOrAdmin for SMS)
+  canInvite = false,
+  canRoomSettings = false,
 
   // callbacks
   onAiPower,
@@ -42,15 +36,23 @@ export default function ThreadActionsMenu({
   onMedia,
 
   onInvitePeople,
+  inviteLabel = 'Invite people',
+
   onRoomSettings,
 
-  // optional explicit upgrade row (usually NOT needed if you show AI+Schedule with (Upgrade))
+  // optional explicit upgrade row
   onUpgrade,
 
   // optional block row
   onBlock,
   blockLabel = 'Block',
 }) {
+  const allowInvite =
+    (canInvite || isOwnerOrAdmin) && typeof onInvitePeople === 'function';
+
+  const allowRoomSettings =
+    (canRoomSettings || isOwnerOrAdmin) && typeof onRoomSettings === 'function';
+
   const hasPremiumRows =
     showPremiumSection &&
     (typeof onAiPower === 'function' ||
@@ -62,11 +64,10 @@ export default function ThreadActionsMenu({
     (typeof onAbout === 'function' ||
       typeof onSearch === 'function' ||
       typeof onMedia === 'function' ||
-      (isOwnerOrAdmin && typeof onInvitePeople === 'function') ||
-      (isOwnerOrAdmin && typeof onRoomSettings === 'function') ||
+      allowInvite ||
+      allowRoomSettings ||
       typeof onBlock === 'function');
 
-  // Nothing to render
   if (!hasPremiumRows && !hasThreadRows) return null;
 
   return (
@@ -95,7 +96,6 @@ export default function ThreadActionsMenu({
               </Menu.Item>
             )}
 
-            {/* Optional: explicit Upgrade row (only use if you WANT it) */}
             {typeof onUpgrade === 'function' && (
               <Menu.Item leftSection={<IconArrowUpRight size={16} />} onClick={onUpgrade}>
                 Upgrade
@@ -129,13 +129,13 @@ export default function ThreadActionsMenu({
               </Menu.Item>
             )}
 
-            {isOwnerOrAdmin && typeof onInvitePeople === 'function' && (
+            {allowInvite && (
               <Menu.Item leftSection={<IconUserPlus size={16} />} onClick={onInvitePeople}>
-                Invite people
+                {inviteLabel}
               </Menu.Item>
             )}
 
-            {isOwnerOrAdmin && typeof onRoomSettings === 'function' && (
+            {allowRoomSettings && (
               <Menu.Item leftSection={<IconSettings size={16} />} onClick={onRoomSettings}>
                 Room settings
               </Menu.Item>

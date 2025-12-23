@@ -1,70 +1,101 @@
 import express from 'express';
 import Boom from '@hapi/boom';
 
+import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 
 // ✅ Import as a module so "deleteThread" can be optional without crashing at import-time
 import * as smsService from '../services/smsService.js';
 
+// ✅ Twilio-protected media fetch helper (does Basic Auth + returns fetch Response)
+import { fetchTwilioMedia } from '../utils/twilioMediaProxy.js';
+
 const r = express.Router();
-
-/* -------------------------------------------------------------------------- */
-/*                              PROVIDER WEBHOOKS                             */
-/* -------------------------------------------------------------------------- */
-/**
- * Twilio inbound SMS/MMS webhook (NO auth)
- * Typical Twilio payload is application/x-www-form-urlencoded:
- *  - From, To, Body, MessageSid, NumMedia, MediaUrl0..N
- *
- * Mount path example:
- *   POST /sms/webhooks/twilio/inbound
- */
-r.post(
-  '/webhooks/twilio/inbound',
-  express.urlencoded({ extended: false }),
-  asyncHandler(async (req, res) => {
-    if (typeof smsService.recordInboundSms !== 'function') {
-      throw Boom.badImplementation('smsService.recordInboundSms is not implemented');
-    }
-
-    const fromNumber = req.body?.From;
-    const toNumber = req.body?.To;
-    const body = req.body?.Body || '';
-
-    const providerMessageId = req.body?.MessageSid || null;
-
-    // MMS support (Twilio)
-    const numMedia = Number(req.body?.NumMedia || 0);
-    const mediaUrls = [];
-    if (Number.isFinite(numMedia) && numMedia > 0) {
-      for (let i = 0; i < numMedia; i += 1) {
-        const url = req.body?.[`MediaUrl${i}`];
-        if (url) mediaUrls.push(url);
-      }
-    }
-
-    await smsService.recordInboundSms({
-      toNumber,
-      fromNumber,
-      body,
-      provider: 'twilio',
-      providerMessageId,
-      mediaUrls,
-    });
-
-    // Twilio expects TwiML or a 200 OK. Empty TwiML is fine.
-    res.set('Content-Type', 'text/xml');
-    res.status(200).send('<Response></Response>');
-  })
-);
-
-/* -------------------------------------------------------------------------- */
-/*                             AUTHENTICATED ROUTES                            */
-/* -------------------------------------------------------------------------- */
 
 // JSON bodies for authenticated app routes
 r.use(express.json());
+
+/* -------------------------
+ * Helpers
+ * ------------------------- */
+
+// Build + / no+ variants to match threads even if your DB/user input differs
+function buildPhoneVariants(raw) {
+  const cleaned = String(raw || '').trim().replace(/[^\d+]/g, '');
+  if (!cleaned) return [];
+
+  const noPlus = cleaned.startsWith('+') ? cleaned.slice(1) : cleaned;
+  const withPlus = cleaned.startsWith('+') ? cleaned : `+${cleaned}`;
+
+  // (Optional) you can add more variants here later
+  return [...new Set([withPlus, noPlus])];
+}
+
+/* -------------------------------------------------------------------------- */
+/*                            ✅ SMS MEDIA PROXY (AUTH)                         */
+/*  NOTE: Keep this ABOVE '/threads/:id' if you ever mount router at '/sms'    */
+/*  and also add any overlapping patterns. In this file it's fine either way. */
+/* -------------------------------------------------------------------------- */
+// GET /sms/media/:messageId/:idx
+r.get(
+  '/media/:messageId/:idx',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const messageId = Number(req.params.messageId);
+    const idx = Number(req.params.idx);
+
+    if (!Number.isFinite(messageId) || !Number.isFinite(idx) || idx < 0) {
+      throw Boom.badRequest('Invalid messageId or idx');
+    }
+
+    const msg = await prisma.smsMessage.findFirst({
+      where: { id: messageId },
+      select: {
+        id: true,
+        threadId: true,
+        mediaUrls: true,
+        provider: true,
+      },
+    });
+
+    if (!msg) throw Boom.notFound('Message not found');
+
+    const thread = await prisma.smsThread.findFirst({
+      where: { id: msg.threadId, userId: Number(req.user.id) },
+      select: { id: true },
+    });
+
+    if (!thread) throw Boom.notFound('Message not found');
+
+    const urls = Array.isArray(msg.mediaUrls)
+      ? msg.mediaUrls
+      : msg.mediaUrls
+        ? Object.values(msg.mediaUrls)
+        : [];
+
+    const url = urls?.[idx];
+    if (!url) throw Boom.notFound('Media item not found');
+
+    const upstream = await fetchTwilioMedia(String(url));
+    if (!upstream.ok) throw Boom.badGateway('Failed to fetch upstream media');
+
+    const contentType =
+      upstream.headers.get('content-type') || 'application/octet-stream';
+    const contentLength = upstream.headers.get('content-length');
+
+    res.setHeader('Content-Type', contentType);
+    if (contentLength) res.setHeader('Content-Length', contentLength);
+    res.setHeader('Cache-Control', 'private, max-age=60');
+
+    if (upstream.body && typeof upstream.body.pipe === 'function') {
+      return upstream.body.pipe(res);
+    }
+
+    const arrayBuffer = await upstream.arrayBuffer();
+    return res.status(200).send(Buffer.from(arrayBuffer));
+  })
+);
 
 /* ---------- LIST THREADS ---------- */
 // GET /sms/threads
@@ -77,6 +108,38 @@ r.get(
     }
     const items = await smsService.listThreads(req.user.id);
     res.json({ items });
+  })
+);
+
+/* ---------- LOOKUP THREAD BY PHONE ---------- */
+/**
+ * GET /sms/threads/lookup?to=+1301...
+ * IMPORTANT: must be ABOVE /threads/:id or Express will treat "lookup" as :id
+ */
+r.get(
+  '/threads/lookup',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user.id);
+    const toRaw = String(req.query.to || '').trim();
+    if (!toRaw) return res.json({ threadId: null });
+
+    const variants = buildPhoneVariants(toRaw);
+
+    // ✅ FIX: match by contactPhone OR participants so legacy threads and upserted
+    // participant rows both resolve to the same thread
+    const thread = await prisma.smsThread.findFirst({
+      where: {
+        userId,
+        OR: [
+          { contactPhone: { in: variants } },
+          { participants: { some: { phone: { in: variants } } } },
+        ],
+      },
+      select: { id: true },
+    });
+
+    res.json({ threadId: thread?.id ?? null });
   })
 );
 
@@ -113,7 +176,6 @@ r.patch(
     res.json({ ok: true, message: out });
   })
 );
-
 
 /* ---------- ✅ DELETE INDIVIDUAL SMS MESSAGE (DB-only) ---------- */
 // DELETE /sms/messages/:id

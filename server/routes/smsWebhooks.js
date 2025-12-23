@@ -57,18 +57,46 @@ router.post(
       // ----------------------------------------------------------------------
 
       // Basic validation (ack 200 to avoid retries on non-inbound noise)
-      if (!isE164(toNumber) || !isE164(fromNumber) || !bodyText) {
-        req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored');
+      // NOTE: inbound MMS can be body-less, but Twilio will often still send Body=""
+      // We allow body to be empty as long as there is media.
+      if (!isE164(toNumber) || !isE164(fromNumber)) {
+        req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored (invalid e164)');
         return res.sendStatus(200);
       }
 
-      // Record inbound SMS
+      // ✅ NEW: Parse inbound MMS media (NumMedia, MediaUrl0..N, MediaContentType0..N)
+      const mediaCount = Number(req.body?.NumMedia || 0);
+      const media = [];
+      if (Number.isFinite(mediaCount) && mediaCount > 0) {
+        for (let i = 0; i < mediaCount; i += 1) {
+          const url = req.body?.[`MediaUrl${i}`];
+          const contentType = req.body?.[`MediaContentType${i}`];
+          if (url) {
+            media.push({
+              url: String(url),
+              contentType: contentType ? String(contentType) : null,
+            });
+          }
+        }
+      }
+
+      // If both empty body and no media, ignore
+      const hasBody = Boolean(String(bodyText || '').trim());
+      const hasMedia = media.length > 0;
+
+      if (!hasBody && !hasMedia) {
+        req.log?.info?.({ toNumber, fromNumber }, '[webhook][twilio] ignored (empty body + no media)');
+        return res.sendStatus(200);
+      }
+
+      // Record inbound SMS/MMS
       const rec = await recordInboundSms({
         toNumber,
         fromNumber,
-        body: bodyText,
+        body: bodyText, // may be empty string if MMS-only
         provider: 'twilio',
         providerMessageId: MessageSid || null,
+        media, // ✅ IMPORTANT: store as objects (url + contentType)
       });
 
       // Forwarding (skip loops: we never receive our own fwd clientRef back from Twilio)
@@ -86,22 +114,29 @@ router.post(
           },
         });
 
-        if (user?.forwardingEnabledSms && !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd)) {
+        if (
+          user?.forwardingEnabledSms &&
+          !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd)
+        ) {
           // Forward to phone via Twilio
           if (user.forwardSmsToPhone && isE164(user.forwardPhoneNumber)) {
+            // Keep forwarding text-only to avoid MMS auth/format edge cases on forward
+            const forwardText = `From ${fromNumber}: ${bodyText || '[MMS]'}`.slice(0, 800);
+
             await sendSms({
               to: normalizeE164(user.forwardPhoneNumber),
-              text: `From ${fromNumber}: ${bodyText}`.slice(0, 800),
+              text: forwardText,
               clientRef: `fwd:${rec.userId}:${Date.now()}`,
             });
           }
-          // Forward to email
+
+          // Forward to email (text-only; you can add media later if you want)
           if (user.forwardSmsToEmail && user.forwardEmail && transporter) {
             await transporter.sendMail({
               to: user.forwardEmail,
               from: process.env.MAIL_FROM || 'noreply@chatforia.app',
               subject: `SMS from ${fromNumber}`,
-              text: bodyText,
+              text: bodyText || (hasMedia ? '[MMS received: media attached]' : ''),
             });
           }
         }
@@ -250,7 +285,7 @@ router.post(
 //             forwardQuietHoursStart: true,
 //             forwardQuietHoursEnd: true,
 //           },
-//         });
+//         );
 
 //         if (user?.forwardingEnabledSms && !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd)) {
 //           if (user.forwardSmsToPhone && isE164(user.forwardPhoneNumber)) {

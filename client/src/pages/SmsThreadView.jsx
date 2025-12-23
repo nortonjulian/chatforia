@@ -1,4 +1,3 @@
-// client/src/pages/SmsThreadView.jsx
 import {
   useEffect,
   useMemo,

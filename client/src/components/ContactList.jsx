@@ -17,10 +17,10 @@ import {
 import {
   IconRefresh,
   IconTrash,
-  IconMessagePlus,
   IconSearch,
   IconMessage,
   IconPhoneCall,
+  IconVideo,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,33 +31,27 @@ const toast = {
   info: (m) => console.info(m),
 };
 
-/**
- * ContactList
- *
- * Default (single) mode:
- *  - Clicking a contact with userId starts a direct chat
- *  - Buttons for DM / SMS compose / delete / alias update
- *
- * Picker (multiple) mode:
- *  - Pass selectionMode="multiple", selectedIds (string[]), onToggleSelect(id)
- *  - Renders a checkbox on each row; clicking the row does NOT navigate
- *  - DM/SMS/Delete actions remain visible; you can hide them via CSS if desired
- */
+// ✅ normalize for safer URL params
+function normalizePhone(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return '';
+  return s.replace(/[^\d+]/g, '');
+}
+
 export default function ContactList({
   currentUserId,
   onChanged,
-  // --- new optional picker props (fully backward compatible) ---
-  selectionMode = 'single',            // 'single' | 'multiple'
-  selectedIds = [],                    // string[]
-  onToggleSelect,                      // (id: string) => void
+  selectionMode = 'single', // 'single' | 'multiple'
+  selectedIds = [],         // string[]
+  onToggleSelect,           // (id: string) => void
 }) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
-  const [items, setItems] = useState([]); // raw contacts from server
-  const [nextCursor, setNextCursor] = useState(null); // server pagination cursor (optional)
+  const [items, setItems] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState(''); // local (saved contacts) filter
+  const [search, setSearch] = useState('');
 
   async function fetchContacts({ cursor = null, append = false } = {}) {
     try {
@@ -70,8 +64,9 @@ export default function ContactList({
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data?.items)
-        ? data.items
-        : [];
+          ? data.items
+          : [];
+
       const nextList = append ? [...items, ...list] : list;
 
       setItems(nextList);
@@ -90,10 +85,10 @@ export default function ContactList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Local saved-contacts filter (client-side)
   const filteredItems = useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return items;
+
     return items.filter((c) => {
       const username = c.user?.username || '';
       const alias = c.alias || '';
@@ -121,8 +116,13 @@ export default function ContactList({
         toast.info(t('contactList.notJoined', 'That contact hasn’t joined Chatforia yet.'));
         return;
       }
+
       const { data } = await axiosClient.post(`/chatrooms/direct/${userId}`);
-      if (data?.id) navigate(`/chat/${data.id}`);
+
+      const chatroomId =
+        data?.id ?? data?.chatroomId ?? data?.roomId ?? data?.chatRoomId ?? null;
+
+      if (chatroomId) navigate(`/chat/${chatroomId}`);
       else toast.err(t('contactList.couldNotStart', 'Could not start chat. Please try again.'));
     } catch (e) {
       console.error('Failed to start chat:', e);
@@ -137,6 +137,7 @@ export default function ContactList({
           ? { ownerId: currentUserId, userId }
           : { ownerId: currentUserId, externalPhone },
       });
+
       await fetchContacts({ append: false });
       toast.ok(t('contactList.deleted', 'Contact deleted.'));
     } catch (err) {
@@ -161,28 +162,60 @@ export default function ContactList({
     }
   };
 
-  const callNumber = async (externalPhone) => {
-    if (!externalPhone) return;
+  /**
+   * ✅ CALL / VIDEO routing:
+   * Your Dialer/Video pages should be driven by `?to=E164...`
+   * (NOT `userId=...`)
+   */
+  const goCall = ({ userId, phone }) => {
+  if (userId) return navigate(`/dialer?userId=${encodeURIComponent(userId)}`);
+  const to = normalizePhone(phone);
+  if (!to) return toast.info('No callable number');
+  navigate(`/dialer?to=${encodeURIComponent(to)}`);
+};
+
+const goVideo = ({ userId, phone }) => {
+  if (userId) return navigate(`/video?userId=${encodeURIComponent(userId)}`);
+  const to = normalizePhone(phone);
+  if (!to) return toast.info('No valid number');
+  navigate(`/video?to=${encodeURIComponent(to)}`);
+};
+
+  const openSmsThreadOrCompose = async ({ phone, alias }) => {
+    if (!phone) return;
+
+    const to = String(phone).trim();
+
     try {
-      await axiosClient.post('/voice/alias/start', { to: externalPhone });
-      toast.ok(
-        t(
-          'contactList.callStarted',
-          'Calling this number via your Chatforia number…'
-        )
+      const { data } = await axiosClient.get('/sms/threads/lookup', {
+        params: { to },
+      });
+
+      const threadId = data?.threadId ?? null;
+
+      if (threadId) {
+        navigate(`/sms/${threadId}`);
+        return;
+      }
+
+      navigate(
+        `/sms/compose?to=${encodeURIComponent(to)}${
+          alias ? `&name=${encodeURIComponent(alias)}` : ''
+        }`
       );
-    } catch (err) {
-      console.error('Failed to start call:', err);
-      const msg =
-        err?.response?.data?.error ||
-        t('contactList.callFailed', 'Failed to start call. Please try again.');
-      toast.err(msg);
+    } catch (e) {
+      console.error('Failed to lookup SMS thread:', e);
+      // fallback to compose
+      navigate(
+        `/sms/compose?to=${encodeURIComponent(to)}${
+          alias ? `&name=${encodeURIComponent(alias)}` : ''
+        }`
+      );
     }
   };
 
   return (
     <Box p="md" maw={560} mx="auto">
-      {/* Header row */}
       <Group justify="space-between" align="center" mb="xs">
         <Title order={4}>{t('contactList.savedContacts', 'Saved Contacts')}</Title>
         <ActionIcon
@@ -195,7 +228,6 @@ export default function ContactList({
         </ActionIcon>
       </Group>
 
-      {/* Compact local filter */}
       <TextInput
         placeholder={t('contactList.filterPlaceholder', 'Filter saved contacts…')}
         value={search}
@@ -219,9 +251,9 @@ export default function ContactList({
       ) : (
         <Stack gap="xs">
           {filteredItems.map((c) => {
-            const key =
-              c.id ?? `${c.userId ?? c.externalPhone ?? Math.random()}`;
+            const key = c.id ?? `${c.userId ?? c.externalPhone ?? Math.random()}`;
             const username = c.user?.username || '';
+
             const displayName =
               c.alias ||
               username ||
@@ -237,31 +269,32 @@ export default function ContactList({
               c.alias.toLowerCase() !== username.toLowerCase()
                 ? username
                 : c.externalPhone && c.externalPhone !== displayName
-                ? c.externalPhone
-                : '';
+                  ? c.externalPhone
+                  : '';
 
-            const goCompose = () =>
-              navigate(
-                `/sms/compose?to=${encodeURIComponent(
-                  c.externalPhone
-                )}${
-                  c.alias ? `&name=${encodeURIComponent(c.alias)}` : ''
-                }`
-              );
-
-            const selectableId = c.userId || c.externalPhone || key; // stable-ish fallback for picker
+            const selectableId = c.userId || c.externalPhone || key;
             const isMultiple = selectionMode === 'multiple';
             const checked = isMultiple ? selectedIds.includes(selectableId) : false;
 
             const handleRowPrimaryClick = () => {
               if (isMultiple) {
-                // In picker mode, toggle selection instead of navigating
                 onToggleSelect?.(selectableId);
                 return;
               }
-              // Default behavior: start chat if we have a userId
-              startChat(c.userId);
+              // Click row: if Chatforia user -> DM
+              if (c.userId) startChat(c.userId);
             };
+
+            const handleMessageClick = () => {
+              // ✅ if joined user -> DM
+              if (c.userId) return startChat(c.userId);
+
+              // ✅ else SMS
+              if (c.externalPhone) return openSmsThreadOrCompose({ phone: c.externalPhone, alias: c.alias });
+              toast.info(t('contactList.noRoute', 'No message route for this contact.'));
+            };
+
+            const phoneForCallVideo = c.externalPhone || ''; // ✅ we route dialer/video by phone
 
             return (
               <Group key={key} justify="space-between" align="center">
@@ -277,13 +310,7 @@ export default function ContactList({
                     cursor: isMultiple ? 'pointer' : (c.userId ? 'pointer' : 'default'),
                   }}
                 >
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 12,
-                    }}
-                  >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     {isMultiple && (
                       <Checkbox
                         checked={checked}
@@ -292,32 +319,12 @@ export default function ContactList({
                         onClick={(e) => e.stopPropagation()}
                       />
                     )}
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        minWidth: 0,
-                      }}
-                    >
-                      <span
-                        style={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
+                    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {displayName}
                       </span>
                       {secondary ? (
-                        <span
-                          style={{
-                            fontSize: 12,
-                            opacity: 0.65,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
+                        <span style={{ fontSize: 12, opacity: 0.65, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {secondary}
                         </span>
                       ) : null}
@@ -325,78 +332,58 @@ export default function ContactList({
                   </div>
                 </button>
 
-                {/* Alias editor (kept the same) */}
                 <TextInput
                   placeholder={t('contactList.alias', 'Alias')}
                   defaultValue={c.alias || ''}
                   size="xs"
                   maw={180}
-                  onBlur={(e) =>
-                    updateAlias(
-                      c.userId,
-                      c.externalPhone,
-                      e.currentTarget.value
-                    )
-                  }
+                  onBlur={(e) => updateAlias(c.userId, c.externalPhone, e.currentTarget.value)}
                 />
 
-                {/* Action buttons — shown in both modes (you can conditionally hide in picker mode if desired) */}
                 <Group gap="xs">
-                  {/* Internal user → DM */}
-                  {c.userId ? (
-                    <Tooltip label={t('contactList.startChat', 'Start chat')}>
-                      <ActionIcon
-                        variant="light"
-                        aria-label={t('contactList.startChat', 'Start chat')}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (isMultiple) {
-                            onToggleSelect?.(selectableId);
-                          } else {
-                            startChat(c.userId);
-                          }
-                        }}
-                      >
-                        <IconMessagePlus size={16} />
-                      </ActionIcon>
-                    </Tooltip>
-                  ) : null}
+                  <Tooltip label={t('contactList.message', 'Message')}>
+                    <ActionIcon
+                      variant="light"
+                      aria-label={t('contactList.message', 'Message')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleMessageClick();
+                      }}
+                    >
+                      <IconMessage size={16} />
+                    </ActionIcon>
+                  </Tooltip>
 
-                  {/* External number → Compose SMS */}
-                  {c.externalPhone ? (
-                    <Tooltip label={t('contactList.message', 'Message')}>
-                      <ActionIcon
-                        variant="light"
-                        aria-label={t('contactList.message', 'Message')}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (isMultiple) {
-                            onToggleSelect?.(selectableId);
-                          } else {
-                            goCompose();
-                          }
-                        }}
-                      >
-                        <IconMessage size={16} />
-                      </ActionIcon>
-                    </Tooltip>
-                  ) : null}
+                  <Tooltip label={t('contactList.call', 'Call')}>
+                    <ActionIcon
+                      variant="light"
+                      aria-label={t('contactList.call', 'Call')}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        goCall({ userId: c.userId, phone: c.externalPhone });
+                      }}
+                    >
+                      <IconPhoneCall size={16} />
+                    </ActionIcon>
+                  </Tooltip>
 
-                  {/* External number → PSTN Call via Twilio alias */}
-                  {c.externalPhone && (
-                    <Tooltip label={t('contactList.call', 'Call')}>
-                      <ActionIcon
-                        variant="light"
-                        aria-label={t('contactList.call', 'Call')}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          callNumber(c.externalPhone);
-                        }}
-                      >
-                        <IconPhoneCall size={16} />
-                      </ActionIcon>
-                    </Tooltip>
-                  )}
+                  <Tooltip label={t('contactList.video', 'Video')}>
+                    <ActionIcon
+                      variant="light"
+                      aria-label={t('contactList.video', 'Video')}
+                      // ✅ enable only if you actually have a number to call
+                      disabled={!phoneForCallVideo}
+                       onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        goVideo({ userId: c.userId, phone: c.externalPhone });
+                      }}
+                    >
+                      <IconVideo size={16} />
+                    </ActionIcon>
+                  </Tooltip>
 
                   <Tooltip label={t('contactList.delete', 'Delete')}>
                     <ActionIcon
@@ -404,6 +391,7 @@ export default function ContactList({
                       variant="subtle"
                       aria-label={t('contactList.deleteContactAria', 'Delete contact')}
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         deleteContact(c.userId, c.externalPhone);
                       }}
@@ -420,12 +408,7 @@ export default function ContactList({
 
       {nextCursor && (
         <Group justify="center" mt="md">
-          <Button
-            variant="light"
-            onClick={() =>
-              fetchContacts({ cursor: nextCursor, append: true })
-            }
-          >
+          <Button variant="light" onClick={() => fetchContacts({ cursor: nextCursor, append: true })}>
             {t('contactList.loadMore', 'Load more')}
           </Button>
         </Group>

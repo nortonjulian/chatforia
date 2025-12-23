@@ -801,34 +801,36 @@ model Upload {
   @@index([sha256])
 }
 
-// SMS threads/messages (Twilio-style external SMS)
 model SmsThread {
-  id           Int          @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
+  contactId    Int?
+  contact      Contact?  @relation(fields: [contactId], references: [id])
   userId       Int
-  contactPhone String       @db.VarChar(32) // normalized E.164 of the other party
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  archivedAt   DateTime?
+  contactPhone String?   @db.VarChar(32)
+
+  participants SmsParticipant[]
   messages     SmsMessage[]
 
   user User @relation("UserSmsThreads", fields: [userId], references: [id], onDelete: Cascade)
 
-  archivedAt DateTime?
-
-  @@unique([userId, contactPhone])
   @@index([userId])
 }
 
 model SmsMessage {
-  id                Int      @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   threadId          Int
   direction         String // 'in' | 'out'
-  fromNumber        String   @db.VarChar(32)
-  toNumber          String   @db.VarChar(32)
+  fromNumber        String    @db.VarChar(32)
+  toNumber          String    @db.VarChar(32)
   body              String
   provider          String?
-  providerMessageId String?  @db.VarChar(128)
+  providerMessageId String?   @db.VarChar(128)
   mediaUrls         Json?
-  createdAt         DateTime @default(now())
+  createdAt         DateTime  @default(now())
+  editedAt          DateTime?
 
   thread SmsThread @relation(fields: [threadId], references: [id])
 
@@ -836,18 +838,31 @@ model SmsMessage {
   @@index([providerMessageId])
 }
 
+model SmsParticipant {
+  id        Int      @id @default(autoincrement())
+  threadId  Int
+  phone     String   @db.VarChar(32) // E.164
+  createdAt DateTime @default(now())
+
+  thread SmsThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@unique([threadId, phone])
+  @@index([phone])
+}
+
 // ===================== 7) Contacts / Moderation / Support / Auditing =====================
 
 model Contact {
-  id            Int      @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   ownerId       Int
   userId        Int?
   externalPhone String? // normalized digits with optional +
   externalName  String?
   alias         String?
-  favorite      Boolean  @default(false)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  favorite      Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  smsThreads    SmsThread[]
 
   owner User  @relation("ContactsOwned", fields: [ownerId], references: [id])
   user  User? @relation("ContactsSaved", fields: [userId], references: [id])

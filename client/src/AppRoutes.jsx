@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import {
@@ -31,8 +30,6 @@ import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 import ChatThreadRoute from './pages/ChatThreadRoute';
 
-// ✅ Family pages
-import FamilyDashboard from '@/pages/FamilyDashboard.jsx';
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
 
 // ✅ NEW: Wireless dashboard
@@ -59,10 +56,8 @@ import SettingsPage from '@/features/settings/SettingsPage';
 import HomeIndex from '@/features/chat/HomeIndex';
 
 import SmsThreads from '@/pages/SmsThreads.jsx';
-import SmsThreadPage from '@/pages/SmsThreadPage.jsx';
 import SmsCompose from '@/pages/SmsCompose.jsx';
 import SmsLayout from '@/pages/SmsLayout.jsx';
-import SmsThreadView from './pages/SmsThreadView';
 
 import MyPlan from '@/pages/MyPlan.jsx';
 
@@ -192,13 +187,12 @@ function AuthedLayout() {
         styles={{
           navbar: { flexShrink: 0 },
           aside: { flexShrink: 0 },
-          main: { minWidth: 0 }, 
+          main: { minWidth: 0 },
         }}
       >
         <AppShell.Header>
           <SkipLink targetId="main-content" />
 
-          {/* Roomier header so the Log Out button never looks clipped; middle cluster is layered under right group */}
           <Group
             h="100%"
             px="lg"
@@ -304,7 +298,7 @@ function AuthedLayout() {
 
           <AdProvider isPremium={isPremium}>
             <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
-            <SupportWidget excludeRoutes={['/sms/threads', '/sms/call', '/admin']} />
+            <SupportWidget excludeRoutes={['/sms', '/admin']} />
           </AdProvider>
 
           {features?.status && (
@@ -333,13 +327,14 @@ export default function AppRoutes() {
         <Route path="/upgrade" element={<UpgradePage variant="account" />} />
         <Route path="/pricing" element={<UpgradePage variant="public" />} />
 
-        {/* Auth + marketing layout (hero + auth forms, guides, etc.) */}
+        {/* Auth + marketing layout */}
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/complete" element={<OAuthComplete />} />
+
           <Route path="/about" element={<AboutChatforia />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/press" element={<Press />} />
@@ -347,10 +342,12 @@ export default function AppRoutes() {
           <Route path="/help" element={<HelpCenter />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/download" element={<Downloads />} />
+
           <Route path="/guides/getting-started" element={<GettingStarted />} />
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
+
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
@@ -382,6 +379,7 @@ export default function AppRoutes() {
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
+
         <Route
           path="settings/backups"
           element={
@@ -394,21 +392,16 @@ export default function AppRoutes() {
         {/* Calls + Video hub */}
         <Route path="dialer" element={<Dialer />} />
         <Route path="video" element={<Video />} />
-
         <Route path="voicemail" element={<VoicemailPage />} />
 
         <Route path="chat/:id" element={<ChatThreadRoute />} />
 
-        {/* ✅ Wireless dashboard (canonical) */}
+        {/* ✅ Wireless */}
         <Route path="wireless" element={<WirelessDashboard />} />
-
-        {/* ✅ Wireless: manage plan, numbers & porting */}
         <Route path="wireless/manage" element={<ManageWirelessPage />} />
 
         {/* ✅ Keep /family working, but point it to /wireless */}
         <Route path="family" element={<Navigate to="/wireless" replace />} />
-
-        {/* ✅ Family join route (also works when already logged in) */}
         <Route path="family/join/:token" element={<FamilyJoin />} />
 
         <Route path="guides/getting-started" element={<GettingStarted />} />
@@ -417,20 +410,27 @@ export default function AppRoutes() {
         <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="join/:code" element={<JoinInvitePage />} />
 
-        <Route path="sms" element={<SmsLayout />}>
+        {/* ✅ SMS ROUTES
+            IMPORTANT: SmsLayout is the thread view, not a router layout.
+            So we mount it at /sms/:threadId directly.
+        */}
+        <Route path="sms">
           <Route index element={<SmsThreads />} />
           <Route path="compose" element={<SmsCompose />} />
 
           {/* legacy redirect: /sms/threads/:id -> /sms/:id */}
           <Route path="threads/:id" element={<Navigate to="../:id" replace />} />
 
-          <Route path=":threadId" element={<SmsThreadPage />} />
-          <Route path=":threadId" element={<SmsThreadView currentUserId={currentUser?.id} currentUser={currentUser} />} />
+          {/* thread view */}
+          <Route
+            path=":threadId"
+            element={<SmsLayout currentUserId={currentUser?.id} currentUser={currentUser} />}
+          />
         </Route>
 
-        <Route path="/account/plan" element={<MyPlan />} />
+        <Route path="account/plan" element={<MyPlan />} />
 
-        {/* ✅ eSIM activation route */}
+        {/* ✅ eSIM activation */}
         <Route path="account/esim" element={<EsimActivatePage />} />
 
         <Route

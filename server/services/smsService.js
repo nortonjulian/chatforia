@@ -3,11 +3,42 @@ import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
 
-/**
- * Get the user's current active number (TextNow-style lease model):
- * - Look up the PhoneNumber row assigned to the user
- * - status must be ASSIGNED or HOLD
- */
+/* -------------------------------------------------------------------------- */
+/*                               Helper utils                                 */
+/* -------------------------------------------------------------------------- */
+
+function phoneVariants(raw) {
+  const cleaned = String(raw || '').trim().replace(/[^\d+]/g, '');
+  if (!cleaned) return [];
+  const noPlus = cleaned.startsWith('+') ? cleaned.slice(1) : cleaned;
+  const withPlus = cleaned.startsWith('+') ? cleaned : `+${cleaned}`;
+  return [...new Set([withPlus, noPlus].filter(Boolean))];
+}
+
+async function getContactDisplayNameForPhone(ownerId, phone) {
+  const variants = phoneVariants(phone);
+  if (!variants.length) return null;
+
+  const c = await prisma.contact.findFirst({
+    where: {
+      ownerId: Number(ownerId),
+      externalPhone: { in: variants },
+    },
+    select: {
+      alias: true,
+      externalName: true,
+      externalPhone: true,
+      user: { select: { username: true } },
+    },
+  });
+
+  return c ? (c.alias || c.externalName || c.user?.username || c.externalPhone) : null;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                       User DID / leased number helper                       */
+/* -------------------------------------------------------------------------- */
+
 async function getUserActiveDid(userId) {
   const num = await prisma.phoneNumber.findFirst({
     where: {
@@ -20,29 +51,11 @@ async function getUserActiveDid(userId) {
 
   if (!num?.e164) {
     const err = Boom.preconditionFailed('No assigned number for user');
-    // frontend expects this to trigger NumberPickerModal
     err.output.payload.code = 'NO_NUMBER';
     throw err;
   }
 
   return { id: num.id, e164: normalizeE164(num.e164) };
-}
-
-async function upsertThread(userId, contactPhone) {
-  const phone = normalizeE164(contactPhone);
-  if (!isE164(phone)) throw Boom.badRequest('Invalid destination phone');
-
-  let thread = await prisma.smsThread.findFirst({
-    where: { userId: Number(userId), contactPhone: phone },
-  });
-
-  if (!thread) {
-    thread = await prisma.smsThread.create({
-      data: { userId: Number(userId), contactPhone: phone },
-    });
-  }
-
-  return thread;
 }
 
 async function assertUserOwnsFromNumber(userId, from) {
@@ -62,9 +75,67 @@ async function assertUserOwnsFromNumber(userId, from) {
   return normalizeE164(owns.e164);
 }
 
-/**
- * OUTBOUND SMS/MMS
- */
+/* -------------------------------------------------------------------------- */
+/*                             Thread upsert helper                             */
+/* -------------------------------------------------------------------------- */
+
+async function upsertThread(userId, contactPhone) {
+  const uid = Number(userId);
+  const phone = normalizeE164(contactPhone);
+  if (!isE164(phone)) throw Boom.badRequest('Invalid destination phone');
+
+  let thread = await prisma.smsThread.findFirst({
+    where: { userId: uid, contactPhone: phone },
+    select: { id: true, contactPhone: true },
+  });
+
+  if (!thread) {
+    thread = await prisma.smsThread.create({
+      data: {
+        userId: uid,
+        contactPhone: phone,
+        // keep participants in sync so lookup-by-participants also works
+        participants: {
+          create: [{ phone }],
+        },
+      },
+      select: { id: true, contactPhone: true },
+    });
+    return thread;
+  }
+
+  // ensure participant exists even for legacy threads
+  await prisma.smsParticipant.upsert({
+    where: { threadId_phone: { threadId: thread.id, phone } },
+    update: {},
+    create: { threadId: thread.id, phone },
+  });
+
+  return thread;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                          Normalize inbound media payloads                    */
+/* -------------------------------------------------------------------------- */
+
+function normalizeInboundMedia(media) {
+  if (!Array.isArray(media)) return [];
+  return media
+    .map((m) => {
+      if (!m) return null;
+      if (typeof m === 'string') return { url: m, contentType: null };
+      const url = m.url || m.MediaUrl || m.mediaUrl;
+      const contentType = m.contentType || m.MediaContentType || m.mimeType || null;
+      if (!url) return null;
+      return { url: String(url), contentType: contentType ? String(contentType) : null };
+    })
+    .filter(Boolean);
+}
+
+/* -------------------------------------------------------------------------- */
+/*                                OUTBOUND SMS                                */
+/* -------------------------------------------------------------------------- */
+
 export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   const uid = Number(userId);
 
@@ -78,7 +149,6 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     throw Boom.badRequest('body or mediaUrls required');
   }
 
-  // If UI passes a specific DID, verify the user owns it; otherwise use current leased DID.
   const fromNumber = from
     ? await assertUserOwnsFromNumber(uid, from)
     : (await getUserActiveDid(uid)).e164;
@@ -86,20 +156,12 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   const thread = await upsertThread(uid, toPhone);
   const clientRef = `smsout:${uid}:${Date.now()}`;
 
-  console.log('[smsService] sending', {
-    userId: uid,
-    to: toPhone,
-    fromNumber,
-    bodyLen: safeBody.length,
-    mediaCount: safeMediaUrls.length,
-  });
-
   const result = await sendSms({
     to: toPhone,
     text: safeBody,
     clientRef,
     from: fromNumber,
-    mediaUrls: safeMediaUrls, // ✅ MMS
+    mediaUrls: safeMediaUrls,
   });
 
   const provider = result?.provider || 'twilio';
@@ -142,16 +204,17 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
   };
 }
 
-/**
- * INBOUND SMS (called by webhook handler)
- */
+/* -------------------------------------------------------------------------- */
+/*                                 INBOUND SMS                                */
+/* -------------------------------------------------------------------------- */
+
 export async function recordInboundSms({
   toNumber,
   fromNumber,
   body,
   provider,
   providerMessageId,
-  mediaUrls,
+  media,
 }) {
   const toE164 = normalizeE164(toNumber);
   const fromE164 = normalizeE164(fromNumber);
@@ -172,7 +235,10 @@ export async function recordInboundSms({
   if (!owner?.assignedUserId) return { ok: false, reason: 'no-owner' };
 
   const safeBody = String(body ?? '').trim();
-  const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
+  const safeMedia = normalizeInboundMedia(media);
+  const hasMedia = safeMedia.length > 0;
+
+  if (!safeBody && !hasMedia) return { ok: false, reason: 'empty' };
 
   const thread = await upsertThread(owner.assignedUserId, fromE164);
 
@@ -186,7 +252,7 @@ export async function recordInboundSms({
         body: safeBody,
         provider: provider || null,
         providerMessageId: providerMessageId || null,
-        mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
+        mediaUrls: hasMedia ? safeMedia : null,
       },
     });
 
@@ -199,26 +265,56 @@ export async function recordInboundSms({
   return { ok: true, userId: owner.assignedUserId, threadId: thread.id };
 }
 
-/**
- * LIST THREADS (for left "Conversations" list)
- */
+/* -------------------------------------------------------------------------- */
+/*                               LIST THREADS                                 */
+/* -------------------------------------------------------------------------- */
+
 export async function listThreads(userId) {
-  return prisma.smsThread.findMany({
-    where: { userId: Number(userId) },
+  const uid = Number(userId);
+
+  const threads = await prisma.smsThread.findMany({
+    where: { userId: uid, archivedAt: null },
     orderBy: { updatedAt: 'desc' },
+    select: {
+      id: true,
+      contactPhone: true,
+      updatedAt: true,
+    },
+    take: 200,
   });
+
+  const out = await Promise.all(
+    threads.map(async (t) => {
+      const name =
+        (await getContactDisplayNameForPhone(uid, t.contactPhone)) ||
+        t.contactPhone ||
+        `SMS #${t.id}`;
+
+      return {
+        ...t,
+        displayName: name,
+        contactName: name,
+      };
+    })
+  );
+
+  return out;
 }
 
-/**
- * ✅ GET A SINGLE THREAD + MESSAGES (shape matches SmsThreadPage expectations)
- * Returns:
- *   { id, userId, contactPhone, updatedAt, ..., messages: [...] }
- */
+/* -------------------------------------------------------------------------- */
+/*                     GET SINGLE THREAD + NAME + MESSAGES                     */
+/* -------------------------------------------------------------------------- */
+
 export async function getThread(userId, threadId) {
+  const uid = Number(userId);
+  const tid = Number(threadId);
+
+  if (!Number.isFinite(tid)) throw Boom.badRequest('Invalid thread id');
+
   const thread = await prisma.smsThread.findFirst({
-    where: {
-      id: Number(threadId),
-      userId: Number(userId),
+    where: { id: tid, userId: uid },
+    include: {
+      participants: { select: { phone: true }, take: 5 },
     },
   });
 
@@ -229,18 +325,34 @@ export async function getThread(userId, threadId) {
     orderBy: { createdAt: 'asc' },
   });
 
-  return { ...thread, messages };
+  const peerPhone =
+    thread.contactPhone ||
+    thread.participants?.[0]?.phone ||
+    '';
+
+  const displayName =
+    (await getContactDisplayNameForPhone(uid, peerPhone)) ||
+    peerPhone ||
+    `SMS #${thread.id}`;
+
+  return {
+    ...thread,
+    contactPhone: peerPhone || thread.contactPhone || null,
+    displayName,
+    contactName: displayName,
+    messages,
+  };
 }
 
-/**
- * ✅ DELETE SINGLE MESSAGE (DB-only, scoped to owner via thread.userId)
- */
+/* -------------------------------------------------------------------------- */
+/*                             DELETE / UPDATE MSG                             */
+/* -------------------------------------------------------------------------- */
+
 export async function deleteMessage(userId, messageId) {
   const uid = Number(userId);
   const mid = Number(messageId);
   if (!Number.isFinite(mid)) throw Boom.badRequest('Invalid message id');
 
-  // Verify the message belongs to a thread owned by this user
   const msg = await prisma.smsMessage.findFirst({
     where: { id: mid },
     select: { id: true, threadId: true },
@@ -257,7 +369,6 @@ export async function deleteMessage(userId, messageId) {
 
   await prisma.smsMessage.delete({ where: { id: mid } });
 
-  // Optional: keep thread ordering sane if you delete the latest message
   await prisma.smsThread.update({
     where: { id: msg.threadId },
     data: { updatedAt: new Date() },
@@ -266,12 +377,6 @@ export async function deleteMessage(userId, messageId) {
   return { ok: true, messageId: mid, threadId: msg.threadId };
 }
 
-/**
- * ✅ DELETE THREAD (DB-only)
- * - Removes the thread from your Conversations list
- * - Deletes local message history for that thread
- * - DOES NOT delete provider (Twilio) history
- */
 export async function deleteThread(userId, threadId) {
   const uid = Number(userId);
   const tid = Number(threadId);
@@ -292,11 +397,6 @@ export async function deleteThread(userId, threadId) {
   return { ok: true, threadId: tid };
 }
 
-/**
- * ✅ UPDATE SINGLE MESSAGE (DB-only, scoped to owner via thread.userId)
- * - Only edits local DB history (does NOT edit provider history)
- * - Restrict editing to outbound messages by default (optional but recommended)
- */
 export async function updateMessage(userId, messageId, { body }) {
   const uid = Number(userId);
   const mid = Number(messageId);
@@ -305,15 +405,13 @@ export async function updateMessage(userId, messageId, { body }) {
   const nextBody = String(body ?? '').trim();
   if (!nextBody) throw Boom.badRequest('body is required');
 
-  // Verify message exists
   const msg = await prisma.smsMessage.findFirst({
     where: { id: mid },
-    select: { id: true, threadId: true, direction: true },
+    select: { id: true, threadId: true, direction: true, createdAt: true },
   });
 
   if (!msg) throw Boom.notFound('Message not found');
 
-  // Verify the thread belongs to the user
   const thread = await prisma.smsThread.findFirst({
     where: { id: msg.threadId, userId: uid },
     select: { id: true },
@@ -321,17 +419,25 @@ export async function updateMessage(userId, messageId, { body }) {
 
   if (!thread) throw Boom.notFound('Message not found');
 
-  // Optional policy: only allow editing outbound messages
   if (String(msg.direction).toLowerCase() !== 'out') {
     throw Boom.forbidden('Only sent messages can be edited');
   }
 
+  // ✅ time window
+  const windowSec = Number(process.env.SMS_EDIT_WINDOW_SEC || 300);
+  if (Number.isFinite(windowSec) && windowSec > 0) {
+    const ageMs = Date.now() - new Date(msg.createdAt).getTime();
+    if (ageMs > windowSec * 1000) {
+      const err = Boom.forbidden('Edit window expired');
+      err.output.payload.code = 'EDIT_WINDOW_EXPIRED';
+      err.output.payload.windowSec = windowSec;
+      throw err;
+    }
+  }
+
   const updated = await prisma.smsMessage.update({
     where: { id: mid },
-    data: {
-      body: nextBody,
-      editedAt: new Date(), // ✅ add this field in schema if not present
-    },
+    data: { body: nextBody, editedAt: new Date() },
   });
 
   await prisma.smsThread.update({
@@ -341,3 +447,4 @@ export async function updateMessage(userId, messageId, { body }) {
 
   return updated;
 }
+

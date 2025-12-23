@@ -20,6 +20,8 @@ import {
 import StickerPicker from '@/components/StickerPicker';
 import { NumberPickerModal } from '@/components/profile/PhoneNumberManager';
 
+/* ---------------- helpers ---------------- */
+
 function toE164Dev(raw) {
   const s = String(raw || '').replace(/[^\d+]/g, '');
   if (!s) return '';
@@ -28,46 +30,91 @@ function toE164Dev(raw) {
   return `+${s}`;
 }
 
+/* ---------------- component ---------------- */
+
 export default function SmsCompose() {
   const [sp] = useSearchParams();
+  const navigate = useNavigate();
+
   const presetTo = sp.get('to') || '';
+  const presetName = sp.get('name') || '';
+
   const [to, setTo] = useState(presetTo);
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
-  const [pickerOpen, setPickerOpen] = useState(false); // emoji/GIF picker
-  const [numberPickerOpen, setNumberPickerOpen] = useState(false); // 🔥 phone number picker
-  const navigate = useNavigate();
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [numberPickerOpen, setNumberPickerOpen] = useState(false);
+
   const inputRef = useRef(null);
+
+  /* -----------------------------------------------------------
+   * 🔥 KEY FIX: redirect to existing thread if it already exists
+   * ----------------------------------------------------------- */
+  useEffect(() => {
+    (async () => {
+      if (!presetTo) return;
+
+      const normalized = toE164Dev(presetTo);
+      if (!normalized) return;
+
+      try {
+        const res = await axiosClient.get('/sms/threads/lookup', {
+          params: { to: normalized },
+        });
+
+        const threadId = res?.data?.threadId;
+        if (threadId) {
+          navigate(`/sms/${threadId}`, { replace: true });
+        }
+      } catch {
+        // lookup failure → stay on compose
+      }
+    })();
+  }, [presetTo, navigate]);
 
   useEffect(() => {
     if (presetTo) setTo(presetTo);
   }, [presetTo]);
 
-  const canSend = useMemo(() => Boolean(to && text.trim()), [to, text]);
+  const canSend = useMemo(
+    () => Boolean(to && text.trim()),
+    [to, text]
+  );
 
   async function handleSend() {
     if (!canSend) return;
+
     setSending(true);
     try {
       const res = await axiosClient.post('/sms/send', {
         to: toE164Dev(to),
         body: text.trim(),
       });
+
       const data = res.data;
 
+      // If backend returns threadId → navigate
       if (data?.threadId) {
-        navigate(`/sms/threads/${data.threadId}`);
+        navigate(`/sms/${data.threadId}`);
+        return;
+      }
+
+      // Fallback: lookup thread after send
+      const lookup = await axiosClient.get('/sms/threads/lookup', {
+        params: { to: toE164Dev(to) },
+      });
+
+      if (lookup?.data?.threadId) {
+        navigate(`/sms/${lookup.data.threadId}`);
       } else {
         setText('');
       }
     } catch (e) {
       const code = e?.response?.data?.code;
       if (code === 'NO_NUMBER') {
-        // User has no assigned Chatforia number yet → open picker
         setNumberPickerOpen(true);
       } else {
         console.error('SMS send failed', e);
-        // (Optional) show a toast here
       }
     } finally {
       setSending(false);
@@ -109,23 +156,23 @@ export default function SmsCompose() {
         </Button>
       </Group>
 
-      {/* “To” field */}
+      {/* To field */}
       <Box px="md" pb="xs">
         <TextInput
           placeholder="To: phone number"
           value={to}
           onChange={(e) => setTo(e.currentTarget.value)}
           leftSection={<Text size="sm">To</Text>}
+          description={presetName ? `Contact: ${presetName}` : undefined}
           onKeyDown={(e) => {
             if (e.key === 'Enter') inputRef.current?.focus();
           }}
         />
       </Box>
 
-      {/* Spacer pushes composer to bottom */}
       <div style={{ flex: 1 }} />
 
-      {/* Bottom composer */}
+      {/* Composer */}
       <Box
         px="md"
         py="sm"
@@ -137,39 +184,22 @@ export default function SmsCompose() {
         }}
       >
         <Group gap="xs" align="center" wrap="nowrap">
-          <Button
-            variant="subtle"
-            aria-label="Emoji"
-            title="Emoji"
-            onClick={() => setPickerOpen(true)}
-          >
+          <Button variant="subtle" onClick={() => setPickerOpen(true)}>
             <IconMoodSmile size={18} />
           </Button>
-          <Button
-            variant="subtle"
-            aria-label="GIF"
-            title="GIF"
-            onClick={() => setPickerOpen(true)}
-          >
+          <Button variant="subtle" onClick={() => setPickerOpen(true)}>
             <IconGif size={18} />
           </Button>
-          <FileButton onChange={() => { /* TODO: attach upload */ }}>
+          <FileButton onChange={() => {}}>
             {(props) => (
-              <Button
-                variant="subtle"
-                {...props}
-                aria-label="Attach"
-                title="Attach"
-              >
+              <Button variant="subtle" {...props}>
                 <IconPaperclip size={18} />
               </Button>
             )}
           </FileButton>
 
           <Textarea
-            data-composer="textarea"
             ref={inputRef}
-            className="message-input"
             variant="filled"
             placeholder="Type a message…"
             value={text}
@@ -183,20 +213,7 @@ export default function SmsCompose() {
                 handleSend();
               }
             }}
-            styles={{
-              root: { flex: 1, minWidth: 0 },
-              input: {
-                overflowY: 'auto',
-                overflowX: 'hidden',
-                whiteSpace: 'pre-wrap',
-                overflowWrap: 'anywhere',
-                wordBreak: 'break-word',
-                lineHeight: 1.45,
-                paddingTop: 8,
-                paddingBottom: 8,
-                resize: 'none',
-              },
-            }}
+            styles={{ root: { flex: 1 } }}
           />
 
           <Button
@@ -210,22 +227,15 @@ export default function SmsCompose() {
         </Group>
       </Box>
 
-      {/* Emoji/GIF picker modal */}
       <StickerPicker
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onPick={handlePick}
       />
 
-      {/* 🔥 Phone number picker modal (reused from Profile) */}
       <NumberPickerModal
         opened={numberPickerOpen}
         onClose={() => setNumberPickerOpen(false)}
-        onAssigned={() => {
-          // They’ve just picked a number.
-          // You can auto-retry send here if you want, or just close.
-          setNumberPickerOpen(false);
-        }}
       />
     </Box>
   );

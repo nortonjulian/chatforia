@@ -19,7 +19,6 @@ import {
   ActionIcon,
   Tooltip,
   Menu,
-  Divider,
   Textarea,
   Button,
 } from '@mantine/core';
@@ -40,6 +39,15 @@ import SmartReplyBar from '@/components/SmartReplyBar.jsx';
 import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
+// ✅ NEW: local SMS cache + UI
+import {
+  addSmsMessages,
+  searchSmsMessages,
+  getSmsMediaItems,
+} from '@/utils/smsMessagesStore.js';
+import SmsSearchDrawer from '@/components/sms/SmsSearchDrawer.jsx';
+import SmsMediaGalleryModal from '@/components/sms/SmsMediaGalleryModal.jsx';
+
 export default function SmsLayout({ currentUserId, currentUser }) {
   const { threadId } = useParams();
   const navigate = useNavigate();
@@ -54,6 +62,10 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   // ✅ Edit state
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState('');
+
+  // ✅ Search + media UI
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   const loadingRef = useRef(false);
   const bottomRef = useRef(null);
@@ -84,6 +96,13 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     try {
       const res = await axiosClient.get(`/sms/threads/${threadId}`);
       setThread(res.data);
+
+      // ✅ Cache locally for search + media
+      try {
+        await addSmsMessages(String(threadId), res.data?.messages || []);
+      } catch {
+        // ignore local cache errors
+      }
     } catch {
       setThread(null);
     } finally {
@@ -110,6 +129,8 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     setDraft('');
     setEditingId(null);
     setEditingText('');
+    setSearchOpen(false);
+    setGalleryOpen(false);
     loadThread();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [threadId]);
@@ -159,13 +180,63 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     });
 
     try {
-      await axiosClient.delete(`/sms/messages/${messageId}`);
+      await axiosClient.delete(`/sms/media/${messageId}`);
       await loadThread();
     } catch (e) {
       console.error('SMS delete failed', e);
       await loadThread();
     }
   };
+
+  // ✅ Block SMS number (LOCAL BLOCK — FREE)
+  const blockNumber = useCallback(async () => {
+    const target = (toNumber || '').trim();
+    if (!target) return;
+
+    const ok = window.confirm(
+      `Block ${titleText || target}? You won't receive messages from them.`
+    );
+    if (!ok) return;
+
+    try {
+      // ✅ Backend should implement:
+      // POST /sms/blocks  { phone }
+      await axiosClient.post('/sms/blocks', { phone: target });
+
+      window.alert(`Blocked ${titleText || target}.`);
+      navigate('/sms');
+    } catch (e) {
+      console.error('SMS Block failed', e);
+      window.alert('Block failed (backend not wired yet).');
+    }
+  }, [toNumber, titleText, navigate]);
+
+  // ✅ Invite to Chatforia (share sheet / clipboard fallback)
+  const inviteToChatforia = useCallback(async () => {
+    const origin = window.location.origin;
+    const link = `${origin}/download`; // change if you have a better deep link
+    const text = `Join me on Chatforia: ${link}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: 'Chatforia',
+          text,
+          url: link,
+        });
+        return;
+      }
+    } catch {
+      // fall through to clipboard
+    }
+
+    try {
+      await navigator.clipboard.writeText(text);
+      window.alert('Invite link copied to clipboard.');
+    } catch {
+      window.prompt('Copy this invite link:', text);
+    }
+  }, []);
 
   // ✅ Edit handlers
   const startEdit = (m) => {
@@ -204,6 +275,22 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     }
   };
 
+  // ✅ Search: jump to message in viewport
+  const jumpToSmsMessage = useCallback((messageId) => {
+    const el = document.querySelector(`[data-sms-msg-id="${messageId}"]`);
+    if (el?.scrollIntoView) {
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      el.classList.add('sms-jump-highlight');
+      setTimeout(() => el.classList.remove('sms-jump-highlight'), 900);
+    }
+  }, []);
+
+  // ✅ Media items for gallery
+  const smsMediaItems = useMemo(() => {
+    if (!threadId) return [];
+    return getSmsMediaItems(String(threadId));
+  }, [threadId, thread?.messages?.length]); // refresh when messages change
+
   if (!thread) return null;
 
   return (
@@ -217,8 +304,8 @@ export default function SmsLayout({ currentUserId, currentUser }) {
               <Tooltip label="Search" withArrow>
                 <ActionIcon
                   variant="subtle"
-                  aria-label="Search (coming soon)"
-                  onClick={() => {}}
+                  aria-label="Search"
+                  onClick={() => setSearchOpen(true)}
                 >
                   <IconSearch size={18} />
                 </ActionIcon>
@@ -227,45 +314,36 @@ export default function SmsLayout({ currentUserId, currentUser }) {
               <Tooltip label="Media" withArrow>
                 <ActionIcon
                   variant="subtle"
-                  aria-label="Media (coming soon)"
-                  onClick={() => {}}
+                  aria-label="Media"
+                  onClick={() => setGalleryOpen(true)}
                 >
                   <IconPhoto size={18} />
                 </ActionIcon>
               </Tooltip>
 
-              {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Block */}
+              {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Invite + Block */}
               <ThreadActionsMenu
                 isPremium={isPremium}
                 showPremiumSection
                 showThreadSection
-
-                // ✅ Force-show the group rows for UI parity
-                isOwnerOrAdmin={true}
-
                 onAiPower={() => {
-                    if (!isPremium) return navigate('/upgrade');
-                    console.log('SMS AI Power (todo)');
+                  if (!isPremium) return navigate('/upgrade');
+                  console.log('SMS AI Power (todo)');
                 }}
                 onSchedule={() => {
-                    if (!isPremium) return navigate('/upgrade');
-                    console.log('SMS Schedule (todo)');
+                  if (!isPremium) return navigate('/upgrade');
+                  console.log('SMS Schedule (todo)');
                 }}
-
-                onAbout={() => console.log('SMS About (todo)')}
-                onSearch={() => console.log('SMS Search (todo)')}
-                onMedia={() => console.log('SMS Media (todo)')}
-
-                // ✅ These rows now appear (but are placeholders for SMS)
-                onInvitePeople={() => console.log('SMS Invite people (todo)')}
-                onRoomSettings={() => console.log('SMS Room settings (todo)')}
-
-                onBlock={() => {
-                    const ok = window.confirm(`Block ${titleText || toNumber}?`);
-                    if (!ok) return;
-                    console.log('SMS Block (todo)', { toNumber });
-                }}
-                />
+                onSearch={() => setSearchOpen(true)}
+                onMedia={() => setGalleryOpen(true)}
+                // ✅ SMS-specific “Invite” (NOT room invite)
+                canInvite
+                inviteLabel="Invite to Chatforia"
+                onInvitePeople={inviteToChatforia}
+                // ✅ Local block
+                onBlock={blockNumber}
+                blockLabel={`Block ${titleText || 'number'}`}
+              />
             </Group>
           </Group>
         </Box>
@@ -409,9 +487,13 @@ export default function SmsLayout({ currentUserId, currentUser }) {
 
                 const isEditing = editingId === m.id;
 
+                // ✅ NEW: MMS thumbnails (per-message)
+                const media = Array.isArray(m.mediaUrls) ? m.mediaUrls : [];
+
                 return (
                   <Group
                     key={m.id}
+                    data-sms-msg-id={m.id}
                     className="sms-message-row"
                     justify={isOut ? 'flex-end' : 'flex-start'}
                     align="flex-start"
@@ -472,7 +554,50 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                         style={bubbleStyle}
                         className="sms-bubble"
                       >
-                        {isEditing ? (
+                        {!isEditing ? (
+                          <>
+                            <Text
+                              c="inherit"
+                              style={{
+                                whiteSpace: 'pre-wrap',
+                                overflowWrap: 'anywhere',
+                              }}
+                            >
+                              {m.body}
+                            </Text>
+
+                            {media.length > 0 && (
+                              <Group gap="xs" mt={8} wrap="wrap">
+                                {media.map((_, idx) => {
+                                  const base =
+                                    import.meta.env.VITE_API_BASE_URL || '';
+                                  const src = `${base}/sms/media/${m.id}/${idx}`;
+
+                                  return (
+                                    <img
+                                      key={`${m.id}-${idx}`}
+                                      src={src}
+                                      alt="MMS"
+                                      style={{
+                                        width: 140,
+                                        height: 140,
+                                        objectFit: 'cover',
+                                        borderRadius: 12,
+                                        cursor: 'pointer',
+                                      }}
+                                      onClick={() => {
+                                        // optional: open gallery modal
+                                        // setGalleryOpen(true);
+                                        // setGalleryFocus({ messageId: m.id, idx });
+                                        setGalleryOpen(true);
+                                      }}
+                                    />
+                                  );
+                                })}
+                              </Group>
+                            )}
+                          </>
+                        ) : (
                           <Box style={{ minWidth: 240 }}>
                             <Textarea
                               value={editingText}
@@ -500,16 +625,6 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                               </Button>
                             </Group>
                           </Box>
-                        ) : (
-                          <Text
-                            c="inherit"
-                            style={{
-                              whiteSpace: 'pre-wrap',
-                              overflowWrap: 'anywhere',
-                            }}
-                          >
-                            {m.body}
-                          </Text>
                         )}
                       </Paper>
                     </Tooltip>
@@ -539,7 +654,6 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                         </Menu.Target>
 
                         <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                          {/* Typically: you cannot edit received messages */}
                           <Menu.Item
                             color="red"
                             leftSection={<IconTrash size={16} />}
@@ -563,6 +677,23 @@ export default function SmsLayout({ currentUserId, currentUser }) {
           </Stack>
         </ScrollArea>
       </Box>
+
+      {/* ✅ Local Search Drawer (IndexedDB) */}
+      <SmsSearchDrawer
+        opened={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        threadId={String(threadId)}
+        onJumpToMessage={(id) => jumpToSmsMessage(id)}
+        searchFn={searchSmsMessages}
+      />
+
+      {/* ✅ MMS / Media Gallery */}
+      <SmsMediaGalleryModal
+        opened={galleryOpen}
+        onClose={() => setGalleryOpen(false)}
+        title={titleText}
+        items={smsMediaItems}
+      />
     </ThreadShell>
   );
 }

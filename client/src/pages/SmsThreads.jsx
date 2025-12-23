@@ -29,7 +29,7 @@ export default function SmsThreads() {
       </Group>
       <Stack>
         {items.map(t => (
-          <Link key={t.id} to={`/sms/${t.id}`}>Thread with {t.contactPhone}</Link>
+          <Link key={t.id} to={`/sms/${t.id}`}>{t.displayName || t.contactPhone || `SMS #${t.id}`}</Link>
         ))}
       </Stack>
       <AliasDialer />

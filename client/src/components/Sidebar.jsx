@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
-import NewConversationModal from './NewChatModalHost';
+import NewChatModalHost from './NewChatModalHost';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
 
@@ -55,9 +55,10 @@ function Sidebar({ currentUser, features = {} }) {
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   const handleStartChat = () => {
-    if (!currentUser) return;
-    setInitialDraft(null);
-    setShowStartModal(true);
+    navigate('/');
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('focus-home-to'));
+    }, 0);
   };
 
   useEffect(() => {
@@ -248,17 +249,7 @@ function Sidebar({ currentUser, features = {} }) {
         </Stack>
       </ScrollArea.Autosize>
 
-      {/* Start New Chat modal (Chatforia app-to-app only) */}
-      {showStartModal && currentUser && (
-        <NewConversationModal
-          currentUserId={currentUser?.id}
-          initialDraft={initialDraft}
-          onClose={() => {
-            setShowStartModal(false);
-            setInitialDraft(null);
-          }}
-        />
-      )}
+      {currentUser && <NewChatModalHost currentUserId={currentUser.id} />}
 
       {/* Settings drawer */}
       <Drawer

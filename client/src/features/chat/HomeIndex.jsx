@@ -1,5 +1,4 @@
-// client/src/features/chat/HomeIndex.jsx
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -77,6 +76,17 @@ async function startChatforiaThread({ recipients, firstMessage }) {
 
 export default function HomeIndex({ currentUser }) {
   const navigate = useNavigate();
+
+  const toInputRef = useRef(null);
+
+  useEffect(() => {
+    const onFocus = () => {
+      // Mantine TextInput forwards ref to the <input>
+      toInputRef.current?.focus?.();
+    };
+    window.addEventListener('focus-home-to', onFocus);
+    return () => window.removeEventListener('focus-home-to', onFocus);
+  }, []);
 
   // “To:” entry field (raw input) + parsed chips
   const [toRaw, setToRaw] = useState('');
@@ -196,6 +206,7 @@ export default function HomeIndex({ currentUser }) {
 
               <Box style={{ flex: 1, minWidth: 0 }}>
                 <TextInput
+                  ref={toInputRef}
                   value={toRaw}
                   onChange={(e) => setToRaw(e.currentTarget.value)}
                   placeholder="Enter a name or number"
