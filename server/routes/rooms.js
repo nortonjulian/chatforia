@@ -93,6 +93,129 @@ async function upsertParticipantRole(roomId, userId, role) {
 }
 
 /* ----------------------------------------------------------------
+ * ✅ Option B: "Clear conversation for me"
+ * Adds/updates Participant.archivedAt (used as clearedAt)
+ * Then messages.js will filter messages where createdAt <= archivedAt.
+ *
+ * Route:
+ *   POST /rooms/:roomId/clear
+ * Body (optional):
+ *   { alsoArchive: true|false }  // default true; just sets archivedAt regardless
+ * Response:
+ *   { ok: true, roomId, clearedAt }
+ * ---------------------------------------------------------------- */
+router.post('/:roomId/clear', requireAuth, async (req, res) => {
+  const roomId = Number(req.params.roomId);
+  const userId = Number(req.user?.id);
+
+  if (!Number.isFinite(roomId) || !Number.isFinite(userId)) {
+    return res.status(400).json({ error: 'Bad request' });
+  }
+
+  const clearedAt = new Date();
+
+  // --- TEST/DEV in-memory support ---
+  if (!isProd) {
+    const { members } = ensureRoomMaps(roomId);
+
+    // allow clear only if you're in the room (mem) OR DB says you're a participant
+    const inMem = members.has(userId);
+    let inDb = false;
+
+    if (!inMem) {
+      try {
+        const p = await prisma.participant.findFirst({
+          where: { chatRoomId: roomId, userId },
+          select: { id: true },
+        });
+        inDb = !!p;
+      } catch {
+        try {
+          const p2 = await prisma.participant.findFirst({
+            where: { userId, chatRoomId: roomId },
+            select: { id: true },
+          });
+          inDb = !!p2;
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+
+    if (!inMem && !inDb) return res.status(403).json({ error: 'Forbidden' });
+
+    // store per-user clearedAt in mem (so tests can observe it if needed)
+    if (!__mem.clearedAt) __mem.clearedAt = new Map(); // roomId -> Map<userId, isoString>
+    if (!__mem.clearedAt.has(roomId)) __mem.clearedAt.set(roomId, new Map());
+    __mem.clearedAt.get(roomId).set(userId, clearedAt.toISOString());
+  }
+
+  // --- DB: set Participant.archivedAt = clearedAt ---
+  // (we're using archivedAt as the "clearedAt" marker)
+  let updated = null;
+
+  try {
+    updated = await prisma.participant.update({
+      where: { chatRoomId_userId: { chatRoomId: roomId, userId } },
+      data: { archivedAt: clearedAt },
+      select: { chatRoomId: true, userId: true, archivedAt: true },
+    });
+  } catch {
+    // alt composite key OR row missing -> try upsert paths
+    try {
+      updated = await prisma.participant.update({
+        where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
+        data: { archivedAt: clearedAt },
+        select: { chatRoomId: true, userId: true, archivedAt: true },
+      });
+    } catch {
+      try {
+        // if they are a participant but schema key mismatch, upsert w/ best-effort
+        updated = await prisma.participant.upsert({
+          where: { chatRoomId_userId: { chatRoomId: roomId, userId } },
+          update: { archivedAt: clearedAt },
+          create: { chatRoomId: roomId, userId, archivedAt: clearedAt },
+          select: { chatRoomId: true, userId: true, archivedAt: true },
+        });
+      } catch {
+        try {
+          updated = await prisma.participant.upsert({
+            where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
+            update: { archivedAt: clearedAt },
+            create: { chatRoomId: roomId, userId, archivedAt: clearedAt },
+            select: { chatRoomId: true, userId: true, archivedAt: true },
+          });
+        } catch (e) {
+          console.error('[rooms:clear] failed to persist archivedAt', e);
+          return res.status(500).json({ error: 'Failed to clear conversation' });
+        }
+      }
+    }
+  }
+
+  // Optional: notify this user’s other devices
+  // (We emit to a user-room if you have one, otherwise no-op)
+  try {
+    const io = req.app.get('io');
+    io?.to(`user:${userId}`).emit('thread_cleared', {
+      roomId,
+      userId,
+      clearedAt: clearedAt.toISOString(),
+    });
+  } catch {
+    // ignore
+  }
+
+  return res.json({
+    ok: true,
+    roomId,
+    clearedAt: (updated?.archivedAt || clearedAt).toISOString?.()
+      ? updated.archivedAt.toISOString()
+      : String(updated?.archivedAt || clearedAt),
+  });
+});
+
+/* ----------------------------------------------------------------
  * Test/Dev FALLBACK endpoints
  * ---------------------------------------------------------------- */
 if (!isProd) {
@@ -294,7 +417,8 @@ if (!isProd) {
     if (targetId === ownerId) return res.status(403).json({ error: 'Cannot change owner role' });
 
     const actorId = Number(req.user.id);
-    const actorRole = actorId === ownerId ? 'OWNER' : (await getActorRole(roomId, actorId)) || 'MEMBER';
+    const actorRole =
+      actorId === ownerId ? 'OWNER' : (await getActorRole(roomId, actorId)) || 'MEMBER';
 
     if (role === 'ADMIN' && actorId !== ownerId) {
       return res.status(403).json({ error: 'Only owner can grant ADMIN' });
@@ -493,65 +617,64 @@ if (!isProd) {
 
   // POST /chatrooms/:roomId/leave -> self-leave the room
   // POST /chatrooms/:roomId/leave
-router.post('/chatrooms/:roomId/leave', requireAuth, async (req, res) => {
-  const roomId = Number(req.params.roomId);
-  const userId = Number(req.user?.id);
+  router.post('/chatrooms/:roomId/leave', requireAuth, async (req, res) => {
+    const roomId = Number(req.params.roomId);
+    const userId = Number(req.user?.id);
 
-  if (!Number.isFinite(roomId) || !Number.isFinite(userId)) {
-    return res.status(400).json({ error: 'Bad request' });
-  }
+    if (!Number.isFinite(roomId) || !Number.isFinite(userId)) {
+      return res.status(400).json({ error: 'Bad request' });
+    }
 
-  // is the user actually in this room?
-  const roomMembers = __mem.members.get(roomId);
-  const inMem = roomMembers?.has(userId);
+    // is the user actually in this room?
+    const roomMembers = __mem.members.get(roomId);
+    const inMem = roomMembers?.has(userId);
 
-  let inDb = false;
-  try {
-    const p = await prisma.participant.findFirst({
-      where: { chatRoomId: roomId, userId },
-      select: { userId: true },
-    });
-    inDb = !!p;
-  } catch {
-    // ignore if schema's different
+    let inDb = false;
     try {
-      const p2 = await prisma.participant.findFirst({
-        where: { userId, chatRoomId: roomId },
+      const p = await prisma.participant.findFirst({
+        where: { chatRoomId: roomId, userId },
         select: { userId: true },
       });
-      inDb = !!p2;
+      inDb = !!p;
     } catch {
-      /* ignore */
+      // ignore if schema's different
+      try {
+        const p2 = await prisma.participant.findFirst({
+          where: { userId, chatRoomId: roomId },
+          select: { userId: true },
+        });
+        inDb = !!p2;
+      } catch {
+        /* ignore */
+      }
     }
-  }
 
-  if (!inMem && !inDb) {
-    // you're not in the room, you can't "leave" -> Forbidden
-    return res.status(403).json({ error: 'Forbidden' });
-  }
+    if (!inMem && !inDb) {
+      // you're not in the room, you can't "leave" -> Forbidden
+      return res.status(403).json({ error: 'Forbidden' });
+    }
 
-  // remove from in-memory membership/roles
-  __mem.members.get(roomId)?.delete(userId);
-  __mem.roles.get(roomId)?.delete(userId);
+    // remove from in-memory membership/roles
+    __mem.members.get(roomId)?.delete(userId);
+    __mem.roles.get(roomId)?.delete(userId);
 
-  // Best-effort DB cleanup (ignore errors if schema doesn't match)
-  try {
-    await prisma.participant.deleteMany({
-      where: { chatRoomId: roomId, userId },
-    });
-  } catch {
+    // Best-effort DB cleanup (ignore errors if schema doesn't match)
     try {
       await prisma.participant.deleteMany({
-        where: { userId, chatRoomId: roomId },
+        where: { chatRoomId: roomId, userId },
       });
     } catch {
-      /* ignore */
+      try {
+        await prisma.participant.deleteMany({
+          where: { userId, chatRoomId: roomId },
+        });
+      } catch {
+        /* ignore */
+      }
     }
-  }
 
-  return res.json({ ok: true });
-});
-
+    return res.json({ ok: true });
+  });
 
   // DELETE /rooms/:id/participants/:userId → kick (owner/admin)
   router.delete('/:id/participants/:userId', requireAuth, async (req, res) => {

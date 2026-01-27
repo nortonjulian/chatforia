@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import path from 'path';
 import fs from 'fs';
 
-
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { validateRegistrationInput } from '../utils/validateUser.js';
@@ -44,6 +43,32 @@ router.post('/', async (req, res) => {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'Failed to create user' });
   }
+});
+
+/* ---------------------- GET /users/lookup ---------------------- */
+/* Resolve username -> userId (for adding contacts) */
+router.get('/lookup', requireAuth, async (req, res) => {
+  const username = (req.query.username || '').toString().trim();
+
+  if (!username) {
+    return res.status(400).json({ error: 'Missing username' });
+  }
+
+  const user = await prisma.user.findFirst({
+    where: { username: { equals: username, mode: 'insensitive' } },
+    select: { id: true, username: true },
+  });
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  // optional: block adding yourself
+  if (Number(user.id) === Number(req.user.id)) {
+    return res.status(400).json({ error: 'You cannot add yourself as a contact' });
+  }
+
+  return res.json({ userId: user.id, username: user.username });
 });
 
 /* ---------------------- PATCH /users/me ---------------------- */
@@ -314,7 +339,6 @@ router.post(
         .slice(0, 80);
 
       const filename = `${req.user.id}_${Date.now()}_${safeBase}${ext}`;
-
 
       // --- write file, depending on TARGET ---
       let finalFilename = filename;

@@ -10,6 +10,7 @@ import {
   IconSettings,
   IconArrowUpRight,
   IconBan,
+  IconTrash,
 } from '@tabler/icons-react';
 
 export default function ThreadActionsMenu({
@@ -43,6 +44,10 @@ export default function ThreadActionsMenu({
   // optional explicit upgrade row
   onUpgrade,
 
+  // ✅ NEW: clear thread (delete-for-me / clear cutoff)
+  onClear,
+  clearLabel = 'Clear conversation',
+
   // optional block row
   onBlock,
   blockLabel = 'Block',
@@ -66,6 +71,7 @@ export default function ThreadActionsMenu({
       typeof onMedia === 'function' ||
       allowInvite ||
       allowRoomSettings ||
+      typeof onClear === 'function' ||
       typeof onBlock === 'function');
 
   if (!hasPremiumRows && !hasThreadRows) return null;
@@ -139,6 +145,20 @@ export default function ThreadActionsMenu({
               <Menu.Item leftSection={<IconSettings size={16} />} onClick={onRoomSettings}>
                 Room settings
               </Menu.Item>
+            )}
+
+            {/* ✅ NEW: Clear conversation */}
+            {typeof onClear === 'function' && (
+              <>
+                <Divider my="xs" />
+                <Menu.Item
+                  color="red"
+                  leftSection={<IconTrash size={16} />}
+                  onClick={onClear}
+                >
+                  {clearLabel}
+                </Menu.Item>
+              </>
             )}
 
             {typeof onBlock === 'function' && (

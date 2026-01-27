@@ -4,7 +4,7 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import AppleStrategy from 'passport-apple';
 import * as fs from 'node:fs';
 
-// ---------- GOOGLE (already in your file) ----------
+// ---------- GOOGLE ----------
 const HAS_GOOGLE = !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
 // small mask for logs
@@ -19,7 +19,7 @@ console.log('[oauth:passport] env', {
 async function upsertUserFromGoogle(profile) {
   const email = profile.emails?.[0]?.value || null;
   return {
-    id: `google:${profile.id}`,
+    id: `google:${profile.id}`, // ✅ keep string
     provider: 'google',
     email,
     name: profile.displayName,
@@ -28,22 +28,26 @@ async function upsertUserFromGoogle(profile) {
 }
 
 if (HAS_GOOGLE) {
-  passport.use(new GoogleStrategy(
-    {
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5002/auth/google/callback',
-      passReqToCallback: true,
-    },
-    async (req, accessToken, refreshToken, profile, done) => {
-      try {
-        const user = await upsertUserFromGoogle(profile);
-        return done(null, user);
-      } catch (e) {
-        return done(e);
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL:
+          process.env.GOOGLE_CALLBACK_URL ||
+          'http://localhost:5002/auth/google/callback',
+        passReqToCallback: true,
+      },
+      async (req, accessToken, refreshToken, profile, done) => {
+        try {
+          const user = await upsertUserFromGoogle(profile);
+          return done(null, user);
+        } catch (e) {
+          return done(e);
+        }
       }
-    }
-  ));
+    )
+  );
 } else {
   console.warn('[oauth] GOOGLE_* not set — Google SSO disabled');
 }
@@ -61,50 +65,57 @@ function readApplePrivateKey() {
 }
 
 const HAS_APPLE =
-  !!(process.env.APPLE_SERVICE_ID &&
-     process.env.APPLE_TEAM_ID &&
-     process.env.APPLE_KEY_ID &&
-     (process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH));
+  !!(
+    process.env.APPLE_SERVICE_ID &&
+    process.env.APPLE_TEAM_ID &&
+    process.env.APPLE_KEY_ID &&
+    (process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH)
+  );
 
 if (HAS_APPLE) {
   const privateKey = readApplePrivateKey();
+
   if (!privateKey) {
     console.error('[oauth] APPLE private key missing (APPLE_PRIVATE_KEY[_PATH])');
   } else {
-    passport.use(new AppleStrategy(
-      {
-        clientID: process.env.APPLE_SERVICE_ID,    // Service ID (e.g., com.chatforia.web)
-        teamID: process.env.APPLE_TEAM_ID,
-        keyID: process.env.APPLE_KEY_ID,
-        privateKey,
-        callbackURL: process.env.APPLE_CALLBACK_URL,  // must be HTTPS and registered in Apple
-        scope: ['name', 'email'],
-        passReqToCallback: true,
-      },
-      async (req, accessToken, refreshToken, idToken, profile, done) => {
-        try {
-          // idToken contains claims like sub (Apple user id), email (first sign-in), email_verified
-          const sub = idToken?.sub || profile?.id;
-          const email = idToken?.email || profile?.email || null;
+    passport.use(
+      new AppleStrategy(
+        {
+          clientID: process.env.APPLE_SERVICE_ID, // e.g. com.chatforia.auth
+          teamID: process.env.APPLE_TEAM_ID,
+          keyID: process.env.APPLE_KEY_ID,
+          privateKey,
+          callbackURL: process.env.APPLE_CALLBACK_URL,
+          scope: ['name', 'email'],
+          passReqToCallback: true,
+        },
+        async (req, accessToken, refreshToken, idToken, profile, done) => {
+          try {
+            // Stable Apple user id (per app)
+            const sub = idToken?.sub || profile?.id;
+            if (!sub) throw new Error('Apple sub missing');
 
-          // Apple often returns email only once. Persist it if present.
-          const user = {
-            id: `apple:${sub}`,
-            provider: 'apple',
-            email,
-            name: profile?.name?.givenName
-              ? `${profile.name.givenName} ${profile.name.familyName || ''}`.trim()
-              : null,
-            avatarUrl: null,
-          };
+            const email = idToken?.email || profile?.email || null;
 
-          // TODO: replace with real DB upsert/lookup by sub
-          return done(null, user);
-        } catch (e) {
-          return done(e);
+            // Apple often returns email/name ONLY on first login
+            const user = {
+              id: `apple:${sub}`, // ✅ keep string
+              provider: 'apple',
+              email,
+              name: profile?.name?.givenName
+                ? `${profile.name.givenName} ${profile.name.familyName || ''}`.trim()
+                : null,
+              avatarUrl: null,
+            };
+
+            // TODO: replace with real DB upsert/lookup by provider+sub
+            return done(null, user);
+          } catch (e) {
+            return done(e);
+          }
         }
-      }
-    ));
+      )
+    );
   }
 } else {
   console.warn('[oauth] APPLE_* not set — Apple SSO disabled');

@@ -28,6 +28,8 @@ import {
   IconDotsVertical,
   IconTrash,
   IconPencil,
+  IconPhoneCall,
+  IconVideo,
 } from '@tabler/icons-react';
 
 import axiosClient from '@/api/axiosClient';
@@ -88,6 +90,13 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   }, [thread, toNumber]);
 
   const isPremium = Boolean(currentUser?.plan && currentUser.plan !== 'FREE');
+
+  // ✅ SMS → Chat link signal:
+  // If this exists, we treat the contact as a Chatforia account (or at least linked to a Chat room)
+  const linkedChatRoomId = useMemo(() => {
+    const id = Number(thread?.chatRoomId);
+    return Number.isFinite(id) ? id : null;
+  }, [thread?.chatRoomId]);
 
   async function loadThread() {
     if (!threadId || loadingRef.current) return;
@@ -238,6 +247,24 @@ export default function SmsLayout({ currentUserId, currentUser }) {
     }
   }, []);
 
+  // ✅ Header actions: CALL + VIDEO
+  const startSmsCall = useCallback(() => {
+    const target = (toNumber || '').trim();
+    if (!target) return;
+    // Wire this to your Calls flow. This is a sane default.
+    navigate(`/calls?to=${encodeURIComponent(target)}`);
+  }, [navigate, toNumber]);
+
+  const startSmsVideo = useCallback(() => {
+    if (linkedChatRoomId) {
+      // Video is an in-app feature, so route to a chat/video experience
+      navigate(`/chat/${linkedChatRoomId}`);
+      return;
+    }
+    // Not linked => convert limitation into growth loop
+    inviteToChatforia();
+  }, [inviteToChatforia, linkedChatRoomId, navigate]);
+
   // ✅ Edit handlers
   const startEdit = (m) => {
     setEditingId(m.id);
@@ -301,6 +328,40 @@ export default function SmsLayout({ currentUserId, currentUser }) {
             <Title order={4}>{titleText}</Title>
 
             <Group gap="xs">
+              {/* ✅ NEW: Call */}
+              <Tooltip label="Call" withArrow withinPortal>
+                <ActionIcon
+                  variant="subtle"
+                  aria-label="Call"
+                  onClick={startSmsCall}
+                >
+                  <IconPhoneCall size={18} />
+                </ActionIcon>
+              </Tooltip>
+
+              {/* ✅ NEW: Video (requires Chatforia link) */}
+              <Tooltip
+                label={
+                  linkedChatRoomId
+                    ? 'Video'
+                    : 'Invite them to Chatforia to enable video'
+                }
+                withArrow
+                withinPortal
+              >
+                {/* Mantine Tooltips + disabled need a wrapper */}
+                <span style={{ display: 'inline-flex' }}>
+                  <ActionIcon
+                    variant="subtle"
+                    aria-label="Video"
+                    onClick={startSmsVideo}
+                    disabled={!linkedChatRoomId}
+                  >
+                    <IconVideo size={18} />
+                  </ActionIcon>
+                </span>
+              </Tooltip>
+
               <Tooltip label="Search" withArrow>
                 <ActionIcon
                   variant="subtle"
@@ -586,9 +647,6 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                                         cursor: 'pointer',
                                       }}
                                       onClick={() => {
-                                        // optional: open gallery modal
-                                        // setGalleryOpen(true);
-                                        // setGalleryFocus({ messageId: m.id, idx });
                                         setGalleryOpen(true);
                                       }}
                                     />

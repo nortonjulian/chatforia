@@ -604,8 +604,11 @@ model Participant {
 
   archivedAt DateTime?
 
+  clearedAt DateTime?
+
   @@unique([chatRoomId, userId])
   @@index([chatRoomId], map: "part_room")
+  @@index([userId, clearedAt], map: "part_user_cleared") // optional but helpful
 }
 
 model ChatRoomInvite {
@@ -848,6 +851,16 @@ model SmsParticipant {
 
   @@unique([threadId, phone])
   @@index([phone])
+}
+
+model ThreadClear {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  chatRoomId Int
+  clearedAt  DateTime @default(now())
+
+  @@unique([userId, chatRoomId])
+  @@index([chatRoomId])
 }
 
 // ===================== 7) Contacts / Moderation / Support / Auditing =====================

@@ -174,12 +174,10 @@ export default function ContactList({
   navigate(`/dialer?to=${encodeURIComponent(to)}`);
 };
 
-const goVideo = ({ userId, phone }) => {
-  if (userId) return navigate(`/video?userId=${encodeURIComponent(userId)}`);
-  const to = normalizePhone(phone);
-  if (!to) return toast.info('No valid number');
-  navigate(`/video?to=${encodeURIComponent(to)}`);
-};
+  const goVideo = ({ userId }) => {
+    if (!userId) return toast.info(t('contactList.videoRequiresAccount', 'Video requires a Chatforia account'));
+    navigate(`/video?userId=${encodeURIComponent(userId)}`);
+  };
 
   const openSmsThreadOrCompose = async ({ phone, alias }) => {
     if (!phone) return;
@@ -294,7 +292,10 @@ const goVideo = ({ userId, phone }) => {
               toast.info(t('contactList.noRoute', 'No message route for this contact.'));
             };
 
-            const phoneForCallVideo = c.externalPhone || ''; // ✅ we route dialer/video by phone
+            const canVideo = Boolean(c.userId); 
+            const videoTooltip = canVideo
+              ? t('contactList.video', 'Video')
+              : t('contactList.videoRequiresAccount', 'Video requires a Chatforia account');
 
             return (
               <Group key={key} justify="space-between" align="center">
@@ -369,20 +370,22 @@ const goVideo = ({ userId, phone }) => {
                     </ActionIcon>
                   </Tooltip>
 
-                  <Tooltip label={t('contactList.video', 'Video')}>
-                    <ActionIcon
-                      variant="light"
-                      aria-label={t('contactList.video', 'Video')}
-                      // ✅ enable only if you actually have a number to call
-                      disabled={!phoneForCallVideo}
-                       onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        goVideo({ userId: c.userId, phone: c.externalPhone });
-                      }}
-                    >
-                      <IconVideo size={16} />
-                    </ActionIcon>
+                  <Tooltip label={videoTooltip} withArrow>
+                    <span style={{ display: 'inline-flex' }}>
+                      <ActionIcon
+                        variant="light"
+                        aria-label={t('contactList.video', 'Video')}
+                        disabled={!canVideo}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          if (!canVideo) return;
+                          goVideo({ userId: c.userId });
+                        }}
+                      >
+                        <IconVideo size={16} />
+                      </ActionIcon>
+                    </span>
                   </Tooltip>
 
                   <Tooltip label={t('contactList.delete', 'Delete')}>

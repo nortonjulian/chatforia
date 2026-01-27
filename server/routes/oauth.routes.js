@@ -1,3 +1,4 @@
+import express from "express";
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import passport from '../auth/passport.js';
@@ -88,41 +89,40 @@ router.get('/apple', (req, res, next) => {
 
 // Apple typically POSTs the callback
 router.post(
-  '/apple/callback',
+  "/apple/callback",
+  express.urlencoded({ extended: false }),
   (req, res, next) => {
-    if (!passport._strategy('apple')) {
-      return res.status(501).json({ error: 'Apple OAuth not configured' });
+    if (!passport._strategy("apple")) {
+      return res.status(501).json({ error: "Apple OAuth not configured" });
     }
     next();
   },
-  passport.authenticate('apple', { failureRedirect: '/auth/failure', session: false }),
+  passport.authenticate("apple", { failureRedirect: "/auth/failure", session: false }),
   (req, res) => {
     const user = req.user || {};
+
+    // ✅ KEEP ID AS STRING (apple:sub). Do NOT coerce to Number.
     const payload = {
-      id: Number(user.id),
+      id: user.id,
       email: user.email || null,
       username: user.username || null,
-      role: user.role || 'USER',
-      plan: user.plan || 'FREE',
+      role: user.role || "USER",
+      plan: user.plan || "FREE",
     };
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
     setJwtCookie(res, token);
 
     let nextUrl = FRONTEND;
     try {
-      if (req.query.state) {
-        const { next } = JSON.parse(
-          Buffer.from(req.query.state, 'base64').toString('utf8')
-        );
-        if (typeof next === 'string' && next.startsWith('http')) {
-          nextUrl = next;
-        }
+      const s = req.body?.state || "";
+      if (s) {
+        const { next } = JSON.parse(Buffer.from(s, "base64").toString("utf8"));
+        if (typeof next === "string" && next.startsWith("http")) nextUrl = next;
       }
-    } catch {
-      // ignore bad state
-    }
-    res.redirect(nextUrl);
+    } catch {}
+
+    return res.redirect(nextUrl);
   }
 );
 

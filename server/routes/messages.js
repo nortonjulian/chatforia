@@ -216,7 +216,13 @@ router.post(
 
       uploaded.push({
         kind: normalizeMediaKind(
-          isImage ? 'IMAGE' : mime.startsWith('video/') ? 'VIDEO' : mime.startsWith('audio/') ? 'AUDIO' : 'FILE',
+          isImage
+            ? 'IMAGE'
+            : mime.startsWith('video/')
+              ? 'VIDEO'
+              : mime.startsWith('audio/')
+                ? 'AUDIO'
+                : 'FILE',
           mime
         ),
         url: relPath,
@@ -270,7 +276,7 @@ router.post(
         thumbUrl: a.thumbUrl ?? a.thumbnailUrl ?? null,
       }));
 
-    // ✅ final combined attachments list (this was missing before)
+    // ✅ final combined attachments list
     const attachments = [...uploaded, ...inline].map((a) => ({
       kind: a.kind,
       url: a.url,
@@ -313,9 +319,6 @@ router.post(
         expireSeconds: secs,
         attachments,
       });
-
-      // NOTE: service currently persists MessageKey from contentCiphertext.keyIds
-      // If you're using encryptedKeys map instead, we can add support later.
     } catch (err) {
       console.error('[message create FAILED]', err);
 
@@ -353,14 +356,43 @@ router.post(
 
     const io = req.app.get('io');
     if (!io) {
-      console.warn(
-        '[messages] Socket.IO not found on app. Did you call app.set("io", io) in server bootstrap?'
-      );
+      console.warn('[messages] Socket.IO not found on app. Did you call app.set("io", io)?');
     } else {
       io.to(String(chatRoomId)).emit('receive_message', shaped);
     }
 
     return res.status(201).json(shaped);
+  })
+);
+
+// POST /messages/:roomId/clear
+router.post(
+  '/:roomId/clear',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+    const roomId = Number(req.params.roomId);
+    if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
+
+    // must be participant (or admin)
+    const isAdmin = req.user?.role === 'ADMIN';
+    if (!isAdmin) {
+      const member = await prisma.participant.findFirst({
+        where: { chatRoomId: roomId, userId },
+        select: { id: true },
+      });
+      if (!member) throw Boom.forbidden('Forbidden');
+    }
+
+    const clearedAt = new Date();
+
+    await prisma.threadClear.upsert({
+      where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
+      update: { clearedAt },
+      create: { userId, chatRoomId: roomId, clearedAt },
+    });
+
+    return res.status(201).json({ ok: true, clearedAt: clearedAt.toISOString() });
   })
 );
 
@@ -383,7 +415,7 @@ router.post(
 
     const membership = await prisma.participant.findFirst({
       where: { chatRoomId: roomId, userId: senderId },
-      select: { id: true },
+      select: { id: true, archivedAt: true },
     });
     if (!membership) throw Boom.forbidden('Not a participant in this chat');
 
@@ -425,22 +457,61 @@ router.post(
  */
 router.get('/:chatRoomId', requireAuth, async (req, res) => {
   const chatRoomId = Number(req.params.chatRoomId);
-  const requesterId = req.user.id;
-  const isAdmin = req.user.role === 'ADMIN';
+  const requesterId = Number(req.user?.id);
+  const isAdmin = req.user?.role === 'ADMIN';
 
   try {
     if (!Number.isFinite(chatRoomId)) {
       return res.status(400).json({ error: 'Invalid chatRoomId' });
     }
 
+    // ✅ FIX: membership must exist in outer scope
+    let membership = null;
+
     if (!isAdmin) {
-      const membership = await prisma.participant.findFirst({
+      membership = await prisma.participant.findFirst({
         where: { chatRoomId, userId: requesterId },
+        select: { id: true, archivedAt: true, clearedAt: true  },
       });
+
       const okMember =
         membership || (IS_TEST && roomsMem?.members?.get(chatRoomId)?.has(requesterId));
       if (!okMember) return res.status(403).json({ error: 'Forbidden' });
+    } else {
+      // Admin can read even without membership, but if they *are* a member we still want archivedAt
+      membership = await prisma.participant.findFirst({
+        where: { chatRoomId, userId: requesterId },
+        select: { archivedAt: true, clearedAt: true  },
+      });
     }
+
+    // ✅ "Clear conversation" cutoff (Participant.archivedAt fallback)
+  let clearedAt = membership?.archivedAt ?? null;
+
+  // Test-mode fallback: roomsMem.clearedAt[roomId][userId]
+  if (!clearedAt && IS_TEST) {
+    const iso = roomsMem?.clearedAt?.get(chatRoomId)?.get(requesterId) || null;
+    if (iso) {
+      const d = new Date(iso);
+      if (!Number.isNaN(d.getTime())) clearedAt = d;
+    }
+  }
+
+  // ✅ ALSO honor threadClear table (this is what /:roomId/clear writes)
+  const tc = await prisma.threadClear.findUnique({
+    where: { userId_chatRoomId: { userId: requesterId, chatRoomId } },
+    select: { clearedAt: true },
+  });
+
+  if (tc?.clearedAt) {
+    const t = new Date(tc.clearedAt);
+    if (!Number.isNaN(t.getTime())) {
+      // if both exist, take the newest cutoff
+      clearedAt = clearedAt
+        ? new Date(Math.max(new Date(clearedAt).getTime(), t.getTime()))
+        : t;
+    }
+  }
 
     const limitRaw = Number(req.query.limit ?? 50);
     const limit = Math.min(Math.max(1, limitRaw), 100);
@@ -448,6 +519,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
     const where = {
       chatRoomId,
+      ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
       OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     };
 
@@ -651,12 +723,19 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         return restNoRaw;
       });
 
+    // ✅ test-mode in-memory messages: apply the same cutoff
     let memItems = [];
     if (IS_TEST && mem?.byRoom?.has(chatRoomId)) {
       const ids = mem.byRoom.get(chatRoomId);
+
       memItems = ids
         .map((id) => mem.byId.get(id))
         .filter(Boolean)
+        .filter((m) => {
+          if (!clearedAt) return true;
+          const ts = new Date(m.createdAt);
+          return !Number.isNaN(ts.getTime()) && ts > clearedAt;
+        })
         .map((m) => ({
           id: m.id,
           chatRoomId: m.chatRoomId,

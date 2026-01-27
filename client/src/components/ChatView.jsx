@@ -16,6 +16,8 @@ import {
   IconSearch,
   IconPhoto,
   IconDice5,
+  IconPhoneCall,
+  IconVideo,
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -116,7 +118,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
-  
 
   const [draft, setDraft] = useState('');
 
@@ -212,6 +213,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     [currentUserId]
   );
 
+  /* ---------- header: call/video ---------- */
+
+  const startChatCall = useCallback(() => {
+    if (!chatroom?.id) return;
+    // Wire to your in-app voice calling flow
+    console.log('[call] start voice call', { chatRoomId: chatroom.id });
+    navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);
+  }, [chatroom?.id, navigate]);
+
+  const startChatVideo = useCallback(() => {
+    if (!chatroom?.id) return;
+    // Wire to your in-app video flow
+    console.log('[video] start video call', { chatRoomId: chatroom.id });
+    navigate(`/video?roomId=${encodeURIComponent(String(chatroom.id))}`);
+  }, [chatroom?.id, navigate]);
+
   /* ---------- scrolling ---------- */
 
   const scrollToBottomNow = useCallback(() => {
@@ -238,17 +255,17 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, []);
 
   const handleAddToCalendarFromMessage = (msg) => {
-  const text =
-    msg?.decryptedContent ||
-    msg?.translatedForMe ||
-    msg?.rawContent ||
-    msg?.content ||
-    '';
+    const text =
+      msg?.decryptedContent ||
+      msg?.translatedForMe ||
+      msg?.rawContent ||
+      msg?.content ||
+      '';
 
-  if (!text) return;
-  setForcedCalendarText(text);
-  openSchedulePrompt();
-};
+    if (!text) return;
+    setForcedCalendarText(text);
+    openSchedulePrompt();
+  };
 
   /* ---------- backend ops: edit/delete ---------- */
 
@@ -479,7 +496,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     };
   }, [chatroom, currentUserId, scrollToBottomNow]);
 
-    // ✅ Block (safety feature — FREE)
+  // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
     // Find "other user" for 1:1 rooms
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
@@ -501,8 +518,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (Number.isFinite(otherId)) {
         await axiosClient.post('/blocks', { targetUserId: otherId });
       } else {
-        // If it's not a 1:1 room, you can decide what block means later.
-        // For now: fail gracefully.
         throw new Error('Could not determine a target user to block.');
       }
 
@@ -513,7 +528,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       window.alert('Block failed (backend not wired yet).');
     }
   }, [chatroom?.participants, currentUserId, navigate]);
-
 
   /* ---------- realtime: expired messages ---------- */
 
@@ -674,54 +688,30 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   };
 
   const openSchedulePrompt = async () => {
-  if (!isPremium) return navigate('/upgrade');
+    if (!isPremium) return navigate('/upgrade');
 
-  const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
-  if (!iso || !chatroom?.id) return;
+    const iso = window.prompt('Schedule time (ISO or YYYY-MM-DD HH:mm):');
+    if (!iso || !chatroom?.id) return;
 
-  let scheduledAt;
-  try {
-    scheduledAt = new Date(iso).toISOString();
-  } catch {
-    console.error('Invalid date input for scheduling');
-    return;
-  }
-
-  try {
-    await axiosClient.post(`/messages/${chatroom.id}/schedule`, {
-      content: forcedCalendarText || '(scheduled message)',
-      scheduledAt,
-    });
-  } catch (e) {
-    console.error('Schedule failed', e);
-  } finally {
-    // ✅ always reset so the next schedule isn’t accidentally pre-filled
-    setForcedCalendarText(null);
-  }
-};
-
-  /* ---------- ✅ Block (added for parity with SMS) ---------- */
-
-  const handleBlock = useCallback(async () => {
-    const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
-    const other =
-      participants.find((p) => String(p?.id) !== String(currentUserId)) || null;
-
-    const name =
-      other?.username || other?.displayName || other?.phone || other?.id || 'this user';
-
-    const ok = window.confirm(`Block ${name}? You won’t receive messages from them.`);
-    if (!ok) return;
+    let scheduledAt;
+    try {
+      scheduledAt = new Date(iso).toISOString();
+    } catch {
+      console.error('Invalid date input for scheduling');
+      return;
+    }
 
     try {
-      // TODO: wire to real block endpoint
-      // await axiosClient.post('/blocks', { targetUserId: other?.id, scope: 'chat' });
-
-      console.log('[block] todo', { chatRoomId: chatroom?.id, targetUserId: other?.id });
+      await axiosClient.post(`/messages/${chatroom.id}/schedule`, {
+        content: forcedCalendarText || '(scheduled message)',
+        scheduledAt,
+      });
     } catch (e) {
-      console.error('Block failed', e);
+      console.error('Schedule failed', e);
+    } finally {
+      setForcedCalendarText(null);
     }
-  }, [chatroom?.id, chatroom?.participants, currentUserId]);
+  };
 
   /* ---------- retry failed optimistic message ---------- */
 
@@ -741,6 +731,30 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       console.error('Retry send failed', e);
     }
   }
+
+  /* ---------- backend ops: edit/delete/clear ---------- */
+
+  const handleClearThread = useCallback(async () => {
+    if (!chatroom?.id) return;
+
+    const ok = window.confirm(
+      'Clear this conversation for you? This hides all previous messages and cannot be undone.'
+    );
+    if (!ok) return;
+
+    // Optimistic UI
+    setMessages([]);
+    setCursor(null);
+    setShowNewMessage(false);
+
+    try {
+      await axiosClient.post(`/messages/${chatroom.id}/clear`);
+      loadMore(true);
+    } catch (e) {
+      console.error('Clear thread failed', e);
+      loadMore(true);
+    }
+  }, [chatroom?.id]); // loadMore is a function decl; don't include unless you convert it to useCallback
 
   /* ---------- empty state (no chat selected) ---------- */
 
@@ -838,6 +852,28 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               </Group>
 
               <Group gap="xs" wrap="nowrap">
+                {/* ✅ NEW: Call */}
+                <Tooltip label="Call" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={startChatCall}
+                    aria-label="Start voice call"
+                  >
+                    <IconPhoneCall size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                {/* ✅ NEW: Video */}
+                <Tooltip label="Video" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={startChatVideo}
+                    aria-label="Start video call"
+                  >
+                    <IconVideo size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
                 <Tooltip label="Search" withArrow>
                   <ActionIcon
                     variant="subtle"
@@ -870,7 +906,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   onMedia={() => setGalleryOpen(true)}
                   onInvitePeople={() => setInviteOpen(true)}
                   onRoomSettings={() => setSettingsOpen(true)}
-                  onBlock={handleBlockThread} 
+                  onBlock={handleBlockThread}
+                  onClear={handleClearThread}
+                  clearLabel="Clear conversation"
                 />
               </Group>
             </Group>
@@ -957,7 +995,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           </div>
         )}
 
-        <ScrollArea style={{ flex: '1 1 auto', minHeight: 0 }} viewportRef={scrollViewportRef} type="auto">
+        <ScrollArea
+          style={{ flex: '1 1 auto', minHeight: 0 }}
+          viewportRef={scrollViewportRef}
+          type="auto"
+        >
           <Box style={{ minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
             {/* spacer pushes messages down */}
             <Box style={{ flex: '1 1 auto' }} />

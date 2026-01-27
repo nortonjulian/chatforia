@@ -70,16 +70,15 @@ export async function sendSms({ to, text, clientRef, from, mediaUrls }) {
     body,
   };
 
-  // ✅ A2P RULE (US): prefer Messaging Service routing when available
-  // ✅ if caller gave `from`, it MUST win
-  if (cleanFrom) {
-    params.from = cleanFrom;
-  } else if (cleanServiceSid) {
-    params.messagingServiceSid = cleanServiceSid;
-  } else {
-    if (!cleanDefaultFrom) throw new Error('Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER');
-    params.from = cleanDefaultFrom;
-  }
+  // ✅ US A2P: always route via Messaging Service if configured
+if (cleanServiceSid) {
+  params.messagingServiceSid = cleanServiceSid;
+} else if (cleanFrom) {
+  params.from = cleanFrom;
+} else {
+  if (!cleanDefaultFrom) throw new Error('Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER');
+  params.from = cleanDefaultFrom;
+}
 
   // ✅ MMS support (optional)
   // Twilio expects `mediaUrl` as string or array of strings
@@ -106,6 +105,20 @@ export async function sendSms({ to, text, clientRef, from, mediaUrls }) {
     from: params.from || null,
     messagingServiceSid: params.messagingServiceSid || null,
     hasMedia: Boolean(params.mediaUrl?.length),
+  });
+
+    console.log('[twilio-sendSms input]', {
+    to,
+    from_in: from || null,
+    env_serviceSid: process.env.TWILIO_MESSAGING_SERVICE_SID || null,
+    env_from: process.env.TWILIO_FROM_NUMBER || null,
+  });
+
+  console.log('[twilio-sendSms params]', {
+    to: params.to,
+    using: params.from ? 'from' : 'messagingServiceSid',
+    from: params.from || null,
+    messagingServiceSid: params.messagingServiceSid || null,
   });
 
   const msg = await client.messages.create(params);
