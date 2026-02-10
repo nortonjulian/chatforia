@@ -109,24 +109,65 @@ router.get(
     const roomIdRaw = req.params.roomId;
     const roomId = Number(roomIdRaw);
 
-    console.log("🔥 GET /chatrooms/:roomId/messages", { roomIdRaw, roomId });
+    console.log('🔥 GET /chatrooms/:roomId/messages', { roomIdRaw, roomId });
 
     if (!Number.isFinite(roomId)) {
       return res.status(400).json({ error: 'Invalid roomId', roomIdRaw });
     }
 
     try {
-      const messages = await prisma.message.findMany({
-        where: { chatRoomId: roomId }, // <-- we may need to change this key
+      // 1) NEW schema (current): Message.chatRoomId
+      let messages = await prisma.message.findMany({
+        where: {
+          OR: [
+            { chatRoomId: roomId },
+            // optional: if some messages are random-chat based
+            { randomChatRoomId: roomId },
+          ],
+        },
         orderBy: { createdAt: 'asc' },
         take: 200,
       });
 
+      // 2) If empty, try LEGACY schema fallback (chatId/text)
+      // This is common when old rows were written before you renamed fields.
+      if (!messages.length) {
+        console.warn('⚠️ No messages found via chatRoomId/randomChatRoomId. Trying legacy chatId fallback...', { roomId });
+
+        try {
+          // NOTE:
+          // - Assumes Postgres table name is "Message"
+          // - Assumes legacy columns exist: "chatId", "text"
+          // If the columns don't exist, this will throw and we'll just ignore it.
+          const legacyRows = await prisma.$queryRaw`
+            SELECT
+              m."id",
+              m."createdAt",
+              m."senderId",
+              m."chatId" as "chatRoomId",
+              m."text" as "rawContent",
+              NULL::text as "translatedContent",
+              NULL::jsonb as "contentCiphertext"
+            FROM "Message" m
+            WHERE m."chatId" = ${roomId}
+            ORDER BY m."createdAt" ASC
+            LIMIT 200
+          `;
+
+          // Return legacy rows in the same shape iOS expects.
+          // (They won't have translated/encrypted fields yet.)
+          return res.json({ messages: legacyRows });
+        } catch (legacyErr) {
+          console.warn('⚠️ Legacy fallback query failed (likely no chatId/text columns).', legacyErr?.message || legacyErr);
+          // continue returning empty from the new query below
+        }
+      }
+
       return res.json({ messages });
     } catch (e) {
-      console.error("❌ chatrooms/:roomId/messages failed", e);
+      console.error('❌ chatrooms/:roomId/messages failed', e);
       return res.status(500).json({
-        error: "Failed to fetch messages",
+        error: 'Failed to fetch messages',
         detail: String(e?.message || e),
       });
     }
