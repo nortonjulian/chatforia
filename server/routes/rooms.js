@@ -2,6 +2,7 @@ import express from 'express';
 import { requireAuth } from '../middleware/auth.js';
 import chatroomsRouter from './chatrooms.js';
 import prisma from '../utils/prismaClient.js';
+import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 const env = String(process.env.NODE_ENV || '');
@@ -91,6 +92,132 @@ async function upsertParticipantRole(roomId, userId, role) {
   } catch {}
   return null;
 }
+
+router.get('/', asyncHandler(async (req, res) => {
+  const rooms = await prisma.chatRoom.findMany({
+    orderBy: { updatedAt: 'desc' },
+    take: 50,
+  });
+
+  return res.json({ rooms });
+}));
+
+// GET /chatrooms/:roomId/messages
+router.get(
+  '/:roomId/messages',
+  asyncHandler(async (req, res) => {
+    const roomIdRaw = req.params.roomId;
+    const roomId = Number(roomIdRaw);
+
+    console.log("🔥 GET /chatrooms/:roomId/messages", { roomIdRaw, roomId });
+
+    if (!Number.isFinite(roomId)) {
+      return res.status(400).json({ error: 'Invalid roomId', roomIdRaw });
+    }
+
+    try {
+      const messages = await prisma.message.findMany({
+        where: { chatRoomId: roomId }, // <-- we may need to change this key
+        orderBy: { createdAt: 'asc' },
+        take: 200,
+      });
+
+      return res.json({ messages });
+    } catch (e) {
+      console.error("❌ chatrooms/:roomId/messages failed", e);
+      return res.status(500).json({
+        error: "Failed to fetch messages",
+        detail: String(e?.message || e),
+      });
+    }
+  })
+);
+
+// POST /chatrooms/:roomId/messages
+router.post(
+  '/:roomId/messages',
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.params.roomId);
+    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'Invalid roomId' });
+
+    // Auth middleware should set req.user from JWT
+    const senderId = Number(req.user?.id);
+    if (!senderId) return res.status(401).json({ error: 'Not authorized' });
+
+    const { rawContent, clientMessageId } = req.body || {};
+    const text = String(rawContent || '').trim();
+    if (!text) return res.status(400).json({ error: 'Message is empty' });
+
+    // ✅ De-dupe (prevents duplicates on retries / double-taps / socket echo)
+    // Requires: Message.clientMessageId String? @unique in Prisma
+    if (clientMessageId) {
+      const existing = await prisma.message.findUnique({
+        where: { clientMessageId: String(clientMessageId) },
+        include: { sender: { select: { id: true, username: true } } },
+      });
+
+      if (existing) {
+        return res.json({
+          message: {
+            id: existing.id,
+            chatRoomId: existing.chatRoomId,
+            senderId: existing.senderId,
+            senderUsername: existing.sender?.username ?? null,
+
+            rawContent: existing.rawContent,
+            translatedContent: existing.translatedContent,
+            contentCiphertext: existing.contentCiphertext,
+
+            createdAt: existing.createdAt,
+            clientMessageId: existing.clientMessageId,
+          },
+        });
+      }
+    }
+
+    const message = await prisma.message.create({
+      data: {
+        chatRoomId: roomId,
+        senderId,
+        rawContent: text,
+
+        // ✅ Persist clientMessageId for reliable optimistic reconciliation + de-dupe
+        clientMessageId: clientMessageId ? String(clientMessageId) : null,
+
+        // placeholders until encryption/translation pipeline is wired
+        contentCiphertext: "",   // placeholder until encryption
+        translatedFrom: "en",    // optional / placeholder
+        translatedTo: null,
+        translatedContent: null,
+        translations: null,
+        isExplicit: false,
+        isAutoReply: false,
+      },
+      include: { sender: { select: { id: true, username: true } } },
+    });
+
+    const payload = {
+      id: message.id,
+      chatRoomId: message.chatRoomId,
+      senderId: message.senderId,
+      senderUsername: message.sender?.username ?? null,
+
+      rawContent: message.rawContent,
+      translatedContent: message.translatedContent,
+      contentCiphertext: message.contentCiphertext,
+
+      createdAt: message.createdAt,
+      clientMessageId: message.clientMessageId,
+    };
+
+    // ✅ 1️⃣ SOCKET.IO BROADCAST (goes HERE)
+    const io = req.app.get('io');
+    io?.to(String(roomId)).emit('message:new', payload);
+
+    // ✅ Shape response to match what iOS expects (and what GET should resemble)
+    return res.json({ message: payload });
+  })
+);
 
 /* ----------------------------------------------------------------
  * ✅ Option B: "Clear conversation for me"

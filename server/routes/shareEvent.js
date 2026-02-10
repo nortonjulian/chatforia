@@ -94,12 +94,47 @@ router.post('/share-event', upload.single('file'), express.json(), async (req, r
     if (!payload) return res.status(400).json({ error: 'Provide an .ics file, googleUrl, or fields' });
     if (payload.startUTC >= payload.endUTC) return res.status(400).json({ error: 'start must be before end' });
 
+    const roomId = Number(req.body.chatId || req.query.chatId); // rename param later
+    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'chatId must be a number' });
+
     const event = await prisma.event.create({ data: { ...payload, createdById: userId } });
+
     const message = await prisma.message.create({
-      data: { chatId, senderId: userId, type: 'event', text: null, eventId: event.id },
+      data: {
+        chatRoomId: roomId,
+        senderId: userId,
+
+        // store something in rawContent so your UI shows it
+        rawContent: `📅 Event shared: ${event.title}`,
+
+        // placeholders until you formalize "message type"
+        contentCiphertext: null,
+        translatedFrom: null,
+        translatedTo: null,
+        translatedContent: null,
+        translations: null,
+
+        isExplicit: false,
+        isAutoReply: false,
+      },
+      include: { sender: { select: { id: true, username: true } } },
     });
 
-    res.json({ ok: true, eventId: event.id, messageId: message.id });
+    res.json({
+      ok: true,
+      eventId: event.id,
+      message: {
+        id: message.id,
+        chatRoomId: message.chatRoomId,
+        senderId: message.senderId,
+        senderUsername: message.sender?.username ?? null,
+        rawContent: message.rawContent,
+        translatedContent: message.translatedContent,
+        contentCiphertext: message.contentCiphertext,
+        createdAt: message.createdAt,
+      },
+    });
+
   } catch (e) { next(e); }
 });
 

@@ -640,6 +640,7 @@ model RandomChatRoom {
 
 model Message {
   id                Int       @id @default(autoincrement())
+  clientMessageId   String?   @unique
   contentCiphertext Json?
   rawContent        String?
   translations      Json?

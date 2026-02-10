@@ -249,6 +249,37 @@ export function initSocket(httpServer) {
       }
     });
 
+    // ---- Typing indicators ----
+    socket.on('typing:start', ({ roomId }) => {
+      try {
+        if (!roomId) return;
+
+        socket.to(String(roomId)).emit('typing:update', {
+          roomId: Number(roomId),
+          userId: socket.user?.id,
+          username: socket.user?.username,
+          isTyping: true,
+        });
+      } catch (e) {
+        if (!IS_TEST) console.warn('[WS] typing:start error', e?.message || e);
+      }
+    });
+
+    socket.on('typing:stop', ({ roomId }) => {
+      try {
+        if (!roomId) return;
+
+        socket.to(String(roomId)).emit('typing:update', {
+          roomId: Number(roomId),
+          userId: socket.user?.id,
+          username: socket.user?.username,
+          isTyping: false,
+        });
+      } catch (e) {
+        if (!IS_TEST) console.warn('[WS] typing:stop error', e?.message || e);
+      }
+    });
+
     socket.on('disconnect', (reason) => {
       if (!IS_TEST) {
         console.log(`[WS] user:${userId} disconnected:`, reason);

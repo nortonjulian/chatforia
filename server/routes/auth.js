@@ -132,9 +132,12 @@ function issueSession(res, user) {
     role: user.role,
     plan: user.plan,
   };
+
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
+
   setJwtCookie(res, token);
-  return payload;
+
+  return token; // ✅ RETURN THE TOKEN, NOT THE PAYLOAD
 }
 
 /* =========================
@@ -400,9 +403,10 @@ router.post(
       }
 
       // 7) Normal session
-      const payload = issueSession(res, user);
+      const token = issueSession(res, user); // make this return the JWT string
       return res.json({
         message: 'logged in',
+        token, // ✅ add this
         user: {
           id: user.id,
           email: user.email,
@@ -685,6 +689,7 @@ router.get(
         role: req.user.role || 'USER',
         plan: req.user.plan || 'FREE',
         preferredLanguage: req.user.preferredLanguage || 'en',
+        theme: req.user.theme || 'dawn',
       },
     });
   })
