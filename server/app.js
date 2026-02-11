@@ -12,6 +12,8 @@ import authMiddleware from './middleware/auth.js';
 
 import voiceClientRouter from './routes/voiceClient.js';
 
+import prisma from './utils/prismaClient.js'; // add near the top of app.js with other imports
+
 // SAFE Sentry wrappers (no-op when DSN is missing/invalid)
 import { sentryRequestHandler, sentryErrorHandler } from './middleware/audit.js';
 
@@ -142,6 +144,15 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 console.log('[env-debug] STRIPE_SECRET_KEY present =', !!process.env.STRIPE_SECRET_KEY);
+
+function csrfOnlyForCookieAuth(csrfMw) {
+  return (req, res, next) => {
+    const auth = req.headers.authorization;
+    const hasBearer = typeof auth === 'string' && auth.startsWith('Bearer ');
+    if (hasBearer) return next();           // ✅ iOS / API clients
+    return csrfMw(req, res, next);          // ✅ browser cookie/session
+  };
+}
 
 export function createApp() {
   const app = express();
@@ -292,20 +303,40 @@ export function createApp() {
     next();
   });
 
-  /* CSRF */
-  const csrfMw = isTest ? (_req, _res, next) => next() : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
+  // ✅ Never CSRF-block preflight
+  app.use((req, _res, next) => {
+    if (req.method === 'OPTIONS') return next();
+    next();
+  });
+
+
+    /* CSRF */
+  const csrfMw =
+    isTest
+      ? (_req, _res, next) => next()
+      : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
   // ✅ UPDATED: include ^\/_debug(\/|$)
   const csrfBypassPattern =
     /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
+  const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
+
+  // ✅ Never CSRF-block preflight
+  app.use((req, _res, next) => {
+    if (req.method === 'OPTIONS') return next();
+    next();
+  });
+
   app.use((req, res, next) => {
-    const path = req.path;
-    if (csrfBypassPattern.test(path)) {
-      console.log('⚠️ CSRF bypass for:', path);
+    const p = req.path;
+
+    if (csrfBypassPattern.test(p)) {
+      console.log('⚠️ CSRF bypass for:', p);
       return next();
     }
-    return csrfMw(req, res, next);
+
+    return csrfBrowserOnly(req, res, next);
   });
 
   if (!isTest) {
@@ -314,6 +345,7 @@ export function createApp() {
       next();
     });
   }
+
   app.get('/auth/csrf', (req, res) => {
     setCsrfCookie(req, res);
     res.json({ csrfToken: req.csrfToken() });
@@ -511,12 +543,62 @@ export function createApp() {
     });
   }
 
+  app.get('/__whoami', async (req, res) => {
+  const r = await prisma.$queryRaw`SELECT current_database() as db, current_schema() as schema`;
+  const dbInfo = Array.isArray(r) ? (r[0] ?? null) : null;
+  const totalMessages = await prisma.message.count().catch(() => null);
+
+  res.json({
+    ok: true,
+    env: process.env.NODE_ENV,
+    host: req.headers.host,
+    dbInfo,
+    totalMessages,
+    time: new Date().toISOString(),
+  });
+});
+
+  app.get('/__routes', (req, res) => {
+    res.json({
+      ok: true,
+      host: req.headers.host,
+      origin: req.headers.origin ?? null,
+      hasCookie: !!req.headers.cookie,
+      hasAuth: !!req.headers.authorization,
+    });
+});
+
+  // ✅ CSRF error tap (AFTER all routes, BEFORE Sentry + your error handlers)
+  app.use((err, req, res, next) => {
+    if (err && err.code === 'EBADCSRFTOKEN') {
+      console.log('❌ CSRF BLOCK', {
+        path: req.path,
+        method: req.method,
+        hasAuth: !!req.headers.authorization,
+        authHeader: req.headers.authorization || null,
+        hasCookie: !!req.headers.cookie,
+        origin: req.headers.origin,
+        referer: req.headers.referer,
+      });
+
+      return res.status(403).json({
+        ok: false,
+        reason: 'csrf',
+        path: req.path,
+      });
+    }
+
+    return next(err);
+  });
+
   /* Errors (Sentry-safe first, then your handlers) */
   if (isProd) {
     app.use(sentryErrorHandler); // no-op if Sentry disabled/invalid DSN
   }
+
   app.use(notFoundHandler);
   app.use(errorHandler);
 
   return app;
 }
+

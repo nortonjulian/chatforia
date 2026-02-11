@@ -116,54 +116,177 @@ router.get(
     }
 
     try {
-      // 1) NEW schema (current): Message.chatRoomId
-      let messages = await prisma.message.findMany({
+      // --- GLOBAL DEBUG (proves if DB has messages at all) ---
+      // --- GLOBAL DEBUG ---
+      const totalMessages = await prisma.message.count();
+
+      const latest = await prisma.message.findFirst({
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          chatRoomId: true,
+          randomChatRoomId: true,
+          createdAt: true,
+          senderId: true,
+        },
+      });
+
+      const sampleRoomIds = await prisma.message.findMany({
+        distinct: ['chatRoomId'],
+        select: { chatRoomId: true },
+        take: 10,
+      });
+
+      const roomExists = await prisma.chatRoom.findUnique({
+        where: { id: roomId },
+        select: { id: true, name: true, isGroup: true },
+      });
+
+      // DB identity (helps confirm you're hitting the expected database/schema)
+      let dbInfo = null;
+      try {
+        const r = await prisma.$queryRaw`
+          SELECT current_database() as db, current_schema() as schema
+        `;
+        dbInfo = Array.isArray(r) ? (r[0] ?? null) : null;
+      } catch {
+        // ignore if non-Postgres / restricted / etc.
+      }
+
+      const globalDebug = {
+        roomId,
+        roomExists,
+        totalMessages,
+        latestMessage: latest,
+        sampleChatRoomIdsWithMessages: sampleRoomIds.map((r) => r.chatRoomId),
+        dbInfo,
+      };
+
+      // --- 1) New schema fetch ---
+      const messagesNew = await prisma.message.findMany({
         where: {
-          OR: [
-            { chatRoomId: roomId },
-            // optional: if some messages are random-chat based
-            { randomChatRoomId: roomId },
-          ],
+          OR: [{ chatRoomId: roomId }, { randomChatRoomId: roomId }],
         },
         orderBy: { createdAt: 'asc' },
         take: 200,
       });
 
-      // 2) If empty, try LEGACY schema fallback (chatId/text)
-      // This is common when old rows were written before you renamed fields.
-      if (!messages.length) {
-        console.warn('⚠️ No messages found via chatRoomId/randomChatRoomId. Trying legacy chatId fallback...', { roomId });
+      // counts (cheap + decisive)
+      const countChatRoomId = await prisma.message.count({ where: { chatRoomId: roomId } });
+      const countRandomChatRoomId = await prisma.message.count({ where: { randomChatRoomId: roomId } });
 
-        try {
-          // NOTE:
-          // - Assumes Postgres table name is "Message"
-          // - Assumes legacy columns exist: "chatId", "text"
-          // If the columns don't exist, this will throw and we'll just ignore it.
-          const legacyRows = await prisma.$queryRaw`
-            SELECT
-              m."id",
-              m."createdAt",
-              m."senderId",
-              m."chatId" as "chatRoomId",
-              m."text" as "rawContent",
-              NULL::text as "translatedContent",
-              NULL::jsonb as "contentCiphertext"
-            FROM "Message" m
-            WHERE m."chatId" = ${roomId}
-            ORDER BY m."createdAt" ASC
-            LIMIT 200
-          `;
-
-          // Return legacy rows in the same shape iOS expects.
-          // (They won't have translated/encrypted fields yet.)
-          return res.json({ messages: legacyRows });
-        } catch (legacyErr) {
-          console.warn('⚠️ Legacy fallback query failed (likely no chatId/text columns).', legacyErr?.message || legacyErr);
-          // continue returning empty from the new query below
-        }
+      // If we have messages in the new schema, return them now
+      if (messagesNew.length) {
+        console.log('✅ Returning NEW schema messages:', { count: messagesNew.length });
+        return res.json({
+          messages: messagesNew,
+          debug: {
+            ...globalDebug,
+            countChatRoomId,
+            countRandomChatRoomId,
+            used: 'new-schema',
+          },
+        });
       }
 
-      return res.json({ messages });
+      console.warn('⚠️ No messages via NEW schema. Checking for legacy chatId…', {
+        roomId,
+        countChatRoomId,
+        countRandomChatRoomId,
+      });
+
+      // --- 2) Detect legacy column existence (Postgres) ---
+      let hasChatIdColumn = false;
+
+      try {
+        const cols = await prisma.$queryRaw`
+          SELECT 1
+          FROM information_schema.columns
+          WHERE table_schema = 'public'
+            AND lower(table_name) = lower('Message')
+            AND lower(column_name) IN (lower('chatId'), lower('chat_id'))
+          LIMIT 1
+        `;
+        hasChatIdColumn = Array.isArray(cols) && cols.length > 0;
+      } catch (e) {
+        console.warn('⚠️ Could not query information_schema (non-Postgres or permissions).', e?.message || e);
+      }
+
+      if (!hasChatIdColumn) {
+        return res.json({
+          messages: [],
+          debug: {
+            ...globalDebug,
+            countChatRoomId,
+            countRandomChatRoomId,
+            hasChatIdColumn: false,
+            used: 'none',
+            note:
+              'No rows for chatRoomId/randomChatRoomId, and legacy chatId column not detected (or DB is not Postgres).',
+          },
+        });
+      }
+
+      // --- 3) Legacy chatId fallback ---
+      // Try both "Message" and "message" table names safely.
+      let legacyCount = 0;
+      let legacyRows = [];
+
+      try {
+        const legacyCountRows = await prisma.$queryRaw`
+          SELECT COUNT(*)::int AS count
+          FROM "Message"
+          WHERE "chatId" = ${roomId}
+        `;
+        legacyCount = Number(legacyCountRows?.[0]?.count ?? 0);
+
+        legacyRows = await prisma.$queryRaw`
+          SELECT
+            m."id",
+            m."createdAt",
+            m."senderId",
+            m."chatId" as "chatRoomId",
+            m."text" as "rawContent"
+          FROM "Message" m
+          WHERE m."chatId" = ${roomId}
+          ORDER BY m."createdAt" ASC
+          LIMIT 200
+        `;
+      } catch (e1) {
+        console.warn('⚠️ Legacy query on "Message" failed, trying "message"...', e1?.message || e1);
+
+        const legacyCountRows2 = await prisma.$queryRaw`
+          SELECT COUNT(*)::int AS count
+          FROM "message"
+          WHERE "chatId" = ${roomId}
+        `;
+        legacyCount = Number(legacyCountRows2?.[0]?.count ?? 0);
+
+        legacyRows = await prisma.$queryRaw`
+          SELECT
+            m."id",
+            m."createdAt",
+            m."senderId",
+            m."chatId" as "chatRoomId",
+            m."text" as "rawContent"
+          FROM "message" m
+          WHERE m."chatId" = ${roomId}
+          ORDER BY m."createdAt" ASC
+          LIMIT 200
+        `;
+      }
+
+      return res.json({
+        messages: legacyRows,
+        debug: {
+          ...globalDebug,
+          countChatRoomId,
+          countRandomChatRoomId,
+          hasChatIdColumn: true,
+          legacyCount,
+          used: 'legacy-chatId',
+        },
+      });
     } catch (e) {
       console.error('❌ chatrooms/:roomId/messages failed', e);
       return res.status(500).json({
@@ -173,6 +296,35 @@ router.get(
     }
   })
 );
+
+router.post(
+  '/__debug/seed-message',
+  asyncHandler(async (req, res) => {
+    const roomId = Number(req.body?.roomId ?? 7673);
+    const senderId = Number(req.user?.id); // uses your auth middleware
+
+    if (!senderId) return res.status(401).json({ error: 'Not authorized' });
+    if (!Number.isFinite(roomId)) return res.status(400).json({ error: 'Invalid roomId' });
+
+    const msg = await prisma.message.create({
+      data: {
+        chatRoomId: roomId,
+        senderId,
+        rawContent: `seed test @ ${new Date().toISOString()}`,
+        contentCiphertext: "",
+        translatedFrom: null,
+        translatedTo: null,
+        translatedContent: null,
+        translations: null,
+        isExplicit: false,
+        isAutoReply: false,
+      },
+    });
+
+    return res.json({ ok: true, messageId: msg.id, roomId });
+  })
+);
+
 
 // POST /chatrooms/:roomId/messages
 router.post(
