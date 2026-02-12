@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE || '';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 /**
  * List chatrooms with composite cursor (updatedAt + id).

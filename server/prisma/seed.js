@@ -1,4 +1,6 @@
 import 'dotenv/config';
+import './seedTranslations.js';
+import './seedDevData.js';
 
 async function main() {
   console.log('🌱 Running master seed...');

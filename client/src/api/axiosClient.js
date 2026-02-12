@@ -5,59 +5,44 @@ const isViteEnv =
   typeof import.meta !== 'undefined' &&
   typeof import.meta.env !== 'undefined';
 
-const isNodeEnv =
-  typeof process !== 'undefined' &&
-  typeof process.env !== 'undefined';
+const isBrowser = typeof window !== 'undefined';
 
-const isBrowser =
-  typeof window !== 'undefined';
-
-const isDev =
-  (isViteEnv && !!import.meta.env.DEV) ||
-  (isNodeEnv && process.env.NODE_ENV === 'development');
+const isDev = (isViteEnv && !!import.meta.env.DEV) || false;
 
 /** -------- Base URL detection --------
  *
- * PRODUCTION:
- *   Set VITE_API_BASE_URL when building the client, e.g.:
- *     VITE_API_BASE_URL="https://api.chatforia.com"
+ * Canonical:
+ *   VITE_API_BASE_URL
  *
- * DEV:
- *   Leave it empty; Vite proxy will handle /auth, /billing, etc.
+ * Dev default:
+ *   ''  (so Vite proxy handles /auth, /billing, /api, etc.)
+ *
+ * Prod default:
+ *   window.location.origin (only as a last resort)
  */
 const viteBase =
   (isViteEnv &&
     (
-      import.meta.env.VITE_API_BASE_URL ||
-      import.meta.env.VITE_API_BASE ||
-      import.meta.env.VITE_API_URL
+      import.meta.env.VITE_API_BASE_URL ||   // ✅ canonical
+      import.meta.env.VITE_API_BASE ||       // ⚠️ legacy fallback (remove later)
+      import.meta.env.VITE_API_URL           // ⚠️ legacy fallback (remove later)
     )) ||
-  null;
+  '';
 
-// Optional: you *can* set window.__API_URL__ from index.html if you ever want.
-const winBase =
-  (isBrowser && window.__API_URL__) || null;
+const winBase = (isBrowser && window.__API_URL__) || '';
 
-const nodeBase =
-  (isNodeEnv &&
-    (
-      process.env.VITE_API_BASE_URL ||
-      process.env.VITE_API_BASE ||
-      process.env.VITE_API_URL
-    )) ||
-  null;
-
-// Last-ditch fallback: same origin as the frontend
 const sameOriginFallback =
-  isBrowser && window.location
-    ? window.location.origin
-    : '';
+  isBrowser && window.location ? window.location.origin : '';
 
-const computedBase = viteBase || winBase || nodeBase || '';
-const baseURL = computedBase || (isDev ? '' : sameOriginFallback);
+/**
+ * Decision:
+ * - In dev: prefer empty baseURL so Vite proxy works
+ * - Otherwise: use env if set, else same-origin
+ */
+const computedBase = winBase || viteBase;
+const baseURL = isDev ? (computedBase || '') : (computedBase || sameOriginFallback);
 
 if (isDev) {
-  // Only log in dev to avoid noisy prod logs
   console.log('[axiosClient] baseURL =', baseURL || '(empty -> Vite proxy)');
 }
 
@@ -95,7 +80,7 @@ async function ensureCsrfPrimed() {
       axiosClient.defaults.headers.common['X-CSRF-Token'] = token;
     }
   } catch {
-    // Fail silently – worst case, CSRF middleware will reject and you'll see it in logs
+    // silent
   }
 }
 
@@ -110,16 +95,13 @@ axiosClient.interceptors.request.use(async (config) => {
     await ensureCsrfPrimed();
 
     const cookieToken = readCookie('XSRF-TOKEN');
-    const defaultToken =
-      axiosClient.defaults.headers.common['X-CSRF-Token'] || null;
+    const defaultToken = axiosClient.defaults.headers.common['X-CSRF-Token'] || null;
     const token = cookieToken || defaultToken;
 
     if (token) {
       config.headers = config.headers || {};
       config.headers['X-CSRF-Token'] = token;
-    }
-
-    if (isDev && !token) {
+    } else if (isDev) {
       console.warn('⚠️ No CSRF token available for mutating request:', config.url);
     }
   }
@@ -127,7 +109,6 @@ axiosClient.interceptors.request.use(async (config) => {
   return config;
 });
 
-// Helpful error log in dev
 axiosClient.interceptors.response.use(
   (res) => res,
   (err) => {

@@ -431,70 +431,71 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   /* ---------- realtime: new messages + typing ---------- */
 
   useEffect(() => {
-    if (!chatroom || !currentUserId) return;
+  if (!chatroom || !currentUserId) return;
 
-    const handleReceiveMessage = async (data) => {
-      if (data.chatRoomId !== chatroom.id) return;
+  const handleReceiveMessage = async (data) => {
+    const msg = data?.item ?? data;
+    if (Number(msg.chatRoomId) !== Number(chatroom.id)) return;
 
+    try {
+      let priv = null;
       try {
-        let priv = null;
-        try {
-          priv = await getUnlockedPrivateKey();
-        } catch {
-          // ignore
-        }
-
-        const [decrypted] = await decryptFetchedMessages(
-          [data],
-          priv,
-          null,
-          currentUserId
-        );
-
-        setMessages((prev) => [...prev, decrypted]);
-        addMessages(chatroom.id, [decrypted]).catch(() => {});
-
-        const v = scrollViewportRef.current;
-        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-        if (atBottom) scrollToBottomNow();
-        else setShowNewMessage(true);
-
-        const isMine = decrypted?.sender?.id === currentUserId;
-        const tabHidden = document.hidden;
-        if (!isMine && (!atBottom || tabHidden)) {
-          playSound('/sounds/new-message.mp3', { volume: 0.6 });
-        }
-      } catch (e) {
-        console.error('Failed to decrypt incoming message', e);
-
-        setMessages((prev) => [...prev, data]);
-        setShowNewMessage(true);
-
-        const v = scrollViewportRef.current;
-        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-        const isMine = data?.senderId === currentUserId;
-        const tabHidden = document.hidden;
-        if (!isMine && (!atBottom || tabHidden)) {
-          playSound('/sounds/new-message.mp3', { volume: 0.6 });
-        }
+        priv = await getUnlockedPrivateKey();
+      } catch {
+        // ignore
       }
-    };
 
-    const handleTyping = ({ username }) => setTypingUser(username || '');
-    const handleStopTyping = () => setTypingUser('');
+      const [decrypted] = await decryptFetchedMessages([msg], priv, null, currentUserId);
 
-    socket.on('receive_message', handleReceiveMessage);
-    socket.on('user_typing', handleTyping);
-    socket.on('user_stopped_typing', handleStopTyping);
+      setMessages((prev) => [...prev, decrypted]);
+      addMessages(chatroom.id, [decrypted]).catch(() => {});
 
-    return () => {
-      socket.off('receive_message', handleReceiveMessage);
-      socket.off('user_typing', handleTyping);
-      socket.off('user_stopped_typing', handleStopTyping);
-    };
-  }, [chatroom, currentUserId, scrollToBottomNow]);
+      const v = scrollViewportRef.current;
+      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+      if (atBottom) scrollToBottomNow();
+      else setShowNewMessage(true);
+
+      const isMine = decrypted?.sender?.id === currentUserId;
+      const tabHidden = document.hidden;
+      if (!isMine && (!atBottom || tabHidden)) {
+        playSound('/sounds/new-message.mp3', { volume: 0.6 });
+      }
+    } catch (e) {
+      console.error('Failed to decrypt incoming message', e);
+
+      setMessages((prev) => [...prev, msg]); // ✅ append msg, not raw payload
+      setShowNewMessage(true);
+
+      const v = scrollViewportRef.current;
+      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+      const isMine =
+        msg?.sender?.id === currentUserId || msg?.senderId === currentUserId;
+      const tabHidden = document.hidden;
+      if (!isMine && (!atBottom || tabHidden)) {
+        playSound('/sounds/new-message.mp3', { volume: 0.6 });
+      }
+    }
+  };
+
+  // ✅ stable handler refs so .off() works
+  const onMessageNew = (payload) => handleReceiveMessage(payload?.item ?? payload);
+
+  // ✅ server emits typing:update { roomId, username, isTyping, ... }
+  const onTypingUpdate = ({ roomId, username, isTyping }) => {
+    if (Number(roomId) !== Number(chatroom.id)) return;
+    setTypingUser(isTyping ? (username || '') : '');
+  };
+
+  socket.on('message:new', onMessageNew);
+  socket.on('typing:update', onTypingUpdate);
+
+  return () => {
+    socket.off('message:new', onMessageNew);
+    socket.off('typing:update', onTypingUpdate);
+  };
+}, [chatroom?.id, currentUserId, scrollToBottomNow]);
 
   // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
@@ -943,35 +944,51 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             onSend={async (payload) => {
               const text = (draft || '').trim();
 
-              // 1) attachments already uploaded -> fileMeta
-              if (payload?.attachments?.length) {
-                socket.emit('send_message', {
-                  chatRoomId: chatroom.id,
-                  content: text || '',
-                  attachmentsInline: payload.attachments.map((f) => ({
-                    kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
-                    url: f.url,
-                    mimeType: f.contentType || 'audio/webm',
-                    durationSec: f.durationSec || null,
-                    caption: f.caption || null,
-                  })),
-                });
-                setDraft('');
-                return;
-              }
+              try {
+                // 1) attachments already uploaded -> send canonical HTTP
+                if (payload?.attachments?.length) {
+                  await axiosClient.post(
+                    '/messages',
+                    {
+                      chatRoomId: chatroom.id,
+                      content: text || '',
+                      attachmentsInline: payload.attachments.map((f) => ({
+                        kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
+                        url: f.url,
+                        mimeType: f.contentType || 'audio/webm',
+                        durationSec: f.durationSec || null,
+                        caption: f.caption || null,
+                      })),
+                    },
+                    { headers: { 'X-Requested-With': 'XMLHttpRequest' } } // optional; safe
+                  );
 
-              // 2) raw files fallback (warn)
-              if (payload?.files?.length) {
-                console.warn(
-                  'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
+                  setDraft('');
+                  return;
+                }
+
+                // 2) raw files fallback (warn)
+                if (payload?.files?.length) {
+                  console.warn(
+                    'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
+                  );
+                  return;
+                }
+
+                // 3) normal text send (canonical HTTP)
+                if (!text) return;
+
+                await axiosClient.post(
+                  '/messages',
+                  { chatRoomId: chatroom.id, content: text },
+                  { headers: { 'X-Requested-With': 'XMLHttpRequest' } } // optional; safe
                 );
-                return;
-              }
 
-              // 3) normal text send
-              if (!text) return;
-              socket.emit('send_message', { content: text, chatRoomId: chatroom.id });
-              setDraft('');
+                setDraft('');
+              } catch (e) {
+                console.error('Send failed', e);
+                // optional: show toast or set an error state
+              }
             }}
           />
         </Box>

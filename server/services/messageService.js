@@ -19,6 +19,14 @@ function clampExpireSeconds(seconds, plan = 'FREE') {
   return Math.min(seconds, max);
 }
 
+function safeJsonParse(str) {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return null;
+  }
+}
+
 /* =========================
  *  Message pipeline (IN-APP)
  * ========================= */
@@ -112,17 +120,17 @@ export async function createMessageService({
   const expiresAt = secsClamped > 0 ? new Date(Date.now() + secsClamped * 1000) : null;
 
   // 6) Normalize ciphertext to string
-  const cipherString =
+  // 6) Normalize ciphertext to Json-compatible value
+  const cipherValue =
     typeof contentCiphertext === 'string'
-      ? contentCiphertext
-      : contentCiphertext
-        ? JSON.stringify(contentCiphertext)
-        : '';
+      ? safeJsonParse(contentCiphertext) ?? contentCiphertext // JSON string -> object, otherwise keep as string
+      : contentCiphertext ?? null;
+
 
   // 7) Persist message
   const saved = await prisma.message.create({
     data: {
-      contentCiphertext: cipherString,
+      contentCiphertext: cipherValue,
       rawContent: content ? content : '',
       translations: translationsMap,
       translatedFrom,
@@ -185,7 +193,7 @@ export async function createMessageService({
   // 8) Persist MessageKey rows (if present in ciphertext payload)
   try {
     const cipherObj =
-      typeof contentCiphertext === 'string' ? JSON.parse(contentCiphertext) : contentCiphertext;
+      cipherValue && typeof cipherValue === 'object' ? cipherValue : safeJsonParse(String(cipherValue));
 
     const keyIds = Array.isArray(cipherObj?.keyIds) ? cipherObj.keyIds : [];
 

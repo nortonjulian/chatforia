@@ -358,10 +358,10 @@ router.post(
     if (!io) {
       console.warn('[messages] Socket.IO not found on app. Did you call app.set("io", io)?');
     } else {
-      io.to(String(chatRoomId)).emit('receive_message', shaped);
+      io.to(String(chatRoomId)).emit('message:new', { item: shaped });
     }
 
-    return res.status(201).json(shaped);
+    return res.status(201).json({ item: shaped });
   })
 );
 

@@ -72,7 +72,7 @@ export default function ChatroomList({
     }
 
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE}/chatrooms?${qs.toString()}`,
+      `${import.meta.env.VITE_API_BASE_URL}/chatrooms?${qs.toString()}`,
       {
         credentials: 'include',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
@@ -87,7 +87,7 @@ export default function ChatroomList({
   // SMS threads: fetch once (unless you add pagination)
   async function loadSmsThreads() {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE}/sms/threads`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/sms/threads`, {
         credentials: 'include',
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });

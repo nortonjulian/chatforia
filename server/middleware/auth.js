@@ -11,13 +11,13 @@ function getCookieName() {
  * If you later want Bearer support, we can extend this.
  */
 function getTokenFromReq(req) {
-  // 1) Cookie (preferred)
+  // 1) Cookie (browser)
   const cookieToken = req.cookies?.[getCookieName()] || null;
   if (cookieToken) return cookieToken;
 
-  // 2) (Disabled for now) Authorization: Bearer ...
-  // const header = req.headers.authorization || '';
-  // if (header.startsWith('Bearer ')) return header.slice(7);
+  // 2) Authorization: Bearer (mobile / API clients)
+  const header = req.headers.authorization || '';
+  if (header.startsWith('Bearer ')) return header.slice(7);
 
   return null;
 }
