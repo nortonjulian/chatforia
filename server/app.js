@@ -549,13 +549,13 @@ export function createApp() {
   const totalMessages = await prisma.message.count().catch(() => null);
 
   res.json({
-    ok: true,
-    env: process.env.NODE_ENV,
-    host: req.headers.host,
-    dbInfo,
-    totalMessages,
-    time: new Date().toISOString(),
-  });
+  ok: true,
+  env: process.env.NODE_ENV,
+  host: req.get('host'),
+  user: req.user ? { id: req.user.id, email: req.user.email } : null,
+  dbInfo,
+  totalMessages,
+ });
 });
 
   app.get('/__routes', (req, res) => {

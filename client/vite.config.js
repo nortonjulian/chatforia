@@ -34,7 +34,7 @@ export default defineConfig(async ({ mode, command }) => {
     }
   }
 
-  const apiTarget = env.VITE_API_BASE || 'http://localhost:5002';
+  const apiTarget = env.VITE_API_BASE_URL || 'http://localhost:5002';
 
   return {
     plugins,

@@ -476,7 +476,20 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
       const okMember =
         membership || (IS_TEST && roomsMem?.members?.get(chatRoomId)?.has(requesterId));
-      if (!okMember) return res.status(403).json({ error: 'Forbidden' });
+      if (!okMember) 
+        console.log('🔒 MESSAGES FORBIDDEN DEBUG', {
+          requestedRoomId: chatRoomId,
+          authedUserId: req.user?.id,
+        });
+
+        const p = await prisma.participant.findFirst({
+          where: { chatRoomId: Number(chatRoomId), userId: Number(req.user?.id) },
+          select: { id: true, userId: true, chatRoomId: true, role: true, archivedAt: true, clearedAt: true },
+        });
+
+        console.log('🔒 Participant lookup result:', p);
+
+        return res.status(403).json({ error: 'Forbidden' });
     } else {
       // Admin can read even without membership, but if they *are* a member we still want archivedAt
       membership = await prisma.participant.findFirst({

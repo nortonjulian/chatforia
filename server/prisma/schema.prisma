@@ -652,6 +652,8 @@ model Message {
   audioUrl          String?
   audioDurationSec  Int?
   expiresAt         DateTime?
+  editedAt          DateTime?
+
 
   deletedBySender Boolean   @default(false)
   deletedAt       DateTime?
@@ -739,6 +741,7 @@ model MessageAttachment {
   height      Int?
   durationSec Int?
   caption     String?
+  thumbUrl    String?
   fileSize    Int? // bytes
   waveform    Json? // e.g., 64-sample array for visualizer
   createdAt   DateTime       @default(now())

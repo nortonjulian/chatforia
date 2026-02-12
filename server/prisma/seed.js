@@ -1,22 +1,20 @@
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
-const prisma = new PrismaClient();
+import 'dotenv/config';
 
 async function main() {
-  const user = await prisma.user.create({
-    data: {
-      username: 'testuser',
-      email: 'test@example.com',
-      phoneNumber: '123456789',
-    },
-  });
-  console.log('Created user:', user);
+  console.log('🌱 Running master seed...');
+
+  // 1️⃣ Seed translations
+  console.log('🌍 Seeding translations...');
+  await import('./seedTranslations.js');
+
+  // 2️⃣ Seed dev chat data
+  console.log('💬 Seeding dev chat data...');
+  await import('./seedDevData.js');
+
+  console.log('✅ Master seed complete.');
 }
 
-main()
-  .catch((e) => {
-    console.log(e);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main().catch((e) => {
+  console.error('❌ Master seed failed:', e);
+  process.exit(1);
+});

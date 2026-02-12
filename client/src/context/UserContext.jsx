@@ -112,6 +112,7 @@ export function UserProvider({ children }) {
 
     setCurrentUser(null);
     disconnect?.();
+    window.location.assign('/');
   }, [disconnect]);
 
   const value = useMemo(
