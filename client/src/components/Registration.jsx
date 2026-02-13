@@ -13,12 +13,23 @@ import {
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
-// import { toast } from '../utils/toast';
+
+import PhoneField from './PhoneField';
+import SmsConsentBlock from './SmsConsentBlock';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export default function Registration() {
   const { t } = useTranslation();
 
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({
+    username: '',
+    email: '',
+    password: '',
+    phone: '', // ✅ new
+  });
+
+  const [smsConsent, setSmsConsent] = useState(false); // ✅ new
+
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [globalError, setGlobalError] = useState('');
@@ -28,14 +39,27 @@ export default function Registration() {
     setForm((f) => ({ ...f, [key]: val }));
   };
 
-  // Keep email strict, relax password to 6 to match tests using "secret"
   const validate = () => {
     const nxt = {};
+
     if (!form.username.trim()) nxt.username = 'Username is required';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email.trim()))
       nxt.email = 'Please enter a valid email address';
+
     if (!form.password) nxt.password = 'Password is required';
     else if (form.password.length < 6) nxt.password = 'Password must be at least 6 characters';
+
+    // ✅ Phone is optional, but if provided must be valid AND consent must be checked
+    const phoneTrim = (form.phone || '').trim();
+    if (phoneTrim) {
+      if (!isValidPhoneNumber(phoneTrim)) {
+        nxt.phone = 'Please enter a valid phone number';
+      }
+      if (!smsConsent) {
+        nxt.smsConsent = 'Please check the box to consent to SMS messages (or remove the phone number).';
+      }
+    }
+
     setErrors(nxt);
     return Object.keys(nxt).length === 0;
   };
@@ -45,19 +69,20 @@ export default function Registration() {
     setGlobalError('');
     setErrors({});
 
-    // ✅ Run client-side validation and stop if invalid
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     try {
       setSubmitting(true);
-      await axiosClient.post('/auth/register', {
+
+      const payload = {
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
-      });
-      // toast.ok('Account created! You can now log in.');
+        // only send phone if provided
+        ...(form.phone?.trim() ? { phone: form.phone.trim() } : {}),
+      };
+
+      await axiosClient.post('/auth/register', payload);
     } catch (err) {
       const status = err?.response?.status;
       const data = err?.response?.data;
@@ -108,14 +133,12 @@ export default function Registration() {
 
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">
-      {/* Use a real <form> so submit + validation fire in tests */}
       <form onSubmit={onSubmit} style={{ maxWidth: 420, margin: '0 auto' }}>
         <Title order={3} mb="sm">
           {t('auth.registration.title', 'Create account')}
         </Title>
 
         <Stack>
-          {/* Ensure at least one element with role="alert" exists for invalid email */}
           {globalError && (
             <Alert color="red" role="alert">
               {globalError}
@@ -167,6 +190,31 @@ export default function Registration() {
             minLength={6}
           />
 
+          {/* ✅ Phone + consent (phone optional, consent required if phone entered) */}
+          <PhoneField
+            label={t('auth.registration.phoneLabel', 'Phone (optional)')}
+            value={form.phone}
+            onChange={(val) => setForm((f) => ({ ...f, phone: val || '' }))}
+            defaultCountry="US"
+            required={false}
+            disabled={submitting}
+            error={errors.phone}
+            helpText={t(
+              'auth.registration.phoneHelp',
+              'If you add a phone number, you’ll be asked to consent to SMS notifications.'
+            )}
+          />
+
+          <SmsConsentBlock
+            checked={smsConsent}
+            onChange={setSmsConsent}
+            disabled={submitting}
+            error={errors.smsConsent}
+            companyName="Chatforia"
+            termsUrl="https://www.chatforia.com/terms"
+            privacyUrl="https://www.chatforia.com/privacy"
+          />
+
           <Button
             type="submit"
             loading={!!submitting}
@@ -177,14 +225,7 @@ export default function Registration() {
             {t('auth.registration.submit', 'Create account')}
           </Button>
 
-          {/* 🔹 SMS consent + legal links */}
-          <Text size="xs" c="dimmed" mt="xs">
-            {t(
-              'auth.registration.smsConsent',
-              'By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings.'
-            )}
-          </Text>
-
+          {/* Optional extra legal links (fine to keep) */}
           <Text size="xs" mt={4}>
             <Anchor component={Link} to="/legal/terms">
               {t('auth.registration.termsLink', 'Terms of Service')}
@@ -195,15 +236,9 @@ export default function Registration() {
             </Anchor>
           </Text>
 
-          {/* 🔹 Inline "Already have an account? Log in" */}
           <Text size="sm" mt="md">
             {t('auth.registration.already', 'Already have an account?')}{' '}
-            <Anchor
-              component={Link}
-              to="/login"
-              fw={600}
-              className="auth-inline-link"
-            >
+            <Anchor component={Link} to="/login" fw={600} className="auth-inline-link">
               {t('auth.logIn', 'Log in')}
             </Anchor>
           </Text>
