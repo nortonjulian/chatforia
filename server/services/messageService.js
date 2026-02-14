@@ -34,6 +34,8 @@ function safeJsonParse(str) {
 export async function createMessageService({
   senderId,
   chatRoomId,
+  clientMessageId = null,   
+  encryptedKeys = null,    
   content,
   contentCiphertext,
   expireSeconds,
@@ -73,6 +75,51 @@ export async function createMessageService({
     where: { chatRoomId: roomIdNum, userId: Number(senderId) },
   });
   if (!membership) throw new Error('Not a participant in this chat');
+
+  // ✅ Idempotency: if clientMessageId exists, return existing message
+  const cid = typeof clientMessageId === 'string' ? clientMessageId.trim() : '';
+  if (cid) {
+    const existing = await prisma.message.findFirst({
+      where: {
+        chatRoomId: roomIdNum,
+        senderId: sender.id,
+        clientMessageId,
+      },
+      select: {
+        id: true,
+        clientMessageId: true,
+        contentCiphertext: true,
+        translations: true,
+        translatedFrom: true,
+        isExplicit: true,
+        imageUrl: true,
+        audioUrl: true,
+        audioDurationSec: true,
+        isAutoReply: true,
+        expiresAt: true,
+        createdAt: true,
+        senderId: true,
+        sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true } },
+        chatRoomId: true,
+        rawContent: true,
+        attachments: {
+          select: {
+            id: true,
+            kind: true,
+            url: true,
+            mimeType: true,
+            width: true,
+            height: true,
+            durationSec: true,
+            caption: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+
+    if (existing) return { ...existing, chatRoomId: roomIdNum };
+  }
 
   // 2) Load participants (users) for filtering/translation/encryption context
   const participants = await prisma.participant.findMany({
@@ -134,6 +181,7 @@ export async function createMessageService({
       rawContent: content ? content : '',
       translations: translationsMap,
       translatedFrom,
+      clientMessageId: clientMessageId || null,
       isExplicit: isMsgExplicit,
       imageUrl: imageUrl || null,
       audioUrl: audioUrl || null,
@@ -163,6 +211,7 @@ export async function createMessageService({
       contentCiphertext: true,
       translations: true,
       translatedFrom: true,
+      clientMessageId: true,
       isExplicit: true,
       imageUrl: true,
       audioUrl: true,
@@ -190,24 +239,23 @@ export async function createMessageService({
     },
   });
 
-  // 8) Persist MessageKey rows (if present in ciphertext payload)
+  // ✅ Persist MessageKey rows from encryptedKeys map: { [userId]: encryptedKey }
   try {
-    const cipherObj =
-      cipherValue && typeof cipherValue === 'object' ? cipherValue : safeJsonParse(String(cipherValue));
+    if (encryptedKeys && typeof encryptedKeys === 'object' && !Array.isArray(encryptedKeys)) {
+      const rows = Object.entries(encryptedKeys)
+        .map(([userId, encryptedKey]) => ({
+          messageId: saved.id,
+          userId: Number(userId),
+          encryptedKey: String(encryptedKey),
+        }))
+        .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
 
-    const keyIds = Array.isArray(cipherObj?.keyIds) ? cipherObj.keyIds : [];
-
-    if (keyIds.length) {
-      await prisma.messageKey.createMany({
-        data: keyIds
-          .filter((k) => k?.userId && k?.wrappedKey)
-          .map((k) => ({
-            messageId: saved.id,
-            userId: Number(k.userId),
-            encryptedKey: String(k.wrappedKey),
-          })),
-        skipDuplicates: true,
-      });
+      if (rows.length) {
+        await prisma.messageKey.createMany({
+          data: rows,
+          skipDuplicates: true,
+        });
+      }
     }
   } catch (e) {
     console.warn('[E2EE] could not persist MessageKey rows', e?.message || e);

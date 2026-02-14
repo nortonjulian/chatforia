@@ -134,6 +134,13 @@ router.post(
 
     const body = req.body || {};
 
+    const clientMessageId =
+      body.clientMessageId ?? body.client_message_id ?? body.cid ?? null;
+
+    if (clientMessageId != null && typeof clientMessageId !== 'string') {
+      throw Boom.badRequest('clientMessageId must be a string');
+    }
+
     // Plaintext (optional)
     const content =
       body.content ??
@@ -315,8 +322,10 @@ router.post(
       saved = await createMessageService({
         senderId,
         chatRoomId,
+        clientMessageId,      // ✅ NEW (idempotency)
         content,
-        contentCiphertext, // can be string or object; service stringifies
+        contentCiphertext,    // can be string or object; service stringifies
+        encryptedKeys,        // ✅ NEW (E2EE recipient keys -> MessageKey)
         expireSeconds: secs,
         attachments,
       });

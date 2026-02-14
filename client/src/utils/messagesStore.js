@@ -25,19 +25,55 @@ async function _getConn(mode = 'readonly') {
   return db.transaction(STORE, mode).objectStore(STORE);
 }
 
+const isBlank = (v) =>
+  v == null || (typeof v === "string" && v.trim().length === 0);
+
+function mergeMessage(existing, incoming) {
+  // server fields win
+  const merged = { ...existing, ...incoming };
+
+  // never clobber local decrypted/translated with blank
+  if (isBlank(incoming.decryptedContent) && !isBlank(existing.decryptedContent)) {
+    merged.decryptedContent = existing.decryptedContent;
+  }
+  if (isBlank(incoming.translatedForMe) && !isBlank(existing.translatedForMe)) {
+    merged.translatedForMe = existing.translatedForMe;
+  }
+
+  return merged;
+}
+
 export async function addMessages(roomId, msgs) {
   const os = await _getConn('readwrite');
   const key = String(roomId);
 
   const existing = await getRoomMessages(roomId);
-  const map = new Map((existing || []).map((m) => [m.id, m]));
 
-  for (const m of msgs) {
-    map.set(m.id, m);
+  const map = new Map();
+  for (const m of existing || []) {
+    if (!m) continue;
+    if (m.id != null) map.set(`id:${m.id}`, m);
+    if (m.clientMessageId) map.set(`cid:${m.clientMessageId}`, m);
   }
 
+  for (const incoming of msgs || []) {
+    if (!incoming) continue;
+
+    const byId = incoming.id != null ? map.get(`id:${incoming.id}`) : null;
+    const byCid = incoming.clientMessageId ? map.get(`cid:${incoming.clientMessageId}`) : null;
+
+    const prev = byId || byCid;
+    const merged = prev ? mergeMessage(prev, incoming) : incoming;
+
+    if (incoming.id != null) map.set(`id:${incoming.id}`, merged);
+    if (incoming.clientMessageId) map.set(`cid:${incoming.clientMessageId}`, merged);
+  }
+
+  const unique = Array.from(new Set(map.values()));
+  unique.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   return new Promise((resolve, reject) => {
-    const req = os.put({ key, messages: Array.from(map.values()) });
+    const req = os.put({ key, messages: unique });
     req.onsuccess = () => resolve();
     req.onerror = () => reject(req.error);
   });
