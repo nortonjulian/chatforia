@@ -9,6 +9,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { emitMessageNew } from '../services/socketBus.js';
 
 // ✅ Use the service so SMS fan-out runs + translations/TTL live in one place
 import { createMessageService } from '../services/messageService.js';
@@ -354,13 +355,7 @@ router.post(
       }),
     };
 
-    const io = req.app.get('io');
-    if (!io) {
-      console.warn('[messages] Socket.IO not found on app. Did you call app.set("io", io)?');
-    } else {
-      io.to(String(chatRoomId)).emit('message:new', { item: shaped });
-    }
-
+    emitMessageNew(chatRoomId, shaped);
     return res.status(201).json({ item: shaped });
   })
 );
@@ -393,6 +388,52 @@ router.post(
     });
 
     return res.status(201).json({ ok: true, clearedAt: clearedAt.toISOString() });
+  })
+);
+
+// POST /messages/:roomId/clear-all
+router.post(
+  '/:roomId/clear-all',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+    const roomId = Number(req.params.roomId);
+    if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
+
+    // must be participant (or admin)
+    const isAdmin = req.user?.role === 'ADMIN';
+    if (!isAdmin) {
+      const member = await prisma.participant.findFirst({
+        where: { chatRoomId: roomId, userId },
+        select: { id: true },
+      });
+      if (!member) throw Boom.forbidden('Forbidden');
+    }
+
+    const now = new Date();
+
+    // Tombstone ALL messages in this room
+    await prisma.message.updateMany({
+      where: { chatRoomId: roomId, deletedForAll: false },
+      data: {
+        deletedForAll: true,
+        deletedAt: now,
+        deletedById: userId, // adjust to your schema field name
+        rawContent: '',
+        content: '',
+        translatedForMe: null,
+        // If you store link preview fields, null them too:
+        // linkPreview: Prisma.JsonNull,
+      },
+    });
+
+    // If attachments are a relation/table, also mark them deleted (recommended)
+    // await prisma.attachment.updateMany({ where: { message: { chatRoomId: roomId } }, data: { deletedAt: now } });
+
+    // Optional: emit socket event so other clients tombstone instantly
+    // io.to(String(roomId)).emit('thread_cleared_all', { roomId, deletedAt: now.toISOString(), deletedById: userId });
+
+    return res.status(201).json({ ok: true, deletedAt: now.toISOString() });
   })
 );
 
@@ -476,7 +517,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
       const okMember =
         membership || (IS_TEST && roomsMem?.members?.get(chatRoomId)?.has(requesterId));
-      if (!okMember) 
+
+      if (!okMember) {
         console.log('🔒 MESSAGES FORBIDDEN DEBUG', {
           requestedRoomId: chatRoomId,
           authedUserId: req.user?.id,
@@ -490,6 +532,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         console.log('🔒 Participant lookup result:', p);
 
         return res.status(403).json({ error: 'Forbidden' });
+      }
     } else {
       // Admin can read even without membership, but if they *are* a member we still want archivedAt
       membership = await prisma.participant.findFirst({
@@ -731,9 +774,16 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           myReactions,
         };
 
+        // keep rawContent for plaintext messages so recipients can read them
         if (isSender || isAdmin) return base;
-        const { rawContent, ...restNoRaw } = base;
-        return restNoRaw;
+
+        // Only strip rawContent for encrypted messages
+        if (m.contentCiphertext != null) {
+          const { rawContent, ...restNoRaw } = base;
+          return restNoRaw;
+        }
+
+        return base;
       });
 
     // ✅ test-mode in-memory messages: apply the same cutoff

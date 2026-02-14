@@ -43,7 +43,7 @@ export default function MessageBubble({
     msg.systemType === 'deleted';
 
   // ✅ derive "mine" from sender vs current user (don't depend on msg.mine existing)
-  const mine = Number(msg?.sender?.id) === Number(currentUserId);
+  const mine = Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
 
   // ✅ pick the best available display text (matches your backend shaping)
   const displayText = isTombstone

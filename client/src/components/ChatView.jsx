@@ -105,6 +105,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [cursor, setCursor] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [hasMore, setHasMore] = useState(true);
+  const loadingOlderRef = useRef(false);
+
   // privacy UI state
   const [reveal, setReveal] = useState(false);
 
@@ -139,6 +142,42 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       chatroom?.randomChatRoomId ||
       (Array.isArray(chatroom?.tags) && chatroom.tags.includes('random'))
   );
+
+  // ✅ for 1:1 seen label (simple version)
+  const otherParticipant = useMemo(() => {
+    const ps = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
+    return (
+      ps.find((p) => Number(p?.id ?? p?.userId) !== Number(currentUserId)) || null
+    );
+  }, [chatroom?.participants, currentUserId]);
+
+  const otherUserId = Number(otherParticipant?.id ?? otherParticipant?.userId);
+
+// ✅ mark newest N unread as read
+const markNewestUnreadBulk = useCallback(
+  async (limit = 50) => {
+    if (!chatroom?.id) return;
+    try {
+      await axiosClient.post('/messages/read-bulk', {
+        chatRoomId: chatroom.id,
+        limit,
+      });
+    } catch (e) {
+      console.error('read-bulk failed', e);
+    }
+  },
+  [chatroom?.id]
+);
+
+// ✅ mark single message read (fallback if you want instant receipts)
+const markMessageRead = useCallback(async (messageId) => {
+  if (!messageId) return;
+  try {
+    await axiosClient.patch(`/messages/${messageId}/read`);
+  } catch (e) {
+    console.error('PATCH read failed', e);
+  }
+}, []);
 
   // ✅ Smart Replies toggle (single source of truth)
   const [smartEnabled, setSmartEnabled] = useState(
@@ -339,94 +378,148 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   /* ---------- pagination loader (initial + older pages) ---------- */
 
   async function loadMore(initial = false) {
-    if (!chatroom?.id || loading) return;
-    setLoading(true);
+  if (!chatroom?.id || loadingOlderRef.current) return false;
 
+  loadingOlderRef.current = true; 
+  setLoading(true);
+
+  try {
+    const params = new URLSearchParams();
+    params.set('limit', initial ? '50' : '30');
+    if (!initial && cursor) params.set('cursor', String(cursor));
+
+    const { data } = await axiosClient.get(
+      `/messages/${chatroom.id}?${params.toString()}`
+    );
+
+    let priv = null;
     try {
-      const params = new URLSearchParams();
-      params.set('limit', initial ? '50' : '30');
-      if (!initial && cursor) params.set('cursor', String(cursor));
-
-      const { data } = await axiosClient.get(
-        `/messages/${chatroom.id}?${params.toString()}`
-      );
-
-      let priv = null;
-      try {
-        priv = await getUnlockedPrivateKey();
-      } catch {
-        // ignore
-      }
-
-      const decrypted = await decryptFetchedMessages(
-        data.items || [],
-        priv,
-        null,
-        currentUserId
-      );
-
-      // server: newest → oldest; UI: oldest → newest
-      const chronological = decrypted.slice().reverse();
-
-      if (initial) {
-        setMessages(chronological);
-        setCursor(data.nextCursor ?? null);
-        setTimeout(scrollToBottomNow, 0);
-      } else {
-        const v = scrollViewportRef.current;
-        const prevHeight = v ? v.scrollHeight : 0;
-
-        setMessages((prev) => [...chronological, ...prev]);
-        setCursor(data.nextCursor ?? null);
-
-        setTimeout(() => {
-          if (!v) return;
-          const newHeight = v.scrollHeight;
-          v.scrollTop = newHeight - prevHeight + v.scrollTop;
-        }, 0);
-      }
-
-      addMessages(chatroom.id, chronological).catch(() => {});
-    } catch (err) {
-      console.error('Failed to fetch/decrypt paged messages', err);
-    } finally {
-      setLoading(false);
+      priv = await getUnlockedPrivateKey();
+    } catch {
+      // ignore
     }
+
+    const decrypted = await decryptFetchedMessages(
+      data.items || [],
+      priv,
+      null,
+      currentUserId
+    );
+
+    // server: newest → oldest; UI: oldest → newest
+    const chronological = decrypted.slice().reverse();
+
+    if (initial) {
+      setMessages(chronological);
+      setCursor(data.nextCursor ?? null);
+      setHasMore(Boolean(data.nextCursor));
+      setTimeout(scrollToBottomNow, 0);
+    } else {
+      const v = scrollViewportRef.current;
+      const prevHeight = v ? v.scrollHeight : 0;
+      const prevTop = v ? v.scrollTop : 0;
+
+      setMessages((prev) => {
+        const seen = new Set(prev.map((m) => String(m.id)));
+        const older = chronological.filter((m) => !seen.has(String(m.id)));
+        return [...older, ...prev];
+      });
+
+      setCursor(data.nextCursor ?? null);
+      setHasMore(Boolean(data.nextCursor));
+
+      requestAnimationFrame(() => {
+        const vv = scrollViewportRef.current;
+        if (!vv) return;
+        const newHeight = vv.scrollHeight;
+        const delta = newHeight - prevHeight;
+        vv.scrollTop = prevTop + delta;
+      });
+    }
+
+    addMessages(chatroom.id, chronological).catch(() => {});
+    return true;
+  } catch (err) {
+    console.error('Failed to fetch/decrypt paged messages', err);
+    return false;
+  } finally {
+    setLoading(false);
+    loadingOlderRef.current = false; 
   }
+}
 
   /* ---------- initial load / room change ---------- */
 
   useEffect(() => {
+    let alive = true;
+
     setMessages([]);
     setCursor(null);
     setShowNewMessage(false);
+    setHasMore(true);
 
-    if (chatroom?.id) {
-      loadMore(true);
-      socket.emit('join:rooms', [String(chatroom.id)]);
-      socket.emit('join_room', chatroom.id); // back-compat
-    }
+    if (!chatroom?.id) return;
+
+    (async () => {
+      try {
+        const ok = await loadMore(true);
+        if (!alive || !ok) return;
+
+        await markNewestUnreadBulk(50);
+
+        socket.emit('join:rooms', [String(chatroom.id)]);
+        socket.emit('join_room', chatroom.id);
+      } catch (e) {
+        console.error('initial load failed', e);
+      }
+    })();
 
     return () => {
-      if (chatroom?.id) socket.emit('leave_room', chatroom.id);
+      alive = false;
+      socket.emit('leave_room', chatroom.id);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chatroom?.id]);
+  }, [chatroom?.id, markNewestUnreadBulk]);
 
   /* ---------- infinite scroll: load older when near TOP ---------- */
 
   useEffect(() => {
-    const v = scrollViewportRef.current;
-    if (!v) return;
+  const v = scrollViewportRef.current;
+  if (!v) return;
 
-    const onScroll = () => {
-      const nearTop = v.scrollTop <= 120;
-      if (nearTop && cursor && !loading) loadMore(false);
-    };
+  let ticking = false;
 
-    v.addEventListener('scroll', onScroll);
-    return () => v.removeEventListener('scroll', onScroll);
-  }, [cursor, loading]); // eslint-disable-line react-hooks/exhaustive-deps
+  const onScroll = () => {
+    if (loadingOlderRef.current) return;
+
+    if (ticking) return;
+    ticking = true;
+
+    requestAnimationFrame(() => {
+      ticking = false;
+
+      const vv = scrollViewportRef.current;
+      if (!vv) return;
+
+      if (vv.scrollTop > 120) return;
+      if (!hasMore || !cursor || loadingOlderRef.current) return;
+
+      loadMore(false);
+    });
+  };
+
+  v.addEventListener('scroll', onScroll, { passive: true });
+  return () => v.removeEventListener('scroll', onScroll);
+}, [chatroom?.id, cursor, hasMore]);
+
+useEffect(() => {
+  const v = scrollViewportRef.current;
+  if (!v) return;
+
+  if (v.scrollTop <= 120 && hasMore && cursor && !loadingOlderRef.current) {
+    loadMore(false);
+  }
+}, [chatroom?.id, cursor, hasMore]);
 
   /* ---------- realtime: new messages + typing ---------- */
 
@@ -434,50 +527,67 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   if (!chatroom || !currentUserId) return;
 
   const handleReceiveMessage = async (data) => {
-    const msg = data?.item ?? data;
-    if (Number(msg.chatRoomId) !== Number(chatroom.id)) return;
+  const msg = data?.item ?? data;
+  if (Number(msg.chatRoomId) !== Number(chatroom.id)) return;
 
+  try {
+    let priv = null;
     try {
-      let priv = null;
-      try {
-        priv = await getUnlockedPrivateKey();
-      } catch {
-        // ignore
-      }
-
-      const [decrypted] = await decryptFetchedMessages([msg], priv, null, currentUserId);
-
-      setMessages((prev) => [...prev, decrypted]);
-      addMessages(chatroom.id, [decrypted]).catch(() => {});
-
-      const v = scrollViewportRef.current;
-      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-      if (atBottom) scrollToBottomNow();
-      else setShowNewMessage(true);
-
-      const isMine = decrypted?.sender?.id === currentUserId;
-      const tabHidden = document.hidden;
-      if (!isMine && (!atBottom || tabHidden)) {
-        playSound('/sounds/new-message.mp3', { volume: 0.6 });
-      }
-    } catch (e) {
-      console.error('Failed to decrypt incoming message', e);
-
-      setMessages((prev) => [...prev, msg]); // ✅ append msg, not raw payload
-      setShowNewMessage(true);
-
-      const v = scrollViewportRef.current;
-      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-      const isMine =
-        msg?.sender?.id === currentUserId || msg?.senderId === currentUserId;
-      const tabHidden = document.hidden;
-      if (!isMine && (!atBottom || tabHidden)) {
-        playSound('/sounds/new-message.mp3', { volume: 0.6 });
-      }
+      priv = await getUnlockedPrivateKey();
+    } catch {
+      // ignore
     }
-  };
+
+    const [decrypted] = await decryptFetchedMessages(
+      [msg],
+      priv,
+      null,
+      currentUserId
+    );
+
+    setMessages((prev) => [...prev, decrypted]);
+    addMessages(chatroom.id, [decrypted]).catch(() => {});
+
+    // ✅ Read receipt: if it's NOT mine and I'm in this chat, mark it read immediately
+    const decryptedSenderId = decrypted?.sender?.id ?? decrypted?.senderId;
+    const isMine = Number(decryptedSenderId) === Number(currentUserId);
+    if (!isMine) {
+      // Prefer decrypted.id, fallback to msg.id
+      markMessageRead(decrypted?.id ?? msg?.id);
+    }
+
+    const v = scrollViewportRef.current;
+    const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+    if (atBottom) scrollToBottomNow();
+    else setShowNewMessage(true);
+
+    const tabHidden = document.hidden;
+    if (!isMine && (!atBottom || tabHidden)) {
+      playSound('/sounds/new-message.mp3', { volume: 0.6 });
+    }
+  } catch (e) {
+    console.error('Failed to decrypt incoming message', e);
+
+    setMessages((prev) => [...prev, msg]); // ✅ append msg, not raw payload
+    setShowNewMessage(true);
+
+    // ✅ Read receipt (fallback): if it's NOT mine, mark it read
+    const isMine =
+      Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
+    if (!isMine) {
+      markMessageRead(msg?.id);
+    }
+
+    const v = scrollViewportRef.current;
+    const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+    const tabHidden = document.hidden;
+    if (!isMine && (!atBottom || tabHidden)) {
+      playSound('/sounds/new-message.mp3', { volume: 0.6 });
+    }
+  }
+};
 
   // ✅ stable handler refs so .off() works
   const onMessageNew = (payload) => handleReceiveMessage(payload?.item ?? payload);
@@ -495,7 +605,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     socket.off('message:new', onMessageNew);
     socket.off('typing:update', onTypingUpdate);
   };
-}, [chatroom?.id, currentUserId, scrollToBottomNow]);
+}, [chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
 
   // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
@@ -608,27 +718,51 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   /* ---------- realtime: read receipts ---------- */
 
   useEffect(() => {
-    const onRead = ({ messageId, reader }) => {
-      if (!reader || reader.id === currentUserId) return;
+  const onRead = (payload) => {
+    // Supports either:
+    // 1) { messageId, reader }
+    // 2) { chatRoomId, readerId, messageIds, readAt }
+    // 3) { messageIds, reader, readAt }
+    const messageIds =
+      (Array.isArray(payload?.messageIds) && payload.messageIds) ||
+      (payload?.messageId ? [payload.messageId] : []);
 
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === messageId
-            ? {
-                ...m,
-                readBy: Array.isArray(m.readBy)
-                  ? m.readBy.some((u) => u.id === reader.id)
-                    ? m.readBy
-                    : [...m.readBy, reader]
-                  : [reader],
-              }
-            : m
-        )
-      );
-    };
+    if (!messageIds.length) return;
 
-    socket.on('message_read', onRead);
-    return () => socket.off('message_read', onRead);
+    const readerId =
+      payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
+
+    // Ignore "me read my own messages"
+    if (!readerId || Number(readerId) === Number(currentUserId)) return;
+
+    const readAt = payload?.readAt ?? new Date().toISOString();
+
+    const messageIdSet = new Set(messageIds.map(String));
+
+    setMessages((prev) =>
+      prev.map((m) => {
+        if (!messageIdSet.has(String(m.id))) return m;
+
+        // stamp readAt for UI (simple 1:1 "Seen")
+        const next = { ...m, readAt: m.readAt ?? readAt };
+
+        // keep your existing readBy array behavior (optional)
+        if (payload?.reader) {
+          const r = payload.reader;
+          next.readBy = Array.isArray(m.readBy)
+            ? m.readBy.some((u) => Number(u.id) === Number(r.id))
+              ? m.readBy
+              : [...m.readBy, r]
+            : [r];
+        }
+
+        return next;
+      })
+    );
+  };
+
+  socket.on('message_read', onRead);
+  return () => socket.off('message_read', onRead);
   }, [currentUserId]);
 
   /* ---------- realtime: reactions ---------- */
@@ -735,27 +869,60 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   /* ---------- backend ops: edit/delete/clear ---------- */
 
-  const handleClearThread = useCallback(async () => {
-    if (!chatroom?.id) return;
+  const handleClearForMe = useCallback(async () => {
+  if (!chatroom?.id) return;
 
-    const ok = window.confirm(
-      'Clear this conversation for you? This hides all previous messages and cannot be undone.'
-    );
-    if (!ok) return;
+  const ok = window.confirm(
+    'Clear this conversation for you? This hides prior messages for your account.'
+  );
+  if (!ok) return;
 
-    // Optimistic UI
+  setMessages([]);
+  setCursor(null);
+  setShowNewMessage(false);
+
+  try {
+    await axiosClient.post(`/messages/${chatroom.id}/clear`);
+    await loadMore(true);
+  } catch (e) {
+    console.error('Clear-for-me failed', e);
+    await loadMore(true);
+  }
+}, [chatroom?.id]); // keep deps minimal since loadMore isn't memoized
+
+const handleClearForEveryone = useCallback(async () => {
+  if (!chatroom?.id) return;
+
+  const ok = window.confirm(
+    'Clear this conversation for everyone? All messages will show “This message was deleted”.'
+  );
+  if (!ok) return;
+
+  const nowIso = new Date().toISOString();
+
+  setMessages((prev) =>
+    prev.map((m) => ({
+      ...m,
+      deletedForAll: true,
+      deletedAt: nowIso,
+      deletedById: currentUserId,
+      rawContent: '',
+      content: '',
+      translatedForMe: null,
+      attachments: [],
+      attachmentsInline: [],
+    }))
+  );
+
+  try {
+    await axiosClient.post(`/messages/${chatroom.id}/clear-all`);
+  } catch (e) {
+    console.error('Clear-for-everyone failed', e);
     setMessages([]);
     setCursor(null);
-    setShowNewMessage(false);
-
-    try {
-      await axiosClient.post(`/messages/${chatroom.id}/clear`);
-      loadMore(true);
-    } catch (e) {
-      console.error('Clear thread failed', e);
-      loadMore(true);
-    }
-  }, [chatroom?.id]); // loadMore is a function decl; don't include unless you convert it to useCallback
+    await loadMore(true);
+  }
+}, [chatroom?.id, currentUserId]);
 
   /* ---------- empty state (no chat selected) ---------- */
 
@@ -798,6 +965,32 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   useEffect(() => {
     if (showThreadTop) markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
   }, [showThreadTop, markShown, chatroom?.id]);
+
+  const lastOutgoingId = useMemo(() => {
+  // last message sent by me
+  const last = [...messages].reverse().find((m) => {
+    const senderId = m.sender?.id ?? m.senderId;
+    return Number(senderId) === Number(currentUserId);
+  });
+  return last?.id ?? null;
+}, [messages, currentUserId]);
+
+const lastOutgoingSeen = useMemo(() => {
+  if (!lastOutgoingId) return false;
+
+  const m = messages.find((x) => x.id === lastOutgoingId);
+  if (!m) return false;
+
+  // Prefer readAt if available
+  if (m.readAt) return true;
+
+  // Fallback to readBy if your server uses it
+  if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
+    return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
+  }
+
+  return false;
+}, [messages, lastOutgoingId, otherUserId]);
 
   /* ---------- render ---------- */
 
@@ -908,7 +1101,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   onInvitePeople={() => setInviteOpen(true)}
                   onRoomSettings={() => setSettingsOpen(true)}
                   onBlock={handleBlockThread}
-                  onClear={handleClearThread}
+                  onClear={handleClearForMe}
+                  onClearAll={handleClearForEveryone}
                   clearLabel="Clear conversation"
                 />
               </Group>
@@ -1024,18 +1218,29 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             <Stack gap="xs" p="xs">
               {messages.map((m, idx) => {
                 const msg = normalizeMsg(m);
+                const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
+
                 return (
-                  <MessageBubble
-                    key={msg.id ?? `${msg.createdAt}-${idx}`}
-                    msg={msg}
-                    onRetry={handleRetry}
-                    onEdit={(mm) => handleEditMessage(mm)}
-                    onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
-                    onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
-                    onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
-                    canEdit={canEditMessage(msg)}
-                    canDeleteAll={canDeleteForEveryone(msg)}
-                  />
+                  <Box key={msg.id ?? `${msg.createdAt}-${idx}`}>
+                    <MessageBubble
+                      msg={msg}
+                      currentUserId={currentUserId}
+                      onRetry={handleRetry}
+                      onEdit={(mm) => handleEditMessage(mm)}
+                      onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
+                      onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
+                      onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
+                      canEdit={canEditMessage(msg)}
+                      canDeleteAll={canDeleteForEveryone(msg)}
+                    />
+
+                    {/* ✅ Minimal read receipt UI (1:1): show only for last outgoing message */}
+                    {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
+                      <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
+                        {lastOutgoingSeen ? 'Seen' : ''}
+                      </Text>
+                    )}
+                  </Box>
                 );
               })}
 

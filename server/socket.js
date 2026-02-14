@@ -199,6 +199,9 @@ export function initSocket(httpServer) {
   io.on('connection', async (socket) => {
     const userId = socket.user?.id;
 
+    // ✅ track last room where this user was typing (per socket)
+    let lastTypingRoomId = null;
+
     if (!IS_TEST) {
       console.log('[WS] connected user:', socket.user?.username || userId);
     }
@@ -254,6 +257,8 @@ export function initSocket(httpServer) {
       try {
         if (!roomId) return;
 
+        lastTypingRoomId = Number(roomId); // ✅ remember
+
         socket.to(String(roomId)).emit('typing:update', {
           roomId: Number(roomId),
           userId: socket.user?.id,
@@ -269,6 +274,8 @@ export function initSocket(httpServer) {
       try {
         if (!roomId) return;
 
+        lastTypingRoomId = Number(roomId); // ✅ remember
+
         socket.to(String(roomId)).emit('typing:update', {
           roomId: Number(roomId),
           userId: socket.user?.id,
@@ -280,12 +287,26 @@ export function initSocket(httpServer) {
       }
     });
 
-    socket.on('disconnect', (reason) => {
-      if (!IS_TEST) {
-        console.log(`[WS] user:${userId} disconnected:`, reason);
+  socket.on('disconnect', (reason) => {
+    // ✅ If the user disconnects mid-typing, force-stop typing for others
+    if (lastTypingRoomId) {
+      try {
+        socket.to(String(lastTypingRoomId)).emit('typing:update', {
+          roomId: lastTypingRoomId,
+          userId: socket.user?.id,
+          username: socket.user?.username,
+          isTyping: false,
+        });
+      } catch (e) {
+        if (!IS_TEST) console.warn('[WS] disconnect typing cleanup error', e?.message || e);
       }
-    });
+    }
+
+    if (!IS_TEST) {
+      console.log(`[WS] user:${userId} disconnected:`, reason);
+    }
   });
+});
 
   function emitToUser(userId, event, payload) {
     io.to(`user:${userId}`).emit(event, payload);
