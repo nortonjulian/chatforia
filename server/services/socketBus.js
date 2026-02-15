@@ -1,25 +1,17 @@
-// server/services/socketBus.js
 // Central Socket.IO bus: lets HTTP routes/services emit socket events safely
 // without importing the Socket.IO server everywhere.
 
+// Internal runtime handles
 let _io = null;
 let _emitToUserImpl = null;
 
 /**
- * Single source of truth for socket event names.
- * Keep these aligned with iOS/web clients.
- */
-export const SOCKET_EVENTS = Object.freeze({
-  // Messages
-  MESSAGE_NEW: 'message:new',
-
-  // Typing
-  TYPING_UPDATE: 'typing:update',
-});
-
-/**
- * Registers the active Socket.IO instance and an optional custom emitToUser implementation.
+ * Register the active Socket.IO instance and an optional custom emitToUser implementation.
  * Idempotent: last call wins (useful for hot-reload).
+ *
+ * Typical usage (server/index.js):
+ *   const { io, emitToUser } = initSocket(server);
+ *   setSocketIo(io, emitToUser);
  */
 export function setSocketIo(io, emitToUser) {
   _io = io || null;
@@ -73,34 +65,102 @@ export function emitToChatRoom(chatRoomId, event, payload) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Typed / convenience emitters (recommended)                                  */
+/* Socket event names (single source of truth)                                */
 /* -------------------------------------------------------------------------- */
 
 /**
- * Broadcast a new message to everyone in a chat room.
- *
- * Payload shape intentionally matches iOS client decoding:
- * - either direct message object OR { item: message }
- *
- * We include roomId for debugging/clients that want it.
+ * Single source of truth for socket event names.
+ * Keep these aligned with iOS/web clients.
  */
-export function emitMessageNew(chatRoomId, message) {
-  if (chatRoomId == null || !message) return;
+export const SOCKET_EVENTS = Object.freeze({
+  MESSAGE_UPSERT: 'message:upsert',
+  TYPING_UPDATE: 'typing:update',
+});
 
-  emitToChatRoom(chatRoomId, SOCKET_EVENTS.MESSAGE_NEW, {
+/* -------------------------------------------------------------------------- */
+/* Helpers that routes/services can use (canonical upsert + migration paths)  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Emit the full authoritative message row to a chat room.
+ *
+ * messageOrRow may be:
+ *  - a DB row / message object (preferred), or
+ *  - an id (number or numeric string) if the caller cannot easily fetch the row.
+ *
+ * If the caller passes only an id, this helper will attempt to fetch the
+ * full row using an optional fetchMessageById implementation that you can
+ * register via setHelpers() below. That keeps socketBus decoupled from Prisma.
+ */
+let _helpers = {
+  fetchMessageById: null, // optional: (id) => Promise<messageRow>
+};
+
+export function setHelpers({ fetchMessageById } = {}) {
+  if (typeof fetchMessageById === 'function') _helpers.fetchMessageById = fetchMessageById;
+}
+
+export async function emitMessageUpsert(chatRoomId, messageOrRow) {
+  if (chatRoomId == null || messageOrRow == null) return;
+
+  let payloadRow = null;
+
+  // If caller passed a plain id (number or numeric string)
+  if (
+    (typeof messageOrRow === 'number') ||
+    (typeof messageOrRow === 'string' && /^\d+$/.test(messageOrRow))
+  ) {
+    if (!_helpers.fetchMessageById) return; // can't fetch, so bail
+    payloadRow = await _helpers.fetchMessageById(Number(messageOrRow));
+    if (!payloadRow) return;
+  } else if (typeof messageOrRow === 'object' && messageOrRow.id != null) {
+    // Already a message object / DB row — use it directly
+    payloadRow = messageOrRow;
+  } else {
+    // Unsupported shape — ignore
+    return;
+  }
+
+  emitToChatRoom(chatRoomId, SOCKET_EVENTS.MESSAGE_UPSERT, {
     roomId: Number(chatRoomId),
-    item: message,
+    item: payloadRow,
   });
 }
 
+/* -------------------------------------------------------------------------- */
+/* Backwards-compatible wrappers (optional; helpful during migration)         */
+/* -------------------------------------------------------------------------- */
+
 /**
- * Broadcast typing updates to a room.
- * (Your socket layer already emits typing:update from typing:start/stop,
- * but this helper is here in case HTTP routes/services ever need it.)
+ * Deprecated wrapper for older codepaths.
+ * Calls emitMessageUpsert(...) under the hood.
+ *
+ * Keep this while you update callers and remove legacy events later.
  */
-export function emitTypingUpdate(chatRoomId, payload) {
-  if (chatRoomId == null) return;
-  emitToChatRoom(chatRoomId, SOCKET_EVENTS.TYPING_UPDATE, payload);
+export async function emitMessageNew(chatRoomId, messageOrRow) {
+  // Prefer emitting canonical upsert only
+  await emitMessageUpsert(chatRoomId, messageOrRow);
+
+  // OPTIONAL: temporarily emit the legacy event too so old clients don't break.
+  // emitToChatRoom(chatRoomId, 'message:new', { roomId: Number(chatRoomId), item: messageOrRow });
+}
+
+export async function emitMessageUpdated(chatRoomId, messageOrRow) {
+  await emitMessageUpsert(chatRoomId, messageOrRow);
+  // Optional legacy emit:
+  // emitToChatRoom(chatRoomId, 'message:updated', { roomId: Number(chatRoomId), item: messageOrRow });
+}
+
+export async function emitMessageExpired(chatRoomId, messageOrId, expiresAt) {
+  // Try to emit an upsert for the authoritative row (with updated expiresAt).
+  await emitMessageUpsert(chatRoomId, messageOrId);
+
+  // Optional legacy emit (remove after migration)
+  // emitToChatRoom(chatRoomId, 'message:expired', {
+  //   roomId: Number(chatRoomId),
+  //   id: Number(typeof messageOrId === 'object' ? messageOrId.id : messageOrId),
+  //   expiresAt,
+  // });
 }
 
 /** Test helper / hot-reload cleanup (not used in prod code paths). */

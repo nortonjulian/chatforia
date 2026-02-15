@@ -506,15 +506,64 @@ router.post(
  * LIST messages in a room
  */
 router.get('/:chatRoomId', requireAuth, async (req, res) => {
-  const chatRoomId = Number(req.params.chatRoomId);
+  // --- defensive parsing + helpful debug logs ---
+  const rawRoomIdRaw = req.params?.chatRoomId ?? '';
+
+  // decode in case the caller double-encoded the path (eg: "7676%3FsinceId=0")
+  let rawRoomId;
+  try {
+    rawRoomId = String(decodeURIComponent(String(rawRoomIdRaw)));
+  } catch {
+    rawRoomId = String(rawRoomIdRaw);
+  }
+  // strip any query-like suffix that accidentally landed in the param (e.g. "7676?sinceId=0" or "7676%3FsinceId=0")
+  const sanitizedRoomId = rawRoomId.split(/[?\/#]/)[0].trim();
+  // prefer integer parsing base 10 (avoids floats like "123.4" becoming 123.4)
+  const chatRoomId = Number.parseInt(sanitizedRoomId, 10);
   const requesterId = Number(req.user?.id);
+
+  // gated debug: use NODE_ENV or explicit debug flag
+  const isDebug =
+    (process.env.NODE_ENV || '').toLowerCase() !== 'production' ||
+    process.env.DEBUG_MESSAGES === 'true';
+
+  if (isDebug) {
+    console.debug('[messages:list] entry debug', {
+      originalUrl: req.originalUrl,
+      url: req.url,
+      params: req.params,
+      query: req.query,
+      rawRoomIdRaw,
+      rawRoomId,
+      sanitizedRoomId,
+      chatRoomId,
+      hasAuthHeader: !!req.headers['authorization'],
+      // only show a short masked preview for easier triage without exposing token
+      authHeaderPreview: (() => {
+        const a = String(req.headers['authorization'] || '');
+        if (!a) return null;
+        return `${a.slice(0, 8)}…${a.slice(-6)}`;
+      })(),
+    });
+  }
+
+  if (!Number.isInteger(chatRoomId) || chatRoomId <= 0) {
+    console.warn('[messages:list] invalid chatRoomId param (after sanitization)', {
+      rawRoomId,
+      sanitizedRoomId,
+      requester: req.user ? { id: req.user.id, username: req.user.username } : null,
+      url: req.originalUrl,
+      headers: {
+        'user-agent': req.headers['user-agent'],
+        referer: req.headers['referer'] || null,
+      },
+    });
+    return res.status(400).json({ error: 'Invalid chatRoomId', received: rawRoomId });
+  }
+
   const isAdmin = req.user?.role === 'ADMIN';
 
   try {
-    if (!Number.isFinite(chatRoomId)) {
-      return res.status(400).json({ error: 'Invalid chatRoomId' });
-    }
-
     // ✅ FIX: membership must exist in outer scope
     let membership = null;
 
@@ -551,41 +600,41 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     }
 
     // ✅ "Clear conversation" cutoff (Participant.archivedAt fallback)
-  let clearedAt = membership?.archivedAt ?? null;
+    let clearedAt = membership?.archivedAt ?? null;
 
-  // Test-mode fallback: roomsMem.clearedAt[roomId][userId]
-  if (!clearedAt && IS_TEST) {
-    const iso = roomsMem?.clearedAt?.get(chatRoomId)?.get(requesterId) || null;
-    if (iso) {
-      const d = new Date(iso);
-      if (!Number.isNaN(d.getTime())) clearedAt = d;
+    // Test-mode fallback: roomsMem.clearedAt[roomId][userId]
+    if (!clearedAt && IS_TEST) {
+      const iso = roomsMem?.clearedAt?.get(chatRoomId)?.get(requesterId) || null;
+      if (iso) {
+        const d = new Date(iso);
+        if (!Number.isNaN(d.getTime())) clearedAt = d;
+      }
     }
-  }
 
-  // ✅ ALSO honor threadClear table (this is what /:roomId/clear writes)
-  const tc = await prisma.threadClear.findUnique({
-    where: { userId_chatRoomId: { userId: requesterId, chatRoomId } },
-    select: { clearedAt: true },
-  });
+    // ✅ ALSO honor threadClear table (this is what /:roomId/clear writes)
+    const tc = await prisma.threadClear.findUnique({
+      where: { userId_chatRoomId: { userId: requesterId, chatRoomId } },
+      select: { clearedAt: true },
+    });
 
-  if (tc?.clearedAt) {
-    const t = new Date(tc.clearedAt);
-    if (!Number.isNaN(t.getTime())) {
-      // if both exist, take the newest cutoff
-      clearedAt = clearedAt
-        ? new Date(Math.max(new Date(clearedAt).getTime(), t.getTime()))
-        : t;
+    if (tc?.clearedAt) {
+      const t = new Date(tc.clearedAt);
+      if (!Number.isNaN(t.getTime())) {
+        // if both exist, take the newest cutoff
+        clearedAt = clearedAt
+          ? new Date(Math.max(new Date(clearedAt).getTime(), t.getTime()))
+          : t;
+      }
     }
-  }
 
-    const limitRaw = Number(req.query.limit ?? 50);
-    const limit = Math.min(Math.max(1, limitRaw), 100);
-    const cursorId = req.query.cursor ? Number(req.query.cursor) : null;
-
+    // ============================
+    // Query WHERE clause for Prisma
+    // ============================
+    // Filter by chatRoom and optionally apply the clearedAt cutoff so we
+    // exclude messages older than the user's clear/archive time.
     const where = {
       chatRoomId,
       ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
-      OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     };
 
     const baseSelect = {
@@ -642,7 +691,191 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         take: 1,
       },
       chatRoomId: true,
+    };  
+
+    // parse incoming numeric query params robustly
+    const sinceId = req.query?.sinceId ? Number(req.query.sinceId) : null;
+    const cursorId = req.query?.cursorId ? Number(req.query.cursorId) : null;
+    const limit = Math.min(100, Math.max(10, Number(req.query?.limit || 50))); // existing limit handling if you have it
+
+    // Debug logging to help diagnose issues in the wild
+    if (isDebug) {
+      console.debug('[messages:list] params parsed', {
+        rawRoomId,
+        sanitizedRoomId,
+        sinceId,
+        cursorId,
+        limit,
+        requesterId,
+        url: req.originalUrl,
+      });
+    }
+
+    // ---- ensure a reusable 'where' filter is defined up-front ----
+    const baseWhere = {
+      chatRoomId,
+      deletedForAll: false, // don't return tombstoned rows
+      ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
     };
+
+    // ---- delta path: sinceId supplied -> return envelope { items, nextCursor, count } ----
+    if (Number.isFinite(sinceId)) {
+      const deltaItems = await prisma.message.findMany({
+        where: {
+          ...baseWhere,
+          id: { gt: sinceId },
+        },
+        orderBy: { id: 'asc' },
+        take: 500,
+        select: baseSelect,
+      });
+
+      const messageIds = deltaItems.map((m) => m.id);
+
+      // gather reactions + my reactions as before (keep your existing logic)
+      let reactionSummaryByMessage = {};
+      let myReactionsByMessage = {};
+
+      if (messageIds.length) {
+        const grouped = await prisma.messageReaction.groupBy({
+          by: ['messageId', 'emoji'],
+          where: { messageId: { in: messageIds } },
+          _count: { emoji: true },
+        });
+
+        reactionSummaryByMessage = grouped.reduce((acc, r) => {
+          (acc[r.messageId] ||= {})[r.emoji] = r._count.emoji;
+          return acc;
+        }, {});
+
+        const mine = await prisma.messageReaction.findMany({
+          where: { messageId: { in: messageIds }, userId: requesterId },
+          select: { messageId: true, emoji: true },
+        });
+
+        myReactionsByMessage = mine.reduce((acc, r) => {
+          (acc[r.messageId] ||= new Set()).add(r.emoji);
+          return acc;
+        }, {});
+      }
+
+      // translations / maybeTranslateForTarget logic kept as-is
+      const requester = await prisma.user.findUnique({
+        where: { id: requesterId },
+        select: { preferredLanguage: true },
+      });
+      const myLang = requester?.preferredLanguage || 'en';
+      const translationEnabled = process.env.TRANSLATION_ENABLED === 'true';
+      const translatedForMeMap = new Map();
+
+      if (translationEnabled && deltaItems.length && myLang) {
+        const jobs = deltaItems.map(async (m) => {
+          if (m.deletions?.length) return;
+
+          if (m.deletedForAll) {
+            translatedForMeMap.set(m.id, null);
+            return;
+          }
+
+          const preCached =
+            m.translations && typeof m.translations === 'object'
+              ? (m.translations[myLang] ?? null)
+              : null;
+
+          const legacy =
+            m.translatedTo && m.translatedTo === myLang ? m.translatedContent : null;
+
+          if (preCached || legacy) {
+            translatedForMeMap.set(m.id, preCached || legacy || null);
+            return;
+          }
+
+          const src = m.rawContent || '';
+          if (!src.trim()) {
+            translatedForMeMap.set(m.id, null);
+            return;
+          }
+
+          try {
+            const { translatedText } = await maybeTranslateForTarget(src, null, myLang);
+            translatedForMeMap.set(m.id, translatedText || null);
+          } catch {
+            translatedForMeMap.set(m.id, null);
+          }
+        });
+
+        await Promise.all(jobs);
+      }
+
+      // shape the delta items exactly like the main listing path
+      const shapedDelta = deltaItems
+        .filter((m) => !(m.deletions?.length))
+        .filter((m) => !(m.deletedBySender && m.sender.id === requesterId))
+        .map((m) => {
+          const isSender = m.sender.id === requesterId;
+          const reactionSummary = reactionSummaryByMessage[m.id] || {};
+          const myReactions = Array.from(myReactionsByMessage[m.id] || []);
+
+          if (m.deletedForAll) {
+            return {
+              id: m.id,
+              chatRoomId: m.chatRoomId,
+              createdAt: m.createdAt,
+              expiresAt: m.expiresAt,
+              sender: m.sender,
+              readBy: m.readBy,
+              deletedForAll: true,
+              deletedAt: m.deletedAt,
+              deletedById: m.deletedById,
+              rawContent: null,
+              contentCiphertext: null,
+              attachments: [],
+              encryptedKeyForMe: null,
+              translatedForMe: null,
+              reactionSummary,
+              myReactions,
+              editedAt: null,
+            };
+          }
+
+          const encryptedKeyForMe = m.keys?.[0]?.encryptedKey || null;
+          const preCached =
+            m.translations && typeof m.translations === 'object'
+              ? (m.translations[myLang] ?? null)
+              : null;
+          const legacy =
+            m.translatedTo && m.translatedTo === myLang ? m.translatedContent : null;
+          const live = translatedForMeMap.get(m.id) ?? null;
+          const translatedForMe = preCached || legacy || live || null;
+
+          const { translations, translatedContent, translatedTo, keys, deletions, ...rest } = m;
+
+          const base = {
+            ...rest,
+            encryptedKeyForMe,
+            translatedForMe,
+            reactionSummary,
+            myReactions,
+          };
+
+          if (isSender || isAdmin) return base;
+
+          if (m.contentCiphertext != null) {
+            const { rawContent, ...restNoRaw } = base;
+            return restNoRaw;
+          }
+
+          return base;
+        });
+
+      // RETURN THE STANDARD ENVELOPE (always)
+      const nextCursorDelta = shapedDelta.length === 0 ? null : shapedDelta[shapedDelta.length - 1].id;
+      return res.json({
+        items: shapedDelta,
+        nextCursor: nextCursorDelta,
+        count: shapedDelta.length,
+      });
+    }
 
     const items = await prisma.message.findMany({
       where: cursorId ? { ...where, id: { lt: cursorId } } : where,

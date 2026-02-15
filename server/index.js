@@ -4,6 +4,9 @@ import { createApp } from './app.js';
 import { initSocket } from './socket.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
 import { initCrons } from './cron/index.js'; // moved here from app.js
+import { processExpiredMessages } from './jobs/pruneOldMessages.js';
+import { setSocketIo, setHelpers } from './services/socketBus.js';
+import prisma from './utils/prismaClient.js';
 
 import { startNumberLifecycleJob } from './jobs/numberLifecycle.js';
 import { startMessageRetentionJob } from './jobs/messageRetention.js';
@@ -67,13 +70,65 @@ if (ENV.IS_TEST) {
 
   // Start cron jobs (ONLY in real runtime, NOT in tests)
   try {
+    logger.info('Cron jobs started');
+  } catch (e) {
+    logger.warn({ err: e }, 'Cron init failed');
+  }
+
+  // Start number lifecycle + message retention jobs
+  try {
+    logger.info('Number lifecycle + message retention jobs started');
+  } catch (e) {
+    logger.warn({ err: e }, 'Failed to start number/message jobs');
+  }
+
+    // ----------------------------
+  // Wire up Socket.IO and register helpers for socketBus
+  // ----------------------------
+  const { io, emitToUser, close: closeSockets } = initSocket(server);
+  app.set('io', io);
+  app.set('emitToUser', emitToUser);
+
+  // socketBus wiring: let socketBus use this io instance and provide a DB fetch helper
+  // so emitMessageUpsert(chatRoomId, messageId) can load the canonical row when callers
+  // only pass an id.
+  setSocketIo(io, emitToUser);
+
+  setHelpers({
+    fetchMessageById: async (id) => {
+      return prisma.message.findUnique({
+        where: { id: Number(id) },
+        select: {
+          id: true,
+          clientMessageId: true,
+          contentCiphertext: true,
+          rawContent: true,
+          translations: true,
+          translatedFrom: true,
+          translatedContent: true,
+          translatedTo: true,
+          isExplicit: true,
+          imageUrl: true,
+          audioUrl: true,
+          audioDurationSec: true,
+          expiresAt: true,
+          editedAt: true,
+          revision: true,
+          createdAt: true,
+          senderId: true,
+        },
+      });
+    },
+  });
+
+  // ---- Now start crons and long-running jobs (after socket helpers are registered) ----
+  try {
     initCrons();
     logger.info('Cron jobs started');
   } catch (e) {
     logger.warn({ err: e }, 'Cron init failed');
   }
 
-    // Start number lifecycle + message retention jobs
   try {
     startNumberLifecycleJob();
     startMessageRetentionJob();
@@ -82,11 +137,6 @@ if (ENV.IS_TEST) {
     logger.warn({ err: e }, 'Failed to start number/message jobs');
   }
 
-  // Wire up Socket.IO and stash helpers so routes/services can emit
-  const { io, emitToUser, close: closeSockets } = initSocket(server);
-  app.set('io', io);
-  app.set('emitToUser', emitToUser);
-
   // Start background cleanup cron (auto-delete expired messages, etc.)
   try {
     startCleanupJobs();
@@ -94,6 +144,30 @@ if (ENV.IS_TEST) {
   } catch (e) {
     logger.warn({ err: e }, 'Failed to start cleanup jobs');
   }
+
+  // ----------------------------
+  // Background prune loop (process expired messages)
+  // ----------------------------
+  // Configuration
+  const PRUNE_INTERVAL_MS = Number(process.env.PRUNE_INTERVAL_MS) || 20_000;
+
+  // Interval handle & concurrency guard in outer scope so shutdown can clear it
+  let pruneInterval = null;
+  let pruning = false;
+
+  pruneInterval = setInterval(async () => {
+    if (pruning) return;
+    pruning = true;
+    try {
+      await processExpiredMessages();
+    } catch (err) {
+      logger.warn({ err }, 'processExpiredMessages failed');
+    } finally {
+      pruning = false;
+    }
+  }, PRUNE_INTERVAL_MS);
+  // allow process to exit if nothing else is keeping it alive
+  pruneInterval.unref?.();
 
   // Start HTTP server
   server.listen(ENV.PORT, () => {
@@ -113,7 +187,18 @@ if (ENV.IS_TEST) {
   async function shutdown(sig) {
     logger.warn({ sig }, 'Shutting down...');
 
-    // Stop cron tasks first so no new work is scheduled
+    // Stop prune interval first so no new prune work starts
+    try {
+      if (pruneInterval) {
+        clearInterval(pruneInterval);
+        pruneInterval = null;
+        logger.info('Prune interval stopped');
+      }
+    } catch (e) {
+      logger.warn({ err: e }, 'Error stopping prune interval');
+    }
+
+    // Stop cleanup cron jobs (centralized cleanup shutdown)
     try {
       stopCleanupJobs();
       logger.info('Cleanup jobs stopped');
@@ -126,7 +211,7 @@ if (ENV.IS_TEST) {
       if (closeSockets) await closeSockets();
       logger.info('Socket layer closed');
     } catch (e) {
-      logger.warn({ err: e }, 'Socket close error');
+      logger.warn({ err }, 'Socket close error');
     }
 
     // Disconnect Prisma (DB pool)

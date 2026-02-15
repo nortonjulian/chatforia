@@ -3,6 +3,7 @@ import cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 import prisma from './utils/prismaClient.js';
 import { setSocketIo } from './services/socketBus.js';
+import { registerReadReceipts } from './sockets/readReceipts.js';
 
 /** Env helpers */
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
@@ -10,15 +11,6 @@ const IS_PROD = String(process.env.NODE_ENV || '') === 'production';
 
 /**
  * Parse allowed CORS origins for Socket.IO.
- *
- * Recommended:
- * - set CORS_ORIGINS="https://chatforia.com,https://www.chatforia.com,http://localhost:5173"
- *
- * Behavior:
- * - If env is provided, we use it exactly.
- * - If env is missing:
- *   - dev/test fallback: localhost
- *   - prod fallback: chatforia.com domains (so you don't brick prod if env missing)
  */
 function parseOrigins() {
   const raw =
@@ -34,7 +26,6 @@ function parseOrigins() {
 
   if (list.length) return list;
 
-  // Sensible defaults if env isn't set
   if (IS_PROD) {
     return ['https://chatforia.com', 'https://www.chatforia.com'];
   }
@@ -44,13 +35,9 @@ function parseOrigins() {
 
 /** Extract JWT from handshake */
 function getTokenFromHandshake(handshake) {
-  // 1) Preferred: explicit auth token
   if (handshake.auth?.token) return handshake.auth.token;
-
-  // 2) Optional fallback: query token
   if (handshake.query?.token) return handshake.query.token;
 
-  // 3) Cookie token (preferred if you’re using cookie auth on web)
   if (handshake.headers?.cookie) {
     const cookies = cookie.parse(handshake.headers.cookie || '');
     const name = process.env.JWT_COOKIE_NAME || 'foria_jwt';
@@ -82,7 +69,6 @@ export function initSocket(httpServer) {
     path: '/socket.io',
   });
 
-  // engine.io low-level handshake errors (CORS, headers)
   io.engine.on('connection_error', (err) => {
     console.error('[WS] engine connection_error', {
       code: err.code,
@@ -127,19 +113,17 @@ export function initSocket(httpServer) {
         return next(new Error('Unauthorized: no token'));
       }
 
-      // ✅ Match server/middleware/auth.js fallback behavior
       const secret =
         process.env.JWT_SECRET || (IS_TEST ? 'test_secret' : 'dev_secret');
 
       let decoded;
       try {
-        decoded = jwt.verify(token, secret); // { id, username, plan, role, ... }
+        decoded = jwt.verify(token, secret);
       } catch (e) {
         console.warn('[WS] jwt verify failed', e?.message || e);
         return next(new Error('Unauthorized'));
       }
 
-      // Hydrate from DB (preferredLanguage, etc.)
       const user = await prisma.user.findUnique({
         where: { id: Number(decoded.id) },
         select: {
@@ -161,7 +145,7 @@ export function initSocket(httpServer) {
       socket.user = user;
       socket.data.user = user;
 
-      // personal unicast room (for per-user events like delete-for-me)
+      // personal unicast room
       socket.join(`user:${user.id}`);
 
       if (!IS_TEST) {
@@ -188,7 +172,6 @@ export function initSocket(httpServer) {
         mod.attachRandomChatSockets(io);
       }
     } catch (e) {
-      // random chats are optional — never crash socket layer
       if (!IS_TEST) {
         console.warn('[WS] random chat sockets not attached:', e?.message || e);
       }
@@ -199,12 +182,14 @@ export function initSocket(httpServer) {
   io.on('connection', async (socket) => {
     const userId = socket.user?.id;
 
-    // ✅ track last room where this user was typing (per socket)
     let lastTypingRoomId = null;
 
     if (!IS_TEST) {
       console.log('[WS] connected user:', socket.user?.username || userId);
     }
+
+    // ✅ Sprint 4: Read receipts
+    registerReadReceipts(io, socket, { prisma, IS_TEST });
 
     // Optional auto-join all rooms this user is in
     if (process.env.SOCKET_AUTOJOIN === 'true' && userId) {
@@ -212,7 +197,9 @@ export function initSocket(httpServer) {
         const rooms = await getUserRoomIds(userId);
         if (rooms.length) {
           await Promise.all(rooms.map((rid) => socket.join(String(rid))));
-          console.log(`[WS] auto-joined ${rooms.length} rooms for user:${userId}`);
+          console.log(
+            `[WS] auto-joined ${rooms.length} rooms for user:${userId}`
+          );
         }
       } catch (e) {
         console.warn('[WS] auto-join failed:', e?.message || e);
@@ -256,8 +243,7 @@ export function initSocket(httpServer) {
     socket.on('typing:start', ({ roomId }) => {
       try {
         if (!roomId) return;
-
-        lastTypingRoomId = Number(roomId); // ✅ remember
+        lastTypingRoomId = Number(roomId);
 
         socket.to(String(roomId)).emit('typing:update', {
           roomId: Number(roomId),
@@ -273,8 +259,7 @@ export function initSocket(httpServer) {
     socket.on('typing:stop', ({ roomId }) => {
       try {
         if (!roomId) return;
-
-        lastTypingRoomId = Number(roomId); // ✅ remember
+        lastTypingRoomId = Number(roomId);
 
         socket.to(String(roomId)).emit('typing:update', {
           roomId: Number(roomId),
@@ -287,32 +272,36 @@ export function initSocket(httpServer) {
       }
     });
 
-  socket.on('disconnect', (reason) => {
-    // ✅ If the user disconnects mid-typing, force-stop typing for others
-    if (lastTypingRoomId) {
+    socket.on('disconnect', (reason) => {
+      // ✅ If the user disconnects mid-typing, force-stop typing for others
       try {
-        socket.to(String(lastTypingRoomId)).emit('typing:update', {
-          roomId: lastTypingRoomId,
-          userId: socket.user?.id,
-          username: socket.user?.username,
-          isTyping: false,
-        });
+        if (lastTypingRoomId) {
+          socket.to(String(lastTypingRoomId)).emit('typing:update', {
+            roomId: lastTypingRoomId,
+            userId: socket.user?.id,
+            username: socket.user?.username,
+            isTyping: false,
+          });
+        }
       } catch (e) {
-        if (!IS_TEST) console.warn('[WS] disconnect typing cleanup error', e?.message || e);
+        if (!IS_TEST) {
+          console.warn(
+            '[WS] disconnect typing cleanup error',
+            e?.message || e
+          );
+        }
       }
-    }
 
-    if (!IS_TEST) {
-      console.log(`[WS] user:${userId} disconnected:`, reason);
-    }
+      if (!IS_TEST) {
+        console.log(`[WS] user:${userId} disconnected:`, reason);
+      }
+    });
   });
-});
 
   function emitToUser(userId, event, payload) {
     io.to(`user:${userId}`).emit(event, payload);
   }
 
-  // Expose to HTTP layer (other services can broadcast)
   setSocketIo(io, emitToUser);
 
   void maybeAttachRedisAdapter();

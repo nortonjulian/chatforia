@@ -3,6 +3,7 @@ import { requireAuth } from '../middleware/auth.js';
 import chatroomsRouter from './chatrooms.js';
 import prisma from '../utils/prismaClient.js';
 import asyncHandler from 'express-async-handler';
+import { emitMessageUpsert } from '../services/socketBus.js';
 
 const router = express.Router();
 const env = String(process.env.NODE_ENV || '');
@@ -321,6 +322,12 @@ router.post(
       },
     });
 
+    try {
+      await emitMessageUpsert(roomId, msg);
+    } catch (err) {
+      console.warn('[seed-message] emitMessageUpsert failed', err);
+    }
+
     return res.json({ ok: true, messageId: msg.id, roomId });
   })
 );
@@ -368,18 +375,14 @@ router.post(
       }
     }
 
-    const message = await prisma.message.create({
+        const message = await prisma.message.create({
       data: {
         chatRoomId: roomId,
         senderId,
         rawContent: text,
-
-        // ✅ Persist clientMessageId for reliable optimistic reconciliation + de-dupe
         clientMessageId: clientMessageId ? String(clientMessageId) : null,
-
-        // placeholders until encryption/translation pipeline is wired
-        contentCiphertext: "",   // placeholder until encryption
-        translatedFrom: "en",    // optional / placeholder
+        contentCiphertext: "",
+        translatedFrom: "en",
         translatedTo: null,
         translatedContent: null,
         translations: null,
@@ -394,20 +397,29 @@ router.post(
       chatRoomId: message.chatRoomId,
       senderId: message.senderId,
       senderUsername: message.sender?.username ?? null,
-
       rawContent: message.rawContent,
       translatedContent: message.translatedContent,
       contentCiphertext: message.contentCiphertext,
-
       createdAt: message.createdAt,
       clientMessageId: message.clientMessageId,
     };
 
     // ✅ 1️⃣ SOCKET.IO BROADCAST (goes HERE)
+    // keep the existing io emit if you need it for iOS/web fallback
     const io = req.app.get('io');
-    io?.to(String(roomId)).emit('message:new', payload);
+    await emitMessageUpsert(roomId, payload?.item ?? payload);
 
-    // ✅ Shape response to match what iOS expects (and what GET should resemble)
+    // ✅ also notify socketBus consumers (preferred: send the canonical DB row)
+    try {
+      // emitMessageUpsert expects either the DB row or a payload containing .item
+      // prefer passing the full DB `message` so downstream consumers have full data.
+      await emitMessageUpsert(roomId, message);
+    } catch (err) {
+      console.error('[rooms] emitMessageUpsert failed', err);
+      // swallow or surface depending on your tolerance — don't break the API response
+    }
+
+    // Shape response to match what iOS expects
     return res.json({ message: payload });
   })
 );

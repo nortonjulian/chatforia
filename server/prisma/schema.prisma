@@ -264,6 +264,7 @@ model User {
   passwordResetTokens        PasswordResetToken[] @relation("UserPasswordResetTokens")
   roomsOwned                 ChatRoom[]           @relation("ChatRoomOwner")
   messages                   Message[]            @relation("UserMessages")
+  messageReads               MessageRead[]
   participants               Participant[]
   reports                    Report[]             @relation("UserReports")
   randomChatRooms            RandomChatRoom[]     @relation("RandomChatParticipants")
@@ -653,6 +654,7 @@ model Message {
   audioDurationSec  Int?
   expiresAt         DateTime?
   editedAt          DateTime?
+  revision          Int @default(1)
 
 
   deletedBySender Boolean   @default(false)
@@ -682,10 +684,26 @@ model Message {
 
   deletions MessageDeletion[]
 
+  // relations
+  reads     MessageRead[]
+
   @@index([expiresAt])
   @@index([chatRoomId, id], map: "msg_room_id")
   @@index([chatRoomId, createdAt], map: "msg_room_time")
   @@unique([chatRoomId, senderId, clientMessageId], map: "msg_client_idempotency")
+}
+
+model MessageRead {
+  messageId Int
+  userId    Int
+  readAt    DateTime @default(now())
+
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([messageId, userId])
+  @@index([userId, readAt])
+  @@index([messageId])
 }
 
 model MessageKey {
@@ -713,7 +731,7 @@ model MessageSessionKey {
 
   encryptedSessionKey String
 
-  @@index([messageId, userId])
+  @@index([messageId, recipientUserId])
   @@index([recipientUserId])
   @@index([recipientDeviceId])
 }

@@ -92,6 +92,47 @@ function useDismissed(key, days = 14) {
   return [dismissed, dismiss];
 }
 
+/** Merge factories: keep messages unique and chronologically ordered (oldest → newest) */
+function mergeIncomingMessageFactory(setMessages) {
+  return (incoming) => {
+    if (!incoming) return;
+    setMessages((prev) => {
+      // replace if exists, otherwise append keeping order by createdAt (or id fallback)
+      const map = new Map(prev.map((m) => [String(m.id), m]));
+      map.set(String(incoming.id ?? Symbol()), { ...map.get(String(incoming.id)), ...incoming });
+
+      // produce array and sort by createdAt ascending, then id
+      const arr = Array.from(map.values()).sort((a, b) => {
+        const ta = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const tb = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
+        if (ta !== tb) return ta - tb;
+        return (Number(a.id) || 0) - (Number(b.id) || 0);
+      });
+      return arr;
+    });
+  };
+}
+
+function mergeIncomingBatchFactory(setMessages) {
+  return (rows = []) => {
+    if (!Array.isArray(rows) || rows.length === 0) return;
+    setMessages((prev) => {
+      const map = new Map(prev.map((m) => [String(m.id), m]));
+      for (const r of rows) {
+        if (!r) continue;
+        map.set(String(r.id ?? Symbol()), { ...(map.get(String(r.id)) || {}), ...r });
+      }
+      const arr = Array.from(map.values()).sort((a, b) => {
+        const ta = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
+        const tb = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
+        if (ta !== tb) return ta - tb;
+        return (Number(a.id) || 0) - (Number(b.id) || 0);
+      });
+      return arr;
+    });
+  };
+}
+
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
@@ -153,31 +194,31 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const otherUserId = Number(otherParticipant?.id ?? otherParticipant?.userId);
 
-// ✅ mark newest N unread as read
-const markNewestUnreadBulk = useCallback(
-  async (limit = 50) => {
-    if (!chatroom?.id) return;
-    try {
-      await axiosClient.post('/messages/read-bulk', {
-        chatRoomId: chatroom.id,
-        limit,
-      });
-    } catch (e) {
-      console.error('read-bulk failed', e);
-    }
-  },
-  [chatroom?.id]
-);
+  // ✅ mark newest N unread as read
+  const markNewestUnreadBulk = useCallback(
+    async (limit = 50) => {
+      if (!chatroom?.id) return;
+      try {
+        await axiosClient.post('/messages/read-bulk', {
+          chatRoomId: chatroom.id,
+          limit,
+        });
+      } catch (e) {
+        console.error('read-bulk failed', e);
+      }
+    },
+    [chatroom?.id]
+  );
 
-// ✅ mark single message read (fallback if you want instant receipts)
-const markMessageRead = useCallback(async (messageId) => {
-  if (!messageId) return;
-  try {
-    await axiosClient.patch(`/messages/${messageId}/read`);
-  } catch (e) {
-    console.error('PATCH read failed', e);
-  }
-}, []);
+  // ✅ mark single message read (fallback if you want instant receipts)
+  const markMessageRead = useCallback(async (messageId) => {
+    if (!messageId) return;
+    try {
+      await axiosClient.patch(`/messages/${messageId}/read`);
+    } catch (e) {
+      console.error('PATCH read failed', e);
+    }
+  }, []);
 
   // ✅ Smart Replies toggle (single source of truth)
   const [smartEnabled, setSmartEnabled] = useState(
@@ -368,85 +409,86 @@ const markMessageRead = useCallback(async (messageId) => {
         });
       } catch (e) {
         console.error('Delete failed', e);
-        loadMore(true);
+        // try reload a page of messages to recover
+        await loadMore(true);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // keep deps minimal
     []
   );
 
   /* ---------- pagination loader (initial + older pages) ---------- */
 
   async function loadMore(initial = false) {
-  if (!chatroom?.id || loadingOlderRef.current) return false;
+    if (!chatroom?.id || loadingOlderRef.current) return false;
 
-  loadingOlderRef.current = true; 
-  setLoading(true);
+    loadingOlderRef.current = true;
+    setLoading(true);
 
-  try {
-    const params = new URLSearchParams();
-    params.set('limit', initial ? '50' : '30');
-    if (!initial && cursor) params.set('cursor', String(cursor));
-
-    const { data } = await axiosClient.get(
-      `/messages/${chatroom.id}?${params.toString()}`
-    );
-
-    let priv = null;
     try {
-      priv = await getUnlockedPrivateKey();
-    } catch {
-      // ignore
+      const params = new URLSearchParams();
+      params.set('limit', initial ? '50' : '30');
+      if (!initial && cursor) params.set('cursor', String(cursor));
+
+      const { data } = await axiosClient.get(
+        `/messages/${chatroom.id}?${params.toString()}`
+      );
+
+      let priv = null;
+      try {
+        priv = await getUnlockedPrivateKey();
+      } catch {
+        // ignore
+      }
+
+      const decrypted = await decryptFetchedMessages(
+        data.items || [],
+        priv,
+        null,
+        currentUserId
+      );
+
+      // server: newest → oldest; UI: oldest → newest
+      const chronological = decrypted.slice().reverse();
+
+      if (initial) {
+        setMessages(chronological);
+        setCursor(data.nextCursor ?? null);
+        setHasMore(Boolean(data.nextCursor));
+        setTimeout(scrollToBottomNow, 0);
+      } else {
+        const v = scrollViewportRef.current;
+        const prevHeight = v ? v.scrollHeight : 0;
+        const prevTop = v ? v.scrollTop : 0;
+
+        setMessages((prev) => {
+          const seen = new Set(prev.map((m) => String(m.id)));
+          const older = chronological.filter((m) => !seen.has(String(m.id)));
+          return [...older, ...prev];
+        });
+
+        setCursor(data.nextCursor ?? null);
+        setHasMore(Boolean(data.nextCursor));
+
+        requestAnimationFrame(() => {
+          const vv = scrollViewportRef.current;
+          if (!vv) return;
+          const newHeight = vv.scrollHeight;
+          const delta = newHeight - prevHeight;
+          vv.scrollTop = prevTop + delta;
+        });
+      }
+
+      addMessages(chatroom.id, chronological).catch(() => {});
+      return true;
+    } catch (err) {
+      console.error('Failed to fetch/decrypt paged messages', err);
+      return false;
+    } finally {
+      setLoading(false);
+      loadingOlderRef.current = false;
     }
-
-    const decrypted = await decryptFetchedMessages(
-      data.items || [],
-      priv,
-      null,
-      currentUserId
-    );
-
-    // server: newest → oldest; UI: oldest → newest
-    const chronological = decrypted.slice().reverse();
-
-    if (initial) {
-      setMessages(chronological);
-      setCursor(data.nextCursor ?? null);
-      setHasMore(Boolean(data.nextCursor));
-      setTimeout(scrollToBottomNow, 0);
-    } else {
-      const v = scrollViewportRef.current;
-      const prevHeight = v ? v.scrollHeight : 0;
-      const prevTop = v ? v.scrollTop : 0;
-
-      setMessages((prev) => {
-        const seen = new Set(prev.map((m) => String(m.id)));
-        const older = chronological.filter((m) => !seen.has(String(m.id)));
-        return [...older, ...prev];
-      });
-
-      setCursor(data.nextCursor ?? null);
-      setHasMore(Boolean(data.nextCursor));
-
-      requestAnimationFrame(() => {
-        const vv = scrollViewportRef.current;
-        if (!vv) return;
-        const newHeight = vv.scrollHeight;
-        const delta = newHeight - prevHeight;
-        vv.scrollTop = prevTop + delta;
-      });
-    }
-
-    addMessages(chatroom.id, chronological).catch(() => {});
-    return true;
-  } catch (err) {
-    console.error('Failed to fetch/decrypt paged messages', err);
-    return false;
-  } finally {
-    setLoading(false);
-    loadingOlderRef.current = false; 
   }
-}
 
   /* ---------- initial load / room change ---------- */
 
@@ -484,128 +526,153 @@ const markMessageRead = useCallback(async (messageId) => {
   /* ---------- infinite scroll: load older when near TOP ---------- */
 
   useEffect(() => {
-  const v = scrollViewportRef.current;
-  if (!v) return;
+    const v = scrollViewportRef.current;
+    if (!v) return;
 
-  let ticking = false;
+    let ticking = false;
 
-  const onScroll = () => {
-    if (loadingOlderRef.current) return;
+    const onScroll = () => {
+      if (loadingOlderRef.current) return;
 
-    if (ticking) return;
-    ticking = true;
+      if (ticking) return;
+      ticking = true;
 
-    requestAnimationFrame(() => {
-      ticking = false;
+      requestAnimationFrame(() => {
+        ticking = false;
 
-      const vv = scrollViewportRef.current;
-      if (!vv) return;
+        const vv = scrollViewportRef.current;
+        if (!vv) return;
 
-      if (vv.scrollTop > 120) return;
-      if (!hasMore || !cursor || loadingOlderRef.current) return;
+        if (vv.scrollTop > 120) return;
+        if (!hasMore || !cursor || loadingOlderRef.current) return;
 
+        loadMore(false);
+      });
+    };
+
+    v.addEventListener('scroll', onScroll, { passive: true });
+    return () => v.removeEventListener('scroll', onScroll);
+  }, [chatroom?.id, cursor, hasMore]);
+
+  useEffect(() => {
+    const v = scrollViewportRef.current;
+    if (!v) return;
+
+    if (v.scrollTop <= 120 && hasMore && cursor && !loadingOlderRef.current) {
       loadMore(false);
-    });
-  };
-
-  v.addEventListener('scroll', onScroll, { passive: true });
-  return () => v.removeEventListener('scroll', onScroll);
-}, [chatroom?.id, cursor, hasMore]);
-
-useEffect(() => {
-  const v = scrollViewportRef.current;
-  if (!v) return;
-
-  if (v.scrollTop <= 120 && hasMore && cursor && !loadingOlderRef.current) {
-    loadMore(false);
-  }
-}, [chatroom?.id, cursor, hasMore]);
+    }
+  }, [chatroom?.id, cursor, hasMore]);
 
   /* ---------- realtime: new messages + typing ---------- */
 
   useEffect(() => {
-  if (!chatroom || !currentUserId) return;
+    if (!chatroom || !currentUserId) return;
 
-  const handleReceiveMessage = async (data) => {
-  const msg = data?.item ?? data;
-  if (Number(msg.chatRoomId) !== Number(chatroom.id)) return;
+    const mergeIncomingMessage = mergeIncomingMessageFactory(setMessages);
+    const mergeIncomingBatch = mergeIncomingBatchFactory(setMessages);
 
-  try {
-    let priv = null;
-    try {
-      priv = await getUnlockedPrivateKey();
-    } catch {
-      // ignore
-    }
+    // handler that decrypts then merges a single incoming msg
+    const handleReceiveMessage = async (payload) => {
+      const raw = payload?.item ?? payload;
+      if (Number(raw?.chatRoomId) !== Number(chatroom.id)) return;
 
-    const [decrypted] = await decryptFetchedMessages(
-      [msg],
-      priv,
-      null,
-      currentUserId
-    );
+      try {
+        let priv = null;
+        try {
+          priv = await getUnlockedPrivateKey();
+        } catch {
+          // ignore if key locked
+        }
 
-    setMessages((prev) => [...prev, decrypted]);
-    addMessages(chatroom.id, [decrypted]).catch(() => {});
+        const [decrypted] = await decryptFetchedMessages([raw], priv, null, currentUserId);
 
-    // ✅ Read receipt: if it's NOT mine and I'm in this chat, mark it read immediately
-    const decryptedSenderId = decrypted?.sender?.id ?? decrypted?.senderId;
-    const isMine = Number(decryptedSenderId) === Number(currentUserId);
-    if (!isMine) {
-      // Prefer decrypted.id, fallback to msg.id
-      markMessageRead(decrypted?.id ?? msg?.id);
-    }
+        // merge decrypted row into local state (factory handles merge/ordering)
+        mergeIncomingMessage(decrypted);
 
-    const v = scrollViewportRef.current;
-    const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        // persist to local cache
+        addMessages(chatroom.id, [decrypted]).catch(() => {});
 
-    if (atBottom) scrollToBottomNow();
-    else setShowNewMessage(true);
+        // read-receipt: if it's NOT mine and I'm in this chat, mark it read
+        const decryptedSenderId = decrypted?.sender?.id ?? decrypted?.senderId;
+        const isMine = Number(decryptedSenderId) === Number(currentUserId);
+        if (!isMine) {
+          markMessageRead(decrypted?.id ?? raw?.id);
+        }
 
-    const tabHidden = document.hidden;
-    if (!isMine && (!atBottom || tabHidden)) {
-      playSound('/sounds/new-message.mp3', { volume: 0.6 });
-    }
-  } catch (e) {
-    console.error('Failed to decrypt incoming message', e);
+        // scroll / sound
+        const v = scrollViewportRef.current;
+        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        if (atBottom) scrollToBottomNow();
+        else setShowNewMessage(true);
 
-    setMessages((prev) => [...prev, msg]); // ✅ append msg, not raw payload
-    setShowNewMessage(true);
+        const tabHidden = document.hidden;
+        if (!isMine && (!atBottom || tabHidden)) {
+          playSound('/sounds/new-message.mp3', { volume: 0.6 });
+        }
+      } catch (e) {
+        console.error('Failed to decrypt/merge incoming message', e);
+        // fallback: merge raw payload so we still see something
+        mergeIncomingMessage(raw);
 
-    // ✅ Read receipt (fallback): if it's NOT mine, mark it read
-    const isMine =
-      Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
-    if (!isMine) {
-      markMessageRead(msg?.id);
-    }
+        // fallback read receipt
+        const isMine =
+          Number(raw?.sender?.id ?? raw?.senderId) === Number(currentUserId);
+        if (!isMine) markMessageRead(raw?.id);
 
-    const v = scrollViewportRef.current;
-    const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        const v = scrollViewportRef.current;
+        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+        if (atBottom) scrollToBottomNow();
+        else setShowNewMessage(true);
 
-    const tabHidden = document.hidden;
-    if (!isMine && (!atBottom || tabHidden)) {
-      playSound('/sounds/new-message.mp3', { volume: 0.6 });
-    }
-  }
-};
+        const tabHidden = document.hidden;
+        if (!isMine && (!atBottom || tabHidden)) {
+          playSound('/sounds/new-message.mp3', { volume: 0.6 });
+        }
+      }
+    };
 
-  // ✅ stable handler refs so .off() works
-  const onMessageNew = (payload) => handleReceiveMessage(payload?.item ?? payload);
+    // If server sometimes sends batches (e.g., replay), handle them
+    const handleBatch = async (payload) => {
+      const rows = payload?.items ?? payload;
+      if (!Array.isArray(rows) || rows.length === 0) return;
 
-  // ✅ server emits typing:update { roomId, username, isTyping, ... }
-  const onTypingUpdate = ({ roomId, username, isTyping }) => {
-    if (Number(roomId) !== Number(chatroom.id)) return;
-    setTypingUser(isTyping ? (username || '') : '');
-  };
+      try {
+        let priv = null;
+        try {
+          priv = await getUnlockedPrivateKey();
+        } catch {}
+        const decrypted = await decryptFetchedMessages(rows, priv, null, currentUserId);
+        // decrypted is an array of rows; use batch merge
+        mergeIncomingBatch(decrypted);
+        addMessages(chatroom.id, decrypted).catch(() => {});
+      } catch (e) {
+        console.error('Failed to decrypt incoming batch', e);
+        // fallback: merge raw rows
+        mergeIncomingBatch(rows);
+      }
+    };
 
-  socket.on('message:new', onMessageNew);
-  socket.on('typing:update', onTypingUpdate);
+    // typing handler unchanged
+    const onTypingUpdate = ({ roomId, username, isTyping }) => {
+      if (Number(roomId) !== Number(chatroom.id)) return;
+      setTypingUser(isTyping ? (username || '') : '');
+    };
 
-  return () => {
-    socket.off('message:new', onMessageNew);
-    socket.off('typing:update', onTypingUpdate);
-  };
-}, [chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
+    // wire socket events
+    socket.on('message:upsert', handleReceiveMessage);
+    socket.on('message:new', handleReceiveMessage); // keep legacy support
+    socket.on('message:expired', handleReceiveMessage); // optional legacy
+    socket.on('message:batch', handleBatch); // if you emit batch replays under this event
+    socket.on('typing:update', onTypingUpdate);
+
+    return () => {
+      socket.off('message:upsert', handleReceiveMessage);
+      socket.off('message:new', handleReceiveMessage);
+      socket.off('message:expired', handleReceiveMessage);
+      socket.off('message:batch', handleBatch);
+      socket.off('typing:update', onTypingUpdate);
+    };
+  }, [chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
 
   // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
@@ -718,51 +785,51 @@ useEffect(() => {
   /* ---------- realtime: read receipts ---------- */
 
   useEffect(() => {
-  const onRead = (payload) => {
-    // Supports either:
-    // 1) { messageId, reader }
-    // 2) { chatRoomId, readerId, messageIds, readAt }
-    // 3) { messageIds, reader, readAt }
-    const messageIds =
-      (Array.isArray(payload?.messageIds) && payload.messageIds) ||
-      (payload?.messageId ? [payload.messageId] : []);
+    const onRead = (payload) => {
+      // Supports either:
+      // 1) { messageId, reader }
+      // 2) { chatRoomId, readerId, messageIds, readAt }
+      // 3) { messageIds, reader, readAt }
+      const messageIds =
+        (Array.isArray(payload?.messageIds) && payload.messageIds) ||
+        (payload?.messageId ? [payload.messageId] : []);
 
-    if (!messageIds.length) return;
+      if (!messageIds.length) return;
 
-    const readerId =
-      payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
+      const readerId =
+        payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
 
-    // Ignore "me read my own messages"
-    if (!readerId || Number(readerId) === Number(currentUserId)) return;
+      // Ignore "me read my own messages"
+      if (!readerId || Number(readerId) === Number(currentUserId)) return;
 
-    const readAt = payload?.readAt ?? new Date().toISOString();
+      const readAt = payload?.readAt ?? new Date().toISOString();
 
-    const messageIdSet = new Set(messageIds.map(String));
+      const messageIdSet = new Set(messageIds.map(String));
 
-    setMessages((prev) =>
-      prev.map((m) => {
-        if (!messageIdSet.has(String(m.id))) return m;
+      setMessages((prev) =>
+        prev.map((m) => {
+          if (!messageIdSet.has(String(m.id))) return m;
 
-        // stamp readAt for UI (simple 1:1 "Seen")
-        const next = { ...m, readAt: m.readAt ?? readAt };
+          // stamp readAt for UI (simple 1:1 "Seen")
+          const next = { ...m, readAt: m.readAt ?? readAt };
 
-        // keep your existing readBy array behavior (optional)
-        if (payload?.reader) {
-          const r = payload.reader;
-          next.readBy = Array.isArray(m.readBy)
-            ? m.readBy.some((u) => Number(u.id) === Number(r.id))
-              ? m.readBy
-              : [...m.readBy, r]
-            : [r];
-        }
+          // keep your existing readBy array behavior (optional)
+          if (payload?.reader) {
+            const r = payload.reader;
+            next.readBy = Array.isArray(m.readBy)
+              ? m.readBy.some((u) => Number(u.id) === Number(r.id))
+                ? m.readBy
+                : [...m.readBy, r]
+              : [r];
+          }
 
-        return next;
-      })
-    );
-  };
+          return next;
+        })
+      );
+    };
 
-  socket.on('message_read', onRead);
-  return () => socket.off('message_read', onRead);
+    socket.on('message_read', onRead);
+    return () => socket.off('message_read', onRead);
   }, [currentUserId]);
 
   /* ---------- realtime: reactions ---------- */
@@ -870,59 +937,59 @@ useEffect(() => {
   /* ---------- backend ops: edit/delete/clear ---------- */
 
   const handleClearForMe = useCallback(async () => {
-  if (!chatroom?.id) return;
+    if (!chatroom?.id) return;
 
-  const ok = window.confirm(
-    'Clear this conversation for you? This hides prior messages for your account.'
-  );
-  if (!ok) return;
+    const ok = window.confirm(
+      'Clear this conversation for you? This hides prior messages for your account.'
+    );
+    if (!ok) return;
 
-  setMessages([]);
-  setCursor(null);
-  setShowNewMessage(false);
-
-  try {
-    await axiosClient.post(`/messages/${chatroom.id}/clear`);
-    await loadMore(true);
-  } catch (e) {
-    console.error('Clear-for-me failed', e);
-    await loadMore(true);
-  }
-}, [chatroom?.id]); // keep deps minimal since loadMore isn't memoized
-
-const handleClearForEveryone = useCallback(async () => {
-  if (!chatroom?.id) return;
-
-  const ok = window.confirm(
-    'Clear this conversation for everyone? All messages will show “This message was deleted”.'
-  );
-  if (!ok) return;
-
-  const nowIso = new Date().toISOString();
-
-  setMessages((prev) =>
-    prev.map((m) => ({
-      ...m,
-      deletedForAll: true,
-      deletedAt: nowIso,
-      deletedById: currentUserId,
-      rawContent: '',
-      content: '',
-      translatedForMe: null,
-      attachments: [],
-      attachmentsInline: [],
-    }))
-  );
-
-  try {
-    await axiosClient.post(`/messages/${chatroom.id}/clear-all`);
-  } catch (e) {
-    console.error('Clear-for-everyone failed', e);
     setMessages([]);
     setCursor(null);
-    await loadMore(true);
-  }
-}, [chatroom?.id, currentUserId]);
+    setShowNewMessage(false);
+
+    try {
+      await axiosClient.post(`/messages/${chatroom.id}/clear`);
+      await loadMore(true);
+    } catch (e) {
+      console.error('Clear-for-me failed', e);
+      await loadMore(true);
+    }
+  }, [chatroom?.id]); // keep deps minimal since loadMore isn't memoized
+
+  const handleClearForEveryone = useCallback(async () => {
+    if (!chatroom?.id) return;
+
+    const ok = window.confirm(
+      'Clear this conversation for everyone? All messages will show “This message was deleted”.'
+    );
+    if (!ok) return;
+
+    const nowIso = new Date().toISOString();
+
+    setMessages((prev) =>
+      prev.map((m) => ({
+        ...m,
+        deletedForAll: true,
+        deletedAt: nowIso,
+        deletedById: currentUserId,
+        rawContent: '',
+        content: '',
+        translatedForMe: null,
+        attachments: [],
+        attachmentsInline: [],
+      }))
+    );
+
+    try {
+      await axiosClient.post(`/messages/${chatroom.id}/clear-all`);
+    } catch (e) {
+      console.error('Clear-for-everyone failed', e);
+      setMessages([]);
+      setCursor(null);
+      await loadMore(true);
+    }
+  }, [chatroom?.id, currentUserId]);
 
   /* ---------- empty state (no chat selected) ---------- */
 
@@ -967,30 +1034,30 @@ const handleClearForEveryone = useCallback(async () => {
   }, [showThreadTop, markShown, chatroom?.id]);
 
   const lastOutgoingId = useMemo(() => {
-  // last message sent by me
-  const last = [...messages].reverse().find((m) => {
-    const senderId = m.sender?.id ?? m.senderId;
-    return Number(senderId) === Number(currentUserId);
-  });
-  return last?.id ?? null;
-}, [messages, currentUserId]);
+    // last message sent by me
+    const last = [...messages].reverse().find((m) => {
+      const senderId = m.sender?.id ?? m.senderId;
+      return Number(senderId) === Number(currentUserId);
+    });
+    return last?.id ?? null;
+  }, [messages, currentUserId]);
 
-const lastOutgoingSeen = useMemo(() => {
-  if (!lastOutgoingId) return false;
+  const lastOutgoingSeen = useMemo(() => {
+    if (!lastOutgoingId) return false;
 
-  const m = messages.find((x) => x.id === lastOutgoingId);
-  if (!m) return false;
+    const m = messages.find((x) => x.id === lastOutgoingId);
+    if (!m) return false;
 
-  // Prefer readAt if available
-  if (m.readAt) return true;
+    // Prefer readAt if available
+    if (m.readAt) return true;
 
-  // Fallback to readBy if your server uses it
-  if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
-    return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
-  }
+    // Fallback to readBy if your server uses it
+    if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
+      return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
+    }
 
-  return false;
-}, [messages, lastOutgoingId, otherUserId]);
+    return false;
+  }, [messages, lastOutgoingId, otherUserId]);
 
   /* ---------- render ---------- */
 
