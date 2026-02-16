@@ -1,6 +1,8 @@
 const DB_NAME = 'chatforia';
 const STORE = 'room_msgs';
 
+import { normalizeMessage, mergePageIntoState, upsertSingle } from './messageUtils.js';
+
 let _db;
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -25,14 +27,35 @@ async function _getConn(mode = 'readonly') {
   return db.transaction(STORE, mode).objectStore(STORE);
 }
 
-const isBlank = (v) =>
-  v == null || (typeof v === "string" && v.trim().length === 0);
+const isBlank = (v) => v == null || (typeof v === 'string' && v.trim().length === 0);
 
-function mergeMessage(existing, incoming) {
-  // server fields win
+// Internal: read raw persisted entry (returns { messages: [] })
+async function _readRaw(roomId) {
+  const os = await _getConn('readonly');
+  const key = String(roomId);
+  return new Promise((resolve) => {
+    const req = os.get(key);
+    req.onsuccess = () => resolve(req.result || { key, messages: [] });
+    req.onerror = () => resolve({ key, messages: [] });
+  });
+}
+
+// Internal: write raw entry
+async function _writeRaw(roomId, payload) {
+  const os = await _getConn('readwrite');
+  const key = String(roomId);
+  return new Promise((resolve, reject) => {
+    const req = os.put({ key, messages: payload });
+    req.onsuccess = () => resolve();
+    req.onerror = () => reject(req.error);
+  });
+}
+
+// Merge function used to preserve local decrypted/translations when incoming blank
+function defaultMerge(existing, incoming) {
+  // server fields win, but preserve local decrypted/translated if incoming blank
   const merged = { ...existing, ...incoming };
 
-  // never clobber local decrypted/translated with blank
   if (isBlank(incoming.decryptedContent) && !isBlank(existing.decryptedContent)) {
     merged.decryptedContent = existing.decryptedContent;
   }
@@ -43,52 +66,158 @@ function mergeMessage(existing, incoming) {
   return merged;
 }
 
+/**
+ * Merge a page of messages (or array of messages) into the room store.
+ * Overlapping pages are tolerated. Ordering is stable: createdAt DESC, id DESC.
+ *
+ * Example usage:
+ *   await addMessages(roomId, page.items);
+ */
 export async function addMessages(roomId, msgs) {
-  const os = await _getConn('readwrite');
-  const key = String(roomId);
+  const raw = await _readRaw(roomId);
+  const existing = raw.messages || [];
 
-  const existing = await getRoomMessages(roomId);
-
-  const map = new Map();
-  for (const m of existing || []) {
+  // Build existing maps (keyed by id or cid)
+  const existingMap = new Map();
+  for (const m of existing) {
     if (!m) continue;
-    if (m.id != null) map.set(`id:${m.id}`, m);
-    if (m.clientMessageId) map.set(`cid:${m.clientMessageId}`, m);
+    if (m.id != null) existingMap.set(`id:${m.id}`, m);
+    if (m.clientMessageId) existingMap.set(`cid:${m.clientMessageId}`, m);
   }
 
-  for (const incoming of msgs || []) {
-    if (!incoming) continue;
+  // Existing order array (ids/cids) for stable merge; we store ids for ordering
+  const existingOrder = (existing || []).map((m) => (m.id != null ? m.id : m.clientMessageId));
 
-    const byId = incoming.id != null ? map.get(`id:${incoming.id}`) : null;
-    const byCid = incoming.clientMessageId ? map.get(`cid:${incoming.clientMessageId}`) : null;
+  // Use mergePageIntoState to combine
+  const { list: mergedList } = mergePageIntoState(existingMap, existingOrder, msgs || [], defaultMerge);
 
-    const prev = byId || byCid;
-    const merged = prev ? mergeMessage(prev, incoming) : incoming;
-
-    if (incoming.id != null) map.set(`id:${incoming.id}`, merged);
-    if (incoming.clientMessageId) map.set(`cid:${incoming.clientMessageId}`, merged);
-  }
-
-  const unique = Array.from(new Set(map.values()));
-  unique.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-  return new Promise((resolve, reject) => {
-    const req = os.put({ key, messages: unique });
-    req.onsuccess = () => resolve();
-    req.onerror = () => reject(req.error);
-  });
+  // Persist mergedList (newest-first)
+  await _writeRaw(roomId, mergedList);
 }
 
-export async function getRoomMessages(roomId) {
-  const os = await _getConn('readonly');
+/**
+ * Merge two single messages (preserve local decrypted/translations when incoming blank).
+ * Reuse same logic as defaultMerge.
+ */
+function mergeMessage(existing, incoming) {
+  return defaultMerge(existing, incoming);
+}
+
+/**
+ * Upsert a single message (socket delta) — optimized version.
+ *
+ * This avoids loading/parsing the room from a separate helper and only touches
+ * the raw room entry once (single read + conditional write). It still preserves
+ * merging semantics and stable ordering (newest-first by createdAt).
+ *
+ * Returns: { op: 'insert'|'update'|'noop', item: <message> } or undefined on noop/error.
+ */
+export async function upsertMessage(roomId, msg) {
+  if (!roomId || !msg) return;
   const key = String(roomId);
-  return new Promise((resolve) => {
+  const os = await _getConn('readwrite');
+
+  // Read the single room entry (messages array) once
+  const current = await new Promise((resolve) => {
     const req = os.get(key);
-    req.onsuccess = () => resolve(req.result?.messages || []);
-    req.onerror = () => resolve([]); // fail-soft
+    req.onsuccess = () => resolve(req.result || { key, messages: [] });
+    req.onerror = () => resolve({ key, messages: [] });
   });
+
+  const messages = Array.isArray(current.messages) ? current.messages.slice() : [];
+
+  // Find by id or clientMessageId
+  const findIndex = (arr, m) => {
+    if (!m) return -1;
+    const byId = m.id != null;
+    const cid = m.clientMessageId;
+    for (let i = 0; i < arr.length; i++) {
+      const it = arr[i];
+      if (!it) continue;
+      if (byId && it.id === m.id) return i;
+      if (cid && it.clientMessageId && it.clientMessageId === cid) return i;
+    }
+    return -1;
+  };
+
+  const idx = findIndex(messages, msg);
+  if (idx === -1) {
+    // Insert path
+    const normalized = typeof normalizeMessage === 'function' ? normalizeMessage(msg) : msg;
+    messages.push(normalized); // push then sort (newest-first)
+    messages.sort((a, b) => {
+      // stable ordering: createdAt DESC, id DESC as fallback
+      const ta = new Date(a.createdAt).getTime() || 0;
+      const tb = new Date(b.createdAt).getTime() || 0;
+      if (tb !== ta) return tb - ta;
+      const ia = a.id != null ? Number(a.id) : 0;
+      const ib = b.id != null ? Number(b.id) : 0;
+      return ib - ia;
+    });
+
+    // persist
+    await new Promise((resolve, reject) => {
+      const putReq = os.put({ key, messages });
+      putReq.onsuccess = () => resolve();
+      putReq.onerror = () => reject(putReq.error);
+    });
+
+    return { op: 'insert', item: normalized };
+  } else {
+    // Update path — merge and replace in-place
+    const existing = messages[idx];
+    const merged = mergeMessage(existing, msg);
+
+    // If merged is shallow-equal to existing, skip write (optional optimization)
+    const shallowEqual = (a, b) => {
+      if (a === b) return true;
+      const aKeys = Object.keys(a || {});
+      const bKeys = Object.keys(b || {});
+      if (aKeys.length !== bKeys.length) return false;
+      for (const k of aKeys) {
+        if (a[k] !== b[k]) return false;
+      }
+      return true;
+    };
+
+    messages[idx] = merged;
+
+    // Ordering might have changed if createdAt updated — re-sort for safety
+    messages.sort((a, b) => {
+      const ta = new Date(a.createdAt).getTime() || 0;
+      const tb = new Date(b.createdAt).getTime() || 0;
+      if (tb !== ta) return tb - ta;
+      const ia = a.id != null ? Number(a.id) : 0;
+      const ib = b.id != null ? Number(b.id) : 0;
+      return ib - ia;
+    });
+
+    // Persist only if different (optional)
+    if (shallowEqual(existing, merged)) {
+      return { op: 'noop', item: merged };
+    }
+
+    await new Promise((resolve, reject) => {
+      const putReq = os.put({ key, messages });
+      putReq.onsuccess = () => resolve();
+      putReq.onerror = () => reject(putReq.error);
+    });
+
+    return { op: 'update', item: merged };
+  }
 }
 
+/**
+ * Return the room's messages (newest-first).
+ */
+export async function getRoomMessages(roomId) {
+  const raw = await _readRaw(roomId);
+  return raw.messages || [];
+}
+
+/**
+ * Simple full-text search across rawContent and decrypted/translated text.
+ */
 export async function searchRoom(roomId, query) {
   const q = (query || '').trim().toLowerCase();
   if (!q) return [];
@@ -101,11 +230,7 @@ export async function searchRoom(roomId, query) {
 }
 
 /**
- * Return normalized media entries from a room for gallery views.
- * Each item: { id?, kind: 'IMAGE'|'VIDEO'|'AUDIO', url, mimeType?, caption?, width?, height?, durationSec?, messageId? }
- * Sources:
- *  - Modern: message.attachments[]
- *  - Legacy:  message.imageUrl, message.audioUrl (+ audioDurationSec)
+ * Media extraction (unchanged logic, slightly refactored)
  */
 export async function getMediaInRoom(roomId) {
   const all = await getRoomMessages(roomId);
@@ -116,7 +241,7 @@ export async function getMediaInRoom(roomId) {
   for (const m of all) {
     const messageId = m.id;
 
-    // 1) Modern attachments
+    // Modern attachments
     if (Array.isArray(m.attachments)) {
       for (const a of m.attachments) {
         if (!a || !a.url || !a.kind) continue;
@@ -137,7 +262,7 @@ export async function getMediaInRoom(roomId) {
       }
     }
 
-    // 2) Legacy fallbacks (keep so older rows still display in gallery)
+    // Legacy fallbacks
     if (m.imageUrl) {
       out.push({
         id: `legacy-img-${messageId}`,
@@ -167,6 +292,6 @@ export async function getMediaInRoom(roomId) {
     }
   }
 
-  // Return newest first (MediaGalleryModal expects reverse chronological)
+  // Newest first by messageId (works for legacy items too)
   return out.sort((a, b) => (b.messageId ?? 0) - (a.messageId ?? 0));
 }

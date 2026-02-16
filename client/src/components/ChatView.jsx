@@ -38,7 +38,8 @@ import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
 
 // ✅ Local message cache for search/media
-import { addMessages } from '@/utils/messagesStore';
+import { fetchLatestMessages, fetchOlderMessages, fetchMessageDeltas } from '@/lib/api';
+import { addMessages, upsertMessage } from '@/utils/messagesStore'; 
 
 // ✅ Modals
 import RoomSettingsModal from '@/components/RoomSettingsModal.jsx';
@@ -166,6 +167,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [draft, setDraft] = useState('');
 
   const [forcedCalendarText, setForcedCalendarText] = useState(null);
+
+  const [highestSeenId, setHighestSeenId] = useState(0); // track highest numeric message id we've seen
+  const pendingPages = useRef(new Set()); 
 
   // Ads context (caps / cool-downs)
   const ads = useAds();
@@ -420,75 +424,92 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   /* ---------- pagination loader (initial + older pages) ---------- */
 
   async function loadMore(initial = false) {
-    if (!chatroom?.id || loadingOlderRef.current) return false;
+  if (!chatroom?.id) return false;
+  if (loadingOlderRef.current) return false;
 
-    loadingOlderRef.current = true;
-    setLoading(true);
+  // prevent duplicate page requests for same cursor
+  const requestedCursor = initial ? 'initial' : (cursor ?? 'null');
+  if (pendingPages.current.has(requestedCursor)) return false;
+  pendingPages.current.add(requestedCursor);
 
-    try {
-      const params = new URLSearchParams();
-      params.set('limit', initial ? '50' : '30');
-      if (!initial && cursor) params.set('cursor', String(cursor));
+  loadingOlderRef.current = true;
+  setLoading(true);
 
-      const { data } = await axiosClient.get(
-        `/messages/${chatroom.id}?${params.toString()}`
-      );
-
-      let priv = null;
-      try {
-        priv = await getUnlockedPrivateKey();
-      } catch {
-        // ignore
-      }
-
-      const decrypted = await decryptFetchedMessages(
-        data.items || [],
-        priv,
-        null,
-        currentUserId
-      );
-
-      // server: newest → oldest; UI: oldest → newest
-      const chronological = decrypted.slice().reverse();
-
-      if (initial) {
-        setMessages(chronological);
-        setCursor(data.nextCursor ?? null);
-        setHasMore(Boolean(data.nextCursor));
-        setTimeout(scrollToBottomNow, 0);
-      } else {
-        const v = scrollViewportRef.current;
-        const prevHeight = v ? v.scrollHeight : 0;
-        const prevTop = v ? v.scrollTop : 0;
-
-        setMessages((prev) => {
-          const seen = new Set(prev.map((m) => String(m.id)));
-          const older = chronological.filter((m) => !seen.has(String(m.id)));
-          return [...older, ...prev];
-        });
-
-        setCursor(data.nextCursor ?? null);
-        setHasMore(Boolean(data.nextCursor));
-
-        requestAnimationFrame(() => {
-          const vv = scrollViewportRef.current;
-          if (!vv) return;
-          const newHeight = vv.scrollHeight;
-          const delta = newHeight - prevHeight;
-          vv.scrollTop = prevTop + delta;
-        });
-      }
-
-      addMessages(chatroom.id, chronological).catch(() => {});
-      return true;
-    } catch (err) {
-      console.error('Failed to fetch/decrypt paged messages', err);
-      return false;
-    } finally {
-      setLoading(false);
-      loadingOlderRef.current = false;
+  try {
+    // call server via canonical api
+    let resp;
+    if (initial) {
+      resp = await fetchLatestMessages(chatroom.id, 50);
+    } else {
+      // server expects "cursorId" query param (id-based cursor). ensure we pass that name.
+      resp = await fetchOlderMessages(chatroom.id, cursor, 30);
     }
+
+    const data = resp || {}; // { items, nextCursor }
+
+    // decrypt messages as before
+    let priv = null;
+    try {
+      priv = await getUnlockedPrivateKey();
+    } catch {}
+    const decrypted = await decryptFetchedMessages(data.items || [], priv, null, currentUserId);
+
+    // `data.items` from server are newest->oldest. You want oldest->newest in UI.
+    const chronological = (decrypted || []).slice().reverse();
+
+    // update highestSeenId (max id we've seen)
+    const maxId = (decrypted || [])
+      .map((m) => Number(m?.id || 0))
+      .filter(Number.isFinite)
+      .reduce((a, b) => Math.max(a, b), 0);
+    if (maxId > 0) setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+
+    if (initial) {
+      // initial load -> replace messages, scroll to bottom
+      setMessages(chronological);
+      setCursor(data.nextCursor ?? null);
+      setHasMore(Boolean(data.nextCursor));
+      setTimeout(scrollToBottomNow, 0);
+
+      // persist the full page
+      addMessages(chatroom.id, chronological).catch(() => {});
+    } else {
+      // preserve scroll position while prepending older messages
+      const v = scrollViewportRef.current;
+      const prevHeight = v ? v.scrollHeight : 0;
+      const prevTop = v ? v.scrollTop : 0;
+
+      setMessages((prev) => {
+        const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
+        const older = chronological.filter((m) => !seen.has(String(m.id ?? m.clientMessageId ?? '')));
+        return [...older, ...prev];
+      });
+
+      setCursor(data.nextCursor ?? null);
+      setHasMore(Boolean(data.nextCursor));
+
+      // persist older page (dedup tolerant)
+      addMessages(chatroom.id, chronological).catch(() => {});
+
+      requestAnimationFrame(() => {
+        const vv = scrollViewportRef.current;
+        if (!vv) return;
+        const newHeight = vv.scrollHeight;
+        const delta = newHeight - prevHeight;
+        vv.scrollTop = prevTop + delta;
+      });
+    }
+
+    return true;
+  } catch (err) {
+    console.error('Failed to fetch/decrypt paged messages', err);
+    return false;
+  } finally {
+    pendingPages.current.delete(requestedCursor);
+    setLoading(false);
+    loadingOlderRef.current = false;
   }
+}
 
   /* ---------- initial load / room change ---------- */
 
@@ -499,6 +520,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setCursor(null);
     setShowNewMessage(false);
     setHasMore(true);
+
+    pendingPages.current.clear();
+    setHighestSeenId(0);
 
     if (!chatroom?.id) return;
 
@@ -589,6 +613,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         // merge decrypted row into local state (factory handles merge/ordering)
         mergeIncomingMessage(decrypted);
 
+        const incomingId = Number(decrypted?.id || 0);
+        if (Number.isFinite(incomingId) && incomingId > 0) {
+          setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
+        }
+
+        // persist single canonical message (dedup/upsert)
+        upsertMessage(chatroom.id, decrypted).catch(() => {});
+
         // persist to local cache
         addMessages(chatroom.id, [decrypted]).catch(() => {});
 
@@ -645,12 +677,19 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         // decrypted is an array of rows; use batch merge
         mergeIncomingBatch(decrypted);
         addMessages(chatroom.id, decrypted).catch(() => {});
-      } catch (e) {
-        console.error('Failed to decrypt incoming batch', e);
-        // fallback: merge raw rows
-        mergeIncomingBatch(rows);
-      }
-    };
+
+        // update highestSeenId from batch
+        const maxInBatch = (decrypted || [])
+          .map((m) => Number(m?.id || 0))
+          .filter(Number.isFinite)
+          .reduce((a, b) => Math.max(a, b), 0);
+        if (maxInBatch > 0) setHighestSeenId((prev) => Math.max(prev || 0, maxInBatch));
+          } catch (e) {
+            console.error('Failed to decrypt incoming batch', e);
+            // fallback: merge raw rows
+            mergeIncomingBatch(rows);
+          }
+        };
 
     // typing handler unchanged
     const onTypingUpdate = ({ roomId, username, isTyping }) => {
@@ -714,8 +753,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const onExpired = ({ id }) => {
       setMessages((prev) => prev.filter((m) => m.id !== id));
     };
-    socket.on('message_expired', onExpired);
-    return () => socket.off('message_expired', onExpired);
+    socket.on('message:expired', onExpired);
+    return () => socket.off('message:expired', onExpired);
   }, [chatroom?.id]);
 
   /* ---------- realtime: message edited/deleted ---------- */
@@ -861,6 +900,49 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     socket.on('reaction_updated', onReaction);
     return () => socket.off('reaction_updated', onReaction);
   }, [currentUserId]);
+
+  useEffect(() => {
+  if (!chatroom?.id) return;
+
+  const onSocketConnect = async () => {
+    if (!highestSeenId || highestSeenId <= 0) return;
+
+    try {
+      const resp = await fetchMessageDeltas(chatroom.id, highestSeenId);
+      const rows = resp?.items || [];
+      if (!rows.length) return;
+
+      let priv = null;
+      try {
+        priv = await getUnlockedPrivateKey();
+      } catch {}
+      const decrypted = await decryptFetchedMessages(rows, priv, null, currentUserId);
+
+      const chronological = decrypted.slice().reverse();
+
+      setMessages((prev) => {
+        const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
+        const newRows = chronological.filter((m) => !seen.has(String(m.id ?? m.clientMessageId ?? '')));
+        return [...prev, ...newRows]; // new messages arrive at end (newest)
+      });
+
+      addMessages(chatroom.id, chronological).catch(() => {});
+
+      const maxId = (decrypted || [])
+        .map((m) => Number(m?.id || 0))
+        .filter(Number.isFinite)
+        .reduce((a, b) => Math.max(a, b), 0);
+      if (maxId > 0) setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+    } catch (e) {
+      console.error('Delta resync failed on socket reconnect', e);
+    }
+  };
+
+  socket.on('connect', onSocketConnect);
+  return () => {
+    socket.off('connect', onSocketConnect);
+  };
+}, [chatroom?.id, highestSeenId, currentUserId]);
 
   /* ---------- smart replies ---------- */
 

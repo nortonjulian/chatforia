@@ -11,6 +11,8 @@ import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { emitMessageNew } from '../services/socketBus.js';
 
+import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
+
 // ✅ Use the service so SMS fan-out runs + translations/TTL live in one place
 import { createMessageService } from '../services/messageService.js';
 
@@ -121,6 +123,64 @@ function normalizeMediaKind(kind, mimeType) {
 }
 
 /**
+ * GET /messages/:chatRoomId/deltas?sinceId=NN
+ *
+ * Compact delta API returning messages with id > sinceId in ascending id order.
+ * Useful for socket reconnect / replay semantics.
+ */
+router.get(
+  '/:chatRoomId/deltas',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const chatRoomId = Number(req.params.chatRoomId);
+    const requesterId = Number(req.user?.id);
+    if (!Number.isFinite(chatRoomId)) throw Boom.badRequest('Invalid roomId');
+    const sinceId = Number(req.query.sinceId || 0);
+
+    // membership check (reuse helper)
+    const okMember = await isMemberOrMemFallback(chatRoomId, requesterId);
+    if (!okMember) throw Boom.forbidden('Not a participant in this chat');
+
+    const items = await prisma.message.findMany({
+      where: { chatRoomId, id: { gt: sinceId }, deletedForAll: false },
+      orderBy: { id: 'asc' },
+      take: 1000,
+      select: {
+        id: true,
+        chatRoomId: true,
+        rawContent: true,
+        contentCiphertext: true,
+        attachments: true,
+        sender: { select: { id: true, username: true, publicKey: true } },
+        createdAt: true,
+        expiresAt: true,
+        deletedForAll: true,
+        deletedAt: true,
+        deletedById: true,
+      },
+    });
+
+    const shaped = items.map((m) => ({
+      id: m.id,
+      chatRoomId: m.chatRoomId,
+      createdAt: m.createdAt,
+      expiresAt: m.expiresAt,
+      sender: m.sender,
+      rawContent: m.rawContent,
+      contentCiphertext: m.contentCiphertext,
+      attachments: m.attachments || [],
+      deletedForAll: m.deletedForAll,
+    }));
+
+    return res.json({
+      items: shaped,
+      nextSinceId: shaped.length ? shaped[shaped.length - 1].id : null,
+      count: shaped.length,
+    });
+  })
+);
+
+/**
  * CREATE message (HTTP)
  */
 router.post(
@@ -227,10 +287,10 @@ router.post(
           isImage
             ? 'IMAGE'
             : mime.startsWith('video/')
-              ? 'VIDEO'
-              : mime.startsWith('audio/')
-                ? 'AUDIO'
-                : 'FILE',
+            ? 'VIDEO'
+            : mime.startsWith('audio/')
+            ? 'AUDIO'
+            : 'FILE',
           mime
         ),
         url: relPath,
@@ -322,10 +382,10 @@ router.post(
       saved = await createMessageService({
         senderId,
         chatRoomId,
-        clientMessageId,      // ✅ NEW (idempotency)
+        clientMessageId, // ✅ NEW (idempotency)
         content,
-        contentCiphertext,    // can be string or object; service stringifies
-        encryptedKeys,        // ✅ NEW (E2EE recipient keys -> MessageKey)
+        contentCiphertext, // can be string or object; service stringifies
+        encryptedKeys, // ✅ NEW (E2EE recipient keys -> MessageKey)
         expireSeconds: secs,
         attachments,
       });
@@ -691,12 +751,33 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         take: 1,
       },
       chatRoomId: true,
-    };  
+    };
 
     // parse incoming numeric query params robustly
-    const sinceId = req.query?.sinceId ? Number(req.query.sinceId) : null;
-    const cursorId = req.query?.cursorId ? Number(req.query.cursorId) : null;
-    const limit = Math.min(100, Math.max(10, Number(req.query?.limit || 50))); // existing limit handling if you have it
+    // prefer explicit existence checks so "0" is preserved
+    const sinceId =
+      req.query && Object.prototype.hasOwnProperty.call(req.query, 'sinceId')
+        ? Number(req.query.sinceId)
+        : null;
+
+    // legacy single-key numeric cursor (backward-compatible)
+    const legacyCursorId =
+      req.query && Object.prototype.hasOwnProperty.call(req.query, 'cursorId')
+        ? Number(req.query.cursorId)
+        : null;
+
+    // new compound cursor param: "<createdAtISO>_<id>"
+    const rawCursor = req.query?.cursor ?? null;
+    let compoundCursor = { createdAt: null, id: null };
+    try {
+      // prefers new cursor param when provided
+      compoundCursor = parseCompoundCursor(rawCursor);
+    } catch {
+      compoundCursor = { createdAt: null, id: null };
+    }
+
+    // page size clamp
+    const limit = Math.min(100, Math.max(10, Number(req.query?.limit || 50)));
 
     // Debug logging to help diagnose issues in the wild
     if (isDebug) {
@@ -704,7 +785,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         rawRoomId,
         sanitizedRoomId,
         sinceId,
-        cursorId,
+        legacyCursorId,
+        rawCursor,
         limit,
         requesterId,
         url: req.originalUrl,
@@ -725,7 +807,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           ...baseWhere,
           id: { gt: sinceId },
         },
-        orderBy: { id: 'asc' },
+        // newest -> oldest
+        orderBy: { id: 'desc' },
         take: 500,
         select: baseSelect,
       });
@@ -779,7 +862,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
           const preCached =
             m.translations && typeof m.translations === 'object'
-              ? (m.translations[myLang] ?? null)
+              ? m.translations[myLang] ?? null
               : null;
 
           const legacy =
@@ -841,7 +924,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           const encryptedKeyForMe = m.keys?.[0]?.encryptedKey || null;
           const preCached =
             m.translations && typeof m.translations === 'object'
-              ? (m.translations[myLang] ?? null)
+              ? m.translations[myLang] ?? null
               : null;
           const legacy =
             m.translatedTo && m.translatedTo === myLang ? m.translatedContent : null;
@@ -869,7 +952,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         });
 
       // RETURN THE STANDARD ENVELOPE (always)
-      const nextCursorDelta = shapedDelta.length === 0 ? null : shapedDelta[shapedDelta.length - 1].id;
+      const nextCursorDelta =
+        shapedDelta.length === 0 ? null : Math.min(...shapedDelta.map((m) => m.id));
       return res.json({
         items: shapedDelta,
         nextCursor: nextCursorDelta,
@@ -877,9 +961,33 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       });
     }
 
+    // Build an orderBy ensuring stable sorting by createdAt then id (desc)
+    const orderBy = [{ createdAt: 'desc' }, { id: 'desc' }];
+
+    // Compose prisma where depending on cursor type
+    let pageWhere = { ...where }; // baseWhere already contains chatRoomId, deletedForAll, clearedAt cutoff, etc.
+
+    if (compoundCursor.createdAt && compoundCursor.id) {
+      // compound cursor case: (createdAt < ts) OR (createdAt == ts AND id < idPart)
+      const ts = new Date(compoundCursor.createdAt);
+      const idPart = Number(compoundCursor.id);
+
+      pageWhere = {
+        ...pageWhere,
+        OR: [
+          { createdAt: { lt: ts } },
+          { AND: [{ createdAt: { equals: ts } }, { id: { lt: idPart } }] },
+        ],
+      };
+    } else if (Number.isFinite(legacyCursorId)) {
+      // legacy numeric cursor
+      pageWhere = { ...pageWhere, id: { lt: legacyCursorId } };
+    }
+
+    // Execute query (stable order)
     const items = await prisma.message.findMany({
-      where: cursorId ? { ...where, id: { lt: cursorId } } : where,
-      orderBy: { id: 'desc' },
+      where: pageWhere,
+      orderBy,
       take: limit,
       select: baseSelect,
     });
@@ -931,7 +1039,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
         const preCached =
           m.translations && typeof m.translations === 'object'
-            ? (m.translations[myLang] ?? null)
+            ? m.translations[myLang] ?? null
             : null;
         const legacy =
           m.translatedTo && m.translatedTo === myLang ? m.translatedContent : null;
@@ -997,7 +1105,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
         const preCached =
           m.translations && typeof m.translations === 'object'
-            ? (m.translations[myLang] ?? null)
+            ? m.translations[myLang] ?? null
             : null;
         const legacy =
           m.translatedTo && m.translatedTo === myLang ? m.translatedContent : null;
@@ -1066,9 +1174,10 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       .sort((a, b) => b.id - a.id)
       .slice(0, limit);
 
-    const nextCursor = all.length === limit ? all[all.length - 1].id : null;
+    const nextCursor = all.length === limit ? makeCompoundCursor(all[all.length - 1]) : null;
+    const nextCursorId = all.length === limit ? all[all.length - 1].id : null;
 
-    return res.json({ items: all, nextCursor, count: all.length });
+    return res.json({ items: all, nextCursor, nextCursorId, count: all.length });
   } catch (e) {
     console.error('[messages:list] failed', e);
     return res.status(500).json({ error: 'Failed to fetch messages' });

@@ -1,6 +1,5 @@
-// client/src/components/ChatroomList.jsx
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ScrollArea, Stack, NavLink, Badge, Text, Box, ActionIcon, Menu } from '@mantine/core';
+import { ScrollArea, Stack, NavLink, Badge, Text, Box, ActionIcon, Menu, Group } from '@mantine/core';
 import { IconDotsVertical, IconTrash } from '@tabler/icons-react';
 import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
@@ -12,6 +11,7 @@ import AdSlot from '../ads/AdSlot';
 import HouseAdSlot from '../ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import { CardAdWrap } from '@/ads/AdWrappers';
+import axiosClient from '@/api/axiosClient';
 
 function normalizeChatroom(room) {
   return {
@@ -62,37 +62,24 @@ export default function ChatroomList({
 
   const isPremium = useIsPremium();
 
-  async function loadChatrooms(initial = false) {
+    async function loadChatrooms(initial = false) {
     if (!currentUser?.id) return;
-    const qs = new URLSearchParams();
-    qs.set('limit', initial ? '50' : '30');
+    const params = { limit: initial ? 50 : 30 };
     if (cursor?.id && cursor?.updatedAt && !initial) {
-      qs.set('cursorId', String(cursor.id));
-      qs.set('cursorUpdatedAt', String(cursor.updatedAt));
+      params.cursorId = String(cursor.id);
+      params.cursorUpdatedAt = String(cursor.updatedAt);
     }
 
-    const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL}/chatrooms?${qs.toString()}`,
-      {
-        credentials: 'include',
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      }
-    );
-    if (!res.ok) throw new Error('Failed to fetch chatrooms');
-    const data = await res.json(); // { items, nextCursor }
-    setChatrooms((prev) => (initial ? data.items : [...prev, ...data.items]));
-    setCursor(data.nextCursor);
+    const { data } = await axiosClient.get('/chatrooms', { params });
+    // server returns { items, nextCursor }
+    setChatrooms((prev) => (initial ? data.items || [] : [...prev, ...(data.items || [])]));
+    setCursor(data.nextCursor ?? null);
   }
 
   // SMS threads: fetch once (unless you add pagination)
-  async function loadSmsThreads() {
+    async function loadSmsThreads() {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/sms/threads`, {
-        credentials: 'include',
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      });
-      if (!res.ok) throw new Error('Failed to fetch sms threads');
-      const data = await res.json(); // assume { items } or array
+      const { data } = await axiosClient.get('/sms/threads');
       const items = Array.isArray(data) ? data : data.items || [];
       setSmsThreads(items);
     } catch {
@@ -155,8 +142,8 @@ export default function ChatroomList({
     // only join socket rooms for app-chat threads
     if (thread.type === 'chat') {
       const room = thread.raw;
-      if (selectedRoom?.id) socket.emit('leave_room', selectedRoom.id);
-      socket.emit('join_room', room.id);
+      if (selectedRoom?.id) socket.emit('leave_room', Number(selectedRoom.id));
+      socket.emit('join_room', Number(room.id));
     }
 
     onSelect?.(thread);

@@ -3,6 +3,7 @@ import { isExplicit, cleanText } from '../utils/filter.js';
 import { translateForTargets } from '../utils/translate.js';
 import { translateText } from '../utils/translateText.js';
 import { allow } from '../utils/tokenBucket.js';
+import * as socketBus from './socketBus.js';
 
 const FORIA_BOT_USER_ID = Number(process.env.FORIA_BOT_USER_ID ?? 0);
 const MAX_TRANSLATE_CHARS = Number(process.env.TRANSLATE_MAX_INPUT_CHARS || 1200);
@@ -34,8 +35,8 @@ function safeJsonParse(str) {
 export async function createMessageService({
   senderId,
   chatRoomId,
-  clientMessageId = null,   
-  encryptedKeys = null,    
+  clientMessageId = null,
+  encryptedKeys = null,
   content,
   contentCiphertext,
   expireSeconds,
@@ -76,14 +77,14 @@ export async function createMessageService({
   });
   if (!membership) throw new Error('Not a participant in this chat');
 
-  // ✅ Idempotency: if clientMessageId exists, return existing message
+  // ✅ Idempotency: normalize client message id once and use it both for lookup and create
   const cid = typeof clientMessageId === 'string' ? clientMessageId.trim() : '';
   if (cid) {
     const existing = await prisma.message.findFirst({
       where: {
         chatRoomId: roomIdNum,
         senderId: sender.id,
-        clientMessageId,
+        clientMessageId: cid,
       },
       select: {
         id: true,
@@ -166,22 +167,27 @@ export async function createMessageService({
   const secsClamped = clampExpireSeconds(requestedSecs, plan);
   const expiresAt = secsClamped > 0 ? new Date(Date.now() + secsClamped * 1000) : null;
 
-  // 6) Normalize ciphertext to string
   // 6) Normalize ciphertext to Json-compatible value
   const cipherValue =
     typeof contentCiphertext === 'string'
-      ? safeJsonParse(contentCiphertext) ?? contentCiphertext // JSON string -> object, otherwise keep as string
+      ? safeJsonParse(contentCiphertext) ?? contentCiphertext
       : contentCiphertext ?? null;
 
+  // If encryptedKeys arrived as a JSON string, parse it here (non-blocking)
+  let encryptedKeysObj = encryptedKeys;
+  if (typeof encryptedKeys === 'string') {
+    const parsed = safeJsonParse(encryptedKeys);
+    encryptedKeysObj = parsed && typeof parsed === 'object' ? parsed : null;
+  }
 
-  // 7) Persist message
+  // 7) Persist message (use normalized cid)
   const saved = await prisma.message.create({
     data: {
       contentCiphertext: cipherValue,
       rawContent: content ? content : '',
       translations: translationsMap,
       translatedFrom,
-      clientMessageId: clientMessageId || null,
+      clientMessageId: cid || null,
       isExplicit: isMsgExplicit,
       imageUrl: imageUrl || null,
       audioUrl: audioUrl || null,
@@ -240,14 +246,14 @@ export async function createMessageService({
   });
 
   // ✅ Persist MessageKey rows from encryptedKeys map: { [userId]: encryptedKey }
-  try {
-    if (encryptedKeys && typeof encryptedKeys === 'object' && !Array.isArray(encryptedKeys)) {
-      const rows = Object.entries(encryptedKeys)
-        .map(([userId, encryptedKey]) => ({
-          messageId: saved.id,
-          userId: Number(userId),
-          encryptedKey: String(encryptedKey),
-        }))
+  if (encryptedKeysObj && typeof encryptedKeysObj === 'object' && !Array.isArray(encryptedKeysObj)) {
+    try {
+      const rows = Object.entries(encryptedKeysObj)
+        .map(([userIdRaw, encryptedKey]) => {
+          const uid = Number(userIdRaw);
+          const keyStr = encryptedKey == null ? '' : String(encryptedKey);
+          return { messageId: saved.id, userId: uid, encryptedKey: keyStr };
+        })
         .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
 
       if (rows.length) {
@@ -256,9 +262,10 @@ export async function createMessageService({
           skipDuplicates: true,
         });
       }
+    } catch (e) {
+      console.warn('[E2EE] could not persist MessageKey rows', e?.message || e);
+      // continue without failing the entire message create
     }
-  } catch (e) {
-    console.warn('[E2EE] could not persist MessageKey rows', e?.message || e);
   }
 
   // 8.5) Bot webhook events (non-blocking)
@@ -345,3 +352,85 @@ export async function maybeAutoTranslate({ savedMessage, io, prisma: prismaArg }
     console.error('maybeAutoTranslate failed:', err?.message || err);
   }
 }
+
+export async function fetchMessageById(id) {
+  if (!id) return null;
+
+  const m = await prisma.message.findUnique({
+    where: { id: Number(id) },
+    select: {
+      id: true,
+      chatRoomId: true,
+      createdAt: true,
+      expiresAt: true,
+      editedAt: true,
+      deletedForAll: true,
+      deletedAt: true,
+      deletedById: true,
+
+      clientMessageId: true,
+      rawContent: true,
+      contentCiphertext: true,
+      translations: true,
+      translatedFrom: true,
+      isExplicit: true,
+      isAutoReply: true,
+
+      imageUrl: true,
+      audioUrl: true,
+      audioDurationSec: true,
+
+      sender: {
+        select: {
+          id: true,
+          username: true,
+          publicKey: true,
+          avatarUrl: true,
+        },
+      },
+
+      attachments: {
+        select: {
+          id: true,
+          kind: true,
+          url: true,           // relative — client requests signed URL when needed
+          mimeType: true,
+          width: true,
+          height: true,
+          durationSec: true,
+          caption: true,
+          thumbUrl: true,
+          createdAt: true,
+        },
+      },
+
+      keys: {
+        select: {
+          userId: true,
+          encryptedKey: true,
+        },
+      },
+    },
+  });
+
+  if (!m) return null;
+
+  // Normalize small things (optional)
+  const translations = m.translations && Object.keys(m.translations).length ? m.translations : null;
+
+  return {
+    ...m,
+    translations,
+    senderId: m.sender?.id ?? null,
+  };
+}
+
+/**
+ * Register helper so socketBus can emit canonical rows
+ * even when only an id is provided.
+ *
+ * MUST run exactly once on server boot.
+ */
+socketBus.setHelpers({
+  fetchMessageById,
+});

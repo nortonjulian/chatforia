@@ -1,20 +1,63 @@
-import axios from 'axios';
+/* =========================================================
+ * Message API (Sprint 7 canonical pagination contract)
+ * ========================================================= */
 
-export const api = axios.create({
-  withCredentials: true,
-  baseURL: import.meta.env.VITE_API_BASE_URL, // e.g., https://api.chatforia.com
-});
+/**
+ * Server response shape:
+ * {
+ *   items: Message[],
+ *   nextCursor: string | null,
+ *   nextCursorId: number | null,
+ *   count: number
+ * }
+ */
 
-// Fetch CSRF cookie once on app start (or before first mutation)
-export async function ensureCsrf() {
-  try {
-    await api.get('/auth/csrf-token');
-  } catch {}
+function normalizePage(data) {
+  return {
+    items: data?.items || [],
+    nextCursor: data?.nextCursor ?? null,
+    nextCursorId: data?.nextCursorId ?? null,
+    count: data?.count ?? (data?.items?.length || 0),
+  };
 }
 
-// Add header automatically if XSRF-TOKEN cookie exists
-api.interceptors.request.use((config) => {
-  const m = document.cookie.match(/(?:^|; )XSRF-TOKEN=([^;]+)/);
-  if (m) config.headers['X-CSRF-Token'] = decodeURIComponent(m[1]);
-  return config;
-});
+/**
+ * 1️⃣ Fetch newest page
+ */
+export async function fetchLatestMessages(roomId, limit = 50) {
+  if (!roomId) return normalizePage(null);
+
+  const { data } = await api.get(`/messages/${roomId}`, {
+    params: { limit },
+  });
+
+  return normalizePage(data);
+}
+
+/**
+ * 2️⃣ Fetch older messages (pagination scrollback)
+ * Uses cursorId returned from previous page
+ */
+export async function fetchOlderMessages(roomId, cursorId, limit = 50) {
+  if (!roomId) return normalizePage(null);
+
+  const params = { limit };
+  if (cursorId != null) params.cursorId = cursorId;
+
+  const { data } = await api.get(`/messages/${roomId}`, { params });
+  return normalizePage(data);
+}
+
+/**
+ * 3️⃣ Deterministic resync — deltas since last known message
+ * IMPORTANT: sinceId=0 must be allowed (cold start recovery)
+ */
+export async function fetchMessageDeltas(roomId, sinceId = 0) {
+  if (!roomId) return normalizePage(null);
+
+  const { data } = await api.get(`/messages/${roomId}/deltas`, {
+    params: { sinceId: Number(sinceId) || 0 },
+  });
+
+  return normalizePage(data);
+}

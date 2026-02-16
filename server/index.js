@@ -1,10 +1,11 @@
 import 'dotenv/config';
 import http from 'http';
+import csurf from 'csurf';
 import { createApp } from './app.js';
 import { initSocket } from './socket.js';
 import { startCleanupJobs, stopCleanupJobs } from './cron/cleanup.js';
-import { initCrons } from './cron/index.js'; // moved here from app.js
-import { processExpiredMessages } from './jobs/pruneOldMessages.js';
+import { initCrons } from './cron/index.js';
+import { scheduleExpireJob } from './jobs/expireMessagesJob.js';
 import { setSocketIo, setHelpers } from './services/socketBus.js';
 import prisma from './utils/prismaClient.js';
 
@@ -68,21 +69,54 @@ if (ENV.IS_TEST) {
   const app = makeApp();
   const server = http.createServer(app);
 
+  /**
+   * CSRF handling
+   *
+   * Make API testing friendlier by skipping CSRF protection for token-authenticated
+   * clients (Bearer tokens). This preserves cookie-based CSRF protection for
+   * browser sessions while allowing curl/mobile/backend calls that supply a
+   * Bearer token to bypass the cookie dance.
+   *
+   * If you register csurf elsewhere (e.g. app.js) remove duplicate registration.
+   */
+  try {
+    const csrfProtection = csurf({ cookie: true });
+    app.use((req, res, next) => {
+      try {
+        const auth = String(req.headers.authorization || '');
+        if (auth.toLowerCase().startsWith('bearer ')) {
+          // token-authenticated API clients skip CSRF
+          return next();
+        }
+        return csrfProtection(req, res, next);
+      } catch (err) {
+        return next(err);
+      }
+    });
+    logger.info('CSRF middleware mounted (token-authenticated API clients skip CSRF)');
+  } catch (e) {
+    // If csurf not available or fails to initialize, warn but continue.
+    logger.warn({ err: e }, 'Failed to mount CSRF middleware');
+  }
+
   // Start cron jobs (ONLY in real runtime, NOT in tests)
   try {
-    logger.info('Cron jobs started');
+    initCrons();
+    logger.info('Cron jobs initialized');
   } catch (e) {
     logger.warn({ err: e }, 'Cron init failed');
   }
 
   // Start number lifecycle + message retention jobs
   try {
+    startNumberLifecycleJob();
+    startMessageRetentionJob();
     logger.info('Number lifecycle + message retention jobs started');
   } catch (e) {
     logger.warn({ err: e }, 'Failed to start number/message jobs');
   }
 
-    // ----------------------------
+  // ----------------------------
   // Wire up Socket.IO and register helpers for socketBus
   // ----------------------------
   const { io, emitToUser, close: closeSockets } = initSocket(server);
@@ -121,22 +155,6 @@ if (ENV.IS_TEST) {
     },
   });
 
-  // ---- Now start crons and long-running jobs (after socket helpers are registered) ----
-  try {
-    initCrons();
-    logger.info('Cron jobs started');
-  } catch (e) {
-    logger.warn({ err: e }, 'Cron init failed');
-  }
-
-  try {
-    startNumberLifecycleJob();
-    startMessageRetentionJob();
-    logger.info('Number lifecycle + message retention jobs started');
-  } catch (e) {
-    logger.warn({ err: e }, 'Failed to start number/message jobs');
-  }
-
   // Start background cleanup cron (auto-delete expired messages, etc.)
   try {
     startCleanupJobs();
@@ -146,28 +164,19 @@ if (ENV.IS_TEST) {
   }
 
   // ----------------------------
-  // Background prune loop (process expired messages)
+  // Background expire loop (process expired messages)
+  // Replaced manual interval with scheduleExpireJob to centralize scheduling.
+  // scheduleExpireJob returns a stopper function which we call during shutdown.
   // ----------------------------
-  // Configuration
-  const PRUNE_INTERVAL_MS = Number(process.env.PRUNE_INTERVAL_MS) || 20_000;
-
-  // Interval handle & concurrency guard in outer scope so shutdown can clear it
-  let pruneInterval = null;
-  let pruning = false;
-
-  pruneInterval = setInterval(async () => {
-    if (pruning) return;
-    pruning = true;
-    try {
-      await processExpiredMessages();
-    } catch (err) {
-      logger.warn({ err }, 'processExpiredMessages failed');
-    } finally {
-      pruning = false;
-    }
-  }, PRUNE_INTERVAL_MS);
-  // allow process to exit if nothing else is keeping it alive
-  pruneInterval.unref?.();
+  let stopExpireJob = null;
+  try {
+    stopExpireJob = scheduleExpireJob(
+      Number(process.env.EXPIRE_JOB_INTERVAL_MS || 15_000)
+    );
+    logger.info('Expire job scheduled');
+  } catch (err) {
+    logger.warn({ err }, 'Failed to schedule expire job');
+  }
 
   // Start HTTP server
   server.listen(ENV.PORT, () => {
@@ -187,15 +196,21 @@ if (ENV.IS_TEST) {
   async function shutdown(sig) {
     logger.warn({ sig }, 'Shutting down...');
 
-    // Stop prune interval first so no new prune work starts
+    // Stop expire job first so no new expire work starts
     try {
-      if (pruneInterval) {
-        clearInterval(pruneInterval);
-        pruneInterval = null;
-        logger.info('Prune interval stopped');
+      if (stopExpireJob) {
+        if (typeof stopExpireJob === 'function') {
+          // stopper may be sync or return a promise
+          await Promise.resolve(stopExpireJob());
+        } else if (stopExpireJob?.cancel) {
+          // support for some scheduler libs that return an object with cancel()
+          await Promise.resolve(stopExpireJob.cancel());
+        }
+        stopExpireJob = null;
+        logger.info('Expire job stopped');
       }
     } catch (e) {
-      logger.warn({ err: e }, 'Error stopping prune interval');
+      logger.warn({ err: e }, 'Error stopping expire job');
     }
 
     // Stop cleanup cron jobs (centralized cleanup shutdown)
@@ -211,7 +226,7 @@ if (ENV.IS_TEST) {
       if (closeSockets) await closeSockets();
       logger.info('Socket layer closed');
     } catch (e) {
-      logger.warn({ err }, 'Socket close error');
+      logger.warn({ err: e }, 'Socket close error');
     }
 
     // Disconnect Prisma (DB pool)

@@ -690,6 +690,7 @@ model Message {
   @@index([expiresAt])
   @@index([chatRoomId, id], map: "msg_room_id")
   @@index([chatRoomId, createdAt], map: "msg_room_time")
+  @@index([chatRoomId, createdAt, id], map: "msg_room_time_id")
   @@unique([chatRoomId, senderId, clientMessageId], map: "msg_client_idempotency")
 }
 
