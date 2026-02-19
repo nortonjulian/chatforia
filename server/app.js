@@ -4,6 +4,7 @@ import express from 'express';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+
 // import listEndpoints from 'express-list-endpoints';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -370,6 +371,17 @@ export function createApp() {
       return RL(limiterGenericMutations)(req, res, next);
     }
     next();
+  });
+
+  // NOTE: ensure you've run `cd client && npm run build` so client/dist exists
+  const distPath = path.resolve(__dirname, '../client/dist');
+
+  // Serve static assets from the built client
+  app.use(express.static(distPath));
+
+  // Serve the consent page as a real HTML file (not the SPA shell)
+  app.get(['/sms-consent', '/sms-consent/'], (req, res) => {
+    return res.sendFile(path.join(distPath, 'sms-consent', 'index.html'));
   });
 
   /* Base routes */

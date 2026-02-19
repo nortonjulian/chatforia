@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import {
   AppShell,
@@ -16,7 +16,10 @@ import { useUser } from '@/context/UserContext';
 import { RequirePremium } from '@/routes/guards';
 
 import SkipLink from '@/components/a11y/SkipLink.jsx';
-import SettingsBackups from '@/pages/SettingsBackups.jsx';
+
+// lazy: SettingsBackups is heavy — load it only when /settings/backups is visited
+const SettingsBackups = React.lazy(() => import('@/pages/SettingsBackups.jsx'));
+
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
 import BillingReturn from '@/pages/BillingReturn.jsx';
@@ -384,7 +387,9 @@ export default function AppRoutes() {
           path="settings/backups"
           element={
             <RequirePremium>
-              <SettingsBackups />
+              <Suspense fallback={<div>Loading settings…</div>}>
+                <SettingsBackups />
+              </Suspense>
             </RequirePremium>
           }
         />

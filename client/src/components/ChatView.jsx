@@ -28,7 +28,9 @@ import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 import socket from '@/lib/socket';
 import axiosClient from '@/api/axiosClient';
 
-import { decryptFetchedMessages, getUnlockedPrivateKey } from '@/utils/encryptionClient';
+// dynamic: keep heavy crypto out of the initial bundle
+import loadEncryptionClient from '@/utils/loadEncryptionClient';
+
 
 // ✅ Smart Replies
 import SmartReplyBar from '@/components/SmartReplyBar.jsx';
@@ -421,6 +423,43 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     []
   );
 
+  // ---------- dynamic encryption helpers ----------
+/**
+ * Returns the unlocked private key or null if locked/unavailable.
+ * We intentionally catch errors and return null so code paths that
+ * gracefully handle locked keys keep working.
+ */
+async function maybeGetUnlockedPrivateKey() {
+  try {
+    const mod = await loadEncryptionClient();
+    if (typeof mod.getUnlockedPrivateKey === 'function') {
+      return await mod.getUnlockedPrivateKey();
+    }
+  } catch (e) {
+    // ignore; treat as locked/unavailable
+  }
+  return null;
+}
+
+/**
+ * Decrypts rows using the encryption client if available.
+ * If the encryption client fails to load, falls back to returning
+ * the input rows unchanged (so UI still shows raw payload).
+ */
+async function maybeDecryptFetchedMessages(rows, privKey, senderKeys = null, uid = null) {
+  try {
+    const mod = await loadEncryptionClient();
+    if (typeof mod.decryptFetchedMessages === 'function') {
+      return await mod.decryptFetchedMessages(rows, privKey, senderKeys, uid);
+    }
+  } catch (e) {
+    console.warn('Encryption client not available for decryption:', e);
+  }
+  // fallback: return original rows (no decryption)
+  return rows;
+}
+
+
   /* ---------- pagination loader (initial + older pages) ---------- */
 
   async function loadMore(initial = false) {
@@ -448,11 +487,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const data = resp || {}; // { items, nextCursor }
 
     // decrypt messages as before
-    let priv = null;
-    try {
-      priv = await getUnlockedPrivateKey();
-    } catch {}
-    const decrypted = await decryptFetchedMessages(data.items || [], priv, null, currentUserId);
+    const priv = await maybeGetUnlockedPrivateKey();
+    const decrypted = await maybeDecryptFetchedMessages(data.items || [], priv, null, currentUserId);
+
 
     // `data.items` from server are newest->oldest. You want oldest->newest in UI.
     const chronological = (decrypted || []).slice().reverse();
@@ -601,14 +638,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (Number(raw?.chatRoomId) !== Number(chatroom.id)) return;
 
       try {
-        let priv = null;
-        try {
-          priv = await getUnlockedPrivateKey();
-        } catch {
-          // ignore if key locked
-        }
+        const priv = await maybeGetUnlockedPrivateKey();
+        const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
 
-        const [decrypted] = await decryptFetchedMessages([raw], priv, null, currentUserId);
 
         // merge decrypted row into local state (factory handles merge/ordering)
         mergeIncomingMessage(decrypted);
@@ -669,11 +701,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (!Array.isArray(rows) || rows.length === 0) return;
 
       try {
-        let priv = null;
-        try {
-          priv = await getUnlockedPrivateKey();
-        } catch {}
-        const decrypted = await decryptFetchedMessages(rows, priv, null, currentUserId);
+        const priv = await maybeGetUnlockedPrivateKey();
+        const decrypted = await maybeDecryptFetchedMessages(rows, priv, null, currentUserId);
+
         // decrypted is an array of rows; use batch merge
         mergeIncomingBatch(decrypted);
         addMessages(chatroom.id, decrypted).catch(() => {});
@@ -912,11 +942,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       const rows = resp?.items || [];
       if (!rows.length) return;
 
-      let priv = null;
-      try {
-        priv = await getUnlockedPrivateKey();
-      } catch {}
-      const decrypted = await decryptFetchedMessages(rows, priv, null, currentUserId);
+      const priv = await maybeGetUnlockedPrivateKey();
+      const decrypted = await maybeDecryptFetchedMessages(rows, priv, null, currentUserId);
 
       const chronological = decrypted.slice().reverse();
 

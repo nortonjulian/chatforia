@@ -11,7 +11,9 @@ import {
 
 import BackupManager from '@/components/settings/BackupManager.jsx';
 import ChatBackupManager from '@/components/ChatBackupManager.jsx';
-import { unlockKeyBundle } from '@/utils/encryptionClient.js';
+
+// dynamic loader — keeps heavy crypto out of initial bundle
+import loadEncryptionClient from '@/utils/loadEncryptionClient';
 
 export default function SettingsBackups() {
   const [unlockPass, setUnlockPass] = useState('');
@@ -21,11 +23,19 @@ export default function SettingsBackups() {
   async function onUnlock() {
     setStatus('Unlocking…');
     try {
-      const { privateKey } = await unlockKeyBundle(unlockPass);
+      // dynamically import the encryption module only when needed
+      const mod = await loadEncryptionClient();
+      if (!mod?.unlockKeyBundle || typeof mod.unlockKeyBundle !== 'function') {
+        throw new Error('Encryption client not available');
+      }
+
+      const { privateKey } = await mod.unlockKeyBundle(unlockPass);
       setUnlockedKey(privateKey);
       setStatus('Unlocked ✓');
     } catch (e) {
-      setStatus(`Error: ${e.message}`);
+      // avoid leaking stack traces to UI, show friendly message
+      console.error('Unlock failed', e);
+      setStatus(e?.message ? `Error: ${e.message}` : 'Error: Unlock failed');
     }
   }
 
@@ -63,10 +73,7 @@ export default function SettingsBackups() {
             onChange={(e) => setUnlockPass(e.currentTarget.value)}
           />
           <Group justify="flex-end">
-            <Button
-              onClick={onUnlock}
-              disabled={!unlockPass || unlockPass.length < 6}
-            >
+            <Button onClick={onUnlock} disabled={!unlockPass || unlockPass.length < 6}>
               Unlock
             </Button>
           </Group>
