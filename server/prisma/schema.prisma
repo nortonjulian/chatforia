@@ -238,6 +238,7 @@ model User {
   twoFactorEnrolledAt    DateTime?
   verificationTokens     VerificationToken[]
   twoFactorRecoveryCodes TwoFactorRecoveryCode[]
+  phones                 Phone[]
 
   autoResponderMode        AutoResponderMode @default(DM)
   autoResponderCooldownSec Int               @default(120)
@@ -641,7 +642,7 @@ model RandomChatRoom {
 
 model Message {
   id                Int       @id @default(autoincrement())
-  clientMessageId   String?   
+  clientMessageId   String?
   contentCiphertext Json?
   rawContent        String?
   translations      Json?
@@ -654,8 +655,7 @@ model Message {
   audioDurationSec  Int?
   expiresAt         DateTime?
   editedAt          DateTime?
-  revision          Int @default(1)
-
+  revision          Int       @default(1)
 
   deletedBySender Boolean   @default(false)
   deletedAt       DateTime?
@@ -685,13 +685,13 @@ model Message {
   deletions MessageDeletion[]
 
   // relations
-  reads     MessageRead[]
+  reads MessageRead[]
 
+  @@unique([chatRoomId, senderId, clientMessageId], map: "msg_client_idempotency")
   @@index([expiresAt])
   @@index([chatRoomId, id], map: "msg_room_id")
   @@index([chatRoomId, createdAt], map: "msg_room_time")
   @@index([chatRoomId, createdAt, id], map: "msg_room_time_id")
-  @@unique([chatRoomId, senderId, clientMessageId], map: "msg_client_idempotency")
 }
 
 model MessageRead {
@@ -699,8 +699,8 @@ model MessageRead {
   userId    Int
   readAt    DateTime @default(now())
 
-  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([messageId, userId])
   @@index([userId, readAt])
@@ -859,10 +859,16 @@ model SmsMessage {
   createdAt         DateTime  @default(now())
   editedAt          DateTime?
 
+  // link to thread (existing)
   thread SmsThread @relation(fields: [threadId], references: [id])
+
+  // optional FK to Phone (helps joins & enforces integrity)
+  phoneId Int?
+  phone   Phone? @relation(fields: [phoneId], references: [id])
 
   @@index([threadId])
   @@index([providerMessageId])
+  @@index([phoneId, createdAt])
 }
 
 model SmsParticipant {
@@ -1135,6 +1141,56 @@ model Call {
   @@index([callerId])
   @@index([calleeId])
   @@index([roomId])
+}
+
+model Phone {
+  id         Int       @id @default(autoincrement())
+  number     String    @unique
+  userId     Int?
+  optedOut   Boolean   @default(false)
+  optedOutAt DateTime?
+  verifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // relations
+  user                 User?                      @relation(fields: [userId], references: [id])
+  verificationRequests PhoneVerificationRequest[]
+  messages             SmsMessage[]
+
+  @@index([userId])
+}
+
+model PhoneVerificationRequest {
+  id                  Int       @id @default(autoincrement())
+  phoneNumber         String
+  verificationCode    String
+  expiresAt           DateTime
+  consentedAt         DateTime
+  ipAddress           String?
+  userAgent           String?
+  intent              String?
+  verifiedAt          DateTime?
+  consumedAt          DateTime? // new: marks token consumed (single-use)
+  phoneVerificationId String?   @unique
+  createdAt           DateTime  @default(now())
+
+  // optional FK to Phone
+  phoneId Int?
+  phone   Phone? @relation(fields: [phoneId], references: [id])
+
+  @@index([phoneId])
+}
+
+model SmsCarrierEvent {
+  id        Int      @id @default(autoincrement())
+  from      String
+  to        String
+  body      String   @db.Text
+  direction String // 'inbound' | 'outbound'
+  action    String? // 'opt_out' | 'help' | 'verify' | 'notification' | etc.
+  metadata  Json?
+  createdAt DateTime @default(now())
 }
 
 model PhoneNumber {

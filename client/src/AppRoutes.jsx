@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
 import {
   AppShell,
@@ -18,7 +18,7 @@ import { RequirePremium } from '@/routes/guards';
 import SkipLink from '@/components/a11y/SkipLink.jsx';
 
 // lazy: SettingsBackups is heavy — load it only when /settings/backups is visited
-const SettingsBackups = React.lazy(() => import('@/pages/SettingsBackups.jsx'));
+const SettingsBackups = lazy(() => import('@/pages/SettingsBackups.jsx'));
 
 import UpgradePage from '@/pages/UpgradePlan';
 import UpgradeSuccess from '@/pages/UpgradeSuccess.jsx';
@@ -27,6 +27,8 @@ import Sidebar from '@/components/Sidebar';
 import RandomChatPage from '@/pages/RandomChatPage.jsx';
 import LoginForm from '@/components/LoginForm';
 import Registration from '@/components/Registration';
+import VerifyPhoneConsentPage from '@/pages/VerifyPhoneConsentPage.jsx';
+import VerifyCodePage from '@/pages/VerifyCodePage.jsx';
 import ForgotPassword from '@/components/ForgotPassword';
 import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
@@ -77,6 +79,8 @@ import SupportWidget from '@/components/support/SupportWidget.jsx';
 
 import PrivacyPolicy from '@/pages/legal/PrivacyPolicy.jsx';
 import TermsOfService from '@/pages/legal/TermsOfService.jsx';
+import SmsPolicy from '@/pages/legal/SmsPolicy.jsx';
+import SmsConsentPage from './pages/SmsConsentPage';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
 
@@ -334,6 +338,8 @@ export default function AppRoutes() {
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
+          <Route path="/verify-phone-consent" element={<VerifyPhoneConsentPage />} />
+          <Route path="/verify-code" element={<VerifyCodePage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/auth/complete" element={<OAuthComplete />} />
@@ -353,8 +359,12 @@ export default function AppRoutes() {
 
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/legal/sms" element={<SmsPolicy />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
+
+          {/* Make /sms-consent available for logged-out users too */}
+          <Route path="/sms-consent" element={<SmsConsentPage />} />
 
           {/* Family invite join route (works even when logged out) */}
           <Route path="/family/join/:token" element={<FamilyJoin />} />
@@ -375,6 +385,9 @@ export default function AppRoutes() {
       <Route path="/forbidden" element={<Forbidden />} />
       <Route path="/auth/complete" element={<Navigate to="/" replace />} />
       {import.meta.env.DEV && <Route path="/dev/chat" element={<Navigate to="/" replace />} />}
+
+      {/* Ensure /sms-consent exists for authenticated users as well */}
+      <Route path="/sms-consent" element={<SmsConsentPage />} />
 
       <Route path="/" element={<AuthedLayout />}>
         <Route index element={<HomeIndex />} />

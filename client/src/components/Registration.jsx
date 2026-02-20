@@ -13,6 +13,8 @@ import {
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
+import { useNavigate } from 'react-router-dom';
+
 
 import PhoneField from './PhoneField';
 import SmsConsentBlock from './SmsConsentBlock';
@@ -64,6 +66,8 @@ export default function Registration() {
     return Object.keys(nxt).length === 0;
   };
 
+  const navigate = useNavigate();
+
   const onSubmit = async (e) => {
     e?.preventDefault?.();
     setGlobalError('');
@@ -71,6 +75,18 @@ export default function Registration() {
 
     if (!validate()) return;
 
+    const phoneTrim = (form.phone || '').trim();
+
+    // If the user provided a phone number, route them to the consent screen first.
+    if (phoneTrim) {
+      // Pass the pending registration in location.state so the consent -> OTP -> verify flow
+      // can resume registration after phone verification.
+      // NOTE: location.state is in-memory only (lost on hard refresh). See notes below for persistence options.
+      navigate('/verify-phone-consent', { state: { pendingRegistration: { ...form } } });
+      return;
+    }
+
+    // Otherwise, no phone was provided — proceed directly with registration.
     try {
       setSubmitting(true);
 
@@ -78,11 +94,13 @@ export default function Registration() {
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
-        // only send phone if provided
-        ...(form.phone?.trim() ? { phone: form.phone.trim() } : {}),
+        // no phone field
       };
 
       await axiosClient.post('/auth/register', payload);
+
+      // on success: redirect to login / onboarding as desired
+      // navigate('/welcome'); // uncomment and change as needed
     } catch (err) {
       const status = err?.response?.status;
       const data = err?.response?.data;
@@ -152,7 +170,7 @@ export default function Registration() {
 
           <TextInput
             label={t('auth.registration.usernameLabel', 'Username')}
-            placeholder={t('auth.registration.usernamePlaceholder', 'yourusername')}
+            placeholder={t('auth.registration.usernamePlaceholder', 'your username')}
             required
             value={form.username}
             onChange={onChange('username')}

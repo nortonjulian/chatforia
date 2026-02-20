@@ -39,7 +39,7 @@ function getClient() {
  */
 // server/lib/telco/twilio.js
 
-export async function sendSms({ to, text, clientRef, from, mediaUrls }) {
+export async function sendSmsRaw({ to, text, clientRef, from, mediaUrls }) {
   const {
     TWILIO_FROM_NUMBER,
     TWILIO_MESSAGING_SERVICE_SID,
@@ -260,7 +260,7 @@ async function releaseNumber({ phoneNumber }) {
 
 const adapter = {
   providerName,
-  sendSms,
+  sendSms: sendSmsRaw,
   searchAvailable,
   purchaseNumber,
   releaseNumber,

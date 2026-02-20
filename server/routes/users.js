@@ -23,25 +23,98 @@ function isPremiumTheme(t) {
 }
 
 /* ---------------------- PUBLIC: create user ---------------------- */
+// --- inside routes/users (replace the existing POST / handler) ---
 router.post('/', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, phoneVerificationId } = req.body;
+
   const validationError = validateRegistrationInput(username, email, password);
   if (validationError) return res.status(400).json({ error: validationError });
 
+  // Basic uniqueness check for email (keep existing behavior)
   try {
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) return res.status(409).json({ error: 'Email already in use' });
 
+    // --- PHONE VERIFICATION (optional) ---
+    // If client supplied phoneVerificationId, validate it and prepare to attach the phone.
+    let phoneToAttachId = null;
+    if (phoneVerificationId) {
+      const reqRec = await prisma.phoneVerificationRequest.findFirst({
+        where: { phoneVerificationId: String(phoneVerificationId) },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (!reqRec) {
+        return res.status(400).json({ error: 'invalid_phone_verification' });
+      }
+      // must be previously verified via verify-phone-code flow
+      if (!reqRec.verifiedAt) {
+        return res.status(400).json({ error: 'phone_not_verified' });
+      }
+
+      // ensure not consumed / not attached
+      // optional: if you add consumedAt, check it here
+      const phoneRow = await prisma.phone.findUnique({ where: { number: reqRec.phoneNumber } });
+      if (phoneRow?.optedOut) {
+        return res.status(400).json({ error: 'phone_opted_out' });
+      }
+      if (phoneRow?.userId) {
+        return res.status(409).json({ error: 'phone_already_in_use' });
+      }
+
+      // store id for attach during transaction
+      phoneToAttachId = phoneRow?.id ?? null;
+    }
+
+    // Hash password (you already do this)
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({
-      data: { username, email, password: hashedPassword, role: 'USER' },
-    });
+
+    // Create user + attach phone atomically if we can
+    let user;
+    if (phoneToAttachId) {
+      // use transaction to create user and attach phone
+      const tx = await prisma.$transaction([
+        prisma.user.create({
+          data: { username, email, password: hashedPassword, role: 'USER' },
+        }),
+        // we cannot reference user.id within same transaction array literal,
+        // so do it in a nested tx to ensure atomicity (below we use a transaction function)
+      ]);
+
+      // The above array version can't update with created user id.
+      // Instead do function transaction so we can attach using the created user id:
+      user = await prisma.$transaction(async (prismaTx) => {
+        const created = await prismaTx.user.create({
+          data: { username, email, password: hashedPassword, role: 'USER' },
+        });
+
+        // attach phone record (if phone exists)
+        await prismaTx.phone.update({
+          where: { id: phoneToAttachId },
+          data: { userId: created.id },
+        });
+
+        // mark the phoneVerificationRequest as consumed to avoid reuse.
+        // If you have a consumedAt column use that; otherwise updating verifiedAt is okay.
+        await prismaTx.phoneVerificationRequest.updateMany({
+          where: { phoneVerificationId: String(phoneVerificationId) },
+          data: { /* consumedAt: new Date() */ verifiedAt: new Date() },
+        });
+
+        return created;
+      });
+    } else {
+      // standard create-without-phone
+      user = await prisma.user.create({
+        data: { username, email, password: hashedPassword, role: 'USER' },
+      });
+    }
 
     const { password: _omit, ...userWithoutPassword } = user;
-    res.status(201).json(userWithoutPassword);
+    return res.status(201).json(userWithoutPassword);
   } catch (error) {
     console.error('Error creating user:', error);
-    res.status(500).json({ error: 'Failed to create user' });
+    return res.status(500).json({ error: 'Failed to create user' });
   }
 });
 

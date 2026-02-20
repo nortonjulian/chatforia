@@ -76,6 +76,8 @@ import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
 
+import smsConsentRouter from './routes/smsConsent.js';
+
 import conversationsRouter from './routes/conversations.js';
 
 import webhooksTwilio from './routes/webhooksTwilio.js';
@@ -384,6 +386,10 @@ export function createApp() {
     return res.sendFile(path.join(distPath, 'sms-consent', 'index.html'));
   });
 
+    app.get(['/legal/sms', '/legal/sms/'], (req, res) => {
+    return res.sendFile(path.join(distPath, 'index.html'));
+  });
+
   /* Base routes */
   app.get('/', (_req, res) => res.send('Welcome to Chatforia API!'));
 
@@ -419,6 +425,7 @@ export function createApp() {
 
   app.use('/calls', requireAuth, requireEmailVerified, callsRouter);
   app.use('/sms', smsRouter)
+  app.use('/sms-consent', express.json(), smsConsentRouter);
   app.use('/search/people', requireAuth, searchPeopleRouter);
   app.use('/webhooks/voice', voiceWebhooks);
   app.use('/api', videoTokens);

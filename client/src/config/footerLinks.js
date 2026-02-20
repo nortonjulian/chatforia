@@ -67,6 +67,7 @@ export const FOOTER_SECTIONS = [
     links: [
       { label: "Privacy Policy", href: "/privacy" },
       { label: "Terms of Service", href: "/legal/terms" },
+      { label: "SMS Messaging Policy", href: "/legal/sms" },
       { label: "Do Not Sell My Info", href: "/legal/do-not-sell" },
       { label: "Cookie Settings", href: "/legal/cookies" },
     ],
