@@ -12,8 +12,9 @@
     input,button,select,textarea{font-size:15px;padding:10px;margin-top:8px;width:100%;box-sizing:border-box}
     label{display:block;margin-top:12px}
     .cta{background:#ffb844;color:#1b1b1b;border:0;padding:12px;border-radius:28px;margin-top:14px;cursor:pointer}
-    small{color:#666}
+    .muted{color:#666;font-size:13px}
     a{color:#e17f0a}
+    .consent-block{border-radius:8px;padding:10px;background:#fafafa;border:1px solid #f0f0f0}
   </style>
 </head>
 <body>
@@ -33,22 +34,73 @@
       <h2 id="smsform">SMS Consent & Verification</h2>
 
       <!-- Netlify form: required attributes for logging -->
-      <form name="sms-consent" method="POST" data-netlify="true">
+      <form name="sms-consent" id="sms-consent" method="POST" data-netlify="true" novalidate>
         <input type="hidden" name="form-name" value="sms-consent" />
 
+        <!-- CONSENT VISIBLE FIRST (important for carriers) -->
+        <div class="consent-block" aria-live="polite">
+          <label for="consent" style="font-size:14px">
+            <input id="consent" type="checkbox" name="consent" aria-describedby="consent-desc" />
+            <strong id="consent-desc"> By checking this box, you agree to receive SMS messages from Chatforia related to your account and conversations, including verification codes, login alerts, and message notifications. Message frequency varies. Message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Consent is not a condition of purchase. </strong>
+          </label>
+        </div>
+
+        <!-- Phone input shown after disclosure (but still on same page) -->
         <label for="phone">Phone number *</label>
-        <input id="phone" type="tel" name="phone" placeholder="+1xxxxxxxxxx" required />
+        <input id="phone" type="tel" name="phone" placeholder="+1xxxxxxxxxx" aria-required="true" pattern="^\+\d{7,15}$" required />
 
-        <label style="font-size:14px">
-          <input type="checkbox" name="consent" required />
-          I consent to receive transactional and conversation-related SMS from Chatforia including login alerts, verification codes, and message notifications. Msg & data rates may apply. Reply <strong>STOP</strong> to unsubscribe or <strong>HELP</strong> for help. I agree to the <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>.
-        </label>
+        <button id="submitBtn" class="cta" type="submit" disabled aria-disabled="true">Send verification code</button>
 
-        <button class="cta" type="submit">Send verification code</button>
+        <p style="margin-top:12px"><small class="muted">Message & data rates may apply. Reply STOP to opt out, HELP for help. For support contact <a href="mailto:support@chatforia.com">support@chatforia.com</a>.</small></p>
       </form>
-
-      <p style="margin-top:12px"><small>Message & data rates may apply. Reply STOP to opt out, HELP for help. For support contact <a href="mailto:support@chatforia.com">support@chatforia.com</a>.</small></p>
     </aside>
   </div>
+
+  <script>
+    // Client-side UX: enable button only when checkbox is checked and phone looks valid.
+    const consent = document.getElementById('consent');
+    const phone = document.getElementById('phone');
+    const submitBtn = document.getElementById('submitBtn');
+    const form = document.getElementById('sms-consent');
+
+    function isPhoneValid() {
+      // basic E.164-ish check: starts with + and 7-15 digits
+      const v = phone.value.trim();
+      return /^\+\d{7,15}$/.test(v);
+    }
+
+    function updateButtonState() {
+      if (consent.checked && isPhoneValid()) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-disabled');
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.setAttribute('aria-disabled', 'true');
+      }
+    }
+
+    consent.addEventListener('change', updateButtonState);
+    phone.addEventListener('input', updateButtonState);
+
+    // final client-side guard; server must still enforce everything
+    form.addEventListener('submit', (e) => {
+      if (!consent.checked || !isPhoneValid()) {
+        e.preventDefault();
+        alert('Please enter a valid phone number and check the consent box to continue.');
+        return false;
+      }
+      // OPTIONAL: change button text to avoid duplicate clicks
+      submitBtn.textContent = 'Sending…';
+      submitBtn.disabled = true;
+    });
+  </script>
+
+  <!-- IMPORTANT: Server-side rule (do not skip)
+       On the server, only send the verification SMS after:
+         1) The form is received
+         2) The consent field is present and true
+         3) The phone number is validated and rate-limited
+       Do NOT send any other SMS before successful verification.
+  -->
 </body>
 </html>
