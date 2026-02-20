@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Chatforia — SMS Consent & Verification</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:system-ui,Arial;max-width:1100px;margin:40px auto;padding:20px;color:#222}
+    .container{display:flex;gap:36px;align-items:flex-start}
+    .hero{flex:1}
+    .panel{width:380px;border-radius:12px;padding:20px;border:1px solid #eee;background:#fff}
+    input,button,select,textarea{font-size:15px;padding:10px;margin-top:8px;width:100%;box-sizing:border-box}
+    label{display:block;margin-top:12px}
+    .cta{background:#ffb844;color:#1b1b1b;border:0;padding:12px;border-radius:28px;margin-top:14px;cursor:pointer}
+    small{color:#666}
+    a{color:#e17f0a}
+  </style>
+</head>
+<body>
+  <a href="/" style="display:inline-block;margin-bottom:14px;color:#e17f0a;text-decoration:none">← Home</a>
+  <div class="container">
+    <div class="hero">
+      <h1 style="font-size:44px;margin:0 0 12px 0">Secure messaging for anyone, anywhere — with translation to 100+ languages</h1>
+      <p style="font-size:16px;color:#444;max-width:640px">Get a free secure phone number to call and text worldwide over Wi-Fi or data. End-to-end encryption, disappearing messages, and in-app verification. Below you can opt in to receive account and verification SMS from Chatforia for demo and verification purposes.</p>
+      <ul style="margin-top:18px;color:#444">
+        <li>End-to-end encryption, always on</li>
+        <li>Disappearing messages & read receipts</li>
+        <li>Privacy-first. Your data, your control.</li>
+      </ul>
+    </div>
+
+    <aside class="panel" aria-labelledby="smsform">
+      <h2 id="smsform">SMS Consent & Verification</h2>
+
+      <!-- Netlify form: required attributes for logging -->
+      <form name="sms-consent" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="sms-consent" />
+
+        <label for="phone">Phone number *</label>
+        <input id="phone" type="tel" name="phone" placeholder="+1xxxxxxxxxx" required />
+
+        <label style="font-size:14px">
+          <input type="checkbox" name="consent" required />
+          I consent to receive transactional and conversation-related SMS from Chatforia including login alerts, verification codes, and message notifications. Msg & data rates may apply. Reply <strong>STOP</strong> to unsubscribe or <strong>HELP</strong> for help. I agree to the <a href="/privacy">Privacy Policy</a> and <a href="/terms">Terms of Service</a>.
+        </label>
+
+        <button class="cta" type="submit">Send verification code</button>
+      </form>
+
+      <p style="margin-top:12px"><small>Message & data rates may apply. Reply STOP to opt out, HELP for help. For support contact <a href="mailto:support@chatforia.com">support@chatforia.com</a>.</small></p>
+    </aside>
+  </div>
+</body>
+</html>
