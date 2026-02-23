@@ -35,16 +35,35 @@ function parseOrigins() {
 
 /** Extract JWT from handshake */
 function getTokenFromHandshake(handshake) {
-  if (handshake.auth?.token) return handshake.auth.token;
-  if (handshake.query?.token) return handshake.query.token;
+  // Prefer auth (connectParams), then query, then cookie
+  let token =
+    handshake?.auth?.token ||
+    handshake?.query?.token ||
+    (handshake?.headers?.cookie
+      ? (() => {
+          const cookies = cookie.parse(handshake.headers.cookie || '');
+          const name = process.env.JWT_COOKIE_NAME || 'foria_jwt';
+          return cookies[name] || null;
+        })()
+      : null);
 
-  if (handshake.headers?.cookie) {
-    const cookies = cookie.parse(handshake.headers.cookie || '');
-    const name = process.env.JWT_COOKIE_NAME || 'foria_jwt';
-    if (cookies[name]) return cookies[name];
+  if (!token) return null;
+
+  // If token is an object (some clients send { token: { ... } }), handle gracefully
+  if (typeof token === 'object' && token !== null && 'token' in token) {
+    token = token.token;
   }
 
-  return null;
+  if (typeof token !== 'string') token = String(token);
+
+  token = token.trim();
+
+  // Strip `Bearer ` prefix if present
+  if (/^bearer\s+/i.test(token)) {
+    token = token.replace(/^bearer\s+/i, '').trim();
+  }
+
+  return token || null;
 }
 
 /** Fetch all chatRoomIds a user belongs to */
@@ -111,6 +130,12 @@ export function initSocket(httpServer) {
           authKeys: Object.keys(socket.handshake?.auth || {}),
         });
         return next(new Error('Unauthorized: no token'));
+      }
+
+      // Debug: print short masked token preview (first 8 chars only)
+      if (!IS_TEST) {
+        const preview = token.slice(0, 8);
+        console.log('[WS] handshake token preview:', preview + (token.length > 8 ? '…' : ''));
       }
 
       const secret =

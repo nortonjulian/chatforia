@@ -1,99 +1,68 @@
 import prisma from '../utils/prismaClient.js';
-import { emitMessageExpired } from '../services/socketBus.js';
-
-const BATCH = Number(process.env.EXPIRE_JOB_BATCH || 500);
+import * as socketBus from '../services/socketBus.js';
 
 /**
- * Single pass: claim up to BATCH candidate messages and emit canonical expired events.
+ * Find messages whose expiresAt <= now and tombstone them, then
+ * emit authoritative expired upserts so clients receive canonical rows.
  *
- * Pattern:
- * 1) SELECT candidate ids (expiresAt <= now && deletedForAll = false) LIMIT BATCH
- * 2) UPDATE those ids atomically (where deletedForAll = false) -> set tombstone fields + deletedAt = t
- * 3) Re-fetch rows with deletedAt === t (these are the rows *this worker* actually claimed)
- * 4) Emit per-room canonical expired payloads
- *
- * This avoids N+1 updates, duplication across workers, and emits canonical rows for clients.
+ * limit — how many messages to process in one pass (default: 200)
  */
-export async function expireMessagesOnce() {
+export async function expireMessagesOnce({ limit = 200 } = {}) {
   const now = new Date();
+  try {
+    // Find messages that have expired and are not already tombstoned
+    const toExpire = await prisma.message.findMany({
+      where: { expiresAt: { lte: now }, deletedForAll: false },
+      take: limit,
+      select: { id: true, chatRoomId: true, expiresAt: true },
+    });
+    if (!toExpire.length) return { expired: 0 };
 
-  // 1) pick candidate ids (simple read)
-  const candidates = await prisma.message.findMany({
-    where: {
-      expiresAt: { lte: now },
-      deletedForAll: false,
-    },
-    orderBy: { id: 'asc' },
-    take: BATCH,
-    select: { id: true },
-  });
+    const ids = toExpire.map((m) => m.id);
+    const chatRoomMap = new Map(toExpire.map((m) => [m.id, m.chatRoomId]));
 
-  if (!candidates || candidates.length === 0) {
-    return { expired: 0 };
-  }
+    // Mark tombstone & clear sensitive fields (you may choose to physically delete files separately)
+    const deletedAt = new Date();
+    await prisma.message.updateMany({
+      where: { id: { in: ids } },
+      data: {
+        deletedForAll: true,
+        deletedAt,
+        rawContent: null,
+        contentCiphertext: null,
+        translations: null,
+        translatedContent: null,
+      },
+    });
 
-  const ids = candidates.map((c) => c.id);
-  const t = new Date();
-
-  // 2) claim them in bulk (only rows still not tombstoned)
-  await prisma.message.updateMany({
-    where: { id: { in: ids }, deletedForAll: false },
-    data: {
-      deletedForAll: true,
-      deletedAt: t,
-      deletedById: null,
-      rawContent: null,
-      contentCiphertext: null,
-    },
-  });
-
-  // 3) fetch canonical rows that have deletedAt === t (i.e. rows this worker claimed)
-  const expiredRows = await prisma.message.findMany({
-    where: {
-      id: { in: ids },
-      deletedAt: t,
-    },
-    select: {
-      id: true,
-      chatRoomId: true,
-      deletedForAll: true,
-      deletedAt: true,
-      deletedById: true,
-      createdAt: true,
-    },
-  });
-
-  // 4) Emit canonical expired rows per-room
-  for (const row of expiredRows) {
-    try {
-      // emitMessageExpired should emit an authoritative/canonical upsert or tombstone
-      // that your clients understand (we expect socketBus.emitMessageExpired to already
-      // call emitMessageUpsert under the hood if you built it that way).
-      await emitMessageExpired(row.chatRoomId, row);
-    } catch (e) {
-      // keep running even if one emit fails
-      console.error('[expireJob] emit failed', e);
+    // Emit per-message expired upsert so clients receive authoritative rows (socketBus helper will upsert).
+    for (const id of ids) {
+      const roomId = chatRoomMap.get(id);
+      // emitMessageExpired will try fetchMessageById and send upsert + legacy expired event
+      await socketBus.emitMessageExpired(roomId, id, now.toISOString());
     }
-  }
 
-  return { expired: expiredRows.length };
+    return { expired: ids.length };
+  } catch (err) {
+    console.error('[expireMessagesOnce] failed:', err?.message || err);
+    return { expired: 0, error: err };
+  }
 }
 
 /**
- * Scheduler: run immediately then every `intervalMs`.
- * Returns a stopper function that will clear the timer.
+ * Example scheduler: call expireMessagesOnce every 30s (do not enable multiple workers at once)
+ * If you run multiple processes, use DB locks or a leader election to avoid duplicate workers.
  */
-export function scheduleExpireJob(intervalMs = Number(process.env.EXPIRE_JOB_INTERVAL_MS || 15_000)) {
-  // run immediately (don't await to avoid blocking startup)
-  expireMessagesOnce().catch((e) => console.error('[expireJob] initial run failed', e));
-
+export function startExpiryPoller({ intervalMs = 30_000 } = {}) {
+  // If you already have a job runner (bull/agenda), prefer scheduling there instead.
   const id = setInterval(() => {
-    expireMessagesOnce().catch((e) => console.error('[expireJob] run failed', e));
+    expireMessagesOnce().catch((e) => {
+      console.error('[expiryPoller] error', e?.message || e);
+    });
   }, intervalMs);
 
   // allow process to exit if nothing else is keeping it alive
   id.unref?.();
 
-  // return stopper
-  return () => clearInterval(id);
+  return () => clearInterval(id); // stopper
 }

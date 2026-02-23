@@ -18,6 +18,7 @@ import FileUploader from './FileUploader.jsx';
 import { toast } from '../utils/toast';
 import loadEncryptionClient from '@/utils/loadEncryptionClient';
 import MicButton from '@/components/MicButton.jsx';
+import { v4 as uuidv4 } from 'uuid';
 
 const TTL_OPTIONS = [
   { value: '0', label: 'Off' },
@@ -38,6 +39,8 @@ export default function MessageInput({
   const [ttl, setTtl] = useState(String(currentUser?.autoDeleteSeconds || 0));
 
   // Files uploaded to R2 (or mic recordings returned as fileMeta)
+  // Expected fileMeta shape from FileUploader/MicButton:
+  // { key?: 'object/key.jpg', url?: 'https://...', contentType, width, height, durationSec, caption, name }
   const [uploaded, setUploaded] = useState([]);
   // Stickers / GIFs picked (no upload)
   const [inlinePicks, setInlinePicks] = useState([]);
@@ -100,20 +103,28 @@ export default function MessageInput({
 
     setSending(true);
 
+    // create an id for idempotency and optimistic UI
+    const clientMessageId = uuidv4();
+
+    // Build attachmentsInline from uploaded items
+    // prefer storage 'key' (object key) over a publicly-exposed 'url' field
     const attachmentsInline = [
       ...uploaded.map((f) => ({
         kind: kindFromMime(f.contentType),
-        url: f.url,
+        // server-side prefers 'key' (canonical storage identifier). Use 'url' fallback.
+        url: f.key || f.url,
         mimeType: f.contentType,
         width: f.width || null,
         height: f.height || null,
         durationSec: f.durationSec || null,
         caption: f.caption || null,
+        name: f.name || undefined,
       })),
       ...inlinePicks,
     ];
 
     const payload = {
+      clientMessageId, // IMPORTANT: server DEDUPE uses this for idempotency
       chatRoomId: String(chatroomId),
       expireSeconds: Number(ttl) || 0,
       attachmentsInline,
@@ -123,14 +134,13 @@ export default function MessageInput({
     if (text) {
       if (currentUser?.strictE2EE) {
         try {
-          // Dynamic import the encryption client on-demand (keeps it out of initial bundle)
           const mod = await loadEncryptionClient();
           const { encryptForRoom } = mod;
           if (typeof encryptForRoom !== 'function') {
             throw new Error('encryptForRoom not available from encryption client');
           }
 
-          // IMPORTANT: encryptForRoom must return { ciphertext, encryptedKeys }
+          // encryptForRoom must return { ciphertext, encryptedKeys }
           const { ciphertext, encryptedKeys } = await encryptForRoom(
             roomParticipants,
             text,
@@ -138,7 +148,6 @@ export default function MessageInput({
           );
           payload.contentCiphertext = ciphertext;
           payload.encryptedKeys = encryptedKeys;
-
           // optional: omit plaintext entirely
           // payload.content = '';
         } catch (err) {
@@ -152,12 +161,31 @@ export default function MessageInput({
       }
     }
 
+    // Helpful: optimistic UI bubble
+    const optimistic = {
+      id: clientMessageId, // client id used as temporary id
+      clientMessageId,
+      content: text || '',
+      createdAt: new Date().toISOString(),
+      mine: true,
+      optimistic: true,
+      failed: false,
+      expireSeconds: Number(ttl) || 0,
+      attachmentsInline,
+    };
+    onMessageSent?.(optimistic);
+
     try {
       const { data: saved } = await axiosClient.post('/messages', payload, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
+
+      // server should return the canonical message row (including server id)
       onMessageSent?.(saved);
+
       toast.ok('Message delivered.');
+
+      // reset composer state
       setContent('');
       setUploaded([]);
       setInlinePicks([]);
@@ -185,9 +213,10 @@ export default function MessageInput({
         toast.err('Failed to send. You can retry the failed bubble.');
       }
 
-      // Optimistic failed bubble so user can retry/resend
+      // Mark optimistic as failed so the UI can show a retry affordance
       onMessageSent?.({
-        id: `temp-${Date.now()}`,
+        id: clientMessageId,
+        clientMessageId,
         content: text,
         createdAt: new Date().toISOString(),
         mine: true,
@@ -372,7 +401,7 @@ export default function MessageInput({
                 </Badge>
 
                 <a
-                  href={f.url}
+                  href={f.url || (f.key ? `/api/download?key=${encodeURIComponent(f.key)}` : '#')}
                   target="_blank"
                   rel="noreferrer"
                   style={{
@@ -381,13 +410,14 @@ export default function MessageInput({
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                   }}
-                  title={f.url}
+                  title={f.url || f.key}
                 >
                   {(() => {
                     try {
                       return new URL(f.url).pathname.split('/').pop();
                     } catch {
-                      return f.url;
+                      // fallback to key or url string
+                      return f.name || f.key || f.url || 'attachment';
                     }
                   })()}
                 </a>

@@ -424,8 +424,23 @@ router.post(
       }),
     };
 
+    try {
+      const io = req.app.get('io');
+      if (io && clientMessageId) {
+        io.to(`user:${String(senderId)}`).emit('message:ack', {
+          clientMessageId,
+          id: saved.id,
+          chatRoomId,
+          createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
+        });
+      }
+    } catch (e) {
+      // swallow - non-fatal optimisation
+      console.warn('[message:ack] emit failed', e?.message || e);
+    }
+
     emitMessageNew(chatRoomId, shaped);
-    return res.status(201).json({ item: shaped });
+    return res.status(201).json({ shaped });
   })
 );
 
@@ -1213,16 +1228,17 @@ router.patch(
     });
     if (!isMember) throw Boom.forbidden('Forbidden');
 
-    await prisma.message.update({
-      where: { id },
-      data: { readBy: { connect: { id: userId } } },
-      select: { id: true },
+    // Idempotent insert into MessageRead
+    await prisma.messageRead.createMany({
+      data: [{ messageId: id, userId, readAt: new Date() }],
+      skipDuplicates: true,
     });
 
     const io = req.app.get('io');
     io?.to(String(m.chatRoomId)).emit('message_read', {
       messageId: id,
       reader: { id: userId, username: req.user.username },
+      readAt: new Date().toISOString(),
     });
 
     return res.json({ ok: true });
@@ -1262,21 +1278,22 @@ router.post(
 
     if (!allowedIds.length) return res.json({ ok: true });
 
-    await prisma.$transaction(
-      allowedIds.map((id) =>
-        prisma.message.update({
-          where: { id },
-          data: { readBy: { connect: { id: userId } } },
-          select: { id: true },
-        })
-      )
-    );
+    // Bulk insert into MessageRead - idempotent & fast
+    const rows = allowedIds.map((id) => ({ messageId: id, userId, readAt: new Date() }));
+    if (rows.length) {
+      await prisma.messageRead.createMany({
+        data: rows,
+        skipDuplicates: true,
+      });
+    }
 
     const io = req.app.get('io');
+    const readAtISO = new Date().toISOString();
     for (const m of msgs.filter((m) => allowedIds.includes(m.id))) {
       io?.to(String(m.chatRoomId)).emit('message_read', {
         messageId: m.id,
         reader: { id: userId, username: req.user.username },
+        readAt: readAtISO,
       });
     }
 

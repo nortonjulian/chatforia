@@ -692,6 +692,7 @@ model Message {
   @@index([chatRoomId, id], map: "msg_room_id")
   @@index([chatRoomId, createdAt], map: "msg_room_time")
   @@index([chatRoomId, createdAt, id], map: "msg_room_time_id")
+  @@index([deletedForAll, expiresAt], map: "msg_deleted_expires_idx")
 }
 
 model MessageRead {
@@ -768,6 +769,8 @@ model MessageAttachment {
 
   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
 
+  deletedAt   DateTime?
+  @@index([deletedAt])
   @@index([messageId])
   @@index([kind, messageId]) // quick media queries per message
 }

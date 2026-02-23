@@ -105,6 +105,16 @@ export function emitToUsers(userIds, event, payload) {
   }
 }
 
+export function emitMessageAck(userId, payload) {
+  if (!_io || userId == null || !payload) return;
+  try {
+    // sender-only: send to user's private socket room
+    _io.to(`user:${String(userId)}`).emit('message:ack', payload);
+  } catch (err) {
+    /* noop */
+  }
+}
+
 /** Emit to an arbitrary room id (string/number). */
 export function emitToRoom(room, event, payload) {
   if (!_io || !room) return;

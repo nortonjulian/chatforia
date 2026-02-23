@@ -3,6 +3,8 @@ import Boom from '@hapi/boom';
 import fs from 'node:fs';
 import path from 'node:path';
 import multer from 'multer';
+import crypto from 'node:crypto';
+import fsPromises from 'node:fs/promises';
 
 import { requireAuth } from '../middleware/auth.js';
 import prisma from '../utils/prismaClient.js';
@@ -10,6 +12,11 @@ import storage from '../services/storage/index.js';
 import { STORAGE_DRIVER } from '../utils/uploadConfig.js';
 import { keyToAbsolute } from '../services/storage/localStorage.js';
 import { buildSafeName, sha256, uploadDirs } from '../middleware/uploads.js';
+import {
+  generatePresignedPutUrl,
+  buildPublicUrlForKey,
+  // uploadBufferToStorage // not used here, but available if needed
+} from '../utils/storage.js';
 
 const router = express.Router();
 
@@ -67,8 +74,8 @@ function runUpload(req, res, next) {
 /* ---------------- Storage helpers ---------------- */
 async function writeLocalFallback(key, buf) {
   const abs = keyToAbsolute(key);
-  await fs.promises.mkdir(path.dirname(abs), { recursive: true });
-  await fs.promises.writeFile(abs, buf);
+  await fsPromises.mkdir(path.dirname(abs), { recursive: true });
+  await fsPromises.writeFile(abs, buf);
   return abs;
 }
 async function storeWithFallback({ key, buf, contentType }) {
@@ -87,21 +94,23 @@ async function findExistingByDigestOrKey({ ownerId, digest }) {
 
   if (!HAS_UPLOAD_MODEL) return null;
 
-  try {
-    return await prisma.upload.findFirst({ where: { sha256: digest, ownerId }, select: { id: true } });
-  } catch {}
-  try {
-    return await prisma.upload.findFirst({ where: { sha256: digest, userId: ownerId }, select: { id: true } });
-  } catch {}
-  try {
-    return await prisma.upload.findFirst({ where: { ownerId, key: { contains: `/${digest}.` } }, select: { id: true } });
-  } catch {}
-  try {
-    return await prisma.upload.findFirst({ where: { userId: ownerId, key: { contains: `/${digest}.` } }, select: { id: true } });
-  } catch {}
-  try {
-    return await prisma.upload.findFirst({ where: { key: { contains: `/user/${ownerId}/${digest}.` } }, select: { id: true } });
-  } catch {}
+  // Try several heuristics for compatibility across DB schema variants
+  const tries = [
+    { sha256: digest, ownerId },
+    { sha256: digest, userId: ownerId },
+    { ownerId, key: { contains: `/${digest}.` } },
+    { userId: ownerId, key: { contains: `/${digest}.` } },
+    { key: { contains: `/user/${ownerId}/${digest}.` } },
+  ];
+
+  for (const where of tries) {
+    try {
+      const rec = await prisma.upload.findFirst({ where, select: { id: true } });
+      if (rec) return rec;
+    } catch {
+      // ignore and continue
+    }
+  }
   return null;
 }
 
@@ -136,12 +145,115 @@ async function createUploadFlexible(data) {
       });
       if (data.sha256) memRegistry.byOwnerDigest.set(`${Number(data.ownerId)}:${data.sha256}`, rec.id);
       return rec;
-    } catch {}
+    } catch {
+      // try next
+    }
   }
   return memCreate(data);
 }
 
-/* ---------------- POST /uploads ---------------- */
+/* ---------------- NEW — POST /uploads/intent ----------------
+   Client calls to get a presigned PUT URL and canonical key.
+   Body: { name, size, mimeType, sha256? }
+*/
+router.post('/intent', requireAuth, async (req, res) => {
+  try {
+    const { name, size, mimeType, sha256: sha } = req.body || {};
+    if (!name || !mimeType) return res.status(400).json({ error: 'invalid_request' });
+
+    // build a stable key: uploads/YYYY/MM/dd/<random>_<safeName>
+    const now = new Date();
+    const safe = (name || 'file').replace(/[^\w.\-]+/g, '_').slice(0, 120);
+    const prefix = `uploads/${now.getUTCFullYear()}/${String(now.getUTCMonth() + 1).padStart(2,'0')}/${String(now.getUTCDate()).padStart(2,'0')}`;
+    const rand = crypto.randomBytes(6).toString('hex');
+    const ext = path.extname(safe) || '';
+    const base = path.basename(safe, ext);
+    const key = `${prefix}/${Date.now()}_${rand}_${base}${ext}`;
+
+    // If STORAGE_BUCKET is configured, return a presigned PUT URL
+    if (process.env.STORAGE_BUCKET) {
+      const expires = Number(process.env.R2_SIGNED_EXPIRES_SEC || process.env.STORAGE_SIGNED_EXPIRES_SEC || 300);
+      const { url: uploadUrl, expiresIn } = await generatePresignedPutUrl({ key, contentType: mimeType, expiresIn: expires });
+
+      const publicUrl = process.env.STORAGE_PUBLIC_BASE_URL ? buildPublicUrlForKey(key) : undefined;
+
+      return res.json({
+        uploadUrl,
+        key,
+        expiresIn,
+        publicUrl,
+        requiresComplete: true,
+      });
+    }
+
+    // Fallback: no cloud storage configured
+    return res.status(500).json({ error: 'no_storage_configured' });
+  } catch (err) {
+    console.error('uploads.intent error', err);
+    return res.status(500).json({ error: 'server_error' });
+  }
+});
+
+/* ---------------- NEW — POST /uploads/complete ----------------
+   Client calls after successful PUT to presigned URL.
+   Body: { key, name, mimeType, size, width?, height?, durationSec?, sha256? }
+*/
+router.post('/complete', requireAuth, async (req, res) => {
+  try {
+    const { key, name, mimeType, size, width, height, durationSec, sha256: sha } = req.body || {};
+    if (!key || !mimeType) return res.status(400).json({ error: 'invalid_request' });
+
+    const ownerId = Number(req.user?.id) || null;
+
+    // If storage is public, construct public URL (otherwise client may fetch signed GET)
+    const publicUrl = process.env.STORAGE_PUBLIC_BASE_URL ? buildPublicUrlForKey(key) : null;
+
+    // Create DB row (flexible creation to tolerate schema differences)
+    const uploadRow = await createUploadFlexible({
+      ownerId,
+      key,
+      sha256: sha || undefined,
+      originalName: name || path.basename(key),
+      mimeType,
+      size: Number(size) || 0,
+      driver: process.env.STORAGE_BUCKET ? 's3' : 'local',
+    });
+
+    // (Optional) Thumbnail generation: skip heavy operations in this route to keep it fast.
+    // You can enqueue a worker or separate job to generate thumbs from the bucket.
+    let thumbUrl = null;
+    try {
+      // If you want to attempt a server-side thumb generation only when you can read the object,
+      // you could fetch and run sharp here. We'll skip by default to avoid blocking.
+      if (mimeType.startsWith('image/') && process.env.STORAGE_BUCKET && process.env.STORAGE_PUBLIC_BASE_URL) {
+        // recommended: enqueue a worker that downloads key, creates thumb, stores thumb key,
+        // and updates the upload record with thumbUrl. Skipping here.
+      }
+    } catch (thumbErr) {
+      console.warn('thumb generation skipped:', thumbErr);
+    }
+
+    const fileMeta = {
+      id: uploadRow.id,
+      key: uploadRow.key,
+      url: publicUrl || null,
+      name: uploadRow.originalName,
+      contentType: uploadRow.mimeType,
+      size: uploadRow.size,
+      width: width || null,
+      height: height || null,
+      durationSec: durationSec || null,
+      thumbUrl,
+    };
+
+    return res.json({ ok: true, file: fileMeta });
+  } catch (err) {
+    console.error('uploads.complete error', err);
+    return res.status(500).json({ error: 'server_error' });
+  }
+});
+
+/* ---------------- POST /uploads (multipart form upload - existing) ---------------- */
 router.post('/', requireAuth, runUpload, async (req, res, next) => {
   try {
     const f = req.file;
@@ -190,7 +302,7 @@ router.get('/avatar/:filename', async (req, res, next) => {
     const fileName = path.basename(req.params.filename);
     const fullPath = path.join(uploadDirs.AVATARS_DIR, fileName);
 
-    await fs.promises.access(fullPath, fs.constants.R_OK);
+    await fsPromises.access(fullPath, fs.constants.R_OK);
 
     res.setHeader('Cache-Control', 'public, max-age=86400'); // 1 day
     res.sendFile(fullPath);

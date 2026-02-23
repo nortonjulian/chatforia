@@ -180,9 +180,11 @@ export async function createMessageService({
     encryptedKeysObj = parsed && typeof parsed === 'object' ? parsed : null;
   }
 
-  // 7) Persist message (use normalized cid)
-  const saved = await prisma.message.create({
-    data: {
+  // 7) Persist message & message keys in a single transaction for atomicity
+  let saved;
+  try {
+    // Build message create payload (re-use your existing shape)
+    const messageCreateData = {
       contentCiphertext: cipherValue,
       rawContent: content ? content : '',
       translations: translationsMap,
@@ -211,61 +213,71 @@ export async function createMessageService({
             },
           }
         : undefined,
-    },
-    select: {
-      id: true,
-      contentCiphertext: true,
-      translations: true,
-      translatedFrom: true,
-      clientMessageId: true,
-      isExplicit: true,
-      imageUrl: true,
-      audioUrl: true,
-      audioDurationSec: true,
-      isAutoReply: true,
-      expiresAt: true,
-      createdAt: true,
-      senderId: true,
-      sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true } },
-      chatRoomId: true,
-      rawContent: true,
-      attachments: {
+    };
+
+    // If we have message keys, build rows for createMany
+    const keyRows =
+      encryptedKeysObj && typeof encryptedKeysObj === 'object' && !Array.isArray(encryptedKeysObj)
+        ? Object.entries(encryptedKeysObj)
+            .map(([userIdRaw, encryptedKey]) => {
+              const uid = Number(userIdRaw);
+              const keyStr = encryptedKey == null ? '' : String(encryptedKey);
+              return { userId: uid, encryptedKey: keyStr };
+            })
+            .filter((r) => Number.isFinite(r.userId) && r.encryptedKey)
+        : [];
+
+    // Run a transaction: create message, then (if keys) create messageKey rows referencing saved.id
+    saved = await prisma.$transaction(async (tx) => {
+      const created = await tx.message.create({
+        data: messageCreateData,
         select: {
           id: true,
-          kind: true,
-          url: true,
-          mimeType: true,
-          width: true,
-          height: true,
-          durationSec: true,
-          caption: true,
+          contentCiphertext: true,
+          translations: true,
+          translatedFrom: true,
+          clientMessageId: true,
+          isExplicit: true,
+          imageUrl: true,
+          audioUrl: true,
+          audioDurationSec: true,
+          isAutoReply: true,
+          expiresAt: true,
           createdAt: true,
+          senderId: true,
+          sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true } },
+          chatRoomId: true,
+          rawContent: true,
+          attachments: {
+            select: {
+              id: true,
+              kind: true,
+              url: true,
+              mimeType: true,
+              width: true,
+              height: true,
+              durationSec: true,
+              caption: true,
+              createdAt: true,
+            },
+          },
         },
-      },
-    },
-  });
+      });
 
-  // ✅ Persist MessageKey rows from encryptedKeys map: { [userId]: encryptedKey }
-  if (encryptedKeysObj && typeof encryptedKeysObj === 'object' && !Array.isArray(encryptedKeysObj)) {
-    try {
-      const rows = Object.entries(encryptedKeysObj)
-        .map(([userIdRaw, encryptedKey]) => {
-          const uid = Number(userIdRaw);
-          const keyStr = encryptedKey == null ? '' : String(encryptedKey);
-          return { messageId: saved.id, userId: uid, encryptedKey: keyStr };
-        })
-        .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
-
-      if (rows.length) {
-        await prisma.messageKey.createMany({
-          data: rows,
+      if (keyRows.length) {
+        // attach messageId to each
+        const rowsWithMessageId = keyRows.map((r) => ({ ...r, messageId: created.id }));
+        await tx.messageKey.createMany({
+          data: rowsWithMessageId,
           skipDuplicates: true,
         });
       }
-    } catch (e) {
-      console.warn('[E2EE] could not persist MessageKey rows', e?.message || e);
-      // continue without failing the entire message create
-    }
+
+      return created;
+    });
+  } catch (e) {
+    console.error('[createMessageService] persist failed', e?.message || e);
+    throw e;
   }
 
   // 8.5) Bot webhook events (non-blocking)
