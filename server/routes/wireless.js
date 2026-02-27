@@ -1,7 +1,11 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
+import { v4 as uuidv4 } from 'uuid';
+import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
 
 const router = express.Router();
+
+/* -------------------- existing helpers & routes (unchanged) ------------------ */
 
 /**
  * Compute status flags for a pack or family pool.
@@ -51,14 +55,8 @@ async function getActiveIndividualPack(userId) {
   });
 }
 
-/**
- * GET /api/wireless/status
- *
- * Returns current wireless status for:
- * - Family pool (if in a Family with data)
- * - Individual eSIM pack (if purchased)
- * - Or "NONE" if nothing active.
- */
+/* -------------------- GET /status (unchanged) ------------------ */
+/* (paste your existing /status route here) */
 router.get('/status', async (req, res) => {
   try {
     if (!req.user?.id) {
@@ -170,6 +168,11 @@ router.get('/status', async (req, res) => {
         )
       : null;
 
+    // ALSO optionally attach any linked Subscriber for the user (if present)
+    const subscriber = await prisma.subscriber.findFirst({
+      where: { userId: Number(req.user.id) },
+    });
+
     return res.json({
       mode: 'INDIVIDUAL',
       state: status.state,
@@ -185,6 +188,13 @@ router.get('/status', async (req, res) => {
         expiresAt: pack.expiresAt,
         daysRemaining,
       },
+      subscriber: subscriber ? {
+        id: subscriber.id,
+        provider: subscriber.provider,
+        status: subscriber.status,
+        esimIccid: subscriber.esimIccid,
+        msisdn: subscriber.msisdn
+      } : null
     });
   } catch (err) {
     console.error('wireless status error:', err);
@@ -192,10 +202,8 @@ router.get('/status', async (req, res) => {
   }
 });
 
-/**
- * Dev-only endpoint to simulate consumption.
- * POST /api/wireless/debug/consume { mb }
- */
+/* -------------------- debug consume (unchanged) ------------------ */
+
 router.post('/debug/consume', async (req, res) => {
   try {
     if (process.env.NODE_ENV === 'production') {
@@ -232,6 +240,198 @@ router.post('/debug/consume', async (req, res) => {
   } catch (err) {
     console.error('wireless debug consume error:', err);
     return res.status(500).json({ error: 'Failed to consume data' });
+  }
+});
+
+/* -------------------- NEW endpoints (wireless-first support) ------------------ */
+
+/**
+ * POST /wireless/checkout
+ * Creates MobileDataPackPurchase + a pending Subscriber (wireless-first)
+ * Body: { email?, planKey, kind? }
+ */
+router.post('/checkout', async (req, res) => {
+  try {
+    const { email, planKey, kind = 'ESIM', addonKind } = req.body;
+    // Basic plan sizing logic (adapt to your Price table)
+    const totalDataMb = planKey === '3GB' ? 3 * 1024 : planKey === '5GB' ? 5 * 1024 : 10 * 1024;
+
+    const purchase = await prisma.mobileDataPackPurchase.create({
+      data: {
+        userId: req.user?.id ?? null,
+        kind,
+        addonKind: addonKind ?? planKey,
+        purchasedAt: new Date(),
+        totalDataMb,
+        remainingDataMb: totalDataMb,
+      },
+    });
+
+    const activationToken = uuidv4();
+    const subscriber = await prisma.subscriber.create({
+      data: {
+        purchaseId: purchase.id,
+        userId: req.user?.id ?? null,
+        provider: 'telna', // default provider; you can select based on region
+        status: 'PENDING',
+        providerMeta: { activationToken },
+      },
+    });
+
+    // return subscriber id and token so frontend can show QR/email instructions
+    return res.json({ ok: true, subscriberId: subscriber.id, activationToken });
+  } catch (err) {
+    console.error('wireless/checkout error', err);
+    return res.status(500).json({ error: 'checkout failed' });
+  }
+});
+
+/**
+ * POST /wireless/activate
+ * Body: { subscriberId, activationToken? }
+ * Kicks off provisioning with the selected provider adapter.
+ */
+router.post('/activate', async (req, res) => {
+  try {
+    const { subscriberId, activationToken } = req.body;
+    let subscriber = null;
+    if (subscriberId) {
+      subscriber = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
+    } else if (activationToken) {
+      // look up by providerMeta.activationToken
+      subscriber = await prisma.subscriber.findFirst({
+        where: { providerMeta: { path: ['activationToken'], equals: activationToken } },
+      });
+    }
+
+    if (!subscriber) return res.status(404).json({ error: 'subscriber not found' });
+
+    // Call provider adapter (normalize response)
+    const prov = await createEsimProfileForProvider(subscriber.provider, {
+      subscriberId: subscriber.id,
+      purchaseId: subscriber.purchaseId,
+    });
+
+    await prisma.subscriber.update({
+      where: { id: subscriber.id },
+      data: {
+        esimProfileId: prov.profileId ?? null,
+        esimIccid: prov.iccid ?? null,
+        externalSubscriberId: prov.externalId ?? null,
+        providerMeta: { ...subscriber.providerMeta, lastProv: prov },
+        status: prov.success ? 'PROVISIONING' : 'PENDING',
+      },
+    });
+
+    // Update purchase record for backwards compat
+    if (subscriber.purchaseId) {
+      await prisma.mobileDataPackPurchase.update({
+        where: { id: subscriber.purchaseId },
+        data: {
+          esimProfileId: prov.profileId ?? null,
+          esimIccid: prov.iccid ?? null,
+          qrCodeSvg: prov.qrSvg ?? null,
+        },
+      });
+    }
+
+    return res.json({ ok: true, provisioning: prov });
+  } catch (err) {
+    console.error('wireless/activate error:', err);
+    return res.status(500).json({ error: 'activation failed' });
+  }
+});
+
+/**
+ * POST /wireless/claim
+ * Attaches a subscriber to the currently authenticated user (wireless-first -> app)
+ * Body: { subscriberId }
+ */
+router.post('/claim', async (req, res) => {
+  try {
+    if (!req.user?.id) return res.status(401).json({ error: 'Unauthorized' });
+    const { subscriberId } = req.body;
+    if (!subscriberId) return res.status(400).json({ error: 'subscriberId required' });
+
+    const sub = await prisma.subscriber.findUnique({ where: { id: Number(subscriberId) } });
+    if (!sub) return res.status(404).json({ error: 'subscriber not found' });
+
+    await prisma.subscriber.update({
+      where: { id: sub.id },
+      data: { userId: Number(req.user.id) },
+    });
+
+    // optionally mirror esimIccid to User.esimIccid for convenience
+    if (sub.esimIccid) {
+      await prisma.user.update({
+        where: { id: Number(req.user.id) },
+        data: { esimIccid: sub.esimIccid },
+      });
+    }
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('wireless/claim error:', err);
+    return res.status(500).json({ error: 'claim failed' });
+  }
+});
+
+/**
+ * POST /wireless/webhooks/:provider
+ * Generic receiver for provider webhooks (Telna / 1GLOBAL / Plintron later)
+ * Provider adapter normalizes and returns { externalSubscriberId, event, payload }
+ */
+router.post('/webhooks/:provider', express.raw({ type: '*/*' }), async (req, res) => {
+  try {
+    const { provider } = req.params;
+    const parsed = await handleProviderWebhook(provider, req); // adapter normalizes
+
+    if (!parsed?.externalSubscriberId) {
+      console.warn('webhook missing externalSubscriberId', parsed);
+      return res.status(200).send('ok');
+    }
+
+    const sub = await prisma.subscriber.findFirst({
+      where: { externalSubscriberId: parsed.externalSubscriberId },
+    });
+
+    if (!sub) {
+      console.warn('webhook: no subscriber match for', parsed.externalSubscriberId);
+      return res.status(200).send('ok');
+    }
+
+    let newStatus;
+    if (parsed.event === 'activation.succeeded') newStatus = 'ACTIVE';
+    if (parsed.event === 'activation.failed') newStatus = 'PENDING';
+    if (parsed.event === 'provisioning.started') newStatus = 'PROVISIONING';
+    if (parsed.event === 'porting.started') newStatus = 'PORTING';
+    if (parsed.event === 'suspended') newStatus = 'SUSPENDED';
+    if (parsed.event === 'cancelled') newStatus = 'CANCELLED';
+
+    await prisma.subscriber.update({
+      where: { id: sub.id },
+      data: {
+        status: newStatus ?? sub.status,
+        providerMeta: { ...sub.providerMeta, lastWebhook: parsed.payload },
+        esimIccid: parsed.iccid ?? sub.esimIccid,
+        msisdn: parsed.msisdn ?? sub.msisdn,
+      },
+    });
+
+    // also update purchase record if linked
+    if (sub.purchaseId) {
+      await prisma.mobileDataPackPurchase.update({
+        where: { id: sub.purchaseId },
+        data: {
+          esimIccid: parsed.iccid ?? undefined,
+        },
+      });
+    }
+
+    return res.status(200).send('ok');
+  } catch (err) {
+    console.error('provider webhook error', err);
+    return res.status(500).send('error');
   }
 });
 

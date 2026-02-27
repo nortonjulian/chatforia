@@ -681,16 +681,42 @@ router.get(
   asyncHandler(async (req, res) => {
     res.set('Cache-Control', 'no-store');
 
+    // Basic user object (keep the fields you already return)
+    const userPayload = {
+      id: req.user.id,
+      email: req.user.email || null,
+      username: req.user.username || null,
+      role: req.user.role || 'USER',
+      plan: req.user.plan || 'FREE',
+      preferredLanguage: req.user.preferredLanguage || 'en',
+      theme: req.user.theme || 'dawn',
+    };
+
+    // Try to attach any Subscriber row linked to this user
+    let subscriber = null;
+    try {
+      subscriber = await prisma.subscriber.findFirst({
+        where: { userId: Number(req.user.id) },
+        select: {
+          id: true,
+          provider: true,
+          status: true,
+          esimIccid: true,
+          esimProfileId: true,
+          msisdn: true,
+          providerMeta: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+    } catch (e) {
+      // don't block /me if subscriber lookup fails
+      console.warn('auth/me: subscriber lookup failed', e);
+    }
+
     return res.json({
-      user: {
-        id: req.user.id,
-        email: req.user.email || null,
-        username: req.user.username || null,
-        role: req.user.role || 'USER',
-        plan: req.user.plan || 'FREE',
-        preferredLanguage: req.user.preferredLanguage || 'en',
-        theme: req.user.theme || 'dawn',
-      },
+      user: userPayload,
+      subscriber, // null if none
     });
   })
 );

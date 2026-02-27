@@ -365,12 +365,22 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const planUpper = ((currentUser?.plan) || 'FREE').toUpperCase();
   const isPremiumPlan = planUpper === 'PREMIUM';
   const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
-  const hasEsim = Boolean(currentUser?.esimIccid); 
+  const hasEsim =
+    Boolean(currentUser?.esimIccid) ||
+    Boolean(currentUser?.subscriber?.esimIccid);
 
   const refreshAuthUser = async () => {
     try {
       const { data } = await axiosClient.get('/auth/me');
-      if (data?.user) setCurrentUser((prev) => ({ ...prev, ...data.user }));
+      if (data?.user) {
+        // Merge subscriber into currentUser so components can read it
+        setCurrentUser((prev) => ({
+          ...prev,
+          ...data.user,
+          // don't overwrite prev.subscriber with undefined if none returned
+          ...(data.subscriber ? { subscriber: data.subscriber } : {}),
+        }));
+      }
     } catch (e) {
       console.error('Failed to refresh /auth/me', e);
     }

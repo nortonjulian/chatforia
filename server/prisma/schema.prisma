@@ -177,6 +177,15 @@ enum FamilyInviteStatus {
   CANCELLED
 }
 
+enum SubscriberStatus {
+  PENDING
+  PROVISIONING
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  PORTING
+}
+
 enum VerificationType {
   EMAIL
   PHONE
@@ -1194,6 +1203,32 @@ model SmsCarrierEvent {
   action    String? // 'opt_out' | 'help' | 'verify' | 'notification' | etc.
   metadata  Json?
   createdAt DateTime @default(now())
+}
+
+model Subscriber {
+  id                Int      @id @default(autoincrement())
+  userId            Int?     // optional: unassigned until user claims
+  provider          String   // 'oneglobal' | 'telna' | 'plintron' | 'twilio' ...
+  providerProfileId String?  // provider's internal profile / resource id
+  iccid             String?  @unique
+  iccidHint         String?
+  smdp              String?  // SMDP (if provided)
+  activationCode    String?  // matchingId or activation token (if stored)
+  lpaUri            String?  // deep link / LPA for provisioning
+  qrPayload         String?  // QR payload or svg
+  msisdn            String?  // assigned phone number (E.164) if any
+  region            String?  @db.VarChar(8)
+  status            String   @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
+  providerMeta      Json?    // raw provider response / audit
+  createdAt         DateTime @default(now())
+  activatedAt       DateTime?
+  suspendedAt       DateTime?
+  expiresAt         DateTime?
+  updatedAt         DateTime @updatedAt
+
+  @@index([userId])
+  @@index([provider, providerProfileId])
+  @@index([msisdn])
 }
 
 model PhoneNumber {

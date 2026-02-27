@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
-import { ONEGLOBAL } from '../config/esim.js';
+import { TELNA } from '../config/esim.js';
 
 const DEFAULT_TIMEOUT = 10_000;
 const DEFAULT_ATTEMPTS = 3;
@@ -11,25 +11,27 @@ function sleep(ms) {
 }
 
 function backoffMs(attempt, base = 300) {
-  // exponential backoff with full jitter
   const exp = base * Math.pow(2, Math.max(0, attempt - 1));
   return Math.floor(Math.random() * exp);
 }
 
-/**
- * oneglobalRequest(path, { method, body, timeout, attempts })
- */
-export async function oneglobalRequest(
+export async function telnaRequest(
   path,
   { method = 'GET', body, timeout = DEFAULT_TIMEOUT, attempts = DEFAULT_ATTEMPTS } = {}
 ) {
-  if (!ONEGLOBAL?.baseUrl) {
-    throw new Error('ONEGLOBAL.baseUrl is not configured');
+  if (!TELNA?.baseUrl) {
+    throw new Error('TELNA.baseUrl is not configured');
   }
 
-  const url = new URL(path, ONEGLOBAL.baseUrl).toString();
+  const url = new URL(path, TELNA.baseUrl).toString();
   const headers = { 'Content-Type': 'application/json' };
-  if (ONEGLOBAL.apiKey) headers.Authorization = `Bearer ${ONEGLOBAL.apiKey}`;
+
+  if (TELNA.apiKey) {
+    headers.Authorization = `Bearer ${TELNA.apiKey}`;
+  } else if (TELNA.username && TELNA.password) {
+    const creds = Buffer.from(`${TELNA.username}:${TELNA.password}`).toString('base64');
+    headers.Authorization = `Basic ${creds}`;
+  }
 
   let lastErr = null;
 
@@ -50,10 +52,9 @@ export async function oneglobalRequest(
       const textBody = await res.text().catch(() => '');
 
       if (!res.ok) {
-        // 4xx => give up immediately (likely client error). 5xx => retry.
         const preview = textBody.slice(0, MAX_BODY_PREVIEW);
         const err = new Error(
-          `[1GLOBAL] ${method} ${url} failed: ${res.status} ${res.statusText} — ${preview}`
+          `[TELNA] ${method} ${url} failed: ${res.status} ${res.statusText} — ${preview}`
         );
         err.status = res.status;
         err.providerBody = preview;
@@ -61,12 +62,11 @@ export async function oneglobalRequest(
         if (res.status >= 500 && attempt < attempts) {
           lastErr = err;
           await sleep(backoffMs(attempt));
-          continue; // retry
+          continue;
         }
         throw err;
       }
 
-      // parse JSON if possible
       try {
         return JSON.parse(textBody || '{}');
       } catch {
@@ -74,7 +74,6 @@ export async function oneglobalRequest(
       }
     } catch (err) {
       clearTimeout(timer);
-      // AbortError or network error - possibly retry
       const isAbort = err.name === 'AbortError' || err.type === 'aborted';
       const retryable = isAbort || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT' || err.code === 'ENOTFOUND' || err.code === 'EAI_AGAIN';
 
@@ -85,16 +84,15 @@ export async function oneglobalRequest(
       }
 
       if (isAbort) {
-        const e = new Error(`[1GLOBAL] request timed out after ${timeout}ms for ${method} ${url}`);
-        e.code = 'ONEGLOBAL_TIMEOUT';
+        const e = new Error(`[TELNA] request timed out after ${timeout}ms for ${method} ${url}`);
+        e.code = 'TELNA_TIMEOUT';
         throw e;
       }
       throw err;
     }
   }
 
-  // if we exhaust attempts, throw last error
-  throw lastErr || new Error('[1GLOBAL] unknown error');
+  throw lastErr || new Error('[TELNA] unknown error');
 }
 
-export default oneglobalRequest;
+export default telnaRequest;

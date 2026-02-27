@@ -1,47 +1,47 @@
-import { ONEGLOBAL } from '../../config/esim.js';
-import { oneglobalRequest } from '../../utils/oneglobalClient.js';
+import { PLINTRON } from '../../config/esim.js';
+import { plintronRequest } from '../../utils/plintronClient.js';
 
 // Helper to check config
 function ensureConfigured() {
-  if (!ONEGLOBAL?.apiKey) {
-    const err = new Error('1GLOBAL is not configured (missing API key)');
-    err.code = 'ONEGLOBAL_NOT_CONFIGURED';
+  if (!PLINTRON?.apiKey) {
+    const err = new Error('Plintron is not configured (missing API key)');
+    err.code = 'PLINTRON_NOT_CONFIGURED';
     throw err;
   }
 }
 
 /**
  * Reserve an eSIM profile / line for a user in a given region.
- * This is what /esim/reserveProfile calls.
- *
  * params: { userId?: number, region: string }
  *
- * Returns normalized:
- * {
- *   providerProfileId, iccid, iccidHint, smdp, activationCode,
- *   lpaUri, qrPayload, providerMeta
- * }
+ * Returns:
+ * { providerProfileId, iccid, iccidHint, smdp, activationCode, lpaUri, qrPayload, providerMeta }
  */
 export async function reserveEsimProfile({ userId, region } = {}) {
   ensureConfigured();
 
+  if (!region || typeof region !== 'string') {
+    const err = new Error('reserveEsimProfile requires region (string)');
+    err.code = 'PLINTRON_INVALID_REGION';
+    throw err;
+  }
+
   const payload = {
     externalUserId: userId ? String(userId) : undefined,
-    region, // 'US', 'EU', etc.
+    region,
   };
 
-  // Adapt endpoint/payload according to 1GLOBAL API
-  const data = await oneglobalRequest('/esim/reserve', {
+  const data = await plintronRequest('/esim/reserve', {
     method: 'POST',
     body: payload,
   });
 
   return {
     providerProfileId: data.profileId ?? data.id ?? null,
-    smdp: data.smdp || data.smDpPlus || null,
-    activationCode: data.activationCode || data.matchingId || null,
-    lpaUri: data.lpaUri || null,
-    qrPayload: data.qrPayload || data.qr || null,
+    smdp: data.smdp ?? null,
+    activationCode: data.activationCode ?? data.matchingId ?? null,
+    lpaUri: data.lpaUri ?? null,
+    qrPayload: data.qrPayload ?? data.qr ?? null,
     iccid: data.iccid ?? data.iccidHint ?? null,
     iccidHint: data.iccidHint ?? null,
     providerMeta: data ?? null,
@@ -49,15 +49,19 @@ export async function reserveEsimProfile({ userId, region } = {}) {
 }
 
 /**
- * Activate a profile given providerProfileId / iccid / activationCode
- *
+ * Activate a profile. Accepts providerProfileId | iccid | activationCode
  * params: { providerProfileId?, iccid?, activationCode? }
  *
- * Returns normalized:
- * { ok, activatedAt?, msisdn?, providerMeta }
+ * Returns: { ok, activatedAt?, msisdn?, providerMeta }
  */
 export async function activateProfile({ providerProfileId, iccid, activationCode } = {}) {
   ensureConfigured();
+
+  if (!providerProfileId && !iccid && !activationCode) {
+    const err = new Error('activateProfile requires providerProfileId, iccid, or activationCode');
+    err.code = 'PLINTRON_MISSING_ACTIVATION_IDENTIFIERS';
+    throw err;
+  }
 
   const payload = {
     profileId: providerProfileId ?? undefined,
@@ -65,13 +69,13 @@ export async function activateProfile({ providerProfileId, iccid, activationCode
     activationCode: activationCode ?? undefined,
   };
 
-  const data = await oneglobalRequest('/esim/activate', {
+  const data = await plintronRequest('/esim/activate', {
     method: 'POST',
     body: payload,
   });
 
   return {
-    ok: data.ok !== false, // assume truthy unless provider says false
+    ok: data.ok !== false,
     activatedAt: data.activatedAt ? new Date(data.activatedAt) : new Date(),
     msisdn: data.msisdn ?? data.phoneNumber ?? null,
     providerMeta: data ?? null,
@@ -88,12 +92,12 @@ export async function suspendLine({ providerProfileId, iccid } = {}) {
   const id = providerProfileId ?? iccid;
   if (!id) {
     const err = new Error('suspendLine requires providerProfileId or iccid');
-    err.code = 'ONEGLOBAL_MISSING_IDENTIFIER';
+    err.code = 'PLINTRON_MISSING_IDENTIFIER';
     throw err;
   }
 
   const path = `/esim/${encodeURIComponent(id)}/suspend`;
-  const data = await oneglobalRequest(path, { method: 'POST' });
+  const data = await plintronRequest(path, { method: 'POST' });
 
   return { ok: data.ok !== false, providerMeta: data ?? null };
 }
@@ -108,19 +112,18 @@ export async function resumeLine({ providerProfileId, iccid } = {}) {
   const id = providerProfileId ?? iccid;
   if (!id) {
     const err = new Error('resumeLine requires providerProfileId or iccid');
-    err.code = 'ONEGLOBAL_MISSING_IDENTIFIER';
+    err.code = 'PLINTRON_MISSING_IDENTIFIER';
     throw err;
   }
 
   const path = `/esim/${encodeURIComponent(id)}/resume`;
-  const data = await oneglobalRequest(path, { method: 'POST' });
+  const data = await plintronRequest(path, { method: 'POST' });
 
   return { ok: data.ok !== false, providerMeta: data ?? null };
 }
 
 /**
- * Provision an eSIM data pack for a user (for billing add-ons).
- *
+ * Provision an eSIM data pack for a billing add-on.
  * params: { userId, providerProfileId, addonKind, planCode }
  *
  * Returns:
@@ -131,7 +134,7 @@ export async function provisionEsimPack({ userId, providerProfileId, addonKind, 
 
   if (!userId || !providerProfileId || !addonKind) {
     const err = new Error('provisionEsimPack requires userId, providerProfileId and addonKind');
-    err.code = 'ONEGLOBAL_INVALID_PROVISION_PARAMS';
+    err.code = 'PLINTRON_INVALID_PROVISION_PARAMS';
     throw err;
   }
 
@@ -142,7 +145,7 @@ export async function provisionEsimPack({ userId, providerProfileId, addonKind, 
     planCode,
   };
 
-  const data = await oneglobalRequest('/esim/provision', {
+  const data = await plintronRequest('/esim/provision', {
     method: 'POST',
     body: payload,
   });
@@ -164,9 +167,7 @@ export async function provisionEsimPack({ userId, providerProfileId, addonKind, 
 }
 
 /**
- * Fetch current usage for a 1GLOBAL profile.
- * providerProfileId may be profile id or iccid depending on provider.
- *
+ * Fetch usage for a Plintron profile.
  * Returns: { usedMb, totalMb, remainingMb, expiresAt, providerMeta }
  */
 export async function fetchEsimUsage(providerProfileId) {
@@ -174,12 +175,12 @@ export async function fetchEsimUsage(providerProfileId) {
 
   if (!providerProfileId) {
     const err = new Error('fetchEsimUsage requires providerProfileId');
-    err.code = 'ONEGLOBAL_INVALID_PROFILE_ID';
+    err.code = 'PLINTRON_INVALID_PROFILE_ID';
     throw err;
   }
 
   const path = `/esim/${encodeURIComponent(providerProfileId)}/usage`;
-  const data = await oneglobalRequest(path, { method: 'GET' });
+  const data = await plintronRequest(path, { method: 'GET' });
 
   const usedMb = data.usedMb ?? null;
   const totalMb = data.totalMb ?? null;
