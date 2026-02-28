@@ -16,12 +16,13 @@ export async function expireMessagesOnce({ limit = 200 } = {}) {
       take: limit,
       select: { id: true, chatRoomId: true, expiresAt: true },
     });
+
     if (!toExpire.length) return { expired: 0 };
 
     const ids = toExpire.map((m) => m.id);
     const chatRoomMap = new Map(toExpire.map((m) => [m.id, m.chatRoomId]));
 
-    // Mark tombstone & clear sensitive fields (you may choose to physically delete files separately)
+    // Mark tombstone & clear sensitive fields
     const deletedAt = new Date();
     await prisma.message.updateMany({
       where: { id: { in: ids } },
@@ -35,10 +36,9 @@ export async function expireMessagesOnce({ limit = 200 } = {}) {
       },
     });
 
-    // Emit per-message expired upsert so clients receive authoritative rows (socketBus helper will upsert).
+    // Emit per-message expired upsert so clients receive authoritative rows
     for (const id of ids) {
       const roomId = chatRoomMap.get(id);
-      // emitMessageExpired will try fetchMessageById and send upsert + legacy expired event
       await socketBus.emitMessageExpired(roomId, id, now.toISOString());
     }
 
@@ -50,11 +50,10 @@ export async function expireMessagesOnce({ limit = 200 } = {}) {
 }
 
 /**
- * Example scheduler: call expireMessagesOnce every 30s (do not enable multiple workers at once)
- * If you run multiple processes, use DB locks or a leader election to avoid duplicate workers.
+ * Internal poller (legacy name kept)
+ * Runs expireMessagesOnce repeatedly
  */
 export function startExpiryPoller({ intervalMs = 30_000 } = {}) {
-  // If you already have a job runner (bull/agenda), prefer scheduling there instead.
   const id = setInterval(() => {
     expireMessagesOnce().catch((e) => {
       console.error('[expiryPoller] error', e?.message || e);
@@ -64,5 +63,15 @@ export function startExpiryPoller({ intervalMs = 30_000 } = {}) {
   // allow process to exit if nothing else is keeping it alive
   id.unref?.();
 
-  return () => clearInterval(id); // stopper
+  return () => clearInterval(id);
+}
+
+/**
+ * Expected by server/index.js
+ * scheduleExpireJob(intervalMs) -> returns stopper function
+ *
+ * This is just a compatibility wrapper around startExpiryPoller.
+ */
+export function scheduleExpireJob(intervalMs = 30_000) {
+  return startExpiryPoller({ intervalMs });
 }

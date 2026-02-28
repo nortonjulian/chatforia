@@ -239,6 +239,7 @@ model User {
 
   // --- verification & 2FA ---
   emailVerifiedAt        DateTime?
+  tokenVersion           Int      @default(0)
   emailVerifiedIp        String?
   phoneVerifiedAt        DateTime?
   phoneVerifiedIp        String?
@@ -1229,6 +1230,45 @@ model Subscriber {
   @@index([userId])
   @@index([provider, providerProfileId])
   @@index([msisdn])
+}
+
+model SmsConsent {
+  id                 Int      @id @default(autoincrement())
+  phone              String
+  pendingRegistration Json?    // snapshot of the registration (optional)
+  consentTextVersion String
+  ipAddress          String? 
+  userAgent          String?
+  createdAt          DateTime @default(now())
+
+  @@index([phone])
+}
+
+model SmsOptOut {
+  id               Int      @id @default(autoincrement())
+  phone            String   // stored in normalized E.164 form, e.g. +14155551234
+  provider         String?  // e.g. "twilio"
+  reason           String?  // the incoming text (STOP, HELP, STOPALL, etc.)
+  inboundMessageId String?  // provider message SID if available
+  rawPayload       Json?    // full webhook payload for audit
+  ipAddress        String?  // optional source IP of webhook
+  userAgent        String?  // optional UA
+  createdAt        DateTime @default(now())
+
+  @@index([phone])
+  @@unique([phone, provider])
+}
+
+model PhoneOtp {
+  id               Int      @id @default(autoincrement())
+  phone            String
+  otpCode          String
+  providerMessageId String?  // optional Twilio SID
+  attempts         Int      @default(0)
+  expiresAt        DateTime
+  createdAt        DateTime @default(now())
+
+  @@index([phone])
 }
 
 model PhoneNumber {

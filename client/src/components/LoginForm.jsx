@@ -17,7 +17,7 @@ import {
   Checkbox,
 } from '@mantine/core';
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 /* ---------------- env + helpers ---------------- */
 
@@ -75,7 +75,7 @@ const LOGIN_FLAG_KEY = 'chatforiaHasLoggedIn';
 export default function LoginForm({ onLoginSuccess }) {
   const { t } = useTranslation();
   const { setCurrentUser } = useUser();
-  const [identifier, setIdentifier] = useState(''); // username or email
+  const [identifier, setIdentifier] = useState(''); // username or email or phone
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
@@ -91,15 +91,18 @@ export default function LoginForm({ onLoginSuccess }) {
   const navigate = useNavigate();
 
   // UI-only hinting; payload will include username for backend compatibility.
+  // We intentionally keep this backend mapping but make the UI identifier flexible.
   const idField = (import.meta.env.VITE_AUTH_ID_FIELD || 'username').toLowerCase();
   const isEmailMode = idField === 'email';
-  const idLabel = isEmailMode
-    ? t('login.email', 'Email')
-    : t('login.usernameLabel', 'Username');
-  const idPlaceholder = isEmailMode
-    ? t('login.emailPh', 'you@example.com')
-    : t('login.usernamePh', 'Your username');
-  const idAutoComplete = isEmailMode ? 'email' : 'username';
+
+  // Short label + placeholder pattern: short label ("Account"), placeholder gives examples.
+  const idLabel = t('login.accountLabel', 'Account');
+  const idPlaceholder = t(
+    'login.identifierPh',
+    'Email or username'
+  );
+  // Keep autocomplete set to 'username' to maximize browser compatibility.
+  const idAutoComplete = 'username';
 
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
 
@@ -151,7 +154,8 @@ export default function LoginForm({ onLoginSuccess }) {
       return;
     }
 
-    const payload = { username: idValue, password: pwd };
+    // NOTE: backend expects `{ username, password }` — keep that but allow frontend to accept email/phone.
+    const payload = { identifier: idValue, password: pwd };
 
     try {
       // --- CSRF bootstrap ---
@@ -225,9 +229,11 @@ export default function LoginForm({ onLoginSuccess }) {
     ? t('login.welcomeBack', 'Welcome back')
     : t('login.title', 'Continue to Chatforia');
 
-  const subtitleText = hasBeenHere
-    ? t('login.subtitleReturning', 'Log in to your Chatforia account')
-    : t('login.subtitle', 'Sign in or create an account');
+  // Always keep the subtitle login-focused; signup lives in the hero
+  const subtitleText = t(
+    'login.subtitleReturning',
+    'Log in to your Chatforia account'
+  );
 
   return (
     <Paper
@@ -359,32 +365,15 @@ export default function LoginForm({ onLoginSuccess }) {
             </Alert>
           )}
 
-          <Button type="submit" loading={loading} fullWidth mt="xs">
+          <Button type="submit" loading={loading} fullWidth mt="sm">
             {loading
               ? t('login.loggingIn', 'Logging in…')
               : t('login.submit', 'Log In')}
           </Button>
 
-          <Text
-            ta="center"
-            size="sm"
-            mt={4}
-            style={{ color: 'var(--fg)', opacity: 0.85 }}
-          >
-            <Trans
-              i18nKey="login.newHere"
-              defaults="New here? <link>Create an account</link>"
-              components={{
-                link: (
-                  <Anchor
-                    component={Link}
-                    to="/register"
-                    style={{ color: 'var(--accent)' }}
-                  />
-                ),
-              }}
-            />
-          </Text>
+          {/* Intentionally removed the "New here? Create an account" line.
+              Signup is handled by the hero CTA; do not reintroduce a competing
+              signup link inside the transactional login card. */}
         </Stack>
       </form>
     </Paper>

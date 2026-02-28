@@ -46,13 +46,76 @@ router.post(
       // If this is a STOP/START keyword, we don't treat it as a user message.
       // With Twilio's Advanced Opt-Out enabled on your Messaging Service,
       // Twilio will handle the subscription state and confirmation text.
+      // ---------- replace previous keyword pass-through with DB recording ----------
       if (STOP_KEYWORDS.includes(upperBody) || START_KEYWORDS.includes(upperBody)) {
-        req.log?.info?.(
-          { fromNumber, toNumber, body: upperBody },
-          '[webhook][twilio] received carrier keyword; letting Twilio Advanced Opt-Out handle it'
-        );
-        // We still 200 to avoid Twilio retries.
-        return res.sendStatus(200);
+        try {
+          const normalizedFrom = normalizeE164(fromNumber);
+          const provider = 'twilio';
+
+          // If invalid E.164, just 200 (avoid retries) and log
+          if (!isE164(normalizedFrom)) {
+            req.log?.info?.({ fromNumber }, '[webhook][twilio] keyword from invalid phone; skipping db record');
+            return res.sendStatus(200);
+          }
+
+          // Decide action: STOP -> opt-out, START -> remove opt-out (resubscribe)
+          if (STOP_KEYWORDS.includes(upperBody)) {
+            // find existing opt-out
+            const existing = await prisma.smsOptOut.findFirst({
+              where: { phone: normalizedFrom, provider },
+            });
+
+            if (existing) {
+              // update reason / inboundMessageId / rawPayload for audit
+              await prisma.smsOptOut.update({
+                where: { id: existing.id },
+                data: {
+                  reason: upperBody,
+                  inboundMessageId: MessageSid || null,
+                  rawPayload: req.body,
+                  ipAddress: req.ip,
+                  userAgent: req.get?.('user-agent') || null,
+                  createdAt: new Date(),
+                },
+              });
+            } else {
+              await prisma.smsOptOut.create({
+                data: {
+                  phone: normalizedFrom,
+                  provider,
+                  reason: upperBody,
+                  inboundMessageId: MessageSid || null,
+                  rawPayload: req.body,
+                  ipAddress: req.ip,
+                  userAgent: req.get?.('user-agent') || null,
+                },
+              });
+            }
+
+            req.log?.info?.({ from: normalizedFrom }, '[webhook][twilio] recorded OPT-OUT');
+
+            // Optional: reply confirmation (TwiML)
+            const reply = `<Response><Message>You have been unsubscribed from Chatforia SMS. Reply START to resubscribe. For help email support@chatforia.com.</Message></Response>`;
+            res.type('text/xml').status(200).send(reply);
+            return;
+          }
+
+          // START keyword -> remove opt-out (resubscribe)
+          if (START_KEYWORDS.includes(upperBody)) {
+            await prisma.smsOptOut.deleteMany({
+              where: { phone: normalizedFrom, provider },
+            });
+
+            req.log?.info?.({ from: normalizedFrom }, '[webhook][twilio] removed opt-out (START)');
+            const reply = `<Response><Message>You have been resubscribed to Chatforia SMS. For help email support@chatforia.com.</Message></Response>`;
+            res.type('text/xml').status(200).send(reply);
+            return;
+          }
+        } catch (err) {
+          console.error('[webhook][twilio] opt-out handling error', err);
+          // fall through to 200 empty response to avoid provider retries
+          return res.type('text/xml').status(200).send('<Response></Response>');
+        }
       }
       // ----------------------------------------------------------------------
 

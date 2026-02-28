@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 import PhoneField from './PhoneField';
-import SmsConsentBlock from './SmsConsentBlock';
+import SmsConsentBlock from '../pages/SmsConsentBlock';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export default function Registration() {
@@ -208,7 +208,6 @@ export default function Registration() {
             minLength={6}
           />
 
-          {/* ✅ Phone + consent (phone optional, consent required if phone entered) */}
           <PhoneField
             label={t('auth.registration.phoneLabel', 'Phone (optional)')}
             value={form.phone}
@@ -229,8 +228,6 @@ export default function Registration() {
             disabled={submitting}
             error={errors.smsConsent}
             companyName="Chatforia"
-            termsUrl="https://www.chatforia.com/terms"
-            privacyUrl="https://www.chatforia.com/privacy"
           />
 
           <Button
@@ -243,15 +240,17 @@ export default function Registration() {
             {t('auth.registration.submit', 'Create account')}
           </Button>
 
-          {/* Optional extra legal links (fine to keep) */}
+          {/* === Single account agreement statement (contract) === */}
           <Text size="xs" mt={4}>
+            By creating an account you agree to our{' '}
             <Anchor component={Link} to="/legal/terms">
-              {t('auth.registration.termsLink', 'Terms of Service')}
-            </Anchor>
-            {' · '}
+              Terms of Service
+            </Anchor>{' '}
+            and{' '}
             <Anchor component={Link} to="/privacy">
-              {t('auth.registration.privacyLink', 'Privacy Policy')}
+              Privacy Policy
             </Anchor>
+            .
           </Text>
 
           <Text size="sm" mt="md">

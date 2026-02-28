@@ -364,7 +364,7 @@ export default function AppRoutes() {
           <Route path="/legal/cookies" element={<CookieSettings />} />
 
           {/* Make /sms-consent available for logged-out users too */}
-          <Route path="/sms-consent" element={<SmsConsentPage />} />
+          <Route path="/legal/consent" element={<SmsConsentPage />} />
 
           {/* Family invite join route (works even when logged out) */}
           <Route path="/family/join/:token" element={<FamilyJoin />} />
@@ -387,7 +387,7 @@ export default function AppRoutes() {
       {import.meta.env.DEV && <Route path="/dev/chat" element={<Navigate to="/" replace />} />}
 
       {/* Ensure /sms-consent exists for authenticated users as well */}
-      <Route path="/sms-consent" element={<SmsConsentPage />} />
+      <Route path="/legal/consent" element={<SmsConsentPage />} />
 
       <Route path="/" element={<AuthedLayout />}>
         <Route index element={<HomeIndex />} />

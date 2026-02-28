@@ -30,6 +30,9 @@ const SECRET =
 /**
  * Hydrate req.user from decoded token, optionally refreshing from DB
  * so role/plan reflect latest changes (e.g. test promotes user to ADMIN after login).
+ *
+ * NOTE: this now returns tokenVersion as part of the user object so middleware
+ * can compare decoded.tokenVersion with DB tokenVersion for session revocation.
  */
 async function hydrateUser(decoded) {
   const userId = Number(decoded.id);
@@ -44,6 +47,7 @@ async function hydrateUser(decoded) {
       emailVerifiedAt: decoded.emailVerifiedAt || null,
       phoneVerifiedAt: decoded.phoneVerifiedAt || null,
       twoFactorEnabled: !!decoded.twoFactorEnabled,
+      tokenVersion: Number(decoded.tokenVersion ?? 0),
     };
   }
 
@@ -60,6 +64,7 @@ async function hydrateUser(decoded) {
         emailVerifiedAt: true,
         phoneVerifiedAt: true,
         twoFactorEnabled: true,
+        tokenVersion: true,
       },
     });
 
@@ -73,6 +78,7 @@ async function hydrateUser(decoded) {
         emailVerifiedAt: dbUser.emailVerifiedAt || null,
         phoneVerifiedAt: dbUser.phoneVerifiedAt || null,
         twoFactorEnabled: !!dbUser.twoFactorEnabled,
+        tokenVersion: Number(dbUser.tokenVersion ?? 0),
       };
     }
   } catch {
@@ -89,6 +95,7 @@ async function hydrateUser(decoded) {
     emailVerifiedAt: decoded.emailVerifiedAt || null,
     phoneVerifiedAt: decoded.phoneVerifiedAt || null,
     twoFactorEnabled: !!decoded.twoFactorEnabled,
+    tokenVersion: Number(decoded.tokenVersion ?? 0),
   };
 }
 
@@ -112,7 +119,18 @@ export async function requireAuth(req, res, next) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
+    // Hydrate user (fetches latest tokenVersion from DB when possible)
     req.user = await hydrateUser(decoded);
+
+    // Compare tokenVersion from JWT to DB tokenVersion to enforce revocation.
+    // Treat missing tokenVersion as 0 for backwards compatibility.
+    const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
+    const dbTokenVersion = Number(req.user.tokenVersion ?? 0);
+    if (jwtTokenVersion !== dbTokenVersion) {
+      // token has been revoked/rotated (e.g., password reset incremented tokenVersion)
+      return res.status(401).json({ error: 'invalid_session' });
+    }
+
     return next();
   } catch {
     return res.status(401).json({ error: 'Unauthorized' });
@@ -136,7 +154,18 @@ export async function verifyTokenOptional(req, _res, next) {
     }
 
     if (decoded?.id) {
-      req.user = await hydrateUser(decoded);
+      // hydrate user (includes tokenVersion)
+      const hydrated = await hydrateUser(decoded);
+
+      // If this token has a tokenVersion and it doesn't match DB, ignore token
+      const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
+      const dbTokenVersion = Number(hydrated.tokenVersion ?? 0);
+      if (jwtTokenVersion !== dbTokenVersion) {
+        // token revoked — do not attach user
+        return next();
+      }
+
+      req.user = hydrated;
     }
   } catch {
     // ignore invalid/expired tokens

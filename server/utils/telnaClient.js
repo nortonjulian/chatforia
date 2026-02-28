@@ -1,6 +1,9 @@
 import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
-import { TELNA } from '../config/esim.js';
+import { getEsimProviderConfig, ONEGLOBAL } from '../config/esim.js';
+
+// Use provider-specific config (falls back to ONEGLOBAL)
+const TELNA = getEsimProviderConfig() || ONEGLOBAL;
 
 const DEFAULT_TIMEOUT = 10_000;
 const DEFAULT_ATTEMPTS = 3;

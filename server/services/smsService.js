@@ -149,6 +149,15 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     throw Boom.badRequest('body or mediaUrls required');
   }
 
+  const alreadyOpted = await prisma.smsOptOut.findFirst({
+    where: { phone: toPhone, provider: { in: ['twilio', null] } }, 
+  });
+  if (alreadyOpted) {
+    const err = Boom.forbidden('Recipient has opted out of SMS');
+    err.output.payload.code = 'SMS_OPTED_OUT';
+    throw err;
+  }
+
   const fromNumber = from
     ? await assertUserOwnsFromNumber(uid, from)
     : (await getUserActiveDid(uid)).e164;

@@ -19,7 +19,7 @@ export default function SmsPolicy() {
         <p>
           Users opt in by entering their phone number during registration and checking the SMS consent
           checkbox on the registration page or the dedicated
-          <a href="/sms-consent"> opt-in form</a>.
+          <a href="/legal/consent"> opt-in form</a>.
         </p>
       </section>
 

@@ -1,6 +1,9 @@
+import * as ESIM_CFG from '../config/esim.js';
+
+const PLINTRON = ESIM_CFG.PLINTRON ?? (ESIM_CFG.getEsimProviderConfig ? ESIM_CFG.getEsimProviderConfig() : undefined) ?? {};
+
 import fetch from 'node-fetch';
 import AbortController from 'abort-controller';
-import { PLINTRON } from '../config/esim.js';
 
 const DEFAULT_TIMEOUT = 10_000;
 const DEFAULT_ATTEMPTS = 3;
