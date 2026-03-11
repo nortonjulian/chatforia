@@ -125,7 +125,7 @@ describe('requestPasswordReset', () => {
 
     const { requestPasswordReset } = await reload({
       APP_ORIGIN: 'https://chatforia.app///', // should trim trailing slashes
-      MAIL_FROM: 'noreply@chatforia.app',
+      EMAIL_FROM: 'hello@chatforia.com',
     });
 
     prismaMock.user.findUnique.mockResolvedValueOnce({
@@ -152,7 +152,7 @@ describe('requestPasswordReset', () => {
     expect(sendMail).toHaveBeenCalledTimes(1);
     const call = sendMail.mock.calls[0][0];
 
-    expect(call.from).toBe('noreply@chatforia.app');
+    expect(call.from).toBe('hello@chatforia.app');
     expect(call.to).toBe('julian@example.com');
     expect(call.subject).toMatch(/Reset your Chatforia password/i);
 

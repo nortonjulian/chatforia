@@ -1,35 +1,93 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.ethereal.email',
-  port: process.env.SMTP_HOST ? Number(process.env.SMTP_HOST) : 587,
-  auth: {
-    user: process.env.ETHEREAL_USER,
-    pass: process.env.ETHEREAL_PASS,
-  },
-});
+const apiKey = process.env.RESEND_API_KEY;
 
-export async function sendMail(to, subject, html) {
+if (!apiKey) {
+  throw new Error('RESEND_API_KEY is missing from environment variables');
+}
+
+const resend = new Resend(apiKey);
+
+export async function sendMail({
+  to,
+  subject,
+  html,
+  text,
+  replyTo,
+  from = process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
+  attachments,
+}) {
   try {
-    const info = await transporter.sendMail({
-      from: `"Chatforia Support" <${process.env.SUPPORT_EMAIL || 'support@chatforia.com'}>`,
+    const { data, error } = await resend.emails.send({
+      from,
       to,
       subject,
       html,
+      text,
+      reply_to: replyTo,
+      attachments,
     });
 
-    console.log(`📧 Email sent: ${info.messageId}`);
-
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewUrl) {
-      console.log(`Preview URL: ${previewUrl}`);
+    if (error) {
+      console.error('Email send error:', error);
+      return { success: false, error };
     }
 
-    return { success: true, info, previewUrl };
+    console.log('📧 Email sent:', data?.id);
+    return { success: true, data };
   } catch (error) {
-    console.log('Error sending email', error);
+    console.error('Email send exception:', error);
     return { success: false, error };
   }
+}
+
+export async function sendTransactionalEmail(to, subject, { template, substitutions = {} }) {
+  let html;
+
+  switch (template) {
+    case 'verify-email':
+      html = `
+        <div style="font-family: Arial, sans-serif; max-width:600px;margin:auto">
+          <h1>Verify your Chatforia email</h1>
+          <p>Click the button below to verify your email.</p>
+          <p>
+            <a href="${substitutions.link}"
+               style="display:inline-block;padding:12px 20px;background:#ffb844;color:#111;
+                      text-decoration:none;border-radius:8px;font-weight:600;">
+              Verify Email
+            </a>
+          </p>
+          <p>If you did not create this account, you can ignore this email.</p>
+        </div>
+      `;
+      break;
+
+    case 'password-reset':
+      html = `
+        <div style="font-family: Arial, sans-serif; max-width:600px;margin:auto">
+          <h1>Reset your Chatforia password</h1>
+          <p>Click below to reset your password.</p>
+          <p>
+            <a href="${substitutions.link}"
+               style="display:inline-block;padding:12px 20px;background:#ffb844;color:#111;
+                      text-decoration:none;border-radius:8px;font-weight:600;">
+              Reset Password
+            </a>
+          </p>
+        </div>
+      `;
+      break;
+
+    default:
+      throw new Error(`Unknown email template: ${template}`);
+  }
+
+  return sendMail({
+    to,
+    subject,
+    html,
+  });
 }

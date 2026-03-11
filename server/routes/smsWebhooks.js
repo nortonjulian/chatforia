@@ -1,7 +1,6 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { recordInboundSms } from '../services/smsService.js';
-import { transporter } from '../services/mailer.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
@@ -197,7 +196,7 @@ router.post(
           if (user.forwardSmsToEmail && user.forwardEmail && transporter) {
             await transporter.sendMail({
               to: user.forwardEmail,
-              from: process.env.MAIL_FROM || 'noreply@chatforia.app',
+              from: process.env.EMAIL_FROM || 'hello@chatforia.com',
               subject: `SMS from ${fromNumber}`,
               text: bodyText || (hasMedia ? '[MMS received: media attached]' : ''),
             });
@@ -284,7 +283,7 @@ router.post(
 //         if (user.forwardSmsToEmail && user.forwardEmail && transporter) {
 //           await transporter.sendMail({
 //             to: user.forwardEmail,
-//             from: process.env.MAIL_FROM || 'noreply@chatforia.app',
+//             from: process.env.EMAIL_FROM || 'hello@chatforia.com',
 //             subject: `SMS from ${fromNumber}`,
 //             text,
 //           });
@@ -361,7 +360,7 @@ router.post(
 //           if (user.forwardSmsToEmail && user.forwardEmail && transporter) {
 //             await transporter.sendMail({
 //               to: user.forwardEmail,
-//               from: process.env.MAIL_FROM || 'noreply@chatforia.app',
+//               from: process.env.EMAIL_FROM || 'hello@chatforia.com',
 //               subject: `SMS from ${fromNumber}`,
 //               text,
 //             });

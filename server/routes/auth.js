@@ -1,18 +1,18 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import nodemailer from 'nodemailer';
 import crypto from 'node:crypto';
 import { z } from 'zod';
 
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { sendMail } from '../utils/sendMail.js';
 
 // CSRF cookie refresher on GETs is handled in app.js; we also expose an explicit 200 endpoint here.
 import { setCsrfCookie } from '../middleware/csrf.js';
 
-// 2FA deps (NEW)
+// 2FA deps
 import speakeasy from 'speakeasy';
 import { open } from '../utils/secretBox.js'; // AES-GCM decrypt of totpSecretEnc
 import rateLimit from 'express-rate-limit';
@@ -23,8 +23,6 @@ import { normalizeE164 } from '../utils/phone.js';
 // Token helpers for resend-email
 import { newRawToken, hashToken } from '../utils/tokens.js';
 
-
-// Keep registerSchema logic inline here for independence
 const RegisterSchema = z.object({
   username: z.string().min(3),
   email: z.string().email(),
@@ -83,35 +81,8 @@ function clearJwtCookie(res) {
   });
 }
 
-/* ---------------- Nodemailer init ---------------- */
-let transporter;
-(async () => {
-  try {
-    if (process.env.SMTP_HOST) {
-      transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: Number(process.env.SMTP_PORT || 587),
-        secure: String(process.env.SMTP_SECURE || '').toLowerCase() === 'true',
-        auth: process.env.SMTP_USER
-          ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-          : undefined,
-      });
-    } else {
-      const testAccount = await nodemailer.createTestAccount();
-      transporter = nodemailer.createTransport({
-        host: testAccount.smtp.host,
-        port: testAccount.smtp.port,
-        secure: testAccount.smtp.secure,
-        auth: { user: testAccount.user, pass: testAccount.pass },
-      });
-    }
-  } catch {
-    transporter = nodemailer.createTransport({ jsonTransport: true });
-  }
-})();
-
 /* =========================
- *        2FA helpers (NEW)
+ *        2FA helpers
  * ========================= */
 function sha256(s) {
   return crypto.createHash('sha256').update(s, 'utf8').digest('hex');
@@ -146,7 +117,7 @@ function issueSession(res, user) {
 
   setJwtCookie(res, token);
 
-  return token; // ✅ RETURN THE TOKEN, NOT THE PAYLOAD
+  return token;
 }
 
 /* =========================
@@ -217,55 +188,30 @@ router.post(
     const hashedPassword = await bcrypt.hash(password, 10);
     const { publicKey, privateKey } = generateKeyPair();
 
-    let user;
-    try {
-      user = await prisma.user.create({
-        data: {
-          username,
-          email,
-          password: hashedPassword,
-          preferredLanguage,
-          role: 'USER',
-          plan: 'FREE',
-          publicKey,
-          privateKey: null,
-        },
-        select: {
-          id: true,
-          email: true,
-          username: true,
-          role: true,
-          plan: true,
-          publicKey: true,
-          twoFactorEnabled: true,
-        },
-      });
-    } catch {
-      user = await prisma.user.create({
-        data: {
-          username,
-          email,
-          passwordHash: hashedPassword,
-          preferredLanguage,
-          role: 'USER',
-          plan: 'FREE',
-          publicKey,
-          privateKey: null,
-        },
-        select: {
-          id: true,
-          email: true,
-          username: true,
-          role: true,
-          plan: true,
-          publicKey: true,
-          twoFactorEnabled: true,
-        },
-      });
-    }
+    const user = await prisma.user.create({
+      data: {
+        username,
+        email,
+        passwordHash: hashedPassword,
+        preferredLanguage,
+        role: 'USER',
+        plan: 'FREE',
+        publicKey,
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        plan: true,
+        publicKey: true,
+        twoFactorEnabled: true,
+        tokenVersion: true,
+      },
+    });
 
     // Issue session immediately on register (you can also require email verify first)
-    const payload = issueSession(res, user);
+    issueSession(res, user);
 
     return res.status(201).json({
       message: 'user registered',
@@ -298,7 +244,6 @@ router.post(
     // Lazy-load phone normalizer; route stays resilient if helper missing.
     let normalizePhone = null;
     try {
-      // path relative to this file; adjust if your utils layout differs
       normalizePhone = (await import('../utils/phoneNormalize.js')).default;
     } catch {
       normalizePhone = null;
@@ -344,48 +289,34 @@ router.post(
         }
       }
 
-      // TEST-friendly auto-provisioning (preserve your existing behavior)
+            // TEST-friendly auto-provisioning
       if (!user) {
         const hashed = await bcrypt.hash(password, 10);
         const { publicKey } = generateKeyPair();
+
         try {
           user = await prisma.user.create({
             data: {
               email: raw.includes('@') ? raw : `${raw}@example.com`,
               username: raw.includes('@') ? raw.split('@')[0] : raw,
-              password: hashed,
+              passwordHash: hashed,
               role: 'USER',
               plan: 'FREE',
               publicKey,
-              privateKey: null,
             },
           });
         } catch {
-          try {
-            user = await prisma.user.create({
-              data: {
-                email: raw.includes('@') ? raw : `${raw}@example.com`,
-                username: raw.includes('@') ? raw.split('@')[0] : raw,
-                passwordHash: hashed,
-                role: 'USER',
-                plan: 'FREE',
-                publicKey,
-                privateKey: null,
-              },
-            });
-          } catch {
-            // Best-effort: re-query in case of race/unique constraints
-            user =
-              (await prisma.user.findFirst({
-                where: { email: { equals: raw, mode: 'insensitive' } },
-              })) ||
-              (await prisma.user.findUnique({ where: { username: raw } })) ||
-              null;
-          }
+          // Best-effort: re-query in case of race/unique constraints
+          user =
+            (await prisma.user.findFirst({
+              where: { email: { equals: raw, mode: 'insensitive' } },
+            })) ||
+            (await prisma.user.findUnique({ where: { username: raw } })) ||
+            null;
         }
       }
 
-      // If still missing (should be rare), and we're running tests, fabricate minimal payload
+      // If still missing, and we're running tests, fabricate minimal payload
       if (!user) {
         if (IS_TEST) {
           const emailSafe = raw.includes('@') ? raw : `${raw}@example.com`;
@@ -403,21 +334,14 @@ router.post(
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      // Ensure there's a usable password hash (preserve your schema variants)
-      let hash = user.passwordHash || user.password;
+      // Ensure there's a usable password hash
+      let hash = user.passwordHash;
       if (!hash) {
         const newHash = await bcrypt.hash(password, 10);
-        try {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { password: newHash },
-          });
-        } catch {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { passwordHash: newHash },
-          });
-        }
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { passwordHash: newHash },
+        });
         hash = newHash;
       }
 
@@ -427,20 +351,13 @@ router.post(
         ok = await bcrypt.compare(password, hash);
       } catch {}
 
-      // In test env: heal broken hashes if necessary (preserve original behavior)
+      // In test env: heal broken hashes if necessary
       if (!ok && String(process.env.NODE_ENV) === 'test') {
         const newHash = await bcrypt.hash(password, 10);
-        try {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { password: newHash },
-          });
-        } catch {
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { passwordHash: newHash },
-          });
-        }
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { passwordHash: newHash },
+        });
         ok = true;
       }
 
@@ -448,9 +365,8 @@ router.post(
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
-      // <<< EMAIL VERIFIED CHECK: block login until verified >>>
+      // Block login until verified
       if (!user.emailVerifiedAt) {
-        // do not issue session. Return 403 with a flag so client can show "resend verification"
         return res.status(403).json({
           error: 'email_not_verified',
           message: 'Please verify your email.',
@@ -504,14 +420,13 @@ router.post(
         setJwtCookie(res, token);
         return res.json({ message: 'logged in', user: payload });
       }
-      // For non-test environments rethrow so upstream error handling catches and logs it
       throw e;
     }
   })
 );
 
 /* =========================
- *   MFA LOGIN STEP (NEW)
+ *   MFA LOGIN STEP
  *   POST /auth/2fa/login { mfaToken, code }
  * ========================= */
 router.post(
@@ -522,7 +437,6 @@ router.post(
       return res.status(400).json({ ok: false, error: 'Missing fields' });
     }
 
-    // Verify short-lived MFA token
     const decoded = verifyMfaJWT(mfaToken);
     if (!decoded.ok) {
       return res.status(401).json({ ok: false, error: 'Invalid mfaToken' });
@@ -568,8 +482,8 @@ router.post(
       return res.status(400).json({ ok: false, reason: 'bad_code' });
     }
 
-    // Success → issue normal session
-    const payload = issueSession(res, user);
+    issueSession(res, user);
+
     return res.json({
       ok: true,
       message: 'logged in',
@@ -586,7 +500,7 @@ router.post(
 );
 
 /* =========================
- *   Short-lived API token (used by invites tests)
+ *   Short-lived API token
  * ========================= */
 router.get(
   '/token',
@@ -612,16 +526,12 @@ router.post(
   '/forgot-password',
   asyncHandler(async (req, res) => {
     try {
-      // Accept { identifier } or { email } or { phone } for backwards compatibility.
       const { identifier, email, phone } = req.body || {};
       const raw = (identifier || email || phone || '').toString().trim();
       if (!raw) return res.status(400).json({ error: 'Email or phone is required' });
 
-      // Lazy import normalize helper (ensure file exists at server/utils/phoneNormalize.js)
       let normalizePhone = null;
       try {
-        // dynamic import keeps server resilient if helper not yet added
-        // path relative to this file: adjust if your layout differs
         normalizePhone = (await import('../utils/phoneNormalize.js')).default;
       } catch {
         normalizePhone = null;
@@ -648,7 +558,7 @@ router.post(
         }
       }
 
-      // 3) If still not found, try username fallback (someone might supply username as identifier).
+      // 3) If still not found, try username fallback.
       if (!user) {
         user = await prisma.user.findUnique({
           where: { username: raw },
@@ -659,32 +569,19 @@ router.post(
       // 4) TEST convenience: auto-provision when running tests and an email-like input was given.
       if (!user && IS_TEST && raw.includes('@')) {
         const hashed = await bcrypt.hash('Temp12345!', 10);
-        try {
-          user = await prisma.user.create({
-            data: {
-              email: raw,
-              username: raw.split('@')[0],
-              password: hashed,
-              role: 'USER',
-              plan: 'FREE',
-            },
-            select: { id: true, username: true, email: true, phoneNumber: true },
-          });
-        } catch {
-          user = await prisma.user.create({
-            data: {
-              email: raw,
-              username: raw.split('@')[0],
-              passwordHash: hashed,
-              role: 'USER',
-              plan: 'FREE',
-            },
-            select: { id: true, username: true, email: true, phoneNumber: true },
-          });
-        }
+        user = await prisma.user.create({
+          data: {
+            email: raw,
+            username: raw.split('@')[0],
+            passwordHash: hashed,
+            role: 'USER',
+            plan: 'FREE',
+          },
+          select: { id: true, username: true, email: true, phoneNumber: true },
+        });
       }
 
-      // 5) If no user found — respond generically (no enumeration).
+      // 5) If no user found — respond generically.
       if (!user) {
         return res.json({
           message: 'If the email exists, a reset link will be sent',
@@ -697,38 +594,39 @@ router.post(
       const base = process.env.FRONTEND_BASE_URL || 'http://localhost:5173';
       const resetLink = `${base.replace(/\/+$/, '')}/reset-password?token=${token}`;
 
-      // 7) If user has an email, send reset link by email (same flow as before).
+      // 7) If user has an email, send reset link by email
       if (user.email) {
         try {
-          const info = await transporter.sendMail({
-            from: '"Chatforia Support" <no-reply@chatforia.com>',
+          await sendMail({
             to: user.email,
             subject: 'Reset Your Chatforia Password',
-            html: `<p>Hello ${user.username || 'there'},</p><p><a href="${resetLink}">Reset Password</a></p>`,
+            html: `
+              <p>Hello ${user.username || 'there'},</p>
+              <p>Click the link below to reset your password:</p>
+              <p><a href="${resetLink}">Reset Password</a></p>
+            `,
+            text: `Hello ${user.username || 'there'},\n\nReset your password:\n${resetLink}`,
+            from: process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
           });
+
           return res.json({
             message: 'If the email exists, a reset link will be sent',
-            previewURL: nodemailer.getTestMessageUrl?.(info) || null,
             ...(IS_TEST ? { token } : {}),
           });
         } catch {
           return res.json({
             message: 'If the email exists, a reset link will be sent',
-            previewURL: null,
             ...(IS_TEST ? { token } : {}),
           });
         }
       }
 
-      // 8) If we found a user but they don't have an email address on file, return generic response.
-      // If you want SMS-based reset, wire an SMS provider here and send reset link/OTP to user.phoneNumber
-      // (ensure rate-limiting and abuse protection).
+      // 8) If found user but no email on file, return generic response.
       return res.json({
         message: 'If the email exists, a reset link will be sent',
         ...(IS_TEST ? { token } : {}),
       });
     } catch {
-      // Generic fallback response — don't leak existence.
       return res.json({
         message: 'If the email exists, a reset link will be sent',
         ...(IS_TEST ? { token: 'noop' } : {}),
@@ -749,19 +647,10 @@ router.post(
     if (!userId) return res.status(400).json({ error: 'Invalid or expired token' });
 
     const hashed = await bcrypt.hash(newPassword, 10);
-    try {
-      // update password and increment tokenVersion to revoke existing sessions
-      await prisma.user.update({
-        where: { id: Number(userId) },
-        data: { password: hashed, tokenVersion: { increment: 1 } },
-      });
-    } catch {
-      // fallback if your DB has older column name
-      await prisma.user.update({
-        where: { id: Number(userId) },
-        data: { passwordHash: hashed, tokenVersion: { increment: 1 } },
-      });
-    }
+    await prisma.user.update({
+      where: { id: Number(userId) },
+      data: { passwordHash: hashed, tokenVersion: { increment: 1 } },
+    });
 
     return res.json({ ok: true });
   })
@@ -775,7 +664,7 @@ router.post(
 
 const otpLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 12, // per IP per hour (tweak)
+  max: 12,
   message: { message: 'Too many requests from this IP, try again later.' },
 });
 
@@ -797,7 +686,11 @@ router.post(
     const pendingRegistration = req.body.pendingRegistration || null;
 
     if (!consent) return res.status(400).json({ message: 'Consent is required' });
-    if (!isE164Simple(rawPhone)) return res.status(422).json({ message: 'Phone must be in E.164 format (e.g. +14155551234)' });
+    if (!isE164Simple(rawPhone)) {
+      return res
+        .status(422)
+        .json({ message: 'Phone must be in E.164 format (e.g. +14155551234)' });
+    }
 
     const phone = normalizeE164(rawPhone);
 
@@ -806,7 +699,9 @@ router.post(
     const recentCount = await prisma.phoneOtp.count({
       where: { phone, createdAt: { gt: oneHourAgo } },
     });
-    if (recentCount >= 5) return res.status(429).json({ message: 'Too many code requests for this phone' });
+    if (recentCount >= 5) {
+      return res.status(429).json({ message: 'Too many code requests for this phone' });
+    }
 
     // persist consent audit
     await prisma.smsConsent.create({
@@ -820,15 +715,13 @@ router.post(
     });
 
     // create OTP
-    const otp = (Math.floor(100000 + Math.random() * 900000)).toString(); // 6-digit
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    const otp = (Math.floor(100000 + Math.random() * 900000)).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await prisma.phoneOtp.create({
       data: { phone, otpCode: otp, expiresAt },
     });
 
-    // send OTP using your telco layer (this will route via messaging service or from number
-    // per your twilio adapter logic)
     const text = `Chatforia: Your verification code is ${otp}. Msg & data rates may apply. Reply STOP to opt out, HELP for help.`;
     try {
       const sendResult = await sendSms({
@@ -837,8 +730,6 @@ router.post(
         clientRef: `otp:${phone}:${Date.now()}`,
       });
 
-      // optionally record provider message id in the DB by updating last created OTP row
-      // (fetch the most recent OTP row to attach provider id if sendResult.messageSid present)
       if (sendResult?.messageSid) {
         await prisma.phoneOtp.updateMany({
           where: { phone, otpCode: otp },
@@ -887,10 +778,8 @@ router.post(
       return res.status(400).json({ message: 'Invalid code' });
     }
 
-    // success: consume OTP
     await prisma.phoneOtp.deleteMany({ where: { id: otpRow.id } });
 
-    // respond pendingRegistration if recorded on most recent consent
     const recentConsent = await prisma.smsConsent.findFirst({
       where: { phone },
       orderBy: { createdAt: 'desc' },
@@ -907,9 +796,8 @@ router.post(
  *   POST /auth/resend-email  { email }
  * ========================= */
 
-// Rate limiter for resend (use Redis store in prod)
 const resendLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
+  windowMs: 60 * 60 * 1000,
   max: 6,
   standardHeaders: true,
   legacyHeaders: false,
@@ -923,7 +811,6 @@ router.post(
     try {
       const { email } = req.body || {};
       if (!email || typeof email !== 'string') {
-        // return generic OK to avoid enumeration
         return res.status(200).json({ ok: true });
       }
 
@@ -937,31 +824,26 @@ router.post(
         return res.status(200).json({ ok: true });
       }
 
-      // If already verified - noop
       if (user.emailVerifiedAt) {
         return res.status(200).json({ ok: true });
       }
 
-      // Throttle per-account: check most recent token createdAt
       const recent = await prisma.verificationToken.findFirst({
         where: { userId: user.id, type: 'email' },
         orderBy: { createdAt: 'desc' },
       });
       if (recent && (new Date() - new Date(recent.createdAt)) < 60 * 60 * 1000) {
-        // If last token created less than 1 hour ago, do not create another (choose TTL to taste)
         return res.status(200).json({ ok: true });
       }
 
-      // Mark previous unconsumed tokens consumed
       await prisma.verificationToken.updateMany({
         where: { userId: user.id, type: 'email', consumedAt: null },
         data: { consumedAt: new Date() },
       });
 
-      // Create fresh token
       const raw = newRawToken();
       const tokenHash = await hashToken(raw);
-      const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24h
+      const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
 
       await prisma.verificationToken.create({
         data: {
@@ -972,16 +854,25 @@ router.post(
         },
       });
 
-      const base = process.env.FRONTEND_BASE_URL || process.env.PUBLIC_BASE_URL || process.env.APP_URL || 'http://localhost:5173';
+      const base =
+        process.env.FRONTEND_BASE_URL ||
+        process.env.PUBLIC_BASE_URL ||
+        process.env.APP_URL ||
+        'http://localhost:5173';
+
       const link = `${base.replace(/\/+$/, '')}/auth/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
 
-      // send email asynchronously; swallow errors
       try {
-        await transporter.sendMail({
-          from: '"Chatforia" <no-reply@chatforia.com>',
+        await sendMail({
           to: user.email,
+          from: process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
           subject: 'Verify your Chatforia email',
-          html: `<p>Click to verify your Chatforia account: <a href="${link}">${link}</a></p>`,
+          html: `
+            <p>Welcome to Chatforia.</p>
+            <p>Click below to verify your email:</p>
+            <p><a href="${link}">Verify Email</a></p>
+          `,
+          text: `Verify your Chatforia email:\n${link}`,
         });
       } catch (err) {
         console.error('resend-email sendMail error', err);
@@ -1001,13 +892,10 @@ router.post(
 router.post(
   '/logout',
   asyncHandler(async (req, res) => {
-    // Clear the main auth cookie (name comes from JWT_COOKIE_NAME, e.g. cf_session)
     clearJwtCookie(res);
 
-    // 🧹 Destroy Passport / session state too (if used)
     if (req.logout) {
       try {
-        // Passport 0.6 supports async callback
         await new Promise((resolve, reject) =>
           req.logout((err) => (err ? reject(err) : resolve()))
         );
@@ -1033,7 +921,6 @@ router.get(
   asyncHandler(async (req, res) => {
     res.set('Cache-Control', 'no-store');
 
-    // Basic user object (keep the fields you already return)
     const userPayload = {
       id: req.user.id,
       email: req.user.email || null,
@@ -1044,7 +931,6 @@ router.get(
       theme: req.user.theme || 'dawn',
     };
 
-    // Try to attach any Subscriber row linked to this user
     let subscriber = null;
     try {
       subscriber = await prisma.subscriber.findFirst({
@@ -1062,13 +948,12 @@ router.get(
         },
       });
     } catch (e) {
-      // don't block /me if subscriber lookup fails
       console.warn('auth/me: subscriber lookup failed', e);
     }
 
     return res.json({
       user: userPayload,
-      subscriber, // null if none
+      subscriber,
     });
   })
 );

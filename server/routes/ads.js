@@ -1,45 +1,8 @@
 import express from 'express';
 import prisma from '../utils/prismaClient.js';
-import nodemailer from 'nodemailer';
+import { sendMail } from '../utils/sendMail.js';
 
 const router = express.Router();
-
-/**
- * Create a reusable Nodemailer transporter from env.
- * Configure these env vars in your server environment:
- *  - SMTP_HOST
- *  - SMTP_PORT
- *  - SMTP_USER
- *  - SMTP_PASS
- *  - SMTP_FROM (optional, defaults to ads@chatforia.com)
- */
-function createTransporter() {
-  const {
-    SMTP_HOST,
-    SMTP_PORT,
-    SMTP_USER,
-    SMTP_PASS,
-    SMTP_FROM,
-  } = process.env;
-
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
-    // You can log a warning instead of throwing if you want the route
-    // to succeed even when email is misconfigured.
-    throw new Error('SMTP configuration is missing');
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    secure: Number(SMTP_PORT) === 465, // true for 465, false for others
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  return { transporter, from: SMTP_FROM || 'ads@chatforia.com' };
-}
 
 // Basic email format validator
 function isValidEmail(email) {
@@ -77,24 +40,25 @@ router.post('/inquiries', async (req, res, next) => {
 
     // Try to send notification email
     try {
-      const { transporter, from } = createTransporter();
-
       const subject = `New advertising inquiry from ${name}`;
-      const textBody =
-        `New advertising inquiry:\n\n` +
-        `Name: ${name}\n` +
-        `Email: ${email}\n` +
-        `Company: ${company || '—'}\n` +
-        `Budget: ${budget || '—'}\n\n` +
-        `${message}\n\n` +
-        `Internal ID: ${inquiry.id}`;
 
-      await transporter.sendMail({
-        from,
+      const htmlBody = `
+        <h2>New advertising inquiry</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Company:</strong> ${company || '—'}</p>
+        <p><strong>Budget:</strong> ${budget || '—'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${String(message).replace(/\n/g, '<br>')}</p>
+        <hr>
+        <p><strong>Internal ID:</strong> ${inquiry.id}</p>
+      `;
+
+      await sendMail({
         to: 'ads@chatforia.com',
-        replyTo: email,
         subject,
-        text: textBody,
+        html: htmlBody,
+        replyTo: email,
       });
     } catch (emailErr) {
       // Log but don't fail the request – the inquiry is saved in DB

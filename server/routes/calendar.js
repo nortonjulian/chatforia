@@ -1,14 +1,14 @@
 import express from 'express';
 import { DateTime } from 'luxon';
-import nodemailer from 'nodemailer';
+import { sendMail } from '../utils/sendMail.js';
 
 const router = express.Router();
 
 const esc = (s = '') =>
   String(s)
-    .replace(/\\/g, '\\\\')      // escape backslashes first
-    .replace(/([,;])/g, '\\$1')  // commas/semicolons
-    .replace(/\n/g, '\\n');      // newlines
+    .replace(/\\/g, '\\\\')
+    .replace(/([,;])/g, '\\$1')
+    .replace(/\n/g, '\\n');
 
 function buildICS({
   uid,
@@ -19,9 +19,9 @@ function buildICS({
   endISO,
   url,
   organizerName = 'Chatforia',
-  organizerEmail = 'no-reply@chatforia.app',
+  organizerEmail = 'no-reply@chatforia.com',
   alarmMinutes = 30,
-  attendees = [], // array of email strings
+  attendees = [],
 }) {
   const dtstamp = DateTime.utc().toFormat("yyyyMMdd'T'HHmmss'Z'");
   const dtstart = DateTime.fromISO(startISO).toUTC().toFormat("yyyyMMdd'T'HHmmss'Z'");
@@ -43,7 +43,7 @@ function buildICS({
     location ? `LOCATION:${esc(location)}` : '',
     url ? `URL:${esc(url)}` : '',
     `ORGANIZER;CN=${esc(organizerName)}:MAILTO:${organizerEmail}`,
-    ...attendees.map(email => `ATTENDEE;CN=${esc(email)}:MAILTO:${esc(email)}`),
+    ...attendees.map((email) => `ATTENDEE;CN=${esc(email)}:MAILTO:${esc(email)}`),
     'BEGIN:VALARM',
     'ACTION:DISPLAY',
     `TRIGGER:-PT${alarmMinutes}M`,
@@ -51,7 +51,25 @@ function buildICS({
     'END:VALARM',
     'END:VEVENT',
     'END:VCALENDAR',
-  ].filter(Boolean).join('\r\n');
+  ]
+    .filter(Boolean)
+    .join('\r\n');
+}
+
+function toIsoUtcOrNull(value) {
+  const dt = DateTime.fromISO(String(value), { setZone: true });
+  return dt.isValid ? dt.toUTC().toISO() : null;
+}
+
+function normalizeRecipients(value) {
+  if (Array.isArray(value)) {
+    return value.map((s) => String(s).trim()).filter(Boolean);
+  }
+
+  return String(value || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 // GET /calendar/ics?title=&description=&location=&start=&end=&url=&alarmMinutes=&attendees=email1,email2
@@ -67,18 +85,20 @@ router.get('/ics', async (req, res) => {
     attendees = '',
   } = req.query;
 
-  if (!start || !end) return res.status(400).json({ error: 'start and end must be valid ISO datetimes' });
+  if (!start || !end) {
+    return res.status(400).json({ error: 'start and end must be valid ISO datetimes' });
+  }
 
-  const startISO = DateTime.fromISO(String(start), { zone: 'utc' }).toUTC().toISO();
-  const endISO = DateTime.fromISO(String(end), { zone: 'utc' }).toUTC().toISO();
-  if (!startISO || !endISO) return res.status(400).json({ error: 'Invalid dates' });
+  const startISO = toIsoUtcOrNull(start);
+  const endISO = toIsoUtcOrNull(end);
 
-  const attendeeList = String(attendees || '')
-    .split(',')
-    .map(s => s.trim())
-    .filter(Boolean);
+  if (!startISO || !endISO) {
+    return res.status(400).json({ error: 'Invalid dates' });
+  }
 
-  const uid = `evt-${Date.now()}-${Math.random().toString(36).slice(2)}@chatforia.app`;
+  const attendeeList = normalizeRecipients(attendees);
+
+  const uid = `evt-${Date.now()}-${Math.random().toString(36).slice(2)}@chatforia.com`;
   const ics = buildICS({
     uid,
     title,
@@ -92,33 +112,9 @@ router.get('/ics', async (req, res) => {
   });
 
   res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
-  res.setHeader('Content-Disposition', `attachment; filename="chatforia-event.ics"`);
+  res.setHeader('Content-Disposition', 'attachment; filename="chatforia-event.ics"');
   res.send(ics);
 });
-
-// Helper to create a mail transport
-function buildTransport() {
-  // Prefer SMTP creds if present
-  if (process.env.SMTP_HOST) {
-    return nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: process.env.SMTP_SECURE === 'true',
-      auth: process.env.SMTP_USER
-        ? {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-          }
-        : undefined,
-    });
-  }
-  // Fallback: system sendmail (if available)
-  return nodemailer.createTransport({
-    sendmail: true,
-    newline: 'unix',
-    path: '/usr/sbin/sendmail',
-  });
-}
 
 // POST /calendar/email-invite
 // body: { to: string[] | stringCSV, title, description, location, startISO, endISO, url?, alarmMinutes?, attendees?: string[] }
@@ -136,49 +132,76 @@ router.post('/email-invite', async (req, res) => {
       attendees = [],
     } = req.body || {};
 
-    const recipients = Array.isArray(to)
-      ? to
-      : String(to)
-          .split(',')
-          .map(s => s.trim())
-          .filter(Boolean);
+    const recipients = normalizeRecipients(to);
+    if (!recipients.length) {
+      return res.status(400).json({ error: 'No recipients' });
+    }
 
-    if (!recipients.length) return res.status(400).json({ error: 'No recipients' });
-    if (!startISO || !endISO) return res.status(400).json({ error: 'Missing startISO/endISO' });
+    const normalizedStartISO = toIsoUtcOrNull(startISO);
+    const normalizedEndISO = toIsoUtcOrNull(endISO);
 
-    const uid = `evt-${Date.now()}-${Math.random().toString(36).slice(2)}@chatforia.app`;
+    if (!normalizedStartISO || !normalizedEndISO) {
+      return res.status(400).json({ error: 'Missing or invalid startISO/endISO' });
+    }
+
+    const uid = `evt-${Date.now()}-${Math.random().toString(36).slice(2)}@chatforia.com`;
     const ics = buildICS({
       uid,
       title,
       description,
       location,
-      startISO,
-      endISO,
+      startISO: normalizedStartISO,
+      endISO: normalizedEndISO,
       url,
       alarmMinutes: Number(alarmMinutes),
-      attendees: Array.isArray(attendees) ? attendees : [],
+      attendees: Array.isArray(attendees) ? attendees : normalizeRecipients(attendees),
     });
 
-    const transporter = buildTransport();
-    const info = await transporter.sendMail({
-      from: process.env.INVITE_FROM || 'Chatforia <no-reply@chatforia.app>',
+    const html = `
+      <p>You’ve been invited to an event on Chatforia.</p>
+      <p><strong>${title}</strong></p>
+      ${description ? `<p>${description}</p>` : ''}
+      ${location ? `<p><strong>Location:</strong> ${location}</p>` : ''}
+      <p><strong>Starts:</strong> ${normalizedStartISO}</p>
+      <p><strong>Ends:</strong> ${normalizedEndISO}</p>
+      ${url ? `<p><a href="${url}">Open event link</a></p>` : ''}
+      <p>An .ics calendar file is attached.</p>
+    `;
+
+    const text =
+      `${title}\n\n` +
+      `${description ? `${description}\n\n` : ''}` +
+      `${location ? `Location: ${location}\n` : ''}` +
+      `Starts: ${normalizedStartISO}\n` +
+      `Ends: ${normalizedEndISO}\n` +
+      `${url ? `Link: ${url}\n` : ''}`;
+
+    const attachmentBase64 = Buffer.from(ics, 'utf8').toString('base64');
+
+    const result = await sendMail({
       to: recipients,
+      from: process.env.INVITE_FROM || process.env.EMAIL_FROM || 'Chatforia <no-reply@chatforia.com>',
       subject: title,
-      text: `${title}\n\n${description}\n\n${location ? `Location: ${location}\n` : ''}Starts: ${startISO}\nEnds: ${endISO}\n`,
-      icalEvent: {
-        method: 'PUBLISH',
-        content: ics,
-      },
+      html,
+      text,
       attachments: [
         {
           filename: 'event.ics',
-          content: ics,
-          contentType: 'text/calendar; charset=utf-8',
+          content: attachmentBase64,
+          type: 'text/calendar; charset=utf-8; method=PUBLISH',
         },
       ],
     });
 
-    res.json({ ok: true, messageId: info.messageId });
+    if (!result?.success) {
+      console.error('email invite failed', result?.error);
+      return res.status(500).json({ error: 'Failed to send invites' });
+    }
+
+    res.json({
+      ok: true,
+      id: result?.data?.id || null,
+    });
   } catch (err) {
     console.error('email invite failed', err);
     res.status(500).json({ error: 'Failed to send invites' });

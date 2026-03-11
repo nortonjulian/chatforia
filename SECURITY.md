@@ -4,7 +4,7 @@
 Main branch (latest).
 
 ## Reporting a vulnerability
-Email security@chatforia.app (or open a private security advisory on GitHub). We aim to triage within 72 hours.
+Email security@chatforia.com (or open a private security advisory on GitHub). We aim to triage within 72 hours.
 
 ## Best practices in this repo
 - HTTP-only, SameSite cookies with secure flag in production.

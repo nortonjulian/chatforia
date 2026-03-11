@@ -140,6 +140,9 @@ import twilioStatusWebhook from './webhooks/status.js';
 
 import phoneRoutes from './routes/api/phone.js';
 
+import testEmailRoutes from "./routes/testEmail.js";
+
+
 // eSIM feature flag
 import { ESIM_ENABLED } from './config/esim.js';
 
@@ -348,6 +351,8 @@ export function createApp() {
       next();
     });
   }
+
+  app.use("/api", testEmailRoutes);
 
   app.get('/auth/csrf', (req, res) => {
     setCsrfCookie(req, res);

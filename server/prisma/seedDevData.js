@@ -11,38 +11,51 @@ export async function seedDevData() {
 
   const julian = await prisma.user.upsert({
     where: { email: 'nortonjulian@gmail.com' },
-    update: {},
+    update: {
+      email: 'nortonjulian@gmail.com',
+      phoneNumber: '3333333333',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+    },
     create: {
       username: 'julian',
       email: 'nortonjulian@gmail.com',
       phoneNumber: '3333333333',
-      password: hashed,
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
     },
   });
 
   const alice = await prisma.user.upsert({
     where: { email: 'alice@example.com' },
-    update: {},
+    update: {
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+    },
     create: {
       username: 'alice',
       email: 'alice@example.com',
       phoneNumber: '1111111111',
-      password: hashed,
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
     },
   });
 
   const bob = await prisma.user.upsert({
     where: { email: 'bob@example.com' },
-    update: {},
+    update: {
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+    },
     create: {
       username: 'bob',
       email: 'bob@example.com',
       phoneNumber: '2222222222',
-      password: hashed,
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
     },
   });
 
-  // ✅ create room BEFORE using room.id anywhere
   const room = await prisma.chatRoom.create({
     data: { isGroup: false },
   });

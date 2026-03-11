@@ -3,7 +3,9 @@ import bcrypt from 'bcrypt';
 import rateLimit from 'express-rate-limit';
 import prisma from '../utils/prismaClient.js';
 import { newRawToken, hashToken, verifyHash } from '../utils/tokens.js';
-import { sendTransactionalEmail } from '../utils/email.js'; // your existing wrapper
+import { verificationEmailTemplate } from '../utils/emailTemplates.js';
+import { sendMail } from '../utils/sendMail.js';
+
 import logger from '../utils/logger.js'; // optional
 
 export const router = express.Router();
@@ -74,6 +76,7 @@ router.post('/register', createAccountLimiter, async (req, res) => {
       user = await prisma.user.create({
         data: {
           email: email.toLowerCase(),
+          username: username.toLowerCase(),
           passwordHash,
           // emailVerifiedAt left null until verification
         }
@@ -105,14 +108,23 @@ router.post('/register', createAccountLimiter, async (req, res) => {
     // send verification email (do not await failures to leak)
     const link = `${process.env.PUBLIC_BASE_URL.replace(/\/$/, '')}/auth/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
     try {
-      await sendTransactionalEmail(email, 'Verify your Chatforia email', {
-        template: 'verify-email',
-        substitutions: { link }
+
+      const { subject, text, html } = verificationEmailTemplate({
+        username: user.username,
+        link
       });
+
+      await sendMail({
+        to: user.email,
+        subject,
+        text,
+        html
+      });
+
     } catch (err) {
       logger?.error('register: email send failed', { err });
-      // still return 200 — you may want to surface in admin metrics
     }
+
 
     return safeResponse(res);
   } catch (err) {
@@ -200,10 +212,18 @@ router.post('/resend-email', resendLimiter, async (req, res) => {
 
     const link = `${process.env.PUBLIC_BASE_URL.replace(/\/$/, '')}/auth/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
     try {
-      await sendTransactionalEmail(user.email, 'Verify your Chatforia email - resend', {
-        template: 'verify-email',
-        substitutions: { link }
+      const { subject, text, html } = verificationEmailTemplate({
+        username: user.username,
+        link
       });
+
+      await sendMail({
+        to: user.email,
+        subject,
+        text,
+        html
+      });
+
     } catch (err) {
       logger?.error('resend-email: email send failed', { err });
       // swallow

@@ -3,7 +3,6 @@ import Boom from '@hapi/boom';
 import jwt from 'jsonwebtoken';
 import verifyToken from '../middleware/verifyToken.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { transporter as mailTransporter } from '../services/mailer.js';
 import { formatDate, formatTime } from '../utils/date.js';
 import { createInviteTemplate } from '../utils/inviteTemplate.js';
 import prisma from '../utils/prismaClient.js';
@@ -17,7 +16,7 @@ import {
 const router = express.Router();
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
 
-const { APP_DOWNLOAD_URL, MAIL_FROM, APP_ORIGIN } = process.env;
+const { APP_DOWNLOAD_URL, EMAIL_FROM, APP_ORIGIN } = process.env;
 
 const JWT_SECRET =
   process.env.JWT_SECRET ||
@@ -327,7 +326,7 @@ router.post(
       }
 
       const info = await transporter.sendMail({
-        from: MAIL_FROM || 'noreply@chatforia.com',
+        from: EMAIL_FROM || 'hello@chatforia.com',
         to: recipients,
         subject: outSubject,
         html: outHtml,

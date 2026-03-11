@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import prisma from '../utils/prismaClient.js'; // adjust if needed
+import prisma from '../utils/prismaClient.js';
 
 const LOCALES_DIR = path.resolve('../client/public/locales');
 
-const seed = async () => {
+export async function seedTranslations() {
   const languages = fs.readdirSync(LOCALES_DIR).filter((lng) =>
     fs.existsSync(path.join(LOCALES_DIR, lng, 'translation.json'))
   );
@@ -14,7 +14,7 @@ const seed = async () => {
     const raw = fs.readFileSync(filepath, 'utf-8');
     const messages = JSON.parse(raw);
 
-    const flat = flatten(messages); // flatten nested JSON
+    const flat = flatten(messages);
 
     for (const [key, value] of Object.entries(flat)) {
       await prisma.translation.upsert({
@@ -28,8 +28,7 @@ const seed = async () => {
   }
 
   console.log('✅ All translations seeded.');
-  process.exit(0);
-};
+}
 
 function flatten(obj, prefix = '') {
   return Object.entries(obj).reduce((acc, [key, val]) => {
@@ -43,7 +42,13 @@ function flatten(obj, prefix = '') {
   }, {});
 }
 
-seed().catch((err) => {
-  console.error('❌ Failed to seed translations:', err);
-  process.exit(1);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  seedTranslations()
+    .catch((err) => {
+      console.error('❌ Failed to seed translations:', err);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await prisma.$disconnect();
+    });
+}

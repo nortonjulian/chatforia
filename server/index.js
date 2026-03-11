@@ -16,6 +16,7 @@ import validateEnv from './config/validateEnv.js';
 import { ENV } from './config/env.js';
 import logger from './utils/logger.js';
 
+
 /**
  * Build the express app instance (exported for tests)
  * This uses createApp() from app.js, which should now be PURE:

@@ -164,7 +164,7 @@ describe('POST /webhooks/sms/twilio', () => {
       forwardQuietHoursEnd: null,
     });
 
-    process.env.MAIL_FROM = 'noreply@test.app';
+    process.env.EMAIL_FROM = 'hello@test.app';
 
     const res = await request(app)
       .post('/webhooks/sms/twilio')
@@ -206,7 +206,7 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(transporterSendMailMock).toHaveBeenCalledTimes(1);
     expect(transporterSendMailMock).toHaveBeenCalledWith({
       to: 'user@example.com',
-      from: 'noreply@test.app',
+      from: 'hello@test.app',
       subject: 'SMS from +13035550123',
       text: 'Forward this please',
     });
