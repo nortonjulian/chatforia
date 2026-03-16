@@ -142,7 +142,11 @@ router.get(
     if (!okMember) throw Boom.forbidden('Not a participant in this chat');
 
     const items = await prisma.message.findMany({
-      where: { chatRoomId, id: { gt: sinceId }, deletedForAll: false },
+      where: {
+        chatRoomId,
+        id: { gt: sinceId },
+        deletedForAll: false,
+      },
       orderBy: { id: 'asc' },
       take: 1000,
       select: {
@@ -150,13 +154,38 @@ router.get(
         chatRoomId: true,
         rawContent: true,
         contentCiphertext: true,
-        attachments: true,
-        sender: { select: { id: true, username: true, publicKey: true } },
         createdAt: true,
         expiresAt: true,
+        editedAt: true,
+        deletedBySender: true,
         deletedForAll: true,
         deletedAt: true,
         deletedById: true,
+        revision: true,
+        isExplicit: true,
+        sender: { select: { id: true, username: true, publicKey: true, avatarUrl: true } },
+        readBy: { select: { id: true, username: true, avatarUrl: true } },
+        attachments: {
+          where: { deletedAt: null },
+          select: {
+            id: true,
+            kind: true,
+            url: true,
+            mimeType: true,
+            width: true,
+            height: true,
+            durationSec: true,
+            caption: true,
+            thumbUrl: true,
+          },
+        },
+        keys: {
+          where: { userId: requesterId },
+          select: { encryptedKey: true },
+          take: 1,
+        },
+        translations: true,
+        translatedFrom: true,
       },
     });
 
@@ -165,11 +194,21 @@ router.get(
       chatRoomId: m.chatRoomId,
       createdAt: m.createdAt,
       expiresAt: m.expiresAt,
+      editedAt: m.editedAt,
+      deletedBySender: m.deletedBySender,
+      deletedForAll: m.deletedForAll,
+      deletedAt: m.deletedAt,
+      deletedById: m.deletedById,
+      revision: m.revision,
+      isExplicit: m.isExplicit,
       sender: m.sender,
+      readBy: m.readBy,
       rawContent: m.rawContent,
       contentCiphertext: m.contentCiphertext,
       attachments: m.attachments || [],
-      deletedForAll: m.deletedForAll,
+      encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
+      translations: m.translations || null,
+      translatedFrom: m.translatedFrom || null,
     }));
 
     return res.json({
@@ -203,10 +242,13 @@ router.post(
 
     // Plaintext (optional)
     const content =
-      body.content ??
-      body.text ?? // legacy callers
-      body.message ??
-      '';
+      typeof body.content === 'string'
+        ? body.content
+        : typeof body.text === 'string'
+        ? body.text
+        : typeof body.message === 'string'
+        ? body.message
+        : '';
 
     // Client-side E2EE payloads
     const contentCiphertext = body.contentCiphertext ?? body.ciphertext ?? null;
@@ -412,10 +454,15 @@ router.post(
 
     const shaped = {
       ...saved,
+      clientMessageId,
+      revision: saved?.revision ?? 1,
       imageUrl: saved?.imageUrl ? toSigned(saved.imageUrl, senderId) : null,
       audioUrl: saved?.audioUrl ? toSigned(saved.audioUrl, senderId) : null,
       attachments: (saved?.attachments || []).map((a) => {
         const out = { ...a };
+        out.durationSec =
+          typeof a.durationSec === 'number' ? a.durationSec : a.durationSec == null ? null : Number(a.durationSec);
+
         out.url = a.url && !/^https?:\/\//i.test(a.url) ? toSigned(a.url, senderId) : a.url;
         if (out.thumbUrl && !/^https?:\/\//i.test(out.thumbUrl)) {
           out.thumbUrl = toSigned(out.thumbUrl, senderId);
@@ -581,6 +628,8 @@ router.post(
  * LIST messages in a room
  */
 router.get('/:chatRoomId', requireAuth, async (req, res) => {
+
+  res.set('Cache-Control', 'no-store');
   // --- defensive parsing + helpful debug logs ---
   const rawRoomIdRaw = req.params?.chatRoomId ?? '';
 
@@ -702,22 +751,14 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       }
     }
 
-    // ============================
-    // Query WHERE clause for Prisma
-    // ============================
-    // Filter by chatRoom and optionally apply the clearedAt cutoff so we
-    // exclude messages older than the user's clear/archive time.
-    const where = {
-      chatRoomId,
-      ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
-    };
-
     const baseSelect = {
       id: true,
       contentCiphertext: true,
       translations: true,
       translatedContent: true,
       translatedTo: true,
+      translatedFrom: true,
+      revision: true,
       imageUrl: true,
       audioUrl: true,
       audioDurationSec: true,
@@ -747,6 +788,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       sender: { select: { id: true, username: true, publicKey: true } },
       readBy: { select: { id: true, username: true, avatarUrl: true } },
       attachments: {
+        where: { deletedAt: null },
         select: {
           id: true,
           kind: true,
@@ -933,6 +975,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
               reactionSummary,
               myReactions,
               editedAt: null,
+              revision: m.revision ?? 1,
             };
           }
 
@@ -980,7 +1023,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const orderBy = [{ createdAt: 'desc' }, { id: 'desc' }];
 
     // Compose prisma where depending on cursor type
-    let pageWhere = { ...where }; // baseWhere already contains chatRoomId, deletedForAll, clearedAt cutoff, etc.
+    let pageWhere = { ...baseWhere }; // baseWhere already contains chatRoomId, deletedForAll, clearedAt cutoff, etc.
 
     if (compoundCursor.createdAt && compoundCursor.id) {
       // compound cursor case: (createdAt < ts) OR (createdAt == ts AND id < idPart)
@@ -1000,7 +1043,7 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     }
 
     // Execute query (stable order)
-    const items = await prisma.message.findMany({
+   const items = await prisma.message.findMany({
       where: pageWhere,
       orderBy,
       take: limit,
@@ -1186,8 +1229,13 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     }
 
     const all = [...memItems, ...shapedDb]
-      .sort((a, b) => b.id - a.id)
-      .slice(0, limit);
+    .sort((a, b) => {
+      const aTime = new Date(a.createdAt).getTime();
+      const bTime = new Date(b.createdAt).getTime();
+      if (aTime !== bTime) return bTime - aTime;
+      return b.id - a.id;
+    })
+    .slice(0, limit);
 
     const nextCursor = all.length === limit ? makeCompoundCursor(all[all.length - 1]) : null;
     const nextCursorId = all.length === limit ? all[all.length - 1].id : null;
@@ -1251,7 +1299,9 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res) => {
     const userId = Number(req.user?.id);
-    const ids = (req.body?.ids || []).map(Number).filter(Number.isFinite);
+    const rawIds = req.body?.ids ?? req.body?.messageIds ?? [];
+    const ids = (Array.isArray(rawIds) ? rawIds : []).map(Number).filter(Number.isFinite);
+
 
     if (!ids.length) return res.json({ ok: true });
 
@@ -1653,26 +1703,152 @@ router.post(
   '/report',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const { messageId, decryptedContent } = req.body || {};
     const reporterId = Number(req.user?.id);
 
-    if (!messageId || !decryptedContent) {
-      throw Boom.badRequest('messageId and decryptedContent are required');
+    const {
+      messageId,
+      chatRoomId,
+      reportedUserId,
+      reason,
+      details,
+      blockAfterReport,
+      messages,
+      clientMetadata,
+    } = req.body || {};
+
+    if (!Number.isFinite(Number(messageId))) {
+      throw Boom.badRequest('messageId is required');
     }
 
-    if (IS_TEST && memGetMessage(Number(messageId))) {
-      return res.status(201).json({ success: true });
-    }
+    const primaryMessageId = Number(messageId);
+    const roomId = Number(chatRoomId);
 
-    await prisma.report.create({
-      data: {
-        messageId: Number(messageId),
-        reporterId: Number(reporterId),
-        decryptedContent,
+    const primaryMessage = await prisma.message.findUnique({
+      where: { id: primaryMessageId },
+      select: {
+        id: true,
+        chatRoomId: true,
+        senderId: true,
+        createdAt: true,
+        rawContent: true,
+        contentCiphertext: true,
+        deletedForAll: true,
+        editedAt: true,
+        attachments: {
+          where: { deletedAt: null },
+          select: {
+            id: true,
+            kind: true,
+            url: true,
+            mimeType: true,
+            width: true,
+            height: true,
+            durationSec: true,
+            caption: true,
+            thumbUrl: true,
+            createdAt: true,
+          },
+        },
       },
     });
 
-    return res.status(201).json({ success: true });
+    if (!primaryMessage) {
+      throw Boom.notFound('Message not found');
+    }
+
+    if (roomId && primaryMessage.chatRoomId !== roomId) {
+      throw Boom.badRequest('messageId does not belong to chatRoomId');
+    }
+
+    const effectiveChatRoomId = primaryMessage.chatRoomId;
+
+    const membership = await prisma.participant.findFirst({
+      where: { chatRoomId: effectiveChatRoomId, userId: reporterId },
+      select: { id: true },
+    });
+    if (!membership) {
+      throw Boom.forbidden('Not a participant in this chat');
+    }
+
+    const effectiveReportedUserId = primaryMessage.senderId;
+
+    if (
+      Number.isFinite(Number(reportedUserId)) &&
+      Number(reportedUserId) !== effectiveReportedUserId
+    ) {
+      throw Boom.badRequest('reportedUserId does not match the primary message sender');
+    }
+
+    const normalizedMessages = Array.isArray(messages)
+      ? messages
+          .map((m) => ({
+            messageId: Number(m?.messageId),
+            senderId: Number(m?.senderId),
+            createdAt: m?.createdAt || null,
+            plaintext:
+              typeof m?.plaintext === 'string'
+                ? m.plaintext
+                : typeof m?.decryptedContent === 'string'
+                ? m.decryptedContent
+                : typeof m?.translatedForMe === 'string'
+                ? m.translatedForMe
+                : typeof m?.rawContent === 'string'
+                ? m.rawContent
+                : typeof m?.content === 'string'
+                ? m.content
+                : '',
+            ciphertext: m?.ciphertext ?? m?.contentCiphertext ?? null,
+            encryptedKeyForMe: m?.encryptedKeyForMe ?? null,
+            translatedForMe: m?.translatedForMe ?? null,
+            attachments: Array.isArray(m?.attachments) ? m.attachments : [],
+            deletedForAll: !!m?.deletedForAll,
+            editedAt: m?.editedAt ?? null,
+          }))
+          .filter((m) => Number.isFinite(m.messageId))
+      : [];
+
+    const primarySnapshot =
+      normalizedMessages.find((m) => m.messageId === primaryMessageId) || null;
+
+    const fallbackPlaintext =
+      primarySnapshot?.plaintext ||
+      primaryMessage.rawContent ||
+      '[No plaintext submitted]';
+
+    const created = await prisma.report.create({
+      data: {
+        messageId: primaryMessageId,
+        reporterId,
+        reportedUserId: effectiveReportedUserId,
+        chatRoomId: effectiveChatRoomId,
+        decryptedContent: fallbackPlaintext,
+        reason: typeof reason === 'string' ? reason : null,
+        details: typeof details === 'string' ? details : null,
+        blockApplied: !!blockAfterReport,
+        evidence: {
+          primaryMessage: {
+            id: primaryMessage.id,
+            senderId: primaryMessage.senderId,
+            createdAt: primaryMessage.createdAt,
+            rawContent: primaryMessage.rawContent,
+            contentCiphertext: primaryMessage.contentCiphertext,
+            deletedForAll: primaryMessage.deletedForAll,
+            editedAt: primaryMessage.editedAt,
+            attachments: primaryMessage.attachments || [],
+          },
+          submittedMessages: normalizedMessages,
+          clientMetadata:
+            clientMetadata && typeof clientMetadata === 'object'
+              ? clientMetadata
+              : {},
+        },
+      },
+    });
+
+    return res.status(201).json({
+      success: true,
+      reportId: created.id,
+    });
   })
 );
 

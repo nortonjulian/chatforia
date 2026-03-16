@@ -1,5 +1,12 @@
-import { Tooltip, Group, Text, ActionIcon, Menu, Box } from '@mantine/core';
-import { RotateCw, MoreVertical, Pencil, Trash2, CalendarPlus } from 'lucide-react';
+import { Tooltip, Text, ActionIcon, Menu, Box, Group } from '@mantine/core';
+import {
+  RotateCw,
+  MoreVertical,
+  Pencil,
+  Trash2,
+  CalendarPlus,
+  ShieldAlert,
+} from 'lucide-react';
 import dayjs from 'dayjs';
 
 function normalizeAttachments(msg) {
@@ -24,16 +31,33 @@ function isAudio(mime, url) {
   return s.startsWith('audio/') || /\.(mp3|wav|m4a|ogg|webm)$/i.test(u);
 }
 
+function messageHasDate(text = '') {
+  const t = text.toLowerCase();
+
+  const patterns = [
+    /\b\d{1,2}(:\d{2})?\s?(am|pm)\b/,     // 7pm, 7:30 pm
+    /\b\d{1,2}\/\d{1,2}(\/\d{2,4})?\b/,   // 3/15 or 3/15/2026
+    /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/,
+    /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/,
+    /\b(today|tomorrow|tonight)\b/,
+  ];
+
+  return patterns.some((p) => p.test(t));
+}
+
 export default function MessageBubble({
   msg,
-  currentUserId, // ✅ add this so "mine" is reliable
+  currentUserId,
   onRetry,
   onEdit,
   onDeleteMe,
   onDeleteAll,
   onAddToCalendar,
+  onReport,
   canEdit = false,
   canDeleteAll = false,
+  showTail = false,
+  sameAsPrev = false,
 }) {
   const ts = dayjs(msg.createdAt).format('MMM D, YYYY • h:mm A');
 
@@ -42,84 +66,104 @@ export default function MessageBubble({
     msg.type === 'DELETED' ||
     msg.systemType === 'deleted';
 
-  // ✅ derive "mine" from sender vs current user (don't depend on msg.mine existing)
   const mine = Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
 
-  // ✅ pick the best available display text (matches your backend shaping)
   const displayText = isTombstone
-    ? 'This message was deleted'
-    : (msg.translatedForMe ?? msg.rawContent ?? msg.content ?? '');
+  ? 'This message was deleted'
+  : (
+      msg.content ??
+      msg.decryptedContent ??
+      msg.translatedForMe ??
+      msg.rawContent ??
+      (msg.contentCiphertext ? '[Encrypted message — unlock your key to view]' : '')
+    );
 
   const bubbleStyle = mine
     ? {
-        background: 'var(--bubble-outgoing, linear-gradient(135deg, #6A3CC1, #00C2A8))',
-        color: 'var(--bubble-outgoing-text, #fff)',
+        background: 'var(--bubble-outgoing, #f7a600)',
+        color: 'var(--bubble-outgoing-text, #111)',
         textShadow: 'var(--bubble-outgoing-shadow, none)',
       }
     : {
-        background: 'var(--bubble-incoming, #f3f4f6)',
-        color: 'var(--bubble-incoming-text, #111)',
+        background: 'var(--bubble-incoming-bg, #f3f4f6)',
+        color: 'var(--bubble-incoming-fg, var(--bubble-incoming-text, #111))',
       };
 
   const hasDeleteMe = typeof onDeleteMe === 'function';
-  const hasAddToCalendar = typeof onAddToCalendar === 'function';
 
-  // ✅ enforce safety locally too (prevents showing actions on non-mine messages)
+  const hasAddToCalendar =
+  typeof onAddToCalendar === 'function' &&
+  messageHasDate(displayText);
+
+  const hasReport = typeof onReport === 'function';
+
   const canEditHere = !isTombstone && mine && canEdit;
   const canDeleteAllHere = !isTombstone && mine && canDeleteAll;
 
   const hasAnyActions =
-    !isTombstone && (canEditHere || canDeleteAllHere || hasDeleteMe || hasAddToCalendar);
+    !isTombstone &&
+    (canEditHere || canDeleteAllHere || hasDeleteMe || hasAddToCalendar || hasReport);
 
   const attachments = normalizeAttachments(msg);
 
-  console.log('menu-check', {
-    id: msg?.id,
-    mine,
-    isTombstone,
-    canEdit: canEditHere,
-    canDeleteAll: canDeleteAllHere,
-    hasOnDeleteMe: hasDeleteMe,
-    hasAddToCalendar,
-    attachmentsCount: attachments.length,
-  });
+  const tailBg = mine
+    ? 'var(--bubble-outgoing, #f7a600)'
+    : 'var(--bubble-incoming, #f3f4f6)';
 
   return (
-    <Group justify={mine ? 'flex-end' : 'flex-start'} wrap="nowrap" align="flex-end" px="md">
+    <Box
+      px="md"
+      className="message-row"
+      style={{
+        width: '100%',
+        display: 'flex',
+        justifyContent: mine ? 'flex-end' : 'flex-start',
+      }}
+    >
+      <Box
+      style={{
+        width: '100%',
+        maxWidth: 900,
+        display: 'flex',
+        justifyContent: mine ? 'flex-end' : 'flex-start',
+      }}
+    >
       <Box
         style={{
-          maxWidth: '68%',
           position: 'relative',
           display: 'flex',
           flexDirection: 'column',
           alignItems: mine ? 'flex-end' : 'flex-start',
           gap: 4,
+          maxWidth: 640,
           minWidth: 0,
+          flex: '0 1 auto',
+          paddingLeft: !mine && hasAnyActions ? 8 : 0,
+          paddingRight: mine && hasAnyActions ? 8 : 0,
         }}
       >
-        {/* ✅ Menu anchor */}
         {hasAnyActions && (
           <Box
+            className="message-actions"
             style={{
               position: 'absolute',
-              top: 8,
-              right: mine ? 8 : 'auto',
-              left: mine ? 'auto' : 8,
-              zIndex: 50,
-              pointerEvents: 'auto',
+              top: 4,
+              right: mine ? -16 : 'auto',
+              left: mine ? 'auto' : -16,
+              zIndex: 3,
             }}
             onClick={(e) => {
-              // ✅ extra guard if parent rows have click handlers
               e.preventDefault();
               e.stopPropagation();
             }}
           >
-            <Menu position="bottom-end" withinPortal shadow="md" radius="md">
+            <Menu position={mine ? 'bottom-end' : 'bottom-start'} withinPortal shadow="md" radius="md">
               <Menu.Target>
                 <ActionIcon
                   aria-label="Message actions"
                   variant="filled"
                   size="sm"
+                  radius="xl"
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -130,13 +174,22 @@ export default function MessageBubble({
               </Menu.Target>
 
               <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                {/* ✅ Calendar (message-level action) */}
                 {hasAddToCalendar && (
                   <Menu.Item
                     leftSection={<CalendarPlus size={16} />}
                     onClick={() => onAddToCalendar?.(msg)}
                   >
                     Add to calendar
+                  </Menu.Item>
+                )}
+
+                {hasReport && !mine && (
+                  <Menu.Item
+                    color="red"
+                    leftSection={<ShieldAlert size={16} />}
+                    onClick={() => onReport?.(msg)}
+                  >
+                    Report
                   </Menu.Item>
                 )}
 
@@ -170,33 +223,64 @@ export default function MessageBubble({
           </Box>
         )}
 
-        {/* Bubble */}
-        <Tooltip label={ts} withinPortal>
-          <Text
-            role="text"
-            aria-label={`Message sent ${ts}`}
-            px="md"
-            py={8}
-            style={{
-              ...bubbleStyle,
-              borderRadius: 18,
-              wordBreak: 'break-word',
-              opacity: isTombstone ? 0.75 : 1,
-              fontStyle: isTombstone ? 'italic' : 'normal',
-              // ✅ reserve space so the icon never overlaps text
-              paddingTop: hasAnyActions ? 28 : 8,
-            }}
-          >
-            {displayText}
-            {Boolean(msg.editedAt) && !isTombstone ? (
-              <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
-                (edited)
-              </Text>
-            ) : null}
-          </Text>
-        </Tooltip>
+        <Box
+          style={{
+            position: 'relative',
+            display: 'inline-block',
+            maxWidth: '100%',
+          }}
+        >
+          <Tooltip label={ts} withinPortal>
+            <Text
+              role="text"
+              aria-label={`Message sent ${ts}`}
+              px="md"
+              py={8}
+              style={{
+                ...bubbleStyle,
+                position: 'relative',
+                zIndex: 2,
+                borderRadius: 18,
+                borderBottomRightRadius: mine && showTail ? 8 : 18,
+                borderBottomLeftRadius: !mine && showTail ? 8 : 18,
+                wordBreak: 'break-word',
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'anywhere',
+                opacity: isTombstone ? 0.75 : 1,
+                fontStyle: isTombstone ? 'italic' : 'normal',
+                display: 'block',
+                width: 'fit-content',
+                maxWidth: '100%',
+              }}
+            >
+              {displayText}
+              {Boolean(msg.editedAt) && !isTombstone ? (
+                <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                  (edited)
+                </Text>
+              ) : null}
+            </Text>
+          </Tooltip>
 
-        {/* ✅ Attachments (images/video/audio/files) */}
+          {showTail && !isTombstone && (
+            <Box
+              aria-hidden="true"
+              style={{
+                position: 'absolute',
+                bottom: 1,
+                right: mine ? 3 : 'auto',
+                left: mine ? 'auto' : 3,
+                width: 12,
+                height: 12,
+                background: tailBg,
+                transform: 'rotate(45deg)',
+                borderRadius: mine ? '0 0 6px 0' : '0 0 0 6px',
+                zIndex: 1,
+              }}
+            />
+          )}
+        </Box>
+
         {!isTombstone && attachments.length > 0 ? (
           <Box mt={8} style={{ width: '100%' }}>
             <Group gap="xs" wrap="wrap" justify={mine ? 'flex-end' : 'flex-start'}>
@@ -231,7 +315,7 @@ export default function MessageBubble({
                 }
 
                 if (isImage(mime, url)) {
-                  const imgSrc = a.thumbUrl || a.thumbnailUrl || url; // ✅ prefer thumb if present
+                  const imgSrc = a.thumbUrl || a.thumbnailUrl || url;
                   return (
                     <a
                       key={a.id ?? `${url}-${i}`}
@@ -249,7 +333,6 @@ export default function MessageBubble({
                   );
                 }
 
-                // generic file
                 return (
                   <a
                     key={a.id ?? `${url}-${i}`}
@@ -266,7 +349,6 @@ export default function MessageBubble({
           </Box>
         ) : null}
 
-        {/* Retry */}
         {msg.failed && (
           <ActionIcon
             aria-label="Retry sending message"
@@ -278,6 +360,7 @@ export default function MessageBubble({
           </ActionIcon>
         )}
       </Box>
-    </Group>
+    </Box>
+  </Box>
   );
 }

@@ -859,7 +859,7 @@ async function handleAddonCheckoutCompleted({ userId, addonKind, session }) {
     stripeCheckoutSessionId: session.id,
     stripePaymentIntentId: session.payment_intent ? String(session.payment_intent) : null,
     esimProfileId: null, // mapped to tealProfileId in DB
-    esimIccid: null,     // mapped to tealIccid in DB
+    iccid: null,     // mapped to tealIccid in DB
     qrCodeSvg: null,
   };
 

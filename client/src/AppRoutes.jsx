@@ -191,6 +191,7 @@ function AuthedLayout() {
         navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
         padding="md"
+        style={{ height: '100dvh' }}
         styles={{
           navbar: { flexShrink: 0 },
           aside: { flexShrink: 0 },
@@ -297,35 +298,58 @@ function AuthedLayout() {
             </div>
           )}
         </AppShell.Aside>
+          <AppShell.Main
+            id="main-content"
+            tabIndex={-1}
+            style={{
+              minHeight: 0,
+              
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Global call UI */}
+            <IncomingCallModal />
+            <CallScreen />
 
-        <AppShell.Main id="main-content" tabIndex={-1}>
-          {/* Global call UI */}
-          <IncomingCallModal />
-          <CallScreen />
+            <AdProvider isPremium={isPremium}>
+              <div
+                style={{
+                  flex: 1,
+                  minHeight: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden',
+                }}
+              >
+                <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
+              </div>
 
-          <AdProvider isPremium={isPremium}>
-            <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
-            <SupportWidget excludeRoutes={['/sms', '/admin']} />
-          </AdProvider>
+              <SupportWidget excludeRoutes={['/sms', '/admin']} />
+            </AdProvider>
 
-          {features?.status && (
-            <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
-          )}
+            {features?.status && (
+              <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
+            )}
 
-          {/* Mount once for StartChat modal */}
-          <NewChatModalHost currentUserId={currentUser?.id} />
-        </AppShell.Main>
+            {/* Mount once for StartChat modal */}
+            <NewChatModalHost currentUserId={currentUser?.id} />
+          </AppShell.Main>
       </AppShell>
     </CallProvider>
   );
 }
 
 export default function AppRoutes() {
-  const { currentUser } = useUser();
+  const { currentUser, authLoading } = useUser();
 
   useEffect(() => {
     primeCsrf().catch(() => {});
   }, []);
+
+  if (authLoading) {
+    return null;
+  }
 
   if (!currentUser) {
     return (
@@ -362,11 +386,7 @@ export default function AppRoutes() {
           <Route path="/legal/sms" element={<SmsPolicy />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
-
-          {/* Make /sms-consent available for logged-out users too */}
           <Route path="/legal/consent" element={<SmsConsentPage />} />
-
-          {/* Family invite join route (works even when logged out) */}
           <Route path="/family/join/:token" element={<FamilyJoin />} />
         </Route>
 

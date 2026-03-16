@@ -6,7 +6,7 @@ import ChatView from '@/components/ChatView.jsx';
 
 export default function ChatThreadRoute() {
   const { id } = useParams();
-  const { currentUser } = useOutletContext(); // from AuthedLayout <Outlet context={{...}} />
+  const { currentUser } = useOutletContext();
 
   const [chatroom, setChatroom] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,16 +18,27 @@ export default function ChatThreadRoute() {
       try {
         setLoading(true);
 
-        // You need to match whatever endpoint you already use to fetch a room.
-        // Common options:
-        // - GET /chatrooms/:id
-        // - GET /rooms/:id
-        // - GET /chatrooms/:id?userId=...
-        const { data } = await axiosClient.get(`/chatrooms/${id}`);
+        console.log('[ChatThreadRoute] route param id =', id);
+
+        const { data } = await axiosClient.get(`/rooms/${id}`);
+
+        console.log('[ChatThreadRoute] loaded via /rooms/:id', data);
 
         if (!alive) return;
-        setChatroom(data);
+
+        const room = data?.room ?? data?.chatroom ?? data?.item ?? data ?? null;
+
+        console.log('[ChatThreadRoute] normalized room =', room);
+
+        setChatroom(room);
       } catch (e) {
+        console.error('[ChatThreadRoute] load failed', {
+          id,
+          status: e?.response?.status,
+          data: e?.response?.data,
+          message: e?.message,
+        });
+
         if (!alive) return;
         setChatroom(null);
       } finally {
@@ -57,10 +68,21 @@ export default function ChatThreadRoute() {
   }
 
   return (
+  <Box
+    style={{
+      flex: 1,
+      minHeight: 0,
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden',
+    }}
+  >
     <ChatView
       chatroom={chatroom}
       currentUserId={currentUser?.id}
       currentUser={currentUser}
     />
-  );
+  </Box>
+);
 }

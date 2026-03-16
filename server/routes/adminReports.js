@@ -24,6 +24,7 @@ router.get('/', requireAuth, requireAdmin, async (req, res) => {
         skip,
         include: {
           reporter: { select: { id: true, username: true, email: true } },
+          reportedUser: { select: { id: true, username: true, email: true } },
           message: {
             select: {
               id: true,

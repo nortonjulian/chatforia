@@ -111,6 +111,7 @@ function issueSession(res, user) {
     role: user.role,
     plan: user.plan,
     tokenVersion: user.tokenVersion ?? 0,
+    typ: 'session',
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '30d' });
@@ -119,6 +120,7 @@ function issueSession(res, user) {
 
   return token;
 }
+
 
 /* =========================
  *         CSRF
@@ -211,10 +213,11 @@ router.post(
     });
 
     // Issue session immediately on register (you can also require email verify first)
-    issueSession(res, user);
+    const token = issueSession(res, user);
 
     return res.status(201).json({
       message: 'user registered',
+      token,
       user: {
         id: user.id,
         email: user.email,
@@ -482,11 +485,12 @@ router.post(
       return res.status(400).json({ ok: false, reason: 'bad_code' });
     }
 
-    issueSession(res, user);
+    const token = issueSession(res, user);
 
     return res.json({
       ok: true,
       message: 'logged in',
+      token,
       user: {
         id: user.id,
         email: user.email,
@@ -512,8 +516,10 @@ router.get(
       username: req.user.username,
       role: req.user.role,
       plan: req.user.plan,
+      tokenVersion: req.user.tokenVersion ?? 0,
       typ: 'short',
     };
+
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '10m' });
     res.json({ token });
   })
@@ -929,6 +935,7 @@ router.get(
       plan: req.user.plan || 'FREE',
       preferredLanguage: req.user.preferredLanguage || 'en',
       theme: req.user.theme || 'dawn',
+      avatarUrl: req.user.avatarUrl || null,
     };
 
     let subscriber = null;
@@ -939,7 +946,7 @@ router.get(
           id: true,
           provider: true,
           status: true,
-          esimIccid: true,
+          iccid: true,
           esimProfileId: true,
           msisdn: true,
           providerMeta: true,

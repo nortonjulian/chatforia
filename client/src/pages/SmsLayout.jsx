@@ -319,145 +319,171 @@ export default function SmsLayout({ currentUserId, currentUser }) {
   }, [threadId, thread?.messages?.length]); // refresh when messages change
 
   if (!thread) return null;
-
+  
   return (
-    <ThreadShell
-      header={
-        <Box p="md" w="100%">
-          <Group mb="sm" justify="space-between" align="center">
-            <Title order={4}>{titleText}</Title>
+    <Box
+      style={{
+        flex: 1,
+        minHeight: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <ThreadShell
+        header={
+          <Box p="md" w="100%">
+            <Group mb="sm" justify="space-between" align="center">
+              <Title order={4}>{titleText}</Title>
 
-            <Group gap="xs">
-              {/* ✅ NEW: Call */}
-              <Tooltip label="Call" withArrow withinPortal>
-                <ActionIcon
-                  variant="subtle"
-                  aria-label="Call"
-                  onClick={startSmsCall}
-                >
-                  <IconPhoneCall size={18} />
-                </ActionIcon>
-              </Tooltip>
-
-              {/* ✅ NEW: Video (requires Chatforia link) */}
-              <Tooltip
-                label={
-                  linkedChatRoomId
-                    ? 'Video'
-                    : 'Invite them to Chatforia to enable video'
-                }
-                withArrow
-                withinPortal
-              >
-                {/* Mantine Tooltips + disabled need a wrapper */}
-                <span style={{ display: 'inline-flex' }}>
+              <Group gap="xs">
+                {/* ✅ NEW: Call */}
+                <Tooltip label="Call" withArrow withinPortal>
                   <ActionIcon
                     variant="subtle"
-                    aria-label="Video"
-                    onClick={startSmsVideo}
-                    disabled={!linkedChatRoomId}
+                    aria-label="Call"
+                    onClick={startSmsCall}
                   >
-                    <IconVideo size={18} />
+                    <IconPhoneCall size={18} />
                   </ActionIcon>
-                </span>
-              </Tooltip>
+                </Tooltip>
 
-              <Tooltip label="Search" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  aria-label="Search"
-                  onClick={() => setSearchOpen(true)}
+                {/* ✅ NEW: Video (requires Chatforia link) */}
+                <Tooltip
+                  label={
+                    linkedChatRoomId
+                      ? 'Video'
+                      : 'Invite them to Chatforia to enable video'
+                  }
+                  withArrow
+                  withinPortal
                 >
-                  <IconSearch size={18} />
-                </ActionIcon>
-              </Tooltip>
+                  <span style={{ display: 'inline-flex' }}>
+                    <ActionIcon
+                      variant="subtle"
+                      aria-label="Video"
+                      onClick={startSmsVideo}
+                      disabled={!linkedChatRoomId}
+                    >
+                      <IconVideo size={18} />
+                    </ActionIcon>
+                  </span>
+                </Tooltip>
 
-              <Tooltip label="Media" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  aria-label="Media"
-                  onClick={() => setGalleryOpen(true)}
-                >
-                  <IconPhoto size={18} />
-                </ActionIcon>
-              </Tooltip>
+                <Tooltip label="Search" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    aria-label="Search"
+                    onClick={() => setSearchOpen(true)}
+                  >
+                    <IconSearch size={18} />
+                  </ActionIcon>
+                </Tooltip>
 
-              {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Invite + Block */}
-              <ThreadActionsMenu
-                isPremium={isPremium}
-                showPremiumSection
-                showThreadSection
-                onAiPower={() => {
-                  if (!isPremium) return navigate('/upgrade');
-                  console.log('SMS AI Power (todo)');
-                }}
-                onSchedule={() => {
-                  if (!isPremium) return navigate('/upgrade');
-                  console.log('SMS Schedule (todo)');
-                }}
-                onSearch={() => setSearchOpen(true)}
-                onMedia={() => setGalleryOpen(true)}
-                // ✅ SMS-specific “Invite” (NOT room invite)
-                canInvite
-                inviteLabel="Invite to Chatforia"
-                onInvitePeople={inviteToChatforia}
-                // ✅ Local block
-                onBlock={blockNumber}
-                blockLabel={`Block ${titleText || 'number'}`}
-              />
-            </Group>
-          </Group>
-        </Box>
-      }
-      composer={
-        <Box w="100%">
-          <ThreadComposer
-            value={draft}
-            onChange={setDraft}
-            placeholder="Type a message…"
-            topSlot={
-              <Group gap="sm" align="center" wrap="wrap">
-                <label
-                  style={{
-                    fontSize: 12,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    userSelect: 'none',
+                <Tooltip label="Media" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    aria-label="Media"
+                    onClick={() => setGalleryOpen(true)}
+                  >
+                    <IconPhoto size={18} />
+                  </ActionIcon>
+                </Tooltip>
+
+                {/* ✅ Same menu structure as ChatView (AI Power + Schedule), plus Invite + Block */}
+                <ThreadActionsMenu
+                  isPremium={isPremium}
+                  showPremiumSection
+                  showThreadSection
+                  onAiPower={() => {
+                    if (!isPremium) return navigate('/upgrade');
+                    console.log('SMS AI Power (todo)');
                   }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={smartEnabled}
-                    onChange={(e) => {
-                      const v = e.target.checked;
-                      setSmartEnabled(v);
-                      setPref(PREF_SMART_REPLIES, v);
-                    }}
-                    aria-label="Enable Smart Replies"
-                  />
-                  Smart Replies
-                </label>
-
-                <SmartReplyBar
-                  suggestions={suggestions}
-                  onPick={(t) => sendSms(t)}
-                  compact
+                  onSchedule={() => {
+                    if (!isPremium) return navigate('/upgrade');
+                    console.log('SMS Schedule (todo)');
+                  }}
+                  onSearch={() => setSearchOpen(true)}
+                  onMedia={() => setGalleryOpen(true)}
+                  // ✅ SMS-specific “Invite” (NOT room invite)
+                  canInvite
+                  inviteLabel="Invite to Chatforia"
+                  onInvitePeople={inviteToChatforia}
+                  // ✅ Local block
+                  onBlock={blockNumber}
+                  blockLabel={`Block ${titleText || 'number'}`}
                 />
               </Group>
-            }
-            onSend={async (payload) => {
-              const text = (draft || '').trim();
+            </Group>
+          </Box>
+        }
+        composer={
+          <Box w="100%">
+            <ThreadComposer
+              value={draft}
+              onChange={setDraft}
+              placeholder="Type a message…"
+              topSlot={
+                <Group gap="sm" align="center" wrap="wrap">
+                  <label
+                    style={{
+                      fontSize: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      userSelect: 'none',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={smartEnabled}
+                      onChange={(e) => {
+                        const v = e.target.checked;
+                        setSmartEnabled(v);
+                        setPref(PREF_SMART_REPLIES, v);
+                      }}
+                      aria-label="Enable Smart Replies"
+                    />
+                    Smart Replies
+                  </label>
 
-              // attachments from mic/upload
-              if (payload?.attachments?.length) {
-                const fileMeta = payload.attachments[0];
+                  <SmartReplyBar
+                    suggestions={suggestions}
+                    onPick={(t) => sendSms(t)}
+                    compact
+                  />
+                </Group>
+              }
+              onSend={async (payload) => {
+                const text = (draft || '').trim();
 
-                const roomId = thread?.chatRoomId;
-                if (roomId) {
-                  await axiosClient.post('/messages', {
-                    chatRoomId: String(roomId),
-                    content: text || '',
+                // attachments from mic/upload
+                if (payload?.attachments?.length) {
+                  const fileMeta = payload.attachments[0];
+
+                  const roomId = thread?.chatRoomId;
+                  if (roomId) {
+                    await axiosClient.post('/messages', {
+                      chatRoomId: String(roomId),
+                      content: text || '',
+                      attachmentsInline: [
+                        {
+                          kind: (fileMeta.contentType || '').startsWith('audio/')
+                            ? 'AUDIO'
+                            : 'FILE',
+                          url: fileMeta.url,
+                          mimeType: fileMeta.contentType,
+                        },
+                      ],
+                    });
+                    setDraft('');
+                    await loadThread();
+                    return;
+                  }
+
+                  await axiosClient.post(`/sms/threads/${threadId}/messages`, {
+                    body: text || '',
                     attachmentsInline: [
                       {
                         kind: (fileMeta.contentType || '').startsWith('audio/')
@@ -468,290 +494,276 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                       },
                     ],
                   });
+
                   setDraft('');
                   await loadThread();
                   return;
                 }
 
-                await axiosClient.post(`/sms/threads/${threadId}/messages`, {
-                  body: text || '',
-                  attachmentsInline: [
-                    {
-                      kind: (fileMeta.contentType || '').startsWith('audio/')
-                        ? 'AUDIO'
-                        : 'FILE',
-                      url: fileMeta.url,
-                      mimeType: fileMeta.contentType,
-                    },
-                  ],
-                });
-
+                if (!text) return;
                 setDraft('');
-                await loadThread();
-                return;
-              }
-
-              if (!text) return;
-              setDraft('');
-              await sendSms(text);
-            }}
-          />
-        </Box>
-      }
-    >
-      <Box
-        w="100%"
-        style={{
-          height: '100%',
-          minHeight: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+                await sendSms(text);
+              }}
+            />
+          </Box>
+        }
       >
-        <ScrollArea
-          style={{ flex: '1 1 auto', minHeight: 0 }}
-          viewportProps={{ className: 'sms-thread-viewport' }}
-          type="auto"
-          styles={{
-            viewport: { display: 'flex', flexDirection: 'column' },
-            content: {
-              display: 'flex',
-              flexDirection: 'column',
-              flex: '1 1 auto',
-            },
+        <Box
+          w="100%"
+          style={{
+            flex: '1 1 auto',
+            minHeight: 0,
+            height: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
           }}
         >
-          <Stack gap="xs" p="xs" style={{ marginTop: 'auto' }}>
-            {(thread.messages || []).length ? (
-              (thread.messages || []).map((m) => {
-                const isOut = m.direction === 'out';
-                const ts = dayjs(m.createdAt || m.sentAt || m.created_at).format(
-                  'MMM D, YYYY • h:mm A'
-                );
+          <ScrollArea
+            style={{ flex: '1 1 auto', minHeight: 0, height: 0 }}
+            viewportProps={{ className: 'sms-thread-viewport' }}
+            type="auto"
+            styles={{
+              viewport: { display: 'flex', flexDirection: 'column' },
+              content: {
+                display: 'flex',
+                flexDirection: 'column',
+                flex: '1 1 auto',
+              },
+            }}
+          >
+            <Stack gap="xs" p="xs">
+              {(thread.messages || []).length ? (
+                (thread.messages || []).map((m) => {
+                  const isOut = m.direction === 'out';
+                  const ts = dayjs(m.createdAt || m.sentAt || m.created_at).format(
+                    'MMM D, YYYY • h:mm A'
+                  );
 
-                const bubbleStyle = {
-                  maxWidth: 360,
-                  background: isOut
-                    ? 'var(--bubble-outgoing)'
-                    : 'var(--bubble-incoming-bg, var(--card))',
-                  color: isOut
-                    ? 'var(--bubble-outgoing-text, #fff)'
-                    : 'var(--bubble-incoming-text, var(--fg))',
-                  borderRadius: 18,
-                  ...(isPremium
-                    ? {
-                        border: '1px solid var(--bubble-premium-outline)',
-                        boxShadow: 'var(--bubble-premium-glow)',
-                      }
-                    : {}),
-                };
+                  const bubbleStyle = {
+                    maxWidth: 360,
+                    background: isOut
+                      ? 'var(--bubble-outgoing)'
+                      : 'var(--bubble-incoming-bg, var(--card))',
+                    color: isOut
+                      ? 'var(--bubble-outgoing-text, #fff)'
+                      : 'var(--bubble-incoming-text, var(--fg))',
+                    borderRadius: 18,
+                    ...(isPremium
+                      ? {
+                          border: '1px solid var(--bubble-premium-outline)',
+                          boxShadow: 'var(--bubble-premium-glow)',
+                        }
+                      : {}),
+                  };
 
-                const isEditing = editingId === m.id;
+                  const isEditing = editingId === m.id;
 
-                // ✅ NEW: MMS thumbnails (per-message)
-                const media = Array.isArray(m.mediaUrls) ? m.mediaUrls : [];
+                  // ✅ NEW: MMS thumbnails (per-message)
+                  const media = Array.isArray(m.mediaUrls) ? m.mediaUrls : [];
 
-                return (
-                  <Group
-                    key={m.id}
-                    data-sms-msg-id={m.id}
-                    className="sms-message-row"
-                    justify={isOut ? 'flex-end' : 'flex-start'}
-                    align="flex-start"
-                    wrap="nowrap"
-                    gap={6}
-                    style={{ width: '100%' }}
-                  >
-                    {/* ✅ SENT: dots on LEFT */}
-                    {isOut && (
-                      <Menu
-                        position="bottom-start"
-                        withinPortal
-                        shadow="md"
-                        radius="md"
-                      >
-                        <Menu.Target>
-                          <ActionIcon
-                            className="sms-message-menu"
-                            aria-label="Message actions"
-                            variant="subtle"
-                            size="sm"
-                            style={{ marginTop: 2 }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }}
-                          >
-                            <IconDotsVertical size={18} />
-                          </ActionIcon>
-                        </Menu.Target>
-
-                        <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                          <Menu.Item
-                            leftSection={<IconPencil size={16} />}
-                            onClick={() => startEdit(m)}
-                          >
-                            Edit
-                          </Menu.Item>
-
-                          <Menu.Item
-                            color="red"
-                            leftSection={<IconTrash size={16} />}
-                            onClick={() => deleteMessage(m.id)}
-                          >
-                            Delete
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
-                    )}
-
-                    {/* Bubble */}
-                    <Tooltip label={ts} withinPortal>
-                      <Paper
-                        px="md"
-                        py="xs"
-                        radius="lg"
-                        withBorder={false}
-                        style={bubbleStyle}
-                        className="sms-bubble"
-                      >
-                        {!isEditing ? (
-                          <>
-                            <Text
-                              c="inherit"
-                              style={{
-                                whiteSpace: 'pre-wrap',
-                                overflowWrap: 'anywhere',
+                  return (
+                    <Group
+                      key={m.id}
+                      data-sms-msg-id={m.id}
+                      className="sms-message-row"
+                      justify={isOut ? 'flex-end' : 'flex-start'}
+                      align="flex-start"
+                      wrap="nowrap"
+                      gap={6}
+                      style={{ width: '100%' }}
+                    >
+                      {/* ✅ SENT: dots on LEFT */}
+                      {isOut && (
+                        <Menu
+                          position="bottom-start"
+                          withinPortal
+                          shadow="md"
+                          radius="md"
+                        >
+                          <Menu.Target>
+                            <ActionIcon
+                              className="sms-message-menu"
+                              aria-label="Message actions"
+                              variant="subtle"
+                              size="sm"
+                              style={{ marginTop: 2 }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
                               }}
                             >
-                              {m.body}
-                            </Text>
+                              <IconDotsVertical size={18} />
+                            </ActionIcon>
+                          </Menu.Target>
 
-                            {media.length > 0 && (
-                              <Group gap="xs" mt={8} wrap="wrap">
-                                {media.map((_, idx) => {
-                                  const base =
-                                    import.meta.env.VITE_API_BASE_URL || '';
-                                  const src = `${base}/sms/media/${m.id}/${idx}`;
+                          <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                            <Menu.Item
+                              leftSection={<IconPencil size={16} />}
+                              onClick={() => startEdit(m)}
+                            >
+                              Edit
+                            </Menu.Item>
 
-                                  return (
-                                    <img
-                                      key={`${m.id}-${idx}`}
-                                      src={src}
-                                      alt="MMS"
-                                      style={{
-                                        width: 140,
-                                        height: 140,
-                                        objectFit: 'cover',
-                                        borderRadius: 12,
-                                        cursor: 'pointer',
-                                      }}
-                                      onClick={() => {
-                                        setGalleryOpen(true);
-                                      }}
-                                    />
-                                  );
-                                })}
-                              </Group>
-                            )}
-                          </>
-                        ) : (
-                          <Box style={{ minWidth: 240 }}>
-                            <Textarea
-                              value={editingText}
-                              onChange={(e) => setEditingText(e.target.value)}
-                              autosize
-                              minRows={2}
-                              styles={{
-                                input: {
-                                  background: 'transparent',
-                                  color: 'inherit',
-                                  borderColor: 'rgba(255,255,255,0.25)',
-                                },
-                              }}
-                            />
-                            <Group justify="flex-end" gap="xs" mt={6}>
-                              <Button
-                                variant="subtle"
-                                size="xs"
-                                onClick={cancelEdit}
+                            <Menu.Item
+                              color="red"
+                              leftSection={<IconTrash size={16} />}
+                              onClick={() => deleteMessage(m.id)}
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      )}
+
+                      {/* Bubble */}
+                      <Tooltip label={ts} withinPortal>
+                        <Paper
+                          px="md"
+                          py="xs"
+                          radius="lg"
+                          withBorder={false}
+                          style={bubbleStyle}
+                          className="sms-bubble"
+                        >
+                          {!isEditing ? (
+                            <>
+                              <Text
+                                c="inherit"
+                                style={{
+                                  whiteSpace: 'pre-wrap',
+                                  overflowWrap: 'anywhere',
+                                }}
                               >
-                                Cancel
-                              </Button>
-                              <Button size="xs" onClick={() => saveEdit(m)}>
-                                Save
-                              </Button>
-                            </Group>
-                          </Box>
-                        )}
-                      </Paper>
-                    </Tooltip>
+                                {m.body}
+                              </Text>
 
-                    {/* ✅ RECEIVED: dots on RIGHT */}
-                    {!isOut && (
-                      <Menu
-                        position="bottom-end"
-                        withinPortal
-                        shadow="md"
-                        radius="md"
-                      >
-                        <Menu.Target>
-                          <ActionIcon
-                            className="sms-message-menu"
-                            aria-label="Message actions"
-                            variant="subtle"
-                            size="sm"
-                            style={{ marginTop: 2 }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }}
-                          >
-                            <IconDotsVertical size={18} />
-                          </ActionIcon>
-                        </Menu.Target>
+                              {media.length > 0 && (
+                                <Group gap="xs" mt={8} wrap="wrap">
+                                  {media.map((_, idx) => {
+                                    const base =
+                                      import.meta.env.VITE_API_BASE_URL || '';
+                                    const src = `${base}/sms/media/${m.id}/${idx}`;
 
-                        <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                          <Menu.Item
-                            color="red"
-                            leftSection={<IconTrash size={16} />}
-                            onClick={() => deleteMessage(m.id)}
-                          >
-                            Delete
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
-                    )}
-                  </Group>
-                );
-              })
-            ) : (
-              <Text c="dimmed" ta="center" py="md">
-                No messages yet.
-              </Text>
-            )}
+                                    return (
+                                      <img
+                                        key={`${m.id}-${idx}`}
+                                        src={src}
+                                        alt="MMS"
+                                        style={{
+                                          width: 140,
+                                          height: 140,
+                                          objectFit: 'cover',
+                                          borderRadius: 12,
+                                          cursor: 'pointer',
+                                        }}
+                                        onClick={() => {
+                                          setGalleryOpen(true);
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </Group>
+                              )}
+                            </>
+                          ) : (
+                            <Box style={{ minWidth: 240 }}>
+                              <Textarea
+                                value={editingText}
+                                onChange={(e) => setEditingText(e.target.value)}
+                                autosize
+                                minRows={2}
+                                styles={{
+                                  input: {
+                                    background: 'transparent',
+                                    color: 'inherit',
+                                    borderColor: 'rgba(255,255,255,0.25)',
+                                  },
+                                }}
+                              />
+                              <Group justify="flex-end" gap="xs" mt={6}>
+                                <Button
+                                  variant="subtle"
+                                  size="xs"
+                                  onClick={cancelEdit}
+                                >
+                                  Cancel
+                                </Button>
+                                <Button size="xs" onClick={() => saveEdit(m)}>
+                                  Save
+                                </Button>
+                              </Group>
+                            </Box>
+                          )}
+                        </Paper>
+                      </Tooltip>
 
-            <div ref={bottomRef} />
-          </Stack>
-        </ScrollArea>
-      </Box>
+                      {/* ✅ RECEIVED: dots on RIGHT */}
+                      {!isOut && (
+                        <Menu
+                          position="bottom-end"
+                          withinPortal
+                          shadow="md"
+                          radius="md"
+                        >
+                          <Menu.Target>
+                            <ActionIcon
+                              className="sms-message-menu"
+                              aria-label="Message actions"
+                              variant="subtle"
+                              size="sm"
+                              style={{ marginTop: 2 }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }}
+                            >
+                              <IconDotsVertical size={18} />
+                            </ActionIcon>
+                          </Menu.Target>
 
-      {/* ✅ Local Search Drawer (IndexedDB) */}
-      <SmsSearchDrawer
-        opened={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        threadId={String(threadId)}
-        onJumpToMessage={(id) => jumpToSmsMessage(id)}
-        searchFn={searchSmsMessages}
-      />
+                          <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                            <Menu.Item
+                              color="red"
+                              leftSection={<IconTrash size={16} />}
+                              onClick={() => deleteMessage(m.id)}
+                            >
+                              Delete
+                            </Menu.Item>
+                          </Menu.Dropdown>
+                        </Menu>
+                      )}
+                    </Group>
+                  );
+                })
+              ) : (
+                <Text c="dimmed" ta="center" py="md">
+                  No messages yet.
+                </Text>
+              )}
 
-      {/* ✅ MMS / Media Gallery */}
-      <SmsMediaGalleryModal
-        opened={galleryOpen}
-        onClose={() => setGalleryOpen(false)}
-        title={titleText}
-        items={smsMediaItems}
-      />
-    </ThreadShell>
+              <div ref={bottomRef} />
+            </Stack>
+          </ScrollArea>
+        </Box>
+
+        {/* ✅ Local Search Drawer (IndexedDB) */}
+        <SmsSearchDrawer
+          opened={searchOpen}
+          onClose={() => setSearchOpen(false)}
+          threadId={String(threadId)}
+          onJumpToMessage={(id) => jumpToSmsMessage(id)}
+          searchFn={searchSmsMessages}
+        />
+
+        {/* ✅ MMS / Media Gallery */}
+        <SmsMediaGalleryModal
+          opened={galleryOpen}
+          onClose={() => setGalleryOpen(false)}
+          title={titleText}
+          items={smsMediaItems}
+        />
+      </ThreadShell>
+    </Box>
   );
 }

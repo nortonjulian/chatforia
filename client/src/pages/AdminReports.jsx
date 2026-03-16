@@ -169,9 +169,27 @@ export default function AdminReportsPage() {
                   {r.message?.sender?.isBanned ? ' • banned' : ''}
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm" lineClamp={3}>
-                    {r.decryptedContent}
-                  </Text>
+                  <Stack gap={4}>
+                    <Text size="sm" fw={600}>
+                      {r.reason || 'No reason provided'}
+                    </Text>
+
+                    <Text size="sm" lineClamp={3}>
+                      {r.decryptedContent}
+                    </Text>
+
+                    {r.details ? (
+                      <Text size="xs" c="dimmed" lineClamp={2}>
+                        {r.details}
+                      </Text>
+                    ) : null}
+
+                    {r.blockApplied ? (
+                      <Badge size="xs" color="red" variant="light">
+                        Blocked after report
+                      </Badge>
+                    ) : null}
+                  </Stack>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="xs">

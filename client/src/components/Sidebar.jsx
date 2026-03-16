@@ -78,14 +78,29 @@ function Sidebar({ currentUser, features = {} }) {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
 
-  const onSelectConversation = useCallback(
-  (thread) => {
-    if (!thread) return;
-    if (thread.kind === 'sms') navigate(`/sms/${thread.id}`);
-    else navigate(`/chat/${thread.id}`);
-  },
-  [navigate]
-);
+      const onSelectConversation = useCallback(
+      (thread) => {
+        if (!thread) return;
+
+        console.log('[Sidebar] selected thread object:', thread);
+
+        if (thread.kind === 'sms') {
+          navigate(`/sms/${thread.id}`);
+          return;
+        }
+
+        const roomId =
+          thread.chatRoomId ??
+          thread.roomId ??
+          thread.chatroomId ??
+          thread.id;
+
+        console.log('[Sidebar] resolved roomId for navigation:', roomId);
+
+        navigate(`/chat/${roomId}`);
+      },
+      [navigate]
+  );
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>

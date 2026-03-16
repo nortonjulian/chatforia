@@ -659,3 +659,19 @@ html, body, #root { height: 100%; }
   border-radius: 14px;
   transition: outline 0.2s ease;
 }
+
+/* hide message actions by default */
+.message-actions {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+/* reveal when hovering the row */
+.message-row:hover .message-actions {
+  opacity: 1;
+}
+
+/* keep visible while menu is focused (keyboard users) */
+.message-actions:focus-within {
+  opacity: 1;
+}

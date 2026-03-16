@@ -58,7 +58,6 @@ import uploadsRouter from './routes/uploads.js';
 import smsRouter from './routes/sms.js';
 import searchPeopleRouter from './routes/search.people.js';
 import voiceRouter from './routes/voice.js';
-import voiceCallsRouter from './routes/voiceCalls.js';
 import settingsForwardingRouter from './routes/settings.forwarding.js';
 import calendarRouter from './routes/calendar.js';
 import shareEventRouter from './routes/shareEvent.js';
@@ -448,10 +447,9 @@ export function createApp() {
   app.use('/numbers', requireAuth, requireEmailVerified, numbersRouter);
 
   app.use('/rooms', roomsRouter);
-  app.use('/chatrooms', roomsRouter);
+  app.use('/chatrooms', conversationsRouter);
   app.use('/messages', messagesRouter);
 
-  app.use('/calls', voiceCallsRouter);
 
   app.use(a11yRouter);
 

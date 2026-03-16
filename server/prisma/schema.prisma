@@ -239,7 +239,7 @@ model User {
 
   // --- verification & 2FA ---
   emailVerifiedAt        DateTime?
-  tokenVersion           Int      @default(0)
+  tokenVersion           Int                     @default(0)
   emailVerifiedIp        String?
   phoneVerifiedAt        DateTime?
   phoneVerifiedIp        String?
@@ -265,7 +265,7 @@ model User {
   currency       String?     @db.VarChar(8)
   firstPaidAt    DateTime?
 
-  esimIccid String? @map("tealIccid") @db.VarChar(64)
+  iccid String?
 
   publicKey String?
 
@@ -277,7 +277,8 @@ model User {
   messages                   Message[]            @relation("UserMessages")
   messageReads               MessageRead[]
   participants               Participant[]
-  reports                    Report[]             @relation("UserReports")
+  reportsSubmitted           Report[]             @relation("UserReports")
+  reportedReports            Report[]             @relation("ReportedUserReports")
   randomChatRooms            RandomChatRoom[]     @relation("RandomChatParticipants")
   readMessages               Message[]            @relation("ReadMessages")
   contactsOwned              Contact[]            @relation("ContactsOwned")
@@ -418,11 +419,18 @@ model Device {
   userId Int
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  publicKey  String
-  name       String?
-  platform   String?
-  isPrimary  Boolean   @default(false)
+  deviceId String
+
+  publicKey    String
+  keyAlgorithm String @default("curve25519")
+  keyVersion   Int    @default(1)
+
+  name      String?
+  platform  String?
+  isPrimary Boolean @default(false)
+
   createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
   revokedAt  DateTime?
 
@@ -431,7 +439,9 @@ model Device {
 
   messageSessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Device")
 
+  @@unique([userId, deviceId])
   @@index([userId])
+  @@index([userId, revokedAt])
 }
 
 // ===================== 3) Config & Localization =====================
@@ -549,7 +559,7 @@ model MobileDataPackPurchase {
   stripePaymentIntentId   String? @db.Text
 
   /// ICCID for the carrier line (legacy column tealIccid)
-  esimIccid String? @map("tealIccid")
+  iccid           String?
 
   /// Carrier profile id (legacy column tealProfileId)
   esimProfileId String? @map("tealProfileId")
@@ -779,7 +789,8 @@ model MessageAttachment {
 
   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
 
-  deletedAt   DateTime?
+  deletedAt DateTime?
+
   @@index([deletedAt])
   @@index([messageId])
   @@index([kind, messageId]) // quick media queries per message
@@ -933,17 +944,27 @@ model Report {
   id               Int      @id @default(autoincrement())
   messageId        Int
   reporterId       Int
+  reportedUserId   Int?
+  chatRoomId       Int?
   decryptedContent String
+  reason           String?
+  details          String?
+  evidence         Json?
+  blockApplied     Boolean  @default(false)
   createdAt        DateTime @default(now())
 
   status     String    @default("OPEN")
   resolvedAt DateTime?
   notes      String?
 
-  message  Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  reporter User    @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  message      Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  reporter     User    @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser User?   @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
 
   @@index([status, createdAt])
+  @@index([reporterId, createdAt])
+  @@index([reportedUserId, createdAt])
+  @@index([chatRoomId, createdAt])
 }
 
 model AuditLog {
@@ -1207,25 +1228,25 @@ model SmsCarrierEvent {
 }
 
 model Subscriber {
-  id                Int      @id @default(autoincrement())
-  userId            Int?     // optional: unassigned until user claims
-  provider          String   // 'oneglobal' | 'telna' | 'plintron' | 'twilio' ...
-  providerProfileId String?  // provider's internal profile / resource id
-  iccid             String?  @unique
+  id                Int       @id @default(autoincrement())
+  userId            Int? // optional: unassigned until user claims
+  provider          String // 'oneglobal' | 'telna' | 'plintron' | 'twilio' ...
+  providerProfileId String? // provider's internal profile / resource id
+  iccid             String?   @unique
   iccidHint         String?
-  smdp              String?  // SMDP (if provided)
-  activationCode    String?  // matchingId or activation token (if stored)
-  lpaUri            String?  // deep link / LPA for provisioning
-  qrPayload         String?  // QR payload or svg
-  msisdn            String?  // assigned phone number (E.164) if any
-  region            String?  @db.VarChar(8)
-  status            String   @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
-  providerMeta      Json?    // raw provider response / audit
-  createdAt         DateTime @default(now())
+  smdp              String? // SMDP (if provided)
+  activationCode    String? // matchingId or activation token (if stored)
+  lpaUri            String? // deep link / LPA for provisioning
+  qrPayload         String? // QR payload or svg
+  msisdn            String? // assigned phone number (E.164) if any
+  region            String?   @db.VarChar(8)
+  status            String    @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
+  providerMeta      Json? // raw provider response / audit
+  createdAt         DateTime  @default(now())
   activatedAt       DateTime?
   suspendedAt       DateTime?
   expiresAt         DateTime?
-  updatedAt         DateTime @updatedAt
+  updatedAt         DateTime  @updatedAt
 
   @@index([userId])
   @@index([provider, providerProfileId])
@@ -1233,40 +1254,40 @@ model Subscriber {
 }
 
 model SmsConsent {
-  id                 Int      @id @default(autoincrement())
-  phone              String
-  pendingRegistration Json?    // snapshot of the registration (optional)
-  consentTextVersion String
-  ipAddress          String? 
-  userAgent          String?
-  createdAt          DateTime @default(now())
+  id                  Int      @id @default(autoincrement())
+  phone               String
+  pendingRegistration Json? // snapshot of the registration (optional)
+  consentTextVersion  String
+  ipAddress           String?
+  userAgent           String?
+  createdAt           DateTime @default(now())
 
   @@index([phone])
 }
 
 model SmsOptOut {
   id               Int      @id @default(autoincrement())
-  phone            String   // stored in normalized E.164 form, e.g. +14155551234
-  provider         String?  // e.g. "twilio"
-  reason           String?  // the incoming text (STOP, HELP, STOPALL, etc.)
-  inboundMessageId String?  // provider message SID if available
-  rawPayload       Json?    // full webhook payload for audit
-  ipAddress        String?  // optional source IP of webhook
-  userAgent        String?  // optional UA
+  phone            String // stored in normalized E.164 form, e.g. +14155551234
+  provider         String? // e.g. "twilio"
+  reason           String? // the incoming text (STOP, HELP, STOPALL, etc.)
+  inboundMessageId String? // provider message SID if available
+  rawPayload       Json? // full webhook payload for audit
+  ipAddress        String? // optional source IP of webhook
+  userAgent        String? // optional UA
   createdAt        DateTime @default(now())
 
-  @@index([phone])
   @@unique([phone, provider])
+  @@index([phone])
 }
 
 model PhoneOtp {
-  id               Int      @id @default(autoincrement())
-  phone            String
-  otpCode          String
-  providerMessageId String?  // optional Twilio SID
-  attempts         Int      @default(0)
-  expiresAt        DateTime
-  createdAt        DateTime @default(now())
+  id                Int      @id @default(autoincrement())
+  phone             String
+  otpCode           String
+  providerMessageId String? // optional Twilio SID
+  attempts          Int      @default(0)
+  expiresAt         DateTime
+  createdAt         DateTime @default(now())
 
   @@index([phone])
 }

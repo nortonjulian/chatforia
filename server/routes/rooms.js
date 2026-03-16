@@ -4,6 +4,7 @@ import chatroomsRouter from './chatrooms.js';
 import prisma from '../utils/prismaClient.js';
 import asyncHandler from 'express-async-handler';
 import { emitMessageUpsert } from '../services/socketBus.js';
+import Boom from '@hapi/boom';
 
 const router = express.Router();
 const env = String(process.env.NODE_ENV || '');
@@ -332,6 +333,56 @@ router.post(
   })
 );
 
+router.post('/dev/direct', requireAuth, asyncHandler(async (req, res) => {
+  const userA = Number(req.user.id);
+  const userB = Number(req.body.userId);
+
+  if (!Number.isFinite(userB) || userA === userB) {
+    throw Boom.badRequest('Valid other userId required');
+  }
+
+  const candidates = await prisma.chatRoom.findMany({
+    where: {
+      isGroup: false,
+      participants: {
+        some: { userId: userA },
+      },
+    },
+    select: {
+      id: true,
+      participants: {
+        select: { userId: true }
+      }
+    }
+  });
+
+  const existing = candidates.find((room) => {
+    const ids = room.participants.map((p) => p.userId).sort((a, b) => a - b);
+    return ids.length === 2 &&
+      ids[0] === Math.min(userA, userB) &&
+      ids[1] === Math.max(userA, userB);
+  });
+
+  if (existing) {
+    return res.json({ roomId: existing.id });
+  }
+
+  const room = await prisma.chatRoom.create({
+    data: {
+      name: null,
+      isGroup: false,
+      participants: {
+        create: [
+          { userId: userA, role: 'MEMBER' },
+          { userId: userB, role: 'MEMBER' }
+        ]
+      }
+    },
+    select: { id: true }
+  });
+
+  return res.status(201).json({ roomId: room.id });
+}));
 
 // POST /chatrooms/:roomId/messages
 router.post(

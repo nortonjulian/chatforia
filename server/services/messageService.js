@@ -113,9 +113,11 @@ export async function createMessageService({
             height: true,
             durationSec: true,
             caption: true,
+            thumbUrl: true,
             createdAt: true,
           },
         },
+        revision: true,
       },
     });
 
@@ -258,9 +260,11 @@ export async function createMessageService({
               height: true,
               durationSec: true,
               caption: true,
+              thumbUrl: true,
               createdAt: true,
             },
           },
+          revision: true,
         },
       });
 

@@ -204,7 +204,6 @@ export async function emitMessageUpsert(chatRoomId, messageOrRow) {
     emitToChatRoom(chatRoomId, SOCKET_EVENTS.MESSAGE_UPSERT, {
       roomId: Number(chatRoomId),
       item: payloadRow,
-      meta: { source: 'server' },
     });
   } catch (err) {
     /* noop */

@@ -169,129 +169,141 @@ export default function HomeIndex({ currentUser }) {
   };
 
   return (
-    <ThreadShell
-      header={
-        // ✅ iMessage/TextNow-like "To:" bar (simple row, no extra random buttons)
-        <Box p="md" w="100%">
-          <Paper withBorder radius="md" p="sm" w="100%">
-            {/* chips (optional, lightweight) */}
-            {recipients.length > 0 && (
-              <Group gap={6} mb={8} wrap="wrap">
-                {recipients.map((r) => (
-                  <Badge
-                    key={r}
-                    variant="light"
-                    radius="sm"
-                    rightSection={
-                      <ActionIcon
-                        size="xs"
-                        variant="subtle"
-                        aria-label={`Remove ${r}`}
-                        onClick={() => removeRecipient(r)}
-                      >
-                        <IconX size={12} />
-                      </ActionIcon>
-                    }
-                  >
-                    {r}
-                  </Badge>
-                ))}
-              </Group>
-            )}
-
-            <Group gap="xs" wrap="nowrap" align="center">
-              <Text fw={600} style={{ minWidth: 32 }}>
-                To:
-              </Text>
-
-              <Box style={{ flex: 1, minWidth: 0 }}>
-                <TextInput
-                  ref={toInputRef}
-                  value={toRaw}
-                  onChange={(e) => setToRaw(e.currentTarget.value)}
-                  placeholder="Enter a name or number"
-                  variant="unstyled"
-                  styles={{
-                    input: {
-                      fontSize: 14,
-                      padding: 0,
-                      minHeight: 28,
-                    },
-                  }}
-                />
-
-                {mode === 'mixed' && (
-                  <Text size="xs" c="red" mt={6}>
-                    Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).
-                  </Text>
-                )}
-              </Box>
-
-              <Tooltip label="Clear" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  onClick={clearAll}
-                  aria-label="Clear recipients"
-                >
-                  <IconX size={16} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
-
-            {/* mode badge row */}
-            {mode && mode !== 'mixed' && (
-              <Group mt={10} gap="xs">
-                <Badge variant="light" radius="sm">
-                  {mode === 'sms' ? 'SMS' : 'Chatforia'}
-                </Badge>
-              </Group>
-            )}
-          </Paper>
-        </Box>
-      }
-      composer={
-        // ✅ Full-width composer container (BottomComposer owns the Send button)
-        <Box w="100%">
-          <ThreadComposer
-            value={draft}
-            onChange={setDraft}
-            placeholder={
-              recipients.length
-                ? 'Type a message…'
-                : 'Add a recipient above to start…'
-            }
-            onSend={handleSend}
-            features={{
-              showGif: true,
-              showEmoji: true,
-              showMic: true,
-              showUpload: true,
-            }}
-          />
-        </Box>
-      }
+    <Box
+      style={{
+        flex: 1,
+        minHeight: 'calc(100dvh - 60px - 32px)',
+        height: 'calc(100dvh - 60px - 32px)',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
     >
-      {/* Center panel content */}
-      <Box w="100%" p="md" style={{ height: '100%', minHeight: 0 }}>
+      <ThreadShell
+        header={
+          <Box p="md" w="100%">
+            <Paper withBorder radius="md" p="sm" w="100%">
+              {recipients.length > 0 && (
+                <Group gap={6} mb={8} wrap="wrap">
+                  {recipients.map((r) => (
+                    <Badge
+                      key={r}
+                      variant="light"
+                      radius="sm"
+                      rightSection={
+                        <ActionIcon
+                          size="xs"
+                          variant="subtle"
+                          aria-label={`Remove ${r}`}
+                          onClick={() => removeRecipient(r)}
+                        >
+                          <IconX size={12} />
+                        </ActionIcon>
+                      }
+                    >
+                      {r}
+                    </Badge>
+                  ))}
+                </Group>
+              )}
+
+              <Group gap="xs" wrap="nowrap" align="center">
+                <Text fw={600} style={{ minWidth: 32 }}>
+                  To:
+                </Text>
+
+                <Box style={{ flex: 1, minWidth: 0 }}>
+                  <TextInput
+                    ref={toInputRef}
+                    value={toRaw}
+                    onChange={(e) => setToRaw(e.currentTarget.value)}
+                    placeholder="Enter a name or number"
+                    variant="unstyled"
+                    styles={{
+                      input: {
+                        fontSize: 14,
+                        padding: 0,
+                        minHeight: 28,
+                      },
+                    }}
+                  />
+
+                  {mode === 'mixed' && (
+                    <Text size="xs" c="red" mt={6}>
+                      Mixed recipients detected. Use either all phone numbers (SMS) or all usernames (Chatforia).
+                    </Text>
+                  )}
+                </Box>
+
+                <Tooltip label="Clear" withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    onClick={clearAll}
+                    aria-label="Clear recipients"
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+
+              {mode && mode !== 'mixed' && (
+                <Group mt={10} gap="xs">
+                  <Badge variant="light" radius="sm">
+                    {mode === 'sms' ? 'SMS' : 'Chatforia'}
+                  </Badge>
+                </Group>
+              )}
+            </Paper>
+          </Box>
+        }
+        composer={
+          <Box w="100%">
+            <ThreadComposer
+              value={draft}
+              onChange={setDraft}
+              placeholder={
+                recipients.length
+                  ? 'Type a message…'
+                  : 'Add a recipient above to start…'
+              }
+              onSend={handleSend}
+              features={{
+                showGif: true,
+                showEmoji: true,
+                showMic: true,
+                showUpload: true,
+              }}
+            />
+          </Box>
+        }
+      >
         <Box
           style={{
-            height: '100%',
-            minHeight: 240,
+            flex: 1,
+            minHeight: 0,
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: 'column',
           }}
         >
-          <Box style={{ textAlign: 'center' }}>
-            <Title order={3} mb={6}>
-              Your messages
-            </Title>
-            <Text c="dimmed">
-              Enter a recipient above, then send a message to start a conversation.
-            </Text>
+          <Box
+            style={{
+              flex: 1,
+              minHeight: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Box style={{ textAlign: 'center' }}>
+              <Title order={3} mb={6}>
+                Your messages
+              </Title>
+              <Text c="dimmed">
+                Enter a recipient above, then send a message to start a conversation.
+              </Text>
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </ThreadShell>
+      </ThreadShell>
+    </Box>
   );
 }

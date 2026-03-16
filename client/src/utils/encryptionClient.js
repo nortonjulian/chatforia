@@ -384,14 +384,14 @@ export async function decryptFetchedMessages(
  * Reporting helper
  * ========================================================== */
 
-export async function reportMessage(messageId, decryptedContent, reporterId) {
+export async function reportMessage(payload) {
   return fetch('/messages/report', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
     },
-    body: JSON.stringify({ messageId, reporterId, decryptedContent }),
+    body: JSON.stringify(payload),
   });
 }
 
@@ -500,13 +500,13 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
 
   // Seal to each participant
   for (const [userId, recipientPub] of uniq.entries()) {
-    encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(
-      keyRaw,
-      senderPrivB64,
-      recipientPub,
-      { senderId: currentUserId, recipientId: currentUserId }
-    );
-  }
+  encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
+    keyRaw,
+    senderPrivB64,
+    recipientPub,
+    { senderId: currentUserId, recipientId: userId }
+  );
+}
 
   // Always seal to the sender as well (multi-device / re-download)
   encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(

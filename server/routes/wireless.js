@@ -192,7 +192,7 @@ router.get('/status', async (req, res) => {
         id: subscriber.id,
         provider: subscriber.provider,
         status: subscriber.status,
-        esimIccid: subscriber.esimIccid,
+        iccid: subscriber.iccid,
         msisdn: subscriber.msisdn
       } : null
     });
@@ -316,7 +316,7 @@ router.post('/activate', async (req, res) => {
       where: { id: subscriber.id },
       data: {
         esimProfileId: prov.profileId ?? null,
-        esimIccid: prov.iccid ?? null,
+        iccid: prov.iccid ?? null,
         externalSubscriberId: prov.externalId ?? null,
         providerMeta: { ...subscriber.providerMeta, lastProv: prov },
         status: prov.success ? 'PROVISIONING' : 'PENDING',
@@ -329,7 +329,7 @@ router.post('/activate', async (req, res) => {
         where: { id: subscriber.purchaseId },
         data: {
           esimProfileId: prov.profileId ?? null,
-          esimIccid: prov.iccid ?? null,
+          iccid: prov.iccid ?? null,
           qrCodeSvg: prov.qrSvg ?? null,
         },
       });
@@ -361,11 +361,11 @@ router.post('/claim', async (req, res) => {
       data: { userId: Number(req.user.id) },
     });
 
-    // optionally mirror esimIccid to User.esimIccid for convenience
-    if (sub.esimIccid) {
+    // optionally mirror iccid to User.iccid for convenience
+    if (sub.iccid) {
       await prisma.user.update({
         where: { id: Number(req.user.id) },
-        data: { esimIccid: sub.esimIccid },
+        data: { iccid: sub.iccid },
       });
     }
 
@@ -413,7 +413,7 @@ router.post('/webhooks/:provider', express.raw({ type: '*/*' }), async (req, res
       data: {
         status: newStatus ?? sub.status,
         providerMeta: { ...sub.providerMeta, lastWebhook: parsed.payload },
-        esimIccid: parsed.iccid ?? sub.esimIccid,
+        iccid: parsed.iccid ?? sub.iccid,
         msisdn: parsed.msisdn ?? sub.msisdn,
       },
     });
@@ -423,7 +423,7 @@ router.post('/webhooks/:provider', express.raw({ type: '*/*' }), async (req, res
       await prisma.mobileDataPackPurchase.update({
         where: { id: sub.purchaseId },
         data: {
-          esimIccid: parsed.iccid ?? undefined,
+          iccid: parsed.iccid ?? undefined,
         },
       });
     }

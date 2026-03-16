@@ -8,14 +8,12 @@ function getCookieName() {
 
 /**
  * Returns the JWT string from the cookie (preferred).
- * If you later want Bearer support, we can extend this.
+ * Supports Authorization: Bearer for mobile / API clients.
  */
 function getTokenFromReq(req) {
-  // 1) Cookie (browser)
   const cookieToken = req.cookies?.[getCookieName()] || null;
   if (cookieToken) return cookieToken;
 
-  // 2) Authorization: Bearer (mobile / API clients)
   const header = req.headers.authorization || '';
   if (header.startsWith('Bearer ')) return header.slice(7);
 
@@ -27,17 +25,9 @@ const SECRET =
   process.env.JWT_SECRET ||
   (IS_TEST ? 'test_secret' : 'dev_secret');
 
-/**
- * Hydrate req.user from decoded token, optionally refreshing from DB
- * so role/plan reflect latest changes (e.g. test promotes user to ADMIN after login).
- *
- * NOTE: this now returns tokenVersion as part of the user object so middleware
- * can compare decoded.tokenVersion with DB tokenVersion for session revocation.
- */
 async function hydrateUser(decoded) {
   const userId = Number(decoded.id);
   if (!Number.isFinite(userId) || userId <= 0) {
-    // fall back to whatever we got; tests sometimes fabricate id 0
     return {
       id: Number(decoded.id),
       username: decoded.username || null,
@@ -47,11 +37,13 @@ async function hydrateUser(decoded) {
       emailVerifiedAt: decoded.emailVerifiedAt || null,
       phoneVerifiedAt: decoded.phoneVerifiedAt || null,
       twoFactorEnabled: !!decoded.twoFactorEnabled,
+      preferredLanguage: decoded.preferredLanguage || 'en',
+      theme: decoded.theme || 'dawn',
+      avatarUrl: decoded.avatarUrl || null,
       tokenVersion: Number(decoded.tokenVersion ?? 0),
     };
   }
 
-  // Try to pull freshest data from DB
   try {
     const dbUser = await prisma.user.findUnique({
       where: { id: userId },
@@ -64,6 +56,9 @@ async function hydrateUser(decoded) {
         emailVerifiedAt: true,
         phoneVerifiedAt: true,
         twoFactorEnabled: true,
+        preferredLanguage: true,
+        theme: true,
+        avatarUrl: true,
         tokenVersion: true,
       },
     });
@@ -78,14 +73,16 @@ async function hydrateUser(decoded) {
         emailVerifiedAt: dbUser.emailVerifiedAt || null,
         phoneVerifiedAt: dbUser.phoneVerifiedAt || null,
         twoFactorEnabled: !!dbUser.twoFactorEnabled,
+        preferredLanguage: dbUser.preferredLanguage || 'en',
+        theme: dbUser.theme || 'dawn',
+        avatarUrl: dbUser.avatarUrl || null,
         tokenVersion: Number(dbUser.tokenVersion ?? 0),
       };
     }
   } catch {
-    // ignore prisma errors in tests
+    // ignore prisma errors in tests / transient DB issues
   }
 
-  // fallback to cookie only if DB couldn't confirm
   return {
     id: userId,
     username: decoded.username || null,
@@ -95,14 +92,21 @@ async function hydrateUser(decoded) {
     emailVerifiedAt: decoded.emailVerifiedAt || null,
     phoneVerifiedAt: decoded.phoneVerifiedAt || null,
     twoFactorEnabled: !!decoded.twoFactorEnabled,
+    preferredLanguage: decoded.preferredLanguage || 'en',
+    theme: decoded.theme || 'dawn',
+    avatarUrl: decoded.avatarUrl || null,
     tokenVersion: Number(decoded.tokenVersion ?? 0),
   };
+}
+
+function isAllowedAuthToken(decoded) {
+  const typ = decoded?.typ;
+  return !typ || typ === 'session' || typ === 'short';
 }
 
 /** Strict auth: requires a valid JWT; attaches req.user */
 export async function requireAuth(req, res, next) {
   try {
-    // 🔒 Always drive auth from the JWT cookie, ignore any pre-set req.user
     const token = getTokenFromReq(req);
     if (!token) {
       return res.status(401).json({ error: 'Unauthorized' });
@@ -115,19 +119,15 @@ export async function requireAuth(req, res, next) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    if (!decoded?.id) {
+    if (!decoded?.id || !isAllowedAuthToken(decoded)) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Hydrate user (fetches latest tokenVersion from DB when possible)
     req.user = await hydrateUser(decoded);
 
-    // Compare tokenVersion from JWT to DB tokenVersion to enforce revocation.
-    // Treat missing tokenVersion as 0 for backwards compatibility.
     const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
     const dbTokenVersion = Number(req.user.tokenVersion ?? 0);
     if (jwtTokenVersion !== dbTokenVersion) {
-      // token has been revoked/rotated (e.g., password reset incremented tokenVersion)
       return res.status(401).json({ error: 'invalid_session' });
     }
 
@@ -140,7 +140,6 @@ export async function requireAuth(req, res, next) {
 /** Soft auth: sets req.user if token is valid; otherwise continues */
 export async function verifyTokenOptional(req, _res, next) {
   try {
-    // don't clobber if already present
     if (req.user && req.user.id) return next();
 
     const token = getTokenFromReq(req);
@@ -153,23 +152,23 @@ export async function verifyTokenOptional(req, _res, next) {
       return next();
     }
 
-    if (decoded?.id) {
-      // hydrate user (includes tokenVersion)
-      const hydrated = await hydrateUser(decoded);
-
-      // If this token has a tokenVersion and it doesn't match DB, ignore token
-      const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
-      const dbTokenVersion = Number(hydrated.tokenVersion ?? 0);
-      if (jwtTokenVersion !== dbTokenVersion) {
-        // token revoked — do not attach user
-        return next();
-      }
-
-      req.user = hydrated;
+    if (!decoded?.id || !isAllowedAuthToken(decoded)) {
+      return next();
     }
+
+    const hydrated = await hydrateUser(decoded);
+
+    const jwtTokenVersion = Number(decoded.tokenVersion ?? 0);
+    const dbTokenVersion = Number(hydrated.tokenVersion ?? 0);
+    if (jwtTokenVersion !== dbTokenVersion) {
+      return next();
+    }
+
+    req.user = hydrated;
   } catch {
     // ignore invalid/expired tokens
   }
+
   next();
 }
 

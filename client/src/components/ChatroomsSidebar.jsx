@@ -630,7 +630,10 @@ export default function ChatroomsSidebar({
         return (
           <div key={`${c.kind}:${c.id}`} className="sidebar-row">
             <UnstyledButton
-              onClick={() => onSelect?.(c)}
+              onClick={() => {
+                console.log('[ChatroomsSidebar] clicked conversation row:', c);
+                onSelect?.(c);
+              }}
               style={{
                 width: '100%',
                 padding: '10px 12px',

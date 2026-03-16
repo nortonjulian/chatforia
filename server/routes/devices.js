@@ -4,78 +4,212 @@ import prisma from '../utils/prismaClient.js';
 
 const router = express.Router();
 
-const HAS_DEVICE_MODEL = !!(prisma.device && typeof prisma.device.create === 'function');
+router.use(express.json());
 
-// shadow memory (also used if no Device model exists)
-const mem = { nextId: 1, byUser: new Map() }; // Map<userId, Array<{id,name,createdAt}>>
-function listUserDevicesMem(userId) { return mem.byUser.get(userId) || []; }
-function createDeviceMem(userId, name) {
-  const d = { id: mem.nextId++, name: name || 'Device', createdAt: new Date() };
-  const arr = mem.byUser.get(userId) || [];
-  arr.push(d);
-  mem.byUser.set(userId, arr);
-  return d;
+console.log('✅ NEW devices.js route loaded');
+
+function normalizeString(value, maxLen = 255) {
+  if (typeof value !== 'string') return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.slice(0, maxLen);
 }
 
-async function countUserDevicesDb(userId) {
-  let dbCount = 0;
+router.post('/register', requireAuth, async (req, res, next) => {
+  console.log('✅ NEW /devices/register hit');
   try {
-    dbCount = await prisma.device.count({ where: { userId } });
-  } catch {
-    try {
-      dbCount = await prisma.device.count({ where: { ownerId: userId } });
-    } catch {
-      dbCount = 0;
+    const userId = Number(req.user.id);
+
+    const deviceId = normalizeString(req.body?.deviceId, 191);
+    const name = normalizeString(req.body?.name, 120) || 'iPhone';
+    const platform = normalizeString(req.body?.platform, 120) || 'iOS';
+    const publicKey = normalizeString(req.body?.publicKey, 4096);
+    const keyAlgorithm = normalizeString(req.body?.keyAlgorithm, 50) || 'curve25519';
+    const keyVersion = Number(req.body?.keyVersion || 1);
+
+    if (!userId || !deviceId || !publicKey) {
+      return res.status(400).json({ error: 'deviceId and publicKey are required' });
     }
+
+    const device = await prisma.device.upsert({
+      where: {
+        userId_deviceId: {
+          userId,
+          deviceId,
+        },
+      },
+      update: {
+        name,
+        platform,
+        publicKey,
+        keyAlgorithm,
+        keyVersion: Number.isFinite(keyVersion) ? keyVersion : 1,
+        lastSeenAt: new Date(),
+        revokedAt: null,
+      },
+      create: {
+        userId,
+        deviceId,
+        name,
+        platform,
+        publicKey,
+        keyAlgorithm,
+        keyVersion: Number.isFinite(keyVersion) ? keyVersion : 1,
+        lastSeenAt: new Date(),
+      },
+      select: {
+        id: true,
+        userId: true,
+        deviceId: true,
+        name: true,
+        platform: true,
+        publicKey: true,
+        keyAlgorithm: true,
+        keyVersion: true,
+        isPrimary: true,
+        lastSeenAt: true,
+        createdAt: true,
+        updatedAt: true,
+        revokedAt: true,
+      },
+    });
+
+    return res.status(200).json({ device });
+  } catch (error) {
+    next(error);
   }
-  const memCount = listUserDevicesMem(userId).length;
-  return Math.max(dbCount, memCount);
-}
-
-async function createDeviceDb(userId, name) {
-  // Always mirror to memory so counts stay consistent even if DB schema differs.
-  const shadow = createDeviceMem(userId, name);
-
-  if (!HAS_DEVICE_MODEL) return shadow;
-
-  const attempts = [
-    { userId, name },
-    { ownerId: userId, name },
-    { userId, deviceName: name },
-    { ownerId: userId, deviceName: name },
-  ];
-  for (const data of attempts) {
-    try {
-      const rec = await prisma.device.create({
-        data,
-        select: { id: true, name: true, deviceName: true, createdAt: true },
-      });
-      return { id: rec.id, name: rec.name || rec.deviceName || name, createdAt: rec.createdAt };
-    } catch {}
-  }
-  return shadow;
-}
-
-async function handleRegister(req, res) {
-  const userId = Number(req.user.id);
-  const name = String(req.body?.deviceName || req.body?.name || 'Device');
-
-  const existing = await countUserDevicesDb(userId);
-  const isFree = String(req.user.plan || 'FREE').toUpperCase() === 'FREE';
-
-  if (isFree && existing >= 1) {
-    return res.status(402).json({ error: 'Plan limit reached' });
-  }
-
-  const rec = await createDeviceDb(userId, name);
-  return res.status(201).json({ id: rec.id, name: rec.name || name });
-}
-
-router.post('/', requireAuth, express.json(), (req, res, next) => {
-  handleRegister(req, res).catch(next);
 });
-router.post('/register', requireAuth, express.json(), (req, res, next) => {
-  handleRegister(req, res).catch(next);
+
+router.get('/mine', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+
+    const devices = await prisma.device.findMany({
+      where: {
+        userId,
+        revokedAt: null,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+      select: {
+        id: true,
+        userId: true,
+        deviceId: true,
+        name: true,
+        platform: true,
+        publicKey: true,
+        keyAlgorithm: true,
+        keyVersion: true,
+        isPrimary: true,
+        lastSeenAt: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.json({ items: devices });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/user/:userId/public', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.params.userId);
+    if (!userId) {
+      return res.status(400).json({ error: 'Invalid userId' });
+    }
+
+    const devices = await prisma.device.findMany({
+      where: {
+        userId,
+        revokedAt: null,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+      select: {
+        deviceId: true,
+        name: true,
+        platform: true,
+        publicKey: true,
+        keyAlgorithm: true,
+        keyVersion: true,
+        isPrimary: true,
+      },
+    });
+
+    return res.json({ items: devices });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/heartbeat', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+    const deviceId = normalizeString(req.body?.deviceId, 191);
+
+    if (!userId || !deviceId) {
+      return res.status(400).json({ error: 'deviceId is required' });
+    }
+
+    const device = await prisma.device.update({
+      where: {
+        userId_deviceId: {
+          userId,
+          deviceId,
+        },
+      },
+      data: {
+        lastSeenAt: new Date(),
+      },
+      select: {
+        id: true,
+        deviceId: true,
+        lastSeenAt: true,
+      },
+    });
+
+    return res.json({ device });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/revoke', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+    const deviceId = normalizeString(req.body?.deviceId, 191);
+
+    if (!userId || !deviceId) {
+      return res.status(400).json({ error: 'deviceId is required' });
+    }
+
+    const device = await prisma.device.update({
+      where: {
+        userId_deviceId: {
+          userId,
+          deviceId,
+        },
+      },
+      data: {
+        revokedAt: new Date(),
+        revokedById: userId,
+      },
+      select: {
+        id: true,
+        deviceId: true,
+        revokedAt: true,
+        revokedById: true,
+      },
+    });
+
+    return res.json({ device });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default router;

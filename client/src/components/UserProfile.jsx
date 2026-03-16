@@ -366,8 +366,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const isPremiumPlan = planUpper === 'PREMIUM';
   const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
   const hasEsim =
-    Boolean(currentUser?.esimIccid) ||
-    Boolean(currentUser?.subscriber?.esimIccid);
+    Boolean(currentUser?.iccid) ||
+    Boolean(currentUser?.subscriber?.iccid);
 
   const refreshAuthUser = async () => {
     try {
