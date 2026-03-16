@@ -5,18 +5,14 @@ export default function ThreadShell({ header, children, composer }) {
     <Box
       style={{
         flex: 1,
-        height: '100%',
         minHeight: 0,
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
       }}
     >
-      {header ? (
-        <Box style={{ flex: '0 0 auto' }}>
-          {header}
-        </Box>
-      ) : null}
+      {header ? <Box style={{ flex: '0 0 auto' }}>{header}</Box> : null}
 
       <Box
         style={{

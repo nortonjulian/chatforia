@@ -1298,6 +1298,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
       Object.keys(ADS_CONFIG?.house || {}).length > 0;
 
+      console.log('CHATVIEW FILE IS RUNNING');
+
     return (
       <Box p="md">
         <Box mx="auto" maw={900}>
@@ -1359,22 +1361,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   /* ---------- render ---------- */
 
-    console.log('[ChatView state]', {
-    chatroomId: chatroom?.id,
-    messagesLength: messages.length,
-    cursor,
-    hasMore,
-  });
-
   return (
     <Box
-    style={{
-      flex: 1,
-      minHeight: 0,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
+      style={{
+        flex: 1,
+        minHeight: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
     }}
   >
     <ThreadShell
@@ -1583,7 +1578,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
         <ScrollArea
           key={chatroom?.id}
-          style={{ flex: '1 1 auto', minHeight: 0 }}
+          style={{
+            flex: '1 1 auto',
+            minHeight: 0,
+            height: 0,
+          }}
           viewportRef={scrollViewportRef}
           type="auto"
         >

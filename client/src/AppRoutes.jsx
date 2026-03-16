@@ -187,17 +187,28 @@ function AuthedLayout() {
   return (
     <CallProvider me={me}>
       <AppShell
-        header={{ height: 60 }}
-        navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-        aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
-        padding="md"
-        style={{ height: '100dvh' }}
-        styles={{
-          navbar: { flexShrink: 0 },
-          aside: { flexShrink: 0 },
-          main: { minWidth: 0 },
-        }}
-      >
+          header={{ height: 60 }}
+          navbar={{ width: NAV_W, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+          aside={{ width: ASIDE_W, breakpoint: 'lg', collapsed: { mobile: true } }}
+          padding="md"
+          style={{
+            minHeight: '100dvh',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+          styles={{
+            navbar: { flexShrink: 0 },
+            aside: { flexShrink: 0 },
+            main: {
+              minWidth: 0,
+              minHeight: 0,
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+            },
+          }}
+        >
         <AppShell.Header>
           <SkipLink targetId="main-content" />
 
@@ -303,9 +314,10 @@ function AuthedLayout() {
             tabIndex={-1}
             style={{
               minHeight: 0,
-              
+              flex: 1,
               display: 'flex',
               flexDirection: 'column',
+              overflow: 'hidden',
             }}
           >
             {/* Global call UI */}
