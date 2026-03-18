@@ -79,6 +79,7 @@ export default function ChatThreadRoute() {
     }}
   >
     <ChatView
+      key={chatroom?.id}
       chatroom={chatroom}
       currentUserId={currentUser?.id}
       currentUser={currentUser}

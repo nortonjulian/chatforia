@@ -13,7 +13,14 @@ import axiosClient from '../api/axiosClient';
 import { generateKeypair, saveKeysLocal } from '../utils/keys';
 import { importEncryptedPrivateKey } from '../utils/keyBackup';
 
+import { uploadRemoteKeyBackup } from '../utils/keyBackupRemote';
+
+import { restoreRemoteKeyBackupToLocal } from '../utils/keyBackupRemote';
+
+import { loadKeysLocal } from '../utils/keys';
+
 export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
+  const [accountPassword, setAccountPassword] = useState('');
   const fileRef = useRef(null);
   const [pwd, setPwd] = useState('');
   const [busy, setBusy] = useState(false);
@@ -38,6 +45,12 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
         return;
       }
 
+      const existing = await loadKeysLocal();
+      await saveKeysLocal({
+        publicKey: existing?.publicKey || null,
+        privateKey: privateKeyB64,
+      });
+
       const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
       // We keep the existing publicKey locally (if any); private key unlocks old messages
       saveKeysLocal({ privateKey: privateKeyB64 });
@@ -56,26 +69,61 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
   };
 
   const handleGenerate = async () => {
-    try {
-      setErr('');
-      setMsg('');
-      setBusy(true);
-      const kp = generateKeypair();
-      saveKeysLocal(kp);
-      // publish public key (server never sees the private)
-      await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
-      setMsg(
-        'New keypair generated. You can read new messages on this device.'
-      );
-      setTimeout(finish, 800);
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e);
-      setErr('Failed to generate/upload keys.');
-    } finally {
-      setBusy(false);
+  try {
+    setErr('');
+    setMsg('');
+    setBusy(true);
+
+    if (!accountPassword) {
+      setErr('Enter your account password so we can back up your keys securely.');
+      return;
     }
-  };
+
+    const kp = generateKeypair();
+    await saveKeysLocal(kp);
+
+    await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
+
+    await uploadRemoteKeyBackup({
+      publicKey: kp.publicKey,
+      privateKey: kp.privateKey,
+      password: accountPassword,
+    });
+
+    setMsg(
+      'New keypair generated and backed up. You can read new messages on this device.'
+    );
+    setTimeout(finish, 800);
+  } catch (e) {
+    console.error(e);
+    setErr('Failed to generate/upload keys.');
+  } finally {
+    setBusy(false);
+  }
+};
+
+const handleRestoreFromAccount = async () => {
+  try {
+    setErr('');
+    setMsg('');
+    setBusy(true);
+
+    if (!accountPassword) {
+      setErr('Enter your account password first.');
+      return;
+    }
+
+    await restoreRemoteKeyBackupToLocal({ password: accountPassword });
+
+    setMsg('Private key restored from your account.');
+    setTimeout(finish, 800);
+  } catch (e) {
+    console.error(e);
+    setErr('Could not restore keys from your account.');
+  } finally {
+    setBusy(false);
+  }
+};
 
   return (
     <Modal
@@ -116,6 +164,14 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
             value={pwd}
             onChange={(e) => setPwd(e.currentTarget.value)}
           />
+
+          <PasswordInput
+            label="Account password"
+            placeholder="Your login password"
+            value={accountPassword}
+            onChange={(e) => setAccountPassword(e.currentTarget.value)}
+          />
+
           <Button
             loading={busy}
             onClick={() => handleImport(fileRef.current?.files?.[0])}
@@ -135,6 +191,14 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
           </Button>
           <Button variant="subtle" onClick={finish}>
             Not now
+          </Button>
+
+          <Button
+            variant="light"
+            loading={busy}
+            onClick={handleRestoreFromAccount}
+          >
+            Restore from account
           </Button>
         </Group>
 

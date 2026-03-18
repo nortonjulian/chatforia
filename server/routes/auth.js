@@ -121,6 +121,17 @@ function issueSession(res, user) {
   return token;
 }
 
+function pickKeyBackupFields(user) {
+  return {
+    publicKey: user.publicKey ?? null,
+    encryptedPrivateKeyBundle: user.encryptedPrivateKeyBundle ?? null,
+    privateKeyWrapSalt: user.privateKeyWrapSalt ?? null,
+    privateKeyWrapKdf: user.privateKeyWrapKdf ?? null,
+    privateKeyWrapIterations: user.privateKeyWrapIterations ?? null,
+    privateKeyWrapVersion: user.privateKeyWrapVersion ?? null,
+  };
+}
+
 
 /* =========================
  *         CSRF
@@ -919,6 +930,109 @@ router.post(
 );
 
 /* =========================
+ *   KEY BACKUP SAVE
+ *   POST /auth/keys/backup
+ * ========================= */
+router.post(
+  '/keys/backup',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+
+    const {
+      publicKey,
+      encryptedPrivateKeyBundle,
+      privateKeyWrapSalt,
+      privateKeyWrapKdf,
+      privateKeyWrapIterations,
+      privateKeyWrapVersion,
+    } = req.body || {};
+
+    if (!publicKey || typeof publicKey !== 'string') {
+      return res.status(400).json({ error: 'publicKey is required' });
+    }
+
+    if (!encryptedPrivateKeyBundle || typeof encryptedPrivateKeyBundle !== 'string') {
+      return res.status(400).json({ error: 'encryptedPrivateKeyBundle is required' });
+    }
+
+    if (!privateKeyWrapSalt || typeof privateKeyWrapSalt !== 'string') {
+      return res.status(400).json({ error: 'privateKeyWrapSalt is required' });
+    }
+
+    if (!privateKeyWrapKdf || typeof privateKeyWrapKdf !== 'string') {
+      return res.status(400).json({ error: 'privateKeyWrapKdf is required' });
+    }
+
+    const iterations = Number(privateKeyWrapIterations);
+    if (!Number.isFinite(iterations) || iterations < 100000) {
+      return res.status(400).json({ error: 'privateKeyWrapIterations is invalid' });
+    }
+
+    const version = Number(privateKeyWrapVersion || 1);
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        publicKey,
+        encryptedPrivateKeyBundle,
+        privateKeyWrapSalt,
+        privateKeyWrapKdf,
+        privateKeyWrapIterations: iterations,
+        privateKeyWrapVersion: version,
+      },
+      select: {
+        id: true,
+        publicKey: true,
+        encryptedPrivateKeyBundle: true,
+        privateKeyWrapSalt: true,
+        privateKeyWrapKdf: true,
+        privateKeyWrapIterations: true,
+        privateKeyWrapVersion: true,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      keys: pickKeyBackupFields(updated),
+    });
+  })
+);
+
+/* =========================
+ *   KEY BACKUP FETCH
+ *   GET /auth/keys/backup
+ * ========================= */
+router.get(
+  '/keys/backup',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        publicKey: true,
+        encryptedPrivateKeyBundle: true,
+        privateKeyWrapSalt: true,
+        privateKeyWrapKdf: true,
+        privateKeyWrapIterations: true,
+        privateKeyWrapVersion: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.json({
+      ok: true,
+      keys: pickKeyBackupFields(user),
+    });
+  })
+);
+
+/* =========================
  *         ME
  * ========================= */
 router.get(
@@ -931,6 +1045,7 @@ router.get(
       id: req.user.id,
       email: req.user.email || null,
       username: req.user.username || null,
+      publicKey: req.user.publicKey || null,
       role: req.user.role || 'USER',
       plan: req.user.plan || 'FREE',
       preferredLanguage: req.user.preferredLanguage || 'en',

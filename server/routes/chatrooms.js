@@ -151,7 +151,15 @@ router.get(
       include: {
         participants: {
           include: {
-            user: { select: { id: true, username: true, avatarUrl: true, preferredLanguage: true } },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                avatarUrl: true,
+                preferredLanguage: true,
+                publicKey: true,
+              },
+            },
           },
           orderBy: [{ role: 'desc' }, { userId: 'asc' }],
         },
@@ -339,7 +347,14 @@ router.get(
       select: {
         userId: true,
         role: true,
-        user: { select: { id: true, username: true, avatarUrl: true } },
+        user: {
+          select: {
+            id: true,
+            username: true,
+            avatarUrl: true,
+            publicKey: true,
+          },
+        },
       },
       orderBy: [{ role: 'desc' }, { userId: 'asc' }],
     });

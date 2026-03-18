@@ -487,7 +487,7 @@ router.post(
     }
 
     emitMessageNew(chatRoomId, shaped);
-    return res.status(201).json({ shaped });
+    return res.status(201).json({ message: shaped });
   })
 );
 

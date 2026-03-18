@@ -10,6 +10,7 @@ import axiosClient from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
 import i18n from '@/i18n';
 import { applyAccountTheme } from '@/utils/themeManager';
+import { getLocalKeyBundleMeta } from '@/utils/encryptionClient';
 
 const UserContext = createContext(null);
 
@@ -25,11 +26,16 @@ export function UserProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
 
+  // 🔐 Step 1: whether this logged-in session should prompt for key unlock
+  const [needsKeyUnlock, setNeedsKeyUnlock] = useState(false);
+  const [keyMeta, setKeyMeta] = useState(null);
+
   const { refreshRooms, reconnect, disconnect } = useSocket();
 
   const bootstrap = useCallback(async () => {
     setAuthLoading(true);
     setAuthError(null);
+
     try {
       const { data } = await axiosClient.get('/auth/me');
       const user = data?.user ?? data;
@@ -53,6 +59,19 @@ export function UserProvider({ children }) {
 
       reconnect?.();
       await refreshRooms?.();
+
+      // non-blocking best-effort key metadata check
+      getLocalKeyBundleMeta()
+        .then((meta) => {
+          setKeyMeta(meta || null);
+          setNeedsKeyUnlock(Boolean(meta?.hasEncrypted));
+        })
+        .catch((keyErr) => {
+          console.warn('Failed to inspect local key bundle', keyErr?.message || keyErr);
+          setKeyMeta(null);
+          setNeedsKeyUnlock(false);
+        });
+        
     } catch (err) {
       if (err?.response?.status === 401) {
         setCurrentUser(null);
@@ -61,6 +80,9 @@ export function UserProvider({ children }) {
         setAuthError('Failed to verify session');
         setCurrentUser(null);
       }
+
+      setKeyMeta(null);
+      setNeedsKeyUnlock(false);
       disconnect?.();
     } finally {
       setAuthLoading(false);
@@ -72,8 +94,11 @@ export function UserProvider({ children }) {
 
     const onUnauthorized = () => {
       setCurrentUser(null);
+      setKeyMeta(null);
+      setNeedsKeyUnlock(false);
       disconnect?.();
     };
+
     window.addEventListener('auth-unauthorized', onUnauthorized);
     return () => window.removeEventListener('auth-unauthorized', onUnauthorized);
   }, [bootstrap, disconnect]);
@@ -84,7 +109,7 @@ export function UserProvider({ children }) {
 
       await axiosClient.post(
         '/auth/logout',
-        {}, // 👈 send an empty JSON object, NOT null
+        {},
         {
           withCredentials: true,
           headers: {
@@ -106,18 +131,41 @@ export function UserProvider({ children }) {
     localStorage.removeItem('token');
     localStorage.removeItem('foria_jwt');
     localStorage.removeItem('cf_session');
+
     // belt-and-suspenders: nuke cookies on the client too
     document.cookie = 'foria_jwt=; Max-Age=0; path=/';
     document.cookie = 'cf_session=; Max-Age=0; path=/';
 
     setCurrentUser(null);
+    setKeyMeta(null);
+    setNeedsKeyUnlock(false);
+
     disconnect?.();
     window.location.assign('/');
   }, [disconnect]);
 
   const value = useMemo(
-    () => ({ currentUser, setCurrentUser, authLoading, authError, logout }),
-    [currentUser, authLoading, authError, logout]
+    () => ({
+      currentUser,
+      setCurrentUser,
+      authLoading,
+      authError,
+      logout,
+
+      // 🔐 expose key state for upcoming unlock modal
+      needsKeyUnlock,
+      setNeedsKeyUnlock,
+      keyMeta,
+      setKeyMeta,
+    }),
+    [
+      currentUser,
+      authLoading,
+      authError,
+      logout,
+      needsKeyUnlock,
+      keyMeta,
+    ]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

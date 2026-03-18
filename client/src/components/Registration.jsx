@@ -15,6 +15,8 @@ import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 import { useNavigate } from 'react-router-dom';
 
+import { saveKeysLocal } from '@/utils/keys';
+import { uploadRemoteKeyBackup } from '@/utils/keyBackupRemote';
 
 import PhoneField from './PhoneField';
 import SmsConsentBlock from '../pages/SmsConsentBlock';
@@ -147,6 +149,25 @@ export default function Registration() {
     } finally {
       setSubmitting(false);
     }
+
+    const res = await axiosClient.post('/auth/register', payload);
+
+    const user = res?.data?.user || null;
+    const privateKey = res?.data?.privateKey || null;
+    const publicKey = user?.publicKey || null;
+
+    if (publicKey && privateKey) {
+      await saveKeysLocal({ publicKey, privateKey });
+
+      await uploadRemoteKeyBackup({
+        publicKey,
+        privateKey,
+        password: form.password,
+      });
+    }
+
+    // redirect wherever you want
+    navigate('/');
   };
 
   return (

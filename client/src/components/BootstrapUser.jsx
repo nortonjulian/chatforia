@@ -5,6 +5,8 @@ import { generateKeypair, loadKeysLocal, saveKeysLocal } from '../utils/keys';
 import { migrateLocalToIDBIfNeeded } from '../utils/keyStore';
 import KeySetupModal from './KeySetupModal';
 
+import { fetchRemoteKeyBackup } from '@/utils/keyBackupRemote';
+
 export default function BootstrapUser() {
   const { currentUser, setCurrentUser } = useUser();
   const [askedThisSession, setAskedThisSession] = useState(false);
@@ -39,38 +41,76 @@ export default function BootstrapUser() {
 
   // Ensure keys exist on this device, prompt only if missing
   useEffect(() => {
-    (async () => {
-      if (!currentUser || askedThisSession) return;
+  (async () => {
+    if (!currentUser || askedThisSession) return;
 
-      const { publicKey, privateKey } = await loadKeysLocal();
-      if (privateKey) return; // device already has private key
+    const localKeys = await loadKeysLocal();
+    const localPub = localKeys?.publicKey || null;
+    const localPriv = localKeys?.privateKey || null;
+    const serverPub = currentUser.publicKey || null;
 
-      setAskedThisSession(true);
+    const localMatchesServer =
+      !!localPub && !!serverPub && localPub === serverPub;
 
-      const serverHasPub = Boolean(currentUser.publicKey);
-      setHaveServerPubKey(serverHasPub);
+    if (localPriv && localMatchesServer) {
+      return;
+    }
 
-      if (!serverHasPub) {
-        // new account → silently generate once and upload
-        try {
-          const kp = generateKeypair();
-          await saveKeysLocal(kp);
-          await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
-          setCurrentUser((prev) => ({ ...prev, publicKey: kp.publicKey }));
-          localStorage.setItem(
-            'user',
-            JSON.stringify({ ...currentUser, publicKey: kp.publicKey })
-          );
-        } catch (e) {
-          console.error('Public key upload failed', e);
-          setKeyModalOpen(true);
-        }
-      } else {
-        // existing user, no local private key → ask once
+    setAskedThisSession(true);
+
+    let remoteKeys = null;
+    try {
+      remoteKeys = await fetchRemoteKeyBackup();
+    } catch (e) {
+      console.warn('Failed to inspect remote key backup', e?.message || e);
+    }
+
+    const remotePub = remoteKeys?.publicKey || null;
+    const serverHasPub = Boolean(remotePub || serverPub);
+    const serverHasBackup = Boolean(remoteKeys?.encryptedPrivateKeyBundle);
+
+    setHaveServerPubKey(serverHasPub);
+
+    console.log('[BootstrapUser] key state', {
+      serverPub,
+      localPub,
+      localHasPrivateKey: !!localPriv,
+      localMatchesServer,
+      remotePub,
+      serverHasBackup,
+    });
+
+    // Local keys exist but do NOT match server identity.
+    // Do not silently use them.
+    if (localPriv && !localMatchesServer) {
+      console.warn('[BootstrapUser] local key mismatch with server public key');
+      setKeyModalOpen(true);
+      return;
+    }
+
+    if (!serverHasPub) {
+      try {
+        const kp = generateKeypair();
+        await saveKeysLocal(kp);
+        await axiosClient.post('/users/keys', { publicKey: kp.publicKey });
+
+        setCurrentUser((prev) => ({ ...prev, publicKey: kp.publicKey }));
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ ...currentUser, publicKey: kp.publicKey })
+        );
+      } catch (e) {
+        console.error('Public key upload failed', e);
         setKeyModalOpen(true);
       }
-    })();
-  }, [currentUser, askedThisSession, setCurrentUser]);
+      return;
+    }
+
+    if (serverHasBackup || serverHasPub) {
+      setKeyModalOpen(true);
+    }
+  })();
+}, [currentUser, askedThisSession, setCurrentUser]);
 
   return (
     <>

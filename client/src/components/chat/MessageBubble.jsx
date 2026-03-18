@@ -71,10 +71,10 @@ export default function MessageBubble({
   const displayText = isTombstone
   ? 'This message was deleted'
   : (
-      msg.content ??
-      msg.decryptedContent ??
-      msg.translatedForMe ??
-      msg.rawContent ??
+      msg.decryptedContent ||
+      msg.translatedForMe ||
+      msg.rawContent ||
+      msg.content ||
       (msg.contentCiphertext ? '[Encrypted message — unlock your key to view]' : '')
     );
 

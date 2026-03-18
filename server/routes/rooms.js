@@ -691,53 +691,46 @@ if (!isProd) {
 
   // GET /rooms/:id/participants → list (ownerId + roles)
   router.get('/:id/participants', requireAuth, async (req, res) => {
-    const roomId = Number(req.params.id);
-    const memRoom = __mem.rooms.get(roomId);
-    if (!memRoom) {
-      let dbRoom = null;
-      try {
-        dbRoom = await prisma.chatRoom.findUnique({
-          where: { id: roomId },
-          select: { id: true, ownerId: true },
-        });
-      } catch {
-        dbRoom = await prisma.chatRoom.findUnique({
-          where: { id: roomId },
-          select: { id: true },
-        });
-      }
-      if (!dbRoom) return res.status(404).json({ error: 'Not found' });
-      __mem.rooms.set(roomId, {
-        id: dbRoom.id,
-        name: `Room ${dbRoom.id}`,
-        isGroup: true,
-        ownerId: dbRoom.ownerId ?? undefined,
-      });
-    }
+  const roomId = Number(req.params.id);
 
-    const roles = __mem.roles.get(roomId) || new Map();
-    if (roles.size === 0) {
-      const ps = await prisma.participant.findMany({
-        where: { chatRoomId: roomId },
-        select: { userId: true, role: true },
-        orderBy: { userId: 'asc' },
-      });
-      const map = new Map();
-      for (const p of ps) map.set(p.userId, p.role);
-      __mem.roles.set(roomId, map);
-    }
-
-    const participants = Array.from((__mem.roles.get(roomId) || new Map()).entries())
-      .sort(([a], [b]) => a - b)
-      .map(([userId, role]) => ({
-        userId,
-        role,
-        user: { id: userId, username: `user${userId}` },
-      }));
-
-    const ownerId = await getRoomOwnerId(roomId);
-    return res.json({ ownerId, participants });
+  const room = await prisma.chatRoom.findUnique({
+    where: { id: roomId },
+    select: { id: true, ownerId: true },
   });
+
+  if (!room) return res.status(404).json({ error: 'Not found' });
+
+  const ps = await prisma.participant.findMany({
+    where: { chatRoomId: roomId },
+    select: {
+      userId: true,
+      role: true,
+      user: {
+        select: {
+          id: true,
+          username: true,
+          publicKey: true,
+        },
+      },
+    },
+    orderBy: { userId: 'asc' },
+  });
+
+  const participants = ps.map((p) => ({
+    userId: p.userId,
+    role: p.role,
+    user: {
+      id: p.user?.id ?? p.userId,
+      username: p.user?.username ?? `user${p.userId}`,
+      publicKey: p.user?.publicKey ?? null,
+    },
+  }));
+
+  return res.json({
+    ownerId: room.ownerId ?? null,
+    participants,
+  });
+});
 
   // POST /rooms/:id/participants → add member (owner or global ADMIN)
   router.post('/:id/participants', requireAuth, async (req, res) => {

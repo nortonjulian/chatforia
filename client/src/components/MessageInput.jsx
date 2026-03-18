@@ -141,13 +141,15 @@ export default function MessageInput({
           }
 
           // encryptForRoom must return { ciphertext, encryptedKeys }
-          const { ciphertext, encryptedKeys } = await encryptForRoom(
+          const { ciphertext, encryptedKeys, encryptionVersion } = await encryptForRoom(
             roomParticipants,
             text,
             currentUser?.id
           );
+
           payload.contentCiphertext = ciphertext;
           payload.encryptedKeys = encryptedKeys;
+          payload.encryptionVersion = encryptionVersion; 
           // optional: omit plaintext entirely
           // payload.content = '';
         } catch (err) {

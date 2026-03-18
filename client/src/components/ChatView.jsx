@@ -100,26 +100,81 @@ function useDismissed(key, days = 14) {
   return [dismissed, dismiss];
 }
 
+function unwrapMessage(payload) {
+  return payload?.item ?? payload?.message ?? payload?.shaped ?? payload;
+}
+
+function getMessageRoomId(payload) {
+  return Number(
+    payload?.chatRoomId ??
+      payload?.chatroomId ??
+      payload?.roomId ??
+      payload?.chat_room_id ??
+      payload?.message?.chatRoomId ??
+      payload?.message?.chatroomId ??
+      payload?.message?.roomId ??
+      payload?.message?.chat_room_id ??
+      payload?.item?.chatRoomId ??
+      payload?.item?.chatroomId ??
+      payload?.item?.roomId ??
+      payload?.item?.chat_room_id ??
+      0
+  );
+}
+
+function getMessageKey(m) {
+  if (m?.id != null) return `id:${m.id}`;
+  if (m?.clientMessageId != null) return `client:${m.clientMessageId}`;
+  return `tmp:${m?.createdAt ?? Math.random()}`;
+}
+
+function sortMessagesChronologically(arr) {
+  return arr.sort((a, b) => {
+    const ta = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
+    const tb = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
+    if (ta !== tb) return ta - tb;
+    return (Number(a?.id) || 0) - (Number(b?.id) || 0);
+  });
+}
+
+function upsertLocalMessage(prev, incoming) {
+  if (!incoming) return prev;
+
+  const incomingId = incoming?.id != null ? String(incoming.id) : null;
+  const incomingClientId =
+    incoming?.clientMessageId != null ? String(incoming.clientMessageId) : null;
+
+  let found = false;
+
+  const next = prev.map((m) => {
+    const sameId = incomingId && m?.id != null && String(m.id) === incomingId;
+    const sameClientId =
+      incomingClientId &&
+      m?.clientMessageId != null &&
+      String(m.clientMessageId) === incomingClientId;
+
+    if (sameId || sameClientId) {
+      found = true;
+      return { ...m, ...incoming };
+    }
+    return m;
+  });
+
+  if (!found) next.push(incoming);
+
+  return sortMessagesChronologically(next);
+}
+
 /** Merge factories: keep messages unique and chronologically ordered (oldest → newest) */
 function mergeIncomingMessageFactory(setMessages) {
   return (incoming) => {
     if (!incoming) return;
-    setMessages((prev) => {
-      // replace if exists, otherwise append keeping order by createdAt (or id fallback)
-      const map = new Map(prev.map((m) => [String(m.id), m]));
-      map.set(String(incoming.id ?? Symbol()), {
-        ...map.get(String(incoming.id)),
-        ...incoming,
-      });
 
-      // produce array and sort by createdAt ascending, then id
-      const arr = Array.from(map.values()).sort((a, b) => {
-        const ta = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
-        const tb = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
-        if (ta !== tb) return ta - tb;
-        return (Number(a.id) || 0) - (Number(b.id) || 0);
-      });
-      return arr;
+    setMessages((prev) => {
+      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
+      const key = getMessageKey(incoming);
+      map.set(key, { ...(map.get(key) || {}), ...incoming });
+      return sortMessagesChronologically(Array.from(map.values()));
     });
   };
 }
@@ -127,26 +182,41 @@ function mergeIncomingMessageFactory(setMessages) {
 function mergeIncomingBatchFactory(setMessages) {
   return (rows = []) => {
     if (!Array.isArray(rows) || rows.length === 0) return;
+
     setMessages((prev) => {
-      const map = new Map(prev.map((m) => [String(m.id), m]));
+      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
       for (const r of rows) {
         if (!r) continue;
-        map.set(String(r.id ?? Symbol()), { ...(map.get(String(r.id)) || {}), ...r });
+        const key = getMessageKey(r);
+        map.set(key, { ...(map.get(key) || {}), ...r });
       }
-      const arr = Array.from(map.values()).sort((a, b) => {
-        const ta = a?.createdAt ? new Date(a.createdAt).getTime() : 0;
-        const tb = b?.createdAt ? new Date(b.createdAt).getTime() : 0;
-        if (ta !== tb) return ta - tb;
-        return (Number(a.id) || 0) - (Number(b.id) || 0);
-      });
-      return arr;
+      return sortMessagesChronologically(Array.from(map.values()));
     });
   };
 }
 
+  function toNum(value) {
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function getSenderId(message) {
+    return (
+      message?.sender?.id ??
+      message?.senderId ??
+      message?.userId ??
+      null
+    );
+  }
+
+  function isSameUser(a, b) {
+    const aa = toNum(a);
+    const bb = toNum(b);
+    return aa > 0 && bb > 0 && aa === bb;
+  }
+
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
-
   const isPremium = useIsPremium();
   const navigate = useNavigate();
 
@@ -271,6 +341,21 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const scrollViewportRef = useRef(null);
   useNow(); // keeps any “time-based” UI responsive if you add countdowns later
 
+  useEffect(() => {
+    console.log('[messages state changed]', {
+      roomId: chatroom?.id,
+      count: messages.length,
+      messages,
+    });
+  }, [messages, chatroom?.id]);
+
+  useEffect(() => {
+    setMessages([]);
+    setCursor(null);
+    setHasMore(true);
+    setHighestSeenId(0);
+  }, [chatroom?.id]);
+
   // Center-panel empty-state promo control
   const [emptyDismissed] = useDismissed('empty_state_promo', 14);
   const shouldShowEmptyPromo =
@@ -286,54 +371,49 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   /* ---------- message normalization ---------- */
 
   const normalizeMsg = useCallback(
-    (m) => {
-      const mine =
-        Boolean(m.mine) ||
-        m.sender?.id === currentUserId ||
-        m.senderId === currentUserId;
+  (m) => {
+    const mine = Boolean(m.mine) || isSameUser(getSenderId(m), currentUserId);
 
-      const content =
-        m.decryptedContent ||
-        m.translatedForMe ||
-        m.rawContent ||
-        m.content ||
-        '';
+    const content =
+      m.decryptedContent ||
+      m.translatedForMe ||
+      m.rawContent ||
+      m.content ||
+      null;
 
-      return { ...m, mine, content };
-    },
-    [currentUserId]
-  );
+    return { ...m, mine, content };
+  },
+  [currentUserId]
+);
 
   const canEditMessage = useCallback(
-    (m) => {
-      if ((m.sender?.id || m.senderId) !== currentUserId) return false;
-      if (m.deletedForAll) return false;
-      return true;
-    },
-    [currentUserId]
-  );
+  (m) => {
+    if (!isSameUser(getSenderId(m), currentUserId)) return false;
+    if (m.deletedForAll) return false;
+    return true;
+  },
+  [currentUserId]
+);
 
   const canDeleteForEveryone = useCallback(
-    (m) => {
-      if ((m.sender?.id || m.senderId) !== currentUserId) return false;
-      if (m.deletedForAll) return false;
-      return true;
-    },
-    [currentUserId]
-  );
+  (m) => {
+    if (!isSameUser(getSenderId(m), currentUserId)) return false;
+    if (m.deletedForAll) return false;
+    return true;
+  },
+  [currentUserId]
+);
 
   /* ---------- header: call/video ---------- */
 
   const startChatCall = useCallback(() => {
     if (!chatroom?.id) return;
-    // Wire to your in-app voice calling flow
     console.log('[call] start voice call', { chatRoomId: chatroom.id });
     navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);
   }, [chatroom?.id, navigate]);
 
   const startChatVideo = useCallback(() => {
     if (!chatroom?.id) return;
-    // Wire to your in-app video flow
     console.log('[video] start video call', { chatRoomId: chatroom.id });
     navigate(`/video?roomId=${encodeURIComponent(String(chatroom.id))}`);
   }, [chatroom?.id, navigate]);
@@ -389,7 +469,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         { newContent: newText }
       );
 
-      // Local patch (socket will also patch other devices)
       setMessages((prev) =>
         prev.map((m) =>
           m.id === (updated?.id ?? msg.id)
@@ -414,7 +493,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       );
       if (!ok) return;
 
-      // Optimistic UI
       setMessages((prev) => {
         if (mode === 'me') return prev.filter((m) => m.id !== msg.id);
         return prev.map((m) =>
@@ -438,44 +516,48 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         });
       } catch (e) {
         console.error('Delete failed', e);
-        // try reload a page of messages to recover
         await loadMore(true);
       }
     },
     []
   );
 
-    console.log('[ChatView render]', {
+  console.log('[ChatView render]', {
     chatroomId: chatroom?.id,
     chatroomName: chatroom?.name,
     messageCount: messages.length,
   });
 
   // ---------- dynamic encryption helpers ----------
-  /**
-   * Returns the unlocked private key or null if locked/unavailable.
-   * We intentionally catch errors and return null so code paths that
-   * gracefully handle locked keys keep working.
-   */
-  async function maybeGetUnlockedPrivateKey() {
-  try {
-    const mod = await loadEncryptionClient();
-    if (typeof mod.getUnlockedPrivateKey === 'function') {
-      return await mod.getUnlockedPrivateKey();
-    }
-    console.warn('[E2EE] getUnlockedPrivateKey is not exported');
-    return null;
-  } catch (e) {
-    console.warn('[E2EE] private key unavailable:', e?.message || e);
-    return null;
-  }
-}
 
-  /**
-   * Decrypts rows using the encryption client if available.
-   * If the encryption client fails to load, falls back to returning
-   * the input rows unchanged (so UI still shows raw payload).
-   */
+  async function maybeGetUnlockedPrivateKey() {
+    try {
+      const mod = await loadEncryptionClient();
+      console.log('[E2EE DEBUG] module keys:', Object.keys(mod));
+
+      if (
+        typeof mod.getUnlockedPrivateKeyForPublicKey === 'function' &&
+        currentUser?.publicKey
+      ) {
+        const key = await mod.getUnlockedPrivateKeyForPublicKey(currentUser.publicKey);
+        console.log('[E2EE DEBUG] private key result (guarded):', key);
+        return key;
+      }
+
+      if (typeof mod.getUnlockedPrivateKey === 'function') {
+        const key = await mod.getUnlockedPrivateKey();
+        console.log('[E2EE DEBUG] private key result (unguarded fallback):', key);
+        return key;
+      }
+
+      console.warn('[E2EE] getUnlockedPrivateKey is not exported');
+      return null;
+    } catch (e) {
+      console.warn('[E2EE] private key unavailable:', e?.message || e);
+      return null;
+    }
+  }
+
   async function maybeDecryptFetchedMessages(rows, privKey, senderKeys = null, uid = null) {
     try {
       const mod = await loadEncryptionClient();
@@ -485,7 +567,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     } catch (e) {
       console.warn('Encryption client not available for decryption:', e);
     }
-    // fallback: return original rows (no decryption)
     return rows;
   }
 
@@ -495,7 +576,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (!chatroom?.id) return false;
     if (loadingOlderRef.current) return false;
 
-    // prevent duplicate page requests for same cursor
     const requestedCursor = initial ? 'initial' : cursor ?? 'null';
     if (pendingPages.current.has(requestedCursor)) return false;
     pendingPages.current.add(requestedCursor);
@@ -504,85 +584,54 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setLoading(true);
 
     try {
-      // call server via canonical api
-          let resp;
-            if (initial) {
-              resp = await fetchLatestMessages(chatroom.id, 50);
-            } else {
-              resp = await fetchOlderMessages(chatroom.id, cursor, 30);
-            }
+      let resp;
+      if (initial) {
+        resp = await fetchLatestMessages(chatroom.id, 50);
+      } else {
+        resp = await fetchOlderMessages(chatroom.id, cursor, 30);
+      }
 
-            const data = resp || {};
+      const data = resp || {};
 
-    console.log('[ChatView loadMore FULL DEBUG]', {
-      roomId: chatroom?.id,
-      initial,
-      resp: data,
-      isArray: Array.isArray(data),
-      dataKeys: data && typeof data === 'object' ? Object.keys(data) : null,
-      items: data?.items,
-      messages: data?.messages,
-      rows: data?.rows,
-      nextCursor: data?.nextCursor,
-    });
-    
+      const rows = Array.isArray(data?.items)
+        ? data.items
+        : Array.isArray(data?.messages)
+          ? data.messages
+          : Array.isArray(data?.rows)
+            ? data.rows
+            : Array.isArray(data)
+              ? data
+              : [];
 
-      const rows =
-        Array.isArray(data?.items) ? data.items :
-        Array.isArray(data?.messages) ? data.messages :
-        Array.isArray(data?.rows) ? data.rows :
-        Array.isArray(data) ? data :
-      [];
+      console.log('[LOADMORE RAW ROWS]', {
+        roomId: chatroom?.id,
+        initial,
+        rowsCount: rows.length,
+        rows,
+      });
 
-      console.log('[ChatView resolved rows]', rows);
+      const chronological = rows.slice().reverse();
 
-    // Only decrypt if at least one row is actually encrypted.
-    const needsDecrypt = rows.some(
-      (m) => m?.contentCiphertext || m?.encryptedKeyForMe
-    );
-
-    const priv = needsDecrypt ? await maybeGetUnlockedPrivateKey() : null;
-    setE2eeLocked(Boolean(needsDecrypt && !priv));
-
-    if (needsDecrypt && !priv) {
-      console.warn('[E2EE] Messages require decryption but no unlocked private key is available');
-    }
-
-    const decrypted = needsDecrypt
-      ? await maybeDecryptFetchedMessages(rows, priv, null, currentUserId)
-      : rows;
-
-    console.log('[ChatView] loadMore result', {
-      roomId: chatroom?.id,
-      initial,
-      fetchedCount: rows.length,
-      needsDecrypt,
-      sample: rows.slice(0, 3),
-    });
-
-    // server returns newest -> oldest; UI wants oldest -> newest
-    const chronological = (decrypted || []).slice().reverse();
-
-    console.log('[ChatView] after decrypt', {
-      roomId: chatroom?.id,
-      privLoaded: !!priv,
-      decrypted,
-      chronological,
-    });
-
-      // update highestSeenId (max id we've seen)
-      const maxId = (decrypted || [])
+      const maxId = rows
         .map((m) => Number(m?.id || 0))
         .filter(Number.isFinite)
         .reduce((a, b) => Math.max(a, b), 0);
-      if (maxId > 0) setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+
+      if (maxId > 0) {
+        setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+      }
+
+      const looksEncrypted = rows.some(
+        (m) => m?.contentCiphertext || m?.encryptedKeyForMe || m?.encryptedKeys
+      );
+      setE2eeLocked(looksEncrypted);
 
       if (initial) {
         setMessages(chronological);
-        setCursor(data.nextCursor ?? null);
-        setHasMore(Boolean(data.nextCursor));
+        setCursor(data?.nextCursor ?? null);
+        setHasMore(Boolean(data?.nextCursor));
 
-        addMessages(chatroom.id, chronological).catch(() => {});
+        console.log('[SET MESSAGES INITIAL]', chronological);
 
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
@@ -590,7 +639,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           });
         });
       } else {
-        // preserve scroll position while prepending older messages
         const v = scrollViewportRef.current;
         const prevHeight = v ? v.scrollHeight : 0;
         const prevTop = v ? v.scrollTop : 0;
@@ -600,14 +648,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           const older = chronological.filter(
             (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
           );
-          return [...older, ...prev];
+          const next = [...older, ...prev];
+          console.log('[SET MESSAGES OLDER]', next);
+          return next;
         });
 
-        setCursor(data.nextCursor ?? null);
-        setHasMore(Boolean(data.nextCursor));
-
-        // persist older page (dedup tolerant)
-        addMessages(chatroom.id, chronological).catch(() => {});
+        setCursor(data?.nextCursor ?? null);
+        setHasMore(Boolean(data?.nextCursor));
 
         requestAnimationFrame(() => {
           const vv = scrollViewportRef.current;
@@ -619,20 +666,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       return true;
-      } catch (err) {
-      console.error('[ChatView] failed to fetch/decrypt paged messages', {
-        roomId: chatroom?.id,
-        message: err?.message,
-        status: err?.response?.status,
-        data: err?.response?.data,
-        err,
-      });
+    } catch (err) {
+      console.error('[ChatView] loadMore failed', err);
       return false;
-      }finally {
-          pendingPages.current.delete(requestedCursor);
-          setLoading(false);
-          loadingOlderRef.current = false;
-      }
+    } finally {
+      pendingPages.current.delete(requestedCursor);
+      setLoading(false);
+      loadingOlderRef.current = false;
+    }
   }
 
   /* ---------- initial load / room change ---------- */
@@ -655,7 +696,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         const ok = await loadMore(true);
         if (!alive || !ok) return;
 
-        // allow top-pagination only after initial load settles
         requestAnimationFrame(() => {
           canLoadOlderRef.current = true;
         });
@@ -669,43 +709,43 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
     })();
 
-  return () => {
-    alive = false;
-    socket.emit('leave_room', chatroom.id);
-  };
-}, [chatroom?.id, markNewestUnreadBulk]);
+    return () => {
+      alive = false;
+      socket.emit('leave_room', chatroom.id);
+    };
+  }, [chatroom?.id, markNewestUnreadBulk]);
 
   /* ---------- infinite scroll: load older when near TOP ---------- */
 
   useEffect(() => {
-  const v = scrollViewportRef.current;
-  if (!v) return;
+    const v = scrollViewportRef.current;
+    if (!v) return;
 
-  let ticking = false;
+    let ticking = false;
 
-  const onScroll = () => {
-    if (!canLoadOlderRef.current) return;
-    if (loadingOlderRef.current) return;
+    const onScroll = () => {
+      if (!canLoadOlderRef.current) return;
+      if (loadingOlderRef.current) return;
 
-    if (ticking) return;
-    ticking = true;
+      if (ticking) return;
+      ticking = true;
 
-    requestAnimationFrame(() => {
-      ticking = false;
+      requestAnimationFrame(() => {
+        ticking = false;
 
-      const vv = scrollViewportRef.current;
-      if (!vv) return;
+        const vv = scrollViewportRef.current;
+        if (!vv) return;
 
-      if (vv.scrollTop > 120) return;
-      if (!hasMore || !cursor || loadingOlderRef.current) return;
+        if (vv.scrollTop > 120) return;
+        if (!hasMore || !cursor || loadingOlderRef.current) return;
 
-      loadMore(false);
-    });
-  };
+        loadMore(false);
+      });
+    };
 
-  v.addEventListener('scroll', onScroll, { passive: true });
-  return () => v.removeEventListener('scroll', onScroll);
-}, [chatroom?.id, cursor, hasMore]);
+    v.addEventListener('scroll', onScroll, { passive: true });
+    return () => v.removeEventListener('scroll', onScroll);
+  }, [chatroom?.id, cursor, hasMore]);
 
   /* ---------- realtime: new messages + typing ---------- */
 
@@ -715,16 +755,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const mergeIncomingMessage = mergeIncomingMessageFactory(setMessages);
     const mergeIncomingBatch = mergeIncomingBatchFactory(setMessages);
 
-    // handler that decrypts then merges a single incoming msg
     const handleReceiveMessage = async (payload) => {
-      const raw = payload?.item ?? payload;
-      if (Number(raw?.chatRoomId) !== Number(chatroom.id)) return;
+      const raw = unwrapMessage(payload);
+
+      console.log('[socket message payload]', payload);
+      console.log('[socket room check]', {
+        payload,
+        resolvedRoomId: getMessageRoomId(payload),
+        activeRoomId: Number(chatroom.id),
+      });
+
+      if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
 
       try {
         const priv = await maybeGetUnlockedPrivateKey();
         const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
 
-        // merge decrypted row into local state (factory handles merge/ordering)
         mergeIncomingMessage(decrypted);
 
         const incomingId = Number(decrypted?.id || 0);
@@ -732,20 +778,16 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
         }
 
-        // persist single canonical message (dedup/upsert)
         upsertMessage(chatroom.id, decrypted).catch(() => {});
-
-        // persist to local cache
         addMessages(chatroom.id, [decrypted]).catch(() => {});
 
-        // read-receipt: if it's NOT mine and I'm in this chat, mark it read
-        const decryptedSenderId = decrypted?.sender?.id ?? decrypted?.senderId;
-        const isMine = Number(decryptedSenderId) === Number(currentUserId);
+        const decryptedSenderId = getSenderId(decrypted);
+        const isMine = isSameUser(decryptedSenderId, currentUserId);
+
         if (!isMine) {
           markMessageRead(decrypted?.id ?? raw?.id);
         }
 
-        // scroll / sound
         const v = scrollViewportRef.current;
         const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
         if (atBottom) scrollToBottomNow();
@@ -757,11 +799,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         }
       } catch (e) {
         console.error('Failed to decrypt/merge incoming message', e);
-        // fallback: merge raw payload so we still see something
+
         mergeIncomingMessage(raw);
 
-        // fallback read receipt
-        const isMine = Number(raw?.sender?.id ?? raw?.senderId) === Number(currentUserId);
+        const isMine = isSameUser(getSenderId(raw), currentUserId);
         if (!isMine) markMessageRead(raw?.id);
 
         const v = scrollViewportRef.current;
@@ -776,20 +817,27 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
     };
 
-    // If server sometimes sends batches (e.g., replay), handle them
     const handleBatch = async (payload) => {
-      const rows = payload?.items ?? payload;
+      const rows = payload?.items ?? payload?.messages ?? payload;
       if (!Array.isArray(rows) || rows.length === 0) return;
+
+      const roomFilteredRows = rows.filter(
+        (row) => getMessageRoomId(row) === Number(chatroom.id)
+      );
+      if (!roomFilteredRows.length) return;
 
       try {
         const priv = await maybeGetUnlockedPrivateKey();
-        const decrypted = await maybeDecryptFetchedMessages(rows, priv, null, currentUserId);
+        const decrypted = await maybeDecryptFetchedMessages(
+          roomFilteredRows,
+          priv,
+          null,
+          currentUserId
+        );
 
-        // decrypted is an array of rows; use batch merge
         mergeIncomingBatch(decrypted);
         addMessages(chatroom.id, decrypted).catch(() => {});
 
-        // update highestSeenId from batch
         const maxInBatch = (decrypted || [])
           .map((m) => Number(m?.id || 0))
           .filter(Number.isFinite)
@@ -799,22 +847,19 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         }
       } catch (e) {
         console.error('Failed to decrypt incoming batch', e);
-        // fallback: merge raw rows
-        mergeIncomingBatch(rows);
+        mergeIncomingBatch(roomFilteredRows);
       }
     };
 
-    // typing handler unchanged
     const onTypingUpdate = ({ roomId, username, isTyping }) => {
       if (Number(roomId) !== Number(chatroom.id)) return;
       setTypingUser(isTyping ? username || '' : '');
     };
 
-    // wire socket events
     socket.on('message:upsert', handleReceiveMessage);
-    socket.on('message:new', handleReceiveMessage); // keep legacy support
-    socket.on('message:expired', handleReceiveMessage); // optional legacy
-    socket.on('message:batch', handleBatch); // if you emit batch replays under this event
+    socket.on('message:new', handleReceiveMessage);
+    socket.on('message:expired', handleReceiveMessage);
+    socket.on('message:batch', handleBatch);
     socket.on('typing:update', onTypingUpdate);
 
     return () => {
@@ -828,7 +873,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
-    // Find "other user" for 1:1 rooms
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
     const other =
       participants.find((p) => Number(p?.id) !== Number(currentUserId)) ||
@@ -842,8 +886,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (!ok) return;
 
     try {
-      // ✅ Recommended: implement this endpoint
-      // POST /blocks  { targetUserId }
       if (Number.isFinite(otherId)) {
         await axiosClient.post('/blocks', { targetUserId: otherId });
       } else {
@@ -851,7 +893,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       window.alert(`Blocked ${name}.`);
-      navigate('/'); // or navigate to your threads list route
+      navigate('/');
     } catch (e) {
       console.error('Block failed', e);
       window.alert('Block failed (backend not wired yet).');
@@ -936,10 +978,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   useEffect(() => {
     const onRead = (payload) => {
-      // Supports either:
-      // 1) { messageId, reader }
-      // 2) { chatRoomId, readerId, messageIds, readAt }
-      // 3) { messageIds, reader, readAt }
       const messageIds =
         (Array.isArray(payload?.messageIds) && payload.messageIds) ||
         (payload?.messageId ? [payload.messageId] : []);
@@ -948,7 +986,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
       const readerId = payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
 
-      // Ignore "me read my own messages"
       if (!readerId || Number(readerId) === Number(currentUserId)) return;
 
       const readAt = payload?.readAt ?? new Date().toISOString();
@@ -959,10 +996,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         prev.map((m) => {
           if (!messageIdSet.has(String(m.id))) return m;
 
-          // stamp readAt for UI (simple 1:1 "Seen")
           const next = { ...m, readAt: m.readAt ?? readAt };
 
-          // keep your existing readBy array behavior (optional)
           if (payload?.reader) {
             const r = payload.reader;
             next.readBy = Array.isArray(m.readBy)
@@ -1022,26 +1057,26 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         const rows = resp?.items || [];
         if (!rows.length) return;
 
-        const priv = await maybeGetUnlockedPrivateKey();
-        const decrypted = await maybeDecryptFetchedMessages(rows, priv, null, currentUserId);
-
-        const chronological = decrypted.slice().reverse();
+        const chronological = rows.slice().reverse();
 
         setMessages((prev) => {
           const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
           const newRows = chronological.filter(
             (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
           );
-          return [...prev, ...newRows]; // new messages arrive at end (newest)
+          return [...prev, ...newRows];
         });
 
         addMessages(chatroom.id, chronological).catch(() => {});
 
-        const maxId = (decrypted || [])
+        const maxId = rows
           .map((m) => Number(m?.id || 0))
           .filter(Number.isFinite)
           .reduce((a, b) => Math.max(a, b), 0);
-        if (maxId > 0) setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+
+        if (maxId > 0) {
+          setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+        }
       } catch (e) {
         console.error('Delta resync failed on socket reconnect', e);
       }
@@ -1051,7 +1086,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => {
       socket.off('connect', onSocketConnect);
     };
-  }, [chatroom?.id, highestSeenId, currentUserId]);
+  }, [chatroom?.id, highestSeenId]);
 
   /* ---------- smart replies ---------- */
 
@@ -1116,10 +1151,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         expireSeconds: failedMsg.expireSeconds || 0,
         attachmentsInline: failedMsg.attachmentsInline || [],
       };
-      const { data: saved } = await axiosClient.post('/messages', payload, {
+      const { data } = await axiosClient.post('/messages', payload, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });
-      setMessages((prev) => prev.map((m) => (m.id === failedMsg.id ? { ...saved } : m)));
+      const saved = unwrapMessage(data);
+      setMessages((prev) =>
+        prev.map((m) => (m.id === failedMsg.id ? { ...m, ...saved } : m))
+      );
     } catch (e) {
       console.error('Retry send failed', e);
     }
@@ -1149,13 +1187,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [chatroom?.id]);
 
   const getBestPlaintextForReport = useCallback((m) => {
-    return (
-      m?.decryptedContent ||
-      m?.translatedForMe ||
-      m?.rawContent ||
-      m?.content ||
-      ''
-    );
+    return m?.decryptedContent || m?.translatedForMe || m?.rawContent || m?.content || '';
   }, []);
 
   const openReportModal = useCallback((msg) => {
@@ -1298,7 +1330,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
       Object.keys(ADS_CONFIG?.house || {}).length > 0;
 
-      console.log('CHATVIEW FILE IS RUNNING');
+    console.log('CHATVIEW FILE IS RUNNING');
 
     return (
       <Box p="md">
@@ -1334,13 +1366,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [showThreadTop, markShown, chatroom?.id]);
 
   const lastOutgoingId = useMemo(() => {
-    // last message sent by me
-    const last = [...messages].reverse().find((m) => {
-      const senderId = m.sender?.id ?? m.senderId;
-      return Number(senderId) === Number(currentUserId);
-    });
-    return last?.id ?? null;
-  }, [messages, currentUserId]);
+  const last = [...messages].reverse().find((m) =>
+    isSameUser(getSenderId(m), currentUserId)
+  );
+  return last?.id ?? null;
+}, [messages, currentUserId]);
 
   const lastOutgoingSeen = useMemo(() => {
     if (!lastOutgoingId) return false;
@@ -1348,16 +1378,113 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const m = messages.find((x) => x.id === lastOutgoingId);
     if (!m) return false;
 
-    // Prefer readAt if available
     if (m.readAt) return true;
 
-    // Fallback to readBy if your server uses it
     if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
       return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
     }
 
     return false;
   }, [messages, lastOutgoingId, otherUserId]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const decryptVisibleMessages = async () => {
+      if (!chatroom?.id) return;
+      if (!messages.length) return;
+
+      const encryptedRows = messages.filter(
+        (m) =>
+          (m?.contentCiphertext || m?.encryptedKeyForMe || m?.encryptedKeys) &&
+          !m?.decryptedContent
+      );
+
+      if (!encryptedRows.length) {
+        setE2eeLocked(false);
+        return;
+      }
+
+      try {
+        const priv = await maybeGetUnlockedPrivateKey();
+
+        if (!priv) {
+          setE2eeLocked(true);
+          return;
+        }
+
+        const senderKeys = Object.fromEntries(
+          (chatroom?.participants || [])
+            .filter(
+              (p) =>
+                (p?.user?.id || p?.userId || p?.id) &&
+                (p?.user?.publicKey || p?.publicKey)
+            )
+            .map((p) => [
+              String(p.user?.id ?? p.userId ?? p.id),
+              p.user?.publicKey ?? p.publicKey,
+            ])
+        );
+
+        const decrypted = await maybeDecryptFetchedMessages(
+          encryptedRows,
+          priv,
+          senderKeys,
+          currentUserId
+        );
+
+        if (cancelled) return;
+        if (!Array.isArray(decrypted) || !decrypted.length) {
+          setE2eeLocked(true);
+          return;
+        }
+
+        const byId = new Map(decrypted.map((m) => [String(m.id), m]));
+
+        setMessages((prev) => {
+          let changed = false;
+
+          const next = prev.map((m) => {
+            const patched = byId.get(String(m.id));
+            if (!patched) return m;
+
+            if (
+              patched.decryptedContent &&
+              patched.decryptedContent !== '[Encrypted – could not decrypt]' &&
+              patched.decryptedContent !== '[Encrypted – key unavailable]' &&
+              patched.decryptedContent !== m.decryptedContent
+            ) {
+              changed = true;
+              return { ...m, decryptedContent: patched.decryptedContent };
+            }
+
+            return m;
+          });
+
+          return changed ? next : prev;
+        });
+
+        const anyStillLocked = decrypted.some(
+          (m) =>
+            m.decryptedContent === '[Encrypted – could not decrypt]' ||
+            m.decryptedContent === '[Encrypted – key unavailable]'
+        );
+
+        setE2eeLocked(anyStillLocked);
+      } catch (e) {
+        if (!cancelled) {
+          console.warn('[E2EE] background decrypt failed', e);
+          setE2eeLocked(true);
+        }
+      }
+    };
+
+    decryptVisibleMessages();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [chatroom?.id, chatroom?.participants, currentUserId, messages.length]);
 
   /* ---------- render ---------- */
 
@@ -1370,23 +1497,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-    }}
-  >
-    <ThreadShell
-      header={
-        <Box
-          p="md"
-          className={clsx(
-            privacyActive && !reveal && 'privacy-blur',
-            reveal && 'privacy-revealed'
-          )}
-          onMouseDown={holdToReveal ? () => setReveal(true) : undefined}
-          onMouseUp={holdToReveal ? () => setReveal(false) : undefined}
-          onMouseLeave={holdToReveal ? () => setReveal(false) : undefined}
-          onTouchStart={holdToReveal ? () => setReveal(true) : undefined}
-          onTouchEnd={holdToReveal ? () => setReveal(false) : undefined}
-        >
-        
+      }}
+    >
+      <ThreadShell
+        header={
+          <Box
+            p="md"
+            className={clsx(
+              privacyActive && !reveal && 'privacy-blur',
+              reveal && 'privacy-revealed'
+            )}
+            onMouseDown={holdToReveal ? () => setReveal(true) : undefined}
+            onMouseUp={holdToReveal ? () => setReveal(false) : undefined}
+            onMouseLeave={holdToReveal ? () => setReveal(false) : undefined}
+            onTouchStart={holdToReveal ? () => setReveal(true) : undefined}
+            onTouchEnd={holdToReveal ? () => setReveal(false) : undefined}
+          >
             <Group mb="sm" justify="space-between" wrap="nowrap">
               <Group gap="sm" wrap="nowrap" style={{ minWidth: 0 }}>
                 <Title
@@ -1398,7 +1524,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     maxWidth: '100%',
                   }}
                 >
-                  {chatroom?.name || otherParticipant?.username || otherParticipant?.displayName || otherParticipant?.name || 'Conversation'}
+                  {chatroom?.name ||
+                    otherParticipant?.username ||
+                    otherParticipant?.displayName ||
+                    otherParticipant?.name ||
+                    'Conversation'}
                 </Title>
 
                 {isRandomRoom && (
@@ -1474,316 +1604,396 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               </Group>
             </Group>
           </Box>
-      }
-      composer={
-        <Box w="100%">
-          <ThreadComposer
-            value={draft}
-            onChange={setDraft}
-            placeholder="Type a message…"
-            topSlot={
-              <Group gap="sm" align="center" wrap="wrap">
-                <label style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <input
-                    type="checkbox"
-                    checked={smartEnabled}
-                    onChange={(e) => {
-                      const v = e.target.checked;
-                      setSmartEnabled(v);
-                      setPref(PREF_SMART_REPLIES, v);
-                    }}
-                    aria-label="Enable Smart Replies"
-                  />
-                  Smart Replies
-                </label>
+        }
+        composer={
+          <Box w="100%">
+            <ThreadComposer
+              value={draft}
+              onChange={setDraft}
+              placeholder="Type a message…"
+              topSlot={
+                <Group gap="sm" align="center" wrap="wrap">
+                  <label
+                    style={{ fontSize: 12, display: 'flex', alignItems: 'center', gap: 6 }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={smartEnabled}
+                      onChange={(e) => {
+                        const v = e.target.checked;
+                        setSmartEnabled(v);
+                        setPref(PREF_SMART_REPLIES, v);
+                      }}
+                      aria-label="Enable Smart Replies"
+                    />
+                    Smart Replies
+                  </label>
 
-                <SmartReplyBar suggestions={suggestions} onPick={sendSmartReply} compact />
-              </Group>
-            }
-            onSend={async (payload) => {
-              const text = (draft || '').trim();
+                  <SmartReplyBar suggestions={suggestions} onPick={sendSmartReply} compact />
+                </Group>
+              }
+              onSend={async (payload) => {
+                const text = (draft || '').trim();
 
-              try {
-                // 1) attachments already uploaded -> send canonical HTTP
-                if (payload?.attachments?.length) {
-                  await axiosClient.post(
+                try {
+                  const buildSenderKeys = () =>
+                    Object.fromEntries(
+                      (chatroom?.participants || [])
+                        .filter(
+                          (p) =>
+                            (p?.user?.id || p?.userId || p?.id) &&
+                            (p?.user?.publicKey || p?.publicKey)
+                        )
+                        .map((p) => [
+                          String(p.user?.id ?? p.userId ?? p.id),
+                          p.user?.publicKey ?? p.publicKey,
+                        ])
+                    );
+
+                  const insertSavedMessage = async (savedRaw, optimisticText = '') => {
+                    const saved = unwrapMessage(savedRaw);
+                    let rowToInsert = saved;
+
+                    const hasCanonicalId = saved?.id != null;
+
+                    console.log('[POST /messages response]', saved);
+
+                    const forceMineShape = (base) => ({
+                      ...base,
+                      mine: true,
+                      senderId: toNum(currentUserId),
+                      sender: {
+                        ...(base?.sender || {}),
+                        id: toNum(currentUserId),
+                        username: currentUser?.username ?? base?.sender?.username,
+                      },
+                    });
+
+                    const makeOptimisticMineRow = (base, optimisticTextValue) =>
+                      forceMineShape({
+                        ...base,
+                        decryptedContent: optimisticTextValue,
+                        content: optimisticTextValue,
+                        rawContent: optimisticTextValue,
+                      });
+
+                    try {
+                      const priv = await maybeGetUnlockedPrivateKey();
+
+                      if (priv) {
+                        const senderKeys = buildSenderKeys();
+
+                        const [decryptedSaved] = await maybeDecryptFetchedMessages(
+                          [saved],
+                          priv,
+                          senderKeys,
+                          currentUserId
+                        );
+
+                        if (
+                          decryptedSaved &&
+                          decryptedSaved.decryptedContent &&
+                          decryptedSaved.decryptedContent !== '[Encrypted – key unavailable]' &&
+                          decryptedSaved.decryptedContent !== '[Encrypted – could not decrypt]'
+                        ) {
+                          rowToInsert = decryptedSaved;
+                        } else if (optimisticText) {
+                          rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+                        }
+                      } else if (optimisticText) {
+                        rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+                      }
+                    } catch (e) {
+                      console.warn('Failed to decrypt sent message response', e);
+
+                      if (optimisticText) {
+                        rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+                      }
+                    }
+
+                    rowToInsert = forceMineShape(rowToInsert);
+
+                    setMessages((prev) => upsertLocalMessage(prev, rowToInsert));
+
+                    scrollToBottomNow();
+                  };
+
+                  if (payload?.attachments?.length) {
+                    const { data } = await axiosClient.post(
+                      '/messages',
+                      {
+                        chatRoomId: chatroom.id,
+                        content: text || '',
+                        attachmentsInline: payload.attachments.map((f) => ({
+                          kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
+                          url: f.url,
+                          mimeType: f.contentType || 'audio/webm',
+                          durationSec: f.durationSec || null,
+                          caption: f.caption || null,
+                        })),
+                      },
+                      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+                    );
+
+                    await insertSavedMessage(data, text || '');
+                    setDraft('');
+                    return;
+                  }
+
+                  if (payload?.files?.length) {
+                    console.warn(
+                      'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
+                    );
+                    return;
+                  }
+
+                  if (!text) return;
+
+                  const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+                  const { data } = await axiosClient.post(
                     '/messages',
-                    {
-                      chatRoomId: chatroom.id,
-                      content: text || '',
-                      attachmentsInline: payload.attachments.map((f) => ({
-                        kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
-                        url: f.url,
-                        mimeType: f.contentType || 'audio/webm',
-                        durationSec: f.durationSec || null,
-                        caption: f.caption || null,
-                      })),
-                    },
+                    { chatRoomId: chatroom.id, content: text, clientMessageId },
                     { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                   );
 
+                  await insertSavedMessage(data, text);
                   setDraft('');
-                  return;
+                } catch (e) {
+                  console.error('Send failed', e);
                 }
-
-                // 2) raw files fallback (warn)
-                if (payload?.files?.length) {
-                  console.warn(
-                    'ThreadComposer provided raw files; wire onUploadFiles to handle uploads.'
-                  );
-                  return;
-                }
-
-                // 3) normal text send (canonical HTTP)
-                if (!text) return;
-
-                await axiosClient.post(
-                  '/messages',
-                  { chatRoomId: chatroom.id, content: text },
-                  { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-                );
-
-                setDraft('');
-              } catch (e) {
-                console.error('Send failed', e);
-              }
-            }}
-          />
-        </Box>
-      }
-    >
-      <Box
-        w="100%"
-        style={{
-          flex: '1 1 auto',
-          minHeight: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
+              }}
+            />
+          </Box>
+        }
       >
-        {!isPremium && showThreadTop && (
-          <div style={{ padding: '8px 12px', flex: '0 0 auto' }}>
-            <CardAdWrap>
-              <HouseAdSlot placement="thread_top" variant="card" />
-            </CardAdWrap>
-          </div>
-        )}
-
-        {e2eeLocked && (
-          <Alert color="yellow" variant="light" mx="md" mt="sm">
-            Encrypted messages are locked on this device. Unlock your private key to view them.
-          </Alert>
-        )}
-
-        <ScrollArea
-          key={chatroom?.id}
+        <Box
+          w="100%"
           style={{
             flex: '1 1 auto',
             minHeight: 0,
-            height: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
           }}
-          viewportRef={scrollViewportRef}
-          type="auto"
         >
-          <Box
-            style={{
-              minHeight: 0,
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
-            <Stack gap="xs" p="xs">
-              {messages.map((m, idx) => {
-                const msg = normalizeMsg(m);
-                const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
-
-                const prevRaw = messages[idx - 1];
-                const prevMsg = prevRaw ? normalizeMsg(prevRaw) : null;
-
-                const nextRaw = messages[idx + 1];
-                const nextMsg = nextRaw ? normalizeMsg(nextRaw) : null;
-
-                const thisSenderId = Number(msg?.sender?.id ?? msg?.senderId ?? 0);
-                const prevSenderId = Number(prevMsg?.sender?.id ?? prevMsg?.senderId ?? 0);
-                const nextSenderId = Number(nextMsg?.sender?.id ?? nextMsg?.senderId ?? 0);
-
-                const thisTime = msg?.createdAt ? new Date(msg.createdAt).getTime() : 0;
-                const prevTime = prevMsg?.createdAt ? new Date(prevMsg.createdAt).getTime() : 0;
-                const nextTime = nextMsg?.createdAt ? new Date(nextMsg.createdAt).getTime() : 0;
-
-                const prevGapMs = thisTime && prevTime ? thisTime - prevTime : 0;
-                const nextGapMs = thisTime && nextTime ? nextTime - thisTime : 0;
-
-                const sameAsPrev =
-                  !!prevMsg &&
-                  thisSenderId === prevSenderId &&
-                  prevGapMs <= 5 * 60 * 1000;
-
-                const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
-
-                const showTail =
-                  !nextMsg ||
-                  thisSenderId !== nextSenderId ||
-                  isRestartAfterGap;
-
-                return (
-                  <Box
-                    key={msg.id ?? `${msg.createdAt}-${idx}`}
-                    mt={sameAsPrev ? 4 : 12}
-                  >
-                    <MessageBubble
-                      msg={msg}
-                      currentUserId={currentUserId}
-                      onRetry={handleRetry}
-                      onEdit={(mm) => handleEditMessage(mm)}
-                      onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
-                      onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
-                      onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
-                      onReport={(mm) => openReportModal(mm)}
-                      canEdit={canEditMessage(msg)}
-                      canDeleteAll={canDeleteForEveryone(msg)}
-                      showTail={showTail}
-                      sameAsPrev={sameAsPrev}
-                    />
-
-                    {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
-                      <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
-                        {lastOutgoingSeen ? 'Seen' : ''}
-                      </Text>
-                    )}
-                  </Box>
-                );
-              })}
-
-              <div ref={messagesEndRef} />
-            </Stack>
-          </Box>
-        </ScrollArea>
-
-        <Box style={{ flex: '0 0 auto' }}>
-          {typingUser && (
-            <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
-              {typingUser} is typing...
-            </Text>
+          {!isPremium && showThreadTop && (
+            <div style={{ padding: '8px 12px', flex: '0 0 auto' }}>
+              <CardAdWrap>
+                <HouseAdSlot placement="thread_top" variant="card" />
+              </CardAdWrap>
+            </div>
           )}
 
-          {showNewMessage && (
-            <Group justify="center" mt="xs">
-              <Button onClick={scrollToBottom} aria-label="Jump to newest">
-                New Messages
+          <ScrollArea
+            key={chatroom?.id}
+            style={{
+              flex: '1 1 auto',
+              minHeight: 0,
+              height: 0,
+            }}
+            viewportRef={scrollViewportRef}
+            type="auto"
+          >
+            <Box
+              style={{
+                minHeight: 0,
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <Stack gap="xs" p="xs">
+                {messages.map((m, idx) => {
+                  const msg = normalizeMsg(m);
+                  const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
+
+                  const prevRaw = messages[idx - 1];
+                  const prevMsg = prevRaw ? normalizeMsg(prevRaw) : null;
+
+                  const nextRaw = messages[idx + 1];
+                  const nextMsg = nextRaw ? normalizeMsg(nextRaw) : null;
+
+                  const thisSenderId = Number(msg?.sender?.id ?? msg?.senderId ?? 0);
+                  const prevSenderId = Number(prevMsg?.sender?.id ?? prevMsg?.senderId ?? 0);
+                  const nextSenderId = Number(nextMsg?.sender?.id ?? nextMsg?.senderId ?? 0);
+
+                  const thisTime = msg?.createdAt ? new Date(msg.createdAt).getTime() : 0;
+                  const prevTime = prevMsg?.createdAt ? new Date(prevMsg.createdAt).getTime() : 0;
+                  const nextTime = nextMsg?.createdAt ? new Date(nextMsg.createdAt).getTime() : 0;
+
+                  const prevGapMs = thisTime && prevTime ? thisTime - prevTime : 0;
+                  const nextGapMs = thisTime && nextTime ? nextTime - thisTime : 0;
+
+                  const sameAsPrev =
+                    !!prevMsg &&
+                    thisSenderId === prevSenderId &&
+                    prevGapMs <= 5 * 60 * 1000;
+
+                  const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
+
+                  const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
+
+                  console.log('[render row]', {
+                    id: msg.id,
+                    text: msg.rawContent || msg.content || msg.decryptedContent,
+                    senderId: getSenderId(msg),
+                    currentUserId,
+                    mine: msg.mine,
+                  });
+
+                  return (
+                    <Box key={msg.id ?? `${msg.createdAt}-${idx}`} mt={sameAsPrev ? 4 : 12}>
+                      <MessageBubble
+                        msg={msg}
+                        currentUserId={currentUserId}
+                        onRetry={handleRetry}
+                        onEdit={(mm) => handleEditMessage(mm)}
+                        onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
+                        onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
+                        onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
+                        onReport={(mm) => openReportModal(mm)}
+                        canEdit={canEditMessage(msg)}
+                        canDeleteAll={canDeleteForEveryone(msg)}
+                        showTail={showTail}
+                        sameAsPrev={sameAsPrev}
+                      />
+
+                      {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
+                        <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
+                          {lastOutgoingSeen ? 'Seen' : ''}
+                        </Text>
+                      )}
+                    </Box>
+                  );
+                })}
+
+                <div ref={messagesEndRef} />
+              </Stack>
+            </Box>
+          </ScrollArea>
+
+          <Box style={{ flex: '0 0 auto' }}>
+            {typingUser && (
+              <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
+                {typingUser} is typing...
+              </Text>
+            )}
+
+            {showNewMessage && (
+              <Group justify="center" mt="xs">
+                <Button onClick={scrollToBottom} aria-label="Jump to newest">
+                  New Messages
+                </Button>
+              </Group>
+            )}
+          </Box>
+        </Box>
+
+        <RoomSettingsModal
+          opened={settingsOpen}
+          onClose={() => setSettingsOpen(false)}
+          room={chatroom}
+        />
+        <RoomInviteModal
+          opened={inviteOpen}
+          onClose={() => setInviteOpen(false)}
+          roomId={chatroom.id}
+        />
+        <RoomAboutModal
+          opened={aboutOpen}
+          onClose={() => setAboutOpen(false)}
+          room={chatroom}
+        />
+        <RoomSearchDrawer
+          opened={searchOpen}
+          onClose={() => setSearchOpen(false)}
+          roomId={chatroom.id}
+        />
+        <MediaGalleryModal
+          opened={galleryOpen}
+          onClose={() => setGalleryOpen(false)}
+          roomId={chatroom.id}
+        />
+
+        <Modal
+          opened={reportOpen}
+          onClose={() => setReportOpen(false)}
+          title="Report message"
+          centered
+          radius="lg"
+        >
+          <Stack>
+            <Select
+              label="Reason"
+              value={reportReason}
+              onChange={(value) => setReportReason(value || 'harassment')}
+              data={[
+                { value: 'harassment', label: 'Harassment' },
+                { value: 'threats', label: 'Threats' },
+                { value: 'hate', label: 'Hate or abusive conduct' },
+                { value: 'sexual_content', label: 'Sexual content' },
+                { value: 'spam_scam', label: 'Spam or scam' },
+                { value: 'impersonation', label: 'Impersonation' },
+                { value: 'other', label: 'Other' },
+              ]}
+            />
+
+            <Select
+              label="Include previous messages"
+              value={reportContextCount}
+              onChange={(value) => setReportContextCount(value || '10')}
+              data={[
+                { value: '0', label: 'Only this message' },
+                { value: '5', label: 'This + previous 5' },
+                { value: '10', label: 'This + previous 10' },
+                { value: '20', label: 'This + previous 20' },
+              ]}
+            />
+
+            <Textarea
+              label="Additional details"
+              placeholder="Anything else moderators should know?"
+              value={reportDetails}
+              onChange={(e) => setReportDetails(e.currentTarget.value)}
+              autosize
+              minRows={3}
+            />
+
+            <Checkbox
+              label="Block this user after reporting"
+              checked={blockAfterReport}
+              onChange={(e) => setBlockAfterReport(e.currentTarget.checked)}
+            />
+
+            {reportTarget && (
+              <Alert variant="light">
+                <Text size="sm">
+                  Reporting message from{' '}
+                  <strong>{reportTarget.sender?.username || 'Unknown user'}</strong>
+                </Text>
+                <Text size="sm" mt={6}>
+                  {getBestPlaintextForReport(reportTarget) || '[No visible text]'}
+                </Text>
+              </Alert>
+            )}
+
+            {reportError && (
+              <Alert color="red" variant="light">
+                {reportError}
+              </Alert>
+            )}
+
+            <Group justify="flex-end">
+              <Button variant="light" onClick={() => setReportOpen(false)}>
+                Cancel
+              </Button>
+              <Button color="red" onClick={submitReport} loading={reportSubmitting}>
+                Submit report
               </Button>
             </Group>
-          )}
-        </Box>
-      </Box>
-
-      {/* Modals & drawers */}
-      <RoomSettingsModal
-        opened={settingsOpen}
-        onClose={() => setSettingsOpen(false)}
-        room={chatroom}
-      />
-      <RoomInviteModal
-        opened={inviteOpen}
-        onClose={() => setInviteOpen(false)}
-        roomId={chatroom.id}
-      />
-      <RoomAboutModal
-        opened={aboutOpen}
-        onClose={() => setAboutOpen(false)}
-        room={chatroom}
-      />
-      <RoomSearchDrawer
-        opened={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        roomId={chatroom.id}
-      />
-      <MediaGalleryModal
-        opened={galleryOpen}
-        onClose={() => setGalleryOpen(false)}
-        roomId={chatroom.id}
-      />
-
-      <Modal
-        opened={reportOpen}
-        onClose={() => setReportOpen(false)}
-        title="Report message"
-        centered
-        radius="lg"
-      >
-        <Stack>
-          <Select
-            label="Reason"
-            value={reportReason}
-            onChange={(value) => setReportReason(value || 'harassment')}
-            data={[
-              { value: 'harassment', label: 'Harassment' },
-              { value: 'threats', label: 'Threats' },
-              { value: 'hate', label: 'Hate or abusive conduct' },
-              { value: 'sexual_content', label: 'Sexual content' },
-              { value: 'spam_scam', label: 'Spam or scam' },
-              { value: 'impersonation', label: 'Impersonation' },
-              { value: 'other', label: 'Other' },
-            ]}
-          />
-
-          <Select
-            label="Include previous messages"
-            value={reportContextCount}
-            onChange={(value) => setReportContextCount(value || '10')}
-            data={[
-              { value: '0', label: 'Only this message' },
-              { value: '5', label: 'This + previous 5' },
-              { value: '10', label: 'This + previous 10' },
-              { value: '20', label: 'This + previous 20' },
-            ]}
-          />
-
-          <Textarea
-            label="Additional details"
-            placeholder="Anything else moderators should know?"
-            value={reportDetails}
-            onChange={(e) => setReportDetails(e.currentTarget.value)}
-            autosize
-            minRows={3}
-          />
-
-          <Checkbox
-            label="Block this user after reporting"
-            checked={blockAfterReport}
-            onChange={(e) => setBlockAfterReport(e.currentTarget.checked)}
-          />
-
-          {reportTarget && (
-            <Alert variant="light">
-              <Text size="sm">
-                Reporting message from{' '}
-                <strong>{reportTarget.sender?.username || 'Unknown user'}</strong>
-              </Text>
-              <Text size="sm" mt={6}>
-                {getBestPlaintextForReport(reportTarget) || '[No visible text]'}
-              </Text>
-            </Alert>
-          )}
-
-          {reportError && (
-            <Alert color="red" variant="light">
-              {reportError}
-            </Alert>
-          )}
-
-          <Group justify="flex-end">
-            <Button variant="light" onClick={() => setReportOpen(false)}>
-              Cancel
-            </Button>
-            <Button color="red" onClick={submitReport} loading={reportSubmitting}>
-              Submit report
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
-    </ThreadShell>
+          </Stack>
+        </Modal>
+      </ThreadShell>
     </Box>
   );
 }

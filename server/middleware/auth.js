@@ -51,6 +51,7 @@ async function hydrateUser(decoded) {
         id: true,
         email: true,
         username: true,
+        publicKey: true,
         role: true,
         plan: true,
         emailVerifiedAt: true,
@@ -67,8 +68,9 @@ async function hydrateUser(decoded) {
       return {
         id: dbUser.id,
         username: dbUser.username || decoded.username || null,
-        role: dbUser.role || decoded.role || 'USER',
         email: dbUser.email || decoded.email || null,
+        publicKey: dbUser.publicKey || decoded.publicKey || null,
+        role: dbUser.role || decoded.role || 'USER',
         plan: dbUser.plan || decoded.plan || 'FREE',
         emailVerifiedAt: dbUser.emailVerifiedAt || null,
         phoneVerifiedAt: dbUser.phoneVerifiedAt || null,

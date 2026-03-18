@@ -11,11 +11,11 @@ export default function App() {
     if (el) el.focus();
   }, [pathname]);
 
-  return(
+  return (
     <>
-     <DevErrorBoundary>
-      <AppRoutes />
-     </DevErrorBoundary>
+      <DevErrorBoundary>
+        <AppRoutes />
+      </DevErrorBoundary>
     </>
-  )
+  );
 }

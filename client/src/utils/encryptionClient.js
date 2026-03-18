@@ -1,5 +1,6 @@
 import { get, set, del } from 'idb-keyval';
 import { decryptMessageForUserBrowser } from './decryptionClient.js';
+import { loadKeysLocal, clearKeysLocal } from './keys.js';
 import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
 
@@ -26,7 +27,6 @@ const guessToBytes = (v) => {
   if (v instanceof Uint8Array) return v;
   if (v instanceof ArrayBuffer) return new Uint8Array(v);
   if (typeof v === 'string') {
-    // Heuristics: try base64 first; fallback to hex
     try {
       return b642bytes(v);
     } catch {
@@ -63,23 +63,17 @@ function decodeB64Any(input, label = 'key') {
     throw new Error(`${label}: missing or not a string`);
   }
 
-  // trim + remove whitespace/newlines
   let s = input.trim().replace(/\s+/g, '');
 
-  // PEM detected? This is NOT a NaCl key.
   if (s.includes('-----BEGIN')) {
     throw new Error(
       `${label}: looks like PEM (RSA) but NaCl base64 key is required for E2EE. Regenerate/migrate keys.`
     );
   }
 
-  // strip common prefixes if they ever show up
   s = s.replace(/^base64:/i, '');
-
-  // base64url -> base64
   s = s.replace(/-/g, '+').replace(/_/g, '/');
 
-  // pad to multiple of 4
   const pad = s.length % 4;
   if (pad) s += '='.repeat(4 - pad);
 
@@ -90,10 +84,9 @@ function decodeB64Any(input, label = 'key') {
  * At-rest key storage (encrypted with passcode)
  * ========================================================== */
 
-const DB_KEY = 'chatforia:keys:v2'; // encrypted-at-rest record
-const LEGACY_KEY = 'chatforia:keys:v1'; // old (plaintext) record if it exists
+const DB_KEY = 'chatforia:keys:v2';
+const LEGACY_KEY = 'chatforia:keys:v1';
 
-// In-memory cache of the derived key (cleared on lock)
 let _derivedKey = null;
 let _saltB64 = null;
 let _iterations = 250_000;
@@ -140,7 +133,6 @@ async function aesGcmDecrypt(key, ivB64, ctB64) {
   return new Uint8Array(pt);
 }
 
-/** Save bundle encrypted with a passcode (used by install & migration). */
 async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
   if (!publicKey || !privateKey) throw new Error('Missing keys');
   const saltB64 = bytes2b64(randBytes(16));
@@ -153,7 +145,7 @@ async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
   const rec = {
     version: 'v2',
     createdAt: new Date().toISOString(),
-    publicKey, // non-sensitive; useful without unlock
+    publicKey,
     enc: { saltB64, iterations, ivB64, ctB64 },
   };
   await set(DB_KEY, rec);
@@ -165,27 +157,85 @@ async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
   return rec;
 }
 
-/** Internal: returns { publicKey, privateKey } if unlocked; else throws 'LOCKED'. */
 async function getUnlockedBundleOrThrow() {
-  // v2 path
-  const rec = await get(DB_KEY);
+  console.log('[E2EE] getUnlockedBundleOrThrow ENTER');
+
+  let trustedLocal = null;
+  try {
+    console.log('[E2EE] before loadKeysLocal()');
+    trustedLocal = await Promise.race([
+      loadKeysLocal(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('loadKeysLocal timeout')), 1500)
+      ),
+    ]);
+    console.log('[E2EE] after loadKeysLocal()', trustedLocal);
+  } catch (e) {
+    console.warn('[E2EE] loadKeysLocal failed or timed out', e?.message || e);
+    trustedLocal = null;
+  }
+
+  if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
+    console.log('[E2EE] using trusted-device keys');
+    return trustedLocal;
+  }
+
+  let legacyIdx = null;
+  try {
+    console.log('[E2EE] before get(LEGACY_KEY)');
+    legacyIdx = await get(LEGACY_KEY);
+    console.log('[E2EE] after get(LEGACY_KEY)', legacyIdx);
+  } catch (e) {
+    console.warn('[E2EE] get(LEGACY_KEY) threw', e?.message || e);
+  }
+
+  if (legacyIdx?.privateKey && legacyIdx?.publicKey) {
+    console.log('[E2EE] using legacy IndexedDB keys');
+    return legacyIdx;
+  }
+
+  let legacyLS = null;
+  try {
+    console.log('[E2EE] before readLegacyLocalStorage()');
+    legacyLS = readLegacyLocalStorage();
+    console.log('[E2EE] after readLegacyLocalStorage()', legacyLS);
+  } catch (e) {
+    console.warn('[E2EE] readLegacyLocalStorage() threw', e?.message || e);
+  }
+
+  if (legacyLS?.privateKey && legacyLS?.publicKey) {
+    console.log('[E2EE] using legacy localStorage keys');
+    return legacyLS;
+  }
+
+  let rec = null;
+  try {
+    console.log('[E2EE] before get(DB_KEY)');
+    rec = await get(DB_KEY);
+    console.log('[E2EE] after get(DB_KEY)', rec);
+  } catch (e) {
+    console.warn('[E2EE] get(DB_KEY) threw', e?.message || e);
+  }
+
   if (rec?.enc) {
     if (!_derivedKey) {
-      throw new Error('LOCKED'); // user must unlock with passcode first
+      console.warn('[E2EE] encrypted bundle exists but is LOCKED');
+      throw new Error('LOCKED');
     }
+
     const { ivB64, ctB64 } = rec.enc;
     const pt = await aesGcmDecrypt(_derivedKey, ivB64, ctB64);
     const obj = JSON.parse(td.decode(pt));
-    if (!obj?.privateKey || !obj?.publicKey) throw new Error('Corrupt key bundle');
+
+    if (!obj?.privateKey || !obj?.publicKey) {
+      throw new Error('Corrupt key bundle');
+    }
+
+    console.log('[E2EE] decrypted encrypted bundle successfully');
     return obj;
   }
-  // legacy fallbacks
-  const legacyIdx = await get(LEGACY_KEY);
-  if (legacyIdx?.privateKey && legacyIdx?.publicKey) return legacyIdx;
 
-  const legacyLS = readLegacyLocalStorage();
-  if (legacyLS?.privateKey && legacyLS?.publicKey) return legacyLS;
-
+  console.warn('[E2EE] no local keypair found anywhere');
   throw new Error('No local keypair found');
 }
 
@@ -194,20 +244,28 @@ async function getUnlockedBundleOrThrow() {
  * ========================================================== */
 
 export async function getUnlockedPrivateKey() {
-  const { privateKey } = await getUnlockedBundleOrThrow();
+  console.log('[E2EE encryptionClient] getUnlockedPrivateKey called');
+  const { privateKey, publicKey } = await getUnlockedBundleOrThrow();
+  console.log('[E2EE encryptionClient] unlocked bundle found', {
+    hasPrivateKey: !!privateKey,
+    hasPublicKey: !!publicKey,
+    privateKeyPreview: privateKey?.slice?.(0, 40) || null,
+    publicKeyPreview: publicKey?.slice?.(0, 40) || null,
+  });
   return privateKey;
 }
 
 export async function getLocalKeyBundleMeta() {
-  const rec = await get(DB_KEY);
-  if (rec)
+  const trustedLocal = await loadKeysLocal();
+  if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
     return {
-      version: rec.version,
-      createdAt: rec.createdAt,
-      hasEncrypted: !!rec.enc,
-      publicKey: rec.publicKey ?? null,
+      version: 'trusted-device',
+      createdAt: null,
+      hasEncrypted: false,
+      publicKey: trustedLocal.publicKey,
     };
-  // also check legacy
+  }
+
   const legacy = (await get(LEGACY_KEY)) || readLegacyLocalStorage();
   if (legacy?.privateKey && legacy?.publicKey) {
     return {
@@ -217,6 +275,17 @@ export async function getLocalKeyBundleMeta() {
       publicKey: legacy.publicKey,
     };
   }
+
+  const rec = await get(DB_KEY);
+  if (rec) {
+    return {
+      version: rec.version,
+      createdAt: rec.createdAt,
+      hasEncrypted: !!rec.enc,
+      publicKey: rec.publicKey ?? null,
+    };
+  }
+
   return null;
 }
 
@@ -235,7 +304,6 @@ export async function getPublicKeyNoUnlock() {
 export async function enableKeyPasscode(passcode) {
   if (!passcode || passcode.length < 6) throw new Error('Passcode too short');
 
-  // Try legacy from IndexedDB first
   let legacy = await get(LEGACY_KEY);
   if (!legacy) {
     const ls = readLegacyLocalStorage();
@@ -250,7 +318,6 @@ export async function enableKeyPasscode(passcode) {
     passcode
   );
 
-  // Clean legacy copies
   try {
     await del(LEGACY_KEY);
   } catch {}
@@ -276,7 +343,43 @@ export async function unlockKeyBundle(passcode) {
   _saltB64 = saltB64;
   _iterations = iterations;
 
-  return obj; // { publicKey, privateKey }
+  return obj;
+}
+
+export async function getUnlockedPrivateKeyForPublicKey(expectedPublicKey) {
+  console.log('[E2EE encryptionClient] getUnlockedPrivateKeyForPublicKey called', {
+    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
+  });
+
+  const { privateKey, publicKey } = await getUnlockedBundleOrThrow();
+
+  console.log('[E2EE encryptionClient] comparing local vs expected publicKey', {
+    localPublicKeyPreview: publicKey?.slice?.(0, 40) || null,
+    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
+  });
+
+  if (!expectedPublicKey) {
+    throw new Error('Missing expected public key');
+  }
+
+  if (!publicKey || publicKey !== expectedPublicKey) {
+    throw new Error('LOCAL_KEY_MISMATCH');
+  }
+
+  const privateKeyBytes = naclUtil.decodeBase64(privateKey);
+  const derivedPublicKey = naclUtil.encodeBase64(
+    nacl.box.keyPair.fromSecretKey(privateKeyBytes).publicKey
+  );
+
+  console.log('[E2EE encryptionClient] keypair integrity check', {
+    storedPublicKeyPreview: publicKey?.slice?.(0, 40) || null,
+    derivedPublicKeyPreview: derivedPublicKey?.slice?.(0, 40) || null,
+    expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
+    matchesStored: derivedPublicKey === publicKey,
+    matchesExpected: derivedPublicKey === expectedPublicKey,
+  });
+
+  return privateKey;
 }
 
 export function lockKeyBundle() {
@@ -292,6 +395,9 @@ export async function clearLocalKeyBundle() {
   try {
     localStorage.removeItem(LEGACY_KEY);
   } catch {}
+  try {
+    await clearKeysLocal();
+  } catch {}
   lockKeyBundle();
 }
 
@@ -299,11 +405,6 @@ export async function clearLocalKeyBundle() {
  * Symmetric helpers (encrypt/decrypt)
  * ========================================================== */
 
-/**
- * Decrypt AES-GCM payload and return plaintext (UTF-8 string).
- * Accepts key as CryptoKey, Uint8Array, ArrayBuffer, or base64/hex string.
- * `iv` and `ciphertext` can be Uint8Array or base64/hex strings.
- */
 export async function decryptSym({ key, iv, ciphertext }) {
   const k = await importAesKey(key);
   const ivBytes = guessToBytes(iv);
@@ -312,19 +413,11 @@ export async function decryptSym({ key, iv, ciphertext }) {
   return td.decode(pt);
 }
 
-/**
- * Encrypt plaintext with a fresh 256-bit AES-GCM key.
- * Returns base64 iv/ct, algorithm tag, and the raw AES key bytes for wrapping.
- *
- * NOTE: WebCrypto returns ct as [enc | tag] (tag appended).
- * Our server expects ciphertext layout base64([iv | tag | enc]).
- */
 export async function encryptSym(plaintext) {
-  const rawKey = randBytes(32); // 256-bit AES key
+  const rawKey = randBytes(32);
   const aesKey = await importAesKeyRaw(rawKey);
   const iv = randBytes(12);
 
-  // WebCrypto output = enc||tag (tag is last 16 bytes)
   const ctBuf = await crypto.subtle.encrypt(
     { name: 'AES-GCM', iv },
     aesKey,
@@ -332,9 +425,9 @@ export async function encryptSym(plaintext) {
   );
 
   return {
-    keyRaw: rawKey,              // Uint8Array (32 bytes)
-    ivBytes: iv,                 // Uint8Array (12 bytes)
-    ctBytes: new Uint8Array(ctBuf), // Uint8Array (enc||tag)
+    keyRaw: rawKey,
+    ivBytes: iv,
+    ctBytes: new Uint8Array(ctBuf),
     alg: 'A256GCM',
   };
 }
@@ -351,16 +444,40 @@ export async function decryptFetchedMessages(
 ) {
   return Promise.all(
     messages.map(async (msg) => {
+      let encryptedKey = null;
+
       try {
-        const encryptedKey =
+        encryptedKey =
           msg.encryptedKeyForMe ??
-          (msg.encryptedKeys && (msg.encryptedKeys[currentUserId] || msg.encryptedKeys['me'])) ??
+          (msg.encryptedKeys &&
+            (msg.encryptedKeys[String(currentUserId)] ||
+              msg.encryptedKeys[currentUserId] ||
+              msg.encryptedKeys['me'])) ??
           null;
 
         const senderPublicKey =
-          senderPublicKeys?.[msg.sender?.id] || msg.sender?.publicKey || null;
+          senderPublicKeys?.[String(msg.sender?.id)] ||
+          senderPublicKeys?.[msg.sender?.id] ||
+          msg.sender?.publicKey ||
+          null;
 
-        if (!encryptedKey || !senderPublicKey) {
+        console.log('[decryptFetchedMessages] attempting', {
+          msgId: msg.id,
+          hasCiphertext: !!msg.contentCiphertext,
+          hasEncryptedKeyForMe: !!msg.encryptedKeyForMe,
+          encryptedKeyPreview:
+            typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
+          senderId: msg.sender?.id,
+          senderPublicKeyPreview: senderPublicKey?.slice?.(0, 60) || null,
+          currentUserId,
+          selectedEncryptedKeyOwner:
+            msg.encryptedKeys && currentUserId != null
+              ? Object.prototype.hasOwnProperty.call(msg.encryptedKeys, String(currentUserId))
+              : null,
+          encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
+        });
+
+        if (!encryptedKey) {
           return { ...msg, decryptedContent: '[Encrypted – key unavailable]' };
         }
 
@@ -368,12 +485,27 @@ export async function decryptFetchedMessages(
           msg.contentCiphertext,
           encryptedKey,
           currentUserPrivateKey,
-          senderPublicKey
+          senderPublicKey,
+          currentUserId
         );
 
         return { ...msg, decryptedContent: decrypted };
       } catch (err) {
-        console.warn(`Decryption failed for message ${msg.id}:`, err);
+        console.warn(`[decryptFetchedMessages] failed for message ${msg.id}`, {
+          error: err?.message || err,
+          encryptedKeyPreview:
+            typeof encryptedKey === 'string' ? encryptedKey.slice(0, 120) : encryptedKey,
+          encryptedKeyForMe: msg.encryptedKeyForMe,
+          encryptedKeyUserIds: msg.encryptedKeys ? Object.keys(msg.encryptedKeys) : null,
+          currentUserId,
+          senderId: msg.sender?.id,
+          senderPublicKey:
+            senderPublicKeys?.[String(msg.sender?.id)] ||
+            senderPublicKeys?.[msg.sender?.id] ||
+            msg.sender?.publicKey ||
+            null,
+        });
+
         return { ...msg, decryptedContent: '[Encrypted – could not decrypt]' };
       }
     })
@@ -424,8 +556,8 @@ export async function installLocalPrivateKeyBundle(received, passcode) {
 }
 
 /* ============================================================
- * NEW: Strict E2EE encryptor for MessageInput
- * Produces EXACT server format:
+ * Strict E2EE encryptor for MessageInput
+ * Produces:
  *   - ciphertext: base64([iv(12) | tag(16) | enc])
  *   - encryptedKeys: { [userId]: base64([nonce(24) | box]) }
  * ========================================================== */
@@ -442,20 +574,24 @@ function concatBytes(...parts) {
   return out;
 }
 
-/**
- * Seal a 32-byte session key for one recipient using NaCl box.
- * Output (base64) packs: [nonce(24) | box]
- */
 function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPubB64, meta = {}) {
   const nonce = randBytes(24);
 
   let recipientPub;
   let senderPriv;
   try {
-    recipientPub = decodeB64Any(recipientPubB64, `recipientPublicKey userId=${meta.recipientId ?? 'unknown'}`);
-    senderPriv = decodeB64Any(senderPrivB64, `senderPrivateKey userId=${meta.senderId ?? 'unknown'}`);
+    recipientPub = decodeB64Any(
+      recipientPubB64,
+      `recipientPublicKey userId=${meta.recipientId ?? 'unknown'}`
+    );
+    senderPriv = decodeB64Any(
+      senderPrivB64,
+      `senderPrivateKey userId=${meta.senderId ?? 'unknown'}`
+    );
   } catch (e) {
-    throw new Error(`[E2EE] Base64 decode failed (${e.message}). senderId=${meta.senderId ?? 'unknown'} recipientId=${meta.recipientId ?? 'unknown'}`);
+    throw new Error(
+      `[E2EE] Base64 decode failed (${e.message}). senderId=${meta.senderId ?? 'unknown'} recipientId=${meta.recipientId ?? 'unknown'}`
+    );
   }
 
   const boxed = nacl.box(sessionKeyRawU8, nonce, recipientPub, senderPriv);
@@ -463,52 +599,41 @@ function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPub
   return naclUtil.encodeBase64(packed);
 }
 
-/**
- * High-level encryptor used by the message composer (STRICT E2EE).
- * Returns: { ciphertext, encryptedKeys }
- */
 export async function encryptForRoom(participants = [], plaintext = '', currentUserId) {
-  // 0) Need sender keypair locally (unlocked if passcode enabled)
-  const { publicKey: senderPubB64, privateKey: senderPrivB64 } = await getUnlockedBundleOrThrow();
+  const { publicKey: senderPubB64, privateKey: senderPrivB64 } =
+    await getUnlockedBundleOrThrow();
 
-  // 1) Encrypt the plaintext once with AES-GCM (WebCrypto)
   const { keyRaw, ivBytes, ctBytes } = await encryptSym(plaintext);
 
-  // WebCrypto ctBytes = enc||tag (tag appended)
-  const tagLen = 16; // AES-GCM 128-bit tag
+  const tagLen = 16;
   if (ctBytes.length < tagLen) throw new Error('Ciphertext too short');
 
   const encPart = ctBytes.slice(0, ctBytes.length - tagLen);
   const tagPart = ctBytes.slice(ctBytes.length - tagLen);
 
-  // Server expects base64([iv | tag | enc])
-  const packedCiphertext = concatBytes(ivBytes, tagPart, encPart);
+  // CryptoKit-compatible layout: nonce + ciphertext + tag
+  const packedCiphertext = concatBytes(ivBytes, encPart, tagPart);
   const ciphertext = bytes2b64(packedCiphertext);
 
-  // 2) Build encryptedKeys map for all participants (and always include self)
   const encryptedKeys = {};
 
   const uniq = new Map();
   for (const p of participants || []) {
-    if (!p?.id || !p?.publicKey) continue;
-    if (!uniq.has(p.id)) uniq.set(p.id, p.publicKey);
-  }
-  // always include self if not present
-  if (!uniq.has('self')) {
-    // nothing, we’ll seal to self below using senderPubB64
+    const userId = p?.id ?? p?.userId ?? p?.user?.id;
+    const publicKey = p?.publicKey ?? p?.user?.publicKey;
+    if (!userId || !publicKey) continue;
+    if (!uniq.has(userId)) uniq.set(userId, publicKey);
   }
 
-  // Seal to each participant
   for (const [userId, recipientPub] of uniq.entries()) {
-  encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
-    keyRaw,
-    senderPrivB64,
-    recipientPub,
-    { senderId: currentUserId, recipientId: userId }
-  );
-}
+    encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
+      keyRaw,
+      senderPrivB64,
+      recipientPub,
+      { senderId: currentUserId, recipientId: userId }
+    );
+  }
 
-  // Always seal to the sender as well (multi-device / re-download)
   encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(
     keyRaw,
     senderPrivB64,
@@ -516,5 +641,9 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
     { senderId: currentUserId, recipientId: currentUserId }
   );
 
-  return { ciphertext, encryptedKeys };
+    return {
+    ciphertext,
+    encryptedKeys,
+    encryptionVersion: 'v2', 
+  };
 }

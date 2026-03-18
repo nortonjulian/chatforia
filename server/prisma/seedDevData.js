@@ -1,4 +1,6 @@
 import pkg from '@prisma/client';
+import { generateKeyPair } from '../utils/encryption.js';
+
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
@@ -9,6 +11,10 @@ export async function seedDevData() {
 
   const hashed = await bcrypt.hash('Temp12345!', 10);
 
+  const { publicKey: julianPublicKey } = generateKeyPair();
+  const { publicKey: alicePublicKey } = generateKeyPair();
+  const { publicKey: bobPublicKey } = generateKeyPair();
+
   const julian = await prisma.user.upsert({
     where: { email: 'nortonjulian@gmail.com' },
     update: {
@@ -16,6 +22,7 @@ export async function seedDevData() {
       phoneNumber: '3333333333',
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: julianPublicKey,
     },
     create: {
       username: 'julian',
@@ -23,6 +30,7 @@ export async function seedDevData() {
       phoneNumber: '3333333333',
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: julianPublicKey,
     },
   });
 
@@ -31,6 +39,7 @@ export async function seedDevData() {
     update: {
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: alicePublicKey,
     },
     create: {
       username: 'alice',
@@ -38,6 +47,7 @@ export async function seedDevData() {
       phoneNumber: '1111111111',
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: alicePublicKey,
     },
   });
 
@@ -46,6 +56,7 @@ export async function seedDevData() {
     update: {
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: bobPublicKey,
     },
     create: {
       username: 'bob',
@@ -53,6 +64,7 @@ export async function seedDevData() {
       phoneNumber: '2222222222',
       passwordHash: hashed,
       emailVerifiedAt: new Date(),
+      publicKey: bobPublicKey,
     },
   });
 
@@ -81,13 +93,4 @@ export async function seedDevData() {
 
   console.log('✅ Julian userId:', julian.id);
   console.log('✅ Seed roomId:', room.id);
-}
-
-if (import.meta.url === `file://${process.argv[1]}`) {
-  seedDevData()
-    .catch((e) => {
-      console.error('❌ seedDevData failed:', e);
-      process.exitCode = 1;
-    })
-    .finally(async () => prisma.$disconnect());
 }

@@ -19,6 +19,9 @@ import {
 import { IconBrandGoogle, IconBrandApple } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
+import { loadKeysLocal } from '@/utils/keys';
+import { restoreRemoteKeyBackupToLocal } from '@/utils/keyBackupRemote';
+
 /* ---------------- env + helpers ---------------- */
 
 // Prefer an absolute API in prod; fall back to a same-origin dev proxy.
@@ -167,6 +170,16 @@ export default function LoginForm({ onLoginSuccess }) {
 
       const res = await axiosClient.post('/auth/login', payload);
       const user = res?.data?.user ?? res?.data;
+
+      try {
+        const localKeys = await loadKeysLocal();
+
+        if (!localKeys?.privateKey) {
+          await restoreRemoteKeyBackupToLocal({ password: pwd });
+        }
+      } catch (keyErr) {
+        console.warn('Remote key restore skipped/failed', keyErr?.message || keyErr);
+      }
 
       setCurrentUser(user);
       onLoginSuccess?.(user);
