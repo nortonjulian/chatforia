@@ -11,15 +11,6 @@ const R2_S3_ENDPOINT = process.env.R2_S3_ENDPOINT?.trim();
 const R2_BUCKET = process.env.R2_BUCKET?.trim();
 const R2_PUBLIC_BASE = process.env.R2_PUBLIC_BASE?.trim();
 
-console.log('[R2 config check]', {
-  hasAccessKeyId: !!R2_ACCESS_KEY_ID,
-  accessKeyIdLength: R2_ACCESS_KEY_ID?.length ?? 0,
-  hasSecretAccessKey: !!R2_SECRET_ACCESS_KEY,
-  secretAccessKeyLength: R2_SECRET_ACCESS_KEY?.length ?? 0,
-  endpoint: R2_S3_ENDPOINT,
-  bucket: R2_BUCKET,
-});
-
 if (!R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY || !R2_S3_ENDPOINT) {
   console.warn('[R2] Missing env vars – R2_ACCESS_KEY_ID / R2_SECRET_ACCESS_KEY / R2_S3_ENDPOINT');
 }
