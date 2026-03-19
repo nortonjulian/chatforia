@@ -85,16 +85,7 @@ router.post(
   },
   async (req, res) => {
     try {
-      if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
-
-      console.log('[R2 runtime check]', {
-        hasAccessKeyId: !!process.env.R2_ACCESS_KEY_ID,
-        accessKeyIdLength: process.env.R2_ACCESS_KEY_ID?.trim()?.length ?? 0,
-        hasSecretAccessKey: !!process.env.R2_SECRET_ACCESS_KEY,
-        secretAccessKeyLength: process.env.R2_SECRET_ACCESS_KEY?.trim()?.length ?? 0,
-        endpoint: process.env.R2_S3_ENDPOINT?.trim(),
-        bucket: process.env.R2_BUCKET?.trim(),
-      });
+      if (!req.file) return res.status(400).json({ error: 'No file uploaded' })
 
       const userId = req.user?.id;
       const key = makeObjectKey(userId, req.file.originalname);
