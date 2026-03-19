@@ -87,6 +87,15 @@ router.post(
     try {
       if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
+      console.log('[R2 runtime check]', {
+        hasAccessKeyId: !!process.env.R2_ACCESS_KEY_ID,
+        accessKeyIdLength: process.env.R2_ACCESS_KEY_ID?.trim()?.length ?? 0,
+        hasSecretAccessKey: !!process.env.R2_SECRET_ACCESS_KEY,
+        secretAccessKeyLength: process.env.R2_SECRET_ACCESS_KEY?.trim()?.length ?? 0,
+        endpoint: process.env.R2_S3_ENDPOINT?.trim(),
+        bucket: process.env.R2_BUCKET?.trim(),
+      });
+
       const userId = req.user?.id;
       const key = makeObjectKey(userId, req.file.originalname);
 
@@ -96,9 +105,7 @@ router.post(
         contentType: req.file.mimetype,
       });
 
-      // Decide how to return the URL
       if (!REQUIRE_SIGNED && PUBLIC_BASE) {
-        // Public access path (CDN/custom domain mapped to bucket)
         const url = `${PUBLIC_BASE}/${key}`;
         return res.json({
           ok: true,
@@ -109,7 +116,6 @@ router.post(
           size: req.file.size,
         });
       } else {
-        // Private bucket — return a short-lived signed URL
         const expiresSec = Number(process.env.R2_SIGNED_EXPIRES_SEC || 120);
         const signedUrl = await r2PresignGet({ key, expiresSec });
         return res.json({
@@ -123,7 +129,8 @@ router.post(
         });
       }
     } catch (err) {
-      console.error('R2 upload failed:', err);
+      console.error('R2 upload failed:', err?.name, err?.message);
+      console.error(err);
       return res.status(500).json({ error: 'Upload failed' });
     }
   }
