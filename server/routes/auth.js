@@ -132,7 +132,6 @@ function pickKeyBackupFields(user) {
   };
 }
 
-
 /* =========================
  *         CSRF
  * ========================= */
@@ -303,7 +302,7 @@ router.post(
         }
       }
 
-            // TEST-friendly auto-provisioning
+      // TEST-friendly auto-provisioning
       if (!user) {
         const hashed = await bcrypt.hash(password, 10);
         const { publicKey } = generateKeyPair();
@@ -1041,16 +1040,53 @@ router.get(
   asyncHandler(async (req, res) => {
     res.set('Cache-Control', 'no-store');
 
+    const fullUser = await prisma.user.findUnique({
+      where: { id: req.user.id },
+    });
+
+    if (!fullUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     const userPayload = {
-      id: req.user.id,
-      email: req.user.email || null,
-      username: req.user.username || null,
-      publicKey: req.user.publicKey || null,
-      role: req.user.role || 'USER',
-      plan: req.user.plan || 'FREE',
-      preferredLanguage: req.user.preferredLanguage || 'en',
-      theme: req.user.theme || 'dawn',
-      avatarUrl: req.user.avatarUrl || null,
+      id: fullUser.id,
+      email: fullUser.email,
+      username: fullUser.username,
+      publicKey: fullUser.publicKey,
+      role: fullUser.role,
+      plan: fullUser.plan,
+
+      preferredLanguage: fullUser.preferredLanguage,
+      theme: fullUser.theme || 'dawn',
+      avatarUrl: fullUser.avatarUrl,
+
+      // 🔥 ADD THESE
+      autoTranslate: fullUser.autoTranslate,
+      showOriginalWithTranslation: fullUser.showOriginalWithTranslation,
+      allowExplicitContent: fullUser.allowExplicitContent,
+      showReadReceipts: fullUser.showReadReceipts,
+      autoDeleteSeconds: fullUser.autoDeleteSeconds,
+
+      privacyBlurEnabled: fullUser.privacyBlurEnabled,
+      privacyBlurOnUnfocus: fullUser.privacyBlurOnUnfocus,
+      privacyHoldToReveal: fullUser.privacyHoldToReveal,
+      notifyOnCopy: fullUser.notifyOnCopy,
+
+      ageBand: fullUser.ageBand,
+      wantsAgeFilter: fullUser.wantsAgeFilter,
+      randomChatAllowedBands: fullUser.randomChatAllowedBands,
+
+      foriaRemember: fullUser.foriaRemember,
+
+      voicemailEnabled: fullUser.voicemailEnabled,
+      voicemailAutoDeleteDays: fullUser.voicemailAutoDeleteDays,
+      voicemailForwardEmail: fullUser.voicemailForwardEmail,
+      voicemailGreetingText: fullUser.voicemailGreetingText,
+      voicemailGreetingUrl: fullUser.voicemailGreetingUrl,
+
+      // 🔥 CRITICAL
+      messageTone: fullUser.messageTone || 'Default.mp3',
+      ringtone: fullUser.ringtone || 'Classic.mp3',
     };
 
     let subscriber = null;

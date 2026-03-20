@@ -7,6 +7,8 @@ import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { validateRegistrationInput } from '../utils/validateUser.js';
 
+import { premiumConfig } from '../config/premiumConfig.js'; // or wherever it lives
+
 // 🔐 secure upload utilities
 import { uploadAvatar, uploadDirs } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
@@ -167,6 +169,8 @@ router.patch('/me', requireAuth, async (req, res) => {
       randomChatAllowedBands,
       theme,
       cycling,
+      messageTone,
+      ringtone,
       // 👇 NEW: Foria memory toggle
       foriaRemember,
       // 👇 NEW: Voicemail settings
@@ -289,6 +293,64 @@ router.patch('/me', requireAuth, async (req, res) => {
       data.cycling = cycling;
     }
 
+    // Message tone
+    if (typeof messageTone === 'string') {
+      const val = messageTone.trim();
+
+      const all = new Set([
+        ...premiumConfig.tones.freeMessageTones,
+        ...premiumConfig.tones.premiumMessageTones,
+      ]);
+
+      if (!all.has(val)) {
+        return res.status(400).json({ error: 'Invalid messageTone' });
+      }
+
+      if (premiumConfig.tones.premiumMessageTones.includes(val)) {
+        const me = await prisma.user.findUnique({
+          where: { id: req.user.id },
+          select: { plan: true },
+        });
+
+        if (!me?.plan || me.plan === 'FREE') {
+          return res.status(402).json({
+            error: 'Premium message tone requires upgrade',
+          });
+        }
+      }
+
+      data.messageTone = val;
+    }
+
+    // Ringtone
+    if (typeof ringtone === 'string') {
+      const val = ringtone.trim();
+
+      const all = new Set([
+        ...premiumConfig.tones.freeRingtones,
+        ...premiumConfig.tones.premiumRingtones,
+      ]);
+
+      if (!all.has(val)) {
+        return res.status(400).json({ error: 'Invalid ringtone' });
+      }
+
+      if (premiumConfig.tones.premiumRingtones.includes(val)) {
+        const me = await prisma.user.findUnique({
+          where: { id: req.user.id },
+          select: { plan: true },
+        });
+
+        if (!me?.plan || me.plan === 'FREE') {
+          return res.status(402).json({
+            error: 'Premium ringtone requires upgrade',
+          });
+        }
+      }
+
+      data.ringtone = val;
+    }
+
     // Age stuff
     const AGE_VALUES = [
       'TEEN_13_17',
@@ -356,6 +418,8 @@ router.patch('/me', requireAuth, async (req, res) => {
           strictE2EE: true,
           theme: true,
           cycling: true,
+          messageTone: true,
+          ringtone: true,
           ageBand: true,
           ageAttestedAt: true,
           wantsAgeFilter: true,

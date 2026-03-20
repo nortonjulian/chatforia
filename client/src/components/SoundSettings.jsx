@@ -153,7 +153,6 @@ export default function SoundSettings() {
         await axiosClient.post('/settings/tones', {
           messageTone,
           ringtone,
-          volume,
         });
       } catch (e) {
         const status = e?.response?.status;

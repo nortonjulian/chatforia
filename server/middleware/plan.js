@@ -5,7 +5,7 @@ export function requirePremium(req, res, next) {
   if (req.user?.role === 'ADMIN') return next();
 
   // Handle string-based plans
-  if (typeof plan === 'string' && ['PRO', 'PREMIUM', 'PLUS'].includes(plan.toUpperCase())) {
+  if (typeof plan === 'string' && ['FREE', 'PREMIUM', 'PLUS'].includes(plan.toUpperCase())) {
     return next();
   }
 
