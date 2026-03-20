@@ -54,6 +54,7 @@ import RoomInviteModal from '@/components/RoomInviteModal.jsx';
 import RoomAboutModal from '@/components/RoomAboutModal.jsx';
 import RoomSearchDrawer from '@/components/RoomSearchDrawer.jsx';
 import MediaGalleryModal from '@/components/MediaGalleryModal.jsx';
+import ReportModal from '@/components/chat/ReportModal.jsx';
 
 import { playSound } from '@/lib/sounds.js';
 
@@ -1200,6 +1201,18 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setReportOpen(true);
   }, []);
 
+    const closeReportModal = useCallback(() => {
+    if (reportSubmitting) return;
+
+    setReportOpen(false);
+    setReportTarget(null);
+    setReportReason('harassment');
+    setReportDetails('');
+    setReportContextCount('10');
+    setBlockAfterReport(true);
+    setReportError('');
+  }, [reportSubmitting]);
+
   const submitReport = useCallback(async () => {
     if (!reportTarget?.id) return;
 
@@ -1263,12 +1276,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           }
         }
       }
-
-      setReportOpen(false);
-      setReportTarget(null);
-      setReportDetails('');
-      setReportError('');
-      window.alert('Report submitted.');
+    closeReportModal();
+    window.alert('Report submitted.');
     } catch (e) {
       console.error('submitReport failed', e);
       setReportError(e?.message || 'Failed to submit report');
@@ -1915,12 +1924,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           roomId={chatroom.id}
         />
 
-        <Modal
+        <ReportModal
           opened={reportOpen}
-          onClose={() => setReportOpen(false)}
-          title="Report message"
-          centered
-          radius="lg"
+          onClose={closeReportModal}
+          target={reportTarget}
+          reason={reportReason}
+          onReasonChange={setReportReason}
+          details={reportDetails}
+          onDetailsChange={setReportDetails}
+          contextCount={reportContextCount}
+          onContextCountChange={setReportContextCount}
+          blockAfterReport={blockAfterReport}
+          onBlockAfterReportChange={setBlockAfterReport}
+          error={reportError}
+          submitting={reportSubmitting}
+          onSubmit={submitReport}
+          getBestPlaintextForReport={getBestPlaintextForReport}
         >
           <Stack>
             <Select
@@ -1984,7 +2003,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             )}
 
             <Group justify="flex-end">
-              <Button variant="light" onClick={() => setReportOpen(false)}>
+              <Button variant="light" onClose={closeReportModal}>
                 Cancel
               </Button>
               <Button color="red" onClick={submitReport} loading={reportSubmitting}>
@@ -1992,7 +2011,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               </Button>
             </Group>
           </Stack>
-        </Modal>
+        </ReportModal>
       </ThreadShell>
     </Box>
   );

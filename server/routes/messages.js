@@ -13,6 +13,8 @@ import { emitMessageNew } from '../services/socketBus.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
+import { scoreReport, shouldAutoHide } from '../services/src/moderationService.js';
+
 // ✅ Use the service so SMS fan-out runs + translations/TTL live in one place
 import { createMessageService } from '../services/messageService.js';
 
@@ -1734,6 +1736,7 @@ router.post(
         contentCiphertext: true,
         deletedForAll: true,
         editedAt: true,
+        isHiddenByModeration: true,
         attachments: {
           where: { deletedAt: null },
           select: {
@@ -1747,6 +1750,13 @@ router.post(
             caption: true,
             thumbUrl: true,
             createdAt: true,
+          },
+        },
+        chatRoom: {
+          select: {
+            id: true,
+            isRandom: true,
+            origin: true,
           },
         },
       },
@@ -1766,6 +1776,7 @@ router.post(
       where: { chatRoomId: effectiveChatRoomId, userId: reporterId },
       select: { id: true },
     });
+
     if (!membership) {
       throw Boom.forbidden('Not a participant in this chat');
     }
@@ -1777,6 +1788,19 @@ router.post(
       Number(reportedUserId) !== effectiveReportedUserId
     ) {
       throw Boom.badRequest('reportedUserId does not match the primary message sender');
+    }
+
+        const existingOpenReport = await prisma.report.findFirst({
+      where: {
+        messageId: primaryMessageId,
+        reporterId,
+        status: 'OPEN',
+      },
+      select: { id: true },
+    });
+
+    if (existingOpenReport) {
+      throw Boom.conflict('You already reported this message');
     }
 
     const normalizedMessages = Array.isArray(messages)
@@ -1815,39 +1839,124 @@ router.post(
       primaryMessage.rawContent ||
       '[No plaintext submitted]';
 
-    const created = await prisma.report.create({
-      data: {
-        messageId: primaryMessageId,
-        reporterId,
+    const distinctMessageReportersRaw = await prisma.report.findMany({
+      where: { messageId: primaryMessageId },
+      select: { reporterId: true },
+    });
+
+    const distinctMessageReporterCount = new Set([
+      ...distinctMessageReportersRaw.map((r) => Number(r.reporterId)),
+      reporterId,
+    ]).size;
+
+    const distinctSenderReportersRaw = await prisma.report.findMany({
+      where: { reportedUserId: effectiveReportedUserId },
+      select: { reporterId: true },
+    });
+
+    const distinctSenderReporterCount = new Set([
+      ...distinctSenderReportersRaw.map((r) => Number(r.reporterId)),
+      reporterId,
+    ]).size;
+
+    const senderPriorOpenReports = await prisma.report.count({
+      where: {
         reportedUserId: effectiveReportedUserId,
-        chatRoomId: effectiveChatRoomId,
-        decryptedContent: fallbackPlaintext,
-        reason: typeof reason === 'string' ? reason : null,
-        details: typeof details === 'string' ? details : null,
-        blockApplied: !!blockAfterReport,
-        evidence: {
-          primaryMessage: {
-            id: primaryMessage.id,
-            senderId: primaryMessage.senderId,
-            createdAt: primaryMessage.createdAt,
-            rawContent: primaryMessage.rawContent,
-            contentCiphertext: primaryMessage.contentCiphertext,
-            deletedForAll: primaryMessage.deletedForAll,
-            editedAt: primaryMessage.editedAt,
-            attachments: primaryMessage.attachments || [],
-          },
-          submittedMessages: normalizedMessages,
-          clientMetadata:
-            clientMetadata && typeof clientMetadata === 'object'
-              ? clientMetadata
-              : {},
-        },
+        status: 'OPEN',
       },
+    });
+
+    const senderPriorResolvedReports = await prisma.report.count({
+      where: {
+        reportedUserId: effectiveReportedUserId,
+        status: 'RESOLVED',
+      },
+    });
+
+    const isRandomRoom = Boolean(
+      primaryMessage.chatRoom?.isRandom ||
+        primaryMessage.chatRoom?.origin === 'random'
+    );
+
+    const hasAttachments =
+      Array.isArray(primaryMessage.attachments) &&
+      primaryMessage.attachments.length > 0;
+
+    const scoring = scoreReport({
+      reason: typeof reason === 'string' ? reason : 'other',
+      plaintext: fallbackPlaintext,
+      details: typeof details === 'string' ? details : '',
+      isRandomRoom,
+      hasAttachments,
+      senderPriorOpenReports,
+      senderPriorResolvedReports,
+      distinctMessageReporterCount,
+      distinctSenderReporterCount,
+    });
+
+    const autoHidden = shouldAutoHide(
+      scoring.severityScore,
+      distinctMessageReporterCount
+    );
+
+    const created = await prisma.$transaction(async (tx) => {
+      const report = await tx.report.create({
+        data: {
+          messageId: primaryMessageId,
+          reporterId,
+          reportedUserId: effectiveReportedUserId,
+          chatRoomId: effectiveChatRoomId,
+          decryptedContent: fallbackPlaintext,
+          reason: typeof reason === 'string' ? reason : null,
+          details: typeof details === 'string' ? details : null,
+          blockApplied: !!blockAfterReport,
+          severityScore: scoring.severityScore,
+          priority: scoring.priority,
+          recommendedAction: scoring.recommendedAction,
+          autoHidden,
+          scoreFactors: scoring.scoreFactors,
+          evidence: {
+            primaryMessage: {
+              id: primaryMessage.id,
+              senderId: primaryMessage.senderId,
+              createdAt: primaryMessage.createdAt,
+              rawContent: primaryMessage.rawContent,
+              contentCiphertext: primaryMessage.contentCiphertext,
+              deletedForAll: primaryMessage.deletedForAll,
+              editedAt: primaryMessage.editedAt,
+              attachments: primaryMessage.attachments || [],
+            },
+            submittedMessages: normalizedMessages,
+            clientMetadata:
+              clientMetadata && typeof clientMetadata === 'object'
+                ? clientMetadata
+                : {},
+          },
+        },
+      });
+
+      if (autoHidden && !primaryMessage.isHiddenByModeration) {
+        await tx.message.update({
+          where: { id: primaryMessageId },
+          data: {
+            isHiddenByModeration: true,
+            moderationStatus: 'SOFT_HIDDEN',
+          },
+        });
+      }
+
+      return report;
     });
 
     return res.status(201).json({
       success: true,
       reportId: created.id,
+      moderation: {
+        severityScore: created.severityScore,
+        priority: created.priority,
+        recommendedAction: created.recommendedAction,
+        autoHidden: created.autoHidden,
+      },
     });
   })
 );
