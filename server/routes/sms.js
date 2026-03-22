@@ -143,6 +143,31 @@ r.get(
   })
 );
 
+// POST /sms/threads/start
+r.post(
+  '/threads/start',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    if (typeof smsService.getOrCreateThread !== 'function') {
+      throw Boom.badImplementation('smsService.getOrCreateThread is not implemented');
+    }
+
+    const phone = String(req.body?.phone || req.body?.to || '').trim();
+    const contactId =
+      req.body?.contactId != null ? Number(req.body.contactId) : null;
+
+    if (!phone) {
+      throw Boom.badRequest('phone is required');
+    }
+
+    const thread = await smsService.getOrCreateThread(req.user.id, phone, {
+      contactId,
+    });
+
+    res.status(201).json(thread);
+  })
+);
+
 /* ---------- SINGLE THREAD (messages, etc.) ---------- */
 // GET /sms/threads/:id
 r.get(

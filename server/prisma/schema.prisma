@@ -222,6 +222,8 @@ model User {
   // global auto-translate toggle
   autoTranslate Boolean @default(true)
 
+  threadStates ThreadState[]
+
   forwardingEnabledSms   Boolean @default(false)
   forwardSmsToPhone      Boolean @default(false)
   forwardPhoneNumber     String? @db.VarChar(32)
@@ -267,12 +269,12 @@ model User {
 
   iccid String?
 
-  publicKey String?
+  publicKey                 String?
   encryptedPrivateKeyBundle String?
-  privateKeyWrapSalt String?
-  privateKeyWrapKdf String?
-  privateKeyWrapIterations Int?
-  privateKeyWrapVersion Int @default(1)
+  privateKeyWrapSalt        String?
+  privateKeyWrapKdf         String?
+  privateKeyWrapIterations  Int?
+  privateKeyWrapVersion     Int     @default(1)
 
   // Relations
   followers                  Follow[]             @relation("follower")
@@ -564,7 +566,7 @@ model MobileDataPackPurchase {
   stripePaymentIntentId   String? @db.Text
 
   /// ICCID for the carrier line (legacy column tealIccid)
-  iccid           String?
+  iccid String?
 
   /// Carrier profile id (legacy column tealProfileId)
   esimProfileId String? @map("tealProfileId")
@@ -604,7 +606,9 @@ model ChatRoom {
   updatedAt       DateTime        @updatedAt
 
   participants Participant[]
-  messages     Message[]     @relation("ChatRoomMessages")
+
+  threadState ThreadState[]
+  messages    Message[]     @relation("ChatRoomMessages")
 
   autoTranslateMode AutoTranslateMode @default(OFF)
   allowForiaBot     Boolean           @default(false)
@@ -667,53 +671,53 @@ model RandomChatRoom {
 
 model Message {
   id                Int       @id @default(autoincrement())
-  clientMessageId       String?
-  contentCiphertext     Json?
-  rawContent            String?
-  translations          Json?
-  translatedFrom        String?
-  translatedContent     String?
-  translatedTo          String?
-  isExplicit            Boolean   @default(false)
-  imageUrl              String?
-  audioUrl              String?
-  audioDurationSec      Int?
-  expiresAt             DateTime?
-  editedAt              DateTime?
-  revision              Int       @default(1)
+  clientMessageId   String?
+  contentCiphertext Json?
+  rawContent        String?
+  translations      Json?
+  translatedFrom    String?
+  translatedContent String?
+  translatedTo      String?
+  isExplicit        Boolean   @default(false)
+  imageUrl          String?
+  audioUrl          String?
+  audioDurationSec  Int?
+  expiresAt         DateTime?
+  editedAt          DateTime?
+  revision          Int       @default(1)
 
-  deletedBySender       Boolean   @default(false)
-  deletedAt             DateTime?
-  deletedForAll         Boolean   @default(false)
-  deletedById           Int? // who triggered delete-for-everyone (sender/admin)
+  deletedBySender Boolean   @default(false)
+  deletedAt       DateTime?
+  deletedForAll   Boolean   @default(false)
+  deletedById     Int? // who triggered delete-for-everyone (sender/admin)
 
-  senderId              Int
-  chatRoomId            Int
+  senderId   Int
+  chatRoomId Int
 
-  sender                User     @relation("UserMessages", fields: [senderId], references: [id], onDelete: Cascade)
-  chatRoom              ChatRoom @relation("ChatRoomMessages", fields: [chatRoomId], references: [id], onDelete: Cascade)
+  sender   User     @relation("UserMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  chatRoom ChatRoom @relation("ChatRoomMessages", fields: [chatRoomId], references: [id], onDelete: Cascade)
 
-  keys                  MessageKey[]
-  attachments           MessageAttachment[]
-  reactions             MessageReaction[]
-  reports               Report[]
+  keys        MessageKey[]
+  attachments MessageAttachment[]
+  reactions   MessageReaction[]
+  reports     Report[]
 
-  randomChatRoomId      Int?
-  randomChatRoom        RandomChatRoom? @relation(fields: [randomChatRoomId], references: [id])
+  randomChatRoomId Int?
+  randomChatRoom   RandomChatRoom? @relation(fields: [randomChatRoomId], references: [id])
 
-  createdAt             DateTime @default(now())
-  readBy                User[]   @relation("ReadMessages")
-  isAutoReply           Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  readBy      User[]   @relation("ReadMessages")
+  isAutoReply Boolean  @default(false)
 
-  sessionKeys           MessageSessionKey[] @relation("MsgSessionKeys_Message")
+  sessionKeys MessageSessionKey[] @relation("MsgSessionKeys_Message")
 
-  deletions             MessageDeletion[]
+  deletions MessageDeletion[]
 
-  isHiddenByModeration   Boolean  @default(false)
-  moderationStatus       String?
+  isHiddenByModeration Boolean @default(false)
+  moderationStatus     String?
 
   // relations
-  reads                  MessageRead[]
+  reads MessageRead[]
 
   @@unique([chatRoomId, senderId, clientMessageId], map: "msg_client_idempotency")
   @@index([expiresAt])
@@ -868,6 +872,7 @@ model SmsThread {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   archivedAt   DateTime?
+  deletedAt    DateTime?
   contactPhone String?   @db.VarChar(32)
 
   participants SmsParticipant[]
@@ -915,14 +920,15 @@ model SmsParticipant {
   @@index([phone])
 }
 
-model ThreadClear {
-  id         Int      @id @default(autoincrement())
+model ThreadState {
   userId     Int
   chatRoomId Int
-  clearedAt  DateTime @default(now())
+  deletedAt  DateTime?
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chatRoom ChatRoom @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
 
   @@unique([userId, chatRoomId])
-  @@index([chatRoomId])
 }
 
 // ===================== 7) Contacts / Moderation / Support / Auditing =====================
@@ -949,43 +955,42 @@ model Contact {
 }
 
 model Report {
-  id                Int      @id @default(autoincrement())
-  messageId         Int
-  reporterId        Int
-  reportedUserId    Int?
-  chatRoomId        Int?
-  decryptedContent  String
-  reason            String?
-  details           String?
-  evidence          Json?
-  blockApplied      Boolean  @default(false)
-  createdAt         DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  messageId        Int
+  reporterId       Int
+  reportedUserId   Int?
+  chatRoomId       Int?
+  decryptedContent String
+  reason           String?
+  details          String?
+  evidence         Json?
+  blockApplied     Boolean  @default(false)
+  createdAt        DateTime @default(now())
 
-  status            String    @default("OPEN")
-  resolvedAt        DateTime?
-  notes             String?
+  status     String    @default("OPEN")
+  resolvedAt DateTime?
+  notes      String?
 
   // Phase 1 moderation scoring
   severityScore     Float?
   priority          String?
   recommendedAction String?
-  autoHidden        Boolean   @default(false)
+  autoHidden        Boolean @default(false)
 
   // Future-friendly explainability / AI support
-  scoreFactors      Json?
-  aiCategory        String?
-  aiSummary         String?
-  reviewedByAiAt    DateTime?
+  scoreFactors   Json?
+  aiCategory     String?
+  aiSummary      String?
+  reviewedByAiAt DateTime?
 
-  message           Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  reporter          User    @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
-  reportedUser      User?   @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
+  message      Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  reporter     User    @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+  reportedUser User?   @relation("ReportedUserReports", fields: [reportedUserId], references: [id], onDelete: SetNull)
 
   @@index([status, createdAt])
   @@index([reporterId, createdAt])
   @@index([reportedUserId, createdAt])
   @@index([chatRoomId, createdAt])
-
   // New moderation indexes
   @@index([priority, createdAt])
   @@index([severityScore, createdAt])

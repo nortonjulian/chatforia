@@ -14,7 +14,7 @@ import {
   Box,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { MoreVertical, Archive, Undo2 } from 'lucide-react';
+import { MoreVertical, Archive, Undo2, Trash2 } from 'lucide-react';
 
 import AdSlot from '@/ads/AdSlot';
 import HouseAdSlot from '@/ads/HouseAdSlot';
@@ -368,6 +368,46 @@ export default function ChatroomsSidebar({
     [archiveConversation, t]
   );
 
+  const deleteConversation = useCallback(
+  async (c) => {
+    const kind = c.kind;
+    const id = c.id;
+
+    const prevItems = itemsRef.current || [];
+
+    // optimistic remove
+    setItems((prev) =>
+      (Array.isArray(prev) ? prev : []).filter(
+        (x) => !(String(x.kind) === String(kind) && String(x.id) === String(id))
+      )
+    );
+
+    try {
+      await axiosClient.delete(
+        `/conversations/${encodeURIComponent(kind)}/${encodeURIComponent(id)}`
+      );
+
+      notifications.show({
+        title: t('sidebar.deletedTitle', 'Conversation deleted'),
+        message: t('sidebar.deletedMsg', 'The conversation was removed from your list.'),
+        color: 'red',
+      });
+    } catch (e) {
+      console.error('Delete conversation failed', e);
+
+      // rollback
+      setItems(prevItems);
+
+      notifications.show({
+        title: t('sidebar.deleteFailedTitle', 'Could not delete conversation'),
+        message: t('sidebar.deleteFailedMsg', 'Please try again.'),
+        color: 'red',
+      });
+    }
+  },
+  [t]
+);
+
   /* ---------------- live updates: message preview ---------------- */
 
   useEffect(() => {
@@ -699,12 +739,18 @@ export default function ChatroomsSidebar({
                               {t('sidebar.archive', 'Archive')}
                             </Menu.Item>
 
-                            {/* Optional later:
                             <Menu.Divider />
-                            <Menu.Item color="red" leftSection={<Trash2 size={16} />}>
-                              Delete thread…
+
+                            <Menu.Item
+                              color="red"
+                              leftSection={<Trash2 size={16} />}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteConversation(c);
+                              }}
+                            >
+                              {t('sidebar.deleteConversation', 'Delete conversation')}
                             </Menu.Item>
-                            */}
                           </Menu.Dropdown>
                         </Menu>
                       )}

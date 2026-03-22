@@ -441,6 +441,98 @@ export async function fetchMessageById(id) {
   };
 }
 
+export async function shapeMessageForUser(messageId, viewerUserId) {
+  if (!messageId || !viewerUserId) return null;
+
+  const m = await prisma.message.findUnique({
+    where: { id: Number(messageId) },
+    select: {
+      id: true,
+      chatRoomId: true,
+      createdAt: true,
+      expiresAt: true,
+      editedAt: true,
+      deletedForAll: true,
+      deletedAt: true,
+      deletedById: true,
+
+      clientMessageId: true,
+      rawContent: true,
+      contentCiphertext: true,
+      translations: true,
+      translatedFrom: true,
+      isExplicit: true,
+      isAutoReply: true,
+
+      imageUrl: true,
+      audioUrl: true,
+      audioDurationSec: true,
+      revision: true,
+
+      sender: {
+        select: {
+          id: true,
+          username: true,
+          publicKey: true,
+          avatarUrl: true,
+          preferredLanguage: true,
+        },
+      },
+
+      attachments: {
+        select: {
+          id: true,
+          kind: true,
+          url: true,
+          mimeType: true,
+          width: true,
+          height: true,
+          durationSec: true,
+          caption: true,
+          thumbUrl: true,
+          createdAt: true,
+        },
+      },
+
+      keys: {
+        where: { userId: Number(viewerUserId) },
+        select: {
+          userId: true,
+          encryptedKey: true,
+        },
+      },
+    },
+  });
+
+  if (!m) return null;
+
+  const viewer = await prisma.user.findUnique({
+    where: { id: Number(viewerUserId) },
+    select: {
+      id: true,
+      preferredLanguage: true,
+    },
+  });
+
+  const viewerLang = (viewer?.preferredLanguage || 'en').trim().toLowerCase();
+  const senderId = Number(m.sender?.id || 0);
+  const isSender = senderId === Number(viewerUserId);
+  const hasCipher = !!m.contentCiphertext;
+
+  const translatedForMe =
+    !isSender && m.translations && typeof m.translations === 'object'
+      ? m.translations[viewerLang] || null
+      : null;
+
+  return {
+    ...m,
+    senderId,
+    encryptedKeyForMe: m.keys?.[0]?.encryptedKey || null,
+    translatedForMe,
+    rawContent: hasCipher && !isSender ? null : (m.rawContent || ''),
+  };
+}
+
 /**
  * Register helper so socketBus can emit canonical rows
  * even when only an id is provided.

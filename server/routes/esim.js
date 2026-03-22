@@ -8,7 +8,7 @@ import {
   handleEsimWebhook,
 } from '../controllers/esimController.js';
 
-import { ESIM_ENABLED, ESIM_PROVIDER, ONEGLOBAL } from '../config/esim.js';
+import { ESIM_ENABLED, ESIM_PROVIDER } from '../config/esim.js';
 // import { requireAuth } from '../middleware/auth.js'; // enable when ready
 
 const router = express.Router();

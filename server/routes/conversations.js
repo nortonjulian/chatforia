@@ -125,6 +125,12 @@ router.get(
         participants: {
           some: { userId, archivedAt: null },
         },
+       threadState: {
+          none: {
+            userId,
+            deletedAt: { not: null },
+          },
+        },
       },
       select: {
         id: true,
@@ -192,7 +198,7 @@ router.get(
     // SMS / MMS threads
     // ----------------
     const smsThreads = await prisma.smsThread.findMany({
-      where: { userId, archivedAt: null },
+      where: { userId, archivedAt: null, deletedAt: null, },
       select: {
         id: true,
         updatedAt: true,
@@ -334,5 +340,33 @@ router.patch(
     throw Boom.badRequest('Unknown kind');
   })
 );
+
+router.delete('/:kind/:id', requireAuth, asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const { kind, id } = req.params;
+
+  if (kind === 'chat') {
+    const roomId = Number(id);
+
+    await prisma.threadState.upsert({
+      where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
+      update: { deletedAt: new Date() },
+      create: { userId, chatRoomId: roomId, deletedAt: new Date() },
+    });
+
+    return res.json({ ok: true });
+  }
+
+  if (kind === 'sms') {
+    await prisma.smsThread.updateMany({
+      where: { id: Number(id), userId },
+      data: { deletedAt: new Date() },
+    });
+
+    return res.json({ ok: true });
+  }
+
+  throw Boom.badRequest('Unknown kind');
+}));
 
 export default router;

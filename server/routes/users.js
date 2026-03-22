@@ -146,6 +146,40 @@ router.get('/lookup', requireAuth, async (req, res) => {
   return res.json({ userId: user.id, username: user.username });
 });
 
+/* ---------------------- GET /users/search ---------------------- */
+router.get('/search', requireAuth, async (req, res) => {
+  try {
+    const query = (req.query.query || '').toString().trim();
+
+    if (!query) {
+      return res.json([]);
+    }
+
+    const users = await prisma.user.findMany({
+      where: {
+        username: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        username: true,
+        avatarUrl: true,
+      },
+      orderBy: {
+        username: 'asc',
+      },
+      take: 20,
+    });
+
+    return res.json(users);
+  } catch (error) {
+    console.error('GET /users/search failed:', error);
+    return res.status(500).json({ error: 'Failed to search users' });
+  }
+});
+
 /* ---------------------- PATCH /users/me ---------------------- */
 router.patch('/me', requireAuth, async (req, res) => {
   try {

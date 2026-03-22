@@ -378,7 +378,7 @@ router.post('/claim', async (req, res) => {
 
 /**
  * POST /wireless/webhooks/:provider
- * Generic receiver for provider webhooks (Telna / 1GLOBAL / Plintron later)
+ * Generic receiver for provider webhooks (Telna / Plintron later)
  * Provider adapter normalizes and returns { externalSubscriberId, event, payload }
  */
 router.post('/webhooks/:provider', express.raw({ type: '*/*' }), async (req, res) => {

@@ -271,6 +271,19 @@ export async function emitMessageExpired(chatRoomId, messageOrId, expiresAt) {
   // } catch (e) { /* noop */ }
 }
 
+export function emitMessageUpsertToUser(userId, chatRoomId, messageOrRow) {
+  if (!_io || userId == null || chatRoomId == null || !messageOrRow) return;
+
+  try {
+    emitToUser(userId, SOCKET_EVENTS.MESSAGE_UPSERT, {
+      roomId: Number(chatRoomId),
+      item: messageOrRow,
+    });
+  } catch (err) {
+    /* noop */
+  }
+}
+
 /** Test helper / hot-reload cleanup (not used in prod code paths). */
 export function _resetSocketBus() {
   _io = null;

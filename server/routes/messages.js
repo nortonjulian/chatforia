@@ -9,20 +9,17 @@ import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { emitMessageNew } from '../services/socketBus.js';
+import { emitMessageUpsertToUser, emitMessageAck } from '../services/socketBus.js';
+import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
 
 import { scoreReport, shouldAutoHide } from '../services/src/moderationService.js';
 
-// ✅ Use the service so SMS fan-out runs + translations/TTL live in one place
-import { createMessageService } from '../services/messageService.js';
-
 // Hardened upload + safety utilities
 import { uploadMedia } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
 import { ensureThumb } from '../utils/thumbnailer.js';
-import { signDownloadToken } from '../utils/downloadTokens.js';
 
 // 🔁 Lazy, on-read translation (Google Cloud)
 import { maybeTranslateForTarget } from '../services/translation/translateMessage.js';
@@ -420,16 +417,16 @@ router.post(
       }
     }
 
-    // ✅ Save via service (this is what triggers SMS fan-out)
+    // ✅ Save via service
     let saved;
     try {
       saved = await createMessageService({
         senderId,
         chatRoomId,
-        clientMessageId, // ✅ NEW (idempotency)
+        clientMessageId,
         content,
-        contentCiphertext, // can be string or object; service stringifies
-        encryptedKeys, // ✅ NEW (E2EE recipient keys -> MessageKey)
+        contentCiphertext,
+        encryptedKeys,
         expireSeconds: secs,
         attachments,
       });
@@ -450,29 +447,7 @@ router.post(
       }
     }
 
-    // Shape response with short-lived signed URLs
-    const toSigned = (rel, ownerId) =>
-      `/files?token=${encodeURIComponent(signDownloadToken({ path: rel, ownerId, ttlSec: 300 }))}`;
-
-    const shaped = {
-      ...saved,
-      clientMessageId,
-      revision: saved?.revision ?? 1,
-      imageUrl: saved?.imageUrl ? toSigned(saved.imageUrl, senderId) : null,
-      audioUrl: saved?.audioUrl ? toSigned(saved.audioUrl, senderId) : null,
-      attachments: (saved?.attachments || []).map((a) => {
-        const out = { ...a };
-        out.durationSec =
-          typeof a.durationSec === 'number' ? a.durationSec : a.durationSec == null ? null : Number(a.durationSec);
-
-        out.url = a.url && !/^https?:\/\//i.test(a.url) ? toSigned(a.url, senderId) : a.url;
-        if (out.thumbUrl && !/^https?:\/\//i.test(out.thumbUrl)) {
-          out.thumbUrl = toSigned(out.thumbUrl, senderId);
-        }
-        return out;
-      }),
-    };
-
+    // private sender ACK
     try {
       const io = req.app.get('io');
       if (io && clientMessageId) {
@@ -484,12 +459,33 @@ router.post(
         });
       }
     } catch (e) {
-      // swallow - non-fatal optimisation
       console.warn('[message:ack] emit failed', e?.message || e);
     }
 
-    emitMessageNew(chatRoomId, shaped);
-    return res.status(201).json({ message: shaped });
+    const senderShaped = await shapeMessageForUser(saved.id, senderId);
+
+    if (saved?.clientMessageId && senderId) {
+      emitMessageAck(senderId, {
+        roomId: Number(chatRoomId),
+        clientMessageId: saved.clientMessageId,
+        messageId: saved.id,
+      });
+    }
+
+    const participants = await prisma.participant.findMany({
+      where: { chatRoomId: Number(chatRoomId) },
+      select: { userId: true },
+    });
+
+    await Promise.all(
+      participants.map(async ({ userId }) => {
+        const shapedForUser = await shapeMessageForUser(saved.id, userId);
+        if (!shapedForUser) return;
+        emitMessageUpsertToUser(userId, chatRoomId, shapedForUser);
+      })
+    );
+
+    return res.status(201).json({ message: senderShaped });
   })
 );
 
@@ -502,7 +498,6 @@ router.post(
     const roomId = Number(req.params.roomId);
     if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
 
-    // must be participant (or admin)
     const isAdmin = req.user?.role === 'ADMIN';
     if (!isAdmin) {
       const member = await prisma.participant.findFirst({
@@ -512,15 +507,15 @@ router.post(
       if (!member) throw Boom.forbidden('Forbidden');
     }
 
-    const clearedAt = new Date();
+    const deletedAt = new Date();
 
-    await prisma.threadClear.upsert({
+    await prisma.threadState.upsert({
       where: { userId_chatRoomId: { userId, chatRoomId: roomId } },
-      update: { clearedAt },
-      create: { userId, chatRoomId: roomId, clearedAt },
+      update: { deletedAt },
+      create: { userId, chatRoomId: roomId, deletedAt },
     });
 
-    return res.status(201).json({ ok: true, clearedAt: clearedAt.toISOString() });
+    return res.status(201).json({ ok: true, deletedAt: deletedAt.toISOString() });
   })
 );
 
@@ -533,7 +528,6 @@ router.post(
     const roomId = Number(req.params.roomId);
     if (!Number.isFinite(roomId)) throw Boom.badRequest('Invalid roomId');
 
-    // must be participant (or admin)
     const isAdmin = req.user?.role === 'ADMIN';
     if (!isAdmin) {
       const member = await prisma.participant.findFirst({
@@ -545,26 +539,17 @@ router.post(
 
     const now = new Date();
 
-    // Tombstone ALL messages in this room
     await prisma.message.updateMany({
       where: { chatRoomId: roomId, deletedForAll: false },
       data: {
         deletedForAll: true,
         deletedAt: now,
-        deletedById: userId, // adjust to your schema field name
+        deletedById: userId,
         rawContent: '',
         content: '',
         translatedForMe: null,
-        // If you store link preview fields, null them too:
-        // linkPreview: Prisma.JsonNull,
       },
     });
-
-    // If attachments are a relation/table, also mark them deleted (recommended)
-    // await prisma.attachment.updateMany({ where: { message: { chatRoomId: roomId } }, data: { deletedAt: now } });
-
-    // Optional: emit socket event so other clients tombstone instantly
-    // io.to(String(roomId)).emit('thread_cleared_all', { roomId, deletedAt: now.toISOString(), deletedById: userId });
 
     return res.status(201).json({ ok: true, deletedAt: now.toISOString() });
   })
@@ -630,25 +615,21 @@ router.post(
  * LIST messages in a room
  */
 router.get('/:chatRoomId', requireAuth, async (req, res) => {
-
   res.set('Cache-Control', 'no-store');
-  // --- defensive parsing + helpful debug logs ---
+
   const rawRoomIdRaw = req.params?.chatRoomId ?? '';
 
-  // decode in case the caller double-encoded the path (eg: "7676%3FsinceId=0")
   let rawRoomId;
   try {
     rawRoomId = String(decodeURIComponent(String(rawRoomIdRaw)));
   } catch {
     rawRoomId = String(rawRoomIdRaw);
   }
-  // strip any query-like suffix that accidentally landed in the param (e.g. "7676?sinceId=0" or "7676%3FsinceId=0")
+
   const sanitizedRoomId = rawRoomId.split(/[?\/#]/)[0].trim();
-  // prefer integer parsing base 10 (avoids floats like "123.4" becoming 123.4)
   const chatRoomId = Number.parseInt(sanitizedRoomId, 10);
   const requesterId = Number(req.user?.id);
 
-  // gated debug: use NODE_ENV or explicit debug flag
   const isDebug =
     (process.env.NODE_ENV || '').toLowerCase() !== 'production' ||
     process.env.DEBUG_MESSAGES === 'true';
@@ -664,7 +645,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       sanitizedRoomId,
       chatRoomId,
       hasAuthHeader: !!req.headers['authorization'],
-      // only show a short masked preview for easier triage without exposing token
       authHeaderPreview: (() => {
         const a = String(req.headers['authorization'] || '');
         if (!a) return null;
@@ -690,13 +670,12 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
   const isAdmin = req.user?.role === 'ADMIN';
 
   try {
-    // ✅ FIX: membership must exist in outer scope
     let membership = null;
 
     if (!isAdmin) {
       membership = await prisma.participant.findFirst({
         where: { chatRoomId, userId: requesterId },
-        select: { id: true, archivedAt: true, clearedAt: true  },
+        select: { id: true, archivedAt: true, clearedAt: true },
       });
 
       const okMember =
@@ -718,17 +697,14 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         return res.status(403).json({ error: 'Forbidden' });
       }
     } else {
-      // Admin can read even without membership, but if they *are* a member we still want archivedAt
       membership = await prisma.participant.findFirst({
         where: { chatRoomId, userId: requesterId },
-        select: { archivedAt: true, clearedAt: true  },
+        select: { archivedAt: true, clearedAt: true },
       });
     }
 
-    // ✅ "Clear conversation" cutoff (Participant.archivedAt fallback)
     let clearedAt = membership?.archivedAt ?? null;
 
-    // Test-mode fallback: roomsMem.clearedAt[roomId][userId]
     if (!clearedAt && IS_TEST) {
       const iso = roomsMem?.clearedAt?.get(chatRoomId)?.get(requesterId) || null;
       if (iso) {
@@ -737,16 +713,14 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       }
     }
 
-    // ✅ ALSO honor threadClear table (this is what /:roomId/clear writes)
-    const tc = await prisma.threadClear.findUnique({
+    const ts = await prisma.threadState.findUnique({
       where: { userId_chatRoomId: { userId: requesterId, chatRoomId } },
-      select: { clearedAt: true },
+      select: { deletedAt: true },
     });
 
-    if (tc?.clearedAt) {
-      const t = new Date(tc.clearedAt);
+    if (ts?.deletedAt) {
+      const t = new Date(ts.deletedAt);
       if (!Number.isNaN(t.getTime())) {
-        // if both exist, take the newest cutoff
         clearedAt = clearedAt
           ? new Date(Math.max(new Date(clearedAt).getTime(), t.getTime()))
           : t;
@@ -768,25 +742,16 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       createdAt: true,
       expiresAt: true,
       rawContent: true,
-
-      // legacy (keep for compatibility while migrating)
       deletedBySender: true,
-
-      // ✅ delete-for-all tombstone flags
       deletedForAll: true,
       deletedAt: true,
       deletedById: true,
-
-      // ✅ edited marker
       editedAt: true,
-
-      // ✅ delete-for-me marker (requires MessageDeletion model)
       deletions: {
         where: { userId: requesterId },
         select: { id: true },
         take: 1,
       },
-
       sender: { select: { id: true, username: true, publicKey: true } },
       readBy: { select: { id: true, username: true, avatarUrl: true } },
       attachments: {
@@ -812,33 +777,26 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       chatRoomId: true,
     };
 
-    // parse incoming numeric query params robustly
-    // prefer explicit existence checks so "0" is preserved
     const sinceId =
       req.query && Object.prototype.hasOwnProperty.call(req.query, 'sinceId')
         ? Number(req.query.sinceId)
         : null;
 
-    // legacy single-key numeric cursor (backward-compatible)
     const legacyCursorId =
       req.query && Object.prototype.hasOwnProperty.call(req.query, 'cursorId')
         ? Number(req.query.cursorId)
         : null;
 
-    // new compound cursor param: "<createdAtISO>_<id>"
     const rawCursor = req.query?.cursor ?? null;
     let compoundCursor = { createdAt: null, id: null };
     try {
-      // prefers new cursor param when provided
       compoundCursor = parseCompoundCursor(rawCursor);
     } catch {
       compoundCursor = { createdAt: null, id: null };
     }
 
-    // page size clamp
     const limit = Math.min(100, Math.max(10, Number(req.query?.limit || 50)));
 
-    // Debug logging to help diagnose issues in the wild
     if (isDebug) {
       console.debug('[messages:list] params parsed', {
         rawRoomId,
@@ -852,21 +810,18 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       });
     }
 
-    // ---- ensure a reusable 'where' filter is defined up-front ----
     const baseWhere = {
       chatRoomId,
-      deletedForAll: false, // don't return tombstoned rows
+      deletedForAll: false,
       ...(clearedAt ? { createdAt: { gt: clearedAt } } : {}),
     };
 
-    // ---- delta path: sinceId supplied -> return envelope { items, nextCursor, count } ----
     if (Number.isFinite(sinceId)) {
       const deltaItems = await prisma.message.findMany({
         where: {
           ...baseWhere,
           id: { gt: sinceId },
         },
-        // newest -> oldest
         orderBy: { id: 'desc' },
         take: 500,
         select: baseSelect,
@@ -874,7 +829,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
 
       const messageIds = deltaItems.map((m) => m.id);
 
-      // gather reactions + my reactions as before (keep your existing logic)
       let reactionSummaryByMessage = {};
       let myReactionsByMessage = {};
 
@@ -901,7 +855,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         }, {});
       }
 
-      // translations / maybeTranslateForTarget logic kept as-is
       const requester = await prisma.user.findUnique({
         where: { id: requesterId },
         select: { preferredLanguage: true },
@@ -949,7 +902,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         await Promise.all(jobs);
       }
 
-      // shape the delta items exactly like the main listing path
       const shapedDelta = deltaItems
         .filter((m) => !(m.deletions?.length))
         .filter((m) => !(m.deletedBySender && m.sender.id === requesterId))
@@ -1011,7 +963,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           return base;
         });
 
-      // RETURN THE STANDARD ENVELOPE (always)
       const nextCursorDelta =
         shapedDelta.length === 0 ? null : Math.min(...shapedDelta.map((m) => m.id));
       return res.json({
@@ -1021,14 +972,11 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       });
     }
 
-    // Build an orderBy ensuring stable sorting by createdAt then id (desc)
     const orderBy = [{ createdAt: 'desc' }, { id: 'desc' }];
 
-    // Compose prisma where depending on cursor type
-    let pageWhere = { ...baseWhere }; // baseWhere already contains chatRoomId, deletedForAll, clearedAt cutoff, etc.
+    let pageWhere = { ...baseWhere };
 
     if (compoundCursor.createdAt && compoundCursor.id) {
-      // compound cursor case: (createdAt < ts) OR (createdAt == ts AND id < idPart)
       const ts = new Date(compoundCursor.createdAt);
       const idPart = Number(compoundCursor.id);
 
@@ -1040,12 +988,10 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         ],
       };
     } else if (Number.isFinite(legacyCursorId)) {
-      // legacy numeric cursor
       pageWhere = { ...pageWhere, id: { lt: legacyCursorId } };
     }
 
-    // Execute query (stable order)
-   const items = await prisma.message.findMany({
+    const items = await prisma.message.findMany({
       where: pageWhere,
       orderBy,
       take: limit,
@@ -1087,7 +1033,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     const translationEnabled = process.env.TRANSLATION_ENABLED === 'true';
     const translatedForMeMap = new Map();
 
-    // ✅ do not translate tombstones, and skip delete-for-me messages
     if (translationEnabled && items.length && myLang) {
       const jobs = items.map(async (m) => {
         if (m.deletions?.length) return;
@@ -1126,6 +1071,20 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
       await Promise.all(jobs);
     }
 
+    if (isDebug && items.length) {
+      console.debug('[messages:list] first item sample', {
+        id: items[0].id,
+        rawContent: items[0].rawContent,
+        contentCiphertext: items[0].contentCiphertext,
+        translatedFrom: items[0].translatedFrom,
+        translatedContent: items[0].translatedContent,
+        translatedTo: items[0].translatedTo,
+        editedAt: items[0].editedAt,
+        deletedForAll: items[0].deletedForAll,
+        keysCount: items[0].keys?.length ?? 0,
+      });
+    }
+
     const shapedDb = items
       .filter((m) => !(m.deletions?.length))
       .filter((m) => !(m.deletedBySender && m.sender.id === requesterId))
@@ -1135,7 +1094,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         const reactionSummary = reactionSummaryByMessage[m.id] || {};
         const myReactions = Array.from(myReactionsByMessage[m.id] || []);
 
-        // ✅ Tombstone for delete-for-everyone
         if (m.deletedForAll) {
           return {
             id: m.id,
@@ -1144,21 +1102,17 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
             expiresAt: m.expiresAt,
             sender: m.sender,
             readBy: m.readBy,
-
             deletedForAll: true,
             deletedAt: m.deletedAt,
             deletedById: m.deletedById,
-
             isExplicit: false,
             rawContent: null,
             contentCiphertext: null,
             attachments: [],
-
             encryptedKeyForMe: null,
             translatedForMe: null,
             reactionSummary,
             myReactions,
-
             editedAt: null,
           };
         }
@@ -1184,10 +1138,8 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
           myReactions,
         };
 
-        // keep rawContent for plaintext messages so recipients can read them
         if (isSender || isAdmin) return base;
 
-        // Only strip rawContent for encrypted messages
         if (m.contentCiphertext != null) {
           const { rawContent, ...restNoRaw } = base;
           return restNoRaw;
@@ -1196,7 +1148,6 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
         return base;
       });
 
-    // ✅ test-mode in-memory messages: apply the same cutoff
     let memItems = [];
     if (IS_TEST && mem?.byRoom?.has(chatRoomId)) {
       const ids = mem.byRoom.get(chatRoomId);
@@ -1231,21 +1182,31 @@ router.get('/:chatRoomId', requireAuth, async (req, res) => {
     }
 
     const all = [...memItems, ...shapedDb]
-    .sort((a, b) => {
-      const aTime = new Date(a.createdAt).getTime();
-      const bTime = new Date(b.createdAt).getTime();
-      if (aTime !== bTime) return bTime - aTime;
-      return b.id - a.id;
-    })
-    .slice(0, limit);
+      .sort((a, b) => {
+        const aTime = new Date(a.createdAt).getTime();
+        const bTime = new Date(b.createdAt).getTime();
+        if (aTime !== bTime) return bTime - aTime;
+        return b.id - a.id;
+      })
+      .slice(0, limit);
 
     const nextCursor = all.length === limit ? makeCompoundCursor(all[all.length - 1]) : null;
     const nextCursorId = all.length === limit ? all[all.length - 1].id : null;
 
     return res.json({ items: all, nextCursor, nextCursorId, count: all.length });
   } catch (e) {
-    console.error('[messages:list] failed', e);
-    return res.status(500).json({ error: 'Failed to fetch messages' });
+    console.error('[messages:list] failed', {
+      message: e?.message,
+      stack: e?.stack,
+      name: e?.name,
+      roomId: req.params?.chatRoomId,
+      userId: req.user?.id,
+      query: req.query,
+    });
+    return res.status(500).json({
+      error: 'Failed to fetch messages',
+      detail: process.env.NODE_ENV !== 'production' ? e?.message : undefined,
+    });
   }
 });
 
@@ -1278,7 +1239,6 @@ router.patch(
     });
     if (!isMember) throw Boom.forbidden('Forbidden');
 
-    // Idempotent insert into MessageRead
     await prisma.messageRead.createMany({
       data: [{ messageId: id, userId, readAt: new Date() }],
       skipDuplicates: true,
@@ -1303,7 +1263,6 @@ router.post(
     const userId = Number(req.user?.id);
     const rawIds = req.body?.ids ?? req.body?.messageIds ?? [];
     const ids = (Array.isArray(rawIds) ? rawIds : []).map(Number).filter(Number.isFinite);
-
 
     if (!ids.length) return res.json({ ok: true });
 
@@ -1330,7 +1289,6 @@ router.post(
 
     if (!allowedIds.length) return res.json({ ok: true });
 
-    // Bulk insert into MessageRead - idempotent & fast
     const rows = allowedIds.map((id) => ({ messageId: id, userId, readAt: new Date() }));
     if (rows.length) {
       await prisma.messageRead.createMany({
@@ -1377,7 +1335,6 @@ router.post(
     });
     if (!msg) throw Boom.notFound('Not found');
 
-    // ✅ optional: block reacting on tombstones
     if (msg.deletedForAll) return res.json({ ok: true, op: 'noop', emoji, count: 0 });
 
     const member = await prisma.participant.findFirst({
@@ -1512,9 +1469,8 @@ async function editMessageCore(req, res) {
   if (!message) throw Boom.notFound('Message not found');
   if (message.deletedForAll) throw Boom.forbidden('Cannot edit a deleted message');
 
-  const someoneElseRead = (message.readBy || []).some((u) => u.id !== requesterId);
-  if (message.sender.id !== requesterId || someoneElseRead) {
-    throw Boom.forbidden('Unauthorized or already read');
+  if (message.sender.id !== requesterId) {
+    throw Boom.forbidden('Unauthorized');
   }
 
   const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
@@ -1532,7 +1488,7 @@ async function editMessageCore(req, res) {
     where: { id: messageId },
     data: {
       rawContent: newContent,
-      editedAt: new Date(), // ✅ requires schema
+      editedAt: new Date(),
     },
     select: {
       id: true,
@@ -1584,7 +1540,6 @@ router.delete(
 
     if (!Number.isFinite(messageId)) throw Boom.badRequest('Invalid id');
 
-    // ---- TEST MEMORY MODE ----
     if (IS_TEST) {
       const mm = memGetMessage(messageId);
       if (!mm) throw Boom.notFound('Message not found');
@@ -1594,7 +1549,6 @@ router.delete(
           throw Boom.forbidden('Unauthorized to delete for everyone');
         }
 
-        // idempotent
         if (mm.deletedForAll) return res.json({ success: true, scope: 'all' });
 
         mm.deletedForAll = true;
@@ -1615,7 +1569,6 @@ router.delete(
         return res.json({ success: true, scope: 'all' });
       }
 
-      // delete-for-me in mem: remove (fine for tests)
       mem.byId.delete(messageId);
       const arr = mem.byRoom.get(mm.chatRoomId) || [];
       mem.byRoom.set(mm.chatRoomId, arr.filter((id) => id !== messageId));
@@ -1636,20 +1589,17 @@ router.delete(
     });
     if (!message) throw Boom.notFound('Message not found');
 
-    // must be a participant to delete for-me (prevents random deletes)
     const member = await prisma.participant.findFirst({
       where: { chatRoomId: message.chatRoomId, userId: requesterId },
       select: { id: true },
     });
     if (!member && !isAdmin) throw Boom.forbidden('Forbidden');
 
-    // delete for everyone
     if (scope === 'all') {
       if (!isAdmin && message.senderId !== requesterId) {
         throw Boom.forbidden('Unauthorized to delete for everyone');
       }
 
-      // ✅ idempotent guard
       if (message.deletedForAll) {
         return res.json({ success: true, scope: 'all' });
       }
@@ -1680,7 +1630,6 @@ router.delete(
       return res.json({ success: true, scope: 'all' });
     }
 
-    // delete for me (per-user)
     await prisma.messageDeletion.upsert({
       where: { messageId_userId: { messageId, userId: requesterId } },
       update: {},
@@ -1790,7 +1739,7 @@ router.post(
       throw Boom.badRequest('reportedUserId does not match the primary message sender');
     }
 
-        const existingOpenReport = await prisma.report.findFirst({
+    const existingOpenReport = await prisma.report.findFirst({
       where: {
         messageId: primaryMessageId,
         reporterId,

@@ -56,6 +56,9 @@ import RoomSearchDrawer from '@/components/RoomSearchDrawer.jsx';
 import MediaGalleryModal from '@/components/MediaGalleryModal.jsx';
 import ReportModal from '@/components/chat/ReportModal.jsx';
 
+// ✅ Message row UI (menu + tombstone)
+import MessageBubble from '@/components/chat/MessageBubble.jsx';
+
 import { playSound } from '@/lib/sounds.js';
 
 // 🔒 Premium check
@@ -67,9 +70,6 @@ import HouseAdSlot from '@/ads/HouseAdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 import { useAds } from '@/ads/AdProvider';
 import { ADS_CONFIG } from '@/ads/config';
-
-// ✅ Message row UI (menu + tombstone)
-import MessageBubble from '@/components/chat/MessageBubble.jsx';
 
 import '@/styles.css';
 
@@ -166,7 +166,6 @@ function upsertLocalMessage(prev, incoming) {
   return sortMessagesChronologically(next);
 }
 
-/** Merge factories: keep messages unique and chronologically ordered (oldest → newest) */
 function mergeIncomingMessageFactory(setMessages) {
   return (incoming) => {
     if (!incoming) return;
@@ -196,61 +195,46 @@ function mergeIncomingBatchFactory(setMessages) {
   };
 }
 
-  function toNum(value) {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : 0;
-  }
+function toNum(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
 
-  function getSenderId(message) {
-    return (
-      message?.sender?.id ??
-      message?.senderId ??
-      message?.userId ??
-      null
-    );
-  }
+function getSenderId(message) {
+  return message?.sender?.id ?? message?.senderId ?? message?.userId ?? null;
+}
 
-  function isSameUser(a, b) {
-    const aa = toNum(a);
-    const bb = toNum(b);
-    return aa > 0 && bb > 0 && aa === bb;
-  }
+function isSameUser(a, b) {
+  const aa = toNum(a);
+  const bb = toNum(b);
+  return aa > 0 && bb > 0 && aa === bb;
+}
 
 /* ---------- component ---------- */
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
   const navigate = useNavigate();
 
-  const [messages, setMessages] = useState([]); // oldest → newest
+  const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState('');
   const [showNewMessage, setShowNewMessage] = useState(false);
 
-  // pagination state
   const [cursor, setCursor] = useState(null);
   const [loading, setLoading] = useState(false);
-
   const [hasMore, setHasMore] = useState(true);
   const loadingOlderRef = useRef(false);
 
-  // privacy UI state
   const [reveal, setReveal] = useState(false);
 
-  // ⚙️ Room settings modal
   const [settingsOpen, setSettingsOpen] = useState(false);
-
-  // ➕ Room invite modal
   const [inviteOpen, setInviteOpen] = useState(false);
-
-  // ℹ️ About / 🔎 Search / 🖼️ Gallery
   const [aboutOpen, setAboutOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [galleryOpen, setGalleryOpen] = useState(false);
 
   const [draft, setDraft] = useState('');
-
   const [forcedCalendarText, setForcedCalendarText] = useState(null);
-
-  const [highestSeenId, setHighestSeenId] = useState(0); // track highest numeric message id we've seen
+  const [highestSeenId, setHighestSeenId] = useState(0);
 
   const [reportOpen, setReportOpen] = useState(false);
   const [reportTarget, setReportTarget] = useState(null);
@@ -263,20 +247,27 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const [e2eeLocked, setE2eeLocked] = useState(false);
 
-  const pendingPages = useRef(new Set());
+  // ✅ new edit/delete modal state
+  const [editOpen, setEditOpen] = useState(false);
+  const [editTarget, setEditTarget] = useState(null);
+  const [editText, setEditText] = useState('');
+  const [editSubmitting, setEditSubmitting] = useState(false);
 
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleteMode, setDeleteMode] = useState('me');
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false);
+
+  const pendingPages = useRef(new Set());
   const canLoadOlderRef = useRef(false);
 
-  // Ads context (caps / cool-downs)
   const ads = useAds();
   const canShow = ads?.canShow || (() => true);
   const markShown = ads?.markShown || (() => {});
 
-  // “owner/admin” controls
   const isOwnerOrAdmin =
     currentUser?.role === 'ADMIN' || currentUser?.id === chatroom?.ownerId;
 
-  // 🎲 Random badge
   const isRandomRoom = Boolean(
     chatroom?.isRandom ||
       chatroom?.origin === 'random' ||
@@ -284,7 +275,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       (Array.isArray(chatroom?.tags) && chatroom.tags.includes('random'))
   );
 
-  // ✅ for 1:1 seen label (simple version)
   const otherParticipant = useMemo(() => {
     const ps = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
     return (
@@ -294,7 +284,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const otherUserId = Number(otherParticipant?.id ?? otherParticipant?.userId);
 
-  // ✅ mark newest N unread as read
   const markNewestUnreadBulk = useCallback(
     async (limit = 50) => {
       if (!chatroom?.id) return;
@@ -310,7 +299,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     [chatroom?.id]
   );
 
-  // ✅ mark single message read (fallback if you want instant receipts)
   const markMessageRead = useCallback(async (messageId) => {
     if (!messageId) return;
     try {
@@ -320,7 +308,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }, []);
 
-  // ✅ Smart Replies toggle (single source of truth)
   const [smartEnabled, setSmartEnabled] = useState(
     () => currentUser?.enableSmartReplies ?? false
   );
@@ -340,15 +327,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const messagesEndRef = useRef(null);
   const scrollViewportRef = useRef(null);
-  useNow(); // keeps any “time-based” UI responsive if you add countdowns later
-
-  useEffect(() => {
-    console.log('[messages state changed]', {
-      roomId: chatroom?.id,
-      count: messages.length,
-      messages,
-    });
-  }, [messages, chatroom?.id]);
+  useNow();
 
   useEffect(() => {
     setMessages([]);
@@ -357,7 +336,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setHighestSeenId(0);
   }, [chatroom?.id]);
 
-  // Center-panel empty-state promo control
   const [emptyDismissed] = useDismissed('empty_state_promo', 14);
   const shouldShowEmptyPromo =
     !chatroom &&
@@ -369,57 +347,49 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     if (shouldShowEmptyPromo) markShown(PLACEMENTS.EMPTY_STATE_PROMO, 'app');
   }, [shouldShowEmptyPromo, markShown]);
 
-  /* ---------- message normalization ---------- */
-
   const normalizeMsg = useCallback(
-  (m) => {
-    const mine = Boolean(m.mine) || isSameUser(getSenderId(m), currentUserId);
+    (m) => {
+      const mine = Boolean(m.mine) || isSameUser(getSenderId(m), currentUserId);
 
-    const content =
-      m.decryptedContent ||
-      m.translatedForMe ||
-      m.rawContent ||
-      m.content ||
-      null;
+      const content =
+        m.decryptedContent ||
+        m.translatedForMe ||
+        m.rawContent ||
+        m.content ||
+        null;
 
-    return { ...m, mine, content };
-  },
-  [currentUserId]
-);
+      return { ...m, mine, content };
+    },
+    [currentUserId]
+  );
 
   const canEditMessage = useCallback(
-  (m) => {
-    if (!isSameUser(getSenderId(m), currentUserId)) return false;
-    if (m.deletedForAll) return false;
-    return true;
-  },
-  [currentUserId]
-);
+    (m) => {
+      if (!isSameUser(getSenderId(m), currentUserId)) return false;
+      if (m.deletedForAll) return false;
+      return true;
+    },
+    [currentUserId]
+  );
 
   const canDeleteForEveryone = useCallback(
-  (m) => {
-    if (!isSameUser(getSenderId(m), currentUserId)) return false;
-    if (m.deletedForAll) return false;
-    return true;
-  },
-  [currentUserId]
-);
-
-  /* ---------- header: call/video ---------- */
+    (m) => {
+      if (!isSameUser(getSenderId(m), currentUserId)) return false;
+      if (m.deletedForAll) return false;
+      return true;
+    },
+    [currentUserId]
+  );
 
   const startChatCall = useCallback(() => {
     if (!chatroom?.id) return;
-    console.log('[call] start voice call', { chatRoomId: chatroom.id });
     navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);
   }, [chatroom?.id, navigate]);
 
   const startChatVideo = useCallback(() => {
     if (!chatroom?.id) return;
-    console.log('[video] start video call', { chatRoomId: chatroom.id });
     navigate(`/video?roomId=${encodeURIComponent(String(chatroom.id))}`);
   }, [chatroom?.id, navigate]);
-
-  /* ---------- scrolling ---------- */
 
   const scrollToBottomNow = useCallback(() => {
     const v = scrollViewportRef.current;
@@ -457,42 +427,86 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     openSchedulePrompt();
   };
 
-  /* ---------- backend ops: edit/delete ---------- */
-
-  const handleEditMessage = useCallback(async (msg) => {
+  // ✅ modal open helpers
+  const openEditModal = useCallback((msg) => {
     const current = msg.rawContent ?? msg.content ?? '';
-    const newText = prompt('Edit:', current);
-    if (!newText || newText === current) return;
+    setEditTarget(msg);
+    setEditText(current);
+    setEditOpen(true);
+  }, []);
+
+  const closeEditModal = useCallback(() => {
+    if (editSubmitting) return;
+    setEditOpen(false);
+    setEditTarget(null);
+    setEditText('');
+  }, [editSubmitting]);
+
+  const openDeleteModal = useCallback((msg, mode = 'me') => {
+    setDeleteTarget(msg);
+    setDeleteMode(mode);
+    setDeleteOpen(true);
+  }, []);
+
+  const closeDeleteModal = useCallback(() => {
+    if (deleteSubmitting) return;
+    setDeleteOpen(false);
+    setDeleteTarget(null);
+    setDeleteMode('me');
+  }, [deleteSubmitting]);
+
+  // ✅ real edit submit
+  const handleEditMessage = useCallback(async () => {
+    if (!editTarget?.id) return;
+
+    const current = editTarget.rawContent ?? editTarget.content ?? '';
+    const newText = editText.trim();
+
+    if (!newText || newText === current) {
+      closeEditModal();
+      return;
+    }
 
     try {
+      setEditSubmitting(true);
+
       const { data: updated } = await axiosClient.patch(
-        `/messages/${msg.id}/edit`,
+        `/messages/${editTarget.id}/edit`,
         { newContent: newText }
       );
 
       setMessages((prev) =>
         prev.map((m) =>
-          m.id === (updated?.id ?? msg.id)
+          m.id === (updated?.id ?? editTarget.id)
             ? {
                 ...m,
                 rawContent: newText,
                 content: newText,
+                decryptedContent: newText,
+                translatedForMe: null,
                 editedAt: updated?.editedAt ?? new Date().toISOString(),
               }
             : m
         )
       );
+
+      closeEditModal();
     } catch (error) {
       console.error('Message edit failed', error);
+    } finally {
+      setEditSubmitting(false);
     }
-  }, []);
+  }, [editTarget, editText, closeEditModal]);
 
-  const handleDeleteMessage = useCallback(
-    async (msg, mode = 'me') => {
-      const ok = window.confirm(
-        mode === 'all' ? 'Delete for everyone?' : 'Delete this message for you?'
-      );
-      if (!ok) return;
+  // ✅ real delete submit
+  const handleDeleteMessage = useCallback(async () => {
+    if (!deleteTarget?.id) return;
+
+    const msg = deleteTarget;
+    const mode = deleteMode;
+
+    try {
+      setDeleteSubmitting(true);
 
       setMessages((prev) => {
         if (mode === 'me') return prev.filter((m) => m.id !== msg.id);
@@ -510,51 +524,37 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         );
       });
 
-      try {
-        await axiosClient.delete(`/messages/${msg.id}`, {
-          params: { mode },
-          data: { mode },
-        });
-      } catch (e) {
-        console.error('Delete failed', e);
-        await loadMore(true);
-      }
-    },
-    []
-  );
+      await axiosClient.delete(`/messages/${msg.id}`, {
+        params: { mode },
+        data: { mode },
+      });
 
-  console.log('[ChatView render]', {
-    chatroomId: chatroom?.id,
-    chatroomName: chatroom?.name,
-    messageCount: messages.length,
-  });
-
-  // ---------- dynamic encryption helpers ----------
+      closeDeleteModal();
+    } catch (e) {
+      console.error('Delete failed', e);
+      await loadMore(true);
+    } finally {
+      setDeleteSubmitting(false);
+    }
+  }, [deleteTarget, deleteMode, closeDeleteModal]);
 
   async function maybeGetUnlockedPrivateKey() {
     try {
       const mod = await loadEncryptionClient();
-      console.log('[E2EE DEBUG] module keys:', Object.keys(mod));
 
       if (
         typeof mod.getUnlockedPrivateKeyForPublicKey === 'function' &&
         currentUser?.publicKey
       ) {
-        const key = await mod.getUnlockedPrivateKeyForPublicKey(currentUser.publicKey);
-        console.log('[E2EE DEBUG] private key result (guarded):', key);
-        return key;
+        return await mod.getUnlockedPrivateKeyForPublicKey(currentUser.publicKey);
       }
 
       if (typeof mod.getUnlockedPrivateKey === 'function') {
-        const key = await mod.getUnlockedPrivateKey();
-        console.log('[E2EE DEBUG] private key result (unguarded fallback):', key);
-        return key;
+        return await mod.getUnlockedPrivateKey();
       }
 
-      console.warn('[E2EE] getUnlockedPrivateKey is not exported');
       return null;
-    } catch (e) {
-      console.warn('[E2EE] private key unavailable:', e?.message || e);
+    } catch {
       return null;
     }
   }
@@ -565,13 +565,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (typeof mod.decryptFetchedMessages === 'function') {
         return await mod.decryptFetchedMessages(rows, privKey, senderKeys, uid);
       }
-    } catch (e) {
-      console.warn('Encryption client not available for decryption:', e);
-    }
+    } catch {}
     return rows;
   }
-
-  /* ---------- pagination loader (initial + older pages) ---------- */
 
   async function loadMore(initial = false) {
     if (!chatroom?.id) return false;
@@ -593,7 +589,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       }
 
       const data = resp || {};
-
       const rows = Array.isArray(data?.items)
         ? data.items
         : Array.isArray(data?.messages)
@@ -603,13 +598,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             : Array.isArray(data)
               ? data
               : [];
-
-      console.log('[LOADMORE RAW ROWS]', {
-        roomId: chatroom?.id,
-        initial,
-        rowsCount: rows.length,
-        rows,
-      });
 
       const chronological = rows.slice().reverse();
 
@@ -632,8 +620,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         setCursor(data?.nextCursor ?? null);
         setHasMore(Boolean(data?.nextCursor));
 
-        console.log('[SET MESSAGES INITIAL]', chronological);
-
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             scrollToBottomNow();
@@ -649,9 +635,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           const older = chronological.filter(
             (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
           );
-          const next = [...older, ...prev];
-          console.log('[SET MESSAGES OLDER]', next);
-          return next;
+          return [...older, ...prev];
         });
 
         setCursor(data?.nextCursor ?? null);
@@ -677,7 +661,24 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }
 
-  /* ---------- initial load / room change ---------- */
+  // ✅ own room membership here, not in ChatroomList
+  useEffect(() => {
+    if (!chatroom?.id) return;
+
+    const roomId = Number(chatroom.id);
+
+    const join = () => {
+      socket.emit('join_room', roomId);
+    };
+
+    join();
+    socket.on('connect', join);
+
+    return () => {
+      socket.off('connect', join);
+      socket.emit('leave_room', roomId);
+    };
+  }, [chatroom?.id]);
 
   useEffect(() => {
     let alive = true;
@@ -702,9 +703,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         });
 
         await markNewestUnreadBulk(50);
-
-        socket.emit('join:rooms', [String(chatroom.id)]);
-        socket.emit('join_room', chatroom.id);
       } catch (e) {
         console.error('initial load failed', e);
       }
@@ -712,11 +710,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     return () => {
       alive = false;
-      socket.emit('leave_room', chatroom.id);
     };
   }, [chatroom?.id, markNewestUnreadBulk]);
-
-  /* ---------- infinite scroll: load older when near TOP ---------- */
 
   useEffect(() => {
     const v = scrollViewportRef.current;
@@ -727,8 +722,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const onScroll = () => {
       if (!canLoadOlderRef.current) return;
       if (loadingOlderRef.current) return;
-
       if (ticking) return;
+
       ticking = true;
 
       requestAnimationFrame(() => {
@@ -748,8 +743,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => v.removeEventListener('scroll', onScroll);
   }, [chatroom?.id, cursor, hasMore]);
 
-  /* ---------- realtime: new messages + typing ---------- */
-
   useEffect(() => {
     if (!chatroom || !currentUserId) return;
 
@@ -758,14 +751,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     const handleReceiveMessage = async (payload) => {
       const raw = unwrapMessage(payload);
-
-      console.log('[socket message payload]', payload);
-      console.log('[socket room check]', {
-        payload,
-        resolvedRoomId: getMessageRoomId(payload),
-        activeRoomId: Number(chatroom.id),
-      });
-
       if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
 
       try {
@@ -782,8 +767,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         upsertMessage(chatroom.id, decrypted).catch(() => {});
         addMessages(chatroom.id, [decrypted]).catch(() => {});
 
-        const decryptedSenderId = getSenderId(decrypted);
-        const isMine = isSameUser(decryptedSenderId, currentUserId);
+        const isMine = isSameUser(getSenderId(decrypted), currentUserId);
 
         if (!isMine) {
           markMessageRead(decrypted?.id ?? raw?.id);
@@ -843,6 +827,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           .map((m) => Number(m?.id || 0))
           .filter(Number.isFinite)
           .reduce((a, b) => Math.max(a, b), 0);
+
         if (maxInBatch > 0) {
           setHighestSeenId((prev) => Math.max(prev || 0, maxInBatch));
         }
@@ -872,7 +857,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     };
   }, [chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
 
-  // ✅ Block (safety feature — FREE)
   const handleBlockThread = useCallback(async () => {
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
     const other =
@@ -880,9 +864,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       participants.find((p) => Number(p?.userId) !== Number(currentUserId));
 
     const otherId = Number(other?.id ?? other?.userId);
-
     const name = other?.username || other?.displayName || other?.name || 'this user';
-
     const ok = window.confirm(`Block ${name}? You won't receive messages from them.`);
     if (!ok) return;
 
@@ -901,8 +883,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }, [chatroom?.participants, currentUserId, navigate]);
 
-  /* ---------- realtime: expired messages ---------- */
-
   useEffect(() => {
     if (!chatroom) return;
     const onExpired = ({ id }) => {
@@ -912,8 +892,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => socket.off('message:expired', onExpired);
   }, [chatroom?.id]);
 
-  /* ---------- realtime: message edited/deleted ---------- */
-
   useEffect(() => {
     const onEdited = (payload) => {
       const messageId = payload?.messageId ?? payload?.id ?? payload?.message?.id;
@@ -922,14 +900,22 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         payload?.content ??
         payload?.message?.rawContent ??
         payload?.message?.content;
-
       const editedAt = payload?.editedAt ?? payload?.message?.editedAt ?? new Date().toISOString();
 
       if (!messageId) return;
 
-      setMessages((prev) =>
+     setMessages((prev) =>
         prev.map((m) =>
-          m.id === messageId ? { ...m, rawContent, content: rawContent, editedAt } : m
+          m.id === messageId
+            ? {
+                ...m,
+                rawContent,
+                content: rawContent,
+                decryptedContent: rawContent,
+                translatedForMe: null,
+                editedAt,
+              }
+            : m
         )
       );
     };
@@ -975,8 +961,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => socket.off('message_deleted', onDeleted);
   }, [currentUserId]);
 
-  /* ---------- realtime: read receipts ---------- */
-
   useEffect(() => {
     const onRead = (payload) => {
       const messageIds =
@@ -986,11 +970,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       if (!messageIds.length) return;
 
       const readerId = payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
-
       if (!readerId || Number(readerId) === Number(currentUserId)) return;
 
       const readAt = payload?.readAt ?? new Date().toISOString();
-
       const messageIdSet = new Set(messageIds.map(String));
 
       setMessages((prev) =>
@@ -1016,8 +998,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     socket.on('message_read', onRead);
     return () => socket.off('message_read', onRead);
   }, [currentUserId]);
-
-  /* ---------- realtime: reactions ---------- */
 
   useEffect(() => {
     const onReaction = ({ messageId, emoji, op, user, count }) => {
@@ -1089,8 +1069,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     };
   }, [chatroom?.id, highestSeenId]);
 
-  /* ---------- smart replies ---------- */
-
   const { suggestions, clear } = useSmartReplies({
     messages,
     currentUserId,
@@ -1104,13 +1082,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     clear();
   };
 
-  /* ---------- premium toolbar actions ---------- */
-
   const runPowerAi = async () => {
     if (!isPremium) return navigate('/upgrade');
     try {
-      const { data } = await axiosClient.post('/ai/power-feature', { context: [] });
-      console.log('AI power result', data);
+      await axiosClient.post('/ai/power-feature', { context: [] });
     } catch (e) {
       console.error('Power AI failed', e);
     }
@@ -1142,8 +1117,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   };
 
-  /* ---------- retry failed optimistic message ---------- */
-
   async function handleRetry(failedMsg) {
     try {
       const payload = {
@@ -1163,8 +1136,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       console.error('Retry send failed', e);
     }
   }
-
-  /* ---------- backend ops: edit/delete/clear ---------- */
 
   const handleClearForMe = useCallback(async () => {
     if (!chatroom?.id) return;
@@ -1201,7 +1172,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setReportOpen(true);
   }, []);
 
-    const closeReportModal = useCallback(() => {
+  const closeReportModal = useCallback(() => {
     if (reportSubmitting) return;
 
     setReportOpen(false);
@@ -1276,8 +1247,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           }
         }
       }
-    closeReportModal();
-    window.alert('Report submitted.');
+
+      closeReportModal();
+      window.alert('Report submitted.');
     } catch (e) {
       console.error('submitReport failed', e);
       setReportError(e?.message || 'Failed to submit report');
@@ -1294,6 +1266,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     chatroom?.id,
     currentUserId,
     getBestPlaintextForReport,
+    closeReportModal,
   ]);
 
   const handleClearForEveryone = useCallback(async () => {
@@ -1330,16 +1303,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }, [chatroom?.id, currentUserId]);
 
-  /* ---------- empty state (no chat selected) ---------- */
-
   if (!chatroom) {
     const showPromo =
       !isPremium &&
       !emptyDismissed &&
       canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
       Object.keys(ADS_CONFIG?.house || {}).length > 0;
-
-    console.log('CHATVIEW FILE IS RUNNING');
 
     return (
       <Box p="md">
@@ -1361,12 +1330,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     );
   }
 
-  /* ---------- privacy settings ---------- */
-
   const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
   const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
-
-  /* ---------- ads inside thread ---------- */
 
   const showThreadTop = !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
 
@@ -1375,11 +1340,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [showThreadTop, markShown, chatroom?.id]);
 
   const lastOutgoingId = useMemo(() => {
-  const last = [...messages].reverse().find((m) =>
-    isSameUser(getSenderId(m), currentUserId)
-  );
-  return last?.id ?? null;
-}, [messages, currentUserId]);
+    const last = [...messages].reverse().find((m) =>
+      isSameUser(getSenderId(m), currentUserId)
+    );
+    return last?.id ?? null;
+  }, [messages, currentUserId]);
 
   const lastOutgoingSeen = useMemo(() => {
     if (!lastOutgoingId) return false;
@@ -1494,8 +1459,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       cancelled = true;
     };
   }, [chatroom?.id, chatroom?.participants, currentUserId, messages.length]);
-
-  /* ---------- render ---------- */
 
   return (
     <Box
@@ -1663,10 +1626,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     const saved = unwrapMessage(savedRaw);
                     let rowToInsert = saved;
 
-                    const hasCanonicalId = saved?.id != null;
-
-                    console.log('[POST /messages response]', saved);
-
                     const forceMineShape = (base) => ({
                       ...base,
                       mine: true,
@@ -1723,7 +1682,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     rowToInsert = forceMineShape(rowToInsert);
 
                     setMessages((prev) => upsertLocalMessage(prev, rowToInsert));
-
                     scrollToBottomNow();
                   };
 
@@ -1839,16 +1797,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     prevGapMs <= 5 * 60 * 1000;
 
                   const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
-
                   const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
-
-                  console.log('[render row]', {
-                    id: msg.id,
-                    text: msg.rawContent || msg.content || msg.decryptedContent,
-                    senderId: getSenderId(msg),
-                    currentUserId,
-                    mine: msg.mine,
-                  });
 
                   return (
                     <Box key={msg.id ?? `${msg.createdAt}-${idx}`} mt={sameAsPrev ? 4 : 12}>
@@ -1856,9 +1805,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         msg={msg}
                         currentUserId={currentUserId}
                         onRetry={handleRetry}
-                        onEdit={(mm) => handleEditMessage(mm)}
-                        onDeleteMe={(mm) => handleDeleteMessage(mm, 'me')}
-                        onDeleteAll={(mm) => handleDeleteMessage(mm, 'all')}
+                        onEdit={openEditModal}
+                        onDeleteMe={(mm) => openDeleteModal(mm, 'me')}
+                        onDeleteAll={(mm) => openDeleteModal(mm, 'all')}
                         onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
                         onReport={(mm) => openReportModal(mm)}
                         canEdit={canEditMessage(msg)}
@@ -1923,6 +1872,106 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           onClose={() => setGalleryOpen(false)}
           roomId={chatroom.id}
         />
+
+        {/* ✅ Edit modal */}
+        <Modal
+          opened={editOpen}
+          onClose={closeEditModal}
+          title="Edit message"
+          centered
+          radius="xl"
+          padding="md"
+        >
+          <Stack gap="md">
+            {/* Subtitle (matches iOS) */}
+            <Text size="sm" c="dimmed">
+              Update your message
+            </Text>
+
+            {/* Editor card (matches iOS box) */}
+            <Box
+              style={{
+                border: '1px solid var(--border)',
+                borderRadius: 18,
+                background: 'var(--card)',
+              }}
+            >
+              <Textarea
+                value={editText}
+                onChange={(e) => setEditText(e.currentTarget.value)}
+                autosize
+                minRows={6}
+                maxRows={10}
+                placeholder="Edit your message"
+                variant="unstyled"
+                styles={{
+                  input: {
+                    padding: 14,
+                    fontSize: '15px',
+                    lineHeight: 1.5,
+                    color: 'var(--fg)',
+                  },
+                }}
+              />
+            </Box>
+
+            {/* Buttons */}
+            <Group justify="space-between">
+              <Button variant="subtle" color="gray" onClick={closeEditModal}>
+                Cancel
+              </Button>
+
+              <Button
+                onClick={handleEditMessage}
+                loading={editSubmitting}
+                disabled={
+                  !editText.trim() ||
+                  editText.trim() ===
+                    ((editTarget?.rawContent ?? editTarget?.content ?? '').trim())
+                }
+              >
+                Save
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
+
+        {/* ✅ Delete modal */}
+        <Modal
+          opened={deleteOpen}
+          onClose={closeDeleteModal}
+          title={deleteMode === 'all' ? 'Delete for everyone' : 'Delete message'}
+          centered
+          radius="lg"
+        >
+          <Stack>
+            <Text size="sm" c="dimmed">
+              {deleteMode === 'all'
+                ? 'This message will be removed for everyone in the conversation.'
+                : 'This message will be removed from your view.'}
+            </Text>
+
+            {deleteTarget && (
+              <Alert variant="light">
+                <Text size="sm">
+                  {deleteTarget.rawContent ||
+                    deleteTarget.content ||
+                    deleteTarget.decryptedContent ||
+                    '[No text]'}
+                </Text>
+              </Alert>
+            )}
+
+            <Group justify="flex-end">
+              <Button variant="light" onClick={closeDeleteModal}>
+                Cancel
+              </Button>
+              <Button color="red" onClick={handleDeleteMessage} loading={deleteSubmitting}>
+                Delete
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
 
         <ReportModal
           opened={reportOpen}
@@ -2003,7 +2052,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             )}
 
             <Group justify="flex-end">
-              <Button variant="light" onClose={closeReportModal}>
+              <Button variant="light" onClick={closeReportModal}>
                 Cancel
               </Button>
               <Button color="red" onClick={submitReport} loading={reportSubmitting}>

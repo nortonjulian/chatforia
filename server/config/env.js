@@ -95,15 +95,7 @@ export const ENV = {
 
    // eSIM / Connectivity
   FEATURE_ESIM: bool(process.env.FEATURE_ESIM, false),
-  ESIM_PROVIDER: (process.env.ESIM_PROVIDER || 'oneglobal').toLowerCase(),
-
-  // 1GLOBAL-specific env (only used if ESIM_PROVIDER=oneglobal)
-  ONEGLOBAL_API_KEY: process.env.ONEGLOBAL_API_KEY || '',
-  ONEGLOBAL_BASE_URL: process.env.ONEGLOBAL_BASE_URL || '',
-  ONEGLOBAL_WEBHOOK_SECRET: process.env.ONEGLOBAL_WEBHOOK_SECRET || '',
-  ONEGLOBAL_CALLBACK_URL: process.env.ONEGLOBAL_CALLBACK_URL || '',
-  ONEGLOBAL_PARTNER_ID: process.env.ONEGLOBAL_PARTNER_ID || '',
-  ONEGLOBAL_DEFAULT_PLAN_ID: process.env.ONEGLOBAL_DEFAULT_PLAN_ID || '',
+  ESIM_PROVIDER: (process.env.ESIM_PROVIDER || 'telna').toLowerCase(),
 
   // Uploads
   UPLOAD_TARGET: (process.env.UPLOAD_TARGET || 'memory').toLowerCase(),

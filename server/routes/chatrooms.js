@@ -187,6 +187,20 @@ router.post(
       throw Boom.badRequest('Invalid or duplicate user IDs');
     }
 
+    const participantInclude = {
+      participants: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      },
+    };
+
     const existingRoom = await prisma.chatRoom.findFirst({
       where: {
         isGroup: false,
@@ -195,7 +209,7 @@ router.post(
           { participants: { some: { userId: userId2 } } },
         ],
       },
-      include: { participants: true },
+      include: participantInclude,
     });
 
     if (existingRoom) return res.json(existingRoom);
@@ -210,7 +224,7 @@ router.post(
           ],
         },
       },
-      include: { participants: true },
+      include: participantInclude,
     });
 
     return res.status(201).json(newChatRoom);
@@ -225,7 +239,22 @@ router.post(
     if (!Array.isArray(userIds) || userIds.length < 2) {
       throw Boom.badRequest('Provide at least 2 user IDs for a group chat');
     }
+
     const ids = [...new Set(userIds.map(Number))];
+
+    const participantInclude = {
+      participants: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              avatarUrl: true,
+            },
+          },
+        },
+      },
+    };
 
     const existing = await prisma.chatRoom.findFirst({
       where: {
@@ -235,7 +264,7 @@ router.post(
           { participants: { every: { userId: { in: ids } } } },
         ],
       },
-      include: { participants: true },
+      include: participantInclude,
     });
 
     if (existing) return res.json(existing);
@@ -251,7 +280,7 @@ router.post(
           })),
         },
       },
-      include: { participants: true },
+      include: participantInclude,
     });
 
     return res.status(201).json(created);

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScrollArea, Stack, NavLink, Badge, Text, Box, ActionIcon, Menu, Group } from '@mantine/core';
-import { IconDotsVertical, IconTrash } from '@tabler/icons-react';
+import { IconDotsVertical, IconTrash, IconArchive } from '@tabler/icons-react';
 import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
 import socket from '../lib/socket';
@@ -152,20 +152,60 @@ export default function ChatroomList({
   // ✅ Soft-delete / hide for now (until server endpoints exist)
   // - chat: remove from list locally (later: call DELETE /chatrooms/:id or leave/archive)
   // - sms: remove from list locally (later: call DELETE /sms/threads/:id)
-  const handleDeleteThread = (thread) => {
-    if (!thread) return;
+  const removeThreadLocally = (thread) => {
+  const isSelected =
+    selectedRoom?.id === thread.raw?.id || selectedRoom?.threadId === thread.id;
 
-    // if deleting selected, clear selection
-    const isSelected =
-      selectedRoom?.id === thread.raw?.id || selectedRoom?.threadId === thread.id;
-    if (isSelected) onSelect?.(null);
+  if (isSelected) onSelect?.(null);
 
-    if (thread.type === 'chat') {
-      setChatrooms((prev) => prev.filter((r) => String(r.id) !== thread.id));
-      return;
-    }
-    setSmsThreads((prev) => prev.filter((t) => String(t.id) !== thread.id));
-  };
+  if (thread.type === 'chat') {
+    setChatrooms((prev) => prev.filter((r) => String(r.id) !== thread.id));
+    return;
+  }
+
+  setSmsThreads((prev) => prev.filter((t) => String(t.id) !== thread.id));
+};
+
+const handleArchiveThread = async (thread) => {
+  if (!thread) return;
+
+  const prevChatrooms = chatrooms;
+  const prevSmsThreads = smsThreads;
+
+  removeThreadLocally(thread);
+
+  try {
+    const kind = thread.type === 'chat' ? 'chat' : 'sms';
+    await axiosClient.patch(
+      `/conversations/${encodeURIComponent(kind)}/${encodeURIComponent(thread.id)}/archive`,
+      { archived: true }
+    );
+  } catch (e) {
+    console.error('Archive thread failed', e);
+    setChatrooms(prevChatrooms);
+    setSmsThreads(prevSmsThreads);
+  }
+};
+
+const handleDeleteThread = async (thread) => {
+  if (!thread) return;
+
+  const prevChatrooms = chatrooms;
+  const prevSmsThreads = smsThreads;
+
+  removeThreadLocally(thread);
+
+  try {
+    const kind = thread.type === 'chat' ? 'chat' : 'sms';
+    await axiosClient.delete(
+      `/conversations/${encodeURIComponent(kind)}/${encodeURIComponent(thread.id)}`
+    );
+  } catch (e) {
+    console.error('Delete thread failed', e);
+    setChatrooms(prevChatrooms);
+    setSmsThreads(prevSmsThreads);
+  }
+};
 
   if (loading && threads.length === 0) return <ChatListSkeleton />;
 
@@ -239,13 +279,23 @@ export default function ChatroomList({
                             <IconDotsVertical size={16} />
                           </ActionIcon>
                         </Menu.Target>
+
                         <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                          <Menu.Item
+                            leftSection={<IconArchive size={16} />}
+                            onClick={() => handleArchiveThread(thread)}
+                          >
+                            Archive
+                          </Menu.Item>
+
+                          <Menu.Divider />
+
                           <Menu.Item
                             color="red"
                             leftSection={<IconTrash size={16} />}
                             onClick={() => handleDeleteThread(thread)}
                           >
-                            Delete
+                            Delete conversation
                           </Menu.Item>
                         </Menu.Dropdown>
                       </Menu>

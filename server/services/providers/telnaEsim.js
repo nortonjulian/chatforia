@@ -1,4 +1,4 @@
-import { getEsimProviderConfig, ONEGLOBAL } from '../../config/esim.js';
+import { getEsimProviderConfig } from '../../config/esim.js';
 import { telnaRequest } from '../../utils/telnaClient.js';
 
 /**

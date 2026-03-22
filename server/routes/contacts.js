@@ -165,6 +165,113 @@ router.post(
 );
 
 // ------------------------------
+// POST /contacts/import
+// Bulk import external phone contacts
+// ------------------------------
+router.post(
+  '/import',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const ownerId = Number(req.user.id);
+    const rawItems = Array.isArray(req.body?.items) ? req.body.items : [];
+
+    if (!rawItems.length) {
+      return res.status(400).json({ error: 'items array is required' });
+    }
+
+    const normalizedItems = rawItems
+      .map((item) => {
+        const rawPhone = String(item?.externalPhone || item?.phone || '').trim();
+        const normalized =
+          rawPhone.startsWith('+')
+            ? toE164(rawPhone)
+            : toE164(rawPhone, req.region || 'US');
+
+        if (!normalized) return null;
+
+        const externalName =
+          typeof item?.externalName === 'string' && item.externalName.trim()
+            ? item.externalName.trim()
+            : null;
+
+        const alias =
+          typeof item?.alias === 'string' && item.alias.trim()
+            ? item.alias.trim()
+            : undefined;
+
+        const favorite = typeof item?.favorite === 'boolean' ? item.favorite : false;
+
+        return {
+          externalPhone: normalized,
+          externalName,
+          alias,
+          favorite,
+        };
+      })
+      .filter(Boolean);
+
+    if (!normalizedItems.length) {
+      return res.status(400).json({ error: 'No valid contacts to import' });
+    }
+
+    const seen = new Set();
+    const deduped = normalizedItems.filter((item) => {
+      const key = item.externalPhone;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const results = await prisma.$transaction(
+      deduped.map((item) =>
+        prisma.contact.upsert({
+          where: {
+            ownerId_externalPhone: {
+              ownerId,
+              externalPhone: item.externalPhone,
+            },
+          },
+          update: {
+            externalName: item.externalName ?? undefined,
+            alias: item.alias ?? undefined,
+            favorite: typeof item.favorite === 'boolean' ? item.favorite : undefined,
+          },
+          create: {
+            ownerId,
+            externalPhone: item.externalPhone,
+            externalName: item.externalName ?? null,
+            alias: item.alias ?? undefined,
+            favorite: !!item.favorite,
+          },
+          select: {
+            id: true,
+            alias: true,
+            favorite: true,
+            externalPhone: true,
+            externalName: true,
+            createdAt: true,
+            userId: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+                avatarUrl: true,
+              },
+            },
+          },
+        })
+      )
+    );
+
+    return res.status(201).json({
+      ok: true,
+      importedCount: results.length,
+      items: results,
+    });
+  })
+);
+
+// ------------------------------
 // PATCH /contacts  (update by userId or externalPhone)
 // ------------------------------
 router.patch(

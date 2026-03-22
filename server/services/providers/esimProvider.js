@@ -1,4 +1,3 @@
-import * as oneglobal from './oneglobalEsim.js';
 import * as telna from './telnaEsim.js';
 import * as plintron from './plintronEsim.js';
 import { ESIM_PROVIDER, ESIM_ENABLED } from '../../config/esim.js';

@@ -79,32 +79,76 @@ async function assertUserOwnsFromNumber(userId, from) {
 /*                             Thread upsert helper                             */
 /* -------------------------------------------------------------------------- */
 
-async function upsertThread(userId, contactPhone) {
+async function upsertThread(userId, contactPhone, opts = {}) {
   const uid = Number(userId);
+  let { contactId = null } = opts;
+
   const phone = normalizeE164(contactPhone);
   if (!isE164(phone)) throw Boom.badRequest('Invalid destination phone');
 
-  let thread = await prisma.smsThread.findFirst({
-    where: { userId: uid, contactPhone: phone },
-    select: { id: true, contactPhone: true },
-  });
+  const variants = phoneVariants(phone);
+
+  if (!contactId) {
+    contactId = await findMatchingContactId(uid, phone);
+  }
+
+  let thread = null;
+
+  if (contactId) {
+    thread = await prisma.smsThread.findFirst({
+      where: {
+        userId: uid,
+        contactId,
+        deletedAt: null,
+      },
+      select: { id: true, contactPhone: true, contactId: true },
+    });
+  }
+
+  if (!thread) {
+    thread = await prisma.smsThread.findFirst({
+      where: {
+        userId: uid,
+        deletedAt: null,
+        OR: [
+          { contactPhone: { in: variants } },
+          { participants: { some: { phone: { in: variants } } } },
+        ],
+      },
+      select: { id: true, contactPhone: true, contactId: true },
+    });
+  }
 
   if (!thread) {
     thread = await prisma.smsThread.create({
       data: {
         userId: uid,
+        contactId,
         contactPhone: phone,
-        // keep participants in sync so lookup-by-participants also works
         participants: {
           create: [{ phone }],
         },
       },
-      select: { id: true, contactPhone: true },
+      select: { id: true, contactPhone: true, contactId: true },
     });
     return thread;
   }
 
-  // ensure participant exists even for legacy threads
+  const needsUpdate =
+    thread.contactPhone !== phone ||
+    (contactId && thread.contactId !== contactId);
+
+  if (needsUpdate) {
+    thread = await prisma.smsThread.update({
+      where: { id: thread.id },
+      data: {
+        contactPhone: phone,
+        ...(contactId ? { contactId } : {}),
+      },
+      select: { id: true, contactPhone: true, contactId: true },
+    });
+  }
+
   await prisma.smsParticipant.upsert({
     where: { threadId_phone: { threadId: thread.id, phone } },
     update: {},
@@ -112,6 +156,21 @@ async function upsertThread(userId, contactPhone) {
   });
 
   return thread;
+}
+
+async function findMatchingContactId(ownerId, phone) {
+  const variants = phoneVariants(phone);
+  if (!variants.length) return null;
+
+  const contact = await prisma.contact.findFirst({
+    where: {
+      ownerId: Number(ownerId),
+      externalPhone: { in: variants },
+    },
+    select: { id: true },
+  });
+
+  return contact?.id ?? null;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -162,7 +221,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     ? await assertUserOwnsFromNumber(uid, from)
     : (await getUserActiveDid(uid)).e164;
 
-  const thread = await upsertThread(uid, toPhone);
+  const thread = await upsertThread(uid, toPhone, { contactId });
   const clientRef = `smsout:${uid}:${Date.now()}`;
 
   const result = await sendSms({
@@ -211,6 +270,79 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
     messageSid: result?.messageSid || null,
     clientRef: result?.clientRef || null,
   };
+}
+
+export async function getOrCreateThread(userId, phone, opts = {}) {
+  const uid = Number(userId);
+  let { contactId = null } = opts;
+
+  const normalizedPhone = normalizeE164(phone);
+  if (!isE164(normalizedPhone)) throw Boom.badRequest('Invalid destination phone');
+
+  const variants = phoneVariants(normalizedPhone);
+
+  if (!contactId) {
+    contactId = await findMatchingContactId(uid, normalizedPhone);
+  }
+
+  let thread = await prisma.smsThread.findFirst({
+    where: {
+      userId: uid,
+      deletedAt: null,
+      OR: [
+        { contactPhone: { in: variants } },
+        { participants: { some: { phone: { in: variants } } } },
+      ],
+    },
+    select: { id: true, contactPhone: true, contactId: true },
+  });
+
+  if (!thread) {
+    thread = await prisma.smsThread.create({
+      data: {
+        userId: uid,
+        contactId,
+        contactPhone: normalizedPhone,
+        participants: {
+          create: [{ phone: normalizedPhone }],
+        },
+      },
+      select: { id: true, contactPhone: true, contactId: true },
+    });
+
+    return thread;
+  }
+
+  const needsUpdate =
+    thread.contactPhone !== normalizedPhone ||
+    (contactId && thread.contactId !== contactId);
+
+  if (needsUpdate) {
+    thread = await prisma.smsThread.update({
+      where: { id: thread.id },
+      data: {
+        contactPhone: normalizedPhone,
+        ...(contactId ? { contactId } : {}),
+      },
+      select: { id: true, contactPhone: true, contactId: true },
+    });
+  }
+
+  await prisma.smsParticipant.upsert({
+    where: {
+      threadId_phone: {
+        threadId: thread.id,
+        phone: normalizedPhone,
+      },
+    },
+    update: {},
+    create: {
+      threadId: thread.id,
+      phone: normalizedPhone,
+    },
+  });
+
+  return thread;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -288,19 +420,47 @@ export async function listThreads(userId) {
       id: true,
       contactPhone: true,
       updatedAt: true,
+      participants: {
+        select: { phone: true },
+        take: 5,
+      },
     },
     take: 200,
   });
 
+  const dedupedMap = new Map();
+
+  for (const t of threads) {
+    const peerPhone =
+      t.contactPhone ||
+      t.participants?.[0]?.phone ||
+      null;
+
+    const key = peerPhone ? normalizeE164(peerPhone) : `thread-${t.id}`;
+
+    if (!dedupedMap.has(key)) {
+      dedupedMap.set(key, t);
+    }
+  }
+
+  const deduped = Array.from(dedupedMap.values());
+
   const out = await Promise.all(
-    threads.map(async (t) => {
-      const name =
-        (await getContactDisplayNameForPhone(uid, t.contactPhone)) ||
+    deduped.map(async (t) => {
+      const peerPhone =
         t.contactPhone ||
+        t.participants?.[0]?.phone ||
+        '';
+
+      const name =
+        (await getContactDisplayNameForPhone(uid, peerPhone)) ||
+        peerPhone ||
         `SMS #${t.id}`;
 
       return {
-        ...t,
+        id: t.id,
+        contactPhone: peerPhone,
+        updatedAt: t.updatedAt,
         displayName: name,
         contactName: name,
       };
@@ -338,6 +498,19 @@ export async function getThread(userId, threadId) {
     thread.contactPhone ||
     thread.participants?.[0]?.phone ||
     '';
+
+  if (!thread.contactId && peerPhone) {
+    const matchedContactId = await findMatchingContactId(uid, peerPhone);
+
+    if (matchedContactId) {
+      await prisma.smsThread.update({
+        where: { id: thread.id },
+        data: { contactId: matchedContactId },
+      });
+
+      thread.contactId = matchedContactId;
+    }
+  }
 
   const displayName =
     (await getContactDisplayNameForPhone(uid, peerPhone)) ||
