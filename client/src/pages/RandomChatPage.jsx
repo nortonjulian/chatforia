@@ -204,7 +204,7 @@ export default function RandomChatPage() {
         iRequestedFriend: false,
       });
 
-      setMessages([systemMessage('You are now chatting with Ria.')]);
+      setMessages([systemMessage("YOU'RE NOW CHATTING WITH RIA.")]);
     });
 
     socket.on('random:message', (payload) => {
@@ -531,7 +531,7 @@ export default function RandomChatPage() {
                   )
                 ) : (
                   <Text size="sm" c="dimmed">
-                    AI chat is separate from random human matching.
+                    Chat with Ria anytime — separate from random human matching.
                   </Text>
                 )}
               </Stack>

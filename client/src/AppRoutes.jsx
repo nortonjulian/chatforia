@@ -99,8 +99,6 @@ import StatusBadge from '@/components/StatusBadge.jsx';
 
 import i18n from '@/i18n';
 
-// global modal host
-import NewChatModalHost from '@/components/NewChatModalHost.jsx';
 
 // Calls + Video hub
 import Dialer from '@/components/routes/Dialer.jsx';
@@ -343,9 +341,6 @@ function AuthedLayout() {
             {features?.status && (
               <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
             )}
-
-            {/* Mount once for StartChat modal */}
-            <NewChatModalHost currentUserId={currentUser?.id} />
           </AppShell.Main>
       </AppShell>
     </CallProvider>

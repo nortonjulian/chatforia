@@ -90,6 +90,8 @@ import voicemailGreetingRouter from './routes/voicemailGreeting.js';
 import portingRouter from './routes/porting.js';
 import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
 
+import aiRoutes from './routes/ai.js'
+
 // 🔒 auth gates
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 // ✅ enforcement gates
@@ -368,6 +370,7 @@ export function createApp() {
   app.use(['/auth/forgot-password', '/auth/reset-password'], RL(limiterReset));
   app.use('/invites', RL(limiterInvites));
   app.use('/ai', RL(limiterAI));
+  app.use('/ai', aiRoutes);
   app.use('/media', RL(limiterMedia));
   app.use((req, res, next) => {
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {

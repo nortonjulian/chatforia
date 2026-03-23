@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 
 import ChatroomsSidebar from '@/components/ChatroomsSidebar';
-import NewChatModalHost from './NewChatModalHost';
+import StartChatModal from '@/components/StartChatModal';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
 
@@ -54,12 +54,10 @@ function Sidebar({ currentUser, features = {} }) {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-  const handleStartChat = () => {
-    navigate('/');
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('focus-home-to'));
-    }, 0);
-  };
+    const handleStartChat = useCallback(() => {
+    setInitialDraft(null);
+    setShowStartModal(true);
+  }, []);
 
   useEffect(() => {
     const onOpen = (ev) => {
@@ -264,7 +262,41 @@ function Sidebar({ currentUser, features = {} }) {
         </Stack>
       </ScrollArea.Autosize>
 
-      {currentUser && <NewChatModalHost currentUserId={currentUser.id} />}
+      {currentUser && (
+        <StartChatModal
+          opened={showStartModal}
+          onClose={() => {
+            setShowStartModal(false);
+            setInitialDraft(null);
+          }}
+          initialDraft={initialDraft}
+          onStartDirectMessage={(payload) => {
+            setShowStartModal(false);
+
+            navigate('/');
+
+            setTimeout(() => {
+              window.dispatchEvent(
+                new CustomEvent('prefill-home-to', {
+                  detail: payload,
+                })
+              );
+            }, 0);
+          }}
+          onStartGroupChat={() => {
+            setShowStartModal(false);
+            navigate('/groups/new');
+          }}
+          onStartRandomChat={() => {
+            setShowStartModal(false);
+            navigate('/random-chat');
+          }}
+          onStartRiaChat={() => {
+            setShowStartModal(false);
+            navigate('/ria');
+          }}
+        />
+      )}
 
       {/* Settings drawer */}
       <Drawer
