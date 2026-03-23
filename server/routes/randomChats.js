@@ -9,6 +9,9 @@ import {
   enqueue,
   removeFromQueue,
   tryMatch,
+  requestAddFriend,
+  skipRandomChat,
+  handleDisconnect,
 } from '../services/randomChatService.js';
 
 // 🔮 OpenAI (Ria bot brain)
@@ -154,147 +157,136 @@ export function attachRandomChatSockets(io) {
   ioRef = io;
 
   io.on('connection', (socket) => {
-    const u = getSocketUser(socket);
-    if (!u?.id) return;
+  const u = getSocketUser(socket);
+  if (!u?.id) return;
 
-    // 🔍 user wants to find a human match
-    socket.on('find_random_chat', async () => {
-      if (
-        queues.waitingBySocket.has(socket.id) ||
-        queues.activeRoomBySocket.get(socket.id)
-      )
-        return;
+  // 🔍 JOIN RANDOM QUEUE
+  socket.on('random:join', async (payload = {}) => {
+    if (
+      queues.waitingBySocket.has(socket.id) ||
+      queues.activeRoomBySocket.get(socket.id)
+    ) return;
 
-      const entry = {
-        socketId: socket.id,
-        userId: u.id,
-        username: u.username || `user:${u.id}`,
-        ageBand: u.ageBand || null,
-        wantsAgeFilter: !!u.wantsAgeFilter,
-      };
+    const entry = {
+      socketId: socket.id,
+      userId: u.id,
+      username: u.username || `user:${u.id}`,
+      ageBand: u.ageBand || null,
+      wantsAgeFilter: !!u.wantsAgeFilter,
+      topic: payload.topic || null,
+      region: payload.region || null,
+    };
 
-      await tryMatch({
-        queues,
-        prisma,
-        io,
-        currentEntry: entry,
-        getSocketById,
-      });
-    });
-
-    // 💬 sending a message (human or AI room)
-    socket.on('send_message', async (payload) => {
-      if (!payload?.content || !payload?.randomChatRoomId) return;
-
-      const senderId = u.id;
-      const roomId = payload.randomChatRoomId;
-
-      const userMessage = {
-        content: payload.content,
-        senderId,
-        randomChatRoomId: roomId,
-        sender: { id: senderId, username: u.username || `user:${senderId}` },
-        createdAt: new Date().toISOString(),
-      };
-
-      // 🤖 AI room: echo user message to UI, then send Ria reply
-      if (isAiRoom(roomId)) {
-        // show the user's bubble in the UI
-        socket.emit('receive_message', userMessage);
-
-        try {
-          const replyText = await buildRiaReply({
-            user: u,
-            text: payload.content,
-          });
-
-          socket.emit('receive_message', {
-            content: replyText,
-            senderId: 0,
-            randomChatRoomId: roomId,
-            sender: { id: 0, username: 'Ria' },
-            createdAt: new Date().toISOString(),
-          });
-        } catch (err) {
-          // already logged in buildRiaReply; send a soft fallback
-          socket.emit('receive_message', {
-            content:
-              'I had a hiccup replying just now, but I’m still here. Want to try again?',
-            senderId: 0,
-            randomChatRoomId: roomId,
-            sender: { id: 0, username: 'Ria' },
-            createdAt: new Date().toISOString(),
-          });
-        }
-
-        return;
-      }
-
-      // 👥 Human–human random room: broadcast to the shared room
-      io.to(`random:${roomId}`).emit('receive_message', userMessage);
-    });
-
-    // 🚪 user cancels / leaves random chat
-    socket.on('skip_random_chat', () => {
-      // If queued, remove and inform client
-      if (queues.waitingBySocket.has(socket.id)) {
-        removeFromQueue(queues, socket.id);
-        // Let the client localize the status message
-        socket.emit('chat_skipped');
-        return;
-      }
-
-      // If in an active room, notify peer and cleanup
-      const active = queues.activeRoomBySocket.get(socket.id);
-      if (active) {
-        const { roomId, peerSocketId } = active;
-        const peerSocket = getSocketById(peerSocketId);
-        if (peerSocket) {
-          peerSocket.leave(`random:${roomId}`);
-          // Client will show localized "partner disconnected" message
-          peerSocket.emit('partner_disconnected');
-          queues.activeRoomBySocket.delete(peerSocketId);
-        }
-        socket.leave(`random:${roomId}`);
-        queues.activeRoomBySocket.delete(socket.id);
-        // Localized "you left / cancelled" on client
-        socket.emit('chat_skipped');
-      }
-    });
-
-    // 🤖 Start AI-only room
-    socket.on('start_ai_chat', () => {
-      const aiRoom = `random:AI:${socket.id}`;
-      socket.join(aiRoom);
-      socket.emit('pair_found', {
-        roomId: aiRoom,
-        partner: 'Ria',
-        partnerId: 0,
-        isAI: true,
-      });
-
-      // 👇 Ria's intro message is now created client-side via i18n,
-      // so we don't emit a hard-coded English string here.
-    });
-
-    socket.on('disconnect', () => {
-      if (queues.waitingBySocket.has(socket.id)) {
-        removeFromQueue(queues, socket.id);
-      }
-      const active = queues.activeRoomBySocket.get(socket.id);
-      if (active) {
-        const { roomId, peerSocketId } = active;
-        const peerSocket = getSocketById(peerSocketId);
-        if (peerSocket) {
-          peerSocket.leave(`random:${roomId}`);
-          // Again, client will localize the message
-          peerSocket.emit('partner_disconnected');
-          queues.activeRoomBySocket.delete(peerSocketId);
-        }
-        queues.activeRoomBySocket.delete(socket.id);
-      }
+    await tryMatch({
+      queues,
+      prisma,
+      io,
+      currentEntry: entry,
+      getSocketById,
     });
   });
+
+  // 🚪 LEAVE QUEUE
+  socket.on('random:leave', () => {
+    removeFromQueue(queues, socket.id);
+  });
+
+  // 💬 MESSAGE
+  socket.on('random:message', async (payload) => {
+    if (!payload?.content || !payload?.roomId) return;
+
+    const senderId = u.id;
+    const roomId = payload.roomId;
+
+    const message = {
+      content: payload.content,
+      senderId,
+      randomChatRoomId: roomId,
+      sender: { id: senderId, username: u.username },
+      createdAt: new Date().toISOString(),
+    };
+
+    if (isAiRoom(roomId)) {
+      socket.emit('random:message', message);
+
+      const reply = await buildRiaReply({
+        user: u,
+        text: payload.content,
+      });
+
+      socket.emit('random:message', {
+        content: reply,
+        senderId: 0,
+        randomChatRoomId: roomId,
+        sender: { id: 0, username: 'Ria' },
+        createdAt: new Date().toISOString(),
+      });
+
+      return;
+    }
+
+    io.to(`random:${roomId}`).emit('random:message', message);
+  });
+
+  // 🤝 ADD FRIEND
+  socket.on('random:add_friend', async ({ roomId }) => {
+    const result = await requestAddFriend({
+      queues,
+      io,
+      prisma,
+      roomId,
+      userId: u.id,
+    });
+
+    // handled internally (emit inside service)
+  });
+
+  // ⏭ SKIP
+  socket.on('random:skip', () => {
+    const result = skipRandomChat({
+      queues,
+      io,
+      socketId: socket.id,
+    });
+
+    if (result?.roomId) {
+      socket.emit('random:ended', {
+        roomId: result.roomId,
+        reason: 'you_skipped',
+      });
+    }
+  });
+
+  // 🤖 START RIA
+  socket.on('random:ai_start', () => {
+    const aiRoom = `random:AI:${socket.id}`;
+    socket.join(aiRoom);
+
+    socket.emit('random:ai_started', {
+      roomId: aiRoom,
+      name: 'Ria',
+    });
+  });
+
+  // 🔌 DISCONNECT
+  socket.on('disconnect', () => {
+    const result = handleDisconnect({
+      queues,
+      io,
+      socketId: socket.id,
+    });
+
+    if (result?.roomId) {
+      const peerSocket = getSocketById(result.peerSocketId);
+      if (peerSocket) {
+        peerSocket.emit('random:ended', {
+          roomId: result.roomId,
+          reason: 'peer_disconnected',
+        });
+      }
+    }
+  });
+});
 }
 
 /** ==== REST routes (mostly unchanged) ================================================= */

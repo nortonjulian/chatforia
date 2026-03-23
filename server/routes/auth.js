@@ -1098,7 +1098,7 @@ router.get(
           provider: true,
           status: true,
           iccid: true,
-          esimProfileId: true,
+          providerProfileId: true,
           msisdn: true,
           providerMeta: true,
           createdAt: true,

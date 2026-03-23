@@ -1397,7 +1397,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 onChange={(e) => setForiaRemember(e.currentTarget.checked)}
                 label={t(
                   'profile.foriaRemember',
-                  'Let Foria remember things you tell it'
+                  'Let Ria remember things you tell it'
                 )}
                 description={t(
                   'profile.foriaRememberDesc',
