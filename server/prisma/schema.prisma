@@ -113,13 +113,13 @@ enum CallMode {
 }
 
 enum CallStatus {
-  INITIATED
-  RINGING
-  ANSWERED
-  REJECTED
-  MISSED
-  CANCELLED
-  ENDED
+  INITIATED   
+  RINGING     
+  ACTIVE      
+  DECLINED    
+  MISSED      
+  FAILED     
+  ENDED       
 }
 
 enum NumberStatus {
@@ -1186,21 +1186,26 @@ model ForiaMessage {
 // ===================== 10) Telecom: Calls / Numbers / Voicemail / Porting =====================
 
 model Call {
-  id       Int        @id @default(autoincrement())
-  roomId   Int?
-  callerId Int
-  calleeId Int
-  mode     CallMode
-  status   CallStatus @default(RINGING)
+  id               Int        @id @default(autoincrement())
+  roomId           Int?
+  callerId         Int
+  calleeId         Int
+  mode             CallMode
+  status           CallStatus @default(RINGING)
 
-  offerSdp  String?
-  answerSdp String?
-  createdAt DateTime  @default(now())
-  startedAt DateTime?
-  endedAt   DateTime?
+  offerSdp         String?
+  answerSdp        String?
+  createdAt        DateTime  @default(now())
+  startedAt        DateTime?
+  endedAt          DateTime?
+  twilioCallSid    String? @unique
+  durationSec      Int?
+  endReason        String? 
+  fromLabel        String?
+  toLabel          String?
 
-  caller User @relation("CallCaller", fields: [callerId], references: [id])
-  callee User @relation("CallCallee", fields: [calleeId], references: [id])
+  caller           User @relation("CallCaller", fields: [callerId], references: [id])
+  callee           User @relation("CallCallee", fields: [calleeId], references: [id])
 
   @@index([callerId])
   @@index([calleeId])
