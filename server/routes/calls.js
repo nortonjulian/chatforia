@@ -266,17 +266,36 @@ router.get('/history', asyncHandler(async (req, res) => {
     },
     include: {
       caller: {
-        select: { id: true, username: true, name: true, avatarUrl: true },
+        select: { id: true, username: true, displayName: true, avatarUrl: true },
       },
       callee: {
-        select: { id: true, username: true, name: true, avatarUrl: true },
+        select: { id: true, username: true, displayName: true, avatarUrl: true },
+      },
+      voicemails: {
+        where: {
+          deleted: false,
+        },
+        select: {
+          id: true,
+          createdAt: true,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 1,
       },
     },
     orderBy: { createdAt: 'desc' },
     take: 100,
   });
 
-  res.json({ items });
+  const enriched = items.map((call) => ({
+    ...call,
+    hasVoicemail: call.voicemails.length > 0,
+    voicemailId: call.voicemails[0]?.id ?? null,
+  }));
+
+  res.json({ items: enriched });
 }));
 
 export default router;

@@ -202,6 +202,7 @@ enum VoicemailTranscriptStatus {
 
 model User {
   id                   Int     @id @default(autoincrement())
+  displayName          String?
   username             String  @unique
   email                String? @unique
   passwordHash         String
@@ -320,6 +321,9 @@ model User {
 
   mobileDataPackPurchases MobileDataPackPurchase[]
 
+  peopleInvitesCreated      PeopleInvite[]       @relation("PeopleInvitesCreated")
+  peopleInvitesAcceptedBy   PeopleInvite[]       @relation("PeopleInviteAcceptedBy")
+
   portRequests PortRequest[]
 
   // Usage/analytics
@@ -436,6 +440,14 @@ model Device {
   platform  String?
   isPrimary Boolean @default(false)
 
+  wrappedAccountKey     String?
+  wrappedAccountKeyAlgo String?
+  wrappedAccountKeyVer  Int?
+  pairingStatus         String?   // "pending" | "approved" | "rejected"
+  pairingRequestedAt    DateTime?
+  pairingApprovedAt     DateTime?
+  pairingRejectedAt     DateTime?
+
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   lastSeenAt DateTime?
@@ -449,6 +461,7 @@ model Device {
   @@unique([userId, deviceId])
   @@index([userId])
   @@index([userId, revokedAt])
+  @@index([userId, pairingStatus])
 }
 
 // ===================== 3) Config & Localization =====================
@@ -640,6 +653,28 @@ model Participant {
   @@unique([chatRoomId, userId])
   @@index([chatRoomId], map: "part_room")
   @@index([userId, clearedAt], map: "part_user_cleared") // optional but helpful
+}
+
+model PeopleInvite {
+  id               Int       @id @default(autoincrement())
+  code             String    @unique
+  inviterUserId    Int
+  inviterUser      User      @relation("PeopleInvitesCreated", fields: [inviterUserId], references: [id], onDelete: Cascade)
+
+  targetPhone      String?
+  targetEmail      String?
+  channel          String    @default("share_link") // share_link | sms | email
+  status           String    @default("pending")    // pending | accepted | expired | revoked
+  acceptedByUserId Int?
+  acceptedByUser   User?     @relation("PeopleInviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  expiresAt        DateTime?
+
+  @@index([inviterUserId])
+  @@index([targetPhone])
+  @@index([acceptedByUserId])
 }
 
 model ChatRoomInvite {
@@ -1200,12 +1235,14 @@ model Call {
   endedAt          DateTime?
   twilioCallSid    String? @unique
   durationSec      Int?
-  endReason        String? 
+  endReason        String?
   fromLabel        String?
   toLabel          String?
 
   caller           User @relation("CallCaller", fields: [callerId], references: [id])
   callee           User @relation("CallCallee", fields: [calleeId], references: [id])
+
+  voicemails       Voicemail[]
 
   @@index([callerId])
   @@index([calleeId])
@@ -1441,6 +1478,9 @@ model Voicemail {
   isRead    Boolean   @default(false)
   deleted   Boolean   @default(false)
   deletedAt DateTime?
+
+  relatedCallId Int?
+  relatedCall   Call? @relation(fields: [relatedCallId], references: [id])
 
   createdAt          DateTime  @default(now())
   forwardedToEmailAt DateTime?

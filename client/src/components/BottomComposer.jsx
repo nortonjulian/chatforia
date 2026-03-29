@@ -41,10 +41,41 @@ export default function BottomComposer({
   const uploadTriggerRef = useRef(null);
   const openUploader = () => uploadTriggerRef.current?.click?.();
 
-  const handleSend = async (payload) => {
-    if (disabled) return;
-    await onSend?.(payload);
-  };
+  const [pendingAttachment, setPendingAttachment] = useState(null);
+  const [isPreviewHovered, setIsPreviewHovered] = useState(false);
+
+  const handleSend = async (payloadOrEvent) => {
+  if (disabled) return;
+
+  // Ignore click/submit events
+  const isEvent =
+    payloadOrEvent &&
+    (typeof payloadOrEvent.preventDefault === 'function' ||
+      typeof payloadOrEvent.stopPropagation === 'function');
+
+  if (isEvent) {
+    payloadOrEvent.preventDefault?.();
+  }
+
+  const outgoing = !isEvent && payloadOrEvent
+    ? payloadOrEvent
+    : {
+        text: value || '',
+        attachments: pendingAttachment ? [pendingAttachment] : [],
+      };
+
+  const hasText = !!String(outgoing.text || '').trim();
+  const hasAttachments =
+    Array.isArray(outgoing.attachments) && outgoing.attachments.length > 0;
+
+  if (!hasText && !hasAttachments) return;
+
+  console.log('BottomComposer handleSend payload:', outgoing);
+  await onSend?.(outgoing);
+
+  setPendingAttachment(null);
+  onChange?.('');
+};
 
   const wrapperStyle =
     mode === 'fixed'
@@ -66,161 +97,234 @@ export default function BottomComposer({
     <>
       <div style={wrapperStyle}>
         <Card
-          withBorder
-          radius="md"
-          p="xs"
-          style={{
-            pointerEvents: 'auto',
-            width: '100%',
-            margin: 0,
-            background: 'var(--mantine-color-body)',
-          }}
-        >
-          {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
-          <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
-            {showGif && (
-              <Button
-                variant="filled"
-                radius="xl"
-                size="compact-md"
-                styles={{
-                    label: { color: 'var(--cta-on)', textShadow: 'var(--cta-on-shadow)' },
+            withBorder
+            radius="md"
+            p="xs"
+            style={{
+              pointerEvents: 'auto',
+              width: '100%',
+              margin: 0,
+              background: 'var(--mantine-color-body)',
+            }}
+          >
+            {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
+
+            {pendingAttachment && (
+              <div
+                style={{
+                  marginBottom: 8,
+                  position: 'relative',
+                  display: 'block',
+                  width: 96,
+                  overflow: 'visible',
                 }}
-                aria-label={t('composer.gifPicker', 'Open GIF picker')}
-                onClick={() => {
-                  setPickerTab(TAB_GIFS);
-                  setPickerOpen(true);
-                }}
+                onMouseEnter={() => setIsPreviewHovered(true)}
+                onMouseLeave={() => setIsPreviewHovered(false)}
               >
-                GIF
-              </Button>
-            )}
-
-            {showEmoji && (
-              <ActionIcon
-                variant="default"
-                size="lg"
-                radius="md"
-                aria-label={t('composer.emoji', 'Emoji')}
-                onClick={() => {
-                  setPickerTab(TAB_EMOJI);
-                  setPickerOpen(true);
-                }}
-                title={t('composer.emoji', 'Emoji')}
-              >
-                <Smile size={18} />
-              </ActionIcon>
-            )}
-
-            {showMic && (
-              <MicButton
-                onUploaded={(fileMeta) => {
-                  // treat mic uploads like an attachment; parent decides how to send
-                  handleSend({ attachments: [fileMeta] });
-                }}
-                variant="default"
-                size="lg"
-                radius="md"
-                tooltip={t('composer.voiceNote', 'Record a voice note')}
-              />
-            )}
-
-            {showUpload && (
-                <FileUploader
-                    button={
-                    <ActionIcon
-                        variant="default"
-                        size="lg"
-                        radius="md"
-                        aria-label={t('composer.upload', 'Upload')}
-                        title={t('composer.upload', 'Photo / video')}
-                        disabled={disabled}
-                    >
-                        <ImageIcon size={18} />
-                    </ActionIcon>
-                    }
-                    onUploaded={(fileMeta) => handleSend({ attachments: [fileMeta] })}
-                    onError={() => {}}
+                <img
+                  src={pendingAttachment.previewUrl || pendingAttachment.url}
+                  alt="Selected GIF"
+                  style={{
+                    width: 96,
+                    borderRadius: 12,
+                    display: 'block',
+                  }}
                 />
+
+                {isPreviewHovered && (
+                  <button
+                    type="button"
+                    aria-label="Remove selected GIF"
+                    onClick={() => setPendingAttachment(null)}
+                    style={{
+                      position: 'absolute',
+                      top: 6,
+                      right: 6,
+                      width: 22,
+                      height: 22,
+                      borderRadius: '50%',
+                      border: 'none',
+                      cursor: 'pointer',
+                      background: 'rgba(0, 0, 0, 0.6)',
+                      color: 'white',
+                      fontSize: 14,
+                      lineHeight: '22px',
+                      textAlign: 'center',
+                      zIndex: 10,
+                    }}
+                  >
+                    ×
+                  </button>
                 )}
+              </div>
+            )}
 
-            <Textarea
-              placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
-              aria-label={t('composer.aria', 'Message composer')}
-              value={value}
-              onChange={(e) => onChange?.(e.currentTarget.value)}
-              variant="filled"
-              radius="md"
-              autosize
-              minRows={2}
-              maxRows={6}
-              styles={{
-                root: { flex: 1, minWidth: 0 },
-                input: {
-                  overflowX: 'hidden',
-                  whiteSpace: 'pre-wrap',
-                  overflowWrap: 'anywhere',
-                  wordBreak: 'break-word',
-                  lineHeight: 1.45,
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  resize: 'none',
-                },
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSend();
-                }
-              }}
-              disabled={disabled}
-            />
+            <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
+              {showGif && (
+                <Button
+                  variant="filled"
+                  radius="xl"
+                  size="compact-md"
+                  styles={{
+                    label: { color: 'var(--cta-on)', textShadow: 'var(--cta-on-shadow)' },
+                  }}
+                  aria-label={t('composer.gifPicker', 'Open GIF picker')}
+                  onClick={() => {
+                    setPickerTab(TAB_GIFS);
+                    setPickerOpen(true);
+                  }}
+                >
+                  GIF
+                </Button>
+              )}
 
-            <Tooltip
-              label={
-                value?.trim()
-                  ? t('composer.send', 'Send')
-                  : t('composer.sendDisabled', 'Type a message to send')
-              }
-              openDelay={400}
-            >
-              <ActionIcon
-                size="lg"
-                radius="xl"
+              {showEmoji && (
+                <ActionIcon
+                  variant="default"
+                  size="lg"
+                  radius="md"
+                  aria-label={t('composer.emoji', 'Emoji')}
+                  onClick={() => {
+                    setPickerTab(TAB_EMOJI);
+                    setPickerOpen(true);
+                  }}
+                  title={t('composer.emoji', 'Emoji')}
+                >
+                  <Smile size={18} />
+                </ActionIcon>
+              )}
+
+              {showMic && (
+                <MicButton
+                  onUploaded={(fileMeta) => {
+                    handleSend({ attachments: [fileMeta] });
+                  }}
+                  variant="default"
+                  size="lg"
+                  radius="md"
+                  tooltip={t('composer.voiceNote', 'Record a voice note')}
+                />
+              )}
+
+              {showUpload && (
+                <FileUploader
+                  button={
+                    <ActionIcon
+                      variant="default"
+                      size="lg"
+                      radius="md"
+                      aria-label={t('composer.upload', 'Upload')}
+                      title={t('composer.upload', 'Photo / video')}
+                      disabled={disabled}
+                    >
+                      <ImageIcon size={18} />
+                    </ActionIcon>
+                  }
+                  onUploaded={(fileMeta) => handleSend({ attachments: [fileMeta] })}
+                  onError={() => {}}
+                />
+              )}
+
+              <Textarea
+                placeholder={placeholder ?? t('composer.placeholder', 'Type a message…')}
+                aria-label={t('composer.aria', 'Message composer')}
+                value={value}
+                onChange={(e) => onChange?.(e.currentTarget.value)}
                 variant="filled"
-                aria-label={t('composer.send', 'Send')}
-                onClick={handleSend}
-                disabled={disabled || !value?.trim()}
+                radius="md"
+                autosize
+                minRows={2}
+                maxRows={6}
+                styles={{
+                  root: { flex: 1, minWidth: 0 },
+                  input: {
+                    overflowX: 'hidden',
+                    whiteSpace: 'pre-wrap',
+                    overflowWrap: 'anywhere',
+                    wordBreak: 'break-word',
+                    lineHeight: 1.45,
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    resize: 'none',
+                  },
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                disabled={disabled}
+              />
+
+              <Tooltip
+                label={
+                  value?.trim()
+                    ? t('composer.send', 'Send')
+                    : t('composer.sendDisabled', 'Type a message to send')
+                }
+                openDelay={400}
               >
-                <Send size={16} />
-              </ActionIcon>
-            </Tooltip>
+                <ActionIcon
+                  size="lg"
+                  radius="xl"
+                  variant="filled"
+                  aria-label={t('composer.send', 'Send')}
+                  onClick={handleSend}
+                  disabled={disabled || (!value?.trim() && !pendingAttachment)}
+                >
+                  <Send size={16} />
+                </ActionIcon>
+              </Tooltip>
 
-            <input
-              ref={fileRef}
-              type="file"
-              multiple
-              accept="image/*,video/*,audio/*,application/pdf,.doc,.docx,.xls,.xlsx,.zip"
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const files = Array.from(e.target.files || []);
-                e.target.value = '';
+              <input
+                ref={fileRef}
+                type="file"
+                multiple
+                accept="image/*,video/*,audio/*,application/pdf,.doc,.docx,.xls,.xlsx,.zip"
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  e.target.value = '';
 
-                if (!files.length) return;
-                if (onUploadFiles) return onUploadFiles(files);
+                  if (!files.length) return;
+                  if (onUploadFiles) return onUploadFiles(files);
 
-                // fallback: let parent handle it however it wants
-                handleSend({ files });
-              }}
-            />
-          </Group>
-        </Card>
+                  handleSend({ files });
+                }}
+              />
+            </Group>
+          </Card>
       </div>
         
       <StickerPicker
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
-        onPick={() => setPickerOpen(false)}
+        onPick={(pick) => {
+          if (!pick) {
+            setPickerOpen(false);
+            return;
+          }
+
+          if (pick.native) {
+            const next = `${value || ''}${pick.native}`;
+            onChange?.(next);
+            setPickerOpen(false);
+            return;
+          }
+
+          setPendingAttachment({
+            kind: 'IMAGE',
+            url: pick.url,
+            mimeType: pick.mimeType || 'image/gif',
+            width: pick.width || null,
+            height: pick.height || null,
+            durationSec: pick.durationSec || null,
+            previewUrl: pick.previewUrl || null,
+          });
+
+          setPickerOpen(false);
+        }}
         initialTab={pickerTab}
       />
     </>

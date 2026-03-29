@@ -4,6 +4,7 @@ import ThemePicker from '@/features/settings/ThemePicker';
 import PrivacyToggles from '@/features/settings/PrivacyToggles';
 import AgeSettings from '@/features/settings/AgeSettings';
 import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
+import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 import { useTranslation } from 'react-i18next';
 
 export default function SettingsPage() {
@@ -38,6 +39,15 @@ export default function SettingsPage() {
       {/* Call & Text Forwarding */}
       <Title order={3}>{t('profile.forwarding', 'Call & Text Forwarding')}</Title>
       <ForwardingSettings />
+
+      <Divider />
+
+      {/* Encryption */}
+      <Title order={3}>Encryption</Title>
+      <EncryptionRecoveryCard
+        title="Encryption"
+        description="Back up, restore, or reset your encryption key for this device."
+      />
     </Stack>
   );
 }

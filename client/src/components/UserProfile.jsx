@@ -893,13 +893,13 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Panel>
             <PhoneNumberManager />
         
-            {/* NEW: hint text about porting */}
-            <Text size="sm" c="dimmed" mt="sm">
+            {/* Porting temporarily hidden until full carrier support is live */}
+            {/* <Text size="sm" c="dimmed" mt="sm">
               {t(
                 'profile.portHint',
                 'Want to keep your current number? You can port it into Chatforia Wireless.'
               )}
-            </Text>
+            </Text> */}
 
             <Card withBorder radius="lg" p="md" mt="md">
               <Text fw={600}>
@@ -942,14 +942,14 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 {t('profile.wireless.manage', 'Manage wireless')}
               </Button>
 
-              <Button
+              {/* <Button
                 variant="outline"
                 size="xs"
                 onClick={() => navigate('/wireless/manage', { state: { scrollTo: 'port-number' } })
                 }
               >
                 {t('profile.wireless.portCta', 'Port my number')}
-              </Button>
+              </Button> */}
             </Group>
           </Accordion.Panel>
         </Accordion.Item>
@@ -1157,38 +1157,37 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             {t('profile.backupSync', 'Backup & Sync')}
           </Accordion.Control>
           <Accordion.Panel>
-            <PremiumGuard>
-              <Card withBorder radius="lg" p="md">
-                <Group justify="space-between" align="center">
-                  <Group>
-                    <IconCloudUpload size={20} />
-                    <Text fw={600}>
-                      {t(
-                        'profile.encryptedBackupsTitle',
-                        'Encrypted Backups & Device Sync'
-                      )}
-                    </Text>
-                  </Group>
-                  <Button
-                    variant="light"
-                    component="a"
-                    href="/settings/backups"
-                    aria-label={t(
-                      'profile.openBackupTools',
-                      'Open Backup Tools'
+            <Card withBorder radius="lg" p="md">
+              <Group justify="space-between" align="center">
+                <Group>
+                  <IconCloudUpload size={20} />
+                  <Text fw={600}>
+                    {t(
+                      'profile.encryptedBackupsTitle',
+                      'Encryption Key Backup'
                     )}
-                  >
-                    {t('profile.openBackupTools', 'Open Backup Tools')}
-                  </Button>
+                  </Text>
                 </Group>
-                <Text size="sm" c="dimmed" mt="xs">
-                  {t(
-                    'profile.backupDesc',
-                    'Create password-protected backups of your keys, and restore on another device to sync.'
+                <Button
+                  variant="light"
+                  component="a"
+                  href="/settings/backups"
+                  aria-label={t(
+                    'profile.openBackupTools',
+                    'Back Up or Restore'
                   )}
-                </Text>
-              </Card>
-            </PremiumGuard>
+                >
+                  {t('profile.openBackupTools', 'Back Up or Restore')}
+                </Button>
+              </Group>
+
+              <Text size="sm" c="dimmed" mt="xs">
+                {t(
+                  'profile.backupDesc',
+                  'Back up your encryption key to securely restore your messages on another device.'
+                )}
+              </Text>
+            </Card>
           </Accordion.Panel>
         </Accordion.Item>
 

@@ -10,9 +10,13 @@ import {
 import dayjs from 'dayjs';
 
 function normalizeAttachments(msg) {
-  const a = Array.isArray(msg?.attachments) ? msg.attachments : [];
-  const b = Array.isArray(msg?.attachmentsInline) ? msg.attachmentsInline : [];
-  return [...a, ...b].filter(Boolean);
+  const attachments = Array.isArray(msg?.attachments) ? msg.attachments.filter(Boolean) : [];
+  if (attachments.length > 0) return attachments;
+
+  const inline = Array.isArray(msg?.attachmentsInline)
+    ? msg.attachmentsInline.filter(Boolean)
+    : [];
+  return inline;
 }
 
 function isImage(mime, url) {
@@ -90,6 +94,8 @@ export default function MessageBubble({
       };
 
   const hasDeleteMe = typeof onDeleteMe === 'function';
+
+  const hasText = !!displayText?.trim();
 
   const hasAddToCalendar =
   typeof onAddToCalendar === 'function' &&
@@ -230,39 +236,41 @@ export default function MessageBubble({
             maxWidth: '100%',
           }}
         >
-          <Tooltip label={ts} withinPortal>
-            <Text
-              role="text"
-              aria-label={`Message sent ${ts}`}
-              px="md"
-              py={8}
-              style={{
-                ...bubbleStyle,
-                position: 'relative',
-                zIndex: 2,
-                borderRadius: 18,
-                borderBottomRightRadius: mine && showTail ? 8 : 18,
-                borderBottomLeftRadius: !mine && showTail ? 8 : 18,
-                wordBreak: 'break-word',
-                whiteSpace: 'pre-wrap',
-                overflowWrap: 'anywhere',
-                opacity: isTombstone ? 0.75 : 1,
-                fontStyle: isTombstone ? 'italic' : 'normal',
-                display: 'block',
-                width: 'fit-content',
-                maxWidth: '100%',
-              }}
-            >
-              {displayText}
-              {Boolean(msg.editedAt) && !isTombstone ? (
-                <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
-                  (edited)
-                </Text>
-              ) : null}
-            </Text>
-          </Tooltip>
+          {hasText && (
+            <Tooltip label={ts} withinPortal>
+              <Text
+                role="text"
+                aria-label={`Message sent ${ts}`}
+                px="md"
+                py={8}
+                style={{
+                  ...bubbleStyle,
+                  position: 'relative',
+                  zIndex: 2,
+                  borderRadius: 18,
+                  borderBottomRightRadius: mine && showTail ? 8 : 18,
+                  borderBottomLeftRadius: !mine && showTail ? 8 : 18,
+                  wordBreak: 'break-word',
+                  whiteSpace: 'pre-wrap',
+                  overflowWrap: 'anywhere',
+                  opacity: isTombstone ? 0.75 : 1,
+                  fontStyle: isTombstone ? 'italic' : 'normal',
+                  display: 'block',
+                  width: 'fit-content',
+                  maxWidth: '100%',
+                }}
+              >
+                {displayText}
+                {Boolean(msg.editedAt) && !isTombstone ? (
+                  <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                    (edited)
+                  </Text>
+                ) : null}
+              </Text>
+            </Tooltip>
+          )}
 
-          {showTail && !isTombstone && (
+          {showTail && !isTombstone && hasText && (
             <Box
               aria-hidden="true"
               style={{
@@ -282,9 +290,10 @@ export default function MessageBubble({
         </Box>
 
         {!isTombstone && attachments.length > 0 ? (
-          <Box mt={8} style={{ width: '100%' }}>
+          <Box mt={hasText ? 8 : 2} style={{ width: '100%' }}>
             <Group gap="xs" wrap="wrap" justify={mine ? 'flex-end' : 'flex-start'}>
               {attachments.map((a, i) => {
+                console.log('bubble attachment', a);
                 const url = a?.url;
                 const mime = a?.mimeType;
 
@@ -315,7 +324,11 @@ export default function MessageBubble({
                 }
 
                 if (isImage(mime, url)) {
-                  const imgSrc = a.thumbUrl || a.thumbnailUrl || url;
+                  const isGif = mime === 'image/gif';
+
+                  const imgSrc = isGif
+                    ? url // 🔥 always use full GIF
+                    : (a.thumbUrl || a.thumbnailUrl || url);
                   return (
                     <a
                       key={a.id ?? `${url}-${i}`}

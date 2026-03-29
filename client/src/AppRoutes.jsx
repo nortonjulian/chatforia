@@ -34,8 +34,11 @@ import ResetPassword from '@/components/ResetPassword';
 import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 import ChatThreadRoute from './pages/ChatThreadRoute';
+import PairBrowserPage from '@/pages/PairBrowserPage.jsx';
 
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
+
+import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 
 // ✅ NEW: Wireless dashboard
 import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
@@ -91,11 +94,7 @@ import { AdProvider } from '@/ads/AdProvider';
 import { CardAdWrap } from '@/ads/AdWrappers';
 import HouseAdSlot from '@/ads/HouseAdSlot';
 
-import NewStatusModal from '@/pages/NewStatusModal.jsx';
 import LogoGlyph from '@/components/LogoGlyph.jsx';
-
-import StatusFeed from '@/pages/StatusFeed.jsx';
-import StatusBadge from '@/components/StatusBadge.jsx';
 
 import i18n from '@/i18n';
 
@@ -117,8 +116,6 @@ function AuthedLayout() {
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
-  const [showNewStatus, setShowNewStatus] = useState(false);
-  const [hideStatusFab, setHideStatusFab] = useState(false);
   const location = useLocation();
 
   // Theme-safe CTA label style (fixes Log Out text on gradient themes)
@@ -142,25 +139,6 @@ function AuthedLayout() {
     }
   }, [currentUser?.preferredLanguage]);
 
-  // Hide floating status pill when focusing inputs
-  useEffect(() => {
-    const onFocusIn = (e) => {
-      const el = e.target;
-      if (!el) return;
-      const tag = String(el.tagName || '').toLowerCase();
-      if (tag === 'input' || tag === 'textarea' || el.getAttribute('role') === 'textbox') {
-        setHideStatusFab(true);
-      }
-    };
-    const onFocusOut = () => setHideStatusFab(false);
-    window.addEventListener('focusin', onFocusIn);
-    window.addEventListener('focusout', onFocusOut);
-    return () => {
-      window.removeEventListener('focusin', onFocusIn);
-      window.removeEventListener('focusout', onFocusOut);
-    };
-  }, []);
-
   const handleLogout = async () => {
     await logout();
   };
@@ -177,10 +155,6 @@ function AuthedLayout() {
 
   const me = currentUser || {};
 
-  const showStatusPill =
-    Boolean(features?.status) &&
-    location.pathname === '/' &&
-    !hideStatusFab;
 
   return (
     <CallProvider me={me}>
@@ -243,32 +217,6 @@ function AuthedLayout() {
                 </Group>
               </Anchor>
             </Group>
-
-            {/* MIDDLE: New Status + StatusBadge */}
-            {showStatusPill && (
-              <div
-                style={{
-                  position: 'absolute',
-                  left: NAV_W + 16,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  zIndex: 1,
-                  pointerEvents: 'auto',
-                }}
-              >
-                <Group gap="xs" align="center">
-                  <Button
-                    size="xs"
-                    variant="light"
-                    onClick={() => setShowNewStatus(true)}
-                    aria-label={t('topbar.createStatusAria', 'Create new Status')}
-                  >
-                    {t('topbar.newStatus', 'New Status')}
-                  </Button>
-                  {features?.status && <StatusBadge />}
-                </Group>
-              </div>
-            )}
 
             {/* RIGHT: Log Out */}
             <Group
@@ -337,10 +285,6 @@ function AuthedLayout() {
 
               <SupportWidget excludeRoutes={['/sms', '/admin']} />
             </AdProvider>
-
-            {features?.status && (
-              <NewStatusModal opened={showNewStatus} onClose={() => setShowNewStatus(false)} />
-            )}
           </AppShell.Main>
       </AppShell>
     </CallProvider>
@@ -348,7 +292,7 @@ function AuthedLayout() {
 }
 
 export default function AppRoutes() {
-  const { currentUser, authLoading } = useUser();
+ const { currentUser, authLoading, needsKeyUnlock, pairingPending } = useUser();
 
   useEffect(() => {
     primeCsrf().catch(() => {});
@@ -356,6 +300,31 @@ export default function AppRoutes() {
 
   if (authLoading) {
     return null;
+  }
+
+  if (currentUser && pairingPending) {
+    return <Navigate to="/pair-browser" replace />;
+  }
+
+  if (currentUser && needsKeyUnlock) {
+    return (
+      <div
+        style={{
+          minHeight: '100dvh',
+          display: 'grid',
+          placeItems: 'center',
+          padding: 24,
+        }}
+      >
+        <div style={{ width: '100%', maxWidth: 640 }}>
+          <EncryptionRecoveryCard
+            blocked
+            title="Restore or unlock your encryption key"
+            description="This browser is missing or using the wrong encryption key for your Chatforia account."
+          />
+        </div>
+      </div>
+    );
   }
 
   if (!currentUser) {
@@ -417,12 +386,12 @@ export default function AppRoutes() {
       <Route path="/legal/consent" element={<SmsConsentPage />} />
 
       <Route path="/" element={<AuthedLayout />}>
+        <Route path="/pair-browser" element={<PairBrowserPage />} />
         <Route index element={<HomeIndex />} />
-        <Route path="status" element={<StatusFeed />} />
         <Route path="random" element={<RandomChatPage />} />
         <Route path="people" element={<PeoplePage />} />
         <Route path="settings" element={<SettingsPage />} />
-
+        
         <Route
           path="settings/backups"
           element={

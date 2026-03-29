@@ -40,6 +40,7 @@ export default function ReportModal({
           label="Reason"
           value={reason}
           onChange={(value) => onReasonChange(value || 'harassment')}
+          allowDeselect={false}
           data={[
             { value: 'harassment', label: 'Harassment' },
             { value: 'threats', label: 'Threats' },
@@ -55,6 +56,7 @@ export default function ReportModal({
           label="Include previous messages"
           value={contextCount}
           onChange={(value) => onContextCountChange(value || '10')}
+          allowDeselect={false}
           data={[
             { value: '0', label: 'Only this message' },
             { value: '5', label: 'This + previous 5' },

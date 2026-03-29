@@ -108,10 +108,23 @@ export default function MessageInput({
 
     // Build attachmentsInline from uploaded items
     // prefer storage 'key' (object key) over a publicly-exposed 'url' field
+    const normalizedInlinePicks = inlinePicks.map((p) => ({
+      kind: p.kind === 'GIF' ? 'GIF' : 'IMAGE',
+      url: p.url,
+      mimeType:
+        p.mimeType ||
+        (p.kind === 'GIF' ? 'image/gif' : 'image/png'),
+      width: p.width || null,
+      height: p.height || null,
+      durationSec: p.durationSec || null,
+      caption: p.caption || null,
+      name: p.name || undefined,
+      thumbUrl: p.previewUrl || p.thumbUrl || p.thumbnailUrl || null,
+    }));
+
     const attachmentsInline = [
       ...uploaded.map((f) => ({
         kind: kindFromMime(f.contentType),
-        // server-side prefers 'key' (canonical storage identifier). Use 'url' fallback.
         url: f.key || f.url,
         mimeType: f.contentType,
         width: f.width || null,
@@ -120,7 +133,7 @@ export default function MessageInput({
         caption: f.caption || null,
         name: f.name || undefined,
       })),
-      ...inlinePicks,
+      ...normalizedInlinePicks,
     ];
 
     const payload = {
@@ -178,6 +191,7 @@ export default function MessageInput({
     onMessageSent?.(optimistic);
 
     try {
+      console.log('sending attachmentsInline', payload.attachmentsInline);
       const { data: saved } = await axiosClient.post('/messages', payload, {
         headers: { 'X-Requested-With': 'XMLHttpRequest' },
       });

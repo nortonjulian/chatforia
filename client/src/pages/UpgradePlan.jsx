@@ -17,7 +17,7 @@ import {
 } from '@mantine/core';
 import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Icons
@@ -103,6 +103,7 @@ function formatMoney(amountMinor, currency = 'USD', locale) {
 export function PlanCard({
   title,
   price,
+  priceSuffix,
   description,
   features = [],
   cta,
@@ -114,18 +115,19 @@ export function PlanCard({
   badgeColor = 'gray',
   icon,
   testId,
-  tint = false, // whether to apply a color tint
-  tintColor, // theme decides; no default
+  tint = false,
+  tintColor,
   ariaLabel,
   footer,
 }) {
   const { t } = useTranslation();
 
-  // Build classes purely from props; no auth/theme coupling
   const classNames = ['plan-card'];
   if (highlight) classNames.push('plan-card--highlight');
   if (tint && tintColor) classNames.push(`plan-card--highlight-${tintColor}`);
   const cardClassName = classNames.join(' ');
+
+  const hasPrice = price !== undefined && price !== null && String(price).trim() !== '';
 
   return (
     <Card
@@ -137,14 +139,31 @@ export function PlanCard({
       className={cardClassName}
       style={{ height: '100%' }}
     >
-      <Stack gap="xs" style={{ height: '100%', display: 'flex' }}>
-        <Group justify="space-between" align="center">
-          <Group gap={8}>
+      <Stack gap="sm" style={{ height: '100%', display: 'flex' }}>
+        <Stack gap={4}>
+          <Group gap={8} wrap="nowrap" align="center" style={{ minWidth: 0 }}>
             {icon}
-            <Title order={3}>{title}</Title>
+            <Title
+              order={3}
+              style={{
+                lineHeight: 1.2,
+              }}
+            >
+              {title}
+            </Title>
           </Group>
-          {badge && <Badge color={badgeColor}>{badge}</Badge>}
-        </Group>
+
+          {badge && (
+            <Badge
+              color={badgeColor}
+              variant="filled"
+              size="sm"
+              style={{ alignSelf: 'flex-start', whiteSpace: 'nowrap' }}
+            >
+              {badge}
+            </Badge>
+          )}
+        </Stack>
 
         {description && (
           <Text size="sm" c="dimmed">
@@ -152,22 +171,39 @@ export function PlanCard({
           </Text>
         )}
 
-        <Stack
-          gap={4}
-          component="ul"
-          className="plan-card-features"
-          style={{ margin: 0, paddingLeft: '1.2rem' }}
-        >
-          {features.map((f) => (
-            <li key={f}>
-              <Text size="sm" component="span">
-                {f}
-              </Text>
-            </li>
-          ))}
-        </Stack>
+        {hasPrice && (
+          <Box>
+            <Text fw={800} size="1.5rem" lh={1}>
+              {price}
+              {priceSuffix ? (
+                <Text component="span" size="sm" fw={500} c="dimmed" ml={6}>
+                  {priceSuffix}
+                </Text>
+              ) : null}
+            </Text>
+          </Box>
+        )}
+
+        {!!features.length && (
+          <Stack
+            gap={6}
+            component="ul"
+            className="plan-card-features"
+            style={{ margin: 0, paddingLeft: '1.2rem' }}
+          >
+            {features.map((f) => (
+              <li key={f}>
+                <Text size="sm" component="span">
+                  {f}
+                </Text>
+              </li>
+            ))}
+          </Stack>
+        )}
 
         <Box style={{ flex: 1 }} />
+
+        {footer}
 
         <Button
           mt="sm"
@@ -180,8 +216,6 @@ export function PlanCard({
         >
           {cta}
         </Button>
-
-        {footer}
       </Stack>
     </Card>
   );
@@ -495,18 +529,39 @@ export default function UpgradePage({ variant = 'account' }) {
   const { t } = useTranslation();
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const isPublic = variant === 'public';
+
+  const initialSection = searchParams.get('section');
+  const initialBilling = searchParams.get('billing');
+  const initialScope = searchParams.get('scope');
 
   const [loadingCheckout, setLoadingCheckout] = useState(false);
   const [loadingPortal, setLoadingPortal] = useState(false);
   const [loadingKeep, setLoadingKeep] = useState(false);
 
   // Which section (App plans vs Mobile vs Family)
-  const [section, setSection] = useState(SECTION_APP);
+  const [section, setSection] = useState(
+    initialSection === SECTION_MOBILE || initialSection === SECTION_APP
+      ? initialSection
+      : SECTION_APP
+  );
 
   // Display toggle: which premium option should be visually emphasized
-  const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'annual'
+  const [billingCycle, setBillingCycle] = useState(
+    initialBilling === 'annual' || initialBilling === 'monthly'
+      ? initialBilling
+      : 'monthly'
+  ); // 'monthly' | 'annual'
+
+  const [esimScope, setEsimScope] = useState(
+    initialScope === ESIM_SCOPE_LOCAL ||
+      initialScope === ESIM_SCOPE_EUROPE ||
+      initialScope === ESIM_SCOPE_GLOBAL
+      ? initialScope
+      : ESIM_SCOPE_LOCAL
+  );
 
   // pricing quotes – app
   const [qPlus, setQPlus] = useState(null);
@@ -514,8 +569,23 @@ export default function UpgradePage({ variant = 'account' }) {
   const [qPremAnnual, setQPremAnnual] = useState(null);
 
   // eSIM scope + quotes map
-  const [esimScope, setEsimScope] = useState(ESIM_SCOPE_LOCAL);
   const [esimQuotes, setEsimQuotes] = useState({}); // { [product]: quote }
+
+  useEffect(() => {
+    const next = new URLSearchParams();
+
+    next.set('section', section);
+
+    if (section === SECTION_APP) {
+      next.set('billing', billingCycle);
+    }
+
+    if (section === SECTION_MOBILE) {
+      next.set('scope', esimScope);
+    }
+
+    setSearchParams(next, { replace: true });
+}, [section, billingCycle, esimScope, setSearchParams]);
 
   const isAuthed = !!currentUser;
   const planName = (currentUser?.plan || 'FREE').toUpperCase();
@@ -551,6 +621,12 @@ export default function UpgradePage({ variant = 'account' }) {
           gb: 5,
           title: t('upgrade.esim.global.5.title', 'Global 5 GB'),
           desc: t('upgrade.esim.global.5.desc', 'Global coverage for moderate travel.'),
+        },
+        {
+          product: 'chatforia_esim_global_10',
+          gb: 10,
+          title: t('upgrade.esim.global.10.title', 'Global 10 GB'),
+          desc: t('upgrade.esim.global.10.desc', 'Global coverage for longer trips and heavier use.'),
         },
       ];
     }
@@ -659,36 +735,30 @@ export default function UpgradePage({ variant = 'account' }) {
     })();
   }, [esimProducts]);
 
-  // nicely formatted price labels with fallback (app)
   const labelPlus = useMemo(() => {
-    if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
-      return `${formatMoney(qPlus.unitAmount, qPlus.currency)} / ${t(
-        'upgrade.perMonth',
-        'mo'
-      )}`;
-    }
-    return t('upgrade.plans.plus.price', '$4.99 / mo');
+  if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
+    return formatMoney(qPlus.unitAmount, qPlus.currency);
+  }
+    return t('upgrade.plans.plus.price', '$6.99');
   }, [qPlus, t]);
 
   const labelPremMonthly = useMemo(() => {
     if (qPremMonthly?.currency && typeof qPremMonthly?.unitAmount === 'number') {
-      return `${formatMoney(qPremMonthly.unitAmount, qPremMonthly.currency)} / ${t(
-        'upgrade.perMonth',
-        'mo'
-      )}`;
+      return formatMoney(qPremMonthly.unitAmount, qPremMonthly.currency);
     }
-    return t('upgrade.plans.premiumMonthly.price', '$24.99 / mo');
+    return t('upgrade.plans.premiumMonthly.price', '$11.99');
   }, [qPremMonthly, t]);
 
   const labelPremAnnual = useMemo(() => {
     if (qPremAnnual?.currency && typeof qPremAnnual?.unitAmount === 'number') {
-      return `${formatMoney(qPremAnnual.unitAmount, qPremAnnual.currency)} / ${t(
-        'upgrade.perYear',
-        'year'
-      )}`;
+      return formatMoney(qPremAnnual.unitAmount, qPremAnnual.currency);
     }
-    return t('upgrade.plans.premiumAnnual.price', '$225 / year');
+    return t('upgrade.plans.premiumAnnual.price', '$99');
   }, [qPremAnnual, t]);
+
+  const perMonthLabel = t('upgrade.perMonthLong', '/ mo');
+  const perYearLabel = t('upgrade.perYearLong', '/ year');
+  const oneTimeLabel = t('upgrade.oneTime', 'one-time');
 
   const startCheckout = async ({ plan, priceId } = {}) => {
     if (!isAuthed) return navigate('/login?next=/upgrade');
@@ -836,7 +906,7 @@ export default function UpgradePage({ variant = 'account' }) {
     : isPublic
     ? t(
         'upgrade.cta.public.premiumAnnual',
-        'Save 25% with annual – continue to login'
+        'Save 30% with annual – continue to login'
       )
     : t('upgrade.auth.continue', 'Continue to login');
 
@@ -924,7 +994,7 @@ export default function UpgradePage({ variant = 'account' }) {
               onChange={setBillingCycle}
               data={[
                 { label: t('upgrade.toggle.monthly', 'Monthly'), value: 'monthly' },
-                { label: t('upgrade.toggle.annual', 'Annual (Save 25%)'), value: 'annual' },
+                { label: t('upgrade.toggle.annual', 'Annual (Save 30%)'), value: 'annual' },
               ]}
             />
           </Group>
@@ -970,6 +1040,7 @@ export default function UpgradePage({ variant = 'account' }) {
               testId="plan-plus"
               title={t('upgrade.plans.plus.title', 'Plus')}
               price={labelPlus}
+              priceSuffix={perMonthLabel}
               description={t(
                 'upgrade.plans.plus.desc',
                 'All the essentials, without ads. Great for everyday messaging and calling.'
@@ -1008,6 +1079,7 @@ export default function UpgradePage({ variant = 'account' }) {
               testId="plan-premium-monthly"
               title={t('upgrade.plans.premiumMonthly.title', 'Premium (Monthly)')}
               price={labelPremMonthly}
+              priceSuffix={perMonthLabel}
               description={t(
                 'upgrade.plans.premiumMonthly.desc',
                 'The full Chatforia experience: AI power tools, customization, and priority support.'
@@ -1049,6 +1121,7 @@ export default function UpgradePage({ variant = 'account' }) {
               testId="plan-premium-annual"
               title={t('upgrade.plans.premiumAnnual.title', 'Premium (Annual)')}
               price={labelPremAnnual}
+              priceSuffix={perYearLabel}
               description={t(
                 'upgrade.plans.premiumAnnual.desc',
                 'Save more when billed yearly — including extra color themes, AI tools, and priority support.'
@@ -1061,7 +1134,7 @@ export default function UpgradePage({ variant = 'account' }) {
                 t('upgrade.plans.premiumAnnual.features.annualBilling', 'Billed once per year'),
                 t(
                   'upgrade.plans.premiumAnnual.features.save25',
-                  'Save around 25% compared to paying monthly'
+                  'Save around 30% compared to paying monthly'
                 ),
                 t(
                   'upgrade.plans.premiumAnnual.features.bestFor',
@@ -1110,6 +1183,18 @@ export default function UpgradePage({ variant = 'account' }) {
                 'Pick a one-time data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.'
               )}
             </Text>
+
+            <Group gap="md" mt="xs" wrap="wrap">
+              <Text size="sm" c="dimmed">
+                ✔ Instant activation
+              </Text>
+              <Text size="sm" c="dimmed">
+                ✔ No contracts
+              </Text>
+              <Text size="sm" c="dimmed">
+                ✔ Works worldwide
+              </Text>
+            </Group>
           </Stack>
 
           <Group justify="flex-start" mt="sm">
@@ -1124,13 +1209,22 @@ export default function UpgradePage({ variant = 'account' }) {
             />
           </Group>
 
+          <Text size="sm" c="dimmed" mt={4}>
+            {esimScope === ESIM_SCOPE_LOCAL &&
+              t('upgrade.esim.scope.localHelper', 'Best for everyday use at home.')}
+            {esimScope === ESIM_SCOPE_EUROPE &&
+              t('upgrade.esim.scope.europeHelper', 'Best for trips across Europe.')}
+            {esimScope === ESIM_SCOPE_GLOBAL &&
+              t('upgrade.esim.scope.globalHelper', 'Best for international travel.')}
+          </Text>
+
           {isPublic && (
             <Text size="sm" c="dimmed" mt={6} mb="sm">
               {detectedCountryName ? `Local = ${detectedCountryName}` : 'Local = your current country'}
             </Text>
           )}
 
-          <Text size="xs" c="dimmed" mt={-4}>
+          <Text size="xs" c="dimmed" mt={0}>
             {t('upgrade.esim.note', 'We don’t sell data packs under 3 GB.')}
           </Text>
 
@@ -1138,10 +1232,28 @@ export default function UpgradePage({ variant = 'account' }) {
             {esimProducts.map((p) => {
               const q = esimQuotes[p.product];
 
+              const isMostPopular = p.gb === 5;
+
+              const mobileFallbackPrices = {
+                chatforia_esim_local_3: '$14.99',
+                chatforia_esim_local_5: '$21.99',
+                chatforia_esim_local_10: '$32.99',
+                chatforia_esim_local_20: '$54.99',
+
+                chatforia_esim_europe_3: '$16.99',
+                chatforia_esim_europe_5: '$24.99',
+                chatforia_esim_europe_10: '$36.99',
+                chatforia_esim_europe_20: '$64.99',
+
+                chatforia_esim_global_3: '$21.99',
+                chatforia_esim_global_5: '$29.99',
+                chatforia_esim_global_10: '$44.99',
+              };
+
               const priceLabel =
                 q?.currency && typeof q?.unitAmount === 'number'
                   ? formatMoney(q.unitAmount, q.currency)
-                  : '—';
+                  : mobileFallbackPrices[p.product] || '—';
 
               return (
                 <PlanCard
@@ -1149,6 +1261,7 @@ export default function UpgradePage({ variant = 'account' }) {
                   testId={`plan-${p.product}`}
                   title={p.title}
                   price={priceLabel}
+                  priceSuffix={oneTimeLabel}
                   description={p.desc}
                   features={[
                     t(
@@ -1158,6 +1271,10 @@ export default function UpgradePage({ variant = 'account' }) {
                     t('upgrade.mobile.feature.oneTime', 'One-time pack, no contract'),
                     t('upgrade.mobile.feature.topUp', 'Top up anytime with another pack'),
                   ]}
+                  badge={isMostPopular ? t('upgrade.mobile.badge.popular', 'Most Popular') : undefined}
+                  badgeColor={isMostPopular ? 'orange' : 'gray'}
+                  tint={isMostPopular}
+                  tintColor={isMostPopular ? 'yellow' : undefined}
                   icon={<Wallet size={18} />}
                   cta={mobileCta}
                   ariaLabel={t('upgrade.mobile.aria', 'Buy eSIM data pack')}

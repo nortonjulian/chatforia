@@ -17,6 +17,8 @@
  *  - emitMessageNew(...)
  *  - emitMessageUpdated(...)
  *  - emitMessageExpired(...)
+ *  - emitMessageAck(userId, payload)
+ *  - emitMessageUpsertToUser(userId, chatRoomId, messageOrRow)
  *  - SOCKET_EVENTS
  *  - _resetSocketBus()   // test / hot-reload helper
  */
@@ -33,7 +35,7 @@ let _emitToUserImpl = null;
 /* -------------------------------------------------------------------------- */
 
 let _helpers = {
-  fetchMessageById: null, // optional: (id) => Promise<messageRow>
+  fetchMessageById: null, // optional: async (id) => full authoritative message row
 };
 
 /**
@@ -54,8 +56,7 @@ export function setSocketIo(io, emitToUser) {
           if (!_io || uid == null) return;
           try {
             _io.to(`user:${String(uid)}`).emit(evt, payload);
-          } catch (err) {
-            // swallow - we don't want socket issues to crash services
+          } catch {
             /* noop */
           }
         };
@@ -75,52 +76,55 @@ export function isReady() {
 export function emitToUser(userId, event, payload) {
   if (_emitToUserImpl) return _emitToUserImpl(userId, event, payload);
   if (!_io || userId == null) return;
+
   try {
     _io.to(`user:${String(userId)}`).emit(event, payload);
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
 
-/** Emit to many users at once (fanout is efficient: io.to([...rooms])). */
+/** Emit to many users at once. */
 export function emitToUsers(userIds, event, payload) {
   if (!_io) return;
+
   const rooms = (userIds || [])
     .filter((v) => v != null)
     .map((id) => `user:${String(id)}`);
+
   if (!rooms.length) return;
 
   try {
-    // socket.io supports passing an array of rooms to to(), but some adapters/versions may not.
-    // Try the array form first, otherwise fallback to emitting per-room.
     try {
       _io.to(rooms).emit(event, payload);
-    } catch (e) {
-      for (const r of rooms) {
-        _io.to(r).emit(event, payload);
+    } catch {
+      for (const room of rooms) {
+        _io.to(room).emit(event, payload);
       }
     }
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
 
+/** Sender-only ack for optimistic client reconciliation. */
 export function emitMessageAck(userId, payload) {
   if (!_io || userId == null || !payload) return;
+
   try {
-    // sender-only: send to user's private socket room
     _io.to(`user:${String(userId)}`).emit('message:ack', payload);
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
 
 /** Emit to an arbitrary room id (string/number). */
 export function emitToRoom(room, event, payload) {
-  if (!_io || !room) return;
+  if (!_io || room == null || room === '') return;
+
   try {
     _io.to(String(room)).emit(event, payload);
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
@@ -128,9 +132,10 @@ export function emitToRoom(room, event, payload) {
 /** Convenience: chat room namespace usually equals the chatRoomId. */
 export function emitToChatRoom(chatRoomId, event, payload) {
   if (!_io || chatRoomId == null) return;
+
   try {
     _io.to(String(chatRoomId)).emit(event, payload);
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
@@ -139,152 +144,163 @@ export function emitToChatRoom(chatRoomId, event, payload) {
 /* Socket event names (single source of truth)                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Single source of truth for socket event names.
- * Keep these aligned with iOS/web clients.
- */
 export const SOCKET_EVENTS = Object.freeze({
+  // Canonical
   MESSAGE_UPSERT: 'message:upsert',
+  MESSAGE_EDITED: 'message:edited',
+  MESSAGE_DELETED: 'message:deleted',
+  MESSAGE_EXPIRED: 'message:expired',
   TYPING_UPDATE: 'typing:update',
-  // backwards-compatible / legacy names for reference:
+
+  // Legacy / transitional
   LEGACY_MESSAGE_NEW: 'message:new',
   LEGACY_MESSAGE_UPDATED: 'message:updated',
   LEGACY_MESSAGE_EXPIRED: 'message:expired',
 });
 
 /* -------------------------------------------------------------------------- */
-/* Helpers that routes/services can use (canonical upsert + migration paths)  */
+/* Helper registration                                                         */
 /* -------------------------------------------------------------------------- */
 
 /**
- * Register pluggable helpers used by emit helpers (keeps socketBus decoupled from DB).
+ * Register pluggable helpers used by emit helpers.
  *
  * Example:
- *   setHelpers({ fetchMessageById: async (id) => prisma.message.findUnique(...) })
+ *   setHelpers({
+ *     fetchMessageById: async (id) => {
+ *       // return the full authoritative message object
+ *     }
+ *   });
  */
 export function setHelpers({ fetchMessageById } = {}) {
-  if (typeof fetchMessageById === 'function') _helpers.fetchMessageById = fetchMessageById;
+  if (typeof fetchMessageById === 'function') {
+    _helpers.fetchMessageById = fetchMessageById;
+  }
 }
+
+/* -------------------------------------------------------------------------- */
+/* Internal message resolution                                                 */
+/* -------------------------------------------------------------------------- */
+
+async function resolveMessagePayload(messageOrRow) {
+  if (messageOrRow == null) return null;
+
+  // If caller already passed a full message object / shaped row, use it directly.
+  if (typeof messageOrRow === 'object' && messageOrRow.id != null) {
+    return messageOrRow;
+  }
+
+  // If caller passed an id, resolve it through the registered fetch helper.
+  const isNumericId =
+    typeof messageOrRow === 'number' ||
+    (typeof messageOrRow === 'string' && /^\d+$/.test(messageOrRow));
+
+  if (isNumericId) {
+    if (typeof _helpers.fetchMessageById !== 'function') {
+      console.warn(
+        '[socketBus] emitMessageUpsert called with message id but fetchMessageById helper is not registered:',
+        messageOrRow
+      );
+      return null;
+    }
+
+    try {
+      const row = await _helpers.fetchMessageById(Number(messageOrRow));
+      if (!row) {
+        console.warn('[socketBus] fetchMessageById returned no row for id:', messageOrRow);
+        return null;
+      }
+      return row;
+    } catch (err) {
+      console.warn(
+        '[socketBus] fetchMessageById failed for id:',
+        messageOrRow,
+        err?.message || err
+      );
+      return null;
+    }
+  }
+
+  console.warn('[socketBus] Unsupported message payload shape:', messageOrRow);
+  return null;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Canonical emit helpers                                                      */
+/* -------------------------------------------------------------------------- */
 
 /**
  * Emit the full authoritative message row to a chat room.
  *
  * messageOrRow may be:
- *  - a DB row / message object (preferred), or
- *  - an id (number or numeric string) if the caller cannot easily fetch the row.
- *
- * If the caller passes only an id, this helper will attempt to fetch the
- * full row using a registered fetchMessageById implementation.
+ *  - a full shaped message object (preferred), or
+ *  - a message id, if fetchMessageById has been registered via setHelpers(...)
  */
 export async function emitMessageUpsert(chatRoomId, messageOrRow) {
   if (chatRoomId == null || messageOrRow == null) return;
+  if (!_io) return;
 
-  let payloadRow = null;
+  const payloadRow = await resolveMessagePayload(messageOrRow);
+  if (!payloadRow) return;
 
-  // If caller passed a plain id (number or numeric string)
-  if (typeof messageOrRow === 'number' || (typeof messageOrRow === 'string' && /^\d+$/.test(messageOrRow))) {
-    if (typeof _helpers.fetchMessageById !== 'function') return; // can't fetch, so bail
-    try {
-      payloadRow = await _helpers.fetchMessageById(Number(messageOrRow));
-      if (!payloadRow) return;
-    } catch (err) {
-      // fetch failed — bail silently
-      return;
-    }
-  } else if (typeof messageOrRow === 'object' && messageOrRow.id != null) {
-    // Already a message object / DB row — use it directly
-    payloadRow = messageOrRow;
-  } else {
-    // Unsupported shape — ignore
-    return;
-  }
-
-  // Emit canonical upsert event
   try {
     emitToChatRoom(chatRoomId, SOCKET_EVENTS.MESSAGE_UPSERT, {
       roomId: Number(chatRoomId),
       item: payloadRow,
     });
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
 
-/* -------------------------------------------------------------------------- */
-/* Backwards-compatible wrappers (optional; helpful during migration)         */
-/* -------------------------------------------------------------------------- */
+/**
+ * Deprecated wrapper for older codepaths.
+ * Uses canonical upsert underneath.
+ */
+export async function emitMessageNew(chatRoomId, messageOrRow) {
+  await emitMessageUpsert(chatRoomId, messageOrRow);
+}
 
 /**
  * Deprecated wrapper for older codepaths.
- * Calls emitMessageUpsert(...) under the hood.
- *
- * Keep this while you update callers and remove legacy events later.
+ * Uses canonical upsert underneath.
  */
-export async function emitMessageNew(chatRoomId, messageOrRow) {
-  // Prefer emitting canonical upsert only
-  await emitMessageUpsert(chatRoomId, messageOrRow);
-
-  // OPTIONAL: temporarily emit the legacy event too so old clients don't break.
-  // Uncomment to keep backward compatibility for older clients while migrating.
-  // try {
-  //   emitToChatRoom(chatRoomId, SOCKET_EVENTS.LEGACY_MESSAGE_NEW, {
-  //     roomId: Number(chatRoomId),
-  //     item: messageOrRow && messageOrRow.id ? messageOrRow : { id: Number(messageOrRow) },
-  //   });
-  // } catch (e) { /* noop */ }
-}
-
 export async function emitMessageUpdated(chatRoomId, messageOrRow) {
   await emitMessageUpsert(chatRoomId, messageOrRow);
-  // Optional legacy emit:
-  // try {
-  //   emitToChatRoom(chatRoomId, SOCKET_EVENTS.LEGACY_MESSAGE_UPDATED, {
-  //     roomId: Number(chatRoomId),
-  //     item: messageOrRow && messageOrRow.id ? messageOrRow : { id: Number(messageOrRow) },
-  //   });
-  // } catch (e) { /* noop */ }
 }
 
 /**
- * Emit a message expired notification.
- *
- * This helper tries to emit an upsert first so clients receive the authoritative
- * row (with updated expiresAt / isExpired fields), then emits an optional
- * legacy 'message:expired' removal event for older clients.
- *
- * @param {number|string} chatRoomId
- * @param {object|number|string} messageOrId - message row or id
- * @param {string|Date|number} [expiresAt] - optional expiresAt value for legacy payload
+ * Emit an authoritative expired/tombstoned message state.
+ * Uses canonical upsert underneath.
  */
-export async function emitMessageExpired(chatRoomId, messageOrId, expiresAt) {
-  // Try to emit an upsert for the authoritative row (with updated expiresAt).
+export async function emitMessageExpired(chatRoomId, messageOrId, _expiresAt) {
   await emitMessageUpsert(chatRoomId, messageOrId);
-
-  // Optional legacy emit (remove after migration)
-  // try {
-  //   const id = typeof messageOrId === 'object' && messageOrId.id ? messageOrId.id : Number(messageOrId);
-  //   emitToChatRoom(chatRoomId, SOCKET_EVENTS.LEGACY_MESSAGE_EXPIRED, {
-  //     roomId: Number(chatRoomId),
-  //     id: Number(id),
-  //     expiresAt: expiresAt ?? null,
-  //   });
-  // } catch (e) { /* noop */ }
 }
 
-export function emitMessageUpsertToUser(userId, chatRoomId, messageOrRow) {
-  if (!_io || userId == null || chatRoomId == null || !messageOrRow) return;
+/**
+ * Optional helper for sender-specific/private realtime upserts.
+ * Useful if one day you want per-user shaped payloads.
+ */
+export async function emitMessageUpsertToUser(userId, chatRoomId, messageOrRow) {
+  if (!_io || userId == null || chatRoomId == null || messageOrRow == null) return;
+
+  const payloadRow = await resolveMessagePayload(messageOrRow);
+  if (!payloadRow) return;
 
   try {
     emitToUser(userId, SOCKET_EVENTS.MESSAGE_UPSERT, {
       roomId: Number(chatRoomId),
-      item: messageOrRow,
+      item: payloadRow,
     });
-  } catch (err) {
+  } catch {
     /* noop */
   }
 }
 
-/** Test helper / hot-reload cleanup (not used in prod code paths). */
+/* -------------------------------------------------------------------------- */
+/* Test helper / hot-reload cleanup                                            */
+/* -------------------------------------------------------------------------- */
+
 export function _resetSocketBus() {
   _io = null;
   _emitToUserImpl = null;

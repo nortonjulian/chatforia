@@ -727,7 +727,7 @@ export default function PhoneNumberManager() {
             </>
           ) : (
             <Text c="dimmed">
-              You don’t have a Chatforia number yet. Pick one by area code to start texting and calling.
+              "Pick a Chatforia number to use for messaging and communication inside the app."
             </Text>
           )}
         </Stack>

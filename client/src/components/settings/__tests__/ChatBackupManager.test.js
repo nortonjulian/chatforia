@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ChatBackupManager from '../BackupManager.jsx'; // relative from __tests__ → settings
+import ChatBackupManager from '../ChatBackupManager.jsx'; // relative from __tests__ → settings
 
 // ---- Mocks for backupClient (prefix with "mock*" so Jest allows access) ----
 const mockCreateEncryptedKeyBackup = jest.fn();
@@ -77,7 +77,7 @@ function setup(props = {}) {
   return { ...utils, fetchPage, fetchPublicKeys };
 }
 
-describe('BackupManager / ChatBackupManager', () => {
+describe('ChatBackupManager / KeyBackupManager', () => {
   test('restore buttons are disabled until a file is selected', () => {
     setup();
 

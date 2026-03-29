@@ -2,34 +2,51 @@ const DB_NAME = 'chatforia';
 const STORE = 'keys';
 const VERSION = 2;
 
-function openDB(timeoutMs = 1500) {
-  return new Promise((resolve, reject) => {
+let dbPromise = null;
+
+function openDB(timeoutMs = 150) {
+  if (dbPromise) return dbPromise;
+
+  dbPromise = new Promise((resolve, reject) => {
     let settled = false;
+    let timer = null;
+
+    const cleanup = () => {
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    };
 
     const finishResolve = (value) => {
       if (settled) return;
       settled = true;
+      cleanup();
       resolve(value);
     };
 
     const finishReject = (err) => {
       if (settled) return;
       settled = true;
+      cleanup();
+      dbPromise = null;
       reject(err);
     };
-
-    const timer = setTimeout(() => {
-      finishReject(new Error('IndexedDB open timeout'));
-    }, timeoutMs);
 
     let req;
     try {
       req = indexedDB.open(DB_NAME, VERSION);
     } catch (err) {
-      clearTimeout(timer);
       finishReject(err);
       return;
     }
+
+    timer = setTimeout(() => {
+      finishReject(new Error('IndexedDB open timeout'));
+      try {
+        req?.result?.close?.();
+      } catch {}
+    }, timeoutMs);
 
     req.onupgradeneeded = (e) => {
       try {
@@ -38,92 +55,95 @@ function openDB(timeoutMs = 1500) {
           db.createObjectStore(STORE);
         }
       } catch (err) {
-        clearTimeout(timer);
         finishReject(err);
       }
     };
 
     req.onsuccess = () => {
-      clearTimeout(timer);
       const db = req.result;
 
-      // If another tab/version change happens later, close this connection
-      // so future opens/upgrades do not get stuck.
       db.onversionchange = () => {
         try {
           db.close();
         } catch {}
+        dbPromise = null;
+      };
+
+      db.onclose = () => {
+        dbPromise = null;
       };
 
       finishResolve(db);
     };
 
     req.onerror = () => {
-      clearTimeout(timer);
       finishReject(req.error || new Error('IndexedDB open failed'));
     };
 
     req.onblocked = () => {
-      clearTimeout(timer);
       finishReject(
         new Error('IndexedDB upgrade blocked. Close other Chatforia tabs and try again.')
       );
     };
   });
+
+  return dbPromise;
+}
+
+async function withStore(mode, fn) {
+  const db = await openDB();
+
+  return new Promise((resolve, reject) => {
+    let tx;
+    try {
+      tx = db.transaction(STORE, mode);
+    } catch (err) {
+      reject(err);
+      return;
+    }
+
+    const store = tx.objectStore(STORE);
+
+    let result;
+    try {
+      result = fn(store, tx);
+    } catch (err) {
+      reject(err);
+      return;
+    }
+
+    tx.oncomplete = () => resolve(result);
+    tx.onerror = () => reject(tx.error || new Error(`IDB ${mode} transaction failed`));
+    tx.onabort = () => reject(tx.error || new Error(`IDB ${mode} transaction aborted`));
+  });
 }
 
 async function put(key, value) {
-  const db = await openDB();
-  try {
-    return await new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE, 'readwrite');
-      tx.objectStore(STORE).put(value, key);
-
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error || new Error(`IDB put failed for ${key}`));
-      tx.onabort = () => reject(tx.error || new Error(`IDB put aborted for ${key}`));
-    });
-  } finally {
-    try {
-      db.close();
-    } catch {}
-  }
+  return withStore('readwrite', (store) => {
+    store.put(value, key);
+  });
 }
 
 async function get(key) {
-  const db = await openDB();
-  try {
-    return await new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const db = await openDB();
       const tx = db.transaction(STORE, 'readonly');
       const req = tx.objectStore(STORE).get(key);
 
       req.onsuccess = () => resolve(req.result ?? null);
       req.onerror = () => reject(req.error || new Error(`IDB get failed for ${key}`));
       tx.onabort = () => reject(tx.error || new Error(`IDB get aborted for ${key}`));
-    });
-  } finally {
-    try {
-      db.close();
-    } catch {}
-  }
+    } catch (err) {
+      reject(err);
+    }
+  });
 }
 
 async function del(key) {
-  const db = await openDB();
-  try {
-    return await new Promise((resolve, reject) => {
-      const tx = db.transaction(STORE, 'readwrite');
-      tx.objectStore(STORE).delete(key);
-
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error || new Error(`IDB delete failed for ${key}`));
-      tx.onabort = () => reject(tx.error || new Error(`IDB delete aborted for ${key}`));
-    });
-  } finally {
-    try {
-      db.close();
-    } catch {}
-  }
+  return withStore('readwrite', (store) => {
+    store.delete(key);
+  });
 }
 
 // Public API
@@ -144,18 +164,26 @@ export async function clearKeysIDB() {
   await Promise.all([del('co_pub'), del('co_priv')]);
 }
 
-// One-time migration from localStorage → IndexedDB
 export async function migrateLocalToIDBIfNeeded() {
-  const lsPub = localStorage.getItem('co_pub');
-  const lsPriv = localStorage.getItem('co_priv');
-  if (!lsPub && !lsPriv) return false;
+  const raw = localStorage.getItem('e2ee_keys_public_only');
+  if (!raw) return false;
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return false;
+  }
+
+  const publicKey = parsed?.publicKey || undefined;
+
+  if (!publicKey) return false;
 
   await saveKeysIDB({
-    publicKey: lsPub || undefined,
-    privateKey: lsPriv || undefined,
+    publicKey,
+    privateKey: undefined,
   });
 
-  localStorage.removeItem('co_pub');
-  localStorage.removeItem('co_priv');
+  localStorage.removeItem('e2ee_keys_public_only');
   return true;
 }

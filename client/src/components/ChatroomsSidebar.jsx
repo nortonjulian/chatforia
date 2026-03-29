@@ -7,7 +7,6 @@ import {
   Group,
   Alert,
   Badge,
-  UnstyledButton,
   Divider,
   ActionIcon,
   Menu,
@@ -25,6 +24,9 @@ import axiosClient from '@/api/axiosClient';
 
 // ✅ Socket for live preview updates
 import socket from '@/lib/socket';
+
+const CACHE_KEY = 'chatforia:conversations:v1';
+
 
 /**
  * Thread shape (JS + JSDoc for editor hints)
@@ -199,12 +201,24 @@ export default function ChatroomsSidebar({
 
   const load = useCallback(async () => {
     if (__testSkipLoad) return;
+
+    let usedCache = false;
+
     try {
-      setLoading(true);
       setErr('');
 
-      // Expected server shape (recommended):
-      // { items: Thread[] } OR { conversations: Thread[] }
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed)) {
+            setItems(parsed);
+            setLoading(false);
+            usedCache = true;
+          }
+        } catch {}
+      }
+
       const res = await axiosClient.get('/conversations');
       const data = res?.data;
 
@@ -217,17 +231,22 @@ export default function ChatroomsSidebar({
             : [];
 
       setItems(list);
+      localStorage.setItem(CACHE_KEY, JSON.stringify(list));
     } catch (e) {
-      setErr(
-        e?.response?.data?.error ||
+      if (!usedCache) {
+        setErr(
+          e?.response?.data?.error ||
           e?.response?.data?.message ||
           e?.message ||
           t('sidebar.errorLoading', 'Something went wrong')
-      );
+        );
+      } else {
+        console.warn('[ChatroomsSidebar] refresh failed, using cached conversations', e);
+      }
     } finally {
       setLoading(false);
     }
-  }, [t, __testSkipLoad]);
+}, [t, __testSkipLoad]);
 
   useEffect(() => {
     load();
@@ -242,6 +261,14 @@ export default function ChatroomsSidebar({
   useEffect(() => {
     onCountChange?.(Array.isArray(items) ? items.length : 0);
   }, [items, onCountChange]);
+
+  useEffect(() => {
+    try {
+      if (Array.isArray(items)) {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(items));
+      }
+    } catch {}
+  }, [items]);
 
   const q = filterQuery.trim().toLowerCase();
 
@@ -550,14 +577,14 @@ export default function ChatroomsSidebar({
       }
     };
 
-    socket.on('receive_message', onReceiveMessage);
-    socket.on('message_edited', onMessageEdited);
-    socket.on('message_deleted', onMessageDeleted);
+    socket.on('receive:message', onReceiveMessage);
+    socket.on('message:edited', onMessageEdited);
+    socket.on('message:deleted', onMessageDeleted);
 
     return () => {
-      socket.off('receive_message', onReceiveMessage);
-      socket.off('message_edited', onMessageEdited);
-      socket.off('message_deleted', onMessageDeleted);
+      socket.off('receive:message', onReceiveMessage);
+      socket.off('message:edited', onMessageEdited);
+      socket.off('message:deleted', onMessageDeleted);
     };
   }, [activeId, activeKind, load, patchConversation, bumpToTop, t, __testSkipLoad]);
 
@@ -669,7 +696,7 @@ export default function ChatroomsSidebar({
 
         return (
           <div key={`${c.kind}:${c.id}`} className="sidebar-row">
-            <UnstyledButton
+            <Box
               onClick={() => {
                 console.log('[ChatroomsSidebar] clicked conversation row:', c);
                 onSelect?.(c);
@@ -764,7 +791,7 @@ export default function ChatroomsSidebar({
                   )}
                 </Box>
               </Group>
-            </UnstyledButton>
+            </Box>
 
             {!listOnly && !isPremium && idx === 2 && (
               <>

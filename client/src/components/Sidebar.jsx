@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react';
 import {
   Box,
   Group,
@@ -28,7 +28,7 @@ import {
   Voicemail,
 } from 'lucide-react';
 
-import ChatroomsSidebar from '@/components/ChatroomsSidebar';
+const ChatroomsSidebar = lazy(() => import('@/components/ChatroomsSidebar'));
 import StartChatModal from '@/components/StartChatModal';
 import UserProfile from '@/components/UserProfile';
 import { useTranslation } from 'react-i18next';
@@ -37,11 +37,14 @@ import { useTranslation } from 'react-i18next';
 import AdSlot from '@/ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
-function Sidebar({ currentUser, features = {} }) {
+function Sidebar({ currentUser }) {
   const [showStartModal, setShowStartModal] = useState(false);
   const [initialDraft, setInitialDraft] = useState(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [profileTarget, setProfileTarget] = useState(null);
+  const [query, setQuery] = useState('');
+  const [count, setCount] = useState(0);
+  const [showConversations, setShowConversations] = useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -54,7 +57,7 @@ function Sidebar({ currentUser, features = {} }) {
   const theme = useMantineTheme();
   const isMobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
-    const handleStartChat = useCallback(() => {
+  const handleStartChat = useCallback(() => {
     setInitialDraft(null);
     setShowStartModal(true);
   }, []);
@@ -69,40 +72,41 @@ function Sidebar({ currentUser, features = {} }) {
     return () => window.removeEventListener('open-new-chat-modal', onOpen);
   }, []);
 
-  const [query, setQuery] = useState('');
-  const [count, setCount] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowConversations(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const refreshConversations = useCallback(() => {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
 
-      const onSelectConversation = useCallback(
-      (thread) => {
-        if (!thread) return;
+  const onSelectConversation = useCallback(
+    (thread) => {
+      if (!thread) return;
 
-        console.log('[Sidebar] selected thread object:', thread);
+      console.log('[Sidebar] selected thread object:', thread);
 
-        if (thread.kind === 'sms') {
-          navigate(`/sms/${thread.id}`);
-          return;
-        }
+      if (thread.kind === 'sms') {
+        navigate(`/sms/${thread.id}`);
+        return;
+      }
 
-        const roomId =
-          thread.chatRoomId ??
-          thread.roomId ??
-          thread.chatroomId ??
-          thread.id;
+      const roomId =
+        thread.chatRoomId ??
+        thread.roomId ??
+        thread.chatroomId ??
+        thread.id;
 
-        console.log('[Sidebar] resolved roomId for navigation:', roomId);
+      console.log('[Sidebar] resolved roomId for navigation:', roomId);
 
-        navigate(`/chat/${roomId}`);
-      },
-      [navigate]
+      navigate(`/chat/${roomId}`);
+    },
+    [navigate]
   );
 
   return (
     <Box p="md" h="100%" style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* Top icons row */}
       <Group justify="space-between" mb="sm">
         <ActionIcon
           variant="subtle"
@@ -145,7 +149,6 @@ function Sidebar({ currentUser, features = {} }) {
 
       <Divider mb="sm" />
 
-      {/* Quick links */}
       <Stack gap="xs" mb="sm">
         {currentUser && (
           <Button
@@ -156,12 +159,6 @@ function Sidebar({ currentUser, features = {} }) {
             to="/random"
           >
             {t('sidebar.randomChat', 'Random Chat')}
-          </Button>
-        )}
-
-        {features?.status && (
-          <Button variant="subtle" size="xs" component={Link} to="/status">
-            {t('sidebar.status', 'Status')}
           </Button>
         )}
 
@@ -189,7 +186,7 @@ function Sidebar({ currentUser, features = {} }) {
           </Button>
         )}
 
-        {currentUser && (features?.video ?? true) && (
+        {currentUser && (
           <Button
             variant="subtle"
             size="xs"
@@ -216,14 +213,11 @@ function Sidebar({ currentUser, features = {} }) {
         )}
       </Stack>
 
-      {/* Desktop-only ad (FREE plan only) */}
       {!isPremium && !isMobile && <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
 
-      {/* Conversations header + refresh */}
       <Group justify="space-between" mt="md" mb={6}>
         <Text size="sm" fw={700}>
           {t('sidebar.conversations', 'Conversations')}
-          {count > 0 ? '' : ''}
         </Text>
         <ActionIcon
           variant="subtle"
@@ -235,7 +229,6 @@ function Sidebar({ currentUser, features = {} }) {
         </ActionIcon>
       </Group>
 
-      {/* Conversation search box */}
       <TextInput
         placeholder={t('sidebar.searchPlaceholder', 'Search conversations..')}
         leftSection={<SearchIcon size={14} />}
@@ -245,20 +238,25 @@ function Sidebar({ currentUser, features = {} }) {
         aria-label={t('sidebar.searchAriaLabel', 'Search conversations')}
       />
 
-      {/* Unified conversation list */}
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
-          <ChatroomsSidebar
-            onStartNewChat={() => {
-              setInitialDraft(null);
-              setShowStartModal(true);
-            }}
-            onSelect={onSelectConversation}
-            hideEmpty
-            listOnly={false}
-            filterQuery={query}
-            onCountChange={setCount}
-          />
+          {showConversations ? (
+            <Suspense fallback={<Text size="sm" c="dimmed">Loading conversations...</Text>}>
+              <ChatroomsSidebar
+                onStartNewChat={() => {
+                  setInitialDraft(null);
+                  setShowStartModal(true);
+                }}
+                onSelect={onSelectConversation}
+                hideEmpty
+                listOnly={false}
+                filterQuery={query}
+                onCountChange={setCount}
+              />
+            </Suspense>
+          ) : (
+            <Text size="sm" c="dimmed">Loading conversations...</Text>
+          )}
         </Stack>
       </ScrollArea.Autosize>
 
@@ -272,7 +270,6 @@ function Sidebar({ currentUser, features = {} }) {
           initialDraft={initialDraft}
           onStartDirectMessage={(payload) => {
             setShowStartModal(false);
-
             navigate('/');
 
             setTimeout(() => {
@@ -298,7 +295,6 @@ function Sidebar({ currentUser, features = {} }) {
         />
       )}
 
-      {/* Settings drawer */}
       <Drawer
         opened={profileOpen}
         onClose={() => {

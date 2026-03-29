@@ -46,13 +46,15 @@ import usersRouter from './routes/users.js';
 import messagesRouter from './routes/messages.js';
 import callsRouter from './routes/calls.js';
 import roomsRouter from './routes/rooms.js';
+import chatroomsRouter from './routes/chatrooms.js';
 import followsRouter from './routes/follows.js';
 import randomChatsRouter from './routes/randomChats.js';
 import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
 import billingRouter from './routes/billing.js';
-// import billingWebhook from './routes/billingWebhook.js';    // ❌ removed (now unified)
+import featuresRouter from './routes/features.js';
+import peopleInvitesRouter from "./routes/peopleInvites.js";
 import contactsImportRouter from './routes/contactsImport.js';
 import uploadsRouter from './routes/uploads.js';
 import smsRouter from './routes/sms.js';
@@ -78,6 +80,9 @@ import transcriptsRouter from './routes/transcripts.js';
 import smsConsentRouter from './routes/smsConsent.js';
 
 import conversationsRouter from './routes/conversations.js';
+
+import reportsRouter from './routes/reports.js';
+import adminReportsRouter from './routes/adminReports.js';
 
 import webhooksTwilio from './routes/webhooksTwilio.js';
 
@@ -371,6 +376,7 @@ export function createApp() {
   app.use('/invites', RL(limiterInvites));
   app.use('/ai', RL(limiterAI));
   app.use('/ai', aiRoutes);
+  app.use('/features', featuresRouter);
   app.use('/media', RL(limiterMedia));
   app.use((req, res, next) => {
     if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(req.method)) {
@@ -436,7 +442,9 @@ export function createApp() {
   app.use('/pricing', pricingRouter);
   app.use('/api/pricing', pricingRouter);
 
-  app.use('/api/voicemail', voicemailRouter);
+  app.use("/people-invites", peopleInvitesRouter);
+
+  app.use('/voicemail', voicemailRouter);
   app.use('/api/voicemail/greeting', voicemailGreetingRouter);
 
   app.use('/api/porting', authMiddleware, portingRouter);
@@ -449,10 +457,13 @@ export function createApp() {
   app.post('/numbers/lock', requireAuth, requireEmailVerified, requirePremium, (req, _res, next) => next());
   app.use('/numbers', requireAuth, requireEmailVerified, numbersRouter);
 
-  app.use('/rooms', roomsRouter);
-  app.use('/chatrooms', conversationsRouter);
+app.use('/rooms', roomsRouter);
+app.use('/chatrooms', chatroomsRouter);
+app.use('/conversations', conversationsRouter);
   app.use('/messages', messagesRouter);
 
+  app.use('/reports', reportsRouter);
+  app.use('/admin/reports', adminReportsRouter);
 
   app.use(a11yRouter);
 

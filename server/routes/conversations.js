@@ -69,10 +69,10 @@ function buildLastPreviewText({ text, hasMedia, mediaKinds }) {
   if (!hasMedia) return '';
 
   const kinds = Array.isArray(mediaKinds) ? mediaKinds : [];
-  if (kinds.includes('image')) return '📷 Photo';
-  if (kinds.includes('video')) return '🎥 Video';
-  if (kinds.includes('audio')) return '🎙️ Audio';
-  return '📎 Attachment';
+  if (kinds.includes('image')) return 'Photo';
+  if (kinds.includes('video')) return 'Video';
+  if (kinds.includes('audio')) return 'Audio';
+  return 'Attachment';
 }
 
 // keep digits and a leading +

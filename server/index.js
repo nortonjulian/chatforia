@@ -129,33 +129,6 @@ if (ENV.IS_TEST) {
   // only pass an id.
   setSocketIo(io, emitToUser);
 
-  setHelpers({
-    fetchMessageById: async (id) => {
-      return prisma.message.findUnique({
-        where: { id: Number(id) },
-        select: {
-          id: true,
-          clientMessageId: true,
-          contentCiphertext: true,
-          rawContent: true,
-          translations: true,
-          translatedFrom: true,
-          translatedContent: true,
-          translatedTo: true,
-          isExplicit: true,
-          imageUrl: true,
-          audioUrl: true,
-          audioDurationSec: true,
-          expiresAt: true,
-          editedAt: true,
-          revision: true,
-          createdAt: true,
-          senderId: true,
-        },
-      });
-    },
-  });
-
   // Start background cleanup cron (auto-delete expired messages, etc.)
   try {
     startCleanupJobs();

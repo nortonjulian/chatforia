@@ -10,7 +10,18 @@ import axiosClient from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
 import i18n from '@/i18n';
 import { applyAccountTheme } from '@/utils/themeManager';
-import { getLocalKeyBundleMeta } from '@/utils/encryptionClient';
+import {
+  getLocalKeyBundleMeta,
+  getUnlockedPrivateKeyForPublicKey,
+  unlockKeyBundle,
+  getPersistedUnlockPasscodeForSession,
+  clearPersistedUnlockPasscodeForSession,
+} from '@/utils/encryptionClient';
+
+import {
+  requestBrowserPairing,
+  tryInstallKeysFromApprovedPairing,
+} from '@/utils/encryptionClient';
 
 const UserContext = createContext(null);
 
@@ -26,11 +37,13 @@ export function UserProvider({ children }) {
   const [authLoading, setAuthLoading] = useState(true);
   const [authError, setAuthError] = useState(null);
 
-  // 🔐 Step 1: whether this logged-in session should prompt for key unlock
   const [needsKeyUnlock, setNeedsKeyUnlock] = useState(false);
   const [keyMeta, setKeyMeta] = useState(null);
 
   const { refreshRooms, reconnect, disconnect } = useSocket();
+
+  const [keyUnlockLoading, setKeyUnlockLoading] = useState(false);
+  const [pairingPending, setPairingPending] = useState(false);
 
   const bootstrap = useCallback(async () => {
     setAuthLoading(true);
@@ -40,7 +53,7 @@ export function UserProvider({ children }) {
       const { data } = await axiosClient.get('/auth/me');
       const user = data?.user ?? data;
 
-      // ✅ Apply user's preferred language or fallback to browser default
+      // Language
       if (user?.preferredLanguage) {
         await i18n.changeLanguage(user.preferredLanguage);
       } else {
@@ -50,29 +63,133 @@ export function UserProvider({ children }) {
         }
       }
 
-      // ✅ Apply account theme if present
+      // Theme
       if (user?.theme) {
         applyAccountTheme(user.theme);
       }
 
+      const serverPublicKey = (user?.publicKey || '').trim();
+
+      let meta = null;
+      try {
+        meta = await getLocalKeyBundleMeta();
+      } catch (keyErr) {
+        console.warn('Failed to inspect local key bundle', keyErr?.message || keyErr);
+        meta = null;
+      }
+
+      setKeyMeta(meta || null);
+
+      let shouldUnlock = false;
+      let restoreReason = null;
+
+      // 🔐 NEW: pairing-first logic
+      if (serverPublicKey && !meta?.publicKey) {
+        console.log('[E2EE] no local key → attempting pairing flow');
+
+        try {
+          await requestBrowserPairing(null);
+          setPairingPending(true);
+
+          let approved = false;
+
+          for (let i = 0; i < 20; i++) {
+            await new Promise((r) => setTimeout(r, 2000));
+
+            try {
+              const installed = await tryInstallKeysFromApprovedPairing(null);
+
+              if (installed) {
+                console.log('[E2EE] pairing success → keys installed');
+                approved = true;
+                break;
+              }
+            } catch (err) {
+              console.warn('[E2EE] pairing poll error', err?.message || err);
+            }
+          }
+
+          setPairingPending(false);
+
+          if (approved) {
+            const newMeta = await getLocalKeyBundleMeta();
+            setKeyMeta(newMeta || null);
+            shouldUnlock = false;
+          } else {
+            shouldUnlock = true;
+            restoreReason =
+              'Approve this browser on your iPhone or restore your encryption key.';
+          }
+        } catch (err) {
+          setPairingPending(false);
+          console.warn('[E2EE] pairing flow failed', err?.message || err);
+
+          shouldUnlock = true;
+          restoreReason =
+            'Failed to pair this browser. Restore your encryption key.';
+        }
+      }
+
+      // Wrong key
+      if (serverPublicKey && meta?.publicKey && meta.publicKey !== serverPublicKey) {
+        shouldUnlock = true;
+        restoreReason =
+          'This browser has a different encryption key than your Chatforia account. Restore the correct key.';
+      }
+
+      // Locked bundle
+      if (
+        !shouldUnlock &&
+        serverPublicKey &&
+        meta?.publicKey === serverPublicKey &&
+        meta?.hasEncrypted
+      ) {
+        try {
+          await getUnlockedPrivateKeyForPublicKey(serverPublicKey);
+        } catch (err) {
+          const msg = err?.message || String(err);
+
+          if (msg === 'LOCKED') {
+            const savedPasscode = getPersistedUnlockPasscodeForSession();
+
+            if (savedPasscode) {
+              setKeyUnlockLoading(true);
+
+              try {
+                await unlockKeyBundle(savedPasscode);
+                await getUnlockedPrivateKeyForPublicKey(serverPublicKey);
+                shouldUnlock = false;
+              } catch {
+                clearPersistedUnlockPasscodeForSession();
+                shouldUnlock = true;
+                restoreReason = 'Unlock your encryption key to continue.';
+              } finally {
+                setKeyUnlockLoading(false);
+              }
+            } else {
+              shouldUnlock = true;
+              restoreReason = 'Unlock your encryption key to continue.';
+            }
+          }
+        }
+      }
+
       setCurrentUser(user);
+      setNeedsKeyUnlock(shouldUnlock);
+
+      if (shouldUnlock) {
+        setAuthError(restoreReason);
+        disconnect?.();
+        return;
+      }
 
       reconnect?.();
-      await refreshRooms?.();
-
-      // non-blocking best-effort key metadata check
-      getLocalKeyBundleMeta()
-        .then((meta) => {
-          setKeyMeta(meta || null);
-          setNeedsKeyUnlock(Boolean(meta?.hasEncrypted));
-        })
-        .catch((keyErr) => {
-          console.warn('Failed to inspect local key bundle', keyErr?.message || keyErr);
-          setKeyMeta(null);
-          setNeedsKeyUnlock(false);
-        });
-        
+      refreshRooms?.().catch((err) => {
+        console.warn('[UserContext] background refreshRooms failed', err?.message || err);
+      });
     } catch (err) {
+      setPairingPending(false);
+
       if (err?.response?.status === 401) {
         setCurrentUser(null);
       } else {
@@ -96,6 +213,7 @@ export function UserProvider({ children }) {
       setCurrentUser(null);
       setKeyMeta(null);
       setNeedsKeyUnlock(false);
+      setPairingPending(false);
       disconnect?.();
     };
 
@@ -123,22 +241,20 @@ export function UserProvider({ children }) {
           },
         }
       );
-    } catch (_) {
-      // ignore logout errors
-    }
+    } catch {}
 
-    // client clean-up of any legacy tokens
     localStorage.removeItem('token');
     localStorage.removeItem('foria_jwt');
     localStorage.removeItem('cf_session');
 
-    // belt-and-suspenders: nuke cookies on the client too
     document.cookie = 'foria_jwt=; Max-Age=0; path=/';
     document.cookie = 'cf_session=; Max-Age=0; path=/';
 
     setCurrentUser(null);
     setKeyMeta(null);
     setNeedsKeyUnlock(false);
+    setAuthError(null);
+    setPairingPending(false);
 
     disconnect?.();
     window.location.assign('/');
@@ -152,11 +268,11 @@ export function UserProvider({ children }) {
       authError,
       logout,
 
-      // 🔐 expose key state for upcoming unlock modal
       needsKeyUnlock,
       setNeedsKeyUnlock,
       keyMeta,
       setKeyMeta,
+      pairingPending,
     }),
     [
       currentUser,
@@ -165,6 +281,7 @@ export function UserProvider({ children }) {
       logout,
       needsKeyUnlock,
       keyMeta,
+      pairingPending,
     ]
   );
 

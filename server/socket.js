@@ -243,27 +243,52 @@ export function initSocket(httpServer) {
       }
     });
 
-    // Back-compat: single join/leave
-    socket.on('join_room', async (roomId) => {
-      try {
-        if (!roomId) return;
-        await socket.join(String(roomId));
-        if (!IS_TEST) console.log(`[WS] user:${userId} joined room ${roomId}`);
-      } catch (e) {
-        console.warn('[WS] join_room error', e?.message || e);
-      }
-    });
+    // ---- Single room join/leave (unified across iOS + Web) ----
+      async function joinOne(roomLike) {
+        try {
+          const roomId =
+            typeof roomLike === 'object' && roomLike !== null
+              ? roomLike.roomId
+              : roomLike;
 
-    socket.on('leave_room', async (roomId) => {
-      try {
-        if (!roomId) return;
-        await socket.leave(String(roomId));
-        if (!IS_TEST) console.log(`[WS] user:${userId} left room ${roomId}`);
-      } catch (e) {
-        console.warn('[WS] leave_room error', e?.message || e);
-      }
-    });
+          if (!roomId) return;
 
+          await socket.join(String(roomId));
+
+          if (!IS_TEST) {
+            console.log(`[WS] user:${userId} joined room ${roomId}`);
+          }
+        } catch (e) {
+          console.warn('[WS] join error', e?.message || e);
+        }
+      }
+
+      async function leaveOne(roomLike) {
+        try {
+          const roomId =
+            typeof roomLike === 'object' && roomLike !== null
+              ? roomLike.roomId
+              : roomLike;
+
+          if (!roomId) return;
+
+          await socket.leave(String(roomId));
+
+          if (!IS_TEST) {
+            console.log(`[WS] user:${userId} left room ${roomId}`);
+          }
+        } catch (e) {
+          console.warn('[WS] leave error', e?.message || e);
+        }
+      }
+
+      // ✅ Web (current)
+      socket.on('join_room', joinOne);
+      socket.on('leave_room', leaveOne);
+
+      // ✅ iOS (new support)
+      socket.on('joinRoom', joinOne);
+      socket.on('leaveRoom', leaveOne);
     // ---- Typing indicators ----
     socket.on('typing:start', ({ roomId }) => {
       try {

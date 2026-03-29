@@ -32,17 +32,17 @@ jest.mock('@mantine/core', () => {
 /* ---------------- Children component stubs ---------------- */
 /* Correct relative paths from this test file:
    test:       src/pages/__tests__/SettingsBackups.test.js
-   components: src/components/settings/BackupManager.jsx
-               src/components/ChatBackupManager.jsx
-   relatives:  ../../components/settings/BackupManager.jsx
-               ../../components/ChatBackupManager.jsx
+   components: src/components/settings/ChatBackupManager.jsx
+               src/components/KeyBackupManager.jsx
+   relatives:  ../../components/settings/ChatBackupManager.jsx
+               ../../components/KeyBackupManager.jsx
 */
-jest.mock('../../components/settings/BackupManager.jsx', () => ({
+jest.mock('../../components/settings/ChatBackupManager.jsx', () => ({
   __esModule: true,
   default: () => <div data-testid="backup-manager">backup</div>,
 }));
 
-jest.mock('../../components/ChatBackupManager.jsx', () => ({
+jest.mock('../../components/KeyBackupManager.jsx', () => ({
   __esModule: true,
   default: ({ fetchAllMessages, currentUserId, currentUserPrivateKey }) => (
     <div
@@ -85,14 +85,14 @@ describe('SettingsBackups', () => {
     global.__unlockKeyBundleMock.mockReset();
   });
 
-  test('renders title and BackupManager', () => {
+  test('renders title and ChatBackupManager', () => {
     render(<SettingsBackups />);
     // Use a role-based query to disambiguate multiple <h3 data-testid="title"> elements
     expect(screen.getByRole('heading', { name: /Backups/i })).toBeInTheDocument();
     expect(screen.getByTestId('backup-manager')).toBeInTheDocument();
   });
 
-  test('unlock button disabled until passcode >= 6; success path sets status and passes key to ChatBackupManager', async () => {
+  test('unlock button disabled until passcode >= 6; success path sets status and passes key to KeyBackupManager', async () => {
     global.__unlockKeyBundleMock.mockResolvedValueOnce({ privateKey: 'PK_BASE64' });
 
     render(
@@ -118,7 +118,7 @@ describe('SettingsBackups', () => {
     await waitFor(() => expect(global.__unlockKeyBundleMock).toHaveBeenCalledWith('123456'));
     await waitFor(() => expect(screen.getByText(/Unlocked ✓/i)).toBeInTheDocument());
 
-    // Private key flowed into ChatBackupManager stub
+    // Private key flowed into KeyBackupManager stub
     const chat = screen.getByTestId('chat-backup');
     expect(chat).toHaveAttribute('data-privatekey', 'PK_BASE64');
   });

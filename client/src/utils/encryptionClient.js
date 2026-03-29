@@ -3,17 +3,20 @@ import { decryptMessageForUserBrowser } from './decryptionClient.js';
 import { loadKeysLocal, clearKeysLocal } from './keys.js';
 import nacl from 'tweetnacl';
 import naclUtil from 'tweetnacl-util';
+import { getOrCreateBrowserDeviceRecord, getBrowserDevicePrivateKeyBytes } from './browserDeviceClient.js';
 
 /* ============================================================
  * Tiny byte and WebCrypto helpers
  * ========================================================== */
 
+let _unlockPromise = null;
+let _cachedUnlockedBundle = null;
+
 const te = new TextEncoder();
 const td = new TextDecoder();
 
 const b642bytes = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-const bytes2b64 = (bytes) =>
-  btoa(String.fromCharCode(...new Uint8Array(bytes)));
+const bytes2b64 = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes)));
 
 const hex2bytes = (hex) => {
   const s = hex.replace(/^0x/, '').toLowerCase();
@@ -37,6 +40,22 @@ const guessToBytes = (v) => {
 };
 
 const randBytes = (n) => crypto.getRandomValues(new Uint8Array(n));
+
+async function getUnlockedBundleCached() {
+  if (_cachedUnlockedBundle) return _cachedUnlockedBundle;
+  if (_unlockPromise) return _unlockPromise;
+
+  _unlockPromise = getUnlockedBundleOrThrow()
+    .then((bundle) => {
+      _cachedUnlockedBundle = bundle;
+      return bundle;
+    })
+    .finally(() => {
+      _unlockPromise = null;
+    });
+
+  return _unlockPromise;
+}
 
 async function importAesKeyRaw(raw) {
   return crypto.subtle.importKey(
@@ -135,6 +154,7 @@ async function aesGcmDecrypt(key, ivB64, ctB64) {
 
 async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
   if (!publicKey || !privateKey) throw new Error('Missing keys');
+
   const saltB64 = bytes2b64(randBytes(16));
   const iterations = _iterations;
   const key = await deriveAesKey(passcode, saltB64, iterations);
@@ -148,11 +168,13 @@ async function saveEncryptedBundle({ publicKey, privateKey }, passcode) {
     publicKey,
     enc: { saltB64, iterations, ivB64, ctB64 },
   };
+
   await set(DB_KEY, rec);
 
   _derivedKey = key;
   _saltB64 = saltB64;
   _iterations = iterations;
+  _cachedUnlockedBundle = { publicKey, privateKey };
 
   return rec;
 }
@@ -161,18 +183,15 @@ async function getUnlockedBundleOrThrow() {
   console.log('[E2EE] getUnlockedBundleOrThrow ENTER');
 
   let trustedLocal = null;
-  try {
-    console.log('[E2EE] before loadKeysLocal()');
-    trustedLocal = await Promise.race([
-      loadKeysLocal(),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('loadKeysLocal timeout')), 1500)
-      ),
-    ]);
-    console.log('[E2EE] after loadKeysLocal()', trustedLocal);
-  } catch (e) {
-    console.warn('[E2EE] loadKeysLocal failed or timed out', e?.message || e);
-    trustedLocal = null;
+
+  // Skip this path on web for now because IndexedDB open timeout is slower
+  // than our encrypted bundle path and causes startup drag.
+  if (typeof window === 'undefined') {
+    try {
+      trustedLocal = await loadKeysLocal();
+    } catch {
+      trustedLocal = null;
+    }
   }
 
   if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
@@ -235,6 +254,19 @@ async function getUnlockedBundleOrThrow() {
     return obj;
   }
 
+  try {
+    console.log('[E2EE] attempting approved-pairing bootstrap');
+
+    const installed = await tryInstallKeysFromApprovedPairing(null);
+
+    if (installed) {
+      console.log('[E2EE] approved-pairing bootstrap succeeded');
+      return await getUnlockedBundleOrThrow();
+    }
+  } catch (e) {
+    console.warn('[E2EE] approved-pairing bootstrap failed', e?.message || e);
+  }
+
   console.warn('[E2EE] no local keypair found anywhere');
   throw new Error('No local keypair found');
 }
@@ -243,9 +275,188 @@ async function getUnlockedBundleOrThrow() {
  * Public: local key bundle metadata & management
  * ========================================================== */
 
+async function hkdfAesKeyFromSharedSecret(sharedSecretBytes) {
+  const baseKey = await crypto.subtle.importKey(
+    'raw',
+    sharedSecretBytes,
+    'HKDF',
+    false,
+    ['deriveKey']
+  );
+
+  return crypto.subtle.deriveKey(
+    {
+      name: 'HKDF',
+      hash: 'SHA-256',
+      salt: te.encode('chatforia-device-pairing-v1'),
+      info: new Uint8Array([]),
+    },
+    baseKey,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['decrypt']
+  );
+}
+
+function parseWrappedPayloadString(wrappedAccountKey) {
+  if (!wrappedAccountKey || typeof wrappedAccountKey !== 'string') {
+    throw new Error('Missing wrappedAccountKey');
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(wrappedAccountKey);
+  } catch {
+    throw new Error('wrappedAccountKey is not valid JSON');
+  }
+
+  const { version, algorithm, senderPublicKey, nonce, ciphertext } = parsed || {};
+
+  if (!senderPublicKey || !nonce || !ciphertext) {
+    throw new Error('wrappedAccountKey missing fields');
+  }
+
+  if (algorithm !== 'x25519-aesgcm') {
+    throw new Error(`Unsupported pairing algorithm: ${algorithm}`);
+  }
+
+  return { version, algorithm, senderPublicKey, nonce, ciphertext };
+}
+
+export async function requestBrowserPairing(authToken) {
+  const browser = await getOrCreateBrowserDeviceRecord();
+
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
+
+  const res = await fetch('/devices/pairing/request', {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+    body: JSON.stringify({
+      deviceId: browser.deviceId,
+      name: browser.name,
+      platform: browser.platform,
+      publicKey: browser.publicKey,
+      keyAlgorithm: browser.keyAlgorithm,
+      keyVersion: browser.keyVersion,
+    }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Pairing request failed: ${text || res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function installPairedDeviceBundle({
+  wrappedAccountKey,
+  passcode,
+}) {
+  const unwrapped = await unwrapPairedAccountKeys(wrappedAccountKey);
+
+  await saveEncryptedBundle(
+    {
+      publicKey: unwrapped.publicKey,
+      privateKey: unwrapped.privateKey,
+    },
+    passcode
+  );
+
+  return {
+    publicKey: unwrapped.publicKey,
+    installed: true,
+  };
+}
+
+export async function unwrapPairedAccountKeys(wrappedAccountKey) {
+  const wrapped = parseWrappedPayloadString(wrappedAccountKey);
+
+  const browserPrivateKey = await getBrowserDevicePrivateKeyBytes();
+  if (!browserPrivateKey) {
+    throw new Error('Missing browser device private key');
+  }
+
+  const senderPublicKeyBytes = decodeB64Any(
+    wrapped.senderPublicKey,
+    'wrapped.senderPublicKey'
+  );
+
+  const sharedSecret = nacl.scalarMult(browserPrivateKey, senderPublicKeyBytes);
+  const aesKey = await hkdfAesKeyFromSharedSecret(sharedSecret);
+
+  const nonceBytes = decodeB64Any(wrapped.nonce, 'wrapped.nonce');
+  const ciphertextBytes = decodeB64Any(wrapped.ciphertext, 'wrapped.ciphertext');
+
+  const plaintext = await crypto.subtle.decrypt(
+    { name: 'AES-GCM', iv: nonceBytes },
+    aesKey,
+    ciphertextBytes
+  );
+
+  const obj = JSON.parse(td.decode(plaintext));
+
+  if (!obj?.publicKey || !obj?.privateKey) {
+    throw new Error('Wrapped payload missing account keys');
+  }
+
+  return obj;
+}
+
+export async function fetchBrowserPairingStatus(authToken) {
+  const browser = await getOrCreateBrowserDeviceRecord();
+
+  const headers = {};
+  if (authToken) {
+    headers.Authorization = `Bearer ${authToken}`;
+  }
+
+  const res = await fetch(
+    `/devices/pairing/status/${encodeURIComponent(browser.deviceId)}`,
+    {
+      method: 'GET',
+      credentials: 'include',
+      headers,
+    }
+  );
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Pairing status failed: ${text || res.status}`);
+  }
+
+  return res.json();
+}
+
+export async function tryInstallKeysFromApprovedPairing(authToken) {
+  const { device } = await fetchBrowserPairingStatus(authToken);
+
+  if (!device) return false;
+  if (device.revokedAt) return false;
+  if (device.pairingStatus !== 'approved') return false;
+  if (!device.wrappedAccountKey) return false;
+
+  const localPasscode = crypto.randomUUID();
+
+  await installPairedDeviceBundle({
+    wrappedAccountKey: device.wrappedAccountKey,
+    passcode: localPasscode,
+  });
+
+  persistUnlockPasscodeForSession(localPasscode);
+  return true;
+}
+
 export async function getUnlockedPrivateKey() {
   console.log('[E2EE encryptionClient] getUnlockedPrivateKey called');
-  const { privateKey, publicKey } = await getUnlockedBundleOrThrow();
+  const { privateKey, publicKey } = await getUnlockedBundleCached();
   console.log('[E2EE encryptionClient] unlocked bundle found', {
     hasPrivateKey: !!privateKey,
     hasPublicKey: !!publicKey,
@@ -256,7 +467,17 @@ export async function getUnlockedPrivateKey() {
 }
 
 export async function getLocalKeyBundleMeta() {
-  const trustedLocal = await loadKeysLocal();
+  let trustedLocal = null;
+
+  // Same optimization as startup path: avoid slow IndexedDB trusted-local load on web.
+  if (typeof window === 'undefined') {
+    try {
+      trustedLocal = await loadKeysLocal();
+    } catch {
+      trustedLocal = null;
+    }
+  }
+
   if (trustedLocal?.privateKey && trustedLocal?.publicKey) {
     return {
       version: 'trusted-device',
@@ -342,6 +563,7 @@ export async function unlockKeyBundle(passcode) {
   _derivedKey = key;
   _saltB64 = saltB64;
   _iterations = iterations;
+  _cachedUnlockedBundle = obj;
 
   return obj;
 }
@@ -351,7 +573,7 @@ export async function getUnlockedPrivateKeyForPublicKey(expectedPublicKey) {
     expectedPublicKeyPreview: expectedPublicKey?.slice?.(0, 40) || null,
   });
 
-  const { privateKey, publicKey } = await getUnlockedBundleOrThrow();
+  const { privateKey, publicKey } = await getUnlockedBundleCached();
 
   console.log('[E2EE encryptionClient] comparing local vs expected publicKey', {
     localPublicKeyPreview: publicKey?.slice?.(0, 40) || null,
@@ -385,6 +607,31 @@ export async function getUnlockedPrivateKeyForPublicKey(expectedPublicKey) {
 export function lockKeyBundle() {
   _derivedKey = null;
   _saltB64 = null;
+  _cachedUnlockedBundle = null;
+}
+
+export function clearUnlockedBundleCache() {
+  _unlockPromise = null;
+  _cachedUnlockedBundle = null;
+}
+
+/* ============================================================
+ * Session unlock persistence (NEW)
+ * ========================================================== */
+
+export function persistUnlockPasscodeForSession(passcode) {
+  if (typeof window === 'undefined') return;
+  sessionStorage.setItem('chatforia:keyPasscode', passcode);
+}
+
+export function getPersistedUnlockPasscodeForSession() {
+  if (typeof window === 'undefined') return null;
+  return sessionStorage.getItem('chatforia:keyPasscode');
+}
+
+export function clearPersistedUnlockPasscodeForSession() {
+  if (typeof window === 'undefined') return;
+  sessionStorage.removeItem('chatforia:keyPasscode');
 }
 
 export async function clearLocalKeyBundle() {
@@ -398,12 +645,10 @@ export async function clearLocalKeyBundle() {
   try {
     await clearKeysLocal();
   } catch {}
-  lockKeyBundle();
-}
 
-/* ============================================================
- * Symmetric helpers (encrypt/decrypt)
- * ========================================================== */
+  lockKeyBundle();
+  clearUnlockedBundleCache();
+}
 
 export async function decryptSym({ key, iv, ciphertext }) {
   const k = await importAesKey(key);
@@ -512,10 +757,6 @@ export async function decryptFetchedMessages(
   );
 }
 
-/* ============================================================
- * Reporting helper
- * ========================================================== */
-
 export async function reportMessage(payload) {
   return fetch('/messages/report', {
     method: 'POST',
@@ -601,7 +842,7 @@ function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPub
 
 export async function encryptForRoom(participants = [], plaintext = '', currentUserId) {
   const { publicKey: senderPubB64, privateKey: senderPrivB64 } =
-    await getUnlockedBundleOrThrow();
+    await getUnlockedBundleCached();
 
   const { keyRaw, ivBytes, ctBytes } = await encryptSym(plaintext);
 
@@ -611,7 +852,6 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
   const encPart = ctBytes.slice(0, ctBytes.length - tagLen);
   const tagPart = ctBytes.slice(ctBytes.length - tagLen);
 
-  // CryptoKit-compatible layout: nonce + ciphertext + tag
   const packedCiphertext = concatBytes(ivBytes, encPart, tagPart);
   const ciphertext = bytes2b64(packedCiphertext);
 
@@ -641,9 +881,9 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
     { senderId: currentUserId, recipientId: currentUserId }
   );
 
-    return {
+  return {
     ciphertext,
     encryptedKeys,
-    encryptionVersion: 'v2', 
+    encryptionVersion: 'v2',
   };
 }

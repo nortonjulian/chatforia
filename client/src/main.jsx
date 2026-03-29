@@ -156,7 +156,6 @@ function Root() {
     (async () => {
       try {
         await primeCsrf();
-        const { data } = await axiosClient.get('/auth/me');
         const me = data?.user ?? data;
         if (!alive) return;
         if (me?.theme && me.theme !== getTheme()) setTheme(me.theme);

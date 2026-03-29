@@ -31,7 +31,7 @@ import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import ThreadShell from '@/threads/ThreadShell.jsx';
 import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 
-import socket from '@/lib/socket';
+import { useSocket } from '@/context/SocketContext';
 import axiosClient from '@/api/axiosClient';
 
 // dynamic: keep heavy crypto out of the initial bundle
@@ -265,6 +265,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const canShow = ads?.canShow || (() => true);
   const markShown = ads?.markShown || (() => {});
 
+  const { socket } = useSocket();
+
   const isOwnerOrAdmin =
     currentUser?.role === 'ADMIN' || currentUser?.id === chatroom?.ownerId;
 
@@ -457,46 +459,60 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ real edit submit
   const handleEditMessage = useCallback(async () => {
-    if (!editTarget?.id) return;
+  if (!editTarget?.id) return;
 
-    const current = editTarget.rawContent ?? editTarget.content ?? '';
-    const newText = editText.trim();
+  const current = editTarget.rawContent ?? editTarget.content ?? '';
+  const newText = editText.trim();
 
-    if (!newText || newText === current) {
-      closeEditModal();
-      return;
+  if (!newText || newText === current) {
+    closeEditModal();
+    return;
+  }
+
+  try {
+    setEditSubmitting(true);
+
+    const { data } = await axiosClient.patch(
+      `/messages/${editTarget.id}/edit`,
+      { newContent: newText }
+    );
+
+    const updated = data?.message ?? data ?? null;
+
+    const merged =
+      updated != null
+        ? {
+            ...editTarget,
+            ...updated,
+            rawContent: updated.rawContent ?? newText,
+            content: updated.rawContent ?? newText,
+            decryptedContent: updated.rawContent ?? newText,
+            translatedForMe: updated.translatedForMe ?? null,
+            editedAt: updated.editedAt ?? new Date().toISOString(),
+          }
+        : {
+            ...editTarget,
+            rawContent: newText,
+            content: newText,
+            decryptedContent: newText,
+            translatedForMe: null,
+            editedAt: new Date().toISOString(),
+          };
+
+    setMessages((prev) => upsertLocalMessage(prev, merged));
+
+    if (chatroom?.id) {
+      upsertMessage(chatroom.id, merged).catch(() => {});
+      addMessages(chatroom.id, [merged]).catch(() => {});
     }
 
-    try {
-      setEditSubmitting(true);
-
-      const { data: updated } = await axiosClient.patch(
-        `/messages/${editTarget.id}/edit`,
-        { newContent: newText }
-      );
-
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === (updated?.id ?? editTarget.id)
-            ? {
-                ...m,
-                rawContent: newText,
-                content: newText,
-                decryptedContent: newText,
-                translatedForMe: null,
-                editedAt: updated?.editedAt ?? new Date().toISOString(),
-              }
-            : m
-        )
-      );
-
-      closeEditModal();
-    } catch (error) {
-      console.error('Message edit failed', error);
-    } finally {
-      setEditSubmitting(false);
-    }
-  }, [editTarget, editText, closeEditModal]);
+    closeEditModal();
+  } catch (error) {
+    console.error('Message edit failed', error);
+  } finally {
+    setEditSubmitting(false);
+  }
+}, [editTarget, editText, closeEditModal, chatroom?.id]);
 
   // ✅ real delete submit
   const handleDeleteMessage = useCallback(async () => {
@@ -663,12 +679,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ own room membership here, not in ChatroomList
   useEffect(() => {
-    if (!chatroom?.id) return;
+    if (!chatroom?.id || !socket) return;
 
     const roomId = Number(chatroom.id);
 
     const join = () => {
-      socket.emit('join_room', roomId);
+      if (socket.connected) {
+        socket.emit('join_room', roomId);
+      }
     };
 
     join();
@@ -676,9 +694,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     return () => {
       socket.off('connect', join);
-      socket.emit('leave_room', roomId);
+      if (socket.connected) {
+        socket.emit('leave_room', roomId);
+      }
     };
-  }, [chatroom?.id]);
+}, [chatroom?.id, socket]);
 
   useEffect(() => {
     let alive = true;
@@ -744,118 +764,139 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   }, [chatroom?.id, cursor, hasMore]);
 
   useEffect(() => {
-    if (!chatroom || !currentUserId) return;
+  if (!socket || !chatroom || !currentUserId) return;
 
-    const mergeIncomingMessage = mergeIncomingMessageFactory(setMessages);
-    const mergeIncomingBatch = mergeIncomingBatchFactory(setMessages);
+  const mergeIncomingMessage = mergeIncomingMessageFactory(setMessages);
+  const mergeIncomingBatch = mergeIncomingBatchFactory(setMessages);
 
-    const handleReceiveMessage = async (payload) => {
-      const raw = unwrapMessage(payload);
-      if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
+  const handleRealtimeMessage = async (payload) => {
+    if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
 
-      try {
-        const priv = await maybeGetUnlockedPrivateKey();
-        const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
+    const raw = unwrapMessage(payload);
+    if (!raw) return;
 
-        mergeIncomingMessage(decrypted);
-
-        const incomingId = Number(decrypted?.id || 0);
-        if (Number.isFinite(incomingId) && incomingId > 0) {
-          setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
-        }
-
-        upsertMessage(chatroom.id, decrypted).catch(() => {});
-        addMessages(chatroom.id, [decrypted]).catch(() => {});
-
-        const isMine = isSameUser(getSenderId(decrypted), currentUserId);
-
-        if (!isMine) {
-          markMessageRead(decrypted?.id ?? raw?.id);
-        }
-
-        const v = scrollViewportRef.current;
-        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-        if (atBottom) scrollToBottomNow();
-        else setShowNewMessage(true);
-
-        const tabHidden = document.hidden;
-        if (!isMine && (!atBottom || tabHidden)) {
-          playSound('/sounds/new-message.mp3', { volume: 0.6 });
-        }
-      } catch (e) {
-        console.error('Failed to decrypt/merge incoming message', e);
-
-        mergeIncomingMessage(raw);
-
-        const isMine = isSameUser(getSenderId(raw), currentUserId);
-        if (!isMine) markMessageRead(raw?.id);
-
-        const v = scrollViewportRef.current;
-        const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-        if (atBottom) scrollToBottomNow();
-        else setShowNewMessage(true);
-
-        const tabHidden = document.hidden;
-        if (!isMine && (!atBottom || tabHidden)) {
-          playSound('/sounds/new-message.mp3', { volume: 0.6 });
-        }
-      }
-    };
-
-    const handleBatch = async (payload) => {
-      const rows = payload?.items ?? payload?.messages ?? payload;
-      if (!Array.isArray(rows) || rows.length === 0) return;
-
-      const roomFilteredRows = rows.filter(
-        (row) => getMessageRoomId(row) === Number(chatroom.id)
+    try {
+      const priv = await maybeGetUnlockedPrivateKey();
+      const [decrypted] = await maybeDecryptFetchedMessages(
+        [raw],
+        priv,
+        null,
+        currentUserId
       );
-      if (!roomFilteredRows.length) return;
 
-      try {
-        const priv = await maybeGetUnlockedPrivateKey();
-        const decrypted = await maybeDecryptFetchedMessages(
-          roomFilteredRows,
-          priv,
-          null,
-          currentUserId
-        );
+      const incoming = decrypted ?? raw;
+      mergeIncomingMessage(incoming);
 
-        mergeIncomingBatch(decrypted);
-        addMessages(chatroom.id, decrypted).catch(() => {});
-
-        const maxInBatch = (decrypted || [])
-          .map((m) => Number(m?.id || 0))
-          .filter(Number.isFinite)
-          .reduce((a, b) => Math.max(a, b), 0);
-
-        if (maxInBatch > 0) {
-          setHighestSeenId((prev) => Math.max(prev || 0, maxInBatch));
-        }
-      } catch (e) {
-        console.error('Failed to decrypt incoming batch', e);
-        mergeIncomingBatch(roomFilteredRows);
+      const incomingId = Number(incoming?.id || 0);
+      if (Number.isFinite(incomingId) && incomingId > 0) {
+        setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
       }
-    };
 
-    const onTypingUpdate = ({ roomId, username, isTyping }) => {
-      if (Number(roomId) !== Number(chatroom.id)) return;
-      setTypingUser(isTyping ? username || '' : '');
-    };
+      upsertMessage(chatroom.id, incoming).catch(() => {});
+      addMessages(chatroom.id, [incoming]).catch(() => {});
 
-    socket.on('message:upsert', handleReceiveMessage);
-    socket.on('message:new', handleReceiveMessage);
-    socket.on('message:expired', handleReceiveMessage);
-    socket.on('message:batch', handleBatch);
-    socket.on('typing:update', onTypingUpdate);
+      const isMine = isSameUser(getSenderId(incoming), currentUserId);
 
-    return () => {
-      socket.off('message:upsert', handleReceiveMessage);
-      socket.off('message:new', handleReceiveMessage);
-      socket.off('message:expired', handleReceiveMessage);
-      socket.off('message:batch', handleBatch);
-      socket.off('typing:update', onTypingUpdate);
-    };
-  }, [chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
+      if (!isMine && incoming?.id) {
+        markMessageRead(incoming.id);
+      }
+
+      const v = scrollViewportRef.current;
+      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+      if (atBottom) scrollToBottomNow();
+      else setShowNewMessage(true);
+
+      const tabHidden = document.hidden;
+      if (!isMine && (!atBottom || tabHidden)) {
+        playSound('/sounds/new-message.mp3', { volume: 0.6 });
+      }
+    } catch (e) {
+      console.error('Failed to decrypt/merge incoming realtime message', e);
+
+      mergeIncomingMessage(raw);
+      upsertMessage(chatroom.id, raw).catch(() => {});
+      addMessages(chatroom.id, [raw]).catch(() => {});
+
+      const isMine = isSameUser(getSenderId(raw), currentUserId);
+
+      if (!isMine && raw?.id) {
+        markMessageRead(raw.id);
+      }
+
+      const v = scrollViewportRef.current;
+      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
+
+      if (atBottom) scrollToBottomNow();
+      else setShowNewMessage(true);
+
+      const tabHidden = document.hidden;
+      if (!isMine && (!atBottom || tabHidden)) {
+        playSound('/sounds/new-message.mp3', { volume: 0.6 });
+      }
+    }
+  };
+
+  const handleBatch = async (payload) => {
+    const rows = payload?.items ?? payload?.messages ?? payload;
+    if (!Array.isArray(rows) || rows.length === 0) return;
+
+    const roomFilteredRows = rows.filter(
+      (row) => getMessageRoomId(row) === Number(chatroom.id)
+    );
+    if (!roomFilteredRows.length) return;
+
+    try {
+      const priv = await maybeGetUnlockedPrivateKey();
+      const decrypted = await maybeDecryptFetchedMessages(
+        roomFilteredRows,
+        priv,
+        null,
+        currentUserId
+      );
+
+      const incomingRows = decrypted?.length ? decrypted : roomFilteredRows;
+
+      mergeIncomingBatch(incomingRows);
+      addMessages(chatroom.id, incomingRows).catch(() => {});
+
+      const maxInBatch = incomingRows
+        .map((m) => Number(m?.id || 0))
+        .filter(Number.isFinite)
+        .reduce((a, b) => Math.max(a, b), 0);
+
+      if (maxInBatch > 0) {
+        setHighestSeenId((prev) => Math.max(prev || 0, maxInBatch));
+      }
+    } catch (e) {
+      console.error('Failed to decrypt incoming batch', e);
+      mergeIncomingBatch(roomFilteredRows);
+    }
+  };
+
+  const onTypingUpdate = ({ roomId, username, isTyping }) => {
+    if (Number(roomId) !== Number(chatroom.id)) return;
+    setTypingUser(isTyping ? username || '' : '');
+  };
+
+  socket.on('message:upsert', handleRealtimeMessage);
+  socket.on('message:new', handleRealtimeMessage);
+  socket.on('message:expired', handleRealtimeMessage);
+  socket.on('message:edited', handleRealtimeMessage);
+  socket.on('message:deleted', handleRealtimeMessage);
+  socket.on('message:batch', handleBatch);
+  socket.on('typing:update', onTypingUpdate);
+
+  return () => {
+    socket.off('message:upsert', handleRealtimeMessage);
+    socket.off('message:new', handleRealtimeMessage);
+    socket.off('message:expired', handleRealtimeMessage);
+    socket.off('message:edited', handleRealtimeMessage);
+    socket.off('message:deleted', handleRealtimeMessage);
+    socket.off('message:batch', handleBatch);
+    socket.off('typing:update', onTypingUpdate);
+  };
+}, [socket, chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
 
   const handleBlockThread = useCallback(async () => {
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
@@ -883,191 +924,118 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }, [chatroom?.participants, currentUserId, navigate]);
 
-  useEffect(() => {
-    if (!chatroom) return;
-    const onExpired = ({ id }) => {
-      setMessages((prev) => prev.filter((m) => m.id !== id));
-    };
-    socket.on('message:expired', onExpired);
-    return () => socket.off('message:expired', onExpired);
-  }, [chatroom?.id]);
 
   useEffect(() => {
-    const onEdited = (payload) => {
-      const messageId = payload?.messageId ?? payload?.id ?? payload?.message?.id;
-      const rawContent =
-        payload?.rawContent ??
-        payload?.content ??
-        payload?.message?.rawContent ??
-        payload?.message?.content;
-      const editedAt = payload?.editedAt ?? payload?.message?.editedAt ?? new Date().toISOString();
+  if (!socket) return;
 
-      if (!messageId) return;
+  const onRead = (payload) => {
+    const messageIds =
+      (Array.isArray(payload?.messageIds) && payload.messageIds) ||
+      (payload?.messageId ? [payload.messageId] : []);
 
-     setMessages((prev) =>
-        prev.map((m) =>
-          m.id === messageId
-            ? {
-                ...m,
-                rawContent,
-                content: rawContent,
-                decryptedContent: rawContent,
-                translatedForMe: null,
-                editedAt,
-              }
-            : m
-        )
-      );
-    };
+    if (!messageIds.length) return;
 
-    socket.on('message_edited', onEdited);
-    return () => socket.off('message_edited', onEdited);
-  }, []);
+    const readerId = payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
+    if (!readerId || Number(readerId) === Number(currentUserId)) return;
 
-  useEffect(() => {
-    const onDeleted = (payload) => {
-      const messageId = payload?.messageId ?? payload?.id ?? payload?.message?.id;
-      if (!messageId) return;
+    const readAt = payload?.readAt ?? new Date().toISOString();
+    const messageIdSet = new Set(messageIds.map(String));
 
-      const scope = payload?.scope ?? payload?.mode ?? payload?.message?.scope ?? 'me';
-      const deletedForAll = scope === 'all';
+    setMessages((prev) =>
+      prev.map((m) => {
+        if (!messageIdSet.has(String(m.id))) return m;
 
-      if (!deletedForAll) {
-        const targetUserId = Number(payload?.userId);
-        if (Number.isFinite(targetUserId) && targetUserId !== Number(currentUserId)) return;
-        setMessages((prev) => prev.filter((m) => m.id !== messageId));
-        return;
-      }
+        const next = { ...m, readAt: m.readAt ?? readAt };
 
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === messageId
-            ? {
-                ...m,
-                deletedForAll: true,
-                deletedAt: payload?.deletedAt ?? new Date().toISOString(),
-                deletedById: payload?.deletedById ?? payload?.deletedById,
-                rawContent: '',
-                content: '',
-                translatedForMe: null,
-                attachments: [],
-              }
-            : m
-        )
-      );
-    };
-
-    socket.on('message_deleted', onDeleted);
-    return () => socket.off('message_deleted', onDeleted);
-  }, [currentUserId]);
-
-  useEffect(() => {
-    const onRead = (payload) => {
-      const messageIds =
-        (Array.isArray(payload?.messageIds) && payload.messageIds) ||
-        (payload?.messageId ? [payload.messageId] : []);
-
-      if (!messageIds.length) return;
-
-      const readerId = payload?.readerId ?? payload?.reader?.id ?? payload?.reader?.userId;
-      if (!readerId || Number(readerId) === Number(currentUserId)) return;
-
-      const readAt = payload?.readAt ?? new Date().toISOString();
-      const messageIdSet = new Set(messageIds.map(String));
-
-      setMessages((prev) =>
-        prev.map((m) => {
-          if (!messageIdSet.has(String(m.id))) return m;
-
-          const next = { ...m, readAt: m.readAt ?? readAt };
-
-          if (payload?.reader) {
-            const r = payload.reader;
-            next.readBy = Array.isArray(m.readBy)
-              ? m.readBy.some((u) => Number(u.id) === Number(r.id))
-                ? m.readBy
-                : [...m.readBy, r]
-              : [r];
-          }
-
-          return next;
-        })
-      );
-    };
-
-    socket.on('message_read', onRead);
-    return () => socket.off('message_read', onRead);
-  }, [currentUserId]);
-
-  useEffect(() => {
-    const onReaction = ({ messageId, emoji, op, user, count }) => {
-      setMessages((prev) =>
-        prev.map((m) => {
-          if (m.id !== messageId) return m;
-          const summary = { ...(m.reactionSummary || {}) };
-          summary[emoji] =
-            typeof count === 'number'
-              ? count
-              : Math.max(0, (summary[emoji] || 0) + (op === 'added' ? 1 : -1));
-          const my = new Set(m.myReactions || []);
-          if (user?.id === currentUserId) {
-            if (op === 'added') my.add(emoji);
-            else my.delete(emoji);
-          }
-          return {
-            ...m,
-            reactionSummary: summary,
-            myReactions: Array.from(my),
-          };
-        })
-      );
-    };
-
-    socket.on('reaction_updated', onReaction);
-    return () => socket.off('reaction_updated', onReaction);
-  }, [currentUserId]);
-
-  useEffect(() => {
-    if (!chatroom?.id) return;
-
-    const onSocketConnect = async () => {
-      if (!highestSeenId || highestSeenId <= 0) return;
-
-      try {
-        const resp = await fetchMessageDeltas(chatroom.id, highestSeenId);
-        const rows = resp?.items || [];
-        if (!rows.length) return;
-
-        const chronological = rows.slice().reverse();
-
-        setMessages((prev) => {
-          const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
-          const newRows = chronological.filter(
-            (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
-          );
-          return [...prev, ...newRows];
-        });
-
-        addMessages(chatroom.id, chronological).catch(() => {});
-
-        const maxId = rows
-          .map((m) => Number(m?.id || 0))
-          .filter(Number.isFinite)
-          .reduce((a, b) => Math.max(a, b), 0);
-
-        if (maxId > 0) {
-          setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+        if (payload?.reader) {
+          const r = payload.reader;
+          next.readBy = Array.isArray(m.readBy)
+            ? m.readBy.some((u) => Number(u.id) === Number(r.id))
+              ? m.readBy
+              : [...m.readBy, r]
+            : [r];
         }
-      } catch (e) {
-        console.error('Delta resync failed on socket reconnect', e);
-      }
-    };
 
-    socket.on('connect', onSocketConnect);
-    return () => {
-      socket.off('connect', onSocketConnect);
-    };
-  }, [chatroom?.id, highestSeenId]);
+        return next;
+      })
+    );
+  };
+
+  socket.on('message_read', onRead);
+  return () => socket.off('message_read', onRead);
+}, [socket, currentUserId]);
+
+  useEffect(() => {
+  if (!socket) return;
+
+  const onReaction = ({ messageId, emoji, op, user, count }) => {
+    setMessages((prev) =>
+      prev.map((m) => {
+        if (m.id !== messageId) return m;
+        const summary = { ...(m.reactionSummary || {}) };
+        summary[emoji] =
+          typeof count === 'number'
+            ? count
+            : Math.max(0, (summary[emoji] || 0) + (op === 'added' ? 1 : -1));
+        const my = new Set(m.myReactions || []);
+        if (user?.id === currentUserId) {
+          if (op === 'added') my.add(emoji);
+          else my.delete(emoji);
+        }
+        return {
+          ...m,
+          reactionSummary: summary,
+          myReactions: Array.from(my),
+        };
+      })
+    );
+  };
+
+  socket.on('reaction_updated', onReaction);
+  return () => socket.off('reaction_updated', onReaction);
+}, [socket, currentUserId]);
+
+  useEffect(() => {
+  if (!socket || !chatroom?.id) return;
+
+  const onSocketConnect = async () => {
+    if (!highestSeenId || highestSeenId <= 0) return;
+
+    try {
+      const resp = await fetchMessageDeltas(chatroom.id, highestSeenId);
+      const rows = resp?.items || [];
+      if (!rows.length) return;
+
+      const chronological = rows.slice().reverse();
+
+      setMessages((prev) => {
+        const seen = new Set(prev.map((m) => String(m.id ?? m.clientMessageId ?? '')));
+        const newRows = chronological.filter(
+          (m) => !seen.has(String(m.id ?? m.clientMessageId ?? ''))
+        );
+        return [...prev, ...newRows];
+      });
+
+      addMessages(chatroom.id, chronological).catch(() => {});
+
+      const maxId = rows
+        .map((m) => Number(m?.id || 0))
+        .filter(Number.isFinite)
+        .reduce((a, b) => Math.max(a, b), 0);
+
+      if (maxId > 0) {
+        setHighestSeenId((prev) => Math.max(prev || 0, maxId));
+      }
+    } catch (e) {
+      console.error('Delta resync failed on socket reconnect', e);
+    }
+  };
+
+  socket.on('connect', onSocketConnect);
+  return () => {
+    socket.off('connect', onSocketConnect);
+  };
+}, [socket, chatroom?.id, highestSeenId]);
 
   const { suggestions, clear } = useSmartReplies({
     messages,
@@ -1077,10 +1045,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   });
 
   const sendSmartReply = (text) => {
-    if (!text?.trim() || !chatroom?.id) return;
+    if (!socket || !text?.trim() || !chatroom?.id) return;
     socket.emit('send_message', { content: text, chatRoomId: chatroom.id });
     clear();
-  };
+ };
 
   const runPowerAi = async () => {
     if (!isPremium) return navigate('/upgrade');
@@ -1289,7 +1257,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         content: '',
         translatedForMe: null,
         attachments: [],
-        attachmentsInline: [],
+        attachmentsInline: saved.attachmentsInline ?? [],
       }))
     );
 
@@ -1686,26 +1654,91 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   };
 
                   if (payload?.attachments?.length) {
-                    const { data } = await axiosClient.post(
-                      '/messages',
-                      {
-                        chatRoomId: chatroom.id,
-                        content: text || '',
-                        attachmentsInline: payload.attachments.map((f) => ({
-                          kind: (f.contentType || '').startsWith('audio/') ? 'AUDIO' : 'FILE',
-                          url: f.url,
-                          mimeType: f.contentType || 'audio/webm',
-                          durationSec: f.durationSec || null,
-                          caption: f.caption || null,
-                        })),
-                      },
-                      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
-                    );
+                      const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-                    await insertSavedMessage(data, text || '');
-                    setDraft('');
-                    return;
-                  }
+                      const optimisticAttachments = payload.attachments.map((f) => ({
+                        kind:
+                          f.kind ||
+                          ((f.mimeType || f.contentType || '').startsWith('image/')
+                            ? 'IMAGE'
+                            : (f.mimeType || f.contentType || '').startsWith('video/')
+                            ? 'VIDEO'
+                            : (f.mimeType || f.contentType || '').startsWith('audio/')
+                            ? 'AUDIO'
+                            : 'FILE'),
+                        url: f.url,
+                        mimeType: f.mimeType || f.contentType || '',
+                        width: f.width || null,
+                        height: f.height || null,
+                        durationSec: f.durationSec || null,
+                        caption: f.caption || null,
+                        thumbUrl: f.previewUrl || f.thumbUrl || f.thumbnailUrl || null,
+                      }));
+
+                      setMessages((prev) =>
+                        upsertLocalMessage(prev, {
+                          id: clientMessageId,
+                          clientMessageId,
+                          mine: true,
+                          senderId: toNum(currentUserId),
+                          sender: {
+                            id: toNum(currentUserId),
+                            username: currentUser?.username ?? null,
+                          },
+                          createdAt: new Date().toISOString(),
+                          rawContent: text || '',
+                          content: text || '',
+                          decryptedContent: text || '',
+                          attachments: optimisticAttachments,
+                          attachmentsInline: optimisticAttachments,
+                          optimistic: true,
+                        })
+                      );
+
+                      scrollToBottomNow();
+
+                      const { data } = await axiosClient.post(
+                        '/messages',
+                        {
+                          chatRoomId: chatroom.id,
+                          content: text || '',
+                          clientMessageId,
+                          attachmentsInline: optimisticAttachments,
+                        },
+                        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+                      );
+
+                      const saved = unwrapMessage(data);
+
+                      setMessages((prev) => {
+                        const replaced = prev.map((m) =>
+                          m.clientMessageId === clientMessageId || m.id === clientMessageId
+                            ? {
+                                ...m,
+                                ...saved,
+                                clientMessageId,
+                                mine: true,
+                                optimistic: false,
+                                senderId: toNum(currentUserId),
+                                sender: {
+                                  ...(saved?.sender || {}),
+                                  id: toNum(currentUserId),
+                                  username: currentUser?.username ?? saved?.sender?.username ?? null,
+                                },
+                              }
+                            : m
+                        );
+
+                        const found = replaced.some(
+                          (m) => m.clientMessageId === clientMessageId || m.id === saved?.id
+                        );
+
+                        return found ? replaced : upsertLocalMessage(replaced, { ...saved, clientMessageId, mine: true });
+                      });
+
+                      setDraft('');
+                      return;
+                    }
 
                   if (payload?.files?.length) {
                     console.warn(
@@ -1954,10 +1987,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             {deleteTarget && (
               <Alert variant="light">
                 <Text size="sm">
-                  {deleteTarget.rawContent ||
-                    deleteTarget.content ||
-                    deleteTarget.decryptedContent ||
-                    '[No text]'}
+                  {(
+                    deleteTarget?.rawContent ||
+                    deleteTarget?.content ||
+                    deleteTarget?.decryptedContent ||
+                    (deleteTarget?.attachments?.length
+                      ? `[${deleteTarget.attachments[0].kind === 'IMAGE' ? 'Image' : deleteTarget.attachments[0].kind}]`
+                      : '')
+                  )}
                 </Text>
               </Alert>
             )}

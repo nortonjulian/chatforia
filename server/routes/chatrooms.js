@@ -171,6 +171,57 @@ router.get(
   })
 );
 
+// GET /chatrooms/:id/participants
+router.get(
+  '/:id/participants',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const id = Number(req.params.id);
+    if (!Number.isFinite(id)) {
+      return res.status(400).json({ error: 'Invalid id' });
+    }
+
+    const me = Number(req.user.id);
+
+    const membership = await prisma.participant.findFirst({
+      where: { chatRoomId: id, userId: me },
+      select: { userId: true },
+    });
+
+    if (!membership) {
+      return res.status(403).json({ error: 'Not a participant' });
+    }
+
+    const room = await prisma.chatRoom.findUnique({
+      where: { id },
+      select: {
+        ownerId: true,
+        participants: {
+          select: {
+            userId: true,
+            role: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+                publicKey: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!room) {
+      return res.status(404).json({ error: 'Room not found' });
+    }
+
+    return res.json({
+      ownerId: room.ownerId ?? null,
+      participants: room.participants,
+    });
+  })
+);
 
 /* =========================
  * DIRECT / GROUP
@@ -360,35 +411,6 @@ router.post(
     }
 
     return res.json({ ok: true, participant: { userId: targetId, role: 'ADMIN' } });
-  })
-);
-
-// GET participants (avoid selecting ownerId which may not exist)
-router.get(
-  '/:id/participants',
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const id = Number(req.params.id);
-    if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');
-
-    const list = await prisma.participant.findMany({
-      where: { chatRoomId: id },
-      select: {
-        userId: true,
-        role: true,
-        user: {
-          select: {
-            id: true,
-            username: true,
-            avatarUrl: true,
-            publicKey: true,
-          },
-        },
-      },
-      orderBy: [{ role: 'desc' }, { userId: 'asc' }],
-    });
-
-    return res.json({ ownerId: null, participants: list });
   })
 );
 

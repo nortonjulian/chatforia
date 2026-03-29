@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ChatBackupManager from '@/components/ChatBackupManager';
+import KeyBackupManager from '@/components/ChatBackupManager';
 
 // ---------- Mocks ----------
 // Mantine: light passthroughs with HTML primitives
@@ -108,9 +108,9 @@ const importFileInput = () => screen.getByLabelText(/backup file/i);
 const importBackupPwdInput = () => screen.getAllByLabelText(/^backup password$/i)[1];
 const importNewLocalPasscodeInput = () => screen.getByLabelText(/new local passcode/i);
 
-describe('ChatBackupManager', () => {
+describe('KeyBackupManager', () => {
   test('export/import buttons are disabled until inputs are valid', () => {
-    render(<ChatBackupManager />);
+    render(<KeyBackupManager />);
 
     const exportBtn = screen.getByRole('button', { name: /download encrypted key backup/i });
     const importBtn = screen.getByRole('button', { name: /restore key backup/i });
@@ -148,7 +148,7 @@ describe('ChatBackupManager', () => {
       filename: 'chatforia-keys.json',
     });
 
-    render(<ChatBackupManager />);
+    render(<KeyBackupManager />);
 
     type(exportUnlockInput(), 'unlock-123');
     type(exportBackupPwdInput(), 'backup-123');
@@ -180,7 +180,7 @@ describe('ChatBackupManager', () => {
 
   test('failed export shows error message', async () => {
     mockCreateEncryptedKeyBackup.mockRejectedValue(new Error('Export Boom'));
-    render(<ChatBackupManager />);
+    render(<KeyBackupManager />);
 
     type(exportUnlockInput(), 'unlock-123');
     type(exportBackupPwdInput(), 'backup-123');
@@ -193,7 +193,7 @@ describe('ChatBackupManager', () => {
   test('successful import shows success message', async () => {
     mockRestoreEncryptedKeyBackup.mockResolvedValue();
 
-    render(<ChatBackupManager />);
+    render(<KeyBackupManager />);
 
     const file = new File([JSON.stringify({})], 'backup.json', { type: 'application/json' });
     fireEvent.change(importFileInput(), { target: { files: [file] } });
@@ -217,7 +217,7 @@ describe('ChatBackupManager', () => {
   test('failed import shows error message', async () => {
     mockRestoreEncryptedKeyBackup.mockRejectedValue(new Error('Import Boom'));
 
-    render(<ChatBackupManager />);
+    render(<KeyBackupManager />);
 
     const file = new File([JSON.stringify({})], 'backup.json', { type: 'application/json' });
     fireEvent.change(importFileInput(), { target: { files: [file] } });

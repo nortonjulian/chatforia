@@ -9,7 +9,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { emitMessageUpsertToUser, emitMessageAck } from '../services/socketBus.js';
+import { emitMessageUpsert, emitMessageAck } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
@@ -109,15 +109,22 @@ const postMessageLimiter = rateLimit({
 
 function normalizeMediaKind(kind, mimeType) {
   const up = String(kind || '').toUpperCase();
+
+  if (up === 'GIF') return 'GIF'; // ✅ ADD THIS
+
   if (up === 'IMAGE') return 'IMAGE';
   if (up === 'VIDEO') return 'VIDEO';
   if (up === 'AUDIO') return 'AUDIO';
   if (up === 'FILE') return 'FILE';
 
   const mt = String(mimeType || '');
+
+  if (mt === 'image/gif') return 'GIF'; // ✅ ADD THIS
+
   if (mt.startsWith('image/')) return 'IMAGE';
   if (mt.startsWith('video/')) return 'VIDEO';
   if (mt.startsWith('audio/')) return 'AUDIO';
+
   return 'FILE';
 }
 
@@ -472,18 +479,8 @@ router.post(
       });
     }
 
-    const participants = await prisma.participant.findMany({
-      where: { chatRoomId: Number(chatRoomId) },
-      select: { userId: true },
-    });
-
-    await Promise.all(
-      participants.map(async ({ userId }) => {
-        const shapedForUser = await shapeMessageForUser(saved.id, userId);
-        if (!shapedForUser) return;
-        emitMessageUpsertToUser(userId, chatRoomId, shapedForUser);
-      })
-    );
+    // ✅ broadcast to the actual chat room
+    await emitMessageUpsert(chatRoomId, saved.id);
 
     return res.status(201).json({ message: senderShaped });
   })
@@ -539,6 +536,11 @@ router.post(
 
     const now = new Date();
 
+    const affected = await prisma.message.findMany({
+      where: { chatRoomId: roomId, deletedForAll: false },
+      select: { id: true },
+    });
+
     await prisma.message.updateMany({
       where: { chatRoomId: roomId, deletedForAll: false },
       data: {
@@ -550,6 +552,10 @@ router.post(
         translatedForMe: null,
       },
     });
+
+    await Promise.all(
+      affected.map(({ id }) => emitMessageUpsert(roomId, id))
+    );
 
     return res.status(201).json({ ok: true, deletedAt: now.toISOString() });
   })
@@ -1438,18 +1444,22 @@ async function editMessageCore(req, res) {
 
       const updated = memEditMessage(messageId, newContent);
 
-      req.app.get('io')?.to(String(mm.chatRoomId)).emit('message_edited', {
-        messageId,
-        rawContent: newContent,
-        editedAt: updated.editedAt,
-      });
+      await emitMessageUpsert(message.chatRoomId, messageId);
 
       return res.json({
-        id: updated.id,
-        chatRoomId: updated.chatRoomId,
-        sender: { id: requesterId, username: `user${requesterId}` },
-        rawContent: updated.rawContent,
-        editedAt: updated.editedAt,
+        message: {
+          id: updated.id,
+          chatRoomId: updated.chatRoomId,
+          createdAt: updated.createdAt,
+          rawContent: updated.rawContent,
+          editedAt: updated.editedAt,
+          deletedForAll: false,
+          deletedAt: null,
+          deletedById: null,
+          sender: { id: requesterId, username: `user${requesterId}` },
+          readBy: [],
+          attachments: [],
+        },
       });
     }
   }
@@ -1493,26 +1503,13 @@ async function editMessageCore(req, res) {
     select: {
       id: true,
       chatRoomId: true,
-      senderId: true,
-      rawContent: true,
-      createdAt: true,
-      editedAt: true,
     },
   });
 
-  req.app.get('io')?.to(String(updated.chatRoomId)).emit('message_edited', {
-    messageId,
-    rawContent: newContent,
-    editedAt: updated.editedAt,
-  });
+  await emitMessageUpsert(updated.chatRoomId, updated.id);
 
-  return res.json({
-    id: updated.id,
-    chatRoomId: updated.chatRoomId,
-    sender: { id: requesterId, username: req.user.username },
-    rawContent: updated.rawContent,
-    editedAt: updated.editedAt,
-  });
+  const shaped = await shapeMessageForUser(updated.id, requesterId);
+  return res.json({ message: shaped });
 }
 
 router.patch('/:id/edit', requireAuth, asyncHandler(editMessageCore));
@@ -1558,7 +1555,7 @@ router.delete(
         mm.contentCiphertext = null;
         mm.attachments = [];
 
-        req.app.get('io')?.to(String(mm.chatRoomId)).emit('message_deleted', {
+        req.app.get('io')?.to(String(mm.chatRoomId)).emit('message:deleted', {
           messageId,
           chatRoomId: mm.chatRoomId,
           scope: 'all',
@@ -1573,7 +1570,7 @@ router.delete(
       const arr = mem.byRoom.get(mm.chatRoomId) || [];
       mem.byRoom.set(mm.chatRoomId, arr.filter((id) => id !== messageId));
 
-      req.app.get('io')?.to(String(mm.chatRoomId)).emit('message_deleted', {
+      req.app.get('io')?.to(String(mm.chatRoomId)).emit('message:deleted', {
         messageId,
         chatRoomId: mm.chatRoomId,
         scope: 'me',
@@ -1619,13 +1616,7 @@ router.delete(
         },
       });
 
-      req.app.get('io')?.to(String(message.chatRoomId)).emit('message_deleted', {
-        messageId,
-        chatRoomId: message.chatRoomId,
-        scope: 'all',
-        deletedAt: deletedAt.toISOString(),
-        deletedById: requesterId,
-      });
+      await emitMessageUpsert(message.chatRoomId, messageId);
 
       return res.json({ success: true, scope: 'all' });
     }
@@ -1636,12 +1627,7 @@ router.delete(
       create: { messageId, userId: requesterId },
     });
 
-    req.app.get('io')?.to(String(message.chatRoomId)).emit('message_deleted', {
-      messageId,
-      chatRoomId: message.chatRoomId,
-      scope: 'me',
-      userId: requesterId,
-    });
+    await emitMessageUpsert(message.chatRoomId, messageId);
 
     return res.json({ success: true, scope: 'me' });
   })

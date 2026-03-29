@@ -23,26 +23,27 @@ import axiosClient from '@/api/axiosClient';
 // Hard-coded safety net for UI formatting if the quote API fails
 // NOTE: We support BOTH *_3 and *_3gb keys via normalization.
 const FALLBACKS = {
-  // App plans (subscriptions)
-  chatforia_plus: { currency: 'USD', unitAmount: 499 }, // $4.99 / mo
-  chatforia_premium_monthly: { currency: 'USD', unitAmount: 2499 }, // $24.99 / mo
-  chatforia_premium_annual: { currency: 'USD', unitAmount: 22500 }, // $225 / year
+  // App plans
+  chatforia_plus: { currency: 'USD', unitAmount: 699 },
+  chatforia_premium_monthly: { currency: 'USD', unitAmount: 1199 },
+  chatforia_premium_annual: { currency: 'USD', unitAmount: 9900 },
 
-  // eSIM packs — Local (one-time)
-  chatforia_esim_local_3gb: { currency: 'USD', unitAmount: 999 },   // $9.99
-  chatforia_esim_local_5gb: { currency: 'USD', unitAmount: 1499 },  // $14.99
-  chatforia_esim_local_10gb: { currency: 'USD', unitAmount: 2499 }, // $24.99
-  chatforia_esim_local_20gb: { currency: 'USD', unitAmount: 4499 }, // $44.99
+  // Local
+  chatforia_esim_local_3: { currency: 'USD', unitAmount: 1499 },
+  chatforia_esim_local_5: { currency: 'USD', unitAmount: 2199 },
+  chatforia_esim_local_10: { currency: 'USD', unitAmount: 3299 },
+  chatforia_esim_local_20: { currency: 'USD', unitAmount: 5499 },
 
-  // eSIM packs — Europe (one-time)
-  chatforia_esim_europe_3gb: { currency: 'USD', unitAmount: 1499 },  // $14.99
-  chatforia_esim_europe_5gb: { currency: 'USD', unitAmount: 2499 },  // $24.99
-  chatforia_esim_europe_10gb: { currency: 'USD', unitAmount: 4499 }, // $44.99
-  chatforia_esim_europe_20gb: { currency: 'USD', unitAmount: 6699 }, // $66.99
+  // Europe
+  chatforia_esim_europe_3: { currency: 'USD', unitAmount: 1699 },
+  chatforia_esim_europe_5: { currency: 'USD', unitAmount: 2499 },
+  chatforia_esim_europe_10: { currency: 'USD', unitAmount: 3699 },
+  chatforia_esim_europe_20: { currency: 'USD', unitAmount: 6499 },
 
-  // eSIM packs — Global (launch: only 3 + 5)
-  chatforia_esim_global_3gb: { currency: 'USD', unitAmount: 1999 }, // $19.99
-  chatforia_esim_global_5gb: { currency: 'USD', unitAmount: 2999 }, // $29.99
+  // Global
+  chatforia_esim_global_3: { currency: 'USD', unitAmount: 2199 },
+  chatforia_esim_global_5: { currency: 'USD', unitAmount: 2999 },
+  chatforia_esim_global_10: { currency: 'USD', unitAmount: 4499 },
 };
 
 // For formatting if fallback path is used (display only)

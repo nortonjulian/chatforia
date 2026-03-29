@@ -34,24 +34,43 @@ function hasAuth() {
 // ---- Socket factory ----
 function makeSocket() {
   const token = readJwt();
-  if (import.meta.env.DEV) {
-    console.log('[socket] token present?', Boolean(token));
+
+  if (!token) {
+    if (import.meta.env.DEV) {
+      console.warn('[socket] no token — skipping socket creation');
+    }
+    return null;
   }
 
   const socket = io(API_ORIGIN, {
     path: SOCKET_PATH,
     withCredentials: true,
-    auth: token ? { token } : undefined,  // preferred (server reads handshake.auth.token)
-    // legacy/backup path (server may also accept query.token)
-    query: token ? { token } : undefined,
+
+    // ✅ CRITICAL: only use auth (preferred)
+    auth: { token },
+
+    // ❌ REMOVE THIS (causes inconsistencies)
+    // query: { token },
+
     reconnection: true,
     reconnectionAttempts: Infinity,
     reconnectionDelay: 500,
     timeout: 12000,
-    transports: ['websocket', 'polling'], // allow fallback if WS blocked
+    transports: ['websocket', 'polling'],
   });
 
-  // diagnostics
+  socket.on('connect', () => {
+    if (import.meta.env.DEV) {
+      console.log('[socket] connected →', socket.id);
+    }
+  });
+
+  socket.on('disconnect', (reason) => {
+    if (import.meta.env.DEV) {
+      console.log('[socket] disconnected →', reason);
+    }
+  });
+
   socket.on('connect_error', (err) => {
     console.warn('[socket] connect_error:', err?.message || err);
   });
@@ -66,71 +85,92 @@ export function SocketProvider({ children, autoJoin = true }) {
 
   // Create + connect (only when authenticated)
   const connect = useCallback(() => {
-    if (!hasAuth()) return null;
-    const s = makeSocket();
-    setSocket(s);
-    return s;
-  }, []);
+  if (!hasAuth()) return null;
+
+  // 🔥 ensure full cleanup before reconnect
+  if (socket) {
+    try {
+      socket.removeAllListeners();
+      socket.disconnect();
+    } catch {}
+  }
+
+  const s = makeSocket();
+  if (!s) return null;
+
+  setSocket(s);
+  return s;
+}, [socket]);
 
   const disconnect = useCallback(() => {
-    try {
-      socket?.disconnect();
-    } finally {
-      setSocket(null);
-    }
-  }, [socket]);
+  if (!socket) return;
+
+  try {
+    socket.removeAllListeners();
+    socket.disconnect();
+  } catch {}
+
+  setSocket(null);
+}, [socket]);
 
   const reconnect = useCallback(() => {
-    disconnect();
-    return connect();
-  }, [connect, disconnect]);
+  if (import.meta.env.DEV) {
+    console.log('[socket] reconnect triggered');
+  }
+
+  disconnect();
+  return connect();
+}, [connect, disconnect]);
 
   // Load rooms the current user belongs to (only when authed & connected)
   const refreshRooms = useCallback(async () => {
-    if (!hasAuth() || !socket?.connected) {
-      setRoomIds([]);
-      return [];
-    }
-
-    // Try a few known variants; not all backends expose the same route
-    const candidates = [
-      '/chatrooms/mine?select=id',
-      '/rooms/mine?select=id',
-      '/rooms?mine=1&select=id',
-    ];
-
-    for (const path of candidates) {
-      try {
-        const { data } = await axiosClient.get(path);
-        const items = Array.isArray(data?.items) ? data.items : data;
-        const ids   = (items || []).map((r) => String(r.id)).filter(Boolean);
-        setRoomIds(ids);
-        return ids;
-      } catch (e) {
-        const status = e?.response?.status;
-        if (status === 401) {
-          // not logged in – stop trying
-          setRoomIds([]);
-          return [];
-        }
-        if (status !== 404) {
-          console.warn('[socket] failed to load my rooms:', e?.message || e);
-        }
-        // 404 → try next candidate
-      }
-    }
-
-    // No “mine” route exists → just no-op
+  if (!hasAuth()) {
     setRoomIds([]);
     return [];
-  }, [socket]);
+  }
+
+  const candidates = [
+    '/chatrooms/mine?select=id',
+    '/rooms/mine?select=id',
+    '/rooms?mine=1&select=id',
+  ];
+
+  for (const path of candidates) {
+    try {
+      const { data } = await axiosClient.get(path);
+      const items = Array.isArray(data?.items) ? data.items : data;
+      const ids = (items || []).map((r) => String(r.id)).filter(Boolean);
+      setRoomIds(ids);
+      return ids;
+    } catch (e) {
+      const status = e?.response?.status;
+      if (status === 401) {
+        setRoomIds([]);
+        return [];
+      }
+      if (status !== 404) {
+        console.warn('[socket] failed to load my rooms:', e?.message || e);
+      }
+    }
+  }
+
+  setRoomIds([]);
+  return [];
+}, []);
 
   // Mount: only connect if there’s auth (prevents 404 spam before login)
   useEffect(() => {
-    if (!hasAuth()) return;
-    const s = connect();
-    return () => { try { s?.disconnect(); } catch {} };
-  }, [connect]);
+  if (!hasAuth()) return;
+
+  const s = connect();
+
+  return () => {
+    try {
+      s?.removeAllListeners();   // 🔥 prevents duplicate handlers
+      s?.disconnect();           // 🔥 ensures clean shutdown
+    } catch {}
+  };
+}, [connect]);
 
   // Auto-join rooms after connect or when the room list changes
   useEffect(() => {

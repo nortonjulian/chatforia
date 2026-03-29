@@ -947,11 +947,15 @@ router.post(
       privateKeyWrapVersion,
     } = req.body || {};
 
-    if (!publicKey || typeof publicKey !== 'string') {
+    if (!publicKey || typeof publicKey !== 'string' || publicKey.length < 24) {
       return res.status(400).json({ error: 'publicKey is required' });
     }
 
-    if (!encryptedPrivateKeyBundle || typeof encryptedPrivateKeyBundle !== 'string') {
+    if (
+      !encryptedPrivateKeyBundle ||
+      typeof encryptedPrivateKeyBundle !== 'string' ||
+      encryptedPrivateKeyBundle.length < 32
+    ) {
       return res.status(400).json({ error: 'encryptedPrivateKeyBundle is required' });
     }
 
@@ -959,8 +963,8 @@ router.post(
       return res.status(400).json({ error: 'privateKeyWrapSalt is required' });
     }
 
-    if (!privateKeyWrapKdf || typeof privateKeyWrapKdf !== 'string') {
-      return res.status(400).json({ error: 'privateKeyWrapKdf is required' });
+    if (privateKeyWrapKdf !== 'PBKDF2-SHA256') {
+      return res.status(400).json({ error: 'Unsupported privateKeyWrapKdf' });
     }
 
     const iterations = Number(privateKeyWrapIterations);
@@ -969,6 +973,9 @@ router.post(
     }
 
     const version = Number(privateKeyWrapVersion || 1);
+    if (![1].includes(version)) {
+      return res.status(400).json({ error: 'Unsupported privateKeyWrapVersion' });
+    }
 
     const updated = await prisma.user.update({
       where: { id: userId },
@@ -993,7 +1000,9 @@ router.post(
 
     return res.json({
       ok: true,
+      hasBackup: true,
       keys: pickKeyBackupFields(updated),
+      backupUpdatedAt: null,
     });
   })
 );
@@ -1024,12 +1033,179 @@ router.get(
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const hasBackup =
+      !!user.encryptedPrivateKeyBundle &&
+      !!user.privateKeyWrapSalt &&
+      !!user.privateKeyWrapKdf &&
+      Number.isFinite(user.privateKeyWrapIterations);
+
     return res.json({
       ok: true,
-      keys: pickKeyBackupFields(user),
+      hasBackup,
+      keys: hasBackup ? pickKeyBackupFields(user) : null,
+      backupUpdatedAt: null,
     });
   })
 );
+
+/* =========================
+ *   KEY BACKUP FETCH
+ *   DELETE /auth/keys/backup
+ * ========================= */
+
+router.delete(
+  '/keys/backup',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        encryptedPrivateKeyBundle: null,
+        privateKeyWrapSalt: null,
+        privateKeyWrapKdf: null,
+        privateKeyWrapIterations: null,
+        privateKeyWrapVersion: null,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      hasBackup: false,
+      keys: null,
+    });
+  })
+);
+
+/* =========================
+ *   KEY BACKUP FETCH
+ *   ROTATE/auth/keys/backup
+ * ========================= */
+router.post(
+  '/keys/rotate',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    try {
+      const userId = Number(req.user?.id);
+      const { publicKey, invalidateExistingBackup = true } = req.body || {};
+
+      console.log('[keys/rotate] incoming', {
+        userId,
+        hasPublicKey: !!publicKey,
+        publicKeyType: typeof publicKey,
+        publicKeyLength: publicKey?.length ?? 0,
+        invalidateExistingBackup,
+        body: req.body,
+      });
+
+      if (!publicKey || typeof publicKey !== 'string' || publicKey.length < 24) {
+        return res.status(400).json({ error: 'publicKey is required' });
+      }
+
+      const data = {
+        publicKey,
+      };
+
+      if (invalidateExistingBackup) {
+        data.encryptedPrivateKeyBundle = null;
+        data.privateKeyWrapSalt = null;
+        data.privateKeyWrapKdf = null;
+        data.privateKeyWrapIterations = null;
+        data.privateKeyWrapVersion = 1;
+      }
+
+      console.log('[keys/rotate] prisma update data', data);
+
+      const updated = await prisma.user.update({
+        where: { id: userId },
+        data,
+        select: {
+          publicKey: true,
+          encryptedPrivateKeyBundle: true,
+        },
+      });
+
+      console.log('[keys/rotate] success', {
+        publicKey: updated.publicKey,
+        hasBackup: !!updated.encryptedPrivateKeyBundle,
+        rotatedAt: updated.updatedAt,
+      });
+
+      return res.json({
+        ok: true,
+        publicKey: updated.publicKey,
+        hasBackup: !!updated.encryptedPrivateKeyBundle,
+      });
+    } catch (err) {
+      console.error('[keys/rotate] FAILED', {
+        message: err?.message,
+        stack: err?.stack,
+        code: err?.code,
+        meta: err?.meta,
+        name: err?.name,
+      });
+      throw err;
+    }
+  })
+);
+
+router.post(
+  '/account/encryption/reset',
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const userId = Number(req.user?.id);
+    const { publicKey, invalidateExistingBackup = true } = req.body || {};
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    if (!publicKey || typeof publicKey !== 'string' || publicKey.length < 24) {
+      return res.status(400).json({ error: 'publicKey is required' });
+    }
+
+    const data = {
+      publicKey,
+    };
+
+    if (invalidateExistingBackup) {
+      data.encryptedPrivateKeyBundle = null;
+      data.privateKeyWrapSalt = null;
+      data.privateKeyWrapKdf = null;
+      data.privateKeyWrapIterations = null;
+      data.privateKeyWrapVersion = null;
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        publicKey: true,
+        encryptedPrivateKeyBundle: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      user: {
+        id: updated.id,
+        email: updated.email,
+        username: updated.username,
+        publicKey: updated.publicKey,
+      },
+      hasBackup: !!updated.encryptedPrivateKeyBundle,
+      resetAt: updated.updatedAt,
+      warning:
+        'Encryption key reset. Older encrypted messages may not be readable without your previous key.',
+    });
+  })
+);
+
 
 /* =========================
  *         ME

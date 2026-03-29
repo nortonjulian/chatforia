@@ -78,10 +78,14 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = TA
         .map((it) => {
           const media = it.media_formats || it.media || {};
           const gif =
-            media.gif || media.mediumgif || media.tinygif || media.nanogif || {};
+            media.mediumgif || media.gif || media.tinygif || media.nanogif || {};
           return {
             id: it.id,
             url: gif.url,
+            previewUrl:
+              media.tinygif?.url ||
+              media.nanogif?.url ||
+              gif.url,
             width: Number(gif.dims?.[0] || gif.width || 480),
             height: Number(gif.dims?.[1] || gif.height || 270),
             durationSec: Number(gif.duration || 0),
@@ -223,6 +227,7 @@ export default function StickerPicker({ opened, onClose, onPick, initialTab = TA
                           onPick?.({
                             kind: 'GIF',
                             url: g.url,
+                            mimeType: 'image/gif',
                             width: g.width,
                             height: g.height,
                             durationSec: g.durationSec || null,
