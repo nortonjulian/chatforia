@@ -129,6 +129,63 @@ if (ENV.IS_TEST) {
   // only pass an id.
   setSocketIo(io, emitToUser);
 
+  setHelpers({
+  fetchMessageById: async (messageId) => {
+    const message = await prisma.message.findUnique({
+      where: { id: Number(messageId) },
+      include: {
+        sender: {
+          select: { id: true, username: true, publicKey: true, avatarUrl: true },
+        },
+        readBy: {
+          select: { id: true, username: true, avatarUrl: true },
+        },
+        attachments: {
+          where: { deletedAt: null },
+          select: {
+            id: true,
+            kind: true,
+            url: true,
+            mimeType: true,
+            width: true,
+            height: true,
+            durationSec: true,
+            caption: true,
+            thumbUrl: true,
+            createdAt: true,
+          },
+        },
+        keys: {
+          select: {
+            userId: true,
+            encryptedKey: true,
+          },
+        },
+      },
+    });
+
+    if (!message) return null;
+
+    return {
+      id: message.id,
+      chatRoomId: message.chatRoomId,
+      createdAt: message.createdAt,
+      editedAt: message.editedAt,
+      deletedForAll: message.deletedForAll,
+      deletedAt: message.deletedAt,
+      deletedById: message.deletedById,
+      rawContent: message.rawContent,
+      contentCiphertext: message.contentCiphertext,
+      sender: message.sender,
+      readBy: message.readBy,
+      attachments: message.attachments ?? [],
+      encryptedKeys: Object.fromEntries(
+        (message.keys ?? []).map((k) => [String(k.userId), k.encryptedKey])
+      ),
+    };
+  },
+});
+
   // Start background cleanup cron (auto-delete expired messages, etc.)
   try {
     startCleanupJobs();

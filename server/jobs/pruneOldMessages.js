@@ -89,7 +89,7 @@ export async function processExpiredMessages() {
     try {
       // Preferred: broadcast canonical DB row so downstream consumers get stable shape
       // Pass the full shaped row `m` (or rehydrate with any additional fields if needed)
-      await emitMessageUpsert(m.chatRoomId, m);
+      await emitMessageUpsert(m.chatRoomId, payload);
 
       // have socketBus send this. If your socketBus emitMessageExpired already
       // calls emitMessageUpsert internally, you can skip one of these.

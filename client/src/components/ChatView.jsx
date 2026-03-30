@@ -837,6 +837,32 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   };
 
+    const handleDeletedMessage = (payload) => {
+      if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
+
+      const item = unwrapMessage(payload) ?? payload?.item ?? payload;
+      if (!item?.id) return;
+
+      if (item.deletedForMe) {
+        setMessages((prev) =>
+          prev.filter((m) => Number(m.id) !== Number(item.id))
+        );
+
+        upsertMessage(chatroom.id, { ...item, deletedForMe: true }).catch(() => {});
+        return;
+      }
+
+      mergeIncomingMessage(item);
+
+      const incomingId = Number(item?.id || 0);
+      if (Number.isFinite(incomingId) && incomingId > 0) {
+        setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
+      }
+
+      upsertMessage(chatroom.id, item).catch(() => {});
+      addMessages(chatroom.id, [item]).catch(() => {});
+  };
+
   const handleBatch = async (payload) => {
     const rows = payload?.items ?? payload?.messages ?? payload;
     if (!Array.isArray(rows) || rows.length === 0) return;
@@ -883,7 +909,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   socket.on('message:new', handleRealtimeMessage);
   socket.on('message:expired', handleRealtimeMessage);
   socket.on('message:edited', handleRealtimeMessage);
-  socket.on('message:deleted', handleRealtimeMessage);
+  socket.on('message:deleted', handleDeletedMessage);
   socket.on('message:batch', handleBatch);
   socket.on('typing:update', onTypingUpdate);
 

@@ -4,6 +4,7 @@ import chatroomsRouter from './chatrooms.js';
 import prisma from '../utils/prismaClient.js';
 import asyncHandler from 'express-async-handler';
 import { emitMessageUpsert } from '../services/socketBus.js';
+import { shapeMessageForUser } from '../services/messageService.js';
 import Boom from '@hapi/boom';
 
 const router = express.Router();
@@ -455,20 +456,8 @@ router.post(
       clientMessageId: message.clientMessageId,
     };
 
-    // ✅ 1️⃣ SOCKET.IO BROADCAST (goes HERE)
-    // keep the existing io emit if you need it for iOS/web fallback
-    const io = req.app.get('io');
-    await emitMessageUpsert(roomId, payload?.item ?? payload);
-
-    // ✅ also notify socketBus consumers (preferred: send the canonical DB row)
-    try {
-      // emitMessageUpsert expects either the DB row or a payload containing .item
-      // prefer passing the full DB `message` so downstream consumers have full data.
-      await emitMessageUpsert(roomId, message);
-    } catch (err) {
-      console.error('[rooms] emitMessageUpsert failed', err);
-      // swallow or surface depending on your tolerance — don't break the API response
-    }
+    const shaped = await shapeMessageForUser(message.id, senderId);
+    await emitMessageUpsert(roomId, shaped);
 
     // Shape response to match what iOS expects
     return res.json({ message: payload });

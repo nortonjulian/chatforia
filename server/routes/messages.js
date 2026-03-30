@@ -9,7 +9,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { emitMessageUpsert, emitMessageAck } from '../services/socketBus.js';
+import { emitMessageUpsert, emitMessageAck, emitToUser } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
@@ -480,7 +480,8 @@ router.post(
     }
 
     // ✅ broadcast to the actual chat room
-    await emitMessageUpsert(chatRoomId, saved.id);
+    const fullMessage = await shapeMessageForUser(saved.id, senderId);
+    await emitMessageUpsert(chatRoomId, fullMessage);
 
     return res.status(201).json({ message: senderShaped });
   })
@@ -554,8 +555,11 @@ router.post(
     });
 
     await Promise.all(
-      affected.map(({ id }) => emitMessageUpsert(roomId, id))
-    );
+    affected.map(async ({ id }) => {
+      const shaped = await shapeMessageForUser(id, userId);
+      return emitMessageUpsert(roomId, shaped);
+    })
+);
 
     return res.status(201).json({ ok: true, deletedAt: now.toISOString() });
   })
@@ -1444,7 +1448,19 @@ async function editMessageCore(req, res) {
 
       const updated = memEditMessage(messageId, newContent);
 
-      await emitMessageUpsert(message.chatRoomId, messageId);
+      await emitMessageUpsert(updated.chatRoomId, {
+        id: updated.id,
+        chatRoomId: updated.chatRoomId,
+        createdAt: updated.createdAt,
+        rawContent: updated.rawContent,
+        editedAt: updated.editedAt,
+        deletedForAll: false,
+        deletedAt: null,
+        deletedById: null,
+        sender: { id: requesterId, username: `user${requesterId}` },
+        readBy: [],
+        attachments: [],
+      });
 
       return res.json({
         message: {
@@ -1506,9 +1522,11 @@ async function editMessageCore(req, res) {
     },
   });
 
-  await emitMessageUpsert(updated.chatRoomId, updated.id);
-
   const shaped = await shapeMessageForUser(updated.id, requesterId);
+
+  // broadcast full payload instead of relying on ID lookup
+  await emitMessageUpsert(updated.chatRoomId, shaped);
+
   return res.json({ message: shaped });
 }
 
@@ -1616,7 +1634,8 @@ router.delete(
         },
       });
 
-      await emitMessageUpsert(message.chatRoomId, messageId);
+      const shaped = await shapeMessageForUser(messageId, requesterId);
+      await emitMessageUpsert(message.chatRoomId, shaped);
 
       return res.json({ success: true, scope: 'all' });
     }
@@ -1627,7 +1646,14 @@ router.delete(
       create: { messageId, userId: requesterId },
     });
 
-    await emitMessageUpsert(message.chatRoomId, messageId);
+    emitToUser(requesterId, 'message:deleted', {
+      roomId: message.chatRoomId,
+      item: {
+        id: messageId,
+        chatRoomId: message.chatRoomId,
+        deletedForMe: true,
+      },
+    });
 
     return res.json({ success: true, scope: 'me' });
   })
