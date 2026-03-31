@@ -14,9 +14,11 @@ let _cachedUnlockedBundle = null;
 
 const te = new TextEncoder();
 const td = new TextDecoder();
+const utf8Bytes = (str) => new TextEncoder().encode(str);
 
 const b642bytes = (b64) => Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
 const bytes2b64 = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes)));
+
 
 const hex2bytes = (hex) => {
   const s = hex.replace(/^0x/, '').toLowerCase();
@@ -71,6 +73,39 @@ async function importAesKey(key) {
   if (key instanceof CryptoKey) return key;
   const raw = guessToBytes(key);
   return importAesKeyRaw(raw);
+}
+
+async function hkdfSha256(sharedSecretBytes, saltBytes, infoBytes, length = 32) {
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw',
+    sharedSecretBytes,
+    'HKDF',
+    false,
+    ['deriveBits']
+  );
+
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name: 'HKDF',
+      hash: 'SHA-256',
+      salt: saltBytes,
+      info: infoBytes,
+    },
+    keyMaterial,
+    length * 8
+  );
+
+  return new Uint8Array(bits);
+}
+
+async function importAesGcmKeyRaw(rawBytes) {
+  return crypto.subtle.importKey(
+    'raw',
+    rawBytes,
+    { name: 'AES-GCM', length: 256 },
+    false,
+    ['encrypt']
+  );
 }
 
 /**
@@ -815,29 +850,50 @@ function concatBytes(...parts) {
   return out;
 }
 
-function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPubB64, meta = {}) {
-  const nonce = randBytes(24);
-
+async function sealSessionKeyForRecipient(sessionKeyRawU8, senderPrivB64, recipientPubB64, meta = {}) {
   let recipientPub;
-  let senderPriv;
   try {
     recipientPub = decodeB64Any(
       recipientPubB64,
       `recipientPublicKey userId=${meta.recipientId ?? 'unknown'}`
     );
-    senderPriv = decodeB64Any(
-      senderPrivB64,
-      `senderPrivateKey userId=${meta.senderId ?? 'unknown'}`
-    );
   } catch (e) {
     throw new Error(
-      `[E2EE] Base64 decode failed (${e.message}). senderId=${meta.senderId ?? 'unknown'} recipientId=${meta.recipientId ?? 'unknown'}`
+      `[E2EE] Base64 decode failed (${e.message}). recipientId=${meta.recipientId ?? 'unknown'}`
     );
   }
 
-  const boxed = nacl.box(sessionKeyRawU8, nonce, recipientPub, senderPriv);
-  const packed = concatBytes(nonce, boxed);
-  return naclUtil.encodeBase64(packed);
+  // Generate ephemeral Curve25519 keypair for this recipient
+  const ephemeral = nacl.box.keyPair();
+
+  // Derive shared secret compatible with iOS/CryptoKit path
+  const sharedSecret = nacl.scalarMult(ephemeral.secretKey, recipientPub);
+
+  const wrappingKeyRaw = await hkdfSha256(
+    sharedSecret,
+    utf8Bytes('chatforia-msg-wrap-v1'),
+    utf8Bytes(`user:${meta.recipientId ?? 'unknown'}`),
+    32
+  );
+
+  const wrappingKey = await importAesGcmKeyRaw(wrappingKeyRaw);
+
+  // AES-GCM encrypt the 32-byte session key
+  const iv = randBytes(12);
+  const wrapped = await crypto.subtle.encrypt(
+    { name: 'AES-GCM', iv },
+    wrappingKey,
+    sessionKeyRawU8
+  );
+
+  // Match CryptoKit "combined" layout: nonce(12) + ciphertext+tag
+  const wrappedCombined = concatBytes(iv, new Uint8Array(wrapped));
+
+  return JSON.stringify({
+    alg: 'x25519-aesgcm',
+    epk: naclUtil.encodeBase64(ephemeral.publicKey),
+    wrappedKey: bytes2b64(wrappedCombined),
+  });
 }
 
 export async function encryptForRoom(participants = [], plaintext = '', currentUserId) {
@@ -866,7 +922,7 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
   }
 
   for (const [userId, recipientPub] of uniq.entries()) {
-    encryptedKeys[String(userId)] = sealSessionKeyForRecipient(
+    encryptedKeys[String(userId)] = await sealSessionKeyForRecipient(
       keyRaw,
       senderPrivB64,
       recipientPub,
@@ -874,7 +930,7 @@ export async function encryptForRoom(participants = [], plaintext = '', currentU
     );
   }
 
-  encryptedKeys[String(currentUserId)] = sealSessionKeyForRecipient(
+  encryptedKeys[String(currentUserId)] = await sealSessionKeyForRecipient(
     keyRaw,
     senderPrivB64,
     senderPubB64,

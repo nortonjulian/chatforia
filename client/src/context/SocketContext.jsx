@@ -14,7 +14,7 @@ import axiosClient from '@/api/axiosClient';
 const SocketCtx = createContext(null);
 
 // ---- Config ----
-const API_ORIGIN  = import.meta.env.VITE_API_ORIGIN || 'http://localhost:5002';
+const API_ORIGIN = import.meta.env.VITE_API_ORIGIN || 'http://localhost:5002';
 const SOCKET_PATH = '/socket.io';
 const COOKIE_NAME = import.meta.env.VITE_JWT_COOKIE_NAME || 'foria_jwt';
 
@@ -27,228 +27,294 @@ function readJwt() {
     ''
   );
 }
-function hasAuth() {
-  return Boolean(readJwt() || document.cookie.includes(`${COOKIE_NAME}=`));
-}
 
-// ---- Socket factory ----
-function makeSocket() {
+function getSocketOptions() {
   const token = readJwt();
 
-  if (!token) {
-    if (import.meta.env.DEV) {
-      console.warn('[socket] no token — skipping socket creation');
-    }
-    return null;
-  }
-
-  const socket = io(API_ORIGIN, {
+  const options = {
     path: SOCKET_PATH,
     withCredentials: true,
-
-    // ✅ CRITICAL: only use auth (preferred)
-    auth: { token },
-
-    // ❌ REMOVE THIS (causes inconsistencies)
-    // query: { token },
-
     reconnection: true,
     reconnectionAttempts: Infinity,
     reconnectionDelay: 500,
     timeout: 12000,
     transports: ['websocket', 'polling'],
-  });
+  };
+
+  if (token) {
+    options.auth = { token };
+  }
+
+  return options;
+}
+
+function attachDebugListeners(socket) {
+  if (!socket || !import.meta.env.DEV) return;
 
   socket.on('connect', () => {
-    if (import.meta.env.DEV) {
-      console.log('[socket] connected →', socket.id);
-    }
+    console.log('[socket] connected →', socket.id);
   });
 
   socket.on('disconnect', (reason) => {
-    if (import.meta.env.DEV) {
-      console.log('[socket] disconnected →', reason);
-    }
+    console.log('[socket] disconnected →', reason);
   });
 
   socket.on('connect_error', (err) => {
     console.warn('[socket] connect_error:', err?.message || err);
   });
+}
 
+function createSocket() {
+  const socket = io(API_ORIGIN, getSocketOptions());
+  attachDebugListeners(socket);
   return socket;
 }
 
+function normalizeRoomArray(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.items)) return data.items;
+  if (Array.isArray(data?.rooms)) return data.rooms;
+  if (Array.isArray(data?.chatrooms)) return data.chatrooms;
+  if (Array.isArray(data?.data)) return data.data;
+  return null;
+}
+
+function toRoomIds(rows) {
+  return (rows || [])
+    .map((r) => String(r?.id ?? r?.chatRoomId ?? r?.roomId ?? ''))
+    .filter(Boolean);
+}
+
 export function SocketProvider({ children, autoJoin = true }) {
-  const [socket, setSocket]   = useState(null);
+  const [socket, setSocket] = useState(null);
   const [roomIds, setRoomIds] = useState([]);
+
+  const socketRef = useRef(null);
   const lastTokenRef = useRef(readJwt());
+  const refreshRoomsPromiseRef = useRef(null);
 
-  // Create + connect (only when authenticated)
   const connect = useCallback(() => {
-  if (!hasAuth()) return null;
+    const existing = socketRef.current;
 
-  // 🔥 ensure full cleanup before reconnect
-  if (socket) {
-    try {
-      socket.removeAllListeners();
-      socket.disconnect();
-    } catch {}
-  }
+    if (existing) {
+      if (!existing.connected && !existing.active) {
+        const token = readJwt();
+        existing.auth = token ? { token } : {};
+        existing.connect();
+      }
+      return existing;
+    }
 
-  const s = makeSocket();
-  if (!s) return null;
-
-  setSocket(s);
-  return s;
-}, [socket]);
+    const s = createSocket();
+    socketRef.current = s;
+    setSocket(s);
+    return s;
+  }, []);
 
   const disconnect = useCallback(() => {
-  if (!socket) return;
+    const current = socketRef.current;
+    if (!current) return;
 
-  try {
-    socket.removeAllListeners();
-    socket.disconnect();
-  } catch {}
+    try {
+      current.disconnect();
+    } catch {}
 
-  setSocket(null);
-}, [socket]);
+    socketRef.current = null;
+    refreshRoomsPromiseRef.current = null;
+    setSocket(null);
+    setRoomIds([]);
+  }, []);
 
   const reconnect = useCallback(() => {
-  if (import.meta.env.DEV) {
-    console.log('[socket] reconnect triggered');
-  }
-
-  disconnect();
-  return connect();
-}, [connect, disconnect]);
-
-  // Load rooms the current user belongs to (only when authed & connected)
-  const refreshRooms = useCallback(async () => {
-  if (!hasAuth()) {
-    setRoomIds([]);
-    return [];
-  }
-
-  const candidates = [
-    '/chatrooms/mine?select=id',
-    '/rooms/mine?select=id',
-    '/rooms?mine=1&select=id',
-  ];
-
-  for (const path of candidates) {
-    try {
-      const { data } = await axiosClient.get(path);
-      const items = Array.isArray(data?.items) ? data.items : data;
-      const ids = (items || []).map((r) => String(r.id)).filter(Boolean);
-      setRoomIds(ids);
-      return ids;
-    } catch (e) {
-      const status = e?.response?.status;
-      if (status === 401) {
-        setRoomIds([]);
-        return [];
-      }
-      if (status !== 404) {
-        console.warn('[socket] failed to load my rooms:', e?.message || e);
-      }
+    if (import.meta.env.DEV) {
+      console.log('[socket] reconnect triggered');
     }
-  }
 
-  setRoomIds([]);
-  return [];
-}, []);
+    const current = socketRef.current;
+    const token = readJwt();
 
-  // Mount: only connect if there’s auth (prevents 404 spam before login)
-  useEffect(() => {
-  if (!hasAuth()) return;
+    if (current) {
+      current.auth = token ? { token } : {};
+      current.connect();
+      return current;
+    }
 
-  const s = connect();
+    return connect();
+  }, [connect]);
 
-  return () => {
+  const refreshRooms = useCallback(async () => {
+    if (refreshRoomsPromiseRef.current) {
+      return refreshRoomsPromiseRef.current;
+    }
+
+    refreshRoomsPromiseRef.current = (async () => {
+      const candidates = [
+        '/rooms/mine',
+        '/rooms?mine=1',
+        '/chatrooms/mine',
+      ];
+
+      for (const path of candidates) {
+        try {
+          const { data } = await axiosClient.get(path);
+          const rows = normalizeRoomArray(data);
+
+          if (!rows) {
+            if (import.meta.env.DEV) {
+              console.warn('[socket] unexpected rooms payload for', path, data);
+            }
+            continue;
+          }
+
+          const ids = toRoomIds(rows);
+          setRoomIds(ids);
+          return ids;
+        } catch (e) {
+          const status = e?.response?.status;
+
+          if (status === 401) {
+            setRoomIds([]);
+            return [];
+          }
+
+          if (status !== 404 && status !== 400) {
+            console.warn('[socket] failed to load my rooms:', e?.message || e);
+          }
+        }
+      }
+
+      setRoomIds([]);
+      return [];
+    })();
+
     try {
-      s?.removeAllListeners();   // 🔥 prevents duplicate handlers
-      s?.disconnect();           // 🔥 ensures clean shutdown
-    } catch {}
-  };
-}, [connect]);
+      return await refreshRoomsPromiseRef.current;
+    } finally {
+      refreshRoomsPromiseRef.current = null;
+    }
+  }, []);
 
-  // Auto-join rooms after connect or when the room list changes
   useEffect(() => {
-    if (!socket) return;
+    connect();
+
+    return () => {
+      const current = socketRef.current;
+      if (!current) return;
+
+      try {
+        current.disconnect();
+      } catch {}
+
+      socketRef.current = null;
+      refreshRoomsPromiseRef.current = null;
+    };
+  }, [connect]);
+
+  useEffect(() => {
+    if (!socket || !autoJoin) return;
+
+    let cancelled = false;
 
     const onConnected = async () => {
-      if (!autoJoin) return;
+      if (cancelled) return;
+
       const ids = roomIds.length ? roomIds : await refreshRooms();
-      if (ids.length) {
-        try {
-          socket.emit('join:rooms', ids);
-          if (import.meta.env.DEV) console.log('[socket] joined rooms:', ids);
-        } catch (e) {
-          console.warn('[socket] join:rooms error', e?.message || e);
+      if (cancelled) return;
+      if (!Array.isArray(ids) || !ids.length) return;
+
+      try {
+        socket.emit('join:rooms', ids.map(String));
+        if (import.meta.env.DEV) {
+          console.log('[socket] joined rooms:', ids);
         }
+      } catch (e) {
+        console.warn('[socket] join:rooms error', e?.message || e);
       }
     };
 
-    if (socket.connected) onConnected();
+    if (socket.connected) {
+      onConnected();
+    }
+
     socket.on('connect', onConnected);
-    return () => { socket.off('connect', onConnected); };
+
+    return () => {
+      cancelled = true;
+      socket.off('connect', onConnected);
+    };
   }, [socket, roomIds, autoJoin, refreshRooms]);
 
-  // If token changes (login/logout), reconnect with new auth
   useEffect(() => {
     const handleStorage = (e) => {
       if (!e) return;
-      const keys = [COOKIE_NAME, 'token'];
-      if (keys.includes(e.key)) {
-        if (import.meta.env.DEV) console.log('[socket] token changed (storage); reconnecting');
-        lastTokenRef.current = readJwt();
-        reconnect();
-      }
-    };
-    window.addEventListener('storage', handleStorage);
 
-    // Also detect cookie-only changes (storage doesn't fire for cookies)
-    const cookiePoll = setInterval(() => {
-      const now = readJwt();
-      if (now !== lastTokenRef.current) {
-        if (import.meta.env.DEV) console.log('[socket] token changed (cookie); reconnecting');
-        lastTokenRef.current = now;
-        reconnect();
+      const keys = [COOKIE_NAME, 'token'];
+      if (!keys.includes(e.key)) return;
+
+      const nextToken = readJwt();
+      if (nextToken === lastTokenRef.current) return;
+
+      lastTokenRef.current = nextToken;
+
+      if (import.meta.env.DEV) {
+        console.log('[socket] token changed (storage); reconnecting');
       }
-    }, 2000);
+
+      reconnect();
+    };
+
+    window.addEventListener('storage', handleStorage);
 
     return () => {
       window.removeEventListener('storage', handleStorage);
-      clearInterval(cookiePoll);
     };
   }, [reconnect]);
 
-  // Convenience passthroughs so consumers don't have to reach into socket directly
   const on = useCallback((event, handler) => socket?.on?.(event, handler), [socket]);
   const off = useCallback((event, handler) => socket?.off?.(event, handler), [socket]);
   const once = useCallback((event, handler) => socket?.once?.(event, handler), [socket]);
   const emit = useCallback((event, payload) => socket?.emit?.(event, payload), [socket]);
 
+  const joinRooms = useCallback((ids) => {
+    const current = socketRef.current;
+    if (!current) return;
+    current.emit('join:rooms', (ids || []).map(String));
+  }, []);
+
+  const leaveRoom = useCallback((id) => {
+    const current = socketRef.current;
+    if (!current || id == null) return;
+    current.emit('leave_room', String(id));
+  }, []);
+
   const value = useMemo(
     () => ({
-      // raw socket for advanced usages
       socket,
-
-      // lifecycle
       connect,
       disconnect,
       reconnect,
-
-      // room management
       refreshRooms,
       setRoomIds,
-      joinRooms: (ids) => socket?.emit?.('join:rooms', (ids || []).map(String)),
-      leaveRoom: (id) => socket?.emit?.('leave_room', String(id)),
-
-      // event helpers
-      on, off, once, emit,
+      joinRooms,
+      leaveRoom,
+      on,
+      off,
+      once,
+      emit,
     }),
-    [socket, connect, disconnect, reconnect, refreshRooms, on, off, once, emit]
+    [
+      socket,
+      connect,
+      disconnect,
+      reconnect,
+      refreshRooms,
+      joinRooms,
+      leaveRoom,
+      on,
+      off,
+      once,
+      emit,
+    ]
   );
 
   return <SocketCtx.Provider value={value}>{children}</SocketCtx.Provider>;
@@ -258,12 +324,6 @@ export function useSocket() {
   return useContext(SocketCtx);
 }
 
-/**
- * Optional convenience hook if you prefer the raw socket instance directly.
- * Example:
- *   const socket = useSocketRaw();
- *   useEffect(() => { socket?.on('status:posted', ...); }, [socket]);
- */
 export function useSocketRaw() {
   return useContext(SocketCtx)?.socket ?? null;
 }

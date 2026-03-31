@@ -35,6 +35,7 @@ import { useSocket } from '@/context/SocketContext';
 import axiosClient from '@/api/axiosClient';
 
 // dynamic: keep heavy crypto out of the initial bundle
+import { encryptForRoom } from '@/utils/encryptionClient';
 import loadEncryptionClient from '@/utils/loadEncryptionClient';
 
 // ✅ Smart Replies
@@ -166,34 +167,6 @@ function upsertLocalMessage(prev, incoming) {
   return sortMessagesChronologically(next);
 }
 
-function mergeIncomingMessageFactory(setMessages) {
-  return (incoming) => {
-    if (!incoming) return;
-
-    setMessages((prev) => {
-      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
-      const key = getMessageKey(incoming);
-      map.set(key, { ...(map.get(key) || {}), ...incoming });
-      return sortMessagesChronologically(Array.from(map.values()));
-    });
-  };
-}
-
-function mergeIncomingBatchFactory(setMessages) {
-  return (rows = []) => {
-    if (!Array.isArray(rows) || rows.length === 0) return;
-
-    setMessages((prev) => {
-      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
-      for (const r of rows) {
-        if (!r) continue;
-        const key = getMessageKey(r);
-        map.set(key, { ...(map.get(key) || {}), ...r });
-      }
-      return sortMessagesChronologically(Array.from(map.values()));
-    });
-  };
-}
 
 function toNum(value) {
   const n = Number(value);
@@ -301,14 +274,30 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     [chatroom?.id]
   );
 
-  const markMessageRead = useCallback(async (messageId) => {
-    if (!messageId) return;
-    try {
-      await axiosClient.patch(`/messages/${messageId}/read`);
-    } catch (e) {
-      console.error('PATCH read failed', e);
+
+  // ✅ Stable merge for realtime upsert (must be inside component)
+  const mergeIncomingMessage = useCallback((incoming) => {
+    if (!incoming) return;
+
+    const shouldScroll = isNearBottom();
+
+    setMessages((prev) => {
+      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
+      const key = getMessageKey(incoming);
+      map.set(key, { ...(map.get(key) || {}), ...incoming });
+      return sortMessagesChronologically(Array.from(map.values()));
+    });
+
+    if (shouldScroll) {
+      requestAnimationFrame(() => {
+        scrollToBottom();
+      });
+    } else {
+      setShowNewMessage(true); // optional "new message" button
     }
   }, []);
+
+  
 
   const [smartEnabled, setSmartEnabled] = useState(
     () => currentUser?.enableSmartReplies ?? false
@@ -366,13 +355,17 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   );
 
   const canEditMessage = useCallback(
-    (m) => {
-      if (!isSameUser(getSenderId(m), currentUserId)) return false;
-      if (m.deletedForAll) return false;
-      return true;
-    },
-    [currentUserId]
-  );
+  (m) => {
+    if (!isSameUser(getSenderId(m), currentUserId)) return false;
+    if (m.deletedForAll) return false;
+
+    const isEncrypted = !!m.contentCiphertext || !!m.encryptedKeyForMe;
+    if (isEncrypted && e2eeLocked) return false;
+
+    return true;
+  },
+  [currentUserId, e2eeLocked]
+);
 
   const canDeleteForEveryone = useCallback(
     (m) => {
@@ -415,6 +408,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     });
     setShowNewMessage(false);
   }, []);
+
+  const isNearBottom = () => {
+  const v = scrollViewportRef.current;
+  if (!v) return true;
+
+  const threshold = 120; // px buffer
+  return v.scrollHeight - v.scrollTop - v.clientHeight < threshold;
+};
 
   const handleAddToCalendarFromMessage = (msg) => {
     const text =
@@ -472,12 +473,51 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   try {
     setEditSubmitting(true);
 
-    const { data } = await axiosClient.patch(
-      `/messages/${editTarget.id}/edit`,
-      { newContent: newText }
-    );
+    const isEncrypted =
+      !!editTarget?.contentCiphertext || !!editTarget?.encryptedKeyForMe;
 
-    const updated = data?.message ?? data ?? null;
+    let updated = null;
+
+    if (isEncrypted) {
+      const roomIdNum = Number(editTarget?.chatRoomId ?? chatroom?.id);
+      if (!Number.isFinite(roomIdNum)) {
+        console.error('❌ Invalid room id for edit:', {
+          editTargetChatRoomId: editTarget?.chatRoomId,
+          chatroomId: chatroom?.id,
+        });
+        return;
+      }
+
+      const participantsRes = await axiosClient.get(
+        `/chatrooms/${roomIdNum}/participants`,
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      );
+
+      const encrypted = await encryptForRoom(
+        participantsRes.data?.participants ?? [],
+        newText,
+        toNum(currentUserId)
+      );
+
+      const { data } = await axiosClient.patch(
+        `/messages/${editTarget.id}/edit`,
+        {
+          contentCiphertext: encrypted.ciphertext,
+          encryptedKeys: encrypted.encryptedKeys,
+        },
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      );
+
+      updated = data?.message ?? data ?? null;
+    } else {
+      const { data } = await axiosClient.patch(
+        `/messages/${editTarget.id}/edit`,
+        { newContent: newText },
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+      );
+
+      updated = data?.message ?? data ?? null;
+    }
 
     const merged =
       updated != null
@@ -677,28 +717,35 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     }
   }
 
-  // ✅ own room membership here, not in ChatroomList
+     // ✅ Robust room joining - waits for socket + room
   useEffect(() => {
-    if (!chatroom?.id || !socket) return;
+    if (!socket || !chatroom?.id) {
+      console.log('🌐 WEB Skipping join — no room or socket yet');
+      return;
+    }
 
     const roomId = Number(chatroom.id);
+    console.log(`🌐 WEB JOINING room ${roomId} (socket ready)`);
 
     const join = () => {
-      if (socket.connected) {
-        socket.emit('join_room', roomId);
+      if (!socket.connected) {
+        console.log('🌐 WEB Socket not connected, waiting...');
+        return;
       }
+      socket.emit('join_room', roomId);
+      socket.emit('join:rooms', [String(roomId)]);
+      console.log(`🌐 WEB Emitted join for room ${roomId}`);
     };
 
     join();
+
+    // Re-join on reconnect
     socket.on('connect', join);
 
     return () => {
       socket.off('connect', join);
-      if (socket.connected) {
-        socket.emit('leave_room', roomId);
-      }
     };
-}, [chatroom?.id, socket]);
+  }, [socket, chatroom?.id]);
 
   useEffect(() => {
     let alive = true;
@@ -763,166 +810,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     return () => v.removeEventListener('scroll', onScroll);
   }, [chatroom?.id, cursor, hasMore]);
 
-  useEffect(() => {
-  if (!socket || !chatroom || !currentUserId) return;
-
-  const mergeIncomingMessage = mergeIncomingMessageFactory(setMessages);
-  const mergeIncomingBatch = mergeIncomingBatchFactory(setMessages);
-
-  const handleRealtimeMessage = async (payload) => {
-    if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
-
-    const raw = unwrapMessage(payload);
-    if (!raw) return;
-
-    try {
-      const priv = await maybeGetUnlockedPrivateKey();
-      const [decrypted] = await maybeDecryptFetchedMessages(
-        [raw],
-        priv,
-        null,
-        currentUserId
-      );
-
-      const incoming = decrypted ?? raw;
-      mergeIncomingMessage(incoming);
-
-      const incomingId = Number(incoming?.id || 0);
-      if (Number.isFinite(incomingId) && incomingId > 0) {
-        setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
-      }
-
-      upsertMessage(chatroom.id, incoming).catch(() => {});
-      addMessages(chatroom.id, [incoming]).catch(() => {});
-
-      const isMine = isSameUser(getSenderId(incoming), currentUserId);
-
-      if (!isMine && incoming?.id) {
-        markMessageRead(incoming.id);
-      }
-
-      const v = scrollViewportRef.current;
-      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-      if (atBottom) scrollToBottomNow();
-      else setShowNewMessage(true);
-
-      const tabHidden = document.hidden;
-      if (!isMine && (!atBottom || tabHidden)) {
-        playSound('/sounds/new-message.mp3', { volume: 0.6 });
-      }
-    } catch (e) {
-      console.error('Failed to decrypt/merge incoming realtime message', e);
-
-      mergeIncomingMessage(raw);
-      upsertMessage(chatroom.id, raw).catch(() => {});
-      addMessages(chatroom.id, [raw]).catch(() => {});
-
-      const isMine = isSameUser(getSenderId(raw), currentUserId);
-
-      if (!isMine && raw?.id) {
-        markMessageRead(raw.id);
-      }
-
-      const v = scrollViewportRef.current;
-      const atBottom = v && v.scrollTop + v.clientHeight >= v.scrollHeight - 10;
-
-      if (atBottom) scrollToBottomNow();
-      else setShowNewMessage(true);
-
-      const tabHidden = document.hidden;
-      if (!isMine && (!atBottom || tabHidden)) {
-        playSound('/sounds/new-message.mp3', { volume: 0.6 });
-      }
-    }
-  };
-
-    const handleDeletedMessage = (payload) => {
-      if (getMessageRoomId(payload) !== Number(chatroom.id)) return;
-
-      const item = unwrapMessage(payload) ?? payload?.item ?? payload;
-      if (!item?.id) return;
-
-      if (item.deletedForMe) {
-        setMessages((prev) =>
-          prev.filter((m) => Number(m.id) !== Number(item.id))
-        );
-
-        upsertMessage(chatroom.id, { ...item, deletedForMe: true }).catch(() => {});
-        return;
-      }
-
-      mergeIncomingMessage(item);
-
-      const incomingId = Number(item?.id || 0);
-      if (Number.isFinite(incomingId) && incomingId > 0) {
-        setHighestSeenId((prev) => Math.max(prev || 0, incomingId));
-      }
-
-      upsertMessage(chatroom.id, item).catch(() => {});
-      addMessages(chatroom.id, [item]).catch(() => {});
-  };
-
-  const handleBatch = async (payload) => {
-    const rows = payload?.items ?? payload?.messages ?? payload;
-    if (!Array.isArray(rows) || rows.length === 0) return;
-
-    const roomFilteredRows = rows.filter(
-      (row) => getMessageRoomId(row) === Number(chatroom.id)
-    );
-    if (!roomFilteredRows.length) return;
-
-    try {
-      const priv = await maybeGetUnlockedPrivateKey();
-      const decrypted = await maybeDecryptFetchedMessages(
-        roomFilteredRows,
-        priv,
-        null,
-        currentUserId
-      );
-
-      const incomingRows = decrypted?.length ? decrypted : roomFilteredRows;
-
-      mergeIncomingBatch(incomingRows);
-      addMessages(chatroom.id, incomingRows).catch(() => {});
-
-      const maxInBatch = incomingRows
-        .map((m) => Number(m?.id || 0))
-        .filter(Number.isFinite)
-        .reduce((a, b) => Math.max(a, b), 0);
-
-      if (maxInBatch > 0) {
-        setHighestSeenId((prev) => Math.max(prev || 0, maxInBatch));
-      }
-    } catch (e) {
-      console.error('Failed to decrypt incoming batch', e);
-      mergeIncomingBatch(roomFilteredRows);
-    }
-  };
-
-  const onTypingUpdate = ({ roomId, username, isTyping }) => {
-    if (Number(roomId) !== Number(chatroom.id)) return;
-    setTypingUser(isTyping ? username || '' : '');
-  };
-
-  socket.on('message:upsert', handleRealtimeMessage);
-  socket.on('message:new', handleRealtimeMessage);
-  socket.on('message:expired', handleRealtimeMessage);
-  socket.on('message:edited', handleRealtimeMessage);
-  socket.on('message:deleted', handleDeletedMessage);
-  socket.on('message:batch', handleBatch);
-  socket.on('typing:update', onTypingUpdate);
-
-  return () => {
-    socket.off('message:upsert', handleRealtimeMessage);
-    socket.off('message:new', handleRealtimeMessage);
-    socket.off('message:expired', handleRealtimeMessage);
-    socket.off('message:edited', handleRealtimeMessage);
-    socket.off('message:deleted', handleRealtimeMessage);
-    socket.off('message:batch', handleBatch);
-    socket.off('typing:update', onTypingUpdate);
-  };
-}, [socket, chatroom?.id, currentUserId, scrollToBottomNow, markMessageRead]);
 
   const handleBlockThread = useCallback(async () => {
     const participants = Array.isArray(chatroom?.participants) ? chatroom.participants : [];
@@ -1021,6 +908,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   return () => socket.off('reaction_updated', onReaction);
 }, [socket, currentUserId]);
 
+
   useEffect(() => {
   if (!socket || !chatroom?.id) return;
 
@@ -1070,11 +958,130 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     locale: navigator.language || 'en-US',
   });
 
-  const sendSmartReply = (text) => {
-    if (!socket || !text?.trim() || !chatroom?.id) return;
-    socket.emit('send_message', { content: text, chatRoomId: chatroom.id });
+  const buildSenderKeys = useCallback(
+    () =>
+      Object.fromEntries(
+        (chatroom?.participants || [])
+          .filter(
+            (p) =>
+              (p?.user?.id || p?.userId || p?.id) &&
+              (p?.user?.publicKey || p?.publicKey)
+          )
+          .map((p) => [
+            String(p.user?.id ?? p.userId ?? p.id),
+            p.user?.publicKey ?? p.publicKey,
+          ])
+      ),
+    [chatroom?.participants]
+  );
+
+  const insertSavedMessage = useCallback(
+    async (savedRaw, optimisticText = '') => {
+      const saved = unwrapMessage(savedRaw);
+      let rowToInsert = saved;
+
+      const forceMineShape = (base) => ({
+        ...base,
+        mine: true,
+        senderId: toNum(currentUserId),
+        sender: {
+          ...(base?.sender || {}),
+          id: toNum(currentUserId),
+          username: currentUser?.username ?? base?.sender?.username,
+        },
+      });
+
+      const makeOptimisticMineRow = (base, optimisticTextValue) =>
+        forceMineShape({
+          ...base,
+          decryptedContent: optimisticTextValue,
+          content: optimisticTextValue,
+          rawContent: optimisticTextValue,
+        });
+
+      try {
+        const priv = await maybeGetUnlockedPrivateKey();
+
+        if (priv) {
+          const senderKeys = buildSenderKeys();
+
+          const [decryptedSaved] = await maybeDecryptFetchedMessages(
+            [saved],
+            priv,
+            senderKeys,
+            currentUserId
+          );
+
+          if (
+            decryptedSaved &&
+            decryptedSaved.decryptedContent &&
+            decryptedSaved.decryptedContent !== '[Encrypted – key unavailable]' &&
+            decryptedSaved.decryptedContent !== '[Encrypted – could not decrypt]'
+          ) {
+            rowToInsert = decryptedSaved;
+          } else if (optimisticText) {
+            rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+          }
+        } else if (optimisticText) {
+          rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+        }
+      } catch (e) {
+        console.warn('Failed to decrypt sent message response', e);
+
+        if (optimisticText) {
+          rowToInsert = makeOptimisticMineRow(saved, optimisticText);
+        }
+      }
+
+      rowToInsert = forceMineShape(rowToInsert);
+
+      setMessages((prev) => upsertLocalMessage(prev, rowToInsert));
+      scrollToBottomNow();
+    },
+    [buildSenderKeys, currentUser?.username, currentUserId, scrollToBottomNow]
+  );
+
+  const sendSmartReply = async (text) => {
+  if (!text?.trim() || !chatroom?.id) return;
+
+  try {
+    const roomIdNum = Number(chatroom?.id);
+    if (!Number.isFinite(roomIdNum)) {
+      console.error('❌ Invalid chatroom id:', chatroom?.id);
+      return;
+    }
+
+    const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    const participantsRes = await axiosClient.get(
+      `/chatrooms/${roomIdNum}/participants`,
+      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+    );
+
+    const encrypted = await encryptForRoom(
+      participantsRes.data?.participants ?? [],
+      text.trim(),
+      toNum(currentUserId)
+    );
+
+    const { data } = await axiosClient.post(
+      '/messages',
+      {
+        chatRoomId: roomIdNum,
+        content: null,
+        contentCiphertext: encrypted.ciphertext,
+        encryptedKeys: encrypted.encryptedKeys,
+        clientMessageId,
+      },
+      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+    );
+
+    await insertSavedMessage(data, text.trim());
     clear();
- };
+  } catch (e) {
+    console.error('Smart reply send failed', e);
+  }
+};
 
   const runPowerAi = async () => {
     if (!isPremium) return navigate('/upgrade');
@@ -1113,15 +1120,44 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   async function handleRetry(failedMsg) {
     try {
-      const payload = {
-        chatRoomId: String(chatroom.id),
-        content: failedMsg.content || failedMsg.decryptedContent || '',
-        expireSeconds: failedMsg.expireSeconds || 0,
-        attachmentsInline: failedMsg.attachmentsInline || [],
-      };
-      const { data } = await axiosClient.post('/messages', payload, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      });
+      const roomIdNum = Number(chatroom?.id);
+    if (!Number.isFinite(roomIdNum)) {
+      console.error('❌ Invalid chatroom id:', chatroom?.id);
+      return;
+    }
+
+    const plaintext =
+      failedMsg.decryptedContent ||
+      failedMsg.content ||
+      failedMsg.rawContent ||
+      (failedMsg.attachmentsInline?.some((a) => a.kind === 'IMAGE') ? '[image]' :
+      failedMsg.attachmentsInline?.some((a) => a.kind === 'GIF') ? '[gif]' :
+      failedMsg.attachmentsInline?.some((a) => a.kind === 'AUDIO') ? '[voice note]' :
+      failedMsg.attachmentsInline?.length ? '[attachment]' : '');
+
+    const participantsRes = await axiosClient.get(
+      `/chatrooms/${roomIdNum}/participants`,
+      { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+    );
+
+    const encrypted = await encryptForRoom(
+      participantsRes.data?.participants ?? [],
+      plaintext,
+      toNum(currentUserId)
+    );
+
+    const payload = {
+      chatRoomId: roomIdNum,
+      content: null,
+      contentCiphertext: encrypted.ciphertext,
+      encryptedKeys: encrypted.encryptedKeys,
+      expireSeconds: failedMsg.expireSeconds || 0,
+      attachmentsInline: failedMsg.attachmentsInline || [],
+    };
+
+    const { data } = await axiosClient.post('/messages', payload, {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
       const saved = unwrapMessage(data);
       setMessages((prev) =>
         prev.map((m) => (m.id === failedMsg.id ? { ...m, ...saved } : m))
@@ -1283,7 +1319,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         content: '',
         translatedForMe: null,
         attachments: [],
-        attachmentsInline: saved.attachmentsInline ?? [],
+        attachmentsInline: [],
       }))
     );
 
@@ -1296,6 +1332,41 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       await loadMore(true);
     }
   }, [chatroom?.id, currentUserId]);
+
+  const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
+  const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
+
+  const showThreadTop = Boolean(
+    chatroom?.id && !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id))
+  );
+
+  useEffect(() => {
+    if (chatroom?.id && showThreadTop) {
+      markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
+    }
+  }, [showThreadTop, markShown, chatroom?.id]);
+
+  const lastOutgoingId = useMemo(() => {
+    const last = [...messages].reverse().find((m) =>
+      isSameUser(getSenderId(m), currentUserId)
+    );
+    return last?.id ?? null;
+  }, [messages, currentUserId]);
+
+  const lastOutgoingSeen = useMemo(() => {
+    if (!lastOutgoingId) return false;
+
+    const m = messages.find((x) => x.id === lastOutgoingId);
+    if (!m) return false;
+
+    if (m.readAt) return true;
+
+    if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
+      return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
+    }
+
+    return false;
+  }, [messages, lastOutgoingId, otherUserId]);
 
   if (!chatroom) {
     const showPromo =
@@ -1324,36 +1395,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     );
   }
 
-  const privacyActive = Boolean(currentUser?.privacyBlurEnabled);
-  const holdToReveal = Boolean(currentUser?.privacyHoldToReveal);
-
-  const showThreadTop = !isPremium && canShow(PLACEMENTS.THREAD_TOP, String(chatroom.id));
-
-  useEffect(() => {
-    if (showThreadTop) markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
-  }, [showThreadTop, markShown, chatroom?.id]);
-
-  const lastOutgoingId = useMemo(() => {
-    const last = [...messages].reverse().find((m) =>
-      isSameUser(getSenderId(m), currentUserId)
-    );
-    return last?.id ?? null;
-  }, [messages, currentUserId]);
-
-  const lastOutgoingSeen = useMemo(() => {
-    if (!lastOutgoingId) return false;
-
-    const m = messages.find((x) => x.id === lastOutgoingId);
-    if (!m) return false;
-
-    if (m.readAt) return true;
-
-    if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
-      return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
-    }
-
-    return false;
-  }, [messages, lastOutgoingId, otherUserId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1453,6 +1494,73 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       cancelled = true;
     };
   }, [chatroom?.id, chatroom?.participants, currentUserId, messages.length]);
+
+      // === Robust real-time listeners - waits for socket + room ===
+  useEffect(() => {
+    if (!socket) {
+      console.log('🌐 WEB Skipping listeners — no socket yet');
+      return;
+    }
+    if (!chatroom?.id) {
+      console.log('🌐 WEB Skipping listeners — no chatroom.id yet');
+      return;
+    }
+
+    const currentRoomId = Number(chatroom.id);
+    console.log(`🌐 WEB Setting up listeners for room ${currentRoomId}`);
+
+    const handleRealtimeMessage = async (payload) => {
+      const roomFromPayload = getMessageRoomId(payload);
+
+      console.group('🌐 WEB RECEIVED message:upsert');
+      console.log({
+        timestamp: new Date().toISOString(),
+        roomFromPayload,
+        currentRoomId,
+        matches: roomFromPayload === currentRoomId,
+        messageId: payload?.item?.id || payload?.id || 'unknown',
+        hasItem: !!payload?.item,
+        payloadKeys: Object.keys(payload || {})
+      });
+      console.groupEnd();
+
+      if (roomFromPayload !== currentRoomId) {
+        console.log(`🌐 WEB FILTERED — room mismatch`);
+        return;
+      }
+
+      const raw = unwrapMessage(payload);
+      if (!raw) {
+        console.warn('🌐 WEB unwrapMessage returned null');
+        return;
+      }
+
+      try {
+        const priv = await maybeGetUnlockedPrivateKey();
+        const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
+        const incoming = decrypted ?? raw;
+
+        mergeIncomingMessage(incoming);
+        console.log(`🌐 WEB Successfully merged message ${incoming.id || incoming.clientMessageId || 'unknown'}`);
+      } catch (e) {
+        console.error('🌐 WEB decrypt/merge failed', e);
+        mergeIncomingMessage(raw);
+      }
+    };
+
+    socket.on('message:upsert', handleRealtimeMessage);
+    socket.on('message:new', handleRealtimeMessage);
+    socket.on('message:edited', handleRealtimeMessage);
+
+    console.log('🌐 WEB Listeners attached successfully');
+
+    return () => {
+      console.log(`🌐 WEB Cleaning up listeners for room ${currentRoomId}`);
+      socket.off('message:upsert', handleRealtimeMessage);
+      socket.off('message:new', handleRealtimeMessage);
+      socket.off('message:edited', handleRealtimeMessage);
+    };
+  }, [socket, chatroom?.id, currentUserId, mergeIncomingMessage]);
 
   return (
     <Box
@@ -1602,82 +1710,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 const text = (draft || '').trim();
 
                 try {
-                  const buildSenderKeys = () =>
-                    Object.fromEntries(
-                      (chatroom?.participants || [])
-                        .filter(
-                          (p) =>
-                            (p?.user?.id || p?.userId || p?.id) &&
-                            (p?.user?.publicKey || p?.publicKey)
-                        )
-                        .map((p) => [
-                          String(p.user?.id ?? p.userId ?? p.id),
-                          p.user?.publicKey ?? p.publicKey,
-                        ])
-                    );
-
-                  const insertSavedMessage = async (savedRaw, optimisticText = '') => {
-                    const saved = unwrapMessage(savedRaw);
-                    let rowToInsert = saved;
-
-                    const forceMineShape = (base) => ({
-                      ...base,
-                      mine: true,
-                      senderId: toNum(currentUserId),
-                      sender: {
-                        ...(base?.sender || {}),
-                        id: toNum(currentUserId),
-                        username: currentUser?.username ?? base?.sender?.username,
-                      },
-                    });
-
-                    const makeOptimisticMineRow = (base, optimisticTextValue) =>
-                      forceMineShape({
-                        ...base,
-                        decryptedContent: optimisticTextValue,
-                        content: optimisticTextValue,
-                        rawContent: optimisticTextValue,
-                      });
-
-                    try {
-                      const priv = await maybeGetUnlockedPrivateKey();
-
-                      if (priv) {
-                        const senderKeys = buildSenderKeys();
-
-                        const [decryptedSaved] = await maybeDecryptFetchedMessages(
-                          [saved],
-                          priv,
-                          senderKeys,
-                          currentUserId
-                        );
-
-                        if (
-                          decryptedSaved &&
-                          decryptedSaved.decryptedContent &&
-                          decryptedSaved.decryptedContent !== '[Encrypted – key unavailable]' &&
-                          decryptedSaved.decryptedContent !== '[Encrypted – could not decrypt]'
-                        ) {
-                          rowToInsert = decryptedSaved;
-                        } else if (optimisticText) {
-                          rowToInsert = makeOptimisticMineRow(saved, optimisticText);
-                        }
-                      } else if (optimisticText) {
-                        rowToInsert = makeOptimisticMineRow(saved, optimisticText);
-                      }
-                    } catch (e) {
-                      console.warn('Failed to decrypt sent message response', e);
-
-                      if (optimisticText) {
-                        rowToInsert = makeOptimisticMineRow(saved, optimisticText);
-                      }
-                    }
-
-                    rowToInsert = forceMineShape(rowToInsert);
-
-                    setMessages((prev) => upsertLocalMessage(prev, rowToInsert));
-                    scrollToBottomNow();
-                  };
 
                   if (payload?.attachments?.length) {
                       const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -1723,11 +1755,37 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                       scrollToBottomNow();
 
+                      const roomIdNum = Number(chatroom?.id);
+                      if (!Number.isFinite(roomIdNum)) {
+                        console.error('❌ Invalid chatroom id:', chatroom?.id);
+                        return;
+                      }
+
+                      const participantsRes = await axiosClient.get(
+                        `/chatrooms/${roomIdNum}/participants`,
+                        { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+                      );
+
+                      const encryptionText =
+                        text ||
+                        (optimisticAttachments.some((a) => a.kind === 'IMAGE') ? '[image]' :
+                        optimisticAttachments.some((a) => a.kind === 'GIF') ? '[gif]' :
+                        optimisticAttachments.some((a) => a.kind === 'AUDIO') ? '[voice note]' :
+                        '[attachment]');
+
+                      const encrypted = await encryptForRoom(
+                        participantsRes.data?.participants ?? [],
+                        encryptionText,
+                        toNum(currentUserId)
+                      );
+
                       const { data } = await axiosClient.post(
                         '/messages',
                         {
-                          chatRoomId: chatroom.id,
-                          content: text || '',
+                          chatRoomId: roomIdNum,
+                          content: null,
+                          contentCiphertext: encrypted.ciphertext,
+                          encryptedKeys: encrypted.encryptedKeys,
                           clientMessageId,
                           attachmentsInline: optimisticAttachments,
                         },
@@ -1759,7 +1817,14 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                           (m) => m.clientMessageId === clientMessageId || m.id === saved?.id
                         );
 
-                        return found ? replaced : upsertLocalMessage(replaced, { ...saved, clientMessageId, mine: true });
+                        return found
+                          ? replaced
+                          : upsertLocalMessage(replaced, {
+                              ...saved,
+                              clientMessageId,
+                              mine: true,
+                              optimistic: false,
+                            });
                       });
 
                       setDraft('');
@@ -1777,9 +1842,32 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
                   const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+                  const roomIdNum = Number(chatroom?.id);
+                  if (!Number.isFinite(roomIdNum)) {
+                    console.error('❌ Invalid chatroom id:', chatroom?.id);
+                    return;
+                  }
+
+                  const participantsRes = await axiosClient.get(
+                    `/chatrooms/${roomIdNum}/participants`,
+                    { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
+                  );
+
+                  const encrypted = await encryptForRoom(
+                    participantsRes.data?.participants ?? [],
+                    text,
+                    toNum(currentUserId)
+                  );
+
                   const { data } = await axiosClient.post(
                     '/messages',
-                    { chatRoomId: chatroom.id, content: text, clientMessageId },
+                    {
+                      chatRoomId: roomIdNum,
+                      content: null,
+                      contentCiphertext: encrypted.ciphertext,
+                      encryptedKeys: encrypted.encryptedKeys,
+                      clientMessageId,
+                    },
                     { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
                   );
 
@@ -1811,97 +1899,117 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             </div>
           )}
 
-          <ScrollArea
-            key={chatroom?.id}
+          <Box
             style={{
+              position: 'relative',
               flex: '1 1 auto',
               minHeight: 0,
-              height: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
             }}
-            viewportRef={scrollViewportRef}
-            type="auto"
           >
-            <Box
+            <ScrollArea
+              key={chatroom?.id}
               style={{
+                flex: '1 1 auto',
                 minHeight: 0,
-                display: 'flex',
-                flexDirection: 'column',
+                height: 0,
               }}
+              viewportRef={scrollViewportRef}
+              type="auto"
             >
-              <Stack gap="xs" p="xs">
-                {messages.map((m, idx) => {
-                  const msg = normalizeMsg(m);
-                  const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
+              <Box
+                style={{
+                  minHeight: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Stack gap="xs" p="xs">
+                  {messages.map((m, idx) => {
+                    const msg = normalizeMsg(m);
+                    const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
 
-                  const prevRaw = messages[idx - 1];
-                  const prevMsg = prevRaw ? normalizeMsg(prevRaw) : null;
+                    const prevRaw = messages[idx - 1];
+                    const prevMsg = prevRaw ? normalizeMsg(prevRaw) : null;
 
-                  const nextRaw = messages[idx + 1];
-                  const nextMsg = nextRaw ? normalizeMsg(nextRaw) : null;
+                    const nextRaw = messages[idx + 1];
+                    const nextMsg = nextRaw ? normalizeMsg(nextRaw) : null;
 
-                  const thisSenderId = Number(msg?.sender?.id ?? msg?.senderId ?? 0);
-                  const prevSenderId = Number(prevMsg?.sender?.id ?? prevMsg?.senderId ?? 0);
-                  const nextSenderId = Number(nextMsg?.sender?.id ?? nextMsg?.senderId ?? 0);
+                    const thisSenderId = Number(msg?.sender?.id ?? msg?.senderId ?? 0);
+                    const prevSenderId = Number(prevMsg?.sender?.id ?? prevMsg?.senderId ?? 0);
+                    const nextSenderId = Number(nextMsg?.sender?.id ?? nextMsg?.senderId ?? 0);
 
-                  const thisTime = msg?.createdAt ? new Date(msg.createdAt).getTime() : 0;
-                  const prevTime = prevMsg?.createdAt ? new Date(prevMsg.createdAt).getTime() : 0;
-                  const nextTime = nextMsg?.createdAt ? new Date(nextMsg.createdAt).getTime() : 0;
+                    const thisTime = msg?.createdAt ? new Date(msg.createdAt).getTime() : 0;
+                    const prevTime = prevMsg?.createdAt ? new Date(prevMsg.createdAt).getTime() : 0;
+                    const nextTime = nextMsg?.createdAt ? new Date(nextMsg.createdAt).getTime() : 0;
 
-                  const prevGapMs = thisTime && prevTime ? thisTime - prevTime : 0;
-                  const nextGapMs = thisTime && nextTime ? nextTime - thisTime : 0;
+                    const prevGapMs = thisTime && prevTime ? thisTime - prevTime : 0;
+                    const nextGapMs = thisTime && nextTime ? nextTime - thisTime : 0;
 
-                  const sameAsPrev =
-                    !!prevMsg &&
-                    thisSenderId === prevSenderId &&
-                    prevGapMs <= 5 * 60 * 1000;
+                    const sameAsPrev =
+                      !!prevMsg &&
+                      thisSenderId === prevSenderId &&
+                      prevGapMs <= 5 * 60 * 1000;
 
-                  const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
-                  const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
+                    const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
+                    const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
 
-                  return (
-                    <Box key={msg.id ?? `${msg.createdAt}-${idx}`} mt={sameAsPrev ? 4 : 12}>
-                      <MessageBubble
-                        msg={msg}
-                        currentUserId={currentUserId}
-                        onRetry={handleRetry}
-                        onEdit={openEditModal}
-                        onDeleteMe={(mm) => openDeleteModal(mm, 'me')}
-                        onDeleteAll={(mm) => openDeleteModal(mm, 'all')}
-                        onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
-                        onReport={(mm) => openReportModal(mm)}
-                        canEdit={canEditMessage(msg)}
-                        canDeleteAll={canDeleteForEveryone(msg)}
-                        showTail={showTail}
-                        sameAsPrev={sameAsPrev}
-                      />
+                    return (
+                      <Box key={msg.id ?? `${msg.createdAt}-${idx}`} mt={sameAsPrev ? 4 : 12}>
+                        <MessageBubble
+                          msg={msg}
+                          currentUserId={currentUserId}
+                          onRetry={handleRetry}
+                          onEdit={openEditModal}
+                          onDeleteMe={(mm) => openDeleteModal(mm, 'me')}
+                          onDeleteAll={(mm) => openDeleteModal(mm, 'all')}
+                          onAddToCalendar={(mm) => handleAddToCalendarFromMessage(mm)}
+                          onReport={(mm) => openReportModal(mm)}
+                          canEdit={canEditMessage(msg)}
+                          canDeleteAll={canDeleteForEveryone(msg)}
+                          showTail={showTail}
+                          sameAsPrev={sameAsPrev}
+                        />
 
-                      {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
-                        <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
-                          {lastOutgoingSeen ? 'Seen' : ''}
-                        </Text>
-                      )}
-                    </Box>
-                  );
-                })}
+                        {chatroom?.participants?.length === 2 && msg.mine && isLastOutgoing && (
+                          <Text size="xs" c="dimmed" ta="right" mt={4} mr={6}>
+                            {lastOutgoingSeen ? 'Seen' : ''}
+                          </Text>
+                        )}
+                      </Box>
+                    );
+                  })}
 
-                <div ref={messagesEndRef} />
-              </Stack>
-            </Box>
-          </ScrollArea>
+                  <div ref={messagesEndRef} />
+                </Stack>
+              </Box>
+            </ScrollArea>
+
+            {showNewMessage && (
+              <Button
+                onClick={scrollToBottom}
+                aria-label="Jump to newest"
+                style={{
+                  position: 'absolute',
+                  bottom: 16,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  zIndex: 10,
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                }}
+              >
+                New messages ↓
+              </Button>
+            )}
+          </Box>
 
           <Box style={{ flex: '0 0 auto' }}>
             {typingUser && (
               <Text size="sm" c="dimmed" fs="italic" mt="xs" aria-live="polite">
                 {typingUser} is typing...
               </Text>
-            )}
-
-            {showNewMessage && (
-              <Group justify="center" mt="xs">
-                <Button onClick={scrollToBottom} aria-label="Jump to newest">
-                  New Messages
-                </Button>
-              </Group>
             )}
           </Box>
         </Box>

@@ -222,6 +222,7 @@ async function resolveMessagePayload(messageOrRow) {
   }
 
   console.warn('[socketBus] Unsupported message payload shape:', messageOrRow);
+  console.log(`[socketBus] Emitted message:upsert to room ${roomIdStr} for message ${payloadRow.id || 'unknown'}`);
   return null;
 }
 
@@ -238,18 +239,25 @@ async function resolveMessagePayload(messageOrRow) {
  */
 export async function emitMessageUpsert(chatRoomId, messageOrRow) {
   if (chatRoomId == null || messageOrRow == null) return;
-  if (!_io) return;
+  if (!_io) {
+    console.warn('[socketBus] emitMessageUpsert called before io was set');
+    return;
+  }
 
   const payloadRow = await resolveMessagePayload(messageOrRow);
   if (!payloadRow) return;
 
+  const roomIdStr = String(chatRoomId);
+
   try {
-    emitToChatRoom(chatRoomId, SOCKET_EVENTS.MESSAGE_UPSERT, {
-      roomId: Number(chatRoomId),
-      item: payloadRow,
+    // Emit clean, consistent payload that both iOS and web expect
+    _io.to(roomIdStr).emit('message:upsert', { 
+      item: payloadRow 
     });
-  } catch {
-    /* noop */
+
+    console.log(`[socketBus] Emitted message:upsert to room ${roomIdStr} for message ${payloadRow.id || 'unknown'}`);
+  } catch (err) {
+    console.warn('[socketBus] emitMessageUpsert failed', err?.message || err);
   }
 }
 

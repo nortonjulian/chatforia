@@ -9,7 +9,7 @@ import { requireAuth } from '../middleware/auth.js';
 import { requirePremium } from '../middleware/requirePremium.js';
 import { audit } from '../middleware/audit.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { emitMessageUpsert, emitMessageAck, emitToUser } from '../services/socketBus.js';
+import { emitMessageUpsert, emitMessageUpsertToUser, emitMessageAck, emitToUser } from '../services/socketBus.js';
 import { shapeMessageForUser, createMessageService } from '../services/messageService.js';
 
 import { parseCompoundCursor, makeCompoundCursor } from '../utils/cursors.js';
@@ -85,6 +85,66 @@ function memEditMessage(id, newContent) {
 }
 
 // ---- helpers ---------------------------------------------------------------
+async function getCanonicalMessageForRealtime(messageId) {
+  const message = await prisma.message.findUnique({
+    where: { id: Number(messageId) },
+    include: {
+      sender: {
+        select: { id: true, username: true, publicKey: true, avatarUrl: true },
+      },
+      readBy: {
+        select: { id: true, username: true, avatarUrl: true },
+      },
+      attachments: {
+        where: { deletedAt: null },
+        select: {
+          id: true,
+          kind: true,
+          url: true,
+          mimeType: true,
+          width: true,
+          height: true,
+          durationSec: true,
+          caption: true,
+          thumbUrl: true,
+          createdAt: true,
+        },
+      },
+      keys: {
+        select: {
+          userId: true,
+          encryptedKey: true,
+        },
+      },
+    },
+  });
+
+  if (!message) return null;
+
+  return {
+    id: message.id,
+    chatRoomId: message.chatRoomId,
+    createdAt: message.createdAt,
+    expiresAt: message.expiresAt ?? null,
+    editedAt: message.editedAt ?? null,
+    deletedBySender: message.deletedBySender ?? false,
+    deletedForAll: message.deletedForAll ?? false,
+    deletedAt: message.deletedAt ?? null,
+    deletedById: message.deletedById ?? null,
+    revision: message.revision ?? 1,
+    isExplicit: message.isExplicit ?? false,
+    rawContent: message.rawContent ?? '',
+    contentCiphertext: message.contentCiphertext ?? null,
+    sender: message.sender,
+    senderId: message.sender?.id ?? null,
+    readBy: message.readBy ?? [],
+    attachments: message.attachments ?? [],
+    encryptedKeys: Object.fromEntries(
+      (message.keys ?? []).map((k) => [String(k.userId), k.encryptedKey])
+    ),
+  };
+}
+
 async function isMemberOrMemFallback(chatRoomId, userId) {
   const dbMember = await prisma.participant.findFirst({
     where: { chatRoomId, userId },
@@ -95,6 +155,40 @@ async function isMemberOrMemFallback(chatRoomId, userId) {
     return !!roomsMem?.members?.get(chatRoomId)?.has(userId);
   }
   return false;
+}
+
+async function getParticipantUserIds(chatRoomId) {
+  const rows = await prisma.participant.findMany({
+    where: { chatRoomId: Number(chatRoomId) },
+    select: { userId: true },
+  });
+
+  return rows.map(r => Number(r.userId)).filter(Boolean);
+}
+
+async function emitMessageUpsertPerParticipant(chatRoomId, messageId) {
+  const userIds = await getParticipantUserIds(chatRoomId);
+
+  await Promise.all(userIds.map(async (userId) => {
+    const shaped = await shapeMessageForUser(messageId, userId);
+    if (!shaped) return;
+
+    await emitMessageUpsertToUser(userId, chatRoomId, shaped);
+  }));
+}
+
+async function emitMessageEditedPerParticipant(chatRoomId, messageId) {
+  const userIds = await getParticipantUserIds(chatRoomId);
+
+  await Promise.all(userIds.map(async (userId) => {
+    const shaped = await shapeMessageForUser(messageId, userId);
+    if (!shaped) return;
+
+    emitToUser(userId, 'message:edited', {
+      roomId: Number(chatRoomId),
+      item: shaped,
+    });
+  }));
 }
 
 // Per-endpoint rate limit for POST creates
@@ -227,6 +321,8 @@ router.get(
 
 /**
  * CREATE message (HTTP)
+ */
+/**
  */
 router.post(
   '/',
@@ -470,18 +566,26 @@ router.post(
     }
 
     const senderShaped = await shapeMessageForUser(saved.id, senderId);
+    const canonical = await getCanonicalMessageForRealtime(saved.id);
 
+    // room-wide canonical payload
+    if (canonical) {
+      await emitMessageUpsert(chatRoomId, canonical);
+    }
+
+    // Private ACK for the sender (optimistic → real ID replacement on iOS/web)
     if (saved?.clientMessageId && senderId) {
       emitMessageAck(senderId, {
-        roomId: Number(chatRoomId),
         clientMessageId: saved.clientMessageId,
-        messageId: saved.id,
+        id: saved.id,
+        chatRoomId: Number(chatRoomId),
+        createdAt: saved.createdAt?.toISOString?.() || new Date().toISOString(),
       });
     }
 
-    // ✅ broadcast to the actual chat room
-    const fullMessage = await shapeMessageForUser(saved.id, senderId);
-    await emitMessageUpsert(chatRoomId, fullMessage);
+    console.log(
+      `[messages:create] Emitted upsert via socketBus for message ${saved.id} in room ${chatRoomId}`
+    );
 
     return res.status(201).json({ message: senderShaped });
   })
@@ -549,17 +653,32 @@ router.post(
         deletedAt: now,
         deletedById: userId,
         rawContent: '',
-        content: '',
-        translatedForMe: null,
+        contentCiphertext: null,
+        editedAt: now,
+        revision: { increment: 1 },
+      },
+    });
+
+    await prisma.messageKey.deleteMany({
+      where: {
+        messageId: { in: affected.map((m) => m.id) },
       },
     });
 
     await Promise.all(
-    affected.map(async ({ id }) => {
-      const shaped = await shapeMessageForUser(id, userId);
-      return emitMessageUpsert(roomId, shaped);
-    })
-);
+      affected.map(async ({ id }) => {
+        const canonical = await getCanonicalMessageForRealtime(id);
+        if (canonical) {
+          return emitMessageUpsert(roomId, {
+            ...canonical,
+            rawContent: '',
+            contentCiphertext: null,
+            attachments: [],
+            encryptedKeys: {},
+          });
+        }
+      })
+    );
 
     return res.status(201).json({ ok: true, deletedAt: now.toISOString() });
   })
@@ -1431,77 +1550,117 @@ router.delete(
 async function editMessageCore(req, res) {
   const messageId = Number(req.params.id);
   const requesterId = Number(req.user?.id);
-  const newContent = req.body?.newContent ?? req.body?.content;
+
+  const newContent =
+    typeof req.body?.newContent === 'string'
+      ? req.body.newContent.trim()
+      : typeof req.body?.content === 'string'
+      ? req.body.content.trim()
+      : '';
+
+  const contentCiphertext =
+    typeof req.body?.contentCiphertext === 'string'
+      ? req.body.contentCiphertext
+      : typeof req.body?.ciphertext === 'string'
+      ? req.body.ciphertext
+      : null;
+
+  let encryptedKeys = req.body?.encryptedKeys ?? req.body?.keys ?? null;
+  if (typeof encryptedKeys === 'string') {
+    try {
+      encryptedKeys = JSON.parse(encryptedKeys);
+    } catch {
+      encryptedKeys = null;
+    }
+  }
 
   if (!Number.isFinite(messageId)) throw Boom.badRequest('Invalid id');
-  if (!newContent || typeof newContent !== 'string') {
-    throw Boom.badRequest('newContent is required');
-  }
 
   if (IS_TEST) {
     const mm = memGetMessage(messageId);
     if (mm) {
-      if (mm.senderId !== requesterId) throw Boom.forbidden('Unauthorized or already read');
-      const someoneElseRead = (mm.readBy || []).some((uid) => uid !== requesterId);
-      if (someoneElseRead) throw Boom.forbidden('Unauthorized or already read');
-      if (mm.deletedForAll) throw Boom.forbidden('Cannot edit a deleted message');
+      if (mm.senderId !== requesterId) {
+        throw Boom.forbidden('Unauthorized');
+      }
+      if (mm.deletedForAll) {
+        throw Boom.forbidden('Cannot edit a deleted message');
+      }
 
-      const updated = memEditMessage(messageId, newContent);
+      const isEncryptedMessage = !!mm.contentCiphertext || !!mm.encryptedKeys;
+      const hasEncryptedEditPayload =
+        !!contentCiphertext &&
+        encryptedKeys &&
+        typeof encryptedKeys === 'object' &&
+        !Array.isArray(encryptedKeys);
 
-      await emitMessageUpsert(updated.chatRoomId, {
-        id: updated.id,
-        chatRoomId: updated.chatRoomId,
-        createdAt: updated.createdAt,
-        rawContent: updated.rawContent,
-        editedAt: updated.editedAt,
+      const hasPlaintextEditPayload = !!newContent;
+
+      if (isEncryptedMessage && !hasEncryptedEditPayload) {
+        throw Boom.badRequest(
+          'Encrypted messages must be edited with contentCiphertext and encryptedKeys'
+        );
+      }
+
+      if (!isEncryptedMessage && !hasPlaintextEditPayload) {
+        throw Boom.badRequest('newContent is required');
+      }
+
+      mm.rawContent = isEncryptedMessage ? '' : newContent;
+      mm.contentCiphertext = isEncryptedMessage ? contentCiphertext : null;
+      mm.encryptedKeys = isEncryptedMessage ? encryptedKeys : null;
+      mm.editedAt = new Date().toISOString();
+      mm.updatedAt = new Date().toISOString();
+      mm.revision = (mm.revision ?? 1) + 1;
+
+      const shaped = {
+        id: mm.id,
+        chatRoomId: mm.chatRoomId,
+        createdAt: mm.createdAt,
+        rawContent: mm.rawContent,
+        contentCiphertext: mm.contentCiphertext,
+        editedAt: mm.editedAt,
         deletedForAll: false,
         deletedAt: null,
         deletedById: null,
         sender: { id: requesterId, username: `user${requesterId}` },
+        senderId: requesterId,
         readBy: [],
-        attachments: [],
-      });
+        attachments: mm.attachments ?? [],
+        encryptedKeys: mm.encryptedKeys ?? {},
+        revision: mm.revision,
+      };
 
-      return res.json({
-        message: {
-          id: updated.id,
-          chatRoomId: updated.chatRoomId,
-          createdAt: updated.createdAt,
-          rawContent: updated.rawContent,
-          editedAt: updated.editedAt,
-          deletedForAll: false,
-          deletedAt: null,
-          deletedById: null,
-          sender: { id: requesterId, username: `user${requesterId}` },
-          readBy: [],
-          attachments: [],
-        },
-      });
+      await emitMessageUpsert(mm.chatRoomId, shaped);
+
+      const io = req.app.get('io');
+      if (io) {
+        const roomIdStr = String(mm.chatRoomId);
+        io.to(roomIdStr).emit('message:edited', { item: shaped });
+      }
+
+      return res.json({ message: shaped });
     }
   }
 
-  const message = await prisma.message.findUnique({
+  const existing = await prisma.message.findUnique({
     where: { id: messageId },
-    select: {
-      id: true,
-      createdAt: true,
-      rawContent: true,
-      deletedForAll: true,
-      chatRoomId: true,
+    include: {
       sender: { select: { id: true, username: true } },
       readBy: { select: { id: true } },
+      keys: { select: { userId: true, encryptedKey: true } },
     },
   });
-  if (!message) throw Boom.notFound('Message not found');
-  if (message.deletedForAll) throw Boom.forbidden('Cannot edit a deleted message');
 
-  if (message.sender.id !== requesterId) {
+  if (!existing) throw Boom.notFound('Message not found');
+  if (existing.deletedForAll) throw Boom.forbidden('Cannot edit a deleted message');
+
+  if (existing.sender.id !== requesterId) {
     throw Boom.forbidden('Unauthorized');
   }
 
   const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
   if (Number.isFinite(windowSec) && windowSec > 0) {
-    const ageMs = Date.now() - new Date(message.createdAt).getTime();
+    const ageMs = Date.now() - new Date(existing.createdAt).getTime();
     if (ageMs > windowSec * 1000) {
       const err = Boom.forbidden('Edit window expired');
       err.output.payload.code = 'EDIT_WINDOW_EXPIRED';
@@ -1510,24 +1669,70 @@ async function editMessageCore(req, res) {
     }
   }
 
-  const updated = await prisma.message.update({
-    where: { id: messageId },
-    data: {
-      rawContent: newContent,
-      editedAt: new Date(),
-    },
-    select: {
-      id: true,
-      chatRoomId: true,
-    },
+  const isEncryptedMessage =
+    !!existing.contentCiphertext || (existing.keys?.length ?? 0) > 0;
+
+  const hasEncryptedEditPayload =
+    !!contentCiphertext &&
+    encryptedKeys &&
+    typeof encryptedKeys === 'object' &&
+    !Array.isArray(encryptedKeys);
+
+  const hasPlaintextEditPayload = !!newContent;
+
+  if (isEncryptedMessage && !hasEncryptedEditPayload) {
+    throw Boom.badRequest(
+      'Encrypted messages must be edited with contentCiphertext and encryptedKeys'
+    );
+  }
+
+  if (!isEncryptedMessage && !hasPlaintextEditPayload) {
+    throw Boom.badRequest('newContent is required');
+  }
+
+  const nextRevision = (existing.revision ?? 1) + 1;
+  const editedAt = new Date();
+
+  await prisma.$transaction(async (tx) => {
+    await tx.message.update({
+      where: { id: messageId },
+      data: {
+        rawContent: isEncryptedMessage ? '' : newContent,
+        contentCiphertext: isEncryptedMessage
+          ? contentCiphertext
+          : existing.contentCiphertext,
+        editedAt,
+        revision: nextRevision,
+      },
+    });
+
+    if (isEncryptedMessage) {
+      await tx.messageKey.deleteMany({ where: { messageId } });
+
+      const keyRows = Object.entries(encryptedKeys)
+        .map(([userIdRaw, encryptedKey]) => ({
+          messageId,
+          userId: Number(userIdRaw),
+          encryptedKey: String(encryptedKey || ''),
+        }))
+        .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
+
+      if (keyRows.length) {
+        await tx.messageKey.createMany({
+          data: keyRows,
+          skipDuplicates: true,
+        });
+      }
+    }
   });
 
-  const shaped = await shapeMessageForUser(updated.id, requesterId);
+  const shapedForRequester = await shapeMessageForUser(messageId, requesterId);
 
-  // broadcast full payload instead of relying on ID lookup
-  await emitMessageUpsert(updated.chatRoomId, shaped);
+  // 🔥 Send CORRECT per-user payload to each participant
+  await emitMessageUpsertPerParticipant(existing.chatRoomId, messageId);
+  await emitMessageEditedPerParticipant(existing.chatRoomId, messageId);
 
-  return res.json({ message: shaped });
+  return res.json({ message: shapedForRequester });
 }
 
 router.patch('/:id/edit', requireAuth, asyncHandler(editMessageCore));
@@ -1537,6 +1742,8 @@ router.patch('/:id', requireAuth, asyncHandler(editMessageCore));
  * DELETE message
  * - scope=me  => per-user delete (MessageDeletion)
  * - scope=all => tombstone (deletedForAll)
+ */
+/**
  */
 router.delete(
   '/:id',
@@ -1564,7 +1771,9 @@ router.delete(
           throw Boom.forbidden('Unauthorized to delete for everyone');
         }
 
-        if (mm.deletedForAll) return res.json({ success: true, scope: 'all' });
+        if (mm.deletedForAll) {
+          return res.json({ success: true, scope: 'all' });
+        }
 
         mm.deletedForAll = true;
         mm.deletedAt = new Date().toISOString();
@@ -1572,35 +1781,65 @@ router.delete(
         mm.rawContent = null;
         mm.contentCiphertext = null;
         mm.attachments = [];
+        mm.encryptedKeys = {};
+        mm.editedAt = new Date().toISOString();
+        mm.revision = (mm.revision ?? 1) + 1;
 
-        req.app.get('io')?.to(String(mm.chatRoomId)).emit('message:deleted', {
-          messageId,
+        const tombstone = {
+          id: messageId,
           chatRoomId: mm.chatRoomId,
-          scope: 'all',
+          deletedForAll: true,
           deletedAt: mm.deletedAt,
           deletedById: requesterId,
-        });
+          rawContent: null,
+          contentCiphertext: null,
+          attachments: [],
+          encryptedKeys: {},
+          senderId: mm.senderId,
+          readBy: [],
+          editedAt: mm.editedAt,
+          revision: mm.revision,
+        };
+
+        const io = req.app.get('io');
+        if (io) {
+          io.to(String(mm.chatRoomId)).emit('message:deleted', { item: tombstone });
+          console.log(
+            `[WS] Emitted message:deleted (all) to room ${mm.chatRoomId} (test mode)`
+          );
+        }
+
+        await emitMessageUpsert(mm.chatRoomId, tombstone);
 
         return res.json({ success: true, scope: 'all' });
       }
 
+      // scope=me in test mode
       mem.byId.delete(messageId);
       const arr = mem.byRoom.get(mm.chatRoomId) || [];
       mem.byRoom.set(mm.chatRoomId, arr.filter((id) => id !== messageId));
 
-      req.app.get('io')?.to(String(mm.chatRoomId)).emit('message:deleted', {
-        messageId,
-        chatRoomId: mm.chatRoomId,
-        scope: 'me',
-        userId: requesterId,
+      emitToUser(requesterId, 'message:deleted', {
+        roomId: mm.chatRoomId,
+        item: {
+          id: messageId,
+          chatRoomId: mm.chatRoomId,
+          deletedForMe: true,
+        },
       });
 
       return res.json({ success: true, scope: 'me' });
     }
 
+    // === Production path ===
     const message = await prisma.message.findUnique({
       where: { id: messageId },
-      select: { id: true, senderId: true, chatRoomId: true, deletedForAll: true },
+      select: {
+        id: true,
+        senderId: true,
+        chatRoomId: true,
+        deletedForAll: true,
+      },
     });
     if (!message) throw Boom.notFound('Message not found');
 
@@ -1631,21 +1870,60 @@ router.delete(
           translatedContent: null,
           translations: null,
           contentCiphertext: null,
+          editedAt: deletedAt,
+          revision: { increment: 1 },
         },
       });
 
-      const shaped = await shapeMessageForUser(messageId, requesterId);
-      await emitMessageUpsert(message.chatRoomId, shaped);
+      await prisma.messageKey.deleteMany({
+        where: { messageId },
+      });
+
+      const canonical = await getCanonicalMessageForRealtime(messageId);
+
+      const tombstone = canonical
+        ? {
+            ...canonical,
+            rawContent: null,
+            contentCiphertext: null,
+            attachments: [],
+            encryptedKeys: {},
+          }
+        : {
+            id: messageId,
+            chatRoomId: message.chatRoomId,
+            deletedForAll: true,
+            deletedAt,
+            deletedById: requesterId,
+            rawContent: null,
+            contentCiphertext: null,
+            attachments: [],
+            encryptedKeys: {},
+            senderId: message.senderId,
+            readBy: [],
+          };
+
+      const io = req.app.get('io');
+      if (io) {
+        io.to(String(message.chatRoomId)).emit('message:deleted', { item: tombstone });
+        console.log(
+          `[WS] Emitted message:deleted (all) to room ${String(message.chatRoomId)} id=${messageId}`
+        );
+      }
+
+      await emitMessageUpsert(message.chatRoomId, tombstone);
 
       return res.json({ success: true, scope: 'all' });
     }
 
+    // scope=me (delete for me only) — only affects the requester
     await prisma.messageDeletion.upsert({
       where: { messageId_userId: { messageId, userId: requesterId } },
       update: {},
       create: { messageId, userId: requesterId },
     });
 
+    // Emit only to the requester (no room broadcast needed)
     emitToUser(requesterId, 'message:deleted', {
       roomId: message.chatRoomId,
       item: {
