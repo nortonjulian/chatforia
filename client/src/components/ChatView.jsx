@@ -1625,70 +1625,117 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
       // === Robust real-time listeners - waits for socket + room ===
   useEffect(() => {
-    if (!socket) {
-      console.log('🌐 WEB Skipping listeners — no socket yet');
+  if (!socket) {
+    console.log('🌐 WEB Skipping listeners — no socket yet');
+    return;
+  }
+  if (!chatroom?.id) {
+    console.log('🌐 WEB Skipping listeners — no chatroom.id yet');
+    return;
+  }
+
+  const currentRoomId = Number(chatroom.id);
+  console.log(`🌐 WEB Setting up listeners for room ${currentRoomId}`);
+
+  const handleRealtimeMessage = async (payload) => {
+    const roomFromPayload = getMessageRoomId(payload);
+
+    console.group('🌐 WEB RECEIVED message:upsert');
+    console.log({
+      timestamp: new Date().toISOString(),
+      roomFromPayload,
+      currentRoomId,
+      matches: roomFromPayload === currentRoomId,
+      messageId: payload?.item?.id || payload?.id || 'unknown',
+      hasItem: !!payload?.item,
+      payloadKeys: Object.keys(payload || {}),
+    });
+    console.groupEnd();
+
+    if (roomFromPayload !== currentRoomId) {
+      console.log(`🌐 WEB FILTERED — room mismatch`);
       return;
     }
-    if (!chatroom?.id) {
-      console.log('🌐 WEB Skipping listeners — no chatroom.id yet');
+
+    const raw = unwrapMessage(payload);
+    if (!raw) {
+      console.warn('🌐 WEB unwrapMessage returned null');
       return;
     }
 
-    const currentRoomId = Number(chatroom.id);
-    console.log(`🌐 WEB Setting up listeners for room ${currentRoomId}`);
+    try {
+      const priv = await maybeGetUnlockedPrivateKey();
+      const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
+      const incoming = decrypted ?? raw;
 
-    const handleRealtimeMessage = async (payload) => {
-      const roomFromPayload = getMessageRoomId(payload);
+      mergeIncomingMessage(incoming);
+      console.log(
+        `🌐 WEB Successfully merged message ${incoming.id || incoming.clientMessageId || 'unknown'}`
+      );
+    } catch (e) {
+      console.error('🌐 WEB decrypt/merge failed', e);
+      mergeIncomingMessage(raw);
+    }
+  };
 
-      console.group('🌐 WEB RECEIVED message:upsert');
-      console.log({
-        timestamp: new Date().toISOString(),
-        roomFromPayload,
-        currentRoomId,
-        matches: roomFromPayload === currentRoomId,
-        messageId: payload?.item?.id || payload?.id || 'unknown',
-        hasItem: !!payload?.item,
-        payloadKeys: Object.keys(payload || {})
-      });
-      console.groupEnd();
+  const handleRealtimeDeleted = (payload) => {
+    const roomFromPayload = getMessageRoomId(payload);
 
-      if (roomFromPayload !== currentRoomId) {
-        console.log(`🌐 WEB FILTERED — room mismatch`);
-        return;
-      }
+    console.group('🌐 WEB RECEIVED message:deleted');
+    console.log({
+      timestamp: new Date().toISOString(),
+      roomFromPayload,
+      currentRoomId,
+      matches: roomFromPayload === currentRoomId,
+      messageId: payload?.item?.id || payload?.id || 'unknown',
+      hasItem: !!payload?.item,
+      payloadKeys: Object.keys(payload || {}),
+    });
+    console.groupEnd();
 
-      const raw = unwrapMessage(payload);
-      if (!raw) {
-        console.warn('🌐 WEB unwrapMessage returned null');
-        return;
-      }
+    if (roomFromPayload !== currentRoomId) {
+      console.log('🌐 WEB FILTERED delete — room mismatch');
+      return;
+    }
 
-      try {
-        const priv = await maybeGetUnlockedPrivateKey();
-        const [decrypted] = await maybeDecryptFetchedMessages([raw], priv, null, currentUserId);
-        const incoming = decrypted ?? raw;
+    const raw = unwrapMessage(payload);
+    if (!raw) {
+      console.warn('🌐 WEB delete unwrapMessage returned null');
+      return;
+    }
 
-        mergeIncomingMessage(incoming);
-        console.log(`🌐 WEB Successfully merged message ${incoming.id || incoming.clientMessageId || 'unknown'}`);
-      } catch (e) {
-        console.error('🌐 WEB decrypt/merge failed', e);
-        mergeIncomingMessage(raw);
-      }
-    };
+    // Surgical: only remove per-user deletes here.
+    // Tombstones already come through message:upsert and are working.
+    if (!raw.deletedForMe) {
+      console.log('🌐 WEB Ignoring message:deleted without deletedForMe flag');
+      return;
+    }
 
-    socket.on('message:upsert', handleRealtimeMessage);
-    socket.on('message:new', handleRealtimeMessage);
-    socket.on('message:edited', handleRealtimeMessage);
+    const targetId = Number(raw.id);
+    if (!Number.isFinite(targetId)) {
+      console.warn('🌐 WEB delete payload missing numeric id');
+      return;
+    }
 
-    console.log('🌐 WEB Listeners attached successfully');
+    setMessages((prev) => prev.filter((m) => Number(m?.id) !== targetId));
+    console.log(`🌐 WEB Removed message ${targetId} from local state`);
+  };
 
-    return () => {
-      console.log(`🌐 WEB Cleaning up listeners for room ${currentRoomId}`);
-      socket.off('message:upsert', handleRealtimeMessage);
-      socket.off('message:new', handleRealtimeMessage);
-      socket.off('message:edited', handleRealtimeMessage);
-    };
-  }, [socket, chatroom?.id, currentUserId, mergeIncomingMessage]);
+  socket.on('message:upsert', handleRealtimeMessage);
+  socket.on('message:new', handleRealtimeMessage);
+  socket.on('message:edited', handleRealtimeMessage);
+  socket.on('message:deleted', handleRealtimeDeleted);
+
+  console.log('🌐 WEB Listeners attached successfully');
+
+  return () => {
+    console.log(`🌐 WEB Cleaning up listeners for room ${currentRoomId}`);
+    socket.off('message:upsert', handleRealtimeMessage);
+    socket.off('message:new', handleRealtimeMessage);
+    socket.off('message:edited', handleRealtimeMessage);
+    socket.off('message:deleted', handleRealtimeDeleted);
+  };
+}, [socket, chatroom?.id, currentUserId, mergeIncomingMessage]);
 
   return (
     <Box
@@ -2325,7 +2372,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             setEditPickerOpen(false);
           }}
         />
-        
+
         {/* ✅ Delete modal */}
         <Modal
           opened={deleteOpen}

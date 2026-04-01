@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 
 // ✅ Socket for live preview updates
-import socket from '@/lib/socket';
+import { useSocket } from '@/context/SocketContext';
 
 const CACHE_KEY = 'chatforia:conversations:v1';
 
@@ -91,12 +91,21 @@ function getChatRoomIdFromPayload(payload) {
     payload?.message?.chatRoomId ??
     payload?.message?.chatroomId ??
     payload?.message?.roomId ??
+    payload?.item?.chatRoomId ??
+    payload?.item?.chatroomId ??
+    payload?.item?.roomId ??
     null
   );
 }
 
 function getMessageIdFromPayload(payload) {
-  return payload?.messageId ?? payload?.id ?? payload?.message?.id ?? null;
+  return (
+    payload?.messageId ??
+    payload?.id ??
+    payload?.message?.id ??
+    payload?.item?.id ??
+    null
+  );
 }
 
 function getTextFromPayload(payload) {
@@ -107,6 +116,9 @@ function getTextFromPayload(payload) {
     payload?.message?.rawContent ??
     payload?.message?.content ??
     payload?.message?.text ??
+    payload?.item?.rawContent ??
+    payload?.item?.content ??
+    payload?.item?.text ??
     ''
   );
 }
@@ -133,6 +145,8 @@ function getMediaFromPayload(payload) {
     payload?.attachments ||
     payload?.message?.media ||
     payload?.message?.attachments ||
+    payload?.item?.media ||
+    payload?.item?.attachments ||
     [];
 
   if (!Array.isArray(list) || list.length === 0) {
@@ -218,6 +232,8 @@ export default function ChatroomsSidebar({
   const [loading, setLoading] = useState(__testSkipLoad ? false : true);
   const [err, setErr] = useState(__testInitialError ?? '');
 
+  const socket = useSocket();
+
   // ✅ Avoid stale closures in socket handlers
   const itemsRef = useRef(items);
   useEffect(() => {
@@ -277,6 +293,22 @@ export default function ChatroomsSidebar({
   useEffect(() => {
     load();
   }, [load]);
+
+    useEffect(() => {
+    if (!socket) return;
+
+    const roomIds = (Array.isArray(items) ? items : [])
+      .filter((c) => String(c.kind) === 'chat')
+      .map((c) => String(c.id))
+      .filter(Boolean);
+
+    if (!roomIds.length) return;
+
+    socket.emit('join:rooms', roomIds);
+
+    // Optional debug (safe to remove later)
+    console.log('[Sidebar] join:rooms →', roomIds);
+  }, [socket, items]);
 
   useEffect(() => {
     const handler = () => load();
@@ -461,158 +493,169 @@ export default function ChatroomsSidebar({
   [t]
 );
 
-  /* ---------------- live updates: message preview ---------------- */
+ /* ---------------- live updates: message preview ---------------- */
 
-  useEffect(() => {
-    if (__testSkipLoad) return;
+useEffect(() => {
+  if (__testSkipLoad) return;
+  if (!socket) return;
 
-    // 1) New messages update preview + unread + ordering
-    const onReceiveMessage = (payload) => {
-      const roomId = getChatRoomIdFromPayload(payload);
-      if (!roomId) return;
+  function getCreatedAtFromPayload(payload) {
+    return (
+      payload?.createdAt ??
+      payload?.at ??
+      payload?.message?.createdAt ??
+      payload?.item?.createdAt ??
+      null
+    );
+  }
 
-      // Only app-chat conversations in this pipeline
-      const kind = 'chat';
+  const onReceiveMessage = (payload) => {
+    const roomId = getChatRoomIdFromPayload(payload);
+    if (!roomId) return;
 
-      const text = getTextFromPayload(payload) || '';
-      const messageId = getMessageIdFromPayload(payload);
-      const media = getMediaFromPayload(payload);
+    const kind = 'chat';
 
-      const safeText =
-        text ||
-        (media?.hasMedia
-          ? media.mediaKinds?.includes('image')
-            ? t('messages.mediaPhoto', '📷 Photo')
-            : media.mediaKinds?.includes('video')
-              ? t('messages.mediaVideo', '🎥 Video')
-              : media.mediaKinds?.includes('audio')
-                ? t('messages.mediaAudio', '🎙️ Audio')
-                : t('messages.mediaFile', '📎 Attachment')
-          : '');
+    const text = getTextFromPayload(payload) || '';
+    const messageId = getMessageIdFromPayload(payload);
+    const media = getMediaFromPayload(payload);
+    const eventAt = getCreatedAtFromPayload(payload);
 
-      const isActive =
-        String(activeKind || 'chat') === 'chat' && String(activeId) === String(roomId);
+    const safeText =
+      text ||
+      (media?.hasMedia
+        ? media.mediaKinds?.includes('image')
+          ? t('messages.mediaPhoto', '📷 Photo')
+          : media.mediaKinds?.includes('video')
+            ? t('messages.mediaVideo', '🎥 Video')
+            : media.mediaKinds?.includes('audio')
+              ? t('messages.mediaAudio', '🎙️ Audio')
+              : t('messages.mediaFile', '📎 Attachment')
+        : '');
 
-      const existing = (itemsRef.current || []).some(
-        (c) => String(c.kind) === kind && String(c.id) === String(roomId)
-      );
-      if (!existing) {
-        load();
-        return;
-      }
+    const isActive =
+      String(activeKind || 'chat') === 'chat' &&
+      String(activeId) === String(roomId);
 
-      patchConversation(kind, roomId, (c) => {
-        const unreadCount = Number(c.unreadCount || 0);
+    const existing = (itemsRef.current || []).some(
+      (c) => String(c.kind) === kind && String(c.id) === String(roomId)
+    );
 
-        return {
-          ...c,
-          updatedAt:
-            payload?.createdAt || payload?.at || payload?.message?.createdAt || c.updatedAt,
-          last: {
-            ...(c.last || {}),
-            text: safeText,
-            messageId: messageId ?? c.last?.messageId,
-            at: payload?.createdAt || payload?.at || payload?.message?.createdAt || c.last?.at,
-            ...media,
-          },
-          unreadCount: isActive ? unreadCount : unreadCount + 1,
-        };
-      });
+    if (!existing) {
+      load();
+      return;
+    }
 
-      bumpToTop(kind, roomId);
-    };
+    patchConversation(kind, roomId, (c) => {
+      const unreadCount = Number(c.unreadCount || 0);
+      const nextAt = eventAt || c?.last?.at || c?.updatedAt || null;
 
-    // 2) Edit: update preview only if edited msg is currently shown as last
-    const onMessageEdited = (payload) => {
-      const roomId = getChatRoomIdFromPayload(payload);
-      const messageId = getMessageIdFromPayload(payload);
-      const text = getTextFromPayload(payload);
-      const media = getMediaFromPayload(payload);
+      return {
+        ...c,
+        updatedAt: nextAt,
+        last: {
+          ...(c.last || {}),
+          text: safeText,
+          messageId: messageId ?? c.last?.messageId,
+          at: nextAt,
+          ...media,
+        },
+        unreadCount: isActive ? unreadCount : unreadCount + 1,
+      };
+    });
 
-      const safeText =
-        text ||
-        (media?.hasMedia
-          ? media.mediaKinds?.includes('image')
-            ? t('messages.mediaPhoto', '📷 Photo')
-            : media.mediaKinds?.includes('video')
-              ? t('messages.mediaVideo', '🎥 Video')
-              : media.mediaKinds?.includes('audio')
-                ? t('messages.mediaAudio', '🎙️ Audio')
-                : t('messages.mediaFile', '📎 Attachment')
-          : '');
+    bumpToTop(kind, roomId);
+  };
 
-      if (!messageId) return;
+  const onMessageEdited = (payload) => {
+    const roomId = getChatRoomIdFromPayload(payload);
+    const messageId = getMessageIdFromPayload(payload);
+    const text = getTextFromPayload(payload);
+    const media = getMediaFromPayload(payload);
 
-      if (!roomId) {
-        load();
-        return;
-      }
+    const safeText =
+      text ||
+      (media?.hasMedia
+        ? media.mediaKinds?.includes('image')
+          ? t('messages.mediaPhoto', '📷 Photo')
+          : media.mediaKinds?.includes('video')
+            ? t('messages.mediaVideo', '🎥 Video')
+            : media.mediaKinds?.includes('audio')
+              ? t('messages.mediaAudio', '🎙️ Audio')
+              : t('messages.mediaFile', '📎 Attachment')
+        : '');
 
-      patchConversation('chat', roomId, (c) => {
-        const lastId = c?.last?.messageId ?? null;
-        if (!lastId || String(lastId) !== String(messageId)) return c;
+    if (!messageId) return;
 
-        return {
-          ...c,
-          last: {
-            ...(c.last || {}),
-            // ✅ prefer safeText so edited media-only messages still show placeholders
-            text: safeText,
-            ...media,
-          },
-        };
-      });
-    };
+    if (!roomId) {
+      load();
+      return;
+    }
 
-    // 3) Delete:
-    //    - delete-for-all: preview becomes "Message deleted" (if last)
-    //    - delete-for-me: if last, reload so server picks next visible "last"
-    const onMessageDeleted = (payload) => {
-      const roomId = getChatRoomIdFromPayload(payload);
-      const messageId = getMessageIdFromPayload(payload);
-      const delAll = isDeleteForAll(payload);
+    patchConversation('chat', roomId, (c) => {
+      const lastId = c?.last?.messageId ?? null;
+      if (!lastId || String(lastId) !== String(messageId)) return c;
 
-      if (!messageId) return;
+      return {
+        ...c,
+        last: {
+          ...(c.last || {}),
+          text: safeText,
+          ...media,
+        },
+      };
+    });
+  };
 
-      if (!roomId) {
-        load();
-        return;
-      }
+  const onMessageDeleted = (payload) => {
+    const roomId = getChatRoomIdFromPayload(payload);
+    const messageId = getMessageIdFromPayload(payload);
+    const delAll = isDeleteForAll(payload);
 
-      const convo = (itemsRef.current || []).find(
-        (c) => String(c.kind) === 'chat' && String(c.id) === String(roomId)
-      );
-      const lastId = convo?.last?.messageId ?? null;
+    if (!messageId) return;
 
-      if (!lastId || String(lastId) !== String(messageId)) return;
+    if (!roomId) {
+      load();
+      return;
+    }
 
-      if (delAll) {
-        patchConversation('chat', roomId, (c) => ({
-          ...c,
-          last: {
-            ...(c.last || {}),
-            text: t('messages.deletedPreview', 'Message deleted'),
-            hasMedia: false,
-            mediaCount: 0,
-            mediaKinds: [],
-            thumbUrl: null,
-          },
-        }));
-      } else {
-        load();
-      }
-    };
+    const convo = (itemsRef.current || []).find(
+      (c) => String(c.kind) === 'chat' && String(c.id) === String(roomId)
+    );
+    const lastId = convo?.last?.messageId ?? null;
 
-    socket.on('receive:message', onReceiveMessage);
-    socket.on('message:edited', onMessageEdited);
-    socket.on('message:deleted', onMessageDeleted);
+    if (!lastId || String(lastId) !== String(messageId)) return;
 
-    return () => {
-      socket.off('receive:message', onReceiveMessage);
-      socket.off('message:edited', onMessageEdited);
-      socket.off('message:deleted', onMessageDeleted);
-    };
-  }, [activeId, activeKind, load, patchConversation, bumpToTop, t, __testSkipLoad]);
+    if (delAll) {
+      patchConversation('chat', roomId, (c) => ({
+        ...c,
+        last: {
+          ...(c.last || {}),
+          text: t('messages.deletedPreview', 'Message deleted'),
+          hasMedia: false,
+          mediaCount: 0,
+          mediaKinds: [],
+          thumbUrl: null,
+        },
+      }));
+    } else {
+      load();
+    }
+  };
+
+  socket.on('message:upsert', onReceiveMessage);
+  socket.on('message:new', onReceiveMessage);
+  socket.on('receive:message', onReceiveMessage);
+  socket.on('message:edited', onMessageEdited);
+  socket.on('message:deleted', onMessageDeleted);
+
+  return () => {
+    socket.off('message:upsert', onReceiveMessage);
+    socket.off('message:new', onReceiveMessage);
+    socket.off('receive:message', onReceiveMessage);
+    socket.off('message:edited', onMessageEdited);
+    socket.off('message:deleted', onMessageDeleted);
+  };
+}, [socket, activeId, activeKind, load, patchConversation, bumpToTop, t, __testSkipLoad]);
 
   /* ---------------- UI states ---------------- */
 
