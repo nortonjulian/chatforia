@@ -1574,7 +1574,31 @@ async function editMessageCore(req, res) {
     }
   }
 
-  if (!Number.isFinite(messageId)) throw Boom.badRequest('Invalid id');
+  let attachments = [];
+    try {
+      attachments = Array.isArray(req.body?.attachments)
+        ? req.body.attachments
+        : typeof req.body?.attachments === 'string'
+        ? JSON.parse(req.body.attachments)
+        : [];
+    } catch {
+      attachments = [];
+    }
+
+    attachments = attachments
+      .filter((a) => a && a.url && a.kind)
+      .map((a) => ({
+        kind: normalizeMediaKind(a.kind, a.mimeType),
+        url: a.url,
+        mimeType: a.mimeType || '',
+        width: a.width ?? null,
+        height: a.height ?? null,
+        durationSec: a.durationSec ?? null,
+        caption: a.caption ?? null,
+        thumbUrl: a.thumbUrl ?? a.thumbnailUrl ?? a.previewUrl ?? null,
+      }));
+
+     if (!Number.isFinite(messageId)) throw Boom.badRequest('Invalid id');
 
   if (IS_TEST) {
     const mm = memGetMessage(messageId);
@@ -1587,22 +1611,22 @@ async function editMessageCore(req, res) {
       }
 
       const isEncryptedMessage = !!mm.contentCiphertext || !!mm.encryptedKeys;
-      const hasEncryptedEditPayload =
+      const hasEncryptedTextPayload =
         !!contentCiphertext &&
         encryptedKeys &&
         typeof encryptedKeys === 'object' &&
         !Array.isArray(encryptedKeys);
 
-      const hasPlaintextEditPayload = !!newContent;
+      const hasAttachmentPayload = attachments.length > 0;
 
-      if (isEncryptedMessage && !hasEncryptedEditPayload) {
+      if (isEncryptedMessage && !hasEncryptedTextPayload && !hasAttachmentPayload) {
         throw Boom.badRequest(
-          'Encrypted messages must be edited with contentCiphertext and encryptedKeys'
+          'Encrypted messages must include contentCiphertext/encryptedKeys or attachments'
         );
       }
 
-      if (!isEncryptedMessage && !hasPlaintextEditPayload) {
-        throw Boom.badRequest('newContent is required');
+      if (!isEncryptedMessage && !newContent && !hasAttachmentPayload) {
+        throw Boom.badRequest('newContent or attachments is required');
       }
 
       mm.rawContent = isEncryptedMessage ? '' : newContent;
@@ -1660,7 +1684,7 @@ async function editMessageCore(req, res) {
 
   const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
   if (Number.isFinite(windowSec) && windowSec > 0) {
-    const ageMs = Date.now() - new Date(mm.createdAt).getTime();
+    const ageMs = Date.now() - new Date(existing.createdAt).getTime();
     if (ageMs > windowSec * 1000) {
       const err = Boom.forbidden('Edit window expired');
       err.output.payload.code = 'EDIT_WINDOW_EXPIRED';
@@ -1670,61 +1694,81 @@ async function editMessageCore(req, res) {
   }
 
   const isEncryptedMessage =
-    !!existing.contentCiphertext || (existing.keys?.length ?? 0) > 0;
+  !!existing.contentCiphertext || (existing.keys?.length ?? 0) > 0;
 
-  const hasEncryptedEditPayload =
+  const hasEncryptedTextPayload =
     !!contentCiphertext &&
     encryptedKeys &&
     typeof encryptedKeys === 'object' &&
     !Array.isArray(encryptedKeys);
 
-  const hasPlaintextEditPayload = !!newContent;
+  const hasAttachmentPayload = attachments.length > 0;
 
-  if (isEncryptedMessage && !hasEncryptedEditPayload) {
+  if (isEncryptedMessage && !hasEncryptedTextPayload && !hasAttachmentPayload) {
     throw Boom.badRequest(
-      'Encrypted messages must be edited with contentCiphertext and encryptedKeys'
+      'Encrypted messages must include contentCiphertext/encryptedKeys or attachments'
     );
   }
 
-  if (!isEncryptedMessage && !hasPlaintextEditPayload) {
-    throw Boom.badRequest('newContent is required');
+  if (!isEncryptedMessage && !newContent && !hasAttachmentPayload) {
+    throw Boom.badRequest('newContent or attachments is required');
   }
 
   const nextRevision = (existing.revision ?? 1) + 1;
   const editedAt = new Date();
 
   await prisma.$transaction(async (tx) => {
-    await tx.message.update({
-      where: { id: messageId },
-      data: {
-        rawContent: isEncryptedMessage ? '' : newContent,
-        contentCiphertext: isEncryptedMessage
-          ? contentCiphertext
-          : existing.contentCiphertext,
-        editedAt,
-        revision: nextRevision,
-      },
-    });
-
-    if (isEncryptedMessage) {
-      await tx.messageKey.deleteMany({ where: { messageId } });
-
-      const keyRows = Object.entries(encryptedKeys)
-        .map(([userIdRaw, encryptedKey]) => ({
-          messageId,
-          userId: Number(userIdRaw),
-          encryptedKey: String(encryptedKey || ''),
-        }))
-        .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
-
-      if (keyRows.length) {
-        await tx.messageKey.createMany({
-          data: keyRows,
-          skipDuplicates: true,
-        });
-      }
-    }
+  await tx.message.update({
+    where: { id: messageId },
+    data: {
+      rawContent: isEncryptedMessage ? '' : newContent,
+      contentCiphertext: isEncryptedMessage
+        ? (hasEncryptedTextPayload ? contentCiphertext : existing.contentCiphertext)
+        : existing.contentCiphertext,
+      editedAt,
+      revision: nextRevision,
+    },
   });
+
+  await tx.messageAttachment.deleteMany({
+    where: { messageId },
+  });
+
+  if (attachments.length) {
+    await tx.messageAttachment.createMany({
+      data: attachments.map((a) => ({
+        messageId,
+        kind: a.kind,
+        url: a.url,
+        mimeType: a.mimeType || '',
+        width: a.width ?? null,
+        height: a.height ?? null,
+        durationSec: a.durationSec ?? null,
+        caption: a.caption ?? null,
+        thumbUrl: a.thumbUrl ?? null,
+      })),
+    });
+  }
+
+  if (isEncryptedMessage && hasEncryptedTextPayload) {
+    await tx.messageKey.deleteMany({ where: { messageId } });
+
+    const keyRows = Object.entries(encryptedKeys)
+      .map(([userIdRaw, encryptedKey]) => ({
+        messageId,
+        userId: Number(userIdRaw),
+        encryptedKey: String(encryptedKey || ''),
+      }))
+      .filter((r) => Number.isFinite(r.userId) && r.encryptedKey);
+
+    if (keyRows.length) {
+      await tx.messageKey.createMany({
+        data: keyRows,
+        skipDuplicates: true,
+      });
+    }
+  }
+});
 
   const shapedForRequester = await shapeMessageForUser(messageId, requesterId);
 

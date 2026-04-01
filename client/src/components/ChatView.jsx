@@ -57,6 +57,9 @@ import RoomSearchDrawer from '@/components/RoomSearchDrawer.jsx';
 import MediaGalleryModal from '@/components/MediaGalleryModal.jsx';
 import ReportModal from '@/components/chat/ReportModal.jsx';
 
+import CustomEmojiPicker from '@/components/EmojiPicker.jsx';
+import StickerPicker from '@/components/StickerPicker.jsx';
+
 // ✅ Message row UI (menu + tombstone)
 import MessageBubble from '@/components/chat/MessageBubble.jsx';
 
@@ -238,6 +241,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [editTarget, setEditTarget] = useState(null);
   const [editText, setEditText] = useState('');
   const [editSubmitting, setEditSubmitting] = useState(false);
+  const [editAttachments, setEditAttachments] = useState([]);
+  const [editPickerOpen, setEditPickerOpen] = useState(false);
+  const [editPickerTab, setEditPickerTab] = useState('gifs');
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -529,6 +535,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     const current = msg.rawContent ?? msg.content ?? '';
     setEditTarget(msg);
     setEditText(current);
+    setEditAttachments(Array.isArray(msg.attachments) ? msg.attachments : []);
     setEditOpen(true);
   }, []);
 
@@ -537,6 +544,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     setEditOpen(false);
     setEditTarget(null);
     setEditText('');
+    setEditAttachments([]);
   }, [editSubmitting]);
 
   const openDeleteModal = useCallback((msg, mode = 'me') => {
@@ -559,8 +567,28 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const current = editTarget.rawContent ?? editTarget.content ?? '';
   const newText = editText.trim();
 
-  if (!newText || newText === current) {
+  const currentAttachments = Array.isArray(editTarget.attachments)
+  ? editTarget.attachments
+  : [];
+
+  const nextAttachments = Array.isArray(editAttachments)
+    ? editAttachments
+    : [];
+
+  const textChanged = newText !== current;
+
+  const attachmentsChanged =
+    JSON.stringify(currentAttachments) !== JSON.stringify(nextAttachments);
+
+  const hasText = !!newText;
+  const hasAttachments = nextAttachments.length > 0;
+
+  if (!textChanged && !attachmentsChanged) {
     closeEditModal();
+    return;
+  }
+
+  if (!hasText && !hasAttachments) {
     return;
   }
 
@@ -598,6 +626,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         {
           contentCiphertext: encrypted.ciphertext,
           encryptedKeys: encrypted.encryptedKeys,
+          attachments: editAttachments,
         },
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
@@ -606,7 +635,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     } else {
       const { data } = await axiosClient.patch(
         `/messages/${editTarget.id}/edit`,
-        { newContent: newText },
+        {
+          newContent: newText,
+          attachments: editAttachments,
+        },
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
 
@@ -622,6 +654,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             content: updated.rawContent ?? newText,
             decryptedContent: updated.rawContent ?? newText,
             translatedForMe: updated.translatedForMe ?? null,
+            attachments: updated.attachments ?? editAttachments,
             editedAt: updated.editedAt ?? new Date().toISOString(),
           }
         : {
@@ -630,6 +663,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             content: newText,
             decryptedContent: newText,
             translatedForMe: null,
+            attachments: editAttachments,
             editedAt: new Date().toISOString(),
           };
 
@@ -646,7 +680,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   } finally {
     setEditSubmitting(false);
   }
-}, [editTarget, editText, closeEditModal, chatroom?.id]);
+}, [editTarget, editText, editAttachments, closeEditModal, chatroom?.id, currentUserId]);
 
   // ✅ real delete submit
   const handleDeleteMessage = useCallback(async () => {
@@ -2144,12 +2178,57 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           padding="md"
         >
           <Stack gap="md">
-            {/* Subtitle (matches iOS) */}
+            {/* Subtitle */}
             <Text size="sm" c="dimmed">
               Update your message
             </Text>
 
-            {/* Editor card (matches iOS box) */}
+            {/* ✅ CONTROLS GO HERE */}
+            <Group justify="space-between" align="center">
+              <Group gap="xs">
+                <Button
+                  variant="filled"
+                  radius="xl"
+                  size="compact-md"
+                  onClick={() => {
+                    setEditPickerTab('gifs');
+                    setEditPickerOpen(true);
+                  }}
+                >
+                  GIF
+                </Button>
+
+                <CustomEmojiPicker
+                  onSelect={(emoji) => setEditText((prev) => `${prev || ''}${emoji}`)}
+                />
+              </Group>
+
+              {editAttachments?.length > 0 && (
+                <Button
+                  variant="subtle"
+                  color="red"
+                  onClick={() => setEditAttachments([])}
+                >
+                  Remove GIF
+                </Button>
+              )}
+            </Group>
+
+            {/* ✅ PREVIEW */}
+            {editAttachments?.length > 0 && (
+              <Box>
+                <img
+                  src={editAttachments[0]?.previewUrl || editAttachments[0]?.url}
+                  alt="Selected GIF"
+                  style={{
+                    width: 120,
+                    borderRadius: 12,
+                  }}
+                />
+              </Box>
+            )}
+
+            {/* Editor card */}
             <Box
               style={{
                 border: '1px solid var(--border)',
@@ -2175,7 +2254,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 }}
               />
             </Box>
-
             {/* Buttons */}
             <Group justify="space-between">
               <Button variant="subtle" color="gray" onClick={closeEditModal}>
@@ -2185,11 +2263,27 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               <Button
                 onClick={handleEditMessage}
                 loading={editSubmitting}
-                disabled={
-                  !editText.trim() ||
-                  editText.trim() ===
-                    ((editTarget?.rawContent ?? editTarget?.content ?? '').trim())
-                }
+                disabled={(() => {
+                  const currentText = (editTarget?.rawContent ?? editTarget?.content ?? '').trim();
+                  const nextText = editText.trim();
+
+                  const currentAttachments = Array.isArray(editTarget?.attachments)
+                    ? editTarget.attachments
+                    : [];
+
+                  const nextAttachments = Array.isArray(editAttachments)
+                    ? editAttachments
+                    : [];
+
+                  const textChanged = nextText !== currentText;
+                  const attachmentsChanged =
+                    JSON.stringify(currentAttachments) !== JSON.stringify(nextAttachments);
+
+                  const hasText = !!nextText;
+                  const hasAttachments = nextAttachments.length > 0;
+
+                  return (!textChanged && !attachmentsChanged) || (!hasText && !hasAttachments);
+                })()}
               >
                 Save
               </Button>
@@ -2197,6 +2291,41 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           </Stack>
         </Modal>
 
+        <StickerPicker
+          opened={editPickerOpen}
+          onClose={() => setEditPickerOpen(false)}
+          initialTab={editPickerTab}
+          onPick={(pick) => {
+            console.log('edit gif pick', pick);
+
+            if (!pick) {
+              setEditPickerOpen(false);
+              return;
+            }
+
+            if (pick.native) {
+              setEditText((prev) => `${prev || ''}${pick.native}`);
+              setEditPickerOpen(false);
+              return;
+            }
+
+            setEditAttachments([
+              {
+                kind: pick.kind === 'GIF' ? 'GIF' : 'IMAGE',
+                url: pick.url,
+                mimeType: pick.mimeType || 'image/gif',
+                width: pick.width || null,
+                height: pick.height || null,
+                durationSec: pick.durationSec || null,
+                previewUrl: pick.previewUrl || null,
+                thumbUrl: pick.previewUrl || null,
+              },
+            ]);
+
+            setEditPickerOpen(false);
+          }}
+        />
+        
         {/* ✅ Delete modal */}
         <Modal
           opened={deleteOpen}
