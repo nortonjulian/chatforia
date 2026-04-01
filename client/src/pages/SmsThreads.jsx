@@ -11,7 +11,10 @@ export default function SmsThreads() {
   const [body, setBody] = useState('');
 
   useEffect(() => {
-    api.get('/sms/threads').then(({ data }) => setItems(data.items || [])).catch(()=>{});
+    api
+      .get('/sms/threads')
+      .then(({ data }) => setItems(data.items || []))
+      .catch(() => {});
   }, []);
 
   const sendQuick = async () => {
@@ -19,19 +22,42 @@ export default function SmsThreads() {
     setBody('');
   };
 
+  const sortedItems = [...items].sort((a, b) => {
+    const ta = new Date(a.updatedAt || a.lastMessageAt || 0).getTime();
+    const tb = new Date(b.updatedAt || b.lastMessageAt || 0).getTime();
+    return tb - ta;
+  });
+
   return (
     <Stack>
       <Title order={3}>Text Messages (Chatforia number)</Title>
+
       <Group align="end">
-        <TextInput label="To (E.164)" placeholder="+15551234567" value={to} onChange={(e)=>setTo(e.target.value)} />
-        <TextInput label="Message" placeholder="Type a message…" value={body} onChange={(e)=>setBody(e.target.value)} />
-        <Button onClick={sendQuick} disabled={!to || !body.trim()}>Send</Button>
+        <TextInput
+          label="To (E.164)"
+          placeholder="+15551234567"
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+        />
+        <TextInput
+          label="Message"
+          placeholder="Type a message…"
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+        />
+        <Button onClick={sendQuick} disabled={!to || !body.trim()}>
+          Send
+        </Button>
       </Group>
+
       <Stack>
-        {items.map(t => (
-          <Link key={t.id} to={`/sms/${t.id}`}>{t.displayName || t.contactPhone || `SMS #${t.id}`}</Link>
+        {sortedItems.map((t) => (
+          <Link key={t.id} to={`/sms/${t.id}`}>
+            {t.displayName || t.contactPhone || `SMS #${t.id}`}
+          </Link>
         ))}
       </Stack>
+
       <AliasDialer />
     </Stack>
   );

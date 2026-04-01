@@ -177,7 +177,6 @@ function AuthedLayout() {
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
-              overflow: 'hidden',
             },
           }}
         >
@@ -255,15 +254,15 @@ function AuthedLayout() {
             </div>
           )}
         </AppShell.Aside>
-          <AppShell.Main
+         <AppShell.Main
             id="main-content"
             tabIndex={-1}
             style={{
-              minHeight: 0,
               flex: 1,
+              minHeight: 0,
               display: 'flex',
               flexDirection: 'column',
-              overflow: 'hidden',
+              overflowY: 'auto', // 🔥 THIS FIXES YOUR PROBLEM
             }}
           >
             {/* Global call UI */}
@@ -277,7 +276,6 @@ function AuthedLayout() {
                   minHeight: 0,
                   display: 'flex',
                   flexDirection: 'column',
-                  overflow: 'hidden',
                 }}
               >
                 <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />

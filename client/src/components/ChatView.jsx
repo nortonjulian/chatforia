@@ -75,6 +75,19 @@ import { ADS_CONFIG } from '@/ads/config';
 import '@/styles.css';
 
 /* ---------- helpers ---------- */
+function getMessageTimestampMs(message) {
+  const value = message?.createdAt;
+  if (!value) return 0;
+  const ms = new Date(value).getTime();
+  return Number.isFinite(ms) ? ms : 0;
+}
+
+function isWithinMessageActionWindow(message, windowSec = 900) {
+  if (!Number.isFinite(windowSec) || windowSec <= 0) return true;
+  const createdMs = getMessageTimestampMs(message);
+  if (!createdMs) return false;
+  return Date.now() - createdMs <= windowSec * 1000;
+}
 
 function useNow(interval = 1000) {
   const [now, setNow] = useState(Date.now());
@@ -259,6 +272,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const otherUserId = Number(otherParticipant?.id ?? otherParticipant?.userId);
 
+  const MESSAGE_ACTION_WINDOW_SEC = 900;
+
   const markNewestUnreadBulk = useCallback(
     async (limit = 50) => {
       if (!chatroom?.id) return;
@@ -277,27 +292,109 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   // ✅ Stable merge for realtime upsert (must be inside component)
   const mergeIncomingMessage = useCallback((incoming) => {
-    if (!incoming) return;
+  if (!incoming) return;
 
-    const shouldScroll = isNearBottom();
+  const shouldScroll = isNearBottom();
 
-    setMessages((prev) => {
-      const map = new Map(prev.map((m) => [getMessageKey(m), m]));
-      const key = getMessageKey(incoming);
-      map.set(key, { ...(map.get(key) || {}), ...incoming });
-      return sortMessagesChronologically(Array.from(map.values()));
+  setMessages((prev) => {
+    const incomingId = incoming?.id != null ? String(incoming.id) : null;
+    const incomingClientId =
+      incoming?.clientMessageId != null ? String(incoming.clientMessageId) : null;
+
+    const incomingSenderId = Number(
+      incoming?.sender?.id ?? incoming?.senderId ?? incoming?.userId ?? 0
+    );
+
+    const incomingCreatedAt = incoming?.createdAt
+      ? new Date(incoming.createdAt).getTime()
+      : 0;
+
+    const next = [...prev];
+
+    let matchedIndex = -1;
+
+    // 1) exact id/clientMessageId match first
+    matchedIndex = next.findIndex((m) => {
+      const sameId =
+        incomingId && m?.id != null && String(m.id) === incomingId;
+
+      const sameClientId =
+        incomingClientId &&
+        m?.clientMessageId != null &&
+        String(m.clientMessageId) === incomingClientId;
+
+      return sameId || sameClientId;
     });
 
-    if (shouldScroll) {
-      requestAnimationFrame(() => {
-        scrollToBottom();
-      });
-    } else {
-      setShowNewMessage(true); // optional "new message" button
-    }
-  }, []);
+    // 2) fallback: replace optimistic attachment message from same sender
+    if (matchedIndex === -1) {
+      matchedIndex = next.findIndex((m) => {
+        if (!m?.optimistic) return false;
 
-  
+        const msgSenderId = Number(m?.sender?.id ?? m?.senderId ?? m?.userId ?? 0);
+        if (!msgSenderId || msgSenderId !== incomingSenderId) return false;
+
+        const msgCreatedAt = m?.createdAt ? new Date(m.createdAt).getTime() : 0;
+        const closeInTime =
+          incomingCreatedAt && msgCreatedAt
+            ? Math.abs(incomingCreatedAt - msgCreatedAt) < 15000
+            : true;
+
+        const msgAttachments = Array.isArray(m?.attachments)
+          ? m.attachments
+          : Array.isArray(m?.attachmentsInline)
+            ? m.attachmentsInline
+            : [];
+
+        const incomingAttachments = Array.isArray(incoming?.attachments)
+          ? incoming.attachments
+          : Array.isArray(incoming?.attachmentsInline)
+            ? incoming.attachmentsInline
+            : [];
+
+        if (!msgAttachments.length || !incomingAttachments.length) return false;
+
+        const msgFirstUrl =
+          msgAttachments[0]?.url ||
+          msgAttachments[0]?.thumbUrl ||
+          msgAttachments[0]?.previewUrl ||
+          '';
+
+        const incomingFirstUrl =
+          incomingAttachments[0]?.url ||
+          incomingAttachments[0]?.thumbUrl ||
+          incomingAttachments[0]?.previewUrl ||
+          '';
+
+        const sameAttachment =
+          msgFirstUrl && incomingFirstUrl && msgFirstUrl === incomingFirstUrl;
+
+        return closeInTime && sameAttachment;
+      });
+    }
+
+    if (matchedIndex >= 0) {
+      next[matchedIndex] = {
+        ...next[matchedIndex],
+        ...incoming,
+        optimistic: false,
+        failed: false,
+      };
+      return sortMessagesChronologically(next);
+    }
+
+    return sortMessagesChronologically([...next, incoming]);
+  });
+
+  if (shouldScroll) {
+    requestAnimationFrame(() => {
+      scrollToBottom();
+    });
+  } else {
+    setShowNewMessage(true);
+  }
+}, []);
+
 
   const [smartEnabled, setSmartEnabled] = useState(
     () => currentUser?.enableSmartReplies ?? false
@@ -358,24 +455,21 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   (m) => {
     if (!isSameUser(getSenderId(m), currentUserId)) return false;
     if (m.deletedForAll) return false;
-
-    const isEncrypted = !!m.contentCiphertext || !!m.encryptedKeyForMe;
-    if (isEncrypted && e2eeLocked) return false;
-
+    if (!isWithinMessageActionWindow(m, MESSAGE_ACTION_WINDOW_SEC)) return false;
     return true;
   },
-  [currentUserId, e2eeLocked]
+  [currentUserId]
 );
 
   const canDeleteForEveryone = useCallback(
-    (m) => {
-      if (!isSameUser(getSenderId(m), currentUserId)) return false;
-      if (m.deletedForAll) return false;
-      return true;
-    },
-    [currentUserId]
-  );
-
+  (m) => {
+    if (!isSameUser(getSenderId(m), currentUserId)) return false;
+    if (m.deletedForAll) return false;
+    if (!isWithinMessageActionWindow(m, MESSAGE_ACTION_WINDOW_SEC)) return false;
+    return true;
+  },
+  [currentUserId]
+);
   const startChatCall = useCallback(() => {
     if (!chatroom?.id) return;
     navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);

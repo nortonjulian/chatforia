@@ -1660,7 +1660,7 @@ async function editMessageCore(req, res) {
 
   const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
   if (Number.isFinite(windowSec) && windowSec > 0) {
-    const ageMs = Date.now() - new Date(existing.createdAt).getTime();
+    const ageMs = Date.now() - new Date(mm.createdAt).getTime();
     if (ageMs > windowSec * 1000) {
       const err = Boom.forbidden('Edit window expired');
       err.output.payload.code = 'EDIT_WINDOW_EXPIRED';
@@ -1771,6 +1771,20 @@ router.delete(
           throw Boom.forbidden('Unauthorized to delete for everyone');
         }
 
+        // ⛔ Enforce same time window as edit
+        const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
+
+        if (Number.isFinite(windowSec) && windowSec > 0) {
+          const ageMs = Date.now() - new Date(mm.createdAt).getTime();
+
+          if (ageMs > windowSec * 1000) {
+            const err = Boom.forbidden('Delete-for-everyone window expired');
+            err.output.payload.code = 'DELETE_ALL_WINDOW_EXPIRED';
+            err.output.payload.windowSec = windowSec;
+            throw err;
+          }
+        }
+
         if (mm.deletedForAll) {
           return res.json({ success: true, scope: 'all' });
         }
@@ -1833,14 +1847,15 @@ router.delete(
 
     // === Production path ===
     const message = await prisma.message.findUnique({
-      where: { id: messageId },
-      select: {
-        id: true,
-        senderId: true,
-        chatRoomId: true,
-        deletedForAll: true,
-      },
-    });
+    where: { id: messageId },
+    select: {
+      id: true,
+      senderId: true,
+      chatRoomId: true,
+      deletedForAll: true,
+      createdAt: true,
+    },
+  });
     if (!message) throw Boom.notFound('Message not found');
 
     const member = await prisma.participant.findFirst({
@@ -1854,12 +1869,24 @@ router.delete(
         throw Boom.forbidden('Unauthorized to delete for everyone');
       }
 
+      const windowSec = Number(process.env.MESSAGE_EDIT_WINDOW_SEC || 900);
+
+      if (Number.isFinite(windowSec) && windowSec > 0) {
+        const ageMs = Date.now() - new Date(message.createdAt).getTime();
+
+        if (ageMs > windowSec * 1000) {
+          const err = Boom.forbidden('Delete-for-everyone window expired');
+          err.output.payload.code = 'DELETE_ALL_WINDOW_EXPIRED';
+          err.output.payload.windowSec = windowSec;
+          throw err;
+        }
+      }
+
       if (message.deletedForAll) {
         return res.json({ success: true, scope: 'all' });
       }
 
-      const deletedAt = new Date();
-
+  const deletedAt = new Date();
       await prisma.message.update({
         where: { id: messageId },
         data: {

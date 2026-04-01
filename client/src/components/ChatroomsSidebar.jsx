@@ -55,6 +55,31 @@ const CACHE_KEY = 'chatforia:conversations:v1';
  */
 
 /* ---------------- payload helpers ---------------- */
+function parseThreadTime(value) {
+  if (!value) return 0;
+  const t = new Date(value).getTime();
+  return Number.isFinite(t) ? t : 0;
+}
+
+function getThreadSortTime(thread) {
+  return Math.max(
+    parseThreadTime(thread?.last?.at),
+    parseThreadTime(thread?.updatedAt)
+  );
+}
+
+function sortThreadsNewestFirst(list) {
+  return [...(Array.isArray(list) ? list : [])].sort((a, b) => {
+    const diff = getThreadSortTime(b) - getThreadSortTime(a);
+    if (diff !== 0) return diff;
+
+    const aId = Number(a?.id) || 0;
+    const bId = Number(b?.id) || 0;
+    if (aId !== bId) return bId - aId;
+
+    return String(a?.kind || '').localeCompare(String(b?.kind || ''));
+  });
+}
 
 function getChatRoomIdFromPayload(payload) {
   return (
@@ -230,8 +255,9 @@ export default function ChatroomsSidebar({
             ? data
             : [];
 
-      setItems(list);
-      localStorage.setItem(CACHE_KEY, JSON.stringify(list));
+      const sorted = sortThreadsNewestFirst(list);
+      setItems(sorted);
+      localStorage.setItem(CACHE_KEY, JSON.stringify(sorted));
     } catch (e) {
       if (!usedCache) {
         setErr(
@@ -273,7 +299,7 @@ export default function ChatroomsSidebar({
   const q = filterQuery.trim().toLowerCase();
 
   const visible = useMemo(() => {
-    const base = Array.isArray(items) ? items : [];
+    const base = sortThreadsNewestFirst(Array.isArray(items) ? items : []);
     if (!q) return base;
 
     return base.filter((c) => {
@@ -300,9 +326,9 @@ export default function ChatroomsSidebar({
 
       const next = list.slice();
       next[idx] = patchFn(next[idx]);
-      return next;
+      return sortThreadsNewestFirst(next);
     });
-  }, []);
+}, []);
 
   // ✅ move convo to top (UI ordering)
   const bumpToTop = useCallback((kind, id) => {

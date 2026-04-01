@@ -1,43 +1,49 @@
-import pkg from '@prisma/client';
-const { PrismaClient } = pkg;
-
-const prisma = new PrismaClient();
+import prisma from '../utils/prismaClient.js';
 
 /**
  * Polls for expired messages and removes them. Emits a socket event so
- * online clients prune them immediately (no waiting for next fetch).
+ * online clients prune them immediately.
  *
  * @param {import('socket.io').Server} io
- * @param {number} [intervalMs=10000] how often to check (default 10s)
+ * @param {number} [intervalMs=10000]
  */
 export function initDeleteExpired(io, intervalMs = 10_000) {
+  let isRunning = false;
+
   const timer = setInterval(async () => {
-    const now = new Date();
+    if (isRunning) return;
+    isRunning = true;
 
-    // Pull small batches to avoid huge deletes in one tick
-    const expired = await prisma.message.findMany({
-      where: { expiresAt: { lte: now } },
-      select: { id: true, chatRoomId: true },
-      take: 250,
-    });
+    try {
+      const now = new Date();
 
-    if (!expired.length) return;
+      const expired = await prisma.message.findMany({
+        where: { expiresAt: { lte: now } },
+        select: { id: true, chatRoomId: true },
+        take: 250,
+      });
 
-    // Delete
-    await prisma.message.deleteMany({
-      where: { id: { in: expired.map((m) => m.id) } },
-    });
+      if (!expired.length) return;
 
-    // Notify rooms
-    for (const m of expired) {
-      io.to(String(m.chatRoomId)).emit('message_expired', { id: m.id });
+      await prisma.message.deleteMany({
+        where: { id: { in: expired.map((m) => m.id) } },
+      });
+
+      if (io) {
+        for (const m of expired) {
+          io.to(String(m.chatRoomId)).emit('message_expired', { id: m.id });
+        }
+      }
+    } catch (err) {
+      console.error('[deleteExpiredMessages] failed:', err);
+    } finally {
+      isRunning = false;
     }
   }, intervalMs);
 
-  // helpful when reloading dev server
   const stop = async () => {
     clearInterval(timer);
-    await prisma.$disconnect();
   };
+
   return { stop };
 }

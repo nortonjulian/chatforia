@@ -294,10 +294,21 @@ router.get(
       };
     });
 
+    function sortConversationTime(c) {
+      const lastAt = c?.last?.at ? new Date(c.last.at).getTime() : 0;
+      const updatedAt = c?.updatedAt ? new Date(c.updatedAt).getTime() : 0;
+      return Math.max(lastAt, updatedAt);
+    }
+
     const all = [...chatConvos, ...smsConvos].sort((a, b) => {
-      const ta = new Date(a.updatedAt).getTime();
-      const tb = new Date(b.updatedAt).getTime();
-      return tb - ta;
+      const diff = sortConversationTime(b) - sortConversationTime(a);
+      if (diff !== 0) return diff;
+
+      const aId = Number(a?.id) || 0;
+      const bId = Number(b?.id) || 0;
+      if (aId !== bId) return bId - aId;
+
+      return String(a?.kind || '').localeCompare(String(b?.kind || ''));
     });
 
     return res.json({ items: all, conversations: all });

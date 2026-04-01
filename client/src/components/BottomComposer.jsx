@@ -314,7 +314,7 @@ export default function BottomComposer({
           }
 
           setPendingAttachment({
-            kind: 'IMAGE',
+            kind: pick.kind === 'GIF' ? 'GIF' : 'IMAGE',
             url: pick.url,
             mimeType: pick.mimeType || 'image/gif',
             width: pick.width || null,

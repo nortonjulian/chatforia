@@ -39,8 +39,8 @@ function messageHasDate(text = '') {
   const t = text.toLowerCase();
 
   const patterns = [
-    /\b\d{1,2}(:\d{2})?\s?(am|pm)\b/,     // 7pm, 7:30 pm
-    /\b\d{1,2}\/\d{1,2}(\/\d{2,4})?\b/,   // 3/15 or 3/15/2026
+    /\b\d{1,2}(:\d{2})?\s?(am|pm)\b/,
+    /\b\d{1,2}\/\d{1,2}(\/\d{2,4})?\b/,
     /\b(monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/,
     /\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b/,
     /\b(today|tomorrow|tonight)\b/,
@@ -73,14 +73,14 @@ export default function MessageBubble({
   const mine = Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
 
   const displayText = isTombstone
-  ? 'This message was deleted'
-  : (
-      msg.decryptedContent ||
-      msg.translatedForMe ||
-      msg.rawContent ||
-      msg.content ||
-      (msg.contentCiphertext ? '[Encrypted message — unlock your key to view]' : '')
-    );
+    ? 'This message was deleted'
+    : (
+        msg.decryptedContent ||
+        msg.translatedForMe ||
+        msg.rawContent ||
+        msg.content ||
+        (msg.contentCiphertext ? '[Encrypted message — unlock your key to view]' : '')
+      );
 
   const bubbleStyle = mine
     ? {
@@ -94,13 +94,10 @@ export default function MessageBubble({
       };
 
   const hasDeleteMe = typeof onDeleteMe === 'function';
-
   const hasText = !!displayText?.trim();
-
   const hasAddToCalendar =
-  typeof onAddToCalendar === 'function' &&
-  messageHasDate(displayText);
-
+    typeof onAddToCalendar === 'function' &&
+    messageHasDate(displayText);
   const hasReport = typeof onReport === 'function';
 
   const canEditHere = !isTombstone && mine && canEdit;
@@ -111,10 +108,22 @@ export default function MessageBubble({
     (canEditHere || canDeleteAllHere || hasDeleteMe || hasAddToCalendar || hasReport);
 
   const attachments = normalizeAttachments(msg);
+  const hasMedia = !isTombstone && attachments.length > 0;
 
   const tailBg = mine
     ? 'var(--bubble-outgoing, #f7a600)'
     : 'var(--bubble-incoming, #f3f4f6)';
+
+  const captionTextStyle = mine
+    ? {
+        color: 'var(--bubble-outgoing-text, #111)',
+        textShadow: 'var(--bubble-outgoing-shadow, none)',
+        textAlign: 'right',
+      }
+    : {
+        color: 'var(--mantine-color-text)',
+        textAlign: 'left',
+      };
 
   return (
     <Box
@@ -127,253 +136,277 @@ export default function MessageBubble({
       }}
     >
       <Box
-      style={{
-        width: '100%',
-        maxWidth: 900,
-        display: 'flex',
-        justifyContent: mine ? 'flex-end' : 'flex-start',
-      }}
-    >
-      <Box
         style={{
-          position: 'relative',
+          width: '100%',
+          maxWidth: 900,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: mine ? 'flex-end' : 'flex-start',
-          gap: 4,
-          maxWidth: 640,
-          minWidth: 0,
-          flex: '0 1 auto',
-          paddingLeft: !mine && hasAnyActions ? 8 : 0,
-          paddingRight: mine && hasAnyActions ? 8 : 0,
+          justifyContent: mine ? 'flex-end' : 'flex-start',
         }}
       >
-        {hasAnyActions && (
-          <Box
-            className="message-actions"
-            style={{
-              position: 'absolute',
-              top: 4,
-              right: mine ? -16 : 'auto',
-              left: mine ? 'auto' : -16,
-              zIndex: 3,
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <Menu position={mine ? 'bottom-end' : 'bottom-start'} withinPortal shadow="md" radius="md">
-              <Menu.Target>
-                <ActionIcon
-                  aria-label="Message actions"
-                  variant="filled"
-                  size="sm"
-                  radius="xl"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
-                >
-                  <MoreVertical size={16} />
-                </ActionIcon>
-              </Menu.Target>
-
-              <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
-                {hasAddToCalendar && (
-                  <Menu.Item
-                    leftSection={<CalendarPlus size={16} />}
-                    onClick={() => onAddToCalendar?.(msg)}
-                  >
-                    Add to calendar
-                  </Menu.Item>
-                )}
-
-                {hasReport && !mine && (
-                  <Menu.Item
-                    color="red"
-                    leftSection={<ShieldAlert size={16} />}
-                    onClick={() => onReport?.(msg)}
-                  >
-                    Report
-                  </Menu.Item>
-                )}
-
-                {canEditHere && (
-                  <Menu.Item leftSection={<Pencil size={16} />} onClick={() => onEdit?.(msg)}>
-                    Edit
-                  </Menu.Item>
-                )}
-
-                {hasDeleteMe && (
-                  <Menu.Item
-                    color="red"
-                    leftSection={<Trash2 size={16} />}
-                    onClick={() => onDeleteMe?.(msg)}
-                  >
-                    Delete for me
-                  </Menu.Item>
-                )}
-
-                {canDeleteAllHere && (
-                  <Menu.Item
-                    color="red"
-                    leftSection={<Trash2 size={16} />}
-                    onClick={() => onDeleteAll?.(msg)}
-                  >
-                    Delete for everyone
-                  </Menu.Item>
-                )}
-              </Menu.Dropdown>
-            </Menu>
-          </Box>
-        )}
-
         <Box
           style={{
             position: 'relative',
-            display: 'inline-block',
-            maxWidth: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: mine ? 'flex-end' : 'flex-start',
+            gap: 4,
+            maxWidth: 640,
+            minWidth: 0,
+            flex: '0 1 auto',
+            paddingLeft: !mine && hasAnyActions ? 8 : 0,
+            paddingRight: mine && hasAnyActions ? 8 : 0,
           }}
         >
-          {hasText && (
-            <Tooltip label={ts} withinPortal>
-              <Text
-                role="text"
-                aria-label={`Message sent ${ts}`}
-                px="md"
-                py={8}
-                style={{
-                  ...bubbleStyle,
-                  position: 'relative',
-                  zIndex: 2,
-                  borderRadius: 18,
-                  borderBottomRightRadius: mine && showTail ? 8 : 18,
-                  borderBottomLeftRadius: !mine && showTail ? 8 : 18,
-                  wordBreak: 'break-word',
-                  whiteSpace: 'pre-wrap',
-                  overflowWrap: 'anywhere',
-                  opacity: isTombstone ? 0.75 : 1,
-                  fontStyle: isTombstone ? 'italic' : 'normal',
-                  display: 'block',
-                  width: 'fit-content',
-                  maxWidth: '100%',
-                }}
-              >
-                {displayText}
-                {Boolean(msg.editedAt) && !isTombstone ? (
-                  <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
-                    (edited)
-                  </Text>
-                ) : null}
-              </Text>
-            </Tooltip>
-          )}
-
-          {showTail && !isTombstone && hasText && (
+          {hasAnyActions && (
             <Box
-              aria-hidden="true"
+              className="message-actions"
               style={{
                 position: 'absolute',
-                bottom: 1,
-                right: mine ? 3 : 'auto',
-                left: mine ? 'auto' : 3,
-                width: 12,
-                height: 12,
-                background: tailBg,
-                transform: 'rotate(45deg)',
-                borderRadius: mine ? '0 0 6px 0' : '0 0 0 6px',
-                zIndex: 1,
+                top: 4,
+                right: mine ? -16 : 'auto',
+                left: mine ? 'auto' : -16,
+                zIndex: 3,
               }}
-            />
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <Menu position={mine ? 'bottom-end' : 'bottom-start'} withinPortal shadow="md" radius="md">
+                <Menu.Target>
+                  <ActionIcon
+                    aria-label="Message actions"
+                    variant="filled"
+                    size="sm"
+                    radius="xl"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <MoreVertical size={16} />
+                  </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown onClick={(e) => e.stopPropagation()}>
+                  {hasAddToCalendar && (
+                    <Menu.Item
+                      leftSection={<CalendarPlus size={16} />}
+                      onClick={() => onAddToCalendar?.(msg)}
+                    >
+                      Add to calendar
+                    </Menu.Item>
+                  )}
+
+                  {hasReport && !mine && (
+                    <Menu.Item
+                      color="red"
+                      leftSection={<ShieldAlert size={16} />}
+                      onClick={() => onReport?.(msg)}
+                    >
+                      Report
+                    </Menu.Item>
+                  )}
+
+                  {canEditHere && (
+                    <Menu.Item leftSection={<Pencil size={16} />} onClick={() => onEdit?.(msg)}>
+                      Edit
+                    </Menu.Item>
+                  )}
+
+                  {hasDeleteMe && (
+                    <Menu.Item
+                      color="red"
+                      leftSection={<Trash2 size={16} />}
+                      onClick={() => onDeleteMe?.(msg)}
+                    >
+                      Delete for me
+                    </Menu.Item>
+                  )}
+
+                  {canDeleteAllHere && (
+                    <Menu.Item
+                      color="red"
+                      leftSection={<Trash2 size={16} />}
+                      onClick={() => onDeleteAll?.(msg)}
+                    >
+                      Delete for everyone
+                    </Menu.Item>
+                  )}
+                </Menu.Dropdown>
+              </Menu>
+            </Box>
           )}
-        </Box>
 
-        {!isTombstone && attachments.length > 0 ? (
-          <Box mt={hasText ? 8 : 2} style={{ width: '100%' }}>
-            <Group gap="xs" wrap="wrap" justify={mine ? 'flex-end' : 'flex-start'}>
-              {attachments.map((a, i) => {
-                console.log('bubble attachment', a);
-                const url = a?.url;
-                const mime = a?.mimeType;
+          {!hasMedia && hasText && (
+            <Box
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                maxWidth: '100%',
+              }}
+            >
+              <Tooltip label={ts} withinPortal>
+                <Text
+                  role="text"
+                  aria-label={`Message sent ${ts}`}
+                  px="md"
+                  py={8}
+                  style={{
+                    ...bubbleStyle,
+                    position: 'relative',
+                    zIndex: 2,
+                    borderRadius: 18,
+                    borderBottomRightRadius: mine && showTail ? 8 : 18,
+                    borderBottomLeftRadius: !mine && showTail ? 8 : 18,
+                    wordBreak: 'break-word',
+                    whiteSpace: 'pre-wrap',
+                    overflowWrap: 'anywhere',
+                    opacity: isTombstone ? 0.75 : 1,
+                    fontStyle: isTombstone ? 'italic' : 'normal',
+                    display: 'block',
+                    width: 'fit-content',
+                    maxWidth: '100%',
+                  }}
+                >
+                  {displayText}
+                  {Boolean(msg.editedAt) && !isTombstone ? (
+                    <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                      (edited)
+                    </Text>
+                  ) : null}
+                </Text>
+              </Tooltip>
 
-                if (!url) return null;
+              {showTail && !isTombstone && hasText && (
+                <Box
+                  aria-hidden="true"
+                  style={{
+                    position: 'absolute',
+                    bottom: 1,
+                    right: mine ? 3 : 'auto',
+                    left: mine ? 'auto' : 3,
+                    width: 12,
+                    height: 12,
+                    background: tailBg,
+                    transform: 'rotate(45deg)',
+                    borderRadius: mine ? '0 0 6px 0' : '0 0 0 6px',
+                    zIndex: 1,
+                  }}
+                />
+              )}
+            </Box>
+          )}
 
-                if (isAudio(mime, url)) {
-                  return (
-                    <audio
-                      key={a.id ?? `${url}-${i}`}
-                      controls
-                      style={{ width: 260, maxWidth: '100%' }}
-                    >
-                      <source src={url} />
-                    </audio>
-                  );
-                }
+          {hasMedia ? (
+            <Box mt={hasText ? 2 : 2} style={{ width: '100%' }}>
+              <Group gap="xs" wrap="wrap" justify={mine ? 'flex-end' : 'flex-start'}>
+                {attachments.map((a, i) => {
+                  const url = a?.url;
+                  const mime = a?.mimeType;
 
-                if (isVideo(mime, url)) {
-                  return (
-                    <video
-                      key={a.id ?? `${url}-${i}`}
-                      controls
-                      style={{ width: 260, maxWidth: '100%', borderRadius: 12 }}
-                    >
-                      <source src={url} />
-                    </video>
-                  );
-                }
+                  if (!url) return null;
 
-                if (isImage(mime, url)) {
-                  const isGif = mime === 'image/gif';
+                  if (isAudio(mime, url)) {
+                    return (
+                      <audio
+                        key={a.id ?? `${url}-${i}`}
+                        controls
+                        style={{ width: 260, maxWidth: '100%' }}
+                      >
+                        <source src={url} />
+                      </audio>
+                    );
+                  }
 
-                  const imgSrc = isGif
-                    ? url // 🔥 always use full GIF
-                    : (a.thumbUrl || a.thumbnailUrl || url);
+                  if (isVideo(mime, url)) {
+                    return (
+                      <video
+                        key={a.id ?? `${url}-${i}`}
+                        controls
+                        style={{ width: 260, maxWidth: '100%', borderRadius: 12 }}
+                      >
+                        <source src={url} />
+                      </video>
+                    );
+                  }
+
+                  if (isImage(mime, url)) {
+                    const isGif = mime === 'image/gif';
+                    const imgSrc = isGif ? url : (a.thumbUrl || a.thumbnailUrl || url);
+
+                    return (
+                      <a
+                        key={a.id ?? `${url}-${i}`}
+                        href={url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ display: 'inline-block' }}
+                      >
+                        <img
+                          src={imgSrc}
+                          alt="Attachment"
+                          style={{ width: 220, maxWidth: '100%', borderRadius: 12 }}
+                        />
+                      </a>
+                    );
+                  }
+
                   return (
                     <a
                       key={a.id ?? `${url}-${i}`}
                       href={url}
                       target="_blank"
                       rel="noreferrer"
-                      style={{ display: 'inline-block' }}
+                      style={{ textDecoration: 'underline' }}
                     >
-                      <img
-                        src={imgSrc}
-                        alt="Attachment"
-                        style={{ width: 180, maxWidth: '100%', borderRadius: 12 }}
-                      />
+                      {a.originalName || a.caption || 'Open file'}
                     </a>
                   );
-                }
+                })}
+              </Group>
 
-                return (
-                  <a
-                    key={a.id ?? `${url}-${i}`}
-                    href={url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ textDecoration: 'underline' }}
+              {hasText && (
+                <Tooltip label={ts} withinPortal>
+                  <Text
+                    role="text"
+                    aria-label={`Message sent ${ts}`}
+                    size="sm"
+                    mt={6}
+                    style={{
+                      ...captionTextStyle,
+                      maxWidth: 260,
+                      whiteSpace: 'pre-wrap',
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word',
+                      opacity: isTombstone ? 0.75 : 0.92,
+                      fontStyle: isTombstone ? 'italic' : 'normal',
+                    }}
                   >
-                    {a.originalName || a.caption || 'Open file'}
-                  </a>
-                );
-              })}
-            </Group>
-          </Box>
-        ) : null}
+                    {displayText}
+                    {Boolean(msg.editedAt) && !isTombstone ? (
+                      <Text component="span" size="xs" ml={8} style={{ opacity: 0.85 }}>
+                        (edited)
+                      </Text>
+                    ) : null}
+                  </Text>
+                </Tooltip>
+              )}
+            </Box>
+          ) : null}
 
-        {msg.failed && (
-          <ActionIcon
-            aria-label="Retry sending message"
-            variant="subtle"
-            onClick={() => onRetry?.(msg)}
-            title="Retry"
-          >
-            <RotateCw size={18} />
-          </ActionIcon>
-        )}
+          {msg.failed && (
+            <ActionIcon
+              aria-label="Retry sending message"
+              variant="subtle"
+              onClick={() => onRetry?.(msg)}
+              title="Retry"
+            >
+              <RotateCw size={18} />
+            </ActionIcon>
+          )}
+        </Box>
       </Box>
     </Box>
-  </Box>
   );
 }

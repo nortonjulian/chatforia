@@ -134,17 +134,17 @@ export function PlanCard({
       withBorder
       radius="xl"
       shadow="sm"
-      p="lg"
+      p="md"
       data-testid={testId}
       className={cardClassName}
       style={{ height: '100%' }}
     >
-      <Stack gap="sm" style={{ height: '100%', display: 'flex' }}>
-        <Stack gap={4}>
+      <Stack gap={8} style={{ height: '100%', display: 'flex' }}>
+        <Stack gap={2}>
           <Group gap={8} wrap="nowrap" align="center" style={{ minWidth: 0 }}>
             {icon}
             <Title
-              order={3}
+              order={4}
               style={{
                 lineHeight: 1.2,
               }}
@@ -166,7 +166,7 @@ export function PlanCard({
         </Stack>
 
         {description && (
-          <Text size="sm" c="dimmed">
+          <Text size="sm" c="dimmed" lh={1.35}>
             {description}
           </Text>
         )}
@@ -186,7 +186,7 @@ export function PlanCard({
 
         {!!features.length && (
           <Stack
-            gap={6}
+            gap={4}
             component="ul"
             className="plan-card-features"
             style={{ margin: 0, paddingLeft: '1.2rem' }}
@@ -206,7 +206,7 @@ export function PlanCard({
         {footer}
 
         <Button
-          mt="sm"
+          mt={8}
           onClick={onClick}
           disabled={disabled || loading}
           loading={loading}
@@ -356,7 +356,6 @@ function EsimCompareTable({ scope }) {
   const { t } = useTranslation();
 
   const rows = useMemo(() => {
-    // Global is only 3/5 for now
     if (scope === ESIM_SCOPE_GLOBAL) {
       return [
         {
@@ -372,13 +371,28 @@ function EsimCompareTable({ scope }) {
           data: t('upgrade.mobile.medium.data', '5 GB'),
           bestFor: t(
             'upgrade.mobile.medium.bestFor',
-            'Weekend trips, regular VoIP calls, and maps'
+            'Weekend trips, regular messaging, and navigation'
+          ),
+        },
+        {
+          pack: t('upgrade.mobile.large.title', '10 GB'),
+          data: t('upgrade.mobile.large.data', '10 GB'),
+          bestFor: t(
+            'upgrade.mobile.large.bestFor',
+            'Longer trips, streaming, and heavier travel use'
+          ),
+        },
+        {
+          pack: t('upgrade.mobile.unlimited.title', 'Unlimited'),
+          data: t('upgrade.mobile.unlimited.data', 'High-speed data included'),
+          bestFor: t(
+            'upgrade.mobile.unlimited.bestFor',
+            'Peace of mind for heavy travel use'
           ),
         },
       ];
     }
 
-    // Local + Europe show 3/5/10/20
     return [
       {
         pack: t('upgrade.mobile.small.title', '3 GB'),
@@ -393,7 +407,7 @@ function EsimCompareTable({ scope }) {
         data: t('upgrade.mobile.medium.data', '5 GB'),
         bestFor: t(
           'upgrade.mobile.medium.bestFor',
-          'Weekend trips, regular VoIP calls, and maps'
+          'Weekend trips, regular messaging, and navigation'
         ),
       },
       {
@@ -412,13 +426,21 @@ function EsimCompareTable({ scope }) {
           'Power travelers, hotspot use, and heavy browsing'
         ),
       },
+      {
+        pack: t('upgrade.mobile.unlimited.title', 'Unlimited'),
+        data: t('upgrade.mobile.unlimited.data', 'High-speed data included'),
+        bestFor: t(
+          'upgrade.mobile.unlimited.bestFor',
+          'Peace of mind for heavy everyday or travel use'
+        ),
+      },
     ];
   }, [scope, t]);
 
   return (
     <Card withBorder radius="lg" p="md" mt="md">
       <Text fw={600} size="sm" mb={8}>
-        {t('upgrade.mobile.compare.title', 'Compare eSIM data packs')}
+        {t('upgrade.mobile.compare.title', 'Compare eSIM options')}
       </Text>
 
       <Table highlightOnHover striped verticalSpacing="xs" horizontalSpacing="md">
@@ -444,7 +466,7 @@ function EsimCompareTable({ scope }) {
       <Text size="xs" c="dimmed" mt="xs">
         {t(
           'upgrade.mobile.compare.disclaimer',
-          'Actual data usage depends on how you use your phone (voice, video, media, maps, hotspot, etc.).'
+          'Actual data usage depends on how you use your phone. Speeds and coverage vary by region and device.'
         )}
       </Text>
     </Card>
@@ -607,26 +629,41 @@ export default function UpgradePage({ variant = 'account' }) {
   );
 
   // eSIM products (no plans under 3GB; Global only 3/5)
+    // eSIM products (premium-only at launch; shared/family later)
+    // eSIM products (premium-only at launch; shared/family later)
   const esimProducts = useMemo(() => {
     if (esimScope === ESIM_SCOPE_GLOBAL) {
       return [
         {
-          product: 'chatforia_esim_global_3',
+          product: 'chatforia_esim_global_unlimited_premium',
+          gb: 999,
+          title: t('upgrade.esim.global.unlimited.title', 'Global Unlimited'),
+          desc: t(
+            'upgrade.esim.global.unlimited.desc',
+            'Best for heavy usage, streaming, and never worrying about data limits.'
+          ),
+          kind: 'unlimited',
+        },
+        {
+          product: 'chatforia_esim_global_3_premium',
           gb: 3,
           title: t('upgrade.esim.global.3.title', 'Global 3 GB'),
-          desc: t('upgrade.esim.global.3.desc', 'Global coverage for light travel.'),
+          desc: t('upgrade.esim.global.3.desc', 'Great for short trips and light international use.'),
         },
         {
-          product: 'chatforia_esim_global_5',
+          product: 'chatforia_esim_global_5_premium',
           gb: 5,
           title: t('upgrade.esim.global.5.title', 'Global 5 GB'),
-          desc: t('upgrade.esim.global.5.desc', 'Global coverage for moderate travel.'),
+          desc: t('upgrade.esim.global.5.desc', 'Perfect for moderate travel and daily connectivity.'),
         },
         {
-          product: 'chatforia_esim_global_10',
+          product: 'chatforia_esim_global_10_premium',
           gb: 10,
           title: t('upgrade.esim.global.10.title', 'Global 10 GB'),
-          desc: t('upgrade.esim.global.10.desc', 'Global coverage for longer trips and heavier use.'),
+          desc: t(
+            'upgrade.esim.global.10.desc',
+            'Ideal for longer trips, streaming, and frequent use.'
+          ),
         },
       ];
     }
@@ -634,57 +671,82 @@ export default function UpgradePage({ variant = 'account' }) {
     if (esimScope === ESIM_SCOPE_EUROPE) {
       return [
         {
-          product: 'chatforia_esim_europe_3',
+          product: 'chatforia_esim_europe_unlimited_premium',
+          gb: 999,
+          title: t('upgrade.esim.europe.unlimited.title', 'Europe Unlimited'),
+          desc: t(
+            'upgrade.esim.europe.unlimited.desc',
+            'Best for heavy usage, streaming, and never worrying about data limits.'
+          ),
+          kind: 'unlimited',
+        },
+        {
+          product: 'chatforia_esim_europe_3_premium',
           gb: 3,
           title: t('upgrade.esim.europe.3.title', 'Europe 3 GB'),
-          desc: t('upgrade.esim.europe.3.desc', 'Great for quick trips and light use.'),
+          desc: t('upgrade.esim.europe.3.desc', 'Great for quick trips, maps, and messaging.'),
         },
         {
-          product: 'chatforia_esim_europe_5',
+          product: 'chatforia_esim_europe_5_premium',
           gb: 5,
           title: t('upgrade.esim.europe.5.title', 'Europe 5 GB'),
-          desc: t('upgrade.esim.europe.5.desc', 'Weekend trips, maps, and regular messaging.'),
+          desc: t(
+            'upgrade.esim.europe.5.desc',
+            'Perfect for weekend trips and regular daily use.'
+          ),
         },
         {
-          product: 'chatforia_esim_europe_10',
+          product: 'chatforia_esim_europe_10_premium',
           gb: 10,
           title: t('upgrade.esim.europe.10.title', 'Europe 10 GB'),
-          desc: t('upgrade.esim.europe.10.desc', 'Longer stays and heavier usage.'),
+          desc: t(
+            'upgrade.esim.europe.10.desc',
+            'Ideal for longer stays, streaming, and daily use.'
+          ),
         },
         {
-          product: 'chatforia_esim_europe_20',
+          product: 'chatforia_esim_europe_20_premium',
           gb: 20,
           title: t('upgrade.esim.europe.20.title', 'Europe 20 GB'),
-          desc: t('upgrade.esim.europe.20.desc', 'Power travelers and hotspot use.'),
+          desc: t('upgrade.esim.europe.20.desc', 'Best for power users, hotspot use, and heavy browsing'),
         },
       ];
     }
 
-    // Local default
     return [
       {
-        product: 'chatforia_esim_local_3',
+        product: 'chatforia_esim_local_unlimited_premium',
+        gb: 999,
+        title: t('upgrade.esim.local.unlimited.title', 'Local Unlimited'),
+        desc: t(
+          'upgrade.esim.local.unlimited.desc',
+          'Best for heavy usage, streaming, and never worrying about data limits.'
+        ),
+        kind: 'unlimited',
+      },
+      {
+        product: 'chatforia_esim_local_3_premium',
         gb: 3,
         title: t('upgrade.esim.local.3.title', 'Local 3 GB'),
-        desc: t('upgrade.esim.local.3.desc', 'Light use and short coverage needs.'),
+        desc: t('upgrade.esim.local.3.desc', 'Great for light use, maps, and messaging.'),
       },
       {
-        product: 'chatforia_esim_local_5',
+        product: 'chatforia_esim_local_5_premium',
         gb: 5,
         title: t('upgrade.esim.local.5.title', 'Local 5 GB'),
-        desc: t('upgrade.esim.local.5.desc', 'Regular daily usage.'),
+        desc: t('upgrade.esim.local.5.desc', 'Perfect for everyday use and regular browsing.'),
       },
       {
-        product: 'chatforia_esim_local_10',
+        product: 'chatforia_esim_local_10_premium',
         gb: 10,
         title: t('upgrade.esim.local.10.title', 'Local 10 GB'),
-        desc: t('upgrade.esim.local.10.desc', 'Heavy usage and media sharing.'),
+        desc: t('upgrade.esim.local.10.desc', 'Ideal for streaming, sharing, and heavier daily use.'),
       },
       {
-        product: 'chatforia_esim_local_20',
+        product: 'chatforia_esim_local_20_premium',
         gb: 20,
         title: t('upgrade.esim.local.20.title', 'Local 20 GB'),
-        desc: t('upgrade.esim.local.20.desc', 'Power users and hotspot scenarios.'),
+        desc: t('upgrade.esim.local.20.desc', 'Best for power users, hotspot, and high data usage.'),
       },
     ];
   }, [esimScope, t]);
@@ -693,7 +755,64 @@ export default function UpgradePage({ variant = 'account' }) {
   // - 2 items (Global) => 2 columns on md
   // - 4 items (Local/Europe) => 2 columns on md (clean 2x2)
   // - if you ever have 3 again, it’ll switch to 3
-  const esimMdCols = esimProducts.length === 3 ? 3 : 2;
+  const unlimitedPlan = useMemo(
+  () => esimProducts.find((p) => p.kind === 'unlimited') || null,
+  [esimProducts]
+);
+
+  const standardPlans = useMemo(
+    () => esimProducts.filter((p) => p.kind !== 'unlimited'),
+    [esimProducts]
+  );
+
+  const esimMdCols = standardPlans.length === 3 ? 3 : 2;
+
+  const getEsimPriceLabel = (product, fallbackLabel = '') => {
+    const quote = esimQuotes?.[product];
+    if (quote?.currency && typeof quote?.unitAmount === 'number') {
+      return formatMoney(quote.unitAmount, quote.currency);
+    }
+    return fallbackLabel;
+  };
+
+  const mobileSectionTitle = useMemo(() => {
+    if (esimScope === ESIM_SCOPE_EUROPE) {
+      return t('upgrade.mobile.region.europe', 'Chatforia Mobile for Europe');
+    }
+    if (esimScope === ESIM_SCOPE_GLOBAL) {
+      return t('upgrade.mobile.region.global', 'Chatforia Mobile Worldwide');
+    }
+    return t('upgrade.mobile.region.local', 'Chatforia Mobile in the U.S.');
+  }, [esimScope, t]);
+
+  const mobileSectionSubtitle = useMemo(() => {
+    if (esimScope === ESIM_SCOPE_EUROPE) {
+      return t(
+        'upgrade.mobile.region.europeSubtitle',
+        'Reliable connectivity across Europe with instant eSIM activation.'
+      );
+    }
+    if (esimScope === ESIM_SCOPE_GLOBAL) {
+      return t(
+        'upgrade.mobile.region.globalSubtitle',
+        'Stay connected across borders with flexible global eSIM options.'
+      );
+    }
+    return t(
+      'upgrade.mobile.region.localSubtitle',
+      'Reliable connectivity when you need data away from Wi-Fi.'
+    );
+  }, [esimScope, t]);
+
+  const scopeIntro = useMemo(() => {
+    if (esimScope === ESIM_SCOPE_EUROPE) {
+      return t('upgrade.mobile.scope.europe', 'Best for trips across Europe.');
+    }
+    if (esimScope === ESIM_SCOPE_GLOBAL) {
+      return t('upgrade.mobile.scope.global', 'Best for international travel.');
+    }
+    return t('upgrade.mobile.scope.local', 'Best for everyday use at home.');
+  }, [esimScope, t]);
 
   // fetch region-aware quotes on mount (app plans)
   useEffect(() => {
@@ -734,6 +853,14 @@ export default function UpgradePage({ variant = 'account' }) {
       }
     })();
   }, [esimProducts]);
+
+  useEffect(() => {
+  document.body.classList.add('upgrade-scroll-page');
+
+  return () => {
+    document.body.classList.remove('upgrade-scroll-page');
+  };
+}, []);
 
   const labelPlus = useMemo(() => {
   if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
@@ -920,7 +1047,13 @@ export default function UpgradePage({ variant = 'account' }) {
     : t('upgrade.auth.continue', 'Continue to login');
 
   const content = (
-    <Stack gap="xl" maw={900} mx="auto" p="md">
+  <Box
+    style={{
+      minHeight: '100vh',
+      overflowY: 'auto',
+    }}
+  >
+    <Stack gap="lg" maw={1200} mx="auto" p="sm">
       <Title order={1}>{t('upgrade.h1', 'Chatforia Pricing & Plans')}</Title>
 
       <Text c="dimmed" size="sm">
@@ -988,7 +1121,7 @@ export default function UpgradePage({ variant = 'account' }) {
             {t('upgrade.h2.app', 'Free, Plus, and Premium plans')}
           </Title>
 
-          <Group justify="flex-start" mt="sm">
+         <Group justify="flex-start" mt={6}>
             <SegmentedControl
               value={billingCycle}
               onChange={setBillingCycle}
@@ -1168,110 +1301,158 @@ export default function UpgradePage({ variant = 'account' }) {
         </>
       )}
 
-      {/* MOBILE (eSIM) SECTION */}
-      {(section === SECTION_MOBILE || variant === 'public') && (
+            {/* MOBILE SECTION */}
+      {section === SECTION_MOBILE && (
         <>
-          <Divider my="sm" />
+          <Divider my={6} />
 
-          <Stack gap="xs">
-            <Title order={2}>
-              {t('upgrade.mobile.title', 'Chatforia Mobile (eSIM data packs)')}
-            </Title>
-            <Text c="dimmed" size="sm">
-              {t(
-                'upgrade.mobile.subtitle.detail',
-                'Pick a one-time data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.'
-              )}
+          <Title order={2}>
+            {t('upgrade.mobile.title', 'Chatforia Mobile (eSIM data packs)')}
+          </Title>
+
+          <Text c="dimmed" size="sm">
+            {t(
+              'upgrade.mobile.subtitle',
+              'Stay connected anywhere — even without Wi-Fi. Chatforia is designed to keep you on the best available coverage for your trip.'
+            )}
+          </Text>
+
+          <Group gap="md" mt={4}>
+            <Text fw={600} c="dimmed">
+              {t('upgrade.mobile.feature.instant', '✔ Instant activation')}
             </Text>
+            <Text fw={600} c="dimmed">
+              {t('upgrade.mobile.feature.contracts', '✔ No contracts')}
+            </Text>
+            <Text fw={600} c="dimmed">
+              {t('upgrade.mobile.feature.coverage', '✔ Reliable coverage')}
+            </Text>
+          </Group>
 
-            <Group gap="md" mt="xs" wrap="wrap">
-              <Text size="sm" c="dimmed">
-                ✔ Instant activation
-              </Text>
-              <Text size="sm" c="dimmed">
-                ✔ No contracts
-              </Text>
-              <Text size="sm" c="dimmed">
-                ✔ Works worldwide
-              </Text>
-            </Group>
-          </Stack>
-
-          <Group justify="flex-start" mt="sm">
+          <Group justify="flex-start" mt={4}>
             <SegmentedControl
               value={esimScope}
               onChange={setEsimScope}
               data={[
-                { label: t('upgrade.esim.scope.local', 'Local'), value: ESIM_SCOPE_LOCAL },
-                { label: t('upgrade.esim.scope.europe', 'Europe'), value: ESIM_SCOPE_EUROPE },
-                { label: t('upgrade.esim.scope.global', 'Global'), value: ESIM_SCOPE_GLOBAL },
+                { label: t('upgrade.mobile.scope.localTab', 'Local'), value: ESIM_SCOPE_LOCAL },
+                { label: t('upgrade.mobile.scope.europeTab', 'Europe'), value: ESIM_SCOPE_EUROPE },
+                { label: t('upgrade.mobile.scope.globalTab', 'Global'), value: ESIM_SCOPE_GLOBAL },
               ]}
             />
           </Group>
 
-          <Text size="sm" c="dimmed" mt={4}>
-            {esimScope === ESIM_SCOPE_LOCAL &&
-              t('upgrade.esim.scope.localHelper', 'Best for everyday use at home.')}
-            {esimScope === ESIM_SCOPE_EUROPE &&
-              t('upgrade.esim.scope.europeHelper', 'Best for trips across Europe.')}
-            {esimScope === ESIM_SCOPE_GLOBAL &&
-              t('upgrade.esim.scope.globalHelper', 'Best for international travel.')}
-          </Text>
-
-          {isPublic && (
-            <Text size="sm" c="dimmed" mt={6} mb="sm">
-              {detectedCountryName ? `Local = ${detectedCountryName}` : 'Local = your current country'}
+          <Stack gap={4}>
+            <Text fw={600} mt={4}>
+              {mobileSectionTitle}
             </Text>
+            <Text size="sm" c="dimmed" lh={1.35}>
+              {mobileSectionSubtitle}
+            </Text>
+          </Stack>
+
+          {unlimitedPlan && (
+            <Card
+              withBorder
+              radius="xl"
+              shadow="sm"
+              p="md"
+              className="plan-card plan-card--highlight plan-card--highlight-yellow"
+            >
+              <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg" verticalSpacing="lg">
+                <Stack gap="sm">
+                  <Group gap={8} align="center" wrap="nowrap">
+                    <Wallet size={20} />
+                    <Title order={2}>{unlimitedPlan.title}</Title>
+                  </Group>
+
+                  <Badge color="orange" variant="filled" size="sm" style={{ alignSelf: 'flex-start' }}>
+                    {t('upgrade.mobile.badge.bestValue', 'Best Value')}
+                  </Badge>
+
+                  <Text size="sm" c="dimmed">
+                    {unlimitedPlan.desc}
+                  </Text>
+
+                  <Box>
+                    <Text fw={800} size="2rem" lh={1}>
+                      {getEsimPriceLabel(unlimitedPlan.product)}
+                      <Text component="span" size="sm" fw={500} c="dimmed" ml={6}>
+                        {oneTimeLabel}
+                      </Text>
+                    </Text>
+                  </Box>
+
+                  <Text size="sm" c="dimmed">
+                    {t(
+                      'upgrade.mobile.hero.subcopy',
+                      'High-speed data for heavy travel use, with a simple one-time purchase.'
+                    )}
+                  </Text>
+                </Stack>
+
+                <Stack gap={8} justify="space-between">
+                  <Stack
+                    gap={6}
+                    component="ul"
+                    className="plan-card-features"
+                    style={{ margin: 0, paddingLeft: '1.2rem' }}
+                  >
+                      <li><Text size="sm" component="span">High-speed data for heavy use</Text></li>
+                      <li><Text size="sm" component="span">Speeds may slow after high usage</Text></li>
+                      <li><Text size="sm" component="span">Reliable coverage</Text></li>
+                      <li><Text size="sm" component="span">Instant eSIM activation</Text></li>
+                      <li><Text size="sm" component="span">One-time pack, no contract</Text></li>
+                  </Stack>
+
+                  <Button
+                    onClick={() =>
+                      isAuthed
+                        ? startCheckoutWithProduct(unlimitedPlan.product)
+                        : navigate('/login?next=/upgrade')
+                    }
+                    loading={isAuthed ? loadingCheckout : false}
+                    aria-busy={isAuthed && loadingCheckout ? 'true' : 'false'}
+                    aria-label={t('upgrade.mobile.hero.aria', 'Buy unlimited eSIM plan')}
+                    fullWidth
+                  >
+                    {mobileCta}
+                  </Button>
+                </Stack>
+              </SimpleGrid>
+            </Card>
           )}
 
-          <Text size="xs" c="dimmed" mt={0}>
-            {t('upgrade.esim.note', 'We don’t sell data packs under 3 GB.')}
-          </Text>
+          <Stack gap={4}>
+            <Title order={4}>{t('upgrade.mobile.choosePack', 'Choose a data pack')}</Title>
+            <Text size="sm" c="dimmed">
+              {t(
+                'upgrade.mobile.choosePackSubtitle',
+                'Prefer a set amount of data? Pick the option that fits your trip.'
+              )}
+            </Text>
+          </Stack>
 
-          <SimpleGrid cols={{ base: 1, md: esimMdCols }} spacing="lg" mt="sm">
-            {esimProducts.map((p) => {
-              const q = esimQuotes[p.product];
-
+          <SimpleGrid cols={{ base: 1, md: esimMdCols }} spacing="lg">
+            {standardPlans.map((p) => {
               const isMostPopular = p.gb === 5;
-
-              const mobileFallbackPrices = {
-                chatforia_esim_local_3: '$14.99',
-                chatforia_esim_local_5: '$21.99',
-                chatforia_esim_local_10: '$32.99',
-                chatforia_esim_local_20: '$54.99',
-
-                chatforia_esim_europe_3: '$16.99',
-                chatforia_esim_europe_5: '$24.99',
-                chatforia_esim_europe_10: '$36.99',
-                chatforia_esim_europe_20: '$64.99',
-
-                chatforia_esim_global_3: '$21.99',
-                chatforia_esim_global_5: '$29.99',
-                chatforia_esim_global_10: '$44.99',
-              };
-
-              const priceLabel =
-                q?.currency && typeof q?.unitAmount === 'number'
-                  ? formatMoney(q.unitAmount, q.currency)
-                  : mobileFallbackPrices[p.product] || '—';
 
               return (
                 <PlanCard
                   key={p.product}
-                  testId={`plan-${p.product}`}
                   title={p.title}
-                  price={priceLabel}
-                  priceSuffix={oneTimeLabel}
                   description={p.desc}
+                  price={getEsimPriceLabel(p.product)}
+                  priceSuffix={oneTimeLabel}
                   features={[
-                    t(
-                      'upgrade.mobile.feature.esim',
-                      'Instant eSIM activation on supported devices'
-                    ),
-                    t('upgrade.mobile.feature.oneTime', 'One-time pack, no contract'),
-                    t('upgrade.mobile.feature.topUp', 'Top up anytime with another pack'),
+                    t('upgrade.mobile.card.feature.1', 'Reliable coverage'),
+                    t('upgrade.mobile.card.feature.2', 'Maps, messaging, and travel'),
+                    t('upgrade.mobile.card.feature.3', 'Instant eSIM activation'),
                   ]}
-                  badge={isMostPopular ? t('upgrade.mobile.badge.popular', 'Most Popular') : undefined}
+                  badge={
+                    isMostPopular
+                      ? t('upgrade.mobile.badge.popular', 'Most Popular')
+                      : undefined
+                  }
                   badgeColor={isMostPopular ? 'orange' : 'gray'}
                   tint={isMostPopular}
                   tintColor={isMostPopular ? 'yellow' : undefined}
@@ -1293,6 +1474,13 @@ export default function UpgradePage({ variant = 'account' }) {
             {t(
               'upgrade.mobile.disclaimer.devices',
               'eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region.'
+            )}
+          </Text>
+
+          <Text size="xs" c="dimmed">
+            {t(
+              'upgrade.mobile.disclaimer.fairUse',
+              'Unlimited options are intended for normal consumer use. Performance may vary based on network conditions and usage patterns.'
             )}
           </Text>
 
@@ -1328,6 +1516,7 @@ export default function UpgradePage({ variant = 'account' }) {
         </Group>
       )}
     </Stack>
+    </Box>
   );
 
   if (variant === 'public') return <div className="public-page auth-page">{content}</div>;
