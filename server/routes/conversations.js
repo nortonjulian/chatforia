@@ -145,6 +145,7 @@ router.get(
             deletedBySender: true,
             deletedForAll: true,
             createdAt: true,
+            editedAt: true,
             attachments: {
               select: { kind: true, mimeType: true, url: true },
               take: 12,
@@ -186,7 +187,7 @@ router.get(
           ? {
               text: previewText,
               messageId: lastMsg.id,
-              at: lastMsg.createdAt.toISOString(),
+              at: (lastMsg.editedAt || lastMsg.createdAt).toISOString(),
               ...media,
             }
           : null,

@@ -505,6 +505,17 @@ useEffect(() => {
       payload?.at ??
       payload?.message?.createdAt ??
       payload?.item?.createdAt ??
+      payload?.shaped?.createdAt ??
+      null
+    );
+  }
+
+  function getEditedAtFromPayload(payload) {
+    return (
+      payload?.editedAt ??
+      payload?.message?.editedAt ??
+      payload?.item?.editedAt ??
+      payload?.shaped?.editedAt ??
       null
     );
   }
@@ -567,44 +578,56 @@ useEffect(() => {
   };
 
   const onMessageEdited = (payload) => {
-    const roomId = getChatRoomIdFromPayload(payload);
-    const messageId = getMessageIdFromPayload(payload);
-    const text = getTextFromPayload(payload);
-    const media = getMediaFromPayload(payload);
+  const roomId = getChatRoomIdFromPayload(payload);
+  const messageId = getMessageIdFromPayload(payload);
+  const text = getTextFromPayload(payload);
+  const media = getMediaFromPayload(payload);
+  const editedAt = getEditedAtFromPayload(payload);
 
-    const safeText =
-      text ||
-      (media?.hasMedia
-        ? media.mediaKinds?.includes('image')
-          ? t('messages.mediaPhoto', '📷 Photo')
-          : media.mediaKinds?.includes('video')
-            ? t('messages.mediaVideo', '🎥 Video')
-            : media.mediaKinds?.includes('audio')
-              ? t('messages.mediaAudio', '🎙️ Audio')
-              : t('messages.mediaFile', '📎 Attachment')
-        : '');
+  const safeText =
+    text ||
+    (media?.hasMedia
+      ? media.mediaKinds?.includes('image')
+        ? t('messages.mediaPhoto', '📷 Photo')
+        : media.mediaKinds?.includes('video')
+          ? t('messages.mediaVideo', '🎥 Video')
+          : media.mediaKinds?.includes('audio')
+            ? t('messages.mediaAudio', '🎙️ Audio')
+            : t('messages.mediaFile', '📎 Attachment')
+      : '');
 
-    if (!messageId) return;
+  if (!messageId) return;
 
-    if (!roomId) {
-      load();
-      return;
-    }
+  if (!roomId) {
+    load();
+    return;
+  }
 
-    patchConversation('chat', roomId, (c) => {
-      const lastId = c?.last?.messageId ?? null;
-      if (!lastId || String(lastId) !== String(messageId)) return c;
+  let shouldBump = false;
 
-      return {
-        ...c,
-        last: {
-          ...(c.last || {}),
-          text: safeText,
-          ...media,
-        },
-      };
-    });
-  };
+  patchConversation('chat', roomId, (c) => {
+    const lastId = c?.last?.messageId ?? null;
+    if (!lastId || String(lastId) !== String(messageId)) return c;
+
+    const nextAt = editedAt || c?.last?.at || c?.updatedAt || null;
+    shouldBump = true;
+
+    return {
+      ...c,
+      updatedAt: nextAt,
+      last: {
+        ...(c.last || {}),
+        text: safeText,
+        at: nextAt,
+        ...media,
+      },
+    };
+  });
+
+  if (shouldBump) {
+    bumpToTop('chat', roomId);
+  }
+};
 
   const onMessageDeleted = (payload) => {
     const roomId = getChatRoomIdFromPayload(payload);

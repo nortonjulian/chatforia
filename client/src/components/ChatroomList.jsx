@@ -3,7 +3,7 @@ import { ScrollArea, Stack, NavLink, Badge, Text, Box, ActionIcon, Menu, Group }
 import { IconDotsVertical, IconTrash, IconArchive } from '@tabler/icons-react';
 import ChatListSkeleton from '@/components/skeletons/ChatListSkeleton';
 import EmptyState from '@/components/empty/EmptyState';
-import socket from '../lib/socket';
+import { useSocket } from '@/context/SocketContext';
 
 import useIsPremium from '@/hooks/useIsPremium';
 
@@ -62,6 +62,8 @@ export default function ChatroomList({
 
   const isPremium = useIsPremium();
 
+  const { socket } = useSocket();
+
     async function loadChatrooms(initial = false) {
     if (!currentUser?.id) return;
     const params = { limit: initial ? 50 : 30 };
@@ -102,6 +104,147 @@ export default function ChatroomList({
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser?.id]);
+
+  // 🔥 Realtime bump for chat threads (new messages, edits, media, etc.)
+useEffect(() => {
+  if (!socket) return;
+
+  function getPayloadRoomId(payload) {
+    return Number(
+      payload?.chatRoomId ??
+      payload?.chatroomId ??
+      payload?.roomId ??
+      payload?.message?.chatRoomId ??
+      payload?.item?.chatRoomId ??
+      0
+    );
+  }
+
+  function getPayloadTimestamp(payload) {
+    return (
+      payload?.editedAt ??
+      payload?.createdAt ??
+      payload?.message?.editedAt ??
+      payload?.message?.createdAt ??
+      payload?.item?.editedAt ??
+      payload?.item?.createdAt ??
+      new Date().toISOString()
+    );
+  }
+
+  const handleMessageUpsert = (payload) => {
+    const roomId = getPayloadRoomId(payload);
+    if (!roomId) return;
+
+    const at = getPayloadTimestamp(payload);
+
+    setChatrooms((prev) => {
+      const next = [...prev];
+      const idx = next.findIndex((r) => Number(r.id) === roomId);
+      if (idx === -1) return prev;
+
+      const updated = {
+        ...next[idx],
+        updatedAt: at,
+      };
+
+      next.splice(idx, 1);
+      next.unshift(updated);
+
+      return next;
+    });
+  };
+
+  socket.on('message:upsert', handleMessageUpsert);
+
+  return () => {
+    socket.off('message:upsert', handleMessageUpsert);
+  };
+}, [socket]);
+
+// 🔥 Realtime bump for edits (only if editing latest message)
+useEffect(() => {
+  if (!socket) return;
+
+  function getPayloadRoomId(payload) {
+    return Number(
+      payload?.chatRoomId ??
+      payload?.chatroomId ??
+      payload?.roomId ??
+      payload?.message?.chatRoomId ??
+      payload?.item?.chatRoomId ??
+      0
+    );
+  }
+
+  function getPayloadMessageId(payload) {
+    return Number(
+      payload?.id ??
+      payload?.message?.id ??
+      payload?.item?.id ??
+      0
+    );
+  }
+
+  function getPayloadTimestamp(payload) {
+    return (
+      payload?.editedAt ??
+      payload?.message?.editedAt ??
+      payload?.item?.editedAt ??
+      new Date().toISOString()
+    );
+  }
+
+  const handleMessageEdited = (payload) => {
+    const roomId = getPayloadRoomId(payload);
+    const messageId = getPayloadMessageId(payload);
+    if (!roomId || !messageId) return;
+
+    const at = getPayloadTimestamp(payload);
+
+    setChatrooms((prev) => {
+      const next = [...prev];
+      const idx = next.findIndex((r) => Number(r.id) === roomId);
+      if (idx === -1) return prev;
+
+      const room = next[idx];
+
+      const lastMessageId =
+        room?.raw?.lastMessage?.id ??
+        room?.lastMessage?.id ??
+        null;
+
+      if (!lastMessageId || Number(lastMessageId) !== messageId) {
+        return prev;
+      }
+
+      const updated = {
+        ...room,
+        updatedAt: at,
+        raw: {
+          ...room.raw,
+          updatedAt: at,
+          lastMessage: {
+            ...(room.raw?.lastMessage || {}),
+            id: messageId,
+            createdAt: at,
+          },
+        },
+      };
+
+      next.splice(idx, 1);
+      next.unshift(updated);
+
+      return next;
+    });
+  };
+
+  socket.on('message:edited', handleMessageEdited);
+
+  return () => {
+    socket.off('message:edited', handleMessageEdited);
+  };
+}, [socket]);
 
   // infinite scroll continues to paginate chatrooms (sms threads stay loaded once)
   useEffect(() => {
