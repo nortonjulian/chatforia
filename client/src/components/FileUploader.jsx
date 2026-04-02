@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ActionIcon } from '@mantine/core';
 import { IconUpload } from '@tabler/icons-react';
+import axiosClient from '../api/axiosClient';
 import { toast } from '../utils/toast';
 
 /**
@@ -40,18 +41,18 @@ export default function FileUploader({ button, onUploaded, onError }) {
     try {
       const sha = await sha256OfFile(f).catch(() => null);
 
-      // 1) request intent
-      const intentRes = await fetch('/uploads/intent', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: f.name, size: f.size, mimeType: f.type, sha256: sha }),
-      });
-
-      if (!intentRes.ok) {
-        const body = await intentRes.json().catch(() => ({}));
-        throw new Error(body.error || 'Failed to create upload intent');
-      }
-      const intent = await intentRes.json();
+      const { data: intent } = await axiosClient.post(
+        '/uploads/intent',
+        {
+          name: f.name,
+          size: f.size,
+          mimeType: f.type,
+          sha256: sha,
+        },
+        {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        }
+      );
 
       const { uploadUrl, key, publicUrl } = intent;
 
@@ -82,23 +83,19 @@ export default function FileUploader({ button, onUploaded, onError }) {
         xhr.send(f);
       });
 
-      // 3) notify server upload is complete
-      const completeRes = await fetch('/uploads/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+      const { data: complete } = await axiosClient.post(
+        '/uploads/complete',
+        {
           key,
           name: f.name,
           mimeType: f.type,
           size: f.size,
-        }),
-      });
+        },
+        {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        }
+      );
 
-      if (!completeRes.ok) {
-        const body = await completeRes.json().catch(() => ({}));
-        throw new Error(body.error || 'Upload complete failed');
-      }
-      const complete = await completeRes.json();
       const fileMeta = complete.file;
 
       // If publicUrl was provided earlier, prefer it

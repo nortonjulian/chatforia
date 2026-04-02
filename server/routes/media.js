@@ -29,12 +29,13 @@ const ACCEPTED_MIME = new Set([
   // video (optional)
   'video/mp4',
   'video/webm',
+  'video/quicktime', 
   // docs (optional)
   'application/pdf',
 ]);
 
 // Per-plan file size limits (MB)
-const PLAN_LIMITS_MB = { free: 10, pro: 100, team: 250 };
+const PLAN_LIMITS_MB = { free: 50, pro: 200, team: 500 };
 function getMaxMbForUser(user) {
   const plan = user?.plan || 'free';
   return PLAN_LIMITS_MB[plan] ?? PLAN_LIMITS_MB.free;
