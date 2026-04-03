@@ -218,14 +218,35 @@ export async function getRoomMessages(roomId) {
 /**
  * Simple full-text search across rawContent and decrypted/translated text.
  */
+function normalize(str) {
+  return String(str || '')
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')   // remove punctuation
+    .replace(/\s+/g, ' ')      // normalize spaces
+    .trim();
+}
+
 export async function searchRoom(roomId, query) {
-  const q = (query || '').trim().toLowerCase();
+  const q = normalize(query);
   if (!q) return [];
+
   const all = await getRoomMessages(roomId);
+
   return all.filter((m) => {
-    const t1 = (m.decryptedContent || m.translatedForMe || '').toLowerCase();
-    const t2 = (m.rawContent || '').toLowerCase();
-    return t1.includes(q) || t2.includes(q);
+    const visibleText =
+      m.decryptedContent ||
+      m.translatedForMe ||
+      m.rawContent ||
+      m.content ||
+      '';
+
+    const attachmentCaption = Array.isArray(m.attachments)
+      ? m.attachments.map((a) => a?.caption || '').join(' ')
+      : '';
+
+    const haystack = normalize(`${visibleText} ${attachmentCaption}`);
+
+    return haystack.includes(q);
   });
 }
 

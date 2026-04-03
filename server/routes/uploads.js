@@ -116,23 +116,24 @@ async function findExistingByDigestOrKey({ ownerId, digest }) {
 
 async function createUploadFlexible(data) {
   if (!HAS_UPLOAD_MODEL) return memCreate(data);
+
   const attempts = [
     data,
     (() => { const { driver, ...rest } = data; return rest; })(),
     (() => { const { size, ...rest } = data; return rest; })(),
     (() => { const { mimeType, ...rest } = data; return rest; })(),
     (() => { const { originalName, ...rest } = data; return rest; })(),
-    (() => { const { sha256: _s, ...rest } = data; return rest; })(),
     (() => { const { ownerId, ...rest } = data; return { ...rest, userId: data.ownerId }; })(),
-    (() => ({ ownerId: data.ownerId, key: data.key }))(),
+    (() => ({ ownerId: data.ownerId, key: data.key, sha256: data.sha256 }))(),
   ];
+
   for (const payload of attempts) {
     try {
       const rec = await prisma.upload.create({
         data: payload,
         select: { id: true, originalName: true, mimeType: true, size: true, key: true },
       });
-      // mirror for ACL + dedup consistency
+
       memRegistry.byId.set(rec.id, {
         id: rec.id,
         ownerId: Number(data.ownerId),
@@ -143,12 +144,17 @@ async function createUploadFlexible(data) {
         size: rec.size,
         persisted: true,
       });
-      if (data.sha256) memRegistry.byOwnerDigest.set(`${Number(data.ownerId)}:${data.sha256}`, rec.id);
+
+      if (data.sha256) {
+        memRegistry.byOwnerDigest.set(`${Number(data.ownerId)}:${data.sha256}`, rec.id);
+      }
+
       return rec;
     } catch {
       // try next
     }
   }
+
   return memCreate(data);
 }
 
@@ -209,7 +215,7 @@ router.post('/complete', requireAuth, async (req, res) => {
     const publicUrl = process.env.STORAGE_PUBLIC_BASE_URL ? buildPublicUrlForKey(key) : null;
 
     // Create DB row (flexible creation to tolerate schema differences)
-    const uploadRow = await createUploadFlexible({
+    const uploadPayload = {
       ownerId,
       key,
       sha256: sha || undefined,
@@ -217,7 +223,17 @@ router.post('/complete', requireAuth, async (req, res) => {
       mimeType,
       size: Number(size) || 0,
       driver: process.env.STORAGE_BUCKET ? 's3' : 'local',
-    });
+    };
+
+    const uploadRow = sha
+      ? await createUploadFlexible(uploadPayload)
+      : {
+          id: null,
+          key,
+          originalName: uploadPayload.originalName,
+          mimeType,
+          size: uploadPayload.size,
+        };
 
     // (Optional) Thumbnail generation: skip heavy operations in this route to keep it fast.
     // You can enqueue a worker or separate job to generate thumbs from the bucket.

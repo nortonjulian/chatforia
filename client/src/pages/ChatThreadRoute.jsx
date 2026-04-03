@@ -12,44 +12,44 @@ export default function ChatThreadRoute() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let alive = true;
+  let alive = true;
 
-    (async () => {
-      try {
-        setLoading(true);
+  (async () => {
+    try {
+      setLoading(true);
 
-        console.log('[ChatThreadRoute] route param id =', id);
+      console.log('[ChatThreadRoute] route param id =', id);
 
-        const { data } = await axiosClient.get(`/rooms/${id}`);
-
-        console.log('[ChatThreadRoute] loaded via /rooms/:id', data);
-
-        if (!alive) return;
-
-        const room = data?.room ?? data?.chatroom ?? data?.item ?? data ?? null;
-
-        console.log('[ChatThreadRoute] normalized room =', room);
-
-        setChatroom(room);
-      } catch (e) {
-        console.error('[ChatThreadRoute] load failed', {
-          id,
-          status: e?.response?.status,
-          data: e?.response?.data,
-          message: e?.message,
-        });
-
-        if (!alive) return;
-        setChatroom(null);
-      } finally {
-        if (alive) setLoading(false);
+      const roomId = Number(id);
+      if (!Number.isFinite(roomId)) {
+        console.error('[ChatThreadRoute] non-numeric chat id:', id);
+        if (alive) setChatroom(null);
+        return;
       }
-    })();
 
-    return () => {
-      alive = false;
-    };
-  }, [id]);
+      const { data } = await axiosClient.get(`/chatrooms/${roomId}`);
+
+      if (!alive) return;
+      setChatroom(data ?? null);
+    } catch (e) {
+      console.error('[ChatThreadRoute] load failed', {
+        id,
+        status: e?.response?.status,
+        data: e?.response?.data,
+        message: e?.message,
+      });
+
+      if (!alive) return;
+      setChatroom(null);
+    } finally {
+      if (alive) setLoading(false);
+    }
+  })();
+
+  return () => {
+    alive = false;
+  };
+}, [id]);
 
   if (loading) {
     return (
@@ -68,22 +68,22 @@ export default function ChatThreadRoute() {
   }
 
   return (
-  <Box
-    style={{
-      flex: 1,
-      minHeight: 0,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-    }}
-  >
-    <ChatView
-      key={chatroom?.id}
-      chatroom={chatroom}
-      currentUserId={currentUser?.id}
-      currentUser={currentUser}
-    />
-  </Box>
-);
+    <Box
+      style={{
+        flex: 1,
+        minHeight: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+      }}
+    >
+      <ChatView
+        key={chatroom?.id}
+        chatroom={chatroom}
+        currentUserId={currentUser?.id}
+        currentUser={currentUser}
+      />
+    </Box>
+  );
 }

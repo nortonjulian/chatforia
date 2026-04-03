@@ -1,11 +1,50 @@
 import { useEffect, useState } from 'react';
-import { Drawer, TextInput, Stack, ScrollArea, Text, Group, Badge, Divider } from '@mantine/core';
-import { searchRoom } from '../utils/messagesStore';
+import {
+  Drawer,
+  TextInput,
+  Stack,
+  ScrollArea,
+  Text,
+  Group,
+  Badge,
+  Divider,
+  Box,
+} from '@mantine/core';
 import useIsPremium from '@/hooks/useIsPremium';
 import AdSlot from '../ads/AdSlot';
 import { PLACEMENTS } from '@/ads/placements';
 
-export default function RoomSearchDrawer({ opened, onClose, roomId, onJump }) {
+function normalize(str) {
+  return String(str || '')
+    .toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getSearchableText(m) {
+  const visibleText =
+    m.decryptedContent ||
+    m.translatedForMe ||
+    m.rawContent ||
+    m.content ||
+    m.body ||
+    '';
+
+  const attachmentCaption = Array.isArray(m.attachments)
+    ? m.attachments.map((a) => a?.caption || '').join(' ')
+    : '';
+
+  return normalize(`${visibleText} ${attachmentCaption}`);
+}
+
+export default function RoomSearchDrawer({
+  opened,
+  onClose,
+  roomId,
+  onJump,
+  messages = [],
+}) {
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const isPremium = useIsPremium();
@@ -16,19 +55,18 @@ export default function RoomSearchDrawer({ opened, onClose, roomId, onJump }) {
   }, [opened, roomId]);
 
   useEffect(() => {
-    let alive = true;
-    (async () => {
-      if (!q.trim()) {
-        setResults([]);
-        return;
-      }
-      const res = await searchRoom(roomId, q);
-      if (alive) setResults(Array.isArray(res) ? res.slice(-200) : []);
-    })();
-    return () => {
-      alive = false;
-    };
-  }, [q, roomId]);
+    const nq = normalize(q);
+
+    if (!nq) {
+      setResults([]);
+      return;
+    }
+
+    const source = Array.isArray(messages) ? messages : [];
+    const filtered = source.filter((m) => getSearchableText(m).includes(nq));
+
+    setResults(filtered.slice(-200));
+  }, [q, messages]);
 
   return (
     <Drawer
@@ -52,22 +90,46 @@ export default function RoomSearchDrawer({ opened, onClose, roomId, onJump }) {
         <ScrollArea h={500}>
           <Stack gap="xs">
             {results.map((m) => {
-              const text = (m.decryptedContent || m.translatedForMe || m.rawContent || '').slice(0, 240);
-              const click = () => onJump?.(m.id);
+              const text =
+                m.decryptedContent ||
+                m.translatedForMe ||
+                m.rawContent ||
+                m.content ||
+                m.body ||
+                '';
+
+              const handleClick = () => {
+                onJump?.(m.id);
+                onClose?.();
+              };
+
               return (
-                <Group key={m.id} style={{ cursor: 'pointer' }} align="start" onClick={click}>
-                  <Badge variant="light">{new Date(m.createdAt).toLocaleString()}</Badge>
-                  <Text size="sm">
-                    <span onClick={click}>{text}</span>
-                  </Text>
-                </Group>
+                <Box
+                  key={m.id}
+                  onClick={handleClick}
+                  style={{
+                    cursor: 'pointer',
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                  }}
+                >
+                  <Group align="start" wrap="nowrap">
+                    <Badge variant="light" style={{ flexShrink: 0 }}>
+                      {new Date(m.createdAt).toLocaleString()}
+                    </Badge>
+
+                    <Text size="sm" style={{ flex: 1, wordBreak: 'break-word' }}>
+                      {text.slice(0, 240) || '[No text]'}
+                    </Text>
+                  </Group>
+                </Box>
               );
             })}
-            {!results.length && q && <Text c="dimmed">No results</Text>}
+
+            {!results.length && q.trim() && <Text c="dimmed">No results</Text>}
           </Stack>
         </ScrollArea>
 
-        {/* Ad at the bottom of the drawer for Free tier only */}
         {!isPremium && (
           <>
             <Divider my="xs" />

@@ -149,9 +149,7 @@ export function SocketProvider({ children, autoJoin = true }) {
 
     refreshRoomsPromiseRef.current = (async () => {
       const candidates = [
-        '/rooms/mine',
-        '/rooms?mine=1',
-        '/chatrooms/mine',
+        '/chatrooms',
       ];
 
       for (const path of candidates) {

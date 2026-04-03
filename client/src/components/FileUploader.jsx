@@ -19,7 +19,7 @@ import { toast } from '../utils/toast';
  * 3) POST /uploads/complete { key, name, mimeType, size, width?, height? }
  * 4) call onUploaded(fileMeta)
  */
-export default function FileUploader({ button, onUploaded, onError }) {
+export default function FileUploader({ button, onStart, onProgress, onUploaded, onError }) {
   const inputRef = useRef();
 
   const handleClick = () => {
@@ -29,6 +29,8 @@ export default function FileUploader({ button, onUploaded, onError }) {
   const handleFiles = async (files) => {
     if (!files || files.length === 0) return;
     const f = files[0];
+
+    onStart?.(f);
 
     // small helper: compute SHA-256 if you want dedupe (optional)
     async function sha256OfFile(file) {
@@ -67,8 +69,7 @@ export default function FileUploader({ button, onUploaded, onError }) {
         xhr.upload.onprogress = (ev) => {
           if (ev.lengthComputable) {
             const pct = Math.round((ev.loaded / ev.total) * 100);
-            // optional: expose progress via UI/state if desired
-            // toast.info(`Upload ${pct}%`);
+            onProgress?.(pct, f);
           }
         };
 
@@ -90,6 +91,7 @@ export default function FileUploader({ button, onUploaded, onError }) {
           name: f.name,
           mimeType: f.type,
           size: f.size,
+          sha256: sha,
         },
         {
           headers: { 'X-Requested-With': 'XMLHttpRequest' },
@@ -106,12 +108,14 @@ export default function FileUploader({ button, onUploaded, onError }) {
         key: fileMeta.key,
         url: fileMeta.url,
         name: fileMeta.name || f.name,
-        contentType: fileMeta.contentType || f.type,
+        mimeType: fileMeta.contentType || fileMeta.mimeType || f.type,
+        contentType: fileMeta.contentType || fileMeta.mimeType || f.type,
         size: fileMeta.size || f.size,
         width: fileMeta.width || null,
         height: fileMeta.height || null,
         durationSec: fileMeta.durationSec || null,
         thumbUrl: fileMeta.thumbUrl || null,
+        thumbnailUrl: fileMeta.thumbnailUrl || null,
       };
 
       onUploaded?.(finalMeta);
@@ -149,6 +153,8 @@ export default function FileUploader({ button, onUploaded, onError }) {
 
 FileUploader.propTypes = {
   button: PropTypes.node,
+  onStart: PropTypes.func,
+  onProgress: PropTypes.func,
   onUploaded: PropTypes.func,
   onError: PropTypes.func,
 };

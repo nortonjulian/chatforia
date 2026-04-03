@@ -142,6 +142,22 @@ export async function createMessageService({
 
   const recipientUsers = participants.map((p) => p.user).filter(Boolean);
   const recipientsExceptSender = recipientUsers.filter((u) => u.id !== sender.id);
+  
+  // 🔥 Strip placeholder text if media exists
+  const placeholderTexts = new Set([
+    '[image]',
+    '[video]',
+    '[audio]',
+    '[file]',
+    '[attachment]',
+  ]);
+
+  const normalizedContent = typeof content === 'string' ? content.trim().toLowerCase() : '';
+  const isPlaceholder = placeholderTexts.has(normalizedContent);
+
+  if (attachments?.length && isPlaceholder) {
+    content = '';
+  }
 
   // 3) Profanity filtering
   const isMsgExplicit = content ? isExplicit(content) : false;

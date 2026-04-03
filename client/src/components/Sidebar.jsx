@@ -87,7 +87,7 @@ function Sidebar({ currentUser }) {
 
       console.log('[Sidebar] selected thread object:', thread);
 
-      if (thread.kind === 'sms') {
+      if (thread.kind === 'sms' || thread.type === 'sms') {
         navigate(`/sms/${thread.id}`);
         return;
       }
@@ -98,9 +98,12 @@ function Sidebar({ currentUser }) {
         thread.chatroomId ??
         thread.id;
 
-      console.log('[Sidebar] resolved roomId for navigation:', roomId);
+      if (!Number.isFinite(Number(roomId))) {
+        console.warn('[Sidebar] prevented invalid chat navigation:', thread);
+        return;
+      }
 
-      navigate(`/chat/${roomId}`);
+      navigate(`/chat/${Number(roomId)}`);
     },
     [navigate]
   );

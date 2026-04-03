@@ -6,6 +6,7 @@ import {
   Trash2,
   CalendarPlus,
   ShieldAlert,
+  Copy,
 } from 'lucide-react';
 import dayjs from 'dayjs';
 
@@ -72,15 +73,46 @@ export default function MessageBubble({
 
   const mine = Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
 
-  const displayText = isTombstone
+  const attachments = normalizeAttachments(msg);
+  const hasMedia = !isTombstone && attachments.length > 0;
+  const attachmentCaption =
+  attachments
+    .map((a) => a?.caption?.trim())
+    .find((caption) => !!caption) || '';
+
+
+  const PLACEHOLDER_TEXTS = new Set([
+  '[image]',
+  '[video]',
+  '[audio]',
+  '[file]',
+  '[attachment]',
+  '[encrypted – key unavailable]',
+  '[encrypted - key unavailable]',
+  '[encrypted – could not decrypt]',
+  '[encrypted - could not decrypt]',
+  '[encrypted message — unlock your key to view]',
+  '[encrypted message - unlock your key to view]',
+]);
+
+  const candidateText = isTombstone
     ? 'This message was deleted'
     : (
-        msg.decryptedContent ||
+        (msg.editedAt ? null : msg.decryptedContent) ||
         msg.translatedForMe ||
         msg.rawContent ||
         msg.content ||
-        (msg.contentCiphertext ? '[Encrypted message — unlock your key to view]' : '')
+        attachmentCaption ||
+        (!hasMedia && msg.contentCiphertext
+          ? '[Encrypted message — unlock your key to view]'
+          : '')
       );
+
+  const rawText = String(candidateText || '').trim();
+  const normalizedText = rawText.toLowerCase();
+  const isPlaceholder = PLACEHOLDER_TEXTS.has(normalizedText);
+
+  const displayText = isPlaceholder ? '' : candidateText;
 
   const bubbleStyle = mine
     ? {
@@ -94,21 +126,23 @@ export default function MessageBubble({
       };
 
   const hasDeleteMe = typeof onDeleteMe === 'function';
-  const hasText = !!displayText?.trim();
+
+// Never show placeholder text under media.
+// Only show text for media when it's a real caption.
+  const hasText = !!displayText?.trim() && (!hasMedia ? true : !isPlaceholder);
+
   const hasAddToCalendar =
     typeof onAddToCalendar === 'function' &&
     messageHasDate(displayText);
-  const hasReport = typeof onReport === 'function';
 
+  const hasReport = typeof onReport === 'function';
   const canEditHere = !isTombstone && mine && canEdit;
   const canDeleteAllHere = !isTombstone && mine && canDeleteAll;
+  const canCopy = !!displayText?.trim();
 
   const hasAnyActions =
     !isTombstone &&
-    (canEditHere || canDeleteAllHere || hasDeleteMe || hasAddToCalendar || hasReport);
-
-  const attachments = normalizeAttachments(msg);
-  const hasMedia = !isTombstone && attachments.length > 0;
+    (canCopy || canEditHere || canDeleteAllHere || hasDeleteMe || hasAddToCalendar || hasReport);
 
   const tailBg = mine
     ? 'var(--bubble-outgoing, #f7a600)'
@@ -125,6 +159,28 @@ export default function MessageBubble({
         textAlign: 'left',
       };
 
+  async function handleCopy() {
+    if (!canCopy) return;
+
+    try {
+      await navigator.clipboard.writeText(displayText);
+    } catch {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = displayText;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch {
+        // no-op for now; keep this surgical
+      }
+    }
+  }
+  
   return (
     <Box
       px="md"
@@ -205,6 +261,15 @@ export default function MessageBubble({
                       onClick={() => onReport?.(msg)}
                     >
                       Report
+                    </Menu.Item>
+                  )}
+
+                  {canCopy && (
+                    <Menu.Item
+                      leftSection={<Copy size={16} />}
+                      onClick={handleCopy}
+                    >
+                      Copy
                     </Menu.Item>
                   )}
 

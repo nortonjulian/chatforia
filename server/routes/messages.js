@@ -1721,7 +1721,7 @@ async function editMessageCore(req, res) {
   await tx.message.update({
     where: { id: messageId },
     data: {
-      rawContent: isEncryptedMessage ? '' : newContent,
+      rawContent: newContent ?? '',
       contentCiphertext: isEncryptedMessage
         ? (hasEncryptedTextPayload ? contentCiphertext : existing.contentCiphertext)
         : existing.contentCiphertext,
@@ -1744,7 +1744,7 @@ async function editMessageCore(req, res) {
         width: a.width ?? null,
         height: a.height ?? null,
         durationSec: a.durationSec ?? null,
-        caption: a.caption ?? null,
+        caption: a.caption ?? newContent ?? null,
         thumbUrl: a.thumbUrl ?? null,
       })),
     });

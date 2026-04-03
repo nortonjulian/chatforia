@@ -43,6 +43,9 @@ export default function BottomComposer({
 
   const [pendingAttachment, setPendingAttachment] = useState(null);
   const [isPreviewHovered, setIsPreviewHovered] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState('');
 
   const handleSend = async (payloadOrEvent) => {
   if (disabled) return;
@@ -57,16 +60,21 @@ export default function BottomComposer({
     payloadOrEvent.preventDefault?.();
   }
 
-  const outgoing = !isEvent && payloadOrEvent
-    ? payloadOrEvent
-    : {
-        text: value || '',
-        attachments: pendingAttachment ? [pendingAttachment] : [],
-      };
+  const attachments = pendingAttachment ? [pendingAttachment] : [];
 
-  const hasText = !!String(outgoing.text || '').trim();
-  const hasAttachments =
-    Array.isArray(outgoing.attachments) && outgoing.attachments.length > 0;
+  const rawText = value || '';
+  const trimmedText = rawText.trim();
+
+  const hasAttachments = attachments.length > 0;
+  const hasText = !!trimmedText;
+
+  // ✅ Prevent placeholder / empty text when sending media-only
+  const outgoing = !isEvent && payloadOrEvent
+  ? payloadOrEvent
+  : {
+      text: hasAttachments && !hasText ? '' : rawText,
+      attachments,
+    };
 
   if (!hasText && !hasAttachments) return;
 
@@ -74,6 +82,8 @@ export default function BottomComposer({
   await onSend?.(outgoing);
 
   setPendingAttachment(null);
+  setUploadProgress(0);
+  setUploadStatus('');
   onChange?.('');
 };
 
@@ -109,55 +119,142 @@ export default function BottomComposer({
           >
             {topSlot ? <div style={{ marginBottom: 8 }}>{topSlot}</div> : null}
 
-            {pendingAttachment && (
-              <div
-                style={{
-                  marginBottom: 8,
-                  position: 'relative',
-                  display: 'block',
-                  width: 96,
-                  overflow: 'visible',
-                }}
-                onMouseEnter={() => setIsPreviewHovered(true)}
-                onMouseLeave={() => setIsPreviewHovered(false)}
-              >
-                <img
-                  src={pendingAttachment.previewUrl || pendingAttachment.url}
-                  alt="Selected GIF"
-                  style={{
-                    width: 96,
-                    borderRadius: 12,
-                    display: 'block',
-                  }}
-                />
-
-                {isPreviewHovered && (
-                  <button
-                    type="button"
-                    aria-label="Remove selected GIF"
-                    onClick={() => setPendingAttachment(null)}
-                    style={{
-                      position: 'absolute',
-                      top: 6,
-                      right: 6,
-                      width: 22,
-                      height: 22,
-                      borderRadius: '50%',
-                      border: 'none',
-                      cursor: 'pointer',
-                      background: 'rgba(0, 0, 0, 0.6)',
-                      color: 'white',
-                      fontSize: 14,
-                      lineHeight: '22px',
-                      textAlign: 'center',
-                      zIndex: 10,
-                    }}
-                  >
-                    ×
-                  </button>
-                )}
+            {uploading && (
+              <div style={{ fontSize: 12, opacity: 0.75, marginBottom: 8 }}>
+                {uploadStatus} {uploadProgress > 0 ? `${uploadProgress}%` : ''}
               </div>
             )}
+
+            {pendingAttachment && (() => {
+                const mime = String(pendingAttachment.mimeType || pendingAttachment.contentType || '').toLowerCase();
+                const isVideo = mime.startsWith('video/');
+                const isAudio = mime.startsWith('audio/');
+                const isImage = mime.startsWith('image/');
+
+                const previewSrc =
+                  pendingAttachment.previewUrl ||
+                  pendingAttachment.thumbUrl ||
+                  pendingAttachment.thumbnailUrl ||
+                  pendingAttachment.url;
+
+                return (
+                  <div
+                    style={{
+                      marginBottom: 8,
+                      position: 'relative',
+                      display: 'block',
+                      width: 96,
+                      overflow: 'visible',
+                    }}
+                    onMouseEnter={() => setIsPreviewHovered(true)}
+                    onMouseLeave={() => setIsPreviewHovered(false)}
+                  >
+                    {isVideo ? (
+                      previewSrc ? (
+                        <video
+                          src={previewSrc}
+                          poster={pendingAttachment.thumbUrl || pendingAttachment.thumbnailUrl || undefined}
+                          style={{
+                            width: 96,
+                            height: 96,
+                            objectFit: 'cover',
+                            borderRadius: 12,
+                            display: 'block',
+                            background: 'rgba(0,0,0,0.08)',
+                          }}
+                          muted
+                          playsInline
+                          preload="metadata"
+                        />
+                      ) : (
+                        <div
+                          style={{
+                            width: 96,
+                            height: 96,
+                            borderRadius: 12,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'rgba(0,0,0,0.08)',
+                            fontSize: 12,
+                          }}
+                        >
+                          Video
+                        </div>
+                      )
+                    ) : isAudio ? (
+                      <div
+                        style={{
+                          width: 96,
+                          height: 96,
+                          borderRadius: 12,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(0,0,0,0.08)',
+                          fontSize: 12,
+                        }}
+                      >
+                        Audio
+                      </div>
+                    ) : isImage ? (
+                      <img
+                        src={previewSrc}
+                        alt="Selected attachment"
+                        style={{
+                          width: 96,
+                          height: 96,
+                          objectFit: 'cover',
+                          borderRadius: 12,
+                          display: 'block',
+                          background: 'rgba(0,0,0,0.08)',
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: 96,
+                          height: 96,
+                          borderRadius: 12,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(0,0,0,0.08)',
+                          fontSize: 12,
+                        }}
+                      >
+                        File
+                      </div>
+                    )}
+
+                    {isPreviewHovered && (
+                      <button
+                        type="button"
+                        aria-label="Remove selected attachment"
+                        onClick={() => setPendingAttachment(null)}
+                        style={{
+                          position: 'absolute',
+                          top: 6,
+                          right: 6,
+                          width: 22,
+                          height: 22,
+                          borderRadius: '50%',
+                          border: 'none',
+                          cursor: 'pointer',
+                          background: 'rgba(0, 0, 0, 0.6)',
+                          color: 'white',
+                          fontSize: 14,
+                          lineHeight: '22px',
+                          textAlign: 'center',
+                          zIndex: 10,
+                        }}
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                );
+              })()}
 
             <Group gap="xs" wrap="nowrap" align="center" style={{ width: '100%' }}>
               {showGif && (
@@ -197,7 +294,7 @@ export default function BottomComposer({
               {showMic && (
                 <MicButton
                   onUploaded={(fileMeta) => {
-                    handleSend({ attachments: [fileMeta] });
+                    setPendingAttachment(fileMeta);
                   }}
                   variant="default"
                   size="lg"
@@ -220,8 +317,35 @@ export default function BottomComposer({
                       <ImageIcon size={18} />
                     </ActionIcon>
                   }
-                  onUploaded={(fileMeta) => handleSend({ attachments: [fileMeta] })}
-                  onError={() => {}}
+                  onStart={(file) => {
+                    setUploading(true);
+                    setUploadProgress(0);
+
+                    const mime = String(file?.type || '').toLowerCase();
+                    if (mime.startsWith('video/')) {
+                      setUploadStatus('Uploading video...');
+                    } else if (mime.startsWith('image/')) {
+                      setUploadStatus('Uploading image...');
+                    } else if (mime.startsWith('audio/')) {
+                      setUploadStatus('Uploading audio...');
+                    } else {
+                      setUploadStatus('Uploading file...');
+                    }
+                  }}
+                  onProgress={(pct) => {
+                    setUploadProgress(pct);
+                  }}
+                  onUploaded={(fileMeta) => {
+                    setUploading(false);
+                    setUploadProgress(100);
+                    setUploadStatus('');
+                    setPendingAttachment(fileMeta);
+                  }}
+                  onError={() => {
+                    setUploading(false);
+                    setUploadProgress(0);
+                    setUploadStatus('');
+                  }}
                 />
               )}
 

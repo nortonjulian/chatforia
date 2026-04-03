@@ -250,6 +250,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const [deleteMode, setDeleteMode] = useState('me');
   const [deleteSubmitting, setDeleteSubmitting] = useState(false);
 
+  const [jumpTargetId, setJumpTargetId] = useState(null);
+
   const pendingPages = useRef(new Set());
   const canLoadOlderRef = useRef(false);
 
@@ -295,6 +297,24 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     [chatroom?.id]
   );
 
+    const jumpToMessage = useCallback((messageId) => {
+    if (!messageId) return;
+
+    setJumpTargetId(Number(messageId));
+    setSearchOpen(false);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const el = document.querySelector(`[data-message-id="${Number(messageId)}"]`);
+        if (!el) return;
+
+        el.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      });
+    });
+  }, []);
 
   // ✅ Stable merge for realtime upsert (must be inside component)
   const mergeIncomingMessage = useCallback((incoming) => {
@@ -406,6 +426,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     () => currentUser?.enableSmartReplies ?? false
   );
 
+    useEffect(() => {
+    if (!jumpTargetId) return;
+    const t = setTimeout(() => setJumpTargetId(null), 2200);
+    return () => clearTimeout(t);
+  }, [jumpTargetId]);
+
   useEffect(() => {
     (async () => {
       if (currentUser?.enableSmartReplies !== undefined) {
@@ -476,6 +502,39 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   },
   [currentUserId]
 );
+
+  const PLACEHOLDER_TEXTS = new Set([
+    '[image]',
+    '[video]',
+    '[audio]',
+    '[file]',
+    '[attachment]',
+    'attachment',
+  ]);
+
+  function getDisplayText(msg) {
+    const raw =
+      msg?.decryptedContent ||
+      msg?.translatedForMe ||
+      msg?.rawContent ||
+      msg?.content ||
+      '';
+
+    const normalized = String(raw).trim().toLowerCase();
+
+    const hasRealText =
+      normalized &&
+      !PLACEHOLDER_TEXTS.has(normalized);
+
+    const hasAttachments =
+      Array.isArray(msg?.attachments) &&
+      msg.attachments.length > 0;
+
+    if (hasRealText) return raw;
+    if (hasAttachments) return 'Media attachment'; // or '' if you want nothing
+    return '';
+  }
+
   const startChatCall = useCallback(() => {
     if (!chatroom?.id) return;
     navigate(`/calls?roomId=${encodeURIComponent(String(chatroom.id))}`);
@@ -621,12 +680,19 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         toNum(currentUserId)
       );
 
+      const attachmentsWithCaption = editAttachments.map((a) => ({
+        ...a,
+        caption:
+          newText?.trim()
+            ? newText.trim()
+            : (a.caption ?? null),
+      }));
+
       const { data } = await axiosClient.patch(
         `/messages/${editTarget.id}/edit`,
         {
-          contentCiphertext: encrypted.ciphertext,
-          encryptedKeys: encrypted.encryptedKeys,
-          attachments: editAttachments,
+          newContent: newText,
+          attachments: attachmentsWithCaption,
         },
         { headers: { 'X-Requested-With': 'XMLHttpRequest' } }
       );
@@ -784,6 +850,12 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
               : [];
 
       const chronological = rows.slice().reverse();
+
+      if (chatroom?.id && chronological.length) {
+        addMessages(chatroom.id, chronological).catch((err) => {
+          console.warn('[ChatView] failed to cache messages for search', err);
+        });
+      }
 
       const maxId = rows
         .map((m) => Number(m?.id || 0))
@@ -2091,17 +2163,30 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                 minHeight: 0,
                 height: 0,
               }}
+              styles={{
+                content: {
+                  minHeight: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                },
+              }}
               viewportRef={scrollViewportRef}
               type="auto"
             >
               <Box
                 style={{
-                  minHeight: 0,
+                  flex: 1,
                   display: 'flex',
                   flexDirection: 'column',
                 }}
               >
-                <Stack gap="xs" p="xs">
+                <Stack
+                  gap="xs"
+                  p="xs"
+                  style={{
+                    marginTop: 'auto',
+                  }}
+                >
                   {messages.map((m, idx) => {
                     const msg = normalizeMsg(m);
                     const isLastOutgoing = msg.id && msg.id === lastOutgoingId;
@@ -2132,7 +2217,23 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     const showTail = !nextMsg || thisSenderId !== nextSenderId || isRestartAfterGap;
 
                     return (
-                      <Box key={msg.id ?? `${msg.createdAt}-${idx}`} mt={sameAsPrev ? 4 : 12}>
+                      <Box
+                        key={msg.id ?? `${msg.createdAt}-${idx}`}
+                        mt={sameAsPrev ? 4 : 12}
+                        data-message-id={msg.id ? Number(msg.id) : undefined}
+                        style={{
+                          borderRadius: 12,
+                          transition: 'background-color 220ms ease, box-shadow 220ms ease',
+                          backgroundColor:
+                            jumpTargetId && Number(msg.id) === Number(jumpTargetId)
+                              ? 'rgba(255, 193, 7, 0.18)'
+                              : 'transparent',
+                          boxShadow:
+                            jumpTargetId && Number(msg.id) === Number(jumpTargetId)
+                              ? '0 0 0 2px rgba(255, 193, 7, 0.45)'
+                              : 'none',
+                        }}
+                      >
                         <MessageBubble
                           msg={msg}
                           currentUserId={currentUserId}
@@ -2208,6 +2309,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
           opened={searchOpen}
           onClose={() => setSearchOpen(false)}
           roomId={chatroom.id}
+          onJump={jumpToMessage}
+          messages={messages}
         />
         <MediaGalleryModal
           opened={galleryOpen}
@@ -2262,18 +2365,81 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             </Group>
 
             {/* ✅ PREVIEW */}
-            {editAttachments?.length > 0 && (
-              <Box>
-                <img
-                  src={editAttachments[0]?.previewUrl || editAttachments[0]?.url}
-                  alt="Selected GIF"
-                  style={{
-                    width: 120,
-                    borderRadius: 12,
-                  }}
-                />
-              </Box>
-            )}
+              {editAttachments?.length > 0 && (() => {
+                const att = editAttachments[0];
+
+                const mime = String(att?.mimeType || att?.contentType || '').toLowerCase();
+                const isVideo = mime.startsWith('video/');
+                const isAudio = mime.startsWith('audio/');
+                const isImage = mime.startsWith('image/');
+
+                const src =
+                  att?.previewUrl ||
+                  att?.thumbUrl ||
+                  att?.thumbnailUrl ||
+                  att?.url;
+
+                return (
+                  <Box>
+                    {isVideo ? (
+                      <video
+                        src={src}
+                        style={{
+                          width: 120,
+                          height: 120,
+                          objectFit: 'cover',
+                          borderRadius: 12,
+                          background: 'rgba(0,0,0,0.08)',
+                        }}
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                    ) : isAudio ? (
+                      <Box
+                        style={{
+                          width: 120,
+                          height: 120,
+                          borderRadius: 12,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(0,0,0,0.08)',
+                          fontSize: 12,
+                        }}
+                      >
+                        Audio
+                      </Box>
+                    ) : isImage ? (
+                      <img
+                        src={src}
+                        alt="Selected attachment"
+                        style={{
+                          width: 120,
+                          height: 120,
+                          objectFit: 'cover',
+                          borderRadius: 12,
+                        }}
+                      />
+                    ) : (
+                      <Box
+                        style={{
+                          width: 120,
+                          height: 120,
+                          borderRadius: 12,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: 'rgba(0,0,0,0.08)',
+                          fontSize: 12,
+                        }}
+                      >
+                        File
+                      </Box>
+                    )}
+                  </Box>
+                );
+              })()}
 
             {/* Editor card */}
             <Box
@@ -2391,13 +2557,10 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
             {deleteTarget && (
               <Alert variant="light">
                 <Text size="sm">
-                  {(
-                    deleteTarget?.rawContent ||
-                    deleteTarget?.content ||
-                    deleteTarget?.decryptedContent ||
-                    (deleteTarget?.attachments?.length
-                      ? `[${deleteTarget.attachments[0].kind === 'IMAGE' ? 'Image' : deleteTarget.attachments[0].kind}]`
-                      : '')
+                  {getDisplayText(deleteTarget) && (
+                    <Text size="sm">
+                      {getDisplayText(deleteTarget)}
+                    </Text>
                   )}
                 </Text>
               </Alert>

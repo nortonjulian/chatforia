@@ -130,20 +130,82 @@ router.get(
 );
 
 // GET /chatrooms/:id  (full room payload for ChatView)
+// router.get(
+//   '/:id',
+//   requireAuth,
+//   asyncHandler(async (req, res) => {
+//     const rawId = req.params.id;
+
+//     if (!rawId || rawId === 'undefined' || rawId === 'null') {
+//       throw Boom.badRequest(`Invalid id (raw): ${rawId}`);
+//     }
+
+//     const id = Number(rawId);
+
+//     if (!Number.isFinite(id)) {
+//       throw Boom.badRequest(`Invalid id (parsed): ${rawId}`);
+//     }
+
+//     const me = Number(req.user.id);
+
+//     // Ensure requester is a participant
+//     const isParticipant = await prisma.participant.findFirst({
+//       where: { chatRoomId: id, userId: me },
+//       select: { userId: true },
+//     });
+//     if (!isParticipant) throw Boom.forbidden('Not a participant');
+
+//     const room = await prisma.chatRoom.findUnique({
+//       where: { id },
+//       include: {
+//         participants: {
+//           include: {
+//             user: {
+//               select: {
+//                 id: true,
+//                 username: true,
+//                 avatarUrl: true,
+//                 preferredLanguage: true,
+//                 publicKey: true,
+//               },
+//             },
+//           },
+//           orderBy: [{ role: 'desc' }, { userId: 'asc' }],
+//         },
+//       },
+//     });
+
+//     if (!room) throw Boom.notFound('Not found');
+//     return res.json(room);
+//   })
+// );
+
 router.get(
   '/:id',
   requireAuth,
   asyncHandler(async (req, res) => {
-    const id = Number(req.params.id);
-    if (!Number.isFinite(id)) throw Boom.badRequest('Invalid id');
+    console.log('[chatrooms/:id] URL =', req.originalUrl);
+    console.log('[chatrooms/:id] raw id =', req.params.id);
+
+    const rawId = req.params.id;
+
+    if (!rawId || rawId === 'undefined' || rawId === 'null') {
+      throw Boom.badRequest(`Invalid id (raw): ${rawId}`);
+    }
+
+    const id = Number(rawId);
+
+    if (!Number.isFinite(id)) {
+      throw Boom.badRequest(`Invalid id (parsed): ${rawId}`);
+    }
 
     const me = Number(req.user.id);
 
-    // Ensure requester is a participant
     const isParticipant = await prisma.participant.findFirst({
       where: { chatRoomId: id, userId: me },
       select: { userId: true },
     });
+
     if (!isParticipant) throw Boom.forbidden('Not a participant');
 
     const room = await prisma.chatRoom.findUnique({
