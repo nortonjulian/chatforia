@@ -87,6 +87,7 @@ export default function MessageBubble({
   '[audio]',
   '[file]',
   '[attachment]',
+  '[gif]',
   '[encrypted – key unavailable]',
   '[encrypted - key unavailable]',
   '[encrypted – could not decrypt]',

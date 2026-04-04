@@ -504,36 +504,46 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 );
 
   const PLACEHOLDER_TEXTS = new Set([
-    '[image]',
-    '[video]',
-    '[audio]',
-    '[file]',
-    '[attachment]',
-    'attachment',
-  ]);
+  '[image]',
+  '[video]',
+  '[audio]',
+  '[file]',
+  '[attachment]',
+  '[gif]',
+  'attachment',
+  '[encrypted – key unavailable]',
+  '[encrypted - key unavailable]',
+  '[encrypted – could not decrypt]',
+  '[encrypted - could not decrypt]',
+  '[encrypted message — unlock your key to view]',
+  '[encrypted message - unlock your key to view]',
+]);
 
   function getDisplayText(msg) {
-    const raw =
-      msg?.decryptedContent ||
-      msg?.translatedForMe ||
-      msg?.rawContent ||
-      msg?.content ||
-      '';
+    const candidates = [
+      msg?.decryptedContent,
+      msg?.translatedForMe,
+      msg?.rawContent,
+      msg?.content,
+    ];
 
-    const normalized = String(raw).trim().toLowerCase();
+  const hasAttachments =
+    Array.isArray(msg?.attachments) &&
+    msg.attachments.length > 0;
 
-    const hasRealText =
-      normalized &&
-      !PLACEHOLDER_TEXTS.has(normalized);
+  const firstNonPlaceholder = candidates.find((value) => {
+    const normalized = String(value || '').trim().toLowerCase();
+    return normalized && !PLACEHOLDER_TEXTS.has(normalized);
+  });
 
-    const hasAttachments =
-      Array.isArray(msg?.attachments) &&
-      msg.attachments.length > 0;
+  if (firstNonPlaceholder) return firstNonPlaceholder;
 
-    if (hasRealText) return raw;
-    if (hasAttachments) return 'Media attachment'; // or '' if you want nothing
-    return '';
-  }
+  const rawContentNormalized = String(msg?.rawContent || '').trim().toLowerCase();
+  if (rawContentNormalized === '[gif]') return '[gif]';
+
+  if (hasAttachments) return 'Media attachment';
+  return '';
+}
 
   const startChatCall = useCallback(() => {
     if (!chatroom?.id) return;
@@ -547,24 +557,51 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
   const scrollToBottomNow = useCallback(() => {
     const v = scrollViewportRef.current;
+
     if (v) {
+      const snapToBottom = () => {
+        v.scrollTop = v.scrollHeight;
+      };
+
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          v.scrollTop = v.scrollHeight;
+          snapToBottom();
+
+          // second pass for late media/GIF sizing
+          requestAnimationFrame(() => {
+            snapToBottom();
+          });
         });
       });
     } else {
       messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
     }
+
     setShowNewMessage(false);
   }, []);
 
   const scrollToBottom = useCallback(() => {
     const v = scrollViewportRef.current;
-    if (!v) return messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    requestAnimationFrame(() => {
+
+    if (!v) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      setShowNewMessage(false);
+      return;
+    }
+
+    const snapToBottom = () => {
       v.scrollTop = v.scrollHeight;
+    };
+
+    requestAnimationFrame(() => {
+      snapToBottom();
+
+      // second pass for tall GIFs / late layout expansion
+      requestAnimationFrame(() => {
+        snapToBottom();
+      });
     });
+
     setShowNewMessage(false);
   }, []);
 
