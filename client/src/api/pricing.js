@@ -168,7 +168,7 @@ function buildFallbackQuote({ product, country, currency }) {
     regionTier: 'ROW',
     currency: curr,
     unitAmount: amt,
-    stripePriceId: null,
+    providerPriceId: null,
     appleSku: null,
     googleSku: null,
     display: {

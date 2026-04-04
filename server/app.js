@@ -53,6 +53,7 @@ import contactRoutes from './routes/contacts.js';
 import invitesRouter from './routes/invites.js';
 import mediaRouter from './routes/media.js';
 import billingRouter from './routes/billing.js';
+import billingWebhook from './routes/billingWebhook.js';
 import featuresRouter from './routes/features.js';
 import peopleInvitesRouter from "./routes/peopleInvites.js";
 import contactsImportRouter from './routes/contactsImport.js';
@@ -205,7 +206,11 @@ export function createApp() {
   /* -------------------------------------------------
    * Stripe webhook: MUST receive raw Buffer body
    * -------------------------------------------------*/
-  app.use('/billing/webhook', express.raw({ type: 'application/json' }));
+  app.use(
+  '/billing/webhook',
+  express.raw({ type: 'application/json' }),
+  billingWebhook
+);
 
   /* Core middleware (after webhook raw) */
   app.use(cookieParser());

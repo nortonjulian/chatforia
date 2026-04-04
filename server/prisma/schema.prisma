@@ -113,13 +113,13 @@ enum CallMode {
 }
 
 enum CallStatus {
-  INITIATED   
-  RINGING     
-  ACTIVE      
-  DECLINED    
-  MISSED      
-  FAILED     
-  ENDED       
+  INITIATED
+  RINGING
+  ACTIVE
+  DECLINED
+  MISSED
+  FAILED
+  ENDED
 }
 
 enum NumberStatus {
@@ -259,10 +259,13 @@ model User {
   autoResponderSignature   String?
 
   // ---------- Billing ----------
-  stripeCustomerId     String? @unique
-  stripeSubscriptionId String?
+  billingProvider       String?
+  billingCustomerId     String?
+  billingSubscriptionId String?   @unique
+  subscriptionStatus    String    @default("INACTIVE")
+  subscriptionEndsAt    DateTime?
 
-  // Regional pricing (added)
+  // Regional pricing
   pricingRegion  RegionTier?
   billingCountry String?     @db.VarChar(2)
   currency       String?     @db.VarChar(8)
@@ -321,8 +324,8 @@ model User {
 
   mobileDataPackPurchases MobileDataPackPurchase[]
 
-  peopleInvitesCreated      PeopleInvite[]       @relation("PeopleInvitesCreated")
-  peopleInvitesAcceptedBy   PeopleInvite[]       @relation("PeopleInviteAcceptedBy")
+  peopleInvitesCreated    PeopleInvite[] @relation("PeopleInvitesCreated")
+  peopleInvitesAcceptedBy PeopleInvite[] @relation("PeopleInviteAcceptedBy")
 
   portRequests PortRequest[]
 
@@ -335,8 +338,8 @@ model User {
   showReadReceipts  Boolean @default(true)
   avatarUrl         String?
   emojiTag          String?
-  messageTone       String? @default("default.mp3")
-  ringtone          String? @default("classic.mp3")
+  messageTone       String? @default("Default.mp3")
+  ringtone          String? @default("Classic.mp3")
 
   voicemailEnabled        Boolean @default(true)
   voicemailAutoDeleteDays Int?
@@ -443,7 +446,7 @@ model Device {
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
   wrappedAccountKeyVer  Int?
-  pairingStatus         String?   // "pending" | "approved" | "rejected"
+  pairingStatus         String? // "pending" | "approved" | "rejected"
   pairingRequestedAt    DateTime?
   pairingApprovedAt     DateTime?
   pairingRejectedAt     DateTime?
@@ -656,21 +659,21 @@ model Participant {
 }
 
 model PeopleInvite {
-  id               Int       @id @default(autoincrement())
-  code             String    @unique
-  inviterUserId    Int
-  inviterUser      User      @relation("PeopleInvitesCreated", fields: [inviterUserId], references: [id], onDelete: Cascade)
+  id            Int    @id @default(autoincrement())
+  code          String @unique
+  inviterUserId Int
+  inviterUser   User   @relation("PeopleInvitesCreated", fields: [inviterUserId], references: [id], onDelete: Cascade)
 
   targetPhone      String?
   targetEmail      String?
-  channel          String    @default("share_link") // share_link | sms | email
-  status           String    @default("pending")    // pending | accepted | expired | revoked
+  channel          String  @default("share_link") // share_link | sms | email
+  status           String  @default("pending") // pending | accepted | expired | revoked
   acceptedByUserId Int?
-  acceptedByUser   User?     @relation("PeopleInviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
+  acceptedByUser   User?   @relation("PeopleInviteAcceptedBy", fields: [acceptedByUserId], references: [id], onDelete: SetNull)
 
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-  expiresAt        DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  expiresAt DateTime?
 
   @@index([inviterUserId])
   @@index([targetPhone])
@@ -1221,28 +1224,28 @@ model ForiaMessage {
 // ===================== 10) Telecom: Calls / Numbers / Voicemail / Porting =====================
 
 model Call {
-  id               Int        @id @default(autoincrement())
-  roomId           Int?
-  callerId         Int
-  calleeId         Int
-  mode             CallMode
-  status           CallStatus @default(RINGING)
+  id       Int        @id @default(autoincrement())
+  roomId   Int?
+  callerId Int
+  calleeId Int
+  mode     CallMode
+  status   CallStatus @default(RINGING)
 
-  offerSdp         String?
-  answerSdp        String?
-  createdAt        DateTime  @default(now())
-  startedAt        DateTime?
-  endedAt          DateTime?
-  twilioCallSid    String? @unique
-  durationSec      Int?
-  endReason        String?
-  fromLabel        String?
-  toLabel          String?
+  offerSdp      String?
+  answerSdp     String?
+  createdAt     DateTime  @default(now())
+  startedAt     DateTime?
+  endedAt       DateTime?
+  twilioCallSid String?   @unique
+  durationSec   Int?
+  endReason     String?
+  fromLabel     String?
+  toLabel       String?
 
-  caller           User @relation("CallCaller", fields: [callerId], references: [id])
-  callee           User @relation("CallCallee", fields: [calleeId], references: [id])
+  caller User @relation("CallCaller", fields: [callerId], references: [id])
+  callee User @relation("CallCallee", fields: [calleeId], references: [id])
 
-  voicemails       Voicemail[]
+  voicemails Voicemail[]
 
   @@index([callerId])
   @@index([calleeId])

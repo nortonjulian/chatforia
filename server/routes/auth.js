@@ -1206,6 +1206,76 @@ router.post(
   })
 );
 
+const FREE_THEMES = ['dawn', 'dark'];
+const PREMIUM_THEMES = ['midnight', 'neon', 'amoled', 'sunset', 'aurora', 'solarized', 'velvet'];
+
+const FREE_MESSAGE_TONES = ['Default.mp3', 'Vibrate.mp3'];
+const FREE_RINGTONES = ['Classic.mp3', 'Urgency.mp3'];
+
+const ALL_MESSAGE_TONES = [
+  'Default.mp3',
+  'Dreamer.mp3',
+  'Happy Message.mp3',
+  'Notify.mp3',
+  'Pop.mp3',
+  'Pulsating Sound.mp3',
+  'Text Message.mp3',
+  'Vibrate.mp3',
+  'Xylophone.mp3',
+];
+
+const ALL_RINGTONES = [
+  'Bells.mp3',
+  'Classic.mp3',
+  'Chimes.mp3',
+  'Digital Phone.mp3',
+  'Melodic.mp3',
+  'Organ Notes.mp3',
+  'Sound Reality.mp3',
+  'Street.mp3',
+  'Universfield.mp3',
+  'Urgency.mp3',
+];
+
+const PREMIUM_MESSAGE_TONES = ALL_MESSAGE_TONES.filter(
+  (x) => !FREE_MESSAGE_TONES.includes(x)
+);
+
+const PREMIUM_RINGTONES = ALL_RINGTONES.filter(
+  (x) => !FREE_RINGTONES.includes(x)
+);
+
+function hasPaidAccess(user) {
+  if (!user) return false;
+  if (user.role === 'ADMIN') return true;
+
+  const active =
+    user.subscriptionStatus === 'ACTIVE' &&
+    (!user.subscriptionEndsAt || new Date(user.subscriptionEndsAt) > new Date());
+
+  if (!active) return false;
+
+  return ['PLUS', 'PREMIUM', 'WIRELESS'].includes(String(user.plan || '').toUpperCase());
+}
+
+function sanitizeEntitledSettings(user) {
+  const safe = { ...user };
+  const paid = hasPaidAccess(safe);
+
+  if (!paid && PREMIUM_THEMES.includes(safe.theme)) {
+    safe.theme = 'dawn';
+  }
+
+  if (!paid && PREMIUM_MESSAGE_TONES.includes(safe.messageTone)) {
+    safe.messageTone = 'Default.mp3';
+  }
+
+  if (!paid && PREMIUM_RINGTONES.includes(safe.ringtone)) {
+    safe.ringtone = 'Classic.mp3';
+  }
+
+  return safe;
+}
 
 /* =========================
  *         ME
@@ -1217,52 +1287,53 @@ router.get(
     res.set('Cache-Control', 'no-store');
 
     const fullUser = await prisma.user.findUnique({
-      where: { id: req.user.id },
+      where: { id: Number(req.user.id) },
     });
 
     if (!fullUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const safeUser = sanitizeEntitledSettings(fullUser);
+    const paid = hasPaidAccess(safeUser);
+
     const userPayload = {
-      id: fullUser.id,
-      email: fullUser.email,
-      username: fullUser.username,
-      publicKey: fullUser.publicKey,
-      role: fullUser.role,
-      plan: fullUser.plan,
+      id: safeUser.id,
+      email: safeUser.email,
+      username: safeUser.username,
+      publicKey: safeUser.publicKey,
+      role: safeUser.role,
+      plan: safeUser.plan,
 
-      preferredLanguage: fullUser.preferredLanguage,
-      theme: fullUser.theme || 'dawn',
-      avatarUrl: fullUser.avatarUrl,
+      preferredLanguage: safeUser.preferredLanguage,
+      theme: safeUser.theme || 'dawn',
+      avatarUrl: safeUser.avatarUrl,
 
-      // 🔥 ADD THESE
-      autoTranslate: fullUser.autoTranslate,
-      showOriginalWithTranslation: fullUser.showOriginalWithTranslation,
-      allowExplicitContent: fullUser.allowExplicitContent,
-      showReadReceipts: fullUser.showReadReceipts,
-      autoDeleteSeconds: fullUser.autoDeleteSeconds,
+      autoTranslate: safeUser.autoTranslate,
+      showOriginalWithTranslation: safeUser.showOriginalWithTranslation,
+      allowExplicitContent: safeUser.allowExplicitContent,
+      showReadReceipts: safeUser.showReadReceipts,
+      autoDeleteSeconds: safeUser.autoDeleteSeconds,
 
-      privacyBlurEnabled: fullUser.privacyBlurEnabled,
-      privacyBlurOnUnfocus: fullUser.privacyBlurOnUnfocus,
-      privacyHoldToReveal: fullUser.privacyHoldToReveal,
-      notifyOnCopy: fullUser.notifyOnCopy,
+      privacyBlurEnabled: safeUser.privacyBlurEnabled,
+      privacyBlurOnUnfocus: safeUser.privacyBlurOnUnfocus,
+      privacyHoldToReveal: safeUser.privacyHoldToReveal,
+      notifyOnCopy: safeUser.notifyOnCopy,
 
-      ageBand: fullUser.ageBand,
-      wantsAgeFilter: fullUser.wantsAgeFilter,
-      randomChatAllowedBands: fullUser.randomChatAllowedBands,
+      ageBand: safeUser.ageBand,
+      wantsAgeFilter: safeUser.wantsAgeFilter,
+      randomChatAllowedBands: safeUser.randomChatAllowedBands,
 
-      foriaRemember: fullUser.foriaRemember,
+      foriaRemember: safeUser.foriaRemember,
 
-      voicemailEnabled: fullUser.voicemailEnabled,
-      voicemailAutoDeleteDays: fullUser.voicemailAutoDeleteDays,
-      voicemailForwardEmail: fullUser.voicemailForwardEmail,
-      voicemailGreetingText: fullUser.voicemailGreetingText,
-      voicemailGreetingUrl: fullUser.voicemailGreetingUrl,
+      voicemailEnabled: safeUser.voicemailEnabled,
+      voicemailAutoDeleteDays: safeUser.voicemailAutoDeleteDays,
+      voicemailForwardEmail: safeUser.voicemailForwardEmail,
+      voicemailGreetingText: safeUser.voicemailGreetingText,
+      voicemailGreetingUrl: safeUser.voicemailGreetingUrl,
 
-      // 🔥 CRITICAL
-      messageTone: fullUser.messageTone || 'Default.mp3',
-      ringtone: fullUser.ringtone || 'Classic.mp3',
+      messageTone: safeUser.messageTone || 'Default.mp3',
+      ringtone: safeUser.ringtone || 'Classic.mp3',
     };
 
     let subscriber = null;
@@ -1287,6 +1358,11 @@ router.get(
 
     return res.json({
       user: userPayload,
+      entitlements: {
+        canUsePremiumThemes: paid,
+        canUsePremiumMessageTones: paid,
+        canUsePremiumRingtones: paid,
+      },
       subscriber,
     });
   })

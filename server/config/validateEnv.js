@@ -70,49 +70,31 @@ export default function validateEnv() {
   }
 
   // ─────────────────────────────────────────────────────────────
-  // Stripe: if one is set, require the other (optional overall)
+  // Paddle (billing provider)
   // ─────────────────────────────────────────────────────────────
-  if (ENV.STRIPE_SECRET_KEY || ENV.STRIPE_WEBHOOK_SECRET) {
-    requireNonEmpty(ENV.STRIPE_SECRET_KEY, 'STRIPE_SECRET_KEY', { soft: SOFT });
-    requireNonEmpty(ENV.STRIPE_WEBHOOK_SECRET, 'STRIPE_WEBHOOK_SECRET', { soft: SOFT });
-  }
+    const wantsPaddle =
+      !!ENV.PADDLE_API_KEY ||
+      !!ENV.PADDLE_WEBHOOK_SECRET ||
+      String(ENV.BILLING_PROVIDER || '').toLowerCase() === 'paddle';
 
-  // ─────────────────────────────────────────────────────────────
-    // eSIM / Connectivity — only if explicitly enabled
-  // ─────────────────────────────────────────────────────────────
-  const esimEnabled = !!ENV.FEATURE_ESIM;
-  if (esimEnabled) {
-    requireNonEmpty(ENV.ESIM_PROVIDER, 'ESIM_PROVIDER', {
-      soft: SOFT,
-      advice: 'e.g. "oneglobal"',
-    });
+    if (wantsPaddle) {
+      requireNonEmpty(ENV.PADDLE_API_KEY, 'PADDLE_API_KEY', { soft: SOFT });
+      requireNonEmpty(ENV.PADDLE_WEBHOOK_SECRET, 'PADDLE_WEBHOOK_SECRET', { soft: SOFT });
 
-    const provider = (ENV.ESIM_PROVIDER || '').toLowerCase();
-
-    if (provider === 'oneglobal') {
-      requireNonEmpty(ENV.ONEGLOBAL_API_KEY, 'ONEGLOBAL_API_KEY', { soft: SOFT });
-      requireNonEmpty(ENV.ONEGLOBAL_BASE_URL, 'ONEGLOBAL_BASE_URL', { soft: SOFT });
-
-      if (!ENV.ONEGLOBAL_CALLBACK_URL && SOFT) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          '[env] ONEGLOBAL_CALLBACK_URL should be set for eSIM webhooks (e.g. https://your-domain.com/api/esim/webhooks/oneglobal)'
-        );
+      if (!IS_TEST && !ENV.PADDLE_ENVIRONMENT) {
+        console.warn('[env] PADDLE_ENVIRONMENT not set (sandbox or production)');
       }
-    } else {
-      // eslint-disable-next-line no-console
-      console.warn(
-        `[env] Unknown ESIM_PROVIDER "${provider}" — no provider-specific validation applied.`
-      );
     }
 
-    // Optional: warn if legacy TELNA_* are still set (so you remember to delete them later).
-    if (ENV.TELNA_API_KEY || ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        '[env] TELNA_* variables detected but ESIM_PROVIDER != "telna" — they are now unused.'
-      );
-    }
+  // ─────────────────────────────────────────────────────────────
+  // eSIM / Connectivity (Telna) — only if explicitly enabled
+  // ─────────────────────────────────────────────────────────────
+  const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
+  if (esimEnabled) {
+    requireNonEmpty(ENV.TELNA_API_KEY, 'TELNA_API_KEY', { soft: SOFT });
+    // accept either TELNA_BASE_URL or TELNA_API_BASE
+    const telnaBase = ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE;
+    requireNonEmpty(telnaBase, 'TELNA_BASE_URL / TELNA_API_BASE', { soft: SOFT });
   }
 
   // ─────────────────────────────────────────────────────────────

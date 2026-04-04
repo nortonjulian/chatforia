@@ -922,7 +922,7 @@ export default function UpgradePage({ variant = 'account' }) {
 
   // product-based checkout (for eSIM packs & future add-ons)
   const startCheckoutWithProduct = async (product) => {
-    if (!isAuthed) return navigate('/login?next=/upgrade');
+    return navigate('/register?next=/upgrade?section=mobile');
 
     try {
       setLoadingCheckout(true);
@@ -1063,21 +1063,19 @@ export default function UpgradePage({ variant = 'account' }) {
         )}
       </Text>
 
-      {!isPublic && (
-        <Group justify="flex-start">
-          <SegmentedControl
-            value={section}
-            onChange={setSection}
-            data={[
-              { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
-              { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
-              ...(ENABLE_FAMILY_SECTION
-                ? [{ label: t('upgrade.section.family', 'Family plans'), value: SECTION_FAMILY }]
-                : []),
-            ]}
-          />
-        </Group>
-      )}
+      <Group justify="flex-start">
+        <SegmentedControl
+          value={section}
+          onChange={setSection}
+          data={[
+            { label: t('upgrade.section.app', 'App plans'), value: SECTION_APP },
+            { label: t('upgrade.section.mobile', 'Mobile (eSIM)'), value: SECTION_MOBILE },
+            ...(ENABLE_FAMILY_SECTION
+              ? [{ label: t('upgrade.section.family', 'Family plans'), value: SECTION_FAMILY }]
+              : []),
+          ]}
+        />
+      </Group>
 
       {hasScheduledDowngrade && (
         <Alert
