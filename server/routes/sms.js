@@ -265,24 +265,42 @@ r.post(
   '/send',
   requireAuth,
   asyncHandler(async (req, res) => {
-    if (typeof smsService.sendUserSms !== 'function') {
-      throw Boom.badImplementation('smsService.sendUserSms is not implemented');
+    try {
+      console.log('[sms route] body', req.body);
+
+      if (typeof smsService.sendUserSms !== 'function') {
+        throw Boom.badImplementation('smsService.sendUserSms is not implemented');
+      }
+
+      const { to, body, from, mediaUrls } = req.body || {};
+      if (!to || (!body && (!Array.isArray(mediaUrls) || mediaUrls.length === 0))) {
+        throw Boom.badRequest('to and body (or mediaUrls) required');
+      }
+
+      const out = await smsService.sendUserSms({
+        userId: req.user.id,
+        to,
+        body,
+        from,
+        mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
+      });
+
+      return res.status(202).json(out);
+    } catch (err) {
+      console.error('[sms route /send] FAILED', err);
+
+      if (process.env.NODE_ENV !== 'production') {
+        return res.status(err?.output?.statusCode || 500).json({
+          error: err?.name || 'Error',
+          message: err?.message || 'Unknown error',
+          code: err?.output?.payload?.code || null,
+          details: err?.output?.payload || null,
+          stack: err?.stack || null,
+        });
+      }
+
+      throw err;
     }
-
-    const { to, body, from, mediaUrls } = req.body || {};
-    if (!to || (!body && (!Array.isArray(mediaUrls) || mediaUrls.length === 0))) {
-      throw Boom.badRequest('to and body (or mediaUrls) required');
-    }
-
-    const out = await smsService.sendUserSms({
-      userId: req.user.id,
-      to,
-      body,
-      from,
-      mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
-    });
-
-    res.status(202).json(out);
   })
 );
 

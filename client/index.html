@@ -2,6 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- ✅ AdSense (PLACE IT HERE) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8163977681153105"
+      crossorigin="anonymous"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatforia</title>
 
@@ -9,7 +14,7 @@
     <script>
       (function () {
         try {
-          const KEY = 'chatforia:themeMode'; // e.g. 'dawn', 'midnight', etc.
+          const KEY = 'chatforia:themeMode';
           const saved = localStorage.getItem(KEY) || 'dawn';
           document.documentElement.setAttribute('data-theme', saved);
         } catch {
@@ -23,12 +28,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
-    <!-- Favicons (light/dark) + Safari pinned tab -->
+    <!-- Favicons -->
     <link id="favicon-light" rel="icon" type="image/svg+xml" href="/favicons/favicon-light.svg" media="(prefers-color-scheme: light)">
     <link id="favicon-dark"  rel="icon" type="image/svg+xml" href="/favicons/favicon-dark.svg"  media="(prefers-color-scheme: dark)">
     <link id="mask-icon" rel="mask-icon" href="/favicons/pinned-tab.svg" color="#111111">
     <meta name="theme-color" content="#ffffff">
-  </head>
+</head>
 
   <body>
     <div id="root"></div>

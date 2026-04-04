@@ -1,12 +1,11 @@
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import axiosClient from '@/api/axiosClient';
 import {
   Box,
   Group,
   Text,
   Button,
-  TextInput,
   Textarea,
   FileButton,
 } from '@mantine/core';
@@ -18,6 +17,7 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import StickerPicker from '@/components/StickerPicker';
+import RecipientSelector from '@/components/RecipientSelector';
 import { NumberPickerModal } from '@/components/profile/PhoneNumberManager';
 
 /* ---------------- helpers ---------------- */
@@ -30,6 +30,31 @@ function toE164Dev(raw) {
   return `+${s}`;
 }
 
+function contactToRecipient(c) {
+  const username = c?.user?.username || '';
+  const alias = c?.alias || '';
+  const externalName = c?.externalName || '';
+  const externalPhone = c?.externalPhone || '';
+
+  const display =
+    alias ||
+    username ||
+    externalName ||
+    externalPhone ||
+    'Unknown contact';
+
+  const phone = externalPhone ? toE164Dev(externalPhone) : '';
+
+  if (!phone) return null;
+
+  return {
+    id: `contact:${c.id ?? c.userId ?? phone}`,
+    display,
+    type: 'contact',
+    phone,
+  };
+}
+
 /* ---------------- component ---------------- */
 
 export default function SmsCompose() {
@@ -39,7 +64,18 @@ export default function SmsCompose() {
   const presetTo = sp.get('to') || '';
   const presetName = sp.get('name') || '';
 
-  const [to, setTo] = useState(presetTo);
+  const [recipients, setRecipients] = useState(() => {
+    if (!presetTo) return [];
+    return [
+      {
+        id: `preset:${toE164Dev(presetTo)}`,
+        display: presetName || presetTo,
+        type: 'contact',
+        phone: toE164Dev(presetTo),
+      },
+    ];
+  });
+
   const [text, setText] = useState('');
   const [sending, setSending] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
@@ -47,9 +83,36 @@ export default function SmsCompose() {
 
   const inputRef = useRef(null);
 
-  /* -----------------------------------------------------------
-   * 🔥 KEY FIX: redirect to existing thread if it already exists
-   * ----------------------------------------------------------- */
+  const to = useMemo(() => {
+    const first = recipients[0];
+    if (!first) return '';
+    return first.phone || first.email || first.display || '';
+  }, [recipients]);
+
+  const fetchRecipientSuggestions = useCallback(async (query) => {
+    const q = String(query || '').trim().toLowerCase();
+    if (!q) return [];
+
+    const { data } = await axiosClient.get('/contacts', {
+      params: { limit: 50 },
+    });
+
+    const items = Array.isArray(data)
+      ? data
+      : Array.isArray(data?.items)
+        ? data.items
+        : [];
+
+    return items
+      .map(contactToRecipient)
+      .filter(Boolean)
+      .filter((r) => {
+        const display = String(r.display || '').toLowerCase();
+        const phone = String(r.phone || '').toLowerCase();
+        return display.includes(q) || phone.includes(q);
+      });
+  }, []);
+
   useEffect(() => {
     (async () => {
       if (!presetTo) return;
@@ -73,8 +136,17 @@ export default function SmsCompose() {
   }, [presetTo, navigate]);
 
   useEffect(() => {
-    if (presetTo) setTo(presetTo);
-  }, [presetTo]);
+    if (!presetTo) return;
+
+    setRecipients([
+      {
+        id: `preset:${toE164Dev(presetTo)}`,
+        display: presetName || presetTo,
+        type: 'contact',
+        phone: toE164Dev(presetTo),
+      },
+    ]);
+  }, [presetTo, presetName]);
 
   const canSend = useMemo(
     () => Boolean(to && text.trim()),
@@ -86,22 +158,22 @@ export default function SmsCompose() {
 
     setSending(true);
     try {
+      const normalizedTo = toE164Dev(to);
+
       const res = await axiosClient.post('/sms/send', {
-        to: toE164Dev(to),
+        to: normalizedTo,
         body: text.trim(),
       });
 
       const data = res.data;
 
-      // If backend returns threadId → navigate
       if (data?.threadId) {
         navigate(`/sms/${data.threadId}`);
         return;
       }
 
-      // Fallback: lookup thread after send
       const lookup = await axiosClient.get('/sms/threads/lookup', {
-        params: { to: toE164Dev(to) },
+        params: { to: normalizedTo },
       });
 
       if (lookup?.data?.threadId) {
@@ -143,7 +215,6 @@ export default function SmsCompose() {
         flexDirection: 'column',
       }}
     >
-      {/* Header */}
       <Group justify="space-between" px="md" py="xs">
         <Text fw={600}>New text</Text>
         <Button
@@ -156,23 +227,19 @@ export default function SmsCompose() {
         </Button>
       </Group>
 
-      {/* To field */}
       <Box px="md" pb="xs">
-        <TextInput
-          placeholder="To: phone number"
-          value={to}
-          onChange={(e) => setTo(e.currentTarget.value)}
-          leftSection={<Text size="sm">To</Text>}
-          description={presetName ? `Contact: ${presetName}` : undefined}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') inputRef.current?.focus();
-          }}
+        <RecipientSelector
+          value={recipients}
+          onChange={(next) => setRecipients(next.slice(0, 1))}
+          fetchSuggestions={fetchRecipientSuggestions}
+          maxRecipients={1}
+          allowRaw
+          placeholder="Enter a name or number"
         />
       </Box>
 
       <div style={{ flex: 1 }} />
 
-      {/* Composer */}
       <Box
         px="md"
         py="sm"
@@ -201,7 +268,7 @@ export default function SmsCompose() {
           <Textarea
             ref={inputRef}
             variant="filled"
-            placeholder="Type a message…"
+            placeholder={to ? 'Type a message…' : 'Add a recipient above to start…'}
             value={text}
             onChange={(e) => setText(e.target.value)}
             autosize

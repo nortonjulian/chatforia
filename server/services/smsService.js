@@ -195,81 +195,177 @@ function normalizeInboundMedia(media) {
 /*                                OUTBOUND SMS                                */
 /* -------------------------------------------------------------------------- */
 
+// export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
+//   const uid = Number(userId);
+
+//   const toPhone = normalizeE164(to);
+//   if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
+
+//   const safeBody = String(body ?? '').trim();
+//   const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
+
+//   if (!safeBody && safeMediaUrls.length === 0) {
+//     throw Boom.badRequest('body or mediaUrls required');
+//   }
+
+//   const alreadyOpted = await prisma.smsOptOut.findFirst({
+//     where: { phone: toPhone, provider: { in: ['twilio', null] } }, 
+//   });
+//   if (alreadyOpted) {
+//     const err = Boom.forbidden('Recipient has opted out of SMS');
+//     err.output.payload.code = 'SMS_OPTED_OUT';
+//     throw err;
+//   }
+
+//   const fromNumber = from
+//     ? await assertUserOwnsFromNumber(uid, from)
+//     : (await getUserActiveDid(uid)).e164;
+
+//   const thread = await upsertThread(uid, toPhone);
+//   const clientRef = `smsout:${uid}:${Date.now()}`;
+
+//   const result = await sendSms({
+//     to: toPhone,
+//     text: safeBody,
+//     clientRef,
+//     from: fromNumber,
+//     mediaUrls: safeMediaUrls,
+//   });
+
+//   const provider = result?.provider || 'twilio';
+
+//   await prisma.$transaction(async (tx) => {
+//     await tx.smsMessage.create({
+//       data: {
+//         threadId: thread.id,
+//         direction: 'out',
+//         fromNumber,
+//         toNumber: toPhone,
+//         body: safeBody,
+//         provider,
+//         providerMessageId: result?.messageSid || result?.messageId || null,
+//         mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
+//       },
+//     });
+
+//     await tx.phoneNumber.updateMany({
+//       where: {
+//         assignedUserId: uid,
+//         e164: fromNumber,
+//         status: { in: ['ASSIGNED', 'HOLD'] },
+//       },
+//       data: { lastOutboundAt: new Date() },
+//     });
+
+//     await tx.smsThread.update({
+//       where: { id: thread.id },
+//       data: { updatedAt: new Date() },
+//     });
+//   });
+
+//   return {
+//     ok: true,
+//     threadId: thread.id,
+//     provider,
+//     messageSid: result?.messageSid || null,
+//     clientRef: result?.clientRef || null,
+//   };
+// }
+
 export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
-  const uid = Number(userId);
+  try {
+    const uid = Number(userId);
 
-  const toPhone = normalizeE164(to);
-  if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
+    console.log('[smsService] start', { userId, to, body, from, mediaUrls });
 
-  const safeBody = String(body ?? '').trim();
-  const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
+    const toPhone = normalizeE164(to);
+    console.log('[smsService] normalized toPhone', { toPhone });
+    if (!isE164(toPhone)) throw Boom.badRequest('Invalid destination phone');
 
-  if (!safeBody && safeMediaUrls.length === 0) {
-    throw Boom.badRequest('body or mediaUrls required');
-  }
+    const safeBody = String(body ?? '').trim();
+    const safeMediaUrls = Array.isArray(mediaUrls) ? mediaUrls.filter(Boolean) : [];
 
-  const alreadyOpted = await prisma.smsOptOut.findFirst({
-    where: { phone: toPhone, provider: { in: ['twilio', null] } }, 
-  });
-  if (alreadyOpted) {
-    const err = Boom.forbidden('Recipient has opted out of SMS');
-    err.output.payload.code = 'SMS_OPTED_OUT';
+    if (!safeBody && safeMediaUrls.length === 0) {
+      throw Boom.badRequest('body or mediaUrls required');
+    }
+
+    const alreadyOpted = await prisma.smsOptOut.findFirst({
+      where: {
+        phone: toPhone,
+        OR: [
+          { provider: 'twilio' },
+          { provider: null },
+        ],
+      },
+    });
+    if (alreadyOpted) {
+      const err = Boom.forbidden('Recipient has opted out of SMS');
+      err.output.payload.code = 'SMS_OPTED_OUT';
+      throw err;
+    }
+
+    const fromNumber = from
+      ? await assertUserOwnsFromNumber(uid, from)
+      : (await getUserActiveDid(uid)).e164;
+    console.log('[smsService] fromNumber', { fromNumber });
+
+    console.log('[smsService] before upsertThread', { uid, toPhone });
+    const thread = await upsertThread(uid, toPhone);
+    console.log('[smsService] after upsertThread', { threadId: thread?.id });
+
+    const clientRef = `smsout:${uid}:${Date.now()}`;
+
+    const result = await sendSms({
+      to: toPhone,
+      text: safeBody,
+      clientRef,
+      from: fromNumber,
+      mediaUrls: safeMediaUrls,
+    });
+    console.log('[smsService] provider result', result);
+
+    const provider = result?.provider || 'twilio';
+
+    await prisma.$transaction(async (tx) => {
+      await tx.smsMessage.create({
+        data: {
+          threadId: thread.id,
+          direction: 'out',
+          fromNumber,
+          toNumber: toPhone,
+          body: safeBody,
+          provider,
+          providerMessageId: result?.messageSid || result?.messageId || null,
+          mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
+        },
+      });
+
+      await tx.phoneNumber.updateMany({
+        where: {
+          assignedUserId: uid,
+          e164: fromNumber,
+          status: { in: ['ASSIGNED', 'HOLD'] },
+        },
+        data: { lastOutboundAt: new Date() },
+      });
+
+      await tx.smsThread.update({
+        where: { id: thread.id },
+        data: { updatedAt: new Date() },
+      });
+    });
+
+    return {
+      ok: true,
+      threadId: thread.id,
+      provider,
+      messageSid: result?.messageSid || null,
+      clientRef: result?.clientRef || null,
+    };
+  } catch (err) {
+    console.error('[smsService.sendUserSms] FAILED', err);
     throw err;
   }
-
-  const fromNumber = from
-    ? await assertUserOwnsFromNumber(uid, from)
-    : (await getUserActiveDid(uid)).e164;
-
-  const thread = await upsertThread(uid, toPhone, { contactId });
-  const clientRef = `smsout:${uid}:${Date.now()}`;
-
-  const result = await sendSms({
-    to: toPhone,
-    text: safeBody,
-    clientRef,
-    from: fromNumber,
-    mediaUrls: safeMediaUrls,
-  });
-
-  const provider = result?.provider || 'twilio';
-
-  await prisma.$transaction(async (tx) => {
-    await tx.smsMessage.create({
-      data: {
-        threadId: thread.id,
-        direction: 'out',
-        fromNumber,
-        toNumber: toPhone,
-        body: safeBody,
-        provider,
-        providerMessageId: result?.messageSid || result?.messageId || null,
-        mediaUrls: safeMediaUrls.length ? safeMediaUrls : null,
-      },
-    });
-
-    await tx.phoneNumber.updateMany({
-      where: {
-        assignedUserId: uid,
-        e164: fromNumber,
-        status: { in: ['ASSIGNED', 'HOLD'] },
-      },
-      data: { lastOutboundAt: new Date() },
-    });
-
-    await tx.smsThread.update({
-      where: { id: thread.id },
-      data: { updatedAt: new Date() },
-    });
-  });
-
-  return {
-    ok: true,
-    threadId: thread.id,
-    provider,
-    messageSid: result?.messageSid || null,
-    clientRef: result?.clientRef || null,
-  };
 }
 
 export async function getOrCreateThread(userId, phone, opts = {}) {

@@ -18,6 +18,67 @@ import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import axiosClient from '@/api/axiosClient';
 
 /* ---------- helpers ---------- */
+function normalizePhone(raw) {
+  const s = String(raw || '').replace(/[^\d+]/g, '');
+  if (!s) return '';
+  if (s.startsWith('+')) return s;
+  if (s.length === 10) return `+1${s}`;
+  if (s.length === 11 && s.startsWith('1')) return `+${s}`;
+  return `+${s}`;
+}
+
+function contactMatchesInput(contact, raw) {
+  const q = String(raw || '').trim().toLowerCase();
+  if (!q) return false;
+
+  const alias = String(contact?.alias || '').trim().toLowerCase();
+  const username = String(contact?.user?.username || '').trim().toLowerCase();
+  const externalName = String(contact?.externalName || '').trim().toLowerCase();
+  const externalPhone = String(contact?.externalPhone || '').trim().toLowerCase();
+
+  return [alias, username, externalName, externalPhone].some(Boolean) &&
+    [alias, username, externalName, externalPhone].includes(q);
+}
+
+async function resolveTypedRecipient(raw) {
+  const typed = String(raw || '').trim();
+  if (!typed) return null;
+
+  if (looksLikePhone(typed)) {
+    return { kind: 'sms', phone: normalizePhone(typed) };
+  }
+
+  const { data } = await axiosClient.get('/contacts', {
+    params: { limit: 100 },
+  });
+
+  const items = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.items)
+      ? data.items
+      : [];
+
+  const match = items.find((c) => contactMatchesInput(c, typed));
+  if (!match) return null;
+
+  if (match.externalPhone) {
+    return {
+      kind: 'sms',
+      phone: normalizePhone(match.externalPhone),
+      label: match.alias || match.externalName || match.externalPhone,
+    };
+  }
+
+  if (match.userId) {
+    return {
+      kind: 'chat',
+      userId: match.userId,
+      label: match.alias || match.user?.username || `User #${match.userId}`,
+    };
+  }
+
+  return null;
+}
 
 // very lightweight phone detection (US + E.164-ish)
 function looksLikePhone(raw) {
@@ -120,53 +181,69 @@ export default function HomeIndex({ currentUser }) {
   };
 
   const handleSend = async () => {
-    if (!canSend) return;
+  if (!canSend) return;
 
-    const firstMessage = String(draft || '').trim();
-    if (!firstMessage) return;
+  const firstMessage = String(draft || '').trim();
+  if (!firstMessage) return;
 
-    if (mode === 'mixed') {
-      alert(
-        'Please send either all phone numbers (SMS) OR all usernames (Chatforia) in one message.'
-      );
+  // keep current multi-recipient behavior blocked for now, surgically
+  if (recipients.length !== 1) {
+    alert('Please enter one recipient for now.');
+    return;
+  }
+
+  const typedRecipient = recipients[0];
+
+  try {
+    setDraft('');
+
+    const resolved = await resolveTypedRecipient(typedRecipient);
+
+    if (!resolved) {
+      alert('Enter a saved contact name or a phone number.');
+      setDraft(firstMessage);
       return;
     }
 
-    try {
-      setDraft('');
-
-      if (mode === 'sms') {
-        if (recipients.length !== 1) {
-          alert('SMS currently supports one phone number at a time.');
-          setDraft(firstMessage);
-          return;
-        }
-
-        const to = recipients[0];
-        const { data } = await axiosClient.post('/sms/send', {
-          to,
-          body: firstMessage,
-        });
-
-        const threadId = data?.threadId;
-        if (!threadId) throw new Error('SMS send returned no threadId');
-
-        navigate(smsThreadPath(threadId));
-        return;
-      }
-
-      const { chatroomId } = await startChatforiaThread({
-        recipients,
-        firstMessage,
+    if (resolved.kind === 'sms') {
+      const { data } = await axiosClient.post('/sms/send', {
+        to: resolved.phone,
+        body: firstMessage,
       });
 
-      navigate(chatThreadPath(chatroomId));
-    } catch (e) {
-      console.error('[HomeIndex] send failed', e);
-      setDraft(firstMessage);
-      alert('Send failed. Check console for details.');
+      const threadId = data?.threadId;
+      if (!threadId) throw new Error('SMS send returned no threadId');
+
+      navigate(smsThreadPath(threadId));
+      return;
     }
-  };
+
+    if (resolved.kind === 'chat') {
+      const { data } = await axiosClient.post(`/chatrooms/direct/${resolved.userId}`);
+      const chatroomId =
+        data?.id ?? data?.chatroomId ?? data?.roomId ?? data?.chatRoomId ?? null;
+
+      if (!chatroomId) throw new Error('Direct chat returned no id');
+
+      navigate(chatThreadPath(chatroomId));
+      return;
+    }
+
+    throw new Error('Unknown recipient resolution');
+  } catch (e) {
+  console.error('[HomeIndex] send failed', e);
+  setDraft(firstMessage);
+
+  const code = e?.response?.data?.code;
+  if (code === 'NO_NUMBER') {
+    alert('You need a Chatforia number before sending SMS.');
+    navigate('/manage-wireless'); // or your actual number activation page
+    return;
+  }
+
+  alert('Send failed. Check console for details.');
+}
+};
 
   return (
     <Box

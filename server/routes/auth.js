@@ -1304,6 +1304,7 @@ router.get(
       publicKey: safeUser.publicKey,
       role: safeUser.role,
       plan: safeUser.plan,
+      isPremium: paid,
 
       preferredLanguage: safeUser.preferredLanguage,
       theme: safeUser.theme || 'dawn',
@@ -1335,7 +1336,6 @@ router.get(
       messageTone: safeUser.messageTone || 'Default.mp3',
       ringtone: safeUser.ringtone || 'Classic.mp3',
     };
-
     let subscriber = null;
     try {
       subscriber = await prisma.subscriber.findFirst({
