@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
   useCallback,
+  useRef,
 } from 'react';
 import axiosClient from '@/api/axiosClient';
 import { useSocket } from './SocketContext';
@@ -32,6 +33,21 @@ function getXsrfToken() {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
+function hasAuthHint() {
+  if (typeof window === 'undefined') return false;
+
+  const hasCookieHint =
+    document.cookie.includes('foria_jwt=') ||
+    document.cookie.includes('cf_session=');
+
+  const hasStorageHint =
+    !!localStorage.getItem('foria_jwt') ||
+    !!localStorage.getItem('token') ||
+    !!localStorage.getItem('cf_session');
+
+  return hasCookieHint || hasStorageHint;
+}
+
 export function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
@@ -45,7 +61,20 @@ export function UserProvider({ children }) {
   const [keyUnlockLoading, setKeyUnlockLoading] = useState(false);
   const [pairingPending, setPairingPending] = useState(false);
 
+  const bootstrappedRef = useRef(false);
+
   const bootstrap = useCallback(async () => {
+    if (!hasAuthHint()) {
+      setCurrentUser(null);
+      setKeyMeta(null);
+      setNeedsKeyUnlock(false);
+      setAuthError(null);
+      setPairingPending(false);
+      disconnect?.();
+      setAuthLoading(false);
+      return;
+    }
+
     setAuthLoading(true);
     setAuthError(null);
 
@@ -207,6 +236,9 @@ export function UserProvider({ children }) {
   }, [reconnect, refreshRooms, disconnect]);
 
   useEffect(() => {
+    if (bootstrappedRef.current) return;
+    bootstrappedRef.current = true;
+
     bootstrap();
 
     const onUnauthorized = () => {
@@ -218,8 +250,11 @@ export function UserProvider({ children }) {
     };
 
     window.addEventListener('auth-unauthorized', onUnauthorized);
-    return () => window.removeEventListener('auth-unauthorized', onUnauthorized);
-  }, [bootstrap, disconnect]);
+
+  return () => {
+    window.removeEventListener('auth-unauthorized', onUnauthorized);
+  };
+}, [bootstrap, disconnect]);
 
   const logout = useCallback(async () => {
     try {

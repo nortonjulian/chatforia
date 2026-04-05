@@ -151,23 +151,7 @@ function Root() {
   }, []);
 
   // Best-effort: pull server-stored theme (do NOT block mount)
-  React.useEffect(() => {
-    let alive = true;
-    (async () => {
-      try {
-        await primeCsrf();
-        const me = data?.user ?? data;
-        if (!alive) return;
-        if (me?.theme && me.theme !== getTheme()) setTheme(me.theme);
-      } catch (e) {
-        if (import.meta.env.DEV) console.warn('[boot theme] skipped', e);
-      }
-    })();
 
-    return () => {
-      alive = false;
-    };
-  }, []);
 
   return (
     <ErrorBoundary>

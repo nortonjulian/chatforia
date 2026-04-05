@@ -295,7 +295,7 @@ a.auth-link-gradient:hover {
   filter: brightness(1.05);
 }
 
-.auth-page .mantine-Anchor-root,
+.auth-page .mantine-Anchor-root:not(.brand-topbar-link):not(.auth-inline-link),
 .auth-page .auth-link-gradient {
   background: var(--cta-gradient);
   -webkit-background-clip: text;
@@ -304,6 +304,39 @@ a.auth-link-gradient:hover {
   -webkit-text-fill-color: transparent;
   text-decoration: none;
 }
+
+.brand-topbar-link {
+  background: none !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: var(--fg) !important;
+  color: var(--fg) !important;
+  text-decoration: none !important;
+}
+
+.brand-topbar-link:hover {
+  text-decoration: none !important;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.brand-lockup-logo {
+  display: block;
+  margin-right: -1px;
+}
+
+.brand-lockup-name {
+  margin: 0;
+  line-height: 1;
+
+  font-size: 28px !important;   
+  font-weight: 700;           
+}
+
 
 .auth-page .mantine-Anchor-root:hover,
 .auth-link-gradient:hover {

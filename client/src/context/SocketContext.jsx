@@ -192,21 +192,6 @@ export function SocketProvider({ children, autoJoin = true }) {
     }
   }, []);
 
-  useEffect(() => {
-    connect();
-
-    return () => {
-      const current = socketRef.current;
-      if (!current) return;
-
-      try {
-        current.disconnect();
-      } catch {}
-
-      socketRef.current = null;
-      refreshRoomsPromiseRef.current = null;
-    };
-  }, [connect]);
 
   useEffect(() => {
     if (!socket || !autoJoin) return;

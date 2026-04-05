@@ -23,9 +23,9 @@ const isDev = (isViteEnv && !!import.meta.env.DEV) || false;
 const viteBase =
   (isViteEnv &&
     (
-      import.meta.env.VITE_API_BASE_URL ||   // ✅ canonical
-      import.meta.env.VITE_API_BASE ||       // ⚠️ legacy fallback (remove later)
-      import.meta.env.VITE_API_URL           // ⚠️ legacy fallback (remove later)
+      import.meta.env.VITE_API_BASE_URL ||
+      import.meta.env.VITE_API_BASE ||
+      import.meta.env.VITE_API_URL
     )) ||
   '';
 
@@ -34,11 +34,6 @@ const winBase = (isBrowser && window.__API_URL__) || '';
 const sameOriginFallback =
   isBrowser && window.location ? window.location.origin : '';
 
-/**
- * Decision:
- * - In dev: prefer empty baseURL so Vite proxy works
- * - Otherwise: use env if set, else same-origin
- */
 const computedBase = winBase || viteBase;
 const baseURL = isDev ? (computedBase || '') : (computedBase || sameOriginFallback);
 
@@ -84,6 +79,14 @@ async function ensureCsrfPrimed() {
   }
 }
 
+function shouldSuppressDevAxiosError(err) {
+  const url = err?.config?.url || '';
+  const method = String(err?.config?.method || 'get').toLowerCase();
+  const status = err?.response?.status;
+
+  return method === 'get' && url === '/auth/me' && status === 401;
+}
+
 /** -------- Interceptors -------- */
 
 // Attach CSRF token for mutating requests
@@ -112,7 +115,11 @@ axiosClient.interceptors.request.use(async (config) => {
 axiosClient.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (isDev && typeof window !== 'undefined') {
+    if (
+      isDev &&
+      typeof window !== 'undefined' &&
+      !shouldSuppressDevAxiosError(err)
+    ) {
       console.error('axios error:', {
         url: err?.config?.url,
         method: err?.config?.method,

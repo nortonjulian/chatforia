@@ -39,43 +39,55 @@ function DebugBar() {
 }
 
 /* ---------- BRAND LOCKUP (used on mobile top bar) ---------- */
-function LogoLockup({ size = 64, titleOrder = 4, className }) {
+function LogoLockup({ size = 90, titleOrder = 2, className }) {
   return (
     <Group
-      gap="xs"
+      gap={4}
       align="center"
       wrap="nowrap"
       className={`brand-lockup ${className || ''}`}
-      style={{ '--logo-size': `${size}px` }}
     >
-      <span className="brand-logo" aria-hidden="true">
-        <LogoGlyph size={size} />
-      </span>
+      <img
+        src="/brand/Logo.png"
+        alt="Chatforia"
+        className="brand-lockup-logo"
+        style={{ height: size, width: 'auto', display: 'block' }}
+      />
+
       <Title
         order={titleOrder}
-        className="brand-lockup__name brand-lockup__name--solid"
-        style={{ margin: 0 }}
+        className="brand-lockup-name"
+        style={{
+          color: 'var(--fg)',
+        }}
       >
         Chatforia
       </Title>
     </Group>
   );
 }
-
 /* ---------- Mobile-only brand bar ---------- */
 function MobileTopBar() {
   const { t } = useTranslation();
 
   return (
-    <Group hiddenFrom="md" gap="xs" align="center" wrap="nowrap" py="sm">
-      <Anchor
-        component={Link}
-        to="/"
-        aria-label={t('auth.goHome', 'Go home')}
-        style={{ textDecoration: 'none' }}
-      >
-        <LogoLockup size={32} titleOrder={4} />
-      </Anchor>
+    <Group
+      gap="sm"
+      align="center"
+      wrap="nowrap"
+      py="xs"
+      mb="xs"
+      style={{ marginLeft: '-8px' }}
+    >
+     <Anchor
+      component={Link}
+      to="/"
+      aria-label={t('auth.goHome', 'Go home')}
+      className="brand-topbar-link"
+      style={{ textDecoration: 'none' }}
+    >
+      <LogoLockup size={90} titleOrder={2} />
+    </Anchor>
     </Group>
   );
 }
@@ -236,43 +248,28 @@ export default function AuthLayout() {
               span={{ base: 12, md: 6, lg: 7 }}
               order={{ base: 1, md: 1 }}
             >
-              <Stack gap="xs" maw={620}>
-                <section className="hero">
+              <Stack gap={4} maw={620}>
+                <section className="hero" style={{ marginTop: '-36px' }}>
                   {/* Lockup + H1 grid */}
-                  <div className="hero-bubble-align" style={{ ['--bubble']: '90px' }}>
-                    <span className="brand-logo" aria-hidden="true">
-                      <LogoGlyph size="var(--bubble)" />
+                  <Title
+                    order={1}
+                    className="auth-hero-title hero-bubble-title"
+                    style={{
+                      marginTop: 0,
+                      lineHeight: 1.05,
+                      fontWeight: 800,
+                      letterSpacing: -0.2,
+                      fontSize: 'clamp(34px, 5vw, 56px)',
+                    }}
+                  >
+                    {t(
+                      'auth.hero.line1',
+                      'Secure messaging for anyone, anywhere — with'
+                    )}{' '}
+                    <span className="text-blue-purple">
+                      {t('auth.hero.em', 'translation to 100+ languages')}
                     </span>
-
-                    {/* Chatforia wordmark */}
-                    <Title
-                      order={2}
-                      className="brand-lockup__name brand-lockup__name--solid"
-                      style={{ margin: 0 }}
-                    >
-                      Chatforia
-                    </Title>
-
-                    {/* BIG HEADLINE (Option A) */}
-                    <Title
-                      order={1}
-                      className="auth-hero-title hero-bubble-title"
-                      style={{
-                        lineHeight: 1.05,
-                        fontWeight: 800,
-                        letterSpacing: -0.2,
-                        fontSize: 'clamp(34px, 5vw, 56px)',
-                      }}
-                    >
-                      {t(
-                        'auth.hero.line1',
-                        'Secure messaging for anyone, anywhere — with'
-                      )}{' '}
-                      <span className="text-blue-purple">
-                        {t('auth.hero.em', 'translation to 100+ languages')}
-                      </span>
-                    </Title>
-                  </div>
+                  </Title>
 
                   {/* Copy block under headline */}
                   <div className="hero-after">
