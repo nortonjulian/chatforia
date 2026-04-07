@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Button,
   Card,
@@ -32,6 +32,8 @@ export default function KeyBackupManager() {
   const [newLocalPasscode, setNewLocalPasscode] = useState('');
   const [busyImport, setBusyImport] = useState(false);
   const [importMsg, setImportMsg] = useState('');
+
+  const [hasAccountBackup, setHasAccountBackup] = useState(null);
 
   const onExport = async () => {
     setBusyExport(true);
@@ -161,6 +163,26 @@ export default function KeyBackupManager() {
     !newLocalPasscode ||
     newLocalPasscode.length < 6;
 
+    useEffect(() => {
+      let mounted = true;
+
+      async function checkBackup() {
+        try {
+          const { data } = await axiosClient.get('/auth/keys/backup');
+          if (!mounted) return;
+          setHasAccountBackup(Boolean(data?.hasBackup && data?.keys?.encryptedPrivateKeyBundle));
+        } catch {
+          if (!mounted) return;
+          setHasAccountBackup(false);
+        }
+      }
+
+      checkBackup();
+      return () => {
+        mounted = false;
+      };
+    }, []);
+
   return (
     <Card withBorder padding="lg" radius="md">
       <Stack gap="md">
@@ -195,6 +217,11 @@ export default function KeyBackupManager() {
         )}
 
         <Divider label="Restore from account backup" />
+        {hasAccountBackup === false && (
+          <Text c="dimmed" size="sm">
+            No backup found. Create one to protect your messages.
+          </Text>
+        )}
         <PasswordInput
           label="Backup password"
           value={importPassword}

@@ -12,7 +12,7 @@ import { useMemo } from "react";
  *  - className: string
  *  - ariaLabel: string (defaults to "Chatforia")
  */
-export default function LogoGlyph({ size = 64, className = "", ariaLabel = "Chatforia" }) {
+export default function LogoGlyph({ size = 64, className = "", ariaLabel = "Chatforia", variant = "full" }) {
   const px = typeof size === "number" ? `${size}px` : size;
 
   // SAFE alphanumeric ids for SVG defs
@@ -38,7 +38,7 @@ export default function LogoGlyph({ size = 64, className = "", ariaLabel = "Chat
   `;
 
   // "C" arc (opens to the RIGHT)
-  const cx = 116, cy = 100, r = 46, sw = 30;
+  const cx = 116, cy = 100, r = 46, sw = variant === "compact" ? 18 : 30;
   const start = 45 * Math.PI / 180, end = 315 * Math.PI / 180;
   const sx = (cx + r * Math.cos(start)).toFixed(1);
   const sy = (cy - r * Math.sin(start)).toFixed(1);
@@ -70,17 +70,25 @@ export default function LogoGlyph({ size = 64, className = "", ariaLabel = "Chat
         </filter>
       </defs>
 
-      <g filter={`url(#${shadowId})`}>
-        {/* 1) Solid-color fallback so the bubble always shows */}
-        <path d={bubblePath} fill="var(--logo-bubble, #FFA51A)" />
-        {/* 2) Gradient overlay (if the id resolves) */}
-        <path d={bubblePath} fill={`url(#${bubbleId})`} />
+      <g>
+        <path
+          d={bubblePath}
+          fill={
+            variant === "compact"
+              ? "currentColor"
+              : "var(--logo-bubble, #FFA51A)"
+          }
+        />
+
+        {variant !== "compact" && (
+          <path d={bubblePath} fill={`url(#${bubbleId})`} />
+        )}
 
         {/* Forward-facing C */}
         <path
           d={`M ${sx} ${sy} A ${r} ${r} 0 1 0 ${ex} ${ey}`}
           fill="none"
-          stroke="var(--logo-c, #FFFFFF)"
+          stroke={variant === "compact" ? "white" : "var(--logo-c, #FFFFFF)"}
           strokeWidth={sw}
           strokeLinecap="round"
           strokeLinejoin="round"

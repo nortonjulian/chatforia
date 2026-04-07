@@ -290,8 +290,8 @@ function AuthedLayout() {
 }
 
 export default function AppRoutes() {
- const { currentUser, authLoading, needsKeyUnlock, pairingPending } = useUser();
-
+ const { currentUser, authLoading, needsKeyUnlock, pairingPending, keyUnlockMode } = useUser();
+ 
   useEffect(() => {
     primeCsrf().catch(() => {});
   }, []);
@@ -305,6 +305,7 @@ export default function AppRoutes() {
   }
 
   if (currentUser && needsKeyUnlock) {
+  if (keyUnlockMode === 'locked') {
     return (
       <div
         style={{
@@ -314,16 +315,36 @@ export default function AppRoutes() {
           padding: 24,
         }}
       >
-        <div style={{ width: '100%', maxWidth: 640 }}>
+        <div style={{ width: '100%', maxWidth: 480 }}>
           <EncryptionRecoveryCard
             blocked
-            title="Restore or unlock your encryption key"
-            description="This browser is missing or using the wrong encryption key for your Chatforia account."
+            title="Unlock your encryption key"
+            description="Enter your passcode to continue."
           />
         </div>
       </div>
     );
   }
+
+  return (
+    <div
+      style={{
+        minHeight: '100dvh',
+        display: 'grid',
+        placeItems: 'center',
+        padding: 24,
+      }}
+    >
+      <div style={{ width: '100%', maxWidth: 640 }}>
+        <EncryptionRecoveryCard
+          blocked
+          title="Restore your encryption key"
+          description="This browser is missing or using the wrong encryption key for your Chatforia account."
+        />
+      </div>
+    </div>
+  );
+}
 
   if (!currentUser) {
     return (

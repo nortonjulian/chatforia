@@ -17,9 +17,6 @@ import {
   unlockKeyBundle,
   getPersistedUnlockPasscodeForSession,
   clearPersistedUnlockPasscodeForSession,
-} from '@/utils/encryptionClient';
-
-import {
   requestBrowserPairing,
   tryInstallKeysFromApprovedPairing,
 } from '@/utils/encryptionClient';
@@ -54,25 +51,33 @@ export function UserProvider({ children }) {
   const [authError, setAuthError] = useState(null);
 
   const [needsKeyUnlock, setNeedsKeyUnlock] = useState(false);
+  const [keyUnlockMode, setKeyUnlockMode] = useState(null);
   const [keyMeta, setKeyMeta] = useState(null);
-
-  const { refreshRooms, reconnect, disconnect } = useSocket();
 
   const [keyUnlockLoading, setKeyUnlockLoading] = useState(false);
   const [pairingPending, setPairingPending] = useState(false);
+
+  const { refreshRooms, reconnect, disconnect } = useSocket();
 
   const bootstrappedRef = useRef(false);
 
   const bootstrap = useCallback(async () => {
     if (!hasAuthHint()) {
-      setCurrentUser(null);
-      setKeyMeta(null);
-      setNeedsKeyUnlock(false);
-      setAuthError(null);
-      setPairingPending(false);
-      disconnect?.();
-      setAuthLoading(false);
-      return;
+      try {
+        await axiosClient.get('/auth/me');
+      } catch (err) {
+        if (err?.response?.status === 401) {
+          setCurrentUser(null);
+          setKeyMeta(null);
+          setNeedsKeyUnlock(false);
+          setKeyUnlockMode(null);
+          setAuthError(null);
+          setPairingPending(false);
+          disconnect?.();
+          setAuthLoading(false);
+          return;
+        }
+      }
     }
 
     setAuthLoading(true);
@@ -112,7 +117,10 @@ export function UserProvider({ children }) {
       let shouldUnlock = false;
       let restoreReason = null;
 
-      // 🔐 NEW: pairing-first logic
+      // clear stale mode before evaluating the current auth/key state
+      setKeyUnlockMode(null);
+
+      // pairing-first logic
       if (serverPublicKey && !meta?.publicKey) {
         console.log('[E2EE] no local key → attempting pairing flow');
 
@@ -144,15 +152,18 @@ export function UserProvider({ children }) {
             const newMeta = await getLocalKeyBundleMeta();
             setKeyMeta(newMeta || null);
             shouldUnlock = false;
+            setKeyUnlockMode(null);
           } else {
             shouldUnlock = true;
             restoreReason =
               'Approve this browser on your iPhone or restore your encryption key.';
+            setKeyUnlockMode('restore');
           }
         } catch (err) {
           setPairingPending(false);
           console.warn('[E2EE] pairing flow failed', err?.message || err);
 
+          setKeyUnlockMode('restore');
           shouldUnlock = true;
           restoreReason =
             'Failed to pair this browser. Restore your encryption key.';
@@ -161,6 +172,7 @@ export function UserProvider({ children }) {
 
       // Wrong key
       if (serverPublicKey && meta?.publicKey && meta.publicKey !== serverPublicKey) {
+        setKeyUnlockMode('restore');
         shouldUnlock = true;
         restoreReason =
           'This browser has a different encryption key than your Chatforia account. Restore the correct key.';
@@ -188,16 +200,19 @@ export function UserProvider({ children }) {
                 await unlockKeyBundle(savedPasscode);
                 await getUnlockedPrivateKeyForPublicKey(serverPublicKey);
                 shouldUnlock = false;
+                setKeyUnlockMode(null);
               } catch {
                 clearPersistedUnlockPasscodeForSession();
                 shouldUnlock = true;
                 restoreReason = 'Unlock your encryption key to continue.';
+                setKeyUnlockMode('locked');
               } finally {
                 setKeyUnlockLoading(false);
               }
             } else {
               shouldUnlock = true;
               restoreReason = 'Unlock your encryption key to continue.';
+              setKeyUnlockMode('locked');
             }
           }
         }
@@ -212,6 +227,7 @@ export function UserProvider({ children }) {
         return;
       }
 
+      setAuthError(null);
       reconnect?.();
       refreshRooms?.().catch((err) => {
         console.warn('[UserContext] background refreshRooms failed', err?.message || err);
@@ -229,6 +245,7 @@ export function UserProvider({ children }) {
 
       setKeyMeta(null);
       setNeedsKeyUnlock(false);
+      setKeyUnlockMode(null);
       disconnect?.();
     } finally {
       setAuthLoading(false);
@@ -245,16 +262,17 @@ export function UserProvider({ children }) {
       setCurrentUser(null);
       setKeyMeta(null);
       setNeedsKeyUnlock(false);
+      setKeyUnlockMode(null);
       setPairingPending(false);
       disconnect?.();
     };
 
     window.addEventListener('auth-unauthorized', onUnauthorized);
 
-  return () => {
-    window.removeEventListener('auth-unauthorized', onUnauthorized);
-  };
-}, [bootstrap, disconnect]);
+    return () => {
+      window.removeEventListener('auth-unauthorized', onUnauthorized);
+    };
+  }, [bootstrap, disconnect]);
 
   const logout = useCallback(async () => {
     try {
@@ -288,6 +306,7 @@ export function UserProvider({ children }) {
     setCurrentUser(null);
     setKeyMeta(null);
     setNeedsKeyUnlock(false);
+    setKeyUnlockMode(null);
     setAuthError(null);
     setPairingPending(false);
 
@@ -305,8 +324,11 @@ export function UserProvider({ children }) {
 
       needsKeyUnlock,
       setNeedsKeyUnlock,
+      keyUnlockMode,
+      setKeyUnlockMode,
       keyMeta,
       setKeyMeta,
+      keyUnlockLoading,
       pairingPending,
     }),
     [
@@ -315,7 +337,9 @@ export function UserProvider({ children }) {
       authError,
       logout,
       needsKeyUnlock,
+      keyUnlockMode,
       keyMeta,
+      keyUnlockLoading,
       pairingPending,
     ]
   );

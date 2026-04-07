@@ -56,7 +56,11 @@ export default function Footer() {
                 style={{ "--logo-size": "40px" }}
               >
                 <span className="brand-logo" aria-hidden="true">
-                  <LogoGlyph />
+                  <img
+                    src="/brand/Logo.png"
+                    alt=""
+                    style={{ width: 40, height: 40, display: "block" }}
+                  />
                 </span>
                 <Text fw={800} size="lg" className="brand-lockup__name">
                   Chatforia

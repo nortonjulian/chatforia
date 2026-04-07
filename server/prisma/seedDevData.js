@@ -68,6 +68,23 @@ export async function seedDevData() {
     },
   });
 
+  const appleReviewUser = await prisma.user.upsert({
+  where: { email: 'apple-review@chatforia.com' },
+  update: {
+    passwordHash: hashed,
+    emailVerifiedAt: new Date(),
+    publicKey: 'applePublicKey',
+  },
+  create: {
+    username: 'apple_review',
+    email: 'apple-review@chatforia.com',
+    phoneNumber: '4444444444',
+    passwordHash: hashed,
+    emailVerifiedAt: new Date(),
+    publicKey: 'applePublicKey',
+  },
+});
+
   const room = await prisma.chatRoom.create({
     data: { isGroup: false },
   });

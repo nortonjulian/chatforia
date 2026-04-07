@@ -32,6 +32,7 @@ import ThreadShell from '@/threads/ThreadShell.jsx';
 import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 
 import { useSocket } from '@/context/SocketContext';
+import { useUser } from '@/context/UserContext';
 import axiosClient from '@/api/axiosClient';
 
 // dynamic: keep heavy crypto out of the initial bundle
@@ -203,6 +204,7 @@ function isSameUser(a, b) {
 export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const isPremium = useIsPremium();
   const navigate = useNavigate();
+  const { setNeedsKeyUnlock } = useUser();
 
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState('');
@@ -503,6 +505,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   [currentUserId]
 );
 
+  const handleLockedEncryptionError = useCallback((error) => {
+    const message = String(error?.message || error || '');
+    if (!message.includes('LOCKED')) return false;
+
+    setE2eeLocked(true);
+    setNeedsKeyUnlock?.(true);
+    return true;
+  }, [setNeedsKeyUnlock]);
+
   const PLACEHOLDER_TEXTS = new Set([
   '[image]',
   '[video]',
@@ -779,10 +790,15 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
 
     closeEditModal();
   } catch (error) {
-    console.error('Message edit failed', error);
-  } finally {
-    setEditSubmitting(false);
+  if (handleLockedEncryptionError(error)) {
+    console.warn('Edit blocked until encryption key is unlocked');
+    return;
   }
+
+  console.error('Message edit failed', error);
+} finally {
+  setEditSubmitting(false);
+ }
 }, [editTarget, editText, editAttachments, closeEditModal, chatroom?.id, currentUserId]);
 
   // ✅ real delete submit
@@ -1316,8 +1332,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
     await insertSavedMessage(data, text.trim());
     clear();
   } catch (e) {
-    console.error('Smart reply send failed', e);
+  if (handleLockedEncryptionError(e)) {
+    console.warn('Smart reply blocked until encryption key is unlocked');
+    return;
   }
+
+  console.error('Smart reply send failed', e);
+ }
 };
 
   const runPowerAi = async () => {
@@ -1998,6 +2019,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   if (payload?.attachments?.length) {
                       const clientMessageId = `web-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+                      const captionText = (payload.text || '').trim();
+
                       const optimisticAttachments = payload.attachments.map((f) => ({
                         kind:
                           f.kind ||
@@ -2013,7 +2036,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         width: f.width || null,
                         height: f.height || null,
                         durationSec: f.durationSec || null,
-                        caption: f.caption || null,
+                        caption: (f.caption || captionText || '').trim() || null,
                         thumbUrl: f.previewUrl || f.thumbUrl || f.thumbnailUrl || null,
                       }));
 
@@ -2158,8 +2181,13 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   await insertSavedMessage(data, text);
                   setDraft('');
                 } catch (e) {
-                  console.error('Send failed', e);
+                if (handleLockedEncryptionError(e)) {
+                  console.warn('Send blocked until encryption key is unlocked');
+                  return;
                 }
+
+                console.error('Send failed', e);
+              }
               }}
             />
           </Box>
