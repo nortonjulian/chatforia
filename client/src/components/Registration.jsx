@@ -46,21 +46,33 @@ export default function Registration() {
   const validate = () => {
     const nxt = {};
 
-    if (!form.username.trim()) nxt.username = 'Username is required';
+    if (!form.username.trim()) nxt.username = t('auth.errors.usernameRequired', 'Username is required');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email.trim()))
-      nxt.email = 'Please enter a valid email address';
+      nxt.email = t(
+        'auth.errors.invalidEmail',
+        'Please enter a valid email address'
+      );
 
-    if (!form.password) nxt.password = 'Password is required';
-    else if (form.password.length < 6) nxt.password = 'Password must be at least 6 characters';
+    if (!form.password) nxt.password = t('auth.errors.passwordRequired', 'Password is required');
+    else if (form.password.length < 6) nxt.password = t(
+      'auth.errors.passwordLength',
+      'Password must be at least 6 characters'
+    );
 
     // ✅ Phone is optional, but if provided must be valid AND consent must be checked
     const phoneTrim = (form.phone || '').trim();
     if (phoneTrim) {
       if (!isValidPhoneNumber(phoneTrim)) {
-        nxt.phone = 'Please enter a valid phone number';
+        nxt.phone = t(
+          'auth.errors.invalidPhone',
+          'Please enter a valid phone number'
+        );
       }
       if (!smsConsent) {
-        nxt.smsConsent = 'Please check the box to consent to SMS messages (or remove the phone number).';
+        nxt.smsConsent = t(
+          'auth.errors.smsConsent',
+          'Please check the box to consent to SMS messages (or remove the phone number).'
+        );
       }
     }
 
@@ -114,7 +126,7 @@ export default function Registration() {
         if (Array.isArray(fieldErrors)) {
           for (const e of fieldErrors) {
             const field = e?.field || e?.path || e?.name;
-            if (field) nxt[field] = e?.message || 'Invalid value';
+            if (field) nxt[field] = e?.message || t('auth.errors.invalidValue', 'Invalid value');
           }
         } else if (fieldErrors && typeof fieldErrors === 'object') {
           for (const [field, msg] of Object.entries(fieldErrors)) {
@@ -123,7 +135,9 @@ export default function Registration() {
         } else if (typeof data?.message === 'string') {
           setGlobalError(data.message);
         } else {
-          setGlobalError('Invalid input. Please check your details.');
+          setGlobalError(
+            t('auth.errors.invalidInput', 'Invalid input. Please check your details.')
+          );
         }
 
         if (Object.keys(nxt).length) setErrors(nxt);
@@ -131,20 +145,34 @@ export default function Registration() {
         const code = data?.code;
         const nxt = {};
         if (code === 'USERNAME_TAKEN' || /username/i.test(data?.message || '')) {
-          nxt.username = 'That username is already taken';
+          nxt.username = t(
+            'auth.errors.usernameTaken',
+            'That username is already taken'
+          );
         }
         if (code === 'EMAIL_TAKEN' || /email/i.test(data?.message || '')) {
-          nxt.email = 'That email is already in use';
+          nxt.email = t(
+            'auth.errors.emailTaken',
+            'That email is already in use'
+          );
         }
         if (!Object.keys(nxt).length) {
-          setGlobalError(data?.message || 'Username or email already in use.');
+          setGlobalError(data?.message || t(
+            'auth.errors.usernameOrEmailTaken',
+            'Username or email already in use.'
+          ));
         } else {
           setErrors(nxt);
         }
       } else if (status === 429) {
-        setGlobalError('Too many attempts. Please try again later.');
+        setGlobalError(
+          t('auth.errors.tooManyAttempts', 'Too many attempts. Please try again later.')
+        );
       } else {
-        setGlobalError(data?.message || 'Registration failed. Please try again.');
+        setGlobalError(
+          data?.message ||
+            t('auth.errors.registrationFailed', 'Registration failed. Please try again.')
+        );
       }
     } finally {
       setSubmitting(false);

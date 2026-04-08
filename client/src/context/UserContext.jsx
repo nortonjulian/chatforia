@@ -87,8 +87,9 @@ export function UserProvider({ children }) {
       const { data } = await axiosClient.get('/auth/me');
       const user = data?.user ?? data;
 
-      // Language
-      if (user?.preferredLanguage) {
+      if (user?.uiLanguage) {
+        await i18n.changeLanguage(user.uiLanguage);
+      } else if (user?.preferredLanguage) {
         await i18n.changeLanguage(user.preferredLanguage);
       } else {
         const browserLng = navigator.language?.split('-')?.[0];

@@ -197,6 +197,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       privacyHoldToReveal,
       notifyOnCopy,
       preferredLanguage,
+      uiLanguage, 
       strictE2EE,
       ageBand,
       wantsAgeFilter,
@@ -205,9 +206,7 @@ router.patch('/me', requireAuth, async (req, res) => {
       cycling,
       messageTone,
       ringtone,
-      // 👇 NEW: Foria memory toggle
       foriaRemember,
-      // 👇 NEW: Voicemail settings
       voicemailEnabled,
       voicemailAutoDeleteDays,
       voicemailForwardEmail,
@@ -246,8 +245,11 @@ router.patch('/me', requireAuth, async (req, res) => {
     }
 
     if (typeof preferredLanguage === 'string' && preferredLanguage.trim()) {
-      // trim + length cap so junk can't blow up DB
       data.preferredLanguage = preferredLanguage.trim().slice(0, 16);
+    }
+
+    if (typeof uiLanguage === 'string' && uiLanguage.trim()) {
+      data.uiLanguage = uiLanguage.trim().slice(0, 16);
     }
 
     if (typeof strictE2EE === 'boolean') {
@@ -449,6 +451,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           privacyHoldToReveal: true,
           notifyOnCopy: true,
           preferredLanguage: true,
+          uiLanguage: true,
           strictE2EE: true,
           theme: true,
           cycling: true,
@@ -503,9 +506,11 @@ router.post(
       }
 
       // --- decide filename ---
-      const ext = path.extname(req.file.originalname || '').toLowerCase() || '.jpg';
+      const originalExt = path.extname(req.file.originalname || '').toLowerCase();
+      const ext = originalExt || '.jpg';
 
-      const safeBase = (req.file.originalname || 'avatar')
+      const baseName = path.basename(req.file.originalname || 'avatar', originalExt);
+      const safeBase = baseName
         .replace(/[^\w.\-]+/g, '_')
         .slice(0, 80);
 

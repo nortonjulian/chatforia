@@ -17,14 +17,16 @@ import {
   Phone,
 } from 'lucide-react';
 
-function buildContactSubtitle(contact) {
+import { useTranslation } from 'react-i18next';
+
+function buildContactSubtitle(contact, t) {
   const parts = [];
 
   if (contact.interactionType) {
     const labelMap = {
-      message: 'Message',
-      call: 'Call',
-      video: 'Video',
+      message: t('startChatModal.interactionType.message', 'Message'),
+      call: t('startChatModal.interactionType.call', 'Call'),
+      video: t('startChatModal.interactionType.video', 'Video'),
     };
     parts.push(labelMap[contact.interactionType] || '');
   }
@@ -36,7 +38,8 @@ function buildContactSubtitle(contact) {
 }
 
 function ContactRow({ contact, onSelect }) {
-  const subtitle = buildContactSubtitle(contact);
+  const { t } = useTranslation();
+  const subtitle = buildContactSubtitle(contact, t);
 
   return (
     <Card
@@ -53,7 +56,7 @@ function ContactRow({ contact, onSelect }) {
               contact.displayName ||
               contact.username ||
               contact.phone ||
-              'Unknown'}
+              t('startChatModal.unknown', 'Unknown')}
           </Text>
 
           {subtitle && (
@@ -80,6 +83,7 @@ export default function StartChatModal({
   savedContacts = [],
 }) {
   const [query, setQuery] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (opened) {
@@ -120,8 +124,8 @@ export default function StartChatModal({
   }, [query, normalizedRecent, normalizedSaved]);
 
   const sectionLabel = query.trim()
-    ? 'Contacts'
-    : 'Recent interactions';
+  ? t('startChatModal.contacts', 'Contacts')
+  : t('startChatModal.recentInteractions', 'Recent interactions');
 
   const handleDirectStart = () => {
     const trimmed = query.trim();
@@ -144,7 +148,7 @@ export default function StartChatModal({
     <Modal
       opened={opened}
       onClose={onClose}
-      title="Start a conversation"
+      title={t('startChatModal.title', 'Start a conversation')}
       centered
       radius="xl"
       size="lg"
@@ -154,7 +158,10 @@ export default function StartChatModal({
         <TextInput
           value={query}
           onChange={(e) => setQuery(e.currentTarget.value)}
-          placeholder="Search name, username, or phone number"
+          placeholder={t(
+            'startChatModal.searchPlaceholder',
+            'Search name, username, or phone number'
+          )}
           leftSection={<Search size={16} />}
           radius="xl"
           size="md"
@@ -168,7 +175,7 @@ export default function StartChatModal({
             onClick={handleDirectStart}
             disabled={!query.trim()}
           >
-            Message this person
+           {t('startChatModal.messageThisPerson', 'Message this person')}
           </Button>
         </Group>
 
@@ -192,8 +199,8 @@ export default function StartChatModal({
             ) : (
               <Text size="sm" c="dimmed" ta="center" py="md">
                 {query.trim()
-                  ? 'No contacts match your search.'
-                  : 'No recent interactions yet.'}
+                  ? t('startChatModal.noContactsMatch', 'No contacts match your search.')
+                  : t('startChatModal.noRecentInteractions', 'No recent interactions yet.')}
               </Text>
             )}
           </Stack>

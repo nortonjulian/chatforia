@@ -209,7 +209,7 @@ function AuthedLayout() {
                 style={{ color: 'inherit' }}
               >
                 <Group gap={8}>
-                  <LogoGlyph size={30} />
+                  <LogoGlyph size={24} />
                   <Title order={3} m={0}>
                     {t('brand.name', 'Chatforia')}
                   </Title>

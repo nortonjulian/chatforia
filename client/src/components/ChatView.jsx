@@ -69,6 +69,8 @@ import { playSound } from '@/lib/sounds.js';
 // 🔒 Premium check
 import useIsPremium from '@/hooks/useIsPremium';
 
+import { useTranslation } from 'react-i18next';
+
 // 🧱 Ads (render only for Free users)
 import { CardAdWrap } from '@/ads/AdWrappers';
 import HouseAdSlot from '@/ads/HouseAdSlot';
@@ -260,6 +262,8 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const ads = useAds();
   const canShow = ads?.canShow || (() => true);
   const markShown = ads?.markShown || (() => {});
+
+  const { t } = useTranslation();
 
   const { socket } = useSocket();
 
@@ -522,11 +526,11 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   '[attachment]',
   '[gif]',
   'attachment',
-  '[encrypted – key unavailable]',
+  t('chat.encryptedUnavailable', 'Encrypted message (key unavailable)'),
   '[encrypted - key unavailable]',
   '[encrypted – could not decrypt]',
   '[encrypted - could not decrypt]',
-  '[encrypted message — unlock your key to view]',
+  t('chat.unlockToView', 'Unlock your key to view this message'),
   '[encrypted message - unlock your key to view]',
 ]);
 
@@ -552,7 +556,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const rawContentNormalized = String(msg?.rawContent || '').trim().toLowerCase();
   if (rawContentNormalized === '[gif]') return '[gif]';
 
-  if (hasAttachments) return 'Media attachment';
+  if (hasAttachments) {
+    return t('chat.mediaAttachment', 'Media attachment');
+  }
   return '';
 }
 
@@ -1071,22 +1077,35 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       participants.find((p) => Number(p?.userId) !== Number(currentUserId));
 
     const otherId = Number(other?.id ?? other?.userId);
-    const name = other?.username || other?.displayName || other?.name || 'this user';
-    const ok = window.confirm(`Block ${name}? You won't receive messages from them.`);
+    const name =
+      other?.username ||
+      other?.displayName ||
+      other?.name ||
+      t('chat.thisUser', 'this user');
+
+    const ok = window.confirm(
+      t('chat.blockConfirm', "Block {{name}}? You won't receive messages from them.", { name })
+    );
     if (!ok) return;
 
     try {
       if (Number.isFinite(otherId)) {
         await axiosClient.post('/blocks', { targetUserId: otherId });
       } else {
-        throw new Error('Could not determine a target user to block.');
+        throw new Error(
+          t('chat.blockError', 'Could not determine a target user to block.')
+        );
       }
 
-      window.alert(`Blocked ${name}.`);
+      window.alert(
+        t('chat.blockedUser', 'Blocked {{name}}.', { name })
+      );
       navigate('/');
     } catch (e) {
       console.error('Block failed', e);
-      window.alert('Block failed (backend not wired yet).');
+      window.alert(
+        t('chat.blockFailed', 'Block failed (backend not wired yet).')
+      );
     }
   }, [chatroom?.participants, currentUserId, navigate]);
 

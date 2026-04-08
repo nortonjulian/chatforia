@@ -208,6 +208,7 @@ model User {
   passwordHash         String
   phoneNumber          String? @db.VarChar(32)
   preferredLanguage    String  @default("en")
+  uiLanguage           String  @default("en")
   allowExplicitContent Boolean @default(false)
 
   // NOTE: existing field uses "...WithTranslation"

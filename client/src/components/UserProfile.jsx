@@ -140,14 +140,12 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     ''; // '' works in dev if Vite proxies /uploads to the API
 
   const getAvatarSrc = (userLike) => {
-    if (!userLike?.avatarUrl) return '/default-avatar.png';
+    if (avatarLoadFailed || !userLike?.avatarUrl) return '/default-avatar.png';
 
-    // If backend already stored a full URL, just use it
     if (userLike.avatarUrl.startsWith('http')) {
       return userLike.avatarUrl;
     }
 
-    // Otherwise treat it as a path on the API host
     return `${API_BASE}${userLike.avatarUrl}`;
   };
 
@@ -177,10 +175,16 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const [planError, setPlanError] = useState('');
   const [portalBusy, setPortalBusy] = useState(false);
 
+  const [avatarLoadFailed, setAvatarLoadFailed] = useState(false);
+
   // ✅ Defaults that are safe even if currentUser is temporarily null
   const [preferredLanguage, setPreferredLanguage] = useState(
-    currentUser?.preferredLanguage || i18n.language || 'en'
-  );
+  currentUser?.uiLanguage ||
+  currentUser?.preferredLanguage ||
+  i18n.language ||
+  'en'
+);
+
   const [autoTranslate, setAutoTranslate] = useState(
     typeof currentUser?.autoTranslate === 'boolean' ? currentUser.autoTranslate : false
   );
@@ -417,6 +421,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       const chosenTheme = getTheme();
       const payload = {
         preferredLanguage,
+        uiLanguage: preferredLanguage,
         autoTranslate,
         showOriginalWithTranslation,
         theme: chosenTheme,
@@ -485,6 +490,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         ...prev,
         avatarUrl: data.avatarUrl,
       }));
+
+      setAvatarLoadFailed(false);
 
       notifications.show({
         color: 'green',
@@ -628,10 +635,13 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             <Group align="center" justify="space-between">
               <Group>
                 <Avatar
-                  src={getAvatarSrc(viewUser)}
+                  src={getAvatarSrc(currentUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
+                  imageProps={{
+                    onError: () => setAvatarLoadFailed(true),
+                  }}
                 />
                 <div>
                   <Title order={3}>

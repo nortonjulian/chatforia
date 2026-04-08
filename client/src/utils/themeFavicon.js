@@ -52,7 +52,6 @@ export function installThemeFaviconObserver() {
             <stop offset="100%" stop-color="${s3}"/>
           </linearGradient>
         </defs>
-
         <path d="${bubblePath}" fill="url(#g)" />
         <path d="${cPath}" fill="white" />
       </svg>

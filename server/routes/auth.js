@@ -1307,6 +1307,7 @@ router.get(
       isPremium: paid,
 
       preferredLanguage: safeUser.preferredLanguage,
+      uiLanguage: safeUser.uiLanguage,
       theme: safeUser.theme || 'dawn',
       avatarUrl: safeUser.avatarUrl,
 

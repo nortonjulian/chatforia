@@ -19,9 +19,10 @@ import { toast } from '../utils/toast';
 import loadEncryptionClient from '@/utils/loadEncryptionClient';
 import MicButton from '@/components/MicButton.jsx';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 const TTL_OPTIONS = [
-  { value: '0', label: 'Off' },
+  { value: '0', label: t('messageInput.ttl.off', 'Off') },
   { value: '10', label: '10s' },
   { value: '60', label: '1m' },
   { value: String(10 * 60), label: '10m' },
@@ -37,6 +38,8 @@ export default function MessageInput({
 }) {
   const [content, setContent] = useState('');
   const [ttl, setTtl] = useState(String(currentUser?.autoDeleteSeconds || 0));
+
+  const { t } = useTranslation();
 
   // Files uploaded to R2 (or mic recordings returned as fileMeta)
   // Expected fileMeta shape from FileUploader/MicButton:
@@ -70,12 +73,22 @@ export default function MessageInput({
 
     if (!isPremium && nextVal > maxFree) {
       setTtl(String(maxFree));
-      toast.info('Free plan limit: auto-delete up to 1 day. Clamped to 1d.');
+      toast.info(
+      t(
+        'messageInput.freeLimit',
+        'Free plan limit: auto-delete up to 1 day. Clamped to 1d.'
+      )
+    );
       return;
     }
     if (isPremium && nextVal > maxPremium) {
       setTtl(String(maxPremium));
-      toast.info('Max auto-delete for Premium is 30 days. Clamped to 30d.');
+      toast.info(
+      t(
+        'messageInput.premiumLimit',
+        'Max auto-delete for Premium is 30 days. Clamped to 30d.'
+      )
+    );
       return;
     }
     setTtl(String(nextVal));
@@ -97,7 +110,12 @@ export default function MessageInput({
     const text = content.trim();
 
     if (!text && uploaded.length === 0 && inlinePicks.length === 0) {
-      toast.info('Type a message or attach a file to send.');
+      toast.info(
+      t(
+        'messageInput.nothingToSend',
+        'Type a message or attach a file to send.'
+      )
+    );
       return;
     }
 
@@ -167,7 +185,12 @@ export default function MessageInput({
           // payload.content = '';
         } catch (err) {
           console.error('Encryption failed', err);
-          toast.err('Encryption failed. Message not sent.');
+          toast.err(
+          t(
+            'messageInput.encryptionFailed',
+            'Encryption failed. Message not sent.'
+          )
+        );
           setSending(false);
           return;
         }
@@ -199,7 +222,9 @@ export default function MessageInput({
       // server should return the canonical message row (including server id)
       onMessageSent?.(saved);
 
-      toast.ok('Message delivered.');
+      toast.ok(
+        t('messageInput.sent', 'Message delivered.')
+      );
 
       // reset composer state
       setContent('');
@@ -214,19 +239,44 @@ export default function MessageInput({
       if (status === 402) {
         toast.err(
           reason === 'PREMIUM_REQUIRED'
-            ? 'This action requires Premium.'
-            : 'Upgrade required for this action.'
+            ? t('messageInput.errors.premiumRequired', 'This action requires Premium.')
+            : t('messageInput.errors.upgradeRequired', 'Upgrade required for this action.')
         );
       } else if (status === 413) {
-        toast.err('Attachment too large. Try a smaller file.');
+        toast.err(
+          t(
+            'messageInput.errors.attachmentTooLarge',
+            'Attachment too large. Try a smaller file.'
+          )
+        );
       } else if (status === 415) {
-        toast.err('Unsupported file type.');
+        toast.err(
+          t(
+            'messageInput.errors.unsupportedFile',
+            'Unsupported file type.'
+          )
+        );
       } else if (status === 429) {
-        toast.err('You’re sending messages too quickly. Please slow down.');
+        toast.err(
+          t(
+            'messageInput.errors.rateLimit',
+            'You’re sending messages too quickly. Please slow down.'
+          )
+        );
       } else if (code === 'VALIDATION_ERROR') {
-        toast.err('Validation error. Please check your message and try again.');
+        toast.err(
+          t(
+            'messageInput.errors.validation',
+            'Validation error. Please check your message and try again.'
+          )
+        );
       } else {
-        toast.err('Failed to send. You can retry the failed bubble.');
+        toast.err(
+          t(
+            'messageInput.errors.failedToSend',
+            'Failed to send. You can retry the failed bubble.'
+          )
+        );
       }
 
       // Mark optimistic as failed so the UI can show a retry affordance
@@ -322,7 +372,7 @@ export default function MessageInput({
 
           {/* Text */}
           <Textarea
-            placeholder="Type a message…"
+            placeholder={t('messageInput.placeholder', 'Type a message…')}
             aria-label="Message composer"
             value={content}
             onChange={(e) => setContent(e.currentTarget.value)}
@@ -358,7 +408,7 @@ export default function MessageInput({
           {/* TTL moved into a small menu (keeps layout clean like BottomComposer) */}
           <Menu withinPortal position="top-end" shadow="md">
             <Menu.Target>
-              <Tooltip label="Auto-delete timer" openDelay={400}>
+              <Tooltip label={t('messageInput.autoDelete', 'Auto-delete timer')} openDelay={400}>
                 <ActionIcon
                   variant="default"
                   size="lg"
@@ -372,7 +422,9 @@ export default function MessageInput({
               </Tooltip>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Label>Auto-delete</Menu.Label>
+              <Menu.Label>
+                {t('messageInput.autoDelete', 'Auto-delete')}
+              </Menu.Label>
               <Divider my="xs" />
               <Select
                 value={ttl}
@@ -386,7 +438,12 @@ export default function MessageInput({
           </Menu>
 
           {/* Send */}
-          <Tooltip label={nothingToSend ? 'Type a message to send' : 'Send'} openDelay={400}>
+          <Tooltip label={
+              nothingToSend
+                ? t('messageInput.typeToSend', 'Type a message to send')
+                : t('messageInput.send', 'Send')
+            } openDelay={400}
+          >
             <ActionIcon
               type="submit"
               size="lg"
@@ -394,7 +451,7 @@ export default function MessageInput({
               variant="filled"
               disabled={sending || nothingToSend}
               aria-label="Send"
-              title="Send (Enter)"
+              title={t('messageInput.sendWithEnter', 'Send (Enter)')}
             >
               <IconSend size={18} />
             </ActionIcon>
@@ -432,14 +489,13 @@ export default function MessageInput({
                     try {
                       return new URL(f.url).pathname.split('/').pop();
                     } catch {
-                      // fallback to key or url string
-                      return f.name || f.key || f.url || 'attachment';
+                      return f.name || f.key || f.url || t('messageInput.attachment', 'attachment');
                     }
                   })()}
                 </a>
 
                 <Textarea
-                  placeholder="Caption (optional)"
+                  placeholder={t('messageInput.caption', 'Caption (optional)')}
                   autosize
                   minRows={1}
                   maxRows={2}
@@ -466,7 +522,7 @@ export default function MessageInput({
                   aria-label={`Remove attachment ${i + 1}`}
                   type="button"
                 >
-                  Remove
+                  {t('messageInput.remove', 'Remove')}
                 </Button>
               </Group>
             ))}
@@ -489,7 +545,9 @@ export default function MessageInput({
                 }}
                 title={a.url}
               >
-                {a.kind === 'GIF' ? 'GIF' : 'Sticker'}
+                {a.kind === 'GIF'
+                  ? t('messageInput.gif', 'GIF')
+                  : t('messageInput.sticker', 'Sticker')}
               </span>
             ))}
             <Button
@@ -504,7 +562,7 @@ export default function MessageInput({
               aria-label="Clear stickers and GIFs"
               type="button"
             >
-              Clear
+              {t('messageInput.clear', 'Clear')}
             </Button>
           </div>
         )}
