@@ -1,988 +1,1696 @@
 {
   "common": {
-    "save": "保存",
-    "cancel": "キャンセル",
-    "refresh": "更新",
-    "noMatches": "一致なし",
-    "cancelAria": "キャンセル",
-    "copy": "コピー",
-    "copied": "コピーしました！"
-  },
-
-  "a11y": {
-    "skipToMain": "メインコンテンツへスキップ"
-  },
-
-  "profile": {
-    "title": "ユーザープロフィール",
-    "preferredLanguage": "優先言語",
-    "chooseLanguage": "言語を選択",
-    "mustLogin": "設定を表示するにはサインインが必要です。",
-    "autoTranslate": "メッセージを自動翻訳",
-    "showOriginalWithTranslation": "原文と翻訳を表示",
-    "showOriginalAndTranslation": "翻訳の横に原文を表示",
-    "filterExplicit": "不適切なコンテンツをフィルタ",
-    "aiReply": "AI 返信",
-    "enableReadReceipts": "既読を有効にする",
-    "allowExplicitContent": "不適切なコンテンツを許可",
-    "disappearingMessages": "消えるメッセージを有効にする",
-    "autoDeleteSeconds": "自動削除までの秒数",
-    "saveSuccess": "設定を保存しました！",
-    "saveError": "エラー：設定を保存できませんでした",
-    "avatarAlt": "プロフィールアバター",
-    "uploadAvatar": "新しいアバターをアップロード",
-    "avatarSuccess": "アバターをアップロードしました！",
-    "avatarError": "アバターのアップロードに失敗しました",
-    "noPrivateKey": "このデバイスにはエクスポートできる秘密鍵がありません。",
-    "setBackupPassword": "バックアップを暗号化するパスワードを設定：",
-    "backupDownloaded": "暗号化バックアップをダウンロードしました。",
-    "exportFailed": "鍵のエクスポートに失敗しました",
-    "enterBackupPassword": "このバックアップのパスワードを入力：",
-    "importSuccess": "秘密鍵をこのデバイスにインポートしました。",
-    "importFailed": "鍵のインポートに失敗しました（パスワード誤りまたはファイル破損）。",
-    "keysRotated": "新しい鍵ペアを生成し公開鍵をアップロードしました。",
-    "rotateFailed": "鍵のローテーションに失敗しました。",
-    "security": "セキュリティ",
-    "exportKey": "秘密鍵をエクスポート",
-    "importKey": "暗号化バックアップをインポート",
-    "rotateKeys": "鍵ペアをローテーション",
-    "keyDisclaimer": "秘密鍵はこのデバイスから離れません。パスワード保護したコピーをエクスポートして別の端末で復元できます。",
-    "sectionProfile": "プロフィール",
-    "phoneNumber": "電話番号",
-    "appearance": "外観",
-    "soundSettings": "サウンド",
-    "disappearing": "消えるメッセージ",
-    "backupSync": "バックアップと同期",
-    "ai": "AI",
-    "accessibility": "アクセシビリティ",
-    "privacy": "プライバシー",
-    "devices": "リンク済みデバイス",
-    "themeFreeNotice": "現在は Free プランです — 下の太陽／月のクイックテーマのみ使用できます。アップグレードでさらに多くのテーマが解放されます。",
-    "sunTheme": "夜明け（Dawn）テーマを使う",
-    "moonTheme": "月（Midnight）テーマを使う",
-    "sun": "太陽",
-    "moon": "月",
-    "backupTitle": "暗号化バックアップとデバイス同期",
-    "openBackupTools": "バックアップツールを開く",
-    "backupDesc": "鍵のパスワード保護バックアップを作成し、別のデバイスで復元して同期できます。",
-    "privacyBlurEnabled": "メッセージを既定でぼかす",
-    "privacyBlurOnUnfocus": "アプリが非アクティブ時にぼかす",
-    "holdToReveal": "長押しで表示",
-    "notifyOnCopy": "自分のメッセージがコピーされたら通知する",
-    "loadFailed": "プロフィールの読み込みに失敗しました",
-    "followed": "フォローしました",
-    "followFailed": "フォローに失敗しました",
-    "unfollowed": "フォロー解除しました",
-    "unfollowFailed": "フォロー解除に失敗しました",
-    "follow": "フォロー",
-    "unfollow": "フォロー解除",
-    "followHint": "相手がフォロワー（または公開）向けに投稿すると、あなたのフォロー中フィードに表示されます。",
-    "userNotFound": "ユーザーが見つかりません",
-    "followsYou": "あなたをフォロー中",
-    "sectionCrashedTitle": "セクションの読み込みに失敗",
-    "sectionCrashedBody": "このセクションで問題が発生しました。",
-    "forwarding": "通話・テキスト転送",
-    "callTextForwardingSection": "通話・テキスト転送",
-    "callTextForwardingTitle": "通話／テキストの転送",
-    "callTextForwardingDescription": "着信通話とテキストを、認証済みの電話またはメールへ転送します。発信時はあなたの Chatforia 番号を表示できます。",
-    "enableTextForwarding": "テキスト転送を有効にする",
-    "forwardTextsToPhone": "テキストを電話へ転送",
-    "forwardTextsToEmail": "テキストをメールへ転送",
-    "destinationPhone": "転送先電話（E.164）",
-    "destinationEmail": "転送先メール",
-    "enableCallForwarding": "通話転送を有効にする",
-    "destinationPhoneForCalls": "通話の転送先（E.164）",
-    "aliasBridging": "通話転送（エイリアスブリッジ）",
-    "quietHoursOptional": "サイレント時間（任意）",
-    "startHour": "開始時刻（0–23）",
-    "endHour": "終了時刻（0–23）",
-    "reset": "リセット",
-    "saveBtn": "保存",
-    "forwardSaved": "転送設定を保存しました",
-    "forwardSaveFailed": "設定の保存に失敗しました",
-    "errE164": "有効な E.164 形式の電話番号を入力してください（例：+15551234567）。",
-    "errEmail": "有効なメールアドレスを入力してください。",
-    "errSmsDest": "転送先（電話またはメール）を少なくとも1つ選択してください。",
-    "errQuietHours": "サイレント時間は 0〜23 の範囲で指定してください。"
-  },
-
-  "support": {
-    "helpFab": "ヘルプ",
-    "openSupportAria": "サポートを開く",
-    "badge": "サポート",
-    "heading": "どのようにお手伝いできますか？",
-    "tabs": {
-      "help": "ヘルプセンター",
-      "contact": "お問い合わせ"
+      "save": "セーブ",
+      "cancel": "キャンセル",
+      "refresh": "リフレッシュ",
+      "noMatches": "一致なし",
+      "cancelAria": "キャンセル",
+      "copy": "了解",
+      "copied": "コピーしました!",
+      "errorWithMessage": "エラー:{{message}}"
     },
-    "searchPlaceholder": "ヘルプ記事を検索…",
-    "searchAria": "ヘルプを検索",
-    "searchBtn": "検索",
-    "quickTopicsLabel": "クイックトピック",
-    "quickTopics": {
-      "login": "ログインできない",
-      "billing": "支払い／請求",
-      "abuse": "不正行為を報告"
+    "a11y": {
+      "skipToMain": "メインコンテンツへスキップ"
     },
-    "trySearching": "「translate」「backups」「privacy」などで検索してみてください。",
-    "article": "記事",
-    "openArticle": "記事を開く",
-    "contactIntro": "メールでご連絡します。再現に役立つ詳細を含めてください。",
-    "topicAria": "トピックを選択",
-    "messagePlaceholder": "メッセージを入力…",
-    "sendBtn": "送信",
-    "sent": "送信しました。メールでご返信します。",
-    "sendError": "送信できませんでした。代わりに support@chatforia.com へメールしてください。"
-  },
-
-  "chat": {
-    "selectPrompt": "テキストまたはチャットルームを選択して開始",
-    "newMessages": "新着メッセージ",
-    "typing": "{{name}} が入力中…",
-    "emptyTitle": "あなたのメッセージ",
-    "emptySubtitle": "メッセージを送ってチャットを始めましょう。",
-    "startChatButton": "メッセージを送る"
-  },
-
-  "topbar": {
-    "newStatus": "新しいステータス",
-    "logout": "ログアウト",
-    "help": "ヘルプ",
-    "createStatusAria": "新しいステータスを作成"
-  },
-
-  "status": {
-    "userNumber": "ユーザー #{{id}}",
-    "posted": "ステータスを投稿しました",
-    "postFailed": "ステータスの投稿に失敗しました",
-    "createTitle": "ステータスを作成",
-    "modalAriaLabel": "新規ステータス",
-    "captionLabel": "今なにしてる？",
-    "captionPlaceholder": "近況をシェア…",
-    "captionAria": "ステータスメッセージ",
-    "audienceLabel": "公開範囲",
-    "audience": {
-      "public": "公開",
-      "followers": "フォロワー",
-      "contacts": "連絡先",
-      "mutuals": "相互",
-      "custom": "カスタム…"
+    "keys": {
+      "backupCreated": "キーバックアップ作成・ダウンロード✓",
+      "restored": "キーバックアップが復元されました ✓キーがローカルにインストールされました",
+      "noBackup": "このアカウントには暗号化されたバックアップが存在しません",
+      "missingPublicKey": "バックアップに公開鍵が欠けています"
     },
-    "expiresHoursLabel": "有効期間（時間）",
-    "maxTooltip": "最大 7 日間",
-    "hoursAbbrev": "時間",
-    "maxShort": "最大",
-    "expiresOn": "有効期限：",
-    "chooseRecipients": "受信者を選択",
-    "selectContacts": "連絡先を選択",
-    "attachmentsLabel": "添付",
-    "attachmentsPlaceholder": "画像／動画を追加",
-    "filesNote": "最大5ファイル。既定で24時間後に期限切れ。",
-    "postAria": "ステータスを投稿",
-    "post": "投稿"
-  },
-
-  "contactList": {
-    "savedContacts": "保存された連絡先",
-    "refreshAria": "連絡先を更新",
-    "filterPlaceholder": "保存した連絡先をフィルタ…",
-    "filterAria": "保存した連絡先をフィルタ",
-    "noContactsFound": "連絡先が見つかりません。",
-    "externalContact": "外部の連絡先",
-    "notJoined": "この連絡先はまだ Chatforia に参加していません。",
-    "couldNotStart": "チャットを開始できませんでした。もう一度お試しください。",
-    "startFailed": "チャットの開始に失敗しました。もう一度お試しください。",
-    "deleted": "連絡先を削除しました。",
-    "deleteFailed": "連絡先の削除に失敗しました。もう一度お試しください。",
-    "aliasUpdated": "別名を更新しました。",
-    "updateAliasFailed": "別名の更新に失敗しました。もう一度お試しください。",
-    "selectContact": "{{name}} を選択",
-    "alias": "別名",
-    "startChat": "チャットを開始",
-    "message": "メッセージ",
-    "delete": "削除",
-    "deleteContactAria": "連絡先を削除",
-    "loadFailed": "連絡先の読み込みに失敗しました。もう一度お試しください。",
-    "loadMore": "さらに読み込む"
-  },
-
-  "sidebar": {
-    "randomChat": "ランダムチャット",
-    "callTextForwarding": "通話・テキスト転送",
-    "conversations": "会話",
-    "searchPlaceholder": "会話を検索…",
-    "errorLoading": "チャットの読み込みに失敗しました",
-    "empty": "まだ会話がありません。",
-    "startChat": "チャットを開始",
-    "people": "人々",
-    "settings": "設定",
-    "status": "ステータス",
-    "forwarding": "通話・テキスト転送",
-    "refresh": "更新",
-    "search": "会話を検索",
-    "loginPrompt": "設定を編集するにはログインしてください。",
-    "login": "ログイン",
-    "register": "アカウント作成",
-    "chatrooms": "チャットルーム",
-    "logout": "ログアウト",
-    "startChatAlt": "新しいチャットを開始"
-  },
-
-  "premium": {
-    "heading": "プレミアムへ",
-    "description": "強力な機能を解放し、広告を非表示に。",
-    "cta": "アップグレード",
-    "upgrade": "アップグレード",
-    "upgradeAria": "Chatforia Premium にアップグレード"
-  },
-
-  "auth": {
-    "headline": "安全でグローバル、即時翻訳のメッセージング",
-    "description": "エンドツーエンド暗号化、AI 翻訳、消えるメッセージ、音声／ビデオ通話。",
-    "feature": {
-      "encryption": "既定でエンドツーエンド暗号化",
-      "translation": "100以上の言語を自動翻訳",
-      "disappearing": "消えるメッセージと既読",
-      "privacy": "プライバシー第一。あなたのデータ、あなたの管理。",
-      "translate": "リアルタイム翻訳",
-      "disappear": "消えるメッセージ",
-      "privacyAlt": "プライバシー優先設計"
-    },
-    "hero": {
-      "line1": "安全でグローバル",
-      "beforeEm": "なメッセージングに",
-      "em": "即時翻訳",
-      "sub": "エンドツーエンド暗号化、AI 翻訳、消えるメッセージ、音声／ビデオ通話。"
-    },
-    "feat": {
-      "encryption": "既定でエンドツーエンド暗号化",
-      "translate": "100以上の言語を自動翻訳",
-      "disappear": "消えるメッセージと既読",
-      "privacy": "プライバシー第一。あなたのデータ、あなたの管理。"
-    },
-    "welcomeBack": "おかえりなさい",
-    "continueGoogle": "Google で続行",
-    "continueApple": "Apple で続行",
-    "username": "ユーザー名",
-    "password": "パスワード",
-    "keepSignedIn": "サインインを維持",
-    "forgotPassword": "パスワードをお忘れですか？",
-    "loginButton": "ログイン",
-    "createAccount": "アカウントを作成",
-    "freeAccountButton": "無料アカウントを作成",
-    "newHere": "初めてですか？",
-    "getApp": "アプリを入手",
-    "desktopTip": "デスクトップですか？スマホでスキャンしてアプリを入手。",
-    "scanHelper": "デスクトップですか？スマホでスキャンしてアプリを入手。",
-    "goHome": "ホームへ",
-    "home": "ホーム",
-    "headlineAlt": {
-      "main": "あなたの",
-      "highlight": "言語で話す"
-    },
-    "subhead": "プライベートで暗号化、そして即時翻訳のメッセージング。",
-    "status": "ステータスを見る",
-    "upgrade": "今すぐアップグレード",
-    "tip": "ヒント：Web とモバイルで同じアカウントを使うとメッセージが同期されます。",
-    "openDownload": "ダウンロードページを開く",
-    "qrAlt": "Chatforia の QR コード",
-    "scanHint": "アプリをダウンロードするかブラウザで開くにはスキャンしてください。",
-    "iosAria": "App Store でダウンロード",
-    "iosTitle": "App Store でダウンロード",
-    "iosBadgeAlt": "App Store バッジ",
-    "androidAria": "Google Play で入手",
-    "androidTitle": "Google Play ストア",
-    "androidBadgeAlt": "Google Play バッジ",
-    "login": "ログイン",
-    "signup": "サインアップ",
-    "email": "メール"
-  },
-
-  "footer": {
-    "plans": "プランと料金",
-    "about": "Chatforia について",
-    "careers": "採用情報",
-    "press": "プレス",
-    "advertise": "広告掲載",
-    "contact": "お問い合わせ",
-    "help": "ヘルプセンター",
-    "status": "ステータスページ",
-    "iosDownload": "iOS／App Store",
-    "androidDownload": "Android／Google Play",
-    "privacy": "プライバシーポリシー",
-    "terms": "利用規約",
-    "cookies": "Cookie 設定",
-    "doNotSell": "個人情報を販売しない",
-    "language": "言語",
-    "contactShort": "連絡先",
-
-    "aria": "フッター",
-    "homeAria": "Chatforia ホーム",
-    "section": {
-      "company": "会社",
-      "support": "サポート",
-      "downloads": "ダウンロード",
-      "legal": "法務"
-    },
-    "links": {
-      "plans-pricing": "プランと料金",
-      "about-chatforia": "Chatforia について",
-      "careers": "採用情報",
-      "press": "プレス",
-      "advertise": "広告掲載",
-      "getting-started": "はじめに",
-      "help-center": "ヘルプセンター",
-      "contact-us": "お問い合わせ",
-      "status-page": "ステータスページ",
-      "ios-app-store": "iOS／App Store",
-      "android-google-play": "Android／Google Play",
-      "privacy-policy": "プライバシーポリシー",
-      "terms-of-service": "利用規約",
-      "do-not-sell-my-info": "個人情報の販売禁止",
-      "cookie-settings": "Cookie 設定"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "特許出願中",
-    "backToTop": "↑ ページ上部へ"
-  },
-
-  "home": {
-    "title": "ホーム",
-    "header": "あなたのメッセージ",
-    "subheader": "メッセージを送ってチャットを始めましょう。",
-    "sendButton": "メッセージを送る",
-    "gifPicker": "GIF ピッカーを開く",
-    "emoji": "絵文字",
-    "upload": "写真または動画をアップロード",
-    "inputPlaceholder": "メッセージを入力…",
-    "inputLabel": "メッセージ作成欄",
-    "sendTooltip": "送信",
-    "sendTooltipEmpty": "メッセージを入力すると送信できます",
-    "send": "送信",
-    "welcomeMessage": "Chatforia へようこそ",
-    "getStarted": "はじめる"
-  },
-
-  "press": {
-    "title": "プレス",
-    "contactLine": "メディアからのお問い合わせは次へ：",
-    "boilerplateTitle": "ボイラープレート",
-    "boilerplateBody": "Chatforia は、言語の壁を感じさせないプライバシー第一のメッセージングアプリです。メッセージは既定でエンドツーエンド暗号化され、内蔵翻訳は 100 以上の言語をリアルタイムでサポートします。消えるメッセージ、任意の既読、デバイス間同期に対応。iOS、Android、Web で利用可能。",
-    "assetsTitle": "ブランドアセット",
-    "assetsSubtitle": "ロゴ、スクリーンショット、製品画像。",
-    "downloadCta": "メディアキットをダウンロード",
-    "downloadTitle": "アプリを入手",
-    "scanTip": "デスクトップですか？スマホでスキャンしてアプリを入手。",
-    "qrAria": "Chatforia ウェブサイトを開く",
-    "appStore": "App Store でダウンロード",
-    "googlePlay": "Google Play で入手"
-  },
-
-  "careers": {
-    "title": "採用情報",
-    "intro": "私たちは小さなチームで、プライベートでグローバルなメッセンジャーを作っています。暗号化、アクセシビリティ、心地よい UX に関心がある方はぜひご連絡ください。",
-    "openRoles": "<b>募集職種：</b> エンジニアリング（フルスタック、iOS、Android）、プロダクト、サポート。",
-    "apply": "<b>応募方法：</b> 履歴書／リンクを <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> へメールしてください。",
-    "emailCta": "履歴書をメールする"
-  },
-
-  "about": {
-    "title": "Chatforia について",
-    "description": "Chatforia は、エンドツーエンド暗号化・即時翻訳・音声／ビデオ通話に対応した安全な多言語メッセンジャーです。私たちのミッションはシンプル：安全に、プライベートに、言語を越えて人々をつなぐこと。",
-    "valuesTitle": "私たちの価値観",
-    "values": {
-      "privacy": "<bold>プライバシー第一：</bold> 既定で E2E 暗号化。",
-      "access": "<bold>すべての人にアクセス：</bold> 100 以上の言語を自動翻訳。",
-      "control": "<bold>コントロール：</bold> 消えるメッセージと既読は任意。",
-      "privacy_aria": "プライバシー第一：既定で E2E 暗号化。",
-      "access_aria": "すべての人にアクセス：100 以上の言語を自動翻訳。",
-      "control_aria": "コントロール：消えるメッセージと既読は任意。"
-    },
-    "howTitle": "Chatforia の仕組み",
-    "howDescription": "メッセージは送信前にあなたのデバイスで暗号化されます。翻訳、バックアップ、デバイス同期は、サーバーが見られる情報を最小限にするよう設計されています。"
-  },
-
-  "advertise": {
-    "title": "Chatforia への広告掲載",
-    "description": "熱心なメッセージングユーザーへ、上品でブランドセーフな枠でリーチ。目立つ場所のバナー在庫、スポンサー枠、ハウスプロモをご用意。Premium では広告は表示されません。",
-    "adsense": {
-      "withPubId": "現在 <b>Google AdSense</b> を通じて配信しています。Google 広告からのターゲティングでは、パブリッシャー ID <code>{{pubId}}</code> を使用し、以下のユニットでマネージドプレースメントをご指定ください。直接スポンサーも可能—フォームをご利用ください。",
-      "noPubId": "現在 <b>Google AdSense</b> を通じて配信しています。直接スポンサーも可能—下のフォームをご利用ください。"
-    },
-    "inventoryHeader": "在庫と仕様",
-    "placement": {
-      "displayBadge": "ディスプレイ",
-      "acceptedSizes": "対応サイズ",
-      "adsenseSlot": "AdSense スロット："
-    },
-    "noPlacements": "プレースメントがまだ設定されていません。ads/placements.js に追加してください。",
-    "whyHeader": "Chatforia を選ぶ理由",
-    "why": {
-      "highSession": "チャット UI での高頻度・高滞在時間",
-      "brandSafe": "ブランドセーフな形式・丁寧な頻度制御",
-      "sponsoredMoments": "「チャット開始」モーダル等のスポンサードモーメントあり",
-      "deals": "直接取引または AdSense／Google 広告による運用"
-    },
-    "contactHeader": "お問い合わせ",
-    "form": {
-      "submittedMsg": "ありがとうございます！お問い合わせを送信しました。追ってご連絡します。",
-      "missingRequired": "氏名、メール、メッセージを入力してください。",
-      "successToast": "ありがとうございます！まもなくご連絡します。",
-      "mailtoInfo": "メールクライアントを開いてお問い合わせを送信します…",
-      "nameLabel": "お名前",
-      "namePlaceholder": "山田 太郎",
-      "emailLabel": "メール",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "会社名",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "月額予算（任意）",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "キャンペーン内容",
-      "messagePlaceholder": "ターゲティング、期間、KPI、希望プレースメントなど…",
-      "sendCta": "問い合わせを送信"
-    },
-    "legal": {
-      "disclaimerStart": "送信により、当社の",
-      "terms": "利用規約",
-      "and": "および",
-      "privacy": "プライバシーポリシー",
-      "privacy": "プライバシーポリシー"
-    }
-  },
-
-  "upgrade": {
-    "title": "アップグレード",
-    "subtitle": "あなたに最適なプランを解放：Plus で広告非表示、Premium でフル機能。",
-    "perMonth": "月",
-    "perYear": "年",
-    "goPremium": "プレミアムへ",
-    "benefitsLine": "強力な機能を解放し、広告を非表示に。",
-    "ctaText": "アップグレード",
-    "aria": "Chatforia Premium にアップグレード",
-    "toggle": {
-      "monthly": "月払い",
-      "annual": "年払い（25% お得）"
-    },
-    "scheduleBanner": {
-      "title": "サブスクリプションが終了します",
-      "body": "次の日付で Free に戻ります：",
-      "keepPlanCta": "{{plan}} を維持",
-      "manageBillingCta": "請求を管理"
-    },
-    "billing": {
-      "opening": "開いています…",
-      "manage": "請求を管理"
-    },
-    "checkout": {
-      "redirecting": "リダイレクト中…"
+    "keySetup": {
+      "title": "デバイスのキーを設定してください",
+      "description": "このデバイスはまだあなたの秘密鍵を持っていません。パスワード保護されたバックアップをインポートするか、新しいキーペアを生成する(これから新しいメッセージを読むことができるようになります)。",
+      "chooseFile": "ファイルを選び、パスワードを入力してください。",
+      "imported": "このデバイスに秘密鍵をインポートしました。今は昔のメッセージを読める。",
+      "enterPassword": "アカウントのパスワードを入力してください。キーを安全にバックアップできます。"
     },
     "auth": {
-      "continue": "ログインへ進む",
+      "headline": "誰でもどこでも安全なメッセージング",
+      "description": "エンドツーエンド暗号化、100+言語への翻訳、消えるメッセージ、音声・ビデオ通話など。",
+      "feature": {
+        "encryption": "エンドツーエンド暗号化",
+        "translation": "スマートな組み込みメッセージ翻訳",
+        "disappearing": "メッセージの消失と既読確認",
+        "privacy": "プライバシーが最優先です。あなたのデータ、あなたのコントロール。",
+        "translate": "スマートな組み込みメッセージ翻訳",
+        "disappear": "消えるメッセージ",
+        "privacyAlt": "プライバシー第一の設計",
+        "seePlans": "プランと価格について"
+      },
+      "hero": {
+        "line1": "誰でもどこでも安全なメッセージングを —",
+        "em": "translation to 100+ languages",
+        "sub": "Wi-Fiやデータを通じて世界中に電話やテキストを送れる無料の安全な電話番号を手に入れましょう。エンドツーエンド暗号化、消えるメッセージ、HD音声・ビデオ通話を楽しみながら、国境を越えたつながりを保つための組み込みツールも備えています。",
+        "freeNote": "基本的な通話とテキストは無料です。高度なAIやプレミアム機能はアップグレードが必要です。"
+      },
+      "feat": {
+        "encryption": "エンドツーエンド暗号化、常にオン",
+        "translate": "会話の中で言語の壁を打ち破る",
+        "disappear": "メッセージの消失と既読確認",
+        "privacy": "プライバシーが最優先です。あなたのデータ、あなたのコントロール。"
+      },
+      "continueGoogle": "Googleで続けてください",
+      "continueApple": "Appleで続けてください",
+      "username": "ユーザー名",
+      "password": "パスワード",
+      "keepSignedIn": "サインインを保っておいた",
+      "forgotPassword": "パスワードを忘れましたか?",
+      "loginButton": "ログイン",
       "createAccount": "アカウント作成",
-      "signIn": "サインイン"
+      "freeAccountButton": "無料アカウント作成",
+      "newHere": "初めてですか?",
+      "getApp": "アプリを入手しましょう",
+      "desktopTip": "デスクトップで?スマホでスキャンしてアプリを起動してください。",
+      "scanHelper": "デスクトップで?スマホでスキャンしてアプリを起動してください。",
+      "goHome": "家に帰れ",
+      "home": "ホーム",
+      "headlineAlt": {
+        "main": "安全なメッセンジャーは",
+        "highlight": "あなたの言葉を話す"
+      },
+      "subhead": "プライベートで暗号化され、翻訳されたメッセージが瞬時に提供されます。",
+      "upgrade": "今すぐアップグレードしよう",
+      "tip": "ヒント:ウェブとモバイルの両方で同じアカウントを使うこと。メッセージは同期し続けます。",
+      "openDownload": "ダウンロードページを開く",
+      "qrAlt": "ChatforiaのQRコード",
+      "scanHint": "アプリをダウンロードするにはスキャンするか、ブラウザで開いてください。",
+      "iosAria": "App Storeでダウンロード",
+      "iosTitle": "App Storeでダウンロード",
+      "iosBadgeAlt": "App Storeバッジ",
+      "androidAria": "Google Playで入手できます",
+      "androidTitle": "Google Playストア",
+      "androidBadgeAlt": "Google Playバッジ",
+      "login": "ログイン",
+      "signup": "登録",
+      "email": "メール",
+      "registration": {
+        "passwordDescription": "最低6文字。強力でユニークなパスワードを使いましょう。",
+        "smsConsent": "アカウントを作成することで、Chatforiaの活動に関連するSMS通知(他のユーザーからのメッセージなど)を受け取ることに同意したことになります。メッセージ料金やデータ料金が適用される場合があります。設定でいつでもオプトアウトできます。",
+        "termsLink": "利用規約",
+        "privacyLink": "プライバシーポリシー"
+      },
+      "to": "To:",
+      "enterRecipient": "名前または番号を入力してください",
+      "clearRecipients": "明確な受取人",
+      "sms": "SMS",
+      "chatforia": "チャフォリア",
+      "typeMessage": "メッセージを入力してください...",
+      "addRecipient": "まずは上に受取人を追加してください...",
+      "oneRecipient": "とりあえず一つだけ受取人を入力してください。",
+      "enterValidRecipient": "保存した連絡先名または電話番号を入力してください。",
+      "sendFailed": "送信失敗。詳細はコンソールを確認してください。"
     },
-    "cta": {
-      "aria": "プランを選択",
-      "getPlus": "Plus にアップグレード",
-      "upgradeMonthly": "月払いでアップグレード",
-      "upgradeAnnual": "年払いでアップグレード"
+    "home": {
+      "title": "ホーム",
+      "header": "あなたのメッセージ",
+      "subheader": "チャットを始めるにはメッセージを送ってください。",
+      "sendButton": "メッセージを送信",
+      "gifPicker": "GIFピッカーを開く",
+      "emoji": "絵文字",
+      "upload": "写真または動画をアップロードしてください",
+      "inputPlaceholder": "メッセージを入力してください...",
+      "inputLabel": "メッセージコンポーサー",
+      "sendTooltip": "送信",
+      "sendTooltipEmpty": "送信するメッセージを入力してください",
+      "send": "送信",
+      "welcomeMessage": "チャットフォリアへようこそ",
+      "getStarted": "始めよう"
     },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "無料でメッセージングを開始。",
-        "features": {
-          "msg": "1対1・グループメッセージング",
-          "aiBasic": "ベーシック AI 返信",
-          "attachments": "標準サイズの添付"
-        },
-        "ctaCurrent": "現在のプラン",
-        "ctaUnavailable": "Free に切替（利用不可）",
-        "aria": "Free プラン（現在）"
+    "chat": {
+      "selectPrompt": "チャットを始めるにはテキストまたはチャットルームを選択してください",
+      "newMessages": "新しいメッセージ",
+      "typing": "{{name}}は入力中...",
+      "emptyTitle": "あなたのメッセージ",
+      "emptySubtitle": "チャットを始めるにはメッセージを送ってください。",
+      "startChatButton": "メッセージを送信",
+      "mediaAttachment": "メディアの付随",
+      "thisUser": "このユーザー",
+      "blockConfirm": "ブロックする {{name}}?彼らからのメッセージは届きません。",
+      "blockedUser": "ブロックされた{{name}}。",
+      "blockError": "ブロックすべきターゲットユーザーを特定することができませんでした。",
+      "blockFailed": "ブロックが失敗しました(バックエンドがまだ有線化されていません)。",
+      "encryptedUnavailable": "暗号化メッセージ(鍵が利用不可)",
+      "unlockToView": "このメッセージを見るには鍵を解除してください"
+    },
+    "messageInput": {
+      "ttl": {
+        "off": "消えろ"
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / 月",
-        "desc": "最も手頃な広告非表示体験。",
-        "features": {
-          "noAds": "すべての広告を非表示",
-          "msg": "1対1・グループメッセージング",
-          "attachments": "大きな添付ファイル",
-          "aiBasic": "ベーシック AI 返信"
-        },
-        "badge": "人気",
-        "cta": "広告を非表示に",
-        "aria": "Plus にアップグレード"
-      },
-      "premiumMonthly": {
-        "title": "Premium（月払い）",
-        "price": "$24.99 / 月",
-        "desc": "フル機能、着信音、AI パワーツール。",
-        "features": {
-          "plusAll": "Plus のすべて",
-          "ringtones": "カスタム着信音＆メッセージ音",
-          "powerAi": "強力な AI 機能",
-          "priorityUpdates": "優先アップデート",
-          "backups": "バックアップとデバイス同期"
-        },
-        "badge": "おすすめ",
-        "cta": "アップグレード（月払い）",
-        "aria": "Premium（月払い）へアップグレード"
-      },
-      "premiumAnnual": {
-        "title": "Premium（年払い）",
-        "price": "$225 / 年",
-        "desc": "年払いでさらにお得。",
-        "features": {
-          "allPremium": "Premium のすべて",
-          "annualBilling": "年額請求",
-          "save25": "月払い比 約25%お得",
-          "sameFeatures": "月払いと同機能"
-        },
-        "badge": "25% お得",
-        "cta": "アップグレード（年払い）",
-        "aria": "Premium（年払い）へアップグレード",
-        "disclaimer": "前払い。いつでも解約可。追加料金なし。"
+      "freeLimit": "無料プランの制限:最大1日まで自動削除。1dにクランプされています。",
+      "premiumLimit": "プレミアムの最大自動削除期限は30日です。30Dにクランプされています。",
+      "nothingToSend": "メッセージを入力するか、ファイルを添付して送信してください。",
+      "encryptionFailed": "暗号化が失敗した。メッセージは送信されませんでした。",
+      "sent": "メッセージは届きました。",
+      "placeholder": "メッセージを入力してください...",
+      "autoDelete": "自動削除",
+      "typeToSend": "送信するメッセージを入力してください",
+      "send": "送信",
+      "sendWithEnter": "送信(エンター)",
+      "attachment": "アタッチメント",
+      "caption": "キャプション(任意)",
+      "remove": "削除",
+      "clear": "クリア",
+      "gif": "GIF",
+      "sticker": "ステッカー",
+      "errors": {
+        "attachmentTooLarge": "愛着が大きすぎる。もっと小さなファイルを使ってみてください。",
+        "unsupportedFile": "サポートされていないファイル形式。",
+        "rateLimit": "メッセージを送るのが早すぎるよ。ゆっくりしてください。",
+        "validation": "検証エラー。メッセージを確認してから再度お試しください。",
+        "failedToSend": "送信に失敗しました。失敗したバブルをやり直すこともできます。"
       }
     },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "無料でメッセージングを開始。",
-      "plusTitle": "Plus",
-      "plusBadge": "人気",
-      "plusDesc": "最も手頃な広告非表示体験。",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "フル機能、着信音、AI パワーツール。",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "年払いでさらにお得。",
-      "annualDisclaimer": "前払い。いつでも解約可。追加料金なし。"
-    }
-  },
-
-  "gettingStarted": {
-    "title": "はじめに",
-    "subtitle": "Chatforia は初めてですか？このクイックスタートで数分で使いこなせます。",
-    "alert": {
-      "text": "このガイドは新機能の公開とともに拡充されます。足りない点があれば",
-      "contactLink": "お問い合わせ",
-      "contactLink_after": "からお知らせください。"
+    "contactList": {
+      "savedContacts": "保存済み連絡先",
+      "refreshAria": "リフレッシュコンタクト",
+      "filterPlaceholder": "保存された連絡先をフィルターしてください...",
+      "filterAria": "フィルター保存された接点",
+      "noContactsFound": "連絡先は見つかりませんでした。",
+      "externalContact": "外部連絡",
+      "notJoined": "その連絡先はまだChatforiaに参加していません。",
+      "couldNotStart": "チャットを始められませんでした。もう一度お試しください。",
+      "startFailed": "チャットを始められませんでした。もう一度お試しください。",
+      "deleted": "連絡先は削除されました。",
+      "deleteFailed": "連絡を削除できませんでした。もう一度お試しください。",
+      "aliasUpdated": "エイリアズが更新されました。",
+      "updateAliasFailed": "エイリアスを更新しませんでした。もう一度お試しください。",
+      "selectContact": "{{name}}を選択してください",
+      "alias": "別名",
+      "startChat": "チャットを始めてください",
+      "message": "メッセージ",
+      "delete": "削除",
+      "deleteContactAria": "連絡先を削除",
+      "loadFailed": "接点の読み込みに失敗しました。もう一度お試しください。",
+      "loadMore": "もっと読み込む",
+      "call": "鳴き声",
+      "callStarted": "チャットフォリアの番号からこの番号にかけて...",
+      "callFailed": "通話開始に失敗しました。もう一度お試しください。"
     },
-    "section1": {
-      "title": "1) アカウントを作成",
-      "signup": "サインアップ",
-      "or": "または",
+    "startChatModal": {
+      "title": "会話を始めましょう",
+      "searchPlaceholder": "名前、ユーザー名、電話番号を検索してください",
+      "messageThisPerson": "この人にメッセージを送ってください",
+      "contacts": "連絡先",
+      "recentInteractions": "最近の交流",
+      "noContactsMatch": "あなたの探している人材に合う人はいない。",
+      "noRecentInteractions": "最近のやり取りはまだない。",
+      "unknown": "不明",
+      "interactionType": {
+        "message": "メッセージ",
+        "call": "鳴き声",
+        "video": "ビデオ"
+      }
+    },
+    "addContactModal": {
+      "title": "連絡先を追加",
+      "phoneOrUsername": "電話番号かユーザー名",
+      "phoneOrUsernamePlaceholder": "例:+13018019227やジュリアンノートン",
+      "alias": "エイリアス(オプション)",
+      "aliasPlaceholder": "例:仕事、ママ、マイク – ヨーロッパ",
+      "enterPhoneOrUsername": "電話番号またはユーザー名を入力してください。",
+      "userLookupFailed": "ユーザー検索に失敗しました。",
+      "cannotAddSelf": "自分を連絡先に追加することはできません。",
+      "failedToAdd": "接触を追加できなかった。",
+      "add": "追加"
+    },
+    "sidebar": {
+      "randomChat": "ランダムチャット",
+      "callTextForwarding": "通話・テキスト転送",
+      "conversations": "会話",
+      "searchPlaceholder": "会話を検索...",
+      "errorLoading": "チャットの読み込みに失敗しました",
+      "empty": "まだ会話はない。",
+      "startChat": "チャットを始めましょう",
+      "people": "人々",
+      "settings": "舞台設定",
+      "status": "現状",
+      "forwarding": "通話・テキスト転送",
+      "refresh": "リフレッシュ",
+      "search": "検索会話",
+      "loginPrompt": "ログインして設定を編集してください。",
       "login": "ログイン",
-      "loginText": "既存のアカウントで。",
-      "prefsStart": "あなたの",
-      "prefsLink": "設定",
-      "prefsRest": "（言語、既読、テーマ）を整えましょう。"
+      "register": "アカウント作成",
+      "chatrooms": "チャットルーム",
+      "logout": "ログアウト",
+      "startChatAlt": "新しいチャットを始めましょう",
+      "calls": "鳴き声",
+      "video": "ビデオ",
+      "voicemail": "留守番電話"
     },
-    "section2": {
-      "title": "2) メッセージを始める",
-      "item1": "DM またはグループを作成し、最初のメッセージを送信。",
-      "item2": "100 以上の言語に即時翻訳して会話。",
-      "item3": "プロフィール → プライバシーで消えるメッセージと既読を試す。"
+    "topbar": {
+      "newStatus": "新たな地位",
+      "logout": "ログアウト",
+      "help": "助けて",
+      "createStatusAria": "新しいステータスの作成"
     },
-    "section3": {
-      "title": "3) さらに使いこなす",
-      "item1Part1": "プラン管理は",
-      "upgradeLink": "アップグレード",
-      "item1Part2": "ページから（Plus＝広告非表示、Premium＝フル機能）。",
-      "item2Part1": "追加デバイスのリンクと暗号化バックアップは",
-      "settingsLink": "設定"
+    "threadActions": {
+      "threadMenu": "スレッドメニュー",
+      "premium": "プレミアム",
+      "aiPower": "AIパワー",
+      "schedule": "スケジュール",
+      "upgrade": "アップグレード",
+      "upgradeSuffix": "(アップグレード)",
+      "thread": "スレッド",
+      "about": "概要",
+      "search": "検索",
+      "media": "メディア",
+      "invitePeople": "人を招待する",
+      "roomSettings": "部屋の設定",
+      "clearConversation": "明確な会話",
+      "block": "ブロック"
     },
-    "cta": {
-      "seePlans": "プランを見る",
-      "openSettings": "設定を開く"
-    }
-  },
-
-  "helpCenter": {
-    "title": "ヘルプセンター",
-    "faq": {
-      "account": {
-        "q": "アカウントの作成／復元方法は？",
-        "a": "アプリまたは Web を開き、「アカウント作成」をタップし、メール／電話を確認します。復元は「パスワードをお忘れですか？」を使用。"
+    "roomSearch": {
+      "title": "部屋の中の捜索",
+      "ariaLabel": "部屋の中の捜索",
+      "search": "検索",
+      "searchMessages": "検索メッセージ",
+      "noText": "[テキストなし]",
+      "noResults": "結果なし"
+    },
+    "roomSettings": {
+      "roles": {
+        "member": "メンバー",
+        "moderator": "モデレーター",
+        "admin": "管理"
       },
-      "privacy": {
-        "q": "メッセージはエンドツーエンド暗号化ですか？",
-        "a": "はい。メッセージと通話は既定でエンドツーエンド暗号化です。あなたと相手だけが内容を読めます。"
+      "aiMode": {
+        "off": "消えろ",
+        "mention": "Only on @ForiaBot or /ask",
+        "always": "積極的に返信しましょう"
       },
-      "translate": {
-        "q": "即時翻訳はどう動きますか？",
-        "a": "設定 → 外観と言語 で「自動翻訳」を有効にします。対応端末ではオンデバイス翻訳、それ以外は最小限のメタデータで安全な API を使用します。"
+      "autoTranslateMode": {
+        "off": "消えろ",
+        "tagged": "タグ付けのみ(/tr ...)",
+        "all": "すべてのメッセージ"
+      },
+      "updated": "設定更新"
+    },
+    "mediaGallery": {
+      "sharedMedia": "共有メディア",
+      "noMediaCached": "まだローカルにメディアキャッシュはしていません。",
+      "imageAlt": "画像",
+      "openVideo": "オープンビデオ",
+      "openVideoWithCaption": "ビデオを開く: {{caption}}",
+      "preview": "プレビュー",
+      "previewWithCaption": "プレビュー: {{caption}}",
+      "previewKind": "Preview {{kind}}",
+      "download": "ダウンロード",
+      "downloadKind": "ダウンロード {{kind}}",
+      "file": "ファイル",
+      "kinds": {
+        "image": "画像",
+        "video": "ビデオ",
+        "audio": "音声",
+        "file": "ファイル"
+      }
+    },
+    "status": {
+      "userNumber": "ユーザー #{{id}}",
+      "posted": "投稿された状況",
+      "postFailed": "ステータスの投稿失敗",
+      "createTitle": "ステータスを作成する",
+      "modalAriaLabel": "新たな地位",
+      "captionLabel": "何を考えているの?",
+      "captionPlaceholder": "アップデートを共有してください...",
+      "captionAria": "ステータスメッセージ",
+      "audienceLabel": "聴衆",
+      "audience": {
+        "public": "公共",
+        "followers": "フォロワー",
+        "contacts": "連絡先",
+        "mutuals": "相互に",
+        "custom": "カスタム..."
+      },
+      "expiresHoursLabel": "有効期限(時間)",
+      "maxTooltip": "最大7日間",
+      "hoursAbbrev": "h",
+      "maxShort": "マックス",
+      "expiresOn": "有効期限:",
+      "chooseRecipients": "受賞者を選ぶ",
+      "selectContacts": "選択的な連絡先",
+      "attachmentsLabel": "付属施設",
+      "attachmentsPlaceholder": "画像や動画を追加してください",
+      "filesNote": "最大5つのファイルまで。デフォルトで24時間の有効期限です。",
+      "postAria": "ポストステータス",
+      "post": "後"
+    },
+    "voicemail": {
+      "pageTitle": "留守番電話",
+      "from": "そこから",
+      "to": "To",
+      "unknownCaller": "不明",
+      "yourNumber": "あなたのChatforia番号",
+      "durationSeconds": "{{count}}s",
+      "audioAria": "ボイスメール音声プレーヤー",
+      "transcriptHeading": "書き起こし",
+      "transcriptPending": "留守番電話の書き起こし中...",
+      "transcriptFailed": "トランスクリプトは利用できません。",
+      "loading": "留守番電話を読み込みます...",
+      "errorLoading": "ボイスメールの読み込みに失敗しました。",
+      "empty": "まだ留守番電話はない。",
+      "deleteConfirm": "このボイスメールを削除しますか?",
+      "deleteError": "ボイスメールの削除に失敗しました。",
+      "markRead": "マークを読みました",
+      "delete": "削除",
+      "unreadDotAria": "未読ボイスメールインジケーター"
+    },
+    "profile": {
+      "title": "ユーザープロフィール",
+      "preferredLanguage": "推奨言語",
+      "chooseLanguage": "言語を選びましょう",
+      "mustLogin": "設定を見るにはサインインが必要です。",
+      "autoTranslate": "自動翻訳メッセージ",
+      "showOriginalWithTranslation": "オリジナルメッセージと翻訳メッセージを表示",
+      "showOriginalAndTranslation": "翻訳とオリジナルを併せて表示",
+      "filterExplicit": "露骨なコンテンツをフィルタリングする",
+      "aiReply": "AIの返信",
+      "enableReadReceipts": "既読確認を有効にする",
+      "allowExplicitContent": "露骨な内容を許可する",
+      "disappearingMessages": "消えるメッセージを有効にする",
+      "autoDeleteSeconds": "自動削除まで数秒",
+      "saveSuccess": "設定が保存されました!",
+      "saveError": "エラー:設定を保存できません",
+      "avatarAlt": "プロフィールアバター",
+      "uploadAvatar": "新しいアバターをアップロードする",
+      "avatarSuccess": "アバターアップロード完了!",
+      "avatarError": "アバターのアップロードに失敗しました",
+      "avatarUpdated": "アバター更新!",
+      "uploadingAvatar": "アバターのアップロード中...",
+      "noPrivateKey": "このデバイスにはエクスポートできる秘密鍵はありません。",
+      "setBackupPassword": "バックアップを暗号化するためのパスワードを設定する:",
+      "backupDownloaded": "暗号化バックアップをダウンロードしました。",
+      "exportFailed": "キーエクスポート失敗",
+      "enterBackupPassword": "このバックアップのパスワードを入力してください:",
+      "importSuccess": "このデバイスに秘密鍵をインポートしました。",
+      "importFailed": "キーのインポートに失敗しました(パスワードの誤りか破損ファイル)。",
+      "keysRotated": "新しい鍵ペアが生成され、公開鍵がアップロードされました。",
+      "rotateFailed": "キーを回転させられませんでした。",
+      "security": "セキュリティ",
+      "exportKey": "バックアップ暗号化鍵",
+      "importKey": "暗号化鍵の復元",
+      "rotateKeys": "暗号化鍵を回転させる",
+      "keyDisclaimer": "秘密鍵はこのデバイスから出ることはありません。パスワード保護されたコピーをエクスポートして、別のデバイスに復元してください。",
+      "sectionProfile": "プロフィール",
+      "phoneNumber": "電話番号",
+      "appearance": "外見",
+      "soundSettings": "音",
+      "disappearing": "消えるメッセージ",
+      "backupSync": "暗号化鍵バックアップ",
+      "ai": "AI",
+      "accessibility": "アクセスのしやすさ",
+      "privacy": "プライバシー",
+      "devices": "リンクされたデバイス",
+      "themeFreeNotice": "無料です。下記のクイックサン/ムーンオプションをご利用ください。アップグレードしてテーマをアンロックしましょう。",
+      "sunTheme": "Dawnテーマを使おう",
+      "moonTheme": "ムーン(ミッドナイト)テーマを使おう",
+      "sun": "太陽",
+      "moon": "月",
+      "backupTitle": "暗号化バックアップとデバイス同期",
+      "openBackupTools": "オープンバックアップツール",
+      "backupDesc": "暗号化キーをバックアップして、別のデバイスでメッセージを安全に復元しましょう。",
+      "privacyBlurEnabled": "デフォルトでメッセージをぼかす",
+      "privacyBlurOnUnfocus": "アプリがピントが合っていないとぼかしが見えます",
+      "planSection": "私の計画",
+      "planLoading": "計画を読み込み中...",
+      "planLoadFailed": "プランの読み込みに失敗しました。",
+      "currentPlan": "現在の計画",
+      "planRenewsOn": "更新",
+      "freePlanCopy": "無料プランに入っています。アップグレードすれば、バックアップ、追加番号、高度なプライバシーオプションなど、より多くの機能をアンロックできます。",
+      "upgradePlanCta": "アップグレード計画",
+      "changePlanCta": "変更計画",
+      "manageBilling": "請求管理",
+      "portalOpenFailed": "請求ポータルを開けられませんでした。もう一度お試しください。",
+      "holdToReveal": "ホールドして公開",
+      "notifyOnCopy": "メッセージがコピーされたら通知してください",
+      "loadFailed": "プロファイルの読み込みに失敗しました",
+      "followed": "フォロー",
+      "followFailed": "追いかけられなかった",
+      "unfollowed": "フォロー解除",
+      "unfollowFailed": "フォロー解除に失敗しました",
+      "follow": "フォローしてください",
+      "unfollow": "フォローを外す",
+      "followHint": "彼らのストーリーは、オーディエンスフォロワー(またはパブリック)と一緒に投稿すれば、あなたのフォローアップフィードに表示されます。",
+      "userNotFound": "ユーザーが見つかりません",
+      "followsYou": "ついてくる",
+      "sectionCrashedTitle": "セクションの読み込み失敗",
+      "sectionCrashedBody": "このセクションで何かがうまくいかなかった。",
+      "forwarding": "通話・テキスト転送",
+      "callTextForwardingSection": "通話・テキスト転送",
+      "callTextForwardingTitle": "通話および/またはテキスト転送",
+      "callTextForwardingDescription": "着信やテキストは認証済みの電話やメールに転送してください。発信やテキストの通話でChatforiaの番号が表示されます。",
+      "enableTextForwarding": "テキスト転送を有効にする",
+      "forwardTextsToPhone": "テキストを電話に転送する",
+      "forwardTextsToEmail": "テキストをメールに転送する",
+      "destinationPhone": "宛先電話(E.164)",
+      "destinationEmail": "宛先メールアドレス",
+      "enableCallForwarding": "着信転送を有効にする",
+      "destinationPhoneForCalls": "通話宛先(E.164)",
+      "aliasBridging": "コール転送(別名ブリッジング)",
+      "quietHoursOptional": "クワイエットアワー(任意)",
+      "startHour": "スタート時間(0–23)",
+      "endHour": "エンドアワー(0–23)",
+      "reset": "リセット",
+      "saveBtn": "セーブ",
+      "saveProfile": "セーブプロファイル",
+      "saveForwarding": "セーブ転送",
+      "forwardSaved": "転送設定が保存されています",
+      "forwardSaveFailed": "設定の保存に失敗しました",
+      "errE164": "有効なE.164電話(例:+15551234567)を入力してください。",
+      "errEmail": "有効なメールアドレスを入力してください。",
+      "errSmsDest": "少なくとも一つの目的地(電話かメール)を選びましょう。",
+      "errQuietHours": "静かな時間帯は0から23の間でなければなりません。",
+      "randomChat": "ランダムチャット",
+      "ageBand": "あなたの年齢層",
+      "ageBandPlaceholder": "年齢層を選べば",
+      "ageTeen": "13–17",
+      "age18_24": "18–24",
+      "age25_34": "25–34",
+      "age35_49": "35–49",
+      "age50Plus": "50+",
+      "ageBandHint": "私たちは年齢範囲のみを保存しており(正確な生年月日は含まれていません)。これはランダムチャットのペアリングを合理的に保つために使われます。",
+      "wantsAgeFilter": "ランダムチャットで年齢ベースのマッチングを活用しましょう",
+      "wantsAgeFilterDesc": "オンの際は、相性の良い年齢層の方々とペアを組むよう努めています。",
+      "partnerAgeBands": "誰とマッチングできる?",
+      "partnerAgeBandsDesc": "ティーンは常に他のティーン同士だけがマッチングされます。大人はティーンエイジャーとマッチングできません。",
+      "teenMatchingNote": "安全のため、13歳から17歳のアカウントはランダムチャットで他の13歳から17歳のアカウントとしかマッチングできません。",
+      "foriaRemember": "リアにあなたが言ったことを覚えさせてあげて",
+      "foriaRememberDesc": "この状態になると、Foriaは過去のランダムチャットの会話(あなただけ)を使って会話をスムーズに続けられます。いつでもオフにできます。",
+      "voicemailSection": "留守番電話",
+      "voicemailEnabled": "ボイスメールを有効にする",
+      "voicemailAutoDeleteDays": "数日後の自動削除",
+      "voicemailAutoDeletePlaceholder": "空っぽにして永遠に残しておけ",
+      "voicemailForwardEmail": "ボイスメールをメールに転送する",
+      "voicemailForwardEmailPlaceholder": "ボイスメール通知を送るためのメール",
+      "voicemailGreetingText": "テキストのフォールバック グリーティング",
+      "voicemailGreetingTextDesc": "音声で挨拶が使えない場合に使われます。",
+      "voicemailGreetingUpload": "ボイスメールのグリーティングをアップロード",
+      "voicemailPreviewGreeting": "プレビューの挨拶",
+      "voicemailGreetingUploaded": "ボイスメールの挨拶が正常にアップロードされました",
+      "voicemailGreetingUploadError": "ボイスメールの挨拶のアップロードに失敗しました",
+      "voicemailNote": "Chatforiaの番号からのボイスメールはボイスメール受信箱に保存されます。サポートプランでは文字起こしや転送を有効にすることができます。",
+      "portHint": "今の番号を維持したいですか?Chatforia Wirelessに移植できます。",
+      "wireless": {
+        "manage": "ワイヤレス管理"
+      },
+      "esim": {
+        "title": "Chatforia eSIM",
+        "desc": "Wi-Fiがない時もChatforiaのモバイルデータを利用できます。",
+        "cta": "eSIMを入手/QRを表示"
+      }
+    },
+    "wireless": {
+      "title": "チャットフォリア・ワイヤレス",
+      "description": "Chatforiaのモバイルプラン、番号、転送、番号ポーティングの管理。",
+      "options": {
+        "heading": "Chatforiaの使い方を選んでください",
+        "subheading": "新しいChatforia番号を取得するか、他のキャリアから既存の番号を持ち込むこともできます。",
+        "newNumber": "新しいChatforiaの番号を手に入れてください",
+        "portNumber": "現在の番号をChatforia Wirelessにポートしてください"
+      },
+      "port": {
+        "heading": "既存の番号をポートする",
+        "subheading": "現在の電話番号を既存のキャリアからChatforiaに移してください。遅延を避けるために、情報がキャリアのアカウントと正確に一致していることを確認してください。",
+        "phoneNumberLabel": "ポートへの電話番号",
+        "phoneNumberPlaceholder": "+1 555 123 4567",
+        "carrierLabel": "電流キャリア",
+        "carrierPlaceholder": "Verizon、AT&T、T-Mobileなどです。",
+        "accountNumberLabel": "口座番号",
+        "pinLabel": "ポートアウトPIN/パスワード",
+        "fullNameLabel": "アカウントのフルネーム",
+        "address1Label": "アドレス行1",
+        "address2Label": "アドレス行2(任意)",
+        "cityLabel": "都市",
+        "stateLabel": "州/州",
+        "postalCodeLabel": "郵便番号",
+        "countryLabel": "国",
+        "submitButton": "ポートリクエストを送信",
+        "success": "ポートリクエストを送信しました!また、随時お知らせします。",
+        "genericError": "何かがうまくいかなかった。"
+      },
+      "status": {
+        "heading": "ポーティングの現状",
+        "subheading": "番号ポートリクエストの状況を追跡しましょう。",
+        "loading": "読み込み中...",
+        "loadError": "ポートリクエストの読み込みに失敗しました。",
+        "none": "まだポートの動きはありません。",
+        "pending": "審査待ち",
+        "submitted": "キャリアに提出",
+        "inProgress": "進行中",
+        "completed": "完了",
+        "failed": "失敗",
+        "canceled": "キャンセル",
+        "created": "作成:",
+        "scheduled": "予定日:",
+        "completedAt": "完了:"
+      },
+      "dataLow": "あなたのデータが不足しています。",
+      "topUp": "今すぐ補充してください",
+      "expiresIn": "有効期限は{{days}}日数です",
+      "exhausted": "あなたのデータは使い果たされています。モバイルデータを使い続けるために新しいパックを購入しましょう。",
+      "buyPack": "データパックを購入",
+      "esimPackLabel": "eSIMパック"
+    },
+    "family": {
+      "title": "家族",
+      "loading": "家族情報を読み込みます...",
+      "error": {
+        "load": "家族情報の読み込みに失敗しました。",
+        "invite": "招待を作れませんでした。家族の所有者であることを確認してください。もう一度挑戦してください。",
+        "checkout": "ファミリープランのチェックアウトを始められませんでした。もう一度お試しください。"
+      },
+      "billing": {
+        "myPlanTitle": "私の計画",
+        "myPlanError": "プランを読み込めません。",
+        "myPlanLoading": "計画を読み込み中...",
+        "currentPlan": "現在の計画",
+        "renewsAt": "更新",
+        "freePlanCopy": "無料プランに入っています。アップグレードしてより多くの機能をアンロックしましょう。",
+        "upgradeCta": "アップグレード計画",
+        "changePlanCta": "変更計画",
+        "manageBilling": "請求管理",
+        "portalError": "現在、請求ポータルを開けられません。",
+        "cancelNow": "今すぐキャンセル",
+        "cancelNowHelp": "請求ポータルでサブスクリプションの管理や解約、または下の直後に解約が可能です。",
+        "cancelNowConfirm": "今すぐプランをキャンセルしたいですか?これは取り消せない。",
+        "cancelNowError": "今はプランをキャンセルできません。もう一度お試しするか、請求管理をご利用ください。"
+      },
+      "none": {
+        "title": "まだ家族は決まっていません",
+        "body": "Chatforiaファミリーと共有データプールを作成するには、ファミリープランを開始してください。",
+        "goUpgrade": "ファミリープランを始める",
+        "viewPlans": "すべての設計図を見る"
+      },
+      "group": {
+        "defaultName": "私のチャフォリア家族",
+        "role": "あなたの役割:{{role}}"
+      },
+      "role": {
+        "owner": "オーナー",
+        "member": "メンバー"
+      },
+      "data": {
+        "heading": "共有データプール",
+        "caption": "全メンバーがこのプールを共有しています。限界に近づいたら警告します。"
+      },
+      "members": {
+        "title": "家族メンバー",
+        "name": "名称",
+        "role": "役割",
+        "usage": "使用例",
+        "limit": "制限",
+        "unlimited": "具体的な制限はありません",
+        "inviteCta": "招待メンバー"
+      },
+      "invite": {
+        "title": "新しいメンバーを招待する",
+        "body": "共有ファミリーデータプールに誰かを招待するメールやリンクを送ってください。",
+        "emailLabel": "メール(任意)",
+        "emailPlaceholder": "friend@example.com",
+        "create": "招待を作成する",
+        "linkLabel": "招待リンク",
+        "copyAria": "招待リンクをコピー",
+        "expiryHint": "このリンクは数日で期限切れになります。いつでも新しいものを作ることができます。"
+      },
+      "join": {
+        "title": "家族に加わる",
+        "body": "Chatforiaファミリーに招待され、そのデータプールを共有することができます。",
+        "cta": "受け入れて家族に加わること",
+        "ctaLogin": "サインインして家族にご参加ください",
+        "success": "あなたはこの家族に加わったのです。今や彼らのデータプールを共有します。",
+        "goFamily": "ファミリーダッシュボードへ",
+        "error": "この家族に加えることはできません。招待状は無効だったり、期限切れだったりすることがあります。"
+      }
+    },
+    "premium": {
+      "heading": "Go Premium",
+      "description": "パワー機能をアンロックし、広告を削除しましょう。",
+      "cta": "アップグレード",
+      "upgrade": "アップグレード",
+      "upgradeAria": "Chatforia Premiumへのアップグレード"
+    },
+    "upgrade": {
+      "title": "アップグレード",
+      "titleLoggedIn": "アップグレード",
+      "titlePublic": "価格設定",
+      "h1": "Chatforiaの料金とプラン",
+      "h1Subtitle": "まずは無料の広告付きプランから始めましょう。Plusで広告なし、Premiumでフルパワー機能をアンロックできます。",
+      "subtitle": "アプリプランを選んだり、自分のデータパックを追加したり、家族とデータを共有したり、すべて一つの場所から楽しめます。",
+      "subtitle.app": "まずは無料の広告付きプランから始めましょう。Plusで広告なし、Premiumでフルパワー機能をアンロックできます。",
+      "subtitle.mobile": "グローバルなeSIMデータを追加すれば、Wi-Fiから離れていてもChatforiaが動作し続けます。",
+      "subtitle.family": "家族用の共有データプールを作成し、全員の使用状況を一か所から管理しましょう。",
+      "perMonth": "mo",
+      "perYear": "年",
+      "goPremium": "Go Premium",
+      "benefitsLine": "パワー機能をアンロックし、広告を削除しましょう。",
+      "ctaText": "アップグレード",
+      "aria": "Chatforia Premiumへのアップグレード",
+      "toggle": {
+        "monthly": "月刊",
+        "annual": "年次(30%節約)"
+      },
+      "scheduleBanner": {
+        "title": "サブスクリプションは終了します",
+        "body": "するとフリーに戻る",
+        "keepPlanCta": "{{plan}}を守れ",
+        "manageBillingCta": "請求管理"
+      },
+      "billing": {
+        "opening": "開けて...",
+        "manage": "請求管理"
+      },
+      "checkout": {
+        "redirecting": "方向転換..."
+      },
+      "auth": {
+        "continue": "ログインを続ける",
+        "createAccount": "アカウント作成",
+        "signIn": "サインイン"
+      },
+      "cta": {
+        "aria": "セレクトプラン",
+        "getPlus": "Plusへのアップグレード",
+        "upgradeMonthly": "アップグレード・マンスリー",
+        "upgradeAnnual": "アップグレード・アニュアル"
+      },
+      "section": {
+        "app": "アプリのプラン",
+        "mobile": "モバイル(eSIM)",
+        "family": "ファミリープラン"
+      },
+      "plans": {
+        "free": {
+          "title": "無料",
+          "price": "$0",
+          "desc": "無料でメッセージを送り始めましょう。Chatforiaを試すなら理想的です。",
+          "features": {
+            "chat": "リアルタイムの1対1およびグループチャット、さらに音声通話やビデオ通話も可能です",
+            "media": "写真、ボイスメッセージ、短い動画を共有しましょう",
+            "ai": "AI-powered smart replies and instant translation (fair use)",
+            "disappearing": "消えるメッセージと基本的なプライバシー管理",
+            "ads": "アプリ内の広告付きで永久無料です"
+          },
+          "ctaCurrent": "現在の計画",
+          "ctaManage": "請求管理",
+          "ctaPublic": "始めましょう – ログインを続ける",
+          "aria": "フリープラン"
+        },
+        "plus": {
+          "title": "さらに",
+          "price": "$6.99",
+          "desc": "広告なしで必要なものがすべて揃っています。日常的なメッセージや通話に最適です。",
+          "features": {
+            "allFree": "すべて無料で、広告なし",
+            "forwarding": "通話やテキストを本当の電話番号に転送してください",
+            "history": "メッセージ履歴が長い(最大6ヶ月)",
+            "support": "何か問題が起きたときのサポートがより速い"
+          },
+          "badge": "人気者",
+          "cta": "広告なしで",
+          "ctaPublic": "Get Plus – ログインを続ける",
+          "aria": "Plusへのアップグレード"
+        },
+        "premiumMonthly": {
+          "title": "プレミアム(月額)",
+          "price": "$11.99",
+          "desc": "Chatforiaのフル体験:AIパワーツール、カスタマイズ、優先サポート。",
+          "features": {
+            "plusAll": "Plusのすべて",
+            "themes": "すべてのプレミアムカラーテーマとアプリのカスタマイズをアンロック",
+            "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+            "support": "最も助けが必要なときに最優先のサポートを"
+          },
+          "badge": "おすすめ",
+          "cta": "アップグレード(月額)",
+          "ctaPublic": "プレミアムをアンロック – ログインを続ける",
+          "aria": "プレミアム月刊へのアップグレード"
+        },
+        "premiumAnnual": {
+          "title": "プレミアム(年刊)",
+          "price": "$99",
+          "desc": "年単位で請求すれば、追加のカラーテーマ、AIツール、優先サポートを含めてさらに節約できます。",
+          "features": {
+            "allPremium": "プレミアムマンスリーのすべて — 追加のカラーテーマも含む",
+            "annualBilling": "年1回請求",
+            "save25": "月払いと比べて約30%節約できます",
+            "bestFor": "パワーユーザー、リモートワーカー、そして多重の旅行者に最適です"
+          },
+          "badge": "30%節約",
+          "cta": "アップグレード(年刊)",
+          "ctaPublic": "年間で30%節約 – ログインを続ける",
+          "aria": "プレミアム年刊へのアップグレード",
+          "disclaimer": "前払いで請求します。いつでもキャンセルしてください。隠れた手数料はありません。"
+        }
+      },
+      "marketing": {
+        "freeTitle": "無料",
+        "freeDesc": "無料でメッセージを送り始めましょう。",
+        "plusTitle": "さらに",
+        "plusBadge": "人気者",
+        "plusDesc": "最も手頃で広告なしの体験。",
+        "premiumMonthlyTitle": "プレミアム",
+        "premiumMonthlyDesc": "フル機能、着信音、AIパワーツール。",
+        "premiumAnnualTitle": "プレミアム",
+        "premiumAnnualDesc": "毎年請求すればより節約できます。",
+        "annualDisclaimer": "前払いで請求します。いつでもキャンセルしてください。隠れた手数料はありません。"
+      },
+      "mobile": {
+        "title": "Chatforia Mobile(eSIMデータパック)",
+        "subtitle": "Wi-FiなしでもChatforiaを使えるようにグローバルデータを追加しましょう。価格は国や通貨によって自動的に調整されます。",
+        "subtitle.detail": "一度きりのグローバルデータパックを選んで、旅行中やWi-Fiから離れている時でもChatforiaが動作し続けます。",
+        "scope": {
+          "local": "ローカル",
+          "europe": "ヨーロッパ",
+          "global": "グローバル"
+        },
+        "note": "3GB未満のデータパックは販売していません。",
+        "localEquals": "ローカル = {{country}}",
+        "localEqualsFallback": "ローカル=現在の国",
+        "perPack": "/ パック",
+        "cta": "このデータパックを手に入れろ",
+        "ctaPublic": "このデータパックを手に入れろ",
+        "checkout": {
+          "redirecting": "方向転換..."
+        },
+        "unlimited": {
+          "features": {
+            "heavyUse": "重度使用のための高速データ",
+            "throttle": "高速使用後は速度が落ちることがあります",
+            "coverage": "信頼できるカバレッジ",
+            "instant": "即時eSIMアクティベーション",
+            "noContract": "一度きりのパックで契約なし"
+          }
+        },
+        "disclaimer": {
+          "devices": "eSIMデータパックはeSIM互換かつアンロック済みのデバイスが必要です。利用状況は電話機種、キャリア、国によって異なります。カバレッジや速度は地域によって異なります。"
+        },
+        "small": {
+          "title": "スターターパック",
+          "desc": "3GBの高速データを搭載しており、軽いメッセージや時折の通話に最適です。",
+          "price": "$9.99",
+          "data": "3GB",
+          "bestFor": "短い出張、軽いメッセージ、そして時折の電話",
+          "aria": "スターターeSIMデータパックを購入"
+        },
+        "medium": {
+          "title": "トラベラーパック",
+          "desc": "旅行、通勤、定期VoIP通話用の5GBの高速データが含まれています。",
+          "price": "$14.99",
+          "data": "5 GB",
+          "bestFor": "週末の旅行、定期的なVoIP通話、そして地図",
+          "aria": "トラベラーのeSIMデータパックを購入"
+        },
+        "large": {
+          "title": "パワーパック",
+          "desc": "Chatforiaネットワークでの重通信、通話、ビデオ通話用の高速データ10GBを含みます。",
+          "price": "$24.99",
+          "data": "10 GB",
+          "bestFor": "激しいチャット、通話、ビデオ通話、ホットスポット使用が多い",
+          "aria": "Power User eSIMデータパックを購入"
+        },
+        "compare": {
+          "title": "eSIMのデータパックを比較する",
+          "col": {
+            "pack": "パック",
+            "data": "含まれたデータ",
+            "bestFor": "ベスト"
+          },
+          "disclaimer": "実際のデータ使用量はChatforiaの使い方(音声、動画、メディア、その他のアプリ)によって異なります。"
+        }
+      },
+      "family": {
+        "title": "Chatforiaファミリー(共有データ)",
+        "subtitle": "家族全体で単一のデータプールを共有しましょう。1つの請求書、複数のChatforiaアカウント、グローバルなカバー。",
+        "perPack": "/ パック",
+        "small": {
+          "title": "ファミリー・スモール",
+          "desc": "20GBの高速データ共有機能があり、2〜3人の軽いユーザーに最適です。",
+          "price": "$29.99",
+          "aria": "ファミリースモールパックを購入"
+        },
+        "medium": {
+          "title": "ファミリー・ミディアム",
+          "desc": "40GBの共有高速データが含まれており、3〜5名のアクティブメンバーに最適です。",
+          "price": "$49.99",
+          "aria": "ファミリーミディアムパックを購入"
+        },
+        "large": {
+          "title": "ファミリー・ラージ",
+          "desc": "80GBの高速データ共有を含む — 常にオンライン状態のパワーファミリー向け。",
+          "price": "$84.99",
+          "aria": "ファミリーラージパックを購入"
+        },
+        "feature": {
+          "shared": "ご家族のための共有データプール",
+          "members": "最大4名の追加メンバーを招待できます",
+          "membersMore": "3〜5人のアクティブメンバーに最適です",
+          "manage": "各メンバーの限度額管理",
+          "topUp": "いつでもパックを追加できます",
+          "bestValue": "GBあたりの最高の価値",
+          "fairUse": "フェアユースポリシーおよび地域の制限の対象"
+        },
+        "disclaimer": "ファミリーパックは共有データプールを作成または補充します。メンバーの招待や削除はいつでも可能です。",
+        "footnote": "ファミリーパックは、連結されたChatforiaアカウント間で単一のデータプールを共有します。在庫や制限は国や地域の規制によって異なります。"
+      },
+      "why": {
+        "title": "なぜ人々がChatforiaに切り替えるのか",
+        "subtitle": "Chatforiaは本物の電話番号、賢い翻訳、そして準備ができたときに広告なしで過ごせる明確な道筋を提供します。",
+        "card": {
+          "textnow": {
+            "title": "ChatforiaとTextNow",
+            "body": "無料なら広告が軽めで、準備ができたら簡単なPlusアップグレード、そしてTextNowにはないプレミアムツールがあります。"
+          },
+          "voice": {
+            "title": "ChatforiaとGoogle Voiceの比較",
+            "body": "現代的なアプリ、グローバルファーストのデザイン、そして昔ながらの転送ではなく内蔵翻訳。"
+          },
+          "messengers": {
+            "title": "Chatforiaとチャットアプリの比較",
+            "body": "AIやステータスを内蔵した、他のアプリユーザーだけでなく、実際の電話番号をテキストで送ることができます。TextFreeやTextMeのようなアプリから来ているなら素晴らしいです。"
+          }
+        },
+        "tableTitle": "Chatforiaの比較",
+        "col": {
+          "feature": "特徴"
+        },
+        "feature": {
+          "freeNumber": "無料電話番号",
+          "translation": "内蔵自動翻訳",
+          "aiTools": "AIツール(書き直し、返信、要約)",
+          "ads": "広告なしオプション",
+          "history": "メッセージ履歴"
+        },
+        "yes": "はい",
+        "no": "No",
+        "yesPremium": "はい(プレミアム)",
+        "plusPremium": "プラス&プレミアム",
+        "limited": "限定",
+        "nA": "N/A",
+        "history": {
+          "chatforia": "最大12+ヶ月",
+          "textnow": "記録によって異なります",
+          "voice": "限定的/アカウントベース"
+        },
+        "disclaimer": "公開情報に基づく比較であり、時間とともに変わる場合があります。TextFreeやTextMeのような他のフリーテキストアプリは、一般的にTextNowに似ています。"
+      },
+      "faq": {
+        "title": "価格設定とプランFAQ",
+        "free": {
+          "q": "無料プランは本当に無料なのでしょうか?",
+          "a": "はい。無料プランにはChatforiaの番号、電話、広告付きメッセージ機能が含まれています。無料は好きなだけ続けることも、広告を削除して機能をアンロックするためにアップグレードすることも可能です。"
+        },
+        "plusPremium": {
+          "q": "PlusとPremiumの違いは何ですか?",
+          "a": "さらに広告を削除し、メッセージ履歴を拡張する—日常使いに最適です。プレミアムは追加のカスタマイズ、書き直しや返信のためのAIツール、そしてヘビーユーザー向けの優先サポートを追加します。"
+        },
+        "esim": {
+          "q": "eSIMのデータパックはどこで使えますか?",
+          "a": "Chatforia MobileはグローバルなeSIMカバレッジを採用しています。入手可能状況は国やデバイスによって異なります。アプリ内でアクティベーション時のサポートオプションが表示されます。"
+        },
+        "cancel": {
+          "q": "いつでもキャンセルや予定変更はできますか?",
+          "a": "はい。アプリの請求ページからサブスクリプションの管理や解約が可能です。変更は現在の請求期間終了時に適用されます。"
+        },
+        "family": {
+          "q": "ファミリーパックはどのように機能するのですか?",
+          "a": "ファミリーパックは複数のChatforiaアカウント間で共有データプールを作成します。1人が支払い、メンバーを招待・解除したり、1人あたりの制限設定が可能です。"
+        }
+      },
+      "gettingStarted": {
+        "title": "はじめに",
+        "subtitle": "Chatforiaは初めてですか?このクイックスタートは、数分で生産的になれるように、基本的なことを教えてくれます。",
+        "alert": {
+          "text": "このガイドは新機能のリリースに合わせてさらに成長していきます。何か足りないものがあれば、こちらでお知らせください",
+          "contactLink": "お問い合わせ"
+        },
+        "section1": {
+          "title": "1) アカウント作成",
+          "signup": "サインアップ",
+          "or": "or",
+          "login": "ログイン",
+          "loginText": "既存のアカウントで。",
+          "prefsStart": "あなたの",
+          "prefsLink": "好み",
+          "prefsRest": "(言語、既読受信、テーマ)"
+        },
+        "section2": {
+          "title": "2) メッセージの開始",
+          "item1": "DMやグループを作成して、最初のメッセージを送りましょう。",
+          "item2": "即時翻訳を使って100+言語でチャットできます。",
+          "item3": "プライバシープロフィールでメッセージや既読確認を消してみてください→。"
+        },
+        "section3": {
+          "title": "3) さらに進む",
+          "item1": "アプリ内ならいつでも有料プランにアップグレードできます。",
+          "item2": "サインインしたら、アプリの設定から追加のデバイスを連携し、暗号化バックアップを設定できます。"
+        },
+        "cta": {
+          "seePlans": "計画をご覧ください",
+          "openSettings": "オープン設定"
+        }
+      },
+      "helpCenter": {
+        "title": "ヘルプセンター",
+        "faq": {
+          "account": {
+            "q": "アカウントの作成や回復はどうすればいいですか?",
+            "a": "アプリをダウンロードするかウェブを使い、「アカウント作成」をタップし、メールや携帯を認証してください。復元するには「パスワードを忘れました」を使います。"
+          },
+          "privacy": {
+            "q": "メッセージはエンドツーエンドで暗号化されているのでしょうか?",
+            "a": "はい。メッセージや通話はデフォルトでエンドツーエンドで暗号化されています。読むのはあなたと受信者だけです。"
+          },
+          "translate": {
+            "q": "即時翻訳はどのように機能するのでしょうか?",
+            "a": "外見と言語の設定→「自動翻訳」を有効にしてください。対応している場合はデバイス上で翻訳し、それ以外は最小限のメタデータで安全なAPIを使って翻訳しています。"
+          },
+          "contact": {
+            "q": "サポートに連絡してください",
+            "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+          }
+        }
       },
       "contact": {
-        "q": "サポートへ連絡",
-        "a": "support@chatforia.com へご連絡ください。スクリーンショットとアプリのバージョンを添えてください。"
+        "title": "お問い合わせ",
+        "successMsg": "ありがとうございます。私たちのチームからメールでご返信いたします。",
+        "errorSend": "Could not send. Please email support@chatforia.com.",
+        "form": {
+          "nameLabel": "名称",
+          "emailLabel": "メール",
+          "messageLabel": "メッセージ",
+          "sendCta": "送信"
+        }
+      },
+      "privacyPolicy": {
+        "title": "プライバシーポリシー",
+        "lastUpdated": "最終更新日:",
+        "intro": {
+          "body": "このプライバシーポリシーは、Chatforia(「私たち」「私たち」)が、あなたが当社アプリやサービスを利用した際にどのように情報を収集、使用、共有するかを説明しています。Chatforiaはアクセス可能なデータを最小限に抑えるよう設計しています。"
+        },
+        "infoWeCollect": {
+          "title": "私たちが収集した情報",
+          "account": "アカウント情報(例:メールや電話番号)を使ってアカウントを作成・保護しましょう。",
+          "encrypted": "暗号化されたコンテンツ(メッセージや通話)はエンドツーエンドで暗号化されています。読めない。",
+          "diagnostics": "クラッシュログ、デバイスタイプ、あるいはパフォーマンス向上のための粗い分析などの診断や使用方法。"
+        },
+        "sms": {
+          "title": "携帯電話番号とSMS",
+          "body": "携帯電話番号をご提供いただく場合は、アカウント認証、ログインアラート、対応している場合はSMSによるユーザー間メッセージなどの機能を有効にしています。アカウントやChatforiaでの活動に関するトランザクションSMSを送信することがあります。対応可能なオプトアウトキーワード(「STOP」など)で返信するか、アプリ内で通知の設定を変更することで、いつでもSMSの受信を拒否できます。私たちはあなたの電話番号を販売したり、無関係なマーケティングに使ったりしません。",
+          "newText": "新テキスト",
+          "enterRecipient": "名前または番号を入力してください",
+          "typeMessage": "メッセージを入力してください...",
+          "addRecipient": "まずは上に受取人を追加してください..."
+        },
+        "howWeUse": {
+          "title": "情報の使い方",
+          "provide": "サービスの提供とセキュリティ(認証、スパム・悪用検出)を行ってください。",
+          "improve": "機能(翻訳の品質、信頼性)を改善すること。",
+          "legal": "法的義務を遵守すること。"
+        },
+        "sharing": {
+          "title": "共有",
+          "body": "私たちは個人データを販売していません。厳格な契約のもと、処理業者と限られたデータ(例:プッシュ通知、分析データ)を共有することがあります。"
+        },
+        "rights": {
+          "title": "あなたの権利",
+          "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+        },
+        "retention": {
+          "title": "データ保持とセキュリティ",
+          "body": "サービス運営に必要な情報だけを保持し、業界標準のセキュリティを適用します。E2Eのコンテンツは私たちで復号できません。"
+        },
+        "children": {
+          "title": "子供たち",
+          "body": "Chatforiaは13歳未満の子どもには向けられていません(または地元の法律で義務付けられているように)。"
+        },
+        "changes": {
+          "title": "変化",
+          "body": "ここで更新を投稿し、「最終更新日」を修正します。"
+        },
+        "contact": {
+          "title": "連絡先",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "利用規約",
+        "lastUpdated": "最終更新日:",
+        "intro": {
+          "body": "Chatforiaを利用することで、これらの利用規約に同意したことになります。同意しなければ、そのサービスは使わないでください。"
+        },
+        "accounts": {
+          "title": "記録",
+          "itemAccurateInfo": "正確な情報を提供し、資格情報を安全に管理しましょう。",
+          "itemResponsibility": "アカウントの活動には責任があります。"
+        },
+        "acceptableUse": {
+          "title": "許容される使用方法",
+          "itemNoAbuse": "違法、虐待、または侵害的なコンテンツは禁止。スパムや自動的な悪用はありません。",
+          "itemSuspend": "違反により停止・解雇されることがあります。"
+        },
+        "sms": {
+          "title": "SMS通信",
+          "body": "携帯電話番号を提供すると、Chatforiaがあなたのアカウントやサービスの利用に関するSMSメッセージ(ログインアラート、セキュリティ通知、会話開始または参加に関するメッセージなど)を送信することに同意したことになります。私たちは、明確な同意なしにプロモーションやマーケティングメッセージにSMSを使用しません。標準的なメッセージ料金およびデータ料金が適用される場合があります。SMSメッセージへのオプトアウトは、対応可能なオプトアウトキーワード(例:「STOP」)で返信するか、アプリ内の通知設定を更新することでいつでもオプトアウトできます。"
+        },
+        "yourContent": {
+          "title": "あなたのコンテンツ",
+          "body": "コンテンツの権利はあなたに保持します。サービス運営に必要な権利(例:ルーティング、保存、翻訳)を私たちに付与します。"
+        },
+        "disclaimer": {
+          "title": "免責事項と責任",
+          "body": "サービスは保証なしに「現状通り」提供されます。法律で認められる限り、Chatforiaは間接的または結果的な損害について責任を負いません。"
+        },
+        "changes": {
+          "title": "変化",
+          "body": "これらの条件は更新される場合があります。変更後も継続使用は受け入れを意味する。"
+        },
+        "contact": {
+          "title": "連絡先",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "doNotSell": {
+        "title": "私の個人情報を売ったり共有したりしないでください",
+        "body": "Chatforiaは個人情報を販売していません。カリフォルニア州の住民は、以下のボタンを使って引き続きCPRAの申請を提出できます。",
+        "cta": "リクエストを提出してください"
+      },
+      "cookies": {
+        "title": "クッキー設定",
+        "body": "Chatforiaは最小限のクッキー(例:セッション、セキュリティ)を使用しています。当社はサードパーティの広告クッキーを使用しません。クッキーの管理はブラウザの設定から行います。"
+      },
+      "phoneNumberManager": {
+        "unableToLoadStatus": "電話番号の状態を読み込めません。",
+        "lock": "ロック",
+        "noNumberAssigned": "番号は割り当てられていません。市外局番で一つ選んでテキストメッセージを始めましょう。",
+        "pickNumber": "数字を選んで",
+        "phoneNumber": "電話番号"
+      },
+      "startChatModal": {
+        "title": "チャットを始めましょう",
+        "quickPicker": "クイックピッカー",
+        "to": "To",
+        "nameOrUsername": "名前とユーザー名を入力してください",
+        "nameUsernamePhoneEmail": "名前、ユーザー名、電話番号、メールを入力してください...",
+        "startWithSelected": "選択されたチャットでチャットを始めてください",
+        "searchByUsernameOrPhone": "ユーザー名または電話番号で検索してください",
+        "search": "検索",
+        "searchPrompt": "ユーザー名または電話番号を入力して検索ボタンを押します。",
+        "pickFromContacts": "あるいは連絡先から選ぶのもいいです",
+        "addContact": "連絡先を追加",
+        "show": "番組",
+        "add": "追加",
+        "close": "閉じる",
+        "selectedCount": "{{count}} 選択済み",
+        "pickAtLeastOne": "少なくとも一人の受取人を選んでください。",
+        "saveContactsHint": "電話やメールのエントリーは連絡先として保存した後に利用可能になります。",
+        "failedBulkStart": "選択された受信者とのチャットを開始しませんでした。",
+        "noResults": "結果なし",
+        "mode": "モード",
+        "group": "グループ",
+        "broadcast": "放送",
+        "groupNameOptional": "グループ名(任意)",
+        "firstMessageOptional": "最初のメッセージ(任意ですが推奨)",
+        "createGroup": "グループ作成",
+        "sendBroadcast": "ブロードキャストを送信"
+      },
+      "themes": {
+        "amoled": "アモレド",
+        "aurora": "オーロラ",
+        "neon": "ネオン",
+        "sunset": "夕焼け",
+        "solarized": "太陽光発電",
+        "velvet": "ベルベット"
+      },
+      "sounds": {
+        "freeNotice": "無料です — プレミアムトーンは表示されますがロックされています。アップグレードすれば全てアンロックできます。",
+        "preview": "プレビュー",
+        "resetToDefaults": "デフォルトにリセット",
+        "notificationSounds": "通知音",
+        "messageTone": "メッセージトーン",
+        "default": "デフォルト",
+        "vibrate": "バイブ",
+        "dreamer": "ドリーマー",
+        "notify": "通知",
+        "pop": "ポップ",
+        "pulsatingSound": "脈打つ音",
+        "textMessage": "テキストメッセージ",
+        "xylophone": "木琴",
+        "classic": "クラシック",
+        "urgency": "緊急性",
+        "bells": "鐘",
+        "chimes": "チャイム",
+        "digitalPhone": "デジタルフォン",
+        "melodic": "旋律的",
+        "organNotes": "オルガンの音",
+        "soundReality": "サウンドリアリティ",
+        "street": "通り",
+        "universfield": "ユニバースフィールド"
+      },
+      "premiumGuard": {
+        "requiresPremium": "この機能はプレミアムプランが必要です。"
+      },
+      "aiSettings": {
+        "title": "AI設定",
+        "controlIntro": "翻訳のコントロール、スマートな返信、ForiaBotの自動応答。",
+        "save": "AI設定を保存する",
+        "autoTranslateIncoming": "自動翻訳受信メッセージ",
+        "showOriginalAlongside": "翻訳と共に原文を表示",
+        "enableSmartReplies": "スマート返信を有効にする",
+        "smartRepliesHint": "最後に受け取った数通のメッセージ(消毒済み)をAIに送り、迅速な返信を提案してもらう。",
+        "maskProfanity": "AI提案におけるマスクの罵り言葉",
+        "maskProfanityHint": "オンの場合、AIが返す提案はフラグ付きワードがマスクされます",
+        "foriaBot": "ForiaBot自動応答器",
+        "enableAutoReply": "忙しいときは自動返信を有効にしてください",
+        "autoReplyMode": "自動返信モード",
+        "cooldownSeconds": "クールダウン(秒)",
+        "off": "消えろ",
+        "on": "On",
+        "signature": "署名",
+        "autoReply": "自動返信",
+        "activeUntilOptional": "有効期間(任意)",
+        "saved": "AIの設定が保存されています",
+        "saveFailed": "AI設定の保存に失敗しました",
+        "translateOff": "消えろ",
+        "translateTagged": "Only when @translated or tagged",
+        "translateAll": "すべての受信メッセージを翻訳してください",
+        "modeDm": "1対1のチャットのみ",
+        "modeMention": "Only when I’m @mentioned",
+        "modeAll": "すべての受信メッセージ"
+      },
+      "accessibilitySettings": {
+        "title": "アクセシビリティとアラート",
+        "accessibility": "アクセスのしやすさ",
+        "accessibilityDesc": "Chatforiaを音に頼らずに使いやすくするためのオプション。",
+        "interfaceFontSize": "インターフェースフォントサイズ",
+        "interfaceFontSizeHelp": "通常サイズから始まる。アクセシビリティ設定で大きな文字を好みたい場合は、サイズを上げてください。",
+        "sm": "sm",
+        "md": "md",
+        "lg": "lg",
+        "xl": "xl",
+        "notifications": "通知",
+        "notificationsDesc": "メッセージや通話の視覚的アラート\nバナー表示やタイトル点滅を表示して、アクティビティを見逃さないようにしましょう。",
+        "vibrateOnNew": "新しいメッセージで振動(対応されている場合)\n通知でデバイスの振動をトリガーします。",
+        "flashOnCall": "着信時にフラッシュ画面が表示されます\n呼び出し音が鳴るときの一瞬の明るい閃光。",
+        "liveCaptions": "ライブ字幕(通話)",
+        "captionFontSize": "キャプションフォントサイズ",
+        "captionBackground": "キャプションの背景",
+        "light": "光",
+        "dark": "暗い",
+        "transparent": "透明",
+        "voiceNotes": "音声メモ",
+        "autoTranscribeVoiceNotes": "自動文字起こし音声ノート",
+        "autoTranscribeVoiceNotesDesc": "受け取った音声メッセージに書き起こしを添付してください。",
+        "changesSavedInstantly": "変更は即座に保存されます。",
+        "loadFailed": "設定の読み込みに失敗しました",
+        "visualAlerts": "メッセージや通話の視覚的アラート",
+        "visualAlertsDesc": "バナー表示やタイトル点滅を表示して、アクティビティを見逃さないようにしましょう。",
+        "vibrateOnNewShort": "新しいメッセージで振動(対応されている場合)",
+        "vibrateOnNewDesc": "通知でデバイスの振動をトリガーします。",
+        "flashOnCallShort": "着信時にフラッシュ画面が表示されます",
+        "flashOnCallDesc": "呼び出し音が鳴るときの一瞬の明るい閃光。"
+      },
+      "privacySection": {
+        "strictE2EE": "厳密エンドツーエンド暗号化",
+        "ciphertextOnlyNote": "サーバー上には暗号文のみを保存します。AI/翻訳およびモデレーションプレビューを無効にします。"
+      },
+      "linkedDevicesPanel": {
+        "title": "リンクされたデバイス",
+        "noneFound": "リンクされたデバイスは見つかりませんでした。",
+        "refresh": "リフレッシュ"
+      },
+      "help": {
+        "title": "助けて",
+        "howCanWeHelp": "どうすればお手伝いできますか?",
+        "helpCenter": "ヘルプセンター",
+        "contactUs": "お問い合わせ",
+        "quickTopics": "簡単な話題",
+        "searchExamples": "「翻訳」「バックアップ」「プライバシー」で検索してみてください。",
+        "cantLogin": "ログインできません",
+        "paymentsBilling": "支払い/請求",
+        "reportAbuse": "虐待を報告",
+        "searchHelpArticles": "検索ヘルプ記事",
+        "search": "検索"
+      },
+      "peoplePage": {
+        "people": "人々",
+        "search": "検索",
+        "searchPlaceholder": "別名、名前、ユーザー名、または電話番号で検索",
+        "filterSaved": "フィルター保存された接点",
+        "noContactsFound": "接触点は見つかりませんでした",
+        "quickStart": "クイックスタート",
+        "quickStartDesc": "スタートを切るためのいくつかの手早くする方法。",
+        "importContacts": "コンタクトをインポートしてください",
+        "add": "追加",
+        "focusSearch": "フォーカスサーチ",
+        "import": "輸入",
+        "findOrAdd": "誰かを見つけるか追加する",
+        "searchByPhoneOrUsername": "電話/ユーザー名で検索",
+        "inviteFriends": "友達を招待する",
+        "inviteDesc": "招待リンクを共有して、すぐにチャットを始めましょう。",
+        "getTheApp": "アプリを入手しましょう",
+        "getTheAppDesc": "iOSとAndroid向けのChatforiaで、外出先でも連絡を取りましょう。",
+        "download": "ダウンロード",
+        "syncTip": "ヒント:メッセージはウェブとモバイルの両方で同期し続けます。"
+      },
+      "randomChat": {
+        "title": "ランダムチャット",
+        "description": "「すぐに新しい人に出会える」「マッチングして一時的なチャットルームを開くよ。」まずは匿名でチャットして。「もし気が向いたら、後で友達を追加してもいいよ。」",
+        "findMatch": "マッチを見つけてくれ",
+        "chatWithForia": "フォリアとの対談",
+        "chatWithForiaBot": "ForiaBotとのチャット",
+        "cancel": "キャンセル",
+        "close": "閉じる",
+        "searching": "探している...",
+        "finding": "見つけること...",
+        "looking": "誰かを探してるんだ...",
+        "startingForia": "フォリアとチャットを始める...",
+        "partnerDisconnected": "パートナーが切断されました。",
+        "noPartner": "今のところパートナーは見つかりません。",
+        "connectedTo": "{{name}}に接続",
+        "connected": "接続",
+        "idle": "アイドル",
+        "partnerLeft": "パートナーは去った。",
+        "stopped": "止まった。",
+        "skip": "スキップ",
+        "save": "セーブ",
+        "saveGuard": "保存できるのは人間同士のチャットだけです",
+        "youAreChattingWith": "あなたは{{name}}とチャットしています。",
+        "bot": "ボット",
+        "leave": "出て行け",
+        "sayHi": "挨拶👋して",
+        "you": "お前だ",
+        "typeMessage": "メッセージを入力してください",
+        "send": "送信",
+        "partner": "パートナー",
+        "withRia": "リアと共に",
+        "chatWithRia": "リアとのチャット",
+        "startingRia": "リアとチャットを始める...",
+        "ageDisclaimer": "私たちは年齢範囲のみを保存しており(正確な生年月日は含まれていません)。これはランダムチャットのペアリングを合理的に保つために使われます。人とマッチングするには(RiaBotだけでなく)、設定→年齢とランダムチャットで年齢帯を設定します。",
+        "ageBandRequired": "プロフィール→年齢とランダムチャットで年齢範囲を設定して、人とマッチングしてください。",
+        "ageBandCallout": "人とマッチングするには(RiaBotだけでなく)、設定→年齢とランダムチャットで年齢帯を設定します。",
+        "subtitle": "すぐに新しい人と出会うか、リアとチャットするのもいい。",
+        "start": "会話を始めましょう",
+        "matching": "マッチング...",
+        "setAge": "プロフィール→年齢とランダムチャットで年齢範囲を設定して、人とマッチングしてください。",
+        "next": "次の人物",
+        "addFriend": "友達追加",
+        "requested": "要請",
+        "messageRia": "リアへのメッセージ...",
+        "messageMatch": "マッチにメッセージを送って..."
+      },
+      "brand": {
+        "name": "チャフォリア",
+        "ria": "リア"
+      },
+      "ria": {
+        "fallbackName": "そこだ",
+        "intro": "こんにちは👋、リアです。何を考えているの?",
+        "greetings": {
+          "long1": "やあ、{{name}}👋、ここにいるよ。何を考えているの?",
+          "long2": "こんにちは、{{name}} 😊 今日は何について話したいですか?",
+          "long3": "ねえ、{{name}}!聞くよ — どうした?",
+          "long4": "会えて嬉しいよ、{{name}} 👋 今日は何を考えているの?",
+          "long5": "ねえ {{name}} 🙂 愚痴を言いたい?質問したい?それともただ話したい?",
+          "long6": "こんにちは、{{name}}!時間はあるけど、何について話したい?",
+          "short1": "ねえ {{name}}、まだここにいるよ。どうした?",
+          "short2": "お帰りなさい、{{name}} 👋 他に何か付け加えたいことはありますか?",
+          "short3": "また来たのか、{{name}}?😊 何を考えているのか教えてくれ。",
+          "short4": "ねえ、{{name}} ✨ 前回の続きから始める準備はいい?",
+          "short5": "はい、{{name}}?聞👂いてるよ",
+          "short6": "ああ、やあ {{name}}!何か新しいことがあるの?"
+        },
+        "header": {
+          "openNav": "ナビゲーションメニューを開く",
+          "closeNav": "ナビゲーションメニューを閉じる",
+          "homeAria": "チャフォリア家"
+        },
+        "login": {
+          "welcomeBack": "お帰りなさい",
+          "title": "チャットフォリアへ進む",
+          "subtitleReturning": "Chatforiaアカウントにログインしてください",
+          "subtitle": "Chatforiaアカウントにログインしてください",
+          "google": "Googleで続けてください",
+          "apple": "Appleで続けてください",
+          "googleUnavailable": "Googleサインインが利用できません",
+          "appleUnavailable": "Appleサインイン不可",
+          "or": "or",
+          "email": "メール",
+          "emailPh": "you@example.com",
+          "usernameLabel": "ユーザー名",
+          "usernamePh": "あなたのユーザー名",
+          "passwordLabel": "パスワード",
+          "passwordPh": "あなたのパスワード",
+          "keepSignedIn": "サインインを保っておいた",
+          "forgot": {
+            "title": "パスワードを忘れました",
+            "helper": "Chatforiaアカウント作成に使ったメールアドレスを入力していただけると、パスワードリセットのための安全なリンクをお送りします。",
+            "emailInvalid": "有効なメールアドレスを入力してください。",
+            "genericError": "リクエストを処理できません。少々おかけください。",
+            "sending": "リセットリンクを送信中...",
+            "sendCta": "リセットリンクを送信",
+            "sentLabel": "送信完了!",
+            "sentHelper": "そのメールアドレスのアカウントが存在する場合は、パスワードリセットリンクを送信しました。到着まで数分かかるかもしれません。迷惑メールやプロモーションフォルダを必ず確認してください。",
+            "previewDev": "プレビューメール(開発者)",
+            "backToLogin": "ログインに戻る"
+          },
+          "submit": "ログイン",
+          "loggingIn": "ログイン中...",
+          "newHere": "New here? <link>Create an account</link>",
+          "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+          "error": {
+            "missing": "Please enter your credentials.",
+            "invalid": "Invalid username or password",
+            "denied": "Access denied.",
+            "unprocessable": "Invalid request. Check your username/email and password.",
+            "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+            "premiumRequired": "This action requires a Premium plan."
+          }
+        }
+      },
+      "oauth": {
+        "completing": "Completing sign-in…"
+      },
+      "dialer": {
+        "title": "鳴き声",
+        "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+        "enterNumberPh": "Enter number",
+        "call": "鳴き声",
+        "backspace": "Backspace",
+        "recents": "Recents",
+        "recentsEmpty": "No recent calls yet.",
+        "enterNumber": "Enter number",
+        "enterNumberAria": "Enter number",
+        "key": "Key {{d}}",
+        "noRecents": "No recent calls yet."
+      },
+      "video": {
+        "title": "ビデオ",
+        "chooseType": "Choose a video type.",
+        "directTitle": "Direct Video",
+        "directDesc": "1:1 camera call with another user.",
+        "directStart": "Start",
+        "roomsTitle": "Rooms",
+        "roomsDesc": "Multi-party video using a shared room name.",
+        "roomsIntro": "Join or create a multi-party room.",
+        "roomNameLabel": "Room name",
+        "roomNamePh": "e.g. team-standup",
+        "join": "Join",
+        "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>.",
+        "hub": {
+          "title": "ビデオ",
+          "subtitle": "Choose a video type."
+        },
+        "direct": {
+          "title": "Direct Video",
+          "subtitle": "Start a 1:1 video call using a phone number or Chatforia username.",
+          "desc": "1:1 camera call with another user.",
+          "start": "Start",
+          "callBtn": "鳴き声",
+          "callByPhone": {
+            "title": "Call by phone"
+          },
+          "phone": {
+            "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+            "aria": "Phone to call"
+          },
+          "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+          "findUser": {
+            "title": "Find a user"
+          },
+          "search": {
+            "placeholder": "Search by name or username",
+            "aria": "Search by name or username",
+            "btn": "検索"
+          }
+        },
+        "rooms": {
+          "title": "Rooms",
+          "subtitle": "Create a room or join an existing one by typing the same name.",
+          "desc": "Multi-party video using a shared room name.",
+          "roomLabel": "Room name",
+          "roomPlaceholder": "e.g. team-standup",
+          "roomAria": "Room name",
+          "joinCreate": "Join / Create",
+          "tip": "Tip: share this name with others, or deep link to <code>/video?room=room-name</code>."
+        }
+      },
+      "directVideo": {
+        "intro": "Start a direct 1:1 video call.",
+        "findUserLabel": "Find a user",
+        "findUserPh": "Search by name or username",
+        "search": "検索",
+        "call": "鳴き声"
+      },
+      "phoneWarning": {
+        "title": "Your number is expiring soon",
+        "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+        "button": "Keep My Number"
+      }
+    },
+    "support": {
+      "helpFab": "助けて",
+      "openSupportAria": "Open support",
+      "badge": "Support",
+      "heading": "どうすればお手伝いできますか?",
+      "tabs": {
+        "help": "ヘルプセンター",
+        "contact": "お問い合わせ"
+      },
+      "searchPlaceholder": "Search help articles…",
+      "searchAria": "Search help",
+      "searchBtn": "検索",
+      "quickTopicsLabel": "簡単な話題",
+      "quickTopics": {
+        "login": "Can’t log in",
+        "billing": "Payments / billing",
+        "abuse": "虐待を報告"
+      },
+      "trySearching": "「翻訳」「バックアップ」「プライバシー」で検索してみてください。",
+      "article": "Article",
+      "openArticle": "Open article",
+      "contactIntro": "We’ll email you a response. Include details to help us reproduce the issue.",
+      "topicAria": "Select a topic",
+      "messagePlaceholder": "Write your message…",
+      "sendBtn": "送信",
+      "sent": "Message sent. We’ll reply by email.",
+      "sendError": "Could not send. Email support@chatforia.com instead."
+    },
+    "helpCenter": {
+      "title": "ヘルプセンター",
+      "faq": {
+        "account": {
+          "q": "アカウントの作成や回復はどうすればいいですか?",
+          "a": "アプリをダウンロードするかウェブを使い、「アカウント作成」をタップし、メールや携帯を認証してください。復元するには「パスワードを忘れました」を使います。"
+        },
+        "privacy": {
+          "q": "メッセージはエンドツーエンドで暗号化されているのでしょうか?",
+          "a": "はい。メッセージや通話はデフォルトでエンドツーエンドで暗号化されています。読むのはあなたと受信者だけです。"
+        },
+        "translate": {
+          "q": "即時翻訳はどのように機能するのでしょうか?",
+          "a": "外見と言語の設定→「自動翻訳」を有効にしてください。対応している場合はデバイス上で翻訳し、それ以外は最小限のメタデータで安全なAPIを使って翻訳しています。"
+        },
+        "contact": {
+          "q": "サポートに連絡してください",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+        }
+      }
+    },
+    "encryptionRecovery": {
+      "title": "Manage Encryption",
+      "description": "Back up, restore, unlock, or reset your encryption key.",
+      "alert": {
+        "keyRequiredTitle": "Encryption key required",
+        "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue."
+      },
+      "sections": {
+        "createBackup": "Create key backup",
+        "restoreFromBackup": "Restore from account backup",
+        "resetEncryption": "Reset encryption"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Unlock passcode (current device)",
+          "description": "Used to decrypt your keys locally before exporting"
+        },
+        "backupPassword": {
+          "label": "Backup password",
+          "description": "Used to encrypt the backup file"
+        },
+        "restoreBackupPassword": {
+          "label": "Backup password",
+          "description": "The password you created when backing up your key on iPhone"
+        },
+        "newLocalPasscode": {
+          "label": "New local passcode",
+          "description": "Protect keys at rest on this browser"
+        },
+        "resetLocalPasscode": {
+          "label": "New local passcode",
+          "description": "Required before resetting so the new key is protected on this device"
+        }
+      },
+      "actions": {
+        "unlockKey": "Unlock encryption key",
+        "restoreFromBackup": "Restore from account backup",
+        "resetEncryption": "Reset Encryption"
+      },
+      "messages": {
+        "backupCreated": "Key backup created and downloaded.",
+        "keyUnlocked": "Encryption key unlocked.",
+        "keyRestored": "Key restored from account backup.",
+        "resetSuccess": "Encryption reset successfully."
+      },
+      "errors": {
+        "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+        "noBackup": "このアカウントには暗号化されたバックアップが存在しません",
+        "missingPublicKey": "バックアップに公開鍵が欠けています",
+        "noServerPublicKey": "This account does not currently expose a server public key",
+        "serverBackupMismatch": "Server backup does not match the current account encryption key",
+        "incompleteMetadata": "Backup metadata is incomplete",
+        "resetIncomplete": "Encryption reset did not complete correctly"
+      },
+      "confirm": {
+        "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+      },
+      "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "footer": {
+      "plans": "Plans & Pricing",
+      "about": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "contact": "お問い合わせ",
+      "help": "ヘルプセンター",
+      "status": "Status Page",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "プライバシーポリシー",
+      "terms": "利用規約",
+      "cookies": "クッキー設定",
+      "doNotSell": "Do Not Sell My Info",
+      "language": "Language",
+      "contactShort": "連絡先",
+      "aria": "Footer",
+      "homeAria": "Chatforia home",
+      "section": {
+        "company": "COMPANY",
+        "support": "SUPPORT",
+        "downloads": "DOWNLOADS",
+        "legal": "LEGAL"
+      },
+      "links": {
+        "plans-pricing": "Plans & Pricing",
+        "about-chatforia": "About Chatforia",
+        "careers": "Careers",
+        "press": "Press",
+        "advertise": "Advertise",
+        "getting-started": "はじめに",
+        "help-center": "ヘルプセンター",
+        "contact-us": "お問い合わせ",
+        "status-page": "Status Page",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "プライバシーポリシー",
+        "terms-of-service": "利用規約",
+        "do-not-sell-my-info": "Do Not Sell My Info",
+        "cookie-settings": "クッキー設定"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patent pending",
+      "backToTop": "↑ Back to top"
+    },
+    "press": {
+      "title": "Press",
+      "contactLine": "For media inquiries, reach us at",
+      "boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+      "assetsTitle": "Brand assets",
+      "assetsSubtitle": "Logos, screenshots, and product imagery.",
+      "downloadCta": "Download media kit",
+      "downloadTitle": "アプリを入手しましょう",
+      "scanTip": "デスクトップで?スマホでスキャンしてアプリを起動してください。",
+      "qrAria": "Open Chatforia website",
+      "appStore": "App Storeでダウンロード",
+      "googlePlay": "Google Playで入手できます"
+    },
+    "careers": {
+      "title": "Careers",
+      "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+      "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+      "apply": "How to apply: Use the button below to email your resume and links.",
+      "emailCta": "Email your resume",
+      "whyNow": "Why join now?",
+      "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales."
+    },
+    "about": {
+      "title": "About Chatforia",
+      "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
+      "valuesTitle": "What we value",
+      "values": {
+        "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+        "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+        "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+        "privacy_aria": "Privacy-first: E2E encryption by default.",
+        "access_aria": "Access for all: Auto-translate 100+ languages.",
+        "control_aria": "Control: Disappearing messages and read receipts are optional."
+      },
+      "howTitle": "How Chatforia works",
+      "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
+    },
+    "advertise": {
+      "title": "Advertise with Chatforia",
+      "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+      "adsense": {
+        "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+        "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+      },
+      "inventoryHeader": "Inventory & Specs",
+      "placement": {
+        "displayBadge": "Display",
+        "acceptedSizes": "Accepted sizes",
+        "adsenseSlot": "AdSense slot:"
+      },
+      "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+      "whyHeader": "Why Chatforia?",
+      "why": {
+        "highSession": "High session frequency and dwell time in chat UI",
+        "brandSafe": "Brand-safe formats; respectful frequency capping",
+        "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+        "deals": "Direct deals or programmatic via AdSense/Google Ads"
+      },
+      "contactHeader": "連絡先",
+      "form": {
+        "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+        "missingRequired": "Please fill in name, email, and message.",
+        "successToast": "Thanks! We’ll be in touch soon.",
+        "mailtoInfo": "Opening your email client to send the inquiry…",
+        "nameLabel": "Your name",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "メール",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Company",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Monthly budget (optional)",
+        "budgetPlaceholder": "e.g. $1,000–$20,000+",
+        "messageLabel": "Tell us about your campaign",
+        "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+        "sendCta": "Send inquiry"
+      },
+      "legal": {
+        "disclaimerStart": "By submitting, you agree to our",
+        "terms": "Terms",
+        "and": "and",
+        "privacy": "プライバシーポリシー"
       }
     }
-  },
-
-  "contact": {
-    "title": "お問い合わせ",
-    "successMsg": "ありがとうございます。担当チームがメールで返信します。",
-    "errorSend": "送信できませんでした。support@chatforia.com へメールしてください。",
-    "form": {
-      "nameLabel": "お名前",
-      "emailLabel": "メール",
-      "messageLabel": "メッセージ",
-      "sendCta": "送信"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "プライバシーポリシー",
-    "lastUpdated": "最終更新：",
-    "intro": {
-      "body": "本プライバシーポリシーは、Chatforia（「当社」）がアプリおよびサービスの利用時にどのように情報を収集・利用・共有するかを説明します。Chatforia は、当社がアクセスできるデータを最小化する設計です。"
-    },
-    "infoWeCollect": {
-      "title": "収集する情報",
-      "account": "アカウント情報（例：メール／電話）— アカウントの作成と保護のため。",
-      "encrypted": "暗号化コンテンツ（メッセージ／通話）は E2E 暗号化され、当社は読めません。",
-      "diagnostics": "パフォーマンス改善のための診断／利用情報（クラッシュログ、デバイスタイプ、概略の分析など）。"
-    },
-    "howWeUse": {
-      "title": "情報の利用目的",
-      "provide": "サービスの提供と保護（認証、スパム／不正検知）。",
-      "improve": "機能改善（翻訳品質、信頼性）。",
-      "legal": "法令遵守。"
-    },
-    "sharing": {
-      "title": "共有",
-      "body": "当社は個人データを販売しません。処理業者（プッシュ通知、分析など）とは厳格な契約の下で限定的に共有する場合があります。"
-    },
-    "rights": {
-      "title": "あなたの権利",
-      "body": "地域（GDPR／UK GDPR／CPRA 等）により、アクセス、訂正、削除、特定処理のオプトアウトを請求できます。連絡先：privacy@chatforia.com。"
-    },
-    "retention": {
-      "title": "保存期間とセキュリティ",
-      "body": "運用に必要な範囲でのみ保持し、業界標準のセキュリティを適用します。E2E コンテンツは当社には復号できません。"
-    },
-    "children": {
-      "title": "児童",
-      "body": "Chatforia は 13 歳未満（またはお住まいの地域の要件）を対象としていません。"
-    },
-    "changes": {
-      "title": "変更",
-      "body": "更新は本ページで告知し、「最終更新」日を改めます。"
-    },
-    "contact": {
-      "title": "連絡先",
-      "body": "privacy@chatforia.com ・［会社の正式名称］・［住所］"
-    }
-  },
-
-  "terms": {
-    "title": "利用規約",
-    "lastUpdated": "最終更新：",
-    "intro": {
-      "body": "Chatforia を利用することで本規約に同意したものとみなします。同意しない場合はサービスを利用しないでください。"
-    },
-    "accounts": {
-      "title": "アカウント",
-      "itemAccurateInfo": "正確な情報を提供し、資格情報を安全に保管してください。",
-      "itemResponsibility": "あなたのアカウント上の行為に責任を負います。"
-    },
-    "acceptableUse": {
-      "title": "許容利用",
-      "itemNoAbuse": "違法・虐待的・侵害的コンテンツ、スパムや自動化された濫用は禁止。",
-      "itemSuspend": "違反があれば停止／解除する場合があります。"
-    },
-    "yourContent": {
-      "title": "あなたのコンテンツ",
-      "body": "コンテンツの権利はあなたに留保されます。サービス運用に必要な権利（経路設定、保存、翻訳など）を当社に付与いただきます。"
-    },
-    "disclaimer": {
-      "title": "免責・責任",
-      "body": "本サービスは「現状有姿」で提供されます。法律で許される最大限、Chatforia は間接的・結果的損害に責任を負いません。"
-    },
-    "changes": {
-      "title": "変更",
-      "body": "本規約を更新する場合があります。変更後の継続利用は同意を意味します。"
-    },
-    "contact": {
-      "title": "連絡先",
-      "body": "support@chatforia.com ・［会社の正式名称］・［住所］"
-    }
-  },
-
-  "doNotSell": {
-    "title": "個人情報を販売または共有しない",
-    "body": "Chatforia は個人情報を販売しません。カリフォルニア州の居住者は、CPRA に基づく請求を以下のボタンから送信できます。",
-    "cta": "リクエストを送信"
-  },
-
-  "cookies": {
-    "title": "Cookie 設定",
-    "body": "Chatforia は最小限の Cookie（セッション、セキュリティ等）のみを使用します。第三者の広告 Cookie は使用しません。ブラウザ設定から管理できます。"
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "電話番号の状態を読み込めませんでした。",
-    "lock": "ロック",
-    "noNumberAssigned": "割り当てられた番号がありません。市外局番から番号を選んでテキストを開始してください。",
-    "pickNumber": "番号を選ぶ",
-    "phoneNumber": "電話番号"
-  },
-
-  "startChatModal": {
-    "title": "チャットを開始",
-    "quickPicker": "クイックピッカー",
-    "to": "宛先",
-    "nameOrUsername": "名前、ユーザー名を入力",
-    "nameUsernamePhoneEmail": "名前、ユーザー名、電話、メールを入力…",
-    "startWithSelected": "選択相手とチャットを開始",
-    "searchByUsernameOrPhone": "ユーザー名または電話で検索",
-    "search": "検索",
-    "searchPrompt": "ユーザー名または電話を入力して検索を押してください。",
-    "pickFromContacts": "または連絡先から選ぶ",
-    "addContact": "連絡先を追加",
-    "show": "表示",
-    "add": "追加",
-    "close": "閉じる",
-    "selectedCount": "{{count}} 件を選択",
-    "pickAtLeastOne": "少なくとも1人選択してください。",
-    "saveContactsHint": "電話／メールの入力は、連絡先として保存後に利用できます。",
-    "failedBulkStart": "選択した相手とのチャット開始に失敗しました。",
-    "noResults": "結果なし",
-    "mode": "モード",
-    "group": "グループ",
-    "broadcast": "ブロードキャスト",
-    "groupNameOptional": "グループ名（任意）",
-    "firstMessageOptional": "最初のメッセージ（任意・推奨）",
-    "createGroup": "グループを作成",
-    "sendBroadcast": "ブロードキャストを送信"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "現在は Free プランです — プレミアムの着信音は表示されますがロックされています。アップグレードで全て解放されます。",
-    "preview": "プレビュー",
-    "resetToDefaults": "既定にリセット",
-    "notificationSounds": "通知音",
-    "messageTone": "メッセージ音",
-    "default": "デフォルト",
-    "vibrate": "バイブレーション",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "この機能は Premium プランが必要です。"
-  },
-
-  "aiSettings": {
-    "title": "AI 設定",
-    "controlIntro": "翻訳、スマート返信、ForiaBot の自動応答を制御します。",
-    "save": "AI 設定を保存",
-    "autoTranslateIncoming": "受信メッセージを自動翻訳",
-    "showOriginalAlongside": "翻訳の横に原文を表示",
-    "enableSmartReplies": "スマート返信を有効にする",
-    "smartRepliesHint": "直近の受信メッセージ（サニタイズ済み）を AI に送り、クイック返信候補を提案します。",
-    "maskProfanity": "AI の提案で不適切語をマスク",
-    "maskProfanityHint": "オンの場合、AI の提案内の該当語がマスクされます",
-    "foriaBot": "ForiaBot 自動返信",
-    "enableAutoReply": "取り込み中は自動返信を有効にする",
-    "autoReplyMode": "自動返信モード",
-    "cooldownSeconds": "クールダウン（秒）",
-    "off": "オフ",
-    "on": "オン",
-    "signature": "署名",
-    "autoReply": "自動返信",
-    "activeUntilOptional": "有効期限（任意）",
-    "saved": "AI 設定を保存しました",
-    "saveFailed": "AI 設定の保存に失敗しました",
-    "translateOff": "オフ",
-    "translateTagged": "@translated またはタグ付け時のみ",
-    "translateAll": "すべての受信メッセージを翻訳",
-    "modeDm": "1対1 チャットのみ",
-    "modeMention": "自分が @メンション されたときのみ",
-    "modeAll": "すべての受信メッセージ"
-  },
-
-  "accessibilitySettings": {
-    "title": "アクセシビリティと通知",
-    "accessibility": "アクセシビリティ",
-    "accessibilityDesc": "サウンドに頼らず Chatforia を使いやすくするオプション。",
-    "interfaceFontSize": "インターフェースの文字サイズ",
-    "interfaceFontSizeHelp": "標準サイズから始まります。アクセシビリティ設定で大きさを上げられます。",
-    "sm": "小",
-    "md": "中",
-    "lg": "大",
-    "xl": "特大",
-    "notifications": "通知",
-    "notificationsDesc": "メッセージと通話の視覚的アラート\nバナーやタイトル点滅で見逃しを防ぎます。",
-    "vibrateOnNew": "新着メッセージでバイブ（対応時）\n通知でデバイスの振動をトリガー。",
-    "flashOnCall": "着信時に画面をフラッシュ\n着信時に短く明るく点滅します。",
-    "liveCaptions": "ライブ字幕（通話）",
-    "captionFontSize": "字幕の文字サイズ",
-    "captionBackground": "字幕の背景",
-    "light": "ライト",
-    "dark": "ダーク",
-    "transparent": "透明",
-    "voiceNotes": "ボイスメモ",
-    "autoTranscribeVoiceNotes": "ボイスメモを自動文字起こし\n受信した音声メッセージに書き起こしを添付します。",
-    "changesSavedInstantly": "変更は即時保存されます。",
-    "loadFailed": "設定の読み込みに失敗しました",
-    "visualAlerts": "メッセージと通話の視覚的アラート",
-    "visualAlertsDesc": "バナーやタイトル点滅で見逃しを防ぎます。",
-    "vibrateOnNewShort": "新着メッセージでバイブ（対応時）",
-    "vibrateOnNewDesc": "通知でデバイスの振動をトリガーします。",
-    "flashOnCallShort": "着信時に画面をフラッシュ",
-    "flashOnCallDesc": "着信時に短く明るく点滅します。"
-  },
-
-  "privacySection": {
-    "strictE2EE": "厳格なエンドツーエンド暗号化",
-    "ciphertextOnlyNote": "サーバーには暗号文のみ保存します。AI／翻訳やモデレーションのプレビューは無効になります。"
-  },
-
-  "linkedDevicesPanel": {
-    "title": "リンク済みデバイス",
-    "noneFound": "リンクされたデバイスはありません。",
-    "refresh": "更新"
-  },
-
-  "help": {
-    "title": "ヘルプ",
-    "howCanWeHelp": "どのようにお手伝いできますか？",
-    "helpCenter": "ヘルプセンター",
-    "contactUs": "お問い合わせ",
-    "quickTopics": "クイックトピック",
-    "searchExamples": "「translate」「backups」「privacy」などで検索してみてください。",
-    "cantLogin": "ログインできない",
-    "paymentsBilling": "支払い／請求",
-    "reportAbuse": "不正行為を報告",
-    "searchHelpArticles": "ヘルプ記事を検索",
-    "search": "検索"
-  },
-
-  "peoplePage": {
-    "people": "ユーザー",
-    "search": "検索",
-    "searchPlaceholder": "別名・名前・ユーザー名・電話で検索",
-    "filterSaved": "保存済み連絡先で絞り込み",
-    "noContactsFound": "連絡先が見つかりません",
-    "quickStart": "クイックスタート",
-    "quickStartDesc": "すぐに始められる方法をいくつか。",
-    "importContacts": "連絡先をインポート",
-    "add": "追加",
-    "focusSearch": "検索にフォーカス",
-    "import": "インポート",
-    "findOrAdd": "ユーザーを見つける／追加",
-    "searchByPhoneOrUsername": "電話／ユーザー名で検索",
-    "inviteFriends": "友だちを招待",
-    "inviteDesc": "招待リンクを共有して今すぐチャットを開始。",
-    "getTheApp": "アプリを入手",
-    "getTheAppDesc": "iOS と Android の Chatforia で外出先でもつながろう。",
-    "download": "ダウンロード",
-    "syncTip": "ヒント：Web とモバイルでメッセージは同期されます。"
-  },
-
-  "randomChat": {
-    "title": "ランダムチャット",
-    "description": "すぐに新しい相手とマッチ。臨時のチャットルームを開きます。",
-    "findMatch": "マッチ相手を探す",
-    "chatWithForia": "Foria とチャット",
-    "chatWithForiaBot": "ForiaBot とチャット",
-    "cancel": "キャンセル",
-    "close": "閉じる",
-    "searching": "検索中…",
-    "finding": "探しています…",
-    "looking": "相手を探しています…",
-    "startingForia": "Foria とのチャットを開始しています…",
-    "partnerDisconnected": "相手が切断しました。",
-    "noPartner": "現在相手が見つかりません。",
-    "connectedTo": "{{name}} と接続しました",
-    "connected": "接続中",
-    "idle": "待機中",
-    "partnerLeft": "相手が退出しました。",
-    "stopped": "停止しました。",
-    "skip": "スキップ",
-    "save": "保存",
-    "saveGuard": "保存できるのは人対人のチャットのみです",
-    "youAreChattingWith": "現在の相手：{{name}}",
-    "bot": "BOT",
-    "leave": "退出",
-    "sayHi": "挨拶する 👋",
-    "you": "あなた",
-    "typeMessage": "メッセージを入力",
-    "send": "送信",
-    "partner": "相手",
-    "withForia": "Foria と"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "ナビゲーションメニューを開く",
-    "closeNav": "ナビゲーションメニューを閉じる",
-    "homeAria": "Chatforia ホーム"
-  },
-
-  "login": {
-    "title": "おかえりなさい",
-    "subtitle": "Chatforia アカウントにログイン",
-    "google": "Google で続行",
-    "apple": "Apple で続行",
-    "googleUnavailable": "Google サインインは現在ご利用いただけません",
-    "appleUnavailable": "Apple サインインは現在ご利用いただけません",
-    "or": "または",
-    "email": "メール",
-    "emailPh": "you@example.com",
-    "usernameLabel": "ユーザー名",
-    "usernamePh": "あなたのユーザー名",
-    "passwordLabel": "パスワード",
-    "passwordPh": "あなたのパスワード",
-    "keepSignedIn": "サインインを維持",
-    "forgot": "パスワードをお忘れですか？",
-    "submit": "ログイン",
-    "loggingIn": "ログイン中…",
-    "newHere": "初めてですか？<link>アカウントを作成</link>",
-    "ssoUnavailable": "シングルサインオンは現在ご利用いただけません。ユーザー名とパスワードをご使用ください。",
-    "error": {
-      "missing": "資格情報を入力してください。",
-      "invalid": "ユーザー名またはパスワードが無効です",
-      "denied": "アクセスが拒否されました。",
-      "unprocessable": "無効なリクエストです。ユーザー名／メールとパスワードを確認してください。",
-      "deviceLimit": "Free プランのデバイス上限に達しました。別のデバイスでログアウトするか、Premium にアップグレードしてください。",
-      "premiumRequired": "この操作には Premium プランが必要です。"
-    }
-  }
 }
+

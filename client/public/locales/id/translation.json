@@ -1,986 +1,1696 @@
 {
   "common": {
-    "save": "Simpan",
-    "cancel": "Batal",
-    "refresh": "Segarkan",
-    "noMatches": "Tidak ada kecocokan",
-    "cancelAria": "Batalkan",
-    "copy": "Salin",
-    "copied": "Disalin!"
-  },
-
-  "a11y": {
-    "skipToMain": "Lewati ke konten utama"
-  },
-
-  "profile": {
-    "title": "Profil Pengguna",
-    "preferredLanguage": "Bahasa pilihan",
-    "chooseLanguage": "Pilih bahasa",
-    "mustLogin": "Anda harus masuk untuk melihat pengaturan.",
-    "autoTranslate": "Terjemahkan pesan otomatis",
-    "showOriginalWithTranslation": "Tampilkan asli dan terjemahan",
-    "showOriginalAndTranslation": "Tampilkan teks asli berdampingan dengan terjemahan",
-    "filterExplicit": "Saring konten eksplisit",
-    "aiReply": "Balasan AI",
-    "enableReadReceipts": "Aktifkan tanda sudah dibaca",
-    "allowExplicitContent": "Izinkan konten eksplisit",
-    "disappearingMessages": "Aktifkan pesan menghilang",
-    "autoDeleteSeconds": "Detik hingga hapus otomatis",
-    "saveSuccess": "Pengaturan disimpan!",
-    "saveError": "Kesalahan: Tidak dapat menyimpan pengaturan",
-    "avatarAlt": "Avatar profil",
-    "uploadAvatar": "Unggah avatar baru",
-    "avatarSuccess": "Avatar berhasil diunggah!",
-    "avatarError": "Kesalahan saat mengunggah avatar",
-    "noPrivateKey": "Tidak ada kunci privat di perangkat ini untuk diekspor.",
-    "setBackupPassword": "Atur kata sandi untuk mengenkripsi cadangan Anda:",
-    "backupDownloaded": "Cadangan terenkripsi diunduh.",
-    "exportFailed": "Ekspor kunci gagal",
-    "enterBackupPassword": "Masukkan kata sandi untuk cadangan ini:",
-    "importSuccess": "Kunci privat diimpor ke perangkat ini.",
-    "importFailed": "Gagal mengimpor kunci (kata sandi salah atau file rusak).",
-    "keysRotated": "Pasangan kunci baru dibuat dan kunci publik diunggah.",
-    "rotateFailed": "Gagal mengganti pasangan kunci.",
-    "security": "Keamanan",
-    "exportKey": "Ekspor kunci privat",
-    "importKey": "Impor cadangan kunci terenkripsi",
-    "rotateKeys": "Ganti pasangan kunci",
-    "keyDisclaimer": "Kunci privat Anda tidak pernah meninggalkan perangkat ini. Ekspor salinan yang dilindungi kata sandi untuk memulihkannya di perangkat lain.",
-    "sectionProfile": "Profil",
-    "phoneNumber": "Nomor telepon",
-    "appearance": "Tampilan",
-    "soundSettings": "Suara",
-    "disappearing": "Pesan menghilang",
-    "backupSync": "Cadangan & Sinkronisasi",
-    "ai": "AI",
-    "accessibility": "Aksesibilitas",
-    "privacy": "Privasi",
-    "devices": "Perangkat tertaut",
-    "themeFreeNotice": "Anda menggunakan Free—pakai opsi Matahari/Bulan di bawah. Tingkatkan untuk membuka lebih banyak tema.",
-    "sunTheme": "Gunakan tema Fajar",
-    "moonTheme": "Gunakan tema Bulan (Tengah Malam)",
-    "sun": "Matahari",
-    "moon": "Bulan",
-    "backupTitle": "Cadangan Terenkripsi & Sinkronisasi Perangkat",
-    "openBackupTools": "Buka Alat Cadangan",
-    "backupDesc": "Buat cadangan kunci yang dilindungi kata sandi, dan pulihkan di perangkat lain untuk sinkronisasi.",
-    "privacyBlurEnabled": "Kaburkan pesan secara default",
-    "privacyBlurOnUnfocus": "Kaburkan saat aplikasi tidak aktif",
-    "holdToReveal": "Tahan untuk menampilkan",
-    "notifyOnCopy": "Beri tahu saya jika pesan saya disalin",
-    "loadFailed": "Gagal memuat profil",
-    "followed": "Diikuti",
-    "followFailed": "Gagal mengikuti",
-    "unfollowed": "Berhenti diikuti",
-    "unfollowFailed": "Gagal berhenti mengikuti",
-    "follow": "Ikuti",
-    "unfollow": "Berhenti mengikuti",
-    "followHint": "Cerita mereka akan muncul di feed Mengikuti Anda jika mereka memposting dengan audiens Pengikut (atau Publik).",
-    "userNotFound": "Pengguna tidak ditemukan",
-    "followsYou": "Mengikuti Anda",
-    "sectionCrashedTitle": "Bagian gagal dimuat",
-    "sectionCrashedBody": "Terjadi kesalahan pada bagian ini.",
-    "forwarding": "Penerusan Panggilan & SMS",
-    "callTextForwardingSection": "Penerusan Panggilan & SMS",
-    "callTextForwardingTitle": "Penerusan Panggilan dan/atau SMS",
-    "callTextForwardingDescription": "Teruskan panggilan dan SMS masuk ke ponsel atau email terverifikasi Anda. Panggilan/SMS keluar dapat menampilkan nomor Chatforia Anda.",
-    "enableTextForwarding": "Aktifkan penerusan SMS",
-    "forwardTextsToPhone": "Teruskan SMS ke ponsel",
-    "forwardTextsToEmail": "Teruskan SMS ke email",
-    "destinationPhone": "Tujuan ponsel (E.164)",
-    "destinationEmail": "Email tujuan",
-    "enableCallForwarding": "Aktifkan penerusan panggilan",
-    "destinationPhoneForCalls": "Tujuan (E.164) untuk panggilan",
-    "aliasBridging": "Penerusan Panggilan (alias bridging)",
-    "quietHoursOptional": "Jam Tenang (opsional)",
-    "startHour": "Jam mulai (0–23)",
-    "endHour": "Jam selesai (0–23)",
-    "reset": "Atur ulang",
-    "saveBtn": "Simpan",
-    "forwardSaved": "Pengaturan penerusan disimpan",
-    "forwardSaveFailed": "Gagal menyimpan pengaturan",
-    "errE164": "Masukkan nomor ponsel E.164 yang valid (mis., +15551234567).",
-    "errEmail": "Masukkan email yang valid.",
-    "errSmsDest": "Pilih setidaknya satu tujuan (ponsel atau email).",
-    "errQuietHours": "Jam tenang harus antara 0 dan 23."
-  },
-
-  "support": {
-    "helpFab": "Bantuan",
-    "openSupportAria": "Buka dukungan",
-    "badge": "Dukungan",
-    "heading": "Bagaimana kami bisa membantu?",
-    "tabs": {
-      "help": "Pusat Bantuan",
-      "contact": "Hubungi kami"
+      "save": "Simpan",
+      "cancel": "Batalkan",
+      "refresh": "Segarkan",
+      "noMatches": "Tidak ada kecocokan",
+      "cancelAria": "Batalkan",
+      "copy": "Salin",
+      "copied": "Disalin!",
+      "errorWithMessage": "Kesalahan: {{message}}"
     },
-    "searchPlaceholder": "Cari artikel bantuan…",
-    "searchAria": "Cari bantuan",
-    "searchBtn": "Cari",
-    "quickTopicsLabel": "Topik cepat",
-    "quickTopics": {
-      "login": "Tidak bisa masuk",
-      "billing": "Pembayaran / penagihan",
-      "abuse": "Laporkan penyalahgunaan"
+    "a11y": {
+      "skipToMain": "Lewati ke konten utama"
     },
-    "trySearching": "Coba cari “terjemahkan”, “cadangan”, atau “privasi”.",
-    "article": "Artikel",
-    "openArticle": "Buka artikel",
-    "contactIntro": "Kami akan membalas melalui email. Sertakan detail agar kami dapat mereproduksi masalahnya.",
-    "topicAria": "Pilih topik",
-    "messagePlaceholder": "Tulis pesan Anda…",
-    "sendBtn": "Kirim",
-    "sent": "Pesan terkirim. Kami akan membalas melalui email.",
-    "sendError": "Tidak dapat mengirim. Email ke support@chatforia.com sebagai gantinya."
-  },
-
-  "chat": {
-    "selectPrompt": "Pilih teks atau ruang obrolan untuk mulai mengobrol",
-    "newMessages": "Pesan baru",
-    "typing": "{{name}} sedang mengetik...",
-    "emptyTitle": "Pesan Anda",
-    "emptySubtitle": "Kirim pesan untuk memulai obrolan.",
-    "startChatButton": "Kirim pesan"
-  },
-
-  "topbar": {
-    "newStatus": "Status Baru",
-    "logout": "Keluar",
-    "help": "Bantuan",
-    "createStatusAria": "Buat Status baru"
-  },
-
-  "status": {
-    "userNumber": "Pengguna #{{id}}",
-    "posted": "Status diposting",
-    "postFailed": "Gagal memposting status",
-    "createTitle": "Buat status",
-    "modalAriaLabel": "Status baru",
-    "captionLabel": "Apa yang Anda pikirkan?",
-    "captionPlaceholder": "Bagikan pembaruan...",
-    "captionAria": "Pesan status",
-    "audienceLabel": "Audiens",
-    "audience": {
-      "public": "Publik",
-      "followers": "Pengikut",
-      "contacts": "Kontak",
-      "mutuals": "Saling mengikuti",
-      "custom": "Kustom..."
+    "keys": {
+      "backupCreated": "Cadangan kunci dibuat dan diunduh ✓",
+      "restored": "Pencadangan kunci dipulihkan ✓ Kunci diinstal secara lokal",
+      "noBackup": "Tidak ada cadangan terenkripsi untuk akun ini",
+      "missingPublicKey": "Cadangan tidak memiliki kunci publik"
     },
-    "expiresHoursLabel": "Kedaluwarsa (jam)",
-    "maxTooltip": "Maksimum 7 hari",
-    "hoursAbbrev": "j",
-    "maxShort": "maks",
-    "expiresOn": "Kedaluwarsa pada:",
-    "chooseRecipients": "Pilih penerima",
-    "selectContacts": "Pilih kontak",
-    "attachmentsLabel": "Lampiran",
-    "attachmentsPlaceholder": "Tambahkan gambar/video",
-    "filesNote": "Maks 5 file. Bawaan kedaluwarsa 24 jam.",
-    "postAria": "Posting status",
-    "post": "Posting"
-  },
-
-  "contactList": {
-    "savedContacts": "Kontak Tersimpan",
-    "refreshAria": "Segarkan kontak",
-    "filterPlaceholder": "Saring kontak tersimpan…",
-    "filterAria": "Saring kontak tersimpan",
-    "noContactsFound": "Tidak ada kontak ditemukan.",
-    "externalContact": "Kontak eksternal",
-    "notJoined": "Kontak tersebut belum bergabung dengan Chatforia.",
-    "couldNotStart": "Tidak dapat memulai obrolan. Coba lagi.",
-    "startFailed": "Gagal memulai obrolan. Coba lagi.",
-    "deleted": "Kontak dihapus.",
-    "deleteFailed": "Gagal menghapus kontak. Coba lagi.",
-    "aliasUpdated": "Alias diperbarui.",
-    "updateAliasFailed": "Gagal memperbarui alias. Coba lagi.",
-    "selectContact": "Pilih {{name}}",
-    "alias": "Alias",
-    "startChat": "Mulai obrolan",
-    "message": "Pesan",
-    "delete": "Hapus",
-    "deleteContactAria": "Hapus kontak",
-    "loadFailed": "Gagal memuat kontak. Coba lagi.",
-    "loadMore": "Muat lainnya"
-  },
-
-  "sidebar": {
-    "randomChat": "Obrolan Acak",
-    "callTextForwarding": "Penerusan Panggilan & SMS",
-    "conversations": "Percakapan",
-    "searchPlaceholder": "Cari percakapan...",
-    "errorLoading": "Gagal memuat obrolan",
-    "empty": "Belum ada percakapan.",
-    "startChat": "Mulai obrolan",
-    "people": "Orang",
-    "settings": "Pengaturan",
-    "status": "Status",
-    "forwarding": "Penerusan Panggilan & SMS",
-    "refresh": "Segarkan",
-    "search": "Cari percakapan",
-    "loginPrompt": "Masuk untuk mengedit pengaturan Anda.",
-    "login": "Masuk",
-    "register": "Buat akun",
-    "chatrooms": "Ruang obrolan",
-    "logout": "Keluar",
-    "startChatAlt": "Mulai obrolan baru"
-  },
-
-  "premium": {
-    "heading": "Jadi Premium",
-    "description": "Buka fitur kuat & hilangkan iklan.",
-    "cta": "Tingkatkan",
-    "upgrade": "Tingkatkan",
-    "upgradeAria": "Tingkatkan ke Chatforia Premium"
-  },
-
-  "auth": {
-    "headline": "Perpesanan aman, global dengan terjemahan instan",
-    "description": "Enkripsi ujung-ke-ujung, terjemahan bertenaga AI, pesan menghilang, dan panggilan suara/video.",
-    "feature": {
-      "encryption": "Enkripsi ujung-ke-ujung secara default",
-      "translation": "Terjemahkan otomatis 100+ bahasa",
-      "disappearing": "Pesan menghilang & tanda sudah dibaca",
-      "privacy": "Privasi-utama. Data Anda, kendali Anda.",
-      "translate": "Terjemahan waktu nyata",
-      "disappear": "Pesan menghilang",
-      "privacyAlt": "Desain berfokus privasi"
-    },
-    "hero": {
-      "line1": "Aman, global",
-      "beforeEm": "perpesanan dengan",
-      "em": "terjemahan instan",
-      "sub": "Enkripsi ujung-ke-ujung, terjemahan bertenaga AI, pesan menghilang, dan panggilan suara/video."
-    },
-    "feat": {
-      "encryption": "Enkripsi ujung-ke-ujung secara default",
-      "translate": "Terjemahkan otomatis 100+ bahasa",
-      "disappear": "Pesan menghilang & tanda sudah dibaca",
-      "privacy": "Privasi-utama. Data Anda, kendali Anda."
-    },
-    "welcomeBack": "Selamat datang kembali",
-    "continueGoogle": "Lanjutkan dengan Google",
-    "continueApple": "Lanjutkan dengan Apple",
-    "username": "Nama pengguna",
-    "password": "Kata sandi",
-    "keepSignedIn": "Tetap masuk",
-    "forgotPassword": "Lupa kata sandi?",
-    "loginButton": "Masuk",
-    "createAccount": "Buat akun",
-    "freeAccountButton": "Buat akun gratis",
-    "newHere": "Baru di sini?",
-    "getApp": "Dapatkan aplikasinya",
-    "desktopTip": "Di desktop? Pindai dengan ponsel Anda untuk mendapatkan aplikasi.",
-    "scanHelper": "Di desktop? Pindai dengan ponsel untuk mendapatkan aplikasi.",
-    "goHome": "Pergi ke beranda",
-    "home": "Beranda",
-    "headlineAlt": {
-      "main": "Aplikasi pesan aman yang",
-      "highlight": "berbicara bahasa Anda"
-    },
-    "subhead": "Perpesanan pribadi, terenkripsi, dan diterjemahkan — seketika.",
-    "status": "Lihat status",
-    "upgrade": "Tingkatkan sekarang",
-    "tip": "Tip: Gunakan akun yang sama di web dan seluler. Pesan Anda tetap tersinkron.",
-    "openDownload": "Buka halaman unduhan",
-    "qrAlt": "Kode QR untuk Chatforia",
-    "scanHint": "Pindai untuk mengunduh aplikasi atau buka di peramban Anda.",
-    "iosAria": "Unduh di App Store",
-    "iosTitle": "Unduh di App Store",
-    "iosBadgeAlt": "Lencana App Store",
-    "androidAria": "Dapatkan di Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Lencana Google Play",
-    "login": "Masuk",
-    "signup": "Daftar",
-    "email": "Email"
-  },
-
-  "footer": {
-    "plans": "Paket & Harga",
-    "about": "Tentang Chatforia",
-    "careers": "Karier",
-    "press": "Pers",
-    "advertise": "Beriklan",
-    "contact": "Hubungi Kami",
-    "help": "Pusat Bantuan",
-    "status": "Halaman Status",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Kebijakan Privasi",
-    "terms": "Ketentuan Layanan",
-    "cookies": "Pengaturan Cookie",
-    "doNotSell": "Jangan Jual Informasi Saya",
-    "language": "Bahasa",
-    "contactShort": "Kontak",
-
-    "aria": "Bagian kaki",
-    "homeAria": "Beranda Chatforia",
-    "section": {
-      "company": "PERUSAHAAN",
-      "support": "DUKUNGAN",
-      "downloads": "UNDUHAN",
-      "legal": "LEGAL"
-    },
-    "links": {
-      "plans-pricing": "Paket & Harga",
-      "about-chatforia": "Tentang Chatforia",
-      "careers": "Karier",
-      "press": "Pers",
-      "advertise": "Beriklan",
-      "getting-started": "Mulai",
-      "help-center": "Pusat Bantuan",
-      "contact-us": "Hubungi Kami",
-      "status-page": "Halaman Status",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Kebijakan Privasi",
-      "terms-of-service": "Ketentuan Layanan",
-      "do-not-sell-my-info": "Jangan Jual Informasi Saya",
-      "cookie-settings": "Pengaturan Cookie"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Paten tertunda",
-    "backToTop": "↑ Kembali ke atas"
-  },
-
-  "home": {
-    "title": "Beranda",
-    "header": "Pesan Anda",
-    "subheader": "Kirim pesan untuk memulai obrolan.",
-    "sendButton": "Kirim pesan",
-    "gifPicker": "Buka pemilih GIF",
-    "emoji": "Emoji",
-    "upload": "Unggah foto atau video",
-    "inputPlaceholder": "Ketik pesan…",
-    "inputLabel": "Penyusun pesan",
-    "sendTooltip": "Kirim",
-    "sendTooltipEmpty": "Ketik pesan untuk mengirim",
-    "send": "Kirim",
-    "welcomeMessage": "Selamat datang di Chatforia",
-    "getStarted": "Mulai"
-  },
-
-  "press": {
-    "title": "Pers",
-    "contactLine": "Untuk pertanyaan media, hubungi kami di",
-    "boilerplateTitle": "Ringkasan Perusahaan",
-    "boilerplateBody": "Chatforia adalah aplikasi pesan berfokus privasi yang memudahkan obrolan lintas bahasa. Pesan terenkripsi ujung-ke-ujung secara default, dan terjemahan bawaan mendukung 100+ bahasa secara real time. Pengguna dapat mengaktifkan pesan menghilang, menjaga tanda sudah dibaca tetap opsional, dan sinkron di seluruh perangkat. Tersedia di iOS, Android, dan web.",
-    "assetsTitle": "Aset merek",
-    "assetsSubtitle": "Logo, tangkapan layar, dan gambar produk.",
-    "downloadCta": "Unduh paket media",
-    "downloadTitle": "Dapatkan aplikasinya",
-    "scanTip": "Di desktop? Pindai dengan ponsel Anda untuk mendapatkan aplikasi.",
-    "qrAria": "Buka situs Chatforia",
-    "appStore": "Unduh di App Store",
-    "googlePlay": "Dapatkan di Google Play"
-  },
-
-  "careers": {
-    "title": "Karier",
-    "intro": "Kami tim kecil yang membangun messenger privat dan global. Jika Anda peduli tentang enkripsi, aksesibilitas, dan UX yang menyenangkan, kami ingin mendengar dari Anda.",
-    "openRoles": "<b>Lowongan terbuka:</b> Engineering (Full-stack, iOS, Android), Produk, Dukungan.",
-    "apply": "<b>Cara melamar:</b> Email resume/tautan Anda ke <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Email resume Anda"
-  },
-
-  "about": {
-    "title": "Tentang Chatforia",
-    "description": "Chatforia adalah messenger aman dan multibahasa dengan enkripsi ujung-ke-ujung, terjemahan instan, dan panggilan suara/video. Misi kami sederhana: membantu orang terhubung—dengan aman, privat, dan lintas bahasa.",
-    "valuesTitle": "Yang kami hargai",
-    "values": {
-      "privacy": "<bold>Privasi-utama:</bold> E2E terenkripsi secara default.",
-      "access": "<bold>Akses untuk semua:</bold> Terjemah otomatis 100+ bahasa.",
-      "control": "<bold>Kendali:</bold> Pesan menghilang & tanda sudah dibaca bersifat opsional.",
-      "privacy_aria": "Privasi-utama: E2E terenkripsi secara default.",
-      "access_aria": "Akses untuk semua: Terjemah otomatis 100+ bahasa.",
-      "control_aria": "Kendali: Pesan menghilang dan tanda sudah dibaca opsional."
-    },
-    "howTitle": "Cara kerja Chatforia",
-    "howDescription": "Pesan dienkripsi di perangkat Anda sebelum dikirim. Terjemahan, cadangan, dan sinkronisasi perangkat dirancang untuk meminimalkan apa yang dapat dilihat server kami."
-    },
-
-  "advertise": {
-    "title": "Beriklan dengan Chatforia",
-    "description": "Jangkau pengguna pesan yang terlibat dengan penempatan yang rapi dan aman merek. Kami menawarkan inventaris banner di lokasi bernilai tinggi, sponsor, dan promosi internal. Pelanggan Premium tidak melihat iklan.",
-    "adsense": {
-      "withPubId": "Saat ini kami menayangkan iklan melalui <b>Google AdSense</b>. Jika Anda ingin menargetkan kami melalui Google Ads, gunakan ID penayang <code>{{pubId}}</code> dan minta penempatan terkelola pada unit kami di bawah. Sponsorship langsung tersedia—gunakan formulir.",
-      "noPubId": "Saat ini kami menayangkan iklan melalui <b>Google AdSense</b>. Sponsorship langsung juga tersedia—gunakan formulir di bawah."
-    },
-    "inventoryHeader": "Inventaris & Spesifikasi",
-    "placement": {
-      "displayBadge": "Tampilan",
-      "acceptedSizes": "Ukuran yang diterima",
-      "adsenseSlot": "Slot AdSense:"
-    },
-    "noPlacements": "Belum ada penempatan yang dikonfigurasi. Tambahkan di ads/placements.js.",
-    "whyHeader": "Mengapa Chatforia?",
-    "why": {
-      "highSession": "Frekuensi sesi tinggi dan durasi lama di UI obrolan",
-      "brandSafe": "Format aman merek; pembatasan frekuensi yang sopan",
-      "sponsoredMoments": "Momen bersponsor (mis., modal “Mulai Obrolan”) tersedia",
-      "deals": "Kesepakatan langsung atau programatik via AdSense/Google Ads"
-    },
-    "contactHeader": "Kontak",
-    "form": {
-      "submittedMsg": "Terima kasih! Permintaan Anda sedang dikirim. Kami akan segera menindaklanjuti.",
-      "missingRequired": "Harap isi nama, email, dan pesan.",
-      "successToast": "Terima kasih! Kami akan segera menghubungi Anda.",
-      "mailtoInfo": "Membuka klien email Anda untuk mengirim permintaan…",
-      "nameLabel": "Nama Anda",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Email",
-      "emailPlaceholder": "anda@perusahaan.com",
-      "companyLabel": "Perusahaan",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Anggaran bulanan (opsional)",
-      "budgetPlaceholder": "$5.000",
-      "messageLabel": "Ceritakan tentang kampanye Anda",
-      "messagePlaceholder": "Penargetan, tanggal, KPI, preferensi penempatan…",
-      "sendCta": "Kirim permintaan"
-    },
-    "legal": {
-      "disclaimerStart": "Dengan mengirimkan, Anda setuju dengan",
-      "terms": "Ketentuan",
-      "and": "dan",
-      "privacy": "Kebijakan Privasi"
-    }
-  },
-
-  "upgrade": {
-    "title": "Tingkatkan",
-    "subtitle": "Pilih paket yang tepat untuk Anda: bebas iklan dengan Plus, atau fitur penuh kami dengan Premium.",
-    "perMonth": "bln",
-    "perYear": "tahun",
-    "goPremium": "Jadi Premium",
-    "benefitsLine": "Buka fitur kuat & hilangkan iklan.",
-    "ctaText": "Tingkatkan",
-    "aria": "Tingkatkan ke Chatforia Premium",
-    "toggle": {
-      "monthly": "Bulanan",
-      "annual": "Tahunan (Hemat 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Langganan akan berakhir",
-      "body": "Anda akan kembali ke Free pada",
-      "keepPlanCta": "Pertahankan {{plan}}",
-      "manageBillingCta": "Kelola penagihan"
-    },
-    "billing": {
-      "opening": "Membuka…",
-      "manage": "Kelola Penagihan"
-    },
-    "checkout": {
-      "redirecting": "Mengalihkan…"
+    "keySetup": {
+      "title": "Menyiapkan kunci perangkat Anda",
+      "description": "Perangkat ini belum memiliki kunci pribadi Anda. Impor cadangan yang dilindungi kata sandi, atau buat pasangan kunci baru (Anda akan dapat membaca pesan baru mulai sekarang).",
+      "chooseFile": "Pilih file dan masukkan kata sandi.",
+      "imported": "Kunci pribadi yang diimpor ke perangkat ini. Anda dapat membaca pesan lama sekarang.",
+      "enterPassword": "Masukkan kata sandi akun Anda sehingga kami dapat mencadangkan kunci Anda dengan aman."
     },
     "auth": {
-      "continue": "Lanjutkan ke login",
+      "headline": "Pesan aman untuk siapa saja, di mana saja",
+      "description": "Enkripsi end-to-end, terjemahan ke 100+ bahasa, pesan yang menghilang, dan panggilan suara/video.",
+      "feature": {
+        "encryption": "Enkripsi end-to-end secara default",
+        "translation": "Terjemahan pesan bawaan yang cerdas",
+        "disappearing": "Menghilang pesan & tanda terima baca",
+        "privacy": "Mengutamakan privasi. Data Anda, kontrol Anda.",
+        "translate": "Terjemahan pesan bawaan yang cerdas",
+        "disappear": "Pesan menghilang",
+        "privacyAlt": "Desain yang mengutamakan privasi",
+        "seePlans": "Lihat paket & harga"
+      },
+      "hero": {
+        "line1": "Pesan aman untuk siapa saja, di mana saja — dengan",
+        "em": "translation to 100+ languages",
+        "sub": "Dapatkan nomor telepon aman gratis untuk menelepon dan mengirim SMS ke seluruh dunia melalui Wi-Fi atau data. Nikmati enkripsi end-to-end, pesan yang menghilang, dan panggilan suara/video HD — dengan alat bawaan yang membantu Anda tetap terhubung lintas batas.",
+        "freeNote": "Panggilan dan SMS dasar gratis. AI canggih dan fitur premium memerlukan peningkatan."
+      },
+      "feat": {
+        "encryption": "Enkripsi end-to-end, selalu aktif",
+        "translate": "Hancurkan hambatan bahasa dalam percakapan Anda",
+        "disappear": "Menghilang pesan & tanda terima baca",
+        "privacy": "Mengutamakan privasi. Data Anda, kontrol Anda."
+      },
+      "continueGoogle": "Lanjutkan dengan Google",
+      "continueApple": "Lanjutkan dengan Apple",
+      "username": "Nama pengguna",
+      "password": "Kata sandi",
+      "keepSignedIn": "Biarkan saya login",
+      "forgotPassword": "Lupa kata sandi?",
+      "loginButton": "Masuk",
       "createAccount": "Buat akun",
-      "signIn": "Masuk"
+      "freeAccountButton": "Buat akun gratis",
+      "newHere": "Baru di sini?",
+      "getApp": "Dapatkan aplikasinya",
+      "desktopTip": "Di desktop? Pindai dengan ponsel Anda untuk mendapatkan aplikasi.",
+      "scanHelper": "Di desktop? Pindai dengan ponsel Anda untuk mendapatkan aplikasi.",
+      "goHome": "Pergi ke beranda",
+      "home": "Beranda",
+      "headlineAlt": {
+        "main": "Messenger aman yang",
+        "highlight": "berbicara bahasa Anda"
+      },
+      "subhead": "Pesan pribadi, terenkripsi, dan diterjemahkan — secara instan.",
+      "upgrade": "Tingkatkan sekarang",
+      "tip": "Tips: Gunakan akun yang sama di web dan seluler. Pesan Anda tetap disinkronkan.",
+      "openDownload": "Buka halaman unduhan",
+      "qrAlt": "Kode QR untuk Chatforia",
+      "scanHint": "Pindai untuk mengunduh aplikasi atau buka di browser Anda.",
+      "iosAria": "Unduh di App Store",
+      "iosTitle": "Unduh di App Store",
+      "iosBadgeAlt": "Lencana App Store",
+      "androidAria": "Dapatkan di Google Play",
+      "androidTitle": "Google Play Store",
+      "androidBadgeAlt": "Badge Google Play",
+      "login": "Masuk",
+      "signup": "Daftar",
+      "email": "Email",
+      "registration": {
+        "passwordDescription": "Minimal 6 karakter. Gunakan kata sandi yang kuat dan unik.",
+        "smsConsent": "Dengan membuat akun, Anda setuju untuk menerima pemberitahuan SMS yang terkait dengan aktivitas Chatforia Anda (seperti pesan dari pengguna lain). Tarif pesan & data mungkin berlaku. Anda dapat memilih keluar kapan saja di Pengaturan.",
+        "termsLink": "Ketentuan Layanan",
+        "privacyLink": "Kebijakan Privasi"
+      },
+      "to": "To:",
+      "enterRecipient": "Masukkan nama atau nomor",
+      "clearRecipients": "Hapus penerima",
+      "sms": "SMS",
+      "chatforia": "Chatforia",
+      "typeMessage": "Ketik pesan...",
+      "addRecipient": "Tambahkan penerima di atas untuk memulai...",
+      "oneRecipient": "Silakan masukkan satu penerima untuk saat ini.",
+      "enterValidRecipient": "Masukkan nama kontak atau nomor telepon yang disimpan.",
+      "sendFailed": "Mengirim gagal. Periksa konsol untuk detailnya."
     },
-    "cta": {
-      "aria": "Pilih paket",
-      "getPlus": "Tingkatkan ke Plus",
-      "upgradeMonthly": "Tingkatkan Bulanan",
-      "upgradeAnnual": "Tingkatkan Tahunan"
+    "home": {
+      "title": "Beranda",
+      "header": "Pesan Anda",
+      "subheader": "Kirim pesan untuk memulai obrolan.",
+      "sendButton": "Kirim pesan",
+      "gifPicker": "Buka pemilih GIF",
+      "emoji": "Emoji",
+      "upload": "Mengunggah foto atau video",
+      "inputPlaceholder": "Ketik pesan...",
+      "inputLabel": "Komposer pesan",
+      "sendTooltip": "Kirim",
+      "sendTooltipEmpty": "Ketik pesan yang akan dikirim",
+      "send": "Kirim",
+      "welcomeMessage": "Selamat datang di Chatforia",
+      "getStarted": "Memulai"
     },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Mulai mengirim pesan gratis.",
-        "features": {
-          "msg": "Pesan 1:1 dan grup",
-          "aiBasic": "Balasan AI dasar",
-          "attachments": "Lampiran standar"
-        },
-        "ctaCurrent": "Paket Saat Ini",
-        "ctaUnavailable": "Beralih ke Free (tidak tersedia)",
-        "aria": "Paket Free (saat ini)"
+    "chat": {
+      "selectPrompt": "Pilih ruang teks atau obrolan untuk mulai mengobrol",
+      "newMessages": "Pesan baru",
+      "typing": "{{name}} sedang mengetik...",
+      "emptyTitle": "Pesan Anda",
+      "emptySubtitle": "Kirim pesan untuk memulai obrolan.",
+      "startChatButton": "Kirim pesan",
+      "mediaAttachment": "Lampiran media",
+      "thisUser": "pengguna ini",
+      "blockConfirm": "Blokir {{name}}? Anda tidak akan menerima pesan dari mereka.",
+      "blockedUser": "Diblokir {{name}}.",
+      "blockError": "Tidak dapat menentukan pengguna target untuk diblokir.",
+      "blockFailed": "Blok gagal (backend belum disambungkan).",
+      "encryptedUnavailable": "Pesan terenkripsi (kunci tidak tersedia)",
+      "unlockToView": "Buka kunci Anda untuk melihat pesan ini"
+    },
+    "messageInput": {
+      "ttl": {
+        "off": "Mati"
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$4,99 / bln",
-        "desc": "Pengalaman tanpa iklan paling terjangkau.",
-        "features": {
-          "noAds": "Hapus semua iklan",
-          "msg": "Pesan 1:1 dan grup",
-          "attachments": "Lampiran lebih besar",
-          "aiBasic": "Balasan AI dasar"
-        },
-        "badge": "Populer",
-        "cta": "Bebas Iklan",
-        "aria": "Tingkatkan ke Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Bulanan)",
-        "price": "$24,99 / bln",
-        "desc": "Fitur lengkap, nada dering, dan alat AI bertenaga.",
-        "features": {
-          "plusAll": "Semua di Plus",
-          "ringtones": "Nada dering & nada pesan kustom",
-          "powerAi": "Fitur AI bertenaga",
-          "priorityUpdates": "Pembaruan prioritas",
-          "backups": "Cadangan & sinkronisasi perangkat"
-        },
-        "badge": "Nilai terbaik",
-        "cta": "Tingkatkan (Bulanan)",
-        "aria": "Tingkatkan ke Premium Bulanan"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Tahunan)",
-        "price": "$225 / tahun",
-        "desc": "Hemat lebih banyak dengan penagihan tahunan.",
-        "features": {
-          "allPremium": "Semua di Premium",
-          "annualBilling": "Ditagih tahunan",
-          "save25": "Hemat ~25% vs bulanan",
-          "sameFeatures": "Fitur sama seperti Bulanan"
-        },
-        "badge": "Hemat 25%",
-        "cta": "Tingkatkan (Tahunan)",
-        "aria": "Tingkatkan ke Premium Tahunan",
-        "disclaimer": "Ditagih di muka. Bisa dibatalkan kapan saja. Tanpa biaya tersembunyi."
+      "freeLimit": "Batas paket gratis: hapus otomatis hingga 1 hari. Dijepit ke 1d.",
+      "premiumLimit": "Penghapusan otomatis maksimum untuk Premium adalah 30 hari. Dijepit hingga 30d.",
+      "nothingToSend": "Ketik pesan atau lampirkan file untuk dikirim.",
+      "encryptionFailed": "Enkripsi gagal. Pesan tidak terkirim.",
+      "sent": "Pesan disampaikan.",
+      "placeholder": "Ketik pesan...",
+      "autoDelete": "Hapus otomatis",
+      "typeToSend": "Ketik pesan yang akan dikirim",
+      "send": "Kirim",
+      "sendWithEnter": "Kirim (Masukkan)",
+      "attachment": "lampiran",
+      "caption": "Keterangan (opsional)",
+      "remove": "Hapus",
+      "clear": "Jelas",
+      "gif": "GIF",
+      "sticker": "Stiker",
+      "errors": {
+        "attachmentTooLarge": "Lampiran terlalu besar. Coba file yang lebih kecil.",
+        "unsupportedFile": "Jenis file yang tidak didukung.",
+        "rateLimit": "Anda mengirim pesan terlalu cepat. Tolong pelan-pelan.",
+        "validation": "Kesalahan validasi. Silakan periksa pesan Anda dan coba lagi.",
+        "failedToSend": "Gagal mengirim. Anda dapat mencoba kembali gelembung yang gagal."
       }
     },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Mulai mengirim pesan gratis.",
-      "plusTitle": "Plus",
-      "plusBadge": "Populer",
-      "plusDesc": "Pengalaman tanpa iklan paling terjangkau.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Fitur lengkap, nada dering, dan alat AI bertenaga.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Hemat lebih banyak dengan penagihan tahunan.",
-      "annualDisclaimer": "Ditagih di muka. Bisa dibatalkan kapan saja. Tanpa biaya tersembunyi."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Mulai",
-    "subtitle": "Baru di Chatforia? Panduan cepat ini menunjukkan hal-hal penting sehingga Anda produktif dalam hitungan menit.",
-    "alert": {
-      "text": "Panduan ini akan berkembang seiring kami meluncurkan fitur baru. Jika ada yang kurang, beri tahu kami melalui",
-      "contactLink": "Hubungi Kami"
+    "contactList": {
+      "savedContacts": "Kontak Tersimpan",
+      "refreshAria": "Segarkan kontak",
+      "filterPlaceholder": "Filter kontak yang disimpan...",
+      "filterAria": "Memfilter kontak yang disimpan",
+      "noContactsFound": "Tidak ada kontak yang ditemukan.",
+      "externalContact": "Kontak eksternal",
+      "notJoined": "Kontak itu belum bergabung dengan Chatforia.",
+      "couldNotStart": "Tidak dapat memulai obrolan. Silakan coba lagi.",
+      "startFailed": "Gagal memulai obrolan. Silakan coba lagi.",
+      "deleted": "Kontak dihapus.",
+      "deleteFailed": "Gagal menghapus kontak. Silakan coba lagi.",
+      "aliasUpdated": "Alias diperbarui.",
+      "updateAliasFailed": "Gagal memperbarui alias. Silakan coba lagi.",
+      "selectContact": "Pilih {{name}}",
+      "alias": "Alias",
+      "startChat": "Mulai obrolan",
+      "message": "Pesan",
+      "delete": "Hapus",
+      "deleteContactAria": "Hapus kontak",
+      "loadFailed": "Gagal memuat kontak. Silakan coba lagi.",
+      "loadMore": "Muat lebih banyak",
+      "call": "Panggilan",
+      "callStarted": "Menelepon nomor ini melalui nomor Chatforia Anda...",
+      "callFailed": "Gagal memulai panggilan. Silakan coba lagi."
     },
-    "section1": {
-      "title": "1) Buat akun Anda",
-      "signup": "Daftar",
-      "or": "atau",
-      "login": "masuk",
-      "loginText": "dengan akun yang sudah ada.",
-      "prefsStart": "Atur",
-      "prefsLink": "preferensi",
-      "prefsRest": "(bahasa, tanda sudah dibaca, tema)."
+    "startChatModal": {
+      "title": "Memulai percakapan",
+      "searchPlaceholder": "Cari nama, nama pengguna, atau nomor telepon",
+      "messageThisPerson": "Kirim pesan kepada orang ini",
+      "contacts": "Kontak",
+      "recentInteractions": "Interaksi terbaru",
+      "noContactsMatch": "Tidak ada kontak yang cocok dengan penelusuran Anda.",
+      "noRecentInteractions": "Belum ada interaksi baru-baru ini.",
+      "unknown": "Tidak diketahui",
+      "interactionType": {
+        "message": "Pesan",
+        "call": "Panggilan",
+        "video": "Videonya"
+      }
     },
-    "section2": {
-      "title": "2) Mulai mengobrol",
-      "item1": "Buat DM atau Grup dan kirim pesan pertama Anda.",
-      "item2": "Gunakan terjemahan instan untuk mengobrol lintas 100+ bahasa.",
-      "item3": "Coba pesan menghilang dan tanda sudah dibaca di Profil → Privasi."
+    "addContactModal": {
+      "title": "Tambahkan kontak",
+      "phoneOrUsername": "Telepon atau nama pengguna",
+      "phoneOrUsernamePlaceholder": "misalnya +13018019227 atau Juliannorton",
+      "alias": "Alias (opsional)",
+      "aliasPlaceholder": "misalnya Pekerjaan, Ibu, Mike – Eropa",
+      "enterPhoneOrUsername": "Masukkan nomor telepon atau nama pengguna.",
+      "userLookupFailed": "Pencarian pengguna gagal.",
+      "cannotAddSelf": "Anda tidak dapat menambahkan diri Anda sebagai kontak.",
+      "failedToAdd": "Gagal menambahkan kontak.",
+      "add": "Tambahkan"
     },
-    "section3": {
-      "title": "3) Lebih jauh",
-      "item1Part1": "Kelola paket Anda di halaman",
-      "upgradeLink": "Tingkatkan",
-      "item1Part2": "(Plus = tanpa iklan, Premium = fitur penuh).",
-      "item2Part1": "Tautkan perangkat tambahan dan atur cadangan terenkripsi di",
-      "settingsLink": "Pengaturan"
+    "sidebar": {
+      "randomChat": "Obrolan Acak",
+      "callTextForwarding": "Penerusan Panggilan & Teks",
+      "conversations": "Percakapan",
+      "searchPlaceholder": "Pencarian percakapan...",
+      "errorLoading": "Gagal memuat obrolan",
+      "empty": "Belum ada percakapan.",
+      "startChat": "Memulai obrolan",
+      "people": "Tokoh",
+      "settings": "Pengaturan",
+      "status": "Status",
+      "forwarding": "Penerusan Panggilan & Teks",
+      "refresh": "Segarkan",
+      "search": "Cari percakapan",
+      "loginPrompt": "Masuk untuk mengedit pengaturan Anda.",
+      "login": "Masuk",
+      "register": "Buat akun",
+      "chatrooms": "Ruang obrolan",
+      "logout": "Keluar",
+      "startChatAlt": "Memulai obrolan baru",
+      "calls": "Panggilan",
+      "video": "Videonya",
+      "voicemail": "Pesan suara"
     },
-    "cta": {
-      "seePlans": "Lihat paket",
-      "openSettings": "Buka pengaturan"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Pusat Bantuan",
-    "faq": {
-      "account": {
-        "q": "Bagaimana cara membuat atau memulihkan akun?",
-        "a": "Unduh aplikasi atau gunakan web, ketuk “Buat akun”, verifikasi email/ponsel Anda. Untuk memulihkan, gunakan “Lupa kata sandi”."
+    "topbar": {
+      "newStatus": "Status Baru",
+      "logout": "Keluar",
+      "help": "Bantuan",
+      "createStatusAria": "Buat Status baru"
+    },
+    "threadActions": {
+      "threadMenu": "Menu utas",
+      "premium": "Premium",
+      "aiPower": "Kekuatan AI",
+      "schedule": "Jadwal",
+      "upgrade": "Tingkatkan",
+      "upgradeSuffix": "(Tingkatkan)",
+      "thread": "Benang",
+      "about": "Tentang",
+      "search": "Pencarian",
+      "media": "Media",
+      "invitePeople": "Mengundang orang",
+      "roomSettings": "Pengaturan ruangan",
+      "clearConversation": "Percakapan yang jelas",
+      "block": "Blokir"
+    },
+    "roomSearch": {
+      "title": "Cari di ruangan",
+      "ariaLabel": "Cari di ruangan",
+      "search": "Pencarian",
+      "searchMessages": "Pesan penelusuran",
+      "noText": "[Tidak ada teks]",
+      "noResults": "Tidak ada hasil"
+    },
+    "roomSettings": {
+      "roles": {
+        "member": "Anggota",
+        "moderator": "Moderator",
+        "admin": "Admin"
       },
-      "privacy": {
-        "q": "Apakah pesan terenkripsi ujung-ke-ujung?",
-        "a": "Ya. Pesan dan panggilan terenkripsi ujung-ke-ujung secara default. Hanya Anda dan penerima yang dapat membacanya."
+      "aiMode": {
+        "off": "Mati",
+        "mention": "Only on @ForiaBot or /ask",
+        "always": "Balas secara proaktif"
       },
-      "translate": {
-        "q": "Bagaimana terjemahan instan bekerja?",
-        "a": "Aktifkan “Terjemahkan otomatis” di Pengaturan → Tampilan & Bahasa. Kami menerjemahkan di perangkat bila didukung, jika tidak melalui API aman dengan metadata minimal."
+      "autoTranslateMode": {
+        "off": "Mati",
+        "tagged": "Hanya ditandai (/tr ...)",
+        "all": "Semua pesan"
+      },
+      "updated": "Pengaturan diperbarui"
+    },
+    "mediaGallery": {
+      "sharedMedia": "Media bersama",
+      "noMediaCached": "Belum ada media yang di-cache secara lokal.",
+      "imageAlt": "gambar",
+      "openVideo": "Buka video",
+      "openVideoWithCaption": "Buka video: {{caption}}",
+      "preview": "Pratinjau",
+      "previewWithCaption": "Pratinjau: {{caption}}",
+      "previewKind": "Pratinjau {{kind}}",
+      "download": "Unduh",
+      "downloadKind": "Unduh {{kind}}",
+      "file": "berkas",
+      "kinds": {
+        "image": "gambar",
+        "video": "Video",
+        "audio": "Audio",
+        "file": "berkas"
+      }
+    },
+    "status": {
+      "userNumber": "Pengguna #{{id}}",
+      "posted": "Status diposting",
+      "postFailed": "Gagal memposting status",
+      "createTitle": "Membuat status",
+      "modalAriaLabel": "Status baru",
+      "captionLabel": "Apa yang ada di pikiran Anda?",
+      "captionPlaceholder": "Bagikan pembaruan...",
+      "captionAria": "Pesan status",
+      "audienceLabel": "Penonton",
+      "audience": {
+        "public": "Publik",
+        "followers": "Pengikut",
+        "contacts": "Kontak",
+        "mutuals": "Bersama",
+        "custom": "Kustom..."
+      },
+      "expiresHoursLabel": "Kedaluwarsa (jam)",
+      "maxTooltip": "Maksimal 7 hari",
+      "hoursAbbrev": "h",
+      "maxShort": "maks",
+      "expiresOn": "Kedaluwarsa pada:",
+      "chooseRecipients": "Memilih penerima",
+      "selectContacts": "Pilih kontak",
+      "attachmentsLabel": "Lampiran",
+      "attachmentsPlaceholder": "Tambahkan gambar/video",
+      "filesNote": "Hingga 5 file. Kedaluwarsa 24 jam secara default.",
+      "postAria": "Status posting",
+      "post": "Posting"
+    },
+    "voicemail": {
+      "pageTitle": "Pesan suara",
+      "from": "Dari",
+      "to": "To",
+      "unknownCaller": "Tidak diketahui",
+      "yourNumber": "Nomor Chatforia Anda",
+      "durationSeconds": "{{hitung}}",
+      "audioAria": "Pemutar audio pesan suara",
+      "transcriptHeading": "Transkrip",
+      "transcriptPending": "Menyalin pesan suara...",
+      "transcriptFailed": "Transkrip tidak tersedia.",
+      "loading": "Memuat pesan suara...",
+      "errorLoading": "Gagal memuat pesan suara.",
+      "empty": "Belum ada pesan suara.",
+      "deleteConfirm": "Menghapus pesan suara ini?",
+      "deleteError": "Gagal menghapus pesan suara.",
+      "markRead": "Tandai sebagai telah dibaca",
+      "delete": "Hapus",
+      "unreadDotAria": "Indikator pesan suara yang belum dibaca"
+    },
+    "profile": {
+      "title": "Profil Pengguna",
+      "preferredLanguage": "Bahasa pilihan",
+      "chooseLanguage": "Pilih bahasa",
+      "mustLogin": "Anda harus login untuk melihat pengaturan.",
+      "autoTranslate": "Terjemahkan pesan secara otomatis",
+      "showOriginalWithTranslation": "Menampilkan pesan asli dan terjemahan",
+      "showOriginalAndTranslation": "Tampilkan asli bersama terjemahan",
+      "filterExplicit": "Memfilter konten eksplisit",
+      "aiReply": "Balas AI",
+      "enableReadReceipts": "Mengaktifkan tanda dibaca",
+      "allowExplicitContent": "Mengizinkan konten eksplisit",
+      "disappearingMessages": "Mengaktifkan pesan yang menghilang",
+      "autoDeleteSeconds": "Detik hingga penghapusan otomatis",
+      "saveSuccess": "Pengaturan disimpan!",
+      "saveError": "Kesalahan: Tidak dapat menyimpan pengaturan",
+      "avatarAlt": "Avatar profil",
+      "uploadAvatar": "Unggah avatar baru",
+      "avatarSuccess": "Avatar diunggah!",
+      "avatarError": "Gagal mengunggah avatar",
+      "avatarUpdated": "Avatar diperbarui!",
+      "uploadingAvatar": "Mengunggah avatar...",
+      "noPrivateKey": "Tidak ada kunci pribadi pada perangkat ini untuk diekspor.",
+      "setBackupPassword": "Tetapkan kata sandi untuk mengenkripsi cadangan Anda:",
+      "backupDownloaded": "Cadangan terenkripsi diunduh.",
+      "exportFailed": "Ekspor kunci gagal",
+      "enterBackupPassword": "Masukkan kata sandi untuk cadangan ini:",
+      "importSuccess": "Kunci pribadi yang diimpor ke perangkat ini.",
+      "importFailed": "Gagal mengimpor kunci (kata sandi salah atau file rusak).",
+      "keysRotated": "Pasangan kunci baru dibuat dan kunci publik diunggah.",
+      "rotateFailed": "Gagal memutar tombol.",
+      "security": "Keamanan",
+      "exportKey": "Kunci Enkripsi Cadangkan",
+      "importKey": "Pulihkan Kunci Enkripsi",
+      "rotateKeys": "Putar Kunci Enkripsi",
+      "keyDisclaimer": "Kunci pribadi Anda tidak pernah meninggalkan perangkat ini. Ekspor salinan yang dilindungi kata sandi untuk memulihkannya di perangkat lain.",
+      "sectionProfile": "Profil",
+      "phoneNumber": "Nomor telepon",
+      "appearance": "Penampilan",
+      "soundSettings": "Suara",
+      "disappearing": "Pesan menghilang",
+      "backupSync": "Pencadangan Kunci Enkripsi",
+      "ai": "AI",
+      "accessibility": "Aksesibilitas",
+      "privacy": "Privasi",
+      "devices": "Perangkat tertaut",
+      "themeFreeNotice": "Anda menggunakan Gratis—gunakan opsi Matahari/Bulan cepat di bawah ini. Tingkatkan untuk membuka lebih banyak tema.",
+      "sunTheme": "Gunakan tema Dawn",
+      "moonTheme": "Gunakan tema Bulan (Tengah Malam)",
+      "sun": "Matahari",
+      "moon": "Bulan",
+      "backupTitle": "Pencadangan Terenkripsi & Sinkronisasi Perangkat",
+      "openBackupTools": "Buka Alat Pencadangan",
+      "backupDesc": "Cadangkan kunci enkripsi Anda untuk memulihkan pesan Anda dengan aman di perangkat lain.",
+      "privacyBlurEnabled": "Memburamkan pesan secara default",
+      "privacyBlurOnUnfocus": "Blur saat app tidak fokus",
+      "planSection": "Rencana saya",
+      "planLoading": "Memuat paket Anda...",
+      "planLoadFailed": "Gagal memuat paket Anda.",
+      "currentPlan": "Rencana saat ini",
+      "planRenewsOn": "Memperbarui pada",
+      "freePlanCopy": "Anda menggunakan paket gratis. Tingkatkan untuk membuka lebih banyak fitur seperti cadangan, nomor tambahan, dan opsi privasi lanjutan.",
+      "upgradePlanCta": "Paket peningkatan",
+      "changePlanCta": "Ubah rencana",
+      "manageBilling": "Mengelola penagihan",
+      "portalOpenFailed": "Tidak dapat membuka portal penagihan. Silakan coba lagi.",
+      "holdToReveal": "Tahan untuk mengungkapkan",
+      "notifyOnCopy": "Beri tahu saya jika pesan saya disalin",
+      "loadFailed": "Gagal memuat profil",
+      "followed": "Diikuti",
+      "followFailed": "Gagal mengikuti",
+      "unfollowed": "Tidak diikuti",
+      "unfollowFailed": "Gagal berhenti mengikuti",
+      "follow": "Ikuti",
+      "unfollow": "Berhenti mengikuti",
+      "followHint": "Cerita mereka akan muncul di feed Mengikuti Anda jika mereka memposting dengan pemirsa, Pengikut (atau Publik).",
+      "userNotFound": "Pengguna tidak ditemukan",
+      "followsYou": "Mengikuti Anda",
+      "sectionCrashedTitle": "Bagian gagal dimuat",
+      "sectionCrashedBody": "Ada yang tidak beres di bagian ini.",
+      "forwarding": "Penerusan Panggilan & Teks",
+      "callTextForwardingSection": "Penerusan Panggilan & Teks",
+      "callTextForwardingTitle": "Penerusan Panggilan dan/atau Teks",
+      "callTextForwardingDescription": "Teruskan panggilan masuk dan SMS ke ponsel atau email terverifikasi Anda. Panggilan/SMS keluar dapat menunjukkan nomor Chatforia Anda.",
+      "enableTextForwarding": "Mengaktifkan penerusan teks",
+      "forwardTextsToPhone": "Meneruskan teks ke telepon",
+      "forwardTextsToEmail": "Meneruskan teks ke email",
+      "destinationPhone": "Telepon tujuan (E.164)",
+      "destinationEmail": "Email tujuan",
+      "enableCallForwarding": "Mengaktifkan penerusan panggilan",
+      "destinationPhoneForCalls": "Tujuan (E.164) untuk panggilan",
+      "aliasBridging": "Penerusan Panggilan (jembatan alias)",
+      "quietHoursOptional": "Jam Tenang (opsional)",
+      "startHour": "Jam mulai (0–23)",
+      "endHour": "Jam akhir (0–23)",
+      "reset": "Atur ulang",
+      "saveBtn": "Simpan",
+      "saveProfile": "Simpan profil",
+      "saveForwarding": "Simpan penerusan",
+      "forwardSaved": "Pengaturan penerusan disimpan",
+      "forwardSaveFailed": "Gagal menyimpan pengaturan",
+      "errE164": "Masukkan telepon E.164 yang valid (misalnya, +15551234567).",
+      "errEmail": "Masukkan email yang valid.",
+      "errSmsDest": "Pilih setidaknya satu tujuan (telepon atau email).",
+      "errQuietHours": "Jam tenang harus antara 0 dan 23.",
+      "randomChat": "Obrolan Acak",
+      "ageBand": "Rentang usia Anda",
+      "ageBandPlaceholder": "Pilih rentang usia Anda",
+      "ageTeen": "13–17",
+      "age18_24": "18–24",
+      "age25_34": "25–34",
+      "age35_49": "35–49",
+      "age50Plus": "50+",
+      "ageBandHint": "Kami hanya menyimpan rentang usia (bukan tanggal lahir pasti Anda). Ini digunakan untuk menjaga pasangan Obrolan Acak tetap masuk akal.",
+      "wantsAgeFilter": "Gunakan pencocokan berbasis usia di Random Chat",
+      "wantsAgeFilterDesc": "Saat aktif, kami mencoba memasangkan Anda dengan orang-orang dalam rentang usia yang kompatibel.",
+      "partnerAgeBands": "Dengan siapa Anda bisa dicocokkan?",
+      "partnerAgeBandsDesc": "Remaja selalu dicocokkan hanya dengan remaja lain. Orang dewasa tidak dapat dicocokkan dengan remaja.",
+      "teenMatchingNote": "Demi keamanan, akun dalam rentang usia 13–17 tahun hanya dapat dicocokkan dengan akun 13–17 lainnya di Random Chat.",
+      "foriaRemember": "Biarkan Ria mengingat hal-hal yang Anda katakan",
+      "foriaRememberDesc": "Saat ini aktif, Foria dapat menggunakan percakapan Obrolan Acak Anda sebelumnya (hanya dengan Anda) untuk menjaga percakapan tetap mengalir. Anda dapat menonaktifkannya kapan saja.",
+      "voicemailSection": "Pesan suara",
+      "voicemailEnabled": "Aktifkan pesan suara",
+      "voicemailAutoDeleteDays": "Hapus pesan suara secara otomatis setelah (hari)",
+      "voicemailAutoDeletePlaceholder": "Biarkan kosong untuk disimpan selamanya",
+      "voicemailForwardEmail": "Meneruskan pesan suara ke email",
+      "voicemailForwardEmailPlaceholder": "Email untuk mengirim notifikasi pesan suara ke",
+      "voicemailGreetingText": "Salam penggantian teks",
+      "voicemailGreetingTextDesc": "Digunakan saat salam audio Anda tidak tersedia.",
+      "voicemailGreetingUpload": "Mengunggah salam pesan suara",
+      "voicemailPreviewGreeting": "Pratinjau salam",
+      "voicemailGreetingUploaded": "Salam pesan suara berhasil diunggah",
+      "voicemailGreetingUploadError": "Gagal mengunggah salam pesan suara",
+      "voicemailNote": "Pesan suara dari nomor Chatforia Anda akan disimpan di kotak masuk Pesan Suara Anda. Anda dapat mengaktifkan transkripsi dan penerusan dalam paket yang didukung.",
+      "portHint": "Ingin mempertahankan nomor Anda saat ini? Anda dapat memindahkannya ke Chatforia Wireless.",
+      "wireless": {
+        "manage": "Kelola nirkabel"
+      },
+      "esim": {
+        "title": "Chatforia eSIM",
+        "desc": "Dapatkan data seluler untuk Chatforia saat Anda jauh dari Wi-Fi.",
+        "cta": "Dapatkan eSIM / Tampilkan QR"
+      }
+    },
+    "wireless": {
+      "title": "Chatforia Nirkabel",
+      "description": "Kelola paket seluler Chatforia, nomor, penerusan, dan pemindahan nomor Anda.",
+      "options": {
+        "heading": "Pilih cara Anda ingin menggunakan Chatforia",
+        "subheading": "Anda bisa mendapatkan nomor Chatforia baru, atau membawa nomor yang sudah ada dari operator lain.",
+        "newNumber": "Dapatkan nomor Chatforia baru",
+        "portNumber": "Pindahkan nomor Anda saat ini ke Chatforia Wireless"
+      },
+      "port": {
+        "heading": "Memindahkan nomor Anda yang ada",
+        "subheading": "Pindahkan nomor telepon Anda saat ini dari operator yang ada ke Chatforia. Pastikan detailnya sama persis dengan akun operator Anda untuk menghindari penundaan.",
+        "phoneNumberLabel": "Nomor telepon ke port",
+        "phoneNumberPlaceholder": "+1 555 123 4567",
+        "carrierLabel": "Operator saat ini",
+        "carrierPlaceholder": "Verizon, AT&T, T-Mobile, dll.",
+        "accountNumberLabel": "Nomor rekening",
+        "pinLabel": "PIN / kata sandi port-out",
+        "fullNameLabel": "Nama lengkap di akun",
+        "address1Label": "Baris alamat 1",
+        "address2Label": "Baris alamat 2 (opsional)",
+        "cityLabel": "Kota",
+        "stateLabel": "Negara Bagian / Provinsi",
+        "postalCodeLabel": "Kode pos",
+        "countryLabel": "Negara",
+        "submitButton": "Kirim permintaan port",
+        "success": "Permintaan pelabuhan diajukan! Kami akan terus memberi Anda informasi baru.",
+        "genericError": "Ada yang tidak beres."
+      },
+      "status": {
+        "heading": "Status porting",
+        "subheading": "Lacak status permintaan port nomor Anda.",
+        "loading": "Memuat...",
+        "loadError": "Gagal memuat permintaan port.",
+        "none": "Belum ada aktivitas porting.",
+        "pending": "Menunggu peninjauan",
+        "submitted": "Diserahkan ke operator",
+        "inProgress": "Sedang berlangsung",
+        "completed": "Selesai",
+        "failed": "Gagal",
+        "canceled": "Dibatalkan",
+        "created": "Dibuat:",
+        "scheduled": "Dijadwalkan:",
+        "completedAt": "Selesai:"
+      },
+      "dataLow": "Data Anda hampir habis.",
+      "topUp": "Top up sekarang",
+      "expiresIn": "Kedaluwarsa dalam {{days}} hari",
+      "exhausted": "Data Anda sudah habis. Beli paket baru untuk terus menggunakan data seluler.",
+      "buyPack": "Beli paket data",
+      "esimPackLabel": "paket eSIM"
+    },
+    "family": {
+      "title": "Keluarga",
+      "loading": "Memuat detail keluarga Anda...",
+      "error": {
+        "load": "Gagal memuat detail keluarga.",
+        "invite": "Tidak dapat membuat undangan. Pastikan Anda adalah pemilik keluarga dan coba lagi.",
+        "checkout": "Kami tidak dapat memulai checkout untuk paket Keluarga. Silakan coba lagi."
+      },
+      "billing": {
+        "myPlanTitle": "Rencana saya",
+        "myPlanError": "Tidak dapat memuat paket Anda.",
+        "myPlanLoading": "Memuat paket Anda...",
+        "currentPlan": "Rencana saat ini",
+        "renewsAt": "Memperbarui pada",
+        "freePlanCopy": "Anda menggunakan paket gratis. Tingkatkan untuk membuka lebih banyak fitur.",
+        "upgradeCta": "Paket peningkatan",
+        "changePlanCta": "Ubah rencana",
+        "manageBilling": "Mengelola penagihan",
+        "portalError": "Tidak dapat membuka portal penagihan saat ini.",
+        "cancelNow": "Batalkan sekarang",
+        "cancelNowHelp": "Anda dapat mengelola atau membatalkan langganan Anda di portal penagihan, atau segera membatalkan di bawah ini.",
+        "cancelNowConfirm": "Apakah Anda yakin ingin segera membatalkan paket Anda? Ini tidak dapat dibatalkan.",
+        "cancelNowError": "Tidak dapat membatalkan paket Anda saat ini. Silakan coba lagi atau gunakan Kelola penagihan."
+      },
+      "none": {
+        "title": "Belum ada keluarga yang didirikan",
+        "body": "Untuk membuat kumpulan data bersama Keluarga Chatforia, mulai paket Keluarga.",
+        "goUpgrade": "Memulai paket Keluarga",
+        "viewPlans": "Lihat semua paket"
+      },
+      "group": {
+        "defaultName": "Keluarga Chatforia Saya",
+        "role": "Peran Anda: {{role}}"
+      },
+      "role": {
+        "owner": "Pemilik",
+        "member": "Anggota"
+      },
+      "data": {
+        "heading": "Kumpulan data bersama",
+        "caption": "Semua anggota berbagi kumpulan ini. Kami akan memperingatkan Anda saat Anda mendekati batas Anda."
+      },
+      "members": {
+        "title": "Anggota keluarga",
+        "name": "Nama",
+        "role": "Peran",
+        "usage": "penggunaan",
+        "limit": "Batas",
+        "unlimited": "Tidak ada batasan khusus",
+        "inviteCta": "Mengundang anggota"
+      },
+      "invite": {
+        "title": "Mengundang anggota baru",
+        "body": "Kirim email atau tautan untuk mengundang seseorang ke kumpulan data keluarga bersama Anda.",
+        "emailLabel": "Email (opsional)",
+        "emailPlaceholder": "friend@example.com",
+        "create": "Membuat undangan",
+        "linkLabel": "Tautan undangan",
+        "copyAria": "Salin tautan undangan",
+        "expiryHint": "Tautan ini kedaluwarsa setelah beberapa hari. Anda selalu dapat membuat yang baru."
+      },
+      "join": {
+        "title": "Bergabunglah dengan keluarga",
+        "body": "Anda telah diundang untuk bergabung dengan Chatforia Family dan membagikan kumpulan data mereka.",
+        "cta": "Terima dan bergabung dengan keluarga",
+        "ctaLogin": "Masuk dan bergabung dengan keluarga",
+        "success": "Anda telah bergabung dengan keluarga ini. Anda sekarang membagikan kumpulan data mereka.",
+        "goFamily": "Buka dasbor keluarga",
+        "error": "Kami tidak dapat menambahkan Anda ke keluarga ini. Undangan mungkin tidak valid atau kedaluwarsa."
+      }
+    },
+    "premium": {
+      "heading": "Jadikan Premium",
+      "description": "Buka kunci fitur daya & hapus iklan.",
+      "cta": "Tingkatkan",
+      "upgrade": "Tingkatkan",
+      "upgradeAria": "Tingkatkan ke Chatforia Premium"
+    },
+    "upgrade": {
+      "title": "Tingkatkan",
+      "titleLoggedIn": "Tingkatkan",
+      "titlePublic": "Harga",
+      "h1": "Harga & Paket Chatforia",
+      "h1Subtitle": "Mulailah dengan paket gratis kami yang didukung iklan. Bebas iklan dengan Plus, atau buka fitur daya penuh dengan Premium.",
+      "subtitle": "Pilih paket aplikasi, tambahkan paket data untuk diri Anda sendiri, atau bagikan data dengan keluarga Anda — semuanya dari satu tempat.",
+      "subtitle.app": "Mulailah dengan paket gratis kami yang didukung iklan. Bebas iklan dengan Plus, atau buka fitur daya penuh dengan Premium.",
+      "subtitle.mobile": "Tambahkan data eSIM global sehingga Chatforia tetap berfungsi bahkan saat Anda jauh dari Wi-Fi.",
+      "subtitle.family": "Buat kumpulan data bersama untuk keluarga Anda dan kelola penggunaan semua orang dari satu tempat.",
+      "perMonth": "mo",
+      "perYear": "tahun",
+      "goPremium": "Jadikan Premium",
+      "benefitsLine": "Buka kunci fitur daya & hapus iklan.",
+      "ctaText": "Tingkatkan",
+      "aria": "Tingkatkan ke Chatforia Premium",
+      "toggle": {
+        "monthly": "Bulanan",
+        "annual": "Tahunan (Hemat 30%)"
+      },
+      "scheduleBanner": {
+        "title": "Berlangganan akan berakhir",
+        "body": "Anda akan kembali ke Gratis di",
+        "keepPlanCta": "Simpan {{plan}}",
+        "manageBillingCta": "Mengelola penagihan"
+      },
+      "billing": {
+        "opening": "Pembukaan...",
+        "manage": "Kelola Penagihan"
+      },
+      "checkout": {
+        "redirecting": "Mengalihkan..."
+      },
+      "auth": {
+        "continue": "Lanjutkan ke login",
+        "createAccount": "Buat akun",
+        "signIn": "Masuk"
+      },
+      "cta": {
+        "aria": "Pilih paket",
+        "getPlus": "Tingkatkan ke Plus",
+        "upgradeMonthly": "Tingkatkan Bulanan",
+        "upgradeAnnual": "Tingkatkan Tahunan"
+      },
+      "section": {
+        "app": "Paket aplikasi",
+        "mobile": "Seluler (eSIM)",
+        "family": "Paket keluarga"
+      },
+      "plans": {
+        "free": {
+          "title": "Bebas",
+          "price": "$0",
+          "desc": "Mulai mengirim pesan secara gratis. Ideal jika Anda hanya mencoba Chatforia.",
+          "features": {
+            "chat": "Obrolan grup 1:1 dan real-time, ditambah panggilan suara dan video",
+            "media": "Berbagi foto, pesan suara, dan video pendek",
+            "ai": "AI-powered smart replies and instant translation (fair use)",
+            "disappearing": "Pesan yang menghilang dan kontrol privasi dasar",
+            "ads": "Gratis selamanya dengan iklan di aplikasi"
+          },
+          "ctaCurrent": "Rencana saat ini",
+          "ctaManage": "Kelola dalam penagihan",
+          "ctaPublic": "Mulai – lanjutkan untuk masuk",
+          "aria": "Paket gratis"
+        },
+        "plus": {
+          "title": "Plus",
+          "price": "$6.99",
+          "desc": "Semua hal penting, tanpa iklan. Bagus untuk pesan dan panggilan sehari-hari.",
+          "features": {
+            "allFree": "Semuanya dalam Gratis, tanpa iklan",
+            "forwarding": "Teruskan panggilan dan SMS ke nomor telepon asli Anda",
+            "history": "Riwayat pesan yang lebih panjang (hingga 6 bulan)",
+            "support": "Dukungan lebih cepat saat terjadi kesalahan"
+          },
+          "badge": "Populer",
+          "cta": "Bebas Iklan",
+          "ctaPublic": "Dapatkan Plus – lanjutkan untuk login",
+          "aria": "Tingkatkan ke Plus"
+        },
+        "premiumMonthly": {
+          "title": "Premi (Bulanan)",
+          "price": "$11.99",
+          "desc": "Pengalaman Chatforia penuh: alat listrik AI, penyesuaian, dan dukungan prioritas.",
+          "features": {
+            "plusAll": "Semuanya di Plus",
+            "themes": "Buka kunci semua tema warna premium dan penyesuaian aplikasi",
+            "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+            "support": "Dukungan prioritas saat Anda sangat membutuhkan bantuan"
+          },
+          "badge": "Direkomendasikan",
+          "cta": "Upgrade (Bulanan)",
+          "ctaPublic": "Buka kunci Premium – lanjutkan masuk",
+          "aria": "Tingkatkan ke Premium Bulanan"
+        },
+        "premiumAnnual": {
+          "title": "Premium (Tahunan)",
+          "price": "$99",
+          "desc": "Hemat lebih banyak saat ditagih setiap tahun — termasuk tema warna tambahan, alat AI, dan dukungan prioritas.",
+          "features": {
+            "allPremium": "Semua yang ada di Premium Bulanan — termasuk tema warna ekstra",
+            "annualBilling": "Ditagih setahun sekali",
+            "save25": "Hemat sekitar 30% dibandingkan membayar bulanan",
+            "bestFor": "Terbaik untuk pengguna yang kuat, pekerja jarak jauh, dan pelancong berat"
+          },
+          "badge": "Hemat 30%",
+          "cta": "Tingkatkan (Tahunan)",
+          "ctaPublic": "Hemat 30% dengan tahunan – lanjutkan masuk",
+          "aria": "Upgrade ke Premium Tahunan",
+          "disclaimer": "Ditagih di muka. Batalkan kapan saja. Tidak ada biaya tersembunyi."
+        }
+      },
+      "marketing": {
+        "freeTitle": "Bebas",
+        "freeDesc": "Mulai mengirim pesan secara gratis.",
+        "plusTitle": "Plus",
+        "plusBadge": "Populer",
+        "plusDesc": "Pengalaman bebas iklan paling terjangkau.",
+        "premiumMonthlyTitle": "Premium",
+        "premiumMonthlyDesc": "Fitur lengkap, nada dering, dan perkakas listrik AI.",
+        "premiumAnnualTitle": "Premium",
+        "premiumAnnualDesc": "Hemat lebih banyak saat ditagih setiap tahun.",
+        "annualDisclaimer": "Ditagih di muka. Batalkan kapan saja. Tidak ada biaya tersembunyi."
+      },
+      "mobile": {
+        "title": "Chatforia Mobile (paket data eSIM)",
+        "subtitle": "Tambahkan data global untuk menjaga Chatforia tetap berfungsi bahkan tanpa Wi-Fi. Harga secara otomatis disesuaikan berdasarkan negara dan mata uang Anda.",
+        "subtitle.detail": "Pilih paket data global satu kali sehingga Chatforia tetap berfungsi saat Anda bepergian atau jauh dari Wi-Fi.",
+        "scope": {
+          "local": "Lokal",
+          "europe": "Eropa",
+          "global": "Global"
+        },
+        "note": "Kami tidak menjual paket data di bawah 3 GB.",
+        "localEquals": "Lokal = {{negara}}",
+        "localEqualsFallback": "Lokal = negara Anda saat ini",
+        "perPack": "/ paket",
+        "cta": "Dapatkan paket data ini",
+        "ctaPublic": "Dapatkan paket data ini",
+        "checkout": {
+          "redirecting": "Mengalihkan..."
+        },
+        "unlimited": {
+          "features": {
+            "heavyUse": "Data berkecepatan tinggi untuk penggunaan berat",
+            "throttle": "Kecepatan dapat melambat setelah penggunaan tinggi",
+            "coverage": "Cakupan yang andal",
+            "instant": "Aktivasi eSIM instan",
+            "noContract": "Paket satu kali, tanpa kontrak"
+          }
+        },
+        "disclaimer": {
+          "devices": "Paket data eSIM memerlukan perangkat yang kompatibel dengan eSIM dan tidak terkunci. Ketersediaan bervariasi menurut model telepon, operator, dan negara. Cakupan dan kecepatan bervariasi menurut wilayah."
+        },
+        "small": {
+          "title": "Paket perdana",
+          "desc": "Termasuk data berkecepatan tinggi 3 GB — ideal untuk pesan ringan dan panggilan sesekali.",
+          "price": "$9.99",
+          "data": "3 GB",
+          "bestFor": "Perjalanan singkat, pesan ringan, dan panggilan sesekali",
+          "aria": "Beli paket data eSIM Pemula"
+        },
+        "medium": {
+          "title": "Paket wisatawan",
+          "desc": "Termasuk data berkecepatan tinggi 5 GB untuk perjalanan, perjalanan, dan panggilan VoIP reguler.",
+          "price": "$14.99",
+          "data": "5 GB",
+          "bestFor": "Perjalanan akhir pekan, panggilan VoIP reguler, dan peta",
+          "aria": "Beli paket data eSIM Traveler"
+        },
+        "large": {
+          "title": "Paket daya",
+          "desc": "Termasuk 10 GB data berkecepatan tinggi untuk obrolan, panggilan, dan video berat di jaringan Chatforia.",
+          "price": "$24.99",
+          "data": "10 GB",
+          "bestFor": "Penggunaan obrolan, panggilan, video, dan hotspot yang berat",
+          "aria": "Beli paket data eSIM pengguna yang kuat"
+        },
+        "compare": {
+          "title": "Bandingkan paket data eSIM",
+          "col": {
+            "pack": "Paket",
+            "data": "Data yang disertakan",
+            "bestFor": "Terbaik untuk"
+          },
+          "disclaimer": "Penggunaan data aktual bergantung pada cara Anda menggunakan Chatforia (suara, video, media, dan aplikasi lain di ponsel Anda)."
+        }
+      },
+      "family": {
+        "title": "Chatforia Family (data bersama)",
+        "subtitle": "Bagikan satu kumpulan data ke seluruh keluarga Anda. Satu tagihan, beberapa akun Chatforia, cakupan global.",
+        "perPack": "/ paket",
+        "small": {
+          "title": "Keluarga Kecil",
+          "desc": "Termasuk 20 GB data berkecepatan tinggi bersama — bagus untuk 2-3 pengguna ringan.",
+          "price": "$29.99",
+          "aria": "Beli Paket Kecil Keluarga"
+        },
+        "medium": {
+          "title": "Keluarga Media",
+          "desc": "Termasuk 40 GB data berkecepatan tinggi bersama — ideal untuk 3-5 anggota aktif.",
+          "price": "$49.99",
+          "aria": "Beli paket Family Medium"
+        },
+        "large": {
+          "title": "Keluarga Besar",
+          "desc": "Termasuk 80 GB data berkecepatan tinggi bersama — untuk keluarga daya yang selalu online.",
+          "price": "$84.99",
+          "aria": "Beli paket Keluarga Besar"
+        },
+        "feature": {
+          "shared": "Kumpulan data bersama untuk keluarga Anda",
+          "members": "Undang hingga 4 anggota tambahan",
+          "membersMore": "Bagus untuk 3–5 anggota aktif",
+          "manage": "Kelola batas untuk setiap anggota",
+          "topUp": "Tambahkan lebih banyak paket kapan saja",
+          "bestValue": "Nilai terbaik per GB",
+          "fairUse": "Tunduk pada kebijakan penggunaan wajar dan batas lokal"
+        },
+        "disclaimer": "Paket keluarga membuat atau mengisi ulang kumpulan data bersama. Anda dapat mengundang dan menghapus anggota kapan saja.",
+        "footnote": "Paket keluarga berbagi satu kumpulan data di seluruh akun Chatforia yang ditautkan. Ketersediaan dan batasan tergantung pada negara Anda dan peraturan setempat."
+      },
+      "why": {
+        "title": "Mengapa orang beralih ke Chatforia",
+        "subtitle": "Chatforia memberi Anda nomor telepon asli, terjemahan cerdas, dan jalur yang jelas untuk bebas iklan saat Anda siap.",
+        "card": {
+          "textnow": {
+            "title": "Chatforia vs TextNow",
+            "body": "Iklan yang lebih ringan di Gratis, peningkatan Plus sederhana saat Anda siap, dan alat Premium yang tidak ditawarkan TextNow."
+          },
+          "voice": {
+            "title": "Chatforia vs Google Voice",
+            "body": "Aplikasi modern, desain yang mengutamakan global, dan terjemahan bawaan alih-alih penerusan panggilan jadul."
+          },
+          "messengers": {
+            "title": "Aplikasi Chatforia vs obrolan",
+            "body": "Kirim SMS nomor telepon asli — bukan hanya pengguna aplikasi lain — dengan AI dan status bawaan. Bagus jika Anda berasal dari aplikasi seperti TextFree atau TextMe."
+          }
+        },
+        "tableTitle": "Bagaimana Chatforia membandingkan",
+        "col": {
+          "feature": "Fitur"
+        },
+        "feature": {
+          "freeNumber": "Nomor telepon gratis",
+          "translation": "Terjemahan otomatis bawaan",
+          "aiTools": "Alat AI (menulis ulang, membalas, ringkasan)",
+          "ads": "Opsi bebas iklan",
+          "history": "Riwayat pesan"
+        },
+        "yes": "Iya",
+        "no": "No",
+        "yesPremium": "Ya (Premium)",
+        "plusPremium": "Plus & Premium",
+        "limited": "Terbatas",
+        "nA": "N/A",
+        "history": {
+          "chatforia": "Hingga 12+ bulan",
+          "textnow": "Bervariasi menurut akun",
+          "voice": "Terbatas / berbasis akun"
+        },
+        "disclaimer": "Perbandingan berdasarkan informasi yang tersedia untuk umum dan dapat berubah seiring waktu. Aplikasi SMS gratis lainnya seperti TextFree atau TextMe umumnya mirip dengan TextNow."
+      },
+      "faq": {
+        "title": "FAQ Harga & paket",
+        "free": {
+          "q": "Apakah paket Gratis benar-benar gratis?",
+          "a": "Iya. Paket Gratis mencakup nomor Chatforia, panggilan, dan pesan dengan iklan. Anda dapat tetap menggunakan Gratis selama yang Anda suka, atau meningkatkan untuk menghapus iklan dan membuka lebih banyak fitur."
+        },
+        "plusPremium": {
+          "q": "Apa perbedaan antara Plus dan Premium?",
+          "a": "Plus menghapus iklan dan memperluas riwayat pesan Anda — sempurna untuk penggunaan sehari-hari. Premium menambahkan penyesuaian ekstra, alat AI untuk penulisan ulang dan balasan, dan dukungan prioritas untuk pengguna berat."
+        },
+        "esim": {
+          "q": "Di mana paket data eSIM bekerja?",
+          "a": "Chatforia Mobile menggunakan jangkauan eSIM global. Ketersediaan tergantung pada negara dan perangkat Anda. Anda akan melihat opsi yang didukung selama aktivasi di dalam aplikasi."
+        },
+        "cancel": {
+          "q": "Bisakah saya membatalkan atau mengubah paket kapan saja?",
+          "a": "Iya. Anda dapat mengelola atau membatalkan langganan Anda dari halaman penagihan di aplikasi. Perubahan akan berlaku pada akhir periode penagihan Anda saat ini."
+        },
+        "family": {
+          "q": "Bagaimana cara kerja paket keluarga?",
+          "a": "Paket keluarga membuat kumpulan data bersama di beberapa akun Chatforia. Satu orang membayar tagihan, dan Anda dapat mengundang atau menghapus anggota dan menetapkan batas per orang."
+        }
+      },
+      "gettingStarted": {
+        "title": "Memulai",
+        "subtitle": "Baru mengenal Chatforia? Mulai cepat ini menunjukkan hal-hal penting sehingga Anda dapat menjadi produktif dalam hitungan menit.",
+        "alert": {
+          "text": "Panduan ini akan berkembang saat kami meluncurkan fitur baru. Jika ada yang kurang, beri tahu kami melalui",
+          "contactLink": "Hubungi Kami"
+        },
+        "section1": {
+          "title": "1) Buat akun Anda",
+          "signup": "Daftar",
+          "or": "or",
+          "login": "Masuk",
+          "loginText": "dengan akun Anda yang ada.",
+          "prefsStart": "Tetapkan Anda",
+          "prefsLink": "Preferensi",
+          "prefsRest": "(bahasa, tanda terima baca, tema)."
+        },
+        "section2": {
+          "title": "2) Mulai mengirim pesan",
+          "item1": "Buat DM atau Grup dan kirim pesan pertama Anda.",
+          "item2": "Gunakan terjemahan instan untuk mengobrol di 100+ bahasa.",
+          "item3": "Coba hapus pesan dan tanda terima baca di Profil → Privasi."
+        },
+        "section3": {
+          "title": "3) Melangkah lebih jauh",
+          "item1": "Anda dapat meningkatkan ke paket berbayar kapan saja di dalam aplikasi.",
+          "item2": "Setelah masuk, Anda dapat menautkan perangkat tambahan dan menyiapkan cadangan terenkripsi dari Pengaturan di aplikasi."
+        },
+        "cta": {
+          "seePlans": "Lihat paket",
+          "openSettings": "Buka pengaturan"
+        }
+      },
+      "helpCenter": {
+        "title": "Pusat Bantuan",
+        "faq": {
+          "account": {
+            "q": "Bagaimana cara membuat atau memulihkan akun saya?",
+            "a": "Unduh aplikasi atau gunakan web, ketuk \"Buat akun\", verifikasi email/telepon Anda. Untuk memulihkan, gunakan \"Lupa kata sandi\"."
+          },
+          "privacy": {
+            "q": "Apakah pesan end-to-end dienkripsi?",
+            "a": "Iya. Pesan dan panggilan dienkripsi secara menyeluruh secara default. Hanya Anda dan penerima yang dapat membacanya."
+          },
+          "translate": {
+            "q": "Bagaimana cara kerja terjemahan instan?",
+            "a": "Aktifkan \"Terjemahan otomatis\" di Pengaturan → Penampilan & Bahasa. Kami menerjemahkan di perangkat jika didukung, jika tidak melalui API aman dengan metadata minimal."
+          },
+          "contact": {
+            "q": "Hubungi dukungan",
+            "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+          }
+        }
       },
       "contact": {
-        "q": "Hubungi dukungan",
-        "a": "Hubungi kami di support@chatforia.com. Sertakan tangkapan layar dan versi aplikasi Anda."
+        "title": "Hubungi Kami",
+        "successMsg": "Terima kasih—tim kami akan membalas melalui email.",
+        "errorSend": "Could not send. Please email support@chatforia.com.",
+        "form": {
+          "nameLabel": "Nama",
+          "emailLabel": "Email",
+          "messageLabel": "Pesan",
+          "sendCta": "Kirim"
+        }
+      },
+      "privacyPolicy": {
+        "title": "Kebijakan Privasi",
+        "lastUpdated": "Terakhir diperbarui:",
+        "intro": {
+          "body": "Kebijakan Privasi ini menjelaskan bagaimana Chatforia (\"kami\", \"kami\") mengumpulkan, menggunakan, dan membagikan informasi saat Anda menggunakan aplikasi dan layanan kami. Kami merancang Chatforia untuk meminimalkan data yang dapat kami akses."
+        },
+        "infoWeCollect": {
+          "title": "Informasi yang kami kumpulkan",
+          "account": "Info akun (misalnya, email/telepon) untuk membuat dan mengamankan akun Anda.",
+          "encrypted": "Konten terenkripsi (pesan/panggilan) dienkripsi secara menyeluruh; kita tidak bisa membacanya.",
+          "diagnostics": "Diagnostik/penggunaan seperti log kerusakan, jenis perangkat, atau analitik kasar untuk meningkatkan performa."
+        },
+        "sms": {
+          "title": "Nomor ponsel dan SMS",
+          "body": "Jika Anda memilih untuk memberikan nomor ponsel, kami menggunakannya untuk mengaktifkan fitur seperti verifikasi akun, peringatan login, dan pesan pengguna-ke-pengguna melalui SMS jika didukung. Kami dapat mengirim pesan SMS transaksional yang terkait dengan akun dan aktivitas Anda di Chatforia. Anda dapat memilih untuk tidak menerima pesan SMS kapan saja dengan membalas dengan kata kunci opt-out yang didukung (seperti \"STOP\") atau dengan mengubah preferensi notifikasi Anda di aplikasi. Kami tidak menjual nomor telepon Anda atau menggunakannya untuk pemasaran yang tidak terkait.",
+          "newText": "Teks baru",
+          "enterRecipient": "Masukkan nama atau nomor",
+          "typeMessage": "Ketik pesan...",
+          "addRecipient": "Tambahkan penerima di atas untuk memulai..."
+        },
+        "howWeUse": {
+          "title": "Bagaimana kami menggunakan informasi",
+          "provide": "Menyediakan dan mengamankan layanan (autentikasi, deteksi spam/penyalahgunaan).",
+          "improve": "Tingkatkan fitur (kualitas terjemahan, keandalan).",
+          "legal": "Mematuhi kewajiban hukum."
+        },
+        "sharing": {
+          "title": "Berbagi",
+          "body": "Kami tidak menjual data pribadi. Kami dapat membagikan data terbatas dengan pemroses (misalnya, pemberitahuan push, analitik) berdasarkan kontrak yang ketat."
+        },
+        "rights": {
+          "title": "Hak Anda",
+          "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+        },
+        "retention": {
+          "title": "Retensi & keamanan data",
+          "body": "Kami hanya menyimpan apa yang diperlukan untuk mengoperasikan layanan dan menerapkan keamanan standar industri. Konten E2E tidak dapat didekripsi oleh kami."
+        },
+        "children": {
+          "title": "Anak-anak",
+          "body": "Chatforia tidak ditujukan untuk anak-anak berusia di bawah 13 tahun (atau sebagaimana diwajibkan oleh hukum setempat)."
+        },
+        "changes": {
+          "title": "Perubahan",
+          "body": "Kami akan memposting pembaruan di sini dan merevisi tanggal \"Terakhir diperbarui\"."
+        },
+        "contact": {
+          "title": "Kontak",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "Ketentuan Layanan",
+        "lastUpdated": "Terakhir diperbarui:",
+        "intro": {
+          "body": "Dengan menggunakan Chatforia, Anda menyetujui Ketentuan ini. Jika Anda tidak setuju, jangan gunakan layanan ini."
+        },
+        "accounts": {
+          "title": "Akun",
+          "itemAccurateInfo": "Berikan info yang akurat dan jaga keamanan kredensial.",
+          "itemResponsibility": "Anda bertanggung jawab atas aktivitas di akun Anda."
+        },
+        "acceptableUse": {
+          "title": "Penggunaan yang dapat diterima",
+          "itemNoAbuse": "Tidak ada konten ilegal, kasar, atau melanggar; Tidak ada spam atau penyalahgunaan otomatis.",
+          "itemSuspend": "Kami dapat menangguhkan/mengakhiri karena pelanggaran."
+        },
+        "sms": {
+          "title": "Komunikasi SMS",
+          "body": "Jika Anda memberikan nomor ponsel, Anda setuju bahwa Chatforia dapat mengirimi Anda pesan SMS yang terkait dengan akun Anda dan penggunaan layanan, seperti peringatan login, pemberitahuan keamanan, dan pesan yang terkait dengan percakapan yang Anda mulai atau ikuti. Kami tidak menggunakan SMS untuk pesan promosi atau pemasaran tanpa persetujuan eksplisit Anda. Tarif pesan dan data standar mungkin berlaku. Anda dapat memilih keluar dari pesan SMS kapan saja dengan membalas dengan kata kunci penolakan yang didukung (misalnya, \"STOP\") atau dengan memperbarui pengaturan notifikasi di aplikasi."
+        },
+        "yourContent": {
+          "title": "Konten Anda",
+          "body": "Anda memiliki hak atas konten Anda. Anda memberi kami hak yang diperlukan untuk mengoperasikan layanan (misalnya, perutean, penyimpanan, terjemahan)."
+        },
+        "disclaimer": {
+          "title": "Penafian & tanggung jawab",
+          "body": "Layanan disediakan \"sebagaimana adanya\" tanpa jaminan. Sejauh diizinkan oleh hukum, Chatforia tidak bertanggung jawab atas kerusakan tidak langsung atau konsekuensial."
+        },
+        "changes": {
+          "title": "Perubahan",
+          "body": "Kami dapat memperbarui ketentuan ini; Penggunaan berkelanjutan setelah perubahan berarti penerimaan."
+        },
+        "contact": {
+          "title": "Kontak",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "doNotSell": {
+        "title": "Jangan Menjual atau Membagikan Informasi Pribadi Saya",
+        "body": "Chatforia tidak menjual informasi pribadi. Penduduk California masih dapat mengajukan permintaan di bawah CPRA menggunakan tombol di bawah ini.",
+        "cta": "Kirim permintaan"
+      },
+      "cookies": {
+        "title": "Pengaturan Cookie",
+        "body": "Chatforia menggunakan cookie minimal (misalnya, sesi, keamanan). Kami tidak menggunakan cookie iklan pihak ketiga. Kelola cookie melalui pengaturan browser Anda."
+      },
+      "phoneNumberManager": {
+        "unableToLoadStatus": "Tidak dapat memuat status nomor telepon.",
+        "lock": "Kunci",
+        "noNumberAssigned": "Tidak ada nomor yang ditetapkan. Pilih satu dengan kode area untuk mulai mengirim SMS.",
+        "pickNumber": "Pilih nomor",
+        "phoneNumber": "Nomor telepon"
+      },
+      "startChatModal": {
+        "title": "Memulai obrolan",
+        "quickPicker": "Pemilih cepat",
+        "to": "To",
+        "nameOrUsername": "Ketik nama, nama pengguna",
+        "nameUsernamePhoneEmail": "Ketik nama, nama pengguna, telepon, atau email...",
+        "startWithSelected": "Start chat with selected",
+        "searchByUsernameOrPhone": "Search by username or phone",
+        "search": "Pencarian",
+        "searchPrompt": "Type a username or phone and press Search.",
+        "pickFromContacts": "Or pick from contacts",
+        "addContact": "Add a Contact",
+        "show": "Show",
+        "add": "Tambahkan",
+        "close": "Close",
+        "selectedCount": "{{count}} selected",
+        "pickAtLeastOne": "Pick at least one recipient.",
+        "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+        "failedBulkStart": "Failed to start chat with selected recipients.",
+        "noResults": "Tidak ada hasil",
+        "mode": "Mode",
+        "group": "Group",
+        "broadcast": "Broadcast",
+        "groupNameOptional": "Group name (optional)",
+        "firstMessageOptional": "First message (optional but recommended)",
+        "createGroup": "Create group",
+        "sendBroadcast": "Send broadcast"
+      },
+      "themes": {
+        "amoled": "Amoled",
+        "aurora": "Aurora",
+        "neon": "Neon",
+        "sunset": "Sunset",
+        "solarized": "Solarized",
+        "velvet": "Velvet"
+      },
+      "sounds": {
+        "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
+        "preview": "Pratinjau",
+        "resetToDefaults": "Reset to defaults",
+        "notificationSounds": "Notification Sounds",
+        "messageTone": "Message tone",
+        "default": "Default",
+        "vibrate": "Vibrate",
+        "dreamer": "Dreamer",
+        "notify": "Notify",
+        "pop": "Pop",
+        "pulsatingSound": "Pulsating Sound",
+        "textMessage": "Text Message",
+        "xylophone": "Xylophone",
+        "classic": "Classic",
+        "urgency": "Urgency",
+        "bells": "Bells",
+        "chimes": "Chimes",
+        "digitalPhone": "Digital Phone",
+        "melodic": "Melodic",
+        "organNotes": "Organ Notes",
+        "soundReality": "Sound Reality",
+        "street": "Street",
+        "universfield": "Universfield"
+      },
+      "premiumGuard": {
+        "requiresPremium": "This feature requires a Premium plan."
+      },
+      "aiSettings": {
+        "title": "AI Settings",
+        "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+        "save": "Save AI Settings",
+        "autoTranslateIncoming": "Auto-translate incoming messages",
+        "showOriginalAlongside": "Show original text alongside translation",
+        "enableSmartReplies": "Enable Smart Replies",
+        "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+        "maskProfanity": "Mask profanity in AI suggestions",
+        "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+        "foriaBot": "ForiaBot Auto-Responder",
+        "enableAutoReply": "Enable auto-reply when I’m busy",
+        "autoReplyMode": "Auto-reply mode",
+        "cooldownSeconds": "Cooldown (seconds)",
+        "off": "Mati",
+        "on": "On",
+        "signature": "Signature",
+        "autoReply": "Auto-reply",
+        "activeUntilOptional": "Active until (optional)",
+        "saved": "AI preferences saved",
+        "saveFailed": "Failed to save AI settings",
+        "translateOff": "Mati",
+        "translateTagged": "Only when @translated or tagged",
+        "translateAll": "Translate all incoming messages",
+        "modeDm": "1:1 chats only",
+        "modeMention": "Only when I’m @mentioned",
+        "modeAll": "All inbound messages"
+      },
+      "accessibilitySettings": {
+        "title": "Accessibility & Alerts",
+        "accessibility": "Aksesibilitas",
+        "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+        "interfaceFontSize": "Interface font size",
+        "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text in accessibility settings.",
+        "sm": "sm",
+        "md": "md",
+        "lg": "lg",
+        "xl": "xl",
+        "notifications": "Notifications",
+        "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+        "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+        "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+        "liveCaptions": "Live captions (calls)",
+        "captionFontSize": "Caption font size",
+        "captionBackground": "Caption background",
+        "light": "light",
+        "dark": "dark",
+        "transparent": "transparent",
+        "voiceNotes": "Voice notes",
+        "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+        "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+        "changesSavedInstantly": "Changes are saved instantly.",
+        "loadFailed": "Failed to load settings",
+        "visualAlerts": "Visual alerts for messages & calls",
+        "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+        "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+        "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+        "flashOnCallShort": "Flash screen on incoming call",
+        "flashOnCallDesc": "Brief bright flash when a call rings."
+      },
+      "privacySection": {
+        "strictE2EE": "Strict end-to-end encryption",
+        "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews."
+      },
+      "linkedDevicesPanel": {
+        "title": "Linked Devices",
+        "noneFound": "No linked devices found.",
+        "refresh": "Segarkan"
+      },
+      "help": {
+        "title": "Bantuan",
+        "howCanWeHelp": "How can we help?",
+        "helpCenter": "Pusat Bantuan",
+        "contactUs": "Contact us",
+        "quickTopics": "Quick topics",
+        "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+        "cantLogin": "Can't log in",
+        "paymentsBilling": "Payments/ billing",
+        "reportAbuse": "Report abuse",
+        "searchHelpArticles": "Search help articles",
+        "search": "Pencarian"
+      },
+      "peoplePage": {
+        "people": "Tokoh",
+        "search": "Pencarian",
+        "searchPlaceholder": "Search by alias, name, username, or phone",
+        "filterSaved": "Memfilter kontak yang disimpan",
+        "noContactsFound": "No contacts found",
+        "quickStart": "Quick start",
+        "quickStartDesc": "A few fast ways to get rolling.",
+        "importContacts": "Import your contacts",
+        "add": "Tambahkan",
+        "focusSearch": "Focus Search",
+        "import": "Import",
+        "findOrAdd": "Find or add someone",
+        "searchByPhoneOrUsername": "Search by phone / username",
+        "inviteFriends": "Invite friends",
+        "inviteDesc": "Share your invite link to start chatting instantly.",
+        "getTheApp": "Dapatkan aplikasinya",
+        "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+        "download": "Unduh",
+        "syncTip": "Tip: Your messages stay synced across web and mobile."
+      },
+      "randomChat": {
+        "title": "Obrolan Acak",
+        "description": "'Meet someone new instantly'. 'We’ll match you and open a temporary chat room.' 'Chat anonymously first. Add Friend later if it feels right.'",
+        "findMatch": "Find me a match",
+        "chatWithForia": "Chat with Foria",
+        "chatWithForiaBot": "Chat with ForiaBot",
+        "cancel": "Batalkan",
+        "close": "Close",
+        "searching": "Searching…",
+        "finding": "Finding…",
+        "looking": "Looking for someone…",
+        "startingForia": "Starting a chat with Foria…",
+        "partnerDisconnected": "Your partner disconnected.",
+        "noPartner": "No partner found right now.",
+        "connectedTo": "Connected to {{name}}",
+        "connected": "Connected",
+        "idle": "Idle",
+        "partnerLeft": "Partner left.",
+        "stopped": "Stopped.",
+        "skip": "Skip",
+        "save": "Simpan",
+        "saveGuard": "Only human-to-human chats can be saved",
+        "youAreChattingWith": "You’re chatting with {{name}}",
+        "bot": "BOT",
+        "leave": "Leave",
+        "sayHi": "Say hi 👋",
+        "you": "You",
+        "typeMessage": "Type a message",
+        "send": "Kirim",
+        "partner": "Partner",
+        "withRia": "With Ria",
+        "chatWithRia": "Chat with Ria",
+        "startingRia": "Starting a chat with Ria…",
+        "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+        "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+        "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+        "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+        "start": "Memulai percakapan",
+        "matching": "Matching…",
+        "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+        "next": "Next Person",
+        "addFriend": "Add Friend",
+        "requested": "Requested",
+        "messageRia": "Message Ria…",
+        "messageMatch": "Message your match…"
+      },
+      "brand": {
+        "name": "Chatforia",
+        "ria": "Ria"
+      },
+      "ria": {
+        "fallbackName": "there",
+        "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+        "greetings": {
+          "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+          "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+          "long3": "Hey {{name}}! I’m all ears — what’s up?",
+          "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+          "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+          "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+          "short1": "Hey {{name}}, I’m still here. What’s up?",
+          "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+          "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+          "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+          "short5": "Yes {{name}}? I’m listening 👂",
+          "short6": "Oh hey {{name}}! Got something new on your mind?"
+        },
+        "header": {
+          "openNav": "Open navigation menu",
+          "closeNav": "Close navigation menu",
+          "homeAria": "Chatforia Home"
+        },
+        "login": {
+          "welcomeBack": "Welcome back",
+          "title": "Continue to Chatforia",
+          "subtitleReturning": "Log in to your Chatforia account",
+          "subtitle": "Log in to your Chatforia account",
+          "google": "Lanjutkan dengan Google",
+          "apple": "Lanjutkan dengan Apple",
+          "googleUnavailable": "Google sign-in unavailable",
+          "appleUnavailable": "Apple sign-in unavailable",
+          "or": "or",
+          "email": "Email",
+          "emailPh": "you@example.com",
+          "usernameLabel": "Nama pengguna",
+          "usernamePh": "Your username",
+          "passwordLabel": "Kata sandi",
+          "passwordPh": "Your password",
+          "keepSignedIn": "Biarkan saya login",
+          "forgot": {
+            "title": "Forgot Password",
+            "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+            "emailInvalid": "Please enter a valid email address.",
+            "genericError": "Unable to process request. Please try again in a moment.",
+            "sending": "Sending reset link...",
+            "sendCta": "Send Reset Link",
+            "sentLabel": "Sent!",
+            "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+            "previewDev": "Preview Email (Dev)",
+            "backToLogin": "Back to Login"
+          },
+          "submit": "Masuk",
+          "loggingIn": "Logging in…",
+          "newHere": "New here? <link>Create an account</link>",
+          "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+          "error": {
+            "missing": "Please enter your credentials.",
+            "invalid": "Invalid username or password",
+            "denied": "Access denied.",
+            "unprocessable": "Invalid request. Check your username/email and password.",
+            "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+            "premiumRequired": "This action requires a Premium plan."
+          }
+        }
+      },
+      "oauth": {
+        "completing": "Completing sign-in…"
+      },
+      "dialer": {
+        "title": "Panggilan",
+        "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+        "enterNumberPh": "Enter number",
+        "call": "Panggilan",
+        "backspace": "Backspace",
+        "recents": "Recents",
+        "recentsEmpty": "No recent calls yet.",
+        "enterNumber": "Enter number",
+        "enterNumberAria": "Enter number",
+        "key": "Key {{d}}",
+        "noRecents": "No recent calls yet."
+      },
+      "video": {
+        "title": "Videonya",
+        "chooseType": "Choose a video type.",
+        "directTitle": "Direct Video",
+        "directDesc": "1:1 camera call with another user.",
+        "directStart": "Start",
+        "roomsTitle": "Rooms",
+        "roomsDesc": "Multi-party video using a shared room name.",
+        "roomsIntro": "Join or create a multi-party room.",
+        "roomNameLabel": "Room name",
+        "roomNamePh": "e.g. team-standup",
+        "join": "Join",
+        "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>.",
+        "hub": {
+          "title": "Videonya",
+          "subtitle": "Choose a video type."
+        },
+        "direct": {
+          "title": "Direct Video",
+          "subtitle": "Start a 1:1 video call using a phone number or Chatforia username.",
+          "desc": "1:1 camera call with another user.",
+          "start": "Start",
+          "callBtn": "Panggilan",
+          "callByPhone": {
+            "title": "Call by phone"
+          },
+          "phone": {
+            "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+            "aria": "Phone to call"
+          },
+          "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+          "findUser": {
+            "title": "Find a user"
+          },
+          "search": {
+            "placeholder": "Search by name or username",
+            "aria": "Search by name or username",
+            "btn": "Pencarian"
+          }
+        },
+        "rooms": {
+          "title": "Rooms",
+          "subtitle": "Create a room or join an existing one by typing the same name.",
+          "desc": "Multi-party video using a shared room name.",
+          "roomLabel": "Room name",
+          "roomPlaceholder": "e.g. team-standup",
+          "roomAria": "Room name",
+          "joinCreate": "Join / Create",
+          "tip": "Tip: share this name with others, or deep link to <code>/video?room=room-name</code>."
+        }
+      },
+      "directVideo": {
+        "intro": "Start a direct 1:1 video call.",
+        "findUserLabel": "Find a user",
+        "findUserPh": "Search by name or username",
+        "search": "Pencarian",
+        "call": "Panggilan"
+      },
+      "phoneWarning": {
+        "title": "Your number is expiring soon",
+        "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+        "button": "Keep My Number"
+      }
+    },
+    "support": {
+      "helpFab": "Bantuan",
+      "openSupportAria": "Open support",
+      "badge": "Support",
+      "heading": "How can we help?",
+      "tabs": {
+        "help": "Pusat Bantuan",
+        "contact": "Contact us"
+      },
+      "searchPlaceholder": "Search help articles…",
+      "searchAria": "Search help",
+      "searchBtn": "Pencarian",
+      "quickTopicsLabel": "Quick topics",
+      "quickTopics": {
+        "login": "Can’t log in",
+        "billing": "Payments / billing",
+        "abuse": "Report abuse"
+      },
+      "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+      "article": "Article",
+      "openArticle": "Open article",
+      "contactIntro": "We’ll email you a response. Include details to help us reproduce the issue.",
+      "topicAria": "Select a topic",
+      "messagePlaceholder": "Write your message…",
+      "sendBtn": "Kirim",
+      "sent": "Message sent. We’ll reply by email.",
+      "sendError": "Could not send. Email support@chatforia.com instead."
+    },
+    "helpCenter": {
+      "title": "Pusat Bantuan",
+      "faq": {
+        "account": {
+          "q": "Bagaimana cara membuat atau memulihkan akun saya?",
+          "a": "Unduh aplikasi atau gunakan web, ketuk \"Buat akun\", verifikasi email/telepon Anda. Untuk memulihkan, gunakan \"Lupa kata sandi\"."
+        },
+        "privacy": {
+          "q": "Apakah pesan end-to-end dienkripsi?",
+          "a": "Iya. Pesan dan panggilan dienkripsi secara menyeluruh secara default. Hanya Anda dan penerima yang dapat membacanya."
+        },
+        "translate": {
+          "q": "Bagaimana cara kerja terjemahan instan?",
+          "a": "Aktifkan \"Terjemahan otomatis\" di Pengaturan → Penampilan & Bahasa. Kami menerjemahkan di perangkat jika didukung, jika tidak melalui API aman dengan metadata minimal."
+        },
+        "contact": {
+          "q": "Hubungi dukungan",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+        }
+      }
+    },
+    "encryptionRecovery": {
+      "title": "Manage Encryption",
+      "description": "Back up, restore, unlock, or reset your encryption key.",
+      "alert": {
+        "keyRequiredTitle": "Encryption key required",
+        "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue."
+      },
+      "sections": {
+        "createBackup": "Create key backup",
+        "restoreFromBackup": "Restore from account backup",
+        "resetEncryption": "Reset encryption"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Unlock passcode (current device)",
+          "description": "Used to decrypt your keys locally before exporting"
+        },
+        "backupPassword": {
+          "label": "Backup password",
+          "description": "Used to encrypt the backup file"
+        },
+        "restoreBackupPassword": {
+          "label": "Backup password",
+          "description": "The password you created when backing up your key on iPhone"
+        },
+        "newLocalPasscode": {
+          "label": "New local passcode",
+          "description": "Protect keys at rest on this browser"
+        },
+        "resetLocalPasscode": {
+          "label": "New local passcode",
+          "description": "Required before resetting so the new key is protected on this device"
+        }
+      },
+      "actions": {
+        "unlockKey": "Unlock encryption key",
+        "restoreFromBackup": "Restore from account backup",
+        "resetEncryption": "Reset Encryption"
+      },
+      "messages": {
+        "backupCreated": "Key backup created and downloaded.",
+        "keyUnlocked": "Encryption key unlocked.",
+        "keyRestored": "Key restored from account backup.",
+        "resetSuccess": "Encryption reset successfully."
+      },
+      "errors": {
+        "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+        "noBackup": "Tidak ada cadangan terenkripsi untuk akun ini",
+        "missingPublicKey": "Cadangan tidak memiliki kunci publik",
+        "noServerPublicKey": "This account does not currently expose a server public key",
+        "serverBackupMismatch": "Server backup does not match the current account encryption key",
+        "incompleteMetadata": "Backup metadata is incomplete",
+        "resetIncomplete": "Encryption reset did not complete correctly"
+      },
+      "confirm": {
+        "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+      },
+      "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "footer": {
+      "plans": "Plans & Pricing",
+      "about": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "contact": "Hubungi Kami",
+      "help": "Pusat Bantuan",
+      "status": "Status Page",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Kebijakan Privasi",
+      "terms": "Ketentuan Layanan",
+      "cookies": "Pengaturan Cookie",
+      "doNotSell": "Do Not Sell My Info",
+      "language": "Language",
+      "contactShort": "Kontak",
+      "aria": "Footer",
+      "homeAria": "Chatforia home",
+      "section": {
+        "company": "COMPANY",
+        "support": "SUPPORT",
+        "downloads": "DOWNLOADS",
+        "legal": "LEGAL"
+      },
+      "links": {
+        "plans-pricing": "Plans & Pricing",
+        "about-chatforia": "About Chatforia",
+        "careers": "Careers",
+        "press": "Press",
+        "advertise": "Advertise",
+        "getting-started": "Memulai",
+        "help-center": "Pusat Bantuan",
+        "contact-us": "Hubungi Kami",
+        "status-page": "Status Page",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Kebijakan Privasi",
+        "terms-of-service": "Ketentuan Layanan",
+        "do-not-sell-my-info": "Do Not Sell My Info",
+        "cookie-settings": "Pengaturan Cookie"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patent pending",
+      "backToTop": "↑ Back to top"
+    },
+    "press": {
+      "title": "Press",
+      "contactLine": "For media inquiries, reach us at",
+      "boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+      "assetsTitle": "Brand assets",
+      "assetsSubtitle": "Logos, screenshots, and product imagery.",
+      "downloadCta": "Download media kit",
+      "downloadTitle": "Dapatkan aplikasinya",
+      "scanTip": "Di desktop? Pindai dengan ponsel Anda untuk mendapatkan aplikasi.",
+      "qrAria": "Open Chatforia website",
+      "appStore": "Unduh di App Store",
+      "googlePlay": "Dapatkan di Google Play"
+    },
+    "careers": {
+      "title": "Careers",
+      "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you.",
+      "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+      "apply": "How to apply: Use the button below to email your resume and links.",
+      "emailCta": "Email your resume",
+      "whyNow": "Why join now?",
+      "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales."
+    },
+    "about": {
+      "title": "About Chatforia",
+      "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
+      "valuesTitle": "What we value",
+      "values": {
+        "privacy": "<b>Privacy-first:</b> E2E encryption by default.",
+        "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+        "control": "<b>Control:</b> Disappearing messages & read receipts are optional.",
+        "privacy_aria": "Privacy-first: E2E encryption by default.",
+        "access_aria": "Access for all: Auto-translate 100+ languages.",
+        "control_aria": "Control: Disappearing messages and read receipts are optional."
+      },
+      "howTitle": "How Chatforia works",
+      "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
+    },
+    "advertise": {
+      "title": "Advertise with Chatforia",
+      "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
+      "adsense": {
+        "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+        "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
+      },
+      "inventoryHeader": "Inventory & Specs",
+      "placement": {
+        "displayBadge": "Display",
+        "acceptedSizes": "Accepted sizes",
+        "adsenseSlot": "AdSense slot:"
+      },
+      "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+      "whyHeader": "Why Chatforia?",
+      "why": {
+        "highSession": "High session frequency and dwell time in chat UI",
+        "brandSafe": "Brand-safe formats; respectful frequency capping",
+        "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+        "deals": "Direct deals or programmatic via AdSense/Google Ads"
+      },
+      "contactHeader": "Kontak",
+      "form": {
+        "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+        "missingRequired": "Please fill in name, email, and message.",
+        "successToast": "Thanks! We’ll be in touch soon.",
+        "mailtoInfo": "Opening your email client to send the inquiry…",
+        "nameLabel": "Your name",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Company",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Monthly budget (optional)",
+        "budgetPlaceholder": "e.g. $1,000–$20,000+",
+        "messageLabel": "Tell us about your campaign",
+        "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+        "sendCta": "Send inquiry"
+      },
+      "legal": {
+        "disclaimerStart": "By submitting, you agree to our",
+        "terms": "Terms",
+        "and": "and",
+        "privacy": "Kebijakan Privasi"
       }
     }
-  },
-
-  "contact": {
-    "title": "Hubungi Kami",
-    "successMsg": "Terima kasih—tim kami akan membalas melalui email.",
-    "errorSend": "Tidak dapat mengirim. Silakan email ke support@chatforia.com.",
-    "form": {
-      "nameLabel": "Nama",
-      "emailLabel": "Email",
-      "messageLabel": "Pesan",
-      "sendCta": "Kirim"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Kebijakan Privasi",
-    "lastUpdated": "Terakhir diperbarui:",
-    "intro": {
-      "body": "Kebijakan Privasi ini menjelaskan bagaimana Chatforia (“kami”) mengumpulkan, menggunakan, dan membagikan informasi saat Anda menggunakan aplikasi dan layanan kami. Kami merancang Chatforia untuk meminimalkan data yang dapat kami akses."
-    },
-    "infoWeCollect": {
-      "title": "Informasi yang kami kumpulkan",
-      "account": "Info akun (mis., email/ponsel) untuk membuat dan mengamankan akun Anda.",
-      "encrypted": "Konten terenkripsi (pesan/panggilan) dienkripsi ujung-ke-ujung; kami tidak dapat membacanya.",
-      "diagnostics": "Diagnostik/penggunaan seperti log kerusakan, jenis perangkat, atau analitik kasar untuk meningkatkan kinerja."
-    },
-    "howWeUse": {
-      "title": "Bagaimana kami menggunakan informasi",
-      "provide": "Menyediakan dan mengamankan layanan (autentikasi, deteksi spam/penyalahgunaan).",
-      "improve": "Meningkatkan fitur (kualitas terjemahan, keandalan).",
-      "legal": "Mematuhi kewajiban hukum."
-    },
-    "sharing": {
-      "title": "Berbagi",
-      "body": "Kami tidak menjual data pribadi. Kami dapat membagikan data terbatas dengan pemroses (mis., notifikasi push, analitik) di bawah kontrak ketat."
-    },
-    "rights": {
-      "title": "Hak Anda",
-      "body": "Bergantung wilayah Anda (mis., GDPR/UK GDPR/CPRA), Anda dapat meminta akses, koreksi, penghapusan, atau memilih keluar dari pemrosesan tertentu. Kontak: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Retensi data & keamanan",
-      "body": "Kami hanya menyimpan yang diperlukan untuk mengoperasikan layanan dan menerapkan keamanan standar industri. Konten E2E tidak dapat didekripsi oleh kami."
-    },
-    "children": {
-      "title": "Anak-anak",
-      "body": "Chatforia tidak ditujukan untuk anak di bawah 13 tahun (atau sesuai hukum lokal Anda)."
-    },
-    "changes": {
-      "title": "Perubahan",
-      "body": "Kami akan memposting pembaruan di sini dan merevisi tanggal “Terakhir diperbarui”."
-    },
-    "contact": {
-      "title": "Kontak",
-      "body": "privacy@chatforia.com • [Nama badan hukum], [Alamat]"
-    }
-  },
-
-  "terms": {
-    "title": "Ketentuan Layanan",
-    "lastUpdated": "Terakhir diperbarui:",
-    "intro": {
-      "body": "Dengan menggunakan Chatforia Anda menyetujui Ketentuan ini. Jika Anda tidak setuju, jangan gunakan layanan."
-    },
-    "accounts": {
-      "title": "Akun",
-      "itemAccurateInfo": "Berikan info yang akurat dan jaga kredensial tetap aman.",
-      "itemResponsibility": "Anda bertanggung jawab atas aktivitas pada akun Anda."
-    },
-    "acceptableUse": {
-      "title": "Penggunaan yang dapat diterima",
-      "itemNoAbuse": "Tidak ada konten ilegal, kasar, atau melanggar; tidak ada spam atau penyalahgunaan otomatis.",
-      "itemSuspend": "Kami dapat menangguhkan/menghentikan untuk pelanggaran."
-    },
-    "yourContent": {
-      "title": "Konten Anda",
-      "body": "Anda mempertahankan hak atas konten Anda. Anda memberikan kami hak yang diperlukan untuk mengoperasikan layanan (mis., perutean, penyimpanan, terjemahan)."
-    },
-    "disclaimer": {
-      "title": "Penafian & tanggung jawab",
-      "body": "Layanan disediakan “sebagaimana adanya” tanpa jaminan. Sepanjang diizinkan hukum, Chatforia tidak bertanggung jawab atas kerugian tidak langsung atau konsekuensial."
-    },
-    "changes": {
-      "title": "Perubahan",
-      "body": "Kami dapat memperbarui ketentuan ini; penggunaan berkelanjutan setelah perubahan berarti Anda menerima."
-    },
-    "contact": {
-      "title": "Kontak",
-      "body": "support@chatforia.com • [Nama badan hukum], [Alamat]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Jangan Jual atau Bagikan Informasi Pribadi Saya",
-    "body": "Chatforia tidak menjual informasi pribadi. Penduduk California tetap dapat mengirim permintaan di bawah CPRA menggunakan tombol di bawah.",
-    "cta": "Kirim permintaan"
-  },
-
-  "cookies": {
-    "title": "Pengaturan Cookie",
-    "body": "Chatforia menggunakan cookie minimal (mis., sesi, keamanan). Kami tidak menggunakan cookie iklan pihak ketiga. Kelola cookie melalui pengaturan peramban Anda."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Tidak dapat memuat status nomor telepon.",
-    "lock": "Kunci",
-    "noNumberAssigned": "Belum ada nomor ditetapkan. Pilih berdasarkan kode area untuk mulai berkirim SMS.",
-    "pickNumber": "Pilih nomor",
-    "phoneNumber": "Nomor telepon"
-  },
-
-  "startChatModal": {
-    "title": "Mulai obrolan",
-    "quickPicker": "Pemilih cepat",
-    "to": "Kepada",
-    "nameOrUsername": "Ketik nama, nama pengguna",
-    "nameUsernamePhoneEmail": "Ketik nama, nama pengguna, ponsel, atau email…",
-    "startWithSelected": "Mulai obrolan dengan yang dipilih",
-    "searchByUsernameOrPhone": "Cari berdasarkan nama pengguna atau ponsel",
-    "search": "Cari",
-    "searchPrompt": "Ketik nama pengguna atau ponsel lalu tekan Cari.",
-    "pickFromContacts": "Atau pilih dari kontak",
-    "addContact": "Tambah Kontak",
-    "show": "Tampilkan",
-    "add": "Tambah",
-    "close": "Tutup",
-    "selectedCount": "{{count}} dipilih",
-    "pickAtLeastOne": "Pilih setidaknya satu penerima.",
-    "saveContactsHint": "Entri ponsel/email akan tersedia setelah Anda menyimpannya sebagai kontak.",
-    "failedBulkStart": "Gagal memulai obrolan dengan penerima terpilih.",
-    "noResults": "Tidak ada hasil",
-    "mode": "Mode",
-    "group": "Grup",
-    "broadcast": "Siaran",
-    "groupNameOptional": "Nama grup (opsional)",
-    "firstMessageOptional": "Pesan pertama (opsional namun disarankan)",
-    "createGroup": "Buat grup",
-    "sendBroadcast": "Kirim siaran"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Senja",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Anda menggunakan Free — nada premium ditampilkan tetapi terkunci. Tingkatkan untuk membuka semua.",
-    "preview": "Pratinjau",
-    "resetToDefaults": "Atur ulang ke standar",
-    "notificationSounds": "Bunyi Notifikasi",
-    "messageTone": "Nada pesan",
-    "default": "Bawaan",
-    "vibrate": "Getar",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Fitur ini memerlukan paket Premium."
-  },
-
-  "aiSettings": {
-    "title": "Pengaturan AI",
-    "controlIntro": "Kendalikan terjemahan, balasan pintar, dan respons otomatis ForiaBot.",
-    "save": "Simpan Pengaturan AI",
-    "autoTranslateIncoming": "Terjemahkan otomatis pesan masuk",
-    "showOriginalAlongside": "Tampilkan teks asli berdampingan dengan terjemahan",
-    "enableSmartReplies": "Aktifkan Balasan Pintar",
-    "smartRepliesHint": "Kirim beberapa pesan yang diterima terakhir (telah disanitasi) ke AI untuk menyarankan balasan cepat.",
-    "maskProfanity": "Sensor kata kasar dalam saran AI",
-    "maskProfanityHint": "Jika aktif, saran dari AI akan memiliki kata yang ditandai disensor",
-    "foriaBot": "ForiaBot Respons Otomatis",
-    "enableAutoReply": "Aktifkan balasan otomatis saat saya sibuk",
-    "autoReplyMode": "Mode balasan otomatis",
-    "cooldownSeconds": "Jeda (detik)",
-    "off": "Mati",
-    "on": "Hidup",
-    "signature": "Tanda tangan",
-    "autoReply": "Balasan otomatis",
-    "activeUntilOptional": "Aktif hingga (opsional)",
-    "saved": "Preferensi AI disimpan",
-    "saveFailed": "Gagal menyimpan pengaturan AI",
-    "translateOff": "Mati",
-    "translateTagged": "Hanya saat @translated atau ditandai",
-    "translateAll": "Terjemahkan semua pesan masuk",
-    "modeDm": "Hanya obrolan 1:1",
-    "modeMention": "Hanya saat saya di-@sebut",
-    "modeAll": "Semua pesan masuk"
-  },
-
-  "accessibilitySettings": {
-    "title": "Aksesibilitas & Peringatan",
-    "accessibility": "Aksesibilitas",
-    "accessibilityDesc": "Opsi untuk memudahkan penggunaan Chatforia tanpa mengandalkan suara.",
-    "interfaceFontSize": "Ukuran font antarmuka",
-    "interfaceFontSizeHelp": "Mulai dari ukuran normal. Perbesar jika Anda lebih suka teks yang lebih besar di pengaturan aksesibilitas.",
-    "sm": "k",
-    "md": "s",
-    "lg": "b",
-    "xl": "sb",
-    "notifications": "Notifikasi",
-    "notificationsDesc": "Peringatan visual untuk pesan & panggilan\nTampilkan spanduk dan kedip judul agar Anda tidak melewatkan aktivitas.",
-    "vibrateOnNew": "Getar saat ada pesan baru (jika didukung)\nAktifkan getaran perangkat dengan notifikasi.",
-    "flashOnCall": "Kedipkan layar saat panggilan masuk\nCahaya terang singkat saat panggilan berdering.",
-    "liveCaptions": "Teks langsung (panggilan)",
-    "captionFontSize": "Ukuran font teks",
-    "captionBackground": "Latar teks",
-    "light": "terang",
-    "dark": "gelap",
-    "transparent": "transparan",
-    "voiceNotes": "Catatan suara",
-    "autoTranscribeVoiceNotes": "Transkripsi otomatis catatan suara\nLampirkan transkrip ke pesan audio yang Anda terima.",
-    "changesSavedInstantly": "Perubahan disimpan seketika.",
-    "loadFailed": "Gagal memuat pengaturan",
-    "visualAlerts": "Peringatan visual untuk pesan & panggilan",
-    "visualAlertsDesc": "Tampilkan spanduk dan kedip judul agar Anda tidak melewatkan aktivitas.",
-    "vibrateOnNewShort": "Getar saat ada pesan baru (jika didukung)",
-    "vibrateOnNewDesc": "Aktifkan getaran perangkat dengan notifikasi.",
-    "flashOnCallShort": "Kedipkan layar saat panggilan masuk",
-    "flashOnCallDesc": "Cahaya terang singkat saat panggilan berdering."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Enkripsi ujung-ke-ujung ketat",
-    "ciphertextOnlyNote": "Simpan hanya ciphertext di server. Menonaktifkan AI/Terjemah dan pratinjau moderasi."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Perangkat Tertaut",
-    "noneFound": "Tidak ada perangkat tertaut.",
-    "refresh": "Segarkan"
-  },
-
-  "help": {
-    "title": "Bantuan",
-    "howCanWeHelp": "Bagaimana kami bisa membantu?",
-    "helpCenter": "Pusat Bantuan",
-    "contactUs": "Hubungi kami",
-    "quickTopics": "Topik cepat",
-    "searchExamples": "Coba cari “terjemahkan”, “cadangan”, atau “privasi”.",
-    "cantLogin": "Tidak bisa masuk",
-    "paymentsBilling": "Pembayaran/ penagihan",
-    "reportAbuse": "Laporkan penyalahgunaan",
-    "searchHelpArticles": "Cari artikel bantuan",
-    "search": "Cari"
-  },
-
-  "peoplePage": {
-    "people": "Orang",
-    "search": "Cari",
-    "searchPlaceholder": "Cari berdasarkan alias, nama, nama pengguna, atau ponsel",
-    "filterSaved": "Saring kontak tersimpan",
-    "noContactsFound": "Tidak ada kontak ditemukan",
-    "quickStart": "Mulai cepat",
-    "quickStartDesc": "Beberapa cara cepat untuk mulai.",
-    "importContacts": "Impor kontak Anda",
-    "add": "Tambah",
-    "focusSearch": "Fokus Pencarian",
-    "import": "Impor",
-    "findOrAdd": "Cari atau tambahkan seseorang",
-    "searchByPhoneOrUsername": "Cari berdasarkan ponsel / nama pengguna",
-    "inviteFriends": "Ajak teman",
-    "inviteDesc": "Bagikan tautan undangan Anda untuk mulai mengobrol seketika.",
-    "getTheApp": "Dapatkan aplikasinya",
-    "getTheAppDesc": "Tetap terhubung saat bepergian dengan Chatforia untuk iOS dan Android.",
-    "download": "Unduh",
-    "syncTip": "Tip: Pesan Anda tetap tersinkron di web dan seluler."
-  },
-
-  "randomChat": {
-    "title": "Obrolan Acak",
-    "description": "Temui seseorang secara instan. Kami akan mencarikan pasangan dan membuka ruang obrolan sementara.",
-    "findMatch": "Carikan saya pasangan",
-    "chatWithForia": "Mengobrol dengan Foria",
-    "chatWithForiaBot": "Mengobrol dengan ForiaBot",
-    "cancel": "Batal",
-    "close": "Tutup",
-    "searching": "Mencari…",
-    "finding": "Menemukan…",
-    "looking": "Mencari seseorang…",
-    "startingForia": "Memulai obrolan dengan Foria…",
-    "partnerDisconnected": "Pasangan Anda terputus.",
-    "noPartner": "Belum ada pasangan saat ini.",
-    "connectedTo": "Terhubung ke {{name}}",
-    "connected": "Terhubung",
-    "idle": "Diam",
-    "partnerLeft": "Pasangan keluar.",
-    "stopped": "Dihentikan.",
-    "skip": "Lewati",
-    "save": "Simpan",
-    "saveGuard": "Hanya obrolan manusia-ke-manusia yang dapat disimpan",
-    "youAreChattingWith": "Anda sedang mengobrol dengan {{name}}",
-    "bot": "BOT",
-    "leave": "Keluar",
-    "sayHi": "Sapa 👋",
-    "you": "Anda",
-    "typeMessage": "Ketik pesan",
-    "send": "Kirim",
-    "partner": "Pasangan",
-    "withForia": "Dengan Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Buka menu navigasi",
-    "closeNav": "Tutup menu navigasi",
-    "homeAria": "Beranda Chatforia"
-  },
-
-  "login": {
-    "title": "Selamat datang kembali",
-    "subtitle": "Masuk ke akun Chatforia Anda",
-    "google": "Lanjutkan dengan Google",
-    "apple": "Lanjutkan dengan Apple",
-    "googleUnavailable": "Masuk Google tidak tersedia",
-    "appleUnavailable": "Masuk Apple tidak tersedia",
-    "or": "atau",
-    "email": "Email",
-    "emailPh": "anda@contoh.com",
-    "usernameLabel": "Nama pengguna",
-    "usernamePh": "Nama pengguna Anda",
-    "passwordLabel": "Kata sandi",
-    "passwordPh": "Kata sandi Anda",
-    "keepSignedIn": "Tetap masuk",
-    "forgot": "Lupa kata sandi?",
-    "submit": "Masuk",
-    "loggingIn": "Sedang masuk…",
-    "newHere": "Baru di sini? <link>Buat akun</link>",
-    "ssoUnavailable": "Single sign-on saat ini tidak tersedia. Gunakan nama pengguna & kata sandi.",
-    "error": {
-      "missing": "Harap masukkan kredensial Anda.",
-      "invalid": "Nama pengguna atau kata sandi tidak valid",
-      "denied": "Akses ditolak.",
-      "unprocessable": "Permintaan tidak valid. Periksa nama pengguna/email dan kata sandi Anda.",
-      "deviceLimit": "Batas perangkat tercapai untuk paket Free. Keluar di perangkat lain atau tingkatkan ke Premium untuk menautkan lebih banyak perangkat.",
-      "premiumRequired": "Tindakan ini memerlukan paket Premium."
-    }
-  }
 }
+

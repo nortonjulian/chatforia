@@ -1,986 +1,1696 @@
-{
-  "common": {
-    "save": "حفظ",
-    "cancel": "إلغاء",
-    "refresh": "تحديث",
-    "noMatches": "لا توجد نتائج",
-    "cancelAria": "إلغاء",
-    "copy": "نسخ",
-    "copied": "تم النسخ!"
-  },
-
-  "a11y": {
-    "skipToMain": "تخطي إلى المحتوى الرئيسي"
-  },
-
-  "profile": {
-    "title": "ملف المستخدم",
-    "preferredLanguage": "اللغة المفضلة",
-    "chooseLanguage": "اختر لغة",
-    "mustLogin": "يجب تسجيل الدخول لعرض الإعدادات.",
-    "autoTranslate": "ترجمة الرسائل تلقائيًا",
-    "showOriginalWithTranslation": "عرض النص الأصلي والترجمة",
-    "showOriginalAndTranslation": "عرض النص الأصلي بجانب الترجمة",
-    "filterExplicit": "تصفية المحتوى الصريح",
-    "aiReply": "ردود الذكاء الاصطناعي",
-    "enableReadReceipts": "تفعيل تأكيدات القراءة",
-    "allowExplicitContent": "السماح بالمحتوى الصريح",
-    "disappearingMessages": "تفعيل الرسائل الزائلة",
-    "autoDeleteSeconds": "ثوانٍ حتى الحذف التلقائي",
-    "saveSuccess": "تم حفظ الإعدادات!",
-    "saveError": "خطأ: تعذّر حفظ الإعدادات",
-    "avatarAlt": "صورة الملف الشخصي",
-    "uploadAvatar": "رفع صورة جديدة",
-    "avatarSuccess": "تم رفع الصورة!",
-    "avatarError": "خطأ في رفع الصورة",
-    "noPrivateKey": "لا توجد مفتاح خاص على هذا الجهاز للتصدير.",
-    "setBackupPassword": "عيّن كلمة مرور لتشفير النسخة الاحتياطية:",
-    "backupDownloaded": "تم تنزيل نسخة احتياطية مشفرة.",
-    "exportFailed": "فشل تصدير المفتاح",
-    "enterBackupPassword": "أدخل كلمة مرور هذه النسخة الاحتياطية:",
-    "importSuccess": "تم استيراد المفتاح الخاص إلى هذا الجهاز.",
-    "importFailed": "فشل استيراد المفتاح (كلمة مرور غير صحيحة أو ملف تالف).",
-    "keysRotated": "تم إنشاء زوج مفاتيح جديد ورفع المفتاح العام.",
-    "rotateFailed": "فشل تدوير المفاتيح.",
-    "security": "الأمان",
-    "exportKey": "تصدير المفتاح الخاص",
-    "importKey": "استيراد نسخة مفتاح مشفرة",
-    "rotateKeys": "تدوير زوج المفاتيح",
-    "keyDisclaimer": "مفتاحك الخاص لا يغادر هذا الجهاز أبدًا. صدّر نسخة محمية بكلمة مرور لاستعادتها على جهاز آخر.",
-    "sectionProfile": "الملف",
-    "phoneNumber": "رقم الهاتف",
-    "appearance": "المظهر",
-    "soundSettings": "الأصوات",
-    "disappearing": "الرسائل الزائلة",
-    "backupSync": "النسخ الاحتياطي والمزامنة",
-    "ai": "الذكاء الاصطناعي",
-    "accessibility": "إمكانية الوصول",
-    "privacy": "الخصوصية",
-    "devices": "الأجهزة المرتبطة",
-    "themeFreeNotice": "أنت على الخطة المجانية — استخدم خياري الشمس/القمر أدناه. قم بالترقية لفتح المزيد من السمات.",
-    "sunTheme": "استخدام سمة الفجر",
-    "moonTheme": "استخدام سمة القمر (منتصف الليل)",
-    "sun": "الشمس",
-    "moon": "القمر",
-    "backupTitle": "نسخ احتياطية مشفرة ومزامنة الأجهزة",
-    "openBackupTools": "فتح أدوات النسخ الاحتياطي",
-    "backupDesc": "أنشئ نسخًا احتياطية محمية بكلمة مرور لمفاتيحك، واستعدها على جهاز آخر للمزامنة.",
-    "privacyBlurEnabled": "طمس الرسائل افتراضيًا",
-    "privacyBlurOnUnfocus": "طمس عندما تكون التطبيق غير نشط",
-    "holdToReveal": "اضغط مع الاستمرار للإظهار",
-    "notifyOnCopy": "أبلغني إذا تم نسخ رسالتي",
-    "loadFailed": "فشل تحميل الملف الشخصي",
-    "followed": "تمت المتابعة",
-    "followFailed": "فشل المتابعة",
-    "unfollowed": "تم إلغاء المتابعة",
-    "unfollowFailed": "فشل إلغاء المتابعة",
-    "follow": "متابعة",
-    "unfollow": "إلغاء المتابعة",
-    "followHint": "ستظهر قصصهم في موجز «تتابع» لديك إذا نشروا للجمهور المتابعون (أو للجميع).",
-    "userNotFound": "لم يتم العثور على المستخدم",
-    "followsYou": "يتابعك",
-    "sectionCrashedTitle": "فشل تحميل القسم",
-    "sectionCrashedBody": "حدث خطأ في هذا القسم.",
-    "forwarding": "تحويل المكالمات والرسائل",
-    "callTextForwardingSection": "تحويل المكالمات والرسائل",
-    "callTextForwardingTitle": "تحويل المكالمات و/أو الرسائل",
-    "callTextForwardingDescription": "حوّل المكالمات والرسائل الواردة إلى هاتفك أو بريدك الإلكتروني الموثق. يمكن أن تظهر المكالمات/الرسائل الصادرة رقم Chatforia الخاص بك.",
-    "enableTextForwarding": "تفعيل تحويل الرسائل",
-    "forwardTextsToPhone": "تحويل الرسائل إلى الهاتف",
-    "forwardTextsToEmail": "تحويل الرسائل إلى البريد الإلكتروني",
-    "destinationPhone": "الهاتف الوجهة (E.164)",
-    "destinationEmail": "البريد الإلكتروني الوجهة",
-    "enableCallForwarding": "تفعيل تحويل المكالمات",
-    "destinationPhoneForCalls": "الوجهة (E.164) للمكالمات",
-    "aliasBridging": "تحويل المكالمات (جسر الأسماء المستعارة)",
-    "quietHoursOptional": "ساعات الهدوء (اختياري)",
-    "startHour": "ساعة البدء (0–23)",
-    "endHour": "ساعة الانتهاء (0–23)",
-    "reset": "إعادة ضبط",
-    "saveBtn": "حفظ",
-    "forwardSaved": "تم حفظ إعدادات التحويل",
-    "forwardSaveFailed": "فشل حفظ الإعدادات",
-    "errE164": "أدخل رقم هاتف صالح بصيغة E.164 (مثال: ‎+15551234567).",
-    "errEmail": "أدخل بريدًا إلكترونيًا صالحًا.",
-    "errSmsDest": "اختر وجهة واحدة على الأقل (هاتف أو بريد).",
-    "errQuietHours": "يجب أن تكون ساعات الهدوء بين 0 و23."
-  },
-
-  "support": {
-    "helpFab": "مساعدة",
-    "openSupportAria": "فتح الدعم",
-    "badge": "الدعم",
-    "heading": "كيف يمكننا مساعدتك؟",
-    "tabs": {
-      "help": "مركز المساعدة",
-      "contact": "تواصل معنا"
+ {
+    "common": {
+      "save": "حفظ",
+      "cancel": "إلغاء",
+      "refresh": "تحديث",
+      "noMatches": "لا توجد مباريات",
+      "cancelAria": "إلغاء",
+      "copy": "نسخة",
+      "copied": "تم النسخ!",
+      "errorWithMessage": "خطأ: {{رسالة}}"
     },
-    "searchPlaceholder": "ابحث في مقالات المساعدة…",
-    "searchAria": "بحث المساعدة",
-    "searchBtn": "بحث",
-    "quickTopicsLabel": "مواضيع سريعة",
-    "quickTopics": {
-      "login": "لا أستطيع تسجيل الدخول",
-      "billing": "المدفوعات / الفوترة",
-      "abuse": "الإبلاغ عن إساءة"
+    "a11y": {
+      "skipToMain": "تخطي إلى المحتوى الرئيسي"
     },
-    "trySearching": "جرّب البحث عن «الترجمة»، «النسخ الاحتياطية»، أو «الخصوصية».",
-    "article": "مقال",
-    "openArticle": "فتح المقال",
-    "contactIntro": "سنرد عليك عبر البريد الإلكتروني. أرفق تفاصيل تساعدنا على إعادة إنشاء المشكلة.",
-    "topicAria": "اختر موضوعًا",
-    "messagePlaceholder": "اكتب رسالتك…",
-    "sendBtn": "إرسال",
-    "sent": "تم إرسال الرسالة. سنرد عبر البريد الإلكتروني.",
-    "sendError": "تعذّر الإرسال. راسل support@chatforia.com بدلًا من ذلك."
-  },
-
-  "chat": {
-    "selectPrompt": "اختر نصًا أو غرفة دردشة لبدء المحادثة",
-    "newMessages": "رسائل جديدة",
-    "typing": "{{name}} يكتب...",
-    "emptyTitle": "رسائلك",
-    "emptySubtitle": "أرسل رسالة لبدء الدردشة.",
-    "startChatButton": "إرسال رسالة"
-  },
-
-  "topbar": {
-    "newStatus": "حالة جديدة",
-    "logout": "تسجيل الخروج",
-    "help": "مساعدة",
-    "createStatusAria": "إنشاء حالة جديدة"
-  },
-
-  "status": {
-    "userNumber": "المستخدم #{{id}}",
-    "posted": "تم نشر الحالة",
-    "postFailed": "فشل نشر الحالة",
-    "createTitle": "إنشاء حالة",
-    "modalAriaLabel": "حالة جديدة",
-    "captionLabel": "بماذا تفكر؟",
-    "captionPlaceholder": "شارك تحديثًا...",
-    "captionAria": "رسالة الحالة",
-    "audienceLabel": "الجمهور",
-    "audience": {
-      "public": "عام",
-      "followers": "المتابعون",
-      "contacts": "جهات الاتصال",
-      "mutuals": "متبادَلون",
-      "custom": "مخصص..."
+    "keys": {
+      "backupCreated": "تم إنشاء وتنزيل نسخة احتياطية من المفتاح ✓",
+      "restored": "تم استعادة نسخ المفاتيح ✓ المفاتيح المثبتة محليا",
+      "noBackup": "لا توجد نسخة احتياطية مشفرة لهذا الحساب",
+      "missingPublicKey": "النسخ الاحتياطي يفتقد مفتاح عام"
     },
-    "expiresHoursLabel": "تنتهي (ساعات)",
-    "maxTooltip": "الحد الأقصى 7 أيام",
-    "hoursAbbrev": "س",
-    "maxShort": "حد",
-    "expiresOn": "تنتهي في:",
-    "chooseRecipients": "اختر المستلمين",
-    "selectContacts": "اختر جهات الاتصال",
-    "attachmentsLabel": "المرفقات",
-    "attachmentsPlaceholder": "أضف صورًا/فيديوهات",
-    "filesNote": "حتى 5 ملفات. افتراضيًا تنتهي خلال 24 ساعة.",
-    "postAria": "نشر الحالة",
-    "post": "نشر"
-  },
-
-  "contactList": {
-    "savedContacts": "جهات الاتصال المحفوظة",
-    "refreshAria": "تحديث جهات الاتصال",
-    "filterPlaceholder": "تصفية جهات الاتصال المحفوظة…",
-    "filterAria": "تصفية جهات الاتصال المحفوظة",
-    "noContactsFound": "لا توجد جهات اتصال.",
-    "externalContact": "جهة اتصال خارجية",
-    "notJoined": "هذه الجهة لم تنضم إلى Chatforia بعد.",
-    "couldNotStart": "تعذّر بدء الدردشة. حاول مرة أخرى.",
-    "startFailed": "فشل بدء الدردشة. حاول مرة أخرى.",
-    "deleted": "تم حذف جهة الاتصال.",
-    "deleteFailed": "فشل حذف جهة الاتصال. حاول مرة أخرى.",
-    "aliasUpdated": "تم تحديث الاسم المستعار.",
-    "updateAliasFailed": "فشل تحديث الاسم المستعار. حاول مرة أخرى.",
-    "selectContact": "اختيار {{name}}",
-    "alias": "اسم مستعار",
-    "startChat": "بدء الدردشة",
-    "message": "رسالة",
-    "delete": "حذف",
-    "deleteContactAria": "حذف جهة الاتصال",
-    "loadFailed": "فشل تحميل جهات الاتصال. حاول مرة أخرى.",
-    "loadMore": "تحميل المزيد"
-  },
-
-  "sidebar": {
-    "randomChat": "دردشة عشوائية",
-    "callTextForwarding": "تحويل المكالمات والرسائل",
-    "conversations": "المحادثات",
-    "searchPlaceholder": "ابحث في المحادثات...",
-    "errorLoading": "فشل تحميل الدردشات",
-    "empty": "لا توجد محادثات بعد.",
-    "startChat": "ابدأ دردشة",
-    "people": "الأشخاص",
-    "settings": "الإعدادات",
-    "status": "الحالة",
-    "forwarding": "تحويل المكالمات والرسائل",
-    "refresh": "تحديث",
-    "search": "بحث في المحادثات",
-    "loginPrompt": "سجّل الدخول لتعديل إعداداتك.",
-    "login": "تسجيل الدخول",
-    "register": "إنشاء حساب",
-    "chatrooms": "غرف الدردشة",
-    "logout": "تسجيل الخروج",
-    "startChatAlt": "بدء دردشة جديدة"
-  },
-
-  "premium": {
-    "heading": "انتقل إلى بريميوم",
-    "description": "افتح الميزات القوية وتخلّص من الإعلانات.",
-    "cta": "ترقية",
-    "upgrade": "ترقية",
-    "upgradeAria": "الترقية إلى Chatforia Premium"
-  },
-
-  "auth": {
-    "headline": "مراسلة آمنة وعالمية مع ترجمة فورية",
-    "description": "تشفير طرف-لطرف، ترجمة مدعومة بالذكاء الاصطناعي، رسائل زائلة، ومكالمات صوت/فيديو.",
-    "feature": {
-      "encryption": "تشفير طرف-لطرف افتراضيًا",
-      "translation": "ترجمة تلقائية لأكثر من 100 لغة",
-      "disappearing": "رسائل زائلة وتأكيدات قراءة",
-      "privacy": "الخصوصية أولًا. بياناتك تحت سيطرتك.",
-      "translate": "ترجمة فورية",
-      "disappear": "رسائل زائلة",
-      "privacyAlt": "تصميم يضع الخصوصية أولًا"
-    },
-    "hero": {
-      "line1": "آمن وعالمي،",
-      "beforeEm": "مراسلة مع",
-      "em": "ترجمة فورية",
-      "sub": "تشفير طرف-لطرف، ترجمة مدعومة بالذكاء الاصطناعي، رسائل زائلة، ومكالمات صوت/فيديو."
-    },
-    "feat": {
-      "encryption": "تشفير طرف-لطرف افتراضيًا",
-      "translate": "ترجمة تلقائية لأكثر من 100 لغة",
-      "disappear": "رسائل زائلة وتأكيدات قراءة",
-      "privacy": "الخصوصية أولًا. بياناتك تحت سيطرتك."
-    },
-    "welcomeBack": "مرحبًا بعودتك",
-    "continueGoogle": "تابع باستخدام Google",
-    "continueApple": "تابع باستخدام Apple",
-    "username": "اسم المستخدم",
-    "password": "كلمة المرور",
-    "keepSignedIn": "إبقني مسجلاً للدخول",
-    "forgotPassword": "هل نسيت كلمة المرور؟",
-    "loginButton": "تسجيل الدخول",
-    "createAccount": "إنشاء حساب",
-    "freeAccountButton": "إنشاء حساب مجاني",
-    "newHere": "جديد هنا؟",
-    "getApp": "احصل على التطبيق",
-    "desktopTip": "على الكمبيوتر؟ امسح بهاتفك للحصول على التطبيق.",
-    "scanHelper": "على الكمبيوتر؟ امسح بهاتفك للحصول على التطبيق.",
-    "goHome": "الذهاب للصفحة الرئيسية",
-    "home": "الرئيسية",
-    "headlineAlt": {
-      "main": "تطبيق المراسلة الآمن الذي",
-      "highlight": "يتحدث لغتك"
-    },
-    "subhead": "مراسلة خاصة ومشفرة ومترجمة — فورًا.",
-    "status": "عرض الحالة",
-    "upgrade": "قم بالترقية الآن",
-    "tip": "نصيحة: استخدم نفس الحساب على الويب والجوال. تبقى رسائلك متزامنة.",
-    "openDownload": "فتح صفحة التنزيل",
-    "qrAlt": "رمز QR لِـ Chatforia",
-    "scanHint": "امسح للحصول على التطبيق أو افتحه في المتصفح.",
-    "iosAria": "تنزيل من App Store",
-    "iosTitle": "تنزيل من App Store",
-    "iosBadgeAlt": "شارة App Store",
-    "androidAria": "الحصول عليه من Google Play",
-    "androidTitle": "متجر Google Play",
-    "androidBadgeAlt": "شارة Google Play",
-    "login": "تسجيل الدخول",
-    "signup": "إنشاء حساب",
-    "email": "البريد الإلكتروني"
-  },
-
-  "footer": {
-    "plans": "الخطط والأسعار",
-    "about": "عن Chatforia",
-    "careers": "الوظائف",
-    "press": "الصحافة",
-    "advertise": "الإعلانات",
-    "contact": "اتصل بنا",
-    "help": "مركز المساعدة",
-    "status": "صفحة الحالة",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "سياسة الخصوصية",
-    "terms": "شروط الخدمة",
-    "cookies": "إعدادات ملفات تعريف الارتباط",
-    "doNotSell": "عدم بيع معلوماتي",
-    "language": "اللغة",
-    "contactShort": "اتصال",
-
-    "aria": "التذييل",
-    "homeAria": "الصفحة الرئيسية لـ Chatforia",
-    "section": {
-      "company": "الشركة",
-      "support": "الدعم",
-      "downloads": "التنزيلات",
-      "legal": "قانوني"
-    },
-    "links": {
-      "plans-pricing": "الخطط والأسعار",
-      "about-chatforia": "عن Chatforia",
-      "careers": "الوظائف",
-      "press": "الصحافة",
-      "advertise": "الإعلانات",
-      "getting-started": "البدء",
-      "help-center": "مركز المساعدة",
-      "contact-us": "اتصل بنا",
-      "status-page": "صفحة الحالة",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "سياسة الخصوصية",
-      "terms-of-service": "شروط الخدمة",
-      "do-not-sell-my-info": "عدم بيع معلوماتي",
-      "cookie-settings": "إعدادات ملفات تعريف الارتباط"
-    },
-    "social": {
-      "tiktok": "تيك توك",
-      "instagram": "إنستغرام",
-      "facebook": "فيسبوك",
-      "linkedin": "لينكدإن",
-      "x": "إكس"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "براءة قيد الطلب",
-    "backToTop": "↑ العودة للأعلى"
-  },
-
-  "home": {
-    "title": "الرئيسية",
-    "header": "رسائلك",
-    "subheader": "أرسل رسالة لبدء دردشة.",
-    "sendButton": "إرسال رسالة",
-    "gifPicker": "فتح منتقي GIF",
-    "emoji": "الرموز التعبيرية",
-    "upload": "رفع صورة أو فيديو",
-    "inputPlaceholder": "اكتب رسالة…",
-    "inputLabel": "محرر الرسائل",
-    "sendTooltip": "إرسال",
-    "sendTooltipEmpty": "اكتب رسالة للإرسال",
-    "send": "إرسال",
-    "welcomeMessage": "مرحبًا في Chatforia",
-    "getStarted": "ابدأ الآن"
-  },
-
-  "press": {
-    "title": "الصحافة",
-    "contactLine": "لاستفسارات الإعلام، تواصل معنا على",
-    "boilerplateTitle": "نبذة",
-    "boilerplateBody": "Chatforia تطبيق مراسلة يضع الخصوصية أولًا ويسهّل المحادثات متعددة اللغات. الرسائل مشفّرة طرف-لطرف افتراضيًا، وتدعم الترجمة المدمجة أكثر من 100 لغة في الوقت الحقيقي. يمكن للمستخدمين تفعيل الرسائل الزائلة، وجعل تأكيدات القراءة اختيارية، والمزامنة عبر الأجهزة. متاح على iOS وAndroid والويب.",
-    "assetsTitle": "أصول العلامة",
-    "assetsSubtitle": "الشعارات ولقطات الشاشة وصور المنتج.",
-    "downloadCta": "تنزيل حزمة الوسائط",
-    "downloadTitle": "الحصول على التطبيق",
-    "scanTip": "على الكمبيوتر؟ امسح بهاتفك للحصول على التطبيق.",
-    "qrAria": "فتح موقع Chatforia",
-    "appStore": "تنزيل من App Store",
-    "googlePlay": "الحصول عليه من Google Play"
-  },
-
-  "careers": {
-    "title": "الوظائف",
-    "intro": "نحن فريق صغير نبني مُرسِلاً عالميًا يراعي الخصوصية. إذا كنت تهتم بالتشفير، وإمكانية الوصول، وتجربة مستخدم ممتعة، يسعدنا سماعك.",
-    "openRoles": "<b>الوظائف المتاحة:</b> هندسة (شامل، iOS، Android)، منتج، دعم.",
-    "apply": "<b>طريقة التقديم:</b> أرسل سيرتك/روابطك إلى <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "أرسل سيرتك الذاتية"
-  },
-
-  "about": {
-    "title": "عن Chatforia",
-    "description": "Chatforia مُرسِل آمن ومتعدد اللغات مع تشفير طرف-لطرف، ترجمة فورية، ومكالمات صوت/فيديو. مهمتنا بسيطة: مساعدة الناس على التواصل — بأمان وخصوصية وعبر اللغات.",
-    "valuesTitle": "ما نقدّره",
-    "values": {
-      "privacy": "<bold>الخصوصية أولًا:</bold> تشفير طرف-لطرف افتراضيًا.",
-      "access": "<bold>الوصول للجميع:</bold> ترجمة تلقائية لأكثر من 100 لغة.",
-      "control": "<bold>التحكم:</bold> الرسائل الزائلة وتأكيدات القراءة اختيارية.",
-      "privacy_aria": "الخصوصية أولًا: تشفير طرف-لطرف افتراضيًا.",
-      "access_aria": "الوصول للجميع: ترجمة تلقائية لأكثر من 100 لغة.",
-      "control_aria": "التحكم: الرسائل الزائلة وتأكيدات القراءة اختيارية."
-    },
-    "howTitle": "كيف يعمل Chatforia",
-    "howDescription": "تُشفَّر الرسائل على جهازك قبل مغادرته. صُمِّمت الترجمة والنسخ الاحتياطي والمزامنة لتقليل ما يمكن لخوادمنا رؤيته."
-  },
-
-  "advertise": {
-    "title": "الإعلان مع Chatforia",
-    "description": "الوصول إلى مستخدمي المراسلة المتفاعلين عبر مواضع آمنة للعلامة. نقدم لافتات في مواضع مرئية، ورعايات، وعروضًا خاصة. مشتركو بريميوم لا يرون الإعلانات.",
-    "adsense": {
-      "withPubId": "نقدّم الإعلانات عبر <b>Google AdSense</b>. إذا رغبت في الاستهداف عبر Google Ads استخدم معرّف الناشر <code>{{pubId}}</code> واطلب موضعًا مُدارًا على الوحدات أدناه. تتوفر الرعايات المباشرة — استخدم النموذج.",
-      "noPubId": "نقدّم الإعلانات عبر <b>Google AdSense</b>. تتوفر أيضًا الرعايات المباشرة — استخدم النموذج أدناه."
-    },
-    "inventoryHeader": "المخزون والمواصفات",
-    "placement": {
-      "displayBadge": "عرض",
-      "acceptedSizes": "الأحجام المقبولة",
-      "adsenseSlot": "فتحة AdSense:"
-    },
-    "noPlacements": "لا توجد مواضع مكوّنة بعد. أضفها في ads/placements.js.",
-    "whyHeader": "لماذا Chatforia؟",
-    "why": {
-      "highSession": "تكرار جلسات مرتفع ووقت مكوث طويل في واجهة الدردشة",
-      "brandSafe": "صيغ آمنة للعلامة؛ حدود تكرار محترمة",
-      "sponsoredMoments": "لحظات برعاية (مثل نافذة «بدء دردشة»)",
-      "deals": "عروض مباشرة أو برمجية عبر AdSense/إعلانات Google"
-    },
-    "contactHeader": "التواصل",
-    "form": {
-      "submittedMsg": "شكرًا! تم إرسال استفسارك. سنتواصل قريبًا.",
-      "missingRequired": "يرجى إدخال الاسم والبريد الإلكتروني والرسالة.",
-      "successToast": "شكرًا! سنتواصل قريبًا.",
-      "mailtoInfo": "جارٍ فتح عميل البريد لإرسال الاستفسار…",
-      "nameLabel": "اسمك",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "البريد الإلكتروني",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "الشركة",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "الميزانية الشهرية (اختياري)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "أخبرنا عن حملتك",
-      "messagePlaceholder": "الاستهداف، التواريخ، مؤشرات الأداء، تفضيلات المواضع…",
-      "sendCta": "إرسال الاستفسار"
-    },
-    "legal": {
-      "disclaimerStart": "بإرسال الطلب، فإنك توافق على",
-      "terms": "الشروط",
-      "and": "و",
-      "privacy": "سياسة الخصوصية"
-    }
-  },
-
-  "upgrade": {
-    "title": "الترقية",
-    "subtitle": "اختر الخطة المناسبة لك: خلّص نفسك من الإعلانات مع Plus، أو احصل على كامل الميزات مع Premium.",
-    "perMonth": "شهريًا",
-    "perYear": "سنويًا",
-    "goPremium": "انتقل إلى بريميوم",
-    "benefitsLine": "افتح الميزات القوية وتخلّص من الإعلانات.",
-    "ctaText": "ترقية",
-    "aria": "الترقية إلى Chatforia Premium",
-    "toggle": {
-      "monthly": "شهري",
-      "annual": "سنوي (وفّر 25%)"
-    },
-    "scheduleBanner": {
-      "title": "ستنتهي الاشتراك",
-      "body": "ستعود إلى الخطة المجانية في",
-      "keepPlanCta": "الاحتفاظ بـ {{plan}}",
-      "manageBillingCta": "إدارة الفوترة"
-    },
-    "billing": {
-      "opening": "جارٍ الفتح…",
-      "manage": "إدارة الفوترة"
-    },
-    "checkout": {
-      "redirecting": "جارٍ إعادة التوجيه…"
+    "keySetup": {
+      "title": "قم بإعداد مفاتيح جهازك",
+      "description": "هذا الجهاز لا يملك مفتاحك الخاص بعد. استورد نسخة احتياطية محمية بكلمة مرور، أو أنشئ زوج مفاتيح جديد (ستتمكن من قراءة رسائل جديدة من الآن فصاعدا).",
+      "chooseFile": "اختر ملفا وأدخل كلمة المرور.",
+      "imported": "المفتاح الخاص المستورد إلى هذا الجهاز. يمكنك الآن قراءة الرسائل القديمة.",
+      "enterPassword": "أدخل كلمة مرور حسابك حتى نتمكن من عمل نسخة احتياطية من مفاتيحك بأمان."
     },
     "auth": {
-      "continue": "المتابعة لتسجيل الدخول",
-      "createAccount": "إنشاء حساب",
-      "signIn": "تسجيل الدخول"
+      "headline": "رسائل آمنة لأي شخص، في أي مكان",
+      "description": "تشفير من طرف إلى طرف، ترجمة إلى 100+ لغة، رسائل تختفي، ومكالمات صوتية/فيديو.",
+      "feature": {
+        "encryption": "التشفير من طرف إلى طرف بشكل افتراضي",
+        "translation": "ترجمة رسائل ذكية ومدمجة",
+        "disappearing": "الرسائل المفقودة وإيصالات القراءة",
+        "privacy": "الخصوصية أولا. بياناتك، سيطرتك.",
+        "translate": "ترجمة رسائل ذكية ومدمجة",
+        "disappear": "الرسائل المختفية",
+        "privacyAlt": "تصميم يركز على الخصوصية أولا",
+        "seePlans": "انظر الخطط والتسعير"
+      },
+      "hero": {
+        "line1": "رسائل آمنة لأي شخص، في أي مكان — مع",
+        "em": "translation to 100+ languages",
+        "sub": "احصل على رقم هاتف آمن مجاني للاتصال والرسائل النصية حول العالم عبر الواي فاي أو البيانات. استمتع بالتشفير من طرف إلى طرف، والرسائل المفقودة، والمكالمات الصوتية/المرئية عالية الدقة — مع أدوات مدمجة تساعدك على البقاء على اتصال عبر الحدود.",
+        "freeNote": "الاتصال الأساسي والرسائل النصية مجانية. الذكاء الاصطناعي المتقدم والميزات المميزة تتطلب ترقية."
+      },
+      "feat": {
+        "encryption": "تشفير من طرف إلى طرف، دائما مفعل",
+        "translate": "اكسر حواجز اللغة في محادثاتك",
+        "disappear": "الرسائل المفقودة وإيصالات القراءة",
+        "privacy": "الخصوصية أولا. بياناتك، سيطرتك."
+      },
+      "continueGoogle": "تابع مع جوجل",
+      "continueApple": "تابع مع آبل",
+      "username": "اسم المستخدم",
+      "password": "كلمة المرور",
+      "keepSignedIn": "أبقني مسجلا",
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "loginButton": "تسجيل الدخول",
+      "createAccount": "أنشئ حسابا",
+      "freeAccountButton": "أنشئ حسابا مجانيا",
+      "newHere": "هل أنت جديد هنا؟",
+      "getApp": "احصل على التطبيق",
+      "desktopTip": "على سطح المكتب؟ امسح بهاتفك لتحصل على التطبيق.",
+      "scanHelper": "على سطح المكتب؟ امسح بهاتفك لتحصل على التطبيق.",
+      "goHome": "اذهب إلى المنزل",
+      "home": "المنزل",
+      "headlineAlt": {
+        "main": "الرسول الآمن الذي",
+        "highlight": "يتحدث لغتك"
+      },
+      "subhead": "رسائل خاصة، مشفرة، ومترجمة — فورا.",
+      "upgrade": "الترقية الآن",
+      "tip": "نصيحة: استخدم نفس الحساب على الويب والهواتف المحمولة. رسائلك تبقى متزامنة.",
+      "openDownload": "فتح صفحة التحميل",
+      "qrAlt": "رمز QR الخاص ب Chatforia",
+      "scanHint": "امسح التطبيق لتحميل التطبيق أو فتحه في متصفحك.",
+      "iosAria": "تحميل اللعبة من متجر التطبيقات",
+      "iosTitle": "تحميل اللعبة من متجر التطبيقات",
+      "iosBadgeAlt": "شارة متجر التطبيقات",
+      "androidAria": "احصل عليه على جوجل بلاي",
+      "androidTitle": "متجر جوجل بلاي",
+      "androidBadgeAlt": "شارة Google Play",
+      "login": "تسجيل الدخول",
+      "signup": "سجل",
+      "email": "البريد الإلكتروني",
+      "registration": {
+        "passwordDescription": "الحد الأدنى 6 شخصيات. استخدم كلمة مرور قوية وفريدة.",
+        "smsConsent": "من خلال إنشاء حساب، توافق على تلقي إشعارات SMS المتعلقة بنشاطك في Chatforia (مثل رسائل المستخدمين الآخرين). قد تنطبق أسعار الرسائل والبيانات. يمكنك الاشتراك في أي وقت في الإعدادات.",
+        "termsLink": "شروط الخدمة",
+        "privacyLink": "سياسة الخصوصية"
+      },
+      "to": "To:",
+      "enterRecipient": "أدخل اسما أو رقما",
+      "clearRecipients": "المستلمون الواضحون",
+      "sms": "رسالة نصية",
+      "chatforia": "شاتفوريا",
+      "typeMessage": "اكتب رسالة...",
+      "addRecipient": "أضف مستلم أعلاه للبدء...",
+      "oneRecipient": "يرجى إدخال مستلم واحد في الوقت الحالي.",
+      "enterValidRecipient": "أدخل اسم جهة اتصال محفوظ أو رقم هاتف.",
+      "sendFailed": "فشل الإرسال. تحقق من وحدة التحكم للتفاصيل."
     },
-    "cta": {
-      "aria": "اختيار الخطة",
-      "getPlus": "الترقية إلى Plus",
-      "upgradeMonthly": "ترقية شهرية",
-      "upgradeAnnual": "ترقية سنوية"
+    "home": {
+      "title": "المنزل",
+      "header": "رسائلك",
+      "subheader": "أرسل رسالة لبدء محادثة.",
+      "sendButton": "إرسال رسالة",
+      "gifPicker": "أداة اختيار الصور المتحركة المفتوحة",
+      "emoji": "الإيموجي",
+      "upload": "رفع صورة أو فيديو",
+      "inputPlaceholder": "اكتب رسالة...",
+      "inputLabel": "ملحن الرسائل",
+      "sendTooltip": "أرسلني",
+      "sendTooltipEmpty": "اكتب رسالة لإرسالها",
+      "send": "أرسلني",
+      "welcomeMessage": "مرحبا بكم في تشاتفوريا",
+      "getStarted": "ابدأ"
     },
-    "plans": {
-      "free": {
-        "title": "مجاني",
-        "price": "$0",
-        "desc": "ابدأ المراسلة مجانًا.",
-        "features": {
-          "msg": "مراسلة فردية وجماعية",
-          "aiBasic": "ردود ذكاء اصطناعي أساسية",
-          "attachments": "مرفقات قياسية"
-        },
-        "ctaCurrent": "الخطة الحالية",
-        "ctaUnavailable": "التحويل إلى مجاني (غير متاح)",
-        "aria": "الخطة المجانية (الحالية)"
+    "chat": {
+      "selectPrompt": "اختر رسالة نصية أو غرفة دردشة لبدء الدردشة",
+      "newMessages": "رسائل جديدة",
+      "typing": "{{name}} يكتب...",
+      "emptyTitle": "رسائلك",
+      "emptySubtitle": "أرسل رسالة لبدء محادثة.",
+      "startChatButton": "إرسال رسالة",
+      "mediaAttachment": "ملحقات وسائط",
+      "thisUser": "هذا المستخدم",
+      "blockConfirm": "حظر {{name}}؟ لن تتلقى رسائل منهم.",
+      "blockedUser": "تم حظره {{name}}.",
+      "blockError": "لم أتمكن من تحديد مستخدم مستهدف لحظره.",
+      "blockFailed": "فشل الكتلة (الخلفية لم يتم توصيلها بعد).",
+      "encryptedUnavailable": "رسالة مشفرة (المفتاح غير متوفر)",
+      "unlockToView": "افتح مفتاحك لعرض هذه الرسالة"
+    },
+    "messageInput": {
+      "ttl": {
+        "off": "انطلق"
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / شهريًا",
-        "desc": "أوفر تجربة بلا إعلانات.",
-        "features": {
-          "noAds": "إزالة جميع الإعلانات",
-          "msg": "مراسلة فردية وجماعية",
-          "attachments": "مرفقات أكبر",
-          "aiBasic": "ردود ذكاء اصطناعي أساسية"
-        },
-        "badge": "شائع",
-        "cta": "بدون إعلانات",
-        "aria": "الترقية إلى Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (شهري)",
-        "price": "$24.99 / شهريًا",
-        "desc": "كامل الميزات ونغمات رنين وأدوات ذكاء قوية.",
-        "features": {
-          "plusAll": "كل ما في Plus",
-          "ringtones": "نغمات رنين ورسائل مخصصة",
-          "powerAi": "ميزات ذكاء اصطناعي متقدمة",
-          "priorityUpdates": "تحديثات أولوية",
-          "backups": "نسخ احتياطية ومزامنة الأجهزة"
-        },
-        "badge": "أفضل قيمة",
-        "cta": "الترقية (شهري)",
-        "aria": "الترقية إلى Premium شهريًا"
-      },
-      "premiumAnnual": {
-        "title": "Premium (سنوي)",
-        "price": "$225 / سنويًا",
-        "desc": "وفّر أكثر عند الدفع السنوي.",
-        "features": {
-          "allPremium": "كل ما في Premium",
-          "annualBilling": "فوترة سنوية",
-          "save25": "وفّر ~25% مقارنة بالشهري",
-          "sameFeatures": "نفس الميزات كالشهري"
-        },
-        "badge": "وفّر 25%",
-        "cta": "الترقية (سنوي)",
-        "aria": "الترقية إلى Premium سنويًا",
-        "disclaimer": "يُدفع مقدمًا. إلغاء في أي وقت. بدون رسوم مخفية."
+      "freeLimit": "حد الخطة المجانية: الحذف التلقائي حتى يوم واحد. مثبتة على 1 بن.",
+      "premiumLimit": "الحد الأقصى للحذف التلقائي للبريميوم هو 30 يوما. مثبتة على 30 بعد.",
+      "nothingToSend": "اكتب رسالة أو أرفق ملفا للإرسال.",
+      "encryptionFailed": "فشل التشفير. الرسالة لم ترسل.",
+      "sent": "تم تسليم الرسالة.",
+      "placeholder": "اكتب رسالة...",
+      "autoDelete": "الحذف التلقائي",
+      "typeToSend": "اكتب رسالة لإرسالها",
+      "send": "أرسلني",
+      "sendWithEnter": "أرسل (إدخال)",
+      "attachment": "الارتباط",
+      "caption": "التعليق (اختياري)",
+      "remove": "إزالة",
+      "clear": "واضح",
+      "gif": "صورة متحركة",
+      "sticker": "الملصق",
+      "errors": {
+        "attachmentTooLarge": "الارتباط كبير جدا. جرب ملفا أصغر.",
+        "unsupportedFile": "نوع ملف غير مدعوم.",
+        "rateLimit": "أنت ترسل رسائل بسرعة كبيرة. أرجوك تمهل.",
+        "validation": "خطأ في التحقق. يرجى التحقق من رسالتك والمحاولة مرة أخرى.",
+        "failedToSend": "فشل في الإرسال. يمكنك إعادة محاولة الفقاعة الفاشلة."
       }
     },
-    "marketing": {
-      "freeTitle": "مجاني",
-      "freeDesc": "ابدأ المراسلة مجانًا.",
-      "plusTitle": "Plus",
-      "plusBadge": "شائع",
-      "plusDesc": "أوفر تجربة بلا إعلانات.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "كامل الميزات ونغمات رنين وأدوات ذكاء قوية.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "وفّر أكثر عند الدفع السنوي.",
-      "annualDisclaimer": "يُدفع مقدمًا. إلغاء في أي وقت. بدون رسوم مخفية."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "البدء",
-    "subtitle": "جديد على Chatforia؟ يوضح هذا الدليل السريع الأساسيات لتكون منتجًا خلال دقائق.",
-    "alert": {
-      "text": "سيكبر هذا الدليل مع إطلاق الميزات الجديدة. إذا كان هناك ما ينقص، أخبرنا عبر",
-      "contactLink": "اتصل بنا"
+    "contactList": {
+      "savedContacts": "جهات الاتصال المحفوظة",
+      "refreshAria": "تحديث جهات الاتصال",
+      "filterPlaceholder": "فلتر جهات الاتصال المحفوظة...",
+      "filterAria": "تصفية جهات الاتصال المحفوظة",
+      "noContactsFound": "لم يتم العثور على أي جهات اتصال.",
+      "externalContact": "الاتصال الخارجي",
+      "notJoined": "ذلك الاتصال لم ينضم إلى شاتفوريا بعد.",
+      "couldNotStart": "لم أتمكن من بدء المحادثة. يرجى المحاولة مرة أخرى.",
+      "startFailed": "فشل في بدء المحادثة. يرجى المحاولة مرة أخرى.",
+      "deleted": "تم حذف الاتصال.",
+      "deleteFailed": "فشل في حذف جهة الاتصال. يرجى المحاولة مرة أخرى.",
+      "aliasUpdated": "تم تحديث اسم الاسم المميز.",
+      "updateAliasFailed": "فشل في تحديث الاسم المستعار. يرجى المحاولة مرة أخرى.",
+      "selectContact": "اختر {{name}}",
+      "alias": "اسم مستعار",
+      "startChat": "ابدأ الدردشة",
+      "message": "الرسالة",
+      "delete": "حذف",
+      "deleteContactAria": "حذف جهة الاتصال",
+      "loadFailed": "فشل في تحميل جهات الاتصال. يرجى المحاولة مرة أخرى.",
+      "loadMore": "تحميل المزيد",
+      "call": "اتصل",
+      "callStarted": "الاتصال بهذا الرقم عبر رقم شاتفوريا الخاص بك...",
+      "callFailed": "فشل في بدء المكالمة. يرجى المحاولة مرة أخرى."
     },
-    "section1": {
-      "title": "1) أنشئ حسابك",
-      "signup": "إنشاء حساب",
-      "or": "أو",
+    "startChatModal": {
+      "title": "ابدأ محادثة",
+      "searchPlaceholder": "اسم البحث، اسم المستخدم، أو رقم الهاتف",
+      "messageThisPerson": "راسل هذا الشخص",
+      "contacts": "جهات الاتصال",
+      "recentInteractions": "التفاعلات الأخيرة",
+      "noContactsMatch": "لا توجد جهات اتصال تطابق بحثك.",
+      "noRecentInteractions": "لا توجد تفاعلات حديثة حتى الآن.",
+      "unknown": "غير معروف",
+      "interactionType": {
+        "message": "الرسالة",
+        "call": "اتصل",
+        "video": "الفيديو"
+      }
+    },
+    "addContactModal": {
+      "title": "أضف الاتصال",
+      "phoneOrUsername": "الهاتف أو اسم المستخدم",
+      "phoneOrUsernamePlaceholder": "مثلا: +13018019227 أو جولياننورتون",
+      "alias": "الاسم المستعار (اختياري)",
+      "aliasPlaceholder": "مثلا: العمل، الأم، مايك – أوروبا",
+      "enterPhoneOrUsername": "أدخل رقم هاتف أو اسم مستخدم.",
+      "userLookupFailed": "فشل البحث عن المستخدم.",
+      "cannotAddSelf": "لا يمكنك إضافة نفسك كجهة اتصال.",
+      "failedToAdd": "فشلت في إضافة الاتصال.",
+      "add": "إضافة"
+    },
+    "sidebar": {
+      "randomChat": "دردشة عشوائية",
+      "callTextForwarding": "تحويل المكالمات والرسائل النصية",
+      "conversations": "المحادثات",
+      "searchPlaceholder": "محادثات البحث...",
+      "errorLoading": "فشل تحميل المحادثات",
+      "empty": "لا محادثات حتى الآن.",
+      "startChat": "ابدأ محادثة",
+      "people": "الأشخاص",
+      "settings": "الإعدادات",
+      "status": "الحالة",
+      "forwarding": "تحويل المكالمات والرسائل النصية",
+      "refresh": "تحديث",
+      "search": "محادثات البحث",
+      "loginPrompt": "سجل الدخول لتعديل إعداداتك.",
       "login": "تسجيل الدخول",
-      "loginText": "بواسطة حسابك الحالي.",
-      "prefsStart": "اضبط",
-      "prefsLink": "تفضيلاتك",
-      "prefsRest": "(اللغة، تأكيدات القراءة، السمات)."
+      "register": "إنشاء حساب",
+      "chatrooms": "غرف الدردشة",
+      "logout": "تسجيل الخروج",
+      "startChatAlt": "ابدأ محادثة جديدة",
+      "calls": "النداءات",
+      "video": "الفيديو",
+      "voicemail": "البريد الصوتي"
     },
-    "section2": {
-      "title": "2) ابدأ المراسلة",
-      "item1": "أنشئ رسالة مباشرة أو مجموعة وأرسل رسالتك الأولى.",
-      "item2": "استخدم الترجمة الفورية للدردشة عبر أكثر من 100 لغة.",
-      "item3": "جرّب الرسائل الزائلة وتأكيدات القراءة من الملف الشخصي ← الخصوصية."
+    "topbar": {
+      "newStatus": "الوضع الجديد",
+      "logout": "تسجيل الخروج",
+      "help": "المساعدة",
+      "createStatusAria": "إنشاء حالة جديدة"
     },
-    "section3": {
-      "title": "3) المزيد",
-      "item1Part1": "أدار خطتك من صفحة",
-      "upgradeLink": "الترقية",
-      "item1Part2": "(Plus = بدون إعلانات، Premium = كل الميزات).",
-      "item2Part1": "اربط أجهزة إضافية واضبط نسخًا احتياطية مشفرة في",
-      "settingsLink": "الإعدادات"
+    "threadActions": {
+      "threadMenu": "قائمة الخيوط",
+      "premium": "بريميوم",
+      "aiPower": "قوة الذكاء الاصطناعي",
+      "schedule": "الجدول الزمني",
+      "upgrade": "الترقية",
+      "upgradeSuffix": "(ترقية)",
+      "thread": "الموضوع",
+      "about": "حول",
+      "search": "البحث",
+      "media": "الإعلام",
+      "invitePeople": "ادع الناس",
+      "roomSettings": "إعدادات الغرفة",
+      "clearConversation": "محادثة واضحة",
+      "block": "الكتلة"
     },
-    "cta": {
-      "seePlans": "عرض الخطط",
-      "openSettings": "فتح الإعدادات"
-    }
-  },
-
-  "helpCenter": {
-    "title": "مركز المساعدة",
-    "faq": {
-      "account": {
-        "q": "كيف أنشئ حسابي أو أستعيده؟",
-        "a": "نزّل التطبيق أو استخدم الويب، ثم اضغط «إنشاء حساب»، وفعّل بريدك/هاتفك. للاستعادة استخدم «نسيت كلمة المرور»."
+    "roomSearch": {
+      "title": "البحث في الغرفة",
+      "ariaLabel": "البحث في الغرفة",
+      "search": "البحث",
+      "searchMessages": "رسائل البحث",
+      "noText": "[لا توجد رسالة]",
+      "noResults": "لا توجد نتائج"
+    },
+    "roomSettings": {
+      "roles": {
+        "member": "عضو",
+        "moderator": "المشرف",
+        "admin": "المسؤول"
       },
-      "privacy": {
-        "q": "هل الرسائل مشفرة طرف-لطرف؟",
-        "a": "نعم. الرسائل والمكالمات مشفرة طرف-لطرف افتراضيًا. أنت والمستلم فقط تستطيعان قراءتها."
+      "aiMode": {
+        "off": "انطلق",
+        "mention": "Only on @ForiaBot or /ask",
+        "always": "رد بشكل استباقي"
       },
-      "translate": {
-        "q": "كيف تعمل الترجمة الفورية؟",
-        "a": "فعّل «الترجمة التلقائية» في الإعدادات ← المظهر واللغة. نترجم على الجهاز حيثما أمكن، وإلا عبر واجهات آمنة مع أقل بيانات ممكنة."
+      "autoTranslateMode": {
+        "off": "انطلق",
+        "tagged": "موسوم فقط (/tr ...)",
+        "all": "جميع الرسائل"
+      },
+      "updated": "تحديث الإعدادات"
+    },
+    "mediaGallery": {
+      "sharedMedia": "الإعلام المشترك",
+      "noMediaCached": "لم يتم تخزين الوسائط محليا حتى الآن.",
+      "imageAlt": "صورة",
+      "openVideo": "الفيديو المفتوح",
+      "openVideoWithCaption": "الفيديو المفتوح: {{caption}}",
+      "preview": "معاينة",
+      "previewWithCaption": "المعاينة: {{الترجمة}}",
+      "previewKind": "معاينة {{kind}}",
+      "download": "تحميل",
+      "downloadKind": "تحميل {{نوع}}",
+      "file": "ملف",
+      "kinds": {
+        "image": "صورة",
+        "video": "الفيديو",
+        "audio": "الصوت",
+        "file": "ملف"
+      }
+    },
+    "status": {
+      "userNumber": "المستخدم #{{id}}",
+      "posted": "تم نشر الحالة",
+      "postFailed": "فشل في نشر الحالة",
+      "createTitle": "إنشاء حالة",
+      "modalAriaLabel": "الوضع الجديد",
+      "captionLabel": "ما الذي يدور في بالك؟",
+      "captionPlaceholder": "شارك تحديثا...",
+      "captionAria": "رسالة الحالة",
+      "audienceLabel": "الجمهور",
+      "audience": {
+        "public": "العام",
+        "followers": "المتابعون",
+        "contacts": "جهات الاتصال",
+        "mutuals": "ميوتشوالز",
+        "custom": "حسب الطلب..."
+      },
+      "expiresHoursLabel": "انتهاء الصلاحية (ساعات)",
+      "maxTooltip": "الحد الأقصى 7 أيام",
+      "hoursAbbrev": "h",
+      "maxShort": "ماكس",
+      "expiresOn": "تنتهي صلاحيتها في:",
+      "chooseRecipients": "اختر المستفيدين",
+      "selectContacts": "اختيار جهات الاتصال",
+      "attachmentsLabel": "الملحقات",
+      "attachmentsPlaceholder": "أضف صور/فيديوهات",
+      "filesNote": "حتى 5 ملفات. صلاحية 24 ساعة افتراضيا.",
+      "postAria": "حالة المنشور",
+      "post": "المنشور"
+    },
+    "voicemail": {
+      "pageTitle": "البريد الصوتي",
+      "from": "من",
+      "to": "To",
+      "unknownCaller": "غير معروف",
+      "yourNumber": "رقم شاتفوريا الخاص بك",
+      "durationSeconds": "{{العد}}s",
+      "audioAria": "مشغل صوت البريد الصوتي",
+      "transcriptHeading": "النص الكامل",
+      "transcriptPending": "تفريغ البريد الصوتي...",
+      "transcriptFailed": "النص غير متوفر.",
+      "loading": "جار تحميل البريد الصوتي...",
+      "errorLoading": "فشل تحميل البريد الصوتي.",
+      "empty": "لا توجد رسائل صوتية حتى الآن.",
+      "deleteConfirm": "هل أحذف هذه الرسالة الصوتية؟",
+      "deleteError": "فشل في حذف البريد الصوتي.",
+      "markRead": "علم كما هو مقروء",
+      "delete": "حذف",
+      "unreadDotAria": "مؤشر البريد الصوتي غير المقروء"
+    },
+    "profile": {
+      "title": "ملف المستخدم",
+      "preferredLanguage": "اللغة المفضلة",
+      "chooseLanguage": "اختر لغة",
+      "mustLogin": "يجب عليك تسجيل الدخول لعرض الإعدادات.",
+      "autoTranslate": "الترجمة التلقائية للرسائل",
+      "showOriginalWithTranslation": "عرض الرسائل الأصلية والمترجمة",
+      "showOriginalAndTranslation": "عرض الأصل مع الترجمة",
+      "filterExplicit": "تصفية المحتوى الصريح",
+      "aiReply": "رد الذكاء الاصطناعي",
+      "enableReadReceipts": "تفعيل إيصالات القراءة",
+      "allowExplicitContent": "السماح بالمحتوى الصريح",
+      "disappearingMessages": "تفعيل الرسائل المفقودة",
+      "autoDeleteSeconds": "ثوان حتى الحذف التلقائي",
+      "saveSuccess": "تم حفظ الإعدادات!",
+      "saveError": "خطأ: لم أتمكن من حفظ الإعدادات",
+      "avatarAlt": "صورة الملف الشخصي",
+      "uploadAvatar": "رفع صورة رمزية جديدة",
+      "avatarSuccess": "تم رفع الصورة الرمزية!",
+      "avatarError": "فشل في رفع الصورة الرمزية",
+      "avatarUpdated": "تم تحديث أفاتار!",
+      "uploadingAvatar": "رفع الأفاتار...",
+      "noPrivateKey": "لا يوجد مفتاح خاص على هذا الجهاز للتصدير.",
+      "setBackupPassword": "حدد كلمة مرور لتشفير نسختك الاحتياطية:",
+      "backupDownloaded": "تم تحميل نسخة احتياطية مشفرة.",
+      "exportFailed": "فشل تصدير المفاتيح",
+      "enterBackupPassword": "أدخل كلمة المرور لهذا النسخة الاحتياطية:",
+      "importSuccess": "المفتاح الخاص المستورد إلى هذا الجهاز.",
+      "importFailed": "فشل استيراد المفتاح (كلمة مرور خاطئة أو ملف تالف).",
+      "keysRotated": "تم إنشاء زوج مفاتيح جديد ورفع المفتاح العام.",
+      "rotateFailed": "فشل في تدوير المفاتيح.",
+      "security": "الأمن",
+      "exportKey": "مفتاح التشفير الاحتياطي",
+      "importKey": "استعادة مفتاح التشفير",
+      "rotateKeys": "مفتاح التشفير الدوراني",
+      "keyDisclaimer": "مفتاحك الخاص لا يغادر هذا الجهاز أبدا. قم بتصدير نسخة محمية بكلمة مرور لاستعادتها على جهاز آخر.",
+      "sectionProfile": "الملف الشخصي",
+      "phoneNumber": "رقم الهاتف",
+      "appearance": "المظهر",
+      "soundSettings": "الأصوات",
+      "disappearing": "الرسائل المختفية",
+      "backupSync": "نسخ مفاتيح التشفير",
+      "ai": "AI",
+      "accessibility": "سهولة الوصول",
+      "privacy": "الخصوصية",
+      "devices": "الأجهزة المرتبطة",
+      "themeFreeNotice": "أنت على اللعبة المجانية—استخدم خيارات الشمس/القمر السريعة أدناه. قم بالترقية لفتح المزيد من المواضيع.",
+      "sunTheme": "استخدم لحن الفجر",
+      "moonTheme": "استخدم موضوع القمر (منتصف الليل)",
+      "sun": "الشمس",
+      "moon": "القمر",
+      "backupTitle": "النسخ الاحتياطية المشفرة ومزامنة الأجهزة",
+      "openBackupTools": "أدوات النسخ الاحتياطي المفتوح",
+      "backupDesc": "قم بعمل نسخة احتياطية لمفتاح التشفير لاستعادة رسائلك بأمان على جهاز آخر.",
+      "privacyBlurEnabled": "رسائل الضبابية بشكل افتراضي",
+      "privacyBlurOnUnfocus": "الضبابية عندما يكون التطبيق غير مركز",
+      "planSection": "خطتي",
+      "planLoading": "تحميل خطتك...",
+      "planLoadFailed": "فشلت في تحميل خطتك.",
+      "currentPlan": "الخطة الحالية",
+      "planRenewsOn": "تجديد",
+      "freePlanCopy": "أنت على الخطة المجانية. قم بالترقية لفتح المزيد من الميزات مثل النسخ الاحتياطية، وأرقام إضافية، وخيارات الخصوصية المتقدمة.",
+      "upgradePlanCta": "خطة الترقية",
+      "changePlanCta": "خطة التغيير",
+      "manageBilling": "إدارة الفوترة",
+      "portalOpenFailed": "لم أتمكن من فتح بوابة الفوترة. يرجى المحاولة مرة أخرى.",
+      "holdToReveal": "احتفظ بالكشف",
+      "notifyOnCopy": "أبلغني إذا تم نسخ رسالتي",
+      "loadFailed": "فشل تحميل ملف التعريف",
+      "followed": "تابع",
+      "followFailed": "فشلت في المتابعة",
+      "unfollowed": "إلغاء المتابعة",
+      "unfollowFailed": "فشل في إلغاء المتابعة",
+      "follow": "تابع",
+      "unfollow": "إلغاء المتابعة",
+      "followHint": "ستظهر قصصهم في خلاصة المتابعين إذا نشروا مع جمهور متابعين (أو عام).",
+      "userNotFound": "لم يتم العثور على المستخدم",
+      "followsYou": "يتبعك",
+      "sectionCrashedTitle": "فشل القسم في التحميل",
+      "sectionCrashedBody": "حدث خطأ ما في هذا القسم.",
+      "forwarding": "تحويل المكالمات والرسائل النصية",
+      "callTextForwardingSection": "تحويل المكالمات والرسائل النصية",
+      "callTextForwardingTitle": "تحويل المكالمات و/أو الرسائل النصية",
+      "callTextForwardingDescription": "قم بتحويل المكالمات والرسائل النصية إلى هاتفك أو بريدك الإلكتروني المؤكد. المكالمات الصادرة أو الرسائل النصية قد تظهر رقم Chatforia الخاص بك.",
+      "enableTextForwarding": "تمكين إعادة توجيه النص",
+      "forwardTextsToPhone": "إعادة توجيه الرسائل إلى الهاتف",
+      "forwardTextsToEmail": "إعادة توجيه الرسائل إلى البريد الإلكتروني",
+      "destinationPhone": "هاتف الوجهة (E.164)",
+      "destinationEmail": "البريد الإلكتروني الوجهة",
+      "enableCallForwarding": "تفعيل تحويل المكالمات",
+      "destinationPhoneForCalls": "وجهة (E.164) للنداءات",
+      "aliasBridging": "تحويل المكالمات (جسر الأسماء المستعارة)",
+      "quietHoursOptional": "ساعات الهدوء (اختياري)",
+      "startHour": "ساعة البداية (0–23)",
+      "endHour": "نهاية الساعة (0–23)",
+      "reset": "إعادة التعيين",
+      "saveBtn": "حفظ",
+      "saveProfile": "حفظ الملف الشخصي",
+      "saveForwarding": "إعادة الحفظ",
+      "forwardSaved": "تم حفظ إعدادات إعادة التوجيه",
+      "forwardSaveFailed": "فشل في حفظ الإعدادات",
+      "errE164": "أدخل هاتف E.164 صالح (مثلا، +15551234567).",
+      "errEmail": "أدخل بريدا إلكترونيا صالحا.",
+      "errSmsDest": "اختر وجهة واحدة على الأقل (هاتف أو بريد إلكتروني).",
+      "errQuietHours": "ساعات الهدوء يجب أن تكون بين 0 و23.",
+      "randomChat": "دردشة عشوائية",
+      "ageBand": "فئتك العمرية",
+      "ageBandPlaceholder": "اختر فئة عمرك",
+      "ageTeen": "13–17",
+      "age18_24": "18–24",
+      "age25_34": "25–34",
+      "age35_49": "35–49",
+      "age50Plus": "50+",
+      "ageBandHint": "نحن نخزن فقط فئة عمرية (وليس تاريخ ميلادك بالضبط). يستخدم هذا للحفاظ على توافقات الدردشة العشوائية معقولة.",
+      "wantsAgeFilter": "استخدم المطابقة القائمة على العمر في الدردشة العشوائية",
+      "wantsAgeFilterDesc": "عند التشغيل، نحاول إقرانك بأشخاص في فئات عمرية متوافقة.",
+      "partnerAgeBands": "مع من يمكن أن تتوافق معه؟",
+      "partnerAgeBandsDesc": "المراهقون دائما ما يكونون متوفرين فقط مع مراهقين آخرين. لا يمكن مطابقة البالغين مع المراهقين.",
+      "teenMatchingNote": "للسلامة، يمكن فقط مطابقة الحسابات في فئة 13–17 مع حسابات أخرى من 13 إلى 17 في الدردشة العشوائية.",
+      "foriaRemember": "دع ريا تتذكر الأشياء التي تخبرها بها",
+      "foriaRememberDesc": "عندما يكون هذا مفعلا، يمكن لفوريا استخدام محادثاتك العشوائية السابقة (فقط معك) للحفاظ على تدفق المحادثة. يمكنك إيقاف هذا في أي وقت.",
+      "voicemailSection": "البريد الصوتي",
+      "voicemailEnabled": "تمكين البريد الصوتي",
+      "voicemailAutoDeleteDays": "حذف الرسائل الصوتية تلقائيا بعد (أيام)",
+      "voicemailAutoDeletePlaceholder": "يترك فارغا ليبقى إلى الأبد",
+      "voicemailForwardEmail": "إعادة توجيه البريد الصوتي إلى البريد الإلكتروني",
+      "voicemailForwardEmailPlaceholder": "إرسال بريد إلكتروني لإرسال إشعارات البريد الصوتي إلى",
+      "voicemailGreetingText": "تحية بديلة نصية",
+      "voicemailGreetingTextDesc": "يستخدم عندما يكون تحيتك الصوتية غير متاحة.",
+      "voicemailGreetingUpload": "رفع رسالة البريد الصوتي",
+      "voicemailPreviewGreeting": "تحية المعاينة",
+      "voicemailGreetingUploaded": "تم رفع تحية البريد الصوتي بنجاح",
+      "voicemailGreetingUploadError": "فشل في رفع رسالة البريد الصوتي",
+      "voicemailNote": "سيتم تخزين رسائل البريد الصوتي من أرقام Chatforia الخاصة بك في صندوق بريدك الصوتي. يمكنك تفعيل النسخ وإعادة التوجيه في الخطط المدعومة.",
+      "portHint": "هل تريد الاحتفاظ برقمك الحالي؟ يمكنك نقله إلى Chatforia Wireless.",
+      "wireless": {
+        "manage": "إدارة الاتصالات اللاسلكية"
+      },
+      "esim": {
+        "title": "تشاتفوريا eSIM",
+        "desc": "احصل على بيانات الجوال لتشات فوريا عندما تكون بعيدا عن الواي فاي.",
+        "cta": "احصل على eSIM / عرض QR"
+      }
+    },
+    "wireless": {
+      "title": "تشاتفوريا وايرلس",
+      "description": "أدر خطة Chatforia للهواتف المحمولة، والأرقام، وإعادة التوجيه، ونقل الأرقام.",
+      "options": {
+        "heading": "اختر كيف تريد استخدام Chatforia",
+        "subheading": "يمكنك الحصول على رقم Chatforia جديد، أو إحضار رقمك الحالي من شركة اتصالات أخرى.",
+        "newNumber": "احصل على رقم شاتفوريا جديد",
+        "portNumber": "انقل رقمك الحالي إلى Chatforia Wireless"
+      },
+      "port": {
+        "heading": "نقل رقمك الحالي",
+        "subheading": "انقل رقم هاتفك الحالي من شركة الاتصالات الحالية إلى Chatforia. تأكد من أن التفاصيل تطابق حساب شركة التأمين الخاصة بك تماما لتجنب التأخير.",
+        "phoneNumberLabel": "رقم الهاتف إلى المنفذ",
+        "phoneNumberPlaceholder": "+1 555 123 4567",
+        "carrierLabel": "الناقل الحالي",
+        "carrierPlaceholder": "Verizon، AT&T، T-Mobile، وغيرها.",
+        "accountNumberLabel": "رقم الحساب",
+        "pinLabel": "رمز التعريف الشخصي / كلمة المرور للنقل",
+        "fullNameLabel": "الاسم الكامل على الحساب",
+        "address1Label": "سطر العنوان 1",
+        "address2Label": "سطر العنوان 2 (اختياري)",
+        "cityLabel": "المدينة",
+        "stateLabel": "الولاية / المقاطعة",
+        "postalCodeLabel": "الرمز البريدي",
+        "countryLabel": "كانتري",
+        "submitButton": "تقديم طلب المنفذ",
+        "success": "تم تقديم طلب النقل! سنبقيكم على اطلاع.",
+        "genericError": "حدث خطأ ما."
+      },
+      "status": {
+        "heading": "حالة النقل",
+        "subheading": "تتبع حالة طلبات منفذ الأرقام الخاصة بك.",
+        "loading": "جار التحميل...",
+        "loadError": "فشل تحميل طلبات المنافذ.",
+        "none": "لا يوجد نشاط نقل حتى الآن.",
+        "pending": "قيد المراجعة",
+        "submitted": "تم تقديمه إلى الناقل",
+        "inProgress": "قيد التنفيذ",
+        "completed": "اكتمل",
+        "failed": "فشل",
+        "canceled": "تم الإلغاء",
+        "created": "إنشاء:",
+        "scheduled": "الجدول المحدد:",
+        "completedAt": "مكتمل:"
+      },
+      "dataLow": "بياناتك بدأت تنفد.",
+      "topUp": "ارفع الشحنة الآن",
+      "expiresIn": "تنتهي صلاحيتها خلال {{days}} أيام",
+      "exhausted": "لقد نفدت بياناتك. اشتر حزمة جديدة للاستمرار في استخدام بيانات الجوال.",
+      "buyPack": "اشتر حزمة البيانات",
+      "esimPackLabel": "حزمة eSIM"
+    },
+    "family": {
+      "title": "العائلة",
+      "loading": "تحميل تفاصيل عائلتك...",
+      "error": {
+        "load": "فشل في تحميل تفاصيل العائلة.",
+        "invite": "لم أتمكن من إنشاء دعوة. تأكد من أنك مالك العائلة وحاول مرة أخرى.",
+        "checkout": "لم نتمكن من بدء الدفع لخطة عائلية. يرجى المحاولة مرة أخرى."
+      },
+      "billing": {
+        "myPlanTitle": "خطتي",
+        "myPlanError": "غير قادر على تحميل خطتك.",
+        "myPlanLoading": "تحميل خطتك...",
+        "currentPlan": "الخطة الحالية",
+        "renewsAt": "تجديد",
+        "freePlanCopy": "أنت على الخطة المجانية. قم بالترقية لفتح المزيد من الميزات.",
+        "upgradeCta": "خطة الترقية",
+        "changePlanCta": "خطة التغيير",
+        "manageBilling": "إدارة الفوترة",
+        "portalError": "غير قادر على فتح بوابة الفوترة حاليا.",
+        "cancelNow": "ألغ الآن",
+        "cancelNowHelp": "يمكنك إدارة أو إلغاء اشتراكك في بوابة الفوترة، أو الإلغاء مباشرة أدناه.",
+        "cancelNowConfirm": "هل أنت متأكد أنك تريد إلغاء خطتك فورا؟ لا يمكن التراجع عن هذا.",
+        "cancelNowError": "لا يمكنني إلغاء خطتك الآن. يرجى المحاولة مرة أخرى أو استخدام إدارة الفوترة."
+      },
+      "none": {
+        "title": "لم يتم ترتيب عائلة بعد",
+        "body": "لإنشاء عائلة تشاتفوريا ومجموعة بيانات مشتركة، ابدأ خطة عائلية.",
+        "goUpgrade": "ابدأ خطة عائلية",
+        "viewPlans": "عرض جميع الخطط"
+      },
+      "group": {
+        "defaultName": "عائلتي تشاتفوريا",
+        "role": "دورك: {{role}}"
+      },
+      "role": {
+        "owner": "المالك",
+        "member": "عضو"
+      },
+      "data": {
+        "heading": "تجمع البيانات المشترك",
+        "caption": "جميع الأعضاء يشاركون هذه المجموعة. سنحذرك عندما تقترب من حدودك."
+      },
+      "members": {
+        "title": "أفراد العائلة",
+        "name": "الاسم",
+        "role": "الدور",
+        "usage": "الاستخدام",
+        "limit": "الحد",
+        "unlimited": "لا يوجد حد محدد",
+        "inviteCta": "عضو مدعو"
+      },
+      "invite": {
+        "title": "ادع عضوا جديدا",
+        "body": "أرسل بريدا إلكترونيا أو رابطا لدعوة شخص إلى مجموعة بيانات العائلة المشتركة الخاصة بك.",
+        "emailLabel": "البريد الإلكتروني (اختياري)",
+        "emailPlaceholder": "friend@example.com",
+        "create": "إنشاء دعوة",
+        "linkLabel": "رابط الدعوة",
+        "copyAria": "نسخ رابط الدعوة",
+        "expiryHint": "ينتهي هذا الرابط بعد بضعة أيام. يمكنك دائما إنشاء واحدة جديدة."
+      },
+      "join": {
+        "title": "انضم إلى عائلة",
+        "body": "لقد تمت دعوتك للانضمام إلى عائلة تشاتفوريا ومشاركة مجموعة بياناتهم.",
+        "cta": "اقبل وانضم إلى العائلة",
+        "ctaLogin": "سجل الدخول وانضم إلى العائلة",
+        "success": "لقد انضممت إلى هذه العائلة. الآن تشارك مجموعة بياناتهم.",
+        "goFamily": "اذهب إلى لوحة تحكم العائلة",
+        "error": "لم نستطع إضافتكم إلى هذه العائلة. قد تكون الدعوة غير صالحة أو منتهية الصلاحية."
+      }
+    },
+    "premium": {
+      "heading": "Go Premium",
+      "description": "افتح ميزات القوة وقم بإزالة الإعلانات.",
+      "cta": "الترقية",
+      "upgrade": "الترقية",
+      "upgradeAria": "الترقية إلى Chatforia Premium"
+    },
+    "upgrade": {
+      "title": "الترقية",
+      "titleLoggedIn": "الترقية",
+      "titlePublic": "التسعير",
+      "h1": "تسعير وخطط تشاتفوريا",
+      "h1Subtitle": "ابدأ بخطتنا المجانية المدعومة بالإعلانات. اختر بدون إعلانات مع Plus، أو افتح ميزات الطاقة الكاملة مع Premium.",
+      "subtitle": "اختر خطة تطبيق، أضف حزم بيانات لنفسك، أو شارك البيانات مع عائلتك — كل ذلك من مكان واحد.",
+      "subtitle.app": "ابدأ بخطتنا المجانية المدعومة بالإعلانات. اختر بدون إعلانات مع Plus، أو افتح ميزات الطاقة الكاملة مع Premium.",
+      "subtitle.mobile": "أضف بيانات eSIM عالمية حتى يستمر Chatforia في العمل حتى عندما تكون بعيدا عن الواي فاي.",
+      "subtitle.family": "أنشئ تجمع بيانات مشترك لعائلتك وقم بإدارة استخدام الجميع من مكان واحد.",
+      "perMonth": "mo",
+      "perYear": "السنة",
+      "goPremium": "Go Premium",
+      "benefitsLine": "افتح ميزات القوة وقم بإزالة الإعلانات.",
+      "ctaText": "الترقية",
+      "aria": "الترقية إلى Chatforia Premium",
+      "toggle": {
+        "monthly": "شهريا",
+        "annual": "السنوي (توفير 30٪)"
+      },
+      "scheduleBanner": {
+        "title": "سينتهي الاشتراك",
+        "body": "ستعود إلى الوضع المجاني على",
+        "keepPlanCta": "احتفظ ب {{plan}}",
+        "manageBillingCta": "إدارة الفوترة"
+      },
+      "billing": {
+        "opening": "الافتتاح...",
+        "manage": "إدارة الفوترة"
+      },
+      "checkout": {
+        "redirecting": "إعادة توجيه..."
+      },
+      "auth": {
+        "continue": "تابع تسجيل الدخول",
+        "createAccount": "إنشاء حساب",
+        "signIn": "تسجيل الدخول"
+      },
+      "cta": {
+        "aria": "خطة مختارة",
+        "getPlus": "الترقية إلى بلس",
+        "upgradeMonthly": "الترقية الشهرية",
+        "upgradeAnnual": "التحديث السنوي"
+      },
+      "section": {
+        "app": "خطط التطبيق",
+        "mobile": "المحمول (eSIM)",
+        "family": "خطط عائلية"
+      },
+      "plans": {
+        "free": {
+          "title": "مجاني",
+          "price": "$0",
+          "desc": "ابدأ بالمراسلة مجانا. مثالي إذا كنت تجرب Chatforia فقط.",
+          "features": {
+            "chat": "مكالمات جماعية فردية وجماعية في الوقت الحقيقي، بالإضافة إلى مكالمات صوتية ومرئية",
+            "media": "شارك الصور، والرسائل الصوتية، ومقاطع الفيديو القصيرة",
+            "ai": "AI-powered smart replies and instant translation (fair use)",
+            "disappearing": "الرسائل المختفية وضوابط الخصوصية الأساسية",
+            "ads": "مجاني إلى الأبد مع الإعلانات في التطبيق"
+          },
+          "ctaCurrent": "الخطة الحالية",
+          "ctaManage": "الإدارة في الفوترة",
+          "ctaPublic": "ابدأ – واصل تسجيل الدخول",
+          "aria": "خطة مجانية"
+        },
+        "plus": {
+          "title": "بالإضافة إلى ذلك",
+          "price": "$6.99",
+          "desc": "كل الأساسيات، بدون إعلانات. رائع للمراسلة والمكالمات اليومية.",
+          "features": {
+            "allFree": "كل شيء مجاني، بدون إعلانات",
+            "forwarding": "حول المكالمات والرسائل إلى رقم هاتفك الحقيقي",
+            "history": "تاريخ الرسائل الأطول (حتى 6 أشهر)",
+            "support": "دعم أسرع عندما يحدث خطأ ما"
+          },
+          "badge": "الشعبية",
+          "cta": "اذهب بدون إعلانات",
+          "ctaPublic": "احصل على Plus – استمر في تسجيل الدخول",
+          "aria": "الترقية إلى بلس"
+        },
+        "premiumMonthly": {
+          "title": "بريميوم (شهري)",
+          "price": "$11.99",
+          "desc": "تجربة Chatforia الكاملة: أدوات الطاقة بالذكاء الاصطناعي، التخصيص، ودعم الأولوية.",
+          "features": {
+            "plusAll": "كل شيء في Plus",
+            "themes": "افتح جميع قوالب الألوان المميزة وتخصيص التطبيقات",
+            "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+            "support": "الدعم الأولوية عندما تحتاج المساعدة أكثر"
+          },
+          "badge": "موصى به",
+          "cta": "الترقية (شهرية)",
+          "ctaPublic": "فتح البطاقة المميزة – استمر في تسجيل الدخول",
+          "aria": "الترقية إلى بريميوم شهريا"
+        },
+        "premiumAnnual": {
+          "title": "النسخة المميزة (السنوية)",
+          "price": "$99",
+          "desc": "ادخر أكثر عند احتساب الرسوم السنوية — بما في ذلك قوالب ألوان إضافية، وأدوات الذكاء الاصطناعي، ودعم الأولوية.",
+          "features": {
+            "allPremium": "كل شيء في بريميوم مونثلي — بما في ذلك مواضيع ملونة إضافية",
+            "annualBilling": "يتم احتساب المبلغ مرة واحدة في السنة",
+            "save25": "وفر حوالي 30٪ مقارنة بالدفع الشهري",
+            "bestFor": "الأفضل للمستخدمين المحترفين، والعاملين عن بعد، والمسافرين الكثيفين"
+          },
+          "badge": "وفر 30٪",
+          "cta": "الترقية (السنوية)",
+          "ctaPublic": "وفر 30٪ مع السنوي – استمر في تسجيل الدخول",
+          "aria": "الترقية إلى النسخة السنوية المميزة",
+          "disclaimer": "تم الإبلاغ عنها مقدما. ألغ في أي وقت. لا توجد رسوم خفية."
+        }
+      },
+      "marketing": {
+        "freeTitle": "مجاني",
+        "freeDesc": "ابدأ بالمراسلة مجانا.",
+        "plusTitle": "بالإضافة إلى ذلك",
+        "plusBadge": "الشعبية",
+        "plusDesc": "تجربة خالية من الإعلانات بأسعار معقولة.",
+        "premiumMonthlyTitle": "بريميوم",
+        "premiumMonthlyDesc": "الميزات الكاملة، نغمات الرنين، وأدوات الطاقة الذكاء الاصطناعي.",
+        "premiumAnnualTitle": "بريميوم",
+        "premiumAnnualDesc": "ادخر أكثر عند احتساب الرسوم السنوية.",
+        "annualDisclaimer": "تم الإبلاغ عنها مقدما. ألغ في أي وقت. لا توجد رسوم خفية."
+      },
+      "mobile": {
+        "title": "Chatforia Mobile (حزم بيانات eSIM)",
+        "subtitle": "أضف بيانات عالمية للحفاظ على عمل Chatforia حتى بدون الواي فاي. الأسعار تتغير تلقائيا بناء على بلدك وعملتك.",
+        "subtitle.detail": "اختر حزمة بيانات عالمية لمرة واحدة حتى يستمر Chatforia في العمل أثناء السفر أو الابتعاد عن الواي فاي.",
+        "scope": {
+          "local": "محلي",
+          "europe": "أوروبا",
+          "global": "عالمي"
+        },
+        "note": "نحن لا نبيع حزم بيانات أقل من 3 جيجابايت.",
+        "localEquals": "Local = {{country}}",
+        "localEqualsFallback": "المحلي = بلدك الحالي",
+        "perPack": "/ الحقيبة",
+        "cta": "احصل على حزمة البيانات هذه",
+        "ctaPublic": "احصل على حزمة البيانات هذه",
+        "checkout": {
+          "redirecting": "إعادة توجيه..."
+        },
+        "unlimited": {
+          "features": {
+            "heavyUse": "البيانات عالية السرعة للاستخدام المكثف",
+            "throttle": "قد تتباطأ السرعات بعد الاستخدام العالي",
+            "coverage": "تغطية موثوقة",
+            "instant": "تفعيل eSIM الفوري",
+            "noContract": "حزمة مرة واحدة، بدون عقد"
+          }
+        },
+        "disclaimer": {
+          "devices": "تتطلب حزم بيانات eSIM جهازا متوافقا مع eSIM وغير مقفل. تختلف التوفر حسب طراز الهاتف، أو شركة الاتصال، أو البلد. تختلف التغطية والسرعات حسب المنطقة."
+        },
+        "small": {
+          "title": "حزمة البداية",
+          "desc": "تتضمن 3 جيجابايت من البيانات عالية السرعة — مثالية للرسائل الخفيفة والمكالمات العرضية.",
+          "price": "$9.99",
+          "data": "3 جيجابايت",
+          "bestFor": "رحلات قصيرة، رسائل خفيفة، ومكالمات عرضية",
+          "aria": "شراء حزمة بيانات eSIM من Starter"
+        },
+        "medium": {
+          "title": "حزمة المسافر",
+          "desc": "يشمل 5 جيجابايت من البيانات عالية السرعة للرحلات، والتنقل، ومكالمات VoIP العادية.",
+          "price": "$14.99",
+          "data": "5 جيجابايت",
+          "bestFor": "رحلات نهاية الأسبوع، مكالمات VoIP المنتظمة، والخرائط",
+          "aria": "اشتر حزمة بيانات eSIM من Traveler"
+        },
+        "large": {
+          "title": "حزمة الطاقة",
+          "desc": "يتضمن 10 جيجابايت من البيانات عالية السرعة للدردشة المكثفة، والمكالمات، والفيديو على شبكة Chatforia.",
+          "price": "$24.99",
+          "data": "10 جيجابايت",
+          "bestFor": "دردشة مكثفة، مكالمات، فيديو، واستخدام نقاط الاتصال",
+          "aria": "اشتر حزمة بيانات eSIM من مستخدم Power"
+        },
+        "compare": {
+          "title": "مقارنة حزم بيانات eSIM",
+          "col": {
+            "pack": "الحقيبة",
+            "data": "البيانات المدرجة",
+            "bestFor": "الأفضل ل"
+          },
+          "disclaimer": "الاستخدام الفعلي للبيانات يعتمد على كيفية استخدامك لشات فوريا (الصوت، الفيديو، الوسائط، وتطبيقات أخرى على هاتفك)."
+        }
+      },
+      "family": {
+        "title": "عائلة تشاتفوريا (بيانات مشتركة)",
+        "subtitle": "شارك مجموعة بيانات واحدة عبر عائلتك. فاتورة واحدة، حسابات متعددة في Chatforia، تغطية عالمية.",
+        "perPack": "/ الحقيبة",
+        "small": {
+          "title": "العائلة الصغيرة",
+          "desc": "يتضمن 20 جيجابايت من البيانات المشتركة عالية السرعة — وهو ممتاز لمستخدمي 2–3 من المستخدمين المتوسطين.",
+          "price": "$29.99",
+          "aria": "شراء حزمة صغيرة للعائلة"
+        },
+        "medium": {
+          "title": "الوسيط العائلي",
+          "desc": "يتضمن 40 جيجابايت من البيانات المشتركة عالية السرعة — مثالي ل 3–5 أعضاء نشطين.",
+          "price": "$49.99",
+          "aria": "شراء حزمة Family Medium"
+        },
+        "large": {
+          "title": "العائلة الكبيرة",
+          "desc": "يشمل 80 جيجابايت من البيانات المشتركة عالية السرعة — لعائلات الطاقة التي تكون دائما متصلة.",
+          "price": "$84.99",
+          "aria": "شراء حزمة Family Large"
+        },
+        "feature": {
+          "shared": "تجمع البيانات المشترك لعائلتك",
+          "members": "ادع حتى 4 أعضاء إضافيين",
+          "membersMore": "ممتاز لأعضاء نشطين من 3 إلى 5",
+          "manage": "إدارة الحدود لكل عضو",
+          "topUp": "أضف المزيد من الحزم في أي وقت",
+          "bestValue": "أفضل قيمة لكل جيجابايت",
+          "fairUse": "خاضع لسياسة الاستخدام العادل والحدود المحلية"
+        },
+        "disclaimer": "حزم العائلة تنشئ أو تعيد تعبئة مجموعة بيانات مشتركة. يمكنك دعوة الأعضاء وإزالتها في أي وقت.",
+        "footnote": "تشارك حزم العائلة مجموعة بيانات واحدة عبر حسابات Chatforia المرتبطة. تعتمد التوفر والحدود على بلدك واللوائح المحلية."
+      },
+      "why": {
+        "title": "لماذا ينتقل الناس إلى Chatforia",
+        "subtitle": "تمنحك Chatforia رقم هاتف حقيقي، وترجمة ذكية، وطريقا واضحا للعمل بدون إعلانات عندما تكون مستعدا.",
+        "card": {
+          "textnow": {
+            "title": "تشات فوريا مقابل تيكس ناو",
+            "body": "إعلانات أخف على مجاني، ترقية بسيطة إلى بلس عندما تكون مستعدا، وأدوات بريميوم لا تقدمها TextNow."
+          },
+          "voice": {
+            "title": "تشاتفوريا مقابل جوجل فويس",
+            "body": "تطبيق حديث، تصميم عالمي أولا، وترجمة مدمجة بدلا من إعادة توجيه المكالمات التقليدية."
+          },
+          "messengers": {
+            "title": "Chatforia مقابل تطبيقات الدردشة",
+            "body": "أرسل أرقام هواتف حقيقية — وليس فقط مستخدمي التطبيقات الآخرين — مع ذكاء اصطناعي وحالة مدمجة. رائع إذا كنت قادما من تطبيقات مثل TextFree أو TextMe."
+          }
+        },
+        "tableTitle": "كيف تقارن شاتفوريا",
+        "col": {
+          "feature": "الميزة"
+        },
+        "feature": {
+          "freeNumber": "رقم هاتف مجاني",
+          "translation": "ترجمة ذاتية مدمجة",
+          "aiTools": "أدوات الذكاء الاصطناعي (إعادة الكتابة، الردود، الملخصات)",
+          "ads": "خيار خال من الإعلانات",
+          "history": "تاريخ الرسائل"
+        },
+        "yes": "نعم",
+        "no": "No",
+        "yesPremium": "نعم (بريميوم)",
+        "plusPremium": "Plus & Premium",
+        "limited": "محدود",
+        "nA": "N/A",
+        "history": {
+          "chatforia": "حتى 12+ شهرا",
+          "textnow": "يختلف حسب الحساب",
+          "voice": "محدود / قائم على الحسابات"
+        },
+        "disclaimer": "المقارنة بناء على المعلومات المتاحة للجمهور وقد تتغير مع مرور الوقت. تطبيقات الرسائل الحرة الأخرى مثل TextFree أو TextMe تشبه عادة TextNow."
+      },
+      "faq": {
+        "title": "أسئلة متكررة عن الأسعار والخطط",
+        "free": {
+          "q": "هل الخطة المجانية فعلا مجانية؟",
+          "a": "نعم. تتضمن الخطة المجانية رقم Chatforia، واتصالات، ورسائل مع إعلانات. يمكنك البقاء على Free طالما شئت، أو الترقية لإزالة الإعلانات وفتح المزيد من الميزات."
+        },
+        "plusPremium": {
+          "q": "ما الفرق بين Plus و Premium؟",
+          "a": "بالإضافة إلى إزالة الإعلانات وتوسيع سجل رسائلك — مثالي للاستخدام اليومي. يضيف Premium تخصيص إضافي، وأدوات ذكاء اصطناعي لإعادة الكتابة والردود، ودعم أولوية للمستخدمين الكثافة."
+        },
+        "esim": {
+          "q": "أين تعمل حزم بيانات eSIM؟",
+          "a": "تستخدم Chatforia Mobile تغطية عالمية لشريحة eSIM. التوفر يعتمد على بلدك وجهازك. سترى خيارات مدعومة أثناء التفعيل داخل التطبيق."
+        },
+        "cancel": {
+          "q": "هل يمكنني إلغاء أو تغيير الخطط في أي وقت؟",
+          "a": "نعم. يمكنك إدارة أو إلغاء اشتراكك من صفحة الفوترة في التطبيق. تدخل التغييرات حيز التنفيذ في نهاية فترة الفوترة الحالية."
+        },
+        "family": {
+          "q": "كيف تعمل حزم العائلة؟",
+          "a": "حزم العائلة تنشئ مجموعة بيانات مشتركة عبر عدة حسابات Chatforia. شخص واحد يدفع الفاتورة، ويمكنك دعوة الأعضاء أو إزالتها وتحديد حدود لكل شخص."
+        }
+      },
+      "gettingStarted": {
+        "title": "البدء",
+        "subtitle": "هل أنت جديد في شاتفوريا؟ هذا البداية السريعة تظهر الأساسيات حتى تتمكن من الإنتاجية خلال دقائق.",
+        "alert": {
+          "text": "سينمو هذا الدليل مع إطلاق ميزات جديدة. إذا كان هناك شيء مفقود، أخبرنا عبر",
+          "contactLink": "تواصل معنا"
+        },
+        "section1": {
+          "title": "1) أنشئ حسابك",
+          "signup": "سجل",
+          "or": "or",
+          "login": "تسجيل الدخول",
+          "loginText": "مع حسابك الحالي.",
+          "prefsStart": "اضبط لك",
+          "prefsLink": "التفضيلات",
+          "prefsRest": "(اللغة، إيصالات القراءة، المواضيع)."
+        },
+        "section2": {
+          "title": "2) ابدأ بالرسائل",
+          "item1": "أنشئ رسالة خاصة أو مجموعة وأرسل رسالتك الأولى.",
+          "item2": "استخدم الترجمة الفورية للدردشة عبر 100+ لغة.",
+          "item3": "جرب الرسائل المختفية وقراءة الإيصالات في قسم الملف الشخصي → الخصوصية."
+        },
+        "section3": {
+          "title": "3) اذهب أبعد من ذلك",
+          "item1": "يمكنك الترقية إلى خطة مدفوعة في أي وقت داخل التطبيق.",
+          "item2": "بمجرد تسجيل الدخول، يمكنك ربط أجهزة إضافية وإعداد نسخ احتياطية مشفرة من الإعدادات في التطبيق."
+        },
+        "cta": {
+          "seePlans": "انظر المخططات",
+          "openSettings": "الإعدادات المفتوحة"
+        }
+      },
+      "helpCenter": {
+        "title": "مركز المساعدة",
+        "faq": {
+          "account": {
+            "q": "كيف أنشئ أو أستعيد حسابي؟",
+            "a": "قم بتحميل التطبيق أو استخدم الويب، اضغط على \"إنشاء حساب\"، تحقق من بريدك الإلكتروني/هاتفك. للاسترجاع، استخدم \"نسيت كلمة المرور\"."
+          },
+          "privacy": {
+            "q": "هل الرسائل مشفرة من طرف إلى طرف؟",
+            "a": "نعم. الرسائل والمكالمات مشفرة من طرف إلى طرف بشكل افتراضي. أنت والمستلم فقط من يمكنكم قراءتها."
+          },
+          "translate": {
+            "q": "كيف تعمل الترجمة الفورية؟",
+            "a": "فعل خيار \"الترجمة التلقائية\" في الإعدادات → المظهر واللغة. نترجم على الجهاز حيثما كان ذلك مدعوما، وإلا عبر واجهات برمجة تطبيقات آمنة مع بيانات وصفية قليلة."
+          },
+          "contact": {
+            "q": "تواصل مع الدعم",
+            "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+          }
+        }
       },
       "contact": {
-        "q": "التواصل مع الدعم",
-        "a": "تواصل معنا على support@chatforia.com. أرفق لقطات شاشة وإصدار التطبيق."
+        "title": "تواصل معنا",
+        "successMsg": "شكرا — فريقنا سيرد عبر البريد الإلكتروني.",
+        "errorSend": "Could not send. Please email support@chatforia.com.",
+        "form": {
+          "nameLabel": "الاسم",
+          "emailLabel": "البريد الإلكتروني",
+          "messageLabel": "الرسالة",
+          "sendCta": "أرسلني"
+        }
+      },
+      "privacyPolicy": {
+        "title": "سياسة الخصوصية",
+        "lastUpdated": "آخر تحديث:",
+        "intro": {
+          "body": "تشرح هذه السياسة كيف يقوم Chatforia (\"نحن\"، \"نحن\") بجمع واستخدام ومشاركة المعلومات عند استخدامك لتطبيقاتنا وخدماتنا. نحن نصمم Chatforia لتقليل البيانات التي يمكننا الوصول إليها."
+        },
+        "infoWeCollect": {
+          "title": "المعلومات التي نجمعها",
+          "account": "معلومات الحساب (مثل البريد الإلكتروني/الهاتف) لإنشاء وتأمين حسابك.",
+          "encrypted": "المحتوى المشفر (الرسائل/المكالمات) مشفر من طرف إلى طرف؛ لا يمكننا قراءتها.",
+          "diagnostics": "التشخيص/الاستخدام مثل سجلات الأعطال، نوع الجهاز، أو التحليلات الخشنة لتحسين الأداء."
+        },
+        "sms": {
+          "title": "أرقام الهواتف المحمولة والرسائل النصية النصية",
+          "body": "إذا اخترت توفير رقم هاتف محمول، نستخدمه لتمكين ميزات مثل التحقق من الحساب، وتنبيهات تسجيل الدخول، والمراسلة بين المستخدمين عبر الرسائل النصية القصيرة حيثما كانت مدعومة. قد نرسل رسائل SMS معاملاتية تتعلق بحسابك ونشاطك على Chatforia. يمكنك الاشتراك في عدم استقبال الرسائل النصية في أي وقت عن طريق الرد بكلمة مفتاحية مدعومة للانسحاب (مثل \"STOP\") أو بتغيير تفضيلات الإشعارات في التطبيق. نحن لا نبيع رقم هاتفك أو نستخدمه في التسويق غير المرتبط.",
+          "newText": "نص جديد",
+          "enterRecipient": "أدخل اسما أو رقما",
+          "typeMessage": "اكتب رسالة...",
+          "addRecipient": "أضف مستلم أعلاه للبدء..."
+        },
+        "howWeUse": {
+          "title": "كيف نستخدم المعلومات",
+          "provide": "توفير وتأمين الخدمة (التوثيق، كشف الرسائل المزعجة/سوء الاستخدام).",
+          "improve": "تحسين الميزات (جودة الترجمة، الموثوقية).",
+          "legal": "الامتثال للالتزامات القانونية."
+        },
+        "sharing": {
+          "title": "المشاركة",
+          "body": "نحن لا نبيع البيانات الشخصية. قد نشارك بيانات محدودة مع المعالجين (مثل إشعارات الدفع، التحليلات) بموجب عقود صارمة."
+        },
+        "rights": {
+          "title": "حقوقك",
+          "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+        },
+        "retention": {
+          "title": "الاحتفاظ بالبيانات والأمان",
+          "body": "نحتفظ فقط بما هو مطلوب لتشغيل الخدمة وتطبيق معايير الأمان الصناعية. محتوى E2E لا يمكننا فك تشفيره."
+        },
+        "children": {
+          "title": "الأبناء",
+          "body": "تشاتفوريا غير موجه للأطفال دون سن 13 عاما (أو كما يقتضي القانون المحلي)."
+        },
+        "changes": {
+          "title": "التغييرات",
+          "body": "سننشر التحديثات هنا ونراجع تاريخ \"آخر تحديث\"."
+        },
+        "contact": {
+          "title": "الاتصال",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "شروط الخدمة",
+        "lastUpdated": "آخر تحديث:",
+        "intro": {
+          "body": "باستخدام Chatforia فإنك توافق على هذه الشروط. إذا لم توافق، لا تستخدم الخدمة."
+        },
+        "accounts": {
+          "title": "الحسابات",
+          "itemAccurateInfo": "قدم معلومات دقيقة وحافظ على أمان بيانات الاعتماد.",
+          "itemResponsibility": "أنت مسؤول عن النشاط في حسابك."
+        },
+        "acceptableUse": {
+          "title": "الاستخدام المقبول",
+          "itemNoAbuse": "لا محتوى غير قانوني أو مسيء أو منتهك؛ لا رسائل مزعجة أو إساءة آلية.",
+          "itemSuspend": "قد نوقف أو نفصل الوظيفة بسبب مخالفات."
+        },
+        "sms": {
+          "title": "الاتصالات عبر الرسائل النصية القصيرة",
+          "body": "إذا قدمت رقم هاتف محمول، فأنت توافق على أن Chatforia قد يرسل لك رسائل نصية قصيرة تتعلق بحسابك واستخدامك للخدمة، مثل تنبيهات تسجيل الدخول، وإشعارات الأمان، والرسائل المتعلقة بالمحادثات التي تبدأها أو تشارك فيها. لا نستخدم الرسائل النصية النصية للرسائل الترويجية أو التسويقية دون موافقتك الصريحة. قد تنطبق معدلات الرسائل والبيانات القياسية. يمكنك الاشتراك في الرسائل النصية القصيرة في أي وقت عن طريق الرد بكلمة مفتاحية مدعومة للانسحاب (مثل \"STOP\") أو بتحديث إعدادات الإشعارات في التطبيق."
+        },
+        "yourContent": {
+          "title": "محتواك",
+          "body": "تحتفظ بحقوقك في محتواك. أنت تمنحنا الحقوق اللازمة لتشغيل الخدمة (مثل التوجيه، التخزين، الترجمة)."
+        },
+        "disclaimer": {
+          "title": "إخلاء المسؤولية والمسؤولية",
+          "body": "الخدمة تقدم \"كما هي\" بدون ضمانات. وبأقصى ما يسمح به القانون، لا تتحمل تشاتفوريا مسؤولية الأضرار غير المباشرة أو التبعية."
+        },
+        "changes": {
+          "title": "التغييرات",
+          "body": "قد نقوم بتحديث هذه المصطلحات؛ الاستخدام المستمر بعد التغييرات يعني قبولا."
+        },
+        "contact": {
+          "title": "الاتصال",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "doNotSell": {
+        "title": "لا تبيع أو تشارك معلوماتي الشخصية",
+        "body": "تشاتفوريا لا تبيع معلومات شخصية. لا يزال بإمكان سكان كاليفورنيا تقديم الطلبات بموجب CPRA باستخدام الزر أدناه.",
+        "cta": "قدم طلبا"
+      },
+      "cookies": {
+        "title": "إعدادات ملفات تعريف الارتباط",
+        "body": "تستخدم Chatforia ملفات تعريف الارتباط البسيطة (مثل الجلسة، الأمان). نحن لا نستخدم ملفات تعريف التعريف الإعلانية الخاصة بأطراف ثالثة. أدار ملفات تعريف الارتباط عبر إعدادات متصفحك."
+      },
+      "phoneNumberManager": {
+        "unableToLoadStatus": "غير قادر على تحميل رقم الهاتف حالة الوضع.",
+        "lock": "القفل",
+        "noNumberAssigned": "لم يتم تعيين رقم. اختر أحدها حسب رمز المنطقة لتبدأ في إرسال الرسائل النصية.",
+        "pickNumber": "اختر رقما",
+        "phoneNumber": "رقم الهاتف"
+      },
+      "startChatModal": {
+        "title": "ابدأ محادثة",
+        "quickPicker": "الاختيار السريع",
+        "to": "To",
+        "nameOrUsername": "اكتب اسم، اسم مستخدم",
+        "nameUsernamePhoneEmail": "اكتب اسما، اسم مستخدم، هاتف، أو بريد إلكتروني...",
+        "startWithSelected": "ابدأ الدردشة مع الاختيار",
+        "searchByUsernameOrPhone": "ابحث حسب اسم المستخدم أو الهاتف",
+        "search": "البحث",
+        "searchPrompt": "اكتب اسم مستخدم أو هاتف واضغط على البحث.",
+        "pickFromContacts": "أو اختر من بين جهات الاتصال",
+        "addContact": "أضف جهة اتصال",
+        "show": "العرض",
+        "add": "إضافة",
+        "close": "إغلاق",
+        "selectedCount": "{{count}} تم اختياره",
+        "pickAtLeastOne": "اختر على الأقل مستفيدا واحدا.",
+        "saveContactsHint": "ستكون مدخلات الهاتف أو البريد الإلكتروني متاحة بعد حفظها كجهات اتصال.",
+        "failedBulkStart": "فشل في بدء الدردشة مع مستلمين مختارين.",
+        "noResults": "لا توجد نتائج",
+        "mode": "الوضع",
+        "group": "المجموعة",
+        "broadcast": "البث",
+        "groupNameOptional": "اسم المجموعة (اختياري)",
+        "firstMessageOptional": "الرسالة الأولى (اختيارية ولكن موصى بها)",
+        "createGroup": "إنشاء مجموعة",
+        "sendBroadcast": "إرسال البث"
+      },
+      "themes": {
+        "amoled": "أموليد",
+        "aurora": "أورورا",
+        "neon": "النيون",
+        "sunset": "غروب الشمس",
+        "solarized": "السولاريزد",
+        "velvet": "المخمل"
+      },
+      "sounds": {
+        "freeNotice": "أنت على وضع مجاني — تظهر النغمات الفاخرة لكنها مقفلة. الترقية لفتح كل شيء.",
+        "preview": "معاينة",
+        "resetToDefaults": "إعادة التعيين إلى الإعدادات الافتراضية",
+        "notificationSounds": "أصوات الإشعارات",
+        "messageTone": "نغمة الرسالة",
+        "default": "الافتراضي",
+        "vibrate": "اهتزاز",
+        "dreamer": "حالم",
+        "notify": "إشعار",
+        "pop": "بوب",
+        "pulsatingSound": "الصوت النابض",
+        "textMessage": "رسالة نصية",
+        "xylophone": "إكسيلوفون",
+        "classic": "الكلاسيكي",
+        "urgency": "الاستعجال",
+        "bells": "الأجراس",
+        "chimes": "أجراس",
+        "digitalPhone": "الهاتف الرقمي",
+        "melodic": "لحن",
+        "organNotes": "ملاحظات الأورغن",
+        "soundReality": "الواقع الصوتي",
+        "street": "الشارع",
+        "universfield": "يونيفرسفيلد"
+      },
+      "premiumGuard": {
+        "requiresPremium": "تتطلب هذه الميزة خطة بريميوم."
+      },
+      "aiSettings": {
+        "title": "إعدادات الذكاء الاصطناعي",
+        "controlIntro": "الترجمة المتحكمة، الردود الذكية، والاستجابات التلقائية لفوريا بوت.",
+        "save": "حفظ إعدادات الذكاء الاصطناعي",
+        "autoTranslateIncoming": "الترجمة التلقائية للرسائل الواردة",
+        "showOriginalAlongside": "عرض النص الأصلي مع الترجمة",
+        "enableSmartReplies": "تمكين الردود الذكية",
+        "smartRepliesHint": "أرسل آخر الرسائل المستلمة (منقحة) إلى الذكاء الاصطناعي لاقتراح ردود سريعة.",
+        "maskProfanity": "اقتراحات الألفاظ النابية على القناع في الذكاء الاصطناعي",
+        "maskProfanityHint": "إذا كان يفعل، فإن الاقتراحات التي يردها الذكاء الاصطناعي ستغطي الكلمات المميزة",
+        "foriaBot": "الرد التلقائي فوريا بوت",
+        "enableAutoReply": "تفعيل الرد التلقائي عندما أكون مشغولا",
+        "autoReplyMode": "وضع الرد التلقائي",
+        "cooldownSeconds": "فترة التهدئة (ثواني)",
+        "off": "انطلق",
+        "on": "On",
+        "signature": "التوقيع",
+        "autoReply": "الرد التلقائي",
+        "activeUntilOptional": "نشط حتى (اختياري)",
+        "saved": "تفضيلات الذكاء الاصطناعي محفوظة",
+        "saveFailed": "فشل في حفظ إعدادات الذكاء الاصطناعي",
+        "translateOff": "انطلق",
+        "translateTagged": "Only when @translated or tagged",
+        "translateAll": "ترجمة جميع الرسائل الواردة",
+        "modeDm": "محادثات 1:1 فقط",
+        "modeMention": "Only when I’m @mentioned",
+        "modeAll": "جميع الرسائل الواردة"
+      },
+      "accessibilitySettings": {
+        "title": "الوصول والتنبيهات",
+        "accessibility": "سهولة الوصول",
+        "accessibilityDesc": "خيارات لجعل Chatforia أسهل في الاستخدام دون الاعتماد على الصوت.",
+        "interfaceFontSize": "حجم خط الواجهة",
+        "interfaceFontSizeHelp": "يبدأ بالحجم الطبيعي. زد إذا كنت تفضل نصا أكبر في إعدادات الوصول.",
+        "sm": "sm",
+        "md": "md",
+        "lg": "lg",
+        "xl": "xl",
+        "notifications": "الإشعارات",
+        "notificationsDesc": "تنبيهات بصرية للرسائل والمكالمات\nاعرض اللافتات والعنوان يومض حتى لا تفوت النشاط.",
+        "vibrateOnNew": "اهتزاز على الرسائل الجديدة (عند الدعم)\nافعل اهتزاز الجهاز مع الإشعارات.",
+        "flashOnCall": "شاشة فلاش على المكالمة الواردة\nوميض ساطع قصير عندما يرن اتصال.",
+        "liveCaptions": "الترجمة المباشرة (المكالمات)",
+        "captionFontSize": "حجم خط التعليق",
+        "captionBackground": "خلفية الترجمة",
+        "light": "الضوء",
+        "dark": "مظلم",
+        "transparent": "شفاف",
+        "voiceNotes": "ملاحظات صوتية",
+        "autoTranscribeVoiceNotes": "النسخ التلقائي للملاحظات الصوتية",
+        "autoTranscribeVoiceNotesDesc": "ارفق نصا مكتوبا مع الرسائل الصوتية التي تتلقاها.",
+        "changesSavedInstantly": "يتم حفظ التغييرات فورا.",
+        "loadFailed": "فشل تحميل الإعدادات",
+        "visualAlerts": "تنبيهات بصرية للرسائل والمكالمات",
+        "visualAlertsDesc": "اعرض اللافتات والعنوان يومض حتى لا تفوت النشاط.",
+        "vibrateOnNewShort": "اهتزاز على الرسائل الجديدة (عند الدعم)",
+        "vibrateOnNewDesc": "افعل اهتزاز الجهاز مع الإشعارات.",
+        "flashOnCallShort": "شاشة فلاش على المكالمة الواردة",
+        "flashOnCallDesc": "وميض ساطع قصير عندما يرن اتصال."
+      },
+      "privacySection": {
+        "strictE2EE": "تشفير صارم من طرف إلى طرف",
+        "ciphertextOnlyNote": "تخزين النص المشفر فقط على الخادم. يعطل معاينات الذكاء الاصطناعي/الترجمة والإشراف."
+      },
+      "linkedDevicesPanel": {
+        "title": "الأجهزة المرتبطة",
+        "noneFound": "لم يتم العثور على أجهزة مرتبطة.",
+        "refresh": "تحديث"
+      },
+      "help": {
+        "title": "المساعدة",
+        "howCanWeHelp": "كيف يمكننا المساعدة؟",
+        "helpCenter": "مركز المساعدة",
+        "contactUs": "تواصل معنا",
+        "quickTopics": "مواضيع سريعة",
+        "searchExamples": "جرب البحث عن \"ترجمة\" أو \"نسخ احتياطية\" أو \"خصوصية\".",
+        "cantLogin": "لا أستطيع تسجيل الدخول",
+        "paymentsBilling": "المدفوعات/الفوترة",
+        "reportAbuse": "الإبلاغ عن الإساءة",
+        "searchHelpArticles": "ابحث عن مقالات المساعدة",
+        "search": "البحث"
+      },
+      "peoplePage": {
+        "people": "الأشخاص",
+        "search": "البحث",
+        "searchPlaceholder": "ابحث حسب الاسم المستعار، الاسم، اسم المستخدم، أو الهاتف",
+        "filterSaved": "تصفية جهات الاتصال المحفوظة",
+        "noContactsFound": "لم يتم العثور على أي جهات اتصال",
+        "quickStart": "بداية سريعة",
+        "quickStartDesc": "بعض الطرق السريعة للانطلاق.",
+        "importContacts": "استيراد جهات الاتصال الخاصة بك",
+        "add": "إضافة",
+        "focusSearch": "البحث الفوكس",
+        "import": "الاستيراد",
+        "findOrAdd": "ابحث عن شخص أو أضف شخصا",
+        "searchByPhoneOrUsername": "ابحث حسب الهاتف / اسم المستخدم",
+        "inviteFriends": "ادع الأصدقاء",
+        "inviteDesc": "شارك رابط الدعوة الخاص بك لتبدأ الدردشة فورا.",
+        "getTheApp": "احصل على التطبيق",
+        "getTheAppDesc": "ابق على تواصل أثناء التنقل مع Chatforia لأنظمة iOS وAndroid.",
+        "download": "تحميل",
+        "syncTip": "نصيحة: تبقى رسائلك متزامنة عبر الويب والهواتف المحمولة."
+      },
+      "randomChat": {
+        "title": "دردشة عشوائية",
+        "description": "'تعرف على شخص جديد فورا'. 'سنطابقك ونفتح غرفة دردشة مؤقتة.' 'تتحدث بشكل مجهول أولا. أضف صديقا لاحقا إذا شعرت أن ذلك مناسب.'",
+        "findMatch": "ابحث لي عن عود ثقاب",
+        "chatWithForia": "دردشة مع فوريا",
+        "chatWithForiaBot": "دردشة مع ForiaBot",
+        "cancel": "إلغاء",
+        "close": "إغلاق",
+        "searching": "بحث...",
+        "finding": "العثور عليه...",
+        "looking": "أبحث عن شخص ما...",
+        "startingForia": "بدء حديث مع فوريا...",
+        "partnerDisconnected": "شريكك انقطع الاتصال.",
+        "noPartner": "لم يعثر على شريك الآن.",
+        "connectedTo": "متصل ب {{name}}",
+        "connected": "متصل",
+        "idle": "خمول",
+        "partnerLeft": "الشريك غادر.",
+        "stopped": "توقف.",
+        "skip": "تخطي",
+        "save": "حفظ",
+        "saveGuard": "يمكن حفظ المحادثات بين البشر فقط",
+        "youAreChattingWith": "أنت تتحدث مع {{name}}",
+        "bot": "بوت",
+        "leave": "غادر",
+        "sayHi": "قل مرحبا 👋",
+        "you": "أنت",
+        "typeMessage": "اكتب رسالة",
+        "send": "أرسلني",
+        "partner": "شريك",
+        "withRia": "مع ريا",
+        "chatWithRia": "دردشة مع ريا",
+        "startingRia": "بدء حديث مع ريا...",
+        "ageDisclaimer": "نحن نخزن فقط فئة عمرية (وليس تاريخ ميلادك بالضبط). يستخدم هذا للحفاظ على توافقات الدردشة العشوائية معقولة. للمطابقة مع الناس (وليس فقط RiaBot)، حدد نطاق العمر في الإعدادات → العمر والدردشة العشوائية.",
+        "ageBandRequired": "حدد نطاق عمرك في الملف الشخصي → العمر والدردشة العشوائية ليتم مطابقتك مع الأشخاص.",
+        "ageBandCallout": "للمطابقة مع الناس (وليس فقط RiaBot)، حدد نطاق العمر في الإعدادات → العمر والدردشة العشوائية.",
+        "subtitle": "تعرف على شخص جديد فورا، أو اختر الدردشة مع ريا.",
+        "start": "ابدأ محادثة",
+        "matching": "مطابقة...",
+        "setAge": "حدد نطاق عمرك في الملف الشخصي → العمر والدردشة العشوائية ليتم مطابقتك مع الأشخاص.",
+        "next": "الشخص التالي",
+        "addFriend": "أضف صديقا",
+        "requested": "طلب",
+        "messageRia": "رسالة إلى ريا...",
+        "messageMatch": "أرسل رسالة إلى مطابقتك..."
+      },
+      "brand": {
+        "name": "شاتفوريا",
+        "ria": "ريا"
+      },
+      "ria": {
+        "fallbackName": "ها هو",
+        "intro": "مرحبا، 👋 أنا ريا. ما الذي يدور في بالك؟",
+        "greetings": {
+          "long1": "مرحبا {{name}} 👋 أنا هنا. ما الذي يدور في بالك؟",
+          "long2": "مرحبا {{name}} 😊 عن ماذا تود التحدث اليوم؟",
+          "long3": "مرحبا {{name}}! أنا مستمع — ما الأمر؟",
+          "long4": "سعيد برؤيتك، {{name}} 👋 ما الذي يشغل بالك اليوم؟",
+          "long5": "مرحبا {{name}} 🙂 هل تريد أن تفضفض، تسأل، أو فقط تدردش؟",
+          "long6": "مرحبا {{name}}! لدي وقت — عن ماذا تود أن تتحدث؟",
+          "short1": "مرحبا {{name}}، ما زلت هنا. ما الأمر؟",
+          "short2": "مرحبا بعودتك {{name}} 👋 هل هناك شيء آخر تود إضافته؟",
+          "short3": "عدت مرة أخرى، {{name}}؟ 😊 أخبرني بما يدور في بالك.",
+          "short4": "مرحبا {{name}} ✨ هل أنت مستعد لنكمل من حيث توقفنا؟",
+          "short5": "نعم {{name}}؟ أنا أستمع 👂",
+          "short6": "أوه، مرحبا {{name}}! هل لديك شيء جديد في بالك؟"
+        },
+        "header": {
+          "openNav": "فتح قائمة التنقل",
+          "closeNav": "إغلاق قائمة التنقل",
+          "homeAria": "منزل تشاتفوريا"
+        },
+        "login": {
+          "welcomeBack": "مرحبا بعودتك",
+          "title": "تابع إلى شاتفوريا",
+          "subtitleReturning": "سجل الدخول إلى حسابك في Chatforia",
+          "subtitle": "سجل الدخول إلى حسابك في Chatforia",
+          "google": "تابع مع جوجل",
+          "apple": "تابع مع آبل",
+          "googleUnavailable": "تسجيل الدخول في جوجل غير متوفر",
+          "appleUnavailable": "تسجيل دخول آبل غير متوفر",
+          "or": "or",
+          "email": "البريد الإلكتروني",
+          "emailPh": "you@example.com",
+          "usernameLabel": "اسم المستخدم",
+          "usernamePh": "اسم المستخدم الخاص بك",
+          "passwordLabel": "كلمة المرور",
+          "passwordPh": "كلمة المرور الخاصة بك",
+          "keepSignedIn": "أبقني مسجلا",
+          "forgot": {
+            "title": "نسيت كلمة المرور",
+            "helper": "أدخل البريد الإلكتروني الذي استخدمته لإنشاء حساب Chatforia الخاص بك وسنرسل لك رابطا آمنا لإعادة تعيين كلمة المرور الخاصة بك.",
+            "emailInvalid": "يرجى إدخال بريد إلكتروني صالح.",
+            "genericError": "غير قادر على معالجة الطلب. يرجى المحاولة مرة أخرى بعد قليل.",
+            "sending": "أرسل رابط إعادة التشغيل...",
+            "sendCta": "رابط إعادة الإرسال",
+            "sentLabel": "أرسل!",
+            "sentHelper": "إذا كان هناك حساب يحمل ذلك البريد الإلكتروني، فقد أرسلنا رابط إعادة تعيين كلمة المرور. قد يستغرق الأمر بضع دقائق ليصل إليه. تأكد من مراجعة مجلد الرسائل المزعجة أو العروض الترويجية.",
+            "previewDev": "بريد المعاينة (المطور)",
+            "backToLogin": "العودة إلى تسجيل الدخول"
+          },
+          "submit": "تسجيل الدخول",
+          "loggingIn": "تسجيل الدخول...",
+          "newHere": "هل أنت جديد هنا؟ <link>أنشئ حسابا</link>",
+          "ssoUnavailable": "الدخول الفردي غير متاح حاليا. استخدم اسم المستخدم وكلمة المرور بدلا من ذلك.",
+          "error": {
+            "missing": "يرجى إدخال بيانات اعتمادك.",
+            "invalid": "اسم المستخدم أو كلمة المرور غير صالحة",
+            "denied": "تم رفض الوصول.",
+            "unprocessable": "طلب غير صحيح. تحقق من اسم المستخدم والبريد الإلكتروني وكلمة المرور.",
+            "deviceLimit": "تم الوصول إلى حد أقصى للجهاز في الخطة المجانية. قم بتسجيل الخروج من جهاز آخر أو قم بالترقية إلى Premium لربط المزيد من الأجهزة.",
+            "premiumRequired": "هذا الإجراء يتطلب خطة بريميوم."
+          }
+        }
+      },
+      "oauth": {
+        "completing": "إكمال تسجيل الدخول..."
+      },
+      "dialer": {
+        "title": "النداءات",
+        "subtitle": "لوحة مفاتيح وحديثة. (إذا لم تستخدم PSTN، ابدأ المكالمات من رأس المحادثة.)",
+        "enterNumberPh": "أدخل الرقم",
+        "call": "اتصل",
+        "backspace": "باكسبيس",
+        "recents": "الإصدارات الحديثة",
+        "recentsEmpty": "لم تكن هناك مكالمات حديثة حتى الآن.",
+        "enterNumber": "أدخل الرقم",
+        "enterNumberAria": "أدخل الرقم",
+        "key": "مفتاح {{d}}",
+        "noRecents": "لم تكن هناك مكالمات حديثة حتى الآن."
+      },
+      "video": {
+        "title": "الفيديو",
+        "chooseType": "اختر نوع الفيديو.",
+        "directTitle": "الفيديو المباشر",
+        "directDesc": "مكالمة كاميرا 1:1 مع مستخدم آخر.",
+        "directStart": "ابدأ",
+        "roomsTitle": "الغرف",
+        "roomsDesc": "فيديو متعدد الأطراف يستخدم اسم غرفة مشتركة.",
+        "roomsIntro": "انضم أو أنشئ غرفة متعددة الأطراف.",
+        "roomNameLabel": "اسم الغرفة",
+        "roomNamePh": "مثلا: الوقوف الجماعي",
+        "join": "انضم",
+        "deeplinkTip": "نصيحة: يمكنك ربط الروابط العميقة مباشرة <code>إلى /video?room=room-name</code>.",
+        "hub": {
+          "title": "الفيديو",
+          "subtitle": "اختر نوع الفيديو."
+        },
+        "direct": {
+          "title": "الفيديو المباشر",
+          "subtitle": "ابدأ مكالمة فيديو 1:1 باستخدام رقم هاتف أو اسم مستخدم في Chatforia.",
+          "desc": "مكالمة كاميرا 1:1 مع مستخدم آخر.",
+          "start": "ابدأ",
+          "callBtn": "اتصل",
+          "callByPhone": {
+            "title": "مكالمة هاتفية"
+          },
+          "phone": {
+            "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+            "aria": "الهاتف للاتصال"
+          },
+          "tipInvite": "نصيحة: الصق رقما واتصل دون حفظ جهة اتصال. سندعو غير المستخدمين عبر الرابط.",
+          "findUser": {
+            "title": "ابحث عن مستخدم"
+          },
+          "search": {
+            "placeholder": "ابحث بالاسم أو اسم المستخدم",
+            "aria": "ابحث بالاسم أو اسم المستخدم",
+            "btn": "البحث"
+          }
+        },
+        "rooms": {
+          "title": "الغرف",
+          "subtitle": "أنشئ غرفة أو انضم إلى غرفة موجودة بكتابة نفس الاسم.",
+          "desc": "فيديو متعدد الأطراف يستخدم اسم غرفة مشتركة.",
+          "roomLabel": "اسم الغرفة",
+          "roomPlaceholder": "مثلا: الوقوف الجماعي",
+          "roomAria": "اسم الغرفة",
+          "joinCreate": "انضم / إنشاء",
+          "tip": "نصيحة: شارك هذا الاسم مع الآخرين، أو رابط عميق <code>ل /video?room=room-name</code>."
+        }
+      },
+      "directVideo": {
+        "intro": "ابدأ مكالمة فيديو مباشرة 1:1.",
+        "findUserLabel": "ابحث عن مستخدم",
+        "findUserPh": "ابحث بالاسم أو اسم المستخدم",
+        "search": "البحث",
+        "call": "اتصل"
+      },
+      "phoneWarning": {
+        "title": "رقمك سينتهي قريبا",
+        "body": "سيتم إطلاق رقمك {{number}} في {{date}} ما لم يتم إعادة تفعيله.",
+        "button": "احتفظ برقمي"
+      }
+    },
+    "support": {
+      "helpFab": "المساعدة",
+      "openSupportAria": "الدعم المفتوح",
+      "badge": "الدعم",
+      "heading": "كيف يمكننا المساعدة؟",
+      "tabs": {
+        "help": "مركز المساعدة",
+        "contact": "تواصل معنا"
+      },
+      "searchPlaceholder": "مقالات البحث في المساعدة...",
+      "searchAria": "مساعدة في البحث",
+      "searchBtn": "البحث",
+      "quickTopicsLabel": "مواضيع سريعة",
+      "quickTopics": {
+        "login": "لا أستطيع تسجيل الدخول",
+        "billing": "المدفوعات / الفوترة",
+        "abuse": "الإبلاغ عن الإساءة"
+      },
+      "trySearching": "جرب البحث عن \"ترجمة\" أو \"نسخ احتياطية\" أو \"خصوصية\".",
+      "article": "المقال",
+      "openArticle": "المقال المفتوح",
+      "contactIntro": "سنرسل لك ردا عبر البريد الإلكتروني. أدرج تفاصيل لمساعدتنا على إعادة صياغة المشكلة.",
+      "topicAria": "اختر موضوعا",
+      "messagePlaceholder": "اكتب رسالتك...",
+      "sendBtn": "أرسلني",
+      "sent": "تم إرسال الرسالة. سنرد عبر البريد الإلكتروني.",
+      "sendError": "Could not send. Email support@chatforia.com instead."
+    },
+    "helpCenter": {
+      "title": "مركز المساعدة",
+      "faq": {
+        "account": {
+          "q": "كيف أنشئ أو أستعيد حسابي؟",
+          "a": "قم بتحميل التطبيق أو استخدم الويب، اضغط على \"إنشاء حساب\"، تحقق من بريدك الإلكتروني/هاتفك. للاسترجاع، استخدم \"نسيت كلمة المرور\"."
+        },
+        "privacy": {
+          "q": "هل الرسائل مشفرة من طرف إلى طرف؟",
+          "a": "نعم. الرسائل والمكالمات مشفرة من طرف إلى طرف بشكل افتراضي. أنت والمستلم فقط من يمكنكم قراءتها."
+        },
+        "translate": {
+          "q": "كيف تعمل الترجمة الفورية؟",
+          "a": "فعل خيار \"الترجمة التلقائية\" في الإعدادات → المظهر واللغة. نترجم على الجهاز حيثما كان ذلك مدعوما، وإلا عبر واجهات برمجة تطبيقات آمنة مع بيانات وصفية قليلة."
+        },
+        "contact": {
+          "q": "تواصل مع الدعم",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+        }
+      }
+    },
+    "encryptionRecovery": {
+      "title": "إدارة التشفير",
+      "description": "قم بنسخ احتياطية، استعاد، فتح، أو إعادة تعيين مفتاح التشفير.",
+      "alert": {
+        "keyRequiredTitle": "مفتاح التشفير مطلوب",
+        "keyRequiredBody": "هذا المتصفح لا يمكنه حاليا فك تشفير رسائلك المشفرة. استعد، فتح، أو أعد ضبط المفتاح للاستمرار."
+      },
+      "sections": {
+        "createBackup": "إنشاء نسخة احتياطية من المفاتيح",
+        "restoreFromBackup": "استعادة من نسخة احتياطية للحساب",
+        "resetEncryption": "إعادة التشفير"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "رمز مرور فتح القفل (الجهاز الحالي)",
+          "description": "تستخدم لفك تشفير مفاتيحك محليا قبل التصدير"
+        },
+        "backupPassword": {
+          "label": "كلمة مرور النسخ الاحتياطي",
+          "description": "يستخدم لتشفير ملف النسخ الاحتياطي"
+        },
+        "restoreBackupPassword": {
+          "label": "كلمة مرور النسخ الاحتياطي",
+          "description": "كلمة المرور التي أنشأتها عند عمل نسخة احتياطية من مفتاحك على الآيفون"
+        },
+        "newLocalPasscode": {
+          "label": "رمز المرور المحلي الجديد",
+          "description": "حماية المفاتيح في حالة راحة على هذا المتصفح"
+        },
+        "resetLocalPasscode": {
+          "label": "رمز المرور المحلي الجديد",
+          "description": "مطلوب قبل إعادة الضبط حتى يكون المفتاح الجديد محميا على هذا الجهاز"
+        }
+      },
+      "actions": {
+        "unlockKey": "مفتاح التشفير لفتح",
+        "restoreFromBackup": "استعادة من نسخة احتياطية للحساب",
+        "resetEncryption": "إعادة التشفير"
+      },
+      "messages": {
+        "backupCreated": "تم إنشاء وتنزيل نسخة احتياطية للمفاتيح.",
+        "keyUnlocked": "مفتاح التشفير مفتوح.",
+        "keyRestored": "تم استعادة المفتاح من نسخة احتياطية للحساب.",
+        "resetSuccess": "تم إعادة تعيين التشفير بنجاح."
+      },
+      "errors": {
+        "restoreIncomplete": "استعادة المفتاح غير مكتملة أو غير صحيحة لهذا الحساب",
+        "noBackup": "لا توجد نسخة احتياطية مشفرة لهذا الحساب",
+        "missingPublicKey": "النسخ الاحتياطي يفتقد مفتاح عام",
+        "noServerPublicKey": "هذا الحساب لا يكشف حاليا عن مفتاح عام للخادم",
+        "serverBackupMismatch": "نسخة الخادم الاحتياطي لا تتطابق مع مفتاح تشفير الحساب الحالي",
+        "incompleteMetadata": "بيانات النسخ الاحتياطي الوصفية غير مكتملة",
+        "resetIncomplete": "لم تكتمل إعادة ضبط التشفير بشكل صحيح"
+      },
+      "confirm": {
+        "reset": "إعادة ضبط التشفير لهذا الحساب؟\n\nقد تصبح الرسائل المشفرة القديمة غير قابلة للقراءة إلا إذا قمت باستعادة المفتاح الأصلي لاحقا."
+      },
+      "resetDescription": "هذا يولد مفتاح تشفير جديد لحسابك. قد تصبح الرسائل المشفرة القديمة غير قابلة للقراءة إلا إذا قمت باستعادة المفتاح الأصلي لاحقا."
+    },
+    "footer": {
+      "plans": "الخطط والتسعير",
+      "about": "حول شاتفوريا",
+      "careers": "المسيرة المهنية",
+      "press": "الصحافة",
+      "advertise": "الإعلان",
+      "contact": "تواصل معنا",
+      "help": "مركز المساعدة",
+      "status": "صفحة الحالة",
+      "iosDownload": "iOS / متجر التطبيقات",
+      "androidDownload": "أندرويد / جوجل بلاي",
+      "privacy": "سياسة الخصوصية",
+      "terms": "شروط الخدمة",
+      "cookies": "إعدادات ملفات تعريف الارتباط",
+      "doNotSell": "لا تبيع معلوماتي",
+      "language": "اللغة",
+      "contactShort": "الاتصال",
+      "aria": "القاعدة",
+      "homeAria": "منزل شاتفوريا",
+      "section": {
+        "company": "الشركة",
+        "support": "الدعم",
+        "downloads": "التحميلات",
+        "legal": "قانوني"
+      },
+      "links": {
+        "plans-pricing": "الخطط والتسعير",
+        "about-chatforia": "حول شاتفوريا",
+        "careers": "المسيرة المهنية",
+        "press": "الصحافة",
+        "advertise": "الإعلان",
+        "getting-started": "البدء",
+        "help-center": "مركز المساعدة",
+        "contact-us": "تواصل معنا",
+        "status-page": "صفحة الحالة",
+        "ios-app-store": "iOS / متجر التطبيقات",
+        "android-google-play": "أندرويد / جوجل بلاي",
+        "privacy-policy": "سياسة الخصوصية",
+        "terms-of-service": "شروط الخدمة",
+        "do-not-sell-my-info": "Do Not Sell My Info",
+        "cookie-settings": "إعدادات ملفات تعريف الارتباط"
+      },
+      "social": {
+        "tiktok": "تيك توك",
+        "instagram": "إنستغرام",
+        "facebook": "فيسبوك",
+        "linkedin": "لينكدإن",
+        "x": "X"
+      },
+      "copyright": "© شاتفوريا",
+      "patentPending": "براءة اختراع معلقة",
+      "backToTop": "↑ العودة إلى الأعلى"
+    },
+    "press": {
+      "title": "الصحافة",
+      "contactLine": "للاستفسارات الإعلامية، تواصل معنا على",
+      "boilerplateTitle": "النموذج التعريفي",
+      "boilerplateBody": "Chatforia هو تطبيق مراسلة يركز على الخصوصية أولا ويجعل الدردشة متعددة اللغات سهلة. الرسائل مشفرة من طرف إلى طرف بشكل افتراضي، والترجمة المدمجة تدعم 100+ لغة في الوقت الحقيقي. يمكن للمستخدمين تفعيل الرسائل المختفة، وترك إيصالات القراءة اختيارية، والمزامنة بين الأجهزة. متوفر على iOS وAndroid والويب.",
+      "assetsTitle": "أصول العلامة التجارية",
+      "assetsSubtitle": "شعارات، لقطات شاشة، وصور المنتجات.",
+      "downloadCta": "تحميل مجموعة الوسائط",
+      "downloadTitle": "احصل على التطبيق",
+      "scanTip": "على سطح المكتب؟ امسح بهاتفك لتحصل على التطبيق.",
+      "qrAria": "موقع Open Chatforia",
+      "appStore": "تحميل اللعبة من متجر التطبيقات",
+      "googlePlay": "احصل عليه على جوجل بلاي"
+    },
+    "careers": {
+      "title": "المسيرة المهنية",
+      "intro": "نحن فريق مؤسس صغير يبني تشاتفوريا — برنامج رسائل خاص وعالمي يطلق على الويب، iOS، وAndroid. إذا كنت تهتم بالخصوصية، والتشفير، وتجارب المستخدم الممتعة، يسعدنا سماع آرائك.",
+      "openRoles": "<b>أدوار التأسيس المفتوحة:</b> مهندس رئيسي للمتكاملين، مهندس الواجهة الخلفية (Node.js)، مهندس واجهة أمامية/ويب (React)، مهندس الجوال (iOS)، مهندس الجوال (أندرويد)، DevOps/SRE، مهندس الأمن والتشفير، مهندس الاتصالات (Twilio + eSIM).",
+      "apply": "كيفية التقديم: استخدم الزر أدناه لإرسال سيرتك الذاتية والروابط عبر البريد الإلكتروني.",
+      "emailCta": "أرسل سيرتك الذاتية عبر البريد الإلكتروني",
+      "whyNow": "لماذا انضممت الآن؟",
+      "whyBullets": "• المساعدة في بناء أساس رسول عالمي جديد.\n• تحسين النسخة المستخدمة عبر الويب وiOS وAndroid.\n• العمل مباشرة مع المؤسس في مجال الهندسة المعمارية وتوجيه المنتج.\n• امتلاك المجالات ذات التأثير العالي في المجموعة: الرسائل، الصوت، الفيديو، التشفير، الاتصالات، الذكاء الاصطناعي.\n• انضم في البداية — قبل أن يتوسع عدد المستخدمين."
+    },
+    "about": {
+      "title": "حول شاتفوريا",
+      "description": "تشاتفوريا هو مراسلة آمنة متعددة اللغات مع تشفير من طرف إلى طرف، وترجمة فورية، ومكالمات صوتية/فيديو. مهمتنا بسيطة: مساعدة الناس على التواصل—بأمان، وبشكل خاص، وعبر اللغات.",
+      "valuesTitle": "ما نقدره",
+      "values": {
+        "privacy": "<b>الخصوصية أولا:</b> تشفير E2E افتراضيا.",
+        "access": "<b>الوصول للجميع:</b> ترجمة تلقائية ل 100+ لغة.",
+        "control": "<b>التحكم:</b> الرسائل المختفية وإيصالات القراءة اختيارية.",
+        "privacy_aria": "الخصوصية أولا: تشفير E2E افتراضيا.",
+        "access_aria": "الوصول للجميع: ترجمة تلقائية ل 100+ لغة.",
+        "control_aria": "التحكم: الرسائل المفقودة وإيصالات القراءة اختيارية."
+      },
+      "howTitle": "كيف تعمل شاتفوريا",
+      "howDescription": "يتم تشفير الرسائل على جهازك قبل أن تغادره. تم تصميم الترجمة، والنسخ الاحتياطية، ومزامنة الأجهزة لتقليل ما يمكن أن تراه خوادمنا."
+    },
+    "advertise": {
+      "title": "الإعلان مع Chatforia",
+      "description": "وصل إلى مستخدمي المراسلة المتفاعلين من خلال أماكن موثوقة وآمنة للعلامة التجارية. نقدم مخزون اللافتات في أماكن بارزة، ورعايات، وترويجات للمنازل. المشتركون المميزون لا يرون الإعلانات.",
+      "adsense": {
+        "withPubIdShort": "نحن نقدم أيضا المخزون عبر Google Adsense. يمكنك استهداف Chatforia بمعرف الناشر {{pubId}}، أو استخدام النموذج أدناه للحصول على رعاية مباشرة.",
+        "noPubIdShort": "نقدم أيضا بعض المخزون عبر Google Adsense. يتوفر رعاية مباشرة—استخدم النموذج أدناه."
+      },
+      "inventoryHeader": "المخزون والمواصفات",
+      "placement": {
+        "displayBadge": "العرض",
+        "acceptedSizes": "الأحجام المقبولة",
+        "adsenseSlot": "مكان أدسنس:"
+      },
+      "noPlacementsPublic": "نحن نعمل على إنهاء مخزون الإعلانات لدينا. حدثنا عن حملتك وسنوصي بمواضع الموقع.",
+      "whyHeader": "لماذا تشاتفوريا؟",
+      "why": {
+        "highSession": "تكرار الجلسة العالي ووقت البقاء في واجهة الدردشة",
+        "brandSafe": "صيغ آمنة للعلامة التجارية؛ تحديد التردد المحترم",
+        "sponsoredMoments": "اللحظات المدعومة (مثل نمط \"بدء دردشة\") متاحة",
+        "deals": "عروض مباشرة أو برمجية عبر AdSense/إعلانات Google"
+      },
+      "contactHeader": "الاتصال",
+      "form": {
+        "submittedMsg": "شكرا! استفسارك في الطريق. سنتابع قريبا.",
+        "missingRequired": "يرجى تعبئة الاسم، البريد الإلكتروني، والرسالة.",
+        "successToast": "شكرا! سنتواصل قريبا.",
+        "mailtoInfo": "فتح عميل البريد الإلكتروني لإرسال الاستفسار...",
+        "nameLabel": "اسمك",
+        "namePlaceholder": "جين دو",
+        "emailLabel": "البريد الإلكتروني",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "الشركة",
+        "companyPlaceholder": "شركة أكمي",
+        "budgetLabel": "الميزانية الشهرية (اختياري)",
+        "budgetPlaceholder": "e.g. $1,000–$20,000+",
+        "messageLabel": "حدثنا عن حملتك",
+        "messagePlaceholder": "الاستهداف، التواريخ، مؤشرات الأداء الرئيسية، تفضيلات الموقع...",
+        "sendCta": "أرسل استفسارا"
+      },
+      "legal": {
+        "disclaimerStart": "بتقديمك، توافق على",
+        "terms": "المصطلحات",
+        "and": "و",
+        "privacy": "سياسة الخصوصية"
       }
     }
-  },
-
-  "contact": {
-    "title": "اتصل بنا",
-    "successMsg": "شكرًا — سيرد فريقنا عبر البريد الإلكتروني.",
-    "errorSend": "تعذّر الإرسال. يُرجى مراسلة support@chatforia.com.",
-    "form": {
-      "nameLabel": "الاسم",
-      "emailLabel": "البريد الإلكتروني",
-      "messageLabel": "الرسالة",
-      "sendCta": "إرسال"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "سياسة الخصوصية",
-    "lastUpdated": "آخر تحديث:",
-    "intro": {
-      "body": "توضح سياسة الخصوصية هذه كيف تجمع Chatforia («نحن») المعلومات وتستخدمها وتشاركها عند استخدام تطبيقاتنا وخدماتنا. نصمّم Chatforia لتقليل البيانات التي يمكننا الوصول إليها."
-    },
-    "infoWeCollect": {
-      "title": "المعلومات التي نجمعها",
-      "account": "معلومات الحساب (مثل البريد/الهاتف) لإنشاء حسابك وتأمينه.",
-      "encrypted": "المحتوى المشفر (الرسائل/المكالمات) مشفر طرف-لطرف؛ لا يمكننا قراءته.",
-      "diagnostics": "تشخيصات/استخدام مثل سجلات الأعطال، نوع الجهاز، أو تحليلات عامة لتحسين الأداء."
-    },
-    "howWeUse": {
-      "title": "كيف نستخدم المعلومات",
-      "provide": "تقديم الخدمة وتأمينها (المصادقة، كشف الرسائل المزعجة/الإساءة).",
-      "improve": "تحسين الميزات (جودة الترجمة والموثوقية).",
-      "legal": "الامتثال للالتزامات القانونية."
-    },
-    "sharing": {
-      "title": "المشاركة",
-      "body": "لا نبيع البيانات الشخصية. قد نشارك بيانات محدودة مع معالِجين (مثل الإشعارات الفورية، التحليلات) بموجب عقود صارمة."
-    },
-    "rights": {
-      "title": "حقوقك",
-      "body": "بحسب منطقتك (مثل GDPR/UK GDPR/CPRA) قد تطلب الوصول أو التصحيح أو الحذف أو الانسحاب من معالجة معينة. تواصل: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "الاحتفاظ بالبيانات والأمان",
-      "body": "نحتفظ فقط بما يلزم لتشغيل الخدمة ونطبّق معايير أمان صناعية. لا يمكننا فك تشفير المحتوى طرف-لطرف."
-    },
-    "children": {
-      "title": "الأطفال",
-      "body": "Chatforia غير موجّه للأطفال دون 13 عامًا (أو حسب قانون منطقتك)."
-    },
-    "changes": {
-      "title": "التغييرات",
-      "body": "سننشر التحديثات هنا ونحدّث تاريخ «آخر تحديث»."
-    },
-    "contact": {
-      "title": "التواصل",
-      "body": "privacy@chatforia.com • [الاسم القانوني للشركة]، [العنوان]"
-    }
-  },
-
-  "terms": {
-    "title": "شروط الخدمة",
-    "lastUpdated": "آخر تحديث:",
-    "intro": {
-      "body": "باستخدامك Chatforia فإنك توافق على هذه الشروط. إن لم توافق، فلا تستخدم الخدمة."
-    },
-    "accounts": {
-      "title": "الحسابات",
-      "itemAccurateInfo": "قدّم معلومات دقيقة واحفظ بيانات الدخول بأمان.",
-      "itemResponsibility": "أنت مسؤول عن النشاط على حسابك."
-    },
-    "acceptableUse": {
-      "title": "الاستخدام المقبول",
-      "itemNoAbuse": "لا محتوى غير قانوني أو مسيء أو مخالف للحقوق؛ لا رسائل مزعجة أو إساءة آلية.",
-      "itemSuspend": "قد نوقف/ننهي الخدمة عند الانتهاك."
-    },
-    "yourContent": {
-      "title": "محتواك",
-      "body": "تحتفظ بحقوق محتواك. تمنحنا الحقوق اللازمة لتشغيل الخدمة (مثل التوجيه والتخزين والترجمة)."
-    },
-    "disclaimer": {
-      "title": "إخلاءات المسؤولية والمسؤولية القانونية",
-      "body": "تُقدَّم الخدمة «كما هي» دون ضمانات. لأقصى ما يسمح به القانون، لا تتحمل Chatforia مسؤولية الأضرار غير المباشرة أو التبعية."
-    },
-    "changes": {
-      "title": "التغييرات",
-      "body": "قد نحدّث هذه الشروط؛ استمرارك يعني القبول."
-    },
-    "contact": {
-      "title": "التواصل",
-      "body": "support@chatforia.com • [الاسم القانوني للشركة]، [العنوان]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "عدم بيع أو مشاركة معلوماتي الشخصية",
-    "body": "لا تبيع Chatforia المعلومات الشخصية. لا يزال بإمكان سكان كاليفورنيا تقديم طلبات بموجب CPRA باستخدام الزر أدناه.",
-    "cta": "إرسال طلب"
-  },
-
-  "cookies": {
-    "title": "إعدادات ملفات تعريف الارتباط",
-    "body": "تستخدم Chatforia ملفات تعريف ارتباط قليلة (مثل الجلسة والأمان). لا نستخدم ملفات تعريف ارتباط إعلانات لطرف ثالث. يمكنك إدارتها من إعدادات متصفحك."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "تعذّر تحميل حالة رقم الهاتف.",
-    "lock": "قفل",
-    "noNumberAssigned": "لا يوجد رقم مخصّص. اختر حسب رمز المنطقة لبدء المراسلة.",
-    "pickNumber": "اختر رقمًا",
-    "phoneNumber": "رقم الهاتف"
-  },
-
-  "startChatModal": {
-    "title": "بدء دردشة",
-    "quickPicker": "منتقي سريع",
-    "to": "إلى",
-    "nameOrUsername": "اكتب اسمًا أو اسم مستخدم",
-    "nameUsernamePhoneEmail": "اكتب اسمًا أو اسم مستخدم أو هاتفًا أو بريدًا…",
-    "startWithSelected": "بدء دردشة مع المحددين",
-    "searchByUsernameOrPhone": "ابحث بواسطة اسم المستخدم أو الهاتف",
-    "search": "بحث",
-    "searchPrompt": "اكتب اسم مستخدم أو هاتف ثم اضغط بحث.",
-    "pickFromContacts": "أو اختر من جهات الاتصال",
-    "addContact": "إضافة جهة اتصال",
-    "show": "عرض",
-    "add": "إضافة",
-    "close": "إغلاق",
-    "selectedCount": "{{count}} محدد",
-    "pickAtLeastOne": "اختر مستلمًا واحدًا على الأقل.",
-    "saveContactsHint": "ستتوفر إدخالات الهاتف/البريد بعد حفظها كجهات اتصال.",
-    "failedBulkStart": "فشل بدء الدردشة مع المستلمين المحددين.",
-    "noResults": "لا نتائج",
-    "mode": "الوضع",
-    "group": "مجموعة",
-    "broadcast": "بث",
-    "groupNameOptional": "اسم المجموعة (اختياري)",
-    "firstMessageOptional": "الرسالة الأولى (اختيارية ولكن مستحسنة)",
-    "createGroup": "إنشاء مجموعة",
-    "sendBroadcast": "إرسال بث"
-  },
-
-  "themes": {
-    "amoled": "أمولِد",
-    "aurora": "أورورا",
-    "neon": "نيون",
-    "sunset": "غروب",
-    "solarized": "سولارايزد",
-    "velvet": "مخملي"
-  },
-
-  "sounds": {
-    "freeNotice": "أنت على الخطة المجانية — تظهر النغمات المميزة لكنها مقفلة. قم بالترقية لفتح الكل.",
-    "preview": "معاينة",
-    "resetToDefaults": "إعادة الضبط للإعدادات الافتراضية",
-    "notificationSounds": "أصوات الإشعارات",
-    "messageTone": "نغمة الرسالة",
-    "default": "افتراضي",
-    "vibrate": "اهتزاز",
-    "dreamer": "دريمر",
-    "notify": "نوتيفاي",
-    "pop": "بوب",
-    "pulsatingSound": "نبضي",
-    "textMessage": "رسالة نصية",
-    "xylophone": "إكسيليفون",
-    "classic": "كلاسيك",
-    "urgency": "عاجل",
-    "bells": "أجراس",
-    "chimes": "رنات",
-    "digitalPhone": "هاتف رقمي",
-    "melodic": "لحني",
-    "organNotes": "نغمات أورغ",
-    "soundReality": "ساوند رياليتي",
-    "street": "ستريت",
-    "universfield": "يونيفِرسفيلد"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "هذه الميزة تتطلب خطة بريميوم."
-  },
-
-  "aiSettings": {
-    "title": "إعدادات الذكاء الاصطناعي",
-    "controlIntro": "تحكّم بالترجمة، والردود الذكية، وردود ForiaBot التلقائية.",
-    "save": "حفظ إعدادات الذكاء الاصطناعي",
-    "autoTranslateIncoming": "ترجمة الرسائل الواردة تلقائيًا",
-    "showOriginalAlongside": "عرض النص الأصلي بجانب الترجمة",
-    "enableSmartReplies": "تفعيل الردود الذكية",
-    "smartRepliesHint": "أرسل آخر رسائل مستلمة (منقّحة) للذكاء الاصطناعي لاقتراح ردود سريعة.",
-    "maskProfanity": "إخفاء الألفاظ النابية في الاقتراحات",
-    "maskProfanityHint": "عند التفعيل، سيتم إخفاء الكلمات المعلمة في الاقتراحات.",
-    "foriaBot": "ForiaBot للرد التلقائي",
-    "enableAutoReply": "تفعيل الرد التلقائي عند الانشغال",
-    "autoReplyMode": "وضع الرد التلقائي",
-    "cooldownSeconds": "فترة التهدئة (ثوانٍ)",
-    "off": "إيقاف",
-    "on": "تشغيل",
-    "signature": "التوقيع",
-    "autoReply": "رد تلقائي",
-    "activeUntilOptional": "نشط حتى (اختياري)",
-    "saved": "تم حفظ تفضيلات الذكاء الاصطناعي",
-    "saveFailed": "فشل حفظ إعدادات الذكاء الاصطناعي",
-    "translateOff": "إيقاف",
-    "translateTagged": "فقط عند @translated أو الوسم",
-    "translateAll": "ترجمة كل الرسائل الواردة",
-    "modeDm": "الدردشات الثنائية فقط",
-    "modeMention": "فقط عند ذكري @",
-    "modeAll": "كل الرسائل الواردة"
-  },
-
-  "accessibilitySettings": {
-    "title": "إمكانية الوصول والتنبيهات",
-    "accessibility": "إمكانية الوصول",
-    "accessibilityDesc": "خيارات تجعل استخدام Chatforia أسهل دون الاعتماد على الصوت.",
-    "interfaceFontSize": "حجم خط الواجهة",
-    "interfaceFontSizeHelp": "يبدأ بالحجم العادي. زِده إن فضّلت نصًا أكبر.",
-    "sm": "صغير",
-    "md": "متوسط",
-    "lg": "كبير",
-    "xl": "كبير جدًا",
-    "notifications": "الإشعارات",
-    "notificationsDesc": "تنبيهات مرئية للرسائل والمكالمات\nإظهار لافتات ولمعان العنوان كي لا تفوتك النشاطات.",
-    "vibrateOnNew": "اهتزاز عند الرسائل الجديدة (عند الدعم)\nتفعيل اهتزاز الجهاز مع الإشعارات.",
-    "flashOnCall": "وميض الشاشة عند المكالمة الواردة\nوميض ساطع قصير عند رنين مكالمة.",
-    "liveCaptions": "ترجمة فورية (المكالمات)",
-    "captionFontSize": "حجم خط الترجمة الفورية",
-    "captionBackground": "خلفية الترجمة",
-    "light": "فاتح",
-    "dark": "داكن",
-    "transparent": "شفاف",
-    "voiceNotes": "الملاحظات الصوتية",
-    "autoTranscribeVoiceNotes": "نسخ الملاحظات الصوتية تلقائيًا\nإرفاق نص مفرّغ للرسائل الصوتية المستلمة.",
-    "changesSavedInstantly": "يتم حفظ التغييرات فورًا.",
-    "loadFailed": "فشل تحميل الإعدادات",
-    "visualAlerts": "تنبيهات مرئية للرسائل والمكالمات",
-    "visualAlertsDesc": "إظهار لافتات ولمعان العنوان كي لا تفوتك النشاطات.",
-    "vibrateOnNewShort": "اهتزاز عند الرسائل الجديدة (عند الدعم)",
-    "vibrateOnNewDesc": "تفعيل اهتزاز الجهاز مع الإشعارات.",
-    "flashOnCallShort": "وميض الشاشة عند المكالمة الواردة",
-    "flashOnCallDesc": "وميض ساطع قصير عند رنين مكالمة."
-  },
-
-  "privacySection": {
-    "strictE2EE": "تشفير طرف-لطرف صارم",
-    "ciphertextOnlyNote": "تخزين النص المشفر فقط على الخادم. يعطّل المعاينات للذكاء الاصطناعي/الترجمة والإشراف."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "الأجهزة المرتبطة",
-    "noneFound": "لا توجد أجهزة مرتبطة.",
-    "refresh": "تحديث"
-  },
-
-  "help": {
-    "title": "مساعدة",
-    "howCanWeHelp": "كيف يمكننا مساعدتك؟",
-    "helpCenter": "مركز المساعدة",
-    "contactUs": "تواصل معنا",
-    "quickTopics": "مواضيع سريعة",
-    "searchExamples": "جرّب البحث عن «الترجمة»، «النسخ الاحتياطي»، أو «الخصوصية».",
-    "cantLogin": "لا أستطيع تسجيل الدخول",
-    "paymentsBilling": "المدفوعات/الفوترة",
-    "reportAbuse": "الإبلاغ عن إساءة",
-    "searchHelpArticles": "ابحث في مقالات المساعدة",
-    "search": "بحث"
-  },
-
-  "peoplePage": {
-    "people": "الأشخاص",
-    "search": "بحث",
-    "searchPlaceholder": "ابحث بالاسم المستعار أو الاسم أو اسم المستخدم أو الهاتف",
-    "filterSaved": "تصفية جهات الاتصال المحفوظة",
-    "noContactsFound": "لا توجد جهات اتصال",
-    "quickStart": "بدء سريع",
-    "quickStartDesc": "بعض الطرق السريعة للانطلاق.",
-    "importContacts": "استيراد جهات الاتصال",
-    "add": "إضافة",
-    "focusSearch": "تركيز البحث",
-    "import": "استيراد",
-    "findOrAdd": "ابحث أو أضف شخصًا",
-    "searchByPhoneOrUsername": "ابحث بالهاتف / اسم المستخدم",
-    "inviteFriends": "دعوة الأصدقاء",
-    "inviteDesc": "شارك رابط الدعوة لتبدأ الدردشة فورًا.",
-    "getTheApp": "احصل على التطبيق",
-    "getTheAppDesc": "ابقَ على تواصل أثناء التنقل مع Chatforia على iOS وAndroid.",
-    "download": "تنزيل",
-    "syncTip": "نصيحة: تبقى رسائلك متزامنة عبر الويب والجوال."
-  },
-
-  "randomChat": {
-    "title": "دردشة عشوائية",
-    "description": "قابل شخصًا جديدًا فورًا. سنطابقك ونفتح غرفة دردشة مؤقتة.",
-    "findMatch": "ابحث لي عن شريك",
-    "chatWithForia": "الدردشة مع Foria",
-    "chatWithForiaBot": "الدردشة مع ForiaBot",
-    "cancel": "إلغاء",
-    "close": "إغلاق",
-    "searching": "جارٍ البحث…",
-    "finding": "جارٍ الإيجاد…",
-    "looking": "جارٍ البحث عن شخص…",
-    "startingForia": "بدء دردشة مع Foria…",
-    "partnerDisconnected": "انقطع اتصال الشريك.",
-    "noPartner": "لا يوجد شريك الآن.",
-    "connectedTo": "متصل بـ {{name}}",
-    "connected": "متصل",
-    "idle": "خامل",
-    "partnerLeft": "غادر الشريك.",
-    "stopped": "تم الإيقاف.",
-    "skip": "تخطي",
-    "save": "حفظ",
-    "saveGuard": "لا يمكن حفظ سوى دردشات إنسان-لإنسان",
-    "youAreChattingWith": "أنت تدردش مع {{name}}",
-    "bot": "روبوت",
-    "leave": "مغادرة",
-    "sayHi": "قل مرحبًا 👋",
-    "you": "أنت",
-    "typeMessage": "اكتب رسالة",
-    "send": "إرسال",
-    "partner": "الشريك",
-    "withForia": "مع Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "فتح قائمة التنقل",
-    "closeNav": "إغلاق قائمة التنقل",
-    "homeAria": "الصفحة الرئيسية لـ Chatforia"
-  },
-
-  "login": {
-    "title": "مرحبًا بعودتك",
-    "subtitle": "سجّل الدخول إلى حسابك في Chatforia",
-    "google": "تابع باستخدام Google",
-    "apple": "تابع باستخدام Apple",
-    "googleUnavailable": "تسجيل Google غير متاح",
-    "appleUnavailable": "تسجيل Apple غير متاح",
-    "or": "أو",
-    "email": "البريد الإلكتروني",
-    "emailPh": "you@example.com",
-    "usernameLabel": "اسم المستخدم",
-    "usernamePh": "اسم المستخدم",
-    "passwordLabel": "كلمة المرور",
-    "passwordPh": "كلمة المرور",
-    "keepSignedIn": "إبقني مسجلاً للدخول",
-    "forgot": "هل نسيت كلمة المرور؟",
-    "submit": "تسجيل الدخول",
-    "loggingIn": "جارٍ تسجيل الدخول…",
-    "newHere": "جديد هنا؟ <link>أنشئ حسابًا</link>",
-    "ssoUnavailable": "تسجيل الدخول الموحّد غير متاح حاليًا. استخدم اسم المستخدم وكلمة المرور.",
-    "error": {
-      "missing": "يرجى إدخال بيانات الدخول.",
-      "invalid": "اسم المستخدم أو كلمة المرور غير صحيحة",
-      "denied": "تم رفض الوصول.",
-      "unprocessable": "طلب غير صالح. تحقق من اسم المستخدم/البريد وكلمة المرور.",
-      "deviceLimit": "تم بلوغ حد الأجهزة لخطة «مجاني». سجّل الخروج من جهاز آخر أو قم بالترقية إلى «بريميوم» لربط المزيد.",
-      "premiumRequired": "هذا الإجراء يتطلب خطة بريميوم."
-    }
-  }
 }
+

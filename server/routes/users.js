@@ -493,7 +493,15 @@ router.patch('/me', requireAuth, async (req, res) => {
 router.post(
   '/me/avatar',
   requireAuth,
-  uploadAvatar.single('avatar'), // field name must match formData.append('avatar', file)
+  (req, res, next) => {
+    uploadAvatar.single('avatar')(req, res, (err) => {
+      if (err) {
+        console.error('🚨 Multer avatar upload error:', err);
+        return res.status(400).json({ error: err.message || 'Upload rejected' });
+      }
+      next();
+    });
+  },
   async (req, res) => {
     try {
       if (!req.user) {
@@ -505,7 +513,6 @@ router.post(
         return res.status(400).json({ error: 'No file uploaded' });
       }
 
-      // --- decide filename ---
       const originalExt = path.extname(req.file.originalname || '').toLowerCase();
       const ext = originalExt || '.jpg';
 
@@ -516,20 +523,15 @@ router.post(
 
       const filename = `${req.user.id}_${Date.now()}_${safeBase}${ext}`;
 
-      // --- write file, depending on TARGET ---
       let finalFilename = filename;
 
       if (uploadDirs.TARGET === 'memory') {
-        // memory → write to AVATARS_DIR ourselves
         const fullPath = path.join(uploadDirs.AVATARS_DIR, filename);
         await fs.promises.writeFile(fullPath, req.file.buffer);
       } else {
-        // disk mode: multer already wrote a file into AVATARS_DIR
-        // use the actual stored name in case diskStorage changed it
         finalFilename = req.file.filename || filename;
       }
 
-      // optional antivirus scan
       try {
         const fullForScan = path.join(uploadDirs.AVATARS_DIR, finalFilename);
         await scanFile(fullForScan);
@@ -538,8 +540,7 @@ router.post(
         return res.status(400).json({ error: 'File failed security checks' });
       }
 
-      // URL that frontend will use
-      const avatarUrl = `/uploads/avatar/${finalFilename}`;
+      const avatarUrl = `/uploads/avatars/${finalFilename}`;
 
       const updated = await prisma.user.update({
         where: { id: Number(req.user.id) },

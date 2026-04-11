@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Button,
@@ -24,9 +25,20 @@ import {
 
 export default function EncryptionRecoveryCard({
   blocked = false,
-  title = 'Manage Encryption',
-  description = 'Back up, restore, unlock, or reset your encryption key.',
+  title,
+  description,
 }) {
+  const { t } = useTranslation();
+
+  const resolvedTitle =
+    title || t('encryptionRecovery.title', 'Manage Encryption');
+  const resolvedDescription =
+    description ||
+    t(
+      'encryptionRecovery.description',
+      'Back up, restore, unlock, or reset your encryption key.'
+    );
+
   const {
     currentUser,
     setNeedsKeyUnlock,
@@ -53,7 +65,12 @@ export default function EncryptionRecoveryCard({
     const meta = await getLocalKeyBundleMeta();
 
     if (!serverKey || !meta?.publicKey || meta.publicKey !== serverKey) {
-      throw new Error('Key restore incomplete or incorrect for this account');
+      throw new Error(
+        t(
+          'encryptionRecovery.errors.restoreIncomplete',
+          'Key restore incomplete or incorrect for this account'
+        )
+      );
     }
 
     setKeyMeta(meta);
@@ -77,7 +94,12 @@ export default function EncryptionRecoveryCard({
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-      setExportMsg('Key backup created and downloaded.');
+      setExportMsg(
+        t(
+          'encryptionRecovery.messages.backupCreated',
+          'Key backup created and downloaded.'
+        )
+      );
     } catch (e) {
       setExportMsg(`Error: ${e.message}`);
     } finally {
@@ -95,7 +117,9 @@ export default function EncryptionRecoveryCard({
 
       await validateAndFinishRestore();
 
-      setExportMsg('Encryption key unlocked.');
+      setExportMsg(
+        t('encryptionRecovery.messages.keyUnlocked', 'Encryption key unlocked.')
+      );
     } catch (e) {
       setExportMsg(`Error: ${e.message}`);
     } finally {
@@ -112,19 +136,39 @@ export default function EncryptionRecoveryCard({
       const payload = data?.keys;
 
       if (!data?.hasBackup || !payload?.encryptedPrivateKeyBundle) {
-        throw new Error('No encrypted backup exists for this account');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.noBackup',
+            'No encrypted backup exists for this account'
+          )
+        );
       }
 
       if (!payload?.publicKey) {
-        throw new Error('Backup is missing a public key');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.missingPublicKey',
+            'Backup is missing a public key'
+          )
+        );
       }
 
       if (!serverKey) {
-        throw new Error('This account does not currently expose a server public key');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.noServerPublicKey',
+            'This account does not currently expose a server public key'
+          )
+        );
       }
 
       if (payload.publicKey.trim() !== serverKey) {
-        throw new Error('Server backup does not match the current account encryption key');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.serverBackupMismatch',
+            'Server backup does not match the current account encryption key'
+          )
+        );
       }
 
       const encryptedPayload =
@@ -136,7 +180,12 @@ export default function EncryptionRecoveryCard({
       const iterations = Number(payload.privateKeyWrapIterations || 250000);
 
       if (!saltB64 || !payload.privateKeyWrapKdf || !iterations) {
-        throw new Error('Backup metadata is incomplete');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.incompleteMetadata',
+            'Backup metadata is incomplete'
+          )
+        );
       }
 
       const te = new TextEncoder();
@@ -177,10 +226,15 @@ export default function EncryptionRecoveryCard({
 
       persistUnlockPasscodeForSession(newLocalPasscode);
 
-       await installLocalPrivateKeyBundle(bundle, newLocalPasscode);
+      await installLocalPrivateKeyBundle(bundle, newLocalPasscode);
 
       await validateAndFinishRestore();
-      setImportMsg('Key restored from account backup.');
+      setImportMsg(
+        t(
+          'encryptionRecovery.messages.keyRestored',
+          'Key restored from account backup.'
+        )
+      );
     } catch (e) {
       setImportMsg(`Error: ${e.message}`);
     } finally {
@@ -190,7 +244,10 @@ export default function EncryptionRecoveryCard({
 
   const onReset = async () => {
     const confirmed = window.confirm(
-      'Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later.'
+      t(
+        'encryptionRecovery.confirm.reset',
+        'Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later.'
+      )
     );
     if (!confirmed) return;
 
@@ -220,12 +277,22 @@ export default function EncryptionRecoveryCard({
 
       const meta = await getLocalKeyBundleMeta();
       if (!meta?.publicKey || meta.publicKey !== publicKey) {
-        throw new Error('Encryption reset did not complete correctly');
+        throw new Error(
+          t(
+            'encryptionRecovery.errors.resetIncomplete',
+            'Encryption reset did not complete correctly'
+          )
+        );
       }
 
       setKeyMeta(meta);
       setNeedsKeyUnlock(false);
-      setResetMsg('Encryption reset successfully.');
+      setResetMsg(
+        t(
+          'encryptionRecovery.messages.resetSuccess',
+          'Encryption reset successfully.'
+        )
+      );
     } catch (e) {
       setResetMsg(`Error: ${e.message}`);
     } finally {
@@ -252,36 +319,63 @@ export default function EncryptionRecoveryCard({
     <Card withBorder padding="lg" radius="md">
       <Stack gap="md">
         <div>
-          <Title order={blocked ? 2 : 4}>{title}</Title>
+          <Title order={blocked ? 2 : 4}>{resolvedTitle}</Title>
           <Text c="dimmed" mt={4}>
-            {description}
+            {resolvedDescription}
           </Text>
         </div>
 
         {blocked && (
-          <Alert color="yellow" title="Encryption key required">
+          <Alert
+            color="yellow"
+            title={t(
+              'encryptionRecovery.alert.keyRequiredTitle',
+              'Encryption key required'
+            )}
+          >
             {authError ||
-              'This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.'}
+              t(
+                'encryptionRecovery.alert.keyRequiredBody',
+                'This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.'
+              )}
           </Alert>
         )}
 
-        <Divider label="Create key backup" />
+        <Divider
+          label={t('encryptionRecovery.sections.createBackup', 'Create key backup')}
+        />
 
         <PasswordInput
-          label="Unlock passcode (current device)"
+          label={t(
+            'encryptionRecovery.fields.unlockPasscode.label',
+            'Unlock passcode (current device)'
+          )}
           value={unlockPasscode}
           onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
-          description="Used to decrypt your keys locally before exporting"
+          description={t(
+            'encryptionRecovery.fields.unlockPasscode.description',
+            'Used to decrypt your keys locally before exporting'
+          )}
         />
         <PasswordInput
-          label="Backup password"
+          label={t(
+            'encryptionRecovery.fields.backupPassword.label',
+            'Backup password'
+          )}
           value={backupPassword}
           onChange={(e) => setBackupPassword(e.currentTarget.value)}
-          description="Used to encrypt the backup file"
+          description={t(
+            'encryptionRecovery.fields.backupPassword.description',
+            'Used to encrypt the backup file'
+          )}
         />
         <Group justify="flex-end">
-          <Button onClick={onUnlock} loading={busyExport} disabled={!unlockPasscode || unlockPasscode.length < 6}>
-            Unlock encryption key
+          <Button
+            onClick={onUnlock}
+            loading={busyExport}
+            disabled={!unlockPasscode || unlockPasscode.length < 6}
+          >
+            {t('encryptionRecovery.actions.unlockKey', 'Unlock encryption key')}
           </Button>
         </Group>
         {!!exportMsg && (
@@ -290,19 +384,36 @@ export default function EncryptionRecoveryCard({
           </Text>
         )}
 
-        <Divider label="Restore from account backup" />
+        <Divider
+          label={t(
+            'encryptionRecovery.sections.restoreFromBackup',
+            'Restore from account backup'
+          )}
+        />
 
         <PasswordInput
-          label="Backup password"
+          label={t(
+            'encryptionRecovery.fields.restoreBackupPassword.label',
+            'Backup password'
+          )}
           value={importPassword}
           onChange={(e) => setImportPassword(e.currentTarget.value)}
-          description="The password you created when backing up your key on iPhone"
+          description={t(
+            'encryptionRecovery.fields.restoreBackupPassword.description',
+            'The password you created when backing up your key on iPhone'
+          )}
         />
         <PasswordInput
-          label="New local passcode"
+          label={t(
+            'encryptionRecovery.fields.newLocalPasscode.label',
+            'New local passcode'
+          )}
           value={newLocalPasscode}
           onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-          description="Protect keys at rest on this browser"
+          description={t(
+            'encryptionRecovery.fields.newLocalPasscode.description',
+            'Protect keys at rest on this browser'
+          )}
         />
         <Group justify="flex-end">
           <Button
@@ -310,7 +421,10 @@ export default function EncryptionRecoveryCard({
             loading={busyImport}
             disabled={importDisabled}
           >
-            Restore from account backup
+            {t(
+              'encryptionRecovery.actions.restoreFromBackup',
+              'Restore from account backup'
+            )}
           </Button>
         </Group>
         {!!importMsg && (
@@ -319,18 +433,28 @@ export default function EncryptionRecoveryCard({
           </Text>
         )}
 
-        <Divider label="Reset encryption" />
+        <Divider
+          label={t('encryptionRecovery.sections.resetEncryption', 'Reset encryption')}
+        />
 
         <Text c="dimmed" size="sm">
-          This generates a new encryption key for your account. Older encrypted messages may become
-          unreadable unless you restore the original key later.
+          {t(
+            'encryptionRecovery.resetDescription',
+            'This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.'
+          )}
         </Text>
 
         <PasswordInput
-          label="New local passcode"
+          label={t(
+            'encryptionRecovery.fields.resetLocalPasscode.label',
+            'New local passcode'
+          )}
           value={newLocalPasscode}
           onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-          description="Required before resetting so the new key is protected on this device"
+          description={t(
+            'encryptionRecovery.fields.resetLocalPasscode.description',
+            'Required before resetting so the new key is protected on this device'
+          )}
         />
 
         <Group justify="flex-end">
@@ -341,7 +465,7 @@ export default function EncryptionRecoveryCard({
             loading={busyReset}
             disabled={resetDisabled}
           >
-            Reset Encryption
+            {t('encryptionRecovery.actions.resetEncryption', 'Reset Encryption')}
           </Button>
         </Group>
         {!!resetMsg && (

@@ -17,9 +17,11 @@ import {
   installLocalPrivateKeyBundle,
 } from '@/utils/encryptionClient';
 import { useUser } from '@/context/UserContext';
+import { useTranslation } from 'react-i18next';
 
 export default function KeyBackupManager() {
   const { currentUser, setNeedsKeyUnlock } = useUser();
+  const { t } = useTranslation();
 
   // Export state
   const [unlockPasscode, setUnlockPasscode] = useState('');
@@ -52,9 +54,15 @@ export default function KeyBackupManager() {
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-      setExportMsg('Key backup created and downloaded ✓');
+      setExportMsg(
+        t('keys.backupCreated', 'Key backup created and downloaded ✓')
+      );
     } catch (e) {
-      setExportMsg(`Error: ${e.message}`);
+      setExportMsg(
+        t('common.errorWithMessage', 'Error: {{message}}', {
+          message: e.message,
+        })
+      );
     } finally {
       setBusyExport(false);
     }
@@ -69,11 +77,15 @@ export default function KeyBackupManager() {
       const payload = data?.keys;
 
       if (!data?.hasBackup || !payload?.encryptedPrivateKeyBundle) {
-        throw new Error('No encrypted backup exists for this account');
+        throw new Error(
+          t('keys.noBackup', 'No encrypted backup exists for this account')
+        );
       }
 
       if (!payload?.publicKey) {
-        throw new Error('Backup is missing a public key');
+        throw new Error(
+          t('keys.missingPublicKey', 'Backup is missing a public key')
+        );
       }
 
       const serverKey = (currentUser?.publicKey || '').trim();
@@ -143,7 +155,9 @@ export default function KeyBackupManager() {
       }
 
       setNeedsKeyUnlock(false);
-      setImportMsg('Key backup restored ✓ Keys installed locally');
+      setImportMsg(
+        t('keys.restored', 'Key backup restored ✓ Keys installed locally')
+      );
     } catch (e) {
       setImportMsg(`Error: ${e.message}`);
     } finally {

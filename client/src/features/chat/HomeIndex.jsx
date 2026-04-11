@@ -16,6 +16,7 @@ import { IconX } from '@tabler/icons-react';
 import ThreadShell from '@/threads/ThreadShell';
 import ThreadComposer from '@/threads/ThreadComposer.jsx';
 import axiosClient from '@/api/axiosClient';
+import { useTranslation } from 'react-i18next';
 
 /* ---------- helpers ---------- */
 function normalizePhone(raw) {
@@ -156,6 +157,8 @@ export default function HomeIndex({ currentUser }) {
   // composer draft (first message)
   const [draft, setDraft] = useState('');
 
+  const { t } = useTranslation();
+
   const mode = useMemo(() => {
     if (recipients.length === 0) return null;
     const allPhones = recipients.every(looksLikePhone);
@@ -188,7 +191,7 @@ export default function HomeIndex({ currentUser }) {
 
   // keep current multi-recipient behavior blocked for now, surgically
   if (recipients.length !== 1) {
-    alert('Please enter one recipient for now.');
+    alert(t('home.oneRecipient', 'Please enter one recipient for now.'));
     return;
   }
 
@@ -200,7 +203,7 @@ export default function HomeIndex({ currentUser }) {
     const resolved = await resolveTypedRecipient(typedRecipient);
 
     if (!resolved) {
-      alert('Enter a saved contact name or a phone number.');
+      alert(t('home.enterValidRecipient', 'Enter a saved contact name or a phone number.'));
       setDraft(firstMessage);
       return;
     }
@@ -241,7 +244,7 @@ export default function HomeIndex({ currentUser }) {
     return;
   }
 
-  alert('Send failed. Check console for details.');
+  alert(t('home.sendFailed', 'Send failed. Check console for details.'));
 }
 };
 
@@ -284,8 +287,8 @@ export default function HomeIndex({ currentUser }) {
               )}
 
               <Group gap="xs" wrap="nowrap" align="center">
-                <Text fw={600} style={{ minWidth: 32 }}>
-                  To:
+                <Text fw={600}>
+                  {t('home.to', 'To:')}
                 </Text>
 
                 <Box style={{ flex: 1, minWidth: 0 }}>
@@ -293,7 +296,7 @@ export default function HomeIndex({ currentUser }) {
                     ref={toInputRef}
                     value={toRaw}
                     onChange={(e) => setToRaw(e.currentTarget.value)}
-                    placeholder="Enter a name or number"
+                    placeholder={t('home.enterRecipient', 'Enter a name or number')}
                     variant="unstyled"
                     styles={{
                       input: {
@@ -311,11 +314,11 @@ export default function HomeIndex({ currentUser }) {
                   )}
                 </Box>
 
-                <Tooltip label="Clear" withArrow>
+                <Tooltip label={t('common.clear', 'Clear')}withArrow>
                   <ActionIcon
                     variant="subtle"
                     onClick={clearAll}
-                    aria-label="Clear recipients"
+                    aria-label={t('home.clearRecipients', 'Clear recipients')}
                   >
                     <IconX size={16} />
                   </ActionIcon>
@@ -325,7 +328,9 @@ export default function HomeIndex({ currentUser }) {
               {mode && mode !== 'mixed' && (
                 <Group mt={10} gap="xs">
                   <Badge variant="light" radius="sm">
-                    {mode === 'sms' ? 'SMS' : 'Chatforia'}
+                    {mode === 'sms'
+                      ? t('home.sms', 'SMS')
+                      : t('home.chatforia', 'Chatforia')}
                   </Badge>
                 </Group>
               )}
@@ -339,8 +344,8 @@ export default function HomeIndex({ currentUser }) {
               onChange={setDraft}
               placeholder={
                 recipients.length
-                  ? 'Type a message…'
-                  : 'Add a recipient above to start…'
+                  ? t('home.typeMessage', 'Type a message…')
+                  : t('home.addRecipient', 'Add a recipient above to start…')
               }
               onSend={handleSend}
               features={{

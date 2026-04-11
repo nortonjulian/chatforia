@@ -43,6 +43,7 @@ import { premiumPreviewEnabled } from '../utils/premiumPreview.js';
 
 import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
 import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
+import AppAvatar from '@/components/AppAvatar';
 
 /* Phone number */
 import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
@@ -140,13 +141,18 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     ''; // '' works in dev if Vite proxies /uploads to the API
 
   const getAvatarSrc = (userLike) => {
-    if (avatarLoadFailed || !userLike?.avatarUrl) return '/default-avatar.png';
+    if (!userLike?.avatarUrl) return '/default-avatar.png';
 
     if (userLike.avatarUrl.startsWith('http')) {
       return userLike.avatarUrl;
     }
 
-    return `${API_BASE}${userLike.avatarUrl}`;
+    const base =
+      API_BASE ||
+      axiosClient.defaults.baseURL ||
+      'http://localhost:5002';
+
+    return `${base}${userLike.avatarUrl}`;
   };
 
   const params = useParams();
@@ -174,8 +180,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const [planLoading, setPlanLoading] = useState(false);
   const [planError, setPlanError] = useState('');
   const [portalBusy, setPortalBusy] = useState(false);
-
-  const [avatarLoadFailed, setAvatarLoadFailed] = useState(false);
 
   // ✅ Defaults that are safe even if currentUser is temporarily null
   const [preferredLanguage, setPreferredLanguage] = useState(
@@ -467,6 +471,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   };
   
     const handleAvatarUpload = async (file) => {
+      console.log('avatarUrl from server:', data.avatarUrl);
     if (!file) return;
 
     setAvatarError('');
@@ -491,15 +496,19 @@ export default function UserProfile({ onLanguageChange, openSection }) {
         avatarUrl: data.avatarUrl,
       }));
 
-      setAvatarLoadFailed(false);
-
       notifications.show({
         color: 'green',
         message: t('profile.avatarUpdated', 'Avatar updated!'),
       });
     } catch (err) {
       console.error('Avatar upload failed', err);
-      setAvatarError(t('profile.avatarError', 'Failed to upload avatar'));
+      console.error('Avatar upload response:', err?.response?.data);
+
+      setAvatarError(
+        err?.response?.data?.error ||
+        err?.message ||
+        t('profile.avatarError', 'Failed to upload avatar')
+      );
     } finally {
       setAvatarUploading(false);
     }
@@ -634,14 +643,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Stack gap="md">
             <Group align="center" justify="space-between">
               <Group>
-                <Avatar
-                  src={getAvatarSrc(currentUser)}
+                <AppAvatar
+                  src={getAvatarSrc(viewUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
-                  imageProps={{
-                    onError: () => setAvatarLoadFailed(true),
-                  }}
                 />
                 <div>
                   <Title order={3}>
@@ -722,8 +728,8 @@ export default function UserProfile({ onLanguageChange, openSection }) {
           <Accordion.Panel>
             <Stack gap="md">
               <Group align="center">
-                <Avatar
-                  src={getAvatarSrc(currentUser)}
+                <AppAvatar
+                  src={getAvatarSrc(viewUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"

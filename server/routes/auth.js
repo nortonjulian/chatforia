@@ -34,7 +34,12 @@ import { generateKeyPair } from '../utils/encryption.js';
 import { issueResetToken, consumeResetToken } from '../utils/resetTokens.js';
 
 const router = express.Router();
+
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET is required in production');
+}
+
 const JWT_SECRET =
   process.env.JWT_SECRET ||
   (IS_TEST ? 'test_secret' : 'dev_secret');
@@ -347,6 +352,15 @@ router.post(
         return res.status(401).json({ error: 'Invalid credentials' });
       }
 
+      console.log("LOGIN USER:", {
+        id: user?.id,
+        email: user?.email,
+        username: user?.username,
+        emailVerifiedAt: user?.emailVerifiedAt,
+        hasPasswordHash: !!user?.passwordHash,
+        twoFactorEnabled: !!user?.twoFactorEnabled,
+      });
+
       // Ensure there's a usable password hash
       let hash = user.passwordHash;
       if (!hash) {
@@ -364,6 +378,11 @@ router.post(
         ok = await bcrypt.compare(password, hash);
       } catch {}
 
+      console.log("LOGIN PASSWORD CHECK:", {
+        email: user?.email,
+        ok,
+      });
+
       // In test env: heal broken hashes if necessary
       if (!ok && String(process.env.NODE_ENV) === 'test') {
         const newHash = await bcrypt.hash(password, 10);
@@ -377,6 +396,11 @@ router.post(
       if (!ok) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
+
+      console.log("LOGIN VERIFIED CHECK:", {
+        email: user?.email,
+        emailVerifiedAt: user?.emailVerifiedAt,
+      });
 
       // Block login until verified
       if (!user.emailVerifiedAt) {
@@ -1020,6 +1044,8 @@ router.get(
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
+        email: true,
+        emailVerifiedAt: true,
         publicKey: true,
         encryptedPrivateKeyBundle: true,
         privateKeyWrapSalt: true,
@@ -1027,6 +1053,12 @@ router.get(
         privateKeyWrapIterations: true,
         privateKeyWrapVersion: true,
       },
+    });
+
+    console.log("LOGIN USER:", {
+      id: user?.id,
+      email: user?.email,
+      emailVerifiedAt: user?.emailVerifiedAt,
     });
 
     if (!user) {

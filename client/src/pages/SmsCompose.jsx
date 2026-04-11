@@ -19,6 +19,7 @@ import {
 import StickerPicker from '@/components/StickerPicker';
 import RecipientSelector from '@/components/RecipientSelector';
 import { NumberPickerModal } from '@/components/profile/PhoneNumberManager';
+import { useTranslation } from 'react-i18next';
 
 /* ---------------- helpers ---------------- */
 
@@ -80,6 +81,7 @@ export default function SmsCompose() {
   const [sending, setSending] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [numberPickerOpen, setNumberPickerOpen] = useState(false);
+  const { t } = useTranslation();
 
   const inputRef = useRef(null);
 
@@ -216,14 +218,16 @@ export default function SmsCompose() {
       }}
     >
       <Group justify="space-between" px="md" py="xs">
-        <Text fw={600}>New text</Text>
+        <Text fw={600}>
+          {t('sms.newText', 'New text')}
+        </Text>
         <Button
           variant="light"
           color="gray"
           leftSection={<IconX size={16} />}
           onClick={() => navigate(-1)}
         >
-          Cancel
+          {t('common.cancel', 'Cancel')}
         </Button>
       </Group>
 
@@ -234,7 +238,7 @@ export default function SmsCompose() {
           fetchSuggestions={fetchRecipientSuggestions}
           maxRecipients={1}
           allowRaw
-          placeholder="Enter a name or number"
+          placeholder={t('sms.enterRecipient', 'Enter a name or number')}
         />
       </Box>
 
@@ -268,7 +272,11 @@ export default function SmsCompose() {
           <Textarea
             ref={inputRef}
             variant="filled"
-            placeholder={to ? 'Type a message…' : 'Add a recipient above to start…'}
+            placeholder={
+              to
+                ? t('sms.typeMessage', 'Type a message…')
+                : t('sms.addRecipient', 'Add a recipient above to start…')
+            }
             value={text}
             onChange={(e) => setText(e.target.value)}
             autosize
@@ -289,7 +297,7 @@ export default function SmsCompose() {
             loading={sending}
             rightSection={<IconSend size={16} />}
           >
-            Send
+            {t('common.send', 'Send')}
           </Button>
         </Group>
       </Box>

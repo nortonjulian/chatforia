@@ -23,6 +23,7 @@ import {
 } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { useTranslation } from 'react-i18next';
 
 const SOCKET_URL =
   import.meta.env.VITE_API_BASE_URL || window.location.origin;
@@ -91,6 +92,7 @@ export default function RandomChatPage() {
     wantsAgeFilter: false,
   });
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+  const { t } = useTranslation();
 
   const canSend = useMemo(() => {
     return !!active?.roomId && draft.trim().length > 0;
@@ -227,7 +229,7 @@ export default function RandomChatPage() {
         systemMessage(
           payload?.username
             ? `You’re now connected with @${payload.username}.`
-            : 'You’re now connected.'
+            : t('randomChat.connected', 'You’re now connected.')
         ),
       ]);
 
@@ -247,9 +249,9 @@ export default function RandomChatPage() {
       if (reason === 'peer_skipped') {
         text = 'The other person moved on.';
       } else if (reason === 'peer_disconnected') {
-        text = 'The other person disconnected.';
+        text = t('randomChat.disconnected', 'The other person disconnected.')
       } else if (reason === 'you_skipped') {
-        text = 'You left the chat.';
+        text = t('randomChat.left', 'You left the chat.')
       }
 
       setBannerText(text);
@@ -402,9 +404,11 @@ export default function RandomChatPage() {
     <Box maw={900} mx="auto" px="md" py="lg">
       <Stack gap="lg">
         <Stack gap={6}>
-          <Title order={2}>Random Chat</Title>
+          <Title order={2}>
+            {t('randomChat.title', 'Random Chat')}
+          </Title>
           <Text c="dimmed">
-            Meet someone new instantly, or choose to chat with Ria.
+            {t('randomChat.subtitle', 'Meet someone new instantly, or choose to chat with Ria.')}
           </Text>
         </Stack>
 
@@ -419,26 +423,26 @@ export default function RandomChatPage() {
             <Stack gap="md">
               <Group justify="space-between" align="center">
                 <Stack gap={2}>
-                  <Text fw={600}>Start a conversation</Text>
+                  <Text fw={600}>{t('randomChat.start', 'Start a conversation')}</Text>
                   <Text size="sm" c="dimmed">
-                    Chat anonymously first. Add Friend later if it feels right.
+                    {t('randomChat.description', 'Chat anonymously first. Add Friend later if it feels right.')}
                   </Text>
                 </Stack>
 
                 {status === 'matching' ? (
                   <Badge color="blue" variant="light">
-                    Matching…
+                    {t('randomChat.matching', 'Matching…')}
                   </Badge>
                 ) : (
                   <Badge color="gray" variant="light">
-                    Idle
+                    {t('randomChat.idle', 'Idle')}
                   </Badge>
                 )}
               </Group>
 
               {!isLoadingProfile && !canStartHumanMatch ? (
                 <Alert color="yellow" variant="light">
-                  Set your age range in Profile → Age & Random Chat to be matched with people.
+                  {t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')}
                 </Alert>
               ) : null}
 
@@ -455,7 +459,7 @@ export default function RandomChatPage() {
                       onClick={startMatching}
                       disabled={isLoadingProfile || !canStartHumanMatch}
                     >
-                      Find me a match
+                      {t('randomChat.findMatch', 'Find me a match')}
                     </Button>
 
                     <Button
@@ -463,7 +467,7 @@ export default function RandomChatPage() {
                       leftSection={<IconRobot size={16} />}
                       onClick={startRiaChat}
                     >
-                      Chat with Ria
+                      {t('randomChat.chatWithRia', 'Chat with Ria')}
                     </Button>
                   </>
                 ) : (
@@ -545,7 +549,8 @@ export default function RandomChatPage() {
                     onClick={addFriend}
                     disabled={!!active?.iRequestedFriend}
                   >
-                    {active?.iRequestedFriend ? 'Requested' : 'Add Friend'}
+                    {t('randomChat.addFriend', 'Add Friend')}
+                    {t('randomChat.requested', 'Requested')}  
                   </Button>
                 ) : null}
 
@@ -558,7 +563,8 @@ export default function RandomChatPage() {
                   }
                   onClick={leaveCurrent}
                 >
-                  {active?.isAI ? 'Leave' : 'Next Person'}
+                  {t('randomChat.leave', 'Leave')}
+                  {t('randomChat.next', 'Next Person')}
                 </Button>
               </Group>
             </Group>
@@ -619,8 +625,8 @@ export default function RandomChatPage() {
               <TextInput
                 placeholder={
                   active?.isAI
-                    ? 'Message Ria…'
-                    : `Message ${active?.partnerAlias || 'your match'}…`
+                    ? t('randomChat.messageRia', 'Message Ria…')
+                    : t('randomChat.messageMatch', 'Message your match…')
                 }
                 value={draft}
                 onChange={(e) => setDraft(e.currentTarget.value)}

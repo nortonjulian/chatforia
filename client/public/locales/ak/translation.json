@@ -2,344 +2,1600 @@
   "common": {
     "save": "Sie",
     "cancel": "Twa mu",
-    "refresh": "San-hyɛ",
-    "noMatches": "Nhyehyɛe biara nni hɔ",
+    "refresh": "San yɛ bio",
+    "noMatches": "Nhyia bi nni hɔ",
     "cancelAria": "Twa mu",
-    "copy": "Kɔpi",
-    "copied": "Akɔpi!"
+    "copy": "Fa",
+    "copied": "Wɔafa!",
+    "errorWithMessage": "Error: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Twa kɔ nsɛm titiriw no mu"
+    "skipToMain": "Twa kɔ main content no so"
   },
-
-  "profile": {
-    "title": "Deɛ Woyɛ ho Nsɛnhyɛ",
-    "preferredLanguage": "Kasa a wopɛ",
-    "chooseLanguage": "Paw kasa bi",
-    "mustLogin": "Ɛsɛ sɛ wokɔ mu ansa na wuhu nsɛnhyɛ no.",
-    "autoTranslate": "Kyere ase nkratoɔ otomatik",
-    "showOriginalWithTranslation": "Kyerɛ deɛ wɔtwerɛɛ kan ne n’akyɛdeɛ",
-    "showOriginalAndTranslation": "Kyerɛ deɛ wɔtwerɛɛ kan ne n’akyɛdeɛ nifa ne benkum",
-    "filterExplicit": "Sɛe nsɛm dɛw",
-    "aiReply": "AI mmuaeɛ",
-    "enableReadReceipts": "Ma-akan-mmɔden (read receipts) so",
-    "allowExplicitContent": "Ma nsɛm dɛw ho kwan",
-    "disappearingMessages": "Ma nkratoɔ a ɛyera so",
-    "autoDeleteSeconds": "Sɛkɛnd a ɛbɛtwa mu ansa na ɛyera",
-    "saveSuccess": "Wasie nsɛnhyɛ no!",
-    "saveError": "Mfomso: Antumi anwie nsɛnhyɛ no",
-    "avatarAlt": "W’akontaabu mfonini",
-    "uploadAvatar": "Tew mfonini foforo so",
-    "avatarSuccess": "Mfonini no atwe!",
-    "avatarError": "Mfonini atwe no annkɔ yiye",
-    "noPrivateKey": "Sɛkrɛt kɔyɛ (private key) nni saa devaes yi so sɛ wobɛtumi asɔre.",
-    "setBackupPassword": "Hyɛ ehintansɛmfua ma wo akyidie fael no:",
-    "backupDownloaded": "Wo akyidie a wɔahyɛ ehintansɛmfua mu atwe aba.",
-    "exportFailed": "Kiyi kɔɔso no annkɔ yiye",
-    "enterBackupPassword": "Hyɛ ehintansɛmfua no ma akyidie yi:",
-    "importSuccess": "Wode sɛkrɛt kɔyɛ no ama saa devaes yi.",
-    "importFailed": "Antumi amfa kɔyɛ no (ehintansɛmfua no mmɔ pɔ anaa fael no abu).",
-    "keysRotated": "Wo anya kɔyɛ foforo na w’akɔdeɛ (public key) atwe agu so.",
-    "rotateFailed": "Kɔyɛ sesa no annkɔ yiye.",
-    "security": "Bammɔ",
-    "exportKey": "Fa me sɛkrɛt kɔyɛ kɔ",
-    "importKey": "Fa kɔyɛ a wɔde ehintansɛmfua akata kɔ mu",
-    "rotateKeys": "Sesa kɔyɛ no",
-    "keyDisclaimer": "Wo sɛkrɛt kɔyɛ no renfi saa devaes yi so da. Fa ne nsa kɔ a wɔahyɛ ehintansɛmfua mu na wode asan asi devaes foforo so.",
-    "sectionProfile": "Profayl",
-    "phoneNumber": "Nɔmba fon",
-    "appearance": "Nhwɛso",
-    "soundSettings": "Asɛmka/Asɔre",
-    "disappearing": "Nkratoɔ a ɛyera",
-    "backupSync": "Akyidie & Synk",
-    "ai": "AI",
-    "accessibility": "Hohoro kɔkɔɔ (Accessibility)",
-    "privacy": "Siesɛm",
-    "devices": "Nneɛma a wɔakɔtɔ so",
-    "themeFreeNotice": "Woyɛ Free—fa Sun/Moon ntɛmntɛm no. Sɔre kɔ so na tua ka de bue ntɛma pii.",
-    "sunTheme": "Fa Dawn ntɛma di dwuma",
-    "moonTheme": "Fa Moon (Anadwo) ntɛma",
-    "sun": "Owia",
-    "moon": "Osram",
-    "backupTitle": "Akyidie a Wɔahyɛ Ehintansɛmfua mu & Devaes Synk",
-    "openBackupTools": "Bue Akyidie Nnwuma",
-    "backupDesc": "Yɛ akyidie a wɔahyɛ ehintansɛmfua mu na fa san si devaes foforo so de synk.",
-    "privacyBlurEnabled": "Bu nkratoɔ no fɛre mu da so",
-    "privacyBlurOnUnfocus": "Bu fɛre mu bere a app no nnyɛ aktyve",
-    "holdToReveal": "Kɔ so kyere na wubehu",
-    "notifyOnCopy": "Ka me kyerɛ sɛ obi akɔpi me asɛm",
-    "loadFailed": "Profayl no antwe",
-    "followed": "Wadi n’akyi",
-    "followFailed": "Anntumi annidi n’akyi",
-    "unfollowed": "Wagya n’akyi",
-    "unfollowFailed": "Anntumi amgya n’akyi",
-    "follow": "Di n’akyi",
-    "unfollow": "Gya n’akyi",
-    "followHint": "Ne nsɛm bɛda wo ‘Following’ mu sɛ ɔde ‘Followers’ (anaa ‘Public’) bɛkyerɛ.",
-    "userNotFound": "Wɔanhu ɔdefo no",
-    "followsYou": "Ɔdi wo akyi",
-    "sectionCrashedTitle": "Ɛkaeɛ mu bi antumi anntwe",
-    "sectionCrashedBody": "Ade bi ankɔ yie wɔ fak no mu.",
-    "forwarding": "Call & Text Forwarding",
-    "callTextForwardingSection": "Call & Text Forwarding",
-    "callTextForwardingTitle": "Afre ne Nkratoɔ Forwarding",
-    "callTextForwardingDescription": "Ma afrɛ ne nkratoɔ a ɛreba nkɔ wo fon anaa imeyl a woadi adanse. Afrɛ/nkratoɔ a worekɔbɔ tumi kyerɛ wo Chatforia nɔmba.",
-    "enableTextForwarding": "Ma text forwarding so",
-    "forwardTextsToPhone": "Ma nsɛmfua nkɔ fon so",
-    "forwardTextsToEmail": "Ma nsɛmfua nkɔ imeyl so",
-    "destinationPhone": "Fon a ɛbɛkɔ so (E.164)",
-    "destinationEmail": "I-mel a ɛbɛkɔ so",
-    "enableCallForwarding": "Ma call forwarding so",
-    "destinationPhoneForCalls": "Destinesyin (E.164) ma afrɛ",
-    "aliasBridging": "Call Forwarding (alias bridging)",
-    "quietHoursOptional": "Berɛ dinn (pɛpɛɛpɛ)",
-    "startHour": "Fi berɛ (0–23)",
-    "endHour": "Ewie berɛ (0–23)",
-    "reset": "San-to hyɛ",
-    "saveBtn": "Sie",
-    "forwardSaved": "Forwarding nsɛnhyɛ no asie",
-    "forwardSaveFailed": "Antumi ansie nsɛnhyɛ no",
-    "errE164": "Hyɛ fon nɔmba a ɛfata E.164 (te sɛ, +15551234567).",
-    "errEmail": "Hyɛ imeyl a ɛfata.",
-    "errSmsDest": "Paw akyirikyiri baako pɛ (fon anaa imeyl).",
-    "errQuietHours": "Berɛ dinn no ɛsɛ sɛ ɛda ntam 0 ne 23."
+  "keys": {
+    "backupCreated": "Key backup created and downloaded ✓",
+    "restored": "Key backup restored ✓ Keys installed locally",
+    "noBackup": "No encrypted backup exists for this account",
+    "missingPublicKey": "Backup is missing a public key"
   },
-
-  "support": {
-    "helpFab": "Mmoa",
-    "openSupportAria": "Bue mmoa",
-    "badge": "Mmoa",
-    "heading": "Dɛn na yɛbɛboa wo?",
-    "tabs": {
-      "help": "Help Center",
-      "contact": "Frɛ yɛn"
+  "keySetup": {
+    "title": "Set up your device keys",
+    "description": "This device doesn’t have your private key yet. Import a password-protected backup, or generate a new keypair (you’ll be able to read new messages from now on).",
+    "chooseFile": "Choose a file and enter the password.",
+    "imported": "Private key imported to this device. You can read old messages now.",
+    "enterPassword": "Enter your account password so we can back up your keys securely."
+  },
+  "auth": {
+    "headline": "Nkrasɛm a ahobammɔ wom ma obiara, baabiara",
+    "description": "End-to-end encryption, nkyerɛase kɔ kasa 100+ mu, nsɛm a yera, ne voice/video calling.",
+    "feature": {
+      "encryption": "End-to-end encryption yɛ default",
+      "translation": "Smart nkyerɛase a wɔde ahyɛ mu",
+      "disappearing": "Nsɛm a yera ne read receipts",
+      "privacy": "Kokoamsɛm di kan. Wo data, wo tumi.",
+      "translate": "Smart nkyerɛase a wɔde ahyɛ mu",
+      "disappear": "Nsɛm a yera",
+      "privacyAlt": "Kokoamsɛm-first design",
+      "seePlans": "See plans & pricing"
     },
-    "searchPlaceholder": "Hwehwɛ mmoa nkrataa…",
-    "searchAria": "Hwehwɛ mmoa",
-    "searchBtn": "Hwehwɛ",
-    "quickTopicsLabel": "Ntɛmntɛm nsɛm",
-    "quickTopics": {
-      "login": "Mintumi nkɔ mu",
-      "billing": "Sika/akontaa",
-      "abuse": "Bɔ amanyɔsɛm ho amanneɛ"
+    "hero": {
+      "line1": "Nkrasɛm a ahobammɔ wom ma obiara, baabiara — with",
+      "em": "translation to 100+ languages",
+      "sub": "Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, disappearing messages, and HD voice/video calling — with built-in tools that help you stay connected across borders.",
+      "freeNote": "Basic calling and texting are free. Advanced AI and premium features require an upgrade."
     },
-    "trySearching": "Sɔ hwɛ sɛ “translate”, “backups”, anaa “privacy”.",
-    "article": "Nkrataa",
-    "openArticle": "Bue nkrataa",
-    "contactIntro": "Yɛbɛtwerɛ wo imeyl mu mmuae. Fa nsɛm a ɛbɛboa yɛn asan ayɛ ɔhaw no ka ho.",
-    "topicAria": "Paw asɛm",
-    "messagePlaceholder": "Twerɛ wo asɛm…",
-    "sendBtn": "Mane",
-    "sent": "Asɛm no atwa. Yɛbɛmmua wo wɔ imeyl so.",
-    "sendError": "Antumi amane. Twerɛ kɔ support@chatforia.com."
+    "feat": {
+      "encryption": "End-to-end encryption, always on",
+      "translate": "Break language barriers in your conversations",
+      "disappear": "Nsɛm a yera ne read receipts",
+      "privacy": "Kokoamsɛm di kan. Wo data, wo tumi."
+    },
+    "continueGoogle": "Toa so fa Google",
+    "continueApple": "Toa so fa Apple",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Ma menkɔ so ntena mu",
+    "forgotPassword": "Wɔwerɛ password?",
+    "loginButton": "Kɔ mu",
+    "createAccount": "Yɛ account",
+    "freeAccountButton": "Create free account",
+    "newHere": "New here?",
+    "getApp": "Fa app no",
+    "desktopTip": "On desktop? Scan with your phone to get the app.",
+    "scanHelper": "On desktop? Scan with your phone to get the app.",
+    "goHome": "Go to home",
+    "home": "Fie",
+    "headlineAlt": {
+      "main": "Messenger a ahobammɔ wom a",
+      "highlight": "ɛka wo kasa"
+    },
+    "subhead": "Nkrasɛm a ɛyɛ kokoamsɛm, encrypted, na wɔakyerɛ ase — ntɛm ara.",
+    "upgrade": "Ma nkɔ anim now",
+    "tip": "Afotuo: Fa account koro no ara di dwuma wɔ web ne mobile so. Wo nkrasɛm bɛtena sync mu.",
+    "openDownload": "Open download page",
+    "qrAlt": "QR code for Chatforia",
+    "scanHint": "Scan to download the app or open in your browser.",
+    "iosAria": "Twe on the App Store",
+    "iosTitle": "Twe on the App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Get it on Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Kɔ mu",
+    "signup": "Kyerɛw din",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 characters. Use a strong, unique password.",
+      "smsConsent": "By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Nkrasɛm & data rates may apply. You can opt out at any time in Settings.",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Kokoamsɛm Policy"
+    },
+    "to": "Kɔma:",
+    "enterRecipient": "Fa din anaa nɔma hyɛ mu",
+    "clearRecipients": "Pepa wɔn a wɔbɛgye no",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Kyerɛw nkrasɛm…",
+    "addRecipient": "Fa ka ho a recipient above to start…",
+    "oneRecipient": "Mesrɛ wo, fa recipient baako pɛ hyɛ mu mprempren.",
+    "enterValidRecipient": "Fa contact din a wɔasave anaa telefon nɔma hyɛ mu.",
+    "sendFailed": "Amanneɛ no ankɔ. Hwɛ console no mu ma nsɛm pii."
   },
-
+  "home": {
+    "title": "Fie",
+    "header": "Wo nkrasɛm",
+    "subheader": "Fa nkrasɛm mena na fi ase nkɔmmɔ.",
+    "sendButton": "Mena nkrasɛm",
+    "gifPicker": "Bue GIF picker",
+    "emoji": "Emoji",
+    "upload": "Fa mfonini anaa video to so",
+    "inputPlaceholder": "Kyerɛw nkrasɛm…",
+    "inputLabel": "Beaeɛ a wɔkyerɛw nkrasɛm",
+    "sendTooltip": "Mena",
+    "sendTooltipEmpty": "Kyerɛw nkrasɛm na mena",
+    "send": "Mena",
+    "welcomeMessage": "Akwaaba ba Chatforia",
+    "getStarted": "Fi ase"
+  },
   "chat": {
-    "selectPrompt": "Paw nkratoɔ anaa kɔnkɔnkɔmu bi na fi aseɛ nka",
-    "newMessages": "Nkratoɔ foforo",
-    "typing": "{{name}} rekyerɛw…",
-    "emptyTitle": "Wo nkratoɔ",
-    "emptySubtitle": "Mane asɛm na fi ase kɔkɔɔ mu.",
-    "startChatButton": "Mane asɛm"
+    "selectPrompt": "Paw text anaa chat room bi na fi ase nkɔmmɔ",
+    "newMessages": "Nkrasɛm foforo",
+    "typing": "{{name}} rekyerɛw...",
+    "emptyTitle": "Wo nkrasɛm",
+    "emptySubtitle": "Fa nkrasɛm mena na fi ase nkɔmmɔ.",
+    "startChatButton": "Mena nkrasɛm",
+    "mediaAttachment": "Media attachment",
+    "thisUser": "saa ɔdefo yi",
+    "blockConfirm": "Siw {{name}} ano? Worennya nkrasɛm mfi wɔn nkyɛn bio.",
+    "blockedUser": "Wɔasiw {{name}} ano.",
+    "blockError": "Antumi anhu user a wɔbɛsiw no ano.",
+    "blockFailed": "Block antumi anyɛ adwuma (backend no nwiee da).",
+    "encryptedUnavailable": "Encrypted nkrasɛm (key no nni hɔ)",
+    "unlockToView": "Bue wo key no na hwɛ saa nkrasɛm yi"
   },
-
+  "messageInput": {
+    "ttl": {
+      "off": "Dum"
+    },
+    "freeLimit": "Free plan hyeɛ: auto-delete kosi da 1. Wɔasi no 1d.",
+    "premiumLimit": "Popa ankasa a ɛsen biara ma Premium yɛ nnansa 30. Wɔasi no 30d.",
+    "nothingToSend": "Kyerɛw nkrasɛm anaa fa file ka ho na mena.",
+    "encryptionFailed": "Encryption anyɛ yie. Wɔamena nkrasɛm no.",
+    "sent": "Nkrasɛm no adu.",
+    "placeholder": "Kyerɛw nkrasɛm…",
+    "autoDelete": "Popa ankasa",
+    "typeToSend": "Kyerɛw nkrasɛm na mena",
+    "send": "Mena",
+    "sendWithEnter": "Mena (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (wopɛ a)",
+    "remove": "Yi fi hɔ",
+    "clear": "Pepa",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Attachment no sõ dodo. Bɔ mmɔden fa file ketewa bi.",
+      "unsupportedFile": "File type yi nnyɛ adwuma.",
+      "rateLimit": "Woremema nkrasɛm ntɛm dodo. Mesrɛ wo brɛ ase kakra.",
+      "validation": "Mfomso wɔ validation mu. Mesrɛ wo hwɛ wo nkrasɛm no bio.",
+      "failedToSend": "Antumi amena. Wubetumi asan ayɛ bubble a ɛantumi no."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Contacts a wɔasave",
+    "refreshAria": "Refresh contacts",
+    "filterPlaceholder": "Yi contacts a wɔasave no mu…",
+    "filterAria": "Filter saved contacts",
+    "noContactsFound": "Wɔanhu contact biara.",
+    "externalContact": "External contact",
+    "notJoined": "Saa contact no nka Chatforia ho da.",
+    "couldNotStart": "Antumi anhyɛ chat no ase. Mesrɛ wo san yɛ bio.",
+    "startFailed": "Chat no antumi anhyɛ ase. Mesrɛ wo san yɛ bio.",
+    "deleted": "Wɔapopa contact no.",
+    "deleteFailed": "Antumi ampopa contact no. Mesrɛ wo san yɛ bio.",
+    "aliasUpdated": "Alias no ayɛ foforo.",
+    "updateAliasFailed": "Antumi ansesa alias no. Mesrɛ wo san yɛ bio.",
+    "selectContact": "Paw {{name}}",
+    "alias": "Alias",
+    "startChat": "Hyɛ chat ase",
+    "message": "Nkrasɛm",
+    "delete": "Popa",
+    "deleteContactAria": "Popa contact",
+    "loadFailed": "Antumi amfa contacts no amma. Mesrɛ wo san yɛ bio.",
+    "loadMore": "Fa bebree bra",
+    "call": "Frɛ",
+    "callStarted": "Ɛrefre saa nɔma yi fa wo Chatforia nɔma no so…",
+    "callFailed": "Frɛ no antumi anhyɛ ase. Mesrɛ wo san yɛ bio."
+  },
+  "startChatModal": {
+    "title": "Hyɛ nkɔmmɔbɔ ase",
+    "searchPlaceholder": "Hwehwɛ din, username, anaa telefon nɔma",
+    "messageThisPerson": "Fa nkrasɛm kɔma saa onipa yi",
+    "contacts": "Contacts",
+    "recentInteractions": "Nkitahodi a aba nkyɛre yi",
+    "noContactsMatch": "Contact biara ne wo hwehwɛmu no nhyia.",
+    "noRecentInteractions": "Nkitahodi foforo biara nni hɔ da.",
+    "unknown": "Wonnim",
+    "interactionType": {
+      "message": "Nkrasɛm",
+      "call": "Frɛ",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Fa contact ka ho",
+    "phoneOrUsername": "Telefon anaa username",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 or juliannorton",
+    "alias": "Alias (wopɛ a)",
+    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
+    "enterPhoneOrUsername": "Fa telefon nɔma anaa username hyɛ mu.",
+    "userLookupFailed": "User lookup antumi anyɛ adwuma.",
+    "cannotAddSelf": "Worentumi mfa wo ho nka ho sɛ contact.",
+    "failedToAdd": "Antumi amfa contact no nka ho.",
+    "add": "Fa ka ho"
+  },
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Frɛ ne Text forwarding",
+    "conversations": "Nkɔmmɔbɔ",
+    "searchPlaceholder": "Hwehwɛ nkɔmmɔbɔ...",
+    "errorLoading": "Antumi amfa chats no amma",
+    "empty": "Nkɔmmɔbɔ biara nni hɔ da.",
+    "startChat": "Start a chat",
+    "people": "Nnipa",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Frɛ ne Text forwarding",
+    "refresh": "San yɛ bio",
+    "search": "Hwehwɛ conversations",
+    "loginPrompt": "Kɔ mu na sesa wo settings.",
+    "login": "Kɔ mu",
+    "register": "Yɛ account",
+    "chatrooms": "Chat rooms",
+    "logout": "Fi mu",
+    "startChatAlt": "Hyɛ chat foforo ase",
+    "calls": "Frɛ",
+    "video": "Video",
+    "voicemail": "Voice mail"
+  },
   "topbar": {
     "newStatus": "Status foforo",
     "logout": "Fi mu",
     "help": "Mmoa",
-    "createStatusAria": "Bɔ Status foforo"
+    "createStatusAria": "Yɛ Status foforo"
   },
-
-  "status": {
-    "userNumber": "Deɛ Woyɛ #{{id}}",
-    "posted": "Watu status",
-    "postFailed": "Antumi antu status",
-    "createTitle": "Bɔ status",
-    "modalAriaLabel": "Status foforo",
-    "captionLabel": "Dɛn na ɛwɔ wo adwene mu?",
-    "captionPlaceholder": "Kyɛ nsɛm kakra…",
-    "captionAria": "Status asɛm",
-    "audienceLabel": "Ɛhe na wopɛ sɛ ɛkɔ",
-    "audience": {
-      "public": "Kɛse (Public)",
-      "followers": "Akanfo (Followers)",
-      "contacts": "Nkontabuo (Contacts)",
-      "mutuals": "Nnamfo a mode nnamfo (Mutuals)",
-      "custom": "Paw wode…"
+  "threadActions": {
+    "threadMenu": "Thread menu",
+    "premium": "Premium",
+    "aiPower": "AI Power",
+    "schedule": "Hyɛ bere",
+    "upgrade": "Ma nkɔ anim",
+    "upgradeSuffix": "(Ma nkɔ anim)",
+    "thread": "Thread",
+    "about": "Fa ho",
+    "search": "Hwehwɛ",
+    "media": "Media",
+    "invitePeople": "Frɛ nnipa",
+    "roomSettings": "Room settings",
+    "clearConversation": "Pepa nkɔmmɔbɔ no",
+    "block": "Block"
+  },
+  "roomSearch": {
+    "title": "Hwehwɛ wɔ room mu",
+    "ariaLabel": "Hwehwɛ wɔ room mu",
+    "search": "Hwehwɛ",
+    "searchMessages": "Hwehwɛ nkrasɛm",
+    "noText": "[Text bi nni hɔ]",
+    "noResults": "Nneɛma biara nni mu"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Oni mu",
+      "moderator": "Moderator",
+      "admin": "Admin"
     },
-    "expiresHoursLabel": "Ebedu awiei (aowawa)",
-    "maxTooltip": "Ɛkɛse kɔsi nnansa 7",
+    "aiMode": {
+      "off": "Dum",
+      "mention": "@ForiaBot anaa /ask nko ara",
+      "always": "Bua wɔ w'ankasa mu"
+    },
+    "autoTranslateMode": {
+      "off": "Dum",
+      "tagged": "De wɔnahyɛ agyirae nko ara (/tr …)",
+      "all": "Nkrasɛm nyinaa"
+    },
+    "updated": "Settings no ayɛ foforo"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Media a wɔakyɛ mu",
+    "noMediaCached": "Media biara nni local cache mu da.",
+    "imageAlt": "mfonini",
+    "openVideo": "Bue video",
+    "openVideoWithCaption": "Bue video: {{caption}}",
+    "preview": "Hwɛ ansa",
+    "previewWithCaption": "Hwɛ ansa: {{caption}}",
+    "previewKind": "Hwɛ ansa {{kind}}",
+    "download": "Twe",
+    "downloadKind": "Twe {{kind}}",
+    "file": "file",
+    "kinds": {
+      "image": "mfonini",
+      "video": "video",
+      "audio": "audio",
+      "file": "file"
+    }
+  },
+  "status": {
+    "userNumber": "User #{{id}}",
+    "posted": "Status posted",
+    "postFailed": "Ankɔ yie to post status",
+    "createTitle": "Create a status",
+    "modalAriaLabel": "New status",
+    "captionLabel": "What's on your mind?",
+    "captionPlaceholder": "Share an update...",
+    "captionAria": "Status message",
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Amansan",
+      "followers": "Followers",
+      "contacts": "Contacts",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
+    },
+    "expiresHoursLabel": "Expires (hours)",
+    "maxTooltip": "Maximum 7 days",
     "hoursAbbrev": "h",
-    "maxShort": "pɔtee",
-    "expiresOn": "Ebedi awiei da:",
-    "chooseRecipients": "Paw wɔn a wobɛma",
-    "selectContacts": "Paw nkontabuo",
-    "attachmentsLabel": "Ntoasoɔ",
-    "attachmentsPlaceholder": "Fa mfonini/video ka ho",
-    "filesNote": "Fael kɔsi 5. Sɛɛso 24 anadwo.",
-    "postAria": "Tu status",
-    "post": "Tu"
+    "maxShort": "max",
+    "expiresOn": "Expires on:",
+    "chooseRecipients": "Choose recipients",
+    "selectContacts": "Select contacts",
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Fa ka ho mfoninis/videos",
+    "filesNote": "Up to 5 files. 24h expiry by default.",
+    "postAria": "Post status",
+    "post": "Post"
   },
-
-  "contactList": {
-    "savedContacts": "Nkontabuo a wode asie",
-    "refreshAria": "San-hyɛ nkontabuo",
-    "filterPlaceholder": "Hwehwɛ nkontabuo a wode asie…",
-    "filterAria": "Hwehwɛ nkontabuo a wode asie",
-    "noContactsFound": "Wɔanhu nkontabuo biara.",
-    "externalContact": "Nkontabuo a ɛwɔ abɔnten",
-    "notJoined": "Nkontabuo no mmra Chatforia da.",
-    "couldNotStart": "Antumi anfi ase kɔkɔɔ mu. San sɔ hwɛ.",
-    "startFailed": "Fi ase kɔkɔɔ mu no annkɔ yiye. San sɔ hwɛ.",
-    "deleted": "Woeyi nkontabuo no.",
-    "deleteFailed": "Antumi anyi nkontabuo no. San sɔ hwɛ.",
-    "aliasUpdated": "Alias no asesa.",
-    "updateAliasFailed": "Alias no ansesa. San sɔ hwɛ.",
-    "selectContact": "Paw {{name}}",
-    "alias": "Din foforo (alias)",
-    "startChat": "Fi ase kɔkɔɔ mu",
-    "message": "Asɛm",
-    "delete": "Yi",
-    "deleteContactAria": "Yi nkontabuo",
-    "loadFailed": "Nkontabuo antwe. San sɔ hwɛ.",
-    "loadMore": "Twe bio"
+  "voicemail": {
+    "pageTitle": "Voice mail",
+    "from": "From",
+    "to": "To",
+    "unknownCaller": "Wonnim",
+    "yourNumber": "Your Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voice mail audio player",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Transcribing voicemail…",
+    "transcriptFailed": "Transcript unavailable.",
+    "loading": "Loading voicemail…",
+    "errorLoading": "Ankɔ yie to load voicemail.",
+    "empty": "No voicemails yet.",
+    "deleteConfirm": "Popa this voicemail?",
+    "deleteError": "Ankɔ yie to delete voicemail.",
+    "markRead": "Mark as read",
+    "delete": "Popa",
+    "unreadDotAria": "Unread voicemail indicator"
   },
-
-  "sidebar": {
+  "profile": {
+    "title": "User Profile",
+    "preferredLanguage": "Kasa a wopɛ",
+    "chooseLanguage": "Paw kasa bi",
+    "mustLogin": "You must sign in to view the settings.",
+    "autoTranslate": "Kyerɛ nsɛm ase ankasa",
+    "showOriginalWithTranslation": "Show original and translated messages",
+    "showOriginalAndTranslation": "Kyerɛ deɛ edi kan no ka nkyerɛase no ho",
+    "filterExplicit": "Yi nsɛm a ɛmfata no fi mu",
+    "aiReply": "AI reply",
+    "enableReadReceipts": "Ma read receipts nyɛ adwuma",
+    "allowExplicitContent": "Ma nsɛm a ɛmfata ho kwan",
+    "disappearingMessages": "Ma nsɛm a yera nyɛ adwuma",
+    "autoDeleteSeconds": "Sikani a aka ansa na ɛbɛpopa ankasa",
+    "saveSuccess": "Wɔasie settings no!",
+    "saveError": "Error: Could not save settings",
+    "avatarAlt": "Profile avatar",
+    "uploadAvatar": "Fa avatar foforo to so",
+    "avatarSuccess": "Wɔde avatar no ato so!",
+    "avatarError": "Antumi amfa avatar no anto so.",
+    "avatarUpdated": "Avatar no ayɛ foforo!",
+    "uploadingAvatar": "Ɛreto avatar no so…",
+    "noPrivateKey": "There is no private key on this device to export.",
+    "setBackupPassword": "Set a password to encrypt your backup:",
+    "backupDownloaded": "Encrypted backup downloaded.",
+    "exportFailed": "Key export failed",
+    "enterBackupPassword": "Enter the password for this backup:",
+    "importSuccess": "Private key imported to this device.",
+    "importFailed": "Ankɔ yie to import key (incorrect password or corrupt file).",
+    "keysRotated": "New key pair generated and public key uploaded.",
+    "rotateFailed": "Ankɔ yie to rotate keys.",
+    "security": "Ahobammɔ",
+    "exportKey": "Fa encryption key no sie",
+    "importKey": "San fa encryption key no bra",
+    "rotateKeys": "Sesa encryption key no",
+    "keyDisclaimer": "Your private key never leaves this device. Export a password-protected copy to restore it on another device.",
+    "sectionProfile": "Profile",
+    "phoneNumber": "Telefon nɔma",
+    "appearance": "Ahwɛsoɔ",
+    "soundSettings": "Nne",
+    "disappearing": "Nsɛm a yera",
+    "backupSync": "Encryption key backup",
+    "ai": "AI",
+    "accessibility": "Nneɛma a ɛma yɛyɛ mmerɛw",
+    "privacy": "Kokoamsɛm",
+    "devices": "Mfiri a wɔde abɔ mu",
+    "themeFreeNotice": "You’re on Free—use the quick Sun/Moon options below. Ma nkɔ anim to unlock more themes.",
+    "sunTheme": "Use Dawn theme",
+    "moonTheme": "Use Moon (Midnight) theme",
+    "sun": "Sun",
+    "moon": "Moon",
+    "backupTitle": "Encrypted backups ne device sync",
+    "openBackupTools": "Bue backup tools no",
+    "backupDesc": "Back up your encryption key to securely restore your messages on another device.",
+    "privacyBlurEnabled": "Blur messages by default",
+    "privacyBlurOnUnfocus": "Blur when app is unfocused",
+    "planSection": "Me plan",
+    "planLoading": "Ɛregye wo plan no…",
+    "planLoadFailed": "Antumi amfa wo plan no amma.",
+    "currentPlan": "Plan a wowɔ seesei",
+    "planRenewsOn": "Ɛsan yɛ foforo da",
+    "freePlanCopy": "You’re on the free plan. Ma nkɔ anim to unlock more features like backups, extra numbers, and advanced privacy options.",
+    "upgradePlanCta": "Ma plan no nkɔ anim",
+    "changePlanCta": "Sesa plan no",
+    "manageBilling": "Hwɛ sika a wotua ho",
+    "portalOpenFailed": "Could not open billing portal. Please try again.",
+    "holdToReveal": "Hold to reveal",
+    "notifyOnCopy": "Notify me if my message is copied",
+    "loadFailed": "Ankɔ yie to load profile",
+    "followed": "Followed",
+    "followFailed": "Ankɔ yie to follow",
+    "unfollowed": "Unfollowed",
+    "unfollowFailed": "Ankɔ yie to unfollow",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "followHint": "Their stories will appear in your Following feed if they post with audience Followers (or Public).",
+    "userNotFound": "User not found",
+    "followsYou": "Follows you",
+    "sectionCrashedTitle": "Section failed to load",
+    "sectionCrashedBody": "Something went wrong in this section.",
+    "forwarding": "Frɛ ne Text forwarding",
+    "callTextForwardingSection": "Frɛ ne Text forwarding",
+    "callTextForwardingTitle": "Frɛ anaa text forwarding",
+    "callTextForwardingDescription": "Fa frɛ ne text a ɛba no kɔ wo telefon anaa email a wɔagye atom so. Frɛ/text a efi wo nkyɛn betumi akyerɛ wo Chatforia nɔma.",
+    "enableTextForwarding": "Ma text forwarding nyɛ adwuma",
+    "forwardTextsToPhone": "Fa texts kɔ telefon so",
+    "forwardTextsToEmail": "Fa texts kɔ email so",
+    "destinationPhone": "Telefon a ɛkɔ no so (E.164)",
+    "destinationEmail": "Email a ɛkɔ no so",
+    "enableCallForwarding": "Ma call forwarding nyɛ adwuma",
+    "destinationPhoneForCalls": "Beaeɛ a frɛ bɛkɔ (E.164)",
+    "aliasBridging": "Frɛ Forwarding (alias bridging)",
+    "quietHoursOptional": "Dinn bere (wopɛ a)",
+    "startHour": "Bere a ɛhyɛ ase (0–23)",
+    "endHour": "Bere a ɛba awiei (0–23)",
+    "reset": "San si",
+    "saveBtn": "Sie",
+    "saveProfile": "Sie profile no",
+    "saveForwarding": "Sie forwarding no",
+    "forwardSaved": "Wɔasie forwarding settings no",
+    "forwardSaveFailed": "Antumi ansie settings no.",
+    "errE164": "Fa telefon nɔma a ɛyɛ adwuma wɔ E.164 mu hyɛ mu (sɛ nhwɛso +15551234567).",
+    "errEmail": "Fa email a ɛyɛ adwuma hyɛ mu.",
+    "errSmsDest": "Paw baabiako koraa (telefon anaa email).",
+    "errQuietHours": "Ɛsɛ sɛ dinn bere no yɛ 0 ne 23 ntam.",
     "randomChat": "Random Chat",
-    "callTextForwarding": "Call & Text Forwarding",
-    "conversations": "Nkorɔnten",
-    "searchPlaceholder": "Hwehwɛ nkorɔnten…",
-    "errorLoading": "Nkorɔnten antwe",
-    "empty": "Nkorɔnten biara nni hɔ.",
-    "startChat": "Fi ase kɔkɔɔ mu",
-    "people": "Nnipa",
-    "settings": "Nsɛnhyɛ",
-    "status": "Status",
-    "forwarding": "Call & Text Forwarding",
-    "refresh": "San-hyɛ",
-    "search": "Hwehwɛ nkorɔnten",
-    "loginPrompt": "Kɔ mu na sesa wo nsɛnhyɛ.",
-    "login": "Kɔ mu",
-    "register": "Bɔ akawnt",
-    "chatrooms": "Kɔkɔɔdan",
-    "logout": "Fi mu",
-    "startChatAlt": "Fi kɔkɔɔ foforo ase"
+    "ageBand": "Wo mfeɛ kuw",
+    "ageBandPlaceholder": "Paw wo mfeɛ kuw",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable.",
+    "wantsAgeFilter": "Use age-based matching in Random Chat",
+    "wantsAgeFilterDesc": "When on, we try to pair you with people in compatible age ranges.",
+    "partnerAgeBands": "Who can you be matched with?",
+    "partnerAgeBandsDesc": "Teens are always matched only with other teens. Adults cannot be matched with teens.",
+    "teenMatchingNote": "Ahobammɔ nti, akawnt a ɛwɔ mfeɛ 13–17 mu no bɛtumi ne akawnt foforo a ɛwɔ 13–17 mu nko ara ayɛ match wɔ Random Chat mu.",
+    "foriaRemember": "Let Ria remember things you tell it",
+    "foriaRememberDesc": "When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time.",
+    "voicemailSection": "Voice mail",
+    "voicemailEnabled": "Ma voicemail nyɛ adwuma",
+    "voicemailAutoDeleteDays": "Popa voicemails ankasa wɔ (nnansa) akyi",
+    "voicemailAutoDeletePlaceholder": "Gyaa hɔ kwa na ɛntra hɔ daa",
+    "voicemailForwardEmail": "Fa voicemail kɔ email so",
+    "voicemailForwardEmailPlaceholder": "Email a wɔde voicemail amanneɛ bɛkɔ so",
+    "voicemailGreetingText": "Nkyia a wɔde text si ananmu",
+    "voicemailGreetingTextDesc": "Wɔde di dwuma bere a wo audio nkyia no nni hɔ.",
+    "voicemailGreetingUpload": "Fa voicemail nkyia to so",
+    "voicemailPreviewGreeting": "Hwɛ nkyia no ansa",
+    "voicemailGreetingUploaded": "Wɔde voicemail nkyia no ato so yie",
+    "voicemailGreetingUploadError": "Antumi amfa voicemail nkyia no anto so.",
+    "voicemailNote": "Voice mails from your Chatforia numbers will be stored in your Voice mail inbox. You can enable transcription and forwarding in supported plans.",
+    "portHint": "Want to keep your current number? You can port it into Chatforia Wireless.",
+    "wireless": {
+      "manage": "Hwɛ wireless ho"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Nya mobile data ma Chatforia bere a wonni Wi‑Fi ho.",
+      "cta": "Nya eSIM / Kyerɛ QR"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Hwɛ wo Chatforia mobile plan, nɔma, forwarding ne nɔma porting ho.",
+    "options": {
+      "heading": "Paw sɛnea wopɛ sɛ wode Chatforia di dwuma",
+      "subheading": "Wubetumi anya Chatforia nɔma foforo, anaa de wo nɔma a wowɔ dedaw fi carrier foforo mu aba.",
+      "newNumber": "Nya Chatforia nɔma foforo",
+      "portNumber": "Fa wo nɔma a wowɔ seesei bra Chatforia Wireless mu"
+    },
+    "port": {
+      "heading": "Fa wo nɔma a wowɔ dedaw no bra",
+      "subheading": "Fa wo telefon nɔma a wowɔ seesei fi wo carrier no mu bra Chatforia. Hwɛ hu sɛ nsɛm no ne wo carrier account no hyia pɛpɛɛpɛ na nkyɛre nnba.",
+      "phoneNumberLabel": "Telefon nɔma a wobɛport",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Carrier a wowɔ no seesei",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Akawnt nɔma",
+      "pinLabel": "Port-out PIN / password",
+      "fullNameLabel": "Din mũ no nyinaa a ɛwɔ akawnt no so",
+      "address1Label": "Adrɛs line 1",
+      "address2Label": "Adrɛs line 2 (wopɛ a)",
+      "cityLabel": "Kuropɔn",
+      "stateLabel": "State / Province",
+      "postalCodeLabel": "Postal code",
+      "countryLabel": "Ɔman",
+      "submitButton": "Fa port request no mena",
+      "success": "Wɔde port request no akɔ! Yɛbɛma wo nneɛma foforo ho amanneɛ.",
+      "genericError": "Biribi kɔɔ bɔne."
+    },
+    "status": {
+      "heading": "Porting tebea",
+      "subheading": "Di wo nɔma port requests no tebea akyi.",
+      "loading": "Ɛregye…",
+      "loadError": "Antumi amfa port requests no amma.",
+      "none": "Porting adwuma biara nni hɔ da.",
+      "pending": "Ɛretwɛn nhwehwɛmu",
+      "submitted": "Wɔde akɔ carrier no nkyɛn",
+      "inProgress": "Ɛrekɔ so",
+      "completed": "Wiee",
+      "failed": "Ankɔ yie",
+      "canceled": "Wagyae",
+      "created": "Yɛe no:",
+      "scheduled": "Wɔahyɛ da:",
+      "completedAt": "Wiee no:"
+    },
+    "dataLow": "Wo data no rebɔ fam.",
+    "topUp": "Tɔka so seesei",
+    "expiresIn": "Ɛbɛba awiei wɔ nnansa {{days}} mu",
+    "exhausted": "Wo data asa. Tɔ pack foforo na toaa so de mobile data di dwuma.",
+    "buyPack": "Tɔ data pack",
+    "esimPackLabel": "eSIM pack"
+  },
+  "family": {
+    "title": "Abusua",
+    "loading": "Ɛregye wo abusua mu nsɛm…",
+    "error": {
+      "load": "Antumi amfa abusua mu nsɛm amma.",
+      "invite": "Antumi anyɛ invitation no. Hwɛ hu sɛ wo ne abusua no wura na san yɛ bio.",
+      "checkout": "Yɛantumi anhyɛ checkout ase ama Abusua plan. Yɛsrɛ wo san yɛ bio."
+    },
+    "billing": {
+      "myPlanTitle": "Me plan",
+      "myPlanError": "Unable to load your plan.",
+      "myPlanLoading": "Ɛregye wo plan no…",
+      "currentPlan": "Plan a wowɔ seesei",
+      "renewsAt": "Ɛsan yɛ foforo da",
+      "freePlanCopy": "You’re on the free plan. Ma nkɔ anim to unlock more features.",
+      "upgradeCta": "Ma plan no nkɔ anim",
+      "changePlanCta": "Sesa plan no",
+      "manageBilling": "Hwɛ sika a wotua ho",
+      "portalError": "Unable to open the billing portal right now.",
+      "cancelNow": "Cancel now",
+      "cancelNowHelp": "You can manage or cancel your subscription in the billing portal, or cancel immediately below.",
+      "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone.",
+      "cancelNowError": "Unable to cancel your plan right now. Please try again or use Hwɛ sika a wotua ho."
+    },
+    "none": {
+      "title": "Abusua biara nhyɛɛ ase da",
+      "body": "Sɛ wopɛ sɛ woyɛ Chatforia Abusua ne data pool a moakyɛ mu a, hyɛ Abusua plan ase.",
+      "goUpgrade": "Hyɛ Abusua plan ase",
+      "viewPlans": "Hwɛ plans nyinaa"
+    },
+    "group": {
+      "defaultName": "My Chatforia Abusua",
+      "role": "Your role: {{role}}"
+    },
+    "role": {
+      "owner": "Owura",
+      "member": "Oni mu"
+    },
+    "data": {
+      "heading": "Data pool a moakyɛ mu",
+      "caption": "Oni mus nyinaa kyɛ pool yi mu. Yɛbɛbɔ wo kɔkɔ bere a worebɛn wo hyeɛ no."
+    },
+    "members": {
+      "title": "Abusua no mufo",
+      "name": "Din",
+      "role": "Dwuma",
+      "usage": "Sɛnea wɔde di dwuma",
+      "limit": "Hyeɛ",
+      "unlimited": "Hyeɛ pɔtee bi nni hɔ",
+      "inviteCta": "Frɛ member"
+    },
+    "invite": {
+      "title": "Frɛ member foforo",
+      "body": "Fa email anaa link frɛ obi mma wo data pool a moakyɛ mu no mu.",
+      "emailLabel": "Email (wopɛ a)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Yɛ invitation",
+      "linkLabel": "Invitation link",
+      "copyAria": "Copy invite link",
+      "expiryHint": "Link yi bɛba awiei wɔ nnansa kakra akyi. Bere biara wobetumi ayɛ foforo."
+    },
+    "join": {
+      "title": "Kɔka abusua bi ho",
+      "body": "Wɔafrɛ wo sɛ bɛka Chatforia Abusua bi ho na moakyɛ data pool no mu.",
+      "cta": "Gye tom na kɔka abusua no ho",
+      "ctaLogin": "Kɔ mu na kɔka abusua no ho",
+      "success": "Woakɔka abusua yi ho. Afei mode wɔn data pool no di dwuma bom.",
+      "goFamily": "Kɔ family dashboard no so",
+      "error": "Yɛantumi ammfa wo anka abusua yi ho. Ebia invitation no nyɛ adwuma anaa ne bere atwam."
+    }
+  },
   "premium": {
     "heading": "Kɔ Premium",
-    "description": "Bue tumi nsusui na yi adwuma ho dawuro.",
-    "cta": "Sɔre kɔ so",
-    "upgrade": "Sɔre kɔ so",
-    "upgradeAria": "Sɔre kɔ Chatforia Premium"
+    "description": "Bue power features na yi ads fi hɔ.",
+    "cta": "Ma nkɔ anim",
+    "upgrade": "Ma nkɔ anim",
+    "upgradeAria": "Ma nkɔ anim to Chatforia Premium"
   },
-
-  "auth": {
-    "headline": "Bammɔ mu, wiase nyinaa nkratoɔ ne ntansɛso ntɛm",
-    "description": "End-to-end bammɔ, AI ntansɛso, nkratoɔ a ɛyera, ne afrɛ/video afrɛ.",
-    "feature": {
-      "encryption": "End-to-end bammɔ da so",
-      "translation": "Kyere ase kasa 100+ otomatik",
-      "disappearing": "Nkratoɔ a ɛyera & akan-mmɔden",
-      "privacy": "Siesɛm-kan. Wo data yɛ wo de.",
-      "translate": "Ntansɛso bere mu",
-      "disappear": "Nkratoɔ a ɛyera",
-      "privacyAlt": "Siesɛm-kan n’ahyehyɛe"
+  "upgrade": {
+    "title": "Ma nkɔ anim",
+    "titleLoggedIn": "Ma nkɔ anim",
+    "titlePublic": "Pricing",
+    "h1": "Chatforia Pricing & Plans",
+    "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place.",
+    "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+    "subtitle.mobile": "Fa ka ho global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.",
+    "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
+    "perMonth": "mo",
+    "perYear": "year",
+    "goPremium": "Kɔ Premium",
+    "benefitsLine": "Bue power features na yi ads fi hɔ.",
+    "ctaText": "Ma nkɔ anim",
+    "aria": "Ma nkɔ anim to Chatforia Premium",
+    "toggle": {
+      "monthly": "Monthly",
+      "annual": "Annual (Save 30%)"
     },
-    "hero": {
-      "line1": "Bammɔ mu, wiase nyinaa",
-      "beforeEm": "nkratoɔ a ɛwɔ",
-      "em": "ntansɛso ntɛm",
-      "sub": "End-to-end bammɔ, AI ntansɛso, nkratoɔ a ɛyera, ne afrɛ/video afrɛ."
+    "scheduleBanner": {
+      "title": "Subscription will end",
+      "body": "You’ll revert to Free on",
+      "keepPlanCta": "Keep {{plan}}",
+      "manageBillingCta": "Hwɛ sika a wotua ho"
     },
-    "feat": {
-      "encryption": "End-to-end bammɔ da so",
-      "translate": "Kyere ase kasa 100+ otomatik",
-      "disappear": "Nkratoɔ a ɛyera & akan-mmɔden",
-      "privacy": "Siesɛm-kan. Wo data yɛ wo de."
+    "billing": {
+      "opening": "Opening…",
+      "manage": "Manage Billing"
     },
-    "welcomeBack": "Akwaaba bio",
-    "continueGoogle": "Kɔ so de Google",
-    "continueApple": "Kɔ so de Apple",
-    "username": "Username",
-    "password": "Ehintansɛmfua",
-    "keepSignedIn": "Ma me nna mu",
-    "forgotPassword": "Wofii ehintansɛmfua mu?",
-    "loginButton": "Kɔ mu",
-    "createAccount": "Bɔ akawnt",
-    "freeAccountButton": "Bɔ akawnt kwa",
-    "newHere": "Wo foforo ha?",
-    "getApp": "Fa app no",
-    "desktopTip": "Woyɛ desktop? Fa wo fon scan na fa app no.",
-    "scanHelper": "Woyɛ desktop? Fa wo fon scan na fa app no.",
-    "goHome": "Kɔ fie",
-    "home": "Fie",
-    "headlineAlt": {
-      "main": "Kɔkɔɔ a ɛwɔ bammɔ a",
-      "highlight": "ɔte wo kasa"
+    "checkout": {
+      "redirecting": "Redirecting…"
     },
-    "subhead": "Pɛ, ekyir, na atwerease nkratoɔ — ntɛm ara.",
-    "status": "Hwɛ status",
-    "upgrade": "Sɔre kɔ so seisei",
-    "tip": "Afotu: Fa akawnt koro na fa web ne mobɔl nyinaa. Wo nkratoɔ bɛtena synk.",
-    "openDownload": "Bue atwe kratafa",
-    "qrAlt": "QR koodu ma Chatforia",
-    "scanHint": "Scan na atwe app no anaa bue wɔ w’braɛwsa mu.",
-    "iosAria": "Twe wɔ App Store",
-    "iosTitle": "Twe wɔ App Store",
-    "iosBadgeAlt": "App Store bɛji",
-    "androidAria": "Fa wɔ Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play bɛji",
-    "login": "Kɔ mu",
-    "signup": "Bɔ akun",
-    "email": "I-mel"
+    "auth": {
+      "continue": "Continue to login",
+      "createAccount": "Yɛ account",
+      "signIn": "Sign in"
+    },
+    "cta": {
+      "aria": "Select plan",
+      "getPlus": "Ma nkɔ anim to Plus",
+      "upgradeMonthly": "Ma nkɔ anim Monthly",
+      "upgradeAnnual": "Ma nkɔ anim Annual"
+    },
+    "section": {
+      "app": "App plans",
+      "mobile": "Mobile (eSIM)",
+      "family": "Abusua plans"
+    },
+    "plans": {
+      "free": {
+        "title": "Free",
+        "price": "$0",
+        "desc": "Start messaging for free. Ideal if you’re just trying Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+          "media": "Share photos, voice messages, and short videos",
+          "ai": "AI-powered smart replies and instant translation (fair use)",
+          "disappearing": "Nsɛm a yera and basic privacy controls",
+          "ads": "Free forever with ads in the app"
+        },
+        "ctaCurrent": "Plan a wowɔ seesei",
+        "ctaManage": "Manage in billing",
+        "ctaPublic": "Get started – continue to login",
+        "aria": "Free plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "All the essentials, without ads. Great for everyday messaging and calling.",
+        "features": {
+          "allFree": "Everything in Free, with no ads",
+          "forwarding": "Forward calls and texts to your real phone number",
+          "history": "Longer message history (up to 6 months)",
+          "support": "Faster support when something goes wrong"
+        },
+        "badge": "Popular",
+        "cta": "Go Ad-Free",
+        "ctaPublic": "Get Plus – continue to login",
+        "aria": "Ma nkɔ anim to Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Monthly)",
+        "price": "$11.99",
+        "desc": "The full Chatforia experience: AI power tools, customization, and priority support.",
+        "features": {
+          "plusAll": "Everything in Plus",
+          "themes": "Unlock all premium color themes and app customizations",
+          "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+          "support": "Priority support when you need help most"
+        },
+        "badge": "Recommended",
+        "cta": "Ma nkɔ anim (Monthly)",
+        "ctaPublic": "Unlock Premium – continue to login",
+        "aria": "Ma nkɔ anim to Premium Monthly"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Annual)",
+        "price": "$99",
+        "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support.",
+        "features": {
+          "allPremium": "Everything in Premium Monthly — including extra color themes",
+          "annualBilling": "Billed once per year",
+          "save25": "Save around 30% compared to paying monthly",
+          "bestFor": "Best for power users, remote workers, and heavy travelers"
+        },
+        "badge": "Save 30%",
+        "cta": "Ma nkɔ anim (Annual)",
+        "ctaPublic": "Save 30% with annual – continue to login",
+        "aria": "Ma nkɔ anim to Premium Annual",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Free",
+      "freeDesc": "Start messaging for free.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Most affordable ad-free experience.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Full features, ringtones, and AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Save more when billed yearly.",
+      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "Fa ka ho global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.",
+      "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.",
+      "scope": {
+        "local": "Local",
+        "europe": "Europe",
+        "global": "Global"
+      },
+      "note": "We don’t sell data packs under 3 GB.",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = your current country",
+      "perPack": "/ pack",
+      "cta": "Get this data pack",
+      "ctaPublic": "Get this data pack",
+      "checkout": {
+        "redirecting": "Redirecting…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "High-speed data for heavy use",
+          "throttle": "Speeds may slow after high usage",
+          "coverage": "Reliable coverage",
+          "instant": "Instant eSIM activation",
+          "noContract": "One-time pack, no contract"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region."
+      },
+      "small": {
+        "title": "Starter pack",
+        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Short trips, light messaging, and occasional calls",
+        "aria": "Buy Starter eSIM data pack"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Weekend trips, regular VoIP calls, and maps",
+        "aria": "Buy Traveler eSIM data pack"
+      },
+      "large": {
+        "title": "Power pack",
+        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Heavy chat, calls, video, and hotspot use",
+        "aria": "Buy Power user eSIM data pack"
+      },
+      "compare": {
+        "title": "Compare eSIM data packs",
+        "col": {
+          "pack": "Pack",
+          "data": "Included data",
+          "bestFor": "Best for"
+        },
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
+      }
+    },
+    "family": {
+      "title": "Chatforia Abusua (shared data)",
+      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Abusua Small",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
+        "price": "$29.99",
+        "aria": "Buy Abusua Small pack"
+      },
+      "medium": {
+        "title": "Abusua Medium",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
+        "price": "$49.99",
+        "aria": "Buy Abusua Medium pack"
+      },
+      "large": {
+        "title": "Abusua Large",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
+        "price": "$84.99",
+        "aria": "Buy Abusua Large pack"
+      },
+      "feature": {
+        "shared": "Data pool a moakyɛ mu for your family",
+        "members": "Invite up to 4 additional members",
+        "membersMore": "Great for 3–5 active members",
+        "manage": "Manage limits for each member",
+        "topUp": "Fa ka ho more packs anytime",
+        "bestValue": "Best value per GB",
+        "fairUse": "Subject to fair-use policy and local limits"
+      },
+      "disclaimer": "Abusua packs create or top up a shared data pool. You can invite and remove members anytime.",
+      "footnote": "Abusua packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations."
+    },
+    "why": {
+      "title": "Why people switch to Chatforia",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat apps",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
+        }
+      },
+      "tableTitle": "How Chatforia compares",
+      "col": {
+        "feature": "Feature"
+      },
+      "feature": {
+        "freeNumber": "Free phone number",
+        "translation": "Built-in auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Ad-free option",
+        "history": "Nkrasɛm history"
+      },
+      "yes": "Yes",
+      "no": "No",
+      "yesPremium": "Yes (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Hyeɛed",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Up to 12+ months",
+        "textnow": "Varies by account",
+        "voice": "Hyeɛed / account-based"
+      },
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
+    },
+    "faq": {
+      "title": "Pricing & plans FAQ",
+      "free": {
+        "q": "Is the Free plan really free?",
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
+      },
+      "plusPremium": {
+        "q": "What’s the difference between Plus and Premium?",
+        "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users."
+      },
+      "esim": {
+        "q": "Where do eSIM data packs work?",
+        "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app."
+      },
+      "cancel": {
+        "q": "Can I cancel or change plans anytime?",
+        "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period."
+      },
+      "family": {
+        "q": "How do Abusua packs work?",
+        "a": "Abusua packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person."
+      }
+    },
+    "gettingStarted": {
+      "title": "Getting Started",
+      "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
+      "alert": {
+        "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+        "contactLink": "Di yɛn ho nkɔmmɔ"
+      },
+      "section1": {
+        "title": "1) Create your account",
+        "signup": "Sign up",
+        "or": "or",
+        "login": "log in",
+        "loginText": "with your existing account.",
+        "prefsStart": "Set your",
+        "prefsLink": "preferences",
+        "prefsRest": "(language, read receipts, themes)."
+      },
+      "section2": {
+        "title": "2) Start messaging",
+        "item1": "Create a DM or Group and send your first message.",
+        "item2": "Use instant translation to chat across 100+ languages.",
+        "item3": "Try disappearing messages and read receipts in Profile → Kokoamsɛm."
+      },
+      "section3": {
+        "title": "3) Go further",
+        "item1": "You can upgrade to a paid plan anytime inside the app.",
+        "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
+      },
+      "cta": {
+        "seePlans": "See plans",
+        "openSettings": "Open settings"
+      }
+    },
+    "helpCenter": {
+      "title": "Mmoa Bea",
+      "faq": {
+        "account": {
+          "q": "How do I create or recover my account?",
+          "a": "Twe the app or use web, tap “Yɛ account”, verify your email/phone. To recover, use “Forgot password”."
+        },
+        "privacy": {
+          "q": "Are messages end-to-end encrypted?",
+          "a": "Yes. Nkrasɛms and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+        },
+        "translate": {
+          "q": "How does instant translation work?",
+          "a": "Enable “Auto-translate” in Settings → Ahwɛsoɔ & Kasa. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+        },
+        "contact": {
+          "q": "Contact support",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+        }
+      }
+    },
+    "contact": {
+      "title": "Di yɛn ho nkɔmmɔ",
+      "successMsg": "Thanks—our team will reply by email.",
+      "errorSend": "Could not send. Please email support@chatforia.com.",
+      "form": {
+        "nameLabel": "Din",
+        "emailLabel": "Email",
+        "messageLabel": "Nkrasɛm",
+        "sendCta": "Mena"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Kokoamsɛm Policy",
+      "lastUpdated": "Last updated:",
+      "intro": {
+        "body": "This Kokoamsɛm Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
+      },
+      "infoWeCollect": {
+        "title": "Information we collect",
+        "account": "Account info (e.g., email/phone) to create and secure your account.",
+        "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+        "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
+      },
+      "sms": {
+        "title": "Mobile phone numbers and SMS",
+        "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+        "newText": "New text",
+        "enterRecipient": "Fa din anaa nɔma hyɛ mu",
+        "typeMessage": "Kyerɛw nkrasɛm…",
+        "addRecipient": "Fa ka ho a recipient above to start…"
+      },
+      "howWeUse": {
+        "title": "How we use information",
+        "provide": "Provide and secure the service (auth, spam/abuse detection).",
+        "improve": "Improve features (translation quality, reliability).",
+        "legal": "Comply with legal obligations."
+      },
+      "sharing": {
+        "title": "Sharing",
+        "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
+      },
+      "rights": {
+        "title": "Your rights",
+        "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Data retention & security",
+        "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
+      },
+      "children": {
+        "title": "Children",
+        "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
+      },
+      "changes": {
+        "title": "Changes",
+        "body": "We’ll post updates here and revise the “Last updated” date."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "lastUpdated": "Last updated:",
+      "intro": {
+        "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
+      },
+      "accounts": {
+        "title": "Accounts",
+        "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+        "itemResponsibility": "You’re responsible for activity on your account."
+      },
+      "acceptableUse": {
+        "title": "Acceptable use",
+        "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+        "itemSuspend": "We may suspend/terminate for violations."
+      },
+      "sms": {
+        "title": "SMS communications",
+        "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
+      },
+      "yourContent": {
+        "title": "Your content",
+        "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
+      },
+      "disclaimer": {
+        "title": "Disclaimers & liability",
+        "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
+      },
+      "changes": {
+        "title": "Changes",
+        "body": "We may update these terms; continued use after changes means acceptance."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "Do Not Sell or Share My Personal Information",
+      "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+      "cta": "Submit a request"
+    },
+    "cookies": {
+      "title": "Cookie settings",
+      "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Unable to load phone number status.",
+      "lock": "Lock",
+      "noNumberAssigned": "No number assigned. Pick one by area code to start texting.",
+      "pickNumber": "Pick a number",
+      "phoneNumber": "Telefon nɔma"
+    },
+    "startChatModal": {
+      "title": "Start a chat",
+      "quickPicker": "Quick picker",
+      "to": "To",
+      "nameOrUsername": "Type a name, username",
+      "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+      "startWithSelected": "Hyɛ chat ase with selected",
+      "searchByUsernameOrPhone": "Hwehwɛ by username or phone",
+      "search": "Hwehwɛ",
+      "searchPrompt": "Type a username or phone and press Hwehwɛ.",
+      "pickFromContacts": "Or pick from contacts",
+      "addContact": "Fa ka ho a Contact",
+      "show": "Show",
+      "add": "Fa ka ho",
+      "close": "Close",
+      "selectedCount": "{{count}} selected",
+      "pickAtLeastOne": "Pick at least one recipient.",
+      "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+      "failedBulkStart": "Ankɔ yie to start chat with selected recipients.",
+      "noResults": "Nneɛma biara nni mu",
+      "mode": "Mode",
+      "group": "Group",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Group name (optional)",
+      "firstMessageOptional": "First message (optional but recommended)",
+      "createGroup": "Create group",
+      "sendBroadcast": "Mena broadcast"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "You’re on Free — premium tones are shown but locked. Ma nkɔ anim to unlock all.",
+      "preview": "Hwɛ ansa",
+      "resetToDefaults": "Reset to defaults",
+      "notificationSounds": "Notification Nne",
+      "messageTone": "Nkrasɛm tone",
+      "default": "Default",
+      "vibrate": "Vibrate",
+      "dreamer": "Dreamer",
+      "notify": "Notify",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsating Sound",
+      "textMessage": "Text Nkrasɛm",
+      "xylophone": "Xylophone",
+      "classic": "Classic",
+      "urgency": "Urgency",
+      "bells": "Bells",
+      "chimes": "Chimes",
+      "digitalPhone": "Digital Phone",
+      "melodic": "Melodic",
+      "organNotes": "Organ Notes",
+      "soundReality": "Sound Reality",
+      "street": "Street",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "This feature requires a Premium plan."
+    },
+    "aiSettings": {
+      "title": "AI Settings",
+      "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+      "save": "Save AI Settings",
+      "autoTranslateIncoming": "Auto-translate incoming messages",
+      "showOriginalAlongside": "Show original text alongside translation",
+      "enableSmartReplies": "Enable Smart Replies",
+      "smartRepliesHint": "Mena the last few received messages (sanitized) to AI to suggest quick replies.",
+      "maskProfanity": "Mask profanity in AI suggestions",
+      "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+      "foriaBot": "ForiaBot Auto-Responder",
+      "enableAutoReply": "Enable auto-reply when I’m busy",
+      "autoReplyMode": "Auto-reply mode",
+      "cooldownSeconds": "Cooldown (seconds)",
+      "off": "Dum",
+      "on": "On",
+      "signature": "Signature",
+      "autoReply": "Auto-reply",
+      "activeUntilOptional": "Active until (optional)",
+      "saved": "AI preferences saved",
+      "saveFailed": "Ankɔ yie to save AI settings",
+      "translateOff": "Dum",
+      "translateTagged": "Only when @translated or tagged",
+      "translateAll": "Translate all incoming messages",
+      "modeDm": "1:1 chats only",
+      "modeMention": "Only when I’m @mentioned",
+      "modeAll": "All inbound messages"
+    },
+    "accessibilitySettings": {
+      "title": "Nneɛma a ɛma yɛyɛ mmerɛw & Alerts",
+      "accessibility": "Nneɛma a ɛma yɛyɛ mmerɛw",
+      "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+      "interfaceFontSize": "Interface font size",
+      "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text in accessibility settings.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Notifications",
+      "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+      "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+      "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+      "liveCaptions": "Live captions (calls)",
+      "captionFontSize": "Caption font size",
+      "captionBackground": "Caption background",
+      "light": "light",
+      "dark": "dark",
+      "transparent": "transparent",
+      "voiceNotes": "Voice notes",
+      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+      "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+      "changesSavedInstantly": "Changes are saved instantly.",
+      "loadFailed": "Ankɔ yie to load settings",
+      "visualAlerts": "Visual alerts for messages & calls",
+      "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+      "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+      "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+      "flashOnCallShort": "Flash screen on incoming call",
+      "flashOnCallDesc": "Brief bright flash when a call rings."
+    },
+    "privacySection": {
+      "strictE2EE": "Strict end-to-end encryption",
+      "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews."
+    },
+    "linkedDevicesPanel": {
+      "title": "Linked Devices",
+      "noneFound": "No linked devices found.",
+      "refresh": "San yɛ bio"
+    },
+    "help": {
+      "title": "Mmoa",
+      "howCanWeHelp": "Yɛbɛyɛ dɛn aboa?",
+      "helpCenter": "Mmoa Bea",
+      "contactUs": "Di yɛn ho nkɔmmɔ",
+      "quickTopics": "Quick topics",
+      "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+      "cantLogin": "Can't log in",
+      "paymentsBilling": "Payments/ billing",
+      "reportAbuse": "Report abuse",
+      "searchHelpArticles": "Hwehwɛ mmoa articles",
+      "search": "Hwehwɛ"
+    },
+    "peoplePage": {
+      "people": "Nnipa",
+      "search": "Hwehwɛ",
+      "searchPlaceholder": "Hwehwɛ by alias, name, username, or phone",
+      "filterSaved": "Filter saved contacts",
+      "noContactsFound": "No contacts found",
+      "quickStart": "Quick start",
+      "quickStartDesc": "A few fast ways to get rolling.",
+      "importContacts": "Import your contacts",
+      "add": "Fa ka ho",
+      "focusSearch": "Focus Hwehwɛ",
+      "import": "Import",
+      "findOrAdd": "Find or add someone",
+      "searchByPhoneOrUsername": "Hwehwɛ by phone / username",
+      "inviteFriends": "Invite friends",
+      "inviteDesc": "Share your invite link to start chatting instantly.",
+      "getTheApp": "Fa app no",
+      "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+      "download": "Twe",
+      "syncTip": "Tip: Wo nkrasɛm stay synced across web and mobile."
+    },
+    "randomChat": {
+      "title": "Random Chat",
+      "description": "'Meet someone new instantly'. 'We’ll match you and open a temporary chat room.' 'Chat anonymously first. Fa ka ho Friend later if it feels right.'",
+      "findMatch": "Find me a match",
+      "chatWithForia": "Chat with Foria",
+      "chatWithForiaBot": "Chat with ForiaBot",
+      "cancel": "Twa mu",
+      "close": "Close",
+      "searching": "Hwehwɛing…",
+      "finding": "Finding…",
+      "looking": "Looking for someone…",
+      "startingForia": "Starting a chat with Foria…",
+      "partnerDisconnected": "Your partner disconnected.",
+      "noPartner": "No partner found right now.",
+      "connectedTo": "Connected to {{name}}",
+      "connected": "Connected",
+      "idle": "Idle",
+      "partnerLeft": "Partner left.",
+      "stopped": "Stopped.",
+      "skip": "Skip",
+      "save": "Sie",
+      "saveGuard": "Only human-to-human chats can be saved",
+      "youAreChattingWith": "You’re chatting with {{name}}",
+      "bot": "BOT",
+      "leave": "Leave",
+      "sayHi": "Say hi 👋",
+      "you": "You",
+      "typeMessage": "Type a message",
+      "send": "Mena",
+      "partner": "Partner",
+      "withRia": "With Ria",
+      "chatWithRia": "Chat with Ria",
+      "startingRia": "Starting a chat with Ria…",
+      "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+      "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+      "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+      "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+      "start": "Hyɛ nkɔmmɔbɔ ase",
+      "matching": "Matching…",
+      "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+      "next": "Next Person",
+      "addFriend": "Fa ka ho Friend",
+      "requested": "Requested",
+      "messageRia": "Nkrasɛm Ria…",
+      "messageMatch": "Nkrasɛm your match…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "there",
+      "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
+      "greetings": {
+        "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+        "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+        "long3": "Hey {{name}}! I’m all ears — what’s up?",
+        "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+        "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+        "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+        "short1": "Hey {{name}}, I’m still here. What’s up?",
+        "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+        "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+        "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+        "short5": "Yes {{name}}? I’m listening 👂",
+        "short6": "Oh hey {{name}}! Got something new on your mind?"
+      },
+      "header": {
+        "openNav": "Open navigation menu",
+        "closeNav": "Close navigation menu",
+        "homeAria": "Chatforia Fie"
+      },
+      "login": {
+        "welcomeBack": "Welcome back",
+        "title": "Continue to Chatforia",
+        "subtitleReturning": "Kɔ mu to your Chatforia account",
+        "subtitle": "Kɔ mu to your Chatforia account",
+        "google": "Toa so fa Google",
+        "apple": "Toa so fa Apple",
+        "googleUnavailable": "Google sign-in unavailable",
+        "appleUnavailable": "Apple sign-in unavailable",
+        "or": "or",
+        "email": "Email",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Username",
+        "usernamePh": "Your username",
+        "passwordLabel": "Password",
+        "passwordPh": "Your password",
+        "keepSignedIn": "Ma menkɔ so ntena mu",
+        "forgot": {
+          "title": "Forgot Password",
+          "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+          "emailInvalid": "Please enter a valid email address.",
+          "genericError": "Unable to process request. Please try again in a moment.",
+          "sending": "Menaing reset link...",
+          "sendCta": "Mena Reset Link",
+          "sentLabel": "Sent!",
+          "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+          "previewDev": "Hwɛ ansa Email (Dev)",
+          "backToLogin": "Back to Login"
+        },
+        "submit": "Kɔ mu",
+        "loggingIn": "Logging in…",
+        "newHere": "New here? <link>Yɛ account</link>",
+        "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
+        "error": {
+          "missing": "Please enter your credentials.",
+          "invalid": "Invalid username or password",
+          "denied": "Access denied.",
+          "unprocessable": "Invalid request. Check your username/email and password.",
+          "deviceLimit": "Device limit reached for the Free plan. Fi mu on another device or upgrade to Premium to link more devices.",
+          "premiumRequired": "This action requires a Premium plan."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Completing sign-in…"
+    },
+    "dialer": {
+      "title": "Frɛ",
+      "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+      "enterNumberPh": "Enter number",
+      "call": "Frɛ",
+      "backspace": "Backspace",
+      "recents": "Recents",
+      "recentsEmpty": "No recent calls yet.",
+      "enterNumber": "Enter number",
+      "enterNumberAria": "Enter number",
+      "key": "Key {{d}}",
+      "noRecents": "No recent calls yet."
+    },
+    "video": {
+      "title": "Video",
+      "chooseType": "Choose a video type.",
+      "directTitle": "Direct Video",
+      "directDesc": "1:1 camera call with another user.",
+      "directStart": "Start",
+      "roomsTitle": "Rooms",
+      "roomsDesc": "Multi-party video using a shared room name.",
+      "roomsIntro": "Join or create a multi-party room.",
+      "roomNameLabel": "Room name",
+      "roomNamePh": "e.g. team-standup",
+      "join": "Join",
+      "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Video",
+        "subtitle": "Choose a video type."
+      },
+      "direct": {
+        "title": "Direct Video",
+        "subtitle": "Start a 1:1 video call using a phone number or Chatforia username.",
+        "desc": "1:1 camera call with another user.",
+        "start": "Start",
+        "callBtn": "Frɛ",
+        "callByPhone": {
+          "title": "Frɛ by phone"
+        },
+        "phone": {
+          "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+          "aria": "Phone to call"
+        },
+        "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
+        "findUser": {
+          "title": "Find a user"
+        },
+        "search": {
+          "placeholder": "Hwehwɛ by name or username",
+          "aria": "Hwehwɛ by name or username",
+          "btn": "Hwehwɛ"
+        }
+      },
+      "rooms": {
+        "title": "Rooms",
+        "subtitle": "Create a room or join an existing one by typing the same name.",
+        "desc": "Multi-party video using a shared room name.",
+        "roomLabel": "Room name",
+        "roomPlaceholder": "e.g. team-standup",
+        "roomAria": "Room name",
+        "joinCreate": "Join / Create",
+        "tip": "Tip: share this name with others, or deep link to <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Start a direct 1:1 video call.",
+      "findUserLabel": "Find a user",
+      "findUserPh": "Hwehwɛ by name or username",
+      "search": "Hwehwɛ",
+      "call": "Frɛ"
+    },
+    "phoneWarning": {
+      "title": "Your number is expiring soon",
+      "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+      "button": "Keep My Number"
+    }
   },
-
+  "support": {
+    "helpFab": "Mmoa",
+    "openSupportAria": "Bue mmoa",
+    "badge": "Mmoa",
+    "heading": "Yɛbɛyɛ dɛn aboa?",
+    "tabs": {
+      "help": "Mmoa Bea",
+      "contact": "Di yɛn ho nkɔmmɔ"
+    },
+    "searchPlaceholder": "Hwehwɛ mmoa articles…",
+    "searchAria": "Hwehwɛ mmoa",
+    "searchBtn": "Hwehwɛ",
+    "quickTopicsLabel": "Quick topics",
+    "quickTopics": {
+      "login": "Can’t log in",
+      "billing": "Payments / billing",
+      "abuse": "Report abuse"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+    "article": "Article",
+    "openArticle": "Open article",
+    "contactIntro": "We’ll email you a response. Include details to help us reproduce the issue.",
+    "topicAria": "Select a topic",
+    "messagePlaceholder": "Write your message…",
+    "sendBtn": "Mena",
+    "sent": "Wɔde nkrasɛm no akɔ. Yɛbɛfa email so abua.",
+    "sendError": "Antumi ankɔ. Fa email kɔ support@chatforia.com mmom."
+  },
+  "helpCenter": {
+    "title": "Mmoa Bea",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account?",
+        "a": "Twe the app or use web, tap “Yɛ account”, verify your email/phone. To recover, use “Forgot password”."
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted?",
+        "a": "Yes. Nkrasɛms and calls are end-to-end encrypted by default. Only you and the recipient can read them."
+      },
+      "translate": {
+        "q": "How does instant translation work?",
+        "a": "Enable “Auto-translate” in Settings → Ahwɛsoɔ & Kasa. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+      }
+    }
+  },
+  "encryptionRecovery": {
+    "title": "Manage Encryption",
+    "description": "Back up, restore, unlock, or reset your encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue."
+    },
+    "sections": {
+      "createBackup": "Create key backup",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device)",
+        "description": "Used to decrypt your keys locally before exporting"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Used to encrypt the backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "The password you created when backing up your key on iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Protect keys at rest on this browser"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode",
+        "description": "Required before resetting so the new key is protected on this device"
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key",
+      "restoreFromBackup": "Restore from account backup",
+      "resetEncryption": "Reset Encryption"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded.",
+      "keyUnlocked": "Encryption key unlocked.",
+      "keyRestored": "Key restored from account backup.",
+      "resetSuccess": "Encryption reset successfully."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account",
+      "noBackup": "No encrypted backup exists for this account",
+      "missingPublicKey": "Backup is missing a public key",
+      "noServerPublicKey": "This account does not currently expose a server public key",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key",
+      "incompleteMetadata": "Backup metadata is incomplete",
+      "resetIncomplete": "Encryption reset did not complete correctly"
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later."
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later."
+  },
   "footer": {
-    "plans": "Nhom & Tɔ",
+    "plans": "Plans ne Nnɔnhwerew a wɔtua",
     "about": "Fa Chatforia ho",
     "careers": "Adwuma",
-    "press": "Amansan Nyankontabuo",
-    "advertise": "Kɔmerɛ",
-    "contact": "Frɛ Yɛn",
-    "help": "Help Center",
-    "status": "Status Kratafa",
+    "press": "Nsɛm ho amanneɛ",
+    "advertise": "Fa dawurubɔ",
+    "contact": "Di yɛn ho nkɔmmɔ",
+    "help": "Mmoa Bea",
+    "status": "Status kratafa",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Siesɛm Politik",
-    "terms": "Ahyɛde",
-    "cookies": "Kuki Nsɛnhyɛ",
-    "doNotSell": "Mfa me infɔ no nnɔto",
+    "privacy": "Kokoamsɛm Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie settings",
+    "doNotSell": "Mmtɔn me ho nsɛm",
     "language": "Kasa",
-    "contactShort": "Frɛ yɛn",
-
-    "aria": "Futɔ",
+    "contactShort": "Contact",
+    "aria": "Footer",
     "homeAria": "Chatforia fie",
     "section": {
-      "company": "KOMPƆNI",
+      "company": "ADWUMAKUW",
       "support": "MMOA",
-      "downloads": "NTAWE",
+      "downloads": "DOWNLOADS",
       "legal": "MMARA"
     },
     "links": {
-      "plans-pricing": "Nhom & Tɔ",
+      "plans-pricing": "Plans ne Nnɔnhwerew a wɔtua",
       "about-chatforia": "Fa Chatforia ho",
       "careers": "Adwuma",
-      "press": "Amansan Nyankontabuo",
-      "advertise": "Kɔmerɛ",
-      "getting-started": "Fi ase",
-      "help-center": "Help Center",
-      "contact-us": "Frɛ Yɛn",
-      "status-page": "Status Kratafa",
+      "press": "Nsɛm ho amanneɛ",
+      "advertise": "Fa dawurubɔ",
+      "getting-started": "Getting Started",
+      "help-center": "Mmoa Bea",
+      "contact-us": "Di yɛn ho nkɔmmɔ",
+      "status-page": "Status kratafa",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Siesɛm Politik",
-      "terms-of-service": "Ahyɛde",
-      "do-not-sell-my-info": "Mfa me infɔ no nnɔto",
-      "cookie-settings": "Kuki Nsɛnhyɛ"
+      "privacy-policy": "Kokoamsɛm Policy",
+      "terms-of-service": "Terms of Service",
+      "do-not-sell-my-info": "Mmtɔn me ho nsɛm",
+      "cookie-settings": "Cookie settings"
     },
     "social": {
       "tiktok": "TikTok",
@@ -349,638 +1605,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patent resɔ retwɛn",
+    "patentPending": "Patent da so",
     "backToTop": "↑ San kɔ soro"
   },
-
-  "home": {
-    "title": "Fie",
-    "header": "Wo nkratoɔ",
-    "subheader": "Mane asɛm na fi ase kɔkɔɔ mu.",
-    "sendButton": "Mane asɛm",
-    "gifPicker": "Bue GIF picker",
-    "emoji": "Emɔji",
-    "upload": "Twe mfonini anaa video",
-    "inputPlaceholder": "Twerɛ asɛm…",
-    "inputLabel": "Asɛm-kyerɛw beaeɛ",
-    "sendTooltip": "Mane",
-    "sendTooltipEmpty": "Twerɛ asɛm ansa na wotumi mane",
-    "send": "Mane",
-    "welcomeMessage": "Akwaaba kɔ Chatforia",
-    "getStarted": "Fi ase"
-  },
-
   "press": {
-    "title": "Amansan Nyankontabuo",
-    "contactLine": "Sɛ wopɛ amanneɛ ho nsɛm a, frɛ yɛn wɔ",
+    "title": "Nsɛm ho amanneɛ",
+    "contactLine": "Sɛ media nsɛm ho a, di yɛn ho nkɔmmɔ wɔ",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia yɛ kɔkɔɔ a ɛdi siesɛm kan na ɛma kasa ahorow mu kɔkɔɔ yɛ mmerɛ. Nkratoɔ nyinaa wɔ end-to-end bammɔ, na ntansɛso a ɛwɔ mu boaboa kasa 100+ bere mu. Wobɛtumi asɔ nkratoɔ a ɛyera, na akan-mmɔden de ho atɔ wo bo, na wode nneɛma ahorow synk. Ɛwɔ iOS, Android, ne web.",
-    "assetsTitle": "Brand adeɛ",
-    "assetsSubtitle": "Logo, ascreen shot, ne prudɔkt mfonini.",
-    "downloadCta": "Twe media kit",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Nkrasɛms are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web.",
+    "assetsTitle": "Brand nneɛma",
+    "assetsSubtitle": "Logos, screenshots, and product mfoniniry.",
+    "downloadCta": "Twe media kit no",
     "downloadTitle": "Fa app no",
-    "scanTip": "Woyɛ desktop? Fa wo fon na scan na fa app no.",
-    "qrAria": "Bue Chatforia wɛb",
-    "appStore": "Twe wɔ App Store",
-    "googlePlay": "Fa wɔ Google Play"
+    "scanTip": "On desktop? Scan with your phone to get the app.",
+    "qrAria": "Open Chatforia website",
+    "appStore": "Twe on the App Store",
+    "googlePlay": "Get it on Google Play"
   },
-
   "careers": {
     "title": "Adwuma",
-    "intro": "Yɛ yɛn ketewa, yɛrebɔ kɔkɔɔ a ɛyɛ pɛ, wiase nyinaa de. Sɛ wopɛ bammɔ, hohoro kɔkɔɔ, ne UX a ɛyɛ dɛ a, yɛpɛ sɛ w'frɛ yɛn.",
-    "openRoles": "<b>Nwuma a ɛwɔ hɔ:</b> Ɛnjiniar (Full-stack, iOS, Android), Prudɔkt, Mmoa.",
-    "apply": "<b>Sɛ wopɛ a:</b> Twerɛ wo resume/links kɔ <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Mane wo resume"
+    "intro": "Yɛyɛ founding team ketewa a yɛresi Chatforia — messenger a ɛyɛ kokoamsɛm na ɛkɔ wiase nyinaa so wɔ web, iOS, ne Android. Sɛ privacy, encryption, ne user experience pa ho hia wo a, anka yɛpɛ sɛ yɛte wo.",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Ahobammɔ &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "How to apply: Use the button below to email your resume and links.",
+    "emailCta": "Email your resume",
+    "whyNow": "Why join now?",
+    "whyBullets": "• Mmoa build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales."
   },
-
   "about": {
     "title": "Fa Chatforia ho",
-    "description": "Chatforia yɛ kɔkɔɔ a ɛwɔ bammɔ, kasa ahorow pii mu ntansɛso, ne afrɛ/video afrɛ. Yɛn botae koro pɛ: boa nnipa ma wɔne wɔn ho nkitahodie—brɛoo, fa sie, na kasa ntam.",
-    "valuesTitle": "Dɛn na yɛde di dwuma",
+    "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages.",
+    "valuesTitle": "What we value",
     "values": {
-      "privacy": "<bold>Siesɛm-kan:</bold> E2E bammɔ da so.",
-      "access": "<bold>Kɔ so ma obiara:</bold> Kyere ase kasa 100+ otomatik.",
-      "control": "<bold>Tumi wɔ wo nsam:</bold> Nkratoɔ a ɛyera & akan-mmɔden yɛ pɛ.",
-      "privacy_aria": "Siesɛm-kan: E2E bammɔ da so.",
-      "access_aria": "Kɔ so ma obiara: Kyere ase kasa 100+ otomatik.",
-      "control_aria": "Tumi: Nkratoɔ a ɛyera ne akan-mmɔden yɛ pɛ."
+      "privacy": "<b>Kokoamsɛm-first:</b> E2E encryption by default.",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages.",
+      "control": "<b>Control:</b> Nsɛm a yera ne read receipts are optional.",
+      "privacy_aria": "Kokoamsɛm-first: E2E encryption by default.",
+      "access_aria": "Access for all: Auto-translate 100+ languages.",
+      "control_aria": "Control: Nsɛm a yera and read receipts are optional."
     },
-    "howTitle": "Sɛnea Chatforia di dwuma",
-    "howDescription": "Wode wo devaes na ɛkyerɛw nkratoɔ no akɔ bom ansa na ɛfiri hɔ. Ntansɛso, akyidie, ne devaes synk yɛɛ no sɛnea ɛbɛma yɛn somfo betumi anhu bebree."
+    "howTitle": "How Chatforia works",
+    "howDescription": "Nkrasɛms are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see."
   },
-
   "advertise": {
-    "title": "Yɛ adwuma kɔmerɛ wɔ Chatforia",
-    "description": "Du nkɔmmɔfo a wɔde wɔn ho to ho so, de adwuma a ɛfata brand so. Yɛwɔ banɛ so mmɔho, sponsɔship, ne house promos. Premium akontafo renhunu adwuma dawuro.",
+    "title": "Fa dawurubɔ with Chatforia",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads.",
     "adsense": {
-      "withPubId": "Afe yi yɛde <b>Google AdSense</b> na yɛde retɔ adwuma. Sɛ wopɛ sɛ wopɛ yɛn wɔ Google Ads mu a, fa publisher ID <code>{{pubId}}</code> na bisa managed placement wɔ yɛn units ase. Yɛwɔ nokware sponsɔship nso—fa form no mu.",
-      "noPubId": "Afe yi yɛde <b>Google AdSense</b> na yɛde retɔ adwuma. Nokware sponsɔship nso wɔ hɔ—fa form no mu."
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships.",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below."
     },
-    "inventoryHeader": "Ndeɛma & Nsɛmfɔ",
+    "inventoryHeader": "Inventory & Specs",
     "placement": {
       "displayBadge": "Display",
-      "acceptedSizes": "Kɛse kɛse a yɛgye tom",
+      "acceptedSizes": "Accepted sizes",
       "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "Nhyɛbea biara nsi da. Fa ka wɔ ads/placements.js.",
-    "whyHeader": "Adɛn nti Chatforia?",
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements.",
+    "whyHeader": "Why Chatforia?",
     "why": {
-      "highSession": "Nhyiamu dodow & bere tenten wɔ chat UI mu",
-      "brandSafe": "Brand-safe nhyehyɛe; dawuro mmɔtoɔ nyɛ pii",
-      "sponsoredMoments": "Moments a wobɛtumi asponsɔ (te sɛ “Start a Chat” modal) wɔ hɔ",
-      "deals": "Direct deals anaa programmatic fa AdSense/Google Ads so"
+      "highSession": "High session frequency and dwell time in chat UI",
+      "brandSafe": "Brand-safe formats; respectful frequency capping",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads"
     },
-    "contactHeader": "Frɛ Yɛn",
+    "contactHeader": "Contact",
     "form": {
-      "submittedMsg": "Meda wo ase! Wo bisae rekɔ. Yɛbɛfrɛ wo awerɛkyekyere.",
-      "missingRequired": "Yɛsrɛ wo, hyɛ din, imeyl, ne asɛm mu.",
-      "successToast": "Meda wo ase! Yɛbɛka wo ho ntɛm.",
-      "mailtoInfo": "Rebue wo imeyl klyent deɛ…",
-      "nameLabel": "Wo din",
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly.",
+      "missingRequired": "Please fill in name, email, and message.",
+      "successToast": "Thanks! We’ll be in touch soon.",
+      "mailtoInfo": "Opening your email client to send the inquiry…",
+      "nameLabel": "Your name",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": "I-mel",
+      "emailLabel": "Email",
       "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kɔmpɔni",
+      "companyLabel": "Company",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Bajet (pɛpɛɛpɛ)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Ka wo kampɛn ho asɛm",
-      "messagePlaceholder": "Targeting, bere, KPIs, nhyehyɛe…",
-      "sendCta": "Mane bisae"
+      "budgetLabel": "Monthly budget (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Tell us about your campaign",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
+      "sendCta": "Mena inquiry"
     },
     "legal": {
-      "disclaimerStart": "Sɛ wode tua a, wogye yɛn",
-      "terms": "Ahyɛde",
-      "and": "ne",
-      "privacy": "Siesɛm Politik"
-    }
-  },
-
-  "upgrade": {
-    "title": "Sɔre kɔ so",
-    "subtitle": "Paw nhoma a ɛfata wo: yi dawuro kɔ Plus, anaa nya tumi nyinaa wɔ Premium.",
-    "perMonth": "bosume",
-    "perYear": "afe",
-    "goPremium": "Kɔ Premium",
-    "benefitsLine": "Bue tumi nsusui & yi adwuma ho dawuro.",
-    "ctaText": "Sɔre kɔ so",
-    "aria": "Sɔre kɔ Chatforia Premium",
-    "toggle": {
-      "monthly": "Bosume",
-      "annual": "Afe (Kora 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Susbskripsyin bɛwie",
-      "body": "Wobɛsan akɔ Free wɔ",
-      "keepPlanCta": "Kɔ so kɔ {{plan}}",
-      "manageBillingCta": "Hwɛ sika so"
-    },
-    "billing": {
-      "opening": "Rebue…",
-      "manage": "Hwɛ Sika So"
-    },
-    "checkout": {
-      "redirecting": "Refan kwan…"
-    },
-    "auth": {
-      "continue": "Kɔ so kɔ login",
-      "createAccount": "Bɔ akawnt",
-      "signIn": "Kɔ mu"
-    },
-    "cta": {
-      "aria": "Paw nhoma",
-      "getPlus": "Kɔ Adwuma-ntɔ (Plus)",
-      "upgradeMonthly": "Sɔre kɔ Bosume",
-      "upgradeAnnual": "Sɔre kɔ Afe"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Fi ase kɔkɔɔ kwa.",
-        "features": {
-          "msg": "1:1 ne grupu kɔkɔɔ",
-          "aiBasic": "AI mmuaeɛ kakra",
-          "attachments": "Ntoasoɔ nkrataa n’akɛseɛ pɔtee"
-        },
-        "ctaCurrent": "Nhoma Seisei",
-        "ctaUnavailable": "Sesa kɔ Free (nni hɔ)",
-        "aria": "Free nhoma (seisei)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / bosume",
-        "desc": "Adwuma ho dawuro nni hɔ, na ɛyɛ deɛ ɛhia koraa.",
-        "features": {
-          "noAds": "Yi adwuma ho dawuro nyinaa",
-          "msg": "1:1 ne grupu kɔkɔɔ",
-          "attachments": "Ntoasoɔ nkrataa kɛse",
-          "aiBasic": "AI mmuaeɛ kakra"
-        },
-        "badge": "Dɔɔso",
-        "cta": "Kɔ Adwuma-ho-dawuro Nni hɔ",
-        "aria": "Sɔre kɔ Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Bosume)",
-        "price": "$24.99 / bosume",
-        "desc": "Tumi nyinaa, ringtoons, ne AI tumi.",
-        "features": {
-          "plusAll": "Deɛ ɛwɔ Plus nyinaa",
-          "ringtones": "Ringtoon & asɛnkanee dwom",
-          "powerAi": "AI tumi kɛse",
-          "priorityUpdates": "Nsakrae ntɛm",
-          "backups": "Akyidie & devaes synk"
-        },
-        "badge": "Sɔ adeɛ",
-        "cta": "Sɔre kɔ (Bosume)",
-        "aria": "Sɔre kɔ Premium Bosume"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Afe)",
-        "price": "$225 / afe",
-        "desc": "Sie sika bere a wotua afe mu.",
-        "features": {
-          "allPremium": "Deɛ ɛwɔ Premium nyinaa",
-          "annualBilling": "Wotua afe mu",
-          "save25": "Sie ~25% fa bosume ho",
-          "sameFeatures": "Nea ɛwɔ Bosume no ara"
-        },
-        "badge": "Sie 25%",
-        "cta": "Sɔre kɔ (Afe)",
-        "aria": "Sɔre kɔ Premium Afe",
-        "disclaimer": "Wotua kan. Tumi twa mu bere biara. Sika kokorɔ biara nni hɔ."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Fi ase kɔkɔɔ kwa.",
-      "plusTitle": "Plus",
-      "plusBadge": "Dɔɔso",
-      "plusDesc": "Adwuma ho dawuro nni hɔ paa.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Tumi nyinaa, ringtoons, ne AI tumi.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Sie sika bere a wotua afe mu.",
-      "annualDisclaimer": "Wotua kan. Tumi twa mu. Sika kokorɔ biara nni hɔ."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Fi Ase",
-    "subtitle": "Wo foforo wɔ Chatforia? Afei nhyehyɛe ketewa yi bɛma wo atim nnawɔtwe nketewa mu.",
-    "alert": {
-      "text": "Kyerɛkyerɛ yi bɛkɔ so rekɛyɛ kɛse bere a yɛde nsafufuo foforo bɛto so. Sɛ ade bi nka ho a, fa",
-      "contactLink": "Frɛ Yɛn"
-    },
-    "section1": {
-      "title": "1) Bɔ wo akawnt",
-      "signup": "Bɔ akun",
-      "or": "anaa",
-      "login": "kɔ mu",
-      "loginText": "de wo akawnt a w’awo no dada.",
-      "prefsStart": "Hyehyɛ wo",
-      "prefsLink": "apɛdeɛ",
-      "prefsRest": "(kasa, akan-mmɔden, ntɛma)."
-    },
-    "section2": {
-      "title": "2) Fi ase kɔkɔɔ mu",
-      "item1": "Bɔ DM anaa Grupu na mane wo kan asɛm.",
-      "item2": "Fa ntansɛso ntɛm de nkasa ahorow 100+ mu nkɔkɔɔ.",
-      "item3": "Sɔ nkratoɔ a ɛyera ne akan-mmɔden wɔ Profayl → Siesɛm."
-    },
-    "section3": {
-      "title": "3) Kɔ anim",
-      "item1Part1": "Hwɛ wo nhoma wɔ",
-      "upgradeLink": "Sɔre kɔ so",
-      "item1Part2": "kratafa (Plus = adwuma nni hɔ, Premium = tumi nyinaa).",
-      "item2Part1": "Fa nneɛma foforo ka ho na hyɛ akyidie a wɔahyɛ ehintansɛmu mu wɔ",
-      "settingsLink": "Nsɛnhyɛ"
-    },
-    "cta": {
-      "seePlans": "Hwɛ nhoma",
-      "openSettings": "Bue nsɛnhyɛ"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Help Center",
-    "faq": {
-      "account": {
-        "q": "Sɛnea mɛbɔ anaa masiesie me akawnt?",
-        "a": "Fa app no anaa fa web, kɔ “Bɔ akun”, si wo imeyl/fon so. Sɛ wopɛ asiesie a, fa “Wɔarehu me ehintansɛmfua” so."
-      },
-      "privacy": {
-        "q": "Nkratoɔ yɛ end-to-end encrypted?",
-        "a": "Yiw. Nkratoɔ ne afrɛ nyinaa yɛ end-to-end encrypted. Wo ne obi a wode nkratoɔ no kɔ no nko ara na mote ase."
-      },
-      "translate": {
-        "q": "Ntansɛso ntɛm no yɛ dɛn?",
-        "a": "Fa “Auto-translate” so wɔ Nsɛnhyɛ → Appearance & Language. Yɛkyerɛ ase wɔ devaes no so baabiara a ɛbɛtumi, bio nso yɛde API a ɛho tew di dwuma de data ketewa kɛkɛ."
-      },
-      "contact": {
-        "q": "Frɛ mmoa",
-        "a": "Kyerɛw kɔ support@chatforia.com. Fa asnapshot ne wo app version ka ho."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Frɛ Yɛn",
-    "successMsg": "Meda wo ase—yɛbɛmmua wo wɔ imeyl so.",
-    "errorSend": "Antumi amane. Yɛsrɛ wo twerɛ kɔ support@chatforia.com.",
-    "form": {
-      "nameLabel": "Din",
-      "emailLabel": "I-mel",
-      "messageLabel": "Asɛm",
-      "sendCta": "Mane"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Siesɛm Politik",
-    "lastUpdated": "Nea wɔde totoo so kɛseɛ:",
-    "intro": {
-      "body": "Siesɛm Politik yi kyerɛ sɛnea Chatforia (“yɛn”, “yɛn”) boaboa, de di dwuma, na kyɛ infɔ bere a wode yɛn app ne yɛn som no. Yɛahyehyɛ Chatforia sɛnea ɛbɛma data a yɛtumi hu ayɛ ketewa paa."
-    },
-    "infoWeCollect": {
-      "title": "Infɔ a yɛboaboa",
-      "account": "Akawnt infɔ (te sɛ imeyl/fon) ma akawnt bɔ ne ne bammɔ.",
-      "encrypted": "Infɔ a wɔahyɛ mu (nkratoɔ/afrɛ) yɛ end-to-end encrypted; yɛrentumi nkenkan.",
-      "diagnostics": "Nsɛnhyɛ/adehyɛte te sɛ crash logs, devaes te sɛn, anaa analytics ketewa de yɛ adwumayɛ kɔ yiye."
-    },
-    "howWeUse": {
-      "title": "Sɛnea yɛde infɔ di dwuma",
-      "provide": "Ma som no so yie (akɔntabuo, spam/abus detekhyɛn).",
-      "improve": "Si nsafufuo so (ntansɛso pɔtee, gyinae).",
-      "legal": "Di mmara so."
-    },
-    "sharing": {
-      "title": "Sɛnea yɛkyɛ",
-      "body": "Yɛnnɔto data. Yɛbetumi de data ketewa ama adwumayɛfo (te sɛ push, analytics) wɔ apam kɛse so."
-    },
-    "rights": {
-      "title": "Wo mmra",
-      "body": "Ɛfiri wo mantam so (te sɛ GDPR/UK GDPR/CPRA), wutumi bisa ahuade, nsiesie, nsae, anaa tumi pa kyɛ processing bi. Frɛ: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Siesie & Bammɔ",
-      "body": "Yɛkora nea ɛho hia nko ara na yɛde di dwuma na yɛde bammɔ tumi kɛse hyɛ so. E2E nkratoɔ rentumi mmbubuo."
-    },
-    "children": {
-      "title": "Mma",
-      "body": "Chatforia mmfa mma a wonsua ade ase 13 (anaa wo man no mmra te sɛn) ho."
-    },
-    "changes": {
-      "title": "Nsakrae",
-      "body": "Yɛbɛto nsakrae gu ha na yɛasesa “Nea wɔde totoo so kɛseɛ” da no."
-    },
-    "contact": {
-      "title": "Frɛ",
-      "body": "privacy@chatforia.com • [Kɔmpɔni din a ɛyɛ mmara], [Adrɛs]"
-    }
-  },
-
-  "terms": {
-    "title": "Ahyɛde",
-    "lastUpdated": "Nea wɔde totoo so kɛseɛ:",
-    "intro": {
-      "body": "Sɛ wode Chatforia di dwuma a wogye saa Ahyɛde yi tom. Sɛ worentie a, mfa som no nndi dwuma."
-    },
-    "accounts": {
-      "title": "Akawnt",
-      "itemAccurateInfo": "Ma infɔ pɔtee na kora wo kɔde so.",
-      "itemResponsibility": "Wo na wutua ade biara a wɔyɛ wɔ wo akawnt so no ka."
-    },
-    "acceptableUse": {
-      "title": "Sɛnea ɛfata sɛ wode di dwuma",
-      "itemNoAbuse": "Mma mmara so nni so, yɛmmfa nsɛmmɔne anaa nea ɛtɔ asu; mfa spam anaa bot mmɔ adwuma.",
-      "itemSuspend": "Yɛbetumi agyae/atwa mu sɛ wubu mmara."
-    },
-    "yourContent": {
-      "title": "Wo nsɛm",
-      "body": "Wogyina wo nsɛm so. Woma yɛn tumi a ehia de som no di dwuma (te sɛ kwan, sie, ntansɛso)."
-    },
-    "disclaimer": {
-      "title": "Nkae & ahwɛyie",
-      "body": "Som no yɛ “te sɛɛ” a adanse bi nni ho. Kɔsɛpɛ wɔ mmara mu, Chatforia rennya asɛnnennen biara a ɛkɔ so akɔtɔ no ho ka."
-    },
-    "changes": {
-      "title": "Nsakrae",
-      "body": "Yɛbetumi asesa saa ahyɛde yi; sɛ wode di dwuma toaso a, ɛkyerɛ sɛ wogye tom."
-    },
-    "contact": {
-      "title": "Frɛ",
-      "body": "support@chatforia.com • [Kɔmpɔni din a ɛyɛ mmara], [Adrɛs]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Mfa me Personal Infɔ nnɔto anaa nkyɛ",
-    "body": "Chatforia mfa personal infɔ nnɔto. Nanso Kalifɔnyafo betumi asoma bɔ-bisae wɔ CPRA ase deɛ, fa bɔtɔmmɔ no so.",
-    "cta": "Fa bisae so"
-  },
-
-  "cookies": {
-    "title": "Kuki Nsɛnhyɛ",
-    "body": "Chatforia de kuki ketewa na ɛdi dwuma (te sɛ seshyɛn, bammɔ). Yɛmmfa adwuma-foforo kuki nndi dwuma. Hwɛ kuki wɔ wo braɛwsa nsɛnhyɛ mu."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Entumi anhu phone number status.",
-    "lock": "Kora",
-    "noNumberAssigned": "Nɔmba nni hɔ. Paw baako fa area code so na fi ase tete.",
-    "pickNumber": "Paw nɔmba",
-    "phoneNumber": "Nɔmba fon"
-  },
-
-  "startChatModal": {
-    "title": "Fi ase kɔkɔɔ mu",
-    "quickPicker": "Ntɛmntɛm paw",
-    "to": "Kɔma",
-    "nameOrUsername": "Twerɛ din anaa username",
-    "nameUsernamePhoneEmail": "Twerɛ din, username, fon, anaa imeyl…",
-    "startWithSelected": "Fi ase kɔ {{count}} a wopaw no mu",
-    "searchByUsernameOrPhone": "Hwehwɛ de username anaa fon",
-    "search": "Hwehwɛ",
-    "searchPrompt": "Twerɛ username anaa fon na pɛ Hwehwɛ.",
-    "pickFromContacts": "Anaa fa firii nkontabuo mu",
-    "addContact": "Fa Nkontabuo Ka Ho",
-    "show": "Kyerɛ",
-    "add": "Ka ho",
-    "close": "To mu",
-    "selectedCount": "{{count}} apaw",
-    "pickAtLeastOne": "Paw akyirikyiri baako kɔnkɔn.",
-    "saveContactsHint": "Fon/imeyl a wode bɛhyɛ mu bɛda hɔ akyiri bere a wode asie wɔn sɛ nkontabuo.",
-    "failedBulkStart": "Antumi anfi ase kɔ nkorɔnten mu kɔmaa wɔn a wopaw no.",
-    "noResults": "Asɛnnennen biara nni hɔ",
-    "mode": "Mode",
-    "group": "Grupu",
-    "broadcast": "Brɔdkas",
-    "groupNameOptional": "Grupu din (pɛpɛɛpɛ)",
-    "firstMessageOptional": "Asɛm a edi kan (pɛpɛɛpɛ nanso eye)",
-    "createGroup": "Bɔ grupu",
-    "sendBroadcast": "Mane brɔdkas"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Owia-twɛdae",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Woyɛ Free — tones a wɔyɛ premium da hɔ nanso akata. Sɔre kɔ so na bue nyinaa.",
-    "preview": "Hwɛ-anim",
-    "resetToDefaults": "San kɔ pɔtee",
-    "notificationSounds": "Asɛnkanee nne",
-    "messageTone": "Asɛm tone",
-    "default": "Pɔtee",
-    "vibrate": "Yɛ kɔm",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Nsɛnnennen",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Fɛe yi hia Premium nhoma."
-  },
-
-  "aiSettings": {
-    "title": "AI Nsɛnhyɛ",
-    "controlIntro": "Hwɛ ntansɛso, ntɛm mmuae, ne ForiaBot auto-mmuae.",
-    "save": "Sie AI Nsɛnhyɛ",
-    "autoTranslateIncoming": "Kyere ase nkratoɔ a ɛreba otomatik",
-    "showOriginalAlongside": "Kyerɛ deɛ wɔtwerɛɛ kan ne n’akyɛdeɛ ka ho",
-    "enableSmartReplies": "Ma Ntɛm Mmuae so",
-    "smartRepliesHint": "Mane nkratoɔ kakraa a wɔde bae (asiesiee) kɔ AI na mɛma mmuae ntɛm.",
-    "maskProfanity": "Kata nsɛmmɔne wɔ AI mmuae mu",
-    "maskProfanityHint": "Sɛ ɛda so a, mmuae a AI de bɛba no bebu nsɛmmɔne",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Ma auto-mmuae so bere a me nni ho",
-    "autoReplyMode": "Auto-mmuae tebea",
-    "cooldownSeconds": "Abɔnten bere (sɛkɛnd)",
-    "off": "Totɔ",
-    "on": "So",
-    "signature": "Sinihyɛ",
-    "autoReply": "Auto-mmuae",
-    "activeUntilOptional": "Wɔso kɔsi (pɛpɛɛpɛ)",
-    "saved": "AI apɛdeɛ asie",
-    "saveFailed": "Antumi ansie AI nsɛnhyɛ",
-    "translateOff": "Totɔ",
-    "translateTagged": "Bere a wɔde @translated anaa wɔde me din frɛ pɛ",
-    "translateAll": "Kyere ase nkratoɔ a ɛba nyinaa",
-    "modeDm": "1:1 nkɔmmɔ pɛ",
-    "modeMention": "Bere a wɔka me ho pɛ",
-    "modeAll": "Nkratoɔ a ɛba nyinaa"
-  },
-
-  "accessibilitySettings": {
-    "title": "Accessibility & Alɛɛt",
-    "accessibility": "Accessibility",
-    "accessibilityDesc": "Akɔdeɛ a ɛma Chatforia yɛ mmerɛ sɛ wokɔ nsɛmmɔne mu.",
-    "interfaceFontSize": "Interface font kɛseɛ",
-    "interfaceFontSizeHelp": "Efi kɛseɛ pɔtee mu. Kɔso ma kɛseɛ wɔ accessibility mu.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Alɛɛt",
-    "notificationsDesc": "Visual alɛɛt ma nkratoɔ & afrɛ\nKyerɛ banɛ & tie bɔle kɔ nsɛm a ɛreba mu.",
-    "vibrateOnNew": "Ma devaes nyɛ kɔm bere a asɛm foforo ba (sɛ wɔma ho kwan)\nMa devaes no nyɛ kɔm de kyerɛ alɛɛt.",
-    "flashOnCall": "Ma kɔmputa no yɛ kanea bere a afrɛ reba\nKanea tenten kakra bere a afrɛ rebɔ.",
-    "liveCaptions": "Live captions (afrɛ)",
-    "captionFontSize": "Caption font kɛseɛ",
-    "captionBackground": "Caption background",
-    "light": "kɛse",
-    "dark": "tuntum",
-    "transparent": "transparent",
-    "voiceNotes": "Voice notes",
-    "autoTranscribeVoiceNotes": "Kyerew voice notes otomatik\nFa nsɛmfua ka audio nkratoɔ a wugye no ho.",
-    "changesSavedInstantly": "Nsakrae no sie seisei ara.",
-    "loadFailed": "Nsɛnhyɛ antwe",
-    "visualAlerts": "Visual alɛɛt ma nkratoɔ & afrɛ",
-    "visualAlertsDesc": "Kyerɛ banɛ ne title blink na anhwere adwuma bi.",
-    "vibrateOnNewShort": "Nyɛ kɔm bere a asɛm foforo ba (sɛ wɔma ho kwan)",
-    "vibrateOnNewDesc": "Ma devaes no nyɛ kɔm bere a alɛɛt ba.",
-    "flashOnCallShort": "Ma kɔmputa no yɛ kanea bere a afrɛ reba",
-    "flashOnCallDesc": "Kanea tenten kakra bere a afrɛ rebɔ."
-  },
-
-  "privacySection": {
-    "strictE2EE": "End-to-end bammɔ a ɛyɛ den",
-    "ciphertextOnlyNote": "Sie ciphertext nko ara wɔ server so. Ɛto AI/Translate ne moderation preview mu."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Devaes a Wɔakɔtɔ So",
-    "noneFound": "Devaes a wɔakɔtɔ so nni hɔ.",
-    "refresh": "San-hyɛ"
-  },
-
-  "help": {
-    "title": "Mmoa",
-    "howCanWeHelp": "Dɛn na yɛbɛboa wo?",
-    "helpCenter": "Help Center",
-    "contactUs": "Frɛ yɛn",
-    "quickTopics": "Ntɛmntɛm nsɛm",
-    "searchExamples": "Sɔ hwɛ “translate”, “backups”, anaa “privacy”.",
-    "cantLogin": "Mintumi nkɔ mu",
-    "paymentsBilling": "Sika/bɔ ka",
-    "reportAbuse": "Bɔ amanyɔsɛm ho amanneɛ",
-    "searchHelpArticles": "Hwehwɛ mmoa nkrataa",
-    "search": "Hwehwɛ"
-  },
-
-  "peoplePage": {
-    "people": "Nnipa",
-    "search": "Hwehwɛ",
-    "searchPlaceholder": "Hwehwɛ de alias, din, username, anaa fon",
-    "filterSaved": "Hwɛ nkontabuo a wode asie",
-    "noContactsFound": "Nkontabuo nni hɔ",
-    "quickStart": "Ntɛmntɛm fi ase",
-    "quickStartDesc": "Nkwan kakra ma wo atim ntɛm.",
-    "importContacts": "Fa wo nkontabuo bra",
-    "add": "Ka ho",
-    "focusSearch": "Fa hwehwɛ so",
-    "import": "Fa bra",
-    "findOrAdd": "Hwehwɛ anaa fa obi ka ho",
-    "searchByPhoneOrUsername": "Hwehwɛ de fon/username",
-    "inviteFriends": "Frɛ nnamfo",
-    "inviteDesc": "Kyɛ wo invite link na fi ase ntɛm.",
-    "getTheApp": "Fa app no",
-    "getTheAppDesc": "Tenatena ho wɔ kwan so de Chatforia ma iOS ne Android.",
-    "download": "Twe",
-    "syncTip": "Afotu: Wo nkratoɔ bɛsynk wɔ web ne mobɔl so."
-  },
-
-  "randomChat": {
-    "title": "Random Chat",
-    "description": "Hyia onipa foforo seisei. Yɛbɛhyɛ wo na yebenya kɔkɔɔdan ɛberɛwa.",
-    "findMatch": "Hwehwɛ me mɔch",
-    "chatWithForia": "Kɔkɔɔ kɔ Foria",
-    "chatWithForiaBot": "Kɔkɔɔ kɔ ForiaBot",
-    "cancel": "Twa mu",
-    "close": "To mu",
-    "searching": "Rehwehwɛ…",
-    "finding": "Rehwehwɛ…",
-    "looking": "Rehwehwɛ obi…",
-    "startingForia": "Rehyɛ kɔkɔɔ kɔ Foria…",
-    "partnerDisconnected": "Wo kunini atwa mu.",
-    "noPartner": "Ɛnnɛ deɛ, obi nni hɔ.",
-    "connectedTo": "Wɔde wo ahyia {{name}}",
-    "connected": "Abɔ mu",
-    "idle": "Gyina hɔ",
-    "partnerLeft": "Wo kunini agyae.",
-    "stopped": "Gyae.",
-    "skip": "Serew so",
-    "save": "Sie",
-    "saveGuard": "Human-to-human nko ara na wobetumi asie",
-    "youAreChattingWith": "Worekasa ne {{name}}",
-    "bot": "BOT",
-    "leave": "Fi mu",
-    "sayHi": "Ka hi 👋",
-    "you": "Wɔ",
-    "typeMessage": "Twerɛ asɛm",
-    "send": "Mane",
-    "partner": "Kunini",
-    "withForia": "Ne Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Bue navigehyɛn menu",
-    "closeNav": "To navigehyɛn menu mu",
-    "homeAria": "Chatforia Fie"
-  },
-
-  "login": {
-    "title": "Akwaaba bio",
-    "subtitle": "Kɔ mu kɔ wo Chatforia akawnt mu",
-    "google": "Kɔ so de Google",
-    "apple": "Kɔ so de Apple",
-    "googleUnavailable": "Google kɔ mu nni hɔ",
-    "appleUnavailable": "Apple kɔ mu nni hɔ",
-    "or": "anaa",
-    "email": "I-mel",
-    "emailPh": "you@example.com",
-    "usernameLabel": "Username",
-    "usernamePh": "Wo username",
-    "passwordLabel": "Ehintansɛmfua",
-    "passwordPh": "Wo ehintansɛmfua",
-    "keepSignedIn": "Ma me nna mu",
-    "forgot": "Wofii ehintansɛmfua mu?",
-    "submit": "Kɔ mu",
-    "loggingIn": "Rekɔ mu…",
-    "newHere": "Wo foforo ha? <link>Bɔ akawnt</link>",
-    "ssoUnavailable": "Single-sign-on nni hɔ seisei. Fa username & ehintansɛmfua.",
-    "error": {
-      "missing": "Yɛsrɛ wo, hyɛ wo nsɛmfua mu.",
-      "invalid": "Username anaa ehintansɛmfua mfomso",
-      "denied": "Wɔpoo wo kwan.",
-      "unprocessable": "Bisae no nndi kwan. Hwɛ wo username/imeyl ne ehintansɛmfua.",
-      "deviceLimit": "Devaes kɔppɔn du ama Free nhoma. Fi devaes foforo mu anaa sɔre kɔ Premium na fa ka ho.",
-      "premiumRequired": "Adwuma yi hia Premium nhoma."
+      "disclaimerStart": "By submitting, you agree to our",
+      "terms": "Terms",
+      "and": "and",
+      "privacy": "Kokoamsɛm Policy"
     }
   }
 }

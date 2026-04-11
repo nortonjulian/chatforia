@@ -154,8 +154,6 @@ import { ESIM_ENABLED } from './config/esim.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log('[env-debug] STRIPE_SECRET_KEY present =', !!process.env.STRIPE_SECRET_KEY);
-
 function csrfOnlyForCookieAuth(csrfMw) {
   return (req, res, next) => {
     const auth = req.headers.authorization;
@@ -484,7 +482,7 @@ app.use('/conversations', conversationsRouter);
   // Backups require auth
   app.use('/backups', requireAuth, backupsRouter);
 
-  app.use('/uploads', uploadsRouter);
+  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
   app.use('/api/translations', translationsRouter);

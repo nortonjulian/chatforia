@@ -286,9 +286,9 @@ function WhyChatforiaSection() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th>{t('upgrade.why.col.feature', 'Feature')}</Table.Th>
-              <Table.Th>Chatforia</Table.Th>
-              <Table.Th>TextNow</Table.Th>
-              <Table.Th>Google Voice</Table.Th>
+              <Table.Th>{t('upgrade.why.col.chatforia', 'Chatforia')}</Table.Th>
+              <Table.Th>{t('upgrade.why.col.textnow', 'TextNow')}</Table.Th>
+              <Table.Th>{t('upgrade.why.col.googleVoice', 'Google Voice')}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
@@ -628,8 +628,8 @@ export default function UpgradePage({ variant = 'account' }) {
       cancelAt > new Date()
   );
 
-  // eSIM products (no plans under 3GB; Global only 3/5)
-    // eSIM products (premium-only at launch; shared/family later)
+    // eSIM products (no plans under 3GB; Global only 3/5)
+
     // eSIM products (premium-only at launch; shared/family later)
   const esimProducts = useMemo(() => {
     if (esimScope === ESIM_SCOPE_GLOBAL) {
@@ -1093,10 +1093,11 @@ export default function UpgradePage({ variant = 'account' }) {
             loading={loadingKeep}
             aria-busy={loadingKeep ? 'true' : 'false'}
           >
-            {t(
-              'upgrade.scheduleBanner.keepPlanCta',
-              `Keep ${isPlus ? 'Plus' : 'Premium'}`
-            )}
+            {t('upgrade.scheduleBanner.keepPlanCta', 'Keep {{plan}}', {
+              plan: isPlus
+                ? t('upgrade.plans.plus.title', 'Plus')
+                : t('upgrade.plans.premiumMonthly.title', 'Premium'),
+            })}
           </Button>
           <Button
             size="xs"
@@ -1395,11 +1396,25 @@ export default function UpgradePage({ variant = 'account' }) {
                     className="plan-card-features"
                     style={{ margin: 0, paddingLeft: '1.2rem' }}
                   >
-                      <li><Text size="sm" component="span">High-speed data for heavy use</Text></li>
-                      <li><Text size="sm" component="span">Speeds may slow after high usage</Text></li>
-                      <li><Text size="sm" component="span">Reliable coverage</Text></li>
-                      <li><Text size="sm" component="span">Instant eSIM activation</Text></li>
-                      <li><Text size="sm" component="span">One-time pack, no contract</Text></li>
+                      <li><Text size="sm" component="span">
+                        {t('upgrade.mobile.unlimited.features.heavyUse', 'High-speed data for heavy use')}
+                      </Text></li>
+
+                      <li><Text size="sm" component="span">
+                        {t('upgrade.mobile.unlimited.features.throttle', 'Speeds may slow after high usage')}
+                      </Text></li>
+
+                      <li><Text size="sm" component="span">
+                        {t('upgrade.mobile.unlimited.features.coverage', 'Reliable coverage')}
+                      </Text></li>
+
+                      <li><Text size="sm" component="span">
+                        {t('upgrade.mobile.unlimited.features.instant', 'Instant eSIM activation')}
+                      </Text></li>
+
+                      <li><Text size="sm" component="span">
+                        {t('upgrade.mobile.unlimited.features.noContract', 'One-time pack, no contract')}
+                      </Text></li>
                   </Stack>
 
                   <Button
@@ -1478,7 +1493,7 @@ export default function UpgradePage({ variant = 'account' }) {
           <Text size="xs" c="dimmed">
             {t(
               'upgrade.mobile.disclaimer.fairUse',
-              'Unlimited options are intended for normal consumer use. Performance may vary based on network conditions and usage patterns.'
+              'Unlimited plans include high-speed data up to a certain usage level, after which speeds may be reduced. Usage is subject to fair use and network management policies. Performance may vary by region and network conditions.'
             )}
           </Text>
 

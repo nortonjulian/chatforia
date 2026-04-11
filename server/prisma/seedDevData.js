@@ -14,6 +14,8 @@ export async function seedDevData() {
   const { publicKey: julianPublicKey } = generateKeyPair();
   const { publicKey: alicePublicKey } = generateKeyPair();
   const { publicKey: bobPublicKey } = generateKeyPair();
+  const { publicKey: applePublicKey } = generateKeyPair();
+
 
   const julian = await prisma.user.upsert({
     where: { email: 'nortonjulian@gmail.com' },
@@ -33,6 +35,26 @@ export async function seedDevData() {
       publicKey: julianPublicKey,
     },
   });
+
+ const reviewer = await prisma.user.upsert({
+    where: { email: 'reviewer@chatforia.com' },
+    update: {
+      email: 'reviewer@chatforia.com',
+      phoneNumber: '4444444444',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: applePublicKey,
+    },
+    create: {
+      username: 'reviewer',
+      email: 'reviewer@chatforia.com',
+      phoneNumber: '4444444444',
+      passwordHash: hashed,
+      emailVerifiedAt: new Date(),
+      publicKey: applePublicKey,
+    },
+  });
+
 
   const alice = await prisma.user.upsert({
     where: { email: 'alice@example.com' },
@@ -68,23 +90,6 @@ export async function seedDevData() {
     },
   });
 
-  const appleReviewUser = await prisma.user.upsert({
-  where: { email: 'apple-review@chatforia.com' },
-  update: {
-    passwordHash: hashed,
-    emailVerifiedAt: new Date(),
-    publicKey: 'applePublicKey',
-  },
-  create: {
-    username: 'apple_review',
-    email: 'apple-review@chatforia.com',
-    phoneNumber: '4444444444',
-    passwordHash: hashed,
-    emailVerifiedAt: new Date(),
-    publicKey: 'applePublicKey',
-  },
-});
-
   const room = await prisma.chatRoom.create({
     data: { isGroup: false },
   });
@@ -94,6 +99,7 @@ export async function seedDevData() {
       { chatRoomId: room.id, userId: julian.id },
       { chatRoomId: room.id, userId: alice.id },
       { chatRoomId: room.id, userId: bob.id },
+      { chatRoomId: room.id, userId: reviewer.id },
     ],
     skipDuplicates: true,
   });

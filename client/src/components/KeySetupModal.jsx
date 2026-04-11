@@ -41,7 +41,9 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
       setMsg('');
       setBusy(true);
       if (!file || !pwd) {
-        setErr('Choose a file and enter the password.');
+        setErr(
+          t('keySetup.chooseFile', 'Choose a file and enter the password.')
+        );
         return;
       }
 
@@ -56,7 +58,10 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
       saveKeysLocal({ privateKey: privateKeyB64 });
 
       setMsg(
-        'Private key imported to this device. You can read old messages now.'
+        t(
+          'keySetup.imported',
+          'Private key imported to this device. You can read old messages now.'
+        )
       );
       setTimeout(finish, 800);
     } catch (e) {
@@ -75,7 +80,12 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
     setBusy(true);
 
     if (!accountPassword) {
-      setErr('Enter your account password so we can back up your keys securely.');
+      setErr(
+        t(
+          'keySetup.enterPassword',
+          'Enter your account password so we can back up your keys securely.'
+        )
+      );
       return;
     }
 
@@ -129,15 +139,16 @@ const handleRestoreFromAccount = async () => {
     <Modal
       opened={opened}
       onClose={finish}
-      title="Set up your device keys"
+      title={t('keySetup.title', 'Set up your device keys')}
       radius="lg"
       centered
     >
       <Stack gap="sm">
         <Text size="sm">
-          This device doesn’t have your private key yet. Import a
-          password-protected backup, or generate a new keypair (you’ll be able
-          to read new messages from now on).
+          {t(
+            'keySetup.description',
+            'This device doesn’t have your private key yet. Import a password-protected backup, or generate a new keypair (you’ll be able to read new messages from now on).'
+          )}
         </Text>
 
         {haveServerPubKey ? (

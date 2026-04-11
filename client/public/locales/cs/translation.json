@@ -6,93 +6,439 @@
     "noMatches": "Žádné shody",
     "cancelAria": "Zrušit",
     "copy": "Kopírovat",
-    "copied": "Zkopírováno!"
+    "copied": "Zkopírováno!",
+    "errorWithMessage": "Chyba: {{message}}"
   },
   "a11y": {
     "skipToMain": "Přeskočit na hlavní obsah"
   },
+  "keys": {
+    "backupCreated": "Záloha klíče byla vytvořena a stažena ✓",
+    "restored": "Záloha klíče obnovena ✓ Klíče nainstalovány lokálně",
+    "noBackup": "Pro tento účet neexistuje žádná šifrovaná záloha",
+    "missingPublicKey": "Záloha neobsahuje veřejný klíč"
+  },
+  "keySetup": {
+    "title": "Nastavte klíče vašeho zařízení",
+    "description": "Toto zařízení ještě nemá váš soukromý klíč. Importujte heslem chráněnou zálohu nebo vygenerujte nový pár klíčů (budete moci číst nové zprávy od teď).",
+    "chooseFile": "Vyberte soubor a zadejte heslo.",
+    "imported": "Soukromý klíč importován do tohoto zařízení. Nyní můžete číst staré zprávy.",
+    "enterPassword": "Zadejte heslo k účtu, abychom mohli bezpečně zálohovat vaše klíče."
+  },
+  "auth": {
+    "headline": "Bezpečné zprávy pro kohokoli, kdekoli",
+    "description": "Šifrování end-to-end, překlad do 100+ jazyků, mizící zprávy a hlasové/videohovory.",
+    "feature": {
+      "encryption": "Šifrování end-to-end ve výchozím nastavení",
+      "translation": "Chytrý vestavěný překlad zpráv",
+      "disappearing": "Mizící zprávy a potvrzení o přečtení",
+      "privacy": "Soukromí na prvním místě. Vaše data, vaše kontrola.",
+      "translate": "Chytrý vestavěný překlad zpráv",
+      "disappear": "Mizící zprávy",
+      "privacyAlt": "Design zaměřený na soukromí",
+      "seePlans": "Zobrazit tarify a ceny"
+    },
+    "hero": {
+      "line1": "Bezpečné zprávy pro kohokoli, kdekoli — s",
+      "em": "překladem do 100+ jazyků",
+      "sub": "Získejte bezplatné bezpečné telefonní číslo pro volání a psaní zpráv po celém světě přes Wi-Fi nebo data. Užijte si šifrování end-to-end, mizící zprávy a HD hlasové/videohovory — s vestavěnými nástroji, které vám pomohou zůstat v kontaktu přes hranice.",
+      "freeNote": "Základní volání a psaní zpráv jsou zdarma. Pokročilé AI a prémiové funkce vyžadují upgrade."
+    },
+    "feat": {
+      "encryption": "Šifrování end-to-end, vždy zapnuté",
+      "translate": "Překonávejte jazykové bariéry v konverzacích",
+      "disappear": "Mizící zprávy a potvrzení o přečtení",
+      "privacy": "Soukromí na prvním místě. Vaše data, vaše kontrola."
+    },
+    "continueGoogle": "Pokračovat přes Google",
+    "continueApple": "Pokračovat přes Apple",
+    "username": "Uživatelské jméno",
+    "password": "Heslo",
+    "keepSignedIn": "Ponechat mě přihlášeného",
+    "forgotPassword": "Zapomenuté heslo?",
+    "loginButton": "Přihlásit se",
+    "createAccount": "Vytvořit účet",
+    "freeAccountButton": "Vytvořit bezplatný účet",
+    "newHere": "Jste tu nový?",
+    "getApp": "Získat aplikaci",
+    "desktopTip": "Na počítači? Naskenujte telefonem a získejte aplikaci.",
+    "scanHelper": "Na počítači? Naskenujte telefonem a získejte aplikaci.",
+    "goHome": "Jít na domovskou stránku",
+    "home": "Domů",
+    "headlineAlt": {
+      "main": "Bezpečný messenger, který",
+      "highlight": "mluví vaším jazykem"
+    },
+    "subhead": "Soukromé, šifrované a přeložené zprávy — okamžitě.",
+    "upgrade": "Upgradovat nyní",
+    "tip": "Tip: Používejte stejný účet na webu i mobilu. Vaše zprávy zůstanou synchronizované.",
+    "openDownload": "Otevřít stránku stahování",
+    "qrAlt": "QR kód pro Chatforia",
+    "scanHint": "Naskenujte pro stažení aplikace nebo otevření v prohlížeči.",
+    "iosAria": "Stáhnout v App Store",
+    "iosTitle": "Stáhnout v App Store",
+    "iosBadgeAlt": "Ikona App Store",
+    "androidAria": "Získat v Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Ikona Google Play",
+    "login": "Přihlásit se",
+    "signup": "Registrovat se",
+    "email": "E-mail",
+    "registration": {
+      "passwordDescription": "Minimálně 6 znaků. Používejte silné, jedinečné heslo.",
+      "smsConsent": "Vytvořením účtu souhlasíte s přijímáním SMS upozornění souvisejících s vaší aktivitou v Chatforia (např. zprávy od ostatních uživatelů). Mohou platit poplatky za zprávy a data. Kdykoli můžete odhlásit v Nastavení.",
+      "termsLink": "Podmínky služby",
+      "privacyLink": "Zásady ochrany osobních údajů"
+    },
+    "to": "Komu:",
+    "enterRecipient": "Zadejte jméno nebo číslo",
+    "clearRecipients": "Vymazat příjemce",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Napište zprávu…",
+    "addRecipient": "Přidejte příjemce výše a začněte…",
+    "oneRecipient": "Zatím zadejte prosím jednoho příjemce.",
+    "enterValidRecipient": "Zadejte uložené jméno kontaktu nebo telefonní číslo.",
+    "sendFailed": "Odeslání selhalo. Podrobnosti najdete v konzoli."
+  },
+  "home": {
+    "title": "Domů",
+    "header": "Vaše zprávy",
+    "subheader": "Odešlete zprávu a začněte chat.",
+    "sendButton": "Odeslat zprávu",
+    "gifPicker": "Otevřít výběr GIF",
+    "emoji": "Emoji",
+    "upload": "Nahrát fotku nebo video",
+    "inputPlaceholder": "Napište zprávu…",
+    "inputLabel": "Editor zprávy",
+    "sendTooltip": "Odeslat",
+    "sendTooltipEmpty": "Napište zprávu k odeslání",
+    "send": "Odeslat",
+    "welcomeMessage": "Vítejte v Chatforia",
+    "getStarted": "Začít"
+  },
+  "chat": {
+    "selectPrompt": "Vyberte text nebo chatovací místnost a začněte chatovat",
+    "newMessages": "Nové zprávy",
+    "typing": "{{name}} píše…",
+    "emptyTitle": "Vaše zprávy",
+    "emptySubtitle": "Odešlete zprávu a začněte chat.",
+    "startChatButton": "Odeslat zprávu",
+    "mediaAttachment": "Příloha média",
+    "thisUser": "tento uživatel",
+    "blockConfirm": "Zablokovat {{name}}? Nebudete od nich dostávat zprávy.",
+    "blockedUser": "{{name}} byl zablokován.",
+    "blockError": "Nepodařilo se určit cílového uživatele k blokování.",
+    "blockFailed": "Blokování selhalo (backend ještě není propojen).",
+    "encryptedUnavailable": "Šifrovaná zpráva (klíč nedostupný)",
+    "unlockToView": "Odemkněte klíč pro zobrazení této zprávy"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Vypnuto"
+    },
+    "freeLimit": "Limit bezplatného tarifu: automatické mazání do 1 dne. Omezeno na 1 den.",
+    "premiumLimit": "Maximální automatické mazání pro Premium je 30 dní. Omezeno na 30 dní.",
+    "nothingToSend": "Napište zprávu nebo připojte soubor k odeslání.",
+    "encryptionFailed": "Šifrování selhalo. Zpráva nebyla odeslána.",
+    "sent": "Zpráva doručena.",
+    "placeholder": "Napište zprávu…",
+    "autoDelete": "Automatické mazání",
+    "typeToSend": "Napište zprávu k odeslání",
+    "send": "Odeslat",
+    "sendWithEnter": "Odeslat (Enter)",
+    "attachment": "příloha",
+    "caption": "Popisek (volitelné)",
+    "remove": "Odebrat",
+    "clear": "Vymazat",
+    "gif": "GIF",
+    "sticker": "Nálepka",
+    "errors": {
+      "attachmentTooLarge": "Příloha je příliš velká. Zkuste menší soubor.",
+      "unsupportedFile": "Nepodporovaný typ souboru.",
+      "rateLimit": "Posíláte zprávy příliš rychle. Zpomalte prosím.",
+      "validation": "Chyba ověření. Zkontrolujte zprávu a zkuste to znovu.",
+      "failedToSend": "Odeslání selhalo. Můžete zopakovat selhanou bublinu."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Uložené kontakty",
+    "refreshAria": "Obnovit kontakty",
+    "filterPlaceholder": "Filtrovat uložené kontakty…",
+    "filterAria": "Filtrovat uložené kontakty",
+    "noContactsFound": "Nenalezeny žádné kontakty.",
+    "externalContact": "Externí kontakt",
+    "notJoined": "Tento kontakt ještě nepřidal Chatforia.",
+    "couldNotStart": "Nepodařilo se zahájit chat. Zkuste to znovu.",
+    "startFailed": "Nepodařilo se zahájit chat. Zkuste to znovu.",
+    "deleted": "Kontakt smazán.",
+    "deleteFailed": "Nepodařilo se smazat kontakt. Zkuste to znovu.",
+    "aliasUpdated": "Přezdívka aktualizována.",
+    "updateAliasFailed": "Nepodařilo se aktualizovat přezdívku. Zkuste to znovu.",
+    "selectContact": "Vybrat {{name}}",
+    "alias": "Přezdívka",
+    "startChat": "Začít chat",
+    "message": "Zpráva",
+    "delete": "Smazat",
+    "deleteContactAria": "Smazat kontakt",
+    "loadFailed": "Nepodařilo se načíst kontakty. Zkuste to znovu.",
+    "loadMore": "Načíst více",
+    "call": "Volat",
+    "callStarted": "Volám toto číslo přes vaše číslo Chatforia…",
+    "callFailed": "Nepodařilo se zahájit hovor. Zkuste to znovu."
+  },
+  "startChatModal": {
+    "title": "Začít konverzaci",
+    "searchPlaceholder": "Hledat jméno, uživatelské jméno nebo telefonní číslo",
+    "messageThisPerson": "Napsat této osobě",
+    "contacts": "Kontakty",
+    "recentInteractions": "Nedávné interakce",
+    "noContactsMatch": "Žádné kontakty neodpovídají vašemu hledání.",
+    "noRecentInteractions": "Zatím žádné nedávné interakce.",
+    "unknown": "Neznámý",
+    "interactionType": {
+      "message": "Zpráva",
+      "call": "Hovor",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Přidat kontakt",
+    "phoneOrUsername": "Telefon nebo uživatelské jméno",
+    "phoneOrUsernamePlaceholder": "např. +13018019227 nebo juliannorton",
+    "alias": "Přezdívka (volitelné)",
+    "aliasPlaceholder": "např. Práce, Máma, Mike – Evropa",
+    "enterPhoneOrUsername": "Zadejte telefonní číslo nebo uživatelské jméno.",
+    "userLookupFailed": "Vyhledání uživatele selhalo.",
+    "cannotAddSelf": "Nemůžete přidat sebe jako kontakt.",
+    "failedToAdd": "Nepodařilo se přidat kontakt.",
+    "add": "Přidat"
+  },
+  "sidebar": {
+    "randomChat": "Náhodný chat",
+    "callTextForwarding": "Přesměrování hovorů a SMS",
+    "conversations": "Konverzace",
+    "searchPlaceholder": "Hledat konverzace…",
+    "errorLoading": "Nepodařilo se načíst chaty",
+    "empty": "Zatím žádné konverzace.",
+    "startChat": "Začít chat",
+    "people": "Lidé",
+    "settings": "Nastavení",
+    "status": "Stav",
+    "forwarding": "Přesměrování hovorů a SMS",
+    "refresh": "Obnovit",
+    "search": "Hledat konverzace",
+    "loginPrompt": "Přihlaste se pro úpravu nastavení.",
+    "login": "Přihlásit se",
+    "register": "Vytvořit účet",
+    "chatrooms": "Chatovací místnosti",
+    "logout": "Odhlásit se",
+    "startChatAlt": "Začít nový chat",
+    "calls": "Hovory",
+    "video": "Video",
+    "voicemail": "Hlasová schránka"
+  },
+  "topbar": {
+    "newStatus": "Nový stav",
+    "logout": "Odhlásit se",
+    "help": "Nápověda",
+    "createStatusAria": "Vytvořit nový stav"
+  },
+  "threadActions": {
+    "threadMenu": "Menu vlákna",
+    "premium": "Premium",
+    "aiPower": "Síla AI",
+    "schedule": "Naplánovat",
+    "upgrade": "Upgradovat",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Vlákno",
+    "about": "O aplikaci",
+    "search": "Hledat",
+    "media": "Média",
+    "invitePeople": "Pozvat lidi",
+    "roomSettings": "Nastavení místnosti",
+    "clearConversation": "Vymazat konverzaci",
+    "block": "Zablokovat"
+  },
+  "roomSearch": {
+    "title": "Hledat v místnosti",
+    "ariaLabel": "Hledat v místnosti",
+    "search": "Hledat",
+    "searchMessages": "Hledat zprávy",
+    "noText": "[Žádný text]",
+    "noResults": "Žádné výsledky"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Člen",
+      "moderator": "Moderátor",
+      "admin": "Administrátor"
+    },
+    "aiMode": {
+      "off": "Vypnuto",
+      "mention": "Pouze při @ForiaBot nebo /ask",
+      "always": "Odpovídat proaktivně"
+    },
+    "autoTranslateMode": {
+      "off": "Vypnuto",
+      "tagged": "Pouze označené (/tr …)",
+      "all": "Všechny zprávy"
+    },
+    "updated": "Nastavení aktualizováno"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Sdílená média",
+    "noMediaCached": "Zatím žádná lokálně uložená média.",
+    "imageAlt": "obrázek",
+    "openVideo": "Otevřít video",
+    "openVideoWithCaption": "Otevřít video: {{caption}}",
+    "preview": "Náhled",
+    "previewWithCaption": "Náhled: {{caption}}",
+    "previewKind": "Náhled {{kind}}",
+    "download": "Stáhnout",
+    "downloadKind": "Stáhnout {{kind}}",
+    "file": "soubor",
+    "kinds": {
+      "image": "obrázek",
+      "video": "video",
+      "audio": "audio",
+      "file": "soubor"
+    }
+  },
+  "status": {
+    "userNumber": "Uživatel #{{id}}",
+    "posted": "Stav zveřejněn",
+    "postFailed": "Zveřejnění stavu selhalo",
+    "createTitle": "Vytvořit stav",
+    "modalAriaLabel": "Nový stav",
+    "captionLabel": "Co máte na mysli?",
+    "captionPlaceholder": "Sdílejte aktualizaci…",
+    "captionAria": "Zpráva stavu",
+    "audienceLabel": "Publikum",
+    "audience": {
+      "public": "Veřejné",
+      "followers": "Sledující",
+      "contacts": "Kontakty",
+      "mutuals": "Vzájemní",
+      "custom": "Vlastní…"
+    },
+    "expiresHoursLabel": "Vyprší (hodiny)",
+    "maxTooltip": "Maximum 7 dní",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Vyprší:",
+    "chooseRecipients": "Vybrat příjemce",
+    "selectContacts": "Vybrat kontakty",
+    "attachmentsLabel": "Přílohy",
+    "attachmentsPlaceholder": "Přidat obrázky/videa",
+    "filesNote": "Až 5 souborů. Výchozí expirace 24 h.",
+    "postAria": "Zveřejnit stav",
+    "post": "Zveřejnit"
+  },
+  "voicemail": {
+    "pageTitle": "Hlasová schránka",
+    "from": "Od",
+    "to": "Komu",
+    "unknownCaller": "Neznámý",
+    "yourNumber": "Vaše číslo Chatforia",
+    "durationSeconds": "{{count}} s",
+    "audioAria": "Přehrávač hlasové zprávy",
+    "transcriptHeading": "Přepis",
+    "transcriptPending": "Přepisuji hlasovou zprávu…",
+    "transcriptFailed": "Přepis nedostupný.",
+    "loading": "Načítám hlasovou schránku…",
+    "errorLoading": "Nepodařilo se načíst hlasovou schránku.",
+    "empty": "Zatím žádné hlasové zprávy.",
+    "deleteConfirm": "Smazat tuto hlasovou zprávu?",
+    "deleteError": "Nepodařilo se smazat hlasovou zprávu.",
+    "markRead": "Označit jako přečtené",
+    "delete": "Smazat",
+    "unreadDotAria": "Indikátor nepřečtené hlasové zprávy"
+  },
   "profile": {
-    "title": "Uživatelský profil",
+    "title": "Profil uživatele",
     "preferredLanguage": "Preferovaný jazyk",
     "chooseLanguage": "Vyberte jazyk",
     "mustLogin": "Pro zobrazení nastavení se musíte přihlásit.",
     "autoTranslate": "Automaticky překládat zprávy",
-    "showOriginalWithTranslation": "Zobrazit originál i překlad",
-    "showOriginalAndTranslation": "Zobrazit originál vedle překladu",
+    "showOriginalWithTranslation": "Zobrazit původní a přeložené zprávy",
+    "showOriginalAndTranslation": "Zobrazit původní vedle překladu",
     "filterExplicit": "Filtrovat explicitní obsah",
-    "aiReply": "Odpověď pomocí AI",
+    "aiReply": "Odpověď AI",
     "enableReadReceipts": "Povolit potvrzení o přečtení",
     "allowExplicitContent": "Povolit explicitní obsah",
-    "disappearingMessages": "Povolit mizející zprávy",
-    "autoDeleteSeconds": "Sekundy do automatického smazání",
-    "saveSuccess": "Nastavení uložena!",
+    "disappearingMessages": "Povolit mizící zprávy",
+    "autoDeleteSeconds": "Sekundy do automatického mazání",
+    "saveSuccess": "Nastavení uloženo!",
     "saveError": "Chyba: Nastavení se nepodařilo uložit",
     "avatarAlt": "Avatar profilu",
     "uploadAvatar": "Nahrát nový avatar",
-    "avatarSuccess": "Avatar byl nahrán!",
-    "avatarError": "Chyba při nahrávání avataru",
+    "avatarSuccess": "Avatar nahrán!",
+    "avatarError": "Nepodařilo se nahrát avatar",
+    "avatarUpdated": "Avatar aktualizován!",
+    "uploadingAvatar": "Nahrávám avatar…",
     "noPrivateKey": "Na tomto zařízení není žádný soukromý klíč k exportu.",
-    "setBackupPassword": "Nastavte heslo pro zašifrování zálohy:",
-    "backupDownloaded": "Šifrovaná záloha byla stažena.",
-    "exportFailed": "Export klíče se nezdařil",
-    "enterBackupPassword": "Zadejte heslo k této záloze:",
-    "importSuccess": "Soukromý klíč byl importován do tohoto zařízení.",
-    "importFailed": "Import klíče se nezdařil (nesprávné heslo nebo poškozený soubor).",
-    "keysRotated": "Byl vygenerován nový pár klíčů a veřejný klíč nahrán.",
-    "rotateFailed": "Rotace klíčů se nezdařila.",
+    "setBackupPassword": "Nastavte heslo pro šifrování zálohy:",
+    "backupDownloaded": "Šifrovaná záloha stažena.",
+    "exportFailed": "Export klíče selhal",
+    "enterBackupPassword": "Zadejte heslo pro tuto zálohu:",
+    "importSuccess": "Soukromý klíč importován do tohoto zařízení.",
+    "importFailed": "Nepodařilo se importovat klíč (nesprávné heslo nebo poškozený soubor).",
+    "keysRotated": "Nový pár klíčů vygenerován a veřejný klíč nahrán.",
+    "rotateFailed": "Rotace klíčů selhala.",
     "security": "Zabezpečení",
-    "exportKey": "Exportovat soukromý klíč",
-    "importKey": "Importovat šifrovanou zálohu klíče",
-    "rotateKeys": "Rotovat pár klíčů",
-    "keyDisclaimer": "Váš soukromý klíč nikdy neopouští toto zařízení. Exportujte heslem chráněnou kopii, abyste ji mohli obnovit na jiném zařízení.",
+    "exportKey": "Zálohovat šifrovací klíč",
+    "importKey": "Obnovit šifrovací klíč",
+    "rotateKeys": "Rotovat šifrovací klíč",
+    "keyDisclaimer": "Váš soukromý klíč nikdy neopustí toto zařízení. Exportujte heslem chráněnou kopii pro obnovení na jiném zařízení.",
     "sectionProfile": "Profil",
     "phoneNumber": "Telefonní číslo",
     "appearance": "Vzhled",
     "soundSettings": "Zvuky",
-    "disappearing": "Mizející zprávy",
-    "backupSync": "Záloha & synchronizace",
+    "disappearing": "Mizící zprávy",
+    "backupSync": "Záloha šifrovacího klíče",
     "ai": "AI",
     "accessibility": "Přístupnost",
     "privacy": "Soukromí",
     "devices": "Propojená zařízení",
-    "themeFreeNotice": "Jste na tarifu Free — použijte rychlé volby Sun/Moon níže. Pro více motivů upgradujte.",
-    "sunTheme": "Použít motiv Dawn",
-    "moonTheme": "Použít motiv Moon (Midnight)",
+    "themeFreeNotice": "Jste na bezplatném tarifu — použijte rychlé možnosti Slunce/Měsíc níže. Upgrade odemkne více motivů.",
+    "sunTheme": "Použít motiv Úsvit",
+    "moonTheme": "Použít motiv Měsíc (Půlnoc)",
     "sun": "Slunce",
     "moon": "Měsíc",
-    "backupTitle": "Šifrované zálohy & synchronizace zařízení",
-    "openBackupTools": "Otevřít nástroje zálohování",
-    "backupDesc": "Vytvářejte heslem chráněné zálohy svých klíčů a obnovujte je na jiném zařízení pro synchronizaci.",
-    "privacyBlurEnabled": "Standardně rozmazat zprávy",
-    "privacyBlurOnUnfocus": "Rozmazat, když aplikace není v popředí",
+    "backupTitle": "Šifrované zálohy a synchronizace zařízení",
+    "openBackupTools": "Otevřít nástroje pro zálohování",
+    "backupDesc": "Zálohujte svůj šifrovací klíč pro bezpečné obnovení zpráv na jiném zařízení.",
+    "privacyBlurEnabled": "Ve výchozím nastavení rozmazávat zprávy",
+    "privacyBlurOnUnfocus": "Rozmazat při opuštění aplikace",
     "planSection": "Můj tarif",
-    "planLoading": "Načítání vašeho tarifu…",
-    "planLoadFailed": "Tarif se nepodařilo načíst.",
+    "planLoading": "Načítám váš tarif…",
+    "planLoadFailed": "Nepodařilo se načíst váš tarif.",
     "currentPlan": "Aktuální tarif",
     "planRenewsOn": "Obnovuje se",
-    "freePlanCopy": "Jste na bezplatném tarifu. Upgradujte pro odemknutí více funkcí, jako jsou zálohy, další čísla a pokročilé možnosti soukromí.",
+    "freePlanCopy": "Jste na bezplatném tarifu. Upgrade odemkne více funkcí jako zálohy, další čísla a pokročilé možnosti soukromí.",
     "upgradePlanCta": "Upgradovat tarif",
     "changePlanCta": "Změnit tarif",
     "manageBilling": "Spravovat fakturaci",
-    "portalOpenFailed": "Portál fakturace se nepodařilo otevřít. Zkuste to prosím znovu.",
-    "holdToReveal": "Podržte pro zobrazení",
-    "notifyOnCopy": "Upozornit, pokud někdo zkopíruje moji zprávu",
-    "loadFailed": "Profil se nepodařilo načíst",
-    "followed": "Sledujete",
-    "followFailed": "Nepodařilo se začít sledovat",
-    "unfollowed": "Přestali jste sledovat",
-    "unfollowFailed": "Nepodařilo se přestat sledovat",
+    "portalOpenFailed": "Nepodařilo se otevřít fakturační portál. Zkuste to znovu.",
+    "holdToReveal": "Podržte pro odhalení",
+    "notifyOnCopy": "Upozornit mě, pokud je moje zpráva zkopírována",
+    "loadFailed": "Nepodařilo se načíst profil",
+    "followed": "Sledováno",
+    "followFailed": "Nepodařilo se sledovat",
+    "unfollowed": "Nesledováno",
+    "unfollowFailed": "Nepodařilo se zrušit sledování",
     "follow": "Sledovat",
-    "unfollow": "Přestat sledovat",
-    "followHint": "Jejich příběhy se objeví ve feedu Sledující, pokud zveřejní s publikem Sledující (nebo Veřejné).",
+    "unfollow": "Zrušit sledování",
+    "followHint": "Jejich příběhy se zobrazí ve vašem feedu Sledovaní, pokud zveřejní s publikem Sledovatelé (nebo Veřejné).",
     "userNotFound": "Uživatel nenalezen",
     "followsYou": "Sleduje vás",
-    "sectionCrashedTitle": "Sekci se nepodařilo načíst",
-    "sectionCrashedBody": "V této sekci došlo k chybě.",
-    "forwarding": "Přesměrování hovorů & SMS",
-    "callTextForwardingSection": "Přesměrování hovorů & SMS",
+    "sectionCrashedTitle": "Sekce se nepodařilo načíst",
+    "sectionCrashedBody": "Něco se pokazilo v této sekci.",
+    "forwarding": "Přesměrování hovorů a SMS",
+    "callTextForwardingSection": "Přesměrování hovorů a SMS",
     "callTextForwardingTitle": "Přesměrování hovorů a/nebo SMS",
-    "callTextForwardingDescription": "Přesměrujte příchozí hovory a SMS na ověřený telefon nebo e-mail. Odchozí hovory/SMS mohou zobrazovat vaše číslo Chatforia.",
+    "callTextForwardingDescription": "Přesměrovat příchozí hovory a SMS na ověřený telefon nebo e-mail. Odchozí hovory/SMS mohou zobrazovat vaše číslo Chatforia.",
     "enableTextForwarding": "Povolit přesměrování SMS",
     "forwardTextsToPhone": "Přesměrovat SMS na telefon",
     "forwardTextsToEmail": "Přesměrovat SMS na e-mail",
@@ -100,77 +446,77 @@
     "destinationEmail": "Cílový e-mail",
     "enableCallForwarding": "Povolit přesměrování hovorů",
     "destinationPhoneForCalls": "Cíl (E.164) pro hovory",
-    "aliasBridging": "Přesměrování hovorů (alias bridging)",
-    "quietHoursOptional": "Tichý režim (volitelné)",
-    "startHour": "Začátek (hodina 0–23)",
-    "endHour": "Konec (hodina 0–23)",
+    "aliasBridging": "Přesměrování hovorů (přemostění přezdívky)",
+    "quietHoursOptional": "Tiché hodiny (volitelné)",
+    "startHour": "Začátek hodiny (0–23)",
+    "endHour": "Konec hodiny (0–23)",
     "reset": "Resetovat",
     "saveBtn": "Uložit",
     "saveProfile": "Uložit profil",
     "saveForwarding": "Uložit přesměrování",
-    "forwardSaved": "Nastavení přesměrování uložena",
-    "forwardSaveFailed": "Nastavení se nepodařilo uložit",
-    "errE164": "Zadejte platné telefonní číslo ve formátu E.164 (např. +15551234567).",
+    "forwardSaved": "Nastavení přesměrování uloženo",
+    "forwardSaveFailed": "Nepodařilo se uložit nastavení",
+    "errE164": "Zadejte platné telefonní číslo E.164 (např. +15551234567).",
     "errEmail": "Zadejte platný e-mail.",
-    "errSmsDest": "Zvolte alespoň jeden cíl (telefon nebo e-mail).",
-    "errQuietHours": "Tichý režim musí být mezi 0 a 23.",
+    "errSmsDest": "Vyberte alespoň jeden cíl (telefon nebo e-mail).",
+    "errQuietHours": "Tiché hodiny musí být mezi 0 a 23.",
     "randomChat": "Náhodný chat",
-    "ageBand": "Vaše věkové rozpětí",
-    "ageBandPlaceholder": "Vyberte věkové rozpětí",
+    "ageBand": "Váš věkový rozsah",
+    "ageBandPlaceholder": "Vyberte svůj věkový rozsah",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Ukládáme pouze věkové rozpětí (ne vaše přesné datum narození). Používá se k rozumnému párování v Náhodném chatu.",
+    "ageBandHint": "Ukládáme pouze věkový rozsah (ne přesné datum narození). Slouží k udržení rozumného párování v Náhodném chatu.",
     "wantsAgeFilter": "Používat věkové párování v Náhodném chatu",
-    "wantsAgeFilterDesc": "Když je zapnuto, snažíme se vás párovat s lidmi v kompatibilním věku.",
-    "partnerAgeBands": "S kým vás můžeme párovat?",
-    "partnerAgeBandsDesc": "Teenageři jsou vždy párováni pouze s jinými teenagery. Dospělí nemohou být spárováni s teenagery.",
-    "teenMatchingNote": "Z bezpečnostních důvodů mohou být účty ve věku 13–17 v Náhodném chatu párovány pouze s jinými účty 13–17.",
-    "foriaRemember": "Nechat Foriu pamatovat si, co jí řeknete",
-    "foriaRememberDesc": "Když je to zapnuté, může Foria používat vaše minulé konverzace v Náhodném chatu (jen s vámi), aby konverzace lépe navazovala. Můžete to kdykoli vypnout.",
+    "wantsAgeFilterDesc": "Když je zapnuto, snažíme se vás spárovat s lidmi ve kompatibilních věkových rozsazích.",
+    "partnerAgeBands": "S kým vás můžeme spárovat?",
+    "partnerAgeBandsDesc": "Teenageři jsou vždy párováni pouze s jinými teenagery. Dospělí nemohou být párováni s teenagery.",
+    "teenMatchingNote": "Pro bezpečnost mohou účty ve věkovém rozsahu 13–17 být párovány pouze s jinými účty 13–17 v Náhodném chatu.",
+    "foriaRemember": "Nechte Riu pamatovat si věci, které jí řeknete",
+    "foriaRememberDesc": "Když je zapnuto, Foria může používat vaše minulé konverzace v Náhodném chatu (pouze s vámi), aby konverzace plynula. Kdykoli to můžete vypnout.",
     "voicemailSection": "Hlasová schránka",
     "voicemailEnabled": "Povolit hlasovou schránku",
     "voicemailAutoDeleteDays": "Automaticky mazat hlasové zprávy po (dnech)",
-    "voicemailAutoDeletePlaceholder": "Pro ponechání navždy nechte prázdné",
+    "voicemailAutoDeletePlaceholder": "Nechte prázdné pro uchování navždy",
     "voicemailForwardEmail": "Přeposílat hlasové zprávy na e-mail",
     "voicemailForwardEmailPlaceholder": "E-mail pro zasílání upozornění na hlasové zprávy",
-    "voicemailGreetingText": "Textový náhradní pozdrav",
-    "voicemailGreetingTextDesc": "Použije se, když je váš zvukový pozdrav nedostupný.",
-    "voicemailGreetingUpload": "Nahrát pozdrav hlasové schránky",
-    "voicemailPreviewGreeting": "Přehrát pozdrav",
-    "voicemailGreetingUploaded": "Pozdrav hlasové schránky byl úspěšně nahrán",
-    "voicemailGreetingUploadError": "Nahrání pozdravu se nezdařilo",
-    "voicemailNote": "Hlasové zprávy z vašich čísel Chatforia budou uloženy ve vaší hlasové schránce. V podporovaných tarifech můžete povolit přepis a přeposílání.",
-    "portHint": "Chcete si ponechat své stávající číslo? Můžete ho přenést do Chatforia Wireless.",
+    "voicemailGreetingText": "Textová záložní pozdravná zpráva",
+    "voicemailGreetingTextDesc": "Používá se, když není dostupná audio pozdravná zpráva.",
+    "voicemailGreetingUpload": "Nahrát pozdravnou zprávu pro hlasovou schránku",
+    "voicemailPreviewGreeting": "Náhled pozdravu",
+    "voicemailGreetingUploaded": "Pozdravná zpráva pro hlasovou schránku úspěšně nahrána",
+    "voicemailGreetingUploadError": "Nepodařilo se nahrát pozdravnou zprávu pro hlasovou schránku",
+    "voicemailNote": "Hlasové zprávy z vašich čísel Chatforia budou uloženy v příchozí schránce Hlasová schránka. Transkripci a přeposílání můžete povolit v podporovaných tarifech.",
+    "portHint": "Chcete si ponechat své aktuální číslo? Můžete ho přenést do Chatforia Wireless.",
     "wireless": {
-      "manage": "Spravovat wireless"
+      "manage": "Spravovat bezdrátové připojení"
     },
     "esim": {
-      "title": "Chatforia eSIM (Teal)",
-      "desc": "Získejte mobilní data pro Chatforii, když jste mimo Wi-Fi.",
-      "cta": "Získat eSIM / zobrazit QR"
+      "title": "Chatforia eSIM",
+      "desc": "Získejte mobilní data pro Chatforia, když jste mimo Wi-Fi.",
+      "cta": "Získat eSIM / Zobrazit QR"
     }
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Spravujte svůj mobilní tarif Chatforia, čísla, přesměrování a přenos čísla.",
+    "description": "Spravujte svůj tarif mobilního připojení Chatforia, čísla, přesměrování a přenos čísla.",
     "options": {
-      "heading": "Vyberte, jak chcete Chatforii používat",
+      "heading": "Vyberte, jak chcete Chatforia používat",
       "subheading": "Můžete získat nové číslo Chatforia nebo přenést své stávající číslo od jiného operátora.",
       "newNumber": "Získat nové číslo Chatforia",
       "portNumber": "Přenést své stávající číslo do Chatforia Wireless"
     },
     "port": {
       "heading": "Přenést stávající číslo",
-      "subheading": "Přeneste své současné telefonní číslo od stávajícího operátora do Chatforia. Ujistěte se, že údaje přesně odpovídají údajům u operátora, abyste předešli zpoždění.",
+      "subheading": "Přesuňte své aktuální telefonní číslo od stávajícího operátora do Chatforia. Ujistěte se, že údaje přesně odpovídají vašemu účtu u operátora, aby nedošlo ke zpoždění.",
       "phoneNumberLabel": "Telefonní číslo k přenosu",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Současný operátor",
+      "carrierLabel": "Aktuální operátor",
       "carrierPlaceholder": "Verizon, AT&T, T-Mobile atd.",
       "accountNumberLabel": "Číslo účtu",
-      "pinLabel": "PIN / heslo pro přenos",
+      "pinLabel": "PIN / heslo pro odchod",
       "fullNameLabel": "Celé jméno na účtu",
       "address1Label": "Adresa řádek 1",
       "address2Label": "Adresa řádek 2 (volitelné)",
@@ -184,55 +530,55 @@
     },
     "status": {
       "heading": "Stav přenosu",
-      "subheading": "Sledujte stav svých žádostí o přenos čísla.",
-      "loading": "Načítání…",
-      "loadError": "Stav přenosů se nepodařilo načíst.",
+      "subheading": "Sledujte stav žádostí o přenos čísla.",
+      "loading": "Načítám…",
+      "loadError": "Nepodařilo se načíst žádosti o přenos.",
       "none": "Zatím žádná aktivita přenosu.",
       "pending": "Čeká na kontrolu",
       "submitted": "Odesláno operátorovi",
       "inProgress": "Probíhá",
       "completed": "Dokončeno",
-      "failed": "Neúspěšné",
+      "failed": "Selhalo",
       "canceled": "Zrušeno",
       "created": "Vytvořeno:",
       "scheduled": "Naplánováno:",
       "completedAt": "Dokončeno:"
     },
     "dataLow": "Vaše data docházejí.",
-    "topUp": "Dobít nyní",
-    "expiresIn": "Platnost vyprší za {{days}} dní",
-    "exhausted": "Vaše data došla. Kupte nový balíček, abyste mohli nadále používat mobilní data.",
-    "buyPack": "Koupit datový balíček",
-    "esimPackLabel": "eSIM balíček"
+    "topUp": "Doplňte nyní",
+    "expiresIn": "Vyprší za {{days}} dní",
+    "exhausted": "Vaše data došla. Kupte nový balíček pro pokračování v používání mobilních dat.",
+    "buyPack": "Koupit balíček dat",
+    "esimPackLabel": "Balíček eSIM"
   },
   "family": {
     "title": "Rodina",
-    "loading": "Načítání údajů o rodině…",
+    "loading": "Načítám podrobnosti o rodině…",
     "error": {
-      "load": "Údaje o rodině se nepodařilo načíst.",
-      "invite": "Pozvánku se nepodařilo vytvořit. Ujistěte se, že jste vlastníkem rodiny, a zkuste to znovu.",
-      "checkout": "Nemohli jsme spustit platbu za rodinný tarif. Zkuste to prosím znovu."
+      "load": "Nepodařilo se načíst podrobnosti o rodině.",
+      "invite": "Nepodařilo se vytvořit pozvánku. Ujistěte se, že jste vlastníkem rodiny, a zkuste to znovu.",
+      "checkout": "Nepodařilo se spustit platbu za rodinný tarif. Zkuste to znovu."
     },
     "billing": {
       "myPlanTitle": "Můj tarif",
-      "myPlanError": "Váš tarif se nepodařilo načíst.",
-      "myPlanLoading": "Načítání vašeho tarifu…",
+      "myPlanError": "Nepodařilo se načíst váš tarif.",
+      "myPlanLoading": "Načítám váš tarif…",
       "currentPlan": "Aktuální tarif",
       "renewsAt": "Obnovuje se",
-      "freePlanCopy": "Jste na bezplatném tarifu. Upgradujte pro odemknutí více funkcí.",
+      "freePlanCopy": "Jste na bezplatném tarifu. Upgrade odemkne více funkcí.",
       "upgradeCta": "Upgradovat tarif",
       "changePlanCta": "Změnit tarif",
       "manageBilling": "Spravovat fakturaci",
-      "portalError": "Portál fakturace se nepodařilo právě teď otevřít.",
+      "portalError": "Nepodařilo se otevřít fakturační portál.",
       "cancelNow": "Zrušit nyní",
-      "cancelNowHelp": "Svůj tarif můžete spravovat nebo zrušit v portálu fakturace, nebo jej okamžitě zrušit níže.",
-      "cancelNowConfirm": "Opravdu chcete svůj tarif ihned zrušit? Toto nelze vrátit.",
-      "cancelNowError": "Zrušení tarifu se nyní nepodařilo. Zkuste to prosím znovu nebo použijte Spravovat fakturaci."
+      "cancelNowHelp": "Předplatné můžete spravovat nebo zrušit ve fakturačním portálu, nebo zrušit okamžitě níže.",
+      "cancelNowConfirm": "Opravdu chcete okamžitě zrušit tarif? Tuto akci nelze vrátit zpět.",
+      "cancelNowError": "Nepodařilo se okamžitě zrušit tarif. Zkuste to znovu nebo použijte Spravovat fakturaci."
     },
     "none": {
-      "title": "Žádná rodina zatím není nastavena",
-      "body": "Chcete-li vytvořit rodinu Chatforia a sdílený datový balíček, začněte rodinným tarifem.",
-      "goUpgrade": "Začít rodinný tarif",
+      "title": "Zatím není nastavena žádná rodina",
+      "body": "Pro vytvoření Chatforia Family a sdíleného fondu dat spusťte Rodinný tarif.",
+      "goUpgrade": "Spustit Rodinný tarif",
       "viewPlans": "Zobrazit všechny tarify"
     },
     "group": {
@@ -244,8 +590,8 @@
       "member": "Člen"
     },
     "data": {
-      "heading": "Sdílený datový balíček",
-      "caption": "Všichni členové sdílejí tento balíček. Upozorníme vás, když se blížíte limitu."
+      "heading": "Sdílený fond dat",
+      "caption": "Všichni členové sdílejí tento fond. Upozorníme vás, když se blížíte k limitu."
     },
     "members": {
       "title": "Členové rodiny",
@@ -253,1005 +599,708 @@
       "role": "Role",
       "usage": "Využití",
       "limit": "Limit",
-      "unlimited": "Žádný specifický limit",
+      "unlimited": "Žádný konkrétní limit",
       "inviteCta": "Pozvat člena"
     },
     "invite": {
       "title": "Pozvat nového člena",
-      "body": "Pošlete e-mail nebo odkaz a pozvěte někoho do vašeho sdíleného datového balíčku.",
+      "body": "Odešlete e-mail nebo odkaz k pozvání někoho do sdíleného fondu dat vaší rodiny.",
       "emailLabel": "E-mail (volitelné)",
       "emailPlaceholder": "friend@example.com",
       "create": "Vytvořit pozvánku",
-      "linkLabel": "Odkaz na pozvánku",
-      "copyAria": "Zkopírovat odkaz na pozvánku",
+      "linkLabel": "Pozvánkový odkaz",
+      "copyAria": "Kopírovat pozvánkový odkaz",
       "expiryHint": "Tento odkaz vyprší po několika dnech. Vždy můžete vytvořit nový."
     },
     "join": {
       "title": "Připojit se k rodině",
-      "body": "Byli jste pozváni, abyste se připojili k rodině Chatforia a sdíleli jejich datový balíček.",
+      "body": "Byli jste pozváni k připojení k Chatforia Family a sdílení jejich fondu dat.",
       "cta": "Přijmout a připojit se k rodině",
-      "ctaLogin": "Přihlásit se a připojit k rodině",
-      "success": "Připojili jste se k této rodině. Nyní sdílíte jejich datový balíček.",
-      "goFamily": "Přejít na rodinný přehled",
-      "error": "Nemohli jsme vás přidat do této rodiny. Pozvánka může být neplatná nebo vypršela."
+      "ctaLogin": "Přihlásit se a připojit se k rodině",
+      "success": "Připojili jste se k této rodině. Nyní sdílíte jejich fond dat.",
+      "goFamily": "Přejít na dashboard rodiny",
+      "error": "Nepodařilo se vás přidat do této rodiny. Pozvánka může být neplatná nebo vypršela."
     }
-  },
-  "voicemail": {
-    "pageTitle": "Hlasová schránka",
-    "from": "Od",
-    "to": "Pro",
-    "unknownCaller": "Neznámý",
-    "yourNumber": "Vaše číslo Chatforia",
-    "durationSeconds": "{{count}} s",
-    "audioAria": "Přehrávač hlasové zprávy",
-    "transcriptHeading": "Přepis",
-    "transcriptPending": "Probíhá přepis hlasové zprávy…",
-    "transcriptFailed": "Přepis není k dispozici.",
-    "loading": "Načítání hlasové schránky…",
-    "errorLoading": "Hlasovou schránku se nepodařilo načíst.",
-    "empty": "Zatím žádné hlasové zprávy.",
-    "deleteConfirm": "Smazat tuto hlasovou zprávu?",
-    "deleteError": "Hlasovou zprávu se nepodařilo smazat.",
-    "markRead": "Označit jako přečtené",
-    "delete": "Smazat",
-    "unreadDotAria": "Indikátor nepřečtené hlasové zprávy"
-  },
-  "support": {
-    "helpFab": "Pomoc",
-    "openSupportAria": "Otevřít podporu",
-    "badge": "Podpora",
-    "heading": "Jak vám můžeme pomoci?",
-    "tabs": {
-      "help": "Centrum nápovědy",
-      "contact": "Kontaktujte nás"
-    },
-    "searchPlaceholder": "Hledat v článcích nápovědy…",
-    "searchAria": "Hledat v nápovědě",
-    "searchBtn": "Hledat",
-    "quickTopicsLabel": "Rychlá témata",
-    "quickTopics": {
-      "login": "Nemohu se přihlásit",
-      "billing": "Platby / fakturace",
-      "abuse": "Nahlásit zneužití"
-    },
-    "trySearching": "Zkuste hledat „překlad“, „zálohy“ nebo „soukromí“. ",
-    "article": "Článek",
-    "openArticle": "Otevřít článek",
-    "contactIntro": "Odpověď vám zašleme e-mailem. Uveďte podrobnosti, které nám pomohou problém reprodukovat.",
-    "topicAria": "Vyberte téma",
-    "messagePlaceholder": "Napište svou zprávu…",
-    "sendBtn": "Odeslat",
-    "sent": "Zpráva odeslána. Odpovíme vám e-mailem.",
-    "sendError": "Nepodařilo se odeslat. Pošlete e-mail na support@chatforia.com."
-  },
-  "chat": {
-    "selectPrompt": "Vyberte text nebo chatovací místnost pro zahájení chatu",
-    "newMessages": "Nové zprávy",
-    "typing": "{{name}} píše...",
-    "emptyTitle": "Vaše zprávy",
-    "emptySubtitle": "Odešlete zprávu a začněte chat.",
-    "startChatButton": "Odeslat zprávu"
-  },
-  "topbar": {
-    "newStatus": "Nový Status",
-    "logout": "Odhlásit se",
-    "help": "Pomoc",
-    "createStatusAria": "Vytvořit nový Status"
-  },
-  "status": {
-    "userNumber": "Uživatel #{{id}}",
-    "posted": "Status byl zveřejněn",
-    "postFailed": "Status se nepodařilo zveřejnit",
-    "createTitle": "Vytvořit status",
-    "modalAriaLabel": "Nový status",
-    "captionLabel": "Co máte na srdci?",
-    "captionPlaceholder": "Sdílejte novinku...",
-    "captionAria": "Zpráva statusu",
-    "audienceLabel": "Publikum",
-    "audience": {
-      "public": "Veřejné",
-      "followers": "Sledující",
-      "contacts": "Kontakty",
-      "mutuals": "Vzájemní",
-      "custom": "Vlastní..."
-    },
-    "expiresHoursLabel": "Vyprší (hodiny)",
-    "maxTooltip": "Maximálně 7 dní",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "Vyprší:",
-    "chooseRecipients": "Vyberte příjemce",
-    "selectContacts": "Vybrat kontakty",
-    "attachmentsLabel": "Přílohy",
-    "attachmentsPlaceholder": "Přidat obrázky/videa",
-    "filesNote": "Až 5 souborů. Výchozí expirace 24 h.",
-    "postAria": "Zveřejnit status",
-    "post": "Zveřejnit"
-  },
-  "contactList": {
-    "savedContacts": "Uložené kontakty",
-    "refreshAria": "Obnovit kontakty",
-    "filterPlaceholder": "Filtrovat uložené kontakty…",
-    "filterAria": "Filtrovat uložené kontakty",
-    "noContactsFound": "Nebyly nalezeny žádné kontakty.",
-    "externalContact": "Externí kontakt",
-    "notJoined": "Tento kontakt se k Chatforii zatím nepřipojil.",
-    "couldNotStart": "Chat se nepodařilo spustit. Zkuste to prosím znovu.",
-    "startFailed": "Chat se nepodařilo spustit. Zkuste to prosím znovu.",
-    "deleted": "Kontakt byl smazán.",
-    "deleteFailed": "Kontakt se nepodařilo smazat. Zkuste to prosím znovu.",
-    "aliasUpdated": "Alias byl aktualizován.",
-    "updateAliasFailed": "Alias se nepodařilo aktualizovat. Zkuste to prosím znovu.",
-    "selectContact": "Vybrat {{name}}",
-    "alias": "Alias",
-    "startChat": "Začít chat",
-    "message": "Zpráva",
-    "delete": "Smazat",
-    "deleteContactAria": "Smazat kontakt",
-    "loadFailed": "Kontakty se nepodařilo načíst. Zkuste to prosím znovu.",
-    "loadMore": "Načíst další"
-  },
-  "sidebar": {
-    "randomChat": "Náhodný chat",
-    "callTextForwarding": "Přesměrování hovorů & SMS",
-    "conversations": "Konverzace",
-    "searchPlaceholder": "Hledat v konverzacích...",
-    "errorLoading": "Konverzace se nepodařilo načíst",
-    "empty": "Zatím žádné konverzace.",
-    "startChat": "Začít chat",
-    "people": "Lidé",
-    "settings": "Nastavení",
-    "status": "Status",
-    "forwarding": "Přesměrování hovorů & SMS",
-    "refresh": "Obnovit",
-    "search": "Hledat v konverzacích",
-    "loginPrompt": "Pro úpravu nastavení se přihlaste.",
-    "login": "Přihlásit se",
-    "register": "Vytvořit účet",
-    "chatrooms": "Chatovací místnosti",
-    "logout": "Odhlásit se",
-    "startChatAlt": "Začít nový chat",
-    "calls": "Hovory",
-    "video": "Video",
-    "voicemail": "Hlasová schránka"
   },
   "premium": {
     "heading": "Přejít na Premium",
-    "description": "Odemkněte pokročilé funkce a odstraňte reklamy.",
+    "description": "Odemkněte výkonné funkce a odstraňte reklamy.",
     "cta": "Upgradovat",
     "upgrade": "Upgradovat",
     "upgradeAria": "Upgradovat na Chatforia Premium"
   },
-  "auth": {
-    "headline": "Bezpečné, globální zprávy s okamžitým překladem",
-    "description": "End-to-end šifrování, překlady pomocí AI, mizející zprávy a hlasové/video hovory.",
-    "feature": {
-      "encryption": "End-to-end šifrování ve výchozím nastavení",
-      "translation": "Automatický překlad více než 100 jazyků",
-      "disappearing": "Mizející zprávy & potvrzení o přečtení",
-      "privacy": "Soukromí na prvním místě. Vaše data, vaše kontrola.",
-      "translate": "Překlad v reálném čase",
-      "disappear": "Mizející zprávy",
-      "privacyAlt": "Design se zaměřením na soukromí"
-    },
-    "hero": {
-      "line1": "Bezpečné, globální",
-      "beforeEm": "zprávy s",
-      "em": "okamžitým překladem",
-      "sub": "End-to-end šifrování, překlady pomocí AI, mizející zprávy a hlasové/video hovory."
-    },
-    "feat": {
-      "encryption": "End-to-end šifrování ve výchozím nastavení",
-      "translate": "Automatický překlad více než 100 jazyků",
-      "disappear": "Mizející zprávy & potvrzení o přečtení",
-      "privacy": "Soukromí na prvním místě. Vaše data, vaše kontrola."
-    },
-    "continueGoogle": "Pokračovat pomocí Google",
-    "continueApple": "Pokračovat pomocí Apple",
-    "username": "Uživatelské jméno",
-    "password": "Heslo",
-    "keepSignedIn": "Zůstat přihlášený",
-    "forgotPassword": "Zapomenuté heslo?",
-    "loginButton": "Přihlásit se",
-    "createAccount": "Vytvořit účet",
-    "freeAccountButton": "Vytvořit bezplatný účet",
-    "newHere": "Jste tu nový?",
-    "getApp": "Získat aplikaci",
-    "desktopTip": "Na počítači? Naskenujte telefonem pro získání aplikace.",
-    "scanHelper": "Na počítači? Naskenujte telefonem pro získání aplikace.",
-    "goHome": "Přejít na domov",
-    "home": "Domů",
-    "headlineAlt": {
-      "main": "Bezpečný messenger, který",
-      "highlight": "mluví vaším jazykem"
-    },
-    "subhead": "Soukromé, šifrované a přeložené zprávy — okamžitě.",
-    "upgrade": "Upgradovat nyní",
-    "tip": "Tip: Používejte stejný účet na webu i v mobilu. Vaše zprávy zůstávají synchronizované.",
-    "openDownload": "Otevřít stránku stahování",
-    "qrAlt": "QR kód pro Chatforia",
-    "scanHint": "Naskenujte pro stažení aplikace nebo otevření v prohlížeči.",
-    "iosAria": "Stáhnout v App Store",
-    "iosTitle": "Stáhnout v App Store",
-    "iosBadgeAlt": "Značka App Store",
-    "androidAria": "Získat na Google Play",
-    "androidTitle": "Obchod Google Play",
-    "androidBadgeAlt": "Značka Google Play",
-    "login": "Přihlásit se",
-    "signup": "Zaregistrovat se",
-    "email": "E-mail"
-  },
-  "footer": {
-    "plans": "Tarify & ceny",
-    "about": "O Chatforia",
-    "careers": "Kariéra",
-    "press": "Tisk",
-    "advertise": "Inzerce",
-    "contact": "Kontaktujte nás",
-    "help": "Centrum nápovědy",
-    "status": "Stavová stránka",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Zásady ochrany osobních údajů",
-    "terms": "Podmínky služby",
-    "cookies": "Nastavení cookies",
-    "doNotSell": "Neprodávejte mé údaje",
-    "language": "Jazyk",
-    "contactShort": "Kontakt",
-    "aria": "Zápatí",
-    "homeAria": "Domovská stránka Chatforia",
-    "section": {
-      "company": "SPOLEČNOST",
-      "support": "PODPORA",
-      "downloads": "KE STAŽENÍ",
-      "legal": "PRÁVNÍ"
-    },
-    "links": {
-      "plans-pricing": "Tarify & ceny",
-      "about-chatforia": "O Chatforia",
-      "careers": "Kariéra",
-      "press": "Tisk",
-      "advertise": "Inzerce",
-      "getting-started": "Začínáme",
-      "help-center": "Centrum nápovědy",
-      "contact-us": "Kontaktujte nás",
-      "status-page": "Stavová stránka",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Zásady ochrany osobních údajů",
-      "terms-of-service": "Podmínky služby",
-      "do-not-sell-my-info": "Neprodávejte mé údaje",
-      "cookie-settings": "Nastavení cookies"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patentová přihláška podána",
-    "backToTop": "↑ Zpět nahoru"
-  },
-  "home": {
-    "title": "Domů",
-    "header": "Vaše zprávy",
-    "subheader": "Odešlete zprávu a začněte chat.",
-    "sendButton": "Odeslat zprávu",
-    "gifPicker": "Otevřít výběr GIFů",
-    "emoji": "Emoji",
-    "upload": "Nahrát fotografii nebo video",
-    "inputPlaceholder": "Napište zprávu…",
-    "inputLabel": "Editor zprávy",
-    "sendTooltip": "Odeslat",
-    "sendTooltipEmpty": "Pro odeslání napište zprávu",
-    "send": "Odeslat",
-    "welcomeMessage": "Vítejte v Chatforia",
-    "getStarted": "Začít"
-  },
-  "press": {
-    "title": "Tisk",
-    "contactLine": "Pro mediální dotazy nás kontaktujte na",
-    "boilerplateTitle": "Základní informace",
-    "boilerplateBody": "Chatforia je messenger se zaměřením na soukromí, který usnadňuje konverzace napříč jazyky. Zprávy jsou ve výchozím nastavení end-to-end šifrovány a vestavěný překlad podporuje více než 100 jazyků v reálném čase. Uživatelé mohou povolit mizející zprávy, ponechat potvrzení o přečtení volitelná a synchronizovat napříč zařízeními. K dispozici pro iOS, Android a web.",
-    "assetsTitle": "Brandové materiály",
-    "assetsSubtitle": "Loga, screenshoty a produktové obrázky.",
-    "downloadCta": "Stáhnout mediální kit",
-    "downloadTitle": "Získat aplikaci",
-    "scanTip": "Na počítači? Naskenujte telefonem pro získání aplikace.",
-    "qrAria": "Otevřít web Chatforia",
-    "appStore": "Stáhnout v App Store",
-    "googlePlay": "Získat na Google Play"
-  },
-  "careers": {
-    "title": "Kariéra",
-    "intro": "Jsme malý tým, který buduje soukromý, globální messenger. Pokud vám záleží na šifrování, přístupnosti a skvělém UX, rádi se ozveme.",
-    "openRoles": "<b>Otevřené pozice:</b> Vývoj (full-stack, iOS, Android), produkt, podpora.",
-    "apply": "<b>Jak se přihlásit:</b> Pošlete CV/odkazy na <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Poslat životopis e-mailem"
-  },
-  "about": {
-    "title": "O Chatforia",
-    "description": "Chatforia je bezpečný, vícejazyčný messenger s end-to-end šifrováním, okamžitým překladem a hlasovými/video hovory. Naším cílem je jednoduchý: pomoci lidem se spojit — bezpečně, soukromě a napříč jazyky.",
-    "valuesTitle": "Co si ceníme",
-    "values": {
-      "privacy": "<bold>Soukromí na prvním místě:</bold> E2E šifrování ve výchozím nastavení.",
-      "access": "<bold>Přístup pro všechny:</bold> Automatický překlad více než 100 jazyků.",
-      "control": "<bold>Kontrola:</bold> Mizející zprávy a potvrzení o přečtení jsou volitelné.",
-      "privacy_aria": "Soukromí na prvním místě: E2E šifrování ve výchozím nastavení.",
-      "access_aria": "Přístup pro všechny: Automatický překlad více než 100 jazyků.",
-      "control_aria": "Kontrola: Mizející zprávy a potvrzení o přečtení jsou volitelné."
-    },
-    "howTitle": "Jak Chatforia funguje",
-    "howDescription": "Zprávy jsou zašifrovány na vašem zařízení, než ho opustí. Překlad, zálohy a synchronizace zařízení jsou navrženy tak, aby minimalizovaly, co naše servery mohou vidět."
-  },
-  "advertise": {
-    "title": "Inzerujte v Chatforia",
-    "description": "Oslovte aktivní uživatele chatu decentními, brand-safe formáty. Nabízíme bannery na viditelných místech, sponzorství a vlastní promo. U prémiových předplatitelů se reklamy nezobrazují.",
-    "adsense": {
-      "withPubIdShort": "Část inventáře obsluhujeme přes Google AdSense. Můžete cílit na Chatforii pomocí ID vydavatele {{pubId}} nebo využít formulář níže pro přímé sponzorství.",
-      "noPubIdShort": "Část inventáře obsluhujeme přes Google AdSense. Přímá sponzorství jsou k dispozici — použijte formulář níže."
-    },
-    "inventoryHeader": "Inventář & specifikace",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Akceptované rozměry",
-      "adsenseSlot": "Slot AdSense:"
-    },
-    "noPlacementsPublic": "Dokončujeme seznam reklamních ploch. Popište nám svou kampaň a doporučíme vhodné umístění.",
-    "whyHeader": "Proč Chatforia?",
-    "why": {
-      "highSession": "Vysoká frekvence relací a doba strávená v rozhraní chatu",
-      "brandSafe": "Bezpečné formáty pro značku; rozumné omezení frekvence",
-      "sponsoredMoments": "K dispozici sponzorované momenty (např. modál „Začít chat“)",
-      "deals": "Přímé dohody nebo programaticky přes AdSense/Google Ads"
-    },
-    "contactHeader": "Kontakt",
-    "form": {
-      "submittedMsg": "Děkujeme! Váš dotaz byl odeslán. Brzy se ozveme.",
-      "missingRequired": "Vyplňte prosím jméno, e-mail a zprávu.",
-      "successToast": "Děkujeme! Brzy se vám ozveme.",
-      "mailtoInfo": "Otevíráme váš e-mailový klient pro odeslání dotazu…",
-      "nameLabel": "Vaše jméno",
-      "namePlaceholder": "Jana Nováková",
-      "emailLabel": "E-mail",
-      "emailPlaceholder": "vy@spolecnost.com",
-      "companyLabel": "Společnost",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Měsíční rozpočet (volitelné)",
-      "budgetPlaceholder": "např. 1 000–20 000+ Kč",
-      "messageLabel": "Popište svou kampaň",
-      "messagePlaceholder": "Cílení, termíny, KPI, preferovaná umístění…",
-      "sendCta": "Odeslat dotaz"
-    },
-    "legal": {
-      "disclaimerStart": "Odesláním souhlasíte s našimi",
-      "terms": "Podmínkami",
-      "and": "a",
-      "privacy": "Zásadami ochrany osobních údajů"
-    }
-  },
   "upgrade": {
-    "title": "Upgrade",
-    "subtitle": "Vyberte tarif aplikace, přidejte datové balíčky pro sebe nebo sdílejte data s rodinou — vše z jednoho místa.",
-    "subtitle.app": "Najděte si ideální tarif: Plus bez reklam, nebo Premium s plnou sadou funkcí.",
-    "subtitle.mobile": "Přidejte globální eSIM data, aby Chatforia fungovala i mimo Wi-Fi.",
-    "subtitle.family": "Vytvořte sdílený datový balíček pro rodinu a spravujte využití všech členů.",
+    "title": "Upgradovat",
+    "titleLoggedIn": "Upgradovat",
+    "titlePublic": "Ceny",
+    "h1": "Ceny a tarify Chatforia",
+    "h1Subtitle": "Začněte s naším bezplatným tarifem s reklamami. Přejděte na ad-free s Plus nebo odemkněte plný výkon s Premium.",
+    "subtitle": "Vyberte tarif aplikace, přidejte balíčky dat pro sebe nebo sdílejte data s rodinou — vše na jednom místě.",
+    "subtitle.app": "Začněte s naším bezplatným tarifem s reklamami. Přejděte na ad-free s Plus nebo odemkněte plný výkon s Premium.",
+    "subtitle.mobile": "Přidejte globální data eSIM, aby Chatforia fungovala i mimo Wi-Fi.",
+    "subtitle.family": "Vytvořte sdílený fond dat pro rodinu a spravujte využití všech na jednom místě.",
     "perMonth": "měs.",
     "perYear": "rok",
     "goPremium": "Přejít na Premium",
-    "benefitsLine": "Odemkněte pokročilé funkce a odstraňte reklamy.",
+    "benefitsLine": "Odemkněte výkonné funkce a odstraňte reklamy.",
     "ctaText": "Upgradovat",
     "aria": "Upgradovat na Chatforia Premium",
     "toggle": {
       "monthly": "Měsíčně",
-      "annual": "Ročně (ušetříte 25 %)"
+      "annual": "Ročně (ušetříte 30 %)"
     },
     "scheduleBanner": {
       "title": "Předplatné skončí",
-      "body": "Vrátíte se na Free dne",
+      "body": "Vrátíte se na Free",
       "keepPlanCta": "Ponechat {{plan}}",
       "manageBillingCta": "Spravovat fakturaci"
     },
     "billing": {
-      "opening": "Otevírání…",
+      "opening": "Otevírám…",
       "manage": "Spravovat fakturaci"
     },
     "checkout": {
-      "redirecting": "Přesměrování…"
+      "redirecting": "Přesměrovávám…"
     },
     "auth": {
-      "continue": "Pokračovat na přihlášení",
+      "continue": "Pokračovat k přihlášení",
       "createAccount": "Vytvořit účet",
       "signIn": "Přihlásit se"
     },
     "cta": {
       "aria": "Vybrat tarif",
       "getPlus": "Upgradovat na Plus",
-      "upgradeMonthly": "Upgradovat na měsíční",
-      "upgradeAnnual": "Upgradovat na roční"
+      "upgradeMonthly": "Upgradovat měsíčně",
+      "upgradeAnnual": "Upgradovat ročně"
+    },
+    "section": {
+      "app": "Tarify aplikace",
+      "mobile": "Mobilní (eSIM)",
+      "family": "Rodinné tarify"
     },
     "plans": {
       "free": {
-        "title": "Free",
-        "price": "0 Kč",
-        "desc": "Začněte posílat zprávy zdarma.",
+        "title": "Zdarma",
+        "price": "$0",
+        "desc": "Začněte s posíláním zpráv zdarma. Ideální, pokud Chatforia teprve zkoušíte.",
         "features": {
-          "msg": "1:1 a skupinové zprávy",
-          "aiBasic": "Základní AI odpovědi",
-          "attachments": "Standardní přílohy"
+          "chat": "Chat v reálném čase 1:1 a skupinový, plus hlasové a videohovory",
+          "media": "Sdílejte fotky, hlasové zprávy a krátká videa",
+          "ai": "Chytré odpovědi s AI a okamžitý překlad (fair use)",
+          "disappearing": "Mizící zprávy a základní nastavení soukromí",
+          "ads": "Navždy zdarma s reklamami v aplikaci"
         },
         "ctaCurrent": "Aktuální tarif",
-        "ctaUnavailable": "Přepnout na Free (není dostupné)",
-        "aria": "Tarif Free (aktuální)"
+        "ctaManage": "Spravovat ve fakturaci",
+        "ctaPublic": "Začít – pokračovat k přihlášení",
+        "aria": "Bezplatný tarif"
       },
       "plus": {
         "title": "Plus",
-        "price": "4,99 $ / měs.",
-        "desc": "Nejlevnější zážitek bez reklam.",
+        "price": "$6.99",
+        "desc": "Všechny základy bez reklam. Skvělé pro každodenní zprávy a volání.",
         "features": {
-          "noAds": "Odstranit všechny reklamy",
-          "msg": "1:1 a skupinové zprávy",
-          "attachments": "Větší přílohy",
-          "aiBasic": "Základní AI odpovědi"
+          "allFree": "Vše z Free bez reklam",
+          "forwarding": "Přesměrování hovorů a SMS na vaše reálné telefonní číslo",
+          "history": "Delší historie zpráv (až 6 měsíců)",
+          "support": "Rychlejší podpora, když se něco pokazí"
         },
-        "badge": "Oblíbený",
-        "cta": "Bez reklam",
+        "badge": "Oblíbené",
+        "cta": "Přejít na ad-free",
+        "ctaPublic": "Získat Plus – pokračovat k přihlášení",
         "aria": "Upgradovat na Plus"
       },
       "premiumMonthly": {
         "title": "Premium (měsíčně)",
-        "price": "24,99 $ / měs.",
-        "desc": "Plné funkce, vyzvánění a AI nástroje.",
+        "price": "$11.99",
+        "desc": "Plný zážitek z Chatforia: nástroje AI, přizpůsobení a priorita podpory.",
         "features": {
-          "plusAll": "Vše z tarifu Plus",
-          "ringtones": "Vlastní vyzvánění a tóny zpráv",
-          "powerAi": "Výkonné AI funkce",
-          "priorityUpdates": "Prioritní aktualizace",
-          "backups": "Zálohy & synchronizace zařízení"
+          "plusAll": "Vše z Plus",
+          "themes": "Odemknout všechny prémiové barevné motivy a přizpůsobení aplikace",
+          "ai": "Prémiové nástroje AI pouze pro přepisy, chytré odpovědi a souhrny",
+          "support": "Prioritní podpora, když ji nejvíce potřebujete"
         },
-        "badge": "Nejlepší hodnota",
+        "badge": "Doporučeno",
         "cta": "Upgradovat (měsíčně)",
+        "ctaPublic": "Odemknout Premium – pokračovat k přihlášení",
         "aria": "Upgradovat na Premium měsíčně"
       },
       "premiumAnnual": {
         "title": "Premium (ročně)",
-        "price": "225 $ / rok",
-        "desc": "Ušetřete více při roční fakturaci.",
+        "price": "$99",
+        "desc": "Ušetřete více při roční platbě — včetně extra barevných motivů, nástrojů AI a prioritní podpory.",
         "features": {
-          "allPremium": "Vše z tarifu Premium",
-          "annualBilling": "Účtováno ročně",
-          "save25": "Ušetříte ~25 % oproti měsíčnímu",
-          "sameFeatures": "Stejné funkce jako měsíční"
+          "allPremium": "Vše z Premium měsíčně — včetně extra barevných motivů",
+          "annualBilling": "Účtováno jednou ročně",
+          "save25": "Ušetřete přibližně 30 % oproti měsíční platbě",
+          "bestFor": "Nejlepší pro náročné uživatele, vzdálené pracovníky a časté cestovatele"
         },
-        "badge": "Ušetříte 25 %",
+        "badge": "Ušetřete 30 %",
         "cta": "Upgradovat (ročně)",
+        "ctaPublic": "Ušetřit 30 % s ročním tarifem – pokračovat k přihlášení",
         "aria": "Upgradovat na Premium ročně",
-        "disclaimer": "Účtováno předem. Zrušit můžete kdykoli. Bez skrytých poplatků."
+        "disclaimer": "Účtováno předem. Zrušit kdykoli. Žádné skryté poplatky."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Začněte posílat zprávy zdarma.",
+      "freeTitle": "Zdarma",
+      "freeDesc": "Začněte s posíláním zpráv zdarma.",
       "plusTitle": "Plus",
-      "plusBadge": "Oblíbený",
-      "plusDesc": "Nejlevnější zážitek bez reklam.",
+      "plusBadge": "Oblíbené",
+      "plusDesc": "Nejdostupnější ad-free zážitek.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Plné funkce, vyzvánění a AI nástroje.",
+      "premiumMonthlyDesc": "Plné funkce, vyzváněcí tóny a nástroje AI.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ušetřete více při roční fakturaci.",
-      "annualDisclaimer": "Účtováno předem. Zrušit můžete kdykoli. Bez skrytých poplatků."
+      "premiumAnnualDesc": "Ušetřete více při roční platbě.",
+      "annualDisclaimer": "Účtováno předem. Zrušit kdykoli. Žádné skryté poplatky."
     },
     "mobile": {
+      "title": "Chatforia Mobile (balíčky dat eSIM)",
+      "subtitle": "Přidejte globální data, aby Chatforia fungovala i bez Wi-Fi. Ceny se automaticky přizpůsobí vaší zemi a měně.",
+      "subtitle.detail": "Vyberte jednorázový globální balíček dat, aby Chatforia fungovala i na cestách nebo mimo Wi-Fi.",
+      "scope": {
+        "local": "Místní",
+        "europe": "Evropa",
+        "global": "Globální"
+      },
+      "note": "Neprodáváme balíčky dat pod 3 GB.",
+      "localEquals": "Místní = {{country}}",
+      "localEqualsFallback": "Místní = vaše aktuální země",
+      "perPack": "/ balíček",
+      "cta": "Získat tento balíček dat",
+      "ctaPublic": "Získat tento balíček dat",
+      "checkout": {
+        "redirecting": "Přesměrovávám…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Vysokorychlostní data pro náročné použití",
+          "throttle": "Rychlost se může zpomalit po vysokém využití",
+          "coverage": "Spolehlivé pokrytí",
+          "instant": "Okamžitá aktivace eSIM",
+          "noContract": "Jednorázový balíček, bez smlouvy"
+        }
+      },
+      "disclaimer": {
+        "devices": "Balíčky dat eSIM vyžadují zařízení s podporou eSIM a odemčené. Dostupnost závisí na modelu telefonu, operátorovi a zemi. Pokrytí a rychlosti se liší podle regionu."
+      },
       "small": {
-        "price": "9,99 $",
-        "desc": "Obsahuje 3 GB vysokorychlostních dat — ideální pro lehké zprávy a občasné hovory."
+        "title": "Startérní balíček",
+        "desc": "Obsahuje 3 GB vysokorychlostních dat — ideální pro lehké psaní zpráv a občasné hovory.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Krátké cesty, lehké psaní zpráv a občasné hovory",
+        "aria": "Koupit startérní balíček dat eSIM"
       },
       "medium": {
-        "price": "14,99 $",
-        "desc": "Obsahuje 5 GB vysokorychlostních dat na cesty, dojíždění a pravidelné VoIP hovory."
+        "title": "Cestovní balíček",
+        "desc": "Obsahuje 5 GB vysokorychlostních dat pro cesty, dojíždění a pravidelné VoIP hovory.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Víkendové cesty, pravidelné VoIP hovory a mapy",
+        "aria": "Koupit cestovní balíček dat eSIM"
       },
       "large": {
-        "price": "24,99 $",
-        "desc": "Obsahuje 10 GB vysokorychlostních dat pro intenzivní chat, hovory a video v síti Chatforia."
+        "title": "Výkonný balíček",
+        "desc": "Obsahuje 10 GB vysokorychlostních dat pro náročné chaty, hovory a video v síti Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Náročné chaty, hovory, video a hotspot",
+        "aria": "Koupit balíček dat eSIM pro výkonné uživatele"
+      },
+      "compare": {
+        "title": "Porovnat balíčky dat eSIM",
+        "col": {
+          "pack": "Balíček",
+          "data": "Zahrnutá data",
+          "bestFor": "Nejlepší pro"
+        },
+        "disclaimer": "Skutečné využití dat závisí na tom, jak Chatforia používáte (hlas, video, média a další aplikace v telefonu)."
       }
-    }
-  },
-  "gettingStarted": {
-    "title": "Začínáme",
-    "subtitle": "V Chatforia noví? Tento rychlý průvodce ukáže základy, abyste byli produktivní během pár minut.",
-    "alert": {
-      "text": "Tento průvodce se bude rozšiřovat, jak budeme přidávat nové funkce. Pokud něco chybí, dejte nám vědět přes",
-      "contactLink": "Kontaktujte nás"
     },
-    "section1": {
-      "title": "1) Vytvořte si účet",
-      "signup": "Zaregistrovat se",
-      "or": "nebo",
-      "login": "přihlásit se",
-      "loginText": "se stávajícím účtem.",
-      "prefsStart": "Nastavte si",
-      "prefsLink": "předvolby",
-      "prefsRest": "(jazyk, potvrzení o přečtení, motivy)."
+    "family": {
+      "title": "Chatforia Family (sdílená data)",
+      "subtitle": "Sdílejte jeden fond dat napříč rodinou. Jedna faktura, více účtů Chatforia, globální pokrytí.",
+      "perPack": "/ balíček",
+      "small": {
+        "title": "Rodinný malý",
+        "desc": "Obsahuje 20 GB sdílených vysokorychlostních dat — skvělé pro 2–3 lehké uživatele.",
+        "price": "$29.99",
+        "aria": "Koupit Rodinný malý balíček"
+      },
+      "medium": {
+        "title": "Rodinný střední",
+        "desc": "Obsahuje 40 GB sdílených vysokorychlostních dat — ideální pro 3–5 aktivních členů.",
+        "price": "$49.99",
+        "aria": "Koupit Rodinný střední balíček"
+      },
+      "large": {
+        "title": "Rodinný velký",
+        "desc": "Obsahuje 80 GB sdílených vysokorychlostních dat — pro výkonné rodiny, které jsou neustále online.",
+        "price": "$84.99",
+        "aria": "Koupit Rodinný velký balíček"
+      },
+      "feature": {
+        "shared": "Sdílený fond dat pro vaši rodinu",
+        "members": "Pozvěte až 4 další členy",
+        "membersMore": "Skvělé pro 3–5 aktivních členů",
+        "manage": "Spravujte limity pro každého člena",
+        "topUp": "Přidávejte další balíčky kdykoli",
+        "bestValue": "Nejlepší cena za GB",
+        "fairUse": "Podléhá politice fair-use a místním limitům"
+      },
+      "disclaimer": "Rodinné balíčky vytvářejí nebo doplňují sdílený fond dat. Členy můžete kdykoli pozvat nebo odebrat.",
+      "footnote": "Rodinné balíčky sdílejí jeden fond dat napříč propojenými účty Chatforia. Dostupnost a limity závisí na vaší zemi a místních předpisech."
     },
-    "section2": {
-      "title": "2) Začněte posílat zprávy",
-      "item1": "Vytvořte DM nebo skupinu a pošlete první zprávu.",
-      "item2": "Použijte okamžitý překlad pro chat ve více než 100 jazycích.",
-      "item3": "Vyzkoušejte mizející zprávy a potvrzení o přečtení v Profil → Soukromí."
+    "why": {
+      "title": "Proč lidé přecházejí na Chatforia",
+      "subtitle": "Chatforia vám dává reálné telefonní číslo, chytrý překlad a jasnou cestu k ad-free, když jste připraveni.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Méně reklam na Free, jednoduchý upgrade na Plus, když jste připraveni, a prémiové nástroje, které TextNow nenabízí."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Moderní aplikace, design zaměřený na globální použití a vestavěný překlad místo zastaralého přesměrování hovorů."
+        },
+        "messengers": {
+          "title": "Chatforia vs chatovací aplikace",
+          "body": "Pište na reálná telefonní čísla — nejen na uživatele aplikací — s AI a stavem vestavěným. Skvělé, pokud přicházíte z aplikací jako TextFree nebo TextMe."
+        }
+      },
+      "tableTitle": "Jak Chatforia porovnává",
+      "col": {
+        "feature": "Funkce"
+      },
+      "feature": {
+        "freeNumber": "Bezplatné telefonní číslo",
+        "translation": "Vestavěný automatický překlad",
+        "aiTools": "Nástroje AI (přepisy, odpovědi, souhrny)",
+        "ads": "Možnost bez reklam",
+        "history": "Historie zpráv"
+      },
+      "yes": "Ano",
+      "no": "Ne",
+      "yesPremium": "Ano (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Omezené",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Až 12+ měsíců",
+        "textnow": "Závisí na účtu",
+        "voice": "Omezené / na základě účtu"
+      },
+      "disclaimer": "Porovnání vychází z veřejně dostupných informací a může se časem změnit. Ostatní bezplatné aplikace pro psaní zpráv jako TextFree nebo TextMe jsou obecně podobné TextNow."
     },
-    "section3": {
-      "title": "3) Jděte dál",
-      "item1Part1": "Spravujte svůj tarif na stránce",
-      "upgradeLink": "Upgrade",
-      "item1Part2": "(Plus = bez reklam, Premium = plná sada funkcí).",
-      "item2Part1": "Propojte další zařízení a nastavte šifrované zálohy v",
-      "settingsLink": "Nastavení"
-    },
-    "cta": {
-      "seePlans": "Zobrazit tarify",
-      "openSettings": "Otevřít nastavení"
-    }
-  },
-  "helpCenter": {
-    "title": "Centrum nápovědy",
     "faq": {
-      "account": {
-        "q": "Jak vytvořím nebo obnovím svůj účet?",
-        "a": "Stáhněte si aplikaci nebo použijte web, klepněte na „Vytvořit účet“ a ověřte e-mail/telefon. Pro obnovu použijte „Zapomenuté heslo“."
+      "title": "Časté otázky k cenám a tarifům",
+      "free": {
+        "q": "Je tarif Zdarma opravdu zdarma?",
+        "a": "Ano. Tarif Zdarma obsahuje číslo Chatforia, volání a psaní zpráv s reklamami. Na Free můžete zůstat tak dlouho, jak chcete, nebo upgradovat pro odstranění reklam a odemknutí dalších funkcí."
       },
-      "privacy": {
-        "q": "Jsou zprávy end-to-end šifrované?",
-        "a": "Ano. Zprávy a hovory jsou ve výchozím nastavení end-to-end šifrované. Číst je můžete jen vy a příjemce."
+      "plusPremium": {
+        "q": "Jaký je rozdíl mezi Plus a Premium?",
+        "a": "Plus odstraňuje reklamy a prodlužuje historii zpráv — ideální pro každodenní použití. Premium přidává extra přizpůsobení, nástroje AI pro přepisy a odpovědi a prioritní podporu pro náročné uživatele."
       },
-      "translate": {
-        "q": "Jak funguje okamžitý překlad?",
-        "a": "Povolte „Automaticky překládat“ v Nastavení → Vzhled & jazyk. Překládáme v zařízení, kde je to možné, jinak přes zabezpečená API s minimem metadat."
+      "esim": {
+        "q": "Kde balíčky dat eSIM fungují?",
+        "a": "Chatforia Mobile používá globální pokrytí eSIM. Dostupnost závisí na vaší zemi a zařízení. Podporované možnosti uvidíte při aktivaci v aplikaci."
+      },
+      "cancel": {
+        "q": "Mohu kdykoli zrušit nebo změnit tarif?",
+        "a": "Ano. Předplatné můžete spravovat nebo zrušit na stránce fakturace v aplikaci. Změny se projeví na konci aktuálního fakturačního období."
+      },
+      "family": {
+        "q": "Jak fungují Rodinné balíčky?",
+        "a": "Rodinné balíčky vytvářejí sdílený fond dat napříč více účty Chatforia. Jedna osoba platí účet a můžete pozvat nebo odebrat členy a nastavit limity pro každého."
+      }
+    },
+    "gettingStarted": {
+      "title": "Začínáme",
+      "subtitle": "Nový v Chatforia? Tento rychlý start ukazuje základy, abyste mohli být produktivní během minut.",
+      "alert": {
+        "text": "Tento průvodce se bude rozšiřovat, jak budeme spouštět nové funkce. Pokud něco chybí, dejte nám vědět přes",
+        "contactLink": "Kontaktujte nás"
+      },
+      "section1": {
+        "title": "1) Vytvořte si účet",
+        "signup": "Zaregistrovat se",
+        "or": "nebo",
+        "login": "přihlásit se",
+        "loginText": "s vaším stávajícím účtem.",
+        "prefsStart": "Nastavte si",
+        "prefsLink": "předvolby",
+        "prefsRest": "(jazyk, potvrzení o přečtení, motivy)."
+      },
+      "section2": {
+        "title": "2) Začněte psát zprávy",
+        "item1": "Vytvořte DM nebo Skupinu a odešlete první zprávu.",
+        "item2": "Používejte okamžitý překlad pro chat napříč 100+ jazyky.",
+        "item3": "Vyzkoušejte mizící zprávy a potvrzení o přečtení v Profil → Soukromí."
+      },
+      "section3": {
+        "title": "3) Jděte dál",
+        "item1": "Tarif můžete kdykoli upgradovat přímo v aplikaci.",
+        "item2": "Jakmile jste přihlášeni, můžete propojit další zařízení a nastavit šifrované zálohy v Nastavení v aplikaci."
+      },
+      "cta": {
+        "seePlans": "Zobrazit tarify",
+        "openSettings": "Otevřít nastavení"
+      }
+    },
+    "helpCenter": {
+      "title": "Centrum nápovědy",
+      "faq": {
+        "account": {
+          "q": "Jak si vytvořím nebo obnovím účet?",
+          "a": "Stáhněte si aplikaci nebo použijte web, klepněte na „Vytvořit účet“, ověřte e-mail/telefon. Pro obnovení použijte „Zapomenuté heslo“."
+        },
+        "privacy": {
+          "q": "Jsou zprávy šifrovány end-to-end?",
+          "a": "Ano. Zprávy a hovory jsou ve výchozím nastavení šifrovány end-to-end. Číst je můžete jen vy a příjemce."
+        },
+        "translate": {
+          "q": "Jak funguje okamžitý překlad?",
+          "a": "Povolte „Automatický překlad“ v Nastavení → Vzhled a jazyk. Překládáme na zařízení, kde je to podporováno, jinak přes bezpečné API s minimálními metadaty."
+        },
+        "contact": {
+          "q": "Kontaktovat podporu",
+          "a": "Napište nám na support@chatforia.com. Přiložte snímky obrazovky a verzi aplikace."
+        }
+      }
+    },
+    "contact": {
+      "title": "Kontaktujte nás",
+      "successMsg": "Děkujeme — náš tým odpoví e-mailem.",
+      "errorSend": "Nepodařilo se odeslat. Napište prosím na support@chatforia.com.",
+      "form": {
+        "nameLabel": "Jméno",
+        "emailLabel": "E-mail",
+        "messageLabel": "Zpráva",
+        "sendCta": "Odeslat"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Zásady ochrany osobních údajů",
+      "lastUpdated": "Naposledy aktualizováno:",
+      "intro": {
+        "body": "Tyto Zásady ochrany osobních údajů vysvětlují, jak Chatforia („my“, „nás“) shromažďuje, používá a sdílí informace při používání našich aplikací a služeb. Navrhujeme Chatforia tak, aby minimalizovala data, ke kterým máme přístup."
+      },
+      "infoWeCollect": {
+        "title": "Informace, které shromažďujeme",
+        "account": "Údaje o účtu (např. e-mail/telefon) pro vytvoření a zabezpečení vašeho účtu.",
+        "encrypted": "Šifrovaný obsah (zprávy/hovory) je šifrován end-to-end; nemůžeme ho číst.",
+        "diagnostics": "Diagnostika/použití jako záznamy o pádech, typ zařízení nebo hrubé analytické údaje pro zlepšení výkonu."
+      },
+      "sms": {
+        "title": "Mobilní telefonní čísla a SMS",
+        "body": "Pokud poskytnete mobilní telefonní číslo, používáme ho k povolení funkcí, jako je ověření účtu, upozornění na přihlášení a zasílání zpráv uživatelům přes SMS, kde je podporováno. Můžeme posílat transakční SMS související s vaším účtem a aktivitou v Chatforia. Odhlásit se z přijímání SMS můžete kdykoli odpovědí podporovaným klíčovým slovem pro odhlášení (např. „STOP“) nebo změnou předvoleb oznámení v aplikaci. Vaše telefonní číslo neprodáváme ani ho nepoužíváme k nesouvisejícímu marketingu.",
+        "newText": "Nová zpráva",
+        "enterRecipient": "Zadejte jméno nebo číslo",
+        "typeMessage": "Napište zprávu…",
+        "addRecipient": "Přidejte příjemce výše a začněte…"
+      },
+      "howWeUse": {
+        "title": "Jak informace používáme",
+        "provide": "Poskytovat a zabezpečovat službu (ověření, detekce spamu/zneužití).",
+        "improve": "Zlepšovat funkce (kvalita překladu, spolehlivost).",
+        "legal": "Plnit zákonné povinnosti."
+      },
+      "sharing": {
+        "title": "Sdílení",
+        "body": "Neprodáváme osobní údaje. Omezená data můžeme sdílet se zpracovateli (např. push oznámení, analytika) na základě přísných smluv."
+      },
+      "rights": {
+        "title": "Vaše práva",
+        "body": "V závislosti na vašem regionu (např. GDPR/UK GDPR/CPRA) můžete požádat o přístup, opravu, vymazání nebo odhlášení z určitého zpracování. Kontakt: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Uchovávání dat a zabezpečení",
+        "body": "Uchováváme pouze to, co je nutné pro provoz služby, a používáme průmyslově standardní zabezpečení. E2E obsah nemůžeme dešifrovat."
+      },
+      "children": {
+        "title": "Děti",
+        "body": "Chatforia není určena dětem mladším 13 let (nebo podle místních zákonů)."
+      },
+      "changes": {
+        "title": "Změny",
+        "body": "Aktualizace zveřejníme zde a upravíme datum „Naposledy aktualizováno“."
       },
       "contact": {
-        "q": "Kontaktovat podporu",
-        "a": "Kontaktujte nás na support@chatforia.com. Připojte screenshoty a verzi aplikace."
-      }
-    }
-  },
-  "contact": {
-    "title": "Kontaktujte nás",
-    "successMsg": "Děkujeme — náš tým vám odpoví e-mailem.",
-    "errorSend": "Odeslání se nepodařilo. Pošlete prosím e-mail na support@chatforia.com.",
-    "form": {
-      "nameLabel": "Jméno",
-      "emailLabel": "E-mail",
-      "messageLabel": "Zpráva",
-      "sendCta": "Odeslat"
-    }
-  },
-  "privacyPolicy": {
-    "title": "Zásady ochrany osobních údajů",
-    "lastUpdated": "Poslední aktualizace:",
-    "intro": {
-      "body": "Tyto Zásady ochrany osobních údajů vysvětlují, jak Chatforia („my“) shromažďuje, používá a sdílí informace, když používáte naše aplikace a služby. Chatforii navrhujeme tak, abychom minimalizovali data, k nimž máme přístup."
-    },
-    "infoWeCollect": {
-      "title": "Informace, které shromažďujeme",
-      "account": "Informace o účtu (např. e-mail/telefon) k vytvoření a zabezpečení účtu.",
-      "encrypted": "Šifrovaný obsah (zprávy/ hovory) je end-to-end šifrovaný; nemůžeme ho číst.",
-      "diagnostics": "Diagnostika/využití jako crash logy, typ zařízení nebo hrubá analytika pro zlepšení výkonu."
-    },
-    "howWeUse": {
-      "title": "Jak informace používáme",
-      "provide": "Poskytování a zabezpečení služby (autentizace, detekce spamu/zneužití).",
-      "improve": "Zlepšování funkcí (kvalita překladu, spolehlivost).",
-      "legal": "Plnění právních povinností."
-    },
-    "sharing": {
-      "title": "Sdílení",
-      "body": "Neprodáváme osobní údaje. Můžeme sdílet omezená data se zpracovateli (např. push notifikace, analytika) na základě přísných smluv."
-    },
-    "rights": {
-      "title": "Vaše práva",
-      "body": "V závislosti na vašem regionu (např. GDPR/UK GDPR/CPRA) můžete požadovat přístup, opravu, smazání nebo odhlášení z určitých zpracování. Kontakt: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Uchovávání dat & zabezpečení",
-      "body": "Uchováváme pouze to, co je potřeba pro provoz služby, a používáme standardní bezpečnostní postupy. E2E obsah nemůžeme dešifrovat."
-    },
-    "children": {
-      "title": "Děti",
-      "body": "Chatforia není určena dětem mladším 13 let (nebo podle požadavků místního práva)."
-    },
-    "changes": {
-      "title": "Změny",
-      "body": "Aktualizace zveřejníme zde a upravíme datum „Poslední aktualizace“."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "privacy@chatforia.com • [Právní název společnosti], [Adresa]"
-    }
-  },
-  "terms": {
-    "title": "Podmínky služby",
-    "lastUpdated": "Poslední aktualizace:",
-    "intro": {
-      "body": "Používáním Chatforie souhlasíte s těmito Podmínkami. Pokud nesouhlasíte, službu nepoužívejte."
-    },
-    "accounts": {
-      "title": "Účty",
-      "itemAccurateInfo": "Uvádějte přesné údaje a držte přihlašovací údaje v bezpečí.",
-      "itemResponsibility": "Za aktivitu na svém účtu nesete odpovědnost vy."
-    },
-    "acceptableUse": {
-      "title": "Přijatelné používání",
-      "itemNoAbuse": "Žádný nelegální, zneužívající nebo porušující obsah; žádný spam nebo automatizované zneužití.",
-      "itemSuspend": "Při porušení můžeme službu pozastavit/ukončit."
-    },
-    "yourContent": {
-      "title": "Váš obsah",
-      "body": "Práva na svůj obsah si ponecháváte. Udělujete nám nezbytná práva pro provoz služby (např. směrování, ukládání, překlad)."
-    },
-    "disclaimer": {
-      "title": "Zřeknutí se odpovědnosti & odpovědnost",
-      "body": "Služba je poskytována „tak jak je“ bez záruk. V nejvyšším rozsahu povoleném zákonem Chatforia nenese odpovědnost za nepřímé nebo následné škody."
-    },
-    "changes": {
-      "title": "Změny",
-      "body": "Podmínky můžeme aktualizovat; pokračující používání po změnách znamená souhlas."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • [Právní název společnosti], [Adresa]"
-    }
-  },
-  "doNotSell": {
-    "title": "Neprodávejte nebo nesdílejte mé osobní údaje",
-    "body": "Chatforia neprodává osobní údaje. Obyvatelé Kalifornie však mohou stále podávat žádosti podle CPRA pomocí tlačítka níže.",
-    "cta": "Odeslat žádost"
-  },
-  "cookies": {
-    "title": "Nastavení cookies",
-    "body": "Chatforia používá minimální cookies (např. relace, zabezpečení). Nepoužíváme cookies třetích stran pro reklamu. Cookies můžete spravovat v nastavení prohlížeče."
-  },
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Stav telefonního čísla se nepodařilo načíst.",
-    "lock": "Zamknout",
-    "noNumberAssigned": "Není přiřazeno žádné číslo. Vyberte si číslo podle směrového čísla a začněte psát.",
-    "pickNumber": "Vybrat číslo",
-    "phoneNumber": "Telefonní číslo"
-  },
-  "startChatModal": {
-    "title": "Začít chat",
-    "quickPicker": "Rychlý výběr",
-    "to": "Komu",
-    "nameOrUsername": "Napište jméno, uživatelské jméno",
-    "nameUsernamePhoneEmail": "Napište jméno, uživatelské jméno, telefon nebo e-mail…",
-    "startWithSelected": "Začít chat s vybranými",
-    "searchByUsernameOrPhone": "Hledat podle uživatelského jména nebo telefonu",
-    "search": "Hledat",
-    "searchPrompt": "Zadejte uživatelské jméno nebo telefon a stiskněte Hledat.",
-    "pickFromContacts": "Nebo vyberte z kontaktů",
-    "addContact": "Přidat kontakt",
-    "show": "Zobrazit",
-    "add": "Přidat",
-    "close": "Zavřít",
-    "selectedCount": "Vybráno: {{count}}",
-    "pickAtLeastOne": "Vyberte alespoň jednoho příjemce.",
-    "saveContactsHint": "Telefonní/e-mailové položky budou dostupné poté, co je uložíte jako kontakty.",
-    "failedBulkStart": "Nepodařilo se spustit chat s vybranými příjemci.",
-    "noResults": "Žádné výsledky",
-    "mode": "Režim",
-    "group": "Skupina",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Název skupiny (volitelné)",
-    "firstMessageOptional": "První zpráva (volitelná, ale doporučená)",
-    "createGroup": "Vytvořit skupinu",
-    "sendBroadcast": "Odeslat broadcast"
-  },
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-  "sounds": {
-    "freeNotice": "Jste na tarifu Free — prémiové tóny jsou zobrazeny, ale uzamčeny. Upgradujte pro odemknutí všech.",
-    "preview": "Přehrát",
-    "resetToDefaults": "Obnovit výchozí",
-    "notificationSounds": "Zvuky oznámení",
-    "messageTone": "Tón zprávy",
-    "default": "Výchozí",
-    "vibrate": "Vibrace",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Textová zpráva",
-    "xylophone": "Xylofon",
-    "classic": "Klasika",
-    "urgency": "Urgence",
-    "bells": "Zvonky",
-    "chimes": "Zvonkohra",
-    "digitalPhone": "Digitální telefon",
-    "melodic": "Melodické",
-    "organNotes": "Varhanní tóny",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-  "premiumGuard": {
-    "requiresPremium": "Tato funkce vyžaduje tarif Premium."
-  },
-  "aiSettings": {
-    "title": "Nastavení AI",
-    "controlIntro": "Ovládejte překlad, chytré odpovědi a automatické reakce ForiaBota.",
-    "save": "Uložit nastavení AI",
-    "autoTranslateIncoming": "Automaticky překládat příchozí zprávy",
-    "showOriginalAlongside": "Zobrazit originální text vedle překladu",
-    "enableSmartReplies": "Povolit chytré odpovědi",
-    "smartRepliesHint": "Poslat posledních pár přijatých zpráv (očištěných) AI k návrhu rychlých odpovědí.",
-    "maskProfanity": "Maskovat vulgarismy v návrzích AI",
-    "maskProfanityHint": "Pokud je zapnuto, budou ve výstupech AI nevhodná slova maskována",
-    "foriaBot": "ForiaBot automatická odpověď",
-    "enableAutoReply": "Povolit automatickou odpověď, když jsem zaneprázdněný",
-    "autoReplyMode": "Režim automatické odpovědi",
-    "cooldownSeconds": "Prodleva (sekundy)",
-    "off": "Vypnuto",
-    "on": "Zapnuto",
-    "signature": "Podpis",
-    "autoReply": "Automatická odpověď",
-    "activeUntilOptional": "Aktivní do (volitelné)",
-    "saved": "Předvolby AI uloženy",
-    "saveFailed": "Uložení nastavení AI se nezdařilo",
-    "translateOff": "Vypnuto",
-    "translateTagged": "Pouze při @translated nebo označení",
-    "translateAll": "Překládat všechny příchozí zprávy",
-    "modeDm": "Pouze 1:1 chaty",
-    "modeMention": "Pouze když jsem @zmíněn",
-    "modeAll": "Všechny příchozí zprávy"
-  },
-  "accessibilitySettings": {
-    "title": "Přístupnost & upozornění",
-    "accessibility": "Přístupnost",
-    "accessibilityDesc": "Možnosti, které usnadní používání Chatforia bez spoléhání na zvuk.",
-    "interfaceFontSize": "Velikost písma rozhraní",
-    "interfaceFontSizeHelp": "Začíná na normální velikosti. Zvětšete ji, pokud preferujete větší text v nastavení přístupnosti.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Upozornění",
-    "notificationsDesc": "Vizuální upozornění na zprávy a hovory\nZobrazit bannery a blikání titulku, abyste nepřišli o aktivitu.",
-    "vibrateOnNew": "Vibrovat při nových zprávách (pokud je podporováno)\nSpustit vibraci zařízení při oznámeních.",
-    "flashOnCall": "Bliknutí obrazovky při příchozím hovoru\nKrátký jasný záblesk, když někdo volá.",
-    "liveCaptions": "Živé titulky (hovory)",
-    "captionFontSize": "Velikost písma titulků",
-    "captionBackground": "Pozadí titulků",
-    "light": "světlé",
-    "dark": "tmavé",
-    "transparent": "průhledné",
-    "voiceNotes": "Hlasové poznámky",
-    "autoTranscribeVoiceNotes": "Automaticky přepisovat hlasové poznámky",
-    "autoTranscribeVoiceNotesDesc": "K příchozím audio zprávám připojit přepis.",
-    "changesSavedInstantly": "Změny se ukládají okamžitě.",
-    "loadFailed": "Nastavení se nepodařilo načíst",
-    "visualAlerts": "Vizuální upozornění na zprávy & hovory",
-    "visualAlertsDesc": "Zobrazit bannery a blikání titulku, abyste nepřišli o aktivitu.",
-    "vibrateOnNewShort": "Vibrovat při nových zprávách (pokud je podporováno)",
-    "vibrateOnNewDesc": "Spustit vibraci zařízení při oznámeních.",
-    "flashOnCallShort": "Bliknutí obrazovky při příchozím hovoru",
-    "flashOnCallDesc": "Krátký jasný záblesk, když někdo volá."
-  },
-  "privacySection": {
-    "strictE2EE": "Striktní end-to-end šifrování",
-    "ciphertextOnlyNote": "Na serveru uchovávat pouze šifrovaný text. Vypíná AI/Překlad a náhledy pro moderaci."
-  },
-  "linkedDevicesPanel": {
-    "title": "Propojená zařízení",
-    "noneFound": "Nebyla nalezena žádná propojená zařízení.",
-    "refresh": "Obnovit"
-  },
-  "help": {
-    "title": "Pomoc",
-    "howCanWeHelp": "Jak vám můžeme pomoci?",
-    "helpCenter": "Centrum nápovědy",
-    "contactUs": "Kontaktujte nás",
-    "quickTopics": "Rychlá témata",
-    "searchExamples": "Zkuste hledat „překlad“, „zálohy“ nebo „soukromí“.",
-    "cantLogin": "Nemohu se přihlásit",
-    "paymentsBilling": "Platby / fakturace",
-    "reportAbuse": "Nahlásit zneužití",
-    "searchHelpArticles": "Hledat v článcích nápovědy",
-    "search": "Hledat"
-  },
-  "peoplePage": {
-    "people": "Lidé",
-    "search": "Hledat",
-    "searchPlaceholder": "Hledat podle aliasu, jména, uživatelského jména nebo telefonu",
-    "filterSaved": "Filtrovat uložené kontakty",
-    "noContactsFound": "Nebyly nalezeny žádné kontakty",
-    "quickStart": "Rychlý start",
-    "quickStartDesc": "Několik rychlých způsobů, jak začít.",
-    "importContacts": "Importovat kontakty",
-    "add": "Přidat",
-    "focusSearch": "Zaměřit vyhledávání",
-    "import": "Importovat",
-    "findOrAdd": "Najít nebo přidat někoho",
-    "searchByPhoneOrUsername": "Hledat podle telefonu / uživatelského jména",
-    "inviteFriends": "Pozvat přátele",
-    "inviteDesc": "Sdílejte odkaz na pozvánku a začněte chatovat okamžitě.",
-    "getTheApp": "Získat aplikaci",
-    "getTheAppDesc": "Buďte ve spojení i na cestách s Chatforia pro iOS a Android.",
-    "download": "Stáhnout",
-    "syncTip": "Tip: Vaše zprávy zůstávají synchronizované mezi webem a mobilem."
-  },
-  "randomChat": {
-    "title": "Náhodný chat",
-    "description": "Seznamte se s někým novým okamžitě. Spárujeme vás a otevřeme dočasnou místnost.",
-    "findMatch": "Najít pro mě partnera",
-    "chatWithForia": "Chatovat s Foriou",
-    "chatWithForiaBot": "Chatovat s ForiaBotem",
-    "cancel": "Zrušit",
-    "close": "Zavřít",
-    "searching": "Hledám…",
-    "finding": "Probíhá hledání…",
-    "looking": "Hledáme někoho…",
-    "startingForia": "Spouštíme chat s Foriou…",
-    "partnerDisconnected": "Partner se odpojil.",
-    "noPartner": "Momentálně nebyl nalezen žádný partner.",
-    "connectedTo": "Připojeno k {{name}}",
-    "connected": "Připojeno",
-    "idle": "Nečinný",
-    "partnerLeft": "Partner odešel.",
-    "stopped": "Zastaveno.",
-    "skip": "Přeskočit",
-    "save": "Uložit",
-    "saveGuard": "Ukládat lze pouze chaty člověk-člověk",
-    "youAreChattingWith": "Chatujete s {{name}}",
-    "bot": "BOT",
-    "leave": "Odejít",
-    "sayHi": "Řekněte ahoj 👋",
-    "you": "Vy",
-    "typeMessage": "Napište zprávu",
-    "send": "Odeslat",
-    "partner": "Partner",
-    "withRia": "S Riou",
-    "chatWithRia": "Chatovat s Riou",
-    "startingRia": "Spouštíme chat s Riou…",
-    "ageDisclaimer": "Ukládáme pouze věkové rozpětí (ne vaše přesné datum narození). To se používá k rozumnému párování v Náhodném chatu. Chcete-li se párovat s lidmi (ne jen s RiaBotem), nastavte věkové rozpětí v Nastavení → Věk & Náhodný chat.",
-    "ageBandRequired": "Nastavte své věkové rozpětí v Profil → Věk & Náhodný chat, aby vás bylo možné párovat s lidmi.",
-    "ageBandCallout": "Chcete-li se párovat s lidmi (ne jen s RiaBotem), nastavte své věkové rozpětí v Nastavení → Věk & Náhodný chat."
-  },
-  "brand": {
-    "name": "Chatforia",
-    "ria": "Ria"
-  },
-  "ria": {
-    "fallbackName": "tam",
-    "intro": "Ahoj 👋 jsem Ria. Co máte na srdci?",
-    "greetings": {
-      "long1": "Ahoj {{name}} 👋 jsem tady. Co máte na srdci?",
-      "long2": "Ahoj {{name}} 😊 O čem byste dnes chtěl(a) mluvit?",
-      "long3": "Ahoj {{name}}! Jsem jedno velké ucho — co se děje?",
-      "long4": "Ráda vás vidím, {{name}} 👋 Co máte dnes na srdci?",
-      "long5": "Ahoj {{name}} 🙂 Chcete se vypovídat, na něco zeptat, nebo si jen povídat?",
-      "long6": "Ahoj {{name}}! Mám čas — o čem byste si chtěl(a) povídat?",
-      "short1": "Ahoj {{name}}, jsem pořád tady. Co se děje?",
-      "short2": "Vítejte zpět, {{name}} 👋 Je něco dalšího, co byste chtěl(a) dodat?",
-      "short3": "Zase zpátky, {{name}}? 😊 Řekněte mi, co máte na srdci.",
-      "short4": "Ahoj {{name}} ✨ Připraven(a) navázat tam, kde jsme skončili?",
-      "short5": "Ano, {{name}}? Naslouchám 👂",
-      "short6": "Ahoj {{name}}! Máte něco nového na srdci?"
-    }
-  },
-  "header": {
-    "openNav": "Otevřít navigační menu",
-    "closeNav": "Zavřít navigační menu",
-    "homeAria": "Domovská stránka Chatforia"
-  },
-  "login": {
-    "welcomeBack": "Vítejte zpět",
-    "title": "Pokračujte do Chatforia",
-    "subtitleReturning": "Přihlaste se ke svému účtu Chatforia",
-    "subtitle": "Přihlaste se ke svému účtu Chatforia",
-    "google": "Pokračovat pomocí Google",
-    "apple": "Pokračovat pomocí Apple",
-    "googleUnavailable": "Přihlášení pomocí Google není k dispozici",
-    "appleUnavailable": "Přihlášení pomocí Apple není k dispozici",
-    "or": "nebo",
-    "email": "E-mail",
-    "emailPh": "vy@example.com",
-    "usernameLabel": "Uživatelské jméno",
-    "usernamePh": "Vaše uživatelské jméno",
-    "passwordLabel": "Heslo",
-    "passwordPh": "Vaše heslo",
-    "keepSignedIn": "Zůstat přihlášený",
-    "forgot": "Zapomenuté heslo?",
-    "submit": "Přihlásit se",
-    "loggingIn": "Přihlašování…",
-    "newHere": "Jste tu nový? <link>Vytvořit účet</link>",
-    "ssoUnavailable": "Single sign-on není momentálně k dispozici. Použijte uživatelské jméno a heslo.",
-    "error": {
-      "missing": "Zadejte prosím své přihlašovací údaje.",
-      "invalid": "Neplatné uživatelské jméno nebo heslo",
-      "denied": "Přístup odepřen.",
-      "unprocessable": "Neplatný požadavek. Zkontrolujte uživatelské jméno/e-mail a heslo.",
-      "deviceLimit": "Byl dosažen limit zařízení pro tarif Free. Odhlaste se na jiném zařízení nebo upgradujte na Premium pro propojení dalších zařízení.",
-      "premiumRequired": "Tato akce vyžaduje tarif Premium."
-    }
-  },
-  "oauth": {
-    "completing": "Dokončování přihlášení…"
-  },
-  "dialer": {
-    "title": "Hovory",
-    "subtitle": "Klávesnice & poslední hovory. (Pokud nepoužíváte PSTN, začněte hovory z hlavičky konverzace.)",
-    "enterNumberPh": "Zadejte číslo",
-    "call": "Volat",
-    "backspace": "Smazat",
-    "recents": "Poslední",
-    "recentsEmpty": "Zatím žádné poslední hovory.",
-    "enterNumber": "Zadejte číslo",
-    "enterNumberAria": "Zadejte číslo",
-    "key": "Klávesa {{d}}",
-    "noRecents": "Zatím žádné poslední hovory."
-  },
-  "video": {
-    "title": "Video",
-    "chooseType": "Vyberte typ videa.",
-    "directTitle": "Přímé video",
-    "directDesc": "1:1 video hovor s jiným uživatelem.",
-    "directStart": "Spustit",
-    "roomsTitle": "Místnosti",
-    "roomsDesc": "Skupinové video pomocí sdíleného názvu místnosti.",
-    "roomsIntro": "Připojte se nebo vytvořte místnost zadáním stejného názvu.",
-    "roomNameLabel": "Název místnosti",
-    "roomNamePh": "např. team-standup",
-    "join": "Připojit se",
-    "deeplinkTip": "Tip: můžete se připojit přímo na <code>/video?room=nazev-mistnosti</code>.",
-    "hub": {
-      "title": "Video",
-      "subtitle": "Vyberte typ videa."
-    },
-    "direct": {
-      "title": "Přímé video",
-      "subtitle": "Začněte 1:1 video hovor pomocí telefonního čísla nebo uživatele Chatforia.",
-      "desc": "1:1 video hovor s jiným uživatelem.",
-      "start": "Spustit",
-      "callBtn": "Volat",
-      "callByPhone": {
-        "title": "Volat podle telefonu"
-      },
-      "phone": {
-        "placeholder": "Zadejte telefon (např. +1-555-123-4567)",
-        "aria": "Telefon k zavolání"
-      },
-      "tipInvite": "Tip: Vložte číslo a volejte bez ukládání kontaktu. Neuživatele pozveme odkazem.",
-      "findUser": {
-        "title": "Najít uživatele"
-      },
-      "search": {
-        "placeholder": "Hledat podle jména nebo uživatelského jména",
-        "aria": "Hledat podle jména nebo uživatelského jména",
-        "btn": "Hledat"
+        "title": "Kontakt",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
     },
-    "rooms": {
-      "title": "Místnosti",
-      "subtitle": "Vytvořte místnost nebo se připojte k existující zadáním stejného názvu.",
-      "desc": "Skupinové video pomocí sdíleného názvu místnosti.",
-      "roomLabel": "Název místnosti",
-      "roomPlaceholder": "např. team-standup",
-      "roomAria": "Název místnosti",
-      "joinCreate": "Připojit / Vytvořit",
-      "tip": "Tip: Sdílejte tento název s ostatními nebo použijte deep link na <code>/video?room=nazev-mistnosti</code>."
+    "terms": {
+      "title": "Podmínky služby",
+      "lastUpdated": "Naposledy aktualizováno:",
+      "intro": {
+        "body": "Používáním Chatforia souhlasíte s těmito Podmínkami. Pokud nesouhlasíte, službu nepoužívejte."
+      },
+      "accounts": {
+        "title": "Účty",
+        "itemAccurateInfo": "Poskytujte přesné informace a udržujte přihlašovací údaje v bezpečí.",
+        "itemResponsibility": "Jste zodpovědní za aktivitu na svém účtu."
+      },
+      "acceptableUse": {
+        "title": "Přijatelné použití",
+        "itemNoAbuse": "Žádný nelegální, urážlivý nebo porušující obsah; žádný spam nebo automatizované zneužití.",
+        "itemSuspend": "Při porušení můžeme účet pozastavit nebo ukončit."
+      },
+      "sms": {
+        "title": "SMS komunikace",
+        "body": "Pokud poskytnete mobilní telefonní číslo, souhlasíte s tím, že vám Chatforia může posílat SMS související s vaším účtem a používáním služby, jako jsou upozornění na přihlášení, bezpečnostní oznámení a zprávy související s konverzacemi, které zahajujete nebo se jich účastníte. SMS nepoužíváme pro propagační nebo marketingové zprávy bez vašeho výslovného souhlasu. Mohou platit standardní poplatky za zprávy a data. Odhlásit se z SMS můžete kdykoli odpovědí podporovaným klíčovým slovem (např. „STOP“) nebo aktualizací nastavení oznámení v aplikaci."
+      },
+      "yourContent": {
+        "title": "Váš obsah",
+        "body": "Zachováváte práva k svému obsahu. Udělujete nám nutná práva k provozu služby (např. směrování, úložiště, překlad)."
+      },
+      "disclaimer": {
+        "title": "Vyloučení záruk a odpovědnost",
+        "body": "Služba je poskytována „tak jak je“ bez záruk. V maximálním rozsahu povoleném zákonem Chatforia nenese odpovědnost za nepřímé nebo následné škody."
+      },
+      "changes": {
+        "title": "Změny",
+        "body": "Tyto podmínky můžeme aktualizovat; pokračováním v používání po změnách vyjadřujete souhlas."
+      },
+      "contact": {
+        "title": "Kontakt",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "Neprodávat ani nesdílet moje osobní údaje",
+      "body": "Chatforia neprodává osobní údaje. Obyvatelé Kalifornie mohou stále podat žádost podle CPRA pomocí tlačítka níže.",
+      "cta": "Odeslat žádost"
+    },
+    "cookies": {
+      "title": "Nastavení cookies",
+      "body": "Chatforia používá minimální cookies (např. relace, zabezpečení). Nepoužíváme cookies třetích stran pro reklamy. Spravujte cookies v nastavení prohlížeče."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Nepodařilo se načíst stav telefonního čísla.",
+      "lock": "Zamknout",
+      "noNumberAssigned": "Není přiřazeno žádné číslo. Vyberte číslo podle předvolby a začněte psát zprávy.",
+      "pickNumber": "Vybrat číslo",
+      "phoneNumber": "Telefonní číslo"
+    },
+    "startChatModal": {
+      "title": "Začít chat",
+      "quickPicker": "Rychlý výběr",
+      "to": "Komu",
+      "nameOrUsername": "Zadejte jméno, uživatelské jméno",
+      "nameUsernamePhoneEmail": "Zadejte jméno, uživatelské jméno, telefon nebo e-mail…",
+      "startWithSelected": "Začít chat s vybranými",
+      "searchByUsernameOrPhone": "Hledat podle uživatelského jména nebo telefonu",
+      "search": "Hledat",
+      "searchPrompt": "Zadejte uživatelské jméno nebo telefon a stiskněte Hledat.",
+      "pickFromContacts": "Nebo vyberte z kontaktů",
+      "addContact": "Přidat kontakt",
+      "show": "Zobrazit",
+      "add": "Přidat",
+      "close": "Zavřít",
+      "selectedCount": "{{count}} vybráno",
+      "pickAtLeastOne": "Vyberte alespoň jednoho příjemce.",
+      "saveContactsHint": "Záznamy telefon/e-mail budou dostupné po uložení jako kontakty.",
+      "failedBulkStart": "Nepodařilo se zahájit chat s vybranými příjemci.",
+      "noResults": "Žádné výsledky",
+      "mode": "Režim",
+      "group": "Skupina",
+      "broadcast": "Hromadná zpráva",
+      "groupNameOptional": "Název skupiny (volitelné)",
+      "firstMessageOptional": "První zpráva (volitelné, ale doporučeno)",
+      "createGroup": "Vytvořit skupinu",
+      "sendBroadcast": "Odeslat hromadnou zprávu"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Západ slunce",
+      "solarized": "Solarizovaný",
+      "velvet": "Samet"
+    },
+    "sounds": {
+      "freeNotice": "Jste na Free — prémiové tóny jsou zobrazeny, ale uzamčeny. Upgrade odemkne všechny.",
+      "preview": "Náhled",
+      "resetToDefaults": "Obnovit výchozí",
+      "notificationSounds": "Zvuky oznámení",
+      "messageTone": "Tón zprávy",
+      "default": "Výchozí",
+      "vibrate": "Vibrovat",
+      "dreamer": "Snílek",
+      "notify": "Upozornit",
+      "pop": "Pop",
+      "pulsatingSound": "Pulzující zvuk",
+      "textMessage": "Textová zpráva",
+      "xylophone": "Xylofon",
+      "classic": "Klasický",
+      "urgency": "Naléhavost",
+      "bells": "Zvony",
+      "chimes": "Zvonkohra",
+      "digitalPhone": "Digitální telefon",
+      "melodic": "Melodický",
+      "organNotes": "Varhanní tóny",
+      "soundReality": "Zvuková realita",
+      "street": "Ulice",
+      "universfield": "Univerzální pole"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Tato funkce vyžaduje tarif Premium."
+    },
+    "aiSettings": {
+      "title": "Nastavení AI",
+      "controlIntro": "Ovládejte překlad, chytré odpovědi a automatické odpovědi ForiaBot.",
+      "save": "Uložit nastavení AI",
+      "autoTranslateIncoming": "Automaticky překládat příchozí zprávy",
+      "showOriginalAlongside": "Zobrazit původní text vedle překladu",
+      "enableSmartReplies": "Povolit chytré odpovědi",
+      "smartRepliesHint": "Odeslat posledních několik přijatých zpráv (sanitizovaných) AI pro návrh rychlých odpovědí.",
+      "maskProfanity": "Maskovat vulgarity v návrzích AI",
+      "maskProfanityHint": "Pokud je zapnuto, návrhy vrácené AI budou mít označená slova zamaskována",
+      "foriaBot": "Automatická odpověď ForiaBot",
+      "enableAutoReply": "Povolit automatickou odpověď, když jsem zaneprázdněn",
+      "autoReplyMode": "Režim automatické odpovědi",
+      "cooldownSeconds": "Cooldown (sekundy)",
+      "off": "Vypnuto",
+      "on": "Zapnuto",
+      "signature": "Podpis",
+      "autoReply": "Automatická odpověď",
+      "activeUntilOptional": "Aktivní do (volitelné)",
+      "saved": "Předvolby AI uloženy",
+      "saveFailed": "Nepodařilo se uložit nastavení AI",
+      "translateOff": "Vypnuto",
+      "translateTagged": "Pouze při @translated nebo označení",
+      "translateAll": "Překládat všechny příchozí zprávy",
+      "modeDm": "Pouze 1:1 chaty",
+      "modeMention": "Pouze když jsem @zmíněn",
+      "modeAll": "Všechny příchozí zprávy"
+    },
+    "accessibilitySettings": {
+      "title": "Přístupnost a upozornění",
+      "accessibility": "Přístupnost",
+      "accessibilityDesc": "Možnosti pro snadnější používání Chatforia bez závislosti na zvuku.",
+      "interfaceFontSize": "Velikost písma rozhraní",
+      "interfaceFontSizeHelp": "Začíná na normální velikosti. Zvětšete, pokud preferujete větší text v nastavení přístupnosti.",
+      "sm": "malé",
+      "md": "střední",
+      "lg": "velké",
+      "xl": "extra velké",
+      "notifications": "Oznámení",
+      "notificationsDesc": "Vizuální upozornění na zprávy a hovory\nZobrazovat bannery a blikání titulku, abyste nic nepřehlédli.",
+      "vibrateOnNew": "Vibrovat při nových zprávách (kde je podporováno)\nSpustit vibrace zařízení s oznámeními.",
+      "flashOnCall": "Bliknout obrazovkou při příchozím hovoru\nKrátký jasný záblesk při vyzvánění hovoru.",
+      "liveCaptions": "Živé titulky (hovory)",
+      "captionFontSize": "Velikost písma titulků",
+      "captionBackground": "Pozadí titulků",
+      "light": "světlé",
+      "dark": "tmavé",
+      "transparent": "průhledné",
+      "voiceNotes": "Hlasové poznámky",
+      "autoTranscribeVoiceNotes": "Automaticky přepisovat hlasové poznámky",
+      "autoTranscribeVoiceNotesDesc": "Připojit přepis k přijatým audio zprávám.",
+      "changesSavedInstantly": "Změny se ukládají okamžitě.",
+      "loadFailed": "Nepodařilo se načíst nastavení",
+      "visualAlerts": "Vizuální upozornění na zprávy a hovory",
+      "visualAlertsDesc": "Zobrazovat bannery a blikání titulku, abyste nic nepřehlédli.",
+      "vibrateOnNewShort": "Vibrovat při nových zprávách (kde je podporováno)",
+      "vibrateOnNewDesc": "Spustit vibrace zařízení s oznámeními.",
+      "flashOnCallShort": "Bliknout obrazovkou při příchozím hovoru",
+      "flashOnCallDesc": "Krátký jasný záblesk při vyzvánění hovoru."
+    },
+    "privacySection": {
+      "strictE2EE": "Přísné šifrování end-to-end",
+      "ciphertextOnlyNote": "Ukládat na serveru pouze šifrovaný text. Vypíná AI/Překlad a náhledy moderace."
+    },
+    "linkedDevicesPanel": {
+      "title": "Propojená zařízení",
+      "noneFound": "Nenalezena žádná propojená zařízení.",
+      "refresh": "Obnovit"
+    },
+    "help": {
+      "title": "Nápověda",
+      "howCanWeHelp": "Jak vám můžeme pomoci?",
+      "helpCenter": "Centrum nápovědy",
+      "contactUs": "Kontaktujte nás",
+      "quickTopics": "Rychlá témata",
+      "searchExamples": "Zkuste vyhledat „překlad“, „zálohy“ nebo „soukromí“.",
+      "cantLogin": "Nelze se přihlásit",
+      "paymentsBilling": "Platby/fakturace",
+      "reportAbuse": "Nahlásit zneužití",
+      "searchHelpArticles": "Hledat články nápovědy",
+      "search": "Hledat"
+    },
+    "peoplePage": {
+      "people": "Lidé",
+      "search": "Hledat",
+      "searchPlaceholder": "Hledat podle přezdívky, jména, uživatelského jména nebo telefonu",
+      "filterSaved": "Filtrovat uložené kontakty",
+      "noContactsFound": "Nenalezeny žádné kontakty",
+      "quickStart": "Rychlý start",
+      "quickStartDesc": "Několik rychlých způsobů, jak začít.",
+      "importContacts": "Importovat kontakty",
+      "add": "Přidat",
+      "focusSearch": "Zaměřit hledání",
+      "import": "Importovat",
+      "findOrAdd": "Najít nebo přidat někoho",
+      "searchByPhoneOrUsername": "Hledat podle telefonu / uživatelského jména",
+      "inviteFriends": "Pozvat přátele",
+      "inviteDesc": "Sdílejte svůj pozvánkový odkaz pro okamžité chatování.",
+      "getTheApp": "Získat aplikaci",
+      "getTheAppDesc": "Zůstaňte v kontaktu na cestách s Chatforia pro iOS a Android.",
+      "download": "Stáhnout",
+      "syncTip": "Tip: Vaše zprávy zůstanou synchronizované napříč webem a mobilem."
+    },
+    "randomChat": {
+      "title": "Náhodný chat",
+      "description": "Seznamte se okamžitě s někým novým. Spárujeme vás a otevřeme dočasnou chatovací místnost. Nejprve chatujte anonymně. Přidejte přítele později, pokud to bude správné.",
+      "findMatch": "Najít mi zápas",
+      "chatWithForia": "Chatovat s Forií",
+      "chatWithForiaBot": "Chatovat s ForiaBot",
+      "cancel": "Zrušit",
+      "close": "Zavřít",
+      "searching": "Hledám…",
+      "finding": "Hledám…",
+      "looking": "Hledám někoho…",
+      "startingForia": "Spouštím chat s Forií…",
+      "partnerDisconnected": "Váš partner se odpojil.",
+      "noPartner": "Momentálně nebyl nalezen žádný partner.",
+      "connectedTo": "Připojeno k {{name}}",
+      "connected": "Připojeno",
+      "idle": "Nečinný",
+      "partnerLeft": "Partner odešel.",
+      "stopped": "Zastaveno.",
+      "skip": "Přeskočit",
+      "save": "Uložit",
+      "saveGuard": "Uložit lze pouze chaty člověk–člověk",
+      "youAreChattingWith": "Chatujete s {{name}}",
+      "bot": "BOT",
+      "leave": "Opustit",
+      "sayHi": "Řekni ahoj 👋",
+      "you": "Vy",
+      "typeMessage": "Napište zprávu",
+      "send": "Odeslat",
+      "partner": "Partner",
+      "withRia": "S Riou",
+      "chatWithRia": "Chatovat s Riou",
+      "startingRia": "Spouštím chat s Riou…",
+      "ageDisclaimer": "Ukládáme pouze věkový rozsah (ne přesné datum narození). Slouží k udržení rozumného párování v Náhodném chatu. Pro párování s lidmi (ne jen s RiaBot) nastavte věkový rozsah v Nastavení → Věk a Náhodný chat.",
+      "ageBandRequired": "Nastavte svůj věkový rozsah v Profil → Věk a Náhodný chat, abyste byli párováni s lidmi.",
+      "ageBandCallout": "Pro párování s lidmi (ne jen s RiaBot) nastavte věkový rozsah v Nastavení → Věk a Náhodný chat.",
+      "subtitle": "Seznamte se okamžitě s někým novým nebo si vyberte chat s Riou.",
+      "start": "Začít konverzaci",
+      "matching": "Párování…",
+      "setAge": "Nastavte svůj věkový rozsah v Profil → Věk a Náhodný chat, abyste byli párováni s lidmi.",
+      "next": "Další osoba",
+      "addFriend": "Přidat přítele",
+      "requested": "Vyžádáno",
+      "messageRia": "Napsat Ria…",
+      "messageMatch": "Napsat svému zápasu…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
     }
-  },
-  "directVideo": {
-    "intro": "Začněte přímý 1:1 video hovor.",
-    "findUserLabel": "Najít uživatele",
-    "findUserPh": "Hledat podle jména nebo uživatelského jména",
-    "search": "Hledat",
-    "call": "Volat"
   }
 }

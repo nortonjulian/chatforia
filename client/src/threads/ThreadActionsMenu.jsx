@@ -1,4 +1,5 @@
 import { ActionIcon, Divider, Menu } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import {
   IconDotsVertical,
   IconSparkles,
@@ -37,7 +38,7 @@ export default function ThreadActionsMenu({
   onMedia,
 
   onInvitePeople,
-  inviteLabel = 'Invite people',
+  inviteLabel,
 
   onRoomSettings,
 
@@ -46,12 +47,19 @@ export default function ThreadActionsMenu({
 
   // ✅ NEW: clear thread (delete-for-me / clear cutoff)
   onClear,
-  clearLabel = 'Clear conversation',
+  clearLabel,
 
   // optional block row
   onBlock,
-  blockLabel = 'Block',
+  blockLabel,
 }) {
+  const { t } = useTranslation();
+
+  const resolvedInviteLabel = inviteLabel || t('threadActions.invitePeople', 'Invite people');
+  const resolvedClearLabel =
+    clearLabel || t('threadActions.clearConversation', 'Clear conversation');
+  const resolvedBlockLabel = blockLabel || t('threadActions.block', 'Block');
+
   const allowInvite =
     (canInvite || isOwnerOrAdmin) && typeof onInvitePeople === 'function';
 
@@ -79,7 +87,7 @@ export default function ThreadActionsMenu({
   return (
     <Menu position="bottom-end" withinPortal shadow="md" radius="md">
       <Menu.Target>
-        <ActionIcon variant="subtle" aria-label="Thread menu">
+        <ActionIcon variant="subtle" aria-label={t('threadActions.threadMenu', 'Thread menu')}>
           <IconDotsVertical size={18} />
         </ActionIcon>
       </Menu.Target>
@@ -88,23 +96,23 @@ export default function ThreadActionsMenu({
         {/* -------------------- Premium -------------------- */}
         {hasPremiumRows && (
           <>
-            <Menu.Label>Premium</Menu.Label>
+            <Menu.Label>{t('threadActions.premium', 'Premium')}</Menu.Label>
 
             {typeof onAiPower === 'function' && (
               <Menu.Item leftSection={<IconSparkles size={16} />} onClick={onAiPower}>
-                AI Power {isPremium ? '' : '(Upgrade)'}
+                {t('threadActions.aiPower', 'AI Power')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 
             {typeof onSchedule === 'function' && (
               <Menu.Item leftSection={<IconCalendarPlus size={16} />} onClick={onSchedule}>
-                Schedule {isPremium ? '' : '(Upgrade)'}
+                {t('threadActions.schedule', 'Schedule')} {isPremium ? '' : t('threadActions.upgradeSuffix', '(Upgrade)')}
               </Menu.Item>
             )}
 
             {typeof onUpgrade === 'function' && (
               <Menu.Item leftSection={<IconArrowUpRight size={16} />} onClick={onUpgrade}>
-                Upgrade
+                {t('threadActions.upgrade', 'Upgrade')}
               </Menu.Item>
             )}
 
@@ -115,39 +123,38 @@ export default function ThreadActionsMenu({
         {/* -------------------- Thread -------------------- */}
         {hasThreadRows && (
           <>
-            <Menu.Label>Thread</Menu.Label>
+            <Menu.Label>{t('threadActions.thread', 'Thread')}</Menu.Label>
 
             {typeof onAbout === 'function' && (
               <Menu.Item leftSection={<IconInfoCircle size={16} />} onClick={onAbout}>
-                About
+                {t('threadActions.about', 'About')}
               </Menu.Item>
             )}
 
             {typeof onSearch === 'function' && (
               <Menu.Item leftSection={<IconSearch size={16} />} onClick={onSearch}>
-                Search
+                {t('threadActions.search', 'Search')}
               </Menu.Item>
             )}
 
             {typeof onMedia === 'function' && (
               <Menu.Item leftSection={<IconPhoto size={16} />} onClick={onMedia}>
-                Media
+                {t('threadActions.media', 'Media')}
               </Menu.Item>
             )}
 
             {allowInvite && (
               <Menu.Item leftSection={<IconUserPlus size={16} />} onClick={onInvitePeople}>
-                {inviteLabel}
+                {resolvedInviteLabel}
               </Menu.Item>
             )}
 
             {allowRoomSettings && (
               <Menu.Item leftSection={<IconSettings size={16} />} onClick={onRoomSettings}>
-                Room settings
+                {t('threadActions.roomSettings', 'Room settings')}
               </Menu.Item>
             )}
 
-            {/* ✅ NEW: Clear conversation */}
             {typeof onClear === 'function' && (
               <>
                 <Divider my="xs" />
@@ -156,7 +163,7 @@ export default function ThreadActionsMenu({
                   leftSection={<IconTrash size={16} />}
                   onClick={onClear}
                 >
-                  {clearLabel}
+                  {resolvedClearLabel}
                 </Menu.Item>
               </>
             )}
@@ -165,7 +172,7 @@ export default function ThreadActionsMenu({
               <>
                 <Divider my="xs" />
                 <Menu.Item color="red" leftSection={<IconBan size={16} />} onClick={onBlock}>
-                  {blockLabel}
+                  {resolvedBlockLabel}
                 </Menu.Item>
               </>
             )}

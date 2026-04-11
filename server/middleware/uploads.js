@@ -68,8 +68,10 @@ function makeFileFilter({ imagesOnly = false } = {}) {
     // If it claims to be an image, ensure extension matches common image types
     if (ct.startsWith('image/')) {
       const allowedImageExts = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
-      if (!allowedImageExts.includes(ext)) {
-        // For images with a bad/unsupported extension (e.g. .svg), use INVALID_IMAGE_EXTENSION
+
+      // Allow images that have no filename extension at all,
+      // but still reject explicitly bad/unsupported extensions.
+      if (ext && !allowedImageExts.includes(ext)) {
         return cb(new Error('INVALID_IMAGE_EXTENSION'), false);
       }
     }

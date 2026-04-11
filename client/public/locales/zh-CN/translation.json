@@ -1,987 +1,1695 @@
 {
   "common": {
-    "save": "保存",
-    "cancel": "取消",
-    "refresh": "刷新",
-    "noMatches": "无匹配项",
-    "cancelAria": "取消",
-    "copy": "复制",
-    "copied": "已复制！"
-  },
-
-  "a11y": {
-    "skipToMain": "跳到主要内容"
-  },
-
-  "profile": {
-    "title": "用户资料",
-    "preferredLanguage": "首选语言",
-    "chooseLanguage": "选择一种语言",
-    "mustLogin": "您必须登录才能查看设置。",
-    "autoTranslate": "自动翻译消息",
-    "showOriginalWithTranslation": "同时显示原文与译文",
-    "showOriginalAndTranslation": "原文与译文并排显示",
-    "filterExplicit": "过滤不当内容",
-    "aiReply": "AI 回复",
-    "enableReadReceipts": "启用已读回执",
-    "allowExplicitContent": "允许不当内容",
-    "disappearingMessages": "启用阅后即焚消息",
-    "autoDeleteSeconds": "自动删除倒计时（秒）",
-    "saveSuccess": "设置已保存！",
-    "saveError": "错误：无法保存设置",
-    "avatarAlt": "个人头像",
-    "uploadAvatar": "上传新头像",
-    "avatarSuccess": "头像已上传！",
-    "avatarError": "上传头像出错",
-    "noPrivateKey": "此设备上没有可导出的私钥。",
-    "setBackupPassword": "设置密码以加密备份：",
-    "backupDownloaded": "加密备份已下载。",
-    "exportFailed": "密钥导出失败",
-    "enterBackupPassword": "输入此备份的密码：",
-    "importSuccess": "私钥已导入到此设备。",
-    "importFailed": "导入密钥失败（密码错误或文件损坏）。",
-    "keysRotated": "已生成新的密钥对并上传公钥。",
-    "rotateFailed": "轮换密钥失败。",
-    "security": "安全",
-    "exportKey": "导出私钥",
-    "importKey": "导入加密密钥备份",
-    "rotateKeys": "轮换密钥对",
-    "keyDisclaimer": "您的私钥永不离开此设备。导出受密码保护的副本以在其他设备上恢复。",
-    "sectionProfile": "资料",
-    "phoneNumber": "电话号码",
-    "appearance": "外观",
-    "soundSettings": "声音",
-    "disappearing": "阅后即焚",
-    "backupSync": "备份与同步",
-    "ai": "AI",
-    "accessibility": "无障碍",
-    "privacy": "隐私",
-    "devices": "已链接设备",
-    "themeFreeNotice": "您当前为免费版——可使用下方快速日/夜主题。升级以解锁更多主题。",
-    "sunTheme": "使用拂晓主题",
-    "moonTheme": "使用月色（午夜）主题",
-    "sun": "日间",
-    "moon": "夜间",
-    "backupTitle": "加密备份与设备同步",
-    "openBackupTools": "打开备份工具",
-    "backupDesc": "创建受密码保护的密钥备份，并在其他设备上恢复以实现同步。",
-    "privacyBlurEnabled": "默认模糊消息内容",
-    "privacyBlurOnUnfocus": "应用失焦时模糊消息",
-    "holdToReveal": "按住以显示",
-    "notifyOnCopy": "当我的消息被复制时通知我",
-    "loadFailed": "加载资料失败",
-    "followed": "已关注",
-    "followFailed": "关注失败",
-    "unfollowed": "已取消关注",
-    "unfollowFailed": "取消关注失败",
-    "follow": "关注",
-    "unfollow": "取消关注",
-    "followHint": "若他们以“关注者”（或“公开”）为受众发布动态，其故事将出现在你的“正在关注”信息流中。",
-    "userNotFound": "未找到用户",
-    "followsYou": "关注了你",
-    "sectionCrashedTitle": "分区加载失败",
-    "sectionCrashedBody": "此分区出现问题。",
-    "forwarding": "通话与短信转发",
-    "callTextForwardingSection": "通话与短信转发",
-    "callTextForwardingTitle": "通话和/或短信转发",
-    "callTextForwardingDescription": "将来电与短信转发至你已验证的手机或邮箱。外呼/外发短信可显示你的 Chatforia 号码。",
-    "enableTextForwarding": "启用短信转发",
-    "forwardTextsToPhone": "将短信转发到手机",
-    "forwardTextsToEmail": "将短信转发到邮箱",
-    "destinationPhone": "目标手机（E.164）",
-    "destinationEmail": "目标邮箱",
-    "enableCallForwarding": "启用来电转发",
-    "destinationPhoneForCalls": "来电目标（E.164）",
-    "aliasBridging": "来电转发（别名桥接）",
-    "quietHoursOptional": "勿扰时段（可选）",
-    "startHour": "开始小时（0–23）",
-    "endHour": "结束小时（0–23）",
-    "reset": "重置",
-    "saveBtn": "保存",
-    "forwardSaved": "转发设置已保存",
-    "forwardSaveFailed": "保存设置失败",
-    "errE164": "请输入有效的 E.164 电话（例如：+15551234567）。",
-    "errEmail": "请输入有效的邮箱。",
-    "errSmsDest": "至少选择一个目标（手机或邮箱）。",
-    "errQuietHours": "勿扰时段必须在 0 到 23 之间。"
-  },
-
-  "support": {
-    "helpFab": "帮助",
-    "openSupportAria": "打开支持面板",
-    "badge": "支持",
-    "heading": "我们能帮你做什么？",
-    "tabs": {
-      "help": "帮助中心",
-      "contact": "联系我们"
+      "save": "保存",
+      "cancel": "取消",
+      "refresh": "刷新",
+      "noMatches": "没有匹配",
+      "cancelAria": "取消",
+      "copy": "收到",
+      "copied": "复制了！",
+      "errorWithMessage": "错误：{{message}}"
     },
-    "searchPlaceholder": "搜索帮助文章…",
-    "searchAria": "搜索帮助",
-    "searchBtn": "搜索",
-    "quickTopicsLabel": "快速主题",
-    "quickTopics": {
-      "login": "无法登录",
-      "billing": "付款 / 账单",
-      "abuse": "举报滥用"
+    "a11y": {
+      "skipToMain": "跳转到主要内容"
     },
-    "trySearching": "试试搜索“翻译”、“备份”或“隐私”。",
-    "article": "文章",
-    "openArticle": "打开文章",
-    "contactIntro": "我们会通过邮件回复你。请尽量提供细节，方便我们复现问题。",
-    "topicAria": "选择一个主题",
-    "messagePlaceholder": "写下你的消息…",
-    "sendBtn": "发送",
-    "sent": "消息已发送。我们会通过邮箱回复。",
-    "sendError": "无法发送。请改写信至 support@chatforia.com。"
-  },
-
-  "chat": {
-    "selectPrompt": "选择一条消息或聊天室以开始聊天",
-    "newMessages": "新消息",
-    "typing": "{{name}} 正在输入…",
-    "emptyTitle": "你的消息",
-    "emptySubtitle": "发送一条消息以开始聊天。",
-    "startChatButton": "发送消息"
-  },
-
-  "topbar": {
-    "newStatus": "新状态",
-    "logout": "退出登录",
-    "help": "帮助",
-    "createStatusAria": "创建新状态"
-  },
-
-  "status": {
-    "userNumber": "用户 #{{id}}",
-    "posted": "状态已发布",
-    "postFailed": "发布状态失败",
-    "createTitle": "创建状态",
-    "modalAriaLabel": "新状态",
-    "captionLabel": "你在想什么？",
-    "captionPlaceholder": "分享一条更新…",
-    "captionAria": "状态消息",
-    "audienceLabel": "受众",
-    "audience": {
-      "public": "公开",
-      "followers": "关注者",
-      "contacts": "联系人",
-      "mutuals": "互相关注",
-      "custom": "自定义…"
+    "keys": {
+      "backupCreated": "创建并下载的密钥备份✓",
+      "restored": "密钥备份已恢复 ✓ 密钥本地安装",
+      "noBackup": "该账户没有加密备份",
+      "missingPublicKey": "备份缺少公钥"
     },
-    "expiresHoursLabel": "有效期（小时）",
-    "maxTooltip": "最长 7 天",
-    "hoursAbbrev": "小时",
-    "maxShort": "最大",
-    "expiresOn": "到期时间：",
-    "chooseRecipients": "选择接收者",
-    "selectContacts": "选择联系人",
-    "attachmentsLabel": "附件",
-    "attachmentsPlaceholder": "添加图片/视频",
-    "filesNote": "最多 5 个文件。默认 24 小时过期。",
-    "postAria": "发布状态",
-    "post": "发布"
-  },
-
-  "contactList": {
-    "savedContacts": "已保存的联系人",
-    "refreshAria": "刷新联系人",
-    "filterPlaceholder": "筛选已保存的联系人…",
-    "filterAria": "筛选已保存的联系人",
-    "noContactsFound": "未找到联系人。",
-    "externalContact": "外部联系人",
-    "notJoined": "该联系人尚未加入 Chatforia。",
-    "couldNotStart": "无法开始聊天。请重试。",
-    "startFailed": "开始聊天失败。请重试。",
-    "deleted": "联系人已删除。",
-    "deleteFailed": "删除联系人失败。请重试。",
-    "aliasUpdated": "别名已更新。",
-    "updateAliasFailed": "更新别名失败。请重试。",
-    "selectContact": "选择 {{name}}",
-    "alias": "别名",
-    "startChat": "开始聊天",
-    "message": "消息",
-    "delete": "删除",
-    "deleteContactAria": "删除联系人",
-    "loadFailed": "加载联系人失败。请重试。",
-    "loadMore": "加载更多"
-  },
-
-  "sidebar": {
-    "randomChat": "随机聊天",
-    "callTextForwarding": "通话与短信转发",
-    "conversations": "会话",
-    "searchPlaceholder": "搜索会话…",
-    "errorLoading": "加载聊天失败",
-    "empty": "暂无会话。",
-    "startChat": "开始聊天",
-    "people": "联系人",
-    "settings": "设置",
-    "status": "状态",
-    "forwarding": "通话与短信转发",
-    "refresh": "刷新",
-    "search": "搜索会话",
-    "loginPrompt": "登录以编辑你的设置。",
-    "login": "登录",
-    "register": "创建账户",
-    "chatrooms": "聊天室",
-    "logout": "退出登录",
-    "startChatAlt": "开始新聊天"
-  },
-
-  "premium": {
-    "heading": "升级到高级版",
-    "description": "解锁强力功能并移除广告。",
-    "cta": "升级",
-    "upgrade": "升级",
-    "upgradeAria": "升级到 Chatforia 高级版"
-  },
-
-  "auth": {
-    "headline": "安全、全球化的即时翻译消息",
-    "description": "端到端加密、AI 驱动翻译、阅后即焚，以及语音/视频通话。",
-    "feature": {
-      "encryption": "默认端到端加密",
-      "translation": "自动翻译 100+ 种语言",
-      "disappearing": "阅后即焚与已读回执",
-      "privacy": "隐私优先。你的数据你做主。",
-      "translate": "实时翻译",
-      "disappear": "阅后即焚消息",
-      "privacyAlt": "隐私优先的设计"
-    },
-    "hero": {
-      "line1": "安全、全球化",
-      "beforeEm": "的消息，具备",
-      "em": "即时翻译",
-      "sub": "端到端加密、AI 驱动翻译、阅后即焚，以及语音/视频通话。"
-    },
-    "feat": {
-      "encryption": "默认端到端加密",
-      "translate": "自动翻译 100+ 种语言",
-      "disappear": "阅后即焚与已读回执",
-      "privacy": "隐私优先。你的数据你做主。"
-    },
-    "welcomeBack": "欢迎回来",
-    "continueGoogle": "使用 Google 继续",
-    "continueApple": "使用 Apple 继续",
-    "username": "用户名",
-    "password": "密码",
-    "keepSignedIn": "保持登录状态",
-    "forgotPassword": "忘记密码？",
-    "loginButton": "登录",
-    "createAccount": "创建账户",
-    "freeAccountButton": "创建免费账户",
-    "newHere": "新用户？",
-    "getApp": "下载应用",
-    "desktopTip": "在电脑上？用手机扫描以获取 App。",
-    "scanHelper": "在电脑上？用手机扫描以获取 App。",
-    "goHome": "返回首页",
-    "home": "首页",
-    "headlineAlt": {
-      "main": "这款安全的即时通讯",
-      "highlight": "会“说你的语言”"
-    },
-    "subhead": "私密、加密，并且可即时翻译的消息体验。",
-    "status": "查看状态",
-    "upgrade": "立即升级",
-    "tip": "提示：网页与移动端使用同一账号，消息保持同步。",
-    "openDownload": "打开下载页面",
-    "qrAlt": "Chatforia 的二维码",
-    "scanHint": "扫描以下载应用或在浏览器中打开。",
-    "iosAria": "在 App Store 下载",
-    "iosTitle": "在 App Store 下载",
-    "iosBadgeAlt": "App Store 徽章",
-    "androidAria": "在 Google Play 获取",
-    "androidTitle": "Google Play 商店",
-    "androidBadgeAlt": "Google Play 徽章",
-    "login": "登录",
-    "signup": "注册",
-    "email": "邮箱"
-  },
-
-  "footer": {
-    "plans": "套餐与定价",
-    "about": "关于 Chatforia",
-    "careers": "加入我们",
-    "press": "媒体",
-    "advertise": "广告合作",
-    "contact": "联系我们",
-    "help": "帮助中心",
-    "status": "状态页",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "隐私政策",
-    "terms": "服务条款",
-    "cookies": "Cookie 设置",
-    "doNotSell": "请勿出售我的信息",
-    "language": "语言",
-    "contactShort": "联系",
-
-    "aria": "页脚",
-    "homeAria": "Chatforia 首页",
-    "section": {
-      "company": "公司",
-      "support": "支持",
-      "downloads": "下载",
-      "legal": "法律"
-    },
-    "links": {
-      "plans-pricing": "套餐与定价",
-      "about-chatforia": "关于 Chatforia",
-      "careers": "加入我们",
-      "press": "媒体",
-      "advertise": "广告合作",
-      "getting-started": "新手入门",
-      "help-center": "帮助中心",
-      "contact-us": "联系我们",
-      "status-page": "状态页",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "隐私政策",
-      "terms-of-service": "服务条款",
-      "do-not-sell-my-info": "请勿出售我的信息",
-      "cookie-settings": "Cookie 设置"
-    },
-    "social": {
-      "tiktok": "抖音海外版（TikTok）",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "专利申请中",
-    "backToTop": "↑ 返回顶部"
-  },
-
-  "home": {
-    "title": "首页",
-    "header": "你的消息",
-    "subheader": "发送一条消息以开始聊天。",
-    "sendButton": "发送消息",
-    "gifPicker": "打开 GIF 选择器",
-    "emoji": "表情",
-    "upload": "上传照片或视频",
-    "inputPlaceholder": "输入消息…",
-    "inputLabel": "消息编辑器",
-    "sendTooltip": "发送",
-    "sendTooltipEmpty": "输入消息以发送",
-    "send": "发送",
-    "welcomeMessage": "欢迎使用 Chatforia",
-    "getStarted": "开始使用"
-  },
-
-  "press": {
-    "title": "媒体",
-    "contactLine": "媒体垂询请联系",
-    "boilerplateTitle": "公司简介",
-    "boilerplateBody": "Chatforia 是一款隐私优先的消息应用，让跨语言聊天变得轻松。消息默认端到端加密，内置翻译可实时支持 100+ 种语言。用户可启用阅后即焚、选择性开启已读回执，并跨设备保持同步。现已登陆 iOS、Android 和网页端。",
-    "assetsTitle": "品牌素材",
-    "assetsSubtitle": "标志、截图与产品图片。",
-    "downloadCta": "下载媒体包",
-    "downloadTitle": "获取应用",
-    "scanTip": "在电脑上？用手机扫描以获取 App。",
-    "qrAria": "打开 Chatforia 网站",
-    "appStore": "在 App Store 下载",
-    "googlePlay": "在 Google Play 获取"
-  },
-
-  "careers": {
-    "title": "加入我们",
-    "intro": "我们是一支小而精的团队，致力于打造私密、全球化的通讯工具。如果你关注加密、无障碍与出色的用户体验，欢迎联系。",
-    "openRoles": "<b>开放职位：</b> 工程（全栈、iOS、Android）、产品、支持。",
-    "apply": "<b>申请方式：</b> 将简历/作品链接发送至 <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>。",
-    "emailCta": "邮件投递简历"
-  },
-
-  "about": {
-    "title": "关于 Chatforia",
-    "description": "Chatforia 是一款安全、支持多语言的即时通讯应用，具备端到端加密、即时翻译与语音/视频通话。我们的使命很简单：帮助人们安全、私密地跨语言连接。",
-    "valuesTitle": "我们的价值观",
-    "values": {
-      "privacy": "<bold>隐私优先：</bold> 默认端到端加密。",
-      "access": "<bold>人人可达：</bold> 自动翻译 100+ 种语言。",
-      "control": "<bold>自主掌控：</bold> 阅后即焚与已读回执可选择开启。",
-      "privacy_aria": "隐私优先：默认端到端加密。",
-      "access_aria": "人人可达：自动翻译 100+ 种语言。",
-      "control_aria": "自主掌控：阅后即焚与已读回执可选择开启。"
-    },
-    "howTitle": "Chatforia 如何工作",
-    "howDescription": "消息在离开你的设备前已加密。翻译、备份与设备同步均以最小化服务器可见信息为设计原则。"
-  },
-
-  "advertise": {
-    "title": "在 Chatforia 投放广告",
-    "description": "以优雅、品牌安全的形式触达活跃的消息用户。我们提供高可见位的展示广告、赞助以及自有推广。高级订阅用户不展示广告。",
-    "adsense": {
-      "withPubId": "我们目前通过<b>Google AdSense</b> 投放。若你希望通过 Google Ads 定向投放，请使用发布商 ID <code>{{pubId}}</code>，并申请在下方广告位进行托管投放。亦可直接赞助——请使用下方表单。",
-      "noPubId": "我们目前通过<b>Google AdSense</b> 投放。也可直接赞助——请使用下方表单。"
-    },
-    "inventoryHeader": "资源与规格",
-    "placement": {
-      "displayBadge": "展示",
-      "acceptedSizes": "接受的尺寸",
-      "adsenseSlot": "AdSense 槽位："
-    },
-    "noPlacements": "尚未配置广告位。请在 ads/placements.js 中添加。",
-    "whyHeader": "为什么选择 Chatforia？",
-    "why": {
-      "highSession": "聊天界面使用频繁、停留时长高",
-      "brandSafe": "品牌安全的展示形式；合理频控",
-      "sponsoredMoments": "支持“赞助时刻”（如“开始聊天”弹窗）",
-      "deals": "支持直投或通过 AdSense/Google Ads 程序化投放"
-    },
-    "contactHeader": "联系",
-    "form": {
-      "submittedMsg": "谢谢！你的咨询已发送。我们将尽快联系你。",
-      "missingRequired": "请填写姓名、邮箱与消息内容。",
-      "successToast": "谢谢！我们会尽快联系。",
-      "mailtoInfo": "正在打开你的邮件客户端以发送咨询…",
-      "nameLabel": "你的姓名",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "邮箱",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "公司",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "月预算（可选）",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "介绍你的投放计划",
-      "messagePlaceholder": "目标、周期、KPI、偏好版位…",
-      "sendCta": "发送咨询"
-    },
-    "legal": {
-      "disclaimerStart": "提交即表示你同意我们的",
-      "terms": "条款",
-      "and": "及",
-      "privacy": "隐私政策"
-    }
-  },
-
-  "upgrade": {
-    "title": "升级",
-    "subtitle": "为你解锁合适方案：Plus 去广告，Premium 获得全部强力功能。",
-    "perMonth": "月",
-    "perYear": "年",
-    "goPremium": "升级到高级版",
-    "benefitsLine": "解锁强力功能并移除广告。",
-    "ctaText": "升级",
-    "aria": "升级到 Chatforia 高级版",
-    "toggle": {
-      "monthly": "按月",
-      "annual": "按年（省 25%）"
-    },
-    "scheduleBanner": {
-      "title": "订阅即将结束",
-      "body": "你将在以下日期恢复为免费版：",
-      "keepPlanCta": "保留 {{plan}}",
-      "manageBillingCta": "管理账单"
-    },
-    "billing": {
-      "opening": "正在打开…",
-      "manage": "管理账单"
-    },
-    "checkout": {
-      "redirecting": "正在跳转…"
+    "keySetup": {
+      "title": "设置你的设备密钥",
+      "description": "这个设备还没有你的私钥。导入密码保护的备份，或者生成新的密钥对（从现在起你就能读取新消息）。",
+      "chooseFile": "选择一个文件并输入密码。",
+      "imported": "私钥已导入到此设备。你现在可以看旧消息了。",
+      "enterPassword": "输入您的账户密码，以便我们安全地备份您的密钥。"
     },
     "auth": {
-      "continue": "继续登录",
-      "createAccount": "创建账户",
-      "signIn": "登录"
+      "headline": "任何人、任何地方的安全消息",
+      "description": "端到端加密、100+语言翻译、消失消息以及语音/视频通话。",
+      "feature": {
+        "encryption": "默认端到端加密",
+        "translation": "智能内置消息翻译",
+        "disappearing": "消息消失和已读回执",
+        "privacy": "隐私优先。你的数据，你的控制权。",
+        "translate": "智能内置消息翻译",
+        "disappear": "消失的信息",
+        "privacyAlt": "隐私优先设计",
+        "seePlans": "参见计划与价格"
+      },
+      "hero": {
+        "line1": "任何人、任何地方的安全消息——",
+        "em": "translation to 100+ languages",
+        "sub": "获取一个免费的安全电话号码，通过Wi-Fi或数据与全球通话和发短信。享受端到端加密、消失的信息以及高清语音/视频通话——内置工具帮助你跨越国界保持联系。",
+        "freeNote": "基本的电话和短信都是免费的。高级AI和高级功能需要升级。"
+      },
+      "feat": {
+        "encryption": "端到端加密，始终开启",
+        "translate": "在对话中打破语言障碍",
+        "disappear": "消息消失和已读回执",
+        "privacy": "隐私优先。你的数据，你的控制权。"
+      },
+      "continueGoogle": "继续用谷歌",
+      "continueApple": "继续用苹果",
+      "username": "用户名",
+      "password": "密码",
+      "keepSignedIn": "让我保持登录状态",
+      "forgotPassword": "忘记密码了吗？",
+      "loginButton": "登录",
+      "createAccount": "创建一个账户",
+      "freeAccountButton": "创建免费账户",
+      "newHere": "新来的？",
+      "getApp": "下载应用",
+      "desktopTip": "在桌面端？用手机扫描即可下载应用。",
+      "scanHelper": "在桌面端？用手机扫描即可下载应用。",
+      "goHome": "回家去",
+      "home": "首页",
+      "headlineAlt": {
+        "main": "那个安全的信使",
+        "highlight": "说你的语言"
+      },
+      "subhead": "私密、加密和翻译消息——即时实现。",
+      "upgrade": "立即升级",
+      "tip": "提示：网页版和移动端使用同一个账号。你的消息保持同步。",
+      "openDownload": "打开下载页面",
+      "qrAlt": "Chatforia 的二维码",
+      "scanHint": "扫描以下载应用或在浏览器中打开。",
+      "iosAria": "可在App Store下载",
+      "iosTitle": "可在App Store下载",
+      "iosBadgeAlt": "App Store 徽章",
+      "androidAria": "在Google Play上下载",
+      "androidTitle": "谷歌应用商店",
+      "androidBadgeAlt": "Google Play 徽章",
+      "login": "登录",
+      "signup": "注册",
+      "email": "电子邮件",
+      "registration": {
+        "passwordDescription": "至少6个角色。使用强而有力且独特的密码。",
+        "smsConsent": "创建账户即表示您同意接收与Chatforia活动相关的短信通知（如来自其他用户的消息）。可能会有消息和数据费率。你可以随时在设置中选择退出。",
+        "termsLink": "服务条款",
+        "privacyLink": "隐私政策"
+      },
+      "to": "To:",
+      "enterRecipient": "输入姓名或号码",
+      "clearRecipients": "明确的接收者",
+      "sms": "短信",
+      "chatforia": "查特福里亚",
+      "typeMessage": "输入一条消息......",
+      "addRecipient": "请在上方添加收件人开始......",
+      "oneRecipient": "请先输入一位收件人。",
+      "enterValidRecipient": "输入已保存的联系人姓名或电话号码。",
+      "sendFailed": "发送失败。查看控制台获取详情。"
     },
-    "cta": {
-      "aria": "选择套餐",
-      "getPlus": "升级到 Plus",
-      "upgradeMonthly": "按月升级",
-      "upgradeAnnual": "按年升级"
+    "home": {
+      "title": "首页",
+      "header": "你的留言",
+      "subheader": "发消息开始聊天。",
+      "sendButton": "发送消息",
+      "gifPicker": "打开GIF选择器",
+      "emoji": "表情符号",
+      "upload": "上传照片或视频",
+      "inputPlaceholder": "输入一条消息......",
+      "inputLabel": "消息编制器",
+      "sendTooltip": "发送",
+      "sendTooltipEmpty": "输入消息发送",
+      "send": "发送",
+      "welcomeMessage": "欢迎来到Chatforia",
+      "getStarted": "开始"
     },
-    "plans": {
-      "free": {
-        "title": "免费",
-        "price": "$0",
-        "desc": "免费开始聊天。",
-        "features": {
-          "msg": "私聊与群聊",
-          "aiBasic": "基础 AI 回复",
-          "attachments": "标准附件"
-        },
-        "ctaCurrent": "当前套餐",
-        "ctaUnavailable": "切换到免费（不可用）",
-        "aria": "免费套餐（当前）"
+    "chat": {
+      "selectPrompt": "选择短信或聊天室开始聊天",
+      "newMessages": "新消息",
+      "typing": "{{name}}正在输入......",
+      "emptyTitle": "你的留言",
+      "emptySubtitle": "发消息开始聊天。",
+      "startChatButton": "发送消息",
+      "mediaAttachment": "媒体附着",
+      "thisUser": "本用户",
+      "blockConfirm": "封锁{{name}}？你不会收到他们的消息。",
+      "blockedUser": "被拉黑了{{name}}。",
+      "blockError": "无法确定要屏蔽的目标用户。",
+      "blockFailed": "阻挡失败（后端还没接线）。",
+      "encryptedUnavailable": "加密消息（密钥不可用）",
+      "unlockToView": "解锁您的钥匙查看此消息"
+    },
+    "messageInput": {
+      "ttl": {
+        "off": "关掉"
       },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / 月",
-        "desc": "最实惠的无广告体验。",
-        "features": {
-          "noAds": "移除所有广告",
-          "msg": "私聊与群聊",
-          "attachments": "更大附件",
-          "aiBasic": "基础 AI 回复"
-        },
-        "badge": "热门",
-        "cta": "去广告",
-        "aria": "升级到 Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium（按月）",
-        "price": "$24.99 / 月",
-        "desc": "全部功能、铃声与 AI 强力工具。",
-        "features": {
-          "plusAll": "包含 Plus 的全部内容",
-          "ringtones": "自定义铃声与提示音",
-          "powerAi": "强力 AI 功能",
-          "priorityUpdates": "优先更新",
-          "backups": "备份与设备同步"
-        },
-        "badge": "最超值",
-        "cta": "升级（按月）",
-        "aria": "升级到 Premium（按月）"
-      },
-      "premiumAnnual": {
-        "title": "Premium（按年）",
-        "price": "$225 / 年",
-        "desc": "按年计费更省钱。",
-        "features": {
-          "allPremium": "包含 Premium 的全部功能",
-          "annualBilling": "按年计费",
-          "save25": "比按月省约 25%",
-          "sameFeatures": "功能与按月版一致"
-        },
-        "badge": "省 25%",
-        "cta": "升级（按年）",
-        "aria": "升级到 Premium（按年）",
-        "disclaimer": "预付计费。随时可取消。无隐藏费用。"
+      "freeLimit": "免费套餐限制：最多1天自动删除。用1便士夹紧。",
+      "premiumLimit": "高级版最长自动删除期限为30天。锁定在30D。",
+      "nothingToSend": "请输入消息或附上文件发送。",
+      "encryptionFailed": "加密失败了。消息未发送。",
+      "sent": "信息已送达。",
+      "placeholder": "输入一条消息......",
+      "autoDelete": "自动删除",
+      "typeToSend": "输入消息发送",
+      "send": "发送",
+      "sendWithEnter": "发送（回车）",
+      "attachment": "附着",
+      "caption": "说明（可选）",
+      "remove": "删除",
+      "clear": "清场",
+      "gif": "GIF",
+      "sticker": "贴纸",
+      "errors": {
+        "attachmentTooLarge": "依恋太大了。试试小一点的锉刀。",
+        "unsupportedFile": "不支持的文件类型。",
+        "rateLimit": "你发信息太快了。请慢点。",
+        "validation": "验证错误。请检查您的消息并重新尝试。",
+        "failedToSend": "发送失败。你可以重试失败的气泡。"
       }
     },
-    "marketing": {
-      "freeTitle": "免费",
-      "freeDesc": "免费开始聊天。",
-      "plusTitle": "Plus",
-      "plusBadge": "热门",
-      "plusDesc": "最实惠的无广告体验。",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "全部功能、铃声与 AI 强力工具。",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "按年计费更省钱。",
-      "annualDisclaimer": "预付计费。随时可取消。无隐藏费用。"
-    }
-  },
-
-  "gettingStarted": {
-    "title": "新手入门",
-    "subtitle": "初来 Chatforia？这份快速指南带你几分钟上手。",
-    "alert": {
-      "text": "随着我们上线新功能，本指南也会更新。如有遗漏，请通过",
-      "contactLink": "联系我们"
+    "contactList": {
+      "savedContacts": "已保存的联系人",
+      "refreshAria": "刷新接触",
+      "filterPlaceholder": "筛选已保存的联系人......",
+      "filterAria": "滤波器保存的接触点",
+      "noContactsFound": "未找到联系人。",
+      "externalContact": "外部联系",
+      "notJoined": "那个联系人还没加入Chatforia。",
+      "couldNotStart": "无法启动聊天。请再试一次。",
+      "startFailed": "没能开始聊天。请再试一次。",
+      "deleted": "联系已删除。",
+      "deleteFailed": "没能删除联系人。请再试一次。",
+      "aliasUpdated": "别名已更新。",
+      "updateAliasFailed": "未能更新别名。请再试一次。",
+      "selectContact": "选择{{name}}",
+      "alias": "别名",
+      "startChat": "开始聊天",
+      "message": "信息",
+      "delete": "删除",
+      "deleteContactAria": "删除联系人",
+      "loadFailed": "未能加载接触点。请再试一次。",
+      "loadMore": "加载更多",
+      "call": "叫声",
+      "callStarted": "通过你的Chatforia号码拨打这个号码......",
+      "callFailed": "未能开始通话。请再试一次。"
     },
-    "section1": {
-      "title": "1) 创建你的账户",
-      "signup": "注册",
-      "or": "或",
+    "startChatModal": {
+      "title": "开始对话",
+      "searchPlaceholder": "搜索姓名、用户名或电话号码",
+      "messageThisPerson": "给这个人发消息",
+      "contacts": "联系人",
+      "recentInteractions": "近期互动",
+      "noContactsMatch": "没有任何联系人符合你的搜索。",
+      "noRecentInteractions": "目前还没有最近的互动。",
+      "unknown": "未知",
+      "interactionType": {
+        "message": "信息",
+        "call": "叫声",
+        "video": "视频"
+      }
+    },
+    "addContactModal": {
+      "title": "添加联系",
+      "phoneOrUsername": "手机或用户名",
+      "phoneOrUsernamePlaceholder": "例如+13018019227或朱利安诺顿",
+      "alias": "别名（可选）",
+      "aliasPlaceholder": "例如：工作、妈妈、迈克——欧洲",
+      "enterPhoneOrUsername": "输入电话号码或用户名。",
+      "userLookupFailed": "用户查询失败。",
+      "cannotAddSelf": "你不能把自己添加为联系人。",
+      "failedToAdd": "未能增加联系。",
+      "add": "添加"
+    },
+    "sidebar": {
+      "randomChat": "随机聊天",
+      "callTextForwarding": "呼叫与短信转接",
+      "conversations": "对话",
+      "searchPlaceholder": "搜索对话......",
+      "errorLoading": "加载聊天失败",
+      "empty": "还没有对话。",
+      "startChat": "发起聊天",
+      "people": "人物",
+      "settings": "背景设定",
+      "status": "现状",
+      "forwarding": "呼叫与短信转接",
+      "refresh": "刷新",
+      "search": "搜索对话",
+      "loginPrompt": "登录以编辑您的设置。",
       "login": "登录",
-      "loginText": "使用你已有的账户。",
-      "prefsStart": "设置你的",
-      "prefsLink": "偏好",
-      "prefsRest": "（语言、已读回执、主题）。"
+      "register": "创建账户",
+      "chatrooms": "聊天室",
+      "logout": "登出",
+      "startChatAlt": "发起一个新聊天",
+      "calls": "叫声",
+      "video": "视频",
+      "voicemail": "语音信箱"
     },
-    "section2": {
-      "title": "2) 开始聊天",
-      "item1": "创建私聊或群聊并发送第一条消息。",
-      "item2": "使用即时翻译，跨越 100+ 种语言交流。",
-      "item3": "在“资料 → 隐私”中试试阅后即焚与已读回执。"
+    "topbar": {
+      "newStatus": "新地位",
+      "logout": "登出",
+      "help": "帮助",
+      "createStatusAria": "创建新身份"
     },
-    "section3": {
-      "title": "3) 更进一步",
-      "item1Part1": "在",
-      "upgradeLink": "升级",
-      "item1Part2": "页面管理你的套餐（Plus = 去广告，Premium = 全部功能）。",
-      "item2Part1": "在",
-      "settingsLink": "设置",
-      "item2Part2": "中链接更多设备并配置加密备份。"
+    "threadActions": {
+      "threadMenu": "主题菜单",
+      "premium": "高级版",
+      "aiPower": "人工智能力量",
+      "schedule": "赛程",
+      "upgrade": "升级",
+      "upgradeSuffix": "（升级）",
+      "thread": "线索",
+      "about": "关于",
+      "search": "搜索",
+      "media": "媒体",
+      "invitePeople": "邀请人",
+      "roomSettings": "房间设置",
+      "clearConversation": "清晰的对话",
+      "block": "区块"
     },
-    "cta": {
-      "seePlans": "查看套餐",
-      "openSettings": "打开设置"
-    }
-  },
-
-  "helpCenter": {
-    "title": "帮助中心",
-    "faq": {
-      "account": {
-        "q": "如何创建或找回我的账户？",
-        "a": "下载 App 或使用网页版，点击“创建账户”，验证你的邮箱/手机。若要找回，请使用“忘记密码”。"
+    "roomSearch": {
+      "title": "房间内搜索",
+      "ariaLabel": "房间内搜索",
+      "search": "搜索",
+      "searchMessages": "搜索信息",
+      "noText": "[无文字]",
+      "noResults": "没有结果"
+    },
+    "roomSettings": {
+      "roles": {
+        "member": "成员",
+        "moderator": "缓和剂",
+        "admin": "行政"
       },
-      "privacy": {
-        "q": "消息是否端到端加密？",
-        "a": "是的。消息与通话默认端到端加密。只有你和收件人可阅读。"
+      "aiMode": {
+        "off": "关掉",
+        "mention": "Only on @ForiaBot or /ask",
+        "always": "主动回复"
       },
-      "translate": {
-        "q": "即时翻译如何工作？",
-        "a": "在 设置 → 外观与语言 中启用“自动翻译”。我们在支持的情况下在设备端翻译，否则通过安全 API 并最小化元数据。"
+      "autoTranslateMode": {
+        "off": "关掉",
+        "tagged": "仅标记（/tr ...）",
+        "all": "所有消息"
+      },
+      "updated": "设置更新"
+    },
+    "mediaGallery": {
+      "sharedMedia": "共享媒体",
+      "noMediaCached": "还没有本地缓存媒体。",
+      "imageAlt": "图片",
+      "openVideo": "开放视频",
+      "openVideoWithCaption": "打开视频：{{caption}}",
+      "preview": "预览",
+      "previewWithCaption": "预览：{{caption}}",
+      "previewKind": "Preview {{kind}}",
+      "download": "下载",
+      "downloadKind": "下载{{kind}}",
+      "file": "文件",
+      "kinds": {
+        "image": "图片",
+        "video": "视频",
+        "audio": "音频",
+        "file": "文件"
+      }
+    },
+    "status": {
+      "userNumber": "用户 #{{id}}",
+      "posted": "发布状态",
+      "postFailed": "未能发布状态",
+      "createTitle": "创建状态",
+      "modalAriaLabel": "新地位",
+      "captionLabel": "你在想什么？",
+      "captionPlaceholder": "分享最新进展......",
+      "captionAria": "状态消息",
+      "audienceLabel": "受众",
+      "audience": {
+        "public": "公共",
+        "followers": "追随者",
+        "contacts": "联系人",
+        "mutuals": "互助",
+        "custom": "定制......"
+      },
+      "expiresHoursLabel": "过期时间（小时）",
+      "maxTooltip": "最长7天",
+      "hoursAbbrev": "h",
+      "maxShort": "马克斯",
+      "expiresOn": "截止日期：",
+      "chooseRecipients": "选择获奖者",
+      "selectContacts": "选择联系人",
+      "attachmentsLabel": "附属品",
+      "attachmentsPlaceholder": "添加图片/视频",
+      "filesNote": "最多5个文件。默认是24小时有效期。",
+      "postAria": "发帖状态",
+      "post": "帖子"
+    },
+    "voicemail": {
+      "pageTitle": "语音信箱",
+      "from": "来自",
+      "to": "To",
+      "unknownCaller": "未知",
+      "yourNumber": "你的Chatforia号码",
+      "durationSeconds": "{{计数}}",
+      "audioAria": "语音信箱音频播放器",
+      "transcriptHeading": "文字记录",
+      "transcriptPending": "正在转录语音信箱......",
+      "transcriptFailed": "文字记录不可得。",
+      "loading": "正在加载语音信箱......",
+      "errorLoading": "加载语音信箱失败。",
+      "empty": "还没有语音留言。",
+      "deleteConfirm": "删除这条语音信箱？",
+      "deleteError": "删除语音信箱失败。",
+      "markRead": "已读标记",
+      "delete": "删除",
+      "unreadDotAria": "未读语音信箱指示"
+    },
+    "profile": {
+      "title": "用户简介",
+      "preferredLanguage": "首选语言",
+      "chooseLanguage": "选择一种语言",
+      "mustLogin": "您必须登录才能查看设置。",
+      "autoTranslate": "自动翻译消息",
+      "showOriginalWithTranslation": "显示原始和翻译信息",
+      "showOriginalAndTranslation": "原文并列翻译",
+      "filterExplicit": "过滤露骨内容",
+      "aiReply": "AI回复",
+      "enableReadReceipts": "启用已读回执",
+      "allowExplicitContent": "允许露骨内容",
+      "disappearingMessages": "启用消失消息",
+      "autoDeleteSeconds": "距离自动删除还有几秒钟",
+      "saveSuccess": "设置已保存！",
+      "saveError": "错误：无法保存设置",
+      "avatarAlt": "个人资料头像",
+      "uploadAvatar": "上传新头像",
+      "avatarSuccess": "阿凡达上传！",
+      "avatarError": "上传头像失败",
+      "avatarUpdated": "阿凡达更新！",
+      "uploadingAvatar": "上传虚拟形象......",
+      "noPrivateKey": "这台设备上没有私钥可供导出。",
+      "setBackupPassword": "设置密码以加密备份：",
+      "backupDownloaded": "加密备份已下载。",
+      "exportFailed": "密钥导出失败",
+      "enterBackupPassword": "请输入备份密码：",
+      "importSuccess": "私钥已导入到此设备。",
+      "importFailed": "导入密钥失败（密码错误或文件损坏）。",
+      "keysRotated": "新密钥对生成并上传公钥。",
+      "rotateFailed": "没能旋转按键。",
+      "security": "安全性",
+      "exportKey": "备份加密密钥",
+      "importKey": "恢复加密密钥",
+      "rotateKeys": "旋转加密密钥",
+      "keyDisclaimer": "你的私钥永远不会离开这个设备。导出一个密码保护的副本，在另一台设备上恢复。",
+      "sectionProfile": "简介",
+      "phoneNumber": "电话号码",
+      "appearance": "外观",
+      "soundSettings": "声音",
+      "disappearing": "消失的信息",
+      "backupSync": "加密密钥备份",
+      "ai": "AI",
+      "accessibility": "交通便利性",
+      "privacy": "隐私",
+      "devices": "关联设备",
+      "themeFreeNotice": "你免费使用——请使用下面的快速太阳/月亮选项。升级以解锁更多主题。",
+      "sunTheme": "使用黎明主题",
+      "moonTheme": "使用月亮（午夜）主题",
+      "sun": "太阳",
+      "moon": "月亮",
+      "backupTitle": "加密备份与设备同步",
+      "openBackupTools": "开放备份工具",
+      "backupDesc": "备份你的加密密钥，以便在另一台设备上安全地恢复你的消息。",
+      "privacyBlurEnabled": "默认会模糊消息",
+      "privacyBlurOnUnfocus": "应用失焦时会模糊",
+      "planSection": "我的计划",
+      "planLoading": "加载你的计划......",
+      "planLoadFailed": "加载你的计划失败。",
+      "currentPlan": "当前计划",
+      "planRenewsOn": "更新",
+      "freePlanCopy": "你用的是免费套餐。升级可解锁更多功能，如备份、额外号码和高级隐私选项。",
+      "upgradePlanCta": "升级计划",
+      "changePlanCta": "变革计划",
+      "manageBilling": "管理账单",
+      "portalOpenFailed": "无法打开账单门户。请再试一次。",
+      "holdToReveal": "按住以揭示",
+      "notifyOnCopy": "如果我的消息被复制，请通知我",
+      "loadFailed": "加载配置文件失败",
+      "followed": "关注",
+      "followFailed": "未能跟进",
+      "unfollowed": "未关注",
+      "unfollowFailed": "取消关注失败",
+      "follow": "关注",
+      "unfollow": "取消关注",
+      "followHint": "如果他们以受众粉丝（或公开）发布，故事会出现在你的关注动态中。",
+      "userNotFound": "用户未找到",
+      "followsYou": "跟着你",
+      "sectionCrashedTitle": "部分加载失败",
+      "sectionCrashedBody": "这部分出了问题。",
+      "forwarding": "呼叫与短信转接",
+      "callTextForwardingSection": "呼叫与短信转接",
+      "callTextForwardingTitle": "来电和/或短信转接",
+      "callTextForwardingDescription": "将来电和短信转发到你已验证的手机或电子邮件。外拨电话/短信可以显示你的Chatforia号码。",
+      "enableTextForwarding": "启用文本转发",
+      "forwardTextsToPhone": "转发短信到电话",
+      "forwardTextsToEmail": "将短信转发到电子邮件",
+      "destinationPhone": "目的地电话（E.164）",
+      "destinationEmail": "目的地邮箱",
+      "enableCallForwarding": "启用呼叫转接",
+      "destinationPhoneForCalls": "通话目的地（E.164）",
+      "aliasBridging": "呼叫转接（别名桥接）",
+      "quietHoursOptional": "安静时段（可选）",
+      "startHour": "开赛时间（0–23）",
+      "endHour": "终场时刻（0–23）",
+      "reset": "重置",
+      "saveBtn": "保存",
+      "saveProfile": "存档配置文件",
+      "saveForwarding": "存档转发",
+      "forwardSaved": "已保存转发设置",
+      "forwardSaveFailed": "未能保存设置",
+      "errE164": "输入一台有效的E.164手机（例如+15551234567）。",
+      "errEmail": "输入有效的电子邮件。",
+      "errSmsDest": "至少选择一个目的地（电话或电子邮件）。",
+      "errQuietHours": "安静时间必须在0到23点之间。",
+      "randomChat": "随机聊天",
+      "ageBand": "你的年龄范围",
+      "ageBandPlaceholder": "选择你的年龄范围",
+      "ageTeen": "13–17",
+      "age18_24": "18–24",
+      "age25_34": "25–34",
+      "age35_49": "35–49",
+      "age50Plus": "50+",
+      "ageBandHint": "我们只存储年龄范围（不包括您的确切出生日期）。这用于保持随机聊天配对的合理性。",
+      "wantsAgeFilter": "在随机聊天中使用基于年龄的匹配",
+      "wantsAgeFilterDesc": "当你开启时，我们会尽量为你匹配年龄段的人。",
+      "partnerAgeBands": "你可以匹配到谁？",
+      "partnerAgeBandsDesc": "青少年总是只和其他青少年配对。成年人无法与青少年匹配。",
+      "teenMatchingNote": "为了安全起见，13至17岁的账号只能在随机聊天中与其他13至17岁账号匹配。",
+      "foriaRemember": "让莉娅记住你告诉它的那些事",
+      "foriaRememberDesc": "开启时，Foria可以用你过去的随机聊天记录（只和你一起）保持对话流畅。你随时都可以关掉这个。",
+      "voicemailSection": "语音信箱",
+      "voicemailEnabled": "启用语音信箱",
+      "voicemailAutoDeleteDays": "自动删除语音留言，几天后",
+      "voicemailAutoDeletePlaceholder": "留空以永远保存",
+      "voicemailForwardEmail": "将语音邮件转发到电子邮件",
+      "voicemailForwardEmailPlaceholder": "发送语音邮件通知的邮箱",
+      "voicemailGreetingText": "文本备选问候语",
+      "voicemailGreetingTextDesc": "当你的语音问候无法使用时使用。",
+      "voicemailGreetingUpload": "上传语音信箱问候语",
+      "voicemailPreviewGreeting": "预览问候语",
+      "voicemailGreetingUploaded": "语音信箱问候语已成功上传",
+      "voicemailGreetingUploadError": "未能上传语音留言问候",
+      "voicemailNote": "Chatforia号码的语音信箱将存储在语音信箱收件箱中。你可以在支持的套餐中启用转录和转发功能。",
+      "portHint": "想保留你现在的号码？你可以把它转到Chatforia Wireless。",
+      "wireless": {
+        "manage": "管理无线"
+      },
+      "esim": {
+        "title": "Chatforia eSIM",
+        "desc": "当你远离Wi-Fi时，为Chatforia获取移动数据。",
+        "cta": "获取eSIM / 显示二维码"
+      }
+    },
+    "wireless": {
+      "title": "Chatforia 无线电",
+      "description": "管理您的Chatforia手机套餐、号码、转接和号码携带。",
+      "options": {
+        "heading": "你可以选择如何使用Chatforia",
+        "subheading": "你可以申请新的Chatforia号码，或者从其他运营商带回现有号码。",
+        "newNumber": "申请一个新的Chatforia号码",
+        "portNumber": "将你当前的号码转入Chatforia Wireless。"
+      },
+      "port": {
+        "heading": "将现有号码转入",
+        "subheading": "把你现在的电话号码从现有运营商转到Chatforia。确保信息与你的运营商账户完全一致，以避免延误。",
+        "phoneNumberLabel": "电话号码至端口",
+        "phoneNumberPlaceholder": "+1 555 123 4567",
+        "carrierLabel": "电流载流子",
+        "carrierPlaceholder": "Verizon、AT&T、T-Mobile 等等。",
+        "accountNumberLabel": "账户号码",
+        "pinLabel": "端口输出PIN码/密码",
+        "fullNameLabel": "账户上的全名",
+        "address1Label": "地址行1",
+        "address2Label": "地址行2（可选）",
+        "cityLabel": "城市",
+        "stateLabel": "州 / 省",
+        "postalCodeLabel": "邮政编码",
+        "countryLabel": "乡村",
+        "submitButton": "提交端口请求",
+        "success": "端口请求已提交！我们会持续更新。",
+        "genericError": "出了点问题。"
+      },
+      "status": {
+        "heading": "移植现状",
+        "subheading": "跟踪你的号码转号请求状态。",
+        "loading": "加载中......",
+        "loadError": "未能加载端口请求。",
+        "none": "目前还没有任何转载活动。",
+        "pending": "待审核",
+        "submitted": "提交给承运人",
+        "inProgress": "进行中",
+        "completed": "完工",
+        "failed": "失败",
+        "canceled": "取消",
+        "created": "创建：",
+        "scheduled": "排定时间：",
+        "completedAt": "已完成："
+      },
+      "dataLow": "你的数据快用完了。",
+      "topUp": "现在补充",
+      "expiresIn": "在 {{days}} 天后到期",
+      "exhausted": "你的数据已经用完了。买一个新包以继续使用移动数据。",
+      "buyPack": "购买数据包",
+      "esimPackLabel": "eSIM 包"
+    },
+    "family": {
+      "title": "家庭",
+      "loading": "正在加载你的家庭信息......",
+      "error": {
+        "load": "未能加载家庭信息。",
+        "invite": "无法创建邀请。确保你是家族所有者，再试一次。",
+        "checkout": "我们无法开始为家庭套餐结账。请再试一次。"
+      },
+      "billing": {
+        "myPlanTitle": "我的计划",
+        "myPlanError": "无法加载您的套餐。",
+        "myPlanLoading": "加载你的计划......",
+        "currentPlan": "当前计划",
+        "renewsAt": "更新",
+        "freePlanCopy": "你用的是免费套餐。升级以解锁更多功能。",
+        "upgradeCta": "升级计划",
+        "changePlanCta": "变革计划",
+        "manageBilling": "管理账单",
+        "portalError": "目前无法打开账单门户。",
+        "cancelNow": "立即取消",
+        "cancelNowHelp": "您可以在计费门户中管理或取消订阅，或立即在下方取消。",
+        "cancelNowConfirm": "你确定要立即取消你的计划吗？这无法挽回。",
+        "cancelNowError": "目前无法取消您的计划。请再试或使用管理账单。"
+      },
+      "none": {
+        "title": "还没有组建家庭",
+        "body": "要创建Chatforia家庭和共享数据池，请启动家庭套餐。",
+        "goUpgrade": "开设家庭套餐",
+        "viewPlans": "查看所有图纸"
+      },
+      "group": {
+        "defaultName": "我的查特福里亚家族",
+        "role": "你的角色：{{role}}"
+      },
+      "role": {
+        "owner": "所有者",
+        "member": "成员"
+      },
+      "data": {
+        "heading": "共享数据池",
+        "caption": "所有成员共享此池。当你接近极限时，我们会提前通知你。"
+      },
+      "members": {
+        "title": "家庭成员",
+        "name": "名称",
+        "role": "职责",
+        "usage": "用途",
+        "limit": "极限",
+        "unlimited": "没有具体限制",
+        "inviteCta": "邀请成员"
+      },
+      "invite": {
+        "title": "邀请新成员",
+        "body": "发送电子邮件或链接，邀请某人加入你们共享的家庭数据池。",
+        "emailLabel": "电子邮件（可选）",
+        "emailPlaceholder": "friend@example.com",
+        "create": "创建邀请",
+        "linkLabel": "邀请链接",
+        "copyAria": "复制邀请链接",
+        "expiryHint": "该链接几天后失效。你总可以重新创建一个新的。"
+      },
+      "join": {
+        "title": "加入家庭",
+        "body": "你已被邀请加入Chatforia家庭并分享他们的数据池。",
+        "cta": "接受并加入家庭",
+        "ctaLogin": "登录并加入家庭",
+        "success": "你已经加入了这个家庭。你现在共享他们的数据池。",
+        "goFamily": "前往家庭仪表盘",
+        "error": "我们不能把你加入这个家庭。邀请函可能无效或已过期。"
+      }
+    },
+    "premium": {
+      "heading": "Go Premium",
+      "description": "解锁电源功能并移除广告。",
+      "cta": "升级",
+      "upgrade": "升级",
+      "upgradeAria": "升级到 Chatforia Premium"
+    },
+    "upgrade": {
+      "title": "升级",
+      "titleLoggedIn": "升级",
+      "titlePublic": "定价",
+      "h1": "Chatforia 定价与计划",
+      "h1Subtitle": "从我们的免费、广告支持的计划开始。Plus无广告，Premium解锁全功能。",
+      "subtitle": "选择应用套餐，为自己添加数据包，或与家人共享数据——所有这些都能在同一个地方进行。",
+      "subtitle.app": "从我们的免费、广告支持的计划开始。Plus无广告，Premium解锁全功能。",
+      "subtitle.mobile": "添加全球eSIM数据，确保Chatforia即使远离Wi-Fi也能正常工作。",
+      "subtitle.family": "为你的家庭创建一个共享数据池，并从一个地方管理所有人的使用情况。",
+      "perMonth": "mo",
+      "perYear": "年份",
+      "goPremium": "Go Premium",
+      "benefitsLine": "解锁电源功能并移除广告。",
+      "ctaText": "升级",
+      "aria": "升级到 Chatforia Premium",
+      "toggle": {
+        "monthly": "月刊",
+        "annual": "年票（节省30%）"
+      },
+      "scheduleBanner": {
+        "title": "订阅将结束",
+        "body": "你会恢复为免费",
+        "keepPlanCta": "坚持{{plan}}",
+        "manageBillingCta": "管理账单"
+      },
+      "billing": {
+        "opening": "开门......",
+        "manage": "管理账单"
+      },
+      "checkout": {
+        "redirecting": "转向......"
+      },
+      "auth": {
+        "continue": "继续登录",
+        "createAccount": "创建账户",
+        "signIn": "登录"
+      },
+      "cta": {
+        "aria": "选择计划",
+        "getPlus": "升级到 Plus",
+        "upgradeMonthly": "每月升级",
+        "upgradeAnnual": "升级年鉴"
+      },
+      "section": {
+        "app": "应用套餐",
+        "mobile": "移动端（eSIM）",
+        "family": "家庭套餐"
+      },
+      "plans": {
+        "free": {
+          "title": "免费",
+          "price": "$0",
+          "desc": "开始免费发消息吧。如果你只是想试Chatforia，这很理想。",
+          "features": {
+            "chat": "实时一对一和群聊，以及语音和视频通话",
+            "media": "分享照片、语音消息和短视频",
+            "ai": "AI-powered smart replies and instant translation (fair use)",
+            "disappearing": "消失的信息与基本隐私控制",
+            "ads": "免费，应用内有广告"
+          },
+          "ctaCurrent": "当前计划",
+          "ctaManage": "账单管理",
+          "ctaPublic": "开始——继续登录",
+          "aria": "免费计划"
+        },
+        "plus": {
+          "title": "而且",
+          "price": "$6.99",
+          "desc": "所有必需品，没有广告。非常适合日常发消息和打电话。",
+          "features": {
+            "allFree": "一切都是免费的，没有广告",
+            "forwarding": "将电话和短信转接到你的真实电话号码",
+            "history": "更长的消息记录（最长可达6个月）",
+            "support": "出问题时支持更快"
+          },
+          "badge": "流行",
+          "cta": "无广告",
+          "ctaPublic": "获取Plus——继续登录",
+          "aria": "升级到 Plus"
+        },
+        "premiumMonthly": {
+          "title": "高级会员（月费）",
+          "price": "$11.99",
+          "desc": "完整的Chatforia体验：AI动力工具、定制与优先支持。",
+          "features": {
+            "plusAll": "Plus 中的一切",
+            "themes": "解锁所有高级色彩主题和应用自定义功能",
+            "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
+            "support": "在你最需要帮助的时候优先支持你"
+          },
+          "badge": "推荐阅读",
+          "cta": "升级（月度）",
+          "ctaPublic": "解锁高级会员——继续登录",
+          "aria": "升级为高级月度"
+        },
+        "premiumAnnual": {
+          "title": "高级会员（年度）",
+          "price": "$99",
+          "desc": "按年计费可节省更多费用——包括额外的色彩主题、AI工具和优先支持。",
+          "features": {
+            "allPremium": "Premium 月度版的一切——包括额外的色彩主题",
+            "annualBilling": "每年计费一次",
+            "save25": "相比每月支付，大约能省下30%",
+            "bestFor": "最适合高级用户、远程工作者和重度旅行者"
+          },
+          "badge": "节省30%",
+          "cta": "升级（年度）",
+          "ctaPublic": "按年订阅可节省30%——继续登录",
+          "aria": "升级至高级年鉴",
+          "disclaimer": "预付账单。随时取消。没有隐藏费用。"
+        }
+      },
+      "marketing": {
+        "freeTitle": "免费",
+        "freeDesc": "开始免费发消息吧。",
+        "plusTitle": "而且",
+        "plusBadge": "流行",
+        "plusDesc": "最实惠的无广告体验。",
+        "premiumMonthlyTitle": "高级版",
+        "premiumMonthlyDesc": "全功能、铃声和AI电动工具。",
+        "premiumAnnualTitle": "高级版",
+        "premiumAnnualDesc": "按年计费可以节省更多。",
+        "annualDisclaimer": "预付账单。随时取消。没有隐藏费用。"
+      },
+      "mobile": {
+        "title": "Chatforia Mobile（eSIM数据包）",
+        "subtitle": "添加全球数据，即使没有Wi-Fi也能让Chatforia正常运行。价格会根据你的国家和货币自动调整。",
+        "subtitle.detail": "选择一次性全球数据包，这样即使你旅行或远离Wi-Fi，Chatforia也能持续使用。",
+        "scope": {
+          "local": "地方",
+          "europe": "欧洲",
+          "global": "全球"
+        },
+        "note": "我们不卖3GB以下的数据包。",
+        "localEquals": "本地 = {{country}}",
+        "localEqualsFallback": "本地 = 你当前所在的国家",
+        "perPack": "/ 包",
+        "cta": "拿这个数据包",
+        "ctaPublic": "拿这个数据包",
+        "checkout": {
+          "redirecting": "转向......"
+        },
+        "unlimited": {
+          "features": {
+            "heavyUse": "高速数据用于重度使用",
+            "throttle": "高速使用后速度可能会变慢",
+            "coverage": "可靠的覆盖",
+            "instant": "即时eSIM激活",
+            "noContract": "一次性包，无合同"
+          }
+        },
+        "disclaimer": {
+          "devices": "eSIM数据包需要支持eSIM且解锁的设备。可用性因手机型号、运营商和国家而异。覆盖范围和速度因地区而异。"
+        },
+        "small": {
+          "title": "入门包",
+          "desc": "配备3GB高速数据——非常适合轻度消息和偶尔通话。",
+          "price": "$9.99",
+          "data": "3 GB",
+          "bestFor": "短途旅行、轻微的消息和偶尔的通话",
+          "aria": "购买Starter eSIM数据包"
+        },
+        "medium": {
+          "title": "旅行者包",
+          "desc": "包含5GB高速数据，用于出行、通勤和常规VoIP通话。",
+          "price": "$14.99",
+          "data": "5 GB",
+          "bestFor": "周末旅行、定期VoIP通话和地图",
+          "aria": "购买旅行者eSIM数据包"
+        },
+        "large": {
+          "title": "动力组",
+          "desc": "包含10GB高速数据，支持Chatforia网络上的重型聊天、通话和视频。",
+          "price": "$24.99",
+          "data": "10 GB",
+          "bestFor": "大量聊天、通话、视频和热点使用",
+          "aria": "购买 Power 用户 eSIM 数据包"
+        },
+        "compare": {
+          "title": "比较eSIM数据包",
+          "col": {
+            "pack": "包装",
+            "data": "包含数据",
+            "bestFor": "最佳"
+          },
+          "disclaimer": "实际的数据使用取决于你如何使用Chatforia（语音、视频、媒体以及手机上的其他应用）。"
+        }
+      },
+      "family": {
+        "title": "Chatforia 家族（共享数据）",
+        "subtitle": "在全家共享一个数据池。一张账单，多个Chatforia账户，全球覆盖。",
+        "perPack": "/ 包",
+        "small": {
+          "title": "小家族",
+          "desc": "包含20GB共享高速数据——非常适合2-3名轻度用户。",
+          "price": "$29.99",
+          "aria": "购买家庭小包"
+        },
+        "medium": {
+          "title": "家庭媒介",
+          "desc": "包含40GB共享高速数据——适合3至5名活跃会员使用。",
+          "price": "$49.99",
+          "aria": "购买家庭中号包"
+        },
+        "large": {
+          "title": "大型家庭",
+          "desc": "包含80GB共享高速数据——面向始终在线的电力家庭。",
+          "price": "$84.99",
+          "aria": "购买家庭大包装"
+        },
+        "feature": {
+          "shared": "家庭共享数据池",
+          "members": "最多邀请4名额外成员",
+          "membersMore": "非常适合3到5名活跃成员",
+          "manage": "管理每个成员的限额",
+          "topUp": "随时添加更多包装",
+          "bestValue": "每GB的最佳性价比",
+          "fairUse": "受合理使用政策和当地限制限制"
+        },
+        "disclaimer": "家庭包可以创建或充值共享数据池。你可以随时邀请或移除成员。",
+        "footnote": "家庭包在关联的Chatforia账户之间共享一个数据池。可用性和限额取决于您所在国家和当地的法规。"
+      },
+      "why": {
+        "title": "为什么人们会转向Chatforia",
+        "subtitle": "Chatforia为你提供真实的电话号码、智能翻译，以及在你准备好时无广告的清晰路径。",
+        "card": {
+          "textnow": {
+            "title": "Chatforia 与 TextNow 的比较",
+            "body": "免费广告较轻，准备好时只需简单升级Plus，TextNow不提供高级工具。"
+          },
+          "voice": {
+            "title": "Chatforia 与 Google Voice 的比较",
+            "body": "现代应用、全球优先设计，以及内置翻译，取代了传统的来电转接。"
+          },
+          "messengers": {
+            "title": "Chatforia 与聊天应用的区别",
+            "body": "短信中包含真实电话号码——不仅仅是其他应用用户——内置AI和状态。如果你是从TextFree或TextMe等应用转过来，这就很棒了。"
+          }
+        },
+        "tableTitle": "Chatforia的比较",
+        "col": {
+          "feature": "特色"
+        },
+        "feature": {
+          "freeNumber": "免费电话号码",
+          "translation": "内置自动翻译",
+          "aiTools": "人工智能工具（重写、回复、总结）",
+          "ads": "无广告选项",
+          "history": "消息历史"
+        },
+        "yes": "是的",
+        "no": "No",
+        "yesPremium": "是的（高级版）",
+        "plusPremium": "Plus和Premium（高级版）",
+        "limited": "限量版",
+        "nA": "N/A",
+        "history": {
+          "chatforia": "最长12+个月",
+          "textnow": "具体情况因人而异",
+          "voice": "限量/基于账户"
+        },
+        "disclaimer": "比较基于公开信息，可能会随时间变化。其他免费短信应用如TextFree或TextMe通常与TextNow类似。"
+      },
+      "faq": {
+        "title": "价格与套餐常见问题",
+        "free": {
+          "q": "免费套餐真的免费吗？",
+          "a": "是的。免费套餐包含Chatforia号码、电话和带有广告的消息功能。你可以无限期免费，也可以升级去广告，解锁更多功能。"
+        },
+        "plusPremium": {
+          "q": "Plus和Premium有什么区别？",
+          "a": "此外，还能去除广告并延长你的消息记录——非常适合日常使用。高级版增加了更多自定义功能、AI重写和回复工具，以及对重度用户的优先支持。"
+        },
+        "esim": {
+          "q": "eSIM数据包在哪里工作？",
+          "a": "Chatforia Mobile 采用全球 eSIM 覆盖。可用性取决于你的国家和设备。你会在应用激活时看到支持的选项。"
+        },
+        "cancel": {
+          "q": "我可以随时取消或更改计划吗？",
+          "a": "是的。你可以在应用的计费页面管理或取消订阅。变更将在您当前账单周期结束时生效。"
+        },
+        "family": {
+          "q": "家庭包是如何运作的？",
+          "a": "家庭包会在多个Chatforia账户之间创建共享数据池。一个人付账单，你可以邀请或移除成员，并为每个人设定人数上限。"
+        }
+      },
+      "gettingStarted": {
+        "title": "入门指南",
+        "subtitle": "刚接触Chatforia吗？这个快速入门指南展示了基本内容，让你几分钟内就能高效完成。",
+        "alert": {
+          "text": "随着新功能的推出，本指南将不断扩展。如果缺少什么，请通过以下方式告诉我们",
+          "contactLink": "联系我们"
+        },
+        "section1": {
+          "title": "1）创建您的账户",
+          "signup": "注册",
+          "or": "or",
+          "login": "登录",
+          "loginText": "用你现有的账户。",
+          "prefsStart": "设置你的",
+          "prefsLink": "偏好",
+          "prefsRest": "（语言、已读回执、主题）。"
+        },
+        "section2": {
+          "title": "2）开始发消息",
+          "item1": "创建一个私信或群组，发送你的第一条消息。",
+          "item2": "使用即时翻译，跨100+语言进行聊天。",
+          "item3": "试试在隐私资料中删除消息和已读回执→。"
+        },
+        "section3": {
+          "title": "3）更进一步",
+          "item1": "你可以随时在应用内升级到付费套餐。",
+          "item2": "登录后，你可以在应用设置中连接更多设备并设置加密备份。"
+        },
+        "cta": {
+          "seePlans": "参见平面图",
+          "openSettings": "开放设置"
+        }
+      },
+      "helpCenter": {
+        "title": "帮助中心",
+        "faq": {
+          "account": {
+            "q": "我该如何创建或恢复我的账户？",
+            "a": "下载应用或使用网页版，点击“创建账户”，验证你的邮箱/手机。恢复时使用“忘记密码”。"
+          },
+          "privacy": {
+            "q": "消息端到端加密吗？",
+            "a": "是的。消息和通话默认端到端加密。只有你和收件人能阅读。"
+          },
+          "translate": {
+            "q": "即时翻译是如何运作的？",
+            "a": "在外观和语言设置→启用“自动翻译”。在支持的情况下，我们会在设备内进行翻译，否则通过带有极少元数据的安全 API 进行翻译。"
+          },
+          "contact": {
+            "q": "联系支持团队",
+            "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+          }
+        }
       },
       "contact": {
-        "q": "联系支持",
-        "a": "请发送至 support@chatforia.com，并附上截图与应用版本。"
+        "title": "联系我们",
+        "successMsg": "谢谢——我们团队会通过电子邮件回复。",
+        "errorSend": "Could not send. Please email support@chatforia.com.",
+        "form": {
+          "nameLabel": "名称",
+          "emailLabel": "电子邮件",
+          "messageLabel": "信息",
+          "sendCta": "发送"
+        }
+      },
+      "privacyPolicy": {
+        "title": "隐私政策",
+        "lastUpdated": "最后更新：",
+        "intro": {
+          "body": "本隐私政策解释了Chatforia（“我们”、“我们”）在您使用我们的应用和服务时如何收集、使用和共享信息。我们设计Chatforia以尽量减少可访问的数据。"
+        },
+        "infoWeCollect": {
+          "title": "我们收集的信息",
+          "account": "账户信息（例如邮箱/电话）用于创建和保护你的账户安全。",
+          "encrypted": "加密内容（消息/呼叫）是端到端加密的;我们看不懂。",
+          "diagnostics": "诊断/使用方法，比如崩溃日志、设备类型或粗略分析，以提升性能。"
+        },
+        "sms": {
+          "title": "手机号码和短信",
+          "body": "如果您选择提供手机号码，我们会用它来启用账户验证、登录提醒以及用户间短信（如支持）等功能。我们可能会发送与您的账户和Chatforia活动相关的交易性短信。您可以通过回复支持的退出关键词（如“停止”）或在应用中更改通知偏好设置，随时选择不接收短信。我们不会出售您的电话号码，也不会将其用于无关的营销。",
+          "newText": "新文本",
+          "enterRecipient": "输入姓名或号码",
+          "typeMessage": "输入一条消息......",
+          "addRecipient": "请在上方添加收件人开始......"
+        },
+        "howWeUse": {
+          "title": "我们如何使用信息",
+          "provide": "提供并保护服务（认证、垃圾邮件/滥用检测）。",
+          "improve": "提升功能（翻译质量、可靠性）。",
+          "legal": "遵守法律义务。"
+        },
+        "sharing": {
+          "title": "共享",
+          "body": "我们不出售个人数据。我们可能会在严格合同下与处理商共享有限的数据（例如推送通知、分析数据）。"
+        },
+        "rights": {
+          "title": "你的权利",
+          "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
+        },
+        "retention": {
+          "title": "数据保留与安全",
+          "body": "我们只保留运营服务所需的内容，并应用行业标准的安全措施。端对端内容我们无法解密。"
+        },
+        "children": {
+          "title": "子女",
+          "body": "Chatforia不适用于13岁以下儿童（或根据当地法律的要求）。"
+        },
+        "changes": {
+          "title": "变更",
+          "body": "我们会在这里发布更新，并修订“最后更新”日期。"
+        },
+        "contact": {
+          "title": "联系方式",
+          "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "terms": {
+        "title": "服务条款",
+        "lastUpdated": "最后更新：",
+        "intro": {
+          "body": "使用Chatforia即表示您同意以下条款。如果你不同意，就不要使用该服务。"
+        },
+        "accounts": {
+          "title": "账号",
+          "itemAccurateInfo": "提供准确的信息并妥善保管资质。",
+          "itemResponsibility": "你要对账户上的活动负责。"
+        },
+        "acceptableUse": {
+          "title": "可接受的使用",
+          "itemNoAbuse": "禁止非法、滥用或侵权内容;没有垃圾邮件或自动滥用。",
+          "itemSuspend": "我们可能会因违规而暂停或终止。"
+        },
+        "sms": {
+          "title": "短信通信",
+          "body": "如果您提供手机号码，您同意Chatforia可能会向您发送与您的账户和服务使用相关的短信，如登录提醒、安全通知以及您发起或参与的对话消息。未经您的明确同意，我们不会使用短信发送促销或营销信息。可能适用标准的消息和数据费率。您可以通过回复支持的退出关键词（例如“停止”）或在应用中更新通知设置来选择退出短信。"
+        },
+        "yourContent": {
+          "title": "你的内容",
+          "body": "你保留对你内容的权利。您授予我们运营服务的必要权利（例如路由、存储、翻译）。"
+        },
+        "disclaimer": {
+          "title": "免责声明与责任",
+          "body": "服务按现状提供，不提供任何保证。在法律允许的范围内，Chatforia不承担间接或后果性损害赔偿责任。"
+        },
+        "changes": {
+          "title": "变更",
+          "body": "我们可能会更新这些条款;更改后继续使用意味着接受。"
+        },
+        "contact": {
+          "title": "联系方式",
+          "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+        }
+      },
+      "doNotSell": {
+        "title": "请勿出售或分享我的个人信息",
+        "body": "Chatforia不出售个人信息。加利福尼亚居民仍可通过下方按钮提交CPRA申请。",
+        "cta": "提交申请"
+      },
+      "cookies": {
+        "title": "Cookie设置",
+        "body": "Chatforia 使用极少的 Cookie（例如 Session、Security）。我们不使用第三方广告Cookie。通过浏览器设置管理Cookie。"
+      },
+      "phoneNumberManager": {
+        "unableToLoadStatus": "无法加载电话号码状态。",
+        "lock": "锁",
+        "noNumberAssigned": "没有分配编号。按区号选一个开始发短信。",
+        "pickNumber": "选一个数字",
+        "phoneNumber": "电话号码"
+      },
+      "startChatModal": {
+        "title": "发起聊天",
+        "quickPicker": "快速采摘器",
+        "to": "To",
+        "nameOrUsername": "输入一个名字，用户名",
+        "nameUsernamePhoneEmail": "输入姓名、用户名、电话或电子邮件......",
+        "startWithSelected": "从选定开始聊天",
+        "searchByUsernameOrPhone": "用用户名或手机搜索",
+        "search": "搜索",
+        "searchPrompt": "输入用户名或手机，然后点击搜索。",
+        "pickFromContacts": "或者从联系人中挑选",
+        "addContact": "添加联系人",
+        "show": "节目",
+        "add": "添加",
+        "close": "结束",
+        "selectedCount": "{{count}} 已选中",
+        "pickAtLeastOne": "至少选一位受奖者。",
+        "saveContactsHint": "在你把电话/邮件记录保存为联系人后，他们会被打开。",
+        "failedBulkStart": "未能与指定收件人开始聊天。",
+        "noResults": "没有结果",
+        "mode": "模式",
+        "group": "集团",
+        "broadcast": "播出",
+        "groupNameOptional": "组名（可选）",
+        "firstMessageOptional": "第一条消息（可选但推荐）",
+        "createGroup": "创建组",
+        "sendBroadcast": "发送广播"
+      },
+      "themes": {
+        "amoled": "阿莫莱德",
+        "aurora": "极光",
+        "neon": "霓虹灯",
+        "sunset": "日落",
+        "solarized": "太阳能",
+        "velvet": "天鹅绒"
+      },
+      "sounds": {
+        "freeNotice": "你用的是免费——高级音色会显示但被锁定。升级即可解锁所有内容。",
+        "preview": "预览",
+        "resetToDefaults": "重置为默认状态",
+        "notificationSounds": "通知声",
+        "messageTone": "消息音",
+        "default": "默认",
+        "vibrate": "震动",
+        "dreamer": "梦想家",
+        "notify": "通知",
+        "pop": "啪",
+        "pulsatingSound": "脉动的声音",
+        "textMessage": "短信",
+        "xylophone": "木琴",
+        "classic": "经典",
+        "urgency": "紧迫性",
+        "bells": "钟声",
+        "chimes": "钟声",
+        "digitalPhone": "数字电话",
+        "melodic": "旋律",
+        "organNotes": "管风琴注释",
+        "soundReality": "现实",
+        "street": "街道",
+        "universfield": "大学菲尔德"
+      },
+      "premiumGuard": {
+        "requiresPremium": "此功能需要高级套餐。"
+      },
+      "aiSettings": {
+        "title": "AI设置",
+        "controlIntro": "控制翻译、智能回复和ForiaBot自动回复。",
+        "save": "保存AI设置",
+        "autoTranslateIncoming": "自动翻译来消息",
+        "showOriginalAlongside": "请与翻译并列显示原文",
+        "enableSmartReplies": "启用智能回复",
+        "smartRepliesHint": "把最后几条收到的消息（经过消毒）发送给AI，建议快速回复。",
+        "maskProfanity": "关于AI中面具脏话的建议",
+        "maskProfanityHint": "如果开启，AI返回的建议会被标记的词语被遮蔽",
+        "foriaBot": "ForiaBot自动回复器",
+        "enableAutoReply": "我忙的时候开启自动回复",
+        "autoReplyMode": "自动回复模式",
+        "cooldownSeconds": "冷却时间（秒数）",
+        "off": "关掉",
+        "on": "On",
+        "signature": "签名",
+        "autoReply": "自动回复",
+        "activeUntilOptional": "有效至（可选）",
+        "saved": "AI偏好设置保存",
+        "saveFailed": "未能保存AI设置",
+        "translateOff": "关掉",
+        "translateTagged": "Only when @translated or tagged",
+        "translateAll": "翻译所有来电消息",
+        "modeDm": "仅限一对一聊天",
+        "modeMention": "Only when I’m @mentioned",
+        "modeAll": "所有入站消息"
+      },
+      "accessibilitySettings": {
+        "title": "无障碍与警报",
+        "accessibility": "交通便利性",
+        "accessibilityDesc": "让Chatforia更容易使用而不依赖声音的选项。",
+        "interfaceFontSize": "界面字体大小",
+        "interfaceFontSizeHelp": "从正常大小开始。如果你喜欢在无障碍设置中使用较大文字，可以增加。",
+        "sm": "sm",
+        "md": "md",
+        "lg": "lg",
+        "xl": "xl",
+        "notifications": "通知",
+        "notificationsDesc": "消息和电话的视觉提醒\n显示横幅和标题闪烁，这样你就不会错过活动。",
+        "vibrateOnNew": "支持新消息时可震动\n通过通知触发设备震动。",
+        "flashOnCall": "来电闪烁屏幕\n电话响起时闪过一阵明亮的短暂光芒。",
+        "liveCaptions": "实时字幕（通话）",
+        "captionFontSize": "说明字体大小",
+        "captionBackground": "说明背景",
+        "light": "光",
+        "dark": "黑暗",
+        "transparent": "透明",
+        "voiceNotes": "语音说明",
+        "autoTranscribeVoiceNotes": "自动转录语音笔记",
+        "autoTranscribeVoiceNotesDesc": "在收到的音频信息后附上文字记录。",
+        "changesSavedInstantly": "更改会立即保存。",
+        "loadFailed": "加载设置失败",
+        "visualAlerts": "消息和电话的视觉提醒",
+        "visualAlertsDesc": "显示横幅和标题闪烁，这样你就不会错过活动。",
+        "vibrateOnNewShort": "支持新消息时可震动",
+        "vibrateOnNewDesc": "通过通知触发设备震动。",
+        "flashOnCallShort": "来电闪烁屏幕",
+        "flashOnCallDesc": "电话响起时闪过一阵明亮的短暂光芒。"
+      },
+      "privacySection": {
+        "strictE2EE": "严格端到端加密",
+        "ciphertextOnlyNote": "服务器上只存储密文。禁用AI/翻译和审核预览。"
+      },
+      "linkedDevicesPanel": {
+        "title": "关联设备",
+        "noneFound": "未发现关联设备。",
+        "refresh": "刷新"
+      },
+      "help": {
+        "title": "帮助",
+        "howCanWeHelp": "我们能帮上什么忙？",
+        "helpCenter": "帮助中心",
+        "contactUs": "联系我们",
+        "quickTopics": "快速话题",
+        "searchExamples": "试着搜索“翻译”、“备份”或“隐私”。",
+        "cantLogin": "无法登录",
+        "paymentsBilling": "付款/账单",
+        "reportAbuse": "举报滥用",
+        "searchHelpArticles": "搜索帮助文章",
+        "search": "搜索"
+      },
+      "peoplePage": {
+        "people": "人物",
+        "search": "搜索",
+        "searchPlaceholder": "通过别名、姓名、用户名或手机搜索",
+        "filterSaved": "滤波器保存的接触点",
+        "noContactsFound": "未找到联系人",
+        "quickStart": "快速入门",
+        "quickStartDesc": "有几种快速入门的方法。",
+        "importContacts": "导入你的联系人",
+        "add": "添加",
+        "focusSearch": "焦点搜索",
+        "import": "进口",
+        "findOrAdd": "查找或添加某人",
+        "searchByPhoneOrUsername": "按手机/用户名搜索",
+        "inviteFriends": "邀请朋友",
+        "inviteDesc": "分享你的邀请链接，立即开始聊天。",
+        "getTheApp": "下载应用",
+        "getTheAppDesc": "随时用Chatforia支持iOS和Android保持联系。",
+        "download": "下载",
+        "syncTip": "提示：你的消息在网络和移动端保持同步。"
+      },
+      "randomChat": {
+        "title": "随机聊天",
+        "description": "“立刻遇见新朋友。”“我们会匹配你，开设一个临时聊天室。”“先匿名聊天。如果感觉合适，之后再加好友。”",
+        "findMatch": "帮我找个匹配",
+        "chatWithForia": "与福里亚的聊天",
+        "chatWithForiaBot": "与ForiaBot聊天",
+        "cancel": "取消",
+        "close": "结束",
+        "searching": "寻找......",
+        "finding": "寻找......",
+        "looking": "找人......",
+        "startingForia": "开始和福里亚聊天......",
+        "partnerDisconnected": "你的搭档断线了。",
+        "noPartner": "目前还没找到伴侣。",
+        "connectedTo": "连接于 {{name}}",
+        "connected": "连接",
+        "idle": "怠速",
+        "partnerLeft": "搭档离开了。",
+        "stopped": "停了。",
+        "skip": "跳过",
+        "save": "保存",
+        "saveGuard": "只有人与人之间的聊天才能被保存",
+        "youAreChattingWith": "你正在和{{name}}聊天",
+        "bot": "BOT",
+        "leave": "离开",
+        "sayHi": "打个招呼 👋",
+        "you": "你",
+        "typeMessage": "输入一条消息",
+        "send": "发送",
+        "partner": "合伙人",
+        "withRia": "与Ria合作",
+        "chatWithRia": "与Ria聊天",
+        "startingRia": "开始和Ria聊天......",
+        "ageDisclaimer": "我们只存储年龄范围（不包括您的确切出生日期）。这用于保持随机聊天配对的合理性。要和人匹配（不仅仅是RiaBot），可以在设置→年龄和随机聊天中设置年龄段。",
+        "ageBandRequired": "在个人资料→年龄和随机聊天中设置你的年龄范围，以便匹配到人。",
+        "ageBandCallout": "要和人匹配（不仅仅是RiaBot），可以在设置→年龄和随机聊天中设置年龄段。",
+        "subtitle": "立刻认识新朋友，或者选择与Ria聊天。",
+        "start": "开始对话",
+        "matching": "匹配......",
+        "setAge": "在个人资料→年龄和随机聊天中设置你的年龄范围，以便匹配到人。",
+        "next": "下一个人",
+        "addFriend": "添加好友",
+        "requested": "请求",
+        "messageRia": "消息，莉娅......",
+        "messageMatch": "给你的匹配发消息......"
+      },
+      "brand": {
+        "name": "查特福里亚",
+        "ria": "莉娅"
+      },
+      "ria": {
+        "fallbackName": "在那里",
+        "intro": "你好，👋我是Ria。你在想什么？",
+        "greetings": {
+          "long1": "嘿，{{name}}👋，我来了。你在想什么？",
+          "long2": "嗨，{{name}}😊，你今天想聊些什么？",
+          "long3": "嘿，{{name}}！我洗耳恭听——怎么了？",
+          "long4": "很高兴见到你，{{name}} 👋 今天你在想什么？",
+          "long5": "嘿，{{name}} 🙂 想发泄、提问，还是只是聊天？",
+          "long6": "嗨，{{name}}！我有时间——你想聊些什么？",
+          "short1": "嘿{{name}}，我还在这儿。怎么了？",
+          "short2": "欢迎回来 {{name}} 👋 还有什么想补充的吗？",
+          "short3": "又回来了，{{name}}？😊 告诉我你心里想说的。",
+          "short4": "嘿，{{name}} ✨ 准备好从上次结束的地方继续了吗？",
+          "short5": "是的，{{name}}？我在听 👂",
+          "short6": "哦，嘿，{{name}}！有什么新想法吗？"
+        },
+        "header": {
+          "openNav": "打开导航菜单",
+          "closeNav": "关闭导航菜单",
+          "homeAria": "查特福里亚之家"
+        },
+        "login": {
+          "welcomeBack": "欢迎回来",
+          "title": "继续前往查特福里亚",
+          "subtitleReturning": "登录你的Chatforia账号",
+          "subtitle": "登录你的Chatforia账号",
+          "google": "继续用谷歌",
+          "apple": "继续用苹果",
+          "googleUnavailable": "谷歌登录不可用",
+          "appleUnavailable": "苹果登录不可用",
+          "or": "or",
+          "email": "电子邮件",
+          "emailPh": "you@example.com",
+          "usernameLabel": "用户名",
+          "usernamePh": "你的用户名",
+          "passwordLabel": "密码",
+          "passwordPh": "你的密码",
+          "keepSignedIn": "让我保持登录状态",
+          "forgot": {
+            "title": "忘记密码",
+            "helper": "输入您创建Chatforia账户时使用的邮箱，我们会发送一个安全链接以重置您的密码。",
+            "emailInvalid": "请输入有效的电子邮件地址。",
+            "genericError": "无法处理请求。请稍后再试。",
+            "sending": "发送重置链接......",
+            "sendCta": "发送重置链接",
+            "sentLabel": "发送！",
+            "sentHelper": "如果账户里有该邮箱，我们会发送密码重置链接。可能要几分钟才能到。请务必检查垃圾邮件或促销文件夹。",
+            "previewDev": "预览邮件（开发者）",
+            "backToLogin": "返回登录"
+          },
+          "submit": "登录",
+          "loggingIn": "正在登录......",
+          "newHere": "新来的？<link>创建一个账户</link>",
+          "ssoUnavailable": "目前无法使用单一登录。改用用户名和密码。",
+          "error": {
+            "missing": "请输入您的资历。",
+            "invalid": "用户名或密码无效",
+            "denied": "访问被拒。",
+            "unprocessable": "请求无效。检查你的用户名/邮箱和密码。",
+            "deviceLimit": "免费套餐的设备限制已达。在其他设备上登出或升级到高级设备以连接更多设备。",
+            "premiumRequired": "此举需要购买高级计划。"
+          }
+        }
+      },
+      "oauth": {
+        "completing": "正在完成登录......"
+      },
+      "dialer": {
+        "title": "叫声",
+        "subtitle": "键盘和最近。（如果你不使用 PSTN，请从对话头开始呼叫。）",
+        "enterNumberPh": "输入数字",
+        "call": "叫声",
+        "backspace": "退格",
+        "recents": "近期情况",
+        "recentsEmpty": "目前还没有最近的电话。",
+        "enterNumber": "输入数字",
+        "enterNumberAria": "输入数字",
+        "key": "密钥 {{d}}",
+        "noRecents": "目前还没有最近的电话。"
+      },
+      "video": {
+        "title": "视频",
+        "chooseType": "选择视频类型。",
+        "directTitle": "直视频",
+        "directDesc": "与另一用户进行一对一摄像头通话。",
+        "directStart": "开始",
+        "roomsTitle": "房间",
+        "roomsDesc": "使用共享房间名称的多方视频。",
+        "roomsIntro": "加入或创建多党会议室。",
+        "roomNameLabel": "房间名称",
+        "roomNamePh": "例如：团队站立",
+        "join": "加入",
+        "deeplinkTip": "提示：你可以直接深度链接到 <code>/video？room=room-name</code>。",
+        "hub": {
+          "title": "视频",
+          "subtitle": "选择视频类型。"
+        },
+        "direct": {
+          "title": "直视频",
+          "subtitle": "用电话号码或Chatforia用户名进行一对一视频通话。",
+          "desc": "与另一用户进行一对一摄像头通话。",
+          "start": "开始",
+          "callBtn": "叫声",
+          "callByPhone": {
+            "title": "电话呼叫"
+          },
+          "phone": {
+            "placeholder": "Enter phone (e.g., +1-555-123-4567)",
+            "aria": "电话打电话"
+          },
+          "tipInvite": "提示：粘贴一个号码，打电话时不要保存联系人。我们会通过链接邀请非用户。",
+          "findUser": {
+            "title": "寻找用户"
+          },
+          "search": {
+            "placeholder": "用姓名或用户名搜索",
+            "aria": "用姓名或用户名搜索",
+            "btn": "搜索"
+          }
+        },
+        "rooms": {
+          "title": "房间",
+          "subtitle": "输入同一个名字创建房间或加入已有房间。",
+          "desc": "使用共享房间名称的多方视频。",
+          "roomLabel": "房间名称",
+          "roomPlaceholder": "例如：团队站立",
+          "roomAria": "房间名称",
+          "joinCreate": "加入 / 创建",
+          "tip": "提示：将此名称分享给他人，或深度链接至 <code>/video？room=room-name</code>。"
+        }
+      },
+      "directVideo": {
+        "intro": "开始一次直接的1：1视频通话。",
+        "findUserLabel": "寻找用户",
+        "findUserPh": "用姓名或用户名搜索",
+        "search": "搜索",
+        "call": "叫声"
+      },
+      "phoneWarning": {
+        "title": "你的号码快到期了",
+        "body": "除非重新激活，否则你的号码{{number}}将在{{日期}}被释放。",
+        "button": "帮我留着号码"
+      }
+    },
+    "support": {
+      "helpFab": "帮助",
+      "openSupportAria": "开放支持",
+      "badge": "支持",
+      "heading": "我们能帮上什么忙？",
+      "tabs": {
+        "help": "帮助中心",
+        "contact": "联系我们"
+      },
+      "searchPlaceholder": "搜索帮助文章......",
+      "searchAria": "搜索帮助",
+      "searchBtn": "搜索",
+      "quickTopicsLabel": "快速话题",
+      "quickTopics": {
+        "login": "无法登录",
+        "billing": "付款/账单",
+        "abuse": "举报滥用"
+      },
+      "trySearching": "试着搜索“翻译”、“备份”或“隐私”。",
+      "article": "文章",
+      "openArticle": "开放文章",
+      "contactIntro": "我们会通过电子邮件回复您。请提供细节以帮助我们重现问题。",
+      "topicAria": "选择一个主题",
+      "messagePlaceholder": "写下你的信息......",
+      "sendBtn": "发送",
+      "sent": "消息已发送。我们会通过电子邮件回复。",
+      "sendError": "Could not send. Email support@chatforia.com instead."
+    },
+    "helpCenter": {
+      "title": "帮助中心",
+      "faq": {
+        "account": {
+          "q": "我该如何创建或恢复我的账户？",
+          "a": "下载应用或使用网页版，点击“创建账户”，验证你的邮箱/手机。恢复时使用“忘记密码”。"
+        },
+        "privacy": {
+          "q": "消息端到端加密吗？",
+          "a": "是的。消息和通话默认端到端加密。只有你和收件人能阅读。"
+        },
+        "translate": {
+          "q": "即时翻译是如何运作的？",
+          "a": "在外观和语言设置→启用“自动翻译”。在支持的情况下，我们会在设备内进行翻译，否则通过带有极少元数据的安全 API 进行翻译。"
+        },
+        "contact": {
+          "q": "联系支持团队",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
+        }
+      }
+    },
+    "encryptionRecovery": {
+      "title": "管理加密",
+      "description": "备份、恢复、解锁或重置你的加密密钥。",
+      "alert": {
+        "keyRequiredTitle": "需要加密密钥",
+        "keyRequiredBody": "该浏览器目前无法解密您的加密信息。恢复、解锁或重置你的钥匙以继续使用。"
+      },
+      "sections": {
+        "createBackup": "创建密钥备份",
+        "restoreFromBackup": "从账户备份恢复",
+        "resetEncryption": "重置加密"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "解锁密码（当前设备）",
+          "description": "用来在导出前先在本地解密密钥"
+        },
+        "backupPassword": {
+          "label": "备份密码",
+          "description": "用于加密备份文件"
+        },
+        "restoreBackupPassword": {
+          "label": "备份密码",
+          "description": "你在iPhone备份密钥时创建的密码"
+        },
+        "newLocalPasscode": {
+          "label": "新的本地密码",
+          "description": "保护此浏览器中的静止密钥"
+        },
+        "resetLocalPasscode": {
+          "label": "新的本地密码",
+          "description": "重置前必须先填写，这样新密钥才能在这台设备上得到保护"
+        }
+      },
+      "actions": {
+        "unlockKey": "解锁加密密钥",
+        "restoreFromBackup": "从账户备份恢复",
+        "resetEncryption": "重置加密"
+      },
+      "messages": {
+        "backupCreated": "密钥备份已创建并下载。",
+        "keyUnlocked": "加密密钥已解锁。",
+        "keyRestored": "密钥从账户备份中恢复。",
+        "resetSuccess": "加密重置成功。"
+      },
+      "errors": {
+        "restoreIncomplete": "该账户的密钥恢复不完整或错误",
+        "noBackup": "该账户没有加密备份",
+        "missingPublicKey": "备份缺少公钥",
+        "noServerPublicKey": "该账户目前不泄露服务器公钥",
+        "serverBackupMismatch": "服务器备份与当前账户加密密钥不匹配",
+        "incompleteMetadata": "备份元数据不完整",
+        "resetIncomplete": "加密重置未正确完成"
+      },
+      "confirm": {
+        "reset": "重置这个账户的加密？\n\n除非你事后恢复原始密钥，否则旧的加密消息可能会变得无法读取。"
+      },
+      "resetDescription": "这会为您的账户生成一个新的加密密钥。除非你事后恢复原始密钥，否则旧的加密消息可能会变得无法读取。"
+    },
+    "footer": {
+      "plans": "计划与定价",
+      "about": "关于Chatforia",
+      "careers": "职业生涯",
+      "press": "媒体",
+      "advertise": "广告",
+      "contact": "联系我们",
+      "help": "帮助中心",
+      "status": "状态页面",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "安卓 / 谷歌 Play",
+      "privacy": "隐私政策",
+      "terms": "服务条款",
+      "cookies": "Cookie设置",
+      "doNotSell": "不要出售我的信息",
+      "language": "语言",
+      "contactShort": "联系方式",
+      "aria": "页脚",
+      "homeAria": "查特福里亚之家",
+      "section": {
+        "company": "公司",
+        "support": "支持",
+        "downloads": "下载",
+        "legal": "法律"
+      },
+      "links": {
+        "plans-pricing": "计划与定价",
+        "about-chatforia": "关于Chatforia",
+        "careers": "职业生涯",
+        "press": "媒体",
+        "advertise": "广告",
+        "getting-started": "入门指南",
+        "help-center": "帮助中心",
+        "contact-us": "联系我们",
+        "status-page": "状态页面",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "安卓 / 谷歌 Play",
+        "privacy-policy": "隐私政策",
+        "terms-of-service": "服务条款",
+        "do-not-sell-my-info": "Do Not Sell My Info",
+        "cookie-settings": "Cookie设置"
+      },
+      "social": {
+        "tiktok": "抖音",
+        "instagram": "Instagram",
+        "facebook": "脸书",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© 查特福里亚",
+      "patentPending": "专利申请中",
+      "backToTop": "↑ 返回顶部"
+    },
+    "press": {
+      "title": "媒体",
+      "contactLine": "如需媒体咨询，请通过以下方式联系我们",
+      "boilerplateTitle": "样板",
+      "boilerplateBody": "Chatforia 是一款以隐私为先的消息应用，使跨语言聊天变得轻松。消息默认端到端加密，内置翻译支持100+种实时语言。用户可以启用消失消息，保持已读回执为可选，并实现设备间同步。可在iOS、Android和网页平台观看。",
+      "assetsTitle": "品牌资产",
+      "assetsSubtitle": "标志、截图和产品图片。",
+      "downloadCta": "下载媒体包",
+      "downloadTitle": "下载应用",
+      "scanTip": "在桌面端？用手机扫描即可下载应用。",
+      "qrAria": "打开Chatforia网站",
+      "appStore": "可在App Store下载",
+      "googlePlay": "在Google Play上下载"
+    },
+    "careers": {
+      "title": "职业生涯",
+      "intro": "我们是一个小型创始团队，正在打造Chatforia——一个私密的全球通讯平台，已在网页、iOS和Android平台推出。如果你关心隐私、加密和愉快的用户体验，我们非常乐意听到你的声音。",
+      "openRoles": "<b>公开的创始职位：</b>首席全栈工程师、后端工程师（Node.js）、前端/网页工程师（React）、移动工程师（iOS）、移动工程师（Android）、DevOps/SRE、安全与加密工程师、电信工程师（Twilio + eSIM）。",
+      "apply": "申请方式：请使用下方按钮发送简历和链接。",
+      "emailCta": "通过电子邮件发送简历",
+      "whyNow": "为什么现在加入？",
+      "whyBullets": "• 帮助建立新的全球传播者基础。\n• 在网页、iOS和Android平台使用船舶改进。\n• 直接与创始人合作架构和产品方向。\n• 拥有高影响力的技术栈领域：消息、语音、视频、加密、电信、人工智能。\n• 在用户基础尚未扩展之前加入。"
+    },
+    "about": {
+      "title": "关于Chatforia",
+      "description": "Chatforia 是一款安全的多语言即用通讯工具，具备端到端加密、即时翻译以及语音/视频通话功能。我们的使命很简单：帮助人们安全、私密地、跨语言连接。",
+      "valuesTitle": "我们重视的东西",
+      "values": {
+        "privacy": "隐私<b>优先：</b>默认是端对端加密。",
+        "access": "<b>人人可访问：</b>自动翻译100+语言。",
+        "control": "<b>控制：</b>消失消息和已读回执是可选的。",
+        "privacy_aria": "隐私优先：默认采用端对端加密。",
+        "access_aria": "所有人可访问：自动翻译100+语言。",
+        "control_aria": "控制：消失消息和已读回执为可选。"
+      },
+      "howTitle": "Chatforia的工作原理",
+      "howDescription": "消息在离开设备之前都会被加密。翻译、备份和设备同步的设计目的是最大限度地减少服务器能看到的内容。"
+    },
+    "advertise": {
+      "title": "用Chatforia做广告",
+      "description": "Reach通过雅致、品牌安全的广告位与用户互动。我们提供高曝光度广告的横幅库存、赞助和房屋促销。高级订阅用户不会看到广告。",
+      "adsense": {
+        "withPubIdShort": "我们还通过Google AdSense提供库存服务。你可以用发布者ID {{pubId}}来定位Chatforia，或者使用下面的表格进行直接赞助。",
+        "noPubIdShort": "我们还通过Google AdSense提供部分库存。提供直接赞助——请使用下方表格。"
+      },
+      "inventoryHeader": "库存与规格",
+      "placement": {
+        "displayBadge": "展示",
+        "acceptedSizes": "接受尺寸",
+        "adsenseSlot": "AdSense时段："
+      },
+      "noPlacementsPublic": "我们正在敲定广告库存。告诉我们你的活动，我们会推荐投放地点。",
+      "whyHeader": "为什么选择Chatforia？",
+      "why": {
+        "highSession": "聊天界面中高会话频率和停留时间",
+        "brandSafe": "品牌安全格式;尊重频率限制",
+        "sponsoredMoments": "赞助时刻（例如“开始聊天”模式）",
+        "deals": "直接交易或通过AdSense/Google Ads的程序化"
+      },
+      "contactHeader": "联系方式",
+      "form": {
+        "submittedMsg": "谢谢！您的询问正在路上。我们很快会跟进。",
+        "missingRequired": "请填写姓名、电子邮件和消息。",
+        "successToast": "谢谢！我们很快会联系你。",
+        "mailtoInfo": "打开你的邮件客户端发送查询......",
+        "nameLabel": "你的名字",
+        "namePlaceholder": "无名女尸",
+        "emailLabel": "电子邮件",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "公司",
+        "companyPlaceholder": "Acme公司",
+        "budgetLabel": "月度预算（可选）",
+        "budgetPlaceholder": "e.g. $1,000–$20,000+",
+        "messageLabel": "请介绍一下你的竞选活动",
+        "messagePlaceholder": "目标定位、日期、关键绩效指标（KPI）、广告投放偏好......",
+        "sendCta": "发送询问"
+      },
+      "legal": {
+        "disclaimerStart": "提交即表示您同意我们的",
+        "terms": "条款",
+        "and": "以及",
+        "privacy": "隐私政策"
       }
     }
-  },
-
-  "contact": {
-    "title": "联系我们",
-    "successMsg": "谢谢——我们会通过邮箱回复。",
-    "errorSend": "无法发送。请直接邮件至 support@chatforia.com。",
-    "form": {
-      "nameLabel": "姓名",
-      "emailLabel": "邮箱",
-      "messageLabel": "消息",
-      "sendCta": "发送"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "隐私政策",
-    "lastUpdated": "最近更新：",
-    "intro": {
-      "body": "本隐私政策阐述了 Chatforia（“我们”）在你使用我们的应用与服务时如何收集、使用与共享信息。我们以最小化可访问数据为设计原则。"
-    },
-    "infoWeCollect": {
-      "title": "我们收集的信息",
-      "account": "账户信息（如邮箱/手机）用于创建并保护你的账户。",
-      "encrypted": "加密内容（消息/通话）为端到端加密；我们无法读取。",
-      "diagnostics": "诊断/使用数据，如崩溃日志、设备类型或粗粒度分析，用于提升性能。"
-    },
-    "howWeUse": {
-      "title": "我们如何使用信息",
-      "provide": "提供并保护服务（身份验证、垃圾/滥用检测）。",
-      "improve": "改进功能（翻译质量、可靠性）。",
-      "legal": "遵守法律义务。"
-    },
-    "sharing": {
-      "title": "共享",
-      "body": "我们不出售个人数据。我们可能在严格合同下与处理方（如推送通知、分析）共享有限数据。"
-    },
-    "rights": {
-      "title": "你的权利",
-      "body": "根据你的所在地区（如 GDPR/UK GDPR/CPRA），你可请求访问、更正、删除或选择退出某些处理。联系方式：privacy@chatforia.com。"
-    },
-    "retention": {
-      "title": "数据保留与安全",
-      "body": "我们仅保留运营服务所需数据，并采用行业标准的安全措施。端到端加密内容不可被我们解密。"
-    },
-    "children": {
-      "title": "儿童",
-      "body": "Chatforia 并非面向 13 岁以下儿童（或依当地法律规定的年龄）。"
-    },
-    "changes": {
-      "title": "变更",
-      "body": "我们将在此发布更新并修改“最近更新”日期。"
-    },
-    "contact": {
-      "title": "联系",
-      "body": "privacy@chatforia.com • 【公司法定名称】，【地址】"
-    }
-  },
-
-  "terms": {
-    "title": "服务条款",
-    "lastUpdated": "最近更新：",
-    "intro": {
-      "body": "使用 Chatforia 即表示你同意本条款。若不同意，请勿使用本服务。"
-    },
-    "accounts": {
-      "title": "账户",
-      "itemAccurateInfo": "提供准确的信息并妥善保管凭证。",
-      "itemResponsibility": "你需对你的账户活动负责。"
-    },
-    "acceptableUse": {
-      "title": "可接受使用",
-      "itemNoAbuse": "不得发布违法、滥用或侵权内容；不得进行垃圾信息或自动化滥用。",
-      "itemSuspend": "如有违规，我们可暂停/终止服务。"
-    },
-    "yourContent": {
-      "title": "你的内容",
-      "body": "你保留内容的权利。你授予我们为运营服务所必需的权利（如路由、存储、翻译）。"
-    },
-    "disclaimer": {
-      "title": "免责声明与责任",
-      "body": "服务按“现状”提供，不作任何保证。在法律允许的最大范围内，Chatforia 不对间接或继发性损失承担责任。"
-    },
-    "changes": {
-      "title": "变更",
-      "body": "我们可能更新这些条款；变更后继续使用即表示接受。"
-    },
-    "contact": {
-      "title": "联系",
-      "body": "support@chatforia.com • 【公司法定名称】，【地址】"
-    }
-  },
-
-  "doNotSell": {
-    "title": "请勿出售或共享我的个人信息",
-    "body": "Chatforia 不出售个人信息。加州居民仍可根据 CPRA 通过下方按钮提交请求。",
-    "cta": "提交请求"
-  },
-
-  "cookies": {
-    "title": "Cookie 设置",
-    "body": "Chatforia 仅使用最少的 Cookie（如会话、安全）。我们不使用第三方广告 Cookie。可在浏览器设置中管理 Cookie。"
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "无法加载电话号码状态。",
-    "lock": "锁定",
-    "noNumberAssigned": "尚未分配号码。按区号选择一个号码即可开始发短信。",
-    "pickNumber": "选择号码",
-    "phoneNumber": "电话号码"
-  },
-
-  "startChatModal": {
-    "title": "开始聊天",
-    "quickPicker": "快速选择",
-    "to": "收件人",
-    "nameOrUsername": "输入姓名、用户名",
-    "nameUsernamePhoneEmail": "输入姓名、用户名、电话或邮箱…",
-    "startWithSelected": "与所选对象开始聊天",
-    "searchByUsernameOrPhone": "按用户名或电话搜索",
-    "search": "搜索",
-    "searchPrompt": "输入用户名或电话并点击搜索。",
-    "pickFromContacts": "或从联系人中选择",
-    "addContact": "添加联系人",
-    "show": "显示",
-    "add": "添加",
-    "close": "关闭",
-    "selectedCount": "已选择 {{count}} 个",
-    "pickAtLeastOne": "请至少选择一个收件人。",
-    "saveContactsHint": "保存为联系人后，电话/邮箱条目将可用。",
-    "failedBulkStart": "与所选收件人发起聊天失败。",
-    "noResults": "无结果",
-    "mode": "模式",
-    "group": "群组",
-    "broadcast": "广播",
-    "groupNameOptional": "群组名称（可选）",
-    "firstMessageOptional": "首条消息（可选但推荐）",
-    "createGroup": "创建群组",
-    "sendBroadcast": "发送广播"
-  },
-
-  "themes": {
-    "amoled": "AMOLED",
-    "aurora": "极光",
-    "neon": "霓虹",
-    "sunset": "夕阳",
-    "solarized": "Solarized",
-    "velvet": "天鹅绒"
-  },
-
-  "sounds": {
-    "freeNotice": "你正在使用免费版——高级铃声会显示但被锁定。升级可全部解锁。",
-    "preview": "预览",
-    "resetToDefaults": "重置为默认",
-    "notificationSounds": "通知声音",
-    "messageTone": "消息提示音",
-    "default": "默认",
-    "vibrate": "振动",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "脉冲",
-    "textMessage": "短信",
-    "xylophone": "木琴",
-    "classic": "经典",
-    "urgency": "紧急",
-    "bells": "铃声",
-    "chimes": "风铃",
-    "digitalPhone": "数码电话",
-    "melodic": "旋律",
-    "organNotes": "管风琴",
-    "soundReality": "声境",
-    "street": "街头",
-    "universfield": "宇域"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "此功能需要高级版套餐。"
-  },
-
-  "aiSettings": {
-    "title": "AI 设置",
-    "controlIntro": "控制翻译、智能回复与 ForiaBot 自动回复。",
-    "save": "保存 AI 设置",
-    "autoTranslateIncoming": "自动翻译收到的消息",
-    "showOriginalAlongside": "与译文同时显示原文",
-    "enableSmartReplies": "启用智能回复",
-    "smartRepliesHint": "将最近收到的几条消息（已净化）发送给 AI 以提供快捷回复建议。",
-    "maskProfanity": "在 AI 建议中屏蔽不雅词汇",
-    "maskProfanityHint": "开启后，AI 返回的建议中被标记的词汇将被屏蔽",
-    "foriaBot": "ForiaBot 自动回复",
-    "enableAutoReply": "我忙碌时启用自动回复",
-    "autoReplyMode": "自动回复模式",
-    "cooldownSeconds": "冷却时间（秒）",
-    "off": "关",
-    "on": "开",
-    "signature": "签名",
-    "autoReply": "自动回复",
-    "activeUntilOptional": "有效期至（可选）",
-    "saved": "AI 偏好已保存",
-    "saveFailed": "保存 AI 设置失败",
-    "translateOff": "关闭",
-    "translateTagged": "仅在 @translated 或被提及时",
-    "translateAll": "翻译所有入站消息",
-    "modeDm": "仅限私聊",
-    "modeMention": "仅在我被 @ 提及时",
-    "modeAll": "所有入站消息"
-  },
-
-  "accessibilitySettings": {
-    "title": "无障碍与提醒",
-    "accessibility": "无障碍",
-    "accessibilityDesc": "让 Chatforia 在不依赖声音的情况下更易用的选项。",
-    "interfaceFontSize": "界面字体大小",
-    "interfaceFontSizeHelp": "默认为正常大小。若需要更大的无障碍字体，可在此调整。",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "通知",
-    "notificationsDesc": "消息与来电的可视提醒\n显示横幅与标题闪烁，避免错过活动。",
-    "vibrateOnNew": "有新消息时震动（在支持的设备上）\n通知触发设备震动。",
-    "flashOnCall": "来电时闪屏\n来电响铃时短暂高亮闪烁。",
-    "liveCaptions": "实时字幕（通话）",
-    "captionFontSize": "字幕字体大小",
-    "captionBackground": "字幕背景",
-    "light": "浅色",
-    "dark": "深色",
-    "transparent": "透明",
-    "voiceNotes": "语音留言",
-    "autoTranscribeVoiceNotes": "自动转写语音留言\n为收到的音频消息附上文字稿。",
-    "changesSavedInstantly": "更改会即时保存。",
-    "loadFailed": "加载设置失败",
-    "visualAlerts": "消息与来电的可视提醒",
-    "visualAlertsDesc": "显示横幅与标题闪烁，避免错过活动。",
-    "vibrateOnNewShort": "新消息时震动（设备支持时）",
-    "vibrateOnNewDesc": "通知触发设备震动。",
-    "flashOnCallShort": "来电时闪屏",
-    "flashOnCallDesc": "来电响铃时短暂高亮闪烁。"
-  },
-
-  "privacySection": {
-    "strictE2EE": "严格的端到端加密",
-    "ciphertextOnlyNote": "服务器仅存储密文。将禁用 AI/翻译与内容审核预览。"
-  },
-
-  "linkedDevicesPanel": {
-    "title": "已链接设备",
-    "noneFound": "未找到已链接设备。",
-    "refresh": "刷新"
-  },
-
-  "help": {
-    "title": "帮助",
-    "howCanWeHelp": "我们能帮你做什么？",
-    "helpCenter": "帮助中心",
-    "contactUs": "联系我们",
-    "quickTopics": "快速主题",
-    "searchExamples": "试试搜索“翻译”、“备份”或“隐私”。",
-    "cantLogin": "无法登录",
-    "paymentsBilling": "付款/ 账单",
-    "reportAbuse": "举报滥用",
-    "searchHelpArticles": "搜索帮助文章",
-    "search": "搜索"
-  },
-
-  "peoplePage": {
-    "people": "联系人",
-    "search": "搜索",
-    "searchPlaceholder": "按别名、姓名、用户名或电话搜索",
-    "filterSaved": "筛选已保存联系人",
-    "noContactsFound": "未找到联系人",
-    "quickStart": "快速开始",
-    "quickStartDesc": "几种快速开始的方式。",
-    "importContacts": "导入你的联系人",
-    "add": "添加",
-    "focusSearch": "聚焦搜索框",
-    "import": "导入",
-    "findOrAdd": "查找或添加联系人",
-    "searchByPhoneOrUsername": "按电话 / 用户名搜索",
-    "inviteFriends": "邀请朋友",
-    "inviteDesc": "分享你的邀请链接，立即开始聊天。",
-    "getTheApp": "获取应用",
-    "getTheAppDesc": "在 iOS 与 Android 上随时保持联系。",
-    "download": "下载",
-    "syncTip": "提示：你的消息在网页与移动端保持同步。"
-  },
-
-  "randomChat": {
-    "title": "随机聊天",
-    "description": "立即结识新朋友。我们会为你匹配并打开临时聊天室。",
-    "findMatch": "为我匹配",
-    "chatWithForia": "与 Foria 聊天",
-    "chatWithForiaBot": "与 ForiaBot 聊天",
-    "cancel": "取消",
-    "close": "关闭",
-    "searching": "搜索中…",
-    "finding": "匹配中…",
-    "looking": "正在为你寻找对象…",
-    "startingForia": "正在与 Foria 开始聊天…",
-    "partnerDisconnected": "你的聊天对象已断开连接。",
-    "noPartner": "当前未找到聊天对象。",
-    "connectedTo": "已连接到 {{name}}",
-    "connected": "已连接",
-    "idle": "空闲",
-    "partnerLeft": "对方已离开。",
-    "stopped": "已停止。",
-    "skip": "跳过",
-    "save": "保存",
-    "saveGuard": "仅限人与人之间的聊天可被保存",
-    "youAreChattingWith": "你正在与 {{name}} 聊天",
-    "bot": "机器人",
-    "leave": "离开",
-    "sayHi": "打个招呼 👋",
-    "you": "你",
-    "typeMessage": "输入消息",
-    "send": "发送",
-    "partner": "对方",
-    "withForia": "与 Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "打开导航菜单",
-    "closeNav": "关闭导航菜单",
-    "homeAria": "Chatforia 首页"
-  },
-
-  "login": {
-    "title": "欢迎回来",
-    "subtitle": "登录你的 Chatforia 账户",
-    "google": "使用 Google 继续",
-    "apple": "使用 Apple 继续",
-    "googleUnavailable": "暂不可用 Google 登录",
-    "appleUnavailable": "暂不可用 Apple 登录",
-    "or": "或",
-    "email": "邮箱",
-    "emailPh": "you@example.com",
-    "usernameLabel": "用户名",
-    "usernamePh": "你的用户名",
-    "passwordLabel": "密码",
-    "passwordPh": "你的密码",
-    "keepSignedIn": "保持登录状态",
-    "forgot": "忘记密码？",
-    "submit": "登录",
-    "loggingIn": "登录中…",
-    "newHere": "新用户？<link>创建账户</link>",
-    "ssoUnavailable": "单点登录当前不可用。请改用用户名与密码。",
-    "error": {
-      "missing": "请输入你的凭证。",
-      "invalid": "用户名或密码无效",
-      "denied": "访问被拒绝。",
-      "unprocessable": "请求无效。请检查用户名/邮箱与密码。",
-      "deviceLimit": "免费版设备数量已达上限。请在另一台设备上登出，或升级到高级版以链接更多设备。",
-      "premiumRequired": "此操作需要高级版套餐。"
-    }
-  }
 }

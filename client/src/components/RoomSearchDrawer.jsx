@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Drawer,
   TextInput,
@@ -45,6 +46,7 @@ export default function RoomSearchDrawer({
   onJump,
   messages = [],
 }) {
+  const { t } = useTranslation();
   const [q, setQ] = useState('');
   const [results, setResults] = useState([]);
   const isPremium = useIsPremium();
@@ -72,18 +74,18 @@ export default function RoomSearchDrawer({
     <Drawer
       opened={opened}
       onClose={onClose}
-      title="Search in room"
+      title={t('roomSearch.title', 'Search in room')}
       position="right"
       size="md"
       radius="lg"
-      aria-label="Search in room"
+      aria-label={t('roomSearch.ariaLabel', 'Search in room')}
     >
       <Stack gap="sm">
         <TextInput
           value={q}
           onChange={(e) => setQ(e.currentTarget.value)}
-          placeholder="Search messages"
-          label="Search"
+          placeholder={t('roomSearch.searchMessages', 'Search messages')}
+          label={t('roomSearch.search', 'Search')}
           autoFocus
         />
 
@@ -119,14 +121,16 @@ export default function RoomSearchDrawer({
                     </Badge>
 
                     <Text size="sm" style={{ flex: 1, wordBreak: 'break-word' }}>
-                      {text.slice(0, 240) || '[No text]'}
+                      {text.slice(0, 240) || t('roomSearch.noText', '[No text]')}
                     </Text>
                   </Group>
                 </Box>
               );
             })}
 
-            {!results.length && q.trim() && <Text c="dimmed">No results</Text>}
+            {!results.length && q.trim() && (
+              <Text c="dimmed">{t('roomSearch.noResults', 'No results')}</Text>
+            )}
           </Stack>
         </ScrollArea>
 

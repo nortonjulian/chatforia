@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal, SimpleGrid, Image, Text, Group, Button } from '@mantine/core';
 import { getMediaInRoom } from '../utils/messagesStore';
 
@@ -9,6 +10,7 @@ import { getMediaInRoom } from '../utils/messagesStore';
  * - Lightweight viewer modal for a single selected item
  */
 export default function MediaGalleryModal({ opened, onClose, roomId }) {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [viewerIndex, setViewerIndex] = useState(null);
 
@@ -62,17 +64,19 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
       <Modal
         opened={opened}
         onClose={onClose}
-        title="Shared media"
+        title={t('mediaGallery.sharedMedia', 'Shared media')}
         size="lg"
         centered
         padding="md"
         withCloseButton
         closeOnEscape
         trapFocus
-        aria-label="Shared media"
+        aria-label={t('mediaGallery.sharedMedia', 'Shared media')}
       >
         {items.length === 0 ? (
-          <Text c="dimmed">No media cached locally yet.</Text>
+          <Text c="dimmed">
+            {t('mediaGallery.noMediaCached', 'No media cached locally yet.')}
+          </Text>
         ) : (
           <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="xs">
             {items.map((m, i) =>
@@ -81,7 +85,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
                   key={m.id ?? `${m.url}-${i}`}
                   radius="md"
                   src={m.url}
-                  alt={m.caption || 'image'}
+                  alt={m.caption || t('mediaGallery.imageAlt', 'image')}
                   style={{ cursor: 'pointer' }}
                   onClick={() => setViewerIndex(i)}
                 />
@@ -96,7 +100,13 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
                   onClick={() => setViewerIndex(i)}
                   role="button"
                   tabIndex={0}
-                  aria-label={m.caption ? `Open video: ${m.caption}` : 'Open video'}
+                  aria-label={
+                    m.caption
+                      ? t('mediaGallery.openVideoWithCaption', 'Open video: {{caption}}', {
+                          caption: m.caption,
+                        })
+                      : t('mediaGallery.openVideo', 'Open video')
+                  }
                   onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setViewerIndex(i)}
                 >
                   <video
@@ -121,7 +131,6 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
         )}
       </Modal>
 
-      {/* Lightweight viewer for a single selected item */}
       <Modal
         opened={viewerIndex != null}
         onClose={closeViewer}
@@ -131,16 +140,29 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
         padding="md"
         title={
           selected?.caption ||
-          (selected?.kind ? selected.kind.toLowerCase() : 'preview')
+          (selected?.kind
+            ? t(`mediaGallery.kinds.${selected.kind.toLowerCase()}`, selected.kind.toLowerCase())
+            : t('mediaGallery.preview', 'preview'))
         }
         closeOnEscape
         trapFocus
         aria-label={
           selected?.caption
-            ? `Preview: ${selected.caption}`
+            ? t('mediaGallery.previewWithCaption', 'Preview: {{caption}}', {
+                caption: selected.caption,
+              })
             : selected?.kind
-              ? `Preview ${selected.kind.toLowerCase()}`
-              : 'Preview'
+              ? t(
+                  'mediaGallery.previewKind',
+                  'Preview {{kind}}',
+                  {
+                    kind: t(
+                      `mediaGallery.kinds.${selected.kind.toLowerCase()}`,
+                      selected.kind.toLowerCase()
+                    ),
+                  }
+                )
+              : t('mediaGallery.preview', 'Preview')
         }
       >
         {!selected ? null : selected.kind === 'IMAGE' ? (
@@ -148,7 +170,7 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
             <Image
               radius="md"
               src={selected.url}
-              alt={selected.caption || 'image'}
+              alt={selected.caption || t('mediaGallery.imageAlt', 'image')}
               fit="contain"
               styles={{ image: { maxHeight: '70vh' } }}
             />
@@ -193,7 +215,6 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
           </>
         ) : null}
 
-        {/* Basic actions (download). Forward/Edit can be added later from here. */}
         {selected?.url && (
           <Group justify="flex-end" mt="md">
             <Button
@@ -201,9 +222,20 @@ export default function MediaGalleryModal({ opened, onClose, roomId }) {
               href={selected.url}
               download
               variant="light"
-              aria-label={`Download ${selected?.kind ? selected.kind.toLowerCase() : 'file'}`}
+              aria-label={t(
+                'mediaGallery.downloadKind',
+                'Download {{kind}}',
+                {
+                  kind: selected?.kind
+                    ? t(
+                        `mediaGallery.kinds.${selected.kind.toLowerCase()}`,
+                        selected.kind.toLowerCase()
+                      )
+                    : t('mediaGallery.file', 'file'),
+                }
+              )}
             >
-              Download
+              {t('mediaGallery.download', 'Download')}
             </Button>
           </Group>
         )}
