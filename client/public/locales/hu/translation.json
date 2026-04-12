@@ -6,472 +6,652 @@
     "noMatches": "Nincs találat",
     "cancelAria": "Mégse",
     "copy": "Másolás",
-    "copied": "Kimásolva!"
+    "copied": "Másolva!",
+    "errorWithMessage": "Hiba: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "Ugrás a fő tartalomra"
   },
-
-  "profile": {
-    "title": "Felhasználói profil",
-    "preferredLanguage": "Előnyben részesített nyelv",
-    "chooseLanguage": "Válassz nyelvet",
-    "mustLogin": "A beállítások megtekintéséhez be kell jelentkezned.",
-    "autoTranslate": "Üzenetek automatikus fordítása",
-    "showOriginalWithTranslation": "Eredeti és fordított üzenet megjelenítése",
-    "showOriginalAndTranslation": "Eredeti szöveg megjelenítése a fordítás mellett",
-    "filterExplicit": "Kifejezetten tartalmak szűrése",
-    "aiReply": "MI-válasz",
-    "enableReadReceipts": "Olvasási visszajelzések engedélyezése",
-    "allowExplicitContent": "Kifejezett tartalom engedélyezése",
-    "disappearingMessages": "Eltűnő üzenetek engedélyezése",
-    "autoDeleteSeconds": "Másodpercek az automatikus törlésig",
-    "saveSuccess": "Beállítások elmentve!",
-    "saveError": "Hiba: Nem sikerült elmenteni a beállításokat",
-    "avatarAlt": "Profilkép",
-    "uploadAvatar": "Új avatar feltöltése",
-    "avatarSuccess": "Avatar feltöltve!",
-    "avatarError": "Hiba az avatar feltöltésekor",
-    "noPrivateKey": "Nincs privát kulcs ezen az eszközön az exportáláshoz.",
-    "setBackupPassword": "Állíts be jelszót a biztonsági mentés titkosításához:",
-    "backupDownloaded": "Titkosított biztonsági mentés letöltve.",
-    "exportFailed": "Kulcs exportálása sikertelen",
-    "enterBackupPassword": "Add meg a jelszót ehhez a biztonsági mentéshez:",
-    "importSuccess": "A privát kulcs importálva erre az eszközre.",
-    "importFailed": "A kulcs importálása sikertelen (hibás jelszó vagy sérült fájl).",
-    "keysRotated": "Új kulcspár létrehozva és a nyilvános kulcs feltöltve.",
-    "rotateFailed": "A kulcsok cseréje sikertelen.",
-    "security": "Biztonság",
-    "exportKey": "Privát kulcs exportálása",
-    "importKey": "Titkosított kulcsmentés importálása",
-    "rotateKeys": "Kulcspár cseréje",
-    "keyDisclaimer": "A privát kulcsod soha nem hagyja el ezt az eszközt. Exportálj egy jelszóval védett példányt, hogy másik eszközön vissza tudd állítani.",
-    "sectionProfile": "Profil",
-    "phoneNumber": "Telefonszám",
-    "appearance": "Megjelenés",
-    "soundSettings": "Hangok",
-    "disappearing": "Eltűnő üzenetek",
-    "backupSync": "Biztonsági mentés és szinkronizálás",
-    "ai": "MI",
-    "accessibility": "Akadálymentesítés",
-    "privacy": "Adatvédelem",
-    "devices": "Kapcsolt eszközök",
-    "themeFreeNotice": "Jelenleg az Ingyenes csomagot használod — használd az alábbi Nap/Hold gyors opciókat. Frissíts több témáért.",
-    "sunTheme": "Hajnal téma használata",
-    "moonTheme": "Hold (Éjféli) téma használata",
-    "sun": "Nap",
-    "moon": "Hold",
-    "backupTitle": "Titkosított biztonsági mentések és eszközszinkron",
-    "openBackupTools": "Biztonsági mentési eszközök megnyitása",
-    "backupDesc": "Hozz létre jelszóval védett kulcsmentéseket, és állítsd vissza egy másik eszközön a szinkronizáláshoz.",
-    "privacyBlurEnabled": "Üzenetek elmosása alapértelmezetten",
-    "privacyBlurOnUnfocus": "Elmosás, amikor az alkalmazás nincs fókuszban",
-    "holdToReveal": "Nyomd hosszan a felfedéshez",
-    "notifyOnCopy": "Értesíts, ha az üzenetemet kimásolják",
-    "loadFailed": "Nem sikerült betölteni a profilt",
-    "followed": "Követed",
-    "followFailed": "A követés sikertelen",
-    "unfollowed": "Követést megszüntetted",
-    "unfollowFailed": "A követés megszüntetése sikertelen",
-    "follow": "Követés",
-    "unfollow": "Követés megszüntetése",
-    "followHint": "Történeteik megjelennek a Követem feedben, ha a „Követők” (vagy Nyilvános) közönséggel posztolnak.",
-    "userNotFound": "Felhasználó nem található",
-    "followsYou": "Követ téged",
-    "sectionCrashedTitle": "A szakasz betöltése sikertelen",
-    "sectionCrashedBody": "Valami hiba történt ebben a szakaszban.",
-    "forwarding": "Hívás- és SMS-továbbítás",
-    "callTextForwardingSection": "Hívás- és SMS-továbbítás",
-    "callTextForwardingTitle": "Hívás és/vagy SMS továbbítás",
-    "callTextForwardingDescription": "Bejövő hívások és üzenetek továbbítása a hitelesített telefonodra vagy e-mailedre. Kimenő hívások/üzenetek a Chatforia számodat mutathatják.",
-    "enableTextForwarding": "SMS-továbbítás engedélyezése",
-    "forwardTextsToPhone": "Üzenetek továbbítása telefonra",
-    "forwardTextsToEmail": "Üzenetek továbbítása e-mailre",
-    "destinationPhone": "Cél telefonszám (E.164)",
-    "destinationEmail": "Cél e-mail",
-    "enableCallForwarding": "Hívástovábbítás engedélyezése",
-    "destinationPhoneForCalls": "Cél (E.164) hívásokhoz",
-    "aliasBridging": "Hívástovábbítás (álnév-áthidalás)",
-    "quietHoursOptional": "Csendes órák (opcionális)",
-    "startHour": "Kezdőóra (0–23)",
-    "endHour": "Záróóra (0–23)",
-    "reset": "Visszaállítás",
-    "saveBtn": "Mentés",
-    "forwardSaved": "Továbbítási beállítások elmentve",
-    "forwardSaveFailed": "A beállítások mentése sikertelen",
-    "errE164": "Adj meg érvényes E.164 formátumú számot (pl. +15551234567).",
-    "errEmail": "Adj meg érvényes e-mail címet.",
-    "errSmsDest": "Válassz legalább egy célt (telefon vagy e-mail).",
-    "errQuietHours": "A csendes óráknak 0 és 23 között kell lenniük."
+  "keys": {
+    "backupCreated": "A kulcsmentés létrehozva és letöltve ✓",
+    "restored": "A kulcsmentés visszaállítva ✓ A kulcsok helyileg telepítve",
+    "noBackup": "Ehhez a fiókhoz nem létezik titkosított mentés",
+    "missingPublicKey": "A mentésből hiányzik a nyilvános kulcs"
   },
-
-  "support": {
-    "helpFab": "Súgó",
-    "openSupportAria": "Súgó megnyitása",
-    "badge": "Támogatás",
-    "heading": "Miben segíthetünk?",
-    "tabs": {
-      "help": "Súgóközpont",
-      "contact": "Kapcsolatfelvétel"
-    },
-    "searchPlaceholder": "Keresés a súgócikkekben…",
-    "searchAria": "Súgó keresése",
-    "searchBtn": "Keresés",
-    "quickTopicsLabel": "Gyors témák",
-    "quickTopics": {
-      "login": "Nem tudok bejelentkezni",
-      "billing": "Fizetés / számlázás",
-      "abuse": "Visszaélés jelentése"
-    },
-    "trySearching": "Próbáld a „fordítás”, „mentések” vagy „adatvédelem” kifejezéseket.",
-    "article": "Cikk",
-    "openArticle": "Cikk megnyitása",
-    "contactIntro": "E-mailben válaszolunk. Írj le részleteket, hogy reprodukálni tudjuk a hibát.",
-    "topicAria": "Téma kiválasztása",
-    "messagePlaceholder": "Írd meg az üzeneted…",
-    "sendBtn": "Küldés",
-    "sent": "Üzenet elküldve. E-mailben válaszolunk.",
-    "sendError": "Nem sikerült elküldeni. Írj a support@chatforia.com címre."
+  "keySetup": {
+    "title": "Állítsa be az eszközkulcsokat",
+    "description": "Ennek az eszköznek még nincs meg a privát kulcsa. Importáljon jelszóval védett mentést, vagy hozzon létre új kulcspárt (ezentúl olvashatja az új üzeneteket).",
+    "chooseFile": "Válasszon fájlt, és adja meg a jelszót.",
+    "imported": "A privát kulcs importálva erre az eszközre. Most már olvashatja a régi üzeneteket is.",
+    "enterPassword": "Adja meg a fiók jelszavát, hogy biztonságosan menthessük a kulcsait."
   },
-
+  "auth": {
+    "headline": "Biztonságos üzenetküldés bárkinek, bárhol",
+    "description": "Végpontok közötti titkosítás, fordítás 100+ nyelvre, eltűnő üzenetek és hang-/videóhívás.",
+    "feature": {
+      "encryption": "Végpontok közötti titkosítás alapértelmezés szerint",
+      "translation": "Okos, beépített üzenetfordítás",
+      "disappearing": "Eltűnő üzenetek és olvasási visszaigazolások",
+      "privacy": "Adatvédelem az első helyen. Az Ön adatai, az Ön irányítása.",
+      "translate": "Okos, beépített üzenetfordítás",
+      "disappear": "Eltűnő üzenetek",
+      "privacyAlt": "Adatvédelem az első helyen",
+      "seePlans": "Csomagok és árak megtekintése"
+    },
+    "hero": {
+      "line1": "Biztonságos üzenetküldés bárkinek, bárhol —",
+      "em": "fordítással 100+ nyelvre",
+      "sub": "Szerezzen ingyenes biztonságos telefonszámot, amellyel Wi-Fi-n vagy mobiladaton keresztül hívhat és üzenhet világszerte. Élvezze a végpontok közötti titkosítást, az eltűnő üzeneteket és a HD hang-/videóhívást — beépített eszközökkel, amelyek segítenek a határokon átívelő kapcsolattartásban.",
+      "freeNote": "Az alapvető hívás és üzenetküldés ingyenes. A fejlett MI és a prémium funkciók frissítést igényelnek."
+    },
+    "feat": {
+      "encryption": "Végpontok közötti titkosítás, mindig bekapcsolva",
+      "translate": "Bontsa le a nyelvi korlátokat a beszélgetéseiben",
+      "disappear": "Eltűnő üzenetek és olvasási visszaigazolások",
+      "privacy": "Adatvédelem az első helyen. Az Ön adatai, az Ön irányítása."
+    },
+    "continueGoogle": "Folytatás Google-fiókkal",
+    "continueApple": "Folytatás Apple-fiókkal",
+    "username": "Felhasználónév",
+    "password": "Jelszó",
+    "keepSignedIn": "Maradjon bejelentkezve",
+    "forgotPassword": "Elfelejtette a jelszavát?",
+    "loginButton": "Bejelentkezés",
+    "createAccount": "Fiók létrehozása",
+    "freeAccountButton": "Ingyenes fiók létrehozása",
+    "newHere": "Új itt?",
+    "getApp": "Töltse le az alkalmazást",
+    "desktopTip": "Asztali gépen van? Olvassa be telefonjával az alkalmazást.",
+    "scanHelper": "Asztali gépen van? Olvassa be telefonjával az alkalmazást.",
+    "goHome": "Vissza a kezdőlapra",
+    "home": "Kezdőlap",
+    "headlineAlt": {
+      "main": "A biztonságos üzenetküldő, amely",
+      "highlight": "beszéli az Ön nyelvét"
+    },
+    "subhead": "Privát, titkosított és azonnal fordított üzenetküldés.",
+    "upgrade": "Frissítés most",
+    "tip": "Tipp: Használja ugyanazt a fiókot weben és mobilon. Az üzenetek szinkronban maradnak.",
+    "openDownload": "Nyissa meg a letöltési oldalt",
+    "qrAlt": "QR-kód a Chatforia számára",
+    "scanHint": "Olvassa be a QR-kódot az alkalmazás letöltéséhez vagy a böngészőben való megnyitáshoz.",
+    "iosAria": "Letöltés az App Store-ból",
+    "iosTitle": "Letöltés az App Store-ból",
+    "iosBadgeAlt": "App Store jelvény",
+    "androidAria": "Szerezze be a Google Playen",
+    "androidTitle": "Google Play Áruház",
+    "androidBadgeAlt": "Google Play jelvény",
+    "login": "Bejelentkezés",
+    "signup": "Regisztráció",
+    "email": "E-mail",
+    "registration": {
+      "passwordDescription": "Legalább 6 karakter. Használjon erős, egyedi jelszót.",
+      "smsConsent": "Fiók létrehozásával elfogadja, hogy SMS-értesítéseket kapjon a Chatforia tevékenységével kapcsolatban (pl. más felhasználóktól érkező üzenetek). Az üzenet- és adatforgalmi díjak érvényesek lehetnek. Bármikor leiratkozhat a Beállításokban.",
+      "termsLink": "Szolgáltatási feltételek",
+      "privacyLink": "Adatvédelmi szabályzat"
+    },
+    "to": "Címzett:",
+    "enterRecipient": "Adjon meg egy nevet vagy számot",
+    "clearRecipients": "Címzettek törlése",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Írjon üzenetet…",
+    "addRecipient": "Adjon meg egy címzettet fent a kezdéshez…",
+    "oneRecipient": "Egyelőre csak egy címzettet adjon meg.",
+    "enterValidRecipient": "Adjon meg egy mentett névjegyet vagy telefonszámot.",
+    "sendFailed": "Az üzenet küldése sikertelen. Ellenőrizze a konzolt a részletekért."
+  },
+  "home": {
+    "title": "Kezdőlap",
+    "header": "Az Ön üzenetei",
+    "subheader": "Küldjön üzenetet a csevegés indításához.",
+    "sendButton": "Üzenet küldése",
+    "gifPicker": "GIF-választó megnyitása",
+    "emoji": "Emoji",
+    "upload": "Fotó vagy videó feltöltése",
+    "inputPlaceholder": "Írjon üzenetet…",
+    "inputLabel": "Üzenetszerkesztő",
+    "sendTooltip": "Küldés",
+    "sendTooltipEmpty": "Írjon üzenetet a küldéshez",
+    "send": "Küldés",
+    "welcomeMessage": "Üdvözöljük a Chatforiában",
+    "getStarted": "Kezdje el"
+  },
   "chat": {
-    "selectPrompt": "Válassz szöveget vagy chatszobát a kezdéshez",
+    "selectPrompt": "Válasszon szöveget vagy csevegőszobát a csevegés indításához",
     "newMessages": "Új üzenetek",
-    "typing": "{{name}} éppen ír…",
-    "emptyTitle": "Üzeneteid",
-    "emptySubtitle": "Küldj egy üzenetet a beszélgetés indításához.",
-    "startChatButton": "Üzenet küldése"
+    "typing": "{{name}} gépel…",
+    "emptyTitle": "Az Ön üzenetei",
+    "emptySubtitle": "Küldjön üzenetet a csevegés indításához.",
+    "startChatButton": "Üzenet küldése",
+    "mediaAttachment": "Média csatolmány",
+    "thisUser": "ez a felhasználó",
+    "blockConfirm": "Letiltja {{name}}-t? Többé nem kap üzeneteket tőle.",
+    "blockedUser": "{{name}} letiltva.",
+    "blockError": "Nem sikerült meghatározni a letiltandó felhasználót.",
+    "blockFailed": "A letiltás sikertelen (a backend még nincs bekötve).",
+    "encryptedUnavailable": "Titkosított üzenet (kulcs nem elérhető)",
+    "unlockToView": "Oldja fel a kulcsot az üzenet megtekintéséhez"
   },
-
-  "topbar": {
-    "newStatus": "Új állapot",
-    "logout": "Kijelentkezés",
-    "help": "Súgó",
-    "createStatusAria": "Új állapot létrehozása"
-  },
-
-  "status": {
-    "userNumber": "Felhasználó #{{id}}",
-    "posted": "Állapot közzétéve",
-    "postFailed": "Az állapot közzététele sikertelen",
-    "createTitle": "Állapot létrehozása",
-    "modalAriaLabel": "Új állapot",
-    "captionLabel": "Mi jár a fejedben?",
-    "captionPlaceholder": "Ossz meg egy frissítést…",
-    "captionAria": "Állapotüzenet",
-    "audienceLabel": "Közönség",
-    "audience": {
-      "public": "Nyilvános",
-      "followers": "Követők",
-      "contacts": "Névjegyek",
-      "mutuals": "Kölcsönösek",
-      "custom": "Egyéni…"
+  "messageInput": {
+    "ttl": {
+      "off": "Kikapcsolva"
     },
-    "expiresHoursLabel": "Lejárat (órában)",
-    "maxTooltip": "Legfeljebb 7 nap",
-    "hoursAbbrev": "ó",
-    "maxShort": "max",
-    "expiresOn": "Lejár:",
-    "chooseRecipients": "Címzettek kiválasztása",
-    "selectContacts": "Névjegyek kiválasztása",
-    "attachmentsLabel": "Mellékletek",
-    "attachmentsPlaceholder": "Képek/videók hozzáadása",
-    "filesNote": "Legfeljebb 5 fájl. Alapértelmezett lejárat 24 óra.",
-    "postAria": "Állapot közzététele",
-    "post": "Közzététel"
+    "freeLimit": "Ingyenes csomag korlát: automatikus törlés legfeljebb 1 nap. 1 napra korlátozva.",
+    "premiumLimit": "A Prémium maximális automatikus törlése 30 nap. 30 napra korlátozva.",
+    "nothingToSend": "Írjon üzenetet vagy csatoljon fájlt a küldéshez.",
+    "encryptionFailed": "A titkosítás sikertelen. Az üzenet nem lett elküldve.",
+    "sent": "Az üzenet kézbesítve.",
+    "placeholder": "Írjon üzenetet…",
+    "autoDelete": "Automatikus törlés",
+    "typeToSend": "Írjon üzenetet a küldéshez",
+    "send": "Küldés",
+    "sendWithEnter": "Küldés (Enter)",
+    "attachment": "csatolmány",
+    "caption": "Felirat (nem kötelező)",
+    "remove": "Eltávolítás",
+    "clear": "Törlés",
+    "gif": "GIF",
+    "sticker": "Matrica",
+    "errors": {
+      "attachmentTooLarge": "A csatolmány túl nagy. Próbáljon kisebb fájlt.",
+      "unsupportedFile": "Nem támogatott fájltípus.",
+      "rateLimit": "Túl gyorsan küld üzeneteket. Lassítson le.",
+      "validation": "Érvényesítési hiba. Ellenőrizze az üzenetet, és próbálja újra.",
+      "failedToSend": "A küldés sikertelen. Újra megpróbálhatja a sikertelen buborékot."
+    }
   },
-
   "contactList": {
     "savedContacts": "Mentett névjegyek",
     "refreshAria": "Névjegyek frissítése",
     "filterPlaceholder": "Mentett névjegyek szűrése…",
     "filterAria": "Mentett névjegyek szűrése",
-    "noContactsFound": "Nincs találat.",
+    "noContactsFound": "Nincsenek névjegyek.",
     "externalContact": "Külső névjegy",
     "notJoined": "Ez a névjegy még nem csatlakozott a Chatforiához.",
-    "couldNotStart": "Nem sikerült elindítani a beszélgetést. Próbáld újra.",
-    "startFailed": "A beszélgetés indítása sikertelen. Próbáld újra.",
+    "couldNotStart": "Nem sikerült elindítani a csevegést. Próbálja újra.",
+    "startFailed": "A csevegés indítása sikertelen. Próbálja újra.",
     "deleted": "Névjegy törölve.",
-    "deleteFailed": "A névjegy törlése sikertelen. Próbáld újra.",
+    "deleteFailed": "A névjegy törlése sikertelen. Próbálja újra.",
     "aliasUpdated": "Álnév frissítve.",
-    "updateAliasFailed": "Az álnév frissítése sikertelen. Próbáld újra.",
+    "updateAliasFailed": "Az álnév frissítése sikertelen. Próbálja újra.",
     "selectContact": "{{name}} kiválasztása",
     "alias": "Álnév",
     "startChat": "Csevegés indítása",
     "message": "Üzenet",
     "delete": "Törlés",
     "deleteContactAria": "Névjegy törlése",
-    "loadFailed": "Nem sikerült betölteni a névjegyeket. Próbáld újra.",
-    "loadMore": "Továbbiak betöltése"
+    "loadFailed": "A névjegyek betöltése sikertelen. Próbálja újra.",
+    "loadMore": "Továbbiak betöltése",
+    "call": "Hívás",
+    "callStarted": "Hívás indítása a Chatforia-számával…",
+    "callFailed": "A hívás indítása sikertelen. Próbálja újra."
   },
-
+  "startChatModal": {
+    "title": "Csevegés indítása",
+    "searchPlaceholder": "Név, felhasználónév vagy telefonszám keresése",
+    "messageThisPerson": "Üzenet ennek a személynek",
+    "contacts": "Névjegyek",
+    "recentInteractions": "Legutóbbi interakciók",
+    "noContactsMatch": "Nincs találat a keresésre.",
+    "noRecentInteractions": "Még nincsenek legutóbbi interakciók.",
+    "unknown": "Ismeretlen",
+    "interactionType": {
+      "message": "Üzenet",
+      "call": "Hívás",
+      "video": "Videó"
+    }
+  },
+  "addContactModal": {
+    "title": "Névjegy hozzáadása",
+    "phoneOrUsername": "Telefonszám vagy felhasználónév",
+    "phoneOrUsernamePlaceholder": "pl. +13018019227 vagy juliannorton",
+    "alias": "Álnév (nem kötelező)",
+    "aliasPlaceholder": "pl. Munka, Anya, Mike – Európa",
+    "enterPhoneOrUsername": "Adjon meg telefonszámot vagy felhasználónevet.",
+    "userLookupFailed": "A felhasználó keresése sikertelen.",
+    "cannotAddSelf": "Önmagát nem adhatja hozzá névjegyzékként.",
+    "failedToAdd": "A névjegy hozzáadása sikertelen.",
+    "add": "Hozzáadás"
+  },
   "sidebar": {
-    "randomChat": "Véletlen chat",
+    "randomChat": "Véletlen csevegés",
     "callTextForwarding": "Hívás- és SMS-továbbítás",
-    "conversations": "Beszélgetések",
-    "searchPlaceholder": "Beszélgetések keresése…",
-    "errorLoading": "A chatek betöltése sikertelen",
-    "empty": "Még nincsenek beszélgetések.",
+    "conversations": "Csevegések",
+    "searchPlaceholder": "Csevegések keresése…",
+    "errorLoading": "A csevegések betöltése sikertelen",
+    "empty": "Még nincsenek csevegések.",
     "startChat": "Csevegés indítása",
     "people": "Emberek",
     "settings": "Beállítások",
     "status": "Állapot",
     "forwarding": "Hívás- és SMS-továbbítás",
     "refresh": "Frissítés",
-    "search": "Beszélgetések keresése",
-    "loginPrompt": "Jelentkezz be a beállítások szerkesztéséhez.",
+    "search": "Csevegések keresése",
+    "loginPrompt": "Jelentkezzen be a beállítások szerkesztéséhez.",
     "login": "Bejelentkezés",
     "register": "Fiók létrehozása",
-    "chatrooms": "Chatszobák",
+    "chatrooms": "Csevegőszobák",
     "logout": "Kijelentkezés",
-    "startChatAlt": "Új csevegés indítása"
+    "startChatAlt": "Új csevegés indítása",
+    "calls": "Hívások",
+    "video": "Videó",
+    "voicemail": "Hangposta"
   },
-
+  "topbar": {
+    "newStatus": "Új állapot",
+    "logout": "Kijelentkezés",
+    "help": "Súgó",
+    "createStatusAria": "Új állapot létrehozása"
+  },
+  "threadActions": {
+    "threadMenu": "Csevegésszál menü",
+    "premium": "Prémium",
+    "aiPower": "MI-erő",
+    "schedule": "Ütemezés",
+    "upgrade": "Frissítés",
+    "upgradeSuffix": "(Frissítés)",
+    "thread": "Szál",
+    "about": "Névjegy",
+    "search": "Keresés",
+    "media": "Média",
+    "invitePeople": "Emberek meghívása",
+    "roomSettings": "Szoba beállításai",
+    "clearConversation": "Csevegés törlése",
+    "block": "Letiltás"
+  },
+  "roomSearch": {
+    "title": "Keresés a szobában",
+    "ariaLabel": "Keresés a szobában",
+    "search": "Keresés",
+    "searchMessages": "Üzenetek keresése",
+    "noText": "[Nincs szöveg]",
+    "noResults": "Nincs találat"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Tag",
+      "moderator": "Moderátor",
+      "admin": "Adminisztrátor"
+    },
+    "aiMode": {
+      "off": "Kikapcsolva",
+      "mention": "Csak @ForiaBot vagy /ask esetén",
+      "always": "Proaktív válasz"
+    },
+    "autoTranslateMode": {
+      "off": "Kikapcsolva",
+      "tagged": "Csak megjelölve (/tr …)",
+      "all": "Minden üzenet"
+    },
+    "updated": "Beállítások frissítve"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Megosztott média",
+    "noMediaCached": "Még nincs helyileg gyorsítótárazott média.",
+    "imageAlt": "kép",
+    "openVideo": "Videó megnyitása",
+    "openVideoWithCaption": "Videó megnyitása: {{caption}}",
+    "preview": "Előnézet",
+    "previewWithCaption": "Előnézet: {{caption}}",
+    "previewKind": "Előnézet {{kind}}",
+    "download": "Letöltés",
+    "downloadKind": "Letöltés {{kind}}",
+    "file": "fájl",
+    "kinds": {
+      "image": "kép",
+      "video": "videó",
+      "audio": "hang",
+      "file": "fájl"
+    }
+  },
+  "status": {
+    "userNumber": "Felhasználó #{{id}}",
+    "posted": "Állapot közzétéve",
+    "postFailed": "Az állapot közzététele sikertelen",
+    "createTitle": "Állapot létrehozása",
+    "modalAriaLabel": "Új állapot",
+    "captionLabel": "Mi jár a fejében?",
+    "captionPlaceholder": "Ossza meg a frissítést…",
+    "captionAria": "Állapotüzenet",
+    "audienceLabel": "Közönség",
+    "audience": {
+      "public": "Nyilvános",
+      "followers": "Követők",
+      "contacts": "Névjegyek",
+      "mutuals": "Kölcsönös követők",
+      "custom": "Egyéni…"
+    },
+    "expiresHoursLabel": "Lejárat (óra)",
+    "maxTooltip": "Maximum 7 nap",
+    "hoursAbbrev": "ó",
+    "maxShort": "max",
+    "expiresOn": "Lejárat:",
+    "chooseRecipients": "Válasszon címzetteket",
+    "selectContacts": "Névjegyek kiválasztása",
+    "attachmentsLabel": "Csatolmányok",
+    "attachmentsPlaceholder": "Képek/videók hozzáadása",
+    "filesNote": "Maximum 5 fájl. Alapértelmezett lejárat 24 óra.",
+    "postAria": "Állapot közzététele",
+    "post": "Közzététel"
+  },
+  "voicemail": {
+    "pageTitle": "Hangposta",
+    "from": "Feladó",
+    "to": "Címzett",
+    "unknownCaller": "Ismeretlen",
+    "yourNumber": "Az Ön Chatforia-száma",
+    "durationSeconds": "{{count}} mp",
+    "audioAria": "Hangposta-lejátszó",
+    "transcriptHeading": "Átirat",
+    "transcriptPending": "Hangposta átírása folyamatban…",
+    "transcriptFailed": "Az átirat nem elérhető.",
+    "loading": "Hangposta betöltése…",
+    "errorLoading": "A hangposta betöltése sikertelen.",
+    "empty": "Még nincsenek hangposták.",
+    "deleteConfirm": "Törli ezt a hangpostát?",
+    "deleteError": "A hangposta törlése sikertelen.",
+    "markRead": "Megjelölés olvasottként",
+    "delete": "Törlés",
+    "unreadDotAria": "Olvasatlan hangposta jelző"
+  },
+  "profile": {
+    "title": "Felhasználói profil",
+    "preferredLanguage": "Preferált nyelv",
+    "chooseLanguage": "Válasszon nyelvet",
+    "mustLogin": "Be kell jelentkeznie a beállítások megtekintéséhez.",
+    "autoTranslate": "Üzenetek automatikus fordítása",
+    "showOriginalWithTranslation": "Eredeti és fordított üzenetek megjelenítése",
+    "showOriginalAndTranslation": "Eredeti a fordítás mellett",
+    "filterExplicit": "Kifejezett tartalom szűrése",
+    "aiReply": "MI-válasz",
+    "enableReadReceipts": "Olvasási visszaigazolások engedélyezése",
+    "allowExplicitContent": "Kifejezett tartalom engedélyezése",
+    "disappearingMessages": "Eltűnő üzenetek engedélyezése",
+    "autoDeleteSeconds": "Automatikus törlésig hátralévő másodpercek",
+    "saveSuccess": "Beállítások elmentve!",
+    "saveError": "Hiba: Nem sikerült elmenteni a beállításokat",
+    "avatarAlt": "Profilkép",
+    "uploadAvatar": "Új profilkép feltöltése",
+    "avatarSuccess": "Profilkép feltöltve!",
+    "avatarError": "A profilkép feltöltése sikertelen",
+    "avatarUpdated": "Profilkép frissítve!",
+    "uploadingAvatar": "Profilkép feltöltése…",
+    "noPrivateKey": "Ezen az eszközön nincs exportálható privát kulcs.",
+    "setBackupPassword": "Adjon meg egy jelszót a mentés titkosításához:",
+    "backupDownloaded": "Titkosított mentés letöltve.",
+    "exportFailed": "A kulcs exportálása sikertelen",
+    "enterBackupPassword": "Adja meg a mentés jelszavát:",
+    "importSuccess": "A privát kulcs importálva erre az eszközre.",
+    "importFailed": "A kulcs importálása sikertelen (hibás jelszó vagy sérült fájl).",
+    "keysRotated": "Új kulcspár létrehozva és a nyilvános kulcs feltöltve.",
+    "rotateFailed": "A kulcsok cseréje sikertelen.",
+    "security": "Biztonság",
+    "exportKey": "Titkosítási kulcs mentése",
+    "importKey": "Titkosítási kulcs visszaállítása",
+    "rotateKeys": "Titkosítási kulcs cseréje",
+    "keyDisclaimer": "A privát kulcs soha nem hagyja el ezt az eszközt. Exportáljon jelszóval védett másolatot a másik eszközön való visszaállításhoz.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Telefonszám",
+    "appearance": "Megjelenés",
+    "soundSettings": "Hangok",
+    "disappearing": "Eltűnő üzenetek",
+    "backupSync": "Titkosítási kulcs mentése",
+    "ai": "MI",
+    "accessibility": "Akadálymentesség",
+    "privacy": "Adatvédelem",
+    "devices": "Csatlakoztatott eszközök",
+    "themeFreeNotice": "Ingyenes csomagban van — használja az alábbi gyors Nap/Hold opciókat. Frissítéssel több téma nyílik meg.",
+    "sunTheme": "Hajnal téma használata",
+    "moonTheme": "Hold (Éjfél) téma használata",
+    "sun": "Nap",
+    "moon": "Hold",
+    "backupTitle": "Titkosított mentések és eszközszinkronizálás",
+    "openBackupTools": "Mentési eszközök megnyitása",
+    "backupDesc": "Mentse a titkosítási kulcsot, hogy biztonságosan visszaállíthassa az üzeneteit másik eszközön.",
+    "privacyBlurEnabled": "Üzenetek elhomályosítása alapértelmezés szerint",
+    "privacyBlurOnUnfocus": "Elhomályosítás, ha az alkalmazás nincs fókuszban",
+    "planSection": "Csomagom",
+    "planLoading": "Csomag betöltése…",
+    "planLoadFailed": "A csomag betöltése sikertelen.",
+    "currentPlan": "Aktuális csomag",
+    "planRenewsOn": "Megújítás dátuma",
+    "freePlanCopy": "Ingyenes csomagban van. Frissítéssel több funkciót (mentések, extra számok, fejlett adatvédelem) oldhat fel.",
+    "upgradePlanCta": "Csomag frissítése",
+    "changePlanCta": "Csomag módosítása",
+    "manageBilling": "Számlázás kezelése",
+    "portalOpenFailed": "Nem sikerült megnyitni a számlázási portált. Próbálja újra.",
+    "holdToReveal": "Tartsa lenyomva a felfedéshez",
+    "notifyOnCopy": "Értesítsen, ha az üzenetemet másolják",
+    "loadFailed": "A profil betöltése sikertelen",
+    "followed": "Követve",
+    "followFailed": "A követés sikertelen",
+    "unfollowed": "Követés megszüntetve",
+    "unfollowFailed": "A követés megszüntetése sikertelen",
+    "follow": "Követés",
+    "unfollow": "Követés leállítása",
+    "followHint": "Az ő történeteik megjelennek a Követett feedben, ha Követők (vagy Nyilvános) közönséggel posztolnak.",
+    "userNotFound": "Felhasználó nem található",
+    "followsYou": "Követ téged",
+    "sectionCrashedTitle": "A szakasz betöltése sikertelen",
+    "sectionCrashedBody": "Valami elromlott ebben a szakaszban.",
+    "forwarding": "Hívás- és SMS-továbbítás",
+    "callTextForwardingSection": "Hívás- és SMS-továbbítás",
+    "callTextForwardingTitle": "Hívás- és/vagy SMS-továbbítás",
+    "callTextForwardingDescription": "Továbbítsa a beérkező hívásokat és SMS-eket a hitelesített telefonjára vagy e-mailjére. A kimenő hívások/SMS-ek a Chatforia-számát jeleníthetik meg.",
+    "enableTextForwarding": "SMS-továbbítás engedélyezése",
+    "forwardTextsToPhone": "SMS-ek továbbítása telefonra",
+    "forwardTextsToEmail": "SMS-ek továbbítása e-mailre",
+    "destinationPhone": "Cél telefonszám (E.164)",
+    "destinationEmail": "Cél e-mail",
+    "enableCallForwarding": "Hívástovábbítás engedélyezése",
+    "destinationPhoneForCalls": "Cél (E.164) hívásokhoz",
+    "aliasBridging": "Hívástovábbítás (álnév-híd)",
+    "quietHoursOptional": "Csendes órák (nem kötelező)",
+    "startHour": "Kezdés óra (0–23)",
+    "endHour": "Befejezés óra (0–23)",
+    "reset": "Visszaállítás",
+    "saveBtn": "Mentés",
+    "saveProfile": "Profil mentése",
+    "saveForwarding": "Továbbítás mentése",
+    "forwardSaved": "Továbbítási beállítások mentve",
+    "forwardSaveFailed": "A beállítások mentése sikertelen",
+    "errE164": "Adjon meg érvényes E.164 telefonszámot (pl. +15551234567).",
+    "errEmail": "Adjon meg érvényes e-mail címet.",
+    "errSmsDest": "Válasszon legalább egy célt (telefon vagy e-mail).",
+    "errQuietHours": "A csendes óráknak 0 és 23 között kell lenniük.",
+    "randomChat": "Véletlen csevegés",
+    "ageBand": "Életkor-tartománya",
+    "ageBandPlaceholder": "Válassza ki az életkor-tartományát",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Csak életkor-tartományt tárolunk (nem a pontos születési dátumot). Ez a Véletlen csevegés párosításait tartja ésszerűen.",
+    "wantsAgeFilter": "Életkor-alapú párosítás használata a Véletlen csevegésben",
+    "wantsAgeFilterDesc": "Bekapcsolva próbálunk kompatibilis életkor-tartományú személyekkel párosítani.",
+    "partnerAgeBands": "Kikkel párosulhat?",
+    "partnerAgeBandsDesc": "A tinédzserek mindig csak más tinédzserekkel párosulnak. Felnőttek nem párosulhatnak tinédzserekkel.",
+    "teenMatchingNote": "Biztonság miatt a 13–17 éves tartományban lévő fiókok csak más 13–17 éves fiókokkal párosulhatnak a Véletlen csevegésben.",
+    "foriaRemember": "Hagyja, hogy Ria emlékezzen arra, amit mond neki",
+    "foriaRememberDesc": "Bekapcsolva a Ria használhatja a korábbi Véletlen csevegés beszélgetéseit (csak Önnel) a beszélgetés fenntartásához. Bármikor kikapcsolhatja.",
+    "voicemailSection": "Hangposta",
+    "voicemailEnabled": "Hangposta engedélyezése",
+    "voicemailAutoDeleteDays": "Hangposták automatikus törlése (nap)",
+    "voicemailAutoDeletePlaceholder": "Hagyja üresen a végleges megtartáshoz",
+    "voicemailForwardEmail": "Hangposta továbbítása e-mailre",
+    "voicemailForwardEmailPlaceholder": "E-mail a hangposta-értesítésekhez",
+    "voicemailGreetingText": "Szöveges tartalék üdvözlés",
+    "voicemailGreetingTextDesc": "Akkor használatos, ha a hangüdvözlés nem elérhető.",
+    "voicemailGreetingUpload": "Hangposta-üdvözlés feltöltése",
+    "voicemailPreviewGreeting": "Üdvözlés előnézete",
+    "voicemailGreetingUploaded": "Hangposta-üdvözlés sikeresen feltöltve",
+    "voicemailGreetingUploadError": "A hangposta-üdvözlés feltöltése sikertelen",
+    "voicemailNote": "A Chatforia-számairól érkező hangposták a Hangposta mappában tárolódnak. A támogatott csomagokban engedélyezheti az átírást és a továbbítást.",
+    "portHint": "Meg szeretné tartani a jelenlegi számát? Átviheti a Chatforia Wireless-be.",
+    "wireless": {
+      "manage": "Wireless kezelése"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Szerezzen mobiladatot a Chatforiához, ha Wi-Fi nélkül van.",
+      "cta": "eSIM beszerzése / QR megjelenítése"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Kezelje a Chatforia mobilcsomagját, számait, továbbításait és számátvitelét.",
+    "options": {
+      "heading": "Válassza ki, hogyan szeretné használni a Chatforiát",
+      "subheading": "Szerezhet új Chatforia-számot, vagy átviheti a meglévő számát egy másik szolgáltatótól.",
+      "newNumber": "Új Chatforia-szám beszerzése",
+      "portNumber": "Meglévő szám átvitele a Chatforia Wireless-be"
+    },
+    "port": {
+      "heading": "Meglévő szám átvitele",
+      "subheading": "Mozgassa a jelenlegi telefonszámát a meglévő szolgáltatójától a Chatforiába. Győződjön meg róla, hogy az adatok pontosan egyeznek a szolgáltatói fiókkal a késedelmek elkerülése érdekében.",
+      "phoneNumberLabel": "Átvitelre szánt telefonszám",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Jelenlegi szolgáltató",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile stb.",
+      "accountNumberLabel": "Fiókszám",
+      "pinLabel": "Port-out PIN / jelszó",
+      "fullNameLabel": "A fiókon szereplő teljes név",
+      "address1Label": "Cím 1. sor",
+      "address2Label": "Cím 2. sor (nem kötelező)",
+      "cityLabel": "Város",
+      "stateLabel": "Állam / Tartomány",
+      "postalCodeLabel": "Irányítószám",
+      "countryLabel": "Ország",
+      "submitButton": "Átviteli kérelem beküldése",
+      "success": "Átviteli kérelem elküldve! Frissítjük Önt.",
+      "genericError": "Valami elromlott."
+    },
+    "status": {
+      "heading": "Átvitel állapota",
+      "subheading": "Kövesse nyomon a számátviteli kérelmek állapotát.",
+      "loading": "Betöltés…",
+      "loadError": "Az átviteli kérelmek betöltése sikertelen.",
+      "none": "Még nincs átviteli tevékenység.",
+      "pending": "Feldolgozás alatt",
+      "submitted": "Elküldve a szolgáltatónak",
+      "inProgress": "Folyamatban",
+      "completed": "Befejezve",
+      "failed": "Sikertelen",
+      "canceled": "Törölve",
+      "created": "Létrehozva:",
+      "scheduled": "Ütemezve:",
+      "completedAt": "Befejezve:"
+    },
+    "dataLow": "Az adatai fogytán vannak.",
+    "topUp": "Feltöltés most",
+    "expiresIn": "Lejár {{days}} nap múlva",
+    "exhausted": "Az adatai elfogytak. Vásároljon új csomagot a mobiladatok további használatához.",
+    "buyPack": "Adatcsomag vásárlása",
+    "esimPackLabel": "eSIM csomag"
+  },
+  "family": {
+    "title": "Család",
+    "loading": "A család adatai betöltése…",
+    "error": {
+      "load": "A család adatainak betöltése sikertelen.",
+      "invite": "Nem sikerült meghívót létrehozni. Győződjön meg róla, hogy Ön a család tulajdonosa, és próbálja újra.",
+      "checkout": "Nem sikerült elindítani a fizetést a Családi csomaghoz. Próbálja újra."
+    },
+    "billing": {
+      "myPlanTitle": "Csomagom",
+      "myPlanError": "Nem sikerült betölteni a csomagját.",
+      "myPlanLoading": "Csomag betöltése…",
+      "currentPlan": "Aktuális csomag",
+      "renewsAt": "Megújítás dátuma",
+      "freePlanCopy": "Ingyenes csomagban van. Frissítéssel több funkciót oldhat fel.",
+      "upgradeCta": "Csomag frissítése",
+      "changePlanCta": "Csomag módosítása",
+      "manageBilling": "Számlázás kezelése",
+      "portalError": "A számlázási portál jelenleg nem nyitható meg.",
+      "cancelNow": "Mégse most",
+      "cancelNowHelp": "A számlázási portálon kezelheti vagy lemondhatja az előfizetést, vagy azonnal lemondhatja lent.",
+      "cancelNowConfirm": "Biztosan azonnal lemondja a csomagját? Ez nem vonható vissza.",
+      "cancelNowError": "A csomag azonnali lemondása jelenleg nem lehetséges. Próbálja újra, vagy használja a Számlázás kezelése lehetőséget."
+    },
+    "none": {
+      "title": "Még nincs család beállítva",
+      "body": "Hozzon létre Chatforia Családot és megosztott adatgyűjtőt Családi csomaggal.",
+      "goUpgrade": "Családi csomag indítása",
+      "viewPlans": "Összes csomag megtekintése"
+    },
+    "group": {
+      "defaultName": "Az én Chatforia Családom",
+      "role": "Az Ön szerepe: {{role}}"
+    },
+    "role": {
+      "owner": "Tulajdonos",
+      "member": "Tag"
+    },
+    "data": {
+      "heading": "Megosztott adatgyűjtő",
+      "caption": "Minden tag megosztja ezt a gyűjtőt. Figyelmeztetjük, ha közeledik a korláthoz."
+    },
+    "members": {
+      "title": "Családtagok",
+      "name": "Név",
+      "role": "Szerep",
+      "usage": "Használat",
+      "limit": "Korlát",
+      "unlimited": "Nincs konkrét korlát",
+      "inviteCta": "Tag meghívása"
+    },
+    "invite": {
+      "title": "Új tag meghívása",
+      "body": "Küldjön e-mailt vagy hivatkozást valakinek a megosztott családi adatgyűjtőbe való meghíváshoz.",
+      "emailLabel": "E-mail (nem kötelező)",
+      "emailPlaceholder": "barat@pelda.com",
+      "create": "Meghívó létrehozása",
+      "linkLabel": "Meghívó hivatkozás",
+      "copyAria": "Meghívó hivatkozás másolása",
+      "expiryHint": "Ez a hivatkozás néhány nap múlva lejár. Bármikor létrehozhat újat."
+    },
+    "join": {
+      "title": "Családhoz csatlakozás",
+      "body": "Meghívást kapott egy Chatforia Családhoz és a megosztott adatgyűjtőhöz.",
+      "cta": "Elfogadás és csatlakozás a családhoz",
+      "ctaLogin": "Bejelentkezés és csatlakozás a családhoz",
+      "success": "Csatlakozott ehhez a családhoz. Most megosztja az adatgyűjtőjüket.",
+      "goFamily": "Ugrás a családi irányítópultra",
+      "error": "Nem sikerült hozzáadni a családhoz. A meghívó érvénytelen vagy lejárt lehet."
+    }
+  },
   "premium": {
-    "heading": "Lépj Prémiumra",
-    "description": "Oldd fel a profi funkciókat és távolítsd el a hirdetéseket.",
+    "heading": "Prémiumra váltás",
+    "description": "Oldja fel a nagy teljesítményű funkciókat és távolítsa el a hirdetéseket.",
     "cta": "Frissítés",
     "upgrade": "Frissítés",
     "upgradeAria": "Frissítés Chatforia Prémiumra"
   },
-
-  "auth": {
-    "headline": "Biztonságos, globális üzenetküldés azonnali fordítással",
-    "description": "Végtől végig titkosítás, MI-alapú fordítás, eltűnő üzenetek és hang-/videóhívás.",
-    "feature": {
-      "encryption": "Alapértelmezett végtől végig titkosítás",
-      "translation": "100+ nyelv automatikus fordítása",
-      "disappearing": "Eltűnő üzenetek és olvasási visszajelzések",
-      "privacy": "Adatvédelem az első: az adataid nálad maradnak.",
-      "translate": "Valós idejű fordítás",
-      "disappear": "Eltűnő üzenetek",
-      "privacyAlt": "Adatvédelmi szemléletű tervezés"
-    },
-    "hero": {
-      "line1": "Biztonságos, globális",
-      "beforeEm": "üzenetküldés",
-      "em": "azonnali fordítással",
-      "sub": "Végtől végig titkosítás, MI-alapú fordítás, eltűnő üzenetek és hang-/videóhívás."
-    },
-    "feat": {
-      "encryption": "Alapértelmezett végtől végig titkosítás",
-      "translate": "100+ nyelv automatikus fordítása",
-      "disappear": "Eltűnő üzenetek és olvasási visszajelzések",
-      "privacy": "Adatvédelem az első. Te irányítasz."
-    },
-    "welcomeBack": "Üdv újra",
-    "continueGoogle": "Folytatás Google-lel",
-    "continueApple": "Folytatás Apple-lel",
-    "username": "Felhasználónév",
-    "password": "Jelszó",
-    "keepSignedIn": "Maradjak bejelentkezve",
-    "forgotPassword": "Elfelejtett jelszó?",
-    "loginButton": "Bejelentkezés",
-    "createAccount": "Fiók létrehozása",
-    "freeAccountButton": "Ingyenes fiók létrehozása",
-    "newHere": "Új vagy itt?",
-    "getApp": "Alkalmazás letöltése",
-    "desktopTip": "Asztali gépen vagy? Olvasd be a telefonoddal az alkalmazás letöltéséhez.",
-    "scanHelper": "Asztali gépen vagy? Olvasd be a telefonoddal az alkalmazás letöltéséhez.",
-    "goHome": "Ugrás a kezdőlapra",
-    "home": "Kezdőlap",
-    "headlineAlt": {
-      "main": "A biztonságos üzenetküldő, amely",
-      "highlight": "a te nyelveden szól"
-    },
-    "subhead": "Privát, titkosított és lefordított üzenetek — azonnal.",
-    "status": "Állapot megtekintése",
-    "upgrade": "Frissítés most",
-    "tip": "Tipp: Használd ugyanazt a fiókot weben és mobilon. Az üzeneteid szinkronban maradnak.",
-    "openDownload": "Letöltési oldal megnyitása",
-    "qrAlt": "Chatforia QR-kód",
-    "scanHint": "Olvasd be a kódot az app letöltéséhez vagy nyisd meg a böngészőben.",
-    "iosAria": "Letöltés az App Store-ból",
-    "iosTitle": "Letöltés az App Store-ból",
-    "iosBadgeAlt": "App Store jelvény",
-    "androidAria": "Szerezd meg a Google Playen",
-    "androidTitle": "Google Play Áruház",
-    "androidBadgeAlt": "Google Play jelvény",
-    "login": "Bejelentkezés",
-    "signup": "Regisztráció",
-    "email": "E-mail"
-  },
-
-  "footer": {
-    "plans": "Csomagok és árak",
-    "about": "A Chatforiáról",
-    "careers": "Karrier",
-    "press": "Sajtó",
-    "advertise": "Hirdetés",
-    "contact": "Kapcsolat",
-    "help": "Súgóközpont",
-    "status": "Állapot oldal",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Adatvédelmi irányelvek",
-    "terms": "Felhasználási feltételek",
-    "cookies": "Sütibeállítások",
-    "doNotSell": "Ne adják el az adataimat",
-    "language": "Nyelv",
-    "contactShort": "Kapcsolat",
-
-    "aria": "Lábléc",
-    "homeAria": "Chatforia kezdőlap",
-    "section": {
-      "company": "VÁLLALAT",
-      "support": "TÁMOGATÁS",
-      "downloads": "LETÖLTÉSEK",
-      "legal": "JOGI"
-    },
-    "links": {
-      "plans-pricing": "Csomagok és árak",
-      "about-chatforia": "A Chatforiáról",
-      "careers": "Karrier",
-      "press": "Sajtó",
-      "advertise": "Hirdetés",
-      "getting-started": "Első lépések",
-      "help-center": "Súgóközpont",
-      "contact-us": "Kapcsolat",
-      "status-page": "Állapot oldal",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Adatvédelmi irányelvek",
-      "terms-of-service": "Felhasználási feltételek",
-      "do-not-sell-my-info": "Ne adják el az adataimat",
-      "cookie-settings": "Sütibeállítások"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Szabadalmi eljárás alatt",
-    "backToTop": "↑ Vissza a tetejére"
-  },
-
-  "home": {
-    "title": "Kezdőlap",
-    "header": "Üzeneteid",
-    "subheader": "Küldj egy üzenetet a beszélgetés indításához.",
-    "sendButton": "Üzenet küldése",
-    "gifPicker": "GIF-választó megnyitása",
-    "emoji": "Emoji",
-    "upload": "Fotó vagy videó feltöltése",
-    "inputPlaceholder": "Írj egy üzenetet…",
-    "inputLabel": "Üzenetszerkesztő",
-    "sendTooltip": "Küldés",
-    "sendTooltipEmpty": "Írj üzenetet a küldéshez",
-    "send": "Küldés",
-    "welcomeMessage": "Üdv a Chatforiában",
-    "getStarted": "Kezdjük"
-  },
-
-  "press": {
-    "title": "Sajtó",
-    "contactLine": "Sajtómegkeresésekhez írj ide:",
-    "boilerplateTitle": "Bemutatkozó",
-    "boilerplateBody": "A Chatforia egy adatvédelem-központú üzenetküldő, amely megkönnyíti a többnyelvű beszélgetést. Az üzenetek alapértelmezetten végtől végig titkosítottak, a beépített fordítás pedig valós időben 100+ nyelvet támogat. A felhasználók engedélyezhetik az eltűnő üzeneteket, az olvasási visszajelzések opcionálisak, és az eszközök között szinkronban maradnak. Elérhető iOS-en, Androidon és weben.",
-    "assetsTitle": "Márkaeszközök",
-    "assetsSubtitle": "Logók, képernyőképek és termékképek.",
-    "downloadCta": "Médiacsomag letöltése",
-    "downloadTitle": "Szerezd meg az alkalmazást",
-    "scanTip": "Asztali gépen vagy? Olvasd be a telefonoddal az alkalmazás letöltéséhez.",
-    "qrAria": "Chatforia weboldal megnyitása",
-    "appStore": "Letöltés az App Store-ból",
-    "googlePlay": "Szerezd meg a Google Playen"
-  },
-
-  "careers": {
-    "title": "Karrier",
-    "intro": "Kis csapat vagyunk, akik egy privát, globális üzenetküldőt építenek. Ha fontos számodra a titkosítás, az akadálymentesítés és a kellemes felhasználói élmény, örömmel hallunk felőled.",
-    "openRoles": "<b>Nyitott pozíciók:</b> Mérnök (Full-stack, iOS, Android), Termék, Támogatás.",
-    "apply": "<b>Jelentkezés:</b> Küldd el az önéletrajzod/linkjeid a <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> címre.",
-    "emailCta": "Önéletrajz küldése e-mailben"
-  },
-
-  "about": {
-    "title": "A Chatforiáról",
-    "description": "A Chatforia egy biztonságos, többnyelvű üzenetküldő végtől végig titkosítással, azonnali fordítással és hang-/videóhívással. Küldetésünk egyszerű: segítsünk az embereknek kapcsolódni — biztonságosan, privát módon és nyelveken átívelően.",
-    "valuesTitle": "Értékeink",
-    "values": {
-      "privacy": "<bold>Adatvédelem az első:</bold> Alapértelmezett E2E titkosítás.",
-      "access": "<bold>Hozzáférés mindenkinek:</bold> 100+ nyelv automatikus fordítása.",
-      "control": "<bold>Irányítás:</bold> Eltűnő üzenetek és olvasási visszajelzések opcionálisan.",
-      "privacy_aria": "Adatvédelem az első: alapértelmezett E2E titkosítás.",
-      "access_aria": "Hozzáférés mindenkinek: 100+ nyelv automatikus fordítása.",
-      "control_aria": "Irányítás: az eltűnő üzenetek és az olvasási visszajelzések opcionálisak."
-    },
-    "howTitle": "Hogyan működik a Chatforia",
-    "howDescription": "Az üzenetek az eszközödön kerülnek titkosításra, mielőtt elhagynák azt. A fordítás, a mentések és a szinkron úgy készültek, hogy a szervereink a lehető legkevesebb adatot lássák."
-    },
-
-  "advertise": {
-    "title": "Hirdess a Chatforiában",
-    "description": "Érd el az elkötelezett üzenetküldő közönséget ízléses, márkabiztos felületeken. Kínálunk jól látható bannerhelyeket, szponzorációt és saját promókat. A Prémium előfizetők nem látnak hirdetéseket.",
-    "adsense": {
-      "withPubId": "Jelenleg <b>Google AdSense</b> hirdetéseket jelenítünk meg. Ha Google Ads-en keresztül céloznál minket, használd a következő publisher ID-t: <code>{{pubId}}</code>, és kérj kezelt elhelyezést az alábbi egységeinkre. Közvetlen szponzoráció is elérhető — használd az űrlapot.",
-      "noPubId": "Jelenleg <b>Google AdSense</b> hirdetéseket jelenítünk meg. Közvetlen szponzoráció is elérhető — használd az alábbi űrlapot."
-    },
-    "inventoryHeader": "Készlet és specifikációk",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Elfogadott méretek",
-      "adsenseSlot": "AdSense hely:"
-    },
-    "noPlacements": "Még nincs konfigurált elhelyezés. Add hozzá az ads/placements.js fájlban.",
-    "whyHeader": "Miért a Chatforia?",
-    "why": {
-      "highSession": "Gyakori belépések és hosszú időtöltés a chat UI-ban",
-      "brandSafe": "Márkabiztos formátumok; tiszteletteljes gyakoriság korlátozás",
-      "sponsoredMoments": "Szponzorált pillanatok (pl. „Csevegés indítása” modal) elérhetők",
-      "deals": "Közvetlen megállapodások vagy programmatic AdSense/Google Ads útján"
-    },
-    "contactHeader": "Kapcsolat",
-    "form": {
-      "submittedMsg": "Köszönjük! Megérkezett a megkeresésed. Hamarosan jelentkezünk.",
-      "missingRequired": "Kérjük, töltsd ki a nevet, e-mailt és üzenetet.",
-      "successToast": "Köszönjük! Hamarosan kapcsolatba lépünk veled.",
-      "mailtoInfo": "Megnyitjuk az e-mail kliensed a megkeresés elküldéséhez…",
-      "nameLabel": "Neved",
-      "namePlaceholder": "Kiss Anna",
-      "emailLabel": "E-mail",
-      "emailPlaceholder": "te@ceg.hu",
-      "companyLabel": "Cég",
-      "companyPlaceholder": "Acme Zrt.",
-      "budgetLabel": "Havi büdzsé (opcionális)",
-      "budgetPlaceholder": "5000 USD",
-      "messageLabel": "Mesélj a kampányodról",
-      "messagePlaceholder": "Célzás, dátumok, KPI-k, elhelyezési preferenciák…",
-      "sendCta": "Ajánlatkérés küldése"
-    },
-    "legal": {
-      "disclaimerStart": "Beküldéssel elfogadod a",
-      "terms": "Feltételeket",
-      "and": "és",
-      "privacy": "Adatvédelmi irányelveket"
-    }
-  },
-
   "upgrade": {
     "title": "Frissítés",
-    "subtitle": "Találd meg a neked való csomagot: a Plus reklámmentes, a Premium pedig minden profi funkciót felold.",
+    "titleLoggedIn": "Frissítés",
+    "titlePublic": "Árak",
+    "h1": "Chatforia Árak & Csomagok",
+    "h1Subtitle": "Kezdje az ingyenes, hirdetésekkel támogatott csomaggal. Váltson hirdetésmentes Plus csomagra, vagy oldja fel a teljes teljesítményű funkciókat Prémiummal.",
+    "subtitle": "Válasszon alkalmazáscsomagot, adjon hozzá adatcsomagokat saját magának, vagy ossza meg az adatokat a családjával — mindezt egy helyen.",
+    "subtitle.app": "Kezdje az ingyenes, hirdetésekkel támogatott csomaggal. Váltson hirdetésmentes Plus csomagra, vagy oldja fel a teljes teljesítményű funkciókat Prémiummal.",
+    "subtitle.mobile": "Adjon hozzá globális eSIM-adatot, hogy a Chatforia Wi-Fi nélkül is működjön.",
+    "subtitle.family": "Hozzon létre megosztott adatgyűjtőt a családjának, és kezelje mindenki használatát egy helyen.",
     "perMonth": "hó",
     "perYear": "év",
-    "goPremium": "Lépj Prémiumra",
-    "benefitsLine": "Oldd fel a profi funkciókat és távolítsd el a hirdetéseket.",
+    "goPremium": "Prémiumra váltás",
+    "benefitsLine": "Oldja fel a nagy teljesítményű funkciókat és távolítsa el a hirdetéseket.",
     "ctaText": "Frissítés",
     "aria": "Frissítés Chatforia Prémiumra",
     "toggle": {
       "monthly": "Havi",
-      "annual": "Éves (25% kedvezmény)"
+      "annual": "Éves (30% megtakarítás)"
     },
     "scheduleBanner": {
-      "title": "Az előfizetés véget ér",
-      "body": "Visszaváltasz az Ingyenes csomagra ekkor:",
+      "title": "Az előfizetés lejár",
+      "body": "Visszatér Ingyenesre",
       "keepPlanCta": "{{plan}} megtartása",
       "manageBillingCta": "Számlázás kezelése"
     },
@@ -483,504 +663,1012 @@
       "redirecting": "Átirányítás…"
     },
     "auth": {
-      "continue": "Tovább a bejelentkezéshez",
+      "continue": "Folytatás a bejelentkezéshez",
       "createAccount": "Fiók létrehozása",
       "signIn": "Bejelentkezés"
     },
     "cta": {
       "aria": "Csomag kiválasztása",
-      "getPlus": "Frissítés Plusra",
+      "getPlus": "Frissítés Plus csomagra",
       "upgradeMonthly": "Havi frissítés",
       "upgradeAnnual": "Éves frissítés"
+    },
+    "section": {
+      "app": "Alkalmazáscsomagok",
+      "mobile": "Mobil (eSIM)",
+      "family": "Családi csomagok"
     },
     "plans": {
       "free": {
         "title": "Ingyenes",
         "price": "$0",
-        "desc": "Kezdd el az üzenetküldést ingyen.",
+        "desc": "Kezdje az ingyenes üzenetküldést. Ideális, ha csak kipróbálja a Chatforiát.",
         "features": {
-          "msg": "1:1 és csoportos üzenetküldés",
-          "aiBasic": "Alap MI-válaszok",
-          "attachments": "Normál mellékletek"
+          "chat": "Valós idejű 1:1 és csoportos csevegés, valamint hang- és videóhívások",
+          "media": "Fotók, hangüzenetek és rövid videók megosztása",
+          "ai": "MI-alapú okos válaszok és azonnali fordítás (tisztességes használat)",
+          "disappearing": "Eltűnő üzenetek és alapvető adatvédelmi vezérlők",
+          "ads": "Örökké ingyenes hirdetésekkel az alkalmazásban"
         },
         "ctaCurrent": "Aktuális csomag",
-        "ctaUnavailable": "Váltás Ingyenesre (nem elérhető)",
-        "aria": "Ingyenes csomag (aktuális)"
+        "ctaManage": "Kezelés a számlázásban",
+        "ctaPublic": "Kezdje el – folytatás a bejelentkezéshez",
+        "aria": "Ingyenes csomag"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / hó",
-        "desc": "A legkedvezőbb reklámmentes élmény.",
+        "price": "$6.99",
+        "desc": "Minden alapvető funkció hirdetések nélkül. Tökéletes a mindennapi üzenetküldéshez és hívásokhoz.",
         "features": {
-          "noAds": "Minden reklám eltávolítása",
-          "msg": "1:1 és csoportos üzenetküldés",
-          "attachments": "Nagyobb mellékletek",
-          "aiBasic": "Alap MI-válaszok"
+          "allFree": "Minden az Ingyenesben, hirdetések nélkül",
+          "forwarding": "Hívások és SMS-ek továbbítása a valódi telefonszámára",
+          "history": "Hosszabb üzenettörténet (legfeljebb 6 hónap)",
+          "support": "Gyorsabb támogatás, ha valami elromlik"
         },
         "badge": "Népszerű",
-        "cta": "Reklámmentesre váltok",
-        "aria": "Frissítés Plusra"
+        "cta": "Hirdetésmentesre váltás",
+        "ctaPublic": "Plus beszerzése – folytatás a bejelentkezéshez",
+        "aria": "Frissítés Plus csomagra"
       },
       "premiumMonthly": {
-        "title": "Prémium (Havi)",
-        "price": "$24.99 / hó",
-        "desc": "Teljes funkcionalitás, csengőhangok és MI-eszközök.",
+        "title": "Prémium (havi)",
+        "price": "$11.99",
+        "desc": "A teljes Chatforia-élmény: MI-eszközök, testreszabás és kiemelt támogatás.",
         "features": {
-          "plusAll": "A Plus minden funkciója",
-          "ringtones": "Egyedi csengő- és üzenethangok",
-          "powerAi": "Haladó MI-funkciók",
-          "priorityUpdates": "Elsőbbségi frissítések",
-          "backups": "Biztonsági mentések és eszközszinkron"
+          "plusAll": "Minden a Plusban",
+          "themes": "Minden prémium színtéma és alkalmazástestreszabás feloldása",
+          "ai": "Csak Prémium MI-eszközök átírásokhoz, okos válaszokhoz és összefoglalókhoz",
+          "support": "Kiemelt támogatás, amikor a legnagyobb szüksége van rá"
         },
-        "badge": "Legjobb érték",
-        "cta": "Frissítés (Havi)",
-        "aria": "Frissítés Prémium Havi csomagra"
+        "badge": "Ajánlott",
+        "cta": "Frissítés (havi)",
+        "ctaPublic": "Prémium feloldása – folytatás a bejelentkezéshez",
+        "aria": "Frissítés Prémium havi csomagra"
       },
       "premiumAnnual": {
-        "title": "Prémium (Éves)",
-        "price": "$225 / év",
-        "desc": "Többet spórolsz éves számlázással.",
+        "title": "Prémium (éves)",
+        "price": "$99",
+        "desc": "Többet takarítson meg éves számlázással — extra színtémákkal, MI-eszközökkel és kiemelt támogatással.",
         "features": {
-          "allPremium": "Minden a Prémium csomagból",
-          "annualBilling": "Éves számlázás",
-          "save25": "Kb. 25% megtakarítás a havihoz képest",
-          "sameFeatures": "Ugyanazok a funkciók, mint a Havi csomagban"
+          "allPremium": "Minden a Prémium havi csomagban — extra színtémákkal",
+          "annualBilling": "Egyszeri éves számlázás",
+          "save25": "Körülbelül 30% megtakarítás a havi fizetéshez képest",
+          "bestFor": "Legjobb a nagy teljesítményű felhasználóknak, távmunkásoknak és gyakori utazóknak"
         },
-        "badge": "25% kedvezmény",
-        "cta": "Frissítés (Éves)",
-        "aria": "Frissítés Prémium Éves csomagra",
-        "disclaimer": "Előre számlázva. Bármikor lemondható. Rejtett díjak nélkül."
+        "badge": "30% megtakarítás",
+        "cta": "Frissítés (éves)",
+        "ctaPublic": "30% megtakarítás éves csomaggal – folytatás a bejelentkezéshez",
+        "aria": "Frissítés Prémium éves csomagra",
+        "disclaimer": "Előre fizetendő. Bármikor lemondható. Nincsenek rejtett díjak."
       }
     },
     "marketing": {
       "freeTitle": "Ingyenes",
-      "freeDesc": "Kezdd el az üzenetküldést ingyen.",
+      "freeDesc": "Kezdje az ingyenes üzenetküldést.",
       "plusTitle": "Plus",
       "plusBadge": "Népszerű",
-      "plusDesc": "A legkedvezőbb reklámmentes élmény.",
+      "plusDesc": "A legolcsóbb hirdetésmentes élmény.",
       "premiumMonthlyTitle": "Prémium",
-      "premiumMonthlyDesc": "Teljes funkcionalitás, csengőhangok és MI-eszközök.",
+      "premiumMonthlyDesc": "Teljes funkciók, csengőhangok és MI-eszközök.",
       "premiumAnnualTitle": "Prémium",
-      "premiumAnnualDesc": "Többet spórolsz éves számlázással.",
-      "annualDisclaimer": "Előre számlázva. Bármikor lemondható. Nincsenek rejtett díjak."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Első lépések",
-    "subtitle": "Új vagy a Chatforiában? Ez a gyors útmutató megmutatja a lényeget — percek alatt hatékony lehetsz.",
-    "alert": {
-      "text": "Az útmutató a funkciók bővülésével frissülni fog. Ha valami hiányzik, jelezd a",
-      "contactLink": "Kapcsolatfelvétel"
+      "premiumAnnualDesc": "Többet takarítson meg éves számlázással.",
+      "annualDisclaimer": "Előre fizetendő. Bármikor lemondható. Nincsenek rejtett díjak."
     },
-    "section1": {
-      "title": "1) Hozd létre a fiókodat",
-      "signup": "Regisztráció",
-      "or": "vagy",
-      "login": "jelentkezz be",
-      "loginText": "a meglévő fiókoddal.",
-      "prefsStart": "Állítsd be a",
-      "prefsLink": "preferenciáidat",
-      "prefsRest": "(nyelv, olvasási visszajelzések, témák)."
+    "mobile": {
+      "title": "Chatforia Mobil (eSIM adatcsomagok)",
+      "subtitle": "Adjon hozzá globális adatot, hogy a Chatforia Wi-Fi nélkül is működjön. Az árak automatikusan alkalmazkodnak az Ön országához és pénzneméhez.",
+      "subtitle.detail": "Válasszon egyszeri globális adatcsomagot, hogy az utazás vagy Wi-Fi nélküli időszak alatt is működjön a Chatforia.",
+      "scope": {
+        "local": "Helyi",
+        "europe": "Európa",
+        "global": "Globális"
+      },
+      "note": "Nem árulunk 3 GB alatti adatcsomagokat.",
+      "localEquals": "Helyi = {{country}}",
+      "localEqualsFallback": "Helyi = az Ön aktuális országa",
+      "perPack": "/ csomag",
+      "cta": "Ezen adatcsomag beszerzése",
+      "ctaPublic": "Ezen adatcsomag beszerzése",
+      "checkout": {
+        "redirecting": "Átirányítás…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Nagy sebességű adat nagy használat esetén",
+          "throttle": "A sebesség lassulhat nagy használat után",
+          "coverage": "Megbízható lefedettség",
+          "instant": "Azonnali eSIM-aktiválás",
+          "noContract": "Egyszeri csomag, nincs szerződés"
+        }
+      },
+      "disclaimer": {
+        "devices": "Az eSIM adatcsomagok eSIM-kompatibilis és feloldott eszközt igényelnek. A rendelkezésre állás a telefonmodelltől, szolgáltatótól és országtól függ. A lefedettség és sebesség régiónként változik."
+      },
+      "small": {
+        "title": "Kezdő csomag",
+        "desc": "3 GB nagy sebességű adat — ideális könnyű üzenetküldéshez és alkalmi hívásokhoz.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Rövid utak, könnyű üzenetküldés és alkalmi hívások",
+        "aria": "Kezdő eSIM adatcsomag vásárlása"
+      },
+      "medium": {
+        "title": "Utazó csomag",
+        "desc": "5 GB nagy sebességű adat utazáshoz, ingázáshoz és rendszeres VoIP-hívásokhoz.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Hétvégi utak, rendszeres VoIP-hívások és térképek",
+        "aria": "Utazó eSIM adatcsomag vásárlása"
+      },
+      "large": {
+        "title": "Erő csomag",
+        "desc": "10 GB nagy sebességű adat intenzív csevegéshez, hívásokhoz és videóhoz a Chatforia hálózaton.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Intenzív csevegés, hívások, videó és hotspot használat",
+        "aria": "Erőfelhasználói eSIM adatcsomag vásárlása"
+      },
+      "compare": {
+        "title": "eSIM adatcsomagok összehasonlítása",
+        "col": {
+          "pack": "Csomag",
+          "data": "Tartalmazott adat",
+          "bestFor": "Legjobb"
+        },
+        "disclaimer": "A tényleges adatfelhasználás attól függ, hogyan használja a Chatforiát (hang, videó, média és más telefonalkalmazások)."
+      }
     },
-    "section2": {
-      "title": "2) Kezdd el az üzenetküldést",
-      "item1": "Hozz létre privát vagy csoportos beszélgetést, és küldd el az első üzeneted.",
-      "item2": "Használd az azonnali fordítást 100+ nyelven történő csevegéshez.",
-      "item3": "Próbáld ki az eltűnő üzeneteket és az olvasási visszajelzéseket a Profil → Adatvédelem alatt."
+    "family": {
+      "title": "Chatforia Család (megosztott adat)",
+      "subtitle": "Ossza meg egyetlen adatgyűjtőt a családjával. Egy számla, több Chatforia-fiók, globális lefedettség.",
+      "perPack": "/ csomag",
+      "small": {
+        "title": "Családi Kicsi",
+        "desc": "20 GB megosztott nagy sebességű adat — 2–3 könnyű felhasználónak ideális.",
+        "price": "$29.99",
+        "aria": "Családi Kicsi csomag vásárlása"
+      },
+      "medium": {
+        "title": "Családi Közepes",
+        "desc": "40 GB megosztott nagy sebességű adat — 3–5 aktív tagnak ideális.",
+        "price": "$49.99",
+        "aria": "Családi Közepes csomag vásárlása"
+      },
+      "large": {
+        "title": "Családi Nagy",
+        "desc": "80 GB megosztott nagy sebességű adat — mindig online családoknak.",
+        "price": "$84.99",
+        "aria": "Családi Nagy csomag vásárlása"
+      },
+      "feature": {
+        "shared": "Megosztott adatgyűjtő a családjának",
+        "members": "Maximum 4 további tag meghívása",
+        "membersMore": "3–5 aktív tagnak ideális",
+        "manage": "Korlátozások kezelése tagonként",
+        "topUp": "További csomagok hozzáadása bármikor",
+        "bestValue": "Legjobb érték/GB",
+        "fairUse": "Tisztességes használat és helyi korlátok szerint"
+      },
+      "disclaimer": "A családi csomagok megosztott adatgyűjtőt hoznak létre vagy töltenek fel. Bármikor meghívhat vagy eltávolíthat tagokat.",
+      "footnote": "A családi csomagok egyetlen adatgyűjtőt osztanak meg a csatolt Chatforia-fiókok között. A rendelkezésre állás és korlátok az országtól és helyi előírásoktól függnek."
     },
-    "section3": {
-      "title": "3) Lépj tovább",
-      "item1Part1": "A csomagodat a",
-      "upgradeLink": "Frissítés",
-      "item1Part2": "oldalon kezelheted (Plus = reklámmentes, Prémium = teljes funkcionalitás).",
-      "item2Part1": "Kapcsolj további eszközöket és állíts be titkosított biztonsági mentést a",
-      "settingsLink": "Beállításokban"
+    "why": {
+      "title": "Miért váltanak az emberek a Chatforiára",
+      "subtitle": "A Chatforia valódi telefonszámot, okos fordítást és egyértelmű utat ad a hirdetésmentesség felé, amikor készen áll.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Könnyebb hirdetések az Ingyenesben, egyszerű Plus frissítés, amikor készen áll, és Prémium eszközök, amelyeket a TextNow nem kínál."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modern alkalmazás, globális első tervezés és beépített fordítás a régi stílusú hívástovábbítás helyett."
+        },
+        "messengers": {
+          "title": "Chatforia vs csevegőalkalmazások",
+          "body": "Valódi telefonszámokra küldhet üzenetet — nem csak az alkalmazás más felhasználóinak — MI-vel és állapottal. Nagyszerű, ha TextFree vagy TextMe alkalmazásból érkezik."
+        }
+      },
+      "tableTitle": "Hogyan hasonlít a Chatforia",
+      "col": {
+        "feature": "Funkció"
+      },
+      "feature": {
+        "freeNumber": "Ingyenes telefonszám",
+        "translation": "Beépített automatikus fordítás",
+        "aiTools": "MI-eszközök (átírások, válaszok, összefoglalók)",
+        "ads": "Hirdetésmentes opció",
+        "history": "Üzenettörténet"
+      },
+      "yes": "Igen",
+      "no": "Nem",
+      "yesPremium": "Igen (Prémium)",
+      "plusPremium": "Plus & Prémium",
+      "limited": "Korlátozott",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Legfeljebb 12+ hónap",
+        "textnow": "Fióktól függően változó",
+        "voice": "Korlátozott / fiók alapú"
+      },
+      "disclaimer": "Az összehasonlítás nyilvánosan elérhető információkon alapul, és idővel változhat. Más ingyenes üzenetküldő alkalmazások (pl. TextFree vagy TextMe) általában hasonlóak a TextNow-hoz."
     },
-    "cta": {
-      "seePlans": "Csomagok megtekintése",
-      "openSettings": "Beállítások megnyitása"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Súgóközpont",
     "faq": {
-      "account": {
-        "q": "Hogyan hozhatok létre vagy állíthatok vissza fiókot?",
-        "a": "Töltsd le az appot vagy használd a webet, koppints a „Fiók létrehozása” gombra, erősítsd meg e-mailt/telefont. Visszaállításhoz használd az „Elfelejtett jelszó” lehetőséget."
+      "title": "Árak és csomagok GYIK",
+      "free": {
+        "q": "Valóban ingyenes az Ingyenes csomag?",
+        "a": "Igen. Az Ingyenes csomag tartalmaz Chatforia-számot, hívást és üzenetküldést hirdetésekkel. Maradhat az Ingyenesen, ameddig csak akar, vagy frissíthet a hirdetések eltávolításához és további funkciók feloldásához."
       },
-      "privacy": {
-        "q": "Az üzenetek végtől végig titkosítottak?",
-        "a": "Igen. Az üzenetek és hívások alapértelmezetten végtől végig titkosítottak. Csak te és a címzett olvashatjátok."
+      "plusPremium": {
+        "q": "Mi a különbség a Plus és a Prémium között?",
+        "a": "A Plus eltávolítja a hirdetéseket és meghosszabbítja az üzenettörténetet — tökéletes a mindennapi használatra. A Prémium extra testreszabást, MI-eszközöket átírásokhoz és válaszokhoz, valamint kiemelt támogatást ad a nagy teljesítményű felhasználóknak."
       },
-      "translate": {
-        "q": "Hogyan működik az azonnali fordítás?",
-        "a": "Kapcsold be az „Automatikus fordítás” opciót a Beállítások → Megjelenés és nyelv menüben. Támogatott esetben eszközön fordítunk, egyébként biztonságos API-kon, minimális metadatával."
+      "esim": {
+        "q": "Hol működnek az eSIM adatcsomagok?",
+        "a": "A Chatforia Mobil globális eSIM-lefedettséget használ. A rendelkezésre állás az országtól és eszköztől függ. Az alkalmazásban az aktiváláskor látja a támogatott opciókat."
+      },
+      "cancel": {
+        "q": "Bármikor lemondhatom vagy módosíthatom a csomagomat?",
+        "a": "Igen. Az alkalmazásban a számlázási oldalon kezelheti vagy lemondhatja az előfizetést. A változások a jelenlegi számlázási időszak végén lépnek életbe."
+      },
+      "family": {
+        "q": "Hogyan működnek a Családi csomagok?",
+        "a": "A Családi csomagok megosztott adatgyűjtőt hoznak létre több Chatforia-fiók között. Egy személy fizeti a számlát, és meghívhat vagy eltávolíthat tagokat, valamint tagonként beállíthat korlátokat."
+      }
+    },
+    "gettingStarted": {
+      "title": "Kezdés",
+      "subtitle": "Új a Chatforiában? Ez a gyors útmutató a legfontosabbakat mutatja, hogy percek alatt produktív lehessen.",
+      "alert": {
+        "text": "Ez az útmutató bővülni fog az új funkciók megjelenésével. Ha valami hiányzik, tudassa velünk a",
+        "contactLink": "Kapcsolatfelvétel"
+      },
+      "section1": {
+        "title": "1) Fiók létrehozása",
+        "signup": "Regisztráció",
+        "or": "vagy",
+        "login": "bejelentkezés",
+        "loginText": "a meglévő fiókjával.",
+        "prefsStart": "Állítsa be a",
+        "prefsLink": "preferenciáit",
+        "prefsRest": "(nyelv, olvasási visszaigazolások, témák)."
+      },
+      "section2": {
+        "title": "2) Üzenetküldés indítása",
+        "item1": "Hozzon létre közvetlen üzenetet vagy csoportot, és küldje el az első üzenetét.",
+        "item2": "Használja az azonnali fordítást 100+ nyelven való csevegéshez.",
+        "item3": "Próbálja ki az eltűnő üzeneteket és olvasási visszaigazolásokat a Profil → Adatvédelem menüben."
+      },
+      "section3": {
+        "title": "3) Tovább lépés",
+        "item1": "Bármikor frissíthet fizetős csomagra az alkalmazásban.",
+        "item2": "Bejelentkezés után további eszközöket csatolhat, és titkosított mentéseket állíthat be az alkalmazás Beállításai menüjében."
+      },
+      "cta": {
+        "seePlans": "Csomagok megtekintése",
+        "openSettings": "Beállítások megnyitása"
+      }
+    },
+    "helpCenter": {
+      "title": "Súgó központ",
+      "faq": {
+        "account": {
+          "q": "Hogyan hozhatok létre vagy állíthatom helyre a fiókomat?",
+          "a": "Töltse le az alkalmazást vagy használja a webet, koppintson a „Fiók létrehozása” gombra, erősítse meg az e-mailt/telefonszámot. Helyreállításhoz használja az „Elfelejtett jelszó” lehetőséget."
+        },
+        "privacy": {
+          "q": "Végpontok közötti titkosításúak az üzenetek?",
+          "a": "Igen. Az üzenetek és hívások alapértelmezés szerint végpontok közötti titkosításúak. Csak Ön és a címzett olvashatja őket."
+        },
+        "translate": {
+          "q": "Hogyan működik az azonnali fordítás?",
+          "a": "Engedélyezze az „Automatikus fordítás” lehetőséget a Beállítások → Megjelenés & Nyelv menüben. Ahol támogatott, az eszközön fordítunk, egyébként biztonságos API-kon keresztül minimális metaadatokkal."
+        },
+        "contact": {
+          "q": "Kapcsolatfelvétel az ügyfélszolgálattal",
+          "a": "Írjon nekünk a support@chatforia.com címre. Mellékeljen képernyőképeket és az alkalmazás verzióját."
+        }
+      }
+    },
+    "contact": {
+      "title": "Kapcsolatfelvétel",
+      "successMsg": "Köszönjük — a csapatunk e-mailben válaszol.",
+      "errorSend": "Nem sikerült elküldeni. Küldjön e-mailt a support@chatforia.com címre.",
+      "form": {
+        "nameLabel": "Név",
+        "emailLabel": "E-mail",
+        "messageLabel": "Üzenet",
+        "sendCta": "Küldés"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Adatvédelmi szabályzat",
+      "lastUpdated": "Utolsó frissítés:",
+      "intro": {
+        "body": "Ez az Adatvédelmi szabályzat elmagyarázza, hogyan gyűjtjük, használjuk és osztjuk meg az információkat a Chatforia („mi”, „minket”) alkalmazásai és szolgáltatásai használatakor. Úgy terveztük a Chatforiát, hogy minimalizáljuk az általunk elérhető adatmennyiséget."
+      },
+      "infoWeCollect": {
+        "title": "Gyűjtött információk",
+        "account": "Fiókinformációk (pl. e-mail/telefonszám) a fiók létrehozásához és védelméhez.",
+        "encrypted": "A titkosított tartalom (üzenetek/hívások) végpontok közötti titkosítású; nem tudjuk elolvasni.",
+        "diagnostics": "Diagnosztikai/használati adatok, pl. összeomlási naplók, eszköz típusa vagy durva analitika a teljesítmény javításához."
+      },
+      "sms": {
+        "title": "Mobiltelefonszámok és SMS",
+        "body": "Ha mobiltelefonszámot ad meg, azt fiókellenőrzéshez, bejelentkezési riasztásokhoz és felhasználók közötti SMS-üzenetküldéshez használjuk, ahol támogatott. Tranzakciós SMS-eket küldhetünk a fiókjával és a Chatforia-tevékenységével kapcsolatban. Bármikor leiratkozhat az SMS-üzenetekről a támogatott leiratkozási kulcsszó (pl. „STOP”) válaszolásával vagy a Beállításokban az értesítési preferenciák módosításával. Nem adjuk el a telefonszámát, és nem használjuk nem kapcsolódó marketingcélokra.",
+        "newText": "Új szöveg",
+        "enterRecipient": "Adjon meg egy nevet vagy számot",
+        "typeMessage": "Írjon üzenetet…",
+        "addRecipient": "Adjon meg egy címzettet fent a kezdéshez…"
+      },
+      "howWeUse": {
+        "title": "Hogyan használjuk az információkat",
+        "provide": "A szolgáltatás biztosítása és védelme (hitelesítés, spam/visszaélés-észlelés).",
+        "improve": "Funkciók javítása (fordítás minősége, megbízhatóság).",
+        "legal": "Jogi kötelezettségek teljesítése."
+      },
+      "sharing": {
+        "title": "Megosztás",
+        "body": "Nem adjuk el a személyes adatokat. Korlátozott adatokat oszthatunk meg feldolgozókkal (pl. push-értesítések, analitika) szigorú szerződések alapján."
+      },
+      "rights": {
+        "title": "Az Ön jogai",
+        "body": "A régiótól függően (pl. GDPR/UK GDPR/CPRA) kérheti az adatokhoz való hozzáférést, javítást, törlést vagy bizonyos feldolgozásból való leiratkozást. Kapcsolat: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Adatmegőrzés és biztonság",
+        "body": "Csak azt őrizzük meg, ami a szolgáltatás működtetéséhez szükséges, és ipari szabványú biztonságot alkalmazunk. Az E2E tartalmat nem tudjuk visszafejteni."
+      },
+      "children": {
+        "title": "Gyermekek",
+        "body": "A Chatforia nem 13 év alatti gyermekeknek (vagy a helyi törvény által előírt korhatárnak) szól."
+      },
+      "changes": {
+        "title": "Változások",
+        "body": "Itt tesszük közzé a frissítéseket, és módosítjuk az „Utolsó frissítés” dátumát."
       },
       "contact": {
-        "q": "Kapcsolat a támogatással",
-        "a": "Írj a support@chatforia.com címre. Csatolj képernyőképeket és az alkalmazás verzióját."
+        "title": "Kapcsolat",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Kapcsolat",
-    "successMsg": "Köszönjük — csapatunk e-mailben válaszol.",
-    "errorSend": "Nem sikerült elküldeni. Kérjük, írj a support@chatforia.com címre.",
-    "form": {
-      "nameLabel": "Név",
-      "emailLabel": "E-mail",
-      "messageLabel": "Üzenet",
-      "sendCta": "Küldés"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Adatvédelmi irányelvek",
-    "lastUpdated": "Utoljára frissítve:",
-    "intro": {
-      "body": "Ez az Adatvédelmi irányelv leírja, hogy a Chatforia („mi”, „minket”) hogyan gyűjt, használ és oszt meg információkat az alkalmazásaink és szolgáltatásaink használata során. A Chatforiát úgy tervezzük, hogy minimalizáljuk a hozzáférhető adatokat."
     },
-    "infoWeCollect": {
-      "title": "Az általunk gyűjtött információk",
-      "account": "Fiókadatok (pl. e-mail/telefon) a fiók létrehozásához és védelméhez.",
-      "encrypted": "Titkosított tartalom (üzenetek/hívások) végtől végig titkosított; nem tudjuk elolvasni.",
-      "diagnostics": "Diagnosztika/használat, mint összeomlási logok, eszköztípus vagy durva analitika a teljesítmény javításához."
+    "terms": {
+      "title": "Szolgáltatási feltételek",
+      "lastUpdated": "Utolsó frissítés:",
+      "intro": {
+        "body": "A Chatforia használatával elfogadja ezeket a feltételeket. Ha nem ért egyet, ne használja a szolgáltatást."
+      },
+      "accounts": {
+        "title": "Fiókok",
+        "itemAccurateInfo": "Adjon meg pontos információkat, és tartsa biztonságban a hitelesítő adatait.",
+        "itemResponsibility": "Ön felelős a fiókjában zajló tevékenységért."
+      },
+      "acceptableUse": {
+        "title": "Elfogadható használat",
+        "itemNoAbuse": "Semmilyen illegális, visszaélésszerű vagy jogsértő tartalom; nincs spam vagy automatizált visszaélés.",
+        "itemSuspend": "Jogsértés esetén felfüggeszthetjük vagy megszüntethetjük a fiókot."
+      },
+      "sms": {
+        "title": "SMS-kommunikáció",
+        "body": "Ha mobiltelefonszámot ad meg, elfogadja, hogy a Chatforia SMS-üzeneteket küldhet a fiókjával és a szolgáltatás használatával kapcsolatban, például bejelentkezési riasztásokat, biztonsági értesítéseket és a kezdeményezett vagy részt vett beszélgetésekkel kapcsolatos üzeneteket. Nem használunk SMS-t promóciós vagy marketing célokra az Ön kifejezett hozzájárulása nélkül. Az üzenet- és adatforgalmi díjak érvényesek lehetnek. Bármikor leiratkozhat az SMS-üzenetekről a támogatott leiratkozási kulcsszó (pl. „STOP”) válaszolásával vagy az alkalmazásban az értesítési beállítások frissítésével."
+      },
+      "yourContent": {
+        "title": "Az Ön tartalma",
+        "body": "Ön megtartja a tartalma feletti jogokat. Nekünk szükséges jogokat ad a szolgáltatás működtetéséhez (pl. továbbítás, tárolás, fordítás)."
+      },
+      "disclaimer": {
+        "title": "Jognyilatkozatok és felelősség",
+        "body": "A szolgáltatás „ahogy van” állapotban, garanciák nélkül kerül biztosításra. A törvény által megengedett legnagyobb mértékben a Chatforia nem felelős közvetett vagy következményes károkért."
+      },
+      "changes": {
+        "title": "Változások",
+        "body": "Frissíthetjük ezeket a feltételeket; a változások utáni további használat elfogadást jelent."
+      },
+      "contact": {
+        "title": "Kapcsolat",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "Az információk felhasználása",
-      "provide": "A szolgáltatás biztosítása és védelme (hitelesítés, spam/visszaélés észlelés).",
-      "improve": "Funkciók fejlesztése (fordítási minőség, megbízhatóság).",
-      "legal": "Jogi kötelezettségek teljesítése."
+    "doNotSell": {
+      "title": "Személyes adataim nem eladása vagy megosztása",
+      "body": "A Chatforia nem ad el személyes adatokat. A kaliforniai lakosok továbbra is benyújthatnak kérelmeket a CPRA alapján az alábbi gombbal.",
+      "cta": "Kérelem benyújtása"
     },
-    "sharing": {
-      "title": "Megosztás",
-      "body": "Nem adjuk el a személyes adatokat. Korlátozott adatokat megoszthatunk feldolgozókkal (pl. push értesítések, analitika) szigorú szerződések alapján."
+    "cookies": {
+      "title": "Süti beállítások",
+      "body": "A Chatforia minimális sütiket használ (pl. munkamenet, biztonság). Nem használunk harmadik fél hirdetési sütiket. A sütiket a böngészője beállításaiban kezelheti."
     },
-    "rights": {
-      "title": "A te jogaid",
-      "body": "Régiódtól függően (pl. GDPR/UK GDPR/CPRA) kérheted az adatokhoz való hozzáférést, helyesbítést, törlést vagy bizonyos adatkezelésekből való kilépést. Kapcsolat: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Nem sikerült betölteni a telefonszám állapotát.",
+      "lock": "Zárolás",
+      "noNumberAssigned": "Nincs hozzárendelt szám. Válasszon számot körzetszám szerint az üzenetküldés megkezdéséhez.",
+      "pickNumber": "Szám kiválasztása",
+      "phoneNumber": "Telefonszám"
     },
-    "retention": {
-      "title": "Adatmegőrzés és biztonság",
-      "body": "Csak a szolgáltatás működéséhez szükséges adatokat őrizzük, és iparági szintű biztonságot alkalmazunk. Az E2E tartalom nem fejthető vissza általunk."
+    "startChatModal": {
+      "title": "Csevegés indítása",
+      "quickPicker": "Gyors választó",
+      "to": "Címzett",
+      "nameOrUsername": "Írjon be nevet, felhasználónevet",
+      "nameUsernamePhoneEmail": "Írjon be nevet, felhasználónevet, telefonszámot vagy e-mailt…",
+      "startWithSelected": "Csevegés indítása a kiválasztottal",
+      "searchByUsernameOrPhone": "Keresés felhasználónév vagy telefonszám szerint",
+      "search": "Keresés",
+      "searchPrompt": "Írjon be felhasználónevet vagy telefonszámot, és nyomja meg a Keresés gombot.",
+      "pickFromContacts": "Vagy válasszon névjegyzékből",
+      "addContact": "Névjegy hozzáadása",
+      "show": "Megjelenítés",
+      "add": "Hozzáadás",
+      "close": "Bezárás",
+      "selectedCount": "{{count}} kiválasztva",
+      "pickAtLeastOne": "Válasszon legalább egy címzettet.",
+      "saveContactsHint": "A telefon-/e-mail-bejegyzések a névjegyek mentése után válnak elérhetővé.",
+      "failedBulkStart": "Nem sikerült elindítani a csevegést a kiválasztott címzettekkel.",
+      "noResults": "Nincs találat",
+      "mode": "Mód",
+      "group": "Csoport",
+      "broadcast": "Közvetítés",
+      "groupNameOptional": "Csoport neve (nem kötelező)",
+      "firstMessageOptional": "Első üzenet (nem kötelező, de ajánlott)",
+      "createGroup": "Csoport létrehozása",
+      "sendBroadcast": "Közvetítés küldése"
     },
-    "children": {
-      "title": "Gyermekek",
-      "body": "A Chatforia nem a 13 év alattiaknak (vagy a helyi jog szerint) készült."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Naplemente",
+      "solarized": "Solarizált",
+      "velvet": "Bársony"
     },
-    "changes": {
-      "title": "Változások",
-      "body": "A frissítéseket itt tesszük közzé és módosítjuk az „Utoljára frissítve” dátumot."
+    "sounds": {
+      "freeNotice": "Ingyenes csomagban van — a prémium hangok láthatók, de zárolva. Frissítéssel feloldhatja az összeset.",
+      "preview": "Előnézet",
+      "resetToDefaults": "Visszaállítás alapértelmezettre",
+      "notificationSounds": "Értesítési hangok",
+      "messageTone": "Üzenethang",
+      "default": "Alapértelmezett",
+      "vibrate": "Rezgés",
+      "dreamer": "Álmodozó",
+      "notify": "Értesítés",
+      "pop": "Pukkanás",
+      "pulsatingSound": "Pulzáló hang",
+      "textMessage": "Szöveges üzenet",
+      "xylophone": "Xilofon",
+      "classic": "Klasszikus",
+      "urgency": "Sürgősség",
+      "bells": "Harangok",
+      "chimes": "Csengők",
+      "digitalPhone": "Digitális telefon",
+      "melodic": "Melodikus",
+      "organNotes": "Orgona hangjegyek",
+      "soundReality": "Hang valóság",
+      "street": "Utca",
+      "universfield": "Universfield"
     },
-    "contact": {
-      "title": "Kapcsolat",
-      "body": "privacy@chatforia.com • [Cég jogi neve], [Cím]"
-    }
-  },
-
-  "terms": {
-    "title": "Felhasználási feltételek",
-    "lastUpdated": "Utoljára frissítve:",
-    "intro": {
-      "body": "A Chatforia használatával elfogadod ezeket a Feltételeket. Ha nem értesz egyet, ne használd a szolgáltatást."
+    "premiumGuard": {
+      "requiresPremium": "Ez a funkció Prémium csomagot igényel."
     },
-    "accounts": {
-      "title": "Fiókok",
-      "itemAccurateInfo": "Adj meg pontos adatokat és tartsd biztonságban a hitelesítőket.",
-      "itemResponsibility": "A fiókodban végzett tevékenységért te felelsz."
+    "aiSettings": {
+      "title": "MI-beállítások",
+      "controlIntro": "Fordítás, okos válaszok és ForiaBot automatikus válaszok szabályozása.",
+      "save": "MI-beállítások mentése",
+      "autoTranslateIncoming": "Bejövő üzenetek automatikus fordítása",
+      "showOriginalAlongside": "Eredeti szöveg megjelenítése a fordítás mellett",
+      "enableSmartReplies": "Okos válaszok engedélyezése",
+      "smartRepliesHint": "Küldje el az utolsó néhány kapott üzenetet (tisztítottan) az MI-nek gyors válaszjavaslatokhoz.",
+      "maskProfanity": "Káromkodás maszkolása az MI-javaslatokban",
+      "maskProfanityHint": "Bekapcsolva az MI által visszaadott javaslatokban a jelölt szavak maszkolva lesznek",
+      "foriaBot": "ForiaBot automatikus válaszadó",
+      "enableAutoReply": "Automatikus válasz engedélyezése, ha elfoglalt vagyok",
+      "autoReplyMode": "Automatikus válasz mód",
+      "cooldownSeconds": "Hűlési idő (másodperc)",
+      "off": "Kikapcsolva",
+      "on": "Bekapcsolva",
+      "signature": "Aláírás",
+      "autoReply": "Automatikus válasz",
+      "activeUntilOptional": "Aktív eddig (nem kötelező)",
+      "saved": "MI-preferenciák mentve",
+      "saveFailed": "Az MI-beállítások mentése sikertelen",
+      "translateOff": "Kikapcsolva",
+      "translateTagged": "Csak @translated vagy megjelölve",
+      "translateAll": "Minden bejövő üzenet fordítása",
+      "modeDm": "Csak 1:1 csevegések",
+      "modeMention": "Csak ha @megemlítettek",
+      "modeAll": "Minden bejövő üzenet"
     },
-    "acceptableUse": {
-      "title": "Megengedett használat",
-      "itemNoAbuse": "Tilos az illegális, bántalmazó vagy jogsértő tartalom; tilos a spam és az automatizált visszaélés.",
-      "itemSuspend": "Szabálysértés esetén felfüggeszthetjük/meg­szüntethetjük a hozzáférést."
+    "accessibilitySettings": {
+      "title": "Akadálymentesség és riasztások",
+      "accessibility": "Akadálymentesség",
+      "accessibilityDesc": "Lehetőségek a Chatforia könnyebb használatához hang nélkül.",
+      "interfaceFontSize": "Felület betűmérete",
+      "interfaceFontSizeHelp": "Normál méretnél kezdődik. Növelje, ha nagyobb szöveget szeretne az akadálymentességi beállításokban.",
+      "sm": "kicsi",
+      "md": "közepes",
+      "lg": "nagy",
+      "xl": "extra nagy",
+      "notifications": "Értesítések",
+      "notificationsDesc": "Vizuális riasztások üzenetekhez és hívásokhoz\nBannerek és címvillogás, hogy ne maradjon le semmiről.",
+      "vibrateOnNew": "Rezgés új üzeneteknél (ahol támogatott)\nEszközrezgés aktiválása értesítésekkel.",
+      "flashOnCall": "Képernyő villogása bejövő hívásnál\nRövid erős villanás, amikor hívás csörög.",
+      "liveCaptions": "Élő feliratok (hívások)",
+      "captionFontSize": "Felirat betűmérete",
+      "captionBackground": "Felirat háttér",
+      "light": "világos",
+      "dark": "sötét",
+      "transparent": "átlátszó",
+      "voiceNotes": "Hangjegyzetek",
+      "autoTranscribeVoiceNotes": "Hangjegyzetek automatikus átírása",
+      "autoTranscribeVoiceNotesDesc": "Átirat csatolása a kapott hangüzenetekhez.",
+      "changesSavedInstantly": "A változások azonnal mentésre kerülnek.",
+      "loadFailed": "A beállítások betöltése sikertelen",
+      "visualAlerts": "Vizuális riasztások üzenetekhez és hívásokhoz",
+      "visualAlertsDesc": "Bannerek és címvillogás, hogy ne maradjon le semmiről.",
+      "vibrateOnNewShort": "Rezgés új üzeneteknél (ahol támogatott)",
+      "vibrateOnNewDesc": "Eszközrezgés aktiválása értesítésekkel.",
+      "flashOnCallShort": "Képernyő villogása bejövő hívásnál",
+      "flashOnCallDesc": "Rövid erős villanás, amikor hívás csörög."
     },
-    "yourContent": {
-      "title": "A te tartalmad",
-      "body": "A tartalmad jogai nálad maradnak. Megadod a szolgáltatás működtetéséhez szükséges jogokat (pl. továbbítás, tárolás, fordítás)."
+    "privacySection": {
+      "strictE2EE": "Szigorú végpontok közötti titkosítás",
+      "ciphertextOnlyNote": "Csak titkosított szöveg tárolása a szerveren. Letiltja az MI/Fordítás és moderálási előnézeteket."
     },
-    "disclaimer": {
-      "title": "Felelősségkorlátozás és nyilatkozat",
-      "body": "A szolgáltatás „ahogy van” módon, garanciák nélkül érhető el. A jog által megengedett legteljesebb mértékig a Chatforia nem felel közvetett vagy következményes károkért."
+    "linkedDevicesPanel": {
+      "title": "Csatlakoztatott eszközök",
+      "noneFound": "Nem található csatlakoztatott eszköz.",
+      "refresh": "Frissítés"
     },
-    "changes": {
-      "title": "Változások",
-      "body": "Frissíthetjük ezeket a feltételeket; a módosítások utáni további használat elfogadásnak minősül."
+    "help": {
+      "title": "Súgó",
+      "howCanWeHelp": "Hogyan segíthetünk?",
+      "helpCenter": "Súgó központ",
+      "contactUs": "Kapcsolatfelvétel",
+      "quickTopics": "Gyors témák",
+      "searchExamples": "Próbálja megkeresni a „fordítás”, „mentések” vagy „adatvédelem” kifejezést.",
+      "cantLogin": "Nem tudok bejelentkezni",
+      "paymentsBilling": "Fizetések/számlázás",
+      "reportAbuse": "Visszaélés jelentése",
+      "searchHelpArticles": "Súgó cikkek keresése",
+      "search": "Keresés"
     },
-    "contact": {
-      "title": "Kapcsolat",
-      "body": "support@chatforia.com • [Cég jogi neve], [Cím]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Ne adják el vagy osszák meg személyes adataimat",
-    "body": "A Chatforia nem ad el személyes információkat. A kaliforniai lakosok a CPRA alapján továbbra is benyújthatnak kérelmet az alábbi gombbal.",
-    "cta": "Kérelem benyújtása"
-  },
-
-  "cookies": {
-    "title": "Sütibeállítások",
-    "body": "A Chatforia minimális sütiket használ (pl. munkamenet, biztonság). Harmadik fél hirdetési sütiket nem használunk. A sütiket a böngésződ beállításaiban kezelheted."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Nem sikerült betölteni a telefonszám állapotát.",
-    "lock": "Zárolás",
-    "noNumberAssigned": "Nincs hozzárendelt szám. Válassz körzetszám alapján, hogy elkezdhess üzenetet küldeni.",
-    "pickNumber": "Szám választása",
-    "phoneNumber": "Telefonszám"
-  },
-
-  "startChatModal": {
-    "title": "Csevegés indítása",
-    "quickPicker": "Gyorsválasztó",
-    "to": "Címzett",
-    "nameOrUsername": "Írj be nevet, felhasználónevet",
-    "nameUsernamePhoneEmail": "Írj be nevet, felhasználónevet, telefont vagy e-mailt…",
-    "startWithSelected": "Csevegés indítása a kiválasztottakkal",
-    "searchByUsernameOrPhone": "Keresés felhasználónév vagy telefon alapján",
-    "search": "Keresés",
-    "searchPrompt": "Írj be felhasználónevet vagy telefonszámot, majd nyomd meg a Keresést.",
-    "pickFromContacts": "Vagy válassz a névjegyek közül",
-    "addContact": "Névjegy hozzáadása",
-    "show": "Megjelenítés",
-    "add": "Hozzáadás",
-    "close": "Bezárás",
-    "selectedCount": "{{count}} kiválasztva",
-    "pickAtLeastOne": "Válassz legalább egy címzettet.",
-    "saveContactsHint": "A telefon/e-mail bejegyzések a névjegyként mentés után lesznek elérhetők.",
-    "failedBulkStart": "Nem sikerült elindítani a beszélgetést a kiválasztott címzettekkel.",
-    "noResults": "Nincs találat",
-    "mode": "Mód",
-    "group": "Csoport",
-    "broadcast": "Körüzenet",
-    "groupNameOptional": "Csoportnév (opcionális)",
-    "firstMessageOptional": "Első üzenet (opcionális, de ajánlott)",
-    "createGroup": "Csoport létrehozása",
-    "sendBroadcast": "Körüzenet küldése"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Naplemente",
-    "solarized": "Solarized",
-    "velvet": "Bársony"
-  },
-
-  "sounds": {
-    "freeNotice": "Ingyenes csomagot használsz — a prémium hangok láthatók, de zároltak. Frissíts a feloldásukhoz.",
-    "preview": "Előnézet",
-    "resetToDefaults": "Vissza az alapértelmezésekhez",
-    "notificationSounds": "Értesítési hangok",
-    "messageTone": "Üzenethang",
-    "default": "Alapértelmezett",
-    "vibrate": "Rezgés",
-    "dreamer": "Álmodozó",
-    "notify": "Értesítő",
-    "pop": "Pukkanás",
-    "pulsatingSound": "Lüktető hang",
-    "textMessage": "Szöveges üzenet",
-    "xylophone": "Xilofon",
-    "classic": "Klasszikus",
-    "urgency": "Sürgősség",
-    "bells": "Harangok",
-    "chimes": "Csengettyűk",
-    "digitalPhone": "Digitális telefon",
-    "melodic": "Dallamos",
-    "organNotes": "Orgonahangok",
-    "soundReality": "Hangvalóság",
-    "street": "Utca",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Ez a funkció Prémium csomagot igényel."
-  },
-
-  "aiSettings": {
-    "title": "MI beállítások",
-    "controlIntro": "Állítsd be a fordítást, a gyors válaszokat és a ForiaBot automatikus válaszait.",
-    "save": "MI beállítások mentése",
-    "autoTranslateIncoming": "Bejövő üzenetek automatikus fordítása",
-    "showOriginalAlongside": "Eredeti szöveg megjelenítése a fordítás mellett",
-    "enableSmartReplies": "Gyors válaszok engedélyezése",
-    "smartRepliesHint": "A kapott utolsó néhány üzenet (tisztítva) elküldése az MI-nek gyors válaszjavaslatokhoz.",
-    "maskProfanity": "Trágárság maszkolása az MI javaslatokban",
-    "maskProfanityHint": "Ha be van kapcsolva, az MI által visszaadott javaslatokban a jelölt szavak maszkolva lesznek",
-    "foriaBot": "ForiaBot automatikus válaszadó",
-    "enableAutoReply": "Automatikus válasz engedélyezése, amikor elfoglalt vagyok",
-    "autoReplyMode": "Automatikus válasz mód",
-    "cooldownSeconds": "Várakozás (másodperc)",
-    "off": "Ki",
-    "on": "Be",
-    "signature": "Aláírás",
-    "autoReply": "Automatikus válasz",
-    "activeUntilOptional": "Aktív eddig (opcionális)",
-    "saved": "MI beállítások elmentve",
-    "saveFailed": "Az MI beállítások mentése sikertelen",
-    "translateOff": "Kikapcsolva",
-    "translateTagged": "Csak @translated vagy megjelölt esetben",
-    "translateAll": "Minden bejövő üzenet fordítása",
-    "modeDm": "Csak 1:1 csevegések",
-    "modeMention": "Csak ha @megemlítenek",
-    "modeAll": "Minden bejövő üzenet"
-  },
-
-  "accessibilitySettings": {
-    "title": "Akadálymentesítés és figyelmeztetések",
-    "accessibility": "Akadálymentesítés",
-    "accessibilityDesc": "Opciók a Chatforia hang nélküli használatának megkönnyítésére.",
-    "interfaceFontSize": "Felület betűméret",
-    "interfaceFontSizeHelp": "Alapértéke normál. Növeld, ha nagyobb szöveget szeretnél az akadálymentesítésben.",
-    "sm": "kicsi",
-    "md": "közepes",
-    "lg": "nagy",
-    "xl": "extra nagy",
-    "notifications": "Értesítések",
-    "notificationsDesc": "Vizuális riasztások üzenetekhez és hívásokhoz\nMutass banner-t és címvillogást, hogy ne maradj le az aktivitásról.",
-    "vibrateOnNew": "Rezgés új üzeneteknél (ha támogatott)\nEszközrezgés indítása értesítéskor.",
-    "flashOnCall": "Képernyő felvillantása bejövő hívásnál\nRövid, erős felvillanás, amikor csörög a hívás.",
-    "liveCaptions": "Élő feliratok (hívások)",
-    "captionFontSize": "Felirat betűméret",
-    "captionBackground": "Felirat háttér",
-    "light": "világos",
-    "dark": "sötét",
-    "transparent": "átlátszó",
-    "voiceNotes": "Hangjegyzetek",
-    "autoTranscribeVoiceNotes": "Hangjegyzetek automatikus átírása\nÁtirat csatolása a kapott hangüzenetekhez.",
-    "changesSavedInstantly": "A változtatások azonnal mentésre kerülnek.",
-    "loadFailed": "Nem sikerült betölteni a beállításokat",
-    "visualAlerts": "Vizuális riasztások üzenetekhez és hívásokhoz",
-    "visualAlertsDesc": "Banner és címvillogás megjelenítése, hogy ne maradj le az aktivitásról.",
-    "vibrateOnNewShort": "Rezgés új üzeneteknél (ha támogatott)",
-    "vibrateOnNewDesc": "Eszközrezgés indítása értesítésekkor.",
-    "flashOnCallShort": "Képernyő felvillantása bejövő hívásnál",
-    "flashOnCallDesc": "Rövid, erős felvillanás, amikor csörög a hívás."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Szigorú végtől végig titkosítás",
-    "ciphertextOnlyNote": "A szerveren csak rejtjelezett szöveg tárolása. Az MI/Fordítás és a moderációs előnézetek letiltva."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Kapcsolt eszközök",
-    "noneFound": "Nem találhatók kapcsolt eszközök.",
-    "refresh": "Frissítés"
-  },
-
-  "help": {
-    "title": "Súgó",
-    "howCanWeHelp": "Miben segíthetünk?",
-    "helpCenter": "Súgóközpont",
-    "contactUs": "Kapcsolatfelvétel",
-    "quickTopics": "Gyors témák",
-    "searchExamples": "Próbáld a „fordítás”, „mentések” vagy „adatvédelem” kifejezéseket.",
-    "cantLogin": "Nem tudok bejelentkezni",
-    "paymentsBilling": "Fizetés / számlázás",
-    "reportAbuse": "Visszaélés jelentése",
-    "searchHelpArticles": "Súgócikkek keresése",
-    "search": "Keresés"
-  },
-
-  "peoplePage": {
-    "people": "Emberek",
-    "search": "Keresés",
-    "searchPlaceholder": "Keresés álnév, név, felhasználónév vagy telefon alapján",
-    "filterSaved": "Mentett névjegyek szűrése",
-    "noContactsFound": "Nincs találat",
-    "quickStart": "Gyors kezdés",
-    "quickStartDesc": "Néhány gyors mód a kezdéshez.",
-    "importContacts": "Névjegyek importálása",
-    "add": "Hozzáadás",
-    "focusSearch": "Kereső fókuszálása",
-    "import": "Importálás",
-    "findOrAdd": "Valaki megkeresése vagy hozzáadása",
-    "searchByPhoneOrUsername": "Keresés telefon / felhasználónév alapján",
-    "inviteFriends": "Barátok meghívása",
-    "inviteDesc": "Oszd meg a meghívó linkedet, és azonnal kezdjetek csevegni.",
-    "getTheApp": "Szerezd meg az appot",
-    "getTheAppDesc": "Maradj kapcsolatban útközben a Chatforia iOS- és Android-alkalmazásával.",
-    "download": "Letöltés",
-    "syncTip": "Tipp: Üzeneteid weben és mobilon is szinkronban maradnak."
-  },
-
-  "randomChat": {
-    "title": "Véletlen chat",
-    "description": "Ismerkedj meg valakivel azonnal. Összepárosítunk és megnyitunk egy ideiglenes chatszobát.",
-    "findMatch": "Keress nekem partnert",
-    "chatWithForia": "Csevegés Fóriával",
-    "chatWithForiaBot": "Csevegés a ForiaBottal",
-    "cancel": "Mégse",
-    "close": "Bezárás",
-    "searching": "Keresés…",
-    "finding": "Keresünk…",
-    "looking": "Valakit keresünk…",
-    "startingForia": "Csevegés indítása Fóriával…",
-    "partnerDisconnected": "A partnered bontotta a kapcsolatot.",
-    "noPartner": "Jelenleg nem található partner.",
-    "connectedTo": "Kapcsolódva hozzá: {{name}}",
-    "connected": "Kapcsolódva",
-    "idle": "Tétlen",
-    "partnerLeft": "A partner kilépett.",
-    "stopped": "Leállítva.",
-    "skip": "Kihagyás",
-    "save": "Mentés",
-    "saveGuard": "Csak ember-ember közti chatek menthetők",
-    "youAreChattingWith": "{{name}} partnerrel beszélgetsz",
-    "bot": "BOT",
-    "leave": "Kilépés",
-    "sayHi": "Köszönj 👋",
-    "you": "Te",
-    "typeMessage": "Írj üzenetet",
-    "send": "Küldés",
-    "partner": "Partner",
-    "withForia": "Fóriával"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Navigációs menü megnyitása",
-    "closeNav": "Navigációs menü bezárása",
-    "homeAria": "Chatforia kezdőlap"
-  },
-
-  "login": {
-    "title": "Üdv újra",
-    "subtitle": "Jelentkezz be a Chatforia fiókodba",
-    "google": "Folytatás Google-lel",
-    "apple": "Folytatás Apple-lel",
-    "googleUnavailable": "A Google bejelentkezés nem elérhető",
-    "appleUnavailable": "Az Apple bejelentkezés nem elérhető",
-    "or": "vagy",
-    "email": "E-mail",
-    "emailPh": "te@pelda.com",
-    "usernameLabel": "Felhasználónév",
-    "usernamePh": "A felhasználóneved",
-    "passwordLabel": "Jelszó",
-    "passwordPh": "A jelszavad",
-    "keepSignedIn": "Maradjak bejelentkezve",
-    "forgot": "Elfelejtett jelszó?",
-    "submit": "Bejelentkezés",
-    "loggingIn": "Bejelentkezés…",
-    "newHere": "Új vagy itt? <link>Hozz létre fiókot</link>",
-    "ssoUnavailable": "Az egyszeri bejelentkezés jelenleg nem elérhető. Használj felhasználónevet és jelszót.",
-    "error": {
-      "missing": "Kérjük, add meg a hitelesítőidet.",
-      "invalid": "Érvénytelen felhasználónév vagy jelszó",
-      "denied": "Hozzáférés megtagadva.",
-      "unprocessable": "Érvénytelen kérés. Ellenőrizd a felhasználónevet/e-mailt és a jelszót.",
-      "deviceLimit": "Elérted az eszközlimitet az Ingyenes csomagban. Lépj ki egy másik eszközön, vagy frissíts Prémiumra több eszköz kapcsolásához.",
-      "premiumRequired": "Ez a művelet Prémium csomagot igényel."
+    "peoplePage": {
+      "people": "Emberek",
+      "search": "Keresés",
+      "searchPlaceholder": "Keresés álnév, név, felhasználónév vagy telefonszám szerint",
+      "filterSaved": "Mentett névjegyek szűrése",
+      "noContactsFound": "Nincsenek névjegyek",
+      "quickStart": "Gyors indítás",
+      "quickStartDesc": "Néhány gyors mód a kezdéshez.",
+      "importContacts": "Névjegyek importálása",
+      "add": "Hozzáadás",
+      "focusSearch": "Keresés fókuszálása",
+      "import": "Importálás",
+      "findOrAdd": "Keresés vagy hozzáadás",
+      "searchByPhoneOrUsername": "Keresés telefon / felhasználónév szerint",
+      "inviteFriends": "Barátok meghívása",
+      "inviteDesc": "Ossza meg a meghívó hivatkozását az azonnali csevegéshez.",
+      "getTheApp": "Töltse le az alkalmazást",
+      "getTheAppDesc": "Maradjon kapcsolatban útközben a Chatforia iOS és Android verziójával.",
+      "download": "Letöltés",
+      "syncTip": "Tipp: Az üzenetek szinkronban maradnak weben és mobilon."
+    },
+    "randomChat": {
+      "title": "Véletlen csevegés",
+      "description": "Ismerjen meg valakit azonnal. Párosítjuk Önt, és megnyitunk egy ideiglenes csevegőszobát. Először névtelenül csevegjen. Később hozzáadhatja barátként, ha jól érzi.",
+      "findMatch": "Párosítás keresése",
+      "chatWithForia": "Csevegés Foriával",
+      "chatWithForiaBot": "Csevegés ForiaBot-tal",
+      "cancel": "Mégse",
+      "close": "Bezárás",
+      "searching": "Keresés…",
+      "finding": "Párosítás keresése…",
+      "looking": "Valaki keresése…",
+      "startingForia": "Csevegés indítása Foriával…",
+      "partnerDisconnected": "A partnere megszakította a kapcsolatot.",
+      "noPartner": "Jelenleg nincs elérhető partner.",
+      "connectedTo": "Csatlakozva {{name}}",
+      "connected": "Csatlakozva",
+      "idle": "Tétlen",
+      "partnerLeft": "A partner elhagyta.",
+      "stopped": "Megállítva.",
+      "skip": "Átugrás",
+      "save": "Mentés",
+      "saveGuard": "Csak ember–ember csevegések menthetők",
+      "youAreChattingWith": "Ön {{name}} partnerrel cseveg",
+      "bot": "BOT",
+      "leave": "Kilépés",
+      "sayHi": "Szia 👋",
+      "you": "Ön",
+      "typeMessage": "Írjon üzenetet",
+      "send": "Küldés",
+      "partner": "Partner",
+      "withRia": "Riával",
+      "chatWithRia": "Csevegés Riával",
+      "startingRia": "Csevegés indítása Riával…",
+      "ageDisclaimer": "Csak életkor-tartományt tárolunk (nem a pontos születési dátumot). Ez a Véletlen csevegés párosításait tartja ésszerűen. Ahhoz, hogy emberekkel (nem csak RiaBot-tal) párosuljon, állítsa be az életkor-tartományát a Beállítások → Kor & Véletlen csevegés menüben.",
+      "ageBandRequired": "Állítsa be az életkor-tartományát a Profil → Kor & Véletlen csevegés menüben, hogy emberekkel párosulhasson.",
+      "ageBandCallout": "Ahhoz, hogy emberekkel (nem csak RiaBot-tal) párosuljon, állítsa be az életkor-tartományát a Beállítások → Kor & Véletlen csevegés menüben.",
+      "subtitle": "Ismerjen meg valakit azonnal, vagy válassza a Riával való csevegést.",
+      "start": "Csevegés indítása",
+      "matching": "Párosítás…",
+      "setAge": "Állítsa be az életkor-tartományát a Profil → Kor & Véletlen csevegés menüben, hogy emberekkel párosulhasson.",
+      "next": "Következő személy",
+      "addFriend": "Barát hozzáadása",
+      "requested": "Kérve",
+      "messageRia": "Üzenet Riának…",
+      "messageMatch": "Üzenet a párosításának…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "ott",
+      "intro": "Szia ott 👋 Én vagyok Ria. Mi jár a fejedben?",
+      "greetings": {
+        "long1": "Szia {{name}} 👋 Itt vagyok. Mi jár a fejedben?",
+        "long2": "Szia {{name}} 😊 Miről szeretnél beszélni ma?",
+        "long3": "Szia {{name}}!! Teljes figyelemmel hallgatlak — mi újság?",
+        "long4": "Örülök, hogy látlak, {{name}} 👋 Mi jár a fejedben ma?",
+        "long5": "Szia {{name}} 😊 Szeretnél kiönteni a szíved, kérdezni vagy csak csevegni?",
+        "long6": "Szia {{name}}!! Van időm — miről szeretnél beszélni?",
+        "short1": "Szia {{name}}, még mindig itt vagyok. Mi újság?",
+        "short2": "Üdv újra {{name}} 👋 Szeretnél még valamit hozzátenni?",
+        "short3": "Megint itt vagy, {{name}}? 😊 Mondd el, mi jár a fejedben.",
+        "short4": "Szia {{name}} 👋 Készen állsz folytatni, ahol abbahagytuk?",
+        "short5": "Igen {{name}}? Hallgatlak 👂",
+        "short6": "Ó, szia {{name}}!! Van valami új a fejedben?"
+      },
+      "header": {
+        "openNav": "Navigációs menü megnyitása",
+        "closeNav": "Navigációs menü bezárása",
+        "homeAria": "Chatforia kezdőlap"
+      },
+      "login": {
+        "welcomeBack": "Üdv újra",
+        "title": "Folytatás a Chatforiában",
+        "subtitleReturning": "Jelentkezzen be a Chatforia-fiókjába",
+        "subtitle": "Jelentkezzen be a Chatforia-fiókjába",
+        "google": "Folytatás Google-fiókkal",
+        "apple": "Folytatás Apple-fiókkal",
+        "googleUnavailable": "A Google-bejelentkezés nem elérhető",
+        "appleUnavailable": "Az Apple-bejelentkezés nem elérhető",
+        "or": "vagy",
+        "email": "E-mail",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Felhasználónév",
+        "usernamePh": "Az Ön felhasználóneve",
+        "passwordLabel": "Jelszó",
+        "passwordPh": "Az Ön jelszava",
+        "keepSignedIn": "Maradjon bejelentkezve",
+        "forgot": {
+          "title": "Elfelejtett jelszó",
+          "helper": "Adja meg azt az e-mail címet, amellyel létrehozta a Chatforia-fiókját, és küldünk egy biztonságos hivatkozást a jelszó visszaállításához.",
+          "emailInvalid": "Adjon meg érvényes e-mail címet.",
+          "genericError": "Nem sikerült feldolgozni a kérést. Próbálja újra egy pillanat múlva.",
+          "sending": "Visszaállítási hivatkozás küldése…",
+          "sendCta": "Visszaállítási hivatkozás küldése",
+          "sentLabel": "Elküldve!",
+          "sentHelper": "Ha létezik fiók ezzel az e-mail címmel, küldtünk egy jelszó-visszaállítási hivatkozást. Eltarthat néhány percig, mire megérkezik. Ellenőrizze a spam vagy promóciós mappát is.",
+          "previewDev": "E-mail előnézete (Dev)",
+          "backToLogin": "Vissza a bejelentkezéshez"
+        },
+        "submit": "Bejelentkezés",
+        "loggingIn": "Bejelentkezés…",
+        "newHere": "Új itt? <link>Fiók létrehozása</link>",
+        "ssoUnavailable": "Az egyszeri bejelentkezés jelenleg nem elérhető. Használjon felhasználónevet és jelszót.",
+        "error": {
+          "missing": "Adja meg a hitelesítő adatait.",
+          "invalid": "Érvénytelen felhasználónév vagy jelszó",
+          "denied": "Hozzáférés megtagadva.",
+          "unprocessable": "Érvénytelen kérés. Ellenőrizze a felhasználónevet/e-mailt és a jelszót.",
+          "deviceLimit": "Elérte az ingyenes csomag eszközkorlátját. Jelentkezzen ki egy másik eszközön, vagy frissítsen Prémiumra további eszközök csatlakoztatásához.",
+          "premiumRequired": "Ez a művelet Prémium csomagot igényel."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Bejelentkezés befejezése…"
+    },
+    "dialer": {
+      "title": "Hívások",
+      "subtitle": "Billentyűzet és legutóbbiak. (Ha nem használ PSTN-t, a csevegés fejlécéből indítson hívásokat.)",
+      "enterNumberPh": "Szám megadása",
+      "call": "Hívás",
+      "backspace": "Visszatörlés",
+      "recents": "Legutóbbiak",
+      "recentsEmpty": "Még nincsenek legutóbbi hívások.",
+      "enterNumber": "Szám megadása",
+      "enterNumberAria": "Szám megadása",
+      "key": "Billentyű {{d}}",
+      "noRecents": "Még nincsenek legutóbbi hívások."
+    },
+    "video": {
+      "title": "Videó",
+      "chooseType": "Válasszon videótípust.",
+      "directTitle": "Közvetlen videó",
+      "directDesc": "1:1 kamerahívás másik felhasználóval.",
+      "directStart": "Indítás",
+      "roomsTitle": "Szobák",
+      "roomsDesc": "Több résztvevős videó megosztott szoba névvel.",
+      "roomsIntro": "Csatlakozás vagy több résztvevős szoba létrehozása.",
+      "roomNameLabel": "Szoba neve",
+      "roomNamePh": "pl. team-standup",
+      "join": "Csatlakozás",
+      "deeplinkTip": "Tipp: közvetlen deep linkkel is megnyitható <code>/video?room=szoba-neve</code>.",
+      "hub": {
+        "title": "Videó",
+        "subtitle": "Válasszon videótípust."
+      },
+      "direct": {
+        "title": "Közvetlen videó",
+        "subtitle": "Indítson 1:1 videóhívást telefonszámmal vagy Chatforia felhasználónévvel.",
+        "desc": "1:1 kamerahívás másik felhasználóval.",
+        "start": "Indítás",
+        "callBtn": "Hívás",
+        "callByPhone": {
+          "title": "Hívás telefonnal"
+        },
+        "phone": {
+          "placeholder": "Adjon meg telefonszámot (pl. +1-555-123-4567)",
+          "aria": "Hívandó telefonszám"
+        },
+        "tipInvite": "Tipp: Illesszen be egy számot, és hívjon anélkül, hogy névjegyet mentene. Nem felhasználókat hivatkozással hívunk meg.",
+        "findUser": {
+          "title": "Felhasználó keresése"
+        },
+        "search": {
+          "placeholder": "Keresés név vagy felhasználónév szerint",
+          "aria": "Keresés név vagy felhasználónév szerint",
+          "btn": "Keresés"
+        }
+      },
+      "rooms": {
+        "title": "Szobák",
+        "subtitle": "Hozzon létre szobát, vagy csatlakozzon meglévőhöz ugyanannak a névnek a begépelésével.",
+        "desc": "Több résztvevős videó megosztott szoba névvel.",
+        "roomLabel": "Szoba neve",
+        "roomPlaceholder": "pl. team-standup",
+        "roomAria": "Szoba neve",
+        "joinCreate": "Csatlakozás / Létrehozás",
+        "tip": "Tipp: ossza meg ezt a nevet másokkal, vagy deep linkkel nyissa meg <code>/video?room=szoba-neve</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Indítson közvetlen 1:1 videóhívást.",
+      "findUserLabel": "Felhasználó keresése",
+      "findUserPh": "Keresés név vagy felhasználónév szerint",
+      "search": "Keresés",
+      "call": "Hívás"
+    },
+    "phoneWarning": {
+      "title": "A száma hamarosan lejár",
+      "body": "A(z) {{number}} száma {{date}} napon szabadul fel, hacsak nem aktiválja újra.",
+      "button": "Szám megtartása"
+    },
+    "support": {
+      "helpFab": "Súgó",
+      "openSupportAria": "Súgó megnyitása",
+      "badge": "Súgó",
+      "heading": "Hogyan segíthetünk?",
+      "tabs": {
+        "help": "Súgó központ",
+        "contact": "Kapcsolatfelvétel"
+      },
+      "searchPlaceholder": "Súgó cikkek keresése…",
+      "searchAria": "Súgó keresése",
+      "searchBtn": "Keresés",
+      "quickTopicsLabel": "Gyors témák",
+      "quickTopics": {
+        "login": "Nem tudok bejelentkezni",
+        "billing": "Fizetések / számlázás",
+        "abuse": "Visszaélés jelentése"
+      },
+      "trySearching": "Próbálja megkeresni a „fordítás”, „mentések” vagy „adatvédelem” kifejezést.",
+      "article": "Cikk",
+      "openArticle": "Cikk megnyitása",
+      "contactIntro": "E-mailben válaszolunk. Adjon meg részleteket a probléma reprodukálásához.",
+      "topicAria": "Téma kiválasztása",
+      "messagePlaceholder": "Írja meg az üzenetét…",
+      "sendBtn": "Küldés",
+      "sent": "Üzenet elküldve. E-mailben válaszolunk.",
+      "sendError": "Nem sikerült elküldeni. Küldjön e-mailt a support@chatforia.com címre."
+    },
+    "encryptionRecovery": {
+      "title": "Titkosítás kezelése",
+      "description": "Mentse, állítsa vissza, oldja fel vagy állítsa alaphelyzetbe a titkosítási kulcsot.",
+      "alert": {
+        "keyRequiredTitle": "Titkosítási kulcs szükséges",
+        "keyRequiredBody": "Ez a böngésző jelenleg nem tudja visszafejteni a titkosított üzeneteit. Állítsa vissza, oldja fel vagy állítsa alaphelyzetbe a kulcsot a folytatáshoz."
+      },
+      "sections": {
+        "createBackup": "Kulcsmentés létrehozása",
+        "restoreFromBackup": "Visszaállítás fiókmentésből",
+        "resetEncryption": "Titkosítás alaphelyzetbe állítása"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Feloldási jelkód (aktuális eszköz)",
+          "description": "A kulcsok helyi visszafejtéséhez exportálás előtt"
+        },
+        "backupPassword": {
+          "label": "Mentés jelszó",
+          "description": "A mentési fájl titkosításához"
+        },
+        "restoreBackupPassword": {
+          "label": "Mentés jelszó",
+          "description": "A jelszó, amelyet az iPhone-on a kulcs mentésekor létrehozott"
+        },
+        "newLocalPasscode": {
+          "label": "Új helyi jelkód",
+          "description": "A kulcsok védelme nyugalmi állapotban ezen a böngészőn"
+        },
+        "resetLocalPasscode": {
+          "label": "Új helyi jelkód",
+          "description": "Szükséges az alaphelyzetbe állítás előtt, hogy az új kulcs védve legyen ezen az eszközön"
+        }
+      },
+      "actions": {
+        "unlockKey": "Titkosítási kulcs feloldása",
+        "restoreFromBackup": "Visszaállítás fiókmentésből",
+        "resetEncryption": "Titkosítás alaphelyzetbe állítása"
+      },
+      "messages": {
+        "backupCreated": "Kulcsmentés létrehozva és letöltve.",
+        "keyUnlocked": "Titkosítási kulcs feloldva.",
+        "keyRestored": "Kulcs visszaállítva a fiókmentésből.",
+        "resetSuccess": "A titkosítás sikeresen alaphelyzetbe állítva."
+      },
+      "errors": {
+        "restoreIncomplete": "A kulcs visszaállítása befejezetlen vagy helytelen ehhez a fiókhoz",
+        "noBackup": "Ehhez a fiókhoz nem létezik titkosított mentés",
+        "missingPublicKey": "A mentésből hiányzik a nyilvános kulcs",
+        "noServerPublicKey": "Ez a fiók jelenleg nem tesz elérhetővé szerver nyilvános kulcsot",
+        "serverBackupMismatch": "A szervermentés nem egyezik a jelenlegi fiók titkosítási kulcsával",
+        "incompleteMetadata": "A mentés metaadatai hiányosak",
+        "resetIncomplete": "A titkosítás alaphelyzetbe állítása nem fejeződött be helyesen"
+      },
+      "confirm": {
+        "reset": "Alaphelyzetbe állítja a titkosítást ehhez a fiókhoz?\n\nA régebbi titkosított üzenetek olvashatatlanná válhatnak, hacsak később nem állítja vissza az eredeti kulcsot."
+      },
+      "resetDescription": "Ez új titkosítási kulcsot hoz létre a fiókjához. A régebbi titkosított üzenetek olvashatatlanná válhatnak, hacsak később nem állítja vissza az eredeti kulcsot."
+    },
+    "footer": {
+      "plans": "Csomagok & Árak",
+      "about": "A Chatforiáról",
+      "careers": "Karrier",
+      "press": "Sajtó",
+      "advertise": "Hirdetés",
+      "contact": "Kapcsolatfelvétel",
+      "help": "Súgó központ",
+      "status": "Állapotoldal",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Adatvédelmi szabályzat",
+      "terms": "Szolgáltatási feltételek",
+      "cookies": "Süti beállítások",
+      "doNotSell": "Személyes adataim nem eladása",
+      "language": "Nyelv",
+      "contactShort": "Kapcsolat",
+      "aria": "Lábléc",
+      "homeAria": "Chatforia kezdőlap",
+      "section": {
+        "company": "CÉG",
+        "support": "TÁMOGATÁS",
+        "downloads": "LETÖLTÉSEK",
+        "legal": "JOGI"
+      },
+      "links": {
+        "plans-pricing": "Csomagok & Árak",
+        "about-chatforia": "A Chatforiáról",
+        "careers": "Karrier",
+        "press": "Sajtó",
+        "advertise": "Hirdetés",
+        "getting-started": "Kezdés",
+        "help-center": "Súgó központ",
+        "contact-us": "Kapcsolatfelvétel",
+        "status-page": "Állapotoldal",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Adatvédelmi szabályzat",
+        "terms-of-service": "Szolgáltatási feltételek",
+        "do-not-sell-my-info": "Személyes adataim nem eladása",
+        "cookie-settings": "Süti beállítások"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Szabadalom függőben",
+      "backToTop": "↑ Vissza a tetejére"
+    },
+    "press": {
+      "title": "Sajtó",
+      "contactLine": "Médiás megkeresések esetén írjon nekünk a",
+      "boilerplateTitle": "Sablon",
+      "boilerplateBody": "A Chatforia egy adatvédelem első helyen álló üzenetküldő alkalmazás, amely könnyűvé teszi a többnyelvű csevegést. Az üzenetek alapértelmezés szerint végpontok közötti titkosításúak, a beépített fordítás valós időben támogatja a 100+ nyelvet. A felhasználók engedélyezhetik az eltűnő üzeneteket, választhatják az olvasási visszaigazolásokat, és szinkronizálhatnak az eszközök között. Elérhető iOS-en, Androidon és weben.",
+      "assetsTitle": "Márkaeszközök",
+      "assetsSubtitle": "Logók, képernyőképek és termékképek.",
+      "downloadCta": "Médiakészlet letöltése",
+      "downloadTitle": "Töltse le az alkalmazást",
+      "scanTip": "Asztali gépen van? Olvassa be telefonjával az alkalmazást.",
+      "qrAria": "Chatforia weboldal megnyitása",
+      "appStore": "Letöltés az App Store-ból",
+      "googlePlay": "Szerezze be a Google Playen"
+    },
+    "careers": {
+      "title": "Karrier",
+      "intro": "Kis alapító csapat vagyunk, akik a Chatforiát építjük — egy privát, globális üzenetküldőt weben, iOS-en és Androidon. Ha fontos Önnek az adatvédelem, a titkosítás és a kellemes felhasználói élmény, szívesen hallanánk Önről.",
+      "openRoles": "<b>Nyitott alapító pozíciók:</b> Vezető full-stack mérnök, Backend mérnök (Node.js), Frontend/Web mérnök (React), Mobil mérnök (iOS), Mobil mérnök (Android), DevOps/SRE, Biztonsági & Titkosítási mérnök, Telekom mérnök (Twilio + eSIM).",
+      "apply": "Hogyan jelentkezzen: Használja az alábbi gombot az önéletrajz és hivatkozások e-mailben való elküldéséhez.",
+      "emailCta": "Önéletrajz elküldése e-mailben",
+      "whyNow": "Miért érdemes most csatlakozni?",
+      "whyBullets": "• Segítsen megalapozni egy új globális üzenetküldő alapjait.\n• Szállítson javításokat, amelyek weben, iOS-en és Androidon is használatosak.\n• Közvetlenül a alapítóval dolgozzon az architektúrán és termékirányon.\n• Sajátítsa el a stack nagy hatású területeit: üzenetküldés, hang, videó, titkosítás, telekom, MI.\n• Csatlakozzon az elején — mielőtt a felhasználói bázis skálázódik."
+    },
+    "about": {
+      "title": "A Chatforiáról",
+      "description": "A Chatforia biztonságos, többnyelvű üzenetküldő végpontok közötti titkosítással, azonnali fordítással és hang-/videóhívással. Küldetésünk egyszerű: segítsük az embereket biztonságosan, privátan és nyelvi korlátok nélkül kapcsolódni.",
+      "valuesTitle": "Amit fontosnak tartunk",
+      "values": {
+        "privacy": "<b>Adatvédelem az első helyen:</b> E2E titkosítás alapértelmezés szerint.",
+        "access": "<b>Hozzáférés mindenkinek:</b> Automatikus fordítás 100+ nyelven.",
+        "control": "<b>Irányítás:</b> Az eltűnő üzenetek és olvasási visszaigazolások nem kötelezőek.",
+        "privacy_aria": "Adatvédelem az első helyen: E2E titkosítás alapértelmezés szerint.",
+        "access_aria": "Hozzáférés mindenkinek: Automatikus fordítás 100+ nyelven.",
+        "control_aria": "Irányítás: Az eltűnő üzenetek és olvasási visszaigazolások nem kötelezőek."
+      },
+      "howTitle": "Hogyan működik a Chatforia",
+      "howDescription": "Az üzenetek titkosítása az eszközén történik, mielőtt elhagyják. A fordítás, mentések és eszközszinkronizálás úgy van kialakítva, hogy minimalizálja, amit a szervereink láthatnak."
+    },
+    "advertise": {
+      "title": "Hirdessen a Chatforiában",
+      "description": "Érje el az elkötelezett üzenetküldő felhasználókat ízléses, márkabarát elhelyezésekkel. Banner-lelőhelyeket kínálunk kiemelt pozíciókban, szponzorációkat és saját promóciókat. A prémium előfizetők nem látnak hirdetéseket.",
+      "adsense": {
+        "withPubIdShort": "Google AdSense-en keresztül is kínálunk leltárt. Célzhatja a Chatforiát a {{pubId}} kiadói azonosítóval, vagy használja az alábbi űrlapot közvetlen szponzorációkhoz.",
+        "noPubIdShort": "Google AdSense-en keresztül is kínálunk némi leltárt. Közvetlen szponzorációk elérhetők — használja az alábbi űrlapot."
+      },
+      "inventoryHeader": "Leltár & specifikációk",
+      "placement": {
+        "displayBadge": "Kijelző",
+        "acceptedSizes": "Elfogadott méretek",
+        "adsenseSlot": "AdSense hely:"
+      },
+      "noPlacementsPublic": "Éppen véglegesítjük a hirdetési leltárunkat. Mondja el nekünk a kampányát, és ajánlunk elhelyezéseket.",
+      "whyHeader": "Miért a Chatforia?",
+      "why": {
+        "highSession": "Magas munkamenet-gyakoriság és tartózkodási idő a csevegőfelületen",
+        "brandSafe": "Márkabarát formátumok; tiszteletben álló gyakoriságkorlát",
+        "sponsoredMoments": "Szponzorált pillanatok (pl. „Csevegés indítása” modal) elérhetők",
+        "deals": "Közvetlen megállapodások vagy programozott AdSense/Google Ads segítségével"
+      },
+      "contactHeader": "Kapcsolat",
+      "form": {
+        "submittedMsg": "Köszönjük! A megkeresése úton van. Hamarosan jelentkezünk.",
+        "missingRequired": "Töltse ki a nevet, e-mailt és üzenetet.",
+        "successToast": "Köszönjük! Hamarosan jelentkezünk.",
+        "mailtoInfo": "Az e-mail kliens megnyitása a megkeresés elküldéséhez…",
+        "nameLabel": "Az Ön neve",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "E-mail",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Cég",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Havi költségvetés (nem kötelező)",
+        "budgetPlaceholder": "pl. $1,000–$20,000+",
+        "messageLabel": "Mondja el nekünk a kampányát",
+        "messagePlaceholder": "Célzás, dátumok, KPI-k, elhelyezési preferenciák…",
+        "sendCta": "Megkeresés küldése"
+      },
+      "legal": {
+        "disclaimerStart": "Küldéssel elfogadja a",
+        "terms": "Szolgáltatási feltételeinket",
+        "and": "és",
+        "privacy": "Adatvédelmi szabályzatunkat"
+      }
     }
   }
 }

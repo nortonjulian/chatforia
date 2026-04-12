@@ -1,163 +1,317 @@
 {
   "common": {
     "save": "שמור",
-    "cancel": "בטל",
+    "cancel": "ביטול",
     "refresh": "רענן",
     "noMatches": "אין התאמות",
     "cancelAria": "ביטול",
     "copy": "העתק",
-    "copied": "הועתק!"
+    "copied": "הועתק!",
+    "errorWithMessage": "שגיאה: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "דלג לתוכן הראשי"
   },
-
-  "profile": {
-    "title": "פרופיל משתמש",
-    "preferredLanguage": "שפה מועדפת",
-    "chooseLanguage": "בחר שפה",
-    "mustLogin": "עליך להיכנס כדי לראות את ההגדרות.",
-    "autoTranslate": "תרגום הודעות אוטומטי",
-    "showOriginalWithTranslation": "הצג מקור ותרגום",
-    "showOriginalAndTranslation": "הצג את המקור לצד התרגום",
-    "filterExplicit": "סינון תוכן בוטה",
-    "aiReply": "תגובה בעזרת AI",
-    "enableReadReceipts": "הפעל אישורי קריאה",
-    "allowExplicitContent": "אפשר תוכן בוטה",
-    "disappearingMessages": "הפעל הודעות נעלמות",
-    "autoDeleteSeconds": "שניות עד למחיקה אוטומטית",
-    "saveSuccess": "ההגדרות נשמרו!",
-    "saveError": "שגיאה: לא ניתן לשמור את ההגדרות",
-    "avatarAlt": "אווטאר פרופיל",
-    "uploadAvatar": "העלה אווטאר חדש",
-    "avatarSuccess": "אווטאר הועלה!",
-    "avatarError": "שגיאה בהעלאת האווטאר",
-    "noPrivateKey": "אין מפתח פרטי במכשיר זה לייצוא.",
-    "setBackupPassword": "קבע סיסמה להצפנת הגיבוי:",
-    "backupDownloaded": "גיבוי מוצפן הורד.",
-    "exportFailed": "ייצוא המפתח נכשל",
-    "enterBackupPassword": "הזן את הסיסמה לגיבוי זה:",
-    "importSuccess": "מפתח פרטי יובא למכשיר זה.",
-    "importFailed": "ייבוא המפתח נכשל (סיסמה שגויה או קובץ פגום).",
-    "keysRotated": "נוצר זוג מפתחות חדש והמפתח הציבורי הועלה.",
-    "rotateFailed": "סבב המפתחות נכשל.",
-    "security": "אבטחה",
-    "exportKey": "ייצא מפתח פרטי",
-    "importKey": "ייבא גיבוי מפתח מוצפן",
-    "rotateKeys": "סבב זוג מפתחות",
-    "keyDisclaimer": "המפתח הפרטי שלך לעולם לא עוזב את המכשיר. ייצא עותק מוגן סיסמה כדי לשחזר במכשיר אחר.",
-    "sectionProfile": "פרופיל",
-    "phoneNumber": "מספר טלפון",
-    "appearance": "מראה",
-    "soundSettings": "צלילים",
-    "disappearing": "הודעות נעלמות",
-    "backupSync": "גיבוי וסנכרון",
-    "ai": "בינה מלאכותית",
-    "accessibility": "נגישות",
-    "privacy": "פרטיות",
-    "devices": "מכשירים מקושרים",
-    "themeFreeNotice": "אתה בתוכנית חינמית — השתמש באפשרויות שמש/ירח המהירות למטה. שדרג כדי לפתוח עוד ערכות נושא.",
-    "sunTheme": "השתמש בערכת נושא 'שחר'",
-    "moonTheme": "השתמש בערכת נושא 'ירח (חצות)'",
-    "sun": "שמש",
-    "moon": "ירח",
-    "backupTitle": "גיבויים מוצפנים וסנכרון מכשירים",
-    "openBackupTools": "פתח כלי גיבוי",
-    "backupDesc": "צור גיבויים מוגני סיסמה למפתחותיך ושחזר אותם במכשיר אחר כדי לסנכרן.",
-    "privacyBlurEnabled": "טשטש הודעות כברירת מחדל",
-    "privacyBlurOnUnfocus": "טשטש כשהאפליקציה ברקע",
-    "holdToReveal": "החזק לחשיפה",
-    "notifyOnCopy": "הודע לי אם העתיקו את ההודעה שלי",
-    "loadFailed": "טעינת הפרופיל נכשלה",
-    "followed": "נעקב",
-    "followFailed": "המעקב נכשל",
-    "unfollowed": "בוטל מעקב",
-    "unfollowFailed": "ביטול המעקב נכשל",
-    "follow": "עקוב",
-    "unfollow": "בטל מעקב",
-    "followHint": "הסיפורים שלהם יופיעו בפיד 'עוקבים' אם יפרסמו לקהל עוקבים (או ציבורי).",
-    "userNotFound": "משתמש לא נמצא",
-    "followsYou": "עוקב אחריך",
-    "sectionCrashedTitle": "הקטע נכשל בטעינה",
-    "sectionCrashedBody": "משהו השתבש בקטע זה.",
-    "forwarding": "העברת שיחות וטקסטים",
-    "callTextForwardingSection": "העברת שיחות וטקסטים",
-    "callTextForwardingTitle": "העברת שיחות ו/או טקסטים",
-    "callTextForwardingDescription": "העבר שיחות וטקסטים נכנסים לטלפון או לאימייל מאומתים. שיחות/טקסטים יוצאים יכולים להציג את מספר Chatforia שלך.",
-    "enableTextForwarding": "הפעל העברת טקסטים",
-    "forwardTextsToPhone": "העבר טקסטים לטלפון",
-    "forwardTextsToEmail": "העבר טקסטים לאימייל",
-    "destinationPhone": "טלפון יעד (E.164)",
-    "destinationEmail": "אימייל יעד",
-    "enableCallForwarding": "הפעל העברת שיחות",
-    "destinationPhoneForCalls": "יעד (E.164) לשיחות",
-    "aliasBridging": "העברת שיחות (גישור כינוי)",
-    "quietHoursOptional": "שעות שקט (אופציונלי)",
-    "startHour": "שעת התחלה (0–23)",
-    "endHour": "שעת סיום (0–23)",
-    "reset": "איפוס",
-    "saveBtn": "שמור",
-    "forwardSaved": "הגדרות העברה נשמרו",
-    "forwardSaveFailed": "שמירת ההגדרות נכשלה",
-    "errE164": "הזן מספר טלפון חוקי בתקן E.164 (למשל ‎+15551234567).",
-    "errEmail": "הזן אימייל חוקי.",
-    "errSmsDest": "בחר לפחות יעד אחד (טלפון או אימייל).",
-    "errQuietHours": "שעות שקט חייבות להיות בין 0 ל-23."
+  "keys": {
+    "backupCreated": "גיבוי מפתח נוצר והורד ✓",
+    "restored": "גיבוי מפתח שוחזר ✓ מפתחות הותקנו מקומית",
+    "noBackup": "לא קיים גיבוי מוצפן עבור חשבון זה",
+    "missingPublicKey": "בגיבוי חסר מפתח ציבורי"
   },
-
-  "support": {
-    "helpFab": "עזרה",
-    "openSupportAria": "פתח תמיכה",
-    "badge": "תמיכה",
-    "heading": "כיצד נוכל לעזור?",
-    "tabs": {
-      "help": "מרכז העזרה",
-      "contact": "צור קשר"
-    },
-    "searchPlaceholder": "חפש במאמרי עזרה…",
-    "searchAria": "חיפוש עזרה",
-    "searchBtn": "חפש",
-    "quickTopicsLabel": "נושאים מהירים",
-    "quickTopics": {
-      "login": "לא מצליח להיכנס",
-      "billing": "תשלומים / חיוב",
-      "abuse": "דיווח על שימוש לרעה"
-    },
-    "trySearching": "נסה לחפש “תרגום”, “גיבויים” או “פרטיות”.",
-    "article": "מאמר",
-    "openArticle": "פתח מאמר",
-    "contactIntro": "נשלח תשובה באימייל. כלול פרטים שיעזרו לנו לשחזר את הבעיה.",
-    "topicAria": "בחר נושא",
-    "messagePlaceholder": "כתוב את הודעתך…",
-    "sendBtn": "שלח",
-    "sent": "הודעה נשלחה. נשיב באימייל.",
-    "sendError": "לא ניתן לשלוח. שלח אימייל ל-support@chatforia.com במקום."
+  "keySetup": {
+    "title": "הגדר את מפתחות המכשיר שלך",
+    "description": "למכשיר זה אין עדיין את המפתח הפרטי שלך. ייבא גיבוי מוגן בסיסמה, או צור זוג מפתחות חדש (תוכל לקרוא הודעות חדשות מעכשיו).",
+    "chooseFile": "בחר קובץ והזן את הסיסמה.",
+    "imported": "המפתח הפרטי יובא למכשיר זה. כעת תוכל לקרוא הודעות ישנות.",
+    "enterPassword": "הזן את סיסמת החשבון שלך כדי שנוכל לגבות את המפתחות שלך בצורה מאובטחת."
   },
-
+  "auth": {
+    "headline": "הודעות מאובטחות לכל אחד, בכל מקום",
+    "description": "הצפנה מקצה לקצה, תרגום ל-100+ שפות, הודעות נעלמות ושיחות קול/וידאו.",
+    "feature": {
+      "encryption": "הצפנה מקצה לקצה כברירת מחדל",
+      "translation": "תרגום הודעות חכם מובנה",
+      "disappearing": "הודעות נעלמות ואישורי קריאה",
+      "privacy": "פרטיות קודמת. הנתונים שלך, השליטה שלך.",
+      "translate": "תרגום הודעות חכם מובנה",
+      "disappear": "הודעות נעלמות",
+      "privacyAlt": "עיצוב מראש פרטיות",
+      "seePlans": "ראה תוכניות ומחירים"
+    },
+    "hero": {
+      "line1": "הודעות מאובטחות לכל אחד, בכל מקום — עם",
+      "em": "תרגום ל-100+ שפות",
+      "sub": "קבל מספר טלפון מאובטח חינמי להתקשר ולשלוח הודעות ברחבי העולם דרך Wi-Fi או נתונים. תהנה מהצפנה מקצה לקצה, הודעות נעלמות ושיחות קול/וידאו באיכות HD — עם כלים מובנים שיעזרו לך להישאר מחובר מעבר לגבולות.",
+      "freeNote": "שיחות והודעות בסיסיות חינמיות. תכונות AI מתקדמות ותכונות פרימיום דורשות שדרוג."
+    },
+    "feat": {
+      "encryption": "הצפנה מקצה לקצה, תמיד פעילה",
+      "translate": "שבור מחסומי שפה בשיחות שלך",
+      "disappear": "הודעות נעלמות ואישורי קריאה",
+      "privacy": "פרטיות קודמת. הנתונים שלך, השליטה שלך."
+    },
+    "continueGoogle": "המשך עם Google",
+    "continueApple": "המשך עם Apple",
+    "username": "שם משתמש",
+    "password": "סיסמה",
+    "keepSignedIn": "השאר אותי מחובר",
+    "forgotPassword": "שכחת סיסמה?",
+    "loginButton": "התחבר",
+    "createAccount": "צור חשבון",
+    "freeAccountButton": "צור חשבון חינם",
+    "newHere": "חדש כאן?",
+    "getApp": "הורד את האפליקציה",
+    "desktopTip": "במחשב? סרוק עם הטלפון שלך כדי להוריד את האפליקציה.",
+    "scanHelper": "במחשב? סרוק עם הטלפון שלך כדי להוריד את האפליקציה.",
+    "goHome": "עבור לדף הבית",
+    "home": "בית",
+    "headlineAlt": {
+      "main": "אפליקציית ההודעות המאובטחת ש",
+      "highlight": "מדברת את השפה שלך"
+    },
+    "subhead": "הודעות פרטיות, מוצפנות ומתורגמות — באופן מיידי.",
+    "upgrade": "שדרג עכשיו",
+    "tip": "טיפ: השתמש באותו חשבון באתר ובנייד. ההודעות שלך נשארות מסונכרנות.",
+    "openDownload": "פתח את דף ההורדה",
+    "qrAlt": "קוד QR עבור Chatforia",
+    "scanHint": "סרוק כדי להוריד את האפליקציה או לפתוח בדפדפן שלך.",
+    "iosAria": "הורד ב-App Store",
+    "iosTitle": "הורד ב-App Store",
+    "iosBadgeAlt": "תג App Store",
+    "androidAria": "הורד ב-Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "תג Google Play",
+    "login": "התחבר",
+    "signup": "הירשם",
+    "email": "דוא\"ל",
+    "registration": {
+      "passwordDescription": "מינימום 6 תווים. השתמש בסיסמה חזקה וייחודית.",
+      "smsConsent": "על ידי יצירת חשבון, אתה מסכים לקבל הודעות SMS הקשורות לפעילות Chatforia שלך (כגון הודעות ממשתמשים אחרים). ייתכן שיחולו תעריפי הודעות ונתונים. תוכל לבטל בכל עת בהגדרות.",
+      "termsLink": "תנאי שירות",
+      "privacyLink": "מדיניות פרטיות"
+    },
+    "to": "אל:",
+    "enterRecipient": "הזן שם או מספר",
+    "clearRecipients": "נקה נמענים",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "הקלד הודעה…",
+    "addRecipient": "הוסף נמען למעלה כדי להתחיל…",
+    "oneRecipient": "אנא הזן נמען אחד לעת עתה.",
+    "enterValidRecipient": "הזן שם איש קשר שמור או מספר טלפון.",
+    "sendFailed": "השליחה נכשלה. בדוק את הקונסולה לפרטים."
+  },
+  "home": {
+    "title": "בית",
+    "header": "ההודעות שלך",
+    "subheader": "שלח הודעה כדי להתחיל שיחה.",
+    "sendButton": "שלח הודעה",
+    "gifPicker": "פתח בוחר GIF",
+    "emoji": "אמוג'י",
+    "upload": "העלה תמונה או וידאו",
+    "inputPlaceholder": "הקלד הודעה…",
+    "inputLabel": "עורך הודעות",
+    "sendTooltip": "שלח",
+    "sendTooltipEmpty": "הקלד הודעה כדי לשלוח",
+    "send": "שלח",
+    "welcomeMessage": "ברוך הבא ל-Chatforia",
+    "getStarted": "התחל"
+  },
   "chat": {
-    "selectPrompt": "בחר טקסט או חדר צ'אט כדי להתחיל לשוחח",
+    "selectPrompt": "בחר טקסט או חדר שיחה כדי להתחיל לצ'וט",
     "newMessages": "הודעות חדשות",
-    "typing": "{{name}} מקליד…",
+    "typing": "{{name}} מקליד...",
     "emptyTitle": "ההודעות שלך",
-    "emptySubtitle": "שלח הודעה כדי להתחיל צ'אט.",
-    "startChatButton": "שלח הודעה"
+    "emptySubtitle": "שלח הודעה כדי להתחיל שיחה.",
+    "startChatButton": "שלח הודעה",
+    "mediaAttachment": "קובץ מצורף מדיה",
+    "thisUser": "משתמש זה",
+    "blockConfirm": "לחסום את {{name}}? לא תקבל הודעות ממנו.",
+    "blockedUser": "חסמת את {{name}}.",
+    "blockError": "לא ניתן לקבוע משתמש יעד לחסימה.",
+    "blockFailed": "החסימה נכשלה (השרת עדיין לא מחובר).",
+    "encryptedUnavailable": "הודעה מוצפנת (מפתח לא זמין)",
+    "unlockToView": "בטל נעילה של המפתח שלך כדי לצפות בהודעה זו"
   },
-
+  "messageInput": {
+    "ttl": {
+      "off": "כבוי"
+    },
+    "freeLimit": "מגבלת תוכנית חינם: מחיקה אוטומטית עד יום אחד. ננעל ל-1 יום.",
+    "premiumLimit": "מקסימום מחיקה אוטומטית לפרימיום הוא 30 יום. ננעל ל-30 יום.",
+    "nothingToSend": "הקלד הודעה או צרף קובץ כדי לשלוח.",
+    "encryptionFailed": "ההצפנה נכשלה. ההודעה לא נשלחה.",
+    "sent": "ההודעה נשלחה.",
+    "placeholder": "הקלד הודעה…",
+    "autoDelete": "מחיקה אוטומטית",
+    "typeToSend": "הקלד הודעה כדי לשלוח",
+    "send": "שלח",
+    "sendWithEnter": "שלח (Enter)",
+    "attachment": "קובץ מצורף",
+    "caption": "כותרת (אופציונלי)",
+    "remove": "הסר",
+    "clear": "נקה",
+    "gif": "GIF",
+    "sticker": "סטיקר",
+    "errors": {
+      "attachmentTooLarge": "קובץ מצורף גדול מדי. נסה קובץ קטן יותר.",
+      "unsupportedFile": "סוג קובץ לא נתמך.",
+      "rateLimit": "אתה שולח הודעות מהר מדי. אנא האט.",
+      "validation": "שגיאת אימות. בדוק את ההודעה שלך ונסה שוב.",
+      "failedToSend": "השליחה נכשלה. תוכל לנסות שוב את הבועה שנכשלה."
+    }
+  },
+  "contactList": {
+    "savedContacts": "אנשי קשר שמורים",
+    "refreshAria": "רענן אנשי קשר",
+    "filterPlaceholder": "סנן אנשי קשר שמורים…",
+    "filterAria": "סנן אנשי קשר שמורים",
+    "noContactsFound": "לא נמצאו אנשי קשר.",
+    "externalContact": "איש קשר חיצוני",
+    "notJoined": "איש קשר זה עדיין לא הצטרף ל-Chatforia.",
+    "couldNotStart": "לא ניתן להתחיל שיחה. נסה שוב.",
+    "startFailed": "התחלת השיחה נכשלה. נסה שוב.",
+    "deleted": "איש הקשר נמחק.",
+    "deleteFailed": "מחיקת איש הקשר נכשלה. נסה שוב.",
+    "aliasUpdated": "כינוי עודכן.",
+    "updateAliasFailed": "עדכון הכינוי נכשל. נסה שוב.",
+    "selectContact": "בחר {{name}}",
+    "alias": "כינוי",
+    "startChat": "התחל שיחה",
+    "message": "הודעה",
+    "delete": "מחק",
+    "deleteContactAria": "מחק איש קשר",
+    "loadFailed": "טעינת אנשי הקשר נכשלה. נסה שוב.",
+    "loadMore": "טען עוד",
+    "call": "התקשר",
+    "callStarted": "מתקשר למספר זה דרך מספר Chatforia שלך…",
+    "callFailed": "התחלת השיחה נכשלה. נסה שוב."
+  },
+  "startChatModal": {
+    "title": "התחל שיחה",
+    "searchPlaceholder": "חפש שם, שם משתמש או מספר טלפון",
+    "messageThisPerson": "שלח הודעה לאדם זה",
+    "contacts": "אנשי קשר",
+    "recentInteractions": "אינטראקציות אחרונות",
+    "noContactsMatch": "אין אנשי קשר שתואמים את החיפוש שלך.",
+    "noRecentInteractions": "אין אינטראקציות אחרונות עדיין.",
+    "unknown": "לא ידוע",
+    "interactionType": {
+      "message": "הודעה",
+      "call": "שיחה",
+      "video": "וידאו"
+    }
+  },
+  "addContactModal": {
+    "title": "הוסף איש קשר",
+    "phoneOrUsername": "טלפון או שם משתמש",
+    "phoneOrUsernamePlaceholder": "לדוגמה: +13018019227 או juliannorton",
+    "alias": "כינוי (אופציונלי)",
+    "aliasPlaceholder": "לדוגמה: עבודה, אמא, מייק – אירופה",
+    "enterPhoneOrUsername": "הזן מספר טלפון או שם משתמש.",
+    "userLookupFailed": "חיפוש המשתמש נכשל.",
+    "cannotAddSelf": "אינך יכול להוסיף את עצמך כאיש קשר.",
+    "failedToAdd": "הוספת איש הקשר נכשלה.",
+    "add": "הוסף"
+  },
+  "sidebar": {
+    "randomChat": "צ'אט אקראי",
+    "callTextForwarding": "העברת שיחות והודעות",
+    "conversations": "שיחות",
+    "searchPlaceholder": "חפש שיחות...",
+    "errorLoading": "טעינת השיחות נכשלה",
+    "empty": "אין שיחות עדיין.",
+    "startChat": "התחל שיחה",
+    "people": "אנשים",
+    "settings": "הגדרות",
+    "status": "סטטוס",
+    "forwarding": "העברת שיחות והודעות",
+    "refresh": "רענן",
+    "search": "חפש שיחות",
+    "loginPrompt": "התחבר כדי לערוך את ההגדרות שלך.",
+    "login": "התחבר",
+    "register": "צור חשבון",
+    "chatrooms": "חדרי שיחה",
+    "logout": "התנתק",
+    "startChatAlt": "התחל שיחה חדשה",
+    "calls": "שיחות",
+    "video": "וידאו",
+    "voicemail": "תא קולי"
+  },
   "topbar": {
     "newStatus": "סטטוס חדש",
-    "logout": "יציאה",
+    "logout": "התנתק",
     "help": "עזרה",
     "createStatusAria": "צור סטטוס חדש"
   },
-
+  "threadActions": {
+    "threadMenu": "תפריט שיחה",
+    "premium": "פרימיום",
+    "aiPower": "כוח AI",
+    "schedule": "תזמן",
+    "upgrade": "שדרג",
+    "upgradeSuffix": "(שדרג)",
+    "thread": "שיחה",
+    "about": "אודות",
+    "search": "חפש",
+    "media": "מדיה",
+    "invitePeople": "הזמן אנשים",
+    "roomSettings": "הגדרות חדר",
+    "clearConversation": "נקה שיחה",
+    "block": "חסום"
+  },
+  "roomSearch": {
+    "title": "חפש בחדר",
+    "ariaLabel": "חפש בחדר",
+    "search": "חפש",
+    "searchMessages": "חפש הודעות",
+    "noText": "[אין טקסט]",
+    "noResults": "אין תוצאות"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "חבר",
+      "moderator": "מנהל",
+      "admin": "מנהל מערכת"
+    },
+    "aiMode": {
+      "off": "כבוי",
+      "mention": "רק על @ForiaBot או /ask",
+      "always": "הגב באופן יזום"
+    },
+    "autoTranslateMode": {
+      "off": "כבוי",
+      "tagged": "רק מסומן (/tr …)",
+      "all": "כל ההודעות"
+    },
+    "updated": "ההגדרות עודכנו"
+  },
+  "mediaGallery": {
+    "sharedMedia": "מדיה משותפת",
+    "noMediaCached": "עדיין לא נשמרה מדיה מקומית.",
+    "imageAlt": "תמונה",
+    "openVideo": "פתח וידאו",
+    "openVideoWithCaption": "פתח וידאו: {{caption}}",
+    "preview": "תצוגה מקדימה",
+    "previewWithCaption": "תצוגה מקדימה: {{caption}}",
+    "previewKind": "תצוגה מקדימה {{kind}}",
+    "download": "הורד",
+    "downloadKind": "הורד {{kind}}",
+    "file": "קובץ",
+    "kinds": {
+      "image": "תמונה",
+      "video": "וידאו",
+      "audio": "שמע",
+      "file": "קובץ"
+    }
+  },
   "status": {
     "userNumber": "משתמש #{{id}}",
-    "posted": "סטטוס פורסם",
+    "posted": "הסטטוס פורסם",
     "postFailed": "פרסום הסטטוס נכשל",
     "createTitle": "צור סטטוס",
     "modalAriaLabel": "סטטוס חדש",
-    "captionLabel": "מה על ליבך?",
+    "captionLabel": "מה עובר לך בראש?",
     "captionPlaceholder": "שתף עדכון...",
     "captionAria": "הודעת סטטוס",
     "audienceLabel": "קהל יעד",
@@ -168,315 +322,341 @@
       "mutuals": "הדדיים",
       "custom": "מותאם אישית..."
     },
-    "expiresHoursLabel": "פג תוקף (שעות)",
+    "expiresHoursLabel": "תוקף (שעות)",
     "maxTooltip": "מקסימום 7 ימים",
-    "hoursAbbrev": "ש׳",
+    "hoursAbbrev": "ש'",
     "maxShort": "מקס'",
-    "expiresOn": "פג בתאריך:",
+    "expiresOn": "תוקף ב:",
     "chooseRecipients": "בחר נמענים",
     "selectContacts": "בחר אנשי קשר",
     "attachmentsLabel": "קבצים מצורפים",
-    "attachmentsPlaceholder": "הוסף תמונות/סרטונים",
-    "filesNote": "עד 5 קבצים. ברירת מחדל: תפוגה לאחר 24 שעות.",
+    "attachmentsPlaceholder": "הוסף תמונות/וידאו",
+    "filesNote": "עד 5 קבצים. תוקף ברירת מחדל 24 שעות.",
     "postAria": "פרסם סטטוס",
     "post": "פרסם"
   },
-
-  "contactList": {
-    "savedContacts": "אנשי קשר שמורים",
-    "refreshAria": "רענן אנשי קשר",
-    "filterPlaceholder": "סנן אנשי קשר שמורים…",
-    "filterAria": "סינון אנשי קשר שמורים",
-    "noContactsFound": "לא נמצאו אנשי קשר.",
-    "externalContact": "איש קשר חיצוני",
-    "notJoined": "איש קשר זה טרם הצטרף ל-Chatforia.",
-    "couldNotStart": "לא ניתן היה להתחיל צ'אט. נסה שוב.",
-    "startFailed": "התחלת הצ'אט נכשלה. נסה שוב.",
-    "deleted": "איש הקשר נמחק.",
-    "deleteFailed": "מחיקה נכשלה. נסה שוב.",
-    "aliasUpdated": "כינוי עודכן.",
-    "updateAliasFailed": "עדכון הכינוי נכשל. נסה שוב.",
-    "selectContact": "בחר את {{name}}",
-    "alias": "כינוי",
-    "startChat": "התחל צ'אט",
-    "message": "הודעה",
+  "voicemail": {
+    "pageTitle": "תא קולי",
+    "from": "מאת",
+    "to": "אל",
+    "unknownCaller": "לא ידוע",
+    "yourNumber": "מספר Chatforia שלך",
+    "durationSeconds": "{{count}} שניות",
+    "audioAria": "נגן שמע תא קולי",
+    "transcriptHeading": "תמליל",
+    "transcriptPending": "מתמלל תא קולי…",
+    "transcriptFailed": "תמליל לא זמין.",
+    "loading": "טוען תא קולי…",
+    "errorLoading": "טעינת תא הקולי נכשלה.",
+    "empty": "אין תאי קולי עדיין.",
+    "deleteConfirm": "למחוק תא קולי זה?",
+    "deleteError": "מחיקת תא הקולי נכשלה.",
+    "markRead": "סמן כנקרא",
     "delete": "מחק",
-    "deleteContactAria": "מחק איש קשר",
-    "loadFailed": "טעינת אנשי הקשר נכשלה. נסה שוב.",
-    "loadMore": "טען עוד"
+    "unreadDotAria": "סמן תא קולי לא נקרא"
   },
-
-  "sidebar": {
+  "profile": {
+    "title": "פרופיל משתמש",
+    "preferredLanguage": "שפה מועדפת",
+    "chooseLanguage": "בחר שפה",
+    "mustLogin": "עליך להתחבר כדי לצפות בהגדרות.",
+    "autoTranslate": "תרגם הודעות אוטומטית",
+    "showOriginalWithTranslation": "הצג טקסט מקורי והודעות מתורגמות",
+    "showOriginalAndTranslation": "הצג מקור לצד תרגום",
+    "filterExplicit": "סנן תוכן מפורש",
+    "aiReply": "תשובת AI",
+    "enableReadReceipts": "אפשר אישורי קריאה",
+    "allowExplicitContent": "אפשר תוכן מפורש",
+    "disappearingMessages": "אפשר הודעות נעלמות",
+    "autoDeleteSeconds": "שניות עד מחיקה אוטומטית",
+    "saveSuccess": "ההגדרות נשמרו!",
+    "saveError": "שגיאה: לא ניתן לשמור הגדרות",
+    "avatarAlt": "אווטאר פרופיל",
+    "uploadAvatar": "העלה אווטאר חדש",
+    "avatarSuccess": "האווטאר הועלה!",
+    "avatarError": "העלאת האווטאר נכשלה",
+    "avatarUpdated": "האווטאר עודכן!",
+    "uploadingAvatar": "מעלה אווטאר…",
+    "noPrivateKey": "אין מפתח פרטי במכשיר זה לייצוא.",
+    "setBackupPassword": "הגדר סיסמה להצפנת הגיבוי שלך:",
+    "backupDownloaded": "גיבוי מוצפן הורד.",
+    "exportFailed": "ייצוא מפתח נכשל",
+    "enterBackupPassword": "הזן את הסיסמה לגיבוי זה:",
+    "importSuccess": "מפתח פרטי יובא למכשיר זה.",
+    "importFailed": "ייבוא מפתח נכשל (סיסמה שגויה או קובץ פגום).",
+    "keysRotated": "נוצר זוג מפתחות חדש והמפתח הציבורי הועלה.",
+    "rotateFailed": "סיבוב מפתחות נכשל.",
+    "security": "אבטחה",
+    "exportKey": "גבה מפתח הצפנה",
+    "importKey": "שחזר מפתח הצפנה",
+    "rotateKeys": "סובב מפתח הצפנה",
+    "keyDisclaimer": "המפתח הפרטי שלך לעולם לא עוזב את המכשיר הזה. ייצא עותק מוגן בסיסמה כדי לשחזר אותו במכשיר אחר.",
+    "sectionProfile": "פרופיל",
+    "phoneNumber": "מספר טלפון",
+    "appearance": "מראה",
+    "soundSettings": "צלילים",
+    "disappearing": "הודעות נעלמות",
+    "backupSync": "גיבוי מפתח הצפנה",
+    "ai": "AI",
+    "accessibility": "נגישות",
+    "privacy": "פרטיות",
+    "devices": "מכשירים מקושרים",
+    "themeFreeNotice": "אתה בתוכנית חינם — השתמש באפשרויות Sun/Moon המהירות למטה. שדרג כדי לפתוח עוד ערכות נושא.",
+    "sunTheme": "השתמש בערכת נושא Dawn",
+    "moonTheme": "השתמש בערכת נושא Moon (חצות)",
+    "sun": "שמש",
+    "moon": "ירח",
+    "backupTitle": "גיבויים מוצפנים וסנכרון מכשירים",
+    "openBackupTools": "פתח כלי גיבוי",
+    "backupDesc": "גבה את מפתח ההצפנה שלך כדי לשחזר את ההודעות שלך בצורה מאובטחת במכשיר אחר.",
+    "privacyBlurEnabled": "טשטש הודעות כברירת מחדל",
+    "privacyBlurOnUnfocus": "טשטש כשהאפליקציה לא בפוקוס",
+    "planSection": "התוכנית שלי",
+    "planLoading": "טוען את התוכנית שלך…",
+    "planLoadFailed": "טעינת התוכנית נכשלה.",
+    "currentPlan": "תוכנית נוכחית",
+    "planRenewsOn": "מתחדשת ב",
+    "freePlanCopy": "אתה בתוכנית החינם. שדרג כדי לפתוח תכונות נוספות כמו גיבויים, מספרים נוספים ואפשרויות פרטיות מתקדמות.",
+    "upgradePlanCta": "שדרג תוכנית",
+    "changePlanCta": "שנה תוכנית",
+    "manageBilling": "נהל חיוב",
+    "portalOpenFailed": "לא ניתן לפתוח את פורטל החיוב. נסה שוב.",
+    "holdToReveal": "החזק כדי לגלות",
+    "notifyOnCopy": "הודע לי אם ההודעה שלי הועתקה",
+    "loadFailed": "טעינת הפרופיל נכשלה",
+    "followed": "עקבת",
+    "followFailed": "המעקב נכשל",
+    "unfollowed": "ביטלת מעקב",
+    "unfollowFailed": "ביטול המעקב נכשל",
+    "follow": "עקוב",
+    "unfollow": "בטל מעקב",
+    "followHint": "הסיפורים שלהם יופיעו בפיד העוקבים שלך אם הם יפרסמו עם קהל יעד עוקבים (או ציבורי).",
+    "userNotFound": "משתמש לא נמצא",
+    "followsYou": "עוקב אחריך",
+    "sectionCrashedTitle": "הסעיף לא נטען",
+    "sectionCrashedBody": "משהו השתבש בסעיף זה.",
+    "forwarding": "העברת שיחות והודעות",
+    "callTextForwardingSection": "העברת שיחות והודעות",
+    "callTextForwardingTitle": "העברת שיחות ו/או הודעות",
+    "callTextForwardingDescription": "העבר שיחות והודעות נכנסות למספר טלפון או דוא\"ל מאומת שלך. שיחות/הודעות יוצאות יכולות להציג את מספר Chatforia שלך.",
+    "enableTextForwarding": "אפשר העברת הודעות",
+    "forwardTextsToPhone": "העבר הודעות לטלפון",
+    "forwardTextsToEmail": "העבר הודעות לדוא\"ל",
+    "destinationPhone": "טלפון יעד (E.164)",
+    "destinationEmail": "דוא\"ל יעד",
+    "enableCallForwarding": "אפשר העברת שיחות",
+    "destinationPhoneForCalls": "יעד (E.164) לשיחות",
+    "aliasBridging": "העברת שיחות (גישור כינוי)",
+    "quietHoursOptional": "שעות שקט (אופציונלי)",
+    "startHour": "שעת התחלה (0–23)",
+    "endHour": "שעת סיום (0–23)",
+    "reset": "אפס",
+    "saveBtn": "שמור",
+    "saveProfile": "שמור פרופיל",
+    "saveForwarding": "שמור העברה",
+    "forwardSaved": "הגדרות ההעברה נשמרו",
+    "forwardSaveFailed": "שמירת ההגדרות נכשלה",
+    "errE164": "הזן מספר טלפון E.164 תקין (לדוגמה: +15551234567).",
+    "errEmail": "הזן דוא\"ל תקין.",
+    "errSmsDest": "בחר לפחות יעד אחד (טלפון או דוא\"ל).",
+    "errQuietHours": "שעות שקט חייבות להיות בין 0 ל-23.",
     "randomChat": "צ'אט אקראי",
-    "callTextForwarding": "העברת שיחות וטקסטים",
-    "conversations": "שיחות",
-    "searchPlaceholder": "חפש בשיחות...",
-    "errorLoading": "טעינת צ'אטים נכשלה",
-    "empty": "אין עדיין שיחות.",
-    "startChat": "התחל צ'אט",
-    "people": "אנשים",
-    "settings": "הגדרות",
-    "status": "סטטוס",
-    "forwarding": "העברת שיחות וטקסטים",
-    "refresh": "רענן",
-    "search": "חפש בשיחות",
-    "loginPrompt": "היכנס כדי לערוך את ההגדרות.",
-    "login": "התחברות",
-    "register": "יצירת חשבון",
-    "chatrooms": "חדרי צ'אט",
-    "logout": "התנתקות",
-    "startChatAlt": "התחל צ'אט חדש"
-  },
-
-  "premium": {
-    "heading": "עבר לפרימיום",
-    "description": "פתח יכולות עוצמתיות והסר פרסומות.",
-    "cta": "שדרוג",
-    "upgrade": "שדרוג",
-    "upgradeAria": "שדרוג ל-Chatforia פרימיום"
-  },
-
-  "auth": {
-    "headline": "מסרים מאובטחים וגלובליים עם תרגום מיידי",
-    "description": "הצפנה מקצה לקצה, תרגום מונע-AI, הודעות נעלמות ושיחות קול/וידאו.",
-    "feature": {
-      "encryption": "הצפנה מקצה לקצה כברירת מחדל",
-      "translation": "תרגום אוטומטי של 100+ שפות",
-      "disappearing": "הודעות נעלמות ואישורי קריאה",
-      "privacy": "פרטיות תחילה. הנתונים שלך בשליטתך.",
-      "translate": "תרגום בזמן אמת",
-      "disappear": "הודעות נעלמות",
-      "privacyAlt": "עיצוב מוכוון פרטיות"
+    "ageBand": "טווח הגיל שלך",
+    "ageBandPlaceholder": "בחר את טווח הגיל שלך",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "אנחנו שומרים רק טווח גיל (לא את תאריך הלידה המדויק שלך). זה משמש כדי לשמור על התאמות סבירות בצ'אט אקראי.",
+    "wantsAgeFilter": "השתמש בהתאמה מבוססת גיל בצ'אט אקראי",
+    "wantsAgeFilterDesc": "כשהאפשרות פעילה, אנו מנסים להתאים אותך לאנשים בטווחי גיל תואמים.",
+    "partnerAgeBands": "עם מי תוכל להיות מותאם?",
+    "partnerAgeBandsDesc": "בני נוער תמיד מותאמים רק לבני נוער. מבוגרים לא יכולים להיות מותאמים לבני נוער.",
+    "teenMatchingNote": "למען בטיחות, חשבונות בטווח הגיל 13–17 יכולים להיות מותאמים רק לחשבונות אחרים בטווח 13–17 בצ'אט אקראי.",
+    "foriaRemember": "תן ל-Ria לזכור דברים שאתה מספר לה",
+    "foriaRememberDesc": "כשהאפשרות פעילה, Foria יכולה להשתמש בשיחות Chat אקראי קודמות שלך (רק איתך) כדי לשמור על זרימת השיחה. תוכל לכבות זאת בכל עת.",
+    "voicemailSection": "תא קולי",
+    "voicemailEnabled": "אפשר תא קולי",
+    "voicemailAutoDeleteDays": "מחק תאי קולי אוטומטית אחרי (ימים)",
+    "voicemailAutoDeletePlaceholder": "השאר ריק כדי לשמור לנצח",
+    "voicemailForwardEmail": "העבר תא קולי לדוא\"ל",
+    "voicemailForwardEmailPlaceholder": "דוא\"ל לשליחת התראות תא קולי",
+    "voicemailGreetingText": "ברכת טקסט חלופית",
+    "voicemailGreetingTextDesc": "משמשת כשהברכה הקולית שלך לא זמינה.",
+    "voicemailGreetingUpload": "העלה ברכת תא קולי",
+    "voicemailPreviewGreeting": "תצוגה מקדימה של ברכה",
+    "voicemailGreetingUploaded": "ברכת תא הקולי הועלתה בהצלחה",
+    "voicemailGreetingUploadError": "העלאת ברכת תא הקולי נכשלה",
+    "voicemailNote": "תאי קולי ממספרי Chatforia שלך יישמרו בתיבת הדואר הנכנס של תא הקולי. תוכל לאפשר תמלול והעברה בתוכניות נתמכות.",
+    "portHint": "רוצה לשמור על המספר הנוכחי שלך? תוכל להעביר אותו ל-Chatforia Wireless.",
+    "wireless": {
+      "manage": "נהל אלחוטי"
     },
-    "hero": {
-      "line1": "מאובטח וגלובלי",
-      "beforeEm": "מסרים עם",
-      "em": "תרגום מיידי",
-      "sub": "הצפנה מקצה לקצה, תרגום מונע-AI, הודעות נעלמות ושיחות קול/וידאו."
-    },
-    "feat": {
-      "encryption": "הצפנה מקצה לקצה כברירת מחדל",
-      "translate": "תרגום אוטומטי של 100+ שפות",
-      "disappear": "הודעות נעלמות ואישורי קריאה",
-      "privacy": "פרטיות תחילה. הנתונים שלך בשליטתך."
-    },
-    "welcomeBack": "ברוך שובך",
-    "continueGoogle": "המשך עם Google",
-    "continueApple": "המשך עם Apple",
-    "username": "שם משתמש",
-    "password": "סיסמה",
-    "keepSignedIn": "השאר אותי מחובר",
-    "forgotPassword": "שכחת סיסמה?",
-    "loginButton": "התחבר",
-    "createAccount": "צור חשבון",
-    "freeAccountButton": "צור חשבון חינמי",
-    "newHere": "חדש כאן?",
-    "getApp": "קבל את האפליקציה",
-    "desktopTip": "בשולחן העבודה? סרוק עם הטלפון כדי לקבל את האפליקציה.",
-    "scanHelper": "בשולחן העבודה? סרוק עם הטלפון כדי לקבל את האפליקציה.",
-    "goHome": "עבור לדף הבית",
-    "home": "בית",
-    "headlineAlt": {
-      "main": "האפליקציה המאובטחת ש",
-      "highlight": "מדברת בשפתך"
-    },
-    "subhead": "מסרים פרטיים, מוצפנים ומתורגמים — מיד.",
-    "status": "הצג סטטוס",
-    "upgrade": "שדרג עכשיו",
-    "tip": "טיפ: השתמש באותו חשבון בווב ובנייד. ההודעות שלך נשארות מסונכרנות.",
-    "openDownload": "פתח דף הורדה",
-    "qrAlt": "קוד QR ל-Chatforia",
-    "scanHint": "סרוק כדי להוריד את האפליקציה או לפתוח בדפדפן.",
-    "iosAria": "הורדה ב-App Store",
-    "iosTitle": "הורדה ב-App Store",
-    "iosBadgeAlt": "סמל App Store",
-    "androidAria": "קבלו ב-Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "סמל Google Play",
-    "login": "התחבר",
-    "signup": "הירשם",
-    "email": "אימייל"
-  },
-
-  "footer": {
-    "plans": "תוכניות ומחירים",
-    "about": "על Chatforia",
-    "careers": "קריירה",
-    "press": "תקשורת",
-    "advertise": "פרסום",
-    "contact": "צור קשר",
-    "help": "מרכז העזרה",
-    "status": "דף סטטוס",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "מדיניות פרטיות",
-    "terms": "תנאי שימוש",
-    "cookies": "הגדרות עוגיות",
-    "doNotSell": "אל תמכרו את המידע שלי",
-    "language": "שפה",
-    "contactShort": "יצירת קשר",
-
-    "aria": "כותרת תחתונה",
-    "homeAria": "דף הבית של Chatforia",
-    "section": {
-      "company": "חברה",
-      "support": "תמיכה",
-      "downloads": "הורדות",
-      "legal": "משפטי"
-    },
-    "links": {
-      "plans-pricing": "תוכניות ומחירים",
-      "about-chatforia": "על Chatforia",
-      "careers": "קריירה",
-      "press": "תקשורת",
-      "advertise": "פרסום",
-      "getting-started": "תחילת עבודה",
-      "help-center": "מרכז העזרה",
-      "contact-us": "צור קשר",
-      "status-page": "דף סטטוס",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "מדיניות פרטיות",
-      "terms-of-service": "תנאי שימוש",
-      "do-not-sell-my-info": "אל תמכרו את המידע שלי",
-      "cookie-settings": "הגדרות עוגיות"
-    },
-    "social": {
-      "tiktok": "טיקטוק",
-      "instagram": "אינסטגרם",
-      "facebook": "פייסבוק",
-      "linkedin": "לינקדאין",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "פטנט בהמתנה",
-    "backToTop": "↑ חזרה למעלה"
-  },
-
-  "home": {
-    "title": "בית",
-    "header": "ההודעות שלך",
-    "subheader": "שלח הודעה כדי להתחיל צ'אט.",
-    "sendButton": "שלח הודעה",
-    "gifPicker": "פתח בוחר GIF",
-    "emoji": "אימוג'י",
-    "upload": "העלה תמונה או וידאו",
-    "inputPlaceholder": "הקלד הודעה…",
-    "inputLabel": "עורך הודעות",
-    "sendTooltip": "שלח",
-    "sendTooltipEmpty": "הקלד הודעה כדי לשלוח",
-    "send": "שלח",
-    "welcomeMessage": "ברוך הבא ל-Chatforia",
-    "getStarted": "התחל"
-  },
-
-  "press": {
-    "title": "תקשורת",
-    "contactLine": "לפניות מדיה פנו אלינו ב-",
-    "boilerplateTitle": "תיאור חברה",
-    "boilerplateBody": "‏Chatforia היא אפליקציית מסרים מוכוונת-פרטיות שהופכת שיחה בין שפות לפשוטה. ההודעות מוצפנות מקצה לקצה כברירת מחדל, ותרגום מובנה תומך ביותר מ-100 שפות בזמן אמת. המשתמשים יכולים להפעיל הודעות נעלמות, להשאיר אישורי קריאה אופציונליים ולסנכרן בין מכשירים. זמינה ל-iOS, ‏Android והווב.",
-    "assetsTitle": "נכסי מותג",
-    "assetsSubtitle": "לוגואים, צילומי מסך ותמונות מוצר.",
-    "downloadCta": "הורד ערכת מדיה",
-    "downloadTitle": "קבל את האפליקציה",
-    "scanTip": "בשולחן העבודה? סרוק עם הטלפון כדי לקבל את האפליקציה.",
-    "qrAria": "פתח את אתר Chatforia",
-    "appStore": "הורד ב-App Store",
-    "googlePlay": "קבל ב-Google Play"
-  },
-
-  "careers": {
-    "title": "קריירה",
-    "intro": "אנחנו צוות קטן שבונה מסנג'ר פרטי וגלובלי. אם אכפת לך מהצפנה, נגישות ו-UX נפלא — נשמח לשמוע ממך.",
-    "openRoles": "<b>תפקידים פתוחים:</b> הנדסה (Full-stack, ‏iOS, ‏Android), מוצר, תמיכה.",
-    "apply": "<b>כיצד להגיש:</b> שלחו קורות חיים/קישורים ל-<a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "שלחו קורות חיים"
-  },
-
-  "about": {
-    "title": "על Chatforia",
-    "description": "‏Chatforia היא מסנג'ר מאובטח ורב-לשוני עם הצפנה מקצה לקצה, תרגום מיידי ושיחות קול/וידאו. המשימה שלנו פשוטה: לעזור לאנשים להתחבר — בבטחה, בפרטיות ובכל שפה.",
-    "valuesTitle": "מה חשוב לנו",
-    "values": {
-      "privacy": "<bold>פרטיות תחילה:</bold> הצפנה מקצה לקצה כברירת מחדל.",
-      "access": "<bold>נגישות לכולם:</bold> תרגום אוטומטי של 100+ שפות.",
-      "control": "<bold>שליטה:</bold> הודעות נעלמות ואישורי קריאה הם אופציונליים.",
-      "privacy_aria": "פרטיות תחילה: הצפנה מקצה לקצה כברירת מחדל.",
-      "access_aria": "נגישות לכולם: תרגום אוטומטי של 100+ שפות.",
-      "control_aria": "שליטה: הודעות נעלמות ואישורי קריאה הן אופציונליות."
-    },
-    "howTitle": "איך Chatforia עובדת",
-    "howDescription": "הודעות מוצפנות במכשיר שלך לפני שהן נשלחות. תרגום, גיבויים וסנכרון מכשירים מתוכננים לצמצם את מה שהשרתים שלנו יכולים לראות."
-    },
-
-  "advertise": {
-    "title": "פרסמו ב-Chatforia",
-    "description": "הגיעו לקהל משתמשי מסרים מעורבים עם מיקומים אלגנטיים ובטוחים למותג. אנו מציעים באנרים במיקומים בולטים, חסויות ופרומואים פנימיים. מנויי פרימיום לא רואים פרסומות.",
-    "adsense": {
-      "withPubId": "כרגע אנו מציגים פרסומות דרך <b>Google AdSense</b>. אם תרצו לטרגט אותנו דרך Google Ads, השתמשו במזהה המו\"ל <code>{{pubId}}</code> ובקשו מיקום מנוהל ביחידות שלמטה. זמינות חסויות ישירות — השתמשו בטופס.",
-      "noPubId": "כרגע אנו מציגים פרסומות דרך <b>Google AdSense</b>. זמינות גם חסויות ישירות — השתמשו בטופס שלמטה."
-    },
-    "inventoryHeader": "מלאי ומפרטים",
-    "placement": {
-      "displayBadge": "תצוגה",
-      "acceptedSizes": "גדלים נתמכים",
-      "adsenseSlot": "משבצת AdSense:"
-    },
-    "noPlacements": "עדיין אין מיקומים מוגדרים. הוסיפו ב-ads/placements.js.",
-    "whyHeader": "למה Chatforia?",
-    "why": {
-      "highSession": "תדירות כניסות גבוהה וזמן שהיה ארוך בממשק הצ'אט",
-      "brandSafe": "פורמטים בטוחים למותג; הגבלת תדירות מכבדת",
-      "sponsoredMoments": "רגעים ממומנים זמינים (למשל חלונית “התחל צ'אט”)",
-      "deals": "עסקאות ישירות או פרוגרמטיות דרך AdSense/Google Ads"
-    },
-    "contactHeader": "צור קשר",
-    "form": {
-      "submittedMsg": "תודה! פנייתך בדרך. נחזור אליך בקרוב.",
-      "missingRequired": "אנא מלא שם, אימייל והודעה.",
-      "successToast": "תודה! ניצור קשר בקרוב.",
-      "mailtoInfo": "פותח את לקוח האימייל שלך לשליחת הפנייה…",
-      "nameLabel": "שמך",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "אימייל",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "חברה",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "תקציב חודשי (אופציונלי)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "ספרו לנו על הקמפיין",
-      "messagePlaceholder": "קהל יעד, תאריכים, KPI, העדפות מיקום…",
-      "sendCta": "שלח פנייה"
-    },
-    "legal": {
-      "disclaimerStart": "בלחיצה על שליחה, אתה מסכים ל-",
-      "terms": "תנאים",
-      "and": "ו-",
-      "privacy": "מדיניות פרטיות"
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "קבל נתונים ניידים ל-Chatforia כשאתה רחוק מ-Wi-Fi.",
+      "cta": "קבל eSIM / הצג QR"
     }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "נהל את תוכנית הנייד של Chatforia, מספרים, העברה והעברת מספר.",
+    "options": {
+      "heading": "בחר איך ברצונך להשתמש ב-Chatforia",
+      "subheading": "תוכל לקבל מספר Chatforia חדש, או להביא את המספר הקיים שלך מספק אחר.",
+      "newNumber": "קבל מספר Chatforia חדש",
+      "portNumber": "העבר את המספר הנוכחי שלך ל-Chatforia Wireless"
+    },
+    "port": {
+      "heading": "העבר את המספר הקיים שלך",
+      "subheading": "העבר את מספר הטלפון הנוכחי שלך מספק הקיים שלך ל-Chatforia. ודא שהפרטים תואמים בדיוק לחשבון הספק שלך כדי למנוע עיכובים.",
+      "phoneNumberLabel": "מספר טלפון להעברה",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "ספק נוכחי",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile וכו'.",
+      "accountNumberLabel": "מספר חשבון",
+      "pinLabel": "PIN / סיסמה להעברה",
+      "fullNameLabel": "שם מלא בחשבון",
+      "address1Label": "שורת כתובת 1",
+      "address2Label": "שורת כתובת 2 (אופציונלי)",
+      "cityLabel": "עיר",
+      "stateLabel": "מדינה / מחוז",
+      "postalCodeLabel": "מיקוד",
+      "countryLabel": "מדינה",
+      "submitButton": "שלח בקשת העברה",
+      "success": "בקשת העברה נשלחה! נעדכן אותך.",
+      "genericError": "משהו השתבש."
+    },
+    "status": {
+      "heading": "סטטוס העברה",
+      "subheading": "עקוב אחר סטטוס בקשות העברת המספר שלך.",
+      "loading": "טוען…",
+      "loadError": "טעינת בקשות העברה נכשלה.",
+      "none": "אין פעילות העברה עדיין.",
+      "pending": "ממתין לבדיקה",
+      "submitted": "נשלח לספק",
+      "inProgress": "בתהליך",
+      "completed": "הושלם",
+      "failed": "נכשל",
+      "canceled": "בוטל",
+      "created": "נוצר:",
+      "scheduled": "מתוזמן:",
+      "completedAt": "הושלם:"
+    },
+    "dataLow": "הנתונים שלך הולכים ואוזלים.",
+    "topUp": "הטען עכשיו",
+    "expiresIn": "תוקף יפוג בעוד {{days}} ימים",
+    "exhausted": "הנתונים שלך אזלו. קנה חבילה חדשה כדי להמשיך להשתמש בנתונים ניידים.",
+    "buyPack": "קנה חבילת נתונים",
+    "esimPackLabel": "חבילת eSIM"
+  },
+  "family": {
+    "title": "משפחה",
+    "loading": "טוען פרטי משפחה…",
+    "error": {
+      "load": "טעינת פרטי משפחה נכשלה.",
+      "invite": "לא ניתן ליצור הזמנה. ודא שאתה הבעלים של המשפחה ונסה שוב.",
+      "checkout": "לא ניתן להתחיל תשלום לתוכנית משפחה. נסה שוב."
+    },
+    "billing": {
+      "myPlanTitle": "התוכנית שלי",
+      "myPlanError": "לא ניתן לטעון את התוכנית שלך.",
+      "myPlanLoading": "טוען את התוכנית שלך…",
+      "currentPlan": "תוכנית נוכחית",
+      "renewsAt": "מתחדשת ב",
+      "freePlanCopy": "אתה בתוכנית החינם. שדרג כדי לפתוח תכונות נוספות.",
+      "upgradeCta": "שדרג תוכנית",
+      "changePlanCta": "שנה תוכנית",
+      "manageBilling": "נהל חיוב",
+      "portalError": "לא ניתן לפתוח את פורטל החיוב כרגע.",
+      "cancelNow": "בטל עכשיו",
+      "cancelNowHelp": "תוכל לנהל או לבטל את המנוי בפורטל החיוב, או לבטל מיד למטה.",
+      "cancelNowConfirm": "האם אתה בטוח שברצונך לבטל את התוכנית שלך מיד? לא ניתן לבטל פעולה זו.",
+      "cancelNowError": "לא ניתן לבטל את התוכנית שלך כרגע. נסה שוב או השתמש בניהול חיוב."
+    },
+    "none": {
+      "title": "עדיין לא הוגדרה משפחה",
+      "body": "כדי ליצור Chatforia Family ובריכת נתונים משותפת, התחל תוכנית משפחה.",
+      "goUpgrade": "התחל תוכנית משפחה",
+      "viewPlans": "צפה בכל התוכניות"
+    },
+    "group": {
+      "defaultName": "משפחת Chatforia שלי",
+      "role": "התפקיד שלך: {{role}}"
+    },
+    "role": {
+      "owner": "בעלים",
+      "member": "חבר"
+    },
+    "data": {
+      "heading": "בריכת נתונים משותפת",
+      "caption": "כל החברים חולקים בריכה זו. נזהיר אותך כשאתה מתקרב לגבול."
+    },
+    "members": {
+      "title": "חברי המשפחה",
+      "name": "שם",
+      "role": "תפקיד",
+      "usage": "שימוש",
+      "limit": "גבול",
+      "unlimited": "ללא גבול ספציפי",
+      "inviteCta": "הזמן חבר"
+    },
+    "invite": {
+      "title": "הזמן חבר חדש",
+      "body": "שלח דוא\"ל או קישור כדי להזמין מישהו לבריכת הנתונים המשותפת של המשפחה שלך.",
+      "emailLabel": "דוא\"ל (אופציונלי)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "צור הזמנה",
+      "linkLabel": "קישור הזמנה",
+      "copyAria": "העתק קישור הזמנה",
+      "expiryHint": "קישור זה יפוג אחרי כמה ימים. תמיד תוכל ליצור חדש."
+    },
+    "join": {
+      "title": "הצטרף למשפחה",
+      "body": "הוזמנת להצטרף ל-Chatforia Family ולשתף את בריכת הנתונים שלהם.",
+      "cta": "קבל והצטרף למשפחה",
+      "ctaLogin": "התחבר והצטרף למשפחה",
+      "success": "הצטרפת למשפחה זו. כעת אתה חולק את בריכת הנתונים שלהם.",
+      "goFamily": "עבור ללוח הבקרה של המשפחה",
+      "error": "לא ניתן להוסיף אותך למשפחה זו. ההזמנה עלולה להיות לא תקפה או שפג תוקפה."
+    }
+  },
+  "premium": {
+    "heading": "עבור לפרימיום",
+    "description": "פתח תכונות חזקות והסר פרסומות.",
+    "cta": "שדרג",
+    "upgrade": "שדרג",
+    "upgradeAria": "שדרג ל-Chatforia Premium"
+  },
   "upgrade": {
-    "title": "שדרוג",
-    "subtitle": "פתח את התוכנית המתאימה לך: 'פלוס' ללא פרסומות, או 'פרימיום' עם כל יכולות העוצמה.",
-    "perMonth": "חודש",
-    "perYear": "שנה",
-    "goPremium": "עבר לפרימיום",
-    "benefitsLine": "פתח יכולות עוצמתיות והסר פרסומות.",
-    "ctaText": "שדרוג",
-    "aria": "שדרוג ל-Chatforia פרימיום",
+    "title": "שדרג",
+    "titleLoggedIn": "שדרג",
+    "titlePublic": "מחירים",
+    "h1": "מחירים ותוכניות Chatforia",
+    "h1Subtitle": "התחל עם תוכנית החינם שלנו עם פרסומות. עבור ללא פרסומות עם Plus, או פתח תכונות חזקות מלאות עם Premium.",
+    "subtitle": "בחר תוכנית אפליקציה, הוסף חבילות נתונים לעצמך, או שתף נתונים עם המשפחה שלך — הכל במקום אחד.",
+    "subtitle.app": "התחל עם תוכנית החינם שלנו עם פרסומות. עבור ללא פרסומות עם Plus, או פתח תכונות חזקות מלאות עם Premium.",
+    "subtitle.mobile": "הוסף נתוני eSIM גלובליים כדי ש-Chatforia ימשיך לעבוד גם כשאתה רחוק מ-Wi-Fi.",
+    "subtitle.family": "צור בריכת נתונים משותפת למשפחה שלך ונהל את השימוש של כולם במקום אחד.",
+    "perMonth": "לחודש",
+    "perYear": "לשנה",
+    "goPremium": "עבור לפרימיום",
+    "benefitsLine": "פתח תכונות חזקות והסר פרסומות.",
+    "ctaText": "שדרג",
+    "aria": "שדרג ל-Chatforia Premium",
     "toggle": {
       "monthly": "חודשי",
-      "annual": "שנתי (חיסכון 25%)"
+      "annual": "שנתי (חסוך 30%)"
     },
     "scheduleBanner": {
       "title": "המנוי יסתיים",
-      "body": "תחזור לתוכנית החינמית בתאריך",
-      "keepPlanCta": "השאר את {{plan}}",
-      "manageBillingCta": "ניהול חיוב"
+      "body": "תחזור לחינם ב",
+      "keepPlanCta": "שמור {{plan}}",
+      "manageBillingCta": "נהל חיוב"
     },
     "billing": {
-      "opening": "נפתח…",
+      "opening": "פותח…",
       "manage": "נהל חיוב"
     },
     "checkout": {
@@ -490,66 +670,76 @@
     "cta": {
       "aria": "בחר תוכנית",
       "getPlus": "שדרג ל-Plus",
-      "upgradeMonthly": "שדרג לחודשי",
-      "upgradeAnnual": "שדרג לשנתי"
+      "upgradeMonthly": "שדרג חודשי",
+      "upgradeAnnual": "שדרג שנתי"
+    },
+    "section": {
+      "app": "תוכניות אפליקציה",
+      "mobile": "נייד (eSIM)",
+      "family": "תוכניות משפחה"
     },
     "plans": {
       "free": {
         "title": "חינם",
         "price": "$0",
-        "desc": "התחל לשלוח הודעות בחינם.",
+        "desc": "התחל לשלוח הודעות בחינם. אידיאלי אם אתה רק מנסה את Chatforia.",
         "features": {
-          "msg": "מסרים אחד-על-אחד וקבוצות",
-          "aiBasic": "תגובות AI בסיסיות",
-          "attachments": "קבצים מצורפים סטנדרטיים"
+          "chat": "צ'אט 1:1 וקבוצתי בזמן אמת, כולל שיחות קול ווידאו",
+          "media": "שתף תמונות, הודעות קול וסרטונים קצרים",
+          "ai": "תשובות חכמות מבוססות AI ותרגום מיידי (שימוש הוגן)",
+          "disappearing": "הודעות נעלמות ופקדי פרטיות בסיסיים",
+          "ads": "חינם לנצח עם פרסומות באפליקציה"
         },
         "ctaCurrent": "תוכנית נוכחית",
-        "ctaUnavailable": "מעבר לחינם (לא זמין)",
-        "aria": "תוכנית חינם (נוכחית)"
+        "ctaManage": "נהל בחיוב",
+        "ctaPublic": "התחל – המשך להתחברות",
+        "aria": "תוכנית חינם"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / ח׳",
-        "desc": "הדרך המשתלמת ביותר ללא פרסומות.",
+        "price": "$6.99",
+        "desc": "כל הדברים החיוניים, ללא פרסומות. מצוין לשליחת הודעות ושיחות יומיומיות.",
         "features": {
-          "noAds": "הסרת כל הפרסומות",
-          "msg": "מסרים אחד-על-אחד וקבוצות",
-          "attachments": "קבצים מצורפים גדולים יותר",
-          "aiBasic": "תגובות AI בסיסיות"
+          "allFree": "כל מה שבחינם, ללא פרסומות",
+          "forwarding": "העבר שיחות והודעות למספר הטלפון האמיתי שלך",
+          "history": "היסטוריית הודעות ארוכה יותר (עד 6 חודשים)",
+          "support": "תמיכה מהירה יותר כשמשהו משתבש"
         },
         "badge": "פופולרי",
-        "cta": "ללא פרסומות",
-        "aria": "שדרוג ל-Plus"
+        "cta": "עבור ללא פרסומות",
+        "ctaPublic": "קבל Plus – המשך להתחברות",
+        "aria": "שדרג ל-Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (חודשי)",
-        "price": "$24.99 / ח׳",
-        "desc": "כל היכולות, רינגטונים וכלי AI מתקדמים.",
+        "title": "פרימיום (חודשי)",
+        "price": "$11.99",
+        "desc": "חוויית Chatforia המלאה: כלי AI חזקים, התאמה אישית ותמיכה עדיפה.",
         "features": {
-          "plusAll": "הכול שב-Plus",
-          "ringtones": "רינגטונים וטוני הודעה מותאמים",
-          "powerAi": "יכולות AI מתקדמות",
-          "priorityUpdates": "עדכונים בעדיפות",
-          "backups": "גיבויים וסנכרון מכשירים"
+          "plusAll": "כל מה שב-Plus",
+          "themes": "פתח את כל ערכות הנושא הצבעוניות הפרימיום והתאמות אפליקציה",
+          "ai": "כלי AI בלעדיים לפרימיום לכתיבה מחדש, תשובות חכמות וסיכומים",
+          "support": "תמיכה עדיפה כשאתה זקוק לעזרה ביותר"
         },
-        "badge": "הכי משתלם",
-        "cta": "שדרוג (חודשי)",
-        "aria": "שדרוג ל-Premium חודשי"
+        "badge": "מומלץ",
+        "cta": "שדרג (חודשי)",
+        "ctaPublic": "פתח פרימיום – המשך להתחברות",
+        "aria": "שדרג לפרימיום חודשי"
       },
       "premiumAnnual": {
-        "title": "Premium (שנתי)",
-        "price": "$225 / שנה",
-        "desc": "חיסכון גדול בחיוב שנתי.",
+        "title": "פרימיום (שנתי)",
+        "price": "$99",
+        "desc": "חסוך יותר כשמשלמים שנתי — כולל ערכות נושא צבעוניות נוספות, כלי AI ותמיכה עדיפה.",
         "features": {
-          "allPremium": "כל מה שב-Premium",
-          "annualBilling": "חיוב שנתי",
-          "save25": "חיסכון של ~25% מול חודשי",
-          "sameFeatures": "אותן יכולות כמו חודשי"
+          "allPremium": "כל מה שבפרימיום חודשי — כולל ערכות נושא צבעוניות נוספות",
+          "annualBilling": "חיוב פעם אחת בשנה",
+          "save25": "חסוך כ-30% בהשוואה לתשלום חודשי",
+          "bestFor": "הכי טוב למשתמשי כוח, עובדים מרוחקים ומטיילים כבדים"
         },
-        "badge": "חיסכון 25%",
-        "cta": "שדרוג (שנתי)",
-        "aria": "שדרוג ל-Premium שנתי",
-        "disclaimer": "חויב מראש. ניתן לבטל בכל עת. ללא עמלות נסתרות."
+        "badge": "חסוך 30%",
+        "cta": "שדרג (שנתי)",
+        "ctaPublic": "חסוך 30% עם שנתי – המשך להתחברות",
+        "aria": "שדרג לפרימיום שנתי",
+        "disclaimer": "חיוב מראש. בטל בכל עת. ללא עמלות נסתרות."
       }
     },
     "marketing": {
@@ -557,430 +747,949 @@
       "freeDesc": "התחל לשלוח הודעות בחינם.",
       "plusTitle": "Plus",
       "plusBadge": "פופולרי",
-      "plusDesc": "הדרך המשתלמת ביותר ללא פרסומות.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "יכולות מלאות, רינגטונים וכלי AI מתקדמים.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "חיסכון גדול בחיוב שנתי.",
-      "annualDisclaimer": "חויב מראש. ניתן לבטל בכל עת. ללא עמלות נסתרות."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "תחילת עבודה",
-    "subtitle": "חדש ב-Chatforia? מדריך מהיר זה מציג את העקרונות כדי להיות פרודוקטיבי בתוך דקות.",
-    "alert": {
-      "text": "המדריך יתרחב כשנשיק יכולות חדשות. אם משהו חסר, עדכנו אותנו דרך",
-      "contactLink": "צור קשר"
+      "plusDesc": "חוויית ללא פרסומות במחיר המשתלם ביותר.",
+      "premiumMonthlyTitle": "פרימיום",
+      "premiumMonthlyDesc": "תכונות מלאות, צלילי רינגטון וכלי AI חזקים.",
+      "premiumAnnualTitle": "פרימיום",
+      "premiumAnnualDesc": "חסוך יותר כשמשלמים שנתי.",
+      "annualDisclaimer": "חיוב מראש. בטל בכל עת. ללא עמלות נסתרות."
     },
-    "section1": {
-      "title": "1) צור חשבון",
-      "signup": "הירשם",
-      "or": "או",
-      "login": "התחבר",
-      "loginText": "עם החשבון הקיים שלך.",
-      "prefsStart": "הגדר את",
-      "prefsLink": "ההעדפות",
-      "prefsRest": "(שפה, אישורי קריאה, ערכות נושא)."
+    "mobile": {
+      "title": "Chatforia Mobile (חבילות נתונים eSIM)",
+      "subtitle": "הוסף נתונים גלובליים כדי ש-Chatforia ימשיך לעבוד גם ללא Wi-Fi. המחירים משתנים אוטומטית בהתאם למדינה ולמטבע שלך.",
+      "subtitle.detail": "בחר חבילת נתונים גלובלית חד-פעמית כדי ש-Chatforia ימשיך לעבוד כשאתה מטייל או רחוק מ-Wi-Fi.",
+      "scope": {
+        "local": "מקומי",
+        "europe": "אירופה",
+        "global": "גלובלי"
+      },
+      "note": "אנחנו לא מוכרים חבילות נתונים מתחת ל-3 GB.",
+      "localEquals": "מקומי = {{country}}",
+      "localEqualsFallback": "מקומי = המדינה הנוכחית שלך",
+      "perPack": "/ חבילה",
+      "cta": "קבל חבילה זו",
+      "ctaPublic": "קבל חבילה זו",
+      "checkout": {
+        "redirecting": "מפנה…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "נתונים במהירות גבוהה לשימוש כבד",
+          "throttle": "המהירויות עלולות להאט אחרי שימוש גבוה",
+          "coverage": "כיסוי אמין",
+          "instant": "הפעלת eSIM מיידית",
+          "noContract": "חבילה חד-פעמית, ללא חוזה"
+        }
+      },
+      "disclaimer": {
+        "devices": "חבילות נתונים eSIM דורשות מכשיר תואם eSIM ולא נעול. הזמינות משתנה לפי דגם טלפון, ספק ומדינה. כיסוי ומהירויות משתנים לפי אזור."
+      },
+      "small": {
+        "title": "חבילת התחלה",
+        "desc": "כולל 3 GB נתונים במהירות גבוהה — אידיאלי להודעות קלות ושיחות מדי פעם.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "טיולים קצרים, הודעות קלות ושיחות מדי פעם",
+        "aria": "קנה חבילת נתונים eSIM התחלה"
+      },
+      "medium": {
+        "title": "חבילת מטייל",
+        "desc": "כולל 5 GB נתונים במהירות גבוהה לטיולים, נסיעות ושיחות VoIP קבועות.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "טיולי סוף שבוע, שיחות VoIP קבועות ומפות",
+        "aria": "קנה חבילת נתונים eSIM מטייל"
+      },
+      "large": {
+        "title": "חבילת כוח",
+        "desc": "כולל 10 GB נתונים במהירות גבוהה לצ'אט כבד, שיחות ווידאו ברשת Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "צ'אט כבד, שיחות, וידאו ושימוש בנקודה חמה",
+        "aria": "קנה חבילת נתונים eSIM למשתמש כוח"
+      },
+      "compare": {
+        "title": "השווה חבילות נתונים eSIM",
+        "col": {
+          "pack": "חבילה",
+          "data": "נתונים כלולים",
+          "bestFor": "הכי טוב עבור"
+        },
+        "disclaimer": "שימוש נתונים בפועל תלוי באופן שבו אתה משתמש ב-Chatforia (קול, וידאו, מדיה ואפליקציות אחרות בטלפון שלך)."
+      }
     },
-    "section2": {
-      "title": "2) התחל לשלוח הודעות",
-      "item1": "צור צ'אט אחד-על-אחד או קבוצה ושלח הודעה ראשונה.",
-      "item2": "השתמש בתרגום מיידי כדי לשוחח מעל 100 שפות.",
-      "item3": "נסה הודעות נעלמות ואישורי קריאה בפרופיל → פרטיות."
+    "family": {
+      "title": "Chatforia Family (נתונים משותפים)",
+      "subtitle": "שתף בריכת נתונים אחת עם המשפחה שלך. חשבון אחד, מספר חשבונות Chatforia, כיסוי גלובלי.",
+      "perPack": "/ חבילה",
+      "small": {
+        "title": "משפחה קטנה",
+        "desc": "כולל 20 GB נתונים במהירות גבוהה משותפים — מצוין ל-2-3 משתמשים קלים.",
+        "price": "$29.99",
+        "aria": "קנה חבילת משפחה קטנה"
+      },
+      "medium": {
+        "title": "משפחה בינונית",
+        "desc": "כולל 40 GB נתונים במהירות גבוהה משותפים — אידיאלי ל-3-5 חברים פעילים.",
+        "price": "$49.99",
+        "aria": "קנה חבילת משפחה בינונית"
+      },
+      "large": {
+        "title": "משפחה גדולה",
+        "desc": "כולל 80 GB נתונים במהירות גבוהה משותפים — למשפחות כוח שתמיד מחוברות.",
+        "price": "$84.99",
+        "aria": "קנה חבילת משפחה גדולה"
+      },
+      "feature": {
+        "shared": "בריכת נתונים משותפת למשפחה שלך",
+        "members": "הזמן עד 4 חברים נוספים",
+        "membersMore": "מצוין ל-3-5 חברים פעילים",
+        "manage": "נהל גבולות לכל חבר",
+        "topUp": "הוסף חבילות נוספות בכל עת",
+        "bestValue": "הערך הטוב ביותר ל-GB",
+        "fairUse": "כפוף למדיניות שימוש הוגן ולגבולות מקומיים"
+      },
+      "disclaimer": "חבילות משפחה יוצרות או ממלאות בריכת נתונים משותפת. תוכל להזמין ולהסיר חברים בכל עת.",
+      "footnote": "חבילות משפחה משתפות בריכת נתונים אחת בין חשבונות Chatforia מקושרים. הזמינות והגבולות תלויים במדינה שלך ובתקנות מקומיות."
     },
-    "section3": {
-      "title": "3) המשך הלאה",
-      "item1Part1": "נהל את התוכנית שלך בעמוד",
-      "upgradeLink": "שדרוג",
-      "item1Part2": "(Plus = ללא פרסומות, Premium = כל היכולות).",
-      "item2Part1": "קשר מכשירים נוספים והגדר גיבויים מוצפנים ב-",
-      "settingsLink": "הגדרות"
+    "why": {
+      "title": "למה אנשים עוברים ל-Chatforia",
+      "subtitle": "Chatforia נותן לך מספר טלפון אמיתי, תרגום חכם ודרך ברורה לעבור ללא פרסומות כשאתה מוכן.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia לעומת TextNow",
+          "body": "פרסומות קלות יותר בחינם, שדרוג Plus פשוט כשאתה מוכן, וכלי פרימיום ש-TextNow לא מציע."
+        },
+        "voice": {
+          "title": "Chatforia לעומת Google Voice",
+          "body": "אפליקציה מודרנית, עיצוב גלובלי ראשון ותרגום מובנה במקום העברת שיחות מיושנת."
+        },
+        "messengers": {
+          "title": "Chatforia לעומת אפליקציות צ'אט",
+          "body": "שלח הודעות למספרי טלפון אמיתיים — לא רק למשתמשי אפליקציה אחרים — עם AI וסטטוס מובנים. מצוין אם אתה מגיע מאפליקציות כמו TextFree או TextMe."
+        }
+      },
+      "tableTitle": "איך Chatforia משווה",
+      "col": {
+        "feature": "תכונה"
+      },
+      "feature": {
+        "freeNumber": "מספר טלפון חינמי",
+        "translation": "תרגום אוטומטי מובנה",
+        "aiTools": "כלי AI (כתיבה מחדש, תשובות, סיכומים)",
+        "ads": "אפשרות ללא פרסומות",
+        "history": "היסטוריית הודעות"
+      },
+      "yes": "כן",
+      "no": "לא",
+      "yesPremium": "כן (פרימיום)",
+      "plusPremium": "Plus ופרימיום",
+      "limited": "מוגבל",
+      "nA": "לא זמין",
+      "history": {
+        "chatforia": "עד 12+ חודשים",
+        "textnow": "משתנה לפי חשבון",
+        "voice": "מוגבל / מבוסס חשבון"
+      },
+      "disclaimer": "ההשוואה מבוססת על מידע זמין לציבור ועשויה להשתנות עם הזמן. אפליקציות הודעות חינמיות אחרות כמו TextFree או TextMe דומות בדרך כלל ל-TextNow."
     },
-    "cta": {
-      "seePlans": "צפה בתוכניות",
-      "openSettings": "פתח הגדרות"
-    }
-  },
-
-  "helpCenter": {
-    "title": "מרכז העזרה",
     "faq": {
-      "account": {
-        "q": "איך ליצור או לשחזר חשבון?",
-        "a": "הורד את האפליקציה או השתמש בווב, לחץ “צור חשבון”, אמת אימייל/טלפון. לשחזור, השתמש ב-“שכחתי סיסמה”."
+      "title": "שאלות נפוצות על מחירים ותוכניות",
+      "free": {
+        "q": "האם תוכנית החינם באמת חינמית?",
+        "a": "כן. תוכנית החינם כוללת מספר Chatforia, שיחות והודעות עם פרסומות. תוכל להישאר בחינם כל עוד תרצה, או לשדרג כדי להסיר פרסומות ולפתוח תכונות נוספות."
       },
-      "privacy": {
-        "q": "האם ההודעות מוצפנות מקצה לקצה?",
-        "a": "כן. הודעות ושיחות מוצפנות מקצה לקצה כברירת מחדל. רק אתה והנמען יכולים לקרוא אותן."
+      "plusPremium": {
+        "q": "מה ההבדל בין Plus לפרימיום?",
+        "a": "Plus מסיר פרסומות ומאריך את היסטוריית ההודעות — מושלם לשימוש יומיומי. פרימיום מוסיף התאמה אישית נוספת, כלי AI לכתיבה מחדש ותשובות, ותמיכה עדיפה למשתמשים כבדים."
       },
-      "translate": {
-        "q": "איך עובד התרגום המיידי?",
-        "a": "הפעל “תרגום אוטומטי” ב-הגדרות → מראה ושפה. אנו מתרגמים על-גבי המכשיר כשנתמך, אחרת דרך API מאובטחים עם מינימום נתונים."
+      "esim": {
+        "q": "איפה חבילות נתונים eSIM עובדות?",
+        "a": "Chatforia Mobile משתמש בכיסוי eSIM גלובלי. הזמינות תלויה במדינה ובמכשיר שלך. תראה אפשרויות נתמכות במהלך ההפעלה בתוך האפליקציה."
+      },
+      "cancel": {
+        "q": "האם אני יכול לבטל או לשנות תוכניות בכל עת?",
+        "a": "כן. תוכל לנהל או לבטל את המנוי מדף החיוב באפליקציה. השינויים ייכנסו לתוקף בסוף תקופת החיוב הנוכחית שלך."
+      },
+      "family": {
+        "q": "איך חבילות משפחה עובדות?",
+        "a": "חבילות משפחה יוצרות בריכת נתונים משותפת בין מספר חשבונות Chatforia. אדם אחד משלם את החשבון, ותוכל להזמין או להסיר חברים ולקבוע גבולות לכל אדם."
+      }
+    },
+    "gettingStarted": {
+      "title": "התחלה מהירה",
+      "subtitle": "חדש ב-Chatforia? מדריך זה מראה את הדברים החיוניים כדי שתוכל להיות פרודוקטיבי תוך דקות.",
+      "alert": {
+        "text": "מדריך זה יגדל כשנשיק תכונות חדשות. אם משהו חסר, תן לנו לדעת דרך",
+        "contactLink": "צור קשר"
+      },
+      "section1": {
+        "title": "1) צור את החשבון שלך",
+        "signup": "הירשם",
+        "or": "או",
+        "login": "התחבר",
+        "loginText": "עם החשבון הקיים שלך.",
+        "prefsStart": "הגדר את",
+        "prefsLink": "ההעדפות שלך",
+        "prefsRest": "(שפה, אישורי קריאה, ערכות נושא)."
+      },
+      "section2": {
+        "title": "2) התחל לשלוח הודעות",
+        "item1": "צור DM או קבוצה ושלח את ההודעה הראשונה שלך.",
+        "item2": "השתמש בתרגום מיידי כדי לצ'וט בין 100+ שפות.",
+        "item3": "נסה הודעות נעלמות ואישורי קריאה בפרופיל → פרטיות."
+      },
+      "section3": {
+        "title": "3) התקדם",
+        "item1": "תוכל לשדרג לתוכנית בתשלום בכל עת בתוך האפליקציה.",
+        "item2": "לאחר שהתחברת, תוכל לקשר מכשירים נוספים ולהגדיר גיבויים מוצפנים מהגדרות באפליקציה."
+      },
+      "cta": {
+        "seePlans": "ראה תוכניות",
+        "openSettings": "פתח הגדרות"
+      }
+    },
+    "helpCenter": {
+      "title": "מרכז עזרה",
+      "faq": {
+        "account": {
+          "q": "איך אני יוצר או משחזר את החשבון שלי?",
+          "a": "הורד את האפליקציה או השתמש באתר, לחץ \"צור חשבון\", אמת דוא\"ל/טלפון. כדי לשחזר, השתמש ב\"שכחת סיסמה\"."
+        },
+        "privacy": {
+          "q": "האם ההודעות מוצפנות מקצה לקצה?",
+          "a": "כן. הודעות ושיחות מוצפנות מקצה לקצה כברירת מחדל. רק אתה והנמען יכולים לקרוא אותן."
+        },
+        "translate": {
+          "q": "איך עובד התרגום המיידי?",
+          "a": "הפעל \"תרגום אוטומטי\" בהגדרות → מראה ושפה. אנו מתרגמים במכשיר היכן שנתמך, אחרת דרך API מאובטחים עם מטא-נתונים מינימליים."
+        },
+        "contact": {
+          "q": "צור קשר עם התמיכה",
+          "a": "פנה אלינו ב-support@chatforia.com. כלול צילומי מסך וגרסת האפליקציה שלך."
+        }
+      }
+    },
+    "contact": {
+      "title": "צור קשר",
+      "successMsg": "תודה — הצוות שלנו יענה בדוא\"ל.",
+      "errorSend": "לא ניתן לשלוח. אנא שלח דוא\"ל ל-support@chatforia.com.",
+      "form": {
+        "nameLabel": "שם",
+        "emailLabel": "דוא\"ל",
+        "messageLabel": "הודעה",
+        "sendCta": "שלח"
+      }
+    },
+    "privacyPolicy": {
+      "title": "מדיניות פרטיות",
+      "lastUpdated": "עודכן לאחרונה:",
+      "intro": {
+        "body": "מדיניות פרטיות זו מסבירה כיצד Chatforia (\"אנו\", \"אנחנו\") אוסף, משתמש ומשתף מידע כשאתה משתמש באפליקציות ובשירותים שלנו. אנו מתכננים את Chatforia כדי למזער את הנתונים שאנו יכולים לגשת אליהם."
+      },
+      "infoWeCollect": {
+        "title": "מידע שאנו אוספים",
+        "account": "מידע חשבון (לדוגמה: דוא\"ל/טלפון) כדי ליצור ולאבטח את החשבון שלך.",
+        "encrypted": "תוכן מוצפן (הודעות/שיחות) מוצפן מקצה לקצה; איננו יכולים לקרוא אותו.",
+        "diagnostics": "יומני אבחון/שימוש כמו קריסות, סוג מכשיר או אנליטיקה גסה כדי לשפר ביצועים."
+      },
+      "sms": {
+        "title": "מספרי טלפון נייד והודעות SMS",
+        "body": "אם תבחר לספק מספר טלפון נייד, אנו משתמשים בו כדי לאפשר תכונות כמו אימות חשבון, התראות התחברות והודעות משתמש למשתמש דרך SMS היכן שנתמך. אנו עשויים לשלוח הודעות SMS עסקיות הקשורות לחשבון ולפעילות שלך ב-Chatforia. תוכל לבטל קבלת הודעות SMS בכל עת על ידי תשובה עם מילת ביטול נתמכת (כגון \"STOP\") או על ידי שינוי העדפות ההתראות שלך באפליקציה. אנו לא מוכרים את מספר הטלפון שלך ולא משתמשים בו לפרסום לא קשור.",
+        "newText": "הודעה חדשה",
+        "enterRecipient": "הזן שם או מספר",
+        "typeMessage": "הקלד הודעה…",
+        "addRecipient": "הוסף נמען למעלה כדי להתחיל…"
+      },
+      "howWeUse": {
+        "title": "איך אנו משתמשים במידע",
+        "provide": "ספק ואבטח את השירות (אימות, זיהוי ספאם/התעללות).",
+        "improve": "שפר תכונות (איכות תרגום, אמינות).",
+        "legal": "עמוד בדרישות חוקיות."
+      },
+      "sharing": {
+        "title": "שיתוף",
+        "body": "אנו לא מוכרים נתונים אישיים. אנו עשויים לשתף נתונים מוגבלים עם מעבדים (לדוגמה: התראות דחיפה, אנליטיקה) תחת חוזים מחמירים."
+      },
+      "rights": {
+        "title": "הזכויות שלך",
+        "body": "בהתאם לאזור שלך (לדוגמה: GDPR/UK GDPR/CPRA), תוכל לבקש גישה, תיקון, מחיקה או ביטול עיבוד מסוים. צור קשר: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "שמירת נתונים ואבטחה",
+        "body": "אנו שומרים רק מה שנדרש להפעלת השירות ומיישמים אבטחה תעשייתית סטנדרטית. תוכן E2E לא ניתן לפענוח על ידינו."
+      },
+      "children": {
+        "title": "ילדים",
+        "body": "Chatforia אינו מכוון לילדים מתחת לגיל 13 (או כפי שנדרש בחוק המקומי שלך)."
+      },
+      "changes": {
+        "title": "שינויים",
+        "body": "אנו נפרסם עדכונים כאן ונעדכן את התאריך \"עודכן לאחרונה\"."
       },
       "contact": {
-        "q": "צור קשר עם התמיכה",
-        "a": "פנו ל-support@chatforia.com. צרפו צילומי מסך וגרסת האפליקציה."
+        "title": "צור קשר",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "צור קשר",
-    "successMsg": "תודה — הצוות שלנו ישיב באימייל.",
-    "errorSend": "לא ניתן לשלוח. אנא שלח אימייל ל-support@chatforia.com.",
-    "form": {
-      "nameLabel": "שם",
-      "emailLabel": "אימייל",
-      "messageLabel": "הודעה",
-      "sendCta": "שלח"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "מדיניות פרטיות",
-    "lastUpdated": "עודכן לאחרונה:",
-    "intro": {
-      "body": "מדיניות פרטיות זו מסבירה כיצד Chatforia (“אנחנו”) אוספת, משתמשת ומשתפת מידע כשאתה משתמש באפליקציות ובשירותים שלנו. אנו מתכננים את Chatforia כך שנמזער את המידע שאנו יכולים לגשת אליו."
     },
-    "infoWeCollect": {
-      "title": "המידע שאנו אוספים",
-      "account": "מידע חשבון (למשל אימייל/טלפון) כדי ליצור ולאבטח את חשבונך.",
-      "encrypted": "תוכן מוצפן (הודעות/שיחות) מוצפן מקצה לקצה; איננו יכולים לקרוא אותו.",
-      "diagnostics": "אבחון/שימוש כמו קריסות, סוג מכשיר או אנליטיקות גסות לשיפור הביצועים."
+    "terms": {
+      "title": "תנאי שירות",
+      "lastUpdated": "עודכן לאחרונה:",
+      "intro": {
+        "body": "על ידי שימוש ב-Chatforia אתה מסכים לתנאים אלה. אם אינך מסכים, אל תשתמש בשירות."
+      },
+      "accounts": {
+        "title": "חשבונות",
+        "itemAccurateInfo": "ספק מידע מדויק ושמור על אישורים מאובטחים.",
+        "itemResponsibility": "אתה אחראי לפעילות בחשבון שלך."
+      },
+      "acceptableUse": {
+        "title": "שימוש מקובל",
+        "itemNoAbuse": "אין תוכן בלתי חוקי, מתעלל או מפר; אין ספאם או התעללות אוטומטית.",
+        "itemSuspend": "אנו רשאים להשעות/לסיים בגלל הפרות."
+      },
+      "sms": {
+        "title": "תקשורת SMS",
+        "body": "אם תספק מספר טלפון נייד, אתה מסכים ש-Chatforia עשוי לשלוח לך הודעות SMS הקשורות לחשבון ולשימוש בשירות, כגון התראות התחברות, התראות אבטחה והודעות הקשורות לשיחות שאתה יוזם או משתתף בהן. אנו לא משתמשים ב-SMS לפרסום או שיווק ללא הסכמתך המפורשת. ייתכן שיחולו תעריפי הודעות ונתונים סטנדרטיים. תוכל לבטל הודעות SMS בכל עת על ידי תשובה עם מילת ביטול נתמכת (לדוגמה \"STOP\") או על ידי עדכון הגדרות ההתראות שלך באפליקציה."
+      },
+      "yourContent": {
+        "title": "התוכן שלך",
+        "body": "אתה שומר זכויות על התוכן שלך. אתה מעניק לנו זכויות נדרשות להפעלת השירות (לדוגמה: ניתוב, אחסון, תרגום)."
+      },
+      "disclaimer": {
+        "title": "כתבי ויתור ואחריות",
+        "body": "השירות מסופק \"כמות שהוא\" ללא אחריות. במידה המרבית המותרת בחוק, Chatforia אינו אחראי לנזקים עקיפים או תוצאתיים."
+      },
+      "changes": {
+        "title": "שינויים",
+        "body": "אנו עשויים לעדכן תנאים אלה; המשך שימוש אחרי שינויים מהווה הסכמה."
+      },
+      "contact": {
+        "title": "צור קשר",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "כיצד אנו משתמשים במידע",
-      "provide": "אספקה ואבטחת השירות (אימות, זיהוי ספאם/שימוש לרעה).",
-      "improve": "שיפור יכולות (איכות תרגום, אמינות).",
-      "legal": "עמידה בחובות משפטיות."
+    "doNotSell": {
+      "title": "אל תמכור או תשתף את המידע האישי שלי",
+      "body": "Chatforia אינו מוכר מידע אישי. תושבי קליפורניה עדיין יכולים להגיש בקשות לפי CPRA באמצעות הכפתור למטה.",
+      "cta": "הגש בקשה"
     },
-    "sharing": {
-      "title": "שיתוף",
-      "body": "איננו מוכרים נתונים אישיים. ייתכן שנשתף נתונים מוגבלים עם מעבדים (למשל התראות דחיפה, אנליטיקות) תחת חוזים מחמירים."
+    "cookies": {
+      "title": "הגדרות עוגיות",
+      "body": "Chatforia משתמש בעוגיות מינימליות (לדוגמה: הפעלה, אבטחה). אנו לא משתמשים בעוגיות פרסום של צד שלישי. נהל עוגיות דרך הגדרות הדפדפן שלך."
     },
-    "rights": {
-      "title": "הזכויות שלך",
-      "body": "בהתאם לאזור שלך (למשל GDPR/UK GDPR/CPRA), באפשרותך לבקש גישה, תיקון, מחיקה או ויתור על עיבוד מסוים. צור קשר: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "לא ניתן לטעון סטטוס מספר טלפון.",
+      "lock": "נעל",
+      "noNumberAssigned": "לא מוקצה מספר. בחר מספר לפי קידומת כדי להתחיל לשלוח הודעות.",
+      "pickNumber": "בחר מספר",
+      "phoneNumber": "מספר טלפון"
     },
-    "retention": {
-      "title": "שמירת נתונים ואבטחה",
-      "body": "אנו שומרים רק את הנדרש להפעלת השירות ומיישמים אבטחה בתקן התעשייה. איננו יכולים לפענח תוכן E2E."
+    "startChatModal": {
+      "title": "התחל שיחה",
+      "quickPicker": "בוחר מהיר",
+      "to": "אל",
+      "nameOrUsername": "הקלד שם, שם משתמש",
+      "nameUsernamePhoneEmail": "הקלד שם, שם משתמש, טלפון או דוא\"ל…",
+      "startWithSelected": "התחל שיחה עם הנבחרים",
+      "searchByUsernameOrPhone": "חפש לפי שם משתמש או טלפון",
+      "search": "חפש",
+      "searchPrompt": "הקלד שם משתמש או טלפון ולחץ חפש.",
+      "pickFromContacts": "או בחר מאנשי קשר",
+      "addContact": "הוסף איש קשר",
+      "show": "הצג",
+      "add": "הוסף",
+      "close": "סגור",
+      "selectedCount": "{{count}} נבחרו",
+      "pickAtLeastOne": "בחר לפחות נמען אחד.",
+      "saveContactsHint": "רשומות טלפון/דוא\"ל יהיו זמינות אחרי שתשמור אותן כאנשי קשר.",
+      "failedBulkStart": "התחלת שיחה עם הנמענים הנבחרים נכשלה.",
+      "noResults": "אין תוצאות",
+      "mode": "מצב",
+      "group": "קבוצה",
+      "broadcast": "שידור",
+      "groupNameOptional": "שם קבוצה (אופציונלי)",
+      "firstMessageOptional": "הודעה ראשונה (אופציונלי אך מומלץ)",
+      "createGroup": "צור קבוצה",
+      "sendBroadcast": "שלח שידור"
     },
-    "children": {
-      "title": "ילדים",
-      "body": "‏Chatforia אינה מיועדת לילדים מתחת לגיל 13 (או לפי החוק המקומי שלך)."
+    "themes": {
+      "amoled": "AMOLED",
+      "aurora": "אורורה",
+      "neon": "ניאון",
+      "sunset": "שקיעה",
+      "solarized": "סולריזד",
+      "velvet": "קטיפה"
     },
-    "changes": {
-      "title": "שינויים",
-      "body": "נפרסם עדכונים כאן ונעדכן את תאריך “עודכן לאחרונה”."
+    "sounds": {
+      "freeNotice": "אתה בחינם — צלילי פרימיום מוצגים אך נעולים. שדרג כדי לפתוח את כולם.",
+      "preview": "תצוגה מקדימה",
+      "resetToDefaults": "אפס לברירות מחדל",
+      "notificationSounds": "צלילי התראות",
+      "messageTone": "צליל הודעה",
+      "default": "ברירת מחדל",
+      "vibrate": "רטט",
+      "dreamer": "חולם",
+      "notify": "התראה",
+      "pop": "פופ",
+      "pulsatingSound": "צליל פועם",
+      "textMessage": "הודעת טקסט",
+      "xylophone": "קסילופון",
+      "classic": "קלאסי",
+      "urgency": "דחיפות",
+      "bells": "פעמונים",
+      "chimes": "צלצולים",
+      "digitalPhone": "טלפון דיגיטלי",
+      "melodic": "מלודי",
+      "organNotes": "תווים אורגן",
+      "soundReality": "מציאות צליל",
+      "street": "רחוב",
+      "universfield": "שדה אוניברסלי"
     },
-    "contact": {
-      "title": "צור קשר",
-      "body": "privacy@chatforia.com • [שם הישות המשפטית], [כתובת]"
-    }
-  },
-
-  "terms": {
-    "title": "תנאי שימוש",
-    "lastUpdated": "עודכן לאחרונה:",
-    "intro": {
-      "body": "בשימוש ב-Chatforia אתה מסכים לתנאים אלה. אם אינך מסכים — אל תשתמש בשירות."
+    "premiumGuard": {
+      "requiresPremium": "תכונה זו דורשת תוכנית פרימיום."
     },
-    "accounts": {
-      "title": "חשבונות",
-      "itemAccurateInfo": "ספק מידע מדויק ושמור על אישורי הגישה שלך.",
-      "itemResponsibility": "אתה אחראי לפעילות בחשבונך."
+    "aiSettings": {
+      "title": "הגדרות AI",
+      "controlIntro": "שלוט בתרגום, תשובות חכמות ותגובות אוטומטיות של ForiaBot.",
+      "save": "שמור הגדרות AI",
+      "autoTranslateIncoming": "תרגם הודעות נכנסות אוטומטית",
+      "showOriginalAlongside": "הצג טקסט מקורי לצד תרגום",
+      "enableSmartReplies": "אפשר תשובות חכמות",
+      "smartRepliesHint": "שלח את ההודעות האחרונות שקיבלת (מסוננות) ל-AI כדי להציע תשובות מהירות.",
+      "maskProfanity": "הסתר מילים גסות בהצעות AI",
+      "maskProfanityHint": "אם פעיל, הצעות שחוזרות מה-AI יוסתרו מילים מסומנות",
+      "foriaBot": "ForiaBot תגובה אוטומטית",
+      "enableAutoReply": "אפשר תגובה אוטומטית כשאני עסוק",
+      "autoReplyMode": "מצב תגובה אוטומטית",
+      "cooldownSeconds": "זמן קירור (שניות)",
+      "off": "כבוי",
+      "on": "פעיל",
+      "signature": "חתימה",
+      "autoReply": "תגובה אוטומטית",
+      "activeUntilOptional": "פעיל עד (אופציונלי)",
+      "saved": "העדפות AI נשמרו",
+      "saveFailed": "שמירת הגדרות AI נכשלה",
+      "translateOff": "כבוי",
+      "translateTagged": "רק כש@translated או מסומן",
+      "translateAll": "תרגם את כל ההודעות הנכנסות",
+      "modeDm": "רק שיחות 1:1",
+      "modeMention": "רק כשאני @מוזכר",
+      "modeAll": "כל ההודעות הנכנסות"
     },
-    "acceptableUse": {
-      "title": "שימוש מקובל",
-      "itemNoAbuse": "אין תוכן בלתי חוקי, פוגעני או מפר; ללא ספאם או שימוש אוטומטי לרעה.",
-      "itemSuspend": "נוכל להשעות/לסיים במקרה של הפרות."
+    "accessibilitySettings": {
+      "title": "נגישות והתראות",
+      "accessibility": "נגישות",
+      "accessibilityDesc": "אפשרויות להקל על השימוש ב-Chatforia ללא תלות בצליל.",
+      "interfaceFontSize": "גודל גופן ממשק",
+      "interfaceFontSizeHelp": "מתחיל בגודל רגיל. הגדל אם אתה מעדיף טקסט גדול יותר בהגדרות נגישות.",
+      "sm": "קטן",
+      "md": "בינוני",
+      "lg": "גדול",
+      "xl": "גדול מאוד",
+      "notifications": "התראות",
+      "notificationsDesc": "התראות ויזואליות להודעות ושיחות\nהצג כרזות ומהבהב כותרת כדי לא לפספס פעילות.",
+      "vibrateOnNew": "רטט על הודעות חדשות (כשנתמך)\nהפעל רטט מכשיר עם התראות.",
+      "flashOnCall": "הבהב מסך בשיחה נכנסת\nהבהוב בהיר קצר כששיחה מצלצלת.",
+      "liveCaptions": "כתוביות חיות (שיחות)",
+      "captionFontSize": "גודל גופן כתוביות",
+      "captionBackground": "רקע כתוביות",
+      "light": "בהיר",
+      "dark": "כהה",
+      "transparent": "שקוף",
+      "voiceNotes": "הודעות קול",
+      "autoTranscribeVoiceNotes": "תמלל הודעות קול אוטומטית",
+      "autoTranscribeVoiceNotesDesc": "צרף תמליל להודעות שמע שקיבלת.",
+      "changesSavedInstantly": "שינויים נשמרים מיידית.",
+      "loadFailed": "טעינת הגדרות נכשלה",
+      "visualAlerts": "התראות ויזואליות להודעות ושיחות",
+      "visualAlertsDesc": "הצג כרזות ומהבהב כותרת כדי לא לפספס פעילות.",
+      "vibrateOnNewShort": "רטט על הודעות חדשות (כשנתמך)",
+      "vibrateOnNewDesc": "הפעל רטט מכשיר עם התראות.",
+      "flashOnCallShort": "הבהב מסך בשיחה נכנסת",
+      "flashOnCallDesc": "הבהוב בהיר קצר כששיחה מצלצלת."
     },
-    "yourContent": {
-      "title": "התוכן שלך",
-      "body": "הזכויות על התוכן שלך נשמרות לך. אתה מעניק לנו זכויות נדרשות להפעלת השירות (למשל ניתוב, אחסון, תרגום)."
+    "privacySection": {
+      "strictE2EE": "הצפנה מקצה לקצה מחמירה",
+      "ciphertextOnlyNote": "שמור רק טקסט מוצפן בשרת. משבית AI/תרגום ותצוגות מקדימות של פיקוח."
     },
-    "disclaimer": {
-      "title": "כתב ויתור וחבות",
-      "body": "השירות מסופק \"כפי שהוא\" ללא אחריות. עד למידה המרבית שהחוק מאפשר, ‏Chatforia אינה אחראית לנזקים עקיפים או תוצאתיים."
+    "linkedDevicesPanel": {
+      "title": "מכשירים מקושרים",
+      "noneFound": "לא נמצאו מכשירים מקושרים.",
+      "refresh": "רענן"
     },
-    "changes": {
-      "title": "שינויים",
-      "body": "אנו עשויים לעדכן תנאים אלה; המשך שימוש לאחר העדכונים משמעו הסכמה."
+    "help": {
+      "title": "עזרה",
+      "howCanWeHelp": "איך נוכל לעזור?",
+      "helpCenter": "מרכז עזרה",
+      "contactUs": "צור קשר",
+      "quickTopics": "נושאים מהירים",
+      "searchExamples": "נסה לחפש \"תרגום\", \"גיבויים\" או \"פרטיות\".",
+      "cantLogin": "לא מצליח להתחבר",
+      "paymentsBilling": "תשלומים / חיוב",
+      "reportAbuse": "דווח על התעללות",
+      "searchHelpArticles": "חפש מאמרי עזרה",
+      "search": "חפש"
     },
-    "contact": {
-      "title": "צור קשר",
-      "body": "support@chatforia.com • [שם הישות המשפטית], [כתובת]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "אל תמכרו או שתפו את המידע האישי שלי",
-    "body": "‏Chatforia אינה מוכרת מידע אישי. תושבי קליפורניה עדיין יכולים להגיש בקשות לפי CPRA באמצעות הכפתור למטה.",
-    "cta": "הגש בקשה"
-  },
-
-  "cookies": {
-    "title": "הגדרות עוגיות",
-    "body": "‏Chatforia משתמשת בעוגיות מינימליות (למשל סשן, אבטחה). איננו משתמשים בעוגיות פרסום מצד שלישי. נהל עוגיות דרך הגדרות הדפדפן."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "לא ניתן לטעון את סטטוס מספר הטלפון.",
-    "lock": "נעל",
-    "noNumberAssigned": "לא הוקצה מספר. בחר אחד לפי קידומת כדי להתחיל לשלוח טקסטים.",
-    "pickNumber": "בחר מספר",
-    "phoneNumber": "מספר טלפון"
-  },
-
-  "startChatModal": {
-    "title": "התחל צ'אט",
-    "quickPicker": "בחירה מהירה",
-    "to": "אל",
-    "nameOrUsername": "הקלד שם, שם משתמש",
-    "nameUsernamePhoneEmail": "הקלד שם, שם משתמש, טלפון או אימייל…",
-    "startWithSelected": "התחל צ'אט עם הנבחרים",
-    "searchByUsernameOrPhone": "חפש לפי שם משתמש או טלפון",
-    "search": "חיפוש",
-    "searchPrompt": "הקלד שם משתמש או טלפון ולחץ חיפוש.",
-    "pickFromContacts": "או בחר מאנשי קשר",
-    "addContact": "הוסף איש קשר",
-    "show": "הצג",
-    "add": "הוסף",
-    "close": "סגור",
-    "selectedCount": "{{count}} נבחרו",
-    "pickAtLeastOne": "בחר לפחות נמען אחד.",
-    "saveContactsHint": "רשומות טלפון/אימייל יהיו זמינות לאחר שתשמור אותן כאנשי קשר.",
-    "failedBulkStart": "התחלת צ'אט עם הנמענים שנבחרו נכשלה.",
-    "noResults": "אין תוצאות",
-    "mode": "מצב",
-    "group": "קבוצה",
-    "broadcast": "שידור",
-    "groupNameOptional": "שם קבוצה (אופציונלי)",
-    "firstMessageOptional": "הודעה ראשונה (אופציונלי אך מומלץ)",
-    "createGroup": "צור קבוצה",
-    "sendBroadcast": "שלח שידור"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "אתה בתוכנית חינמית — צלילי פרימיום מוצגים אך נעולים. שדרג כדי לפתוח הכול.",
-    "preview": "תצוגה מקדימה",
-    "resetToDefaults": "אפס לברירות מחדל",
-    "notificationSounds": "צלילי התראות",
-    "messageTone": "צליל הודעה",
-    "default": "ברירת מחדל",
-    "vibrate": "רטט",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "יכולת זו דורשת תוכנית פרימיום."
-  },
-
-  "aiSettings": {
-    "title": "הגדרות AI",
-    "controlIntro": "נהל תרגום, תשובות חכמות ומענה אוטומטי של ForiaBot.",
-    "save": "שמור הגדרות AI",
-    "autoTranslateIncoming": "תרגם אוטומטית הודעות נכנסות",
-    "showOriginalAlongside": "הצג טקסט מקורי לצד התרגום",
-    "enableSmartReplies": "הפעל תשובות חכמות",
-    "smartRepliesHint": "שלח את כמה ההודעות האחרונות (מסוננות) ל-AI להצעות תשובה מהירה.",
-    "maskProfanity": "טיוח מילים בוטות בהצעות AI",
-    "maskProfanityHint": "כאשר פעיל, הצעות ה-AI יטשטשו מילים שסומנו",
-    "foriaBot": "מענה אוטומטי של ForiaBot",
-    "enableAutoReply": "הפעל מענה אוטומטי כשאני עסוק",
-    "autoReplyMode": "מצב מענה אוטומטי",
-    "cooldownSeconds": "זמן צינון (שניות)",
-    "off": "כבוי",
-    "on": "פועל",
-    "signature": "חתימה",
-    "autoReply": "מענה אוטומטי",
-    "activeUntilOptional": "פעיל עד (אופציונלי)",
-    "saved": "העדפות AI נשמרו",
-    "saveFailed": "שמירת הגדרות AI נכשלה",
-    "translateOff": "כבוי",
-    "translateTagged": "רק כשיש ‎@translated או תיוג",
-    "translateAll": "תרגם את כל ההודעות הנכנסות",
-    "modeDm": "צ'אטים אחד-על-אחד בלבד",
-    "modeMention": "רק כשאני @מוזכר",
-    "modeAll": "כל ההודעות הנכנסות"
-  },
-
-  "accessibilitySettings": {
-    "title": "נגישות והתראות",
-    "accessibility": "נגישות",
-    "accessibilityDesc": "אפשרויות להקל על שימוש ב-Chatforia ללא תלות בצליל.",
-    "interfaceFontSize": "גודל גופן הממשק",
-    "interfaceFontSizeHelp": "מתחיל בגודל רגיל. הגדל אם אתה מעדיף טקסט גדול יותר.",
-    "sm": "קטן",
-    "md": "בינוני",
-    "lg": "גדול",
-    "xl": "ענק",
-    "notifications": "התראות",
-    "notificationsDesc": "התראות חזותיות להודעות ושיחות\nהצג באנרים והבהוב כותרת כדי שלא תחמיץ פעילות.",
-    "vibrateOnNew": "רטט בהודעות חדשות (כאשר נתמך)\nהפעל רטט מכשיר עם התראות.",
-    "flashOnCall": "הבזק מסך בשיחה נכנסת\nהבהוב קצר כאשר מתקבלת שיחה.",
-    "liveCaptions": "כתוביות חיות (שיחות)",
-    "captionFontSize": "גודל גופן כתוביות",
-    "captionBackground": "רקע כתוביות",
-    "light": "בהיר",
-    "dark": "כהה",
-    "transparent": "שקוף",
-    "voiceNotes": "הודעות קוליות",
-    "autoTranscribeVoiceNotes": "תמלול אוטומטי של הודעות קוליות\nצרף תמלול להודעות אודיו נכנסות.",
-    "changesSavedInstantly": "השינויים נשמרים מיידית.",
-    "loadFailed": "טעינת ההגדרות נכשלה",
-    "visualAlerts": "התראות חזותיות להודעות ושיחות",
-    "visualAlertsDesc": "הצג באנרים והבהוב כותרת כדי שלא תחמיץ פעילות.",
-    "vibrateOnNewShort": "רטט בהודעות חדשות (כאשר נתמך)",
-    "vibrateOnNewDesc": "הפעל רטט מכשיר עם התראות.",
-    "flashOnCallShort": "הבזק מסך בשיחה נכנסת",
-    "flashOnCallDesc": "הבהוב קצר כאשר מתקבלת שיחה."
-  },
-
-  "privacySection": {
-    "strictE2EE": "הצפנה קצה-לקצה מחמירה",
-    "ciphertextOnlyNote": "אחסן בשרת רק טקסט מוצפן. מבטל AI/תרגום ותצוגות טרום-בדיקה למודרציה."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "מכשירים מקושרים",
-    "noneFound": "לא נמצאו מכשירים מקושרים.",
-    "refresh": "רענן"
-  },
-
-  "help": {
-    "title": "עזרה",
-    "howCanWeHelp": "כיצד נוכל לעזור?",
-    "helpCenter": "מרכז העזרה",
-    "contactUs": "צור קשר",
-    "quickTopics": "נושאים מהירים",
-    "searchExamples": "נסה לחפש “תרגום”, “גיבויים” או “פרטיות”.",
-    "cantLogin": "לא מצליח להיכנס",
-    "paymentsBilling": "תשלומים/חיוב",
-    "reportAbuse": "דיווח על שימוש לרעה",
-    "searchHelpArticles": "חפש במאמרי עזרה",
-    "search": "חיפוש"
-  },
-
-  "peoplePage": {
-    "people": "אנשים",
-    "search": "חיפוש",
-    "searchPlaceholder": "חפש לפי כינוי, שם, שם משתמש או טלפון",
-    "filterSaved": "סנן אנשי קשר שמורים",
-    "noContactsFound": "לא נמצאו אנשי קשר",
-    "quickStart": "פתיחה מהירה",
-    "quickStartDesc": "כמה דרכים מהירות להתחיל.",
-    "importContacts": "ייבא את אנשי הקשר שלך",
-    "add": "הוסף",
-    "focusSearch": "מקד חיפוש",
-    "import": "ייבוא",
-    "findOrAdd": "מצא או הוסף מישהו",
-    "searchByPhoneOrUsername": "חפש לפי טלפון / שם משתמש",
-    "inviteFriends": "הזמן חברים",
-    "inviteDesc": "שתף את קישור ההזמנה שלך כדי להתחיל לשוחח מייד.",
-    "getTheApp": "קבל את האפליקציה",
-    "getTheAppDesc": "הישאר בקשר בדרכים עם Chatforia ל-iOS ו-Android.",
-    "download": "הורדה",
-    "syncTip": "טיפ: ההודעות שלך נשארות מסונכרנות בין ווב לנייד."
-  },
-
-  "randomChat": {
-    "title": "צ'אט אקראי",
-    "description": "הכירו מישהו חדש מייד. נתאים ונפתח חדר צ'אט זמני.",
-    "findMatch": "מצאו לי התאמה",
-    "chatWithForia": "שוחח עם Foria",
-    "chatWithForiaBot": "שוחח עם ForiaBot",
-    "cancel": "בטל",
-    "close": "סגור",
-    "searching": "מחפש…",
-    "finding": "מאתר…",
-    "looking": "מחפש מישהו…",
-    "startingForia": "מתחיל צ'אט עם Foria…",
-    "partnerDisconnected": "הצד השני התנתק.",
-    "noPartner": "אין כרגע שותף זמין.",
-    "connectedTo": "מחובר ל-{{name}}",
-    "connected": "מחובר",
-    "idle": "בהמתנה",
-    "partnerLeft": "השותף עזב.",
-    "stopped": "נעצר.",
-    "skip": "דלג",
-    "save": "שמור",
-    "saveGuard": "ניתן לשמור רק צ'אטים אדם-לאדם",
-    "youAreChattingWith": "אתה משוחח עם {{name}}",
-    "bot": "בוט",
-    "leave": "צא",
-    "sayHi": "תגיד היי 👋",
-    "you": "אתה",
-    "typeMessage": "הקלד הודעה",
-    "send": "שלח",
-    "partner": "שותף",
-    "withForia": "עם Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "פתח תפריט ניווט",
-    "closeNav": "סגור תפריט ניווט",
-    "homeAria": "בית Chatforia"
-  },
-
-  "login": {
-    "title": "ברוך שובך",
-    "subtitle": "היכנס לחשבון Chatforia שלך",
-    "google": "המשך עם Google",
-    "apple": "המשך עם Apple",
-    "googleUnavailable": "כניסה עם Google אינה זמינה",
-    "appleUnavailable": "כניסה עם Apple אינה זמינה",
-    "or": "או",
-    "email": "אימייל",
-    "emailPh": "you@example.com",
-    "usernameLabel": "שם משתמש",
-    "usernamePh": "שם המשתמש שלך",
-    "passwordLabel": "סיסמה",
-    "passwordPh": "הסיסמה שלך",
-    "keepSignedIn": "השאר אותי מחובר",
-    "forgot": "שכחת סיסמה?",
-    "submit": "התחבר",
-    "loggingIn": "מתחבר…",
-    "newHere": "חדש כאן? <link>צור חשבון</link>",
-    "ssoUnavailable": "כניסה ארגונית אינה זמינה כרגע. השתמש בשם משתמש וסיסמה.",
-    "error": {
-      "missing": "אנא הזן את פרטי ההתחברות.",
-      "invalid": "שם משתמש או סיסמה שגויים",
-      "denied": "הגישה נדחתה.",
-      "unprocessable": "בקשה שגויה. בדוק שם משתמש/אימייל וסיסמה.",
-      "deviceLimit": "הגעת למגבלת מכשירים בתוכנית חינמית. התנתק ממכשיר אחר או שדרג לפרימיום כדי לקשר עוד מכשירים.",
-      "premiumRequired": "פעולה זו דורשת תוכנית פרימיום."
+    "peoplePage": {
+      "people": "אנשים",
+      "search": "חפש",
+      "searchPlaceholder": "חפש לפי כינוי, שם, שם משתמש או טלפון",
+      "filterSaved": "סנן אנשי קשר שמורים",
+      "noContactsFound": "לא נמצאו אנשי קשר",
+      "quickStart": "התחלה מהירה",
+      "quickStartDesc": "כמה דרכים מהירות להתחיל.",
+      "importContacts": "ייבא את אנשי הקשר שלך",
+      "add": "הוסף",
+      "focusSearch": "התמקד בחיפוש",
+      "import": "ייבא",
+      "findOrAdd": "מצא או הוסף מישהו",
+      "searchByPhoneOrUsername": "חפש לפי טלפון / שם משתמש",
+      "inviteFriends": "הזמן חברים",
+      "inviteDesc": "שתף את קישור ההזמנה שלך כדי להתחיל לצ'וט מיידית.",
+      "getTheApp": "הורד את האפליקציה",
+      "getTheAppDesc": "הישאר בקשר בדרכים עם Chatforia ל-iOS ולאנדרואיד.",
+      "download": "הורד",
+      "syncTip": "טיפ: ההודעות שלך נשארות מסונכרנות בין אתר לנייד."
+    },
+    "randomChat": {
+      "title": "צ'אט אקראי",
+      "description": "פגוש מישהו חדש באופן מיידי. נתאים אותך ונפתח חדר שיחה זמני. צ'אט אנונימי קודם. הוסף חבר אחר כך אם זה מרגיש נכון.",
+      "findMatch": "מצא לי התאמה",
+      "chatWithForia": "צ'אט עם Foria",
+      "chatWithForiaBot": "צ'אט עם ForiaBot",
+      "cancel": "ביטול",
+      "close": "סגור",
+      "searching": "מחפש...",
+      "finding": "מוצא...",
+      "looking": "מחפש מישהו...",
+      "startingForia": "מתחיל שיחה עם Foria...",
+      "partnerDisconnected": "השותף שלך התנתק.",
+      "noPartner": "לא נמצא שותף כרגע.",
+      "connectedTo": "מחובר ל-{{name}}",
+      "connected": "מחובר",
+      "idle": "ממתין",
+      "partnerLeft": "השותף עזב.",
+      "stopped": "הופסק.",
+      "skip": "דלג",
+      "save": "שמור",
+      "saveGuard": "רק שיחות אדם-לאדם יכולות להישמר",
+      "youAreChattingWith": "אתה מצ'וט עם {{name}}",
+      "bot": "בוט",
+      "leave": "עזוב",
+      "sayHi": "שלום 👋",
+      "you": "אתה",
+      "typeMessage": "הקלד הודעה",
+      "send": "שלח",
+      "partner": "שותף",
+      "withRia": "עם Ria",
+      "chatWithRia": "צ'אט עם Ria",
+      "startingRia": "מתחיל שיחה עם Ria...",
+      "ageDisclaimer": "אנו שומרים רק טווח גיל (לא את תאריך הלידה המדויק שלך). זה משמש כדי לשמור על התאמות סבירות בצ'אט אקראי. כדי להיות מותאם לאנשים (לא רק RiaBot), הגדר את טווח הגיל שלך בהגדרות → גיל וצ'אט אקראי.",
+      "ageBandRequired": "הגדר את טווח הגיל שלך בפרופיל → גיל וצ'אט אקראי כדי להיות מותאם לאנשים.",
+      "ageBandCallout": "כדי להיות מותאם לאנשים (לא רק RiaBot), הגדר את טווח הגיל שלך בהגדרות → גיל וצ'אט אקראי.",
+      "subtitle": "פגוש מישהו חדש באופן מיידי, או בחר לצ'וט עם Ria.",
+      "start": "התחל שיחה",
+      "matching": "מתאים...",
+      "setAge": "הגדר את טווח הגיל שלך בפרופיל → גיל וצ'אט אקראי כדי להיות מותאם לאנשים.",
+      "next": "אדם הבא",
+      "addFriend": "הוסף חבר",
+      "requested": "התבקש",
+      "messageRia": "שלח הודעה ל-Ria...",
+      "messageMatch": "שלח הודעה להתאמה שלך..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "שם",
+      "intro": "היי 👋 אני Ria. מה עובר לך בראש?",
+      "greetings": {
+        "long1": "היי {{name}} 👋 אני כאן. מה עובר לך בראש?",
+        "long2": "היי {{name}} 😊 על מה תרצה לדבר היום?",
+        "long3": "היי {{name}}!! אני כולי אוזן — מה קורה?",
+        "long4": "נעים לראות אותך, {{name}} 👋 מה עובר לך בראש היום?",
+        "long5": "היי {{name}} 😊 רוצה להתפרק, לשאול או סתם לצ'וט?",
+        "long6": "היי {{name}}!! יש לי זמן — על מה תרצה לדבר?",
+        "short1": "היי {{name}}, אני עדיין כאן. מה קורה?",
+        "short2": "ברוך שוב {{name}} 👋 רוצה להוסיף משהו?",
+        "short3": "שוב כאן, {{name}}? 😊 ספר לי מה עובר לך בראש.",
+        "short4": "היי {{name}} 👋 מוכן להמשיך מאיפה שהפסקנו?",
+        "short5": "כן {{name}}? אני מקשיב 👂",
+        "short6": "אה היי {{name}}!! יש משהו חדש בראש?"
+      },
+      "header": {
+        "openNav": "פתח תפריט ניווט",
+        "closeNav": "סגור תפריט ניווט",
+        "homeAria": "דף הבית של Chatforia"
+      },
+      "login": {
+        "welcomeBack": "ברוך שוב",
+        "title": "המשך ל-Chatforia",
+        "subtitleReturning": "התחבר לחשבון Chatforia שלך",
+        "subtitle": "התחבר לחשבון Chatforia שלך",
+        "google": "המשך עם Google",
+        "apple": "המשך עם Apple",
+        "googleUnavailable": "התחברות Google לא זמינה",
+        "appleUnavailable": "התחברות Apple לא זמינה",
+        "or": "או",
+        "email": "דוא\"ל",
+        "emailPh": "you@example.com",
+        "usernameLabel": "שם משתמש",
+        "usernamePh": "שם המשתמש שלך",
+        "passwordLabel": "סיסמה",
+        "passwordPh": "הסיסמה שלך",
+        "keepSignedIn": "השאר אותי מחובר",
+        "forgot": {
+          "title": "שכחת סיסמה",
+          "helper": "הזן את הדוא\"ל ששימש ליצירת חשבון Chatforia שלך ונשלח לך קישור מאובטח לאיפוס הסיסמה.",
+          "emailInvalid": "אנא הזן כתובת דוא\"ל תקינה.",
+          "genericError": "לא ניתן לעבד את הבקשה. נסה שוב בעוד רגע.",
+          "sending": "שולח קישור איפוס...",
+          "sendCta": "שלח קישור איפוס",
+          "sentLabel": "נשלח!",
+          "sentHelper": "אם קיים חשבון עם דוא\"ל זה, שלחנו קישור לאיפוס סיסמה. זה עלול לקחת כמה דקות. בדוק גם בתיקיית ספאם או פרסומות.",
+          "previewDev": "תצוגה מקדימה דוא\"ל (Dev)",
+          "backToLogin": "חזור להתחברות"
+        },
+        "submit": "התחבר",
+        "loggingIn": "מתחבר…",
+        "newHere": "חדש כאן? <link>צור חשבון</link>",
+        "ssoUnavailable": "Single-sign-on לא זמין כרגע. השתמש בשם משתמש וסיסמה במקום.",
+        "error": {
+          "missing": "אנא הזן את פרטי הכניסה שלך.",
+          "invalid": "שם משתמש או סיסמה לא תקינים",
+          "denied": "גישה נדחתה.",
+          "unprocessable": "בקשה לא תקינה. בדוק את שם המשתמש/דוא\"ל והסיסמה.",
+          "deviceLimit": "הגעת למגבלת מכשירים בתוכנית חינם. התנתק במכשיר אחר או שדרג לפרימיום כדי לקשר יותר מכשירים.",
+          "premiumRequired": "פעולה זו דורשת תוכנית פרימיום."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "משלים התחברות…"
+    },
+    "dialer": {
+      "title": "שיחות",
+      "subtitle": "לוח מקשים ואחרונים. (אם אינך משתמש ב-PSTN, התחל שיחות מכותרת שיחה.)",
+      "enterNumberPh": "הזן מספר",
+      "call": "התקשר",
+      "backspace": "מחק",
+      "recents": "אחרונים",
+      "recentsEmpty": "אין שיחות אחרונות עדיין.",
+      "enterNumber": "הזן מספר",
+      "enterNumberAria": "הזן מספר",
+      "key": "מקש {{d}}",
+      "noRecents": "אין שיחות אחרונות עדיין."
+    },
+    "video": {
+      "title": "וידאו",
+      "chooseType": "בחר סוג וידאו.",
+      "directTitle": "וידאו ישיר",
+      "directDesc": "שיחת מצלמה 1:1 עם משתמש אחר.",
+      "directStart": "התחל",
+      "roomsTitle": "חדרים",
+      "roomsDesc": "וידאו מרובה משתתפים באמצעות שם חדר משותף.",
+      "roomsIntro": "הצטרף או צור חדר מרובה משתתפים.",
+      "roomNameLabel": "שם חדר",
+      "roomNamePh": "לדוגמה: team-standup",
+      "join": "הצטרף",
+      "deeplinkTip": "טיפ: תוכל לקשר ישירות ל<code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "וידאו",
+        "subtitle": "בחר סוג וידאו."
+      },
+      "direct": {
+        "title": "וידאו ישיר",
+        "subtitle": "התחל שיחת וידאו 1:1 באמצעות מספר טלפון או שם משתמש Chatforia.",
+        "desc": "שיחת מצלמה 1:1 עם משתמש אחר.",
+        "start": "התחל",
+        "callBtn": "התקשר",
+        "callByPhone": {
+          "title": "התקשר בטלפון"
+        },
+        "phone": {
+          "placeholder": "הזן טלפון (לדוגמה: +1-555-123-4567)",
+          "aria": "טלפון להתקשרות"
+        },
+        "tipInvite": "טיפ: הדבק מספר והתקשר בלי לשמור איש קשר. נזמין משתמשים שאינם משתמשים באמצעות קישור.",
+        "findUser": {
+          "title": "מצא משתמש"
+        },
+        "search": {
+          "placeholder": "חפש לפי שם או שם משתמש",
+          "aria": "חפש לפי שם או שם משתמש",
+          "btn": "חפש"
+        }
+      },
+      "rooms": {
+        "title": "חדרים",
+        "subtitle": "צור חדר או הצטרף לקיים על ידי הקלדת אותו שם.",
+        "desc": "וידאו מרובה משתתפים באמצעות שם חדר משותף.",
+        "roomLabel": "שם חדר",
+        "roomPlaceholder": "לדוגמה: team-standup",
+        "roomAria": "שם חדר",
+        "joinCreate": "הצטרף / צור",
+        "tip": "טיפ: שתף את השם הזה עם אחרים, או קשר ישירות ל<code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "התחל שיחת וידאו ישירה 1:1.",
+      "findUserLabel": "מצא משתמש",
+      "findUserPh": "חפש לפי שם או שם משתמש",
+      "search": "חפש",
+      "call": "התקשר"
+    },
+    "phoneWarning": {
+      "title": "המספר שלך עומד לפוג בקרוב",
+      "body": "המספר {{number}} שלך ישוחרר ב-{{date}} אלא אם כן יופעל מחדש.",
+      "button": "שמור את המספר שלי"
+    },
+    "support": {
+      "helpFab": "עזרה",
+      "openSupportAria": "פתח תמיכה",
+      "badge": "תמיכה",
+      "heading": "איך נוכל לעזור?",
+      "tabs": {
+        "help": "מרכז עזרה",
+        "contact": "צור קשר"
+      },
+      "searchPlaceholder": "חפש מאמרי עזרה…",
+      "searchAria": "חפש עזרה",
+      "searchBtn": "חפש",
+      "quickTopicsLabel": "נושאים מהירים",
+      "quickTopics": {
+        "login": "לא מצליח להתחבר",
+        "billing": "תשלומים / חיוב",
+        "abuse": "דווח על התעללות"
+      },
+      "trySearching": "נסה לחפש \"תרגום\", \"גיבויים\" או \"פרטיות\".",
+      "article": "מאמר",
+      "openArticle": "פתח מאמר",
+      "contactIntro": "נשלח לך תשובה בדוא\"ל. כלול פרטים כדי לעזור לנו לשחזר את הבעיה.",
+      "topicAria": "בחר נושא",
+      "messagePlaceholder": "כתוב את ההודעה שלך…",
+      "sendBtn": "שלח",
+      "sent": "ההודעה נשלחה. נענה בדוא\"ל.",
+      "sendError": "לא ניתן לשלוח. שלח דוא\"ל ל-support@chatforia.com במקום."
+    },
+    "helpCenter": {
+      "title": "מרכז עזרה",
+      "faq": {
+        "account": {
+          "q": "איך אני יוצר או משחזר את החשבון שלי?",
+          "a": "הורד את האפליקציה או השתמש באתר, לחץ \"צור חשבון\", אמת דוא\"ל/טלפון. כדי לשחזר, השתמש ב\"שכחת סיסמה\"."
+        },
+        "privacy": {
+          "q": "האם ההודעות מוצפנות מקצה לקצה?",
+          "a": "כן. הודעות ושיחות מוצפנות מקצה לקצה כברירת מחדל. רק אתה והנמען יכולים לקרוא אותן."
+        },
+        "translate": {
+          "q": "איך עובד התרגום המיידי?",
+          "a": "הפעל \"תרגום אוטומטי\" בהגדרות → מראה ושפה. אנו מתרגמים במכשיר היכן שנתמך, אחרת דרך API מאובטחים עם מטא-נתונים מינימליים."
+        },
+        "contact": {
+          "q": "צור קשר עם התמיכה",
+          "a": "פנה אלינו ב-support@chatforia.com. כלול צילומי מסך וגרסת האפליקציה שלך."
+        }
+      }
+    },
+    "encryptionRecovery": {
+      "title": "נהל הצפנה",
+      "description": "גבה, שחזר, בטל נעילה או אפס את מפתח ההצפנה שלך.",
+      "alert": {
+        "keyRequiredTitle": "נדרש מפתח הצפנה",
+        "keyRequiredBody": "דפדפן זה לא יכול כרגע לפענח את ההודעות המוצפנות שלך. שחזר, בטל נעילה או אפס את המפתח כדי להמשיך."
+      },
+      "sections": {
+        "createBackup": "צור גיבוי מפתח",
+        "restoreFromBackup": "שחזר מגיבוי חשבון",
+        "resetEncryption": "אפס הצפנה"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "קוד נעילה (מכשיר נוכחי)",
+          "description": "משמש לפענוח המפתחות שלך מקומית לפני ייצוא"
+        },
+        "backupPassword": {
+          "label": "סיסמת גיבוי",
+          "description": "משמשת להצפנת קובץ הגיבוי"
+        },
+        "restoreBackupPassword": {
+          "label": "סיסמת גיבוי",
+          "description": "הסיסמה שיצרת כשגיבית את המפתח שלך ב-iPhone"
+        },
+        "newLocalPasscode": {
+          "label": "קוד נעילה מקומי חדש",
+          "description": "הגן על מפתחות במצב מנוחה בדפדפן זה"
+        },
+        "resetLocalPasscode": {
+          "label": "קוד נעילה מקומי חדש",
+          "description": "נדרש לפני איפוס כדי שהמפתח החדש יהיה מוגן במכשיר זה"
+        }
+      },
+      "actions": {
+        "unlockKey": "בטל נעילת מפתח הצפנה",
+        "restoreFromBackup": "שחזר מגיבוי חשבון",
+        "resetEncryption": "אפס הצפנה"
+      },
+      "messages": {
+        "backupCreated": "גיבוי מפתח נוצר והורד.",
+        "keyUnlocked": "מפתח הצפנה בוטל נעילה.",
+        "keyRestored": "מפתח שוחזר מגיבוי חשבון.",
+        "resetSuccess": "ההצפנה אופסה בהצלחה."
+      },
+      "errors": {
+        "restoreIncomplete": "שחזור מפתח לא שלם או שגוי עבור חשבון זה",
+        "noBackup": "לא קיים גיבוי מוצפן עבור חשבון זה",
+        "missingPublicKey": "בגיבוי חסר מפתח ציבורי",
+        "noServerPublicKey": "חשבון זה לא חושף כרגע מפתח ציבורי של שרת",
+        "serverBackupMismatch": "גיבוי שרת לא תואם את מפתח ההצפנה הנוכחי של החשבון",
+        "incompleteMetadata": "מטא-נתונים של גיבוי לא שלמים",
+        "resetIncomplete": "איפוס ההצפנה לא הושלם כהלכה"
+      },
+      "confirm": {
+        "reset": "לאפס הצפנה עבור חשבון זה?\n\nהודעות מוצפנות ישנות עלולות להיות בלתי קריאות אלא אם כן תשחזר את המפתח המקורי מאוחר יותר."
+      },
+      "resetDescription": "פעולה זו יוצרת מפתח הצפנה חדש לחשבון שלך. הודעות מוצפנות ישנות עלולות להיות בלתי קריאות אלא אם כן תשחזר את המפתח המקורי מאוחר יותר."
+    },
+    "footer": {
+      "plans": "תוכניות ומחירים",
+      "about": "אודות Chatforia",
+      "careers": "קריירה",
+      "press": "עיתונות",
+      "advertise": "פרסם",
+      "contact": "צור קשר",
+      "help": "מרכז עזרה",
+      "status": "דף סטטוס",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "מדיניות פרטיות",
+      "terms": "תנאי שירות",
+      "cookies": "הגדרות עוגיות",
+      "doNotSell": "אל תמכור את המידע שלי",
+      "language": "שפה",
+      "contactShort": "צור קשר",
+      "aria": "תחתית",
+      "homeAria": "דף הבית של Chatforia",
+      "section": {
+        "company": "חברה",
+        "support": "תמיכה",
+        "downloads": "הורדות",
+        "legal": "חוקי"
+      },
+      "links": {
+        "plans-pricing": "תוכניות ומחירים",
+        "about-chatforia": "אודות Chatforia",
+        "careers": "קריירה",
+        "press": "עיתונות",
+        "advertise": "פרסם",
+        "getting-started": "התחלה מהירה",
+        "help-center": "מרכז עזרה",
+        "contact-us": "צור קשר",
+        "status-page": "דף סטטוס",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "מדיניות פרטיות",
+        "terms-of-service": "תנאי שירות",
+        "do-not-sell-my-info": "אל תמכור את המידע שלי",
+        "cookie-settings": "הגדרות עוגיות"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "פטנט בהמתנה",
+      "backToTop": "↑ חזור למעלה"
+    },
+    "press": {
+      "title": "עיתונות",
+      "contactLine": "לפניות מדיה, פנה אלינו ב",
+      "boilerplateTitle": "תיאור כללי",
+      "boilerplateBody": "Chatforia היא אפליקציית הודעות מראש פרטיות שהופכת צ'אט בין שפות לקל. ההודעות מוצפנות מקצה לקצה כברירת מחדל, והתרגום המובנה תומך ב-100+ שפות בזמן אמת. משתמשים יכולים להפעיל הודעות נעלמות, לשמור אישורי קריאה אופציונליים ולסנכרן בין מכשירים. זמין ב-iOS, Android ובאתר.",
+      "assetsTitle": "נכסי מותג",
+      "assetsSubtitle": "לוגואים, צילומי מסך ותמונות מוצר.",
+      "downloadCta": "הורד ערכת מדיה",
+      "downloadTitle": "הורד את האפליקציה",
+      "scanTip": "במחשב? סרוק עם הטלפון שלך כדי להוריד את האפליקציה.",
+      "qrAria": "פתח את אתר Chatforia",
+      "appStore": "הורד ב-App Store",
+      "googlePlay": "הורד ב-Google Play"
+    },
+    "careers": {
+      "title": "קריירה",
+      "intro": "אנחנו צוות מייסדים קטן שבונה את Chatforia — שליח גלובלי פרטי שמשיק באתר, iOS ואנדרואיד. אם אכפת לך מפרטיות, הצפנה וחוויית משתמש נעימה, נשמח לשמוע ממך.",
+      "openRoles": "<b>תפקידי מייסדים פתוחים:</b> מהנדס Full-stack מוביל, מהנדס Backend (Node.js), מהנדס Frontend/Web (React), מהנדס Mobile (iOS), מהנדס Mobile (Android), DevOps/SRE, מהנדס אבטחה והצפנה, מהנדס טלקום (Twilio + eSIM).",
+      "apply": "איך להגיש מועמדות: השתמש בכפתור למטה כדי לשלוח קורות חיים וקישורים בדוא\"ל.",
+      "emailCta": "שלח קורות חיים בדוא\"ל",
+      "whyNow": "למה להצטרף עכשיו?",
+      "whyBullets": "• עזור לבנות את הבסיס של שליח גלובלי חדש.\n• שחרר שיפורים המשמשים בכל האתר, iOS ואנדרואיד.\n• עבוד ישירות עם המייסד על ארכיטקטורה וכיוון מוצר.\n• בעלות על אזורים בעלי השפעה גבוהה: הודעות, קול, וידאו, הצפנה, טלקום, AI.\n• הצטרף בהתחלה — לפני שהבסיס משתנה."
+    },
+    "about": {
+      "title": "אודות Chatforia",
+      "description": "Chatforia היא שליח מאובטח רב-לשוני עם הצפנה מקצה לקצה, תרגום מיידי ושיחות קול/וידאו. המשימה שלנו פשוטה: לעזור לאנשים להתחבר — בבטחה, בפרטיות ובין שפות.",
+      "valuesTitle": "מה אנחנו מעריכים",
+      "values": {
+        "privacy": "<b>פרטיות קודמת:</b> הצפנה מקצה לקצה כברירת מחדל.",
+        "access": "<b>גישה לכולם:</b> תרגום אוטומטי ל-100+ שפות.",
+        "control": "<b>שליטה:</b> הודעות נעלמות ואישורי קריאה אופציונליים.",
+        "privacy_aria": "פרטיות קודמת: הצפנה מקצה לקצה כברירת מחדל.",
+        "access_aria": "גישה לכולם: תרגום אוטומטי ל-100+ שפות.",
+        "control_aria": "שליטה: הודעות נעלמות ואישורי קריאה אופציונליים."
+      },
+      "howTitle": "איך Chatforia עובד",
+      "howDescription": "ההודעות מוצפנות במכשיר שלך לפני שהן עוזבות אותו. תרגום, גיבויים וסנכרון מכשירים מתוכננים כדי למזער את מה שהשרתים שלנו יכולים לראות."
+    },
+    "advertise": {
+      "title": "פרסם עם Chatforia",
+      "description": "הגע למשתמשי הודעות מעורבים עם מיקומי פרסום טעימים ובטוחים למותג. אנו מציעים מלאי באנרים במקומות בעלי חשיפה גבוהה, חסויות ופרומו ביתי. מנויי פרימיום לא רואים פרסומות.",
+      "adsense": {
+        "withPubIdShort": "אנו גם מגישים מלאי דרך Google AdSense. תוכל לכוון ל-Chatforia עם מזהה מו\"ל {{pubId}}, או השתמש בטופס למטה לחסויות ישירות.",
+        "noPubIdShort": "אנו גם מגישים חלק מהמלאי דרך Google AdSense. חסויות ישירות זמינות — השתמש בטופס למטה."
+      },
+      "inventoryHeader": "מלאי ומפרטים",
+      "placement": {
+        "displayBadge": "תצוגה",
+        "acceptedSizes": "גדלים מקובלים",
+        "adsenseSlot": "חריץ AdSense:"
+      },
+      "noPlacementsPublic": "אנו מסיימים את מלאי הפרסומות שלנו. ספר לנו על הקמפיין שלך ונמליץ על מיקומים.",
+      "whyHeader": "למה Chatforia?",
+      "why": {
+        "highSession": "תדירות הפעלות גבוהה וזמן שהייה ב-UI צ'אט",
+        "brandSafe": "פורמטים בטוחים למותג; הגבלת תדירות מכבדת",
+        "sponsoredMoments": "רגעים חסות (לדוגמה: מודל \"התחל שיחה\") זמינים",
+        "deals": "עסקאות ישירות או פרוגרמטי דרך AdSense/Google Ads"
+      },
+      "contactHeader": "צור קשר",
+      "form": {
+        "submittedMsg": "תודה! הפנייה שלך בדרך. ניצור קשר בקרוב.",
+        "missingRequired": "אנא מלא שם, דוא\"ל והודעה.",
+        "successToast": "תודה! ניצור קשר בקרוב.",
+        "mailtoInfo": "פותח את לקוח הדוא\"ל שלך כדי לשלוח את הפנייה…",
+        "nameLabel": "השם שלך",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "דוא\"ל",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "חברה",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "תקציב חודשי (אופציונלי)",
+        "budgetPlaceholder": "לדוגמה: $1,000–$20,000+",
+        "messageLabel": "ספר לנו על הקמפיין שלך",
+        "messagePlaceholder": "כיוון, תאריכים, KPI, העדפות מיקום…",
+        "sendCta": "שלח פנייה"
+      },
+      "legal": {
+        "disclaimerStart": "על ידי שליחה, אתה מסכים ל",
+        "terms": "תנאי שירות",
+        "and": "ו",
+        "privacy": "מדיניות פרטיות"
+      }
     }
   }
 }

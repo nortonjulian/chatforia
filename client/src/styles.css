@@ -724,3 +724,34 @@ body.upgrade-scroll-page #root {
   height: auto;
   min-height: 100%;
 }
+
+body:has(.auth-page),
+body:has(.public-page) {
+  overflow-y: auto !important;
+}
+
+body:has(.auth-page) #root,
+body:has(.public-page) #root {
+  height: auto;
+  min-height: 100%;
+}
+
+/* 
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+body.auth-scroll-page {
+  overflow-y: auto !important;
+}
+
+body.auth-scroll-page #root {
+  height: auto;
+  min-height: 100%;
+} */

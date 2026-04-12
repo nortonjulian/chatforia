@@ -3,485 +3,664 @@
     "save": "ذخیره",
     "cancel": "لغو",
     "refresh": "تازه‌سازی",
-    "noMatches": "هیچ موردی یافت نشد",
+    "noMatches": "هیچ تطابقی یافت نشد",
     "cancelAria": "لغو",
     "copy": "کپی",
-    "copied": "کپی شد!"
+    "copied": "کپی شد!",
+    "errorWithMessage": "خطا: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "پرش به محتوای اصلی"
   },
-
-  "profile": {
-    "title": "نمایه کاربر",
-    "preferredLanguage": "زبان ترجیحی",
-    "chooseLanguage": "یک زبان انتخاب کنید",
-    "mustLogin": "برای مشاهده تنظیمات باید وارد شوید.",
-    "autoTranslate": "ترجمه خودکار پیام‌ها",
-    "showOriginalWithTranslation": "نمایش متن اصلی و ترجمه‌شده",
-    "showOriginalAndTranslation": "نمایش متن اصلی در کنار ترجمه",
-    "filterExplicit": "فیلتر محتوای نامناسب",
-    "aiReply": "پاسخ هوش مصنوعی",
-    "enableReadReceipts": "فعال‌سازی رسید خواندن",
-    "allowExplicitContent": "اجازه به محتوای نامناسب",
-    "disappearingMessages": "فعال‌سازی پیام‌های ناپدیدشونده",
-    "autoDeleteSeconds": "ثانیه تا حذف خودکار",
-    "saveSuccess": "تنظیمات ذخیره شد!",
-    "saveError": "خطا: ذخیره تنظیمات انجام نشد",
-    "avatarAlt": "آواتار پروفایل",
-    "uploadAvatar": "بارگذاری آواتار جدید",
-    "avatarSuccess": "آواتار بارگذاری شد!",
-    "avatarError": "خطا در بارگذاری آواتار",
-    "noPrivateKey": "هیچ کلید خصوصی روی این دستگاه برای صدور موجود نیست.",
-    "setBackupPassword": "رمزی برای رمزگذاری پشتیبان تعیین کنید:",
-    "backupDownloaded": "پشتیبان رمزگذاری‌شده دانلود شد.",
-    "exportFailed": "صدور کلید ناموفق بود",
-    "enterBackupPassword": "رمز این پشتیبان را وارد کنید:",
-    "importSuccess": "کلید خصوصی در این دستگاه وارد شد.",
-    "importFailed": "وارد کردن کلید ناموفق بود (رمز نادرست یا فایل معیوب).",
-    "keysRotated": "جفت‌کلید جدید ایجاد و کلید عمومی بارگذاری شد.",
-    "rotateFailed": "چرخش کلیدها ناموفق بود.",
-    "security": "امنیت",
-    "exportKey": "صدور کلید خصوصی",
-    "importKey": "وارد کردن پشتیبان رمزگذاری‌شده کلید",
-    "rotateKeys": "چرخش جفت‌کلید",
-    "keyDisclaimer": "کلید خصوصی شما هرگز از این دستگاه خارج نمی‌شود. برای بازیابی در دستگاه دیگر، یک نسخه محافظت‌شده با رمز صادر کنید.",
-    "sectionProfile": "پروفایل",
-    "phoneNumber": "شماره تلفن",
-    "appearance": "نما",
-    "soundSettings": "صداها",
-    "disappearing": "پیام‌های ناپدیدشونده",
-    "backupSync": "پشتیبان‌گیری و همگام‌سازی",
-    "ai": "هوش مصنوعی",
-    "accessibility": "دسترس‌پذیری",
-    "privacy": "حریم خصوصی",
-    "devices": "دستگاه‌های پیوندی",
-    "themeFreeNotice": "اکنون در طرح رایگان هستید—از گزینه‌های سریع خورشید/ماه در زیر استفاده کنید. برای تم‌های بیشتر ارتقا دهید.",
-    "sunTheme": "استفاده از تم سپیده‌دم",
-    "moonTheme": "استفاده از تم ماه (نیمه‌شب)",
-    "sun": "خورشید",
-    "moon": "ماه",
-    "backupTitle": "پشتیبان‌های رمزگذاری‌شده و همگام‌سازی دستگاه",
-    "openBackupTools": "باز کردن ابزارهای پشتیبان",
-    "backupDesc": "از کلیدهای خود پشتیبانِ دارای رمز بسازید و برای همگام‌سازی در دستگاه دیگر بازیابی کنید.",
-    "privacyBlurEnabled": "تار کردن پیام‌ها به‌صورت پیش‌فرض",
-    "privacyBlurOnUnfocus": "تار کردن هنگام غیرفعال بودن برنامه",
-    "holdToReveal": "برای نمایش نگه دارید",
-    "notifyOnCopy": "اگر پیام من کپی شد به من اطلاع بده",
-    "loadFailed": "بارگیری پروفایل ناموفق بود",
-    "followed": "دنبال شد",
-    "followFailed": "دنبال کردن ناموفق بود",
-    "unfollowed": "دنبال نکردن انجام شد",
-    "unfollowFailed": "لغو دنبال‌کردن ناموفق بود",
-    "follow": "دنبال کردن",
-    "unfollow": "لغو دنبال‌کردن",
-    "followHint": "اگر با مخاطبان «دنبال‌کنندگان» (یا «عمومی») پست کنند، داستان‌هایشان در خوراک دنبال‌کردن شما نمایش داده می‌شود.",
-    "userNotFound": "کاربر پیدا نشد",
-    "followsYou": "شما را دنبال می‌کند",
-    "sectionCrashedTitle": "بارگیری بخش ناموفق بود",
-    "sectionCrashedBody": "مشکلی در این بخش رخ داد.",
-    "forwarding": "انتقال تماس و پیامک",
-    "callTextForwardingSection": "انتقال تماس و پیامک",
-    "callTextForwardingTitle": "انتقال تماس و/یا پیامک",
-    "callTextForwardingDescription": "تماس‌ها و پیامک‌های دریافتی را به تلفن یا ایمیل تأییدشده‌تان منتقل کنید. تماس‌ها/پیامک‌های خروجی می‌توانند شماره چتفوریا شما را نشان دهند.",
-    "enableTextForwarding": "فعال‌سازی انتقال پیامک",
-    "forwardTextsToPhone": "انتقال پیامک به تلفن",
-    "forwardTextsToEmail": "انتقال پیامک به ایمیل",
-    "destinationPhone": "تلفن مقصد (E.164)",
-    "destinationEmail": "ایمیل مقصد",
-    "enableCallForwarding": "فعال‌سازی انتقال تماس",
-    "destinationPhoneForCalls": "مقصد تماس‌ها (E.164)",
-    "aliasBridging": "انتقال تماس (پل‌زدن نام مستعار)",
-    "quietHoursOptional": "ساعت‌های آرام (اختیاری)",
-    "startHour": "ساعت شروع (۰–۲۳)",
-    "endHour": "ساعت پایان (۰–۲۳)",
-    "reset": "بازنشانی",
-    "saveBtn": "ذخیره",
-    "forwardSaved": "تنظیمات انتقال ذخیره شد",
-    "forwardSaveFailed": "ذخیره تنظیمات ناموفق بود",
-    "errE164": "یک شماره معتبر به قالب E.164 وارد کنید (مثلاً ‎+15551234567).",
-    "errEmail": "یک ایمیل معتبر وارد کنید.",
-    "errSmsDest": "حداقل یک مقصد (تلفن یا ایمیل) را انتخاب کنید.",
-    "errQuietHours": "ساعت‌های آرام باید بین ۰ تا ۲۳ باشند."
+  "keys": {
+    "backupCreated": "پشتیبان کلید ایجاد و دانلود شد ✓",
+    "restored": "پشتیبان کلید بازیابی شد ✓ کلیدها به صورت محلی نصب شدند",
+    "noBackup": "هیچ پشتیبان رمزنگاری‌شده‌ای برای این حساب وجود ندارد",
+    "missingPublicKey": "پشتیبان فاقد کلید عمومی است"
   },
-
-  "support": {
-    "helpFab": "راهنمایی",
-    "openSupportAria": "باز کردن پشتیبانی",
-    "badge": "پشتیبانی",
-    "heading": "چطور می‌توانیم کمک کنیم؟",
-    "tabs": {
-      "help": "مرکز راهنما",
-      "contact": "تماس با ما"
-    },
-    "searchPlaceholder": "جست‌وجوی مقالات راهنما…",
-    "searchAria": "جست‌وجوی راهنما",
-    "searchBtn": "جست‌وجو",
-    "quickTopicsLabel": "موضوعات سریع",
-    "quickTopics": {
-      "login": "نمی‌توانم وارد شوم",
-      "billing": "پرداخت‌ها/صورتحساب",
-      "abuse": "گزارش سوءاستفاده"
-    },
-    "trySearching": "سعی کنید «ترجمه»، «پشتیبان‌ها» یا «حریم خصوصی» را جست‌وجو کنید.",
-    "article": "مقاله",
-    "openArticle": "باز کردن مقاله",
-    "contactIntro": "پاسخ را برایتان ایمیل می‌کنیم. جزئیاتی بفرستید تا بتوانیم مشکل را بازتولید کنیم.",
-    "topicAria": "انتخاب موضوع",
-    "messagePlaceholder": "پیام خود را بنویسید…",
-    "sendBtn": "ارسال",
-    "sent": "پیام ارسال شد. از طریق ایمیل پاسخ می‌دهیم.",
-    "sendError": "ارسال نشد. به جای آن به support@chatforia.com ایمیل بزنید."
+  "keySetup": {
+    "title": "کلیدهای دستگاه خود را تنظیم کنید",
+    "description": "این دستگاه هنوز کلید خصوصی شما را ندارد. یک پشتیبان محافظت‌شده با رمز عبور وارد کنید یا یک جفت کلید جدید ایجاد کنید (از این به بعد می‌توانید پیام‌های جدید را بخوانید).",
+    "chooseFile": "فایل را انتخاب کنید و رمز عبور را وارد کنید.",
+    "imported": "کلید خصوصی به این دستگاه وارد شد. حالا می‌توانید پیام‌های قدیمی را بخوانید.",
+    "enterPassword": "رمز عبور حساب خود را وارد کنید تا بتوانیم کلیدهای شما را به صورت امن پشتیبان‌گیری کنیم."
   },
-
+  "auth": {
+    "headline": "پیام‌رسانی امن برای هرکسی، در هر جایی",
+    "description": "رمزنگاری سرتاسر، ترجمه به بیش از ۱۰۰ زبان، پیام‌های ناپدیدشونده و تماس صوتی/تصویری.",
+    "feature": {
+      "encryption": "رمزنگاری سرتاسر به صورت پیش‌فرض",
+      "translation": "ترجمه هوشمند و встроенный پیام",
+      "disappearing": "پیام‌های ناپدیدشونده و رسید خواندن",
+      "privacy": "اولویت حریم خصوصی. داده‌های شما، کنترل شما.",
+      "translate": "ترجمه هوشمند و встроенный پیام",
+      "disappear": "پیام‌های ناپدیدشونده",
+      "privacyAlt": "طراحی اول حریم خصوصی",
+      "seePlans": "مشاهده طرح‌ها و قیمت‌ها"
+    },
+    "hero": {
+      "line1": "پیام‌رسانی امن برای هرکسی، در هر جایی — با",
+      "em": "ترجمه به بیش از ۱۰۰ زبان",
+      "sub": "یک شماره تلفن امن رایگان دریافت کنید تا در سراسر جهان از طریق وای‌فای یا داده تماس بگیرید و پیام بفرستید. از رمزنگاری سرتاسر، پیام‌های ناپدیدشونده و تماس صوتی/تصویری با کیفیت بالا لذت ببرید — همراه با ابزارهای встроенный که به شما کمک می‌کنند در مرزها متصل بمانید.",
+      "freeNote": "تماس و پیام‌رسانی پایه رایگان است. ویژگی‌های هوش مصنوعی پیشرفته و پریمیوم نیاز به ارتقا دارند."
+    },
+    "feat": {
+      "encryption": "رمزنگاری سرتاسر، همیشه روشن",
+      "translate": "شکستن موانع زبانی در گفتگوهای شما",
+      "disappear": "پیام‌های ناپدیدشونده و رسید خواندن",
+      "privacy": "اولویت حریم خصوصی. داده‌های شما، کنترل شما."
+    },
+    "continueGoogle": "ادامه با گوگل",
+    "continueApple": "ادامه با اپل",
+    "username": "نام کاربری",
+    "password": "رمز عبور",
+    "keepSignedIn": "من را واردشده نگه دار",
+    "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+    "loginButton": "ورود",
+    "createAccount": "ایجاد حساب",
+    "freeAccountButton": "ایجاد حساب رایگان",
+    "newHere": "جدید هستید؟",
+    "getApp": "دریافت اپ",
+    "desktopTip": "روی دسکتاپ هستید؟ با گوشی اسکن کنید تا اپ را دریافت کنید.",
+    "scanHelper": "روی دسکتاپ هستید؟ با گوشی اسکن کنید تا اپ را دریافت کنید.",
+    "goHome": "رفتن به خانه",
+    "home": "خانه",
+    "headlineAlt": {
+      "main": "پیام‌رسان امن که",
+      "highlight": "به زبان شما صحبت می‌کند"
+    },
+    "subhead": "پیام‌رسانی خصوصی، رمزنگاری‌شده و ترجمه‌شده — فوراً.",
+    "upgrade": "همین حالا ارتقا دهید",
+    "tip": "نکته: از همان حساب در وب و موبایل استفاده کنید. پیام‌های شما همگام‌سازی می‌مانند.",
+    "openDownload": "باز کردن صفحه دانلود",
+    "qrAlt": "کد QR برای Chatforia",
+    "scanHint": "اسکن کنید تا اپ را دانلود کنید یا در مرورگر باز کنید.",
+    "iosAria": "دانلود از App Store",
+    "iosTitle": "دانلود از App Store",
+    "iosBadgeAlt": "نشان App Store",
+    "androidAria": "دریافت از Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "نشان Google Play",
+    "login": "ورود",
+    "signup": "ثبت‌نام",
+    "email": "ایمیل",
+    "registration": {
+      "passwordDescription": "حداقل ۶ کاراکتر. از رمز عبور قوی و منحصربه‌فرد استفاده کنید.",
+      "smsConsent": "با ایجاد حساب، موافقت می‌کنید که اعلان‌های SMS مرتبط با فعالیت Chatforia خود (مانند پیام‌های کاربران دیگر) دریافت کنید. هزینه پیام و داده ممکن است اعمال شود. هر زمان در تنظیمات می‌توانید انصراف دهید.",
+      "termsLink": "شرایط خدمات",
+      "privacyLink": "سیاست حریم خصوصی"
+    },
+    "to": "به:",
+    "enterRecipient": "نام یا شماره وارد کنید",
+    "clearRecipients": "پاک کردن گیرندگان",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "پیام بنویسید…",
+    "addRecipient": "یک گیرنده بالا اضافه کنید تا شروع کنید…",
+    "oneRecipient": "لطفاً فعلاً یک گیرنده وارد کنید.",
+    "enterValidRecipient": "نام مخاطب ذخیره‌شده یا شماره تلفن وارد کنید.",
+    "sendFailed": "ارسال ناموفق بود. برای جزئیات کنسول را بررسی کنید."
+  },
+  "home": {
+    "title": "خانه",
+    "header": "پیام‌های شما",
+    "subheader": "برای شروع چت، پیام بفرستید.",
+    "sendButton": "ارسال پیام",
+    "gifPicker": "باز کردن انتخاب‌گر GIF",
+    "emoji": "اموجی",
+    "upload": "آپلود عکس یا ویدیو",
+    "inputPlaceholder": "پیام بنویسید…",
+    "inputLabel": "مؤلفه نوشتن پیام",
+    "sendTooltip": "ارسال",
+    "sendTooltipEmpty": "برای ارسال پیام بنویسید",
+    "send": "ارسال",
+    "welcomeMessage": "به Chatforia خوش آمدید",
+    "getStarted": "شروع کنید"
+  },
   "chat": {
-    "selectPrompt": "برای شروع چت یک متن یا اتاق گفتگو انتخاب کنید",
+    "selectPrompt": "یک متن یا اتاق چت انتخاب کنید تا چت را شروع کنید",
     "newMessages": "پیام‌های جدید",
-    "typing": "{{name}} در حال نوشتن است...",
+    "typing": "{{name}} در حال تایپ است...",
     "emptyTitle": "پیام‌های شما",
-    "emptySubtitle": "برای شروع گفتگو یک پیام ارسال کنید.",
-    "startChatButton": "ارسال پیام"
+    "emptySubtitle": "برای شروع چت، پیام بفرستید.",
+    "startChatButton": "ارسال پیام",
+    "mediaAttachment": "پیوست رسانه",
+    "thisUser": "این کاربر",
+    "blockConfirm": "بلاک {{name}}؟ دیگر پیام‌هایی از او دریافت نخواهید کرد.",
+    "blockedUser": "{{name}} بلاک شد.",
+    "blockError": "نتوانستیم کاربر هدف را برای بلاک کردن تعیین کنیم.",
+    "blockFailed": "بلاک ناموفق بود (بک‌اند هنوز متصل نشده).",
+    "encryptedUnavailable": "پیام رمزنگاری‌شده (کلید در دسترس نیست)",
+    "unlockToView": "کلید خود را باز کنید تا این پیام را ببینید"
   },
-
-  "topbar": {
-    "newStatus": "وضعیت جدید",
-    "logout": "خروج",
-    "help": "راهنما",
-    "createStatusAria": "ایجاد وضعیت جدید"
-  },
-
-  "status": {
-    "userNumber": "کاربر #{{id}}",
-    "posted": "وضعیت ارسال شد",
-    "postFailed": "ارسال وضعیت ناموفق بود",
-    "createTitle": "ایجاد وضعیت",
-    "modalAriaLabel": "وضعیت جدید",
-    "captionLabel": "در ذهنتان چیست؟",
-    "captionPlaceholder": "به‌روزرسانی خود را به اشتراک بگذارید...",
-    "captionAria": "پیام وضعیت",
-    "audienceLabel": "مخاطبان",
-    "audience": {
-      "public": "عمومی",
-      "followers": "دنبال‌کنندگان",
-      "contacts": "مخاطبان",
-      "mutuals": "متقابل‌ها",
-      "custom": "سفارشی..."
+  "messageInput": {
+    "ttl": {
+      "off": "خاموش"
     },
-    "expiresHoursLabel": "انقضا (ساعت)",
-    "maxTooltip": "حداکثر ۷ روز",
-    "hoursAbbrev": "س",
-    "maxShort": "حداکثر",
-    "expiresOn": "انقضا در:",
-    "chooseRecipients": "گیرندگان را انتخاب کنید",
-    "selectContacts": "انتخاب مخاطبان",
-    "attachmentsLabel": "پیوست‌ها",
-    "attachmentsPlaceholder": "افزودن تصویر/ویدئو",
-    "filesNote": "حداکثر ۵ فایل. به‌طور پیش‌فرض ۲۴ ساعت انقضا.",
-    "postAria": "ارسال وضعیت",
-    "post": "ارسال"
+    "freeLimit": "محدودیت طرح رایگان: حذف خودکار تا ۱ روز. به ۱ روز محدود شد.",
+    "premiumLimit": "حداکثر حذف خودکار برای پریمیوم ۳۰ روز است. به ۳۰ روز محدود شد.",
+    "nothingToSend": "پیام بنویسید یا فایل پیوست کنید تا ارسال شود.",
+    "encryptionFailed": "رمزنگاری ناموفق بود. پیام ارسال نشد.",
+    "sent": "پیام تحویل داده شد.",
+    "placeholder": "پیام بنویسید…",
+    "autoDelete": "حذف خودکار",
+    "typeToSend": "پیام بنویسید تا ارسال شود",
+    "send": "ارسال",
+    "sendWithEnter": "ارسال (Enter)",
+    "attachment": "پیوست",
+    "caption": "عنوان (اختیاری)",
+    "remove": "حذف",
+    "clear": "پاک کردن",
+    "gif": "GIF",
+    "sticker": "استیکر",
+    "errors": {
+      "attachmentTooLarge": "پیوست خیلی بزرگ است. فایل کوچک‌تری امتحان کنید.",
+      "unsupportedFile": "نوع فایل پشتیبانی نمی‌شود.",
+      "rateLimit": "پیام‌ها را خیلی سریع می‌فرستید. لطفاً آهسته‌تر.",
+      "validation": "خطای اعتبارسنجی. پیام خود را بررسی کنید و دوباره امتحان کنید.",
+      "failedToSend": "ارسال ناموفق بود. می‌توانید حباب ناموفق را دوباره امتحان کنید."
+    }
   },
-
   "contactList": {
     "savedContacts": "مخاطبان ذخیره‌شده",
     "refreshAria": "تازه‌سازی مخاطبان",
     "filterPlaceholder": "فیلتر مخاطبان ذخیره‌شده…",
     "filterAria": "فیلتر مخاطبان ذخیره‌شده",
-    "noContactsFound": "هیچ مخاطبی پیدا نشد.",
+    "noContactsFound": "مخاطبی یافت نشد.",
     "externalContact": "مخاطب خارجی",
-    "notJoined": "این مخاطب هنوز به چتفوریا نپیوسته است.",
-    "couldNotStart": "شروع چت ممکن نشد. دوباره تلاش کنید.",
-    "startFailed": "شروع چت ناموفق بود. دوباره تلاش کنید.",
+    "notJoined": "این مخاطب هنوز به Chatforia نپیوسته است.",
+    "couldNotStart": "شروع چت ممکن نشد. لطفاً دوباره امتحان کنید.",
+    "startFailed": "شروع چت ناموفق بود. لطفاً دوباره امتحان کنید.",
     "deleted": "مخاطب حذف شد.",
-    "deleteFailed": "حذف مخاطب ناموفق بود. دوباره تلاش کنید.",
+    "deleteFailed": "حذف مخاطب ناموفق بود. لطفاً دوباره امتحان کنید.",
     "aliasUpdated": "نام مستعار به‌روزرسانی شد.",
-    "updateAliasFailed": "به‌روزرسانی نام مستعار ناموفق بود.",
+    "updateAliasFailed": "به‌روزرسانی نام مستعار ناموفق بود. لطفاً دوباره امتحان کنید.",
     "selectContact": "انتخاب {{name}}",
     "alias": "نام مستعار",
     "startChat": "شروع چت",
     "message": "پیام",
     "delete": "حذف",
     "deleteContactAria": "حذف مخاطب",
-    "loadFailed": "بارگیری مخاطبان ناموفق بود. دوباره تلاش کنید.",
-    "loadMore": "بارگیری بیشتر"
+    "loadFailed": "بارگیری مخاطبان ناموفق بود. لطفاً دوباره امتحان کنید.",
+    "loadMore": "بارگیری بیشتر",
+    "call": "تماس",
+    "callStarted": "تماس با این شماره از طریق شماره Chatforia شما…",
+    "callFailed": "شروع تماس ناموفق بود. لطفاً دوباره امتحان کنید."
   },
-
+  "startChatModal": {
+    "title": "شروع گفتگو",
+    "searchPlaceholder": "جستجوی نام، نام کاربری یا شماره تلفن",
+    "messageThisPerson": "پیام به این شخص",
+    "contacts": "مخاطبان",
+    "recentInteractions": "تعاملات اخیر",
+    "noContactsMatch": "هیچ مخاطبی با جستجوی شما مطابقت ندارد.",
+    "noRecentInteractions": "هنوز تعامل اخیر وجود ندارد.",
+    "unknown": "ناشناس",
+    "interactionType": {
+      "message": "پیام",
+      "call": "تماس",
+      "video": "ویدیو"
+    }
+  },
+  "addContactModal": {
+    "title": "اضافه کردن مخاطب",
+    "phoneOrUsername": "تلفن یا نام کاربری",
+    "phoneOrUsernamePlaceholder": "مثال: +13018019227 یا juliannorton",
+    "alias": "نام مستعار (اختیاری)",
+    "aliasPlaceholder": "مثال: کار، مامان، مایک – اروپا",
+    "enterPhoneOrUsername": "شماره تلفن یا نام کاربری وارد کنید.",
+    "userLookupFailed": "جستجوی کاربر ناموفق بود.",
+    "cannotAddSelf": "نمی‌توانید خودتان را به عنوان مخاطب اضافه کنید.",
+    "failedToAdd": "اضافه کردن مخاطب ناموفق بود.",
+    "add": "اضافه کردن"
+  },
   "sidebar": {
     "randomChat": "چت تصادفی",
-    "callTextForwarding": "انتقال تماس و پیامک",
+    "callTextForwarding": "انتقال تماس و پیام",
     "conversations": "گفتگوها",
-    "searchPlaceholder": "جست‌وجوی گفتگوها...",
+    "searchPlaceholder": "جستجوی گفتگوها...",
     "errorLoading": "بارگیری چت‌ها ناموفق بود",
-    "empty": "هنوز گفتگویی ندارید.",
-    "startChat": "شروع یک چت",
+    "empty": "هنوز هیچ گفتگویی وجود ندارد.",
+    "startChat": "شروع چت",
     "people": "افراد",
     "settings": "تنظیمات",
     "status": "وضعیت",
-    "forwarding": "انتقال تماس و پیامک",
+    "forwarding": "انتقال تماس و پیام",
     "refresh": "تازه‌سازی",
-    "search": "جست‌وجوی گفتگوها",
+    "search": "جستجوی گفتگوها",
     "loginPrompt": "برای ویرایش تنظیمات وارد شوید.",
     "login": "ورود",
     "register": "ایجاد حساب",
     "chatrooms": "اتاق‌های چت",
     "logout": "خروج",
-    "startChatAlt": "شروع یک چت جدید"
+    "startChatAlt": "شروع چت جدید",
+    "calls": "تماس‌ها",
+    "video": "ویدیو",
+    "voicemail": "پیام صوتی"
   },
-
+  "topbar": {
+    "newStatus": "وضعیت جدید",
+    "logout": "خروج",
+    "help": "راهنما",
+    "createStatusAria": "ایجاد وضعیت جدید"
+  },
+  "threadActions": {
+    "threadMenu": "منوی رشته",
+    "premium": "پریمیوم",
+    "aiPower": "قدرت هوش مصنوعی",
+    "schedule": "زمان‌بندی",
+    "upgrade": "ارتقا",
+    "upgradeSuffix": "(ارتقا)",
+    "thread": "رشته",
+    "about": "درباره",
+    "search": "جستجو",
+    "media": "رسانه",
+    "invitePeople": "دعوت افراد",
+    "roomSettings": "تنظیمات اتاق",
+    "clearConversation": "پاک کردن گفتگو",
+    "block": "بلاک"
+  },
+  "roomSearch": {
+    "title": "جستجو در اتاق",
+    "ariaLabel": "جستجو در اتاق",
+    "search": "جستجو",
+    "searchMessages": "جستجوی پیام‌ها",
+    "noText": "[بدون متن]",
+    "noResults": "هیچ نتیجه‌ای"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "عضو",
+      "moderator": "مدیر",
+      "admin": "مدیر کل"
+    },
+    "aiMode": {
+      "off": "خاموش",
+      "mention": "فقط با @ForiaBot یا /ask",
+      "always": "پاسخ proactive"
+    },
+    "autoTranslateMode": {
+      "off": "خاموش",
+      "tagged": "فقط تگ‌شده (/tr …)",
+      "all": "همه پیام‌ها"
+    },
+    "updated": "تنظیمات به‌روزرسانی شد"
+  },
+  "mediaGallery": {
+    "sharedMedia": "رسانه‌های به اشتراک گذاشته‌شده",
+    "noMediaCached": "هنوز رسانه‌ای به صورت محلی کش نشده است.",
+    "imageAlt": "تصویر",
+    "openVideo": "باز کردن ویدیو",
+    "openVideoWithCaption": "باز کردن ویدیو: {{caption}}",
+    "preview": "پیش‌نمایش",
+    "previewWithCaption": "پیش‌نمایش: {{caption}}",
+    "previewKind": "پیش‌نمایش {{kind}}",
+    "download": "دانلود",
+    "downloadKind": "دانلود {{kind}}",
+    "file": "فایل",
+    "kinds": {
+      "image": "تصویر",
+      "video": "ویدیو",
+      "audio": "صدا",
+      "file": "فایل"
+    }
+  },
+  "status": {
+    "userNumber": "کاربر #{{id}}",
+    "posted": "وضعیت ارسال شد",
+    "postFailed": "ارسال وضعیت ناموفق بود",
+    "createTitle": "ایجاد وضعیت",
+    "modalAriaLabel": "وضعیت جدید",
+    "captionLabel": "چه چیزی در ذهن شماست؟",
+    "captionPlaceholder": "به‌روزرسانی به اشتراک بگذارید...",
+    "captionAria": "پیام وضعیت",
+    "audienceLabel": "مخاطبان",
+    "audience": {
+      "public": "عمومی",
+      "followers": "دنبال‌کنندگان",
+      "contacts": "مخاطبان",
+      "mutuals": "متقابل",
+      "custom": "سفارشی..."
+    },
+    "expiresHoursLabel": "انقضا (ساعت)",
+    "maxTooltip": "حداکثر ۷ روز",
+    "hoursAbbrev": "ساعت",
+    "maxShort": "حداکثر",
+    "expiresOn": "انقضا در:",
+    "chooseRecipients": "انتخاب گیرندگان",
+    "selectContacts": "انتخاب مخاطبان",
+    "attachmentsLabel": "پیوست‌ها",
+    "attachmentsPlaceholder": "تصاویر/ویدیوها اضافه کنید",
+    "filesNote": "حداکثر ۵ فایل. پیش‌فرض انقضا ۲۴ ساعت.",
+    "postAria": "ارسال وضعیت",
+    "post": "ارسال"
+  },
+  "voicemail": {
+    "pageTitle": "پیام صوتی",
+    "from": "از",
+    "to": "به",
+    "unknownCaller": "ناشناس",
+    "yourNumber": "شماره Chatforia شما",
+    "durationSeconds": "{{count}} ثانیه",
+    "audioAria": "پخش‌کننده صدای پیام صوتی",
+    "transcriptHeading": "رونویسی",
+    "transcriptPending": "در حال رونویسی پیام صوتی…",
+    "transcriptFailed": "رونویسی در دسترس نیست.",
+    "loading": "در حال بارگیری پیام صوتی…",
+    "errorLoading": "بارگیری پیام صوتی ناموفق بود.",
+    "empty": "هنوز پیام صوتی وجود ندارد.",
+    "deleteConfirm": "این پیام صوتی حذف شود؟",
+    "deleteError": "حذف پیام صوتی ناموفق بود.",
+    "markRead": "علامت خوانده‌شده",
+    "delete": "حذف",
+    "unreadDotAria": "نشانگر پیام صوتی خوانده‌نشده"
+  },
+  "profile": {
+    "title": "پروفایل کاربر",
+    "preferredLanguage": "زبان ترجیحی",
+    "chooseLanguage": "انتخاب زبان",
+    "mustLogin": "برای مشاهده تنظیمات باید وارد شوید.",
+    "autoTranslate": "ترجمه خودکار پیام‌ها",
+    "showOriginalWithTranslation": "نمایش متن اصلی و ترجمه‌شده",
+    "showOriginalAndTranslation": "نمایش متن اصلی در کنار ترجمه",
+    "filterExplicit": "فیلتر محتوای صریح",
+    "aiReply": "پاسخ هوش مصنوعی",
+    "enableReadReceipts": "فعال کردن رسید خواندن",
+    "allowExplicitContent": "اجازه محتوای صریح",
+    "disappearingMessages": "فعال کردن پیام‌های ناپدیدشونده",
+    "autoDeleteSeconds": "ثانیه تا حذف خودکار",
+    "saveSuccess": "تنظیمات ذخیره شد!",
+    "saveError": "خطا: تنظیمات ذخیره نشد",
+    "avatarAlt": "آواتار پروفایل",
+    "uploadAvatar": "آپلود آواتار جدید",
+    "avatarSuccess": "آواتار آپلود شد!",
+    "avatarError": "آپلود آواتار ناموفق بود",
+    "avatarUpdated": "آواتار به‌روزرسانی شد!",
+    "uploadingAvatar": "در حال آپلود آواتار…",
+    "noPrivateKey": "هیچ کلید خصوصی روی این دستگاه برای صادر کردن وجود ندارد.",
+    "setBackupPassword": "رمز عبوری برای رمزنگاری پشتیبان تنظیم کنید:",
+    "backupDownloaded": "پشتیبان رمزنگاری‌شده دانلود شد.",
+    "exportFailed": "صدور کلید ناموفق بود",
+    "enterBackupPassword": "رمز عبور این پشتیبان را وارد کنید:",
+    "importSuccess": "کلید خصوصی به این دستگاه وارد شد.",
+    "importFailed": "وارد کردن کلید ناموفق بود (رمز عبور نادرست یا فایل خراب).",
+    "keysRotated": "جفت کلید جدید ایجاد و کلید عمومی آپلود شد.",
+    "rotateFailed": "چرخش کلیدها ناموفق بود.",
+    "security": "امنیت",
+    "exportKey": "پشتیبان‌گیری از کلید رمزنگاری",
+    "importKey": "بازیابی کلید رمزنگاری",
+    "rotateKeys": "چرخش کلید رمزنگاری",
+    "keyDisclaimer": "کلید خصوصی شما هرگز از این دستگاه خارج نمی‌شود. یک نسخه محافظت‌شده با رمز عبور صادر کنید تا روی دستگاه دیگر بازیابی کنید.",
+    "sectionProfile": "پروفایل",
+    "phoneNumber": "شماره تلفن",
+    "appearance": "ظاهر",
+    "soundSettings": "صداها",
+    "disappearing": "پیام‌های ناپدیدشونده",
+    "backupSync": "پشتیبان کلید رمزنگاری",
+    "ai": "هوش مصنوعی",
+    "accessibility": "دسترسی‌پذیری",
+    "privacy": "حریم خصوصی",
+    "devices": "دستگاه‌های متصل",
+    "themeFreeNotice": "شما روی طرح رایگان هستید — از گزینه‌های سریع خورشید/ماه زیر استفاده کنید. برای باز کردن تم‌های بیشتر ارتقا دهید.",
+    "sunTheme": "استفاده از تم Dawn",
+    "moonTheme": "استفاده از تم Moon (Midnight)",
+    "sun": "خورشید",
+    "moon": "ماه",
+    "backupTitle": "پشتیبان‌های رمزنگاری‌شده و همگام‌سازی دستگاه",
+    "openBackupTools": "باز کردن ابزارهای پشتیبان",
+    "backupDesc": "کلید رمزنگاری خود را پشتیبان بگیرید تا پیام‌هایتان را روی دستگاه دیگر به صورت امن بازیابی کنید.",
+    "privacyBlurEnabled": "پیام‌ها به صورت پیش‌فرض محو شوند",
+    "privacyBlurOnUnfocus": "محو شدن هنگام خروج اپ از تمرکز",
+    "planSection": "طرح من",
+    "planLoading": "در حال بارگیری طرح شما…",
+    "planLoadFailed": "بارگیری طرح ناموفق بود.",
+    "currentPlan": "طرح فعلی",
+    "planRenewsOn": "تمدید در",
+    "freePlanCopy": "شما روی طرح رایگان هستید. برای باز کردن ویژگی‌هایی مانند پشتیبان، شماره‌های اضافی و گزینه‌های حریم خصوصی پیشرفته ارتقا دهید.",
+    "upgradePlanCta": "ارتقا طرح",
+    "changePlanCta": "تغییر طرح",
+    "manageBilling": "مدیریت پرداخت",
+    "portalOpenFailed": "باز کردن پورتال پرداخت ممکن نشد. لطفاً دوباره امتحان کنید.",
+    "holdToReveal": "نگه داشتن برای نمایش",
+    "notifyOnCopy": "اگر پیام من کپی شد به من اطلاع بده",
+    "loadFailed": "بارگیری پروفایل ناموفق بود",
+    "followed": "دنبال شد",
+    "followFailed": "دنبال کردن ناموفق بود",
+    "unfollowed": "دنبال نکردن",
+    "unfollowFailed": "لغو دنبال کردن ناموفق بود",
+    "follow": "دنبال کردن",
+    "unfollow": "لغو دنبال کردن",
+    "followHint": "اگر با مخاطبان دنبال‌کنندگان (یا عمومی) وضعیت ارسال کنند، داستان‌هایشان در فید دنبال‌شدگان شما ظاهر می‌شود.",
+    "userNotFound": "کاربر یافت نشد",
+    "followsYou": "شما را دنبال می‌کند",
+    "sectionCrashedTitle": "بخش بارگیری نشد",
+    "sectionCrashedBody": "مشکلی در این بخش پیش آمد.",
+    "forwarding": "انتقال تماس و پیام",
+    "callTextForwardingSection": "انتقال تماس و پیام",
+    "callTextForwardingTitle": "انتقال تماس و/یا پیام",
+    "callTextForwardingDescription": "انتقال تماس‌ها و پیام‌های ورودی به تلفن یا ایمیل تأییدشده شما. تماس‌ها/پیام‌های خروجی می‌توانند شماره Chatforia شما را نشان دهند.",
+    "enableTextForwarding": "فعال کردن انتقال پیام",
+    "forwardTextsToPhone": "انتقال پیام‌ها به تلفن",
+    "forwardTextsToEmail": "انتقال پیام‌ها به ایمیل",
+    "destinationPhone": "تلفن مقصد (E.164)",
+    "destinationEmail": "ایمیل مقصد",
+    "enableCallForwarding": "فعال کردن انتقال تماس",
+    "destinationPhoneForCalls": "مقصد (E.164) برای تماس‌ها",
+    "aliasBridging": "انتقال تماس (پل نام مستعار)",
+    "quietHoursOptional": "ساعات آرام (اختیاری)",
+    "startHour": "ساعت شروع (۰–۲۳)",
+    "endHour": "ساعت پایان (۰–۲۳)",
+    "reset": "بازنشانی",
+    "saveBtn": "ذخیره",
+    "saveProfile": "ذخیره پروفایل",
+    "saveForwarding": "ذخیره انتقال",
+    "forwardSaved": "تنظیمات انتقال ذخیره شد",
+    "forwardSaveFailed": "ذخیره تنظیمات ناموفق بود",
+    "errE164": "یک شماره تلفن E.164 معتبر وارد کنید (مثال: +15551234567).",
+    "errEmail": "یک ایمیل معتبر وارد کنید.",
+    "errSmsDest": "حداقل یک مقصد (تلفن یا ایمیل) انتخاب کنید.",
+    "errQuietHours": "ساعات آرام باید بین ۰ و ۲۳ باشد.",
+    "randomChat": "چت تصادفی",
+    "ageBand": "محدوده سنی شما",
+    "ageBandPlaceholder": "محدوده سنی خود را انتخاب کنید",
+    "ageTeen": "۱۳–۱۷",
+    "age18_24": "۱۸–۲۴",
+    "age25_34": "۲۵–۳۴",
+    "age35_49": "۳۵–۴۹",
+    "age50Plus": "۵۰+",
+    "ageBandHint": "ما فقط محدوده سنی ذخیره می‌کنیم (نه تاریخ تولد دقیق). این برای نگه داشتن جفت‌سازی‌های چت تصادفی منطقی استفاده می‌شود.",
+    "wantsAgeFilter": "استفاده از تطابق مبتنی بر سن در چت تصادفی",
+    "wantsAgeFilterDesc": "وقتی روشن است، سعی می‌کنیم شما را با افراد در محدوده‌های سنی سازگار جفت کنیم.",
+    "partnerAgeBands": "با چه کسانی می‌توانید جفت شوید؟",
+    "partnerAgeBandsDesc": "نوجوانان همیشه فقط با نوجوانان دیگر جفت می‌شوند. بزرگسالان نمی‌توانند با نوجوانان جفت شوند.",
+    "teenMatchingNote": "برای ایمنی، حساب‌های محدوده سنی ۱۳–۱۷ فقط با حساب‌های ۱۳–۱۷ دیگر در چت تصادفی جفت می‌شوند.",
+    "foriaRemember": "اجازه دهید Ria چیزهایی که به آن می‌گویید را به یاد بیاورد",
+    "foriaRememberDesc": "وقتی این گزینه روشن است، Foria می‌تواند از گفتگوهای چت تصادفی گذشته شما (فقط با شما) استفاده کند تا گفتگو جریان داشته باشد. هر زمان می‌توانید خاموش کنید.",
+    "voicemailSection": "پیام صوتی",
+    "voicemailEnabled": "فعال کردن پیام صوتی",
+    "voicemailAutoDeleteDays": "حذف خودکار پیام‌های صوتی پس از (روز)",
+    "voicemailAutoDeletePlaceholder": "خالی بگذارید تا برای همیشه نگه داشته شود",
+    "voicemailForwardEmail": "ارسال پیام صوتی به ایمیل",
+    "voicemailForwardEmailPlaceholder": "ایمیل برای ارسال اعلان‌های پیام صوتی",
+    "voicemailGreetingText": "پیام خوش‌آمدگویی متنی پشتیبان",
+    "voicemailGreetingTextDesc": "وقتی پیام خوش‌آمدگویی صوتی در دسترس نیست استفاده می‌شود.",
+    "voicemailGreetingUpload": "آپلود پیام خوش‌آمدگویی صوتی",
+    "voicemailPreviewGreeting": "پیش‌نمایش خوش‌آمدگویی",
+    "voicemailGreetingUploaded": "پیام خوش‌آمدگویی صوتی با موفقیت آپلود شد",
+    "voicemailGreetingUploadError": "آپلود پیام خوش‌آمدگویی صوتی ناموفق بود",
+    "voicemailNote": "پیام‌های صوتی از شماره‌های Chatforia شما در صندوق ورودی پیام صوتی ذخیره می‌شوند. می‌توانید رونویسی و ارسال را در طرح‌های پشتیبانی‌شده فعال کنید.",
+    "portHint": "می‌خواهید شماره فعلی خود را نگه دارید؟ می‌توانید آن را به Chatforia Wireless منتقل کنید.",
+    "wireless": {
+      "manage": "مدیریت بی‌سیم"
+    },
+    "esim": {
+      "title": "eSIM Chatforia",
+      "desc": "داده موبایل برای Chatforia دریافت کنید وقتی از وای‌فای دور هستید.",
+      "cta": "دریافت eSIM / نمایش QR"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "طرح موبایل Chatforia، شماره‌ها، انتقال و انتقال شماره را مدیریت کنید.",
+    "options": {
+      "heading": "انتخاب کنید چگونه می‌خواهید از Chatforia استفاده کنید",
+      "subheading": "می‌توانید شماره Chatforia جدید بگیرید یا شماره موجود خود را از اپراتور دیگر بیاورید.",
+      "newNumber": "دریافت شماره Chatforia جدید",
+      "portNumber": "انتقال شماره فعلی خود به Chatforia Wireless"
+    },
+    "port": {
+      "heading": "انتقال شماره موجود",
+      "subheading": "شماره تلفن فعلی خود را از اپراتور موجود به Chatforia منتقل کنید. مطمئن شوید جزئیات دقیقاً با حساب اپراتور شما مطابقت دارد تا تأخیر پیش نیاید.",
+      "phoneNumberLabel": "شماره تلفن برای انتقال",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "اپراتور فعلی",
+      "carrierPlaceholder": "Verizon، AT&T، T-Mobile و غیره",
+      "accountNumberLabel": "شماره حساب",
+      "pinLabel": "پین خروج / رمز عبور",
+      "fullNameLabel": "نام کامل روی حساب",
+      "address1Label": "آدرس خط ۱",
+      "address2Label": "آدرس خط ۲ (اختیاری)",
+      "cityLabel": "شهر",
+      "stateLabel": "ایالت / استان",
+      "postalCodeLabel": "کد پستی",
+      "countryLabel": "کشور",
+      "submitButton": "ارسال درخواست انتقال",
+      "success": "درخواست انتقال ارسال شد! ما شما را به‌روز نگه می‌داریم.",
+      "genericError": "مشکلی پیش آمد."
+    },
+    "status": {
+      "heading": "وضعیت انتقال",
+      "subheading": "وضعیت درخواست‌های انتقال شماره خود را پیگیری کنید.",
+      "loading": "در حال بارگیری…",
+      "loadError": "بارگیری درخواست‌های انتقال ناموفق بود.",
+      "none": "هنوز هیچ فعالیتی در انتقال وجود ندارد.",
+      "pending": "در انتظار بررسی",
+      "submitted": "ارسال‌شده به اپراتور",
+      "inProgress": "در حال انجام",
+      "completed": "تکمیل‌شده",
+      "failed": "ناموفق",
+      "canceled": "لغو شده",
+      "created": "ایجاد شده:",
+      "scheduled": "زمان‌بندی‌شده:",
+      "completedAt": "تکمیل‌شده در:"
+    },
+    "dataLow": "داده شما در حال تمام شدن است.",
+    "topUp": "حالا شارژ کنید",
+    "expiresIn": "انقضا در {{days}} روز",
+    "exhausted": "داده شما تمام شده است. برای ادامه استفاده از داده موبایل، بسته جدید بخرید.",
+    "buyPack": "خرید بسته داده",
+    "esimPackLabel": "بسته eSIM"
+  },
+  "family": {
+    "title": "خانواده",
+    "loading": "در حال بارگیری جزئیات خانواده شما…",
+    "error": {
+      "load": "بارگیری جزئیات خانواده ناموفق بود.",
+      "invite": "ایجاد دعوت ممکن نشد. مطمئن شوید صاحب خانواده هستید و دوباره امتحان کنید.",
+      "checkout": "شروع پرداخت برای طرح خانواده ممکن نشد. لطفاً دوباره امتحان کنید."
+    },
+    "billing": {
+      "myPlanTitle": "طرح من",
+      "myPlanError": "بارگیری طرح شما ممکن نشد.",
+      "myPlanLoading": "در حال بارگیری طرح شما…",
+      "currentPlan": "طرح فعلی",
+      "renewsAt": "تمدید در",
+      "freePlanCopy": "شما روی طرح رایگان هستید. برای باز کردن ویژگی‌های بیشتر ارتقا دهید.",
+      "upgradeCta": "ارتقا طرح",
+      "changePlanCta": "تغییر طرح",
+      "manageBilling": "مدیریت پرداخت",
+      "portalError": "باز کردن پورتال پرداخت در حال حاضر ممکن نیست.",
+      "cancelNow": "همین حالا لغو کنید",
+      "cancelNowHelp": "می‌توانید اشتراک خود را در پورتال پرداخت مدیریت یا لغو کنید، یا در زیر فوراً لغو کنید.",
+      "cancelNowConfirm": "آیا مطمئن هستید که می‌خواهید طرح خود را فوراً لغو کنید؟ این کار برگشت‌ناپذیر است.",
+      "cancelNowError": "لغو طرح شما در حال حاضر ممکن نیست. لطفاً دوباره امتحان کنید یا از مدیریت پرداخت استفاده کنید."
+    },
+    "none": {
+      "title": "هنوز خانواده‌ای تنظیم نشده",
+      "body": "برای ایجاد Chatforia Family و استخر داده مشترک، طرح خانواده را شروع کنید.",
+      "goUpgrade": "شروع طرح خانواده",
+      "viewPlans": "مشاهده همه طرح‌ها"
+    },
+    "group": {
+      "defaultName": "خانواده Chatforia من",
+      "role": "نقش شما: {{role}}"
+    },
+    "role": {
+      "owner": "صاحب",
+      "member": "عضو"
+    },
+    "data": {
+      "heading": "استخر داده مشترک",
+      "caption": "همه اعضا این استخر را به اشتراک می‌گذارند. وقتی به حد نزدیک می‌شوید به شما هشدار می‌دهیم."
+    },
+    "members": {
+      "title": "اعضای خانواده",
+      "name": "نام",
+      "role": "نقش",
+      "usage": "استفاده",
+      "limit": "حد",
+      "unlimited": "بدون حد خاص",
+      "inviteCta": "دعوت عضو"
+    },
+    "invite": {
+      "title": "دعوت عضو جدید",
+      "body": "ایمیل یا لینک بفرستید تا کسی را به استخر داده مشترک خانواده دعوت کنید.",
+      "emailLabel": "ایمیل (اختیاری)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "ایجاد دعوت",
+      "linkLabel": "لینک دعوت",
+      "copyAria": "کپی لینک دعوت",
+      "expiryHint": "این لینک پس از چند روز منقضی می‌شود. همیشه می‌توانید یکی جدید ایجاد کنید."
+    },
+    "join": {
+      "title": "پیوستن به خانواده",
+      "body": "به Chatforia Family دعوت شده‌اید و استخر داده آن‌ها را به اشتراک بگذارید.",
+      "cta": "پذیرفتن و پیوستن به خانواده",
+      "ctaLogin": "ورود و پیوستن به خانواده",
+      "success": "به این خانواده پیوستید. حالا استخر داده آن‌ها را به اشتراک می‌گذارید.",
+      "goFamily": "رفتن به داشبورد خانواده",
+      "error": "نتوانستیم شما را به این خانواده اضافه کنیم. دعوت ممکن است نامعتبر یا منقضی شده باشد."
+    }
+  },
   "premium": {
-    "heading": "ارتقا به پرمیوم",
+    "heading": "به پریمیوم بروید",
     "description": "ویژگی‌های قدرتمند را باز کنید و تبلیغات را حذف کنید.",
     "cta": "ارتقا",
     "upgrade": "ارتقا",
-    "upgradeAria": "ارتقا به چتفوریا پرمیوم"
+    "upgradeAria": "ارتقا به Chatforia Premium"
   },
-
-  "auth": {
-    "headline": "پیام‌رسانی امن و جهانی با ترجمه فوری",
-    "description": "رمزنگاری سرتاسری، ترجمه هوشمند، پیام‌های ناپدیدشونده و تماس صوتی/تصویری.",
-    "feature": {
-      "encryption": "رمزنگاری سرتاسری به‌صورت پیش‌فرض",
-      "translation": "ترجمه خودکار بیش از ۱۰۰ زبان",
-      "disappearing": "پیام‌های ناپدیدشونده و رسید خواندن",
-      "privacy": "حریم‌خصوصی‌محور. داده‌های شما، اختیار شما.",
-      "translate": "ترجمه هم‌زمان",
-      "disappear": "پیام‌های ناپدیدشونده",
-      "privacyAlt": "طراحی حریم‌خصوصی‌محور"
-    },
-    "hero": {
-      "line1": "امن و جهانی،",
-      "beforeEm": "پیام‌رسانی با",
-      "em": "ترجمه فوری",
-      "sub": "رمزنگاری سرتاسری، ترجمه هوش مصنوعی، پیام‌های ناپدیدشونده و تماس صوتی/تصویری."
-    },
-    "feat": {
-      "encryption": "رمزنگاری سرتاسری به‌صورت پیش‌فرض",
-      "translate": "ترجمه خودکار ۱۰۰+ زبان",
-      "disappear": "پیام‌های ناپدیدشونده و رسید خواندن",
-      "privacy": "حریم‌خصوصی‌محور. داده‌های شما، اختیار شما."
-    },
-    "welcomeBack": "خوش برگشتی",
-    "continueGoogle": "ادامه با گوگل",
-    "continueApple": "ادامه با اپل",
-    "username": "نام کاربری",
-    "password": "رمز عبور",
-    "keepSignedIn": "مرا وارد نگه دار",
-    "forgotPassword": "رمز را فراموش کرده‌اید؟",
-    "loginButton": "ورود",
-    "createAccount": "ایجاد حساب",
-    "freeAccountButton": "ایجاد حساب رایگان",
-    "newHere": "جدید هستید؟",
-    "getApp": "دریافت برنامه",
-    "desktopTip": "روی دسکتاپ هستید؟ با گوشی اسکن کنید تا برنامه را بگیرید.",
-    "scanHelper": "روی دسکتاپ هستید؟ با گوشی اسکن کنید تا برنامه را بگیرید.",
-    "goHome": "رفتن به خانه",
-    "home": "خانه",
-    "headlineAlt": {
-      "main": "پیام‌رسان امنی که",
-      "highlight": "به زبان شما صحبت می‌کند"
-    },
-    "subhead": "پیام‌رسانی خصوصی، رمزگذاری‌شده و ترجمه‌شده — فوری.",
-    "status": "مشاهده وضعیت",
-    "upgrade": "اکنون ارتقا دهید",
-    "tip": "نکته: از همان حساب در وب و موبایل استفاده کنید. پیام‌های شما همگام می‌مانند.",
-    "openDownload": "باز کردن صفحه دانلود",
-    "qrAlt": "کد QR برای چتفوریا",
-    "scanHint": "برای دانلود برنامه یا باز کردن در مرورگر اسکن کنید.",
-    "iosAria": "دانلود از اپ استور",
-    "iosTitle": "دانلود از اپ استور",
-    "iosBadgeAlt": "نشان اپ استور",
-    "androidAria": "دریافت از گوگل پلی",
-    "androidTitle": "فروشگاه گوگل پلی",
-    "androidBadgeAlt": "نشان گوگل پلی",
-    "login": "ورود",
-    "signup": "ثبت‌نام",
-    "email": "ایمیل"
-  },
-
-  "footer": {
-    "plans": "طرح‌ها و قیمت‌ها",
-    "about": "درباره چتفوریا",
-    "careers": "فرصت‌های شغلی",
-    "press": "رسانه",
-    "advertise": "تبلیغات",
-    "contact": "تماس با ما",
-    "help": "مرکز راهنما",
-    "status": "صفحه وضعیت",
-    "iosDownload": "iOS / اپ استور",
-    "androidDownload": "اندروید / گوگل پلی",
-    "privacy": "سیاست حریم خصوصی",
-    "terms": "شرایط استفاده",
-    "cookies": "تنظیمات کوکی",
-    "doNotSell": "فروش اطلاعات من ممنوع",
-    "language": "زبان",
-    "contactShort": "تماس",
-
-    "aria": "پاورقی",
-    "homeAria": "خانه چتفوریا",
-    "section": {
-      "company": "شرکت",
-      "support": "پشتیبانی",
-      "downloads": "دانلودها",
-      "legal": "قانونی"
-    },
-    "links": {
-      "plans-pricing": "طرح‌ها و قیمت‌ها",
-      "about-chatforia": "درباره چتفوریا",
-      "careers": "فرصت‌های شغلی",
-      "press": "رسانه",
-      "advertise": "تبلیغات",
-      "getting-started": "شروع کار",
-      "help-center": "مرکز راهنما",
-      "contact-us": "تماس با ما",
-      "status-page": "صفحه وضعیت",
-      "ios-app-store": "iOS / اپ استور",
-      "android-google-play": "اندروید / گوگل پلی",
-      "privacy-policy": "سیاست حریم خصوصی",
-      "terms-of-service": "شرایط استفاده",
-      "do-not-sell-my-info": "فروش اطلاعات من ممنوع",
-      "cookie-settings": "تنظیمات کوکی"
-    },
-    "social": {
-      "tiktok": "تیک‌تاک",
-      "instagram": "اینستاگرام",
-      "facebook": "فیس‌بوک",
-      "linkedin": "لینکدین",
-      "x": "ایکس"
-    },
-    "copyright": "© چتفوریا",
-    "patentPending": "در انتظار ثبت اختراع",
-    "backToTop": "↑ بازگشت به بالا"
-  },
-
-  "home": {
-    "title": "خانه",
-    "header": "پیام‌های شما",
-    "subheader": "برای شروع گفتگو یک پیام ارسال کنید.",
-    "sendButton": "ارسال پیام",
-    "gifPicker": "باز کردن انتخاب‌گر GIF",
-    "emoji": "ایموجی",
-    "upload": "بارگذاری عکس یا ویدئو",
-    "inputPlaceholder": "پیامی بنویسید…",
-    "inputLabel": "ترکیب‌کننده پیام",
-    "sendTooltip": "ارسال",
-    "sendTooltipEmpty": "برای ارسال، پیامی بنویسید",
-    "send": "ارسال",
-    "welcomeMessage": "به چتفوریا خوش آمدید",
-    "getStarted": "شروع کنید"
-  },
-
-  "press": {
-    "title": "رسانه",
-    "contactLine": "برای پرسش‌های رسانه‌ای با ما تماس بگیرید در",
-    "boilerplateTitle": "بیانیه آماده",
-    "boilerplateBody": "چتفوریا یک پیام‌رسان حریم‌خصوصی‌محور است که چت میان‌زبانی را آسان می‌کند. پیام‌ها به‌صورت پیش‌فرض سرتاسری رمزگذاری می‌شوند و ترجمه در لحظه از بیش از ۱۰۰ زبان پشتیبانی می‌کند. کاربران می‌توانند پیام‌های ناپدیدشونده را فعال کنند، رسید خواندن را اختیاری نگه دارند و بین دستگاه‌ها همگام شوند. در iOS، اندروید و وب در دسترس است.",
-    "assetsTitle": "دارایی‌های برند",
-    "assetsSubtitle": "لوگوها، اسکرین‌شات‌ها و تصاویر محصول.",
-    "downloadCta": "دانلود کیت رسانه",
-    "downloadTitle": "دریافت برنامه",
-    "scanTip": "روی دسکتاپ هستید؟ با گوشی اسکن کنید تا برنامه را دریافت کنید.",
-    "qrAria": "باز کردن وب‌سایت چتفوریا",
-    "appStore": "دانلود از اپ استور",
-    "googlePlay": "دریافت از گوگل پلی"
-  },
-
-  "careers": {
-    "title": "فرصت‌های شغلی",
-    "intro": "ما تیم کوچکی هستیم که یک پیام‌رسان خصوصی و جهانی می‌سازیم. اگر به رمزنگاری، دسترس‌پذیری و تجربه کاربری دلنشین اهمیت می‌دهید، خوشحال می‌شویم از شما بشنویم.",
-    "openRoles": "<b>موقعیت‌های باز:</b> مهندسی (فول‌استک، iOS، اندروید)، محصول، پشتیبانی.",
-    "apply": "<b>نحوه درخواست:</b> رزومه/لینک‌های خود را به <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> ایمیل کنید.",
-    "emailCta": "ارسال رزومه"
-  },
-
-  "about": {
-    "title": "درباره چتفوریا",
-    "description": "چتفوریا یک پیام‌رسان امن و چندزبانه با رمزنگاری سرتاسری، ترجمه فوری و تماس صوتی/تصویری است. مأموریت ما ساده است: کمک کنیم مردم—به‌صورت امن، خصوصی و میان‌زبانی—به هم متصل شوند.",
-    "valuesTitle": "ارزش‌های ما",
-    "values": {
-      "privacy": "<bold>حریم‌خصوصی‌محور:</bold> رمزنگاری سرتاسری به‌صورت پیش‌فرض.",
-      "access": "<bold>دسترسی برای همه:</bold> ترجمه خودکار ۱۰۰+ زبان.",
-      "control": "<bold>اختیار:</bold> پیام‌های ناپدیدشونده و رسید خواندن اختیاری‌اند.",
-      "privacy_aria": "حریم‌خصوصی‌محور: رمزنگاری سرتاسری به‌صورت پیش‌فرض.",
-      "access_aria": "دسترسی برای همه: ترجمه خودکار ۱۰۰+ زبان.",
-      "control_aria": "اختیار: پیام‌های ناپدیدشونده و رسید خواندن اختیاری‌اند."
-    },
-    "howTitle": "چگونه چتفوریا کار می‌کند",
-    "howDescription": "پیام‌ها قبل از خروج از دستگاه شما رمزگذاری می‌شوند. ترجمه، پشتیبان‌گیری و همگام‌سازی دستگاه به‌گونه‌ای طراحی شده‌اند که حداقل اطلاعات برای سرورها قابل مشاهده باشد."
-    },
-
-  "advertise": {
-    "title": "تبلیغ در چتفوریا",
-    "description": "به کاربران درگیرِ پیام‌رسانی با جای‌گذاری‌های شکیل و ایمن برای برند دسترسی پیدا کنید. ما موجودی بنری در نقاط پربازدید، اسپانسرشیپ و پروموهای داخلی ارائه می‌دهیم. مشترکان پرمیوم تبلیغات نمی‌بینند.",
-    "adsense": {
-      "withPubId": "در حال حاضر از <b>Google AdSense</b> برای نمایش آگهی استفاده می‌کنیم. اگر می‌خواهید از طریق Google Ads ما را هدف بگیرید، از شناسه ناشر <code>{{pubId}}</code> استفاده کنید و جای‌گذاری مدیریت‌شده روی واحدهای زیر را درخواست کنید. اسپانسرشیپ مستقیم نیز موجود است—از فرم استفاده کنید.",
-      "noPubId": "در حال حاضر از <b>Google AdSense</b> استفاده می‌کنیم. اسپانسرشیپ مستقیم نیز موجود است—از فرم زیر استفاده کنید."
-    },
-    "inventoryHeader": "موجودی و مشخصات",
-    "placement": {
-      "displayBadge": "نمایشی",
-      "acceptedSizes": "اندازه‌های قابل قبول",
-      "adsenseSlot": "اسلات ادسنس:"
-    },
-    "noPlacements": "هنوز جای‌گذاری‌ای پیکربندی نشده است. آن‌ها را در ads/placements.js اضافه کنید.",
-    "whyHeader": "چرا چتفوریا؟",
-    "why": {
-      "highSession": "دفعات مراجعه و زمان ماندگاری بالا در رابط چت",
-      "brandSafe": "فرمت‌های ایمن برای برند؛ سقف‌گذاری محترمانه فراوانی",
-      "sponsoredMoments": "لحظات اسپانسرشده (مثلاً مودال «شروع چت»)",
-      "deals": "قرارداد مستقیم یا برنامه‌وار از طریق AdSense/Google Ads"
-    },
-    "contactHeader": "تماس",
-    "form": {
-      "submittedMsg": "متشکریم! درخواست شما ارسال شد. به‌زودی پیگیری می‌کنیم.",
-      "missingRequired": "لطفاً نام، ایمیل و پیام را پر کنید.",
-      "successToast": "متشکریم! به‌زودی با شما تماس می‌گیریم.",
-      "mailtoInfo": "در حال باز کردن برنامه ایمیل شما برای ارسال درخواست…",
-      "nameLabel": "نام شما",
-      "namePlaceholder": "خانم/آقای مثال",
-      "emailLabel": "ایمیل",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "شرکت",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "بودجه ماهانه (اختیاری)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "درباره کمپین خود بگویید",
-      "messagePlaceholder": "هدف‌گذاری، تاریخ‌ها، KPIها، ترجیحات جای‌گذاری…",
-      "sendCta": "ارسال درخواست"
-    },
-    "legal": {
-      "disclaimerStart": "با ارسال، با",
-      "terms": "شرایط",
-      "and": "و",
-      "privacy": "سیاست حریم خصوصی",
-      "agree": "ما موافقید"
-    }
-  },
-
   "upgrade": {
     "title": "ارتقا",
-    "subtitle": "طرح مناسب خود را باز کنید: با پلاس بدون آگهی شوید یا با پرمیوم به همه ویژگی‌های قدرتمند دسترسی پیدا کنید.",
+    "titleLoggedIn": "ارتقا",
+    "titlePublic": "قیمت‌گذاری",
+    "h1": "قیمت‌گذاری و طرح‌های Chatforia",
+    "h1Subtitle": "با طرح رایگان و تبلیغاتی شروع کنید. با Plus بدون تبلیغات شوید یا با Premium به تمام ویژگی‌های قدرتمند دسترسی پیدا کنید.",
+    "subtitle": "طرح اپ را انتخاب کنید، بسته‌های داده برای خود اضافه کنید یا داده را با خانواده به اشتراک بگذارید — همه از یک جا.",
+    "subtitle.app": "با طرح رایگان و تبلیغاتی شروع کنید. با Plus بدون تبلیغات شوید یا با Premium به تمام ویژگی‌های قدرتمند دسترسی پیدا کنید.",
+    "subtitle.mobile": "داده eSIM جهانی اضافه کنید تا Chatforia حتی وقتی از وای‌فای دور هستید کار کند.",
+    "subtitle.family": "استخر داده مشترک برای خانواده ایجاد کنید و استفاده همه را از یک جا مدیریت کنید.",
     "perMonth": "ماه",
     "perYear": "سال",
-    "goPremium": "ارتقا به پرمیوم",
+    "goPremium": "به پریمیوم بروید",
     "benefitsLine": "ویژگی‌های قدرتمند را باز کنید و تبلیغات را حذف کنید.",
     "ctaText": "ارتقا",
-    "aria": "ارتقا به چتفوریا پرمیوم",
+    "aria": "ارتقا به Chatforia Premium",
     "toggle": {
       "monthly": "ماهانه",
-      "annual": "سالانه (۲۵٪ صرفه‌جویی)"
+      "annual": "سالانه (۳۰٪ صرفه‌جویی)"
     },
     "scheduleBanner": {
       "title": "اشتراک پایان می‌یابد",
-      "body": "در این تاریخ به طرح رایگان برمی‌گردید:",
-      "keepPlanCta": "حفظ {{plan}}",
-      "manageBillingCta": "مدیریت صورتحساب"
+      "body": "به طرح رایگان برمی‌گردید در",
+      "keepPlanCta": "نگه داشتن {{plan}}",
+      "manageBillingCta": "مدیریت پرداخت"
     },
     "billing": {
       "opening": "در حال باز کردن…",
-      "manage": "مدیریت صورتحساب"
+      "manage": "مدیریت پرداخت"
     },
     "checkout": {
-      "redirecting": "در حال انتقال…"
+      "redirecting": "در حال هدایت…"
     },
     "auth": {
       "continue": "ادامه به ورود",
@@ -490,500 +669,638 @@
     },
     "cta": {
       "aria": "انتخاب طرح",
-      "getPlus": "ارتقا به پلاس",
+      "getPlus": "ارتقا به Plus",
       "upgradeMonthly": "ارتقا ماهانه",
       "upgradeAnnual": "ارتقا سالانه"
+    },
+    "section": {
+      "app": "طرح‌های اپ",
+      "mobile": "موبایل (eSIM)",
+      "family": "طرح‌های خانواده"
     },
     "plans": {
       "free": {
         "title": "رایگان",
         "price": "$0",
-        "desc": "رایگان پیام دهید.",
+        "desc": "پیام‌رسانی رایگان شروع کنید. ایده‌آل اگر فقط Chatforia را امتحان می‌کنید.",
         "features": {
-          "msg": "پیام‌رسانی یک‌به‌یک و گروهی",
-          "aiBasic": "پاسخ‌های AI پایه",
-          "attachments": "پیوست‌های استاندارد"
+          "chat": "چت ۱:۱ و گروهی واقعی‌زمان، به علاوه تماس صوتی و تصویری",
+          "media": "اشتراک‌گذاری عکس، پیام صوتی و ویدیوهای کوتاه",
+          "ai": "پاسخ‌های هوشمند مبتنی بر هوش مصنوعی و ترجمه فوری (استفاده منصفانه)",
+          "disappearing": "پیام‌های ناپدیدشونده و کنترل‌های حریم خصوصی پایه",
+          "ads": "برای همیشه رایگان با تبلیغات در اپ"
         },
         "ctaCurrent": "طرح فعلی",
-        "ctaUnavailable": "تعویض به رایگان (در دسترس نیست)",
-        "aria": "طرح رایگان (فعلی)"
+        "ctaManage": "مدیریت در پرداخت",
+        "ctaPublic": "شروع کنید — ادامه به ورود",
+        "aria": "طرح رایگان"
       },
       "plus": {
-        "title": "پلاس",
-        "price": "$4.99 / ماه",
-        "desc": "کم‌هزینه‌ترین تجربه بدون آگهی.",
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "همه ضروری‌ها بدون تبلیغات. عالی برای پیام‌رسانی و تماس روزانه.",
         "features": {
-          "noAds": "حذف همه آگهی‌ها",
-          "msg": "پیام‌رسانی یک‌به‌یک و گروهی",
-          "attachments": "پیوست‌های بزرگ‌تر",
-          "aiBasic": "پاسخ‌های AI پایه"
+          "allFree": "همه چیز در رایگان، بدون تبلیغات",
+          "forwarding": "انتقال تماس‌ها و پیام‌ها به شماره تلفن واقعی شما",
+          "history": "تاریخچه پیام طولانی‌تر (تا ۶ ماه)",
+          "support": "پشتیبانی سریع‌تر وقتی مشکلی پیش می‌آید"
         },
         "badge": "محبوب",
-        "cta": "بدون آگهی شوید",
-        "aria": "ارتقا به پلاس"
+        "cta": "بدون تبلیغات شوید",
+        "ctaPublic": "Plus بگیرید — ادامه به ورود",
+        "aria": "ارتقا به Plus"
       },
       "premiumMonthly": {
-        "title": "پرمیوم (ماهانه)",
-        "price": "$24.99 / ماه",
-        "desc": "تمام ویژگی‌ها، زنگ‌ها و ابزارهای قدرتمند AI.",
+        "title": "پریمیوم (ماهانه)",
+        "price": "$11.99",
+        "desc": "تجربه کامل Chatforia: ابزارهای قدرتمند هوش مصنوعی، سفارشی‌سازی و پشتیبانی اولویت‌دار.",
         "features": {
-          "plusAll": "همه چیز در پلاس",
-          "ringtones": "زنگ‌های سفارشی و صدای پیام",
-          "powerAi": "ویژگی‌های قدرتمند AI",
-          "priorityUpdates": "به‌روزرسانی‌های اولویت‌دار",
-          "backups": "پشتیبان‌ها و همگام‌سازی دستگاه"
+          "plusAll": "همه چیز در Plus",
+          "themes": "باز کردن همه تم‌های رنگی پریمیوم و سفارشی‌سازی‌های اپ",
+          "ai": "ابزارهای قدرتمند هوش مصنوعی فقط پریمیوم برای بازنویسی، پاسخ‌های هوشمند و خلاصه‌ها",
+          "support": "پشتیبانی اولویت‌دار وقتی بیشتر نیاز دارید"
         },
-        "badge": "بهترین ارزش",
+        "badge": "پیشنهادی",
         "cta": "ارتقا (ماهانه)",
-        "aria": "ارتقا به پرمیوم ماهانه"
+        "ctaPublic": "پریمیوم را باز کنید — ادامه به ورود",
+        "aria": "ارتقا به پریمیوم ماهانه"
       },
       "premiumAnnual": {
-        "title": "پرمیوم (سالانه)",
-        "price": "$225 / سال",
-        "desc": "با پرداخت سالانه بیشتر صرفه‌جویی کنید.",
+        "title": "پریمیوم (سالانه)",
+        "price": "$99",
+        "desc": "با پرداخت سالانه بیشتر صرفه‌جویی کنید — شامل تم‌های رنگی اضافی، ابزارهای هوش مصنوعی و پشتیبانی اولویت‌دار.",
         "features": {
-          "allPremium": "همه چیز در پرمیوم",
-          "annualBilling": "صورتحساب سالانه",
-          "save25": "حدود ۲۵٪ صرفه‌جویی نسبت به ماهانه",
-          "sameFeatures": "همان ویژگی‌های طرح ماهانه"
+          "allPremium": "همه چیز در پریمیوم ماهانه — شامل تم‌های رنگی اضافی",
+          "annualBilling": "یک بار در سال پرداخت",
+          "save25": "حدود ۳۰٪ نسبت به پرداخت ماهانه صرفه‌جویی کنید",
+          "bestFor": "بهترین برای کاربران قدرتمند، کارمندان دورکار و مسافران سنگین"
         },
-        "badge": "صرفه‌جویی ۲۵٪",
+        "badge": "۳۰٪ صرفه‌جویی",
         "cta": "ارتقا (سالانه)",
-        "aria": "ارتقا به پرمیوم سالانه",
-        "disclaimer": "پرداخت یکجا. هر زمان می‌توانید لغو کنید. بدون هزینه پنهان."
+        "ctaPublic": "۳۰٪ با سالانه صرفه‌جویی کنید — ادامه به ورود",
+        "aria": "ارتقا به پریمیوم سالانه",
+        "disclaimer": "پرداخت پیش‌پرداخت. هر زمان لغو کنید. بدون هزینه پنهان."
       }
     },
     "marketing": {
       "freeTitle": "رایگان",
-      "freeDesc": "رایگان پیام دهید.",
-      "plusTitle": "پلاس",
+      "freeDesc": "پیام‌رسانی رایگان شروع کنید.",
+      "plusTitle": "Plus",
       "plusBadge": "محبوب",
-      "plusDesc": "کم‌هزینه‌ترین تجربه بدون آگهی.",
-      "premiumMonthlyTitle": "پرمیوم",
-      "premiumMonthlyDesc": "تمام ویژگی‌ها، زنگ‌ها و ابزارهای قدرتمند AI.",
-      "premiumAnnualTitle": "پرمیوم",
+      "plusDesc": "ارزان‌ترین تجربه بدون تبلیغات.",
+      "premiumMonthlyTitle": "پریمیوم",
+      "premiumMonthlyDesc": "ویژگی‌های کامل، زنگ‌های تماس و ابزارهای قدرتمند هوش مصنوعی.",
+      "premiumAnnualTitle": "پریمیوم",
       "premiumAnnualDesc": "با پرداخت سالانه بیشتر صرفه‌جویی کنید.",
-      "annualDisclaimer": "پرداخت یکجا. لغو در هر زمان. بدون هزینه پنهان."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "شروع سریع",
-    "subtitle": "در چتفوریا تازه‌وارد هستید؟ این راهنمای سریع نکات ضروری را نشان می‌دهد تا در چند دقیقه آماده شوید.",
-    "alert": {
-      "text": "این راهنما با عرضه ویژگی‌های جدید گسترش می‌یابد. اگر چیزی کم است از طریق",
-      "contactLink": "تماس با ما",
-      "rest": "به ما بگویید."
+      "annualDisclaimer": "پرداخت پیش‌پرداخت. هر زمان لغو کنید. بدون هزینه پنهان."
     },
-    "section1": {
-      "title": "۱) حساب خود را بسازید",
-      "signup": "ثبت‌نام",
-      "or": "یا",
-      "login": "وارد شوید",
-      "loginText": "با حساب موجود خود.",
-      "prefsStart": "تنظیمات",
-      "prefsLink": "ترجیحات",
-      "prefsRest": "(زبان، رسید خواندن، تم‌ها) را تنظیم کنید."
+    "mobile": {
+      "title": "Chatforia Mobile (بسته‌های داده eSIM)",
+      "subtitle": "داده جهانی اضافه کنید تا Chatforia حتی بدون وای‌فای کار کند. قیمت‌ها بر اساس کشور و ارز شما به صورت خودکار تنظیم می‌شوند.",
+      "subtitle.detail": "یک بسته داده جهانی یک‌باره انتخاب کنید تا Chatforia وقتی در سفر یا دور از وای‌فای هستید کار کند.",
+      "scope": {
+        "local": "محلی",
+        "europe": "اروپا",
+        "global": "جهانی"
+      },
+      "note": "ما بسته‌های داده کمتر از ۳ گیگابایت نمی‌فروشیم.",
+      "localEquals": "محلی = {{country}}",
+      "localEqualsFallback": "محلی = کشور فعلی شما",
+      "perPack": "/ بسته",
+      "cta": "این بسته داده را بگیرید",
+      "ctaPublic": "این بسته داده را بگیرید",
+      "checkout": {
+        "redirecting": "در حال هدایت…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "داده پرسرعت برای استفاده سنگین",
+          "throttle": "سرعت ممکن است پس از استفاده سنگین کاهش یابد",
+          "coverage": "پوشش قابل اعتماد",
+          "instant": "فعال‌سازی فوری eSIM",
+          "noContract": "بسته یک‌باره، بدون قرارداد"
+        }
+      },
+      "disclaimer": {
+        "devices": "بسته‌های داده eSIM نیاز به دستگاه سازگار با eSIM و آنلاک‌شده دارند. در دسترس بودن بسته به مدل گوشی، اپراتور و کشور متفاوت است. پوشش و سرعت بسته به منطقه متفاوت است."
+      },
+      "small": {
+        "title": "بسته شروع",
+        "desc": "شامل ۳ گیگابایت داده پرسرعت — ایده‌آل برای پیام‌رسانی سبک و تماس‌های گاه‌به‌گاه.",
+        "price": "$9.99",
+        "data": "۳ گیگابایت",
+        "bestFor": "سفرهای کوتاه، پیام‌رسانی سبک و تماس‌های گاه‌به‌گاه",
+        "aria": "خرید بسته داده eSIM شروع"
+      },
+      "medium": {
+        "title": "بسته مسافر",
+        "desc": "شامل ۵ گیگابایت داده پرسرعت برای سفرها، رفت‌وآمد و تماس‌های VoIP منظم.",
+        "price": "$14.99",
+        "data": "۵ گیگابایت",
+        "bestFor": "سفرهای آخر هفته، تماس‌های VoIP منظم و نقشه‌ها",
+        "aria": "خرید بسته داده eSIM مسافر"
+      },
+      "large": {
+        "title": "بسته قدرتمند",
+        "desc": "شامل ۱۰ گیگابایت داده پرسرعت برای چت سنگین، تماس‌ها و ویدیو روی شبکه Chatforia.",
+        "price": "$24.99",
+        "data": "۱۰ گیگابایت",
+        "bestFor": "چت سنگین، تماس‌ها، ویدیو و استفاده هات‌اسپات",
+        "aria": "خرید بسته داده eSIM کاربر قدرتمند"
+      },
+      "compare": {
+        "title": "مقایسه بسته‌های داده eSIM",
+        "col": {
+          "pack": "بسته",
+          "data": "داده شامل",
+          "bestFor": "بهترین برای"
+        },
+        "disclaimer": "استفاده واقعی داده بستگی به نحوه استفاده شما از Chatforia (صدا، ویدیو، رسانه و اپ‌های دیگر روی گوشی) دارد."
+      }
     },
-    "section2": {
-      "title": "۲) پیام دادن را شروع کنید",
-      "item1": "یک گفتگوی دونفره یا گروهی بسازید و نخستین پیام را بفرستید.",
-      "item2": "برای چت میان‌زبانی از ترجمه فوری در ۱۰۰+ زبان استفاده کنید.",
-      "item3": "پیام‌های ناپدیدشونده و رسید خواندن را در پروفایل → حریم خصوصی امتحان کنید."
+    "family": {
+      "title": "Chatforia Family (داده مشترک)",
+      "subtitle": "یک استخر داده واحد در سراسر خانواده به اشتراک بگذارید. یک قبض، چندین حساب Chatforia، پوشش جهانی.",
+      "perPack": "/ بسته",
+      "small": {
+        "title": "خانواده کوچک",
+        "desc": "شامل ۲۰ گیگابایت داده پرسرعت مشترک — عالی برای ۲–۳ کاربر سبک.",
+        "price": "$29.99",
+        "aria": "خرید بسته خانواده کوچک"
+      },
+      "medium": {
+        "title": "خانواده متوسط",
+        "desc": "شامل ۴۰ گیگابایت داده پرسرعت مشترک — ایده‌آل برای ۳–۵ عضو فعال.",
+        "price": "$49.99",
+        "aria": "خرید بسته خانواده متوسط"
+      },
+      "large": {
+        "title": "خانواده بزرگ",
+        "desc": "شامل ۸۰ گیگابایت داده پرسرعت مشترک — برای خانواده‌های قدرتمند که همیشه آنلاین هستند.",
+        "price": "$84.99",
+        "aria": "خرید بسته خانواده بزرگ"
+      },
+      "feature": {
+        "shared": "استخر داده مشترک برای خانواده شما",
+        "members": "دعوت حداکثر ۴ عضو اضافی",
+        "membersMore": "عالی برای ۳–۵ عضو فعال",
+        "manage": "مدیریت حد برای هر عضو",
+        "topUp": "هر زمان بسته بیشتر اضافه کنید",
+        "bestValue": "بهترین ارزش به ازای هر گیگابایت",
+        "fairUse": "مشروط به سیاست استفاده منصفانه و محدودیت‌های محلی"
+      },
+      "disclaimer": "بسته‌های خانواده استخر داده مشترک ایجاد یا شارژ می‌کنند. هر زمان می‌توانید اعضا را دعوت یا حذف کنید.",
+      "footnote": "بسته‌های خانواده یک استخر داده واحد را در حساب‌های Chatforia متصل به اشتراک می‌گذارند. در دسترس بودن و محدودیت‌ها بسته به کشور و مقررات محلی است."
     },
-    "section3": {
-      "title": "۳) فراتر بروید",
-      "item1Part1": "طرح خود را در صفحه",
-      "upgradeLink": "ارتقا",
-      "item1Part2": "مدیریت کنید (پلاس = بدون آگهی، پرمیوم = تمام ویژگی‌ها).",
-      "item2Part1": "دستگاه‌های بیشتری پیوند دهید و پشتیبان‌های رمزگذاری‌شده را در",
-      "settingsLink": "تنظیمات",
-      "item2Part2": "راه‌اندازی کنید."
+    "why": {
+      "title": "چرا مردم به Chatforia تغییر می‌دهند",
+      "subtitle": "Chatforia شماره تلفن واقعی، ترجمه هوشمند و مسیر واضحی برای رفتن به بدون تبلیغات وقتی آماده هستید به شما می‌دهد.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia در مقابل TextNow",
+          "body": "تبلیغات سبک‌تر در رایگان، ارتقای ساده Plus وقتی آماده هستید، و ابزارهای پریمیوم که TextNow ندارد."
+        },
+        "voice": {
+          "title": "Chatforia در مقابل Google Voice",
+          "body": "اپ مدرن، طراحی اول جهانی و ترجمه встроенный به جای انتقال تماس قدیمی."
+        },
+        "messengers": {
+          "title": "Chatforia در مقابل اپ‌های چت",
+          "body": "پیام به شماره‌های تلفن واقعی — نه فقط کاربران دیگر اپ — با هوش مصنوعی و وضعیت встроенный. عالی اگر از اپ‌هایی مثل TextFree یا TextMe می‌آیید."
+        }
+      },
+      "tableTitle": "Chatforia چگونه مقایسه می‌شود",
+      "col": {
+        "feature": "ویژگی"
+      },
+      "feature": {
+        "freeNumber": "شماره تلفن رایگان",
+        "translation": "ترجمه خودکار встроенный",
+        "aiTools": "ابزارهای هوش مصنوعی (بازنویسی، پاسخ‌ها، خلاصه‌ها)",
+        "ads": "گزینه بدون تبلیغات",
+        "history": "تاریخچه پیام"
+      },
+      "yes": "بله",
+      "no": "خیر",
+      "yesPremium": "بله (پریمیوم)",
+      "plusPremium": "Plus و پریمیوم",
+      "limited": "محدود",
+      "nA": "نامشخص",
+      "history": {
+        "chatforia": "تا ۱۲+ ماه",
+        "textnow": "بسته به حساب متفاوت",
+        "voice": "محدود / مبتنی بر حساب"
+      },
+      "disclaimer": "مقایسه بر اساس اطلاعات عمومی در دسترس و ممکن است در طول زمان تغییر کند. اپ‌های پیام‌رسانی رایگان دیگر مثل TextFree یا TextMe عموماً شبیه TextNow هستند."
     },
-    "cta": {
-      "seePlans": "مشاهده طرح‌ها",
-      "openSettings": "باز کردن تنظیمات"
-    }
-  },
-
-  "helpCenter": {
-    "title": "مرکز راهنما",
     "faq": {
-      "account": {
-        "q": "چطور حساب بسازم یا بازیابی کنم؟",
-        "a": "برنامه را دانلود یا از وب استفاده کنید، «ایجاد حساب» را بزنید و ایمیل/تلفن را تأیید کنید. برای بازیابی، «فراموشی رمز» را بزنید."
+      "title": "سؤالات متداول قیمت‌گذاری و طرح‌ها",
+      "free": {
+        "q": "آیا طرح رایگان واقعاً رایگان است؟",
+        "a": "بله. طرح رایگان شامل شماره Chatforia، تماس و پیام‌رسانی با تبلیغات است. می‌توانید تا هر زمان که بخواهید روی رایگان بمانید یا ارتقا دهید تا تبلیغات را حذف کنید و ویژگی‌های بیشتر باز کنید."
       },
-      "privacy": {
-        "q": "آیا پیام‌ها سرتاسری رمزگذاری می‌شوند؟",
-        "a": "بله. پیام‌ها و تماس‌ها به‌صورت پیش‌فرض سرتاسری رمزگذاری می‌شوند. فقط شما و گیرنده می‌توانید آن‌ها را بخوانید."
+      "plusPremium": {
+        "q": "تفاوت Plus و پریمیوم چیست؟",
+        "a": "Plus تبلیغات را حذف می‌کند و تاریخچه پیام را طولانی‌تر می‌کند — عالی برای استفاده روزانه. پریمیوم سفارشی‌سازی اضافی، ابزارهای هوش مصنوعی برای بازنویسی و پاسخ‌ها و پشتیبانی اولویت‌دار برای کاربران سنگین اضافه می‌کند."
       },
-      "translate": {
-        "q": "ترجمه فوری چگونه کار می‌کند؟",
-        "a": "در تنظیمات → نما و زبان «ترجمه خودکار» را فعال کنید. در صورت پشتیبانی، روی دستگاه ترجمه می‌کنیم، در غیر این صورت از APIهای امن با کمترین فراداده استفاده می‌کنیم."
+      "esim": {
+        "q": "بسته‌های داده eSIM کجا کار می‌کنند؟",
+        "a": "Chatforia Mobile از پوشش eSIM جهانی استفاده می‌کند. در دسترس بودن بسته به کشور و دستگاه شما بستگی دارد. گزینه‌های پشتیبانی‌شده را هنگام فعال‌سازی داخل اپ خواهید دید."
+      },
+      "cancel": {
+        "q": "آیا می‌توانم هر زمان طرح را لغو یا تغییر دهم؟",
+        "a": "بله. می‌توانید اشتراک خود را از صفحه پرداخت داخل اپ مدیریت یا لغو کنید. تغییرات در پایان دوره پرداخت فعلی اعمال می‌شود."
+      },
+      "family": {
+        "q": "بسته‌های خانواده چگونه کار می‌کنند؟",
+        "a": "بسته‌های خانواده یک استخر داده مشترک در چندین حساب Chatforia ایجاد می‌کنند. یک نفر قبض را پرداخت می‌کند و شما می‌توانید اعضا را دعوت یا حذف کنید و حد برای هر شخص تنظیم کنید."
+      }
+    },
+    "gettingStarted": {
+      "title": "شروع به کار",
+      "subtitle": "جدید به Chatforia هستید؟ این راهنمای سریع essentials را نشان می‌دهد تا در چند دقیقه بهره‌ور شوید.",
+      "alert": {
+        "text": "این راهنما با راه‌اندازی ویژگی‌های جدید رشد خواهد کرد. اگر چیزی کم است، از طریق",
+        "contactLink": "تماس با ما"
+      },
+      "section1": {
+        "title": "۱) حساب خود را ایجاد کنید",
+        "signup": "ثبت‌نام",
+        "or": "یا",
+        "login": "ورود",
+        "loginText": "با حساب موجود خود.",
+        "prefsStart": "تنظیم",
+        "prefsLink": "ترجیحات",
+        "prefsRest": "(زبان، رسید خواندن، تم‌ها)."
+      },
+      "section2": {
+        "title": "۲) شروع پیام‌رسانی",
+        "item1": "یک DM یا گروه ایجاد کنید و اولین پیام خود را بفرستید.",
+        "item2": "از ترجمه فوری برای چت در بیش از ۱۰۰ زبان استفاده کنید.",
+        "item3": "پیام‌های ناپدیدشونده و رسید خواندن را در پروفایل → حریم خصوصی امتحان کنید."
+      },
+      "section3": {
+        "title": "۳) بیشتر بروید",
+        "item1": "هر زمان داخل اپ می‌توانید به طرح پولی ارتقا دهید.",
+        "item2": "وقتی وارد شدید، می‌توانید دستگاه‌های اضافی را لینک کنید و پشتیبان‌های رمزنگاری‌شده را از تنظیمات داخل اپ تنظیم کنید."
+      },
+      "cta": {
+        "seePlans": "مشاهده طرح‌ها",
+        "openSettings": "باز کردن تنظیمات"
+      }
+    },
+    "helpCenter": {
+      "title": "مرکز راهنما",
+      "faq": {
+        "account": {
+          "q": "چگونه حساب ایجاد یا بازیابی کنم؟",
+          "a": "اپ را دانلود کنید یا از وب استفاده کنید، روی «ایجاد حساب» ضربه بزنید، ایمیل/تلفن را تأیید کنید. برای بازیابی از «رمز عبور فراموش شده» استفاده کنید."
+        },
+        "privacy": {
+          "q": "آیا پیام‌ها سرتاسر رمزنگاری‌شده هستند؟",
+          "a": "بله. پیام‌ها و تماس‌ها به صورت پیش‌فرض سرتاسر رمزنگاری‌شده هستند. فقط شما و گیرنده می‌توانید آن‌ها را بخوانید."
+        },
+        "translate": {
+          "q": "ترجمه فوری چگونه کار می‌کند؟",
+          "a": "«ترجمه خودکار» را در تنظیمات → ظاهر و زبان فعال کنید. جایی که پشتیبانی شود روی دستگاه ترجمه می‌کنیم، در غیر این صورت از طریق APIهای امن با متادیتای حداقل."
+        },
+        "contact": {
+          "q": "تماس با پشتیبانی",
+          "a": "با support@chatforia.com تماس بگیرید. اسکرین‌شات و نسخه اپ خود را ضمیمه کنید."
+        }
+      }
+    },
+    "contact": {
+      "title": "تماس با ما",
+      "successMsg": "ممنون — تیم ما از طریق ایمیل پاسخ خواهد داد.",
+      "errorSend": "ارسال ممکن نشد. لطفاً به support@chatforia.com ایمیل بزنید.",
+      "form": {
+        "nameLabel": "نام",
+        "emailLabel": "ایمیل",
+        "messageLabel": "پیام",
+        "sendCta": "ارسال"
+      }
+    },
+    "privacyPolicy": {
+      "title": "سیاست حریم خصوصی",
+      "lastUpdated": "آخرین به‌روزرسانی:",
+      "intro": {
+        "body": "این سیاست حریم خصوصی توضیح می‌دهد که Chatforia («ما»، «ما») چگونه اطلاعات را هنگام استفاده از اپ‌ها و خدمات ما جمع‌آوری، استفاده و به اشتراک می‌گذارد. ما Chatforia را طوری طراحی کرده‌ایم که داده‌هایی که می‌توانیم دسترسی داشته باشیم را به حداقل برسانیم."
+      },
+      "infoWeCollect": {
+        "title": "اطلاعاتی که جمع‌آوری می‌کنیم",
+        "account": "اطلاعات حساب (مثل ایمیل/تلفن) برای ایجاد و امن کردن حساب شما.",
+        "encrypted": "محتوای رمزنگاری‌شده (پیام‌ها/تماس‌ها) سرتاسر رمزنگاری‌شده است؛ ما نمی‌توانیم آن را بخوانیم.",
+        "diagnostics": "تشخیصی/استفاده مثل لاگ‌های کرش، نوع دستگاه یا آنالیزهای کلی برای بهبود عملکرد."
+      },
+      "sms": {
+        "title": "شماره‌های تلفن موبایل و SMS",
+        "body": "اگر شماره تلفن موبایل ارائه دهید، از آن برای فعال کردن ویژگی‌هایی مانند تأیید حساب، هشدارهای ورود و پیام‌رسانی کاربر به کاربر از طریق SMS (جایی که پشتیبانی شود) استفاده می‌کنیم. ممکن است پیام‌های تراکنشی SMS مرتبط با حساب و فعالیت شما در Chatforia ارسال کنیم. هر زمان می‌توانید با پاسخ به کلمه انصراف پشتیبانی‌شده (مانند «STOP») یا تغییر ترجیحات اعلان در اپ، از دریافت پیام‌های SMS انصراف دهید. ما شماره تلفن شما را نمی‌فروشیم یا برای بازاریابی نامرتبط استفاده نمی‌کنیم.",
+        "newText": "متن جدید",
+        "enterRecipient": "نام یا شماره وارد کنید",
+        "typeMessage": "پیام بنویسید…",
+        "addRecipient": "یک گیرنده بالا اضافه کنید تا شروع کنید…"
+      },
+      "howWeUse": {
+        "title": "چگونه از اطلاعات استفاده می‌کنیم",
+        "provide": "ارائه و امن کردن سرویس (احراز هویت، تشخیص اسپم/سوءاستفاده).",
+        "improve": "بهبود ویژگی‌ها (کیفیت ترجمه، قابلیت اطمینان).",
+        "legal": "رعایت الزامات قانونی."
+      },
+      "sharing": {
+        "title": "به اشتراک گذاشتن",
+        "body": "ما داده شخصی نمی‌فروشیم. ممکن است داده محدود را با پردازشگرها (مثل اعلان‌های پوش، آنالیز) تحت قراردادهای سختگیرانه به اشتراک بگذاریم."
+      },
+      "rights": {
+        "title": "حقوق شما",
+        "body": "بسته به منطقه شما (مثل GDPR/UK GDPR/CPRA)، ممکن است درخواست دسترسی، اصلاح، حذف یا انصراف از پردازش خاص داشته باشید. تماس: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "نگهداری داده و امنیت",
+        "body": "فقط آنچه لازم است برای اجرای سرویس را نگه می‌داریم و از امنیت استاندارد صنعت استفاده می‌کنیم. محتوای E2E توسط ما قابل رمزگشایی نیست."
+      },
+      "children": {
+        "title": "کودکان",
+        "body": "Chatforia برای کودکان زیر ۱۳ سال (یا طبق قانون محلی شما) طراحی نشده است."
+      },
+      "changes": {
+        "title": "تغییرات",
+        "body": "به‌روزرسانی‌ها را اینجا پست می‌کنیم و تاریخ «آخرین به‌روزرسانی» را اصلاح می‌کنیم."
       },
       "contact": {
-        "q": "تماس با پشتیبانی",
-        "a": "به support@chatforia.com پیام بدهید. اسکرین‌شات و نسخه برنامه را بفرستید."
+        "title": "تماس",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "تماس با ما",
-    "successMsg": "متشکریم—تیم ما از طریق ایمیل پاسخ خواهد داد.",
-    "errorSend": "ارسال نشد. لطفاً به support@chatforia.com ایمیل بزنید.",
-    "form": {
-      "nameLabel": "نام",
-      "emailLabel": "ایمیل",
-      "messageLabel": "پیام",
-      "sendCta": "ارسال"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "سیاست حریم خصوصی",
-    "lastUpdated": "آخرین به‌روزرسانی:",
-    "intro": {
-      "body": "این سیاست توضیح می‌دهد چتفوریا («ما») هنگام استفاده شما از برنامه‌ها و خدمات ما چه اطلاعاتی را جمع‌آوری، استفاده و به اشتراک می‌گذارد. چتفوریا را طوری طراحی می‌کنیم که حداقل داده برای ما قابل دسترس باشد."
     },
-    "infoWeCollect": {
-      "title": "اطلاعاتی که جمع‌آوری می‌کنیم",
-      "account": "اطلاعات حساب (مثلاً ایمیل/تلفن) برای ایجاد و ایمن‌سازی حساب.",
-      "encrypted": "محتوای رمزگذاری‌شده (پیام‌ها/تماس‌ها) سرتاسری رمزگذاری می‌شود؛ ما نمی‌توانیم آن را بخوانیم.",
-      "diagnostics": "عیب‌یابی/استفاده مانند گزارش کرش، نوع دستگاه یا تحلیل‌های کلی برای بهبود عملکرد."
+    "terms": {
+      "title": "شرایط خدمات",
+      "lastUpdated": "آخرین به‌روزرسانی:",
+      "intro": {
+        "body": "با استفاده از Chatforia با این شرایط موافقت می‌کنید. اگر موافق نیستید، از سرویس استفاده نکنید."
+      },
+      "accounts": {
+        "title": "حساب‌ها",
+        "itemAccurateInfo": "اطلاعات دقیق ارائه دهید و اعتبارنامه‌ها را امن نگه دارید.",
+        "itemResponsibility": "شما مسئول فعالیت روی حساب خود هستید."
+      },
+      "acceptableUse": {
+        "title": "استفاده قابل قبول",
+        "itemNoAbuse": "بدون محتوای غیرقانونی، توهین‌آمیز یا نقض‌کننده؛ بدون اسپم یا سوءاستفاده خودکار.",
+        "itemSuspend": "ممکن است برای نقض‌ها تعلیق/پایان دهیم."
+      },
+      "sms": {
+        "title": "ارتباطات SMS",
+        "body": "اگر شماره تلفن موبایل ارائه دهید، موافقت می‌کنید که Chatforia پیام‌های SMS مرتبط با حساب و استفاده شما از سرویس ارسال کند، مانند هشدارهای ورود، اعلان‌های امنیتی و پیام‌های مرتبط با گفتگوهایی که شروع یا شرکت می‌کنید. ما از SMS برای پیام‌های تبلیغاتی یا بازاریابی بدون رضایت صریح شما استفاده نمی‌کنیم. هزینه پیام و داده استاندارد ممکن است اعمال شود. هر زمان می‌توانید با پاسخ به کلمه انصراف پشتیبانی‌شده (مثال: «STOP») یا به‌روزرسانی تنظیمات اعلان در اپ، از پیام‌های SMS انصراف دهید."
+      },
+      "yourContent": {
+        "title": "محتوای شما",
+        "body": "حقوق محتوای خود را حفظ می‌کنید. حقوق لازم برای اجرای سرویس (مثل مسیریابی، ذخیره‌سازی، ترجمه) به ما اعطا می‌کنید."
+      },
+      "disclaimer": {
+        "title": "سلب مسئولیت و مسئولیت",
+        "body": "سرویس «به همان صورت» بدون ضمانت ارائه می‌شود. تا حد کامل مجاز توسط قانون، Chatforia مسئول خسارات غیرمستقیم یا تبعی نیست."
+      },
+      "changes": {
+        "title": "تغییرات",
+        "body": "ممکن است این شرایط را به‌روزرسانی کنیم؛ استفاده ادامه‌دار پس از تغییرات به معنای پذیرش است."
+      },
+      "contact": {
+        "title": "تماس",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "چگونه از اطلاعات استفاده می‌کنیم",
-      "provide": "ارائه و ایمن‌سازی سرویس (احراز هویت، تشخیص اسپم/سوءاستفاده).",
-      "improve": "بهبود ویژگی‌ها (کیفیت ترجمه، پایداری).",
-      "legal": "رعایت الزامات قانونی."
+    "doNotSell": {
+      "title": "اطلاعات شخصی من را نفروشید یا به اشتراک نگذارید",
+      "body": "Chatforia اطلاعات شخصی نمی‌فروشد. ساکنان کالیفرنیا همچنان می‌توانند درخواست‌ها را تحت CPRA با دکمه زیر ارسال کنند.",
+      "cta": "ارسال درخواست"
     },
-    "sharing": {
-      "title": "اشتراک‌گذاری",
-      "body": "ما داده‌های شخصی را نمی‌فروشیم. ممکن است داده محدودی را تحت قراردادهای سخت‌گیرانه با پردازشگرها (مثل اعلان، تحلیل) به اشتراک بگذاریم."
+    "cookies": {
+      "title": "تنظیمات کوکی",
+      "body": "Chatforia از کوکی‌های حداقل (مثل جلسه، امنیت) استفاده می‌کند. ما از کوکی‌های تبلیغات شخص ثالث استفاده نمی‌کنیم. کوکی‌ها را از طریق تنظیمات مرورگر مدیریت کنید."
     },
-    "rights": {
-      "title": "حقوق شما",
-      "body": "بسته به منطقه شما (مثلاً GDPR/UK GDPR/CPRA) می‌توانید درخواست دسترسی، تصحیح، حذف یا انصراف از برخی پردازش‌ها را بدهید. تماس: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "بارگیری وضعیت شماره تلفن ممکن نشد.",
+      "lock": "قفل",
+      "noNumberAssigned": "شماره‌ای اختصاص داده نشده. یک شماره بر اساس کد منطقه انتخاب کنید تا پیام‌رسانی شروع شود.",
+      "pickNumber": "انتخاب شماره",
+      "phoneNumber": "شماره تلفن"
     },
-    "retention": {
-      "title": "نگه‌داری داده و امنیت",
-      "body": "ما فقط آنچه برای اجرای سرویس لازم است نگه می‌داریم و امنیت در سطح صنعت اعمال می‌کنیم. محتوای سرتاسری برای ما غیرقابل رمزگشایی است."
+    "startChatModal": {
+      "title": "شروع چت",
+      "quickPicker": "انتخاب‌گر سریع",
+      "to": "به",
+      "nameOrUsername": "نام، نام کاربری تایپ کنید",
+      "nameUsernamePhoneEmail": "نام، نام کاربری، تلفن یا ایمیل تایپ کنید…",
+      "startWithSelected": "چت با انتخاب‌شده شروع شود",
+      "searchByUsernameOrPhone": "جستجو بر اساس نام کاربری یا تلفن",
+      "search": "جستجو",
+      "searchPrompt": "نام کاربری یا تلفن تایپ کنید و جستجو را فشار دهید.",
+      "pickFromContacts": "یا از مخاطبان انتخاب کنید",
+      "addContact": "اضافه کردن مخاطب",
+      "show": "نمایش",
+      "add": "اضافه کردن",
+      "close": "بستن",
+      "selectedCount": "{{count}} انتخاب‌شده",
+      "pickAtLeastOne": "حداقل یک گیرنده انتخاب کنید.",
+      "saveContactsHint": "ورودی‌های تلفن/ایمیل پس از ذخیره به عنوان مخاطب در دسترس خواهند بود.",
+      "failedBulkStart": "شروع چت با گیرندگان انتخاب‌شده ناموفق بود.",
+      "noResults": "هیچ نتیجه‌ای",
+      "mode": "حالت",
+      "group": "گروه",
+      "broadcast": "پخش",
+      "groupNameOptional": "نام گروه (اختیاری)",
+      "firstMessageOptional": "اولین پیام (اختیاری اما توصیه‌شده)",
+      "createGroup": "ایجاد گروه",
+      "sendBroadcast": "ارسال پخش"
     },
-    "children": {
-      "title": "کودکان",
-      "body": "چتفوریا برای کودکان زیر ۱۳ سال (یا طبق قانون محلی شما) طراحی نشده است."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
     },
-    "changes": {
-      "title": "تغییرات",
-      "body": "به‌روزرسانی‌ها را اینجا منتشر می‌کنیم و تاریخ «آخرین به‌روزرسانی» را اصلاح می‌کنیم."
+    "sounds": {
+      "freeNotice": "شما روی رایگان هستید — تن‌های پریمیوم نشان داده شده‌اند اما قفل هستند. برای باز کردن همه ارتقا دهید.",
+      "preview": "پیش‌نمایش",
+      "resetToDefaults": "بازنشانی به پیش‌فرض‌ها",
+      "notificationSounds": "صداهای اعلان",
+      "messageTone": "تن پیام",
+      "default": "پیش‌فرض",
+      "vibrate": "لرزش",
+      "dreamer": "Dreamer",
+      "notify": "Notify",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsating Sound",
+      "textMessage": "Text Message",
+      "xylophone": "Xylophone",
+      "classic": "Classic",
+      "urgency": "Urgency",
+      "bells": "Bells",
+      "chimes": "Chimes",
+      "digitalPhone": "Digital Phone",
+      "melodic": "Melodic",
+      "organNotes": "Organ Notes",
+      "soundReality": "Sound Reality",
+      "street": "Street",
+      "universfield": "Universfield"
     },
-    "contact": {
-      "title": "تماس",
-      "body": "privacy@chatforia.com • [نام حقوقی شرکت]، [آدرس]"
-    }
-  },
-
-  "terms": {
-    "title": "شرایط استفاده",
-    "lastUpdated": "آخرین به‌روزرسانی:",
-    "intro": {
-      "body": "با استفاده از چتفوریا با این شرایط موافقت می‌کنید. اگر موافق نیستید، از سرویس استفاده نکنید."
+    "premiumGuard": {
+      "requiresPremium": "این ویژگی نیاز به طرح پریمیوم دارد."
     },
-    "accounts": {
-      "title": "حساب‌ها",
-      "itemAccurateInfo": "اطلاعات دقیق ارائه دهید و اعتبارنامه‌های خود را ایمن نگه دارید.",
-      "itemResponsibility": "شما مسئول فعالیت‌های انجام‌شده با حساب خود هستید."
+    "aiSettings": {
+      "title": "تنظیمات هوش مصنوعی",
+      "controlIntro": "ترجمه، پاسخ‌های هوشمند و پاسخ‌های خودکار ForiaBot را کنترل کنید.",
+      "save": "ذخیره تنظیمات هوش مصنوعی",
+      "autoTranslateIncoming": "ترجمه خودکار پیام‌های ورودی",
+      "showOriginalAlongside": "نمایش متن اصلی در کنار ترجمه",
+      "enableSmartReplies": "فعال کردن پاسخ‌های هوشمند",
+      "smartRepliesHint": "آخرین چند پیام دریافتی (سانیتایز شده) را به هوش مصنوعی ارسال کنید تا پاسخ‌های سریع پیشنهاد دهد.",
+      "maskProfanity": "ماسک کردن فحش در پیشنهادهای هوش مصنوعی",
+      "maskProfanityHint": "اگر روشن باشد، کلمات پرچم‌دار در پیشنهادهای هوش مصنوعی ماسک می‌شوند",
+      "foriaBot": "پاسخ‌دهنده خودکار ForiaBot",
+      "enableAutoReply": "فعال کردن پاسخ خودکار وقتی مشغولم",
+      "autoReplyMode": "حالت پاسخ خودکار",
+      "cooldownSeconds": "خنک‌سازی (ثانیه)",
+      "off": "خاموش",
+      "on": "روشن",
+      "signature": "امضا",
+      "autoReply": "پاسخ خودکار",
+      "activeUntilOptional": "فعال تا (اختیاری)",
+      "saved": "ترجیحات هوش مصنوعی ذخیره شد",
+      "saveFailed": "ذخیره تنظیمات هوش مصنوعی ناموفق بود",
+      "translateOff": "خاموش",
+      "translateTagged": "فقط وقتی @translated یا تگ‌شده",
+      "translateAll": "ترجمه همه پیام‌های ورودی",
+      "modeDm": "فقط چت‌های ۱:۱",
+      "modeMention": "فقط وقتی @mentioned هستم",
+      "modeAll": "همه پیام‌های ورودی"
     },
-    "acceptableUse": {
-      "title": "استفاده قابل قبول",
-      "itemNoAbuse": "محتوای غیرقانونی، سوءاستفاده‌آمیز یا ناقض حقوق؛ بدون اسپم یا سوءاستفاده خودکار.",
-      "itemSuspend": "در صورت تخلف ممکن است تعلیق/خاتمه دهیم."
+    "accessibilitySettings": {
+      "title": "دسترسی‌پذیری و هشدارها",
+      "accessibility": "دسترسی‌پذیری",
+      "accessibilityDesc": "گزینه‌هایی برای آسان‌تر کردن استفاده از Chatforia بدون وابستگی به صدا.",
+      "interfaceFontSize": "اندازه فونت رابط",
+      "interfaceFontSizeHelp": "از اندازه معمولی شروع می‌شود. اگر متن بزرگ‌تر ترجیح می‌دهید افزایش دهید.",
+      "sm": "کوچک",
+      "md": "متوسط",
+      "lg": "بزرگ",
+      "xl": "خیلی بزرگ",
+      "notifications": "اعلان‌ها",
+      "notificationsDesc": "هشدارهای بصری برای پیام‌ها و تماس‌ها\nبنرها و چشمک زدن عنوان را نشان دهید تا فعالیتی را از دست ندهید.",
+      "vibrateOnNew": "لرزش روی پیام‌های جدید (وقتی پشتیبانی شود)\nلرزش دستگاه را با اعلان‌ها فعال کنید.",
+      "flashOnCall": "چشمک صفحه روی تماس ورودی\nچشمک روشن کوتاه وقتی تماس زنگ می‌زند.",
+      "liveCaptions": "زیرنویس زنده (تماس‌ها)",
+      "captionFontSize": "اندازه فونت زیرنویس",
+      "captionBackground": "پس‌زمینه زیرنویس",
+      "light": "روشن",
+      "dark": "تیره",
+      "transparent": "شفاف",
+      "voiceNotes": "یادداشت‌های صوتی",
+      "autoTranscribeVoiceNotes": "رونویسی خودکار یادداشت‌های صوتی",
+      "autoTranscribeVoiceNotesDesc": "رونویسی را به پیام‌های صوتی دریافتی پیوست کنید.",
+      "changesSavedInstantly": "تغییرات فوراً ذخیره می‌شوند.",
+      "loadFailed": "بارگیری تنظیمات ناموفق بود",
+      "visualAlerts": "هشدارهای بصری برای پیام‌ها و تماس‌ها",
+      "visualAlertsDesc": "بنرها و چشمک زدن عنوان را نشان دهید تا فعالیتی را از دست ندهید.",
+      "vibrateOnNewShort": "لرزش روی پیام‌های جدید (وقتی پشتیبانی شود)",
+      "vibrateOnNewDesc": "لرزش دستگاه را با اعلان‌ها فعال کنید.",
+      "flashOnCallShort": "چشمک صفحه روی تماس ورودی",
+      "flashOnCallDesc": "چشمک روشن کوتاه وقتی تماس زنگ می‌زند."
     },
-    "yourContent": {
-      "title": "محتوای شما",
-      "body": "حقوق محتوای خود را حفظ می‌کنید. برای اجرای سرویس (مسیر‌دهی، ذخیره، ترجمه) حقوق لازم را به ما اعطا می‌کنید."
+    "privacySection": {
+      "strictE2EE": "رمزنگاری سرتاسر سخت‌گیرانه",
+      "ciphertextOnlyNote": "فقط متن رمزی روی سرور ذخیره شود. هوش مصنوعی/ترجمه و پیش‌نمایش نظارت را غیرفعال می‌کند."
     },
-    "disclaimer": {
-      "title": "سلب مسئولیت و مسئولیت‌پذیری",
-      "body": "سرویس «همان‌گونه که هست» بدون ضمانت ارائه می‌شود. تا حد مجاز قانونی، چتفوریا در برابر خسارت‌های غیرمستقیم یا تبعی مسئول نیست."
+    "linkedDevicesPanel": {
+      "title": "دستگاه‌های متصل",
+      "noneFound": "هیچ دستگاه متصلی یافت نشد.",
+      "refresh": "تازه‌سازی"
     },
-    "changes": {
-      "title": "تغییرات",
-      "body": "ممکن است این شرایط را به‌روزرسانی کنیم؛ ادامه استفاده پس از تغییر به منزله پذیرش است."
+    "help": {
+      "title": "راهنما",
+      "howCanWeHelp": "چگونه می‌توانیم کمک کنیم؟",
+      "helpCenter": "مرکز راهنما",
+      "contactUs": "تماس با ما",
+      "quickTopics": "موضوعات سریع",
+      "searchExamples": "«ترجمه»، «پشتیبان‌ها» یا «حریم خصوصی» را جستجو کنید.",
+      "cantLogin": "نمی‌توانم وارد شوم",
+      "paymentsBilling": "پرداخت‌ها/پرداخت",
+      "reportAbuse": "گزارش سوءاستفاده",
+      "searchHelpArticles": "جستجوی مقالات راهنما",
+      "search": "جستجو"
     },
-    "contact": {
-      "title": "تماس",
-      "body": "support@chatforia.com • [نام حقوقی شرکت]، [آدرس]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "فروش یا اشتراک اطلاعات شخصی من ممنوع",
-    "body": "چتفوریا اطلاعات شخصی را نمی‌فروشد. ساکنان کالیفرنیا همچنان می‌توانند طبق CPRA درخواست ارسال کنند.",
-    "cta": "ارسال درخواست"
-  },
-
-  "cookies": {
-    "title": "تنظیمات کوکی",
-    "body": "چتفوریا از کوکی‌های حداقلی استفاده می‌کند (مثلاً نشست، امنیت). ما از کوکی‌های تبلیغاتی شخص ثالث استفاده نمی‌کنیم. کوکی‌ها را از طریق تنظیمات مرورگر خود مدیریت کنید."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "امکان بارگیری وضعیت شماره تلفن نیست.",
-    "lock": "قفل",
-    "noNumberAssigned": "هیچ شماره‌ای اختصاص نیافته است. برای شروع پیامک، بر اساس کد منطقه یک شماره انتخاب کنید.",
-    "pickNumber": "انتخاب شماره",
-    "phoneNumber": "شماره تلفن"
-  },
-
-  "startChatModal": {
-    "title": "شروع چت",
-    "quickPicker": "انتخاب‌گر سریع",
-    "to": "به",
-    "nameOrUsername": "نام یا نام کاربری را بنویسید",
-    "nameUsernamePhoneEmail": "نام، نام کاربری، تلفن یا ایمیل را بنویسید…",
-    "startWithSelected": "شروع چت با انتخاب‌شده‌ها",
-    "searchByUsernameOrPhone": "جست‌وجو با نام کاربری یا تلفن",
-    "search": "جست‌وجو",
-    "searchPrompt": "نام کاربری یا تلفن را تایپ کنید و جست‌وجو را بزنید.",
-    "pickFromContacts": "یا از مخاطبان انتخاب کنید",
-    "addContact": "افزودن مخاطب",
-    "show": "نمایش",
-    "add": "افزودن",
-    "close": "بستن",
-    "selectedCount": "{{count}} مورد انتخاب شد",
-    "pickAtLeastOne": "حداقل یک گیرنده انتخاب کنید.",
-    "saveContactsHint": "ورودی‌های تلفن/ایمیل پس از ذخیره به‌عنوان مخاطب در دسترس خواهند بود.",
-    "failedBulkStart": "شروع چت با گیرندگان انتخاب‌شده ناموفق بود.",
-    "noResults": "بدون نتیجه",
-    "mode": "حالت",
-    "group": "گروه",
-    "broadcast": "انتشار",
-    "groupNameOptional": "نام گروه (اختیاری)",
-    "firstMessageOptional": "اولین پیام (اختیاری ولی توصیه‌شده)",
-    "createGroup": "ایجاد گروه",
-    "sendBroadcast": "ارسال انتشار"
-  },
-
-  "themes": {
-    "amoled": "آمولد",
-    "aurora": "شفق",
-    "neon": "نئون",
-    "sunset": "غروب",
-    "solarized": "سولارایزد",
-    "velvet": "مخملی"
-  },
-
-  "sounds": {
-    "freeNotice": "در طرح رایگان هستید — زنگ‌های پرمیوم نمایش داده می‌شوند اما قفل‌اند. برای باز کردن همه ارتقا دهید.",
-    "preview": "پیش‌نمایش",
-    "resetToDefaults": "بازنشانی به پیش‌فرض",
-    "notificationSounds": "صداهای اعلان",
-    "messageTone": "صدای پیام",
-    "default": "پیش‌فرض",
-    "vibrate": "لرزش",
-    "dreamer": "خیال‌پرداز",
-    "notify": "آگاه‌ساز",
-    "pop": "پاپ",
-    "pulsatingSound": "ضربانی",
-    "textMessage": "پیام متنی",
-    "xylophone": "زیلوفون",
-    "classic": "کلاسیک",
-    "urgency": "فوریت",
-    "bells": "ناقوس",
-    "chimes": "زنگینه‌ها",
-    "digitalPhone": "تلفن دیجیتال",
-    "melodic": "ملودیک",
-    "organNotes": "نت‌های ارگ",
-    "soundReality": "واقعیت صوتی",
-    "street": "خیابان",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "این ویژگی به طرح پرمیوم نیاز دارد."
-  },
-
-  "aiSettings": {
-    "title": "تنظیمات هوش مصنوعی",
-    "controlIntro": "ترجمه، پاسخ‌های هوشمند و پاسخ‌گوی خودکار ForiaBot را کنترل کنید.",
-    "save": "ذخیره تنظیمات هوش مصنوعی",
-    "autoTranslateIncoming": "ترجمه خودکار پیام‌های دریافتی",
-    "showOriginalAlongside": "نمایش متن اصلی در کنار ترجمه",
-    "enableSmartReplies": "فعال‌سازی پاسخ‌های هوشمند",
-    "smartRepliesHint": "برای پیشنهاد پاسخ سریع، آخرین پیام‌های دریافتی (پاک‌سازی‌شده) را به AI بفرست.",
-    "maskProfanity": "پنهان کردن واژه‌های نامناسب در پیشنهادهای AI",
-    "maskProfanityHint": "اگر روشن باشد، واژه‌های پرچم‌گذاری‌شده در پیشنهادها پنهان می‌شوند",
-    "foriaBot": "پاسخ‌گوی خودکار ForiaBot",
-    "enableAutoReply": "هنگام مشغول بودن، پاسخ خودکار را فعال کن",
-    "autoReplyMode": "حالت پاسخ خودکار",
-    "cooldownSeconds": "وقفه (ثانیه)",
-    "off": "خاموش",
-    "on": "روشن",
-    "signature": "امضا",
-    "autoReply": "پاسخ خودکار",
-    "activeUntilOptional": "فعال تا (اختیاری)",
-    "saved": "ترجیحات AI ذخیره شد",
-    "saveFailed": "ذخیره تنظیمات AI ناموفق بود",
-    "translateOff": "خاموش",
-    "translateTagged": "فقط وقتی @translated یا برچسب‌خورده",
-    "translateAll": "ترجمه همه پیام‌های ورودی",
-    "modeDm": "فقط چت‌های دونفره",
-    "modeMention": "فقط وقتی از من @نام برده شود",
-    "modeAll": "همه پیام‌های ورودی"
-  },
-
-  "accessibilitySettings": {
-    "title": "دسترس‌پذیری و هشدارها",
-    "accessibility": "دسترس‌پذیری",
-    "accessibilityDesc": "گزینه‌هایی برای استفاده آسان‌تر از چتفوریا بدون اتکا به صدا.",
-    "interfaceFontSize": "اندازه قلم رابط",
-    "interfaceFontSizeHelp": "از اندازه عادی شروع می‌شود. اگر متن بزرگ‌تر را ترجیح می‌دهید در تنظیمات دسترس‌پذیری افزایش دهید.",
-    "sm": "کوچک",
-    "md": "متوسط",
-    "lg": "بزرگ",
-    "xl": "خیلی بزرگ",
-    "notifications": "اعلان‌ها",
-    "notificationsDesc": "هشدارهای بصری برای پیام‌ها و تماس‌ها\nنمایش بنر و چشمک عنوان تا فعالیت را از دست ندهید.",
-    "vibrateOnNew": "لرزش هنگام پیام‌های جدید (در صورت پشتیبانی)\nفعال‌سازی لرزش دستگاه با اعلان‌ها.",
-    "flashOnCall": "فلش صفحه هنگام تماس ورودی\nدر زمان زنگ خوردن تماس، یک فلش روشن کوتاه.",
-    "liveCaptions": "زیرنویس زنده (تماس‌ها)",
-    "captionFontSize": "اندازه قلم زیرنویس",
-    "captionBackground": "پس‌زمینه زیرنویس",
-    "light": "روشن",
-    "dark": "تاریک",
-    "transparent": "شفاف",
-    "voiceNotes": "یادداشت‌های صوتی",
-    "autoTranscribeVoiceNotes": "رونویسی خودکار یادداشت‌های صوتی\nپیوست متن به پیام‌های صوتی دریافتی.",
-    "changesSavedInstantly": "تغییرات فوراً ذخیره می‌شوند.",
-    "loadFailed": "بارگیری تنظیمات ناموفق بود",
-    "visualAlerts": "هشدارهای بصری برای پیام‌ها و تماس‌ها",
-    "visualAlertsDesc": "نمایش بنرها و چشمک عنوان تا فعالیت را از دست ندهید.",
-    "vibrateOnNewShort": "لرزش هنگام پیام‌های جدید (در صورت پشتیبانی)",
-    "vibrateOnNewDesc": "با اعلان‌ها لرزش دستگاه را فعال کنید.",
-    "flashOnCallShort": "فلش صفحه هنگام تماس ورودی",
-    "flashOnCallDesc": "هنگام زنگ تماس یک فلش روشن کوتاه."
-  },
-
-  "privacySection": {
-    "strictE2EE": "رمزنگاری سرتاسری سختگیرانه",
-    "ciphertextOnlyNote": "روی سرور فقط متن رمز (ciphertext) ذخیره شود. پیش‌نمایش‌های AI/ترجمه و نظارت محتوا غیرفعال می‌شود."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "دستگاه‌های پیوندی",
-    "noneFound": "هیچ دستگاه پیوندی یافت نشد.",
-    "refresh": "تازه‌سازی"
-  },
-
-  "help": {
-    "title": "راهنما",
-    "howCanWeHelp": "چطور می‌توانیم کمک کنیم؟",
-    "helpCenter": "مرکز راهنما",
-    "contactUs": "تماس با ما",
-    "quickTopics": "موضوعات سریع",
-    "searchExamples": "سعی کنید «ترجمه»، «پشتیبان‌ها» یا «حریم خصوصی» را جست‌وجو کنید.",
-    "cantLogin": "عدم امکان ورود",
-    "paymentsBilling": "پرداخت‌ها/صورتحساب",
-    "reportAbuse": "گزارش سوءاستفاده",
-    "searchHelpArticles": "جست‌وجوی مقالات راهنما",
-    "search": "جست‌وجو"
-  },
-
-  "peoplePage": {
-    "people": "افراد",
-    "search": "جست‌وجو",
-    "searchPlaceholder": "جست‌وجو بر اساس نام مستعار، نام، نام کاربری یا تلفن",
-    "filterSaved": "فیلتر مخاطبان ذخیره‌شده",
-    "noContactsFound": "هیچ مخاطبی پیدا نشد",
-    "quickStart": "شروع سریع",
-    "quickStartDesc": "چند روش سریع برای شروع.",
-    "importContacts": "وارد کردن مخاطبان",
-    "add": "افزودن",
-    "focusSearch": "تمرکز روی جست‌وجو",
-    "import": "وارد کردن",
-    "findOrAdd": "کسی را پیدا یا اضافه کنید",
-    "searchByPhoneOrUsername": "جست‌وجو با تلفن / نام کاربری",
-    "inviteFriends": "دعوت از دوستان",
-    "inviteDesc": "برای شروع فوری گفتگو لینک دعوت خود را به اشتراک بگذارید.",
-    "getTheApp": "دریافت برنامه",
-    "getTheAppDesc": "در رفت‌وآمد با چتفوریا برای iOS و اندروید در تماس بمانید.",
-    "download": "دانلود",
-    "syncTip": "نکته: پیام‌های شما بین وب و موبایل همگام می‌مانند."
-  },
-
-  "randomChat": {
-    "title": "چت تصادفی",
-    "description": "فوراً با شخص جدیدی آشنا شوید. شما را جفت می‌کنیم و یک اتاق چت موقت باز می‌کنیم.",
-    "findMatch": "برایم یک جفت پیدا کن",
-    "chatWithForia": "چت با فوریا",
-    "chatWithForiaBot": "چت با ForiaBot",
-    "cancel": "لغو",
-    "close": "بستن",
-    "searching": "در حال جست‌وجو…",
-    "finding": "در حال پیدا کردن…",
-    "looking": "در حال جست‌وجوی شخص…",
-    "startingForia": "در حال شروع چت با فوریا…",
-    "partnerDisconnected": "شریک شما قطع شد.",
-    "noPartner": "اکنون هیچ شریکی یافت نشد.",
-    "connectedTo": "متصل به {{name}}",
-    "connected": "متصل شد",
-    "idle": "بی‌کار",
-    "partnerLeft": "شریک خارج شد.",
-    "stopped": "متوقف شد.",
-    "skip": "رد کردن",
-    "save": "ذخیره",
-    "saveGuard": "فقط چت انسان-به-انسان قابل ذخیره است",
-    "youAreChattingWith": "در حال چت با {{name}} هستید",
-    "bot": "ربات",
-    "leave": "ترک",
-    "sayHi": "سلام کن 👋",
-    "you": "شما",
-    "typeMessage": "یک پیام بنویسید",
-    "send": "ارسال",
-    "partner": "شریک",
-    "withForia": "با فوریا"
-  },
-
-  "brand": {
-    "name": "چتفوریا",
-    "foria": "فوریا"
-  },
-
-  "header": {
-    "openNav": "باز کردن منوی ناوبری",
-    "closeNav": "بستن منوی ناوبری",
-    "homeAria": "خانه چتفوریا"
-  },
-
-  "login": {
-    "title": "خوش برگشتی",
-    "subtitle": "به حساب چتفوریا خود وارد شوید",
-    "google": "ادامه با گوگل",
-    "apple": "ادامه با اپل",
-    "googleUnavailable": "ورود گوگل در دسترس نیست",
-    "appleUnavailable": "ورود اپل در دسترس نیست",
-    "or": "یا",
-    "email": "ایمیل",
-    "emailPh": "you@example.com",
-    "usernameLabel": "نام کاربری",
-    "usernamePh": "نام کاربری شما",
-    "passwordLabel": "رمز عبور",
-    "passwordPh": "رمز عبور شما",
-    "keepSignedIn": "مرا وارد نگه دار",
-    "forgot": "رمز را فراموش کرده‌اید؟",
-    "submit": "ورود",
-    "loggingIn": "در حال ورود…",
-    "newHere": "جدید هستید؟ <link>ایجاد حساب</link>",
-    "ssoUnavailable": "ورود یکپارچه فعلاً در دسترس نیست. از نام کاربری و رمز استفاده کنید.",
-    "error": {
-      "missing": "لطفاً اطلاعات ورود را وارد کنید.",
-      "invalid": "نام کاربری یا رمز نادرست است",
-      "denied": "دسترسی ممنوع است.",
-      "unprocessable": "درخواست نامعتبر. نام کاربری/ایمیل و رمز را بررسی کنید.",
-      "deviceLimit": "حد مجاز دستگاه برای طرح رایگان پر شده است. از دستگاه دیگری خارج شوید یا برای پیوند دستگاه‌های بیشتر به پرمیوم ارتقا دهید.",
-      "premiumRequired": "این عمل به طرح پرمیوم نیاز دارد."
+    "peoplePage": {
+      "people": "افراد",
+      "search": "جستجو",
+      "searchPlaceholder": "جستجو بر اساس نام مستعار، نام، نام کاربری یا تلفن",
+      "filterSaved": "فیلتر مخاطبان ذخیره‌شده",
+      "noContactsFound": "مخاطبی یافت نشد",
+      "quickStart": "شروع سریع",
+      "quickStartDesc": "چند راه سریع برای شروع.",
+      "importContacts": "وارد کردن مخاطبان",
+      "add": "اضافه کردن",
+      "focusSearch": "تمرکز روی جستجو",
+      "import": "وارد کردن",
+      "findOrAdd": "یافتن یا اضافه کردن کسی",
+      "searchByPhoneOrUsername": "جستجو بر اساس تلفن / نام کاربری",
+      "inviteFriends": "دعوت دوستان",
+      "inviteDesc": "لینک دعوت خود را به اشتراک بگذارید تا فوراً چت شروع شود.",
+      "getTheApp": "دریافت اپ",
+      "getTheAppDesc": "با Chatforia برای iOS و Android در حال حرکت در تماس بمانید.",
+      "download": "دانلود",
+      "syncTip": "نکته: پیام‌های شما در وب و موبایل همگام‌سازی می‌مانند."
+    },
+    "randomChat": {
+      "title": "چت تصادفی",
+      "description": "فوراً با کسی جدید آشنا شوید. ما شما را جفت می‌کنیم و یک اتاق چت موقت باز می‌کنیم. اول ناشناس چت کنید. اگر درست بود بعداً دوست اضافه کنید.",
+      "findMatch": "برای من جفت پیدا کن",
+      "chatWithForia": "چت با Foria",
+      "chatWithForiaBot": "چت با ForiaBot",
+      "cancel": "لغو",
+      "close": "بستن",
+      "searching": "در حال جستجو...",
+      "finding": "در حال یافتن...",
+      "looking": "در حال جستجوی کسی...",
+      "startingForia": "شروع چت با Foria...",
+      "partnerDisconnected": "هم‌طرف قطع شد.",
+      "noPartner": "در حال حاضر هم‌طرفی یافت نشد.",
+      "connectedTo": "متصل به {{name}}",
+      "connected": "متصل",
+      "idle": "بی‌کار",
+      "partnerLeft": "هم‌طرف رفت.",
+      "stopped": "متوقف شد.",
+      "skip": "رد کردن",
+      "save": "ذخیره",
+      "saveGuard": "فقط چت‌های انسان به انسان قابل ذخیره هستند",
+      "youAreChattingWith": "شما با {{name}} چت می‌کنید",
+      "bot": "BOT",
+      "leave": "ترک کردن",
+      "sayHi": "سلام بگو 👋",
+      "you": "شما",
+      "typeMessage": "پیام بنویسید",
+      "send": "ارسال",
+      "partner": "هم‌طرف",
+      "withRia": "با Ria",
+      "chatWithRia": "چت با Ria",
+      "startingRia": "شروع چت با Ria...",
+      "ageDisclaimer": "ما فقط محدوده سنی ذخیره می‌کنیم (نه تاریخ تولد دقیق). این برای نگه داشتن جفت‌سازی‌های چت تصادفی منطقی استفاده می‌شود. برای جفت شدن با افراد (نه فقط RiaBot)، محدوده سنی خود را در تنظیمات → سن و چت تصادفی تنظیم کنید.",
+      "ageBandRequired": "محدوده سنی خود را در پروفایل → سن و چت تصادفی تنظیم کنید تا با افراد جفت شوید.",
+      "ageBandCallout": "برای جفت شدن با افراد (نه فقط RiaBot)، محدوده سنی خود را در تنظیمات → سن و چت تصادفی تنظیم کنید.",
+      "subtitle": "فوراً با کسی جدید آشنا شوید یا با Ria چت کنید.",
+      "start": "شروع گفتگو",
+      "matching": "در حال جفت‌سازی...",
+      "setAge": "محدوده سنی خود را در پروفایل → سن و چت تصادفی تنظیم کنید تا با افراد جفت شوید.",
+      "next": "شخص بعدی",
+      "addFriend": "اضافه کردن دوست",
+      "requested": "درخواست شده",
+      "messageRia": "پیام به Ria...",
+      "messageMatch": "پیام به جفت خود..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
     }
   }
 }

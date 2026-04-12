@@ -116,8 +116,13 @@ export default function Footer() {
           <p>
             {t('footer.copyright', COPYRIGHT_TEXT)}
             {" · "}
+            <span>Chatforia LLC</span>
+            {" · "}
+            <a href="mailto:support@chatforia.com">support@chatforia.com</a>
+            {" · "}
             <span>{t('footer.patentPending', 'Patent pending')}</span>
           </p>
+
           <a href="#top" className="cf-footer__toplink">
             {t('footer.backToTop', '↑ Back to top')}
           </a>

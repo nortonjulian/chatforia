@@ -2,476 +2,656 @@
   "common": {
     "save": "સાચવો",
     "cancel": "રદ કરો",
-    "refresh": "રિફ્રેશ",
-    "noMatches": "કશી મેચ નથી મળતી",
+    "refresh": "તાજું કરો",
+    "noMatches": "કોઈ મેળ નથી",
     "cancelAria": "રદ કરો",
-    "copy": "નકલ કરો",
-    "copied": "નકલ થઈ!"
+    "copy": "કૉપિ કરો",
+    "copied": "કૉપિ થયું!",
+    "errorWithMessage": "ભૂલ: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "મુખ્ય સામગ્રી પર જવો"
+    "skipToMain": "મુખ્ય સામગ્રી પર જાઓ"
   },
-
-  "profile": {
-    "title": "વપરાશકર્તા પ્રોફાઇલ",
-    "preferredLanguage": "પસંદની ભાષા",
-    "chooseLanguage": "એક ભાષા પસંદ કરો",
-    "mustLogin": "સેટિંગ્સ જોવા માટે તમને સાઇન ઇન કરવું પડશે.",
-    "autoTranslate": "સંદેશાઓ આપમેળે અનુવાદ કરો",
-    "showOriginalWithTranslation": "મૂળ અને અનુવાદિત સંદેશા બતાવો",
-    "showOriginalAndTranslation": "અનુવાદની બાજુમાં મૂળ બતાવો",
-    "filterExplicit": "અશ્લીલ સામગ્રી ફિલ્ટર કરો",
-    "aiReply": "AI પ્રતિભાવ",
-    "enableReadReceipts": "રીડ રસીદ સક્રિય કરો",
-    "allowExplicitContent": "અશ્લીલ સામગ્રી મંજૂર કરો",
-    "disappearingMessages": "ગાયબ થતા સંદેશાઓ સક્રિય કરો",
-    "autoDeleteSeconds": "સ્વયં-કાઢી સમય (સેકંડ)",
-    "saveSuccess": "સેટિંગ્સ સેવ થઈ!",
-    "saveError": "ભૂલ: સેટિંગ્સ સેવ થઈ શક્યાં નથી",
-    "avatarAlt": "પ્રોફાઇલ અવતાર",
-    "uploadAvatar": "નવો અવતાર અપલોડ કરો",
-    "avatarSuccess": "અવતાર અપલોડ થયો!",
-    "avatarError": "અવતાર અપલોડ કરતી ભૂલ",
-    "noPrivateKey": "આ ડિવાઇસ પર નિકાસ કરવા માટે ખાનગી કી નથી.",
-    "setBackupPassword": "તમારા બેકઅપને એનક્રિપ્ટ કરવા માટે પાસવર્ડ સેટ કરો:",
-    "backupDownloaded": "એનક્રિપ્ટેડ બેકઅપ ડાઉનલોડ થયું.",
-    "exportFailed": "કી નિકાસ નિષ્ફળ ગઈ",
-    "enterBackupPassword": "આ બેકઅપનો પાસવર્ડ દાખલ કરો:",
-    "importSuccess": "ખાનગી કી આ ડિવાઇસમાં આયાત થઈ.",
-    "importFailed": "કી આયાત નિષ્ફળ (ખોટો પાસવર્ડ અથવા ખરાબ ફાઇલ).",
-    "keysRotated": "નવી કી જોડી બનાવાઈ અને_PUBLIC કી અપલોડ થઈ.",
-    "rotateFailed": "કીઝ રોટેટ કરવામાં નિષ્ફળ.",
-    "security": "સિક્યોરિટી",
-    "exportKey": "ખાનગી કી નિકાસ કરો",
-    "importKey": "એનક્રિપ્ટેડ કી બેકઅપ આયાત કરો",
-    "rotateKeys": "કી જોડી રોટેટ કરો",
-    "keyDisclaimer": "તમારી ખાનગી કી ક્યારેય આ ડિવાઇસ બહાર નથી જતી. બીજી ડિવાઇસ પર રેસ્ટોર કરવા માટે પાસવર્ડથી સુરક્ષિત નકલ નિકાસ કરો.",
-    "sectionProfile": "પ્રોફાઇલ",
-    "phoneNumber": "ફોન નંબર",
-    "appearance": "દેખાવ",
-    "soundSettings": "આવાજ",
-    "disappearing": "ગાયબ થતા સંદેશાઓ",
-    "backupSync": "બેકઅપ અને સિંક",
-    "ai": "AI",
-    "accessibility": "ઍક્સેસિબિલિટી",
-    "privacy": "પ્રાઇવસી",
-    "devices": "લિંક થયેલ ડિવાઇસેસ",
-    "themeFreeNotice": "તમે Free પર છો — નીચેના Sun/Moon ક્વિક વિકલ્પો વાપરો. વધુ થીમ્સ માટે અપગ્રેડ કરો.",
-    "sunTheme": "Dawn થીમ વાપરો",
-    "moonTheme": "Moon (Midnight) થીમ વાપરો",
-    "sun": "સૂર્ય",
-    "moon": "ચાંદ",
-    "backupTitle": "એનક્રિપ્ટેડ બેકઅપ્સ અને ડિવાઇસ સિંક",
-    "openBackupTools": "બેકઅપ સાધનો ખોલો",
-    "backupDesc": "તમારી કીઓના પાસવર્ડ-સુરક્ષિત બેકઅપ બનાવો અને બીજી ડિવાઇસ પર રિસ્ટોર કરીને સિંક કરો.",
-    "privacyBlurEnabled": "મૂળરૂપે સંદેશાઓ બ્લર કરો",
-    "privacyBlurOnUnfocus": "એપ અનફોકસ થાય ત્યારે બ્લર કરો",
-    "holdToReveal": "જુઓ માટે દબાવી રાખો",
-    "notifyOnCopy": "મારો સંદેશ કોપી થાય તો મને સૂચિત કરો",
-    "loadFailed": "પ્રોફાઇલ લોડ કરવામાં નિષ્ફળ",
-    "followed": "ફોલો કર્યું",
-    "followFailed": "ફોલો કરવામાં નિષ્ફળ",
-    "unfollowed": "અનફોલો કર્યું",
-    "unfollowFailed": "અનફોલો કરવામાં નિષ્ફળ",
-    "follow": "ફોલો કરો",
-    "unfollow": "અનફોલો કરો",
-    "followHint": "તેઓ Followers (અથવા Public) માટે પોસ્ટ કરશે તો તેમની વાર્તાઓ તમારા Following ફીડમાં દેખાશે.",
-    "userNotFound": "વપરાશકર્તા મળ્યો નથી",
-    "followsYou": "તમને ફોલો કરે છે",
-    "sectionCrashedTitle": "વિભાગ લોડ કરવામાં નિષ્ફળ",
-    "sectionCrashedBody": "આ વિભાગમાં કંઈક ખોટું થયું.",
-    "forwarding": "કૉલ અને ટેક્સ્ટ ફોરવર્ડિંગ",
-    "callTextForwardingSection": "કૉલ અને ટેક્સ્ટ ફોરવર્ડિંગ",
-    "callTextForwardingTitle": "કૉલ અને/અથવા ટેક્સ્ટ ફોરવર્ડિંગ",
-    "callTextForwardingDescription": "આવતી કૉલ્સ અને ટેક્સ્ટ્સને તમારા વેરિફાઇડ ફોન અથવા ઇમેઇલ પર ફોરવર્ડ કરો. નીકળતી કૉલ્સ/ટેક્સ્ટ્સમાં તમારો Chatforia નંબર બતાવી શકાય છે.",
-    "enableTextForwarding": "ટેક્સ્ટ ફોરવર્ડિંગ સક્રિય કરો",
-    "forwardTextsToPhone": "ફોન પર ટેક્સ્ટ્સ ફોરવર્ડ કરો",
-    "forwardTextsToEmail": "ઇમેઇલ પર ટેક્સ્ટ્સ ફોરવર્ડ કરો",
-    "destinationPhone": "ડેસ્ટિનેશન ફોન (E.164)",
-    "destinationEmail": "ડેસ્ટિનેશન ઇમેઇલ",
-    "enableCallForwarding": "કૉલ ફોરવર્ડિંગ સક્રિય કરો",
-    "destinationPhoneForCalls": "કૉલ્સ માટે ડેસ્ટિનેશન (E.164)",
-    "aliasBridging": "કૉલ ફોરવર્ડિંગ (એલિયાસ બ્રિજિંગ)",
-    "quietHoursOptional": "શાંત સમય (વૈકલ્પિક)",
-    "startHour": "પ્રારંભ કલાક (0–23)",
-    "endHour": "અંત કલાક (0–23)",
-    "reset": "રીસેટ",
-    "saveBtn": "સાચવો",
-    "forwardSaved": "ફોરવર્ડિંગ સેટિંગ્સ સેવ થઈ",
-    "forwardSaveFailed": "સેટિંગ્સ સેવ કરવામાં નિષ્ફળ",
-    "errE164": "માન્ય E.164 ફોન દાખલ કરો (દા.ત., +15551234567).",
-    "errEmail": "માન્ય ઇમેઇલ દાખલ કરો.",
-    "errSmsDest": "ઓછામાં ઓછું એક ડેસ્ટિનેશન પસંદ કરો (ફોન અથવા ઇમેઇલ).",
-    "errQuietHours": "શાંત સમય 0 થી 23 વચ્ચે હોવો જોઈએ."
+  "keys": {
+    "backupCreated": "કી બેકઅપ બનાવી અને ડાઉનલોડ કરી ✓",
+    "restored": "કી બેકઅપ પુનઃસ્થાપિત ✓ કીઓ સ્થાનિક રીતે ઇન્સ્ટોલ થઈ",
+    "noBackup": "આ એકાઉન્ટ માટે કોઈ એન્ક્રિપ્ટેડ બેકઅપ અસ્તિત્વમાં નથી",
+    "missingPublicKey": "બેકઅપમાં પબ્લિક કી ગુમ છે"
   },
-
-  "support": {
-    "helpFab": "મદદ",
-    "openSupportAria": "મદદ ખોલો",
-    "badge": "સપોર્ટ",
-    "heading": "અમે કેવી રીતે મદદ કરી શકીએ?",
-    "tabs": {
-      "help": "હેલ્પ સેન્ટર",
-      "contact": "અમારો સંપર્ક કરો"
-    },
-    "searchPlaceholder": "હેલ્પ લેખો શોધો…",
-    "searchAria": "મદદ શોધો",
-    "searchBtn": "શોધો",
-    "quickTopicsLabel": "ઝડપી વિષયો",
-    "quickTopics": {
-      "login": "લોગ ઇન કરી શકતા નથી",
-      "billing": "ચુકવણી / બિલિંગ",
-      "abuse": "દુરૂપયોગની જાણ કરો"
-    },
-    "trySearching": "“translate”, “backups” અથવા “privacy” માટે શોધવાનો પ્રયાસ કરો.",
-    "article": "લેખ",
-    "openArticle": "લેખ ખોલો",
-    "contactIntro": "અમે તમને ઇમેઇલ દ્વારા જવાબ પાઠવીશું. કૃપા કરીને સમસ્યા પુનઃઉત્પાદિત કરવા જરૂરી વિગતો ઉમેરો.",
-    "topicAria": "વિષય પસંદ કરો",
-    "messagePlaceholder": "તમારો સંદેશ લખો…",
-    "sendBtn": "મોકલો",
-    "sent": "સંદેશ મોકલાયો. અમે ઇમેઇલ દ્વારા જવાબ આપીશું.",
-    "sendError": "મોકલી શક્યા નથી. બદલે support@chatforia.com પર ઇમેઇલ કરો."
+  "keySetup": {
+    "title": "તમારી ડિવાઇસ કીઓ સેટ કરો",
+    "description": "આ ડિવાઇસ પર હજુ તમારી પ્રાઇવેટ કી નથી. પાસવર્ડ-સુરક્ષિત બેકઅપ આયાત કરો અથવા નવી કીપેર બનાવો (તમે હવેથી નવા સંદેશાઓ વાંચી શકશો).",
+    "chooseFile": "ફાઇલ પસંદ કરો અને પાસવર્ડ દાખલ કરો.",
+    "imported": "પ્રાઇવેટ કી આ ડિવાઇસ પર આયાત થઈ. તમે હવે જૂના સંદેશાઓ વાંચી શકો છો.",
+    "enterPassword": "તમારા એકાઉન્ટ પાસવર્ડ દાખલ કરો જેથી અમે તમારી કીઓ સુરક્ષિત રીતે બેકઅપ કરી શકીએ."
   },
-
-  "chat": {
-    "selectPrompt": "ચેટ શરૂ કરવા માટે લખાણ અથવા ચેટરૂમ પસંદ કરો",
-    "newMessages": "નવા સંદેશા",
-    "typing": "{{name}} ટાઇપ કરી રહ્યા છે…",
-    "emptyTitle": "તમારા સંદેશા",
-    "emptySubtitle": "ચેટ શરૂ કરવા માટે સંદેશ મોકલો.",
-    "startChatButton": "સંદેશ મોકલો"
-  },
-
-  "topbar": {
-    "newStatus": "નવી સ્ટેટસ",
-    "logout": "લૉગ આઉટ",
-    "help": "મદદ",
-    "createStatusAria": "નવી સ્ટેટસ બનાવો"
-  },
-
-  "status": {
-    "userNumber": "વપરાશકર્તા #{{id}}",
-    "posted": "સ્ટેટસ પોસ્ટ થયું",
-    "postFailed": "સ્ટેટસ પોસ્ટ કરવામાં નિષ્ફળ",
-    "createTitle": "સ્ટેટસ બનાવો",
-    "modalAriaLabel": "નવી સ્ટેટસ",
-    "captionLabel": "તમારા મનમાં શું છે?",
-    "captionPlaceholder": "અપડેટ શેર કરો...",
-    "captionAria": "સ્ટેટસ સંદેશ",
-    "audienceLabel": "જુઓ કોણ",
-    "audience": {
-      "public": "પબ્લિક",
-      "followers": "ફોલોઅર્સ",
-      "contacts": "કોન્ટેક્ટ્સ",
-      "mutuals": "મ્યુચ્યુઅલ્સ",
-      "custom": "કસ્ટમ..."
-    },
-    "expiresHoursLabel": "સમાપ્ત (કલાક)",
-    "maxTooltip": "મહત્તમ 7 દિવસ",
-    "hoursAbbrev": "ક",
-    "maxShort": "મૅક્સ",
-    "expiresOn": "આ તારીખે સમાપ્ત:",
-    "chooseRecipients": "પ્રાપ્તકર્તાઓ પસંદ કરો",
-    "selectContacts": "કોન્ટેક્ટ્સ પસંદ કરો",
-    "attachmentsLabel": "જોડાણો",
-    "attachmentsPlaceholder": "છબીઓ/વિડિઓ ઉમેરો",
-    "filesNote": "વધુમાં વધુ 5 ફાઇલો. ડિફોલ્ટ 24 કલાકમાં સમાપ્ત.",
-    "postAria": "સ્ટેટસ પોસ્ટ કરો",
-    "post": "પોસ્ટ"
-  },
-
-  "contactList": {
-    "savedContacts": "સેવ કરેલ કોન્ટેક્ટ્સ",
-    "refreshAria": "કોન્ટેક્ટ્સ રિફ્રેશ કરો",
-    "filterPlaceholder": "સેવ કરેલ કોન્ટેક્ટ્સને ફિલ્ટર કરો…",
-    "filterAria": "સેવ કરેલ કોન્ટેક્ટ્સ ફિલ્ટર કરો",
-    "noContactsFound": "કોન્ટેક્ટ્સ મળ્યા નથી.",
-    "externalContact": "બાહ્ય કોન્ટેક્ટ",
-    "notJoined": "આ કોન્ટેક્ટ હજી Chatforia સાથે જોડાયા નથી.",
-    "couldNotStart": "ચેટ શરૂ કરી શક્યા નથી. ફરી પ્રયાસ કરો.",
-    "startFailed": "ચેટ શરૂ કરવામાં નિષ્ફળ. ફરી પ્રયાસ કરો.",
-    "deleted": "કોન્ટેક્ટ ડિલીટ થયો.",
-    "deleteFailed": "કોન્ટેક્ટ ડિલીટ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
-    "aliasUpdated": "એલિયાસ અપડેટ થયો.",
-    "updateAliasFailed": "એલિયાસ અપડેટ કરવામાં નિષ્ફળ. ફરી પ્રયાસ કરો.",
-    "selectContact": "{{name}} પસંદ કરો",
-    "alias": "એલિયાસ",
-    "startChat": "ચેટ શરૂ કરો",
-    "message": "સંદેશ",
-    "delete": "ડિલીટ",
-    "deleteContactAria": "કોન્ટેક્ટ ડિલીટ કરો",
-    "loadFailed": "કોન્ટેક્ટ્સ લોડ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
-    "loadMore": "વધારે લોડ કરો"
-  },
-
-  "sidebar": {
-    "randomChat": "રેન્ડમ ચેટ",
-    "callTextForwarding": "કૉલ અને ટેક્સ્ટ ફોરવર્ડિંગ",
-    "conversations": "વાતચીત",
-    "searchPlaceholder": "વાતચીત શોધો...",
-    "errorLoading": "ચેટ્સ લોડ કરવામાં નિષ્ફળ",
-    "empty": "હજી સુધી કોઈ વાતચીત નથી.",
-    "startChat": "ચેટ શરૂ કરો",
-    "people": "લોકો",
-    "settings": "સેટિંગ્સ",
-    "status": "સ્ટેટસ",
-    "forwarding": "કૉલ અને ટેક્સ્ટ ફોરવર્ડિંગ",
-    "refresh": "રિફ્રેશ",
-    "search": "વાતચીત શોધો",
-    "loginPrompt": "તમારી સેટિંગ્સ ફેરફાર કરવા માટે લોગ ઇન કરો.",
-    "login": "લોગ ઇન",
-    "register": "એકાઉન્ટ બનાવો",
-    "chatrooms": "ચેટ રૂમ્સ",
-    "logout": "લોગ આઉટ",
-    "startChatAlt": "નવી ચેટ શરૂ કરો"
-  },
-
-  "premium": {
-    "heading": "પ્રીમિયમ લો",
-    "description": "શક્તિશાળી સુવિધાઓ અનલૉક કરો અને જાહેરાતો દૂર કરો.",
-    "cta": "અપગ્રેડ",
-    "upgrade": "અપગ્રેડ",
-    "upgradeAria": "Chatforia પ્રીમિયમ પર અપગ્રેડ કરો"
-  },
-
   "auth": {
-    "headline": "તાત્કાલિક અનુવાદ સાથે સુરક્ષિત, વૈશ્વિક મેસેજિંગ",
-    "description": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, AI આધારિત અનુવાદ, ગાયબ થતા સંદેશા અને વોઇસ/વિડિઓ કૉલિંગ.",
+    "headline": "કોઈપણ માટે, ક્યાંય પણ સુરક્ષિત મેસેજિંગ",
+    "description": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, 100+ ભાષાઓમાં અનુવાદ, અદૃશ્ય થતા સંદેશાઓ અને વૉઇસ/વીડિયો કૉલિંગ.",
     "feature": {
-      "encryption": "ડિફોલ્ટએ એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન",
-      "translation": "100+ ભાષાઓ આપમેળે અનુવાદ",
-      "disappearing": "ગાયબ થતા સંદેશા અને રીડ રસીદ",
-      "privacy": "પ્રાઇવસી-ફર્સ્ટ. તમારો ડેટા, તમારું નિયંત્રણ.",
-      "translate": "રિયલ-ટાઇમ અનુવાદ",
-      "disappear": "ગાયબ થતા સંદેશા",
-      "privacyAlt": "પ્રાઇવસી-ફર્સ્ટ ડિઝાઇન"
+      "encryption": "ડિફોલ્ટ રીતે એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન",
+      "translation": "સ્માર્ટ, બિલ્ટ-ઇન મેસેજ અનુવાદ",
+      "disappearing": "અદૃશ્ય થતા સંદેશાઓ અને વાંચન રસીદો",
+      "privacy": "પ્રાઇવસી-પહેલી. તમારો ડેટા, તમારું નિયંત્રણ.",
+      "translate": "સ્માર્ટ, બિલ્ટ-ઇન મેસેજ અનુવાદ",
+      "disappear": "અદૃશ્ય થતા સંદેશાઓ",
+      "privacyAlt": "પ્રાઇવસી-પહેલી ડિઝાઇન",
+      "seePlans": "પ્લાન્સ અને કિંમત જુઓ"
     },
     "hero": {
-      "line1": "સુરક્ષિત, વૈશ્વિક",
-      "beforeEm": "મેસેજિંગ",
-      "em": "તાત્કાલિક અનુવાદ સાથે",
-      "sub": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, AI આધારિત અનુવાદ, ગાયબ થતા સંદેશા, અને વોઇસ/વિડિઓ કૉલિંગ."
+      "line1": "કોઈપણ માટે, ક્યાંય પણ સુરક્ષિત મેસેજિંગ — સાથે",
+      "em": "100+ ભાષાઓમાં અનુવાદ",
+      "sub": "વાઇ-ફાઇ અથવા ડેટા પર વિશ્વભરમાં કૉલ અને ટેક્સ્ટ કરવા માટે મફત સુરક્ષિત ફોન નંબર મેળવો. એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, અદૃશ્ય થતા સંદેશાઓ અને HD વૉઇસ/વીડિયો કૉલિંગનો આનંદ માણો — સરહદો વચ્ચે જોડાયેલા રહેવા માટે બિલ્ટ-ઇન ટૂલ્સ સાથે.",
+      "freeNote": "મૂળ કૉલિંગ અને ટેક્સ્ટિંગ મફત છે. અદ્યતન AI અને પ્રીમિયમ સુવિધાઓ માટે અપગ્રેડ જરૂરી છે."
     },
     "feat": {
-      "encryption": "ડિફોલ્ટએ એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન",
-      "translate": "100+ ભાષાઓ આપમેળે અનુવાદ",
-      "disappear": "ગાયબ થતા સંદેશા અને રીડ રસીદ",
-      "privacy": "પ્રાઇવસી-ફર્સ્ટ. તમારો ડેટા, તમારું નિયંત્રણ."
+      "encryption": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, હંમેશા ચાલુ",
+      "translate": "તમારી વાતચીતમાં ભાષાની અવરોધો તોડો",
+      "disappear": "અદૃશ્ય થતા સંદેશાઓ અને વાંચન રસીદો",
+      "privacy": "પ્રાઇવસી-પહેલી. તમારો ડેટા, તમારું નિયંત્રણ."
     },
-    "welcomeBack": "પાછા સ્વાગત છે",
     "continueGoogle": "Google સાથે ચાલુ રાખો",
     "continueApple": "Apple સાથે ચાલુ રાખો",
     "username": "વપરાશકર્તા નામ",
     "password": "પાસવર્ડ",
-    "keepSignedIn": "મને સાઇન ઇન રાખો",
+    "keepSignedIn": "મને સાઇન્ડ ઇન રાખો",
     "forgotPassword": "પાસવર્ડ ભૂલી ગયા?",
-    "loginButton": "લોગ ઇન",
+    "loginButton": "લૉગ ઇન",
     "createAccount": "એકાઉન્ટ બનાવો",
-    "freeAccountButton": "ફ્રી એકાઉન્ટ બનાવો",
-    "newHere": "અહિયાં નવા છો?",
+    "freeAccountButton": "મફત એકાઉન્ટ બનાવો",
+    "newHere": "નવા છો?",
     "getApp": "એપ મેળવો",
     "desktopTip": "ડેસ્કટોપ પર છો? એપ મેળવવા માટે તમારા ફોનથી સ્કેન કરો.",
     "scanHelper": "ડેસ્કટોપ પર છો? એપ મેળવવા માટે તમારા ફોનથી સ્કેન કરો.",
-    "goHome": "હોમ પર જવો",
+    "goHome": "હોમ પર જાઓ",
     "home": "હોમ",
     "headlineAlt": {
       "main": "સુરક્ષિત મેસેન્જર જે",
       "highlight": "તમારી ભાષા બોલે છે"
     },
-    "subhead": "ખાનગી, એનક્રિપ્ટેડ અને અનુવાદિત મેસેજિંગ — તરત જ.",
-    "status": "સ્ટેટસ જુઓ",
-    "upgrade": "હમણાં અપગ્રેડ કરો",
-    "tip": "ટિપ: વેબ અને મોબાઇલ પર એક જ એકાઉન્ટ વાપરો. તમારા સંદેશા સિંક રહે છે.",
+    "subhead": "ખાનગી, એન્ક્રિપ્ટેડ અને અનુવાદિત મેસેજિંગ — તરત જ.",
+    "upgrade": "હવે અપગ્રેડ કરો",
+    "tip": "ટિપ: વેબ અને મોબાઇલ પર એક જ એકાઉન્ટ વાપરો. તમારા સંદેશાઓ સિંક રહે છે.",
     "openDownload": "ડાઉનલોડ પેજ ખોલો",
     "qrAlt": "Chatforia માટે QR કોડ",
-    "scanHint": "એપ ડાઉનલોડ કરવા અથવા બ્રાઉઝરમાં ખોલવા માટે સ્કેન કરો.",
-    "iosAria": "ઍપ સ્ટોર પર ડાઉનલોડ કરો",
-    "iosTitle": "ઍપ સ્ટોર પર ડાઉનલોડ કરો",
-    "iosBadgeAlt": "ઍપ સ્ટોર બેજ",
+    "scanHint": "એપ ડાઉનલોડ કરવા અથવા તમારા બ્રાઉઝરમાં ખોલવા માટે સ્કેન કરો.",
+    "iosAria": "App Store પર ડાઉનલોડ કરો",
+    "iosTitle": "App Store પર ડાઉનલોડ કરો",
+    "iosBadgeAlt": "App Store બેજ",
     "androidAria": "Google Play પર મેળવો",
-    "androidTitle": "Google Play સ્ટોર",
+    "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Google Play બેજ",
-    "login": "લોગ ઇન",
+    "login": "લૉગ ઇન",
     "signup": "સાઇન અપ",
-    "email": "ઇમેઇલ"
+    "email": "ઇમેઇલ",
+    "registration": {
+      "passwordDescription": "ન્યૂનતમ 6 અક્ષરો. મજબૂત, અનન્ય પાસવર્ડ વાપરો.",
+      "smsConsent": "એકાઉન્ટ બનાવવાથી તમે Chatforia પ્રવૃત્તિ સંબંધિત SMS સૂચનાઓ (જેમ કે અન્ય વપરાશકર્તાઓના સંદેશાઓ) મેળવવા માટે સંમત થાઓ છો. સંદેશ અને ડેટા રેટ લાગુ થઈ શકે છે. તમે કોઈપણ સમયે સેટિંગ્સમાં ઑપ્ટ આઉટ કરી શકો છો.",
+      "termsLink": "સેવાની શરતો",
+      "privacyLink": "પ્રાઇવસી પોલિસી"
+    },
+    "to": "પ્રતિ:",
+    "enterRecipient": "નામ અથવા નંબર દાખલ કરો",
+    "clearRecipients": "પ્રાપ્તકર્તાઓ સાફ કરો",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "સંદેશ લખો…",
+    "addRecipient": "ઉપર પ્રાપ્તકર્તા ઉમેરો અને શરૂ કરો…",
+    "oneRecipient": "હમણાં માટે એક પ્રાપ્તકર્તા દાખલ કરો.",
+    "enterValidRecipient": "સેવ કરેલા સંપર્ક નામ અથવા ફોન નંબર દાખલ કરો.",
+    "sendFailed": "મોકલવામાં નિષ્ફળ. વિગતો માટે કન્સોલ તપાસો."
   },
-
-  "footer": {
-    "plans": "પ્લાન્સ અને કિંમતો",
-    "about": "Chatforia વિશે",
-    "careers": "કારકિર્દી",
-    "press": "પ્રેસ",
-    "advertise": "જાહેરાત કરો",
-    "contact": "અમારો સંપર્ક કરો",
-    "help": "હેલ્પ સેન્ટર",
-    "status": "સ્થિતિ પેજ",
-    "iosDownload": "iOS / ઍપ સ્ટોર",
-    "androidDownload": "Android / Google Play",
-    "privacy": "પ્રાઇવસી પોલિસી",
-    "terms": "ટર્મ્સ ઓફ સર્વિસ",
-    "cookies": "કૂકી સેટિંગ્સ",
-    "doNotSell": "મારી માહિતી વેચશો નહીં",
-    "language": "ભાષા",
-    "contactShort": "સંપર્ક",
-
-    "aria": "ફૂટર",
-    "homeAria": "Chatforia હોમ",
-    "section": {
-      "company": "કંપની",
-      "support": "સપોર્ટ",
-      "downloads": "ડાઉનલોડ્સ",
-      "legal": "લીગલ"
-    },
-    "links": {
-      "plans-pricing": "પ્લાન્સ અને કિંમતો",
-      "about-chatforia": "Chatforia વિશે",
-      "careers": "કારકિર્દી",
-      "press": "પ્રેસ",
-      "advertise": "જાહેરાત કરો",
-      "getting-started": "ગેટિંગ સ્ટાર્ટેડ",
-      "help-center": "હેલ્પ સેન્ટર",
-      "contact-us": "અમારો સંપર્ક કરો",
-      "status-page": "સ્થિતિ પેજ",
-      "ios-app-store": "iOS / ઍપ સ્ટોર",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "પ્રાઇવસી પોલિસી",
-      "terms-of-service": "ટર્મ્સ ઓફ સર્વિસ",
-      "do-not-sell-my-info": "મારી માહિતી વેચશો નહીં",
-      "cookie-settings": "કૂકી સેટિંગ્સ"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "પેટન્ટ પેન્ડિંગ",
-    "backToTop": "↑ ઉપર પર પાછા જવો"
-  },
-
   "home": {
     "title": "હોમ",
-    "header": "તમારા સંદેશા",
+    "header": "તમારા સંદેશાઓ",
     "subheader": "ચેટ શરૂ કરવા માટે સંદેશ મોકલો.",
     "sendButton": "સંદેશ મોકલો",
     "gifPicker": "GIF પિકર ખોલો",
     "emoji": "ઇમોજી",
-    "upload": "ફોટો અથવા વિડિઓ અપલોડ કરો",
-    "inputPlaceholder": "સંદેશ ટાઇપ કરો…",
-    "inputLabel": "મેસેજ કમ્પોઝર",
+    "upload": "ફોટો અથવા વીડિયો અપલોડ કરો",
+    "inputPlaceholder": "સંદેશ લખો…",
+    "inputLabel": "સંદેશ કમ્પોઝર",
     "sendTooltip": "મોકલો",
     "sendTooltipEmpty": "મોકલવા માટે સંદેશ લખો",
     "send": "મોકલો",
     "welcomeMessage": "Chatforia માં સ્વાગત છે",
     "getStarted": "શરૂ કરો"
   },
-
-  "press": {
-    "title": "પ્રેસ",
-    "contactLine": "મિડિયા ઇન્ક્વાયરી માટે અમારો સંપર્ક કરો:",
-    "boilerplateTitle": "બોઇલરપ્લેટ",
-    "boilerplateBody": "Chatforia એ પ્રાઇવસી-ફર્સ્ટ મેસેજિંગ એપ છે જે ક્રોસ-ભાષા ચેટને સરળ બનાવે છે. સંદેશાઓ ડિફોલ્ટએ એન્ડ-ટુ-એન્ડ એનક્રિપ્ટેડ હોય છે, અને બિલ્ટ-ઇન અનુવાદ 100+ ભાષાઓને રિયલ ટાઇમમાં સપોર્ટ કરે છે. વપરાશકર્તાઓ ગાયબ થતા સંદેશા સક્રિય કરી શકે છે, રીડ રસીદ વૈકલ્પિક રાખી શકે છે, અને ડિવાઇસિસમાં સિંક કરી શકે છે. iOS, Android અને વેબ પર ઉપલબ્ધ.",
-    "assetsTitle": "બ્રાન્ડ એસેટ્સ",
-    "assetsSubtitle": "લોગોઝ, સ્ક્રીનશોટ્સ અને પ્રોડક્ટ ઇમેજરી.",
-    "downloadCta": "મિડિયા કિટ ડાઉનલોડ કરો",
-    "downloadTitle": "એપ મેળવો",
-    "scanTip": "ડેસ્કટોપ પર છો? એપ મેળવવા માટે તમારા ફોનથી સ્કેન કરો.",
-    "qrAria": "Chatforia વેબસાઇટ ખોલો",
-    "appStore": "ઍપ સ્ટોર પર ડાઉનલોડ કરો",
-    "googlePlay": "Google Play પર મેળવો"
+  "chat": {
+    "selectPrompt": "ચેટિંગ શરૂ કરવા માટે ટેક્સ્ટ અથવા ચેટ રૂમ પસંદ કરો",
+    "newMessages": "નવા સંદેશાઓ",
+    "typing": "{{name}} લખી રહ્યા છે...",
+    "emptyTitle": "તમારા સંદેશાઓ",
+    "emptySubtitle": "ચેટ શરૂ કરવા માટે સંદેશ મોકલો.",
+    "startChatButton": "સંદેશ મોકલો",
+    "mediaAttachment": "મીડિયા જોડાણ",
+    "thisUser": "આ વપરાશકર્તા",
+    "blockConfirm": "{{name}} ને બ્લૉક કરીએ? તમને તેમના સંદેશાઓ મળશે નહીં.",
+    "blockedUser": "{{name}} ને બ્લૉક કર્યા.",
+    "blockError": "બ્લૉક કરવા માટે લક્ષ્ય વપરાશકર્તા નક્કી કરી શકાયો નહીં.",
+    "blockFailed": "બ્લૉક નિષ્ફળ (બેકએન્ડ હજુ જોડાયેલો નથી).",
+    "encryptedUnavailable": "એન્ક્રિપ્ટેડ સંદેશ (કી અનુપલબ્ધ)",
+    "unlockToView": "આ સંદેશ જોવા માટે તમારી કી અનલૉક કરો"
   },
-
-  "careers": {
-    "title": "કારકિર્દી",
-    "intro": "અમે એક નાની ટીમ છીએ જે ખાનગી, વૈશ્વિક મેસેન્જર બનાવી રહી છે. જો તમને એનક્રિપ્શન, ઍક્સેસિબિલિટી અને આનંદદાયક UX ગમે, તો અમને સાંભળવામાં આનંદ થશે.",
-    "openRoles": "<b>ખાલી જગ્યાઓ:</b> એન્જિનિયરિંગ (ફુલ-સ્ટૅક, iOS, Android), પ્રોડક્ટ, સપોર્ટ.",
-    "apply": "<b>અરજી કેવી રીતે કરવી:</b> તમારો રિઝ્યુમે/લિંક્સ <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> પર ઇમેઇલ કરો.",
-    "emailCta": "તમારો રિઝ્યુમે ઇમેઇલ કરો"
-  },
-
-  "about": {
-    "title": "Chatforia વિષે",
-    "description": "Chatforia એક સુરક્ષિત, બહુભાષી મેસેન્જર છે, એન્ડ-ટુ-એન્ડ એનક્રિપ્શન, તાત્કાલિક અનુવાદ, અને વોઇસ/વિડિઓ કૉલિંગ સાથે. અમારું ધ્યેય સરળ છે: લોકોને જોડવામાં મદદ કરવી — સુરક્ષિત, ખાનગી અને ભાષાઓ પાર.",
-    "valuesTitle": "અમે શું મૂલ્યવાન માનીએ છીએ",
-    "values": {
-      "privacy": "<bold>પ્રાઇવસી-ફર્સ્ટ:</bold> ડિફોલ્ટએ E2E એનક્રિપ્શન.",
-      "access": "<bold>બધા માટે ઍક્સેસ:</bold> 100+ ભાષાઓ આપમેળે અનુવાદ.",
-      "control": "<bold>નિયંત્રણ:</bold> ગાયબ થતા સંદેશા અને રીડ રસીદ વૈકલ્પિક.",
-      "privacy_aria": "પ્રાઇવસી-ફર્સ્ટ: ડિફોલ્ટએ E2E એનક્રિપ્શન.",
-      "access_aria": "બધા માટે ઍક્સેસ: 100+ ભાષાઓ આપમેળે અનુવાદ.",
-      "control_aria": "નિયંત્રણ: ગાયબ થતા સંદેશા અને રીડ રસીદ વૈકલ્પિક."
+  "messageInput": {
+    "ttl": {
+      "off": "બંધ"
     },
-    "howTitle": "Chatforia કેવી રીતે કામ કરે છે",
-    "howDescription": "સંદેશાઓ તમારા ડિવાઇસ પર એનક્રિપ્ટ થાય છે તે પહેલાં કે તે બહાર જાય. અનુવાદ, બેકઅપ્સ અને ડિવાઇસ સિંક અમારી સર્વર્સ શું જોઈ શકે તેને ઓછું કરવા માટે ડિઝાઇન થયેલ છે."
-  },
-
-  "advertise": {
-    "title": "Chatforia સાથે જાહેરાત કરો",
-    "description": "મેસેજિંગ વપરાશકર્તાઓ સુધી રૂચિસભર, બ્રાન્ડ-સેફ પ્લેસમેન્ટ્સ સાથે પહોંચો. અમે હાઇ-વિઝિબિલિટી સ્પોટ્સમાં બેનર ઇન્વેન્ટરી, સ્પોન્સરશિપ અને ઘરઆંગણે પ્રમોઝ ઓફર કરીએ છીએ. પ્રીમિયમ સબ્સ્રાઇબર્સને જાહેરાતો દેખાતી નથી.",
-    "adsense": {
-      "withPubId": "અમે હાલમાં <b>Google AdSense</b> દ્વારા જાહેરાત પીરસીએ છીએ. જો તમે Google Ads દ્વારા અમને ટાર્ગેટ કરવા માંગો છો, તો પબ્લિશર ID <code>{{pubId}}</code> વાપરો અને નીચેના યુનિટ્સ પર મેનેજ્ડ પ્લેસમેન્ટ માગો. ડાયરેક્ટ સ્પોન્સરશિપ ઉપલબ્ધ — ફોર્મ વાપરો.",
-      "noPubId": "અમે હાલમાં <b>Google AdSense</b> દ્વારા જાહેરાત પીરસીએ છીએ. ડાયરેક્ટ સ્પોન્સરશિપ પણ ઉપલબ્ધ — નીચેનું ફોર્મ વાપરો."
-    },
-    "inventoryHeader": "ઈન્વેન્ટરી અને સ્પેક્સ",
-    "placement": {
-      "displayBadge": "ડિસ્પ્લે",
-      "acceptedSizes": "સ્વીકારેલ સાઇઝ",
-      "adsenseSlot": "AdSense સ્લોટ:"
-    },
-    "noPlacements": "હજી કોઈ પ્લેસમેન્ટ્સ કન્ફિગર નથી. ads/placements.js માં ઉમેરો.",
-    "whyHeader": "શા માટે Chatforia?",
-    "why": {
-      "highSession": "ચેટ UI માં ઉચ્ચ સેશન આવર્તન અને સમય",
-      "brandSafe": "બ્રાન્ડ-સેફ ફોર્મેટ્સ; માનપૂર્ણ ફ્રીક્વન્સી કેપિંગ",
-      "sponsoredMoments": "સ્પોન્સર્ડ પળો (દા.ત., “Start a Chat” મોડલ) ઉપલબ્ધ",
-      "deals": "ડાયરેક્ટ ડીલ્સ અથવા AdSense/Google Ads મારફતે પ્રોગ્રામેટિક"
-    },
-    "contactHeader": "સંપર્ક",
-    "form": {
-      "submittedMsg": "આભાર! તમારી ઇન્ક્વાયરી મોકલાઈ ગઈ છે. અમે ટૂંકમાં સંપર્ક કરીશું.",
-      "missingRequired": "કૃપા કરીને નામ, ઇમેઇલ અને સંદેશ ભરો.",
-      "successToast": "આભાર! અમે ટૂંક સમયમાં સંપર્કમાં રહેશું.",
-      "mailtoInfo": "ઇન્ક્વાયરી મોકલવા માટે તમારો ઇમેઇલ ક્લાયન્ટ ખોલી રહ્યા છીએ…",
-      "nameLabel": "તમારું નામ",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "ઇમેઇલ",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "કંપની",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "માસિક બજેટ (વૈકલ્પિક)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "તમારા કેમ્પેઇન વિશે કહો",
-      "messagePlaceholder": "ટાર્ગેટિંગ, તારીખો, KPI, પ્લેસમેન્ટ પસંદગીઓ…",
-      "sendCta": "ઇન્ક્વાયરી મોકલો"
-    },
-    "legal": {
-      "disclaimerStart": "મોકલતા તમે અમારી સાથે સંમત છો",
-      "terms": "ટર્મ્સ",
-      "and": "અને",
-      "privacy": "પ્રાઇવસી પોલિસી"
+    "freeLimit": "મફત પ્લાન મર્યાદા: 1 દિવસ સુધી ઑટો-ડિલીટ. 1d પર ક્લેમ્પ થયું.",
+    "premiumLimit": "પ્રીમિયમ માટે મહત્તમ ઑટો-ડિલીટ 30 દિવસ. 30d પર ક્લેમ્પ થયું.",
+    "nothingToSend": "મોકલવા માટે સંદેશ લખો અથવા ફાઇલ જોડો.",
+    "encryptionFailed": "એન્ક્રિપ્શન નિષ્ફળ. સંદેશ મોકલાયો નહીં.",
+    "sent": "સંદેશ પહોંચ્યો.",
+    "placeholder": "સંદેશ લખો…",
+    "autoDelete": "ઑટો-ડિલીટ",
+    "typeToSend": "મોકલવા માટે સંદેશ લખો",
+    "send": "મોકલો",
+    "sendWithEnter": "મોકલો (Enter)",
+    "attachment": "જોડાણ",
+    "caption": "કેપ્શન (વૈકલ્પિક)",
+    "remove": "દૂર કરો",
+    "clear": "સાફ કરો",
+    "gif": "GIF",
+    "sticker": "સ્ટિકર",
+    "errors": {
+      "attachmentTooLarge": "જોડાણ ખૂબ મોટું છે. નાની ફાઇલ અજમાવો.",
+      "unsupportedFile": "અસમર્થિત ફાઇલ પ્રકાર.",
+      "rateLimit": "તમે ખૂબ ઝડપથી સંદેશાઓ મોકલી રહ્યા છો. કૃપા કરીને ધીરે કરો.",
+      "validation": "વેલિડેશન ભૂલ. કૃપા કરીને તમારો સંદેશ તપાસો અને ફરી પ્રયાસ કરો.",
+      "failedToSend": "મોકલવામાં નિષ્ફળ. તમે નિષ્ફળ બબલને ફરી પ્રયાસ કરી શકો છો."
     }
   },
-
+  "contactList": {
+    "savedContacts": "સેવ કરેલા સંપર્કો",
+    "refreshAria": "સંપર્કો તાજા કરો",
+    "filterPlaceholder": "સેવ કરેલા સંપર્કો ફિલ્ટર કરો…",
+    "filterAria": "સેવ કરેલા સંપર્કો ફિલ્ટર કરો",
+    "noContactsFound": "કોઈ સંપર્કો મળ્યા નહીં.",
+    "externalContact": "બાહ્ય સંપર્ક",
+    "notJoined": "તે સંપર્ક હજુ Chatforiaમાં જોડાયો નથી.",
+    "couldNotStart": "ચેટ શરૂ કરી શકાઈ નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "startFailed": "ચેટ શરૂ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "deleted": "સંપર્ક કાઢી નાખ્યો.",
+    "deleteFailed": "સંપર્ક કાઢી નાખવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "aliasUpdated": "ઉપનામ અપડેટ થયું.",
+    "updateAliasFailed": "ઉપનામ અપડેટ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "selectContact": "{{name}} પસંદ કરો",
+    "alias": "ઉપનામ",
+    "startChat": "ચેટ શરૂ કરો",
+    "message": "સંદેશ",
+    "delete": "કાઢી નાખો",
+    "deleteContactAria": "સંપર્ક કાઢી નાખો",
+    "loadFailed": "સંપર્કો લોડ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "loadMore": "વધુ લોડ કરો",
+    "call": "કૉલ",
+    "callStarted": "તમારા Chatforia નંબર દ્વારા આ નંબરને કૉલ કરી રહ્યા છીએ…",
+    "callFailed": "કૉલ શરૂ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો."
+  },
+  "startChatModal": {
+    "title": "વાતચીત શરૂ કરો",
+    "searchPlaceholder": "નામ, વપરાશકર્તા નામ અથવા ફોન નંબર શોધો",
+    "messageThisPerson": "આ વ્યક્તિને સંદેશ મોકલો",
+    "contacts": "સંપર્કો",
+    "recentInteractions": "તાજેતરની ક્રિયાપ્રતિક્રિયાઓ",
+    "noContactsMatch": "તમારી શોધ સાથે કોઈ સંપર્કો મેળ નથી.",
+    "noRecentInteractions": "હજુ કોઈ તાજેતરની ક્રિયાપ્રતિક્રિયાઓ નથી.",
+    "unknown": "અજાણ્યા",
+    "interactionType": {
+      "message": "સંદેશ",
+      "call": "કૉલ",
+      "video": "વીડિયો"
+    }
+  },
+  "addContactModal": {
+    "title": "સંપર્ક ઉમેરો",
+    "phoneOrUsername": "ફોન અથવા વપરાશકર્તા નામ",
+    "phoneOrUsernamePlaceholder": "દા.ત. +13018019227 અથવા juliannorton",
+    "alias": "ઉપનામ (વૈકલ્પિક)",
+    "aliasPlaceholder": "દા.ત. કાર્ય, મમ્મી, માઇક – યુરોપ",
+    "enterPhoneOrUsername": "ફોન નંબર અથવા વપરાશકર્તા નામ દાખલ કરો.",
+    "userLookupFailed": "વપરાશકર્તા લુકઅપ નિષ્ફળ.",
+    "cannotAddSelf": "તમે તમારી જાતને સંપર્ક તરીકે ઉમેરી શકતા નથી.",
+    "failedToAdd": "સંપર્ક ઉમેરવામાં નિષ્ફળ.",
+    "add": "ઉમેરો"
+  },
+  "sidebar": {
+    "randomChat": "રેન્ડમ ચેટ",
+    "callTextForwarding": "કૉલ અને ટેક્સ્ટ ફોર્વર્ડિંગ",
+    "conversations": "વાતચીતો",
+    "searchPlaceholder": "વાતચીતો શોધો...",
+    "errorLoading": "ચેટ્સ લોડ કરવામાં નિષ્ફળ",
+    "empty": "હજુ કોઈ વાતચીતો નથી.",
+    "startChat": "ચેટ શરૂ કરો",
+    "people": "લોકો",
+    "settings": "સેટિંગ્સ",
+    "status": "સ્ટેટસ",
+    "forwarding": "કૉલ અને ટેક્સ્ટ ફોર્વર્ડિંગ",
+    "refresh": "તાજું કરો",
+    "search": "વાતચીતો શોધો",
+    "loginPrompt": "તમારી સેટિંગ્સ સંપાદિત કરવા માટે લૉગ ઇન કરો.",
+    "login": "લૉગ ઇન",
+    "register": "એકાઉન્ટ બનાવો",
+    "chatrooms": "ચેટરૂમ્સ",
+    "logout": "લૉગ આઉટ",
+    "startChatAlt": "નવી ચેટ શરૂ કરો",
+    "calls": "કૉલ્સ",
+    "video": "વીડિયો",
+    "voicemail": "વૉઇસમેઇલ"
+  },
+  "topbar": {
+    "newStatus": "નવું સ્ટેટસ",
+    "logout": "લૉગ આઉટ",
+    "help": "મદદ",
+    "createStatusAria": "નવું સ્ટેટસ બનાવો"
+  },
+  "threadActions": {
+    "threadMenu": "થ્રેડ મેનુ",
+    "premium": "પ્રીમિયમ",
+    "aiPower": "AI પાવર",
+    "schedule": "શેડ્યુલ",
+    "upgrade": "અપગ્રેડ",
+    "upgradeSuffix": "(અપગ્રેડ)",
+    "thread": "થ્રેડ",
+    "about": "વિશે",
+    "search": "શોધો",
+    "media": "મીડિયા",
+    "invitePeople": "લોકોને આમંત્રિત કરો",
+    "roomSettings": "રૂમ સેટિંગ્સ",
+    "clearConversation": "વાતચીત સાફ કરો",
+    "block": "બ્લૉક"
+  },
+  "roomSearch": {
+    "title": "રૂમમાં શોધો",
+    "ariaLabel": "રૂમમાં શોધો",
+    "search": "શોધો",
+    "searchMessages": "સંદેશાઓ શોધો",
+    "noText": "[કોઈ ટેક્સ્ટ નથી]",
+    "noResults": "કોઈ પરિણામો નથી"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "સભ્ય",
+      "moderator": "મોડરેટર",
+      "admin": "એડમિન"
+    },
+    "aiMode": {
+      "off": "બંધ",
+      "mention": "માત્ર @ForiaBot અથવા /ask પર",
+      "always": "સક્રિયપણે જવાબ આપો"
+    },
+    "autoTranslateMode": {
+      "off": "બંધ",
+      "tagged": "માત્ર ટેગ કરેલા (/tr …)",
+      "all": "બધા સંદેશાઓ"
+    },
+    "updated": "સેટિંગ્સ અપડેટ થઈ"
+  },
+  "mediaGallery": {
+    "sharedMedia": "શેર કરેલ મીડિયા",
+    "noMediaCached": "હજુ સ્થાનિક રીતે કોઈ મીડિયા કેશ નથી.",
+    "imageAlt": "ઇમેજ",
+    "openVideo": "વીડિયો ખોલો",
+    "openVideoWithCaption": "વીડિયો ખોલો: {{caption}}",
+    "preview": "પ્રિવ્યૂ",
+    "previewWithCaption": "પ્રિવ્યૂ: {{caption}}",
+    "previewKind": "પ્રિવ્યૂ {{kind}}",
+    "download": "ડાઉનલોડ",
+    "downloadKind": "ડાઉનલોડ {{kind}}",
+    "file": "ફાઇલ",
+    "kinds": {
+      "image": "ઇમેજ",
+      "video": "વીડિયો",
+      "audio": "ઑડિયો",
+      "file": "ફાઇલ"
+    }
+  },
+  "status": {
+    "userNumber": "વપરાશકર્તા #{{id}}",
+    "posted": "સ્ટેટસ પોસ્ટ થયું",
+    "postFailed": "સ્ટેટસ પોસ્ટ કરવામાં નિષ્ફળ",
+    "createTitle": "સ્ટેટસ બનાવો",
+    "modalAriaLabel": "નવું સ્ટેટસ",
+    "captionLabel": "તમારા મનમાં શું છે?",
+    "captionPlaceholder": "અપડેટ શેર કરો...",
+    "captionAria": "સ્ટેટસ સંદેશ",
+    "audienceLabel": "પ્રેક્ષકો",
+    "audience": {
+      "public": "સાર્વજનિક",
+      "followers": "ફોલોઅર્સ",
+      "contacts": "સંપર્કો",
+      "mutuals": "મ્યુચ્યુઅલ્સ",
+      "custom": "કસ્ટમ..."
+    },
+    "expiresHoursLabel": "સમાપ્તિ (કલાકો)",
+    "maxTooltip": "મહત્તમ 7 દિવસ",
+    "hoursAbbrev": "કલા",
+    "maxShort": "મહત્તમ",
+    "expiresOn": "સમાપ્તિ તારીખ:",
+    "chooseRecipients": "પ્રાપ્તકર્તાઓ પસંદ કરો",
+    "selectContacts": "સંપર્કો પસંદ કરો",
+    "attachmentsLabel": "જોડાણો",
+    "attachmentsPlaceholder": "ઇમેજ/વીડિયો ઉમેરો",
+    "filesNote": "મહત્તમ 5 ફાઇલો. ડિફોલ્ટ 24 કલાક સમાપ્તિ.",
+    "postAria": "સ્ટેટસ પોસ્ટ કરો",
+    "post": "પોસ્ટ"
+  },
+  "voicemail": {
+    "pageTitle": "વૉઇસમેઇલ",
+    "from": "પ્રેષક",
+    "to": "પ્રતિ",
+    "unknownCaller": "અજાણ્યા",
+    "yourNumber": "તમારો Chatforia નંબર",
+    "durationSeconds": "{{count}} સેકન્ડ",
+    "audioAria": "વૉઇસમેઇલ ઑડિયો પ્લેયર",
+    "transcriptHeading": "ટ્રાન્સક્રિપ્ટ",
+    "transcriptPending": "વૉઇસમેઇલ ટ્રાન્સક્રાઇબ કરી રહ્યા છીએ…",
+    "transcriptFailed": "ટ્રાન્સક્રિપ્ટ અનુપલબ્ધ.",
+    "loading": "વૉઇસમેઇલ લોડ કરી રહ્યા છીએ…",
+    "errorLoading": "વૉઇસમેઇલ લોડ કરવામાં નિષ્ફળ.",
+    "empty": "હજુ કોઈ વૉઇસમેઇલ્સ નથી.",
+    "deleteConfirm": "આ વૉઇસમેઇલ કાઢી નાખીએ?",
+    "deleteError": "વૉઇસમેઇલ કાઢી નાખવામાં નિષ્ફળ.",
+    "markRead": "વાંચેલું માર્ક કરો",
+    "delete": "કાઢી નાખો",
+    "unreadDotAria": "વાંચ્યું નહીં હોય તેવા વૉઇસમેઇલ સૂચક"
+  },
+  "profile": {
+    "title": "વપરાશકર્તા પ્રોફાઇલ",
+    "preferredLanguage": "પસંદગીની ભાષા",
+    "chooseLanguage": "ભાષા પસંદ કરો",
+    "mustLogin": "સેટિંગ્સ જોવા માટે તમારે સાઇન ઇન કરવું પડશે.",
+    "autoTranslate": "સંદેશાઓનો ઑટો-અનુવાદ",
+    "showOriginalWithTranslation": "મૂળ અને અનુવાદિત સંદેશાઓ બતાવો",
+    "showOriginalAndTranslation": "મૂળ સાથે અનુવાદ બતાવો",
+    "filterExplicit": "સ્પષ્ટ સામગ્રી ફિલ્ટર કરો",
+    "aiReply": "AI જવાબ",
+    "enableReadReceipts": "વાંચન રસીદો સક્ષમ કરો",
+    "allowExplicitContent": "સ્પષ્ટ સામગ્રીને મંજૂરી આપો",
+    "disappearingMessages": "અદૃશ્ય થતા સંદેશાઓ સક્ષમ કરો",
+    "autoDeleteSeconds": "ઑટો-ડિલીટ સુધીના સેકન્ડ",
+    "saveSuccess": "સેટિંગ્સ સેવ થઈ!",
+    "saveError": "ભૂલ: સેટિંગ્સ સેવ કરી શકાઈ નહીં",
+    "avatarAlt": "પ્રોફાઇલ અવતાર",
+    "uploadAvatar": "નવો અવતાર અપલોડ કરો",
+    "avatarSuccess": "અવતાર અપલોડ થયો!",
+    "avatarError": "અવતાર અપલોડ કરવામાં નિષ્ફળ",
+    "avatarUpdated": "અવતાર અપડેટ થયો!",
+    "uploadingAvatar": "અવતાર અપલોડ કરી રહ્યા છીએ…",
+    "noPrivateKey": "આ ડિવાઇસ પર નિકાસ કરવા માટે કોઈ પ્રાઇવેટ કી નથી.",
+    "setBackupPassword": "તમારા બેકઅપને એન્ક્રિપ્ટ કરવા માટે પાસવર્ડ સેટ કરો:",
+    "backupDownloaded": "એન્ક્રિપ્ટેડ બેકઅપ ડાઉનલોડ થયો.",
+    "exportFailed": "કી નિકાસ નિષ્ફળ",
+    "enterBackupPassword": "આ બેકઅપ માટે પાસવર્ડ દાખલ કરો:",
+    "importSuccess": "પ્રાઇવેટ કી આ ડિવાઇસ પર આયાત થઈ.",
+    "importFailed": "કી આયાત કરવામાં નિષ્ફળ (ખોટો પાસવર્ડ અથવા ખરાબ ફાઇલ).",
+    "keysRotated": "નવી કી પેર બનાવી અને પબ્લિક કી અપલોડ કરી.",
+    "rotateFailed": "કીઓ રોટેટ કરવામાં નિષ્ફળ.",
+    "security": "સુરક્ષા",
+    "exportKey": "એન્ક્રિપ્શન કી બેક અપ",
+    "importKey": "એન્ક્રિપ્શન કી પુનઃસ્થાપિત કરો",
+    "rotateKeys": "એન્ક્રિપ્શન કી રોટેટ કરો",
+    "keyDisclaimer": "તમારી પ્રાઇવેટ કી આ ડિવાઇસ પરથી ક્યારેય બહાર નથી જતી. અન્ય ડિવાઇસ પર પુનઃસ્થાપિત કરવા માટે પાસવર્ડ-સુરક્ષિત કૉપિ નિકાસ કરો.",
+    "sectionProfile": "પ્રોફાઇલ",
+    "phoneNumber": "ફોન નંબર",
+    "appearance": "દેખાવ",
+    "soundSettings": "અવાજો",
+    "disappearing": "અદૃશ્ય થતા સંદેશાઓ",
+    "backupSync": "એન્ક્રિપ્શન કી બેકઅપ",
+    "ai": "AI",
+    "accessibility": "સુલભતા",
+    "privacy": "પ્રાઇવસી",
+    "devices": "લિંક્ડ ડિવાઇસિસ",
+    "themeFreeNotice": "તમે મફત પર છો — નીચેના ઝડપી સૂર્ય/ચંદ્ર વિકલ્પો વાપરો. વધુ થીમ્સ અનલૉક કરવા માટે અપગ્રેડ કરો.",
+    "sunTheme": "ડૉન થીમ વાપરો",
+    "moonTheme": "મૂન (મિડનાઇટ) થીમ વાપરો",
+    "sun": "સૂર્ય",
+    "moon": "ચંદ્ર",
+    "backupTitle": "એન્ક્રિપ્ટેડ બેકઅપ્સ અને ડિવાઇસ સિંક",
+    "openBackupTools": "બેકઅપ ટૂલ્સ ખોલો",
+    "backupDesc": "તમારી એન્ક્રિપ્શન કીનો બેકઅપ લો જેથી અન્ય ડિવાઇસ પર તમારા સંદેશાઓ સુરક્ષિત રીતે પુનઃસ્થાપિત કરી શકાય.",
+    "privacyBlurEnabled": "ડિફોલ્ટ રીતે સંદેશાઓ ઝાંખા કરો",
+    "privacyBlurOnUnfocus": "એપ અનફોકસ હોય ત્યારે ઝાંખા કરો",
+    "planSection": "મારો પ્લાન",
+    "planLoading": "તમારો પ્લાન લોડ કરી રહ્યા છીએ…",
+    "planLoadFailed": "પ્લાન લોડ કરવામાં નિષ્ફળ.",
+    "currentPlan": "વર્તમાન પ્લાન",
+    "planRenewsOn": "નવીકરણ તારીખ",
+    "freePlanCopy": "તમે મફત પ્લાન પર છો. બેકઅપ્સ, વધારાના નંબરો અને અદ્યતન પ્રાઇવસી વિકલ્પો અનલૉક કરવા માટે અપગ્રેડ કરો.",
+    "upgradePlanCta": "પ્લાન અપગ્રેડ કરો",
+    "changePlanCta": "પ્લાન બદલો",
+    "manageBilling": "બિલિંગ મેનેજ કરો",
+    "portalOpenFailed": "બિલિંગ પોર્ટલ ખોલી શકાયું નહીં. કૃપા કરીને ફરી પ્રયાસ કરો.",
+    "holdToReveal": "બતાવવા માટે દબાવી રાખો",
+    "notifyOnCopy": "મારો સંદેશ કૉપિ થાય તો મને સૂચિત કરો",
+    "loadFailed": "પ્રોફાઇલ લોડ કરવામાં નિષ્ફળ",
+    "followed": "ફોલો કર્યા",
+    "followFailed": "ફોલો કરવામાં નિષ્ફળ",
+    "unfollowed": "અનફોલો કર્યા",
+    "unfollowFailed": "અનફોલો કરવામાં નિષ્ફળ",
+    "follow": "ફોલો કરો",
+    "unfollow": "અનફોલો કરો",
+    "followHint": "જો તેઓ ફોલોઅર્સ (અથવા સાર્વજનિક) પ્રેક્ષકો સાથે પોસ્ટ કરે તો તેમની સ્ટોરીઝ તમારા ફોલોઇંગ ફીડમાં દેખાશે.",
+    "userNotFound": "વપરાશકર્તા મળ્યા નહીં",
+    "followsYou": "તમને ફોલો કરે છે",
+    "sectionCrashedTitle": "વિભાગ લોડ કરવામાં નિષ્ફળ",
+    "sectionCrashedBody": "આ વિભાગમાં કંઈક ખોટું થયું.",
+    "forwarding": "કૉલ અને ટેક્સ્ટ ફોર્વર્ડિંગ",
+    "callTextForwardingSection": "કૉલ અને ટેક્સ્ટ ફોર્વર્ડિંગ",
+    "callTextForwardingTitle": "કૉલ અને/અથવા ટેક્સ્ટ ફોર્વર્ડિંગ",
+    "callTextForwardingDescription": "તમારા વેરિફાઇડ ફોન અથવા ઇમેઇલ પર આવનારા કૉલ્સ અને ટેક્સ્ટ્સ ફોર્વર્ડ કરો. બહાર જતા કૉલ્સ/ટેક્સ્ટ્સ તમારા Chatforia નંબર બતાવી શકે છે.",
+    "enableTextForwarding": "ટેક્સ્ટ ફોર્વર્ડિંગ સક્ષમ કરો",
+    "forwardTextsToPhone": "ફોન પર ટેક્સ્ટ્સ ફોર્વર્ડ કરો",
+    "forwardTextsToEmail": "ઇમેઇલ પર ટેક્સ્ટ્સ ફોર્વર્ડ કરો",
+    "destinationPhone": "લક્ષ્ય ફોન (E.164)",
+    "destinationEmail": "લક્ષ્ય ઇમેઇલ",
+    "enableCallForwarding": "કૉલ ફોર્વર્ડિંગ સક્ષમ કરો",
+    "destinationPhoneForCalls": "કૉલ્સ માટે લક્ષ્ય (E.164)",
+    "aliasBridging": "કૉલ ફોર્વર્ડિંગ (ઉપનામ બ્રિજિંગ)",
+    "quietHoursOptional": "શાંત કલાકો (વૈકલ્પિક)",
+    "startHour": "શરૂઆત કલાક (0–23)",
+    "endHour": "સમાપ્તિ કલાક (0–23)",
+    "reset": "રીસેટ",
+    "saveBtn": "સેવ",
+    "saveProfile": "પ્રોફાઇલ સેવ કરો",
+    "saveForwarding": "ફોર્વર્ડિંગ સેવ કરો",
+    "forwardSaved": "ફોર્વર્ડિંગ સેટિંગ્સ સેવ થઈ",
+    "forwardSaveFailed": "સેટિંગ્સ સેવ કરવામાં નિષ્ફળ",
+    "errE164": "વૈધ E.164 ફોન દાખલ કરો (દા.ત., +15551234567).",
+    "errEmail": "વૈધ ઇમેઇલ દાખલ કરો.",
+    "errSmsDest": "ઓછામાં ઓછું એક લક્ષ્ય (ફોન અથવા ઇમેઇલ) પસંદ કરો.",
+    "errQuietHours": "શાંત કલાકો 0 અને 23 વચ્ચે હોવા જોઈએ.",
+    "randomChat": "રેન્ડમ ચેટ",
+    "ageBand": "તમારી વય શ્રેણી",
+    "ageBandPlaceholder": "તમારી વય શ્રેણી પસંદ કરો",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "અમે માત્ર વય શ્રેણી સ્ટોર કરીએ છીએ (તમારી ચોક્કસ જન્મ તારીખ નહીં). આનો ઉપયોગ રેન્ડમ ચેટ જોડીઓ વાજબી રાખવા માટે થાય છે.",
+    "wantsAgeFilter": "રેન્ડમ ચેટમાં વય-આધારિત મેચિંગ વાપરો",
+    "wantsAgeFilterDesc": "ચાલુ હોય ત્યારે અમે તમને સુસંગત વય શ્રેણીના લોકો સાથે જોડવાનો પ્રયાસ કરીએ છીએ.",
+    "partnerAgeBands": "તમને કોની સાથે મેચ કરી શકાય?",
+    "partnerAgeBandsDesc": "કિશોરોને હંમેશા અન્ય કિશોરો સાથે જ મેચ કરવામાં આવે છે. પુખ્ત વયના લોકોને કિશોરો સાથે મેચ કરી શકાતા નથી.",
+    "teenMatchingNote": "સલામતી માટે, 13–17 વય શ્રેણીના એકાઉન્ટ્સને રેન્ડમ ચેટમાં માત્ર અન્ય 13–17 એકાઉન્ટ્સ સાથે જ મેચ કરવામાં આવે છે.",
+    "foriaRemember": "રિયાને તમે કહેલી વાતો યાદ રાખવા દો",
+    "foriaRememberDesc": "જ્યારે આ ચાલુ હોય ત્યારે રિયા તમારી અગાઉની રેન્ડમ ચેટ વાતચીતો (માત્ર તમારી સાથે) વાપરીને વાતચીત ચાલુ રાખી શકે છે. તમે કોઈપણ સમયે આ બંધ કરી શકો છો.",
+    "voicemailSection": "વૉઇસમેઇલ",
+    "voicemailEnabled": "વૉઇસમેઇલ સક્ષમ કરો",
+    "voicemailAutoDeleteDays": "વૉઇસમેઇલ્સને (દિવસો) પછી ઑટો-ડિલીટ કરો",
+    "voicemailAutoDeletePlaceholder": "હંમેશા રાખવા માટે ખાલી છોડો",
+    "voicemailForwardEmail": "વૉઇસમેઇલને ઇમેઇલ પર ફોર્વર્ડ કરો",
+    "voicemailForwardEmailPlaceholder": "વૉઇસમેઇલ સૂચનાઓ મોકલવા માટે ઇમેઇલ",
+    "voicemailGreetingText": "ટેક્સ્ટ ફોલબેક ગ્રીટિંગ",
+    "voicemailGreetingTextDesc": "જ્યારે તમારું ઑડિયો ગ્રીટિંગ અનુપલબ્ધ હોય ત્યારે વપરાય છે.",
+    "voicemailGreetingUpload": "વૉઇસમેઇલ ગ્રીટિંગ અપલોડ કરો",
+    "voicemailPreviewGreeting": "ગ્રીટિંગ પ્રિવ્યૂ",
+    "voicemailGreetingUploaded": "વૉઇસમેઇલ ગ્રીટિંગ સફળતાપૂર્વક અપલોડ થયું",
+    "voicemailGreetingUploadError": "વૉઇસમેઇલ ગ્રીટિંગ અપલોડ કરવામાં નિષ્ફળ",
+    "voicemailNote": "તમારા Chatforia નંબર્સમાંથી વૉઇસમેઇલ્સ તમારા વૉઇસમેઇલ ઇનબોક્સમાં સ્ટોર થશે. તમે સપોર્ટેડ પ્લાન્સમાં ટ્રાન્સક્રિપ્શન અને ફોર્વર્ડિંગ સક્ષમ કરી શકો છો.",
+    "portHint": "તમારો વર્તમાન નંબર રાખવા માંગો છો? તમે તેને Chatforia Wirelessમાં પોર્ટ કરી શકો છો.",
+    "wireless": {
+      "manage": "વાયરલેસ મેનેજ કરો"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "વાઇ-ફાઇથી દૂર હોય ત્યારે Chatforia માટે મોબાઇલ ડેટા મેળવો.",
+      "cta": "eSIM મેળવો / QR બતાવો"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia વાયરલેસ",
+    "description": "તમારા Chatforia મોબાઇલ પ્લાન, નંબરો, ફોર્વર્ડિંગ અને નંબર પોર્ટિંગ મેનેજ કરો.",
+    "options": {
+      "heading": "તમે Chatforia કેવી રીતે વાપરવા માંગો છો તે પસંદ કરો",
+      "subheading": "તમે નવો Chatforia નંબર મેળવી શકો છો અથવા તમારો વર્તમાન નંબર અન્ય કેરિયરમાંથી લાવી શકો છો.",
+      "newNumber": "નવો Chatforia નંબર મેળવો",
+      "portNumber": "તમારો વર્તમાન નંબર Chatforia વાયરલેસમાં પોર્ટ કરો"
+    },
+    "port": {
+      "heading": "તમારો વર્તમાન નંબર પોર્ટ કરો",
+      "subheading": "તમારો વર્તમાન ફોન નંબર તમારા વર્તમાન કેરિયરમાંથી Chatforiaમાં ખસેડો. વિલંબ ટાળવા માટે વિગતો તમારા કેરિયર એકાઉન્ટ સાથે બરાબર મેળ ખાતી હોવી જોઈએ.",
+      "phoneNumberLabel": "પોર્ટ કરવા માટેનો ફોન નંબર",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "વર્તમાન કેરિયર",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile વગેરે.",
+      "accountNumberLabel": "એકાઉન્ટ નંબર",
+      "pinLabel": "પોર્ટ-આઉટ PIN / પાસવર્ડ",
+      "fullNameLabel": "એકાઉન્ટ પરનું પૂર્ણ નામ",
+      "address1Label": "સરનામું લાઇન 1",
+      "address2Label": "સરનામું લાઇન 2 (વૈકલ્પિક)",
+      "cityLabel": "શહેર",
+      "stateLabel": "રાજ્ય / પ્રાંત",
+      "postalCodeLabel": "પોસ્ટલ કોડ",
+      "countryLabel": "દેશ",
+      "submitButton": "પોર્ટ વિનંતી સબમિટ કરો",
+      "success": "પોર્ટ વિનંતી સબમિટ થઈ! અમે તમને અપડેટ કરતા રહીશું.",
+      "genericError": "કંઈક ખોટું થયું."
+    },
+    "status": {
+      "heading": "પોર્ટિંગ સ્ટેટસ",
+      "subheading": "તમારી નંબર પોર્ટ વિનંતીઓની સ્થિતિ ટ્રૅક કરો.",
+      "loading": "લોડ કરી રહ્યા છીએ…",
+      "loadError": "પોર્ટ વિનંતીઓ લોડ કરવામાં નિષ્ફળ.",
+      "none": "હજુ કોઈ પોર્ટિંગ પ્રવૃત્તિ નથી.",
+      "pending": "સમીક્ષા માટે બાકી",
+      "submitted": "કેરિયરને સબમિટ થયું",
+      "inProgress": "પ્રગતિમાં",
+      "completed": "પૂર્ણ",
+      "failed": "નિષ્ફળ",
+      "canceled": "રદ કરેલું",
+      "created": "બનાવ્યું:",
+      "scheduled": "શેડ્યુલ્ડ:",
+      "completedAt": "પૂર્ણ:"
+    },
+    "dataLow": "તમારો ડેટા ઓછો થઈ રહ્યો છે.",
+    "topUp": "હવે ટોપ અપ કરો",
+    "expiresIn": "{{days}} દિવસમાં સમાપ્ત થશે",
+    "exhausted": "તમારો ડેટા સમાપ્ત થઈ ગયો છે. મોબાઇલ ડેટા ચાલુ રાખવા માટે નવો પેક ખરીદો.",
+    "buyPack": "ડેટા પેક ખરીદો",
+    "esimPackLabel": "eSIM પેક"
+  },
+  "family": {
+    "title": "પરિવાર",
+    "loading": "તમારા પરિવારની વિગતો લોડ કરી રહ્યા છીએ…",
+    "error": {
+      "load": "પરિવારની વિગતો લોડ કરવામાં નિષ્ફળ.",
+      "invite": "આમંત્રણ બનાવી શકાયું નહીં. ખાતરી કરો કે તમે પરિવારના માલિક છો અને ફરી પ્રયાસ કરો.",
+      "checkout": "ફેમિલી પ્લાન માટે ચેકઆઉટ શરૂ કરી શકાયું નહીં. કૃપા કરીને ફરી પ્રયાસ કરો."
+    },
+    "billing": {
+      "myPlanTitle": "મારો પ્લાન",
+      "myPlanError": "તમારો પ્લાન લોડ કરી શકાયો નહીં.",
+      "myPlanLoading": "તમારો પ્લાન લોડ કરી રહ્યા છીએ…",
+      "currentPlan": "વર્તમાન પ્લાન",
+      "renewsAt": "નવીકરણ તારીખ",
+      "freePlanCopy": "તમે મફત પ્લાન પર છો. વધુ સુવિધાઓ અનલૉક કરવા માટે અપગ્રેડ કરો.",
+      "upgradeCta": "પ્લાન અપગ્રેડ કરો",
+      "changePlanCta": "પ્લાન બદલો",
+      "manageBilling": "બિલિંગ મેનેજ કરો",
+      "portalError": "હાલમાં બિલિંગ પોર્ટલ ખોલી શકાયું નહીં.",
+      "cancelNow": "હવે રદ કરો",
+      "cancelNowHelp": "તમે બિલિંગ પોર્ટલમાં તમારી સબસ્ક્રિપ્શન મેનેજ અથવા રદ કરી શકો છો અથવા નીચે તરત જ રદ કરી શકો છો.",
+      "cancelNowConfirm": "શું તમે ખરેખર તમારો પ્લાન તરત જ રદ કરવા માંગો છો? આને પાછું કરી શકાતું નથી.",
+      "cancelNowError": "હાલમાં તમારો પ્લાન રદ કરી શકાયો નહીં. કૃપા કરીને ફરી પ્રયાસ કરો અથવા બિલિંગ મેનેજ વાપરો."
+    },
+    "none": {
+      "title": "હજુ પરિવાર સેટ અપ થયો નથી",
+      "body": "Chatforia ફેમિલી અને શેર્ડ ડેટા પૂલ બનાવવા માટે ફેમિલી પ્લાન શરૂ કરો.",
+      "goUpgrade": "ફેમિલી પ્લાન શરૂ કરો",
+      "viewPlans": "બધા પ્લાન્સ જુઓ"
+    },
+    "group": {
+      "defaultName": "મારો Chatforia પરિવાર",
+      "role": "તમારી ભૂમિકા: {{role}}"
+    },
+    "role": {
+      "owner": "માલિક",
+      "member": "સભ્ય"
+    },
+    "data": {
+      "heading": "શેર્ડ ડેટા પૂલ",
+      "caption": "બધા સભ્યો આ પૂલ શેર કરે છે. અમે તમને તમારી મર્યાદા પાસે આવતા સાવધાન કરીશું."
+    },
+    "members": {
+      "title": "પરિવારના સભ્યો",
+      "name": "નામ",
+      "role": "ભૂમિકા",
+      "usage": "વપરાશ",
+      "limit": "મર્યાદા",
+      "unlimited": "કોઈ ચોક્કસ મર્યાદા નથી",
+      "inviteCta": "સભ્યને આમંત્રિત કરો"
+    },
+    "invite": {
+      "title": "નવા સભ્યને આમંત્રિત કરો",
+      "body": "તમારા શેર્ડ પરિવાર ડેટા પૂલમાં કોઈને આમંત્રિત કરવા માટે ઇમેઇલ અથવા લિંક મોકલો.",
+      "emailLabel": "ઇમેઇલ (વૈકલ્પિક)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "આમંત્રણ બનાવો",
+      "linkLabel": "આમંત્રણ લિંક",
+      "copyAria": "આમંત્રણ લિંક કૉપિ કરો",
+      "expiryHint": "આ લિંક કેટલાક દિવસો પછી સમાપ્ત થાય છે. તમે હંમેશા નવી બનાવી શકો છો."
+    },
+    "join": {
+      "title": "પરિવારમાં જોડાઓ",
+      "body": "તમને Chatforia પરિવારમાં જોડાવા અને તેમના ડેટા પૂલ શેર કરવા માટે આમંત્રિત કરવામાં આવ્યા છે.",
+      "cta": "સ્વીકારો અને પરિવારમાં જોડાઓ",
+      "ctaLogin": "સાઇન ઇન કરો અને પરિવારમાં જોડાઓ",
+      "success": "તમે આ પરિવારમાં જોડાયા. તમે હવે તેમનો ડેટા પૂલ શેર કરો છો.",
+      "goFamily": "પરિવાર ડેશબોર્ડ પર જાઓ",
+      "error": "અમે તમને આ પરિવારમાં ઉમેરી શક્યા નહીં. આમંત્રણ અમાન્ય અથવા સમાપ્ત થયું હોઈ શકે છે."
+    }
+  },
+  "premium": {
+    "heading": "પ્રીમિયમ પર જાઓ",
+    "description": "પાવર સુવિધાઓ અનલૉક કરો અને જાહેરાતો દૂર કરો.",
+    "cta": "અપગ્રેડ",
+    "upgrade": "અપગ્રેડ",
+    "upgradeAria": "Chatforia પ્રીમિયમ પર અપગ્રેડ કરો"
+  },
   "upgrade": {
     "title": "અપગ્રેડ",
-    "subtitle": "તમારા માટે યોગ્ય પ્લાન અનલૉક કરો: Plus સાથે જાહેરાત-મુક્ત, અથવા Premium સાથે અમારી સંપૂર્ણ પાવર સુવિધાઓ.",
-    "perMonth": "મો",
+    "titleLoggedIn": "અપગ્રેડ",
+    "titlePublic": "કિંમતો",
+    "h1": "Chatforia કિંમતો અને પ્લાન્સ",
+    "h1Subtitle": "અમારા મફત, જાહેરાત-સમર્થિત પ્લાનથી શરૂ કરો. પ્લસ સાથે જાહેરાત-મુક્ત જાઓ અથવા પ્રીમિયમ સાથે પૂર્ણ પાવર સુવિધાઓ અનલૉક કરો.",
+    "subtitle": "એક જ જગ્યાએથી એપ પ્લાન પસંદ કરો, તમારા માટે ડેટા પેક્સ ઉમેરો અથવા તમારા પરિવાર સાથે ડેટા શેર કરો.",
+    "subtitle.app": "અમારા મફત, જાહેરાત-સમર્થિત પ્લાનથી શરૂ કરો. પ્લસ સાથે જાહેરાત-મુક્ત જાઓ અથવા પ્રીમિયમ સાથે પૂર્ણ પાવર સુવિધાઓ અનલૉક કરો.",
+    "subtitle.mobile": "વાઇ-ફાઇથી દૂર હોય ત્યારે પણ Chatforia કામ કરે તે માટે વૈશ્વિક eSIM ડેટા ઉમેરો.",
+    "subtitle.family": "તમારા પરિવાર માટે શેર્ડ ડેટા પૂલ બનાવો અને બધાના વપરાશને એક જ જગ્યાએથી મેનેજ કરો.",
+    "perMonth": "મહિને",
     "perYear": "વર્ષ",
-    "goPremium": "પ્રીમિયમ લો",
-    "benefitsLine": "શક્તિશાળી સુવિધાઓ અનલૉક કરો અને જાહેરાતો દૂર કરો.",
+    "goPremium": "પ્રીમિયમ પર જાઓ",
+    "benefitsLine": "પાવર સુવિધાઓ અનલૉક કરો અને જાહેરાતો દૂર કરો.",
     "ctaText": "અપગ્રેડ",
     "aria": "Chatforia પ્રીમિયમ પર અપગ્રેડ કરો",
     "toggle": {
       "monthly": "માસિક",
-      "annual": "વાર્ષિક (25% બચાવો)"
+      "annual": "વાર્ષિક (30% બચત)"
     },
     "scheduleBanner": {
-      "title": "સબ્સ્ક્રિપ્શન સમાપ્ત થશે",
-      "body": "તમે આ તારીખે Free પર પાછા ફરશો",
+      "title": "સબસ્ક્રિપ્શન સમાપ્ત થશે",
+      "body": "તમે મફત પર પાછા આવશો",
       "keepPlanCta": "{{plan}} રાખો",
       "manageBillingCta": "બિલિંગ મેનેજ કરો"
     },
@@ -480,507 +660,1015 @@
       "manage": "બિલિંગ મેનેજ કરો"
     },
     "checkout": {
-      "redirecting": "રીડિરેક્ટ કરી રહ્યા છીએ…"
+      "redirecting": "રીડાયરેક્ટ કરી રહ્યા છીએ…"
     },
     "auth": {
-      "continue": "લ Login પર આગળ વધો",
+      "continue": "લૉગિન પર ચાલુ રાખો",
       "createAccount": "એકાઉન્ટ બનાવો",
       "signIn": "સાઇન ઇન"
     },
     "cta": {
       "aria": "પ્લાન પસંદ કરો",
-      "getPlus": "Plus પર અપગ્રેડ કરો",
+      "getPlus": "પ્લસ પર અપગ્રેડ કરો",
       "upgradeMonthly": "માસિક અપગ્રેડ",
       "upgradeAnnual": "વાર્ષિક અપગ્રેડ"
     },
+    "section": {
+      "app": "એપ પ્લાન્સ",
+      "mobile": "મોબાઇલ (eSIM)",
+      "family": "પરિવાર પ્લાન્સ"
+    },
     "plans": {
       "free": {
-        "title": "ફ્રી",
+        "title": "મફત",
         "price": "$0",
-        "desc": "ફ્રીમાં મેસેજિંગ શરૂ કરો.",
+        "desc": "મફતમાં મેસેજિંગ શરૂ કરો. જો તમે Chatforia અજમાવી રહ્યા હોવ તો આદર્શ.",
         "features": {
-          "msg": "1:1 અને ગ્રૂપ મેસેજિંગ",
-          "aiBasic": "મૂળભૂત AI પ્રતિભાવ",
-          "attachments": "સ્ટાન્ડર્ડ એટેચમેન્ટ્સ"
+          "chat": "રીઅલ-ટાઇમ 1:1 અને ગ્રુપ ચેટ, વૉઇસ અને વીડિયો કૉલ્સ સાથે",
+          "media": "ફોટા, વૉઇસ મેસેજ અને ટૂંકા વીડિયો શેર કરો",
+          "ai": "AI-સહાયિત સ્માર્ટ જવાબો અને તરત અનુવાદ (વાજબી વપરાશ)",
+          "disappearing": "અદૃશ્ય થતા સંદેશાઓ અને મૂળભૂત પ્રાઇવસી નિયંત્રણો",
+          "ads": "એપમાં જાહેરાતો સાથે હંમેશા મફત"
         },
         "ctaCurrent": "વર્તમાન પ્લાન",
-        "ctaUnavailable": "ફ્રી પર સ્વિચ કરો (ઉપલબ્ધ નથી)",
-        "aria": "ફ્રી પ્લાન (વર્તમાન)"
+        "ctaManage": "બિલિંગમાં મેનેજ કરો",
+        "ctaPublic": "શરૂ કરો – લૉગિન પર ચાલુ રાખો",
+        "aria": "મફત પ્લાન"
       },
       "plus": {
-        "title": "Plus",
-        "price": "$4.99 / મો",
-        "desc": "સૌથી સસ્તું જાહેરાત-મુક્ત અનુભવ.",
+        "title": "પ્લસ",
+        "price": "$6.99",
+        "desc": "બધી જરૂરી વસ્તુઓ, જાહેરાતો વગર. રોજિંદા મેસેજિંગ અને કૉલિંગ માટે શ્રેષ્ઠ.",
         "features": {
-          "noAds": "બધી જાહેરાતો દૂર કરો",
-          "msg": "1:1 અને ગ્રૂપ મેસેજિંગ",
-          "attachments": "મોટા એટેચમેન્ટ્સ",
-          "aiBasic": "મૂળભૂત AI પ્રતિભાવ"
+          "allFree": "મફતમાં બધું, જાહેરાતો વગર",
+          "forwarding": "તમારા વાસ્તવિક ફોન નંબર પર કૉલ્સ અને ટેક્સ્ટ્સ ફોર્વર્ડ કરો",
+          "history": "લાંબો સંદેશ ઇતિહાસ (મહત્તમ 6 મહિના)",
+          "support": "કંઈક ખોટું થાય ત્યારે ઝડપી સપોર્ટ"
         },
         "badge": "લોકપ્રિય",
-        "cta": "જાહેરાત-મુક્ત બન્યો",
-        "aria": "Plus પર અપગ્રેડ કરો"
+        "cta": "જાહેરાત-મુક્ત જાઓ",
+        "ctaPublic": "પ્લસ મેળવો – લૉગિન પર ચાલુ રાખો",
+        "aria": "પ્લસ પર અપગ્રેડ કરો"
       },
       "premiumMonthly": {
-        "title": "Premium (Monthly)",
-        "price": "$24.99 / મો",
-        "desc": "પૂર્ણ સુવિધાઓ, રિંગટોન્સ અને AI પાવર ટૂલ્સ.",
+        "title": "પ્રીમિયમ (માસિક)",
+        "price": "$11.99",
+        "desc": "પૂર્ણ Chatforia અનુભવ: AI પાવર ટૂલ્સ, કસ્ટમાઇઝેશન અને પ્રાથમિકતા સપોર્ટ.",
         "features": {
-          "plusAll": "Plusની બધી વસ્તુઓ",
-          "ringtones": "કસ્ટમ રિંગટોન્સ અને મેસેજ ટોન્સ",
-          "powerAi": "પાવર AI સુવિધાઓ",
-          "priorityUpdates": "પ્રાથમિકતા અપડેટ્સ",
-          "backups": "બેકઅપ્સ અને ડિવાઇસ સિંકિંગ"
+          "plusAll": "પ્લસમાં બધું",
+          "themes": "બધી પ્રીમિયમ કલર થીમ્સ અને એપ કસ્ટમાઇઝેશન અનલૉક કરો",
+          "ai": "પ્રીમિયમ-માત્ર AI પાવર ટૂલ્સ માટે રીરાઇટ્સ, સ્માર્ટ જવાબો અને સારાંશો",
+          "support": "જ્યારે સૌથી વધુ જરૂર હોય ત્યારે પ્રાથમિકતા સપોર્ટ"
         },
-        "badge": "સરસ મૂલ્ય",
+        "badge": "ભલામણ કરેલ",
         "cta": "અપગ્રેડ (માસિક)",
+        "ctaPublic": "પ્રીમિયમ અનલૉક કરો – લૉગિન પર ચાલુ રાખો",
         "aria": "પ્રીમિયમ માસિક પર અપગ્રેડ કરો"
       },
       "premiumAnnual": {
-        "title": "Premium (Annual)",
-        "price": "$225 / વર્ષ",
-        "desc": "વાર્ષિક બિલિંગ સાથે વધુ બચાવો.",
+        "title": "પ્રીમિયમ (વાર્ષિક)",
+        "price": "$99",
+        "desc": "વાર્ષિક બિલિંગ સાથે વધુ બચત — વધારાની કલર થીમ્સ, AI ટૂલ્સ અને પ્રાથમિકતા સપોર્ટ સહિત.",
         "features": {
-          "allPremium": "પ્રીમિયમની બધી સુવિધાઓ",
-          "annualBilling": "વાર્ષિક બિલિંગ",
-          "save25": "માસિક સામે ~25% બચત",
-          "sameFeatures": "માસિક જેવી જ સુવિધાઓ"
+          "allPremium": "પ્રીમિયમ માસિકમાં બધું — વધારાની કલર થીમ્સ સહિત",
+          "annualBilling": "વર્ષમાં એક વાર બિલિંગ",
+          "save25": "માસિક ચુકવણી કરતાં આશરે 30% બચત",
+          "bestFor": "પાવર વપરાશકર્તાઓ, રિમોટ વર્કર્સ અને વારંવાર મુસાફરી કરનારાઓ માટે શ્રેષ્ઠ"
         },
-        "badge": "25% બચાવો",
+        "badge": "30% બચત",
         "cta": "અપગ્રેડ (વાર્ષિક)",
+        "ctaPublic": "વાર્ષિક સાથે 30% બચત – લૉગિન પર ચાલુ રાખો",
         "aria": "પ્રીમિયમ વાર્ષિક પર અપગ્રેડ કરો",
-        "disclaimer": "અગાઉથી બિલિંગ. ક્યારેય કેન્સલ કરી શકો. કોઈ છુપાયેલા ચાર્જ નહીં."
+        "disclaimer": "અગાઉથી બિલિંગ. કોઈપણ સમયે રદ કરી શકો. કોઈ છુપી ફી નથી."
       }
     },
     "marketing": {
-      "freeTitle": "ફ્રી",
-      "freeDesc": "ફ્રીમાં મેસેજિંગ શરૂ કરો.",
-      "plusTitle": "Plus",
+      "freeTitle": "મફત",
+      "freeDesc": "મફતમાં મેસેજિંગ શરૂ કરો.",
+      "plusTitle": "પ્લસ",
       "plusBadge": "લોકપ્રિય",
-      "plusDesc": "સૌથી સસ્તું જાહેરાત-મુક્ત અનુભવ.",
+      "plusDesc": "સૌથી વધુ સસ્તું જાહેરાત-મુક્ત અનુભવ.",
       "premiumMonthlyTitle": "પ્રીમિયમ",
       "premiumMonthlyDesc": "પૂર્ણ સુવિધાઓ, રિંગટોન્સ અને AI પાવર ટૂલ્સ.",
       "premiumAnnualTitle": "પ્રીમિયમ",
-      "premiumAnnualDesc": "વાર્ષિક બિલિંગ સાથે વધુ બચાવો.",
-      "annualDisclaimer": "અગાઉથી બિલિંગ. ક્યારેય કેન્સલ કરી શકો. કોઈ છુપાયેલા ચાર્જ નહીં."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "શરૂઆત",
-    "subtitle": "Chatforia માં નવા છો? આ ક્વિક સ્ટાર્ટ તમને મિનિટોમાં પ્રોડક્ટિવ બનાવે છે.",
-    "alert": {
-      "text": "અમે નવી સુવિધાઓ લોન્ચ કરીએ તેમ આ માર્ગદર્શિકા વધશે. કંઈ ગાયબ હોય તો સંપર્ક કરો:",
-      "contactLink": "અમારો સંપર્ક કરો"
+      "premiumAnnualDesc": "વાર્ષિક બિલિંગ સાથે વધુ બચત.",
+      "annualDisclaimer": "અગાઉથી બિલિંગ. કોઈપણ સમયે રદ કરી શકો. કોઈ છુપી ફી નથી."
     },
-    "section1": {
-      "title": "1) તમારું એકાઉન્ટ બનાવો",
-      "signup": "સાઇન અપ",
-      "or": "અથવા",
-      "login": "લોગ ઇન",
-      "loginText": "તમારા વર્તમાન એકાઉન્ટ સાથે.",
-      "prefsStart": "તમારી",
-      "prefsLink": "પસંદગીઓ",
-      "prefsRest": "(ભાષા, રીડ રસીદ, થીમ્સ) સેટ કરો."
+    "mobile": {
+      "title": "Chatforia મોબાઇલ (eSIM ડેટા પેક્સ)",
+      "subtitle": "વાઇ-ફાઇ વગર પણ Chatforia કામ કરે તે માટે વૈશ્વિક ડેટા ઉમેરો. કિંમતો તમારા દેશ અને ચલણ અનુસાર સ્વયંસંચાલિત અનુકૂળ થાય છે.",
+      "subtitle.detail": "એક વખતનો વૈશ્વિક ડેટા પેક પસંદ કરો જેથી મુસાફરી અથવા વાઇ-ફાઇથી દૂર હોય ત્યારે Chatforia કામ કરે.",
+      "scope": {
+        "local": "સ્થાનિક",
+        "europe": "યુરોપ",
+        "global": "વૈશ્વિક"
+      },
+      "note": "અમે 3 GBથી નીચેના ડેટા પેક્સ વેચતા નથી.",
+      "localEquals": "સ્થાનિક = {{country}}",
+      "localEqualsFallback": "સ્થાનિક = તમારો વર્તમાન દેશ",
+      "perPack": "/ પેક",
+      "cta": "આ ડેટા પેક મેળવો",
+      "ctaPublic": "આ ડેટા પેક મેળવો",
+      "checkout": {
+        "redirecting": "રીડાયરેક્ટ કરી રહ્યા છીએ…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "ભારે વપરાશ માટે હાઇ-સ્પીડ ડેટા",
+          "throttle": "ઉચ્ચ વપરાશ પછી સ્પીડ ધીમી થઈ શકે છે",
+          "coverage": "વિશ્વસનીય કવરેજ",
+          "instant": "તરત eSIM સક્રિયતા",
+          "noContract": "એક વખતનો પેક, કોઈ કરાર નહીં"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM ડેટા પેક્સને eSIM-સુસંગત અને અનલૉક્ડ ડિવાઇસની જરૂર છે. ઉપલબ્ધતા ફોન મોડલ, કેરિયર અને દેશ અનુસાર અલગ અલગ છે. કવરેજ અને સ્પીડ વિસ્તાર અનુસાર અલગ છે."
+      },
+      "small": {
+        "title": "સ્ટાર્ટર પેક",
+        "desc": "3 GB હાઇ-સ્પીડ ડેટા સાથે — હલકા મેસેજિંગ અને વારંવારના કૉલ્સ માટે આદર્શ.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "ટૂંકી મુસાફરી, હલકા મેસેજિંગ અને વારંવારના કૉલ્સ",
+        "aria": "સ્ટાર્ટર eSIM ડેટા પેક ખરીદો"
+      },
+      "medium": {
+        "title": "ટ્રાવેલર પેક",
+        "desc": "મુસાફરી, કમ્યુટિંગ અને નિયમિત VoIP કૉલ્સ માટે 5 GB હાઇ-સ્પીડ ડેટા.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "વીકેન્ડ મુસાફરી, નિયમિત VoIP કૉલ્સ અને મેપ્સ",
+        "aria": "ટ્રાવેલર eSIM ડેટા પેક ખરીદો"
+      },
+      "large": {
+        "title": "પાવર પેક",
+        "desc": "ભારે ચેટ, કૉલ્સ અને Chatforia નેટવર્ક પર વીડિયો માટે 10 GB હાઇ-સ્પીડ ડેટા.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "ભારે ચેટ, કૉલ્સ, વીડિયો અને હોટસ્પોટ વપરાશ",
+        "aria": "પાવર વપરાશકર્તા eSIM ડેટા પેક ખરીદો"
+      },
+      "compare": {
+        "title": "eSIM ડેટા પેક્સની તુલના કરો",
+        "col": {
+          "pack": "પેક",
+          "data": "સમાવિષ્ટ ડેટા",
+          "bestFor": "માટે શ્રેષ્ઠ"
+        },
+        "disclaimer": "વાસ્તવિક ડેટા વપરાશ તમે Chatforia (વૉઇસ, વીડિયો, મીડિયા અને તમારા ફોન પરના અન્ય એપ્સ) કેવી રીતે વાપરો છો તેના પર આધારિત છે."
+      }
     },
-    "section2": {
-      "title": "2) મેસેજિંગ શરૂ કરો",
-      "item1": "DM અથવા ગ્રૂપ બનાવો અને તમારો પ્રથમ સંદેશ મોકલો.",
-      "item2": "100+ ભાષાઓમાં ચેટ કરવા માટે ઇન્સ્ટન્ટ અનુવાદ વાપરો.",
-      "item3": "પ્રોફાઇલ → પ્રાઇવસીમાં ગાયબ થતા સંદેશા અને રીડ રસીદ અજમાવો."
+    "family": {
+      "title": "Chatforia પરિવાર (શેર્ડ ડેટા)",
+      "subtitle": "તમારા પરિવારમાં એક જ ડેટા પૂલ શેર કરો. એક બિલ, અનેક Chatforia એકાઉન્ટ્સ, વૈશ્વિક કવરેજ.",
+      "perPack": "/ પેક",
+      "small": {
+        "title": "પરિવાર સ્મોલ",
+        "desc": "20 GB શેર્ડ હાઇ-સ્પીડ ડેટા — 2–3 હલકા વપરાશકર્તાઓ માટે શ્રેષ્ઠ.",
+        "price": "$29.99",
+        "aria": "પરિવાર સ્મોલ પેક ખરીદો"
+      },
+      "medium": {
+        "title": "પરિવાર મીડિયમ",
+        "desc": "40 GB શેર્ડ હાઇ-સ્પીડ ડેટા — 3–5 સક્રિય સભ્યો માટે આદર્શ.",
+        "price": "$49.99",
+        "aria": "પરિવાર મીડિયમ પેક ખરીદો"
+      },
+      "large": {
+        "title": "પરિવાર લાર્જ",
+        "desc": "80 GB શેર્ડ હાઇ-સ્પીડ ડેટા — હંમેશા ઑનલાઇન રહેતા પાવર પરિવારો માટે.",
+        "price": "$84.99",
+        "aria": "પરિવાર લાર્જ પેક ખરીદો"
+      },
+      "feature": {
+        "shared": "તમારા પરિવાર માટે શેર્ડ ડેટા પૂલ",
+        "members": "મહત્તમ 4 વધારાના સભ્યોને આમંત્રિત કરો",
+        "membersMore": "3–5 સક્રિય સભ્યો માટે શ્રેષ્ઠ",
+        "manage": "દરેક સભ્ય માટે મર્યાદાઓ મેનેજ કરો",
+        "topUp": "કોઈપણ સમયે વધુ પેક્સ ઉમેરો",
+        "bestValue": "પ્રતિ GB શ્રેષ્ઠ કિંમત",
+        "fairUse": "વાજબી વપરાશ નીતિ અને સ્થાનિક મર્યાદાઓને આધીન"
+      },
+      "disclaimer": "પરિવાર પેક્સ શેર્ડ ડેટા પૂલ બનાવે અથવા ટોપ અપ કરે છે. તમે કોઈપણ સમયે સભ્યોને આમંત્રિત અથવા દૂર કરી શકો છો.",
+      "footnote": "પરિવાર પેક્સ લિંક્ડ Chatforia એકાઉન્ટ્સ વચ્ચે એક જ ડેટા પૂલ શેર કરે છે. ઉપલબ્ધતા અને મર્યાદાઓ તમારા દેશ અને સ્થાનિક નિયમો પર આધારિત છે."
     },
-    "section3": {
-      "title": "3) આગળ વધો",
-      "item1Part1": "તમારો પ્લાન",
-      "upgradeLink": "અપગ્રેડ",
-      "item1Part2": "પેજ પર મેનેજ કરો (Plus = જાહેરાત-મુક્ત, Premium = સંપૂર્ણ સુવિધાઓ).",
-      "item2Part1": "વધારાની ડિવાઇસિસ લિંક કરો અને એનક્રિપ્ટેડ બેકઅપ્સ સેટ કરો",
-      "settingsLink": "સેટિંગ્સ"
+    "why": {
+      "title": "લોકો Chatforia પર કેમ સ્વિચ કરે છે",
+      "subtitle": "Chatforia તમને વાસ્તવિક ફોન નંબર, સ્માર્ટ અનુવાદ અને જાહેરાત-મુક્ત બનવાનો સ્પષ્ટ માર્ગ આપે છે જ્યારે તમે તૈયાર હો.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia વિરુદ્ધ TextNow",
+          "body": "મફતમાં હલકી જાહેરાતો, તમે તૈયાર હો ત્યારે સરળ પ્લસ અપગ્રેડ અને TextNow જે ઑફર કરતું નથી તેવા પ્રીમિયમ ટૂલ્સ."
+        },
+        "voice": {
+          "title": "Chatforia વિરુદ્ધ Google Voice",
+          "body": "આધુનિક એપ, વૈશ્વિક-પહેલી ડિઝાઇન અને જૂની-શૈલીના કૉલ ફોર્વર્ડિંગની જગ્યાએ બિલ્ટ-ઇન અનુવાદ."
+        },
+        "messengers": {
+          "title": "Chatforia વિરુદ્ધ ચેટ એપ્સ",
+          "body": "વાસ્તવિક ફોન નંબર્સ પર ટેક્સ્ટ કરો — માત્ર અન્ય એપ વપરાશકર્તાઓ નહીં — AI અને સ્ટેટસ સાથે. જો તમે TextFree અથવા TextMe જેવી એપ્સમાંથી આવતા હોવ તો શ્રેષ્ઠ."
+        }
+      },
+      "tableTitle": "Chatforia કેવી રીતે તુલના કરે છે",
+      "col": {
+        "feature": "સુવિધા"
+      },
+      "feature": {
+        "freeNumber": "મફત ફોન નંબર",
+        "translation": "બિલ્ટ-ઇન ઑટો-અનુવાદ",
+        "aiTools": "AI ટૂલ્સ (રીરાઇટ્સ, જવાબો, સારાંશો)",
+        "ads": "જાહેરાત-મુક્ત વિકલ્પ",
+        "history": "સંદેશ ઇતિહાસ"
+      },
+      "yes": "હા",
+      "no": "ના",
+      "yesPremium": "હા (પ્રીમિયમ)",
+      "plusPremium": "પ્લસ અને પ્રીમિયમ",
+      "limited": "મર્યાદિત",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "મહત્તમ 12+ મહિના",
+        "textnow": "એકાઉન્ટ અનુસાર અલગ",
+        "voice": "મર્યાદિત / એકાઉન્ટ આધારિત"
+      },
+      "disclaimer": "સાર્વજનિક રીતે ઉપલબ્ધ માહિતી પર આધારિત તુલના અને સમય સાથે બદલાઈ શકે છે. અન્ય મફત-ટેક્સ્ટિંગ એપ્સ જેમ કે TextFree અથવા TextMe સામાન્ય રીતે TextNow જેવા છે."
     },
-    "cta": {
-      "seePlans": "પ્લાન્સ જુઓ",
-      "openSettings": "સેટિંગ્સ ખોલો"
-    }
-  },
-
-  "helpCenter": {
-    "title": "હેલ્પ સેન્ટર",
     "faq": {
-      "account": {
-        "q": "હું કેવી રીતે એકાઉન્ટ બનાવું અથવા રિકવર કરું?",
-        "a": "એપ ડાઉનલોડ કરો અથવા વેબ વાપરો, “એકાઉન્ટ બનાવો” પર ટૅપ કરો, તમારી ઇમેઇલ/ફોન વેરીફાઈ કરો. પુનઃપ્રાપ્ત કરવા માટે “પાસવર્ડ ભૂલી ગયા” વાપરો."
+      "title": "કિંમતો અને પ્લાન્સ FAQ",
+      "free": {
+        "q": "શું મફત પ્લાન ખરેખર મફત છે?",
+        "a": "હા. મફત પ્લાનમાં Chatforia નંબર, કૉલિંગ અને જાહેરાતો સાથે મેસેજિંગનો સમાવેશ થાય છે. તમે જેટલું જોઈએ તેટલું મફત પર રહી શકો છો અથવા જાહેરાતો દૂર કરવા અને વધુ સુવિધાઓ અનલૉક કરવા માટે અપગ્રેડ કરો."
       },
-      "privacy": {
-        "q": "શું સંદેશાઓ એન્ડ-ટુ-એન્ડ એનક્રિપ્ટેડ છે?",
-        "a": "હા. સંદેશાઓ અને કૉલ્સ ડિફોલ્ટએ એન્ડ-ટુ-એન્ડ એનક્રિપ્ટેડ છે. ફક્ત તમે અને પ્રાપ્તકર્તા જ તેને વાંચી શકો."
+      "plusPremium": {
+        "q": "પ્લસ અને પ્રીમિયમ વચ્ચે શું તફાવત છે?",
+        "a": "પ્લસ જાહેરાતો દૂર કરે છે અને તમારો સંદેશ ઇતિહાસ વધારે છે — રોજિંદા વપરાશ માટે પર્ફેક્ટ. પ્રીમિયમ વધારાના કસ્ટમાઇઝેશન, રીરાઇટ્સ અને જવાબો માટે AI ટૂલ્સ અને ભારે વપરાશકર્તાઓ માટે પ્રાથમિકતા સપોર્ટ ઉમેરે છે."
       },
-      "translate": {
-        "q": "ઇન્સ્ટન્ટ અનુવાદ કેવી રીતે કામ કરે છે?",
-        "a": "સેટિંગ્સ → દેખાવ અને ભાષા માં “Auto-translate” સક્રિય કરો. શક્ય હોય ત્યાં ઓન-ડિવાઇસ અનુવાદ, નહીં તો ઓછામાં ઓછા મેટાડેટા સાથે સુરક્ષિત API મારફતે."
+      "esim": {
+        "q": "eSIM ડેટા પેક્સ ક્યાં કામ કરે છે?",
+        "a": "Chatforia મોબાઇલ વૈશ્વિક eSIM કવરેજ વાપરે છે. ઉપલબ્ધતા તમારા દેશ અને ડિવાઇસ પર આધારિત છે. તમે એપની અંદર સક્રિયતા દરમિયાન સપોર્ટેડ વિકલ્પો જોશો."
+      },
+      "cancel": {
+        "q": "શું હું કોઈપણ સમયે પ્લાન્સ રદ અથવા બદલી શકું છું?",
+        "a": "હા. તમે એપમાં બિલિંગ પેજ પરથી તમારી સબસ્ક્રિપ્શન મેનેજ અથવા રદ કરી શકો છો. ફેરફારો તમારી વર્તમાન બિલિંગ અવધિના અંતે અમલમાં આવે છે."
+      },
+      "family": {
+        "q": "પરિવાર પેક્સ કેવી રીતે કામ કરે છે?",
+        "a": "પરિવાર પેક્સ અનેક Chatforia એકાઉન્ટ્સ વચ્ચે શેર્ડ ડેટા પૂલ બનાવે છે. એક વ્યક્તિ બિલ ચૂકવે છે અને તમે સભ્યોને આમંત્રિત અથવા દૂર કરી શકો છો અને દરેક વ્યક્તિ માટે મર્યાદાઓ સેટ કરી શકો છો."
+      }
+    },
+    "gettingStarted": {
+      "title": "શરૂઆત કેવી રીતે કરવી",
+      "subtitle": "Chatforiaમાં નવા છો? આ ઝડપી માર્ગદર્શિકા તમને મિનિટોમાં ઉત્પાદક બનાવવા માટે જરૂરી વસ્તુઓ બતાવે છે.",
+      "alert": {
+        "text": "જેમ જેમ અમે નવી સુવિધાઓ લોન્ચ કરીએ તેમ આ માર્ગદર્શિકા વિકસિત થશે. જો કંઈક ખૂટતું હોય તો અમને",
+        "contactLink": "સંપર્ક કરો"
+      },
+      "section1": {
+        "title": "1) તમારું એકાઉન્ટ બનાવો",
+        "signup": "સાઇન અપ",
+        "or": "અથવા",
+        "login": "લૉગ ઇન",
+        "loginText": "તમારા હાલના એકાઉન્ટ સાથે.",
+        "prefsStart": "તમારી",
+        "prefsLink": "પસંદગીઓ",
+        "prefsRest": "સેટ કરો (ભાષા, વાંચન રસીદો, થીમ્સ)."
+      },
+      "section2": {
+        "title": "2) મેસેજિંગ શરૂ કરો",
+        "item1": "DM અથવા ગ્રુપ બનાવો અને તમારો પ્રથમ સંદેશ મોકલો.",
+        "item2": "100+ ભાષાઓ વચ્ચે વાતચીત કરવા માટે તરત અનુવાદ વાપરો.",
+        "item3": "પ્રોફાઇલ → પ્રાઇવસીમાં અદૃશ્ય થતા સંદેશાઓ અને વાંચન રસીદો અજમાવો."
+      },
+      "section3": {
+        "title": "3) આગળ વધો",
+        "item1": "તમે કોઈપણ સમયે એપની અંદર પેઇડ પ્લાન પર અપગ્રેડ કરી શકો છો.",
+        "item2": "એક વખત સાઇન ઇન થઈ ગયા પછી તમે વધારાની ડિવાઇસિસ લિંક કરી શકો છો અને એપમાં સેટિંગ્સમાંથી એન્ક્રિપ્ટેડ બેકઅપ્સ સેટ કરી શકો છો."
+      },
+      "cta": {
+        "seePlans": "પ્લાન્સ જુઓ",
+        "openSettings": "સેટિંગ્સ ખોલો"
+      }
+    },
+    "helpCenter": {
+      "title": "મદદ કેન્દ્ર",
+      "faq": {
+        "account": {
+          "q": "હું મારું એકાઉન્ટ કેવી રીતે બનાવું અથવા પુનઃપ્રાપ્ત કરું?",
+          "a": "એપ ડાઉનલોડ કરો અથવા વેબ વાપરો, “એકાઉન્ટ બનાવો” પર ટેપ કરો, તમારું ઇમેઇલ/ફોન વેરિફાઇ કરો. પુનઃપ્રાપ્તિ માટે “પાસવર્ડ ભૂલી ગયા” વાપરો."
+        },
+        "privacy": {
+          "q": "શું સંદેશાઓ એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે?",
+          "a": "હા. સંદેશાઓ અને કૉલ્સ ડિફોલ્ટ રીતે એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે. માત્ર તમે અને પ્રાપ્તકર્તા તે વાંચી શકે છે."
+        },
+        "translate": {
+          "q": "તરત અનુવાદ કેવી રીતે કામ કરે છે?",
+          "a": "સેટિંગ્સ → દેખાવ અને ભાષામાં “ઑટો-અનુવાદ” સક્ષમ કરો. અમે સપોર્ટેડ હોય ત્યાં ડિવાઇસ પર અનુવાદ કરીએ છીએ, અન્યથા ન્યૂનતમ મેટાડેટા સાથે સુરક્ષિત API દ્વારા."
+        },
+        "contact": {
+          "q": "સપોર્ટનો સંપર્ક કરો",
+          "a": "અમને support@chatforia.com પર સંપર્ક કરો. સ્ક્રીનશોટ્સ અને તમારી એપ વર્ઝન શામેલ કરો."
+        }
+      }
+    },
+    "contact": {
+      "title": "અમારો સંપર્ક કરો",
+      "successMsg": "આભાર—અમારી ટીમ ઇમેઇલ દ્વારા જવાબ આપશે.",
+      "errorSend": "મોકલી શકાયું નહીં. કૃપા કરીને support@chatforia.com પર ઇમેઇલ કરો.",
+      "form": {
+        "nameLabel": "નામ",
+        "emailLabel": "ઇમેઇલ",
+        "messageLabel": "સંદેશ",
+        "sendCta": "મોકલો"
+      }
+    },
+    "privacyPolicy": {
+      "title": "પ્રાઇવસી પોલિસી",
+      "lastUpdated": "છેલ્લે અપડેટ:",
+      "intro": {
+        "body": "આ પ્રાઇવસી પોલિસી સમજાવે છે કે Chatforia (“અમે”, “અમારા”) અમારી એપ્સ અને સેવાઓ વાપરતી વખતે માહિતી કેવી રીતે એકત્રિત, વાપરે અને શેર કરે છે. અમે Chatforiaને અમે ઍક્સેસ કરી શકીએ તેવા ડેટાને ન્યૂનતમ કરવા માટે ડિઝાઇન કરીએ છીએ."
+      },
+      "infoWeCollect": {
+        "title": "અમે એકત્રિત કરીએ છીએ તે માહિતી",
+        "account": "એકાઉન્ટ માહિતી (દા.ત. ઇમેઇલ/ફોન) એકાઉન્ટ બનાવવા અને સુરક્ષિત કરવા માટે.",
+        "encrypted": "એન્ક્રિપ્ટેડ સામગ્રી (સંદેશાઓ/કૉલ્સ) એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે; અમે તે વાંચી શકતા નથી.",
+        "diagnostics": "ડાયગ્નોસ્ટિક્સ/વપરાશ જેમ કે ક્રેશ લૉગ્સ, ડિવાઇસ પ્રકાર અથવા રૂઢ અનલિટિક્સ પરફોર્મન્સ સુધારવા માટે."
+      },
+      "sms": {
+        "title": "મોબાઇલ ફોન નંબર્સ અને SMS",
+        "body": "જો તમે મોબાઇલ ફોન નંબર આપવાનું પસંદ કરો તો અમે તેનો ઉપયોગ એકાઉન્ટ વેરિફિકેશન, લૉગિન સૂચનાઓ અને સપોર્ટેડ હોય ત્યાં વપરાશકર્તા-થી-વપરાશકર્તા SMS મેસેજિંગ માટે કરીએ છીએ. અમે તમારા એકાઉન્ટ અને Chatforia પરની પ્રવૃત્તિ સંબંધિત વ્યવહારિક SMS સંદેશાઓ મોકલી શકીએ છીએ. તમે કોઈપણ સમયે “STOP” જેવા સપોર્ટેડ ઑપ્ટ-આઉટ કીવર્ડના જવાબમાં અથવા એપમાં તમારી સૂચના પસંદગીઓ બદલીને SMS મેળવવાનું ઑપ્ટ આઉટ કરી શકો છો. અમે તમારો ફોન નંબર વેચતા નથી અથવા તેનો અસંબંધિત માર્કેટિંગ માટે ઉપયોગ કરતા નથી.",
+        "newText": "નવો ટેક્સ્ટ",
+        "enterRecipient": "નામ અથવા નંબર દાખલ કરો",
+        "typeMessage": "સંદેશ લખો…",
+        "addRecipient": "ઉપર પ્રાપ્તકર્તા ઉમેરો અને શરૂ કરો…"
+      },
+      "howWeUse": {
+        "title": "અમે માહિતી કેવી રીતે વાપરીએ છીએ",
+        "provide": "સેવા આપવી અને સુરક્ષિત કરવી (ઓથ, સ્પામ/દુરુપયોગ શોધ).",
+        "improve": "સુવિધાઓ સુધારવી (અનુવાદ ગુણવત્તા, વિશ્વસનીયતા).",
+        "legal": "કાનૂની જવાબદારીઓનું પાલન કરવું."
+      },
+      "sharing": {
+        "title": "શેરિંગ",
+        "body": "અમે વ્યક્તિગત ડેટા વેચતા નથી. અમે કડક કરારો હેઠળ પ્રોસેસર્સ (દા.ત. પુશ સૂચનાઓ, અનલિટિક્સ) સાથે મર્યાદિત ડેટા શેર કરી શકીએ છીએ."
+      },
+      "rights": {
+        "title": "તમારા અધિકારો",
+        "body": "તમારા ક્ષેત્ર અનુસાર (દા.ત. GDPR/UK GDPR/CPRA), તમે ઍક્સેસ, સુધારા, કાઢી નાખવા અથવા અમુક પ્રોસેસિંગમાંથી ઑપ્ટ-આઉટની વિનંતી કરી શકો છો. સંપર્ક: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "ડેટા સંગ્રહ અને સુરક્ષા",
+        "body": "અમે સેવા ચલાવવા માટે જરૂરી હોય તે જ સ્ટોર કરીએ છીએ અને ઉદ્યોગ-માનક સુરક્ષા લાગુ કરીએ છીએ. E2E સામગ્રીને અમે ડિક્રિપ્ટ કરી શકતા નથી."
+      },
+      "children": {
+        "title": "બાળકો",
+        "body": "Chatforia 13 વર્ષથી નીચેના બાળકો (અથવા તમારા સ્થાનિક કાયદા અનુસાર) માટે નિર્દેશિત નથી."
+      },
+      "changes": {
+        "title": "ફેરફારો",
+        "body": "અમે અહીં અપડેટ્સ પોસ્ટ કરીશું અને “છેલ્લે અપડેટ” તારીખ સુધારીશું."
       },
       "contact": {
-        "q": "સપોર્ટનો સંપર્ક",
-        "a": "support@chatforia.com પર અમારો સંપર્ક કરો. સ્ક્રીનશોટ્સ અને તમારી એપ વર્ઝન ઉમેરો."
+        "title": "સંપર્ક",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "અમારો સંપર્ક કરો",
-    "successMsg": "આભાર — અમારી ટીમ ઇમેઇલ દ્વારા જવાબ આપશે.",
-    "errorSend": "મોકલી શક્યા નથી. કૃપા કરીને support@chatforia.com પર ઇમેઇલ કરો.",
-    "form": {
-      "nameLabel": "નામ",
-      "emailLabel": "ઇમેઇલ",
-      "messageLabel": "સંદેશ",
-      "sendCta": "મોકલો"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "પ્રાઇવસી પોલિસી",
-    "lastUpdated": "છેલ્લે અપડેટ:",
-    "intro": {
-      "body": "આ પ્રાઇવસી પોલિસી સમજાવે છે કે Chatforia (“અમે”) એપ્સ અને સેવાઓ વાપરતાં આપણે કેવી રીતે માહિતી એકત્ર કરીએ છીએ, વાપરીએ છીએ અને શેર કરીએ છીએ. અમે Chatforia ને એવી રીતે ડિઝાઇન કરીએ છીએ કે અમારા દ્વારા ઍક્સેસ કરી શકાય તે ડેટા ઓછામાં ઓછો રહે."
     },
-    "infoWeCollect": {
-      "title": "અમે શું માહિતી એકત્ર કરીએ છીએ",
-      "account": "એકાઉન્ટ માહિતી (દા.ત., ઇમેઇલ/ફોન) તમારું એકાઉન્ટ બનાવવા અને સુરક્ષિત કરવા માટે.",
-      "encrypted": "એનક્રિપ્ટેડ સામગ્રી (સંદેશા/કૉલ્સ) એન્ડ-ટુ-એન્ડ એનક્રિપ્ટેડ છે; અમે તેને વાંચી નથી શકતા.",
-      "diagnostics": "ડાયગ્નોસ્ટિક/વપરાશ જેવી કે ક્રેશ લોગ્સ, ડિવાઇસ પ્રકાર અથવા રૂઢીઆચરણ એનાલિટિક્સ કામગીરી સુધારવા માટે."
+    "terms": {
+      "title": "સેવાની શરતો",
+      "lastUpdated": "છેલ્લે અપડેટ:",
+      "intro": {
+        "body": "Chatforia વાપરવાથી તમે આ શરતો સાથે સંમત થાઓ છો. જો તમે સંમત ન હો તો સેવા વાપરશો નહીં."
+      },
+      "accounts": {
+        "title": "એકાઉન્ટ્સ",
+        "itemAccurateInfo": "સચોટ માહિતી આપો અને ઓળખપત્રો સુરક્ષિત રાખો.",
+        "itemResponsibility": "તમારા એકાઉન્ટ પરની પ્રવૃત્તિ માટે તમે જવાબદાર છો."
+      },
+      "acceptableUse": {
+        "title": "સ્વીકાર્ય વપરાશ",
+        "itemNoAbuse": "કોઈ અનૈતિક, દુરુપયોગી અથવા અતિક્રમણ સામગ્રી; કોઈ સ્પામ અથવા ઑટોમેટેડ દુરુપયોગ નહીં.",
+        "itemSuspend": "ઉલ્લંઘન માટે અમે સસ્પેન્ડ/સમાપ્ત કરી શકીએ છીએ."
+      },
+      "sms": {
+        "title": "SMS સંચાર",
+        "body": "જો તમે મોબાઇલ ફોન નંબર આપો તો તમે સંમત થાઓ છો કે Chatforia તમને તમારા એકાઉન્ટ અને સેવાના વપરાશ સંબંધિત SMS સંદેશાઓ મોકલી શકે છે, જેમ કે લૉગિન સૂચનાઓ, સુરક્ષા સૂચનાઓ અને તમે શરૂ કરેલી અથવા ભાગ લીધેલી વાતચીતો સંબંધિત સંદેશાઓ. અમે તમારી સ્પષ્ટ સંમતિ વગર પ્રમોશનલ અથવા માર્કેટિંગ SMS માટે વપરતા નથી. માનક સંદેશ અને ડેટા રેટ લાગુ થઈ શકે છે. તમે કોઈપણ સમયે “STOP” જેવા સપોર્ટેડ ઑપ્ટ-આઉટ કીવર્ડના જવાબમાં અથવા એપમાં તમારી સૂચના સેટિંગ્સ અપડેટ કરીને SMS સંદેશાઓમાંથી ઑપ્ટ આઉટ કરી શકો છો."
+      },
+      "yourContent": {
+        "title": "તમારી સામગ્રી",
+        "body": "તમે તમારી સામગ્રીના અધિકારો જાળવી રાખો છો. અમને સેવા ચલાવવા માટે જરૂરી અધિકારો આપો છો (દા.ત. રૂટિંગ, સ્ટોરેજ, અનુવાદ)."
+      },
+      "disclaimer": {
+        "title": "અસ્વીકરણ અને જવાબદારી",
+        "body": "સેવા “જેમ છે તેમ” વોરંટી વગર આપવામાં આવે છે. કાયદા દ્વારા મંજૂર મહત્તમ હદ સુધી, Chatforia અપ્રત્યક્ષ અથવા પરિણામી નુકસાન માટે જવાબદાર નથી."
+      },
+      "changes": {
+        "title": "ફેરફારો",
+        "body": "અમે આ શરતો અપડેટ કરી શકીએ છીએ; ફેરફારો પછી સતત વપરાશ એ સ્વીકાર્યતા માનવામાં આવે છે."
+      },
+      "contact": {
+        "title": "સંપર્ક",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "અમે માહિતી કેવી રીતે વાપરીએ છીએ",
-      "provide": "સેવા પ્રદાન અને સુરક્ષિત કરવા (ઓથ, સ્પામ/દુરૂપયોગ શોધ).",
-      "improve": "સુવિધાઓ સુધારવા (અનુવાદ ગુણવત્તા, વિશ્વસનીયતા).",
-      "legal": "કાનૂની ફરજોનું પાલન કરવા."
+    "doNotSell": {
+      "title": "મારી વ્યક્તિગત માહિતી વેચો અથવા શેર કરો નહીં",
+      "body": "Chatforia વ્યક્તિગત માહિતી વેચતું નથી. કેલિફોર્નિયા રહેવાસીઓ હજુ પણ નીચેના બટન વાપરીને CPRA હેઠળ વિનંતીઓ સબમિટ કરી શકે છે.",
+      "cta": "વિનંતી સબમિટ કરો"
     },
-    "sharing": {
-      "title": "શેરિંગ",
-      "body": "અમે વ્યક્તિગત ડેટા વેચતા નથી. અમે_processors સાથે મર્યાદિત ડેટા શેર કરી શકીએ છીએ (દા.ત., પુશ સૂચનાઓ, એનાલિટિક્સ) કડક કોન્ટ્રાક્ટ હેઠળ."
+    "cookies": {
+      "title": "કુકી સેટિંગ્સ",
+      "body": "Chatforia ન્યૂનતમ કુકીઝ (દા.ત. સેશન, સુરક્ષા) વાપરે છે. અમે તૃતીય-પક્ષ જાહેરાત કુકીઝ વાપરતા નથી. તમારા બ્રાઉઝરની સેટિંગ્સ દ્વારા કુકીઝ મેનેજ કરો."
     },
-    "rights": {
-      "title": "તમારા અધિકારો",
-      "body": "તમારા પ્રદેશ પ્રમાણે (દા.ત., GDPR/UK GDPR/CPRA) તમે ઍક્સેસ, સુધારણા, ડિલીટ અથવા કેટલીક પ્રક્રિયાથી બહાર નીકળવાનો વિનંતી કરી શકો. સંપર્ક: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "ફોન નંબર સ્ટેટસ લોડ કરી શકાયું નહીં.",
+      "lock": "લૉક",
+      "noNumberAssigned": "કોઈ નંબર સોંપેલ નથી. ટેક્સ્ટિંગ શરૂ કરવા માટે એરિયા કોડ પસંદ કરો.",
+      "pickNumber": "નંબર પસંદ કરો",
+      "phoneNumber": "ફોન નંબર"
     },
-    "retention": {
-      "title": "ડેટા રિટેન્શન અને સિક્યોરિટી",
-      "body": "અમે સેવા ચલાવવા જરૂરી એટલું જ રાખીએ છીએ અને ઇન્ડસ્ટ્રી-સ્ટાન્ડર્ડ સિક્યોરિટી લાગુ કરીએ છીએ. E2E સામગ્રીને અમે ડીક્રિપ્ટ કરી શકતા નથી."
+    "startChatModal": {
+      "title": "ચેટ શરૂ કરો",
+      "quickPicker": "ઝડપી પિકર",
+      "to": "પ્રતિ",
+      "nameOrUsername": "નામ, વપરાશકર્તા નામ લખો",
+      "nameUsernamePhoneEmail": "નામ, વપરાશકર્તા નામ, ફોન અથવા ઇમેઇલ લખો…",
+      "startWithSelected": "પસંદ કરેલા સાથે ચેટ શરૂ કરો",
+      "searchByUsernameOrPhone": "વપરાશકર્તા નામ અથવા ફોન દ્વારા શોધો",
+      "search": "શોધો",
+      "searchPrompt": "વપરાશકર્તા નામ અથવા ફોન લખો અને શોધો પર ક્લિક કરો.",
+      "pickFromContacts": "અથવા સંપર્કોમાંથી પસંદ કરો",
+      "addContact": "સંપર્ક ઉમેરો",
+      "show": "બતાવો",
+      "add": "ઉમેરો",
+      "close": "બંધ કરો",
+      "selectedCount": "{{count}} પસંદ કરેલા",
+      "pickAtLeastOne": "ઓછામાં ઓછું એક પ્રાપ્તકર્તા પસંદ કરો.",
+      "saveContactsHint": "ફોન/ઇમેઇલ એન્ટ્રીઓ તેમને સંપર્ક તરીકે સેવ કર્યા પછી ઉપલબ્ધ થશે.",
+      "failedBulkStart": "પસંદ કરેલા પ્રાપ્તકર્તાઓ સાથે ચેટ શરૂ કરવામાં નિષ્ફળ.",
+      "noResults": "કોઈ પરિણામો નથી",
+      "mode": "મોડ",
+      "group": "ગ્રુપ",
+      "broadcast": "બ્રોડકાસ્ટ",
+      "groupNameOptional": "ગ્રુપ નામ (વૈકલ્પિક)",
+      "firstMessageOptional": "પ્રથમ સંદેશ (વૈકલ્પિક પરંતુ ભલામણ કરેલ)",
+      "createGroup": "ગ્રુપ બનાવો",
+      "sendBroadcast": "બ્રોડકાસ્ટ મોકલો"
     },
-    "children": {
-      "title": "બાળકો",
-      "body": "Chatforia 13 વર્ષથી ઓછી ઉંમરના બાળકો (અથવા તમારા સ્થાનિક કાયદા પ્રમાણે) માટે બનાવેલ નથી."
+    "themes": {
+      "amoled": "AMOLED",
+      "aurora": "ઓરોરા",
+      "neon": "નિયોન",
+      "sunset": "સનસેટ",
+      "solarized": "સોલરાઇઝ્ડ",
+      "velvet": "વેલ્વેટ"
     },
-    "changes": {
-      "title": "ફેરફારો",
-      "body": "અમે અહીં અપડેટ્સ પોસ્ટ કરીશું અને “છેલ્લે અપડેટ” તારીખ સુધારીશું."
+    "sounds": {
+      "freeNotice": "તમે મફત પર છો — પ્રીમિયમ ટોન્સ બતાવવામાં આવે છે પરંતુ લૉક છે. બધા અનલૉક કરવા માટે અપગ્રેડ કરો.",
+      "preview": "પ્રિવ્યૂ",
+      "resetToDefaults": "ડિફોલ્ટ પર રીસેટ",
+      "notificationSounds": "સૂચના અવાજો",
+      "messageTone": "સંદેશ ટોન",
+      "default": "ડિફોલ્ટ",
+      "vibrate": "વાઇબ્રેટ",
+      "dreamer": "ડ્રીમર",
+      "notify": "નોટિફાય",
+      "pop": "પોપ",
+      "pulsatingSound": "પલ્સેટિંગ સાઉન્ડ",
+      "textMessage": "ટેક્સ્ટ મેસેજ",
+      "xylophone": "ક્સાઇલોફોન",
+      "classic": "ક્લાસિક",
+      "urgency": "અર્જન્સી",
+      "bells": "બેલ્સ",
+      "chimes": "ચાઇમ્સ",
+      "digitalPhone": "ડિજિટલ ફોન",
+      "melodic": "મેલોડિક",
+      "organNotes": "ઓર્ગન નોટ્સ",
+      "soundReality": "સાઉન્ડ રિયાલિટી",
+      "street": "સ્ટ્રીટ",
+      "universfield": "યુનિવર્સફિલ્ડ"
     },
-    "contact": {
-      "title": "સંપર્ક",
-      "body": "privacy@chatforia.com • [કંપનીના કાનૂની નામ], [સરનામું]"
-    }
-  },
-
-  "terms": {
-    "title": "ટર્મ્સ ઓફ સર્વિસ",
-    "lastUpdated": "છેલ્લે અપડેટ:",
-    "intro": {
-      "body": "Chatforia વાપરવાથી તમે આ ટર્મ્સ સાથે સહમત થાઓ છો. જો તમે સહમત ન હો, તો સેવા વાપરશો નહીં."
+    "premiumGuard": {
+      "requiresPremium": "આ સુવિધા માટે પ્રીમિયમ પ્લાન જરૂરી છે."
     },
-    "accounts": {
-      "title": "એકાઉન્ટ્સ",
-      "itemAccurateInfo": "ખરી માહિતી આપો અને ક્રેડેન્શિયલ્સ સુરક્ષિત રાખો.",
-      "itemResponsibility": "તમારા એકાઉન્ટ પરની પ્રવૃત્તિ માટે તમે જવાબદાર છો."
+    "aiSettings": {
+      "title": "AI સેટિંગ્સ",
+      "controlIntro": "અનુવાદ, સ્માર્ટ જવાબો અને ForiaBot ઑટો-રિસ્પોન્સ નિયંત્રિત કરો.",
+      "save": "AI સેટિંગ્સ સેવ કરો",
+      "autoTranslateIncoming": "આવનારા સંદેશાઓનો ઑટો-અનુવાદ",
+      "showOriginalAlongside": "અનુવાદ સાથે મૂળ ટેક્સ્ટ બતાવો",
+      "enableSmartReplies": "સ્માર્ટ જવાબો સક્ષમ કરો",
+      "smartRepliesHint": "ઝડપી જવાબો સૂચવવા માટે AIને છેલ્લા કેટલાક પ્રાપ્ત સંદેશાઓ (સેનિટાઇઝ્ડ) મોકલો.",
+      "maskProfanity": "AI સૂચનોમાં અશ્લીલતા માસ્ક કરો",
+      "maskProfanityHint": "ચાલુ હોય તો AI દ્વારા પરત કરાયેલા સૂચનોમાં ફ્લેગ કરેલા શબ્દો માસ્ક થશે",
+      "foriaBot": "ForiaBot ઑટો-રિસ્પોન્ડર",
+      "enableAutoReply": "હું વ્યસ્ત હોઉં ત્યારે ઑટો-જવાબ સક્ષમ કરો",
+      "autoReplyMode": "ઑટો-જવાબ મોડ",
+      "cooldownSeconds": "કૂલડાઉન (સેકન્ડ)",
+      "off": "બંધ",
+      "on": "ચાલુ",
+      "signature": "સહી",
+      "autoReply": "ઑટો-જવાબ",
+      "activeUntilOptional": "સક્રિય સુધી (વૈકલ્પિક)",
+      "saved": "AI પસંદગીઓ સેવ થઈ",
+      "saveFailed": "AI સેટિંગ્સ સેવ કરવામાં નિષ્ફળ",
+      "translateOff": "બંધ",
+      "translateTagged": "માત્ર @translated અથવા ટેગ કરેલા હોય ત્યારે",
+      "translateAll": "બધા આવનારા સંદેશાઓનો અનુવાદ કરો",
+      "modeDm": "માત્ર 1:1 ચેટ્સ",
+      "modeMention": "માત્ર જ્યારે હું @mentioned હોઉં",
+      "modeAll": "બધા ઇનબાઉન્ડ સંદેશાઓ"
     },
-    "acceptableUse": {
-      "title": "સ્વીકાર્ય ઉપયોગ",
-      "itemNoAbuse": "કોઈ ગેરકાયદેસર, દુરૂપયોગી અથવા ઇન્ફ્રિન્જિંગ સામગ્રી નહીં; કોઈ સ્પામ અથવા ઓટોમેટેડ દુરૂપયોગ નહીં.",
-      "itemSuspend": "ઉલ્લંઘન પર અમે સસ્પેન્ડ/ટર્મિનેટ કરી શકીએ છીએ."
+    "accessibilitySettings": {
+      "title": "સુલભતા અને સૂચનાઓ",
+      "accessibility": "સુલભતા",
+      "accessibilityDesc": "અવાજ પર આધાર રાખ્યા વગર Chatforia વાપરવાના વિકલ્પો.",
+      "interfaceFontSize": "ઇન્ટરફેસ ફોન્ટ સાઇઝ",
+      "interfaceFontSizeHelp": "સામાન્ય સાઇઝથી શરૂ થાય છે. સુલભતા સેટિંગ્સમાં મોટા ટેક્સ્ટ પસંદ હોય તો વધારો.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "સૂચનાઓ",
+      "notificationsDesc": "સંદેશાઓ અને કૉલ્સ માટે વિઝ્યુઅલ સૂચનાઓ\nબેનર્સ અને ટાઇટલ બ્લિંક બતાવો જેથી તમે પ્રવૃત્તિ ચૂકી ન જાઓ.",
+      "vibrateOnNew": "નવા સંદેશાઓ પર વાઇબ્રેટ (સપોર્ટેડ હોય ત્યારે)\nસૂચનાઓ સાથે ડિવાઇસ વાઇબ્રેશન ટ્રિગર કરો.",
+      "flashOnCall": "આવનારા કૉલ પર સ્ક્રીન ફ્લેશ\nકૉલ રિંગ થતી વખતે ટૂંકો તેજસ્વી ફ્લેશ.",
+      "liveCaptions": "લાઇવ કેપ્શન્સ (કૉલ્સ)",
+      "captionFontSize": "કેપ્શન ફોન્ટ સાઇઝ",
+      "captionBackground": "કેપ્શન બેકગ્રાઉન્ડ",
+      "light": "પ્રકાશ",
+      "dark": "ઘેરું",
+      "transparent": "પારદર્શક",
+      "voiceNotes": "વૉઇસ નોટ્સ",
+      "autoTranscribeVoiceNotes": "વૉઇસ નોટ્સનું ઑટો-ટ્રાન્સક્રાઇબ",
+      "autoTranscribeVoiceNotesDesc": "તમને પ્રાપ્ત ઑડિયો સંદેશાઓમાં ટ્રાન્સક્રિપ્ટ જોડો.",
+      "changesSavedInstantly": "ફેરફારો તરત જ સેવ થાય છે.",
+      "loadFailed": "સેટિંગ્સ લોડ કરવામાં નિષ્ફળ",
+      "visualAlerts": "સંદેશાઓ અને કૉલ્સ માટે વિઝ્યુઅલ સૂચનાઓ",
+      "visualAlertsDesc": "બેનર્સ અને ટાઇટલ બ્લિંક બતાવો જેથી તમે પ્રવૃત્તિ ચૂકી ન જાઓ.",
+      "vibrateOnNewShort": "નવા સંદેશાઓ પર વાઇબ્રેટ (સપોર્ટેડ હોય ત્યારે)",
+      "vibrateOnNewDesc": "સૂચનાઓ સાથે ડિવાઇસ વાઇબ્રેશન ટ્રિગર કરો.",
+      "flashOnCallShort": "આવનારા કૉલ પર સ્ક્રીન ફ્લેશ",
+      "flashOnCallDesc": "કૉલ રિંગ થતી વખતે ટૂંકો તેજસ્વી ફ્લેશ."
     },
-    "yourContent": {
-      "title": "તમારી સામગ્રી",
-      "body": "તમારી સામગ્રી પર હક તમારા રહે છે. સેવા ચલાવવા જરૂરી હકો તમે અમને આપો છો (દા.ત., રૂટિંગ, સંગ્રહ, અનુવાદ)."
+    "privacySection": {
+      "strictE2EE": "સખત એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન",
+      "ciphertextOnlyNote": "સર્વર પર માત્ર સાઇફરટેક્સ્ટ સ્ટોર કરો. AI/અનુવાદ અને મોડરેશન પ્રિવ્યૂ નિષ્ક્રિય કરે છે."
     },
-    "disclaimer": {
-      "title": "અસ્વીકાર અને જવાબદારી",
-      "body": "સેવા “જેમ છે” તેમ આપવામાં આવે છે કોઈ વોરંટી વિના. કાયદાથી પરવાનગી હશે ત્યાં સુધી, પરોક્ષ અથવા અનુસંગી નુકસાન માટે Chatforia જવાબદાર નથી."
+    "linkedDevicesPanel": {
+      "title": "લિંક્ડ ડિવાઇસિસ",
+      "noneFound": "કોઈ લિંક્ડ ડિવાઇસિસ મળી નહીં.",
+      "refresh": "તાજું કરો"
     },
-    "changes": {
-      "title": "ફેરફારો",
-      "body": "અમે આ ટર્મ્સ અપડેટ કરી શકીએ છીએ; ફેરફારો પછી સતત ઉપયોગનો અર્થ સ્વીકાર છે."
+    "help": {
+      "title": "મદદ",
+      "howCanWeHelp": "અમે કેવી રીતે મદદ કરી શકીએ?",
+      "helpCenter": "મદદ કેન્દ્ર",
+      "contactUs": "અમારો સંપર્ક કરો",
+      "quickTopics": "ઝડપી વિષયો",
+      "searchExamples": "“અનુવાદ”, “બેકઅપ્સ” અથવા “પ્રાઇવસી” માટે શોધવાનો પ્રયાસ કરો.",
+      "cantLogin": "લૉગ ઇન કરી શકતા નથી",
+      "paymentsBilling": "ચુકવણીઓ/બિલિંગ",
+      "reportAbuse": "દુરુપયોગની અહેવાલ આપો",
+      "searchHelpArticles": "મદદ લેખો શોધો",
+      "search": "શોધો"
     },
-    "contact": {
-      "title": "સંપર્ક",
-      "body": "support@chatforia.com • [કંપનીના કાનૂની નામ], [સરનામું]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "મારી વ્યક્તિગત માહિતી વેચશો અથવા શેરશો નહીં",
-    "body": "Chatforia વ્યક્તિગત માહિતી વેચતું નથી. કૅલિફોર્નિયા રહેવાસીઓ CPRA હેઠળ હજી પણ નીચેના બટન વડે વિનંતી કરી શકે છે.",
-    "cta": "વિનંતી મોકલો"
-  },
-
-  "cookies": {
-    "title": "કૂકી સેટિંગ્સ",
-    "body": "Chatforia ઓછામાં ઓછા કૂકીઝ વાપરે છે (દા.ત., સેશન, સિક્યોરિટી). અમે ત્રીજા પક્ષની જાહેરાત કૂકીઝ વાપરતા નથી. કૂકીઝ તમારા બ્રાઉઝરના સેટિંગ્સથી મેનેજ કરો."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "ફોન નંબરની સ્થિતિ લોડ કરી શક્યા નથી.",
-    "lock": "લૉક",
-    "noNumberAssigned": "કોઈ નંબર સોંપાયેલ નથી. ટેક્સ્ટિંગ શરૂ કરવા માટે એરિયા કોડથી એક પસંદ કરો.",
-    "pickNumber": "નંબર પસંદ કરો",
-    "phoneNumber": "ફોન નંબર"
-  },
-
-  "startChatModal": {
-    "title": "ચેટ શરૂ કરો",
-    "quickPicker": "ક્વિક પિકર",
-    "to": "કોને",
-    "nameOrUsername": "નામ, યુઝરનેમ ટાઇપ કરો",
-    "nameUsernamePhoneEmail": "નામ, યુઝરનેમ, ફોન અથવા ઇમેઇલ ટાઇપ કરો…",
-    "startWithSelected": "પસંદ કરેલા સાથે ચેટ શરૂ કરો",
-    "searchByUsernameOrPhone": "યૂઝરનેમ અથવા ફોનથી શોધો",
-    "search": "શોધો",
-    "searchPrompt": "યૂઝરનેમ અથવા ફોન ટાઇપ કરો અને શોધ પર દબાવો.",
-    "pickFromContacts": "અથવા કોન્ટેક્ટ્સમાંથી પસંદ કરો",
-    "addContact": "કોન્ટેક્ટ ઉમેરો",
-    "show": "બતાવો",
-    "add": "ઉમેરો",
-    "close": "બંધ કરો",
-    "selectedCount": "{{count}} પસંદ",
-    "pickAtLeastOne": "ઓછામાં ઓછા એક પ્રાપ્તકર્તાને પસંદ કરો.",
-    "saveContactsHint": "ફોન/ઇમેઇલ એન્ટ્રીઝ તમે તેમને કોન્ટેક્ટ્સ તરીકે સેવ કર્યા પછી ઉપલબ્ધ રહેશે.",
-    "failedBulkStart": "પસંદ કરેલા પ્રાપ્તકર્તાઓ સાથે ચેટ શરૂ કરવામાં નિષ્ફળ.",
-    "noResults": "પરિણામ નથી",
-    "mode": "મોડ",
-    "group": "ગ્રૂપ",
-    "broadcast": "બ્રોડકાસ્ટ",
-    "groupNameOptional": "ગ્રૂપ નામ (વૈકલ્પિક)",
-    "firstMessageOptional": "પ્રથમ સંદેશ (વૈકલ્પિક પરંતુ ભલામણ કરેલ)",
-    "createGroup": "ગ્રૂપ બનાવો",
-    "sendBroadcast": "બ્રોડકાસ્ટ મોકલો"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "તમે Free પર છો — પ્રીમિયમ ટોન્સ દેખાશે પરંતુ લોક્ડ હશે. બધું અનલૉક કરવા અપગ્રેડ કરો.",
-    "preview": "પ્રિવ્યૂ",
-    "resetToDefaults": "ડિફોલ્ટ પર રીસેટ",
-    "notificationSounds": "સૂચના અવાજ",
-    "messageTone": "મેસેજ ટોન",
-    "default": "ડિફોલ્ટ",
-    "vibrate": "વાઇબ્રેટ",
-    "dreamer": "ડ્રીમર",
-    "notify": "નોટિફાય",
-    "pop": "પોપ",
-    "pulsatingSound": "પલ્સેટિંગ સાઉન્ડ",
-    "textMessage": "ટેક્સ્ટ મેસેજ",
-    "xylophone": "ઝાયલોફોન",
-    "classic": "ક્લાસિક",
-    "urgency": "અર્જન્સી",
-    "bells": "બેલ્સ",
-    "chimes": "ચાઇમ્સ",
-    "digitalPhone": "ડિજિટલ ફોન",
-    "melodic": "મેલોડિક",
-    "organNotes": "ઑર્ગન નોટ્સ",
-    "soundReality": "સાઉન્ડ રિયાલિટી",
-    "street": "સ્ટ્રીટ",
-    "universfield": "Universal Field"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "આ સુવિધા માટે પ્રીમિયમ પ્લાન જરૂરી છે."
-  },
-
-  "aiSettings": {
-    "title": "AI સેટિંગ્સ",
-    "controlIntro": "અનુવાદ, સ્માર્ટ પ્રતિભાવ અને ForiaBot ઑટો-પ્રતિસાદ નિયંત્રિત કરો.",
-    "save": "AI સેટિંગ્સ સેવ કરો",
-    "autoTranslateIncoming": "આવતા સંદેશાઓ આપમેળે અનુવાદ કરો",
-    "showOriginalAlongside": "અનુવાદની બાજુમાં મૂળ લખાણ બતાવો",
-    "enableSmartReplies": "સ્માર્ટ પ્રતિભાવ સક્રિય કરો",
-    "smartRepliesHint": "ઝલદી જવાબો માટે છેલ્લા કેટલાક પ્રાપ્ત સંદેશાઓ (સાફ કરેલા) AIને મોકલો.",
-    "maskProfanity": "AI સૂચનોમાં અશ્લીલ શબ્દો માસ્ક કરો",
-    "maskProfanityHint": "ચાલુ હોય તો, AI દ્વારા પાછા ફરેલા સૂચનોમાં ફ્લૅગ કરાયેલા શબ્દો માસ્ક થશે",
-    "foriaBot": "ForiaBot ઑટો-રિસ્પોન્ડર",
-    "enableAutoReply": "હું વ્યસ્ત હોઉં ત્યારે ઑટો-રિપ્લાય સક્રિય કરો",
-    "autoReplyMode": "ઑટો-રિપ્લાય મોડ",
-    "cooldownSeconds": "કૂલડાઉન (સેકંડ)",
-    "off": "બંધ",
-    "on": "ચાલુ",
-    "signature": "સહી",
-    "autoReply": "ઑટો-રિપ્લાય",
-    "activeUntilOptional": "આ સુધી સક્રિય (વૈકલ્પિક)",
-    "saved": "AI પસંદગીઓ સેવ થઈ",
-    "saveFailed": "AI સેટિંગ્સ સેવ કરવામાં નિષ્ફળ",
-    "translateOff": "બંધ",
-    "translateTagged": "માત્ર જ્યારે @translated અથવા ટૅગ કરેલું હોય ત્યારે",
-    "translateAll": "બધા આવતા સંદેશાઓ અનુવાદ કરો",
-    "modeDm": "ફક્ત 1:1 ચેટ",
-    "modeMention": "ફક્ત જ્યારે મને @મેનશન કરવામાં આવે",
-    "modeAll": "બધા ઇનબાઉન્ડ સંદેશા"
-  },
-
-  "accessibilitySettings": {
-    "title": "ઍક્સેસિબિલિટી અને એલર્ટ્સ",
-    "accessibility": "ઍક્સેસિબિલિટી",
-    "accessibilityDesc": "ધ્વનિ પર નિર્ભર થયા વિના Chatforia વાપરવી સરળ બનાવવા વિકલ્પો.",
-    "interfaceFontSize": "ઇન્ટરફેસ ફોન્ટ સાઇઝ",
-    "interfaceFontSizeHelp": "સામાન્ય સાઇઝથી શરૂ થાય છે. તમને મોટા લખાણ ગમે તો ઍક્સેસિબિલિટી સેટિંગ્સમાં વધારો.",
-    "sm": "સ્મોલ",
-    "md": "મધ્યમ",
-    "lg": "મોટું",
-    "xl": "ખૂબ મોટું",
-    "notifications": "સૂચનાઓ",
-    "notificationsDesc": "સંદેશા અને કૉલ માટે દૃષ્ટિ સૂચનાઓ\nબેનર્સ અને ટાઇટલ બ્લિંક બતાવો જેથી કંઈ ચૂકી ન જાય.",
-    "vibrateOnNew": "નવા સંદેશાઓ પર વાઇબ્રેટ (જ્યાં સપોર્ટેડ)\nસૂચનાઓ સાથે ડિવાઇસ વાઇબ્રેશન ટ્રિગર કરો.",
-    "flashOnCall": "આવતી કૉલ પર સ્ક્રીન ફ્લૅશ કરો\nકૉલ વાગે ત્યારે ટૂંકા તેજ ફ્લૅશ.",
-    "liveCaptions": "લાઇવ કેપ્શન્સ (કૉલ્સ)",
-    "captionFontSize": "કૅપ્શન ફોન્ટ સાઇઝ",
-    "captionBackground": "કૅપ્શન પૃષ્ઠભૂમિ",
-    "light": "લાઇટ",
-    "dark": "ડાર્ક",
-    "transparent": "પારદર્શક",
-    "voiceNotes": "વોઇસ નોટ્સ",
-    "autoTranscribeVoiceNotes": "વોઇસ નોટ્સ આપમેળે ટ્રાન્સક્રાઇબ કરો\nમેળવેલા ઑડિયો સંદેશાઓમાં ટ્રાન્સક્રિપ્ટ જોડો.",
-    "changesSavedInstantly": "ફેરફારો તરત સેવ થાય છે.",
-    "loadFailed": "સેટિંગ્સ લોડ કરવામાં નિષ્ફળ",
-    "visualAlerts": "સંદેશા અને કૉલ માટે દૃષ્ટિેલર્ટ્સ",
-    "visualAlertsDesc": "બેનર્સ અને ટાઇટલ બ્લિંક બતાવો જેથી કંઈ ચૂકી ન જાય.",
-    "vibrateOnNewShort": "નવા સંદેશા પર વાઇબ્રેટ (જ્યાં સપોર્ટેડ)",
-    "vibrateOnNewDesc": "સૂચનાઓ સાથે ડિવાઇસ વાઇબ્રેશન ટ્રિગર કરો.",
-    "flashOnCallShort": "આવતી કૉલ પર સ્ક્રીન ફ્લૅશ",
-    "flashOnCallDesc": "કૉલ વાગે ત્યારે ટૂંકા તેજ ફ્લૅશ."
-  },
-
-  "privacySection": {
-    "strictE2EE": "કઠોર એન્ડ-ટુ-એન્ડ એનક્રિપ્શન",
-    "ciphertextOnlyNote": "સર્વર પર માત્ર સાઇફરટેક્સ્ટ સંગ્રહો. AI/Translate અને મોડરેશન પ્રીવ્યૂ બંધ કરે છે."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "લિંક થયેલ ડિવાઇસિસ",
-    "noneFound": "કોઈ લિંક થયેલ ડિવાઇસ મળ્યાં નથી.",
-    "refresh": "રિફ્રેશ"
-  },
-
-  "help": {
-    "title": "મદદ",
-    "howCanWeHelp": "અમે કેવી રીતે મદદ કરી શકીએ?",
-    "helpCenter": "હેલ્પ સેન્ટર",
-    "contactUs": "અમારો સંપર્ક કરો",
-    "quickTopics": "ઝડપી વિષયો",
-    "searchExamples": "“translate”, “backups” અથવા “privacy” માટે શોધવાનો પ્રયાસ કરો.",
-    "cantLogin": "લોગ ઇન થઈ શકતું નથી",
-    "paymentsBilling": "ચુકવણી/બિલિંગ",
-    "reportAbuse": "દુરૂપયોગની જાણ કરો",
-    "searchHelpArticles": "હેલ્પ લેખો શોધો",
-    "search": "શોધો"
-  },
-
-  "peoplePage": {
-    "people": "લોકો",
-    "search": "શોધો",
-    "searchPlaceholder": "એલિયાસ, નામ, યુઝરનેમ અથવા ફોન દ્વારા શોધો",
-    "filterSaved": "સેવ કરેલ કોન્ટેક્ટ્સ ફિલ્ટર કરો",
-    "noContactsFound": "કોન્ટેક્ટ્સ મળ્યા નથી",
-    "quickStart": "ઝડપી શરૂઆત",
-    "quickStartDesc": "ઝડપથી શરૂ કરવા માટેના કેટલાક રસ્તા.",
-    "importContacts": "તમારા કોન્ટેક્ટ્સ ઇમ્પોર્ટ કરો",
-    "add": "ઉમેરો",
-    "focusSearch": "સર્ચ પર ફોકસ",
-    "import": "ઇમ્પોર્ટ",
-    "findOrAdd": "કોઈને શોધો અથવા ઉમેરો",
-    "searchByPhoneOrUsername": "ફોન/યુઝરનેમ દ્વારા શોધો",
-    "inviteFriends": "મિત્રોને આમંત્રિત કરો",
-    "inviteDesc": "તમારો આમંત્રણ લિંક્સ શેર કરો અને તરત ચેટ શરૂ કરો.",
-    "getTheApp": "એપ મેળવો",
-    "getTheAppDesc": "ગમેએ ત્યાં जुड़े રહેવા Chatforia iOS અને Android પર મેળવો.",
-    "download": "ડાઉનલોડ",
-    "syncTip": "ટિપ: તમારા સંદેશા વેબ અને મોબાઇલમાં સિંક રહે છે."
-  },
-
-  "randomChat": {
-    "title": "રેન્ડમ ચેટ",
-    "description": "કોઈ નવા વ્યક્તિને તરત મળો. અમે મેચ કરીને તાત્કાલિક ચેટ રૂમ ખોલીશું.",
-    "findMatch": "મને મેચ શોધો",
-    "chatWithForia": "Foria સાથે ચેટ કરો",
-    "chatWithForiaBot": "ForiaBot સાથે ચેટ કરો",
-    "cancel": "રદ કરો",
-    "close": "બંધ કરો",
-    "searching": "શોધી રહ્યા છીએ…",
-    "finding": "શોધી રહ્યા છીએ…",
-    "looking": "કોઈને શોધી રહ્યા છીએ…",
-    "startingForia": "Foria સાથે ચેટ શરૂ કરી રહ્યા છીએ…",
-    "partnerDisconnected": "તમારા પાર્ટનર ડિસ્કનેક્ટ થઈ ગયા.",
-    "noPartner": "હમણાં કોઈ પાર્ટનર મળ્યો નથી.",
-    "connectedTo": "{{name}} સાથે જોડાયેલા",
-    "connected": "જોડાઈ ગયું",
-    "idle": "નિષ્ક્રિય",
-    "partnerLeft": "પાર્ટનર બહાર નીકળ્યા.",
-    "stopped": "બંધ કર્યું.",
-    "skip": "સ્કિપ",
-    "save": "સાચવો",
-    "saveGuard": "ફક્ત માનવી-થી-માનવી ચેટ જ સેવ કરી શકાય",
-    "youAreChattingWith": "તમે {{name}} સાથે ચેટ કરી રહ્યા છો",
-    "bot": "બોટ",
-    "leave": "બહાર નીકળો",
-    "sayHi": "હાય કહો 👋",
-    "you": "તમે",
-    "typeMessage": "સંદેશ લખો",
-    "send": "મોકલો",
-    "partner": "પાર્ટનર",
-    "withForia": "Foria સાથે"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "નૅવિગેશન મેનૂ ખોલો",
-    "closeNav": "નૅવિગેશન મેનૂ બંધ કરો",
-    "homeAria": "Chatforia હોમ"
-  },
-
-  "login": {
-    "title": "પાછા સ્વાગત છે",
-    "subtitle": "તમારા Chatforia એકાઉન્ટમાં લોગ ઇન કરો",
-    "google": "Google સાથે ચાલુ રાખો",
-    "apple": "Apple સાથે ચાલુ રાખો",
-    "googleUnavailable": "Google સાઇન-ઇન ઉપલબ્ધ નથી",
-    "appleUnavailable": "Apple સાઇન-ઇન ઉપલબ્ધ નથી",
-    "or": "અથવા",
-    "email": "ઇમેઇલ",
-    "emailPh": "you@example.com",
-    "usernameLabel": "વપરાશકર્તા નામ",
-    "usernamePh": "તમારું યુઝરનેમ",
-    "passwordLabel": "પાસવર્ડ",
-    "passwordPh": "તમારો પાસવર્ડ",
-    "keepSignedIn": "મને સાઇન ઇન રાખો",
-    "forgot": "પાસવર્ડ ભૂલી ગયા?",
-    "submit": "લોગ ઇન",
-    "loggingIn": "લોગ ઇન થઈ રહ્યું છે…",
-    "newHere": "અહીં નવા છો? <link>એકાઉન્ટ બનાવો</link>",
-    "ssoUnavailable": "સિંગલ-સાઇન-ઓન હાલ ઉપલબ્ધ નથી. બદલે યુઝરનેમ અને પાસવર્ડ વાપરો.",
-    "error": {
-      "missing": "કૃપા કરીને તમારું ક્રેડેન્શિયલ દાખલ કરો.",
-      "invalid": "અમાન્ય યુઝરનેમ અથવા પાસવર્ડ",
-      "denied": "ઍક્સેસ નકારી.",
-      "unprocessable": "અમાન્ય વિનંતી. તમારું યુઝરનેમ/ઇમેઇલ અને પાસવર્ડ ચકાસો.",
-      "deviceLimit": "Free પ્લાન માટે ડિવાઇસ મર્યાદા પહોંચી. અન્ય ડિવાઇસ પર લોગ આઉટ કરો અથવા વધુ ડિવાઇસ લિંક કરવા પ્રીમિયમ પર અપગ્રેડ કરો.",
-      "premiumRequired": "આ ક્રિયા માટે પ્રીમિયમ પ્લાન જરૂરી છે."
+    "peoplePage": {
+      "people": "લોકો",
+      "search": "શોધો",
+      "searchPlaceholder": "ઉપનામ, નામ, વપરાશકર્તા નામ અથવા ફોન દ્વારા શોધો",
+      "filterSaved": "સેવ કરેલા સંપર્કો ફિલ્ટર કરો",
+      "noContactsFound": "કોઈ સંપર્કો મળ્યા નહીં",
+      "quickStart": "ઝડપી શરૂઆત",
+      "quickStartDesc": "ઝડપથી શરૂ કરવાની કેટલીક ઝડપી રીતો.",
+      "importContacts": "તમારા સંપર્કો આયાત કરો",
+      "add": "ઉમેરો",
+      "focusSearch": "શોધ પર ફોકસ કરો",
+      "import": "આયાત",
+      "findOrAdd": "કોઈને શોધો અથવા ઉમેરો",
+      "searchByPhoneOrUsername": "ફોન / વપરાશકર્તા નામ દ્વારા શોધો",
+      "inviteFriends": "મિત્રોને આમંત્રિત કરો",
+      "inviteDesc": "તરત ચેટ કરવા માટે તમારી આમંત્રણ લિંક શેર કરો.",
+      "getTheApp": "એપ મેળવો",
+      "getTheAppDesc": "iOS અને Android માટે Chatforia સાથે ચાલતી વખતે સંપર્કમાં રહો.",
+      "download": "ડાઉનલોડ",
+      "syncTip": "ટિપ: તમારા સંદેશાઓ વેબ અને મોબાઇલ વચ્ચે સિંક રહે છે."
+    },
+    "randomChat": {
+      "title": "રેન્ડમ ચેટ",
+      "description": "તરત જ કોઈને મળો. અમે તમને મેચ કરીશું અને કામચલાઉ ચેટ રૂમ ખોલીશું. પહેલા અનામી રીતે ચેટ કરો. જો સારું લાગે તો પછી મિત્ર ઉમેરો.",
+      "findMatch": "મને મેચ શોધી આપો",
+      "chatWithForia": "Foria સાથે ચેટ કરો",
+      "chatWithForiaBot": "ForiaBot સાથે ચેટ કરો",
+      "cancel": "રદ કરો",
+      "close": "બંધ કરો",
+      "searching": "શોધી રહ્યા છીએ...",
+      "finding": "શોધી રહ્યા છીએ...",
+      "looking": "કોઈને શોધી રહ્યા છીએ...",
+      "startingForia": "Foria સાથે ચેટ શરૂ કરી રહ્યા છીએ...",
+      "partnerDisconnected": "તમારો પાર્ટનર ડિસ્કનેક્ટ થઈ ગયો.",
+      "noPartner": "હાલમાં કોઈ પાર્ટનર મળ્યો નહીં.",
+      "connectedTo": "{{name}} સાથે જોડાયા",
+      "connected": "જોડાયા",
+      "idle": "નિષ્ક્રિય",
+      "partnerLeft": "પાર્ટનર છોડી ગયો.",
+      "stopped": "રોકાયું.",
+      "skip": "સ્કિપ",
+      "save": "સેવ",
+      "saveGuard": "માત્ર માનવ-માનવ ચેટ્સને સેવ કરી શકાય છે",
+      "youAreChattingWith": "તમે {{name}} સાથે ચેટ કરી રહ્યા છો",
+      "bot": "BOT",
+      "leave": "છોડો",
+      "sayHi": "હાય કહો 👋",
+      "you": "તમે",
+      "typeMessage": "સંદેશ લખો",
+      "send": "મોકલો",
+      "partner": "પાર્ટનર",
+      "withRia": "Ria સાથે",
+      "chatWithRia": "Ria સાથે ચેટ કરો",
+      "startingRia": "Ria સાથે ચેટ શરૂ કરી રહ્યા છીએ...",
+      "ageDisclaimer": "અમે માત્ર વય શ્રેણી સ્ટોર કરીએ છીએ (તમારી ચોક્કસ જન્મ તારીખ નહીં). આનો ઉપયોગ રેન્ડમ ચેટ જોડીઓ વાજબી રાખવા માટે થાય છે. લોકો (માત્ર RiaBot નહીં) સાથે મેચ કરવા માટે સેટિંગ્સ → વય અને રેન્ડમ ચેટમાં તમારી વય બેન્ડ સેટ કરો.",
+      "ageBandRequired": "લોકો સાથે મેચ કરવા માટે પ્રોફાઇલ → વય અને રેન્ડમ ચેટમાં તમારી વય શ્રેણી સેટ કરો.",
+      "ageBandCallout": "લોકો (માત્ર RiaBot નહીં) સાથે મેચ કરવા માટે સેટિંગ્સ → વય અને રેન્ડમ ચેટમાં તમારી વય બેન્ડ સેટ કરો.",
+      "subtitle": "તરત જ કોઈને મળો અથવા Ria સાથે ચેટ કરવાનું પસંદ કરો.",
+      "start": "વાતચીત શરૂ કરો",
+      "matching": "મેચિંગ...",
+      "setAge": "લોકો સાથે મેચ કરવા માટે પ્રોફાઇલ → વય અને રેન્ડમ ચેટમાં તમારી વય શ્રેણી સેટ કરો.",
+      "next": "આગલી વ્યક્તિ",
+      "addFriend": "મિત્ર ઉમેરો",
+      "requested": "વિનંતી કરી",
+      "messageRia": "Riaને સંદેશ...",
+      "messageMatch": "તમારા મેચને સંદેશ..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "ત્યાં",
+      "intro": "હે ત્યાં 👋 હું Ria છું. તમારા મનમાં શું છે?",
+      "greetings": {
+        "long1": "હે {{name}} 👋 હું અહીં છું. તમારા મનમાં શું છે?",
+        "long2": "હાય {{name}} 😊 આજે તમે કેની વાત કરવા માંગો છો?",
+        "long3": "હે {{name}}!! હું સાંભળવા તૈયાર છું — શું ચાલે છે?",
+        "long4": "તમને જોવામાં આનંદ થયો, {{name}} 👋 આજે તમારા મનમાં શું છે?",
+        "long5": "હે {{name}} 😊 વેન્ટ કરવું, પૂછવું કે માત્ર ચેટ કરવું છે?",
+        "long6": "હાય {{name}}!! મારી પાસે સમય છે — તમે કેની વાત કરવા માંગો છો?",
+        "short1": "હે {{name}}, હું હજુ અહીં છું. શું છે?",
+        "short2": "{{name}} પાછા સ્વાગત છે 👋 તમે વધુ કંઈ ઉમેરવા માંગતા હતા?",
+        "short3": "ફરી પાછા, {{name}}? 😊 મને કહો તમારા મનમાં શું છે.",
+        "short4": "હે {{name}} 👋 જ્યાં છોડ્યું હતું ત્યાંથી ચાલુ કરવા તૈયાર છો?",
+        "short5": "હા {{name}}? હું સાંભળી રહી છું 👂",
+        "short6": "ઓહ હે {{name}}!! તમારા મનમાં કંઈક નવું છે?"
+      },
+      "header": {
+        "openNav": "નેવિગેશન મેનુ ખોલો",
+        "closeNav": "નેવિગેશન મેનુ બંધ કરો",
+        "homeAria": "Chatforia હોમ"
+      },
+      "login": {
+        "welcomeBack": "પાછા સ્વાગત છે",
+        "title": "Chatforia પર ચાલુ રાખો",
+        "subtitleReturning": "તમારા Chatforia એકાઉન્ટમાં લૉગ ઇન કરો",
+        "subtitle": "તમારા Chatforia એકાઉન્ટમાં લૉગ ઇન કરો",
+        "google": "Google સાથે ચાલુ રાખો",
+        "apple": "Apple સાથે ચાલુ રાખો",
+        "googleUnavailable": "Google સાઇન-ઇન અનુપલબ્ધ",
+        "appleUnavailable": "Apple સાઇન-ઇન અનુપલબ્ધ",
+        "or": "અથવા",
+        "email": "ઇમેઇલ",
+        "emailPh": "you@example.com",
+        "usernameLabel": "વપરાશકર્તા નામ",
+        "usernamePh": "તમારું વપરાશકર્તા નામ",
+        "passwordLabel": "પાસવર્ડ",
+        "passwordPh": "તમારો પાસવર્ડ",
+        "keepSignedIn": "મને સાઇન્ડ ઇન રાખો",
+        "forgot": {
+          "title": "પાસવર્ડ ભૂલી ગયા",
+          "helper": "તમે જે ઇમેઇલ વાપરીને Chatforia એકાઉન્ટ બનાવ્યું હતું તે દાખલ કરો અને અમે તમને પાસવર્ડ રીસેટ કરવા માટે સુરક્ષિત લિંક મોકલીશું.",
+          "emailInvalid": "કૃપા કરીને વૈધ ઇમેઇલ સરનામું દાખલ કરો.",
+          "genericError": "વિનંતી પ્રોસેસ કરી શકાઈ નહીં. કૃપા કરીને થોડી વારમાં ફરી પ્રયાસ કરો.",
+          "sending": "રીસેટ લિંક મોકલી રહ્યા છીએ...",
+          "sendCta": "રીસેટ લિંક મોકલો",
+          "sentLabel": "મોકલાઈ ગઈ!",
+          "sentHelper": "જો તે ઇમેઇલ સાથે એકાઉન્ટ અસ્તિત્વમાં હોય તો અમે પાસવર્ડ રીસેટ લિંક મોકલી છે. તે પહોંચવામાં કેટલીક મિનિટો લાગી શકે છે. કૃપા કરીને તમારા સ્પામ અથવા પ્રમોશન્સ ફોલ્ડર તપાસો.",
+          "previewDev": "ઇમેઇલ પ્રિવ્યૂ (Dev)",
+          "backToLogin": "લૉગિન પર પાછા જાઓ"
+        },
+        "submit": "લૉગ ઇન",
+        "loggingIn": "લૉગિંગ ઇન…",
+        "newHere": "નવા છો? <link>એકાઉન્ટ બનાવો</link>",
+        "ssoUnavailable": "સિંગલ-સાઇન-ઓન હાલમાં અનુપલબ્ધ છે. તેના બદલે વપરાશકર્તા નામ અને પાસવર્ડ વાપરો.",
+        "error": {
+          "missing": "કૃપા કરીને તમારા ક્રેડેન્શિયલ્સ દાખલ કરો.",
+          "invalid": "અમાન્ય વપરાશકર્તા નામ અથવા પાસવર્ડ",
+          "denied": "ઍક્સેસ નકારી.",
+          "unprocessable": "અમાન્ય વિનંતી. તમારું વપરાશકર્તા નામ/ઇમેઇલ અને પાસવર્ડ તપાસો.",
+          "deviceLimit": "મફત પ્લાન માટે ડિવાઇસ મર્યાદા પહોંચી ગઈ. અન્ય ડિવાઇસ પર લૉગ આઉટ કરો અથવા વધુ ડિવાઇસિસ લિંક કરવા માટે પ્રીમિયમ પર અપગ્રેડ કરો.",
+          "premiumRequired": "આ ક્રિયા માટે પ્રીમિયમ પ્લાન જરૂરી છે."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "સાઇન-ઇન પૂર્ણ કરી રહ્યા છીએ…"
+    },
+    "dialer": {
+      "title": "કૉલ્સ",
+      "subtitle": "કીપેડ અને તાજેતરના. (જો તમે PSTN વાપરતા ન હોવ તો વાતચીત હેડરમાંથી કૉલ્સ શરૂ કરો.)",
+      "enterNumberPh": "નંબર દાખલ કરો",
+      "call": "કૉલ",
+      "backspace": "બેકસ્પેસ",
+      "recents": "તાજેતરના",
+      "recentsEmpty": "હજુ કોઈ તાજેતરના કૉલ્સ નથી.",
+      "enterNumber": "નંબર દાખલ કરો",
+      "enterNumberAria": "નંબર દાખલ કરો",
+      "key": "કી {{d}}",
+      "noRecents": "હજુ કોઈ તાજેતરના કૉલ્સ નથી."
+    },
+    "video": {
+      "title": "વીડિયો",
+      "chooseType": "વીડિયો પ્રકાર પસંદ કરો.",
+      "directTitle": "ડાયરેક્ટ વીડિયો",
+      "directDesc": "અન્ય વપરાશકર્તા સાથે 1:1 કેમેરા કૉલ.",
+      "directStart": "શરૂ કરો",
+      "roomsTitle": "રૂમ્સ",
+      "roomsDesc": "શેર્ડ રૂમ નામ વાપરીને મલ્ટી-પાર્ટી વીડિયો.",
+      "roomsIntro": "મલ્ટી-પાર્ટી રૂમમાં જોડાઓ અથવા બનાવો.",
+      "roomNameLabel": "રૂમ નામ",
+      "roomNamePh": "દા.ત. team-standup",
+      "join": "જોડાઓ",
+      "deeplinkTip": "ટિપ: તમે સીધા <code>/video?room=room-name</code> પર ડીપ લિંક કરી શકો છો.",
+      "hub": {
+        "title": "વીડિયો",
+        "subtitle": "વીડિયો પ્રકાર પસંદ કરો."
+      },
+      "direct": {
+        "title": "ડાયરેક્ટ વીડિયો",
+        "subtitle": "ફોન નંબર અથવા Chatforia વપરાશકર્તા નામ વાપરીને 1:1 વીડિયો કૉલ શરૂ કરો.",
+        "desc": "અન્ય વપરાશકર્તા સાથે 1:1 કેમેરા કૉલ.",
+        "start": "શરૂ કરો",
+        "callBtn": "કૉલ",
+        "callByPhone": {
+          "title": "ફોન દ્વારા કૉલ"
+        },
+        "phone": {
+          "placeholder": "ફોન દાખલ કરો (દા.ત., +1-555-123-4567)",
+          "aria": "કૉલ કરવા માટે ફોન"
+        },
+        "tipInvite": "ટિપ: નંબર પેસ્ટ કરો અને સંપર્ક સેવ વગર કૉલ કરો. અમે લિંક દ્વારા નોન-યુઝર્સને આમંત્રિત કરીશું.",
+        "findUser": {
+          "title": "વપરાશકર્તા શોધો"
+        },
+        "search": {
+          "placeholder": "નામ અથવા વપરાશકર્તા નામ દ્વારા શોધો",
+          "aria": "નામ અથવા વપરાશકર્તા નામ દ્વારા શોધો",
+          "btn": "શોધો"
+        }
+      },
+      "rooms": {
+        "title": "રૂમ્સ",
+        "subtitle": "રૂમ બનાવો અથવા એક જ નામ લખીને હાલના રૂમમાં જોડાઓ.",
+        "desc": "શેર્ડ રૂમ નામ વાપરીને મલ્ટી-પાર્ટી વીડિયો.",
+        "roomLabel": "રૂમ નામ",
+        "roomPlaceholder": "દા.ત. team-standup",
+        "roomAria": "રૂમ નામ",
+        "joinCreate": "જોડાઓ / બનાવો",
+        "tip": "ટિપ: આ નામ અન્યો સાથે શેર કરો અથવા <code>/video?room=room-name</code> પર ડીપ લિંક કરો."
+      }
+    },
+    "directVideo": {
+      "intro": "ડાયરેક્ટ 1:1 વીડિયો કૉલ શરૂ કરો.",
+      "findUserLabel": "વપરાશકર્તા શોધો",
+      "findUserPh": "નામ અથવા વપરાશકર્તા નામ દ્વારા શોધો",
+      "search": "શોધો",
+      "call": "કૉલ"
+    },
+    "phoneWarning": {
+      "title": "તમારો નંબર ટૂંક સમયમાં સમાપ્ત થઈ રહ્યો છે",
+      "body": "તમારો નંબર {{number}} {{date}}ના રોજ મુક્ત થશે જ્યાં સુધી ફરી સક્રિય ન કરવામાં આવે.",
+      "button": "મારો નંબર રાખો"
+    },
+    "support": {
+      "helpFab": "મદદ",
+      "openSupportAria": "સપોર્ટ ખોલો",
+      "badge": "સપોર્ટ",
+      "heading": "અમે કેવી રીતે મદદ કરી શકીએ?",
+      "tabs": {
+        "help": "મદદ કેન્દ્ર",
+        "contact": "અમારો સંપર્ક કરો"
+      },
+      "searchPlaceholder": "મદદ લેખો શોધો…",
+      "searchAria": "મદદ શોધો",
+      "searchBtn": "શોધો",
+      "quickTopicsLabel": "ઝડપી વિષયો",
+      "quickTopics": {
+        "login": "લૉગ ઇન કરી શકતા નથી",
+        "billing": "ચુકવણીઓ / બિલિંગ",
+        "abuse": "દુરુપયોગની અહેવાલ આપો"
+      },
+      "trySearching": "“અનુવાદ”, “બેકઅપ્સ” અથવા “પ્રાઇવસી” માટે શોધવાનો પ્રયાસ કરો.",
+      "article": "લેખ",
+      "openArticle": "લેખ ખોલો",
+      "contactIntro": "અમે તમને ઇમેઇલ દ્વારા જવાબ મોકલીશું. સમસ્યા પુનઃઉત્પાદિત કરવામાં મદદ કરવા માટે વિગતો શામેલ કરો.",
+      "topicAria": "વિષય પસંદ કરો",
+      "messagePlaceholder": "તમારો સંદેશ લખો…",
+      "sendBtn": "મોકલો",
+      "sent": "સંદેશ મોકલાયો. અમે ઇમેઇલ દ્વારા જવાબ આપીશું.",
+      "sendError": "મોકલી શકાયું નહીં. તેના બદલે support@chatforia.com પર ઇમેઇલ કરો."
+    },
+    "encryptionRecovery": {
+      "title": "એન્ક્રિપ્શન મેનેજ કરો",
+      "description": "તમારી એન્ક્રિપ્શન કીનો બેકઅપ, પુનઃસ્થાપન, અનલૉક અથવા રીસેટ કરો.",
+      "alert": {
+        "keyRequiredTitle": "એન્ક્રિપ્શન કી જરૂરી છે",
+        "keyRequiredBody": "આ બ્રાઉઝર હાલમાં તમારા એન્ક્રિપ્ટેડ સંદેશાઓને ડિક્રિપ્ટ કરી શકતું નથી. ચાલુ રાખવા માટે તમારી કી પુનઃસ્થાપિત કરો, અનલૉક કરો અથવા રીસેટ કરો."
+      },
+      "sections": {
+        "createBackup": "કી બેકઅપ બનાવો",
+        "restoreFromBackup": "એકાઉન્ટ બેકઅપમાંથી પુનઃસ્થાપિત કરો",
+        "resetEncryption": "એન્ક્રિપ્શન રીસેટ કરો"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "અનલૉક પાસકોડ (વર્તમાન ડિવાઇસ)",
+          "description": "નિકાસ કરતા પહેલા તમારી કીઓને સ્થાનિક રીતે ડિક્રિપ્ટ કરવા માટે વપરાય છે"
+        },
+        "backupPassword": {
+          "label": "બેકઅપ પાસવર્ડ",
+          "description": "બેકઅપ ફાઇલને એન્ક્રિપ્ટ કરવા માટે વપરાય છે"
+        },
+        "restoreBackupPassword": {
+          "label": "બેકઅપ પાસવર્ડ",
+          "description": "તમે તમારી iPhone પર કીનો બેકઅપ લેતી વખતે જે પાસવર્ડ બનાવ્યો હતો"
+        },
+        "newLocalPasscode": {
+          "label": "નવો સ્થાનિક પાસકોડ",
+          "description": "આ બ્રાઉઝર પર રેસ્ટ પર કીઓને સુરક્ષિત કરો"
+        },
+        "resetLocalPasscode": {
+          "label": "નવો સ્થાનિક પાસકોડ",
+          "description": "રીસેટ કરતા પહેલા જરૂરી જેથી નવી કી આ ડિવાઇસ પર સુરક્ષિત રહે"
+        }
+      },
+      "actions": {
+        "unlockKey": "એન્ક્રિપ્શન કી અનલૉક કરો",
+        "restoreFromBackup": "એકાઉન્ટ બેકઅપમાંથી પુનઃસ્થાપિત કરો",
+        "resetEncryption": "એન્ક્રિપ્શન રીસેટ કરો"
+      },
+      "messages": {
+        "backupCreated": "કી બેકઅપ બનાવી અને ડાઉનલોડ કરી.",
+        "keyUnlocked": "એન્ક્રિપ્શન કી અનલૉક થઈ.",
+        "keyRestored": "એકાઉન્ટ બેકઅપમાંથી કી પુનઃસ્થાપિત થઈ.",
+        "resetSuccess": "એન્ક્રિપ્શન સફળતાપૂર્વક રીસેટ થયું."
+      },
+      "errors": {
+        "restoreIncomplete": "આ એકાઉન્ટ માટે કી પુનઃસ્થાપન અધૂરું અથવા અયોગ્ય",
+        "noBackup": "આ એકાઉન્ટ માટે કોઈ એન્ક્રિપ્ટેડ બેકઅપ અસ્તિત્વમાં નથી",
+        "missingPublicKey": "બેકઅપમાં પબ્લિક કી ગુમ છે",
+        "noServerPublicKey": "આ એકાઉન્ટ હાલમાં સર્વર પબ્લિક કી ઉપલબ્ધ કરાવતું નથી",
+        "serverBackupMismatch": "સર્વર બેકઅપ વર્તમાન એકાઉન્ટ એન્ક્રિપ્શન કી સાથે મેળ ખાતું નથી",
+        "incompleteMetadata": "બેકઅપ મેટાડેટા અધૂરું છે",
+        "resetIncomplete": "એન્ક્રિપ્શન રીસેટ યોગ્ય રીતે પૂર્ણ થયું નહીં"
+      },
+      "confirm": {
+        "reset": "આ એકાઉન્ટ માટે એન્ક્રિપ્શન રીસેટ કરીએ?\n\nજો તમે પછીથી મૂળ કી પુનઃસ્થાપિત ન કરો તો જૂના એન્ક્રિપ્ટેડ સંદેશાઓ વાંચી શકાશે નહીં."
+      },
+      "resetDescription": "આ તમારા એકાઉન્ટ માટે નવી એન્ક્રિપ્શન કી બનાવે છે. જો તમે પછીથી મૂળ કી પુનઃસ્થાપિત ન કરો તો જૂના એન્ક્રિપ્ટેડ સંદેશાઓ વાંચી શકાશે નહીં."
+    },
+    "footer": {
+      "plans": "પ્લાન્સ અને કિંમતો",
+      "about": "Chatforia વિશે",
+      "careers": "કાર્યરત",
+      "press": "પ્રેસ",
+      "advertise": "જાહેરાત કરો",
+      "contact": "અમારો સંપર્ક કરો",
+      "help": "મદદ કેન્દ્ર",
+      "status": "સ્ટેટસ પેજ",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "પ્રાઇવસી પોલિસી",
+      "terms": "સેવાની શરતો",
+      "cookies": "કુકી સેટિંગ્સ",
+      "doNotSell": "મારી માહિતી વેચો નહીં",
+      "language": "ભાષા",
+      "contactShort": "સંપર્ક",
+      "aria": "ફૂટર",
+      "homeAria": "Chatforia હોમ",
+      "section": {
+        "company": "કંપની",
+        "support": "સપોર્ટ",
+        "downloads": "ડાઉનલોડ્સ",
+        "legal": "કાનૂની"
+      },
+      "links": {
+        "plans-pricing": "પ્લાન્સ અને કિંમતો",
+        "about-chatforia": "Chatforia વિશે",
+        "careers": "કાર્યરત",
+        "press": "પ્રેસ",
+        "advertise": "જાહેરાત કરો",
+        "getting-started": "શરૂઆત કેવી રીતે કરવી",
+        "help-center": "મદદ કેન્દ્ર",
+        "contact-us": "અમારો સંપર્ક કરો",
+        "status-page": "સ્ટેટસ પેજ",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "પ્રાઇવસી પોલિસી",
+        "terms-of-service": "સેવાની શરતો",
+        "do-not-sell-my-info": "મારી માહિતી વેચો નહીં",
+        "cookie-settings": "કુકી સેટિંગ્સ"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "પેટન્ટ પેન્ડિંગ",
+      "backToTop": "↑ ટોપ પર જાઓ"
+    },
+    "press": {
+      "title": "પ્રેસ",
+      "contactLine": "મીડિયા પૂછપરછ માટે, અમને સંપર્ક કરો",
+      "boilerplateTitle": "બોઇલરપ્લેટ",
+      "boilerplateBody": "Chatforia એ પ્રાઇવસી-પહેલી મેસેજિંગ એપ છે જે ક્રોસ-લેંગ્વેજ ચેટને સરળ બનાવે છે. સંદેશાઓ ડિફોલ્ટ રીતે એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ છે અને બિલ્ટ-ઇન અનુવાદ 100+ ભાષાઓને રીઅલ ટાઇમમાં સપોર્ટ કરે છે. વપરાશકર્તાઓ અદૃશ્ય થતા સંદેશાઓ સક્ષમ કરી શકે છે, વાંચન રસીદો વૈકલ્પિક રાખી શકે છે અને ડિવાઇસિસ વચ્ચે સિંક કરી શકે છે. iOS, Android અને વેબ પર ઉપલબ્ધ.",
+      "assetsTitle": "બ્રાન્ડ એસેટ્સ",
+      "assetsSubtitle": "લોગો, સ્ક્રીનશોટ્સ અને પ્રોડક્ટ ઇમેજરી.",
+      "downloadCta": "મીડિયા કિટ ડાઉનલોડ કરો",
+      "downloadTitle": "એપ મેળવો",
+      "scanTip": "ડેસ્કટોપ પર છો? એપ મેળવવા માટે તમારા ફોનથી સ્કેન કરો.",
+      "qrAria": "Chatforia વેબસાઇટ ખોલો",
+      "appStore": "App Store પર ડાઉનલોડ કરો",
+      "googlePlay": "Google Play પર મેળવો"
+    },
+    "careers": {
+      "title": "કાર્યરત",
+      "intro": "અમે એક નાની ફાઉન્ડિંગ ટીમ છીએ જે Chatforia બનાવી રહી છે — વેબ, iOS અને Android પર લોન્ચ થનારી ખાનગી, વૈશ્વિક મેસેન્જર. જો તમને પ્રાઇવસી, એન્ક્રિપ્શન અને આનંદદાયક વપરાશકર્તા અનુભવોની કાળજી હોય તો અમે તમારાથી સાંભળવા માંગીએ છીએ.",
+      "openRoles": "<b>ખુલ્લી ફાઉન્ડિંગ ભૂમિકાઓ:</b> લીડ ફુલ-સ્ટેક એન્જિનિયર, બેકએન્ડ એન્જિનિયર (Node.js), ફ્રન્ટએન્ડ/વેબ એન્જિનિયર (React), મોબાઇલ એન્જિનિયર (iOS), મોબાઇલ એન્જિનિયર (Android), DevOps/SRE, સુરક્ષા અને એન્ક્રિપ્શન એન્જિનિયર, ટેલિકોમ એન્જિનિયર (Twilio + eSIM).",
+      "apply": "લાગુ કરવાની રીત: નીચેના બટન વાપરીને તમારું રેઝ્યુમે અને લિંક્સ ઇમેઇલ કરો.",
+      "emailCta": "તમારું રેઝ્યુમે ઇમેઇલ કરો",
+      "whyNow": "હવે જોડાવાનું કારણ?",
+      "whyBullets": "• નવી વૈશ્વિક મેસેન્જરની ફાઉન્ડેશન બનાવવામાં મદદ કરો.\n• વેબ, iOS અને Android વચ્ચે વપરાતા સુધારાઓ શિપ કરો.\n• આર્કિટેક્ચર અને પ્રોડક્ટ દિશા પર ફાઉન્ડર સાથે સીધું કામ કરો.\n• સ્ટેકના હાઇ-ઇમ્પેક્ટ વિસ્તારોની માલિકી લો: મેસેજિંગ, વૉઇસ, વીડિયો, એન્ક્રિપ્શન, ટેલિકોમ, AI.\n• શરૂઆતમાં જોડાઓ — વપરાશકર્તા આધાર વધે તે પહેલાં."
+    },
+    "about": {
+      "title": "Chatforia વિશે",
+      "description": "Chatforia એ સુરક્ષિત, બહુભાષી મેસેન્જર છે જેમાં એન્ડ-ટુ-એન્ડ એન્ક્રિપ્શન, તરત અનુવાદ અને વૉઇસ/વીડિયો કૉલિંગ છે. અમારું મિશન સરળ છે: લોકોને સુરક્ષિત, ખાનગી અને ભાષાઓ વચ્ચે જોડવામાં મદદ કરવી.",
+      "valuesTitle": "અમે શું મૂલ્યવાન માનીએ છીએ",
+      "values": {
+        "privacy": "<b>પ્રાઇવસી-પહેલી:</b> ડિફોલ્ટ રીતે E2E એન્ક્રિપ્શન.",
+        "access": "<b>બધા માટે ઍક્સેસ:</b> 100+ ભાષાઓમાં ઑટો-અનુવાદ.",
+        "control": "<b>નિયંત્રણ:</b> અદૃશ્ય થતા સંદેશાઓ અને વાંચન રસીદો વૈકલ્પિક છે.",
+        "privacy_aria": "પ્રાઇવસી-પહેલી: ડિફોલ્ટ રીતે E2E એન્ક્રિપ્શન.",
+        "access_aria": "બધા માટે ઍક્સેસ: 100+ ભાષાઓમાં ઑટો-અનુવાદ.",
+        "control_aria": "નિયંત્રણ: અદૃશ્ય થતા સંદેશાઓ અને વાંચન રસીદો વૈકલ્પિક છે."
+      },
+      "howTitle": "Chatforia કેવી રીતે કામ કરે છે",
+      "howDescription": "સંદેશાઓ તમારી ડિવાઇસ પરથી બહાર જાય તે પહેલા એન્ક્રિપ્ટ થાય છે. અનુવાદ, બેકઅપ્સ અને ડિવાઇસ સિંક એવી રીતે ડિઝાઇન કરવામાં આવ્યા છે જેથી અમારા સર્વર્સ શું જોઈ શકે તેને ન્યૂનતમ કરી શકાય."
+    },
+    "advertise": {
+      "title": "Chatforia સાથે જાહેરાત કરો",
+      "description": "સ્વાદિષ્ટ, બ્રાન્ડ-સેફ પ્લેસમેન્ટ્સ સાથે સક્રિય મેસેજિંગ વપરાશકર્તાઓ સુધી પહોંચો. અમે હાઇ-વિઝિબિલિટી સ્પોટ્સમાં બેનર ઇન્વેન્ટરી, સ્પોન્સરશિપ્સ અને હાઉસ પ્રોમો ઑફર કરીએ છીએ. પ્રીમિયમ સબસ્ક્રાઇબર્સને જાહેરાતો દેખાતી નથી.",
+      "adsense": {
+        "withPubIdShort": "અમે Google AdSense દ્વારા પણ ઇન્વેન્ટરી સર્વ કરીએ છીએ. તમે પબ્લિશર ID {{pubId}} વાપરીને Chatforiaને ટાર્ગેટ કરી શકો છો અથવા નીચેના ફોર્મ વાપરીને ડાયરેક્ટ સ્પોન્સરશિપ્સ મેળવી શકો છો.",
+        "noPubIdShort": "અમે Google AdSense દ્વારા કેટલીક ઇન્વેન્ટરી સર્વ કરીએ છીએ. ડાયરેક્ટ સ્પોન્સરશિપ્સ ઉપલબ્ધ છે — નીચેના ફોર્મ વાપરો."
+      },
+      "inventoryHeader": "ઇન્વેન્ટરી અને સ્પેક્સ",
+      "placement": {
+        "displayBadge": "ડિસ્પ્લે",
+        "acceptedSizes": "સ્વીકાર્ય સાઇઝ",
+        "adsenseSlot": "AdSense સ્લોટ:"
+      },
+      "noPlacementsPublic": "અમે અમારી જાહેરાત ઇન્વેન્ટરી અંતિમ કરી રહ્યા છીએ. તમારા કેમ્પેઇન વિશે અમને કહો અને અમે પ્લેસમેન્ટ્સની ભલામણ કરીશું.",
+      "whyHeader": "Chatforia કેમ?",
+      "why": {
+        "highSession": "ચેટ UIમાં ઉચ્ચ સેશન આવર્તન અને ડ્વેલ ટાઇમ",
+        "brandSafe": "બ્રાન્ડ-સેફ ફોર્મેટ્સ; આદરપૂર્વક ફ્રિક્વન્સી કેપિંગ",
+        "sponsoredMoments": "સ્પોન્સર્ડ મોમેન્ટ્સ (દા.ત. “ચેટ શરૂ કરો” મોડલ) ઉપલબ્ધ",
+        "deals": "AdSense/Google Ads દ્વારા ડાયરેક્ટ ડીલ્સ અથવા પ્રોગ્રામેટિક"
+      },
+      "contactHeader": "સંપર્ક",
+      "form": {
+        "submittedMsg": "આભાર! તમારી પૂછપરછ જઈ રહી છે. અમે ટૂંક સમયમાં ફોલો અપ કરીશું.",
+        "missingRequired": "કૃપા કરીને નામ, ઇમેઇલ અને સંદેશ ભરો.",
+        "successToast": "આભાર! અમે ટૂંક સમયમાં સંપર્ક કરીશું.",
+        "mailtoInfo": "પૂછપરછ મોકલવા માટે તમારા ઇમેઇલ ક્લાયન્ટને ખોલી રહ્યા છીએ…",
+        "nameLabel": "તમારું નામ",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "ઇમેઇલ",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "કંપની",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "માસિક બજેટ (વૈકલ્પિક)",
+        "budgetPlaceholder": "દા.ત. $1,000–$20,000+",
+        "messageLabel": "તમારા કેમ્પેઇન વિશે અમને કહો",
+        "messagePlaceholder": "ટાર્ગેટિંગ, તારીખો, KPI, પ્લેસમેન્ટ પસંદગીઓ…",
+        "sendCta": "પૂછપરછ મોકલો"
+      },
+      "legal": {
+        "disclaimerStart": "સબમિટ કરવાથી તમે અમારી",
+        "terms": "શરતો",
+        "and": "અને",
+        "privacy": "પ્રાઇવસી પોલિસી"
+      }
     }
   }
 }
