@@ -1,18 +1,19 @@
 import { Container, Title, Text, List } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
+const LAST_UPDATED = 'April 13, 2026';
+
 export default function TermsOfService() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py="xl" pt="3.5rem">
       <Title order={2}>
         {t('terms.title', 'Terms of Service')}
       </Title>
 
       <Text c="dimmed" mb="md">
-        {t('terms.lastUpdated', 'Last updated:')}{' '}
-        {new Date().toLocaleDateString()}
+        {t('terms.lastUpdated', 'Last updated:')} {LAST_UPDATED}
       </Text>
 
       <Text mb="md">
@@ -58,7 +59,6 @@ export default function TermsOfService() {
         </List.Item>
       </List>
 
-      {/* 🔹 New: SMS communications section */}
       <Title order={4} mt="md" mb="xs">
         {t('terms.sms.title', 'SMS communications')}
       </Title>

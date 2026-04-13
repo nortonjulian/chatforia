@@ -5,14 +5,13 @@ export default function PrivacyPolicy() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py="xl" pt="3.5rem">
       <Title order={2} mb="sm">
         {t('privacyPolicy.title', 'Privacy Policy')}
       </Title>
 
       <Text c="dimmed" mb="md">
-        {t('privacyPolicy.lastUpdated', 'Last updated:')}{' '}
-        {new Date().toLocaleDateString()}
+        {t('privacyPolicy.lastUpdated', 'Last updated:')} {LAST_UPDATED}
       </Text>
 
       <Text mb="md">

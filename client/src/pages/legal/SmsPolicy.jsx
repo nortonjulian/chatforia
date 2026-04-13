@@ -1,9 +1,20 @@
-import React from 'react';
+const LAST_UPDATED = 'April 13, 2026';
 
 export default function SmsPolicy() {
   return (
-    <main style={{ maxWidth: 900, margin: '40px auto', padding: '0 20px', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <main
+      style={{
+        maxWidth: 900,
+        margin: '0 auto',
+        padding: '100px 20px 40px',
+        fontFamily: 'Inter, system-ui, sans-serif',
+      }}
+    >
       <h1>Chatforia — SMS Policy & Opt-in</h1>
+
+      <p style={{ color: '#666', marginBottom: 24 }}>
+        Last updated: {LAST_UPDATED}
+      </p>
 
       <section>
         <h2>What we send</h2>
@@ -47,7 +58,7 @@ export default function SmsPolicy() {
       </section>
 
       <footer style={{ marginTop: 40, fontSize: 13, color: '#666' }}>
-        © {new Date().getFullYear()} Chatforia Inc.
+        © 2026 Chatforia Inc.
       </footer>
     </main>
   );

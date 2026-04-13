@@ -2,290 +2,78 @@
   "common": {
     "save": "Saglabāt",
     "cancel": "Atcelt",
-    "refresh": "Atjaunināt",
+    "refresh": "Atsvaidzināt",
     "noMatches": "Nav atbilstību",
     "cancelAria": "Atcelt",
     "copy": "Kopēt",
-    "copied": "Nokopēts!"
+    "copied": "Nokopēts!",
+    "errorWithMessage": "Kļūda: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "Pāriet uz galveno saturu"
   },
-
-  "profile": {
-    "title": "Lietotāja profils",
-    "preferredLanguage": "Vēlamā valoda",
-    "chooseLanguage": "Izvēlieties valodu",
-    "mustLogin": "Lai skatītu iestatījumus, jums jāpiesakās.",
-    "autoTranslate": "Automātiski tulkot ziņas",
-    "showOriginalWithTranslation": "Rādīt oriģinālu un tulkojumu",
-    "showOriginalAndTranslation": "Rādīt oriģinālu līdzās tulkojumam",
-    "filterExplicit": "Filtrēt atklātu saturu",
-    "aiReply": "AI atbilde",
-    "enableReadReceipts": "Ieslēgt lasīšanas apstiprinājumus",
-    "allowExplicitContent": "Atļaut atklātu saturu",
-    "disappearingMessages": "Ieslēgt pazūdošās ziņas",
-    "autoDeleteSeconds": "Sekundes līdz automātiskai dzēšanai",
-    "saveSuccess": "Iestatījumi saglabāti!",
-    "saveError": "Kļūda: Neizdevās saglabāt iestatījumus",
-    "avatarAlt": "Profila attēls",
-    "uploadAvatar": "Augšupielādēt jaunu attēlu",
-    "avatarSuccess": "Attēls augšupielādēts!",
-    "avatarError": "Kļūda, augšupielādējot attēlu",
-    "noPrivateKey": "Šajā ierīcē nav privātās atslēgas eksportēšanai.",
-    "setBackupPassword": "Iestatiet paroli dublējuma šifrēšanai:",
-    "backupDownloaded": "Šifrētais dublējums lejupielādēts.",
-    "exportFailed": "Atslēgas eksports neizdevās",
-    "enterBackupPassword": "Ievadiet šī dublējuma paroli:",
-    "importSuccess": "Privātā atslēga importēta šajā ierīcē.",
-    "importFailed": "Neizdevās importēt atslēgu (nepareiza parole vai bojāts fails).",
-    "keysRotated": "Izveidots jauns atslēgu pāris un publiskā atslēga augšupielādēta.",
-    "rotateFailed": "Neizdevās pagriezt atslēgas.",
-    "security": "Drošība",
-    "exportKey": "Eksportēt privāto atslēgu",
-    "importKey": "Importēt šifrēta dublējuma atslēgu",
-    "rotateKeys": "Pagriezt atslēgu pāri",
-    "keyDisclaimer": "Jūsu privātā atslēga nekad nepamet šo ierīci. Eksportējiet ar paroli aizsargātu kopiju, lai atjaunotu to citā ierīcē.",
-    "sectionProfile": "Profils",
-    "phoneNumber": "Tālruņa numurs",
-    "appearance": "Izskats",
-    "soundSettings": "Skaņas",
-    "disappearing": "Pazūdošās ziņas",
-    "backupSync": "Dublējumi un sinhronizācija",
-    "ai": "AI",
-    "accessibility": "Pieejamība",
-    "privacy": "Privātums",
-    "devices": "Piesaistītās ierīces",
-    "themeFreeNotice": "Jums ir Free plāns — izmantojiet ātrās Saules/Mēness tēmas zemāk. Jauniniet, lai atbloķētu vairāk tēmu.",
-    "sunTheme": "Lietot Rītausmas tēmu",
-    "moonTheme": "Lietot Mēness (Pusnakts) tēmu",
-    "sun": "Saule",
-    "moon": "Mēness",
-    "backupTitle": "Šifrēti dublējumi un ierīču sinhronizācija",
-    "openBackupTools": "Atvērt dublējumu rīkus",
-    "backupDesc": "Izveidojiet ar paroli aizsargātus atslēgu dublējumus un atjaunojiet citā ierīcē, lai sinhronizētu.",
-    "privacyBlurEnabled": "Aizmiglot ziņas pēc noklusējuma",
-    "privacyBlurOnUnfocus": "Aizmiglot, kad lietotne nav fokusā",
-    "holdToReveal": "Turiet, lai atklātu",
-    "notifyOnCopy": "Paziņot, ja mana ziņa tiek kopēta",
-    "loadFailed": "Neizdevās ielādēt profilu",
-    "followed": "Sekots",
-    "followFailed": "Neizdevās sekot",
-    "unfollowed": "Atsekots",
-    "unfollowFailed": "Neizdevās atsekot",
-    "follow": "Sekot",
-    "unfollow": "Atsekot",
-    "followHint": "Viņu stāsti parādīsies jūsu Sekoju plūsmā, ja tie publicēs ar auditoriju Sekotāji (vai Publiski).",
-    "userNotFound": "Lietotājs nav atrasts",
-    "followsYou": "Seko jums",
-    "sectionCrashedTitle": "Sadaļas ielāde neizdevās",
-    "sectionCrashedBody": "Šajā sadaļā radās kļūda.",
-    "forwarding": "Zvanu un īsziņu pāradresācija",
-    "callTextForwardingSection": "Zvanu un īsziņu pāradresācija",
-    "callTextForwardingTitle": "Zvanu un/vai īsziņu pāradresācija",
-    "callTextForwardingDescription": "Pāradresējiet ienākošos zvanus un īsziņas uz pārbaudīto tālruni vai e-pastu. Izejošie zvani/īsziņas var rādīt jūsu Chatforia numuru.",
-    "enableTextForwarding": "Ieslēgt īsziņu pāradresāciju",
-    "forwardTextsToPhone": "Pāradresēt īsziņas uz tālruni",
-    "forwardTextsToEmail": "Pāradresēt īsziņas uz e-pastu",
-    "destinationPhone": "Mērķa tālrunis (E.164)",
-    "destinationEmail": "Mērķa e-pasts",
-    "enableCallForwarding": "Ieslēgt zvanu pāradresāciju",
-    "destinationPhoneForCalls": "Mērķa (E.164) zvaniem",
-    "aliasBridging": "Zvanu pāradresācija (aizst.vārda tilts)",
-    "quietHoursOptional": "Klusuma stundas (neobligāti)",
-    "startHour": "Sākuma stunda (0–23)",
-    "endHour": "Beigu stunda (0–23)",
-    "reset": "Atiestatīt",
-    "saveBtn": "Saglabāt",
-    "forwardSaved": "Pāradresācijas iestatījumi saglabāti",
-    "forwardSaveFailed": "Neizdevās saglabāt iestatījumus",
-    "errE164": "Ievadiet derīgu E.164 tālruni (piem., +15551234567).",
-    "errEmail": "Ievadiet derīgu e-pastu.",
-    "errSmsDest": "Izvēlieties vismaz vienu mērķi (tālruni vai e-pastu).",
-    "errQuietHours": "Klusuma stundām jābūt starp 0 un 23."
+  "keys": {
+    "backupCreated": "Atslēgas dublējums izveidots un lejupielādēts ✓",
+    "restored": "Atslēgas dublējums atjaunots ✓ Atslēgas instalētas lokāli",
+    "noBackup": "Šim kontam nav šifrēta dublējuma",
+    "missingPublicKey": "Dublējumā trūkst publiskās atslēgas"
   },
-
-  "support": {
-    "helpFab": "Palīdzība",
-    "openSupportAria": "Atvērt atbalstu",
-    "badge": "Atbalsts",
-    "heading": "Kā varam palīdzēt?",
-    "tabs": {
-      "help": "Palīdzības centrs",
-      "contact": "Sazināties ar mums"
-    },
-    "searchPlaceholder": "Meklēt palīdzības rakstos…",
-    "searchAria": "Meklēt palīdzību",
-    "searchBtn": "Meklēt",
-    "quickTopicsLabel": "Ātrās tēmas",
-    "quickTopics": {
-      "login": "Nevaru pieteikties",
-      "billing": "Maksājumi / norēķini",
-      "abuse": "Ziņot par pārkāpumu"
-    },
-    "trySearching": "Pamēģiniet meklēt “translate”, “backups” vai “privacy”.",
-    "article": "Raksts",
-    "openArticle": "Atvērt rakstu",
-    "contactIntro": "Mēs atbildēsim pa e-pastu. Iekļaujiet detaļas, lai varam atkārtot problēmu.",
-    "topicAria": "Izvēlieties tēmu",
-    "messagePlaceholder": "Rakstiet savu ziņojumu…",
-    "sendBtn": "Sūtīt",
-    "sent": "Ziņojums nosūtīts. Atbildēsim pa e-pastu.",
-    "sendError": "Neizdevās nosūtīt. Rakstiet uz support@chatforia.com."
+  "keySetup": {
+    "title": "Iestatiet savas ierīces atslēgas",
+    "description": "Šai ierīcei vēl nav jūsu privātās atslēgas. Importējiet ar paroli aizsargātu dublējumu vai ģenerējiet jaunu atslēgu pāri (turpmāk varēsiet lasīt jaunas ziņas).",
+    "chooseFile": "Izvēlieties failu un ievadiet paroli.",
+    "imported": "Privātā atslēga importēta šajā ierīcē. Tagad varat lasīt vecās ziņas.",
+    "enterPassword": "Ievadiet sava konta paroli, lai mēs varētu droši dublēt jūsu atslēgas."
   },
-
-  "chat": {
-    "selectPrompt": "Atlasiet tekstu vai tērzēšanas istabu, lai sāktu sarunu",
-    "newMessages": "Jaunas ziņas",
-    "typing": "{{name}} raksta...",
-    "emptyTitle": "Jūsu ziņas",
-    "emptySubtitle": "Nosūtiet ziņu, lai sāktu sarunu.",
-    "startChatButton": "Sūtīt ziņu"
-  },
-
-  "topbar": {
-    "newStatus": "Jauns statuss",
-    "logout": "Izrakstīties",
-    "help": "Palīdzība",
-    "createStatusAria": "Izveidot jaunu statusu"
-  },
-
-  "status": {
-    "userNumber": "Lietotājs #{{id}}",
-    "posted": "Statuss publicēts",
-    "postFailed": "Neizdevās publicēt statusu",
-    "createTitle": "Izveidot statusu",
-    "modalAriaLabel": "Jauns statuss",
-    "captionLabel": "Kas ir jūsu prātā?",
-    "captionPlaceholder": "Dalieties ar jaunumus...",
-    "captionAria": "Statusa ziņa",
-    "audienceLabel": "Auditorija",
-    "audience": {
-      "public": "Publiski",
-      "followers": "Sekotāji",
-      "contacts": "Kontakti",
-      "mutuals": "Abpusēji sekotāji",
-      "custom": "Pielāgots..."
-    },
-    "expiresHoursLabel": "Derīgs (stundas)",
-    "maxTooltip": "Maksimums 7 dienas",
-    "hoursAbbrev": "h",
-    "maxShort": "maks.",
-    "expiresOn": "Beidzas:",
-    "chooseRecipients": "Izvēlieties saņēmējus",
-    "selectContacts": "Atlasīt kontaktus",
-    "attachmentsLabel": "Pielikumi",
-    "attachmentsPlaceholder": "Pievienot attēlus/video",
-    "filesNote": "Līdz 5 failiem. Noklusēti 24 st. derīgums.",
-    "postAria": "Publicēt statusu",
-    "post": "Publicēt"
-  },
-
-  "contactList": {
-    "savedContacts": "Saglabātie kontakti",
-    "refreshAria": "Atjaunināt kontaktus",
-    "filterPlaceholder": "Filtrēt saglabātos kontaktus…",
-    "filterAria": "Filtrēt saglabātos kontaktus",
-    "noContactsFound": "Kontakti nav atrasti.",
-    "externalContact": "Ārējs kontakts",
-    "notJoined": "Šis kontakts vēl nav pievienojies Chatforia.",
-    "couldNotStart": "Neizdevās sākt tērzēšanu. Mēģiniet vēlreiz.",
-    "startFailed": "Neizdevās sākt tērzēšanu. Mēģiniet vēlreiz.",
-    "deleted": "Kontakts dzēsts.",
-    "deleteFailed": "Neizdevās dzēst kontaktu. Mēģiniet vēlreiz.",
-    "aliasUpdated": "Aizstājvārds atjaunināts.",
-    "updateAliasFailed": "Neizdevās atjaunināt aizstājvārdu. Mēģiniet vēlreiz.",
-    "selectContact": "Atlasīt {{name}}",
-    "alias": "Aizstājvārds",
-    "startChat": "Sākt tērzēšanu",
-    "message": "Ziņa",
-    "delete": "Dzēst",
-    "deleteContactAria": "Dzēst kontaktu",
-    "loadFailed": "Neizdevās ielādēt kontaktus. Mēģiniet vēlreiz.",
-    "loadMore": "Ielādēt vēl"
-  },
-
-  "sidebar": {
-    "randomChat": "Nejauša tērzēšana",
-    "callTextForwarding": "Zvanu un īsziņu pāradresācija",
-    "conversations": "Sarakstes",
-    "searchPlaceholder": "Meklēt sarunas...",
-    "errorLoading": "Neizdevās ielādēt tērzēšanas",
-    "empty": "Vēl nav sarunu.",
-    "startChat": "Sākt tērzēšanu",
-    "people": "Cilvēki",
-    "settings": "Iestatījumi",
-    "status": "Statuss",
-    "forwarding": "Zvanu un īsziņu pāradresācija",
-    "refresh": "Atjaunināt",
-    "search": "Meklēt sarunas",
-    "loginPrompt": "Lai rediģētu iestatījumus, pierakstieties.",
-    "login": "Pieteikties",
-    "register": "Izveidot kontu",
-    "chatrooms": "Tērzētavas",
-    "logout": "Izrakstīties",
-    "startChatAlt": "Sākt jaunu tērzēšanu"
-  },
-
-  "premium": {
-    "heading": "Pārejiet uz Premium",
-    "description": "Atbloķējiet jaudīgas funkcijas un noņemiet reklāmas.",
-    "cta": "Jaunināt",
-    "upgrade": "Jaunināt",
-    "upgradeAria": "Jaunināt uz Chatforia Premium"
-  },
-
   "auth": {
-    "headline": "Droša, globāla ziņapmaiņa ar tūlītēju tulkojumu",
-    "description": "Gala–gals šifrēšana, AI tulkošana, pazūdošās ziņas un balss/video zvani.",
+    "headline": "Droša ziņošana ikvienam, jebkur",
+    "description": "Pilnīga šifrēšana no gala līdz galam, tulkošana vairāk nekā 100 valodās, pazūdošas ziņas un balss/video zvani.",
     "feature": {
-      "encryption": "Gala–gals šifrēšana pēc noklusējuma",
-      "translation": "Automātiska tulkošana 100+ valodās",
-      "disappearing": "Pazūdošās ziņas un lasīšanas apstiprinājumi",
-      "privacy": "Privātums pirmajā vietā. Jūsu dati — jūsu kontrole.",
-      "translate": "Reāllaika tulkošana",
-      "disappear": "Pazūdošās ziņas",
-      "privacyAlt": "Privātums pirmajā vietā"
+      "encryption": "Pilnīga šifrēšana no gala līdz galam pēc noklusējuma",
+      "translation": "Vieda, iebūvēta ziņu tulkošana",
+      "disappearing": "Pazūdošas ziņas un lasīšanas apliecinājumi",
+      "privacy": "Privātums pirmajā vietā. Jūsu dati, jūsu kontrole.",
+      "translate": "Vieda, iebūvēta ziņu tulkošana",
+      "disappear": "Pazūdošas ziņas",
+      "privacyAlt": "Privātuma pirmajā vietā dizains",
+      "seePlans": "Skatīt plānus un cenas"
     },
     "hero": {
-      "line1": "Droša, globāla",
-      "beforeEm": "ziņapmaiņa ar",
-      "em": "tūlītēju tulkojumu",
-      "sub": "Gala–gals šifrēšana, AI tulkošana, pazūdošās ziņas un balss/video zvani."
+      "line1": "Droša ziņošana ikvienam, jebkur — ar",
+      "em": "tulkošanu vairāk nekā 100 valodās",
+      "sub": "Iegūstiet bezmaksas drošu tālruņa numuru, lai zvanītu un sūtītu ziņas visā pasaulē pa Wi-Fi vai mobilo datu savienojumu. Izbaudiet pilnīgu šifrēšanu no gala līdz galam, pazūdošas ziņas un HD balss/video zvanus — ar iebūvētiem rīkiem, kas palīdz uzturēt sakarus pāri robežām.",
+      "freeNote": "Pamata zvani un ziņu sūtīšana ir bezmaksas. Papildu AI un premium funkcijas prasa jauninājumu."
     },
     "feat": {
-      "encryption": "Gala–gals šifrēšana pēc noklusējuma",
-      "translate": "Automātiski tulkot 100+ valodās",
-      "disappear": "Pazūdošās ziņas un lasīšanas apstiprinājumi",
-      "privacy": "Privātums pirmajā vietā. Jūsu dati — jūsu kontrole."
+      "encryption": "Pilnīga šifrēšana no gala līdz galam, vienmēr ieslēgta",
+      "translate": "Pārvariet valodas barjeras sarunās",
+      "disappear": "Pazūdošas ziņas un lasīšanas apliecinājumi",
+      "privacy": "Privātums pirmajā vietā. Jūsu dati, jūsu kontrole."
     },
-    "welcomeBack": "Laipni lūdzam atpakaļ",
     "continueGoogle": "Turpināt ar Google",
     "continueApple": "Turpināt ar Apple",
     "username": "Lietotājvārds",
     "password": "Parole",
-    "keepSignedIn": "Paturēt mani pierakstītu",
-    "forgotPassword": "Aizmirsi paroli?",
+    "keepSignedIn": "Palikt pieteikušam",
+    "forgotPassword": "Aizmirsāt paroli?",
     "loginButton": "Pieteikties",
     "createAccount": "Izveidot kontu",
     "freeAccountButton": "Izveidot bezmaksas kontu",
     "newHere": "Jauns šeit?",
-    "getApp": "Lejupielādēt lietotni",
-    "desktopTip": "Pie datora? Skenējiet ar tālruni, lai iegūtu lietotni.",
-    "scanHelper": "Pie datora? Skenējiet ar tālruni, lai iegūtu lietotni.",
-    "goHome": "Doties uz sākumlapu",
+    "getApp": "Iegūt lietotni",
+    "desktopTip": "Uz darbvirsmas? Skenējiet ar tālruni, lai iegūtu lietotni.",
+    "scanHelper": "Uz darbvirsmas? Skenējiet ar tālruni, lai iegūtu lietotni.",
+    "goHome": "Doties uz sākumu",
     "home": "Sākums",
     "headlineAlt": {
-      "main": "Drošs ziņotājs, kas",
+      "main": "Drošais ziņu sūtītājs, kas",
       "highlight": "runā jūsu valodā"
     },
-    "subhead": "Privāta, šifrēta un tulkota ziņapmaiņa — uzreiz.",
-    "status": "Skatīt statusu",
+    "subhead": "Privāta, šifrēta un tulkota ziņošana — uzreiz.",
     "upgrade": "Jaunināt tagad",
-    "tip": "Padoms: Izmantojiet to pašu kontu tīmeklī un mobilajā. Jūsu ziņas paliek sinhronizētas.",
+    "tip": "Padoms: Izmantojiet to pašu kontu tīmeklī un mobilajā ierīcē. Jūsu ziņas paliek sinhronizētas.",
     "openDownload": "Atvērt lejupielādes lapu",
-    "qrAlt": "QR kods Chatforia",
+    "qrAlt": "QR kods Chatforia lietotnei",
     "scanHint": "Skenējiet, lai lejupielādētu lietotni vai atvērtu pārlūkā.",
     "iosAria": "Lejupielādēt App Store",
     "iosTitle": "Lejupielādēt App Store",
@@ -295,692 +83,1592 @@
     "androidBadgeAlt": "Google Play emblēma",
     "login": "Pieteikties",
     "signup": "Reģistrēties",
-    "email": "E-pasts"
+    "email": "E-pasts",
+    "registration": {
+      "passwordDescription": "Minimāli 6 rakstzīmes. Izmantojiet spēcīgu, unikālu paroli.",
+      "smsConsent": "Izveidojot kontu, jūs piekrītat saņemt SMS paziņojumus saistībā ar jūsu Chatforia darbību (piemēram, ziņas no citiem lietotājiem). Var tikt piemērotas ziņu un datu tarifi. Jebkurā laikā varat atteikties Iestatījumos.",
+      "termsLink": "Pakalpojuma noteikumi",
+      "privacyLink": "Privātuma politika"
+    },
+    "to": "Kam:",
+    "enterRecipient": "Ievadiet vārdu vai numuru",
+    "clearRecipients": "Notīrīt saņēmējus",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Rakstiet ziņu…",
+    "addRecipient": "Pievienojiet saņēmēju augšpusē, lai sāktu…",
+    "oneRecipient": "Lūdzu, pagaidām ievadiet vienu saņēmēju.",
+    "enterValidRecipient": "Ievadiet saglabātu kontakta vārdu vai tālruņa numuru.",
+    "sendFailed": "Sūtīšana neizdevās. Pārbaudiet konsoli, lai iegūtu detaļas."
   },
-
-  "footer": {
-    "plans": "Plāni un cenas",
-    "about": "Par Chatforia",
-    "careers": "Karjera",
-    "press": "Presei",
-    "advertise": "Reklāma",
-    "contact": "Sazināties",
-    "help": "Palīdzības centrs",
-    "status": "Statusa lapa",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Privātuma politika",
-    "terms": "Pakalpojuma noteikumi",
-    "cookies": "Sīkdatņu iestatījumi",
-    "doNotSell": "Nepārdot manus datus",
-    "language": "Valoda",
-    "contactShort": "Kontakti",
-
-    "aria": "Kājene",
-    "homeAria": "Chatforia sākumlapa",
-    "section": {
-      "company": "UZŅĒMUMS",
-      "support": "ATBALSTS",
-      "downloads": "LEJUPIELĀDES",
-      "legal": "JURIDISKAIS"
-    },
-    "links": {
-      "plans-pricing": "Plāni un cenas",
-      "about-chatforia": "Par Chatforia",
-      "careers": "Karjera",
-      "press": "Presei",
-      "advertise": "Reklāma",
-      "getting-started": "Darba sākšana",
-      "help-center": "Palīdzības centrs",
-      "contact-us": "Sazināties",
-      "status-page": "Statusa lapa",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privātuma politika",
-      "terms-of-service": "Pakalpojuma noteikumi",
-      "do-not-sell-my-info": "Nepārdot manus datus",
-      "cookie-settings": "Sīkdatņu iestatījumi"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patents izskatīšanā",
-    "backToTop": "↑ Atpakaļ uz augšu"
-  },
-
   "home": {
     "title": "Sākums",
     "header": "Jūsu ziņas",
     "subheader": "Nosūtiet ziņu, lai sāktu sarunu.",
-    "sendButton": "Sūtīt ziņu",
-    "gifPicker": "Atvērt GIF izvēlētāju",
-    "emoji": "Emocijzīmes",
+    "sendButton": "Nosūtīt ziņu",
+    "gifPicker": "Atvērt GIF atlasītāju",
+    "emoji": "Emocijzīme",
     "upload": "Augšupielādēt foto vai video",
     "inputPlaceholder": "Rakstiet ziņu…",
-    "inputLabel": "Ziņas redaktors",
-    "sendTooltip": "Sūtīt",
-    "sendTooltipEmpty": "Lai sūtītu, ierakstiet ziņu",
-    "send": "Sūtīt",
-    "welcomeMessage": "Laipni lūgti Chatforia",
+    "inputLabel": "Ziņas sastādītājs",
+    "sendTooltip": "Nosūtīt",
+    "sendTooltipEmpty": "Ierakstiet ziņu, lai nosūtītu",
+    "send": "Nosūtīt",
+    "welcomeMessage": "Laipni lūdzam Chatforia",
     "getStarted": "Sākt"
   },
-
-  "press": {
-    "title": "Presei",
-    "contactLine": "Mediju jautājumiem rakstiet uz",
-    "boilerplateTitle": "Apraksts",
-    "boilerplateBody": "Chatforia ir privātumu sargājoša ziņapmaiņas lietotne, kas atvieglo sarunas starp dažādām valodām. Ziņas tiek šifrētas gala–galā pēc noklusējuma, un iebūvētais tulkojums reāllaikā atbalsta 100+ valodas. Lietotāji var ieslēgt pazūdošās ziņas, padarīt lasīšanas apstiprinājumus izvēles un sinhronizēt starp ierīcēm. Pieejams iOS, Android un tīmeklī.",
-    "assetsTitle": "Zīmola materiāli",
-    "assetsSubtitle": "Logotipi, ekrānuzņēmumi un produktu attēli.",
-    "downloadCta": "Lejupielādēt mediju komplektu",
-    "downloadTitle": "Iegūstiet lietotni",
-    "scanTip": "Pie datora? Skenējiet ar tālruni, lai iegūtu lietotni.",
-    "qrAria": "Atvērt Chatforia vietni",
-    "appStore": "Lejupielādēt App Store",
-    "googlePlay": "Iegūt Google Play"
+  "chat": {
+    "selectPrompt": "Izvēlieties tekstu vai sarunu istabu, lai sāktu tērzēšanu",
+    "newMessages": "Jaunas ziņas",
+    "typing": "{{name}} raksta...",
+    "emptyTitle": "Jūsu ziņas",
+    "emptySubtitle": "Nosūtiet ziņu, lai sāktu sarunu.",
+    "startChatButton": "Nosūtīt ziņu",
+    "mediaAttachment": "Multivides pielikums",
+    "thisUser": "šis lietotājs",
+    "blockConfirm": "Bloķēt {{name}}? Jūs nesaņemsiet ziņas no viņa.",
+    "blockedUser": "Bloķēts {{name}}.",
+    "blockError": "Neizdevās noteikt mērķa lietotāju bloķēšanai.",
+    "blockFailed": "Bloķēšana neizdevās (aizmugure vēl nav savienota).",
+    "encryptedUnavailable": "Šifrēta ziņa (atslēga nav pieejama)",
+    "unlockToView": "Atslēdziet savu atslēgu, lai skatītu šo ziņu"
   },
-
-  "careers": {
-    "title": "Karjera",
-    "intro": "Mēs esam neliela komanda, kas veido privātu, globālu ziņotāju. Ja rūp šifrēšana, pieejamība un lielisks UX, priecāsimies par jūsu ziņu.",
-    "openRoles": "<b>Atvērtās pozīcijas:</b> Inženierija (pilnais stacks, iOS, Android), Produkts, Atbalsts.",
-    "apply": "<b>Kā pieteikties:</b> Sūtiet CV/saites uz <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Sūtīt CV pa e-pastu"
-  },
-
-  "about": {
-    "title": "Par Chatforia",
-    "description": "Chatforia ir drošs, daudzvalodu ziņotājs ar gala–gals šifrēšanu, tūlītēju tulkojumu un balss/video zvaniem. Mūsu misija ir vienkārša: palīdzēt cilvēkiem sazināties — droši, privāti un pāri valodām.",
-    "valuesTitle": "Ko mēs vērtējam",
-    "values": {
-      "privacy": "<bold>Privātums pirmajā vietā:</bold> E2E šifrēšana pēc noklusējuma.",
-      "access": "<bold>Piekļuve visiem:</bold> Automātiski tulkot 100+ valodās.",
-      "control": "<bold>Kontrole:</bold> Pazūdošās ziņas un lasīšanas apstiprinājumi ir izvēles.",
-      "privacy_aria": "Privātums pirmajā vietā: E2E šifrēšana pēc noklusējuma.",
-      "access_aria": "Piekļuve visiem: Automātiski tulkot 100+ valodās.",
-      "control_aria": "Kontrole: Pazūdošās ziņas un lasīšanas apstiprinājumi ir izvēles."
+  "messageInput": {
+    "ttl": {
+      "off": "Izslēgts"
     },
-    "howTitle": "Kā darbojas Chatforia",
-    "howDescription": "Ziņas tiek šifrētas jūsu ierīcē pirms nosūtīšanas. Tulkošana, dublējumi un sinhronizācija ir veidoti, lai samazinātu to, ko mūsu serveri var redzēt."
-    },
-
-  "advertise": {
-    "title": "Reklamējieties ar Chatforia",
-    "description": "Sasniedziet iesaistītus lietotājus ar gaumīgiem, drošiem izvietojumiem. Piedāvājam redzamus banerus, sponsorēšanu un iekšējos promo. Premium abonenti reklāmas neredz.",
-    "adsense": {
-      "withPubId": "Pašlaik izmantojam <b>Google AdSense</b>. Ja vēlaties mērķēt caur Google Ads, lietojiet publicētāja ID <code>{{pubId}}</code> un palūdziet pārvaldītu izvietojumu uz vienībām zemāk. Pieejama arī tiešā sponsorēšana — izmantojiet formu.",
-      "noPubId": "Pašlaik izmantojam <b>Google AdSense</b>. Pieejama arī tiešā sponsorēšana — izmantojiet formu zemāk."
-    },
-    "inventoryHeader": "Krājums un specifikācijas",
-    "placement": {
-      "displayBadge": "Displejs",
-      "acceptedSizes": "Pieņemtie izmēri",
-      "adsenseSlot": "AdSense slots:"
-    },
-    "noPlacements": "Vēl nav konfigurētu izvietojumu. Pievienojiet tos failā ads/placements.js.",
-    "whyHeader": "Kāpēc Chatforia?",
-    "why": {
-      "highSession": "Augsts sesiju biežums un uzturēšanās laiks tērzēšanas UI",
-      "brandSafe": "Zīmolam droši formāti; cieņpilna biežuma vadība",
-      "sponsoredMoments": "Pieejami sponsorētie mirkļi (piem., “Sākt tērzēšanu” modālis)",
-      "deals": "Tiešie darījumi vai programmatiski caur AdSense/Google Ads"
-    },
-    "contactHeader": "Kontakti",
-    "form": {
-      "submittedMsg": "Paldies! Jūsu pieprasījums ir nosūtīts. Drīz sazināsimies.",
-      "missingRequired": "Lūdzu, aizpildiet vārdu, e-pastu un ziņu.",
-      "successToast": "Paldies! Sazināsimies drīzumā.",
-      "mailtoInfo": "Tiek atvērta jūsu e-pasta lietotne, lai nosūtītu pieprasījumu…",
-      "nameLabel": "Jūsu vārds",
-      "namePlaceholder": "Jānis Bērziņš",
-      "emailLabel": "E-pasts",
-      "emailPlaceholder": "jūs@uzņēmums.com",
-      "companyLabel": "Uzņēmums",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Mēneša budžets (neobligāti)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Pastāstiet par kampaņu",
-      "messagePlaceholder": "Mērķēšana, datumi, KPI, izvietojumu vēlmes…",
-      "sendCta": "Sūtīt pieprasījumu"
-    },
-    "legal": {
-      "disclaimerStart": "Iesniedzot, jūs piekrītat mūsu",
-      "terms": "Noteikumiem",
-      "and": "un",
-      "privacy": "Privātuma politikai"
+    "freeLimit": "Bezmaksas plāna limits: automātiska dzēšana līdz 1 dienai. Ierobežots līdz 1d.",
+    "premiumLimit": "Maksimālais automātiskās dzēšanas laiks Premium ir 30 dienas. Ierobežots līdz 30d.",
+    "nothingToSend": "Ierakstiet ziņu vai pievienojiet failu, lai nosūtītu.",
+    "encryptionFailed": "Šifrēšana neizdevās. Ziņa nav nosūtīta.",
+    "sent": "Ziņa piegādāta.",
+    "placeholder": "Rakstiet ziņu…",
+    "autoDelete": "Automātiska dzēšana",
+    "typeToSend": "Ierakstiet ziņu, lai nosūtītu",
+    "send": "Nosūtīt",
+    "sendWithEnter": "Nosūtīt (Enter)",
+    "attachment": "pielikums",
+    "caption": "Apraksts (neobligāti)",
+    "remove": "Noņemt",
+    "clear": "Notīrīt",
+    "gif": "GIF",
+    "sticker": "Uzlīme",
+    "errors": {
+      "attachmentTooLarge": "Pielikums ir pārāk liels. Izmēģiniet mazāku failu.",
+      "unsupportedFile": "Neatbalstīts faila tips.",
+      "rateLimit": "Jūs sūtāt ziņas pārāk ātri. Lūdzu, palēniniet tempu.",
+      "validation": "Validācijas kļūda. Lūdzu, pārbaudiet ziņu un mēģiniet vēlreiz.",
+      "failedToSend": "Neizdevās nosūtīt. Varat atkārtoti mēģināt neveiksmīgo burbuli."
     }
   },
-
+  "contactList": {
+    "savedContacts": "Saglabātie kontakti",
+    "refreshAria": "Atsvaidzināt kontaktus",
+    "filterPlaceholder": "Filtrēt saglabātos kontaktus…",
+    "filterAria": "Filtrēt saglabātos kontaktus",
+    "noContactsFound": "Kontakti nav atrasti.",
+    "externalContact": "Ārējais kontakts",
+    "notJoined": "Šis kontakts vēl nav pievienojies Chatforia.",
+    "couldNotStart": "Neizdevās sākt sarunu. Lūdzu, mēģiniet vēlreiz.",
+    "startFailed": "Neizdevās sākt sarunu. Lūdzu, mēģiniet vēlreiz.",
+    "deleted": "Kontakts dzēsts.",
+    "deleteFailed": "Neizdevās dzēst kontaktu. Lūdzu, mēģiniet vēlreiz.",
+    "aliasUpdated": "Aizstājvārds atjaunināts.",
+    "updateAliasFailed": "Neizdevās atjaunināt aizstājvārdu. Lūdzu, mēģiniet vēlreiz.",
+    "selectContact": "Izvēlēties {{name}}",
+    "alias": "Aizstājvārds",
+    "startChat": "Sākt sarunu",
+    "message": "Ziņa",
+    "delete": "Dzēst",
+    "deleteContactAria": "Dzēst kontaktu",
+    "loadFailed": "Neizdevās ielādēt kontaktus. Lūdzu, mēģiniet vēlreiz.",
+    "loadMore": "Ielādēt vairāk",
+    "call": "Zvanīt",
+    "callStarted": "Zvana uz šo numuru, izmantojot jūsu Chatforia numuru…",
+    "callFailed": "Neizdevās sākt zvanu. Lūdzu, mēģiniet vēlreiz."
+  },
+  "startChatModal": {
+    "title": "Sākt sarunu",
+    "searchPlaceholder": "Meklēt vārdu, lietotājvārdu vai tālruņa numuru",
+    "messageThisPerson": "Ziņot šai personai",
+    "contacts": "Kontakti",
+    "recentInteractions": "Nesenie mijiedarbības",
+    "noContactsMatch": "Jūsu meklējumam neatbilst kontakti.",
+    "noRecentInteractions": "Vēl nav nesenu mijiedarbību.",
+    "unknown": "Nezināms",
+    "interactionType": {
+      "message": "Ziņa",
+      "call": "Zvans",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Pievienot kontaktu",
+    "phoneOrUsername": "Tālrunis vai lietotājvārds",
+    "phoneOrUsernamePlaceholder": "piem. +13018019227 vai juliannorton",
+    "alias": "Aizstājvārds (neobligāti)",
+    "aliasPlaceholder": "piem. Darbs, Mamma, Maiks – Eiropa",
+    "enterPhoneOrUsername": "Ievadiet tālruņa numuru vai lietotājvārdu.",
+    "userLookupFailed": "Lietotāja meklēšana neizdevās.",
+    "cannotAddSelf": "Jūs nevarat pievienot sevi kā kontaktu.",
+    "failedToAdd": "Neizdevās pievienot kontaktu.",
+    "add": "Pievienot"
+  },
+  "sidebar": {
+    "randomChat": "Nejauša saruna",
+    "callTextForwarding": "Zvanu un ziņu pāradresācija",
+    "conversations": "Sarunas",
+    "searchPlaceholder": "Meklēt sarunās...",
+    "errorLoading": "Neizdevās ielādēt sarunas",
+    "empty": "Vēl nav sarunu.",
+    "startChat": "Sākt sarunu",
+    "people": "Cilvēki",
+    "settings": "Iestatījumi",
+    "status": "Statuss",
+    "forwarding": "Zvanu un ziņu pāradresācija",
+    "refresh": "Atsvaidzināt",
+    "search": "Meklēt sarunās",
+    "loginPrompt": "Piesakieties, lai rediģētu iestatījumus.",
+    "login": "Pieteikties",
+    "register": "Izveidot kontu",
+    "chatrooms": "Sarunu istabas",
+    "logout": "Izlogoties",
+    "startChatAlt": "Sākt jaunu sarunu",
+    "calls": "Zvani",
+    "video": "Video",
+    "voicemail": "Balss pasts"
+  },
+  "topbar": {
+    "newStatus": "Jauns statuss",
+    "logout": "Izlogoties",
+    "help": "Palīdzība",
+    "createStatusAria": "Izveidot jaunu statusu"
+  },
+  "threadActions": {
+    "threadMenu": "Sarunas izvēlne",
+    "premium": "Premium",
+    "aiPower": "AI jauda",
+    "schedule": "Ieplānot",
+    "upgrade": "Jaunināt",
+    "upgradeSuffix": "(Jaunināt)",
+    "thread": "Saruna",
+    "about": "Par",
+    "search": "Meklēt",
+    "media": "Multivide",
+    "invitePeople": "Uzaicināt cilvēkus",
+    "roomSettings": "Istabas iestatījumi",
+    "clearConversation": "Notīrīt sarunu",
+    "block": "Bloķēt"
+  },
+  "roomSearch": {
+    "title": "Meklēt istabā",
+    "ariaLabel": "Meklēt istabā",
+    "search": "Meklēt",
+    "searchMessages": "Meklēt ziņās",
+    "noText": "[Nav teksta]",
+    "noResults": "Nav rezultātu"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Dalībnieks",
+      "moderator": "Moderators",
+      "admin": "Administrators"
+    },
+    "aiMode": {
+      "off": "Izslēgts",
+      "mention": "Tikai pie @ForiaBot vai /ask",
+      "always": "Atbildēt proaktīvi"
+    },
+    "autoTranslateMode": {
+      "off": "Izslēgts",
+      "tagged": "Tikai atzīmētas (/tr …)",
+      "all": "Visas ziņas"
+    },
+    "updated": "Iestatījumi atjaunināti"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Kopīga multivide",
+    "noMediaCached": "Vēl nav lokāli kešotas multivides.",
+    "imageAlt": "attēls",
+    "openVideo": "Atvērt video",
+    "openVideoWithCaption": "Atvērt video: {{caption}}",
+    "preview": "Priekšskatījums",
+    "previewWithCaption": "Priekšskatījums: {{caption}}",
+    "previewKind": "Priekšskatīt {{kind}}",
+    "download": "Lejupielādēt",
+    "downloadKind": "Lejupielādēt {{kind}}",
+    "file": "fails",
+    "kinds": {
+      "image": "attēls",
+      "video": "video",
+      "audio": "audio",
+      "file": "fails"
+    }
+  },
+  "status": {
+    "userNumber": "Lietotājs #{{id}}",
+    "posted": "Statuss publicēts",
+    "postFailed": "Neizdevās publicēt statusu",
+    "createTitle": "Izveidot statusu",
+    "modalAriaLabel": "Jauns statuss",
+    "captionLabel": "Kas jums prātā?",
+    "captionPlaceholder": "Dalieties ar atjauninājumu...",
+    "captionAria": "Statusa ziņa",
+    "audienceLabel": "Auditorija",
+    "audience": {
+      "public": "Publisks",
+      "followers": "Sekotāji",
+      "contacts": "Kontakti",
+      "mutuals": "Abpusēji",
+      "custom": "Pielāgots..."
+    },
+    "expiresHoursLabel": "Derīgs (stundas)",
+    "maxTooltip": "Maksimums 7 dienas",
+    "hoursAbbrev": "st",
+    "maxShort": "maks.",
+    "expiresOn": "Derīgs līdz:",
+    "chooseRecipients": "Izvēlēties saņēmējus",
+    "selectContacts": "Izvēlēties kontaktus",
+    "attachmentsLabel": "Pielikumi",
+    "attachmentsPlaceholder": "Pievienot attēlus/video",
+    "filesNote": "Līdz 5 failiem. Pēc noklusējuma 24h derīguma termiņš.",
+    "postAria": "Publicēt statusu",
+    "post": "Publicēt"
+  },
+  "voicemail": {
+    "pageTitle": "Balss pasts",
+    "from": "No",
+    "to": "Kam",
+    "unknownCaller": "Nezināms",
+    "yourNumber": "Jūsu Chatforia numurs",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Balss pasta audio atskaņotājs",
+    "transcriptHeading": "Transkripts",
+    "transcriptPending": "Transkribē balss pastu…",
+    "transcriptFailed": "Transkripts nav pieejams.",
+    "loading": "Ielādē balss pastu…",
+    "errorLoading": "Neizdevās ielādēt balss pastu.",
+    "empty": "Vēl nav balss pasta ziņu.",
+    "deleteConfirm": "Dzēst šo balss pasta ziņu?",
+    "deleteError": "Neizdevās dzēst balss pasta ziņu.",
+    "markRead": "Atzīmēt kā lasītu",
+    "delete": "Dzēst",
+    "unreadDotAria": "Nelasīta balss pasta indikators"
+  },
+  "profile": {
+    "title": "Lietotāja profils",
+    "preferredLanguage": "Vēlamā valoda",
+    "chooseLanguage": "Izvēlēties valodu",
+    "mustLogin": "Lai skatītu iestatījumus, jāpiesakās.",
+    "autoTranslate": "Automātiski tulkot ziņas",
+    "showOriginalWithTranslation": "Rādīt oriģinālu un tulkotu ziņu",
+    "showOriginalAndTranslation": "Rādīt oriģinālu blakus tulkojumam",
+    "filterExplicit": "Filtrēt nepiedienīgu saturu",
+    "aiReply": "AI atbilde",
+    "enableReadReceipts": "Iespējot lasīšanas apliecinājumus",
+    "allowExplicitContent": "Atļaut nepiedienīgu saturu",
+    "disappearingMessages": "Iespējot pazūdošas ziņas",
+    "autoDeleteSeconds": "Sekundes līdz automātiskai dzēšanai",
+    "saveSuccess": "Iestatījumi saglabāti!",
+    "saveError": "Kļūda: neizdevās saglabāt iestatījumus",
+    "avatarAlt": "Profila avatārs",
+    "uploadAvatar": "Augšupielādēt jaunu avatāru",
+    "avatarSuccess": "Avatārs augšupielādēts!",
+    "avatarError": "Neizdevās augšupielādēt avatāru",
+    "avatarUpdated": "Avatārs atjaunināts!",
+    "uploadingAvatar": "Augšupielādē avatāru…",
+    "noPrivateKey": "Šajā ierīcē nav privātās atslēgas eksportēšanai.",
+    "setBackupPassword": "Iestatiet paroli, lai šifrētu dublējumu:",
+    "backupDownloaded": "Šifrēts dublējums lejupielādēts.",
+    "exportFailed": "Atslēgas eksportēšana neizdevās",
+    "enterBackupPassword": "Ievadiet šī dublējuma paroli:",
+    "importSuccess": "Privātā atslēga importēta šajā ierīcē.",
+    "importFailed": "Neizdevās importēt atslēgu (nepareiza parole vai bojāts fails).",
+    "keysRotated": "Ģenerēta jauna atslēgu pāris un publiskā atslēga augšupielādēta.",
+    "rotateFailed": "Neizdevās rotēt atslēgas.",
+    "security": "Drošība",
+    "exportKey": "Dublēt šifrēšanas atslēgu",
+    "importKey": "Atjaunot šifrēšanas atslēgu",
+    "rotateKeys": "Rotēt šifrēšanas atslēgu",
+    "keyDisclaimer": "Jūsu privātā atslēga nekad neatstāj šo ierīci. Eksportējiet ar paroli aizsargātu kopiju, lai atjaunotu to citā ierīcē.",
+    "sectionProfile": "Profils",
+    "phoneNumber": "Tālruņa numurs",
+    "appearance": "Izskats",
+    "soundSettings": "Skaņas",
+    "disappearing": "Pazūdošas ziņas",
+    "backupSync": "Šifrēšanas atslēgas dublējums",
+    "ai": "AI",
+    "accessibility": "Pieejamība",
+    "privacy": "Privātums",
+    "devices": "Saistītās ierīces",
+    "themeFreeNotice": "Jūs izmantojat Bezmaksas — izmantojiet ātrās Saules/Mēness opcijas zemāk. Jauniniet, lai atbloķētu vairāk tēmu.",
+    "sunTheme": "Izmantot Rītausmas tēmu",
+    "moonTheme": "Izmantot Mēness (Pusnakts) tēmu",
+    "sun": "Saule",
+    "moon": "Mēness",
+    "backupTitle": "Šifrēti dublējumi un ierīces sinhronizācija",
+    "openBackupTools": "Atvērt dublēšanas rīkus",
+    "backupDesc": "Dublējiet šifrēšanas atslēgu, lai droši atjaunotu ziņas citā ierīcē.",
+    "privacyBlurEnabled": "Pēc noklusējuma izpludināt ziņas",
+    "privacyBlurOnUnfocus": "Izpludināt, kad lietotne ir nefokusēta",
+    "planSection": "Mans plāns",
+    "planLoading": "Ielādē jūsu plānu…",
+    "planLoadFailed": "Neizdevās ielādēt jūsu plānu.",
+    "currentPlan": "Pašreizējais plāns",
+    "planRenewsOn": "Atjaunojas",
+    "freePlanCopy": "Jūs izmantojat bezmaksas plānu. Jauniniet, lai atbloķētu vairāk funkciju, piemēram, dublējumus, papildu numurus un papildu privātuma opcijas.",
+    "upgradePlanCta": "Jaunināt plānu",
+    "changePlanCta": "Mainīt plānu",
+    "manageBilling": "Pārvaldīt norēķinus",
+    "portalOpenFailed": "Neizdevās atvērt norēķinu portālu. Lūdzu, mēģiniet vēlreiz.",
+    "holdToReveal": "Turiet, lai atklātu",
+    "notifyOnCopy": "Paziņot man, ja mana ziņa tiek kopēta",
+    "loadFailed": "Neizdevās ielādēt profilu",
+    "followed": "Sekots",
+    "followFailed": "Neizdevās sekot",
+    "unfollowed": "Sekotība pārtraukta",
+    "unfollowFailed": "Neizdevās pārtraukt sekošanu",
+    "follow": "Sekot",
+    "unfollow": "Pārtraukt sekošanu",
+    "followHint": "Viņu stāsti parādīsies jūsu Sekošanas plūsmā, ja viņi publicēs ar auditoriju Sekotāji (vai Publisks).",
+    "userNotFound": "Lietotājs nav atrasts",
+    "followsYou": "Sekojat jums",
+    "sectionCrashedTitle": "Sadaļa neizdevās ielādēt",
+    "sectionCrashedBody": "Kaut kas nogāja greizi šajā sadaļā.",
+    "forwarding": "Zvanu un ziņu pāradresācija",
+    "callTextForwardingSection": "Zvanu un ziņu pāradresācija",
+    "callTextForwardingTitle": "Zvanu un/vai ziņu pāradresācija",
+    "callTextForwardingDescription": "Pāradresēt ienākošos zvanus un ziņas uz jūsu verificēto tālruni vai e-pastu. Izejošie zvani/ziņas var rādīt jūsu Chatforia numuru.",
+    "enableTextForwarding": "Iespējot ziņu pāradresāciju",
+    "forwardTextsToPhone": "Pāradresēt ziņas uz tālruni",
+    "forwardTextsToEmail": "Pāradresēt ziņas uz e-pastu",
+    "destinationPhone": "Galamērķa tālrunis (E.164)",
+    "destinationEmail": "Galamērķa e-pasts",
+    "enableCallForwarding": "Iespējot zvanu pāradresāciju",
+    "destinationPhoneForCalls": "Galamērķis (E.164) zvaniem",
+    "aliasBridging": "Zvanu pāradresācija (aizstājvārdu savienošana)",
+    "quietHoursOptional": "Klusa laiks (neobligāti)",
+    "startHour": "Sākuma stunda (0–23)",
+    "endHour": "Beigu stunda (0–23)",
+    "reset": "Atiestatīt",
+    "saveBtn": "Saglabāt",
+    "saveProfile": "Saglabāt profilu",
+    "saveForwarding": "Saglabāt pāradresāciju",
+    "forwardSaved": "Pāradresācijas iestatījumi saglabāti",
+    "forwardSaveFailed": "Neizdevās saglabāt iestatījumus",
+    "errE164": "Ievadiet derīgu E.164 tālruņa numuru (piem., +15551234567).",
+    "errEmail": "Ievadiet derīgu e-pasta adresi.",
+    "errSmsDest": "Izvēlieties vismaz vienu galamērķi (tālruni vai e-pastu).",
+    "errQuietHours": "Klusa laiks jābūt starp 0 un 23.",
+    "randomChat": "Nejauša saruna",
+    "ageBand": "Jūsu vecuma diapazons",
+    "ageBandPlaceholder": "Izvēlieties vecuma diapazonu",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Mēs glabājam tikai vecuma diapazonu (ne precīzu dzimšanas datumu). Tas tiek izmantots, lai Random Chat savienojumi būtu saprātīgi.",
+    "wantsAgeFilter": "Izmantot vecuma balstītu saskaņošanu Random Chat",
+    "wantsAgeFilterDesc": "Kad ieslēgts, mēs cenšamies savienot jūs ar cilvēkiem saderīgos vecuma diapazonos.",
+    "partnerAgeBands": "Ar ko jūs varat tikt savienots?",
+    "partnerAgeBandsDesc": "Pusaudži vienmēr tiek savienoti tikai ar citiem pusaudžiem. Pieaugušie nevar tikt savienoti ar pusaudžiem.",
+    "teenMatchingNote": "Drošības dēļ 13–17 gadu vecuma konti Random Chat var tikt savienoti tikai ar citiem 13–17 gadu vecuma kontiem.",
+    "foriaRemember": "Ļaut Ria atcerēties lietas, ko jūs viņai sakāt",
+    "foriaRememberDesc": "Kad tas ir ieslēgts, Foria var izmantot jūsu iepriekšējās Random Chat sarunas (tikai ar jums), lai uzturētu sarunas plūsmu. Jūs varat to izslēgt jebkurā laikā.",
+    "voicemailSection": "Balss pasts",
+    "voicemailEnabled": "Iespējot balss pastu",
+    "voicemailAutoDeleteDays": "Automātiski dzēst balss pasta ziņas pēc (dienām)",
+    "voicemailAutoDeletePlaceholder": "Atstājiet tukšu, lai glabātu mūžīgi",
+    "voicemailForwardEmail": "Pāradresēt balss pastu uz e-pastu",
+    "voicemailForwardEmailPlaceholder": "E-pasts, uz kuru sūtīt balss pasta paziņojumus",
+    "voicemailGreetingText": "Teksta rezerves sveiciens",
+    "voicemailGreetingTextDesc": "Izmanto, ja audio sveiciens nav pieejams.",
+    "voicemailGreetingUpload": "Augšupielādēt balss pasta sveicienu",
+    "voicemailPreviewGreeting": "Priekšskatīt sveicienu",
+    "voicemailGreetingUploaded": "Balss pasta sveiciens veiksmīgi augšupielādēts",
+    "voicemailGreetingUploadError": "Neizdevās augšupielādēt balss pasta sveicienu",
+    "voicemailNote": "Balss pasta ziņas no jūsu Chatforia numuriem tiks glabātas jūsu Balss pasta iesūtnē. Jūs varat iespējot transkripciju un pāradresāciju atbalstītajos plānos.",
+    "portHint": "Vai vēlaties paturēt savu pašreizējo numuru? Jūs varat to pārnest uz Chatforia Wireless.",
+    "wireless": {
+      "manage": "Pārvaldīt bezvadu"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Iegūstiet mobilos datus Chatforia, kad esat prom no Wi-Fi.",
+      "cta": "Iegūt eSIM / Rādīt QR"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Pārvaldīt savu Chatforia mobilo plānu, numurus, pāradresāciju un numura pārnesi.",
+    "options": {
+      "heading": "Izvēlieties, kā vēlaties izmantot Chatforia",
+      "subheading": "Jūs varat iegūt jaunu Chatforia numuru vai pārnest savu esošo numuru no cita operatora.",
+      "newNumber": "Iegūt jaunu Chatforia numuru",
+      "portNumber": "Pārnest savu pašreizējo numuru uz Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Pārnest esošo numuru",
+      "subheading": "Pārvietojiet savu pašreizējo tālruņa numuru no esošā operatora uz Chatforia. Pārliecinieties, ka dati precīzi atbilst jūsu operatora kontam, lai izvairītos no kavējumiem.",
+      "phoneNumberLabel": "Numurs, ko pārnest",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Pašreizējais operators",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile utt.",
+      "accountNumberLabel": "Konta numurs",
+      "pinLabel": "Pārneses PIN / parole",
+      "fullNameLabel": "Pilns vārds kontā",
+      "address1Label": "Adreses rinda 1",
+      "address2Label": "Adreses rinda 2 (neobligāti)",
+      "cityLabel": "Pilsēta",
+      "stateLabel": "Štats / Province",
+      "postalCodeLabel": "Pasta indekss",
+      "countryLabel": "Valsts",
+      "submitButton": "Iesniegt pārneses pieprasījumu",
+      "success": "Pārneses pieprasījums iesniegts! Mēs jūs informēsim.",
+      "genericError": "Kaut kas nogāja greizi."
+    },
+    "status": {
+      "heading": "Pārneses statuss",
+      "subheading": "Sekojiet līdzi jūsu numura pārneses pieprasījumu statusam.",
+      "loading": "Ielādē…",
+      "loadError": "Neizdevās ielādēt pārneses pieprasījumus.",
+      "none": "Vēl nav pārneses darbības.",
+      "pending": "Gaida pārskatīšanu",
+      "submitted": "Iesniegts operatoram",
+      "inProgress": "Procesā",
+      "completed": "Pabeigts",
+      "failed": "Neizdevās",
+      "canceled": "Atcelts",
+      "created": "Izveidots:",
+      "scheduled": "Ieplānots:",
+      "completedAt": "Pabeigts:"
+    },
+    "dataLow": "Jūsu dati beidzas.",
+    "topUp": "Papildināt tagad",
+    "expiresIn": "Derīgs vēl {{days}} dienas",
+    "exhausted": "Jūsu dati ir beigušies. Iegādājieties jaunu paketi, lai turpinātu izmantot mobilos datus.",
+    "buyPack": "Iegādāties datu paketi",
+    "esimPackLabel": "eSIM pakete"
+  },
+  "family": {
+    "title": "Ģimene",
+    "loading": "Ielādē jūsu ģimenes datus…",
+    "error": {
+      "load": "Neizdevās ielādēt ģimenes datus.",
+      "invite": "Neizdevās izveidot uzaicinājumu. Pārliecinieties, ka esat ģimenes īpašnieks, un mēģiniet vēlreiz.",
+      "checkout": "Neizdevās sākt norēķinu ģimenes plānam. Lūdzu, mēģiniet vēlreiz."
+    },
+    "billing": {
+      "myPlanTitle": "Mans plāns",
+      "myPlanError": "Neizdevās ielādēt jūsu plānu.",
+      "myPlanLoading": "Ielādē jūsu plānu…",
+      "currentPlan": "Pašreizējais plāns",
+      "renewsAt": "Atjaunojas",
+      "freePlanCopy": "Jūs izmantojat bezmaksas plānu. Jauniniet, lai atbloķētu vairāk funkciju.",
+      "upgradeCta": "Jaunināt plānu",
+      "changePlanCta": "Mainīt plānu",
+      "manageBilling": "Pārvaldīt norēķinus",
+      "portalError": "Pašlaik neizdevās atvērt norēķinu portālu.",
+      "cancelNow": "Atcelt tagad",
+      "cancelNowHelp": "Jūs varat pārvaldīt vai atcelt abonementu norēķinu portālā vai atcelt nekavējoties zemāk.",
+      "cancelNowConfirm": "Vai tiešām vēlaties nekavējoties atcelt plānu? Tas nevar tikt atsaukts.",
+      "cancelNowError": "Pašlaik neizdevās atcelt plānu. Lūdzu, mēģiniet vēlreiz vai izmantojiet Pārvaldīt norēķinus."
+    },
+    "none": {
+      "title": "Vēl nav iestatīta ģimene",
+      "body": "Lai izveidotu Chatforia ģimeni un kopīgu datu kopu, sāciet Ģimenes plānu.",
+      "goUpgrade": "Sākt Ģimenes plānu",
+      "viewPlans": "Skatīt visus plānus"
+    },
+    "group": {
+      "defaultName": "Mana Chatforia ģimene",
+      "role": "Jūsu loma: {{role}}"
+    },
+    "role": {
+      "owner": "Īpašnieks",
+      "member": "Dalībnieks"
+    },
+    "data": {
+      "heading": "Kopīga datu kopa",
+      "caption": "Visi dalībnieki dalās šajā kopā. Mēs brīdināsim, kad tuvojaties limitam."
+    },
+    "members": {
+      "title": "Ģimenes dalībnieki",
+      "name": "Vārds",
+      "role": "Loma",
+      "usage": "Lietojums",
+      "limit": "Limits",
+      "unlimited": "Nav konkrēta limita",
+      "inviteCta": "Uzaicināt dalībnieku"
+    },
+    "invite": {
+      "title": "Uzaicināt jaunu dalībnieku",
+      "body": "Nosūtiet e-pastu vai saiti, lai uzaicinātu kādu dalīties jūsu kopīgajā ģimenes datu kopā.",
+      "emailLabel": "E-pasts (neobligāti)",
+      "emailPlaceholder": "draugs@example.com",
+      "create": "Izveidot uzaicinājumu",
+      "linkLabel": "Uzaicinājuma saite",
+      "copyAria": "Kopēt uzaicinājuma saiti",
+      "expiryHint": "Šī saite derīga tikai dažas dienas. Jūs vienmēr varat izveidot jaunu."
+    },
+    "join": {
+      "title": "Pievienoties ģimenei",
+      "body": "Jūs esat uzaicināts pievienoties Chatforia ģimenei un dalīties viņu datu kopā.",
+      "cta": "Pieņemt un pievienoties ģimenei",
+      "ctaLogin": "Pieteikties un pievienoties ģimenei",
+      "success": "Jūs pievienojāties šai ģimenei. Tagad jūs dalāties viņu datu kopā.",
+      "goFamily": "Doties uz ģimenes paneli",
+      "error": "Neizdevās pievienot jūs šai ģimenei. Uzaicinājums var būt nederīgs vai beidzies."
+    }
+  },
+  "premium": {
+    "heading": "Iegūt Premium",
+    "description": "Atbloķējiet jaudīgas funkcijas un noņemiet reklāmas.",
+    "cta": "Jaunināt",
+    "upgrade": "Jaunināt",
+    "upgradeAria": "Jaunināt uz Chatforia Premium"
+  },
   "upgrade": {
     "title": "Jaunināt",
-    "subtitle": "Atbloķējiet sev piemērotu plānu: Plus bez reklāmām vai Premium ar pilnām jaudīgām funkcijām.",
+    "titleLoggedIn": "Jaunināt",
+    "titlePublic": "Cenas",
+    "h1": "Chatforia cenas un plāni",
+    "h1Subtitle": "Sāciet ar mūsu bezmaksas plānu ar reklāmām. Kļūstiet bezreklāmu ar Plus vai atbloķējiet pilnu jaudu ar Premium.",
+    "subtitle": "Izvēlieties lietotnes plānu, pievienojiet datu paketes sev vai dalieties datos ar ģimeni — viss no vienas vietas.",
+    "subtitle.app": "Sāciet ar mūsu bezmaksas plānu ar reklāmām. Kļūstiet bezreklāmu ar Plus vai atbloķējiet pilnu jaudu ar Premium.",
+    "subtitle.mobile": "Pievienojiet globālos eSIM datus, lai Chatforia darbotos pat tad, kad esat prom no Wi-Fi.",
+    "subtitle.family": "Izveidojiet kopīgu datu kopu ģimenei un pārvaldiet visu lietojumu no vienas vietas.",
     "perMonth": "mēn.",
     "perYear": "gads",
-    "goPremium": "Pāriet uz Premium",
+    "goPremium": "Iegūt Premium",
     "benefitsLine": "Atbloķējiet jaudīgas funkcijas un noņemiet reklāmas.",
     "ctaText": "Jaunināt",
     "aria": "Jaunināt uz Chatforia Premium",
     "toggle": {
-      "monthly": "Mēneša",
-      "annual": "Gada (Ietaupiet 25%)"
+      "monthly": "Ikmēneša",
+      "annual": "Gada (Ietaupiet 30%)"
     },
     "scheduleBanner": {
       "title": "Abonements beigsies",
-      "body": "Jūs atgriezīsieties pie Free plāna",
-      "keepPlanCta": "Paturēt {{plan}}",
+      "body": "Jūs atgriezīsieties uz Bezmaksas",
+      "keepPlanCta": "Saglabāt {{plan}}",
       "manageBillingCta": "Pārvaldīt norēķinus"
     },
     "billing": {
-      "opening": "Atvēršana…",
+      "opening": "Atver…",
       "manage": "Pārvaldīt norēķinus"
     },
     "checkout": {
-      "redirecting": "Novirzīšana…"
+      "redirecting": "Novirza…"
     },
     "auth": {
-      "continue": "Turpināt uz pieteikšanos",
+      "continue": "Turpināt pieteikšanos",
       "createAccount": "Izveidot kontu",
       "signIn": "Pieteikties"
     },
     "cta": {
       "aria": "Izvēlēties plānu",
       "getPlus": "Jaunināt uz Plus",
-      "upgradeMonthly": "Jaunināt (mēneša)",
-      "upgradeAnnual": "Jaunināt (gada)"
+      "upgradeMonthly": "Jaunināt ikmēneša",
+      "upgradeAnnual": "Jaunināt gada"
+    },
+    "section": {
+      "app": "Lietotnes plāni",
+      "mobile": "Mobilie (eSIM)",
+      "family": "Ģimenes plāni"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Bezmaksas",
         "price": "$0",
-        "desc": "Sāciet tērzēt bez maksas.",
+        "desc": "Sāciet ziņot bez maksas. Ideāli, ja tikai izmēģināt Chatforia.",
         "features": {
-          "msg": "1:1 un grupu ziņapmaiņa",
-          "aiBasic": "Pamata AI atbildes",
-          "attachments": "Standarta pielikumi"
+          "chat": "Reāllaika 1:1 un grupu sarunas, plus balss un video zvani",
+          "media": "Dalieties ar foto, balss ziņām un īsiem video",
+          "ai": "AI vadītas viedās atbildes un momentāla tulkošana (godīga lietošana)",
+          "disappearing": "Pazūdošas ziņas un pamata privātuma kontroles",
+          "ads": "Bezmaksas mūžīgi ar reklāmām lietotnē"
         },
         "ctaCurrent": "Pašreizējais plāns",
-        "ctaUnavailable": "Pāriet uz Free (nav pieejams)",
-        "aria": "Free plāns (pašreizējais)"
+        "ctaManage": "Pārvaldīt norēķinos",
+        "ctaPublic": "Sākt — turpināt pieteikšanos",
+        "aria": "Bezmaksas plāns"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / mēn.",
-        "desc": "Pieejamākais pieredzes variants bez reklāmām.",
+        "price": "$6.99",
+        "desc": "Visas pamata lietas bez reklāmām. Lieliski ikdienas ziņošanai un zvanīšanai.",
         "features": {
-          "noAds": "Noņemt visas reklāmas",
-          "msg": "1:1 un grupu ziņapmaiņa",
-          "attachments": "Lielāki pielikumi",
-          "aiBasic": "Pamata AI atbildes"
+          "allFree": "Viss no Bezmaksas, bez reklāmām",
+          "forwarding": "Pāradresēt zvanus un ziņas uz savu īsto tālruņa numuru",
+          "history": "Garāka ziņu vēsture (līdz 6 mēnešiem)",
+          "support": "Ātrāks atbalsts, kad kaut kas noiet greizi"
         },
         "badge": "Populārs",
-        "cta": "Bez reklāmām",
+        "cta": "Kļūt bezreklāmu",
+        "ctaPublic": "Iegūt Plus — turpināt pieteikšanos",
         "aria": "Jaunināt uz Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Mēneša)",
-        "price": "$24.99 / mēn.",
-        "desc": "Pilnas funkcijas, zvanu signāli un AI rīki.",
+        "title": "Premium (Ikmēneša)",
+        "price": "$11.99",
+        "desc": "Pilna Chatforia pieredze: AI jaudas rīki, pielāgošana un prioritārais atbalsts.",
         "features": {
           "plusAll": "Viss no Plus",
-          "ringtones": "Pielāgoti zvanu un ziņu toņi",
-          "powerAi": "Jaudīgas AI funkcijas",
-          "priorityUpdates": "Prioritāri atjauninājumi",
-          "backups": "Dublējumi un ierīču sinhronizācija"
+          "themes": "Atbloķēt visas premium krāsu tēmas un lietotnes pielāgojumus",
+          "ai": "Tikai Premium AI jaudas rīki pārfrāzēm, viedajām atbildēm un kopsavilkumiem",
+          "support": "Prioritārais atbalsts, kad tas visvairāk vajadzīgs"
         },
-        "badge": "Labākā vērtība",
-        "cta": "Jaunināt (Mēneša)",
-        "aria": "Jaunināt uz Premium (Mēneša)"
+        "badge": "Ieteikts",
+        "cta": "Jaunināt (Ikmēneša)",
+        "ctaPublic": "Atbloķēt Premium — turpināt pieteikšanos",
+        "aria": "Jaunināt uz Premium Ikmēneša"
       },
       "premiumAnnual": {
         "title": "Premium (Gada)",
-        "price": "$225 / gads",
-        "desc": "Ietaupiet vairāk ar gada rēķinu.",
+        "price": "$99",
+        "desc": "Ietaupiet vairāk, norēķinoties gadā — ieskaitot papildu krāsu tēmas, AI rīkus un prioritāro atbalstu.",
         "features": {
-          "allPremium": "Viss Premium saturs",
-          "annualBilling": "Rēķins reizi gadā",
-          "save25": "Ietaupiet ~25% salīdzinājumā ar mēneša",
-          "sameFeatures": "Tās pašas funkcijas kā Mēneša"
+          "allPremium": "Viss no Premium Ikmēneša — ieskaitot papildu krāsu tēmas",
+          "annualBilling": "Norēķins reizi gadā",
+          "save25": "Ietaupiet aptuveni 30% salīdzinājumā ar ikmēneša maksājumu",
+          "bestFor": "Labākais jaudīgiem lietotājiem, attāliem darbiniekiem un biežiem ceļotājiem"
         },
-        "badge": "Ietaupiet 25%",
+        "badge": "Ietaupiet 30%",
         "cta": "Jaunināt (Gada)",
-        "aria": "Jaunināt uz Premium (Gada)",
-        "disclaimer": "Aprēķins uzreiz. Var atcelt jebkurā laikā. Slēptu maksu nav."
+        "ctaPublic": "Ietaupiet 30% ar gada — turpināt pieteikšanos",
+        "aria": "Jaunināt uz Premium Gada",
+        "disclaimer": "Norēķins priekšapmaksā. Atceliet jebkurā laikā. Nav slēptu maksu."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Sāciet tērzēt bez maksas.",
+      "freeTitle": "Bezmaksas",
+      "freeDesc": "Sāciet ziņot bez maksas.",
       "plusTitle": "Plus",
       "plusBadge": "Populārs",
-      "plusDesc": "Pieejamākais pieredzes variants bez reklāmām.",
+      "plusDesc": "Lētākā bezreklāmu pieredze.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Pilnas funkcijas, zvanu signāli un AI rīki.",
+      "premiumMonthlyDesc": "Pilnas funkcijas, zvana signāli un AI jaudas rīki.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ietaupiet vairāk ar gada rēķinu.",
-      "annualDisclaimer": "Aprēķins uzreiz. Var atcelt jebkurā laikā. Slēptu maksu nav."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Darba sākšana",
-    "subtitle": "Jauniesācējs Chatforia? Šī ātrā rokasgrāmata parādīs būtiskāko, lai dažu minūšu laikā sāktu darbu.",
-    "alert": {
-      "text": "Šī rokasgrāmata augs, palaižot jaunas funkcijas. Ja kaut kā trūkst, paziņojiet mums caur",
-      "contactLink": "Sazināties"
+      "premiumAnnualDesc": "Ietaupiet vairāk, norēķinoties gadā.",
+      "annualDisclaimer": "Norēķins priekšapmaksā. Atceliet jebkurā laikā. Nav slēptu maksu."
     },
-    "section1": {
-      "title": "1) Izveidojiet kontu",
-      "signup": "Reģistrēties",
-      "or": "vai",
-      "login": "pieteikties",
-      "loginText": "ar savu esošo kontu.",
-      "prefsStart": "Iestatiet savas",
-      "prefsLink": "preferences",
-      "prefsRest": "(valoda, lasīšanas apstiprinājumi, tēmas)."
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM datu paketes)",
+      "subtitle": "Pievienojiet globālos datus, lai Chatforia darbotos pat bez Wi-Fi. Cenas automātiski pielāgojas atbilstoši jūsu valstij un valūtai.",
+      "subtitle.detail": "Izvēlieties vienreizēju globālo datu paketi, lai Chatforia darbotos ceļojot vai prom no Wi-Fi.",
+      "scope": {
+        "local": "Lokāls",
+        "europe": "Eiropa",
+        "global": "Globāls"
+      },
+      "note": "Mēs nepārdodam datu paketes zem 3 GB.",
+      "localEquals": "Lokāls = {{country}}",
+      "localEqualsFallback": "Lokāls = jūsu pašreizējā valsts",
+      "perPack": "/ pakete",
+      "cta": "Iegūt šo datu paketi",
+      "ctaPublic": "Iegūt šo datu paketi",
+      "checkout": {
+        "redirecting": "Novirza…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Augsta ātruma dati smagai lietošanai",
+          "throttle": "Ātrums var palēnināties pēc intensīvas lietošanas",
+          "coverage": "Uzticama pārklājuma zona",
+          "instant": "Tūlītēja eSIM aktivizācija",
+          "noContract": "Vienreizēja pakete, bez līguma"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM datu paketes prasa eSIM saderīgu un atbloķētu ierīci. Pieejamība atšķiras atkarībā no tālruņa modeļa, operatora un valsts. Pārklājums un ātrums atšķiras pa reģioniem."
+      },
+      "small": {
+        "title": "Iesācēju pakete",
+        "desc": "Ietver 3 GB augsta ātruma datu — ideāli vieglai ziņošanai un reizēm zvaniem.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Īsiem ceļojumiem, vieglai ziņošanai un reizēm zvaniem",
+        "aria": "Iegādāties Iesācēju eSIM datu paketi"
+      },
+      "medium": {
+        "title": "Ceļotāja pakete",
+        "desc": "Ietver 5 GB augsta ātruma datu ceļojumiem, pārvietošanai un regulāriem VoIP zvaniem.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Nedēļas nogales ceļojumiem, regulāriem VoIP zvaniem un kartēm",
+        "aria": "Iegādāties Ceļotāja eSIM datu paketi"
+      },
+      "large": {
+        "title": "Jaudas pakete",
+        "desc": "Ietver 10 GB augsta ātruma datu smagai sarunai, zvaniem un video Chatforia tīklā.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Smagai sarunai, zvaniem, video un hotspot lietošanai",
+        "aria": "Iegādāties Jaudīga lietotāja eSIM datu paketi"
+      },
+      "compare": {
+        "title": "Salīdzināt eSIM datu paketes",
+        "col": {
+          "pack": "Pakete",
+          "data": "Iekļautie dati",
+          "bestFor": "Labākais priekš"
+        },
+        "disclaimer": "Faktiskais datu patēriņš atkarīgs no tā, kā jūs izmantojat Chatforia (balss, video, multivide un citas lietotnes tālrunī)."
+      }
     },
-    "section2": {
-      "title": "2) Sāciet ziņapmaiņu",
-      "item1": "Izveidojiet DM vai grupu un nosūtiet pirmo ziņu.",
-      "item2": "Izmantojiet tūlītēju tulkojumu sarunai 100+ valodās.",
-      "item3": "Izmēģiniet pazūdošās ziņas un lasīšanas apstiprinājumus Profilā → Privātums."
+    "family": {
+      "title": "Chatforia Ģimene (kopīgi dati)",
+      "subtitle": "Dalieties vienā datu kopā visai ģimenei. Viens rēķins, vairāki Chatforia konti, globāls pārklājums.",
+      "perPack": "/ pakete",
+      "small": {
+        "title": "Ģimenes Mazā",
+        "desc": "Ietver 20 GB kopīgu augsta ātruma datu — lieliski 2–3 viegliem lietotājiem.",
+        "price": "$29.99",
+        "aria": "Iegādāties Ģimenes Mazo paketi"
+      },
+      "medium": {
+        "title": "Ģimenes Vidējā",
+        "desc": "Ietver 40 GB kopīgu augsta ātruma datu — ideāli 3–5 aktīviem dalībniekiem.",
+        "price": "$49.99",
+        "aria": "Iegādāties Ģimenes Vidējo paketi"
+      },
+      "large": {
+        "title": "Ģimenes Lielā",
+        "desc": "Ietver 80 GB kopīgu augsta ātruma datu — jaudīgām ģimenēm, kas vienmēr ir tiešsaistē.",
+        "price": "$84.99",
+        "aria": "Iegādāties Ģimenes Lielo paketi"
+      },
+      "feature": {
+        "shared": "Kopīga datu kopa jūsu ģimenei",
+        "members": "Uzaicināt līdz 4 papildu dalībniekiem",
+        "membersMore": "Lieliski 3–5 aktīviem dalībniekiem",
+        "manage": "Pārvaldīt limitus katram dalībniekam",
+        "topUp": "Pievienot vairāk paketes jebkurā laikā",
+        "bestValue": "Labākā vērtība par GB",
+        "fairUse": "Atkarībā no godīgas lietošanas politikas un vietējiem ierobežojumiem"
+      },
+      "disclaimer": "Ģimenes paketes izveido vai papildina kopīgu datu kopu. Jūs varat uzaicināt un noņemt dalībniekus jebkurā laikā.",
+      "footnote": "Ģimenes paketes dalās vienā datu kopā starp saistītajiem Chatforia kontiem. Pieejamība un ierobežojumi atkarīgi no valsts un vietējiem noteikumiem."
     },
-    "section3": {
-      "title": "3) Ejiet tālāk",
-      "item1Part1": "Pārvaldiet savu plānu lapā",
-      "upgradeLink": "Jaunināt",
-      "item1Part2": "(Plus = bez reklāmām, Premium = pilnas funkcijas).",
-      "item2Part1": "Piesaistiet papildu ierīces un iestatiet šifrētus dublējumus sadaļā",
-      "settingsLink": "Iestatījumi"
+    "why": {
+      "title": "Kāpēc cilvēki pāriet uz Chatforia",
+      "subtitle": "Chatforia sniedz īstu tālruņa numuru, viedu tulkošanu un skaidru ceļu uz bezreklāmu pieredzi, kad esat gatavs.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia pret TextNow",
+          "body": "Vieglākas reklāmas Bezmaksas plānā, vienkāršs Plus jauninājums, kad esat gatavs, un Premium rīki, ko TextNow nepiedāvā."
+        },
+        "voice": {
+          "title": "Chatforia pret Google Voice",
+          "body": "Moderna lietotne, globāls dizains un iebūvēta tulkošana, nevis vecmodīga zvanu pāradresācija."
+        },
+        "messengers": {
+          "title": "Chatforia pret ziņu lietotnēm",
+          "body": "Sūtiet ziņas uz īstiem tālruņa numuriem — ne tikai citiem lietotņu lietotājiem — ar AI un statusu iebūvētu. Lieliski, ja nākat no lietotnēm kā TextFree vai TextMe."
+        }
+      },
+      "tableTitle": "Kā Chatforia salīdzinās",
+      "col": {
+        "feature": "Funkcija"
+      },
+      "feature": {
+        "freeNumber": "Bezmaksas tālruņa numurs",
+        "translation": "Iebūvēta automātiskā tulkošana",
+        "aiTools": "AI rīki (pārfrāzes, atbildes, kopsavilkumi)",
+        "ads": "Bezreklāmu opcija",
+        "history": "Ziņu vēsture"
+      },
+      "yes": "Jā",
+      "no": "Nē",
+      "yesPremium": "Jā (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Ierobežots",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Līdz 12+ mēnešiem",
+        "textnow": "Atšķiras atkarībā no konta",
+        "voice": "Ierobežots / konta balstīts"
+      },
+      "disclaimer": "Salīdzinājums balstīts uz publiski pieejamu informāciju un var mainīties laika gaitā. Citi bezmaksas ziņu sūtīšanas lietotnes kā TextFree vai TextMe parasti ir līdzīgas TextNow."
     },
-    "cta": {
-      "seePlans": "Skatīt plānus",
-      "openSettings": "Atvērt iestatījumus"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Palīdzības centrs",
     "faq": {
-      "account": {
-        "q": "Kā izveidot vai atjaunot kontu?",
-        "a": "Lejupielādējiet lietotni vai izmantojiet tīmekli, pieskarieties “Izveidot kontu”, apstipriniet e-pastu/tālruni. Lai atjaunotu, lietojiet “Aizmirsi paroli?”."
+      "title": "Cenu un plānu BUJ",
+      "free": {
+        "q": "Vai Bezmaksas plāns tiešām ir bezmaksas?",
+        "a": "Jā. Bezmaksas plāns ietver Chatforia numuru, zvanīšanu un ziņu sūtīšanu ar reklāmām. Jūs varat palikt Bezmaksas tik ilgi, cik vēlaties, vai jaunināt, lai noņemtu reklāmas un atbloķētu vairāk funkciju."
       },
-      "privacy": {
-        "q": "Vai ziņas ir šifrētas gala–galā?",
-        "a": "Jā. Ziņas un zvani pēc noklusējuma ir šifrēti gala–galā. Tikai jūs un saņēmējs varat tos lasīt."
+      "plusPremium": {
+        "q": "Kāda ir atšķirība starp Plus un Premium?",
+        "a": "Plus noņem reklāmas un pagarina ziņu vēsturi — ideāli ikdienas lietošanai. Premium pievieno papildu pielāgošanu, AI rīkus pārfrāzēm un atbildēm, kā arī prioritāro atbalstu smagiem lietotājiem."
       },
-      "translate": {
-        "q": "Kā darbojas tūlītējais tulkojums?",
-        "a": "Ieslēdziet “Automātiski tulkot” Iestatījumi → Izskats un valoda. Kur iespējams, tulkojam ierīcē, citādi — caur drošiem API ar minimāliem metadatiem."
+      "esim": {
+        "q": "Kur darbojas eSIM datu paketes?",
+        "a": "Chatforia Mobile izmanto globālo eSIM pārklājumu. Pieejamība atkarīga no valsts un ierīces. Jūs redzēsiet atbalstītās opcijas aktivizācijas laikā lietotnē."
+      },
+      "cancel": {
+        "q": "Vai es varu atcelt vai mainīt plānus jebkurā laikā?",
+        "a": "Jā. Jūs varat pārvaldīt vai atcelt abonementu no norēķinu lapas lietotnē. Izmaiņas stājas spēkā pašreizējā norēķinu perioda beigās."
+      },
+      "family": {
+        "q": "Kā darbojas Ģimenes paketes?",
+        "a": "Ģimenes paketes izveido kopīgu datu kopu starp vairākiem Chatforia kontiem. Viens cilvēks maksā rēķinu, un jūs varat uzaicināt vai noņemt dalībniekus un iestatīt limitus katram."
+      }
+    },
+    "gettingStarted": {
+      "title": "Kā sākt",
+      "subtitle": "Jauns Chatforia lietotājs? Šis ātrais ceļvedis parāda pamatus, lai jūs varētu sākt darboties dažu minūšu laikā.",
+      "alert": {
+        "text": "Šis ceļvedis aug, kad mēs palaižam jaunas funkcijas. Ja kaut kas trūkst, dariet mums zināmu caur",
+        "contactLink": "Sazinieties ar mums"
+      },
+      "section1": {
+        "title": "1) Izveidojiet savu kontu",
+        "signup": "Reģistrēties",
+        "or": "vai",
+        "login": "pieteikties",
+        "loginText": "ar savu esošo kontu.",
+        "prefsStart": "Iestatiet savas",
+        "prefsLink": "preferences",
+        "prefsRest": "(valoda, lasīšanas apliecinājumi, tēmas)."
+      },
+      "section2": {
+        "title": "2) Sāciet ziņot",
+        "item1": "Izveidojiet DM vai grupu un nosūtiet savu pirmo ziņu.",
+        "item2": "Izmantojiet momentālo tulkošanu, lai sarunātos vairāk nekā 100 valodās.",
+        "item3": "Izmēģiniet pazūdošas ziņas un lasīšanas apliecinājumus Profilā → Privātums."
+      },
+      "section3": {
+        "title": "3) Ejiet tālāk",
+        "item1": "Jūs varat jaunināt uz apmaksātu plānu jebkurā laikā lietotnē.",
+        "item2": "Kad esat pieteicies, jūs varat saistīt papildu ierīces un iestatīt šifrētus dublējumus no Iestatījumiem lietotnē."
+      },
+      "cta": {
+        "seePlans": "Skatīt plānus",
+        "openSettings": "Atvērt iestatījumus"
+      }
+    },
+    "helpCenter": {
+      "title": "Palīdzības centrs",
+      "faq": {
+        "account": {
+          "q": "Kā es izveidoju vai atjaunoju savu kontu?",
+          "a": "Lejupielādējiet lietotni vai izmantojiet tīmekli, nospiediet “Izveidot kontu”, verificējiet e-pastu/tālruni. Lai atjaunotu, izmantojiet “Aizmirsāt paroli”."
+        },
+        "privacy": {
+          "q": "Vai ziņas ir šifrētas no gala līdz galam?",
+          "a": "Jā. Ziņas un zvani pēc noklusējuma ir šifrēti no gala līdz galam. Tikai jūs un saņēmējs varat tos lasīt."
+        },
+        "translate": {
+          "q": "Kā darbojas momentālā tulkošana?",
+          "a": "Iespējojiet “Automātiskā tulkošana” Iestatījumos → Izskats un valoda. Mēs tulkojam ierīcē, kur tas atbalstīts, pretējā gadījumā caur drošām API ar minimāliem metadatiem."
+        },
+        "contact": {
+          "q": "Sazināties ar atbalstu",
+          "a": "Sazinieties ar mums pa support@chatforia.com. Iekļaujiet ekrānšāviņus un lietotnes versiju."
+        }
+      }
+    },
+    "contact": {
+      "title": "Sazinieties ar mums",
+      "successMsg": "Paldies — mūsu komanda atbildēs pa e-pastu.",
+      "errorSend": "Neizdevās nosūtīt. Lūdzu, sūtiet e-pastu uz support@chatforia.com.",
+      "form": {
+        "nameLabel": "Vārds",
+        "emailLabel": "E-pasts",
+        "messageLabel": "Ziņa",
+        "sendCta": "Nosūtīt"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privātuma politika",
+      "lastUpdated": "Pēdējo reizi atjaunināts:",
+      "intro": {
+        "body": "Šī Privātuma politika izskaidro, kā Chatforia (“mēs”, “mums”) vāc, izmanto un dalās ar informāciju, kad jūs izmantojat mūsu lietotnes un pakalpojumus. Mēs izstrādājam Chatforia, lai samazinātu datus, kurus mēs varam piekļūt."
+      },
+      "infoWeCollect": {
+        "title": "Informācija, ko mēs vācam",
+        "account": "Konta informācija (piem., e-pasts/tālrunis), lai izveidotu un aizsargātu jūsu kontu.",
+        "encrypted": "Šifrēts saturs (ziņas/zvani) ir šifrēts no gala līdz galam; mēs nevaram to lasīt.",
+        "diagnostics": "Diagnostikas/lietojuma dati, piemēram, avāriju žurnāli, ierīces tips vai aptuvena analītika, lai uzlabotu veiktspēju."
+      },
+      "sms": {
+        "title": "Mobilie tālruņa numuri un SMS",
+        "body": "Ja izvēlaties norādīt mobilā tālruņa numuru, mēs to izmantojam, lai iespējotu funkcijas, piemēram, konta verifikāciju, pieteikšanās brīdinājumus un lietotāju savstarpēju ziņu sūtīšanu caur SMS, kur tas atbalstīts. Mēs varam sūtīt darījuma SMS ziņas saistībā ar jūsu kontu un darbību Chatforia. Jūs varat atteikties no SMS ziņu saņemšanas jebkurā laikā, atbildot ar atbalstītu atteikuma atslēgas vārdu (piemēram, “STOP”) vai mainot paziņojumu preferences lietotnē. Mēs nepārdodam jūsu tālruņa numuru un neizmantojam to nesaistītai mārketinga darbībai.",
+        "newText": "Jauna ziņa",
+        "enterRecipient": "Ievadiet vārdu vai numuru",
+        "typeMessage": "Rakstiet ziņu…",
+        "addRecipient": "Pievienojiet saņēmēju augšpusē, lai sāktu…"
+      },
+      "howWeUse": {
+        "title": "Kā mēs izmantojam informāciju",
+        "provide": "Nodrošināt un aizsargāt pakalpojumu (autentifikācija, surogātpasta/ ļaunprātīgas izmantošanas noteikšana).",
+        "improve": "Uzlabot funkcijas (tulkošanas kvalitāte, uzticamība).",
+        "legal": "Ievērot juridiskās saistības."
+      },
+      "sharing": {
+        "title": "Dalīšanās",
+        "body": "Mēs nepārdodam personas datus. Mēs varam dalīties ar ierobežotiem datiem ar apstrādātājiem (piem., push paziņojumi, analītika) stingru līgumu ietvaros."
+      },
+      "rights": {
+        "title": "Jūsu tiesības",
+        "body": "Atkarībā no jūsu reģiona (piem., GDPR/UK GDPR/CPRA) jūs varat pieprasīt piekļuvi, labošanu, dzēšanu vai atteikšanos no noteiktas apstrādes. Sazinieties: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Datu glabāšana un drošība",
+        "body": "Mēs glabājam tikai to, kas nepieciešams pakalpojuma darbībai, un izmantojam nozares standarta drošības pasākumus. E2E saturu mēs nevaram atšifrēt."
+      },
+      "children": {
+        "title": "Bērni",
+        "body": "Chatforia nav paredzēta bērniem līdz 13 gadu vecumam (vai saskaņā ar vietējiem likumiem)."
+      },
+      "changes": {
+        "title": "Izmaiņas",
+        "body": "Mēs publicēsim atjauninājumus šeit un mainīsim “Pēdējo reizi atjaunināts” datumu."
       },
       "contact": {
-        "q": "Sazināties ar atbalstu",
-        "a": "Rakstiet uz support@chatforia.com. Iekļaujiet ekrānuzņēmumus un lietotnes versiju."
+        "title": "Sazināties",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Sazināties ar mums",
-    "successMsg": "Paldies — mūsu komanda atbildēs pa e-pastu.",
-    "errorSend": "Neizdevās nosūtīt. Lūdzu, rakstiet support@chatforia.com.",
-    "form": {
-      "nameLabel": "Vārds",
-      "emailLabel": "E-pasts",
-      "messageLabel": "Ziņojums",
-      "sendCta": "Sūtīt"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Privātuma politika",
-    "lastUpdated": "Pēdējo reizi atjaunots:",
-    "intro": {
-      "body": "Šī Privātuma politika skaidro, kā Chatforia (“mēs”) vācam, izmantojam un kopīgojam informāciju, kad izmantojat mūsu lietotnes un pakalpojumus. Mēs veidojam Chatforia tā, lai minimizētu datus, kuri mums pieejami."
     },
-    "infoWeCollect": {
-      "title": "Kāda informācija tiek vāzta",
-      "account": "Konta informācija (piem., e-pasts/tālrunis), lai izveidotu un aizsargātu jūsu kontu.",
-      "encrypted": "Šifrēts saturs (ziņas/zvani) ir gala–galā šifrēts; mēs to nevaram lasīt.",
-      "diagnostics": "Diagnostika/izmantošana, piemēram, kļūdu žurnāli, ierīces tips vai kopsavilkuma analītika veiktspējas uzlabošanai."
+    "terms": {
+      "title": "Pakalpojuma noteikumi",
+      "lastUpdated": "Pēdējo reizi atjaunināts:",
+      "intro": {
+        "body": "Izmantojot Chatforia, jūs piekrītat šiem Noteikumiem. Ja nepiekrītat, nelietojiet pakalpojumu."
+      },
+      "accounts": {
+        "title": "Konti",
+        "itemAccurateInfo": "Sniedziet precīzu informāciju un glabājiet akreditācijas datus drošībā.",
+        "itemResponsibility": "Jūs esat atbildīgs par darbību savā kontā."
+      },
+      "acceptableUse": {
+        "title": "Pieņemama izmantošana",
+        "itemNoAbuse": "Nav nelegāla, aizskaroša vai pārkāpjoša satura; nav surogātpasta vai automatizētas ļaunprātīgas izmantošanas.",
+        "itemSuspend": "Mēs varam apturēt/izbeigt par pārkāpumiem."
+      },
+      "sms": {
+        "title": "SMS komunikācijas",
+        "body": "Ja norādāt mobilā tālruņa numuru, jūs piekrītat, ka Chatforia var sūtīt jums SMS ziņas saistībā ar jūsu kontu un pakalpojuma izmantošanu, piemēram, pieteikšanās brīdinājumus, drošības paziņojumus un ziņas saistībā ar sarunām, kuras jūs uzsākat vai piedalāties. Mēs neizmantojam SMS veicināšanas vai mārketinga ziņām bez jūsu skaidras piekrišanas. Var tikt piemērotas standarta ziņu un datu tarifi. Jūs varat atteikties no SMS ziņām jebkurā laikā, atbildot ar atbalstītu atteikuma atslēgas vārdu (piemēram, “STOP”) vai atjauninot paziņojumu iestatījumus lietotnē."
+      },
+      "yourContent": {
+        "title": "Jūsu saturs",
+        "body": "Jūs saglabājat tiesības uz savu saturu. Jūs piešķirat mums nepieciešamās tiesības pakalpojuma darbībai (piem., maršrutēšana, glabāšana, tulkošana)."
+      },
+      "disclaimer": {
+        "title": "Atrunas un atbildība",
+        "body": "Pakalpojums tiek nodrošināts “kā ir” bez garantijām. Ciktāl to atļauj likums, Chatforia nav atbildīga par netiešiem vai sekas izraisošiem zaudējumiem."
+      },
+      "changes": {
+        "title": "Izmaiņas",
+        "body": "Mēs varam atjaunināt šos noteikumus; turpmāka izmantošana pēc izmaiņām nozīmē piekrišanu."
+      },
+      "contact": {
+        "title": "Sazināties",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "Kā mēs izmantojam informāciju",
-      "provide": "Pakalpojuma nodrošināšana un drošība (autentifikācija, mēstuļu/ļaundarbības noteikšana).",
-      "improve": "Funkciju uzlabošana (tulkojumu kvalitāte, uzticamība).",
-      "legal": "Juridisko saistību izpilde."
+    "doNotSell": {
+      "title": "Nepārdodiet vai nedalieties ar manu personas informāciju",
+      "body": "Chatforia nepārdod personas informāciju. Kalifornijas iedzīvotāji joprojām var iesniegt pieprasījumus saskaņā ar CPRA, izmantojot zemāk esošo pogu.",
+      "cta": "Iesniegt pieprasījumu"
     },
-    "sharing": {
-      "title": "Kopīgošana",
-      "body": "Mēs nepārdodam personas datus. Var tikt kopīgoti ierobežoti dati ar apstrādātājiem (piem., paziņojumi, analītika) saskaņā ar stingriem līgumiem."
+    "cookies": {
+      "title": "Sīkfailu iestatījumi",
+      "body": "Chatforia izmanto minimālus sīkfailus (piem., sesijas, drošība). Mēs neizmantojam trešo pušu reklāmu sīkfailus. Pārvaldiet sīkfailus caur pārlūkprogrammas iestatījumiem."
     },
-    "rights": {
-      "title": "Jūsu tiesības",
-      "body": "Atkarībā no reģiona (piem., GDPR/UK GDPR/CPRA) jūs varat pieprasīt piekļuvi, labošanu, dzēšanu vai atteikties no noteiktas apstrādes. Kontakti: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Neizdevās ielādēt tālruņa numura statusu.",
+      "lock": "Bloķēt",
+      "noNumberAssigned": "Nav piešķirts numurs. Izvēlieties numuru pēc apgabala koda, lai sāktu sūtīt ziņas.",
+      "pickNumber": "Izvēlēties numuru",
+      "phoneNumber": "Tālruņa numurs"
     },
-    "retention": {
-      "title": "Datu glabāšana un drošība",
-      "body": "Glabājam tikai to, kas vajadzīgs pakalpojuma darbībai, un piemērojam nozares drošības standartus. E2E saturu mēs nevaram atšifrēt."
+    "startChatModal": {
+      "title": "Sākt sarunu",
+      "quickPicker": "Ātrais atlasītājs",
+      "to": "Kam",
+      "nameOrUsername": "Ierakstiet vārdu, lietotājvārdu",
+      "nameUsernamePhoneEmail": "Ierakstiet vārdu, lietotājvārdu, tālruni vai e-pastu…",
+      "startWithSelected": "Sākt sarunu ar izvēlētajiem",
+      "searchByUsernameOrPhone": "Meklēt pēc lietotājvārda vai tālruņa",
+      "search": "Meklēt",
+      "searchPrompt": "Ierakstiet lietotājvārdu vai tālruni un nospiediet Meklēt.",
+      "pickFromContacts": "Vai izvēlieties no kontaktiem",
+      "addContact": "Pievienot kontaktu",
+      "show": "Rādīt",
+      "add": "Pievienot",
+      "close": "Aizvērt",
+      "selectedCount": "{{count}} izvēlēti",
+      "pickAtLeastOne": "Izvēlieties vismaz vienu saņēmēju.",
+      "saveContactsHint": "Tālruņa/e-pasta ieraksti būs pieejami pēc saglabāšanas kā kontakti.",
+      "failedBulkStart": "Neizdevās sākt sarunu ar izvēlētajiem saņēmējiem.",
+      "noResults": "Nav rezultātu",
+      "mode": "Režīms",
+      "group": "Grupa",
+      "broadcast": "Apraide",
+      "groupNameOptional": "Grupas nosaukums (neobligāti)",
+      "firstMessageOptional": "Pirmā ziņa (neobligāti, bet ieteicams)",
+      "createGroup": "Izveidot grupu",
+      "sendBroadcast": "Nosūtīt apraidi"
     },
-    "children": {
-      "title": "Bērni",
-      "body": "Chatforia nav paredzēts bērniem līdz 13 gadu vecumam (vai kā nosaka jūsu vietējie likumi)."
+    "themes": {
+      "amoled": "AMOLED",
+      "aurora": "Aurora",
+      "neon": "Neons",
+      "sunset": "Saulriets",
+      "solarized": "Solarized",
+      "velvet": "Samts"
     },
-    "changes": {
-      "title": "Izmaiņas",
-      "body": "Atjauninājumus publicēsim šeit un precizēsim “Pēdējo reizi atjaunots” datumu."
+    "sounds": {
+      "freeNotice": "Jūs izmantojat Bezmaksas — premium signāli tiek rādīti, bet bloķēti. Jauniniet, lai atbloķētu visus.",
+      "preview": "Priekšskatījums",
+      "resetToDefaults": "Atiestatīt uz noklusējumu",
+      "notificationSounds": "Paziņojumu skaņas",
+      "messageTone": "Ziņas signāls",
+      "default": "Noklusējuma",
+      "vibrate": "Vibrēt",
+      "dreamer": "Sapņotājs",
+      "notify": "Paziņot",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsējoša skaņa",
+      "textMessage": "Teksta ziņa",
+      "xylophone": "Ksilofons",
+      "classic": "Klasisks",
+      "urgency": "Steidzīgums",
+      "bells": "Zvani",
+      "chimes": "Zvaniņi",
+      "digitalPhone": "Digitālais tālrunis",
+      "melodic": "Melodisks",
+      "organNotes": "Orgaņas notis",
+      "soundReality": "Skaņas realitāte",
+      "street": "Iela",
+      "universfield": "Universfield"
     },
-    "contact": {
-      "title": "Kontakti",
-      "body": "privacy@chatforia.com • [Uzņēmuma juridiskais nosaukums], [Adrese]"
-    }
-  },
-
-  "terms": {
-    "title": "Pakalpojuma noteikumi",
-    "lastUpdated": "Pēdējo reizi atjaunots:",
-    "intro": {
-      "body": "Izmantojot Chatforia, jūs piekrītat šiem Noteikumiem. Ja nepiekrītat, neizmantojiet pakalpojumu."
+    "premiumGuard": {
+      "requiresPremium": "Šai funkcijai nepieciešams Premium plāns."
     },
-    "accounts": {
-      "title": "Konti",
-      "itemAccurateInfo": "Norādiet precīzu informāciju un sargiet piekļuves datus.",
-      "itemResponsibility": "Jūs esat atbildīgs par darbībām savā kontā."
+    "aiSettings": {
+      "title": "AI iestatījumi",
+      "controlIntro": "Pārvaldīt tulkošanu, viedās atbildes un ForiaBot automātiskās atbildes.",
+      "save": "Saglabāt AI iestatījumus",
+      "autoTranslateIncoming": "Automātiski tulkot ienākošās ziņas",
+      "showOriginalAlongside": "Rādīt oriģinālo tekstu blakus tulkojumam",
+      "enableSmartReplies": "Iespējot viedās atbildes",
+      "smartRepliesHint": "Nosūtīt pēdējās dažas saņemtās ziņas (sanitizētas) AI, lai ieteiktu ātras atbildes.",
+      "maskProfanity": "Maskēt necenzētu leksiku AI ieteikumos",
+      "maskProfanityHint": "Ja ieslēgts, AI atgrieztās ieteiktās atbildes maskēs aizliegtos vārdus",
+      "foriaBot": "ForiaBot automātiskā atbildētāja",
+      "enableAutoReply": "Iespējot automātisko atbildi, kad esmu aizņemts",
+      "autoReplyMode": "Automātiskās atbildes režīms",
+      "cooldownSeconds": "Atdzesēšanas laiks (sekundes)",
+      "off": "Izslēgts",
+      "on": "Ieslēgts",
+      "signature": "Paraksts",
+      "autoReply": "Automātiskā atbilde",
+      "activeUntilOptional": "Aktīvs līdz (neobligāti)",
+      "saved": "AI preferences saglabātas",
+      "saveFailed": "Neizdevās saglabāt AI iestatījumus",
+      "translateOff": "Izslēgts",
+      "translateTagged": "Tikai kad @tulkots vai atzīmēts",
+      "translateAll": "Tulkot visas ienākošās ziņas",
+      "modeDm": "Tikai 1:1 sarunas",
+      "modeMention": "Tikai kad esmu @pieminēts",
+      "modeAll": "Visas ienākošās ziņas"
     },
-    "acceptableUse": {
-      "title": "Pieņemama lietošana",
-      "itemNoAbuse": "Nav atļauts nelikumīgs, aizskarošs vai pārkāpjoss saturs; nav mēstuļu vai automatizētas ļaunprātības.",
-      "itemSuspend": "Pārkāpumu gadījumā varam apturēt/izbeigt piekļuvi."
+    "accessibilitySettings": {
+      "title": "Pieejamība un brīdinājumi",
+      "accessibility": "Pieejamība",
+      "accessibilityDesc": "Opcijas, lai padarītu Chatforia vieglāk lietojamu bez skaņas.",
+      "interfaceFontSize": "Saskarnes fonta lielums",
+      "interfaceFontSizeHelp": "Sākas ar normālu lielumu. Palieliniet, ja vēlaties lielāku tekstu pieejamības iestatījumos.",
+      "sm": "mazs",
+      "md": "vidējs",
+      "lg": "liels",
+      "xl": "ļoti liels",
+      "notifications": "Paziņojumi",
+      "notificationsDesc": "Vizuālie brīdinājumi par ziņām un zvaniem\nRādīt banerus un mirgošanu virsrakstā, lai nepalaistu garām darbību.",
+      "vibrateOnNew": "Vibrēt pie jaunām ziņām (ja atbalstīts)\nIedarbināt ierīces vibrāciju ar paziņojumiem.",
+      "flashOnCall": "Mirgot ekrānu pie ienākoša zvana\nĪsa spilgta mirgošana, kad zvana zvans.",
+      "liveCaptions": "Tiešraides subtitri (zvaniem)",
+      "captionFontSize": "Subtitru fonta lielums",
+      "captionBackground": "Subtitru fons",
+      "light": "gaišs",
+      "dark": "tumšs",
+      "transparent": "caurspīdīgs",
+      "voiceNotes": "Balss piezīmes",
+      "autoTranscribeVoiceNotes": "Automātiski transkribēt balss piezīmes",
+      "autoTranscribeVoiceNotesDesc": "Pievienot transkriptu saņemtajiem audio ziņojumiem.",
+      "changesSavedInstantly": "Izmaiņas tiek saglabātas uzreiz.",
+      "loadFailed": "Neizdevās ielādēt iestatījumus",
+      "visualAlerts": "Vizuālie brīdinājumi par ziņām un zvaniem",
+      "visualAlertsDesc": "Rādīt banerus un mirgošanu virsrakstā, lai nepalaistu garām darbību.",
+      "vibrateOnNewShort": "Vibrēt pie jaunām ziņām (ja atbalstīts)",
+      "vibrateOnNewDesc": "Iedarbināt ierīces vibrāciju ar paziņojumiem.",
+      "flashOnCallShort": "Mirgot ekrānu pie ienākoša zvana",
+      "flashOnCallDesc": "Īsa spilgta mirgošana, kad zvana zvans."
     },
-    "yourContent": {
-      "title": "Jūsu saturs",
-      "body": "Jūs paturat tiesības uz savu saturu. Jūs piešķirat mums nepieciešamās tiesības pakalpojuma darbībai (piem., maršrutēšana, glabāšana, tulkošana)."
+    "privacySection": {
+      "strictE2EE": "Stingra šifrēšana no gala līdz galam",
+      "ciphertextOnlyNote": "Glabāt tikai šifrēto tekstu serverī. Atspējo AI/Tulkošanu un moderācijas priekšskatījumus."
     },
-    "disclaimer": {
-      "title": "Atrunas un atbildība",
-      "body": "Pakalpojums tiek sniegts “kā ir” bez garantijām. Cik atļauj likumi, Chatforia neuzņemas atbildību par netiešiem vai izrietošiem kaitējumiem."
+    "linkedDevicesPanel": {
+      "title": "Saistītās ierīces",
+      "noneFound": "Nav atrastas saistītās ierīces.",
+      "refresh": "Atsvaidzināt"
     },
-    "changes": {
-      "title": "Izmaiņas",
-      "body": "Mēs varam atjaunināt šos noteikumus; turpināta izmantošana pēc izmaiņām nozīmē piekrišanu."
+    "help": {
+      "title": "Palīdzība",
+      "howCanWeHelp": "Kā mēs varam palīdzēt?",
+      "helpCenter": "Palīdzības centrs",
+      "contactUs": "Sazināties ar mums",
+      "quickTopics": "Ātrie temati",
+      "searchExamples": "Izmēģiniet meklēt “tulkot”, “dublējumi” vai “privātums”.",
+      "cantLogin": "Nevar pieteikties",
+      "paymentsBilling": "Maksājumi/norēķini",
+      "reportAbuse": "Ziņot par ļaunprātīgu izmantošanu",
+      "searchHelpArticles": "Meklēt palīdzības rakstus",
+      "search": "Meklēt"
     },
-    "contact": {
-      "title": "Kontakti",
-      "body": "support@chatforia.com • [Uzņēmuma juridiskais nosaukums], [Adrese]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Nepārdot vai nekopīgot manus personas datus",
-    "body": "Chatforia nepārdod personas datus. Kalifornijas iedzīvotāji joprojām var iesniegt pieprasījumus saskaņā ar CPRA, izmantojot zemāk esošo pogu.",
-    "cta": "Iesniegt pieprasījumu"
-  },
-
-  "cookies": {
-    "title": "Sīkdatņu iestatījumi",
-    "body": "Chatforia izmanto minimālas sīkdatnes (piem., sesija, drošība). Mēs neizmantojam trešo pušu reklāmu sīkdatnes. Pārvaldiet sīkdatnes savā pārlūkā."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Neizdevās ielādēt tālruņa numura statusu.",
-    "lock": "Bloķēt",
-    "noNumberAssigned": "Nav piešķirts numurs. Izvēlieties pēc reģiona koda, lai sāktu sūtīt īsziņas.",
-    "pickNumber": "Izvēlēties numuru",
-    "phoneNumber": "Tālruņa numurs"
-  },
-
-  "startChatModal": {
-    "title": "Sākt tērzēšanu",
-    "quickPicker": "Ātrais atlasītājs",
-    "to": "Kam",
-    "nameOrUsername": "Ierakstiet vārdu, lietotājvārdu",
-    "nameUsernamePhoneEmail": "Ierakstiet vārdu, lietotājvārdu, tālruni vai e-pastu…",
-    "startWithSelected": "Sākt tērzēšanu ar atlasītajiem",
-    "searchByUsernameOrPhone": "Meklēt pēc lietotājvārda vai tālruņa",
-    "search": "Meklēt",
-    "searchPrompt": "Ierakstiet lietotājvārdu vai tālruni un nospiediet Meklēt.",
-    "pickFromContacts": "Vai izvēlieties no kontaktiem",
-    "addContact": "Pievienot kontaktu",
-    "show": "Rādīt",
-    "add": "Pievienot",
-    "close": "Aizvērt",
-    "selectedCount": "Atlasīti: {{count}}",
-    "pickAtLeastOne": "Atlasiet vismaz vienu saņēmēju.",
-    "saveContactsHint": "Tālruņa/e-pasta ieraksti būs pieejami pēc saglabāšanas kā kontakti.",
-    "failedBulkStart": "Neizdevās sākt tērzēšanu ar atlasītajiem saņēmējiem.",
-    "noResults": "Nav rezultātu",
-    "mode": "Režīms",
-    "group": "Grupa",
-    "broadcast": "Apraide",
-    "groupNameOptional": "Grupas nosaukums (neobligāti)",
-    "firstMessageOptional": "Pirmā ziņa (neobligāta, bet ieteicama)",
-    "createGroup": "Izveidot grupu",
-    "sendBroadcast": "Sūtīt apraidi"
-  },
-
-  "themes": {
-    "amoled": "AMOLED",
-    "aurora": "Aurora",
-    "neon": "Neons",
-    "sunset": "Saulriets",
-    "solarized": "Solarized",
-    "velvet": "Samts"
-  },
-
-  "sounds": {
-    "freeNotice": "Jums ir Free plāns — premium toņi ir redzami, bet bloķēti. Jauniniet, lai atbloķētu visus.",
-    "preview": "Priekšskatīt",
-    "resetToDefaults": "Atiestatīt uz noklusējumu",
-    "notificationSounds": "Paziņojumu skaņas",
-    "messageTone": "Ziņas tonis",
-    "default": "Noklusējums",
-    "vibrate": "Vibrēt",
-    "dreamer": "Sapņotājs",
-    "notify": "Paziņot",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsējoša skaņa",
-    "textMessage": "Īsziņa",
-    "xylophone": "Ksilofons",
-    "classic": "Klasika",
-    "urgency": "Steidzami",
-    "bells": "Zvani",
-    "chimes": "Zvaniņi",
-    "digitalPhone": "Digitālais tālrunis",
-    "melodic": "Melodisks",
-    "organNotes": "Ērģeļu notis",
-    "soundReality": "Skaņas realitāte",
-    "street": "Iela",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Šai funkcijai nepieciešams Premium plāns."
-  },
-
-  "aiSettings": {
-    "title": "AI iestatījumi",
-    "controlIntro": "Pārvaldiet tulkošanu, viedās atbildes un ForiaBot automātiskās atbildes.",
-    "save": "Saglabāt AI iestatījumus",
-    "autoTranslateIncoming": "Automātiski tulkot ienākošās ziņas",
-    "showOriginalAlongside": "Rādīt oriģinālu līdzās tulkojumam",
-    "enableSmartReplies": "Ieslēgt viedās atbildes",
-    "smartRepliesHint": "Nosūtīt AI pēdējās saņemtās ziņas (attīrītas), lai ieteiktu ātrās atbildes.",
-    "maskProfanity": "Maskēt rupjības AI ieteikumos",
-    "maskProfanityHint": "Ja ieslēgts, AI atgrieztajos ieteikumos rupjie vārdi tiks maskēti",
-    "foriaBot": "ForiaBot automātiskā atbilde",
-    "enableAutoReply": "Ieslēgt automātisko atbildi, kad esmu aizņemts",
-    "autoReplyMode": "Automātiskās atbildes režīms",
-    "cooldownSeconds": "Pauze (sekundes)",
-    "off": "Izsl.",
-    "on": "Iesl.",
-    "signature": "Paraksts",
-    "autoReply": "Automātiskā atbilde",
-    "activeUntilOptional": "Aktīvs līdz (neobligāti)",
-    "saved": "AI iestatījumi saglabāti",
-    "saveFailed": "Neizdevās saglabāt AI iestatījumus",
-    "translateOff": "Izslēgts",
-    "translateTagged": "Tikai kad @translated vai atzīmēts",
-    "translateAll": "Tulkot visas ienākošās ziņas",
-    "modeDm": "Tikai 1:1 sarunas",
-    "modeMention": "Tikai, kad mani @piemin",
-    "modeAll": "Visas ienākošās ziņas"
-  },
-
-  "accessibilitySettings": {
-    "title": "Pieejamība un brīdinājumi",
-    "accessibility": "Pieejamība",
-    "accessibilityDesc": "Iespējas, lai izmantotu Chatforia vieglāk bez skaņas paļāvības.",
-    "interfaceFontSize": "Saskarnes fonta izmērs",
-    "interfaceFontSizeHelp": "Sākas ar normālu. Palieliniet, ja vēlaties lielāku tekstu.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Paziņojumi",
-    "notificationsDesc": "Vizuāli brīdinājumi par ziņām un zvaniem\nRādīt banerus un nosaukuma mirgošanu, lai nepalaistu garām aktivitāti.",
-    "vibrateOnNew": "Vibrēt pie jaunām ziņām (ja atbalstīts)\nIeslēgt ierīces vibrāciju ar paziņojumiem.",
-    "flashOnCall": "Ekrāna uzliesmojums ienākoša zvana laikā\nĪss spilgts uzplaiksnījums, kad zvans skan.",
-    "liveCaptions": "Reāllaika subtitri (zvani)",
-    "captionFontSize": "Subtitru fonta izmērs",
-    "captionBackground": "Subtitru fons",
-    "light": "gaišs",
-    "dark": "tumšs",
-    "transparent": "caurspīdīgs",
-    "voiceNotes": "Balss piezīmes",
-    "autoTranscribeVoiceNotes": "Automātiski transkribēt balss piezīmes\nPievienot transkriptu saņemtajiem audio ziņojumiem.",
-    "changesSavedInstantly": "Izmaiņas tiek saglabātas uzreiz.",
-    "loadFailed": "Neizdevās ielādēt iestatījumus",
-    "visualAlerts": "Vizuāli brīdinājumi par ziņām un zvaniem",
-    "visualAlertsDesc": "Rādīt banerus un nosaukuma mirgošanu, lai nepalaistu garām aktivitāti.",
-    "vibrateOnNewShort": "Vibrēt pie jaunām ziņām (ja atbalstīts)",
-    "vibrateOnNewDesc": "Ieslēgt ierīces vibrāciju ar paziņojumiem.",
-    "flashOnCallShort": "Ekrāna uzliesmojums ienākoša zvana laikā",
-    "flashOnCallDesc": "Īss spilgts uzplaiksnījums, kad zvans skan."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Stingra gala–gals šifrēšana",
-    "ciphertextOnlyNote": "Serverī glabāt tikai šifrtekstu. Deaktivizē AI/Tulkošanu un moderācijas priekšskatījumus."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Piesaistītās ierīces",
-    "noneFound": "Piesaistītas ierīces nav atrastas.",
-    "refresh": "Atjaunināt"
-  },
-
-  "help": {
-    "title": "Palīdzība",
-    "howCanWeHelp": "Kā varam palīdzēt?",
-    "helpCenter": "Palīdzības centrs",
-    "contactUs": "Sazināties ar mums",
-    "quickTopics": "Ātrās tēmas",
-    "searchExamples": "Pamēģiniet meklēt “translate”, “backups” vai “privacy”.",
-    "cantLogin": "Nevaru pieteikties",
-    "paymentsBilling": "Maksājumi / norēķini",
-    "reportAbuse": "Ziņot par pārkāpumu",
-    "searchHelpArticles": "Meklēt palīdzības rakstus",
-    "search": "Meklēt"
-  },
-
-  "peoplePage": {
-    "people": "Cilvēki",
-    "search": "Meklēt",
-    "searchPlaceholder": "Meklēt pēc aizstājvārda, vārda, lietotājvārda vai tālruņa",
-    "filterSaved": "Filtrēt saglabātos kontaktus",
-    "noContactsFound": "Kontakti nav atrasti",
-    "quickStart": "Ātrā sākšana",
-    "quickStartDesc": "Daži ātri veidi, kā sākt.",
-    "importContacts": "Importēt kontaktus",
-    "add": "Pievienot",
-    "focusSearch": "Fokusēt meklēšanu",
-    "import": "Importēt",
-    "findOrAdd": "Atrast vai pievienot kādu",
-    "searchByPhoneOrUsername": "Meklēt pēc tālruņa / lietotājvārda",
-    "inviteFriends": "Uzaicināt draugus",
-    "inviteDesc": "Kopīgojiet savu ielūguma saiti, lai sāktu tērzēt uzreiz.",
-    "getTheApp": "Iegūt lietotni",
-    "getTheAppDesc": "Sazinieties ceļā ar Chatforia iOS un Android.",
-    "download": "Lejupielādēt",
-    "syncTip": "Padoms: Jūsu ziņas paliek sinhronizētas starp tīmekli un mobilo."
-  },
-
-  "randomChat": {
-    "title": "Nejauša tērzēšana",
-    "description": "Iepazīstieties ar kādu jaunu uzreiz. Mēs piemeklēsim pāri un atvērsim pagaidu tērzētavu.",
-    "findMatch": "Atrast man pāri",
-    "chatWithForia": "Tērzēt ar Foria",
-    "chatWithForiaBot": "Tērzēt ar ForiaBot",
-    "cancel": "Atcelt",
-    "close": "Aizvērt",
-    "searching": "Meklē…",
-    "finding": "Atrod…",
-    "looking": "Meklējam kādu…",
-    "startingForia": "Sākam tērzēšanu ar Foria…",
-    "partnerDisconnected": "Jūsu sarunu biedrs atvienojās.",
-    "noPartner": "Pašlaik nav atrasts pāris.",
-    "connectedTo": "Savienots ar {{name}}",
-    "connected": "Savienots",
-    "idle": "Dīkstāve",
-    "partnerLeft": "Sarum biedrs aizgāja.",
-    "stopped": "Apturēts.",
-    "skip": "Izlaist",
-    "save": "Saglabāt",
-    "saveGuard": "Saglabāt var tikai cilvēks-cilvēks tērzēšanas",
-    "youAreChattingWith": "Jūs tērzējat ar {{name}}",
-    "bot": "BOTS",
-    "leave": "Pamest",
-    "sayHi": "Pasaki čau 👋",
-    "you": "Jūs",
-    "typeMessage": "Rakstiet ziņu",
-    "send": "Sūtīt",
-    "partner": "Partneris",
-    "withForia": "Ar Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Atvērt navigācijas izvēlni",
-    "closeNav": "Aizvērt navigācijas izvēlni",
-    "homeAria": "Chatforia sākumlapa"
-  },
-
-  "login": {
-    "title": "Laipni lūdzam atpakaļ",
-    "subtitle": "Piesakieties savā Chatforia kontā",
-    "google": "Turpināt ar Google",
-    "apple": "Turpināt ar Apple",
-    "googleUnavailable": "Google pierakstīšanās nav pieejama",
-    "appleUnavailable": "Apple pierakstīšanās nav pieejama",
-    "or": "vai",
-    "email": "E-pasts",
-    "emailPh": "jūs@example.com",
-    "usernameLabel": "Lietotājvārds",
-    "usernamePh": "Jūsu lietotājvārds",
-    "passwordLabel": "Parole",
-    "passwordPh": "Jūsu parole",
-    "keepSignedIn": "Paturēt mani pierakstītu",
-    "forgot": "Aizmirsi paroli?",
-    "submit": "Pieteikties",
-    "loggingIn": "Piesakās…",
-    "newHere": "Jauns šeit? <link>Izveidot kontu</link>",
-    "ssoUnavailable": "Pašlaik SSO nav pieejams. Izmantojiet lietotājvārdu un paroli.",
-    "error": {
-      "missing": "Lūdzu, ievadiet savus piekļuves datus.",
-      "invalid": "Nederīgs lietotājvārds vai parole",
-      "denied": "Piekļuve liegta.",
-      "unprocessable": "Nederīgs pieprasījums. Pārbaudiet lietotājvārdu/e-pastu un paroli.",
-      "deviceLimit": "Free plāna ierīču limits sasniegts. Izrakstieties citā ierīcē vai jauniniet uz Premium, lai piesaistītu vairāk ierīču.",
-      "premiumRequired": "Šai darbībai nepieciešams Premium plāns."
+    "peoplePage": {
+      "people": "Cilvēki",
+      "search": "Meklēt",
+      "searchPlaceholder": "Meklēt pēc aizstājvārda, vārda, lietotājvārda vai tālruņa",
+      "filterSaved": "Filtrēt saglabātos kontaktus",
+      "noContactsFound": "Kontakti nav atrasti",
+      "quickStart": "Ātrais starts",
+      "quickStartDesc": "Daži ātri veidi, kā sākt.",
+      "importContacts": "Importēt savus kontaktus",
+      "add": "Pievienot",
+      "focusSearch": "Fokusēt meklēšanu",
+      "import": "Importēt",
+      "findOrAdd": "Atrast vai pievienot kādu",
+      "searchByPhoneOrUsername": "Meklēt pēc tālruņa / lietotājvārda",
+      "inviteFriends": "Uzaicināt draugus",
+      "inviteDesc": "Dalieties ar uzaicinājuma saiti, lai uzreiz sāktu tērzēšanu.",
+      "getTheApp": "Iegūt lietotni",
+      "getTheAppDesc": "Uzturiet kontaktus ceļā ar Chatforia iOS un Android.",
+      "download": "Lejupielādēt",
+      "syncTip": "Padoms: Jūsu ziņas paliek sinhronizētas starp tīmekli un mobilo."
+    },
+    "randomChat": {
+      "title": "Nejauša saruna",
+      "description": "Iepazīstieties ar jaunu cilvēku uzreiz. Mēs jūs savienosim un atvērsim pagaidu sarunu istabu. Vispirms tērzējiet anonīmi. Pievienojiet draugu vēlāk, ja tas šķiet pareizi.",
+      "findMatch": "Atrast man partneri",
+      "chatWithForia": "Tērzēt ar Foria",
+      "chatWithForiaBot": "Tērzēt ar ForiaBot",
+      "cancel": "Atcelt",
+      "close": "Aizvērt",
+      "searching": "Meklē…",
+      "finding": "Meklē…",
+      "looking": "Meklē kādu…",
+      "startingForia": "Sāk tērzēšanu ar Foria…",
+      "partnerDisconnected": "Jūsu partneris atvienojās.",
+      "noPartner": "Pašlaik partneris nav atrasts.",
+      "connectedTo": "Savienots ar {{name}}",
+      "connected": "Savienots",
+      "idle": "Neaktīvs",
+      "partnerLeft": "Partneris aizgāja.",
+      "stopped": "Apturēts.",
+      "skip": "Izlaist",
+      "save": "Saglabāt",
+      "saveGuard": "Tikai cilvēks-cilvēkam sarunas var tikt saglabātas",
+      "youAreChattingWith": "Jūs tērzējat ar {{name}}",
+      "bot": "BOTS",
+      "leave": "Pamest",
+      "sayHi": "Saki sveiki 👋",
+      "you": "Jūs",
+      "typeMessage": "Rakstiet ziņu",
+      "send": "Nosūtīt",
+      "partner": "Partneris",
+      "withRia": "Ar Ria",
+      "chatWithRia": "Tērzēt ar Ria",
+      "startingRia": "Sāk tērzēšanu ar Ria…",
+      "ageDisclaimer": "Mēs glabājam tikai vecuma diapazonu (ne precīzu dzimšanas datumu). Tas tiek izmantots, lai Random Chat savienojumi būtu saprātīgi. Lai tiktu savienots ar cilvēkiem (ne tikai RiaBot), iestatiet vecuma diapazonu Iestatījumos → Vecums un Random Chat.",
+      "ageBandRequired": "Iestatiet vecuma diapazonu Profilā → Vecums un Random Chat, lai tiktu savienots ar cilvēkiem.",
+      "ageBandCallout": "Lai tiktu savienots ar cilvēkiem (ne tikai RiaBot), iestatiet vecuma diapazonu Iestatījumos → Vecums un Random Chat.",
+      "subtitle": "Iepazīstieties ar jaunu cilvēku uzreiz vai izvēlieties tērzēt ar Ria.",
+      "start": "Sākt sarunu",
+      "matching": "Saskaņo…",
+      "setAge": "Iestatiet vecuma diapazonu Profilā → Vecums un Random Chat, lai tiktu savienots ar cilvēkiem.",
+      "next": "Nākamā persona",
+      "addFriend": "Pievienot draugu",
+      "requested": "Pieprasīts",
+      "messageRia": "Ziņot Ria…",
+      "messageMatch": "Ziņot savam partnerim…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "tur",
+      "intro": "Sveiki tur 👋 Es esmu Ria. Kas tev prātā?",
+      "greetings": {
+        "long1": "Sveiki {{name}} 👋 Esmu šeit. Kas tev prātā?",
+        "long2": "Sveiks {{name}} 😊 Par ko vēlētos runāt šodien?",
+        "long3": "Sveiki {{name}}!! Esmu visa uzmanība — kas notiek?",
+        "long4": "Prieks tevi redzēt, {{name}} 👋 Kas tev prātā šodien?",
+        "long5": "Sveiki {{name}} 😊 Vai vēlies izkratīt, pajautāt vai vienkārši tērzēt?",
+        "long6": "Sveiks {{name}}!! Man ir laiks — par ko vēlētos runāt?",
+        "short1": "Sveiki {{name}}, es joprojām esmu šeit. Kas notiek?",
+        "short2": "Laipni lūdzam atpakaļ {{name}} 👋 Vai vēl kaut kas, ko vēlētos pievienot?",
+        "short3": "Atkal atpakaļ, {{name}}? 😊 Pastāsti, kas tev prātā.",
+        "short4": "Sveiki {{name}} 👋 Gatavs turpināt no turienes, kur beidzām?",
+        "short5": "Jā {{name}}? Es klausos 👂",
+        "short6": "Ak sveiki {{name}}!! Ir kaut kas jauns prātā?"
+      },
+      "header": {
+        "openNav": "Atvērt navigācijas izvēlni",
+        "closeNav": "Aizvērt navigācijas izvēlni",
+        "homeAria": "Chatforia sākums"
+      },
+      "login": {
+        "welcomeBack": "Laipni lūdzam atpakaļ",
+        "title": "Turpināt uz Chatforia",
+        "subtitleReturning": "Piesakieties savā Chatforia kontā",
+        "subtitle": "Piesakieties savā Chatforia kontā",
+        "google": "Turpināt ar Google",
+        "apple": "Turpināt ar Apple",
+        "googleUnavailable": "Google pieteikšanās nav pieejama",
+        "appleUnavailable": "Apple pieteikšanās nav pieejama",
+        "or": "vai",
+        "email": "E-pasts",
+        "emailPh": "jums@example.com",
+        "usernameLabel": "Lietotājvārds",
+        "usernamePh": "Jūsu lietotājvārds",
+        "passwordLabel": "Parole",
+        "passwordPh": "Jūsu parole",
+        "keepSignedIn": "Palikt pieteikušam",
+        "forgot": {
+          "title": "Aizmirsāt paroli",
+          "helper": "Ievadiet e-pastu, ko izmantojāt, lai izveidotu Chatforia kontu, un mēs nosūtīsim drošu saiti paroles atiestatīšanai.",
+          "emailInvalid": "Lūdzu, ievadiet derīgu e-pasta adresi.",
+          "genericError": "Neizdevās apstrādāt pieprasījumu. Lūdzu, mēģiniet vēlreiz pēc brīža.",
+          "sending": "Sūta atiestatīšanas saiti…",
+          "sendCta": "Nosūtīt atiestatīšanas saiti",
+          "sentLabel": "Nosūtīts!",
+          "sentHelper": "Ja konts ar šo e-pastu pastāv, mēs esam nosūtījuši paroles atiestatīšanas saiti. Tas var aizņemt dažas minūtes. Pārbaudiet surogātpasta vai reklāmu mapi.",
+          "previewDev": "Priekšskatīt e-pastu (Izstrāde)",
+          "backToLogin": "Atpakaļ uz pieteikšanos"
+        },
+        "submit": "Pieteikties",
+        "loggingIn": "Piesakās…",
+        "newHere": "Jauns šeit? <link>Izveidot kontu</link>",
+        "ssoUnavailable": "Vienotā pieteikšanās pašlaik nav pieejama. Izmantojiet lietotājvārdu un paroli.",
+        "error": {
+          "missing": "Lūdzu, ievadiet savus akreditācijas datus.",
+          "invalid": "Nederīgs lietotājvārds vai parole",
+          "denied": "Piekļuve liegta.",
+          "unprocessable": "Nederīgs pieprasījums. Pārbaudiet lietotājvārdu/e-pastu un paroli.",
+          "deviceLimit": "Bezmaksas plāna ierīču limits sasniegts. Izlogojieties citā ierīcē vai jauniniet uz Premium, lai saistītu vairāk ierīču.",
+          "premiumRequired": "Šai darbībai nepieciešams Premium plāns."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Pabeidz pieteikšanos…"
+    },
+    "dialer": {
+      "title": "Zvani",
+      "subtitle": "Ciparu tastatūra un nesenās. (Ja neizmantojat PSTN, sāciet zvanus no sarunas galvenes.)",
+      "enterNumberPh": "Ievadiet numuru",
+      "call": "Zvanīt",
+      "backspace": "Dzēst atpakaļ",
+      "recents": "Nesenās",
+      "recentsEmpty": "Vēl nav nesenu zvanu.",
+      "enterNumber": "Ievadiet numuru",
+      "enterNumberAria": "Ievadiet numuru",
+      "key": "Taustiņš {{d}}",
+      "noRecents": "Vēl nav nesenu zvanu."
+    },
+    "video": {
+      "title": "Video",
+      "chooseType": "Izvēlieties video veidu.",
+      "directTitle": "Tiešs video",
+      "directDesc": "1:1 kameras zvans ar citu lietotāju.",
+      "directStart": "Sākt",
+      "roomsTitle": "Istabas",
+      "roomsDesc": "Vairāku dalībnieku video, izmantojot kopīgu istabas nosaukumu.",
+      "roomsIntro": "Pievienojieties vai izveidojiet vairāku dalībnieku istabu.",
+      "roomNameLabel": "Istabas nosaukums",
+      "roomNamePh": "piem. komandas-sanāksme",
+      "join": "Pievienoties",
+      "deeplinkTip": "Padoms: jūs varat tieši saistīt uz <code>/video?room=istabas-nosaukums</code>.",
+      "hub": {
+        "title": "Video",
+        "subtitle": "Izvēlieties video veidu."
+      },
+      "direct": {
+        "title": "Tiešs video",
+        "subtitle": "Sāciet 1:1 video zvanu, izmantojot tālruņa numuru vai Chatforia lietotājvārdu.",
+        "desc": "1:1 kameras zvans ar citu lietotāju.",
+        "start": "Sākt",
+        "callBtn": "Zvanīt",
+        "callByPhone": {
+          "title": "Zvanīt pa tālruni"
+        },
+        "phone": {
+          "placeholder": "Ievadiet tālruni (piem., +1-555-123-4567)",
+          "aria": "Tālrunis, uz kuru zvanīt"
+        },
+        "tipInvite": "Padoms: Ielīmējiet numuru un zvaniet bez kontakta saglabāšanas. Mēs uzaicināsim ne-lietotājus ar saiti.",
+        "findUser": {
+          "title": "Atrast lietotāju"
+        },
+        "search": {
+          "placeholder": "Meklēt pēc vārda vai lietotājvārda",
+          "aria": "Meklēt pēc vārda vai lietotājvārda",
+          "btn": "Meklēt"
+        }
+      },
+      "rooms": {
+        "title": "Istabas",
+        "subtitle": "Izveidojiet istabu vai pievienojieties esošai, ierakstot to pašu nosaukumu.",
+        "desc": "Vairāku dalībnieku video, izmantojot kopīgu istabas nosaukumu.",
+        "roomLabel": "Istabas nosaukums",
+        "roomPlaceholder": "piem. komandas-sanāksme",
+        "roomAria": "Istabas nosaukums",
+        "joinCreate": "Pievienoties / Izveidot",
+        "tip": "Padoms: dalieties ar šo nosaukumu ar citiem vai tieši saistiet uz <code>/video?room=istabas-nosaukums</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Sāciet tiešu 1:1 video zvanu.",
+      "findUserLabel": "Atrast lietotāju",
+      "findUserPh": "Meklēt pēc vārda vai lietotājvārda",
+      "search": "Meklēt",
+      "call": "Zvanīt"
+    },
+    "phoneWarning": {
+      "title": "Jūsu numurs drīz beigsies",
+      "body": "Jūsu numurs {{number}} tiks atbrīvots {{date}}, ja netiks reaktivizēts.",
+      "button": "Saglabāt manu numuru"
+    },
+    "support": {
+      "helpFab": "Palīdzība",
+      "openSupportAria": "Atvērt atbalstu",
+      "badge": "Atbalsts",
+      "heading": "Kā mēs varam palīdzēt?",
+      "tabs": {
+        "help": "Palīdzības centrs",
+        "contact": "Sazināties ar mums"
+      },
+      "searchPlaceholder": "Meklēt palīdzības rakstus…",
+      "searchAria": "Meklēt palīdzību",
+      "searchBtn": "Meklēt",
+      "quickTopicsLabel": "Ātrie temati",
+      "quickTopics": {
+        "login": "Nevar pieteikties",
+        "billing": "Maksājumi / norēķini",
+        "abuse": "Ziņot par ļaunprātīgu izmantošanu"
+      },
+      "trySearching": "Izmēģiniet meklēt “tulkot”, “dublējumi” vai “privātums”.",
+      "article": "Raksts",
+      "openArticle": "Atvērt rakstu",
+      "contactIntro": "Mēs nosūtīsim jums atbildi pa e-pastu. Iekļaujiet detaļas, lai palīdzētu mums reproducēt problēmu.",
+      "topicAria": "Izvēlēties tematu",
+      "messagePlaceholder": "Uzrakstiet savu ziņu…",
+      "sendBtn": "Nosūtīt",
+      "sent": "Ziņa nosūtīta. Mēs atbildēsim pa e-pastu.",
+      "sendError": "Neizdevās nosūtīt. Tā vietā sūtiet e-pastu uz support@chatforia.com."
+    },
+    "encryptionRecovery": {
+      "title": "Pārvaldīt šifrēšanu",
+      "description": "Dublēt, atjaunot, atslēgt vai atiestatīt šifrēšanas atslēgu.",
+      "alert": {
+        "keyRequiredTitle": "Nepieciešama šifrēšanas atslēga",
+        "keyRequiredBody": "Šī pārlūkprogramma pašlaik nevar atšifrēt jūsu šifrētās ziņas. Atjaunojiet, atslēdziet vai atiestatiet atslēgu, lai turpinātu."
+      },
+      "sections": {
+        "createBackup": "Izveidot atslēgas dublējumu",
+        "restoreFromBackup": "Atjaunot no konta dublējuma",
+        "resetEncryption": "Atiestatīt šifrēšanu"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Atslēgšanas piekļuves kods (pašreizējā ierīce)",
+          "description": "Izmanto, lai atšifrētu atslēgas lokāli pirms eksportēšanas"
+        },
+        "backupPassword": {
+          "label": "Dublējuma parole",
+          "description": "Izmanto, lai šifrētu dublējuma failu"
+        },
+        "restoreBackupPassword": {
+          "label": "Dublējuma parole",
+          "description": "Parole, ko izveidojāt, dublējot atslēgu iPhone"
+        },
+        "newLocalPasscode": {
+          "label": "Jauns lokālais piekļuves kods",
+          "description": "Aizsargāt atslēgas atpūtā šajā pārlūkprogrammā"
+        },
+        "resetLocalPasscode": {
+          "label": "Jauns lokālais piekļuves kods",
+          "description": "Nepieciešams pirms atiestatīšanas, lai jaunā atslēga būtu aizsargāta šajā ierīcē"
+        }
+      },
+      "actions": {
+        "unlockKey": "Atslēgt šifrēšanas atslēgu",
+        "restoreFromBackup": "Atjaunot no konta dublējuma",
+        "resetEncryption": "Atiestatīt šifrēšanu"
+      },
+      "messages": {
+        "backupCreated": "Atslēgas dublējums izveidots un lejupielādēts.",
+        "keyUnlocked": "Šifrēšanas atslēga atslēgta.",
+        "keyRestored": "Atslēga atjaunota no konta dublējuma.",
+        "resetSuccess": "Šifrēšana veiksmīgi atiestatīta."
+      },
+      "errors": {
+        "restoreIncomplete": "Atslēgas atjaunošana nepilnīga vai nepareiza šim kontam",
+        "noBackup": "Šim kontam nav šifrēta dublējuma",
+        "missingPublicKey": "Dublējumā trūkst publiskās atslēgas",
+        "noServerPublicKey": "Šis konts pašlaik neizpauž servera publisko atslēgu",
+        "serverBackupMismatch": "Servera dublējums neatbilst pašreizējā konta šifrēšanas atslēgai",
+        "incompleteMetadata": "Dublējuma metadati ir nepilnīgi",
+        "resetIncomplete": "Šifrēšanas atiestatīšana netika pabeigta pareizi"
+      },
+      "confirm": {
+        "reset": "Atiestatīt šifrēšanu šim kontam?\n\nVecākas šifrētās ziņas var kļūt nelasāmas, ja vēlāk neatjaunosiet oriģinālo atslēgu."
+      },
+      "resetDescription": "Tas ģenerē jaunu šifrēšanas atslēgu jūsu kontam. Vecākas šifrētās ziņas var kļūt nelasāmas, ja vēlāk neatjaunosiet oriģinālo atslēgu."
+    },
+    "footer": {
+      "plans": "Plāni un cenas",
+      "about": "Par Chatforia",
+      "careers": "Karjeras",
+      "press": "Preses",
+      "advertise": "Reklamēties",
+      "contact": "Sazināties ar mums",
+      "help": "Palīdzības centrs",
+      "status": "Statusa lapa",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Privātuma politika",
+      "terms": "Pakalpojuma noteikumi",
+      "cookies": "Sīkfailu iestatījumi",
+      "doNotSell": "Nepārdodiet manu informāciju",
+      "language": "Valoda",
+      "contactShort": "Sazināties",
+      "aria": "Kājiņa",
+      "homeAria": "Chatforia sākums",
+      "section": {
+        "company": "UZŅĒMUMS",
+        "support": "ATBALSTS",
+        "downloads": "LEJUPLEIADES",
+        "legal": "JURIDISKI"
+      },
+      "links": {
+        "plans-pricing": "Plāni un cenas",
+        "about-chatforia": "Par Chatforia",
+        "careers": "Karjeras",
+        "press": "Preses",
+        "advertise": "Reklamēties",
+        "getting-started": "Kā sākt",
+        "help-center": "Palīdzības centrs",
+        "contact-us": "Sazināties ar mums",
+        "status-page": "Statusa lapa",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Privātuma politika",
+        "terms-of-service": "Pakalpojuma noteikumi",
+        "do-not-sell-my-info": "Nepārdodiet manu informāciju",
+        "cookie-settings": "Sīkfailu iestatījumi"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patents gaida apstiprinājumu",
+      "backToTop": "↑ Atpakaļ uz augšu"
+    },
+    "press": {
+      "title": "Preses",
+      "contactLine": "Mediju jautājumiem sazinieties ar mums pa",
+      "boilerplateTitle": "Standarta teksts",
+      "boilerplateBody": "Chatforia ir privātuma pirmajā vietā ziņu sūtīšanas lietotne, kas padara starpvalodu tērzēšanu vienkāršu. Ziņas pēc noklusējuma ir šifrētas no gala līdz galam, un iebūvēta tulkošana atbalsta vairāk nekā 100 valodas reāllaikā. Lietotāji var iespējot pazūdošas ziņas, padarīt lasīšanas apliecinājumus neobligātus un sinhronizēt ierīcēs. Pieejama iOS, Android un tīmeklī.",
+      "assetsTitle": "Zīmola aktīvi",
+      "assetsSubtitle": "Logotipi, ekrānšāviņi un produkta attēli.",
+      "downloadCta": "Lejupielādēt mediju komplektu",
+      "downloadTitle": "Iegūt lietotni",
+      "scanTip": "Uz darbvirsmas? Skenējiet ar tālruni, lai iegūtu lietotni.",
+      "qrAria": "Atvērt Chatforia vietni",
+      "appStore": "Lejupielādēt App Store",
+      "googlePlay": "Iegūt Google Play"
+    },
+    "careers": {
+      "title": "Karjeras",
+      "intro": "Mēs esam maza dibinātāju komanda, kas veido Chatforia — privātu, globālu ziņu sūtītāju, kas tiek laists klajā tīmeklī, iOS un Android. Ja jums rūp privātums, šifrēšana un patīkama lietotāju pieredze, mēs labprāt dzirdētu no jums.",
+      "openRoles": "<b>Atvērtas dibinātāju vakances:</b> Galvenais pilna cikla inženieris, Backend inženieris (Node.js), Frontend/Web inženieris (React), Mobilais inženieris (iOS), Mobilais inženieris (Android), DevOps/SRE, Drošības un šifrēšanas inženieris, Telekomunikāciju inženieris (Twilio + eSIM).",
+      "apply": "Kā pieteikties: Izmantojiet zemāk esošo pogu, lai nosūtītu savu CV un saites pa e-pastu.",
+      "emailCta": "Nosūtīt CV pa e-pastu",
+      "whyNow": "Kāpēc pievienoties tagad?",
+      "whyBullets": "• Palīdzēt veidot jauna globāla ziņu sūtītāja pamatu.\n• Iesūtīt uzlabojumus, kas tiek izmantoti tīmeklī, iOS un Android.\n• Strādāt tieši ar dibinātāju pie arhitektūras un produkta virziena.\n• Pārvaldīt augstas ietekmes apgabalus: ziņošana, balss, video, šifrēšana, telekomunikācijas, AI.\n• Pievienoties pašā sākumā — pirms lietotāju bāze aug."
+    },
+    "about": {
+      "title": "Par Chatforia",
+      "description": "Chatforia ir drošs, daudzvalodu ziņu sūtītājs ar šifrēšanu no gala līdz galam, momentālu tulkošanu un balss/video zvaniem. Mūsu misija ir vienkārša: palīdzēt cilvēkiem savienoties — droši, privāti un pāri valodām.",
+      "valuesTitle": "Ko mēs vērtējam",
+      "values": {
+        "privacy": "<b>Privātums pirmajā vietā:</b> E2E šifrēšana pēc noklusējuma.",
+        "access": "<b>Piekļuve visiem:</b> Automātiska tulkošana vairāk nekā 100 valodās.",
+        "control": "<b>Kontrole:</b> Pazūdošas ziņas un lasīšanas apliecinājumi ir neobligāti.",
+        "privacy_aria": "Privātums pirmajā vietā: E2E šifrēšana pēc noklusējuma.",
+        "access_aria": "Piekļuve visiem: Automātiska tulkošana vairāk nekā 100 valodās.",
+        "control_aria": "Kontrole: Pazūdošas ziņas un lasīšanas apliecinājumi ir neobligāti."
+      },
+      "howTitle": "Kā darbojas Chatforia",
+      "howDescription": "Ziņas tiek šifrētas jūsu ierīcē pirms to nosūtīšanas. Tulkošana, dublējumi un ierīces sinhronizācija ir izstrādāti, lai minimizētu to, ko mūsu serveri var redzēt."
+    },
+    "advertise": {
+      "title": "Reklamēties ar Chatforia",
+      "description": "Sasniedziet iesaistītus ziņu lietotājus ar gaumīgām, zīmolam drošām vietām. Mēs piedāvājam baneru inventāru augstas redzamības vietās, sponsorēšanu un iekšējās reklāmas. Premium abonenti neredz reklāmas.",
+      "adsense": {
+        "withPubIdShort": "Mēs arī nodrošinām inventāru caur Google AdSense. Jūs varat mērķēt uz Chatforia ar izdevēja ID {{pubId}}, vai izmantot zemāk esošo formu tiešai sponsorēšanai.",
+        "noPubIdShort": "Mēs arī nodrošinām daļu inventāra caur Google AdSense. Tiešā sponsorēšana ir pieejama — izmantojiet zemāk esošo formu."
+      },
+      "inventoryHeader": "Inventārs un specifikācijas",
+      "placement": {
+        "displayBadge": "Displejs",
+        "acceptedSizes": "Pieņemtie izmēri",
+        "adsenseSlot": "AdSense slots:"
+      },
+      "noPlacementsPublic": "Mēs pabeidzam savu reklāmu inventāru. Pastāstiet mums par savu kampaņu, un mēs ieteiksim vietas.",
+      "whyHeader": "Kāpēc Chatforia?",
+      "why": {
+        "highSession": "Augsta sesiju biežums un uzturēšanās laiks tērzēšanas saskarnē",
+        "brandSafe": "Zīmolam droši formāti; saprātīga biežuma ierobežošana",
+        "sponsoredMoments": "Sponsorēti momenti (piem., “Sākt sarunu” modālis) pieejami",
+        "deals": "Tiešie darījumi vai programmatiski caur AdSense/Google Ads"
+      },
+      "contactHeader": "Sazināties",
+      "form": {
+        "submittedMsg": "Paldies! Jūsu jautājums ir ceļā. Mēs sazināsimies drīz.",
+        "missingRequired": "Lūdzu, aizpildiet vārdu, e-pastu un ziņu.",
+        "successToast": "Paldies! Mēs sazināsimies drīz.",
+        "mailtoInfo": "Atver jūsu e-pasta klientu, lai nosūtītu jautājumu…",
+        "nameLabel": "Jūsu vārds",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "E-pasts",
+        "emailPlaceholder": "jums@uznemums.com",
+        "companyLabel": "Uzņēmums",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Ikmēneša budžets (neobligāti)",
+        "budgetPlaceholder": "piem. $1,000–$20,000+",
+        "messageLabel": "Pastāstiet mums par savu kampaņu",
+        "messagePlaceholder": "Mērķauditorija, datumi, KPI, vietu preferences…",
+        "sendCta": "Nosūtīt jautājumu"
+      },
+      "legal": {
+        "disclaimerStart": "Iesniedzot, jūs piekrītat mūsu",
+        "terms": "Noteikumiem",
+        "and": "un",
+        "privacy": "Privātuma politikai"
+      }
     }
   }
 }

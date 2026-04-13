@@ -6,7 +6,7 @@ export default function CookieSettings() {
   const { t } = useTranslation();
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py="xl" pt="3.5rem">
       <Title order={2}>
         {t('cookies.title', 'Cookie Settings')}
       </Title>

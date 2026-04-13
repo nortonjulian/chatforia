@@ -1,345 +1,1601 @@
 {
   "common": {
-    "save": "Bóbátela",
-    "cancel": "Bóboya",
-    "refresh": "Bózongisa sika",
-    "noMatches": "Ezwami eloko te",
-    "cancelAria": "Bóboya",
-    "copy": "Kokópi",
-    "copied": "Ekópiami!"
+    "save": "Kobikisa",
+    "cancel": "Tika",
+    "refresh": "Bongisa",
+    "noMatches": "Ekosangisa te",
+    "cancelAria": "Tika",
+    "copy": "Kopola",
+    "copied": "Ekopoli!",
+    "errorWithMessage": "Error: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Kata mpe kende na contenu monene"
+    "skipToMain": "Tika oye na esika ya liboso"
   },
-
-  "profile": {
-    "title": "Profíli ya Mosaleli",
-    "preferredLanguage": "Lokota olingaka",
-    "chooseLanguage": "Póna lokota",
-    "mustLogin": "Osengeli kokɔta libándá te mpo na komona bitɔpɔ.",
-    "autoTranslate": "Kobongola nsango na ndenge ya otomatisɛ",
-    "showOriginalWithTranslation": "Lakisa nsango ya ebandeli elongo na bobongoli",
-    "showOriginalAndTranslation": "Lakisa ebandeli pembeni na bobongoli",
-    "filterExplicit": "Fíltɛr ya biloko ya mabe",
-    "aiReply": "Eyano ya AI",
-    "enableReadReceipts": "Sɨmbisa bilembo ya kotánga",
-    "allowExplicitContent": "Ndima biloko ya mabe",
-    "disappearingMessages": "Sɨmbisa nsango oyo ezali kokɛsana",
-    "autoDeleteSeconds": "Sekɔnde kino na koboma yango moko",
-    "saveSuccess": "Bitɔpɔ babatelami!",
-    "saveError": "Erreur: Bitɔpɔ ebatelami te",
-    "avatarAlt": "Avatar ya profíli",
-    "uploadAvatar": "Tɛlɛmatisa avatar ya sika",
-    "avatarSuccess": "Avatar etɛlɛmisami!",
-    "avatarError": "Libunga na kotɛlɛmisa avatar",
-    "noPrivateKey": "Moke ya seke ezali te na appareil oyo mpo na kobimisa.",
-    "setBackupPassword": "Tyá mot de passe mpo na kobɔkɔla backup:",
-    "backupDownloaded": "Backup ya kobɛbolama ememami.",
-    "exportFailed": "Kobimisa clé ekatisi te",
-    "enterBackupPassword": "Tyá mot de passe ya backup oyo:",
-    "importSuccess": "Moke ya seke emɛlami na appareil oyo.",
-    "importFailed": "Kokɔ́tisa clé ekatisi te (mot de passe ezali mabe to fichier ebebi).",
-    "keysRotated": "Clé ya sika mibale esalemi mpe clé ya pole ekɔtiselami.",
-    "rotateFailed": "Kobongola ba clés ekatisi te.",
-    "security": "Securité",
-    "exportKey": "Bimisa clé ya seke",
-    "importKey": "Kɔtisa backup ya clé ebɔkɔlami",
-    "rotateKeys": "Bongola clé mibale",
-    "keyDisclaimer": "Clé na yo ya seke ebimaka te na appareil oyo. Bimisa kopi na mot de passe mpo na kozongisa yango na appareil mosusu.",
-    "sectionProfile": "Profíli",
-    "phoneNumber": "Nimero ya telefɔni",
-    "appearance": "Boyekoli",
-    "soundSettings": "Mikɔlo ya mayeɓi (sons)",
-    "disappearing": "Nsango ekɛsana",
-    "backupSync": "Backup & Synchronisation",
-    "ai": "AI",
-    "accessibility": "Mokɔlɔ́ ya bokɔti (accessibilité)",
-    "privacy": "Bopɛ́to (privacy)",
-    "devices": "Baappareil ekangami",
-    "themeFreeNotice": "Ozali na Free — salá ba option Sun/Moon na nse. Kobongola mpo ofungola ba témɛ mosusu.",
-    "sunTheme": "Salelá thème Dawn",
-    "moonTheme": "Salelá thème Moon (Midnight)",
-    "sun": "Mɔ́í",
-    "moon": "Sánzá",
-    "backupTitle": "Backup ebɛbolami & Synchronisation ya appareil",
-    "openBackupTools": "Fungola Bisaleli ya Backup",
-    "backupDesc": "Salá ba backup na mot de passe, mpe zongisa na appareil mosusu mpo na kosíngisa.",
-    "privacyBlurEnabled": "Bubola nsango na liboso",
-    "privacyBlurOnUnfocus": "Bubola soki app ezali na focus te",
-    "holdToReveal": "Kangisa mpo na komona",
-    "notifyOnCopy": "Sɛngisa sango soki nsango na ngai ekopiami",
-    "loadFailed": "Kokɔtisa profíli ekatisi te",
-    "followed": "Olandaki",
-    "followFailed": "Kolanda ekatisi te",
-    "unfollowed": "Olongolaki kolanda",
-    "unfollowFailed": "Kolongola kolanda ekatisi te",
-    "follow": "Landá",
-    "unfollow": "Tika kolanda",
-    "followHint": "Makambo na bango ekomonana na filɛ ya Olandaka soki batii na audience ya Balandi (to Public).",
-    "userNotFound": "Mosaleli amonani te",
-    "followsYou": "Azali kolanda yo",
-    "sectionCrashedTitle": "Eteni ekɔtisi libunga na kokɔtisa",
-    "sectionCrashedBody": "Eloko moko ekweyi na eteni oyo.",
-    "forwarding": "Kobengisa & Kotindisa nsango (Forwarding)",
-    "callTextForwardingSection": "Kobengisa & Kotindisa nsango",
-    "callTextForwardingTitle": "Kobengisa mpe/ to kotindisa nsango",
-    "callTextForwardingDescription": "Tindisa ba appels mpe ba SMS oyo ekɔtaka na nimero/imeil oyo endimisami. Ba appels/SMS oyo otyakaka ekoki kolakisa nimero ya Chatforia na yo.",
-    "enableTextForwarding": "Sɨmbisa kotindisa SMS",
-    "forwardTextsToPhone": "Tindisa ba SMS na telefɔni",
-    "forwardTextsToEmail": "Tindisa ba SMS na email",
-    "destinationPhone": "Telefɔni ya bokutani (E.164)",
-    "destinationEmail": "Email ya bokutani",
-    "enableCallForwarding": "Sɨmbisa kobengisa (call forwarding)",
-    "destinationPhoneForCalls": "Destination (E.164) ya ba appels",
-    "aliasBridging": "Kobengisa (alias bridging)",
-    "quietHoursOptional": "Ngonga ya kimya (ya kopona)",
-    "startHour": "Ngonga ya ebandeli (0–23)",
-    "endHour": "Ngonga ya suka (0–23)",
-    "reset": "Zongisa",
-    "saveBtn": "Bóbátela",
-    "forwardSaved": "Bitɔpɔ ya kotindisa babatelami",
-    "forwardSaveFailed": "Kobatela bitɔpɔ ekatisi te",
-    "errE164": "Tyá nimero ya telefɔni ya E.164 oyo ezali malamu (ndakisa, +15551234567).",
-    "errEmail": "Tyá email ya malamu.",
-    "errSmsDest": "Póna esika moko te (telefɔni to email).",
-    "errQuietHours": "Ngonga ya kimya esengeli kozala kati na 0 na 23."
+  "keys": {
+    "backupCreated": "Backup ya clé esalemi mpe ekozi ✓",
+    "restored": "Backup ya clé ezongisi ✓ Clés ezalaki na appareil na yo",
+    "noBackup": "Ezali na backup ya clé ekozongisama te na compte oyo",
+    "missingPublicKey": "Backup ezali na clé publique te"
   },
-
-  "support": {
-    "helpFab": "Lisungi",
-    "openSupportAria": "Fungola lisungi",
-    "badge": "Lisungi",
-    "heading": "Tosálisa yo ndenge nini?",
-    "tabs": {
-      "help": "Sántɛ ya Lisungi",
-      "contact": "Kokutana na biso"
-    },
-    "searchPlaceholder": "Luka ba artiklɛ ya lisungi…",
-    "searchAria": "Luka lisungi",
-    "searchBtn": "Luka",
-    "quickTopicsLabel": "Mitó ya nokinoki",
-    "quickTopics": {
-      "login": "Okoki kokɔta te",
-      "billing": "Páyá / kofuta",
-      "abuse": "Lapola mabe"
-    },
-    "trySearching": "Meka koluka “kobongola”, “ba backup”, to “privacy”.",
-    "article": "Nkomá",
-    "openArticle": "Fungola nkomá",
-    "contactIntro": "Tokotindela yo eyano na email. Pesa ba detay mpo na kosalisa biso tóbozonga likambo.",
-    "topicAria": "Póna mutúya",
-    "messagePlaceholder": "Koma nsango na yo…",
-    "sendBtn": "Tinda",
-    "sent": "Nsango etindami. Tokoyanola na email.",
-    "sendError": "Ekoki te kotinda. Tinda email na support@chatforia.com esika na yango."
+  "keySetup": {
+    "title": "Tonga clés ya appareil na yo",
+    "description": "Appareil oyo ezali na clé privée na yo te. Importa backup oyo ezali na mot de passe, to sengi clé moko ya sika (okoka kotanga messages ya sika tii lelo).",
+    "chooseFile": "Pona fichier mpe tala mot de passe.",
+    "imported": "Clé privée ezali na appareil oyo. Okoka kotanga messages ya kala tii lelo.",
+    "enterPassword": "Tala mot de passe ya compte na yo mpo tongo backup ya clés na sécurité."
   },
-
-  "chat": {
-    "selectPrompt": "Póná texte to esika ya kosolola mpo na kobanda kosolola",
-    "newMessages": "Ba nsango ya sika",
-    "typing": "{{name}} azali kokoma...",
-    "emptyTitle": "Ba nsango na yo",
-    "emptySubtitle": "Tinda nsango mpo na kobanda kosolola.",
-    "startChatButton": "Tinda nsango"
-  },
-
-  "topbar": {
-    "newStatus": "Status ya sika",
-    "logout": "Bímá",
-    "help": "Lisungi",
-    "createStatusAria": "Salá Status ya sika"
-  },
-
-  "status": {
-    "userNumber": "Mosaleli #{{id}}",
-    "posted": "Status etindami",
-    "postFailed": "Kotinda status ekatisi te",
-    "createTitle": "Salá status",
-    "modalAriaLabel": "Status ya sika",
-    "captionLabel": "Okanisi nini?",
-    "captionPlaceholder": "Yebisa sango...",
-    "captionAria": "Nsango ya status",
-    "audienceLabel": "Audiense",
-    "audience": {
-      "public": "Mabulu (Public)",
-      "followers": "Balandi",
-      "contacts": "Bakontak",
-      "mutuals": "Balandanani",
-      "custom": "Ya kokokana..."
-    },
-    "expiresHoursLabel": "Ekokoka (bangonga)",
-    "maxTooltip": "Maksímá 7 mikolo",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "Ekokoka na:",
-    "chooseRecipients": "Póna ba moto bazwi",
-    "selectContacts": "Póna bakontak",
-    "attachmentsLabel": "Ba fasi (attachments)",
-    "attachmentsPlaceholder": "Bakisa bililingi/bavidɛo",
-    "filesNote": "Kino na bafile 5. Elɛngi ya mikolo 1 na libándá ya ebandeli.",
-    "postAria": "Tinda status",
-    "post": "Tinda"
-  },
-
-  "contactList": {
-    "savedContacts": "Bakontak babatelami",
-    "refreshAria": "Zongisa bakontak",
-    "filterPlaceholder": "Fíltɛr bakontak babatelami…",
-    "filterAria": "Fíltɛr bakontak babatelami",
-    "noContactsFound": "Bakontak ezwami te.",
-    "externalContact": "Kontak ya libándá",
-    "notJoined": "Kontak wana akɔtá naino te na Chatforia.",
-    "couldNotStart": "Ekoki te kobanda kosolola. Meka lisusu.",
-    "startFailed": "Kobanda kosolola ekatisi te. Meka lisusu.",
-    "deleted": "Kontak elimwémá.",
-    "deleteFailed": "Kolongola kontak ekatisi te. Meka lisusu.",
-    "aliasUpdated": "Alias ebongisami.",
-    "updateAliasFailed": "Kobongisa alias ekatisi te. Meka lisusu.",
-    "selectContact": "Póna {{name}}",
-    "alias": "Alias",
-    "startChat": "Bandá kosolola",
-    "message": "Nsango",
-    "delete": "Longola",
-    "deleteContactAria": "Longola kontak",
-    "loadFailed": "Kokɔtisa bakontak ekatisi te. Meka lisusu.",
-    "loadMore": "Kɔtisa koleka"
-  },
-
-  "sidebar": {
-    "randomChat": "Kosolola na moto oyo okanisi te",
-    "callTextForwarding": "Kobengisa & Kotindisa nsango",
-    "conversations": "Ba kosolola",
-    "searchPlaceholder": "Luka ba kosolola...",
-    "errorLoading": "Kokɔtisa ba chat ekatisi te",
-    "empty": "Ba kosolola ezali naino te.",
-    "startChat": "Bandá kosolola",
-    "people": "Bato",
-    "settings": "Bitɔpɔ",
-    "status": "Status",
-    "forwarding": "Kobengisa & Kotindisa nsango",
-    "refresh": "Zongisa sika",
-    "search": "Luka ba kosolola",
-    "loginPrompt": "Kɔta mpo na kobongola bitɔpɔ na yo.",
-    "login": "Kɔta",
-    "register": "Salá compte",
-    "chatrooms": "Ba salo ya kosolola",
-    "logout": "Bíma",
-    "startChatAlt": "Bandá kosolola ya sika"
-  },
-
-  "premium": {
-    "heading": "Kóma Premium",
-    "description": "Fungola ba fonctionnalités makasi & longola ba pub.",
-    "cta": "Bongola",
-    "upgrade": "Bongola",
-    "upgradeAria": "Bongola na Chatforia Premium"
-  },
-
   "auth": {
-    "headline": "Nsango ya mokili mobimba na se ya kobatela, na bobongoli mbala moko",
-    "description": "Encryption na suka-ti-suka, bobongoli na AI, nsango ekɛsana, mpe kobɛnga mongongo/video.",
+    "headline": "Messagerie ya sécurité na bino nyonso, na bisika nyonso",
+    "description": "End-to-end encryption, traduction na nkota 100+, messages oyo ekotika, mpe bino ya voix/vidéo.",
     "feature": {
-      "encryption": "Encryption na suka-ti-suka na ndakisa",
-      "translation": "Kobongola mbala moko lokota 100+",
-      "disappearing": "Nsango ekɛsana & bilembo ya kotánga",
-      "privacy": "Privacy liboso. Donnée na yo, bokonzi na yo.",
-      "translate": "Bobongoli na ntango ya solo",
-      "disappear": "Nsango ekɛsana",
-      "privacyAlt": "Etínɛ “privacy-first”"
+      "encryption": "End-to-end encryption na défaut",
+      "translation": "Traduction ya message oyo ezali na mayele",
+      "disappearing": "Messages oyo ekotika & bino ya kutanga",
+      "privacy": "Privacy na liboso. Données na yo, contrôle na yo.",
+      "translate": "Traduction ya message oyo ezali na mayele",
+      "disappear": "Messages oyo ekotika",
+      "privacyAlt": "Design ya privacy na liboso",
+      "seePlans": "Tala plans & prix"
     },
     "hero": {
-      "line1": "Sûr, ya mokili mobimba",
-      "beforeEm": "nsango na",
-      "em": "bobongoli ya mbala moko",
-      "sub": "Encryption na suka-ti-suka, bobongoli na AI, nsango ekɛsana, mpe kobɛnga mongongo/video."
+      "line1": "Messagerie ya sécurité na bino nyonso, na bisika nyonso — na",
+      "em": "traduction na nkota 100+",
+      "sub": "Zwa numéro ya téléphone ya sécurité ya gratuit mpo ya bino mpe texte na mokili mobimba na Wi-Fi to données. Enjoy end-to-end encryption, messages oyo ekotika, mpe bino ya voix/vidéo HD — na bisalu oyo ezali na mayele mpo ya kokoma na bino na miso ya mokili.",
+      "freeNote": "Bino ya appel mpe texte ezali ya gratuit. AI ya mayele mpe features ya premium ezali na upgrade."
     },
     "feat": {
-      "encryption": "Encryption na suka-ti-suka na ndakisa",
-      "translate": "Kobongola mbala moko lokota 100+",
-      "disappear": "Nsango ekɛsana & bilembo ya kotánga",
-      "privacy": "Privacy liboso. Donnée na yo, bokonzi na yo."
+      "encryption": "End-to-end encryption, toujours allumé",
+      "translate": "Tika barriers ya nkota na conversation na yo",
+      "disappear": "Messages oyo ekotika & bino ya kutanga",
+      "privacy": "Privacy na liboso. Données na yo, contrôle na yo."
     },
-    "welcomeBack": "Boyei malamu lisusu",
-    "continueGoogle": "Koba na Google",
-    "continueApple": "Koba na Apple",
-    "username": "Username",
+    "continueGoogle": "Continue na Google",
+    "continueApple": "Continue na Apple",
+    "username": "Nom ya utilisateur",
     "password": "Mot de passe",
-    "keepSignedIn": "Tika ngai nakóma kaka kati",
-    "forgotPassword": "Obosani mot de passe?",
-    "loginButton": "Kɔta",
-    "createAccount": "Salá compte",
-    "freeAccountButton": "Salá compte ya ofele",
-    "newHere": "Oya sika?",
-    "getApp": "Zwa application",
-    "desktopTip": "Na desktop? Skánɛ na telefɔni na yo mpo na kozwa app.",
-    "scanHelper": "Na desktop? Skánɛ na telefɔni na yo mpo na kozwa app.",
-    "goHome": "Kende na ebandeli",
-    "home": "Ebandeli",
+    "keepSignedIn": "Tika ngai na connexion",
+    "forgotPassword": "Ozali na mot de passe te?",
+    "loginButton": "Log In",
+    "createAccount": "Créer compte",
+    "freeAccountButton": "Créer compte ya gratuit",
+    "newHere": "Ya sika awa?",
+    "getApp": "Zwa app",
+    "desktopTip": "Na desktop? Scan na téléphone na yo mpo ya zwa app.",
+    "scanHelper": "Na desktop? Scan na téléphone na yo mpo ya zwa app.",
+    "goHome": "Kende na home",
+    "home": "Home",
     "headlineAlt": {
-      "main": "Mokanda ya nsango ya bobateli",
-      "highlight": "elobaka lokota na yo"
+      "main": "Messager ya sécurité oyo",
+      "highlight": "ezali na nkota na yo"
     },
-    "subhead": "Nsango ya sekele, ebɔkɔlami, mpe ebongolami — mbala moko.",
-    "status": "Monisa status",
-    "upgrade": "Bongola sik’oyo",
-    "tip": "Tip: Salelá compte moko na web mpe na mobile. Ba nsango na yo ekozala na boyokani.",
-    "openDownload": "Fungola lokasa ya téléchargement",
-    "qrAlt": "QR code ya Chatforia",
-    "scanHint": "Skánɛ mpo na kozwa app to kofungola na navigateur.",
-    "iosAria": "Tɛlɛmisa na App Store",
-    "iosTitle": "Tɛlɛmisa na App Store",
+    "subhead": "Messagerie ya privé, ya encryption, mpe ya traduction — na mbala moko.",
+    "upgrade": "Upgrade tii lelo",
+    "tip": "Tip: Utilise compte moko na web mpe mobile. Messages na yo ezali synced.",
+    "openDownload": "Open page ya download",
+    "qrAlt": "QR code mpo ya Chatforia",
+    "scanHint": "Scan mpo ya download app to open na navigateur na yo.",
+    "iosAria": "Download na App Store",
+    "iosTitle": "Download na App Store",
     "iosBadgeAlt": "Badge ya App Store",
-    "androidAria": "Zwa yango na Google Play",
+    "androidAria": "Zwa na Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Badge ya Google Play",
-    "login": "Kɔta",
-    "signup": "Kómisa nkombo",
-    "email": "Email"
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 caractères. Utilise mot de passe ya nguya mpe unique.",
+      "smsConsent": "Na kosala compte, ozali na accord mpo ya kozwa SMS notifications oyo ezali na activité na yo ya Chatforia (lokola messages oyo euti na bato mosusu). Prix ya message & données ekoka kosala. Okoka kozwa te na temps mosusu na Settings.",
+      "termsLink": "Terms ya Service",
+      "privacyLink": "Privacy Policy"
+    },
+    "to": "Na:",
+    "enterRecipient": "Tala nom to numéro",
+    "clearRecipients": "Bimisa bato oyo euti",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Type message…",
+    "addRecipient": "Ajoute destinataire oyo omonisi na haut mpo ya commencer…",
+    "oneRecipient": "Tala destinataire moko tii lelo.",
+    "enterValidRecipient": "Tala contact oyo ezali na nom to numéro ya téléphone.",
+    "sendFailed": "Envoi ekozi te. Tala console mpo ya détails."
   },
-
+  "home": {
+    "title": "Home",
+    "header": "Messages na yo",
+    "subheader": "Toma message mpo ya commencer chat.",
+    "sendButton": "Toma message",
+    "gifPicker": "Open GIF picker",
+    "emoji": "Emoji",
+    "upload": "Upload photo to vidéo",
+    "inputPlaceholder": "Type message…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Toma",
+    "sendTooltipEmpty": "Type message mpo ya toma",
+    "send": "Toma",
+    "welcomeMessage": "Mbote na Chatforia",
+    "getStarted": "Commencer"
+  },
+  "chat": {
+    "selectPrompt": "Pona texte to chat room mpo ya commencer kosolola",
+    "newMessages": "Messages ya sika",
+    "typing": "{{name}} ezali kotipa...",
+    "emptyTitle": "Messages na yo",
+    "emptySubtitle": "Toma message mpo ya commencer chat.",
+    "startChatButton": "Toma message",
+    "mediaAttachment": "Media attachment",
+    "thisUser": "mutu oyo",
+    "blockConfirm": "Block {{name}}? Okoka kozwa messages te na ye.",
+    "blockedUser": "Blocked {{name}}.",
+    "blockError": "Ekoki te kozwa mutu oyo mpo ya block.",
+    "blockFailed": "Block ekozi te (backend ezali te tii lelo).",
+    "encryptedUnavailable": "Message ya encryption (clé ezali te)",
+    "unlockToView": "Fungola clé na yo mpo ya tala message oyo"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Off"
+    },
+    "freeLimit": "Limite ya plan ya gratuit: auto-delete tii 1 jour. Ezali 1j.",
+    "premiumLimit": "Max auto-delete mpo ya Premium ezali 30 jours. Ezali 30j.",
+    "nothingToSend": "Type message to attache fichier mpo ya toma.",
+    "encryptionFailed": "Encryption ekozi te. Message etomami te.",
+    "sent": "Message ekozi.",
+    "placeholder": "Type message…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Type message mpo ya toma",
+    "send": "Toma",
+    "sendWithEnter": "Toma (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (ezali te)",
+    "remove": "Bimisa",
+    "clear": "Bimisa",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Attachment ezali ya nguya mingi. Prova fichier ya moke.",
+      "unsupportedFile": "Type ya fichier oyo ezali te.",
+      "rateLimit": "Ozali kotoma messages mingi mingi. Tika polele.",
+      "validation": "Erreur ya validation. Tala message na yo mpe prova lisusu.",
+      "failedToSend": "Ekozi te mpo ya toma. Okoka retry na bulle oyo ekozi te."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Contacts oyo ezali na sauvegarde",
+    "refreshAria": "Bongisa contacts",
+    "filterPlaceholder": "Filtre contacts oyo ezali na sauvegarde…",
+    "filterAria": "Filtre contacts oyo ezali na sauvegarde",
+    "noContactsFound": "Ezali na contacts te.",
+    "externalContact": "Contact ya externe",
+    "notJoined": "Contact oyo ezali te na Chatforia tii lelo.",
+    "couldNotStart": "Ekoki te commencer chat. Prova lisusu.",
+    "startFailed": "Ekozi te mpo ya commencer chat. Prova lisusu.",
+    "deleted": "Contact ekozi.",
+    "deleteFailed": "Ekozi te mpo ya supprimer contact. Prova lisusu.",
+    "aliasUpdated": "Alias ezali na mise à jour.",
+    "updateAliasFailed": "Ekozi te mpo ya mise à jour alias. Prova lisusu.",
+    "selectContact": "Pona {{name}}",
+    "alias": "Alias",
+    "startChat": "Commencer chat",
+    "message": "Message",
+    "delete": "Supprimer",
+    "deleteContactAria": "Supprimer contact",
+    "loadFailed": "Ekozi te mpo ya charger contacts. Prova lisusu.",
+    "loadMore": "Charger lisusu",
+    "call": "Appeler",
+    "callStarted": "Ozali kobenga numéro oyo na numéro na yo ya Chatforia…",
+    "callFailed": "Ekozi te mpo ya commencer appel. Prova lisusu."
+  },
+  "startChatModal": {
+    "title": "Commencer conversation",
+    "searchPlaceholder": "Rechercher nom, nom ya utilisateur, to numéro ya téléphone",
+    "messageThisPerson": "Toma message na mutu oyo",
+    "contacts": "Contacts",
+    "recentInteractions": "Interactions ya kala kala",
+    "noContactsMatch": "Ezali na contacts te oyo ekosangisa recherche na yo.",
+    "noRecentInteractions": "Ezali na interactions ya kala te tii lelo.",
+    "unknown": "Inconnu",
+    "interactionType": {
+      "message": "Message",
+      "call": "Appel",
+      "video": "Vidéo"
+    }
+  },
+  "addContactModal": {
+    "title": "Ajouter contact",
+    "phoneOrUsername": "Numéro ya téléphone to nom ya utilisateur",
+    "phoneOrUsernamePlaceholder": "ex. +13018019227 to juliannorton",
+    "alias": "Alias (ezali te)",
+    "aliasPlaceholder": "ex. Travail, Maman, Mike – Europe",
+    "enterPhoneOrUsername": "Tala numéro ya téléphone to nom ya utilisateur.",
+    "userLookupFailed": "Recherche ya utilisateur ekozi te.",
+    "cannotAddSelf": "Okoki te ajouter yo moko na contact.",
+    "failedToAdd": "Ekozi te mpo ya ajouter contact.",
+    "add": "Ajouter"
+  },
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Appel & Texte Forwarding",
+    "conversations": "Conversations",
+    "searchPlaceholder": "Rechercher conversations...",
+    "errorLoading": "Ekozi te mpo ya charger chats",
+    "empty": "Ezali na conversations te tii lelo.",
+    "startChat": "Commencer chat",
+    "people": "Bato",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Appel & Texte Forwarding",
+    "refresh": "Bongisa",
+    "search": "Rechercher conversations",
+    "loginPrompt": "Log in mpo ya éditer settings na yo.",
+    "login": "Log in",
+    "register": "Créer compte",
+    "chatrooms": "Chatrooms",
+    "logout": "Log out",
+    "startChatAlt": "Commencer chat ya sika",
+    "calls": "Appels",
+    "video": "Vidéo",
+    "voicemail": "Voicemail"
+  },
+  "topbar": {
+    "newStatus": "Status ya sika",
+    "logout": "Log Out",
+    "help": "Aide",
+    "createStatusAria": "Créer status ya sika"
+  },
+  "threadActions": {
+    "threadMenu": "Menu ya thread",
+    "premium": "Premium",
+    "aiPower": "AI Power",
+    "schedule": "Programmer",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Thread",
+    "about": "Na ntina",
+    "search": "Rechercher",
+    "media": "Media",
+    "invitePeople": "Inviter bato",
+    "roomSettings": "Settings ya room",
+    "clearConversation": "Bimisa conversation",
+    "block": "Block"
+  },
+  "roomSearch": {
+    "title": "Rechercher na room",
+    "ariaLabel": "Rechercher na room",
+    "search": "Rechercher",
+    "searchMessages": "Rechercher messages",
+    "noText": "[Ezali na texte te]",
+    "noResults": "Ezali na résultats te"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Membre",
+      "moderator": "Modérateur",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "Off",
+      "mention": "Seulement na @ForiaBot to /ask",
+      "always": "Répondre na mayele"
+    },
+    "autoTranslateMode": {
+      "off": "Off",
+      "tagged": "Seulement oyo ezali na tag (/tr …)",
+      "all": "Messages nyonso"
+    },
+    "updated": "Settings ezali na mise à jour"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Media oyo ezali partagé",
+    "noMediaCached": "Ezali na media te oyo ezali na cache na local tii lelo.",
+    "imageAlt": "image",
+    "openVideo": "Open vidéo",
+    "openVideoWithCaption": "Open vidéo: {{caption}}",
+    "preview": "Prévisualiser",
+    "previewWithCaption": "Prévisualiser: {{caption}}",
+    "previewKind": "Prévisualiser {{kind}}",
+    "download": "Télécharger",
+    "downloadKind": "Télécharger {{kind}}",
+    "file": "fichier",
+    "kinds": {
+      "image": "image",
+      "video": "vidéo",
+      "audio": "audio",
+      "file": "fichier"
+    }
+  },
+  "status": {
+    "userNumber": "Utilisateur #{{id}}",
+    "posted": "Status eposté",
+    "postFailed": "Ekozi te mpo ya poster status",
+    "createTitle": "Créer status",
+    "modalAriaLabel": "Status ya sika",
+    "captionLabel": "Nini ezali na tête na yo?",
+    "captionPlaceholder": "Partager mise à jour...",
+    "captionAria": "Message ya status",
+    "audienceLabel": "Audience",
+    "audience": {
+      "public": "Public",
+      "followers": "Bato oyo ezali na suivi",
+      "contacts": "Contacts",
+      "mutuals": "Mutuels",
+      "custom": "Custom..."
+    },
+    "expiresHoursLabel": "Ekotika (heures)",
+    "maxTooltip": "Maximum 7 jours",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Ekotika na:",
+    "chooseRecipients": "Pona bato oyo ekotika",
+    "selectContacts": "Pona contacts",
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Ajouter images/vidéos",
+    "filesNote": "Tii 5 fichiers. 24h ekotika na défaut.",
+    "postAria": "Poster status",
+    "post": "Poster"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Na",
+    "to": "Na",
+    "unknownCaller": "Inconnu",
+    "yourNumber": "Numéro na yo ya Chatforia",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Lecteur ya audio ya voicemail",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Ezali kotranscrire voicemail…",
+    "transcriptFailed": "Transcript ezali te.",
+    "loading": "Ezali charger voicemail…",
+    "errorLoading": "Ekozi te mpo ya charger voicemail.",
+    "empty": "Ezali na voicemails te tii lelo.",
+    "deleteConfirm": "Supprimer voicemail oyo?",
+    "deleteError": "Ekozi te mpo ya supprimer voicemail.",
+    "markRead": "Marquer comme lu",
+    "delete": "Supprimer",
+    "unreadDotAria": "Indicateur ya voicemail oyo ezali te lu"
+  },
+  "profile": {
+    "title": "Profil ya utilisateur",
+    "preferredLanguage": "Nkota oyo ozali préférer",
+    "chooseLanguage": "Pona nkota",
+    "mustLogin": "Ozali na log in mpo ya tala settings.",
+    "autoTranslate": "Auto-traduire messages",
+    "showOriginalWithTranslation": "Monisa original mpe messages oyo etraduit",
+    "showOriginalAndTranslation": "Monisa original na côté ya traduction",
+    "filterExplicit": "Filtre contenu ya explicit",
+    "aiReply": "Réponse ya AI",
+    "enableReadReceipts": "Activer bino ya kutanga",
+    "allowExplicitContent": "Autoriser contenu ya explicit",
+    "disappearingMessages": "Activer messages oyo ekotika",
+    "autoDeleteSeconds": "Secondes tii auto-delete",
+    "saveSuccess": "Settings ezali na sauvegarde!",
+    "saveError": "Erreur: Ekoki te kobikisa settings",
+    "avatarAlt": "Avatar ya profil",
+    "uploadAvatar": "Upload avatar ya sika",
+    "avatarSuccess": "Avatar ezali upload!",
+    "avatarError": "Ekozi te mpo ya upload avatar",
+    "avatarUpdated": "Avatar ezali na mise à jour!",
+    "uploadingAvatar": "Ezali uploader avatar…",
+    "noPrivateKey": "Ezali na clé privée te na appareil oyo mpo ya exporter.",
+    "setBackupPassword": "Tonga mot de passe mpo ya encrypter backup na yo:",
+    "backupDownloaded": "Backup ya encryption ezali na download.",
+    "exportFailed": "Export ya clé ekozi te",
+    "enterBackupPassword": "Tala mot de passe mpo ya backup oyo:",
+    "importSuccess": "Clé privée ezali na import na appareil oyo.",
+    "importFailed": "Ekozi te mpo ya importer clé (mot de passe ezali te to fichier ezali corrupt).",
+    "keysRotated": "Clé moko ya sika ezali na génération mpe clé publique ezali upload.",
+    "rotateFailed": "Ekozi te mpo ya rotater clés.",
+    "security": "Sécurité",
+    "exportKey": "Backup Clé ya Encryption",
+    "importKey": "Restaurer Clé ya Encryption",
+    "rotateKeys": "Rotater Clé ya Encryption",
+    "keyDisclaimer": "Clé privée na yo ekotika te na appareil oyo. Exporter copie oyo ezali na mot de passe mpo ya restaurer na appareil mosusu.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Numéro ya téléphone",
+    "appearance": "Apparence",
+    "soundSettings": "Sons",
+    "disappearing": "Messages oyo ekotika",
+    "backupSync": "Backup ya Clé ya Encryption",
+    "ai": "AI",
+    "accessibility": "Accessibilité",
+    "privacy": "Privacy",
+    "devices": "Appareils oyo ezali lié",
+    "themeFreeNotice": "Ozali na Free—utilise options ya Sun/Moon na bas. Upgrade mpo ya débloquer thèmes mingi.",
+    "sunTheme": "Utilise thème ya Dawn",
+    "moonTheme": "Utilise thème ya Moon (Minuit)",
+    "sun": "Soleil",
+    "moon": "Lune",
+    "backupTitle": "Backups ya Encryption & Sync ya Appareil",
+    "openBackupTools": "Open Bisalu ya Backup",
+    "backupDesc": "Backup clé ya encryption na yo mpo ya restaurer messages na yo na appareil mosusu na sécurité.",
+    "privacyBlurEnabled": "Blur messages na défaut",
+    "privacyBlurOnUnfocus": "Blur ntango app ezali te na focus",
+    "planSection": "Plan na ngai",
+    "planLoading": "Ezali charger plan na yo…",
+    "planLoadFailed": "Ekozi te mpo ya charger plan na yo.",
+    "currentPlan": "Plan oyo ezali",
+    "planRenewsOn": "Ezali renouveler na",
+    "freePlanCopy": "Ozali na plan ya gratuit. Upgrade mpo ya débloquer features mingi lokola backups, numéros ya sika, mpe options ya privacy ya mayele.",
+    "upgradePlanCta": "Upgrade plan",
+    "changePlanCta": "Changer plan",
+    "manageBilling": "Gérer billing",
+    "portalOpenFailed": "Ekoki te ouvrir portail ya billing. Prova lisusu.",
+    "holdToReveal": "Tika mpo ya monisa",
+    "notifyOnCopy": "Notifia ngai soki message na ngai ezali na copie",
+    "loadFailed": "Ekozi te mpo ya charger profil",
+    "followed": "Ezali na suivi",
+    "followFailed": "Ekozi te mpo ya suivre",
+    "unfollowed": "Ezali te na suivi",
+    "unfollowFailed": "Ekozi te mpo ya unfollow",
+    "follow": "Suivre",
+    "unfollow": "Unfollow",
+    "followHint": "Histoires na ye ekotaka na feed na yo ya Following soki eposté na audience Followers (to Public).",
+    "userNotFound": "Utilisateur ezali te",
+    "followsYou": "Ezali na suivi yo",
+    "sectionCrashedTitle": "Section ekozi te mpo ya charger",
+    "sectionCrashedBody": "Eloko moko ezali na problème na section oyo.",
+    "forwarding": "Appel & Texte Forwarding",
+    "callTextForwardingSection": "Appel & Texte Forwarding",
+    "callTextForwardingTitle": "Appel na/to Texte Forwarding",
+    "callTextForwardingDescription": "Forward appels mpe textes oyo euti na numéro ya téléphone to email oyo ezali vérifié. Appels/textes oyo euti ekotaka numéro na yo ya Chatforia.",
+    "enableTextForwarding": "Activer texte forwarding",
+    "forwardTextsToPhone": "Forward textes na téléphone",
+    "forwardTextsToEmail": "Forward textes na email",
+    "destinationPhone": "Destination téléphone (E.164)",
+    "destinationEmail": "Destination email",
+    "enableCallForwarding": "Activer appel forwarding",
+    "destinationPhoneForCalls": "Destination (E.164) mpo ya appels",
+    "aliasBridging": "Appel Forwarding (alias bridging)",
+    "quietHoursOptional": "Heures ya calme (ezali te)",
+    "startHour": "Heure ya début (0–23)",
+    "endHour": "Heure ya fin (0–23)",
+    "reset": "Réinitialiser",
+    "saveBtn": "Kobikisa",
+    "saveProfile": "Kobikisa profil",
+    "saveForwarding": "Kobikisa forwarding",
+    "forwardSaved": "Settings ya forwarding ezali na sauvegarde",
+    "forwardSaveFailed": "Ekozi te mpo ya kobikisa settings",
+    "errE164": "Tala numéro ya téléphone ya E.164 oyo ezali valide (ex., +15551234567).",
+    "errEmail": "Tala email oyo ezali valide.",
+    "errSmsDest": "Pona destination moko (téléphone to email).",
+    "errQuietHours": "Heures ya calme ezali na 0 mpe 23.",
+    "randomChat": "Random Chat",
+    "ageBand": "Bande ya âge na yo",
+    "ageBandPlaceholder": "Pona bande ya âge na yo",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Toki te stocker date ya naissance ya exact. Oyo ezali utilisé mpo ya kokoma pairings ya Random Chat oyo ezali bien.",
+    "wantsAgeFilter": "Utilise matching oyo ezali na âge na Random Chat",
+    "wantsAgeFilterDesc": "Ntango ezali allumé, tokoka kopairer yo na bato oyo ezali na bandes ya âge oyo ezali bien.",
+    "partnerAgeBands": "Nani okoka kopairer na ye?",
+    "partnerAgeBandsDesc": "Bana ya 13-17 ezali toujours na pairing na bato mosusu ya 13-17. Bato ya grande ezali te na pairing na bana ya 13-17.",
+    "teenMatchingNote": "Mpo ya sécurité, comptes oyo ezali na bande ya 13–17 ezali seulement na pairing na comptes mosusu ya 13–17 na Random Chat.",
+    "foriaRemember": "Tika Ria azala na mémoire eloko oyo ozali koloba na ye",
+    "foriaRememberDesc": "Ntango oyo ezali allumé, Foria ekoka kozwa conversations ya kala ya Random Chat (seulement na yo) mpo ya kokoma conversation. Okoka kozwa te na temps mosusu.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Activer voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete voicemails après (jours)",
+    "voicemailAutoDeletePlaceholder": "Tika vide mpo ya kokoma na toujours",
+    "voicemailForwardEmail": "Forward voicemail na email",
+    "voicemailForwardEmailPlaceholder": "Email mpo ya toma notifications ya voicemail",
+    "voicemailGreetingText": "Texte ya fallback ya salutation",
+    "voicemailGreetingTextDesc": "Utilisé ntango salutation ya audio ezali te.",
+    "voicemailGreetingUpload": "Upload salutation ya voicemail",
+    "voicemailPreviewGreeting": "Prévisualiser salutation",
+    "voicemailGreetingUploaded": "Salutation ya voicemail ezali upload na succès",
+    "voicemailGreetingUploadError": "Ekozi te mpo ya upload salutation ya voicemail",
+    "voicemailNote": "Voicemails oyo euti na numéros na yo ya Chatforia ezali na stockage na boîte ya Voicemail na yo. Okoka activer transcription mpe forwarding na plans oyo ezali supporté.",
+    "portHint": "Ozali na désir ya kokoma numéro na yo ya sika? Okoka porter na Chatforia Wireless.",
+    "wireless": {
+      "manage": "Gérer wireless"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Zwa données ya mobile mpo ya Chatforia ntango ozali te na Wi-Fi.",
+      "cta": "Zwa eSIM / Monisa QR"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Gérer plan na yo ya mobile ya Chatforia, numéros, forwarding, mpe porting ya numéro.",
+    "options": {
+      "heading": "Pona ndenge oyo ozali na désir ya kosalisa Chatforia",
+      "subheading": "Okoka zwa numéro ya sika ya Chatforia, to koporter numéro na yo ya sika oyo euti na opérateur mosusu.",
+      "newNumber": "Zwa numéro ya sika ya Chatforia",
+      "portNumber": "Porter numéro na yo ya sika na Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Porter numéro na yo ya sika",
+      "subheading": "Déplacer numéro ya téléphone na yo ya sika oyo euti na opérateur na yo na Chatforia. Tala bien détails ezali na compte ya opérateur na yo mpo ya éviter délais.",
+      "phoneNumberLabel": "Numéro ya téléphone oyo ekoporter",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Opérateur ya sika",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Numéro ya compte",
+      "pinLabel": "PIN / mot de passe ya port-out",
+      "fullNameLabel": "Nom complet oyo ezali na compte",
+      "address1Label": "Adresse ligne 1",
+      "address2Label": "Adresse ligne 2 (ezali te)",
+      "cityLabel": "Ville",
+      "stateLabel": "Etat / Province",
+      "postalCodeLabel": "Code postal",
+      "countryLabel": "Pays",
+      "submitButton": "Envoyer demande ya port",
+      "success": "Demande ya port ezali na envoi! Tokoka kozwa yo na mise à jour.",
+      "genericError": "Eloko moko ezali na problème."
+    },
+    "status": {
+      "heading": "Status ya porting",
+      "subheading": "Suivre status ya demandes ya port ya numéro na yo.",
+      "loading": "Ezali charger…",
+      "loadError": "Ekozi te mpo ya charger demandes ya port.",
+      "none": "Ezali na activité ya port te tii lelo.",
+      "pending": "Ezali na revue",
+      "submitted": "Ezali na envoi na opérateur",
+      "inProgress": "Ezali na progression",
+      "completed": "Ekozongisi",
+      "failed": "Ekozi te",
+      "canceled": "Eannulé",
+      "created": "Ezali na création:",
+      "scheduled": "Ezali na programmation:",
+      "completedAt": "Ekozongisi na:"
+    },
+    "dataLow": "Données na yo ezali na baisse.",
+    "topUp": "Ajouter tii lelo",
+    "expiresIn": "Ekotika na {{days}} jours",
+    "exhausted": "Données na yo ezali na fin. Senga pack ya sika mpo ya continuer kosalisa données ya mobile.",
+    "buyPack": "Senga pack ya données",
+    "esimPackLabel": "Pack ya eSIM"
+  },
+  "family": {
+    "title": "Famille",
+    "loading": "Ezali charger détails ya famille na yo…",
+    "error": {
+      "load": "Ekozi te mpo ya charger détails ya famille.",
+      "invite": "Ekoki te kosala invite. Tala bien ozali propriétaire ya famille mpe prova lisusu.",
+      "checkout": "Ekoki te commencer checkout mpo ya plan ya Famille. Prova lisusu."
+    },
+    "billing": {
+      "myPlanTitle": "Plan na ngai",
+      "myPlanError": "Ekoki te charger plan na yo.",
+      "myPlanLoading": "Ezali charger plan na yo…",
+      "currentPlan": "Plan oyo ezali",
+      "renewsAt": "Ezali renouveler na",
+      "freePlanCopy": "Ozali na plan ya gratuit. Upgrade mpo ya débloquer features mingi.",
+      "upgradeCta": "Upgrade plan",
+      "changePlanCta": "Changer plan",
+      "manageBilling": "Gérer billing",
+      "portalError": "Ekoki te ouvrir portail ya billing tii lelo.",
+      "cancelNow": "Annuler tii lelo",
+      "cancelNowHelp": "Okoka gérer to annuler subscription na yo na portail ya billing, to annuler immédiatement na bas.",
+      "cancelNowConfirm": "Ozali sûr ozali na désir ya annuler plan na yo immédiatement? Oyo ekoki te kozongisa.",
+      "cancelNowError": "Ekoki te annuler plan na yo tii lelo. Prova lisusu to utiliser Gérer billing."
+    },
+    "none": {
+      "title": "Ezali na famille te tii lelo",
+      "body": "Mpo ya créer Chatforia Family mpe pool ya données oyo ezali partagé, commencer plan ya Famille.",
+      "goUpgrade": "Commencer plan ya Famille",
+      "viewPlans": "Tala plans nyonso"
+    },
+    "group": {
+      "defaultName": "Famille na ngai ya Chatforia",
+      "role": "Rôle na yo: {{role}}"
+    },
+    "role": {
+      "owner": "Propriétaire",
+      "member": "Membre"
+    },
+    "data": {
+      "heading": "Pool ya données oyo ezali partagé",
+      "caption": "Membres nyonso ezali na partage pool oyo. Tokoka kozwa yo ntango ozali na limite."
+    },
+    "members": {
+      "title": "Membres ya famille",
+      "name": "Nom",
+      "role": "Rôle",
+      "usage": "Utilisation",
+      "limit": "Limite",
+      "unlimited": "Ezali na limite te",
+      "inviteCta": "Inviter membre"
+    },
+    "invite": {
+      "title": "Inviter membre ya sika",
+      "body": "Toma email to lien mpo ya inviter moto moko na pool ya données oyo ezali partagé ya famille na yo.",
+      "emailLabel": "Email (ezali te)",
+      "emailPlaceholder": "ami@example.com",
+      "create": "Créer invite",
+      "linkLabel": "Lien ya invite",
+      "copyAria": "Kopola lien ya invite",
+      "expiryHint": "Lien oyo ekotika après jours moke. Okoka toujours créer sika."
+    },
+    "join": {
+      "title": "Joindre famille",
+      "body": "Ozali na invitation mpo ya joindre Chatforia Family mpe partager pool ya données na bango.",
+      "cta": "Accepter mpe joindre famille",
+      "ctaLogin": "Log in mpe joindre famille",
+      "success": "Ozali na famille oyo. Tii lelo ozali na partage pool ya données na bango.",
+      "goFamily": "Kende na dashboard ya famille",
+      "error": "Ekoki te ajouter yo na famille oyo. Invite ekoki te être valide to ezali expiré."
+    }
+  },
+  "premium": {
+    "heading": "Kende Premium",
+    "description": "Débloquer features ya nguya & supprimer ads.",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
+    "upgradeAria": "Upgrade na Chatforia Premium"
+  },
+  "upgrade": {
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Prix",
+    "h1": "Prix & Plans ya Chatforia",
+    "h1Subtitle": "Commencer na plan ya gratuit oyo ezali na ads. Kende ad-free na Plus, to débloquer features ya nguya na Premium.",
+    "subtitle": "Pona plan ya app, ajouter packs ya données mpo na yo, to partager données na famille na yo — nyonso na esika moko.",
+    "subtitle.app": "Commencer na plan ya gratuit oyo ezali na ads. Kende ad-free na Plus, to débloquer features ya nguya na Premium.",
+    "subtitle.mobile": "Ajouter données ya eSIM ya global mpo Chatforia ekoma kosala ntango ozali te na Wi-Fi.",
+    "subtitle.family": "Créer pool ya données oyo ezali partagé mpo ya famille na yo mpe gérer utilisation ya bato nyonso na esika moko.",
+    "perMonth": "mo",
+    "perYear": "mwaka",
+    "goPremium": "Kende Premium",
+    "benefitsLine": "Débloquer features ya nguya & supprimer ads.",
+    "ctaText": "Upgrade",
+    "aria": "Upgrade na Chatforia Premium",
+    "toggle": {
+      "monthly": "Mensuel",
+      "annual": "Annuel (Sunga 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subscription ekotika",
+      "body": "Okoka kozongisa na Free na",
+      "keepPlanCta": "Tika {{plan}}",
+      "manageBillingCta": "Gérer billing"
+    },
+    "billing": {
+      "opening": "Ezali ouvrir…",
+      "manage": "Gérer Billing"
+    },
+    "checkout": {
+      "redirecting": "Ezali rediriger…"
+    },
+    "auth": {
+      "continue": "Continue na login",
+      "createAccount": "Créer compte",
+      "signIn": "Sign in"
+    },
+    "cta": {
+      "aria": "Pona plan",
+      "getPlus": "Upgrade na Plus",
+      "upgradeMonthly": "Upgrade Mensuel",
+      "upgradeAnnual": "Upgrade Annuel"
+    },
+    "section": {
+      "app": "Plans ya app",
+      "mobile": "Mobile (eSIM)",
+      "family": "Plans ya famille"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratuit",
+        "price": "$0",
+        "desc": "Commencer messagerie na gratuit. Ezali bien soki ozali seulement tester Chatforia.",
+        "features": {
+          "chat": "Chat ya réel na 1:1 mpe groupe, plus appels ya voix mpe vidéo",
+          "media": "Partager photos, messages ya voix, mpe vidéos ya court",
+          "ai": "Réponses ya mayele ya AI mpe traduction ya instant (utilisation ya bien)",
+          "disappearing": "Messages oyo ekotika mpe contrôles ya privacy ya basique",
+          "ads": "Gratuit na toujours na ads na app"
+        },
+        "ctaCurrent": "Plan oyo ezali",
+        "ctaManage": "Gérer na billing",
+        "ctaPublic": "Commencer – continue na login",
+        "aria": "Plan ya gratuit"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Eloko nyonso ya essentiel, sans ads. Ezali bien mpo ya messagerie mpe appels ya quotidien.",
+        "features": {
+          "allFree": "Eloko nyonso na Gratuit, sans ads",
+          "forwarding": "Forward appels mpe textes na numéro ya téléphone ya réel",
+          "history": "Histoire ya message ya longue (tii 6 mois)",
+          "support": "Support ya rapide ntango eloko ezali na problème"
+        },
+        "badge": "Populaire",
+        "cta": "Kende Ad-Free",
+        "ctaPublic": "Zwa Plus – continue na login",
+        "aria": "Upgrade na Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mensuel)",
+        "price": "$11.99",
+        "desc": "Expérience ya complet ya Chatforia: outils ya AI, personnalisation, mpe support ya priorité.",
+        "features": {
+          "plusAll": "Eloko nyonso na Plus",
+          "themes": "Débloquer thèmes ya couleur ya premium mpe personnalisations ya app",
+          "ai": "Outils ya AI ya Premium seulement mpo ya réécrire, réponses ya mayele, mpe résumés",
+          "support": "Support ya priorité ntango ozali na besoin mingi"
+        },
+        "badge": "Recommandé",
+        "cta": "Upgrade (Mensuel)",
+        "ctaPublic": "Débloquer Premium – continue na login",
+        "aria": "Upgrade na Premium Mensuel"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Annuel)",
+        "price": "$99",
+        "desc": "Sunga mingi ntango ezali facturé na mwaka — yango ezali na thèmes ya couleur ya sika, outils ya AI, mpe support ya priorité.",
+        "features": {
+          "allPremium": "Eloko nyonso na Premium Mensuel — yango ezali na thèmes ya couleur ya sika",
+          "annualBilling": "Facturé na mbala moko na mwaka",
+          "save25": "Sunga autour 30% na comparaison na payer mensuel",
+          "bestFor": "Ezali bien mpo ya utilisateurs ya nguya, travailleurs ya remote, mpe voyageurs ya lourd"
+        },
+        "badge": "Sunga 30%",
+        "cta": "Upgrade (Annuel)",
+        "ctaPublic": "Sunga 30% na annuel – continue na login",
+        "aria": "Upgrade na Premium Annuel",
+        "disclaimer": "Facturé na avance. Annuler na temps mosusu. Ezali na frais ya caché te."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Gratuit",
+      "freeDesc": "Commencer messagerie na gratuit.",
+      "plusTitle": "Plus",
+      "plusBadge": "Populaire",
+      "plusDesc": "Expérience ya ad-free ya prix ya moke mingi.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Features ya complet, ringtones, mpe outils ya AI ya nguya.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Sunga mingi ntango ezali facturé na mwaka.",
+      "annualDisclaimer": "Facturé na avance. Annuler na temps mosusu. Ezali na frais ya caché te."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (packs ya données ya eSIM)",
+      "subtitle": "Ajouter données ya global mpo Chatforia ekoma kosala ntango ozali te na Wi-Fi. Prix ezali na ajustement na automatique na pays na yo mpe monnaie.",
+      "subtitle.detail": "Pona pack ya données ya global ya mbala moko mpo Chatforia ekoma kosala ntango ozali na voyage to te na Wi-Fi.",
+      "scope": {
+        "local": "Local",
+        "europe": "Europe",
+        "global": "Global"
+      },
+      "note": "Toki te vendre packs ya données oyo ezali na bas 3 GB.",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = pays na yo ya sika",
+      "perPack": "/ pack",
+      "cta": "Zwa pack ya données oyo",
+      "ctaPublic": "Zwa pack ya données oyo",
+      "checkout": {
+        "redirecting": "Ezali rediriger…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Données ya vitesse ya haut mpo ya utilisation ya lourd",
+          "throttle": "Vitesse ekoki kozongisa na bas ntango ezali na utilisation ya haut",
+          "coverage": "Couverture ya fiable",
+          "instant": "Activation ya eSIM ya instant",
+          "noContract": "Pack ya mbala moko, ezali na contrat te"
+        }
+      },
+      "disclaimer": {
+        "devices": "Packs ya données ya eSIM ezali na besoin ya appareil oyo ezali compatible na eSIM mpe ezali débloqué. Disponibilité ezali na variation na modèle ya téléphone, opérateur, mpe pays. Couverture mpe vitesses ezali na variation na région."
+      },
+      "small": {
+        "title": "Pack ya début",
+        "desc": "Ezali na 3 GB ya données ya vitesse ya haut — ezali bien mpo ya messagerie ya léger mpe appels ya occasionnel.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Voyages ya court, messagerie ya léger, mpe appels ya occasionnel",
+        "aria": "Senga pack ya données ya eSIM ya début"
+      },
+      "medium": {
+        "title": "Pack ya voyageur",
+        "desc": "Ezali na 5 GB ya données ya vitesse ya haut mpo ya voyages, commuting, mpe appels ya VoIP ya régulier.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Voyages ya weekend, appels ya VoIP ya régulier, mpe cartes",
+        "aria": "Senga pack ya données ya eSIM ya voyageur"
+      },
+      "large": {
+        "title": "Pack ya puissance",
+        "desc": "Ezali na 10 GB ya données ya vitesse ya haut mpo ya chat ya lourd, appels, mpe vidéo na réseau ya Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Chat ya lourd, appels, vidéo, mpe utilisation ya hotspot",
+        "aria": "Senga pack ya données ya eSIM ya utilisateur ya puissance"
+      },
+      "compare": {
+        "title": "Comparer packs ya données ya eSIM",
+        "col": {
+          "pack": "Pack",
+          "data": "Données oyo ezali na",
+          "bestFor": "Ezali bien mpo ya"
+        },
+        "disclaimer": "Utilisation ya données ya réel ezali na dépendance na ndenge oyo ozali kosalisa Chatforia (voix, vidéo, media, mpe applications mosusu na téléphone na yo)."
+      }
+    },
+    "family": {
+      "title": "Chatforia Famille (données oyo ezali partagé)",
+      "subtitle": "Partager pool moko ya données na famille na yo. Facture moko, comptes mingi ya Chatforia, couverture ya global.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Famille Petit",
+        "desc": "Ezali na 20 GB ya données ya vitesse ya haut oyo ezali partagé — ezali bien mpo ya 2–3 utilisateurs ya léger.",
+        "price": "$29.99",
+        "aria": "Senga pack ya Famille Petit"
+      },
+      "medium": {
+        "title": "Famille Moyen",
+        "desc": "Ezali na 40 GB ya données ya vitesse ya haut oyo ezali partagé — ezali bien mpo ya 3–5 membres ya actif.",
+        "price": "$49.99",
+        "aria": "Senga pack ya Famille Moyen"
+      },
+      "large": {
+        "title": "Famille Grand",
+        "desc": "Ezali na 80 GB ya données ya vitesse ya haut oyo ezali partagé — mpo ya familles ya puissance oyo ezali toujours na ligne.",
+        "price": "$84.99",
+        "aria": "Senga pack ya Famille Grand"
+      },
+      "feature": {
+        "shared": "Pool ya données oyo ezali partagé mpo ya famille na yo",
+        "members": "Inviter tii 4 membres ya sika",
+        "membersMore": "Ezali bien mpo ya 3–5 membres ya actif",
+        "manage": "Gérer limites mpo ya membre moko na moko",
+        "topUp": "Ajouter packs mingi na temps mosusu",
+        "bestValue": "Valeur ya moke na GB",
+        "fairUse": "Sujet na politique ya fair-use mpe limites ya local"
+      },
+      "disclaimer": "Packs ya famille ezali na création to top up pool ya données oyo ezali partagé. Okoka inviter mpe supprimer membres na temps mosusu.",
+      "footnote": "Packs ya famille ezali na partage pool moko ya données na comptes ya Chatforia oyo ezali lié. Disponibilité mpe limites ezali na dépendance na pays na yo mpe règlements ya local."
+    },
+    "why": {
+      "title": "Mpo na nini bato ezali na changement na Chatforia",
+      "subtitle": "Chatforia ezali na numéro ya téléphone ya réel, traduction ya mayele, mpe chemin ya clair mpo ya kende ad-free ntango ozali prêt.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Ads ya moke na Gratuit, upgrade ya Plus ya simple ntango ozali prêt, mpe outils ya Premium oyo TextNow ezali te na yango."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App ya moderne, design ya global na liboso, mpe traduction oyo ezali na app na lieu ya call forwarding ya vieux."
+        },
+        "messengers": {
+          "title": "Chatforia vs apps ya chat",
+          "body": "Texter numéros ya téléphone ya réel — te seulement na utilisateurs ya app mosusu — na AI mpe status oyo ezali na app. Ezali bien soki ozali na sortie na apps lokola TextFree to TextMe."
+        }
+      },
+      "tableTitle": "Ndenge Chatforia ezali na comparaison",
+      "col": {
+        "feature": "Feature"
+      },
+      "feature": {
+        "freeNumber": "Numéro ya téléphone ya gratuit",
+        "translation": "Traduction ya auto oyo ezali na app",
+        "aiTools": "Outils ya AI (réécrire, réponses, résumés)",
+        "ads": "Option ya ad-free",
+        "history": "Histoire ya message"
+      },
+      "yes": "Oui",
+      "no": "Non",
+      "yesPremium": "Oui (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limité",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Tii 12+ mois",
+        "textnow": "Ezali na variation na compte",
+        "voice": "Limité / basé na compte"
+      },
+      "disclaimer": "Comparaison ezali basé na informations oyo ezali na public mpe ekoki na changement na temps. Apps mosusu ya texte ya gratuit lokola TextFree to TextMe ezali généralement similaire na TextNow."
+    },
+    "faq": {
+      "title": "FAQ ya Prix & plans",
+      "free": {
+        "q": "Plan ya Gratuit ezali vraiment gratuit?",
+        "a": "Oui. Plan ya Gratuit ezali na numéro ya Chatforia, appels, mpe messagerie na ads. Okoka kokoma na Gratuit na temps mosusu, to upgrade mpo ya supprimer ads mpe débloquer features mingi."
+      },
+      "plusPremium": {
+        "q": "Nini ezali na différence na Plus mpe Premium?",
+        "a": "Plus ezali na suppression ya ads mpe extension ya histoire ya message — parfait mpo ya utilisation ya quotidien. Premium ezali na ajouts ya personnalisation ya sika, outils ya AI mpo ya réécrire mpe réponses, mpe support ya priorité mpo ya utilisateurs ya lourd."
+      },
+      "esim": {
+        "q": "Packs ya données ya eSIM ezali na bisika wapi?",
+        "a": "Chatforia Mobile ezali na utilisation ya couverture ya eSIM ya global. Disponibilité ezali na dépendance na pays na yo mpe appareil. Okoka tala options oyo ezali supporté ntango activation na app."
+      },
+      "cancel": {
+        "q": "Nakoka annuler to changer plans na temps mosusu?",
+        "a": "Oui. Okoka gérer to annuler subscription na yo na page ya billing na app. Changements ezali na effet na fin ya période ya billing oyo ezali."
+      },
+      "family": {
+        "q": "Packs ya Famille ezali na fonctionnement ya ndenge nini?",
+        "a": "Packs ya Famille ezali na création pool ya données oyo ezali partagé na comptes mingi ya Chatforia. Moto moko ezali na paiement ya facture, mpe okoka inviter to supprimer membres mpe tala limites na personne moko na moko."
+      }
+    },
+    "gettingStarted": {
+      "title": "Commencer",
+      "subtitle": "Ya sika na Chatforia? Guide oyo ya rapide ezali na monisa essentiels mpo ya kozala productif na minutes moke.",
+      "alert": {
+        "text": "Guide oyo ekotaka na croissance ntango tokoka lancer features ya sika. Soki eloko moko ezali te, let us know na",
+        "contactLink": "Contact Us"
+      },
+      "section1": {
+        "title": "1) Créer compte na yo",
+        "signup": "Sign up",
+        "or": "to",
+        "login": "log in",
+        "loginText": "na compte na yo oyo ezali.",
+        "prefsStart": "Tala",
+        "prefsLink": "préférences na yo",
+        "prefsRest": "(nkota, bino ya kutanga, thèmes)."
+      },
+      "section2": {
+        "title": "2) Commencer messagerie",
+        "item1": "Créer DM to Groupe mpe toma message ya liboso na yo.",
+        "item2": "Utilise traduction ya instant mpo ya kosolola na nkota 100+.",
+        "item3": "Prova messages oyo ekotika mpe bino ya kutanga na Profil → Privacy."
+      },
+      "section3": {
+        "title": "3) Kende plus loin",
+        "item1": "Okoka upgrade na plan ya payé na temps mosusu na app.",
+        "item2": "Ntango ozali na sign in, okoka lier appareils ya sika mpe tongo backups ya encryption na Settings na app."
+      },
+      "cta": {
+        "seePlans": "Tala plans",
+        "openSettings": "Open settings"
+      }
+    },
+    "helpCenter": {
+      "title": "Centre ya Aide",
+      "faq": {
+        "account": {
+          "q": "Nakoka kosala to récupérer compte na ngai ya ndenge nini?",
+          "a": "Download app to utiliser web, tapa “Créer compte”, vérifier email/téléphone na yo. Mpo ya récupérer, utiliser “Mot de passe ezali te”."
+        },
+        "privacy": {
+          "q": "Messages ezali end-to-end encrypted?",
+          "a": "Oui. Messages mpe appels ezali end-to-end encrypted na défaut. Seulement yo mpe destinataire ekoka kotanga yango."
+        },
+        "translate": {
+          "q": "Ndenge nini traduction ya instant ezali na fonctionnement?",
+          "a": "Activer “Auto-traduire” na Settings → Apparence & Nkota. Toki traduire na appareil ntango ezali supporté, sinon na APIs ya sécurité na métadonnées ya moke."
+        },
+        "contact": {
+          "q": "Contact support",
+          "a": "Kontakt us na support@chatforia.com. Inclure screenshots mpe version ya app na yo."
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "successMsg": "Merci—équipe na biso ekotika répondre na email.",
+      "errorSend": "Ekoki te envoyer. Email support@chatforia.com na lieu.",
+      "form": {
+        "nameLabel": "Nom",
+        "emailLabel": "Email",
+        "messageLabel": "Message",
+        "sendCta": "Envoyer"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Politique ya Privacy",
+      "lastUpdated": "Dernière mise à jour:",
+      "intro": {
+        "body": "Politique oyo ya Privacy ezali na explication ndenge Chatforia (“biso”) ezali na collection, utilisation, mpe partage ya informations ntango ozali kosalisa apps mpe services na biso. Toki design Chatforia mpo ya minimiser données oyo tokoka kozwa."
+      },
+      "infoWeCollect": {
+        "title": "Informations oyo tozali na collection",
+        "account": "Infos ya compte (ex., email/téléphone) mpo ya créer mpe sécuriser compte na yo.",
+        "encrypted": "Contenu ya encryption (messages/appels) ezali end-to-end encrypted; biso tokoka te kotanga yango.",
+        "diagnostics": "Logs ya diagnostic/utilisation lokola crash logs, type ya appareil, to analytics ya coarse mpo ya améliorer performance."
+      },
+      "sms": {
+        "title": "Numéros ya téléphone ya mobile mpe SMS",
+        "body": "Soki ozali na désir ya kozwa numéro ya téléphone ya mobile, tozali na utilisation yango mpo ya activer features lokola vérification ya compte, alertes ya login, mpe messagerie ya utilisateur-na-utilisateur via SMS ntango ezali supporté. Tokoka envoyer SMS ya transactionnel oyo ezali na relation na compte na yo mpe activité na Chatforia. Okoka opt out na kozwa SMS na temps mosusu na réponse na mot-clé ya opt-out oyo ezali supporté (lokola “STOP”) to na changer préférences ya notification na app. Toki te vendre numéro ya téléphone na yo to utiliser yango mpo ya marketing oyo ezali te na relation.",
+        "newText": "Texte ya sika",
+        "enterRecipient": "Tala nom to numéro",
+        "typeMessage": "Type message…",
+        "addRecipient": "Ajouter destinataire oyo omonisi na haut mpo ya commencer…"
+      },
+      "howWeUse": {
+        "title": "Ndenge tozali na utilisation ya informations",
+        "provide": "Fournir mpe sécuriser service (auth, détection ya spam/abus).",
+        "improve": "Améliorer features (qualité ya traduction, fiabilité).",
+        "legal": "Respecter obligations ya légal."
+      },
+      "sharing": {
+        "title": "Partage",
+        "body": "Toki te vendre données ya personnel. Tokoka partager données ya limité na processeurs (ex., notifications ya push, analytics) na contrats ya strict."
+      },
+      "rights": {
+        "title": "Droits na yo",
+        "body": "Na dépendance na région na yo (ex., GDPR/UK GDPR/CPRA), okoka demander accès, correction, suppression, to opt-out ya traitement oyo ezali te. Contact: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Rétention ya données & sécurité",
+        "body": "Toki garder seulement eloko oyo ezali na besoin mpo ya opérer service mpe appliquer sécurité ya standard ya industrie. Contenu ya E2E ekoki te être décrypté na biso."
+      },
+      "children": {
+        "title": "Bana",
+        "body": "Chatforia ezali te dirigé na bana oyo ezali na bas 13 (to ndenge oyo ezali na loi na yo ya local)."
+      },
+      "changes": {
+        "title": "Changements",
+        "body": "Tokoka poster mises à jour awa mpe réviser date ya “Dernière mise à jour”."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Conditions ya Service",
+      "lastUpdated": "Dernière mise à jour:",
+      "intro": {
+        "body": "Na kosalisa Chatforia ozali na accord na conditions oyo. Soki ozali te na accord, kosalisa service te."
+      },
+      "accounts": {
+        "title": "Comptes",
+        "itemAccurateInfo": "Fournir infos ya exact mpe garder credentials na sécurité.",
+        "itemResponsibility": "Ozali responsable mpo ya activité na compte na yo."
+      },
+      "acceptableUse": {
+        "title": "Utilisation ya acceptable",
+        "itemNoAbuse": "Ezali na contenu ya illégal, abusif, to infringing te; ezali na spam to abus ya automatique te.",
+        "itemSuspend": "Tokoka suspendre/terminer mpo ya violations."
+      },
+      "sms": {
+        "title": "Communications ya SMS",
+        "body": "Soki ozali na provision ya numéro ya téléphone ya mobile, ozali na accord ete Chatforia ekoka envoyer SMS oyo ezali na relation na compte na yo mpe utilisation ya service, lokola alertes ya login, notifications ya sécurité, mpe messages oyo ezali na relation na conversations oyo ozali na initiation to participation. Toki te utiliser SMS mpo ya messages ya promotionnel to marketing sans consentement ya explicite na yo. Prix ya standard ya message mpe données ekoka kosala. Okoka opt out na SMS na temps mosusu na réponse na mot-clé ya opt-out oyo ezali supporté (exemple, “STOP”) to na mise à jour settings ya notification na app."
+      },
+      "yourContent": {
+        "title": "Contenu na yo",
+        "body": "Ozali na droits na contenu na yo. Ozali na octroi ya droits na biso oyo ezali na besoin mpo ya opérer service (ex., routing, stockage, traduction)."
+      },
+      "disclaimer": {
+        "title": "Avertissements & responsabilité",
+        "body": "Service ezali fourni “tel quel” sans garanties. Na degré ya complet oyo ezali permis na loi, Chatforia ezali te na responsabilité mpo ya dommages ya indirect to consécutifs."
+      },
+      "changes": {
+        "title": "Changements",
+        "body": "Tokoka updater conditions oyo; utilisation ya continuation après changements ezali na acceptation."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "Ne pas vendre to partager informations ya personnel na ngai",
+      "body": "Chatforia ezali te vendre informations ya personnel. Résidents ya California ekoka toujours envoyer demandes na CPRA na bouton na bas.",
+      "cta": "Envoyer demande"
+    },
+    "cookies": {
+      "title": "Settings ya Cookie",
+      "body": "Chatforia ezali na utilisation ya cookies ya moke (ex., session, sécurité). Toki te utiliser cookies ya ads ya tiers. Gérer cookies na settings ya navigateur na yo."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Ekoki te charger status ya numéro ya téléphone.",
+      "lock": "Verrouiller",
+      "noNumberAssigned": "Ezali na numéro te oyo ezali assigné. Pona numéro moko na code ya zone mpo ya commencer texter.",
+      "pickNumber": "Pona numéro",
+      "phoneNumber": "Numéro ya téléphone"
+    },
+    "startChatModal": {
+      "title": "Commencer chat",
+      "quickPicker": "Picker ya rapide",
+      "to": "Na",
+      "nameOrUsername": "Type nom, nom ya utilisateur",
+      "nameUsernamePhoneEmail": "Type nom, nom ya utilisateur, numéro ya téléphone, to email…",
+      "startWithSelected": "Commencer chat na oyo ezali sélectionné",
+      "searchByUsernameOrPhone": "Rechercher na nom ya utilisateur to numéro ya téléphone",
+      "search": "Rechercher",
+      "searchPrompt": "Type nom ya utilisateur to numéro mpe appuyer Rechercher.",
+      "pickFromContacts": "To pona na contacts",
+      "addContact": "Ajouter Contact",
+      "show": "Monisa",
+      "add": "Ajouter",
+      "close": "Fermer",
+      "selectedCount": "{{count}} ezali sélectionné",
+      "pickAtLeastOne": "Pona au moins moto moko.",
+      "saveContactsHint": "Entrées ya téléphone/email ekoka kozala disponible après kobikisa yango na contacts.",
+      "failedBulkStart": "Ekozi te mpo ya commencer chat na destinataires oyo ezali sélectionné.",
+      "noResults": "Ezali na résultats te",
+      "mode": "Mode",
+      "group": "Groupe",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Nom ya groupe (ezali te)",
+      "firstMessageOptional": "Message ya liboso (ezali te mais recommandé)",
+      "createGroup": "Créer groupe",
+      "sendBroadcast": "Envoyer broadcast"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "Ozali na Free — tons ya premium ezali monisá mais ezali verrouillé. Upgrade mpo ya débloquer nyonso.",
+      "preview": "Prévisualiser",
+      "resetToDefaults": "Réinitialiser na défauts",
+      "notificationSounds": "Sons ya notification",
+      "messageTone": "Ton ya message",
+      "default": "Défaut",
+      "vibrate": "Vibrer",
+      "dreamer": "Dreamer",
+      "notify": "Notifia",
+      "pop": "Pop",
+      "pulsatingSound": "Son ya pulsating",
+      "textMessage": "Message ya texte",
+      "xylophone": "Xylophone",
+      "classic": "Classique",
+      "urgency": "Urgence",
+      "bells": "Cloches",
+      "chimes": "Carillons",
+      "digitalPhone": "Téléphone ya digital",
+      "melodic": "Mélodique",
+      "organNotes": "Notes ya orgue",
+      "soundReality": "Son ya réalité",
+      "street": "Rue",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Feature oyo ezali na besoin ya plan ya Premium."
+    },
+    "aiSettings": {
+      "title": "Settings ya AI",
+      "controlIntro": "Contrôler traduction, réponses ya mayele, mpe réponses ya auto ya ForiaBot.",
+      "save": "Kobikisa Settings ya AI",
+      "autoTranslateIncoming": "Auto-traduire messages oyo euti",
+      "showOriginalAlongside": "Monisa texte ya original na côté ya traduction",
+      "enableSmartReplies": "Activer Réponses ya Mayele",
+      "smartRepliesHint": "Envoyer messages ya dernier oyo ezali reçu (o yo ezali na sanitisation) na AI mpo ya suggérer réponses ya rapide.",
+      "maskProfanity": "Masker vulgarité na suggestions ya AI",
+      "maskProfanityHint": "Soki ezali allumé, suggestions oyo euti na AI ekoka kozala na mots oyo ezali flaggé oyo ezali masked",
+      "foriaBot": "ForiaBot Auto-Répondeur",
+      "enableAutoReply": "Activer auto-réponse ntango ngai ezali na occupation",
+      "autoReplyMode": "Mode ya auto-réponse",
+      "cooldownSeconds": "Cooldown (secondes)",
+      "off": "Off",
+      "on": "On",
+      "signature": "Signature",
+      "autoReply": "Auto-réponse",
+      "activeUntilOptional": "Actif tii (ezali te)",
+      "saved": "Préférences ya AI ezali na sauvegarde",
+      "saveFailed": "Ekozi te mpo ya kobikisa settings ya AI",
+      "translateOff": "Off",
+      "translateTagged": "Seulement ntango @translated to ezali na tag",
+      "translateAll": "Traduire messages nyonso oyo euti",
+      "modeDm": "Seulement chats ya 1:1",
+      "modeMention": "Seulement ntango ngai ezali @mentioned",
+      "modeAll": "Messages nyonso oyo euti"
+    },
+    "accessibilitySettings": {
+      "title": "Accessibilité & Alertes",
+      "accessibility": "Accessibilité",
+      "accessibilityDesc": "Options mpo ya kosala Chatforia ezali facile na kosalisa sans compter na son.",
+      "interfaceFontSize": "Taille ya police ya interface",
+      "interfaceFontSizeHelp": "Ezali na taille ya normal na début. Augmenter soki ozali préférer texte ya grand na settings ya accessibilité.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Notifications",
+      "notificationsDesc": "Alertes ya visuel mpo ya messages & appels\nMonisa banners mpe clignotement ya titre mpo ya kozwa te activité.",
+      "vibrateOnNew": "Vibrer na messages ya sika (ntango ezali supporté)\nDéclencher vibration ya appareil na notifications.",
+      "flashOnCall": "Flash écran na appel oyo euti\nFlash ya court ya lumière ntango appel ezali na sonnerie.",
+      "liveCaptions": "Captions ya live (appels)",
+      "captionFontSize": "Taille ya police ya caption",
+      "captionBackground": "Fond ya caption",
+      "light": "lumière",
+      "dark": "sombre",
+      "transparent": "transparent",
+      "voiceNotes": "Notes ya voix",
+      "autoTranscribeVoiceNotes": "Auto-transcrire notes ya voix",
+      "autoTranscribeVoiceNotesDesc": "Attacher transcript na messages ya audio oyo ozali na réception.",
+      "changesSavedInstantly": "Changements ezali na sauvegarde na instant.",
+      "loadFailed": "Ekozi te mpo ya charger settings",
+      "visualAlerts": "Alertes ya visuel mpo ya messages & appels",
+      "visualAlertsDesc": "Monisa banners mpe clignotement ya titre mpo ya kozwa te activité.",
+      "vibrateOnNewShort": "Vibrer na messages ya sika (ntango ezali supporté)",
+      "vibrateOnNewDesc": "Déclencher vibration ya appareil na notifications.",
+      "flashOnCallShort": "Flash écran na appel oyo euti",
+      "flashOnCallDesc": "Flash ya court ya lumière ntango appel ezali na sonnerie."
+    },
+    "privacySection": {
+      "strictE2EE": "Encryption ya strict end-to-end",
+      "ciphertextOnlyNote": "Stocker seulement ciphertext na serveur. Ezali na désactivation ya AI/Traduction mpe previews ya modération."
+    },
+    "linkedDevicesPanel": {
+      "title": "Appareils oyo ezali lié",
+      "noneFound": "Ezali na appareils oyo ezali lié te.",
+      "refresh": "Bongisa"
+    },
+    "help": {
+      "title": "Aide",
+      "howCanWeHelp": "Tokoka kosala nini mpo ya kosala?",
+      "helpCenter": "Centre ya Aide",
+      "contactUs": "Contact us",
+      "quickTopics": "Sujets ya rapide",
+      "searchExamples": "Prova rechercher “traduire”, “backups”, to “privacy”.",
+      "cantLogin": "Ekoki te log in",
+      "paymentsBilling": "Paiements/billing",
+      "reportAbuse": "Reporter abus",
+      "searchHelpArticles": "Rechercher articles ya aide",
+      "search": "Rechercher"
+    },
+    "peoplePage": {
+      "people": "Bato",
+      "search": "Rechercher",
+      "searchPlaceholder": "Rechercher na alias, nom, nom ya utilisateur, to numéro ya téléphone",
+      "filterSaved": "Filtre contacts oyo ezali na sauvegarde",
+      "noContactsFound": "Ezali na contacts te",
+      "quickStart": "Commencer ya rapide",
+      "quickStartDesc": "Ndenge moke ya rapide mpo ya commencer.",
+      "importContacts": "Importer contacts na yo",
+      "add": "Ajouter",
+      "focusSearch": "Focus Rechercher",
+      "import": "Importer",
+      "findOrAdd": "Rechercher to ajouter moto moko",
+      "searchByPhoneOrUsername": "Rechercher na téléphone / nom ya utilisateur",
+      "inviteFriends": "Inviter amis",
+      "inviteDesc": "Partager lien ya invite na yo mpo ya commencer kosolola na instant.",
+      "getTheApp": "Zwa app",
+      "getTheAppDesc": "Kokoma na contact na voyage na Chatforia mpo ya iOS mpe Android.",
+      "download": "Télécharger",
+      "syncTip": "Tip: Messages na yo ezali synced na web mpe mobile."
+    },
+    "randomChat": {
+      "title": "Random Chat",
+      "description": "Rencontrer moto moko ya sika na instant. Tokoka kopairer yo mpe ouvrir chat room ya temporaire. Kosolola anonymement na liboso. Ajouter Ami na après soki ezali bien.",
+      "findMatch": "Rechercher match mpo na ngai",
+      "chatWithForia": "Kosolola na Foria",
+      "chatWithForiaBot": "Kosolola na ForiaBot",
+      "cancel": "Tika",
+      "close": "Fermer",
+      "searching": "Ezali rechercher...",
+      "finding": "Ezali rechercher...",
+      "looking": "Ezali na recherche ya moto moko...",
+      "startingForia": "Ezali commencer chat na Foria...",
+      "partnerDisconnected": "Partenaire na yo ezali déconnecté.",
+      "noPartner": "Ezali na partenaire te tii lelo.",
+      "connectedTo": "Ezali na connexion na {{name}}",
+      "connected": "Ezali na connexion",
+      "idle": "Idle",
+      "partnerLeft": "Partenaire ezali parti.",
+      "stopped": "Ezali na arrêt.",
+      "skip": "Sauter",
+      "save": "Kobikisa",
+      "saveGuard": "Seulement chats ya mutu-na-mutu ekoka kobikisa",
+      "youAreChattingWith": "Ozali kosolola na {{name}}",
+      "bot": "BOT",
+      "leave": "Tika",
+      "sayHi": "Saluer 👋",
+      "you": "Yo",
+      "typeMessage": "Type message",
+      "send": "Envoyer",
+      "partner": "Partenaire",
+      "withRia": "Na Ria",
+      "chatWithRia": "Kosolola na Ria",
+      "startingRia": "Ezali commencer chat na Ria...",
+      "ageDisclaimer": "Toki te stocker date ya naissance ya exact. Oyo ezali utilisé mpo ya kokoma pairings ya Random Chat oyo ezali bien. Mpo ya matcher na bato (te seulement RiaBot), tala bande ya âge na yo na Settings → Âge & Random Chat.",
+      "ageBandRequired": "Tala bande ya âge na yo na Profil → Âge & Random Chat mpo ya matcher na bato.",
+      "ageBandCallout": "Mpo ya matcher na bato (te seulement RiaBot), tala bande ya âge na yo na Settings → Âge & Random Chat.",
+      "subtitle": "Rencontrer moto moko ya sika na instant, to pona kosolola na Ria.",
+      "start": "Commencer conversation",
+      "matching": "Ezali na matching...",
+      "setAge": "Tala âge na yo na Profil → Âge & Random Chat mpo ya matcher na bato.",
+      "next": "Moto mosusu",
+      "addFriend": "Ajouter Ami",
+      "requested": "Ezali na demande",
+      "messageRia": "Toma message na Ria...",
+      "messageMatch": "Toma message na match na yo..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "awá",
+      "intro": "Mbote awá 👋 Ngai Ria. Nini ezali na tête na yo?",
+      "greetings": {
+        "long1": "Mbote {{name}} 👋 Ngai ezali awa. Nini ezali na tête na yo?",
+        "long2": "Salut {{name}} 😊 Nini ozali na désir ya kosolola lelo?",
+        "long3": "Mbote {{name}}!! Ngai ezali na oreilles nyonso — nini ezali?",
+        "long4": "Ezali bien monisa yo, {{name}} 👋 Nini ezali na tête na yo lelo?",
+        "long5": "Mbote {{name}} 😊 Ozali na désir ya vent, kosenga, to seulement kosolola?",
+        "long6": "Salut {{name}}!! Ngai ezali na temps — nini ozali na désir ya kosolola?",
+        "short1": "Mbote {{name}}, ngai ezali toujours awa. Nini ezali?",
+        "short2": "Mbote lisusu {{name}} 👋 Eloko mosusu oyo ozali na désir ya ajouter?",
+        "short3": "Lisusu awa, {{name}}? 😊 Loba na ngai nini ezali na tête na yo.",
+        "short4": "Mbote {{name}} 👋 Prêt mpo ya continuer na esika oyo tozali na arrêt?",
+        "short5": "Oui {{name}}? Ngai ezali na écoute 👂",
+        "short6": "Oh mbote {{name}}!! Ozali na eloko ya sika na tête na yo?"
+      },
+      "header": {
+        "openNav": "Ouvrir menu ya navigation",
+        "closeNav": "Fermer menu ya navigation",
+        "homeAria": "Chatforia Home"
+      },
+      "login": {
+        "welcomeBack": "Mbote lisusu",
+        "title": "Continue na Chatforia",
+        "subtitleReturning": "Log in na compte na yo ya Chatforia",
+        "subtitle": "Log in na compte na yo ya Chatforia",
+        "google": "Continue na Google",
+        "apple": "Continue na Apple",
+        "googleUnavailable": "Sign-in ya Google ezali te",
+        "appleUnavailable": "Sign-in ya Apple ezali te",
+        "or": "to",
+        "email": "Email",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Nom ya utilisateur",
+        "usernamePh": "Nom ya utilisateur na yo",
+        "passwordLabel": "Mot de passe",
+        "passwordPh": "Mot de passe na yo",
+        "keepSignedIn": "Tika ngai na connexion",
+        "forgot": {
+          "title": "Mot de passe ezali te",
+          "helper": "Tala email oyo ozali na utilisation mpo ya créer compte na yo ya Chatforia mpe tokoka envoyer lien ya sécurité mpo ya réinitialiser mot de passe na yo.",
+          "emailInvalid": "Tala email oyo ezali valide.",
+          "genericError": "Ekoki te traiter demande. Prova lisusu na moment moke.",
+          "sending": "Ezali envoyer lien ya reset...",
+          "sendCta": "Envoyer Lien ya Reset",
+          "sentLabel": "Ezali envoyé!",
+          "sentHelper": "Soki compte ezali na email oyo, tokoka envoyer lien ya reset ya mot de passe. Ekoka kozwa minutes moke mpo ya arriver. Tala bien spam to dossier ya promotions.",
+          "previewDev": "Prévisualiser Email (Dev)",
+          "backToLogin": "Retour na Login"
+        },
+        "submit": "Log In",
+        "loggingIn": "Ezali log in…",
+        "newHere": "Ya sika awa? <link>Créer compte</link>",
+        "ssoUnavailable": "Single-sign-on ezali te actuellement. Utilise nom ya utilisateur & mot de passe na lieu.",
+        "error": {
+          "missing": "Tala credentials na yo.",
+          "invalid": "Nom ya utilisateur to mot de passe ezali te valide",
+          "denied": "Accès ezali refusé.",
+          "unprocessable": "Demande ezali te valide. Tala nom ya utilisateur/email na yo mpe mot de passe.",
+          "deviceLimit": "Limite ya appareil ezali na fin mpo ya plan ya Gratuit. Log out na appareil mosusu to upgrade na Premium mpo ya lier appareils mingi.",
+          "premiumRequired": "Action oyo ezali na besoin ya plan ya Premium."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Ezali terminer sign-in…"
+    },
+    "dialer": {
+      "title": "Appels",
+      "subtitle": "Clavier & récents. (Soki ozali te na PSTN, commencer appels na header ya conversation.)",
+      "enterNumberPh": "Tala numéro",
+      "call": "Appeler",
+      "backspace": "Backspace",
+      "recents": "Récents",
+      "recentsEmpty": "Ezali na appels ya récent te tii lelo.",
+      "enterNumber": "Tala numéro",
+      "enterNumberAria": "Tala numéro",
+      "key": "Touche {{d}}",
+      "noRecents": "Ezali na appels ya récent te tii lelo."
+    },
+    "video": {
+      "title": "Vidéo",
+      "chooseType": "Pona type ya vidéo.",
+      "directTitle": "Vidéo Direct",
+      "directDesc": "Appel ya caméra ya 1:1 na utilisateur mosusu.",
+      "directStart": "Commencer",
+      "roomsTitle": "Rooms",
+      "roomsDesc": "Vidéo ya multi-parties na utilisation ya nom ya room oyo ezali partagé.",
+      "roomsIntro": "Joindre to créer room ya multi-parties.",
+      "roomNameLabel": "Nom ya room",
+      "roomNamePh": "ex. team-standup",
+      "join": "Joindre",
+      "deeplinkTip": "Tip: okoka deep link directement na <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Vidéo",
+        "subtitle": "Pona type ya vidéo."
+      },
+      "direct": {
+        "title": "Vidéo Direct",
+        "subtitle": "Commencer appel ya vidéo ya 1:1 na utilisation ya numéro ya téléphone to nom ya utilisateur ya Chatforia.",
+        "desc": "Appel ya caméra ya 1:1 na utilisateur mosusu.",
+        "start": "Commencer",
+        "callBtn": "Appeler",
+        "callByPhone": {
+          "title": "Appeler na téléphone"
+        },
+        "phone": {
+          "placeholder": "Tala téléphone (ex., +1-555-123-4567)",
+          "aria": "Téléphone mpo ya appeler"
+        },
+        "tipInvite": "Tip: Coller numéro mpe appeler sans sauvegarder contact. Tokoka inviter bato oyo ezali te utilisateurs na lien.",
+        "findUser": {
+          "title": "Rechercher utilisateur"
+        },
+        "search": {
+          "placeholder": "Rechercher na nom to nom ya utilisateur",
+          "aria": "Rechercher na nom to nom ya utilisateur",
+          "btn": "Rechercher"
+        }
+      },
+      "rooms": {
+        "title": "Rooms",
+        "subtitle": "Créer room to joindre oyo ezali na existence na tapa nom moko.",
+        "desc": "Vidéo ya multi-parties na utilisation ya nom ya room oyo ezali partagé.",
+        "roomLabel": "Nom ya room",
+        "roomPlaceholder": "ex. team-standup",
+        "roomAria": "Nom ya room",
+        "joinCreate": "Joindre / Créer",
+        "tip": "Tip: partager nom oyo na bato mosusu, to deep link na <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Commencer appel ya vidéo direct ya 1:1.",
+      "findUserLabel": "Rechercher utilisateur",
+      "findUserPh": "Rechercher na nom to nom ya utilisateur",
+      "search": "Rechercher",
+      "call": "Appeler"
+    },
+    "phoneWarning": {
+      "title": "Numéro na yo ezali na expiration bientôt",
+      "body": "Numéro na yo {{number}} ekotika na {{date}} sauf soki ezali na réactivation.",
+      "button": "Tika Numéro na Ngai"
+    }
+  },
+  "support": {
+    "helpFab": "Aide",
+    "openSupportAria": "Ouvrir support",
+    "badge": "Support",
+    "heading": "Tokoka kosala nini mpo ya kosala?",
+    "tabs": {
+      "help": "Centre ya Aide",
+      "contact": "Contact us"
+    },
+    "searchPlaceholder": "Rechercher articles ya aide…",
+    "searchAria": "Rechercher aide",
+    "searchBtn": "Rechercher",
+    "quickTopicsLabel": "Sujets ya rapide",
+    "quickTopics": {
+      "login": "Ekoki te log in",
+      "billing": "Paiements / billing",
+      "abuse": "Reporter abus"
+    },
+    "trySearching": "Prova rechercher “traduire”, “backups”, to “privacy”.",
+    "article": "Article",
+    "openArticle": "Ouvrir article",
+    "contactIntro": "Tokoka envoyer email ya réponse na yo. Inclure détails mpo ya kosala biso reproduire problème.",
+    "topicAria": "Pona sujet",
+    "messagePlaceholder": "Écrire message na yo…",
+    "sendBtn": "Envoyer",
+    "sent": "Message ezali envoyé. Tokoka répondre na email.",
+    "sendError": "Ekoki te envoyer. Email support@chatforia.com na lieu."
+  },
+  "helpCenter": {
+    "title": "Centre ya Aide",
+    "faq": {
+      "account": {
+        "q": "Nakoka kosala to récupérer compte na ngai ya ndenge nini?",
+        "a": "Download app to utiliser web, tapa “Créer compte”, vérifier email/téléphone na yo. Mpo ya récupérer, utiliser “Mot de passe ezali te”."
+      },
+      "privacy": {
+        "q": "Messages ezali end-to-end encrypted?",
+        "a": "Oui. Messages mpe appels ezali end-to-end encrypted na défaut. Seulement yo mpe destinataire ekoka kotanga yango."
+      },
+      "translate": {
+        "q": "Ndenge nini traduction ya instant ezali na fonctionnement?",
+        "a": "Activer “Auto-traduire” na Settings → Apparence & Nkota. Toki traduire na appareil ntango ezali supporté, sinon na APIs ya sécurité na métadonnées ya moke."
+      },
+      "contact": {
+        "q": "Contact support",
+        "a": "Kontakt us na support@chatforia.com. Inclure screenshots mpe version ya app na yo."
+      }
+    }
+  },
+  "encryptionRecovery": {
+    "title": "Gérer Encryption",
+    "description": "Backup, restaurer, déverrouiller, to réinitialiser clé ya encryption na yo.",
+    "alert": {
+      "keyRequiredTitle": "Clé ya encryption ezali na besoin",
+      "keyRequiredBody": "Navigateur oyo ekoki te actuellement décrypter messages ya encryption na yo. Restaurer, déverrouiller, to réinitialiser clé na yo mpo ya continuer."
+    },
+    "sections": {
+      "createBackup": "Créer backup ya clé",
+      "restoreFromBackup": "Restaurer na backup ya compte",
+      "resetEncryption": "Réinitialiser encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Passcode ya déverrouiller (appareil ya sika)",
+        "description": "Utilisé mpo ya décrypter clés na yo localement avant exporter"
+      },
+      "backupPassword": {
+        "label": "Mot de passe ya backup",
+        "description": "Utilisé mpo ya encrypter fichier ya backup"
+      },
+      "restoreBackupPassword": {
+        "label": "Mot de passe ya backup",
+        "description": "Mot de passe oyo ozali na création ntango backup ya clé na iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Passcode ya local ya sika",
+        "description": "Protéger clés na repos na navigateur oyo"
+      },
+      "resetLocalPasscode": {
+        "label": "Passcode ya local ya sika",
+        "description": "Ezali na besoin avant réinitialiser mpo clé ya sika ezali protégée na appareil oyo"
+      }
+    },
+    "actions": {
+      "unlockKey": "Déverrouiller clé ya encryption",
+      "restoreFromBackup": "Restaurer na backup ya compte",
+      "resetEncryption": "Réinitialiser Encryption"
+    },
+    "messages": {
+      "backupCreated": "Backup ya clé ezali na création mpe download.",
+      "keyUnlocked": "Clé ya encryption ezali déverrouillée.",
+      "keyRestored": "Clé ezali restaurée na backup ya compte.",
+      "resetSuccess": "Encryption ezali réinitialisée na succès."
+    },
+    "errors": {
+      "restoreIncomplete": "Restauration ya clé ezali incomplète to ezali te correct mpo ya compte oyo",
+      "noBackup": "Ezali na backup ya encryption te mpo ya compte oyo",
+      "missingPublicKey": "Backup ezali na clé publique te",
+      "noServerPublicKey": "Compte oyo ezali te na exposition ya clé publique ya serveur tii lelo",
+      "serverBackupMismatch": "Backup ya serveur ezali te na match na clé ya encryption ya compte ya sika",
+      "incompleteMetadata": "Métadonnées ya backup ezali incomplète",
+      "resetIncomplete": "Réinitialisation ya encryption ezali te na fin correctement"
+    },
+    "confirm": {
+      "reset": "Réinitialiser encryption mpo ya compte oyo?\n\nMessages ya kala ya encryption ekoka kozala te lisible sauf soki ozali na restauration ya clé ya original na après."
+    },
+    "resetDescription": "Oyo ezali na génération ya clé ya encryption ya sika mpo ya compte na yo. Messages ya kala ya encryption ekoka kozala te lisible sauf soki ozali na restauration ya clé ya original na après."
+  },
   "footer": {
-    "plans": "Ba plan & Bamîteki",
-    "about": "Mokonza ya Chatforia",
-    "careers": "Misala",
-    "press": "Press",
+    "plans": "Plans & Prix",
+    "about": "Na ntina ya Chatforia",
+    "careers": "Emplois",
+    "press": "Presse",
     "advertise": "Publicité",
-    "contact": "Kokutana na biso",
-    "help": "Sántɛ ya Lisungi",
-    "status": "Lokasa ya état",
+    "contact": "Contact Us",
+    "help": "Centre ya Aide",
+    "status": "Page ya Status",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Politíki ya Privacy",
-    "terms": "Batilɛ ya Mosala",
-    "cookies": "Bitɔpɔ ya Cookie",
-    "doNotSell": "Tɛkola te ba info na ngai",
-    "language": "Lokota",
-    "contactShort": "Kontakt",
-
+    "privacy": "Politique ya Privacy",
+    "terms": "Conditions ya Service",
+    "cookies": "Settings ya Cookie",
+    "doNotSell": "Ne pas Vendre Infos na Ngai",
+    "language": "Nkota",
+    "contactShort": "Contact",
     "aria": "Footer",
-    "homeAria": "Ebandeli ya Chatforia",
+    "homeAria": "Home ya Chatforia",
     "section": {
-      "company": "KOMPANI",
-      "support": "LISUNGI",
-      "downloads": "TƐLƐMISÁ",
-      "legal": "LÉGAL"
+      "company": "COMPAGNIE",
+      "support": "SUPPORT",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
     },
     "links": {
-      "plans-pricing": "Ba plan & Bamîteki",
-      "about-chatforia": "Mokonza ya Chatforia",
-      "careers": "Misala",
-      "press": "Press",
+      "plans-pricing": "Plans & Prix",
+      "about-chatforia": "Na ntina ya Chatforia",
+      "careers": "Emplois",
+      "press": "Presse",
       "advertise": "Publicité",
-      "getting-started": "Kobanda",
-      "help-center": "Sántɛ ya Lisungi",
-      "contact-us": "Kokutana na biso",
-      "status-page": "Lokasa ya état",
+      "getting-started": "Commencer",
+      "help-center": "Centre ya Aide",
+      "contact-us": "Contact Us",
+      "status-page": "Page ya Status",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Politíki ya Privacy",
-      "terms-of-service": "Batilɛ ya Mosala",
-      "do-not-sell-my-info": "Tɛkola te ba info na ngai",
-      "cookie-settings": "Bitɔpɔ ya Cookie"
+      "privacy-policy": "Politique ya Privacy",
+      "terms-of-service": "Conditions ya Service",
+      "do-not-sell-my-info": "Ne pas Vendre Infos na Ngai",
+      "cookie-settings": "Settings ya Cookie"
     },
     "social": {
       "tiktok": "TikTok",
@@ -349,638 +1605,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patent ezali na kotɛlɛma",
-    "backToTop": "↑ Zonga likoló"
+    "patentPending": "Brevet ezali na attente",
+    "backToTop": "↑ Retour na haut"
   },
-
-  "home": {
-    "title": "Ebandeli",
-    "header": "Ba nsango na yo",
-    "subheader": "Tinda nsango mpo na kobanda kosolola.",
-    "sendButton": "Tinda nsango",
-    "gifPicker": "Fungola moponi ya GIF",
-    "emoji": "Emoji",
-    "upload": "Tɛlɛmisa foto to vidéo",
-    "inputPlaceholder": "Koma nsango…",
-    "inputLabel": "Esaleli ya kokoma nsango",
-    "sendTooltip": "Tinda",
-    "sendTooltipEmpty": "Koma nsango mpo na kotinda",
-    "send": "Tinda",
-    "welcomeMessage": "Boyei malamu na Chatforia",
-    "getStarted": "Bandá sik’oyo"
-  },
-
   "press": {
-    "title": "Press",
-    "contactLine": "Mpo na mituna ya média, kómisa biso na",
+    "title": "Presse",
+    "contactLine": "Mpo ya questions ya media, kontakt biso na",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia ezali app ya nsango ‘privacy-first’ oyo esalaka kosolola na ndenge ya lokota ebele pɛtɛpɛtɛ. Ba nsango ebɔkɔlami na suka-ti-suka na ndakisa, mpe bobongoli ya kati ekoki lokota 100+ na ntango ya solo. Basaleli bakoki kosalela nsango ekɛsana, kotika bilembo ya kotánga na kopona, mpe kosíngisa na ba appareil ebele. Ezali na iOS, Android, mpe web.",
-    "assetsTitle": "Biloko ya brand",
-    "assetsSubtitle": "Logo, ba screenshot, mpe bililingi ya produit.",
-    "downloadCta": "Tɛlɛmisa pakɛ ya média",
+    "boilerplateBody": "Chatforia ezali app ya messagerie ya privacy na liboso oyo ezali na kosala chat ya cross-language ezali facile. Messages ezali end-to-end encrypted na défaut, mpe traduction oyo ezali na app ezali na support ya 100+ nkota na temps réel. Utilisateurs ekoka activer messages oyo ekotika, kokoma bino ya kutanga optionnel, mpe sync na appareils. Disponible na iOS, Android, mpe web.",
+    "assetsTitle": "Assets ya marque",
+    "assetsSubtitle": "Logos, screenshots, mpe images ya produit.",
+    "downloadCta": "Télécharger kit ya media",
     "downloadTitle": "Zwa app",
-    "scanTip": "Na desktop? Skánɛ na telefɔni na yo mpo na kozwa app.",
-    "qrAria": "Fungola site ya Chatforia",
-    "appStore": "Tɛlɛmisa na App Store",
+    "scanTip": "Na desktop? Scan na téléphone na yo mpo ya zwa app.",
+    "qrAria": "Ouvrir site web ya Chatforia",
+    "appStore": "Télécharger na App Store",
     "googlePlay": "Zwa na Google Play"
   },
-
   "careers": {
-    "title": "Misala",
-    "intro": "Tozali ekipi moke oyo ezali kotonga mosaleli ya nsango ya sekele, ya mokili mobimba. Soki olingi encryption, accessibilité, mpe UX ya kitoko, tobɔngi kokʉta na yo.",
-    "openRoles": "<b/Misala ya polele:</b> Engineering (Full-stack, iOS, Android), Produit, Lisungi.",
-    "apply": "<b/Ndenge ya kosɛnga:</b> Tindá CV/ba lien na <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Tinda CV na email"
+    "title": "Emplois",
+    "intro": "Biso ezali équipe ya petit ya fondation oyo ezali na construction ya Chatforia — messager ya privé, ya global oyo ezali na lancement na web, iOS, mpe Android. Soki ozali na soin ya privacy, encryption, mpe expériences ya utilisateur oyo ezali agréable, tokoka kozwa yo na écoute.",
+    "openRoles": "<b>Rôles ya fondation oyo ezali ouvert:</b> Ingénieur ya Lead Full-stack, Ingénieur ya Backend (Node.js), Ingénieur ya Frontend/Web (React), Ingénieur ya Mobile (iOS), Ingénieur ya Mobile (Android), DevOps/SRE, Ingénieur ya Sécurité & Encryption, Ingénieur ya Télécom (Twilio + eSIM).",
+    "apply": "Ndenge nini mpo ya appliquer: Utilise bouton na bas mpo ya envoyer CV na yo mpe liens.",
+    "emailCta": "Envoyer CV na yo na email",
+    "whyNow": "Mpo na nini joindre tii lelo?",
+    "whyBullets": "• Kosala fondation ya messager ya global ya sika.\n• Envoyer améliorations oyo ezali na utilisation na web, iOS, mpe Android.\n• Kosala directement na fondateur na architecture mpe direction ya produit.\n• Prendre possession ya domaines ya haut-impact na stack: messagerie, voix, vidéo, encryption, télécom, AI.\n• Joindre na début — avant base ya utilisateurs ezali na échelle."
   },
-
   "about": {
-    "title": "Mokonza ya Chatforia",
-    "description": "Chatforia ezali mosaleli ya nsango ya sekele, ya lokota ebele, na encryption na suka-ti-suka, bobongoli ya mbala moko, mpe kobɛnga mongongo/video. Misio na biso ezali pɛtɛpɛtɛ: kosalisa bato bákɔtisana—na se ya libateli, na bobateli, mpe na kolobana lokota na lokota.",
-    "valuesTitle": "Biloko tolingaka",
+    "title": "Na ntina ya Chatforia",
+    "description": "Chatforia ezali messager ya sécurité, ya multilingue na end-to-end encryption, traduction ya instant, mpe appels ya voix/vidéo. Mission na biso ezali simple: kosala bato bazongisa—na sécurité, privacy, mpe na nkota mingi.",
+    "valuesTitle": "Nini tozali na valeur",
     "values": {
-      "privacy": "<bold/Privacy liboso:</bold> E2E encryption na ndakisa.",
-      "access": "<bold/Kokɔta mpo na bato nyonso:</bold> Kobongola lokota 100+ otomatisɛ.",
-      "control": "<bold/Bokonzi:</bold> Nsango ekɛsana & bilembo ya kotánga ezali ya kopona.",
-      "privacy_aria": "Privacy liboso: E2E encryption na ndakisa.",
-      "access_aria": "Kokɔta mpo na bato nyonso: Kobongola lokota 100+.",
-      "control_aria": "Bokonzi: Nsango ekɛsana mpe bilembo ya kotánga ezali ya kopona."
+      "privacy": "<b>Privacy na liboso:</b> E2E encryption na défaut.",
+      "access": "<b>Accès mpo ya bato nyonso:</b> Auto-traduire 100+ nkota.",
+      "control": "<b>Contrôle:</b> Messages oyo ekotika & bino ya kutanga ezali optionnel.",
+      "privacy_aria": "Privacy na liboso: E2E encryption na défaut.",
+      "access_aria": "Accès mpo ya bato nyonso: Auto-traduire 100+ nkota.",
+      "control_aria": "Contrôle: Messages oyo ekotika mpe bino ya kutanga ezali optionnel."
     },
-    "howTitle": "Ndenge Chatforia esalaka",
-    "howDescription": "Ba nsango ebɔkɔlami na appareil na yo liboso ebima. Bobongoli, ba backup, mpe synchronisation esalemi mpo ete ba server na biso bámona makambo mike-mike."
+    "howTitle": "Ndenge Chatforia ezali na fonctionnement",
+    "howDescription": "Messages ezali encrypted na appareil na yo avant yango ekotika. Traduction, backups, mpe sync ya appareil ezali na design mpo ya minimiser eloko oyo serveurs na biso ekoka tala."
   },
-
   "advertise": {
-    "title": "Pɔblisite na Chatforia",
-    "description": "Kóma epai ya basaleli ya nsango na bisika ya pɛtɛpɛtɛ, ya bolamu. Tozali na ba bannière na bisika emonanaka malamu, sponsorship, mpe ba promos ya ndako. Basaleli Premium bamonaka pub te.",
+    "title": "Publicité na Chatforia",
+    "description": "Rejoindre utilisateurs ya messagerie oyo ezali engagé na placements oyo ezali na goût, brand-safe. Toki offrir inventaire ya bannière na bisika ya visibilité ya haut, sponsorings, mpe promos ya maison. Abonnés ya Premium ezali te na vue ya ads.",
     "adsense": {
-      "withPubId": "Sik’oyo tozali kopesa pub na nzela ya <b/Google AdSense</b>. Soki olingi kotɛni na biso na Google Ads, salelá publisher ID <code>{{pubId}}</code> mpe senga managed placement na ba unité oyo na nse. Sponsorship ya mbala moko ezali—salelá fɔrmyulɛ.",
-      "noPubId": "Sik’oyo tozali kopesa pub na nzela ya <b/Google AdSense</b>. Sponsorship ya mbala moko ezali—salelá fɔrmyulɛ na nse."
+      "withPubIdShort": "Toki servir inventaire via Google AdSense. Okoka cibler Chatforia na ID ya publisher {{pubId}}, to utiliser formulaire na bas mpo ya sponsorings ya direct.",
+      "noPubIdShort": "Toki servir inventaire moke via Google AdSense. Sponsorings ya direct ezali disponible—utiliser formulaire na bas."
     },
     "inventoryHeader": "Inventaire & Spécifications",
     "placement": {
       "displayBadge": "Affichage",
-      "acceptedSizes": "Ba taille endimami",
+      "acceptedSizes": "Tailles oyo ezali accepté",
       "adsenseSlot": "Slot ya AdSense:"
     },
-    "noPlacements": "Ba placement esalemi naino te. Bakisa yango na ads/placements.js.",
+    "noPlacementsPublic": "Biso ezali na finalisation ya inventaire ya ad na biso. Loba na biso na campagne na yo mpe tokoka recommander placements.",
     "whyHeader": "Mpo na nini Chatforia?",
     "why": {
-      "highSession": "Ba session ebele mpe tango molai na UI ya chat",
-      "brandSafe": "Ba format ya bolamu ya brand; fréquence ebatelami",
-      "sponsoredMoments": "Ba momekano sponsorisé (ndakisa, “Bandá kosolola”) ezali",
-      "deals": "Ba deal ya ndakisa to programmatique na AdSense/Google Ads"
+      "highSession": "Fréquence ya session ya haut mpe temps ya dwell na UI ya chat",
+      "brandSafe": "Formats ya brand-safe; capping ya fréquence ya respectueux",
+      "sponsoredMoments": "Moments ya sponsor (ex., modal ya “Commencer Chat”) ezali disponible",
+      "deals": "Deals ya direct to programmatic via AdSense/Google Ads"
     },
-    "contactHeader": "Kontakt",
+    "contactHeader": "Contact",
     "form": {
-      "submittedMsg": "Matondi! Mituna na yo etindami. Tokolanda mbala moke.",
-      "missingRequired": "Sokolá nkombo, email, mpe nsango.",
-      "successToast": "Matondi! Tokolanda mosika te.",
-      "mailtoInfo": "Kofungola client ya email mpo na kotinda mituna…",
-      "nameLabel": "Nkombo na yo",
+      "submittedMsg": "Merci! Demande na yo ezali na route. Tokoka suivre na yo bientôt.",
+      "missingRequired": "Tala nom, email, mpe message.",
+      "successToast": "Merci! Tokoka kozwa yo na contact bientôt.",
+      "mailtoInfo": "Ezali ouvrir client ya email na yo mpo ya envoyer demande…",
+      "nameLabel": "Nom na yo",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "Email",
-      "emailPlaceholder": "yo@kompani.com",
-      "companyLabel": "Kompani",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Compagnie",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Badyɛ mposo na mposo (ya kopona)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Yebisa biso mpo na kanisa ya kampeni",
-      "messagePlaceholder": "Ciblage, mikolo, KPI, ba placement olingi…",
-      "sendCta": "Tinda mituna"
+      "budgetLabel": "Budget ya mensuel (ezali te)",
+      "budgetPlaceholder": "ex. $1,000–$20,000+",
+      "messageLabel": "Loba na biso na campagne na yo",
+      "messagePlaceholder": "Ciblage, dates, KPIs, préférences ya placement…",
+      "sendCta": "Envoyer demande"
     },
     "legal": {
-      "disclaimerStart": "Na kotinda, oyokani na",
-      "terms": "Batilɛ",
+      "disclaimerStart": "Na envoi, ozali na accord na",
+      "terms": "Conditions",
       "and": "mpe",
-      "privacy": "Politíki ya Privacy na biso"
-    }
-  },
-
-  "upgrade": {
-    "title": "Bongola",
-    "subtitle": "Póna plan oyo ezangi yo: longola ba pub na Plus, to zwa ba fonctionnalités nyonso na Premium.",
-    "perMonth": "mo",
-    "perYear": "mbula",
-    "goPremium": "Kóma Premium",
-    "benefitsLine": "Fungola ba fonctionnalités makasi & longola ba pub.",
-    "ctaText": "Bongola",
-    "aria": "Bongola na Chatforia Premium",
-    "toggle": {
-      "monthly": "Na sanza",
-      "annual": "Na mbula (Bomba 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Abɔnamá ekosila",
-      "body": "Okokóma lisusu na Free na",
-      "keepPlanCta": "Tíka {{plan}}",
-      "manageBillingCta": "Salisa kofuta"
-    },
-    "billing": {
-      "opening": "Kofungola…",
-      "manage": "Salisa Kofuta"
-    },
-    "checkout": {
-      "redirecting": "Kotindama…"
-    },
-    "auth": {
-      "continue": "Koba mpo na kokɔta",
-      "createAccount": "Salá compte",
-      "signIn": "Kɔta"
-    },
-    "cta": {
-      "aria": "Póna plan",
-      "getPlus": "Bongola na Plus",
-      "upgradeMonthly": "Bongola na sanza",
-      "upgradeAnnual": "Bongola na mbula"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Bandá kosolola ofele.",
-        "features": {
-          "msg": "Nsango 1:1 mpe ya groupe",
-          "aiBasic": "Eyano ya AI ya pɔ́to-pɔ́to",
-          "attachments": "Ba fasi ya standard"
-        },
-        "ctaCurrent": "Plan ya sikoyo",
-        "ctaUnavailable": "Kóta na Free (ekoki te)",
-        "aria": "Plan Free (ya sikoyo)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / mo",
-        "desc": "Ndenge ya ofele koleka mpo na kolongola pub.",
-        "features": {
-          "noAds": "Longola pub nionso",
-          "msg": "Nsango 1:1 mpe ya groupe",
-          "attachments": "Ba fasi minene koleka",
-          "aiBasic": "Eyano ya AI ya pɔ́to-pɔ́to"
-        },
-        "badge": "Popilɛrɛ",
-        "cta": "Kóma na nse ya pub te",
-        "aria": "Bongola na Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Na sanza)",
-        "price": "$24.99 / mo",
-        "desc": "Ba fonctionnalités nyonso, ba ringtone, mpe misaleli ya AI makasi.",
-        "features": {
-          "plusAll": "Nyonso ya Plus",
-          "ringtones": "Ba ringtone & ba message tones ya libɔngi",
-          "powerAi": "Ba fonctionnalités ya AI makasi",
-          "priorityUpdates": "Ba mise à jour ya priorite",
-          "backups": "Ba backup & kosíngisa appareil"
-        },
-        "badge": "Malamu koleka",
-        "cta": "Bongola (Sanza)",
-        "aria": "Bongola na Premium ya sanza"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Na mbula)",
-        "price": "$225 / mbula",
-        "desc": "Bomba koleka soki ofuti na mbula.",
-        "features": {
-          "allPremium": "Nyonso ya Premium",
-          "annualBilling": "Kofuta na mbula",
-          "save25": "Bomba ~25% likoló ya na sanza",
-          "sameFeatures": "Ba fonctionnalités kaka ndenge ya na sanza"
-        },
-        "badge": "Bomba 25%",
-        "cta": "Bongola (Mbula)",
-        "aria": "Bongola na Premium ya mbula",
-        "disclaimer": "Futá liboso. Kansi likolo na tango nyonso. Te ya kofinga ebombami."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Bandá kosolola ofele.",
-      "plusTitle": "Plus",
-      "plusBadge": "Popilɛrɛ",
-      "plusDesc": "Ndenge ya ofele koleka mpo na kolongola pub.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Ba fonctionnalités nyonso, ba ringtone, mpe misaleli ya AI makasi.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Bomba koleka soki na mbula.",
-      "annualDisclaimer": "Futá liboso. Kansi likolo na tango nyonso. Te ya kofinga ebombami."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Kobanda",
-    "subtitle": "Ozali ya sika na Chatforia? Lisalisi ya nokinoki oyo emonisi makambo ya ntina mpo omíka na miniti moke.",
-    "alert": {
-      "text": "Lisansoli oyo ekokola tango tozali kobimisa makambo ya sika. Soki eloko moko ezali te, yebisa biso na",
-      "contactLink": "Kokutana na biso"
-    },
-    "section1": {
-      "title": "1) Salá compte na yo",
-      "signup": "Kómisa nkombo",
-      "or": "to",
-      "login": "kɔta",
-      "loginText": "na compte na yo oyo ozalaka na yango.",
-      "prefsStart": "Tyá",
-      "prefsLink": "bolingi na yo",
-      "prefsRest": "(lokota, bilembo ya kotánga, ba témɛ)."
-    },
-    "section2": {
-      "title": "2) Bandá kosolola",
-      "item1": "Salá DM to Groupe mpe tinda nsango ya liboso.",
-      "item2": "Salelá bobongoli ya mbala moko mpo na kosolola na lokota 100+.",
-      "item3": "Meka nsango ekɛsana mpe bilembo ya kotánga na Profíli → Privacy."
-    },
-    "section3": {
-      "title": "3) Kende mosika",
-      "item1Part1": "Salisa plan na",
-      "upgradeLink": "Bongola",
-      "item1Part2": "lokasa (Plus = pub te, Premium = ba fonctionnalités nyonso).",
-      "item2Part1": "Kangisa appareil mosusu mpe tyá ba backup ebɔkɔlami na",
-      "settingsLink": "Bitɔpɔ"
-    },
-    "cta": {
-      "seePlans": "Mona ba plan",
-      "openSettings": "Fungola bitɔpɔ"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Sántɛ ya Lisungi",
-    "faq": {
-      "account": {
-        "q": "Ndenge nini nasalaka to nazongisaka compte na ngai?",
-        "a": "Tɛlɛmisa app to salelá web, finá “Salá compte”, ndimisá email/telefɔni. Mpo na kozongisa, salelá “Obosani mot de passe”."
-      },
-      "privacy": {
-        "q": "Ba nsango ezali na encryption na suka-ti-suka?",
-        "a": "Ɛɛ. Ba nsango mpe ba appels ebɔkɔlami na suka-ti-suka na ndakisa. Yo na moto ozali kosolola na ye nde bokotanga yango."
-      },
-      "translate": {
-        "q": "Ndenge nini bobongoli ya mbala moko esalaka?",
-        "a": "Sɨmbisa “Auto-translate” na Bitɔpɔ → Boyekoli & Lokota. Tosalaka na appareil soki esepeli, to na API ya bokengi na ba metadata mikemike."
-      },
-      "contact": {
-        "q": "Kokutana na lisungi",
-        "a": "Koma na biso na support@chatforia.com. Bakisa ba screenshot mpe version ya app na yo."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Kokutana na biso",
-    "successMsg": "Matondi—ekipi na biso ekoyanola na email.",
-    "errorSend": "Ekoki te kotinda. Svp tinda email na support@chatforia.com.",
-    "form": {
-      "nameLabel": "Nkombo",
-      "emailLabel": "Email",
-      "messageLabel": "Nsango",
-      "sendCta": "Tinda"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Politíki ya Privacy",
-    "lastUpdated": "Ebosanisi na:",
-    "intro": {
-      "body": "Politíki oyo elobeli ndenge Chatforia (“biso”) ezwaka, esalelaka, mpe ekabolaka maye elobami tango osalelaka ba application na biso mpe ba service. Tozali kotonga Chatforia mpo na kokitisa data oyo tokoki komona."
-    },
-    "infoWeCollect": {
-      "title": "Makambo tozwaka",
-      "account": "Makambo ya compte (ndakisa, email/telefɔni) mpo na kosala mpe kobatela compte.",
-      "encrypted": "Contenu ebɔkɔlami (ba nsango/ba appels) ezali na suka-ti-suka; tokoki kotánga yango te.",
-      "diagnostics": "Ba diagnostic/usage lokola crash logs, lolenge ya appareil, to analytics ya mike mpo na kobongisa mosala."
-    },
-    "howWeUse": {
-      "title": "Ndenge tosálelaka makambo",
-      "provide": "Kopesa mpe kobatela service (auth, koluka spam/abus).",
-      "improve": "Kobongisa ba fonctionnalités (kati ya bobongoli, bosenga).",
-      "legal": "Kokokisa misala ya mibeko."
-    },
-    "sharing": {
-      "title": "Kokabola",
-      "body": "Tóteka data ya moto te. Tokoki kokabola data moke na ba processeur (ndakisa, ba push notifications, analytics) na boyokani ya makasi."
-    },
-    "rights": {
-      "title": "Mibeko na yo",
-      "body": "Na mikili mosusu (ndakisa, GDPR/UK GDPR/CPRA), okoki kosɛnga kotála, kobongisa, kolongola, to koboya misala mosusu. Kontakt: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Kobátela data & Securité",
-      "body": "Tobátelaka kaka oyo esengeli mpo na kosalela service mpe tosálaka securité ya industrie. Contenu ya E2E tokoki kobɛbola yango te."
-    },
-    "children": {
-      "title": "Bana",
-      "body": "Chatforia etálami te mpo na bana na nse ya 13 (to ndenge mibeko ya mboka na yo esɛngaka)."
-    },
-    "changes": {
-      "title": "Mibongisi",
-      "body": "Tokotía sango awa mpe tokobongisa mokolo ya “Ebosanisi na”."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "privacy@chatforia.com • [Nkombo ya kompani ya mibeko], [Adresi]"
-    }
-  },
-
-  "terms": {
-    "title": "Batilɛ ya Mosala",
-    "lastUpdated": "Ebosanisi na:",
-    "intro": {
-      "body": "Na kosalela Chatforia oyokani na Batilɛ oyo. Soki oyokani te, salelá te service."
-    },
-    "accounts": {
-      "title": "Ba Compte",
-      "itemAccurateInfo": "Pesa makambo ya solo mpe batela ba credentials na yo.",
-      "itemResponsibility": "Ozali na mokumba mpo na makambo esalemaka na compte na yo."
-    },
-    "acceptableUse": {
-      "title": "Bosaleli ya malamu",
-      "itemNoAbuse": "Te na biloko ya mabe, ya mombongo, to ya kotyola mibeko; te na spam to abus ya otomatik.",
-      "itemSuspend": "Tokoki kotikisa/kolongola mpo na bokosi ya batilɛ."
-    },
-    "yourContent": {
-      "title": "Contenu na yo",
-      "body": "Ozali na lotomo na contenu na yo. Opesaka biso lotomo esengeli mpo na kosalela service (ndakisa, kotindisa, kobomba, kobongola)."
-    },
-    "disclaimer": {
-      "title": "Balobeli & mokumba",
-      "body": "Service epesamaka “bongo kaka” ata na ndingisa te. Kino na esika mibeko endimi, Chatforia azali na mokumba te mpo na bobeba ya mpenza to ya kolanda."
-    },
-    "changes": {
-      "title": "Mibongisi",
-      "body": "Tokoki kobongisa batilɛ; kosalela lisusu sima ya mibongisi elingi koloba oyokani."
-    },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • [Nkombo ya kompani ya mibeko], [Adresi]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Tɛkola te to Kabola te Makambo na Ngai",
-    "body": "Chatforia etɛkaka te makambo ya moto. Bavandi ya California bakoki kaka kotinda bosɛngi na se ya CPRA na bouton oyo.",
-    "cta": "Tinda bosɛngi"
-  },
-
-  "cookies": {
-    "title": "Bitɔpɔ ya Cookie",
-    "body": "Chatforia asalelaka cookie mike (ndakisa, session, securité). Tosalelaka te cookie ya pub ya bato misusu. Sala misala ya cookie na paramètres ya navigateur na yo."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Ekoki te kokɔtisa état ya nimero ya telefɔni.",
-    "lock": "Kanga",
-    "noNumberAssigned": "Nimero apesami te. Póna moko na code ya etuka mpo na kobanda kotinda SMS.",
-    "pickNumber": "Póna nimero",
-    "phoneNumber": "Nimero ya telefɔni"
-  },
-
-  "startChatModal": {
-    "title": "Bandá kosolola",
-    "quickPicker": "Moponi ya nokinoki",
-    "to": "Epai",
-    "nameOrUsername": "Koma nkombo, username",
-    "nameUsernamePhoneEmail": "Koma nkombo, username, nimero, to email…",
-    "startWithSelected": "Bandá na ba oyo oponi",
-    "searchByUsernameOrPhone": "Luka na username to telefɔni",
-    "search": "Luka",
-    "searchPrompt": "Koma username to telefɔni mpe finá Luka.",
-    "pickFromContacts": "To pona na bakontak",
-    "addContact": "Bakisa Kontak",
-    "show": "Lakisa",
-    "add": "Bakisa",
-    "close": "Kanga",
-    "selectedCount": "{{count}} oponami",
-    "pickAtLeastOne": "Póna moto moko ata moke.",
-    "saveContactsHint": "Telefɔni/email ekomonana sima ya kobatela lokola bakontak.",
-    "failedBulkStart": "Kobanda kosolola na ba oyo oponi ekatisi te.",
-    "noResults": "Ezwi te",
-    "mode": "Mode",
-    "group": "Groupe",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Nkombo ya groupe (ya kopona)",
-    "firstMessageOptional": "Nsango ya liboso (ya kopona kasi malamu)",
-    "createGroup": "Salá groupe",
-    "sendBroadcast": "Tinda broadcast"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Néon",
-    "sunset": "Pɔsɔ ya mɔ́í",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Ozali na Free — ba tɛ́nɛ ya premium emonisamaka kasi ekangi. Bongola mpo ofungola nionso.",
-    "preview": "Talá liboso",
-    "resetToDefaults": "Zongisa na défaut",
-    "notificationSounds": "Ba son ya mayɛlɛ",
-    "messageTone": "Ton ya nsango",
-    "default": "Défaut",
-    "vibrate": "Vibre",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Eloko oyo esɛngaka plan ya Premium."
-  },
-
-  "aiSettings": {
-    "title": "Bitɔpɔ ya AI",
-    "controlIntro": "Kamba bobongoli, ba eyano ya mayele, mpe eyano ya automatique ya ForiaBot.",
-    "save": "Bóbátela Bitɔpɔ ya AI",
-    "autoTranslateIncoming": "Bongola otomatisɛ ba nsango ekɔtaka",
-    "showOriginalAlongside": "Lakisa texte ya ebandeli pembeni na bobongoli",
-    "enableSmartReplies": "Sɨmbisa Eyano ya mayele",
-    "smartRepliesHint": "Tindisa ba nsango mike ekɔtaki (epɛtolami) epai ya AI mpo na ba eyano ya nokinoki.",
-    "maskProfanity": "Bómba maloba ya mabe na ba tolo ya AI",
-    "maskProfanityHint": "Soki ezali, ba tolo ya AI ekobomba maloba oyo ebɔkanami",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Sɨmbisa eyano ya automatique tango nazali bizí",
-    "autoReplyMode": "Mode ya eyano ya automatique",
-    "cooldownSeconds": "Ngonga ya kopema (sekɔnde)",
-    "off": "Likoló te",
-    "on": "Esilí",
-    "signature": "Signature",
-    "autoReply": "Eyano ya automatique",
-    "activeUntilOptional": "Ekomata kino (ya kopona)",
-    "saved": "Bitɔpɔ ya AI babatelami",
-    "saveFailed": "Kobatela bitɔpɔ ya AI ekatisi te",
-    "translateOff": "Likoló te",
-    "translateTagged": "Soki kaka babengi @translated to batagi",
-    "translateAll": "Bongola ba nsango nyonso ekɔtaka",
-    "modeDm": "1:1 kaka",
-    "modeMention": "Soki kaka batángi ngai @",
-    "modeAll": "Ba nsango nionso ekɔtaka"
-  },
-
-  "accessibilitySettings": {
-    "title": "Accessibilité & Alarmes",
-    "accessibility": "Accessibilité",
-    "accessibilityDesc": "Ba opsyo mpo na kosalisa kosalela Chatforia ata soki mayeɓi (sons) te.",
-    "interfaceFontSize": "Grandeur ya fonte ya interface",
-    "interfaceFontSizeHelp": "Ebandaka na molai ya normal. Bóbakisa soki olingi miké makasi na bitɔpɔ ya accessibilité.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Ba mayɛlɛ",
-    "notificationsDesc": "Ba alarme ya monɔkɔ mpo na ba nsango & ba appels\nLakisa ba banɛr mpe kobɛta titre mpo omibebisa te.",
-    "vibrateOnNew": "Vibre na nsango ya sika (soki esepeli)\nPesa vibration ya appareil na ba mayɛlɛ.",
-    "flashOnCall": "Fúlá ekran na kobɛnga ekɔti\nMɛkɛ makasi moke tango kobɛnga ekómaka.",
-    "liveCaptions": "Ba caption ya bomoi (ba appels)",
-    "captionFontSize": "Grandeur ya fonte ya caption",
-    "captionBackground": "Mwa ndakisa ya background ya caption",
-    "light": "pempe",
-    "dark": "molili",
-    "transparent": "pɛtɛlɛ",
-    "voiceNotes": "Ba noti ya mongongo",
-    "autoTranscribeVoiceNotes": "Bongola otomatisɛ ba noti ya mongongo\nBakakisa transcription na ba audio osɛngaka.",
-    "changesSavedInstantly": "Mibongisi ebatelami mbala moko.",
-    "loadFailed": "Kokɔtisa bitɔpɔ ekatisi te",
-    "visualAlerts": "Ba alarme ya monɔkɔ mpo na ba nsango & ba appels",
-    "visualAlertsDesc": "Lakisa ba banɛr mpe kobɛta titre mpo omibebisa te.",
-    "vibrateOnNewShort": "Vibre na nsango ya sika (soki esepeli)",
-    "vibrateOnNewDesc": "Pesa vibration ya appareil na ba mayɛlɛ.",
-    "flashOnCallShort": "Fúlá ekran tango kobɛnga ekɔti",
-    "flashOnCallDesc": "Fúlá moke polele tango kobɛnga ezali kobɛta."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Encryption ya suka-ti-suka makasi",
-    "ciphertextOnlyNote": "Bomba kaka ‘ciphertext’ na server. Ezongisi AI/Translate mpe misisa ya moderation."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Ba Appareil ekangami",
-    "noneFound": "Appareil moko te emonani.",
-    "refresh": "Zongisa sika"
-  },
-
-  "help": {
-    "title": "Lisungi",
-    "howCanWeHelp": "Ndenge nini tokoki kosalisa yo?",
-    "helpCenter": "Sántɛ ya Lisungi",
-    "contactUs": "Kokutana na biso",
-    "quickTopics": "Mitó ya nokinoki",
-    "searchExamples": "Meka koluka “kobongola”, “ba backup”, to “privacy”.",
-    "cantLogin": "Okoki kokɔta te",
-    "paymentsBilling": "Ba paiement/ kofuta",
-    "reportAbuse": "Lapola mabe",
-    "searchHelpArticles": "Luka ba artiklɛ ya lisungi",
-    "search": "Luka"
-  },
-
-  "peoplePage": {
-    "people": "Bato",
-    "search": "Luka",
-    "searchPlaceholder": "Luka na alias, nkombo, username, to telefɔni",
-    "filterSaved": "Fíltɛr bakontak babatelami",
-    "noContactsFound": "Bakontak ezwami te",
-    "quickStart": "Bandeli ya nokinoki",
-    "quickStartDesc": "Ndenge ya nokinoki ya kobanda mosala.",
-    "importContacts": "Kɔtisa bakontak na yo",
-    "add": "Bakisa",
-    "focusSearch": "Pésa ‘focus’ na boluki",
-    "import": "Kɔtisa",
-    "findOrAdd": "Zwa to bakisa moto",
-    "searchByPhoneOrUsername": "Luka na telefɔni / username",
-    "inviteFriends": "Benga baninga",
-    "inviteDesc": "Bɛtɛlɛ lien ya kobenga mpo na kobanda kosolola mbala moko.",
-    "getTheApp": "Zwa app",
-    "getTheAppDesc": "Tika kosɛnga na nzela na Chatforia na iOS mpe Android.",
-    "download": "Tɛlɛmisa",
-    "syncTip": "Tip: Ba nsango na yo ekosíngama na web mpe mobile."
-  },
-
-  "randomChat": {
-    "title": "Kosolola na moto oyo okanisi te",
-    "description": "Sangana na moto ya sika mbala moko. Tokosangana bino mpe kofungola salo ya ntango moke.",
-    "findMatch": "Zwa moninga mpo na ngai",
-    "chatWithForia": "Kosolola na Foria",
-    "chatWithForiaBot": "Kosolola na ForiaBot",
-    "cancel": "Bóboya",
-    "close": "Kanga",
-    "searching": "Kozelaka…",
-    "finding": "Kozwa…",
-    "looking": "Kozwa moto…",
-    "startingForia": "Kobanda kosolola na Foria…",
-    "partnerDisconnected": "Moninga abimá.",
-    "noPartner": "Moninga moko te sik’oyo.",
-    "connectedTo": "Osanganaki na {{name}}",
-    "connected": "Esangani",
-    "idle": "Epayi",
-    "partnerLeft": "Moninga akendeki.",
-    "stopped": "Eteni esili.",
-    "skip": "Samba",
-    "save": "Bóbátela",
-    "saveGuard": "Ba kosolola ya moto na moto nde ekoki kobatelama",
-    "youAreChattingWith": "Ozali kosolola na {{name}}",
-    "bot": "BOT",
-    "leave": "Bima",
-    "sayHi": "Lobá mbote 👋",
-    "you": "Yo",
-    "typeMessage": "Koma nsango",
-    "send": "Tinda",
-    "partner": "Moninga",
-    "withForia": "Na Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Fungola menu ya navigation",
-    "closeNav": "Kanga menu ya navigation",
-    "homeAria": "Ebandeli ya Chatforia"
-  },
-
-  "login": {
-    "title": "Boyei malamu lisusu",
-    "subtitle": "Kɔta na compte na yo ya Chatforia",
-    "google": "Koba na Google",
-    "apple": "Koba na Apple",
-    "googleUnavailable": "Kokɔta na Google ezali te",
-    "appleUnavailable": "Kokɔta na Apple ezali te",
-    "or": "to",
-    "email": "Email",
-    "emailPh": "yo@exemple.com",
-    "usernameLabel": "Username",
-    "usernamePh": "Username na yo",
-    "passwordLabel": "Mot de passe",
-    "passwordPh": "Mot de passe na yo",
-    "keepSignedIn": "Tika ngai nakóma kaka kati",
-    "forgot": "Obosani mot de passe?",
-    "submit": "Kɔta",
-    "loggingIn": "Kokɔta…",
-    "newHere": "Oya sika? <link/Salá compte</link>",
-    "ssoUnavailable": "Single-sign-on ezali te sik’oyo. Salelá username & mot de passe.",
-    "error": {
-      "missing": "Tyá maye esengeli ya kokɔta.",
-      "invalid": "Username to mot de passe ezali mabe",
-      "denied": "Bokɔti eboyami.",
-      "unprocessable": "Bosɛngi ezali mabe. Tala username/email na yo mpe mot de passe.",
-      "deviceLimit": "Limiti ya appareil ekokisami mpo na plan Free. Bima na appareil mosusu to bongola na Premium mpo na kokangisa ebele ya appareil.",
-      "premiumRequired": "Likambo oyo esɛngaka plan ya Premium."
+      "privacy": "Politique ya Privacy"
     }
   }
 }

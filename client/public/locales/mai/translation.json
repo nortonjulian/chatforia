@@ -2,985 +2,1673 @@
   "common": {
     "save": "सहेजू",
     "cancel": "रद्द करू",
-    "refresh": "रिफ्रेश करू",
-    "noMatches": "कोनो मिलान नै",
-    "cancelAria": "रद्द",
-    "copy": "कापी करू",
-    "copied": "कापी भ' गेल!"
+    "refresh": "ताज़ा करू",
+    "noMatches": "कोनो मिलान नहि",
+    "cancelAria": "रद्द करू",
+    "copy": "कॉपी करू",
+    "copied": "कॉपी भेल!",
+    "errorWithMessage": "त्रुटि: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "मुख्य समग्री पर जाउ"
+    "skipToMain": "मुख्य सामग्री पर जाऊ"
   },
-
-  "profile": {
-    "title": "यूजर प्रोफाइल",
-    "preferredLanguage": "पसंदीदा भाषा",
-    "chooseLanguage": "एकटा भाषा चुनू",
-    "mustLogin": "सेटिंग देखबाक लेल अहाँकेँ साइन इन करबाक आवश्यकता छै.",
-    "autoTranslate": "संदेश स्वचालित अनुवाद करू",
-    "showOriginalWithTranslation": "मूल आ अनुवादित संदेश देखाबू",
-    "showOriginalAndTranslation": "मूल संगहि अनुवाद देखाबू",
-    "filterExplicit": "अश्लील/अनुचित सामग्री फिल्टर करू",
-    "aiReply": "एआई जवाब",
-    "enableReadReceipts": "रीड रसीद सक्रिय करू",
-    "allowExplicitContent": "अश्लील/अनुचित सामग्री स्वीकारू",
-    "disappearingMessages": "गायब होय वला संदेश सक्रिय करू",
-    "autoDeleteSeconds": "स्वतः हटाबै तक सेकेंड",
-    "saveSuccess": "सेटिंग सहेजल गेल!",
-    "saveError": "त्रुटि: सेटिंग सहेज नै सकल",
-    "avatarAlt": "प्रोफाइल अवतार",
-    "uploadAvatar": "नव अवतार अपलोड करू",
-    "avatarSuccess": "अवतार अपलोड भ' गेल!",
-    "avatarError": "अवतार अपलोड करैत त्रुटि",
-    "noPrivateKey": "ई डिवाइस पर निर्यात करबाक लेल निजी कुंजी नै अछि.",
-    "setBackupPassword": "अपन बैकअप केँ एन्क्रिप्ट करबाक लेल पासवर्ड सेट करू:",
-    "backupDownloaded": "एन्क्रिप्टेड बैकअप डाउनलोड भ' गेल.",
-    "exportFailed": "कुंजी निर्यात विफल",
-    "enterBackupPassword": "ई बैकअप लेल पासवर्ड दाखिल करू:",
-    "importSuccess": "निजी कुंजी ई डिवाइस पर आयात भ' गेल.",
-    "importFailed": "कुंजी आयात विफल (गलत पासवर्ड अथवा भ्रष्ट फाइल).",
-    "keysRotated": "नव कुंजी-युग्म बनल आ सार्वजनिक कुंजी अपलोड भेल.",
-    "rotateFailed": "कुंजी घुमाएनाय विफल.",
-    "security": "सुरक्षा",
-    "exportKey": "निजी कुंजी निर्यात करू",
-    "importKey": "एन्क्रिप्टेड कुंजी बैकअप आयात करू",
-    "rotateKeys": "कुंजी-युग्म घुमाउ",
-    "keyDisclaimer": "अहाँक निजी कुंजी कहियो ई डिवाइस सँ बाहर नै जाएत. दोसर डिवाइस पर पुनर्स्थापित करबाक लेल पासवर्ड-संरक्षित प्रतिलिपि निर्यात करू.",
-    "sectionProfile": "प्रोफाइल",
-    "phoneNumber": "फोन नंबर",
-    "appearance": "दिखावट",
-    "soundSettings": "आवाज",
-    "disappearing": "गायब संदेश",
-    "backupSync": "बैकअप आ सिंक",
-    "ai": "एआई",
-    "accessibility": "एक्सेसिबिलिटी",
-    "privacy": "गोपनीयता",
-    "devices": "लिंक कएल डिवाइस",
-    "themeFreeNotice": "अहाँ फ्री पर छी—नीचे त्वरित सन/मून विकल्प प्रयोग करू. बेसी थीम लेल अपग्रेड करू.",
-    "sunTheme": "डॉन थीम प्रयोग करू",
-    "moonTheme": "मून (मिडनाइट) थीम प्रयोग करू",
-    "sun": "सन",
-    "moon": "मून",
-    "backupTitle": "एन्क्रिप्टेड बैकअप्स आ डिवाइस सिंक",
-    "openBackupTools": "बैकअप टूल खोलू",
-    "backupDesc": "अपन कुंजीक पासवर्ड-संरक्षित बैकअप बनाउ, आ दोसर डिवाइस पर पुनर्स्थापित क' सिंक करू.",
-    "privacyBlurEnabled": "संदेश डिफॉल्ट सँ धुंधला रखू",
-    "privacyBlurOnUnfocus": "एप्प अनफोकस पर धुंधला करू",
-    "holdToReveal": "देखबाक लेल दबाएन राखू",
-    "notifyOnCopy": "जँ हमर संदेश कापी होए त' मोनूआबू",
-    "loadFailed": "प्रोफाइल लोड करैत त्रुटि",
-    "followed": "फॉलो कएल गेल",
-    "followFailed": "फॉलो करैत त्रुटि",
-    "unfollowed": "अनफॉलो कएल गेल",
-    "unfollowFailed": "अनफॉलो करैत त्रुटि",
-    "follow": "फॉलो करू",
-    "unfollow": "अनफॉलो करू",
-    "followHint": "ओहि सभक कहानी 'फॉलोइंग' फीड मे देखायत जँ ओ अपन ऑडियंस 'Followers' (अथवा 'Public') राखि पोस्ट करता.",
-    "userNotFound": "यूजर नहि भेटल",
-    "followsYou": "अहाँकेँ फॉलो करैत अछि",
-    "sectionCrashedTitle": "सेक्शन लोड होएत असफल",
-    "sectionCrashedBody": "ई सेक्शन मे किछु गड़बड़ी भ' गेल.",
-    "forwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
-    "callTextForwardingSection": "कॉल आ टेक्स्ट फॉरवर्डिंग",
-    "callTextForwardingTitle": "कॉल/टेक्स्ट फॉरवर्डिंग",
-    "callTextForwardingDescription": "आउटल कॉल/टेक्स्ट मे अहाँक Chatforia नंबर देखाएल जा सकैत अछि. इनबाउंड कॉल आ टेक्स्ट केँ सत्यापित फोन अथवा ईमेल पर फॉरवर्ड करू.",
-    "enableTextForwarding": "टेक्स्ट फॉरवर्डिंग सक्षम करू",
-    "forwardTextsToPhone": "टेक्स्ट केँ फोन पर फॉरवर्ड करू",
-    "forwardTextsToEmail": "टेक्स्ट केँ ईमेल पर फॉरवर्ड करू",
-    "destinationPhone": "गंतव्य फोन (E.164)",
-    "destinationEmail": "गंतव्य ईमेल",
-    "enableCallForwarding": "कॉल फॉरवर्डिंग सक्षम करू",
-    "destinationPhoneForCalls": "कॉल लेल गंतव्य (E.164)",
-    "aliasBridging": "कॉल फॉरवर्डिंग (उपनाम ब्रिजिंग)",
-    "quietHoursOptional": "क्वायट आवर्स (वैकल्पिक)",
-    "startHour": "आरंभ घंटा (0–23)",
-    "endHour": "समाप्ति घंटा (0–23)",
-    "reset": "रीसेट",
-    "saveBtn": "सहेजू",
-    "forwardSaved": "फॉरवर्डिंग सेटिंग सहेजल गेल",
-    "forwardSaveFailed": "सेटिंग सहेजैत त्रुटि",
-    "errE164": "वैध E.164 फोन दर्ज करू (उदा., +15551234567)।",
-    "errEmail": "वैध ईमेल दर्ज करू.",
-    "errSmsDest": "कम सँ कम एकटा गंतव्य (फोन अथवा ईमेल) चुनू.",
-    "errQuietHours": "क्वायट आवर्स 0 सँ 23 बीच होएबाक चाही."
+  "keys": {
+    "backupCreated": "कुंजी बैकअप बनाएल गेल आ डाउनलोड भेल ✓",
+    "restored": "कुंजी बैकअप पुनर्स्थापित भेल ✓ कुंजी लोकल रूप से स्थापित",
+    "noBackup": "एहि खाता खातिर कोनो एन्क्रिप्टेड बैकअप नहि अछि",
+    "missingPublicKey": "बैकअप में सार्वजनिक कुंजी गुम अछि"
   },
-
-  "support": {
-    "helpFab": "मदद",
-    "openSupportAria": "सपोर्ट खोलू",
-    "badge": "सपोर्ट",
-    "heading": "हम किहिना मदद करी?",
-    "tabs": {
-      "help": "हेल्प सेंटर",
-      "contact": "हमरा सँ संपर्क करू"
-    },
-    "searchPlaceholder": "हेल्प आर्टिकल खोजू…",
-    "searchAria": "मदद खोजू",
-    "searchBtn": "खोजू",
-    "quickTopicsLabel": "त्वरित विषय",
-    "quickTopics": {
-      "login": "लॉग इन नै भए रहल",
-      "billing": "भुगतान/बिलिंग",
-      "abuse": "दुरुपयोग रिपोर्ट करू"
-    },
-    "trySearching": "“translate”, “backups”, अथवा “privacy” खोजि देखू.",
-    "article": "लेख",
-    "openArticle": "लेख खोलू",
-    "contactIntro": "हम ईमेल सँ जवाब देब. समस्या पुनरुत्पादन करबाक विवरण जोड़ू.",
-    "topicAria": "एकटा विषय चुनू",
-    "messagePlaceholder": "अपन संदेश लिखू…",
-    "sendBtn": "भेजू",
-    "sent": "संदेश भेजल गेल. हम ईमेल सँ जवाब देब.",
-    "sendError": "भेजि नै सकल. कृपया support@chatforia.com पर ईमेल करू."
+  "keySetup": {
+    "title": "अपन डिवाइस कुंजी सेटअप करू",
+    "description": "एहि डिवाइस पर अहाँक निजी कुंजी अखनो नहि अछि। पासवर्ड-संरक्षित बैकअप आयात करू, अथवा नया कीपेयर उत्पन्न करू (अहाँ अब सँ नयाँ संदेश पढ़ सकब।)",
+    "chooseFile": "फाइल चुनू आ पासवर्ड भरू।",
+    "imported": "निजी कुंजी एहि डिवाइस पर आयात भेल। अहाँ अब पुरान संदेश पढ़ सकब।",
+    "enterPassword": "अपन खाता पासवर्ड भरू जाहि सँ हम अहाँक कुंजी सुरक्षित रूप सँ बैकअप कर सकब।"
   },
-
-  "chat": {
-    "selectPrompt": "गप्प करबाक लेल टेक्स्ट अथवा चैटरूम चुनू",
-    "newMessages": "नव संदेश",
-    "typing": "{{name}} टाइप करैत अछि...",
-    "emptyTitle": "अहाँक संदेश",
-    "emptySubtitle": "चैट शुरू करबाक लेल एकटा संदेश भेजू.",
-    "startChatButton": "संदेश भेजू"
-  },
-
-  "topbar": {
-    "newStatus": "नव स्टेटस",
-    "logout": "लॉग आउट",
-    "help": "मदद",
-    "createStatusAria": "नव स्टेटस बनाउ"
-  },
-
-  "status": {
-    "userNumber": "यूजर #{{id}}",
-    "posted": "स्टेटस पोस्ट भ' गेल",
-    "postFailed": "स्टेटस पोस्ट करैत त्रुटि",
-    "createTitle": "स्टेटस बनाउ",
-    "modalAriaLabel": "नव स्टेटस",
-    "captionLabel": "की मन मे अछि?",
-    "captionPlaceholder": "कोनो अपडेट शेयर करू...",
-    "captionAria": "स्टेटस संदेश",
-    "audienceLabel": "दर्शक",
-    "audience": {
-      "public": "सार्वजनिक",
-      "followers": "फॉलोअर्स",
-      "contacts": "कॉन्टैक्ट्स",
-      "mutuals": "म्यूचुअल",
-      "custom": "कस्टम..."
-    },
-    "expiresHoursLabel": "समाप्त (घंटा)",
-    "maxTooltip": "अधिकतम 7 दिन",
-    "hoursAbbrev": "घं",
-    "maxShort": "अधिकतम",
-    "expiresOn": "ई दिन समाप्त:",
-    "chooseRecipients": "प्राप्तकर्ता चुनू",
-    "selectContacts": "कॉन्टैक्ट्स चुनू",
-    "attachmentsLabel": "अटैचमेंट",
-    "attachmentsPlaceholder": "छवि/वीडियो जोड़ू",
-    "filesNote": "अधिकतम 5 फाइल. डिफॉल्ट 24 घंटा मे समाप्त.",
-    "postAria": "स्टेटस पोस्ट करू",
-    "post": "पोस्ट"
-  },
-
-  "contactList": {
-    "savedContacts": "सेव कएल कॉन्टैक्ट्स",
-    "refreshAria": "कॉन्टैक्ट्स रिफ्रेश करू",
-    "filterPlaceholder": "सेव कएल कॉन्टैक्ट्स फिल्टर करू…",
-    "filterAria": "सेव कएल कॉन्टैक्ट्स फिल्टर",
-    "noContactsFound": "कोनो कॉन्टैक्ट नै भेटल.",
-    "externalContact": "बाहरी कॉन्टैक्ट",
-    "notJoined": "ई कॉन्टैक्ट अभी तक Chatforia मे नै जुड़ल अछि.",
-    "couldNotStart": "चैट शुरू नै भ' सकल. फिनु कोसिस करू.",
-    "startFailed": "चैट शुरू करैत त्रुटि. फिनु कोसिस करू.",
-    "deleted": "कॉन्टैक्ट मिटाएल गेल.",
-    "deleteFailed": "कॉन्टैक्ट मेटेबै मे त्रुटि. फिनु कोसिस करू.",
-    "aliasUpdated": "उपनाम अपडेट भेल.",
-    "updateAliasFailed": "उपनाम अपडेट करैत त्रुटि. फिनु कोसिस करू.",
-    "selectContact": "{{name}} चुनू",
-    "alias": "उपनाम",
-    "startChat": "चैट शुरू करू",
-    "message": "संदेश",
-    "delete": "मेटाबू",
-    "deleteContactAria": "कॉन्टैक्ट मेटाबू",
-    "loadFailed": "कॉन्टैक्ट्स लोड करैत त्रुटि. फिनु कोसिस करू.",
-    "loadMore": "आओर लोड करू"
-  },
-
-  "sidebar": {
-    "randomChat": "रैंडम चैट",
-    "callTextForwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
-    "conversations": "वार्तालाप",
-    "searchPlaceholder": "वार्तालाप खोजू...",
-    "errorLoading": "चैट लोड करैत त्रुटि",
-    "empty": "अखन तक कोनो वार्तालाप नै.",
-    "startChat": "चैट शुरू करू",
-    "people": "लोग",
-    "settings": "सेटिंग्स",
-    "status": "स्टेटस",
-    "forwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
-    "refresh": "रिफ्रेश",
-    "search": "वार्तालाप खोजू",
-    "loginPrompt": "अपन सेटिंग बदलबाक लेल लॉग इन करू.",
-    "login": "लॉग इन",
-    "register": "खाता बनाउ",
-    "chatrooms": "चैटरूम",
-    "logout": "लॉग आउट",
-    "startChatAlt": "नव चैट शुरू करू"
-  },
-
-  "premium": {
-    "heading": "प्रीमियम लेल जाउ",
-    "description": "पावर फीचर्स अनलॉक करू आ विज्ञापन हटाउ.",
-    "cta": "अपग्रेड करू",
-    "upgrade": "अपग्रेड",
-    "upgradeAria": "Chatforia प्रीमियम पर अपग्रेड करू"
-  },
-
   "auth": {
-    "headline": "तुरंत अनुवाद संग सुरक्षित, वैश्विक मैसेजिंग",
-    "description": "एंड-टू-एंड एन्क्रिप्शन, एआई-संचालित अनुवाद, गायब संदेश, आ वॉइस/वीडियो कॉलिंग.",
+    "headline": "कोनो खातिर, कोनो जगह सुरक्षित संदेश",
+    "description": "एंड-टू-एंड एन्क्रिप्शन, 100+ भाषा में अनुवाद, गायब होनेवाला संदेश आ वॉइस/वीडियो कॉलिंग।",
     "feature": {
-      "encryption": "डिफॉल्ट सँ एंड-टू-एंड एन्क्रिप्शन",
-      "translation": "100+ भाषा स्वतः अनुवाद",
-      "disappearing": "गायब संदेश आ रीड रसीद",
-      "privacy": "गोपनीयता-पहिलुका. अहाँक डाटा, अहाँक नियंत्रण.",
-      "translate": "रियल-टाइम अनुवाद",
-      "disappear": "गायब होइत संदेश",
-      "privacyAlt": "गोपनीयता-पहिलुका डिजाइन"
+      "encryption": "पूर्वनिर्धारित एंड-टू-एंड एन्क्रिप्शन",
+      "translation": "स्मार्ट, अंतर्निहित संदेश अनुवाद",
+      "disappearing": "गायब होनेवाला संदेश आ पढ़ल भेल रसीद",
+      "privacy": "गोपनीयता-प्रथम। अहाँक डेटा, अहाँक नियंत्रण।",
+      "translate": "स्मार्ट, अंतर्निहित संदेश अनुवाद",
+      "disappear": "गायब होनेवाला संदेश",
+      "privacyAlt": "गोपनीयता-प्रथम डिज़ाइन",
+      "seePlans": "योजना आ मूल्य देखू"
     },
     "hero": {
-      "line1": "सुरक्षित, वैश्विक",
-      "beforeEm": "मैसेजिंग जहाँ",
-      "em": "तुरंत अनुवाद",
-      "sub": "एंड-टू-एंड एन्क्रिप्शन, एआई-संचालित अनुवाद, गायब संदेश, आ वॉइस/वीडियो कॉलिंग."
+      "line1": "कोनो खातिर, कोनो जगह सुरक्षित संदेश — ",
+      "em": "100+ भाषा में अनुवाद सँ",
+      "sub": "वाइ-फ़ाई अथवा डेटा पर विश्वव्यापी कॉल आ टेक्स्ट खातिर मुफ्त सुरक्षित फोन नंबर पाउ। एंड-टू-एंड एन्क्रिप्शन, गायब होनेवाला संदेश आ एचडी वॉइस/वीडियो कॉलिंग का आनंद लिअ — सीमा पार कनेक्ट रहब में मदद करनेवाला अंतर्निहित उपकरण सँ।",
+      "freeNote": "मूल कॉलिंग आ टेक्स्टिंग मुफ्त अछि। उन्नत एआई आ प्रीमियम फीचर खातिर अपग्रेड आवश्यक अछि।"
     },
     "feat": {
-      "encryption": "डिफॉल्ट सँ एंड-टू-एंड एन्क्रिप्शन",
-      "translate": "100+ भाषा स्वतः अनुवाद",
-      "disappear": "गायब संदेश आ रीड रसीद",
-      "privacy": "गोपनीयता-पहिलुका. अहाँक डाटा, अहाँक नियंत्रण."
+      "encryption": "एंड-टू-एंड एन्क्रिप्शन, सदैव चालू",
+      "translate": "अपन बातचीत में भाषा की बाधा तोड़ू",
+      "disappear": "गायब होनेवाला संदेश आ पढ़ल भेल रसीद",
+      "privacy": "गोपनीयता-प्रथम। अहाँक डेटा, अहाँक नियंत्रण।"
     },
-    "welcomeBack": "फेर स्वागत अछि",
     "continueGoogle": "Google सँ जारी रखू",
     "continueApple": "Apple सँ जारी रखू",
-    "username": "यूजरनेम",
+    "username": "उपयोगकर्ता नाम",
     "password": "पासवर्ड",
-    "keepSignedIn": "हमरा साइन इन रहन देब",
-    "forgotPassword": "पासवर्ड भूलि गेलहुँ?",
+    "keepSignedIn": "हमरा साइन-इन रखू",
+    "forgotPassword": "पासवर्ड भुलल?",
     "loginButton": "लॉग इन",
     "createAccount": "खाता बनाउ",
-    "freeAccountButton": "फ्री खाता बनाउ",
-    "newHere": "नव छी?",
-    "getApp": "एप्प पाउ",
-    "desktopTip": "डेस्कटॉप पर छी? फोन सँ स्कैन क' एप्प लियाउ.",
-    "scanHelper": "डेस्कटॉप पर छी? फोन सँ स्कैन क' एप्प लियाउ.",
-    "goHome": "होम पर जाउ",
-    "home": "होम",
+    "freeAccountButton": "मुफ्त खाता बनाउ",
+    "newHere": "नया अछि?",
+    "getApp": "ऐप पाउ",
+    "desktopTip": "डेस्कटॉप पर अछि? फोन सँ स्कैन करी ऐप पाउ।",
+    "scanHelper": "डेस्कटॉप पर अछि? फोन सँ स्कैन करी ऐप पाउ।",
+    "goHome": "घर जाउ",
+    "home": "घर",
     "headlineAlt": {
-      "main": "ई सुरक्षित मेसेंजर",
+      "main": "सुरक्षित मैसेंजर जे",
       "highlight": "अहाँक भाषा बोलैत अछि"
     },
-    "subhead": "निजी, एन्क्रिप्टेड, आ अनुवादित मैसेजिंग — तुरंत.",
-    "status": "स्टेटस देखू",
-    "upgrade": "एखनहि अपग्रेड करू",
-    "tip": "टिप: वेब आ मोबाइल पर एक्के खाता प्रयोग करू. अहाँक संदेश सिंक रहत.",
-    "openDownload": "डाउनलोड पेज खोलू",
-    "qrAlt": "Chatforia लेल क्यूआर कोड",
-    "scanHint": "एप्प डाउनलोड करबाक लेल अथवा ब्राउजर मे खोलबाक लेल स्कैन करू.",
-    "iosAria": "एप्प स्टोर सँ डाउनलोड",
-    "iosTitle": "एप्प स्टोर सँ डाउनलोड",
-    "iosBadgeAlt": "एप्प स्टोर बैज",
+    "subhead": "निजी, एन्क्रिप्टेड आ अनुवादित संदेश — तुरंत।",
+    "upgrade": "अब अपग्रेड करू",
+    "tip": "टिप: वेब आ मोबाइल पर एके खाता प्रयोग करू। अहाँक संदेश सिंक रहैत अछि।",
+    "openDownload": "डाउनलोड पृष्ठ खोलू",
+    "qrAlt": "Chatforia खातिर QR कोड",
+    "scanHint": "ऐप डाउनलोड करब खातिर स्कैन करू अथवा ब्राउजर में खोलू।",
+    "iosAria": "App Store पर डाउनलोड करू",
+    "iosTitle": "App Store पर डाउनलोड करू",
+    "iosBadgeAlt": "App Store बैज",
     "androidAria": "Google Play पर पाउ",
-    "androidTitle": "Google Play स्टोर",
+    "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Google Play बैज",
     "login": "लॉग इन",
     "signup": "साइन अप",
-    "email": "ईमेल"
+    "email": "ईमेल",
+    "registration": {
+      "passwordDescription": "न्यूनतम 6 अक्षर। मजबूत, अनोखा पासवर्ड प्रयोग करू।",
+      "smsConsent": "खाता बनाबै सँ अहाँ Chatforia गतिविधि संबंधित SMS सूचना (अन्य उपयोगकर्ता सँ संदेश सहित) प्राप्त करब खातिर सहमत अछि। संदेश आ डेटा दर लागू हो सकैत अछि। अहाँ कबो सेटिंग्स में ऑप्ट आउट कर सकब।",
+      "termsLink": "सेवा की शर्तें",
+      "privacyLink": "गोपनीयता नीति"
+    },
+    "to": "प्रति:",
+    "enterRecipient": "नाम अथवा नंबर भरू",
+    "clearRecipients": "प्राप्तकर्ता साफ़ करू",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "संदेश टाइप करू…",
+    "addRecipient": "आरंभ करब खातिर उपर प्राप्तकर्ता जोड़ू…",
+    "oneRecipient": "अखन एके प्राप्तकर्ता भरू।",
+    "enterValidRecipient": "सहेजल संपर्क नाम अथवा फोन नंबर भरू।",
+    "sendFailed": "भेजल नहि भेल। विवरण खातिर कंसोल जाँचू।"
   },
-
-  "footer": {
-    "plans": "प्लान्स आ कीमत",
-    "about": "Chatforia बारे मे",
-    "careers": "कैरियर",
-    "press": "प्रेस",
-    "advertise": "विज्ञापन",
-    "contact": "हमरा सँ संपर्क",
-    "help": "हेल्प सेंटर",
-    "status": "स्टेटस पेज",
-    "iosDownload": "iOS / एप्प स्टोर",
-    "androidDownload": "Android / Google Play",
-    "privacy": "गोपनीयता नीति",
-    "terms": "सेवा की शर्त",
-    "cookies": "कुकी सेटिंग्स",
-    "doNotSell": "हमर जानकारी नै बेचू",
-    "language": "भाषा",
-    "contactShort": "संपर्क",
-
-    "aria": "फुटर",
-    "homeAria": "Chatforia होम",
-    "section": {
-      "company": "कंपनी",
-      "support": "सपोर्ट",
-      "downloads": "डाउनलोड",
-      "legal": "कानूनी"
-    },
-    "links": {
-      "plans-pricing": "प्लान्स आ कीमत",
-      "about-chatforia": "Chatforia बारे मे",
-      "careers": "कैरियर",
-      "press": "प्रेस",
-      "advertise": "विज्ञापन",
-      "getting-started": "शुरू करबाक गाइड",
-      "help-center": "हेल्प सेंटर",
-      "contact-us": "हमरा सँ संपर्क",
-      "status-page": "स्टेटस पेज",
-      "ios-app-store": "iOS / एप्प स्टोर",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "गोपनीयता नीति",
-      "terms-of-service": "सेवा की शर्त",
-      "do-not-sell-my-info": "हमर जानकारी नै बेचू",
-      "cookie-settings": "कुकी सेटिंग्स"
-    },
-    "social": {
-      "tiktok": "टिकटॉक",
-      "instagram": "इंस्टाग्राम",
-      "facebook": "फेसबुक",
-      "linkedin": "लिंक्डइन",
-      "x": "एक्स"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "पेटेंट लंबित",
-    "backToTop": "↑ ऊपर घुमू"
-  },
-
   "home": {
-    "title": "होम",
+    "title": "घर",
     "header": "अहाँक संदेश",
-    "subheader": "चैट शुरू करबाक लेल एकटा संदेश भेजू.",
+    "subheader": "चैट शुरू करब खातिर संदेश भेजू।",
     "sendButton": "संदेश भेजू",
     "gifPicker": "GIF पिकर खोलू",
     "emoji": "इमोजी",
     "upload": "फोटो अथवा वीडियो अपलोड करू",
     "inputPlaceholder": "संदेश टाइप करू…",
-    "inputLabel": "मैसेज कंपोजर",
+    "inputLabel": "संदेश रचयिता",
     "sendTooltip": "भेजू",
-    "sendTooltipEmpty": "भेजबाक लेल संदेश टाइप करू",
+    "sendTooltipEmpty": "भेजब खातिर संदेश टाइप करू",
     "send": "भेजू",
-    "welcomeMessage": "Chatforia मे स्वागत अछि",
-    "getStarted": "शुरू करू"
+    "welcomeMessage": "Chatforia में स्वागत",
+    "getStarted": "आरंभ करू"
   },
-
-  "press": {
-    "title": "प्रेस",
-    "contactLine": "मीडिया जिज्ञासा लेल, हमरो संग संपर्क करू",
-    "boilerplateTitle": "बॉयलरप्लेट",
-    "boilerplateBody": "Chatforia एकटा गोपनीयता-पहिलुका मैसेजिंग एप्प अछि जे भाषाई सीमाकेँ सहज बनबैत अछि. संदेश डिफॉल्ट सँ एंड-टू-एंड एन्क्रिप्टेड अछि, आ बिल्ट-इन अनुवाद रियल टाइम मे 100+ भाषा सपोर्ट करैत अछि. यूजर गायब संदेश सक्षम क' सकैत अछि, रीड रसीद वैकल्पिक रखि सकैत अछि, आ डिवाइस-क' डिवाइस सिंक क' सकैत अछि. iOS, Android, आ वेब पर उपलब्ध.",
-    "assetsTitle": "ब्रांड एसेट",
-    "assetsSubtitle": "लोगो, स्क्रीनशॉट, आ प्रोडक्ट इमेजरी.",
-    "downloadCta": "मीडिया किट डाउनलोड करू",
-    "downloadTitle": "एप्प पाउ",
-    "scanTip": "डेस्कटॉप पर छी? फोन सँ स्कैन क' एप्प पाउ.",
-    "qrAria": "Chatforia वेबसाइट खोलू",
-    "appStore": "एप्प स्टोर पर डाउनलोड",
-    "googlePlay": "Google Play पर पाउ"
+  "chat": {
+    "selectPrompt": "चैटिंग शुरू करब खातिर पाठ अथवा चैट रूम चुनू",
+    "newMessages": "नयाँ संदेश",
+    "typing": "{{name}} टाइप कए रहल अछि...",
+    "emptyTitle": "अहाँक संदेश",
+    "emptySubtitle": "चैट शुरू करब खातिर संदेश भेजू।",
+    "startChatButton": "संदेश भेजू",
+    "mediaAttachment": "मीडिया संलग्नक",
+    "thisUser": "एहि उपयोगकर्ता",
+    "blockConfirm": "{{name}} ब्लॉक करू? अहाँ हुनका सँ संदेश प्राप्त नहि करब।",
+    "blockedUser": "{{name}} ब्लॉक भेल।",
+    "blockError": "ब्लॉक करब खातिर लक्ष्य उपयोगकर्ता निर्धारित नहि कएल जा सकल।",
+    "blockFailed": "ब्लॉक असफल (बैकएंड अखनो जोड़ल नहि)।",
+    "encryptedUnavailable": "एन्क्रिप्टेड संदेश (कुंजी उपलब्ध नहि)",
+    "unlockToView": "एहि संदेश देखब खातिर अपन कुंजी अनलॉक करू"
   },
-
-  "careers": {
-    "title": "कैरियर",
-    "intro": "हम सभ एकटा छोट टीम छी जे निजी, वैश्विक मेसेंजर बनौने छी. जँ अहाँ एन्क्रिप्शन, एक्सेसिबिलिटी, आ रमणीय यूएक्सक' परवाह करैत छी, तँ जरूर लिखू.",
-    "openRoles": "<b>खुलल पद:</b> इंजीनियरिंग (फुल-स्टैक, iOS, Android), प्रोडक्ट, सपोर्ट.",
-    "apply": "<b>आवेदन कियैक करब:</b> अपन रिज़्यूमे/लिंक <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> पर ईमेल करू.",
-    "emailCta": "अपन रिज़्यूमे ईमेल करू"
-  },
-
-  "about": {
-    "title": "Chatforia बारे मे",
-    "description": "Chatforia एकटा सुरक्षित, बहुभाषी मेसेंजर अछि जे एंड-टू-एंड एन्क्रिप्शन, त्वरित अनुवाद, आ वॉइस/वीडियो कॉलिंग देत अछि. हमर मिशन सरल अछि: लोकसभ केँ जोड़बाक मदद—सुरक्षित, निजी, आ भाषा-पार.",
-    "valuesTitle": "हम की मूल्य देइत छी",
-    "values": {
-      "privacy": "<bold>गोपनीयता-पहिलुका:</bold> डिफॉल्ट सँ E2E एन्क्रिप्शन.",
-      "access": "<bold>सब लेल पहुँच:</bold> 100+ भाषा स्वतः अनुवाद.",
-      "control": "<bold>नियंत्रण:</bold> गायब संदेश आ रीड रसीद वैकल्पिक.",
-      "privacy_aria": "गोपनीयता-पहिलुका: डिफॉल्ट सँ E2E एन्क्रिप्शन.",
-      "access_aria": "सब लेल पहुँच: 100+ भाषा स्वतः अनुवाद.",
-      "control_aria": "नियंत्रण: गायब संदेश आ रीड रसीद वैकल्पिक."
+  "messageInput": {
+    "ttl": {
+      "off": "बंद"
     },
-    "howTitle": "Chatforia काज कियैक करैत अछि",
-    "howDescription": "संदेश अहाँक डिवाइस पर एन्क्रिप्ट भ' क' बाहर जाइत अछि. अनुवाद, बैकअप, आ डिवाइस सिंक एहन डिजाइन कएल गेल अछि जे हमर सर्वर द्वारा देखल जाए सकनिहार डाटा न्यूनतम रहै."
-    },
-
-  "advertise": {
-    "title": "Chatforia सँ विज्ञापन करू",
-    "description": "सक्रिय मैसेजिंग यूजर तक शालीन, ब्रांड-सेफ प्लेसमेंट सँ पहुँची. हम उच्च-दृष्टि क्षेत्र मे बैनर इन्वेंटरी, स्पॉन्सरशिप, आ हाउस प्रोमो देइत छी. प्रीमियम सब्सक्राइबर केँ विज्ञापन नै देखै छै.",
-    "adsense": {
-      "withPubId": "हम वर्तमान मे <b>Google AdSense</b> द्वारा विज्ञापन देइत छी. जँ अहाँ Google Ads द्वारा टार्गेट करए चाहैत छी तँ प्रकाशक ID <code>{{pubId}}</code> प्रयोग करू आ नीचे देल यूनिट पर मेनेज्ड प्लेसमेंट माँगू. डायरेक्ट स्पॉन्सरशिप उपलब्ध—फॉर्म प्रयोग करू.",
-      "noPubId": "हम वर्तमान मे <b>Google AdSense</b> द्वारा विज्ञापन देइत छी. डायरेक्ट स्पॉन्सरशिप सेहो उपलब्ध—नीचे फॉर्म प्रयोग करू."
-    },
-    "inventoryHeader": "इन्वेंटरी आ स्पेक्स",
-    "placement": {
-      "displayBadge": "डिस्प्ले",
-      "acceptedSizes": "स्वीकार्य आकार",
-      "adsenseSlot": "AdSense स्लॉट:"
-    },
-    "noPlacements": "अखन तक कोनो प्लेसमेंट कॉन्फिगर नै. ads/placements.js मे जोड़ू.",
-    "whyHeader": "कियैक Chatforia?",
-    "why": {
-      "highSession": "चैट UI मे उच्च सत्र आवृत्ति आ समय",
-      "brandSafe": "ब्रांड-सेफ फॉर्मेट; सम्मानजनक फ्रीक्वेंसी कैपिंग",
-      "sponsoredMoments": "स्पॉन्सर्ड मोमेंट (जैसे “Start a Chat” मोडल) उपलब्ध",
-      "deals": "डायरेक्ट डील अथवा प्रोग्रामैटिक (AdSense/Google Ads) द्वारा"
-    },
-    "contactHeader": "संपर्क",
-    "form": {
-      "submittedMsg": "धन्यवाद! अहाँक पूछताछ पहुँच गेल. हम शीघ्रे फॉलो-अप करब.",
-      "missingRequired": "कृपया नाम, ईमेल, आ संदेश भरू.",
-      "successToast": "धन्यवाद! हम शीघ्रे संपर्क करब.",
-      "mailtoInfo": "अहाँक ईमेल क्लाइंट खोलि पूछताछ भेजि रहल...",
-      "nameLabel": "अहाँक नाम",
-      "namePlaceholder": "जेन डो",
-      "emailLabel": "ईमेल",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "कंपनी",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "मासिक बजट (वैकल्पिक)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "अपन कैंपेन बारे कहू",
-      "messagePlaceholder": "टार्गेटिंग, तारीख, KPI, प्लेसमेंट वरीयता…",
-      "sendCta": "पूछताछ भेजू"
-    },
-    "legal": {
-      "disclaimerStart": "सबमिट क' क' अहाँ सहमति दै छी हमर",
-      "terms": "टर्म्स",
-      "and": "आ",
-      "privacy": "प्राइवेसी पॉलिसी"
+    "freeLimit": "मुफ्त योजना सीमा: 1 दिन तक स्वतः-मिटाव। 1d पर क्लैंप।",
+    "premiumLimit": "प्रीमियम खातिर अधिकतम स्वतः-मिटाव 30 दिन। 30d पर क्लैंप।",
+    "nothingToSend": "भेजब खातिर संदेश टाइप करू अथवा फाइल संलग्न करू।",
+    "encryptionFailed": "एन्क्रिप्शन असफल। संदेश नहि भेजल गेल।",
+    "sent": "संदेश पहुँचल।",
+    "placeholder": "संदेश टाइप करू…",
+    "autoDelete": "स्वतः-मिटाव",
+    "typeToSend": "भेजब खातिर संदेश टाइप करू",
+    "send": "भेजू",
+    "sendWithEnter": "भेजू (Enter)",
+    "attachment": "संलग्नक",
+    "caption": "कैप्शन (वैकल्पिक)",
+    "remove": "हटाउ",
+    "clear": "साफ़ करू",
+    "gif": "GIF",
+    "sticker": "स्टिकर",
+    "errors": {
+      "attachmentTooLarge": "संलग्नक बहुत बड़ा। छोटा फाइल प्रयास करू।",
+      "unsupportedFile": "असमर्थित फाइल प्रकार।",
+      "rateLimit": "अहाँ बहुत तेज़ संदेश भेजि रहल अछि। कृपया धीरे करू।",
+      "validation": "सत्यापन त्रुटि। कृपया अपन संदेश जाँचू आ पुनः प्रयास करू।",
+      "failedToSend": "भेजब असफल। असफल बुलबुला पुनः प्रयास कर सकब।"
     }
   },
-
+  "contactList": {
+    "savedContacts": "सहेजल संपर्क",
+    "refreshAria": "संपर्क ताज़ा करू",
+    "filterPlaceholder": "सहेजल संपर्क फिल्टर करू…",
+    "filterAria": "सहेजल संपर्क फिल्टर करू",
+    "noContactsFound": "कोनो संपर्क नहि भेटल।",
+    "externalContact": "बाहरी संपर्क",
+    "notJoined": "एहि संपर्क अखनो Chatforia में शामिल नहि भेल।",
+    "couldNotStart": "चैट शुरू नहि कएल जा सकल। कृपया पुनः प्रयास करू।",
+    "startFailed": "चैट शुरू असफल। कृपया पुनः प्रयास करू।",
+    "deleted": "संपर्क मिटाएल गेल।",
+    "deleteFailed": "संपर्क मिटाब असफल। कृपया पुनः प्रयास करू।",
+    "aliasUpdated": "उपनाम अद्यतन भेल।",
+    "updateAliasFailed": "उपनाम अद्यतन असफल। कृपया पुनः प्रयास करू।",
+    "selectContact": "{{name}} चुनू",
+    "alias": "उपनाम",
+    "startChat": "चैट शुरू करू",
+    "message": "संदेश",
+    "delete": "मिटाउ",
+    "deleteContactAria": "संपर्क मिटाउ",
+    "loadFailed": "संपर्क लोड असफल। कृपया पुनः प्रयास करू।",
+    "loadMore": "अधिक लोड करू",
+    "call": "कॉल",
+    "callStarted": "अहाँक Chatforia नंबर सँ एहि नंबर पर कॉल कएल जा रहल अछि…",
+    "callFailed": "कॉल शुरू असफल। कृपया पुनः प्रयास करू।"
+  },
+  "startChatModal": {
+    "title": "बातचीत शुरू करू",
+    "searchPlaceholder": "नाम, उपयोगकर्ता नाम, अथवा फोन नंबर खोजू",
+    "messageThisPerson": "एहि व्यक्ति क संदेश",
+    "contacts": "संपर्क",
+    "recentInteractions": "हाल के अंतर्क्रिया",
+    "noContactsMatch": "अहाँक खोज सँ कोनो संपर्क नहि मेल खाइत।",
+    "noRecentInteractions": "अखनो कोनो हाल के अंतर्क्रिया नहि।",
+    "unknown": "अज्ञात",
+    "interactionType": {
+      "message": "संदेश",
+      "call": "कॉल",
+      "video": "वीडियो"
+    }
+  },
+  "addContactModal": {
+    "title": "संपर्क जोड़ू",
+    "phoneOrUsername": "फोन अथवा उपयोगकर्ता नाम",
+    "phoneOrUsernamePlaceholder": "उदाहरण: +13018019227 अथवा juliannorton",
+    "alias": "उपनाम (वैकल्पिक)",
+    "aliasPlaceholder": "उदाहरण: काम, माँ, माइक – यूरोप",
+    "enterPhoneOrUsername": "फोन नंबर अथवा उपयोगकर्ता नाम भरू।",
+    "userLookupFailed": "उपयोगकर्ता खोज असफल।",
+    "cannotAddSelf": "अहाँ अपनेआप क संपर्क नहि जोड़ सकब।",
+    "failedToAdd": "संपर्क जोड़ब असफल।",
+    "add": "जोड़ू"
+  },
+  "sidebar": {
+    "randomChat": "यादृच्छिक चैट",
+    "callTextForwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
+    "conversations": "बातचीत",
+    "searchPlaceholder": "बातचीत खोजू...",
+    "errorLoading": "चैट लोड असफल",
+    "empty": "अखनो कोनो बातचीत नहि।",
+    "startChat": "चैट शुरू करू",
+    "people": "लोग",
+    "settings": "सेटिंग्स",
+    "status": "स्थिति",
+    "forwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
+    "refresh": "ताज़ा करू",
+    "search": "बातचीत खोजू",
+    "loginPrompt": "सेटिंग्स संपादित करब खातिर लॉग इन करू।",
+    "login": "लॉग इन",
+    "register": "खाता बनाउ",
+    "chatrooms": "चैटरूम",
+    "logout": "लॉग आउट",
+    "startChatAlt": "नया चैट शुरू करू",
+    "calls": "कॉल",
+    "video": "वीडियो",
+    "voicemail": "वॉइसमेल"
+  },
+  "topbar": {
+    "newStatus": "नयी स्थिति",
+    "logout": "लॉग आउट",
+    "help": "मदद",
+    "createStatusAria": "नयी स्थिति बनाउ"
+  },
+  "threadActions": {
+    "threadMenu": "थ्रेड मेनू",
+    "premium": "प्रीमियम",
+    "aiPower": "एआई पावर",
+    "schedule": "अनुसूची",
+    "upgrade": "अपग्रेड",
+    "upgradeSuffix": "(अपग्रेड)",
+    "thread": "थ्रेड",
+    "about": "के बारे में",
+    "search": "खोजू",
+    "media": "मीडिया",
+    "invitePeople": "लोग आमंत्रित करू",
+    "roomSettings": "रूम सेटिंग्स",
+    "clearConversation": "बातचीत साफ़ करू",
+    "block": "ब्लॉक"
+  },
+  "roomSearch": {
+    "title": "रूम में खोजू",
+    "ariaLabel": "रूम में खोजू",
+    "search": "खोजू",
+    "searchMessages": "संदेश खोजू",
+    "noText": "[कोनो पाठ नहि]",
+    "noResults": "कोनो परिणाम नहि"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "सदस्य",
+      "moderator": "मॉडरेटर",
+      "admin": "व्यवस्थापक"
+    },
+    "aiMode": {
+      "off": "बंद",
+      "mention": "केवल @ForiaBot अथवा /ask पर",
+      "always": "सक्रिय रूप सँ जवाब दिअ"
+    },
+    "autoTranslateMode": {
+      "off": "बंद",
+      "tagged": "केवल टैग कएल (/tr …)",
+      "all": "सभ संदेश"
+    },
+    "updated": "सेटिंग्स अद्यतन भेल"
+  },
+  "mediaGallery": {
+    "sharedMedia": "साझा मीडिया",
+    "noMediaCached": "अखनो कोनो मीडिया लोकल रूप सँ कैश नहि।",
+    "imageAlt": "छवि",
+    "openVideo": "वीडियो खोलू",
+    "openVideoWithCaption": "वीडियो खोलू: {{caption}}",
+    "preview": "पूर्वावलोकन",
+    "previewWithCaption": "पूर्वावलोकन: {{caption}}",
+    "previewKind": "पूर्वावलोकन {{kind}}",
+    "download": "डाउनलोड करू",
+    "downloadKind": "डाउनलोड {{kind}}",
+    "file": "फाइल",
+    "kinds": {
+      "image": "छवि",
+      "video": "वीडियो",
+      "audio": "ऑडियो",
+      "file": "फाइल"
+    }
+  },
+  "status": {
+    "userNumber": "उपयोगकर्ता #{{id}}",
+    "posted": "स्थिति पोस्ट भेल",
+    "postFailed": "स्थिति पोस्ट असफल",
+    "createTitle": "स्थिति बनाउ",
+    "modalAriaLabel": "नयी स्थिति",
+    "captionLabel": "अहाँक मन में का अछि?",
+    "captionPlaceholder": "अद्यतन साझा करू...",
+    "captionAria": "स्थिति संदेश",
+    "audienceLabel": "दर्शक",
+    "audience": {
+      "public": "सार्वजनिक",
+      "followers": "अनुयायी",
+      "contacts": "संपर्क",
+      "mutuals": "परस्पर",
+      "custom": "कस्टम..."
+    },
+    "expiresHoursLabel": "समाप्ति (घंटा)",
+    "maxTooltip": "अधिकतम 7 दिन",
+    "hoursAbbrev": "घं",
+    "maxShort": "अधिकतम",
+    "expiresOn": "समाप्ति:",
+    "chooseRecipients": "प्राप्तकर्ता चुनू",
+    "selectContacts": "संपर्क चुनू",
+    "attachmentsLabel": "संलग्नक",
+    "attachmentsPlaceholder": "छवि/वीडियो जोड़ू",
+    "filesNote": "अधिकतम 5 फाइल। पूर्वनिर्धारित 24घं समाप्ति।",
+    "postAria": "स्थिति पोस्ट करू",
+    "post": "पोस्ट"
+  },
+  "voicemail": {
+    "pageTitle": "वॉइसमेल",
+    "from": "प्रेषक",
+    "to": "प्रति",
+    "unknownCaller": "अज्ञात",
+    "yourNumber": "अहाँक Chatforia नंबर",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "वॉइसमेल ऑडियो प्लेयर",
+    "transcriptHeading": "प्रतिलेख",
+    "transcriptPending": "वॉइसमेल प्रतिलेखित कएल जा रहल अछि…",
+    "transcriptFailed": "प्रतिलेख उपलब्ध नहि।",
+    "loading": "वॉइसमेल लोड कएल जा रहल अछि…",
+    "errorLoading": "वॉइसमेल लोड असफल।",
+    "empty": "अखनो कोनो वॉइसमेल नहि।",
+    "deleteConfirm": "एहि वॉइसमेल मिटाउ?",
+    "deleteError": "वॉइसमेल मिटाब असफल।",
+    "markRead": "पढ़ल भेल चिह्नित करू",
+    "delete": "मिटाउ",
+    "unreadDotAria": "अपढ़ वॉइसमेल संकेतक"
+  },
+  "profile": {
+    "title": "उपयोगकर्ता प्रोफाइल",
+    "preferredLanguage": "पसंदीदा भाषा",
+    "chooseLanguage": "भाषा चुनू",
+    "mustLogin": "सेटिंग्स देखब खातिर साइन इन आवश्यक अछि।",
+    "autoTranslate": "संदेश स्वतः-अनुवाद",
+    "showOriginalWithTranslation": "मूल आ अनुवादित संदेश देखाउ",
+    "showOriginalAndTranslation": "अनुवाद क साथ मूल देखाउ",
+    "filterExplicit": "स्पष्ट सामग्री फिल्टर करू",
+    "aiReply": "एआई जवाब",
+    "enableReadReceipts": "पढ़ल भेल रसीद सक्षम करू",
+    "allowExplicitContent": "स्पष्ट सामग्री स्वीकार करू",
+    "disappearingMessages": "गायब होनेवाला संदेश सक्षम करू",
+    "autoDeleteSeconds": "स्वतः-मिटाव तक सेकंड",
+    "saveSuccess": "सेटिंग्स सहेजल गेल!",
+    "saveError": "त्रुटि: सेटिंग्स सहेजल नहि जा सकल",
+    "avatarAlt": "प्रोफाइल अवतार",
+    "uploadAvatar": "नया अवतार अपलोड करू",
+    "avatarSuccess": "अवतार अपलोड भेल!",
+    "avatarError": "अवतार अपलोड असफल",
+    "avatarUpdated": "अवतार अद्यतन भेल!",
+    "uploadingAvatar": "अवतार अपलोड कएल जा रहल अछि…",
+    "noPrivateKey": "एहि डिवाइस पर निर्यात करब खातिर कोनो निजी कुंजी नहि।",
+    "setBackupPassword": "अपन बैकअप एन्क्रिप्ट करब खातिर पासवर्ड सेट करू:",
+    "backupDownloaded": "एन्क्रिप्टेड बैकअप डाउनलोड भेल।",
+    "exportFailed": "कुंजी निर्यात असफल",
+    "enterBackupPassword": "एहि बैकअप खातिर पासवर्ड भरू:",
+    "importSuccess": "निजी कुंजी एहि डिवाइस पर आयात भेल।",
+    "importFailed": "कुंजी आयात असफल (गलत पासवर्ड अथवा दूषित फाइल)।",
+    "keysRotated": "नया कुंजी जोड़ी उत्पन्न आ सार्वजनिक कुंजी अपलोड भेल।",
+    "rotateFailed": "कुंजी घुमाव असफल।",
+    "security": "सुरक्षा",
+    "exportKey": "एन्क्रिप्शन कुंजी बैकअप करू",
+    "importKey": "एन्क्रिप्शन कुंजी पुनर्स्थापित करू",
+    "rotateKeys": "एन्क्रिप्शन कुंजी घुमाउ",
+    "keyDisclaimer": "अहाँक निजी कुंजी कबो एहि डिवाइस सँ बाहर नहि जाइत अछि। अन्य डिवाइस पर पुनर्स्थापित करब खातिर पासवर्ड-संरक्षित कॉपी निर्यात करू।",
+    "sectionProfile": "प्रोफाइल",
+    "phoneNumber": "फोन नंबर",
+    "appearance": "दिखाव",
+    "soundSettings": "ध्वनि",
+    "disappearing": "गायब होनेवाला संदेश",
+    "backupSync": "एन्क्रिप्शन कुंजी बैकअप",
+    "ai": "एआई",
+    "accessibility": "सुलभता",
+    "privacy": "गोपनीयता",
+    "devices": "जोड़ल डिवाइस",
+    "themeFreeNotice": "अहाँ मुफ्त पर अछि—नीचे त्वरित सूर्य/चंद्रमा विकल्प प्रयोग करू। अधिक थीम खोलब खातिर अपग्रेड करू।",
+    "sunTheme": "डॉन थीम प्रयोग करू",
+    "moonTheme": "मून (मिडनाइट) थीम प्रयोग करू",
+    "sun": "सूर्य",
+    "moon": "चंद्रमा",
+    "backupTitle": "एन्क्रिप्टेड बैकअप आ डिवाइस सिंक",
+    "openBackupTools": "बैकअप उपकरण खोलू",
+    "backupDesc": "अपन एन्क्रिप्शन कुंजी बैकअप करू ताकि अन्य डिवाइस पर संदेश सुरक्षित रूप सँ पुनर्स्थापित कएल जा सकै।",
+    "privacyBlurEnabled": "पूर्वनिर्धारित रूप सँ संदेश धुंधला करू",
+    "privacyBlurOnUnfocus": "ऐप अनफोकस भेला पर धुंधला करू",
+    "planSection": "हमर योजना",
+    "planLoading": "अहाँक योजना लोड कएल जा रहल अछि…",
+    "planLoadFailed": "योजना लोड असफल।",
+    "currentPlan": "वर्तमान योजना",
+    "planRenewsOn": "नवीनीकरण:",
+    "freePlanCopy": "अहाँ मुफ्त योजना पर अछि। बैकअप, अतिरिक्त नंबर आ उन्नत गोपनीयता विकल्प खोलब खातिर अपग्रेड करू।",
+    "upgradePlanCta": "योजना अपग्रेड करू",
+    "changePlanCta": "योजना बदलू",
+    "manageBilling": "बिलिंग प्रबंधित करू",
+    "portalOpenFailed": "बिलिंग पोर्टल नहि खोलल जा सकल। कृपया पुनः प्रयास करू।",
+    "holdToReveal": "प्रकट करब खातिर दबाउ",
+    "notifyOnCopy": "जँ हमर संदेश कॉपी भेल त हमरा सूचित करू",
+    "loadFailed": "प्रोफाइल लोड असफल",
+    "followed": "अनुसरण कएल गेल",
+    "followFailed": "अनुसरण असफल",
+    "unfollowed": "अनुसरण समाप्त",
+    "unfollowFailed": "अनुसरण समाप्त असफल",
+    "follow": "अनुसरण करू",
+    "unfollow": "अनुसरण समाप्त करू",
+    "followHint": "जँ हुनका अनुयायी (अथवा सार्वजनिक) दर्शक सँ पोस्ट कएल जाए त हुनका कहानी अहाँक अनुसरण फीड में देखाइत।",
+    "userNotFound": "उपयोगकर्ता नहि भेटल",
+    "followsYou": "अहाँक अनुसरण करैत अछि",
+    "sectionCrashedTitle": "खंड लोड असफल",
+    "sectionCrashedBody": "एहि खंड में कुछ गड़बड़ भेल।",
+    "forwarding": "कॉल आ टेक्स्ट फॉरवर्डिंग",
+    "callTextForwardingSection": "कॉल आ टेक्स्ट फॉरवर्डिंग",
+    "callTextForwardingTitle": "कॉल आ/अथवा टेक्स्ट फॉरवर्डिंग",
+    "callTextForwardingDescription": "सत्यापित फोन अथवा ईमेल पर आगमन कॉल आ टेक्स्ट फॉरवर्ड करू। बाहर कॉल/टेक्स्ट अहाँक Chatforia नंबर देखा सकैत अछि।",
+    "enableTextForwarding": "टेक्स्ट फॉरवर्डिंग सक्षम करू",
+    "forwardTextsToPhone": "फोन पर टेक्स्ट फॉरवर्ड करू",
+    "forwardTextsToEmail": "ईमेल पर टेक्स्ट फॉरवर्ड करू",
+    "destinationPhone": "गंतव्य फोन (E.164)",
+    "destinationEmail": "गंतव्य ईमेल",
+    "enableCallForwarding": "कॉल फॉरवर्डिंग सक्षम करू",
+    "destinationPhoneForCalls": "कॉल खातिर गंतव्य (E.164)",
+    "aliasBridging": "कॉल फॉरवर्डिंग (उपनाम ब्रिजिंग)",
+    "quietHoursOptional": "शांत घंटा (वैकल्पिक)",
+    "startHour": "आरंभ घंटा (0–23)",
+    "endHour": "समाप्ति घंटा (0–23)",
+    "reset": "रीसेट",
+    "saveBtn": "सहेजू",
+    "saveProfile": "प्रोफाइल सहेजू",
+    "saveForwarding": "फॉरवर्डिंग सहेजू",
+    "forwardSaved": "फॉरवर्डिंग सेटिंग्स सहेजल गेल",
+    "forwardSaveFailed": "सेटिंग्स सहेजब असफल",
+    "errE164": "वैध E.164 फोन भरू (उदाहरण: +15551234567)।",
+    "errEmail": "वैध ईमेल भरू।",
+    "errSmsDest": "कम सँ कम एके गंतव्य (फोन अथवा ईमेल) चुनू।",
+    "errQuietHours": "शांत घंटा 0 आ 23 बीच होन आवश्यक।",
+    "randomChat": "यादृच्छिक चैट",
+    "ageBand": "अहाँक उम्र सीमा",
+    "ageBandPlaceholder": "अपन उम्र सीमा चुनू",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "हम केवल उम्र सीमा सहेजैत अछि (अहाँक सटीक जन्म तिथि नहि)। ई यादृच्छिक चैट जोड़ी उचित रखब खातिर प्रयोग होइत अछि।",
+    "wantsAgeFilter": "यादृच्छिक चैट में उम्र-आधारित मिलान प्रयोग करू",
+    "wantsAgeFilterDesc": "जखन चालू अछि, हम संगत उम्र सीमा वाला लोग सँ जोड़ी प्रयास करैत अछि।",
+    "partnerAgeBands": "अहाँ के सँग मिलान हो सकैत अछि?",
+    "partnerAgeBandsDesc": "किशोर सदैव केवल अन्य किशोर सँग मिलान होइत अछि। वयस्क किशोर सँग नहि मिलान हो सकैत।",
+    "teenMatchingNote": "सुरक्षा खातिर, 13–17 उम्र सीमा वाला खाता यादृच्छिक चैट में केवल अन्य 13–17 खाता सँग मिलान हो सकैत अछि।",
+    "foriaRemember": "Ria क हमरा कहल बात याद रखब दिअ",
+    "foriaRememberDesc": "जखन ई चालू अछि, Foria अहाँक पुरान यादृच्छिक चैट बातचीत (केवल अहाँ सँग) प्रयोग कए बातचीत बहाल रख सकैत अछि। अहाँ कबो ई बंद कर सकब।",
+    "voicemailSection": "वॉइसमेल",
+    "voicemailEnabled": "वॉइसमेल सक्षम करू",
+    "voicemailAutoDeleteDays": "वॉइसमेल स्वतः-मिटाव (दिन)",
+    "voicemailAutoDeletePlaceholder": "हमेशा रखब खातिर खाली छोड़ू",
+    "voicemailForwardEmail": "वॉइसमेल ईमेल पर फॉरवर्ड करू",
+    "voicemailForwardEmailPlaceholder": "वॉइसमेल सूचना भेजब खातिर ईमेल",
+    "voicemailGreetingText": "टेक्स्ट फॉलबैक अभिवादन",
+    "voicemailGreetingTextDesc": "जखन अहाँक ऑडियो अभिवादन उपलब्ध नहि होइत।",
+    "voicemailGreetingUpload": "वॉइसमेल अभिवादन अपलोड करू",
+    "voicemailPreviewGreeting": "अभिवादन पूर्वावलोकन",
+    "voicemailGreetingUploaded": "वॉइसमेल अभिवादन सफलतापूर्वक अपलोड भेल",
+    "voicemailGreetingUploadError": "वॉइसमेल अभिवादन अपलोड असफल",
+    "voicemailNote": "अहाँक Chatforia नंबर सँ वॉइसमेल अहाँक वॉइसमेल इनबॉक्स में सहेजल जाइत अछि। समर्थित योजना में प्रतिलेखन आ फॉरवर्डिंग सक्षम कएल जा सकैत अछि।",
+    "portHint": "अपन वर्तमान नंबर रखब चाहैत अछि? ई Chatforia Wireless में पोर्ट कएल जा सकैत अछि।",
+    "wireless": {
+      "manage": "वायरलेस प्रबंधित करू"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "वाइ-फ़ाई सँ दूर रहब पर Chatforia खातिर मोबाइल डेटा पाउ।",
+      "cta": "eSIM पाउ / QR देखाउ"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "अपन Chatforia मोबाइल योजना, नंबर, फॉरवर्डिंग आ नंबर पोर्टिंग प्रबंधित करू।",
+    "options": {
+      "heading": "Chatforia प्रयोग करब खातिर अहाँ का चाहैत अछि",
+      "subheading": "अहाँ नया Chatforia नंबर पा सकब, अथवा अपन वर्तमान नंबर अन्य वाहक सँ ला सकब।",
+      "newNumber": "नया Chatforia नंबर पाउ",
+      "portNumber": "अपन वर्तमान नंबर Chatforia Wireless में पोर्ट करू"
+    },
+    "port": {
+      "heading": "अपन वर्तमान नंबर पोर्ट करू",
+      "subheading": "अपन वर्तमान फोन नंबर अपन वर्तमान वाहक सँ Chatforia में स्थानांतरित करू। विलंब टालब खातिर विवरण अहाँक वाहक खाता सँ ठीक मेल खान आवश्यक।",
+      "phoneNumberLabel": "पोर्ट करब खातिर फोन नंबर",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "वर्तमान वाहक",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, आदि।",
+      "accountNumberLabel": "खाता नंबर",
+      "pinLabel": "पोर्ट-आउट PIN / पासवर्ड",
+      "fullNameLabel": "खाता पर पूर्ण नाम",
+      "address1Label": "पता पंक्ति 1",
+      "address2Label": "पता पंक्ति 2 (वैकल्पिक)",
+      "cityLabel": "शहर",
+      "stateLabel": "राज्य / प्रांत",
+      "postalCodeLabel": "पोस्टल कोड",
+      "countryLabel": "देश",
+      "submitButton": "पोर्ट अनुरोध जमा करू",
+      "success": "पोर्ट अनुरोध जमा भेल! हम अहाँक अद्यतन रखब।",
+      "genericError": "कुछ गड़बड़ भेल।"
+    },
+    "status": {
+      "heading": "पोर्टिंग स्थिति",
+      "subheading": "अपन नंबर पोर्ट अनुरोध क स्थिति ट्रैक करू।",
+      "loading": "लोड कएल जा रहल अछि…",
+      "loadError": "पोर्ट अनुरोध लोड असफल।",
+      "none": "अखनो कोनो पोर्टिंग गतिविधि नहि।",
+      "pending": "समीक्षा लंबित",
+      "submitted": "वाहक क पास जमा",
+      "inProgress": "प्रगति में",
+      "completed": "समाप्त",
+      "failed": "असफल",
+      "canceled": "रद्द",
+      "created": "बनाएल गेल:",
+      "scheduled": "अनुसूचित:",
+      "completedAt": "समाप्त:"
+    },
+    "dataLow": "अहाँक डेटा कम भेल अछि।",
+    "topUp": "अब टॉप-अप करू",
+    "expiresIn": "{{days}} दिन में समाप्त",
+    "exhausted": "अहाँक डेटा समाप्त भेल। मोबाइल डेटा जारी रखब खातिर नया पैक खरीदू।",
+    "buyPack": "डेटा पैक खरीदू",
+    "esimPackLabel": "eSIM पैक"
+  },
+  "family": {
+    "title": "परिवार",
+    "loading": "अहाँक परिवार विवरण लोड कएल जा रहल अछि…",
+    "error": {
+      "load": "परिवार विवरण लोड असफल।",
+      "invite": "आमंत्रण नहि बनाएल जा सकल। सुनिश्चित करू अहाँ परिवार मालिक अछि आ पुनः प्रयास करू।",
+      "checkout": "हम परिवार योजना खातिर चेकआउट शुरू नहि कएल जा सकल। कृपया पुनः प्रयास करू।"
+    },
+    "billing": {
+      "myPlanTitle": "हमर योजना",
+      "myPlanError": "अहाँक योजना लोड नहि कएल जा सकल।",
+      "myPlanLoading": "अहाँक योजना लोड कएल जा रहल अछि…",
+      "currentPlan": "वर्तमान योजना",
+      "renewsAt": "नवीनीकरण:",
+      "freePlanCopy": "अहाँ मुफ्त योजना पर अछि। अधिक फीचर खोलब खातिर अपग्रेड करू।",
+      "upgradeCta": "योजना अपग्रेड करू",
+      "changePlanCta": "योजना बदलू",
+      "manageBilling": "बिलिंग प्रबंधित करू",
+      "portalError": "अखन बिलिंग पोर्टल नहि खोलल जा सकल।",
+      "cancelNow": "अब रद्द करू",
+      "cancelNowHelp": "अहाँ बिलिंग पोर्टल में सदस्यता प्रबंधित अथवा रद्द कर सकब, अथवा नीचे तुरंत रद्द करू।",
+      "cancelNowConfirm": "अहाँ निश्चित अछि कि अहाँ योजना तुरंत रद्द कएन चाहैत अछि? ई पूर्ववत नहि कएल जा सकैत।",
+      "cancelNowError": "अखन अहाँक योजना रद्द नहि कएल जा सकल। कृपया पुनः प्रयास करू अथवा बिलिंग प्रबंधित करू।"
+    },
+    "none": {
+      "title": "अखनो कोनो परिवार सेटअप नहि",
+      "body": "Chatforia परिवार आ साझा डेटा पूल बनाबै खातिर परिवार योजना शुरू करू।",
+      "goUpgrade": "परिवार योजना शुरू करू",
+      "viewPlans": "सभ योजना देखू"
+    },
+    "group": {
+      "defaultName": "हमर Chatforia परिवार",
+      "role": "अहाँक भूमिका: {{role}}"
+    },
+    "role": {
+      "owner": "मालिक",
+      "member": "सदस्य"
+    },
+    "data": {
+      "heading": "साझा डेटा पूल",
+      "caption": "सभ सदस्य एहि पूल साझा करैत अछि। हम अहाँक सीमा क पास चेतावनी देब।"
+    },
+    "members": {
+      "title": "परिवार सदस्य",
+      "name": "नाम",
+      "role": "भूमिका",
+      "usage": "उपयोग",
+      "limit": "सीमा",
+      "unlimited": "कोनो विशिष्ट सीमा नहि",
+      "inviteCta": "सदस्य आमंत्रित करू"
+    },
+    "invite": {
+      "title": "नया सदस्य आमंत्रित करू",
+      "body": "अपन साझा परिवार डेटा पूल में ककरो क आमंत्रित करब खातिर ईमेल अथवा लिंक भेजू।",
+      "emailLabel": "ईमेल (वैकल्पिक)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "आमंत्रण बनाउ",
+      "linkLabel": "आमंत्रण लिंक",
+      "copyAria": "आमंत्रण लिंक कॉपी करू",
+      "expiryHint": "एहि लिंक कुछ दिन बाद समाप्त होइत अछि। अहाँ कबो नया बनाए सकब।"
+    },
+    "join": {
+      "title": "परिवार में शामिल होउ",
+      "body": "अहाँ Chatforia परिवार में शामिल होब आ हुनका डेटा पूल साझा करब खातिर आमंत्रित कएल गेल अछि।",
+      "cta": "स्वीकार करू आ परिवार में शामिल होउ",
+      "ctaLogin": "साइन इन करू आ परिवार में शामिल होउ",
+      "success": "अहाँ एहि परिवार में शामिल भेल। अहाँ हुनका डेटा पूल साझा कए रहल अछि।",
+      "goFamily": "परिवार डैशबोर्ड पर जाउ",
+      "error": "हम अहाँक एहि परिवार में नहि जोड़ सकल। आमंत्रण अमान्य अथवा समाप्त भेल हो सकैत अछि।"
+    }
+  },
+  "premium": {
+    "heading": "प्रीमियम पर जाउ",
+    "description": "पावर फीचर खोलू आ विज्ञापन हटाउ।",
+    "cta": "अपग्रेड",
+    "upgrade": "अपग्रेड",
+    "upgradeAria": "Chatforia प्रीमियम पर अपग्रेड करू"
+  },
   "upgrade": {
     "title": "अपग्रेड",
-    "subtitle": "अहाँक लेल सही प्लान खोलू: Plus सँ विज्ञापन हटाउ, अथवा Premium सँ पूरा पावर फीचर पाउ.",
+    "titleLoggedIn": "अपग्रेड",
+    "titlePublic": "मूल्य निर्धारण",
+    "h1": "Chatforia मूल्य निर्धारण आ योजनाएँ",
+    "h1Subtitle": "हमर मुफ्त, विज्ञापन-समर्थित योजना सँ आरंभ करू। Plus सँ विज्ञापन-मुक्त जाउ, अथवा प्रीमियम सँ पूर्ण पावर फीचर खोलू।",
+    "subtitle": "एक जगह सँ ऐप योजना चुनू, अहाँ खातिर डेटा पैक जोड़ू, अथवा परिवार सँग डेटा साझा करू।",
+    "subtitle.app": "हमर मुफ्त, विज्ञापन-समर्थित योजना सँ आरंभ करू। Plus सँ विज्ञापन-मुक्त जाउ, अथवा प्रीमियम सँ पूर्ण पावर फीचर खोलू।",
+    "subtitle.mobile": "वैश्विक eSIM डेटा जोड़ू जाहि सँ Chatforia वाइ-फ़ाई सँ दूर रहब परो काम करैत रहै।",
+    "subtitle.family": "अपन परिवार खातिर साझा डेटा पूल बनाउ आ एक जगह सँ सभक उपयोग प्रबंधित करू।",
     "perMonth": "माह",
     "perYear": "वर्ष",
-    "goPremium": "प्रीमियम लेल जाउ",
-    "benefitsLine": "पावर फीचर अनलॉक करू आ विज्ञापन हटाउ.",
+    "goPremium": "प्रीमियम पर जाउ",
+    "benefitsLine": "पावर फीचर खोलू आ विज्ञापन हटाउ।",
     "ctaText": "अपग्रेड",
     "aria": "Chatforia प्रीमियम पर अपग्रेड करू",
     "toggle": {
       "monthly": "मासिक",
-      "annual": "वार्षिक (25% बचाउ)"
+      "annual": "वार्षिक (30% बचाउ)"
     },
     "scheduleBanner": {
-      "title": "सब्सक्रिप्शन समाप्त होएत",
-      "body": "ई दिन अहाँ फिनु फ्री पर लौटि जएब:",
-      "keepPlanCta": "{{plan}} बचाउ",
+      "title": "सदस्यता समाप्त होइत",
+      "body": "अहाँ {{date}} पर मुफ्त पर वापस जाब।",
+      "keepPlanCta": "{{plan}} रखू",
       "manageBillingCta": "बिलिंग प्रबंधित करू"
     },
     "billing": {
-      "opening": "खोलि रहल…",
+      "opening": "खोलि रहल अछि…",
       "manage": "बिलिंग प्रबंधित करू"
     },
     "checkout": {
-      "redirecting": "रीडायरेक्ट क' रहल…"
+      "redirecting": "रीडायरेक्ट कएल जा रहल अछि…"
     },
     "auth": {
       "continue": "लॉगिन पर जारी रखू",
       "createAccount": "खाता बनाउ",
-      "signIn": "साइन इन करू"
+      "signIn": "साइन इन"
     },
     "cta": {
-      "aria": "प्लान चुनू",
-      "getPlus": "Plus पर अपग्रेड",
+      "aria": "योजना चुनू",
+      "getPlus": "Plus पर अपग्रेड करू",
       "upgradeMonthly": "मासिक अपग्रेड",
       "upgradeAnnual": "वार्षिक अपग्रेड"
     },
+    "section": {
+      "app": "ऐप योजनाएँ",
+      "mobile": "मोबाइल (eSIM)",
+      "family": "परिवार योजनाएँ"
+    },
     "plans": {
       "free": {
-        "title": "फ्री",
+        "title": "मुफ्त",
         "price": "$0",
-        "desc": "फ्री मे मैसेजिंग शुरू करू.",
+        "desc": "मुफ्त संदेशिंग शुरू करू। जँ अहाँ Chatforia क प्रयास कए रहल अछि त आदर्श।",
         "features": {
-          "msg": "1:1 आ ग्रुप मैसेजिंग",
-          "aiBasic": "बेसिक एआई रिप्लाई",
-          "attachments": "मानक अटैचमेंट"
+          "chat": "वास्तविक-समय 1:1 आ समूह चैट, साथे वॉइस आ वीडियो कॉल",
+          "media": "फोटो, वॉइस संदेश आ छोट वीडियो साझा करू",
+          "ai": "एआई-संचालित स्मार्ट जवाब आ तुरंत अनुवाद (निष्पक्ष उपयोग)",
+          "disappearing": "गायब होनेवाला संदेश आ मूल गोपनीयता नियंत्रण",
+          "ads": "ऐप में विज्ञापन सँ सदैव मुफ्त"
         },
-        "ctaCurrent": "वर्तमान प्लान",
-        "ctaUnavailable": "फ्री पर स्विच (उपलब्ध नै)",
-        "aria": "फ्री प्लान (वर्तमान)"
+        "ctaCurrent": "वर्तमान योजना",
+        "ctaManage": "बिलिंग में प्रबंधित करू",
+        "ctaPublic": "आरंभ करू – लॉगिन पर जारी रखू",
+        "aria": "मुफ्त योजना"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / माह",
-        "desc": "सब सँ सस्ता विज्ञापन-रहित अनुभव.",
+        "price": "$6.99",
+        "desc": "सभ आवश्यकता बिना विज्ञापन। रोजमर्रा संदेश आ कॉलिंग खातिर उत्तम।",
         "features": {
-          "noAds": "सभ विज्ञापन हटाउ",
-          "msg": "1:1 आ ग्रुप मैसेजिंग",
-          "attachments": "बड़ अटैचमेंट",
-          "aiBasic": "बेसिक एआई रिप्लाई"
+          "allFree": "मुफ्त में सभकुछ, बिना विज्ञापन",
+          "forwarding": "अपन वास्तविक फोन नंबर पर कॉल आ टेक्स्ट फॉरवर्ड करू",
+          "history": "लंबा संदेश इतिहास (6 महीना तक)",
+          "support": "कुछ गड़बड़ भेला पर तेज़ सहायता"
         },
         "badge": "लोकप्रिय",
-        "cta": "विज्ञापन-रहित बनाउ",
-        "aria": "Plus पर अपग्रेड"
+        "cta": "विज्ञापन-मुक्त जाउ",
+        "ctaPublic": "Plus पाउ – लॉगिन पर जारी रखू",
+        "aria": "Plus पर अपग्रेड करू"
       },
       "premiumMonthly": {
-        "title": "Premium (मासिक)",
-        "price": "$24.99 / माह",
-        "desc": "पूरा फीचर, रिंगटोन, आ एआई पावर टूल.",
+        "title": "प्रीमियम (मासिक)",
+        "price": "$11.99",
+        "desc": "पूर्ण Chatforia अनुभव: एआई पावर उपकरण, अनुकूलन आ प्राथमिकता सहायता।",
         "features": {
-          "plusAll": "Plus मे सभ किछु",
-          "ringtones": "कस्टम रिंगटोन आ मैसेज टोन",
-          "powerAi": "पावर एआई फीचर",
-          "priorityUpdates": "प्राथमिकता अपडेट",
-          "backups": "बैकअप आ डिवाइस सिंकिंग"
+          "plusAll": "Plus में सभकुछ",
+          "themes": "सभ प्रीमियम रंग थीम आ ऐप अनुकूलन खोलू",
+          "ai": "पुनर्लेखन, स्मार्ट जवाब आ सारांश खातिर प्रीमियम-केवल एआई पावर उपकरण",
+          "support": "जब सबसे अधिक आवश्यक हो त प्राथमिकता सहायता"
         },
-        "badge": "सब सँ नीक मूल्य",
+        "badge": "अनुशंसित",
         "cta": "अपग्रेड (मासिक)",
-        "aria": "Premium मासिक पर अपग्रेड"
+        "ctaPublic": "प्रीमियम खोलू – लॉगिन पर जारी रखू",
+        "aria": "प्रीमियम मासिक पर अपग्रेड करू"
       },
       "premiumAnnual": {
-        "title": "Premium (वार्षिक)",
-        "price": "$225 / वर्ष",
-        "desc": "वार्षिक बिलिंग पर बेसी बचत.",
+        "title": "प्रीमियम (वार्षिक)",
+        "price": "$99",
+        "desc": "वार्षिक बिलिंग सँ अधिक बचाउ — अतिरिक्त रंग थीम, एआई उपकरण आ प्राथमिकता सहायता सहित।",
         "features": {
-          "allPremium": "Premium के सभ किछु",
-          "annualBilling": "वार्षिक बिलिंग",
-          "save25": "मासिक मुकाबिल ~25% बचत",
-          "sameFeatures": "मासिक जेकाँ समान फीचर"
+          "allPremium": "प्रीमियम मासिक में सभकुछ — अतिरिक्त रंग थीम सहित",
+          "annualBilling": "प्रति वर्ष एक बिल",
+          "save25": "मासिक भुगतान सँ लगभग 30% बचाउ",
+          "bestFor": "पावर उपयोगकर्ता, दूरस्थ कार्यकर्ता आ भारी यात्री खातिर उत्तम"
         },
-        "badge": "25% बचाउ",
+        "badge": "30% बचाउ",
         "cta": "अपग्रेड (वार्षिक)",
-        "aria": "Premium वार्षिक पर अपग्रेड",
-        "disclaimer": "पहिने बिल. कभीयो रद्द करू. छुपल शुल्क नै."
+        "ctaPublic": "वार्षिक सँ 30% बचाउ – लॉगिन पर जारी रखू",
+        "aria": "प्रीमियम वार्षिक पर अपग्रेड करू",
+        "disclaimer": "पूर्व भुगतान। कबो रद्द कर सकब। कोनो छिपी फीस नहि।"
       }
     },
     "marketing": {
-      "freeTitle": "फ्री",
-      "freeDesc": "फ्री मे मैसेजिंग शुरू करू.",
+      "freeTitle": "मुफ्त",
+      "freeDesc": "मुफ्त संदेशिंग शुरू करू।",
       "plusTitle": "Plus",
       "plusBadge": "लोकप्रिय",
-      "plusDesc": "सब सँ सस्ता विज्ञापन-रहित अनुभव.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "पूरा फीचर, रिंगटोन, आ एआई पावर टूल.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "वार्षिक बिलिंग सँ बेसी बचत.",
-      "annualDisclaimer": "पहिने बिल. कभीयो रद्द करू. छुपल शुल्क नै."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "शुरू कियैक करब",
-    "subtitle": "Chatforia मे नव छी? ई क्विक स्टार्ट अहाँकेँ मिनट मे उत्पादक बनबै.",
-    "alert": {
-      "text": "जखन-जखन नव फीचर लॉन्च होएत, ई गाइड बढ़त. जँ किछु गायब अछि,",
-      "contactLink": "हमरा सँ संपर्क"
+      "plusDesc": "सबसे सस्ता विज्ञापन-मुक्त अनुभव।",
+      "premiumMonthlyTitle": "प्रीमियम",
+      "premiumMonthlyDesc": "पूर्ण फीचर, रिंगटोन आ एआई पावर उपकरण।",
+      "premiumAnnualTitle": "प्रीमियम",
+      "premiumAnnualDesc": "वार्षिक बिलिंग सँ अधिक बचाउ।",
+      "annualDisclaimer": "पूर्व भुगतान। कबो रद्द कर सकब। कोनो छिपी फीस नहि।"
     },
-    "section1": {
-      "title": "1) अपन खाता बनाउ",
-      "signup": "साइन अप",
-      "or": "अथवा",
-      "login": "लॉग इन",
-      "loginText": "अपन मौजूदा खाता सँ.",
-      "prefsStart": "अपन",
-      "prefsLink": "प्रेफरेंस",
-      "prefsRest": "(भाषा, रीड रसीद, थीम) सेट करू."
+    "mobile": {
+      "title": "Chatforia मोबाइल (eSIM डेटा पैक)",
+      "subtitle": "वाइ-फ़ाई क बिना Chatforia काम करब खातिर वैश्विक डेटा जोड़ू। मूल्य अहाँक देश आ मुद्रा अनुसार स्वचालित समायोजित होइत अछि।",
+      "subtitle.detail": "यात्रा अथवा वाइ-फ़ाई सँ दूर रहब पर Chatforia काम करब खातिर एक-बारगी वैश्विक डेटा पैक चुनू।",
+      "scope": {
+        "local": "स्थानीय",
+        "europe": "यूरोप",
+        "global": "वैश्विक"
+      },
+      "note": "हम 3 GB सँ कम डेटा पैक नहि बेचैत अछि।",
+      "localEquals": "स्थानीय = {{country}}",
+      "localEqualsFallback": "स्थानीय = अहाँक वर्तमान देश",
+      "perPack": "/ पैक",
+      "cta": "एहि डेटा पैक पाउ",
+      "ctaPublic": "एहि डेटा पैक पाउ",
+      "checkout": {
+        "redirecting": "रीडायरेक्ट कएल जा रहल अछि…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "भारी उपयोग खातिर उच्च-गति डेटा",
+          "throttle": "उच्च उपयोग बाद गति धीमी हो सकैत अछि",
+          "coverage": "विश्वसनीय कवरेज",
+          "instant": "तुरंत eSIM सक्रियण",
+          "noContract": "एक-बारगी पैक, कोनो अनुबंध नहि"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM डेटा पैक खातिर eSIM-संगत आ अनलॉक डिवाइस आवश्यक। उपलब्धता फोन मॉडल, वाहक आ देश अनुसार भिन्न। कवरेज आ गति क्षेत्र अनुसार भिन्न।"
+      },
+      "small": {
+        "title": "स्टार्टर पैक",
+        "desc": "3 GB उच्च-गति डेटा शामिल — हल्का संदेश आ कभी-कभी कॉल खातिर आदर्श।",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "छोट यात्रा, हल्का संदेश आ कभी-कभी कॉल",
+        "aria": "स्टार्टर eSIM डेटा पैक खरीदू"
+      },
+      "medium": {
+        "title": "यात्री पैक",
+        "desc": "5 GB उच्च-गति डेटा — यात्रा, आवागमन आ नियमित VoIP कॉल खातिर।",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "सप्ताहांत यात्रा, नियमित VoIP कॉल आ मानचित्र",
+        "aria": "यात्री eSIM डेटा पैक खरीदू"
+      },
+      "large": {
+        "title": "पावर पैक",
+        "desc": "10 GB उच्च-गति डेटा — Chatforia नेटवर्क पर भारी चैट, कॉल आ वीडियो खातिर।",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "भारी चैट, कॉल, वीडियो आ हॉटस्पॉट उपयोग",
+        "aria": "पावर उपयोगकर्ता eSIM डेटा पैक खरीदू"
+      },
+      "compare": {
+        "title": "eSIM डेटा पैक तुलना करू",
+        "col": {
+          "pack": "पैक",
+          "data": "शामिल डेटा",
+          "bestFor": "खातिर उत्तम"
+        },
+        "disclaimer": "वास्तविक डेटा उपयोग अहाँक Chatforia (वॉइस, वीडियो, मीडिया आ फोन पर अन्य ऐप) उपयोग अनुसार निर्भर अछि।"
+      }
     },
-    "section2": {
-      "title": "2) मैसेजिंग शुरू करू",
-      "item1": "DM अथवा ग्रुप बनाउ आ पहिल संदेश भेजू.",
-      "item2": "100+ भाषा मे त्वरित अनुवाद प्रयोग करू.",
-      "item3": "प्रोफाइल → प्राइवेसी मे गायब संदेश आ रीड रसीद आजमाउ."
+    "family": {
+      "title": "Chatforia परिवार (साझा डेटा)",
+      "subtitle": "अपन परिवार भर सँ एके डेटा पूल साझा करू। एक बिल, बहु Chatforia खाता, वैश्विक कवरेज।",
+      "perPack": "/ पैक",
+      "small": {
+        "title": "परिवार छोट",
+        "desc": "20 GB साझा उच्च-गति डेटा शामिल — 2–3 हल्का उपयोगकर्ता खातिर उत्तम।",
+        "price": "$29.99",
+        "aria": "परिवार छोट पैक खरीदू"
+      },
+      "medium": {
+        "title": "परिवार मध्यम",
+        "desc": "40 GB साझा उच्च-गति डेटा शामिल — 3–5 सक्रिय सदस्य खातिर आदर्श।",
+        "price": "$49.99",
+        "aria": "परिवार मध्यम पैक खरीदू"
+      },
+      "large": {
+        "title": "परिवार बड़ा",
+        "desc": "80 GB साझा उच्च-गति डेटा शामिल — सदैव ऑनलाइन रहनेवाला पावर परिवार खातिर।",
+        "price": "$84.99",
+        "aria": "परिवार बड़ा पैक खरीदू"
+      },
+      "feature": {
+        "shared": "अपन परिवार खातिर साझा डेटा पूल",
+        "members": "अधिकतम 4 अतिरिक्त सदस्य आमंत्रित करू",
+        "membersMore": "3–5 सक्रिय सदस्य खातिर उत्तम",
+        "manage": "प्रत्येक सदस्य खातिर सीमा प्रबंधित करू",
+        "topUp": "कबो अधिक पैक जोड़ू",
+        "bestValue": "प्रति GB उत्तम मूल्य",
+        "fairUse": "निष्पक्ष-उपयोग नीति आ स्थानीय सीमा अनुसार"
+      },
+      "disclaimer": "परिवार पैक साझा डेटा पूल बनाउ अथवा टॉप-अप करैत अछि। अहाँ कबो सदस्य आमंत्रित अथवा हटाउ सकब।",
+      "footnote": "परिवार पैक जोड़ल Chatforia खाता भर सँ एके डेटा पूल साझा करैत अछि। उपलब्धता आ सीमा अहाँक देश आ स्थानीय नियम अनुसार।"
     },
-    "section3": {
-      "title": "3) आगाँ बढ़ू",
-      "item1Part1": "अपन प्लान",
-      "upgradeLink": "अपग्रेड",
-      "item1Part2": "पेज पर प्रबंधित करू (Plus = बिना विज्ञापन, Premium = पूरा फीचर).",
-      "item2Part1": "अओर डिवाइस लिंक करू आ एन्क्रिप्टेड बैकअप सेट करू",
-      "settingsLink": "सेटिंग्स"
+    "why": {
+      "title": "लोग Chatforia पर काहे स्विच करैत अछि",
+      "subtitle": "Chatforia अहाँक वास्तविक फोन नंबर, स्मार्ट अनुवाद आ विज्ञापन-मुक्त जाब खातिर स्पष्ट मार्ग दैत अछि।",
+      "card": {
+        "textnow": {
+          "title": "Chatforia बनाम TextNow",
+          "body": "मुफ्त पर हल्का विज्ञापन, जखन तैयार हो त सरल Plus अपग्रेड, आ TextNow द्वारा नहि देल गेल प्रीमियम उपकरण।"
+        },
+        "voice": {
+          "title": "Chatforia बनाम Google Voice",
+          "body": "आधुनिक ऐप, वैश्विक-प्रथम डिज़ाइन आ पुरानी शैली कॉल फॉरवर्डिंग क बजाय अंतर्निहित अनुवाद।"
+        },
+        "messengers": {
+          "title": "Chatforia बनाम चैट ऐप",
+          "body": "वास्तविक फोन नंबर पर टेक्स्ट करू — केवल अन्य ऐप उपयोगकर्ता नहि — एआई आ स्थिति अंतर्निहित। TextFree अथवा TextMe जे ऐप सँ आबै पर उत्तम।"
+        }
+      },
+      "tableTitle": "Chatforia की तुलना कओना करैत अछि",
+      "col": {
+        "feature": "फीचर"
+      },
+      "feature": {
+        "freeNumber": "मुफ्त फोन नंबर",
+        "translation": "अंतर्निहित स्वतः-अनुवाद",
+        "aiTools": "एआई उपकरण (पुनर्लेखन, जवाब, सारांश)",
+        "ads": "विज्ञापन-मुक्त विकल्प",
+        "history": "संदेश इतिहास"
+      },
+      "yes": "हाँ",
+      "no": "नहि",
+      "yesPremium": "हाँ (प्रीमियम)",
+      "plusPremium": "Plus आ प्रीमियम",
+      "limited": "सीमित",
+      "nA": "लागू नहि",
+      "history": {
+        "chatforia": "12+ महीना तक",
+        "textnow": "खाता अनुसार भिन्न",
+        "voice": "सीमित / खाता-आधारित"
+      },
+      "disclaimer": "तुलना सार्वजनिक रूप सँ उपलब्ध जानकारी पर आधारित आ समय सँ बदल सकैत अछि। अन्य मुफ्त-टेक्स्टिंग ऐप जैसे TextFree अथवा TextMe सामान्य रूप सँ TextNow सँग समान अछि।"
     },
-    "cta": {
-      "seePlans": "प्लान देखू",
-      "openSettings": "सेटिंग्स खोलू"
-    }
-  },
-
-  "helpCenter": {
-    "title": "हेल्प सेंटर",
     "faq": {
-      "account": {
-        "q": "खाता कियैक बनाउ अथवा रिकवर करूँ?",
-        "a": "एप्प डाउनलोड करू अथवा वेब प्रयोग करू, “खाता बनाउ” ट्याप करू, अपन ईमेल/फोन सत्यापित करू. रिकवरी लेल “पासवर्ड भूलि गेल” प्रयोग करू."
+      "title": "मूल्य निर्धारण आ योजना FAQ",
+      "free": {
+        "q": "मुफ्त योजना सच्चे मुफ्त अछि?",
+        "a": "हाँ। मुफ्त योजना में Chatforia नंबर, कॉलिंग आ विज्ञापन सँ संदेश शामिल अछि। अहाँ जितना चाहैत रह सकब, अथवा विज्ञापन हटाउ आ अधिक फीचर खोलब खातिर अपग्रेड करू।"
       },
-      "privacy": {
-        "q": "की संदेश एंड-टू-एंड एन्क्रिप्टेड अछि?",
-        "a": "हाँ. संदेश आ कॉल डिफॉल्ट सँ एंड-टू-एंड एन्क्रिप्टेड अछि. सिर्फ अहाँ आ प्राप्तकर्ता पढ़ि सकैत अछि."
+      "plusPremium": {
+        "q": "Plus आ प्रीमियम बीच का अंतर अछि?",
+        "a": "Plus विज्ञापन हटाउ आ संदेश इतिहास बढ़ाउ — रोजमर्रा उपयोग खातिर उत्तम। प्रीमियम अतिरिक्त अनुकूलन, पुनर्लेखन आ जवाब खातिर एआई उपकरण आ भारी उपयोगकर्ता खातिर प्राथमिकता सहायता जोड़ैत अछि।"
       },
-      "translate": {
-        "q": "तुरंत अनुवाद कियैक काज करैत अछि?",
-        "a": "सेटिंग्स → दिखावट आ भाषा मे “Auto-translate” ऑन करू. जेठा समर्थित अछि, ओतए ऑन-डिवाइस अनुवाद; नहि त' न्यूनतम मेटाडेटा संग सुरक्षित API द्वारा."
+      "esim": {
+        "q": "eSIM डेटा पैक कहाँ काम करैत अछि?",
+        "a": "Chatforia मोबाइल वैश्विक eSIM कवरेज प्रयोग करैत अछि। उपलब्धता अहाँक देश आ डिवाइस अनुसार। ऐप अंदर सक्रियण दौरान समर्थित विकल्प देखब।"
+      },
+      "cancel": {
+        "q": "हम कबो योजना रद्द अथवा बदल सकब?",
+        "a": "हाँ। अहाँ ऐप में बिलिंग पृष्ठ सँ सदस्यता प्रबंधित अथवा रद्द कर सकब। परिवर्तन वर्तमान बिलिंग अवधि क अंत में प्रभावी होइत अछि।"
+      },
+      "family": {
+        "q": "परिवार पैक कओना काम करैत अछि?",
+        "a": "परिवार पैक बहु Chatforia खाता भर सँ साझा डेटा पूल बनाउ। एक व्यक्ति बिल भुगतैत अछि आ अहाँ सदस्य आमंत्रित अथवा हटाउ सकब आ प्रति व्यक्ति सीमा सेट कर सकब।"
+      }
+    },
+    "gettingStarted": {
+      "title": "आरंभ कओना करू",
+      "subtitle": "Chatforia में नया? एहि त्वरित शुरू में आवश्यक बात अछि जाहि सँ अहाँ मिनट में उत्पादक बन सकब।",
+      "alert": {
+        "text": "एहि मार्गदर्शिका हमर नयाँ फीचर लॉन्च सँग बढ़ैत। जँ कुछ गुम अछि त हमरा ",
+        "contactLink": "संपर्क करू"
+      },
+      "section1": {
+        "title": "1) अपन खाता बनाउ",
+        "signup": "साइन अप",
+        "or": "अथवा",
+        "login": "लॉग इन",
+        "loginText": "अपन विद्यमान खाता सँ।",
+        "prefsStart": "अपन",
+        "prefsLink": "पसंद",
+        "prefsRest": "(भाषा, पढ़ल भेल रसीद, थीम) सेट करू।"
+      },
+      "section2": {
+        "title": "2) संदेशिंग शुरू करू",
+        "item1": "DM अथवा समूह बनाउ आ अपन पहिला संदेश भेजू।",
+        "item2": "100+ भाषा भर सँ चैट करब खातिर तुरंत अनुवाद प्रयोग करू।",
+        "item3": "प्रोफाइल → गोपनीयता में गायब होनेवाला संदेश आ पढ़ल भेल रसीद प्रयास करू।"
+      },
+      "section3": {
+        "title": "3) आगे बढ़ू",
+        "item1": "अहाँ कबो ऐप अंदर भुगतान योजना पर अपग्रेड कर सकब।",
+        "item2": "जखन साइन इन भेल, अहाँ अतिरिक्त डिवाइस जोड़ सकब आ ऐप सेटिंग्स सँ एन्क्रिप्टेड बैकअप सेटअप कर सकब।"
+      },
+      "cta": {
+        "seePlans": "योजना देखू",
+        "openSettings": "सेटिंग्स खोलू"
+      }
+    },
+    "helpCenter": {
+      "title": "मदद केंद्र",
+      "faq": {
+        "account": {
+          "q": "हम अपना खाता कओना बनाउ अथवा पुनर्प्राप्त करू?",
+          "a": "ऐप डाउनलोड करू अथवा वेब प्रयोग करू, “खाता बनाउ” दबाउ, ईमेल/फोन सत्यापित करू। पुनर्प्राप्ति खातिर “पासवर्ड भुलल” प्रयोग करू।"
+        },
+        "privacy": {
+          "q": "संदेश एंड-टू-एंड एन्क्रिप्टेड अछि?",
+          "a": "हाँ। संदेश आ कॉल पूर्वनिर्धारित रूप सँ एंड-टू-एंड एन्क्रिप्टेड अछि। केवल अहाँ आ प्राप्तकर्ता हुनका पढ़ सकैत अछि।"
+        },
+        "translate": {
+          "q": "तुरंत अनुवाद कओना काम करैत अछि?",
+          "a": "सेटिंग्स → दिखाव आ भाषा में “स्वतः-अनुवाद” सक्षम करू। हम समर्थित जगह पर डिवाइस पर अनुवाद करैत अछि, अन्यथा न्यूनतम मेटाडेटा सँ सुरक्षित API द्वारा।"
+        },
+        "contact": {
+          "q": "सहायता संपर्क करू",
+          "a": "हमरा support@chatforia.com पर संपर्क करू। स्क्रीनशॉट आ अहाँक ऐप संस्करण शामिल करू।"
+        }
+      }
+    },
+    "contact": {
+      "title": "हमरा संपर्क करू",
+      "successMsg": "धन्यवाद—हमर टीम ईमेल द्वारा जवाब देब।",
+      "errorSend": "भेजल नहि जा सकल। कृपया support@chatforia.com पर ईमेल करू।",
+      "form": {
+        "nameLabel": "नाम",
+        "emailLabel": "ईमेल",
+        "messageLabel": "संदेश",
+        "sendCta": "भेजू"
+      }
+    },
+    "privacyPolicy": {
+      "title": "गोपनीयता नीति",
+      "lastUpdated": "अंतिम अद्यतन:",
+      "intro": {
+        "body": "एहि गोपनीयता नीति स्पष्ट करैत अछि कि Chatforia (“हम”, “हमरा”) अहाँक ऐप आ सेवा उपयोग क समय सूचना कओना संग्रह, उपयोग आ साझा करैत अछि। हम Chatforia डिज़ाइन कए अछि जाहि सँ हम जितना डेटा पहुँच सकैत अछि हुनका न्यूनतम राखब।"
+      },
+      "infoWeCollect": {
+        "title": "हमरा संग्रह कएल सूचना",
+        "account": "खाता सूचना (उदाहरण: ईमेल/फोन) खाता बनाउ आ सुरक्षित रखब खातिर।",
+        "encrypted": "एन्क्रिप्टेड सामग्री (संदेश/कॉल) एंड-टू-एंड एन्क्रिप्टेड अछि; हम हुनका पढ़ नहि सकैत अछि।",
+        "diagnostics": "निदान/उपयोग जैसे क्रैश लॉग, डिवाइस प्रकार, अथवा मोटा विश्लेषण प्रदर्शन सुधारब खातिर।"
+      },
+      "sms": {
+        "title": "मोबाइल फोन नंबर आ SMS",
+        "body": "जँ अहाँ मोबाइल फोन नंबर दिअ, हम हुनका खाता सत्यापन, लॉगिन चेतावनी आ समर्थित जगह पर उपयोगकर्ता-प्रति-उपयोगकर्ता SMS संदेशिंग सक्षम करब खातिर प्रयोग करैत अछि। हम अहाँक Chatforia गतिविधि संबंधित लेन-देन SMS भेज सकैत अछि। अहाँ कबो “STOP” जे समर्थित ऑप्ट-आउट कीवर्ड सँ जवाब देला अथवा ऐप में सूचना पसंद बदल क SMS बंद कर सकब। हम अहाँक फोन नंबर बेचैत नहि अथवा असंबंधित विपणन खातिर हुनका प्रयोग नहि करैत अछि।",
+        "newText": "नया टेक्स्ट",
+        "enterRecipient": "नाम अथवा नंबर भरू",
+        "typeMessage": "संदेश टाइप करू…",
+        "addRecipient": "आरंभ करब खातिर उपर प्राप्तकर्ता जोड़ू…"
+      },
+      "howWeUse": {
+        "title": "हम सूचना कओना प्रयोग करैत अछि",
+        "provide": "सेवा प्रदान आ सुरक्षित करब (प्रमाणीकरण, स्पैम/दुरुपयोग पहचान)।",
+        "improve": "फीचर सुधारब (अनुवाद गुणवत्ता, विश्वसनीयता)।",
+        "legal": "कानूनी दायित्व अनुपालन।"
+      },
+      "sharing": {
+        "title": "साझा",
+        "body": "हम व्यक्तिगत डेटा नहि बेचैत अछि। हम सख्त अनुबंध अंदर प्रोसेसर (उदाहरण: पुश सूचना, विश्लेषण) सँग सीमित डेटा साझा कर सकैत अछि।"
+      },
+      "rights": {
+        "title": "अहाँक अधिकार",
+        "body": "अहाँक क्षेत्र (उदाहरण: GDPR/UK GDPR/CPRA) अनुसार अहाँ पहुँच, सुधार, मिटाव अथवा कुछ प्रसंस्करण सँ ऑप्ट-आउट अनुरोध कर सकब। संपर्क: privacy@chatforia.com।"
+      },
+      "retention": {
+        "title": "डेटा प्रतिधारण आ सुरक्षा",
+        "body": "हम केवल सेवा संचालन खातिर आवश्यक रखैत अछि आ उद्योग-मानक सुरक्षा लागू करैत अछि। E2E सामग्री हमरा द्वारा डिक्रिप्ट नहि कएल जा सकैत।"
+      },
+      "children": {
+        "title": "बच्चा",
+        "body": "Chatforia 13 वर्ष सँ कम उम्र (अथवा अहाँक स्थानीय कानून अनुसार) क बच्चा खातिर निर्देशित नहि अछि।"
+      },
+      "changes": {
+        "title": "परिवर्तन",
+        "body": "हम एहि पर अद्यतन पोस्ट करब आ “अंतिम अद्यतन” तिथि संशोधित करब।"
       },
       "contact": {
-        "q": "सपोर्ट सँ संपर्क",
-        "a": "support@chatforia.com पर लिखू. स्क्रीनशॉट आ अपन एप्प वर्जन शामिल करू."
+        "title": "संपर्क",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "हमरा सँ संपर्क",
-    "successMsg": "धन्यवाद—हमर टीम ईमेल सँ जवाब देत.",
-    "errorSend": "भेजि नै सकल. कृपया support@chatforia.com पर ईमेल करू.",
-    "form": {
-      "nameLabel": "नाम",
-      "emailLabel": "ईमेल",
-      "messageLabel": "संदेश",
-      "sendCta": "भेजू"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "गोपनीयता नीति",
-    "lastUpdated": "अंतिम अपडेट:",
-    "intro": {
-      "body": "ई गोपनीयता नीति बतबैत अछि जे Chatforia (“हम”, “हमर”) अहाँक ऐप्स आ सेवाक प्रयोग दौरान जानकारी कियैक एकत्र, उपयोग, आ साझा करैत अछि. हम Chatforia केँ एहन डिजाइन करैत छी जे स' हम न्यूनतम डाटा देखि सकी."
     },
-    "infoWeCollect": {
-      "title": "हम की जानकारी एकत्र करैत छी",
-      "account": "खाता जानकारी (उदा., ईमेल/फोन) खाता बनाबय आ सुरक्षा लेल.",
-      "encrypted": "एन्क्रिप्टेड सामग्री (संदेश/कॉल) एंड-टू-एंड एन्क्रिप्टेड अछि; हम पढ़ि नै सकैत छी.",
-      "diagnostics": "डायग्नोस्टिक/उपयोग जँका क्रैश लॉग, डिवाइस प्रकार, अथवा मोटा-मोटी एनालिटिक्स प्रदर्शन सुधार लेल."
+    "terms": {
+      "title": "सेवा की शर्तें",
+      "lastUpdated": "अंतिम अद्यतन:",
+      "intro": {
+        "body": "Chatforia प्रयोग कए अहाँ एहि शर्त सँ सहमत अछि। जँ सहमत नहि अछि त सेवा नहि प्रयोग करू।"
+      },
+      "accounts": {
+        "title": "खाता",
+        "itemAccurateInfo": "सटीक सूचना दिअ आ क्रेडेंशियल सुरक्षित रखू।",
+        "itemResponsibility": "अहाँक खाता पर गतिविधि खातिर अहाँ जिम्मेदार अछि।"
+      },
+      "acceptableUse": {
+        "title": "स्वीकार्य उपयोग",
+        "itemNoAbuse": "अवैध, दुरुपयोगी अथवा उल्लंघन सामग्री नहि; स्पैम अथवा स्वचालित दुरुपयोग नहि।",
+        "itemSuspend": "उल्लंघन खातिर हम निलंबित/समाप्त कर सकैत अछि।"
+      },
+      "sms": {
+        "title": "SMS संचार",
+        "body": "जँ अहाँ मोबाइल फोन नंबर दिअ, अहाँ सहमत अछि कि Chatforia अहाँक खाता आ सेवा उपयोग संबंधित SMS भेज सकैत अछि, जैसे लॉगिन चेतावनी, सुरक्षा सूचना आ अहाँक शुरू कएल अथवा भाग लेल गेल बातचीत संबंधित संदेश। हम स्पष्ट सहमति बिना विपणन SMS नहि भेजैत अछि। मानक संदेश आ डेटा दर लागू हो सकैत अछि। अहाँ कबो समर्थित ऑप्ट-आउट कीवर्ड (उदाहरण “STOP”) सँ जवाब देला अथवा ऐप सूचना सेटिंग अद्यतन क SMS बंद कर सकब।"
+      },
+      "yourContent": {
+        "title": "अहाँक सामग्री",
+        "body": "अहाँ अपन सामग्री क अधिकार रखब। हमरा सेवा संचालन खातिर आवश्यक अधिकार (उदाहरण: रूटिंग, भंडारण, अनुवाद) दिअ।"
+      },
+      "disclaimer": {
+        "title": "अस्वीकरण आ दायित्व",
+        "body": "सेवा “जैसा अछि” बिना वारंटी प्रदान कएल जाएत अछि। कानून द्वारा अनुमत पूर्ण सीमा तक, Chatforia अप्रत्यक्ष अथवा परिणामी क्षति खातिर उत्तरदायी नहि अछि।"
+      },
+      "changes": {
+        "title": "परिवर्तन",
+        "body": "हम एहि शर्त अद्यतन कर सकैत अछि; परिवर्तन बाद निरंतर उपयोग स्वीकृति मानल जाएत अछि।"
+      },
+      "contact": {
+        "title": "संपर्क",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "हम जानकारी कियैक प्रयोग करैत छी",
-      "provide": "सेवा उपलब्ध कराबय आ सुरक्षित रखय (ऑथ, स्पैम/दुरुपयोग पहचान).",
-      "improve": "फीचर सुधार (अनुवाद गुणवत्ता, विश्वसनीयता).",
-      "legal": "कानूनी दायित्व पूरा करय."
+    "doNotSell": {
+      "title": "हमर व्यक्तिगत सूचना नहि बेचू अथवा साझा नहि करू",
+      "body": "Chatforia व्यक्तिगत सूचना नहि बेचैत अछि। कैलिफोर्निया निवासी CPRA अंदर अनुरोध जमा कर सकैत अछि नीचे बटन प्रयोग क।",
+      "cta": "अनुरोध जमा करू"
     },
-    "sharing": {
-      "title": "शेयरिंग",
-      "body": "हम व्यक्तिगत डाटा नै बेचैत छी. प्रोसेसर (उदा., पुश नोटिफिकेशन, एनालिटिक्स) संग सीमित डाटा कड़ा अनुबंध अंतर्गत साझा भ' सकैत अछि."
+    "cookies": {
+      "title": "कुकी सेटिंग्स",
+      "body": "Chatforia न्यूनतम कुकी (उदाहरण: सत्र, सुरक्षा) प्रयोग करैत अछि। हम तृतीय-पक्ष विज्ञापन कुकी नहि प्रयोग करैत अछि। ब्राउजर सेटिंग सँ कुकी प्रबंधित करू।"
     },
-    "rights": {
-      "title": "अहाँक अधिकार",
-      "body": "अहाँक क्षेत्र (उदा., GDPR/UK GDPR/CPRA) पर निर्भर, अहाँ पहुँच, सुधार, मिटाव, अथवा किछु प्रोसेसिंग सँ ऑप्ट-आउट माँग सकैत छी. संपर्क: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "फोन नंबर स्थिति लोड नहि कएल जा सकल।",
+      "lock": "लॉक",
+      "noNumberAssigned": "कोनो नंबर आवंटित नहि। क्षेत्र कोड चुन क टेक्स्टिंग शुरू करू।",
+      "pickNumber": "नंबर चुनू",
+      "phoneNumber": "फोन नंबर"
     },
-    "retention": {
-      "title": "डाटा रख-रखाव आ सुरक्षा",
-      "body": "हम सेवा संचालन लेल जरूरी भरि डाटा राखैत छी आ उद्योग-मानक सुरक्षा लागू करैत छी. E2E सामग्री हमरे द्वारा डिक्रिप्ट नै कएल जाए सकैत अछि."
+    "startChatModal": {
+      "title": "चैट शुरू करू",
+      "quickPicker": "त्वरित पिकर",
+      "to": "प्रति",
+      "nameOrUsername": "नाम, उपयोगकर्ता नाम टाइप करू",
+      "nameUsernamePhoneEmail": "नाम, उपयोगकर्ता नाम, फोन अथवा ईमेल टाइप करू…",
+      "startWithSelected": "चयनित सँग चैट शुरू करू",
+      "searchByUsernameOrPhone": "उपयोगकर्ता नाम अथवा फोन सँ खोजू",
+      "search": "खोजू",
+      "searchPrompt": "उपयोगकर्ता नाम अथवा फोन टाइप करू आ खोजू दबाउ।",
+      "pickFromContacts": "अथवा संपर्क सँ चुनू",
+      "addContact": "संपर्क जोड़ू",
+      "show": "देखाउ",
+      "add": "जोड़ू",
+      "close": "बंद करू",
+      "selectedCount": "{{count}} चयनित",
+      "pickAtLeastOne": "कम सँ कम एके प्राप्तकर्ता चुनू।",
+      "saveContactsHint": "फोन/ईमेल प्रविष्टि हुनका संपर्क रूप में सहेजब बाद उपलब्ध होइत।",
+      "failedBulkStart": "चयनित प्राप्तकर्ता सँग चैट शुरू असफल।",
+      "noResults": "कोनो परिणाम नहि",
+      "mode": "मोड",
+      "group": "समूह",
+      "broadcast": "प्रसारण",
+      "groupNameOptional": "समूह नाम (वैकल्पिक)",
+      "firstMessageOptional": "पहिला संदेश (वैकल्पिक पर अनुशंसित)",
+      "createGroup": "समूह बनाउ",
+      "sendBroadcast": "प्रसारण भेजू"
     },
-    "children": {
-      "title": "बच्चा",
-      "body": "Chatforia 13 वर्ष सँ कम (अथवा स्थानीय कानून अनुसार) बच्चा लेल नै अछि."
+    "themes": {
+      "amoled": "AMOLED",
+      "aurora": "औरोरा",
+      "neon": "नियोन",
+      "sunset": "सूर्यास्त",
+      "solarized": "सोलराइज्ड",
+      "velvet": "मखमल"
     },
-    "changes": {
-      "title": "परिवर्तन",
-      "body": "हम एतय अपडेट पोस्ट करब आ “अंतिम अपडेट” तारीख बदलब."
+    "sounds": {
+      "freeNotice": "अहाँ मुफ्त पर अछि — प्रीमियम टोन देखाएल जाएत पर लॉक। सभ खोलब खातिर अपग्रेड करू।",
+      "preview": "पूर्वावलोकन",
+      "resetToDefaults": "पूर्वनिर्धारित पर रीसेट",
+      "notificationSounds": "सूचना ध्वनि",
+      "messageTone": "संदेश टोन",
+      "default": "पूर्वनिर्धारित",
+      "vibrate": "कंपन",
+      "dreamer": "ड्रीमर",
+      "notify": "सूचित करू",
+      "pop": "पॉप",
+      "pulsatingSound": "नाड़ी ध्वनि",
+      "textMessage": "टेक्स्ट संदेश",
+      "xylophone": "जाइलोफोन",
+      "classic": "क्लासिक",
+      "urgency": "तत्कालता",
+      "bells": "घंटी",
+      "chimes": "झंकार",
+      "digitalPhone": "डिजिटल फोन",
+      "melodic": "स्वरमय",
+      "organNotes": "ऑर्गन स्वर",
+      "soundReality": "ध्वनि वास्तविकता",
+      "street": "सड़क",
+      "universfield": "यूनिवर्सफील्ड"
     },
-    "contact": {
-      "title": "संपर्क",
-      "body": "privacy@chatforia.com • [कंपनी कानूनी नाम], [पता]"
-    }
-  },
-
-  "terms": {
-    "title": "सेवा की शर्त",
-    "lastUpdated": "अंतिम अपडेट:",
-    "intro": {
-      "body": "Chatforia क' प्रयोग करैत अहाँ ई शर्त सँ सहमत होइछी. जँ सहमत नै छी, त' सेवा प्रयोग नै करू."
+    "premiumGuard": {
+      "requiresPremium": "एहि फीचर खातिर प्रीमियम योजना आवश्यक अछि।"
     },
-    "accounts": {
-      "title": "खाता",
-      "itemAccurateInfo": "सही जानकारी देब आ क्रेडेंशियल सुरक्षित राखब.",
-      "itemResponsibility": "अहाँ अपन खाता गतिविधि लेल जिम्मेवार छी."
+    "aiSettings": {
+      "title": "एआई सेटिंग्स",
+      "controlIntro": "अनुवाद, स्मार्ट जवाब आ ForiaBot स्वतः-जवाब नियंत्रित करू।",
+      "save": "एआई सेटिंग्स सहेजू",
+      "autoTranslateIncoming": "आगमन संदेश स्वतः-अनुवाद",
+      "showOriginalAlongside": "अनुवाद क साथ मूल पाठ देखाउ",
+      "enableSmartReplies": "स्मार्ट जवाब सक्षम करू",
+      "smartRepliesHint": "त्वरित जवाब सुझाव खातिर AI क अंतिम कुछ प्राप्त संदेश (स्वच्छ) भेजू।",
+      "maskProfanity": "एआई सुझाव में गाली छिपाउ",
+      "maskProfanityHint": "जखन चालू अछि, AI द्वारा देल गेल सुझाव में चिह्नित शब्द छिपाएल जाएत",
+      "foriaBot": "ForiaBot स्वतः-जवाबदाता",
+      "enableAutoReply": "व्यस्त रहब पर स्वतः-जवाब सक्षम करू",
+      "autoReplyMode": "स्वतः-जवाब मोड",
+      "cooldownSeconds": "कूलडाउन (सेकंड)",
+      "off": "बंद",
+      "on": "चालू",
+      "signature": "हस्ताक्षर",
+      "autoReply": "स्वतः-जवाब",
+      "activeUntilOptional": "सक्रिय रहब तक (वैकल्पिक)",
+      "saved": "एआई पसंद सहेजल गेल",
+      "saveFailed": "एआई सेटिंग्स सहेजब असफल",
+      "translateOff": "बंद",
+      "translateTagged": "केवल @translated अथवा टैग कएल",
+      "translateAll": "सभ आगमन संदेश अनुवाद करू",
+      "modeDm": "केवल 1:1 चैट",
+      "modeMention": "केवल जखन हमरा @mentioned",
+      "modeAll": "सभ इनबाउंड संदेश"
     },
-    "acceptableUse": {
-      "title": "स्वीकार्य उपयोग",
-      "itemNoAbuse": "कोनो गैरकानूनी, अपमानजनक, वा उल्लंघनकारी सामग्री नै; स्पैम वा स्वचालित दुरुपयोग नै.",
-      "itemSuspend": "उल्लंघन पर निलंबन/समापन कयल जाए सकैत अछि."
+    "accessibilitySettings": {
+      "title": "सुलभता आ चेतावनी",
+      "accessibility": "सुलभता",
+      "accessibilityDesc": "ध्वनि पर निर्भर नहि रह क Chatforia उपयोग सरल बनाबै खातिर विकल्प।",
+      "interfaceFontSize": "इंटरफेस फॉन्ट आकार",
+      "interfaceFontSizeHelp": "सामान्य आकार सँ शुरू। सुलभता सेटिंग्स में बड़ा पाठ पसंद करब पर बढ़ाउ।",
+      "sm": "छोट",
+      "md": "मध्यम",
+      "lg": "बड़ा",
+      "xl": "बहुत बड़ा",
+      "notifications": "सूचनाएँ",
+      "notificationsDesc": "संदेश आ कॉल खातिर दृश्य चेतावनी\nबैनर आ शीर्षक ब्लिंक देखाउ जाहि सँ गतिविधि नहि छूटै।",
+      "vibrateOnNew": "नया संदेश पर कंपन (समर्थित जगह)\nसूचना सँग डिवाइस कंपन ट्रिगर करू।",
+      "flashOnCall": "आगमन कॉल पर स्क्रीन फ्लैश\nकॉल बजब पर संक्षिप्त उज्ज्वल फ्लैश।",
+      "liveCaptions": "लाइव कैप्शन (कॉल)",
+      "captionFontSize": "कैप्शन फॉन्ट आकार",
+      "captionBackground": "कैप्शन पृष्ठभूमि",
+      "light": "हल्का",
+      "dark": "गहरे",
+      "transparent": "पारदर्शी",
+      "voiceNotes": "वॉइस नोट",
+      "autoTranscribeVoiceNotes": "वॉइस नोट स्वतः-प्रतिलेखित करू",
+      "autoTranscribeVoiceNotesDesc": "प्राप्त ऑडियो संदेश सँग प्रतिलेख संलग्न करू।",
+      "changesSavedInstantly": "परिवर्तन तुरंत सहेजल जाएत अछि।",
+      "loadFailed": "सेटिंग्स लोड असफल",
+      "visualAlerts": "संदेश आ कॉल खातिर दृश्य चेतावनी",
+      "visualAlertsDesc": "बैनर आ शीर्षक ब्लिंक देखाउ जाहि सँ गतिविधि नहि छूटै।",
+      "vibrateOnNewShort": "नया संदेश पर कंपन (समर्थित)",
+      "vibrateOnNewDesc": "सूचना सँग डिवाइस कंपन ट्रिगर करू।",
+      "flashOnCallShort": "आगमन कॉल पर स्क्रीन फ्लैश",
+      "flashOnCallDesc": "कॉल बजब पर संक्षिप्त उज्ज्वल फ्लैश।"
     },
-    "yourContent": {
-      "title": "अहाँक सामग्री",
-      "body": "अहाँ अपन सामग्रीक अधिकार राखैत छी. सेवा संचालन लेल जरूरी अधिकार (उदा., रूटिंग, स्टोरेज, अनुवाद) अहाँ द्वारा हमरा देल जाएत अछि."
+    "privacySection": {
+      "strictE2EE": "सख्त एंड-टू-एंड एन्क्रिप्शन",
+      "ciphertextOnlyNote": "सर्वर पर केवल साइफरटेक्स्ट सहेजू। AI/अनुवाद आ मॉडरेशन पूर्वावलोकन अक्षम।"
     },
-    "disclaimer": {
-      "title": "अस्वीकरण आ दायित्व",
-      "body": "सेवा “जइसन अछि” आधार पर बिना वारंटी उपलब्ध अछि. कानून द्वारा संभव अधिकतम सीमा धरि, Chatforia परोक्ष अथवा परिणामस्वरूप क्षति लेल जिम्मेवार नै."
+    "linkedDevicesPanel": {
+      "title": "जोड़ल डिवाइस",
+      "noneFound": "कोनो जोड़ल डिवाइस नहि भेटल।",
+      "refresh": "ताज़ा करू"
     },
-    "changes": {
-      "title": "परिवर्तन",
-      "body": "हम ई शर्त अपडेट क' सकैत छी; परिवर्तनक बाद सतत उपयोग स्वीकृति बुझल जाएत."
+    "help": {
+      "title": "मदद",
+      "howCanWeHelp": "हम अहाँक का मदद कर सकैत अछि?",
+      "helpCenter": "मदद केंद्र",
+      "contactUs": "हमरा संपर्क करू",
+      "quickTopics": "त्वरित विषय",
+      "searchExamples": "“अनुवाद”, “बैकअप”, अथवा “गोपनीयता” खोजब प्रयास करू।",
+      "cantLogin": "लॉग इन नहि कएल जा सकैत",
+      "paymentsBilling": "भुगतान/बिलिंग",
+      "reportAbuse": "दुरुपयोग रिपोर्ट करू",
+      "searchHelpArticles": "मदद लेख खोजू",
+      "search": "खोजू"
     },
-    "contact": {
-      "title": "संपर्क",
-      "body": "support@chatforia.com • [कंपनी कानूनी नाम], [पता]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "हमर व्यक्तिगत जानकारी नै बेचू/नै शेयर करू",
-    "body": "Chatforia व्यक्तिगत जानकारी नै बेचैत अछि. तथापि, कैलिफोर्निया निवासी CPRA अंतर्गत नीचे बटन सँ अनुरोध दे सकैत अछि.",
-    "cta": "अनुरोध सबमिट करू"
-  },
-
-  "cookies": {
-    "title": "कुकी सेटिंग्स",
-    "body": "Chatforia न्यूनतम कुकी (उदा., सत्र, सुरक्षा) प्रयोग करैत अछि. हम तृतीय-पक्ष विज्ञापन कुकी प्रयोग नै करैत छी. कुकी ब्राउजर सेटिंग्स सँ प्रबंधित करू."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "फोन नंबर स्टेटस लोड नै भ' सकल.",
-    "lock": "लॉक",
-    "noNumberAssigned": "कोनो नंबर असाइन नै. एरिया कोड सँ चुनि टेक्स्टिंग शुरू करू.",
-    "pickNumber": "नंबर चुनू",
-    "phoneNumber": "फोन नंबर"
-  },
-
-  "startChatModal": {
-    "title": "चैट शुरू करू",
-    "quickPicker": "क्विक पिकर",
-    "to": "क'",
-    "nameOrUsername": "नाम, यूजरनेम टाइप करू",
-    "nameUsernamePhoneEmail": "नाम, यूजरनेम, फोन, वा ईमेल टाइप करू…",
-    "startWithSelected": "चयनित सँ चैट शुरू करू",
-    "searchByUsernameOrPhone": "यूजरनेम वा फोन सँ खोजू",
-    "search": "खोजू",
-    "searchPrompt": "यूजरनेम वा फोन टाइप क' सर्च दबाउ.",
-    "pickFromContacts": "अथवा कॉन्टैक्ट्स सँ चुनू",
-    "addContact": "एकटा कॉन्टैक्ट जोड़ू",
-    "show": "देखू",
-    "add": "जोड़ू",
-    "close": "बन्ह करू",
-    "selectedCount": "{{count}} चयनित",
-    "pickAtLeastOne": "कम सँ कम एकटा प्राप्तकर्ता चुनू.",
-    "saveContactsHint": "फोन/ईमेल प्रविष्टि सेव क' क' कॉन्टैक्ट्स मे उपलब्ध भ' जाएत.",
-    "failedBulkStart": "चयनित प्राप्तकर्ता सँ चैट शुरू करैत त्रुटि.",
-    "noResults": "कोनो परिणाम नै",
-    "mode": "मोड",
-    "group": "ग्रुप",
-    "broadcast": "ब्रॉडकास्ट",
-    "groupNameOptional": "ग्रुप नाम (वैकल्पिक)",
-    "firstMessageOptional": "पहिल संदेश (वैकल्पिक पर अनुशंसित)",
-    "createGroup": "ग्रुप बनाउ",
-    "sendBroadcast": "ब्रॉडकास्ट भेजू"
-  },
-
-  "themes": {
-    "amoled": "एमोलेड",
-    "aurora": "ऑरोरा",
-    "neon": "निऑन",
-    "sunset": "सनसेट",
-    "solarized": "सोलराइज़्ड",
-    "velvet": "वेल्वेट"
-  },
-
-  "sounds": {
-    "freeNotice": "अहाँ फ्री पर छी — प्रीमियम टोन देखाइत अछि पर लॉक अछि. सब अनलॉक करबाक लेल अपग्रेड करू.",
-    "preview": "प्रीव्यू",
-    "resetToDefaults": "डिफॉल्ट पर रीसेट",
-    "notificationSounds": "नोटिफिकेशन साउंड",
-    "messageTone": "मैसेज टोन",
-    "default": "डिफॉल्ट",
-    "vibrate": "वाइब्रेट",
-    "dreamer": "ड्रीमर",
-    "notify": "नोटिफाई",
-    "pop": "पॉप",
-    "pulsatingSound": "पल्सेटिंग साउंड",
-    "textMessage": "टेक्स्ट मैसेज",
-    "xylophone": "जायलोफोन",
-    "classic": "क्लासिक",
-    "urgency": "अर्जेंसी",
-    "bells": "घंटी",
-    "chimes": "चाइम्स",
-    "digitalPhone": "डिजिटल फोन",
-    "melodic": "मेलोडिक",
-    "organNotes": "ऑर्गन नोट्स",
-    "soundReality": "साउंड रियलिटी",
-    "street": "स्ट्रीट",
-    "universfield": "यूनिवर्सफील्ड"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "ई फीचर लेल प्रीमियम प्लान चाही."
-  },
-
-  "aiSettings": {
-    "title": "एआई सेटिंग्स",
-    "controlIntro": "अनुवाद, स्मार्ट रिप्लाई, आ ForiaBot ऑटो-रेस्पॉन्स नियंत्रित करू.",
-    "save": "एआई सेटिंग्स सहेजू",
-    "autoTranslateIncoming": "आवयवाला संदेश स्वतः अनुवाद",
-    "showOriginalAlongside": "अनुवाद क' संग मूल पाठ देखाउ",
-    "enableSmartReplies": "स्मार्ट रिप्लाई सक्षम करू",
-    "smartRepliesHint": "आखरी किछु प्राप्त संदेश (साफ-सुथरा) एआई केँ भेजि त्वरित जवाब सुझाउ.",
-    "maskProfanity": "एआई सुझाव मे अपशब्द ढाँकी",
-    "maskProfanityHint": "ऑन होएला पर, एआई द्वारा लौटौल सुझाव मे फ्लैग्ड शब्द ढँकल रहत",
-    "foriaBot": "ForiaBot ऑटो-रेस्पॉन्डर",
-    "enableAutoReply": "जखन हम व्यस्त छी त' ऑटो-रिप्लाई ऑन",
-    "autoReplyMode": "ऑटो-रिप्लाई मोड",
-    "cooldownSeconds": "कूलडाउन (सेकेंड)",
-    "off": "ऑफ",
-    "on": "ऑन",
-    "signature": "हस्ताक्षर",
-    "autoReply": "ऑटो-रिप्लाई",
-    "activeUntilOptional": "एतय धरि सक्रिय (वैकल्पिक)",
-    "saved": "एआई प्रेफरेंस सहेजल गेल",
-    "saveFailed": "एआई सेटिंग्स सहेजैत त्रुटि",
-    "translateOff": "ऑफ",
-    "translateTagged": "मात्र @translated अथवा टैग कएल पर",
-    "translateAll": "सभ आवयवाला संदेश अनुवाद",
-    "modeDm": "मात्र 1:1 चैट",
-    "modeMention": "मात्र जखन हमरा @मेंशन कएल जाए",
-    "modeAll": "सभ इनबाउंड संदेश"
-  },
-
-  "accessibilitySettings": {
-    "title": "एक्सेसिबिलिटी आ अलर्ट",
-    "accessibility": "एक्सेसिबिलिटी",
-    "accessibilityDesc": "ध्वनि पर निर्भर नै भ' क' Chatforia केँ आसान बनाबय लेल विकल्प.",
-    "interfaceFontSize": "इंटरफेस फॉन्ट आकार",
-    "interfaceFontSizeHelp": "सामान्य आकार सँ शुरू होएत. जँ चाही तँ एक्सेसिबिलिटी सेटिंग्स मे टेक्स्ट पैघ करू.",
-    "sm": "छोट",
-    "md": "मध्य",
-    "lg": "पैघ",
-    "xl": "बहुत पैघ",
-    "notifications": "नोटिफिकेशन",
-    "notificationsDesc": "संदेश आ कॉल लेल दृश्य अलर्ट\nबैनर आ टाइटल ब्लिंक देखाउ जेँ सँ किछु छूटै नै.",
-    "vibrateOnNew": "नव संदेश पर वाइब्रेट (जँ समर्थित)\nनोटिफिकेशन पर डिवाइस वाइब्रेशन ट्रिगर करू.",
-    "flashOnCall": "इनकमिंग कॉल पर स्क्रीन फ्लैश\nकॉल बजैत समय छोट उजार फ्लैश.",
-    "liveCaptions": "लाइव कैप्शन (कॉल)",
-    "captionFontSize": "कैप्शन फॉन्ट आकार",
-    "captionBackground": "कैप्शन पृष्ठभूमि",
-    "light": "हलुक",
-    "dark": "गाढ़",
-    "transparent": "पारदर्शी",
-    "voiceNotes": "वॉइस नोट्स",
-    "autoTranscribeVoiceNotes": "वॉइस नोट स्वतः ट्रांसक्राइब\nअहांकेँ भेटल ऑडियो संदेश मे ट्रांसक्रिप्ट जोड़ू.",
-    "changesSavedInstantly": "परिवर्तन तुरन्त सहेजल जाइत अछि.",
-    "loadFailed": "सेटिंग्स लोड करैत त्रुटि",
-    "visualAlerts": "संदेश आ कॉल लेल दृश्य अलर्ट",
-    "visualAlertsDesc": "बैनर आ टाइटल ब्लिंक देखाउ जेँ सँ किछु छूटै नै.",
-    "vibrateOnNewShort": "नव संदेश पर वाइब्रेट (जँ समर्थित)",
-    "vibrateOnNewDesc": "नोटिफिकेशन पर डिवाइस वाइब्रेशन ट्रिगर करू.",
-    "flashOnCallShort": "इनकमिंग कॉल पर स्क्रीन फ्लैश",
-    "flashOnCallDesc": "कॉल बजैत समय छोट उजार फ्लैश."
-  },
-
-  "privacySection": {
-    "strictE2EE": "कठोर एंड-टू-एंड एन्क्रिप्शन",
-    "ciphertextOnlyNote": "सर्वर पर मात्र सिफरटेक्स्ट स्टोर करू. AI/Translate आ मॉडरेशन प्रीव्यू निष्क्रिय."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "लिंक कएल डिवाइस",
-    "noneFound": "कोनो लिंक कएल डिवाइस नै भेटल.",
-    "refresh": "रिफ्रेश"
-  },
-
-  "help": {
-    "title": "मदद",
-    "howCanWeHelp": "हम किहिना मदद करी?",
-    "helpCenter": "हेल्प सेंटर",
-    "contactUs": "हमरा सँ संपर्क",
-    "quickTopics": "त्वरित विषय",
-    "searchExamples": "“translate”, “backups”, अथवा “privacy” खोजि देखू.",
-    "cantLogin": "लॉग इन नै भए रहल",
-    "paymentsBilling": "भुगतान/बिलिंग",
-    "reportAbuse": "दुरुपयोग रिपोर्ट",
-    "searchHelpArticles": "हेल्प आर्टिकल खोजू",
-    "search": "खोजू"
-  },
-
-  "peoplePage": {
-    "people": "लोग",
-    "search": "खोजू",
-    "searchPlaceholder": "उपनाम, नाम, यूजरनेम, वा फोन सँ खोजू",
-    "filterSaved": "सेव कएल कॉन्टैक्ट्स फिल्टर करू",
-    "noContactsFound": "कोनो कॉन्टैक्ट नै भेटल",
-    "quickStart": "क्विक स्टार्ट",
-    "quickStartDesc": "तेज सँ शुरू करबाक किछु तरीका.",
-    "importContacts": "अपन कॉन्टैक्ट्स आयात करू",
-    "add": "जोड़ू",
-    "focusSearch": "सर्च पर फोकस",
-    "import": "आयात",
-    "findOrAdd": "केओकेँ खोजू अथवा जोड़ू",
-    "searchByPhoneOrUsername": "फोन/यूजरनेम सँ खोजू",
-    "inviteFriends": "मित्र केँ आमंत्रित करू",
-    "inviteDesc": "अपन निमंत्रण लिंक शेयर करू आ तुरन्त चैट शुरू करू.",
-    "getTheApp": "एप्प पाउ",
-    "getTheAppDesc": "iOS आ Android पर Chatforia सँ चलैत-फिरैत संपर्क मे रहू.",
-    "download": "डाउनलोड",
-    "syncTip": "टिप: अहाँक संदेश वेब आ मोबाइल बीच सिंक रहैत अछि."
-  },
-
-  "randomChat": {
-    "title": "रैंडम चैट",
-    "description": "तुरन्त कोनो नव व्यक्ति सँ भेट. हम अहाँक मेल करब आ अस्थायी चैटरूम खोलब.",
-    "findMatch": "हमरा लेल मेल खोजू",
-    "chatWithForia": "Foria सँ चैट करू",
-    "chatWithForiaBot": "ForiaBot सँ चैट करू",
-    "cancel": "रद्द",
-    "close": "बन्ह",
-    "searching": "खोजि रहल…",
-    "finding": "खोजि रहल छी…",
-    "looking": "केओकेँ खोजि रहल…",
-    "startingForia": "Foria सँ चैट शुरू करैत…",
-    "partnerDisconnected": "अहाँक पार्टनर डिसकनेक्ट भ' गेल.",
-    "noPartner": "एखन केओ पार्टनर नै भेटल.",
-    "connectedTo": "{{name}} सँ जुड़ल",
-    "connected": "जुड़ल",
-    "idle": "निष्क्रिय",
-    "partnerLeft": "पार्टनर छोड़ि क' चलि गेल.",
-    "stopped": "रुकल.",
-    "skip": "स्किप",
-    "save": "सेव",
-    "saveGuard": "केवल मानव-से-मानव चैट सेव भ' सकैत अछि",
-    "youAreChattingWith": "अहाँ {{name}} सँ गप्प करि रहल छी",
-    "bot": "बॉट",
-    "leave": "छोड़ू",
-    "sayHi": "नमस्ते कहू 👋",
-    "you": "अहाँ",
-    "typeMessage": "संदेश टाइप करू",
-    "send": "भेजू",
-    "partner": "साथी",
-    "withForia": "Foria संग"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "नेविगेशन मेनू खोलू",
-    "closeNav": "नेविगेशन मेनू बन्ह करू",
-    "homeAria": "Chatforia होम"
-  },
-
-  "login": {
-    "title": "फेर स्वागत अछि",
-    "subtitle": "अपन Chatforia खाता मे लॉग इन करू",
-    "google": "Google सँ जारी रखू",
-    "apple": "Apple सँ जारी रखू",
-    "googleUnavailable": "Google साइन-इन उपलब्ध नै",
-    "appleUnavailable": "Apple साइन-इन उपलब्ध नै",
-    "or": "अथवा",
-    "email": "ईमेल",
-    "emailPh": "you@example.com",
-    "usernameLabel": "यूजरनेम",
-    "usernamePh": "अहाँक यूजरनेम",
-    "passwordLabel": "पासवर्ड",
-    "passwordPh": "अहाँक पासवर्ड",
-    "keepSignedIn": "हमरा साइन इन रहन देब",
-    "forgot": "पासवर्ड भूलि गेलहुँ?",
-    "submit": "लॉग इन",
-    "loggingIn": "लॉग इन करैत…",
-    "newHere": "नव छी? <link>खाता बनाउ</link>",
-    "ssoUnavailable": "सिंगल-साइन-ऑन अखन उपलब्ध नै. कृपया यूजरनेम आ पासवर्ड प्रयोग करू.",
-    "error": {
-      "missing": "कृपया अपन क्रेडेंशियल दर्ज करू.",
-      "invalid": "अवैध यूजरनेम अथवा पासवर्ड",
-      "denied": "एक्सेस अस्वीकृत.",
-      "unprocessable": "अवैध अनुरोध. अपन यूजरनेम/ईमेल आ पासवर्ड जाँच करू.",
-      "deviceLimit": "फ्री प्लान लेल डिवाइस सीमा पूरा भ' गेल. दोसर डिवाइस सँ लॉग आउट करू अथवा प्रीमियम पर अपग्रेड क' बेसी डिवाइस लिंक करू.",
-      "premiumRequired": "ई क्रिया लेल प्रीमियम प्लान चाही."
+    "peoplePage": {
+      "people": "लोग",
+      "search": "खोजू",
+      "searchPlaceholder": "उपनाम, नाम, उपयोगकर्ता नाम, अथवा फोन सँ खोजू",
+      "filterSaved": "सहेजल संपर्क फिल्टर करू",
+      "noContactsFound": "कोनो संपर्क नहि भेटल",
+      "quickStart": "त्वरित शुरू",
+      "quickStartDesc": "आरंभ करब खातिर कुछ तेज़ तरीका।",
+      "importContacts": "अपन संपर्क आयात करू",
+      "add": "जोड़ू",
+      "focusSearch": "खोज पर फोकस",
+      "import": "आयात",
+      "findOrAdd": "ककरो खोजू अथवा जोड़ू",
+      "searchByPhoneOrUsername": "फोन / उपयोगकर्ता नाम सँ खोजू",
+      "inviteFriends": "मित्र आमंत्रित करू",
+      "inviteDesc": "तुरंत चैटिंग शुरू करब खातिर अपन आमंत्रण लिंक साझा करू।",
+      "getTheApp": "ऐप पाउ",
+      "getTheAppDesc": "iOS आ Android खातिर Chatforia सँग चलते-फिरते संपर्क में रहू।",
+      "download": "डाउनलोड",
+      "syncTip": "टिप: अहाँक संदेश वेब आ मोबाइल भर सँ सिंक रहैत अछि।"
+    },
+    "randomChat": {
+      "title": "यादृच्छिक चैट",
+      "description": "तुरंत ककरो नया सँग मिलू। हम अहाँक मिलान करब आ अस्थायी चैट रूम खोलब। पहिला अज्ञात रूप सँ चैट करू। सही लगल त बाद में मित्र जोड़ू।",
+      "findMatch": "हमरा खातिर मिलान खोजू",
+      "chatWithForia": "Foria सँग चैट करू",
+      "chatWithForiaBot": "ForiaBot सँग चैट करू",
+      "cancel": "रद्द करू",
+      "close": "बंद करू",
+      "searching": "खोजि रहल अछि...",
+      "finding": "खोजि रहल अछि...",
+      "looking": "ककरो खोजि रहल अछि...",
+      "startingForia": "Foria सँग चैट शुरू कएल जा रहल अछि...",
+      "partnerDisconnected": "अहाँक साथी डिस्कनेक्ट भेल।",
+      "noPartner": "अखनो कोनो साथी नहि भेटल।",
+      "connectedTo": "{{name}} सँग जोड़ल",
+      "connected": "जोड़ल",
+      "idle": "निष्क्रिय",
+      "partnerLeft": "साथी छोड़ देलक।",
+      "stopped": "रुकल।",
+      "skip": "छोड़ू",
+      "save": "सहेजू",
+      "saveGuard": "केवल मानव-प्रति-मानव चैट सहेजल जा सकैत अछि",
+      "youAreChattingWith": "अहाँ {{name}} सँग चैट कए रहल अछि",
+      "bot": "BOT",
+      "leave": "छोड़ू",
+      "sayHi": "नमस्ते कहू 👋",
+      "you": "अहाँ",
+      "typeMessage": "संदेश टाइप करू",
+      "send": "भेजू",
+      "partner": "साथी",
+      "withRia": "Ria सँग",
+      "chatWithRia": "Ria सँग चैट करू",
+      "startingRia": "Ria सँग चैट शुरू कएल जा रहल अछि...",
+      "ageDisclaimer": "हम केवल उम्र सीमा सहेजैत अछि (अहाँक सटीक जन्म तिथि नहि)। ई यादृच्छिक चैट जोड़ी उचित रखब खातिर प्रयोग होइत अछि। लोग (केवल RiaBot नहि) सँग मिलान खातिर सेटिंग्स → उम्र आ यादृच्छिक चैट में उम्र बैंड सेट करू।",
+      "ageBandRequired": "लोग सँग मिलान खातिर प्रोफाइल → उम्र आ यादृच्छिक चैट में अपन उम्र सीमा सेट करू।",
+      "ageBandCallout": "लोग (केवल RiaBot नहि) सँग मिलान खातिर सेटिंग्स → उम्र आ यादृच्छिक चैट में उम्र बैंड सेट करू।",
+      "subtitle": "तुरंत ककरो नया सँग मिलू, अथवा Ria सँग चैट चुनू।",
+      "start": "बातचीत शुरू करू",
+      "matching": "मिलान कएल जा रहल अछि...",
+      "setAge": "लोग सँग मिलान खातिर प्रोफाइल → उम्र आ यादृच्छिक चैट में अपन उम्र सीमा सेट करू।",
+      "next": "अगिला व्यक्ति",
+      "addFriend": "मित्र जोड़ू",
+      "requested": "अनुरोधित",
+      "messageRia": "Ria क संदेश...",
+      "messageMatch": "अपन मिलान क संदेश..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "एहि",
+      "intro": "नमस्ते 👋 हम Ria अछि। अहाँक मन में का अछि?",
+      "greetings": {
+        "long1": "नमस्ते {{name}} 👋 हम अछि। अहाँक मन में का अछि?",
+        "long2": "नमस्ते {{name}} 😊 आज अहाँ का बात करब चाहैत अछि?",
+        "long3": "नमस्ते {{name}}!! हम सभ सुनि रहल अछि — का अछि?",
+        "long4": "{{name}} देख क अच्छा लागल 👋 आज अहाँक मन में का अछि?",
+        "long5": "नमस्ते {{name}} 😊 वेंट, पूछ अथवा बस चैट करब चाहैत अछि?",
+        "long6": "नमस्ते {{name}}!! हमरा समय अछि — अहाँ का बात करब चाहैत अछि?",
+        "short1": "नमस्ते {{name}}, हम अखनो अछि। का अछि?",
+        "short2": "{{name}} वापस स्वागत 👋 अहाँ आओर कुछ जोड़ब चाहैत अछि?",
+        "short3": "फेर वापस, {{name}}? 😊 हमरा बताउ अहाँक मन में का अछि।",
+        "short4": "नमस्ते {{name}} 👋 जहाँ छोड़ल गेल अछि हुनका सँ शुरू करब खातिर तैयार?",
+        "short5": "हाँ {{name}}? हम सुनि रहल अछि 👂",
+        "short6": "ओह नमस्ते {{name}}!! अपन मन में नया कुछ अछि?"
+      },
+      "header": {
+        "openNav": "नेविगेशन मेनू खोलू",
+        "closeNav": "नेविगेशन मेनू बंद करू",
+        "homeAria": "Chatforia घर"
+      },
+      "login": {
+        "welcomeBack": "वापस स्वागत",
+        "title": "Chatforia पर जारी रखू",
+        "subtitleReturning": "अपन Chatforia खाता में लॉग इन करू",
+        "subtitle": "अपन Chatforia खाता में लॉग इन करू",
+        "google": "Google सँ जारी रखू",
+        "apple": "Apple सँ जारी रखू",
+        "googleUnavailable": "Google साइन-इन उपलब्ध नहि",
+        "appleUnavailable": "Apple साइन-इन उपलब्ध नहि",
+        "or": "अथवा",
+        "email": "ईमेल",
+        "emailPh": "you@example.com",
+        "usernameLabel": "उपयोगकर्ता नाम",
+        "usernamePh": "अहाँक उपयोगकर्ता नाम",
+        "passwordLabel": "पासवर्ड",
+        "passwordPh": "अहाँक पासवर्ड",
+        "keepSignedIn": "हमरा साइन-इन रखू",
+        "forgot": {
+          "title": "पासवर्ड भुलल",
+          "helper": "एहि ईमेल भरू जे अहाँ Chatforia खाता बनाबै खातिर प्रयोग कएल अछि आ हम अहाँक पासवर्ड रीसेट खातिर सुरक्षित लिंक भेजब।",
+          "emailInvalid": "कृपया वैध ईमेल पता भरू।",
+          "genericError": "अनुरोध संसाधित नहि कएल जा सकल। कृपया थोड़ी देर बाद पुनः प्रयास करू।",
+          "sending": "रीसेट लिंक भेजि रहल अछि...",
+          "sendCta": "रीसेट लिंक भेजू",
+          "sentLabel": "भेजल गेल!",
+          "sentHelper": "जँ हुनका ईमेल वाला खाता अछि त हम पासवर्ड रीसेट लिंक भेजल अछि। हुनका पहुँचब में कुछ मिनट लग सकैत अछि। स्पैम अथवा प्रोमोशन फोल्डर जाँचू।",
+          "previewDev": "ईमेल पूर्वावलोकन (Dev)",
+          "backToLogin": "लॉगिन पर वापस"
+        },
+        "submit": "लॉग इन",
+        "loggingIn": "लॉग इन कएल जा रहल अछि…",
+        "newHere": "नया अछि? <link>खाता बनाउ</link>",
+        "ssoUnavailable": "सिंगल-साइन-ऑन अखन उपलब्ध नहि। उपयोगकर्ता नाम आ पासवर्ड प्रयोग करू।",
+        "error": {
+          "missing": "कृपया अपन क्रेडेंशियल भरू।",
+          "invalid": "अमान्य उपयोगकर्ता नाम अथवा पासवर्ड",
+          "denied": "पहुँच अस्वीकृत।",
+          "unprocessable": "अमान्य अनुरोध। अपन उपयोगकर्ता नाम/ईमेल आ पासवर्ड जाँचू।",
+          "deviceLimit": "मुफ्त योजना खातिर डिवाइस सीमा पूर्ण। अन्य डिवाइस पर लॉग आउट करू अथवा अधिक डिवाइस जोड़ब खातिर प्रीमियम अपग्रेड करू।",
+          "premiumRequired": "एहि कार्रवाई खातिर प्रीमियम योजना आवश्यक अछि।"
+        }
+      }
+    },
+    "oauth": {
+      "completing": "साइन-इन पूरा कएल जा रहल अछि…"
+    },
+    "dialer": {
+      "title": "कॉल",
+      "subtitle": "कीपैड आ हाल के। (जँ अहाँ PSTN नहि प्रयोग करैत अछि त बातचीत शीर्षक सँ कॉल शुरू करू।)",
+      "enterNumberPh": "नंबर भरू",
+      "call": "कॉल",
+      "backspace": "बैकस्पेस",
+      "recents": "हाल के",
+      "recentsEmpty": "अखनो कोनो हाल के कॉल नहि।",
+      "enterNumber": "नंबर भरू",
+      "enterNumberAria": "नंबर भरू",
+      "key": "कुंजी {{d}}",
+      "noRecents": "अखनो कोनो हाल के कॉल नहि।"
+    },
+    "video": {
+      "title": "वीडियो",
+      "chooseType": "वीडियो प्रकार चुनू।",
+      "directTitle": "प्रत्यक्ष वीडियो",
+      "directDesc": "अन्य उपयोगकर्ता सँग 1:1 कैमरा कॉल।",
+      "directStart": "आरंभ",
+      "roomsTitle": "रूम",
+      "roomsDesc": "साझा रूम नाम प्रयोग क बहु-पक्षीय वीडियो।",
+      "roomsIntro": "बहु-पक्षीय रूम में शामिल होउ अथवा बनाउ।",
+      "roomNameLabel": "रूम नाम",
+      "roomNamePh": "उदाहरण: team-standup",
+      "join": "शामिल होउ",
+      "deeplinkTip": "टिप: अहाँ सीधे <code>/video?room=room-name</code> पर डीप लिंक कर सकब।",
+      "hub": {
+        "title": "वीडियो",
+        "subtitle": "वीडियो प्रकार चुनू।"
+      },
+      "direct": {
+        "title": "प्रत्यक्ष वीडियो",
+        "subtitle": "फोन नंबर अथवा Chatforia उपयोगकर्ता नाम प्रयोग क 1:1 वीडियो कॉल शुरू करू।",
+        "desc": "अन्य उपयोगकर्ता सँग 1:1 कैमरा कॉल।",
+        "start": "आरंभ",
+        "callBtn": "कॉल",
+        "callByPhone": {
+          "title": "फोन द्वारा कॉल"
+        },
+        "phone": {
+          "placeholder": "फोन भरू (उदाहरण: +1-555-123-4567)",
+          "aria": "कॉल करब खातिर फोन"
+        },
+        "tipInvite": "टिप: नंबर पेस्ट करू आ संपर्क सहेजे बिना कॉल करू। हम गैर-उपयोगकर्ता क लिंक सँ आमंत्रित करब।",
+        "findUser": {
+          "title": "उपयोगकर्ता खोजू"
+        },
+        "search": {
+          "placeholder": "नाम अथवा उपयोगकर्ता नाम सँ खोजू",
+          "aria": "नाम अथवा उपयोगकर्ता नाम सँ खोजू",
+          "btn": "खोजू"
+        }
+      },
+      "rooms": {
+        "title": "रूम",
+        "subtitle": "एकर नाम टाइप क रूम बनाउ अथवा विद्यमान रूम में शामिल होउ।",
+        "desc": "साझा रूम नाम प्रयोग क बहु-पक्षीय वीडियो।",
+        "roomLabel": "रूम नाम",
+        "roomPlaceholder": "उदाहरण: team-standup",
+        "roomAria": "रूम नाम",
+        "joinCreate": "शामिल होउ / बनाउ",
+        "tip": "टिप: हुनका हुनका नाम साझा करू, अथवा <code>/video?room=room-name</code> पर डीप लिंक करू।"
+      }
+    },
+    "directVideo": {
+      "intro": "प्रत्यक्ष 1:1 वीडियो कॉल शुरू करू।",
+      "findUserLabel": "उपयोगकर्ता खोजू",
+      "findUserPh": "नाम अथवा उपयोगकर्ता नाम सँ खोजू",
+      "search": "खोजू",
+      "call": "कॉल"
+    },
+    "phoneWarning": {
+      "title": "अहाँक नंबर जल्द समाप्त होइत अछि",
+      "body": "अहाँक नंबर {{number}} {{date}} पर जारी कएल जाएत जखन नहि पुनः सक्रिय कएल जाए।",
+      "button": "हमर नंबर रखू"
+    },
+    "support": {
+      "helpFab": "मदद",
+      "openSupportAria": "सहायता खोलू",
+      "badge": "सहायता",
+      "heading": "हम अहाँक का मदद कर सकैत अछि?",
+      "tabs": {
+        "help": "मदद केंद्र",
+        "contact": "हमरा संपर्क करू"
+      },
+      "searchPlaceholder": "मदद लेख खोजू…",
+      "searchAria": "मदद खोजू",
+      "searchBtn": "खोजू",
+      "quickTopicsLabel": "त्वरित विषय",
+      "quickTopics": {
+        "login": "लॉग इन नहि कएल जा सकैत",
+        "billing": "भुगतान / बिलिंग",
+        "abuse": "दुरुपयोग रिपोर्ट करू"
+      },
+      "trySearching": "“अनुवाद”, “बैकअप”, अथवा “गोपनीयता” खोजब प्रयास करू।",
+      "article": "लेख",
+      "openArticle": "लेख खोलू",
+      "contactIntro": "हम अहाँक ईमेल द्वारा जवाब देब। समस्या पुनः उत्पन्न करब में मदद करब खातिर विवरण शामिल करू।",
+      "topicAria": "विषय चुनू",
+      "messagePlaceholder": "अपन संदेश लिखू…",
+      "sendBtn": "भेजू",
+      "sent": "संदेश भेजल गेल। हम ईमेल द्वारा जवाब देब।",
+      "sendError": "भेजल नहि जा सकल। support@chatforia.com पर ईमेल करू।"
+    },
+    "encryptionRecovery": {
+      "title": "एन्क्रिप्शन प्रबंधित करू",
+      "description": "अपन एन्क्रिप्शन कुंजी बैकअप, पुनर्स्थापित, अनलॉक अथवा रीसेट करू।",
+      "alert": {
+        "keyRequiredTitle": "एन्क्रिप्शन कुंजी आवश्यक",
+        "keyRequiredBody": "एहि ब्राउजर अखन अहाँक एन्क्रिप्टेड संदेश डिक्रिप्ट नहि कएल जा सकैत। जारी रखब खातिर कुंजी पुनर्स्थापित, अनलॉक अथवा रीसेट करू।"
+      },
+      "sections": {
+        "createBackup": "कुंजी बैकअप बनाउ",
+        "restoreFromBackup": "खाता बैकअप सँ पुनर्स्थापित करू",
+        "resetEncryption": "एन्क्रिप्शन रीसेट करू"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "अनलॉक पासकोड (वर्तमान डिवाइस)",
+          "description": "निर्यात सँ पहिले अपन कुंजी स्थानीय रूप सँ डिक्रिप्ट करब खातिर"
+        },
+        "backupPassword": {
+          "label": "बैकअप पासवर्ड",
+          "description": "बैकअप फाइल एन्क्रिप्ट करब खातिर"
+        },
+        "restoreBackupPassword": {
+          "label": "बैकअप पासवर्ड",
+          "description": "iPhone पर कुंजी बैकअप करब क समय बनाएल पासवर्ड"
+        },
+        "newLocalPasscode": {
+          "label": "नया स्थानीय पासकोड",
+          "description": "एहि ब्राउजर पर आराम पर कुंजी सुरक्षित रखू"
+        },
+        "resetLocalPasscode": {
+          "label": "नया स्थानीय पासकोड",
+          "description": "रीसेट सँ पहिले आवश्यक जाहि सँ नया कुंजी एहि डिवाइस पर सुरक्षित रहै"
+        }
+      },
+      "actions": {
+        "unlockKey": "एन्क्रिप्शन कुंजी अनलॉक करू",
+        "restoreFromBackup": "खाता बैकअप सँ पुनर्स्थापित करू",
+        "resetEncryption": "एन्क्रिप्शन रीसेट करू"
+      },
+      "messages": {
+        "backupCreated": "कुंजी बैकअप बनाएल आ डाउनलोड भेल।",
+        "keyUnlocked": "एन्क्रिप्शन कुंजी अनलॉक भेल।",
+        "keyRestored": "खाता बैकअप सँ कुंजी पुनर्स्थापित भेल।",
+        "resetSuccess": "एन्क्रिप्शन सफलतापूर्वक रीसेट भेल।"
+      },
+      "errors": {
+        "restoreIncomplete": "एहि खाता खातिर कुंजी पुनर्स्थापना अपूर्ण अथवा गलत",
+        "noBackup": "एहि खाता खातिर कोनो एन्क्रिप्टेड बैकअप नहि अछि",
+        "missingPublicKey": "बैकअप में सार्वजनिक कुंजी गुम अछि",
+        "noServerPublicKey": "एहि खाता अखन सर्वर सार्वजनिक कुंजी उजागर नहि करैत अछि",
+        "serverBackupMismatch": "सर्वर बैकअप वर्तमान खाता एन्क्रिप्शन कुंजी सँ मेल नहि खाइत अछि",
+        "incompleteMetadata": "बैकअप मेटाडेटा अपूर्ण अछि",
+        "resetIncomplete": "एन्क्रिप्शन रीसेट सही से पूरा नहि भेल"
+      },
+      "confirm": {
+        "reset": "एहि खाता खातिर एन्क्रिप्शन रीसेट करू?\n\nपुरान एन्क्रिप्टेड संदेश मूल कुंजी पुनर्स्थापित नहि कएल जाए पर अपठनीय भ सकैत अछि।"
+      },
+      "resetDescription": "ई अहाँक खाता खातिर नया एन्क्रिप्शन कुंजी उत्पन्न करैत अछि। पुरान एन्क्रिप्टेड संदेश मूल कुंजी पुनर्स्थापित नहि कएल जाए पर अपठनीय भ सकैत अछि।"
+    },
+    "footer": {
+      "plans": "योजना आ मूल्य निर्धारण",
+      "about": "Chatforia के बारे में",
+      "careers": "करियर",
+      "press": "प्रेस",
+      "advertise": "विज्ञापन",
+      "contact": "हमरा संपर्क करू",
+      "help": "मदद केंद्र",
+      "status": "स्थिति पृष्ठ",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "गोपनीयता नीति",
+      "terms": "सेवा की शर्तें",
+      "cookies": "कुकी सेटिंग्स",
+      "doNotSell": "हमर सूचना नहि बेचू",
+      "language": "भाषा",
+      "contactShort": "संपर्क",
+      "aria": "फुटर",
+      "homeAria": "Chatforia घर",
+      "section": {
+        "company": "कंपनी",
+        "support": "सहायता",
+        "downloads": "डाउनलोड",
+        "legal": "कानूनी"
+      },
+      "links": {
+        "plans-pricing": "योजना आ मूल्य निर्धारण",
+        "about-chatforia": "Chatforia के बारे में",
+        "careers": "करियर",
+        "press": "प्रेस",
+        "advertise": "विज्ञापन",
+        "getting-started": "आरंभ कओना करू",
+        "help-center": "मदद केंद्र",
+        "contact-us": "हमरा संपर्क करू",
+        "status-page": "स्थिति पृष्ठ",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "गोपनीयता नीति",
+        "terms-of-service": "सेवा की शर्तें",
+        "do-not-sell-my-info": "हमर सूचना नहि बेचू",
+        "cookie-settings": "कुकी सेटिंग्स"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "पेटेंट लंबित",
+      "backToTop": "↑ शीर्ष पर वापस"
+    },
+    "press": {
+      "title": "प्रेस",
+      "contactLine": "मीडिया पूछताछ खातिर हमरा ",
+      "boilerplateTitle": "बॉयलरप्लेट",
+      "boilerplateBody": "Chatforia गोपनीयता-प्रथम संदेश ऐप अछि जे क्रॉस-भाषा चैट सरल बनाउ। संदेश पूर्वनिर्धारित रूप सँ एंड-टू-एंड एन्क्रिप्टेड अछि आ अंतर्निहित अनुवाद वास्तविक समय में 100+ भाषा समर्थन करैत अछि। उपयोगकर्ता गायब होनेवाला संदेश सक्षम कर सकैत अछि, पढ़ल भेल रसीद वैकल्पिक रख सकैत अछि आ डिवाइस भर सँ सिंक कर सकैत अछि। iOS, Android आ वेब पर उपलब्ध।",
+      "assetsTitle": "ब्रांड संपत्ति",
+      "assetsSubtitle": "लोगो, स्क्रीनशॉट आ उत्पाद चित्र।",
+      "downloadCta": "मीडिया किट डाउनलोड करू",
+      "downloadTitle": "ऐप पाउ",
+      "scanTip": "डेस्कटॉप पर अछि? फोन सँ स्कैन करी ऐप पाउ।",
+      "qrAria": "Chatforia वेबसाइट खोलू",
+      "appStore": "App Store पर डाउनलोड करू",
+      "googlePlay": "Google Play पर पाउ"
+    },
+    "careers": {
+      "title": "करियर",
+      "intro": "हम छोट संस्थापक टीम अछि जे Chatforia — निजी, वैश्विक मैसेंजर बनाउ रहल अछि जे वेब, iOS आ Android पर लॉन्च होइत अछि। जँ अहाँ गोपनीयता, एन्क्रिप्शन आ आनंददायक उपयोगकर्ता अनुभव क परवाह करैत अछि त हम अहाँक सुनब चाहैत अछि।",
+      "openRoles": "<b>खुलल संस्थापक भूमिका:</b> लीड फुल-स्टैक इंजीनियर, बैकएंड इंजीनियर (Node.js), फ्रंटएंड/वेब इंजीनियर (React), मोबाइल इंजीनियर (iOS), मोबाइल इंजीनियर (Android), DevOps/SRE, सुरक्षा आ एन्क्रिप्शन इंजीनियर, टेलीकॉम इंजीनियर (Twilio + eSIM)।",
+      "apply": "आवेदन कओना करू: नीचे बटन प्रयोग क अपन रिज्यूमे आ लिंक ईमेल करू।",
+      "emailCta": "अपन रिज्यूमे ईमेल करू",
+      "whyNow": "अब काहे शामिल होउ?",
+      "whyBullets": "• नया वैश्विक मैसेंजर क आधार बनाउ।\n• वेब, iOS आ Android भर उपयोग कएल जानेवाला सुधार शिप करू।\n• संस्थापक सँग सीधे आर्किटेक्चर आ उत्पाद दिशा पर काम करू।\n• स्टैक क उच्च-प्रभाव क्षेत्र स्वामित्व लिअ: संदेश, वॉइस, वीडियो, एन्क्रिप्शन, टेलीकॉम, एआई।\n• शुरुआत में शामिल होउ — उपयोगकर्ता आधार बढ़ब सँ पहिले।"
+    },
+    "about": {
+      "title": "Chatforia के बारे में",
+      "description": "Chatforia सुरक्षित, बहुभाषी मैसेंजर अछि जे एंड-टू-एंड एन्क्रिप्शन, तुरंत अनुवाद आ वॉइस/वीडियो कॉलिंग सँ युक्त अछि। हमर मिशन सरल अछि: लोग क सुरक्षित, निजी आ भाषा पार कनेक्ट करब में मदद करू।",
+      "valuesTitle": "हमरा का मूल्य अछि",
+      "values": {
+        "privacy": "<b>गोपनीयता-प्रथम:</b> पूर्वनिर्धारित E2E एन्क्रिप्शन।",
+        "access": "<b>सभ खातिर पहुँच:</b> 100+ भाषा स्वतः-अनुवाद।",
+        "control": "<b>नियंत्रण:</b> गायब होनेवाला संदेश आ पढ़ल भेल रसीद वैकल्पिक।",
+        "privacy_aria": "गोपनीयता-प्रथम: पूर्वनिर्धारित E2E एन्क्रिप्शन।",
+        "access_aria": "सभ खातिर पहुँच: 100+ भाषा स्वतः-अनुवाद।",
+        "control_aria": "नियंत्रण: गायब होनेवाला संदेश आ पढ़ल भेल रसीद वैकल्पिक।"
+      },
+      "howTitle": "Chatforia कओना काम करैत अछि",
+      "howDescription": "संदेश अहाँक डिवाइस सँ बाहर जाब सँ पहिले अहाँक डिवाइस पर एन्क्रिप्ट कएल जाएत अछि। अनुवाद, बैकअप आ डिवाइस सिंक हमर सर्वर देख सकैत अछि हुनका न्यूनतम रखब खातिर डिज़ाइन कएल गेल अछि।"
+    },
+    "advertise": {
+      "title": "Chatforia सँग विज्ञापन करू",
+      "description": "रुचि-सम्पन्न संदेश उपयोगकर्ता क स्वादिष्ट, ब्रांड-सुरक्षित स्थान सँ पहुँचू। हम उच्च-दृश्यता स्थान में बैनर इन्वेंट्री, प्रायोजन आ हाउस प्रमो ऑफर करैत अछि। प्रीमियम ग्राहक विज्ञापन नहि देखैत अछि।",
+      "adsense": {
+        "withPubIdShort": "हम Google AdSense द्वारा इन्वेंट्री सेवा दैत अछि। अहाँ {{pubId}} प्रकाशक ID सँग Chatforia लक्षित कर सकब, अथवा नीचे फॉर्म सँ प्रत्यक्ष प्रायोजन खातिर।",
+        "noPubIdShort": "हम कुछ इन्वेंट्री Google AdSense द्वारा सेवा दैत अछि। प्रत्यक्ष प्रायोजन उपलब्ध अछि—नीचे फॉर्म प्रयोग करू।"
+      },
+      "inventoryHeader": "इन्वेंट्री आ विनिर्देश",
+      "placement": {
+        "displayBadge": "प्रदर्शन",
+        "acceptedSizes": "स्वीकृत आकार",
+        "adsenseSlot": "AdSense स्लॉट:"
+      },
+      "noPlacementsPublic": "हम अपन विज्ञापन इन्वेंट्री अंतिम रूप दैत अछि। अपन अभियान के बारे में बताउ आ हम अहाँक खातिर स्थान अनुशंसित करब।",
+      "whyHeader": "Chatforia काहे?",
+      "why": {
+        "highSession": "चैट UI में उच्च सत्र आवृत्ति आ रहन समय",
+        "brandSafe": "ब्रांड-सुरक्षित प्रारूप; सम्मानजनक आवृत्ति कैपिंग",
+        "sponsoredMoments": "प्रायोजित क्षण (उदाहरण: “चैट शुरू करू” मोडल) उपलब्ध",
+        "deals": "AdSense/Google Ads द्वारा प्रत्यक्ष डील अथवा प्रोग्रामेटिक"
+      },
+      "contactHeader": "संपर्क",
+      "form": {
+        "submittedMsg": "धन्यवाद! अहाँक पूछताछ रास्ते पर अछि। हम जल्दी अनुसरण करब।",
+        "missingRequired": "कृपया नाम, ईमेल आ संदेश भरू।",
+        "successToast": "धन्यवाद! हम जल्द संपर्क करब।",
+        "mailtoInfo": "पूछताछ भेजब खातिर अहाँक ईमेल क्लाइंट खोलि रहल अछि…",
+        "nameLabel": "अहाँक नाम",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "ईमेल",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "कंपनी",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "मासिक बजट (वैकल्पिक)",
+        "budgetPlaceholder": "उदाहरण $1,000–$20,000+",
+        "messageLabel": "अपन अभियान के बारे में बताउ",
+        "messagePlaceholder": "लक्ष्य, तिथि, KPI, स्थान पसंद…",
+        "sendCta": "पूछताछ भेजू"
+      },
+      "legal": {
+        "disclaimerStart": "जमा कए अहाँ सहमत अछि हमर",
+        "terms": "शर्तें",
+        "and": "आ",
+        "privacy": "गोपनीयता नीति"
+      }
     }
   }
 }
