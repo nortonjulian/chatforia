@@ -8,8 +8,7 @@ import prisma from '../utils/prismaClient.js';
 // ---------- GOOGLE ----------
 const HAS_GOOGLE = !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET);
 
-// small mask for logs
-const mask = (v) => (v ? `${String(v).slice(0, 4)}…(${String(v).length})` : null);
+const mask = (v) => (v ? `${String(v).slice(0,4)}…(${String(v).length})` : null);
 console.log('[oauth:passport] env', {
   GOOGLE_CLIENT_ID: mask(process.env.GOOGLE_CLIENT_ID),
   GOOGLE_CLIENT_SECRET: mask(process.env.GOOGLE_CLIENT_SECRET),
@@ -108,8 +107,7 @@ if (HAS_GOOGLE) {
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL:
-          process.env.GOOGLE_CALLBACK_URL ||
-          'http://localhost:5002/auth/google/callback',
+          process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5002/auth/google/callback',
         passReqToCallback: true,
       },
       async (_req, _accessToken, _refreshToken, profile, done) => {
@@ -137,12 +135,13 @@ function readApplePrivateKey() {
   return null;
 }
 
-const HAS_APPLE = !!(
-  process.env.APPLE_SERVICE_ID &&
-  process.env.APPLE_TEAM_ID &&
-  process.env.APPLE_KEY_ID &&
-  (process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH)
-);
+const HAS_APPLE =
+  !!(
+    process.env.APPLE_SERVICE_ID &&
+    process.env.APPLE_TEAM_ID &&
+    process.env.APPLE_KEY_ID &&
+    (process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH)
+  );
 
 if (HAS_APPLE) {
   const privateKey = readApplePrivateKey();

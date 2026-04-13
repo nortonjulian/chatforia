@@ -46,7 +46,7 @@ router.get(
     console.log('[oauth google callback] req.user =', req.user);
     const user = req.user || {};
     const payload = {
-      id: user.id,
+      id: Number(user.id),
       email: user.email || null,
       username: user.username || null,
       role: user.role || 'USER',

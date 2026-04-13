@@ -86,6 +86,7 @@ import SmsPolicy from '@/pages/legal/SmsPolicy.jsx';
 import SmsConsentPage from './pages/SmsConsentPage';
 import DoNotSellMyInfo from '@/pages/legal/DoNotSellMyInfo.jsx';
 import CookieSettings from '@/pages/legal/CookieSettings.jsx';
+import RefundPolicy from '@/pages/RefundPolicy.jsx';
 
 import OAuthComplete from '@/pages/OAuthComplete.jsx';
 import GettingStarted from '@/pages/guides/GettingStarted.jsx';
@@ -378,6 +379,7 @@ export default function AppRoutes() {
 
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
+          <Route path="/refund-policy" element={<RefundPolicy />} />
           <Route path="/legal/sms" element={<SmsPolicy />} />
           <Route path="/legal/do-not-sell" element={<DoNotSellMyInfo />} />
           <Route path="/legal/cookies" element={<CookieSettings />} />
@@ -442,6 +444,7 @@ export default function AppRoutes() {
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="join/:code" element={<JoinInvitePage />} />
+        <Route path="/refund-policy" element={<RefundPolicy />} />
 
         {/* ✅ SMS ROUTES
             IMPORTANT: SmsLayout is the thread view, not a router layout.
