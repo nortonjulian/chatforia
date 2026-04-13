@@ -43,6 +43,7 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/auth/failure', session: false }),
   (req, res) => {
     // Build the same payload shape as issueSession() in auth.js
+    console.log('[oauth google callback] req.user =', req.user);
     const user = req.user || {};
     const payload = {
       id: Number(user.id),
