@@ -1,986 +1,1674 @@
 {
   "common": {
     "save": "Serva",
-    "cancel": "Rescinde",
-    "refresh": "Recarga",
-    "noMatches": "Nihil convenit",
-    "cancelAria": "Rescinde",
+    "cancel": "Cancella",
+    "refresh": "Renova",
+    "noMatches": "Nullae concordantiae",
+    "cancelAria": "Cancella",
     "copy": "Copia",
-    "copied": "Copiatum!"
+    "copied": "Copiatum est!",
+    "errorWithMessage": "Error: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Salire ad praecipuum"
+    "skipToMain": "Ad principale contentum salta"
   },
-
-  "profile": {
-    "title": "Profilum Usoris",
-    "preferredLanguage": "Lingua praeoptata",
-    "chooseLanguage": "Elige linguam",
-    "mustLogin": "Intrare debes ut occasus videas.",
-    "autoTranslate": "Nuntios sponte verte",
-    "showOriginalWithTranslation": "Ostende originem et versionem",
-    "showOriginalAndTranslation": "Originem iuxta versionem monstra",
-    "filterExplicit": "Contenta obscena filtra",
-    "aiReply": "Responsa AI",
-    "enableReadReceipts": "Fac notas lectionis activas",
-    "allowExplicitContent": "Permitte contenta obscena",
-    "disappearingMessages": "Nuntios evanescentes permite",
-    "autoDeleteSeconds": "Secunda ad deletionem automaticam",
-    "saveSuccess": "Occasus servati!",
-    "saveError": "Error: Occasus servare non potuimus",
-    "avatarAlt": "Imago profili",
-    "uploadAvatar": "Nova imago mitte",
-    "avatarSuccess": "Imago conversa!",
-    "avatarError": "Error imaginem mittendo",
-    "noPrivateKey": "Clavis privata in hoc instrumento non est ad exportandum.",
-    "setBackupPassword": "Constitue tessaram ad subsidium ciffrandum:",
-    "backupDownloaded": "Subsidium ciffratum descensum est.",
-    "exportFailed": "Exportatio clavium defecit",
-    "enterBackupPassword": "Tessaram huius subsidii insere:",
-    "importSuccess": "Clavis privata in hoc instrumentum importata.",
-    "importFailed": "Clavem importare non potuimus (tessera falsa aut file corruptum).",
-    "keysRotated": "Nova par clavorum creatum et clavis publica imposita.",
-    "rotateFailed": "Claves vertere non potuimus.",
-    "security": "Securitas",
-    "exportKey": "Exporta clavem privatam",
-    "importKey": "Importa subsidium ciffratum",
-    "rotateKeys": "Verte par clavorum",
-    "keyDisclaimer": "Clavis privata numquam hoc instrumentum relinquit. Exporta exemplum tessera munitum ut alio instrumento restituas.",
-    "sectionProfile": "Profilum",
-    "phoneNumber": "Numerus telephonii",
-    "appearance": "Species",
-    "soundSettings": "Sonus",
-    "disappearing": "Nuntii evanescentes",
-    "backupSync": "Subsidia et Synchronizatio",
-    "ai": "AI",
-    "accessibility": "Accessibilitas",
-    "privacy": "Secretum",
-    "devices": "Instrumenta coniuncta",
-    "themeFreeNotice": "In plano Free es—utere optionibus Sol/Luna infra. Promove ut plura themata reseres.",
-    "sunTheme": "Utere themate Auroram",
-    "moonTheme": "Utere themate Lunae (Media Nox)",
-    "sun": "Sol",
-    "moon": "Luna",
-    "backupTitle": "Subsidia Ciffrata et Synchronizatio Instrumentorum",
-    "openBackupTools": "Aperi instrumenta subsidiorum",
-    "backupDesc": "Crea subsidia clavorum tesseris munita et restitue in alio instrumento ad synchronizandum.",
-    "privacyBlurEnabled": "Nuntios per defaltum obumbra",
-    "privacyBlurOnUnfocus": "Obumbra cum app non est in foco",
-    "holdToReveal": "Tene ut ostendas",
-    "notifyOnCopy": "Certiorem me fac si nuntius meus copietur",
-    "loadFailed": "Profilum onerare non potuimus",
-    "followed": "Secutus es",
-    "followFailed": "Sequi non potuimus",
-    "unfollowed": "Desectus es",
-    "unfollowFailed": "Desecuere non potuimus",
-    "follow": "Sequere",
-    "unfollow": "Desecue",
-    "followHint": "Fabulae eorum apparebunt in filo ‘Sequor’ si cum auditoribus ‘Sectatores’ (vel Publicis) mittent.",
-    "userNotFound": "Usor non inventus",
-    "followsYou": "Te sequitur",
-    "sectionCrashedTitle": "Sectio onerari non potuit",
-    "sectionCrashedBody": "Aliquid in hac sectione vitiose processit.",
-    "forwarding": "Vocum et Nuntiorum Transmissio",
-    "callTextForwardingSection": "Transmissio Vocum & Nuntiorum",
-    "callTextForwardingTitle": "Transmissio Vocum et/vel Nuntiorum",
-    "callTextForwardingDescription": "Transmite voces et nuntios venientes ad telephonium vel epistulam electronicam probatam. Exeuntes voces/nuntii numerum Chatforia ostendere possunt.",
-    "enableTextForwarding": "Transm. nuntiorum permite",
-    "forwardTextsToPhone": "Transmite nuntios ad telephonium",
-    "forwardTextsToEmail": "Transmite nuntios ad epistulam",
-    "destinationPhone": "Telephonium destinatum (E.164)",
-    "destinationEmail": "Epistula electronica destinata",
-    "enableCallForwarding": "Transm. vocum permite",
-    "destinationPhoneForCalls": "Destinatum (E.164) pro vocibus",
-    "aliasBridging": "Transmissio Vocum (alias iunctio)",
-    "quietHoursOptional": "Horae quietis (optionales)",
-    "startHour": "Hora initii (0–23)",
-    "endHour": "Hora finis (0–23)",
-    "reset": "Reficere",
-    "saveBtn": "Serva",
-    "forwardSaved": "Occasus transmissionis servati",
-    "forwardSaveFailed": "Occasus servare non potuimus",
-    "errE164": "Inseras telephonium validum E.164 (ex. +15551234567).",
-    "errEmail": "Insere epistulam validam.",
-    "errSmsDest": "Saltem unum destinatum elige (telephonium vel epistulam).",
-    "errQuietHours": "Horae quietis inter 0 et 23 esse debent."
+  "keys": {
+    "backupCreated": "Clavis subsidiaria creata et descensā ✓",
+    "restored": "Clavis subsidiaria restituta ✓ Claves localiter installatae",
+    "noBackup": "Nullum encryptedum subsidium exstat pro hoc ratione",
+    "missingPublicKey": "Subsidium clavis publicae caret"
   },
-
-  "support": {
-    "helpFab": "Auxilium",
-    "openSupportAria": "Auxilium aperi",
-    "badge": "Auxilium",
-    "heading": "Quo modo iuvare possumus?",
-    "tabs": {
-      "help": "Centrum Auxilii",
-      "contact": "Contacta nos"
-    },
-    "searchPlaceholder": "Quaere articulos auxilii…",
-    "searchAria": "Auxilium quaere",
-    "searchBtn": "Quaere",
-    "quickTopicsLabel": "Argumenta celeria",
-    "quickTopics": {
-      "login": "Non possum accedere",
-      "billing": "Solutiones / ratio",
-      "abuse": "Abusum nuntia"
-    },
-    "trySearching": "Conare quaerere “translate”, “backups”, vel “privacy”.",
-    "article": "Articulus",
-    "openArticle": "Aperi articulum",
-    "contactIntro": "Per epistulam respondebimus. Adde res ut problema reproducere possimus.",
-    "topicAria": "Selige argumentum",
-    "messagePlaceholder": "Nuntium tuum scribe…",
-    "sendBtn": "Mitte",
-    "sent": "Missa est epistula. Per email respondebimus.",
-    "sendError": "Mittere non potuimus. Scribe ad support@chatforia.com."
+  "keySetup": {
+    "title": "Claves apparatūs constitue",
+    "description": "Huic apparatui clavis privata tua nondum adest. Importa subsidium password-protectum vel novum par clavium genera (nuntios novos legere poteris ex hoc tempore).",
+    "chooseFile": "Elige fasciculum et passwordum intra.",
+    "imported": "Clavis privata in hunc apparatum importata. Nunc nuntios veteres legere potes.",
+    "enterPassword": "Passwordum rationis tuae intra ut claves tuas secure subsidiemus."
   },
-
-  "chat": {
-    "selectPrompt": "Selige textum vel conclave ut colloquium incipias",
-    "newMessages": "Nuntii novi",
-    "typing": "{{name}} scribit…",
-    "emptyTitle": "Nuntii tui",
-    "emptySubtitle": "Mitte nuntium ut colloquium incipias.",
-    "startChatButton": "Mitte nuntium"
-  },
-
-  "topbar": {
-    "newStatus": "Status novus",
-    "logout": "Exi",
-    "help": "Auxilium",
-    "createStatusAria": "Crea statum novum"
-  },
-
-  "status": {
-    "userNumber": "Usor #{{id}}",
-    "posted": "Status missus",
-    "postFailed": "Status mittere non potuimus",
-    "createTitle": "Crea statum",
-    "modalAriaLabel": "Status novus",
-    "captionLabel": "Quid cogitas?",
-    "captionPlaceholder": "Communica quid agas...",
-    "captionAria": "Nuntius status",
-    "audienceLabel": "Auditorium",
-    "audience": {
-      "public": "Publicum",
-      "followers": "Sectatores",
-      "contacts": "Contacti",
-      "mutuals": "Mutui",
-      "custom": "Consuetum..."
-    },
-    "expiresHoursLabel": "Exspirat (horae)",
-    "maxTooltip": "Maxime 7 dies",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "Exspirat die:",
-    "chooseRecipients": "Elige receptores",
-    "selectContacts": "Selige contactus",
-    "attachmentsLabel": "Adiuncta",
-    "attachmentsPlaceholder": "Addere imagines/videos",
-    "filesNote": "Usque ad 5 files. Defalta 24h exspiratio.",
-    "postAria": "Mitte statum",
-    "post": "Mitte"
-  },
-
-  "contactList": {
-    "savedContacts": "Contacti servati",
-    "refreshAria": "Contactos recarga",
-    "filterPlaceholder": "Filtra contactos servatos…",
-    "filterAria": "Filtra contactos servatos",
-    "noContactsFound": "Nulli contacti inventi.",
-    "externalContact": "Contactus externus",
-    "notJoined": "Is contactus Chatforia nondum adiit.",
-    "couldNotStart": "Colloquium incipere non potuimus. Iterum tenta.",
-    "startFailed": "Colloquium incipere non potuimus. Iterum tenta.",
-    "deleted": "Contactus deletus.",
-    "deleteFailed": "Contactum delere non potuimus. Iterum tenta.",
-    "aliasUpdated": "Alias renovatus.",
-    "updateAliasFailed": "Alaidem renovare non potuimus. Iterum tenta.",
-    "selectContact": "Selige {{name}}",
-    "alias": "Alias",
-    "startChat": "Incipe colloquium",
-    "message": "Nuntius",
-    "delete": "Dele",
-    "deleteContactAria": "Contactum dele",
-    "loadFailed": "Contactos onerare non potuimus. Iterum tenta.",
-    "loadMore": "Plura onera"
-  },
-
-  "sidebar": {
-    "randomChat": "Fortuitum Colloquium",
-    "callTextForwarding": "Transmissio Vocum & Nuntiorum",
-    "conversations": "Colloquia",
-    "searchPlaceholder": "Quaere colloquia...",
-    "errorLoading": "Colloquia onerare non potuimus",
-    "empty": "Nondum colloquia.",
-    "startChat": "Incipe colloquium",
-    "people": "Homines",
-    "settings": "Occasus",
-    "status": "Status",
-    "forwarding": "Transmissio Vocum & Nuntiorum",
-    "refresh": "Recarga",
-    "search": "Quaere colloquia",
-    "loginPrompt": "Intra ut occasus edas.",
-    "login": "Intra",
-    "register": "Crea rationem",
-    "chatrooms": "Cubicula chat",
-    "logout": "Exi",
-    "startChatAlt": "Incipe colloquium novum"
-  },
-
-  "premium": {
-    "heading": "I ad Premium",
-    "description": "Resera potentiora et remove ads.",
-    "cta": "Promove",
-    "upgrade": "Promove",
-    "upgradeAria": "Promove ad Chatforia Premium"
-  },
-
   "auth": {
-    "headline": "Securum, globale nuntiatum cum conversione instante",
-    "description": "Clausura a capite ad pedes, translatio ab AI adiuta, nuntii evanescentes, et voces/videos.",
+    "headline": "Nuntiatio secura cuilibet, ubicumque",
+    "description": "Encryptio end-to-end, translatio ad centum+ linguas, nuntii evanescentes, et vocis/video vocatio.",
     "feature": {
-      "encryption": "Clausura E2E per defaltum",
-      "translation": "Sponte verte 100+ linguas",
-      "disappearing": "Nuntii evanescentes et notae lectionis",
-      "privacy": "Secretum primum. Data tua, potestas tua.",
-      "translate": "Translatio in tempore reali",
+      "encryption": "Encryptio end-to-end defalta",
+      "translation": "Translatio nuntiorum callida et inaedificata",
+      "disappearing": "Nuntii evanescentes & recepta lectionis",
+      "privacy": "Privatum-primum. Data tua, imperium tuum.",
+      "translate": "Translatio nuntiorum callida et inaedificata",
       "disappear": "Nuntii evanescentes",
-      "privacyAlt": "Designatio secreto-prima"
+      "privacyAlt": "Consilium privatum-primum",
+      "seePlans": "Vide consilia et pretia"
     },
     "hero": {
-      "line1": "Securum, globale",
-      "beforeEm": "nuntiatum cum",
-      "em": "translatione instante",
-      "sub": "Clausura a capite ad pedes, AI-adjuta translatio, nuntii evanescentes, et voces/videos."
+      "line1": "Nuntiatio secura cuilibet, ubicumque — cum",
+      "em": "translatio ad centum+ linguas",
+      "sub": "Accipe numerum telephonicum securum gratuitum ad vocandum et mittendum per orbem terrarum per Wi-Fi vel data. Fruere encryptione end-to-end, nuntiis evanescentibus, et vocis/video vocatione HD — cum instrumentis inaedificatis quae te connectum tenent trans fines.",
+      "freeNote": "Vocatio et missio basicae gratuitae sunt. AI provectus et notae premium upgrade requirunt."
     },
     "feat": {
-      "encryption": "Clausura E2E per defaltum",
-      "translate": "Sponte verte 100+ linguas",
-      "disappear": "Nuntii evanescentes et notae lectionis",
-      "privacy": "Secretum primum. Data tua, potestas tua."
+      "encryption": "Encryptio end-to-end, semper activa",
+      "translate": "Rumpere claustra linguarum in colloquiis tuis",
+      "disappear": "Nuntii evanescentes & recepta lectionis",
+      "privacy": "Privatum-primum. Data tua, imperium tuum."
     },
-    "welcomeBack": "Iterum salve",
     "continueGoogle": "Perge cum Google",
     "continueApple": "Perge cum Apple",
     "username": "Nomen usoris",
-    "password": "Tessera",
-    "keepSignedIn": "Me contributum serva",
-    "forgotPassword": "Tesseram oblitus es?",
+    "password": "Passwordum",
+    "keepSignedIn": "Me signatum serva",
+    "forgotPassword": "Passwordum oblitus es?",
     "loginButton": "Intra",
-    "createAccount": "Crea rationem",
-    "freeAccountButton": "Crea rationem gratuitam",
-    "newHere": "Novus es?",
-    "getApp": "Adepta app",
-    "desktopTip": "In desktop es? Scana telephono ut app compares.",
-    "scanHelper": "In desktop es? Scana telephono ut app compares.",
-    "goHome": "I ad domum",
+    "createAccount": "Rationem crea",
+    "freeAccountButton": "Rationem gratuitam crea",
+    "newHere": "Novus hic?",
+    "getApp": "App accipe",
+    "desktopTip": "In desktop? Scande cum telephono tuo ad app accipiendum.",
+    "scanHelper": "In desktop? Scande cum telephono tuo ad app accipiendum.",
+    "goHome": "Ad domum",
     "home": "Domus",
     "headlineAlt": {
-      "main": "Nuntius securus qui",
+      "main": "Nuntiator securus qui",
       "highlight": "linguam tuam loquitur"
     },
-    "subhead": "Privatum, ciffratum, et translatum—statim.",
-    "status": "Vide statum",
-    "upgrade": "Promove nunc",
-    "tip": "Consilium: Utere eadem ratione in web et mobili. Nuntii tui manent synchroni.",
-    "openDownload": "Aperi paginam download",
-    "qrAlt": "Codex QR pro Chatforia",
-    "scanHint": "Scana ut app deponas aut in navigatro aperias.",
-    "iosAria": "Depone in App Store",
-    "iosTitle": "Depone in App Store",
+    "subhead": "Nuntiatio privata, encrypta et translata — statim.",
+    "upgrade": "Upgrade nunc",
+    "tip": "Consilium: Eadem ratione in web et mobili utere. Nuntii tui synchrone manent.",
+    "openDownload": "Paginam descensionis aperi",
+    "qrAlt": "QR codex pro Chatforia",
+    "scanHint": "Scande ad app descendendum vel in navigatore tuo aperiendum.",
+    "iosAria": "Descende in App Store",
+    "iosTitle": "Descende in App Store",
     "iosBadgeAlt": "Insigne App Store",
     "androidAria": "Accipe in Google Play",
     "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Insigne Google Play",
     "login": "Intra",
-    "signup": "Registrare",
-    "email": "Email"
+    "signup": "Signa",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 characteres. Utere passwordo forti et unico.",
+      "smsConsent": "Rationem creans, consentis nuntia SMS accipere de actione Chatforia tua (ut nuntii ab aliis usoribus). Taxae nuntii & datae applicari possunt. Optare exire potes quovis tempore in Configuratiōnibus.",
+      "termsLink": "Condiciones servitii",
+      "privacyLink": "Consilium privatum"
+    },
+    "to": "Ad:",
+    "enterRecipient": "Nomen vel numerum intra",
+    "clearRecipients": "Receptores purga",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Nuntium scribe…",
+    "addRecipient": "Receptorem supra adde ad incipiendum…",
+    "oneRecipient": "Unum receptorem intra nunc.",
+    "enterValidRecipient": "Nomen contactus servati vel numerum telephonicum intra.",
+    "sendFailed": "Missio defecit. Consule console pro details."
   },
-
-  "footer": {
-    "plans": "Consilia & Pretia",
-    "about": "De Chatforia",
-    "careers": "Munera",
-    "press": "Prelum",
-    "advertise": "Advertere",
-    "contact": "Contacta Nos",
-    "help": "Centrum Auxilii",
-    "status": "Pagina Status",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Consilium Secretum",
-    "terms": "Termini Servitii",
-    "cookies": "Occasus Cookie",
-    "doNotSell": "Noli vendere meas notitias",
-    "language": "Lingua",
-    "contactShort": "Contactus",
-
-    "aria": "Pedissequum",
-    "homeAria": "Domus Chatforia",
-    "section": {
-      "company": "SOCIETAS",
-      "support": "AUXILIUM",
-      "downloads": "DOWNLOADS",
-      "legal": "IURIDICA"
-    },
-    "links": {
-      "plans-pricing": "Consilia & Pretia",
-      "about-chatforia": "De Chatforia",
-      "careers": "Munera",
-      "press": "Prelum",
-      "advertise": "Advertere",
-      "getting-started": "Primum Gradus",
-      "help-center": "Centrum Auxilii",
-      "contact-us": "Contacta Nos",
-      "status-page": "Pagina Status",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Consilium Secretum",
-      "terms-of-service": "Termini Servitii",
-      "do-not-sell-my-info": "Noli vendere meas notitias",
-      "cookie-settings": "Occasus Cookie"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patens pendet",
-    "backToTop": "↑ Reverte ad summum"
-  },
-
   "home": {
     "title": "Domus",
     "header": "Nuntii tui",
-    "subheader": "Mitte nuntium ut colloquium incipias.",
-    "sendButton": "Mitte nuntium",
-    "gifPicker": "Aperi delectorem GIF",
+    "subheader": "Nuntium mitte ad colloquium incipiendum.",
+    "sendButton": "Nuntium mitte",
+    "gifPicker": "Selector GIF aperi",
     "emoji": "Emoji",
-    "upload": "Imponere photo vel video",
-    "inputPlaceholder": "Scribe nuntium…",
-    "inputLabel": "Composer nuntiorum",
+    "upload": "Photo vel video upload",
+    "inputPlaceholder": "Nuntium scribe…",
+    "inputLabel": "Compositor nuntii",
     "sendTooltip": "Mitte",
-    "sendTooltipEmpty": "Scribe nuntium ut mittas",
+    "sendTooltipEmpty": "Nuntium scribe ad mittendum",
     "send": "Mitte",
-    "welcomeMessage": "Salve in Chatforia",
+    "welcomeMessage": "Bene venisti ad Chatforia",
     "getStarted": "Incipe"
   },
-
-  "press": {
-    "title": "Prelum",
-    "contactLine": "Pro quaestionibus ad media, scribe ad",
-    "boilerplateTitle": "Breviarium",
-    "boilerplateBody": "Chatforia est app nuntiorum secreto-primum quod colloquia inter linguas facit facilia. Nuntii E2E per defaltum ciffrantur, et translatio aedificata 100+ linguas in tempore reali sustinet. Usor potest nuntios evanescentes permittere, notas lectionis optionales servare, et per instrumenta synchronizare. In iOS, Android, et interrete praesto.",
-    "assetsTitle": "Insignia notae",
-    "assetsSubtitle": "Logotypa, imagines schermatis, et imagines producti.",
-    "downloadCta": "Depone fasciculum mediaticum",
-    "downloadTitle": "Adepta app",
-    "scanTip": "In desktop es? Scana telephono ut app compares.",
-    "qrAria": "Aperi locum Chatforia",
-    "appStore": "Depone in App Store",
-    "googlePlay": "Accipe in Google Play"
+  "chat": {
+    "selectPrompt": "Textum vel cubiculum colloquii elige ad colloquendum incipiendum",
+    "newMessages": "Nuntii novi",
+    "typing": "{{name}} scribit…",
+    "emptyTitle": "Nuntii tui",
+    "emptySubtitle": "Nuntium mitte ad colloquium incipiendum.",
+    "startChatButton": "Nuntium mitte",
+    "mediaAttachment": "Attachment mediae",
+    "thisUser": "hic usor",
+    "blockConfirm": "Block {{name}}? Nuntios ab eis non recipies.",
+    "blockedUser": "{{name}} obstructus.",
+    "blockError": "Usorem scopum determinare non potuimus.",
+    "blockFailed": "Obstructio defecit (backend nondum connexum).",
+    "encryptedUnavailable": "Nuntius encryptus (clavis unavailable)",
+    "unlockToView": "Clavem tuam aperi ad hunc nuntium videndum"
   },
-
-  "careers": {
-    "title": "Munera",
-    "intro": "Turma parva sumus nuntium privatum, globale astruentes. Si tibi cura est clausura, accessibilitas, et iucunda UX, libenter audiamus.",
-    "openRoles": "<b>Munera aperta:</b> Ingeniaria (Full-stack, iOS, Android), Productus, Sustentatio.",
-    "apply": "<b>Quomodo applicare:</b> Mitte curriculum/vincula ad <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Mitte curriculum"
-  },
-
-  "about": {
-    "title": "De Chatforia",
-    "description": "Chatforia est nuntius securus, multilinguis, cum clausura E2E, translatione instanti, et vocibus/vides. Propositum: homines coniungere—tuto, privatim, et trans linguas.",
-    "valuesTitle": "Quid aestimamus",
-    "values": {
-      "privacy": "<bold>Secretum primum:</bold> Clausura E2E per defaltum.",
-      "access": "<bold>Accessus omnibus:</bold> 100+ linguas sponte verte.",
-      "control": "<bold>Imperium:</bold> Nuntii evanescentes et notae lectionis optionale sunt.",
-      "privacy_aria": "Secretum primum: Clausura E2E per defaltum.",
-      "access_aria": "Accessus omnibus: 100+ linguas sponte verte.",
-      "control_aria": "Imperium: Nuntii evanescentes et notae lectionis optionale sunt."
+  "messageInput": {
+    "ttl": {
+      "off": "Off"
     },
-    "howTitle": "Quomodo Chatforia operatur",
-    "howDescription": "Nuntii in tuo instrumento antequam exeant ciffrantur. Translatio, subsidia, et synchronizatio ita designantur ut minimam cognitionem serverna habeamus."
-    },
-
-  "advertise": {
-    "title": "Advertere cum Chatforia",
-    "description": "Percipe usores colloquentes cum locis nitidis et tutis. Praebemus vexilla in locis eminentibus, patrocinia, et proprias promotiones. Subscribentes Premium non vident ads.",
-    "adsense": {
-      "withPubId": "Nunc per <b>Google AdSense</b> servimus. Si per Google Ads petere vis, utere id editoris <code>{{pubId}}</code> et pete collocationes gestas in unitatibus infra. Sponsoria directa praesto sunt—formula utere.",
-      "noPubId": "Nunc per <b>Google AdSense</b> servimus. Sponsoria directa quoque praesto—formula infra utere."
-    },
-    "inventoryHeader": "Inventarium & Specificationes",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "Magnitudines acceptae",
-      "adsenseSlot": "Loculus AdSense:"
-    },
-    "noPlacements": "Nullae collocationes adhuc configuratae. Adde in ads/placements.js.",
-    "whyHeader": "Cur Chatforia?",
-    "why": {
-      "highSession": "Frequens usus et mora longa in UI colloquii",
-      "brandSafe": "Formata tuta; moderatio frequentiae reverens",
-      "sponsoredMoments": "Momenta patrocinata (e.g., modus “Incipe Colloquium”) praesto",
-      "deals": "Foedera directa vel programmatica per AdSense/Google Ads"
-    },
-    "contactHeader": "Contactus",
-    "form": {
-      "submittedMsg": "Gratias! Petitio missa est. Mox respondebimus.",
-      "missingRequired": "Comple nomen, email, et nuntium.",
-      "successToast": "Gratias! Mox te contingemus.",
-      "mailtoInfo": "Aperitur client epistularum ad petitionem mittendam…",
-      "nameLabel": "Nomen tuum",
-      "namePlaceholder": "Iana Doe",
-      "emailLabel": "Email",
-      "emailPlaceholder": "tu@societas.com",
-      "companyLabel": "Societas",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Mensis expensa (opt.)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "De consilio tuo narra",
-      "messagePlaceholder": "Targeting, dies, KPI, praeferentiae collocationum…",
-      "sendCta": "Mitte petitionem"
-    },
-    "legal": {
-      "disclaimerStart": "Mittens te consentire",
-      "terms": "Terminis",
-      "and": "et",
-      "privacy": "Consilio Secretum"
+    "freeLimit": "Limitum plani gratuiti: auto-delete usque ad 1 diem. Ad 1d constrictum.",
+    "premiumLimit": "Max auto-delete pro Premium est 30 dies. Ad 30d constrictum.",
+    "nothingToSend": "Nuntium scribe vel fasciculum adiunge ad mittendum.",
+    "encryptionFailed": "Encryptio defecit. Nuntius non missus.",
+    "sent": "Nuntius traditus.",
+    "placeholder": "Nuntium scribe…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Nuntium scribe ad mittendum",
+    "send": "Mitte",
+    "sendWithEnter": "Mitte (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (optionale)",
+    "remove": "Remove",
+    "clear": "Purge",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Attachment nimis magnum. Fasciculum minorem tenta.",
+      "unsupportedFile": "Typus fasciculi non sustentatus.",
+      "rateLimit": "Nuntios nimis celeriter mittis. Tardius.",
+      "validation": "Error validationis. Nuntium tuum verifica et tenta iterum.",
+      "failedToSend": "Mittere non potuimus. Bullam defecit retry."
     }
   },
-
-  "upgrade": {
-    "title": "Promove",
-    "subtitle": "Reclude tibi aptum consilium: sine ads cum Plus, vel omnia privilegia cum Premium.",
-    "perMonth": "mense",
-    "perYear": "anno",
-    "goPremium": "I ad Premium",
-    "benefitsLine": "Resera potentiora & remove ads.",
-    "ctaText": "Promove",
-    "aria": "Promove ad Chatforia Premium",
-    "toggle": {
-      "monthly": "Mensis",
-      "annual": "Annua (Serva 25%)"
+  "contactList": {
+    "savedContacts": "Contactus servati",
+    "refreshAria": "Contactus renova",
+    "filterPlaceholder": "Contactus servatos filtra…",
+    "filterAria": "Contactus servatos filtra",
+    "noContactsFound": "Nulli contactus inventi.",
+    "externalContact": "Contactus externus",
+    "notJoined": "Ille contactus Chatforia nondum adiunxit.",
+    "couldNotStart": "Colloquium incipere non potuimus. Tenta iterum.",
+    "startFailed": "Colloquium incipere defecit. Tenta iterum.",
+    "deleted": "Contactus deletus.",
+    "deleteFailed": "Contactum delere defecit. Tenta iterum.",
+    "aliasUpdated": "Alias renovatus.",
+    "updateAliasFailed": "Alias renovare defecit. Tenta iterum.",
+    "selectContact": "Elige {{name}}",
+    "alias": "Alias",
+    "startChat": "Colloquium incipe",
+    "message": "Nuntium",
+    "delete": "Dele",
+    "deleteContactAria": "Contactum dele",
+    "loadFailed": "Contactus load defecit. Tenta iterum.",
+    "loadMore": "Plus load",
+    "call": "Voca",
+    "callStarted": "Hunc numerum per numerum Chatforia tua vocans…",
+    "callFailed": "Vocationem incipere defecit. Tenta iterum."
+  },
+  "startChatModal": {
+    "title": "Colloquium incipe",
+    "searchPlaceholder": "Nomen, nomen usoris, vel numerum telephonicum quaere",
+    "messageThisPerson": "Huic personae nuntium mitte",
+    "contacts": "Contactus",
+    "recentInteractions": "Interactiones recentes",
+    "noContactsMatch": "Nulli contactus quaestioni tuae concordant.",
+    "noRecentInteractions": "Nullae interactiones recentes adhuc.",
+    "unknown": "Ignotus",
+    "interactionType": {
+      "message": "Nuntium",
+      "call": "Vocatio",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Contactum adde",
+    "phoneOrUsername": "Numerus telephonicus vel nomen usoris",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 vel juliannorton",
+    "alias": "Alias (optionale)",
+    "aliasPlaceholder": "e.g. Opus, Mater, Mike – Europa",
+    "enterPhoneOrUsername": "Numerum telephonicum vel nomen usoris intra.",
+    "userLookupFailed": "Usorem quaerere defecit.",
+    "cannotAddSelf": "Te ipsum ut contactum addere non potes.",
+    "failedToAdd": "Contactum addere defecit.",
+    "add": "Adde"
+  },
+  "sidebar": {
+    "randomChat": "Colloquium fortuitum",
+    "callTextForwarding": "Vocatio & Textus Forwarding",
+    "conversations": "Colloquia",
+    "searchPlaceholder": "Colloquia quaere…",
+    "errorLoading": "Colloquia load defecit",
+    "empty": "Nulla colloquia adhuc.",
+    "startChat": "Colloquium incipe",
+    "people": "Personae",
+    "settings": "Configuratiōnes",
+    "status": "Status",
+    "forwarding": "Vocatio & Textus Forwarding",
+    "refresh": "Renova",
+    "search": "Colloquia quaere",
+    "loginPrompt": "Intra ad configuratiōnes tuas edendas.",
+    "login": "Intra",
+    "register": "Rationem crea",
+    "chatrooms": "Cubicula colloquii",
+    "logout": "Exi",
+    "startChatAlt": "Novum colloquium incipe",
+    "calls": "Vocationes",
+    "video": "Video",
+    "voicemail": "Voicemail"
+  },
+  "topbar": {
+    "newStatus": "Status novus",
+    "logout": "Exi",
+    "help": "Auxilium",
+    "createStatusAria": "Status novum crea"
+  },
+  "threadActions": {
+    "threadMenu": "Menu fili",
+    "premium": "Premium",
+    "aiPower": "Potentia AI",
+    "schedule": "Schedule",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Filum",
+    "about": "De",
+    "search": "Quaere",
+    "media": "Media",
+    "invitePeople": "Personas invita",
+    "roomSettings": "Configuratiōnes cubiculi",
+    "clearConversation": "Colloquium purga",
+    "block": "Obstrue"
+  },
+  "roomSearch": {
+    "title": "In cubiculo quaere",
+    "ariaLabel": "In cubiculo quaere",
+    "search": "Quaere",
+    "searchMessages": "Nuntios quaere",
+    "noText": "[Nullum textum]",
+    "noResults": "Nulli eventus"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Membrum",
+      "moderator": "Moderator",
+      "admin": "Admin"
     },
-    "scheduleBanner": {
-      "title": "Subscriptio finietur",
-      "body": "Reverteris ad Free die",
-      "keepPlanCta": "Serva {{plan}}",
-      "manageBillingCta": "Gubernare solutiones"
+    "aiMode": {
+      "off": "Off",
+      "mention": "Tantum in @ForiaBot vel /ask",
+      "always": "Proactive responde"
+    },
+    "autoTranslateMode": {
+      "off": "Off",
+      "tagged": "Tantum tagged (/tr …)",
+      "all": "Omnes nuntii"
+    },
+    "updated": "Configuratiōnes renovatae"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Media communicata",
+    "noMediaCached": "Nulla media localiter cached adhuc.",
+    "imageAlt": "imago",
+    "openVideo": "Video aperi",
+    "openVideoWithCaption": "Video aperi: {{caption}}",
+    "preview": "Praevisionem",
+    "previewWithCaption": "Praevisionem: {{caption}}",
+    "previewKind": "Praevisionem {{kind}}",
+    "download": "Descende",
+    "downloadKind": "Descende {{kind}}",
+    "file": "fasciculum",
+    "kinds": {
+      "image": "imago",
+      "video": "video",
+      "audio": "audio",
+      "file": "fasciculum"
+    }
+  },
+  "status": {
+    "userNumber": "Usor #{{id}}",
+    "posted": "Status positus",
+    "postFailed": "Status ponere defecit",
+    "createTitle": "Status crea",
+    "modalAriaLabel": "Status novus",
+    "captionLabel": "Quid in mente tua?",
+    "captionPlaceholder": "Update communica…",
+    "captionAria": "Nuntius status",
+    "audienceLabel": "Audientia",
+    "audience": {
+      "public": "Publicum",
+      "followers": "Sequentes",
+      "contacts": "Contactus",
+      "mutuals": "Mutuae",
+      "custom": "Custom…"
+    },
+    "expiresHoursLabel": "Expirat (horae)",
+    "maxTooltip": "Maximum 7 dies",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Expirat in:",
+    "chooseRecipients": "Receptores elige",
+    "selectContacts": "Contactus elige",
+    "attachmentsLabel": "Attachments",
+    "attachmentsPlaceholder": "Imagines/videos adde",
+    "filesNote": "Usque ad 5 fascicula. 24h expiratio defalta.",
+    "postAria": "Status pone",
+    "post": "Pone"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Ab",
+    "to": "Ad",
+    "unknownCaller": "Ignotus",
+    "yourNumber": "Numerus Chatforia tuus",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Lector audio voicemail",
+    "transcriptHeading": "Transcriptum",
+    "transcriptPending": "Voicemail transscribens…",
+    "transcriptFailed": "Transcriptum unavailable.",
+    "loading": "Voicemail loading…",
+    "errorLoading": "Voicemail load defecit.",
+    "empty": "Nulla voicemail adhuc.",
+    "deleteConfirm": "Hoc voicemail dele?",
+    "deleteError": "Voicemail delere defecit.",
+    "markRead": "Ut lectum marca",
+    "delete": "Dele",
+    "unreadDotAria": "Indicium voicemail non lectum"
+  },
+  "profile": {
+    "title": "Profilus usoris",
+    "preferredLanguage": "Lingua praeferenda",
+    "chooseLanguage": "Linguam elige",
+    "mustLogin": "Intrare debes ad configuratiōnes videndas.",
+    "autoTranslate": "Nuntios auto-translata",
+    "showOriginalWithTranslation": "Textum originale et translatum monstra",
+    "showOriginalAndTranslation": "Originale iuxta translationem monstra",
+    "filterExplicit": "Contentum explicitum filtra",
+    "aiReply": "Responsio AI",
+    "enableReadReceipts": "Recepta lectionis activa",
+    "allowExplicitContent": "Contentum explicitum permitte",
+    "disappearingMessages": "Nuntios evanescentes activa",
+    "autoDeleteSeconds": "Secundae usque ad auto-delete",
+    "saveSuccess": "Configuratiōnes servatae!",
+    "saveError": "Error: Configuratiōnes servare non potuimus",
+    "avatarAlt": "Avatar profilis",
+    "uploadAvatar": "Novum avatar upload",
+    "avatarSuccess": "Avatar uploadatus!",
+    "avatarError": "Avatar uploadare defecit",
+    "avatarUpdated": "Avatar renovatus!",
+    "uploadingAvatar": "Avatar uploadans…",
+    "noPrivateKey": "Nulla clavis privata in hoc apparatu ad exportandum.",
+    "setBackupPassword": "Passwordum constitue ad subsidium tuum encryptandum:",
+    "backupDownloaded": "Subsidium encryptum descensum.",
+    "exportFailed": "Exportatio clavis defecit",
+    "enterBackupPassword": "Passwordum pro hoc subsidio intra:",
+    "importSuccess": "Clavis privata in hunc apparatum importata.",
+    "importFailed": "Clavem importare defecit (passwordum incorrectum vel fasciculum corruptum).",
+    "keysRotated": "Novum par clavium generatum et clavis publica uploadata.",
+    "rotateFailed": "Claves rotare defecit.",
+    "security": "Securitas",
+    "exportKey": "Clavem encryptionis subsidia",
+    "importKey": "Clavem encryptionis restitue",
+    "rotateKeys": "Clavem encryptionis rota",
+    "keyDisclaimer": "Clavis privata tua numquam hunc apparatum relinquit. Exporta copiam password-protectam ad eam in alio apparatu restituendam.",
+    "sectionProfile": "Profilus",
+    "phoneNumber": "Numerus telephonicus",
+    "appearance": "Aspectus",
+    "soundSettings": "Sonī",
+    "disappearing": "Nuntii evanescentes",
+    "backupSync": "Subsidium clavium encryptionis",
+    "ai": "AI",
+    "accessibility": "Accessibilitas",
+    "privacy": "Privatum",
+    "devices": "Apparati connexi",
+    "themeFreeNotice": "In Free es — optiones celeres Sol/Luna infra utere. Upgrade ad plura themata aperienda.",
+    "sunTheme": "Thema Aurora utere",
+    "moonTheme": "Thema Luna (Media nox) utere",
+    "sun": "Sol",
+    "moon": "Luna",
+    "backupTitle": "Subsidia encrypta & Sync apparatūs",
+    "openBackupTools": "Instrumenta subsidii aperi",
+    "backupDesc": "Clavem encryptionis tuam subsidia ad nuntios tuos secure in alio apparatu restituendos.",
+    "privacyBlurEnabled": "Nuntios defalta obfusca",
+    "privacyBlurOnUnfocus": "Obfusca cum app non focus",
+    "planSection": "Consilium meum",
+    "planLoading": "Consilium tuum loading…",
+    "planLoadFailed": "Consilium tuum load defecit.",
+    "currentPlan": "Consilium praesens",
+    "planRenewsOn": "Renovatur in",
+    "freePlanCopy": "In plano gratuito es. Upgrade ad plura notae ut subsidia, numeri extra, et optiones privatae provectae.",
+    "upgradePlanCta": "Consilium upgrade",
+    "changePlanCta": "Consilium muta",
+    "manageBilling": "Billing gere",
+    "portalOpenFailed": "Portam billing aperire non potuimus. Tenta iterum.",
+    "holdToReveal": "Tene ad revelandum",
+    "notifyOnCopy": "Me notifica si nuntius meus copiatur",
+    "loadFailed": "Profilum load defecit",
+    "followed": "Sequutus",
+    "followFailed": "Sequere defecit",
+    "unfollowed": "Non sequutus",
+    "unfollowFailed": "Non sequi defecit",
+    "follow": "Sequere",
+    "unfollow": "Non sequere",
+    "followHint": "Historiae eorum in feed Sequentes tuos apparebunt si cum audientia Sequentes (vel Publicum) ponunt.",
+    "userNotFound": "Usor non inventus",
+    "followsYou": "Te sequitur",
+    "sectionCrashedTitle": "Sectio load defecit",
+    "sectionCrashedBody": "Aliquid erravit in hac sectione.",
+    "forwarding": "Vocatio & Textus Forwarding",
+    "callTextForwardingSection": "Vocatio & Textus Forwarding",
+    "callTextForwardingTitle": "Vocatio et/or Textus Forwarding",
+    "callTextForwardingDescription": "Vocationes et textus incoming ad numerum telephonicum vel email verificatum tuum forward.",
+    "enableTextForwarding": "Textus forwarding activa",
+    "forwardTextsToPhone": "Textus ad telephonum forward",
+    "forwardTextsToEmail": "Textus ad email forward",
+    "destinationPhone": "Destinatio telephoni (E.164)",
+    "destinationEmail": "Destinatio email",
+    "enableCallForwarding": "Vocatio forwarding activa",
+    "destinationPhoneForCalls": "Destinatio (E.164) pro vocationibus",
+    "aliasBridging": "Vocatio Forwarding (alias bridging)",
+    "quietHoursOptional": "Horae quietae (optionale)",
+    "startHour": "Hora incipiens (0–23)",
+    "endHour": "Hora finiens (0–23)",
+    "reset": "Reset",
+    "saveBtn": "Serva",
+    "saveProfile": "Profilum serva",
+    "saveForwarding": "Forwarding serva",
+    "forwardSaved": "Configuratiōnes forwarding servatae",
+    "forwardSaveFailed": "Configuratiōnes servare defecit",
+    "errE164": "Numerum telephonicum validum E.164 intra (e.g., +15551234567).",
+    "errEmail": "Email validum intra.",
+    "errSmsDest": "Saltem unam destinationem elige (telephonum vel email).",
+    "errQuietHours": "Horae quietae inter 0 et 23 esse debent.",
+    "randomChat": "Colloquium fortuitum",
+    "ageBand": "Fascia aetatis tuae",
+    "ageBandPlaceholder": "Fasciam aetatis tuae elige",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Tantum fasciam aetatis servamus (non diem natalem exactam). Hoc ad paria Colloquii Fortuiti rationabilia servandum adhibetur.",
+    "wantsAgeFilter": "Paria aetatis fundata in Colloquio Fortuito utere",
+    "wantsAgeFilterDesc": "Cum activa, te cum personis in fasciis aetatis compatibilibus parare conamur.",
+    "partnerAgeBands": "Cum quibus parari potes?",
+    "partnerAgeBandsDesc": "Teens semper cum aliis teens parantur. Adulti cum teens parari non possunt.",
+    "teenMatchingNote": "Pro securitate, rationes in fascia 13–17 aetatis tantum cum aliis rationibus 13–17 in Colloquio Fortuito parari possunt.",
+    "foriaRemember": "Ria meminisse sinas quae ei dicis",
+    "foriaRememberDesc": "Cum hoc activum, Foria colloquia Random Chat tua praeterita (tantum tecum) uti potest ad colloquium fluere. Quovis tempore hoc off potes.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Voicemail activa",
+    "voicemailAutoDeleteDays": "Voicemails auto-delete post (dies)",
+    "voicemailAutoDeletePlaceholder": "Vacuum relinque ad semper servandum",
+    "voicemailForwardEmail": "Voicemail ad email forward",
+    "voicemailForwardEmailPlaceholder": "Email ad notificationes voicemail mittendas",
+    "voicemailGreetingText": "Textus salutatio fallback",
+    "voicemailGreetingTextDesc": "Adhibetur cum salutatio audio tua unavailable.",
+    "voicemailGreetingUpload": "Salutationem voicemail upload",
+    "voicemailPreviewGreeting": "Salutationem praevide",
+    "voicemailGreetingUploaded": "Salutatio voicemail uploadata feliciter",
+    "voicemailGreetingUploadError": "Salutationem voicemail uploadare defecit",
+    "voicemailNote": "Voicemails ex numeris Chatforia tuis in inbox Voicemail tuum servabuntur. Transcriptionem et forwarding in consiliis sustentatis activa potes.",
+    "portHint": "Numerum praesentem servare vis? Eum in Chatforia Wireless portare potes.",
+    "wireless": {
+      "manage": "Wireless gere"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Data mobilis pro Chatforia accipe cum a Wi-Fi abes.",
+      "cta": "eSIM accipe / QR monstra"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Consilium mobile Chatforia tuum, numeros, forwarding, et portationem numeri gere.",
+    "options": {
+      "heading": "Quomodo Chatforia uti vis elige",
+      "subheading": "Numerum novum Chatforia accipere potes, vel numerum existentem ab alio carrieri portare.",
+      "newNumber": "Numerum novum Chatforia accipe",
+      "portNumber": "Numerum praesentem in Chatforia Wireless porta"
+    },
+    "port": {
+      "heading": "Numerum existentem porta",
+      "subheading": "Numerum telephonicum praesentem ex carrieri tuo in Chatforia move. Fac details rationi carrieri tuae exacte concordent ad moras evitandas.",
+      "phoneNumberLabel": "Numerus telephonicus ad portandum",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Carrier praesens",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Numerus rationis",
+      "pinLabel": "PIN / password port-out",
+      "fullNameLabel": "Nomen plenum in ratione",
+      "address1Label": "Linea address 1",
+      "address2Label": "Linea address 2 (optionale)",
+      "cityLabel": "Urbs",
+      "stateLabel": "Status / Provincia",
+      "postalCodeLabel": "Codex postal",
+      "countryLabel": "Patria",
+      "submitButton": "Postulationem port submitte",
+      "success": "Postulatio port submissa! Te updated tenebimus.",
+      "genericError": "Aliquid erravit."
+    },
+    "status": {
+      "heading": "Status portationis",
+      "subheading": "Status postulationum port numeri tui sequere.",
+      "loading": "Loading…",
+      "loadError": "Postulationes port load defecit.",
+      "none": "Nulla activitas portationis adhuc.",
+      "pending": "Recensio pendens",
+      "submitted": "Carrieri submissa",
+      "inProgress": "In progressu",
+      "completed": "Completa",
+      "failed": "Defecit",
+      "canceled": "Cancella",
+      "created": "Creata:",
+      "scheduled": "Scheduled:",
+      "completedAt": "Completa:"
+    },
+    "dataLow": "Data tua parum currit.",
+    "topUp": "Nunc top up",
+    "expiresIn": "Expirat in {{days}} dies",
+    "exhausted": "Data tua exhausta est. Novum pack eme ad data mobilem continuandam.",
+    "buyPack": "Pack data eme",
+    "esimPackLabel": "Pack eSIM"
+  },
+  "family": {
+    "title": "Familia",
+    "loading": "Details familiae tuae loading…",
+    "error": {
+      "load": "Details familiae load defecit.",
+      "invite": "Invitatio creare non potuimus. Fac te dominum familiae esse et tenta iterum.",
+      "checkout": "Checkout pro consilio Familia inire non potuimus. Tenta iterum."
     },
     "billing": {
-      "opening": "Aperitur…",
-      "manage": "Gubernare Solutiones"
+      "myPlanTitle": "Consilium meum",
+      "myPlanError": "Consilium tuum load non potuimus.",
+      "myPlanLoading": "Consilium tuum loading…",
+      "currentPlan": "Consilium praesens",
+      "renewsAt": "Renovatur in",
+      "freePlanCopy": "In plano gratuito es. Upgrade ad plura notae.",
+      "upgradeCta": "Consilium upgrade",
+      "changePlanCta": "Consilium muta",
+      "manageBilling": "Billing gere",
+      "portalError": "Portam billing aperire nunc non potuimus.",
+      "cancelNow": "Nunc cancella",
+      "cancelNowHelp": "Subscriptionem in porta billing gerere vel cancellare potes, vel statim infra cancellare.",
+      "cancelNowConfirm": "Certus es consilium tuum statim cancellare? Hoc non revocari potest.",
+      "cancelNowError": "Consilium tuum nunc cancellare non potuimus. Tenta iterum vel Billing gere utere."
+    },
+    "none": {
+      "title": "Nulla familia constituta adhuc",
+      "body": "Ad familiam Chatforia et pool datae communicatae creandam, consilium Familia incipe.",
+      "goUpgrade": "Consilium Familia incipe",
+      "viewPlans": "Omnia consilia vide"
+    },
+    "group": {
+      "defaultName": "Familia Chatforia mea",
+      "role": "Munus tuum: {{role}}"
+    },
+    "role": {
+      "owner": "Dominus",
+      "member": "Membrum"
+    },
+    "data": {
+      "heading": "Pool datae communicatae",
+      "caption": "Omnia membra hoc pool communicant. Te monemus cum limitem appropinquas."
+    },
+    "members": {
+      "title": "Membra familiae",
+      "name": "Nomen",
+      "role": "Munus",
+      "usage": "Usus",
+      "limit": "Limitum",
+      "unlimited": "Nullum limitum specificum",
+      "inviteCta": "Membrum invita"
+    },
+    "invite": {
+      "title": "Novum membrum invita",
+      "body": "Email vel link mitte ad aliquem in pool datae familiae communicatae invitandum.",
+      "emailLabel": "Email (optionale)",
+      "emailPlaceholder": "amicus@example.com",
+      "create": "Invitatio crea",
+      "linkLabel": "Link invitationis",
+      "copyAria": "Link invitationis copia",
+      "expiryHint": "Hic link post paucos dies expirat. Novum semper creare potes."
+    },
+    "join": {
+      "title": "Familiae adiunge",
+      "body": "Invitatus es ad familiam Chatforia adiungendam et pool datae eorum communicandam.",
+      "cta": "Accipe et familiae adiunge",
+      "ctaLogin": "Intra et familiae adiunge",
+      "success": "Familiae adiunxisti. Nunc pool datae eorum communicas.",
+      "goFamily": "Ad dashboard familiae",
+      "error": "Te huic familiae addere non potuimus. Invitatio invalida vel expirata esse potest."
+    }
+  },
+  "premium": {
+    "heading": "Ad Premium",
+    "description": "Notae potentiae aperi & ads remove.",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
+    "upgradeAria": "Ad Chatforia Premium upgrade"
+  },
+  "upgrade": {
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Pretia",
+    "h1": "Pretia & Consilia Chatforia",
+    "h1Subtitle": "Cum plano gratuito ads-sustentato incipe. Ad-free cum Plus, vel plenam potentiam cum Premium aperi.",
+    "subtitle": "Consilium app elige, pack data pro te adde, vel data cum familia communica — omnia ex uno loco.",
+    "subtitle.app": "Cum plano gratuito ads-sustentato incipe. Ad-free cum Plus, vel plenam potentiam cum Premium aperi.",
+    "subtitle.mobile": "Data global eSIM adde ut Chatforia etiam cum a Wi-Fi abes operetur.",
+    "subtitle.family": "Pool datae communicatae pro familia crea et usum omnium gere ex uno loco.",
+    "perMonth": "mo",
+    "perYear": "annus",
+    "goPremium": "Ad Premium",
+    "benefitsLine": "Notae potentiae aperi & ads remove.",
+    "ctaText": "Upgrade",
+    "aria": "Ad Chatforia Premium upgrade",
+    "toggle": {
+      "monthly": "Mensilis",
+      "annual": "Annus (Serva 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subscription finiet",
+      "body": "Ad Free revertes in",
+      "keepPlanCta": "{{plan}} serva",
+      "manageBillingCta": "Billing gere"
+    },
+    "billing": {
+      "opening": "Aperiens…",
+      "manage": "Billing gere"
     },
     "checkout": {
-      "redirecting": "Redirigitur…"
+      "redirecting": "Redirectens…"
     },
     "auth": {
-      "continue": "Perge ad login",
-      "createAccount": "Crea rationem",
+      "continue": "Ad login perge",
+      "createAccount": "Rationem crea",
       "signIn": "Intra"
     },
     "cta": {
-      "aria": "Selige consilium",
-      "getPlus": "Promove ad Plus",
-      "upgradeMonthly": "Promove Mensis",
-      "upgradeAnnual": "Promove Annua"
+      "aria": "Consilium elige",
+      "getPlus": "Ad Plus upgrade",
+      "upgradeMonthly": "Upgrade Mensilis",
+      "upgradeAnnual": "Upgrade Annus"
+    },
+    "section": {
+      "app": "Consilia app",
+      "mobile": "Mobile (eSIM)",
+      "family": "Consilia familiae"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Gratuitum",
         "price": "$0",
-        "desc": "Incipe nuntiare gratis.",
+        "desc": "Nuntiationem gratuitam incipe. Ideale si Chatforia tantum temptas.",
         "features": {
-          "msg": "Nuntiatio 1:1 et gregalis",
-          "aiBasic": "AI responsa primaria",
-          "attachments": "Adiuncta standard"
+          "chat": "Colloquium real-time 1:1 et gregis, plus vocationes vocis et video",
+          "media": "Imagines, nuntii vocis, et videos breves communica",
+          "ai": "Responsiones callidae AI et translatio instantanea (usus aequus)",
+          "disappearing": "Nuntii evanescentes et controlla privatae basicae",
+          "ads": "Gratuitum semper cum ads in app"
         },
-        "ctaCurrent": "Consilium Praesens",
-        "ctaUnavailable": "Transitus ad Free (non praesto)",
-        "aria": "Consilium Free (praesens)"
+        "ctaCurrent": "Consilium praesens",
+        "ctaManage": "In billing gere",
+        "ctaPublic": "Incipe – ad login perge",
+        "aria": "Consilium gratuitum"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / mense",
-        "desc": "Experientia sine ads minimi pretii.",
+        "price": "$6.99",
+        "desc": "Omnia essentialia, sine ads. Magnum ad nuntiationem et vocationem cotidianam.",
         "features": {
-          "noAds": "Omnia ads remove",
-          "msg": "Nuntiatio 1:1 et gregalis",
-          "attachments": "Adiuncta maiora",
-          "aiBasic": "AI responsa primaria"
+          "allFree": "Omnia in Gratuito, sine ads",
+          "forwarding": "Vocationes et textus ad numerum telephonicum realem tuum forward",
+          "history": "Historia nuntiorum longior (usque ad 6 menses)",
+          "support": "Auxilium celerius cum aliquid errat"
         },
         "badge": "Populare",
-        "cta": "Sine Ads",
-        "aria": "Promove ad Plus"
+        "cta": "Ad-free",
+        "ctaPublic": "Plus accipe – ad login perge",
+        "aria": "Ad Plus upgrade"
       },
       "premiumMonthly": {
-        "title": "Premium (Mensis)",
-        "price": "$24.99 / mense",
-        "desc": "Plena privilegia, soni, et instrumenta AI.",
+        "title": "Premium (Mensilis)",
+        "price": "$11.99",
+        "desc": "Experientia plena Chatforia: instrumenta potentiae AI, customizationes, et auxilium prioritatis.",
         "features": {
           "plusAll": "Omnia in Plus",
-          "ringtones": "Sonitus vocum & nuntiorum proprii",
-          "powerAi": "Potentiora AI",
-          "priorityUpdates": "Renovationes priores",
-          "backups": "Subsidia & synchronizatio instrumentorum"
+          "themes": "Omnia themata colorum premium et customizationes app aperi",
+          "ai": "Instrumenta potentiae AI tantum Premium pro rewrites, responsionibus callidis, et summariis",
+          "support": "Auxilium prioritatis cum maxime opus est"
         },
-        "badge": "Optimum",
-        "cta": "Promove (Mensis)",
-        "aria": "Promove ad Premium Mensis"
+        "badge": "Commendatum",
+        "cta": "Upgrade (Mensilis)",
+        "ctaPublic": "Premium aperi – ad login perge",
+        "aria": "Ad Premium Mensilis upgrade"
       },
       "premiumAnnual": {
-        "title": "Premium (Annua)",
-        "price": "$225 / anno",
-        "desc": "Plus serva solutione annua.",
+        "title": "Premium (Annus)",
+        "price": "$99",
+        "desc": "Plus serva cum annuo — inclusis thematis colorum extra, instrumentis AI, et auxilio prioritatis.",
         "features": {
-          "allPremium": "Omnia Premium",
-          "annualBilling": "Annua solutio",
-          "save25": "Serva ~25% contra mensem",
-          "sameFeatures": "Ea privilegia quae Mensis"
+          "allPremium": "Omnia in Premium Mensilis — inclusis thematis colorum extra",
+          "annualBilling": "Semel per annum bill",
+          "save25": "Circa 30% serva comparato mensili",
+          "bestFor": "Optimum pro usoribus potentibus, operariis remotis, et viatoribus gravibus"
         },
-        "badge": "Serva 25%",
-        "cta": "Promove (Annua)",
-        "aria": "Promove ad Premium Annua",
-        "disclaimer": "Ante solvitur. Quoquo tempore rescinde. Nulla occulta vectigalia."
+        "badge": "Serva 30%",
+        "cta": "Upgrade (Annus)",
+        "ctaPublic": "30% cum annuo serva – ad login perge",
+        "aria": "Ad Premium Annus upgrade",
+        "disclaimer": "Bill upfront. Cancella quovis tempore. Nullae fees occultae."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Incipe nuntiare gratis.",
+      "freeTitle": "Gratuitum",
+      "freeDesc": "Nuntiationem gratuitam incipe.",
       "plusTitle": "Plus",
       "plusBadge": "Populare",
-      "plusDesc": "Experientia sine ads minimi pretii.",
+      "plusDesc": "Experientia ad-free maxime affordable.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Plena privilegia, soni, et instrumenta AI.",
+      "premiumMonthlyDesc": "Notae plenae, ringtones, et instrumenta potentiae AI.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Plus serva cum annuo pretio.",
-      "annualDisclaimer": "Ante solvitur. Quoquo tempore rescinde. Nulla occulta vectigalia."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Primum Gradus",
-    "subtitle": "Novus in Chatforia? Hic ductor brevis tibi necessaria monstrat ut intra minuta paratus sis.",
-    "alert": {
-      "text": "Hic index crescet cum proprietates novas demittimus. Si aliquid deest, nuntia per",
-      "contactLink": "Contacta Nos"
+      "premiumAnnualDesc": "Plus serva cum annuo.",
+      "annualDisclaimer": "Bill upfront. Cancella quovis tempore. Nullae fees occultae."
     },
-    "section1": {
-      "title": "1) Crea rationem",
-      "signup": "Registrare",
-      "or": "aut",
-      "login": "intra",
-      "loginText": "cum ratione iam facta.",
-      "prefsStart": "Constitue",
-      "prefsLink": "praeferentias",
-      "prefsRest": "(lingua, notae lectionis, themata)."
+    "mobile": {
+      "title": "Chatforia Mobile (pack data eSIM)",
+      "subtitle": "Data global adde ut Chatforia etiam sine Wi-Fi operetur. Pretia secundum patriam et monetam tuam automatica accommodant.",
+      "subtitle.detail": "Unum pack data global elige ut Chatforia operetur cum viator vel a Wi-Fi abes.",
+      "scope": {
+        "local": "Localis",
+        "europe": "Europa",
+        "global": "Globalis"
+      },
+      "note": "Pack data sub 3 GB non vendimus.",
+      "localEquals": "Localis = {{country}}",
+      "localEqualsFallback": "Localis = patria tua praesens",
+      "perPack": "/ pack",
+      "cta": "Hoc pack data accipe",
+      "ctaPublic": "Hoc pack data accipe",
+      "checkout": {
+        "redirecting": "Redirectens…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data celeris pro usu gravi",
+          "throttle": "Celeritates post usum gravem tardari possunt",
+          "coverage": "Coverage fidelis",
+          "instant": "Activatio eSIM instantanea",
+          "noContract": "Pack semel, nullum contractum"
+        }
+      },
+      "disclaimer": {
+        "devices": "Pack data eSIM apparatum eSIM-compatibilem et unlocked requirunt. Disponibilitas secundum exemplar telephoni, carrier, et patriam variat. Coverage et celeritates per regionem variant."
+      },
+      "small": {
+        "title": "Pack starter",
+        "desc": "3 GB data celeris includit — ideale ad nuntiationem levem et vocationes occasionales.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Itinera brevia, nuntiatio levis, et vocationes occasionales",
+        "aria": "Pack data eSIM Starter eme"
+      },
+      "medium": {
+        "title": "Pack viator",
+        "desc": "5 GB data celeris pro itineribus, commuting, et vocationibus VoIP regularibus.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Itinera weekend, vocationes VoIP regulares, et tabulae",
+        "aria": "Pack data eSIM Viator eme"
+      },
+      "large": {
+        "title": "Pack potentiae",
+        "desc": "10 GB data celeris pro colloquio gravi, vocationibus, et video in rete Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Colloquium grave, vocationes, video, et usus hotspot",
+        "aria": "Pack data eSIM Usor potentiae eme"
+      },
+      "compare": {
+        "title": "Pack data eSIM compara",
+        "col": {
+          "pack": "Pack",
+          "data": "Data inclusa",
+          "bestFor": "Optimum pro"
+        },
+        "disclaimer": "Usus datae actualis pendet quomodo Chatforia uteris (vox, video, media, et aliae app in telephono tuo)."
+      }
     },
-    "section2": {
-      "title": "2) Incipe nuntiare",
-      "item1": "Crea DM vel Gregem et primum nuntium mitte.",
-      "item2": "Utere translatione instante ad colloquendum per 100+ linguas.",
-      "item3": "Proba nuntios evanescentes et notas lectionis in Profilo → Secretum."
+    "family": {
+      "title": "Familia Chatforia (data communicata)",
+      "subtitle": "Unum pool datae per familiam communica. Una bill, plures rationes Chatforia, coverage globalis.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Familia Parva",
+        "desc": "20 GB data celeris communicata includit — bonum pro 2–3 usoribus levibus.",
+        "price": "$29.99",
+        "aria": "Pack Familia Parva eme"
+      },
+      "medium": {
+        "title": "Familia Media",
+        "desc": "40 GB data celeris communicata includit — ideale pro 3–5 membris activis.",
+        "price": "$49.99",
+        "aria": "Pack Familia Media eme"
+      },
+      "large": {
+        "title": "Familia Magna",
+        "desc": "80 GB data celeris communicata includit — pro familiis potentibus semper online.",
+        "price": "$84.99",
+        "aria": "Pack Familia Magna eme"
+      },
+      "feature": {
+        "shared": "Pool datae communicatae pro familia tua",
+        "members": "Usque ad 4 membra additional invita",
+        "membersMore": "Bonum pro 3–5 membris activis",
+        "manage": "Limites pro quoque membro gere",
+        "topUp": "Pack plura quovis tempore adde",
+        "bestValue": "Valorem optimum per GB",
+        "fairUse": "Subiectum consilio fair-use et limitibus localibus"
+      },
+      "disclaimer": "Pack familia pool datae communicatae creant vel top up. Membra invitare et removere quovis tempore potes.",
+      "footnote": "Pack familia unum pool datae per rationes Chatforia connexas communicant. Disponibilitas et limites secundum patriam et regulas locales pendent."
     },
-    "section3": {
-      "title": "3) Progredere",
-      "item1Part1": "Gubernare consilium in pagina",
-      "upgradeLink": "Promove",
-      "item1Part2": "(Plus = sine ads, Premium = omnia privilegia).",
-      "item2Part1": "Coniunge instrumenta addita et constitue subsidia ciffrata in",
-      "settingsLink": "Occasus"
+    "why": {
+      "title": "Cur homines ad Chatforia mutant",
+      "subtitle": "Chatforia numerum telephonicum realem, translatio callida, et viam claram ad ad-free cum paratus es dat.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Ads leviores in Gratuito, upgrade Plus simplex cum paratus, et instrumenta Premium quae TextNow non offert."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App moderna, consilium global-primum, et translatio inaedificata loco forwarding vocis antiquae."
+        },
+        "messengers": {
+          "title": "Chatforia vs app nuntiationis",
+          "body": "Numeros telephonicos reales mitte — non tantum alios usores app — cum AI et status inaedificatis. Bonum si ab app sicut TextFree vel TextMe venis."
+        }
+      },
+      "tableTitle": "Quomodo Chatforia comparat",
+      "col": {
+        "feature": "Nota"
+      },
+      "feature": {
+        "freeNumber": "Numerus telephonicus gratuitus",
+        "translation": "Auto-translatio inaedificata",
+        "aiTools": "Instrumenta AI (rewrites, responsiones, summaria)",
+        "ads": "Option ad-free",
+        "history": "Historia nuntiorum"
+      },
+      "yes": "Ita",
+      "no": "Non",
+      "yesPremium": "Ita (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limitatum",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Usque ad 12+ menses",
+        "textnow": "Variat per rationem",
+        "voice": "Limitatum / per rationem"
+      },
+      "disclaimer": "Comparatio secundum informationem publice available et mutari potest. Aliae app textus gratuitae sicut TextFree vel TextMe generaliter similes TextNow sunt."
     },
-    "cta": {
-      "seePlans": "Vide consilia",
-      "openSettings": "Aperi occasus"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Centrum Auxilii",
     "faq": {
-      "account": {
-        "q": "Quomodo rationem creo vel restituo?",
-        "a": "App depone vel web utere, preme “Crea rationem”, confirma email/telephonium. Ad restituendum, utere “Tesseram oblitus?”."
+      "title": "FAQ pretiorum & consiliorum",
+      "free": {
+        "q": "Estne consilium Gratuitum vere gratuitum?",
+        "a": "Ita. Consilium Gratuitum numerum Chatforia, vocationem, et nuntiationem cum ads includit. In Gratuito manere potes quamdiu vis, vel upgrade ad ads removenda et plura notae aperienda."
       },
-      "privacy": {
-        "q": "Num nuntii clausi E2E sunt?",
-        "a": "Ita. Nuntii et voces E2E per defaltum ciffrantur. Solum tu et receptor legere potestis."
+      "plusPremium": {
+        "q": "Quid differentia inter Plus et Premium?",
+        "a": "Plus ads removet et historiam nuntiorum extendit — perfectum ad usum cotidianum. Premium customizationes extra, instrumenta AI pro rewrites et responsionibus, et auxilium prioritatis pro usoribus gravibus addit."
       },
-      "translate": {
-        "q": "Quo pacto translatio instans operatur?",
-        "a": "Permitte “Sponte verte” in Occasus → Species & Lingua. Ubi potest, in-instrumento vertimus; aliter, per API securas cum metadata minimis."
+      "esim": {
+        "q": "Ubi pack data eSIM operantur?",
+        "a": "Chatforia Mobile coverage global eSIM utitur. Disponibilitas secundum patriam et apparatum tuum pendet. Optiones sustentatas in activatione intra app videbis."
+      },
+      "cancel": {
+        "q": "Possumne consilia quovis tempore cancellare vel mutare?",
+        "a": "Ita. Subscriptionem ex pagina billing in app gerere vel cancellare potes. Mutationes in fine periodi billing currentis efficiuntur."
+      },
+      "family": {
+        "q": "Quomodo pack Familia operantur?",
+        "a": "Pack Familia pool datae communicatae per plures rationes Chatforia creant. Una persona bill solvit, et membra invitare vel removere et limites per personam constituere potes."
+      }
+    },
+    "gettingStarted": {
+      "title": "Incipere",
+      "subtitle": "Novus ad Chatforia? Hic celeris start essentialia monstrat ut minutis productivus sis.",
+      "alert": {
+        "text": "Hic dux crescet cum novas notas lancinamus. Si aliquid deest, nobis per",
+        "contactLink": "Nobis contacta"
+      },
+      "section1": {
+        "title": "1) Rationem crea",
+        "signup": "Signa",
+        "or": "vel",
+        "login": "intra",
+        "loginText": "cum ratione existente tua.",
+        "prefsStart": "Praeferentias tuas constitue",
+        "prefsLink": "praeferentias",
+        "prefsRest": "(lingua, recepta lectionis, themata)."
+      },
+      "section2": {
+        "title": "2) Nuntiationem incipe",
+        "item1": "DM vel Gregem crea et primum nuntium mitte.",
+        "item2": "Translatio instantanea ad 100+ linguas utere.",
+        "item3": "Nuntios evanescentes et recepta lectionis in Profilo → Privatum tenta."
+      },
+      "section3": {
+        "title": "3) Ulterius",
+        "item1": "Consilium solutum quovis tempore intra app upgrade potes.",
+        "item2": "Cum signatus, apparatos additional connexos et subsidia encrypta ex Configuratiōnibus in app constituere potes."
+      },
+      "cta": {
+        "seePlans": "Consilia vide",
+        "openSettings": "Configuratiōnes aperi"
+      }
+    },
+    "helpCenter": {
+      "title": "Centrum auxilii",
+      "faq": {
+        "account": {
+          "q": "Quomodo rationem creo vel recupero?",
+          "a": "App descende vel web utere, “Rationem crea” tange, email/telephonum verifica. Ad recuperandum, “Passwordum oblitus” utere."
+        },
+        "privacy": {
+          "q": "Suntne nuntii end-to-end encrypti?",
+          "a": "Ita. Nuntii et vocationes end-to-end encryptae defalta sunt. Tantum tu et recipiens ea legere potestis."
+        },
+        "translate": {
+          "q": "Quomodo translatio instantanea operatur?",
+          "a": "“Auto-translata” in Configuratiōnibus → Aspectus & Lingua activa. In apparatu ubi sustentatum translatamus, aliter per APIs securos cum metadata minima."
+        },
+        "contact": {
+          "q": "Auxilium contacta",
+          "a": "Ad support@chatforia.com nos attinge. Screenshots et versionem app include."
+        }
+      }
+    },
+    "contact": {
+      "title": "Nobis contacta",
+      "successMsg": "Gratias — turma nostra per email respondebit.",
+      "errorSend": "Mittere non potuimus. Email support@chatforia.com.",
+      "form": {
+        "nameLabel": "Nomen",
+        "emailLabel": "Email",
+        "messageLabel": "Nuntius",
+        "sendCta": "Mitte"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Consilium privatum",
+      "lastUpdated": "Ultimum renovatum:",
+      "intro": {
+        "body": "Hoc Consilium Privatum explicat quomodo Chatforia (“nos”, “nos”) informationem colligit, utitur, et communicat cum app et servitiis nostris uteris. Chatforia ad minimum datae quod accedere possumus designavimus."
+      },
+      "infoWeCollect": {
+        "title": "Informationem quam colligimus",
+        "account": "Info rationis (e.g., email/telephonum) ad rationem creandam et securandam.",
+        "encrypted": "Contentum encryptum (nuntii/vocationes) end-to-end encryptum est; legere non possumus.",
+        "diagnostics": "Diagnostic/usus sicut crash logs, typus apparatūs, vel analytics grossus ad perficiendum meliorandum."
+      },
+      "sms": {
+        "title": "Numeri telephonici mobiles et SMS",
+        "body": "Si numerum telephonicum mobilem praebere eligis, eo utimur ad notas ut verificatio rationis, alertae login, et nuntiatio usor-ad-usorem per SMS ubi sustentatum. Nuntia transactionalia SMS de ratione et actione in Chatforia mittere possumus. Optare ex nuntia SMS quovis tempore potes respondendo cum keyword opt-out sustentato (ut “STOP”) vel praeferentias notificationis in app mutando. Numerum telephonicum tuum non vendimus nec ad marketing non relatum utimur.",
+        "newText": "Textus novus",
+        "enterRecipient": "Nomen vel numerum intra",
+        "typeMessage": "Nuntium scribe…",
+        "addRecipient": "Receptorem supra adde ad incipiendum…"
+      },
+      "howWeUse": {
+        "title": "Quomodo informationem utimur",
+        "provide": "Servitium praebere et securare (auth, detectio spam/abuse).",
+        "improve": "Notas meliorare (qualitas translationis, fidelitas).",
+        "legal": "Obligationibus legalibus parere."
+      },
+      "sharing": {
+        "title": "Communicatio",
+        "body": "Data personalem non vendimus. Data limitata cum processoribus (e.g., notificationes push, analytics) sub contractibus strictis communicare possumus."
+      },
+      "rights": {
+        "title": "Iura tua",
+        "body": "Secundum regionem tuam (e.g., GDPR/UK GDPR/CPRA), accessum, correctionem, deletionem, vel opt-out certae processationis postulare potes. Contacta: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Retentio datae & securitas",
+        "body": "Tantum quod ad servitium operandum necessarium servamus et securitatem industriae-standard applicamus. Contentum E2E a nobis decrypti non potest."
+      },
+      "children": {
+        "title": "Pueri",
+        "body": "Chatforia non ad pueros sub 13 (vel ut lex localis tua requirit) dirigitur."
+      },
+      "changes": {
+        "title": "Mutationes",
+        "body": "Updates hic ponemus et diem “Ultimum renovatum” revisemus."
       },
       "contact": {
-        "q": "Contacta auxilium",
-        "a": "Scribe ad support@chatforia.com. Include screenshotas et versionem app."
+        "title": "Contactus",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Contacta Nos",
-    "successMsg": "Gratias—manus nostra per email respondebit.",
-    "errorSend": "Mittere non potuimus. Scribe ad support@chatforia.com.",
-    "form": {
-      "nameLabel": "Nomen",
-      "emailLabel": "Email",
-      "messageLabel": "Nuntius",
-      "sendCta": "Mitte"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Consilium Secretum",
-    "lastUpdated": "Ultimum renovatum:",
-    "intro": {
-      "body": "Hoc Consilium Secretum explicat quomodo Chatforia (“nos”) notitias colligat, utatur, communicet cum app et servitiis tuis utens. Chatforiam sic designamus ut notitias quas videre possumus minimemus."
     },
-    "infoWeCollect": {
-      "title": "Quas notitias colligimus",
-      "account": "Info rationis (ex. email/telephonium) ad rationem creandam et securandam.",
-      "encrypted": "Contenta ciffrata (nuntii/voces) E2E sunt; ea legere non possumus.",
-      "diagnostics": "Diagnostica/usum ut crash logs, genus instrumenti, vel analytics tenues ad perficiendum meliorandum."
+    "terms": {
+      "title": "Condiciones servitii",
+      "lastUpdated": "Ultimum renovatum:",
+      "intro": {
+        "body": "Chatforia utens his Condicionibus consentis. Si non consentis, servitio ne utere."
+      },
+      "accounts": {
+        "title": "Rationes",
+        "itemAccurateInfo": "Info accuratam praebe et credentiales secure serva.",
+        "itemResponsibility": "Responsabilis actionis in ratione tua es."
+      },
+      "acceptableUse": {
+        "title": "Usus acceptabilis",
+        "itemNoAbuse": "Nullum contentum illegale, abusive, vel infringens; nullum spam vel abuse automaticum.",
+        "itemSuspend": "Violationes pro suspendere/terminare possumus."
+      },
+      "sms": {
+        "title": "Communicationes SMS",
+        "body": "Si numerum telephonicum mobilem praebes, consentis Chatforia nuntia SMS de ratione et usu servitii mittere, ut alertae login, notificationes securitatis, et nuntii de colloquiis quae incipis vel participas. SMS pro nuntiis promotionalibus vel marketing sine consensu explicito tuo non utimur. Taxae standard nuntii et datae applicari possunt. Nuntia SMS optare ex quovis tempore potes respondendo cum keyword opt-out sustentato (exempli gratia “STOP”) vel notificationes in app renovando."
+      },
+      "yourContent": {
+        "title": "Contentum tuum",
+        "body": "Iura contenti tui retines. Nobis iura necessaria ad servitium operandum concedis (e.g., routing, storage, translatio)."
+      },
+      "disclaimer": {
+        "title": "Disclaimers & responsabilitas",
+        "body": "Servitium “ut est” sine warranty praebetur. Ad plenissimum extentum lege permissum, Chatforia pro damnis indirectis vel consequentialibus non responsabilis est."
+      },
+      "changes": {
+        "title": "Mutationes",
+        "body": "Has condiciones renovare possumus; usus continuus post mutationes acceptationem significat."
+      },
+      "contact": {
+        "title": "Contactus",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "Quo modo utimur",
-      "provide": "Praebere et servitium securare (auth, detectio spam/abusūs).",
-      "improve": "Meliorare proprietates (qualitas translationis, firmitas).",
-      "legal": "Obligationibus legalibus obtemperare."
+    "doNotSell": {
+      "title": "Noli vendere vel communicare informationem personalem meam",
+      "body": "Chatforia informationem personalem non vendit. Residentes Californiae petitiones sub CPRA submittere adhuc possunt cum button infra.",
+      "cta": "Petitionem submitte"
     },
-    "sharing": {
-      "title": "Communicatio",
-      "body": "Notitias personales non vendimus. Parvas notitias cum processorum (ex. notificationes push, analytics) sub pactis strictis communicare possumus."
+    "cookies": {
+      "title": "Configuratiōnes Cookie",
+      "body": "Chatforia minimal cookies (e.g., session, securitas) utitur. Cookies tertii ads non utimur. Cookies per configuratiōnes navigatori tui gere."
     },
-    "rights": {
-      "title": "Iura tua",
-      "body": "Secundum regionem (ex. GDPR/UK GDPR/CPRA), petere potes accessum, correctionem, deletionem, vel opt-out. Contactus: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Status numeri telephonici load non potuimus.",
+      "lock": "Claude",
+      "noNumberAssigned": "Nullus numerus assignatus. Per codicem areae unum elige ad textum incipiendum.",
+      "pickNumber": "Numerum elige",
+      "phoneNumber": "Numerus telephonicus"
     },
-    "retention": {
-      "title": "Retentio & securitas",
-      "body": "Tantum quod opus est ad servitium operandum retinemus et securitatem industriae gradus adhibemus. Contentum E2E a nobis decriptari non potest."
+    "startChatModal": {
+      "title": "Colloquium incipe",
+      "quickPicker": "Picker celer",
+      "to": "Ad",
+      "nameOrUsername": "Nomen, nomen usoris scribe",
+      "nameUsernamePhoneEmail": "Nomen, nomen usoris, numerum, vel email scribe…",
+      "startWithSelected": "Cum selectis colloquium incipe",
+      "searchByUsernameOrPhone": "Per nomen usoris vel numerum telephonicum quaere",
+      "search": "Quaere",
+      "searchPrompt": "Nomen usoris vel numerum scribe et Quaere preme.",
+      "pickFromContacts": "Vel ex contactibus elige",
+      "addContact": "Contactum adde",
+      "show": "Monstra",
+      "add": "Adde",
+      "close": "Claude",
+      "selectedCount": "{{count}} selecti",
+      "pickAtLeastOne": "Saltem unum receptorem elige.",
+      "saveContactsHint": "Intratae phone/email postquam eas ut contactus servaveris available erunt.",
+      "failedBulkStart": "Cum selectis receptoriibus colloquium incipere defecit.",
+      "noResults": "Nulli eventus",
+      "mode": "Modus",
+      "group": "Grex",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Nomen gregis (optionale)",
+      "firstMessageOptional": "Primus nuntius (optionale sed commendatum)",
+      "createGroup": "Gregem crea",
+      "sendBroadcast": "Broadcast mitte"
     },
-    "children": {
-      "title": "Pueri",
-      "body": "Chatforia non destinatur minoribus infra 13 (vel ut lex tua requirit)."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Occasus solis",
+      "solarized": "Solarizatum",
+      "velvet": "Velvetum"
     },
-    "changes": {
-      "title": "Mutationes",
-      "body": "Hic updates ponemus et diem “Ultimum renovatum” mutabimus."
+    "sounds": {
+      "freeNotice": "In Free es — toni premium monstrantur sed clausi. Upgrade ad omnes aperiendos.",
+      "preview": "Praevisionem",
+      "resetToDefaults": "Ad defaults reset",
+      "notificationSounds": "Sonī notificationis",
+      "messageTone": "Tonus nuntii",
+      "default": "Defalta",
+      "vibrate": "Vibra",
+      "dreamer": "Somnator",
+      "notify": "Notifica",
+      "pop": "Pop",
+      "pulsatingSound": "Sonus pulsans",
+      "textMessage": "Nuntius textus",
+      "xylophone": "Xylophonum",
+      "classic": "Classicum",
+      "urgency": "Urgentia",
+      "bells": "Tintinnabula",
+      "chimes": "Chimes",
+      "digitalPhone": "Telephonum digitale",
+      "melodic": "Melodicum",
+      "organNotes": "Notae organi",
+      "soundReality": "Sonus realitatis",
+      "street": "Via",
+      "universfield": "Universfield"
     },
-    "contact": {
-      "title": "Contactus",
-      "body": "privacy@chatforia.com • [Nomen iuridicum societatis], [Oratio]"
-    }
-  },
-
-  "terms": {
-    "title": "Termini Servitii",
-    "lastUpdated": "Ultimum renovatum:",
-    "intro": {
-      "body": "Chatforia utens his Terminus consentis. Si non consentis, noli uti."
+    "premiumGuard": {
+      "requiresPremium": "Haec nota consilium Premium requirit."
     },
-    "accounts": {
-      "title": "Rationes",
-      "itemAccurateInfo": "Praebe info veram et credentiales tueare.",
-      "itemResponsibility": "Pro actionibus in ratione tua respondes."
+    "aiSettings": {
+      "title": "Configuratiōnes AI",
+      "controlIntro": "Translationem, responsiones callidas, et auto-responsiones ForiaBot controla.",
+      "save": "Configuratiōnes AI serva",
+      "autoTranslateIncoming": "Nuntios incoming auto-translata",
+      "showOriginalAlongside": "Textum originale iuxta translationem monstra",
+      "enableSmartReplies": "Responsiones callidas activa",
+      "smartRepliesHint": "Ultimos paucos nuntios receptos (sanitized) ad AI mitte ut responsiones celeres suggerat.",
+      "maskProfanity": "Profanitas in suggestionibus AI masca",
+      "maskProfanityHint": "Si activum, suggestiones ab AI redditae verba flagged masca habebunt",
+      "foriaBot": "Auto-Responder ForiaBot",
+      "enableAutoReply": "Auto-responsio cum occupatus sum activa",
+      "autoReplyMode": "Modus auto-responsionis",
+      "cooldownSeconds": "Cooldown (secundae)",
+      "off": "Off",
+      "on": "On",
+      "signature": "Signatura",
+      "autoReply": "Auto-responsio",
+      "activeUntilOptional": "Activa usque ad (optionale)",
+      "saved": "Praeferentiae AI servatae",
+      "saveFailed": "Configuratiōnes AI servare defecit",
+      "translateOff": "Off",
+      "translateTagged": "Tantum cum @translated vel tagged",
+      "translateAll": "Omnes nuntios incoming translata",
+      "modeDm": "Tantum 1:1 colloquia",
+      "modeMention": "Tantum cum @mentionor",
+      "modeAll": "Omnes nuntii inbound"
     },
-    "acceptableUse": {
-      "title": "Usus acceptus",
-      "itemNoAbuse": "Nihil illicitum, abusivum, aut violans; nullus spam vel abusus automatis.",
-      "itemSuspend": "Pro violationibus suspendere/terminare possumus."
+    "accessibilitySettings": {
+      "title": "Accessibilitas & Alertae",
+      "accessibility": "Accessibilitas",
+      "accessibilityDesc": "Optiones ut Chatforia facilius sine sono utatur.",
+      "interfaceFontSize": "Magnitudo fontis interfaciei",
+      "interfaceFontSizeHelp": "Normali magnitudine incipit. Auge si textum maiorem in configuratiōnibus accessibilitatis praeferes.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Notificationes",
+      "notificationsDesc": "Alertae visuales pro nuntiis & vocationibus\nBannera et blink tituli monstra ne activitatem misses.",
+      "vibrateOnNew": "Vibra in nuntiis novis (cum sustentatum)\nVibrationem apparatūs cum notificationibus excita.",
+      "flashOnCall": "Screen flash in vocatione incoming\nBreve fulgur clarum cum vocatio sonat.",
+      "liveCaptions": "Captiones vivae (vocationes)",
+      "captionFontSize": "Magnitudo fontis captionis",
+      "captionBackground": "Fundus captionis",
+      "light": "lux",
+      "dark": "tenebrae",
+      "transparent": "transparens",
+      "voiceNotes": "Notae vocis",
+      "autoTranscribeVoiceNotes": "Notas vocis auto-transcribe",
+      "autoTranscribeVoiceNotesDesc": "Transcriptum ad nuntios audio receptos adiunge.",
+      "changesSavedInstantly": "Mutationes statim servantur.",
+      "loadFailed": "Configuratiōnes load defecit",
+      "visualAlerts": "Alertae visuales pro nuntiis & vocationibus",
+      "visualAlertsDesc": "Bannera et blink tituli monstra ne activitatem misses.",
+      "vibrateOnNewShort": "Vibra in nuntiis novis (cum sustentatum)",
+      "vibrateOnNewDesc": "Vibrationem apparatūs cum notificationibus excita.",
+      "flashOnCallShort": "Screen flash in vocatione incoming",
+      "flashOnCallDesc": "Breve fulgur clarum cum vocatio sonat."
     },
-    "yourContent": {
-      "title": "Contentum tuum",
-      "body": "Iura contenti tui retines. Nobis tribuis iura necessaria ad servitium operandum (ex. directio, repositio, translatio)."
+    "privacySection": {
+      "strictE2EE": "Encryptio end-to-end stricta",
+      "ciphertextOnlyNote": "Tantum ciphertext in servo serva. AI/Translatio et praevisiones moderationis disabilitat."
     },
-    "disclaimer": {
-      "title": "Disclaimer & responsabilitas",
-      "body": "Servitium “ut est” praebetur sine warantiis. Quantum lex permittit, Chatforia non tenetur pro damnis indirectis vel consequentibus."
+    "linkedDevicesPanel": {
+      "title": "Apparati connexi",
+      "noneFound": "Nulli apparati connexi inventi.",
+      "refresh": "Renova"
     },
-    "changes": {
-      "title": "Mutationes",
-      "body": "Terminos hos renovare possumus; usus continuus post mutationes acceptationem significat."
+    "help": {
+      "title": "Auxilium",
+      "howCanWeHelp": "Quomodo te adiuvare possumus?",
+      "helpCenter": "Centrum auxilii",
+      "contactUs": "Nobis contacta",
+      "quickTopics": "Topica celeria",
+      "searchExamples": "Quaere pro “translata”, “subsidia”, vel “privatum”.",
+      "cantLogin": "Intra non potes",
+      "paymentsBilling": "Paymenta / billing",
+      "reportAbuse": "Abuse refer",
+      "searchHelpArticles": "Articulos auxilii quaere",
+      "search": "Quaere"
     },
-    "contact": {
-      "title": "Contactus",
-      "body": "support@chatforia.com • [Nomen iuridicum societatis], [Oratio]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Noli Vendere vel Communicare Meas Notitias Personales",
-    "body": "Chatforia notitias personales non vendit. Cives Californiae tamen secundum CPRA petitiones mittere possunt per bullam infra.",
-    "cta": "Mitte petitionem"
-  },
-
-  "cookies": {
-    "title": "Occasus Cookie",
-    "body": "Chatforia cookies minimas utitur (ex. sessio, securitas). Cookies tertiarum partium ad ads non utimur. Cookies in navigatro tuo regere potes."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Statum numeri telephonii onerare non possumus.",
-    "lock": "Claude",
-    "noNumberAssigned": "Nullus numerus attributus. Selige per codicem regionis ut nuntiare incipias.",
-    "pickNumber": "Selige numerum",
-    "phoneNumber": "Numerus telephonii"
-  },
-
-  "startChatModal": {
-    "title": "Incipe colloquium",
-    "quickPicker": "Elector celer",
-    "to": "Ad",
-    "nameOrUsername": "Scribe nomen, usoris nomen",
-    "nameUsernamePhoneEmail": "Scribe nomen, usoris nomen, telephonium, vel email…",
-    "startWithSelected": "Incipe cum selectis",
-    "searchByUsernameOrPhone": "Quaere per usoris nomen vel telephonium",
-    "search": "Quaere",
-    "searchPrompt": "Scribe usoris nomen vel telephonium et preme Quaere.",
-    "pickFromContacts": "Vel e contactis sume",
-    "addContact": "Addere Contactum",
-    "show": "Monstra",
-    "add": "Adde",
-    "close": "Claude",
-    "selectedCount": "{{count}} selecta",
-    "pickAtLeastOne": "Selige saltem unum receptorem.",
-    "saveContactsHint": "Ingressus telephonii/email postquam ut contactus serves praesto erunt.",
-    "failedBulkStart": "Colloquium cum selectis incipere non potuimus.",
-    "noResults": "Nulla inventa",
-    "mode": "Modus",
-    "group": "Grex",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Nomen gregis (opt.)",
-    "firstMessageOptional": "Primus nuntius (opt. sed commendatus)",
-    "createGroup": "Crea gregem",
-    "sendBroadcast": "Mitte broadcast"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Occasus solis",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "In Free es — toni praemii monstrantur sed clausi. Promove ut omnia reseres.",
-    "preview": "Praevidere",
-    "resetToDefaults": "Redde ad defalta",
-    "notificationSounds": "Sonitus Notificationum",
-    "messageTone": "Tonus nuntii",
-    "default": "Defaltum",
-    "vibrate": "Vibrare",
-    "dreamer": "Somniator",
-    "notify": "Notif.",
-    "pop": "Pop",
-    "pulsatingSound": "Sonus pulsans",
-    "textMessage": "Nuntius textus",
-    "xylophone": "Xylophonum",
-    "classic": "Classicus",
-    "urgency": "Urget",
-    "bells": "Campanae",
-    "chimes": "Tinniola",
-    "digitalPhone": "Telephonium digitale",
-    "melodic": "Melodicus",
-    "organNotes": "Notae organi",
-    "soundReality": "Sonus Realitatis",
-    "street": "Via",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Haec proprietas consilium Premium requirit."
-  },
-
-  "aiSettings": {
-    "title": "Occasus AI",
-    "controlIntro": "Gubernare translationem, responsa celeria, et ForiaBot autoresponsa.",
-    "save": "Serva Occasus AI",
-    "autoTranslateIncoming": "Sponte verte nuntios ingredientes",
-    "showOriginalAlongside": "Monstra originem iuxta versionem",
-    "enableSmartReplies": "Permitte Responsa Celeria",
-    "smartRepliesHint": "Mitte paucos nuntios proximos (purificatos) ad AI ut responsa celeria suadeat.",
-    "maskProfanity": "Verba obscena obtege in suggestionibus AI",
-    "maskProfanityHint": "Si activum est, suggestiones a AI reddita verba signata obtecta habebunt",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Permitte autoresponsum cum occupatus sum",
-    "autoReplyMode": "Modus autoresponsi",
-    "cooldownSeconds": "Intermissio (secunda)",
-    "off": "Off",
-    "on": "On",
-    "signature": "Subscriptio",
-    "autoReply": "Autoresponsum",
-    "activeUntilOptional": "Activum usque ad (opt.)",
-    "saved": "Praeferentiae AI servatae",
-    "saveFailed": "Occasus AI servare non potuimus",
-    "translateOff": "Off",
-    "translateTagged": "Modo cum @translated aut taggatus sum",
-    "translateAll": "Verte omnes nuntios ingredientes",
-    "modeDm": "Modo colloquia 1:1",
-    "modeMention": "Modo cum @memoror",
-    "modeAll": "Omnes nuntii ingredientes"
-  },
-
-  "accessibilitySettings": {
-    "title": "Accessibilitas & Monita",
-    "accessibility": "Accessibilitas",
-    "accessibilityDesc": "Optiones ut Chatforia facilius sine sono utaris.",
-    "interfaceFontSize": "Magnitudo fontis interfaciei",
-    "interfaceFontSizeHelp": "A magnitudine normali incipit. Auge si litteras maiores praeferes.",
-    "sm": "parv.",
-    "md": "med.",
-    "lg": "mag.",
-    "xl": "max.",
-    "notifications": "Notitiae",
-    "notificationsDesc": "Monita visualia pro nuntiis & vocibus\nMonstra vexilla et titulum micantem ne quid amittas.",
-    "vibrateOnNew": "Vibra ad nuntios novos (si sustinetur)\nVibrationem instrumenti cum notificationibus move.",
-    "flashOnCall": "Fulge schermam ad vocem ingredientem\nMicatio brevis clara cum vocatio sonat.",
-    "liveCaptions": "Subtituli vivi (vocationes)",
-    "captionFontSize": "Magnitudo fontis subtitulorum",
-    "captionBackground": "Fundus subtitulorum",
-    "light": "clarus",
-    "dark": "obscurus",
-    "transparent": "transparens",
-    "voiceNotes": "Vocis notae",
-    "autoTranscribeVoiceNotes": "Sponte transscribe voces\nAdiunge transcriptionem ad nuntios audio acceptos.",
-    "changesSavedInstantly": "Mutationes statim servantur.",
-    "loadFailed": "Occasus onerare non potuimus",
-    "visualAlerts": "Monita visualia pro nuntiis & vocibus",
-    "visualAlertsDesc": "Vexilla et titulum micantem ostende ne quid amittas.",
-    "vibrateOnNewShort": "Vibra ad nuntios novos (si sustinetur)",
-    "vibrateOnNewDesc": "Vibrationem instrumenti cum notificationibus move.",
-    "flashOnCallShort": "Fulge schermam ad vocem ingredientem",
-    "flashOnCallDesc": "Micatio brevis clara cum vocatio sonat."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Clausura E2E severa",
-    "ciphertextOnlyNote": "Serva tantum textum ciffratum in servo. AI/Translatio et praemonstra moderationis excluduntur."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Instrumenta Coniuncta",
-    "noneFound": "Nulla instrumenta coniuncta inventa.",
-    "refresh": "Recarga"
-  },
-
-  "help": {
-    "title": "Auxilium",
-    "howCanWeHelp": "Quo modo iuvare possumus?",
-    "helpCenter": "Centrum Auxilii",
-    "contactUs": "Contacta nos",
-    "quickTopics": "Argumenta celeria",
-    "searchExamples": "Conare quaerere “translate”, “backups”, vel “privacy”.",
-    "cantLogin": "Accedere non possum",
-    "paymentsBilling": "Solutiones/ratio",
-    "reportAbuse": "Abusum nuntia",
-    "searchHelpArticles": "Quaere articulos auxilii",
-    "search": "Quaere"
-  },
-
-  "peoplePage": {
-    "people": "Homines",
-    "search": "Quaere",
-    "searchPlaceholder": "Quaere per alias, nomen, usoris nomen, vel telephonium",
-    "filterSaved": "Filtra contactos servatos",
-    "noContactsFound": "Nulli contacti inventi",
-    "quickStart": "Celer initium",
-    "quickStartDesc": "Pauci modi celeres ad incipiendum.",
-    "importContacts": "Importa contactos tuos",
-    "add": "Adde",
-    "focusSearch": "Focus Quaestionem",
-    "import": "Importa",
-    "findOrAdd": "Inveni aut adde aliquem",
-    "searchByPhoneOrUsername": "Quaere per telephonium / usoris nomen",
-    "inviteFriends": "Invita amicos",
-    "inviteDesc": "Communica vinculum invitationis ut statim colloquaris.",
-    "getTheApp": "Adepta app",
-    "getTheAppDesc": "In motu mane cum Chatforia pro iOS et Android.",
-    "download": "Depone",
-    "syncTip": "Consilium: Nuntii tui per web et mobile synchroni manent."
-  },
-
-  "randomChat": {
-    "title": "Fortuitum Colloquium",
-    "description": "Mox alicui novum occurre. Te componemus et cubiculum temporarium aperiemus.",
-    "findMatch": "Inveni parem mihi",
-    "chatWithForia": "Chat cum Foria",
-    "chatWithForiaBot": "Chat cum ForiaBot",
-    "cancel": "Rescinde",
-    "close": "Claude",
-    "searching": "Quaeritur…",
-    "finding": "Invenitur…",
-    "looking": "Aliquem quaerimus…",
-    "startingForia": "Colloquium cum Foria incipitur…",
-    "partnerDisconnected": "Socius tuus se disiunxit.",
-    "noPartner": "Nemo nunc repertus.",
-    "connectedTo": "Coniunctus cum {{name}}",
-    "connected": "Coniunctus",
-    "idle": "Iners",
-    "partnerLeft": "Socius discessit.",
-    "stopped": "Sistitum.",
-    "skip": "Praeteri",
-    "save": "Serva",
-    "saveGuard": "Solum colloquia inter homines servari possunt",
-    "youAreChattingWith": "Colloqueris cum {{name}}",
-    "bot": "BOT",
-    "leave": "Relinque",
-    "sayHi": "Dic salve 👋",
-    "you": "Tu",
-    "typeMessage": "Scribe nuntium",
-    "send": "Mitte",
-    "partner": "Socius",
-    "withForia": "Cum Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Aperi menu navigationis",
-    "closeNav": "Claude menu navigationis",
-    "homeAria": "Domus Chatforia"
-  },
-
-  "login": {
-    "title": "Iterum salve",
-    "subtitle": "Intra rationem Chatforia",
-    "google": "Perge cum Google",
-    "apple": "Perge cum Apple",
-    "googleUnavailable": "Login Google non praesto",
-    "appleUnavailable": "Login Apple non praesto",
-    "or": "aut",
-    "email": "Email",
-    "emailPh": "tu@example.com",
-    "usernameLabel": "Nomen usoris",
-    "usernamePh": "Nomen tuum",
-    "passwordLabel": "Tessera",
-    "passwordPh": "Tessera tua",
-    "keepSignedIn": "Me contributum serva",
-    "forgot": "Tesseram oblitus es?",
-    "submit": "Intra",
-    "loggingIn": "Intratur…",
-    "newHere": "Novus es? <link>Crea rationem</link>",
-    "ssoUnavailable": "SSO nunc non praesto est. Utere nomine usoris & tessera.",
-    "error": {
-      "missing": "Credencialia tua insere.",
-      "invalid": "Nomen usoris vel tessera invalida",
-      "denied": "Accessus negatus.",
-      "unprocessable": "Petitio invalida. Revisa nomen/email et tesseram.",
-      "deviceLimit": "Limina instrumentorum ad planum Free attinguntur. Exi in alio instrumento vel ad Premium promove ut plura iungas.",
-      "premiumRequired": "Haec actio consilium Premium requirit."
+    "peoplePage": {
+      "people": "Personae",
+      "search": "Quaere",
+      "searchPlaceholder": "Per alias, nomen, nomen usoris, vel numerum telephonicum quaere",
+      "filterSaved": "Contactus servatos filtra",
+      "noContactsFound": "Nulli contactus inventi",
+      "quickStart": "Celeris start",
+      "quickStartDesc": "Paucae viae celeres ad incipiendum.",
+      "importContacts": "Contactus tuos importa",
+      "add": "Adde",
+      "focusSearch": "Quaestionem focus",
+      "import": "Importa",
+      "findOrAdd": "Inveni vel adde aliquem",
+      "searchByPhoneOrUsername": "Per numerum telephonicum / nomen usoris quaere",
+      "inviteFriends": "Amicos invita",
+      "inviteDesc": "Link invitationis tuam communica ad statim colloquendum incipiendum.",
+      "getTheApp": "App accipe",
+      "getTheAppDesc": "In motu cum Chatforia pro iOS et Android in contactu mane.",
+      "download": "Descende",
+      "syncTip": "Consilium: Nuntii tui per web et mobile synchrone manent."
+    },
+    "randomChat": {
+      "title": "Colloquium fortuitum",
+      "description": "Aliquis novus statim occurre. Te et cubiculum temporarium colloquii aperiemus. Primo anonyme colloqui. Amicum adde postea si rectum videtur.",
+      "findMatch": "Par mihi inveni",
+      "chatWithForia": "Cum Foria colloqui",
+      "chatWithForiaBot": "Cum ForiaBot colloqui",
+      "cancel": "Cancella",
+      "close": "Claude",
+      "searching": "Quaerens…",
+      "finding": "Inveniens…",
+      "looking": "Aliquem quaerens…",
+      "startingForia": "Colloquium cum Foria incipiens…",
+      "partnerDisconnected": "Socius disiunxit.",
+      "noPartner": "Nullus socius nunc inventus.",
+      "connectedTo": "Connexus ad {{name}}",
+      "connected": "Connexus",
+      "idle": "Idle",
+      "partnerLeft": "Socius discessit.",
+      "stopped": "Sistitur.",
+      "skip": "Salta",
+      "save": "Serva",
+      "saveGuard": "Tantum colloquia homo-ad-hominem servari possunt",
+      "youAreChattingWith": "Cum {{name}} colloquens es",
+      "bot": "BOT",
+      "leave": "Relinque",
+      "sayHi": "Salve dic 👋",
+      "you": "Tu",
+      "typeMessage": "Nuntium scribe",
+      "send": "Mitte",
+      "partner": "Socius",
+      "withRia": "Cum Ria",
+      "chatWithRia": "Cum Ria colloqui",
+      "startingRia": "Colloquium cum Ria incipiens…",
+      "ageDisclaimer": "Tantum fasciam aetatis servamus (non diem natalem exactam). Hoc ad paria Colloquii Fortuiti rationabilia servandum adhibetur. Ad personas (non tantum RiaBot) parandum, fasciam aetatis in Configuratiōnibus → Aetās & Colloquium Fortuitum constitue.",
+      "ageBandRequired": "Fasciam aetatis in Profilo → Aetās & Colloquium Fortuitum constitue ad personas parandas.",
+      "ageBandCallout": "Ad personas (non tantum RiaBot) parandum, fasciam aetatis in Configuratiōnibus → Aetās & Colloquium Fortuitum constitue.",
+      "subtitle": "Aliquis novus statim occurre, vel cum Ria colloqui elige.",
+      "start": "Colloquium incipe",
+      "matching": "Parans…",
+      "setAge": "Fasciam aetatis in Profilo → Aetās & Colloquium Fortuitum constitue ad personas parandas.",
+      "next": "Persona proxima",
+      "addFriend": "Amicum adde",
+      "requested": "Petitus",
+      "messageRia": "Ria nuntium mitte…",
+      "messageMatch": "Par tuo nuntium mitte…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "ibi",
+      "intro": "Salve ibi 👋 Ego Ria. Quid in mente tua?",
+      "greetings": {
+        "long1": "Salve {{name}} 👋 Adsum. Quid in mente tua?",
+        "long2": "Salve {{name}} 😊 Quid hodie loqui vis?",
+        "long3": "Salve {{name}}!! Aures meas habeo — quid agitur?",
+        "long4": "Bene te videre, {{name}} 👋 Quid hodie in mente tua?",
+        "long5": "Salve {{name}} 😊 Vis vent, interrogare, vel tantum colloqui?",
+        "long6": "Salve {{name}}!! Tempus habeo — quid loqui vis?",
+        "short1": "Salve {{name}}, adhuc adsum. Quid agitur?",
+        "short2": "Bene venisti iterum {{name}} 👋 Aliquid aliud addere voluisti?",
+        "short3": "Iterum reversus, {{name}}? 😊 Dic quid in mente tua.",
+        "short4": "Salve {{name}} 👋 Paratus es ubi reliquimus resumere?",
+        "short5": "Ita {{name}}? Audio 👂",
+        "short6": "O salve {{name}}!! Aliquid novum in mente tua?"
+      },
+      "header": {
+        "openNav": "Menu navigationis aperi",
+        "closeNav": "Menu navigationis claude",
+        "homeAria": "Domus Chatforia"
+      },
+      "login": {
+        "welcomeBack": "Bene venisti iterum",
+        "title": "Ad Chatforia perge",
+        "subtitleReturning": "In rationem Chatforia tuam intra",
+        "subtitle": "In rationem Chatforia tuam intra",
+        "google": "Perge cum Google",
+        "apple": "Perge cum Apple",
+        "googleUnavailable": "Signatio Google unavailable",
+        "appleUnavailable": "Signatio Apple unavailable",
+        "or": "vel",
+        "email": "Email",
+        "emailPh": "tu@example.com",
+        "usernameLabel": "Nomen usoris",
+        "usernamePh": "Nomen usoris tuum",
+        "passwordLabel": "Passwordum",
+        "passwordPh": "Passwordum tuum",
+        "keepSignedIn": "Me signatum serva",
+        "forgot": {
+          "title": "Passwordum oblitus",
+          "helper": "Email quem ad rationem Chatforia creandam usus es intra et link securum ad passwordum resettandum mittemus.",
+          "emailInvalid": "Email validum intra.",
+          "genericError": "Petitionem processare non potuimus. Tenta iterum momento.",
+          "sending": "Link reset mittens…",
+          "sendCta": "Link Reset mitte",
+          "sentLabel": "Missum!",
+          "sentHelper": "Si ratio cum illo email exstat, link reset passwordi misimus. Paucos minutas capere potest. Spam vel folder promotionum verifica.",
+          "previewDev": "Email praevide (Dev)",
+          "backToLogin": "Ad login redi"
+        },
+        "submit": "Intra",
+        "loggingIn": "Intrantes…",
+        "newHere": "Novus hic? <link>Rationem crea</link>",
+        "ssoUnavailable": "Single-sign-on nunc unavailable. Nomen usoris & passwordum utere.",
+        "error": {
+          "missing": "Credentiales tuas intra.",
+          "invalid": "Nomen usoris vel passwordum invalidum",
+          "denied": "Accessus denegatus.",
+          "unprocessable": "Petitio invalida. Nomen usoris/email et passwordum verifica.",
+          "deviceLimit": "Limitum apparatūs pro plano Gratuito attactus. In alio apparatu exi vel ad Premium upgrade ad plures apparatos connexos.",
+          "premiumRequired": "Haec actio consilium Premium requirit."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Signationem complens…"
+    },
+    "dialer": {
+      "title": "Vocationes",
+      "subtitle": "Keypad & recentes. (Si PSTN non uteris, vocationes ex capite colloquii incipe.)",
+      "enterNumberPh": "Numerum intra",
+      "call": "Voca",
+      "backspace": "Backspace",
+      "recents": "Recentes",
+      "recentsEmpty": "Nullae vocationes recentes adhuc.",
+      "enterNumber": "Numerum intra",
+      "enterNumberAria": "Numerum intra",
+      "key": "Clavis {{d}}",
+      "noRecents": "Nullae vocationes recentes adhuc."
+    },
+    "video": {
+      "title": "Video",
+      "chooseType": "Typum video elige.",
+      "directTitle": "Video directum",
+      "directDesc": "Vocatio camerae 1:1 cum alio usore.",
+      "directStart": "Incipe",
+      "roomsTitle": "Cubicula",
+      "roomsDesc": "Video multi-partium cum nomine cubiculi communicato.",
+      "roomsIntro": "Cubiculum multi-partium adiunge vel crea.",
+      "roomNameLabel": "Nomen cubiculi",
+      "roomNamePh": "e.g. team-standup",
+      "join": "Adiunge",
+      "deeplinkTip": "Consilium: direct link ad <code>/video?room=room-name</code> potes.",
+      "hub": {
+        "title": "Video",
+        "subtitle": "Typum video elige."
+      },
+      "direct": {
+        "title": "Video directum",
+        "subtitle": "Vocatio video 1:1 cum numero telephonico vel nomine usoris Chatforia incipe.",
+        "desc": "Vocatio camerae 1:1 cum alio usore.",
+        "start": "Incipe",
+        "callBtn": "Voca",
+        "callByPhone": {
+          "title": "Per telephonum voca"
+        },
+        "phone": {
+          "placeholder": "Telephonum intra (e.g., +1-555-123-4567)",
+          "aria": "Telephonum ad vocandum"
+        },
+        "tipInvite": "Consilium: Numerum paste et voca sine contactu servando. Non-usores per link invitabimus.",
+        "findUser": {
+          "title": "Usorem inveni"
+        },
+        "search": {
+          "placeholder": "Per nomen vel nomen usoris quaere",
+          "aria": "Per nomen vel nomen usoris quaere",
+          "btn": "Quaere"
+        }
+      },
+      "rooms": {
+        "title": "Cubicula",
+        "subtitle": "Cubiculum crea vel existentem adiunge eodem nomine scribendo.",
+        "desc": "Video multi-partium cum nomine cubiculi communicato.",
+        "roomLabel": "Nomen cubiculi",
+        "roomPlaceholder": "e.g. team-standup",
+        "roomAria": "Nomen cubiculi",
+        "joinCreate": "Adiunge / Crea",
+        "tip": "Consilium: hoc nomen cum aliis communica, vel direct link ad <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Vocatio video directam 1:1 incipe.",
+      "findUserLabel": "Usorem inveni",
+      "findUserPh": "Per nomen vel nomen usoris quaere",
+      "search": "Quaere",
+      "call": "Voca"
+    },
+    "phoneWarning": {
+      "title": "Numerus tuus mox expirat",
+      "body": "Numerus tuus {{number}} die {{date}} liberabitur nisi reactivetur.",
+      "button": "Numerum meum serva"
+    },
+    "support": {
+      "helpFab": "Auxilium",
+      "openSupportAria": "Auxilium aperi",
+      "badge": "Auxilium",
+      "heading": "Quomodo te adiuvare possumus?",
+      "tabs": {
+        "help": "Centrum auxilii",
+        "contact": "Nobis contacta"
+      },
+      "searchPlaceholder": "Articulos auxilii quaere…",
+      "searchAria": "Auxilium quaere",
+      "searchBtn": "Quaere",
+      "quickTopicsLabel": "Topica celeria",
+      "quickTopics": {
+        "login": "Intra non potes",
+        "billing": "Paymenta / billing",
+        "abuse": "Abuse refer"
+      },
+      "trySearching": "Quaere pro “translata”, “subsidia”, vel “privatum”.",
+      "article": "Articulus",
+      "openArticle": "Articulum aperi",
+      "contactIntro": "Per email respondebimus. Details include ut problema reproducamus.",
+      "topicAria": "Topicum elige",
+      "messagePlaceholder": "Nuntium tuum scribe…",
+      "sendBtn": "Mitte",
+      "sent": "Nuntius missus. Per email respondebimus.",
+      "sendError": "Mittere non potuimus. Email support@chatforia.com."
+    },
+    "encryptionRecovery": {
+      "title": "Encryption gere",
+      "description": "Subsidia crea, restitue, aperi, vel clavem encryptionis reseta.",
+      "alert": {
+        "keyRequiredTitle": "Clavis encryptionis requiritur",
+        "keyRequiredBody": "Hic navigator nuntios encryptos tuos nunc decryptare non potest. Clavem restitue, aperi, vel reseta ad continuandum."
+      },
+      "sections": {
+        "createBackup": "Subsidium clavis crea",
+        "restoreFromBackup": "Ex subsidio rationis restitue",
+        "resetEncryption": "Encryption reseta"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Passcode unlock (apparatus praesens)",
+          "description": "Ad claves localiter decryptandas ante exportandum adhibetur"
+        },
+        "backupPassword": {
+          "label": "Passwordum subsidii",
+          "description": "Ad fasciculum subsidii encryptandum adhibetur"
+        },
+        "restoreBackupPassword": {
+          "label": "Passwordum subsidii",
+          "description": "Passwordum quod cum clavem in iPhone subsidias creavisti"
+        },
+        "newLocalPasscode": {
+          "label": "Novum passcode locale",
+          "description": "Claves in hoc navigatore in quiete protege"
+        },
+        "resetLocalPasscode": {
+          "label": "Novum passcode locale",
+          "description": "Ante resetandum requiritur ut nova clavis in hoc apparatu protegetur"
+        }
+      },
+      "actions": {
+        "unlockKey": "Clavem encryptionis aperi",
+        "restoreFromBackup": "Ex subsidio rationis restitue",
+        "resetEncryption": "Encryption reseta"
+      },
+      "messages": {
+        "backupCreated": "Subsidium clavis creatum et descensum.",
+        "keyUnlocked": "Clavis encryptionis aperta.",
+        "keyRestored": "Clavis ex subsidio rationis restituta.",
+        "resetSuccess": "Encryptio feliciter reseta."
+      },
+      "errors": {
+        "restoreIncomplete": "Restitutio clavis incompleta vel incorrecta pro hac ratione",
+        "noBackup": "Nullum subsidium encryptum pro hac ratione exstat",
+        "missingPublicKey": "Subsidium clavis publicae caret",
+        "noServerPublicKey": "Haec ratio nunc clavis publicam server non exponit",
+        "serverBackupMismatch": "Subsidium server cum clave encryptionis rationis currentis non concordat",
+        "incompleteMetadata": "Metadata subsidii incompleta",
+        "resetIncomplete": "Resetatio encryptionis non recte completa"
+      },
+      "confirm": {
+        "reset": "Encryption pro hac ratione reseta?\n\nNuntii encrypti veteres illegibiles fieri possunt nisi clavem originalem postea restituis."
+      },
+      "resetDescription": "Hoc novam clavem encryptionis pro ratione tua generat. Nuntii encrypti veteres illegibiles fieri possunt nisi clavem originalem postea restituis."
+    },
+    "footer": {
+      "plans": "Consilia & Pretia",
+      "about": "De Chatforia",
+      "careers": "Cursus",
+      "press": "Press",
+      "advertise": "Advertise",
+      "contact": "Nobis contacta",
+      "help": "Centrum auxilii",
+      "status": "Pagina status",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Consilium privatum",
+      "terms": "Condiciones servitii",
+      "cookies": "Configuratiōnes Cookie",
+      "doNotSell": "Noli vendere info meam",
+      "language": "Lingua",
+      "contactShort": "Contactus",
+      "aria": "Footer",
+      "homeAria": "Domus Chatforia",
+      "section": {
+        "company": "SOCIETAS",
+        "support": "AUXILIUM",
+        "downloads": "DESCENSIONES",
+        "legal": "LEGAL"
+      },
+      "links": {
+        "plans-pricing": "Consilia & Pretia",
+        "about-chatforia": "De Chatforia",
+        "careers": "Cursus",
+        "press": "Press",
+        "advertise": "Advertise",
+        "getting-started": "Incipere",
+        "help-center": "Centrum auxilii",
+        "contact-us": "Nobis contacta",
+        "status-page": "Pagina status",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Consilium privatum",
+        "terms-of-service": "Condiciones servitii",
+        "do-not-sell-my-info": "Noli vendere info meam",
+        "cookie-settings": "Configuratiōnes Cookie"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patentum pendens",
+      "backToTop": "↑ Ad summum"
+    },
+    "press": {
+      "title": "Press",
+      "contactLine": "Pro inquisitionibus mediae, nos attinge ad",
+      "boilerplateTitle": "Boilerplate",
+      "boilerplateBody": "Chatforia est app nuntiationis privatum-primum quae colloquium cross-linguae facile facit. Nuntii end-to-end encrypti defalta sunt, et translatio inaedificata 100+ linguas in real time sustentat. Usoribus nuntios evanescentes activare, recepta lectionis optionalia servare, et per apparatos synchrone possunt. Disponibile in iOS, Android, et web.",
+      "assetsTitle": "Assets brand",
+      "assetsSubtitle": "Logos, screenshots, et imagines producti.",
+      "downloadCta": "Media kit descende",
+      "downloadTitle": "App accipe",
+      "scanTip": "In desktop? Scande cum telephono ad app accipiendum.",
+      "qrAria": "Situm Chatforia aperi",
+      "appStore": "In App Store descende",
+      "googlePlay": "In Google Play accipe"
+    },
+    "careers": {
+      "title": "Cursus",
+      "intro": "Parva turma fundans Chatforia aedificamus — nuntiatorem globalem privatum in web, iOS, et Android lancinantem. Si privatum, encryptionem, et experientias usoris delectabiles curas, te audire volumus.",
+      "openRoles": "<b>Munera fundantia aperta:</b> Dux Ingeniarius Full-stack, Ingeniarius Backend (Node.js), Ingeniarius Frontend/Web (React), Ingeniarius Mobile (iOS), Ingeniarius Mobile (Android), DevOps/SRE, Ingeniarius Securitatis & Encryptionis, Ingeniarius Telecom (Twilio + eSIM).",
+      "apply": "Quomodo applicare: Button infra utere ad resume et links per email mittendum.",
+      "emailCta": "Resume tuum email",
+      "whyNow": "Cur nunc adiungere?",
+      "whyBullets": "• Fundamentum nuntiatoris globalis novi aedifica.\n• Emendationes per web, iOS, et Android utere.\n• Directe cum fundatore in architectura et directione producti labora.\n• Areas alt-impact stack posside: nuntiatio, vox, video, encryptio, telecom, AI.\n• In principio adiunge — antequam basis usorum crescit."
+    },
+    "about": {
+      "title": "De Chatforia",
+      "description": "Chatforia est nuntiator securus, multilingualis cum encryptione end-to-end, translatione instantanea, et vocatione vocis/video. Missio nostra simplex est: homines connectere adiuva — secure, privatim, et trans linguas.",
+      "valuesTitle": "Quid aestimamus",
+      "values": {
+        "privacy": "<b>Privatum-primum:</b> Encryptio E2E defalta.",
+        "access": "<b>Accessus omnibus:</b> Auto-translata 100+ linguas.",
+        "control": "<b>Imperium:</b> Nuntii evanescentes & recepta lectionis optionalia.",
+        "privacy_aria": "Privatum-primum: Encryptio E2E defalta.",
+        "access_aria": "Accessus omnibus: Auto-translata 100+ linguas.",
+        "control_aria": "Imperium: Nuntii evanescentes et recepta lectionis optionalia."
+      },
+      "howTitle": "Quomodo Chatforia operatur",
+      "howDescription": "Nuntii in apparatu tuo encryptantur antequam exeunt. Translatio, subsidia, et sync apparatūs designata sunt ut minimum quod servi nostri videre possint."
+    },
+    "advertise": {
+      "title": "Cum Chatforia advertise",
+      "description": "Usoribus nuntiationis engaged cum placementibus tasteful, brand-safe attinge. Inventory banner in locis altis-visibility offerimus, sponsorshipes, et promos domus. Subscribentes Premium ads non vident.",
+      "adsense": {
+        "withPubIdShort": "Inventory etiam per Google AdSense servimus. Chatforia cum ID publisher {{pubId}} target potes, vel formam infra pro sponsorshipibus directis utere.",
+        "noPubIdShort": "Inventory aliquod etiam per Google AdSense servimus. Sponsorshipes directae available — formam infra utere."
+      },
+      "inventoryHeader": "Inventory & Specs",
+      "placement": {
+        "displayBadge": "Display",
+        "acceptedSizes": "Magnitudines acceptae",
+        "adsenseSlot": "Slot AdSense:"
+      },
+      "noPlacementsPublic": "Inventory ads nostrum finalizamus. De campaign tua dic et placementes commendabimus.",
+      "whyHeader": "Cur Chatforia?",
+      "why": {
+        "highSession": "Frequentia sessionis alta et tempus dwell in UI colloquii",
+        "brandSafe": "Formae brand-safe; capping frequentiae respectuosum",
+        "sponsoredMoments": "Momenta sponsored (e.g., modal “Colloquium incipe”) available",
+        "deals": "Deals directae vel programmatic per AdSense/Google Ads"
+      },
+      "contactHeader": "Contactus",
+      "form": {
+        "submittedMsg": "Gratias! Inquisitio tua in via est. Brevi sequemur.",
+        "missingRequired": "Nomen, email, et nuntium imple.",
+        "successToast": "Gratias! Brevi in contactu erimus.",
+        "mailtoInfo": "Clientem email tuum ad inquisitionem mittendam aperiens…",
+        "nameLabel": "Nomen tuum",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Email",
+        "emailPlaceholder": "tu@company.com",
+        "companyLabel": "Societas",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Budget mensilis (optionale)",
+        "budgetPlaceholder": "e.g. $1,000–$20,000+",
+        "messageLabel": "De campaign tua dic",
+        "messagePlaceholder": "Targeting, dies, KPIs, praeferentiae placementis…",
+        "sendCta": "Inquisitionem mitte"
+      },
+      "legal": {
+        "disclaimerStart": "Submittens, consentis nostris",
+        "terms": "Condicionibus",
+        "and": "et",
+        "privacy": "Consilio privato"
+      }
     }
   }
 }

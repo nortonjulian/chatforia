@@ -189,6 +189,7 @@ router.patch('/me', requireAuth, async (req, res) => {
     }
 
     const {
+      username, 
       enableSmartReplies,
       showReadReceipts,
       allowExplicitContent,
@@ -215,6 +216,33 @@ router.patch('/me', requireAuth, async (req, res) => {
 
     // Build whitelist of updatable fields
     const data = {};
+    // ✅ Username update (for OAuth onboarding)
+    if (typeof username === 'string' && username.trim()) {
+      const clean = username.trim();
+
+      // Basic validation
+      if (clean.length < 3 || clean.length > 20) {
+        return res.status(400).json({ error: 'Username must be 3–20 characters' });
+      }
+
+      if (!/^[a-zA-Z0-9_]+$/.test(clean)) {
+        return res.status(400).json({ error: 'Username can only contain letters, numbers, and underscores' });
+      }
+
+      // Check uniqueness (case-insensitive)
+      const existing = await prisma.user.findFirst({
+        where: {
+          username: { equals: clean, mode: 'insensitive' },
+          NOT: { id: Number(req.user.id) },
+        },
+      });
+
+      if (existing) {
+        return res.status(409).json({ error: 'Username already taken' });
+      }
+
+      data.username = clean;
+    }
 
     if (typeof enableSmartReplies === 'boolean') {
       data.enableSmartReplies = enableSmartReplies;
@@ -443,6 +471,14 @@ router.patch('/me', requireAuth, async (req, res) => {
         data,
         select: {
           id: true,
+          username: true,
+          email: true,
+          role: true,
+          plan: true,
+          publicKey: true,
+          avatarUrl: true,
+          preferredLanguage: true,
+          uiLanguage: true,
           enableSmartReplies: true,
           showReadReceipts: true,
           allowExplicitContent: true,
@@ -450,8 +486,6 @@ router.patch('/me', requireAuth, async (req, res) => {
           privacyBlurOnUnfocus: true,
           privacyHoldToReveal: true,
           notifyOnCopy: true,
-          preferredLanguage: true,
-          uiLanguage: true,
           strictE2EE: true,
           theme: true,
           cycling: true,
@@ -461,9 +495,7 @@ router.patch('/me', requireAuth, async (req, res) => {
           ageAttestedAt: true,
           wantsAgeFilter: true,
           randomChatAllowedBands: true,
-          // 👇 include in response
           foriaRemember: true,
-          // 👇 NEW: voicemail fields in response
           voicemailEnabled: true,
           voicemailAutoDeleteDays: true,
           voicemailForwardEmail: true,

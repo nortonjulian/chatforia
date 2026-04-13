@@ -108,7 +108,7 @@ function verifyMfaJWT(token) {
   }
 }
 
-function issueSession(res, user) {
+export function issueSession(res, user) {
   const payload = {
     id: Number(user.id),
     email: user.email,

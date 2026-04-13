@@ -258,6 +258,8 @@ model User {
   autoResponderCooldownSec Int               @default(120)
   autoResponderActiveUntil DateTime?
   autoResponderSignature   String?
+  googleSub                String? @unique
+  appleSub                 String? @unique
 
   // ---------- Billing ----------
   billingProvider       String?
@@ -272,7 +274,7 @@ model User {
   currency       String?     @db.VarChar(8)
   firstPaidAt    DateTime?
 
-  iccid String?
+  iccid          String?
 
   publicKey                 String?
   encryptedPrivateKeyBundle String?

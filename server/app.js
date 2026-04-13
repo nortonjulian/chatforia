@@ -142,6 +142,7 @@ import { httpsRedirect } from './middleware/httpsRedirect.js';
 import session from 'express-session';
 import passport from './auth/passport.js';
 import oauthRouter from './routes/oauth.routes.js';
+import oauthMobileRouter from './routes/oauth.mobile.js';
 
 import twilioStatusWebhook from './webhooks/status.js';
 
@@ -331,7 +332,7 @@ export function createApp() {
 
   // ✅ UPDATED: include ^\/_debug(\/|$)
   const csrfBypassPattern =
-    /^\/auth\/(login|register|logout|apple\/callback)$|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
+  /^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
 
   const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
 
@@ -413,6 +414,7 @@ export function createApp() {
 
   // OAuth under /auth
   app.use('/auth', oauthRouter);
+  app.use('/auth/oauth', oauthMobileRouter);
 
   // Auth sub-routers before primary auth
   app.use('/auth', emailVerification); // /auth/email/*
