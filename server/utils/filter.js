@@ -8,7 +8,7 @@ const filter = new BadWords();
  * @returns {boolean}
  */
 export function isExplicit(text) {
-  if (!text) return false; // handle '', null, undefined safely
+  if (!text) return false;
   const hits = filter.check(text);
   return Array.isArray(hits) && hits.length > 0;
 }
@@ -20,7 +20,6 @@ export function isExplicit(text) {
  * @returns {string | undefined}
  */
 export function cleanText(text, strict = false) {
-  // If there's literally nothing there, just return it unchanged
   if (text === undefined || text === null) return text;
   if (text === '') return '';
 
