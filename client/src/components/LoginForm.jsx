@@ -21,14 +21,13 @@ import { useTranslation } from 'react-i18next';
 
 import { loadKeysLocal } from '@/utils/keys';
 import { restoreRemoteKeyBackupToLocal } from '@/utils/keyBackupRemote';
+import { API_BASE_URL } from '@/config';
+
 
 /* ---------------- env + helpers ---------------- */
 
 // Prefer an absolute API in prod; fall back to a same-origin dev proxy.
-const apiBase =
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_API_URL ||
-  '';
+const apiBase = API_BASE_URL;
 
 const oauthBase = (import.meta.env.VITE_OAUTH_BASE_PATH || '/auth').replace(/\/$/, '');
 const webPrefix = import.meta.env.VITE_WEB_API_PREFIX || '';

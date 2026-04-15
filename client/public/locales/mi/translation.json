@@ -2,485 +2,665 @@
   "common": {
     "save": "Tiaki",
     "cancel": "Whakakore",
-    "refresh": "Tāmata",
+    "refresh": "Whakahou",
     "noMatches": "Kāore he ōrite",
     "cancelAria": "Whakakore",
     "copy": "Tārua",
-    "copied": "Kua tāruatia!"
+    "copied": "Kua tārua!",
+    "errorWithMessage": "Hapa: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "Peke ki te ihirangi matua"
   },
-
-  "profile": {
-    "title": "Kōtaha Kaiwhakamahi",
-    "preferredLanguage": "Reo pai",
-    "chooseLanguage": "Tīpakohia he reo",
-    "mustLogin": "Me takiuru koe kia tiro i ngā tautuhinga.",
-    "autoTranslate": "Whakamaori-aunoa i ngā karere",
-    "showOriginalWithTranslation": "Whakaatu te taketake me te whakamaoritanga",
-    "showOriginalAndTranslation": "Whakaatu te tuhinga taketake me te whakamaoritanga tahitahi",
-    "filterExplicit": "Tātari i te ihirangi taikaha",
-    "aiReply": "Whakautu AI",
-    "enableReadReceipts": "Whakahohe rīhiti pānui",
-    "allowExplicitContent": "Tukuna te ihirangi taikaha",
-    "disappearingMessages": "Whakahohe karere ngaro-aunoa",
-    "autoDeleteSeconds": "Hekona kia muku-aunoa",
-    "saveSuccess": "Kua tiakina ngā tautuhinga!",
-    "saveError": "Hapa: Kāore i taea te tiaki i ngā tautuhinga",
-    "avatarAlt": "Ātahanga kōtaha",
-    "uploadAvatar": "Tukuatu ātahanga kōtaha hou",
-    "avatarSuccess": "Kua tukuatia te ātahanga!",
-    "avatarError": "I hapa te tuku ātahanga",
-    "noPrivateKey": "Kāore he kī tūmataiti i tēnei pūrere hei kaweake.",
-    "setBackupPassword": "Tautuhia he kupuhipa hei whakamuna i tō tārua:",
-    "backupDownloaded": "Kua tikiakehia te tārua whakamunatia.",
-    "exportFailed": "I rahua te kaweake kī",
-    "enterBackupPassword": "Tāuruhia te kupuhipa mō tēnei tārua:",
-    "importSuccess": "Kua kawemai te kī tūmataiti ki tēnei pūrere.",
-    "importFailed": "I rahua te kawemai kī (kupuhipa hē, kōnae kua pirau rānei).",
-    "keysRotated": "Kua waihangatia he takirua kī hōu, kua tukuna hoki te kī tūmatanui.",
-    "rotateFailed": "I rahua te huri kī.",
-    "security": "Haumarutanga",
-    "exportKey": "Kaweake kī tūmataiti",
-    "importKey": "Kawemai tārua kī kua whakamunatia",
-    "rotateKeys": "Huri takirua kī",
-    "keyDisclaimer": "Kāore rawa tō kī tūmataiti e wehe i tēnei pūrere. Kaweake he kape kua tiakina ki te kupuhipa kia taea te whakaora ki tētahi atu pūrere.",
-    "sectionProfile": "Kōtaha",
-    "phoneNumber": "Tau waea",
-    "appearance": "Āhua",
-    "soundSettings": "Oro",
-    "disappearing": "Karere ngaro-aunoa",
-    "backupSync": "Tārua & Tūhono",
-    "ai": "AI",
-    "accessibility": "Āheitanga",
-    "privacy": "Tūmataitinga",
-    "devices": "Ngā pūrere kua herea",
-    "themeFreeNotice": "Kei te mahere Free koe—whakamahia ngā kōwhiringa Rā/Kōnui i raro nei. Whakahōu kia iriti ai i ētahi atu tātauira.",
-    "sunTheme": "Whakamahia te tātauira Kōanga (Dawn)",
-    "moonTheme": "Whakamahia te tātauira Marama (Midnight)",
-    "sun": "Rā",
-    "moon": "Marama",
-    "backupTitle": "Ngā Tārua Whakamunatia & Tūhononga Pūrere",
-    "openBackupTools": "Huaki i ngā Utauta Tārua",
-    "backupDesc": "Waihanga tārua kua whakakīnakitia ki te kupuhipa mō ō kī, ā, whakaora ki tētahi atu pūrere kia tūhono ai.",
-    "privacyBlurEnabled": "Pōhīhīhia ngā karere mā te taunoa",
-    "privacyBlurOnUnfocus": "Pōhīhīhia ina kore te taupānga e arotahi",
-    "holdToReveal": "Pēhia kia kitea",
-    "notifyOnCopy": "Whakamōhio mai mēnā ka tāruatia taku karere",
-    "loadFailed": "I rahua te uta kōtaha",
-    "followed": "Kua arahia",
-    "followFailed": "I rahua te ara",
-    "unfollowed": "Kua whakakore te aranga",
-    "unfollowFailed": "I rahua te whakakore aranga",
-    "follow": "Aru",
-    "unfollow": "Whakakore aru",
-    "followHint": "Ka puta ā rātou kōrero ki tō whārangi Following mēnā ka tuku ki te hunga Followers (tūmatanui rānei).",
-    "userNotFound": "Kāore i kitea te kaiwhakamahi",
-    "followsYou": "E aru ana i a koe",
-    "sectionCrashedTitle": "I rahua te uta wāhanga",
-    "sectionCrashedBody": "I raru tētahi mea i tēnei wāhanga.",
-    "forwarding": "Tuku Waea & Kōrero",
-    "callTextForwardingSection": "Tuku Waea & Kōrero",
-    "callTextForwardingTitle": "Tuku Waea me/kō Tuku Kōrero",
-    "callTextForwardingDescription": "Tukua ngā waea me ngā karere kuhu kia ahu atu ki tō waea, īmēra kua manatoko. Ka taea e ngā waea/kōrero putanga te whakaatu i tō tau Chatforia.",
-    "enableTextForwarding": "Whakahohe tuku karere",
-    "forwardTextsToPhone": "Tukua ngā karere ki te waea",
-    "forwardTextsToEmail": "Tukua ngā karere ki te īmēra",
-    "destinationPhone": "Waea ūnga (E.164)",
-    "destinationEmail": "Īmēra ūnga",
-    "enableCallForwarding": "Whakahohe tuku waea",
-    "destinationPhoneForCalls": "Waea ūnga (E.164) mō ngā waea",
-    "aliasBridging": "Tuku Waea (hononga ingoa)",
-    "quietHoursOptional": "Ngā Hāora Hū (kōwhiringa)",
-    "startHour": "Hāora tīmata (0–23)",
-    "endHour": "Hāora whakamutunga (0–23)",
-    "reset": "Tautuhi anō",
-    "saveBtn": "Tiaki",
-    "forwardSaved": "Kua tiakina ngā tautuhinga tuku",
-    "forwardSaveFailed": "I rahua te tiaki tautuhinga",
-    "errE164": "Tāuruhia tētahi tau waea E.164 tika (hei tauira, +15551234567).",
-    "errEmail": "Tāuruhia tētahi īmēra tika.",
-    "errSmsDest": "Kōwhiria kia kotahi te ūnga (waea, īmēra rānei).",
-    "errQuietHours": "Me noho ngā hāora hū ki waenganui i te 0 me te 23."
+  "keys": {
+    "backupCreated": "Kua waihanga, kua tikiake hoki te pūrua matua ✓",
+    "restored": "Kua whakaora te pūrua matua ✓ Kua whakaurunga ngā matua ki te rorohiko o te wā",
+    "noBackup": "Kāore he pūrua whakamuna mō tēnei pūkete",
+    "missingPublicKey": "Kei te ngaro tētahi matua tūmatawhānui i te pūrua"
   },
-
-  "support": {
-    "helpFab": "Āwhina",
-    "openSupportAria": "Huaki tautoko",
-    "badge": "Tautoko",
-    "heading": "Me pēhea e āwhina ai?",
-    "tabs": {
-      "help": "Pokapū Āwhina",
-      "contact": "Whakapā mai"
-    },
-    "searchPlaceholder": "Rapua ngā tuhinga āwhina…",
-    "searchAria": "Rapua te āwhina",
-    "searchBtn": "Rapua",
-    "quickTopicsLabel": "Kaupapa tere",
-    "quickTopics": {
-      "login": "Kāore e taea te takiuru",
-      "billing": "Utu / pire",
-      "abuse": "Pūrongo tukino"
-    },
-    "trySearching": "Whakamātau te rapu mō “whakamaori”, “tārua pūrua”, “tūmataiti”.",
-    "article": "Tuhinga",
-    "openArticle": "Huaki tuhinga",
-    "contactIntro": "Ka tuku mātou i tētahi whakautu mā te īmēra. Whakaurua ngā kōrero hei āwhina i a mātou ki te whakangungua te raru.",
-    "topicAria": "Tīpakohia he kaupapa",
-    "messagePlaceholder": "Tuhia tō karere…",
-    "sendBtn": "Tukua",
-    "sent": "Kua tukua te karere. Ka whakahoki mā te īmēra.",
-    "sendError": "Kāore i taea te tuku. Tēnā īmērahia a support@chatforia.com."
+  "keySetup": {
+    "title": "Whakaritea ō matua pūrere",
+    "description": "Kāore anō tēnei pūrere e mau ana i tō matua tūmataiti. Kawemai he pūrua kua whakamunatia ki te kupuhipa, whakaputa rānei he huinga matua hou (ka taea e koe te pānui i ngā karere hou mai i tēnei wā).",
+    "chooseFile": "Kōwhiria he kōnae ka whakauru i te kupuhipa.",
+    "imported": "Kua kawemai te matua tūmataiti ki tēnei pūrere. Ka taea e koe te pānui i ngā karere tawhito ināianei.",
+    "enterPassword": "Whakauruhia tō kupuhipa pūkete kia taea ai e mātou te pūrua haumaru i ō matua."
   },
-
-  "chat": {
-    "selectPrompt": "Tīpako he kuputuhi, he rūma kōrerorero rānei hei tīmata kōrero",
-    "newMessages": "Ngā karere hōu",
-    "typing": "Kei te pato a {{name}}...",
-    "emptyTitle": "Ō karere",
-    "emptySubtitle": "Tukua he karere kia tīmata ai te kōrero.",
-    "startChatButton": "Tukua he karere"
-  },
-
-  "topbar": {
-    "newStatus": "Tūnga Hōu",
-    "logout": "Takiputa",
-    "help": "Āwhina",
-    "createStatusAria": "Waihanga Tūnga hōu"
-  },
-
-  "status": {
-    "userNumber": "Kaiwhakamahi #{{id}}",
-    "posted": "Kua tukuna te tūnga",
-    "postFailed": "I rahua te tuku tūnga",
-    "createTitle": "Waihanga he tūnga",
-    "modalAriaLabel": "Tūnga hōu",
-    "captionLabel": "He aha kei tō hinengaro?",
-    "captionPlaceholder": "Tūhono i tētahi whakahōu...",
-    "captionAria": "Kupu tūnga",
-    "audienceLabel": "Hunga whakarongo",
-    "audience": {
-      "public": "Tūmatanui",
-      "followers": "Ngā kaitautoko",
-      "contacts": "Ngā whakapā",
-      "mutuals": "Ngā hoa rua",
-      "custom": "Tāritari…"
-    },
-    "expiresHoursLabel": "Paunga (hāora)",
-    "maxTooltip": "Roa rawa 7 rā",
-    "hoursAbbrev": "h",
-    "maxShort": "mōrahi",
-    "expiresOn": "Ka pau i:",
-    "chooseRecipients": "Tīpako kaiwhiwhi",
-    "selectContacts": "Tīpako whakapā",
-    "attachmentsLabel": "Āpitihanga",
-    "attachmentsPlaceholder": "Tāpiri atahanga/ataata",
-    "filesNote": "Tae atu ki te 5 kōnae. 24h te taunoa o te paunga.",
-    "postAria": "Tukua te tūnga",
-    "post": "Tukua"
-  },
-
-  "contactList": {
-    "savedContacts": "Ngā Whakapā kua Tiakina",
-    "refreshAria": "Tāmata whakapā",
-    "filterPlaceholder": "Tātari i ngā whakapā kua tiakina…",
-    "filterAria": "Tātari whakapā",
-    "noContactsFound": "Kāore he whakapā i kitea.",
-    "externalContact": "Whakapā waho",
-    "notJoined": "Kāore anō taua whakapā kia uru ki a Chatforia.",
-    "couldNotStart": "Kāore i taea te tīmata kōrerorero. Tēnā whakamātau anō.",
-    "startFailed": "I rahua te tīmata kōrerorero. Tēnā whakamātau anō.",
-    "deleted": "Kua mukua te whakapā.",
-    "deleteFailed": "I rahua te muku whakapā. Tēnā whakamātau anō.",
-    "aliasUpdated": "Kua whakahōu te ingoa taupū.",
-    "updateAliasFailed": "I rahua te whakahōu ingoa taupū. Tēnā whakamātau anō.",
-    "selectContact": "Tīpako {{name}}",
-    "alias": "Ingoa taupū",
-    "startChat": "Tīmata kōrero",
-    "message": "Karere",
-    "delete": "Muku",
-    "deleteContactAria": "Muku whakapā",
-    "loadFailed": "I rahua te uta whakapā. Tēnā whakamātau anō.",
-    "loadMore": "Uta anō"
-  },
-
-  "sidebar": {
-    "randomChat": "Kōrero Tupurangi",
-    "callTextForwarding": "Tuku Waea & Kōrero",
-    "conversations": "Ngā kōrerorero",
-    "searchPlaceholder": "Rapua ngā kōrerorero...",
-    "errorLoading": "I rahua te uta kōrerorero",
-    "empty": "Kāore anō kia whai kōrerorero.",
-    "startChat": "Tīmata he kōrero",
-    "people": "Tāngata",
-    "settings": "Tautuhinga",
-    "status": "Tūnga",
-    "forwarding": "Tuku Waea & Kōrero",
-    "refresh": "Tāmata",
-    "search": "Rapua ngā kōrerorero",
-    "loginPrompt": "Takiuru kia whakatika i ō tautuhinga.",
-    "login": "Takiuru",
-    "register": "Waihanga pūkete",
-    "chatrooms": "Ngā rūma kōrero",
-    "logout": "Takiputa",
-    "startChatAlt": "Tīmata he kōrero hōu"
-  },
-
-  "premium": {
-    "heading": "Whakahōu ki te Premium",
-    "description": "Wewete āhuatanga kaha & tango pānui.",
-    "cta": "Whakahōu",
-    "upgrade": "Whakahōu",
-    "upgradeAria": "Whakahōu ki Chatforia Premium"
-  },
-
   "auth": {
-    "headline": "Kōrero haumaru, ao whānui me te whakamaoritanga tere tonu",
-    "description": "Whakamunatanga-mutunga-ki-te-mutunga, whakamaoritanga AI, karere ngaro-aunoa, me ngā waea reo/ataata.",
+    "headline": "Karere haumaru mō ngā tāngata katoa, i ngā wāhi katoa",
+    "description": "Whakamuna pito-ki-pito, whakamaoritanga ki ngā reo 100+, ngā karere e ngaro ana, me ngā waea ataata/ororongo.",
     "feature": {
-      "encryption": "Whakamunatanga mutunga-ki-te-mutunga taunoa",
-      "translation": "Whakamaori aunoa i te 100+ reo",
-      "disappearing": "Karere ngaro-aunoa & rīhiti pānui",
-      "privacy": "Tūmataiti-tuatahi. Ō raraunga, ō mana.",
-      "translate": "Whakamaoritanga wā-tūturu",
-      "disappear": "Karere ngaro-aunoa",
-      "privacyAlt": "Hoahoa tūmataiti-tuatahi"
+      "encryption": "Whakamuna pito-ki-pito mā te taunoa",
+      "translation": "Whakamaoritanga karere mā te atamai",
+      "disappearing": "Ngā karere e ngaro ana me ngā pānui panui",
+      "privacy": "Tuatahi ki te tūmataiti. Ō raraunga, tō mana.",
+      "translate": "Whakamaoritanga karere mā te atamai",
+      "disappear": "Ngā karere e ngaro ana",
+      "privacyAlt": "Hoahoa tuatahi-ki-te-tūmataiti",
+      "seePlans": "Tirohia ngā mahere me ngā utu"
     },
     "hero": {
-      "line1": "Haumaru, ao whānui",
-      "beforeEm": "te karere me",
-      "em": "te whakamaoritanga inamata",
-      "sub": "Whakamunatanga mutunga-ki-te-mutunga, whakamaoritanga AI, karere ngaro-aunoa, me ngā waea reo/ataata."
+      "line1": "Karere haumaru mō ngā tāngata katoa, i ngā wāhi katoa — me te",
+      "em": "whakamaoritanga ki ngā reo 100+",
+      "sub": "Tikina he nama waea haumaru koreutu hei waea me te tuku karere puta noa i te ao mā te Wi-Fi, raraunga rānei. Kia koa ki te whakamuna pito-ki-pito, ngā karere e ngaro ana, me ngā waea ataata/ororongo HD — me ngā taputapu hanga-i-roto hei āwhina i a koe ki te noho hono puta noa i ngā rohe.",
+      "freeNote": "He koreutu te waea me te tuku karere taketake. E hiahia ana ngā āhuatanga AI matatau me ngā āhuatanga utu nui ki te whakahou."
     },
     "feat": {
-      "encryption": "Whakamunatanga mutunga-ki-te-mutunga taunoa",
-      "translate": "Whakamaori aunoa 100+ reo",
-      "disappear": "Karere ngaro-aunoa & rīhiti pānui",
-      "privacy": "Tūmataiti-tuatahi. Ō raraunga, ō mana."
+      "encryption": "Whakamuna pito-ki-pito, kei te whakakā tonu",
+      "translate": "Wewete i ngā ārai reo i ō kōrero",
+      "disappear": "Ngā karere e ngaro ana me ngā pānui panui",
+      "privacy": "Tuatahi ki te tūmataiti. Ō raraunga, tō mana."
     },
-    "welcomeBack": "Nau mai anō",
-    "continueGoogle": "Haere tonu mā Google",
-    "continueApple": "Haere tonu mā Apple",
+    "continueGoogle": "Haere tonu ki Google",
+    "continueApple": "Haere tonu ki Apple",
     "username": "Ingoa kaiwhakamahi",
     "password": "Kupuhipa",
-    "keepSignedIn": "Kia noho takiuru tonu au",
-    "forgotPassword": "Kua wareware te kupuhipa?",
+    "keepSignedIn": "Kia noho takiuru ahau",
+    "forgotPassword": "Kua wareware ki te kupuhipa?",
     "loginButton": "Takiuru",
     "createAccount": "Waihanga pūkete",
-    "freeAccountButton": "Waihanga pūkete kore utu",
-    "newHere": "He tauhou koe?",
-    "getApp": "Tikiake te taupānga",
-    "desktopTip": "Kei te rorohiko papamahi? Karapa mā tō waea hei tiki i te taupānga.",
-    "scanHelper": "Kei te rorohiko papamahi? Karapa mā tō waea hei tiki i te taupānga.",
-    "goHome": "Hoki ki te kāinga",
+    "freeAccountButton": "Waihanga pūkete koreutu",
+    "newHere": "He tauhou?",
+    "getApp": "Tikina te taupānga",
+    "desktopTip": "Kei te rorohiko puku? Tāwhai ki tō waea kia tikina te taupānga.",
+    "scanHelper": "Kei te rorohiko puku? Tāwhai ki tō waea kia tikina te taupānga.",
+    "goHome": "Haere ki te kāinga",
     "home": "Kāinga",
     "headlineAlt": {
-      "main": "Ko te karere haumaru",
-      "highlight": "e kōrero ana i tō reo"
+      "main": "Te karere haumaru e",
+      "highlight": "kōrero ana i tō reo"
     },
-    "subhead": "Karere tūmataiti, whakamunatia, ā, kua whakamaoritia — inamata.",
-    "status": "Tiro tūnga",
-    "upgrade": "Whakahōu ināianei",
-    "tip": "Tohutohu: Whakamahia te pūkete kotahi i te tukutuku me te pūkoro. Ka noho tūhonohono ō karere.",
-    "openDownload": "Huakina te whārangi tikiake",
+    "subhead": "Karere tūmataiti, whakamuna, me te whakamaoritanga — inamata.",
+    "upgrade": "Whakahou ināianei",
+    "tip": "Tohu: Whakamahia te pūkete ōrite i te paetukutuku me te pūkere. Ka noho whakamau ō karere.",
+    "openDownload": "Whakatuwhera i te whārangi tikiake",
     "qrAlt": "Waehere QR mō Chatforia",
-    "scanHint": "Karapa hei tiki i te taupānga, hei huaki rānei i tō pūtirotiro.",
-    "iosAria": "Tiki mai i te App Store",
-    "iosTitle": "Tiki mai i te App Store",
-    "iosBadgeAlt": "Tohu App Store",
-    "androidAria": "Tīkina i Google Play",
+    "scanHint": "Tāwhai ki te tikiake i te taupānga, whakatuwhera rānei i tō pūtirotiro.",
+    "iosAria": "Tikiake i te Toa Taupānga",
+    "iosTitle": "Tikiake i te Toa Taupānga",
+    "iosBadgeAlt": "Tohu Toa Taupānga",
+    "androidAria": "Tikina i Google Play",
     "androidTitle": "Toa Google Play",
     "androidBadgeAlt": "Tohu Google Play",
     "login": "Takiuru",
-    "signup": "Rēhita",
-    "email": "Īmēra"
+    "signup": "Waitohu",
+    "email": "Īmēra",
+    "registration": {
+      "passwordDescription": "Ita rawa 6 pūāhua. Whakamahia he kupuhipa kaha, ahurei.",
+      "smsConsent": "Mā te waihanga pūkete, ka whakaae koe ki te whiwhi whakamōhio SMS e pā ana ki ō mahi Chatforia (pēnei i ngā karere mai i ētahi atu kaiwhakamahi). Ka tāpiri pea ngā reiti karere me ngā raraunga. Ka taea e koe te whakakore i ngā wā katoa i ngā Tautuhinga.",
+      "termsLink": "Ngā Tikanga Ratonga",
+      "privacyLink": "Kaupapahere Tūmataiti"
+    },
+    "to": "Ki:",
+    "enterRecipient": "Whakauruhia he ingoa, nama rānei",
+    "clearRecipients": "Ūkui ngā kaiwhiwhi",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Pātōhia he karere…",
+    "addRecipient": "Tāpiri he kaiwhiwhi i runga ake hei tīmata…",
+    "oneRecipient": "Whakauruhia kia kotahi noa te kaiwhiwhi mō nāianei.",
+    "enterValidRecipient": "Whakauruhia he ingoa whakapā kua tiakina, he nama waea rānei.",
+    "sendFailed": "I rahua te tuku. Tirohia te papatohu mō ngā taipitopito."
   },
-
-  "footer": {
-    "plans": "Mahere & Utu",
-    "about": "Mō Chatforia",
-    "careers": "Ngā tūranga mahi",
-    "press": "Pāpāho",
-    "advertise": "Pānuitanga",
-    "contact": "Whakapā mai",
-    "help": "Pokapū Āwhina",
-    "status": "Whārangi Tūnga",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Kaupapahere Tūmataiti",
-    "terms": "Ngā Ture Ratonga",
-    "cookies": "Tautuhinga Pihikete",
-    "doNotSell": "Kaua e hoko aku mōhiohio",
-    "language": "Reo",
-    "contactShort": "Whakapā",
-
-    "aria": "Hiku-whārangi",
-    "homeAria": "Kāinga o Chatforia",
-    "section": {
-      "company": "KAMUPENE",
-      "support": "TAUTOKO",
-      "downloads": "TIKI",
-      "legal": "TURE"
-    },
-    "links": {
-      "plans-pricing": "Mahere & Utu",
-      "about-chatforia": "Mō Chatforia",
-      "careers": "Ngā tūranga mahi",
-      "press": "Pāpāho",
-      "advertise": "Pānuitanga",
-      "getting-started": "Tīmata",
-      "help-center": "Pokapū Āwhina",
-      "contact-us": "Whakapā mai",
-      "status-page": "Whārangi Tūnga",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Kaupapahere Tūmataiti",
-      "terms-of-service": "Ngā Ture Ratonga",
-      "do-not-sell-my-info": "Kaua e hoko aku mōhiohio",
-      "cookie-settings": "Tautuhinga Pihikete"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Kei te tatari te manatārua",
-    "backToTop": "↑ Hoki ki runga"
-  },
-
   "home": {
     "title": "Kāinga",
     "header": "Ō karere",
-    "subheader": "Tukua he karere kia tīmata ai te kōrero.",
-    "sendButton": "Tukua te karere",
-    "gifPicker": "Huaki kōwhiri-GIF",
-    "emoji": "Emohi",
-    "upload": "Tukuatu whakaahua, ataata rānei",
-    "inputPlaceholder": "Tuhia he karere…",
-    "inputLabel": "Kaiwaihanga karere",
-    "sendTooltip": "Tukua",
-    "sendTooltipEmpty": "Tuhia he karere hei tuku",
-    "send": "Tukua",
+    "subheader": "Tukuna he karere hei tīmata i tētahi kōrero.",
+    "sendButton": "Tukuna karere",
+    "gifPicker": "Whakatuwhera i te kaitīpako GIF",
+    "emoji": "Emoji",
+    "upload": "Tukuake whakaahua, ataata rānei",
+    "inputPlaceholder": "Pātōhia he karere…",
+    "inputLabel": "Kaihanga karere",
+    "sendTooltip": "Tuku",
+    "sendTooltipEmpty": "Pātōhia he karere hei tuku",
+    "send": "Tuku",
     "welcomeMessage": "Nau mai ki Chatforia",
     "getStarted": "Tīmata"
   },
-
-  "press": {
-    "title": "Pāpāho",
-    "contactLine": "Mō ngā pātai pāpāho, whakapā mai ki",
-    "boilerplateTitle": "Kupu matua",
-    "boilerplateBody": "He taupānga karere tūmataiti a Chatforia e ngawari ai te kōrero reo-rerekē. Ka whakamunatia mutunga-ki-te-mutunga ngā karere, ā, ka tautoko te whakamaori i te 100+ reo i te wā-tūturu. Ka āhei ngā kaiwhakamahi ki te whakahohe i ngā karere ngaro-aunoa, ki te pupuri rīhiti pānui hei kōwhiringa, ā, ki te tūhono pūrere. Kei iOS, Android, me te tukutuku.",
-    "assetsTitle": "Ngā rawa waitohu",
-    "assetsSubtitle": "Ngā tohu, ngā screenshot, me ngā whakaahua hua.",
-    "downloadCta": "Tikiake kete pāpāho",
-    "downloadTitle": "Tikiake te taupānga",
-    "scanTip": "Kei te papamahi? Karapa mā tō waea hei tiki i te taupānga.",
-    "qrAria": "Huaki paetukutuku Chatforia",
-    "appStore": "Tiki mai i te App Store",
-    "googlePlay": "Tīkina i Google Play"
+  "chat": {
+    "selectPrompt": "Kōwhiria he kuputuhi, rūma kōrero rānei hei tīmata i te kōrerorero",
+    "newMessages": "Ngā karere hou",
+    "typing": "Kei te pātō {{name}}...",
+    "emptyTitle": "Ō karere",
+    "emptySubtitle": "Tukuna he karere hei tīmata i tētahi kōrero.",
+    "startChatButton": "Tukuna karere",
+    "mediaAttachment": "Āpitihanga pāho",
+    "thisUser": "tēnei kaiwhakamahi",
+    "blockConfirm": "Whakatārewa {{name}}? Kāore koe e whiwhi karere mai i a ia.",
+    "blockedUser": "Kua whakatārewatia {{name}}.",
+    "blockError": "Kāore i taea te whakatau i tētahi kaiwhakamahi e whakatārewatia.",
+    "blockFailed": "I rahua te whakatārewa (kāore anō te tuara i hono).",
+    "encryptedUnavailable": "Karere whakamuna (kāore te matua e wātea)",
+    "unlockToView": "Whakatuwherahia tō matua kia kite i tēnei karere"
   },
-
-  "careers": {
-    "title": "Ngā Tūranga Mahi",
-    "intro": "He rōpū iti mātou e hanga ana i tētahi karere tūmataiti, ao whānui. Mēnā he ngākau nui ōu ki te whakamunatanga, ki te āheitanga, ki te UX ātaahua hoki, hiahia mātou ki te rongo i a koe.",
-    "openRoles": "<b>Ngā tūranga tuwhera:</b> Pūkaha (Katoa te puranga, iOS, Android), Hua, Tautoko.",
-    "apply": "<b>Me pēhea te tono:</b> Tukua tō rētā/nga hononga ki <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Tukua tō rētā"
-  },
-
-  "about": {
-    "title": "Mō Chatforia",
-    "description": "He karere haumaru, reo-maha a Chatforia me te whakamunatanga mutunga-ki-te-mutunga, te whakamaoritanga inamata, me ngā waea reo/ataata. Ko tā mātou whāinga he māmā: kia hono ngā tāngata—me te haumaru, me te tūmataiti, ā, puta noa i ngā reo.",
-    "valuesTitle": "Ā mātou uara",
-    "values": {
-      "privacy": "<bold>Tūmataiti-tuatahi:</bold> Whakamunatanga E2E taunoa.",
-      "access": "<bold>Uru mō te katoa:</bold> Whakamaori aunoa 100+ reo.",
-      "control": "<bold>Mana whakahaere:</bold> He kōwhiringa ngā karere ngaro-aunoa & ngā rīhiti pānui.",
-      "privacy_aria": "Tūmataiti-tuatahi: Whakamunatanga E2E taunoa.",
-      "access_aria": "Uru mō te katoa: Whakamaori aunoa 100+ reo.",
-      "control_aria": "Mana whakahaere: He kōwhiringa ngā karere ngaro-aunoa me ngā rīhiti pānui."
+  "messageInput": {
+    "ttl": {
+      "off": "Whakaweto"
     },
-    "howTitle": "Me pēhea te mahi a Chatforia",
-    "howDescription": "Ka whakamunatia ngā karere i tō pūrere i mua i tō tukunga. Kua hoahoatia te whakamaoritanga, ngā tārua, me te tūhono pūrere kia iti rawa ngā raraunga ka kitea e ā mātou tūmau."
-  },
-
-  "advertise": {
-    "title": "Pānuitia ki Chatforia",
-    "description": "Taea te toro atu ki te hunga kaiwhakamahi kōrerorero mā ngā tūnga ātaahua, haumaru-ā-waitohu. He rāhui panui ā-maka, he tautoko, he whakatairanga ā-whare anō hoki. Kāore e kitea e te hunga Premium ngā pānui.",
-    "adsense": {
-      "withPubId": "Kei te tuku panui mā <b>Google AdSense</b>. Mēnā e hiahia ana koe ki te whāinga mā Google Ads, whakamahia te ID kaiwhakaputa <code>{{pubId}}</code> ā, tono mō te whakanoho whakahaere ki ā mātou wāhanga i raro nei. Kei te wātea ngā tautoko tika—whakamahia te puka.",
-      "noPubId": "Kei te tuku panui mā <b>Google AdSense</b>. Kei te wātea hoki ngā tautoko tika—whakamahia te puka i raro nei."
-    },
-    "inventoryHeader": "Rāhui & Ngā Tautuhinga",
-    "placement": {
-      "displayBadge": "Whakaatu",
-      "acceptedSizes": "Ngā rahi whakaaetia",
-      "adsenseSlot": "Kōhao AdSense:"
-    },
-    "noPlacements": "Kāore anō kia tautuhia he whakanoho. Tāpiritia ki ads/placements.js.",
-    "whyHeader": "He aha a Chatforia?",
-    "why": {
-      "highSession": "He tiketike te auautanga o te wātū me te noho roa i te atanga kōrerorero",
-      "brandSafe": "Ngā hōputu haumaru-waitohu; he iti te auau pānui",
-      "sponsoredMoments": "He wā whakatāutoko (pērā i te matapihi “Tīmata he Kōrero”)",
-      "deals": "He kirimana tika, he hōtaka rānei mā AdSense/Google Ads"
-    },
-    "contactHeader": "Whakapā",
-    "form": {
-      "submittedMsg": "Ngā mihi! Kei te haere tō uiui. Ka whakapā mātou ā tata ake nei.",
-      "missingRequired": "Tēnā whakakī i te ingoa, te īmēra, me te karere.",
-      "successToast": "Ngā mihi! Ka whakapā atu mātou.",
-      "mailtoInfo": "Kei te huaki i tō kiritaki īmēra hei tuku i te uiui…",
-      "nameLabel": "Tō ingoa",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Īmēra",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kamupene",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Pūtea ia marama (kōwhiringa)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Kōrerotia tō pakanga",
-      "messagePlaceholder": "Whāinga, rā, KPI, manakohanga whakanoho…",
-      "sendCta": "Tukuna te pātai"
-    },
-    "legal": {
-      "disclaimerStart": "Mā te tuku, e whakaae ana koe ki ā mātou",
-      "terms": "Ture",
-      "and": "me",
-      "privacy": "Kaupapahere Tūmataiti"
+    "freeLimit": "Te rohe mahere koreutu: whakakore aunoa tae atu ki te 1 rā. Kua whakakīhia ki 1r.",
+    "premiumLimit": "Te rohe whakakore aunoa mō te Premium he 30 rā. Kua whakakīhia ki 30r.",
+    "nothingToSend": "Pātōhia he karere, āpitihia he kōnae rānei hei tuku.",
+    "encryptionFailed": "I rahua te whakamuna. Kāore i tukuna te karere.",
+    "sent": "Kua tukuna te karere.",
+    "placeholder": "Pātōhia he karere…",
+    "autoDelete": "Whakakore aunoa",
+    "typeToSend": "Pātōhia he karere hei tuku",
+    "send": "Tuku",
+    "sendWithEnter": "Tuku (Enter)",
+    "attachment": "āpitihanga",
+    "caption": "Tapanga (kōwhiringa)",
+    "remove": "Tangohia",
+    "clear": "Ūkui",
+    "gif": "GIF",
+    "sticker": "Pikitia whakapiri",
+    "errors": {
+      "attachmentTooLarge": "He nui rawa te āpitihanga. Whakamātauria he kōnae iti ake.",
+      "unsupportedFile": "Momo kōnae kāore e tautokona.",
+      "rateLimit": "Kei te tuku karere tere rawa koe. Me whakaroa.",
+      "validation": "Hapa whaimana. Tirohia tō karere ka whakamātau anō.",
+      "failedToSend": "I rahua te tuku. Ka taea e koe te whakamātau anō i te mirumiru i rahua."
     }
   },
-
+  "contactList": {
+    "savedContacts": "Ngā Whakapā Kua Tiakina",
+    "refreshAria": "Whakahou whakapā",
+    "filterPlaceholder": "Tātari i ngā whakapā kua tiakina…",
+    "filterAria": "Tātari i ngā whakapā kua tiakina",
+    "noContactsFound": "Kāore i kitea he whakapā.",
+    "externalContact": "Whakapā ā-waho",
+    "notJoined": "Kāore anō tēnei whakapā i uru ki Chatforia.",
+    "couldNotStart": "Kāore i taea te tīmata i te kōrero. Tāpiri whakamātau anō.",
+    "startFailed": "I rahua te tīmata i te kōrero. Tāpiri whakamātau anō.",
+    "deleted": "Kua mukuhia te whakapā.",
+    "deleteFailed": "I rahua te mukuhia o te whakapā. Tāpiri whakamātau anō.",
+    "aliasUpdated": "Kua whakahou te ingoa ingoa.",
+    "updateAliasFailed": "I rahua te whakahou i te ingoa ingoa. Tāpiri whakamātau anō.",
+    "selectContact": "Kōwhiria {{name}}",
+    "alias": "Ingoa ingoa",
+    "startChat": "Tīmata kōrero",
+    "message": "Karere",
+    "delete": "Mukuhia",
+    "deleteContactAria": "Mukuhia te whakapā",
+    "loadFailed": "I rahua te uta i ngā whakapā. Tāpiri whakamātau anō.",
+    "loadMore": "Utaina anō",
+    "call": "Waea",
+    "callStarted": "Kei te waea i tēnei nama mā tō nama Chatforia…",
+    "callFailed": "I rahua te tīmata i te waea. Tāpiri whakamātau anō."
+  },
+  "startChatModal": {
+    "title": "Tīmata i tētahi kōrero",
+    "searchPlaceholder": "Rapua he ingoa, ingoa kaiwhakamahi, nama waea rānei",
+    "messageThisPerson": "Tukuna karere ki tēnei tangata",
+    "contacts": "Ngā whakapā",
+    "recentInteractions": "Ngā whakawhitinga tata",
+    "noContactsMatch": "Kāore he whakapā e ōrite ana ki tō rapu.",
+    "noRecentInteractions": "Kāore anō he whakawhitinga tata.",
+    "unknown": "Kāore e mōhiotia",
+    "interactionType": {
+      "message": "Karere",
+      "call": "Waea",
+      "video": "Ataata"
+    }
+  },
+  "addContactModal": {
+    "title": "Tāpiri whakapā",
+    "phoneOrUsername": "Nama waea, ingoa kaiwhakamahi rānei",
+    "phoneOrUsernamePlaceholder": "hei tauira +13018019227, juliannorton rānei",
+    "alias": "Ingoa ingoa (kōwhiringa)",
+    "aliasPlaceholder": "hei tauira Mahi, Mama, Mike – Ūropi",
+    "enterPhoneOrUsername": "Whakauruhia he nama waea, ingoa kaiwhakamahi rānei.",
+    "userLookupFailed": "I rahua te rapu kaiwhakamahi.",
+    "cannotAddSelf": "Kāore e taea te tāpiri i a koe ano hei whakapā.",
+    "failedToAdd": "I rahua te tāpiri i te whakapā.",
+    "add": "Tāpiri"
+  },
+  "sidebar": {
+    "randomChat": "Kōrero Matapōkere",
+    "callTextForwarding": "Whakawhiti Waea & Karere",
+    "conversations": "Ngā kōrero",
+    "searchPlaceholder": "Rapua ngā kōrero...",
+    "errorLoading": "I rahua te uta i ngā kōrero",
+    "empty": "Kāore anō he kōrero.",
+    "startChat": "Tīmata kōrero",
+    "people": "Ngā tāngata",
+    "settings": "Tautuhinga",
+    "status": "Tūnga",
+    "forwarding": "Whakawhiti Waea & Karere",
+    "refresh": "Whakahou",
+    "search": "Rapua ngā kōrero",
+    "loginPrompt": "Takiuru ki te whakatika i ō tautuhinga.",
+    "login": "Takiuru",
+    "register": "Waihanga pūkete",
+    "chatrooms": "Ngā rūma kōrero",
+    "logout": "Whakamutu takiuru",
+    "startChatAlt": "Tīmata i tētahi kōrero hou",
+    "calls": "Ngā waea",
+    "video": "Ataata",
+    "voicemail": "Waea reo"
+  },
+  "topbar": {
+    "newStatus": "Tūnga Hou",
+    "logout": "Whakamutu Takiuru",
+    "help": "Āwhina",
+    "createStatusAria": "Waihanga tūnga hou"
+  },
+  "threadActions": {
+    "threadMenu": "Tahua kōrero",
+    "premium": "Premium",
+    "aiPower": "Mana AI",
+    "schedule": "Whakarite",
+    "upgrade": "Whakahou",
+    "upgradeSuffix": "(Whakahou)",
+    "thread": "Kōrero",
+    "about": "Mō",
+    "search": "Rapu",
+    "media": "Pāho",
+    "invitePeople": "Powhiri tangata",
+    "roomSettings": "Tautuhinga rūma",
+    "clearConversation": "Ūkui kōrero",
+    "block": "Whakatārewa"
+  },
+  "roomSearch": {
+    "title": "Rapu i roto i te rūma",
+    "ariaLabel": "Rapu i roto i te rūma",
+    "search": "Rapu",
+    "searchMessages": "Rapua ngā karere",
+    "noText": "[Kāore he kuputuhi]",
+    "noResults": "Kāore he hua"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Mema",
+      "moderator": "Kaiwhakahaere",
+      "admin": "Kaiwhakahaere matua"
+    },
+    "aiMode": {
+      "off": "Whakaweto",
+      "mention": "Anake i runga i @ForiaBot, /pātai rānei",
+      "always": "Whakautu mā te kaha"
+    },
+    "autoTranslateMode": {
+      "off": "Whakaweto",
+      "tagged": "Kua tohuhia anake (/tr …)",
+      "all": "Ngā karere katoa"
+    },
+    "updated": "Kua whakahou ngā tautuhinga"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Pāho kua tohaina",
+    "noMediaCached": "Kāore anō he pāho i rūmaki ki te rorohiko o te wā.",
+    "imageAlt": "whakaahua",
+    "openVideo": "Whakatuwhera ataata",
+    "openVideoWithCaption": "Whakatuwhera ataata: {{caption}}",
+    "preview": "Arokite",
+    "previewWithCaption": "Arokite: {{caption}}",
+    "previewKind": "Arokite {{kind}}",
+    "download": "Tikiake",
+    "downloadKind": "Tikiake {{kind}}",
+    "file": "kōnae",
+    "kinds": {
+      "image": "whakaahua",
+      "video": "ataata",
+      "audio": "ororongo",
+      "file": "kōnae"
+    }
+  },
+  "status": {
+    "userNumber": "Kaiwhakamahi #{{id}}",
+    "posted": "Kua whakairi te tūnga",
+    "postFailed": "I rahua te whakairi i te tūnga",
+    "createTitle": "Waihanga tūnga",
+    "modalAriaLabel": "Tūnga hou",
+    "captionLabel": "He aha kei runga i tō hinengaro?",
+    "captionPlaceholder": "Tohaina he whakahou...",
+    "captionAria": "Karere tūnga",
+    "audienceLabel": "Kaitāngata",
+    "audience": {
+      "public": "Tūmatawhānui",
+      "followers": "Ngā kaiwhai",
+      "contacts": "Ngā whakapā",
+      "mutuals": "Ngā whakawhitinga",
+      "custom": "Ritenga..."
+    },
+    "expiresHoursLabel": "Ka pau (ngā hāora)",
+    "maxTooltip": "Mōrahi 7 rā",
+    "hoursAbbrev": "h",
+    "maxShort": "mōrahi",
+    "expiresOn": "Ka pau i:",
+    "chooseRecipients": "Kōwhiria ngā kaiwhiwhi",
+    "selectContacts": "Kōwhiria ngā whakapā",
+    "attachmentsLabel": "Ngā āpitihanga",
+    "attachmentsPlaceholder": "Tāpiri whakaahua/ataata",
+    "filesNote": "Taumata 5 kōnae. 24h te paunga mā te taunoa.",
+    "postAria": "Whakairi tūnga",
+    "post": "Whakairi"
+  },
+  "voicemail": {
+    "pageTitle": "Waea reo",
+    "from": "Mai i",
+    "to": "Ki",
+    "unknownCaller": "Kāore e mōhiotia",
+    "yourNumber": "Tō nama Chatforia",
+    "durationSeconds": "{{count}}h",
+    "audioAria": "Kaitākaro ororongo waea reo",
+    "transcriptHeading": "Whakamaoritanga",
+    "transcriptPending": "Kei te whakamaori i te waea reo…",
+    "transcriptFailed": "Kāore e wātea te whakamaoritanga.",
+    "loading": "Kei te uta i te waea reo…",
+    "errorLoading": "I rahua te uta i te waea reo.",
+    "empty": "Kāore anō he waea reo.",
+    "deleteConfirm": "Mukuhia tēnei waea reo?",
+    "deleteError": "I rahua te mukuhia o te waea reo.",
+    "markRead": "Tohu kua pānuitia",
+    "delete": "Mukuhia",
+    "unreadDotAria": "Tohu waea reo kāore anō kia pānuitia"
+  },
+  "profile": {
+    "title": "Kōtaha Kaiwhakamahi",
+    "preferredLanguage": "Reo tōpū",
+    "chooseLanguage": "Kōwhiria he reo",
+    "mustLogin": "Me takiuru koe ki te tiro i ngā tautuhinga.",
+    "autoTranslate": "Whakamaori aunoa i ngā karere",
+    "showOriginalWithTranslation": "Whakaatu i te kuputuhi taketake me ngā karere kua whakamaoritia",
+    "showOriginalAndTranslation": "Whakaatu i te taketake i te taha o te whakamaoritanga",
+    "filterExplicit": "Tātari i ngā ihirangi whakarihariha",
+    "aiReply": "Whakautu AI",
+    "enableReadReceipts": "Whakahohe i ngā pānui panui",
+    "allowExplicitContent": "Whakaae ki ngā ihirangi whakarihariha",
+    "disappearingMessages": "Whakahohe i ngā karere e ngaro ana",
+    "autoDeleteSeconds": "Ngā hēkona ki te whakakore aunoa",
+    "saveSuccess": "Kua tiakina ngā tautuhinga!",
+    "saveError": "Hapa: Kāore i taea te tiaki i ngā tautuhinga",
+    "avatarAlt": "Ātari kōtaha",
+    "uploadAvatar": "Tukuake ātari hou",
+    "avatarSuccess": "Kua tukuake te ātari!",
+    "avatarError": "I rahua te tukuake i te ātari",
+    "avatarUpdated": "Kua whakahou te ātari!",
+    "uploadingAvatar": "Kei te tukuake ātari…",
+    "noPrivateKey": "Kāore he matua tūmataiti i tēnei pūrere hei kaweake.",
+    "setBackupPassword": "Whakaritea he kupuhipa hei whakamuna i tō pūrua:",
+    "backupDownloaded": "Kua tikiake te pūrua whakamuna.",
+    "exportFailed": "I rahua te kaweake matua",
+    "enterBackupPassword": "Whakauruhia te kupuhipa mō tēnei pūrua:",
+    "importSuccess": "Kua kawemai te matua tūmataiti ki tēnei pūrere.",
+    "importFailed": "I rahua te kawemai i te matua (kupuhipa hē, kōnae kino rānei).",
+    "keysRotated": "Kua whakaputa he huinga matua hou, kua tukuake hoki te matua tūmatawhānui.",
+    "rotateFailed": "I rahua te huri i ngā matua.",
+    "security": "Haumarutanga",
+    "exportKey": "Pūrua Matua Whakamuna",
+    "importKey": "Whakaora Matua Whakamuna",
+    "rotateKeys": "Huri Matua Whakamuna",
+    "keyDisclaimer": "Kāore tō matua tūmataiti e wehe atu i tēnei pūrere. Kaweake he kape kua whakamunatia ki te kupuhipa hei whakaora i runga i tētahi atu pūrere.",
+    "sectionProfile": "Kōtaha",
+    "phoneNumber": "Nama waea",
+    "appearance": "Āhuatanga",
+    "soundSettings": "Ngā oro",
+    "disappearing": "Ngā karere e ngaro ana",
+    "backupSync": "Pūrua Matua Whakamuna",
+    "ai": "AI",
+    "accessibility": "Āheinga",
+    "privacy": "Tūmataiti",
+    "devices": "Ngā pūrere hono",
+    "themeFreeNotice": "Kei runga koe i te Koreutu — whakamahia ngā kōwhiringa Sun/Moon tere i raro. Whakahou kia whakatuwhera i ētahi atu kaupapa.",
+    "sunTheme": "Whakamahia te kaupapa Dawn",
+    "moonTheme": "Whakamahia te kaupapa Moon (Midnight)",
+    "sun": "Rā",
+    "moon": "Marama",
+    "backupTitle": "Ngā Pūrua Whakamuna & Whakamau Pūrere",
+    "openBackupTools": "Whakatuwhera i ngā Taputapu Pūrua",
+    "backupDesc": "Pūrua tō matua whakamuna kia taea ai te whakaora haumaru i ō karere i tētahi atu pūrere.",
+    "privacyBlurEnabled": "Whakapō i ngā karere mā te taunoa",
+    "privacyBlurOnUnfocus": "Whakapō ina kore e arotahi te taupānga",
+    "planSection": "Taku mahere",
+    "planLoading": "Kei te uta i tō mahere…",
+    "planLoadFailed": "I rahua te uta i tō mahere.",
+    "currentPlan": "Mahere o nāianei",
+    "planRenewsOn": "Ka whakahou i",
+    "freePlanCopy": "Kei runga koe i te mahere koreutu. Whakahou kia whakatuwhera i ētahi atu āhuatanga pēnei i ngā pūrua, nama tāpiri, me ngā kōwhiringa tūmataiti matatau.",
+    "upgradePlanCta": "Whakahou mahere",
+    "changePlanCta": "Huria te mahere",
+    "manageBilling": "Whakahaere nama",
+    "portalOpenFailed": "Kāore i taea te whakatuwhera i te tauranga nama. Tāpiri whakamātau anō.",
+    "holdToReveal": "Kia mau ki te whakakite",
+    "notifyOnCopy": "Whakamōhio mai mēnā ka tārua taku karere",
+    "loadFailed": "I rahua te uta i te kōtaha",
+    "followed": "Kua whai",
+    "followFailed": "I rahua te whai",
+    "unfollowed": "Kua whakamutu whai",
+    "unfollowFailed": "I rahua te whakamutu whai",
+    "follow": "Whai",
+    "unfollow": "Whakamutu whai",
+    "followHint": "Ka puta ā rātou kōrero ki tō whāngai Whai mēnā ka whakairi rātou ki te hunga Kaitāngata (Tūmatawhānui rānei).",
+    "userNotFound": "Kāore i kitea te kaiwhakamahi",
+    "followsYou": "Kei te whai i a koe",
+    "sectionCrashedTitle": "I rahua te wāhanga ki te uta",
+    "sectionCrashedBody": "I hē tētahi mea i tēnei wāhanga.",
+    "forwarding": "Whakawhiti Waea & Karere",
+    "callTextForwardingSection": "Whakawhiti Waea & Karere",
+    "callTextForwardingTitle": "Whakawhiti waea me/karere",
+    "callTextForwardingDescription": "Whakawhiti i ngā waea me ngā karere taumai ki tō waea, īmēra rānei kua whakamanatia. Ka taea e ngā waea/karere puta te whakaatu i tō nama Chatforia.",
+    "enableTextForwarding": "Whakahohe i te whakawhiti karere",
+    "forwardTextsToPhone": "Whakawhiti karere ki te waea",
+    "forwardTextsToEmail": "Whakawhiti karere ki te īmēra",
+    "destinationPhone": "Nama waea ūnga (E.164)",
+    "destinationEmail": "Īmēra ūnga",
+    "enableCallForwarding": "Whakahohe i te whakawhiti waea",
+    "destinationPhoneForCalls": "Ūnga (E.164) mō ngā waea",
+    "aliasBridging": "Whakawhiti Waea (piriti ingoa ingoa)",
+    "quietHoursOptional": "Ngā Hāora Ata (kōwhiringa)",
+    "startHour": "Hāora tīmata (0–23)",
+    "endHour": "Hāora mutunga (0–23)",
+    "reset": "Tautuhi anō",
+    "saveBtn": "Tiaki",
+    "saveProfile": "Tiaki kōtaha",
+    "saveForwarding": "Tiaki whakawhiti",
+    "forwardSaved": "Kua tiakina ngā tautuhinga whakawhiti",
+    "forwardSaveFailed": "I rahua te tiaki i ngā tautuhinga",
+    "errE164": "Whakauruhia he nama waea E.164 tika (hei tauira +15551234567).",
+    "errEmail": "Whakauruhia he īmēra tika.",
+    "errSmsDest": "Kōwhiria kia kotahi neke atu te ūnga (waea, īmēra rānei).",
+    "errQuietHours": "Me noho ngā hāora ata i waenganui i te 0 me te 23.",
+    "randomChat": "Kōrero Matapōkere",
+    "ageBand": "Tō awhe pakeke",
+    "ageBandPlaceholder": "Kōwhiria tō awhe pakeke",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Ka penapena mātou i tētahi awhe pakeke anake (kāore i tō rā whānau tika). Ka whakamahia tēnei hei pupuri i ngā whakahono Kōrero Matapōkere kia tika.",
+    "wantsAgeFilter": "Whakamahia te whakataurite pakeke i roto i te Kōrero Matapōkere",
+    "wantsAgeFilterDesc": "Ina whakakā, ka ngana mātou ki te whakahono i a koe ki ngā tāngata kei roto i ngā awhe pakeke hototahi.",
+    "partnerAgeBands": "Ko wai ka taea te whakahono ki a koe?",
+    "partnerAgeBandsDesc": "Ka whakahono tonu ngā taiohi ki ētahi atu taiohi anake. Kāore e taea te whakahono ngā pakeke ki ngā taiohi.",
+    "teenMatchingNote": "Mō te haumarutanga, ka whakahono ngā pūkete i te awhe pakeke 13–17 ki ētahi atu pūkete 13–17 anake i roto i te Kōrero Matapōkere.",
+    "foriaRemember": "Waiho mā Ria e maumahara ngā mea e kōrero ai koe ki a ia",
+    "foriaRememberDesc": "Ina whakakā tēnei, ka taea e Foria te whakamahi i ō kōrero Kōrero Matapōkere o mua (ki a koe anake) hei pupuri i te kōrero e rere ana. Ka taea e koe te whakaweto i ngā wā katoa.",
+    "voicemailSection": "Waea reo",
+    "voicemailEnabled": "Whakahohe i te waea reo",
+    "voicemailAutoDeleteDays": "Whakakore aunoa i ngā waea reo i muri i (ngā rā)",
+    "voicemailAutoDeletePlaceholder": "Waiho wātea kia mau tonu",
+    "voicemailForwardEmail": "Whakawhiti waea reo ki te īmēra",
+    "voicemailForwardEmailPlaceholder": "Īmēra hei tuku whakamōhio waea reo",
+    "voicemailGreetingText": "Kupu whakatau āwhina kuputuhi",
+    "voicemailGreetingTextDesc": "Ka whakamahia ina kāore e wātea tō kupu whakatau ororongo.",
+    "voicemailGreetingUpload": "Tukuake kupu whakatau waea reo",
+    "voicemailPreviewGreeting": "Arokite kupu whakatau",
+    "voicemailGreetingUploaded": "Kua tukuake angitu te kupu whakatau waea reo",
+    "voicemailGreetingUploadError": "I rahua te tukuake i te kupu whakatau waea reo",
+    "voicemailNote": "Ka penapenahia ngā waea reo mai i ō nama Chatforia ki tō pouakauru Waea Reo. Ka taea e koe te whakahohe i te whakamaoritanga me te whakawhiti i ngā mahere e tautokona ana.",
+    "portHint": "E hiahia ana koe ki te pupuri i tō nama o nāianei? Ka taea e koe te kawe ki roto i Chatforia Wireless.",
+    "wireless": {
+      "manage": "Whakahaere waea koreutu"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Tikina he raraunga pūkere mō Chatforia ina kei tawhiti koe i te Wi-Fi.",
+      "cta": "Tikina eSIM / Whakaatu QR"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Whakahaere i tō mahere waea pūkere Chatforia, ngā nama, whakawhiti, me te kawe nama.",
+    "options": {
+      "heading": "Kōwhiria me pēhea te whakamahi i a Chatforia",
+      "subheading": "Ka taea e koe te tiki he nama Chatforia hou, kawe rānei i tō nama o nāianei mai i tētahi kaiwhakarato atu.",
+      "newNumber": "Tikina he nama Chatforia hou",
+      "portNumber": "Kawe i tō nama o nāianei ki roto i Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Kawe i tō nama o nāianei",
+      "subheading": "Nekehia tō nama waea o nāianei mai i tō kaiwhakarato o nāianei ki roto i Chatforia. Kia ōrite ngā taipitopito ki tō pūkete kaiwhakarato kia kore ai e whakaroa.",
+      "phoneNumberLabel": "Nama waea hei kawe",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Kaiwhakarato o nāianei",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, aha aha",
+      "accountNumberLabel": "Nama pūkete",
+      "pinLabel": "PIN / kupuhipa kawe-waho",
+      "fullNameLabel": "Ingoa tūturu i runga i te pūkete",
+      "address1Label": "Raina wāhitau 1",
+      "address2Label": "Raina wāhitau 2 (kōwhiringa)",
+      "cityLabel": "Taone",
+      "stateLabel": "Rohe / Porowini",
+      "postalCodeLabel": "Waehere poutāpeta",
+      "countryLabel": "Whenua",
+      "submitButton": "Tukuna tono kawe",
+      "success": "Kua tukuna te tono kawe! Ka whakamōhio tonu mātou ki a koe.",
+      "genericError": "I hē tētahi mea."
+    },
+    "status": {
+      "heading": "Tūnga kawe",
+      "subheading": "Aroturuki i te tūnga o ō tono kawe nama.",
+      "loading": "Kei te uta…",
+      "loadError": "I rahua te uta i ngā tono kawe.",
+      "none": "Kāore anō he mahi kawe.",
+      "pending": "Kei te tirohia",
+      "submitted": "Kua tukuna ki te kaiwhakarato",
+      "inProgress": "Kei te haere tonu",
+      "completed": "Kua oti",
+      "failed": "I rahua",
+      "canceled": "Kua whakakore",
+      "created": "Kua waihanga:",
+      "scheduled": "Kua whakarite:",
+      "completedAt": "Kua oti:"
+    },
+    "dataLow": "Kei te iti haere ō raraunga.",
+    "topUp": "Whakakī ināianei",
+    "expiresIn": "Ka pau i roto i {{days}} rā",
+    "exhausted": "Kua pau ō raraunga. Hokona he pōkai hou kia haere tonu ai te whakamahi raraunga pūkere.",
+    "buyPack": "Hokona pōkai raraunga",
+    "esimPackLabel": "Pōkai eSIM"
+  },
+  "family": {
+    "title": "Whānau",
+    "loading": "Kei te uta i ngā taipitopito whānau…",
+    "error": {
+      "load": "I rahua te uta i ngā taipitopito whānau.",
+      "invite": "Kāore i taea te waihanga i tētahi powhiri. Kia mōhio ko koe te rangatira whānau ka whakamātau anō.",
+      "checkout": "Kāore i taea te tīmata i te utu mō tētahi mahere Whānau. Tāpiri whakamātau anō."
+    },
+    "billing": {
+      "myPlanTitle": "Taku mahere",
+      "myPlanError": "Kāore i taea te uta i tō mahere.",
+      "myPlanLoading": "Kei te uta i tō mahere…",
+      "currentPlan": "Mahere o nāianei",
+      "renewsAt": "Ka whakahou i",
+      "freePlanCopy": "Kei runga koe i te mahere koreutu. Whakahou kia whakatuwhera i ētahi atu āhuatanga.",
+      "upgradeCta": "Whakahou mahere",
+      "changePlanCta": "Huria te mahere",
+      "manageBilling": "Whakahaere nama",
+      "portalError": "Kāore i taea te whakatuwhera i te tauranga nama i tēnei wā.",
+      "cancelNow": "Whakakore ināianei",
+      "cancelNowHelp": "Ka taea e koe te whakahaere, whakakore rānei i tō ohaurunga i te tauranga nama, whakakore tonu rānei i raro.",
+      "cancelNowConfirm": "E pono ana koe ki te whakakore tonu i tō mahere? Kāore e taea te whakakore i tēnei mahi.",
+      "cancelNowError": "Kāore i taea te whakakore i tō mahere i tēnei wā. Tāpiri whakamātau anō, whakamahia rānei te Whakahaere nama."
+    },
+    "none": {
+      "title": "Kāore anō he whānau i whakaritea",
+      "body": "Hei waihanga i tētahi Whānau Chatforia me tētahi puna raraunga tiritiri, tīmatahia he mahere Whānau.",
+      "goUpgrade": "Tīmatahia he mahere Whānau",
+      "viewPlans": "Tirohia ngā mahere katoa"
+    },
+    "group": {
+      "defaultName": "Taku Whānau Chatforia",
+      "role": "Tō tūranga: {{role}}"
+    },
+    "role": {
+      "owner": "Rangatira",
+      "member": "Mema"
+    },
+    "data": {
+      "heading": "Puna raraunga tiritiri",
+      "caption": "Ka tiritiri katoa ngā mema i tēnei puna. Ka whakatūpato mātou i a koe i te wa e tata ana koe ki tō rohe."
+    },
+    "members": {
+      "title": "Ngā mema whānau",
+      "name": "Ingoa",
+      "role": "Tūranga",
+      "usage": "Whakamahinga",
+      "limit": "Rohe",
+      "unlimited": "Kāore he rohe motuhake",
+      "inviteCta": "Powhiri mema"
+    },
+    "invite": {
+      "title": "Powhiri mema hou",
+      "body": "Tukuna he īmēra, hononga rānei hei powhiri i tētahi ki roto i tō puna raraunga whānau tiritiri.",
+      "emailLabel": "Īmēra (kōwhiringa)",
+      "emailPlaceholder": "hoa@example.com",
+      "create": "Waihanga powhiri",
+      "linkLabel": "Hononga powhiri",
+      "copyAria": "Tārua hononga powhiri",
+      "expiryHint": "Ka pau tēnei hononga i muri i ētahi rā. Ka taea tonu e koe te waihanga i tētahi hou."
+    },
+    "join": {
+      "title": "Uru ki tētahi whānau",
+      "body": "Kua powhirihia koe ki te uru ki tētahi Whānau Chatforia me te tiritiri i tā rātou puna raraunga.",
+      "cta": "Whakaae ka uru ki te whānau",
+      "ctaLogin": "Takiuru ka uru ki te whānau",
+      "success": "Kua uru koe ki tēnei whānau. Kei te tiritiri koe i tā rātou puna raraunga ināianei.",
+      "goFamily": "Haere ki te papatohu whānau",
+      "error": "Kāore i taea te tāpiri i a koe ki tēnei whānau. Ka hē pea te powhiri, kua pau rānei."
+    }
+  },
+  "premium": {
+    "heading": "Haere ki Premium",
+    "description": "Whakatuwhera i ngā āhuatanga mana me te tango pānuitanga.",
+    "cta": "Whakahou",
+    "upgrade": "Whakahou",
+    "upgradeAria": "Whakahou ki Chatforia Premium"
+  },
   "upgrade": {
-    "title": "Whakahōu",
-    "subtitle": "Kōwhiria te mahere tika māu: tango pānui mā Plus, rānei whiwhi i ngā āhuatanga katoa mā Premium.",
+    "title": "Whakahou",
+    "titleLoggedIn": "Whakahou",
+    "titlePublic": "Utu",
+    "h1": "Utu & Mahere Chatforia",
+    "h1Subtitle": "Tīmata ki tō mātou mahere koreutu, pānuitanga-tautokona. Haere kore-pānuitanga me Plus, whakatuwhera rānei i ngā āhuatanga mana katoa me Premium.",
+    "subtitle": "Kōwhiria he mahere taupānga, tāpiri pōkai raraunga mō koe, tohaina raraunga ki tō whānau rānei — katoa mai i tētahi wāhi.",
+    "subtitle.app": "Tīmata ki tō mātou mahere koreutu, pānuitanga-tautokona. Haere kore-pānuitanga me Plus, whakatuwhera rānei i ngā āhuatanga mana katoa me Premium.",
+    "subtitle.mobile": "Tāpiri raraunga eSIM ā-ao kia haere tonu a Chatforia ahakoa kei tawhiti koe i te Wi-Fi.",
+    "subtitle.family": "Waihanga he puna raraunga tiritiri mō tō whānau me te whakahaere i te whakamahinga a te katoa mai i tētahi wāhi.",
     "perMonth": "marama",
     "perYear": "tau",
-    "goPremium": "Haere Premium",
-    "benefitsLine": "Wewete āhuatanga kaha & tango pānui.",
-    "ctaText": "Whakahōu",
-    "aria": "Whakahōu ki Chatforia Premium",
+    "goPremium": "Haere ki Premium",
+    "benefitsLine": "Whakatuwhera i ngā āhuatanga mana me te tango pānuitanga.",
+    "ctaText": "Whakahou",
+    "aria": "Whakahou ki Chatforia Premium",
     "toggle": {
-      "monthly": "Ia marama",
-      "annual": "Ia tau (Tiaki 25%)"
+      "monthly": "Ā-marama",
+      "annual": "Ā-tau (Tiaki 30%)"
     },
     "scheduleBanner": {
       "title": "Ka mutu te ohaurunga",
-      "body": "Ka hoki koe ki te Free i",
-      "keepPlanCta": "Puritia a {{plan}}",
-      "manageBillingCta": "Whakahaere utu"
+      "body": "Ka hoki koe ki Koreutu i",
+      "keepPlanCta": "Pupuri {{plan}}",
+      "manageBillingCta": "Whakahaere nama"
     },
     "billing": {
-      "opening": "Kei te huaki…",
-      "manage": "Whakahaere Utu"
+      "opening": "Kei te whakatuwhera…",
+      "manage": "Whakahaere Nama"
     },
     "checkout": {
-      "redirecting": "E whakawhiti ana…"
+      "redirecting": "Kei te whakawhiti…"
     },
     "auth": {
       "continue": "Haere tonu ki te takiuru",
@@ -488,499 +668,1004 @@
       "signIn": "Takiuru"
     },
     "cta": {
-      "aria": "Tīpako mahere",
-      "getPlus": "Whakahōu ki Plus",
-      "upgradeMonthly": "Whakahōu Ia Marama",
-      "upgradeAnnual": "Whakahōu Ia Tau"
+      "aria": "Kōwhiria mahere",
+      "getPlus": "Whakahou ki Plus",
+      "upgradeMonthly": "Whakahou Ā-marama",
+      "upgradeAnnual": "Whakahou Ā-tau"
+    },
+    "section": {
+      "app": "Ngā mahere taupānga",
+      "mobile": "Waea pūkere (eSIM)",
+      "family": "Ngā mahere whānau"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Koreutu",
         "price": "$0",
-        "desc": "Tīmata kōrero mō te kore utu.",
+        "desc": "Tīmata karere mō te koreutu. Tino pai mēnā kei te whakamātau noa koe i a Chatforia.",
         "features": {
-          "msg": "Karere takirua me te rōpū",
-          "aiBasic": "Whakautu AI taketake",
-          "attachments": "Āpitihanga paerewa"
+          "chat": "Kōrero 1:1 me te rōpū wā-tūturu, me ngā waea ororongo me ataata",
+          "media": "Tohaina whakaahua, karere reo, me ngā ataata poto",
+          "ai": "Whakautu atamai AI me te whakamaoritanga inamata (whakamahinga tika)",
+          "disappearing": "Ngā karere e ngaro ana me ngā mana tūmataiti taketake",
+          "ads": "Koreutu tonu me ngā pānuitanga i roto i te taupānga"
         },
         "ctaCurrent": "Mahere o nāianei",
-        "ctaUnavailable": "Huri ki Free (kāore e wātea)",
-        "aria": "Mahere Free (o nāianei)"
+        "ctaManage": "Whakahaere i te nama",
+        "ctaPublic": "Tīmata – haere tonu ki te takiuru",
+        "aria": "Mahere koreutu"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / marama",
-        "desc": "Te wheako kore pānui tino utu-iti.",
+        "price": "$6.99",
+        "desc": "Ngā mea taketake katoa, kāore he pānuitanga. Tino pai mō te karere me te waea o ia rā.",
         "features": {
-          "noAds": "Tango katoa i ngā pānui",
-          "msg": "Karere takirua me te rōpū",
-          "attachments": "Āpitihanga nui ake",
-          "aiBasic": "Whakautu AI taketake"
+          "allFree": "Ngā mea katoa i roto i Koreutu, kāore he pānuitanga",
+          "forwarding": "Whakawhiti waea me karere ki tō nama waea tūturu",
+          "history": "Hītori karere roa ake (tae atu ki te 6 marama)",
+          "support": "Tautoko tere ake ina hē tētahi mea"
         },
-        "badge": "Hīkoitanga",
-        "cta": "Kore Pānui",
-        "aria": "Whakahōu ki Plus"
+        "badge": "Tino rongonui",
+        "cta": "Haere Kore-Pānuitanga",
+        "ctaPublic": "Tikina Plus – haere tonu ki te takiuru",
+        "aria": "Whakahou ki Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Ia marama)",
-        "price": "$24.99 / marama",
-        "desc": "Ngā āhuatanga katoa, tangi whakaoho, me ngā taputapu AI kaha.",
+        "title": "Premium (Ā-marama)",
+        "price": "$11.99",
+        "desc": "Te wheako Chatforia katoa: ngā taputapu mana AI, whakaritenga, me te tautoko matua.",
         "features": {
-          "plusAll": "Ngā mea katoa o Plus",
-          "ringtones": "Ngā tangitangi me ngā oro karere ritenga",
-          "powerAi": "Ngā āhuatanga AI kaha",
-          "priorityUpdates": "Whakahōunga matua",
-          "backups": "Ngā tārua & tūhononga pūrere"
+          "plusAll": "Ngā mea katoa i roto i Plus",
+          "themes": "Whakatuwhera i ngā kaupapa tae premium katoa me ngā whakaritenga taupānga",
+          "ai": "Ngā taputapu mana AI anake mō Premium mō ngā whakatika, whakautu atamai, me ngā whakarāpopoto",
+          "support": "Tautoko matua ina tino hiahia koe"
         },
-        "badge": "Uara pai",
-        "cta": "Whakahōu (Ia marama)",
-        "aria": "Whakahōu ki Premium Ia marama"
+        "badge": "Kua tūtohia",
+        "cta": "Whakahou (Ā-marama)",
+        "ctaPublic": "Whakatuwhera Premium – haere tonu ki te takiuru",
+        "aria": "Whakahou ki Premium Ā-marama"
       },
       "premiumAnnual": {
-        "title": "Premium (Ia tau)",
-        "price": "$225 / tau",
-        "desc": "Penapena ina utua ia tau.",
+        "title": "Premium (Ā-tau)",
+        "price": "$99",
+        "desc": "Tiaki ake ina utua ā-tau — tae atu ki ngā kaupapa tae tāpiri, ngā taputapu AI, me te tautoko matua.",
         "features": {
-          "allPremium": "Ngā mea katoa o Premium",
-          "annualBilling": "Ka utua ia tau",
-          "save25": "Tiaki ~25% ki te ia marama",
-          "sameFeatures": "Ngā āhuatanga ōrite ki te Ia marama"
+          "allPremium": "Ngā mea katoa i roto i Premium Ā-marama — tae atu ki ngā kaupapa tae tāpiri",
+          "annualBilling": "Ka utua kotahi ia tau",
+          "save25": "Tiaki tata ki te 30% i whakaritea ki te utu ā-marama",
+          "bestFor": "Tino pai mō ngā kaiwhakamahi mana, kaimahi mamao, me ngā kaihaere nui"
         },
-        "badge": "Tiaki 25%",
-        "cta": "Whakahōu (Ia tau)",
-        "aria": "Whakahōu ki Premium Ia tau",
-        "disclaimer": "Utu kotahi i mua. Whakakore i ngā wā katoa. Kāore he utu huna."
+        "badge": "Tiaki 30%",
+        "cta": "Whakahou (Ā-tau)",
+        "ctaPublic": "Tiaki 30% me te ā-tau – haere tonu ki te takiuru",
+        "aria": "Whakahou ki Premium Ā-tau",
+        "disclaimer": "Ka utua i mua. Whakakore i ngā wā katoa. Kāore he utu huna."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Tīmata kōrero mō te kore utu.",
+      "freeTitle": "Koreutu",
+      "freeDesc": "Tīmata karere mō te koreutu.",
       "plusTitle": "Plus",
-      "plusBadge": "Hīkoitanga",
-      "plusDesc": "Te wheako kore pānui tino utu-iti.",
+      "plusBadge": "Tino rongonui",
+      "plusDesc": "Wheako kore-pānuitanga utu iti rawa.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Ngā āhuatanga katoa, tangi, me ngā taputapu AI kaha.",
+      "premiumMonthlyDesc": "Ngā āhuatanga katoa, ngā oro mōrena, me ngā taputapu mana AI.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Penapena ake ina utua ia tau.",
-      "annualDisclaimer": "Utu kotahi i mua. Whakakore i ngā wā katoa. Kāore he utu huna."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Tīmata",
-    "subtitle": "He tauhou ki Chatforia? Ka whakaatu tēnei aratohu tere i ngā mea matua kia whai hua koe i roto i ngā meneti.",
-    "alert": {
-      "text": "Ka tipu tēnei aratohu i a mātou e whakarewa ana i ngā āhuatanga hou. Mēnā he mea e ngaro ana, whakamōhio mai mā",
-      "contactLink": "Whakapā Mai"
+      "premiumAnnualDesc": "Tiaki ake ina utua ā-tau.",
+      "annualDisclaimer": "Ka utua i mua. Whakakore i ngā wā katoa. Kāore he utu huna."
     },
-    "section1": {
-      "title": "1) Waihanga i tō pūkete",
-      "signup": "Rēhita",
-      "or": "rānei",
-      "login": "takiuru",
-      "loginText": "mā tō pūkete o mua.",
-      "prefsStart": "Tautuhia ō",
-      "prefsLink": "manakohanga",
-      "prefsRest": "(reo, rīhiti pānui, tātauira)."
+    "mobile": {
+      "title": "Chatforia Waea pūkere (pōkai raraunga eSIM)",
+      "subtitle": "Tāpiri raraunga ā-ao kia haere tonu a Chatforia ahakoa kāore he Wi-Fi. Ka whakarite aunoa ngā utu i runga i tō whenua me tō moni.",
+      "subtitle.detail": "Kōwhiria tētahi pōkai raraunga ā-ao kotahi kia haere tonu a Chatforia ina haere koe, i tawhiti rānei i te Wi-Fi.",
+      "scope": {
+        "local": "Rohe",
+        "europe": "Ūropi",
+        "global": "Ā-ao"
+      },
+      "note": "Kāore mātou e hoko i ngā pōkai raraunga i raro i te 3 GB.",
+      "localEquals": "Rohe = {{country}}",
+      "localEqualsFallback": "Rohe = tō whenua o nāianei",
+      "perPack": "/ pōkai",
+      "cta": "Tikina tēnei pōkai raraunga",
+      "ctaPublic": "Tikina tēnei pōkai raraunga",
+      "checkout": {
+        "redirecting": "Kei te whakawhiti…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Raraunga tere mō te whakamahi nui",
+          "throttle": "Ka pōturi pea ngā tere i muri i te whakamahi nui",
+          "coverage": "Kapi pono",
+          "instant": "Whakahohe eSIM inamata",
+          "noContract": "Pōkai kotahi, kāore he kirimana"
+        }
+      },
+      "disclaimer": {
+        "devices": "E hiahia ana ngā pōkai raraunga eSIM ki tētahi pūrere hototahi eSIM me te kore maukati. Ka rerekē te wātea i runga i te tauira waea, kaiwhakarato, me te whenua. Ka rerekē te kapi me ngā tere i runga i te rohe."
+      },
+      "small": {
+        "title": "Pōkai tīmatanga",
+        "desc": "Kei roto 3 GB o raraunga tere — tino pai mō te karere māmā me ngā waea ōnaianei.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Haerenga poto, karere māmā, me ngā waea ōnaianei",
+        "aria": "Hokona pōkai raraunga eSIM Tīmatanga"
+      },
+      "medium": {
+        "title": "Pōkai kaihaere",
+        "desc": "Kei roto 5 GB o raraunga tere mō ngā haerenga, haerenga mahi, me ngā waea VoIP auau.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Haerenga wiki, ngā waea VoIP auau, me ngā mahere",
+        "aria": "Hokona pōkai raraunga eSIM Kaihaere"
+      },
+      "large": {
+        "title": "Pōkai mana",
+        "desc": "Kei roto 10 GB o raraunga tere mō te kōrero nui, waea, me te ataata i runga i te whatunga Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Kōrero nui, waea, ataata, me te whakamahi hotspot",
+        "aria": "Hokona pōkai raraunga eSIM Kaiwhakamahi Mana"
+      },
+      "compare": {
+        "title": "Whakataurite i ngā pōkai raraunga eSIM",
+        "col": {
+          "pack": "Pōkai",
+          "data": "Raraunga kua whakaurua",
+          "bestFor": "Tino pai mō"
+        },
+        "disclaimer": "Ka whakawhirinaki te whakamahinga raraunga tūturu ki te āhua o tō whakamahi i a Chatforia (reo, ataata, pāho, me ētahi atu taupānga i runga i tō waea)."
+      }
     },
-    "section2": {
-      "title": "2) Tīmata te karere",
-      "item1": "Waihanga he DM, he Rōpū rānei ka tuku i tāu karere tuatahi.",
-      "item2": "Whakamahia te whakamaoritanga inamata hei kōrero puta noa i te 100+ reo.",
-      "item3": "Whakamātauria ngā karere ngaro-aunoa me ngā rīhiti pānui i te Kōtaha → Tūmataiti."
+    "family": {
+      "title": "Whānau Chatforia (raraunga tiritiri)",
+      "subtitle": "Tohaina tētahi puna raraunga kotahi puta noa i tō whānau. Kotahi te nama, maha ngā pūkete Chatforia, kapi ā-ao.",
+      "perPack": "/ pōkai",
+      "small": {
+        "title": "Whānau Iti",
+        "desc": "Kei roto 20 GB o raraunga tere tiritiri — pai mō ngā kaiwhakamahi māmā 2–3.",
+        "price": "$29.99",
+        "aria": "Hokona pōkai Whānau Iti"
+      },
+      "medium": {
+        "title": "Whānau Waenga",
+        "desc": "Kei roto 40 GB o raraunga tere tiritiri — tino pai mō ngā mema kaha 3–5.",
+        "price": "$49.99",
+        "aria": "Hokona pōkai Whānau Waenga"
+      },
+      "large": {
+        "title": "Whānau Nui",
+        "desc": "Kei roto 80 GB o raraunga tere tiritiri — mō ngā whānau mana e noho tuihono tonu ana.",
+        "price": "$84.99",
+        "aria": "Hokona pōkai Whānau Nui"
+      },
+      "feature": {
+        "shared": "Puna raraunga tiritiri mō tō whānau",
+        "members": "Powhiri tae atu ki te 4 mema tāpiri",
+        "membersMore": "Pai mō ngā mema kaha 3–5",
+        "manage": "Whakahaere i ngā rohe mō ia mema",
+        "topUp": "Tāpiri pōkai anō i ngā wā katoa",
+        "bestValue": "Utu pai rawa ia GB",
+        "fairUse": "Kei raro i te kaupapa whakamahinga tika me ngā rohe rohe"
+      },
+      "disclaimer": "Ka waihanga, ka whakakī rānei ngā pōkai whānau i tētahi puna raraunga tiritiri. Ka taea e koe te powhiri me te tango i ngā mema i ngā wā katoa.",
+      "footnote": "Ka tiritiri ngā pōkai whānau i tētahi puna raraunga kotahi puta noa i ngā pūkete Chatforia kua hono. Ka whakawhirinaki te wātea me ngā rohe ki tō whenua me ngā ture rohe."
     },
-    "section3": {
-      "title": "3) Haere whakamua",
-      "item1Part1": "Whakahaerehia tō mahere ki te whārangi",
-      "upgradeLink": "Whakahōu",
-      "item1Part2": "(Plus = kore pānui, Premium = āhuatanga katoa).",
-      "item2Part1": "Honoa ētahi atu pūrere, ā, tautuhia ngā tārua whakamunatia i",
-      "settingsLink": "Tautuhinga"
+    "why": {
+      "title": "He aha i huri ai ngā tāngata ki Chatforia",
+      "subtitle": "Ka hoatu e Chatforia he nama waea tūturu, whakamaoritanga atamai, me tētahi ara mārama ki te haere kore-pānuitanga ina kua reri koe.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Ngā pānuitanga māmā ake i runga i Koreutu, he whakahou Plus ngāwari ina kua reri koe, me ngā taputapu Premium kāore e whakaratohia e TextNow."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Taupānga hou, hoahoa tuatahi-ki-te-ao, me te whakamaoritanga hanga-i-roto kaua i te whakawhiti waea tawhito."
+        },
+        "messengers": {
+          "title": "Chatforia vs ngā taupānga kōrero",
+          "body": "Tukuna karere ki ngā nama waea tūturu — ehara i ngā kaiwhakamahi taupānga anake — me te AI me te tūnga kua hanga-i-roto. Pai mēnā kei te haere mai koe mai i ngā taupānga pēnei i TextFree, TextMe rānei."
+        }
+      },
+      "tableTitle": "Me pēhea te whakataurite a Chatforia",
+      "col": {
+        "feature": "Āhuatanga"
+      },
+      "feature": {
+        "freeNumber": "Nama waea koreutu",
+        "translation": "Whakamaoritanga aunoa hanga-i-roto",
+        "aiTools": "Ngā taputapu AI (whakatika, whakautu, whakarāpopoto)",
+        "ads": "Kōwhiringa kore-pānuitanga",
+        "history": "Hītori karere"
+      },
+      "yes": "Ae",
+      "no": "Kāo",
+      "yesPremium": "Ae (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Whakawhāiti",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Tae atu ki te 12+ marama",
+        "textnow": "Ka rerekē i runga i te pūkete",
+        "voice": "Whakawhāiti / i runga i te pūkete"
+      },
+      "disclaimer": "I runga i ngā mōhiohio e wātea ana ki te iwi whānui, ka rerekē pea i roto i te wā. He rite tonu ngā taupānga tuku-karere koreutu pēnei i TextFree, TextMe ki a TextNow."
     },
-    "cta": {
-      "seePlans": "Tirohia ngā mahere",
-      "openSettings": "Huaki tautuhinga"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Pokapū Āwhina",
     "faq": {
-      "account": {
-        "q": "Me pēhea te waihanga, te whakaora rānei i taku pūkete?",
-        "a": "Tikiake te taupānga, whakamahia te tukutuku rānei, pāwhiri “Waihanga pūkete”, manatoko tō īmēra/waea. Hei whakaora, whakamahia “Kua wareware te kupuhipa”."
+      "title": "Utu & mahere FAQ",
+      "free": {
+        "q": "He koreutu tonu te mahere Koreutu?",
+        "a": "Ae. Kei roto i te mahere Koreutu he nama Chatforia, waea, me te karere me ngā pānuitanga. Ka taea e koe te noho ki Koreutu i ngā wā katoa e hiahia ana koe, whakahou rānei ki te tango i ngā pānuitanga me te whakatuwhera i ētahi atu āhuatanga."
       },
-      "privacy": {
-        "q": "He whakamunatia mutunga-ki-te-mutunga ngā karere?",
-        "a": "Āe. Ka whakamunatia mutunga-ki-te-mutunga ngā karere me ngā waea. Ko koe anake me te kaiwhiwhi ka taea te pānui."
+      "plusPremium": {
+        "q": "He aha te rerekētanga i waenganui i Plus me Premium?",
+        "a": "Ka tango a Plus i ngā pānuitanga me te whakaroa i tō hītori karere — tino pai mō te whakamahi ia rā. Ka tāpiri a Premium i ngā whakaritenga tāpiri, ngā taputapu AI mō ngā whakatika me ngā whakautu, me te tautoko matua mō ngā kaiwhakamahi nui."
       },
-      "translate": {
-        "q": "Me pēhea te mahi o te whakamaoritanga inamata?",
-        "a": "Whakahohe “Whakamaori-aunoa” i Tautuhinga → Āhua & Reo. Ka whakamaori mātou ki te pūrere ina tautokona, ki ngā API haumaru rānei me te iti rawa o te raraunga tautuhi."
+      "esim": {
+        "q": "Kei hea e mahi ana ngā pōkai raraunga eSIM?",
+        "a": "Ka whakamahi a Chatforia Waea pūkere i te kapi eSIM ā-ao. Ka whakawhirinaki te wātea ki tō whenua me tō pūrere. Ka kite koe i ngā kōwhiringa e tautokona ana i te wā o te whakahohe i roto i te taupānga."
+      },
+      "cancel": {
+        "q": "Ka taea e au te whakakore, huri rānei i ngā mahere i ngā wā katoa?",
+        "a": "Ae. Ka taea e koe te whakahaere, whakakore rānei i tō ohaurunga mai i te whārangi nama i roto i te taupānga. Ka whai mana ngā huringa i te mutunga o tō wā nama o nāianei."
+      },
+      "family": {
+        "q": "Me pēhea te mahi a ngā pōkai Whānau?",
+        "a": "Ka waihanga ngā pōkai Whānau i tētahi puna raraunga tiritiri puta noa i ngā pūkete Chatforia maha. Ka utu tētahi tangata i te nama, ā, ka taea e koe te powhiri, tango rānei i ngā mema me te whakarite rohe mō ia tangata."
+      }
+    },
+    "gettingStarted": {
+      "title": "Tīmata",
+      "subtitle": "He tauhou ki Chatforia? Ko tēnei ara tīmata tere e whakaatu ana i ngā mea matua kia whai hua koe i roto i ngā meneti torutoru.",
+      "alert": {
+        "text": "Ka tipu tēnei aratohu i te wā e whakarewa ana mātou i ngā āhuatanga hou. Mēnā kei te ngaro tētahi mea, whakamōhio mai mā te",
+        "contactLink": "Whakapā Mai"
+      },
+      "section1": {
+        "title": "1) Waihanga i tō pūkete",
+        "signup": "Waitohu",
+        "or": "rānei",
+        "login": "takiuru",
+        "loginText": "me tō pūkete o nāianei.",
+        "prefsStart": "Whakaritea ō",
+        "prefsLink": "manakohanga",
+        "prefsRest": "(reo, pānui panui, kaupapa)."
+      },
+      "section2": {
+        "title": "2) Tīmata karere",
+        "item1": "Waihanga he DM, Rōpū rānei ka tukuna tō karere tuatahi.",
+        "item2": "Whakamahia te whakamaoritanga inamata ki te kōrero puta noa i ngā reo 100+.",
+        "item3": "Whakamātauria ngā karere e ngaro ana me ngā pānui panui i Kōtaha → Tūmataiti."
+      },
+      "section3": {
+        "title": "3) Haere tonu",
+        "item1": "Ka taea e koe te whakahou ki tētahi mahere utu i ngā wā katoa i roto i te taupānga.",
+        "item2": "Ina kua takiuru koe, ka taea e koe te hono i ētahi atu pūrere me te whakarite i ngā pūrua whakamuna mai i ngā Tautuhinga i roto i te taupānga."
+      },
+      "cta": {
+        "seePlans": "Tirohia ngā mahere",
+        "openSettings": "Whakatuwhera tautuhinga"
+      }
+    },
+    "helpCenter": {
+      "title": "Puna Āwhina",
+      "faq": {
+        "account": {
+          "q": "Me pēhea te waihanga, whakaora rānei i taku pūkete?",
+          "a": "Tikiake te taupānga, whakamahia rānei te paetukutuku, pāwhiri “Waihanga pūkete”, whakamana i tō īmēra/waea. Ki te whakaora, whakamahia “Kua wareware ki te kupuhipa”."
+        },
+        "privacy": {
+          "q": "He whakamuna pito-ki-pito ngā karere?",
+          "a": "Ae. He whakamuna pito-ki-pito mā te taunoa ngā karere me ngā waea. Ko koe me te kaiwhiwhi anake ka taea te pānui."
+        },
+        "translate": {
+          "q": "Me pēhea te mahi a te whakamaoritanga inamata?",
+          "a": "Whakahohe “Whakamaori aunoa” i ngā Tautuhinga → Āhuatanga & Reo. Ka whakamaori mātou i runga i te pūrere i ngā wā e tautokona ana, mā ngā API haumaru me ngā raraunga iti rawa rānei."
+        },
+        "contact": {
+          "q": "Whakapā tautoko",
+          "a": "Taunakitanga mai ki a mātou i support@chatforia.com. Tāpiri whakaahua mata me tō putanga taupānga."
+        }
+      }
+    },
+    "contact": {
+      "title": "Whakapā Mai",
+      "successMsg": "Mauruuru — ka whakautu tō mātou roopu mā te īmēra.",
+      "errorSend": "Kāore i taea te tuku. Īmēra support@chatforia.com.",
+      "form": {
+        "nameLabel": "Ingoa",
+        "emailLabel": "Īmēra",
+        "messageLabel": "Karere",
+        "sendCta": "Tuku"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Kaupapahere Tūmataiti",
+      "lastUpdated": "Whakahoutanga whakamutunga:",
+      "intro": {
+        "body": "E whakamārama ana tēnei Kaupapahere Tūmataiti i te āhua o te kohikohi, whakamahi, me te tohatoha a Chatforia (“mātou”, “mātou”) i ngā mōhiohio ina whakamahi koe i ā mātou taupānga me ngā ratonga. Kua hoahoatia e mātou a Chatforia ki te whakaiti i ngā raraunga ka taea e mātou te uru atu."
+      },
+      "infoWeCollect": {
+        "title": "Ngā mōhiohio e kohikohi ana mātou",
+        "account": "Mōhiohio pūkete (hei tauira īmēra/waea) hei waihanga me te haumaru i tō pūkete.",
+        "encrypted": "Ihirangi whakamuna (karere/waea) he whakamuna pito-ki-pito; kāore e taea e mātou te pānui.",
+        "diagnostics": "Tātari/whakamahinga pēnei i ngā rangitaki tūpono, momo pūrere, tātari ā-papa rānei hei whakapai ake i te mahinga."
+      },
+      "sms": {
+        "title": "Ngā nama waea pūkere me SMS",
+        "body": "Mēnā ka whiriwhiri koe ki te whakarato i tētahi nama waea pūkere, ka whakamahia e mātou ki te whakahohe i ngā āhuatanga pēnei i te whakamana pūkete, ngā mātakite takiuru, me te karere kaiwhakamahi-ki-kaiwhakamahi mā SMS i ngā wā e tautokona ana. Ka taea e mātou te tuku karere SMS whakawhiti e pā ana ki tō pūkete me ngā mahi i runga i Chatforia. Ka taea e koe te whakakore i te whiwhi karere SMS i ngā wā katoa mā te whakautu ki tētahi kupu whakakore e tautokona ana (pēnei i “STOP”) ki te whakarereke rānei i ō manakohanga whakamōhio i roto i te taupānga. Kāore mātou e hoko i tō nama waea, e whakamahi rānei mō te hokohoko kore e pā ana.",
+        "newText": "Karere hou",
+        "enterRecipient": "Whakauruhia he ingoa, nama rānei",
+        "typeMessage": "Pātōhia he karere…",
+        "addRecipient": "Tāpiri he kaiwhiwhi i runga ake hei tīmata…"
+      },
+      "howWeUse": {
+        "title": "Me pēhea te whakamahi mātou i ngā mōhiohio",
+        "provide": "Whakarato me te haumaru i te ratonga (whakamana, tātari spam/tūkino).",
+        "improve": "Whakapai ake i ngā āhuatanga (kounga whakamaoritanga, pono).",
+        "legal": "Whai i ngā herenga ture."
+      },
+      "sharing": {
+        "title": "Tohatoha",
+        "body": "Kāore mātou e hoko raraunga whaiaro. Ka taea e mātou te tohatoha i ngā raraunga whakawhāiti ki ngā kaiwhakahaere (hei tauira whakamōhio pana, tātari) i raro i ngā kirimana tino kaha."
+      },
+      "rights": {
+        "title": "Ō mana",
+        "body": "I runga i tō rohe (hei tauira GDPR/UK GDPR/CPRA), ka taea e koe te tono uru, whakatika, mukuhia, whakakore rānei i ētahi tukatuka. Whakapā: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Pupuri raraunga & haumarutanga",
+        "body": "Ka pupuri mātou i nga mea e hiahiatia ana hei whakahaere i te ratonga me te whakamahi i te haumarutanga paerewa ahumahi. Kāore e taea e mātou te whakamuna i ngā ihirangi E2E."
+      },
+      "children": {
+        "title": "Ngā tamariki",
+        "body": "Kāore a Chatforia e whakahaerehia ana ki ngā tamariki i raro i te 13 (i runga rānei i ngā ture o tō rohe)."
+      },
+      "changes": {
+        "title": "Ngā huringa",
+        "body": "Ka whakairi mātou i ngā whakahou ki konei ka whakahou i te rā “Whakahoutanga whakamutunga”."
       },
       "contact": {
-        "q": "Whakapā tautoko",
-        "a": "Tuhia mai ki support@chatforia.com. Whakaurua he screenshot me te putanga taupānga."
+        "title": "Whakapā",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Whakapā Mai",
-    "successMsg": "Ngā mihi—ka whakahoki mā te īmēra ā tō mātou rōpū.",
-    "errorSend": "Kāore i taea te tuku. Tēnā īmērahia a support@chatforia.com.",
-    "form": {
-      "nameLabel": "Ingoa",
-      "emailLabel": "Īmēra",
-      "messageLabel": "Karere",
-      "sendCta": "Tukua"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Kaupapahere Tūmataiti",
-    "lastUpdated": "Whakahōu whakamutunga:",
-    "intro": {
-      "body": "E whakamārama ana tēnei Kaupapahere Tūmataiti me pēhea a Chatforia (“mātou”) e kohikohi, e whakamahi, e tiri raraunga ana i a koe e whakamahi ana i ā mātou taupānga me ngā ratonga. Ka hoahoa a Chatforia kia iti rawa ngā raraunga ka taea e mātou te kite."
     },
-    "infoWeCollect": {
-      "title": "Ngā mōhiohio ka kohia e mātou",
-      "account": "Mōhiohio pūkete (pēnei i te īmēra/waea) hei waihanga, hei haumaru hoki i tō pūkete.",
-      "encrypted": "Ihirangi whakamunatia (ngā karere/waea) he whakamunatia mutunga-ki-te-mutunga; kāore mātou e taea te pānui.",
-      "diagnostics": "Rīpoata tukinga/ whakamahinga, momo pūrere, tātaritanga māmā hei whakapai mahi."
+    "terms": {
+      "title": "Ngā Tikanga Ratonga",
+      "lastUpdated": "Whakahoutanga whakamutunga:",
+      "intro": {
+        "body": "Mā te whakamahi i a Chatforia ka whakaae koe ki ēnei Tikanga. Mēnā kāore koe e whakaae, kaua e whakamahi i te ratonga."
+      },
+      "accounts": {
+        "title": "Ngā pūkete",
+        "itemAccurateInfo": "Whakarato mōhiohio tika me te pupuri haumaru i ō tohu.",
+        "itemResponsibility": "Kei a koe te haepapa mō ngā mahi i runga i tō pūkete."
+      },
+      "acceptableUse": {
+        "title": "Whakamahinga tika",
+        "itemNoAbuse": "Kāore he ihirangi ture, tūkino, takahi rānei; kāore he spam, tūkino aunoa rānei.",
+        "itemSuspend": "Ka taea e mātou te whakatarewa / whakamutu mō ngā takahi."
+      },
+      "sms": {
+        "title": "Ngā whakawhitiwhiti SMS",
+        "body": "Mēnā ka whakarato koe i tētahi nama waea pūkere, ka whakaae koe kia tukuna e Chatforia ngā karere SMS e pā ana ki tō pūkete me tō whakamahi i te ratonga, pēnei i ngā mātakite takiuru, whakamōhio haumarutanga, me ngā karere e pā ana ki ngā kōrero i tīmatahia, whai wāhi rānei koe. Kāore mātou e whakamahi i te SMS mō ngā karere whakatairanga, hokohoko rānei me te kore o tō whakaaetanga tūturu. Ka tāpiri pea ngā reiti karere me raraunga paerewa. Ka taea e koe te whakakore i ngā karere SMS i ngā wā katoa mā te whakautu ki tētahi kupu whakakore e tautokona ana (hei tauira “STOP”) ki te whakahou rānei i ō tautuhinga whakamōhio i roto i te taupānga."
+      },
+      "yourContent": {
+        "title": "Ō ihirangi",
+        "body": "Ka pupuri tonu koe i ngā mana ki ō ihirangi. Ka whakawhiwhi koe ki a mātou i ngā mana e hiahiatia ana hei whakahaere i te ratonga (hei tauira ara, penapena, whakamaoritanga)."
+      },
+      "disclaimer": {
+        "title": "Whakakoretanga & haepapa",
+        "body": "Ka whakaratohia te ratonga “i tēnei āhuatanga” me te kore whakamana. I runga i te kaha katoa e whakaaetia ana e te ture, kāore a Chatforia e haepapa mō ngā pakaru ā-puku, pakaru whai muri rānei."
+      },
+      "changes": {
+        "title": "Ngā huringa",
+        "body": "Ka taea e mātou te whakahou i ēnei tikanga; mā te whakamahi tonu i muri i ngā huringa ka whakaae koe."
+      },
+      "contact": {
+        "title": "Whakapā",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "Me pēhea te whakamahi i ngā mōhiohio",
-      "provide": "Whakarato, whakahaumaru hoki i te ratonga (takiurunga, kite-spam/tukino).",
-      "improve": "Whakapiki āhuatanga (kounga whakamaori, pūmautanga).",
-      "legal": "Whakakī herenga ā-ture."
+    "doNotSell": {
+      "title": "Kaua e Hoko, Tohatoha rānei i Taku Mōhiohio Whaiaro",
+      "body": "Kāore a Chatforia e hoko mōhiohio whaiaro. Ka taea tonu e ngā kainoho o California te tuku tono i raro i te CPRA mā te pātene i raro.",
+      "cta": "Tukuna he tono"
     },
-    "sharing": {
-      "title": "Tiritiri",
-      "body": "Kāore mātou e hoko raraunga whaiaro. Tērā pea ka tiritiria ētahi raraunga iti ki ngā kaiwhakarato (pēnei i ngā pana, tātaritanga) i raro i ngā kirimana kaha."
+    "cookies": {
+      "title": "Tautuhinga Pihikete",
+      "body": "Ka whakamahi a Chatforia i ngā pihikete iti (hei tauira wā-takiuru, haumarutanga). Kāore mātou e whakamahi i ngā pihikete pānuitanga tuatoru. Whakahaerehia ngā pihikete mā ngā tautuhinga o tō pūtirotiro."
     },
-    "rights": {
-      "title": "Ō motika",
-      "body": "E ai ki tō rohe (pēnei i te GDPR/UK GDPR/CPRA), ka āhei koe ki te tono uru, whakatika, muku, me te aukati i ētahi tukatuka. Whakapā: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Kāore i taea te uta i te tūnga nama waea.",
+      "lock": "Maukati",
+      "noNumberAssigned": "Kāore he nama i whakaritea. Kōwhiria tētahi mā te waehere rohe hei tīmata tuku karere.",
+      "pickNumber": "Kōwhiria he nama",
+      "phoneNumber": "Nama waea"
     },
-    "retention": {
-      "title": "Puritanga raraunga & haumarutanga",
-      "body": "Ka puritia ko te mea e hiahiatia ana anake hei whakahaere i te ratonga, ā, ka whakamahi i ngā paerewa ahumahi mō te haumarutanga. Kāore mātou e taea te whakamārama i te ihirangi E2E."
+    "startChatModal": {
+      "title": "Tīmata kōrero",
+      "quickPicker": "Kaitīpako tere",
+      "to": "Ki",
+      "nameOrUsername": "Pātōhia he ingoa, ingoa kaiwhakamahi",
+      "nameUsernamePhoneEmail": "Pātōhia he ingoa, ingoa kaiwhakamahi, nama waea, īmēra rānei…",
+      "startWithSelected": "Tīmata kōrero me te kua kōwhiria",
+      "searchByUsernameOrPhone": "Rapu mā te ingoa kaiwhakamahi, nama waea rānei",
+      "search": "Rapu",
+      "searchPrompt": "Pātōhia he ingoa kaiwhakamahi, nama waea rānei ka pēhi Rapu.",
+      "pickFromContacts": "Kōwhiria mai i ngā whakapā",
+      "addContact": "Tāpiri Whakapā",
+      "show": "Whakaatu",
+      "add": "Tāpiri",
+      "close": "Kati",
+      "selectedCount": "{{count}} kua kōwhiria",
+      "pickAtLeastOne": "Kōwhiria kia kotahi neke atu te kaiwhiwhi.",
+      "saveContactsHint": "Ka wātea ngā urunga waea/īmēra i muri i te tiaki hei whakapā.",
+      "failedBulkStart": "I rahua te tīmata kōrero me ngā kaiwhiwhi kua kōwhiria.",
+      "noResults": "Kāore he hua",
+      "mode": "Aratau",
+      "group": "Rōpū",
+      "broadcast": "Pānui",
+      "groupNameOptional": "Ingoa rōpū (kōwhiringa)",
+      "firstMessageOptional": "Karere tuatahi (kōwhiringa engari e tūtohia ana)",
+      "createGroup": "Waihanga rōpū",
+      "sendBroadcast": "Tukuna pānui"
     },
-    "children": {
-      "title": "Tamariki",
-      "body": "Ehara a Chatforia mā ngā tamariki i raro i te 13 (rānei e hiahiatia ana e tō ture ā-rohe)."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Pōhutuhutu",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
     },
-    "changes": {
-      "title": "Ngā panonitanga",
-      "body": "Ka whakaputa mātou i ngā whakahōunga ki konei, ā, ka whakahōu i te rā “Whakahōu whakamutunga”."
+    "sounds": {
+      "freeNotice": "Kei runga koe i te Koreutu — ka whakaatu ngā oro premium engari kua maukati. Whakahou kia whakatuwhera i ngā mea katoa.",
+      "preview": "Arokite",
+      "resetToDefaults": "Tautuhi anō ki ngā taunoa",
+      "notificationSounds": "Ngā Oro Whakamōhio",
+      "messageTone": "Oro karere",
+      "default": "Taunoa",
+      "vibrate": "Wiriwiri",
+      "dreamer": "Moemoeā",
+      "notify": "Whakamōhio",
+      "pop": "Pōpō",
+      "pulsatingSound": "Oro Pūngā",
+      "textMessage": "Karere Kuputuhi",
+      "xylophone": "Xylophone",
+      "classic": "Tauira tawhito",
+      "urgency": "Oro hiahia",
+      "bells": "Ngā pere",
+      "chimes": "Ngā pere",
+      "digitalPhone": "Waea Mamati",
+      "melodic": "Oro rangi",
+      "organNotes": "Ngā nota ōkana",
+      "soundReality": "Oro Tūturu",
+      "street": "Tāone",
+      "universfield": "Universfield"
     },
-    "contact": {
-      "title": "Whakapā",
-      "body": "privacy@chatforia.com • [Ingoa ā-ture o te Kamupene], [Wāhitau]"
-    }
-  },
-
-  "terms": {
-    "title": "Ngā Ture Ratonga",
-    "lastUpdated": "Whakahōu whakamutunga:",
-    "intro": {
-      "body": "Mā te whakamahi i a Chatforia ka whakaae koe ki ēnei Ture. Ki te kore koe e whakaae, kaua e whakamahi i te ratonga."
+    "premiumGuard": {
+      "requiresPremium": "E hiahia ana tēnei āhuatanga ki tētahi mahere Premium."
     },
-    "accounts": {
-      "title": "Ngā pūkete",
-      "itemAccurateInfo": "Hoatu mōhiohio tika, ā, kia haumaru ō kupuhipa.",
-      "itemResponsibility": "Ko koe te haepapa mō ngā mahi i tō pūkete."
+    "aiSettings": {
+      "title": "Tautuhinga AI",
+      "controlIntro": "Whakahaere whakamaoritanga, whakautu atamai, me ngā whakautu aunoa a ForiaBot.",
+      "save": "Tiaki Tautuhinga AI",
+      "autoTranslateIncoming": "Whakamaori aunoa i ngā karere taumai",
+      "showOriginalAlongside": "Whakaatu i te kuputuhi taketake i te taha o te whakamaoritanga",
+      "enableSmartReplies": "Whakahohe i ngā Whakautu Atamai",
+      "smartRepliesHint": "Tukuna ngā karere kua whiwhi whakamutunga (kua horoia) ki te AI hei whakaatu i ngā whakautu tere.",
+      "maskProfanity": "Huna i ngā kupu kanga i roto i ngā whakaaro AI",
+      "maskProfanityHint": "Ina whakakā, ka huna ngā kupu kua tohuhia i roto i ngā whakaaro i whakahokia e te AI",
+      "foriaBot": "Whakautu Aunoa a ForiaBot",
+      "enableAutoReply": "Whakahohe i te whakautu aunoa ina pukumahi ahau",
+      "autoReplyMode": "Aratau whakautu aunoa",
+      "cooldownSeconds": "Wā whakamātau (hēkona)",
+      "off": "Whakaweto",
+      "on": "Whakakā",
+      "signature": "Waitohu",
+      "autoReply": "Whakautu aunoa",
+      "activeUntilOptional": "Kaha tae noa ki (kōwhiringa)",
+      "saved": "Kua tiakina ngā manakohanga AI",
+      "saveFailed": "I rahua te tiaki i ngā tautuhinga AI",
+      "translateOff": "Whakaweto",
+      "translateTagged": "Anake ina @whakamaoritia, kua tohuhia rānei",
+      "translateAll": "Whakamaori i ngā karere taumai katoa",
+      "modeDm": "Ngā kōrero 1:1 anake",
+      "modeMention": "Anake ina @whakahua ahau",
+      "modeAll": "Ngā karere taumai katoa"
     },
-    "acceptableUse": {
-      "title": "Whakamahi e whakaaetia ana",
-      "itemNoAbuse": "Kaua he ihirangi ture-kore, tukino, takahi mana; kaua he pāpāho tāmi, he pūnaha aunoa hoki.",
-      "itemSuspend": "Tērā pea ka whakatārewatia/whakakorea mō ngā takahitanga."
+    "accessibilitySettings": {
+      "title": "Āheinga & Mātakite",
+      "accessibility": "Āheinga",
+      "accessibilityDesc": "Ngā kōwhiringa kia ngāwari ake te whakamahi i a Chatforia me te kore e whakawhirinaki ki te oro.",
+      "interfaceFontSize": "Rahi momotuhi atanga",
+      "interfaceFontSizeHelp": "Ka tīmata i te rahi noa. Whakanuia mēnā e hiahia ana koe ki te kuputuhi rahi ake i roto i ngā tautuhinga āheinga.",
+      "sm": "iti",
+      "md": "waenga",
+      "lg": "rahi",
+      "xl": "rahi rawa",
+      "notifications": "Ngā whakamōhio",
+      "notificationsDesc": "Ngā mātakite ataata mō ngā karere & waea\nWhakaatu i ngā paepae me te kōriko taitara kia kore koe e ngaro i te mahi.",
+      "vibrateOnNew": "Wiriwiri i ngā karere hou (ina tautokona)\nWhakaoho i te wiriwiri pūrere me ngā whakamōhio.",
+      "flashOnCall": "Kōriko mata i te waea taumai\nKōriko kanapa poto ina tangi te waea.",
+      "liveCaptions": "Ngā tapanga ora (ngā waea)",
+      "captionFontSize": "Rahi momotuhi tapanga",
+      "captionBackground": "He whakamārama tapanga",
+      "light": "mā",
+      "dark": "pōuri",
+      "transparent": "pūmau",
+      "voiceNotes": "Ngā tuhipoka reo",
+      "autoTranscribeVoiceNotes": "Whakamaori aunoa i ngā tuhipoka reo",
+      "autoTranscribeVoiceNotesDesc": "Āpitihia he whakamaoritanga ki ngā karere ororongo ka whiwhi koe.",
+      "changesSavedInstantly": "Ka tiakina inamata ngā huringa.",
+      "loadFailed": "I rahua te uta i ngā tautuhinga",
+      "visualAlerts": "Ngā mātakite ataata mō ngā karere & waea",
+      "visualAlertsDesc": "Whakaatu i ngā paepae me te kōriko taitara kia kore koe e ngaro i te mahi.",
+      "vibrateOnNewShort": "Wiriwiri i ngā karere hou (ina tautokona)",
+      "vibrateOnNewDesc": "Whakaoho i te wiriwiri pūrere me ngā whakamōhio.",
+      "flashOnCallShort": "Kōriko mata i te waea taumai",
+      "flashOnCallDesc": "Kōriko kanapa poto ina tangi te waea."
     },
-    "yourContent": {
-      "title": "Tō ihirangi",
-      "body": "Ka mau tonu ō motika ki tō ihirangi. Ka tukua e koe ngā motika e hiahiatia ana e mātou hei whakahaere i te ratonga (pēnei i te tuku, te rokiroki, te whakamaori)."
+    "privacySection": {
+      "strictE2EE": "Whakamuna pito-ki-pito tino kaha",
+      "ciphertextOnlyNote": "Penapena ciphertext anake i runga i te tūmahi. Ka whakakore i ngā arokite AI/Whakamaori me te whakahaere."
     },
-    "disclaimer": {
-      "title": "Whakakāhore & haepapa",
-      "body": "Ka tukuna te ratonga “me tōna āhua ināianei” me te kore pūtāhui. I te tino whānui o te ture, kāore a Chatforia e kawe haepapa mō ngā kino tūāwhio, āpiti rānei."
+    "linkedDevicesPanel": {
+      "title": "Ngā Pūrere Hono",
+      "noneFound": "Kāore i kitea he pūrere hono.",
+      "refresh": "Whakahou"
     },
-    "changes": {
-      "title": "Ngā panonitanga",
-      "body": "Ka whakahōu pea ēnei ture; mā te haere tonu o tō whakamahi ka tohu i tō whakaae."
+    "help": {
+      "title": "Āwhina",
+      "howCanWeHelp": "Me pēhea mātou e āwhina ai?",
+      "helpCenter": "Puna Āwhina",
+      "contactUs": "Whakapā mai",
+      "quickTopics": "Ngā kaupapa tere",
+      "searchExamples": "Whakamātauria te rapu mō “whakamaori”, “ngā pūrua”, “tūmataiti” rānei.",
+      "cantLogin": "Kāore e taea te takiuru",
+      "paymentsBilling": "Ngā utu / nama",
+      "reportAbuse": "Pūrongo tūkino",
+      "searchHelpArticles": "Rapua ngā tuhinga āwhina",
+      "search": "Rapu"
     },
-    "contact": {
-      "title": "Whakapā",
-      "body": "support@chatforia.com • [Ingoa ā-ture o te Kamupene], [Wāhitau]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Kaua e Hoko, e Tiri Rānei Aku Mōhiohio Whaiaro",
-    "body": "Kāore a Chatforia e hoko mōhiohio whaiaro. Heoi, ka taea e ngā kainoho o California te tuku tono i raro i te CPRA mā te pātene i raro nei.",
-    "cta": "Tukuna he tono"
-  },
-
-  "cookies": {
-    "title": "Tautuhinga Pihikete",
-    "body": "He iti noa ngā pihikete a Chatforia (pērā i te wātū, te haumarutanga). Kāore mātou e whakamahi pihikete pānui a te hunga tuatoru. Whakahaerehia ngā pihikete mā ngā tautuhinga pūtirotiro."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Kāore i taea te uta i te tūnga tau waea.",
-    "lock": "Raka",
-    "noNumberAssigned": "Kāore he tau i tohua. Kōwhiria mā te waehere rohe kia tīmata ai te tuku karere.",
-    "pickNumber": "Tīpako tau",
-    "phoneNumber": "Tau waea"
-  },
-
-  "startChatModal": {
-    "title": "Tīmata he kōrero",
-    "quickPicker": "Kōwhiri tere",
-    "to": "Ki",
-    "nameOrUsername": "Patohia he ingoa, ingoa kaiwhakamahi",
-    "nameUsernamePhoneEmail": "Patohia he ingoa, ingoa kaiwhakamahi, waea, īmēra rānei…",
-    "startWithSelected": "Tīmata kōrero me te hunga i tīpakohia",
-    "searchByUsernameOrPhone": "Rapua mā te ingoa kaiwhakamahi, te waea rānei",
-    "search": "Rapua",
-    "searchPrompt": "Patohia he ingoa kaiwhakamahi, he waea rānei, kātahi pāwhiri Rapua.",
-    "pickFromContacts": "Rānei tīpako mai i ngā whakapā",
-    "addContact": "Tāpiri Whakapā",
-    "show": "Whakaatu",
-    "add": "Tāpiri",
-    "close": "Katia",
-    "selectedCount": "{{count}} kua tīpakohia",
-    "pickAtLeastOne": "Tīpakohia kia kotahi te kaiwhiwhi.",
-    "saveContactsHint": "Ka wātea ngā tāurunga waea/īmēra i muri i tō tiaki i a rātou hei whakapā.",
-    "failedBulkStart": "I rahua te tīmata kōrero ki te hunga i tīpakohia.",
-    "noResults": "Kāore he hua",
-    "mode": "Aratau",
-    "group": "Rōpū",
-    "broadcast": "Pāohotanga",
-    "groupNameOptional": "Ingoa rōpū (kōwhiringa)",
-    "firstMessageOptional": "Karere tuatahi (kōwhiringa, he pai kia tūtohu)",
-    "createGroup": "Waihanga rōpū",
-    "sendBroadcast": "Tukua te pāohotanga"
-  },
-
-  "themes": {
-    "amoled": "AMOLED",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Tōnga",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Kei te mahere Free koe — ka whakaaturia ngā oro Premium engari kua mau. Whakahōu kia wātea katoatia.",
-    "preview": "Arokite",
-    "resetToDefaults": "Tautuhi anō ki ngā taunoa",
-    "notificationSounds": "Ngā Oro Whakamōhiotanga",
-    "messageTone": "Oro karere",
-    "default": "Taunoa",
-    "vibrate": "Wiri",
-    "dreamer": "Moemoeā",
-    "notify": "Whakamōhiotia",
-    "pop": "Pop",
-    "pulsatingSound": "Oro Pātukituki",
-    "textMessage": "Karere Kuputuhi",
-    "xylophone": "Xylophone",
-    "classic": "Kaporeihana",
-    "urgency": "Kaua e Tōmuri",
-    "bells": "Pere",
-    "chimes": "Poro",
-    "digitalPhone": "Waea Mamati",
-    "melodic": "Rangiāhua",
-    "organNotes": "Ngā oro okana",
-    "soundReality": "Tūturu Oro",
-    "street": "Tiriti",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "E hiahiatia ana te mahere Premium mō tēnei āhuatanga."
-  },
-
-  "aiSettings": {
-    "title": "Tautuhinga AI",
-    "controlIntro": "Whakahaere i te whakamaoritanga, ngā whakautu atamai, me ngā urupare aunoa a ForiaBot.",
-    "save": "Tiaki Tautuhinga AI",
-    "autoTranslateIncoming": "Whakamaori-aunoa i ngā karere tomo",
-    "showOriginalAlongside": "Whakaatu te tuhinga taketake i te taha o te whakamaoritanga",
-    "enableSmartReplies": "Whakahohe Whakautu Atamai",
-    "smartRepliesHint": "Tukuna ngā karere tata kua riro (kua whakapai) ki te AI hei tuku tūtohuhanga whakautu tere.",
-    "maskProfanity": "Huna kōpēpē i ngā tūtohunga AI",
-    "maskProfanityHint": "Ki te ‘on’, ka hunaia ngā kupu kua tohua e te AI",
-    "foriaBot": "ForiaBot Urupare-Aunoa",
-    "enableAutoReply": "Whakahohe urupare-aunoa ina pukumahi au",
-    "autoReplyMode": "Aratau urupare-aunoa",
-    "cooldownSeconds": "Wā mātao (hekona)",
-    "off": "Kua whakaweto",
-    "on": "Kua whakakā",
-    "signature": "Hainatanga",
-    "autoReply": "Urupare-aunoa",
-    "activeUntilOptional": "Hohe tae noa ki (kōwhiringa)",
-    "saved": "Kua tiakina ngā manakohanga AI",
-    "saveFailed": "I rahua te tiaki tautuhinga AI",
-    "translateOff": "Weto",
-    "translateTagged": "Ina @translated rānei kua tohua",
-    "translateAll": "Whakamaori i ngā karere tomo katoa",
-    "modeDm": "Ngā DM anake",
-    "modeMention": "Ina @tohu ai au anake",
-    "modeAll": "Ngā karere tomo katoa"
-  },
-
-  "accessibilitySettings": {
-    "title": "Āheitanga & Whakamōhiotanga",
-    "accessibility": "Āheitanga",
-    "accessibilityDesc": "Ngā kōwhiringa hei māmā ake ai te whakamahi i a Chatforia me te kore e whirinaki ki te oro.",
-    "interfaceFontSize": "Rahi momotuhi atanga",
-    "interfaceFontSizeHelp": "Ka tīmata ki te rahi noa. Whakanuia mēnā e pai ana ki a koe ngā kupu nunui i ngā tautuhinga āheitanga.",
-    "sm": "iti",
-    "md": "waenga",
-    "lg": "nui",
-    "xl": "nui rawa",
-    "notifications": "Whakamōhiotanga",
-    "notificationsDesc": "Ngā whakaoho ā-tirohanga mō ngā karere & waea\nWhakaatu panui me te pīoioi taitara kia kore e ngaro te mahi.",
-    "vibrateOnNew": "Wiri i ngā karere hou (ina tautokona)\nWhakakā i te wiri pūrere me ngā whakamōhiotanga.",
-    "flashOnCall": "Hirahira te mata i te waea tomo\nHe kanapa poto ina tangi te waea.",
-    "liveCaptions": "Taitararoto ora (ngā waea)",
-    "captionFontSize": "Rahi momotuhi taitararoto",
-    "captionBackground": "Papamuri taitararoto",
-    "light": "mārama",
-    "dark": "pōuri",
-    "transparent": "pūata",
-    "voiceNotes": "Tuhipuoro reo",
-    "autoTranscribeVoiceNotes": "Tuhituhi-aunoa i ngā tuhipuoro reo\nĀpiritia he tuhinga ki ngā karere oro ka riro i a koe.",
-    "changesSavedInstantly": "Ka tiakina tonutia ngā panonitanga.",
-    "loadFailed": "I rahua te uta tautuhinga",
-    "visualAlerts": "Ngā whakaoho ā-tirohanga mō ngā karere & waea",
-    "visualAlertsDesc": "Whakaatu panui me te pīoioi taitara kia kore e ngaro te mahi.",
-    "vibrateOnNewShort": "Wiri i ngā karere hou (ina tautokona)",
-    "vibrateOnNewDesc": "Whakakā i te wiri pūrere me ngā whakamōhiotanga.",
-    "flashOnCallShort": "Hirahira te mata i te waea tomo",
-    "flashOnCallDesc": "He kanapa poto ina tangi te waea."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Whakamunatanga mutunga-ki-te-mutunga kaha",
-    "ciphertextOnlyNote": "Rokiroki anake i te kupu whakamuna ki te tūmau. Monokia te AI/Whakamaori me ngā tirohia arotake."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Ngā Pūrere kua Herea",
-    "noneFound": "Kāore he pūrere i kitea.",
-    "refresh": "Tāmata"
-  },
-
-  "help": {
-    "title": "Āwhina",
-    "howCanWeHelp": "Me pēhea mātou e āwhina ai?",
-    "helpCenter": "Pokapū Āwhina",
-    "contactUs": "Whakapā mai",
-    "quickTopics": "Kaupapa tere",
-    "searchExamples": "Whakamātau te rapu mō “whakamaori”, “tārua”, “tūmataiti”.",
-    "cantLogin": "Kāore e taea te takiuru",
-    "paymentsBilling": "Utu/ pire",
-    "reportAbuse": "Pūrongo tukino",
-    "searchHelpArticles": "Rapua ngā tuhinga āwhina",
-    "search": "Rapua"
-  },
-
-  "peoplePage": {
-    "people": "Tāngata",
-    "search": "Rapua",
-    "searchPlaceholder": "Rapua mā te ingoa taupū, ingoa, ingoa kaiwhakamahi, tau waea",
-    "filterSaved": "Tātari i ngā whakapā kua tiakina",
-    "noContactsFound": "Kāore he whakapā i kitea",
-    "quickStart": "Tīmatanga tere",
-    "quickStartDesc": "Ētahi huarahi kia tere te tīmata.",
-    "importContacts": "Kawemai ō whakapā",
-    "add": "Tāpiri",
-    "focusSearch": "Arotahi Rapu",
-    "import": "Kawemai",
-    "findOrAdd": "Kimihia, tāpirihia rānei tētahi",
-    "searchByPhoneOrUsername": "Rapua mā te waea / ingoa kaiwhakamahi",
-    "inviteFriends": "Powhirihia ngā hoa",
-    "inviteDesc": "Tiria tō hononga powhiri kia tīmata tonu ai te kōrero.",
-    "getTheApp": "Tikiake te taupānga",
-    "getTheAppDesc": "Noho tata mā Chatforia mō iOS me Android.",
-    "download": "Tikiake",
-    "syncTip": "Tohutohu: Ka noho tūhono ō karere i te tukutuku me te pūkoro."
-  },
-
-  "randomChat": {
-    "title": "Kōrero Tupurangi",
-    "description": "Tūtaki tangata hou inamata. Ka whakarite mātou, ka huaki he rūma kōrerorero rangitahi.",
-    "findMatch": "Kimihia he takirua māku",
-    "chatWithForia": "Kōrero ki a Foria",
-    "chatWithForiaBot": "Kōrero ki ForiaBot",
-    "cancel": "Whakakore",
-    "close": "Katia",
-    "searching": "Kei te rapu…",
-    "finding": "Kei te kimi…",
-    "looking": "Kei te kimi tangata…",
-    "startingForia": "Kei te tīmata he kōrero ki a Foria…",
-    "partnerDisconnected": "Kua motu tō hoa.",
-    "noPartner": "Kāore he hoa i tēnei wā.",
-    "connectedTo": "Kua hono ki a {{name}}",
-    "connected": "Kua hono",
-    "idle": "Tūrewa",
-    "partnerLeft": "Kua wehe te hoa.",
-    "stopped": "Kua mutu.",
-    "skip": "Peke",
-    "save": "Tiaki",
-    "saveGuard": "Mō ngā kōrero tangata-ki-te-tangata anake te tiaki",
-    "youAreChattingWith": "Kei te kōrero koe ki a {{name}}",
-    "bot": "PŪKETE-AUTAUTA",
-    "leave": "Waiho",
-    "sayHi": "Kī atu kia ora 👋",
-    "you": "Koe",
-    "typeMessage": "Tuhia he karere",
-    "send": "Tukua",
-    "partner": "Hoa",
-    "withForia": "Me Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Huaki te tahua whakatere",
-    "closeNav": "Katia te tahua whakatere",
-    "homeAria": "Kāinga o Chatforia"
-  },
-
-  "login": {
-    "title": "Nau mai anō",
-    "subtitle": "Takiuru ki tō pūkete Chatforia",
-    "google": "Haere tonu mā Google",
-    "apple": "Haere tonu mā Apple",
-    "googleUnavailable": "Kāore e wātea te takiuru Google",
-    "appleUnavailable": "Kāore e wātea te takiuru Apple",
-    "or": "rānei",
-    "email": "Īmēra",
-    "emailPh": "you@example.com",
-    "usernameLabel": "Ingoa kaiwhakamahi",
-    "usernamePh": "Tō ingoa kaiwhakamahi",
-    "passwordLabel": "Kupuhipa",
-    "passwordPh": "Tō kupuhipa",
-    "keepSignedIn": "Kia noho takiuru tonu au",
-    "forgot": "Kua wareware te kupuhipa?",
-    "submit": "Takiuru",
-    "loggingIn": "Kei te takiuru…",
-    "newHere": "He tauhou koe? <link>Waihanga pūkete</link>",
-    "ssoUnavailable": "Kāore e wātea te takiuru mā te ratonga kotahi. Whakamahia te ingoa kaiwhakamahi me te kupuhipa.",
-    "error": {
-      "missing": "Tēnā, tāuruhia ō taipitopito takiuru.",
-      "invalid": "Ingoa kaiwhakamahi, kupuhipa hē rānei",
-      "denied": "Kua whakakahoretia te uru.",
-      "unprocessable": "Tono muhu. Tirohia tō ingoa kaiwhakamahi/īmēra me te kupuhipa.",
-      "deviceLimit": "Kua tae ki te mōrahi pūrere mō te mahere Free. Takiputa i tētahi atu pūrere, rānei whakahōu ki Premium kia nui ake ngā hononga.",
-      "premiumRequired": "E hiahiatia ana te mahere Premium mō tēnei mahi."
+    "peoplePage": {
+      "people": "Ngā tāngata",
+      "search": "Rapu",
+      "searchPlaceholder": "Rapua mā te ingoa ingoa, ingoa, ingoa kaiwhakamahi, nama waea rānei",
+      "filterSaved": "Tātari i ngā whakapā kua tiakina",
+      "noContactsFound": "Kāore i kitea he whakapā",
+      "quickStart": "Tīmata tere",
+      "quickStartDesc": "He ara tere torutoru hei tīmata.",
+      "importContacts": "Kawemai i ō whakapā",
+      "add": "Tāpiri",
+      "focusSearch": "Arotahi Rapu",
+      "import": "Kawemai",
+      "findOrAdd": "Rapua, tāpiri rānei i tētahi",
+      "searchByPhoneOrUsername": "Rapua mā te waea / ingoa kaiwhakamahi",
+      "inviteFriends": "Powhiri hoa",
+      "inviteDesc": "Tohaina tō hononga powhiri hei tīmata karere inamata.",
+      "getTheApp": "Tikina te taupānga",
+      "getTheAppDesc": "Noho hono i te haere me Chatforia mō iOS me Android.",
+      "download": "Tikiake",
+      "syncTip": "Tohu: Ka noho whakamau ō karere puta noa i te paetukutuku me te pūkere."
+    },
+    "randomChat": {
+      "title": "Kōrero Matapōkere",
+      "description": "Tūtaki i tētahi tangata hou inamata. Ka whakahono mātou i a koe ka whakatuwhera i tētahi rūma kōrero rangitaki. Kōrero muna tuatahi. Tāpiri Hoa ā muri mēnā ka pai te rongo.",
+      "findMatch": "Rapua he ōrite mōku",
+      "chatWithForia": "Kōrero ki a Foria",
+      "chatWithForiaBot": "Kōrero ki a ForiaBot",
+      "cancel": "Whakakore",
+      "close": "Kati",
+      "searching": "Kei te rapu...",
+      "finding": "Kei te rapu...",
+      "looking": "Kei te rapu i tētahi...",
+      "startingForia": "Kei te tīmata kōrero ki a Foria...",
+      "partnerDisconnected": "Kua momotu tō hoa.",
+      "noPartner": "Kāore he hoa i kitea i tēnei wā.",
+      "connectedTo": "Kua hono ki {{name}}",
+      "connected": "Kua hono",
+      "idle": "Kore mahi",
+      "partnerLeft": "Kua wehe te hoa.",
+      "stopped": "Kua mutu.",
+      "skip": "Peke",
+      "save": "Tiaki",
+      "saveGuard": "Ngā kōrero tangata-ki-tangata anake ka taea te tiaki",
+      "youAreChattingWith": "Kei te kōrero koe ki {{name}}",
+      "bot": "PŌTAE",
+      "leave": "Waiho",
+      "sayHi": "Kīa hi 👋",
+      "you": "Koe",
+      "typeMessage": "Pātōhia he karere",
+      "send": "Tuku",
+      "partner": "Hoa",
+      "withRia": "Ki a Ria",
+      "chatWithRia": "Kōrero ki a Ria",
+      "startingRia": "Kei te tīmata kōrero ki a Ria...",
+      "ageDisclaimer": "Ka penapena mātou i tētahi awhe pakeke anake (kāore i tō rā whānau tika). Ka whakamahia tēnei hei pupuri i ngā whakahono Kōrero Matapōkere kia tika. Kia whakahono ki ngā tāngata (ehara i a RiaBot anake), whakaritea tō awhe pakeke i ngā Tautuhinga → Pakeke & Kōrero Matapōkere.",
+      "ageBandRequired": "Whakaritea tō awhe pakeke i Kōtaha → Pakeke & Kōrero Matapōkere kia whakahono ki ngā tāngata.",
+      "ageBandCallout": "Kia whakahono ki ngā tāngata (ehara i a RiaBot anake), whakaritea tō awhe pakeke i ngā Tautuhinga → Pakeke & Kōrero Matapōkere.",
+      "subtitle": "Tūtaki i tētahi tangata hou inamata, kōwhiria rānei ki te kōrero ki a Ria.",
+      "start": "Tīmata kōrero",
+      "matching": "Kei te whakahono...",
+      "setAge": "Whakaritea tō awhe pakeke i Kōtaha → Pakeke & Kōrero Matapōkere kia whakahono ki ngā tāngata.",
+      "next": "Tangata Panuku",
+      "addFriend": "Tāpiri Hoa",
+      "requested": "Kua tono",
+      "messageRia": "Tukuna karere ki a Ria...",
+      "messageMatch": "Tukuna karere ki tō ōrite..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "ki reira",
+      "intro": "Kia ora ki reira 👋 Ko Ria ahau. He aha kei runga i tō hinengaro?",
+      "greetings": {
+        "long1": "Kia ora {{name}} 👋 Kei konei ahau. He aha kei runga i tō hinengaro?",
+        "long2": "Kia ora {{name}} 😊 He aha tō hiahia ki te kōrero mō tēnei rā?",
+        "long3": "Kia ora {{name}}!! Kei te rongo ahau — he aha te take?",
+        "long4": "He pai te kite i a koe, {{name}} 👋 He aha kei runga i tō hinengaro i tēnei rā?",
+        "long5": "Kia ora {{name}} 😊 E hiahia ana koe ki te whakaputa, pātai, kōrero noa rānei?",
+        "long6": "Kia ora {{name}}!! Kei a au te wā — he aha tō hiahia ki te kōrero mō?",
+        "short1": "Kia ora {{name}}, kei konei tonu ahau. He aha te take?",
+        "short2": "Nau mai anō {{name}} 👋 He aha atu tō hiahia ki te tāpiri?",
+        "short3": "Kua hoki anō, {{name}}? 😊 Kōrero mai he aha kei runga i tō hinengaro.",
+        "short4": "Kia ora {{name}} 👋 Kua reri ki te tīmata i te wāhi i mutu ai?",
+        "short5": "Ae {{name}}? Kei te whakarongo ahau 👂",
+        "short6": "Aue kia ora {{name}}!! He mea hou kei runga i tō hinengaro?"
+      },
+      "header": {
+        "openNav": "Whakatuwhera i te tahua whakatere",
+        "closeNav": "Kati te tahua whakatere",
+        "homeAria": "Kāinga Chatforia"
+      },
+      "login": {
+        "welcomeBack": "Nau mai anō",
+        "title": "Haere tonu ki Chatforia",
+        "subtitleReturning": "Takiuru ki tō pūkete Chatforia",
+        "subtitle": "Takiuru ki tō pūkete Chatforia",
+        "google": "Haere tonu ki Google",
+        "apple": "Haere tonu ki Apple",
+        "googleUnavailable": "Kāore e wātea te takiuru Google",
+        "appleUnavailable": "Kāore e wātea te takiuru Apple",
+        "or": "rānei",
+        "email": "Īmēra",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Ingoa kaiwhakamahi",
+        "usernamePh": "Tō ingoa kaiwhakamahi",
+        "passwordLabel": "Kupuhipa",
+        "passwordPh": "Tō kupuhipa",
+        "keepSignedIn": "Kia noho takiuru ahau",
+        "forgot": {
+          "title": "Kua wareware ki te kupuhipa",
+          "helper": "Whakauruhia te īmēra i whakamahia e koe ki te waihanga i tō pūkete Chatforia ka tukuna e mātou he hononga haumaru ki te tautuhi anō i tō kupuhipa.",
+          "emailInvalid": "Whakauruhia he wāhitau īmēra tika.",
+          "genericError": "Kāore i taea te whakahaere i te tono. Tāpiri whakamātau anō i tētahi wā poto.",
+          "sending": "Kei te tuku hononga tautuhi anō...",
+          "sendCta": "Tukuna Hononga Tautuhi Anō",
+          "sentLabel": "Kua tukuna!"
+        },
+        "submit": "Takiuru",
+        "loggingIn": "Kei te takiuru…",
+        "newHere": "He tauhou? <link>Waihanga pūkete</link>",
+        "ssoUnavailable": "Kāore e wātea i tēnei wā te takiuru kotahi. Whakamahia te ingoa kaiwhakamahi & kupuhipa.",
+        "error": {
+          "missing": "Whakauruhia ō tohu.",
+          "invalid": "Ingoa kaiwhakamahi, kupuhipa hē rānei",
+          "denied": "Kua whakakāhore te uru.",
+          "unprocessable": "Tono hē. Tirohia tō ingoa kaiwhakamahi/īmēra me te kupuhipa.",
+          "deviceLimit": "Kua tae ki te rohe pūrere mō te mahere Koreutu. Whakamutu takiuru i tētahi atu pūrere, whakahou rānei ki Premium hei hono i ētahi atu pūrere.",
+          "premiumRequired": "E hiahia ana tēnei mahi ki tētahi mahere Premium."
+        }
+      },
+      "oauth": {
+        "completing": "Kei te whakaoti i te takiuru…"
+      },
+      "dialer": {
+        "title": "Ngā waea",
+        "subtitle": "Papa matua & ngā mea tata. (Mēnā kāore koe e whakamahi i te PSTN, tīmatahia ngā waea mai i te pane kōrero.)",
+        "enterNumberPh": "Whakauruhia te nama",
+        "call": "Waea",
+        "backspace": "Muri",
+        "recents": "Ngā mea tata",
+        "recentsEmpty": "Kāore anō he waea tata.",
+        "enterNumber": "Whakauruhia te nama",
+        "enterNumberAria": "Whakauruhia te nama",
+        "key": "Matua {{d}}",
+        "noRecents": "Kāore anō he waea tata."
+      },
+      "video": {
+        "title": "Ataata",
+        "chooseType": "Kōwhiria he momo ataata.",
+        "directTitle": "Ataata Tika",
+        "directDesc": "Waea kamera 1:1 me tētahi atu kaiwhakamahi.",
+        "directStart": "Tīmata",
+        "roomsTitle": "Ngā rūma",
+        "roomsDesc": "Ataata maha-tāngata mā te ingoa rūma tiritiri.",
+        "roomsIntro": "Uru, waihanga rānei i tētahi rūma maha-tāngata.",
+        "roomNameLabel": "Ingoa rūma",
+        "roomNamePh": "hei tauira team-standup",
+        "join": "Uru",
+        "deeplinkTip": "Tohu: ka taea e koe te hono hōhonu tika ki <code>/video?room=room-name</code>.",
+        "hub": {
+          "title": "Ataata",
+          "subtitle": "Kōwhiria he momo ataata."
+        },
+        "direct": {
+          "title": "Ataata Tika",
+          "subtitle": "Tīmata waea ataata 1:1 mā te nama waea, ingoa kaiwhakamahi Chatforia rānei.",
+          "desc": "Waea kamera 1:1 me tētahi atu kaiwhakamahi.",
+          "start": "Tīmata",
+          "callBtn": "Waea",
+          "callByPhone": {
+            "title": "Waea mā te waea"
+          },
+          "phone": {
+            "placeholder": "Whakauruhia te waea (hei tauira +1-555-123-4567)",
+            "aria": "Waea hei waea"
+          },
+          "tipInvite": "Tohu: Whakapiri he nama ka waea me te kore tiaki i tētahi whakapā. Ka powhiri mātou i ngā kaiwhakamahi kore mā te hononga.",
+          "findUser": {
+            "title": "Rapua he kaiwhakamahi"
+          },
+          "search": {
+            "placeholder": "Rapua mā te ingoa, ingoa kaiwhakamahi rānei",
+            "aria": "Rapua mā te ingoa, ingoa kaiwhakamahi rānei",
+            "btn": "Rapu"
+          }
+        },
+        "rooms": {
+          "title": "Ngā rūma",
+          "subtitle": "Waihanga rūma, uru rānei ki tētahi kua tū mā te pātō i te ingoa ōrite.",
+          "desc": "Ataata maha-tāngata mā te ingoa rūma tiritiri.",
+          "roomLabel": "Ingoa rūma",
+          "roomPlaceholder": "hei tauira team-standup",
+          "roomAria": "Ingoa rūma",
+          "joinCreate": "Uru / Waihanga",
+          "tip": "Tohu: tohaina tēnei ingoa ki ētahi atu, hono hōhonu rānei ki <code>/video?room=room-name</code>."
+        }
+      },
+      "directVideo": {
+        "intro": "Tīmata waea ataata tika 1:1.",
+        "findUserLabel": "Rapua he kaiwhakamahi",
+        "findUserPh": "Rapua mā te ingoa, ingoa kaiwhakamahi rānei",
+        "search": "Rapu",
+        "call": "Waea"
+      },
+      "phoneWarning": {
+        "title": "Kei te tata pau tō nama",
+        "body": "Ka tukuna tō nama {{number}} i {{date}} ki te kore e whakaoho anō.",
+        "button": "Pupuri i Taku Nama"
+      }
+    },
+    "support": {
+      "helpFab": "Āwhina",
+      "openSupportAria": "Whakatuwhera tautoko",
+      "badge": "Tautoko",
+      "heading": "Me pēhea mātou e āwhina ai?",
+      "tabs": {
+        "help": "Puna Āwhina",
+        "contact": "Whakapā mai"
+      },
+      "searchPlaceholder": "Rapua ngā tuhinga āwhina…",
+      "searchAria": "Rapu āwhina",
+      "searchBtn": "Rapu",
+      "quickTopicsLabel": "Ngā kaupapa tere",
+      "quickTopics": {
+        "login": "Kāore e taea te takiuru",
+        "billing": "Ngā utu / nama",
+        "abuse": "Pūrongo tūkino"
+      },
+      "trySearching": "Whakamātauria te rapu mō “whakamaori”, “ngā pūrua”, “tūmataiti” rānei.",
+      "article": "Tuhinga",
+      "openArticle": "Whakatuwhera tuhinga",
+      "contactIntro": "Ka īmēra mātou i tētahi whakautu. Tāpiri ngā taipitopito hei āwhina i a mātou ki te whakaputa i te raru.",
+      "topicAria": "Kōwhiria he kaupapa",
+      "messagePlaceholder": "Tuhia tō karere…",
+      "sendBtn": "Tuku",
+      "sent": "Kua tukuna te karere. Ka whakautu mātou mā te īmēra.",
+      "sendError": "Kāore i taea te tuku. Īmēra support@chatforia.com."
+    },
+    "encryptionRecovery": {
+      "title": "Whakahaere Whakamuna",
+      "description": "Pūrua, whakaora, whakatuwhera, tautuhi anō rānei i tō matua whakamuna.",
+      "alert": {
+        "keyRequiredTitle": "E hiahiatia ana te matua whakamuna",
+        "keyRequiredBody": "Kāore e taea e tēnei pūtirotiro te whakamuna i ō karere whakamuna i tēnei wā. Whakaora, whakatuwhera, tautuhi anō rānei i tō matua kia haere tonu."
+      },
+      "sections": {
+        "createBackup": "Waihanga pūrua matua",
+        "restoreFromBackup": "Whakaora mai i te pūrua pūkete",
+        "resetEncryption": "Tautuhi anō i te whakamuna"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Kupuhipa whakatuwhera (pūrere o nāianei)",
+          "description": "Ka whakamahia hei whakamuna i ō matua i roto i te rorohiko o te wā i mua i te kaweake"
+        },
+        "backupPassword": {
+          "label": "Kupuhipa pūrua",
+          "description": "Ka whakamahia hei whakamuna i te kōnae pūrua"
+        },
+        "restoreBackupPassword": {
+          "label": "Kupuhipa pūrua",
+          "description": "Ko te kupuhipa i waihanga e koe i te wā i pūrua ai tō matua i runga i iPhone"
+        },
+        "newLocalPasscode": {
+          "label": "Kupuhipa rohe hou",
+          "description": "Tiakina ngā matua i te wā e okioki ana i tēnei pūtirotiro"
+        },
+        "resetLocalPasscode": {
+          "label": "Kupuhipa rohe hou",
+          "description": "E hiahiatia ana i mua i te tautuhi anō kia tiakina te matua hou i tēnei pūrere"
+        }
+      },
+      "actions": {
+        "unlockKey": "Whakatuwhera matua whakamuna",
+        "restoreFromBackup": "Whakaora mai i te pūrua pūkete",
+        "resetEncryption": "Tautuhi Anō Whakamuna"
+      },
+      "messages": {
+        "backupCreated": "Kua waihanga, kua tikiake hoki te pūrua matua.",
+        "keyUnlocked": "Kua whakatuwherahia te matua whakamuna.",
+        "keyRestored": "Kua whakaora te matua mai i te pūrua pūkete.",
+        "resetSuccess": "Kua angitu te tautuhi anō i te whakamuna."
+      },
+      "errors": {
+        "restoreIncomplete": "Kāore i oti, hē rānei te whakaora matua mō tēnei pūkete",
+        "noBackup": "Kāore he pūrua whakamuna mō tēnei pūkete",
+        "missingPublicKey": "Kei te ngaro tētahi matua tūmatawhānui i te pūrua",
+        "noServerPublicKey": "Kāore tēnei pūkete e whakaatu i tētahi matua tūmatawhānui tūmahi i tēnei wā",
+        "serverBackupMismatch": "Kāore te pūrua tūmahi e ōrite ana ki te matua whakamuna o te pūkete o nāianei",
+        "incompleteMetadata": "Kāore i oti ngā raraunga pūrua",
+        "resetIncomplete": "Kāore i oti tika te tautuhi anō i te whakamuna"
+      },
+      "confirm": {
+        "reset": "Tautuhi anō i te whakamuna mō tēnei pūkete?\n\nKa kore pea e taea te pānui i ngā karere whakamuna tawhito ki te kore koe e whakaora i te matua taketake ā muri ake."
+      },
+      "resetDescription": "Ka whakaputa tēnei i tētahi matua whakamuna hou mō tō pūkete. Ka kore pea e taea te pānui i ngā karere whakamuna tawhito ki te kore koe e whakaora i te matua taketake ā muri ake."
+    },
+    "footer": {
+      "plans": "Ngā Mahere & Utu",
+      "about": "Mō Chatforia",
+      "careers": "Ngā Mahi",
+      "press": "Pāho",
+      "advertise": "Pānuitia",
+      "contact": "Whakapā Mai",
+      "help": "Puna Āwhina",
+      "status": "Whārangi Tūnga",
+      "iosDownload": "iOS / Toa Taupānga",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Kaupapahere Tūmataiti",
+      "terms": "Ngā Tikanga Ratonga",
+      "cookies": "Tautuhinga Pihikete",
+      "doNotSell": "Kaua e Hoko i Taku Mōhiohio",
+      "language": "Reo",
+      "contactShort": "Whakapā",
+      "aria": "Hiku",
+      "homeAria": "Kāinga Chatforia",
+      "section": {
+        "company": "KAMUPENE",
+        "support": "TAUTOKO",
+        "downloads": "TIKIAKE",
+        "legal": "TURE"
+      },
+      "links": {
+        "plans-pricing": "Ngā Mahere & Utu",
+        "about-chatforia": "Mō Chatforia",
+        "careers": "Ngā Mahi",
+        "press": "Pāho",
+        "advertise": "Pānuitia",
+        "getting-started": "Tīmata",
+        "help-center": "Puna Āwhina",
+        "contact-us": "Whakapā Mai",
+        "status-page": "Whārangi Tūnga",
+        "ios-app-store": "iOS / Toa Taupānga",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Kaupapahere Tūmataiti",
+        "terms-of-service": "Ngā Tikanga Ratonga",
+        "do-not-sell-my-info": "Kaua e Hoko i Taku Mōhiohio",
+        "cookie-settings": "Tautuhinga Pihikete"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patent kei te tatari",
+      "backToTop": "↑ Hoki ki runga"
+    },
+    "press": {
+      "title": "Pāho",
+      "contactLine": "Mō ngā uiui pāho, taunakitanga mai ki a mātou i",
+      "boilerplateTitle": "Paparua",
+      "boilerplateBody": "He taupānga karere tuatahi-ki-te-tūmataiti a Chatforia e ngāwari ana te kōrero reo-rere. He whakamuna pito-ki-pito mā te taunoa ngā karere, ā, ka tautoko te whakamaoritanga hanga-i-roto i ngā reo 100+ i te wā tūturu. Ka taea e ngā kaiwhakamahi te whakahohe i ngā karere e ngaro ana, kia kōwhiringa ngā pānui panui, me te whakamau puta noa i ngā pūrere. Wātea i runga i iOS, Android, me te paetukutuku.",
+      "assetsTitle": "Ngā rawa waitohu",
+      "assetsSubtitle": "Ngā waitohu, whakaahua mata, me ngā whakaahua hua.",
+      "downloadCta": "Tikiake kete pāho",
+      "downloadTitle": "Tikina te taupānga",
+      "scanTip": "Kei te rorohiko puku? Tāwhai ki tō waea kia tikina te taupānga.",
+      "qrAria": "Whakatuwhera i te pae Chatforia",
+      "appStore": "Tikiake i te Toa Taupānga",
+      "googlePlay": "Tikina i Google Play"
+    },
+    "careers": {
+      "title": "Ngā Mahi",
+      "intro": "He rōpū tīmatanga iti mātou e hanga ana i a Chatforia — he karere tūmataiti, ā-ao e whakarewa ana i te paetukutuku, iOS, me Android. Mēnā e whai whakaaro ana koe ki te tūmataiti, whakamuna, me ngā wheako kaiwhakamahi ātahu, ka pai mātou ki te rongo mai i a koe.",
+      "openRoles": "<b>Ngā tūranga tīmatanga tuwhera:</b> Kaiwhakawhanake Pū-katoa Matua, Kaiwhakawhanake Tuara (Node.js), Kaiwhakawhanake Paetukutuku/Ataata (React), Kaiwhakawhanake Pūkere (iOS), Kaiwhakawhanake Pūkere (Android), DevOps/SRE, Kaiwhakawhanake Haumarutanga & Whakamuna, Kaiwhakawhanake Waea (Twilio + eSIM).",
+      "apply": "Me pēhea te tono: Whakamahia te pātene i raro ki te īmēra i tō CV me ngā hononga.",
+      "emailCta": "Īmēra i tō CV",
+      "whyNow": "He aha te take mō tēnei wā?",
+      "whyBullets": "• Āwhina ki te hanga i te tūāpapa o tētahi karere ā-ao hou.\n• Tukuna ngā whakapai e whakamahia ana puta noa i te paetukutuku, iOS, me Android.\n• Mahi tika ki te kaiwhakarewa i runga i te hoahoa me te aronga hua.\n• Rangatira i ngā wāhanga pānga nui o te tāhuhu: karere, reo, ataata, whakamuna, waea, AI.\n• Uru mai i te tīmatanga — i mua i te tipu o te hunga kaiwhakamahi."
+    },
+    "about": {
+      "title": "Mō Chatforia",
+      "description": "He karere haumaru, reo-maha a Chatforia me te whakamuna pito-ki-pito, whakamaoritanga inamata, me te waea ororongo/ataata. He ngāwari tā mātou kaupapa: āwhina i ngā tāngata ki te hono — haumaru, tūmataiti, puta noa i ngā reo.",
+      "valuesTitle": "Ngā mea e whai whakaaro ana mātou",
+      "values": {
+        "privacy": "<b>Tuatahi-ki-te-tūmataiti:</b> Whakamuna pito-ki-pito mā te taunoa.",
+        "access": "<b>Uru mō te katoa:</b> Whakamaori aunoa i ngā reo 100+.",
+        "control": "<b>Mana:</b> He kōwhiringa ngā karere e ngaro ana me ngā pānui panui.",
+        "privacy_aria": "Tuatahi-ki-te-tūmataiti: Whakamuna pito-ki-pito mā te taunoa.",
+        "access_aria": "Uru mō te katoa: Whakamaori aunoa i ngā reo 100+.",
+        "control_aria": "Mana: He kōwhiringa ngā karere e ngaro ana me ngā pānui panui."
+      },
+      "howTitle": "Me pēhea te mahi a Chatforia",
+      "howDescription": "Ka whakamunatia ngā karere i runga i tō pūrere i mua i te wehe atu. Kua hoahoatia te whakamaoritanga, ngā pūrua, me te whakamau pūrere ki te whakaiti i nga mea ka taea e ā mātou tūmahi te kite."
+    },
+    "advertise": {
+      "title": "Pānuitia ki Chatforia",
+      "description": "Taumata ki ngā kaiwhakamahi karere kaha mā ngā whakairinga reka, haumaru waitohu. Ka whakarato mātou i te rahinga paepae i ngā wāhi tino kitea, ngā tautoko, me ngā whakatairanga whare. Kāore e kite ngā kaiwhakamahi utu nui i ngā pānuitanga.",
+      "adsense": {
+        "withPubIdShort": "Ka whakarato hoki mātou i te rahinga mā Google AdSense. Ka taea e koe te whakatau i a Chatforia mā te ID kaiwhakaputa {{pubId}}, whakamahi rānei i te puka i raro mō ngā tautoko tika.",
+        "noPubIdShort": "Ka whakarato hoki mātou i ētahi rahinga mā Google AdSense. Wātea ngā tautoko tika — whakamahia te puka i raro."
+      },
+      "inventoryHeader": "Rahinga & Tauwhāinga",
+      "placement": {
+        "displayBadge": "Whakaatu",
+        "acceptedSizes": "Ngā rahi e whakaaetia ana",
+        "adsenseSlot": "Wāhi AdSense:"
+      },
+      "noPlacementsPublic": "Kei te whakaoti mātou i ā mātou rahinga pānuitanga. Kōrero mai mō tō kaupapa ka tūtohu mātou i ngā wāhi.",
+      "whyHeader": "He aha Chatforia?",
+      "why": {
+        "highSession": "Te auau wā-takiuru teitei me te wā noho i roto i te atanga kōrero",
+        "brandSafe": "Ngā hōputu haumaru-waitohu; whakawhāiti auau whakaute",
+        "sponsoredMoments": "Wā whakatairanga wātea (hei tauira “Tīmata Kōrero” puka)",
+        "deals": "Ngā kirimana tika, whakamahinga rānei mā AdSense/Google Ads"
+      },
+      "contactHeader": "Whakapā",
+      "form": {
+        "submittedMsg": "Mauruuru! Kei te haere tō uiui. Ka whai mātou ākuanei.",
+        "missingRequired": "Whakakīa te ingoa, īmēra, me te karere.",
+        "successToast": "Mauruuru! Ka whakapā mātou ākuanei.",
+        "mailtoInfo": "Kei te whakatuwhera i tō kaihoko īmēra hei tuku i te uiui…",
+        "nameLabel": "Tō ingoa",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Īmēra",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Kamupene",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Pūtea ā-marama (kōwhiringa)",
+        "budgetPlaceholder": "hei tauira $1,000–$20,000+",
+        "messageLabel": "Kōrero mai mō tō kaupapa",
+        "messagePlaceholder": "Whakatau, rā, KPI, manakohanga wāhi…",
+        "sendCta": "Tukuna uiui"
+      },
+      "legal": {
+        "disclaimerStart": "Mā te tuku, ka whakaae koe ki ā mātou",
+        "terms": "Ngā Tikanga",
+        "and": "me",
+        "privacy": "Kaupapahere Tūmataiti"
+      }
     }
   }
 }

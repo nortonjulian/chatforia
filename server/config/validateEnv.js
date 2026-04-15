@@ -1,195 +1,174 @@
 import invariant from '../utils/invariant.js';
 import { ENV } from './env.js';
 
-/** soft-capable validator: warn in dev/test, throw in prod (or when soft=false) */
-function requireNonEmpty(value, name, { advice, soft = false } = {}) {
-  const ok = !!value && String(value).trim().length > 0;
-  if (ok) return true;
+function has(value) {
+  return Boolean(String(value || '').trim());
+}
 
-  const msg = `[env] ${name} is required${advice ? `: ${advice}` : ''}`;
+function requireNonEmpty(value, name, { soft = false, advice } = {}) {
+  if (has(value)) return true;
+
+  const msg = `[env] ${name} is required${advice ? ` — ${advice}` : ''}`;
+
   if (soft) {
-    // eslint-disable-next-line no-console
     console.warn(msg);
     return false;
   }
+
   invariant(false, msg);
 }
 
-/**
- * Validate critical configuration. Throw early if something is off (prod).
- * In dev/test we prefer WARN + continue so local DX isn't blocked.
- */
-export default function validateEnv() {
-  const { IS_PROD, IS_TEST } = ENV;
-  const SOFT = !IS_PROD; // dev/test => warn instead of throw
+function warnIfMissing(value, name, advice) {
+  if (!has(value)) {
+    console.warn(`[env] ${name} is missing${advice ? ` — ${advice}` : ''}`);
+    return false;
+  }
+  return true;
+}
 
-  // ─────────────────────────────────────────────────────────────
-  // Core required
-  // ─────────────────────────────────────────────────────────────
-  requireNonEmpty(ENV.DATABASE_URL, 'DATABASE_URL', { soft: SOFT });
+export default function validateEnv() {
+  const IS_PROD = ENV.IS_PROD;
+  const SOFT = !IS_PROD;
+
+  // -----------------------------
+  // Core: required for API boot
+  // -----------------------------
+  requireNonEmpty(ENV.DATABASE_URL, 'DATABASE_URL', { soft: false });
   requireNonEmpty(ENV.JWT_SECRET, 'JWT_SECRET', {
-    advice: 'use a long random string (>= 32 chars recommended)',
-    soft: SOFT,
+    soft: false,
+    advice: 'set a strong secret for auth/token signing',
   });
 
   if (IS_PROD) {
-    invariant(
-      ENV.JWT_SECRET && ENV.JWT_SECRET.length >= 16,
-      '[env] JWT_SECRET should be at least 16 chars in production'
-    );
-  }
-
-  // ─────────────────────────────────────────────────────────────
-  // HTTPS / cookies
-  // ─────────────────────────────────────────────────────────────
-  if (IS_PROD) {
-    invariant(ENV.FORCE_HTTPS, '[env] FORCE_HTTPS must be true in production');
-    // COOKIE_DOMAIN is optional but recommended in prod
-    if (!ENV.COOKIE_DOMAIN) {
-      // eslint-disable-next-line no-console
-      console.warn('[env] Consider setting COOKIE_DOMAIN for cross-subdomain cookies');
-    }
-    invariant(ENV.COOKIE_SECURE, '[env] COOKIE_SECURE must be true in production');
-  }
-
-  // ─────────────────────────────────────────────────────────────
-  // CORS: at least one allowed origin (frontend)
-  // ─────────────────────────────────────────────────────────────
-  const hasCorsList = Array.isArray(ENV.CORS_ORIGINS) && ENV.CORS_ORIGINS.length > 0;
-  const hasFrontend = !!ENV.FRONTEND_ORIGIN;
-  if (SOFT) {
-    if (!hasCorsList && !hasFrontend && !IS_TEST) {
-      // eslint-disable-next-line no-console
-      console.warn('[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)');
-    }
-  } else {
-    invariant(
-      hasCorsList || hasFrontend || IS_TEST,
-      '[env] CORS_ORIGINS or FRONTEND_ORIGIN should be set (comma-separated origins)'
-    );
-  }
-
-  // ─────────────────────────────────────────────────────────────
-  // Paddle (billing provider)
-  // ─────────────────────────────────────────────────────────────
-    const wantsPaddle =
-      !!ENV.PADDLE_API_KEY ||
-      !!ENV.PADDLE_WEBHOOK_SECRET ||
-      String(ENV.BILLING_PROVIDER || '').toLowerCase() === 'paddle';
-
-    if (wantsPaddle) {
-      requireNonEmpty(ENV.PADDLE_API_KEY, 'PADDLE_API_KEY', { soft: SOFT });
-      requireNonEmpty(ENV.PADDLE_WEBHOOK_SECRET, 'PADDLE_WEBHOOK_SECRET', { soft: SOFT });
-
-      if (!IS_TEST && !ENV.PADDLE_ENVIRONMENT) {
-        console.warn('[env] PADDLE_ENVIRONMENT not set (sandbox or production)');
+    requireNonEmpty(
+      ENV.FRONTEND_ORIGIN || ENV.FRONTEND_URL || ENV.FRONTEND_BASE_URL || ENV.APP_ORIGIN,
+      'FRONTEND_ORIGIN',
+      {
+        soft: false,
+        advice: 'required for production redirects/cookies/CORS',
       }
-    }
-
-  // ─────────────────────────────────────────────────────────────
-  // eSIM / Connectivity (Telna) — only if explicitly enabled
-  // ─────────────────────────────────────────────────────────────
-  const esimEnabled = String(ENV.FEATURE_ESIM || '').toLowerCase() === 'true';
-  if (esimEnabled) {
-    requireNonEmpty(ENV.TELNA_API_KEY, 'TELNA_API_KEY', { soft: SOFT });
-    // accept either TELNA_BASE_URL or TELNA_API_BASE
-    const telnaBase = ENV.TELNA_BASE_URL || ENV.TELNA_API_BASE;
-    requireNonEmpty(telnaBase, 'TELNA_BASE_URL / TELNA_API_BASE', { soft: SOFT });
+    );
   }
 
-  // ─────────────────────────────────────────────────────────────
-  // Telco: Twilio (selected provider)
-  // Only validate if Twilio is selected OR any Twilio vars are present.
-  // You can disable with DISABLE_TELCO_VALIDATION=true
-  // ─────────────────────────────────────────────────────────────
-  const telcoValidationDisabled =
-    String(ENV.DISABLE_TELCO_VALIDATION || '').toLowerCase() === 'true';
+  // -----------------------------
+  // Feature intent detection
+  // -----------------------------
+  const telcoValidationDisabled = ENV.DISABLE_TELCO_VALIDATION;
 
-  if (!telcoValidationDisabled) {
-    const wantsTwilio =
-      (String(ENV.DEFAULT_PROVIDER || '').toLowerCase() === 'twilio') ||
-      !!ENV.TWILIO_ACCOUNT_SID ||
-      !!ENV.TWILIO_AUTH_TOKEN ||
-      !!ENV.TWILIO_MESSAGING_SERVICE_SID ||
-      !!ENV.TWILIO_FROM_NUMBER;
+  const wantsTwilio =
+    !telcoValidationDisabled &&
+    (
+      String(ENV.DEFAULT_PROVIDER || '').toLowerCase() === 'twilio' ||
+      has(ENV.TWILIO_ACCOUNT_SID) ||
+      has(ENV.TWILIO_AUTH_TOKEN) ||
+      has(ENV.TWILIO_API_KEY_SID) ||
+      has(ENV.TWILIO_API_KEY_SECRET) ||
+      has(ENV.TWILIO_MESSAGING_SERVICE_SID) ||
+      has(ENV.TWILIO_FROM_NUMBER) ||
+      has(ENV.TWILIO_VOICE_TWIML_APP_SID) ||
+      has(ENV.TWILIO_VOICE_WEBHOOK_URL)
+    );
 
-    if (wantsTwilio) {
-      requireNonEmpty(ENV.TWILIO_ACCOUNT_SID, 'TWILIO_ACCOUNT_SID', { soft: SOFT });
-      requireNonEmpty(ENV.TWILIO_AUTH_TOKEN, 'TWILIO_AUTH_TOKEN', { soft: SOFT });
+  const wantsOpenAI =
+    has(ENV.OPENAI_API_KEY) ||
+    ENV.FEATURE_AI ||
+    ENV.ENABLE_SMART_REPLIES ||
+    ENV.ENABLE_AI_RESPONDER;
 
-      // Needed to mint Access Tokens for Video/Voice/WebRTC, etc.
+  const wantsResend =
+    has(ENV.RESEND_API_KEY) ||
+    ENV.FEATURE_EMAIL;
+
+  const wantsPaddle =
+    has(ENV.PADDLE_API_KEY) ||
+    has(ENV.PADDLE_WEBHOOK_SECRET) ||
+    String(ENV.BILLING_PROVIDER || '').toLowerCase() === 'paddle';
+
+  const wantsR2 =
+    ENV.FEATURE_MEDIA_UPLOADS ||
+    ENV.FEATURE_R2 ||
+    has(ENV.R2_BUCKET) ||
+    has(ENV.R2_ACCESS_KEY_ID) ||
+    has(ENV.R2_SECRET_ACCESS_KEY) ||
+    has(ENV.R2_S3_ENDPOINT);
+
+  // -----------------------------
+  // Twilio / telephony
+  // -----------------------------
+  if (wantsTwilio) {
+    requireNonEmpty(ENV.TWILIO_ACCOUNT_SID, 'TWILIO_ACCOUNT_SID', { soft: SOFT });
+    requireNonEmpty(ENV.TWILIO_AUTH_TOKEN, 'TWILIO_AUTH_TOKEN', { soft: SOFT });
+
+    const wantsClientSdk =
+      has(ENV.TWILIO_API_KEY_SID) ||
+      has(ENV.TWILIO_API_KEY_SECRET) ||
+      has(ENV.TWILIO_VOICE_TWIML_APP_SID) ||
+      has(ENV.TWILIO_VOICE_WEBHOOK_URL);
+
+    if (wantsClientSdk) {
       requireNonEmpty(ENV.TWILIO_API_KEY_SID, 'TWILIO_API_KEY_SID', { soft: SOFT });
       requireNonEmpty(ENV.TWILIO_API_KEY_SECRET, 'TWILIO_API_KEY_SECRET', { soft: SOFT });
-
-      const hasMessagingId = !!ENV.TWILIO_MESSAGING_SERVICE_SID || !!ENV.TWILIO_FROM_NUMBER;
-      if (SOFT) {
-        if (!hasMessagingId) {
-          // eslint-disable-next-line no-console
-          console.warn(
-            '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
-          );
-        }
-      } else {
-        invariant(
-          hasMessagingId,
-          '[env] TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER is required for Twilio messaging'
-        );
-      }
-
-      // Optional: voice settings sanity check (warn-only).
-      if (!IS_TEST && !ENV.TWILIO_VOICE_TWIML_APP_SID && !ENV.TWILIO_VOICE_WEBHOOK_URL) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          '[env] Twilio voice not configured (set TWILIO_VOICE_TWIML_APP_SID or TWILIO_VOICE_WEBHOOK_URL) — OK if you are not using voice yet'
-        );
-      }
     }
-  } else if (!IS_TEST) {
-    // eslint-disable-next-line no-console
-    console.warn('[env] Telco validation disabled via DISABLE_TELCO_VALIDATION=true');
-  }
 
-  // ─────────────────────────────────────────────────────────────
-  // Optional STUN/TURN guard (warn-only)
-  // ─────────────────────────────────────────────────────────────
-  if (!IS_TEST && ENV.TWILIO_TURN_USER && !ENV.TWILIO_TURN_PASS) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      '[env] TWILIO_TURN_USER is set without TWILIO_TURN_PASS; consider using Twilio Network Traversal tokens instead of static TURN creds.'
-    );
-  }
+    const hasMessagingIdentity =
+      has(ENV.TWILIO_MESSAGING_SERVICE_SID) || has(ENV.TWILIO_FROM_NUMBER);
 
-  // ─────────────────────────────────────────────────────────────
-  // Upload target
-  // ─────────────────────────────────────────────────────────────
-  const allowedTargets = ['memory', 'local', 'disk'];
-  if (SOFT) {
-    if (!allowedTargets.includes(ENV.UPLOAD_TARGET)) {
-      // eslint-disable-next-line no-console
+    if (!hasMessagingIdentity) {
       console.warn(
-        `[env] UPLOAD_TARGET should be one of ${allowedTargets.join('|')} (got "${ENV.UPLOAD_TARGET}"). Defaulting to "memory" may be unsafe in prod.`
+        '[env] Twilio configured without messaging identity; SMS features may fail'
       );
     }
   } else {
-    invariant(
-      allowedTargets.includes(ENV.UPLOAD_TARGET),
-      `[env] UPLOAD_TARGET must be one of ${allowedTargets.join('|')} (got "${ENV.UPLOAD_TARGET}")`
+    console.warn('[env] Twilio validation skipped');
+  }
+
+  // -----------------------------
+  // OpenAI
+  // -----------------------------
+  if (wantsOpenAI) {
+    requireNonEmpty(ENV.OPENAI_API_KEY, 'OPENAI_API_KEY', { soft: SOFT });
+  } else {
+    console.warn('[env] OpenAI validation skipped');
+  }
+
+  // -----------------------------
+  // Email / Resend
+  // -----------------------------
+  if (wantsResend) {
+    requireNonEmpty(ENV.RESEND_API_KEY, 'RESEND_API_KEY', { soft: SOFT });
+  } else {
+    console.warn('[env] Email provider validation skipped');
+  }
+
+  // -----------------------------
+  // Paddle
+  // -----------------------------
+  if (wantsPaddle) {
+    requireNonEmpty(ENV.PADDLE_API_KEY, 'PADDLE_API_KEY', { soft: SOFT });
+    requireNonEmpty(ENV.PADDLE_WEBHOOK_SECRET, 'PADDLE_WEBHOOK_SECRET', { soft: SOFT });
+  }
+
+  // -----------------------------
+  // R2 / media storage
+  // -----------------------------
+  if (wantsR2) {
+    warnIfMissing(ENV.R2_ACCESS_KEY_ID, 'R2_ACCESS_KEY_ID');
+    warnIfMissing(ENV.R2_SECRET_ACCESS_KEY, 'R2_SECRET_ACCESS_KEY');
+    warnIfMissing(ENV.R2_S3_ENDPOINT, 'R2_S3_ENDPOINT');
+    warnIfMissing(ENV.R2_BUCKET, 'R2_BUCKET');
+    warnIfMissing(
+      ENV.R2_PUBLIC_BASE,
+      'R2_PUBLIC_BASE',
+      'returned URLs may not be CDN-backed'
     );
   }
 
-  // Optional heads-up if you're on memory in dev
-  if (SOFT && ENV.UPLOAD_TARGET === 'memory') {
-    // eslint-disable-next-line no-console
-    console.warn('[uploads] Using memory storage — fine for dev/test, not for production');
+  // -----------------------------
+  // Observability
+  // -----------------------------
+  if (IS_PROD && !has(ENV.SENTRY_DSN)) {
+    console.warn(
+      '[env] SENTRY_DSN not set — error visibility will be reduced in production'
+    );
   }
-
-  // ─────────────────────────────────────────────────────────────
-  // Sentry (optional): warn in prod if missing
-  // ─────────────────────────────────────────────────────────────
-  if (IS_PROD && !ENV.SENTRY_DSN) {
-    // eslint-disable-next-line no-console
-    console.warn('[env] SENTRY_DSN not set — error visibility will be reduced in production');
-  }
-
-  // Test-specific relaxations currently handled by SOFT flag
 }

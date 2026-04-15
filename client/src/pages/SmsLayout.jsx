@@ -40,6 +40,7 @@ import ThreadActionsMenu from '@/threads/ThreadActionsMenu.jsx';
 import SmartReplyBar from '@/components/SmartReplyBar.jsx';
 import { useSmartReplies } from '@/hooks/useSmartReplies.js';
 import { getPref, setPref, PREF_SMART_REPLIES } from '@/utils/prefsStore';
+import { API_BASE_URL } from '@/config';
 
 // ✅ NEW: local SMS cache + UI
 import {
@@ -641,10 +642,8 @@ export default function SmsLayout({ currentUserId, currentUser }) {
                               {media.length > 0 && (
                                 <Group gap="xs" mt={8} wrap="wrap">
                                   {media.map((_, idx) => {
-                                    const base =
-                                      import.meta.env.VITE_API_BASE_URL || '';
+                                    const base = API_BASE_URL;
                                     const src = `${base}/sms/media/${m.id}/${idx}`;
-
                                     return (
                                       <img
                                         key={`${m.id}-${idx}`}

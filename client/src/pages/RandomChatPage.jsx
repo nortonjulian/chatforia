@@ -24,9 +24,9 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
+import { WS_URL } from '@/config';
 
-const SOCKET_URL =
-  import.meta.env.VITE_API_BASE_URL || window.location.origin;
+const SOCKET_URL = WS_URL;
 
 function buildSocket() {
   const token = localStorage.getItem('token');

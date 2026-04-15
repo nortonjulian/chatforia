@@ -5,7 +5,17 @@ import {
   buildChatPrompt,
 } from './promptBuilder.js';
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+function getOpenAIClient() {
+  const apiKey = String(process.env.OPENAI_API_KEY || '').trim();
+
+  if (!apiKey) {
+    const err = new Error('OPENAI_API_KEY is missing');
+    err.code = 'OPENAI_NOT_CONFIGURED';
+    throw err;
+  }
+
+  return new OpenAI({ apiKey });
+}
 
 function parseLineList(text, max = 3) {
   return String(text || '')
@@ -16,7 +26,6 @@ function parseLineList(text, max = 3) {
 }
 
 function applyProfanityMask(text) {
-  // Placeholder. Replace later with your real masker if you already have one.
   return String(text || '')
     .replace(/\bshit\b/gi, 's***')
     .replace(/\bfuck\b/gi, 'f***');
@@ -33,8 +42,10 @@ function maybeMaskText(text, filterProfanity) {
 }
 
 async function chatText(messages, maxTokens = 120) {
+  const client = getOpenAIClient();
+
   const response = await client.chat.completions.create({
-    model: 'gpt-4o-mini',
+    model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
     messages,
     temperature: 0.7,
     max_tokens: maxTokens,
@@ -43,7 +54,11 @@ async function chatText(messages, maxTokens = 120) {
   return response.choices[0]?.message?.content || '';
 }
 
-export async function suggestReplies({ messages, draft, filterProfanity = false }) {
+export async function suggestReplies({
+  messages,
+  draft,
+  filterProfanity = false,
+}) {
   const prompt = buildSuggestRepliesPrompt({ messages, draft });
   const text = await chatText(prompt, 120);
   const suggestions = maybeMaskList(parseLineList(text, 3), filterProfanity);
@@ -53,7 +68,11 @@ export async function suggestReplies({ messages, draft, filterProfanity = false 
   };
 }
 
-export async function rewriteText({ text, tone, filterProfanity = false }) {
+export async function rewriteText({
+  text,
+  tone,
+  filterProfanity = false,
+}) {
   const prompt = buildRewritePrompt({ text, tone });
   const raw = await chatText(prompt, 180);
   const rewrites = maybeMaskList(parseLineList(raw, 3), filterProfanity);

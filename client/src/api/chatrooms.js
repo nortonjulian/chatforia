@@ -1,10 +1,14 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+import { API_BASE_URL } from '@/config';
 
-/**
- * List chatrooms with composite cursor (updatedAt + id).
- * Pass { userId } to filter rooms the user belongs to.
- * Returns { items, nextCursor, count }
- */
+async function safeErr(res, fallback) {
+  try {
+    const data = await res.json();
+    return data?.error || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function getChatrooms({
   limit = 30,
   userId,
@@ -19,26 +23,21 @@ export async function getChatrooms({
     qs.set('cursorUpdatedAt', new Date(cursorUpdatedAt).toISOString());
   }
 
-  const res = await fetch(`${API_BASE}/chatrooms?${qs.toString()}`, {
+  const res = await fetch(`${API_BASE_URL}/chatrooms?${qs.toString()}`, {
     method: 'GET',
-    credentials: 'include', // send HTTP-only JWT cookie
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
 
   if (!res.ok) {
-    const msg = await safeErr(res, 'Failed to fetch chatrooms');
-    throw new Error(msg);
+    throw new Error(await safeErr(res, 'Failed to fetch chatrooms'));
   }
-  return res.json(); // { items, nextCursor, count }
+
+  return res.json();
 }
 
-/**
- * Create (or find) a group chat with exact set of members.
- * userIds: number[]
- * name: optional string
- */
 export async function createGroupChatroom(userIds, name) {
-  const res = await fetch(`${API_BASE}/chatrooms/group`, {
+  const res = await fetch(`${API_BASE_URL}/chatrooms/group`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
@@ -46,36 +45,22 @@ export async function createGroupChatroom(userIds, name) {
   });
 
   if (!res.ok) {
-    const msg = await safeErr(res, 'Error creating group chatroom');
-    throw new Error(msg);
+    throw new Error(await safeErr(res, 'Error creating group chatroom'));
   }
+
   return res.json();
 }
 
-/**
- * Find or create a 1:1 chat with target user.
- * NOTE: server route is POST /chatrooms/direct/:targetUserId
- */
 export async function findOrCreateOneToOneChat(targetUserId) {
-  const res = await fetch(`${API_BASE}/chatrooms/direct/${targetUserId}`, {
+  const res = await fetch(`${API_BASE_URL}/chatrooms/direct/${targetUserId}`, {
     method: 'POST',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
 
   if (!res.ok) {
-    const msg = await safeErr(res, 'Error creating/finding 1:1 chat');
-    throw new Error(msg);
+    throw new Error(await safeErr(res, 'Error creating/finding 1:1 chat'));
   }
-  return res.json();
-}
 
-// small helper to surface backend error messages
-async function safeErr(res, fallback) {
-  try {
-    const data = await res.json();
-    return data?.error || fallback;
-  } catch {
-    return fallback;
-  }
+  return res.json();
 }

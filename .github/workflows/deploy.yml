@@ -1,0 +1,52 @@
+name: Deploy Chatforia Frontend
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd client
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd client
+          npm run build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DO_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H ${{ secrets.DO_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to web server
+        run: |
+          rsync -avz --delete client/dist/ ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }}:/var/www/chatforia/
+
+      - name: Restore env.js and reload nginx
+        run: |
+          ssh ${{ secrets.DO_USER }}@${{ secrets.DO_HOST }} << 'EOF'
+          cat > /var/www/chatforia/env.js <<'EOL'
+          window.__API_URL__ = "https://api.chatforia.com";
+          window.__ENV = {
+            VITE_TENOR_KEY: "AIzaSyAP0d9gHvgwthTVhSPf6CDH38YP1QYQabM"
+          };
+          EOL
+          systemctl reload nginx
+          EOF

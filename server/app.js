@@ -185,20 +185,37 @@ export function createApp() {
   /* Early security */
   app.use(httpsRedirect());
 
-  // 🔧 CORS: dev vs prod
-  const frontendOrigin = isProd ? process.env.FRONTEND_ORIGIN : 'http://localhost:5173';
+  const allowedOrigins = [
+    'https://chatforia.com',
+    'https://www.chatforia.com',
+    'http://localhost:5173',
+  ];
 
-  if (isProd && !frontendOrigin) {
-    logger.warn('CORS: FRONTEND_ORIGIN is not set in production; cross-site requests may fail.');
+  function normalizeOrigin(origin) {
+    if (!origin) return origin;
+    return origin.replace(/\/$/, '').toLowerCase();
   }
 
   app.use(
     cors({
-      origin: frontendOrigin,
+      origin: (origin, callback) => {
+        const normalized = normalizeOrigin(origin);
+
+        const isAllowed = allowedOrigins.some(
+          (o) => normalizeOrigin(o) === normalized
+        );
+
+        if (!origin || isAllowed) {
+          return callback(null, true);
+        }
+
+        console.log('❌ CORS BLOCKED:', origin);
+        return callback(new Error('Not allowed by CORS'));
+      },
       credentials: true,
     })
   );
-
+  
   app.use(secureHeaders());
   app.use(csp());
 

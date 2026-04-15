@@ -44,6 +44,8 @@ import { premiumPreviewEnabled } from '../utils/premiumPreview.js';
 import { loadKeysLocal, saveKeysLocal, generateKeypair } from '../utils/keys';
 import { exportEncryptedPrivateKey, importEncryptedPrivateKey } from '../utils/keyBackup';
 import AppAvatar from '@/components/AppAvatar';
+import { API_BASE_URL } from '@/config';
+
 
 /* Phone number */
 import PhoneNumberManager from '@/components/profile/PhoneNumberManager';
@@ -54,6 +56,7 @@ import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
 import TwoFASection from '@/components/security/TwoFASection.jsx';
 /* ✅ Forwarding lives outside the accordion */
 import ForwardingSettings from '@/features/settings/ForwardingSettings.jsx';
+
 
 /* ---------- helpers ---------- */
 function lazyWithFallback(importer, Fallback = () => null) {
@@ -135,10 +138,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const navigate = useNavigate();
   const { currentUser, setCurrentUser } = useUser();
 
-  const API_BASE =
-    import.meta.env.VITE_API_ORIGIN ||
-    import.meta.env.VITE_API_BASE_URL ||
-    ''; // '' works in dev if Vite proxies /uploads to the API
+  const API_BASE = API_BASE_URL;
 
   const getAvatarSrc = (userLike) => {
     if (!userLike?.avatarUrl) return '/default-avatar.png';
@@ -150,7 +150,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     const base =
       API_BASE ||
       axiosClient.defaults.baseURL ||
-      'http://localhost:5002';
+       window.location.origin;
 
     return `${base}${userLike.avatarUrl}`;
   };

@@ -235,7 +235,7 @@ export default function AuthLayout() {
                 alignItems: 'center',
                 gap: 6,
                 fontSize: 14,
-                marginBottom: 12,
+                marginBottom: 8,
               }}
             >
               ← {t('auth.home', 'Home')}
@@ -249,7 +249,7 @@ export default function AuthLayout() {
               order={{ base: 1, md: 1 }}
             >
               <Stack gap={4} maw={620}>
-                <section className="hero" style={{ marginTop: '-36px' }}>
+                <section className="hero" style={{ marginTop: '0px' }}>
                   {/* Lockup + H1 grid */}
                   <Title
                     order={1}

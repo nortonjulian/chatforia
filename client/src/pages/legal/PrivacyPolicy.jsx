@@ -1,6 +1,8 @@
 import { Container, Title, Text, List } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
+const LAST_UPDATED = 'April 13, 2026';
+
 export default function PrivacyPolicy() {
   const { t } = useTranslation();
 

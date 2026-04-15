@@ -1,21 +1,7 @@
 import { io } from 'socket.io-client';
+import { WS_URL } from '@/config';
 
-function toWs(url) {
-  if (!url) return '';
-  if (url.startsWith('ws://') || url.startsWith('wss://')) return url;
-  return url.replace(/^http:/, 'ws:').replace(/^https:/, 'wss:');
-}
-
-const raw =
-  import.meta.env.VITE_WS_URL ||
-  import.meta.env.VITE_API_BASE_URL ||
-  import.meta.env.VITE_SOCKET_URL ||
-  import.meta.env.VITE_API_URL ||
-  'http://localhost:5002';
-
-const URL = toWs(raw);
-
-const socket = io(URL, {
+const socket = io(WS_URL, {
   autoConnect: false,
   transports: ['websocket', 'polling'],
   withCredentials: true,
@@ -27,7 +13,6 @@ export function connectSocket(token) {
   const nextToken = String(token).trim();
   const currentToken = socket.auth?.token ? String(socket.auth.token).trim() : '';
 
-  // no-op if already connected with same token
   if (socket.connected && currentToken === nextToken) return;
 
   if (socket.connected || socket.active) {

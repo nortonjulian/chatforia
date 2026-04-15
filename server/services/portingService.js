@@ -1,30 +1,68 @@
 import prisma from '../utils/prismaClient.js';
-import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
+function hasWirelessEntitlement(user, subscriber) {
+  if (!user) return false;
+  if (user.role === 'ADMIN') return true;
+
+  const plan = String(user.plan || '').toUpperCase();
+  const subscriptionStatus = String(user.subscriptionStatus || '').toUpperCase();
+  const subscriptionEndsAt = user.subscriptionEndsAt
+    ? new Date(user.subscriptionEndsAt)
+    : null;
+
+  const hasActiveSubscription =
+    subscriptionStatus === 'ACTIVE' &&
+    (!subscriptionEndsAt || subscriptionEndsAt > new Date());
+
+  const hasWirelessPlan = plan === 'WIRELESS';
+  const hasActiveSubscriber =
+    subscriber &&
+    ['ACTIVE', 'TRIAL', 'PENDING', 'PROVISIONING'].includes(
+      String(subscriber.status || '').toUpperCase()
+    );
+
+  return (hasWirelessPlan && hasActiveSubscription) || hasActiveSubscriber;
+}
 
 async function checkUserHasWirelessPlan(user) {
-  if (!user?.stripeCustomerId) return false;
+  if (!user?.id) return false;
 
-  const subs = await stripe.subscriptions.list({
-    customer: user.stripeCustomerId,
-    status: 'active',
+  const freshUser = await prisma.user.findUnique({
+    where: { id: Number(user.id) },
+    select: {
+      id: true,
+      role: true,
+      plan: true,
+      subscriptionStatus: true,
+      subscriptionEndsAt: true,
+    },
   });
 
-  return subs.data.some((sub) =>
-    sub.items.data.some((item) =>
-      // You set this metadata on the Stripe price
-      item.price.metadata?.chatforiaWireless === 'true'
-    )
-  );
+  if (!freshUser) return false;
+
+  let subscriber = null;
+  try {
+    subscriber = await prisma.subscriber.findFirst({
+      where: { userId: Number(user.id) },
+      select: {
+        id: true,
+        status: true,
+        provider: true,
+      },
+    });
+  } catch (err) {
+    console.warn('[porting] subscriber lookup failed', err);
+  }
+
+  return hasWirelessEntitlement(freshUser, subscriber);
 }
 
 export async function createPortRequestForUser(user, input) {
   const hasWirelessPlan = await checkUserHasWirelessPlan(user);
   if (!hasWirelessPlan) {
-    throw new Error('A Chatforia Wireless plan is required to port a number.');
+    const err = new Error('A Chatforia Wireless plan is required to port a number.');
+    err.code = 'WIRELESS_PLAN_REQUIRED';
+    throw err;
   }
 
   const {
@@ -43,7 +81,7 @@ export async function createPortRequestForUser(user, input) {
 
   const portRequest = await prisma.portRequest.create({
     data: {
-      userId: user.id,
+      userId: Number(user.id),
       phoneNumber,
       carrier,
       accountNumber,
@@ -59,30 +97,31 @@ export async function createPortRequestForUser(user, input) {
     },
   });
 
-  // We'll plug Twilio here in the next section
-  // await submitPortToTwilio(portRequest, user);
-
   return portRequest;
 }
 
 export async function getUserPortRequests(userId) {
   return prisma.portRequest.findMany({
-    where: { userId },
+    where: { userId: Number(userId) },
     orderBy: { createdAt: 'desc' },
   });
 }
 
 export async function getUserPortRequestById(userId, portRequestId) {
   const pr = await prisma.portRequest.findUnique({
-    where: { id: portRequestId },
+    where: { id: Number(portRequestId) },
   });
-  if (!pr || pr.userId !== userId) return null;
+
+  if (!pr || Number(pr.userId) !== Number(userId)) return null;
   return pr;
 }
 
-export async function updatePortStatus(portRequestId, { status, statusReason, scheduledAt, completedAt }) {
+export async function updatePortStatus(
+  portRequestId,
+  { status, statusReason, scheduledAt, completedAt }
+) {
   return prisma.portRequest.update({
-    where: { id: portRequestId },
+    where: { id: Number(portRequestId) },
     data: {
       status,
       statusReason,

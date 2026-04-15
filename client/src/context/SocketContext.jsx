@@ -10,11 +10,12 @@ import {
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 import axiosClient from '@/api/axiosClient';
+import { API_BASE_URL } from '@/config';
 
 const SocketCtx = createContext(null);
 
 // ---- Config ----
-const API_ORIGIN = import.meta.env.VITE_API_ORIGIN || 'http://localhost:5002';
+const API_ORIGIN = API_BASE_URL;
 const SOCKET_PATH = '/socket.io';
 const COOKIE_NAME = import.meta.env.VITE_JWT_COOKIE_NAME || 'foria_jwt';
 

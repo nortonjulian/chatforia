@@ -1,15 +1,24 @@
 import { Resend } from 'resend';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const apiKey = process.env.RESEND_API_KEY;
-
-if (!apiKey) {
-  throw new Error('RESEND_API_KEY is missing from environment variables');
+function hasResendConfig() {
+  return Boolean(String(process.env.RESEND_API_KEY || '').trim());
 }
 
-const resend = new Resend(apiKey);
+function getResendClient() {
+  const apiKey = String(process.env.RESEND_API_KEY || '').trim();
+
+  if (!apiKey) {
+    const err = new Error('RESEND_API_KEY is missing');
+    err.code = 'RESEND_NOT_CONFIGURED';
+    throw err;
+  }
+
+  return new Resend(apiKey);
+}
+
+export function isEmailAvailable() {
+  return hasResendConfig();
+}
 
 export async function sendMail({
   to,
@@ -21,6 +30,8 @@ export async function sendMail({
   attachments,
 }) {
   try {
+    const resend = getResendClient();
+
     const { data, error } = await resend.emails.send({
       from,
       to,
@@ -39,12 +50,21 @@ export async function sendMail({
     console.log('📧 Email sent:', data?.id);
     return { success: true, data };
   } catch (error) {
-    console.error('Email send exception:', error);
+    if (error?.code === 'RESEND_NOT_CONFIGURED') {
+      console.warn('[mail] Resend not configured; email send skipped');
+    } else {
+      console.error('Email send exception:', error);
+    }
+
     return { success: false, error };
   }
 }
 
-export async function sendTransactionalEmail(to, subject, { template, substitutions = {} }) {
+export async function sendTransactionalEmail(
+  to,
+  subject,
+  { template, substitutions = {} }
+) {
   let html;
 
   switch (template) {
@@ -81,8 +101,11 @@ export async function sendTransactionalEmail(to, subject, { template, substituti
       `;
       break;
 
-    default:
-      throw new Error(`Unknown email template: ${template}`);
+    default: {
+      const err = new Error(`Unknown email template: ${template}`);
+      err.code = 'UNKNOWN_EMAIL_TEMPLATE';
+      throw err;
+    }
   }
 
   return sendMail({
