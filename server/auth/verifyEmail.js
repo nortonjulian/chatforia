@@ -106,7 +106,7 @@ router.post('/register', createAccountLimiter, async (req, res) => {
     });
 
     // send verification email (do not await failures to leak)
-    const link = `${process.env.PUBLIC_BASE_URL.replace(/\/$/, '')}/auth/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
+    const link = `${process.env.PUBLIC_BASE_URL.replace(/\/$/, '')}/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
     try {
 
       const { subject, text, html } = verificationEmailTemplate({
