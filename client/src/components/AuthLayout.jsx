@@ -76,7 +76,7 @@ function MobileTopBar() {
       align="center"
       wrap="nowrap"
       py="xs"
-      mb="xs"
+      mb={2}
       style={{ marginLeft: '-8px' }}
     >
      <Anchor

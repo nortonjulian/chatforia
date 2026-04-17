@@ -111,17 +111,7 @@ export default function Registration() {
       const privateKey = res?.data?.privateKey || null;
       const publicKey = user?.publicKey || null;
 
-      if (publicKey && privateKey) {
-        await saveKeysLocal({ publicKey, privateKey });
-
-        await uploadRemoteKeyBackup({
-          publicKey,
-          privateKey,
-          password: form.password,
-        });
-      }
-
-      navigate('/');
+      navigate('/?checkEmail=1');
     } catch (err) {
       const status = err?.response?.status;
       const data = err?.response?.data;

@@ -277,11 +277,9 @@ router.post(
     }
 
     // Issue session immediately on register (you can also require email verify first)
-    const token = issueSession(res, user);
-
     return res.status(201).json({
       message: 'user registered',
-      token,
+      requiresEmailVerification: true,
       user: {
         id: user.id,
         email: user.email,
@@ -311,7 +309,11 @@ router.post(
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
   }
 
+  console.log('[verify-email] hit', req.query);
+
   const tokenHash = await hashToken(String(token));
+  console.log('[verify-email] tokenHash', tokenHash);
+
 
   const record = await prisma.verificationToken.findFirst({
     where: {
@@ -323,6 +325,8 @@ router.post(
     },
     orderBy: { createdAt: 'desc' },
   });
+
+  console.log('[verify-email] record found?', !!record, record?.id);
 
   if (!record) {
     return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
@@ -339,10 +343,11 @@ router.post(
     }),
   ]);
 
+  console.log('[verify-email] success', { userId, recordId: record.id });
   return res.json({ ok: true });
 });
 
-  router.get('/verify-email, handleEmailVerify');
+  router.get('/email/verify', handleEmailVerify);
   // router.get('/verify-email', handleEmailVerify);
 
 /* =========================
@@ -529,6 +534,7 @@ router.post(
 
       // Normal session issuance
       const token = issueSession(res, user);
+
       return res.json({
         message: 'logged in',
         token,
