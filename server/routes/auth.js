@@ -227,6 +227,55 @@ router.post(
       },
     });
 
+    await prisma.verificationToken.updateMany({
+      where: { userId: user.id, type: 'email', usedAt: null },
+      data: { usedAt: new Date() },
+    });
+
+    const raw = newRawToken();
+    const tokenHash = await hashToken(raw);
+    const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
+    await prisma.verificationToken.create({
+      data: {
+        userId: user.id,
+        type: 'email',
+        tokenHash,
+        expiresAt,
+      },
+    });
+
+    const base =
+      process.env.FRONTEND_BASE_URL ||
+      process.env.PUBLIC_BASE_URL ||
+      process.env.APP_URL ||
+      'http://localhost:5173';
+
+    const link = `${base.replace(/\/+$/, '')}/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
+
+    try {
+      const mailResult = await sendMail({
+        to: user.email,
+        from: process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
+        subject: 'Verify your Chatforia email',
+        html: `
+          <p>Welcome to Chatforia.</p>
+          <p>Click below to verify your email:</p>
+          <p><a href="${link}">Verify Email</a></p>
+        `,
+        text: `Verify your Chatforia email:\n${link}`,
+      });
+
+      console.log('register sendMail result', {
+        email: user.email,
+        success: mailResult?.success,
+        data: mailResult?.data || null,
+        error: mailResult?.error || null,
+      });
+    } catch (err) {
+      console.error('register sendMail error', err);
+    }
+
     // Issue session immediately on register (you can also require email verify first)
     const token = issueSession(res, user);
 
@@ -245,6 +294,56 @@ router.post(
     });
   })
 );
+
+/* =========================
+ *         VERIFY
+ * ========================= */
+
+  const handleEmailVerify = asyncHandler(async (req, res) => {
+  const { token, uid } = req.query || {};
+
+  if (!token || !uid) {
+    return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
+  }
+
+  const userId = Number(uid);
+  if (!Number.isFinite(userId)) {
+    return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
+  }
+
+  const tokenHash = await hashToken(String(token));
+
+  const record = await prisma.verificationToken.findFirst({
+    where: {
+      userId,
+      type: 'email',
+      tokenHash,
+      usedAt: null,
+      expiresAt: { gt: new Date() },
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  if (!record) {
+    return res.status(400).json({ ok: false, error: 'invalid_or_expired' });
+  }
+
+  await prisma.$transaction([
+    prisma.verificationToken.update({
+      where: { id: record.id },
+      data: { usedAt: new Date() },
+    }),
+    prisma.user.update({
+      where: { id: userId },
+      data: { emailVerifiedAt: new Date() },
+    }),
+  ]);
+
+  return res.json({ ok: true });
+});
+
+  router.get('/verify-email, handleEmailVerify');
+  // router.get('/verify-email', handleEmailVerify);
 
 /* =========================
  *         LOGIN
@@ -877,8 +976,8 @@ router.post(
       }
 
       await prisma.verificationToken.updateMany({
-        where: { userId: user.id, type: 'email', consumedAt: null },
-        data: { consumedAt: new Date() },
+        where: { userId: user.id, type: 'email', usedAt: null },
+        data: { usedAt: new Date() },
       });
 
       const raw = newRawToken();
@@ -900,10 +999,10 @@ router.post(
         process.env.APP_URL ||
         'http://localhost:5173';
 
-      const link = `${base.replace(/\/+$/, '')}/auth/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
+      const link = `${base.replace(/\/+$/, '')}/verify-email?token=${encodeURIComponent(raw)}&uid=${user.id}`;
 
       try {
-        await sendMail({
+        const mailResult = await sendMail({
           to: user.email,
           from: process.env.EMAIL_FROM || 'Chatforia <hello@chatforia.com>',
           subject: 'Verify your Chatforia email',
@@ -913,6 +1012,13 @@ router.post(
             <p><a href="${link}">Verify Email</a></p>
           `,
           text: `Verify your Chatforia email:\n${link}`,
+        });
+
+        console.log('resend-email sendMail result', {
+          email: user.email,
+          success: mailResult?.success,
+          data: mailResult?.data || null,
+          error: mailResult?.error || null,
         });
       } catch (err) {
         console.error('resend-email sendMail error', err);

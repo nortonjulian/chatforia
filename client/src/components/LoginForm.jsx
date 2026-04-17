@@ -83,6 +83,9 @@ export default function LoginForm({ onLoginSuccess }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [canResend, setCanResend] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+
   // SSO availability (runtime)
   const [hasGoogle, setHasGoogle] = useState(true);
   const [hasApple, setHasApple] = useState(false);
@@ -142,6 +145,7 @@ export default function LoginForm({ onLoginSuccess }) {
       // ignore storage errors
     }
   }, []);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -232,8 +236,35 @@ export default function LoginForm({ onLoginSuccess }) {
         }
       }
       setError(msg);
+
+      if (
+        data?.error === 'email_not_verified' &&
+        data?.canResendVerification &&
+        identifier.includes('@') // keep it surgical for now
+      ) {
+        setCanResend(true);
+      } else {
+        setCanResend(false);
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    try {
+      setResendLoading(true);
+
+      await axiosClient.post('/auth/resend-email', {
+        email: identifier.trim(),
+      });
+
+      setError('Verification email sent. Check your inbox.');
+      setCanResend(false);
+    } catch (err) {
+      setError('Failed to resend verification email.');
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -375,6 +406,18 @@ export default function LoginForm({ onLoginSuccess }) {
             >
               {error}
             </Alert>
+          )}
+
+          {canResend && (
+            <Button
+              variant="light"
+              size="xs"
+              mt="xs"
+              loading={resendLoading}
+              onClick={handleResend}
+            >
+              Resend verification email
+            </Button>
           )}
 
           <Button type="submit" loading={loading} fullWidth mt="sm">

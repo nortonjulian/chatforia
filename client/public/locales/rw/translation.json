@@ -1,345 +1,1598 @@
 {
   "common": {
-    "save": "Bika",
+    "save": "Kubika",
     "cancel": "Kureka",
-    "refresh": "Kongeraho/Refresh",
-    "noMatches": "Nta bihuye",
+    "refresh": "Kuzamura",
+    "noMatches": "Nta bihura",
     "cancelAria": "Kureka",
     "copy": "Gukoporora",
-    "copied": "Byakoporowe!"
+    "copied": "Byakoporowe!",
+    "errorWithMessage": "Ikosa: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Simbuka ujye ku bikuru by’urupapuro"
+    "skipToMain": "Kuvuga ku birimo by'ingenzi"
   },
-
+  "keys": {
+    "backupCreated": "Ubufunguzo bwo kubika bwaremwe kandi bwakurikiranywe ✓",
+    "restored": "Ubufunguzo bwo kubika bwagaruwe ✓ Ubufunguzo bwashyizwe ku kintu cy'ibanze",
+    "noBackup": "Nta bufunguzo bwo kubika bw'ibanga buriho ku konti iyi",
+    "missingPublicKey": "Ubufunguzo bwo kubika burimo ubufunguzo bwa public"
+  },
+  "keySetup": {
+    "title": "Shyira mu gikoresho ibifunguzo byawe",
+    "description": "Iki kintu cy'ibanze ntikigire ubufunguzo bwawe bwa private. Gukura ubufunguzo bwo kubika bufite ijambo ry'ibanga, cyangwa kurema ubufunguzo bushya (uzabasha gusoma ubutumwa bushya kuva ubu).",
+    "chooseFile": "Hitamo dosiye kandi winjize ijambo ry'ibanga.",
+    "imported": "Ubufunguzo bwa private bwakuwemo ku kintu cy'ibanze. Ubu ushobora gusoma ubutumwa bwa kera.",
+    "enterPassword": "Injiza ijambo ry'ibanga ry'akonti yawe kugira ngo dushobore kubika ibifunguzo byawe mu buryo bwa kibanga."
+  },
+  "auth": {
+    "headline": "Ubutumwa bw'umutekano ku muntu wese, aho ari hose",
+    "description": "Iby'ibanga bya end-to-end, guhindura mu ndimi 100+, ubutumwa bw'igikurikira, n'itangira ry'amajwi/n'itangira ry'ivideyo.",
+    "feature": {
+      "encryption": "Iby'ibanga bya end-to-end by'ibanze",
+      "translation": "Guhindura ubutumwa mu buryo bwa smart",
+      "disappearing": "Ubutumwa bw'igikurikira & ibimenyetso byo gusoma",
+      "privacy": "Ibanga ry'ibanze. Amakuru yawe, ubuyobozi bwawe.",
+      "translate": "Guhindura ubutumwa mu buryo bwa smart",
+      "disappear": "Ubutumwa bw'igikurikira",
+      "privacyAlt": "Igishushanyo cy'ibanga ry'ibanze",
+      "seePlans": "Reba gahunda n'igiciro"
+    },
+    "hero": {
+      "line1": "Ubutumwa bw'umutekano ku muntu wese, aho ari hose — hamwe na",
+      "em": "guhindura mu ndimi 100+",
+      "sub": "Gira inomero y'umutekano y'ibanze kugira ngo uhamagara kandi uandike ku isi yose ku Wi-Fi cyangwa data. Enjoy iby'ibanga bya end-to-end, ubutumwa bw'igikurikira, n'amajwi n'itangira ry'ivideyo ya HD — hamwe n'ibikoresho bya built-in bituma ukomeza kuba ufite umubano mu mpaka.",
+      "freeNote": "Uhamagara n'itandika ry'ibanze ni ubusa. Ibikoresho bya AI bya advanced n'ibindi bya premium bisaba upgrade."
+    },
+    "feat": {
+      "encryption": "Iby'ibanga bya end-to-end, buri gihe biriho",
+      "translate": "Guhindura iby'ururimi mu kiganiro cyawe",
+      "disappear": "Ubutumwa bw'igikurikira & ibimenyetso byo gusoma",
+      "privacy": "Ibanga ry'ibanze. Amakuru yawe, ubuyobozi bwawe."
+    },
+    "continueGoogle": "Komeza na Google",
+    "continueApple": "Komeza na Apple",
+    "username": "Izina ry'umukoresha",
+    "password": "Ijambo ry'ibanga",
+    "keepSignedIn": "Ngwino ngume muri iyi",
+    "forgotPassword": "Wibagirwa ijambo ry'ibanga?",
+    "loginButton": "Injira",
+    "createAccount": "Kurema konti",
+    "freeAccountButton": "Kurema konti y'ubusa",
+    "newHere": "Ushya hano?",
+    "getApp": "Gira app",
+    "desktopTip": "Ku desktop? Scan na telephone yawe kugira ngo ubone app.",
+    "scanHelper": "Ku desktop? Scan na telephone yawe kugira ngo ubone app.",
+    "goHome": "Kujya ku rugo",
+    "home": "Rugo",
+    "headlineAlt": {
+      "main": "Ubutumwa bw'umutekano buvuga",
+      "highlight": "ururimi rwawe"
+    },
+    "subhead": "Ubutumwa bw'ibanga, bw'ibanga kandi bwahinduye — mu kanya.",
+    "upgrade": "Upgrade ubu",
+    "tip": "Tip: Koresha konti imwe ku web na mobile. Ubutumwa bwawe burakomeza kuba synced.",
+    "openDownload": "Fungura ipaji y'ukurikira",
+    "qrAlt": "QR code ya Chatforia",
+    "scanHint": "Scan kugira ngo ukurikire app cyangwa ufungure mu browser yawe.",
+    "iosAria": "Kurikira kuri App Store",
+    "iosTitle": "Kurikira kuri App Store",
+    "iosBadgeAlt": "Ikimenyetso cya App Store",
+    "androidAria": "Gira kuri Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Ikimenyetso cya Google Play",
+    "login": "Injira",
+    "signup": "Iyandikishe",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Min 6 inyuguti. Koresha ijambo ry'ibanga ry'ingenzi kandi ry'ibanze.",
+      "smsConsent": "Mu kurema konti, wemera kubona ubutumwa bwa SMS bwifitanye isano n'ibikorwa bya Chatforia (nk'ubutumwa bwa abandi mukoresha). Ubutumwa n'igiciro cya data bishobora kugira icyo bishyura. Ushobora gukora opt out igihe icyo ari cyo mu Settings.",
+      "termsLink": "Amasezerano y'ikoresho",
+      "privacyLink": "Politiki y'ibanga"
+    },
+    "to": "Kuri:",
+    "enterRecipient": "Injiza izina cyangwa nomero",
+    "clearRecipients": "Kura abo wandikiye",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Andika ubutumwa…",
+    "addRecipient": "Ongera uwandikiye hejuru kugira ngo utangire…",
+    "oneRecipient": "Nyamuneka injiza umwe w'uwandikiye ubu.",
+    "enterValidRecipient": "Injiza izina ry'umukoresha wabikijwe cyangwa nomero ya telephone.",
+    "sendFailed": "Kohereza byanze. Reba console kugira ngo ubone ibisobanuro."
+  },
+  "home": {
+    "title": "Rugo",
+    "header": "Ubutumwa bwawe",
+    "subheader": "Kohereza ubutumwa kugira ngo utangire chat.",
+    "sendButton": "Kohereza ubutumwa",
+    "gifPicker": "Fungura GIF picker",
+    "emoji": "Emoji",
+    "upload": "Kurikira ifoto cyangwa videyo",
+    "inputPlaceholder": "Andika ubutumwa…",
+    "inputLabel": "Ubutumwa bwa composer",
+    "sendTooltip": "Kohereza",
+    "sendTooltipEmpty": "Andika ubutumwa kugira ngo kohereze",
+    "send": "Kohereza",
+    "welcomeMessage": "Murakaza neza muri Chatforia",
+    "getStarted": "Tangira"
+  },
+  "chat": {
+    "selectPrompt": "Hitamo umwandiko cyangwa icyumba cy'ikiganiro kugira ngo utangire kuganira",
+    "newMessages": "Ubutumwa bushya",
+    "typing": "{{name}} ari gukora…",
+    "emptyTitle": "Ubutumwa bwawe",
+    "emptySubtitle": "Kohereza ubutumwa kugira ngo utangire chat.",
+    "startChatButton": "Kohereza ubutumwa",
+    "mediaAttachment": "Ifoto cyangwa videyo y'umwambaro",
+    "thisUser": "uyu mukoresha",
+    "blockConfirm": "Funga {{name}}? Ntiuzabona ubutumwa bwawe.",
+    "blockedUser": "Yafunzwe {{name}}.",
+    "blockError": "Ntiwashoboye kumenya umukoresha wo gufunga.",
+    "blockFailed": "Gufunga byanze (backend ntirashyirwa).",
+    "encryptedUnavailable": "Ubutumwa bw'ibanga (ubufunguzo ntibushoboye)",
+    "unlockToView": "Fungura ubufunguzo bwawe kugira ngo ubone ubu butumwa"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Kuzima"
+    },
+    "freeLimit": "Igice cy'ubusa: auto-delete kugeza ku munsi 1. Clamped kuri 1d.",
+    "premiumLimit": "Max auto-delete kuri Premium ni iminsi 30. Clamped kuri 30d.",
+    "nothingToSend": "Andika ubutumwa cyangwa ongere dosiye kugira ngo kohereze.",
+    "encryptionFailed": "Iby'ibanga byanze. Ubutumwa ntibwaherejwe.",
+    "sent": "Ubutumwa bwageze.",
+    "placeholder": "Andika ubutumwa…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Andika ubutumwa kugira ngo kohereze",
+    "send": "Kohereza",
+    "sendWithEnter": "Kohereza (Enter)",
+    "attachment": "umwambaro",
+    "caption": "Ubutumwa (optional)",
+    "remove": "Gukuraho",
+    "clear": "Kura",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Umwambaro mwinshi cyane. Gerageza dosiye nto.",
+      "unsupportedFile": "Ubwoko bwa dosiye ntibushyigikwa.",
+      "rateLimit": "Uri kohereza ubutumwa vuba cyane. Nyamuneka oroshya.",
+      "validation": "Ikosa ry'ikigeragezo. Nyamuneka reba ubutumwa bwawe kandi gerageza nanone.",
+      "failedToSend": "Kohereza byanze. Ushobora kugerageza bubble yanze."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Abakoresha babikijwe",
+    "refreshAria": "Kuzamura abakoresha",
+    "filterPlaceholder": "Filter abakoresha babikijwe…",
+    "filterAria": "Filter abakoresha babikijwe",
+    "noContactsFound": "Nta bakoresha babonetse.",
+    "externalContact": "Umukoresha w'inyuma",
+    "notJoined": "Uwo mukoresha ntarashyira mu Chatforia.",
+    "couldNotStart": "Ntiwashoboye gutangira chat. Nyamuneka gerageza nanone.",
+    "startFailed": "Gutangira chat byanze. Nyamuneka gerageza nanone.",
+    "deleted": "Umukoresha yakuwemo.",
+    "deleteFailed": "Gukuraho umukoresha byanze. Nyamuneka gerageza nanone.",
+    "aliasUpdated": "Alias yahinduwe.",
+    "updateAliasFailed": "Guhindura alias byanze. Nyamuneka gerageza nanone.",
+    "selectContact": "Hitamo {{name}}",
+    "alias": "Alias",
+    "startChat": "Tangira chat",
+    "message": "Ubutumwa",
+    "delete": "Gukuraho",
+    "deleteContactAria": "Gukuraho umukoresha",
+    "loadFailed": "Gukura abakoresha byanze. Nyamuneka gerageza nanone.",
+    "loadMore": "Kura byinshi",
+    "call": "Hamagara",
+    "callStarted": "Hamagara iyi nomero ku nomero ya Chatforia yawe…",
+    "callFailed": "Gutangira hamagara byanze. Nyamuneka gerageza nanone."
+  },
+  "startChatModal": {
+    "title": "Tangira ikiganiro",
+    "searchPlaceholder": "Shakisha izina, izina ry'umukoresha, cyangwa nomero ya telephone",
+    "messageThisPerson": "Andika ubutumwa ku muntu uyu",
+    "contacts": "Abakoresha",
+    "recentInteractions": "Ibyo wakoresheje vuba",
+    "noContactsMatch": "Nta bakoresha bihuye n'ishakisha ryawe.",
+    "noRecentInteractions": "Nta byo wakoresheje vuba.",
+    "unknown": "Ntabwo bizwi",
+    "interactionType": {
+      "message": "Ubutumwa",
+      "call": "Hamagara",
+      "video": "Videyo"
+    }
+  },
+  "addContactModal": {
+    "title": "Ongera umukoresha",
+    "phoneOrUsername": "Telephone cyangwa izina ry'umukoresha",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 cyangwa juliannorton",
+    "alias": "Alias (optional)",
+    "aliasPlaceholder": "e.g. Akazi, Mama, Mike – Europe",
+    "enterPhoneOrUsername": "Injiza nomero ya telephone cyangwa izina ry'umukoresha.",
+    "userLookupFailed": "Gushaka umukoresha byanze.",
+    "cannotAddSelf": "Ntiwashobora kongeramo umukoresha wawe.",
+    "failedToAdd": "Gukongeramo umukoresha byanze.",
+    "add": "Ongera"
+  },
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Hamagara & Kohereza Ubutumwa",
+    "conversations": "Ibiganiro",
+    "searchPlaceholder": "Shakisha ibiganiro...",
+    "errorLoading": "Gukura ibiganiro byanze",
+    "empty": "Nta biganiro by'ubu.",
+    "startChat": "Tangira chat",
+    "people": "Abantu",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Hamagara & Kohereza Ubutumwa",
+    "refresh": "Kuzamura",
+    "search": "Shakisha ibiganiro",
+    "loginPrompt": "Injira kugira ngo uhindure settings yawe.",
+    "login": "Injira",
+    "register": "Kurema konti",
+    "chatrooms": "Ibyumba by'ikiganiro",
+    "logout": "Gusohoka",
+    "startChatAlt": "Tangira chat nshya",
+    "calls": "Hamagara",
+    "video": "Videyo",
+    "voicemail": "Voicemail"
+  },
+  "topbar": {
+    "newStatus": "Status nshya",
+    "logout": "Gusohoka",
+    "help": "Ubufasha",
+    "createStatusAria": "Kurema status nshya"
+  },
+  "threadActions": {
+    "threadMenu": "Menu y'ikiganiro",
+    "premium": "Premium",
+    "aiPower": "AI Power",
+    "schedule": "Gahunda",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Ikiganiro",
+    "about": "Ibyerekeye",
+    "search": "Shakisha",
+    "media": "Media",
+    "invitePeople": "Tuma abantu",
+    "roomSettings": "Settings y'icyumba",
+    "clearConversation": "Kura ikiganiro",
+    "block": "Funga"
+  },
+  "roomSearch": {
+    "title": "Shakisha mu cyumba",
+    "ariaLabel": "Shakisha mu cyumba",
+    "search": "Shakisha",
+    "searchMessages": "Shakisha ubutumwa",
+    "noText": "[Nta mwandiko]",
+    "noResults": "Nta bisubizo"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Umunyamuryango",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "Kuzima",
+      "mention": "Gusa ku @ForiaBot cyangwa /ask",
+      "always": "Subiza proactively"
+    },
+    "autoTranslateMode": {
+      "off": "Kuzima",
+      "tagged": "Gusa ku /tr …",
+      "all": "Ubutumwa bwose"
+    },
+    "updated": "Settings yahinduwe"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Media yagabanijwe",
+    "noMediaCached": "Nta media yabikijwe ku kintu cy'ibanze.",
+    "imageAlt": "ifoto",
+    "openVideo": "Fungura videyo",
+    "openVideoWithCaption": "Fungura videyo: {{caption}}",
+    "preview": "Preview",
+    "previewWithCaption": "Preview: {{caption}}",
+    "previewKind": "Preview {{kind}}",
+    "download": "Kurikira",
+    "downloadKind": "Kurikira {{kind}}",
+    "file": "dosiye",
+    "kinds": {
+      "image": "ifoto",
+      "video": "videyo",
+      "audio": "amajwi",
+      "file": "dosiye"
+    }
+  },
+  "status": {
+    "userNumber": "Umukoresha #{{id}}",
+    "posted": "Status yashyizwe",
+    "postFailed": "Gushyira status byanze",
+    "createTitle": "Kurema status",
+    "modalAriaLabel": "Status nshya",
+    "captionLabel": "Iki kiri mu mutwe wawe?",
+    "captionPlaceholder": "Sangiza iby'ingenzi...",
+    "captionAria": "Ubutumwa bwa status",
+    "audienceLabel": "Abantu",
+    "audience": {
+      "public": "Abantu bose",
+      "followers": "Abakurikira",
+      "contacts": "Abakoresha",
+      "mutuals": "Mutuals",
+      "custom": "Custom..."
+    },
+    "expiresHoursLabel": "Igishura (amasaha)",
+    "maxTooltip": "Max iminsi 7",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Igishura ku:",
+    "chooseRecipients": "Hitamo abo wandikiye",
+    "selectContacts": "Hitamo abakoresha",
+    "attachmentsLabel": "Umwambaro",
+    "attachmentsPlaceholder": "Ongera ifoto/videyo",
+    "filesNote": "Kugeza ku dosiye 5. 24h expiry by'ibanze.",
+    "postAria": "Shyira status",
+    "post": "Shyira"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Kuva",
+    "to": "Kuri",
+    "unknownCaller": "Ntabwo bizwi",
+    "yourNumber": "Nomero ya Chatforia yawe",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Umusomyo wa voicemail",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Guhindura voicemail…",
+    "transcriptFailed": "Transcript ntibishoboye.",
+    "loading": "Gukura voicemail…",
+    "errorLoading": "Gukura voicemail byanze.",
+    "empty": "Nta voicemail y'ubu.",
+    "deleteConfirm": "Gukuraho iyi voicemail?",
+    "deleteError": "Gukuraho voicemail byanze.",
+    "markRead": "Shyira nka yasomwe",
+    "delete": "Gukuraho",
+    "unreadDotAria": "Ikimenyetso cya voicemail kitasomwe"
+  },
   "profile": {
-    "title": "Umwirondoro w’Ukoresha",
-    "preferredLanguage": "Ururimi ukunda",
+    "title": "Profil y'umukoresha",
+    "preferredLanguage": "Ururimi rw'ibanze",
     "chooseLanguage": "Hitamo ururimi",
-    "mustLogin": "Ugomba kwinjira (signin) kugira ngo urebe amagenamiterere.",
-    "autoTranslate": "Hindura ubutumwa mu buryo bwikora",
-    "showOriginalWithTranslation": "Erekana ubutumwa bw’inyandiko n’ubwahinduwe hamwe",
-    "showOriginalAndTranslation": "Erekana inyandiko y’umwimerere iruhande rw’ihuza",
-    "filterExplicit": "Sukura ibikubiyemo imvugo ibujijwe",
-    "aiReply": "Igisubizo cya AI",
-    "enableReadReceipts": "Gushyiraho kumenya ko ubutumwa bwasomwe",
-    "allowExplicitContent": "Emerera ibikubiyemo imvugo ibujijwe",
-    "disappearingMessages": "Gushyiraho ubutumwa bushira",
-    "autoDeleteSeconds": "Amasogonda mbere yo gusiba mu buryo bwikora",
-    "saveSuccess": "Amagenamiterere abikiwe!",
-    "saveError": "Ikosa: Ntibyashobotse kubika amagenamiterere",
-    "avatarAlt": "Ifoto y’Umwirondoro",
-    "uploadAvatar": "Shyiraho ifoto nshya",
-    "avatarSuccess": "Ifoto yashyizweho!",
-    "avatarError": "Ikosa mu gushyiraho ifoto",
-    "noPrivateKey": "Nta furufuro y’ibanga (private key) iri kuri iyi mashini yo koherezwa.",
-    "setBackupPassword": "Shyiraho ijambobanga ryo kubikaho kopi y’ububiko:",
-    "backupDownloaded": "Kopi y’ububiko ishyizwemo ijambobanga yakuwemo (download).",
-    "exportFailed": "Kohereza urufunguzo byanze",
-    "enterBackupPassword": "Injiza ijambobanga rya kopi y’ububiko:",
-    "importSuccess": "Urufunguzo rw’ibanga rwinjijwe kuri iyi mashini.",
-    "importFailed": "Kwinjiza byanze (ijambobanga si ryo cyangwa dosiye yangiritse).",
-    "keysRotated": "Urufunguzo rushya rwakozwe kandi urufunguzo rusangira (public) rwoherejwe.",
-    "rotateFailed": "Gusimbuza imfunguzo byanze.",
+    "mustLogin": "Ugomba kwinjira kugira ngo urebe settings.",
+    "autoTranslate": "Auto-hindura ubutumwa",
+    "showOriginalWithTranslation": "Erekana iby'umwimerere hamwe n'ibyahinduwe",
+    "showOriginalAndTranslation": "Erekana iby'umwimerere hamwe n'ibyahinduwe",
+    "filterExplicit": "Filter iby'ingenzi",
+    "aiReply": "AI reply",
+    "enableReadReceipts": "Koresha ibimenyetso byo gusoma",
+    "allowExplicitContent": "Kwemera iby'ingenzi",
+    "disappearingMessages": "Koresha ubutumwa bw'igikurikira",
+    "autoDeleteSeconds": "Amasaha kugeza auto-delete",
+    "saveSuccess": "Settings yabikijwe!",
+    "saveError": "Ikosa: Ntiwashoboye kubika settings",
+    "avatarAlt": "Avatar y'profil",
+    "uploadAvatar": "Kurikira avatar nshya",
+    "avatarSuccess": "Avatar yakurikiranywe!",
+    "avatarError": "Gukurikiranya avatar byanze",
+    "avatarUpdated": "Avatar yahinduwe!",
+    "uploadingAvatar": "Gukurikiranya avatar…",
+    "noPrivateKey": "Nta bufunguzo bwa private buri ku kintu cy'ibanze kugira ngo ukore export.",
+    "setBackupPassword": "Shyira ijambo ry'ibanga kugira ngo ukore encrypt backup yawe:",
+    "backupDownloaded": "Ubufunguzo bwo kubika bw'ibanga bwakurikiranywe.",
+    "exportFailed": "Export y'ubufunguzo byanze",
+    "enterBackupPassword": "Injiza ijambo ry'ibanga ry'ubu bufunguzo bwo kubika:",
+    "importSuccess": "Ubufunguzo bwa private bwakuwemo ku kintu cy'ibanze.",
+    "importFailed": "Gukura ubufunguzo byanze (ijambo ry'ibanga ritari ry'ukuri cyangwa dosiye yononekaye).",
+    "keysRotated": "Ubufunguzo bushya bwaremwe kandi public key yashyizwe.",
+    "rotateFailed": "Guhindura ubufunguzo byanze.",
     "security": "Umutekano",
-    "exportKey": "Kohereza urufunguzo rw’ibanga",
-    "importKey": "Kuzana kopi y’urufunguzo rufunze",
-    "rotateKeys": "Gusimbuza impare z’imfunguzo",
-    "keyDisclaimer": "Urufunguzo rwawe rw’ibanga ntiruva kuri iyi mashini. Ohereza kopi irinzwe n’ijambobanga kugira ngo uyisubize ku yindi mashini.",
-    "sectionProfile": "Umwirondoro",
-    "phoneNumber": "Numero ya telefoni",
-    "appearance": "Imigaragarire",
-    "soundSettings": "Amahumbezi y’ijwi",
-    "disappearing": "Ubutumwa bushira",
-    "backupSync": "Kopi y’ububiko & Kwihuza",
+    "exportKey": "Kubika Ubufunguzo bw'ibanga",
+    "importKey": "Garura Ubufunguzo bw'ibanga",
+    "rotateKeys": "Hindura Ubufunguzo bw'ibanga",
+    "keyDisclaimer": "Ubufunguzo bwawe bwa private ntibuvamo iki kintu cy'ibanze. Export ubufunguzo bufite ijambo ry'ibanga kugira ngo ubugarure ku kintu cy'ibanze.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Nomero ya telephone",
+    "appearance": "Kuboneka",
+    "soundSettings": "Amajwi",
+    "disappearing": "Ubutumwa bw'igikurikira",
+    "backupSync": "Kubika Ubufunguzo bw'ibanga",
     "ai": "AI",
-    "accessibility": "Ubufasha bw’abafite ubumuga",
-    "privacy": "Ubuzima bwite",
-    "devices": "Ibyuma byihuza",
-    "themeFreeNotice": "Uri kuri Free—koresha amahitamo yihuse ya Sun/Moon hano hasi. Kuzamura (upgrade) kugira ngo ufungure indi myambi.",
-    "sunTheme": "Koresha insanganyamatsiko ya Dawn",
-    "moonTheme": "Koresha Moon (Midnight)",
+    "accessibility": "Accessibility",
+    "privacy": "Ibanga",
+    "devices": "Ibikoresho by'ibanze by'umubano",
+    "themeFreeNotice": "Uri ku Free—koresha Sun/Moon by'ibanze. Upgrade kugira ngo ubone themes byinshi.",
+    "sunTheme": "Koresha Dawn theme",
+    "moonTheme": "Koresha Moon (Midnight) theme",
     "sun": "Izuba",
     "moon": "Ukwezi",
-    "backupTitle": "Kopi z’umutekano & Kwihuza ku Byuma",
-    "openBackupTools": "Fungura Ibikoresho bya Backup",
-    "backupDesc": "Kora amakopi arinzwe n’ijambobanga y’imfunguzo zawe, hanyuma usubize kuri indi mashini kugira ngo wihuza.",
-    "privacyBlurEnabled": "Jijisha ubutumwa ku buryo busanzwe",
-    "privacyBlurOnUnfocus": "Jijisha igihe porogaramu itari yo iri ku isonga",
-    "holdToReveal": "Fata wongere urekure kugira ngo ubone",
-    "notifyOnCopy": "Menyesha niba ubutumwa bwanjye bukoporowe",
-    "loadFailed": "Kunshyira umutwe w’umwirondoro byanze",
-    "followed": "Wakurikiriye",
-    "followFailed": "Gukurikirana byanze",
-    "unfollowed": "Wahagaritse gukurikira",
-    "unfollowFailed": "Guhagarika gukurikira byanze",
+    "backupTitle": "Kubika Ubufunguzo bw'ibanga & Sync y'ibikoresho",
+    "openBackupTools": "Fungura Ibikoresho byo Kubika",
+    "backupDesc": "Kubika ubufunguzo bwawe bw'ibanga kugira ngo ubugarure ubutumwa bwawe ku kintu cy'ibanze.",
+    "privacyBlurEnabled": "Blur ubutumwa by'ibanze",
+    "privacyBlurOnUnfocus": "Blur igihe app itari ku kintu",
+    "planSection": "Gahunda yawe",
+    "planLoading": "Gukura gahunda yawe…",
+    "planLoadFailed": "Gukura gahunda yawe byanze.",
+    "currentPlan": "Gahunda y'ubu",
+    "planRenewsOn": "Igishura ku",
+    "freePlanCopy": "Uri ku gahunda y'ubusa. Upgrade kugira ngo ubone ibikoresho byinshi nka backups, nomero z'inyongera, n'ibindi bya privacy bya advanced.",
+    "upgradePlanCta": "Upgrade gahunda",
+    "changePlanCta": "Hindura gahunda",
+    "manageBilling": "Kugenzura billing",
+    "portalOpenFailed": "Ntiwashoboye kufungura billing portal. Nyamuneka gerageza nanone.",
+    "holdToReveal": "Fata kugira ngo erekane",
+    "notifyOnCopy": "Menyesha niba ubutumwa bwanjye bwakoporowe",
+    "loadFailed": "Gukura profil byanze",
+    "followed": "Yakurikiwe",
+    "followFailed": "Gukurikira byanze",
+    "unfollowed": "Gukurikira byahagaritswe",
+    "unfollowFailed": "Gukurikira byahagaritswe byanze",
     "follow": "Kurikira",
-    "unfollow": "Hagarika gukurikira",
-    "followHint": "Inkuru zabo zizagaragara mu rukurikirane rwawe rwa ‘Urimo gukurikira’ nibatangaza ku bamukurikira (cyangwa Rusange).",
-    "userNotFound": "Ukoresha ntabonetse",
-    "followsYou": "Aragukurikira",
-    "sectionCrashedTitle": "Igice kunanirwa gupakurura",
-    "sectionCrashedBody": "Hari ikitagendeye neza muri iki gice.",
-    "forwarding": "Kohereza (Call & Text Forwarding)",
-    "callTextForwardingSection": "Kohereza Telefone & Ubutumwa",
-    "callTextForwardingTitle": "Kohereza Telefone n/Ubutumwa",
-    "callTextForwardingDescription": "Ohereza terefone zinjiye n’ubutumwa kuri telefoni cyangwa imeri byemejwe byawe. Telefone/ubutumwa busohoka bishobora kugaragaza nimero yawe ya Chatforia.",
-    "enableTextForwarding": "Hindura kohereza ubutumwa kuri telefoni/imeri",
-    "forwardTextsToPhone": "Ohereza ubutumwa kuri telefoni",
-    "forwardTextsToEmail": "Ohereza ubutumwa kuri imeri",
-    "destinationPhone": "Telefoni yo koherezaho (E.164)",
-    "destinationEmail": "Imeri yo koherezaho",
-    "enableCallForwarding": "Hindura kohereza terefone",
-    "destinationPhoneForCalls": "Telefoni (E.164) yo kwakira terefone",
-    "aliasBridging": "Kohereza Telefone (alias bridging)",
-    "quietHoursOptional": "Amasaha y’ituze (si ngombwa)",
-    "startHour": "Isaha itangiriro (0–23)",
-    "endHour": "Isaha isoza (0–23)",
-    "reset": "Subiramo",
-    "saveBtn": "Bika",
-    "forwardSaved": "Amagenamiterere yo kohereza abikiwe",
-    "forwardSaveFailed": "Kubika amagenamiterere byanze",
-    "errE164": "Andika nimero ya telefoni yemewe ya E.164 (urugero: +15551234567).",
-    "errEmail": "Andika imeri yemewe.",
-    "errSmsDest": "Hitamo nibura aho kohereza (telefoni cyangwa imeri).",
-    "errQuietHours": "Amasaha y’ituze agomba kuba hagati ya 0 na 23."
+    "unfollow": "Gukurikira byahagaritswe",
+    "followHint": "Inkuru zabo zizagaragara mu Following feed yawe niba bashyize audience Followers (cyangwa Public).",
+    "userNotFound": "Umukoresha ntabonetse",
+    "followsYou": "Akurikira",
+    "sectionCrashedTitle": "Igice cyanze gukura",
+    "sectionCrashedBody": "Ikintu cy'ikibazo cyabaye mu gice kiyi.",
+    "forwarding": "Hamagara & Kohereza Ubutumwa",
+    "callTextForwardingSection": "Hamagara & Kohereza Ubutumwa",
+    "callTextForwardingTitle": "Hamagara cyangwa Kohereza Ubutumwa",
+    "callTextForwardingDescription": "Kohereza hamagara n'ubutumwa by'imbere ku telephone cyangwa email yawe y'ibanze. Kohereza hamagara/ubutumwa bishobora kugaragara nomero ya Chatforia yawe.",
+    "enableTextForwarding": "Koresha kohereza ubutumwa",
+    "forwardTextsToPhone": "Kohereza ubutumwa ku telephone",
+    "forwardTextsToEmail": "Kohereza ubutumwa ku email",
+    "destinationPhone": "Telephone y'aho kohereza (E.164)",
+    "destinationEmail": "Email y'aho kohereza",
+    "enableCallForwarding": "Koresha kohereza hamagara",
+    "destinationPhoneForCalls": "Aho kohereza (E.164) ku hamagara",
+    "aliasBridging": "Hamagara Kohereza (alias bridging)",
+    "quietHoursOptional": "Amasaha y'ibanga (optional)",
+    "startHour": "Amasaha yo gutangira (0–23)",
+    "endHour": "Amasaha yo guhagarika (0–23)",
+    "reset": "Kugarura",
+    "saveBtn": "Kubika",
+    "saveProfile": "Kubika profil",
+    "saveForwarding": "Kubika kohereza",
+    "forwardSaved": "Settings y'ikohereza yabikijwe",
+    "forwardSaveFailed": "Gubika settings byanze",
+    "errE164": "Injiza nomero y'ibanze ya E.164 (e.g., +15551234567).",
+    "errEmail": "Injiza email y'ibanze.",
+    "errSmsDest": "Hitamo byibura aho kohereza kimwe (telephone cyangwa email).",
+    "errQuietHours": "Amasaha y'ibanga agomba kuba hagati ya 0 na 23.",
+    "randomChat": "Random Chat",
+    "ageBand": "Igice cy'imyaka yawe",
+    "ageBandPlaceholder": "Hitamo igice cy'imyaka yawe",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Dukoresha gusa igice cy'imyaka (ntitukoresha itariki y'ukuri y'umunsi w'ukubyara). Iki ni ukugira ngo dukomeze Random Chat pairings mu buryo bwa kiboneza.",
+    "wantsAgeFilter": "Koresha age-based matching mu Random Chat",
+    "wantsAgeFilterDesc": "Igihe cy'iku, dushaka guhuza na bantu mu gice cy'imyaka gihuje.",
+    "partnerAgeBands": "Ushobora guhuza na nde?",
+    "partnerAgeBandsDesc": "Ab'umwaka wa 13-17 bahuza gusa n'abandi b'umwaka wa 13-17. Abakuru ntibahuje n'ab'umwaka wa 13-17.",
+    "teenMatchingNote": "Kugira umutekano, konti z'umwaka wa 13–17 zihuza gusa n'izindi konti z'umwaka wa 13–17 mu Random Chat.",
+    "foriaRemember": "Reka Ria yibuke ibyo uyivugiye",
+    "foriaRememberDesc": "Igihe cy'iku, Foria ishobora gukoresha ibiganiro byawe bya kera bya Random Chat (gusa nawe) kugira ngo ikomeze ikiganiro. Ushobora guhagarika igihe icyo ari cyo.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Koresha voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete voicemail nyuma ya (iminsi)",
+    "voicemailAutoDeletePlaceholder": "Siga ubusa kugira ngo ubike kugeza iteka",
+    "voicemailForwardEmail": "Kohereza voicemail ku email",
+    "voicemailForwardEmailPlaceholder": "Email yo kohereza ibimenyetso bya voicemail",
+    "voicemailGreetingText": "Ubutumwa bwa fallback greeting",
+    "voicemailGreetingTextDesc": "Gukoreshwa igihe greeting ya audio itariho.",
+    "voicemailGreetingUpload": "Kurikira greeting ya voicemail",
+    "voicemailPreviewGreeting": "Preview greeting",
+    "voicemailGreetingUploaded": "Greeting ya voicemail yakurikiranywe neza",
+    "voicemailGreetingUploadError": "Gukurikiranya greeting ya voicemail byanze",
+    "voicemailNote": "Voicemail ziva ku nomero za Chatforia zawe zibikwa mu inbox ya Voicemail yawe. Ushobora koresha transcription n'ikohereza mu gahunda zishyigikwa.",
+    "portHint": "Ushaka kugumana nomero yawe y'ubu? Ushobora kuyikora muri Chatforia Wireless.",
+    "wireless": {
+      "manage": "Kugenzura wireless"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Gira data ya mobile ya Chatforia igihe uri kure ya Wi-Fi.",
+      "cta": "Gira eSIM / Erekana QR"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Kugenzura gahunda ya mobile ya Chatforia, nomero, ikohereza, n'ikohereza nomero.",
+    "options": {
+      "heading": "Hitamo uko ushaka gukoresha Chatforia",
+      "subheading": "Ushobora kugira nomero nshya ya Chatforia, cyangwa kwinjiza nomero yawe y'ubu iva ku wundi mukoresha.",
+      "newNumber": "Gira nomero nshya ya Chatforia",
+      "portNumber": "Kwinjiza nomero yawe y'ubu muri Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Kwinjiza nomero yawe y'ubu",
+      "subheading": "Hindura nomero yawe y'ubu iva ku mukoresha wawe w'ubu muri Chatforia. Reba ko ibisobanuro bihuje n'akonti yawe y'umukoresha kugira ngo udufite ikibazo.",
+      "phoneNumberLabel": "Nomero ya telephone yo kwinjiza",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Umukoresha w'ubu",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, n'ibindi",
+      "accountNumberLabel": "Nomero y'akonti",
+      "pinLabel": "Port-out PIN / ijambo ry'ibanga",
+      "fullNameLabel": "Izina ryose ku konti",
+      "address1Label": "Aderesi 1",
+      "address2Label": "Aderesi 2 (optional)",
+      "cityLabel": "Umujyi",
+      "stateLabel": "Leta / Igice",
+      "postalCodeLabel": "Code y'iposita",
+      "countryLabel": "Igihugu",
+      "submitButton": "Ohereza icyifuzo cyo kwinjiza",
+      "success": "Icyifuzo cyo kwinjiza cyoherejwe! Tuzakomeza kukumenyesha.",
+      "genericError": "Ikintu cy'ikibazo cyabaye."
+    },
+    "status": {
+      "heading": "Status y'ikohereza",
+      "subheading": "Kurikirana status y'icyifuzo cyo kwinjiza nomero yawe.",
+      "loading": "Gukura…",
+      "loadError": "Gukura icyifuzo cyo kwinjiza byanze.",
+      "none": "Nta bikorwa by'ikohereza by'ubu.",
+      "pending": "Bitegereje",
+      "submitted": "Byoherejwe ku mukoresha",
+      "inProgress": "Biri gukomeza",
+      "completed": "Byarangiye",
+      "failed": "Byanze",
+      "canceled": "Byahagaritswe",
+      "created": "Byaremwe:",
+      "scheduled": "Giteguye:",
+      "completedAt": "Byarangiye:"
+    },
+    "dataLow": "Data yawe iri kugabanuka.",
+    "topUp": "Ongera ubu",
+    "expiresIn": "Igishura mu munsi {{days}}",
+    "exhausted": "Data yawe yarangiye. Gura pack nshya kugira ngo ukomeze gukoresha data ya mobile.",
+    "buyPack": "Gura data pack",
+    "esimPackLabel": "eSIM pack"
+  },
+  "family": {
+    "title": "Umuryango",
+    "loading": "Gukura ibisobanuro by'umuryango wawe…",
+    "error": {
+      "load": "Gukura ibisobanuro by'umuryango byanze.",
+      "invite": "Ntiwashoboye kurema icyifuzo. Reba ko uri umuyobozi w'umuryango kandi gerageza nanone.",
+      "checkout": "Ntiwashoboye gutangira checkout ku gahunda y'Umuryango. Nyamuneka gerageza nanone."
+    },
+    "billing": {
+      "myPlanTitle": "Gahunda yawe",
+      "myPlanError": "Ntiwashoboye gukura gahunda yawe.",
+      "myPlanLoading": "Gukura gahunda yawe…",
+      "currentPlan": "Gahunda y'ubu",
+      "renewsAt": "Igishura ku",
+      "freePlanCopy": "Uri ku gahunda y'ubusa. Upgrade kugira ngo ubone ibikoresho byinshi.",
+      "upgradeCta": "Upgrade gahunda",
+      "changePlanCta": "Hindura gahunda",
+      "manageBilling": "Kugenzura billing",
+      "portalError": "Ntiwashoboye kufungura billing portal ubu.",
+      "cancelNow": "Hagarika ubu",
+      "cancelNowHelp": "Ushobora kugenzura cyangwa guhagarika subscription muri billing portal, cyangwa guhagarika ako kanya hejuru.",
+      "cancelNowConfirm": "Wizeye ko ushaka guhagarika gahunda yawe ako kanya? Ibi ntibishobora guhindurwa.",
+      "cancelNowError": "Ntiwashoboye guhagarika gahunda yawe ubu. Nyamuneka gerageza nanone cyangwa koresha Manage billing."
+    },
+    "none": {
+      "title": "Nta muryango w'ubu",
+      "body": "Kugira ngo ureme Chatforia Family n'ikigega cy'ibanze cyagabanijwe, tangira gahunda y'Umuryango.",
+      "goUpgrade": "Tangira gahunda y'Umuryango",
+      "viewPlans": "Reba gahunda zose"
+    },
+    "group": {
+      "defaultName": "Umuryango wanjye wa Chatforia",
+      "role": "Uruhare rwawe: {{role}}"
+    },
+    "role": {
+      "owner": "Nyiri",
+      "member": "Umunyamuryango"
+    },
+    "data": {
+      "heading": "Ikigega cy'ibanze cyagabanijwe",
+      "caption": "Abanyamuryango bose bagabana iki kigega. Tuzakumenyesha igihe uri kwegera igice."
+    },
+    "members": {
+      "title": "Abanyamuryango b'umuryango",
+      "name": "Izina",
+      "role": "Uruhare",
+      "usage": "Gukoresha",
+      "limit": "Igice",
+      "unlimited": "Nta gice cy'ibanze",
+      "inviteCta": "Tuma umunyamuryango"
+    },
+    "invite": {
+      "title": "Tuma umunyamuryango mushya",
+      "body": "Kohereza email cyangwa link kugira ngo utume umuntu mu kigega cy'ibanze cy'umuryango wawe.",
+      "emailLabel": "Email (optional)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Kurema icyifuzo",
+      "linkLabel": "Link y'icyifuzo",
+      "copyAria": "Gukoporora link y'icyifuzo",
+      "expiryHint": "Iyi link igishura nyuma y'iminsi mike. Ushobora buri gihe kurema iya nshya."
+    },
+    "join": {
+      "title": "Injira mu muryango",
+      "body": "Watumwe kugira ngo winjire mu muryango wa Chatforia kandi mugabane ikigega cy'ibanze cyabo.",
+      "cta": "Emeza kandi winjire mu muryango",
+      "ctaLogin": "Injira kandi winjire mu muryango",
+      "success": "Winjiye mu muryango uyu. Ubu uragabana ikigega cy'ibanze cyabo.",
+      "goFamily": "Kujya ku dashboard y'umuryango",
+      "error": "Ntiwashoboye kongeramo umuryango uyu. Icyifuzo gishobora kuba cy'ibanze cyangwa cyashize."
+    }
+  },
+  "premium": {
+    "heading": "Kujya Premium",
+    "description": "Fungura ibikoresho bya power & kura ads.",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
+    "upgradeAria": "Upgrade ku Chatforia Premium"
+  },
+  "upgrade": {
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Igiciro",
+    "h1": "Igiciro n'Gahunda za Chatforia",
+    "h1Subtitle": "Tangira na gahunda y'ubusa ifite ads. Kujya ad-free na Plus, cyangwa fungura ibikoresho byose na Premium.",
+    "subtitle": "Hitamo gahunda y'app, ongerekamo data packs kuri wowe, cyangwa ugabane data na umuryango wawe — bose ku kintu kimwe.",
+    "subtitle.app": "Tangira na gahunda y'ubusa ifite ads. Kujya ad-free na Plus, cyangwa fungura ibikoresho byose na Premium.",
+    "subtitle.mobile": "Ongerekamo data ya global eSIM kugira ngo Chatforia ikomeze gukora igihe uri kure ya Wi-Fi.",
+    "subtitle.family": "Kurema ikigega cy'ibanze cyagabanijwe ku muryango wawe kandi ugenzure ukoresha buri wese ku kintu kimwe.",
+    "perMonth": "ukwezi",
+    "perYear": "umwaka",
+    "goPremium": "Kujya Premium",
+    "benefitsLine": "Fungura ibikoresho bya power & kura ads.",
+    "ctaText": "Upgrade",
+    "aria": "Upgrade ku Chatforia Premium",
+    "toggle": {
+      "monthly": "Buri kwezi",
+      "annual": "Buri mwaka (Kizigama 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subscription izahagarika",
+      "body": "Uzagaruka ku Free ku",
+      "keepPlanCta": "Komeza {{plan}}",
+      "manageBillingCta": "Kugenzura billing"
+    },
+    "billing": {
+      "opening": "Gufungura…",
+      "manage": "Kugenzura Billing"
+    },
+    "checkout": {
+      "redirecting": "Kujya…"
+    },
+    "auth": {
+      "continue": "Komeza kwinjira",
+      "createAccount": "Kurema konti",
+      "signIn": "Injira"
+    },
+    "cta": {
+      "aria": "Hitamo gahunda",
+      "getPlus": "Upgrade ku Plus",
+      "upgradeMonthly": "Upgrade Buri kwezi",
+      "upgradeAnnual": "Upgrade Buri mwaka"
+    },
+    "section": {
+      "app": "Gahunda z'app",
+      "mobile": "Mobile (eSIM)",
+      "family": "Gahunda z'umuryango"
+    },
+    "plans": {
+      "free": {
+        "title": "Ubusa",
+        "price": "$0",
+        "desc": "Tangira ubutumwa mu busa. Gishobora kuba igihe uri kugerageza Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 n'ikiganiro cy'itsinda, hamwe n'amajwi n'itangira ry'ivideyo",
+          "media": "Sangiza ifoto, ubutumwa bw'amajwi, n'ibice bya videyo",
+          "ai": "AI-powered smart replies n'ihindura ry'ibanze (fair use)",
+          "disappearing": "Ubutumwa bw'igikurikira n'ibigenzura by'ibanga by'ibanze",
+          "ads": "Ubusa kugeza iteka hamwe n'ads mu app"
+        },
+        "ctaCurrent": "Gahunda y'ubu",
+        "ctaManage": "Kugenzura mu billing",
+        "ctaPublic": "Tangira – komeza kwinjira",
+        "aria": "Gahunda y'ubusa"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Iby'ibanze byose, nta ads. Gishobora kuba buri munsi ubutumwa n'itangira.",
+        "features": {
+          "allFree": "Ibyose muri Free, nta ads",
+          "forwarding": "Kohereza hamagara n'ubutumwa ku nomero ya telephone yawe y'ukuri",
+          "history": "Ubutumwa bwa kera bwa kera (kugeza ku mezi 6)",
+          "support": "Ubufasha bwihuse igihe ikintu cy'ikibazo cyabaye"
+        },
+        "badge": "Popular",
+        "cta": "Kujya Ad-Free",
+        "ctaPublic": "Gira Plus – komeza kwinjira",
+        "aria": "Upgrade ku Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Buri kwezi)",
+        "price": "$11.99",
+        "desc": "Iby'umwanya bya Chatforia: ibikoresho bya AI, guhindura, n'ubufasha bwa priority.",
+        "features": {
+          "plusAll": "Ibyose muri Plus",
+          "themes": "Fungura themes zose za premium color n'ibindi bya app",
+          "ai": "Ibikoresho bya AI bya Premium gusa ku rewrites, smart replies, n'ibisobanuro",
+          "support": "Ubufasha bwa priority igihe ukeneye ubufasha cyane"
+        },
+        "badge": "Recommended",
+        "cta": "Upgrade (Buri kwezi)",
+        "ctaPublic": "Fungura Premium – komeza kwinjira",
+        "aria": "Upgrade ku Premium Buri kwezi"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Buri mwaka)",
+        "price": "$99",
+        "desc": "Zigama byinshi igihe ushyira buri mwaka — harimo themes z'inyongera za color, ibikoresho bya AI, n'ubufasha bwa priority.",
+        "features": {
+          "allPremium": "Ibyose muri Premium Buri kwezi — harimo themes z'inyongera za color",
+          "annualBilling": "Bishyirwa rimwe buri mwaka",
+          "save25": "Zigama hafi 30% ugereranyije na buri kwezi",
+          "bestFor": "Gishobora kuba ku bantu bakoresha cyane, abakora kure, n'abagenda cyane"
+        },
+        "badge": "Zigama 30%",
+        "cta": "Upgrade (Buri mwaka)",
+        "ctaPublic": "Zigama 30% na annual – komeza kwinjira",
+        "aria": "Upgrade ku Premium Buri mwaka",
+        "disclaimer": "Bishyirwa imbere. Hagarika igihe icyo ari cyo. Nta fees zihishe."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Ubusa",
+      "freeDesc": "Tangira ubutumwa mu busa.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Igiciro cy'ibanze cy'ubusa cy'ibanze.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Ibikoresho byose, ringtones, n'ibikoresho bya AI power.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Zigama byinshi igihe ushyira buri mwaka.",
+      "annualDisclaimer": "Bishyirwa imbere. Hagarika igihe icyo ari cyo. Nta fees zihishe."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "Ongerekamo data ya global kugira ngo Chatforia ikomeze gukora n'igihe uri kure ya Wi-Fi. Igiciro kigira icyo gihindura ku gihugu cyawe n'igiciro.",
+      "subtitle.detail": "Hitamo pack y'ibanze ya global data kugira ngo Chatforia ikomeze gukora igihe uri ku rugendo cyangwa uri kure ya Wi-Fi.",
+      "scope": {
+        "local": "Local",
+        "europe": "Europe",
+        "global": "Global"
+      },
+      "note": "Ntitugurisha data packs munsi ya 3 GB.",
+      "localEquals": "Local = {{country}}",
+      "localEqualsFallback": "Local = igihugu cyawe cy'ubu",
+      "perPack": "/ pack",
+      "cta": "Gira iyi data pack",
+      "ctaPublic": "Gira iyi data pack",
+      "checkout": {
+        "redirecting": "Kujya…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data y'umuvuduko w'ingenzi ku gukoresha cyane",
+          "throttle": "Umuvuduko ushobora kugabanuka nyuma y'igikoresho cyinshi",
+          "coverage": "Coverage y'ibanze",
+          "instant": "Instant eSIM activation",
+          "noContract": "Pack y'ibanze, nta contract"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM data packs isaba igikoresho cy'ibanze cy'eSIM kandi cy'ibanze. Iby'ubushobozi bihuje n'ubwoko bw'iphone, umukoresha, n'igihugu. Coverage n'umuvuduko bihuje n'igice."
+      },
+      "small": {
+        "title": "Starter pack",
+        "desc": "Harimo 3 GB ya data y'umuvuduko w'ingenzi — gishobora kuba ku butumwa bwa kinyamabanga n'itangira ry'ibanze.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Ingendo z'igikurikira, ubutumwa bwa kinyamabanga, n'itangira ry'ibanze",
+        "aria": "Gura Starter eSIM data pack"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "desc": "Harimo 5 GB ya data y'umuvuduko w'ingenzi ku ngendo, commuting, n'itangira ry'ibanze ry'VoIP.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Ingendo z'umunsi w'ikiruhuko, itangira ry'ibanze ry'VoIP, n'maps",
+        "aria": "Gura Traveler eSIM data pack"
+      },
+      "large": {
+        "title": "Power pack",
+        "desc": "Harimo 10 GB ya data y'umuvuduko w'ingenzi ku chat y'ingenzi, hamagara, n'ivideyo ku ntora ya Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Chat y'ingenzi, hamagara, videyo, n'ikoresho ry'ibanze",
+        "aria": "Gura Power user eSIM data pack"
+      },
+      "compare": {
+        "title": "Gereranya eSIM data packs",
+        "col": {
+          "pack": "Pack",
+          "data": "Data y'ibanze",
+          "bestFor": "Gishobora kuba"
+        },
+        "disclaimer": "Uko data ikoreshwa igira icyo gihuye n'uko ukoresha Chatforia (amajwi, videyo, media, n'ibindi bya telephone yawe)."
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (data yagabanijwe)",
+      "subtitle": "Gabana ikigega cy'ibanze kimwe ku muryango wawe. Igiciro kimwe, konti nyinshi za Chatforia, coverage ya global.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Harimo 20 GB ya data y'umuvuduko w'ingenzi yagabanijwe — gishobora kuba ku bakoresha 2–3 b'ibanze.",
+        "price": "$29.99",
+        "aria": "Gura Family Small pack"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Harimo 40 GB ya data y'umuvuduko w'ingenzi yagabanijwe — gishobora kuba ku banyamuryango 3–5 bakoresha cyane.",
+        "price": "$49.99",
+        "aria": "Gura Family Medium pack"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Harimo 80 GB ya data y'umuvuduko w'ingenzi yagabanijwe — ku miryango y'ingenzi itari ku kintu.",
+        "price": "$84.99",
+        "aria": "Gura Family Large pack"
+      },
+      "feature": {
+        "shared": "Ikigega cy'ibanze cyagabanijwe ku muryango wawe",
+        "members": "Tuma kugeza ku banyamuryango b'inyongera 4",
+        "membersMore": "Gishobora kuba ku banyamuryango 3–5 bakoresha cyane",
+        "manage": "Kugenzura igice ku munyamuryango wese",
+        "topUp": "Ongerekamo packs byinshi igihe icyo ari cyo",
+        "bestValue": "Igiciro cy'ibanze cy'ingenzi ku GB",
+        "fairUse": "Igira icyo gihuje n'politiki y'ibanze n'ibice by'aho"
+      },
+      "disclaimer": "Family packs kurema cyangwa top up ikigega cy'ibanze cyagabanijwe. Ushobora gutuma kandi gukura abanyamuryango igihe icyo ari cyo.",
+      "footnote": "Family packs gabana ikigega cy'ibanze kimwe ku konti za Chatforia z'umubano. Iby'ubushobozi n'ibice bihuje n'igihugu cyawe n'amategeko y'aho."
+    },
+    "why": {
+      "title": "Kuki abantu bahindura ku Chatforia",
+      "subtitle": "Chatforia iguha nomero y'ukuri ya telephone, guhindura mu buryo bwa smart, n'inzira y'ibanze yo kujya ad-free igihe uri yiteguye.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Ads yoroshye kuri Free, upgrade y'ibanze ya Plus igihe uri yiteguye, n'ibikoresho bya Premium TextNow itagira."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App ya modern, igishushanyo cy'ibanze cy'isi, n'ihindura ry'ibanze ry'ibanze aho kuba call forwarding ya kera."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat apps",
+          "body": "Andika nomero z'ukuri za telephone — ntibari gusa ku bandi mukoresha b'app — hamwe na AI n'status y'ibanze. Gishobora kuba igihe uri kuva ku apps nka TextFree cyangwa TextMe."
+        }
+      },
+      "tableTitle": "Uko Chatforia gihuje",
+      "col": {
+        "feature": "Ibikoresho"
+      },
+      "feature": {
+        "freeNumber": "Nomero y'ubusa ya telephone",
+        "translation": "Ihindura ry'ibanze ry'ibanze",
+        "aiTools": "Ibikoresho bya AI (rewrites, replies, ibisobanuro)",
+        "ads": "Igice cy'ad-free",
+        "history": "Ubutumwa bwa kera"
+      },
+      "yes": "Yego",
+      "no": "Oya",
+      "yesPremium": "Yego (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Gishobora kuba",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Kugeza ku mezi 12+",
+        "textnow": "Bihuje n'akonti",
+        "voice": "Gishobora kuba / bihuje n'akonti"
+      },
+      "disclaimer": "Guhuza bihuje n'ibisobanuro by'ibanze by'ibanze kandi bishobora guhindura mu gihe. Ibindi apps by'ubusa byo gutandika nka TextFree cyangwa TextMe bihuje na TextNow."
+    },
+    "faq": {
+      "title": "Igiciro n'Gahunda FAQ",
+      "free": {
+        "q": "Gahunda y'ubusa ni ubusa koko?",
+        "a": "Yego. Gahunda y'ubusa irimo nomero ya Chatforia, itangira, n'ubutumwa hamwe n'ads. Ushobora kuguma kuri Free igihe icyo ari cyo, cyangwa upgrade kugira ngo ukure ads kandi ufungure ibikoresho byinshi."
+      },
+      "plusPremium": {
+        "q": "Iki gihuye na Plus na Premium?",
+        "a": "Plus ikura ads kandi igira ubutumwa bwa kera bwa kera — gishobora kuba ku gukoresha buri munsi. Premium ongerekamo ibindi by'ibanze, ibikoresho bya AI ku rewrites n'replies, n'ubufasha bwa priority ku bakoresha cyane."
+      },
+      "esim": {
+        "q": "Aho eSIM data packs ikora he?",
+        "a": "Chatforia Mobile ikoresha coverage ya global eSIM. Iby'ubushobozi bihuje n'igihugu cyawe n'igikoresho. Uzabona iby'ubushobozi igihe cyo gukora activation mu app."
+      },
+      "cancel": {
+        "q": "Nshobora guhagarika cyangwa guhindura gahunda igihe icyo ari cyo?",
+        "a": "Yego. Ushobora kugenzura cyangwa guhagarika subscription iva ku ipaji y'billing mu app. Ibihinduka bigira icyo bigira ku mpera y'igihe cy'ibanze cy'ubwishyinguro."
+      },
+      "family": {
+        "q": "Uko Family packs ikora ite?",
+        "a": "Family packs kurema ikigega cy'ibanze cyagabanijwe ku konti nyinshi za Chatforia. Umuntu umwe ashyira igiciro, kandi ushobora gutuma cyangwa gukura abanyamuryango kandi ushyire igice ku muntu wese."
+      }
+    },
+    "gettingStarted": {
+      "title": "Gutangira",
+      "subtitle": "Ushya muri Chatforia? Iyi guide y'ibanze yerekana iby'ingenzi kugira ngo ubone iby'ingenzi mu kanya.",
+      "alert": {
+        "text": "Iyi guide izakura igihe tuzashyira ibikoresho bishya. Niba ikintu kibuze, tumenyeshe binyuze muri",
+        "contactLink": "Twandikire"
+      },
+      "section1": {
+        "title": "1) Kurema konti yawe",
+        "signup": "Iyandikishe",
+        "or": "cyangwa",
+        "login": "injira",
+        "loginText": "na konti yawe y'ibanze.",
+        "prefsStart": "Shyira",
+        "prefsLink": "ibyo ukunda",
+        "prefsRest": "(ururimi, ibimenyetso byo gusoma, themes)."
+      },
+      "section2": {
+        "title": "2) Tangira ubutumwa",
+        "item1": "Kurema DM cyangwa Group kandi kohereza ubutumwa bwawe bwa mbere.",
+        "item2": "Koresha ihindura ry'ibanze kugira ngo uganire mu ndimi 100+.",
+        "item3": "Gerageza ubutumwa bw'igikurikira n'ibimenyetso byo gusoma muri Profil → Ibanga."
+      },
+      "section3": {
+        "title": "3) Komeza",
+        "item1": "Ushobora upgrade ku gahunda y'ishyura igihe icyo ari cyo mu app.",
+        "item2": "Igihe winjiye, ushobora guhuza ibikoresho by'inyongera kandi ushyiremu backups y'ibanga iva mu Settings mu app."
+      },
+      "cta": {
+        "seePlans": "Reba gahunda",
+        "openSettings": "Fungura settings"
+      }
+    },
+    "helpCenter": {
+      "title": "Ikigo cy'ubufasha",
+      "faq": {
+        "account": {
+          "q": "Uko nshobora kurema cyangwa kugarura konti yanjye?",
+          "a": "Kurikira app cyangwa koresha web, kanda “Kurema konti”, reba email/telephone yawe. Kugira ngo ubugarure, koresha “Wibagirwa ijambo ry'ibanga”."
+        },
+        "privacy": {
+          "q": "Ubutumwa ni end-to-end encrypted?",
+          "a": "Yego. Ubutumwa n'itangira ry'amajwi n'ivideyo ni end-to-end encrypted by'ibanze. Gusa wowe n'uwandikiye ushobora kubisoma."
+        },
+        "translate": {
+          "q": "Uko ihindura ry'ibanze rikora ite?",
+          "a": "Koresha “Auto-hindura” muri Settings → Kuboneka & Ururimi. Dushindura ku kintu cy'ibanze aho bishyigikwa, cyangwa binyuze mu APIs z'umutekano hamwe n'ibisobanuro by'ibanze."
+        },
+        "contact": {
+          "q": "Twandikire ubufasha",
+          "a": "Twandikire muri support@chatforia.com. Ongeramo screenshots n'ubwoko bw'app yawe."
+        }
+      }
+    },
+    "contact": {
+      "title": "Twandikire",
+      "successMsg": "Murakoze—ikipe yacu izasubiza na email.",
+      "errorSend": "Ntiwashoboye kohereza. Nyamuneka andika support@chatforia.com.",
+      "form": {
+        "nameLabel": "Izina",
+        "emailLabel": "Email",
+        "messageLabel": "Ubutumwa",
+        "sendCta": "Kohereza"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Politiki y'ibanga",
+      "lastUpdated": "Yahinduwe nyuma:",
+      "intro": {
+        "body": "Iyi Politiki y'ibanga isobanura uko Chatforia (“twe”, “twe”) ikusanya, ikoresha, kandi igabana amakuru igihe ukoresha apps n'ibikoresho byacu. Twashushanyije Chatforia kugira ngo igabanye ibyo dushobora kugera."
+      },
+      "infoWeCollect": {
+        "title": "Amakuru dukura",
+        "account": "Amakuru y'akonti (e.g., email/telephone) kugira ngo kurema kandi ukomeze konti yawe.",
+        "encrypted": "Iby'ibanga by'umwambaro (ubutumwa/itangira) ni end-to-end encrypted; ntitushobora kubisoma.",
+        "diagnostics": "Diagnostic/igikoresho nka crash logs, ubwoko bw'igikoresho, cyangwa analytics y'ibanze kugira ngo dushyire iby'ingenzi."
+      },
+      "sms": {
+        "title": "Nomero za telephone za mobile n'SMS",
+        "body": "Niba uhitamo gutanga nomero ya telephone ya mobile, twakoresha kugira ngo twemeze ibikoresho nka verification y'akonti, ibimenyetso byo kwinjira, n'ubutumwa bwa user-to-user binyuze mu SMS aho bishyigikwa. Tushobora kohereza ubutumwa bwa transactional SMS bifitanye isano n'akonti yawe n'ibikorwa kuri Chatforia. Ushobora gukora opt out ku kubona ubutumwa bwa SMS igihe icyo ari cyo binyuze mu gusubiza na keyword y'opt-out y'ishyigikwa (nk'“STOP”) cyangwa guhindura ibimenyetso bya notification muri app. Ntiturangisha nomero yawe ya telephone cyangwa tukayikoresha ku marketing itari isano.",
+        "newText": "Ubutumwa bushya",
+        "enterRecipient": "Injiza izina cyangwa nomero",
+        "typeMessage": "Andika ubutumwa…",
+        "addRecipient": "Ongera uwandikiye hejuru kugira ngo utangire…"
+      },
+      "howWeUse": {
+        "title": "Uko dukoresha amakuru",
+        "provide": "Gutanga kandi gukomeza ikikoresho (auth, gukora spam/abuse).",
+        "improve": "Gushyira ibikoresho (uburyo bw'ihindura, gukomeza).",
+        "legal": "Guhuza n'ibyo amategeko asaba."
+      },
+      "sharing": {
+        "title": "Gugabana",
+        "body": "Ntiturangisha amakuru y'ibanze. Tushobora kugabana amakuru y'ibanze hamwe n'abakoresha (e.g., ibimenyetso byo kugera, analytics) binyuze mu amasezerano y'umutekano."
+      },
+      "rights": {
+        "title": "Uburenganzira bwawe",
+        "body": "Bihuje n'igice cyawe (e.g., GDPR/UK GDPR/CPRA), ushobora gusaba kugera, guhindura, gukura, cyangwa opt-out ku gukora bimwe. Twandikire: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Kubika amakuru & umutekano",
+        "body": "Dukoresha gusa iby'ingenzi kugira ngo dukoreshe ikikoresho kandi dukoreshe umutekano w'ingenzi. Iby'ibanga bya E2E ntibishobora gukoreshwa na twe."
+      },
+      "children": {
+        "title": "Abana",
+        "body": "Chatforia ntigerekewe ku bana munsi ya 13 (cyangwa nk'uko amategeko y'aho asaba)."
+      },
+      "changes": {
+        "title": "Ibihinduka",
+        "body": "Tuzashyira ibihinduka hano kandi tuhindure itariki y'“Yahinduwe nyuma”."
+      },
+      "contact": {
+        "title": "Twandikire",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Amasezerano y'ikoresho",
+      "lastUpdated": "Yahinduwe nyuma:",
+      "intro": {
+        "body": "Ukoresha Chatforia wemera aya masezerano. Niba utemera, ntukoreshe ikikoresho."
+      },
+      "accounts": {
+        "title": "Konti",
+        "itemAccurateInfo": "Tanga amakuru y'ukuri kandi ukomeze credentials mu mutekano.",
+        "itemResponsibility": "Uri inshingano y'ibikorwa ku konti yawe."
+      },
+      "acceptableUse": {
+        "title": "Uko ukoresha by'ibanze",
+        "itemNoAbuse": "Nta iby'ibanze, iby'ibanga, cyangwa iby'ibanze; nta spam cyangwa gukoresha automated abuse.",
+        "itemSuspend": "Tushobora guhagarika/ guhagarika ku iby'ibanze."
+      },
+      "sms": {
+        "title": "SMS communications",
+        "body": "Niba utanga nomero ya telephone ya mobile, wemera ko Chatforia ishobora kohereza ubutumwa bwa SMS bifitanye isano n'akonti yawe n'ikoresho ry'ikikoresho, nk'ibimenyetso byo kwinjira, ibimenyetso by'umutekano, n'ubutumwa bifitanye isano n'ibiganiro wahinduye cyangwa wakoresheje. Ntiturakoresha SMS ku butumwa bwa promotional cyangwa marketing nta n'ubwo wemeye. Igiciro cy'ubutumwa n'data gishobora kugira icyo gishyura. Ushobora gukora opt out ku ubutumwa bwa SMS igihe icyo ari cyo binyuze mu gusubiza na keyword y'opt-out y'ishyigikwa (nk'“STOP”) cyangwa guhindura settings ya notification muri app."
+      },
+      "yourContent": {
+        "title": "Ibyawe",
+        "body": "Uragumana uburenganzira ku byawe. Utanga twe uburenganzira bwa ngombwa kugira ngo dukoreshe ikikoresho (e.g., routing, kubika, guhindura)."
+      },
+      "disclaimer": {
+        "title": "Ibihishe & inshingano",
+        "body": "Ikikoresho cyatanzwe “nk'uko kiri” nta warranties. Ku gice cyose cyemewe n'amategeko, Chatforia ntishobora kuba inshingano ku iby'ibanze cyangwa iby'ibanze."
+      },
+      "changes": {
+        "title": "Ibihinduka",
+        "body": "Tushobora guhindura aya masezerano; gukomeza gukoresha nyuma y'ibihinduka bisobanura kwemera."
+      },
+      "contact": {
+        "title": "Twandikire",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "Ntiugurisha cyangwa ugabana Amakuru yanjye y'ibanze",
+      "body": "Chatforia ntigurisha amakuru y'ibanze. Abaturage ba California bashobora kohereza icyifuzo binyuze mu butumwa bwa CPRA ukoresheje buto hejuru.",
+      "cta": "Kohereza icyifuzo"
+    },
+    "cookies": {
+      "title": "Settings ya Cookie",
+      "body": "Chatforia ikoresha cookies y'ibanze (e.g., session, umutekano). Ntiturakoresha cookies y'ads y'umwanya wa gatatu. Genza cookies binyuze muri settings ya browser yawe."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Ntiwashoboye gukura status ya nomero ya telephone.",
+      "lock": "Funga",
+      "noNumberAssigned": "Nta nomero yashyizwe. Hitamo imwe ku code y'igice kugira ngo utangire gutandika.",
+      "pickNumber": "Hitamo nomero",
+      "phoneNumber": "Nomero ya telephone"
+    },
+    "startChatModal": {
+      "title": "Tangira chat",
+      "quickPicker": "Quick picker",
+      "to": "Kuri",
+      "nameOrUsername": "Andika izina, izina ry'umukoresha",
+      "nameUsernamePhoneEmail": "Andika izina, izina ry'umukoresha, nomero ya telephone, cyangwa email…",
+      "startWithSelected": "Tangira chat na wahitamo",
+      "searchByUsernameOrPhone": "Shakisha ku izina ry'umukoresha cyangwa nomero ya telephone",
+      "search": "Shakisha",
+      "searchPrompt": "Andika izina ry'umukoresha cyangwa nomero ya telephone kandi ukande Shakisha.",
+      "pickFromContacts": "Cyangwa hitamo ku bakoresha",
+      "addContact": "Ongera Umukoresha",
+      "show": "Erekana",
+      "add": "Ongera",
+      "close": "Funga",
+      "selectedCount": "{{count}} wahitamo",
+      "pickAtLeastOne": "Hitamo byibura umwe w'uwandikiye.",
+      "saveContactsHint": "Nomero/email z'ibanze zizaboneka nyuma yo kubika nk'abakoresha.",
+      "failedBulkStart": "Guhindura chat na abo wahitamo byanze.",
+      "noResults": "Nta bisubizo",
+      "mode": "Uburyo",
+      "group": "Itsinda",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Izina ry'itsinda (optional)",
+      "firstMessageOptional": "Ubutumwa bwa mbere (optional ariko by'ingenzi)",
+      "createGroup": "Kurema itsinda",
+      "sendBroadcast": "Kohereza broadcast"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "Uri ku Free — premium tones zerekana ariko zifunze. Upgrade kugira ngo ufungure zose.",
+      "preview": "Preview",
+      "resetToDefaults": "Kugarura ku by'ibanze",
+      "notificationSounds": "Amajwi y'ibimenyetso",
+      "messageTone": "Ijwi ry'ubutumwa",
+      "default": "By'ibanze",
+      "vibrate": "Vibrate",
+      "dreamer": "Dreamer",
+      "notify": "Menyesha",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsating Sound",
+      "textMessage": "Ubutumwa bwa telephone",
+      "xylophone": "Xylophone",
+      "classic": "Classic",
+      "urgency": "Urgency",
+      "bells": "Bells",
+      "chimes": "Chimes",
+      "digitalPhone": "Digital Phone",
+      "melodic": "Melodic",
+      "organNotes": "Organ Notes",
+      "soundReality": "Sound Reality",
+      "street": "Street",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Iki gikoresho gisaba gahunda ya Premium."
+    },
+    "aiSettings": {
+      "title": "Settings ya AI",
+      "controlIntro": "Genzura guhindura, smart replies, n'ibisubizo bya ForiaBot.",
+      "save": "Kubika Settings ya AI",
+      "autoTranslateIncoming": "Auto-hindura ubutumwa bwinjira",
+      "showOriginalAlongside": "Erekana umwandiko w'umwimerere hamwe n'ihindura",
+      "enableSmartReplies": "Koresha Smart Replies",
+      "smartRepliesHint": "Kohereza ubutumwa bwa kera bwa kera (sanitized) ku AI kugira ngo ushintse replies z'ibanze.",
+      "maskProfanity": "Mask profanity mu bisubizo bya AI",
+      "maskProfanityHint": "Igihe cy'iku, ibisubizo bya AI bizagira amagambo y'ibanze yahishe",
+      "foriaBot": "ForiaBot Auto-Responder",
+      "enableAutoReply": "Koresha auto-reply igihe ndi busy",
+      "autoReplyMode": "Uburyo bwa auto-reply",
+      "cooldownSeconds": "Cooldown (amasaha)",
+      "off": "Kuzima",
+      "on": "Ku",
+      "signature": "Signature",
+      "autoReply": "Auto-reply",
+      "activeUntilOptional": "Igihe cy'ibanze (optional)",
+      "saved": "Ibikunda bya AI byabikijwe",
+      "saveFailed": "Gubika settings ya AI byanze",
+      "translateOff": "Kuzima",
+      "translateTagged": "Gusa igihe @translated cyangwa tagged",
+      "translateAll": "Hindura ubutumwa bwose bwinjira",
+      "modeDm": "1:1 chats gusa",
+      "modeMention": "Gusa igihe @mentioned",
+      "modeAll": "Ubutumwa bwose bwinjira"
+    },
+    "accessibilitySettings": {
+      "title": "Accessibility & Ibimenyetso",
+      "accessibility": "Accessibility",
+      "accessibilityDesc": "Ibikoresho kugira ngo Chatforia ibe yoroshye gukoresha nta gukoresha amajwi.",
+      "interfaceFontSize": "Ubwoko bw'inyuguti y'interface",
+      "interfaceFontSizeHelp": "Itangirira ku ubwoko bw'ibanze. Ongera niba ukunda inyuguti nini muri accessibility settings.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Ibimenyetso",
+      "notificationsDesc": "Ibimenyetso by'ibanze ku butumwa & hamagara\nErekana banners n'ibimenyetso by'izina kugira ngo udafite ikintu.",
+      "vibrateOnNew": "Vibrate ku butumwa bushya (igihe bishyigikwa)\nKoresha vibration y'igikoresho hamwe n'ibimenyetso.",
+      "flashOnCall": "Flash screen ku hamagara ryinjiye\nFlash y'ibanze y'umucyo igihe hamagara rirangira.",
+      "liveCaptions": "Live captions (hamagara)",
+      "captionFontSize": "Ubwoko bw'inyuguti y'caption",
+      "captionBackground": "Icyerekezo cy'ibanze cy'caption",
+      "light": "umucyo",
+      "dark": "umwijima",
+      "transparent": "transparent",
+      "voiceNotes": "Ubutumwa bw'amajwi",
+      "autoTranscribeVoiceNotes": "Auto-transcribe ubutumwa bw'amajwi",
+      "autoTranscribeVoiceNotesDesc": "Ongera transcript ku butumwa bw'amajwi wakiriye.",
+      "changesSavedInstantly": "Ibihinduka byabikijwe mu kanya.",
+      "loadFailed": "Gukura settings byanze",
+      "visualAlerts": "Ibimenyetso by'ibanze ku butumwa & hamagara",
+      "visualAlertsDesc": "Erekana banners n'ibimenyetso by'izina kugira ngo udafite ikintu.",
+      "vibrateOnNewShort": "Vibrate ku butumwa bushya (igihe bishyigikwa)",
+      "vibrateOnNewDesc": "Koresha vibration y'igikoresho hamwe n'ibimenyetso.",
+      "flashOnCallShort": "Flash screen ku hamagara ryinjiye",
+      "flashOnCallDesc": "Flash y'ibanze y'umucyo igihe hamagara rirangira."
+    },
+    "privacySection": {
+      "strictE2EE": "Iby'ibanga bya strict end-to-end",
+      "ciphertextOnlyNote": "Bika gusa ciphertext ku server. Ihagarika AI/Hindura n'ibisobanuro by'ibanze bya moderation."
+    },
+    "linkedDevicesPanel": {
+      "title": "Ibikoresho by'ibanze by'umubano",
+      "noneFound": "Nta bikoresho by'ibanze by'umubano byabonetse.",
+      "refresh": "Kuzamura"
+    },
+    "help": {
+      "title": "Ubufasha",
+      "howCanWeHelp": "Uko dushobora kugufasha?",
+      "helpCenter": "Ikigo cy'ubufasha",
+      "contactUs": "Twandikire",
+      "quickTopics": "Ibikoresho by'ibanze",
+      "searchExamples": "Gerageza gushakisha “hindura”, “backups”, cyangwa “ibanga”.",
+      "cantLogin": "Ntiwashoboye kwinjira",
+      "paymentsBilling": "Payments/ billing",
+      "reportAbuse": "Tangira abuse",
+      "searchHelpArticles": "Shakisha ibiganiro by'ubufasha",
+      "search": "Shakisha"
+    },
+    "peoplePage": {
+      "people": "Abantu",
+      "search": "Shakisha",
+      "searchPlaceholder": "Shakisha ku alias, izina, izina ry'umukoresha, cyangwa nomero ya telephone",
+      "filterSaved": "Filter abakoresha babikijwe",
+      "noContactsFound": "Nta bakoresha babonetse",
+      "quickStart": "Quick start",
+      "quickStartDesc": "Ibintu bike by'ihuse kugira ngo utangire.",
+      "importContacts": "Kurikira abakoresha bawe",
+      "add": "Ongera",
+      "focusSearch": "Focus Shakisha",
+      "import": "Kurikira",
+      "findOrAdd": "Shakisha cyangwa ongera umuntu",
+      "searchByPhoneOrUsername": "Shakisha ku nomero ya telephone / izina ry'umukoresha",
+      "inviteFriends": "Tuma inshuti",
+      "inviteDesc": "Sangiza link y'icyifuzo cyawe kugira ngo utangire kuganira mu kanya.",
+      "getTheApp": "Gira app",
+      "getTheAppDesc": "Komeza kuba ufite umubano ku rugendo hamwe na Chatforia ku iOS na Android.",
+      "download": "Kurikira",
+      "syncTip": "Tip: Ubutumwa bwawe burakomeza kuba synced ku web na mobile."
+    },
+    "randomChat": {
+      "title": "Random Chat",
+      "description": "Huza umuntu mushya mu kanya. Tuzahuza kandi tufungure icyumba cy'ikiganiro cy'igikurikira. Chat mu buryo bwa kibanga mbere. Ongera Inshuti nyuma niba ubona neza.",
+      "findMatch": "Shakisha umuhuza",
+      "chatWithForia": "Ganira na Foria",
+      "chatWithForiaBot": "Ganira na ForiaBot",
+      "cancel": "Kureka",
+      "close": "Funga",
+      "searching": "Gushakisha...",
+      "finding": "Gushakisha...",
+      "looking": "Gushakisha umuntu...",
+      "startingForia": "Gutangira chat na Foria...",
+      "partnerDisconnected": "Umuhuza wawe yahagaritse.",
+      "noPartner": "Nta muhuza wabonetse ubu.",
+      "connectedTo": "Yahuza na {{name}}",
+      "connected": "Yahuza",
+      "idle": "Idle",
+      "partnerLeft": "Umuhuza yavuye.",
+      "stopped": "Yahagaritswe.",
+      "skip": "Skip",
+      "save": "Kubika",
+      "saveGuard": "Gusa ibiganiro by'umuntu ku muntu gishobora kubikwa",
+      "youAreChattingWith": "Uri kuganira na {{name}}",
+      "bot": "BOT",
+      "leave": "Vamo",
+      "sayHi": "Vuga hi 👋",
+      "you": "Wowe",
+      "typeMessage": "Andika ubutumwa",
+      "send": "Kohereza",
+      "partner": "Umuhuza",
+      "withRia": "Na Ria",
+      "chatWithRia": "Ganira na Ria",
+      "startingRia": "Gutangira chat na Ria...",
+      "ageDisclaimer": "Dukoresha gusa igice cy'imyaka (ntitukoresha itariki y'ukuri y'umunsi w'ukubyara). Iki ni ukugira ngo dukomeze Random Chat pairings mu buryo bwa kiboneza. Kugira ngo huza na bantu (ntibari gusa RiaBot), shyira igice cy'imyaka yawe muri Settings → Igice cy'imyaka & Random Chat.",
+      "ageBandRequired": "Shyira igice cy'imyaka yawe muri Profil → Igice cy'imyaka & Random Chat kugira ngo huza na bantu.",
+      "ageBandCallout": "Kugira ngo huza na bantu (ntibari gusa RiaBot), shyira igice cy'imyaka yawe muri Settings → Igice cy'imyaka & Random Chat.",
+      "subtitle": "Huza umuntu mushya mu kanya, cyangwa hitamo ganira na Ria.",
+      "start": "Tangira ikiganiro",
+      "matching": "Guhuza...",
+      "setAge": "Shyira igice cy'imyaka yawe muri Profil → Igice cy'imyaka & Random Chat kugira ngo huza na bantu.",
+      "next": "Umuhuza ukurikira",
+      "addFriend": "Ongera Inshuti",
+      "requested": "Yasabwe",
+      "messageRia": "Andika ubutumwa Ria...",
+      "messageMatch": "Andika ubutumwa ku muhuza wawe..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "aho",
+      "intro": "Hey aho 👋 Ndi Ria. Iki kiri mu mutwe wawe?",
+      "greetings": {
+        "long1": "Hey {{name}} 👋 Ndi hano. Iki kiri mu mutwe wawe?",
+        "long2": "Hi {{name}} 😊 Iki ushaka kuganira uyu munsi?",
+        "long3": "Hey {{name}}!! Ndi amatwi yose — iki kiri hejuru?",
+        "long4": "Nice kubona wowe, {{name}} 👋 Iki kiri mu mutwe wawe uyu munsi?",
+        "long5": "Hey {{name}} 😊 Ushaka kuganira, gusaba, cyangwa gusa kuganira?",
+        "long6": "Hi {{name}}!! Ndi n'igihe — iki ushaka kuganira?",
+        "short1": "Hey {{name}}, ndi hano. Iki kiri hejuru?",
+        "short2": "Murakaza neza nanone {{name}} 👋 Hari ikindi ushaka kongeramo?",
+        "short3": "Nanone, {{name}}? 😊 Vuga iki kiri mu mutwe wawe.",
+        "short4": "Hey {{name}} 👋 Yiteguye gukomeza aho twasize?",
+        "short5": "Yego {{name}}? Ndi gutega amatwi 👂",
+        "short6": "Oh hey {{name}}!! Ufite ikintu gishya mu mutwe wawe?"
+      },
+      "header": {
+        "openNav": "Fungura menu y'ikoresho",
+        "closeNav": "Funga menu y'ikoresho",
+        "homeAria": "Chatforia Rugo"
+      },
+      "login": {
+        "welcomeBack": "Murakaza neza nanone",
+        "title": "Komeza ku Chatforia",
+        "subtitleReturning": "Injira ku konti ya Chatforia yawe",
+        "subtitle": "Injira ku konti ya Chatforia yawe",
+        "google": "Komeza na Google",
+        "apple": "Komeza na Apple",
+        "googleUnavailable": "Gukoresha Google kwinjira ntibishoboye",
+        "appleUnavailable": "Gukoresha Apple kwinjira ntibishoboye",
+        "or": "cyangwa",
+        "email": "Email",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Izina ry'umukoresha",
+        "usernamePh": "Izina ry'umukoresha ryawe",
+        "passwordLabel": "Ijambo ry'ibanga",
+        "passwordPh": "Ijambo ry'ibanga ryawe",
+        "keepSignedIn": "Ngwino ngume muri iyi",
+        "forgot": {
+          "title": "Wibagirwa Ijambo ry'ibanga",
+          "helper": "Injiza email wakoresheje kugira ngo ukure konti ya Chatforia kandi tuzakohereza link y'umutekano kugira ngo uhindure ijambo ry'ibanga.",
+          "emailInvalid": "Nyamuneka injiza email y'ibanze.",
+          "genericError": "Ntiwashoboye gukora icyifuzo. Nyamuneka gerageza mu kanya.",
+          "sending": "Kohereza link yo guhindura…",
+          "sendCta": "Kohereza Link yo Guhindura",
+          "sentLabel": "Byoherejwe!"
+        },
+        "submit": "Injira",
+        "loggingIn": "Gukora kwinjira…",
+        "newHere": "Ushya hano? <link>Kurema konti</link>",
+        "ssoUnavailable": "Single-sign-on ntibishoboye ubu. Koresha izina ry'umukoresha & ijambo ry'ibanga.",
+        "error": {
+          "missing": "Nyamuneka injiza credentials yawe.",
+          "invalid": "Izina ry'umukoresha cyangwa ijambo ry'ibanga ntiry'ukuri",
+          "denied": "Kwinjira kwanze.",
+          "unprocessable": "Icyifuzo ntiry'ukuri. Reba izina ry'umukoresha/email n'ijambo ry'ibanga.",
+          "deviceLimit": "Igice cy'igikoresho cyageze ku gahunda y'ubusa. Sohoka ku kintu cy'ibanze cy'indi cyangwa upgrade ku Premium kugira ngo uhuze ibikoresho byinshi.",
+          "premiumRequired": "Iki gikorwa gisaba gahunda ya Premium."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Guhindura kwinjira…"
+    },
+    "dialer": {
+      "title": "Hamagara",
+      "subtitle": "Keypad & recents. (Niba udakoresha PSTN, tangira hamagara iva ku ikiganiro cy'ibanze.)",
+      "enterNumberPh": "Injiza nomero",
+      "call": "Hamagara",
+      "backspace": "Backspace",
+      "recents": "Recents",
+      "recentsEmpty": "Nta hamagara ry'ubu.",
+      "enterNumber": "Injiza nomero",
+      "enterNumberAria": "Injiza nomero",
+      "key": "Key {{d}}",
+      "noRecents": "Nta hamagara ry'ubu."
+    },
+    "video": {
+      "title": "Videyo",
+      "chooseType": "Hitamo ubwoko bwa videyo.",
+      "directTitle": "Direct Videyo",
+      "directDesc": "1:1 itangira ry'ivideyo na mugenzi.",
+      "directStart": "Tangira",
+      "roomsTitle": "Ibyumba",
+      "roomsDesc": "Videyo y'abantu benshi ukoresheje izina ry'icyumba cyagabanijwe.",
+      "roomsIntro": "Injira cyangwa kurema icyumba cy'abantu benshi.",
+      "roomNameLabel": "Izina ry'icyumba",
+      "roomNamePh": "e.g. team-standup",
+      "join": "Injira",
+      "deeplinkTip": "Tip: ushobora deep link directly ku <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Videyo",
+        "subtitle": "Hitamo ubwoko bwa videyo."
+      },
+      "direct": {
+        "title": "Direct Videyo",
+        "subtitle": "Tangira itangira ry'ivideyo 1:1 ukoresheje nomero ya telephone cyangwa izina ry'umukoresha wa Chatforia.",
+        "desc": "1:1 itangira ry'ivideyo na mugenzi.",
+        "start": "Tangira",
+        "callBtn": "Hamagara",
+        "callByPhone": {
+          "title": "Hamagara na telephone"
+        },
+        "phone": {
+          "placeholder": "Injiza telephone (e.g., +1-555-123-4567)",
+          "aria": "Telephone yo hamagara"
+        },
+        "tipInvite": "Tip: Paste nomero kandi hamagara nta kubika umukoresha. Tuzatuma abakoresha b'inyuma na link.",
+        "findUser": {
+          "title": "Shakisha umukoresha"
+        },
+        "search": {
+          "placeholder": "Shakisha ku izina cyangwa izina ry'umukoresha",
+          "aria": "Shakisha ku izina cyangwa izina ry'umukoresha",
+          "btn": "Shakisha"
+        }
+      },
+      "rooms": {
+        "title": "Ibyumba",
+        "subtitle": "Kurema icyumba cyangwa injira mu kiriho ukandika izina ry'umwanya.",
+        "desc": "Videyo y'abantu benshi ukoresheje izina ry'icyumba cyagabanijwe.",
+        "roomLabel": "Izina ry'icyumba",
+        "roomPlaceholder": "e.g. team-standup",
+        "roomAria": "Izina ry'icyumba",
+        "joinCreate": "Injira / Kurema",
+        "tip": "Tip: sangiza iyi izina na bandi, cyangwa deep link ku <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Tangira itangira ry'ivideyo direct 1:1.",
+      "findUserLabel": "Shakisha umukoresha",
+      "findUserPh": "Shakisha ku izina cyangwa izina ry'umukoresha",
+      "search": "Shakisha",
+      "call": "Hamagara"
+    },
+    "phoneWarning": {
+      "title": "Nomero yawe igishura vuba",
+      "body": "Nomero yawe {{number}} izasohoka ku {{date}} keretse igarurwa.",
+      "button": "Komeza Nomero Yanjye"
+    }
+  },
   "support": {
     "helpFab": "Ubufasha",
     "openSupportAria": "Fungura ubufasha",
     "badge": "Ubufasha",
-    "heading": "Twagufasha dute?",
+    "heading": "Uko dushobora kugufasha?",
     "tabs": {
-      "help": "Ikigo cy’Ubufasha",
+      "help": "Ikigo cy'ubufasha",
       "contact": "Twandikire"
     },
-    "searchPlaceholder": "Shakisha ingingo z’ubufasha…",
+    "searchPlaceholder": "Shakisha ibiganiro by'ubufasha…",
     "searchAria": "Shakisha ubufasha",
     "searchBtn": "Shakisha",
-    "quickTopicsLabel": "Ingingo zihuse",
+    "quickTopicsLabel": "Ibikoresho by'ibanze",
     "quickTopics": {
-      "login": "Ntishobora kwinjira",
-      "billing": "Kwishyura / fagitire",
-      "abuse": "Tanga raporo y’ihohoterwa"
+      "login": "Ntiwashoboye kwinjira",
+      "billing": "Payments / billing",
+      "abuse": "Tangira abuse"
     },
-    "trySearching": "Gerageza gushaka “translate”, “backups”, cyangwa “privacy”.",
-    "article": "Ingingo",
-    "openArticle": "Fungura ingingo",
-    "contactIntro": "Tuzagusubiza kuri imeri. Tanga ibisobanuro bidufasha kongera kubyutsa ikibazo.",
-    "topicAria": "Hitamo ingingo",
-    "messagePlaceholder": "Andika ubutumwa…",
-    "sendBtn": "Ohereza",
-    "sent": "Ubutumwa bwoherejwe. Tuzasubiza kuri imeri.",
-    "sendError": "Ntibyashobotse kohereza. Andikira support@chatforia.com."
+    "trySearching": "Gerageza gushakisha “hindura”, “backups”, cyangwa “ibanga”.",
+    "article": "Igikoresho",
+    "openArticle": "Fungura igikoresho",
+    "contactIntro": "Tuzakohereza email y'igisubizo. Ongeramo ibisobanuro kugira ngo udufashe kugarura ikibazo.",
+    "topicAria": "Hitamo igice",
+    "messagePlaceholder": "Andika ubutumwa bwawe…",
+    "sendBtn": "Kohereza",
+    "sent": "Ubutumwa bwaherejwe. Tuzasubiza na email.",
+    "sendError": "Ntiwashoboye kohereza. Andika support@chatforia.com aho."
   },
-
-  "chat": {
-    "selectPrompt": "Hitamo ubutumwa cyangwa icyumba kugira ngo utangire kuganira",
-    "newMessages": "Ubutumwa bushya",
-    "typing": "{{name}} ari kwandika...",
-    "emptyTitle": "Ubutumwa bwawe",
-    "emptySubtitle": "Ohereza ubutumwa kugira ngo utangire ikiganiro.",
-    "startChatButton": "Ohereza ubutumwa"
+  "helpCenter": {
+    "title": "Ikigo cy'ubufasha",
+    "faq": {
+      "account": {
+        "q": "Uko nshobora kurema cyangwa kugarura konti yanjye?",
+        "a": "Kurikira app cyangwa koresha web, kanda “Kurema konti”, reba email/telephone yawe. Kugira ngo ubugarure, koresha “Wibagirwa ijambo ry'ibanga”."
+      },
+      "privacy": {
+        "q": "Ubutumwa ni end-to-end encrypted?",
+        "a": "Yego. Ubutumwa n'itangira ry'amajwi n'ivideyo ni end-to-end encrypted by'ibanze. Gusa wowe n'uwandikiye ushobora kubisoma."
+      },
+      "translate": {
+        "q": "Uko ihindura ry'ibanze rikora ite?",
+        "a": "Koresha “Auto-hindura” muri Settings → Kuboneka & Ururimi. Dushindura ku kintu cy'ibanze aho bishyigikwa, cyangwa binyuze mu APIs z'umutekano hamwe n'ibisobanuro by'ibanze."
+      },
+      "contact": {
+        "q": "Twandikire ubufasha",
+        "a": "Twandikire muri support@chatforia.com. Ongeramo screenshots n'ubwoko bw'app yawe."
+      }
+    }
   },
-
-  "topbar": {
-    "newStatus": "Status Nshya",
-    "logout": "Sohoka",
-    "help": "Ubufasha",
-    "createStatusAria": "Hanga Status nshya"
-  },
-
-  "status": {
-    "userNumber": "Ukoresha #{{id}}",
-    "posted": "Status yashyizweho",
-    "postFailed": "Gushyira statusho byanze",
-    "createTitle": "Hanga status",
-    "modalAriaLabel": "Status nshya",
-    "captionLabel": "Ibyo utekereza ni ibihe?",
-    "captionPlaceholder": "Sangiza amakuru...",
-    "captionAria": "Ubutumwa bwa status",
-    "audienceLabel": "Abayireba",
-    "audience": {
-      "public": "Rusange",
-      "followers": "Abagukurikiye",
-      "contacts": "Kontaki",
-      "mutuals": "Abakurikirana wenda hagati",
-      "custom": "Byihariye..."
+  "encryptionRecovery": {
+    "title": "Kugenzura Iby'ibanga",
+    "description": "Kubika, kugarura, fungura, cyangwa kugarura ubufunguzo bwawe bw'ibanga.",
+    "alert": {
+      "keyRequiredTitle": "Ubufunguzo bw'ibanga busabwa",
+      "keyRequiredBody": "Iyi browser ntishobora ubu guhindura ubutumwa bwawe bw'ibanga. Garura, fungura, cyangwa kugarura ubufunguzo kugira ngo ukomeze."
     },
-    "expiresHoursLabel": "Irangira (amasaha)",
-    "maxTooltip": "Iminsi 7 ku bw’umurongo ntarengwa",
-    "hoursAbbrev": "s",
-    "maxShort": "ntarengwa",
-    "expiresOn": "Irangirira ku:",
-    "chooseRecipients": "Hitamo abo wohereza",
-    "selectContacts": "Hitamo kontaki",
-    "attachmentsLabel": "Impikanyanyandiko",
-    "attachmentsPlaceholder": "Ongeraho amafoto/amashusho",
-    "filesNote": "Dosiye kugeza kuri 5. Bimara amasaha 24 byonyine.",
-    "postAria": "Shyira status",
-    "post": "Shyira"
-  },
-
-  "contactList": {
-    "savedContacts": "Kontaki Zabikiwe",
-    "refreshAria": "Ongera ushakishe kontaki",
-    "filterPlaceholder": "Sukura kontaki zabikiwe…",
-    "filterAria": "Sukura kontaki zabikiwe",
-    "noContactsFound": "Nta kontaki zabonetse.",
-    "externalContact": "Kontaki yo hanze",
-    "notJoined": "Iyo kontaki iracyatarinjira Chatforia.",
-    "couldNotStart": "Ntibyashobotse gutangiza ikiganiro. Ongera ugerageze.",
-    "startFailed": "Gutangira ikiganiro byanze. Ongera ugerageze.",
-    "deleted": "Kontaki yasibwe.",
-    "deleteFailed": "Gusiba kontaki byanze. Ongera ugerageze.",
-    "aliasUpdated": "Izina ry’inyito ryavuguruwe.",
-    "updateAliasFailed": "Kuvugurura izina ry’inyito byanze. Ongera ugerageze.",
-    "selectContact": "Hitamo {{name}}",
-    "alias": "Izina ry’inyito",
-    "startChat": "Tangira ikiganiro",
-    "message": "Ubutumwa",
-    "delete": "Siba",
-    "deleteContactAria": "Siba kontaki",
-    "loadFailed": "Kuzana kontaki byanze. Ongera ugerageze.",
-    "loadMore": "Kongeraho izindi"
-  },
-
-  "sidebar": {
-    "randomChat": "Ikiganiro Kibuze ku Nteko",
-    "callTextForwarding": "Kohereza Telefone & Ubutumwa",
-    "conversations": "Ibiganirano",
-    "searchPlaceholder": "Shakisha ibiganiro...",
-    "errorLoading": "Kuzana ibiganiro byanze",
-    "empty": "Nta biganiro birahari.",
-    "startChat": "Tangira ikiganiro",
-    "people": "Abantu",
-    "settings": "Amagenamiterere",
-    "status": "Status",
-    "forwarding": "Kohereza Telefone & Ubutumwa",
-    "refresh": "Ongera usome",
-    "search": "Shakisha ibiganiro",
-    "loginPrompt": "Injira kugira ngo uhindure amagenamiterere.",
-    "login": "Injira",
-    "register": "Fungura konti",
-    "chatrooms": "Amapine y’ibiganiro",
-    "logout": "Sohoka",
-    "startChatAlt": "Tangira ikiganiro gishya"
-  },
-
-  "premium": {
-    "heading": "Hindura ujye kuri Premium",
-    "description": "Fungura imikorere ikomeye & ukuraho amatangazo.",
-    "cta": "Upgrade",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade kuri Chatforia Premium"
-  },
-
-  "auth": {
-    "headline": "Ubutumwa bwizewe, mpuzamahanga hamwe n’ihindura ako kanya",
-    "description": "Ubumenyi bwo kurangiza ku mpera zombi (E2E), guhindura bushyigikiwe na AI, ubutumwa bushira, na terefone/video.",
-    "feature": {
-      "encryption": "Ubumenyi bwo kurangiza ku mpera zombi ku buryo busanzwe",
-      "translation": "Hindura mu buryo bwikora indimi 100+",
-      "disappearing": "Ubutumwa bushira & kumenya ko bwasomwe",
-      "privacy": "Ubuzima bwite mbere na mbere. Ibyo ushyiraho, ni wowe ubigenzura.",
-      "translate": "Ihindura ako kanya",
-      "disappear": "Ubutumwa bushira",
-      "privacyAlt": "Igishushanyo gishyira ubuzima bwite imbere"
+    "sections": {
+      "createBackup": "Kurema ubufunguzo bwo kubika",
+      "restoreFromBackup": "Garura iva ku backup y'akonti",
+      "resetEncryption": "Kugarura iby'ibanga"
     },
-    "hero": {
-      "line1": "Ubutumwa bwizewe, mpuzamahanga",
-      "beforeEm": "hamwe n’",
-      "em": "ihindura ako kanya",
-      "sub": "E2E, guhindura bushyigikiwe na AI, ubutumwa bushira, na terefone/video."
+    "fields": {
+      "unlockPasscode": {
+        "label": "Fungura passcode (kintu cy'ibanze cy'ubu)",
+        "description": "Gukoreshwa kugira ngo guhindura ibifunguzo byawe ku kintu cy'ibanze mbere yo gukora export"
+      },
+      "backupPassword": {
+        "label": "Ijambo ry'ibanga ry'ubufunguzo bwo kubika",
+        "description": "Gukoreshwa kugira ngo gukoresha encrypt dosiye y'ubufunguzo bwo kubika"
+      },
+      "restoreBackupPassword": {
+        "label": "Ijambo ry'ibanga ry'ubufunguzo bwo kubika",
+        "description": "Ijambo ry'ibanga wakoresheje igihe ukora backup y'ubufunguzo bwawe ku iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Passcode nshya y'ibanze",
+        "description": "Komeza ibifunguzo ku kintu cy'ibanze kuri iyi browser"
+      },
+      "resetLocalPasscode": {
+        "label": "Passcode nshya y'ibanze",
+        "description": "Isabwa mbere yo kugarura kugira ngo ubufunguzo bushya bukomeze ku kintu cy'ibanze"
+      }
     },
-    "feat": {
-      "encryption": "E2E ku buryo busanzwe",
-      "translate": "Hindura indimi 100+ mu buryo bwikora",
-      "disappear": "Ubutumwa bushira & kumenya ko bwasomwe",
-      "privacy": "Ubuzima bwite mbere—wowe ubigenzura."
+    "actions": {
+      "unlockKey": "Fungura ubufunguzo bw'ibanga",
+      "restoreFromBackup": "Garura iva ku backup y'akonti",
+      "resetEncryption": "Kugarura Iby'ibanga"
     },
-    "welcomeBack": "Ikaze nanone",
-    "continueGoogle": "Komeza ukoreshe Google",
-    "continueApple": "Komeza ukoreshe Apple",
-    "username": "Izina ukoresha",
-    "password": "Ijambobanga",
-    "keepSignedIn": "Komeza kuba winjiye",
-    "forgotPassword": "Wibagiwe ijambobanga?",
-    "loginButton": "Injira",
-    "createAccount": "Fungura konti",
-    "freeAccountButton": "Fungura konti ya ubuntu",
-    "newHere": "Uri mushya?",
-    "getApp": "Bona porogaramu",
-    "desktopTip": "Uri kuri mudasobwa? Skanisha telefoni yawe kugira ngo ubone porogaramu.",
-    "scanHelper": "Uri kuri mudasobwa? Skanisha telefoni yawe kugira ngo ubone porogaramu.",
-    "goHome": "Subira ku rupapuro rw’itangiriro",
-    "home": "Ahabanza",
-    "headlineAlt": {
-      "main": "Ubutumwa bwizewe",
-      "highlight": "buvuga ururimi rwawe"
+    "messages": {
+      "backupCreated": "Ubufunguzo bwo kubika bwaremwe kandi bwakurikiranywe.",
+      "keyUnlocked": "Ubufunguzo bw'ibanga bwarafunguwe.",
+      "keyRestored": "Ubufunguzo bwaragaruwe iva ku backup y'akonti.",
+      "resetSuccess": "Iby'ibanga byagaruwe neza."
     },
-    "subhead": "Ubutumwa bwihishe, burinzwe, kandi buhindurwa — ako kanya.",
-    "status": "Reba status",
-    "upgrade": "Upgrade nonaha",
-    "tip": "Inama: Koresha konti imwe kuri web na mobile. Ubutumwa bwawe burahuzwa.",
-    "openDownload": "Fungura urupapuro rwo gukuraho",
-    "qrAlt": "QR code ya Chatforia",
-    "scanHint": "Skanisha kugira ngo ukurure porogaramu cyangwa ufungure mu mushakisha.",
-    "iosAria": "Kururira kuri App Store",
-    "iosTitle": "Kururira kuri App Store",
-    "iosBadgeAlt": "Ikirango cya App Store",
-    "androidAria": "Bona kuri Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Ikirango cya Google Play",
-    "login": "Injira",
-    "signup": "Iyandikishe",
-    "email": "Imeri"
+    "errors": {
+      "restoreIncomplete": "Kugarura ubufunguzo ntikwuzuye cyangwa ntikw'ukuri ku konti iyi",
+      "noBackup": "Nta bufunguzo bwo kubika bw'ibanga buriho ku konti iyi",
+      "missingPublicKey": "Ubufunguzo bwo kubika burimo ubufunguzo bwa public",
+      "noServerPublicKey": "Iyi konti ntishyigikira ubu ubufunguzo bwa public bwa server",
+      "serverBackupMismatch": "Ubufunguzo bwo kubika bwa server ntibuhuje n'ubufunguzo bw'ibanga bw'akonti y'ubu",
+      "incompleteMetadata": "Metadata y'ubufunguzo bwo kubika ntikwuzuye",
+      "resetIncomplete": "Kugarura iby'ibanga ntikwuzuye neza"
+    },
+    "confirm": {
+      "reset": "Kugarura iby'ibanga ku konti iyi?\n\nUbutumwa bwa kera bw'ibanga bishobora kuba ntibishobora gusomwa keretse ubugarura ubufunguzo bw'umwimerere nyuma."
+    },
+    "resetDescription": "Iki kirema ubufunguzo bushya bw'ibanga ku konti yawe. Ubutumwa bwa kera bw'ibanga bishobora kuba ntibishobora gusomwa keretse ubugarura ubufunguzo bw'umwimerere nyuma."
   },
-
   "footer": {
-    "plans": "Amabiciro & Paki",
+    "plans": "Gahunda & Igiciro",
     "about": "Ibyerekeye Chatforia",
-    "careers": "Akazi",
-    "press": "Itangazamakuru",
-    "advertise": "Kwiyamamaza",
+    "careers": "Ibikorwa",
+    "press": "Press",
+    "advertise": "Advertise",
     "contact": "Twandikire",
-    "help": "Ikigo cy’Ubufasha",
-    "status": "Urupapuro rwa Status",
+    "help": "Ikigo cy'ubufasha",
+    "status": "Ipaji y'Status",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Politiki y’Ubuzima bwite",
-    "terms": "Amategeko ya Serivisi",
-    "cookies": "Amagenamiterere ya Cookies",
-    "doNotSell": "Ntugurishe Amakuru Yanjye",
+    "privacy": "Politiki y'ibanga",
+    "terms": "Amasezerano y'ikoresho",
+    "cookies": "Settings ya Cookie",
+    "doNotSell": "Ntiugurisha Amakuru Yanjye",
     "language": "Ururimi",
     "contactShort": "Twandikire",
-
     "aria": "Footer",
-    "homeAria": "Ahabanza ha Chatforia",
+    "homeAria": "Chatforia rugo",
     "section": {
-      "company": "IKIGO",
+      "company": "COMPANY",
       "support": "UBUFASHA",
-      "downloads": "KURURA",
-      "legal": "AMATEGEKO"
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
     },
     "links": {
-      "plans-pricing": "Amabiciro & Paki",
+      "plans-pricing": "Gahunda & Igiciro",
       "about-chatforia": "Ibyerekeye Chatforia",
-      "careers": "Akazi",
-      "press": "Itangazamakuru",
-      "advertise": "Kwiyamamaza",
-      "getting-started": "Uko utangirira",
-      "help-center": "Ikigo cy’Ubufasha",
+      "careers": "Ibikorwa",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Gutangira",
+      "help-center": "Ikigo cy'ubufasha",
       "contact-us": "Twandikire",
-      "status-page": "Urupapuro rwa Status",
+      "status-page": "Ipaji y'Status",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Politiki y’Ubuzima bwite",
-      "terms-of-service": "Amategeko ya Serivisi",
-      "do-not-sell-my-info": "Ntugurishe Amakuru Yanjye",
-      "cookie-settings": "Amagenamiterere ya Cookies"
+      "privacy-policy": "Politiki y'ibanga",
+      "terms-of-service": "Amasezerano y'ikoresho",
+      "do-not-sell-my-info": "Ntiugurisha Amakuru Yanjye",
+      "cookie-settings": "Settings ya Cookie"
     },
     "social": {
       "tiktok": "TikTok",
@@ -349,638 +1602,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patent iri gusuzumwa",
-    "backToTop": "↑ Subira hejuru"
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Kujya hejuru"
   },
-
-  "home": {
-    "title": "Ahabanza",
-    "header": "Ubutumwa bwawe",
-    "subheader": "Ohereza ubutumwa kugira ngo utangire ikiganiro.",
-    "sendButton": "Ohereza ubutumwa",
-    "gifPicker": "Fungura mushakisha ya GIF",
-    "emoji": "Emogi",
-    "upload": "Shyiraho ifoto cyangwa video",
-    "inputPlaceholder": "Andika ubutumwa…",
-    "inputLabel": "Aho wandikira ubutumwa",
-    "sendTooltip": "Ohereza",
-    "sendTooltipEmpty": "Andika ubutumwa kugira ngo wohereze",
-    "send": "Ohereza",
-    "welcomeMessage": "Ikaze kuri Chatforia",
-    "getStarted": "Tangira"
-  },
-
   "press": {
-    "title": "Itangazamakuru",
-    "contactLine": "Kubijyanye n’itangazamakuru, twandikire kuri",
+    "title": "Press",
+    "contactLine": "Ku bikorwa by'itangazamakuru, twandikire",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia ni porogaramu y’ubutumwa ishyira ubuzima bwite imbere, yorohereza kuganira mu ndimi zitandukanye. Ubutumwa burinzwe E2E ku buryo busanzwe, kandi guhindura indimi 100+ gukorwa mu gihe nyacyo. Ukoresha ashobora gushyiraho ubutumwa bushira, gutuma kumenya ko bwasomwe kuba ku bushake, no kwihuza ku byuma byinshi. Iri kuri iOS, Android, na web.",
-    "assetsTitle": "Ibikoresho by’ikirango",
-    "assetsSubtitle": "Amalogoro, amashusho y’inyongera, n’amafoto y’umusaruro.",
-    "downloadCta": "Kurura dosiye z’itangazamakuru",
-    "downloadTitle": "Bona porogaramu",
-    "scanTip": "Uri kuri mudasobwa? Skanisha telefoni yawe kugira ngo ubone porogaramu.",
-    "qrAria": "Fungura urubuga rwa Chatforia",
-    "appStore": "Kururira kuri App Store",
-    "googlePlay": "Bona kuri Google Play"
+    "boilerplateBody": "Chatforia ni app y'ubutumwa y'ibanga ry'ibanze ituma ibiganiro by'ururimi rwa cross-language biboneka. Ubutumwa ni end-to-end encrypted by'ibanze, kandi ihindura ry'ibanze rishyigikira indimi 100+ mu kanya. Abakoresha bashobora koresha ubutumwa bw'igikurikira, kugumana ibimenyetso byo gusoma optional, n'sync ku ibikoresho. Bihari ku iOS, Android, na web.",
+    "assetsTitle": "Ibikoresho by'ubwoko",
+    "assetsSubtitle": "Logos, screenshots, n'ibishushanyo by'ibikoresho.",
+    "downloadCta": "Kurikira media kit",
+    "downloadTitle": "Gira app",
+    "scanTip": "Ku desktop? Scan na telephone yawe kugira ngo ubone app.",
+    "qrAria": "Fungura website ya Chatforia",
+    "appStore": "Kurikira kuri App Store",
+    "googlePlay": "Gira kuri Google Play"
   },
-
   "careers": {
-    "title": "Akazi",
-    "intro": "Turi itsinda rito riri kubaka umukozi w’ ubutumwa bw’isi yose. Niba witaye ku kurinda (encryption), kuboneka kuri bose, na UX ishimishije, twishimira kukumva.",
-    "openRoles": "<b’Imirimo ifunguye:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
-    "apply": "<b>Uko wasaba:</b> Ohereza CV/amagambo yawe kuri <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Ohereza CV yawe kuri email"
+    "title": "Ibikorwa",
+    "intro": "Turi ikipe y'ibanze y'ibanze yubaka Chatforia — umutumwa w'ibanze, w'isi yose utangira ku web, iOS, n'Android. Niba ukunda ibanga, iby'ibanga, n'ibikorwa by'umukoresha by'ibanze, twishimye kumva ibyawe.",
+    "openRoles": "<b>Ibikorwa by'ibanze by'ibanze:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "Uko ukoresha: Koresha buto hejuru kugira ngo wandike resume yawe n'ibindi.",
+    "emailCta": "Andika resume yawe",
+    "whyNow": "Kuki winjira ubu?",
+    "whyBullets": "• Fasha kubaka urufatiro rw'umutumwa w'isi nshya.\n• Kohereza ibihinduka bikoreshwa ku web, iOS, n'Android.\n• Kora directly na founder ku gishushanyo n'icyerekezo cy'ibikoresho.\n• Kugira ibice by'ingenzi by'ikintu: ubutumwa, amajwi, videyo, iby'ibanga, telecom, AI.\n• Injira mu ntangiriro — mbere y'uko abakoresha bagabanuka."
   },
-
   "about": {
     "title": "Ibyerekeye Chatforia",
-    "description": "Chatforia ni umukozi w’ubutumwa wizewe, uvuga indimi nyinshi, ufite E2E, ihindura ako kanya, ndetse na terefone/video. Intego yacu iroroshye: gufasha abantu guhuzwa—mu mutekano, mu ibanga, no mu ndimi zose.",
-    "valuesTitle": "Ibyo duharanira",
+    "description": "Chatforia ni umutumwa w'umutekano, w'ururimi rw'ibanze hamwe n'iby'ibanga bya end-to-end, ihindura ry'ibanze, n'itangira ry'amajwi/n'ivideyo. Mission yacu ni y'ibanze: gufasha abantu guhuza—mu mutekano, mu ibanga, kandi mu ndimi.",
+    "valuesTitle": "Ibyo dukunda",
     "values": {
-      "privacy": "<bold>Ubuzima bwite mbere:</bold> E2E ku buryo busanzwe.",
-      "access": "<bold>Kuboneka kuri bose:</bold> Hindura indimi 100+ mu buryo bwikora.",
-      "control": "<bold>Igenzura:</bold> Ubutumwa bushira & kumenya ko bwasomwe ni ku bushake.",
-      "privacy_aria": "Ubuzima bwite mbere: E2E ku buryo busanzwe.",
-      "access_aria": "Kuboneka kuri bose: Hindura indimi 100+ mu buryo bwikora.",
-      "control_aria": "Igenzura: Ubutumwa bushira na read receipts ni ku bushake."
+      "privacy": "<b>Ibanga ry'ibanze:</b> Iby'ibanga bya E2E by'ibanze.",
+      "access": "<b>Kwinjira ku bose:</b> Auto-hindura indimi 100+.",
+      "control": "<b>Ubuyobozi:</b> Ubutumwa bw'igikurikira & ibimenyetso byo gusoma ni optional.",
+      "privacy_aria": "Ibanga ry'ibanze: Iby'ibanga bya E2E by'ibanze.",
+      "access_aria": "Kwinjira ku bose: Auto-hindura indimi 100+.",
+      "control_aria": "Ubuyobozi: Ubutumwa bw'igikurikira n'ibimenyetso byo gusoma ni optional."
     },
     "howTitle": "Uko Chatforia ikora",
-    "howDescription": "Ubutumwa burindwa ku mashini yawe mbere yo koherezwa. Ihindura, kopi z’umutekano, n’ihuza ku byuma byakozwe ku buryo bigabanya ibyo seriveri zacu zamenya."
-    },
-
+    "howDescription": "Ubutumwa ni encrypted ku kintu cyawe mbere y'uko buvamo. Ihindura, backups, n'sync y'ibikoresho ni igishushanyo kugira ngo igabanye ibyo servers zacu zishobora kubona."
+  },
   "advertise": {
-    "title": "Kwiyamamaza kuri Chatforia",
-    "description": "Geraho abakoresha ubutumwa bashishikaye ukoresheje imyanya y’amatangazo yizewe. Dutanga imyanya ya banner, ubufatanye bwa ‘sponsorships’, n’amatangazo y’imbere mu bicapo. Abanyamuryango ba Premium ntibabona amatangazo.",
+    "title": "Advertise na Chatforia",
+    "description": "Huza abakoresha b'ubutumwa bafite umubano hamwe n'ibishushanyo by'ibanze, by'umutekano. Dutanga banner inventory mu bice by'ibanze bya visibility, sponsorships, n'ibikorwa by'ibanze. Abakoresha ba premium ntibabona ads.",
     "adsense": {
-      "withPubId": "Ubu dukoresha <b>Google AdSense</b>. Niba wifuza kutugeraho ukoresheje Google Ads, koresha publisher ID <code>{{pubId}}</code> kandi usabe ‘managed placement’ ku myanya iri hasi. Hari na sponsorships zitaziguye—koresha ifishi.",
-      "noPubId": "Ubu dukoresha <b>Google AdSense</b>. Hari na sponsorships zitaziguye—koresha ifishi iri hasi."
+      "withPubIdShort": "Dutanga inventory na Google AdSense. Ushobora kugera Chatforia na publisher ID {{pubId}}, cyangwa koresha form hejuru ku direct sponsorships.",
+      "noPubIdShort": "Dutanga inventory imwe na Google AdSense. Direct sponsorships bihari—koresha form hejuru."
     },
-    "inventoryHeader": "Imyanya & Ibisobanuro",
+    "inventoryHeader": "Inventory & Specs",
     "placement": {
-      "displayBadge": "Kugaragaza",
-      "acceptedSizes": "Ingano zemerewe",
-      "adsenseSlot": "Akobo ka AdSense:"
+      "displayBadge": "Display",
+      "acceptedSizes": "Ibipimo by'ibanze",
+      "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "Nta myanya irategurwa. Yongerwa muri ads/placements.js.",
-    "whyHeader": "Impamvu Chatforia?",
+    "noPlacementsPublic": "Turimo guhita inventory yacu y'ads. Tumenyeshe iby'icyifuzo cyawe kandi tuzaguha iby'ibanze by'ibanze.",
+    "whyHeader": "Kuki Chatforia?",
     "why": {
-      "highSession": "Ukoresha agaruka kenshi kandi akamara igihe mu isura y’amasomo y’ibiganiro",
-      "brandSafe": "Imiterere yizewe ku kirango; kugabanya kugaragara kenshi",
-      "sponsoredMoments": " ‘Sponsored moments’ ziraboneka (urugero, “Tangira Ikiganiro”)",
-      "deals": "Amasezerano ataziguye cyangwa anyura kuri AdSense/Google Ads"
+      "highSession": "Igihe cy'ibanze cy'ibanze n'igihe cy'ibanze mu UI y'ikiganiro",
+      "brandSafe": "Ibishushanyo by'umutekano; frequency capping y'ibanze",
+      "sponsoredMoments": "Sponsored moments (e.g., “Tangira Chat” modal) bihari",
+      "deals": "Direct deals cyangwa programmatic binyuze mu AdSense/Google Ads"
     },
     "contactHeader": "Twandikire",
     "form": {
-      "submittedMsg": "Urakoze! Ubusabe bwawe bwoherejwe. Tuzakurikirana vuba.",
-      "missingRequired": "Nylyuzuzemo izina, imeri, n’ubutumwa.",
-      "successToast": "Urakoze! Tuzahita tuvugana.",
-      "mailtoInfo": "Gufungura porogaramu yawe ya email kugira ngo wohereze ubusabe…",
+      "submittedMsg": "Murakoze! Icyifuzo cyawe kiri ku nzira. Tuzakurikirana vuba.",
+      "missingRequired": "Nyamuneka uzuza izina, email, n'ubutumwa.",
+      "successToast": "Murakoze! Tuzaba mu kiganiro vuba.",
+      "mailtoInfo": "Gufungura email client yawe kugira ngo kohereze icyifuzo…",
       "nameLabel": "Izina ryawe",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": "Imeri",
-      "emailPlaceholder": "wowe@ikigo.com",
-      "companyLabel": "Ikigo",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Kompanyi",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Ingengo y’imari ya buri kwezi (si ngombwa)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Tubarize iby’imishinga yawe",
-      "messagePlaceholder": "Intego, amatariki, KPI, amahitamo y’imyanya…",
-      "sendCta": "Ohereza ubusabe"
+      "budgetLabel": "Igiciro cy'ukwezi (optional)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+",
+      "messageLabel": "Vuga iby'icyifuzo cyawe",
+      "messagePlaceholder": "Targeting, iminsi, KPIs, iby'ibanze by'ibanze…",
+      "sendCta": "Kohereza icyifuzo"
     },
     "legal": {
-      "disclaimerStart": "Uko wohereje, wemeye",
-      "terms": "Amategeko",
-      "and": "na",
-      "privacy": "Politiki y’Ubuzima bwite"
-    }
-  },
-
-  "upgrade": {
-    "title": "Upgrade",
-    "subtitle": "Fungura paki igukwiriye: ukureho amatangazo kuri Plus, cyangwa ubone imikorere yose kuri Premium.",
-    "perMonth": "ukwezi",
-    "perYear": "umwaka",
-    "goPremium": "Jya kuri Premium",
-    "benefitsLine": "Fungura imikorere ikomeye & ukuraho amatangazo.",
-    "ctaText": "Upgrade",
-    "aria": "Upgrade kuri Chatforia Premium",
-    "toggle": {
-      "monthly": "Buri kwezi",
-      "annual": "Buri mwaka (Bika 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Ubusabe buzahagarara",
-      "body": "Uzasubira kuri Free ku",
-      "keepPlanCta": "Gumana {{plan}}",
-      "manageBillingCta": "Tunganya kwishyura"
-    },
-    "billing": {
-      "opening": "Birafungura…",
-      "manage": "Tunganya Kwishyura"
-    },
-    "checkout": {
-      "redirecting": "Koherezwa…"
-    },
-    "auth": {
-      "continue": "Komeza ujye kwinjira",
-      "createAccount": "Fungura konti",
-      "signIn": "Injira"
-    },
-    "cta": {
-      "aria": "Hitamo paki",
-      "getPlus": "Upgrade kuri Plus",
-      "upgradeMonthly": "Upgrade Buri kwezi",
-      "upgradeAnnual": "Upgrade Buri mwaka"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Tangira ubutumwa ku buntu.",
-        "features": {
-          "msg": "Ubutumwa 1:1 n’amatsinda",
-          "aiBasic": "Ibisubizo bya AI by’ibanze",
-          "attachments": "Impikanyandiko zisanzwe"
-        },
-        "ctaCurrent": "Paki iriho ubu",
-        "ctaUnavailable": "Hindura ujye kuri Free (ntibishoboka)",
-        "aria": "Paki ya Free (iriho ubu)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / ukwezi",
-        "desc": "Uburyo buhendutse bwo kutabona amatangazo.",
-        "features": {
-          "noAds": "Kuraho amatangazo yose",
-          "msg": "Ubutumwa 1:1 n’amatsinda",
-          "attachments": "Impikanyandiko nini",
-          "aiBasic": "Ibisubizo bya AI by’ibanze"
-        },
-        "badge": "Bikunzwe",
-        "cta": "Jya Ad-Free",
-        "aria": "Upgrade kuri Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Buri kwezi)",
-        "price": "$24.99 / ukwezi",
-        "desc": "Imikorere yose, indirimbo za terefone, na AI ikomeye.",
-        "features": {
-          "plusAll": "Byose biri muri Plus",
-          "ringtones": "Indirimbo za terefone & amajwi y’ubutumwa",
-          "powerAi": "Imikorere ya AI ikomeye",
-          "priorityUpdates": "Amavugururwa ya mbere",
-          "backups": "Kopi z’umutekano & kwihuza ku byuma"
-        },
-        "badge": "Agaciro keza",
-        "cta": "Upgrade (Buri kwezi)",
-        "aria": "Upgrade kuri Premium Buri kwezi"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Buri mwaka)",
-        "price": "$225 / umwaka",
-        "desc": "Bika byinshi iyo wishyuye buri mwaka.",
-        "features": {
-          "allPremium": "Byose biri muri Premium",
-          "annualBilling": "Kwishyurwa buri mwaka",
-          "save25": "Bika ~25% ugereranyije n’ukwezi",
-          "sameFeatures": "Imikorere imwe nka Buri kwezi"
-        },
-        "badge": "Bika 25%",
-        "cta": "Upgrade (Buri mwaka)",
-        "aria": "Upgrade kuri Premium Buri mwaka",
-        "disclaimer": "Wishyura imbere. Ushobora guhagarika igihe icyo ari cyo cyose. Nta bihishe."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Tangira ubutumwa ku buntu.",
-      "plusTitle": "Plus",
-      "plusBadge": "Bikunzwe",
-      "plusDesc": "Uburyo buhendutse bwo kutabona amatangazo.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Imikorere yose, indirimbo za terefone, na AI ikomeye.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Bika byinshi iyo wishyuye buri mwaka.",
-      "annualDisclaimer": "Wishyura imbere. Ushobora guhagarika igihe icyo ari cyo cyose. Nta bihishe."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Uko utangirira",
-    "subtitle": "Uri mushya kuri Chatforia? Iyi ntambwe-ngufi igaragaza iby’ingenzi kugirango utangire mu minota mike.",
-    "alert": {
-      "text": "Uyu muyoboro uzaguka uko dushyiraho imikorere mishya. Niba hari kibura, tubibwire binyuze kuri",
-      "contactLink": "Twandikire"
-    },
-    "section1": {
-      "title": "1) Fungura konti yawe",
-      "signup": "Iyandikishe",
-      "or": "cyangwa",
-      "login": "injira",
-      "loginText": "ukoreshe konti usanganwe.",
-      "prefsStart": "Shyiraho",
-      "prefsLink": "amahitamo",
-      "prefsRest": "(ururimi, read receipts, insanganyamatsiko)."
-    },
-    "section2": {
-      "title": "2) Tangira ubutumwa",
-      "item1": "Hanga DM cyangwa itsinda maze wohereze ubutumwa bwa mbere.",
-      "item2": "Koresha ihindura ako kanya kugira ngo uvugane mu ndimi 100+.",
-      "item3": "Gerageza ubutumwa bushira na read receipts muri Umwirondoro → Ubuzima bwite."
-    },
-    "section3": {
-      "title": "3) Genda kure",
-      "item1Part1": "Tunganya paki kuri paji ya",
-      "upgradeLink": "Upgrade",
-      "item1Part2": "(Plus = nta matangazo, Premium = imikorere yose).",
-      "item2Part1": "Huza ibindi byuma kandi shyiraho kopi z’umutekano muri",
-      "settingsLink": "Amagenamiterere"
-    },
-    "cta": {
-      "seePlans": "Reba paki",
-      "openSettings": "Fungura amagenamiterere"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Ikigo cy’Ubufasha",
-    "faq": {
-      "account": {
-        "q": "Nigira nte konti cyangwa ndayisubiza nte?",
-        "a": "Kurura porogaramu cyangwa koresha web, kanda “Fungura konti”, emeza imeri/telefoni. Gusubiza, koresha “Wibagiwe ijambobanga”."
-      },
-      "privacy": {
-        "q": "Ubutumwa burinzwe E2E?",
-        "a": "Yego. Ubutumwa na terefone birinzwe E2E ku buryo busanzwe. Ni wowe n’uwo wohereje mufite uruhushya rwo kubusoma."
-      },
-      "translate": {
-        "q": "Ihindura ako kanya rikora rite?",
-        "a": "Hindura “Auto-translate” muri Settings → Appearance & Language. Duhindura kuri mashini igihe bishoboka, ubundi binyura muri API zizewe n’amakuru make."
-      },
-      "contact": {
-        "q": "Twandikire ubufasha",
-        "a": "Twandikire kuri support@chatforia.com. Shyiraho amashusho n’inshuro ya porogaramu."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Twandikire",
-    "successMsg": "Urakoze—itsinda ryacu rizagusubiza kuri imeri.",
-    "errorSend": "Ntibyashobotse kohereza. Nyamuneka andikira support@chatforia.com.",
-    "form": {
-      "nameLabel": "Izina",
-      "emailLabel": "Imeri",
-      "messageLabel": "Ubutumwa",
-      "sendCta": "Ohereza"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Politiki y’Ubuzima bwite",
-    "lastUpdated": "Byavuguruwe ku nshuro iheruka:",
-    "intro": {
-      "body": "Iyi Politiki y’Ubuzima bwite isobanura uko Chatforia (“twebwe”) dukusanya, dukoresha, kandi dusangira amakuru igihe ukoresha porogaramu n’serivisi zacu. Dushyira Chatforia ku buryo gito dukenera kubona amakuru."
-    },
-    "infoWeCollect": {
-      "title": "Amakuru dukusanya",
-      "account": "Amakuru ya konti (nka imeri/telefoni) yo gukora no kurinda konti yawe.",
-      "encrypted": "Ibirimo by’umutekano (ubutumwa/terefo) birinzwe E2E; ntidushobora kubisoma.",
-      "diagnostics": "Ibyo kwitaho/ikoreshwa nko kugwa kwa porogaramu, ubwoko bw’igikoresho, cyangwa isesengura ryoroshye kugira ngo tuzamure imikorere."
-    },
-    "howWeUse": {
-      "title": "Uko dukoresha amakuru",
-      "provide": "Gutanga no kurinda serivisi (kwinjira, kurwanya spam/ihohoterwa).",
-      "improve": "Kuzamura imikorere (ubwiza bw’ihindura, kwizerwa).",
-      "legal": "Kuzuza inshingano z’amategeko."
-    },
-    "sharing": {
-      "title": "Gusangira",
-      "body": "Ntiducuruza amakuru y’abakoresha. Dushobora gusangira make n’abadufasha (nka push/isesengura) ku masezerano akomeye."
-    },
-    "rights": {
-      "title": "Uburenganzira bwawe",
-      "body": "Bitewe n’akarere kawe (urugero GDPR/UK GDPR/CPRA), ushobora gusaba kureba, gukosora, gusiba, cyangwa kwanga imikorere imwe. Twandikire: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Kubika amakuru & umutekano",
-      "body": "Tubika gusa ibikenewe mu mikorere ya serivisi kandi dukoresha umutekano usanzwe mu nganda. Ibirimo bya E2E ntibishobora guseswa natwe."
-    },
-    "children": {
-      "title": "Abana",
-      "body": "Chatforia ntiyagenewe abana bari munsi ya 13 (cyangwa uko amategeko y’iwanyu abivuga)."
-    },
-    "changes": {
-      "title": "Impinduka",
-      "body": "Tuzashyira hano ibisubizo bishya kandi duhindure itariki ya “Byavuguruwe”."
-    },
-    "contact": {
-      "title": "Twandikire",
-      "body": "privacy@chatforia.com • [Izina ry’Ikigo], [Aderesi]"
-    }
-  },
-
-  "terms": {
-    "title": "Amategeko ya Serivisi",
-    "lastUpdated": "Byavuguruwe ku nshuro iheruka:",
-    "intro": {
-      "body": "Ukoresheje Chatforia wemeye aya mategeko. Niba utayemera, ntukoreshe serivisi."
-    },
-    "accounts": {
-      "title": "Konti",
-      "itemAccurateInfo": "Tanga amakuru nyayo kandi urinde inyandiko zawe.",
-      "itemResponsibility": "Uraryozwa ibikorerwa kuri konti yawe."
-    },
-    "acceptableUse": {
-      "title": "Ikoreshwa ryemewe",
-      "itemNoAbuse": "Nta birimo binyuranyije n’amategeko, ihohoterwa, cyangwa byica uburenganzira; nta spam cyangwa ikoreshwa rya mashini mu buryo bubi.",
-      "itemSuspend": "Dushobora guhagarika/guhana ku byaha."
-    },
-    "yourContent": {
-      "title": "Ibirimo byawe",
-      "body": "Ugabana uburenganzira ku birimo byawe. Uduha uburenganzira bukenewe mu mikorere ya serivisi (urugero, kohereza, kubika, guhindura)."
-    },
-    "disclaimer": {
-      "title": "Ibyo twanga & Inshingano",
-      "body": "Serivisi itangwa ‘uko iri’ nta birenze ibyemezo. Ku rwego rurenze rw’amategeko, Chatforia ntiyishyuza ibyavuye mu ngaruka zituruka by’inyongera."
-    },
-    "changes": {
-      "title": "Impinduka",
-      "body": "Dushobora kuvugurura aya mategeko; gukomeza gukoresha nyuma y’impinduka bisobanura ko wemeye."
-    },
-    "contact": {
-      "title": "Twandikire",
-      "body": "support@chatforia.com • [Izina ry’Ikigo], [Aderesi]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Ntugurishe cyangwa Udasangize Amakuru Yanjye",
-    "body": "Chatforia ntiigurisha amakuru y’abakoresha. Abanyagihugu ba California baracyashobora kohereza ibisabwa hakurikijwe CPRA bakoresheje buto iri hasi.",
-    "cta": "Ohereza ubusabe"
-  },
-
-  "cookies": {
-    "title": "Amagenamiterere ya Cookies",
-    "body": "Chatforia ikoresha cookies nke (urugero, session, umutekano). Ntidukoresha cookies z’amatangazo aturutse ahandi. Shyira imiterere ya cookies mu mushakisha wawe."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Ntibishobotse kuzana uko nimero ya telefoni ihagaze.",
-    "lock": "Funga",
-    "noNumberAssigned": "Nta nimero yahawe. Hitamo imwe hakurikijwe code y’akarere kugira ngo utangire kohereza ubutumwa.",
-    "pickNumber": "Hitamo nimero",
-    "phoneNumber": "Numero ya telefoni"
-  },
-
-  "startChatModal": {
-    "title": "Tangira ikiganiro",
-    "quickPicker": "Guhitamo vuba",
-    "to": "Ku",
-    "nameOrUsername": "Andika izina, izina ukoresha",
-    "nameUsernamePhoneEmail": "Andika izina, izina ukoresha, telefoni, cyangwa imeri…",
-    "startWithSelected": "Tangira ikiganiro n’abahisemo",
-    "searchByUsernameOrPhone": "Shakisha ukoresheje izina cyangwa telefoni",
-    "search": "Shakisha",
-    "searchPrompt": "Andika izina ukoresha cyangwa telefoni ubone Gushakisha.",
-    "pickFromContacts": "Cyangwa hitamo muri kontaki",
-    "addContact": "Ongeraho Kontaki",
-    "show": "Erekana",
-    "add": "Ongeraho",
-    "close": "Funga",
-    "selectedCount": "{{count}} bahiswe",
-    "pickAtLeastOne": "Hitamo nibura umwe.",
-    "saveContactsHint": "Telefoni/imeri bizaboneka nyuma yo kubibika nka kontaki.",
-    "failedBulkStart": "Gutangira ikiganiro n’abatoranyijwe byanze.",
-    "noResults": "Nta bisubizo",
-    "mode": "Ubwoko",
-    "group": "Itsinda",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Izina ry’itsinda (si ngombwa)",
-    "firstMessageOptional": "Ubutumwa bwa mbere (si ngombwa ariko bwarushaho kuba byiza)",
-    "createGroup": "Hanga itsinda",
-    "sendBroadcast": "Ohereza broadcast"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Uri kuri Free — amajwi ya premium aragaragazwa ariko afunze. Kora upgrade kugira ngo ufungure byose.",
-    "preview": "Tegereza/Preview",
-    "resetToDefaults": "Subiza ku busanzwe",
-    "notificationSounds": "Amajwi y’itumanaho",
-    "messageTone": "Ijwi ry’ubutumwa",
-    "default": "Mburabuzi",
-    "vibrate": "Vibrer",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Iyi mikorere isaba paki ya Premium."
-  },
-
-  "aiSettings": {
-    "title": "Amagenamiterere ya AI",
-    "controlIntro": "Tunganya ihindura, ibisubizo byihuse, na ForiaBot isubiza mu buryo bwikora.",
-    "save": "Bika Amagenamiterere ya AI",
-    "autoTranslateIncoming": "Hindura mu buryo bwikora ubutumwa bwinjira",
-    "showOriginalAlongside": "Erekana inyandiko y’umwimerere iruhande rw’ihindura",
-    "enableSmartReplies": "Hindura Ibisubizo byihuse (Smart Replies)",
-    "smartRepliesHint": "Ohereza ubutumwa bumaze kwakirwa vuba (bwabanje gusukurwa) kuri AI kugira ngo iguhe ibyihuse.",
-    "maskProfanity": "Hisha amagambo atihanganirwa mu bitekerezo bya AI",
-    "maskProfanityHint": "Iyo biriho, ibisubizo bya AI bizagarura amagambo yagaragajwe ahishwe",
-    "foriaBot": "ForiaBot Isubiza mu buryo bwikora",
-    "enableAutoReply": "Hindura gusubiza mu buryo bwikora igihe nari buze",
-    "autoReplyMode": "Uburyo bwo gusubiza mu buryo bwikora",
-    "cooldownSeconds": "Igihe cyo gutegereza (amasogonda)",
-    "off": "Oya",
-    "on": "Yego",
-    "signature": "Umukono",
-    "autoReply": "Gusubiza mu buryo bwikora",
-    "activeUntilOptional": "Izakora kugeza (si ngombwa)",
-    "saved": "Amagenamiterere ya AI abikiwe",
-    "saveFailed": "Kubika amagenamiterere ya AI byanze",
-    "translateOff": "Oya",
-    "translateTagged": "Iyo hakozwe @translated cyangwa habonetse tag",
-    "translateAll": "Hindura ubutumwa bwinjira bwose",
-    "modeDm": "1:1 gusa",
-    "modeMention": "Iyo ndi @vuzwe",
-    "modeAll": "Ubutumwa bwinjira bwose"
-  },
-
-  "accessibilitySettings": {
-    "title": "Ubufasha & Amaburira",
-    "accessibility": "Ubufasha",
-    "accessibilityDesc": "Amahitamo afasha gukoresha Chatforia utagombye kwishingikiriza ku ijwi.",
-    "interfaceFontSize": "Ingano y’inyuguti mu isura",
-    "interfaceFontSizeHelp": "Itangirira ku ngano isanzwe. Yongera niba ukunda inyuguti nini.",
-    "sm": "nato",
-    "md": "hagati",
-    "lg": "nini",
-    "xl": "nini cyane",
-    "notifications": "Amatangazo",
-    "notificationsDesc": "Amabendera agaragara y’ubutumwa & terefone\nErekana amabendera n’imiterefoni y’umutwe kugira ngo utabura ibibaye.",
-    "vibrateOnNew": "Vibrer ku butumwa bushya (iyo bishyigikiwe)\nShyiraho vibration ku matangazo.",
-    "flashOnCall": "Kwaka kw’uruhu ku terefone yinjira\nKwaka kumwe kw’umucyo igihe terefone iri guhamagara.",
-    "liveCaptions": "Ibisobanuro by’amajwi mu gihe nyacyo (terefo)",
-    "captionFontSize": "Ingano y’inyuguti y’ibisobanuro",
-    "captionBackground": "Mbuganyuma y’ibisobanuro",
-    "light": "umucyo",
-    "dark": "ijimye",
-    "transparent": "byacengeye",
-    "voiceNotes": "Amajwi y’ubutumwa",
-    "autoTranscribeVoiceNotes": "Hindura mu nyandiko mu buryo bwikora amajwi\nShyiraho inyandiko ku butumwa bw’amajwi wakiriye.",
-    "changesSavedInstantly": "Impinduka zibikwa ako kanya.",
-    "loadFailed": "Kuzana amagenamiterere byanze",
-    "visualAlerts": "Amaburira agaragara ku butumwa & terefone",
-    "visualAlertsDesc": "Erekana amabendera n’imiterefoni y’umutwe kugira ngo utabura.",
-    "vibrateOnNewShort": "Vibrer ku butumwa bushya (iyo bishyigikiwe)",
-    "vibrateOnNewDesc": "Tera vibration igihe habonetse amatangazo.",
-    "flashOnCallShort": "Kwaka ku terefone yinjira",
-    "flashOnCallDesc": "Kwaka kumwe kw’umucyo igihe terefone iri guhamagara."
-  },
-
-  "privacySection": {
-    "strictE2EE": "E2E ikomeye",
-    "ciphertextOnlyNote": "Bika gusa ‘ciphertext’ kuri seriveri. Ibi bihagarika AI/Translate na kureba ibikubiyemo mbere yo kohereza."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Ibyuma byihuza",
-    "noneFound": "Nta cyuma cyabonetse.",
-    "refresh": "Ongera usome"
-  },
-
-  "help": {
-    "title": "Ubufasha",
-    "howCanWeHelp": "Twagufasha dute?",
-    "helpCenter": "Ikigo cy’Ubufasha",
-    "contactUs": "Twandikire",
-    "quickTopics": "Ingingo zihuse",
-    "searchExamples": "Gerageza gushaka “translate”, “backups”, cyangwa “privacy”.",
-    "cantLogin": "Ntishobora kwinjira",
-    "paymentsBilling": "Kwishyura/ fagitire",
-    "reportAbuse": "Tanga raporo y’ihohoterwa",
-    "searchHelpArticles": "Shakisha ingingo z’ubufasha",
-    "search": "Shakisha"
-  },
-
-  "peoplePage": {
-    "people": "Abantu",
-    "search": "Shakisha",
-    "searchPlaceholder": "Shakisha ukoresheje izina ry’inyito, izina, izina ukoresha, cyangwa telefoni",
-    "filterSaved": "Sukura kontaki zabikiwe",
-    "noContactsFound": "Nta kontaki zabonetse",
-    "quickStart": "Gutangira byihuse",
-    "quickStartDesc": "Uburyo bwihuse bwo guhita utangira.",
-    "importContacts": "Kuzana kontaki zawe",
-    "add": "Ongeraho",
-    "focusSearch": "Shyira umutwe ku gushakisha",
-    "import": "Kuzana",
-    "findOrAdd": "Shakisha cyangwa wonge kontaki",
-    "searchByPhoneOrUsername": "Shakisha ukoresheje telefoni / izina ukoresha",
-    "inviteFriends": "Tumira inshuti",
-    "inviteDesc": "Sangiza ihuriro ryawe ry’itumiriro kugira ngo mutangire kuganira ako kanya.",
-    "getTheApp": "Bona porogaramu",
-    "getTheAppDesc": "Gumanya kuvugana uri mu rugendo ukoresheje Chatforia kuri iOS na Android.",
-    "download": "Kurura",
-    "syncTip": "Inama: Ubutumwa bwawe buhuza hagati ya web na mobile."
-  },
-
-  "randomChat": {
-    "title": "Ikiganiro Kibuze ku Nteko",
-    "description": "Hura n’umuntu mushya ako kanya. Tuzaguhuza tugufungurire icyumba cy’agateganyo.",
-    "findMatch": "Nshakira uwo mpareshya",
-    "chatWithForia": "Ganiriza Foria",
-    "chatWithForiaBot": "Ganiriza ForiaBot",
-    "cancel": "Kureka",
-    "close": "Funga",
-    "searching": "Ishakisha…",
-    "finding": "Ishakisha…",
-    "looking": "Irimo gushakira umuntu…",
-    "startingForia": "Gutangira kuganira na Foria…",
-    "partnerDisconnected": "Mugenzi wawe yacitse.",
-    "noPartner": "Nta muhuza wabonetse ubu.",
-    "connectedTo": "Wahuye na {{name}}",
-    "connected": "Byahujwe",
-    "idle": "Ntacyo irimo gukora",
-    "partnerLeft": "Mugenzi wawe yagiye.",
-    "stopped": "Byahagaze.",
-    "skip": "Simbuka",
-    "save": "Bika",
-    "saveGuard": "Kubika birajya ku biganiro by’abantu gusa",
-    "youAreChattingWith": "Uri kuganira na {{name}}",
-    "bot": "BOT",
-    "leave": "Sohoka",
-    "sayHi": "Vugaho 👋",
-    "you": "Wowe",
-    "typeMessage": "Andika ubutumwa",
-    "send": "Ohereza",
-    "partner": "Mugenzi",
-    "withForia": "Na Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Fungura menu y’inyanja",
-    "closeNav": "Funga menu y’inyanja",
-    "homeAria": "Ahabanza ha Chatforia"
-  },
-
-  "login": {
-    "title": "Ikaze nanone",
-    "subtitle": "Injira muri konti yawe ya Chatforia",
-    "google": "Komeza ukoresheje Google",
-    "apple": "Komeza ukoresheje Apple",
-    "googleUnavailable": "Kwinjira ukoresheje Google ntibiboneka",
-    "appleUnavailable": "Kwinjira ukoresheje Apple ntibiboneka",
-    "or": "cyangwa",
-    "email": "Imeri",
-    "emailPh": "wowe@urugero.com",
-    "usernameLabel": "Izina ukoresha",
-    "usernamePh": "Izina ukoresha",
-    "passwordLabel": "Ijambobanga",
-    "passwordPh": "Ijambobanga ryawe",
-    "keepSignedIn": "Gumana winjiye",
-    "forgot": "Wibagiwe ijambobanga?",
-    "submit": "Injira",
-    "loggingIn": "Kwinjira…",
-    "newHere": "Uri mushya? <link>Fungura konti</link>",
-    "ssoUnavailable": "Single-sign-on ntiboneka ubu. Koresha izina & ijambobanga bisanzwe.",
-    "error": {
-      "missing": "Nylyuzuzemo imyirondoro yawe.",
-      "invalid": "Izina ukoresha cyangwa ijambobanga si byo",
-      "denied": "Uburenganzira bwanzwe.",
-      "unprocessable": "Ibisabwa si byo. Reba izina/imeri n’ijambobanga.",
-      "deviceLimit": "Igihe cy’ibyuma cyageze kuri Free. Sohoka kuri kimwe cyangwa usubire kuri Premium kugira ngo wihuza byinshi.",
-      "premiumRequired": "Ibi bisaba paki ya Premium."
+      "disclaimerStart": "Ukohereza, wemera amasezerano yacu",
+      "terms": "Amasezerano",
+      "and": "n'",
+      "privacy": "Politiki y'ibanga"
     }
   }
 }

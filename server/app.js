@@ -109,7 +109,6 @@ import {
 } from './middleware/enforcement.js';
 
 // ✅ auth sub-routers
-import { router as emailVerification } from './routes/auth/emailVerification.js';
 import { router as phoneVerification } from './routes/auth/phoneVerification.js';
 import { router as mfaTotp } from './routes/auth/mfaTotp.js';
 
@@ -215,7 +214,7 @@ export function createApp() {
       credentials: true,
     })
   );
-  
+
   app.use(secureHeaders());
   app.use(csp());
 
@@ -434,7 +433,6 @@ export function createApp() {
   app.use('/auth/oauth', oauthMobileRouter);
 
   // Auth sub-routers before primary auth
-  app.use('/auth', emailVerification); // /auth/email/*
   app.use('/auth/phone', requireAuth, phoneVerification); // /auth/phone/*
   app.use('/auth/2fa', requireAuth, mfaTotp); // /auth/2fa/*
 

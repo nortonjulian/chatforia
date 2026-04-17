@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Button, Center, Loader, Paper, Stack, Text, Title } from '@mantine/core';
+import axiosClient from '@/api/axiosClient';
 
 export default function VerifyEmail() {
   const [params] = useSearchParams();
@@ -11,13 +12,15 @@ export default function VerifyEmail() {
   useEffect(() => {
     const run = async () => {
       try {
-        const resp = await fetch(`/auth/email/verify?uid=${uid}&token=${token}`);
-        const json = await resp.json();
-        setState(json.ok ? 'ok' : 'error');
+        const { data } = await axiosClient.get('/auth/email/verify', {
+          params: { uid, token },
+        });
+        setState(data?.ok ? 'ok' : 'error');
       } catch {
         setState('error');
       }
     };
+
     if (uid && token) run();
     else setState('error');
   }, [uid, token]);
@@ -38,15 +41,17 @@ export default function VerifyEmail() {
           {state === 'ok' && (
             <>
               <Text>Your email is verified. You’re all set!</Text>
-              <Button component={Link} to="/login" radius="xl">Continue to login</Button>
+              <Button component={Link} to="/" radius="xl">
+                Continue to login
+              </Button>
             </>
           )}
 
           {state === 'error' && (
             <>
               <Text c="red">That link is invalid or expired.</Text>
-              <Button component={Link} to="/resend" variant="light" radius="xl">
-                Resend verification email
+              <Button component={Link} to="/" variant="light" radius="xl">
+                Back to login
               </Button>
             </>
           )}

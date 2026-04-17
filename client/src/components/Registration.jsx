@@ -91,16 +91,11 @@ export default function Registration() {
 
     const phoneTrim = (form.phone || '').trim();
 
-    // If the user provided a phone number, route them to the consent screen first.
     if (phoneTrim) {
-      // Pass the pending registration in location.state so the consent -> OTP -> verify flow
-      // can resume registration after phone verification.
-      // NOTE: location.state is in-memory only (lost on hard refresh). See notes below for persistence options.
       navigate('/verify-phone-consent', { state: { pendingRegistration: { ...form } } });
       return;
     }
 
-    // Otherwise, no phone was provided — proceed directly with registration.
     try {
       setSubmitting(true);
 
@@ -108,13 +103,25 @@ export default function Registration() {
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
-        // no phone field
       };
 
-      await axiosClient.post('/auth/register', payload);
+      const res = await axiosClient.post('/auth/register', payload);
 
-      // on success: redirect to login / onboarding as desired
-      // navigate('/welcome'); // uncomment and change as needed
+      const user = res?.data?.user || null;
+      const privateKey = res?.data?.privateKey || null;
+      const publicKey = user?.publicKey || null;
+
+      if (publicKey && privateKey) {
+        await saveKeysLocal({ publicKey, privateKey });
+
+        await uploadRemoteKeyBackup({
+          publicKey,
+          privateKey,
+          password: form.password,
+        });
+      }
+
+      navigate('/');
     } catch (err) {
       const status = err?.response?.status;
       const data = err?.response?.data;
@@ -157,10 +164,10 @@ export default function Registration() {
           );
         }
         if (!Object.keys(nxt).length) {
-          setGlobalError(data?.message || t(
-            'auth.errors.usernameOrEmailTaken',
-            'Username or email already in use.'
-          ));
+          setGlobalError(
+            data?.message ||
+              t('auth.errors.usernameOrEmailTaken', 'Username or email already in use.')
+          );
         } else {
           setErrors(nxt);
         }
@@ -176,27 +183,8 @@ export default function Registration() {
       }
     } finally {
       setSubmitting(false);
-    }
-
-    const res = await axiosClient.post('/auth/register', payload);
-
-    const user = res?.data?.user || null;
-    const privateKey = res?.data?.privateKey || null;
-    const publicKey = user?.publicKey || null;
-
-    if (publicKey && privateKey) {
-      await saveKeysLocal({ publicKey, privateKey });
-
-      await uploadRemoteKeyBackup({
-        publicKey,
-        privateKey,
-        password: form.password,
-      });
-    }
-
-    // redirect wherever you want
-    navigate('/');
-  };
+  }
+};
 
   return (
     <Paper withBorder shadow="sm" radius="xl" p="lg">

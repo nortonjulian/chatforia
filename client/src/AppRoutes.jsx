@@ -35,6 +35,7 @@ import PeoplePage from '@/pages/PeoplePage';
 import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 import ChatThreadRoute from './pages/ChatThreadRoute';
 import PairBrowserPage from '@/pages/PairBrowserPage.jsx';
+import VerifyEmail from '@/pages/VerifyEmail.jsx';
 
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
 
@@ -358,6 +359,7 @@ export default function AppRoutes() {
         <Route element={<AuthLayout />}>
           <Route path="/" element={<LoginForm />} />
           <Route path="/register" element={<Registration />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/verify-phone-consent" element={<VerifyPhoneConsentPage />} />
           <Route path="/verify-code" element={<VerifyCodePage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
