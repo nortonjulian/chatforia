@@ -7,22 +7,30 @@ export default function VerifyEmail() {
   const [params] = useSearchParams();
   const uid = params.get('uid');
   const token = params.get('token');
-  const [state, setState] = useState('loading'); // loading | ok | error
+  const [state, setState] = useState('loading');
 
   useEffect(() => {
+    console.log('[VerifyEmail] mounted', { uid, token, href: window.location.href });
+
     const run = async () => {
       try {
+        console.log('[VerifyEmail] calling verify endpoint');
         const { data } = await axiosClient.get('/auth/email/verify', {
           params: { uid, token },
         });
+        console.log('[VerifyEmail] verify response', data);
         setState(data?.ok ? 'ok' : 'error');
-      } catch {
+      } catch (err) {
+        console.error('[VerifyEmail] verify failed', err?.response?.status, err?.response?.data, err);
         setState('error');
       }
     };
 
     if (uid && token) run();
-    else setState('error');
+    else {
+      console.warn('[VerifyEmail] missing uid or token');
+      setState('error');
+    }
   }, [uid, token]);
 
   return (
