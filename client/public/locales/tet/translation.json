@@ -1,116 +1,1457 @@
 {
   "common": {
-    "save": "Rai",
+    "save": "Salva",
     "cancel": "Kansela",
     "refresh": "Atualiza",
-    "noMatches": "La iha resultado",
+    "noMatches": "La iha rezultadu",
     "cancelAria": "Kansela",
     "copy": "Kopia",
-    "copied": "Kopia tiha ona!"
+    "copied": "Kopia ona!",
+    "errorWithMessage": "Erro: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Sai diretu ba kontéudu prinsipal"
+    "skipToMain": "Bá ba konteúdu prinsipál"
   },
-
+  "keys": {
+    "backupCreated": "Kopia chave kria no download ona ✓",
+    "restored": "Kopia chave restaurada ✓ Chave sira instaladu iha lokal",
+    "noBackup": "La iha kopia enkriptadu ba konta ne'e",
+    "missingPublicKey": "Kopia lakon chave públiku"
+  },
+  "keySetup": {
+    "title": "Setup chave sira iha aparelu",
+    "description": "Aparelu ne'e seidauk iha chave privadu. Importa kopia ne'ebé proteje ho password, ka jenera par chave foun (ita bele lee mensajen foun husi agora ba oin).",
+    "chooseFile": "Hili fail no hatama password.",
+    "imported": "Chave privadu importa ba aparelu ne'e. Ita bele lee mensajen tuan sira agora.",
+    "enterPassword": "Hatama password konta ita nian atu kopia chave sira ho seguransa."
+  },
+  "auth": {
+    "headline": "Mensajen seguru ba ema ida-idak, iha fatin ida-idak",
+    "description": "Enkripsaun end-to-end, tradusaun ba lian 100+, mensajen ne'ebé desappears, no chamada voz/vídeo.",
+    "feature": {
+      "encryption": "Enkripsaun end-to-end liu husi default",
+      "translation": "Tradusaun mensajen ne'ebé matenek no iha laran",
+      "disappearing": "Mensajen ne'ebé desappears & resibu lee",
+      "privacy": "Privasi-primeiru. Ita nia dadus, ita nia kontrol.",
+      "translate": "Tradusaun mensajen ne'ebé matenek no iha laran",
+      "disappear": "Mensajen ne'ebé desappears",
+      "privacyAlt": "Design privasi-primeiru",
+      "seePlans": "Haree planu no presu"
+    },
+    "hero": {
+      "line1": "Mensajen seguru ba ema ida-idak, iha fatin ida-idak — ho",
+      "em": "tradusaun ba lian 100+",
+      "sub": "Hau número telefone seguru gratis atu hamata no hakerek mensajen iha mundu tomak liu husi Wi-Fi ka dadus. Goza enkripsaun end-to-end, mensajen ne'ebé desappears, no chamada voz/vídeo HD — ho ferramenta iha laran ne'ebé ajuda ita konektadu liu husi fronteira sira.",
+      "freeNote": "Chamada no hakerek mensajen báziku gratis. AI avansadu no fitur premium presiza upgrade."
+    },
+    "feat": {
+      "encryption": "Enkripsaun end-to-end, sempre liga",
+      "translate": "Tira barreira lian iha ita nia konversasaun sira",
+      "disappear": "Mensajen ne'ebé desappears & resibu lee",
+      "privacy": "Privasi-primeiru. Ita nia dadus, ita nia kontrol."
+    },
+    "continueGoogle": "Kontinua ho Google",
+    "continueApple": "Kontinua ho Apple",
+    "username": "Naran uza",
+    "password": "Password",
+    "keepSignedIn": "Mantén hamutuk sign-in",
+    "forgotPassword": "Esquece password?",
+    "loginButton": "Sign In",
+    "createAccount": "Kria konta",
+    "freeAccountButton": "Kria konta gratis",
+    "newHere": "Foun iha ne'e?",
+    "getApp": "Hau app",
+    "desktopTip": "Iha desktop? Skaneia ho telefone atu hau app.",
+    "scanHelper": "Iha desktop? Skaneia ho telefone atu hau app.",
+    "goHome": "Bá ba uma",
+    "home": "Uma",
+    "headlineAlt": {
+      "main": "Mensajen seguru ne'ebé",
+      "highlight": "hateten ita nia lian"
+    },
+    "subhead": "Mensajen privadu, enkriptadu, no tradus — instantaneamente.",
+    "upgrade": "Upgrade agora",
+    "tip": "Dika: Uza konta hanesan iha web no móvel. Ita nia mensajen sira mantein sinkroniza.",
+    "openDownload": "Abre pájina download",
+    "qrAlt": "Kódigu QR ba Chatforia",
+    "scanHint": "Skaneia atu download app ka abre iha ita nia browser.",
+    "iosAria": "Download iha App Store",
+    "iosTitle": "Download iha App Store",
+    "iosBadgeAlt": "Badge App Store",
+    "androidAria": "Hau iha Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Badge Google Play",
+    "login": "Sign In",
+    "signup": "Sign Up",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 karáter. Uza password forte no úniku.",
+      "smsConsent": "Bá kria konta, ita konkorda atu simu notifikasaun SMS relasiona ho ita nia atividade Chatforia (hanesan mensajen husi uza seluk). Taxa mensajen & dadus bele aplika. Ita bele opt-out iha oras ne'e iha Settings.",
+      "termsLink": "Termu Servisu",
+      "privacyLink": "Polítika Privasi"
+    },
+    "to": "Ba:",
+    "enterRecipient": "Hatama naran ka número",
+    "clearRecipients": "Limpá destinatáriu sira",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Hakerek mensajen…",
+    "addRecipient": "Hatama destinatáriu iha leten atu hahú…",
+    "oneRecipient": "Favor hatama destinatáriu ida de'it ba agora.",
+    "enterValidRecipient": "Hatama naran kontatu ne'ebé salva ka número telefone.",
+    "sendFailed": "Hakerek falha. Haree konsola ba detalhe sira."
+  },
+  "home": {
+    "title": "Uma",
+    "header": "Ita nia mensajen sira",
+    "subheader": "Hakerek mensajen atu hahú konversasaun.",
+    "sendButton": "Hakerek mensajen",
+    "gifPicker": "Abre selektor GIF",
+    "emoji": "Emoji",
+    "upload": "Upload foto ka vídeo",
+    "inputPlaceholder": "Hakerek mensajen…",
+    "inputLabel": "Kompozitor mensajen",
+    "sendTooltip": "Hakerek",
+    "sendTooltipEmpty": "Hakerek mensajen atu hakerek",
+    "send": "Hakerek",
+    "welcomeMessage": "Bem-vindu ba Chatforia",
+    "getStarted": "Hahú"
+  },
+  "chat": {
+    "selectPrompt": "Hili testu ka sala konversasaun atu hahú konversasaun",
+    "newMessages": "Mensajen foun sira",
+    "typing": "{{name}} hakerek hela…",
+    "emptyTitle": "Ita nia mensajen sira",
+    "emptySubtitle": "Hakerek mensajen atu hahú konversasaun.",
+    "startChatButton": "Hakerek mensajen",
+    "mediaAttachment": "Anexu média",
+    "thisUser": "uza ne'e",
+    "blockConfirm": "Blokeia {{name}}? Ita la simu mensajen husi sira.",
+    "blockedUser": "Blokeia {{name}}.",
+    "blockError": "La bele determina uza alvu atu blokeia.",
+    "blockFailed": "Blokeia falha (backend seidauk konektadu).",
+    "encryptedUnavailable": "Mensajen enkriptadu (chave la disponivel)",
+    "unlockToView": "Desbloqueia ita nia chave atu haree mensajen ne'e"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Desliga"
+    },
+    "freeLimit": "Limitu planu gratis: auto-delete to 1 loron. Klampa ba 1d.",
+    "premiumLimit": "Maks auto-delete ba Premium mak 30 loron. Klampa ba 30d.",
+    "nothingToSend": "Hakerek mensajen ka anexu fail atu hakerek.",
+    "encryptionFailed": "Enkripsaun falha. Mensajen la hakerek.",
+    "sent": "Mensajen entrega ona.",
+    "placeholder": "Hakerek mensajen…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Hakerek mensajen atu hakerek",
+    "send": "Hakerek",
+    "sendWithEnter": "Hakerek (Enter)",
+    "attachment": "anexu",
+    "caption": "Kaptaun (opsional)",
+    "remove": "Hasai",
+    "clear": "Limpá",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Anexu boot liu. Tenta fail ki'ik liu.",
+      "unsupportedFile": "Tipu fail la suporta.",
+      "rateLimit": "Ita hakerek mensajen lalais liu. Favor hahú lalais.",
+      "validation": "Erro validasaun. Favor haree ita nia mensajen no tenta fali.",
+      "failedToSend": "Falha hakerek. Ita bele tenta fali bolha ne'ebé falha."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Kontatu ne'ebé salva",
+    "refreshAria": "Atualiza kontatu sira",
+    "filterPlaceholder": "Filtra kontatu ne'ebé salva…",
+    "filterAria": "Filtra kontatu ne'ebé salva",
+    "noContactsFound": "La iha kontatu hetan.",
+    "externalContact": "Kontatu esternu",
+    "notJoined": "Kontatu ne'e seidauk hamutuk Chatforia.",
+    "couldNotStart": "La bele hahú konversasaun. Favor tenta fali.",
+    "startFailed": "Falha hahú konversasaun. Favor tenta fali.",
+    "deleted": "Kontatu hasai ona.",
+    "deleteFailed": "Falha hasai kontatu. Favor tenta fali.",
+    "aliasUpdated": "Alias atualiza ona.",
+    "updateAliasFailed": "Falha atualiza alias. Favor tenta fali.",
+    "selectContact": "Hili {{name}}",
+    "alias": "Alias",
+    "startChat": "Hahú konversasaun",
+    "message": "Mensajen",
+    "delete": "Hasai",
+    "deleteContactAria": "Hasai kontatu",
+    "loadFailed": "Falha karrega kontatu sira. Favor tenta fali.",
+    "loadMore": "Karrega liu tan",
+    "call": "Chamada",
+    "callStarted": "Hakerek chamada ba númeru ne'e liu husi ita nia númeru Chatforia…",
+    "callFailed": "Falha hahú chamada. Favor tenta fali."
+  },
+  "startChatModal": {
+    "title": "Hahú konversasaun",
+    "searchPlaceholder": "Buka naran, naran uza, ka númeru telefone",
+    "messageThisPerson": "Hakerek ba ema ne'e",
+    "contacts": "Kontatu sira",
+    "recentInteractions": "Interasaun resente sira",
+    "noContactsMatch": "La iha kontatu kombina ho ita nia buka.",
+    "noRecentInteractions": "Seidauk iha interasaun resente.",
+    "unknown": "La hatene",
+    "interactionType": {
+      "message": "Mensajen",
+      "call": "Chamada",
+      "video": "Vídeo"
+    }
+  },
+  "addContactModal": {
+    "title": "Hatama kontatu",
+    "phoneOrUsername": "Telefone ka naran uza",
+    "phoneOrUsernamePlaceholder": "ex. +13018019227 ka juliannorton",
+    "alias": "Alias (opsional)",
+    "aliasPlaceholder": "ex. Servisu, Inan, Mike – Europa",
+    "enterPhoneOrUsername": "Hatama númeru telefone ka naran uza.",
+    "userLookupFailed": "Buka uza falha.",
+    "cannotAddSelf": "Ita la bele hatama an rasik hanesan kontatu.",
+    "failedToAdd": "Falha hatama kontatu.",
+    "add": "Hatama"
+  },
+  "sidebar": {
+    "randomChat": "Konversasaun Aleatóriu",
+    "callTextForwarding": "Chamada & Hakerek Mensajen Forward",
+    "conversations": "Konversasaun sira",
+    "searchPlaceholder": "Buka konversasaun…",
+    "errorLoading": "Falha karrega konversasaun sira",
+    "empty": "Seidauk iha konversasaun.",
+    "startChat": "Hahú konversasaun",
+    "people": "Ema sira",
+    "settings": "Settings",
+    "status": "Status",
+    "forwarding": "Chamada & Hakerek Mensajen Forward",
+    "refresh": "Atualiza",
+    "search": "Buka konversasaun",
+    "loginPrompt": "Sign in atu edita ita nia settings.",
+    "login": "Sign in",
+    "register": "Kria konta",
+    "chatrooms": "Sala konversasaun",
+    "logout": "Sign out",
+    "startChatAlt": "Hahú konversasaun foun",
+    "calls": "Chamada sira",
+    "video": "Vídeo",
+    "voicemail": "Voicemail"
+  },
+  "topbar": {
+    "newStatus": "Status Foun",
+    "logout": "Sign Out",
+    "help": "Ajuda",
+    "createStatusAria": "Kria status foun"
+  },
+  "threadActions": {
+    "threadMenu": "Menu thread",
+    "premium": "Premium",
+    "aiPower": "Poder AI",
+    "schedule": "Agenda",
+    "upgrade": "Upgrade",
+    "upgradeSuffix": "(Upgrade)",
+    "thread": "Thread",
+    "about": "Kona ba",
+    "search": "Buka",
+    "media": "Média",
+    "invitePeople": "Konvida ema sira",
+    "roomSettings": "Settings sala",
+    "clearConversation": "Limpá konversasaun",
+    "block": "Blokeia"
+  },
+  "roomSearch": {
+    "title": "Buka iha sala",
+    "ariaLabel": "Buka iha sala",
+    "search": "Buka",
+    "searchMessages": "Buka mensajen sira",
+    "noText": "[La iha testu]",
+    "noResults": "La iha rezultadu"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Membru",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "Desliga",
+      "mention": "De'it iha @ForiaBot ka /ask",
+      "always": "Responde proativamente"
+    },
+    "autoTranslateMode": {
+      "off": "Desliga",
+      "tagged": "De'it iha tagged (/tr …)",
+      "all": "Mensajen hotu-hotu"
+    },
+    "updated": "Settings atualiza ona"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Média ne'ebé fahe",
+    "noMediaCached": "Seidauk iha média iha lokal.",
+    "imageAlt": "imajen",
+    "openVideo": "Abre vídeo",
+    "openVideoWithCaption": "Abre vídeo: {{caption}}",
+    "preview": "Previa",
+    "previewWithCaption": "Previa: {{caption}}",
+    "previewKind": "Previa {{kind}}",
+    "download": "Download",
+    "downloadKind": "Download {{kind}}",
+    "file": "fail",
+    "kinds": {
+      "image": "imajen",
+      "video": "vídeo",
+      "audio": "áudio",
+      "file": "fail"
+    }
+  },
+  "status": {
+    "userNumber": "Uza #{{id}}",
+    "posted": "Status posta ona",
+    "postFailed": "Falha posta status",
+    "createTitle": "Kria status",
+    "modalAriaLabel": "Status foun",
+    "captionLabel": "Saida mak iha ita nia hanoin?",
+    "captionPlaceholder": "Fahe atualizasaun…",
+    "captionAria": "Mensajen status",
+    "audienceLabel": "Audiénsia",
+    "audience": {
+      "public": "Públiku",
+      "followers": "Seguidores",
+      "contacts": "Kontatu sira",
+      "mutuals": "Mutuál",
+      "custom": "Custom…"
+    },
+    "expiresHoursLabel": "Desappears (oras)",
+    "maxTooltip": "Maks 7 loron",
+    "hoursAbbrev": "h",
+    "maxShort": "maks",
+    "expiresOn": "Desappears iha:",
+    "chooseRecipients": "Hili destinatáriu sira",
+    "selectContacts": "Hili kontatu sira",
+    "attachmentsLabel": "Anexu sira",
+    "attachmentsPlaceholder": "Hatama imajen/vídeo sira",
+    "filesNote": "To 5 fail. 24h desappears liu husi default.",
+    "postAria": "Posta status",
+    "post": "Posta"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Husi",
+    "to": "Ba",
+    "unknownCaller": "La hatene",
+    "yourNumber": "Ita nia númeru Chatforia",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Player áudio voicemail",
+    "transcriptHeading": "Transkripsaun",
+    "transcriptPending": "Transkribe voicemail…",
+    "transcriptFailed": "Transkripsaun la disponivel.",
+    "loading": "Karrega voicemail…",
+    "errorLoading": "Falha karrega voicemail.",
+    "empty": "Seidauk iha voicemail.",
+    "deleteConfirm": "Hasai voicemail ne'e?",
+    "deleteError": "Falha hasai voicemail.",
+    "markRead": "Marka hanesan lee ona",
+    "delete": "Hasai",
+    "unreadDotAria": "Indikador voicemail ne'ebé seidauk lee"
+  },
   "profile": {
-    "title": "Perfil Usuáriu",
-    "preferredLanguage": "Língua preferidu",
-    "chooseLanguage": "Hili língua ida",
-    "mustLogin": "Ita tenke tama (login) atu haree setingan sira.",
-    "autoTranslate": "Tradús automátiku mensajen sira",
-    "showOriginalWithTranslation": "Hatudu orijinal no tradusaun",
-    "showOriginalAndTranslation": "Hatudu orijinal hamutuk ho tradusaun",
-    "filterExplicit": "Filtra konténudu eksplísitu",
-    "aiReply": "Resposta IA",
-    "enableReadReceipts": "Habilita read receipts",
-    "allowExplicitContent": "Permite konténudu eksplísitu",
-    "disappearingMessages": "Habilita mensajen desaparese",
-    "autoDeleteSeconds": "Segundu to'o auto-hamoos",
-    "saveSuccess": "Setingan rai tiha ona!",
-    "saveError": "Erru: La hetan rai setingan",
+    "title": "Perfil Uza",
+    "preferredLanguage": "Lian preferidu",
+    "chooseLanguage": "Hili lian",
+    "mustLogin": "Ita tenke sign in atu haree settings.",
+    "autoTranslate": "Auto-tradusaun mensajen sira",
+    "showOriginalWithTranslation": "Haree testu orijinal no mensajen tradus",
+    "showOriginalAndTranslation": "Haree orijinal hamutuk ho tradusaun",
+    "filterExplicit": "Filtra konteúdu explísitu",
+    "aiReply": "Resposta AI",
+    "enableReadReceipts": "Liga resibu lee",
+    "allowExplicitContent": "Permite konteúdu explísitu",
+    "disappearingMessages": "Liga mensajen ne'ebé desappears",
+    "autoDeleteSeconds": "Segundu to auto-delete",
+    "saveSuccess": "Settings salva ona!",
+    "saveError": "Erro: La bele salva settings",
     "avatarAlt": "Avatar perfil",
-    "uploadAvatar": "Subar avatar foun",
-    "avatarSuccess": "Avatar subar tiha ona!",
-    "avatarError": "Erru iha subida avatar",
-    "noPrivateKey": "La iha klave privadu iha dispositivu ida-ne'e atu halo export.",
-    "setBackupPassword": "Tau senha atu enkripta ita nia backup:",
-    "backupDownloaded": "Backup enkriptadu download tiha.",
-    "exportFailed": "Exporta klave la susesu",
-    "enterBackupPassword": "Hatama senha ba backup ida-ne'e:",
-    "importSuccess": "Klave privadu importa ba dispositivu ida-ne'e.",
-    "importFailed": "Importa klave la susesu (senha sala ka arquivo aat).",
-    "keysRotated": "Par klave foun kria no klave públiku upload tiha.",
-    "rotateFailed": "La susesu troka klave.",
+    "uploadAvatar": "Upload avatar foun",
+    "avatarSuccess": "Avatar upload ona!",
+    "avatarError": "Falha upload avatar",
+    "avatarUpdated": "Avatar atualiza ona!",
+    "uploadingAvatar": "Upload avatar…",
+    "noPrivateKey": "La iha chave privadu iha aparelu ne'e atu exporta.",
+    "setBackupPassword": "Hatama password atu enkripta ita nia kopia:",
+    "backupDownloaded": "Kopia enkriptadu download ona.",
+    "exportFailed": "Exporta chave falha",
+    "enterBackupPassword": "Hatama password ba kopia ne'e:",
+    "importSuccess": "Chave privadu importa ba aparelu ne'e.",
+    "importFailed": "Falha importa chave (password sala ka fail koruptu).",
+    "keysRotated": "Par chave foun jenera no chave públiku upload ona.",
+    "rotateFailed": "Falha rotasiona chave sira.",
     "security": "Seguransa",
-    "exportKey": "Exporta klave privadu",
-    "importKey": "Importa backup klave enkriptadu",
-    "rotateKeys": "Troka par klave",
-    "keyDisclaimer": "Ita nia klave privadu la halai husi dispositivu ida-ne'e. Exporta kopia protejidu ho senha atu bele restore iha dispositivu seluk.",
+    "exportKey": "Kopia Chave Enkripsaun",
+    "importKey": "Restaura Chave Enkripsaun",
+    "rotateKeys": "Rotasiona Chave Enkripsaun",
+    "keyDisclaimer": "Ita nia chave privadu nunka sai husi aparelu ne'e. Exporta kopia ne'ebé proteje ho password atu restaura iha aparelu seluk.",
     "sectionProfile": "Perfil",
-    "phoneNumber": "Númaru telefone",
+    "phoneNumber": "Númeru telefone",
     "appearance": "Aparénsia",
     "soundSettings": "Sons",
-    "disappearing": "Mensajen desaparese",
-    "backupSync": "Backup & Sinroniza",
-    "ai": "IA",
+    "disappearing": "Mensajen ne'ebé desappears",
+    "backupSync": "Kopia Chave Enkripsaun",
+    "ai": "AI",
     "accessibility": "Aksesibilidade",
-    "privacy": "Privasidade",
-    "devices": "Dispozitivus ne'ebé liga tiha",
-    "themeFreeNotice": "Ita iha Free — uza opsaun Sun/Moon iha okos. Halo upgrade atu desbloqueia tema barak liu.",
+    "privacy": "Privasi",
+    "devices": "Aparelu ne'ebé liga",
+    "themeFreeNotice": "Ita iha Free—uza opsaun Sun/Moon lalais iha leten. Upgrade atu desbloqueia tema liu tan.",
     "sunTheme": "Uza tema Dawn",
-    "moonTheme": "Uza tema Moon (Midnight)",
+    "moonTheme": "Uza tema Moon (Meia-noite)",
     "sun": "Sun",
     "moon": "Moon",
-    "backupTitle": "Backup Enkriptadu & Sinronizasaun Dispozitivu",
-    "openBackupTools": "Loke Ferramenta Backup",
-    "backupDesc": "Kria backup protejidu ho senha ba ita nia klave sira, no restore iha dispositivu seluk atu sinroniza.",
-    "privacyBlurEnabled": "Dezkonjese (blur) mensajen hanesan padrão",
-    "privacyBlurOnUnfocus": "Dezkonjese bainhira app la iha fokus",
-    "holdToReveal": "Toba-kalan (hold) atu hatudu",
-    "notifyOnCopy": "Notifika ha'u se ema kopia ha'u nia mensajen",
-    "loadFailed": "La susesu karga perfil",
-    "followed": "Sigue tiha",
-    "followFailed": "La susesu sigue",
-    "unfollowed": "Para-sigue tiha",
-    "unfollowFailed": "La susesu para-sigue",
-    "follow": "Sigue",
-    "unfollow": "Para-sigue",
-    "followHint": "Sira nia istória sei mosu iha ita nia feed Following se sira posta ho audiência Followers (ka Pública).",
-    "userNotFound": "Usuáriu la hetan",
-    "followsYou": "Sigue ita",
-    "sectionCrashedTitle": "Sesaun la susesu atu karga",
-    "sectionCrashedBody": "Sá mak sala iha parte ida-ne'e.",
-    "forwarding": "Hatama Chamada & Teks",
-    "callTextForwardingSection": "Hatama Chamada & Teks",
-    "callTextForwardingTitle": "Hatama Chamada no/ka Teks",
-    "callTextForwardingDescription": "Hatudu chamadas no teks tama ba ita nia telefone ka email ne'ebé verifikadu. Chamada/teks sai bele hatudu ita nia númeru Chatforia.",
-    "enableTextForwarding": "Habilita hatama teks",
-    "forwardTextsToPhone": "Hatama teks ba telefone",
-    "forwardTextsToEmail": "Hatama teks ba email",
-    "destinationPhone": "Telefone destino (E.164)",
-    "destinationEmail": "Email destino",
-    "enableCallForwarding": "Habilita hatama chamada",
-    "destinationPhoneForCalls": "Destino (E.164) ba chamadas",
-    "aliasBridging": "Hatama Chamada (alias bridging)",
-    "quietHoursOptional": "Oras Soin (opsionál)",
+    "backupTitle": "Kopia Enkriptadu & Sinkronizasaun Aparelu",
+    "openBackupTools": "Abre Ferramenta Kopia",
+    "backupDesc": "Kopia ita nia chave enkripsaun atu restaura mensajen sira ho seguransa iha aparelu seluk.",
+    "privacyBlurEnabled": "Blur mensajen sira liu husi default",
+    "privacyBlurOnUnfocus": "Blur bainhira app la fokus",
+    "planSection": "Ita nia planu",
+    "planLoading": "Karrega ita nia planu…",
+    "planLoadFailed": "Falha karrega ita nia planu.",
+    "currentPlan": "Planu atual",
+    "planRenewsOn": "Renova iha",
+    "freePlanCopy": "Ita iha planu gratis. Upgrade atu desbloqueia fitur liu tan hanesan kopia, númeru ekstra, no opsaun privasi avansadu.",
+    "upgradePlanCta": "Upgrade planu",
+    "changePlanCta": "Troka planu",
+    "manageBilling": "Jere billing",
+    "portalOpenFailed": "La bele abre portal billing. Favor tenta fali.",
+    "holdToReveal": "Hata iha revela",
+    "notifyOnCopy": "Notifika ha'u se ita nia mensajen kopia",
+    "loadFailed": "Falha karrega perfil",
+    "followed": "Segue ona",
+    "followFailed": "Falha segue",
+    "unfollowed": "La segue ona",
+    "unfollowFailed": "Falha la segue",
+    "follow": "Segue",
+    "unfollow": "La segue",
+    "followHint": "Sira nia istória sira sei aparece iha ita nia feed Following se sira posta ho audiénsia Seguidores (ka Públiku).",
+    "userNotFound": "Uza la hetan",
+    "followsYou": "Segue ita",
+    "sectionCrashedTitle": "Seisaun falha karrega",
+    "sectionCrashedBody": "Buat ida sala iha seisaun ne'e.",
+    "forwarding": "Chamada & Hakerek Mensajen Forward",
+    "callTextForwardingSection": "Chamada & Hakerek Mensajen Forward",
+    "callTextForwardingTitle": "Chamada no/ka hakerek mensajen forward",
+    "callTextForwardingDescription": "Forward chamada no mensajen tama ba ita nia telefone verifika ka email. Chamada/hakerek mensajen sai bele hatudu ita nia númeru Chatforia.",
+    "enableTextForwarding": "Liga hakerek mensajen forward",
+    "forwardTextsToPhone": "Forward mensajen ba telefone",
+    "forwardTextsToEmail": "Forward mensajen ba email",
+    "destinationPhone": "Destinasaun telefone (E.164)",
+    "destinationEmail": "Destinasaun email",
+    "enableCallForwarding": "Liga chamada forward",
+    "destinationPhoneForCalls": "Destinasaun (E.164) ba chamada sira",
+    "aliasBridging": "Chamada Forward (alias bridging)",
+    "quietHoursOptional": "Oras kalma (opsional)",
     "startHour": "Oras hahú (0–23)",
     "endHour": "Oras remata (0–23)",
     "reset": "Reset",
-    "saveBtn": "Rai",
-    "forwardSaved": "Setingan hatama rai tiha",
-    "forwardSaveFailed": "La susesu rai setingan",
-    "errE164": "Hatama telefone E.164 válidu (hanesan +15551234567).",
+    "saveBtn": "Salva",
+    "saveProfile": "Salva perfil",
+    "saveForwarding": "Salva forwarding",
+    "forwardSaved": "Settings forwarding salva ona",
+    "forwardSaveFailed": "Falha salva settings",
+    "errE164": "Hatama númeru telefone E.164 válidu (ex., +15551234567).",
     "errEmail": "Hatama email válidu.",
-    "errSmsDest": "Hili destinasaun ida (telefone ka email) talo-o.",
-    "errQuietHours": "Oras soin tenke iha entre 0 no 23."
+    "errSmsDest": "Hili destinasaun ida de'it (telefone ka email).",
+    "errQuietHours": "Oras kalma tenke entre 0 no 23.",
+    "randomChat": "Konversasaun Aleatóriu",
+    "ageBand": "Ita nia faixa idade",
+    "ageBandPlaceholder": "Hili ita nia faixa idade",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Ami de'it armazena faixa idade (la mak data nascimento exato). Ne'e uza atu mantén pareamentu Random Chat razoável.",
+    "wantsAgeFilter": "Uza pareamentu bazeia idade iha Random Chat",
+    "wantsAgeFilterDesc": "Bainhira liga, ami tenta pareia ita ho ema iha faixa idade kompativel.",
+    "partnerAgeBands": "Se mak bele pareia ho ita?",
+    "partnerAgeBandsDesc": "Teen sempre pareia de'it ho teen seluk. Adultu la bele pareia ho teen.",
+    "teenMatchingNote": "Ba seguransa, konta iha faixa 13–17 bele pareia de'it ho konta 13–17 seluk iha Random Chat.",
+    "foriaRemember": "Halo Ria lembra buat ne'ebé ita hateten ba nia",
+    "foriaRememberDesc": "Bainhira ne'e liga, Foria bele uza ita nia konversasaun Random Chat tuan (de'it ho ita) atu mantén konversasaun la'o. Ita bele desliga iha oras ne'e.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Liga voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete voicemail depois (loron)",
+    "voicemailAutoDeletePlaceholder": "Hali ema ba mantein eternu",
+    "voicemailForwardEmail": "Forward voicemail ba email",
+    "voicemailForwardEmailPlaceholder": "Email atu haruka notifikasaun voicemail",
+    "voicemailGreetingText": "Testu saudasaun fallback",
+    "voicemailGreetingTextDesc": "Uza bainhira saudasaun áudio ita nian la disponivel.",
+    "voicemailGreetingUpload": "Upload saudasaun voicemail",
+    "voicemailPreviewGreeting": "Previa saudasaun",
+    "voicemailGreetingUploaded": "Saudasaun voicemail upload ho susesu",
+    "voicemailGreetingUploadError": "Falha upload saudasaun voicemail",
+    "voicemailNote": "Voicemail husi ita nia númeru Chatforia sei armazena iha ita nia inbox Voicemail. Ita bele liga transkripsaun no forwarding iha planu ne'ebé suporta.",
+    "portHint": "Hakarak mantein ita nia númeru atual? Ita bele porta ba Chatforia Wireless.",
+    "wireless": {
+      "manage": "Jere wireless"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Hau dadus móvel ba Chatforia bainhira ita la iha Wi-Fi.",
+      "cta": "Hau eSIM / Haree QR"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Jere ita nia planu móvel Chatforia, númeru sira, forwarding, no porta númeru.",
+    "options": {
+      "heading": "Hili oinsá ita hakarak uza Chatforia",
+      "subheading": "Ita bele hau númeru Chatforia foun, ka lori ita nia númeru atual husi operadora seluk.",
+      "newNumber": "Hau númeru Chatforia foun",
+      "portNumber": "Porta ita nia númeru atual ba Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Porta ita nia númeru atual",
+      "subheading": "Muda ita nia númeru telefone atual husi ita nia operadora ba Chatforia. Certifika detalhe sira kombina ho ita nia konta operadora exatamente atu evita atrasu.",
+      "phoneNumberLabel": "Númeru telefone atu porta",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Operadora atual",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
+      "accountNumberLabel": "Númeru konta",
+      "pinLabel": "PIN porta / password",
+      "fullNameLabel": "Naran kompletu iha konta",
+      "address1Label": "Linha endereçu 1",
+      "address2Label": "Linha endereçu 2 (opsional)",
+      "cityLabel": "Sidade",
+      "stateLabel": "Estado / Provínsia",
+      "postalCodeLabel": "Kódigu postal",
+      "countryLabel": "País",
+      "submitButton": "Submete pedido porta",
+      "success": "Pedido porta submete ona! Ami sei atualiza ita.",
+      "genericError": "Buat ida sala."
+    },
+    "status": {
+      "heading": "Status porta",
+      "subheading": "Akompaña status husi ita nia pedido porta númeru.",
+      "loading": "Karrega…",
+      "loadError": "Falha karrega pedido porta sira.",
+      "none": "Seidauk iha atividade porta.",
+      "pending": "Pendente revista",
+      "submitted": "Submete ba operadora",
+      "inProgress": "Iha prosesu",
+      "completed": "Kompleta",
+      "failed": "Falha",
+      "canceled": "Kansela",
+      "created": "Kria:",
+      "scheduled": "Agenda:",
+      "completedAt": "Kompleta:"
+    },
+    "dataLow": "Ita nia dadus la'o ki'ik hela.",
+    "topUp": "Top up agora",
+    "expiresIn": "Desappears iha {{days}} loron",
+    "exhausted": "Ita nia dadus la'o hotu. Haru pak dadus foun atu kontinua uza dadus móvel.",
+    "buyPack": "Haru pak dadus",
+    "esimPackLabel": "pak eSIM"
+  },
+  "family": {
+    "title": "Família",
+    "loading": "Karrega detalhe família ita nian…",
+    "error": {
+      "load": "Falha karrega detalhe família.",
+      "invite": "La bele kria konvite. Certifika ita mak dono família no tenta fali.",
+      "checkout": "La bele hahú checkout ba planu Família. Favor tenta fali."
+    },
+    "billing": {
+      "myPlanTitle": "Ita nia planu",
+      "myPlanError": "La bele karrega ita nia planu.",
+      "myPlanLoading": "Karrega ita nia planu…",
+      "currentPlan": "Planu atual",
+      "renewsAt": "Renova iha",
+      "freePlanCopy": "Ita iha planu gratis. Upgrade atu desbloqueia fitur liu tan.",
+      "upgradeCta": "Upgrade planu",
+      "changePlanCta": "Troka planu",
+      "manageBilling": "Jere billing",
+      "portalError": "La bele abre portal billing agora.",
+      "cancelNow": "Kansela agora",
+      "cancelNowHelp": "Ita bele jere ka kansela subskrisaun iha portal billing, ka kansela imediatamente iha leten.",
+      "cancelNowConfirm": "Ita sigur hakarak kansela ita nia planu imediatamente? Ne'e la bele undo.",
+      "cancelNowError": "La bele kansela ita nia planu agora. Favor tenta fali ka uza Jere billing."
+    },
+    "none": {
+      "title": "Seidauk setup família",
+      "body": "Atu kria Família Chatforia no pool dadus fahe, hahú planu Família.",
+      "goUpgrade": "Hahú planu Família",
+      "viewPlans": "Haree planu hotu-hotu"
+    },
+    "group": {
+      "defaultName": "Ita nia Família Chatforia",
+      "role": "Ita nia papel: {{role}}"
+    },
+    "role": {
+      "owner": "Dono",
+      "member": "Membru"
+    },
+    "data": {
+      "heading": "Pool dadus fahe",
+      "caption": "Membru hotu-hotu fahe pool ne'e. Ami sei aviza ita bainhira ita hakatun limitu."
+    },
+    "members": {
+      "title": "Membru família",
+      "name": "Naran",
+      "role": "Papel",
+      "usage": "Uza",
+      "limit": "Limite",
+      "unlimited": "La iha limite espesífiku",
+      "inviteCta": "Konvida membru"
+    },
+    "invite": {
+      "title": "Konvida membru foun",
+      "body": "Haruka email ka link atu konvida ema ba ita nia pool dadus família fahe.",
+      "emailLabel": "Email (opsional)",
+      "emailPlaceholder": "amigu@example.com",
+      "create": "Kria konvite",
+      "linkLabel": "Link konvite",
+      "copyAria": "Kopia link konvite",
+      "expiryHint": "Link ne'e desappears depois dia balun. Ita bele sempre kria foun."
+    },
+    "join": {
+      "title": "Hamutuk família",
+      "body": "Ita simu konvite atu hamutuk Família Chatforia no fahe sira nia pool dadus.",
+      "cta": "Aseita no hamutuk família",
+      "ctaLogin": "Sign in no hamutuk família",
+      "success": "Ita hamutuk família ne'e. Ita agora fahe sira nia pool dadus.",
+      "goFamily": "Bá ba dashboard família",
+      "error": "La bele hatama ita ba família ne'e. Konvite bele inválidu ka desappears."
+    }
+  },
+  "premium": {
+    "heading": "Bá Premium",
+    "description": "Desbloqueia fitur poder & hasai anúnsiu.",
+    "cta": "Upgrade",
+    "upgrade": "Upgrade",
+    "upgradeAria": "Upgrade ba Chatforia Premium"
+  },
+  "upgrade": {
+    "title": "Upgrade",
+    "titleLoggedIn": "Upgrade",
+    "titlePublic": "Presu",
+    "h1": "Presu & Planu Chatforia",
+    "h1Subtitle": "Hahú ho planu gratis, ad-suporta. Bá ad-free ho Plus, ka desbloqueia fitur poder kompletu ho Premium.",
+    "subtitle": "Hili planu app, hatama pak dadus ba an rasik, ka fahe dadus ho família — hotu husi fatin ida.",
+    "subtitle.app": "Hahú ho planu gratis, ad-suporta. Bá ad-free ho Plus, ka desbloqueia fitur poder kompletu ho Premium.",
+    "subtitle.mobile": "Hatama dadus eSIM globál atu Chatforia kontinua funsiona maski ita la iha Wi-Fi.",
+    "subtitle.family": "Kria pool dadus fahe ba família no jere uza ema hotu husi fatin ida.",
+    "perMonth": "mês",
+    "perYear": "tinan",
+    "goPremium": "Bá Premium",
+    "benefitsLine": "Desbloqueia fitur poder & hasai anúnsiu.",
+    "ctaText": "Upgrade",
+    "aria": "Upgrade ba Chatforia Premium",
+    "toggle": {
+      "monthly": "Mensál",
+      "annual": "Anuál (Poupança 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Subskrisaun sei remata",
+      "body": "Ita sei volta ba Free iha",
+      "keepPlanCta": "Mantén {{plan}}",
+      "manageBillingCta": "Jere billing"
+    },
+    "billing": {
+      "opening": "Abre…",
+      "manage": "Jere Billing"
+    },
+    "checkout": {
+      "redirecting": "Redireksiona…"
+    },
+    "auth": {
+      "continue": "Kontinua ba sign in",
+      "createAccount": "Kria konta",
+      "signIn": "Sign in"
+    },
+    "cta": {
+      "aria": "Hili planu",
+      "getPlus": "Upgrade ba Plus",
+      "upgradeMonthly": "Upgrade Mensál",
+      "upgradeAnnual": "Upgrade Anuál"
+    },
+    "section": {
+      "app": "Planu app",
+      "mobile": "Móvel (eSIM)",
+      "family": "Planu família"
+    },
+    "plans": {
+      "free": {
+        "title": "Gratis",
+        "price": "$0",
+        "desc": "Hahú mensajen gratis. Ideal se ita de'it teste Chatforia.",
+        "features": {
+          "chat": "Konversasaun 1:1 no grupu iha tempu real, plus chamada voz no vídeo",
+          "media": "Fahe foto, mensajen voz, no vídeo badak",
+          "ai": "Resposta matenek AI no tradusaun instant (fair use)",
+          "disappearing": "Mensajen ne'ebé desappears no kontrol privasi báziku",
+          "ads": "Gratis eternu ho anúnsiu iha app"
+        },
+        "ctaCurrent": "Planu atual",
+        "ctaManage": "Jere iha billing",
+        "ctaPublic": "Hahú — kontinua ba sign in",
+        "aria": "Planu Gratis"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Hotu essensial, la iha anúnsiu. Di'ak ba mensajen no chamada loron-loron.",
+        "features": {
+          "allFree": "Hotu iha Gratis, la iha anúnsiu",
+          "forwarding": "Forward chamada no mensajen ba ita nia númeru telefone real",
+          "history": "Istória mensajen naruk liu (to 6 fulan)",
+          "support": "Suporte lalais bainhira buat ida sala"
+        },
+        "badge": "Popular",
+        "cta": "Bá Ad-Free",
+        "ctaPublic": "Hau Plus — kontinua ba sign in",
+        "aria": "Upgrade ba Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Mensál)",
+        "price": "$11.99",
+        "desc": "Esperiénsia Chatforia kompletu: ferramenta poder AI, kustomizasaun, no suporte prioritáriu.",
+        "features": {
+          "plusAll": "Hotu iha Plus",
+          "themes": "Desbloqueia tema kór premium hotu no kustomizasaun app",
+          "ai": "Ferramenta poder AI de'it Premium ba reescreve, resposta matenek, no sumáriu",
+          "support": "Suporte prioritáriu bainhira ita presiza ajuda liu"
+        },
+        "badge": "Rekomenda",
+        "cta": "Upgrade (Mensál)",
+        "ctaPublic": "Desbloqueia Premium — kontinua ba sign in",
+        "aria": "Upgrade ba Premium Mensál"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Anuál)",
+        "price": "$99",
+        "desc": "Poupança liu bainhira paga anuál — inklui tema kór ekstra, ferramenta AI, no suporte prioritáriu.",
+        "features": {
+          "allPremium": "Hotu iha Premium Mensál — inklui tema kór ekstra",
+          "annualBilling": "Paga ida de'it ba tinan",
+          "save25": "Poupança kira-kira 30% kompara ho paga mensál",
+          "bestFor": "Di'ak liu ba uza poder, traballador remoto, no viajadór boot"
+        },
+        "badge": "Poupança 30%",
+        "cta": "Upgrade (Anuál)",
+        "ctaPublic": "Poupança 30% ho anuál — kontinua ba sign in",
+        "aria": "Upgrade ba Premium Anuál",
+        "disclaimer": "Paga na'ok. Kansela iha oras ne'e. La iha taxa eskondidu."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Gratis",
+      "freeDesc": "Hahú mensajen gratis.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Esperiénsia ad-free ne'ebé baratu liu.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Fitur kompletu, ringtones, no ferramenta poder AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Poupança liu bainhira paga anuál.",
+      "annualDisclaimer": "Paga na'ok. Kansela iha oras ne'e. La iha taxa eskondidu."
+    },
+    "mobile": {
+      "title": "Chatforia Móvel (pak dadus eSIM)",
+      "subtitle": "Hatama dadus globál atu mantén Chatforia funsiona maski la iha Wi-Fi. Presu adapta automaticamente bazeia iha ita nia país no moeda.",
+      "subtitle.detail": "Hili pak dadus globál ida de'it atu Chatforia kontinua funsiona bainhira ita viaja ka la iha Wi-Fi.",
+      "scope": {
+        "local": "Lokál",
+        "europe": "Europa",
+        "global": "Globál"
+      },
+      "note": "Ami la venda pak dadus iha leten 3 GB.",
+      "localEquals": "Lokál = {{country}}",
+      "localEqualsFallback": "Lokál = ita nia país atual",
+      "perPack": "/ pak",
+      "cta": "Hau pak dadus ne'e",
+      "ctaPublic": "Hau pak dadus ne'e",
+      "checkout": {
+        "redirecting": "Redireksiona…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Dadus lalais ba uza boot",
+          "throttle": "Velosidade bele kalma depois uza boot",
+          "coverage": "Kobertura fiável",
+          "instant": "Ativasaun eSIM instant",
+          "noContract": "Pak ida de'it, la iha kontratu"
+        }
+      },
+      "disclaimer": {
+        "devices": "Pak dadus eSIM presiza aparelu ne'ebé kompativel ho eSIM no desbloqueia. Disponibilidade varia bazeia iha modelu telefone, operadora, no país. Kobertura no velosidade varia bazeia iha rejiaun."
+      },
+      "small": {
+        "title": "Pak hahú",
+        "desc": "Inklui 3 GB dadus lalais — ideal ba mensajen ki'ik no chamada okasional.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Viajen badak, mensajen ki'ik, no chamada okasional",
+        "aria": "Haru pak dadus eSIM Starter"
+      },
+      "medium": {
+        "title": "Pak viajadór",
+        "desc": "Inklui 5 GB dadus lalais ba viajen, komuta, no chamada VoIP regular.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Viajen fim de semana, chamada VoIP regular, no mapa",
+        "aria": "Haru pak dadus eSIM Traveler"
+      },
+      "large": {
+        "title": "Pak poder",
+        "desc": "Inklui 10 GB dadus lalais ba konversasaun boot, chamada, no vídeo iha rede Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Konversasaun boot, chamada, vídeo, no uza hotspot",
+        "aria": "Haru pak dadus eSIM Power user"
+      },
+      "compare": {
+        "title": "Kompara pak dadus eSIM",
+        "col": {
+          "pack": "Pak",
+          "data": "Dadus inklui",
+          "bestFor": "Di'ak ba"
+        },
+        "disclaimer": "Uza dadus atual depende oinsá ita uza Chatforia (voz, vídeo, média, no app seluk iha telefone)."
+      }
+    },
+    "family": {
+      "title": "Família Chatforia (dadus fahe)",
+      "subtitle": "Fahe pool dadus ida de'it iha família. Fatura ida, konta Chatforia barak, kobertura globál.",
+      "perPack": "/ pak",
+      "small": {
+        "title": "Família Ki'ik",
+        "desc": "Inklui 20 GB dadus lalais fahe — di'ak ba 2–3 uza ki'ik.",
+        "price": "$29.99",
+        "aria": "Haru pak Família Ki'ik"
+      },
+      "medium": {
+        "title": "Família Médiu",
+        "desc": "Inklui 40 GB dadus lalais fahe — ideal ba 3–5 membru ativu.",
+        "price": "$49.99",
+        "aria": "Haru pak Família Médiu"
+      },
+      "large": {
+        "title": "Família Boot",
+        "desc": "Inklui 80 GB dadus lalais fahe — ba família poder ne'ebé sempre online.",
+        "price": "$84.99",
+        "aria": "Haru pak Família Boot"
+      },
+      "feature": {
+        "shared": "Pool dadus fahe ba ita nia família",
+        "members": "Konvida to 4 membru adisional",
+        "membersMore": "Di'ak ba 3–5 membru ativu",
+        "manage": "Jere limite ba membru ida-idak",
+        "topUp": "Hatama pak liu tan iha oras ne'e",
+        "bestValue": "Valor di'ak liu ba GB",
+        "fairUse": "Subjitu ba polítika fair-use no limite lokál"
+      },
+      "disclaimer": "Pak família kria ka top up pool dadus fahe. Ita bele konvida no hasai membru iha oras ne'e.",
+      "footnote": "Pak família fahe pool dadus ida de'it iha konta Chatforia ne'ebé liga. Disponibilidade no limite depende iha ita nia país no regulasaun lokál."
+    },
+    "why": {
+      "title": "Tán ema sira troka ba Chatforia",
+      "subtitle": "Chatforia fó númeru telefone real, tradusaun matenek, no dalan klaru atu bá ad-free bainhira ita prontu.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Anúnsiu lalais liu iha Gratis, upgrade Plus simples bainhira ita prontu, no ferramenta TextNow la iha."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App modernu, design globál-primeiru, no tradusaun iha laran iha fatin forward chamada estilo antigu."
+        },
+        "messengers": {
+          "title": "Chatforia vs app konversasaun",
+          "body": "Hakerek númeru telefone real — la de'it ba uza app seluk — ho AI no status iha laran. Di'ak se ita mai husi app hanesan TextFree ka TextMe."
+        }
+      },
+      "tableTitle": "Oinsá Chatforia kompara",
+      "col": {
+        "feature": "Fitur"
+      },
+      "feature": {
+        "freeNumber": "Númeru telefone gratis",
+        "translation": "Auto-tradusaun iha laran",
+        "aiTools": "Ferramenta AI (reescreve, resposta, sumáriu)",
+        "ads": "Opsaun ad-free",
+        "history": "Istória mensajen"
+      },
+      "yes": "Sim",
+      "no": "Lae",
+      "yesPremium": "Sim (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Limitadu",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "To 12+ fulan",
+        "textnow": "Varia bazeia konta",
+        "voice": "Limitadu / bazeia konta"
+      },
+      "disclaimer": "Komparasaun bazeia iha informasaun públiku no bele muda iha tempu. App hakerek gratis seluk hanesan TextFree ka TextMe geralmente hanesan ho TextNow."
+    },
+    "faq": {
+      "title": "FAQ Presu & planu",
+      "free": {
+        "q": "Planu Gratis mak gratis duni?",
+        "a": "Sim. Planu Gratis inklui númeru Chatforia, chamada, no mensajen ho anúnsiu. Ita bele mantein iha Gratis hanesan ita hakarak, ka upgrade atu hasai anúnsiu no desbloqueia fitur liu tan."
+      },
+      "plusPremium": {
+        "q": "Saida mak diferensa entre Plus no Premium?",
+        "a": "Plus hasai anúnsiu no estende istória mensajen — perfetu ba uza loron-loron. Premium hatama kustomizasaun ekstra, ferramenta AI ba reescreve no resposta, no suporte prioritáriu ba uza boot."
+      },
+      "esim": {
+        "q": "Pak dadus eSIM funsiona iha ne'ebé?",
+        "a": "Chatforia Móvel uza kobertura eSIM globál. Disponibilidade depende iha ita nia país no aparelu. Ita sei haree opsaun ne'ebé suporta durante ativasaun iha laran app."
+      },
+      "cancel": {
+        "q": "Ita bele kansela ka troka planu iha oras ne'e?",
+        "a": "Sim. Ita bele jere ka kansela subskrisaun husi pájina billing iha app. Mudansa sei efetivu iha remata períodu billing atual."
+      },
+      "family": {
+        "q": "Oinsá pak Família funsiona?",
+        "a": "Pak Família kria pool dadus fahe iha konta Chatforia barak. Ema ida paga fatura, no ita bele konvida ka hasai membru no hatama limite ba ema ida-idak."
+      }
+    },
+    "gettingStarted": {
+      "title": "Hahú",
+      "subtitle": "Foun ba Chatforia? Guia hahú lalais ne'e hatudu essensial sira atu ita bele produtivu iha minutu balun.",
+      "alert": {
+        "text": "Guia ne'e sei aumenta bainhira ami lansa fitur foun. Se buat ida lakon, hateten ba ami liu husi",
+        "contactLink": "Kontaktu Ami"
+      },
+      "section1": {
+        "title": "1) Kria ita nia konta",
+        "signup": "Sign up",
+        "or": "ka",
+        "login": "sign in",
+        "loginText": "ho ita nia konta ne'ebé iha ona.",
+        "prefsStart": "Hatama ita nia",
+        "prefsLink": "preferénsia",
+        "prefsRest": "(lian, resibu lee, tema)."
+      },
+      "section2": {
+        "title": "2) Hahú mensajen",
+        "item1": "Kria DM ka Grupu no hakerek ita nia mensajen primeiru.",
+        "item2": "Uza tradusaun instant atu konversa liu husi lian 100+.",
+        "item3": "Tenta mensajen ne'ebé desappears no resibu lee iha Perfil → Privasi."
+      },
+      "section3": {
+        "title": "3) Bá liu tan",
+        "item1": "Ita bele upgrade ba planu paga iha oras ne'e iha laran app.",
+        "item2": "Bainhira ita sign in ona, ita bele liga aparelu adisional no setup kopia enkriptadu husi Settings iha app."
+      },
+      "cta": {
+        "seePlans": "Haree planu sira",
+        "openSettings": "Abre settings"
+      }
+    },
+    "helpCenter": {
+      "title": "Sentru Ajuda",
+      "faq": {
+        "account": {
+          "q": "Oinsá ha'u kria ka rekupera ha'u nia konta?",
+          "a": "Download app ka uza web, hatu “Kria konta”, verifika ita nia email/telefone. Atu rekupera, uza “Esquece password”."
+        },
+        "privacy": {
+          "q": "Mensajen sira mak enkriptadu end-to-end?",
+          "a": "Sim. Mensajen no chamada sira enkriptadu end-to-end liu husi default. De'it ita no destinatáriu bele lee sira."
+        },
+        "translate": {
+          "q": "Oinsá tradusaun instant funsiona?",
+          "a": "Liga “Auto-tradusaun” iha Settings → Aparénsia & Lian. Ami tradus iha aparelu bainhira suporta, seluk liu husi API seguru ho metadadu mínimu."
+        },
+        "contact": {
+          "q": "Kontaktu suporte",
+          "a": "Kontaktu ami iha support@chatforia.com. Inklui screenshot no versão app ita nian."
+        }
+      }
+    },
+    "contact": {
+      "title": "Kontaktu Ami",
+      "successMsg": "Obrigadu—equipa ami sei responde liu husi email.",
+      "errorSend": "La bele haruka. Favor email support@chatforia.com.",
+      "form": {
+        "nameLabel": "Naran",
+        "emailLabel": "Email",
+        "messageLabel": "Mensajen",
+        "sendCta": "Haruka"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Polítika Privasi",
+      "lastUpdated": "Atualiza liu husi:",
+      "intro": {
+        "body": "Polítika Privasi ne'e esplika oinsá Chatforia (“ami”) koleta, uza, no fahe informasaun bainhira ita uza ami nia app no servisu sira. Ami design Chatforia atu minimiza dadus ne'ebé ami bele asesu."
+      },
+      "infoWeCollect": {
+        "title": "Informasaun ne'ebé ami koleta",
+        "account": "Informasaun konta (ex., email/telefone) atu kria no seguru ita nia konta.",
+        "encrypted": "Konteúdu enkriptadu (mensajen/chamada) mak enkriptadu end-to-end; ami la bele lee.",
+        "diagnostics": "Diagnóstiku/uza hanesan log krash, tipu aparelu, ka analítika korsaun atu melhora performansa."
+      },
+      "sms": {
+        "title": "Númeru telefone móvel no SMS",
+        "body": "Se ita hili fó númeru telefone móvel, ami uza nia atu liga fitur hanesan verifikasaun konta, alerta login, no mensajen uza ba uza liu husi SMS bainhira suporta. Ami bele haruka mensajen SMS transasional relasiona ho ita nia konta no atividade iha Chatforia. Ita bele opt-out husi simu mensajen SMS iha oras ne'e liu husi responde ho palavra opt-out ne'ebé suporta (hanesan “STOP”) ka troka preferénsia notifikasaun iha app. Ami la venda ita nia númeru telefone ka uza nia ba marketing la relasiona.",
+        "newText": "Testu foun",
+        "enterRecipient": "Hatama naran ka númeru",
+        "typeMessage": "Hakerek mensajen…",
+        "addRecipient": "Hatama destinatáriu iha leten atu hahú…"
+      },
+      "howWeUse": {
+        "title": "Oinsá ami uza informasaun",
+        "provide": "Fornese no seguru servisu (auth, deteksaun spam/abusu).",
+        "improve": "Melhora fitur (kualidade tradusaun, fiabilidade).",
+        "legal": "Kompleta obrigasaun legál."
+      },
+      "sharing": {
+        "title": "Fahe",
+        "body": "Ami la venda dadus pesuál. Ami bele fahe dadus limitadu ho prosesador (ex., notifikasaun push, analítika) liu husi kontratu estritu."
+      },
+      "rights": {
+        "title": "Ita nia direitu sira",
+        "body": "Bazeia iha ita nia rejiaun (ex., GDPR/UK GDPR/CPRA), ita bele pedidu asesu, korrisaun, hasai, ka opt-out husi prosesamentu ida-idak. Kontaktu: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Retensaun dadus & seguransa",
+        "body": "Ami mantein de'it buat ne'ebé presiza atu opera servisu no aplika seguransa padraun industri. Konteúdu E2E la bele dekrípta husi ami."
+      },
+      "children": {
+        "title": "Labarik",
+        "body": "Chatforia la dirije ba labarik iha leten 13 (ka hanesan presiza husi ita nia lei lokál)."
+      },
+      "changes": {
+        "title": "Mudansa",
+        "body": "Ami sei posta atualizasaun iha ne'e no reviza data “Atualiza liu husi”."
+      },
+      "contact": {
+        "title": "Kontaktu",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Termu Servisu",
+      "lastUpdated": "Atualiza liu husi:",
+      "intro": {
+        "body": "Bainhira uza Chatforia ita konkorda ho Termu ne'e. Se ita la konkorda, la uza servisu."
+      },
+      "accounts": {
+        "title": "Konta sira",
+        "itemAccurateInfo": "Fó informasaun akuradu no mantén kredensial seguru.",
+        "itemResponsibility": "Ita responsavel ba atividade iha ita nia konta."
+      },
+      "acceptableUse": {
+        "title": "Uza ne'ebé akseptavel",
+        "itemNoAbuse": "La iha konteúdu ilegál, abusivu, ka infringe; la spam ka abusu automátiku.",
+        "itemSuspend": "Ami bele suspende/termina ba violasaun."
+      },
+      "sms": {
+        "title": "Komunikasaun SMS",
+        "body": "Se ita fó númeru telefone móvel, ita konkorda katak Chatforia bele haruka ita mensajen SMS relasiona ho ita nia konta no uza servisu, hanesan alerta login, notifikasaun seguransa, no mensajen relasiona ho konversasaun ne'ebé ita hahú ka partisipa. Ami la uza SMS ba mensajen promosional ka marketing la ho ita nia konsentimentu explísitu. Taxa mensajen no dadus padraun bele aplika. Ita bele opt-out husi mensajen SMS iha oras ne'e liu husi responde ho palavra opt-out ne'ebé suporta (exemplu, “STOP”) ka atualiza settings notifikasaun iha app."
+      },
+      "yourContent": {
+        "title": "Ita nia konteúdu",
+        "body": "Ita mantein direitu ba ita nia konteúdu. Ita fó ami direitu ne'ebé presiza atu opera servisu (ex., roteamentu, armazenamentu, tradusaun)."
+      },
+      "disclaimer": {
+        "title": "Avisu & responsabilidade",
+        "body": "Servisu fornese “hanesan” la iha garantia. To grau ne'ebé lei permite, Chatforia la responsável ba danos indiretu ka konsekuensial."
+      },
+      "changes": {
+        "title": "Mudansa",
+        "body": "Ami bele atualiza termu ne'e; kontinua uza depois mudansa signifika akseptasaun."
+      },
+      "contact": {
+        "title": "Kontaktu",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "La Venda ka Fahe Ha'u nia Informasaun Pesuál",
+      "body": "Chatforia la venda informasaun pesuál. Rezidente Kalifórnia bele submete pedido liu husi CPRA liu husi butaun iha leten.",
+      "cta": "Submete pedido"
+    },
+    "cookies": {
+      "title": "Settings Cookie",
+      "body": "Chatforia uza cookie mínimu (ex., sesaun, seguransa). Ami la uza cookie anúnsiu husi partidu terceira. Jere cookie liu husi ita nia browser nia settings."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "La bele karrega status númeru telefone.",
+      "lock": "Trava",
+      "noNumberAssigned": "La iha númeru asignadu. Hili númeru ida liu husi kódigu área atu hahú hakerek mensajen.",
+      "pickNumber": "Hili númeru",
+      "phoneNumber": "Númeru telefone"
+    },
+    "startChatModal": {
+      "title": "Hahú konversasaun",
+      "quickPicker": "Selektor lalais",
+      "to": "Ba",
+      "nameOrUsername": "Hakerek naran, naran uza",
+      "nameUsernamePhoneEmail": "Hakerek naran, naran uza, telefone, ka email…",
+      "startWithSelected": "Hahú konversasaun ho ne'ebé hili",
+      "searchByUsernameOrPhone": "Buka liu husi naran uza ka telefone",
+      "search": "Buka",
+      "searchPrompt": "Hakerek naran uza ka telefone no hatu Buka.",
+      "pickFromContacts": "Ka hili husi kontatu sira",
+      "addContact": "Hatama Kontatu",
+      "show": "Haree",
+      "add": "Hatama",
+      "close": "Taka",
+      "selectedCount": "{{count}} hili ona",
+      "pickAtLeastOne": "Hili destinatáriu ida de'it.",
+      "saveContactsHint": "Entrada telefone/email sei disponivel depois ita salva sira hanesan kontatu.",
+      "failedBulkStart": "Falha hahú konversasaun ho destinatáriu ne'ebé hili.",
+      "noResults": "La iha rezultadu",
+      "mode": "Modu",
+      "group": "Grupu",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Naran grupu (opsional)",
+      "firstMessageOptional": "Mensajen primeiru (opsional maibé rekomenda)",
+      "createGroup": "Kria grupu",
+      "sendBroadcast": "Haruka broadcast"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "Ita iha Free — ton premium hatudu maibé trava. Upgrade atu desbloqueia hotu.",
+      "preview": "Previa",
+      "resetToDefaults": "Reset ba default",
+      "notificationSounds": "Sons Notifikasaun",
+      "messageTone": "Ton mensajen",
+      "default": "Default",
+      "vibrate": "Vibra",
+      "dreamer": "Dreamer",
+      "notify": "Notify",
+      "pop": "Pop",
+      "pulsatingSound": "Sons Pulsante",
+      "textMessage": "Mensajen Testu",
+      "xylophone": "Xylophone",
+      "classic": "Klasiku",
+      "urgency": "Urjénsia",
+      "bells": "Sino",
+      "chimes": "Chimes",
+      "digitalPhone": "Telefone Dijital",
+      "melodic": "Melódiku",
+      "organNotes": "Nota Órgaun",
+      "soundReality": "Realidade Sons",
+      "street": "Rua",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Fitur ne'e presiza planu Premium."
+    },
+    "aiSettings": {
+      "title": "Settings AI",
+      "controlIntro": "Kontrol tradusaun, resposta matenek, no resposta auto ForiaBot.",
+      "save": "Salva Settings AI",
+      "autoTranslateIncoming": "Auto-tradusaun mensajen tama",
+      "showOriginalAlongside": "Haree testu orijinal hamutuk ho tradusaun",
+      "enableSmartReplies": "Liga Resposta Matenek",
+      "smartRepliesHint": "Haruka mensajen ne'ebé simu liu tan (sanitiza) ba AI atu sujere resposta lalais.",
+      "maskProfanity": "Maska profanidade iha sujestaun AI",
+      "maskProfanityHint": "Bainhira liga, sujestaun husi AI sei maska palavra ne'ebé marka",
+      "foriaBot": "ForiaBot Resposta Auto",
+      "enableAutoReply": "Liga resposta auto bainhira ha'u okupadu",
+      "autoReplyMode": "Modu resposta auto",
+      "cooldownSeconds": "Cooldown (segundu)",
+      "off": "Desliga",
+      "on": "Ligadu",
+      "signature": "Asinatura",
+      "autoReply": "Resposta auto",
+      "activeUntilOptional": "Ativu to (opsional)",
+      "saved": "Preferénsia AI salva ona",
+      "saveFailed": "Falha salva settings AI",
+      "translateOff": "Desliga",
+      "translateTagged": "De'it bainhira @translated ka tagged",
+      "translateAll": "Tradusaun mensajen tama hotu-hotu",
+      "modeDm": "De'it konversasaun 1:1",
+      "modeMention": "De'it bainhira ha'u @mentioned",
+      "modeAll": "Mensajen tama hotu-hotu"
+    },
+    "accessibilitySettings": {
+      "title": "Aksesibilidade & Alerta",
+      "accessibility": "Aksesibilidade",
+      "accessibilityDesc": "Opsaun atu halo Chatforia di'ak liu atu uza la presiza sons.",
+      "interfaceFontSize": "Tamanho letra interface",
+      "interfaceFontSizeHelp": "Hahú iha tamanho normal. Aumenta se ita preferi testu boot liu iha settings aksesibilidade.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Notifikasaun",
+      "notificationsDesc": "Alerta vizuál ba mensajen & chamada\nHaree banner no pisca títulu atu la lakon atividade.",
+      "vibrateOnNew": "Vibra iha mensajen foun (bainhira suporta)\nTrigger vibra aparelu ho notifikasaun.",
+      "flashOnCall": "Flash ekrán iha chamada tama\nFlash kláru badak bainhira chamada toka.",
+      "liveCaptions": "Legenda live (chamada)",
+      "captionFontSize": "Tamanho letra legenda",
+      "captionBackground": "Fundo legenda",
+      "light": "klaru",
+      "dark": "nakukun",
+      "transparent": "transparente",
+      "voiceNotes": "Nota voz",
+      "autoTranscribeVoiceNotes": "Auto-transkribe nota voz",
+      "autoTranscribeVoiceNotesDesc": "Anexu transkripsaun ba mensajen áudio ne'ebé ita simu.",
+      "changesSavedInstantly": "Mudansa salva instantaneamente.",
+      "loadFailed": "Falha karrega settings",
+      "visualAlerts": "Alerta vizuál ba mensajen & chamada",
+      "visualAlertsDesc": "Haree banner no pisca títulu atu la lakon atividade.",
+      "vibrateOnNewShort": "Vibra iha mensajen foun (bainhira suporta)",
+      "vibrateOnNewDesc": "Trigger vibra aparelu ho notifikasaun.",
+      "flashOnCallShort": "Flash ekrán iha chamada tama",
+      "flashOnCallDesc": "Flash kláru badak bainhira chamada toka."
+    },
+    "privacySection": {
+      "strictE2EE": "Enkripsaun end-to-end estritu",
+      "ciphertextOnlyNote": "Armazena de'it ciphertext iha servidor. Desliga AI/Tradusaun no previa moderasaun."
+    },
+    "linkedDevicesPanel": {
+      "title": "Aparelu ne'ebé liga",
+      "noneFound": "La hetan aparelu ne'ebé liga.",
+      "refresh": "Atualiza"
+    },
+    "help": {
+      "title": "Ajuda",
+      "howCanWeHelp": "Oinsá ami bele ajuda?",
+      "helpCenter": "Sentru Ajuda",
+      "contactUs": "Kontaktu ami",
+      "quickTopics": "Topiku lalais",
+      "searchExamples": "Tenta buka “tradusaun”, “kopia”, ka “privasi”.",
+      "cantLogin": "La bele sign in",
+      "paymentsBilling": "Pagamento/billing",
+      "reportAbuse": "Relata abusu",
+      "searchHelpArticles": "Buka artigu ajuda",
+      "search": "Buka"
+    },
+    "peoplePage": {
+      "people": "Ema sira",
+      "search": "Buka",
+      "searchPlaceholder": "Buka liu husi alias, naran, naran uza, ka telefone",
+      "filterSaved": "Filtra kontatu ne'ebé salva",
+      "noContactsFound": "La iha kontatu hetan",
+      "quickStart": "Hahú lalais",
+      "quickStartDesc": "Dalán badak balun atu hahú.",
+      "importContacts": "Importa ita nia kontatu sira",
+      "add": "Hatama",
+      "focusSearch": "Fokus Buka",
+      "import": "Importa",
+      "findOrAdd": "Buka ka hatama ema",
+      "searchByPhoneOrUsername": "Buka liu husi telefone / naran uza",
+      "inviteFriends": "Konvida amigu sira",
+      "inviteDesc": "Fahe ita nia link konvite atu hahú konversasaun instantaneamente.",
+      "getTheApp": "Hau app",
+      "getTheAppDesc": "Mantén kontaktu iha dalan ho Chatforia ba iOS no Android.",
+      "download": "Download",
+      "syncTip": "Dika: Ita nia mensajen sira mantein sinkroniza liu husi web no móvel."
+    },
+    "randomChat": {
+      "title": "Konversasaun Aleatóriu",
+      "description": "Enkontra ema foun instantaneamente. Ami sei pareia ita no abre sala konversasaun temporáriu. Konversa anonimamente primeiru. Hatama Amigu depois se sente di'ak.",
+      "findMatch": "Buka pareia ba ha'u",
+      "chatWithForia": "Konversa ho Foria",
+      "chatWithForiaBot": "Konversa ho ForiaBot",
+      "cancel": "Kansela",
+      "close": "Taka",
+      "searching": "Buka hela…",
+      "finding": "Buka hela…",
+      "looking": "Buka ema…",
+      "startingForia": "Hahú konversasaun ho Foria…",
+      "partnerDisconnected": "Ita nia pareia desliga.",
+      "noPartner": "Seidauk hetan pareia.",
+      "connectedTo": "Konektadu ho {{name}}",
+      "connected": "Konektadu",
+      "idle": "Idle",
+      "partnerLeft": "Pareia sai.",
+      "stopped": "Para ona.",
+      "skip": "Skip",
+      "save": "Salva",
+      "saveGuard": "De'it konversasaun ema ba ema bele salva",
+      "youAreChattingWith": "Ita konversa ho {{name}}",
+      "bot": "BOT",
+      "leave": "Sai",
+      "sayHi": "Hateten olá 👋",
+      "you": "Ita",
+      "typeMessage": "Hakerek mensajen",
+      "send": "Haruka",
+      "partner": "Pareia",
+      "withRia": "Ho Ria",
+      "chatWithRia": "Konversa ho Ria",
+      "startingRia": "Hahú konversasaun ho Ria…",
+      "ageDisclaimer": "Ami de'it armazena faixa idade (la mak data nascimento exato). Ne'e uza atu mantén pareamentu Random Chat razoável. Atu pareia ho ema (la de'it RiaBot), hatama ita nia faixa idade iha Settings → Idade & Random Chat.",
+      "ageBandRequired": "Hatama ita nia faixa idade iha Perfil → Idade & Random Chat atu pareia ho ema.",
+      "ageBandCallout": "Atu pareia ho ema (la de'it RiaBot), hatama ita nia faixa idade iha Settings → Idade & Random Chat.",
+      "subtitle": "Enkontra ema foun instantaneamente, ka hili konversa ho Ria.",
+      "start": "Hahú konversasaun",
+      "matching": "Pareia hela…",
+      "setAge": "Hatama ita nia faixa idade iha Perfil → Idade & Random Chat atu pareia ho ema.",
+      "next": "Ema tuir mai",
+      "addFriend": "Hatama Amigu",
+      "requested": "Pedidu",
+      "messageRia": "Hakerek ba Ria…",
+      "messageMatch": "Hakerek ba ita nia pareia…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "ne'e",
+      "intro": "Olá ne'e 👋 Ha'u Ria. Saida mak iha ita nia hanoin?",
+      "greetings": {
+        "long1": "Olá {{name}} 👋 Ha'u iha ne'e. Saida mak iha ita nia hanoin?",
+        "long2": "Hi {{name}} 😊 Saida mak ita hakarak konversa hoje?",
+        "long3": "Olá {{name}}!! Ha'u rona hotu — saida mak iha?",
+        "long4": "Di'ak liu haree ita, {{name}} 👋 Saida mak iha ita nia hanoin hoje?",
+        "long5": "Olá {{name}} 😊 Hakarak desabafa, husu, ka de'it konversa?",
+        "long6": "Hi {{name}}!! Ha'u iha tempu — saida mak ita hakarak konversa?",
+        "short1": "Olá {{name}}, ha'u se iha ne'e. Saida mak iha?",
+        "short2": "Bem-vindu fali {{name}} 👋 Buat seluk mak ita hakarak hatama?",
+        "short3": "Fali fali, {{name}}? 😊 Hateten saida mak iha ita nia hanoin.",
+        "short4": "Olá {{name}} 👋 Prontu atu kontinua husi ne'ebé ita para?",
+        "short5": "Sim {{name}}? Ha'u rona 👂",
+        "short6": "Oh olá {{name}}!! Iha buat foun iha ita nia hanoin?"
+      },
+      "header": {
+        "openNav": "Abre menu navegasaun",
+        "closeNav": "Taka menu navegasaun",
+        "homeAria": "Uma Chatforia"
+      },
+      "login": {
+        "welcomeBack": "Bem-vindu fali",
+        "title": "Kontinua ba Chatforia",
+        "subtitleReturning": "Sign in ba ita nia konta Chatforia",
+        "subtitle": "Sign in ba ita nia konta Chatforia",
+        "google": "Kontinua ho Google",
+        "apple": "Kontinua ho Apple",
+        "googleUnavailable": "Sign-in Google la disponivel",
+        "appleUnavailable": "Sign-in Apple la disponivel",
+        "or": "ka",
+        "email": "Email",
+        "emailPh": "ita@example.com",
+        "usernameLabel": "Naran uza",
+        "usernamePh": "Ita nia naran uza",
+        "passwordLabel": "Password",
+        "passwordPh": "Ita nia password",
+        "keepSignedIn": "Mantén hamutuk sign-in",
+        "forgot": {
+          "title": "Esquece Password",
+          "helper": "Hatama email ne'ebé ita uza atu kria ita nia konta Chatforia no ami sei haruka link seguru atu reset ita nia password.",
+          "emailInvalid": "Favor hatama endereçu email válidu.",
+          "genericError": "La bele prosesa pedido. Favor tenta fali iha momentu.",
+          "sending": "Haruka link reset…",
+          "sendCta": "Haruka Link Reset",
+          "sentLabel": "Haruka ona!",
+          "sentHelper": "Se konta existe ho email ne'e, ami haruka link reset password. Bele tarda minutu balun. Certifika haree ita nia pasta spam ka promosaun.",
+          "previewDev": "Previa Email (Dev)",
+          "backToLogin": "Fali ba Sign In"
+        },
+        "submit": "Sign In",
+        "loggingIn": "Sign in hela…",
+        "newHere": "Foun iha ne'e? <link>Kria konta</link>",
+        "ssoUnavailable": "Single-sign-on la disponivel agora. Uza naran uza & password iha fatin.",
+        "error": {
+          "missing": "Favor hatama ita nia kredensial.",
+          "invalid": "Naran uza ka password inválidu",
+          "denied": "Aksesu nega.",
+          "unprocessable": "Pedido inválidu. Haree ita nia naran uza/email no password.",
+          "deviceLimit": "Limite aparelu atinji ba planu Gratis. Sign out iha aparelu seluk ka upgrade ba Premium atu liga aparelu liu tan.",
+          "premiumRequired": "Asaun ne'e presiza planu Premium."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Kompleta sign-in…"
+    },
+    "dialer": {
+      "title": "Chamada sira",
+      "subtitle": "Teclado & resente. (Se ita la uza PSTN, hahú chamada husi header konversasaun.)",
+      "enterNumberPh": "Hatama númeru",
+      "call": "Chamada",
+      "backspace": "Backspace",
+      "recents": "Resente",
+      "recentsEmpty": "Seidauk iha chamada resente.",
+      "enterNumber": "Hatama númeru",
+      "enterNumberAria": "Hatama númeru",
+      "key": "Xave {{d}}",
+      "noRecents": "Seidauk iha chamada resente."
+    },
+    "video": {
+      "title": "Vídeo",
+      "chooseType": "Hili tipu vídeo.",
+      "directTitle": "Vídeo Diretu",
+      "directDesc": "Chamada kamera 1:1 ho uza seluk.",
+      "directStart": "Hahú",
+      "roomsTitle": "Sala sira",
+      "roomsDesc": "Vídeo multi-parti uza naran sala fahe.",
+      "roomsIntro": "Hamutuk ka kria sala multi-parti.",
+      "roomNameLabel": "Naran sala",
+      "roomNamePh": "ex. team-standup",
+      "join": "Hamutuk",
+      "deeplinkTip": "Dika: ita bele deep link direta ba <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Vídeo",
+        "subtitle": "Hili tipu vídeo."
+      },
+      "direct": {
+        "title": "Vídeo Diretu",
+        "subtitle": "Hahú chamada vídeo 1:1 uza númeru telefone ka naran uza Chatforia.",
+        "desc": "Chamada kamera 1:1 ho uza seluk.",
+        "start": "Hahú",
+        "callBtn": "Chamada",
+        "callByPhone": {
+          "title": "Chamada liu husi telefone"
+        },
+        "phone": {
+          "placeholder": "Hatama telefone (ex., +1-555-123-4567)",
+          "aria": "Telefone atu hakerek"
+        },
+        "tipInvite": "Dika: Kola númeru no hakerek la presiza salva kontatu. Ami sei konvida uza la hamutuk liu husi link.",
+        "findUser": {
+          "title": "Buka uza"
+        },
+        "search": {
+          "placeholder": "Buka liu husi naran ka naran uza",
+          "aria": "Buka liu husi naran ka naran uza",
+          "btn": "Buka"
+        }
+      },
+      "rooms": {
+        "title": "Sala sira",
+        "subtitle": "Kria sala ka hamutuk sala ne'ebé iha liu husi hakerek naran hanesan.",
+        "desc": "Vídeo multi-parti uza naran sala fahe.",
+        "roomLabel": "Naran sala",
+        "roomPlaceholder": "ex. team-standup",
+        "roomAria": "Naran sala",
+        "joinCreate": "Hamutuk / Kria",
+        "tip": "Dika: fahe naran ne'e ho ema seluk, ka deep link ba <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Hahú chamada vídeo diretu 1:1.",
+      "findUserLabel": "Buka uza",
+      "findUserPh": "Buka liu husi naran ka naran uza",
+      "search": "Buka",
+      "call": "Chamada"
+    },
+    "phoneWarning": {
+      "title": "Ita nia númeru sei desappears lalais",
+      "body": "Ita nia númeru {{number}} sei liberta iha {{date}} maski la reativa.",
+      "button": "Mantén Ha'u nia Númeru"
+    }
+  },
   "support": {
     "helpFab": "Ajuda",
-    "openSupportAria": "Loke suporta",
-    "badge": "Suporta",
-    "heading": "Hau bele ajuda oinsa?",
+    "openSupportAria": "Abre suporte",
+    "badge": "Suporte",
+    "heading": "Oinsá ami bele ajuda?",
     "tabs": {
       "help": "Sentru Ajuda",
       "contact": "Kontaktu ami"
@@ -118,190 +1459,106 @@
     "searchPlaceholder": "Buka artigu ajuda…",
     "searchAria": "Buka ajuda",
     "searchBtn": "Buka",
-    "quickTopicsLabel": "Tópiku lalais",
+    "quickTopicsLabel": "Topiku lalais",
     "quickTopics": {
-      "login": "La bele tama",
-      "billing": "Pagementu / faktura",
-      "abuse": "Hatudu abuzu"
+      "login": "La bele sign in",
+      "billing": "Pagamento / billing",
+      "abuse": "Relata abusu"
     },
-    "trySearching": "Koko buka liafuan hanesan “translate”, “backups”, ka “privacy”.",
+    "trySearching": "Tenta buka “tradusaun”, “kopia”, ka “privasi”.",
     "article": "Artigu",
-    "openArticle": "Loke artigu",
-    "contactIntro": "Ami sei responde husi email. Favor hatama detális atu ajuda ami reproduz problema-ne'e.",
-    "topicAria": "Hili tópiku ida",
-    "messagePlaceholder": "Hakarak hakerek ita nia mensajen…",
+    "openArticle": "Abre artigu",
+    "contactIntro": "Ami sei haruka resposta liu husi email. Inklui detalhe atu ajuda ami reproduz problema.",
+    "topicAria": "Hili topiku",
+    "messagePlaceholder": "Hakerek ita nia mensajen…",
     "sendBtn": "Haruka",
-    "sent": "Mensajen haruka tiha. Ami sei responde husi email.",
-    "sendError": "La bele haruka. Favor email ba support@chatforia.com."
+    "sent": "Mensajen haruka ona. Ami sei responde liu husi email.",
+    "sendError": "La bele haruka. Email support@chatforia.com iha fatin."
   },
-
-  "chat": {
-    "selectPrompt": "Hili teks ida ka sala chat ida atu hahú ko'alia",
-    "newMessages": "Mensajen foun",
-    "typing": "{{name}} halo typing...",
-    "emptyTitle": "Ita nia mensajen",
-    "emptySubtitle": "Haruka mensajen ida atu hahú ko'alia.",
-    "startChatButton": "Haruka mensajen"
+  "helpCenter": {
+    "title": "Sentru Ajuda",
+    "faq": {
+      "account": {
+        "q": "Oinsá ha'u kria ka rekupera ha'u nia konta?",
+        "a": "Download app ka uza web, hatu “Kria konta”, verifika ita nia email/telefone. Atu rekupera, uza “Esquece password”."
+      },
+      "privacy": {
+        "q": "Mensajen sira mak enkriptadu end-to-end?",
+        "a": "Sim. Mensajen no chamada sira enkriptadu end-to-end liu husi default. De'it ita no destinatáriu bele lee sira."
+      },
+      "translate": {
+        "q": "Oinsá tradusaun instant funsiona?",
+        "a": "Liga “Auto-tradusaun” iha Settings → Aparénsia & Lian. Ami tradus iha aparelu bainhira suporta, seluk liu husi API seguru ho metadadu mínimu."
+      },
+      "contact": {
+        "q": "Kontaktu suporte",
+        "a": "Kontaktu ami iha support@chatforia.com. Inklui screenshot no versão app ita nian."
+      }
+    }
   },
-
-  "topbar": {
-    "newStatus": "Status Foun",
-    "logout": "Sai husi konta",
-    "help": "Ajuda",
-    "createStatusAria": "Kria Status foun"
-  },
-
-  "status": {
-    "userNumber": "Usuáriu #{{id}}",
-    "posted": "Status post tiha",
-    "postFailed": "La susesu post status",
-    "createTitle": "Kria status",
-    "modalAriaLabel": "Status foun",
-    "captionLabel": "Sa mak iha ita nia hanoin?",
-    "captionPlaceholder": "Partilha atualização ida...",
-    "captionAria": "Mensajen status",
-    "audienceLabel": "Audiénsia",
-    "audience": {
-      "public": "Públiku",
-      "followers": "Followers",
-      "contacts": "Kontaktu sira",
-      "mutuals": "Mutuals",
-      "custom": "Kustomizadu..."
+  "encryptionRecovery": {
+    "title": "Jere Enkripsaun",
+    "description": "Kopia, restaura, desbloqueia, ka reset ita nia chave enkripsaun.",
+    "alert": {
+      "keyRequiredTitle": "Chave enkripsaun presiza",
+      "keyRequiredBody": "Browser ne'e seidauk bele dekrípta ita nia mensajen enkriptadu. Restaura, desbloqueia, ka reset ita nia chave atu kontinua."
     },
-    "expiresHoursLabel": "Expira (oras)",
-    "maxTooltip": "Máximu loron 7",
-    "hoursAbbrev": "h",
-    "maxShort": "máks",
-    "expiresOn": "Expira iha:",
-    "chooseRecipients": "Hili destinatáriu sira",
-    "selectContacts": "Hili kontaktu sira",
-    "attachmentsLabel": "Anexus",
-    "attachmentsPlaceholder": "Aumenta imajen/vídeu",
-    "filesNote": "To'o 5 arquivo. Padrão expira 24h.",
-    "postAria": "Post status",
-    "post": "Post"
-  },
-
-  "contactList": {
-    "savedContacts": "Kontaktu Rai Tiha",
-    "refreshAria": "Atualiza kontaktu sira",
-    "filterPlaceholder": "Filtra kontaktu rai tiha…",
-    "filterAria": "Filtra kontaktu rai tiha",
-    "noContactsFound": "La hetan kontaktu ida.",
-    "externalContact": "Kontaktu externu",
-    "notJoined": "Kontaktu-ne'e seidauk tama Chatforia.",
-    "couldNotStart": "La bele hahú chat. Koko fila-fali.",
-    "startFailed": "La susesu hahú chat. Koko fila-fali.",
-    "deleted": "Kontaktu hamoos tiha.",
-    "deleteFailed": "La susesu hamoos kontaktu. Koko fila-fali.",
-    "aliasUpdated": "Alias atualiza tiha.",
-    "updateAliasFailed": "La susesu atualiza alias. Koko fila-fali.",
-    "selectContact": "Hili {{name}}",
-    "alias": "Alias",
-    "startChat": "Hahú chat",
-    "message": "Mensajen",
-    "delete": "Hamoos",
-    "deleteContactAria": "Hamoos kontaktu",
-    "loadFailed": "La susesu karga kontaktu sira. Koko fila-fali.",
-    "loadMore": "Karga tan"
-  },
-
-  "sidebar": {
-    "randomChat": "Random Chat",
-    "callTextForwarding": "Hatama Chamada & Teks",
-    "conversations": "Ko'alia sira",
-    "searchPlaceholder": "Buka ko'alia sira...",
-    "errorLoading": "La susesu karga chat sira",
-    "empty": "Seidauk iha ko'alia ida.",
-    "startChat": "Hahú chat ida",
-    "people": "Ema sira",
-    "settings": "Setingan",
-    "status": "Status",
-    "forwarding": "Hatama Chamada & Teks",
-    "refresh": "Atualiza",
-    "search": "Buka ko'alia sira",
-    "loginPrompt": "Tama (login) atu edita ita nia setingan.",
-    "login": "Tama",
-    "register": "Kria konta",
-    "chatrooms": "Sala chat sira",
-    "logout": "Sai",
-    "startChatAlt": "Hahú chat foun"
-  },
-
-  "premium": {
-    "heading": "Ba Premium",
-    "description": "Desbloqueia funsaun poderoso sira & hasai anúnsiu sira.",
-    "cta": "Upgrade",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade ba Chatforia Premium"
-  },
-
-  "auth": {
-    "headline": "Mensajen segurú globál ho tradusaun imediatu",
-    "description": "Enkripsaun ponta-ba-ponta, tradusaun ho IA, mensajen desaparese, no chamada voz/vídeu.",
-    "feature": {
-      "encryption": "Enkripsaun ponta-ba-ponta hanesan padrão",
-      "translation": "Tradús automátiku 100+ língua",
-      "disappearing": "Mensajen desaparese & read receipts",
-      "privacy": "Privasidade primeiro. Ita nia dadus, ita nia kontrol.",
-      "translate": "Tradusaun tempu-real",
-      "disappear": "Mensajen desaparese",
-      "privacyAlt": "Dizain privasidade-primeiru"
+    "sections": {
+      "createBackup": "Kria kopia chave",
+      "restoreFromBackup": "Restaura husi kopia konta",
+      "resetEncryption": "Reset enkripsaun"
     },
-    "hero": {
-      "line1": "Segurú, globál",
-      "beforeEm": "mensajen ho",
-      "em": "tradusaun imediatu",
-      "sub": "Enkripsaun ponta-ba-ponta, tradusaun IA, mensajen desaparese, no chamada voz/vídeu."
+    "fields": {
+      "unlockPasscode": {
+        "label": "Passcode desbloqueia (aparelu atual)",
+        "description": "Uza atu dekrípta ita nia chave sira lokal antes exporta"
+      },
+      "backupPassword": {
+        "label": "Password kopia",
+        "description": "Uza atu enkripta fail kopia"
+      },
+      "restoreBackupPassword": {
+        "label": "Password kopia",
+        "description": "Password ne'ebé ita kria bainhira kopia ita nia chave iha iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Passcode lokal foun",
+        "description": "Proteje chave sira iha rest iha browser ne'e"
+      },
+      "resetLocalPasscode": {
+        "label": "Passcode lokal foun",
+        "description": "Presiza antes reset atu chave foun proteje iha aparelu ne'e"
+      }
     },
-    "feat": {
-      "encryption": "Enkripsaun ponta-ba-ponta hanesan padrão",
-      "translate": "Tradús automátiku 100+ língua",
-      "disappear": "Mensajen desaparese & read receipts",
-      "privacy": "Privasidade primeiro. Ita nia dadus, ita nia kontrol."
+    "actions": {
+      "unlockKey": "Desbloqueia chave enkripsaun",
+      "restoreFromBackup": "Restaura husi kopia konta",
+      "resetEncryption": "Reset Enkripsaun"
     },
-    "welcomeBack": "Bem-vindu fali",
-    "continueGoogle": "Kontinua ho Google",
-    "continueApple": "Kontinua ho Apple",
-    "username": "Username",
-    "password": "Password",
-    "keepSignedIn": "Tuu ha'u hela tama",
-    "forgotPassword": "Haluhan password?",
-    "loginButton": "Tama",
-    "createAccount": "Kria konta",
-    "freeAccountButton": "Kria konta livre",
-    "newHere": "Foun iha ne'e?",
-    "getApp": "Hetan aplikasaun",
-    "desktopTip": "Iha desktop? Skana ho ita nia telemóvel atu hetan aplikasaun.",
-    "scanHelper": "Iha desktop? Skana ho ita nia telemóvel atu hetan aplikasaun.",
-    "goHome": "Bá uma laran",
-    "home": "Uma laran",
-    "headlineAlt": {
-      "main": "Mensajen segurú ne'ebé",
-      "highlight": "ko'alia ita nia língua"
+    "messages": {
+      "backupCreated": "Kopia chave kria no download ona.",
+      "keyUnlocked": "Chave enkripsaun desbloqueia ona.",
+      "keyRestored": "Chave restaura husi kopia konta.",
+      "resetSuccess": "Enkripsaun reset ho susesu."
     },
-    "subhead": "Mensajen privadu, enkriptadu, no tradus — imediatmente.",
-    "status": "Haree status",
-    "upgrade": "Upgrade agora",
-    "tip": "Dika: Uza konta ida de'it iha web no móvel. Ita nia mensajen sira sei hela sinroniza.",
-    "openDownload": "Loke pájina download",
-    "qrAlt": "QR kode ba Chatforia",
-    "scanHint": "Skana atu download aplikasaun ka loke iha nevegadór.",
-    "iosAria": "Download iha App Store",
-    "iosTitle": "Download iha App Store",
-    "iosBadgeAlt": "Sinal App Store",
-    "androidAria": "Hetan iha Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Sinal Google Play",
-    "login": "Tama",
-    "signup": "Sign Up",
-    "email": "Email"
+    "errors": {
+      "restoreIncomplete": "Restaura chave incompleta ka sala ba konta ne'e",
+      "noBackup": "La iha kopia enkriptadu ba konta ne'e",
+      "missingPublicKey": "Kopia lakon chave públiku",
+      "noServerPublicKey": "Konta ne'e seidauk hatudu chave públiku servidor",
+      "serverBackupMismatch": "Kopia servidor la kombina ho chave enkripsaun konta atual",
+      "incompleteMetadata": "Metadadu kopia incompleta",
+      "resetIncomplete": "Reset enkripsaun la kompleta ho koretu"
+    },
+    "confirm": {
+      "reset": "Reset enkripsaun ba konta ne'e?\n\nMensajen enkriptadu tuan bele la lee maski ita restaura chave orijinal iha oin."
+    },
+    "resetDescription": "Ne'e jenera chave enkripsaun foun ba ita nia konta. Mensajen enkriptadu tuan bele la lee maski ita restaura chave orijinal iha oin."
   },
-
   "footer": {
-    "plans": "Planu & Prezus",
-    "about": "Kona-ba Chatforia",
-    "careers": "Empregu",
+    "plans": "Planu & Presu",
+    "about": "Kona ba Chatforia",
+    "careers": "Kareer",
     "press": "Imprensa",
     "advertise": "Anúnsiu",
     "contact": "Kontaktu Ami",
@@ -309,25 +1566,24 @@
     "status": "Pájina Status",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Polítika Privasidade",
-    "terms": "Kondisaun Serbisu",
-    "cookies": "Setingan Cookie",
-    "doNotSell": "Labele fa'an ha'u nia informasaun",
-    "language": "Língua",
+    "privacy": "Polítika Privasi",
+    "terms": "Termu Servisu",
+    "cookies": "Settings Cookie",
+    "doNotSell": "La Venda Ha'u nia Info",
+    "language": "Lian",
     "contactShort": "Kontaktu",
-
     "aria": "Rodapé",
-    "homeAria": "Chatforia uma laran",
+    "homeAria": "Uma Chatforia",
     "section": {
-      "company": "KOMPANIA",
-      "support": "SUPORTA",
-      "downloads": "DOWNLOADS",
-      "legal": "LEGAL"
+      "company": "KOMPANHIA",
+      "support": "SUPORTE",
+      "downloads": "DOWNLOAD",
+      "legal": "LEGÁL"
     },
     "links": {
-      "plans-pricing": "Planu & Prezus",
-      "about-chatforia": "Kona-ba Chatforia",
-      "careers": "Empregu",
+      "plans-pricing": "Planu & Presu",
+      "about-chatforia": "Kona ba Chatforia",
+      "careers": "Kareer",
       "press": "Imprensa",
       "advertise": "Anúnsiu",
       "getting-started": "Hahú",
@@ -336,10 +1592,10 @@
       "status-page": "Pájina Status",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Polítika Privasidade",
-      "terms-of-service": "Kondisaun Serbisu",
-      "do-not-sell-my-info": "Labele fa'an ha'u nia informasaun",
-      "cookie-settings": "Setingan Cookie"
+      "privacy-policy": "Polítika Privasi",
+      "terms-of-service": "Termu Servisu",
+      "do-not-sell-my-info": "La Venda Ha'u nia Info",
+      "cookie-settings": "Settings Cookie"
     },
     "social": {
       "tiktok": "TikTok",
@@ -349,638 +1605,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patente hela prosesu",
-    "backToTop": "↑ Fila ba leten"
+    "patentPending": "Patent pende",
+    "backToTop": "↑ Fali ba leten"
   },
-
-  "home": {
-    "title": "Uma laran",
-    "header": "Ita nia mensajen",
-    "subheader": "Haruka mensajen ida atu hahú chat.",
-    "sendButton": "Haruka mensajen",
-    "gifPicker": "Loke GIF picker",
-    "emoji": "Emoji",
-    "upload": "Subar foto ka vídeu",
-    "inputPlaceholder": "Hakarak tipa mensajen…",
-    "inputLabel": "Kompóz mensajen",
-    "sendTooltip": "Haruka",
-    "sendTooltipEmpty": "Tipa mensajen atu haruka",
-    "send": "Haruka",
-    "welcomeMessage": "Bem-vindu ba Chatforia",
-    "getStarted": "Hahú ona"
-  },
-
   "press": {
     "title": "Imprensa",
-    "contactLine": "Ba pedidu mídia, kontaktu ami iha",
+    "contactLine": "Ba inquéritu mídia, kontaktu ami iha",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia mak aplikasaun mensajen privasidade-primeiru ne'ebé halo ko'alia entre-língua fasil. Mensajen sira enkripta ponta-ba-ponta hanesan padrão, no tradusaun embutidu suporta 100+ língua iha tempu-real. Uzuáriu sira bele ativa mensajen desaparese, read receipts opsionál, no sinroniza iha dispozitivu sira. Disponível ba iOS, Android, no web.",
-    "assetsTitle": "Asset marka",
-    "assetsSubtitle": "Logo, screenshot sira, no imajen produtú.",
-    "downloadCta": "Download media kit",
-    "downloadTitle": "Hetan app",
-    "scanTip": "Iha desktop? Skana ho ita nia telemóvel atu hetan app.",
-    "qrAria": "Loke web Chatforia",
+    "boilerplateBody": "Chatforia mak app mensajen privasi-primeiru ne'ebé halo konversasaun lian barak lalais. Mensajen sira enkriptadu end-to-end liu husi default, no tradusaun iha laran suporta lian 100+ iha tempu real. Uza bele liga mensajen ne'ebé desappears, mantén resibu lee opsional, no sinkroniza liu husi aparelu sira. Disponivel iha iOS, Android, no web.",
+    "assetsTitle": "Ativu brand",
+    "assetsSubtitle": "Logo, screenshot, no imajen produtu.",
+    "downloadCta": "Download kit mídia",
+    "downloadTitle": "Hau app",
+    "scanTip": "Iha desktop? Skaneia ho telefone atu hau app.",
+    "qrAria": "Abre website Chatforia",
     "appStore": "Download iha App Store",
-    "googlePlay": "Hetan iha Google Play"
+    "googlePlay": "Hau iha Google Play"
   },
-
   "careers": {
-    "title": "Empregu",
-    "intro": "Ami mak ekipa ki'ik ida ne'ebé halo mensajen globál no privadu. Se ita importa ho enkripsaun, aksesibilidade, no UX agradavel, favór hatete mai ami.",
-    "openRoles": "<b)Vaga aberta:</b> Injinaria (Full-stack, iOS, Android), Produto, Suporta.",
-    "apply": "<b)Oinsa atu aplika:</b> Haruka ita nia CV/link sira ba <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Haruka ita nia CV"
+    "title": "Kareer",
+    "intro": "Ami ekipa fundadora ki'ik ne'ebé harii Chatforia — mensajen privadu, globál ne'ebé lansa iha web, iOS, no Android. Se ita preokupa privasi, enkripsaun, no esperiénsia uza ne'ebé di'ak, ami hakarak rona husi ita.",
+    "openRoles": "<b>Papel fundadora ne'ebé aberta:</b> Líder Engenheiro Full-stack, Engenheiro Backend (Node.js), Engenheiro Frontend/Web (React), Engenheiro Móvel (iOS), Engenheiro Móvel (Android), DevOps/SRE, Engenheiro Seguransa & Enkripsaun, Engenheiro Telecom (Twilio + eSIM).",
+    "apply": "Oinsá aplika: Uza butaun iha leten atu haruka ita nia resume no link sira.",
+    "emailCta": "Haruka ita nia resume",
+    "whyNow": "Tán hamutuk agora?",
+    "whyBullets": "• Ajuda harii fundamentu husi mensajen globál foun.\n• Haruka meliora ne'ebé uza liu husi web, iOS, no Android.\n• Traballa direta ho fundadór kona ba arkitektura no direksaun produtu.\n• Posui área boot husi stack: mensajen, voz, vídeo, enkripsaun, telecom, AI.\n• Hamutuk iha hahú — antes uza aumenta."
   },
-
   "about": {
-    "title": "Kona-ba Chatforia",
-    "description": "Chatforia mak mensajen segurú no multilingua ho enkripsaun ponta-ba-ponta, tradusaun imediatu, no chamada voz/vídeu. Ami nia misaun simples: ajuda ema sira atu konekta — ho seguransa, privasidade, no liu-língua.",
-    "valuesTitle": "Sa mak ami valoriza",
+    "title": "Kona ba Chatforia",
+    "description": "Chatforia mak mensajen seguru, multi-língua ho enkripsaun end-to-end, tradusaun instant, no chamada voz/vídeo. Ami nia misaun simples: ajuda ema sira konektadu — ho seguransa, privadu, no liu husi lian sira.",
+    "valuesTitle": "Saida mak ami valoriza",
     "values": {
-      "privacy": "<bold>Privasidade-primeiru:</bold> E2E enkripsaun hanesan padrão.",
-      "access": "<bold>Akses ba hotu-hotu:</bold> Tradús automátiku 100+ língua.",
-      "control": "<bold>Kontrolu:</bold> Mensajen desaparese no read receipts mak opsionál.",
-      "privacy_aria": "Privasidade-primeiru: E2E enkripsaun hanesan padrão.",
-      "access_aria": "Akses ba hotu: Tradús automátiku 100+ língua.",
-      "control_aria": "Kontrolu: Mensajen desaparese no read receipts mak opsionál."
+      "privacy": "<b>Privasi-primeiru:</b> Enkripsaun E2E liu husi default.",
+      "access": "<b>Aksesu ba hotu-hotu:</b> Auto-tradusaun lian 100+.",
+      "control": "<b>Kontrol:</b> Mensajen ne'ebé desappears & resibu lee opsional.",
+      "privacy_aria": "Privasi-primeiru: Enkripsaun E2E liu husi default.",
+      "access_aria": "Aksesu ba hotu-hotu: Auto-tradusaun lian 100+.",
+      "control_aria": "Kontrol: Mensajen ne'ebé desappears no resibu lee opsional."
     },
-    "howTitle": "Oinsa Chatforia servisu",
-    "howDescription": "Mensajen sira enkripta iha ita nia dispositivu antes sai. Tradusaun, backup, no sinroniza dizain atu minimiza informasaun ne'ebé ita nia servidor bele haree."
+    "howTitle": "Oinsá Chatforia funsiona",
+    "howDescription": "Mensajen sira enkriptadu iha ita nia aparelu antes sira sai. Tradusaun, kopia, no sinkronizasaun aparelu design atu minimiza saida mak servidor ami bele haree."
   },
-
   "advertise": {
-    "title": "Anúnsia ho Chatforia",
-    "description": "Alkanza uzuáriu mensajen ne'ebé envolve ho kolokasaun ne'ebé di'ak no seguru ba marka. Ami ofrese banneiru iha lokál visível, sponzór, no promosaun da'ida. Suskriptor Premium la haree anúnsiu.",
+    "title": "Anúnsiu ho Chatforia",
+    "description": "Atinji uza mensajen ne'ebé engaja ho plasamentu ne'ebé di'ak no seguru ba brand. Ami oferese inventáriu banner iha fatin vizibilidade boot, sponsor, no promosaun uma. Uza premium la haree anúnsiu.",
     "adsense": {
-      "withPubId": "Agora ami servisu anúnsiu via <b>Google AdSense</b>. Se ita hakarak target ami liu Google Ads, uza publisher ID <code>{{pubId}}</code> no husu managed placement ba unidade iha okos. Sponzór direta disponivel — uza formuláriu.",
-      "noPubId": "Agora ami servisu anúnsiu via <b>Google AdSense</b>. Sponzór direta mós disponivel — uza formuláriu iha okos."
+      "withPubIdShort": "Ami mós servi inventáriu liu husi Google AdSense. Ita bele target Chatforia ho ID publisher {{pubId}}, ka uza formu iha leten ba sponsor direta.",
+      "noPubIdShort": "Ami mós servi inventáriu balun liu husi Google AdSense. Sponsor direta disponivel—uza formu iha leten."
     },
     "inventoryHeader": "Inventáriu & Especificasaun",
     "placement": {
       "displayBadge": "Display",
-      "acceptedSizes": "Tamanhu aketta",
+      "acceptedSizes": "Tamanho ne'ebé aksepta",
       "adsenseSlot": "Slot AdSense:"
     },
-    "noPlacements": "Seidauk iha placement konfiguradu. Aumenta iha ads/placements.js.",
-    "whyHeader": "Tansaa Chatforia?",
+    "noPlacementsPublic": "Ami finaliza inventáriu anúnsiu. Hateten kona ba ita nia kampaña no ami sei rekomenda plasamentu.",
+    "whyHeader": "Tán Chatforia?",
     "why": {
-      "highSession": "Sesau uza aas no tempu hela naruk iha UI chat",
-      "brandSafe": "Formatu seguru ba marka; limitasaun frekuénsia respeituzu",
-      "sponsoredMoments": "Moméntu sponzór disponivel (hanesan “Start a Chat” modal)",
-      "deals": "Akordu direta ka programátiku liu AdSense/Google Ads"
+      "highSession": "Frekuénsia sesaun boot no tempu iha UI konversasaun",
+      "brandSafe": "Formatu seguru ba brand; limitasaun frekuénsia respeitosa",
+      "sponsoredMoments": "Momento sponsor (ex., “Hahú Konversasaun” modal) disponivel",
+      "deals": "Negósiu direta ka programátiku liu husi AdSense/Google Ads"
     },
     "contactHeader": "Kontaktu",
     "form": {
-      "submittedMsg": "Obrigadu! Ita nia pedidu hela ba dala. Ami sei kontaktu lalais.",
-      "missingRequired": "Favór kompleta naran, email, no mensajen.",
+      "submittedMsg": "Obrigadu! Ita nia inquéritu iha dalan. Ami sei akompaña lalais.",
+      "missingRequired": "Favor preenche naran, email, no mensajen.",
       "successToast": "Obrigadu! Ami sei kontaktu lalais.",
-      "mailtoInfo": "Loke ita nia email klienta atu haruka pedidu…",
+      "mailtoInfo": "Abre ita nia klient email atu haruka inquéritu…",
       "nameLabel": "Ita nia naran",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "Email",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kompania",
+      "emailPlaceholder": "ita@kompanhia.com",
+      "companyLabel": "Kompanhia",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Orsamentu fulan-laran (opsionál)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Hatete kona-ba ita nia kampaña",
-      "messagePlaceholder": "Target, data, KPI, preferénsia placement…",
-      "sendCta": "Haruka pedidu"
+      "budgetLabel": "Orsamentu mensál (opsional)",
+      "budgetPlaceholder": "ex. $1,000–$20,000+",
+      "messageLabel": "Hateten kona ba ita nia kampaña",
+      "messagePlaceholder": "Target, data, KPI, preferénsia plasamentu…",
+      "sendCta": "Haruka inquéritu"
     },
     "legal": {
-      "disclaimerStart": "Hori-laran haruka, ita konkorda ho ami nia",
-      "terms": "Termus",
+      "disclaimerStart": "Bainhira submete, ita konkorda ho ami nia",
+      "terms": "Termu",
       "and": "no",
-      "privacy": "Polítika Privasidade"
-    }
-  },
-
-  "upgrade": {
-    "title": "Upgrade",
-    "subtitle": "Hili planu loos ba ita: hasai anúnsiu ho Plus, ka hetan funsaun kompletu ho Premium.",
-    "perMonth": "fulan",
-    "perYear": "tinan",
-    "goPremium": "Ba Premium",
-    "benefitsLine": "Desbloqueia funsaun poderoso & hasai anúnsiu.",
-    "ctaText": "Upgrade",
-    "aria": "Upgrade ba Chatforia Premium",
-    "toggle": {
-      "monthly": "Mensal",
-      "annual": "Anual (Rai 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Suskrisaun sei remata",
-      "body": "Ita sei fila ba Free iha",
-      "keepPlanCta": "Tuu {{plan}}",
-      "manageBillingCta": "Jere faturamentu"
-    },
-    "billing": {
-      "opening": "Loke hela…",
-      "manage": "Jere Faturamentu"
-    },
-    "checkout": {
-      "redirecting": "Re-direciona…"
-    },
-    "auth": {
-      "continue": "Kontinua ba login",
-      "createAccount": "Kria konta",
-      "signIn": "Tama"
-    },
-    "cta": {
-      "aria": "Hili planu",
-      "getPlus": "Upgrade ba Plus",
-      "upgradeMonthly": "Upgrade Mensal",
-      "upgradeAnnual": "Upgrade Anual"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Hahú mensajen gratis.",
-        "features": {
-          "msg": "Mensajen 1:1 no grupu",
-          "aiBasic": "Resposta IA báziku",
-          "attachments": "Anexu padrão"
-        },
-        "ctaCurrent": "Planu Agóra",
-        "ctaUnavailable": "Troka ba Free (la disponivel)",
-        "aria": "Planu Free (agóra)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / fulan",
-        "desc": "Esperiénsia la iha anúnsiu ne'ebé baratu liu.",
-        "features": {
-          "noAds": "Hasai hotu-hotu anúnsiu",
-          "msg": "Mensajen 1:1 no grupu",
-          "attachments": "Anexu boot liu",
-          "aiBasic": "Resposta IA báziku"
-        },
-        "badge": "Popular",
-        "cta": "La iha Anúnsiu",
-        "aria": "Upgrade ba Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Mensal)",
-        "price": "$24.99 / fulan",
-        "desc": "Funsaun kompletu, ringtones, no ferramenta IA poderosa.",
-        "features": {
-          "plusAll": "Hotu-hotu iha Plus",
-          "ringtones": "Ringtone & to'os mensajen kustomizadu",
-          "powerAi": "Funsaun IA poderosa",
-          "priorityUpdates": "Atualizasaun prioridade",
-          "backups": "Backup & sinroniza dispozitivu"
-        },
-        "badge": "Valor di'ak liu",
-        "cta": "Upgrade (Mensal)",
-        "aria": "Upgrade ba Premium Mensal"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Anual)",
-        "price": "$225 / tinan",
-        "desc": "Rai barak se bolu anual.",
-        "features": {
-          "allPremium": "Hotu iha Premium",
-          "annualBilling": "Faturamentu anual",
-          "save25": "Rai ~25% kontra mensal",
-          "sameFeatures": "Funsaun hanesan ho Mensal"
-        },
-        "badge": "Rai 25%",
-        "cta": "Upgrade (Anual)",
-        "aria": "Upgrade ba Premium Anual",
-        "disclaimer": "Fatura uma de'it. Bele cansela iha tempu ida. La iha taxa subar."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Hahú mensajen gratis.",
-      "plusTitle": "Plus",
-      "plusBadge": "Popular",
-      "plusDesc": "Esperiénsia baratu liu la iha anúnsiu.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Funsaun kompletu, ringtones, no ferramenta IA poderosa.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Rai barak se bolu anual.",
-      "annualDisclaimer": "Fatura uma de'it. Bele cansela iha tempu ida. La iha taxa subar."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Hahú",
-    "subtitle": "Foun ba Chatforia? Guia nee hatudu esensiál sira atu bele produktivu iha minutu balu de'it.",
-    "alert": {
-      "text": "Guia ida-ne'e sei tuir aumenta bainhira ami lança funsaun foun. Se buat ruma mak falta, hatete mai liu",
-      "contactLink": "Kontaktu Ami"
-    },
-    "section1": {
-      "title": "1) Kria ita nia konta",
-      "signup": "Sign up",
-      "or": "ka",
-      "login": "tama",
-      "loginText": "ho ita nia konta ne'ebé iha ona.",
-      "prefsStart": "Tau ita nia",
-      "prefsLink": "preferénsia",
-      "prefsRest": "(língua, read receipts, tema sira)."
-    },
-    "section2": {
-      "title": "2) Hahú ko'alia",
-      "item1": "Kria DM ka Grupu no haruka ita nia mensajen primeiru.",
-      "item2": "Uza tradusaun imediatu atu ko'alia liu 100+ língua.",
-      "item3": "Koko mensajen desaparese no read receipts iha Perfil → Privasidade."
-    },
-    "section3": {
-      "title": "3) Bá oin mai",
-      "item1Part1": "Jere ita nia planu iha pájina",
-      "upgradeLink": "Upgrade",
-      "item1Part2": "(Plus = la iha anúnsiu, Premium = funsaun kompletu).",
-      "item2Part1": "Liga dispozitivu tan no set up backup enkriptadu iha",
-      "settingsLink": "Setingan"
-    },
-    "cta": {
-      "seePlans": "Haree planu sira",
-      "openSettings": "Loke setingan"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Sentru Ajuda",
-    "faq": {
-      "account": {
-        "q": "Oinsa atu kria ka recupera ha'u nia konta?",
-        "a": "Download app ka uza web, tap “Kria konta”, verifika ita nia email/telefone. Atu recupera, uza “Haluhan password”."
-      },
-      "privacy": {
-        "q": "Mensajen sira enkriptadu ponta-ba-ponta ka lae?",
-        "a": "Sin. Mensajen no chamadas sira enkriptadu ponta-ba-ponta hanesan padrão. De'it ita no destinatáriu bele lee."
-      },
-      "translate": {
-        "q": "Oinsa tradusaun imediatu halo servisu?",
-        "a": "Habilita “Auto-translate” iha Setingan → Aparénsia & Língua. Ami tradús iha dispositivu se suporta; se lae, liu API segurú ho metadadus mínimu."
-      },
-      "contact": {
-        "q": "Kontaktu suporta",
-        "a": "Kontaktu ami iha support@chatforia.com. Hatama screenshot sira no versãu app."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Kontaktu Ami",
-    "successMsg": "Obrigadu — ami nia ekipa sei responde husi email.",
-    "errorSend": "La bele haruka. Favór email ba support@chatforia.com.",
-    "form": {
-      "nameLabel": "Naran",
-      "emailLabel": "Email",
-      "messageLabel": "Mensajen",
-      "sendCta": "Haruka"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Polítika Privasidade",
-    "lastUpdated": "Atualiza ikus:",
-    "intro": {
-      "body": "Polítika ida-ne'e esplika oinsa Chatforia (“ami”) kolekta, uza, no partilha informasaun bainhira ita uza ami nia aplikasaun no serbisu. Ami dezaina Chatforia atu minimiza dadus ne'ebé ami bele asesu."
-    },
-    "infoWeCollect": {
-      "title": "Informasaun ne'ebé ami kolekta",
-      "account": "Informasaun konta (hanesan email/telefone) atu kria no proteje ita nia konta.",
-      "encrypted": "Kontéudu enkriptadu (mensajen/chamada) E2E; ami la bele lee.",
-      "diagnostics": "Diágnostiku/uza hanesan log crash, tipu dispozitivu, ka analítika ki'ik atu hadia performansa."
-    },
-    "howWeUse": {
-      "title": "Oinsa ami uza informasaun",
-      "provide": "Fó no proteje serbisu (autentikasaun, deteksãu spam/abuzu).",
-      "improve": "Hadia funsaun (kualidade tradusaun, fiabilidade).",
-      "legal": "Kumpre obrigasaun legál."
-    },
-    "sharing": {
-      "title": "Partilha",
-      "body": "Ami la fa'an dadus pesuál. Bele partilha dadus limitadu ho processadór sira (hanesan notifikasaun push, analítika) tuir kontratu striktu."
-    },
-    "rights": {
-      "title": "Ita nia direitu sira",
-      "body": "Tuêr ita nia rejiaun (hanesan GDPR/UK GDPR/CPRA), ita bele husu asesu, korrije, hamoos, ka opt-out husi prosesamentu balu. Kontaktu: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Retensaun dadus & seguransa",
-      "body": "Ami rai de'it buat ne'ebé presiza atu opera serbisu no aplika seguransa padraun industriál. Kontéudu E2E ami la bele dekripta."
-    },
-    "children": {
-      "title": "Labarik",
-      "body": "Chatforia la diretu ba labarik iha okos 13 (ka tuir lei lokal)."
-    },
-    "changes": {
-      "title": "Mudansa",
-      "body": "Ami sei post aktualizasaun iha ne'e no muda “Atualiza ikus” data."
-    },
-    "contact": {
-      "title": "Kontaktu",
-      "body": "privacy@chatforia.com • [Naran legál kompanía], [Adresu]"
-    }
-  },
-
-  "terms": {
-    "title": "Kondisaun Serbisu",
-    "lastUpdated": "Atualiza ikus:",
-    "intro": {
-      "body": "Bainhira ita uza Chatforia, ita konkorda ho Termus sira nee. Se la konkorda, favor la uza serbisu."
-    },
-    "accounts": {
-      "title": "Konta sira",
-      "itemAccurateInfo": "Fó informasaun loos no tau proteksaun ba kredensiais.",
-      "itemResponsibility": "Ita responsavel ba atividadi iha ita nia konta."
-    },
-    "acceptableUse": {
-      "title": "Uzu akseptavel",
-      "itemNoAbuse": "Labele kontéudu ilegal, abusivu, ka inkringimentu; la bele spam ka abuzu automatizadu.",
-      "itemSuspend": "Ami bele suspende/termina tan viola."
-    },
-    "yourContent": {
-      "title": "Ita nia kontéudu",
-      "body": "Ita kontinua iha direitu ba ita nia kontéudu. Ita fó ami direitu presiza atu opera serbisu (hanesan roteamentu, armazenamentu, tradusaun)."
-    },
-    "disclaimer": {
-      "title": "Avisu & responsabilidade",
-      "body": "Serbisu fó “hanesan ne'e” la ho garantia. To'o limiti lei, Chatforia la responsavel ba danus indiretu ka konsekuénsia."
-    },
-    "changes": {
-      "title": "Mudansa",
-      "body": "Ami bele atualiza termus sira; uza nafatin depois muda hatudu katak ita aketa."
-    },
-    "contact": {
-      "title": "Kontaktu",
-      "body": "support@chatforia.com • [Naran legál kompanía], [Adresu]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Labele Fa'an ka Partilha Ha'u Nia Informasaun Pesuál",
-    "body": "Chatforia la fa'an informasaun pesuál. Ema California bele submete pedidu tuir CPRA uza bot iha okos.",
-    "cta": "Submete pedidu"
-  },
-
-  "cookies": {
-    "title": "Setingan Cookie",
-    "body": "Chatforia uza cookie mínimu (hanesan sesaun, seguransa). Ami la uza cookie anúnsiu terceiru. Jere cookie sira liu setingan ita nia nevegadór."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "La bele karga status númeru telefone.",
-    "lock": "Trava",
-    "noNumberAssigned": "Seidauk iha númeru atribuída. Hili ho kódigu área atu hahú teks.",
-    "pickNumber": "Hili númeru ida",
-    "phoneNumber": "Númaru telefone"
-  },
-
-  "startChatModal": {
-    "title": "Hahú chat",
-    "quickPicker": "Quick picker",
-    "to": "Ba",
-    "nameOrUsername": "Tepa naran, username",
-    "nameUsernamePhoneEmail": "Tepa naran, username, telefone, ka email…",
-    "startWithSelected": "Hahú chat ho sira ne'ebé hili",
-    "searchByUsernameOrPhone": "Buka tuir username ka telefone",
-    "search": "Buka",
-    "searchPrompt": "Tepa username ka telefone no press Buka.",
-    "pickFromContacts": "Ka hili husi kontaktu sira",
-    "addContact": "Aumenta Kontaktu",
-    "show": "Hatudu",
-    "add": "Aumenta",
-    "close": "Taka",
-    "selectedCount": "{{count}} hili",
-    "pickAtLeastOne": "Hili destinatáriu ida ke'e.",
-    "saveContactsHint": "Telefone/email sei disponivel depois ita rai sira hanesan kontaktu.",
-    "failedBulkStart": "La susesu hahú chat ho sira ne'ebé hili.",
-    "noResults": "La iha resultado",
-    "mode": "Modu",
-    "group": "Grupu",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Naran grupu (opsionál)",
-    "firstMessageOptional": "Mensajen primeiru (opsionál maibé rekomenda)",
-    "createGroup": "Kria grupu",
-    "sendBroadcast": "Haruka broadcast"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Ita iha Free — tona premium sira hatudu maibé tranka. Upgrade atu desbloqueia hotu.",
-    "preview": "Pré-visualiza",
-    "resetToDefaults": "Fila ba padrão",
-    "notificationSounds": "Sons Notifikasaun",
-    "messageTone": "Tona mensajen",
-    "default": "Padrão",
-    "vibrate": "Vibra",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Funsaun ida-ne'e presiza planu Premium."
-  },
-
-  "aiSettings": {
-    "title": "Setingan IA",
-    "controlIntro": "Kontrola tradusaun, smart replies, no ForiaBot auto-responde.",
-    "save": "Rai Setingan IA",
-    "autoTranslateIncoming": "Tradús automátiku mensajen tama",
-    "showOriginalAlongside": "Hatudu teks orijinal hamutuk ho tradusaun",
-    "enableSmartReplies": "Habilita Smart Replies",
-    "smartRepliesHint": "Haruka mensajen tama ikus balu (limpo) ba IA atu fó proposta resposta lalais.",
-    "maskProfanity": "Maske palavra lakle'an iha sujestaun IA",
-    "maskProfanityHint": "Se ativa, sujestaun husi IA sei maske liafuan flag",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Habilita auto-responde bainhira ha'u okupadu",
-    "autoReplyMode": "Modu auto-responde",
-    "cooldownSeconds": "Cooldown (segundu)",
-    "off": "Mate",
-    "on": "Laho'os",
-    "signature": "Sinatura",
-    "autoReply": "Auto-responde",
-    "activeUntilOptional": "Ativu to'o (opsionál)",
-    "saved": "Preferénsia IA rai tiha",
-    "saveFailed": "La susesu rai setingan IA",
-    "translateOff": "Mate",
-    "translateTagged": "De'it bainhira @translated ka tag",
-    "translateAll": "Tradús hotu mensajen tama",
-    "modeDm": "De'it DM 1:1",
-    "modeMention": "De'it bainhira @menziona ha'u",
-    "modeAll": "Hotu mensajen tama"
-  },
-
-  "accessibilitySettings": {
-    "title": "Aksesibilidade & Alerta",
-    "accessibility": "Aksesibilidade",
-    "accessibilityDesc": "Opsaun atu halo Chatforia fasil liu la presiza depende de'it ba sonu.",
-    "interfaceFontSize": "Tamanhu letra interfejsa",
-    "interfaceFontSizeHelp": "Hahú ho tamanhu normal. Aumenta se ita gosta letra boot iha aksesibilidade.",
-    "sm": "ki'ik",
-    "md": "meiu",
-    "lg": "boot",
-    "xl": "boot liu",
-    "notifications": "Notifikasaun",
-    "notificationsDesc": "Alerta vizuál ba mensajen & chamadas\nHatudu bandéra no blink títulu atu labele hanehan atividadi.",
-    "vibrateOnNew": "Vibra bainhira iha mensajen foun (se suporta)\nHalo vibra dispozitivu ho notifikasaun.",
-    "flashOnCall": "Flash ekran bainhira iha chamada tama\nFlash naroman badak bainhira telefone toka.",
-    "liveCaptions": "Legenda direto (chamadas)",
-    "captionFontSize": "Tamanhu letra legenda",
-    "captionBackground": "Fundus legenda",
-    "light": "klaru",
-    "dark": "nakukun",
-    "transparent": "transparente",
-    "voiceNotes": "Nota voz",
-    "autoTranscribeVoiceNotes": "Transkribe automátiku nota voz\nAumenta transkrisaun ba mensajen áudiu ne'ebé ita simu.",
-    "changesSavedInstantly": "Mudansa rai automátiku.",
-    "loadFailed": "La susesu karga setingan",
-    "visualAlerts": "Alerta vizuál ba mensajen & chamadas",
-    "visualAlertsDesc": "Hatudu bandéra no blink títulu atu labele hanehan atividadi.",
-    "vibrateOnNewShort": "Vibra bainhira mensajen foun (se suporta)",
-    "vibrateOnNewDesc": "Halo vibra dispozitivu ho notifikasaun.",
-    "flashOnCallShort": "Flash ekran iha chamada tama",
-    "flashOnCallDesc": "Flash naroman badak bainhira telefone toka."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Enkripsaun ponta-ba-ponta striktu",
-    "ciphertextOnlyNote": "Rai de'it ciphertext iha servidor. Para AI/Translate no pré-visualizasaun moderasaun."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Dispozitivu Linkadu",
-    "noneFound": "Seidauk iha dispozitivu linkadu.",
-    "refresh": "Atualiza"
-  },
-
-  "help": {
-    "title": "Ajuda",
-    "howCanWeHelp": "Ami bele ajuda oinsa?",
-    "helpCenter": "Sentru Ajuda",
-    "contactUs": "Kontaktu ami",
-    "quickTopics": "Tópiku lalais",
-    "searchExamples": "Koko buka “translate”, “backups”, ka “privacy”.",
-    "cantLogin": "La bele tama",
-    "paymentsBilling": "Pagementu/ faktura",
-    "reportAbuse": "Hatudu abuzu",
-    "searchHelpArticles": "Buka artigu ajuda",
-    "search": "Buka"
-  },
-
-  "peoplePage": {
-    "people": "Ema",
-    "search": "Buka",
-    "searchPlaceholder": "Buka tuir alias, naran, username, ka telefone",
-    "filterSaved": "Filtra kontaktu rai tiha",
-    "noContactsFound": "La hetan kontaktu ida",
-    "quickStart": "Hahú lalais",
-    "quickStartDesc": "Dalán lalais balu atu hahú.",
-    "importContacts": "Importa ita nia kontaktu",
-    "add": "Aumenta",
-    "focusSearch": "Fokus Buka",
-    "import": "Importa",
-    "findOrAdd": "Buka ka aumenta ema ida",
-    "searchByPhoneOrUsername": "Buka tuir telefone / username",
-    "inviteFriends": "Invita amigu sira",
-    "inviteDesc": "Partilha ita nia link invita atu hahú ko'alia imediatmente.",
-    "getTheApp": "Hetan app",
-    "getTheAppDesc": "Kontínua iha kontaktu iha dalan ho Chatforia ba iOS no Android.",
-    "download": "Download",
-    "syncTip": "Dika: Ita nia mensajen hela sinroniza iha web no móvel."
-  },
-
-  "randomChat": {
-    "title": "Random Chat",
-    "description": "Hasoru ema foun lalais. Ami sei pareia o ho ema ida no loke sala chat temporáriu.",
-    "findMatch": "Buka pareia ba ha'u",
-    "chatWithForia": "Chat ho Foria",
-    "chatWithForiaBot": "Chat ho ForiaBot",
-    "cancel": "Kansela",
-    "close": "Taka",
-    "searching": "Buka hela…",
-    "finding": "Hili hela…",
-    "looking": "Buka ema ida…",
-    "startingForia": "Hahú chat ho Foria…",
-    "partnerDisconnected": "Ita nia pareia diskonéktadu.",
-    "noPartner": "Agora seidauk iha pareia.",
-    "connectedTo": "Liga ho {{name}}",
-    "connected": "Liga tiha",
-    "idle": "Ida liu-rai",
-    "partnerLeft": "Pareia sai tiha.",
-    "stopped": "Para tiha.",
-    "skip": "Salta",
-    "save": "Rai",
-    "saveGuard": "De'it chat ema-ho-ema bele rai",
-    "youAreChattingWith": "Ita hela chat ho {{name}}",
-    "bot": "BOT",
-    "leave": "Saih",
-    "sayHi": "Hato'o ola 👋",
-    "you": "O",
-    "typeMessage": "Tepa mensajen",
-    "send": "Haruka",
-    "partner": "Pareia",
-    "withForia": "Ho Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Loke menu navegasaun",
-    "closeNav": "Taka menu navegasaun",
-    "homeAria": "Chatforia Uma laran"
-  },
-
-  "login": {
-    "title": "Bem-vindu fali",
-    "subtitle": "Tama ba ita nia konta Chatforia",
-    "google": "Kontinua ho Google",
-    "apple": "Kontinua ho Apple",
-    "googleUnavailable": "Login Google la disponivel",
-    "appleUnavailable": "Login Apple la disponivel",
-    "or": "ka",
-    "email": "Email",
-    "emailPh": "you@example.com",
-    "usernameLabel": "Username",
-    "usernamePh": "Ita nia username",
-    "passwordLabel": "Password",
-    "passwordPh": "Ita nia password",
-    "keepSignedIn": "Tuu ha'u hela tama",
-    "forgot": "Haluhan password?",
-    "submit": "Tama",
-    "loggingIn": "Tama hela…",
-    "newHere": "Foun iha ne'e? <link>Kria konta</link>",
-    "ssoUnavailable": "Single-sign-on la disponivel agora. Uza username & password de'it.",
-    "error": {
-      "missing": "Favór hatama ita nia kredensiais.",
-      "invalid": "Username ka password sala",
-      "denied": "Akesu negadu.",
-      "unprocessable": "Pedidu la válidu. Verifika username/email no password.",
-      "deviceLimit": "Limiti dispozitivu ba planu Free. Sai husi dispozitivu seluk ka halo upgrade ba Premium atu liga dispozitivu barak liu.",
-      "premiumRequired": "Asaun ida-ne'e presiza planu Premium."
+      "privacy": "Polítika Privasi"
     }
   }
 }

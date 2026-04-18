@@ -1,354 +1,1601 @@
 {
   "common": {
-    "save": "ኣቐምጥ",
-    "cancel": "ሰርዝ",
-    "refresh": "ኣሕዱ",
-    "noMatches": "ግብሪ የለን",
-    "cancelAria": "ሰርዝ",
-    "copy": "ኮፒ ኣድርግ",
-    "copied": "ተኮፍዐ!"
+    "save": "ኣድሕን",
+    "cancel": "ኣቋርጽ",
+    "refresh": "ኣድስ",
+    "noMatches": "ምንም ምስማማት የብሉን",
+    "cancelAria": "ኣቋርጽ",
+    "copy": "ቅዳ",
+    "copied": "ተቀዲ!",
+    "errorWithMessage": "ስህተት: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "ናብ ዋና ትሕዝቶ ተዓቐብ"
+    "skipToMain": "ናብ ዋናይ ትሕዝቶ ስግር"
   },
-
+  "keys": {
+    "backupCreated": "ቁልፊ ባክኣፕ ተፈጥረን ተወረደን ✓",
+    "restored": "ቁልፊ ባክኣፕ ተመልሰ ቁልፍታት ኣብ ስልኪ ተገብረ ✓",
+    "noBackup": "ንዚ ኣካውንት ምንም ምስጢራዊ ባክኣፕ የብሉን",
+    "missingPublicKey": "ባክኣፕ ሕቡር ቁልፊ ይጎድሎ ኣሎ"
+  },
+  "keySetup": {
+    "title": "ቁልፍታት መሳርዕኻ ኣዳሉ",
+    "description": "እዚ መሳርዕ ንዓኻ ዝኾነ ውልቃዊ ቁልፊ ኣይተዓደለን። ብፓስወርድ ዝተጠበቐ ባክኣፕ ኣእቱ፣ ወይ ሓዲሽ ቁልፍታት ፍጠር (ካብ ሕጂ ንድሕሪ ሓዲሽ መልእኽታት ክትነብእ ትኽእል ኢኻ።)",
+    "chooseFile": "ፋይል ምረጽን ፓስወርድ ኣእትን።",
+    "imported": "ውልቃዊ ቁልፊ ናብ ዚ መሳርዕ ተኣቲዩ። ቀደምቲ መልእኽታት ክትነብእ ትኽእል ኢኻ።",
+    "enterPassword": "ፓስወርድ ኣካውንትኻ ኣእትው ቁልፍታትኻ ብድህንነት ንባክኣፕ ንግበር።"
+  },
+  "auth": {
+    "headline": "ንማንም፣ ንየብሉ ቦታ ዝሰርሕ ድህንነት ዘለዎ መልእኽትነት",
+    "description": "ብድህንነት መወዳእታ-ናብ-መወዳእታ፣ ናብ 100+ ቋንቋታት ትርጉም፣ ዝጠፍኡ መልእኽታት፣ ድምጺ/ቪዲዮ ጥሪ።",
+    "feature": {
+      "encryption": "ብድህንነት መወዳእታ-ናብ-መወዳእታ ብቐዳማይ ደረጃ",
+      "translation": "ስማር፣ ውሽጣዊ ትርጉም መልእኽቲ",
+      "disappearing": "ዝጠፍኡ መልእኽታትን ኣንባቢ ትእዛዛትን",
+      "privacy": "ድህንነት ቀዳማይ። ዳታኻ፣ ቁጽጽርካ።",
+      "translate": "ስማር፣ ውሽጣዊ ትርጉም መልእኽቲ",
+      "disappear": "ዝጠፍኡ መልእኽታት",
+      "privacyAlt": "ድህንነት ቀዳማይ ዲዛይን",
+      "seePlans": "ዕቅዳታትን ዋጋታትን ርኣይ"
+    },
+    "hero": {
+      "line1": "ንማንም፣ ንየብሉ ቦታ — ምስ",
+      "em": "ናብ 100+ ቋንቋታት ትርጉም",
+      "sub": "ናይ ናጻ ድህንነት ዘለዎ ቁጽሪ ስልኪ ምረጽ፣ ኣብ Wi-Fi ወይ ዳታ ኣብ ዓለም ላዕሊ ጥሪን መልእኽቲን ልዕሊ። ብድህንነት መወዳእታ-ናብ-መወዳእታ፣ ዝጠፍኡ መልእኽታት፣ HD ድምጺ/ቪዲዮ ጥሪ — ምስ ውሽጣዊ መሳርዕታት ኣብ ወሰን ክትቆይም ይሕግዙካ።",
+      "freeNote": "ቀዳማይ ጥሪን መልእኽቲን ናይ ናጻ እዩ። ላዕለዋይ ኣይኤን ኣይ ኣና ፕሪሚየም መሳርዕታት ምዕባለ ይሓትት።"
+    },
+    "feat": {
+      "encryption": "ብድህንነት መወዳእታ-ናብ-መወዳእታ፣ ምንታይም ኣብ ላዕሊ",
+      "translate": "ቋንቋ ኣብ ዕላለ መንገዲ ኣብርትዕ",
+      "disappear": "ዝጠፍኡ መልእኽታትን ኣንባቢ ትእዛዛትን",
+      "privacy": "ድህንነት ቀዳማይ። ዳታኻ፣ ቁጽጽርካ።"
+    },
+    "continueGoogle": "ብGoogle ቀጽል",
+    "continueApple": "ብApple ቀጽል",
+    "username": "መጠቕላሊ ስም",
+    "password": "ፓስወርድ",
+    "keepSignedIn": "ኣብ ውሽጢ ኣትየ ኣትን",
+    "forgotPassword": "ፓስወርድ ረሳዕካ?",
+    "loginButton": "ኣትይ",
+    "createAccount": "ኣካውንት ፍጠር",
+    "freeAccountButton": "ናይ ናጻ ኣካውንት ፍጠር",
+    "newHere": "ሓዲሽ ኢኻ?",
+    "getApp": "ኣፕ ምረጽ",
+    "desktopTip": "ኣብ ዴስክቶፕ? ብስልኪኻ ስካን ግበር ኣፕ ምረጽ።",
+    "scanHelper": "ኣብ ዴስክቶፕ? ብስልኪኻ ስካን ግበር ኣፕ ምረጽ።",
+    "goHome": "ናብ ቤት",
+    "home": "ቤት",
+    "headlineAlt": {
+      "main": "ድህንነት ዘለዎ መልእኽትነት ዝዛረብ",
+      "highlight": "ቋንቋኻ"
+    },
+    "subhead": "ድህንነት፣ ዝተጠበቐን ዝተርጎመን መልእኽትነት — ብናጽራት።",
+    "upgrade": "ሕጂ ምዕባለ",
+    "tip": "ምኽር፡ ሓደ ኣካውንት ኣብ ዌብን ሞባይልን ተጠቐም። መልእኽታትኻ ይቆይሙ።",
+    "openDownload": "ዳውንሎድ ገጽ ክፈት",
+    "qrAlt": "QR ኮድ ንChatforia",
+    "scanHint": "ስካን ግበር ኣፕ ዳውንሎድ ወይ ኣብ ብራውዘርኻ ክፈት።",
+    "iosAria": "ኣብ App Store ዳውንሎድ ግበር",
+    "iosTitle": "ኣብ App Store ዳውንሎድ ግበር",
+    "iosBadgeAlt": "App Store ባድጅ",
+    "androidAria": "ኣብ Google Play ምረጽ",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play ባድጅ",
+    "login": "ኣትይ",
+    "signup": "ተመዝገብ",
+    "email": "ኢመይል",
+    "registration": {
+      "passwordDescription": "ቁጽሪ ፊደላት ቁጽሪ 6 እዩ። ጽኑዕን ፍሉይን ፓስወርድ ተጠቐም።",
+      "smsConsent": "ኣካውንት ብምፍጣር፣ ንChatforia እንተወሃብካ ናይ ኤስኤምኤስ ማሳወቂያታት (ከም መልእኽቲ ካብ ካልኦት ተጠቃሚታት) ክትቕበል ትሰማማዕ ኢኻ። መልእኽቲን ዳታ ዋጋ ክትኽፍል ይኽእል። ብናጻ ጊዜ ኣብ ምርጫታት ክትውግድ ትኽእል ኢኻ።",
+      "termsLink": "ውጽኢት ኣገልግሎት",
+      "privacyLink": "ፖሊሲ ድህንነት"
+    },
+    "to": "ናብ፡",
+    "enterRecipient": "ስም ወይ ቁጽሪ ኣእትው",
+    "clearRecipients": "ተቐባልቲ ኣጽምድ",
+    "sms": "ኤስኤምኤስ",
+    "chatforia": "Chatforia",
+    "typeMessage": "መልእኽቲ ጽሓፍ…",
+    "addRecipient": "ኣብ ላዕሊ ተቐባሊ ወሲንካ ጀምር…",
+    "oneRecipient": "ንሕጂ ሓደ ተቐባሊ ኣእትው።",
+    "enterValidRecipient": "ዝተዓቀበ ስም ተጠቃሚ ወይ ቁጽሪ ስልኪ ኣእትው።",
+    "sendFailed": "ምልኣኽ ኣይተዓወተን። ኣብ ኮንሶል ዝርዝራት ርኣይ።"
+  },
+  "home": {
+    "title": "ቤት",
+    "header": "መልእኽታትኻ",
+    "subheader": "መልእኽቲ ልኣኽ ንዕላለ ጀምር።",
+    "sendButton": "መልእኽቲ ልኣኽ",
+    "gifPicker": "GIF ምረጽ",
+    "emoji": "ኢሞጂ",
+    "upload": "ፎቶ ወይ ቪዲዮ ኣስቐምጥ",
+    "inputPlaceholder": "መልእኽቲ ጽሓፍ…",
+    "inputLabel": "መልእኽቲ ጸሓፊ",
+    "sendTooltip": "ልኣኽ",
+    "sendTooltipEmpty": "መልእኽቲ ጽሓፍ ንምልኣኽ",
+    "send": "ልኣኽ",
+    "welcomeMessage": "ናብ Chatforia እንቋዕ ብደሓን መጻእካ",
+    "getStarted": "ጀምር"
+  },
+  "chat": {
+    "selectPrompt": "ጽሑፍ ወይ ክፍሊ ዕላለ ምረጽ ንዕላለ ጀምር",
+    "newMessages": "ሓዲሽ መልእኽታት",
+    "typing": "{{name}} ይጽሕፍ ኣሎ…",
+    "emptyTitle": "መልእኽታትኻ",
+    "emptySubtitle": "መልእኽቲ ልኣኽ ንዕላለ ጀምር።",
+    "startChatButton": "መልእኽቲ ልኣኽ",
+    "mediaAttachment": "መጻወዲ ማድያ",
+    "thisUser": "ዚ ተጠቃሚ",
+    "blockConfirm": "{{name}} ኣግድ? ካብኦም መልእኽቲ ኣይትቕበልን።",
+    "blockedUser": "{{name}} ተዓጽዩ።",
+    "blockError": "ንዕቅብ ዝኾነ ተጠቃሚ ኣይተረጋገጸን።",
+    "blockFailed": "ኣግድ ኣይተዓወተን (ባክኤንድ ገና ኣይተዋህበን)።",
+    "encryptedUnavailable": "ዝተጠበቐ መልእኽቲ (ቁልፊ የብሉን)",
+    "unlockToView": "መልእኽቲ ንምርኣይ ቁልፊኻ ክፈት"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "ጥፋእ"
+    },
+    "freeLimit": "ናይ ናጻ ዕቅዳ ወሰን፡ ብራስ እንተ ኣብ 1 መዓልቲ ጥፋእ። ናብ 1ይ መዓልቲ ተገብረ።",
+    "premiumLimit": "ናይ ፕሪሚየም ዝዓብ ብራስ ጥፋእ 30 መዓልቲ እዩ። ናብ 30ይ መዓልቲ ተገብረ።",
+    "nothingToSend": "መልእኽቲ ጽሓፍ ወይ ፋይል ኣባርክብ ንምልኣኽ።",
+    "encryptionFailed": "ድህንነት ኣይተዓወተን። መልእኽቲ ኣይተለኣኸን።",
+    "sent": "መልእኽቲ ተላእከ።",
+    "placeholder": "መልእኽቲ ጽሓፍ…",
+    "autoDelete": "ብራስ ጥፋእ",
+    "typeToSend": "መልእኽቲ ጽሓፍ ንምልኣኽ",
+    "send": "ልኣኽ",
+    "sendWithEnter": "ልኣኽ (Enter)",
+    "attachment": "ኣባርክቦት",
+    "caption": "መግለጺ (ኣይኮነን)",
+    "remove": "ኣውጽእ",
+    "clear": "ኣጽምድ",
+    "gif": "GIF",
+    "sticker": "ስቲከር",
+    "errors": {
+      "attachmentTooLarge": "ኣባርክቦት ብዙሕ ዓብይ እዩ። ንእሽቶ ፋይል ፈትን።",
+      "unsupportedFile": "ዘይተደገፈ ዓይነት ፋይል።",
+      "rateLimit": "መልእኽታት ብፍጥነት ትልእኽ ኣለኻ። ኣትንብር።",
+      "validation": "ምጽዋት ስህተት። መልእኽቲኻ ኣረጋግጽን እንደገና ፈትን።",
+      "failedToSend": "ምልኣኽ ኣይተዓወተን። ዝፈነወ ባብል እንደገና ፈትን።"
+    }
+  },
+  "contactList": {
+    "savedContacts": "ዝተዓቀቡ ተጠቃሚታት",
+    "refreshAria": "ተጠቃሚታት ኣድስ",
+    "filterPlaceholder": "ዝተዓቀቡ ተጠቃሚታት ምርጫ…",
+    "filterAria": "ዝተዓቀቡ ተጠቃሚታት ምርጫ",
+    "noContactsFound": "ምንም ተጠቃሚታት ኣይተረኽቡን።",
+    "externalContact": "ወጻዒ ተጠቃሚ",
+    "notJoined": "ዚ ተጠቃሚ ገና Chatforia ኣይተመዝገበን።",
+    "couldNotStart": "ዕላለ ኣይተጀመረን። እንደገና ፈትን።",
+    "startFailed": "ዕላለ ምጀማር ኣይተዓወተን። እንደገና ፈትን።",
+    "deleted": "ተጠቃሚ ተደምሰሰ።",
+    "deleteFailed": "ተጠቃሚ ምድማስ ኣይተዓወተን። እንደገና ፈትን።",
+    "aliasUpdated": "ተለዋዊ ስም ተመሓየሸ።",
+    "updateAliasFailed": "ተለዋዊ ስም ምምሕያሽ ኣይተዓወተን። እንደገና ፈትን።",
+    "selectContact": "{{name}} ምረጽ",
+    "alias": "ተለዋዊ ስም",
+    "startChat": "ዕላለ ጀምር",
+    "message": "መልእኽቲ",
+    "delete": "ደምስስ",
+    "deleteContactAria": "ተጠቃሚ ደምስስ",
+    "loadFailed": "ተጠቃሚታት ምጽዋት ኣይተዓወተን። እንደገና ፈትን።",
+    "loadMore": "ዝያዳ ጭዋሮ",
+    "call": "ጥሪ",
+    "callStarted": "ብChatforia ቁጽርኻ ናብዚ ቁጽሪ ጥሪ ይጽዋዕ ኣሎ…",
+    "callFailed": "ጥሪ ምጀማር ኣይተዓወተን። እንደገና ፈትን።"
+  },
+  "startChatModal": {
+    "title": "ዕላለ ጀምር",
+    "searchPlaceholder": "ስም፣ መጠቕላሊ ስም፣ ወይ ቁጽሪ ስልኪ ምርካብ",
+    "messageThisPerson": "ንዚ ሰብ መልእኽቲ ልኣኽ",
+    "contacts": "ተጠቃሚታት",
+    "recentInteractions": "ናብ ቅሩብ ዝነበሩ ተግባራት",
+    "noContactsMatch": "ምንም ተጠቃሚታት ኣብ ምርካብኻ ኣይሰማማዑን።",
+    "noRecentInteractions": "ገና ናብ ቅሩብ ዝነበሩ ተግባራት የብሉን።",
+    "unknown": "ዘይፍለጥ",
+    "interactionType": {
+      "message": "መልእኽቲ",
+      "call": "ጥሪ",
+      "video": "ቪዲዮ"
+    }
+  },
+  "addContactModal": {
+    "title": "ተጠቃሚ ወሲንካ",
+    "phoneOrUsername": "ቁጽሪ ስልኪ ወይ መጠቕላሊ ስም",
+    "phoneOrUsernamePlaceholder": "ከም፡ +13018019227 ወይ juliannorton",
+    "alias": "ተለዋዊ ስም (ኣይኮነን)",
+    "aliasPlaceholder": "ከም፡ ስራሕ፣ ኣቦይ፣ ሚካኤል – ኤውሮጳ",
+    "enterPhoneOrUsername": "ቁጽሪ ስልኪ ወይ መጠቕላሊ ስም ኣእትው።",
+    "userLookupFailed": "ተጠቃሚ ምድላው ኣይተዓወተን።",
+    "cannotAddSelf": "ንርእስኻ ከተወስን ኣይትኽእልን ኢኻ።",
+    "failedToAdd": "ተጠቃሚ ምወሳን ኣይተዓወተን።",
+    "add": "ወሲንካ"
+  },
+  "sidebar": {
+    "randomChat": "ዘይተወሰነ ዕላለ",
+    "callTextForwarding": "ጥሪን መልእኽቲን ምትካል",
+    "conversations": "ዕላለታት",
+    "searchPlaceholder": "ዕላለታት ምርካብ…",
+    "errorLoading": "ዕላለታት ምጽዋት ኣይተዓወተን",
+    "empty": "ገና ዕላለታት የብሉን።",
+    "startChat": "ዕላለ ጀምር",
+    "people": "ሰባት",
+    "settings": "ምርጫታት",
+    "status": "ሁኔታ",
+    "forwarding": "ጥሪን መልእኽቲን ምትካል",
+    "refresh": "ኣድስ",
+    "search": "ዕላለታት ምርካብ",
+    "loginPrompt": "ንምርጫታትኻ ምዕራይ ኣትይ።",
+    "login": "ኣትይ",
+    "register": "ኣካውንት ፍጠር",
+    "chatrooms": "ክፍሊታት ዕላለ",
+    "logout": "ውጻእ",
+    "startChatAlt": "ሓዲሽ ዕላለ ጀምር",
+    "calls": "ጥሪታት",
+    "video": "ቪዲዮ",
+    "voicemail": "ድምጺ መልእኽቲ"
+  },
+  "topbar": {
+    "newStatus": "ሓዲሽ ሁኔታ",
+    "logout": "ውጻእ",
+    "help": "ሓገዝ",
+    "createStatusAria": "ሓዲሽ ሁኔታ ፍጠር"
+  },
+  "threadActions": {
+    "threadMenu": "መንገዲ ዕላለ",
+    "premium": "ፕሪሚየም",
+    "aiPower": "ኣይኤን ሓይሊ",
+    "schedule": "ዝወጽእ ግዜ",
+    "upgrade": "ምዕባለ",
+    "upgradeSuffix": "(ምዕባለ)",
+    "thread": "መንገዲ",
+    "about": "ብዛዕባ",
+    "search": "ምርካብ",
+    "media": "ማድያ",
+    "invitePeople": "ሰባት ዕድመ",
+    "roomSettings": "መተንታ ክፍሊ",
+    "clearConversation": "ዕላለ ኣጽምድ",
+    "block": "ኣግድ"
+  },
+  "roomSearch": {
+    "title": "ኣብ ክፍሊ ምርካብ",
+    "ariaLabel": "ኣብ ክፍሊ ምርካብ",
+    "search": "ምርካብ",
+    "searchMessages": "መልእኽታት ምርካብ",
+    "noText": "[ምንም ጽሑፍ]",
+    "noResults": "ምንም ውጽኢት የብሉን"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "ኣባል",
+      "moderator": "ኣማናጽዕ",
+      "admin": "ኣድሚን"
+    },
+    "aiMode": {
+      "off": "ጥፋእ",
+      "mention": "ብ @ForiaBot ወይ /ask ጥራይ",
+      "always": "ብቐዳማይ መልሲ ሃብ"
+    },
+    "autoTranslateMode": {
+      "off": "ጥፋእ",
+      "tagged": "ብታግ ጥራይ (/tr …)",
+      "all": "ኩሉ መልእኽታት"
+    },
+    "updated": "መተንታት ተመሓየሸ"
+  },
+  "mediaGallery": {
+    "sharedMedia": "ዝተካፈለ ማድያ",
+    "noMediaCached": "ገና ኣብ ስልኪ ማድያ የብሉን።",
+    "imageAlt": "ምስሊ",
+    "openVideo": "ቪዲዮ ክፈት",
+    "openVideoWithCaption": "ቪዲዮ ክፈት፡ {{caption}}",
+    "preview": "ቅድመ-ምርኣይ",
+    "previewWithCaption": "ቅድመ-ምርኣይ፡ {{caption}}",
+    "previewKind": "ቅድመ-ምርኣይ {{kind}}",
+    "download": "ዳውንሎድ",
+    "downloadKind": "ዳውንሎድ {{kind}}",
+    "file": "ፋይል",
+    "kinds": {
+      "image": "ምስሊ",
+      "video": "ቪዲዮ",
+      "audio": "ድምጺ",
+      "file": "ፋይል"
+    }
+  },
+  "status": {
+    "userNumber": "ተጠቃሚ #{{id}}",
+    "posted": "ሁኔታ ተፈጥረ",
+    "postFailed": "ሁኔታ ምፍጣር ኣይተዓወተን",
+    "createTitle": "ሁኔታ ፍጠር",
+    "modalAriaLabel": "ሓዲሽ ሁኔታ",
+    "captionLabel": "እንታይ ኣብ ልብኻ ኣሎ?",
+    "captionPlaceholder": "ሓዲሽ ሓበሬታ ኣካፍል…",
+    "captionAria": "መልእኽቲ ሁኔታ",
+    "audienceLabel": "ተቐባልቲ",
+    "audience": {
+      "public": "ሕብረት",
+      "followers": "ተከታዊታት",
+      "contacts": "ተጠቃሚታት",
+      "mutuals": "ዝተካፈሉ",
+      "custom": "ዝተመረጸ…"
+    },
+    "expiresHoursLabel": "ዝጠፍእ (ሰዓታት)",
+    "maxTooltip": "ዝዓብ 7 መዓልቲ",
+    "hoursAbbrev": "ሰ",
+    "maxShort": "ዝዓብ",
+    "expiresOn": "ዝጠፍእ፡",
+    "chooseRecipients": "ተቐባልቲ ምረጽ",
+    "selectContacts": "ተጠቃሚታት ምረጽ",
+    "attachmentsLabel": "ኣባርክቦታት",
+    "attachmentsPlaceholder": "ምስልታት/ቪዲዮታት ወሲንካ",
+    "filesNote": "እስከ 5 ፋይላት። ብቐዳማይ 24 ሰዓት ዝጠፍእ።",
+    "postAria": "ሁኔታ ልኣኽ",
+    "post": "ልኣኽ"
+  },
+  "voicemail": {
+    "pageTitle": "ድምጺ መልእኽቲ",
+    "from": "ካብ",
+    "to": "ናብ",
+    "unknownCaller": "ዘይፍለጥ",
+    "yourNumber": "የ Chatforia ቁጽርኻ",
+    "durationSeconds": "{{count}}ሰ",
+    "audioAria": "ድምጺ መልእኽቲ ተጫዋቲ",
+    "transcriptHeading": "ትርጉም",
+    "transcriptPending": "ድምጺ መልእኽቲ ይተርጎም ኣሎ…",
+    "transcriptFailed": "ትርጉም የብሉን።",
+    "loading": "ድምጺ መልእኽቲ ይጽዋት ኣሎ…",
+    "errorLoading": "ድምጺ መልእኽቲ ምጽዋት ኣይተዓወተን።",
+    "empty": "ገና ድምጺ መልእኽቲ የብሉን።",
+    "deleteConfirm": "ዚ ድምጺ መልእኽቲ ደምስስ?",
+    "deleteError": "ድምጺ መልእኽቲ ምድማስ ኣይተዓወተን።",
+    "markRead": "ኣንባቢ ምልክት ግበር",
+    "delete": "ደምስስ",
+    "unreadDotAria": "ዘይተነበ ድምጺ መልእኽቲ ምልክት"
+  },
   "profile": {
-    "title": "ፕሮፋይል ተጠቃሚ",
-    "preferredLanguage": "ዝተመርጸ ቋንቋ",
-    "chooseLanguage": "ቋንቋ ምረፅ",
-    "mustLogin": "ቅንብሮታት ክትበሉ መዝገብ ኣብ መጀመርታ እትግበር ኣለካ።",
-    "autoTranslate": "መልእኽቲ ብራእይ ተርጓሚ",
-    "showOriginalWithTranslation": "ናይ መጀመርታን ተተርጎመን መልእኽታት ርአ",
-    "showOriginalAndTranslation": "ናይ መጀመርታ ጽሑፍ ከም ተርጓሚ ብተባባሕ ርአ",
-    "filterExplicit": "ግልፅ/ሕማቕ ትሕዝቶ ማጣሪ",
-    "aiReply": "መልሲ ኣይኤ (AI)",
-    "enableReadReceipts": "መንበብ ማረጋጊያ ኣኽል",
-    "allowExplicitContent": "ግልፅ ትሕዝቶ ፍቀድ",
-    "disappearingMessages": "ዝጠፍኡ መልእኽታት ኣኽል",
-    "autoDeleteSeconds": "ክ ብራእይ ይሰርዝ ክሳብ ሰከንድ",
-    "saveSuccess": "ቅንብሮታት ተዓቒቡ!",
-    "saveError": "ጌጋ: ቅንብሮታት ምዕቃብ ኣልቦን",
-    "avatarAlt": "ፕሮፋይል ኣቫታር",
-    "uploadAvatar": "ኣቫታር ኣድሕን",
-    "avatarSuccess": "ኣቫታር ተወሃበ!",
-    "avatarError": "ጌጋ ኣብ መጻእ",
-    "noPrivateKey": "ናይ እዚ መሣሪት ምስክር ቃል (private key) የብሉን።",
-    "setBackupPassword": "ምስክር ቃል ምስ ቅባት ትጥቀም ዘለኻ ፓስዎርድ ምውሳኽ:",
-    "backupDownloaded": "ቅባት ብፓስዎርድ ተጠቒሙ ተወርደ።",
-    "exportFailed": "ምርባሕ ኣይከኣለን",
-    "enterBackupPassword": "ፓስዎርድ ናይ ዚኣ ቅባት ኣእትው:",
-    "importSuccess": "Private key ናብ እዚ መሣሪት ተመጻአ።",
-    "importFailed": "ምእታው ወይ ፓስዎርድ ስሕተት/ፋይል ተበላሸ።",
-    "keysRotated": "ናይ ሓድሽ ቁልፍ መደብ ተፈጥረ ፣ public key ተሰደደ።",
-    "rotateFailed": "ምቀያር ቁልፎም ኣይከኣለን።",
-    "security": "ሓላፍነት",
-    "exportKey": "Private key ኣልፍ",
-    "importKey": "ቅባት ምስ ተጠቒሙ key ኣእትው",
-    "rotateKeys": "ቁልፎም ቀይር",
-    "keyDisclaimer": "Private key ካብ መሣሪትኻ ኣይፈልጥን። ናብ ካልኦት መሣርሒ ምምለስ ክንከኣል ብፓስዎርድ ዝተጠቒሙ ቅባት ኣልፍ።",
-    "sectionProfile": "ፕሮፋይል",
+    "title": "መግለጺ ተጠቃሚ",
+    "preferredLanguage": "ዝመረጽካዮ ቋንቋ",
+    "chooseLanguage": "ቋንቋ ምረጽ",
+    "mustLogin": "ንምርኣይ ምርጫታት ኣትይ።",
+    "autoTranslate": "ብራስ ትርጉም መልእኽታት",
+    "showOriginalWithTranslation": "መጀመርታይ ጽሑፍን ዝተርጎመን መልእኽታት ኣርእይ",
+    "showOriginalAndTranslation": "መጀመርታይ ጽሑፍ ምስ ትርጉም ኣብ ጎኒ ኣርእይ",
+    "filterExplicit": "ግልጺ ትሕዝቶ ምርጫ",
+    "aiReply": "ኣይኤን መልሲ",
+    "enableReadReceipts": "ኣንባቢ ትእዛዛት ኣንቃዕ",
+    "allowExplicitContent": "ግልጺ ትሕዝቶ ፍቀድ",
+    "disappearingMessages": "ዝጠፍኡ መልእኽታት ኣንቃዕ",
+    "autoDeleteSeconds": "ብራስ ጥፋእ ሰከንዳት",
+    "saveSuccess": "ምርጫታት ተዓቀበ!",
+    "saveError": "ስህተት፡ ምርጫታት ኣይተዓቀበን",
+    "avatarAlt": "ኣባል መግለጺ",
+    "uploadAvatar": "ሓዲሽ ኣባል ኣስቐምጥ",
+    "avatarSuccess": "ኣባል ተኣቲዩ!",
+    "avatarError": "ኣባል ምእታት ኣይተዓወተን",
+    "avatarUpdated": "ኣባል ተመሓየሸ!",
+    "uploadingAvatar": "ኣባል ይኣቱ ኣሎ…",
+    "noPrivateKey": "ኣብዚ መሳርዕ ውልቃዊ ቁልፊ የብሉን ንምውጻእ።",
+    "setBackupPassword": "ባክኣፕኻ ንምጥበቕ ፓስወርድ ኣዳሉ፡",
+    "backupDownloaded": "ምስጢራዊ ባክኣፕ ተወረደ።",
+    "exportFailed": "ቁልፊ ምውጻእ ኣይተዓወተን",
+    "enterBackupPassword": "ንዚ ባክኣፕ ፓስወርድ ኣእትው፡",
+    "importSuccess": "ውልቃዊ ቁልፊ ናብዚ መሳርዕ ተኣቲዩ።",
+    "importFailed": "ቁልፊ ምእታት ኣይተዓወተን (ፓስወርድ ጌጋ ወይ ዝተበላሸወ ፋይል)።",
+    "keysRotated": "ሓዲሽ ቁልፍታት ተፈጥረን ሕቡር ቁልፊ ተላእከ።",
+    "rotateFailed": "ቁልፍታት ምዕባለ ኣይተዓወተን።",
+    "security": "ድህንነት",
+    "exportKey": "ቁልፊ ድህንነት ባክኣፕ",
+    "importKey": "ቁልፊ ድህንነት መለስ",
+    "rotateKeys": "ቁልፊ ድህንነት ምዕባለ",
+    "keyDisclaimer": "ውልቃዊ ቁልፊኻ ካብዚ መሳርዕ ፈጺሙ ኣይወጽእን። ብፓስወርድ ዝተጠበቐ ባክኣፕ ናብ ካልእ መሳርዕ ንምመላለስ ኣውጽእ።",
+    "sectionProfile": "መግለጺ",
     "phoneNumber": "ቁጽሪ ስልኪ",
-    "appearance": "መልክን ቀለምን",
-    "soundSettings": "ድምጺ",
+    "appearance": "መልክዕ",
+    "soundSettings": "ድምጺታት",
     "disappearing": "ዝጠፍኡ መልእኽታት",
-    "backupSync": "ቅባት & ምስክር (Sync)",
-    "ai": "ኣይኤ",
-    "accessibility": "ቀሊል ምጥቃም",
-    "privacy": "ዝነበረ ምስጢር",
-    "devices": "ዝተራኸቡ መሣርሒ",
-    "themeFreeNotice": "እቲ ፍሪ ፕላን እዩ—ናይ ፀሓይ/ለይቲ ምርጫ ብቕልጡፍ ተጠቒሙ። ለምዱን ርእሲ ለምዱን ክትፈቱ ኣፍሬድ ግብር።",
-    "sunTheme": "ዳውን (Dawn) ቲም ተጠቒሙ",
-    "moonTheme": "ሙን (Midnight) ቲም ተጠቒሙ",
-    "sun": "ፀሓይ",
-    "moon": "ለሊት",
-    "backupTitle": "ቅባት ብፓስዎርድ & ምስክር መሣርሒ",
-    "openBackupTools": "መሳርሒ ቅባት ክፈት",
-    "backupDesc": "ክፍት፡ ቅባት ብፓስዎርድ ኣልፍ ከምኡውን ኣብ ካልኦት መሣርሒ ምምለስ ንምስክር።",
-    "privacyBlurEnabled": "መልእኽታት ብብሩር ኣስተር",
-    "privacyBlurOnUnfocus": "መተግበሪ እንታይ ኣይረኣየን እንተሎ ኣስተር",
-    "holdToReveal": "ንምርኣይ ተይዘ ይዕረፍ",
-    "notifyOnCopy": "መልእኽተይ እንተተኮፈእ ንደልይ ንገርኒ",
-    "loadFailed": "ፕሮፋይል ምጽዓን ኣይከኣለን",
-    "followed": "ተከታተልካዮ",
-    "followFailed": "ምከታተል ኣይከኣለን",
-    "unfollowed": "ተለቒ",
-    "unfollowFailed": "ምልቃሕ ኣይከኣለን",
-    "follow": "ተከታተል",
-    "unfollow": "ልቀሕ",
-    "followHint": "እዚ ሰብ እንተ ብFollowers ወይ Public እንተ ለጠፈ ስቶሪ ኣብ Following ምስቲ ብትሩፍ ይቕረብ።",
-    "userNotFound": "ተጠቃሚ ኣይተረኸበን",
-    "followsYou": "ንኣኻ ይከታተል",
-    "sectionCrashedTitle": "ክፍሊ ምጽዓን ኣይከኣለን",
-    "sectionCrashedBody": "ነገር ኣብዚ ክፍሊ ተሳስየ።",
-    "forwarding": "ስልኪ & ቴክስት ፎርዋርዲንግ",
-    "callTextForwardingSection": "ስልኪ & ቴክስት ፎርዋርዲንግ",
-    "callTextForwardingTitle": "ስልኪ ወይ ቴክስት ፎርዋርዲንግ",
-    "callTextForwardingDescription": "ዝመጹ ስልኪ/ቴክስት ናብ ዝተረጋገጸ ስልኪ ወይ ኢመይል ኣላልፍ። ዝፈፀሙ ስልኪ/ቴክስት ቁጽሪ Chatforia ኣረኣይ ይኮን።",
-    "enableTextForwarding": "ቴክስት ፎርዋርዲንግ ኣኽል",
-    "forwardTextsToPhone": "ቴክስታት ናብ ስልኪ ኣላልፍ",
-    "forwardTextsToEmail": "ቴክስታት ናብ ኢመይል ኣላልፍ",
-    "destinationPhone": "መድረሻ ስልኪ (E.164)",
-    "destinationEmail": "መድረሻ ኢመይል",
-    "enableCallForwarding": "ስልኪ ፎርዋርዲንግ ኣኽል",
-    "destinationPhoneForCalls": "መድረሻ (E.164) ስልኪ",
-    "aliasBridging": "ስልኪ ፎርዋርዲንግ (alias bridging)",
-    "quietHoursOptional": "ሰዓታት ምስታመጽ (ኣማራጺ)",
-    "startHour": "መጀመርታ ሰዓት (0–23)",
+    "backupSync": "ባክኣፕ ቁልፊ ድህንነት",
+    "ai": "ኣይኤን",
+    "accessibility": "ተቐባልነት",
+    "privacy": "ድህንነት",
+    "devices": "ዝተኣሳሰሉ መሳርዕታት",
+    "themeFreeNotice": "ኣብ ናጻ ኢኻ — ቀልጢፍ ጸሓይ/ወርሒ ምርጫታት ተጠቐም። ዝዓብ ቴማታት ንምእታት ምዕባለ ግበር።",
+    "sunTheme": "ዕግባ ቴማ ተጠቐም",
+    "moonTheme": "ወርሒ (ናይ ምሸት) ቴማ ተጠቐም",
+    "sun": "ጸሓይ",
+    "moon": "ወርሒ",
+    "backupTitle": "ምስጢራዊ ባክኣፕታትን ምትካል መሳርዕን",
+    "openBackupTools": "መሳርዕ ባክኣፕ ክፈት",
+    "backupDesc": "ቁልፊ ድህንነትኻ ባክኣፕ ግበር ኣብ ካልእ መሳርዕ መልእኽታትኻ ብድህንነት ክትመልስ።",
+    "privacyBlurEnabled": "ብቐዳማይ መልእኽታት ብልር ግበር",
+    "privacyBlurOnUnfocus": "ኣፕ እንተዘይተነበረ ብልር ግበር",
+    "planSection": "ዕቅዳይ",
+    "planLoading": "ዕቅዳኻ ይጽዋት ኣሎ…",
+    "planLoadFailed": "ዕቅዳኻ ምጽዋት ኣይተዓወተን።",
+    "currentPlan": "እዚ ዕቅዳ",
+    "planRenewsOn": "ይቕጽል ኣብ",
+    "freePlanCopy": "ኣብ ናጻ ዕቅዳ ኢኻ። ባክኣፕታት፣ ዝዓብ ቁጽሪታት፣ ላዕለዋይ ድህንነት ንምእታት ምዕባለ ግበር።",
+    "upgradePlanCta": "ዕቅዳ ምዕባለ",
+    "changePlanCta": "ዕቅዳ ምዕራይ",
+    "manageBilling": "ትካል ክፍሊ ሒዝካ",
+    "portalOpenFailed": "ትካል ክፍሊ ኣይከፈተን። እንደገና ፈትን።",
+    "holdToReveal": "ጸባቢ ንምግላጽ",
+    "notifyOnCopy": "መልእኽቲይ እንተተቀዲ ማሳወቂያ ሃበኒ",
+    "loadFailed": "መግለጺ ምጽዋት ኣይተዓወተን",
+    "followed": "ተከታቲልካ",
+    "followFailed": "ምእካብ ኣይተዓወተን",
+    "unfollowed": "ተከታቲልካ ኣይተከተተን",
+    "unfollowFailed": "ተከታቲልካ ምውጋድ ኣይተዓወተን",
+    "follow": "እከት",
+    "unfollow": "ኣትከት",
+    "followHint": "እንተ ብተከታዊታት (ወይ ሕብረት) ሁኔታ እንተፈጠሩ ኣብ ተከታቲልካ ፊድ ይቕረቡ።",
+    "userNotFound": "ተጠቃሚ ኣይተረኽበን",
+    "followsYou": "ይከታልካ ኣሎ",
+    "sectionCrashedTitle": "ክፍሊ ምጽዋት ኣይተዓወተን",
+    "sectionCrashedBody": "ኣብዚ ክፍሊ ሓደ ስህተት ኮይኑ።",
+    "forwarding": "ጥሪን መልእኽቲን ምትካል",
+    "callTextForwardingSection": "ጥሪን መልእኽቲን ምትካል",
+    "callTextForwardingTitle": "ጥሪን/መልእኽቲን ምትካል",
+    "callTextForwardingDescription": "ዝመጽእ ጥሪታትን መልእኽታትን ናብ ዝተረጋገጸ ስልኪ ወይ ኢመይል ምትካል። ዝወጽእ ጥሪ/መልእኽቲ ቁጽር Chatforia ክቅርብ ይኽእል።",
+    "enableTextForwarding": "መልእኽቲ ምትካል ኣንቃዕ",
+    "forwardTextsToPhone": "መልእኽታት ናብ ስልኪ ምትካል",
+    "forwardTextsToEmail": "መልእኽታት ናብ ኢመይል ምትካል",
+    "destinationPhone": "መዓርፎ ቁጽሪ ስልኪ (E.164)",
+    "destinationEmail": "መዓርፎ ኢመይል",
+    "enableCallForwarding": "ጥሪ ምትካል ኣንቃዕ",
+    "destinationPhoneForCalls": "መዓርፎ (E.164) ንጥሪታት",
+    "aliasBridging": "ጥሪ ምትካል (ተለዋዊ ስም ብሪጅ)",
+    "quietHoursOptional": "ዝዓብ ሰዓታት (ኣይኮነን)",
+    "startHour": "ጀማሪ ሰዓት (0–23)",
     "endHour": "መወዳእታ ሰዓት (0–23)",
-    "reset": "ኣካይድ",
-    "saveBtn": "ኣቐምጥ",
-    "forwardSaved": "ቅንብሮታት ፎርዋርዲንግ ተዓቒቡ",
-    "forwardSaveFailed": "ቅንብሮታት ምዕቃብ ኣይከኣለን",
-    "errE164": "ቅኑዕ ቁ. ስልኪ E.164 ኣእትው (እቲ: +15551234567).",
+    "reset": "ኣጽምድ",
+    "saveBtn": "ኣድሕን",
+    "saveProfile": "መግለጺ ኣድሕን",
+    "saveForwarding": "ምትካል ኣድሕን",
+    "forwardSaved": "መተንታት ምትካል ተዓቀበ",
+    "forwardSaveFailed": "መተንታት ምትካል ኣይተዓቀበን",
+    "errE164": "ቅኑዕ E.164 ቁጽሪ ስልኪ ኣእትው (ከም፡ +15551234567)።",
     "errEmail": "ቅኑዕ ኢመይል ኣእትው።",
-    "errSmsDest": "እቲ መድረሻ ንስኻ ምረፅ (ስልኪ ወይ ኢመይል) ብውን ኣለኻ።",
-    "errQuietHours": "ሰዓታት ምስታመጽ ካብ 0 ክንደይ 23 ይኸውን ኣለዎ።"
+    "errSmsDest": "እንተ ወይ ስልኪ ወይ ኢመይል ሓደ መዓርፎ ምረጽ።",
+    "errQuietHours": "ዝዓብ ሰዓታት ኣብ 0 እና 23 መንጎ ክኸውን ኣለዎ።",
+    "randomChat": "ዘይተወሰነ ዕላለ",
+    "ageBand": "ዕድሜኻ ምርጫ",
+    "ageBandPlaceholder": "ዕድሜኻ ምረጽ",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "ብዛዕባ ዕድሜ ምርጫ (ብትክክል ዕለት ልደት ኣይኮነን) እና ኣትዘከርና። ንዘይተወሰነ ዕላለ ተለዋዊ ምጽዋት ንምግባር እዩ ዝዓዱ።",
+    "wantsAgeFilter": "ኣብ ዘይተወሰነ ዕላለ ብዕድሜ ምርጫ ተጠቐም",
+    "wantsAgeFilterDesc": "እንተ በለ፣ ኣብ ተስማማዕቲ ዕድሜ ምርጫ ዘለዎም ሰባት ንምጽዋት ንፈትን።",
+    "partnerAgeBands": "ከመይ ዓይነት ሰባት ክትጽዋት ትኽእል?",
+    "partnerAgeBandsDesc": "ኣብ ዕድሜ 13–17 ዘለዉ ሰባት ምስ ካልኦት 13–17 ጥራይ እዮም ዝጽዋቱ። ዓበይቲ ሰባት ምስ ኣብ ዕድሜ 13–17 ዘለዉ ኣይጽዋቱን።",
+    "teenMatchingNote": "ንድህንነት፣ ኣብ 13–17 ዕድሜ ዘለዉ ኣካውንታት ኣብ ዘይተወሰነ ዕላለ ምስ ካልኦት 13–17 ኣካውንታት ጥራይ እዮም ዝጽዋቱ።",
+    "foriaRemember": "ናይ Ria ነገራት ኣብ ልቢ ክትዕቅብ ፍቀድ",
+    "foriaRememberDesc": "እንተ በለ፣ Foria ናይ ቀደም ዘይተወሰነ ዕላለታትኻ (ንዓኻ ጥራይ) ክትጥቀም ትኽእል። ብናጻ ጊዜ ክትውግድ ትኽእል ኢኻ።",
+    "voicemailSection": "ድምጺ መልእኽቲ",
+    "voicemailEnabled": "ድምጺ መልእኽቲ ኣንቃዕ",
+    "voicemailAutoDeleteDays": "ድምጺ መልእኽቲ ብራስ ጥፋእ መዓልቲ",
+    "voicemailAutoDeletePlaceholder": "ኣይትምላእ ንዘላለም ክትዕቅብ",
+    "voicemailForwardEmail": "ድምጺ መልእኽቲ ናብ ኢመይል ምትካል",
+    "voicemailForwardEmailPlaceholder": "ኢመይል ንማሳወቂያ ድምጺ መልእኽቲ",
+    "voicemailGreetingText": "ጽሑፍ ተቐባሊ ሰላምታ",
+    "voicemailGreetingTextDesc": "ድምጺ ሰላምታኻ እንተዘይተረኽበ ይጥቀም።",
+    "voicemailGreetingUpload": "ድምጺ ሰላምታ ኣስቐምጥ",
+    "voicemailPreviewGreeting": "ሰላምታ ቅድመ-ምርኣይ",
+    "voicemailGreetingUploaded": "ድምጺ ሰላምታ ብትክክል ተኣቲዩ",
+    "voicemailGreetingUploadError": "ድምጺ ሰላምታ ምእታት ኣይተዓወተን",
+    "voicemailNote": "ካብ Chatforia ቁጽርታትኻ ዝመጽኡ ድምጺ መልእኽታት ኣብ ኢንቦክስ ድምጺ መልእኽቲ ይተኣትዩ። ትርጉምን ምትካልን ኣብ ዝደገፉ ዕቅዳታት ኣንቃዕ።",
+    "portHint": "እቲ ነባሪ ቁጽርኻ ክትዕቅብ ትደሊ? ናብ Chatforia Wireless ኣብቅሎ።",
+    "wireless": {
+      "manage": "ዋይለስ ሒዝካ"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "ካብ Wi-Fi ርሒቕካ ንChatforia ሞባይል ዳታ ምረጽ።",
+      "cta": "eSIM ምረጽ / QR ኣርእይ"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "ናይ Chatforia ሞባይል ዕቅዳ፣ ቁጽሪታት፣ ምትካልን ቁጽሪ ፖርቲንግን ሒዝካ።",
+    "options": {
+      "heading": "Chatforia ብኸመይ ክትጥቀም ትደሊ?",
+      "subheading": "ሓዲሽ Chatforia ቁጽሪ ምረጽ፣ ወይ ነባሪ ቁጽርኻ ካብ ካልእ ካርየር ኣብቅሎ።",
+      "newNumber": "ሓዲሽ Chatforia ቁጽሪ ምረጽ",
+      "portNumber": "ነባሪ ቁጽርኻ ናብ Chatforia Wireless ፖርት ግበር"
+    },
+    "port": {
+      "heading": "ነባሪ ቁጽርኻ ፖርት ግበር",
+      "subheading": "ነባሪ ቁጽርኻ ካብ ነባሪ ካርየርኻ ናብ Chatforia ኣብቅሎ። ዝርዝራት ምስ ኣካውንት ካርየርኻ ብትክክል ከምዘለዉ ኣረጋግጽ ንዝግደስ ምንዳፍ ከተዓግድ።",
+      "phoneNumberLabel": "ፖርት ዝግበር ቁጽሪ ስልኪ",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "ነባሪ ካርየር",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, ወዘተ።",
+      "accountNumberLabel": "ቁጽሪ ኣካውንት",
+      "pinLabel": "ፖርት-ኣውት PIN / ፓስወርድ",
+      "fullNameLabel": "ናይ ኣካውንት ምሉእ ስም",
+      "address1Label": "ኣድራሻ 1",
+      "address2Label": "ኣድራሻ 2 (ኣይኮነን)",
+      "cityLabel": "ከተማ",
+      "stateLabel": "ግዛት / ክልሊ",
+      "postalCodeLabel": "ኮድ ፖስታ",
+      "countryLabel": "ሃገር",
+      "submitButton": "ፖርት ምሕታት ልኣኽ",
+      "success": "ፖርት ምሕታት ተላእከ! ንሕና ክነብረካ ኢና።",
+      "genericError": "ሓደ ስህተት ኮይኑ።"
+    },
+    "status": {
+      "heading": "ሁኔታ ፖርቲንግ",
+      "subheading": "ሁኔታ ፖርት ቁጽርታትኻ ምክትትል ግበር።",
+      "loading": "ይጽዋት ኣሎ…",
+      "loadError": "ፖርት ምሕታታት ምጽዋት ኣይተዓወተን።",
+      "none": "ገና ናይ ፖርቲንግ ተግባር የብሉን።",
+      "pending": "ዝተጸበየ ምርመራ",
+      "submitted": "ናብ ካርየር ተላእከ",
+      "inProgress": "ይካየድ ኣሎ",
+      "completed": "ተዓዊቱ",
+      "failed": "ኣይተዓወተን",
+      "canceled": "ተቋሪጹ",
+      "created": "ተፈጥረ፡",
+      "scheduled": "ዝተወጽአ፡",
+      "completedAt": "ተዓዊቱ፡"
+    },
+    "dataLow": "ዳታኻ ይነጽል ኣሎ።",
+    "topUp": "ሕጂ ምዕባለ",
+    "expiresIn": "ኣብ {{days}} መዓልቲ ይጠፍእ",
+    "exhausted": "ዳታኻ ጠፊኡ። ሓዲሽ ፓክ ግዕዝ ንምቕጻል ሞባይል ዳታ ተጠቐም።",
+    "buyPack": "ዳታ ፓክ ግዕዝ",
+    "esimPackLabel": "eSIM ፓክ"
+  },
+  "family": {
+    "title": "ስድራ",
+    "loading": "ዝርዝር ስድራኻ ይጽዋት ኣሎ…",
+    "error": {
+      "load": "ዝርዝር ስድራ ምጽዋት ኣይተዓወተን።",
+      "invite": "ዕድመ ኣይተፈጠረን። ንስድራ ባለቲ ከምዝኾንካ ኣረጋግጽን እንደገና ፈትን።",
+      "checkout": "ንስድራ ዕቅዳ ቻክኣውት ኣይተጀመረን። እንደገና ፈትን።"
+    },
+    "billing": {
+      "myPlanTitle": "ዕቅዳይ",
+      "myPlanError": "ዕቅዳኻ ምጽዋት ኣይተዓወተን።",
+      "myPlanLoading": "ዕቅዳኻ ይጽዋት ኣሎ…",
+      "currentPlan": "እዚ ዕቅዳ",
+      "renewsAt": "ይቕጽል ኣብ",
+      "freePlanCopy": "ኣብ ናጻ ዕቅዳ ኢኻ። ዝዓብ መሳርዕታት ንምእታት ምዕባለ ግበር።",
+      "upgradeCta": "ዕቅዳ ምዕባለ",
+      "changePlanCta": "ዕቅዳ ምዕራይ",
+      "manageBilling": "ትካል ክፍሊ ሒዝካ",
+      "portalError": "ትካል ክፍሊ ሕጂ ኣይከፈተን።",
+      "cancelNow": "ሕጂ ኣቋርጽ",
+      "cancelNowHelp": "ኣብ ትካል ክፍሊ ወይ ኣብ ታሕቲ ኣብ ቀጥታ ምዕራይ ወይ ምቅራጽ ትኽእል ኢኻ።",
+      "cancelNowConfirm": "ዕቅዳኻ ብቐጥታ ከትቅርጽ ትደሊ ኢኻ? ዚ ኣይተመልስን።",
+      "cancelNowError": "ዕቅዳኻ ሕጂ ኣይተቋረጸን። እንደገና ፈትን ወይ ትካል ክፍሊ ሒዝካ ተጠቐም።"
+    },
+    "none": {
+      "title": "ገና ስድራ የብሉን",
+      "body": "Chatforia Family ንምፍጣርን ዝተካፈለ ዳታ ፑል ንምፍጣር፣ ስድራ ዕቅዳ ጀምር።",
+      "goUpgrade": "ስድራ ዕቅዳ ጀምር",
+      "viewPlans": "ኩሉ ዕቅዳታት ርኣይ"
+    },
+    "group": {
+      "defaultName": "የ Chatforia ስድራ",
+      "role": "ተባዕትኻ፡ {{role}}"
+    },
+    "role": {
+      "owner": "ባለቲ",
+      "member": "ኣባል"
+    },
+    "data": {
+      "heading": "ዝተካፈለ ዳታ ፑል",
+      "caption": "ኩሉ ኣባላት ዚ ፑል ይካፈሉ። ናብ ወሰንኻ እንተቀረብካ ክነማሳውቕ ኢና።"
+    },
+    "members": {
+      "title": "ኣባላት ስድራ",
+      "name": "ስም",
+      "role": "ተባዕት",
+      "usage": "ኣጠቓቕማ",
+      "limit": "ወሰን",
+      "unlimited": "ዝተወሰነ ወሰን የብሉን",
+      "inviteCta": "ኣባል ዕድመ"
+    },
+    "invite": {
+      "title": "ሓዲሽ ኣባል ዕድመ",
+      "body": "ኢመይል ወይ ሊንክ ልኣኽ ንዝተካፈለ ስድራ ዳታ ፑል ኣባል ክትዕድመ።",
+      "emailLabel": "ኢመይል (ኣይኮነን)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "ዕድመ ፍጠር",
+      "linkLabel": "ዕድመ ሊንክ",
+      "copyAria": "ዕድመ ሊንክ ቅዳ",
+      "expiryHint": "ዚ ሊንክ ድሕሪ ሓያሉ መዓልታት ይጠፍእ። ሓዲሽ ክትፍጥር ትኽእል ኢኻ።"
+    },
+    "join": {
+      "title": "ስድራ ተቐበል",
+      "body": "ናብ Chatforia Family ንዝተካፈለ ዳታ ፑል ተዕዱምካ ኣሎኻ።",
+      "cta": "ተቐበልን ስድራ ተቐበልን",
+      "ctaLogin": "ኣትይካ ስድራ ተቐበል",
+      "success": "ናብዚ ስድራ ተቐቢልካ ኣለኻ። ሕጂ ዳታ ፑል ተካፈልካ።",
+      "goFamily": "ናብ ዳሽቦርድ ስድራ ኪድ",
+      "error": "ናብዚ ስድራ ኣይተወሰንካን። ዕድመ ጌጋ ወይ ጊዜኡ ዝወጸ ክኸውን ይኽእል።"
+    }
+  },
+  "premium": {
+    "heading": "ፕሪሚየም ኪድ",
+    "description": "ሓይሊ መሳርዕታት ክፈትን ኣድ ክትውግድን።",
+    "cta": "ምዕባለ",
+    "upgrade": "ምዕባለ",
+    "upgradeAria": "ናብ Chatforia Premium ምዕባለ"
+  },
+  "upgrade": {
+    "title": "ምዕባለ",
+    "titleLoggedIn": "ምዕባለ",
+    "titlePublic": "ዋጋታት",
+    "h1": "ዋጋታትን ዕቅዳታትን Chatforia",
+    "h1Subtitle": "ብናጻ፣ ኣድ-ዝተደገፈ ዕቅዳ ጀምር። ብPlus ኣድ-ዘይብሉ ክትኸውን፣ ወይ ብPremium ምሉእ ሓይሊ መሳርዕታት ክትከፍት።",
+    "subtitle": "ኣፕ ዕቅዳ ምረጽ፣ ዳታ ፓክ ንርእስኻ ወሲንካ፣ ወይ ምስ ስድራኻ ዳታ ኣካፍል — ኩሉ ካብ ሓደ ቦታ።",
+    "subtitle.app": "ብናጻ፣ ኣድ-ዝተደገፈ ዕቅዳ ጀምር። ብPlus ኣድ-ዘይብሉ ክትኸውን፣ ወይ ብPremium ምሉእ ሓይሊ መሳርዕታት ክትከፍት።",
+    "subtitle.mobile": "ኣብ Wi-Fi ርሒቕካ ንChatforia ክትቕጽል ግሎባል eSIM ዳታ ወሲንካ።",
+    "subtitle.family": "ንስድራኻ ዝተካፈለ ዳታ ፑል ፍጠርን ንኩሉ ኣባላት ኣጠቓቕማ ካብ ሓደ ቦታ ሒዝካ።",
+    "perMonth": "ወርሒ",
+    "perYear": "ዓመት",
+    "goPremium": "ፕሪሚየም ኪድ",
+    "benefitsLine": "ሓይሊ መሳርዕታት ክፈትን ኣድ ክትውግድን።",
+    "ctaText": "ምዕባለ",
+    "aria": "ናብ Chatforia Premium ምዕባለ",
+    "toggle": {
+      "monthly": "ወርሒያዊ",
+      "annual": "ዓመታዊ (30% ኣትሕስብ)"
+    },
+    "scheduleBanner": {
+      "title": "ዕቅዳ ይቋረጽ",
+      "body": "ናብ ናጻ ትመለስ ኣብ",
+      "keepPlanCta": "{{plan}} ቀጽል",
+      "manageBillingCta": "ትካል ክፍሊ ሒዝካ"
+    },
+    "billing": {
+      "opening": "ይከፈት ኣሎ…",
+      "manage": "ትካል ክፍሊ ሒዝካ"
+    },
+    "checkout": {
+      "redirecting": "ይውስድ ኣሎ…"
+    },
+    "auth": {
+      "continue": "ናብ ምእታት ቀጽል",
+      "createAccount": "ኣካውንት ፍጠር",
+      "signIn": "ኣትይ"
+    },
+    "cta": {
+      "aria": "ዕቅዳ ምረጽ",
+      "getPlus": "ናብ Plus ምዕባለ",
+      "upgradeMonthly": "ወርሒያዊ ምዕባለ",
+      "upgradeAnnual": "ዓመታዊ ምዕባለ"
+    },
+    "section": {
+      "app": "ኣፕ ዕቅዳታት",
+      "mobile": "ሞባይል (eSIM)",
+      "family": "ስድራ ዕቅዳታት"
+    },
+    "plans": {
+      "free": {
+        "title": "ናጻ",
+        "price": "$0",
+        "desc": "ብናጻ መልእኽትነት ጀምር። Chatforia ጥራይ እንተትፈትን እዩ።",
+        "features": {
+          "chat": "ብትክክል 1:1 ኣብዛ ክፍሊ ዕላለ፣ ድምጺን ቪዲዮ ጥሪታትን",
+          "media": "ፎቶታት፣ ድምጺ መልእኽታት፣ ንእሽቶ ቪዲዮታት ኣካፍል",
+          "ai": "ኣይኤን ስማር መልሲታትን ብናጻ ትርጉምን (ብትኽክል ኣጠቓቕማ)",
+          "disappearing": "ዝጠፍኡ መልእኽታትን ቀዳማይ ድህንነት ቁጽጽርን",
+          "ads": "ኣብ ኣፕ ኣድ ምስ ናጻ ለዓለምዊ"
+        },
+        "ctaCurrent": "እዚ ዕቅዳ",
+        "ctaManage": "ትካል ክፍሊ ሒዝካ",
+        "ctaPublic": "ጀምር — ናብ ምእታት ቀጽል",
+        "aria": "ናጻ ዕቅዳ"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "ኩሉ መሰረታዊ ነገራት፣ ያይ ኣድ። ንመዓልታዊ መልእኽትነትን ጥሪን ዝግብኣ እዩ።",
+        "features": {
+          "allFree": "ኩሉ ኣብ ናጻ ዘሎ፣ ያይ ኣድ",
+          "forwarding": "ጥሪታትን መልእኽታትን ናብ ናይ ሓቂ ቁጽሪ ስልኪኻ ምትካል",
+          "history": "ዝዓብ ታሪኽ መልእኽቲ (እስከ 6 ወርሒ)",
+          "support": "ፈጣን ሓገዝ ስህተት እንተኮይኑ"
+        },
+        "badge": "ተወዳዳሪ",
+        "cta": "ኣድ-ዘይብሉ ኪድ",
+        "ctaPublic": "Plus ምረጽ — ናብ ምእታት ቀጽል",
+        "aria": "ናብ Plus ምዕባለ"
+      },
+      "premiumMonthly": {
+        "title": "Premium (ወርሒያዊ)",
+        "price": "$11.99",
+        "desc": "ምሉእ ተመንገዲ Chatforia፡ ኣይኤን ሓይሊ መሳርዕታት፣ ምርጫ፣ ቅድሚት ሓገዝ።",
+        "features": {
+          "plusAll": "ኩሉ ኣብ Plus",
+          "themes": "ኩሉ ፕሪሚየም ቀለማት ቴማታትን ኣፕ ምርጫታትን ክፈት",
+          "ai": "ፕሪሚየም-ጥራይ ኣይኤን ሓይሊ መሳርዕታት ምዕራይ፣ ስማር መልሲታት፣ ሓጺር ትሕዝቶ",
+          "support": "ቅድሚት ሓገዝ እንተደሊኻ እብዛ ሓገዝ"
+        },
+        "badge": "ዝመከረ",
+        "cta": "ምዕባለ (ወርሒያዊ)",
+        "ctaPublic": "Premium ክፈት — ናብ ምእታት ቀጽል",
+        "aria": "ናብ Premium Monthly ምዕባለ"
+      },
+      "premiumAnnual": {
+        "title": "Premium (ዓመታዊ)",
+        "price": "$99",
+        "desc": "ዓመታዊ ትካል እንተገበርካ ዝዓብ ኣትሕስብ — ዝዓብ ቀለማት ቴማታት፣ ኣይኤን መሳርዕታት፣ ቅድሚት ሓገዝ ይኽፈቱ።",
+        "features": {
+          "allPremium": "ኩሉ ኣብ Premium Monthly — ዝዓብ ቀለማት ቴማታት ይኽፈቱ",
+          "annualBilling": "ብሓደ ዓመት ትካል",
+          "save25": "ወርሒያዊ እንተከፈልካ ዝዓብ 30% ኣትሕስብ",
+          "bestFor": "ንዓባይ ተጠቃሚታት፣ ርሒቕ ሰራሕተኛታት፣ ብዙሕ ዝንቀሳቀሱ ተጓዛት ዝግብእ"
+        },
+        "badge": "30% ኣትሕስብ",
+        "cta": "ምዕባለ (ዓመታዊ)",
+        "ctaPublic": "ዓመታዊ 30% ኣትሕስብ — ናብ ምእታት ቀጽል",
+        "aria": "ናብ Premium Annual ምዕባለ",
+        "disclaimer": "ብቅድሚት ትካል። ብናጻ ጊዜ ኣቋርጽ። ምስጢራዊ ክፍሊ የብሉን።"
+      }
+    },
+    "marketing": {
+      "freeTitle": "ናጻ",
+      "freeDesc": "ብናጻ መልእኽትነት ጀምር።",
+      "plusTitle": "Plus",
+      "plusBadge": "ተወዳዳሪ",
+      "plusDesc": "ዝዓብ ርካብ ዘይብሉ ኣድ ተመንገዲ።",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "ምሉእ መሳርዕታት፣ ሪንግቶን፣ ኣይኤን ሓይሊ መሳርዕታት።",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "ዓመታዊ ትካል እንተገበርካ ዝዓብ ኣትሕስብ።",
+      "annualDisclaimer": "ብቅድሚት ትካል። ብናጻ ጊዜ ኣቋርጽ። ምስጢራዊ ክፍሊ የብሉን።"
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM ዳታ ፓካት)",
+      "subtitle": "ኣብ Wi-Fi ርሒቕካ ንChatforia ክትቕጽል ግሎባል ዳታ ወሲንካ። ዋጋታት ብሃገርካን ምንዛሪኻን ብራስ ይቀየሩ።",
+      "subtitle.detail": "ናይ ሓደ ጊዜ ግሎባል ዳታ ፓክ ምረጽ ኣብ ጉዕዞ ወይ ካብ Wi-Fi ርሒቕካ ንChatforia ክትቕጽል።",
+      "scope": {
+        "local": "ከባቢያዊ",
+        "europe": "ኤውሮጳ",
+        "global": "ግሎባል"
+      },
+      "note": "ንዝብሉ 3 GB ዳታ ፓክ ኣይንሽጥን።",
+      "localEquals": "ከባቢያዊ = {{country}}",
+      "localEqualsFallback": "ከባቢያዊ = እቲ ሕጂ ሃገርኻ",
+      "perPack": "/ ፓክ",
+      "cta": "ዚ ዳታ ፓክ ምረጽ",
+      "ctaPublic": "ዚ ዳታ ፓክ ምረጽ",
+      "checkout": {
+        "redirecting": "ይውስድ ኣሎ…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "ንዓባይ ኣጠቓቕማ ፈጣን ዳታ",
+          "throttle": "ብዙሕ ኣጠቓቕማ ድሕሪ ፍጥነት ይቕንጠብ",
+          "coverage": "ብድህንነት ዝተዓቀበ ሽፋን",
+          "instant": "ብናጻ eSIM ምንቅስቓስ",
+          "noContract": "ናይ ሓደ ጊዜ ፓክ፣ ስምምዕት የብሉን"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM ዳታ ፓካት ንeSIM-ዝተደገፈን ዘይተዓቀቐን መሳርዕ ይሓትት። ብዓይነት ስልኪ፣ ካርየርን ሃገርን ይፈላለይ። ሽፋንን ፍጥነትን ብከባቢ ይፈላለይ።"
+      },
+      "small": {
+        "title": "Starter pack",
+        "desc": "3 GB ፈጣን ዳታ — ንቀሊል መልእኽትነትን ንእንተ ኣብ ጊዜ ጥሪታትን ዝግብእ።",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "ንእጽር ጉዕዞታት፣ ቀሊል መልእኽትነትን እንተ ኣብ ጊዜ ጥሪታትን",
+        "aria": "Starter eSIM ዳታ ፓክ ግዕዝ"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "desc": "5 GB ፈጣን ዳታ ንጉዕዞ፣ መንገዲ ስራሕ፣ ዘይተወሰነ VoIP ጥሪታት።",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "ናይ ሰሙን ጉዕዞታት፣ ዘይተወሰነ VoIP ጥሪታት፣ ማፕስ",
+        "aria": "Traveler eSIM ዳታ ፓክ ግዕዝ"
+      },
+      "large": {
+        "title": "Power pack",
+        "desc": "10 GB ፈጣን ዳታ ንዓባይ ዕላለ፣ ጥሪታት፣ ቪዲዮ ኣብ Chatforia ኔትወርክ።",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "ዓባይ ዕላለ፣ ጥሪታት፣ ቪዲዮ፣ ሆትስፖት ኣጠቓቕማ",
+        "aria": "Power user eSIM ዳታ ፓክ ግዕዝ"
+      },
+      "compare": {
+        "title": "eSIM ዳታ ፓካት ነጽጽ",
+        "col": {
+          "pack": "ፓክ",
+          "data": "ዝተዓቀበ ዳታ",
+          "bestFor": "ዝግብእ"
+        },
+        "disclaimer": "ትክክለኛ ኣጠቓቕማ ዳታ ብከመይ ከምትጥቀም Chatforia (ድምጺ፣ ቪዲዮ፣ ማድያ፣ ካልኦት ኣፕታት ኣብ ስልኪኻ) ይወሰን።"
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (ዝተካፈለ ዳታ)",
+      "subtitle": "ኣብ ስድራኻ ሓደ ዳታ ፑል ኣካፍል። ሓደ ቢል፣ ብዙሕ ኣካውንታት Chatforia፣ ግሎባል ሽፋን።",
+      "perPack": "/ ፓክ",
+      "small": {
+        "title": "Family Small",
+        "desc": "20 GB ዝተካፈለ ፈጣን ዳታ — ን2–3 ቀሊል ተጠቃሚታት ዝግብእ።",
+        "price": "$29.99",
+        "aria": "Family Small pack ግዕዝ"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "40 GB ዝተካፈለ ፈጣን ዳታ — ን3–5 ተግባራዊ ኣባላት ዝግብእ።",
+        "price": "$49.99",
+        "aria": "Family Medium pack ግዕዝ"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "80 GB ዝተካፈለ ፈጣን ዳታ — ንዓባይ ስድራ ምሉእ ጊዜ ኣብ ኦንላይን ዘለዉ።",
+        "price": "$84.99",
+        "aria": "Family Large pack ግዕዝ"
+      },
+      "feature": {
+        "shared": "ንስድራኻ ዝተካፈለ ዳታ ፑል",
+        "members": "እስከ 4 ተወሳኪ ኣባላት ዕድመ",
+        "membersMore": "ን3–5 ተግባራዊ ኣባላት ዝግብእ",
+        "manage": "ንነፍሲ ወኪል ኣባል ወሰን ሒዝካ",
+        "topUp": "ብናጻ ጊዜ ዝዓብ ፓካት ወሲንካ",
+        "bestValue": "ዝዓብ ዋጋ ብGB",
+        "fairUse": "ብትኽክል ኣጠቓቕማ ፖሊሲን ከባቢያዊ ወሰንን ይገደድ"
+      },
+      "disclaimer": "ስድራ ፓካት ዝተካፈለ ዳታ ፑል ይፈጥር ወይ ይምልእ። ኣባላት ብናጻ ጊዜ ክትዕድምን ክትውግድን ትኽእል ኢኻ።",
+      "footnote": "ስድራ ፓካት ኣብ ዝተኣሳሰሉ Chatforia ኣካውንታት ሓደ ዳታ ፑል ይካፈል። ሽፋንን ወሰንን ብሃገርካን ከባቢያዊ ሕጋትን ይወሰን።"
+    },
+    "why": {
+      "title": "ንእንታይ ሰባት ናብ Chatforia ይቕይሩ",
+      "subtitle": "Chatforia ሓቂ ቁጽሪ ስልኪ፣ ስማር ትርጉም፣ ኣድ-ዘይብሉ ቀላል መንገዲ ይህብካ።",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "ኣብ ናጻ ዝዓብ ኣድ፣ ቀላል Plus ምዕባለ እንተደሊኻ፣ ፕሪሚየም መሳርዕታት TextNow ዘይብሉ።"
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "ሓዲሽ ኣፕ፣ ግሎባል-ቀዳማይ ዲዛይን፣ ውሽጣዊ ትርጉም ከኣ ኣብ ቀደምቲ ጥሪ ምትካል ኣይኮነን።"
+        },
+        "messengers": {
+          "title": "Chatforia vs ኣፕ ዕላለ",
+          "body": "ብሓቂ ቁጽሪ ስልኪ መልእኽቲ ልኣኽ — ኣብ ኣፕ ተጠቃሚታት ጥራይ ኣይኮነን — ምስ ኣይኤንን ሁኔታን ውሽጣዊ። ካብ TextFree ወይ TextMe እንተመጻእካ ዝግብእ።"
+        }
+      },
+      "tableTitle": "Chatforia ከመይ ከምዝመሳሰል",
+      "col": {
+        "feature": "መሳርዕ"
+      },
+      "feature": {
+        "freeNumber": "ናጻ ቁጽሪ ስልኪ",
+        "translation": "ውሽጣዊ ብራስ ትርጉም",
+        "aiTools": "ኣይኤን መሳርዕታት (ምዕራይ፣ መልሲታት፣ ሓጺር ትሕዝቶ)",
+        "ads": "ኣድ-ዘይብሉ ምርጫ",
+        "history": "ታሪኽ መልእኽቲ"
+      },
+      "yes": "ሓውያ",
+      "no": "ኣይኮነን",
+      "yesPremium": "ሓውያ (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "ውሱን",
+      "nA": "ኣይተገብረን",
+      "history": {
+        "chatforia": "እስከ 12+ ወርሒ",
+        "textnow": "ብኣካውንት ይፈላለይ",
+        "voice": "ውሱን / ብኣካውንት"
+      },
+      "disclaimer": "ነጽጽ ብሕቡራት መረዳእታ ዝተመርኮዘ እዩ፣ ጊዜ ምስ ከይዱ ይቀየር። ካልኦት ናጻ-መልእኽቲ ኣፕታት ከም TextFree ወይ TextMe ከም TextNow እዮም ዝመስሉ።"
+    },
+    "faq": {
+      "title": "ዋጋታትን ዕቅዳታትን FAQ",
+      "free": {
+        "q": "ናጻ ዕቅዳ ብሓቂ ናጻ ድዩ?",
+        "a": "ሓውያ። ናጻ ዕቅዳ ቁጽሪ Chatforia፣ ጥሪን መልእኽትነትን ምስ ኣድ ይኽፈት። እስከ ዝደሊኻ ኣብ ናጻ ክትቆይም ትኽእል ኢኻ፣ ወይ ኣድ ንምውጋድን ዝዓብ መሳርዕታት ንምእታትን ምዕባለ ግበር።"
+      },
+      "plusPremium": {
+        "q": "Plus ከም Premium እንታይ ይፈላለዩ?",
+        "a": "Plus ኣድ ይውግድን ታሪኽ መልእኽቲ ይዓብን — ንመዓልታዊ ኣጠቓቕማ ፍጹም። Premium ዝዓብ ምርጫ፣ ኣይኤን መሳርዕታት ምዕራይን መልሲታትን፣ ቅድሚት ሓገዝ ንዓባይ ተጠቃሚታት ይውስኽ።"
+      },
+      "esim": {
+        "q": "eSIM ዳታ ፓካት ኣብ የት ይሰርሕ?",
+        "a": "Chatforia Mobile ግሎባል eSIM ሽፋን ይጥቀም። ሽፋን ብሃገርካን መሳርዕካን ይወሰን። ዝደገፉ ምርጫታት ኣብ ኣፕ እንተተነበርካ ክትርኣዩ ኢኹም።"
+      },
+      "cancel": {
+        "q": "ዕቅዳታት ብናጻ ጊዜ ክትቅርጽ ወይ ክትለውጥ ትኽእል ዲኻ?",
+        "a": "ሓውያ። ኣብ ትካል ክፍሊ ኣብ ኣፕ ዕቅዳኻ ምዕራይ ወይ ምቅራጽ ትኽእል ኢኻ። ለውጢ ኣብ መወዳእታ ሕጋዊ ጊዜኻ ይተግብር።"
+      },
+      "family": {
+        "q": "ስድራ ፓካት ከመይ ይሰርሕ?",
+        "a": "ስድራ ፓካት ኣብ ብዙሕ ኣካውንታት Chatforia ሓደ ዳታ ፑል ይፈጥር። ሓደ ሰብ ቢል ይከፍል፣ ኣባላት ክትዕድምን ክትውግድን፣ ንነፍሲ ወኪል ወሰን ክትውስን ትኽእል ኢኻ።"
+      }
+    },
+    "gettingStarted": {
+      "title": "ጀሚርካ",
+      "subtitle": "ናብ Chatforia ሓዲሽ? ዚ ቀልጢፍ መምርሒ ንዓኻ ብደቂቃት ክትሰርሕ ይሕግዘካ።",
+      "alert": {
+        "text": "ዚ መምርሒ ሓዲሽ መሳርዕታት እንተተፈጠሩ ይዓብ። ሓደ ነገር እንተጎደለ ብ",
+        "contactLink": "Contact Us"
+      },
+      "section1": {
+        "title": "1) ኣካውንትኻ ፍጠር",
+        "signup": "ተመዝገብ",
+        "or": "ወይ",
+        "login": "ኣትይ",
+        "loginText": "ብነባሪ ኣካውንትኻ።",
+        "prefsStart": "ናይ",
+        "prefsLink": "ምርጫታትኻ",
+        "prefsRest": "ኣዳሉ (ቋንቋ፣ ኣንባቢ ትእዛዛት፣ ቴማታት)።"
+      },
+      "section2": {
+        "title": "2) መልእኽትነት ጀምር",
+        "item1": "DM ወይ Group ፍጠር ቀዳማይ መልእኽቲኻ ልኣኽ።",
+        "item2": "ብናጻ ትርጉም 100+ ቋንቋታት ኣብ ዕላለ ተጠቐም።",
+        "item3": "ዝጠፍኡ መልእኽታትን ኣንባቢ ትእዛዛትን ኣብ መግለጺ → ድህንነት ፈትን።"
+      },
+      "section3": {
+        "title": "3) ዝዓብ ኪድ",
+        "item1": "ብናጻ ጊዜ ኣብ ኣፕ ንፈለጥ ዕቅዳ ምዕባለ ትኽእል ኢኻ።",
+        "item2": "እንተተኣቲኻ፣ ካልእ መሳርዕታት ምትካልን ምስጢራዊ ባክኣፕታት ኣብ ምርጫታት ኣፕ ኣዳሉ።"
+      },
+      "cta": {
+        "seePlans": "ዕቅዳታት ርኣይ",
+        "openSettings": "ምርጫታት ክፈት"
+      }
+    },
+    "helpCenter": {
+      "title": "ማእከል ሓገዝ",
+      "faq": {
+        "account": {
+          "q": "ኣካውንት ከመይ ከምዝፈጥር ወይ ከምዝመልስ ከይትገብር?",
+          "a": "ኣፕ ዳውንሎድ ግበር ወይ ዌብ ተጠቐም፣ “ኣካውንት ፍጠር” ጠውቕ፣ ኢመይል/ስልኪ ኣረጋግጽ። ንምመላለስ “Forgot password” ተጠቐም።"
+        },
+        "privacy": {
+          "q": "መልእኽታት ብድህንነት መወዳእታ-ናብ-መወዳእታ ድዮም?",
+          "a": "ሓውያ። መልእኽታትን ጥሪታትን ብቐዳማይ ደረጃ ብድህንነት መወዳእታ-ናብ-መወዳእታ እዮም። ንስኻን ተቐባሊን ጥራይ እትነብእዎም።"
+        },
+        "translate": {
+          "q": "ብናጻ ትርጉም ከመይ ይሰርሕ?",
+          "a": "ኣብ ምርጫታት → መልክዕን ቋንቋን “Auto-translate” ኣንቃዕ። ኣብ መሳርዕ ዝደገፈ ብመሳርዕ ንምትርጉም፣ እንተዘይኮነ ብድህንነት ኤፒአይ ብውሱን ሜታዳታ።"
+        },
+        "contact": {
+          "q": "ሓገዝ ከመይ ክትረኽብ?",
+          "a": "support@chatforia.com ርክብ። ስክሪንሾትታትን እትጥቀም ኣፕ ቨርዝዮንን ኣብዝሕ።"
+        }
+      }
+    },
+    "contact": {
+      "title": "ርክብ ምዕባለ",
+      "successMsg": "ኣመስግኖ—ቡድንና ብኢመይል ክመልስ እዩ።",
+      "errorSend": "ኣይተላእከን። support@chatforia.com ኢመይል ግበር።",
+      "form": {
+        "nameLabel": "ስም",
+        "emailLabel": "ኢመይል",
+        "messageLabel": "መልእኽቲ",
+        "sendCta": "ልኣኽ"
+      }
+    },
+    "privacyPolicy": {
+      "title": "ፖሊሲ ድህንነት",
+      "lastUpdated": "ንመወዳእታ ተመሓየሸ፡",
+      "intro": {
+        "body": "ዚ ፖሊሲ ድህንነት ንChatforia (“ንሕና”፣ “ንኣና”) ኣብ ኣፕታትን ኣገልግሎታትን ከመይ መረዳእታ ከምንከትብ፣ ከምንጥቀምን ከምንካፍልን ይገልጽ። Chatforia ንዳታ ንምቕጽል ከምንከትብ ንዲዛይን ኢና።"
+      },
+      "infoWeCollect": {
+        "title": "ንከትብ መረዳእታ",
+        "account": "ናይ ኣካውንት መረዳእታ (ከም፡ ኢመይል/ስልኪ) ንምፍጣርን ምድህናን ኣካውንትኻ።",
+        "encrypted": "ዝተጠበቐ ትሕዝቶ (መልእኽታት/ጥሪታት) ብድህንነት መወዳእታ-ናብ-መወዳእታ እዩ፤ ንሕና ኣይንነብእን።",
+        "diagnostics": "መመርመሪ/ኣጠቓቕማ ከም ክራሽ ሎግታት፣ ዓይነት መሳርዕ፣ ወይ ቀላል ኣናሊቲክስ ንምትካል ኣፈጻጽሚ።"
+      },
+      "sms": {
+        "title": "ቁጽሪ ሞባይልን ኤስኤምኤስን",
+        "body": "ቁጽሪ ሞባይል እንተወሃብካ፣ ንምርጫታት ከም ምርግጋጽ ኣካውንት፣ ማሳወቂያ ምእታት፣ ተጠቃሚ-ናብ-ተጠቃሚ መልእኽትነት ብኤስኤምኤስ እንተደገፈ ንጥቀም። ብትካል ኣካውንትካን ኣገልግሎትካን ዝዛመዱ ትራንዛክሽናል ኤስኤምኤስ ክንልእኽ ንኽእል። ብናጻ ጊዜ ብዝተደገፈ ኦፕት-ኣውት ቃል (ከም “STOP”) ወይ ብምርጫታት ማሳወቂያ ኣብ ኣፕ ክትውግድ ትኽእል ኢኻ። ቁጽሪ ስልኪኻ ኣይንሽጥን፣ ንዘይዛመደ ማርኬቲንግ ኣይንጥቀምን።",
+        "newText": "ሓዲሽ ጽሑፍ",
+        "enterRecipient": "ስም ወይ ቁጽሪ ኣእትው",
+        "typeMessage": "መልእኽቲ ጽሓፍ…",
+        "addRecipient": "ኣብ ላዕሊ ተቐባሊ ወሲንካ ጀምር…"
+      },
+      "howWeUse": {
+        "title": "መረዳእታ ከመይ ከምንጥቀም",
+        "provide": "ኣገልግሎት ምሃብን ምድህናን (ምእታት፣ ስፓም/ኣብይድ ምድላው)።",
+        "improve": "መሳርዕታት ምትካል (ጥራት ትርጉም፣ ድህንነት)።",
+        "legal": "ብሕጋዊ ግዴታታት ምክትትል።"
+      },
+      "sharing": {
+        "title": "ምክፋፍል",
+        "body": "ውልቃዊ ዳታ ኣይንሽጥን። ብጽኑዕ ስምምዓት ምስ ፕሮሰሰርታት (ከም፡ ፑሽ ማሳወቂያታት፣ ኣናሊቲክስ) ውሱን ዳታ ክንካፍል ንኽእል።"
+      },
+      "rights": {
+        "title": "መሰላትኻ",
+        "body": "ብዛዕባ ከባቢኻ (ከም፡ GDPR/UK GDPR/CPRA) መብዛሕትኡ ጊዜ ምትካል፣ ምትካል፣ ምድማስ፣ ወይ ኦፕት-ኣውት ናይ ዝተወሰነ ሂወት ምግባር ትሓትት ትኽእል ኢኻ። ርክብ፡ privacy@chatforia.com።"
+      },
+      "retention": {
+        "title": "ዳታ ምዕቃብን ድህንነትን",
+        "body": "ንምንታይ ኣገልግሎት ከትቕጽል ዘድሊ ጥራይ እና ኣትዘከርና። ብድህንነት መወዳእታ-ናብ-መወዳእታ ትሕዝቶ ኣይንኽእልን ኢና።"
+      },
+      "children": {
+        "title": "ህጻናት",
+        "body": "Chatforia ን13 ዓመት ትሕቲ (ወይ ብሕጊ ሃገርኻ ዝጠልብ) ህጻናት ኣይኮነን ዝዓዱ።"
+      },
+      "changes": {
+        "title": "ለውጢ",
+        "body": "ምርጫታት እንተተመሓየሹ ኣብዚ ክነፍር፣ “ንመወዳእታ ተመሓየሸ” ዕለት ክነመሓየሽ።"
+      },
+      "contact": {
+        "title": "ርክብ",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "ውጽኢት ኣገልግሎት",
+      "lastUpdated": "ንመወዳእታ ተመሓየሸ፡",
+      "intro": {
+        "body": "Chatforia ብምጥቃምካ ንዚ ውጽኢት ትሰማማዕ ኢኻ። እንተዘይትሰማማዕካ ኣገልግሎት ኣይትጥቀም።"
+      },
+      "accounts": {
+        "title": "ኣካውንታት",
+        "itemAccurateInfo": "ቅኑዕ መረዳእታ ሃብን ክረዳእታትካ ብድህንነት ሕዝን።",
+        "itemResponsibility": "ኣብ ኣካውንትኻ ዝኾነ ተግባር ሓላፍነት ናይ ኣኻ እዩ።"
+      },
+      "acceptableUse": {
+        "title": "ቅቡል ኣጠቓቕማ",
+        "itemNoAbuse": "ዘይሕጋዊ፣ ዘይቅቡል፣ ወይ ዘይተፈቀደ ትሕዝቶ፤ ስፓም ወይ ኣውቶማቲክ ኣብይድ የብሉን።",
+        "itemSuspend": "ንጥስ እንተኮይኑ ንሕና ክነግድ/ክነቅርጽ ንኽእል።"
+      },
+      "sms": {
+        "title": "ኤስኤምኤስ ማሕበረሰባዊ መልእኽታት",
+        "body": "ቁጽሪ ሞባይል እንተወሃብካ፣ Chatforia ንኣካውንትካን ኣጥቓቕማ ኣገልግሎትካን ዝዛመዱ ኤስኤምኤስ ከም ማሳወቂያ ምእታት፣ ድህንነት፣ መልእኽታት ዝተጀመሩ ወይ ዝተካፈሉ ዕላለታት ክትቕበል ትሰማማዕ ኢኻ። ብናጻ ፍቃድካ ንፕሮሞሽናል ወይ ማርኬቲንግ ኤስኤምኤስ ኣይንጥቀምን። መዓልታዊ መልእኽቲን ዳታ ዋጋ ክትኽፍል ይኽእል። ብናጻ ጊዜ ብዝተደገፈ ኦፕት-ኣውት ቃል (ከም “STOP”) ወይ ብምርጫታት ማሳወቂያ ኣብ ኣፕ ክትውግድ ትኽእል ኢኻ።"
+      },
+      "yourContent": {
+        "title": "ትሕዝቶኻ",
+        "body": "መሰል ትሕዝቶኻ ናይ ኣኻ እዩ። ኣገልግሎት ንምስራሕ (ከም፡ ምትካል፣ ምዕቃብ፣ ትርጉም) ዘድሊ መሰል ንሕና ንሃብካ።"
+      },
+      "disclaimer": {
+        "title": "ዝተነጽረን ሓላፍነትን",
+        "body": "ኣገልግሎት “ከምዚ እዩ” ያይ ዋስትና እዩ። ብሕጊ ዝተፈቀደ ዝዓብ መጠን Chatforia ንተዘውታሪ ወይ ውጽኢታዊ ጉዳያት ሓላፍ ኣይኮነን።"
+      },
+      "changes": {
+        "title": "ለውጢ",
+        "body": "ዚ ውጽኢት ክነመሓየሽ ንኽእል፤ ለውጢ ድሕሪ ቀጻሊ ኣጥቓቕማ ምስማማዕ እዩ።"
+      },
+      "contact": {
+        "title": "ርክብ",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "ውልቃዊ መረዳእታይ ኣይትሽጥን ወይ ኣይትካፍልን",
+      "body": "Chatforia ውልቃዊ መረዳእታ ኣይሽጥን። ኣብ ካሊፎርኒያ ነባሪታት ኣብ ትሕቲ CPRA ትሓትት ክትልእኩ ትኽእሉ ኢኹም።",
+      "cta": "ሓቲት ልኣኽ"
+    },
+    "cookies": {
+      "title": "መተንታት ኩኪ",
+      "body": "Chatforia ውሱን ኩኪ (ከም፡ ሴሽን፣ ድህንነት) ይጥቀም። ስልሳ ኣድ ኩኪ ኣይንጥቀምን። ብብራውዘርኻ ምርጫታት ኩኪ ሒዝካ ምርጫ ግበር።"
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "ሁኔታ ቁጽሪ ስልኪ ምጽዋት ኣይተዓወተን።",
+      "lock": "ቆልፍ",
+      "noNumberAssigned": "ምንም ቁጽሪ ኣይተመዘበን። ብኣካባቢ ኮድ ምረጽ መልእኽትነት ጀምር።",
+      "pickNumber": "ቁጽሪ ምረጽ",
+      "phoneNumber": "ቁጽሪ ስልኪ"
+    },
+    "startChatModal": {
+      "title": "ዕላለ ጀምር",
+      "quickPicker": "ቀልጢፍ ምርጫ",
+      "to": "ናብ",
+      "nameOrUsername": "ስም፣ መጠቕላሊ ስም ጽሓፍ",
+      "nameUsernamePhoneEmail": "ስም፣ መጠቕላሊ ስም፣ ቁጽሪ ስልኪ፣ ወይ ኢመይል…",
+      "startWithSelected": "ምስ ዝተመረጸ ዕላለ ጀምር",
+      "searchByUsernameOrPhone": "ብመጠቕላሊ ስም ወይ ቁጽሪ ስልኪ ምርካብ",
+      "search": "ምርካብ",
+      "searchPrompt": "መጠቕላሊ ስም ወይ ቁጽሪ ጽሓፍን ምርካብ ጠውቕ።",
+      "pickFromContacts": "ወይ ካብ ተጠቃሚታት ምረጽ",
+      "addContact": "ተጠቃሚ ወሲንካ",
+      "show": "ኣርእይ",
+      "add": "ወሲንካ",
+      "close": "ኣዕጽው",
+      "selectedCount": "{{count}} ተመርጸ",
+      "pickAtLeastOne": "እንተ ወይ ሓደ ተቐባሊ ምረጽ።",
+      "saveContactsHint": "ኢመይል/ቁጽሪ ስልኪ እንተተዓቀቡ ብድሕሪ ምዕቃብ ከም ተጠቃሚ ይረኽቡ።",
+      "failedBulkStart": "ምስ ዝተመረጸ ተቐባልቲ ዕላለ ምጀማር ኣይተዓወተን።",
+      "noResults": "ምንም ውጽኢት የብሉን",
+      "mode": "መንገዲ",
+      "group": "ክፍሊ",
+      "broadcast": "ብሮድካስት",
+      "groupNameOptional": "ስም ክፍሊ (ኣይኮነን)",
+      "firstMessageOptional": "ቀዳማይ መልእኽቲ (ኣይኮነን ግን ዝመከረ)",
+      "createGroup": "ክፍሊ ፍጠር",
+      "sendBroadcast": "ብሮድካስት ልኣኽ"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "ኣብ ናጻ ኢኻ — ፕሪሚየም ቶን ይርኣዩ ግን ተቆልፈው። ኩሉ ንምእታት ምዕባለ ግበር።",
+      "preview": "ቅድመ-ምርኣይ",
+      "resetToDefaults": "ናብ ቀዳማይ ኣጽምድ",
+      "notificationSounds": "ድምጺ ማሳወቂያ",
+      "messageTone": "ድምጺ መልእኽቲ",
+      "default": "ቀዳማይ",
+      "vibrate": "ቭይብሬት",
+      "dreamer": "Dreamer",
+      "notify": "Notify",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsating Sound",
+      "textMessage": "Text Message",
+      "xylophone": "Xylophone",
+      "classic": "Classic",
+      "urgency": "Urgency",
+      "bells": "Bells",
+      "chimes": "Chimes",
+      "digitalPhone": "Digital Phone",
+      "melodic": "Melodic",
+      "organNotes": "Organ Notes",
+      "soundReality": "Sound Reality",
+      "street": "Street",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "ዚ መሳርዕ ፕሪሚየም ዕቅዳ ይሓትት።"
+    },
+    "aiSettings": {
+      "title": "ኣይኤን ምርጫታት",
+      "controlIntro": "ትርጉም፣ ስማር መልሲታት፣ ForiaBot ብራስ መልሲ ቁጽጽር ግበር።",
+      "save": "ኣይኤን ምርጫታት ኣድሕን",
+      "autoTranslateIncoming": "ዝመጽእ መልእኽታት ብራስ ተርጉም",
+      "showOriginalAlongside": "መጀመርታይ ጽሑፍ ምስ ትርጉም ኣብ ጎኒ ኣርእይ",
+      "enableSmartReplies": "ስማር መልሲታት ኣንቃዕ",
+      "smartRepliesHint": "ዝተቐበልካዮ ዳሕረዎት መልእኽታት (ብጽንተና) ናብ ኣይኤን ልኣኽ ቀልጢፍ መልሲታት ንምድላው።",
+      "maskProfanity": "ግልጺ ቃላት ኣብ ኣይኤን ምክር ምጥበቕ",
+      "maskProfanityHint": "እንተ በለ፣ ኣይኤን ዝመለሰ ምክር ዝተፈልጡ ቃላት ይጥበቁ",
+      "foriaBot": "ForiaBot ብራስ መልሲ",
+      "enableAutoReply": "እንተ ተጠማምቲ ኢኻ ብራስ መልሲ ኣንቃዕ",
+      "autoReplyMode": "ብራስ መልሲ መንገዲ",
+      "cooldownSeconds": "ኮልዳውን (ሰከንዳት)",
+      "off": "ጥፋእ",
+      "on": "ብራስ",
+      "signature": "ፊርማ",
+      "autoReply": "ብራስ መልሲ",
+      "activeUntilOptional": "ንዝኾነ ጊዜ ንቅጽል (ኣይኮነን)",
+      "saved": "ኣይኤን ምርጫታት ተዓቀበ",
+      "saveFailed": "ኣይኤን ምርጫታት ምዕቃብ ኣይተዓወተን",
+      "translateOff": "ጥፋእ",
+      "translateTagged": "ብ @translated ወይ ታግ ጥራይ",
+      "translateAll": "ኩሉ ዝመጽእ መልእኽታት ተርጉም",
+      "modeDm": "1:1 ዕላለ ጥራይ",
+      "modeMention": "እንተ @mentioned ጥራይ",
+      "modeAll": "ኩሉ ዝመጽእ መልእኽታት"
+    },
+    "accessibilitySettings": {
+      "title": "ተቐባልነትን ማሳወቂያታትን",
+      "accessibility": "ተቐባልነት",
+      "accessibilityDesc": "ያይ ድምጺ ተመንገዲ ንChatforia ቀሊል ዝገብር ምርጫታት።",
+      "interfaceFontSize": "ናይ በይነት ፎንት ዓቐን",
+      "interfaceFontSizeHelp": "ብቐዳማይ መጠን ይጀምር። እንተደሊኻ ዝዓብ ጽሑፍ ኣብ ተቐባልነት ምርጫታት ዕቢ።",
+      "sm": "ንእሽቶ",
+      "md": "መንገዲ",
+      "lg": "ዓብይ",
+      "xl": "ዓባይ ብዓባይ",
+      "notifications": "ማሳወቂያታት",
+      "notificationsDesc": "ንመልእኽታትን ጥሪታትን ምስላዊ ማሳወቂያ\nባነርን ትዕምጽ ርእሲ ከተርእይ ኣይትረግጽን ተግባር።",
+      "vibrateOnNew": "ኣብ ሓዲሽ መልእኽታት ቭይብሬት (እንተደገፈ)\nንማሳወቂያ መሳርዕ ቭይብሬሽን ኣንቃዕ።",
+      "flashOnCall": "ኣብ ዝመጽእ ጥሪ ስክሪን ፍላሽ\nጥሪ እንተደወለ ቀሊል ብርሃን ፍላሽ።",
+      "liveCaptions": "ብትክክል ካፕሽን (ጥሪታት)",
+      "captionFontSize": "ካፕሽን ፎንት ዓቐን",
+      "captionBackground": "ካፕሽን ባክግራውንድ",
+      "light": "ብርሃን",
+      "dark": "ጽልማት",
+      "transparent": "ግልጺ",
+      "voiceNotes": "ድምጺ ኖትስ",
+      "autoTranscribeVoiceNotes": "ድምጺ ኖትስ ብራስ ተርጉም",
+      "autoTranscribeVoiceNotesDesc": "ዝተቐበልካዮ ኦዲዮ መልእኽታት ትርጉም ኣባርክብ።",
+      "changesSavedInstantly": "ለውጢ ብናጻ ጊዜ ይዓቀብ።",
+      "loadFailed": "ምርጫታት ምጽዋት ኣይተዓወተን",
+      "visualAlerts": "ንመልእኽታትን ጥሪታትን ምስላዊ ማሳወቂያ",
+      "visualAlertsDesc": "ባነርን ትዕምጽ ርእሲ ከተርእይ ኣይትረግጽን ተግባር።",
+      "vibrateOnNewShort": "ኣብ ሓዲሽ መልእኽታት ቭይብሬት (እንተደገፈ)",
+      "vibrateOnNewDesc": "ንማሳወቂያ መሳርዕ ቭይብሬሽን ኣንቃዕ።",
+      "flashOnCallShort": "ኣብ ዝመጽእ ጥሪ ስክሪን ፍላሽ",
+      "flashOnCallDesc": "ጥሪ እንተደወለ ቀሊል ብርሃን ፍላሽ።"
+    },
+    "privacySection": {
+      "strictE2EE": "ጽኑዕ ብድህንነት መወዳእታ-ናብ-መወዳእታ",
+      "ciphertextOnlyNote": "ኣብ ሰርቨር ሲፈርትክስት ጥራይ ኣትዕቅብ። ኣይኤን/ትርጉምን ሞደሬሽን ቅድመ-ምርኣይን ይውግድ።"
+    },
+    "linkedDevicesPanel": {
+      "title": "ዝተኣሳሰሉ መሳርዕታት",
+      "noneFound": "ምንም ዝተኣሳሰሉ መሳርዕታት ኣይተረኽቡን።",
+      "refresh": "ኣድስ"
+    },
+    "help": {
+      "title": "ሓገዝ",
+      "howCanWeHelp": "ከመይ ክንሕግዝ?",
+      "helpCenter": "ማእከል ሓገዝ",
+      "contactUs": "ርክብ ምዕባለ",
+      "quickTopics": "ቀልጢፍ ርእይቶታት",
+      "searchExamples": "ብ “translate”፣ “backups”፣ ወይ “privacy” ፈትን።",
+      "cantLogin": "ኣይከኣልኩን ንምእታት",
+      "paymentsBilling": "ክፍሊ/ትካል",
+      "reportAbuse": "ኣብይድ ምሕታት",
+      "searchHelpArticles": "ኣንባቢ ሓገዝ ምርካብ",
+      "search": "ምርካብ"
+    },
+    "peoplePage": {
+      "people": "ሰባት",
+      "search": "ምርካብ",
+      "searchPlaceholder": "ብተለዋዊ ስም፣ ስም፣ መጠቕላሊ ስም፣ ወይ ቁጽሪ ስልኪ ምርካብ",
+      "filterSaved": "ዝተዓቀቡ ተጠቃሚታት ምርጫ",
+      "noContactsFound": "ምንም ተጠቃሚታት ኣይተረኽቡን",
+      "quickStart": "ቀልጢፍ ጀሚር",
+      "quickStartDesc": "ሓያሉ ፈጣን መንገዲ ንምጀማር።",
+      "importContacts": "ተጠቃሚታትኻ ኣብቅል",
+      "add": "ወሲንካ",
+      "focusSearch": "ምርካብ ኣትኩር",
+      "import": "ኣብቅል",
+      "findOrAdd": "ሰብ ርኸብ ወይ ወሲንካ",
+      "searchByPhoneOrUsername": "ብስልኪ / መጠቕላሊ ስም ምርካብ",
+      "inviteFriends": "ዓርኪታት ዕድመ",
+      "inviteDesc": "ዕድመ ሊንክኻ ኣካፍል ብናጻ ጊዜ ንዕላለ ጀምር።",
+      "getTheApp": "ኣፕ ምረጽ",
+      "getTheAppDesc": "ኣብ መንገዲ ምስ Chatforia iOS ወይ Android ተቆይም።",
+      "download": "ዳውንሎድ",
+      "syncTip": "ምኽር፡ መልእኽታትኻ ኣብ ዌብን ሞባይልን ይቆይሙ።"
+    },
+    "randomChat": {
+      "title": "ዘይተወሰነ ዕላለ",
+      "description": "ሓዲሽ ሰብ ብናጻ ጊዜ ራኺብካ። ንግዚያዊ ክፍሊ ዕላለ ክንከፍት ኢና። ብቐዳማይ ብስም ዘይተፈልጠ ዕላለ። እንተደሊኻ “Add Friend” ግበር።",
+      "findMatch": "ምስማማት ርኸብኒ",
+      "chatWithForia": "ምስ Foria ዕላለ",
+      "chatWithForiaBot": "ምስ ForiaBot ዕላለ",
+      "cancel": "ኣቋርጽ",
+      "close": "ኣዕጽው",
+      "searching": "ይምርከብ ኣሎ…",
+      "finding": "ይረኽብ ኣሎ…",
+      "looking": "ሰብ ይድልየሉ ኣሎ…",
+      "startingForia": "ምስ Foria ዕላለ ይጀምር ኣሎ…",
+      "partnerDisconnected": "ተባዕቲኻ ተቋሪጹ።",
+      "noPartner": "ሕጂ ተባዕቲ ኣይተረኽበን።",
+      "connectedTo": "ምስ {{name}} ተኣሳሲልካ",
+      "connected": "ተኣሳሲልካ",
+      "idle": "ዕረፍቲ",
+      "partnerLeft": "ተባዕቲኻ ከይዱ።",
+      "stopped": "ተቋሪጹ።",
+      "skip": "ስግር",
+      "save": "ኣድሕን",
+      "saveGuard": "ሰብ-ናብ-ሰብ ዕላለ ጥራይ እዩ ዝዓቀብ",
+      "youAreChattingWith": "ምስ {{name}} ትዕለል ኣለኻ",
+      "bot": "BOT",
+      "leave": "ውጻእ",
+      "sayHi": "ሰላም በል 👋",
+      "you": "ንስኻ",
+      "typeMessage": "መልእኽቲ ጽሓፍ",
+      "send": "ልኣኽ",
+      "partner": "ተባዕቲ",
+      "withRia": "ምስ Ria",
+      "chatWithRia": "ምስ Ria ዕላለ",
+      "startingRia": "ምስ Ria ዕላለ ይጀምር ኣሎ…",
+      "ageDisclaimer": "ብዛዕባ ዕድሜ ምርጫ (ብትክክል ዕለት ልደት ኣይኮነን) እና ኣትዘከርና። ንዘይተወሰነ ዕላለ ተለዋዊ ምጽዋት ንምግባር እዩ ዝዓዱ። ንሰባት (ኣይኮነን RiaBot ጥራይ) ንምጽዋት ኣብ ምርጫታት → ዕድሜን ዘይተወሰነ ዕላለን ዕድሜኻ ምረጽ።",
+      "ageBandRequired": "ንሰባት ንምጽዋት ኣብ መግለጺ → ዕድሜን ዘይተወሰነ ዕላለን ዕድሜኻ ምረጽ።",
+      "ageBandCallout": "ንሰባት (ኣይኮነን RiaBot ጥራይ) ንምጽዋት ኣብ ምርጫታት → ዕድሜን ዘይተወሰነ ዕላለን ዕድሜኻ ምረጽ።",
+      "subtitle": "ሓዲሽ ሰብ ብናጻ ጊዜ ራኺብካ፣ ወይ ምስ Ria ዕላለ ምረጽ።",
+      "start": "ዕላለ ጀምር",
+      "matching": "ይሰማማዕ ኣሎ…",
+      "setAge": "ንሰባት ንምጽዋት ኣብ መግለጺ → ዕድሜን ዘይተወሰነ ዕላለን ዕድሜኻ ምረጽ።",
+      "next": "ቀጺል ሰብ",
+      "addFriend": "ዓርኪ ወሲንካ",
+      "requested": "ተሓቲቱ",
+      "messageRia": "ምስ Ria መልእኽቲ…",
+      "messageMatch": "ምስ ምስማማትኻ መልእኽቲ…"
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "እቲ",
+      "intro": "ሰላም 👋 ኣነ Ria እየ። እንታይ ኣብ ልብኻ ኣሎ?",
+      "greetings": {
+        "long1": "ሰላም {{name}} 👋 ኣብዚ ኣለኹ። እንታይ ኣብ ልብኻ ኣሎ?",
+        "long2": "ሰላም {{name}} 😊 ሕጂ እንታይ ክትዛረብ ትደሊ?",
+        "long3": "ሰላም {{name}}!! ኣብዚ ኩሉ ኣድማጺ እየ — እንታይ ኣሎ?",
+        "long4": "ኣብ ርኣይኻ ደስ በለኒ {{name}} 👋 ሕጂ እንታይ ኣብ ልብኻ ኣሎ?",
+        "long5": "ሰላም {{name}} 😊 ክትዛረብ፣ ክትሓትት፣ ወይ ብትዛረብ ትደሊ?",
+        "long6": "ሰላም {{name}}!! ጊዜ ኣለኒ — እንታይ ክትዛረብ ትደሊ?",
+        "short1": "ሰላም {{name}}፣ ገና ኣብዚ ኣለኹ። እንታይ ኣሎ?",
+        "short2": "ተመልስካ {{name}} 👋 ሓዲሽ ነገር ክትውስኽ ትደሊ?",
+        "short3": "እንደገና ተመልስካ {{name}}? 😊 እንታይ ኣብ ልብኻ ኣሎ በለኒ።",
+        "short4": "ሰላም {{name}} 👋 ካብቲ ዝተወጽእናዮ ቦታ ክትቅጽል ትደሊ?",
+        "short5": "ሓውያ {{name}}? ኣድማጺ እየ 👂",
+        "short6": "ኦ ሰላም {{name}}!! ሓዲሽ ነገር ኣብ ልብኻ ኣሎ?"
+      },
+      "header": {
+        "openNav": "መንገዲ ናቪጌሽን ክፈት",
+        "closeNav": "መንገዲ ናቪጌሽን ኣዕጽው",
+        "homeAria": "Chatforia ቤት"
+      },
+      "login": {
+        "welcomeBack": "ተመልስካ እንቋዕ ብደሓን መጻእካ",
+        "title": "ናብ Chatforia ቀጽል",
+        "subtitleReturning": "ናብ ኣካውንት Chatforiaኻ ኣትይ",
+        "subtitle": "ናብ ኣካውንት Chatforiaኻ ኣትይ",
+        "google": "ብGoogle ቀጽል",
+        "apple": "ብApple ቀጽል",
+        "googleUnavailable": "Google ምእታት የብሉን",
+        "appleUnavailable": "Apple ምእታት የብሉን",
+        "or": "ወይ",
+        "email": "ኢመይል",
+        "emailPh": "you@example.com",
+        "usernameLabel": "መጠቕላሊ ስም",
+        "usernamePh": "መጠቕላሊ ስምኻ",
+        "passwordLabel": "ፓስወርድ",
+        "passwordPh": "ፓስወርድኻ",
+        "keepSignedIn": "ኣብ ውሽጢ ኣትየ ኣትን",
+        "forgot": {
+          "title": "ፓስወርድ ረሳዕካ",
+          "helper": "ንምፍጣር ኣካውንት Chatforiaኻ ዝተጠቐምካዮ ኢመይል ኣእትው ቅኑዕ ሊንክ ፓስወርድ ክነልእካሉ ኢና።",
+          "emailInvalid": "ቅኑዕ ኢመይል ኣእትው።",
+          "genericError": "ጥላት ኣይተዳለወን። ብትንሽ ጊዜ እንደገና ፈትን።",
+          "sending": "ሊንክ ምመላለስ ይልእኽ ኣሎ…",
+          "sendCta": "ሊንክ ምመላለስ ልኣኽ",
+          "sentLabel": "ተላእከ!",
+          "sentHelper": "እንተ ኣካውንት ብዚ ኢመይል ኣሎ ሊንክ ምመላለስ ፓስወርድ ኣብቲ ኢመይል ተላእኩ። ብትንሽ ጊዜ ክመጽእ ይኽእል። ስፓም ወይ ፕሮሞሽን ፎልደር ርኣይ።",
+          "previewDev": "ቅድመ-ምርኣይ ኢመይል (Dev)",
+          "backToLogin": "ናብ ምእታት ተመለስ"
+        },
+        "submit": "ኣትይ",
+        "loggingIn": "ይኣቱ ኣሎ…",
+        "newHere": "ሓዲሽ ኢኻ? <link>ኣካውንት ፍጠር</link>",
+        "ssoUnavailable": "Single-sign-on ሕጂ የብሉን። መጠቕላሊ ስምን ፓስወርድን ተጠቐም።",
+        "error": {
+          "missing": "ክረዳእታትካ ኣእትው።",
+          "invalid": "ጌጋ መጠቕላሊ ስም ወይ ፓስወርድ",
+          "denied": "መብት ተነግዱ።",
+          "unprocessable": "ጥላት ጥላት። መጠቕላሊ ስም/ኢመይልን ፓስወርድን ኣረጋግጽ።",
+          "deviceLimit": "ናይ ናጻ ዕቅዳ ወሰን መሳርዕ ተዓወተ። ኣብ ካልእ መሳርዕ ውጻእ ወይ ናብ Premium ምዕባለ ግበር ዝዓብ መሳርዕታት ንምትካል።",
+          "premiumRequired": "ዚ ተግባር ፕሪሚየም ዕቅዳ ይሓትት።"
+        }
+      }
+    },
+    "oauth": {
+      "completing": "ምእታት ይዛዘም ኣሎ…"
+    },
+    "dialer": {
+      "title": "ጥሪታት",
+      "subtitle": "ኪፓድን ዝቅረቡን። (PSTN እንተዘይተጠቐምካ፣ ካብ ርእሲ ዕላለ ጥሪታት ጀምር።)",
+      "enterNumberPh": "ቁጽሪ ኣእትው",
+      "call": "ጥሪ",
+      "backspace": "ባክስፔስ",
+      "recents": "ዝቅረቡ",
+      "recentsEmpty": "ገና ዝቅረቡ ጥሪታት የብሉን።",
+      "enterNumber": "ቁጽሪ ኣእትው",
+      "enterNumberAria": "ቁጽሪ ኣእትው",
+      "key": "ቁልፊ {{d}}",
+      "noRecents": "ገና ዝቅረቡ ጥሪታት የብሉን።"
+    },
+    "video": {
+      "title": "ቪዲዮ",
+      "chooseType": "ዓይነት ቪዲዮ ምረጽ።",
+      "directTitle": "ቀጥታ ቪዲዮ",
+      "directDesc": "1:1 ካሜራ ጥሪ ምስ ካልእ ተጠቃሚ።",
+      "directStart": "ጀምር",
+      "roomsTitle": "ክፍሊታት",
+      "roomsDesc": "ብዙሕ-ኣባል ቪዲዮ ብዝተካፈለ ስም ክፍሊ።",
+      "roomsIntro": "ክፍሊ ብዙሕ-ኣባል ተቐበል ወይ ፍጠር።",
+      "roomNameLabel": "ስም ክፍሊ",
+      "roomNamePh": "ከም team-standup",
+      "join": "ተቐበል",
+      "deeplinkTip": "ምኽር፡ ብቀጥታ ናብ <code>/video?room=room-name</code> ዲፕ ሊንክ ትኽእል ኢኻ።",
+      "hub": {
+        "title": "ቪዲዮ",
+        "subtitle": "ዓይነት ቪዲዮ ምረጽ።"
+      },
+      "direct": {
+        "title": "ቀጥታ ቪዲዮ",
+        "subtitle": "ብቁጽሪ ስልኪ ወይ መጠቕላሊ ስም Chatforia 1:1 ቪዲዮ ጥሪ ጀምር።",
+        "desc": "1:1 ካሜራ ጥሪ ምስ ካልእ ተጠቃሚ።",
+        "start": "ጀምር",
+        "callBtn": "ጥሪ",
+        "callByPhone": {
+          "title": "ብስልኪ ጥሪ"
+        },
+        "phone": {
+          "placeholder": "ቁጽሪ ስልኪ ኣእትው (ከም፡ +1-555-123-4567)",
+          "aria": "ቁጽሪ ስልኪ ንጥሪ"
+        },
+        "tipInvite": "ምኽር፡ ቁጽሪ ለጥፍ ያይ ተጠቃሚ ኣድሕን ጥሪ ግበር። ዘይተመዝገቡ ተጠቃሚታት ብሊንክ ክንዕድመኦም ኢና።",
+        "findUser": {
+          "title": "ተጠቃሚ ርኸብ"
+        },
+        "search": {
+          "placeholder": "ብስም ወይ መጠቕላሊ ስም ምርካብ",
+          "aria": "ብስም ወይ መጠቕላሊ ስም ምርካብ",
+          "btn": "ምርካብ"
+        }
+      },
+      "rooms": {
+        "title": "ክፍሊታት",
+        "subtitle": "ክፍሊ ፍጠር ወይ ብተመሳሳሊ ስም ተቐበል።",
+        "desc": "ብዙሕ-ኣባል ቪዲዮ ብዝተካፈለ ስም ክፍሊ።",
+        "roomLabel": "ስም ክፍሊ",
+        "roomPlaceholder": "ከም team-standup",
+        "roomAria": "ስም ክፍሊ",
+        "joinCreate": "ተቐበል / ፍጠር",
+        "tip": "ምኽር፡ ዚ ስም ምስ ካልኦት ኣካፍል፣ ወይ ብቀጥታ ናብ <code>/video?room=room-name</code> ዲፕ ሊንክ ግበር።"
+      }
+    },
+    "directVideo": {
+      "intro": "ቀጥታ 1:1 ቪዲዮ ጥሪ ጀምር።",
+      "findUserLabel": "ተጠቃሚ ርኸብ",
+      "findUserPh": "ብስም ወይ መጠቕላሊ ስም ምርካብ",
+      "search": "ምርካብ",
+      "call": "ጥሪ"
+    },
+    "phoneWarning": {
+      "title": "ቁጽርኻ ብቅሩብ ጊዜ ይጠፍእ ኣሎ",
+      "body": "ቁጽርኻ {{number}} እንተዘይተነባበረ ኣብ {{date}} ክፈትሕ።",
+      "button": "ቁጽረይ ቀጽል"
+    }
+  },
   "support": {
     "helpFab": "ሓገዝ",
     "openSupportAria": "ሓገዝ ክፈት",
     "badge": "ሓገዝ",
-    "heading": "ከመይ ንኽእል?",
+    "heading": "ከመይ ክንሕግዝ?",
     "tabs": {
       "help": "ማእከል ሓገዝ",
-      "contact": "ኣብነት ርእስና"
+      "contact": "ርክብ ምዕባለ"
     },
-    "searchPlaceholder": "መጽሓፍታት ሓገዝ ድለ ፈልጥ…",
-    "searchAria": "ሓገዝ ድለ ድለ",
-    "searchBtn": "ድለ",
-    "quickTopicsLabel": "ተራእዮ ርእሶታት",
+    "searchPlaceholder": "ኣንባቢ ሓገዝ ምርካብ…",
+    "searchAria": "ሓገዝ ምርካብ",
+    "searchBtn": "ምርካብ",
+    "quickTopicsLabel": "ቀልጢፍ ርእይቶታት",
     "quickTopics": {
-      "login": "ክትግበር ኣክኣ የብሉን",
-      "billing": "ክፍሊ/መኽፈሊ",
-      "abuse": "ሕማቕ ሪፖርት"
+      "login": "ኣይከኣልኩን ንምእታት",
+      "billing": "ክፍሊ / ትካል",
+      "abuse": "ኣብይድ ምሕታት"
     },
-    "trySearching": "ምትርጓም፣ ቅባት ወይ ዝነበረ ምስጢር ኣኮ ተመሊስ ኣድርግ።",
-    "article": "መጽሓፍ",
-    "openArticle": "መጽሓፍ ክፈት",
-    "contactIntro": "መልሲ ብኢመይል ንኣኻ ንኽልከ ኢና። ሕቶ ከመይ ክንከርእ ዝደሊ ሓበልና።",
-    "topicAria": "ርእሲ ምረፅ",
-    "messagePlaceholder": "መልእኽትኻ ጽሓፍ…",
-    "sendBtn": "ለኣኽ",
-    "sent": "መልእኽት ተልከ። ብኢመይል ንኣኻ ንኽመልስ ኢና።",
-    "sendError": "ምልካስ ኣይከኣለን። እባክካ ኢመይል support@chatforia.com ተጠቒሙ።"
+    "trySearching": "ብ “translate”፣ “backups”፣ ወይ “privacy” ፈትን።",
+    "article": "ኣንባቢ",
+    "openArticle": "ኣንባቢ ክፈት",
+    "contactIntro": "ብኢመይል መልሲ ክነልእካሉ ኢና። ስህተት ንምድጋም ዝርዝራት ኣብዝሕ።",
+    "topicAria": "ርእይቶ ምረጽ",
+    "messagePlaceholder": "መልእኽቲኻ ጽሓፍ…",
+    "sendBtn": "ልኣኽ",
+    "sent": "መልእኽቲ ተላእከ። ብኢመይል ክንመልስ ኢና።",
+    "sendError": "ኣይተላእከን። ምትክእ support@chatforia.com ኢመይል ግበር።"
   },
-
-  "chat": {
-    "selectPrompt": "ሓበሬታ ወይ ቤት ቃለ-መልሲ ምረፅ ንጀምር",
-    "newMessages": "ሓድሽ መልእኽታት",
-    "typing": "{{name}} እዩ ዝጽሓፍ...",
-    "emptyTitle": "መልእኽታትኻ",
-    "emptySubtitle": "መልእኽት ለኣኽ ንጀምር።",
-    "startChatButton": "መልእኽት ለኣኽ"
-  },
-
-  "topbar": {
-    "newStatus": "ሓድሽ ስታተስ",
-    "logout": "ውፃእ",
-    "help": "ሓገዝ",
-    "createStatusAria": "ሓድሽ ስታተስ ፍጠር"
-  },
-
-  "status": {
-    "userNumber": "ተጠቃሚ #{{id}}",
-    "posted": "ስታተስ ተለጠፈ",
-    "postFailed": "ስታተስ ምልጣፍ ኣይከኣለን",
-    "createTitle": "ስታተስ ፍጠር",
-    "modalAriaLabel": "ሓድሽ ስታተስ",
-    "captionLabel": "ምንባር እዩ ዝሓነ?",
-    "captionPlaceholder": "ሓበሬታ ሻገር...",
-    "captionAria": "መልእኽቲ ስታተስ",
-    "audienceLabel": "ተመራማሪ",
-    "audience": {
-      "public": "ፓብሊክ",
-      "followers": "Followers",
-      "contacts": "Contacts",
-      "mutuals": "Mutuals",
-      "custom": "ብምርጫ..."
-    },
-    "expiresHoursLabel": "ኣብ ሰዓት ይውድእ",
-    "maxTooltip": "ኣብርሃን 7 መዓልቲ እዩ",
-    "hoursAbbrev": "ሰ.",
-    "maxShort": "ኣብር.",
-    "expiresOn": "ይውድእ ኣብ:",
-    "chooseRecipients": "ተቐባሊ ምረፅ",
-    "selectContacts": "ኣድላዪ ምረፅ",
-    "attachmentsLabel": "ኣብዛዕባ",
-    "attachmentsPlaceholder": "ስእል/ቪድዮ ወስኽ",
-    "filesNote": "ክልተ 5 ፋይል ድሕሪ 24 ሰዓት ይውድኡ።",
-    "postAria": "ስታተስ ለኣኽ",
-    "post": "ለኣኽ"
-  },
-
-  "contactList": {
-    "savedContacts": "ዝተዓቐሙ ኣድላዪ",
-    "refreshAria": "ኣድላዪ ኣሕዱ",
-    "filterPlaceholder": "ዝተዓቐሙ ኣድላዪ ፈልጥ…",
-    "filterAria": "ኣድላዪ ማጣሪ",
-    "noContactsFound": "ኣድላዪ የለን።",
-    "externalContact": "ናብ ወጻእ ኣድላዪ",
-    "notJoined": "እዚ ኣድላዪ ናብ Chatforia ኣይመጽእንን።",
-    "couldNotStart": "ቃለ-መልሲ ምጀመር ኣይከኣለን። ደጊም ፈትን።",
-    "startFailed": "ቃለ-መልሲ ምጀመር ኣይከኣለን። ደጊም ፈትን።",
-    "deleted": "ኣድላዪ ተሰርየ።",
-    "deleteFailed": "ምስራዝ ኣይከኣለን። ደጊም ፈትን።",
-    "aliasUpdated": "ኣልያስ ተሓሲበ።",
-    "updateAliasFailed": "ኣልያስ ምሕዳስ ኣይከኣለን።",
-    "selectContact": "{{name}} ምረፅ",
-    "alias": "ኣልያስ",
-    "startChat": "ቃለ-መልሲ ጀምር",
-    "message": "መልእኽቲ",
-    "delete": "ሰርዝ",
-    "deleteContactAria": "ኣድላዪ ሰርዝ",
-    "loadFailed": "ኣድላዪ ምጽዓን ኣይከኣለን። ደጊም ፈትን።",
-    "loadMore": "ተወሳኺ ኣእትው"
-  },
-
-  "sidebar": {
-    "randomChat": "ቃለ-መልሲ ብዘይ መደብ",
-    "callTextForwarding": "ስልኪ & ቴክስት ፎርዋርዲንግ",
-    "conversations": "ቃለ-መልሲታት",
-    "searchPlaceholder": "ቃለ-መልሲ ድለ…",
-    "errorLoading": "ቃለ-መልሲ ምጽዓን ኣይከኣለን",
-    "empty": "እቲ ዝተመዝገበ ቃለ-መልሲ የለን።",
-    "startChat": "ቃለ-መልሲ ጀምር",
-    "people": "ሰባት",
-    "settings": "ቅንብሮታት",
-    "status": "ስታተስ",
-    "forwarding": "ፎርዋርዲንግ",
-    "refresh": "ኣሕዱ",
-    "search": "ቃለ-መልሲ ድለ",
-    "loginPrompt": "ቅንብሮታት ክትምልስ ኣብ መጀመርታ እትግበር ኣለካ።",
-    "login": "ግባ",
-    "register": "መለለይ ፍጠር",
-    "chatrooms": "ቤታት ቃለ-መልሲ",
-    "logout": "ውፃእ",
-    "startChatAlt": "ሓድሽ ቃለ-መልሲ ጀምር"
-  },
-
-  "premium": {
-    "heading": "ፕሪሚየም ክትከፍት",
-    "description": "ሓድሽ ባህሪታት ክፈት & ማሕበር ማርቆ ውሰድ።",
-    "cta": "ኣፍሬድ",
-    "upgrade": "ኣፍሬድ",
-    "upgradeAria": "ናብ Chatforia Premium ኣፍሬድ"
-  },
-
-  "auth": {
-    "headline": "ሓፋሽ ዓለም-ኣቀፍ መልእኽቲ ብቅልጡፍ ትርጓም",
-    "description": "End-to-end ምሕላፍ ዝሕብር፣ ትርጓም ብኣይኤ፣ ዝጠፍኡ መልእኽታት ከም ስልኪ/ቪድዮ ጥዕና።",
-    "feature": {
-      "encryption": "End-to-end ምሕላፍ ብነቲ ነቲ",
-      "translation": "ብራእይ 100+ ቋንቋ ተርጓሚ",
-      "disappearing": "ዝጠፍኡ መልእኽታት & መንበብ ማረጋጊያ",
-      "privacy": "ዝነበረ ምስጢር። ውሕደትካ እንተዘይኮነ የለን።",
-      "translate": "ኣብ ሰኣት ትርጓም",
-      "disappear": "ዝጠፍኡ መልእኽታት",
-      "privacyAlt": "ዝነበረ ምስጢር ንዕድመ"
-    },
-    "hero": {
-      "line1": "ሓፋሽ፣ ዓለም-ኣቀፍ",
-      "beforeEm": "መልእኽቲ ከም",
-      "em": "ቅንጡ ትርጓም",
-      "sub": "End-to-end ምሕላፍ፣ ኣይኤ ትርጓም፣ ዝጠፍኡ መልእኽታት፣ ስልኪ/ቪድዮ ጥዕና።"
-    },
-    "feat": {
-      "encryption": "End-to-end ምሕላፍ ብነቲ ነቲ",
-      "translate": "100+ ቋንቋ ብራእይ ተርጓሚ",
-      "disappear": "ዝጠፍኡ መልእኽታት & መንበብ ማረጋጊያ",
-      "privacy": "ዝነበረ ምስጢር። ውሕደትካ ትቆጽር።"
-    },
-    "welcomeBack": "እንኳዕ ሓለቐት መለስካ",
-    "continueGoogle": "ብጉግል ቀጽል",
-    "continueApple": "ብኣፕል ቀጽል",
-    "username": "ስም ተጠቃሚ",
-    "password": "ፓስዎርድ",
-    "keepSignedIn": "ኣብ መዝገብ እትቆመ ንእኽእ",
-    "forgotPassword": "ፓስዎርድ ረሲዕካ?",
-    "loginButton": "ግባ",
-    "createAccount": "መለለይ ፍጠር",
-    "freeAccountButton": "መለለይ ፍሪ ፍጠር",
-    "newHere": "ሓድሽ ኢኻ?",
-    "getApp": "መተግበሪ ኣውርድ",
-    "desktopTip": "ኣብ ኣልጋ? ብስልኪ ስካን ንምውራድ መተግበሪ።",
-    "scanHelper": "ኣብ ኣልጋ? ብስልኪ ስካን ንምውራድ መተግበሪ።",
-    "goHome": "ናብ መእተዊ ገጽ መለስ",
-    "home": "መእተዊ",
-    "headlineAlt": {
-      "main": "እቲ ዝሓፍር መልእኽቲ መተግበሪ ዝ",
-      "highlight": "ዝተኣወጀ ቋንቋኻ ይናገር"
-    },
-    "subhead": "ዝነበረ ምስጢር፣ ተርጓሚ ብቅንጡ — ብቀሊል።",
-    "status": "ስታተስ ርአ",
-    "upgrade": "ሕጂ ኣፍሬድ",
-    "tip": "መስርሕ: ኣብ ዌብ ከምኡውን ኣብ ሞባይል ሕሳብ እምበር ተጠቒሙ። መልእኽታትኩም ይስክናይዝ።",
-    "openDownload": "ገጽ ኣውራዲ ክፈት",
-    "qrAlt": "QR ኮድ ናብ Chatforia",
-    "scanHint": "መተግበሪ ኣውርድ ወይ ኣብ እቲ እቶ እንተዘይኮነ ክፈት ስካን።",
-    "iosAria": "ኣብ App Store ኣውርድ",
-    "iosTitle": "App Store ኣውርድ",
-    "iosBadgeAlt": "App Store ባድጅ",
-    "androidAria": "ኣብ Google Play ኣምጻእ",
-    "androidTitle": "Google Play ሱብ",
-    "androidBadgeAlt": "Google Play ባድጅ",
-    "login": "ግባ",
-    "signup": "ተመዝገብ",
-    "email": "ኢመይል",
-    "ssoUnavailable": "SSO ሓደሽ ኣይሰርሕን። ስም ተጠቃሚ/ፓስዎርድ ተጠቒሙ።",
-    "error": {
-      "missing": "መለለይ ሓበልና።",
-      "invalid": "ስም ተጠቃሚ ወይ ፓስዎርድ ጌጋ ኣለዎ",
-      "denied": "መእተዊ ተኣጊዱ።",
-      "unprocessable": "መጠን ዘይተረጋገጸ ሕቶ።",
-      "deviceLimit": "መሣርሒ መጠን ናይ ፍሪ ፕላን ተረኺቡ። ካልኦት መሣርሒ ኣውፍ ወይ ኣፍሬድ ግብር።",
-      "premiumRequired": "እዚ እቲ ተግባር ፕሪሚየም ይፍለጥ።"
+  "helpCenter": {
+    "title": "ማእከል ሓገዝ",
+    "faq": {
+      "account": {
+        "q": "ኣካውንት ከመይ ከምዝፈጥር ወይ ከምዝመልስ ከይትገብር?",
+        "a": "ኣፕ ዳውንሎድ ግበር ወይ ዌብ ተጠቐም፣ “ኣካውንት ፍጠር” ጠውቕ፣ ኢመይል/ስልኪ ኣረጋግጽ። ንምመላለስ “Forgot password” ተጠቐም።"
+      },
+      "privacy": {
+        "q": "መልእኽታት ብድህንነት መወዳእታ-ናብ-መወዳእታ ድዮም?",
+        "a": "ሓውያ። መልእኽታትን ጥሪታትን ብቐዳማይ ደረጃ ብድህንነት መወዳእታ-ናብ-መወዳእታ እዮም። ንስኻን ተቐባሊን ጥራይ እትነብእዎም።"
+      },
+      "translate": {
+        "q": "ብናጻ ትርጉም ከመይ ይሰርሕ?",
+        "a": "ኣብ ምርጫታት → መልክዕን ቋንቋን “Auto-translate” ኣንቃዕ። ኣብ መሳርዕ ዝደገፈ ብመሳርዕ ንምትርጉም፣ እንተዘይኮነ ብድህንነት ኤፒአይ ብውሱን ሜታዳታ።"
+      },
+      "contact": {
+        "q": "ሓገዝ ከመይ ክትረኽብ?",
+        "a": "support@chatforia.com ርክብ። ስክሪንሾትታትን እትጥቀም ኣፕ ቨርዝዮንን ኣብዝሕ።"
+      }
     }
   },
-
+  "encryptionRecovery": {
+    "title": "ድህንነት ሒዝካ",
+    "description": "ቁልፊ ድህንነትኻ ባክኣፕ፣ መለስ፣ ክፈት፣ ወይ ኣጽምድ።",
+    "alert": {
+      "keyRequiredTitle": "ቁልፊ ድህንነት ይሓትት",
+      "keyRequiredBody": "ዚ ብራውዘር ሕጂ ዝተጠበቑ መልእኽታትኻ ኣይክኽእልን እዩ። ቁልፊኻ መለስ፣ ክፈት፣ ወይ ኣጽምድ ንምቕጻል።"
+    },
+    "sections": {
+      "createBackup": "ባክኣፕ ቁልፊ ፍጠር",
+      "restoreFromBackup": "ካብ ባክኣፕ ኣካውንት መለስ",
+      "resetEncryption": "ድህንነት ኣጽምድ"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "ፓስኮድ ክፈት (እዚ መሳርዕ)",
+        "description": "ቁልፍታትኻ ኣብ ስልኪ ንምጥበቕ ኣብ ውሽጢ መሳርዕ ይጥቀም"
+      },
+      "backupPassword": {
+        "label": "ፓስወርድ ባክኣፕ",
+        "description": "ፋይል ባክኣፕ ንምጥበቕ ይጥቀም"
+      },
+      "restoreBackupPassword": {
+        "label": "ፓስወርድ ባክኣፕ",
+        "description": "ኣብ iPhone ቁልፊኻ እንተባክኣፕ ዝፈጠርካዮ ፓስወርድ"
+      },
+      "newLocalPasscode": {
+        "label": "ሓዲሽ ፓስኮድ ኣብ ስልኪ",
+        "description": "ቁልፍታት ኣብ ባክግራውንድ ኣብዚ ብራውዘር ንምድህና"
+      },
+      "resetLocalPasscode": {
+        "label": "ሓዲሽ ፓስኮድ ኣብ ስልኪ",
+        "description": "ኣጽሚድካ ቅድሚ ሓዲሽ ቁልፊ ኣብዚ መሳርዕ ንምድህና ይሓትት"
+      }
+    },
+    "actions": {
+      "unlockKey": "ቁልፊ ድህንነት ክፈት",
+      "restoreFromBackup": "ካብ ባክኣፕ ኣካውንት መለስ",
+      "resetEncryption": "ድህንነት ኣጽምድ"
+    },
+    "messages": {
+      "backupCreated": "ባክኣፕ ቁልፊ ተፈጥረን ተወረደን።",
+      "keyUnlocked": "ቁልፊ ድህንነት ተኸፊቱ።",
+      "keyRestored": "ቁልፊ ካብ ባክኣፕ ኣካውንት ተመልሰ።",
+      "resetSuccess": "ድህንነት ብትክክል ተኣጽመ።"
+    },
+    "errors": {
+      "restoreIncomplete": "መለስ ቁልፊ ዘይተዓቀበ ወይ ጌጋ ንዚ ኣካውንት",
+      "noBackup": "ንዚ ኣካውንት ምስጢራዊ ባክኣፕ የብሉን",
+      "missingPublicKey": "ባክኣፕ ሕቡር ቁልፊ ይጎድሎ ኣሎ",
+      "noServerPublicKey": "ዚ ኣካውንት ሕጂ ሕቡር ቁልፊ ሰርቨር ኣይተገለጸን",
+      "serverBackupMismatch": "ባክኣፕ ሰርቨር ምስ ሕጋዊ ቁልፊ ድህንነት ኣካውንት ኣይሰማማዕን",
+      "incompleteMetadata": "ሜታዳታ ባክኣፕ ዘይተዓቀበ",
+      "resetIncomplete": "ድህንነት ኣጽሚድካ ብትክክል ኣይተዓቀበን"
+    },
+    "confirm": {
+      "reset": "ንዚ ኣካውንት ድህንነት ኣጽምድ?\n\nቀደምቲ ዝተጠበቑ መልእኽታት እንተዘይተመለስካ ቀደምቲ ቁልፊ ኣይትነብእን።"
+    },
+    "resetDescription": "ዚ ሓዲሽ ቁልፊ ድህንነት ንኣካውንትኻ ይፈጥር። ቀደምቲ ዝተጠበቑ መልእኽታት እንተዘይተመለስካ ቀደምቲ ቁልፊ ኣይትነብእን።"
+  },
   "footer": {
-    "plans": "ፕላናት & ዋጋ",
+    "plans": "ዕቅዳታትን ዋጋታትን",
     "about": "ብዛዕባ Chatforia",
-    "careers": "ስራሕ",
-    "press": "ፕረስ",
-    "advertise": "ማሕበራዊ ማርኬቲንግ",
-    "contact": "ኣብነት ርእስና",
+    "careers": "ስራሕታት",
+    "press": "ፕሬስ",
+    "advertise": "ኣድቨርታይዝ",
+    "contact": "ርክብ ምዕባለ",
     "help": "ማእከል ሓገዝ",
-    "status": "ገጽ ስታተስ",
+    "status": "ሁኔታ ገጽ",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "መመርሒ ምስጢር",
-    "terms": "መመርሒ ስምምዕ",
-    "cookies": "ምዕቃብ ኩኪ",
-    "doNotSell": "መረጃይ ኣብ ሽያጥ ኣይትስዕር",
+    "privacy": "ፖሊሲ ድህንነት",
+    "terms": "ውጽኢት ኣገልግሎት",
+    "cookies": "መተንታት ኩኪ",
+    "doNotSell": "መረዳእታይ ኣይትሽጥን",
     "language": "ቋንቋ",
-    "contactShort": "ኣብነት",
-
-    "aria": "ፈረሱስ",
-    "homeAria": "መእተዊ ናብ Chatforia",
+    "contactShort": "ርክብ",
+    "aria": "ፉትር",
+    "homeAria": "Chatforia ቤት",
     "section": {
       "company": "ኩባንያ",
       "support": "ሓገዝ",
-      "downloads": "ኣውርድ",
-      "legal": "ህጋዊ"
+      "downloads": "ዳውንሎድ",
+      "legal": "ሕጋዊ"
     },
     "links": {
-      "plans-pricing": "ፕላናት & ዋጋ",
+      "plans-pricing": "ዕቅዳታትን ዋጋታትን",
       "about-chatforia": "ብዛዕባ Chatforia",
-      "careers": "ስራሕ",
-      "press": "ፕረስ",
-      "advertise": "ማርኬቲንግ",
-      "getting-started": "ጀማሪ መመሪሕ",
+      "careers": "ስራሕታት",
+      "press": "ፕሬስ",
+      "advertise": "ኣድቨርታይዝ",
+      "getting-started": "ጀሚርካ",
       "help-center": "ማእከል ሓገዝ",
-      "contact-us": "ኣብነት ርእስና",
-      "status-page": "ገጽ ስታተስ",
+      "contact-us": "ርክብ ምዕባለ",
+      "status-page": "ሁኔታ ገጽ",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "መመርሒ ምስጢር",
-      "terms-of-service": "መመርሒ ስምምዕ",
-      "do-not-sell-my-info": "መረጃይ ኣይትሽዕር",
-      "cookie-settings": "ቅንብሮታት ኩኪ"
+      "privacy-policy": "ፖሊሲ ድህንነት",
+      "terms-of-service": "ውጽኢት ኣገልግሎት",
+      "do-not-sell-my-info": "መረዳእታይ ኣይትሽጥን",
+      "cookie-settings": "መተንታት ኩኪ"
     },
     "social": {
       "tiktok": "TikTok",
@@ -358,638 +1605,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "ፓተንት ብስተት ኣሎ",
-    "backToTop": "↑ ናብ ላዕሊ መለስ"
+    "patentPending": "ፓተንት ይቐጽል ኣሎ",
+    "backToTop": "↑ ናብ ላዕሊ ተመለስ"
   },
-
-  "home": {
-    "title": "መእተዊ",
-    "header": "መልእኽታትኻ",
-    "subheader": "መልእኽት ለኣኽ ንጀምር።",
-    "sendButton": "መልእኽት ለኣኽ",
-    "gifPicker": "GIF መርጫ ክፈት",
-    "emoji": "ኢሞጂ",
-    "upload": "ስእል ወይ ቪድዮ ኣድሕን",
-    "inputPlaceholder": "መልእኽት ጽሓፍ…",
-    "inputLabel": "መልእኽቲ መድብ",
-    "sendTooltip": "ለኣኽ",
-    "sendTooltipEmpty": "መልእኽት ጽሓፍ ከምኡውን ለኣኽ",
-    "send": "ለኣኽ",
-    "welcomeMessage": "ንChatforia እንኳዕ ብደሓን መጻእካ",
-    "getStarted": "ጀምር"
-  },
-
   "press": {
-    "title": "ፕረስ",
-    "contactLine": "ንመዛግብቲ ሓበሬታ ኣብ ዚ ኣድራሻ ተጠቒሙ",
-    "boilerplateTitle": "ብእሲ መግለጺ",
-    "boilerplateBody": "Chatforia ዝነበረ ምስጢር መልእኽቲ መተግበሪ እዩ ። መልእኽታት ብend-to-end ይተሓፍኡ እዮም፣ ትርጓም 100+ ቋንቋ ብቅንጡ ይካይዱ እዮም። ዝጠፍኡ መልእኽታት እናምርጹ መንበብ ማረጋጊያን እና ምስክር መሣርሒ ይኹን። ኣብ iOS፣ Android እና ዌብ ይረኽቡ።",
-    "assetsTitle": "ናይ ብራንድ ኣሃዛዊታት",
-    "assetsSubtitle": "ሎጎ፣ ስክሪንሹት እና ምስልታት ፕሮዳክት።",
-    "downloadCta": "ሚድያ ኪት ኣውርድ",
-    "downloadTitle": "መተግበሪ ኣብዚ ኣገናእ",
-    "scanTip": "ኣብ ኣልጋ? ብስልኪ ስካን ንመተግበሪ ንምውራድ።",
-    "qrAria": "ድሕረ ገጽ Chatforia ክፈት",
-    "appStore": "ኣብ App Store ኣውርድ",
-    "googlePlay": "ኣብ Google Play ኣምጻእ"
+    "title": "ፕሬስ",
+    "contactLine": "ንማዕከን ሚድያ ርክብ፡",
+    "boilerplateTitle": "ቦይለርፕሌት",
+    "boilerplateBody": "Chatforia ድህንነት ቀዳማይ መልእኽትነት ኣፕ እዩ፣ ብዙሕ-ቋንቋ ዕላለ ቀሊል ይገብር። መልእኽታት ብቐዳማይ ደረጃ ብድህንነት መወዳእታ-ናብ-መወዳእታ እዮም፣ ውሽጣዊ ትርጉም 100+ ቋንቋታት ብትክክል ይደግፍ። ተጠቃሚታት ዝጠፍኡ መልእኽታት፣ ኣንባቢ ትእዛዛት ናይ ምርጫ፣ ኣብ መሳርዕታት ምትካል ይኽእሉ። ኣብ iOS፣ Android፣ ዌብ ይረኽብ።",
+    "assetsTitle": "ብራንድ ኣሰቃቂታት",
+    "assetsSubtitle": "ሎጎታት፣ ስክሪንሾትታት፣ ምስልታት ምርት።",
+    "downloadCta": "ሚድያ ኪት ዳውንሎድ ግበር",
+    "downloadTitle": "ኣፕ ምረጽ",
+    "scanTip": "ኣብ ዴስክቶፕ? ብስልኪኻ ስካን ግበር ኣፕ ምረጽ።",
+    "qrAria": "ዌብሳይት Chatforia ክፈት",
+    "appStore": "ኣብ App Store ዳውንሎድ ግበር",
+    "googlePlay": "ኣብ Google Play ምረጽ"
   },
-
   "careers": {
-    "title": "ስራሕ",
-    "intro": "ንዝነበረ ምስጢር ዓለም-ኣቀፍ መልእኽቲ እንሰርሕ። ምሕላፍ፣ ቀሊል ምጥቃም እና ጥራይ ዩኤክስ እንተ ሓለወኻ ንምስራሕ ተስፋ ኣለና።",
-    "openRoles": "<b>ዝኣቱ ስራሕቲ:</b> ጀርባ እና ምስራሕ (Full-stack, iOS, Android), መርሓ ፕሮዳክት, ሓገዝ።",
-    "apply": "<b>ከም ትግበሩ:</b> ክርክር/ሊንካትኩም ናብ <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> ልኩ።",
-    "emailCta": "ኢመይል ልኣኽ"
+    "title": "ስራሕታት",
+    "intro": "ንሕና ንእኽል ቡድን መስራቲ ኢና Chatforia — ድህንነት፣ ግሎባል መልእኽትነት ኣብ ዌብ፣ iOS፣ Android ክትወጽእ ኢና። እንተ ድህንነት፣ ድህንነት፣ ደስታ ተጠቃሚ ትገብር እንተደሊኻ ንሰማዕካ ኢና።",
+    "openRoles": "<b>ክፍት መስራቲ ስራሕታት፡</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM)።",
+    "apply": "ከመይ ክትመልከት፡ ታሕቲ በትን ጥቅም ረዚዩምካን ሊንክታትን ኢመይል ግበር።",
+    "emailCta": "ረዚዩምኻ ኢመይል ግበር",
+    "whyNow": "ንእንታይ ሕጂ ተቐላቀል?",
+    "whyBullets": "• መሰረት ሓዲሽ ግሎባል መልእኽትነት ሕንፈት።\n• ለውጢ ኣብ ዌብ፣ iOS፣ Android ተጠቃሚ ምስራሕ።\n• ምስ መስራቲ ብቀጥታ ኣርክቴክቸርን ኣትዋዕድን ስራሕ።\n• ናይ ሓይሊ መዐቀቢ ክፍሊታት ምሉእ ቁጽጽር፡ መልእኽትነት፣ ድምጺ፣ ቪዲዮ፣ ድህንነት፣ ተሌኮም፣ ኣይኤን።\n• ኣብ መጀመርታ — ተጠቃሚታት ከይዕቡ ቅድሚ።"
   },
-
   "about": {
     "title": "ብዛዕባ Chatforia",
-    "description": "Chatforia ሓፋሽ፣ ብብዙሕ ቋንቋ ዝተዳለወ መልእኽቲ እዩ፣ ብend-to-end ምሕላፍ፣ ትእዛዝ ትርጓም እና ስልኪ/ቪድዮ። ተስፋና ሓሳብ ብቀሊል ሰባት ንምገናን እዩ።",
-    "valuesTitle": "ንምስራሕ ዝኣናዱ ዋጋታት",
+    "description": "Chatforia ድህንነት፣ ብዙሕ-ቋንቋ መልእኽትነት ምስ ብድህንነት መወዳእታ-ናብ-መወዳእታ፣ ብናጻ ትርጉም፣ ድምጺ/ቪዲዮ ጥሪ እዩ። ዕላማና ቀሊል እዩ፡ ሰባት ብድህንነት፣ ብናጻ፣ ብዙሕ-ቋንቋ ክትቆይሙ ክንሕግዝ።",
+    "valuesTitle": "ንእንታይ እንገብር",
     "values": {
-      "privacy": "<bold>ዝነበረ ምስጢር:</bold> E2E ምሕላፍ ብጀርባ እዩ።",
-      "access": "<bold>ንኹሉ መድረኽ:</bold> 100+ ቋንቋ ብራእይ ተርጓሚ።",
-      "control": "<bold>መቆጣጠር:</bold> ዝጠፍኡ መልእኽታት እና መንበብ ማረጋጊያ ኣማራጺ እዮም።",
-      "privacy_aria": "ዝነበረ ምስጢር: E2E ምሕላፍ ብጀርባ እዩ።",
-      "access_aria": "ንኹሉ መድረኽ: 100+ ቋንቋ ብራእይ ተርጓሚ።",
-      "control_aria": "መቆጣጠር: ዝጠፍኡ መልእኽታት እና መንበብ ማረጋጊያ ኣማራጺ እዮም።"
+      "privacy": "<b>ድህንነት ቀዳማይ፡</b> ብቐዳማይ ደረጃ ብድህንነት መወዳእታ-ናብ-መወዳእታ።",
+      "access": "<b>ንኹሉ መብት፡</b> ብራስ ትርጉም 100+ ቋንቋታት።",
+      "control": "<b>ቁጽጽር፡</b> ዝጠፍኡ መልእኽታትን ኣንባቢ ትእዛዛትን ናይ ምርጫ።",
+      "privacy_aria": "ድህንነት ቀዳማይ፡ ብቐዳማይ ደረጃ ብድህንነት መወዳእታ-ናብ-መወዳእታ።",
+      "access_aria": "ንኹሉ መብት፡ ብራስ ትርጉም 100+ ቋንቋታት።",
+      "control_aria": "ቁጽጽር፡ ዝጠፍኡ መልእኽታትን ኣንባቢ ትእዛዛትን ናይ ምርጫ።"
     },
     "howTitle": "Chatforia ከመይ ይሰርሕ",
-    "howDescription": "መልእኽታት ካብ መሣሪትካ ወዲኡ ቅድሚ ምእካብ ይተሓፍኡ እዮም። ትርጓም፣ ቅባት እና ምስክር ንክነውሕ ዝኽእል መረጋገጺ ንምቕናን እዮም።"
+    "howDescription": "መልእኽታት ኣብ መሳርዕኻ ቅድሚ ምውጻኦም ይጠበቁ። ትርጉም፣ ባክኣፕታት፣ ምትካል መሳርዕ ንሰርቨራትና ዝኾነ ነገር ከይርእዩ ይዲዛይን ኢና።"
   },
-
   "advertise": {
-    "title": "ብChatforia ማርኬቲንግ",
-    "description": "ተሳትፎ ዘለዎም ተጠቃሚ መልእኽቲ ብምኽንያት ንመልእኽታትኩም ኣስተምህሮ። ባነር፣ ስፖንሰርሽፕ እና ዝተመጣጠነ መመዝገብ ኣለና። ፕሪሚየም ዝኮኑ ማሕበር ማርቆ ኣይርኣዩን።",
+    "title": "ምስ Chatforia ኣድቨርታይዝ",
+    "description": "ብጣዕሚ ዝተዓቀቡ ተጠቃሚታት መልእኽትነት ብጣዕሚ ጣዕሚ ዘለዎ፣ ብራንድ-ድህንነት ዘለዎ ቦታታት ርከብ። ባነር ኢንቨንቶሪ ኣብ ከፍቲ ራእይ ቦታታት፣ ስፓንሰርሺፕ፣ ሃውስ ፕሮሞ ንሃብ። ፕሪሚየም ተጠቃሚታት ኣድ ኣይርእዩን።",
     "adsense": {
-      "withPubId": "ኣብሓን ኣብ <b>Google AdSense</b> ንማርኬቲንግ እንገብር። ብGoogle Ads ክትዕብየሉ ደሊኩም እንተ ሃልዩ ዝተራኸበ መታወቂያ <code>{{pubId}}</code> ተጠቒሙ እና managed placement ሕቡራት ሓበሬታት ስእል ጠይቁ።",
-      "noPubId": "ኣብሓን ኣብ <b>Google AdSense</b> ንማርኬቲንግ እንገብር። ቀጥታ ስፖንሰርሽፕ ደጊም ኣሎ — ቅጥዒ ሙሉእ።"
+      "withPubIdShort": "ኣብ Google AdSense ኢንቨንቶሪ እንዳገለገልና ኣለና። ብፑብሊሸር ID {{pubId}} Chatforia ክትዕለም ትኽእል ኢኻ፣ ወይ ታሕቲ ፎርም ንቀጥታ ስፓንሰርሺፕ ተጠቐም።",
+      "noPubIdShort": "ኣብ Google AdSense ኢንቨንቶሪ እንዳገለገልና ኣለና። ቀጥታ ስፓንሰርሺፕ ይገብር — ታሕቲ ፎርም ተጠቐም።"
     },
-    "inventoryHeader": "መኽዘን & መመዝገብ",
+    "inventoryHeader": "ኢንቨንቶሪን ስፔክስን",
     "placement": {
-      "displayBadge": "ዲስፕለይ",
-      "acceptedSizes": "ዝተቐበሉ መጠን",
-      "adsenseSlot": "AdSense ስሎት:"
+      "displayBadge": "ዲስፕሌይ",
+      "acceptedSizes": "ዝተቐበሉ ዓቐናት",
+      "adsenseSlot": "AdSense ስሎት፡"
     },
-    "noPlacements": "መስተዋት ኣይተሰናዱን እዮም። ads/placements.js ኣስተኻኽል።",
-    "whyHeader": "እንታይ ንChatforia?",
+    "noPlacementsPublic": "ኢንቨንቶሪ ኣድ ንመወዳእታ ኣዳሉ ኣለና። ብዛዕባ ካምፐኝኻ በለና ቦታታት ክነመክረልካ ኢና።",
+    "whyHeader": "ንእንታይ Chatforia?",
     "why": {
-      "highSession": "ሓድሽ ምግባር እና ረጅሕ ክሳብ እቲ ቃለ-መልሲ",
-      "brandSafe": "ብርሃን ቅንጡ ፎርማት እና መነፃፀር ኣድማስ",
-      "sponsoredMoments": "ስፖንሰር ሞመንት (መልእኽት ጀምር ሞዳል ዝርከብ)",
-      "deals": "ቀጥታ ምርኣይ ወይ ብAdSense/Google Ads ፕሮግራማቲክ"
+      "highSession": "ኣብ ዕላለ UI ብዙሕ ሴሽን ፍሪኩዌንሲን ድወል ታይምን",
+      "brandSafe": "ብራንድ-ድህንነት ፎርማታት፤ ክብሪ ፍሪኩዌንሲ ካፕ",
+      "sponsoredMoments": "ዝተደገፉ ምዕራፋት (ከም “ዕላለ ጀምር” ሞዳል) ይገብሩ",
+      "deals": "ቀጥታ ዲል ወይ ፕሮግራማቲክ ብAdSense/Google Ads"
     },
-    "contactHeader": "ኣብነት",
+    "contactHeader": "ርክብ",
     "form": {
-      "submittedMsg": "የቐንየልና! ሕቶኻ ተላኢኹ። በጃኻ ብቕልጡፍ ንኽመልስ ኢና።",
-      "missingRequired": "ስም፣ ኢመይል እና መልእኽቲ ኣምር።",
-      "successToast": "የቐንየልና! ብቕልጡፍ ንኽተገናእ ኢና።",
-      "mailtoInfo": "እቲ ኢመይል ክላይንትኻ ክክፈት እዩ…",
-      "nameLabel": "ስምካ",
+      "submittedMsg": "ኣመስግኖ! ሓቲትኻ ተላእኩ። ብትንሽ ጊዜ ክነመልስ።",
+      "missingRequired": "ስም፣ ኢመይል፣ መልእኽቲ ምላእ።",
+      "successToast": "ኣመስግኖ! ብትንሽ ጊዜ ክነመልስ።",
+      "mailtoInfo": "ኢመይል ክላይንትኻ ክከፍት ኣብ ሓቲት ልኣኽ…",
+      "nameLabel": "ስምኻ",
       "namePlaceholder": "Jane Doe",
       "emailLabel": "ኢመይል",
       "emailPlaceholder": "you@company.com",
       "companyLabel": "ኩባንያ",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "ወርሓዊ ቦጀት (ኣማራጺ)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "ብዛዕባ ዓውደ-ስራሕኩም ንሕብር",
-      "messagePlaceholder": "ታሕቲታት፣ ዕለታት፣ KPI እና መመዝገብ…",
-      "sendCta": "ሕቶ ለኣኽ"
+      "budgetLabel": "ወርሒያዊ በጀት (ኣይኮነን)",
+      "budgetPlaceholder": "ከም $1,000–$20,000+",
+      "messageLabel": "ብዛዕባ ካምፐኝኻ በለና",
+      "messagePlaceholder": "ታርጌቲንግ፣ ዕለታት፣ KPI፣ ቦታ ምርጫ…",
+      "sendCta": "ሓቲት ልኣኽ"
     },
     "legal": {
-      "disclaimerStart": "ብምልካስ እነው፣ ሕጋዊ መመርሒና ትቕበሉ",
-      "terms": "መመርሒ",
-      "and": "እና",
-      "privacy": "መመርሒ ምስጢር"
-    }
-  },
-
-  "upgrade": {
-    "title": "ኣፍሬድ",
-    "subtitle": "ብPlus ኣድ-ፍሪ ክኸውን ወይ ብPremium ነፃ ሓድሽ ባህሪታት ክፈት።",
-    "perMonth": "ወርሒ",
-    "perYear": "ዓመት",
-    "goPremium": "ፕሪሚየም ክትከፍት",
-    "benefitsLine": "ሓድሽ ባህሪታት ክፈት & ማሕበር ማርቆ ውሰድ።",
-    "ctaText": "ኣፍሬድ",
-    "aria": "ናብ Chatforia Premium ኣፍሬድ",
-    "toggle": {
-      "monthly": "ወርሓዊ",
-      "annual": "ዓመታዊ (25% ቆጠብ)"
-    },
-    "scheduleBanner": {
-      "title": "ንእሽቶ ይውድእ",
-      "body": "ናብ ፍሪ ትመለስ ኣብ",
-      "keepPlanCta": "{{plan}} ኣቐምጥ",
-      "manageBillingCta": "ቢሊንግ ኣካይድ"
-    },
-    "billing": {
-      "opening": "ክፈት…",
-      "manage": "ቢሊንግ ኣካይድ"
-    },
-    "checkout": {
-      "redirecting": "ምቕያር…"
-    },
-    "auth": {
-      "continue": "ናብ መዝገብ ቀጽል",
-      "createAccount": "መለለይ ፍጠር",
-      "signIn": "ግባ"
-    },
-    "cta": {
-      "aria": "ፕላን ምረፅ",
-      "getPlus": "ናብ Plus ኣፍሬድ",
-      "upgradeMonthly": "ወርሓዊ ኣፍሬድ",
-      "upgradeAnnual": "ዓመታዊ ኣፍሬድ"
-    },
-    "plans": {
-      "free": {
-        "title": "ፍሪ",
-        "price": "$0",
-        "desc": "ብነጻ ጀምር።",
-        "features": {
-          "msg": "1:1 እና ጉጅለ መልእኽቲ",
-          "aiBasic": "መሰረታዊ ኣይኤ መልሲ",
-          "attachments": "መደበኛ ኣብዛዕባ"
-        },
-        "ctaCurrent": "ዘለኻ ፕላን",
-        "ctaUnavailable": "ናብ ፍሪ ምቕያር (ዘይተፈቀደ)",
-        "aria": "ፍሪ ፕላን (ዘለኻ)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / ወርሒ",
-        "desc": "ኣብ ዝወሰነ ዋጋ ኣድ-ፍሪ ልምዲ።",
-        "features": {
-          "noAds": "ናይ ማርቆ ኩሉ ኣስደድ",
-          "msg": "1:1 እና ጉጅለ መልእኽቲ",
-          "attachments": "ዓቐን ዝበለጸ ኣብዛዕባ",
-          "aiBasic": "መሰረታዊ ኣይኤ መልሲ"
-        },
-        "badge": "ተፈላሊዩ",
-        "cta": "ኣድ-ፍሪ ክትከፍት",
-        "aria": "ናብ Plus ኣፍሬድ"
-      },
-      "premiumMonthly": {
-        "title": "Premium (ወርሓዊ)",
-        "price": "$24.99 / ወርሒ",
-        "desc": "ብዙሕ ባህሪታት፣ ሪንግቶን እና ኣይኤ መሳርሒ።",
-        "features": {
-          "plusAll": "ኩሉ ናብ Plus ዘሎ",
-          "ringtones": "ብምርጫ ቀንዲ ሪንግቶን/መልእኽቲ",
-          "powerAi": "ኣይኤ ኃይለኛ ባህሪታት",
-          "priorityUpdates": "ቅድሚ ሓበሬታ",
-          "backups": "ቅባት & ምስክር"
-        },
-        "badge": "ምርጫ ምርጥ",
-        "cta": "ኣፍሬድ (ወርሓዊ)",
-        "aria": "ናብ Premium ወርሓዊ ኣፍሬድ"
-      },
-      "premiumAnnual": {
-        "title": "Premium (ዓመታዊ)",
-        "price": "$225 / ዓመት",
-        "desc": "ብዓመት ክትከፍል ቆጠብ።",
-        "features": {
-          "allPremium": "ኩሉ ናብ Premium ዘሎ",
-          "annualBilling": "ብዓመት ክፍሊ",
-          "save25": "25% ከም ወርሓዊ ክቆጠብ",
-          "sameFeatures": "ከም ወርሓዊ ተመሳሳሊ ባህሪታት"
-        },
-        "badge": "25% ቆጠብ",
-        "cta": "ኣፍሬድ (ዓመታዊ)",
-        "aria": "ናብ Premium ዓመታዊ ኣፍሬድ",
-        "disclaimer": "ብጀርባ ይክፈል። ኣብ ዝኸውን ግዜ ክትቁም ትኽእል። ምስጢራዊ ክፍሊ የለን።"
-      }
-    },
-    "marketing": {
-      "freeTitle": "ፍሪ",
-      "freeDesc": "ብነጻ ጀምር።",
-      "plusTitle": "Plus",
-      "plusBadge": "ተፈላሊዩ",
-      "plusDesc": "ኣብ ዝወሰነ ዋጋ ኣድ-ፍሪ ልምዲ።",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "ሙሉ ባህሪታት፣ ሪንግቶን እና ኣይኤ መሳርሒ።",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "ብዓመት ክፍሊ ቆጠብ።",
-      "annualDisclaimer": "ብጀርባ ይክፈል። ኣብ ዝኸውን ግዜ ክትቁም ትኽእል። ዝሕብር ክፍሊ የለን።"
-    }
-  },
-
-  "gettingStarted": {
-    "title": "ጀማሪ መመሪሕ",
-    "subtitle": "ሓድሽ ኢኻ ኣብ Chatforia? እዚ ቕሩብ መመሪሕ ብቅልጡፍ ንምጀምር ይሕግዝ።",
-    "alert": {
-      "text": "እዚ መመሪሕ ከም ንሕና ኣብ ሓድሽ ባህሪታት ከም ይድግ። ነገር እንተ ጎይተ ኣለ ብ",
-      "contactLink": "ኣብነት ርእስና"
-    },
-    "section1": {
-      "title": "1) መለለይ ፍጠር",
-      "signup": "ተመዝገብ",
-      "or": "ወይ",
-      "login": "ግባ",
-      "loginText": "ብመለለይ ዝኾነ ሓሳብ እትጠቐም።",
-      "prefsStart": "ናይካ",
-      "prefsLink": "ቅንብሮታት",
-      "prefsRest": "(ቋንቋ፣ መንበብ ማረጋጊያ፣ ቲምታት)."
-    },
-    "section2": {
-      "title": "2) መልእኽት ጀምር",
-      "item1": "DM ወይ ጉጅለ ፍጠር እና መጀመርታ መልእኽት ለኣኽ።",
-      "item2": "ኣብ 100+ ቋንቋ ብቅንጡ ንምዕጋር ትርጓም ተጠቒሙ።",
-      "item3": "ዝጠፍኡ መልእኽታት እና መንበብ ማረጋጊያ ኣብ ፕሮፋይል → ዝነበረ ምስጢር ፈትኑ።"
-    },
-    "section3": {
-      "title": "3) ተስፋ ድለ",
-      "item1Part1": "ፕላናት ብ",
-      "upgradeLink": "ኣፍሬድ",
-      "item1Part2": " ገጽ ኣካይድ (Plus = ኣድ-ፍሪ, Premium = ሙሉ ባህሪታት).",
-      "item2Part1": "ተወሳኺ መሣርሒ ኣምርና ቅባት ኣብ",
-      "settingsLink": "ቅንብሮታት"
-    },
-    "cta": {
-      "seePlans": "ፕላናት ርአ",
-      "openSettings": "ቅንብሮታት ክፈት"
-    }
-  },
-
-  "helpCenter": {
-    "title": "ማእከል ሓገዝ",
-    "faq": {
-      "account": {
-        "q": "መለለይ ከመይ እፈጥር ወይ ከመይ እመልስ?",
-        "a": "መተግበሪ ኣውርድ ወይ ዌብ ተጠቒሙ፣ “መለለይ ፍጠር” ብሉ፣ ኢመይል/ስልኪ ኣረጋግጽ። ንምመለስ “ፓስዎርድ ረሲዕካ” ተጠቒሙ።"
-      },
-      "privacy": {
-        "q": "መልእኽታት end-to-end ይተሓፍኡ ዶ?",
-        "a": "እወ። መልእኽታትን ስልኪታትን end-to-end ይተሓፍኡ እዮም። ንኣኻን ንተቐባሊኻን ብቻ ይነብቡ ይኽእሉ።"
-      },
-      "translate": {
-        "q": "ትርጓም ብቅንጡ ከመይ ይሰርሕ?",
-        "a": "ኣብ ቅንብሮታት → መልክ & ቋንቋ “ብራእይ ትርጓም” ኣኽል። ኣብ ዝተኻበረ መሣርሒ ብመቐለ ይገብር ወይ ብሓላፍነት ኣፒ ብምኻን ዝተሓፈነ መረጋጋጺ ይግበር።"
-      },
-      "contact": {
-        "q": "ሓገዝ ኣግናእ",
-        "a": "ናብ support@chatforia.com ሕቶ ልኩ። ስክሪንሹት እና ብርቱዕ ቁጽሪ መተግበሪ ኣብርኩ።"
-      }
-    }
-  },
-
-  "contact": {
-    "title": "ኣብነት ርእስና",
-    "successMsg": "የቐንየልና—ብኢመይል ንኣኻ ንኽመልስ ኢና።",
-    "errorSend": "ምልካስ ኣይከኣለን። እባክካ support@chatforia.com ተጠቒሙ።",
-    "form": {
-      "nameLabel": "ስም",
-      "emailLabel": "ኢመይል",
-      "messageLabel": "መልእኽቲ",
-      "sendCta": "ልኣኽ"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "መመርሒ ምስጢር",
-    "lastUpdated": "ናይ መዘመን መዝገብ:",
-    "intro": {
-      "body": "እዚ መመርሒ ምስጢር ናብ Chatforia (“ንሕና”, “ንዕና”) ዝኸውን መረጃ ከመይ ንከማልእ፣ ከመይ ንከጥቀም፣ እና ከመይ ንኽካፍል ይግልፅ። ኣብ እዋናትና ንምንጻብ እንፈትሓ ኢና።"
-    },
-    "infoWeCollect": {
-      "title": "መረጃ ንምእካብ",
-      "account": "መረጃ መለለይ (እ.ግ. ኢመይል/ስልኪ) ንምፍጣር እና ምኽልኣት መለለይ።",
-      "encrypted": "ዝተሓፈነ ይዘት (መልእኽቲ/ኣድማ) end-to-end ይተሓፍኡ እዮም፤ ምንባብ ኣይክእልናን።",
-      "diagnostics": "ዲያግኖስቲክ/ምጥቃም ከም crash logs, ዓይነት መሣርሒ እና ንምሕላፍ ሓበሬታ እትሕብር።"
-    },
-    "howWeUse": {
-      "title": "መረጃ ከመይ ንከጥቀም",
-      "provide": "ኣገልግሎት ንምምዕባል እና ምዕቃብ (መመርመር ስፕአም/ኣቡዝ).",
-      "improve": "ባህሪታት ንምምሕራሽ (ጽቡቕ ትርጓም፣ ምርጥ እንታይ).",
-      "legal": "ሕጋዊ ምሕታም ንምፍፃም."
-    },
-    "sharing": {
-      "title": "ምካፋል",
-      "body": "መረጃ የንጥፈ ኣይንሽዕርን። ንመምርሕቲ (processors) ኣብ ግዚኣት ንኽራኸብ ይኽእል ኢና እንተ ኣሕጋጋት እንስርሕ።"
-    },
-    "rights": {
-      "title": "መሰል ሓቂኣትካ",
-      "body": "እቲ ክልላካ እንተ ምስ ተመሓላለፈ (GDPR/UK GDPR/CPRA) መረጃ ምርኣይ፣ ምሕዳስ፣ ምስራዝ ወይ ውሳኔ ምርግጋፅ ትኽእል። ኣድራሻ: privacy@chatforia.com"
-    },
-    "retention": {
-      "title": "ምቑመፅ መረጃ & ሓላፍነት",
-      "body": "ስራሕ ንምክዳን ዝያዳ ኣይንቕርብን፣ መደብ ሓላፍነት ኣብ ሓሙኽ እና ንጥፈት እንተ ኣይትምርሕ እዩ። ዝተሓፈነ ይዘት ኣብና ኣይነብብን።"
-    },
-    "children": {
-      "title": "ዕድመ ቆልዓ",
-      "body": "Chatforia ንቆልዓ ካልእ 13 ዓመት (ወይ እንተ ሕጊ ይፍለጥ) ኣይተሓበሰን።"
-    },
-    "changes": {
-      "title": "ምቕያር",
-      "body": "እዚ መመሪሕ ክንሕድስ ኢና እና ናይ “ናይ መዘመን” ቀንዲ ንክእስክር ኢና።"
-    },
-    "contact": {
-      "title": "ኣብነት",
-      "body": "privacy@chatforia.com • [ናይ ኩባንያ ስም], [ኣድራሻ]"
-    }
-  },
-
-  "terms": {
-    "title": "መመርሒ ኣገልግሎት",
-    "lastUpdated": "ናይ መዘመን መዝገብ:",
-    "intro": {
-      "body": "Chatforia ብምጥቃም እዚ መመሪሒ ትቕበሉ። እንተ ዘይትቕበሉ ኣብ ኣገልግሎት ኣይትጠቐሙ።"
-    },
-    "accounts": {
-      "title": "መለለያት",
-      "itemAccurateInfo": "ትኽክለኛ መረጃ ሃብና እና መለለይካ ጠቕም ኣስተኻኽል።",
-      "itemResponsibility": "ንጥቃም ናብ መለለይካ ንኣካ ተጠሪ ኢኻ።"
-    },
-    "acceptableUse": {
-      "title": "ጥቕሚ ተቐባልያይ",
-      "itemNoAbuse": "ህግናዊ ዘይኮነ፣ ሕማቕ ወይ ዝተሰርቀ ይዘት ኣይትሰጥብ። ስፓም ወይ ማኣዛ ኣይፍቀድን።",
-      "itemSuspend": "ሕገ መልቀቂ እንተ ሃለወ ኣገልግሎት ንክእትርከብ ንኽትወፅእ ኢና።"
-    },
-    "yourContent": {
-      "title": "ይዘትካ",
-      "body": "ኣብ ይዘትካ መረዳእ መሰል ኣነ እንተሎኻ። ስርኣት ንምብጻሕ ዝያዳ መርሓ ንኽኣቱ መሰል መርሓ ትህብ ኢኻ (እ.ግ. ምሕላፍ መልእኽቲ ፣ ምምሕዳስ ኣብ ሰርቨር።)"
-    },
-    "disclaimer": {
-      "title": "ማስታወቂያ & መብት ንመን ይመስል",
-      "body": "ኣገልግሎት ከም “እንተኾነ እዩ” ይርከብ። ብሕግ ዝፈቀደ ክእዋን ናይ ተከታታይ ወይ ዝተኣማነ ጉዳይ ንምሕላፍ ኣይንተዓረፍን።"
-    },
-    "changes": {
-      "title": "ምቕያር",
-      "body": "እዚ መመሪሕ ንኽንሕድስ ኢና፣ ተመሪሑ ብምጥቃም እተቀበሉ ይብል።"
-    },
-    "contact": {
-      "title": "ኣብነት",
-      "body": "support@chatforia.com • [ናይ ኩባንያ ስም], [ኣድራሻ]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "መረጃየ ኣይትሽዕር/ኣይትካፍል",
-    "body": "Chatforia መረጃ ሰብ ኣይሽዕርን። ናይ ካሊፎርኒያ ዝኾኑ ኣባላት ብCPRA ሕቶ ሊተስ ይኽእሉ።",
-    "cta": "ሕቶ ልኣኽ"
-  },
-
-  "cookies": {
-    "title": "ቅንብሮታት ኩኪ",
-    "body": "Chatforia ኣብ ዝያዳ ኩኪ ኣይጥቀመን (እ.ግ. ስክርና፣ ምሕላፍ)። ኩኪ ኣብ መተግበሪ እትጠቐሙ ምርኣይ ትኽእል።"
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "ስታተስ ቁ. ስልኪ ምጽዓን ኣይከኣለን።",
-    "lock": "ኣትሕዘ",
-    "noNumberAssigned": "ቁ. ስልኪ የለን። ናብ ኣካባቢ ናብ እዚ ንመልእኽት ጀምር ምረፅ።",
-    "pickNumber": "ቁ. ስልኪ ምረፅ",
-    "phoneNumber": "ቁ. ስልኪ"
-  },
-
-  "startChatModal": {
-    "title": "ቃለ-መልሲ ጀምር",
-    "quickPicker": "ቅርብ መርጫ",
-    "to": "ናብ",
-    "nameOrUsername": "ስም ወይ ዩዘርኔም ጽሓፍ",
-    "nameUsernamePhoneEmail": "ስም፣ ዩዘርኔም፣ ስልኪ ወይ ኢመይል ጽሓፍ…",
-    "startWithSelected": "ምረፃ ጋር ቃለ-መልሲ ጀምር",
-    "searchByUsernameOrPhone": "ብዩዘርኔም ወይ ስልኪ ድለ",
-    "search": "ድለ",
-    "searchPrompt": "ዩዘርኔም ወይ ስልኪ ጽሓፍ እና ድለ ጠይቕ።",
-    "pickFromContacts": "ካብ ኣድላዪ ምረፅ",
-    "addContact": "ኣድላዪ ወስኽ",
-    "show": "ርአ",
-    "add": "ወስኽ",
-    "close": "ዕፉ",
-    "selectedCount": "{{count}} ተመሪሑ",
-    "pickAtLeastOne": "መድረሻ ድማ ሓደ ይኮን ኣለዎ።",
-    "saveContactsHint": "ስልኪ/ኢመይል ኣብ ኣድላዪ እንተ ኣቐምጡ ድሕሪ እዚ ይቕረብ።",
-    "failedBulkStart": "ብብዙሕ መድረሻ ምጀመር ኣይከኣለን።",
-    "noResults": "ውጽኢት የለን",
-    "mode": "ሞድ",
-    "group": "ቡድን",
-    "broadcast": "ብሮድካስት",
-    "groupNameOptional": "ስም ቡድን (ኣማራጺ)",
-    "firstMessageOptional": "መጀመርታ መልእኽቲ (ኣማራጺ እዩ ግን ይመክር)",
-    "createGroup": "ቡድን ፍጠር",
-    "sendBroadcast": "ብሮድካስት ለኣኽ"
-  },
-
-  "themes": {
-    "amoled": "AMOLED",
-    "aurora": "ኦሮራ",
-    "neon": "ኒዮን",
-    "sunset": "ምሕረት ፀሓይ",
-    "solarized": "ሶላራይዝድ",
-    "velvet": "ቨልቬት"
-  },
-
-  "sounds": {
-    "freeNotice": "ፍሪ እዩ — ናይ ፕሪሚየም ድምጻት ይተሰናዱ። ክትከፍት ኣፍሬድ ግብር።",
-    "preview": "ቅድመ ምርኣይ",
-    "resetToDefaults": "ናብ መደበኛ መለስ",
-    "notificationSounds": "ድምጻት ምልክት",
-    "messageTone": "ድምጺ መልእኽቲ",
-    "default": "መደበኛ",
-    "vibrate": "ንብብር",
-    "dreamer": "ድሪመር",
-    "notify": "ናብ እንተ ዝበለ",
-    "pop": "ፖፕ",
-    "pulsatingSound": "ዝተንቀሳቀሰ ድምጺ",
-    "textMessage": "ቴክስት መልእኽቲ",
-    "xylophone": "ክሳይሎፎን",
-    "classic": "ክላሲክ",
-    "urgency": "ኣስኪር",
-    "bells": "ከርከሮ",
-    "chimes": "ቻይምስ",
-    "digitalPhone": "ዲጂታል ስልኪ",
-    "melodic": "መሎዲክ",
-    "organNotes": "ኦርጋን ኖትስ",
-    "soundReality": "ሳውንድ ሪአሊቲ",
-    "street": "ጎደና",
-    "universfield": "ዩኒቨርስፊልድ"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "እዚ ባህሪ ፕሪሚየም ይፍለጥ።"
-  },
-
-  "aiSettings": {
-    "title": "ቅንብሮታት ኣይኤ",
-    "controlIntro": "ትርጓም፣ ፈጣን መልሲ እና ForiaBot ራስኣን መልሲ ኣካይድ።",
-    "save": "ቅንብሮታት ኣይኤ ኣቐምጥ",
-    "autoTranslateIncoming": "ዝመጹ መልእኽታት ብራእይ ተርጓሚ",
-    "showOriginalAlongside": "ናይ መጀመርታ ከም ትርጓም ብተባባሕ ርአ",
-    "enableSmartReplies": "ፈጣን መልሲ ኣኽል",
-    "smartRepliesHint": "ኣብ መዝገብ ሕማቕ ቃለ-መልሲ ክርከብ ዘለዎ መልሲ ይመክር።",
-    "maskProfanity": "ተግሣጽ ቃላት ኣስተር",
-    "maskProfanityHint": "እንተ ተኣኺሉ ብAI ዝመልሰ ኣብ ቃላት ዝተገሰጸ ኣልማስ ይኸውን።",
-    "foriaBot": "ForiaBot ራስኣን-መልሲ",
-    "enableAutoReply": "ኣብ ስራሕ እንተ ኣለኹ ራስኣን መልሲ ኣኽል",
-    "autoReplyMode": "ሞድ ራስኣን መልሲ",
-    "cooldownSeconds": "ክልተ ሰከንድ",
-    "off": "ዝያዳ",
-    "on": "ኣኽል",
-    "signature": "ፊርማ",
-    "autoReply": "ራስኣን መልሲ",
-    "activeUntilOptional": "ክሳብ ይሰርሕ (ኣማራጺ)",
-    "saved": "ቅንብሮታት ኣይኤ ተዓቒቡ",
-    "saveFailed": "ቅንብሮታት ኣይኤ ምዕቃብ ኣይከኣለን",
-    "translateOff": "ዝያዳ",
-    "translateTagged": "ብ@translated ወይ ብታግ እንተጠሪ",
-    "translateAll": "ኩሉ ዝመጹ መልእኽታት ተርጓሚ",
-    "modeDm": "1:1 ብቻ",
-    "modeMention": "እኔ እንተ @ተጠሪ ብቻ",
-    "modeAll": "ኩሉ ዝመጹ መልእኽታት"
-  },
-
-  "accessibilitySettings": {
-    "title": "ቀሊል ምጥቃም & ማስጠንቀቂ",
-    "accessibility": "ቀሊል ምጥቃም",
-    "accessibilityDesc": "Chatforia ብድምጺ ኣይትምርሕ ከም ክትጠቐም ዝግበር ምርጫታት።",
-    "interfaceFontSize": "መጠን ፊደል ማዕከላይ",
-    "interfaceFontSizeHelp": "ካብ መደበኛ ይጀምር። እንተ ደሊኻ ትሓተት ፊደል ኣብ ቅንብሮታት ኣክትል።",
-    "sm": "ንእሽቶ",
-    "md": "መካነ",
-    "lg": "ሓድፍ",
-    "xl": "ከቢድ",
-    "notifications": "ማስጠንቀቂ",
-    "notificationsDesc": "ብብርሃን ማስጠንቀቂ ንመልእኽታት & ስልኪ\nባነር እና ርእሲ እትስክር ንኽንጸንሕ ይርከብ።",
-    "vibrateOnNew": "ሓድሽ መልእኽቲ ንእቶም ኣብ መሣርሒ ዝተደገፉ ንብብር",
-    "flashOnCall": "ስልኪ እንተ ደወለ ስክሪን ኣብርቶ",
-    "liveCaptions": "ሊቭ ካፕሽኖም (ስልኪ)",
-    "captionFontSize": "መጠን ፊደል ካፕሽን",
-    "captionBackground": "መወርወሪ ካፕሽን",
-    "light": "ብርሃን",
-    "dark": "ጸሊም",
-    "transparent": "ግልጽ",
-    "voiceNotes": "ድምጺ ኖትስ",
-    "autoTranscribeVoiceNotes": "ድምጺ ኖትስ ብራእይ መጻሕፍቲ ኣድርግ\nምስ ዝመጹ ኣድዮ መልእኽታት ተጨማሪ ጽሑፍ ኣድርግ።",
-    "changesSavedInstantly": "ምቕያራት ብቕልጡፍ ይዕቀቡ።",
-    "loadFailed": "ቅንብሮታት ምጽዓን ኣይከኣለን",
-    "visualAlerts": "ብብርሃን ማስጠንቀቂ ንመልእኽታት & ስልኪ",
-    "visualAlertsDesc": "ባነር እና ርእሲ እትስክር ንኽንጸንሕ።",
-    "vibrateOnNewShort": "ሓድሽ መልእኽቲ ንብብር",
-    "vibrateOnNewDesc": "ኣብ ማስጠንቀቂ ንብብር ኣክትል።",
-    "flashOnCallShort": "ኣብ ስልኪ እንተ ደወለ ስክሪን ኣብርቶ",
-    "flashOnCallDesc": "ስልኪ እንተ ደወለ ብብርሃን ክልተ ኣብርት።"
-  },
-
-  "privacySection": {
-    "strictE2EE": "ርግፀኛ End-to-End ምሕላፍ",
-    "ciphertextOnlyNote": "ኣብ ሰርቨር ጽሑፍ ዝተሓፈነ ብቻ ኣእትው። AI/ትርጓም እና ሞድሬሽን ቅድመ-ርእይ ይበጽሕ።"
-  },
-
-  "linkedDevicesPanel": {
-    "title": "ዝተራኸቡ መሣርሒ",
-    "noneFound": "መሣርሒ የተራኸቡ የለን።",
-    "refresh": "ኣሕዱ"
-  },
-
-  "help": {
-    "title": "ሓገዝ",
-    "howCanWeHelp": "ከመይ ንኽእል?",
-    "helpCenter": "ማእከል ሓገዝ",
-    "contactUs": "ኣብነት ርእስና",
-    "quickTopics": "ተራእዮ ርእሶታት",
-    "searchExamples": "“ትርጓም”, “ቅባት”, “ምስጢር” ኣብ ድለ ፈትኑ።",
-    "cantLogin": "ግባ ኣይክእልን",
-    "paymentsBilling": "ክፍሊ/መኽፈሊ",
-    "reportAbuse": "ሕማቕ ሪፖርት",
-    "searchHelpArticles": "መጽሓፍታት ሓገዝ ድለ",
-    "search": "ድለ"
-  },
-
-  "peoplePage": {
-    "people": "ሰባት",
-    "search": "ድለ",
-    "searchPlaceholder": "ብኣልያስ፣ ስም፣ ዩዘርኔም ወይ ስልኪ ድለ",
-    "filterSaved": "ዝተዓቐሙ ኣድላዪ ማጣሪ",
-    "noContactsFound": "ኣድላዪ የለን",
-    "quickStart": "ቀሊል ጀምር",
-    "quickStartDesc": "ብቕልጡፍ ንምጀምር መንገዲ ሓደ ጥራይ።",
-    "importContacts": "ኣድላዪ ኣመጻእ",
-    "add": "ወስኽ",
-    "focusSearch": "ድለ ኣብ መርኣይ",
-    "import": "ኣመጻእ",
-    "findOrAdd": "ሰብ ድለ ወይ ወስኽ",
-    "searchByPhoneOrUsername": "ብስልኪ/ዩዘርኔም ድለ",
-    "inviteFriends": "መሓዛ ጋር ጋር",
-    "inviteDesc": "ናይ ግብሪ ሊንክ ካፍል ብርክብ ተጀምር።",
-    "getTheApp": "መተግበሪ ኣውርድ",
-    "getTheAppDesc": "ኣብ መንገዲ ምግባር ንምእዋይ Chatforia ኣብ iOS እና Android።",
-    "download": "ኣውርድ",
-    "syncTip": "መስርሕ: መልእኽታትኩም ኣብ ዌብ እና ሞባይል ይስክናይዝ።"
-  },
-
-  "randomChat": {
-    "title": "ቃለ-መልሲ ብዘይ መደብ",
-    "description": "ሓድሽ ሰብ ግናእ። ንግዚኡ ንእሽቶ ንኽዝመት ኢና እና ግጥሚ ቤት ቃለ-መልሲ ክንፈት ኢና።",
-    "findMatch": "ኣይነት ምርጫ ርእይ",
-    "chatWithForia": "ብForia ተዛረብ",
-    "chatWithForiaBot": "ብForiaBot ተዛረብ",
-    "cancel": "ሰርዝ",
-    "close": "ዕፉ",
-    "searching": "ኣብ ድለ…",
-    "finding": "ኣብ ምርጫ…",
-    "looking": "ሰብ ኣብ ምድላይ…",
-    "startingForia": "ብForia ቃለ-መልሲ እዚ ይጀምር…",
-    "partnerDisconnected": "ጓደና ተቋርጸ።",
-    "noPartner": "ሓጋዚ ኣብዚ ግዜ የለን።",
-    "connectedTo": "ተዛርብካ ኣብ {{name}}",
-    "connected": "ተዛሪቡ",
-    "idle": "ሕማቕ",
-    "partnerLeft": "ጓደና ፈነወ።",
-    "stopped": "ቆም",
-    "skip": "ስክፕ",
-    "save": "ኣቐምጥ",
-    "saveGuard": "ሰብ-ና ሰብ ቃለ-መልሲ እንተ ኮይኑ ብቻ ይተዓቕብ",
-    "youAreChattingWith": "ብ {{name}} ተዛርብካ ኣሎኻ",
-    "bot": "BOT",
-    "leave": "ውፃእ",
-    "sayHi": "ሰላም በል 👋",
-    "you": "ንስኻ",
-    "typeMessage": "መልእኽቲ ጽሓፍ",
-    "send": "ለኣኽ",
-    "partner": "ጓደና",
-    "withForia": "ምስ Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "መንበር ክፈት",
-    "closeNav": "መንበር ዕፉ",
-    "homeAria": "መእተዊ Chatforia"
-  },
-
-  "login": {
-    "title": "እንኳዕ ብደሓን መለስካ",
-    "subtitle": "ናብ መለለይ Chatforia ግባ",
-    "google": "ብGoogle ቀጽል",
-    "apple": "ብApple ቀጽል",
-    "googleUnavailable": "Google መዝገብ ዝያዳ እዩ",
-    "appleUnavailable": "Apple መዝገብ ዝያዳ እዩ",
-    "or": "ወይ",
-    "email": "ኢመይል",
-    "emailPh": "you@example.com",
-    "usernameLabel": "ስም ተጠቃሚ",
-    "usernamePh": "ስም ተጠቃሚኻ",
-    "passwordLabel": "ፓስዎርድ",
-    "passwordPh": "ፓስዎርድኻ",
-    "keepSignedIn": "ኣብ መዝገብ እትቆመ ንእኽእ",
-    "forgot": "ፓስዎርድ ረሲዕካ?",
-    "submit": "ግባ",
-    "loggingIn": "ኣብ መዝገብ…",
-    "newHere": "ሓድሽ ኢኻ? <link>መለለይ ፍጠር</link>",
-    "ssoUnavailable": "Single-sign-on ዝያዳ እዩ። ስም ተጠቃሚ & ፓስዎርድ ተጠቒሙ።",
-    "error": {
-      "missing": "መለለይ ኣእትው።",
-      "invalid": "ስም ተጠቃሚ ወይ ፓስዎርድ ጌጋ ኣለዎ",
-      "denied": "ተኣጊዱ።",
-      "unprocessable": "ቅድመ መርሓ ዘይተረጋገጸ ሕቶ።",
-      "deviceLimit": "መሣርሒ መጠን ናይ ፍሪ ፕላን ተረኺቡ። ካልእ መሣርሒ ኣውፍ ወይ ኣፍሬድ ግብር።",
-      "premiumRequired": "እዚ ተግባር ፕሪሚየም ይፍለጥ።"
+      "disclaimerStart": "ብምልኣኽ፣ ንዚ ትሰማማዕ ኢኻ",
+      "terms": "ውጽኢት",
+      "and": "ኣብዚ",
+      "privacy": "ፖሊሲ ድህንነት"
     }
   }
 }

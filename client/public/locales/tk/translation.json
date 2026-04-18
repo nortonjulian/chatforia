@@ -1,486 +1,666 @@
 {
   "common": {
     "save": "Sakla",
-    "cancel": "Ýatyr",
+    "cancel": "Ýatyrmak",
     "refresh": "Täzele",
-    "noMatches": "Gabat gelýän ýok",
-    "cancelAria": "Ýatyr",
-    "copy": "Göçür",
-    "copied": "Göçürildi!"
+    "noMatches": "Hiç gabat gelmedi",
+    "cancelAria": "Ýatyrmak",
+    "copy": "Kopiýala",
+    "copied": "Kopiýalandy!",
+    "errorWithMessage": "Ýalňyşlyk: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "Esasy mazmuna geç"
   },
-
-  "profile": {
-    "title": "Ulanyjy profili",
-    "preferredLanguage": "Saýlanan dil",
-    "chooseLanguage": "Dil saýlaň",
-    "mustLogin": "Sazlamalary görmek üçin hasaba girmeli.",
-    "autoTranslate": "Habarlar awto-terjime edilsin",
-    "showOriginalWithTranslation": "Asyl we terjime edilen habarlary görkez",
-    "showOriginalAndTranslation": "Terjime bilen bile asyl habary görkez",
-    "filterExplicit": "Aç-aşkarlykly mazmuny süz",
-    "aiReply": "AI jogap",
-    "enableReadReceipts": "Okalan görkeziji işjeň",
-    "allowExplicitContent": "Aç-aşkarlykly mazmuna rugsat ber",
-    "disappearingMessages": "Ýitip gidýän habarlar işjeň",
-    "autoDeleteSeconds": "Awto-pozmak üçin sekunt",
-    "saveSuccess": "Sazlamalar saklandy!",
-    "saveError": "Ýalňyşlyk: Sazlamalary saklap bolmady",
-    "avatarAlt": "Profil awatary",
-    "uploadAvatar": "Täze awatar ýükle",
-    "avatarSuccess": "Awatar ýüklendi!",
-    "avatarError": "Awatary ýüklemekde ýalňyşlyk",
-    "noPrivateKey": "Bu enjamda eksport etmeli hususy açar ýok.",
-    "setBackupPassword": "Ätiýaçlyk üçin parol goýuň:",
-    "backupDownloaded": "Şifrlenen ätiýaçlyk göçürildi.",
-    "exportFailed": "Açary eksport etmek başa barmady",
-    "enterBackupPassword": "Bu ätiýaçlyk üçin paroly giriziň:",
-    "importSuccess": "Hususy açar bu enjamda import edildi.",
-    "importFailed": "Açary import edip bolmady (nädogry parol ýa-da faýl bozulandyr).",
-    "keysRotated": "Täze açar jübüdi döredildi we köpçülik açary ýüklendi.",
-    "rotateFailed": "Açar jübüdini çalyşmak başa barmady.",
-    "security": "Howpsuzlyk",
-    "exportKey": "Hususy açary eksport et",
-    "importKey": "Şifrlenen açar ätiýaçlygyny import et",
-    "rotateKeys": "Açar jübüdini çalşyr",
-    "keyDisclaimer": "Hususy açaryňyz bu enjamdan daş çykmaýar. Başga enjamda dikeltmek üçin ony parol bilen goralan görnüşde eksport ediň.",
-    "sectionProfile": "Profil",
-    "phoneNumber": "Telefon belgisi",
-    "appearance": "Görnişi",
-    "soundSettings": "Sesler",
-    "disappearing": "Ýitip gidýän habarlar",
-    "backupSync": "Ätiýaçlyk we utgaşdyrma",
-    "ai": "AI",
-    "accessibility": "Elýeterlilik",
-    "privacy": "Gizlinlik",
-    "devices": "Baglanan enjamlary",
-    "themeFreeNotice": "Siz Free planındasyňyz — aşakdaky Gün/Aý tiz opsiýalaryny ulanyň. Has köp tema üçin täzeläň.",
-    "sunTheme": "Dawn temasyny ulan",
-    "moonTheme": "Moon (Giije) temasyny ulan",
-    "sun": "Gün",
-    "moon": "Aý",
-    "backupTitle": "Şifrlenen Ätiýaçlyklar we Enjam Utgaşdyrma",
-    "openBackupTools": "Ätiýaçlyk gurallaryny aç",
-    "backupDesc": "Açarlaryňyzy parol bilen goralan ätiýaçlykda saklaň we başga enjamda dikeldip utgaşdyryň.",
-    "privacyBlurEnabled": "Habarlar deslapdan bulaşdyrylsyn",
-    "privacyBlurOnUnfocus": "Programma aktiw däl wagty bulaşdyr",
-    "holdToReveal": "Görkezmek üçin basyp duruň",
-    "notifyOnCopy": "Menim habarym göçürilse duýduryş ber",
-    "loadFailed": "Profili ýüklemek başa barmady",
-    "followed": "Yzarlandy",
-    "followFailed": "Yzarlaýyp bolmady",
-    "unfollowed": "Yzarlamakdan çykdyňyz",
-    "unfollowFailed": "Yzarlamakdan çykmak başa barmady",
-    "follow": "Yzarla",
-    "unfollow": "Yzarlama",
-    "followHint": "Eger olar \"Yzarlaýanlar\" (ýa-da \"Köpçülige açyk\") bilen paýlaşsa, hekaýalary \"Following\" lentäňizde görünýär.",
-    "userNotFound": "Ulanyjy tapylmady",
-    "followsYou": "Sizi yzlaýar",
-    "sectionCrashedTitle": "Bölümi ýüklemek başaralmady",
-    "sectionCrashedBody": "Bu bölümde näsazlyk ýüze çykdy.",
-    "forwarding": "Jaň we SMS ugradyş",
-    "callTextForwardingSection": "Jaň & SMS Ugradyş",
-    "callTextForwardingTitle": "Jaň we/ýa-da SMS ugradyş",
-    "callTextForwardingDescription": "Gelen jaňlary we SMS-leri tassyk edilen telefonyňyza ýa-da e-poçtaňyza ugradyň. Çykyş jaň/SMS-lerde Chatforia belgiňiz görkezilip bilner.",
-    "enableTextForwarding": "SMS ugradyşy işjeň et",
-    "forwardTextsToPhone": "SMS-leri telefona ugradyň",
-    "forwardTextsToEmail": "SMS-leri e-poçta ugradyň",
-    "destinationPhone": "Barma nokady telefon (E.164)",
-    "destinationEmail": "Barma nokady e-poçta",
-    "enableCallForwarding": "Jaň ugradyşy işjeň et",
-    "destinationPhoneForCalls": "Jaňlar üçin barma nokady (E.164)",
-    "aliasBridging": "Jaň ugradyşy (alias birikdirme)",
-    "quietHoursOptional": "Dymyk sagatlar (islege görä)",
-    "startHour": "Başlaýan sagat (0–23)",
-    "endHour": "Gutarýan sagat (0–23)",
-    "reset": "Sazlamalary arassala",
-    "saveBtn": "Sakla",
-    "forwardSaved": "Ugradyş sazlamalary saklandy",
-    "forwardSaveFailed": "Sazlamalary saklap bolmady",
-    "errE164": "Dogry E.164 telefon giriziň (meselem, +15551234567).",
-    "errEmail": "Dogry e-poçta giriziň.",
-    "errSmsDest": "Iň azyndan bir barma nokady saýlaň (telefon ýa-da e-poçta).",
-    "errQuietHours": "Dymyk sagatlar 0 bilen 23 aralygynda bolmaly."
+  "keys": {
+    "backupCreated": "Açar yedeklemegi döredildi we ýüklenildi ✓",
+    "restored": "Açar yedeklemegi dikeldildi ✓ Açarlar ýerli guruldy",
+    "noBackup": "Bu hasap üçin şifrelenen yedekleme ýok",
+    "missingPublicKey": "Yedeklemede köpçülik açary ýok"
   },
-
-  "support": {
-    "helpFab": "Kömek",
-    "openSupportAria": "Goldawy aç",
-    "badge": "Goldaw",
-    "heading": "Näme kömek edip bileris?",
-    "tabs": {
-      "help": "Kömek merkezi",
-      "contact": "Bize ýazyň"
-    },
-    "searchPlaceholder": "Kömek makalalaryny gözläň…",
-    "searchAria": "Kömek gözlegi",
-    "searchBtn": "Gözle",
-    "quickTopicsLabel": "Tiz mowzuklar",
-    "quickTopics": {
-      "login": "Girmäge mümkinçilik ýok",
-      "billing": "Tölegler / hasaplaşyk",
-      "abuse": "Şikaýat et"
-    },
-    "trySearching": "“terjime”, “ätiýaçlyklar” ýa-da “gizlinlik” boýunça gözläp görüň.",
-    "article": "Makala",
-    "openArticle": "Makalany aç",
-    "contactIntro": "Jogaby e-poçta arkaly ibereris. Meseläni gaýtalamagymyz üçin jikme-jik maglumat goşuň.",
-    "topicAria": "Mowzuk saýla",
-    "messagePlaceholder": "Hatyňyzy ýazyň…",
-    "sendBtn": "Iber",
-    "sent": "Ugratdyk. Jogap e-poçta arkaly geler.",
-    "sendError": "Iberip bolmady. Munuň ýerine support@chatforia.com salgysyna ýazynyň."
+  "keySetup": {
+    "title": "Enjamyň açarlaryny düz",
+    "description": "Bu enjamda siziň şahsy açaryňyz entek ýok. Parol bilen goragly yedeklemäni import ediň ýa-da täze açar jübütini dörediň (indi täze habarlary okaýarsyňyz).",
+    "chooseFile": "Faýl saýlaň we paroly giriziň.",
+    "imported": "Şahsy açar bu enjama import edildi. Indi köne habarlary okaýarsyňyz.",
+    "enterPassword": "Hasabyňyz parolyny giriziň, şonda açarlaryňyzy ygtybarly ýedekläp bileris."
   },
-
-  "chat": {
-    "selectPrompt": "Söhbet başlamak üçin tekst ýa-da otagy saýlaň",
-    "newMessages": "Täze habarlar",
-    "typing": "{{name}} ýazýar...",
-    "emptyTitle": "Siziň habarlaryňyz",
-    "emptySubtitle": "Söhbeti başlamak üçin hat iberiň.",
-    "startChatButton": "Habar iber"
-  },
-
-  "topbar": {
-    "newStatus": "Täze Status",
-    "logout": "Hasapdan çyk",
-    "help": "Kömek",
-    "createStatusAria": "Täze Status döret"
-  },
-
-  "status": {
-    "userNumber": "Ulanyjy #{{id}}",
-    "posted": "Status ýüklendi",
-    "postFailed": "Status ýükläp bolmady",
-    "createTitle": "Status döret",
-    "modalAriaLabel": "Täze status",
-    "captionLabel": "Näme hakda pikir edýäňiz?",
-    "captionPlaceholder": "Täzeligiňizi paýlaşyň...",
-    "captionAria": "Status habary",
-    "audienceLabel": "Diňleýji topary",
-    "audience": {
-      "public": "Köpçülige açyk",
-      "followers": "Yzarlaýanlar",
-      "contacts": "Kontaktlar",
-      "mutuals": "Özara",
-      "custom": "Özüňizçe..."
-    },
-    "expiresHoursLabel": "Möhlet (sagat)",
-    "maxTooltip": "Iň köp 7 gün",
-    "hoursAbbrev": "s",
-    "maxShort": "maks",
-    "expiresOn": "Gutarýan senesi:",
-    "chooseRecipients": "Alyjylary saýlaň",
-    "selectContacts": "Kontaktlary saýlaň",
-    "attachmentsLabel": "Goşundylar",
-    "attachmentsPlaceholder": "Surat/görnüş goş",
-    "filesNote": "Iň köp 5 faýl. Düşnükli ýagdaýda 24 sagat.",
-    "postAria": "Status ýerleşdir",
-    "post": "Ýerleşdir"
-  },
-
-  "contactList": {
-    "savedContacts": "Saklanan kontaktlar",
-    "refreshAria": "Kontaktlary täzele",
-    "filterPlaceholder": "Saklanan kontaktlary süz…",
-    "filterAria": "Kontaktlary süz",
-    "noContactsFound": "Kontakt tapylmady.",
-    "externalContact": "Daşarky kontakt",
-    "notJoined": "Bu kontakt entek Chatforia-a goşulmandyr.",
-    "couldNotStart": "Söhbeti başlap bolmady. Gaýtadan synanyşyň.",
-    "startFailed": "Söhbeti başlap bolmady. Gaýtadan synanyşyň.",
-    "deleted": "Kontakt öçürildi.",
-    "deleteFailed": "Kontakty öçürip bolmady. Gaýtadan synanyşyň.",
-    "aliasUpdated": "Lakamy täzelendi.",
-    "updateAliasFailed": "Lakamy täzeläp bolmady. Gaýtadan synanyşyň.",
-    "selectContact": "{{name}} saýla",
-    "alias": "Lakam",
-    "startChat": "Söhbeti başla",
-    "message": "Habar",
-    "delete": "Öçür",
-    "deleteContactAria": "Kontakty öçür",
-    "loadFailed": "Kontaktlary ýükläp bolmady. Gaýtadan synanyşyň.",
-    "loadMore": "Has känini görkez"
-  },
-
-  "sidebar": {
-    "randomChat": "Tötänleýin Söhbet",
-    "callTextForwarding": "Jaň & SMS ugradyş",
-    "conversations": "Söhbetler",
-    "searchPlaceholder": "Söhbetleri gözläň...",
-    "errorLoading": "Söhbetleri ýükläp bolmady",
-    "empty": "Entäk söhbet ýok.",
-    "startChat": "Söhbeti başla",
-    "people": "Adamlar",
-    "settings": "Sazlamalar",
-    "status": "Status",
-    "forwarding": "Jaň & SMS ugradyş",
-    "refresh": "Täzele",
-    "search": "Söhbetleri gözle",
-    "loginPrompt": "Sazlamalary üýtgetmek üçin giriň.",
-    "login": "Giriň",
-    "register": "Hasap döret",
-    "chatrooms": "Söhbet otaglary",
-    "logout": "Hasapdan çyk",
-    "startChatAlt": "Täze söhbet başla"
-  },
-
-  "premium": {
-    "heading": "Premium-a geçiň",
-    "description": "Kuwwatly aýratynlyklary açyň we mahabatlary aýyryň.",
-    "cta": "Täzeläň",
-    "upgrade": "Täzeläň",
-    "upgradeAria": "Chatforia Premium-a täzeläň"
-  },
-
   "auth": {
-    "headline": "Tiz terjime bilen howpsuz, dünýä derejesindäki habarlaşma",
-    "description": "End-to-end şifrleme, AI-terjime, ýitip gidýän habarlar we ses/wideo jaňlar.",
+    "headline": "Her kim üçin, her ýerde ygtybarly habarlaşma",
+    "description": "Uçdan-uça şifreleme, 100+ dilde terjime, ýitýän habarlar we ses/wideo jaň.",
     "feature": {
-      "encryption": "Deslapdan end-to-end şifrleme",
-      "translation": "100+ dili awto-terjime",
-      "disappearing": "Ýitip gidýän habarlar & okalan görkeziji",
-      "privacy": "Gizlinlik öňde. Maglumat siziň elinizde.",
-      "translate": "Hakyky wagtda terjime",
-      "disappear": "Ýitip gidýän habarlar",
-      "privacyAlt": "Gizlinlik ilkinji ýerde"
+      "encryption": "Standart boýunça uçdan-uça şifreleme",
+      "translation": "Akylly, içki habar terjimesi",
+      "disappearing": "Ýitýän habarlar & okalandy belgileri",
+      "privacy": "Birinji ýerde ýaşyrynlyk. Siziň maglumatlaryňyz, siziň gözegçiligiňiz.",
+      "translate": "Akylly, içki habar terjimesi",
+      "disappear": "Ýitýän habarlar",
+      "privacyAlt": "Birinji ýerde ýaşyrynlyk dizaýny",
+      "seePlans": "Planlar we bahalar gör"
     },
     "hero": {
-      "line1": "Howpsuz, global",
-      "beforeEm": "habarlaşma —",
-      "em": "tiz terjime bilen",
-      "sub": "End-to-end şifrleme, AI-terjime, ýitip gidýän habarlar we ses/wideo jaňlar."
+      "line1": "Her kim üçin, her ýerde ygtybarly habarlaşma —",
+      "em": "100+ dilde terjime bilen",
+      "sub": "Wi-Fi ýa-da maglumat arkaly dünýäde jaň etmek we tekst ýazmak üçin mugt ygtybarly telefon nomerini alyň. Uçdan-uça şifreleme, ýitýän habarlar we HD ses/wideo jaňdan lezzet alyň — serhetleriň ötesinde baglanyşyk saklamaga kömek edýän içki guralar bilen.",
+      "freeNote": "Esasy jaň we tekst ýazmak mugt. Öňdebaryjy AI we premium aýratynlyklar ýokarlandyrmagy talap edýär."
     },
     "feat": {
-      "encryption": "Deslapdan end-to-end şifrleme",
-      "translate": "100+ dili awto-terjime",
-      "disappear": "Ýitip gidýän habarlar & okalan görkeziji",
-      "privacy": "Gizlinlik ilkinji. Dolandyryş siziňki."
+      "encryption": "Uçdan-uça şifreleme, hemişe açyk",
+      "translate": "Söhbetdeşlikleriňizde dil päsgelçiliklerini ýeňiň",
+      "disappear": "Ýitýän habarlar & okalandy belgileri",
+      "privacy": "Birinji ýerde ýaşyrynlyk. Siziň maglumatlaryňyz, siziň gözegçiligiňiz."
     },
-    "welcomeBack": "Täzeden hoş geldiňiz",
     "continueGoogle": "Google bilen dowam et",
     "continueApple": "Apple bilen dowam et",
     "username": "Ulanyjy ady",
     "password": "Parol",
-    "keepSignedIn": "Meniň girişim açyk galsyn",
-    "forgotPassword": "Paroly unutdyňyzmy?",
-    "loginButton": "Giriň",
-    "createAccount": "Hasap dörediň",
+    "keepSignedIn": "Meni ýatda sakla",
+    "forgotPassword": "Paroly ýatdan çykardym?",
+    "loginButton": "Giriş et",
+    "createAccount": "Hasap döret",
     "freeAccountButton": "Mugt hasap döret",
-    "newHere": "Täzeňizmi?",
+    "newHere": "Täze mi?",
     "getApp": "Programmany al",
-    "desktopTip": "Kompýuterdemi? Telefonyňyz bilen skan edip programmany alyň.",
-    "scanHelper": "Kompýuterdemi? Telefonyňyz bilen skan edip programmany alyň.",
-    "goHome": "Baş sahypa geç",
+    "desktopTip": "Desktopda? Programmany almak üçin telefonyňyz bilen skanir et.",
+    "scanHelper": "Desktopda? Programmany almak üçin telefonyňyz bilen skanir et.",
+    "goHome": "Baş sahypa git",
     "home": "Baş sahypa",
     "headlineAlt": {
-      "main": "Howpsuz habarçy, ol",
-      "highlight": "siziň diliňizde gürleýär"
+      "main": "Siziň diliňizi",
+      "highlight": "aňladýan ygtybarly habarlaşma"
     },
-    "subhead": "Şahsy, şifrlenen we terjime edilýän habarlaşma — bada-bat.",
-    "status": "Statusa seret",
-    "upgrade": "Häzir täzeläň",
-    "tip": "Maslahat: Web we mobilde şol bir hasaby ulanyň. Habarlar utgaşykly galar.",
-    "openDownload": "Göçürip almak sahypasyny aç",
-    "qrAlt": "Chatforia üçin QR kody",
-    "scanHint": "Programmany göçürip almak ýa-da brauzerde açmak üçin skan ediň.",
-    "iosAria": "App Store-da ýükläň",
-    "iosTitle": "App Store",
+    "subhead": "Ýaşyryn, şifrelenen we terjime edilen habarlaşma — derrew.",
+    "upgrade": "Indi ýokarlandyr",
+    "tip": "Maslahat: Web we mobilde bir hasaby ulanyň. Habarlaryňyz sinhronlaşýar.",
+    "openDownload": "Ýükleme sahypasyny aç",
+    "qrAlt": "Chatforia üçin QR kod",
+    "scanHint": "Programmany ýüklemek ýa-da brauzeriňizde açmak üçin skanir et.",
+    "iosAria": "App Store-da ýükle",
+    "iosTitle": "App Store-da ýükle",
     "iosBadgeAlt": "App Store nyşany",
-    "androidAria": "Google Play-den alyň",
-    "androidTitle": "Google Play dükany",
+    "androidAria": "Google Play-de al",
+    "androidTitle": "Google Play Store",
     "androidBadgeAlt": "Google Play nyşany",
-    "login": "Giriň",
+    "login": "Giriş et",
     "signup": "Hasap aç",
-    "email": "E-poçta"
+    "email": "E-poçta",
+    "registration": {
+      "passwordDescription": "Iň az 6 simwol. Güýçli, özboluşly parol ulanyň.",
+      "smsConsent": "Hasap döretmek bilen, Chatforia işjeňligiňiz bilen baglanyşykly SMS bildirişlerini (başga ulanyjylardan habarlar ýaly) kabul etmäge razylyk berýärsiňiz. Habar we maglumat nyrhlary ulanylýar. Sazlamalarda islendigiňizçe ýatyryp bilersiňiz.",
+      "termsLink": "Hyzmat şertleri",
+      "privacyLink": "Ýaşyrynlyk syýasaty"
+    },
+    "to": "Kime:",
+    "enterRecipient": "At ýa-da nomer giriziň",
+    "clearRecipients": "Alýanlary arassala",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Habar ýaz...",
+    "addRecipient": "Başlamak üçin ýokardaky alýany goş...",
+    "oneRecipient": "Häzirlikçe bir alýany giriziň.",
+    "enterValidRecipient": "Saklanan kontakt adyny ýa-da telefon nomerini giriziň.",
+    "sendFailed": "Ibermek şowsuz. Konsol üçin maglumatlary barlaň."
   },
-
-  "footer": {
-    "plans": "Planlar & Bahalar",
-    "about": "Chatforia hakda",
-    "careers": "Iş mümkinçilikleri",
-    "press": "Metbugat",
-    "advertise": "Mahabat beriň",
-    "contact": "Bize habarlaşyň",
-    "help": "Kömek merkezi",
-    "status": "Status sahypasy",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Gizlinlik syýasaty",
-    "terms": "Hyzyň şertleri",
-    "cookies": "Kukileri sazla",
-    "doNotSell": "Maglumatymy satmaň",
-    "language": "Dil",
-    "contactShort": "Habarlaş",
-    "aria": "Aşak panel",
-    "homeAria": "Chatforia baş sahypa",
-    "section": {
-      "company": "KOMPANIÝA",
-      "support": "GOLDAW",
-      "downloads": "ÝÜKLÄMELER",
-      "legal": "HUKUK"
-    },
-    "links": {
-      "plans-pricing": "Planlar & Bahalar",
-      "about-chatforia": "Chatforia hakda",
-      "careers": "Iş mümkinçilikleri",
-      "press": "Metbugat",
-      "advertise": "Mahabat beriň",
-      "getting-started": "Başlamak",
-      "help-center": "Kömek merkezi",
-      "contact-us": "Bize habarlaşyň",
-      "status-page": "Status sahypasy",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Gizlinlik syýasaty",
-      "terms-of-service": "Hyzyň şertleri",
-      "do-not-sell-my-info": "Maglumatymy satmaň",
-      "cookie-settings": "Kukileri sazla"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent garaşylýar",
-    "backToTop": "↑ Ýokara gaýdyp git"
-  },
-
   "home": {
     "title": "Baş sahypa",
-    "header": "Habarlar",
-    "subheader": "Söhbeti başlamak üçin hat iberiň.",
+    "header": "Siziň habarlaryňyz",
+    "subheader": "Söhbet başlamak üçin habar iber.",
     "sendButton": "Habar iber",
-    "gifPicker": "GIF saýlaýjyny aç",
-    "emoji": "Emoži",
+    "gifPicker": "GIF saýlawyny aç",
+    "emoji": "Emoji",
     "upload": "Surat ýa-da wideo ýükle",
-    "inputPlaceholder": "Habar ýazyň…",
-    "inputLabel": "Habar düzýän ýer",
+    "inputPlaceholder": "Habar ýaz...",
+    "inputLabel": "Habar ýazyjy",
     "sendTooltip": "Iber",
-    "sendTooltipEmpty": "Ibermek üçin habar ýazyň",
+    "sendTooltipEmpty": "Ibermek üçin habar ýaz",
     "send": "Iber",
-    "welcomeMessage": "Chatforia-a hoş geldiňiz",
+    "welcomeMessage": "Chatforia hoş geldiňiz",
     "getStarted": "Başla"
   },
-
-  "press": {
-    "title": "Metbugat",
-    "contactLine": "Metbugat sowallary üçin şu salgy bilen habarlaşyň",
-    "boilerplateTitle": "Gysgaça maglumat",
-    "boilerplateBody": "Chatforia — gizlinlik ilki goýlan, köp dilli habarlaşma programmasy. Habarlar deslapdan end-to-end şifrlener, içindäki terjime 100+ dili bada-bat goldaýar. Ulanyjylar ýitip gidýän habarlary açyp biler, okalan görkezijini islege görä goýýar, enjamlaryň arasynda utgaşdyrýar. iOS, Android we webde elýeterli.",
-    "assetsTitle": "Bellenen brend serişdeleri",
-    "assetsSubtitle": "Logolar, skrinşotlar we önümiň suraty.",
-    "downloadCta": "Media kitini ýükläň",
-    "downloadTitle": "Programmany alyň",
-    "scanTip": "Kompýuterdemi? Telefonyňyz bilen skan edip programmany alyň.",
-    "qrAria": "Chatforia web sahypasyny aç",
-    "appStore": "App Store-da ýükläň",
-    "googlePlay": "Google Play-den alyň"
+  "chat": {
+    "selectPrompt": "Söhbet başlamak üçin tekst ýa-da söhbet otagyny saýlaň",
+    "newMessages": "Täze habarlar",
+    "typing": "{{name}} ýazýar...",
+    "emptyTitle": "Siziň habarlaryňyz",
+    "emptySubtitle": "Söhbet başlamak üçin habar iber.",
+    "startChatButton": "Habar iber",
+    "mediaAttachment": "Media goşulmasy",
+    "thisUser": "bu ulanyjy",
+    "blockConfirm": "{{name}} bloklamak? Olardan habar almazsyňyz.",
+    "blockedUser": "{{name}} bloklandy.",
+    "blockError": "Bloklamak üçin maksatly ulanyjyny kesgitläp bilmedim.",
+    "blockFailed": "Blok etmek şowsuz (backend entek baglanmady).",
+    "encryptedUnavailable": "Şifrelenen habar (açar elýeterli däl)",
+    "unlockToView": "Bu habary görmek üçin açaryňyzy aç"
   },
-
-  "careers": {
-    "title": "Iş mümkinçilikleri",
-    "intro": "Biz gizlinlikli, global habarçyny döredýän kiçi topar. Eger şifrlemä, elýeterlilige we täsirli UI/UX-a üns berseňiz, siziň bilen duşuşmaga şat bolarys.",
-    "openRoles": "<b>Açyk wezipeler:</b> Inženerlik (Full-stack, iOS, Android), Product, Goldaw.",
-    "apply": "<b>Arza nähili?</b> Rezyme/Linkleriňizi şu salgy bilen iberiň: <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Rezymeňizi e-poçta iberiň"
-  },
-
-  "about": {
-    "title": "Chatforia hakda",
-    "description": "Chatforia — end-to-end şifrleme, bada-bat terjime we ses/wideo jaňlary bolan howpsuz, köp dilli habarçy. Biziň maksat: adamlary — howpsuz, gizlin we dillerden gatnawsyz — birleşdirmek.",
-    "valuesTitle": "Gymmatlyklarymyz",
-    "values": {
-      "privacy": "<bold>Gizlinlik ilki:</bold> E2E şifrleme deslapdan.",
-      "access": "<bold>Ähli üçin elýeterlilik:</bold> 100+ dili awto-terjime.",
-      "control": "<bold>Dolandyryş:</bold> Ýitip gidýän habarlar we okalan görkeziji islege görä.",
-      "privacy_aria": "Gizlinlik ilki: E2E şifrleme deslapdan.",
-      "access_aria": "Ähli üçin elýeterlilik: 100+ dili awto-terjime.",
-      "control_aria": "Dolandyryş: Ýitip gidýän habarlar we okalan görkeziji islege görä."
+  "messageInput": {
+    "ttl": {
+      "off": "Öçür"
     },
-    "howTitle": "Chatforia nähili işleýär",
-    "howDescription": "Habarlar enjamyňyzda şifrlener we şeýdip ugradylar. Terjime, ätiýaçlyk we utgaşdyrma serwerleriň görüp biljek maglumatyny iň az derejede saklar ýaly gurlandyr."
-  },
-
-  "advertise": {
-    "title": "Chatforia bilen mahabat beriň",
-    "description": "Söhbetde aktiw ulanyjylara marka howpsuz ýerleşdirmeler bilen ýetiň. Biz görkezijili bannerler, hemaýatkärlikler we öý promo-çaralary hödürleýäris. Premium abonentler mahabat görmeýärler.",
-    "adsense": {
-      "withPubId": "Häzirki wagtda <b>Google AdSense</b> arkaly mahabat görkezýäris. Google Ads arkaly nyşana almak üçin neşirçi ID-si <code>{{pubId}}</code> ulanyň we aşakdaky bölümler üçin dolandyrylýan ýerleşdirmäni soraň. Göni hemaýatkärlik hem bar — formany ulanyň.",
-      "noPubId": "Häzirki wagtda <b>Google AdSense</b> arkaly mahabat görkezýäris. Göni hemaýatkärlikler hem bar — aşakdaky formany ulanyň."
-    },
-    "inventoryHeader": "Ähli ýerleşdirmeler & Ölçegler",
-    "placement": {
-      "displayBadge": "Görkeziliş",
-      "acceptedSizes": "Kabul edýän ölçegler",
-      "adsenseSlot": "AdSense ýakasy:"
-    },
-    "noPlacements": "Heniz ýerleşdirmeler düzülenok. Olary ads/placements.js içine goşuň.",
-    "whyHeader": "Näme üçin Chatforia?",
-    "why": {
-      "highSession": "Söhbet UI-da ýokary sessiýa ýygylygy we dowamlylygy",
-      "brandSafe": "Marka-howpsuz formatlar; hormat bilen ýygylyk çäklendirme",
-      "sponsoredMoments": "Hemaýatkärlikli pursatlar bar (meselem, “Söhbeti başla” modaly)",
-      "deals": "Göni şertnama ýa-da AdSense/Google Ads arkaly programmatik"
-    },
-    "contactHeader": "Habarlaşmak",
-    "form": {
-      "submittedMsg": "Sag boluň! Sorguňyz ugradyldy. Ýakynda aragatnaşa geçeris.",
-      "missingRequired": "Ad, e-poçta we habary dolduryň.",
-      "successToast": "Sag boluň! Tiz wagtda habarlaşarys.",
-      "mailtoInfo": "Siziň e-poçta üpjünčiňiz açylýar…",
-      "nameLabel": "Adyňyz",
-      "namePlaceholder": "Mähri Şamyradowa",
-      "emailLabel": "E-poçta",
-      "emailPlaceholder": "siz@kompaniýa.com",
-      "companyLabel": "Kompaniýa",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Aýlyk býujet (islege görä)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Kampaniýaňyz hakda ýazyň",
-      "messagePlaceholder": "Nyşana alma, seneler, KPI-lar, ýerleşdiriş islegleri…",
-      "sendCta": "Sorguny iber"
-    },
-    "legal": {
-      "disclaimerStart": "Ibermek bilen siz biziň",
-      "terms": "Şertlerimiz",
-      "and": "we",
-      "privacy": "Gizlinlik syýasatymyz",
-      "disclaimerEnd": "bilen ylalaşýarsyňyz"
+    "freeLimit": "Mugt plan çägi: awtomatik ýok etmek 1 güne çenli. 1g-e çäklendirildi.",
+    "premiumLimit": "Premium üçin maks awtomatik ýok etmek 30 gün. 30g-e çäklendirildi.",
+    "nothingToSend": "Ibermek üçin habar ýaz ýa-da faýl goş.",
+    "encryptionFailed": "Şifreleme şowsuz. Habar iberilmedi.",
+    "sent": "Habar ýetirildi.",
+    "placeholder": "Habar ýaz...",
+    "autoDelete": "Awtomatik ýok et",
+    "typeToSend": "Ibermek üçin habar ýaz",
+    "send": "Iber",
+    "sendWithEnter": "Iber (Enter)",
+    "attachment": "goşulma",
+    "caption": "Başlyk (ihtiyar)",
+    "remove": "Aýyr",
+    "clear": "Arassala",
+    "gif": "GIF",
+    "sticker": "Stiker",
+    "errors": {
+      "attachmentTooLarge": "Goşulma aşa uly. Kiçiräk faýl synap gör.",
+      "unsupportedFile": "Goldanmaýan faýl görnüşi.",
+      "rateLimit": "Habarlary aşa çalt iberýärsiňiz. Haýyş, ýuwaşrak.",
+      "validation": "Barlag ýalňyşlygy. Habaryňyzy barlaň we gaýtadan synap gör.",
+      "failedToSend": "Ibermek şowsuz. Şowsuz köpürjikde gaýtadan synap gör."
     }
   },
-
+  "contactList": {
+    "savedContacts": "Saklanan kontaktlar",
+    "refreshAria": "Kontaktlary täzele",
+    "filterPlaceholder": "Saklanan kontaktlary süz...",
+    "filterAria": "Saklanan kontaktlary süz",
+    "noContactsFound": "Kontakt tapylmady.",
+    "externalContact": "Daşky kontakt",
+    "notJoined": "Ol kontakt entek Chatforia-a goşulmady.",
+    "couldNotStart": "Söhbet başlamak mümkin däl. Gaýtadan synap gör.",
+    "startFailed": "Söhbet başlamak şowsuz. Gaýtadan synap gör.",
+    "deleted": "Kontakt ýok edildi.",
+    "deleteFailed": "Kontakt ýok etmek şowsuz. Gaýtadan synap gör.",
+    "aliasUpdated": "Lakam täzelendi.",
+    "updateAliasFailed": "Lakam täzelemek şowsuz. Gaýtadan synap gör.",
+    "selectContact": "{{name}} saýla",
+    "alias": "Lakam",
+    "startChat": "Söhbet başla",
+    "message": "Habar",
+    "delete": "Ýok et",
+    "deleteContactAria": "Kontakt ýok et",
+    "loadFailed": "Kontaktlary ýüklemek şowsuz. Gaýtadan synap gör.",
+    "loadMore": "Köpräk ýükle",
+    "call": "Jaň et",
+    "callStarted": "Bu nomeri Chatforia nomeriňiz arkaly jaň edýär...",
+    "callFailed": "Jaň başlamak şowsuz. Gaýtadan synap gör."
+  },
+  "startChatModal": {
+    "title": "Söhbet başla",
+    "searchPlaceholder": "At, ulanyjy ady ýa-da telefon nomeri gözle",
+    "messageThisPerson": "Bu adama habar iber",
+    "contacts": "Kontaktlar",
+    "recentInteractions": "Soňky täsirleşmeler",
+    "noContactsMatch": "Gözlegiňize gabat gelen kontakt ýok.",
+    "noRecentInteractions": "Entek soňky täsirleşme ýok.",
+    "unknown": "Näbelli",
+    "interactionType": {
+      "message": "Habar",
+      "call": "Jaň",
+      "video": "Wideo"
+    }
+  },
+  "addContactModal": {
+    "title": "Kontakt goş",
+    "phoneOrUsername": "Telefon ýa-da ulanyjy ady",
+    "phoneOrUsernamePlaceholder": "mysal: +13018019227 ýa-da juliannorton",
+    "alias": "Lakam (ihtiyar)",
+    "aliasPlaceholder": "mysal: Iş, Eje, Mike – Europe",
+    "enterPhoneOrUsername": "Telefon nomeri ýa-da ulanyjy adyny giriziň.",
+    "userLookupFailed": "Ulanyjy gözlemek şowsuz.",
+    "cannotAddSelf": "Özüňizi kontakt hökmünde goşup bilmezsiňiz.",
+    "failedToAdd": "Kontakt goşmak şowsuz.",
+    "add": "Goş"
+  },
+  "sidebar": {
+    "randomChat": "Tötänleýin söhbet",
+    "callTextForwarding": "Jaň & tekst ýöneltme",
+    "conversations": "Söhbetler",
+    "searchPlaceholder": "Söhbetleri gözle...",
+    "errorLoading": "Söhbetleri ýüklemek şowsuz",
+    "empty": "Entek söhbet ýok.",
+    "startChat": "Söhbet başla",
+    "people": "Adamlar",
+    "settings": "Sazlamalar",
+    "status": "Status",
+    "forwarding": "Jaň & tekst ýöneltme",
+    "refresh": "Täzele",
+    "search": "Söhbetleri gözle",
+    "loginPrompt": "Sazlamalaryňyzy üýtgetmek üçin giriň.",
+    "login": "Giriş et",
+    "register": "Hasap döret",
+    "chatrooms": "Söhbet otaglary",
+    "logout": "Çyk",
+    "startChatAlt": "Täze söhbet başla",
+    "calls": "Jaňlar",
+    "video": "Wideo",
+    "voicemail": "Ses poçtasy"
+  },
+  "topbar": {
+    "newStatus": "Täze status",
+    "logout": "Çyk",
+    "help": "Kömek",
+    "createStatusAria": "Täze status döret"
+  },
+  "threadActions": {
+    "threadMenu": "Tema menýusy",
+    "premium": "Premium",
+    "aiPower": "AI güýji",
+    "schedule": "Meýilleşdir",
+    "upgrade": "Ýokarlandyr",
+    "upgradeSuffix": "(Ýokarlandyr)",
+    "thread": "Tema",
+    "about": "Barada",
+    "search": "Gözle",
+    "media": "Media",
+    "invitePeople": "Adamlary çagyr",
+    "roomSettings": "Otag sazlamalary",
+    "clearConversation": "Söhbeti arassala",
+    "block": "Blokla"
+  },
+  "roomSearch": {
+    "title": "Otagda gözle",
+    "ariaLabel": "Otagda gözle",
+    "search": "Gözle",
+    "searchMessages": "Habarlary gözle",
+    "noText": "[Tekst ýok]",
+    "noResults": "Netije ýok"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Agza",
+      "moderator": "Moderatory",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "Öçür",
+      "mention": "Diňe @ForiaBot ýa-da /ask-da",
+      "always": "Proaktiw jogap ber"
+    },
+    "autoTranslateMode": {
+      "off": "Öçür",
+      "tagged": "Diňe bellik edilen (/tr …)",
+      "all": "Ähli habarlar"
+    },
+    "updated": "Sazlamalar täzelendi"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Paýlaşylan media",
+    "noMediaCached": "Entek ýerli keshde media ýok.",
+    "imageAlt": "surat",
+    "openVideo": "Wideo aç",
+    "openVideoWithCaption": "Wideo aç: {{caption}}",
+    "preview": "Öňünden gör",
+    "previewWithCaption": "Öňünden gör: {{caption}}",
+    "previewKind": "Öňünden gör {{kind}}",
+    "download": "Ýükle",
+    "downloadKind": "Ýükle {{kind}}",
+    "file": "faýl",
+    "kinds": {
+      "image": "surat",
+      "video": "wideo",
+      "audio": "audio",
+      "file": "faýl"
+    }
+  },
+  "status": {
+    "userNumber": "Ulanyjy #{{id}}",
+    "posted": "Status ýerleşdirildi",
+    "postFailed": "Status ýerleşdirmek şowsuz",
+    "createTitle": "Status döret",
+    "modalAriaLabel": "Täze status",
+    "captionLabel": "Näme pikiriňde?",
+    "captionPlaceholder": "Täzelenme paýlaş...",
+    "captionAria": "Status habary",
+    "audienceLabel": "Auditoriýa",
+    "audience": {
+      "public": "Köpçülik",
+      "followers": "Izleyjiler",
+      "contacts": "Kontaktlar",
+      "mutuals": "Özara",
+      "custom": "Özbaşdak..."
+    },
+    "expiresHoursLabel": "Möhleti (sagat)",
+    "maxTooltip": "Maksimum 7 gün",
+    "hoursAbbrev": "s",
+    "maxShort": "maks",
+    "expiresOn": "Möhleti gutarýar:",
+    "chooseRecipients": "Alýanlary saýla",
+    "selectContacts": "Kontaktlary saýla",
+    "attachmentsLabel": "Goşulmalar",
+    "attachmentsPlaceholder": "Suratlar/wideolar goş",
+    "filesNote": "Iň köp 5 faýl. Standart boýunça 24s möhlet.",
+    "postAria": "Status ýerleşdir",
+    "post": "Ýerleşdir"
+  },
+  "voicemail": {
+    "pageTitle": "Ses poçtasy",
+    "from": "Kimden",
+    "to": "Kime",
+    "unknownCaller": "Näbelli",
+    "yourNumber": "Siziň Chatforia nomeriňiz",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Ses poçtasy audio pleýeri",
+    "transcriptHeading": "Transkripsiýa",
+    "transcriptPending": "Ses poçtasy transkribirlenýär...",
+    "transcriptFailed": "Transkripsiýa elýeterli däl.",
+    "loading": "Ses poçtasy ýüklenýär...",
+    "errorLoading": "Ses poçtasy ýüklemek şowsuz.",
+    "empty": "Entek ses poçtasy ýok.",
+    "deleteConfirm": "Bu ses poçtasyny ýok et?",
+    "deleteError": "Ses poçtasyny ýok etmek şowsuz.",
+    "markRead": "Okalan diýip belle",
+    "delete": "Ýok et",
+    "unreadDotAria": "Okalmadyk ses poçtasy görkezijisi"
+  },
+  "profile": {
+    "title": "Ulanyjy profili",
+    "preferredLanguage": "Iň ýakyn dil",
+    "chooseLanguage": "Dil saýla",
+    "mustLogin": "Sazlamalary görmek üçin giriň.",
+    "autoTranslate": "Habarlary awto-terjime et",
+    "showOriginalWithTranslation": "Asyl we terjime edilen habarlary görkez",
+    "showOriginalAndTranslation": "Asyl we terjime ýan ýana görkez",
+    "filterExplicit": "Aç-açan mazmuny süz",
+    "aiReply": "AI jogaby",
+    "enableReadReceipts": "Okalandy belgilerini işjeň et",
+    "allowExplicitContent": "Aç-açan mazmuna rugsat ber",
+    "disappearingMessages": "Ýitýän habarlary işjeň et",
+    "autoDeleteSeconds": "Awtomatik ýok etmek üçin sekuntlar",
+    "saveSuccess": "Sazlamalar ýatlandy!",
+    "saveError": "Ýalňyşlyk: Sazlamalary ýatlamak mümkin däl",
+    "avatarAlt": "Profil awatary",
+    "uploadAvatar": "Täze awatar ýükle",
+    "avatarSuccess": "Awatar ýüklenildi!",
+    "avatarError": "Awatar ýüklemek şowsuz",
+    "avatarUpdated": "Awatar täzelendi!",
+    "uploadingAvatar": "Awatar ýüklenýär...",
+    "noPrivateKey": "Bu enjamda eksport etmek üçin şahsy açar ýok.",
+    "setBackupPassword": "Yedeklemäňizi şifrelamak üçin parol düz:",
+    "backupDownloaded": "Şifrelenen yedekleme ýüklenildi.",
+    "exportFailed": "Açar eksporty şowsuz",
+    "enterBackupPassword": "Bu yedekleme üçin paroly giriziň:",
+    "importSuccess": "Şahsy açar bu enjama import edildi.",
+    "importFailed": "Açar import etmek şowsuz (nädogry parol ýa-da zaýalan faýl).",
+    "keysRotated": "Täze açar jübüti döredildi we köpçülik açary ýüklenildi.",
+    "rotateFailed": "Açarlary aýlanmak şowsuz.",
+    "security": "Howpsuzlyk",
+    "exportKey": "Şifreleme açaryny yedekle",
+    "importKey": "Şifreleme açaryny dikelt",
+    "rotateKeys": "Şifreleme açaryny aýla",
+    "keyDisclaimer": "Siziň şahsy açaryňyz hiç haçan bu enjamdan çykmaýar. Başga enjamda dikeltmek üçin parol bilen goragly kopiýany eksport ediň.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Telefon nomeri",
+    "appearance": "Daşky görnüş",
+    "soundSettings": "Sesler",
+    "disappearing": "Ýitýän habarlar",
+    "backupSync": "Şifreleme açary yedeklemesi",
+    "ai": "AI",
+    "accessibility": "Elýeterlilik",
+    "privacy": "Ýaşyrynlyk",
+    "devices": "Baglanylan enjamlar",
+    "themeFreeNotice": "Siz mugt planadasyňyz — aşakdaky çalt Gün/Aý wariantlaryny ulanyň. Köpräk temalary açmak üçin ýokarlandyryň.",
+    "sunTheme": "Daň temasy ulan",
+    "moonTheme": "Aý (Gijeki) temasy ulan",
+    "sun": "Gün",
+    "moon": "Aý",
+    "backupTitle": "Şifrelenen yedeklemeler & enjam sinhronizasiýasy",
+    "openBackupTools": "Yedekleme guralyny aç",
+    "backupDesc": "Başga enjamda habarlaryňyzy ygtybarly dikeltmek üçin şifreleme açaryňyzy yedekläň.",
+    "privacyBlurEnabled": "Standart boýunça habarlary bulutla",
+    "privacyBlurOnUnfocus": "Programma fokussyzlananda bulutla",
+    "planSection": "Meniň planym",
+    "planLoading": "Plan ýüklenýär...",
+    "planLoadFailed": "Plany ýüklemek şowsuz.",
+    "currentPlan": "Häzirki plan",
+    "planRenewsOn": "Täzelenýär",
+    "freePlanCopy": "Siz mugt planadasyňyz. Yedeklemeler, goşmaça nomerler we öňdebaryjy ýaşyrynlyk wariantlary ýaly köpräk aýratynlyklary açmak üçin ýokarlandyryň.",
+    "upgradePlanCta": "Plany ýokarlandyr",
+    "changePlanCta": "Plany üýtget",
+    "manageBilling": "Hasaplaşygy dolandyr",
+    "portalOpenFailed": "Hasaplaşyk portalyny açmak mümkin däl. Gaýtadan synap gör.",
+    "holdToReveal": "Görkezmek üçin sakla",
+    "notifyOnCopy": "Habaryňyzy kopiýalananda habar ber",
+    "loadFailed": "Profili ýüklemek şowsuz",
+    "followed": "Izledim",
+    "followFailed": "Izllemek şowsuz",
+    "unfollowed": "Izlämädim",
+    "unfollowFailed": "Izlämekden çykmak şowsuz",
+    "follow": "Izlä",
+    "unfollow": "Izlämä",
+    "followHint": "Olaryň hekaýalary Izleyjiler (ýa-da Köpçülik) auditoriýasy bilen ýerleşdirilse, siziň Izleyjiler akymyňyzda peýda bolar.",
+    "userNotFound": "Ulanyjy tapylmady",
+    "followsYou": "Sizi izleýär",
+    "sectionCrashedTitle": "Bölüm ýüklemek şowsuz",
+    "sectionCrashedBody": "Bu bölümde bir zat ýalňyş gitdi.",
+    "forwarding": "Jaň & tekst ýöneltme",
+    "callTextForwardingSection": "Jaň & tekst ýöneltme",
+    "callTextForwardingTitle": "Jaň we/ýa-da tekst ýöneltme",
+    "callTextForwardingDescription": "Gelýän jaňlary we tekstleri tassyklanan telefonyňyza ýa-da e-poçtaňyza ýönelt. Çykýan jaňlar/tekstler Chatforia nomeriňizi görkezip biler.",
+    "enableTextForwarding": "Tekst ýöneltmäni işjeň et",
+    "forwardTextsToPhone": "Tekstleri telefonyňyza ýönelt",
+    "forwardTextsToEmail": "Tekstleri e-poçtaňyza ýönelt",
+    "destinationPhone": "Niýetlenen telefon (E.164)",
+    "destinationEmail": "Niýetlenen e-poçta",
+    "enableCallForwarding": "Jaň ýöneltmäni işjeň et",
+    "destinationPhoneForCalls": "Jaňlar üçin niýetlenen (E.164)",
+    "aliasBridging": "Jaň ýöneltme (lakam köpri)",
+    "quietHoursOptional": "Sessiýasyz sagatlar (ihtiyar)",
+    "startHour": "Başlangyç sagat (0–23)",
+    "endHour": "Soňky sagat (0–23)",
+    "reset": "Sifir et",
+    "saveBtn": "Sakla",
+    "saveProfile": "Profili sakla",
+    "saveForwarding": "Ýöneltmäni sakla",
+    "forwardSaved": "Ýöneltme sazlamalary saklandy",
+    "forwardSaveFailed": "Sazlamalary saklamak şowsuz",
+    "errE164": "Dogry E.164 telefon giriziň (mysal: +15551234567).",
+    "errEmail": "Dogry e-poçta giriziň.",
+    "errSmsDest": "Iň az bir niýetlenen (telefon ýa-da e-poçta) saýlaň.",
+    "errQuietHours": "Sessiýasyz sagatlar 0 we 23 arasynda bolmaly.",
+    "randomChat": "Tötänleýin söhbet",
+    "ageBand": "Siziň ýaş aralagyňyz",
+    "ageBandPlaceholder": "Ýaş aralagyňyzy saýlaň",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Diňe ýaş aralagyny saklaýarys (takyk doglan günüňizi däl). Bu Tötänleýin söhbet jübütleşmeleriniň dogry bolmagy üçin ulanylýar.",
+    "wantsAgeFilter": "Tötänleýin söhbetde ýaş esasly jübütleşmäni ulan",
+    "wantsAgeFilterDesc": "Işjeň bolsa, sizi gabat gelýän ýaş aralagyndaky adamlar bilen jübütleşmäge synanyşýarys.",
+    "partnerAgeBands": "Kimler bilen jübütleşip bilersiňiz?",
+    "partnerAgeBandsDesc": "Ýetginjekler diňe beýleki ýetginjekler bilen jübütleşýär. Ulylar ýetginjekler bilen jübütleşip bilmez.",
+    "teenMatchingNote": "Howpsuzlyk üçin, 13–17 ýaş aralagyndaky hasaplar Tötänleýin söhbetde diňe beýleki 13–17 hasaplar bilen jübütleşýär.",
+    "foriaRemember": "Ria-a aýdan zatlaryňyzy ýatda saklasyn",
+    "foriaRememberDesc": "Işjeň bolsa, Foria siziň öňki Tötänleýin söhbet söhbetleriňizi (diňe siziň bilen) ulanyp, söhbeti dowam etdirýär. Islendigiňizçe ýatyryp bilersiňiz.",
+    "voicemailSection": "Ses poçtasy",
+    "voicemailEnabled": "Ses poçtasyny işjeň et",
+    "voicemailAutoDeleteDays": "Ses poçtalaryny (gün) soň awtomatik ýok et",
+    "voicemailAutoDeletePlaceholder": "Hemişelik saklamak üçin boş goý",
+    "voicemailForwardEmail": "Ses poçtasyny e-poçta ýönelt",
+    "voicemailForwardEmailPlaceholder": "Ses poçtasy bildirişlerini ibermek üçin e-poçta",
+    "voicemailGreetingText": "Tekst alternatiw salamlaşmasy",
+    "voicemailGreetingTextDesc": "Audio salamlaşmaňyz elýeterli däl bolsa ulanylýar.",
+    "voicemailGreetingUpload": "Ses poçtasy salamlaşmasyny ýükle",
+    "voicemailPreviewGreeting": "Salamlaşmany öňünden gör",
+    "voicemailGreetingUploaded": "Ses poçtasy salamlaşmasy üstünlikli ýüklenildi",
+    "voicemailGreetingUploadError": "Ses poçtasy salamlaşmasyny ýüklemek şowsuz",
+    "voicemailNote": "Chatforia nomerleriňizden gelen ses poçtalary Ses poçtasy gutusyňyzda saklanýar. Goldanýan planlarda transkripsiýa we ýöneltmäni işjeň edip bilersiňiz.",
+    "portHint": "Häzirki nomeriňizi saklamak isleýärsiňizmi? Onu Chatforia Wireless-e geçirip bilersiňiz.",
+    "wireless": {
+      "manage": "Simsiz dolandyr"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Wi-Fi-dan daşda Chatforia üçin mobil maglumat alyň.",
+      "cta": "eSIM al / QR görkez"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Chatforia mobil planynyňyzy, nomerleriňizi, ýöneltmäni we nomer geçirmegi dolandyr.",
+    "options": {
+      "heading": "Chatforia-ny nähili ulanmak isleýärsiňiz saýlaň",
+      "subheading": "Täze Chatforia nomerini alyp bilersiňiz ýa-da başga operatordan bar bolan nomeriňizi getirip bilersiňiz.",
+      "newNumber": "Täze Chatforia nomeri al",
+      "portNumber": "Häzirki nomeriňizi Chatforia Wireless-e geçir"
+    },
+    "port": {
+      "heading": "Bar bolan nomeriňizi geçir",
+      "subheading": "Häzirki telefon nomeriňizi bar bolan operatordan Chatforia-a geçir. Gijikmeleriň öňüni almak üçin maglumatlaryňyz operator hasabyňyza takyk gabat gelsin.",
+      "phoneNumberLabel": "Geçiriljek telefon nomeri",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Häzirki operator",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile we ş.m.",
+      "accountNumberLabel": "Hasap nomeri",
+      "pinLabel": "Geçirme PIN / parol",
+      "fullNameLabel": "Hasapdaky doly at",
+      "address1Label": "Salgynyň 1-nji setiri",
+      "address2Label": "Salgynyň 2-nji setiri (ihtiyar)",
+      "cityLabel": "Şäher",
+      "stateLabel": "Ştat / Welaýat",
+      "postalCodeLabel": "Poçta indeksi",
+      "countryLabel": "Ýurt",
+      "submitButton": "Geçirme haýyşyny iber",
+      "success": "Geçirme haýyşy iberildi! Habarly bolaris.",
+      "genericError": "Bir zat ýalňyş gitdi."
+    },
+    "status": {
+      "heading": "Geçirme statusy",
+      "subheading": "Nomer geçirme haýyşlaryňyzyň statusyny yzarla.",
+      "loading": "Ýüklenýär...",
+      "loadError": "Geçirme haýyşlaryny ýüklemek şowsuz.",
+      "none": "Entek geçirme işjeňligi ýok.",
+      "pending": "Gözden geçirilýär",
+      "submitted": "Operatore iberildi",
+      "inProgress": "Dowam edýär",
+      "completed": "Tamamlandy",
+      "failed": "Şowsuz",
+      "canceled": "Ýatyryldy",
+      "created": "Döredildi:",
+      "scheduled": "Meýilleşdirildi:",
+      "completedAt": "Tamamlandy:"
+    },
+    "dataLow": "Maglumatyňyz azalmaga başlady.",
+    "topUp": "Indi doldur",
+    "expiresIn": "{{days}} gün soň möhleti gutarýar",
+    "exhausted": "Maglumatyňyz gutardy. Mobil maglumat ulanmagy dowam etmek üçin täze paket satyn al.",
+    "buyPack": "Maglumat paketi satyn al",
+    "esimPackLabel": "eSIM paketi"
+  },
+  "family": {
+    "title": "Maşgala",
+    "loading": "Maşgala maglumatlaryňyzy ýüklenýär...",
+    "error": {
+      "load": "Maşgala maglumatlaryny ýüklemek şowsuz.",
+      "invite": "Çakylyk döretmek mümkin däl. Maşgala eýesi bolmagyňyzy we gaýtadan synap görüň.",
+      "checkout": "Maşgala planynyň tölegini başlamak mümkin däl. Gaýtadan synap gör."
+    },
+    "billing": {
+      "myPlanTitle": "Meniň planym",
+      "myPlanError": "Planyňyzy ýüklemek mümkin däl.",
+      "myPlanLoading": "Planyňyzy ýüklenýär...",
+      "currentPlan": "Häzirki plan",
+      "renewsAt": "Täzelenýär",
+      "freePlanCopy": "Siz mugt planadasyňyz. Köpräk aýratynlyklary açmak üçin ýokarlandyryň.",
+      "upgradeCta": "Plany ýokarlandyr",
+      "changePlanCta": "Plany üýtget",
+      "manageBilling": "Hasaplaşygy dolandyr",
+      "portalError": "Hasaplaşyk portalyny häzir açmak mümkin däl.",
+      "cancelNow": "Indi ýatyrmak",
+      "cancelNowHelp": "Hasaplaşyk portalynda abunany dolandyr ýa-da ýatyryp bilersiňiz, ýa-da aşakda derrew ýatyryň.",
+      "cancelNowConfirm": "Planyňyzy derrew ýatyrmak isleýärsiňizmi? Bu yzyna alnyp bilmez.",
+      "cancelNowError": "Planyňyzy häzir ýatyrmak mümkin däl. Gaýtadan synap gör ýa-da Hasaplaşygy dolandyr ulanyň."
+    },
+    "none": {
+      "title": "Entek maşgala düzülmedi",
+      "body": "Chatforia Maşgalasyny we paýlaşylan maglumat howuzyny döretmek üçin Maşgala planyny başlaň.",
+      "goUpgrade": "Maşgala planyny başla",
+      "viewPlans": "Ähli planlary gör"
+    },
+    "group": {
+      "defaultName": "Meniň Chatforia Maşgalam",
+      "role": "Siziň rolyňyz: {{role}}"
+    },
+    "role": {
+      "owner": "Eýe",
+      "member": "Agza"
+    },
+    "data": {
+      "heading": "Paýlaşylan maglumat howuzy",
+      "caption": "Ähli agzalar bu howuzy paýlaşýar. Çägiňize ýakynlaşanda duýdurarys."
+    },
+    "members": {
+      "title": "Maşgala agzalary",
+      "name": "At",
+      "role": "Rol",
+      "usage": "Ulanylyş",
+      "limit": "Çäk",
+      "unlimited": "Belli çäk ýok",
+      "inviteCta": "Agza çagyr"
+    },
+    "invite": {
+      "title": "Täze agza çagyr",
+      "body": "Paýlaşylan maşgala maglumat howuzyna kimdir birini çagırmak üçin e-poçta ýa-da baglanyşyk iber.",
+      "emailLabel": "E-poçta (ihtiyar)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Çakylyk döret",
+      "linkLabel": "Çakylyk baglanyşygy",
+      "copyAria": "Çakylyk baglanyşygyny kopiýala",
+      "expiryHint": "Bu baglanyşyk birnäçe gün soň möhleti gutarýar. Islän wagtyňyz täzesini döredip bilersiňiz."
+    },
+    "join": {
+      "title": "Maşgala goşul",
+      "body": "Chatforia Maşgalasyna goşulmak we olaryň maglumat howuzyny paýlaşmak üçin çagyryldyňyz.",
+      "cta": "Kabul et we maşgala goşul",
+      "ctaLogin": "Giriň we maşgala goşul",
+      "success": "Bu maşgala goşuldyňyz. Indi olaryň maglumat howuzyny paýlaşýarsyňyz.",
+      "goFamily": "Maşgala dolandyryşyna git",
+      "error": "Sizi bu maşgala goşup bilmedik. Çakylyk nädogry ýa-da möhleti gutaran bolup biler."
+    }
+  },
+  "premium": {
+    "heading": "Premium-a geç",
+    "description": "Güýçli aýratynlyklary aç we reklamalary aýyr.",
+    "cta": "Ýokarlandyr",
+    "upgrade": "Ýokarlandyr",
+    "upgradeAria": "Chatforia Premium-a ýokarlandyr"
+  },
   "upgrade": {
-    "title": "Täzeläň",
-    "subtitle": "Siziň üçin dogry plan: Plus bilen mahabatsyz boluň, ýa-da Premium bilen doly kuwwatly aýratynlyklary açyň.",
+    "title": "Ýokarlandyr",
+    "titleLoggedIn": "Ýokarlandyr",
+    "titlePublic": "Bahalar",
+    "h1": "Chatforia bahalary we planlary",
+    "h1Subtitle": "Mugt, reklamaly plan bilen başlaň. Plus bilen reklamsyz et, ýa-da Premium bilen doly güýçli aýratynlyklary aç.",
+    "subtitle": "Programma planyny saýlaň, özüňiz üçin maglumat paketlerini goşuň ýa-da maşgalanyňyz bilen maglumat paýlaşyň — ählisi bir ýerden.",
+    "subtitle.app": "Mugt, reklamaly plan bilen başlaň. Plus bilen reklamsyz et, ýa-da Premium bilen doly güýçli aýratynlyklary aç.",
+    "subtitle.mobile": "Wi-Fi-dan daşda Chatforia işläp dursun diýip, global eSIM maglumatyny goşuň.",
+    "subtitle.family": "Maşgalaňyz üçin paýlaşylan maglumat howuzyny dörediň we ähli ulanyşy bir ýerden dolandyr.",
     "perMonth": "aý",
     "perYear": "ýyl",
     "goPremium": "Premium-a geç",
-    "benefitsLine": "Kuwwatly aýratynlyklary açyň & mahabatlary aýyryň.",
-    "ctaText": "Täzeläň",
-    "aria": "Chatforia Premium-a täzeläň",
+    "benefitsLine": "Güýçli aýratynlyklary aç we reklamalary aýyr.",
+    "ctaText": "Ýokarlandyr",
+    "aria": "Chatforia Premium-a ýokarlandyr",
     "toggle": {
       "monthly": "Aýlyk",
-      "annual": "Ýyllyk (25% tygşytlaň)"
+      "annual": "Ýyllyk (30% tygşytla)"
     },
     "scheduleBanner": {
-      "title": "Abunalyk gutarar",
-      "body": "Siz şu seneden soň Free plana dolanarsyňyz:",
+      "title": "Abuna gutarýar",
+      "body": "Mugt-a dolanarsyňyz",
       "keepPlanCta": "{{plan}} sakla",
       "manageBillingCta": "Hasaplaşygy dolandyr"
     },
     "billing": {
-      "opening": "Açylýar…",
+      "opening": "Açylýar...",
       "manage": "Hasaplaşygy dolandyr"
     },
     "checkout": {
-      "redirecting": "Ugradylýar…"
+      "redirecting": "Yöneldilýär..."
     },
     "auth": {
       "continue": "Girişe dowam et",
@@ -488,499 +668,1004 @@
       "signIn": "Giriň"
     },
     "cta": {
-      "aria": "Plany saýla",
-      "getPlus": "Plus-a geç",
-      "upgradeMonthly": "Aýlyk täzeläň",
-      "upgradeAnnual": "Ýyllyk täzeläň"
+      "aria": "Plan saýla",
+      "getPlus": "Plus-a ýokarlandyr",
+      "upgradeMonthly": "Aýlyk ýokarlandyr",
+      "upgradeAnnual": "Ýyllyk ýokarlandyr"
+    },
+    "section": {
+      "app": "Programma planlary",
+      "mobile": "Mobil (eSIM)",
+      "family": "Maşgala planlary"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Mugt",
         "price": "$0",
-        "desc": "Mugt habarlaşmaga başlaň.",
+        "desc": "Mugt habarlaşmaga başlaň. Diňe Chatforia synap görýän bolsaňyz ideal.",
         "features": {
-          "msg": "1:1 we toparlaýyn habarlaşma",
-          "aiBasic": "Esasy AI jogaplar",
-          "attachments": "Standart goşundylar"
+          "chat": "Real wagtda 1:1 we topar söhbeti, ses we wideo jaňlar",
+          "media": "Suratlar, ses habarlar we gysga wideolar paýlaş",
+          "ai": "AI bilen akylly jogaplar we derrew terjime (adyl ulanyş)",
+          "disappearing": "Ýitýän habarlar we esasy ýaşyrynlyk gözegçilikleri",
+          "ads": "Programmada reklamalar bilen hemişelik mugt"
         },
         "ctaCurrent": "Häzirki plan",
-        "ctaUnavailable": "Free plana geçmek mümkin däl",
-        "aria": "Free plan (häzirki)"
+        "ctaManage": "Hasaplaşykda dolandyr",
+        "ctaPublic": "Başla – girişe dowam et",
+        "aria": "Mugt plan"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / aý",
-        "desc": "Iň amatly mahabatsyz tejribe.",
+        "price": "$6.99",
+        "desc": "Ähli esasy zatlar, reklamsyz. Her gün habarlaşma we jaň üçin ideal.",
         "features": {
-          "noAds": "Ähli mahabaty aýyr",
-          "msg": "1:1 we toparlaýyn habarlaşma",
-          "attachments": "Has uly goşundylar",
-          "aiBasic": "Esasy AI jogaplar"
+          "allFree": "Mugtdaky ähli zatlar, reklamsyz",
+          "forwarding": "Jaňlary we tekstleri hakyky telefon nomeriňize ýönelt",
+          "history": "Has uzun habar taryhy (6 aýa çenli)",
+          "support": "Bir zat ýalňyşanda has çalt goldaw"
         },
         "badge": "Meşhur",
-        "cta": "Mahabatsyz bol",
-        "aria": "Plus-a täzeläň"
+        "cta": "Reklamsyz et",
+        "ctaPublic": "Plus al – girişe dowam et",
+        "aria": "Plus-a ýokarlandyr"
       },
       "premiumMonthly": {
         "title": "Premium (Aýlyk)",
-        "price": "$24.99 / aý",
-        "desc": "Doly aýratynlyklar, jaň sesleri we AI gurallary.",
+        "price": "$11.99",
+        "desc": "Doly Chatforia tejribesi: AI güýçli guralar, özbaşdaklaşdyrma we birinji derejeli goldaw.",
         "features": {
-          "plusAll": "Plusdaky ähli zatlar",
-          "ringtones": "Özleşdirilen jaň/hat sesleri",
-          "powerAi": "Kuwwatly AI aýratynlyklar",
-          "priorityUpdates": "Birikdirilen täzelenmeler",
-          "backups": "Ätiýaçlyklar & enjam utgaşdyryş"
+          "plusAll": "Plus-daky ähli zatlar",
+          "themes": "Ähli premium reňk temalaryny we programma özbaşdaklaşdyrmalaryny aç",
+          "ai": "Premium diňe AI güýçli guralar: ýazylary täze ýaz, akylly jogaplar we jemleýjiler",
+          "support": "Iň köp gerek wagtyňyzda birinji derejeli goldaw"
         },
-        "badge": "Iň arzanlaşykly",
-        "cta": "Täzeläň (Aýlyk)",
-        "aria": "Premium Aýlyga täzeläň"
+        "badge": "Maslahat berilýär",
+        "cta": "Ýokarlandyr (Aýlyk)",
+        "ctaPublic": "Premium aç – girişe dowam et",
+        "aria": "Aýlyk Premium-a ýokarlandyr"
       },
       "premiumAnnual": {
         "title": "Premium (Ýyllyk)",
-        "price": "$225 / ýyl",
-        "desc": "Ýyllyk töleg bilen has köp tygşytlaň.",
+        "price": "$99",
+        "desc": "Ýyllyk tölegde has köp tygşytlaň — goşmaça reňk temalary, AI guralary we birinji derejeli goldaw.",
         "features": {
-          "allPremium": "Premiumdaky ähli zatlar",
-          "annualBilling": "Ýyllyk hasaplaşyk",
-          "save25": "Aýlyga görä ~25% tygşyt",
-          "sameFeatures": "Aýlyk bilen şol bir aýratynlyklar"
+          "allPremium": "Aýlyk Premium-daky ähli zatlar — goşmaça reňk temalary",
+          "annualBilling": "Ýylda bir gezek töleg",
+          "save25": "Aýlyk tölege görä takmynan 30% tygşytla",
+          "bestFor": "Güýçli ulanyjylar, daşary ýurt işçileri we köp syýahat edýänler üçin iň ýakyn"
         },
-        "badge": "25% tygşyt",
-        "cta": "Täzeläň (Ýyllyk)",
-        "aria": "Premium Ýyllyga täzeläň",
-        "disclaimer": "Öňünden tölenýär. Islendik wagtda ýatyryp bolýar. Gizlin töleg ýok."
+        "badge": "30% tygşytla",
+        "cta": "Ýokarlandyr (Ýyllyk)",
+        "ctaPublic": "Ýyllyk bilen 30% tygşytla – girişe dowam et",
+        "aria": "Ýyllyk Premium-a ýokarlandyr",
+        "disclaimer": "Öňünden töleg. Islän wagtyňyz ýatyryň. Gizlin töleg ýok."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
+      "freeTitle": "Mugt",
       "freeDesc": "Mugt habarlaşmaga başlaň.",
       "plusTitle": "Plus",
       "plusBadge": "Meşhur",
-      "plusDesc": "Iň amatly mahabatsyz tejribe.",
+      "plusDesc": "Iň elýeterli reklamsyz tejribe.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Doly aýratynlyklar, jaň sesleri we AI gurallary.",
+      "premiumMonthlyDesc": "Doly aýratynlyklar, jaň sesleri we AI güýçli guralar.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Ýyllyk töleg bilen has köp tygşyt.",
-      "annualDisclaimer": "Öňünden tölenýär. Islendik wagtda ýatyryp bolýar. Gizlin töleg ýok."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Başlamak boýunça gollanma",
-    "subtitle": "Chatforia-a täzeňizmi? Bu çalt başlangyç size birnäçe minutda taýýar bolmaga kömek eder.",
-    "alert": {
-      "text": "Bu gollanma täze aýratynlyklar bilen giňeler. Bir zat ýitip bolsa, bize şu ýerden ýazyň:",
-      "contactLink": "Bize habarlaşyň"
+      "premiumAnnualDesc": "Ýyllyk tölegde has köp tygşytlaň.",
+      "annualDisclaimer": "Öňünden töleg. Islän wagtyňyz ýatyryň. Gizlin töleg ýok."
     },
-    "section1": {
-      "title": "1) Hasap dörediň",
-      "signup": "Hasap aç",
-      "or": "ýa-da",
-      "login": "giriň",
-      "loginText": "bar hasabyňyz bilen.",
-      "prefsStart": "Öz",
-      "prefsLink": "saýlamalaryňyzy",
-      "prefsRest": "goýuň (dil, okalan görkeziji, temalar)."
+    "mobile": {
+      "title": "Chatforia Mobil (eSIM maglumat paketleri)",
+      "subtitle": "Wi-Fi-syz hem Chatforia işläp dursun diýip, global maglumat goşuň. Bahalar ýurduňyz we walýutaňyza görä awtomatik üýtgeýär.",
+      "subtitle.detail": "Syýahat edýän ýa-da Wi-Fi-dan daşda Chatforia işläp dursun diýip, bir gezeklik global maglumat paketi saýlaň.",
+      "scope": {
+        "local": "Yerli",
+        "europe": "Europe",
+        "global": "Global"
+      },
+      "note": "3 GB-dan pes maglumat paketlerini satmaýarys.",
+      "localEquals": "Yerli = {{country}}",
+      "localEqualsFallback": "Yerli = häzirki ýurduňyz",
+      "perPack": "/ paket",
+      "cta": "Bu maglumat paketini al",
+      "ctaPublic": "Bu maglumat paketini al",
+      "checkout": {
+        "redirecting": "Yöneldilýär..."
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Ağyr ulanyş üçin ýokary tizlikli maglumat",
+          "throttle": "Ağyr ulanyşdan soň tizlikler haýallaşyp biler",
+          "coverage": "Ygtybarly ýapyklyk",
+          "instant": "Derrew eSIM işjeňleşmesi",
+          "noContract": "Bir gezeklik paket, şertnama ýok"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM maglumat paketleri eSIM-üýtgeýji we gulpsyz enjam talap edýär. Elýeterlilik telefon modeli, operator we ýurda görä üýtgeýär. Ýapyklyk we tizlikler sebite görä üýtgeýär."
+      },
+      "small": {
+        "title": "Başlangyç paket",
+        "desc": "3 GB ýokary tizlikli maglumat — ýeňil habarlaşma we käbir jaňlar üçin ideal.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Gysga syýahatlar, ýeňil habarlaşma we käbir jaňlar",
+        "aria": "Başlangyç eSIM maglumat paketini satyn al"
+      },
+      "medium": {
+        "title": "Syýahatçy paketi",
+        "desc": "5 GB ýokary tizlikli maglumat — syýahatlar, ýolagçylyk we yzygiderli VoIP jaňlar üçin.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Dynç günleri syýahatlar, yzygiderli VoIP jaňlar we kartalar",
+        "aria": "Syýahatçy eSIM maglumat paketini satyn al"
+      },
+      "large": {
+        "title": "Güýçli paket",
+        "desc": "10 GB ýokary tizlikli maglumat — Chatforia torunda agyr söhbet, jaňlar we wideo üçin.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Ağyr söhbet, jaňlar, wideo we hotspot ulanyşy",
+        "aria": "Güýçli ulanyjy eSIM maglumat paketini satyn al"
+      },
+      "compare": {
+        "title": "eSIM maglumat paketlerini deňeşdir",
+        "col": {
+          "pack": "Paket",
+          "data": "Goşulan maglumat",
+          "bestFor": "Iň ýakyn"
+        },
+        "disclaimer": "Hakyky maglumat ulanylyşy Chatforia-ny nähili ulanýandygyňyza bagly (ses, wideo, media we telefonyňyzdaky beýleki programmalar)."
+      }
     },
-    "section2": {
-      "title": "2) Habarlaşmagy başlaň",
-      "item1": "DM ýa-da Topar dörediň we ilkinji habaryňyzy ugradynyň.",
-      "item2": "100+ dilde bada-bat terjimäni ulanyň.",
-      "item3": "Profil → Gizlinlikde ýitip gidýän habarlar we okalan görkezijini barlaň."
+    "family": {
+      "title": "Chatforia Maşgala (paýlaşylan maglumat)",
+      "subtitle": "Maşgalaňyz boýunça bir maglumat howuzyny paýlaşyň. Bir hasaplaşyk, birnäçe Chatforia hasaby, global ýapyklyk.",
+      "perPack": "/ paket",
+      "small": {
+        "title": "Maşgala Kiçi",
+        "desc": "20 GB paýlaşylan ýokary tizlikli maglumat — 2–3 ýeňil ulanyjy üçin ýakyn.",
+        "price": "$29.99",
+        "aria": "Maşgala Kiçi paketini satyn al"
+      },
+      "medium": {
+        "title": "Maşgala Orta",
+        "desc": "40 GB paýlaşylan ýokary tizlikli maglumat — 3–5 işjeň agza üçin ideal.",
+        "price": "$49.99",
+        "aria": "Maşgala Orta paketini satyn al"
+      },
+      "large": {
+        "title": "Maşgala Uly",
+        "desc": "80 GB paýlaşylan ýokary tizlikli maglumat — hemişe onlaýn güýçli maşgalalar üçin.",
+        "price": "$84.99",
+        "aria": "Maşgala Uly paketini satyn al"
+      },
+      "feature": {
+        "shared": "Maşgalaňyz üçin paýlaşylan maglumat howuzy",
+        "members": "Iň köp 4 goşmaça agza çagyr",
+        "membersMore": "3–5 işjeň agza üçin ýakyn",
+        "manage": "Her agza üçin çäkleri dolandyr",
+        "topUp": "Islendigiňizçe köpräk paket goş",
+        "bestValue": "GB boýunça iň ýakyn baha",
+        "fairUse": "Adyl ulanyş syýasaty we ýerli çäklere tabşyrylýar"
+      },
+      "disclaimer": "Maşgala paketleri paýlaşylan maglumat howuzyny döredýär ýa-da doldurýar. Islän wagtyňyz agzalary çagyrýp we aýryp bilersiňiz.",
+      "footnote": "Maşgala paketleri baglanylan Chatforia hasaplary boýunça bir maglumat howuzyny paýlaşýar. Elýeterlilik we çäkler ýurduňyza we ýerli düzgünlere bagly."
     },
-    "section3": {
-      "title": "3) Has öňe gidiň",
-      "item1Part1": "Planyňyzy şu ýerde dolandyryň:",
-      "upgradeLink": "Täzeläň",
-      "item1Part2": "sahypasy (Plus = mahabatsyz, Premium = doly aýratynlyklar).",
-      "item2Part1": "Goşmaça enjamlary baglaň we şifrlenen ätiýaçlygy sazlaň şu ýerde:",
-      "settingsLink": "Sazlamalar"
+    "why": {
+      "title": "Näme üçin adamlar Chatforia-a geçýär",
+      "subtitle": "Chatforia size hakyky telefon nomeri, akylly terjime we reklamsyz geçmek üçin aç-açan ýol berýär.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Mugtda ýeňil reklamalar, taýýar Plus ýokarlandyrmasy we TextNow-da ýok Premium guralary."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Täze programma, global birinji dizaýn we köne usul jaň ýöneltme ýerine içki terjime."
+        },
+        "messengers": {
+          "title": "Chatforia vs söhbet programmalary",
+          "body": "Diňe beýleki programma ulanyjylaryna däl — hakyky telefon nomerlerine tekst ýaz. AI we status içki. TextFree ýa-da TextMe ýaly programmalardan gelýän bolsaňyz ýakyn."
+        }
+      },
+      "tableTitle": "Chatforia nähili deňeşýär",
+      "col": {
+        "feature": "Aýratynlyk"
+      },
+      "feature": {
+        "freeNumber": "Mugt telefon nomeri",
+        "translation": "Içki awto-terjime",
+        "aiTools": "AI guralary (ýazylary täze ýaz, jogaplar, jemleýjiler)",
+        "ads": "Reklamsyz wariant",
+        "history": "Habar taryhy"
+      },
+      "yes": "Hawa",
+      "no": "Ýok",
+      "yesPremium": "Hawa (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "Çäkli",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "12+ aýa çenli",
+        "textnow": "Hasaba görä üýtgeýär",
+        "voice": "Çäkli / hasaba esaslanýar"
+      },
+      "disclaimer": "Deňeşdirme köpçülik elýeterli maglumatlara esaslanýar we wagtyň geçmegi bilen üýtgäp biler. Beýleki mugt tekst programmalary (TextFree ýa-da TextMe) adatça TextNow-a meňzeşdir."
     },
-    "cta": {
-      "seePlans": "Planlara seret",
-      "openSettings": "Sazlamalary aç"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Kömek merkezi",
     "faq": {
-      "account": {
-        "q": "Hasaby nähili döretmeli ýa-da dikeldmeli?",
-        "a": "Programmany göçürip alyň ýa-da web-i ulanyň, “Hasap döret” düwmesine basyň, e-poçta/telefony tassyklaň. Dikeltmek üçin “Paroly unutdym”-y ulanyň."
+      "title": "Bahalar we planlar SSS",
+      "free": {
+        "q": "Mugt plan hakykatdan hem mugtmy?",
+        "a": "Hawa. Mugt plan Chatforia nomeri, jaň we reklamaly habarlaşmany öz içine alýar. Islän wagtyňyz mugtda galyp bilersiňiz ýa-da reklamalary aýyrmak we köpräk aýratynlyklary açmak üçin ýokarlandyryň."
       },
-      "privacy": {
-        "q": "Habarlar end-to-end şifrlenýärmi?",
-        "a": "Hawa. Habarlar we jaňlar deslapdan end-to-end şifrlidir. Olary diňe siz we alyjy okaýar."
+      "plusPremium": {
+        "q": "Plus we Premium arasynda näme tapawut bar?",
+        "a": "Plus reklamalary aýyrýar we habar taryhyňyzy uzaldýar — her gün ulanyş üçin kämil. Premium goşmaça özbaşdaklaşdyrma, ýazylary täze ýaz we jogaplar üçin AI guralary we agyr ulanyjylar üçin birinji derejeli goldaw goşýar."
       },
-      "translate": {
-        "q": "Tiz terjime nähili işleýär?",
-        "a": "Sazlamalar → Görnüş & Dil bölüminden “Awto-terjime”-ni işjeň ediň. Mümkin bolan ýerinde enjamda terjime edýäris, beýlekisi howpsuz API-lar arkaly iň az metadata bilen amala aşyrylýar."
+      "esim": {
+        "q": "eSIM maglumat paketleri nirede işleýär?",
+        "a": "Chatforia Mobil global eSIM ýapyklygyny ulanýar. Elýeterlilik ýurduňyza we enjamyňyza bagly. Programmada işjeňleşdiriş wagtynda goldanýan wariantlary görersiňiz."
+      },
+      "cancel": {
+        "q": "Planlary islän wagtyňyz ýatyryp ýa-da üýtgedip bilermiň?",
+        "a": "Hawa. Programmadaky hasaplaşyk sahypasyndan abunany dolandyrýp ýa-da ýatyryp bilersiňiz. Üýtgeşmeler häzirki hasaplaşyk döwrüniň soňunda güýje girýär."
+      },
+      "family": {
+        "q": "Maşgala paketleri nähili işleýär?",
+        "a": "Maşgala paketleri birnäçe Chatforia hasaby boýunça paýlaşylan maglumat howuzyny döredýär. Bir adam hasaplaşygy töleýär, siz agzalary çagyrýp/aýryp we her adam üçin çäkleri düzýärsiňiz."
+      }
+    },
+    "gettingStarted": {
+      "title": "Başlamak",
+      "subtitle": "Chatforia-a täze mi? Bu çalt başlangyç size birnäçe minutda işjeň bolmagyňyz üçin esasy zatlary görkezýär.",
+      "alert": {
+        "text": "Bu ýolbaşçy täze aýratynlyklar çykdygyça ösjek. Bir zat ýok bolsa, bize",
+        "contactLink": "Habarlaş"
+      },
+      "section1": {
+        "title": "1) Hasabyňyzy dörediň",
+        "signup": "Hasap aç",
+        "or": "ýa-da",
+        "login": "giriň",
+        "loginText": "bar bolan hasabyňyz bilen.",
+        "prefsStart": "Sazlamalaryňyzy düz",
+        "prefsLink": "iň ýakyn",
+        "prefsRest": "(dil, okalandy belgileri, temalar)."
+      },
+      "section2": {
+        "title": "2) Habarlaşmaga başla",
+        "item1": "DM ýa-da Topar dörediň we ilkinji habaryňyzy iberiň.",
+        "item2": "100+ dilde derrew terjime ulanyň.",
+        "item3": "Profil → Ýaşyrynlykda ýitýän habarlary we okalandy belgilerini synap gör."
+      },
+      "section3": {
+        "title": "3) Has uzak git",
+        "item1": "Islendigiňizçe programma içinden tölegli plana ýokarlandyryp bilersiňiz.",
+        "item2": "Giriňden soň, goşmaça enjamlar baglap we programma içindäki Sazlamalardan şifrelenen yedeklemeleri düzüp bilersiňiz."
+      },
+      "cta": {
+        "seePlans": "Planlary gör",
+        "openSettings": "Sazlamalary aç"
+      }
+    },
+    "helpCenter": {
+      "title": "Kömek merkezi",
+      "faq": {
+        "account": {
+          "q": "Hasaby nähili döretmek ýa-da dikeltmek?",
+          "a": "Programmany ýükleň ýa-da web ulanyň, “Hasap döret” basyň, e-poçta/telefonyňyzy tassyklap. Dikeltmek üçin “Paroly ýatdan çykardym” ulanyň."
+        },
+        "privacy": {
+          "q": "Habarlar uçdan-uça şifrelenýärmi?",
+          "a": "Hawa. Habarlar we jaňlar standart boýunça uçdan-uça şifrelenýär. Diňe siz we alýan okaýarsyňyz."
+        },
+        "translate": {
+          "q": "Derrew terjime nähili işleýär?",
+          "a": "Sazlamalar → Daşky görnüş & Dil-de “Awto-terjime” işjeň ediň. Goldanýan ýerlerde enjamda terjime edýäris, ýogsam minimal metadata bilen ygtybarly API-ler arkaly."
+        },
+        "contact": {
+          "q": "Goldaw bilen habarlaş",
+          "a": "support@chatforia.com-a ýüz tutuň. Skrinşotlary we programma wersiýaňyzy goşuň."
+        }
+      }
+    },
+    "contact": {
+      "title": "Biziň bilen habarlaş",
+      "successMsg": "Sag boluň — toparymyz e-poçta arkaly jogap berer.",
+      "errorSend": "Ibermek mümkin däl. support@chatforia.com-a e-poçta iberiň.",
+      "form": {
+        "nameLabel": "At",
+        "emailLabel": "E-poçta",
+        "messageLabel": "Habar",
+        "sendCta": "Iber"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Ýaşyrynlyk syýasaty",
+      "lastUpdated": "Soňky täzelenme:",
+      "intro": {
+        "body": "Bu Ýaşyrynlyk syýasaty Chatforia (“biz”, “biz”) programmalaryňyzy we hyzmatlaryňyzy ulananyňyzda maglumatlary nähili ýygnap, ulanýandygymyzy we paýlaşýandygymyzy düşündirýär. Chatforia-y ýygnap biljek maglumatlaryňyzy azaltmak üçin dizaýn etdik."
+      },
+      "infoWeCollect": {
+        "title": "Ýygnap biljek maglumatlar",
+        "account": "Hasap maglumaty (mysal: e-poçta/telefon) hasabyňyzy döretmek we ygtybarly etmek üçin.",
+        "encrypted": "Şifrelenen mazmun (habarlar/jaňlar) uçdan-uça şifrelenýär; okaýan bilmeris.",
+        "diagnostics": "Diagnoz/ulanyş ýaly çökmek žurnallary, enjam görnüşi ýa-da ýeňil analitika ýakynlaşdyrmak üçin."
+      },
+      "sms": {
+        "title": "Mobil telefon nomerleri we SMS",
+        "body": "Mobil telefon nomerini bermek isleseňiz, ony hasap tassyklama, giriş duýduryşlary we goldanýan ýerlerde ulanyjy-ulanyjy SMS habarlaşmasy üçin ulanýarys. Chatforia-daky hasabyňyz we işjeňligiňiz bilen baglanyşykly tranzaksiýa SMS-leri iberip bileris. Islän wagtyňyz “STOP” ýaly goldanýan ýatyrmak sözüni jogap bermek ýa-da programma Sazlamalarynda bildiriş sazlamalaryňyzy üýtgetmek arkaly SMS kabul etmegi ýatyryp bilersiňiz. Telefon nomeriňizi satmaýarys ýa-da baglanyşyksyz marketing üçin ulanmaýarys.",
+        "newText": "Täze tekst",
+        "enterRecipient": "At ýa-da nomer giriziň",
+        "typeMessage": "Habar ýaz...",
+        "addRecipient": "Başlamak üçin ýokardaky alýany goş..."
+      },
+      "howWeUse": {
+        "title": "Maglumaty nähili ulanýarys",
+        "provide": "Hyzmaty bermek we ygtybarly etmek (awtorizasiýa, spam/abuz ýüze çykarma).",
+        "improve": "Aýratynlyklary ýakynlaşdyrmak (terjime hilini, ygtybarlylygy).",
+        "legal": "Kanuny borçluluklara laýyklyk."
+      },
+      "sharing": {
+        "title": "Paýlaşmak",
+        "body": "Şahsy maglumatlary satmaýarys. Çäkli maglumatlary gaty ygtybarly şertnamalar bilen prosessorlar bilen paýlaşyp bileris (mysal: itekleme bildirişleri, analitika)."
+      },
+      "rights": {
+        "title": "Siziň hukuklaryňyz",
+        "body": "Sebitiňize görä (mysal: GDPR/UK GDPR/CPRA), maglumata giriş, düzetme, ýok etmek ýa-da belli işlenmä ýatyrmak talap edip bilersiňiz. Habarlaşyň: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Maglumat saklama we howpsuzlyk",
+        "body": "Hyzmaty işletmek üçin gerek zatlara çäkli saklaýarys we senagat standart howpsuzlygyny ulanýarys. Uçdan-uça mazmuny biz şifresini açyp bilmeris."
+      },
+      "children": {
+        "title": "Çagalar",
+        "body": "Chatforia 13 ýaşdan kiçi çagalara (ýa-da ýerli kanunyň talap edýän ýaşyna) ýönük däl."
+      },
+      "changes": {
+        "title": "Üýtgeşmeler",
+        "body": "Täzelenmeleri bu ýerde ýerleşdireris we “Soňky täzelenme” senesini üýtgederis."
       },
       "contact": {
-        "q": "Goldaw bilen habarlaşmak",
-        "a": "support@chatforia.com salgysyna ýazyň. Skrinşotlar we programma wersiýaňyzy goşuň."
+        "title": "Habarlaş",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Bize habarlaşyň",
-    "successMsg": "Sag boluň — toparymyz e-poçta arkaly jogap berer.",
-    "errorSend": "Iberip bolmady. support@chatforia.com salgysyna ýazyň.",
-    "form": {
-      "nameLabel": "Ady",
-      "emailLabel": "E-poçta",
-      "messageLabel": "Habar",
-      "sendCta": "Iber"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Gizlinlik syýasaty",
-    "lastUpdated": "Iň soňky täzelenen wagty:",
-    "intro": {
-      "body": "Bu Gizlinlik syýasaty Chatforia (“biz”) programmalarymyzy we hyzmatlarymyzy ulanyňyzda maglumaty nädip jemgyýete ýetirýändigimizi, ulanýandygymyzy we paýlaşýandygymyzy düşündirýär. Chatforia minimal maglumatly işläp düzülendir."
     },
-    "infoWeCollect": {
-      "title": "Toplaýan maglumatlarymyz",
-      "account": "Hasap maglumatlary (meselem, e-poçta/telefon) hasap döretmek we goramak üçin.",
-      "encrypted": "Şifrlenen içerik (habarlar/jaňlar) end-to-end şifrlidir; biz okap bilmeýäris.",
-      "diagnostics": "Näsazlyk gündelikleri, enjam görnüşi ýa-da ýönekeý analitika ýaly diagnostika/ulanyş — öndürijiligi gowulandyrmak üçin."
+    "terms": {
+      "title": "Hyzmat şertleri",
+      "lastUpdated": "Soňky täzelenme:",
+      "intro": {
+        "body": "Chatforia ulanmak bilen bu Şertlere razylyk berýärsiňiz. Razy däl bolsaňyz, hyzmaty ulanmaň."
+      },
+      "accounts": {
+        "title": "Hasaplar",
+        "itemAccurateInfo": "Dogry maglumat beriň we şahsyýet maglumatlaryňyzy ygtybarly saklaň.",
+        "itemResponsibility": "Hasabyňyzdaky işjeňlik üçin jogapkärdirsiňiz."
+      },
+      "acceptableUse": {
+        "title": "Kabul edilýän ulanyş",
+        "itemNoAbuse": "Kanuna garşy, kemsidiji ýa-da kanun bozujy mazmun ýok; spam ýa-da awtomatlaşdyrylan abuz ýok.",
+        "itemSuspend": "Bozuşlar üçin hasabyňyzy togtadyp ýa-da ýatyryp bileris."
+      },
+      "sms": {
+        "title": "SMS habarlaşmalar",
+        "body": "Mobil telefon nomerini berseňiz, Chatforia hasabyňyz we hyzmatyň ulanylyşy bilen baglanyşykly SMS-leri (giriş duýduryşlary, howpsuzlyk bildirişleri we siziň başlan ýa-da gatnaşan söhbetleriňiz bilen baglanyşykly habarlar ýaly) iberjekdigine razylyk berýärsiňiz. Reklamaly ýa-da marketing SMS-lerini siziň aç-açan razylygyňyz bolmazdan iberip bilmeris. Adaty habar we maglumat nyrhlary ulanylýar. Islän wagtyňyz “STOP” ýaly goldanýan ýatyrmak sözüni jogap bermek ýa-da programma bildiriş sazlamalaryňyzy täzelemek arkaly SMS-leri ýatyryp bilersiňiz."
+      },
+      "yourContent": {
+        "title": "Siziň mazmunyňyz",
+        "body": "Mazmunyňyza hukuklaryňyzy saklaýarsyňyz. Hyzmaty işletmek üçin bize gerekli hukuklary berýärsiňiz (mysal: ýöneltme, saklama, terjime)."
+      },
+      "disclaimer": {
+        "title": "Ykrar etme we jogapkärçilik",
+        "body": "Hyzmat “bolşy ýaly” kepilliksiz berilýär. Kanunyň rugsat berýän derejesinde Chatforia gytaklaýyn ýa-da netijeli zyýanlar üçin jogapkär däl."
+      },
+      "changes": {
+        "title": "Üýtgeşmeler",
+        "body": "Bu şertleri täzeleyip bileris; üýtgeşmelerden soň ulanmagyňyzy dowam etdirseňiz, kabul edýärsiňiz diýen manydyr."
+      },
+      "contact": {
+        "title": "Habarlaş",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
     },
-    "howWeUse": {
-      "title": "Maglumaty nädip ulanýarys",
-      "provide": "Hyzmaty üpjün etmek we goramak (autentifikasiýa, spam/ýaman niýetden goramak).",
-      "improve": "Aýratynlyklary gowulandyrmak (terjime hilini, ygtybarlylygy).",
-      "legal": "Hukuk borçlary ýerine ýetirýäris."
+    "doNotSell": {
+      "title": "Şahsy maglumatymy satma ýa-da paýlaşma",
+      "body": "Chatforia şahsy maglumatlary satmaýar. Kaliforniýa ýaşaýjylary CPRA boýunça aşakdaky düwme arkaly talap iberip bilýärler.",
+      "cta": "Talap iber"
     },
-    "sharing": {
-      "title": "Paýlaşmak",
-      "body": "Biz şahsy maglumat satmaýarys. Çäkli maglumatlary şertnama bilen (meselem, push bildirişler, analitika) işlemçiler bilen paýlaşyp bileris."
+    "cookies": {
+      "title": "Kuki sazlamalary",
+      "body": "Chatforia minimal kuki ulanýar (mysal: sessiýa, howpsuzlyk). Üçünji tarap reklam kuki ulanmaýarys. Brauzeriňiziň sazlamalary arkaly kuki dolandyr."
     },
-    "rights": {
-      "title": "Hukuklaryňyz",
-      "body": "Sebite görä (meselem, GDPR/UK GDPR/CPRA) giriş, düzetme, pozma ýa-da belli işlenmelere garşy çykmak hukugyňyz bolup biler. Habarlaşyň: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Telefon nomeri statusyny ýüklemek mümkin däl.",
+      "lock": "Gulpla",
+      "noNumberAssigned": "Nomer ýok. Tekst ýazmaga başlamak üçin sebit kody boýunça saýlaň.",
+      "pickNumber": "Nomer saýla",
+      "phoneNumber": "Telefon nomeri"
     },
-    "retention": {
-      "title": "Saklama & howpsuzlyk",
-      "body": "Hyzmaty işletmek üçin zerur derejede saklaýarys we senagat ölçegli howpsuzlygy ulanylýar. E2E içerik biziň tarafymyzdan açylyp bilinmeýär."
+    "startChatModal": {
+      "title": "Söhbet başla",
+      "quickPicker": "Çalt saýlaw",
+      "to": "Kime",
+      "nameOrUsername": "At, ulanyjy ady ýaz",
+      "nameUsernamePhoneEmail": "At, ulanyjy ady, telefon ýa-da e-poçta ýaz...",
+      "startWithSelected": "Saýlanan bilen söhbet başla",
+      "searchByUsernameOrPhone": "Ulanyjy ady ýa-da telefon boýunça gözle",
+      "search": "Gözle",
+      "searchPrompt": "Ulanyjy ady ýa-da telefon ýaz we Gözle bas.",
+      "pickFromContacts": "Ýa-da kontaktlardan saýla",
+      "addContact": "Kontakt goş",
+      "show": "Görkez",
+      "add": "Goş",
+      "close": "Ýap",
+      "selectedCount": "{{count}} saýlandy",
+      "pickAtLeastOne": "Iň az bir alýany saýlaň.",
+      "saveContactsHint": "Telefon/e-poçta girizmeleri saklandan soň elýeterli bolar.",
+      "failedBulkStart": "Saýlanan alýanlar bilen söhbet başlamak şowsuz.",
+      "noResults": "Netije ýok",
+      "mode": "Režim",
+      "group": "Topar",
+      "broadcast": "Transliýasiýa",
+      "groupNameOptional": "Topar ady (ihtiyar)",
+      "firstMessageOptional": "Ilkinji habar (ihtiyar, ýöne maslahat berilýär)",
+      "createGroup": "Topar döret",
+      "sendBroadcast": "Transliýasiýa iber"
     },
-    "children": {
-      "title": "Çagalar",
-      "body": "Chatforia 13 ýaşdan kiçilere (ýa-da ýerli kanuna görä) niýetlenen däl."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Awrora",
+      "neon": "Neon",
+      "sunset": "Gün batyşy",
+      "solarized": "Solarizasiýa",
+      "velvet": "Welwet"
     },
-    "changes": {
-      "title": "Üýtgetmeler",
-      "body": "Täzelenmeleri şu ýerde ýerleşdireris we “Iň soňky täzelenen” senesini üýtgederis."
+    "sounds": {
+      "freeNotice": "Siz mugt planadasyňyz — premium sesler görkezilýär ýöne gulplandy. Ählisini açmak üçin ýokarlandyryň.",
+      "preview": "Öňünden gör",
+      "resetToDefaults": "Standartlara sifir et",
+      "notificationSounds": "Bildiriş sesleri",
+      "messageTone": "Habar sesi",
+      "default": "Standart",
+      "vibrate": "Titreme",
+      "dreamer": "Arzuwçy",
+      "notify": "Bildir",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsirleme sesi",
+      "textMessage": "Tekst habar",
+      "xylophone": "Ksilofon",
+      "classic": "Klassik",
+      "urgency": "Howplylyk",
+      "bells": "Kowuşlar",
+      "chimes": "Çimlar",
+      "digitalPhone": "Sanly telefon",
+      "melodic": "Melodik",
+      "organNotes": "Organ notalary",
+      "soundReality": "Ses hakykaty",
+      "street": "Köçe",
+      "universfield": "Älem meýdany"
     },
-    "contact": {
-      "title": "Habarlaşmak",
-      "body": "privacy@chatforia.com • [Kompaniýanyň hukuk ady], [Salgysy]"
-    }
-  },
-
-  "terms": {
-    "title": "Hyzmatyň şertleri",
-    "lastUpdated": "Iň soňky täzelenen wagty:",
-    "intro": {
-      "body": "Chatforia-ni ulanmak bilen bu Şertlere ylalaşýarsyňyz. Ylalaşmaýan bolsaňyz, hyzmaty ulanmaň."
+    "premiumGuard": {
+      "requiresPremium": "Bu aýratynlyk Premium plan talap edýär."
     },
-    "accounts": {
-      "title": "Hasaplar",
-      "itemAccurateInfo": "Dogry maglumat beriň we giriş maglumatlaryňyzy gorap saklaň.",
-      "itemResponsibility": "Hasabyňyzda bolup geçýän işler üçin jogapkärsiňiz."
+    "aiSettings": {
+      "title": "AI Sazlamalary",
+      "controlIntro": "Terjime, akylly jogaplar we ForiaBot awto-jogaplary dolandyr.",
+      "save": "AI Sazlamalary sakla",
+      "autoTranslateIncoming": "Gelýän habarlary awto-terjime et",
+      "showOriginalAlongside": "Asyl teksti terjime bilen ýan ýana görkez",
+      "enableSmartReplies": "Akylly jogaplary işjeň et",
+      "smartRepliesHint": "AI-e çalt jogap teklip etmek üçin iň soňky birnäçe gelýän habary (sanitizirlenen) iber.",
+      "maskProfanity": "AI teklip etmelerinde nädogry sözleri ýaşyr",
+      "maskProfanityHint": "Işjeň bolsa, AI tarapyndan gelen teklip etmelerde bellik edilen sözler ýaşyrylar",
+      "foriaBot": "ForiaBot Awto-jogap beriji",
+      "enableAutoReply": "Bäýik wagtyňyzda awto-jogap ber",
+      "autoReplyMode": "Awto-jogap režimi",
+      "cooldownSeconds": "Sowuklama (sekunt)",
+      "off": "Öçür",
+      "on": "Işjeň",
+      "signature": "Gol",
+      "autoReply": "Awto-jogap",
+      "activeUntilOptional": "Işjeňligiň möhleti (ihtiyar)",
+      "saved": "AI sazlamalary saklandy",
+      "saveFailed": "AI sazlamalary saklamak şowsuz",
+      "translateOff": "Öçür",
+      "translateTagged": "Diňe @terjime edilen ýa-da bellik edilen wagty",
+      "translateAll": "Ähli gelýän habarlary terjime et",
+      "modeDm": "Diňe 1:1 söhbetler",
+      "modeMention": "Diňe @bellik edilen wagty",
+      "modeAll": "Ähli gelýän habarlar"
     },
-    "acceptableUse": {
-      "title": "Kabul edilýän ulanyş",
-      "itemNoAbuse": "Bikanun, zorlukly ýa-da hukuk bozulýan mazmun ýok; spam ýa-da awtomatlaşdyrylan hyýanatçylyk ýok.",
-      "itemSuspend": "Bozulmalar üçin hyzmatdan geçici/hemmeleýin çykaryp bileris."
+    "accessibilitySettings": {
+      "title": "Elýeterlilik & Duýduryşlar",
+      "accessibility": "Elýeterlilik",
+      "accessibilityDesc": "Sesden daşary Chatforia-ny ulanmagy aňsatlaşdyrmak üçin wariantlar.",
+      "interfaceFontSize": "Interfeýs şrift ululygy",
+      "interfaceFontSizeHelp": "Standart ululykdan başlaýar. Elýeterlilik sazlamalarynda has uly tekst isleýän bolsaňyz ulaldyň.",
+      "sm": "kiçi",
+      "md": "orta",
+      "lg": "uly",
+      "xl": "has uly",
+      "notifications": "Bildirişler",
+      "notificationsDesc": "Habarlar & jaňlar üçin wizual duýduryşlar\nBannerleri we başlyk yşygyny görkez, işjeňligiňizi ýitirmeň.",
+      "vibrateOnNew": "Täze habarlarda titreme (goldanýan wagty)\nBildirişler bilen enjam titremesini işjeň et.",
+      "flashOnCall": "Gelýän jaňda ekrany ýak\nJaň wagty gysga ýagty ýakylma.",
+      "liveCaptions": "Live altyazylar (jaňlar)",
+      "captionFontSize": "Altyazylar şrift ululygy",
+      "captionBackground": "Altyazylar fon",
+      "light": "ýagty",
+      "dark": "gijeki",
+      "transparent": "şeffaf",
+      "voiceNotes": "Ses ýazgylary",
+      "autoTranscribeVoiceNotes": "Ses ýazgylaryny awto-transkribirle",
+      "autoTranscribeVoiceNotesDesc": "Alýan audio habarlara transkripsiýa goş.",
+      "changesSavedInstantly": "Üýtgeşmeler derrew saklanýar.",
+      "loadFailed": "Sazlamalary ýüklemek şowsuz",
+      "visualAlerts": "Habarlar & jaňlar üçin wizual duýduryşlar",
+      "visualAlertsDesc": "Bannerleri we başlyk yşygyny görkez, işjeňligiňizi ýitirmeň.",
+      "vibrateOnNewShort": "Täze habarlarda titreme (goldanýan wagty)",
+      "vibrateOnNewDesc": "Bildirişler bilen enjam titremesini işjeň et.",
+      "flashOnCallShort": "Gelýän jaňda ekrany ýak",
+      "flashOnCallDesc": "Jaň wagty gysga ýagty ýakylma."
     },
-    "yourContent": {
-      "title": "Siziň mazmunyňyz",
-      "body": "Mazmuna hukuklaryňyz saklanyp galýar. Hyzmaty işletmek üçin zerur hukugy berýärsiňiz (meselem, ugratmak, saklamak, terjime)."
+    "privacySection": {
+      "strictE2EE": "Gaty uçdan-uça şifreleme",
+      "ciphertextOnlyNote": "Serwerde diňe şifrelenen tekst sakla. AI/Terjime we moderasiýa öňünden görkezmelerini öçürýär."
     },
-    "disclaimer": {
-      "title": "Inkärnamalar & jogapkärçilik",
-      "body": "Hyzmat “bar ýagdaýynda” berilýär. Kanun boýunça mümkinçilik bar derejede, Chatforia gytaklaýyn ýa-da netijeli zyýanlar üçin jogapkär däl."
+    "linkedDevicesPanel": {
+      "title": "Baglanylan enjamlar",
+      "noneFound": "Baglanylan enjam tapylmady.",
+      "refresh": "Täzele"
     },
-    "changes": {
-      "title": "Üýtgetmeler",
-      "body": "Bu şertleri täzeläp bileris; üýtgetmelerden soň ulanyş — kabul etmek diýmekdir."
+    "help": {
+      "title": "Kömek",
+      "howCanWeHelp": "Näme kömek edip bileris?",
+      "helpCenter": "Kömek merkezi",
+      "contactUs": "Biziň bilen habarlaş",
+      "quickTopics": "Çalt temalar",
+      "searchExamples": "“terjime”, “yedeklemeler” ýa-da “ýaşyrynlyk” gözläp gör.",
+      "cantLogin": "Giriň bilmeýärin",
+      "paymentsBilling": "Tölegler / hasaplaşyk",
+      "reportAbuse": "Abuz habar ber",
+      "searchHelpArticles": "Kömek makalalaryny gözle",
+      "search": "Gözle"
     },
-    "contact": {
-      "title": "Habarlaşmak",
-      "body": "support@chatforia.com • [Kompaniýanyň hukuk ady], [Salgysy]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Şahsy Maglumatymy Satmaň ýa-da Paýlaşmaň",
-    "body": "Chatforia şahsy maglumat satmaýar. Kaliforniýa ýaşaýjylary CPRA boýunça aşakdaky düwme arkaly hem-de ýüz tutup biler.",
-    "cta": "Sorgy iber"
-  },
-
-  "cookies": {
-    "title": "Kukileri sazlamak",
-    "body": "Chatforia iň az kukini ulanýar (meselem, sessiýa, howpsuzlyk). Üçünji tarap mahabat kukileri ulanmaýarys. Kukileri brauzer sazlamalaryndan dolandyryň."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Telefon belgisi ýagdaýyny ýükläp bolmady.",
-    "lock": "Gulpla",
-    "noNumberAssigned": "Belgi berkidilmedik. SMS ugratmak üçin kod boýunça saýlaň.",
-    "pickNumber": "Belgi saýla",
-    "phoneNumber": "Telefon belgisi"
-  },
-
-  "startChatModal": {
-    "title": "Söhbeti başla",
-    "quickPicker": "Tiz saýlaýjy",
-    "to": "Kime",
-    "nameOrUsername": "Ad ýa-da ulanyjy adyny ýazyň",
-    "nameUsernamePhoneEmail": "Ad, ulanyjy ady, telefon ýa-da e-poçta ýazyň…",
-    "startWithSelected": "Saýlananlar bilen söhbeti başla",
-    "searchByUsernameOrPhone": "Ulanyjy ady ýa-da telefon boýunça gözle",
-    "search": "Gözle",
-    "searchPrompt": "Ulanyjy ady ýa-da telefon ýazyň we Gözle basyň.",
-    "pickFromContacts": "Ýa-da kontaktlardan saýlaň",
-    "addContact": "Kontakt goş",
-    "show": "Görkez",
-    "add": "Goş",
-    "close": "Ýap",
-    "selectedCount": "{{count}} saýlandy",
-    "pickAtLeastOne": "Iň azyndan bir alyjy saýlaň.",
-    "saveContactsHint": "Telefon/e-poçta ýazgylary kontakt hökmünde saklanylandan soň elýeterli bolar.",
-    "failedBulkStart": "Saýlanan alyjylar bilen söhbeti başlap bolmady.",
-    "noResults": "Netije ýok",
-    "mode": "Režim",
-    "group": "Topar",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Topar ady (islege görä)",
-    "firstMessageOptional": "Ilkinji habar (islege görä, maslahat berilýär)",
-    "createGroup": "Topar döret",
-    "sendBroadcast": "Broadcast iber"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Günbatdy",
-    "solarized": "Solarized",
-    "velvet": "Welwet"
-  },
-
-  "sounds": {
-    "freeNotice": "Siz Free planındasyňyz — premium sesler görkezilýär, ýöne gulpludyr. Ählisini açmak üçin täzeläň.",
-    "preview": "Deslapky diňle",
-    "resetToDefaults": "Bellenenini dikelt",
-    "notificationSounds": "Bildiriş sesleri",
-    "messageTone": "Habar sesi",
-    "default": "Bellenen",
-    "vibrate": "Titretmek",
-    "dreamer": "Arzuwçy",
-    "notify": "Habardar et",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsirleýji ses",
-    "textMessage": "SMS",
-    "xylophone": "Ksilofon",
-    "classic": "Klassik",
-    "urgency": "Gyssagly",
-    "bells": "Jaňlar",
-    "chimes": "Sazjaňlar",
-    "digitalPhone": "Sanly telefon",
-    "melodic": "Melodik",
-    "organNotes": "Organ notlary",
-    "soundReality": "Ses hakykaty",
-    "street": "Köçe",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Bu aýratynlyk Premium plan talap edýär."
-  },
-
-  "aiSettings": {
-    "title": "AI sazlamalary",
-    "controlIntro": "Terjime, akylly jogaplar we ForiaBot awto-jogaplaryny dolandyryň.",
-    "save": "AI sazlamalaryny sakla",
-    "autoTranslateIncoming": "Gelen habarlary awto-terjime et",
-    "showOriginalAlongside": "Terjime bilen bile asyl teksti görkez",
-    "enableSmartReplies": "Akylly jogaplary aç",
-    "smartRepliesHint": "Soňky birnäçe habary (arassalanan) AI-a iberip çalt jogaplary teklip etsin.",
-    "maskProfanity": "AI tekliplerinde haýyn sözleri maskala",
-    "maskProfanityHint": "Açyk bolsa, AI tarapyndan gaýdyp gelen tekliplerde belligi bar sözler maskalanar",
-    "foriaBot": "ForiaBot Awto-jogap beriji",
-    "enableAutoReply": "Işli wagtymda awto-jogap bermegi aç",
-    "autoReplyMode": "Awto-jogap režimi",
-    "cooldownSeconds": "Arakesme (sekunt)",
-    "off": "Öçürilen",
-    "on": "Açyk",
-    "signature": "Gol",
-    "autoReply": "Awto-jogap",
-    "activeUntilOptional": "Şu wagta çenli işjeň (islege görä)",
-    "saved": "AI ileri tutmalar saklandy",
-    "saveFailed": "AI sazlamalaryny saklap bolmady",
-    "translateOff": "Öçürilen",
-    "translateTagged": "Diňe @translated ýa-da bellense",
-    "translateAll": "Gelen ähli habarlary terjime et",
-    "modeDm": "Diňe 1:1 söhbetler",
-    "modeMention": "Diňe men @bellensem",
-    "modeAll": "Ähli gelen habarlar"
-  },
-
-  "accessibilitySettings": {
-    "title": "Elýeterlilik & Duýduryşlar",
-    "accessibility": "Elýeterlilik",
-    "accessibilityDesc": "Chatforia-y sesi ulanmazdan hem aňsatlaşdyrýan opsiýalar.",
-    "interfaceFontSize": "Interfeys hat ölçegi",
-    "interfaceFontSizeHelp": "Adaty ölçegden başlanýar. Elýeterlilik sazlamalarynda has ulaltmak bolýar.",
-    "sm": "kiçi",
-    "md": "orta",
-    "lg": "uly",
-    "xl": "örän uly",
-    "notifications": "Bildirişler",
-    "notificationsDesc": "Habarlar & jaňlar üçin wizual duýduryşlar\nBannery görkez we at başlygyny ýalpyldat, ýagdaýy sypdyrma.",
-    "vibrateOnNew": "Täze habara titret (goldasa)\nBildirişde enjam titredilsin.",
-    "flashOnCall": "Gelen jaňda ekrany ýalpyldat\nJaň gelende gysga ýagty ýalpyldaw.",
-    "liveCaptions": "Göni subtitrler (jaňlar)",
-    "captionFontSize": "Subtitr hat ölçegi",
-    "captionBackground": "Subtitr fon reňki",
-    "light": "akja",
-    "dark": "garaňa",
-    "transparent": "şaffaf",
-    "voiceNotes": "Ses bellikleri",
-    "autoTranscribeVoiceNotes": "Ses belliklerini awto-transkriptsiýa et\nAlynan audio habarlara transkript goş.",
-    "changesSavedInstantly": "Üýtgetmeler bada-bat saklanýar.",
-    "loadFailed": "Sazlamalary ýüklemek başa barmady",
-    "visualAlerts": "Habarlar & jaňlar üçin wizual duýduryşlar",
-    "visualAlertsDesc": "Bannery görkez we at başlygyny ýalpyldat, ýagdaýy sypdyrma.",
-    "vibrateOnNewShort": "Täze habarda titret (goldasa)",
-    "vibrateOnNewDesc": "Bildiriş geleninde enjam titredilsin.",
-    "flashOnCallShort": "Gelen jaňda ekrany ýalpyldat",
-    "flashOnCallDesc": "Jaň gelende gysga ýagty ýalpyldaw."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Berk end-to-end şifrleme",
-    "ciphertextOnlyNote": "Serwerde diňe şifrlenen tekst sakla. AI/Terjime we moderasiýa öň-görüşlerini öçürýär."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Baglanan enjamlary",
-    "noneFound": "Baglanan enjam tapylmady.",
-    "refresh": "Täzele"
-  },
-
-  "help": {
-    "title": "Kömek",
-    "howCanWeHelp": "Näme kömek edip bileris?",
-    "helpCenter": "Kömek merkezi",
-    "contactUs": "Bize ýazyň",
-    "quickTopics": "Tiz mowzuklar",
-    "searchExamples": "“terjime”, “ätiýaçlyklar” ýa-da “gizlinlik” boýunça gözläp görüň.",
-    "cantLogin": "Girmäge mümkinçilik ýok",
-    "paymentsBilling": "Tölegler/ hasaplaşyk",
-    "reportAbuse": "Şikaýat et",
-    "searchHelpArticles": "Kömek makalalaryny gözläň",
-    "search": "Gözle"
-  },
-
-  "peoplePage": {
-    "people": "Adamlar",
-    "search": "Gözle",
-    "searchPlaceholder": "Lakam, ad, ulanyjy ady ýa-da telefon boýunça gözläň",
-    "filterSaved": "Saklanan kontaktlary süz",
-    "noContactsFound": "Kontakt tapylmady",
-    "quickStart": "Tiz başlangyç",
-    "quickStartDesc": "Çalt başlamak üçin birnäçe ýol.",
-    "importContacts": "Kontaktlaryňyzy import ediň",
-    "add": "Goş",
-    "focusSearch": "Gözlege ünsi ber",
-    "import": "Import et",
-    "findOrAdd": "Kimdir birini tap ýa-da goş",
-    "searchByPhoneOrUsername": "Telefon / ulanyjy ady boýunça gözle",
-    "inviteFriends": "Dostlary çagyr",
-    "inviteDesc": "Çakylyk baglanyşygyny paýlaşyň — bada-bat söhbet başlaň.",
-    "getTheApp": "Programmany al",
-    "getTheAppDesc": "Ýolda-da aragatnaşykda boluň — iOS we Android üçin Chatforia.",
-    "download": "Göçürip al",
-    "syncTip": "Maslahat: Habarlar web we mobilde utgaşykly saklanýar."
-  },
-
-  "randomChat": {
-    "title": "Tötänleýin Söhbet",
-    "description": "Derrew täze biri bilen tanyşyň. Biz siziň üçin wagtlaýyn otag açarys.",
-    "findMatch": "Meni jübütle",
-    "chatWithForia": "Foria bilen söhbet",
-    "chatWithForiaBot": "ForiaBot bilen söhbet",
-    "cancel": "Ýatyr",
-    "close": "Ýap",
-    "searching": "Gözlenýär…",
-    "finding": "Tapylýar…",
-    "looking": "Kimdir birini gözleýäris…",
-    "startingForia": "Foria bilen söhbet açylýar…",
-    "partnerDisconnected": "Jübütçüňiz aradan çykdy.",
-    "noPartner": "Häzir jübüt ýok.",
-    "connectedTo": "{{name}} bilen baglandyňyz",
-    "connected": "Baglandy",
-    "idle": "Hereketsiz",
-    "partnerLeft": "Jübüt gitdi.",
-    "stopped": "Durdy.",
-    "skip": "Geç",
-    "save": "Sakla",
-    "saveGuard": "Diňe adam-adam söhbetleri saklanyp bilýär",
-    "youAreChattingWith": "Siz {{name}} bilen söhbetdeş",
-    "bot": "BOT",
-    "leave": "Çyk",
-    "sayHi": "Salam aýt 👋",
-    "you": "Siz",
-    "typeMessage": "Habar ýazyň",
-    "send": "Iber",
-    "partner": "Jübüt",
-    "withForia": "Foria bilen"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Nawigasiýa menýusyny aç",
-    "closeNav": "Nawigasiýa menýusyny ýap",
-    "homeAria": "Chatforia Baş sahypa"
-  },
-
-  "login": {
-    "title": "Täzeden hoş geldiňiz",
-    "subtitle": "Chatforia hasabyňyza giriň",
-    "google": "Google bilen dowam et",
-    "apple": "Apple bilen dowam et",
-    "googleUnavailable": "Google bilen girmek elýeterli däl",
-    "appleUnavailable": "Apple bilen girmek elýeterli däl",
-    "or": "ýa-da",
-    "email": "E-poçta",
-    "emailPh": "siz@example.com",
-    "usernameLabel": "Ulanyjy ady",
-    "usernamePh": "Ulanyjy adyňyz",
-    "passwordLabel": "Parol",
-    "passwordPh": "Parolyňyz",
-    "keepSignedIn": "Meniň girişim açyk galsyn",
-    "forgot": "Paroly unutdyňyzmy?",
-    "submit": "Giriň",
-    "loggingIn": "Girilýär…",
-    "newHere": "Täzeňizmi? <link>Hasap dörediň</link>",
-    "ssoUnavailable": "Single-sign-on häzir elýeterli däl. Munuň ýerine ulanyjy ady & paroly ulanyň.",
-    "error": {
-      "missing": "Giriş maglumatlaryny giriziň.",
-      "invalid": "Nädogry ulanyjy ady ýa-da parol",
-      "denied": "Giriş gadagan edildi.",
-      "unprocessable": "Nädogry isleg. Ulanyjy ady/e-poçta we parolyňyzy barlaň.",
-      "deviceLimit": "Free plan üçin enjam çägi doly. Başka enjamdan çykň ýa-da Premium-a täzeläp has köp enjam baglaň.",
-      "premiumRequired": "Bu herekete Premium plan gerek."
+    "peoplePage": {
+      "people": "Adamlar",
+      "search": "Gözle",
+      "searchPlaceholder": "Lakam, at, ulanyjy ady ýa-da telefon boýunça gözle",
+      "filterSaved": "Saklanan kontaktlary süz",
+      "noContactsFound": "Kontakt tapylmady",
+      "quickStart": "Çalt başlangyç",
+      "quickStartDesc": "Birnäçe çalt ýol bilen herekete geç.",
+      "importContacts": "Kontaktlaryňyzy import et",
+      "add": "Goş",
+      "focusSearch": "Gözlege fokus et",
+      "import": "Import et",
+      "findOrAdd": "Kimdir birini tap ýa-da goş",
+      "searchByPhoneOrUsername": "Telefon / ulanyjy ady boýunça gözle",
+      "inviteFriends": "Dostlary çagyr",
+      "inviteDesc": "Derrew söhbet başlamak üçin çakylyk baglanyşygyňyzy paýlaş.",
+      "getTheApp": "Programmany al",
+      "getTheAppDesc": "IOS we Android üçin Chatforia bilen ýolda baglanyşykda gal.",
+      "download": "Ýükle",
+      "syncTip": "Maslahat: Habarlaryňyz web we mobilde sinhronlaşýar."
+    },
+    "randomChat": {
+      "title": "Tötänleýin söhbet",
+      "description": "Täze adam bilen derrew tanş. Sizi jübütleşdireris we wagtlaýyn söhbet otagyny açarys. Ilki anonim söhbet ediň. Duýgularyňyz dogry gelse, soň dost goş.",
+      "findMatch": "Maňa jübüt tap",
+      "chatWithForia": "Foria bilen söhbet et",
+      "chatWithForiaBot": "ForiaBot bilen söhbet et",
+      "cancel": "Ýatyrmak",
+      "close": "Ýap",
+      "searching": "Gözleýär...",
+      "finding": "Tapýar...",
+      "looking": "Kimdir birini gözleýär...",
+      "startingForia": "Foria bilen söhbet başlaýar...",
+      "partnerDisconnected": "Jübütiňiz aýryldy.",
+      "noPartner": "Häzir jübüt tapylmady.",
+      "connectedTo": "{{name}} bilen baglandy",
+      "connected": "Baglandy",
+      "idle": "Boş",
+      "partnerLeft": "Jübüt gitdi.",
+      "stopped": "Tochtady.",
+      "skip": "Geç",
+      "save": "Sakla",
+      "saveGuard": "Diňe adam-adam söhbetleri saklanyp bilýär",
+      "youAreChattingWith": "{{name}} bilen söhbet edýärsiňiz",
+      "bot": "BOT",
+      "leave": "Çyk",
+      "sayHi": "Salamlaş 👋",
+      "you": "Sen",
+      "typeMessage": "Habar ýaz",
+      "send": "Iber",
+      "partner": "Jübüt",
+      "withRia": "Ria bilen",
+      "chatWithRia": "Ria bilen söhbet et",
+      "startingRia": "Ria bilen söhbet başlaýar...",
+      "ageDisclaimer": "Diňe ýaş aralagyny saklaýarys (takyk doglan günüňizi däl). Bu Tötänleýin söhbet jübütleşmeleriniň dogry bolmagy üçin ulanylýar. Adamlar (diňe RiaBot däl) bilen jübütleşmek üçin Sazlamalar → Ýaş & Tötänleýin söhbet-de ýaş aralagyňyzy düzüň.",
+      "ageBandRequired": "Adamlar bilen jübütleşmek üçin Profil → Ýaş & Tötänleýin söhbet-de ýaş aralagyňyzy düzüň.",
+      "ageBandCallout": "Adamlar (diňe RiaBot däl) bilen jübütleşmek üçin Sazlamalar → Ýaş & Tötänleýin söhbet-de ýaş aralagyňyzy düzüň.",
+      "subtitle": "Täze adam bilen derrew tanş ýa-da Ria bilen söhbet etmäge saýlaň.",
+      "start": "Söhbet başla",
+      "matching": "Jübütleşýär...",
+      "setAge": "Adamlar bilen jübütleşmek üçin Profil → Ýaş & Tötänleýin söhbet-de ýaş aralagyňyzy düzüň.",
+      "next": "Indiki adam",
+      "addFriend": "Dost goş",
+      "requested": "Talap edildi",
+      "messageRia": "Ria-a habar...",
+      "messageMatch": "Jübüdiňize habar..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "siz",
+      "intro": "Salam 👋 Men Ria. Näme pikiriňde?",
+      "greetings": {
+        "long1": "Salam {{name}} 👋 Men bar. Näme pikiriňde?",
+        "long2": "Salam {{name}} 😊 Bu gün näme barada söhbet etmek isleýärsiň?",
+        "long3": "Salam {{name}}!! Gulaklarym açyk — näme bar?",
+        "long4": "Seni görmek ýakymly, {{name}} 👋 Bu gün näme pikiriňde?",
+        "long5": "Salam {{name}} 😊 Çykarjak, sorjak ýa-da diňe söhbet etmek isleýärsiňmi?",
+        "long6": "Salam {{name}}!! Wagtyň bar — näme barada söhbet etmek isleýärsiň?",
+        "short1": "Salam {{name}}, entek bar. Näme bar?",
+        "short2": "Hoş geldiň {{name}} 👋 Başga bir zat goşjakmy?",
+        "short3": "Gaýtadan geldim, {{name}}? 😊 Näme pikiriňde aýt.",
+        "short4": "Salam {{name}} 👋 Galan ýerimizden dowam etmek isleýärsiňmi?",
+        "short5": "Hawa {{name}}? Diňleýärin 👂",
+        "short6": "Oý salam {{name}}!! Täze bir zat pikiriňde barmy?"
+      },
+      "header": {
+        "openNav": "Nawigasiýa menýusyny aç",
+        "closeNav": "Nawigasiýa menýusyny ýap",
+        "homeAria": "Chatforia Baş sahypa"
+      },
+      "login": {
+        "welcomeBack": "Hoş geldiň",
+        "title": "Chatforia-a dowam et",
+        "subtitleReturning": "Chatforia hasabyňa gir",
+        "subtitle": "Chatforia hasabyňa gir",
+        "google": "Google bilen dowam et",
+        "apple": "Apple bilen dowam et",
+        "googleUnavailable": "Google giriş elýeterli däl",
+        "appleUnavailable": "Apple giriş elýeterli däl",
+        "or": "ýa-da",
+        "email": "E-poçta",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Ulanyjy ady",
+        "usernamePh": "Ulanyjy adyňyz",
+        "passwordLabel": "Parol",
+        "passwordPh": "Parolyňyz",
+        "keepSignedIn": "Meni ýatda sakla",
+        "forgot": {
+          "title": "Paroly ýatdan çykardym",
+          "helper": "Chatforia hasabyňyzy döretmek üçin ulanan e-poçtaňyzy giriziň, size paroly täzelemek üçin ygtybarly baglanyşyk ibereris.",
+          "emailInvalid": "Dogry e-poçta salgysyny giriziň.",
+          "genericError": "Talaby işläp bilmedik. Birazdan gaýtadan synap gör.",
+          "sending": "Täzelemek baglanyşygyny iberýär...",
+          "sendCta": "Täzelemek baglanyşygyny iber",
+          "sentLabel": "Iberildi!"
+        },
+        "submit": "Giriş et",
+        "loggingIn": "Giriş edýär...",
+        "newHere": "Täze mi? <link>Hasap döret</link>",
+        "ssoUnavailable": "Bir gezeklik giriş häzir elýeterli däl. Ulanyjy ady & parol ulanyň.",
+        "error": {
+          "missing": "Şahsyýet maglumatlaryňyzy giriziň.",
+          "invalid": "Nädogry ulanyjy ady ýa-da parol",
+          "denied": "Giriş inkär edildi.",
+          "unprocessable": "Nädogry talap. Ulanyjy adyňyzy/e-poçtaňyzy we parolyňyzy barlaň.",
+          "deviceLimit": "Mugt plan üçin enjam çägi ýetdi. Başga enjamda çyk ýa-da has köp enjam baglamak üçin Premium-a ýokarlandyr.",
+          "premiumRequired": "Bu hereket Premium plan talap edýär."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Girişi tamamlaýar..."
+    },
+    "dialer": {
+      "title": "Jaňlar",
+      "subtitle": "Klawiatura & soňkylar. (PSTN ulanmaýan bolsaňyz, söhbet başlygyndan jaň başlaň.)",
+      "enterNumberPh": "Nomer giriziň",
+      "call": "Jaň et",
+      "backspace": "Yza sil",
+      "recents": "Soňkylar",
+      "recentsEmpty": "Entek soňky jaň ýok.",
+      "enterNumber": "Nomer giriziň",
+      "enterNumberAria": "Nomer giriziň",
+      "key": "Açar {{d}}",
+      "noRecents": "Entek soňky jaň ýok."
+    },
+    "video": {
+      "title": "Wideo",
+      "chooseType": "Wideo görnüşini saýlaň.",
+      "directTitle": "Göni Wideo",
+      "directDesc": "Başga ulanyjy bilen 1:1 kamera jaňy.",
+      "directStart": "Başla",
+      "roomsTitle": "Otaglar",
+      "roomsDesc": "Paýlaşylan otag ady ulanyp köp taraply wideo.",
+      "roomsIntro": "Köptaraply otaga goşul ýa-da döret.",
+      "roomNameLabel": "Otag ady",
+      "roomNamePh": "mysal: topar-ýygnak",
+      "join": "Goşul",
+      "deeplinkTip": "Maslahat: göni <code>/video?room=otag-ady</code> baglanyşygyny ulanyp bilersiňiz.",
+      "hub": {
+        "title": "Wideo",
+        "subtitle": "Wideo görnüşini saýlaň."
+      },
+      "direct": {
+        "title": "Göni Wideo",
+        "subtitle": "Telefon nomeri ýa-da Chatforia ulanyjy ady ulanyp 1:1 wideo jaň başlaň.",
+        "desc": "Başga ulanyjy bilen 1:1 kamera jaňy.",
+        "start": "Başla",
+        "callBtn": "Jaň et",
+        "callByPhone": {
+          "title": "Telefon arkaly jaň et"
+        },
+        "phone": {
+          "placeholder": "Telefon giriziň (mysal: +1-555-123-4567)",
+          "aria": "Jaň etmek üçin telefon"
+        },
+        "tipInvite": "Maslahat: Kontakt saklamazdan nomer ýapışdyryp jaň et. Ulanyjylar däl adamlara baglanyşyk arkaly çagyrarys.",
+        "findUser": {
+          "title": "Ulanyjy tap"
+        },
+        "search": {
+          "placeholder": "At ýa-da ulanyjy ady boýunça gözle",
+          "aria": "At ýa-da ulanyjy ady boýunça gözle",
+          "btn": "Gözle"
+        }
+      },
+      "rooms": {
+        "title": "Otaglar",
+        "subtitle": "Bir otag döret ýa-da bar bolan birine eýni ady ýazyp goşul.",
+        "desc": "Paýlaşylan otag ady ulanyp köp taraply wideo.",
+        "roomLabel": "Otag ady",
+        "roomPlaceholder": "mysal: topar-ýygnak",
+        "roomAria": "Otag ady",
+        "joinCreate": "Goşul / Döret",
+        "tip": "Maslahat: bu ady beýleki adamlar bilen paýlaş ýa-da <code>/video?room=otag-ady</code> baglanyşygyny ulan."
+      }
+    },
+    "directVideo": {
+      "intro": "Göni 1:1 wideo jaň başla.",
+      "findUserLabel": "Ulanyjy tap",
+      "findUserPh": "At ýa-da ulanyjy ady boýunça gözle",
+      "search": "Gözle",
+      "call": "Jaň et"
+    },
+    "phoneWarning": {
+      "title": "Nomerňiz ýakyn wagtda möhleti gutarýar",
+      "body": "{{number}} nomeriňiz {{date}} gün möhleti gutarjak, täzelendirilmese.",
+      "button": "Nomerimi sakla"
+    },
+    "support": {
+      "helpFab": "Kömek",
+      "openSupportAria": "Goldawy aç",
+      "badge": "Goldaw",
+      "heading": "Näme kömek edip bileris?",
+      "tabs": {
+        "help": "Kömek merkezi",
+        "contact": "Biziň bilen habarlaş"
+      },
+      "searchPlaceholder": "Kömek makalalaryny gözle...",
+      "searchAria": "Kömek gözle",
+      "searchBtn": "Gözle",
+      "quickTopicsLabel": "Çalt temalar",
+      "quickTopics": {
+        "login": "Giriň bilmeýärin",
+        "billing": "Tölegler / hasaplaşyk",
+        "abuse": "Abuz habar ber"
+      },
+      "trySearching": "“terjime”, “yedeklemeler” ýa-da “ýaşyrynlyk” gözläp gör.",
+      "article": "Makala",
+      "openArticle": "Makalany aç",
+      "contactIntro": "Jogaby e-poçta arkaly ibereris. Meseläni gaýtalap bilmegimiz üçin maglumatlary goşuň.",
+      "topicAria": "Tema saýla",
+      "messagePlaceholder": "Habaryňyzy ýaz...",
+      "sendBtn": "Iber",
+      "sent": "Habar iberildi. E-poçta arkaly jogap bereris.",
+      "sendError": "Ibermek mümkin däl. support@chatforia.com-a e-poçta iberiň."
+    },
+    "encryptionRecovery": {
+      "title": "Şifrelemäni dolandyr",
+      "description": "Şifreleme açaryňyzy yedekle, dikelt, aç ýa-da sifir et.",
+      "alert": {
+        "keyRequiredTitle": "Şifreleme açary gerek",
+        "keyRequiredBody": "Bu brauzer häzir siziň şifrelenen habarlaryňyzy şifresini açyp bilmeýär. Dowam etmek üçin açaryňyzy dikelt, aç ýa-da sifir et."
+      },
+      "sections": {
+        "createBackup": "Açar yedeklemesini döret",
+        "restoreFromBackup": "Hasap yedeklemesinden dikelt",
+        "resetEncryption": "Şifrelemäni sifir et"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Açmak paroly (häzirki enjam)",
+          "description": "Eksport etmezden öň açarlaryňyzy ýerli şifresini açmak üçin ulanylýar"
+        },
+        "backupPassword": {
+          "label": "Yedekleme paroly",
+          "description": "Yedekleme faýlyny şifrelamak üçin ulanylýar"
+        },
+        "restoreBackupPassword": {
+          "label": "Yedekleme paroly",
+          "description": "iPhone-da açaryňyzy yedekläniňizde döreden parolyňyz"
+        },
+        "newLocalPasscode": {
+          "label": "Täze ýerli parol",
+          "description": "Bu brauzerde ýatyrylan açarlary goramak"
+        },
+        "resetLocalPasscode": {
+          "label": "Täze ýerli parol",
+          "description": "Sifir etmezden öň täze açaryň bu enjamda goralmagy üçin gerek"
+        }
+      },
+      "actions": {
+        "unlockKey": "Şifreleme açaryny aç",
+        "restoreFromBackup": "Hasap yedeklemesinden dikelt",
+        "resetEncryption": "Şifrelemäni sifir et"
+      },
+      "messages": {
+        "backupCreated": "Açar yedeklemegi döredildi we ýüklenildi.",
+        "keyUnlocked": "Şifreleme açary açyldy.",
+        "keyRestored": "Açar hasap yedeklemesinden dikeldildi.",
+        "resetSuccess": "Şifreleme üstünlikli sifir edildi."
+      },
+      "errors": {
+        "restoreIncomplete": "Açar dikeltmek bu hasap üçin doly däl ýa-da nädogry",
+        "noBackup": "Bu hasap üçin şifrelenen yedekleme ýok",
+        "missingPublicKey": "Yedeklemede köpçülik açary ýok",
+        "noServerPublicKey": "Bu hasap häzir serwer köpçülik açaryny görkezmeýär",
+        "serverBackupMismatch": "Serwer yedeklemesi häzirki hasap şifreleme açaryna gabat gelmeýär",
+        "incompleteMetadata": "Yedekleme metadata doly däl",
+        "resetIncomplete": "Şifreleme sifir etmek dogry tamamlanmady"
+      },
+      "confirm": {
+        "reset": "Bu hasap üçin şifrelemäni sifir et?\n\nAsyl açaryňyzy soň dikeltmezden öň köne şifrelenen habarlar okaýan bolup bilmez."
+      },
+      "resetDescription": "Bu hasabyňyz üçin täze şifreleme açary döredýär. Asyl açaryňyzy soň dikeltmezden öň köne şifrelenen habarlar okaýan bolup bilmez."
+    },
+    "footer": {
+      "plans": "Planlar & Bahalar",
+      "about": "Chatforia barada",
+      "careers": "Kariýeralar",
+      "press": "Metbugat",
+      "advertise": "Reklama ber",
+      "contact": "Biziň bilen habarlaş",
+      "help": "Kömek merkezi",
+      "status": "Status sahypasy",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Ýaşyrynlyk syýasaty",
+      "terms": "Hyzmat şertleri",
+      "cookies": "Kuki sazlamalary",
+      "doNotSell": "Maglumatymy satma",
+      "language": "Dil",
+      "contactShort": "Habarlaş",
+      "aria": "Aýak",
+      "homeAria": "Chatforia baş sahypa",
+      "section": {
+        "company": "KOMPANIÝA",
+        "support": "GOLDAW",
+        "downloads": "ÝÜKLEMELER",
+        "legal": "KANUNY"
+      },
+      "links": {
+        "plans-pricing": "Planlar & Bahalar",
+        "about-chatforia": "Chatforia barada",
+        "careers": "Kariýeralar",
+        "press": "Metbugat",
+        "advertise": "Reklama ber",
+        "getting-started": "Başlamak",
+        "help-center": "Kömek merkezi",
+        "contact-us": "Biziň bilen habarlaş",
+        "status-page": "Status sahypasy",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Ýaşyrynlyk syýasaty",
+        "terms-of-service": "Hyzmat şertleri",
+        "do-not-sell-my-info": "Maglumatymy satma",
+        "cookie-settings": "Kuki sazlamalary"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patent gözleginde",
+      "backToTop": "↑ Ýokary git"
+    },
+    "press": {
+      "title": "Metbugat",
+      "contactLine": "Metbugat soraglary üçin bize ýüz tutuň",
+      "boilerplateTitle": "Standart tekst",
+      "boilerplateBody": "Chatforia ýaşyrynlyk birinji ýerde habarlaşma programmasy bolup, dil arasyndaky söhbeti aňsatlaşdyrýar. Habarlar standart boýunça uçdan-uça şifrelenýär, içki terjime 100+ dili real wagtda goldaýar. Ulanyjylar ýitýän habarlary işjeň edip, okalandy belgilerini ihtiyar edip we enjamlar boýunça sinhronlaşdyryp biler. iOS, Android we webde elýeterli.",
+      "assetsTitle": "Brend resurslary",
+      "assetsSubtitle": "Logolar, skrinşotlar we önüm suratlary.",
+      "downloadCta": "Media kit ýükle",
+      "downloadTitle": "Programmany al",
+      "scanTip": "Desktopda? Programmany almak üçin telefonyňyz bilen skanir et.",
+      "qrAria": "Chatforia web sahypasyny aç",
+      "appStore": "App Store-da ýükle",
+      "googlePlay": "Google Play-de al"
+    },
+    "careers": {
+      "title": "Kariýeralar",
+      "intro": "Web, iOS we Android-de çykjak ýaşyryn global habarlaşma programmasy Chatforia-y döredýän kiçi esaslandyryjy toparymyz. Ýaşyrynlyk, şifreleme we ýakymly ulanyjy tejribelerine düşünýän bolsaňyz, sizden eşitjek bolýarys.",
+      "openRoles": "<b>Açyk esaslandyryjy wezipeler:</b> Baş Doly-stek Inžener, Backend Inžener (Node.js), Frontend/Web Inžener (React), Mobil Inžener (iOS), Mobil Inžener (Android), DevOps/SRE, Howpsuzlyk & Şifreleme Inžener, Telekom Inžener (Twilio + eSIM).",
+      "apply": "Näme üçin ýüz tutmaly: Aşakdaky düwme arkaly rezyumeňizi we baglanyşyklaryňyzy e-poçta iberiň.",
+      "emailCta": "Rezyumeňizi e-poçta iber",
+      "whyNow": "Näme üçin häzir goşulmaly?",
+      "whyBullets": "• Täze global habarlaşma esasyny döretmäge kömek et.\n• Web, iOS we Android boýunça ulanylýan ýakynlaşdyrmalary iber.\n• Arhitektura we önüm ugrunda esaslandyryjy bilen göni işle.\n• Stek-iň ýokary täsirli ýerlerini özbaşdak dolandyr: habarlaşma, ses, wideo, şifreleme, telekom, AI.\n• Başlangyçda goşul — ulanyjy bazasy ýokarlanmazdan öň."
+    },
+    "about": {
+      "title": "Chatforia barada",
+      "description": "Chatforia uçdan-uça şifreleme, derrew terjime we ses/wideo jaňly ygtybarly, köpdilli habarlaşma programmasydyr. Missiýamyz ýönekeý: adamlara ygtybarly, ýaşyryn we diller arasynda baglanyşyk saklamaga kömek etmek.",
+      "valuesTitle": "Biz näme gymmatlyk berýäris",
+      "values": {
+        "privacy": "<b>Birinji ýerde ýaşyrynlyk:</b> Standart boýunça uçdan-uça şifreleme.",
+        "access": "<b>Ähli üçin elýeterlilik:</b> 100+ dilde awto-terjime.",
+        "control": "<b>Gözegçilik:</b> Ýitýän habarlar & okalandy belgileri ihtiyar.",
+        "privacy_aria": "Birinji ýerde ýaşyrynlyk: Standart boýunça uçdan-uça şifreleme.",
+        "access_aria": "Ähli üçin elýeterlilik: 100+ dilde awto-terjime.",
+        "control_aria": "Gözegçilik: Ýitýän habarlar we okalandy belgileri ihtiyar."
+      },
+      "howTitle": "Chatforia nähili işleýär",
+      "howDescription": "Habarlar enjamyňyzda enjamdan çykmazdan öň şifrelenýär. Terjime, yedeklemeler we enjam sinhronizasiýasy serwerleriň görüp biljek zatlaryny azaltmak üçin dizaýn edildi."
+    },
+    "advertise": {
+      "title": "Chatforia-da reklama ber",
+      "description": "Tagamly, brend ygtybarly ýerleşmeler bilen işjeň habarlaşma ulanyjylaryna ýet. Ýokary görnüşli ýerlerde banner inventary, sponsorlyklar we içerki promosyonlar hödürleýäris. Premium abunalar reklamalary görmeýär.",
+      "adsense": {
+        "withPubIdShort": "Google AdSense arkaly inventary hem hödürleýäris. Publisher ID {{pubId}} bilen Chatforia-ny nyşana alyp bilersiňiz ýa-da göni sponsorlyklar üçin aşakdaky formany ulanyň.",
+        "noPubIdShort": "Google AdSense arkaly käbir inventary hödürleýäris. Göni sponsorlyklar elýeterli — aşakdaky formany ulanyň."
+      },
+      "inventoryHeader": "Inventar & speks",
+      "placement": {
+        "displayBadge": "Görkez",
+        "acceptedSizes": "Kabul edilen ululyklar",
+        "adsenseSlot": "AdSense ýeri:"
+      },
+      "noPlacementsPublic": "Reklama inventarymyzy tamamlaýarys. Kampaniýaňyz barada bize aýdyň, ýerleşmeleri maslahat bereris.",
+      "whyHeader": "Näme üçin Chatforia?",
+      "why": {
+        "highSession": "Söhbet UI-de ýokary sessiýa ýygylygy we wagtyňyzy geçirme",
+        "brandSafe": "Brend ygtybarly formatlar; hormatly ýygylyk çäklendirmesi",
+        "sponsoredMoments": "Sponsorly pursatlar (mysal: “Söhbet başla” modaly) elýeterli",
+        "deals": "Göni ýa-da AdSense/Google Ads arkaly programma ýerleşmeleri"
+      },
+      "contactHeader": "Habarlaş",
+      "form": {
+        "submittedMsg": "Sag boluň! Soragyňyz ýola düşdi. Çaltdan jogap bereris.",
+        "missingRequired": "At, e-poçta we habar dolduruň.",
+        "successToast": "Sag boluň! Çaltdan habarlaşarys.",
+        "mailtoInfo": "Soragy iberemek üçin e-poçta klientinizi açýar...",
+        "nameLabel": "Siziň adyňyz",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "E-poçta",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Kompaniýa",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Aýlyk býujet (ihtiyar)",
+        "budgetPlaceholder": "mysal: $1,000–$20,000+",
+        "messageLabel": "Kampaniýaňyz barada bize aýdyň",
+        "messagePlaceholder": "Nyşana, seneler, KPI, ýerleşme islegleri...",
+        "sendCta": "Sorag iber"
+      },
+      "legal": {
+        "disclaimerStart": "Ibermek bilen, biziň",
+        "terms": "Şertlerimize",
+        "and": "we",
+        "privacy": "Ýaşyrynlyk syýasatymyza razylyk berýärsiňiz"
+      }
     }
   }
 }

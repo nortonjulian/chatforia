@@ -187,7 +187,9 @@ export function createApp() {
   const allowedOrigins = [
     'https://chatforia.com',
     'https://www.chatforia.com',
+    'https://api.chatforia.com',
     'http://localhost:5173',
+    'https://appleid.apple.com',
   ];
 
   function normalizeOrigin(origin) {

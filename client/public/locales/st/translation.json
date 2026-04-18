@@ -2,344 +2,1600 @@
   "common": {
     "save": "Boloka",
     "cancel": "Khansela",
-    "refresh": "Khatholla",
-    "noMatches": "Ha ho tse tšoanang",
+    "refresh": "Nchafatsa",
+    "noMatches": "Ha ho liphetho",
     "cancelAria": "Khansela",
     "copy": "Kopitsa",
-    "copied": "E kopitsoe!"
+    "copied": "Kopisitsoe!",
+    "errorWithMessage": "Phoso: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Tlola ho litaba tse ka sehloohong"
+    "skipToMain": "Tlola ho ea ho litaba tse kholo"
   },
-
-  "profile": {
-    "title": "Boemo ba Mosebelisi",
-    "preferredLanguage": "Puo e ratoang",
-    "chooseLanguage": "Khetha puo",
-    "mustLogin": "U tlameha ho kena ho sheba litlhophiso.",
-    "autoTranslate": "Fetolela melaetsa ka bohona",
-    "showOriginalWithTranslation": "Bontša molaetsa oa pele le phetolelo",
-    "showOriginalAndTranslation": "Bontša ea pele haufi le phetolelo",
-    "filterExplicit": "Sefa litaba tse hlabang",
-    "aiReply": "Karabo ea AI",
-    "enableReadReceipts": "Buletsa li-receipt tsa ho bala",
-    "allowExplicitContent": "Lumella litaba tse hlabang",
-    "disappearingMessages": "Buletsa melaetsa e nyamelang",
-    "autoDeleteSeconds": "Metsotswana pele e hlakoloa ka bohona",
-    "saveSuccess": "Litlhophiso li bolokiloe!",
-    "saveError": "Phoso: Ha ea khona ho boloka litlhophiso",
-    "avatarAlt": "Avatar ea profaele",
-    "uploadAvatar": "Kenya avatar e ncha",
-    "avatarSuccess": "Avatar e kentsoe!",
-    "avatarError": "Phoso ha ho kenyelletsoa avatar",
-    "noPrivateKey": "Ha ho senotlolo sa lekunutu sesebelisoa sena se ka romelloang.",
-    "setBackupPassword": "Beha phasewete ho sireletsa bekapo ea hau:",
-    "backupDownloaded": "Bekapo e sirelelitsoeng e jarollotsoe.",
-    "exportFailed": "Ho romela senotlolo ho hlolehile",
-    "enterBackupPassword": "Kenya phasewete ea bekapo ena:",
-    "importSuccess": "Senotlolo sa lekunutu se kentsoe sesebelisoa sena.",
-    "importFailed": "Ho hlolehile ho kenya senotlolo (phasewete e fosahetseng kapa faele e senyehileng).",
-    "keysRotated": "Para e ncha ea linotlolo e entsoe ’me senotlolo sa sechaba sa kentsoe.",
-    "rotateFailed": "Ho hlolehile ho fetola linotlolo.",
-    "security": "Tšireletseho",
-    "exportKey": "Romela senotlolo sa lekunutu",
-    "importKey": "Kenya bekapo ea senotlolo e sirelelitsoeng",
-    "rotateKeys": "Fetola para ea linotlolo",
-    "keyDisclaimer": "Senotlolo sa hau sa lekunutu ha se tsoe sesebelisoeng sena. Romela kopi e sirelelitsoeng ka phasewete ho e khutlisetsa sesebelisoeng se seng.",
-    "sectionProfile": "Profaele",
-    "phoneNumber": "Nomoro ea mohala",
-    "appearance": "Ponahalo",
-    "soundSettings": "Melumo",
-    "disappearing": "Melaetsa e nyamelang",
-    "backupSync": "Bekapo & Sink",
-    "ai": "AI",
-    "accessibility": "Phihlello",
-    "privacy": "Lekunutu",
-    "devices": "Lisebelisoa tse hokahaneng",
-    "themeFreeNotice": "U ho Free—sebelisa likhetho tsa Letsatsi/Khoeli tse ka tlase. Ntlafatsa ho notlolla lihlooho tse ling.",
-    "sunTheme": "Sebelisa sehlooho sa Mafube",
-    "moonTheme": "Sebelisa sehlooho sa Khoeli (Bosiu)",
-    "sun": "Letsatsi",
-    "moon": "Khoeli",
-    "backupTitle": "Li-bekapo tse Sirelelitsoeng & Sink ea Lisebelisoa",
-    "openBackupTools": "Bula Lisebelisoa tsa Bekapo",
-    "backupDesc": "Etsa li-bekapo tse sirelelitsoeng ka phasewete tsa linotlolo tsa hao, ’me u li khutlisetse sesebelisoeng se seng ho etsa sink.",
-    "privacyBlurEnabled": "Fifatsa melaetsa ka boiketsetso",
-    "privacyBlurOnUnfocus": "Fifatsa ha app e sa shebane",
-    "holdToReveal": "Tšoara ho senola",
-    "notifyOnCopy": "N’tsebise ha molaetsa oa ka o kopitsoa",
-    "loadFailed": "Ho hlolehile ho kenya profaele",
-    "followed": "O latetsoe",
-    "followFailed": "Ho hlolehile ho latela",
-    "unfollowed": "O khaolitse ho latela",
-    "unfollowFailed": "Ho hlolehile ho khaotsa ho latela",
-    "follow": "Latela",
-    "unfollow": "Khaotsa ho latela",
-    "followHint": "Lipale tsa bona li tla hlaha phepelong ea Hao ea Ho Latela ha ba beha ka bamameli ba Balateli (kapa Sechaba).",
-    "userNotFound": "Mosebelisi ha a fumanoe",
-    "followsYou": "Oa u latela",
-    "sectionCrashedTitle": "Karolo e hlolehile ho laisa",
-    "sectionCrashedBody": "Ho na le ho sa tsamaeang hantle karolong ena.",
-    "forwarding": "Ho Fetisetsa Mehala & Melaetsa",
-    "callTextForwardingSection": "Ho Fetisetsa Mehala & Melaetsa",
-    "callTextForwardingTitle": "Ho Fetisetsa Mehala le/kapa Melaetsa",
-    "callTextForwardingDescription": "Fetisetsa mehala le melaetsa e kenang ho mohala kapa imeile ea hao e netefalitsoeng. Mehala/melaetsa e tsoang e ka bontša nomoro ea hau ea Chatforia.",
-    "enableTextForwarding": "Buletsa ho fetisetsa melaetsa",
-    "forwardTextsToPhone": "Fetisetsa li-SMS ho mohala",
-    "forwardTextsToEmail": "Fetisetsa li-SMS ho imeile",
-    "destinationPhone": "Mohala oa sepheo (E.164)",
-    "destinationEmail": "Imeile ea sepheo",
-    "enableCallForwarding": "Buletsa ho fetisetsa mehala",
-    "destinationPhoneForCalls": "Sepheo sa mehala (E.164)",
-    "aliasBridging": "Ho Fetisetsa Mehala (alias bridging)",
-    "quietHoursOptional": "Lihora tsa khutso (boikhethelo)",
-    "startHour": "Nako ea qalo (0–23)",
-    "endHour": "Nako ea pheletso (0–23)",
-    "reset": "Seta bocha",
-    "saveBtn": "Boloka",
-    "forwardSaved": "Litlhophiso tsa ho fetisetsa li bolokiloe",
-    "forwardSaveFailed": "Ho hlolehile ho boloka litlhophiso",
-    "errE164": "Kenya nomoro e nepahetseng ea mohala ea E.164 (mohlala, +15551234567).",
-    "errEmail": "Kenya imeile e nepahetseng.",
-    "errSmsDest": "Khetha bonyane sebaka se le seng (mohala kapa imeile).",
-    "errQuietHours": "Lihora tsa khutso li tlameha ho ba pakeng tsa 0 le 23."
+  "keys": {
+    "backupCreated": "Backup ea senotlolo e entsoe le ho khoasolla ✓",
+    "restored": "Backup ea senotlolo e tsosolositsoe ✓ Linotlolo li kentsoe sebakeng sa lehae",
+    "noBackup": "Ha ho backup e sireletsoeng e teng bakeng sa akhaonto ena",
+    "missingPublicKey": "Backup e haellang senotlolo sa sechaba"
   },
-
-  "support": {
-    "helpFab": "Thuso",
-    "openSupportAria": "Bula tšehetso",
-    "badge": "Tšehetso",
-    "heading": "Re ka u thusa joang?",
-    "tabs": {
-      "help": "Setsi sa Thuso",
-      "contact": "Iteanye le rona"
+  "keySetup": {
+    "title": "Hlahisa linotlolo tsa sesebelisoa sa hau",
+    "description": "Sesebelisoa sena ha se na senotlolo sa hau sa poraefete hajoale. Kenya backup e sireletsoeng ka password, kapa hlahisa pair e ncha ea linotlolo (u tla khona ho bala melaetsa e ncha ho tloha joale).",
+    "chooseFile": "Khetha faele 'me u kenye password.",
+    "imported": "Senotlolo sa poraefete se kentsoe sesebelisoeng sena. U ka bala melaetsa ea khale hona joale.",
+    "enterPassword": "Kenya password ea akhaonto ea hau e le hore re ka boloka linotlolo tsa hau ka tšireletso."
+  },
+  "auth": {
+    "headline": "Melaetsa e sireletsehileng bakeng sa mang kapa mang, kae kapa kae",
+    "description": "Ho sireletsa ho tloha qetellong ho ea ho qetellong, phetolelo ho lipuo tse 100+, melaetsa e nyamelang, le ho letsetsa ka lentsoe/video.",
+    "feature": {
+      "encryption": "Ho sireletsa ho tloha qetellong ho ea ho qetellong ka ho iketsa",
+      "translation": "Phetolelo e bohlale e hahiloeng ka har'a molaetsa",
+      "disappearing": "Melaetsa e nyamelang & litlaleho tsa ho bala",
+      "privacy": "Tšireletso ea pele. Lintlha tsa hau, taolo ea hau.",
+      "translate": "Phetolelo e bohlale e hahiloeng ka har'a molaetsa",
+      "disappear": "Melaetsa e nyamelang",
+      "privacyAlt": "Moralo oa tšireletso ea pele",
+      "seePlans": "Sheba merero le litheko"
     },
-    "searchPlaceholder": "Batla lingoloa tsa thuso…",
-    "searchAria": "Batla thuso",
-    "searchBtn": "Batla",
-    "quickTopicsLabel": "Lihlooho tse potlakileng",
-    "quickTopics": {
-      "login": "Ke sitoa ho kena",
-      "billing": "Litefo / tefiso",
-      "abuse": "Tlaleha tlhekefetso"
+    "hero": {
+      "line1": "Melaetsa e sireletsehileng bakeng sa mang kapa mang, kae kapa kae — ka",
+      "em": "phetolelo ho lipuo tse 100+",
+      "sub": "Fumana nomoro ea mohala e sireletsehileng ea mahala ho letsetsa le ho romella melaetsa lefats'eng ka bophara ho Wi-Fi kapa data. Natefeloa ke ho sireletsa ho tloha qetellong ho ea ho qetellong, melaetsa e nyamelang, le ho letsetsa ka HD ka lentsoe/video — ka lisebelisoa tse hahiloeng ka har'a tsona tse u thusang ho lula u hokahane ho feta meeli.",
+      "freeNote": "Ho letsetsa le ho romella melaetsa tsa mantlha li mahala. Lits'ebetso tsa AI tse tsoetseng pele le likarolo tsa premium li hloka ntlafatso."
     },
-    "trySearching": "Leka ho batla “translate”, “backups”, kapa “privacy”.",
-    "article": "Sengoloa",
-    "openArticle": "Bula sengoloa",
-    "contactIntro": "Re tla u romella karabo ka imeile. Kenya lintlha ho re thusa ho etsisa bothata.",
-    "topicAria": "Khetha sehlooho",
-    "messagePlaceholder": "Ngola molaetsa oa hau…",
-    "sendBtn": "Romela",
-    "sent": "Molaetsa o rometsoe. Re tla araba ka imeile.",
-    "sendError": "Ha e a khona ho romella. Romella imeile ho support@chatforia.com sebakeng sa moo."
+    "feat": {
+      "encryption": "Ho sireletsa ho tloha qetellong ho ea ho qetellong, kamehla ho butsoe",
+      "translate": "Tlosa meeli ea lipuo moqoqong oa hau",
+      "disappear": "Melaetsa e nyamelang & litlaleho tsa ho bala",
+      "privacy": "Tšireletso ea pele. Lintlha tsa hau, taolo ea hau."
+    },
+    "continueGoogle": "Tsoela pele ka Google",
+    "continueApple": "Tsoela pele ka Apple",
+    "username": "Lebitso la mosebelisi",
+    "password": "Password",
+    "keepSignedIn": "Ntlhale ka har'a akhaonto",
+    "forgotPassword": "U lebetse password?",
+    "loginButton": "Kena",
+    "createAccount": "Bopa akhaonto",
+    "freeAccountButton": "Bopa akhaonto ea mahala",
+    "newHere": "E ncha mona?",
+    "getApp": "Fumana app",
+    "desktopTip": "U le desktop? Skena ka mohala oa hau ho fumana app.",
+    "scanHelper": "U le desktop? Skena ka mohala oa hau ho fumana app.",
+    "goHome": "Eya hae",
+    "home": "Lehae",
+    "headlineAlt": {
+      "main": "Molaetsa o sireletsehileng o",
+      "highlight": "buang puo ea hau"
+    },
+    "subhead": "Melaetsa e poraefete, e sireletsehileng, le e fetoleloang — hang-hang.",
+    "upgrade": "Ntlafatsa hona joale",
+    "tip": "Keletso: Sebelisa akhaonto e le 'ngoe ho web le mohala. Melaetsa ea hau e lula e lumellane.",
+    "openDownload": "Bula leqephe la ho khoasolla",
+    "qrAlt": "QR code bakeng sa Chatforia",
+    "scanHint": "Skena ho khoasolla app kapa u bula ho sebatli sa hau.",
+    "iosAria": "Khoasolla ho App Store",
+    "iosTitle": "Khoasolla ho App Store",
+    "iosBadgeAlt": "Letšoao la App Store",
+    "androidAria": "E fumane ho Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Letšoao la Google Play",
+    "login": "Kena",
+    "signup": "Ingolise",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Bonyane litlhaku tse 6. Sebelisa password e matla, e ikhethang.",
+      "smsConsent": "Ka ho bopa akhaonto, u lumellana ho amohela litsebiso tsa SMS tse amanang le ts'ebetso ea hau ea Chatforia (joalo ka melaetsa e tsoang ho basebelisi ba bang). Litefiso tsa molaetsa & data li ka sebetsa. U ka khetha ho tsoa nako efe kapa efe ho Settings.",
+      "termsLink": "Melao ea Tšebeliso",
+      "privacyLink": "Leano la Tšireletso"
+    },
+    "to": "Ho:",
+    "enterRecipient": "Kenya lebitso kapa nomoro",
+    "clearRecipients": "Hlakola ba amohelang",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Ngola molaetsa…",
+    "addRecipient": "Kenya moamoheli ka holimo ho qala…",
+    "oneRecipient": "Ka kopo kenya moamoheli a le mong hajoale.",
+    "enterValidRecipient": "Kenya lebitso la motho ea bolokiloeng kapa nomoro ea mohala.",
+    "sendFailed": "Ho romella ho hlolehile. Sheba console bakeng sa lintlha."
   },
-
+  "home": {
+    "title": "Lehae",
+    "header": "Melaetsa ea hau",
+    "subheader": "Romella molaetsa ho qala moqoqo.",
+    "sendButton": "Romella molaetsa",
+    "gifPicker": "Bula khetho ea GIF",
+    "emoji": "Emoji",
+    "upload": "Khoasolla foto kapa video",
+    "inputPlaceholder": "Ngola molaetsa…",
+    "inputLabel": "Mongoli oa molaetsa",
+    "sendTooltip": "Romella",
+    "sendTooltipEmpty": "Ngola molaetsa ho romella",
+    "send": "Romella",
+    "welcomeMessage": "Welcome ho Chatforia",
+    "getStarted": "Qala"
+  },
   "chat": {
-    "selectPrompt": "Khetha mongolo kapa kamore ea puisano ho qala ho qoqa",
-    "newMessages": "Melaetsa e mecha",
-    "typing": "{{name}} o ntse a thaepa...",
+    "selectPrompt": "Khetha mongolo kapa kamore ea moqoqo ho qala ho qoqa",
+    "newMessages": "Melaetsa e ncha",
+    "typing": "{{name}} o ngola...",
     "emptyTitle": "Melaetsa ea hau",
-    "emptySubtitle": "Romela molaetsa ho qala moqoqo.",
-    "startChatButton": "Romela molaetsa"
+    "emptySubtitle": "Romella molaetsa ho qala moqoqo.",
+    "startChatButton": "Romella molaetsa",
+    "mediaAttachment": "Kenyelletso ea media",
+    "thisUser": "mosebelisi enoa",
+    "blockConfirm": "Thibela {{name}}? U ke ke ua fumana melaetsa ho bona.",
+    "blockedUser": "Thibelo ea {{name}}.",
+    "blockError": "Ha ho khone ho fumana mosebelisi oa ho thibela.",
+    "blockFailed": "Ho thibela ho hlolehile (backend ha e so kopane).",
+    "encryptedUnavailable": "Molaetsa o sireletsehileng (senotlolo ha se teng)",
+    "unlockToView": "Notlolla senotlolo sa hau ho bona molaetsa ona"
   },
-
-  "topbar": {
-    "newStatus": "Boemo bo Bocha",
-    "logout": "Etsa Log Out",
-    "help": "Thuso",
-    "createStatusAria": "Etsa Boemo bo bocha"
-  },
-
-  "status": {
-    "userNumber": "Mosebelisi #{{id}}",
-    "posted": "Boemo bo phatlalalitsoe",
-    "postFailed": "Ho hlolehile ho phatlalatsa boemo",
-    "createTitle": "Etsa boemo",
-    "modalAriaLabel": "Boemo bo bocha",
-    "captionLabel": "O nahana eng?",
-    "captionPlaceholder": "Arolelana ntlafatso...",
-    "captionAria": "Molaetsa oa boemo",
-    "audienceLabel": "Bamameli",
-    "audience": {
-      "public": "Sechaba",
-      "followers": "Balateli",
-      "contacts": "Mekhakhi",
-      "mutuals": "Bao le latellanang",
-      "custom": "Tloaelo..."
+  "messageInput": {
+    "ttl": {
+      "off": "E tima"
     },
-    "expiresHoursLabel": "E fela (lihora)",
-    "maxTooltip": "Boholo ke matsatsi a 7",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "E fela ka:",
-    "chooseRecipients": "Khetha baamoheli",
-    "selectContacts": "Khetha likhokahanyi",
-    "attachmentsLabel": "Linamane",
-    "attachmentsPlaceholder": "Kenya linepe/lividio",
-    "filesNote": "Ho fihla ho lifaele tse 5. Ka boikhethelo li fela ka lihora tse 24.",
-    "postAria": "Phatlalatsa boemo",
-    "post": "Phatlalatsa"
+    "freeLimit": "Moeli oa morero oa mahala: ho hlakola ka bo eona ho fihlela letsatsi le le leng. E tlamahane ho 1d.",
+    "premiumLimit": "Moeli oa ho hlakola ka bo eona oa Premium ke matsatsi a 30. E tlamahane ho 30d.",
+    "nothingToSend": "Ngola molaetsa kapa kenya faele ho romella.",
+    "encryptionFailed": "Ho sireletsa ho hlolehile. Molaetsa ha oa romelloa.",
+    "sent": "Molaetsa o fihlile.",
+    "placeholder": "Ngola molaetsa…",
+    "autoDelete": "Hlakola ka bo eona",
+    "typeToSend": "Ngola molaetsa ho romella",
+    "send": "Romella",
+    "sendWithEnter": "Romella (Enter)",
+    "attachment": "kenyelletso",
+    "caption": "Tlhaloso (ha ho hlokahale)",
+    "remove": "Tlosa",
+    "clear": "Hlakola",
+    "gif": "GIF",
+    "sticker": "Setikara",
+    "errors": {
+      "attachmentTooLarge": "Kenyelletso e kholo haholo. Lekola faele e nyenyane.",
+      "unsupportedFile": "Mofuta oa faele ha o tšehetsoe.",
+      "rateLimit": "U romella melaetsa ka potlako haholo. Ka kopo lieha.",
+      "validation": "Phoso ea netefatso. Ka kopo sheba molaetsa oa hau 'me u leke hape.",
+      "failedToSend": "Ho romella ho hlolehile. U ka leka hape bubble e hlolehileng."
+    }
   },
-
   "contactList": {
-    "savedContacts": "Likhokahanyi tse bolokiloeng",
-    "refreshAria": "Khatholla likhokahanyi",
-    "filterPlaceholder": "Sefa likhokahanyi tse bolokiloeng…",
-    "filterAria": "Sefa likhokahanyi tse bolokiloeng",
-    "noContactsFound": "Ha ho likhokahanyi tse fumanoeng.",
-    "externalContact": "Khokahanyo ea kantle",
-    "notJoined": "Khokahanyi eo ha e e-so kenelle Chatforia.",
-    "couldNotStart": "Ha ea khona ho qala moqoqo. Leka hape.",
-    "startFailed": "Ho hlolehile ho qala moqoqo. Leka hape.",
-    "deleted": "Khokahanyi e hlakotsoe.",
-    "deleteFailed": "Ho hlolehile ho hlakola khokahanyi. Leka hape.",
-    "aliasUpdated": "Alias e ntlafalitsoe.",
-    "updateAliasFailed": "Ho hlolehile ho ntlafatsa alias. Leka hape.",
+    "savedContacts": "Mabitso a Bolokiloeng",
+    "refreshAria": "Nchafatsa mabitso",
+    "filterPlaceholder": "Sefa mabitso a bolokiloeng…",
+    "filterAria": "Sefa mabitso a bolokiloeng",
+    "noContactsFound": "Ha ho mabitso a fumanoeng.",
+    "externalContact": "Motho oa kantle",
+    "notJoined": "Motho enoa ha a so kene Chatforia.",
+    "couldNotStart": "Ha ho khone ho qala moqoqo. Ka kopo leka hape.",
+    "startFailed": "Ho qala moqoqo ho hlolehile. Ka kopo leka hape.",
+    "deleted": "Motho ea bolokiloeng o hlakotsoe.",
+    "deleteFailed": "Ho hlakola motho ea bolokiloeng ho hlolehile. Ka kopo leka hape.",
+    "aliasUpdated": "Lebitso le fetotsoe.",
+    "updateAliasFailed": "Ho fetola lebitso ho hlolehile. Ka kopo leka hape.",
     "selectContact": "Khetha {{name}}",
-    "alias": "Alias",
+    "alias": "Lebitso",
     "startChat": "Qala moqoqo",
     "message": "Molaetsa",
     "delete": "Hlakola",
-    "deleteContactAria": "Hlakola khokahanyi",
-    "loadFailed": "Ho hlolehile ho kenya likhokahanyi. Leka hape.",
-    "loadMore": "Laolla tse ling"
+    "deleteContactAria": "Hlakola motho ea bolokiloeng",
+    "loadFailed": "Ho laolla mabitso ho hlolehile. Ka kopo leka hape.",
+    "loadMore": "Laolla ho eketsehileng",
+    "call": "Letsetsa",
+    "callStarted": "Ho letsetsa nomoro ena ka nomoro ea hau ea Chatforia…",
+    "callFailed": "Ho qala mohala ho hlolehile. Ka kopo leka hape."
   },
-
+  "startChatModal": {
+    "title": "Qala moqoqo",
+    "searchPlaceholder": "Batla ka lebitso, username, kapa nomoro ea mohala",
+    "messageThisPerson": "Romella motho enoa molaetsa",
+    "contacts": "Mabitso",
+    "recentInteractions": "Litšebelisano tsa morao-rao",
+    "noContactsMatch": "Ha ho mabitso a lumellanang le patlo ea hau.",
+    "noRecentInteractions": "Ha ho litšebelisano tsa morao-rao hajoale.",
+    "unknown": "Ha ho tsejoe",
+    "interactionType": {
+      "message": "Molaetsa",
+      "call": "Mohala",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Kenya motho ea bolokiloeng",
+    "phoneOrUsername": "Mohala kapa username",
+    "phoneOrUsernamePlaceholder": "mohl. +13018019227 kapa juliannorton",
+    "alias": "Lebitso (ha ho hlokahale)",
+    "aliasPlaceholder": "mohl. Mosebetsi, Mme, Mike – Europe",
+    "enterPhoneOrUsername": "Kenya nomoro ea mohala kapa username.",
+    "userLookupFailed": "Ho batla mosebelisi ho hlolehile.",
+    "cannotAddSelf": "U ke ke ua kenya uena joalo ka motho ea bolokiloeng.",
+    "failedToAdd": "Ho kenya motho ea bolokiloeng ho hlolehile.",
+    "add": "Kenya"
+  },
   "sidebar": {
-    "randomChat": "Moqoqo ka Tšohanyetso",
-    "callTextForwarding": "Ho Fetisetsa Mehala & Melaetsa",
-    "conversations": "Meqoqo",
-    "searchPlaceholder": "Batla meqoqo...",
-    "errorLoading": "Ho hlolehile ho kenya meqoqo",
-    "empty": "Ha ho meqoqo hajoale.",
+    "randomChat": "Moqoqo oa Tšohanyetso",
+    "callTextForwarding": "Ho fetisetsa Mohala & Molaetsa",
+    "conversations": "Moqoqo",
+    "searchPlaceholder": "Batla moqoqo...",
+    "errorLoading": "Ho laolla moqoqo ho hlolehile",
+    "empty": "Ha ho moqoqo hajoale.",
     "startChat": "Qala moqoqo",
     "people": "Batho",
     "settings": "Litlhophiso",
     "status": "Boemo",
-    "forwarding": "Ho Fetisetsa Mehala & Melaetsa",
-    "refresh": "Khatholla",
-    "search": "Batla meqoqo",
-    "loginPrompt": "Kena ho lokisa litlhophiso tsa hao.",
+    "forwarding": "Ho fetisetsa Mohala & Molaetsa",
+    "refresh": "Nchafatsa",
+    "search": "Batla moqoqo",
+    "loginPrompt": "Kena ho fetola litlhophiso tsa hau.",
     "login": "Kena",
-    "register": "Etsa ak’haonte",
-    "chatrooms": "Likamore tsa puisano",
+    "register": "Bopa akhaonto",
+    "chatrooms": "Kamore ea moqoqo",
     "logout": "Tsoa",
-    "startChatAlt": "Qala moqoqo o mocha"
+    "startChatAlt": "Qala moqoqo o mocha",
+    "calls": "Mehala",
+    "video": "Video",
+    "voicemail": "Voicemail"
   },
-
+  "topbar": {
+    "newStatus": "Boemo bo Ncha",
+    "logout": "Tsoa",
+    "help": "Thuso",
+    "createStatusAria": "Bopa boemo bo ncha"
+  },
+  "threadActions": {
+    "threadMenu": "Menu ea thread",
+    "premium": "Premium",
+    "aiPower": "Matla a AI",
+    "schedule": "Kemiso",
+    "upgrade": "Ntlafatsa",
+    "upgradeSuffix": "(Ntlafatsa)",
+    "thread": "Thread",
+    "about": "Mabapi le",
+    "search": "Batla",
+    "media": "Media",
+    "invitePeople": "Mema batho",
+    "roomSettings": "Litlhophiso tsa kamore",
+    "clearConversation": "Hlakola moqoqo",
+    "block": "Thibela"
+  },
+  "roomSearch": {
+    "title": "Batla ka kamoreng",
+    "ariaLabel": "Batla ka kamoreng",
+    "search": "Batla",
+    "searchMessages": "Batla melaetsa",
+    "noText": "[Ha ho mongolo]",
+    "noResults": "Ha ho liphetho"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Setho",
+      "moderator": "Motsamaisi",
+      "admin": "Molaoli"
+    },
+    "aiMode": {
+      "off": "E tima",
+      "mention": "Feela ha @ForiaBot kapa /ask",
+      "always": "Araba ka bo eona"
+    },
+    "autoTranslateMode": {
+      "off": "E tima",
+      "tagged": "Feela ha e tšoailoe (/tr …)",
+      "all": "Melaetsa eohle"
+    },
+    "updated": "Litlhophiso li ntlafalitsoe"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Media e arolelanoeng",
+    "noMediaCached": "Ha ho media e bolokiloeng sebakeng sa lehae hajoale.",
+    "imageAlt": "setšoantšo",
+    "openVideo": "Bula video",
+    "openVideoWithCaption": "Bula video: {{caption}}",
+    "preview": "Sheba pele",
+    "previewWithCaption": "Sheba pele: {{caption}}",
+    "previewKind": "Sheba pele {{kind}}",
+    "download": "Khoasolla",
+    "downloadKind": "Khoasolla {{kind}}",
+    "file": "faele",
+    "kinds": {
+      "image": "setšoantšo",
+      "video": "video",
+      "audio": "molumo",
+      "file": "faele"
+    }
+  },
+  "status": {
+    "userNumber": "Mosebelisi #{{id}}",
+    "posted": "Boemo bo rometsoe",
+    "postFailed": "Ho romella boemo ho hlolehile",
+    "createTitle": "Bopa boemo",
+    "modalAriaLabel": "Boemo bo ncha",
+    "captionLabel": "Ke eng e ka kelellong ea hau?",
+    "captionPlaceholder": "Arolelana lintlafatso...",
+    "captionAria": "Molaetsa oa boemo",
+    "audienceLabel": "Ba amohelang",
+    "audience": {
+      "public": "Sechaba",
+      "followers": "Balateli",
+      "contacts": "Mabitso",
+      "mutuals": "Ba lumellanang",
+      "custom": "E ikhethang..."
+    },
+    "expiresHoursLabel": "Fela (lihora)",
+    "maxTooltip": "Boholo ba matsatsi a 7",
+    "hoursAbbrev": "h",
+    "maxShort": "boholo",
+    "expiresOn": "Fela ka:",
+    "chooseRecipients": "Khetha ba amohelang",
+    "selectContacts": "Khetha mabitso",
+    "attachmentsLabel": "Likenyelletso",
+    "attachmentsPlaceholder": "Kenya litšoantšo/video",
+    "filesNote": "Ho fihlela lifaele tse 5. Ho fela ka 24h ka ho iketsa.",
+    "postAria": "Romella boemo",
+    "post": "Romella"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Ho tsoa ho",
+    "to": "Ho",
+    "unknownCaller": "Ha ho tsejoe",
+    "yourNumber": "Nomoro ea hau ea Chatforia",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Sebapali sa molumo oa voicemail",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Ho ngola voicemail…",
+    "transcriptFailed": "Transcript ha e fumanehe.",
+    "loading": "Ho laolla voicemail…",
+    "errorLoading": "Ho laolla voicemail ho hlolehile.",
+    "empty": "Ha ho voicemail hajoale.",
+    "deleteConfirm": "Hlakola voicemail ena?",
+    "deleteError": "Ho hlakola voicemail ho hlolehile.",
+    "markRead": "Tšoaea e baloa",
+    "delete": "Hlakola",
+    "unreadDotAria": "Letšoao la voicemail e sa baloang"
+  },
+  "profile": {
+    "title": "Profile ea Mosebelisi",
+    "preferredLanguage": "Puo e khethiloeng",
+    "chooseLanguage": "Khetha puo",
+    "mustLogin": "U tlameha ho kena ho sheba litlhophiso.",
+    "autoTranslate": "Fetolela melaetsa ka bo eona",
+    "showOriginalWithTranslation": "Sheba mongolo oa mantlha le phetolelo",
+    "showOriginalAndTranslation": "Sheba mongolo oa mantlha le phetolelo e bapileng",
+    "filterExplicit": "Sefa litaba tse sa lokang",
+    "aiReply": "Karabo ea AI",
+    "enableReadReceipts": "Nts'etsa pele litlaleho tsa ho bala",
+    "allowExplicitContent": "Lumella litaba tse sa lokang",
+    "disappearingMessages": "Nts'etsa pele melaetsa e nyamelang",
+    "autoDeleteSeconds": "Metsotsoana ho fihlela ho hlakola ka bo eona",
+    "saveSuccess": "Litlhophiso li bolokiloe!",
+    "saveError": "Phoso: Ha ho khone ho boloka litlhophiso",
+    "avatarAlt": "Avatar ea profile",
+    "uploadAvatar": "Khoasolla avatar e ncha",
+    "avatarSuccess": "Avatar e khoasolitsoe!",
+    "avatarError": "Ho khoasolla avatar ho hlolehile",
+    "avatarUpdated": "Avatar e ntlafalitsoe!",
+    "uploadingAvatar": "Ho khoasolla avatar…",
+    "noPrivateKey": "Ha ho senotlolo sa poraefete sesebelisoeng sena ho romella.",
+    "setBackupPassword": "Beha password ho sireletsa backup ea hau:",
+    "backupDownloaded": "Backup e sireletsehileng e khoasolitsoe.",
+    "exportFailed": "Ho romella senotlolo ho hlolehile",
+    "enterBackupPassword": "Kenya password bakeng sa backup ena:",
+    "importSuccess": "Senotlolo sa poraefete se kentsoe sesebelisoeng sena.",
+    "importFailed": "Ho kenya senotlolo ho hlolehile (password e fosahetseng kapa faele e senyehileng).",
+    "keysRotated": "Pair e ncha ea linotlolo e hlahisitsoe le senotlolo sa sechaba se rometsoeng.",
+    "rotateFailed": "Ho fetola linotlolo ho hlolehile.",
+    "security": "Tšireletso",
+    "exportKey": "Boloka Senotlolo sa Ho Sireletsa",
+    "importKey": "Tsosolosa Senotlolo sa Ho Sireletsa",
+    "rotateKeys": "Fetola Senotlolo sa Ho Sireletsa",
+    "keyDisclaimer": "Senotlolo sa hau sa poraefete ha se tsoe sesebelisoeng sena. Romella kopi e sireletsoeng ka password ho e tsosolosa sesebelisoeng se seng.",
+    "sectionProfile": "Profile",
+    "phoneNumber": "Nomoro ea mohala",
+    "appearance": "Ponahalo",
+    "soundSettings": "Melumo",
+    "disappearing": "Melaetsa e nyamelang",
+    "backupSync": "Backup ea Senotlolo sa Ho Sireletsa",
+    "ai": "AI",
+    "accessibility": "Ho fumaneha",
+    "privacy": "Tšireletso",
+    "devices": "Lisebelisoa tse hokahantsoeng",
+    "themeFreeNotice": "U le Free—sebelisa khetho e potlakileng ea Sun/Moon ka tlaase. Ntlafatsa ho notlolla lihlooho tse ling.",
+    "sunTheme": "Sebelisa theme ea Dawn",
+    "moonTheme": "Sebelisa theme ea Moon (Bosiung)",
+    "sun": "Letsatsi",
+    "moon": "Khoeli",
+    "backupTitle": "Backups tse Sireletsehileng & Ho Lumellana ha Lisebelisoa",
+    "openBackupTools": "Bula Lisebelisoa tsa Backup",
+    "backupDesc": "Boloka senotlolo sa hau sa ho sireletsa ho tsosolosa melaetsa ea hau ka tšireletso sesebelisoeng se seng.",
+    "privacyBlurEnabled": "Hlakola melaetsa ka ho iketsa",
+    "privacyBlurOnUnfocus": "Hlakola ha app e sa tsepamisitsoe",
+    "planSection": "Morero oa ka",
+    "planLoading": "Ho laolla morero oa hau…",
+    "planLoadFailed": "Ho laolla morero oa hau ho hlolehile.",
+    "currentPlan": "Morero oa hajoale",
+    "planRenewsOn": "O nchafala ka",
+    "freePlanCopy": "U le morerong oa mahala. Ntlafatsa ho notlolla likarolo tse ling joalo ka backups, linomoro tse eketsehileng, le likhetho tsa tšireletso tse tsoetseng pele.",
+    "upgradePlanCta": "Ntlafatsa morero",
+    "changePlanCta": "Fetola morero",
+    "manageBilling": "Laola billing",
+    "portalOpenFailed": "Ha ho khone ho bula portal ea billing. Ka kopo leka hape.",
+    "holdToReveal": "Tšoara ho senola",
+    "notifyOnCopy": "Ntsebise haeba molaetsa oa ka o kopitsoa",
+    "loadFailed": "Ho laolla profile ho hlolehile",
+    "followed": "Latetsoe",
+    "followFailed": "Ho latela ho hlolehile",
+    "unfollowed": "Ha ho lateloa",
+    "unfollowFailed": "Ho tlohela ho latela ho hlolehile",
+    "follow": "Latela",
+    "unfollow": "Tlohela ho latela",
+    "followHint": "Litlaleho tsa bona li tla hlaha moqoqong oa Following haeba ba romella ka bamameli ba Balateli (kapa Sechaba).",
+    "userNotFound": "Mosebelisi ha a fumanoe",
+    "followsYou": "O u latela",
+    "sectionCrashedTitle": "Karolo e hlolehile ho laolla",
+    "sectionCrashedBody": "Ho na le phoso karolong ena.",
+    "forwarding": "Ho fetisetsa Mohala & Molaetsa",
+    "callTextForwardingSection": "Ho fetisetsa Mohala & Molaetsa",
+    "callTextForwardingTitle": "Ho fetisetsa mehala le/ kapa melaetsa",
+    "callTextForwardingDescription": "Fetisetsa mehala e tlang le melaetsa ho mohala oa hau o netefalitsoeng kapa email. Mehala/melaetsa e tsoang e ka bontša nomoro ea hau ea Chatforia.",
+    "enableTextForwarding": "Nts'etsa pele ho fetisetsa melaetsa",
+    "forwardTextsToPhone": "Fetisetsa melaetsa ho mohala",
+    "forwardTextsToEmail": "Fetisetsa melaetsa ho email",
+    "destinationPhone": "Nomoro ea ho ea (E.164)",
+    "destinationEmail": "Email ea ho ea",
+    "enableCallForwarding": "Nts'etsa pele ho fetisetsa mehala",
+    "destinationPhoneForCalls": "Ho ea (E.164) bakeng sa mehala",
+    "aliasBridging": "Ho fetisetsa Mehala (alias bridging)",
+    "quietHoursOptional": "Lihora tsa Khutso (ha ho hlokahale)",
+    "startHour": "Qala hora (0–23)",
+    "endHour": "Qetella hora (0–23)",
+    "reset": "Qala bocha",
+    "saveBtn": "Boloka",
+    "saveProfile": "Boloka profile",
+    "saveForwarding": "Boloka ho fetisetsa",
+    "forwardSaved": "Litlhophiso tsa ho fetisetsa li bolokiloe",
+    "forwardSaveFailed": "Ho boloka litlhophiso ho hlolehile",
+    "errE164": "Kenya nomoro e nepahetseng ea E.164 (mohl., +15551234567).",
+    "errEmail": "Kenya email e nepahetseng.",
+    "errSmsDest": "Khetha bonyane sebaka se le seng (mohala kapa email).",
+    "errQuietHours": "Lihora tsa khutso li tlameha ho ba lipakeng tsa 0 le 23.",
+    "randomChat": "Moqoqo oa Tšohanyetso",
+    "ageBand": "Sebaka sa lilemo tsa hau",
+    "ageBandPlaceholder": "Khetha sebaka sa lilemo tsa hau",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Re boloka feela sebaka sa lilemo (eseng letsatsi la tsoalo ea hau ea 'nete). Sena se sebelisoa ho boloka lipara tsa Random Chat li leka-lekane.",
+    "wantsAgeFilter": "Sebelisa ho tsoana ka lilemo ho Random Chat",
+    "wantsAgeFilterDesc": "Ha e butsoe, re leka ho u kopanya le batho ba sebaka sa lilemo tse lumellanang.",
+    "partnerAgeBands": "Ke mang eo u ka kopanngoang le eena?",
+    "partnerAgeBandsDesc": "Bacha ba lilemo tse 13-17 ba kopanngoa feela le bacha ba bang. Batho ba baholo ba ke ke ba kopanngoa le bacha.",
+    "teenMatchingNote": "Bakeng sa tšireletso, liakhaonto tse sebakeng sa lilemo tse 13–17 li ka kopanngoa feela le liakhaonto tse ling tsa 13–17 ho Random Chat.",
+    "foriaRemember": "Lumella Ria ho hopola lintho tseo u mo bolellang tsona",
+    "foriaRememberDesc": "Ha sena se butsoe, Foria e ka sebelisa moqoqo oa hau oa Random Chat oa khale (feela le uena) ho boloka moqoqo o tsamaea. U ka e tima nako efe kapa efe.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "Nts'etsa pele voicemail",
+    "voicemailAutoDeleteDays": "Hlakola voicemail ka bo eona kamora (matsatsi)",
+    "voicemailAutoDeletePlaceholder": "Tlohela e le blank ho boloka ka ho sa feleng",
+    "voicemailForwardEmail": "Fetisetsa voicemail ho email",
+    "voicemailForwardEmailPlaceholder": "Email ea ho romella litsebiso tsa voicemail",
+    "voicemailGreetingText": "Tlhaloso ea lentsoe ea ho amohela",
+    "voicemailGreetingTextDesc": "E sebelisoa ha tlhaloso ea lentsoe ea hau e sa fumanehe.",
+    "voicemailGreetingUpload": "Khoasolla tlhaloso ea voicemail",
+    "voicemailPreviewGreeting": "Sheba pele tlhaloso",
+    "voicemailGreetingUploaded": "Tlhaloso ea voicemail e khoasolitsoe ka katleho",
+    "voicemailGreetingUploadError": "Ho khoasolla tlhaloso ea voicemail ho hlolehile",
+    "voicemailNote": "Voicemail e tsoang linomorong tsa hau tsa Chatforia e bolokiloe ho inbox ea Voicemail ea hau. U ka nts'etsa pele ho ngola le ho fetisetsa ho merero e tšehetsoeng.",
+    "portHint": "U batla ho boloka nomoro ea hau ea hajoale? U ka e kenya ho Chatforia Wireless.",
+    "wireless": {
+      "manage": "Laola wireless"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Fumana data ea mohala bakeng sa Chatforia ha u le hole le Wi-Fi.",
+      "cta": "Fumana eSIM / Sheba QR"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Laola morero oa mohala oa Chatforia, linomoro, ho fetisetsa, le ho kenya nomoro.",
+    "options": {
+      "heading": "Khetha hore na u batla ho sebelisa Chatforia joang",
+      "subheading": "U ka fumana nomoro e ncha ea Chatforia, kapa u tlise nomoro ea hau ea hajoale ho tsoa ho mofani e mong.",
+      "newNumber": "Fumana nomoro e ncha ea Chatforia",
+      "portNumber": "Kenya nomoro ea hau ea hajoale ho Chatforia Wireless"
+    },
+    "port": {
+      "heading": "Kenya nomoro ea hau ea hajoale",
+      "subheading": "Tlisa nomoro ea hau ea mohala ea hajoale ho tsoa ho mofani oa hau ea hajoale ho Chatforia. Netefatsa hore lintlha li lumellana hantle le akhaonto ea mofani oa hau ho qoba tieho.",
+      "phoneNumberLabel": "Nomoro ea mohala eo u batlang ho e kenya",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Mofani oa hajoale",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, jj.",
+      "accountNumberLabel": "Nomoro ea akhaonto",
+      "pinLabel": "PIN / password ea ho tsoa",
+      "fullNameLabel": "Lebitso le felletseng ho akhaonto",
+      "address1Label": "Aterese ea mola 1",
+      "address2Label": "Aterese ea mola 2 (ha ho hlokahale)",
+      "cityLabel": "Toropo",
+      "stateLabel": "Naha / Porofense",
+      "postalCodeLabel": "Khoutu ea poso",
+      "countryLabel": "Naha",
+      "submitButton": "Romella kopo ea ho kenya",
+      "success": "Kopo ea ho kenya e rometsoe! Re tla u tsebisa.",
+      "genericError": "Ho na le phoso."
+    },
+    "status": {
+      "heading": "Boemo ba ho kenya",
+      "subheading": "Latela boemo ba likopo tsa hau tsa ho kenya nomoro.",
+      "loading": "Ho laolla…",
+      "loadError": "Ho laolla likopo tsa ho kenya ho hlolehile.",
+      "none": "Ha ho ts'ebetso ea ho kenya hajoale.",
+      "pending": "E emetse tlhahlobo",
+      "submitted": "E rometsoe ho mofani",
+      "inProgress": "E tsoela pele",
+      "completed": "E phethiloe",
+      "failed": "E hlolehile",
+      "canceled": "E hlakotsoe",
+      "created": "E entsoe:",
+      "scheduled": "E behiloe:",
+      "completedAt": "E phethiloe:"
+    },
+    "dataLow": "Data ea hau e ntse e fela.",
+    "topUp": "Tlatsetsa hona joale",
+    "expiresIn": "E fela ka mor'a matsatsi a {{days}}",
+    "exhausted": "Data ea hau e felile. Reka pakete e ncha ho tsoela pele ho sebelisa data ea mohala.",
+    "buyPack": "Reka pakete ea data",
+    "esimPackLabel": "Pakete ea eSIM"
+  },
+  "family": {
+    "title": "Lelapa",
+    "loading": "Ho laolla lintlha tsa lelapa la hau…",
+    "error": {
+      "load": "Ho laolla lintlha tsa lelapa ho hlolehile.",
+      "invite": "Ha ho khone ho bopa memo. Netefatsa hore u mong'a lelapa 'me u leke hape.",
+      "checkout": "Ha ho khone ho qala ho lefa bakeng sa morero oa Lelapa. Ka kopo leka hape."
+    },
+    "billing": {
+      "myPlanTitle": "Morero oa ka",
+      "myPlanError": "Ha ho khone ho laolla morero oa hau.",
+      "myPlanLoading": "Ho laolla morero oa hau…",
+      "currentPlan": "Morero oa hajoale",
+      "renewsAt": "O nchafala ka",
+      "freePlanCopy": "U le morerong oa mahala. Ntlafatsa ho notlolla likarolo tse ling.",
+      "upgradeCta": "Ntlafatsa morero",
+      "changePlanCta": "Fetola morero",
+      "manageBilling": "Laola billing",
+      "portalError": "Ha ho khone ho bula portal ea billing hona joale.",
+      "cancelNow": "Khansela hona joale",
+      "cancelNowHelp": "U ka laola kapa ua khansela subscription ea hau ho portal ea billing, kapa u khansela hang-hang ka tlaase.",
+      "cancelNowConfirm": "Na u na le bonnete ba hore u batla ho khansela morero oa hau hang-hang? Sena se ke ke sa khutlisoa.",
+      "cancelNowError": "Ha ho khone ho khansela morero oa hau hona joale. Ka kopo leka hape kapa sebelisa Laola billing."
+    },
+    "none": {
+      "title": "Ha ho lelapa le behiloeng hajoale",
+      "body": "Ho bopa Lelapa la Chatforia le letamo le arolelanoeng la data, qala morero oa Lelapa.",
+      "goUpgrade": "Qala morero oa Lelapa",
+      "viewPlans": "Sheba merero eohle"
+    },
+    "group": {
+      "defaultName": "Lelapa la ka la Chatforia",
+      "role": "Karolo ea hau: {{role}}"
+    },
+    "role": {
+      "owner": "Mong'a",
+      "member": "Setho"
+    },
+    "data": {
+      "heading": "Letamo le arolelanoeng la data",
+      "caption": "Litho tsohle li arolelana letamo lena. Re tla u lemosa ha u atamela moeli oa hau."
+    },
+    "members": {
+      "title": "Litho tsa lelapa",
+      "name": "Lebitso",
+      "role": "Karolo",
+      "usage": "Tšebeliso",
+      "limit": "Moeli",
+      "unlimited": "Ha ho moeli o khethehileng",
+      "inviteCta": "Mema setho"
+    },
+    "invite": {
+      "title": "Mema setho se secha",
+      "body": "Romella email kapa link ho mema motho ho letamo la data la lelapa la hau le arolelanoeng.",
+      "emailLabel": "Email (ha ho hlokahale)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Bopa memo",
+      "linkLabel": "Link ea memo",
+      "copyAria": "Kopitsa link ea memo",
+      "expiryHint": "Link ena e fela ka mor'a matsatsi a seng makae. U ka lula u bopa e ncha."
+    },
+    "join": {
+      "title": "Kena lelapa",
+      "body": "U memetsoe ho kena Lelapa la Chatforia le ho arolelana letamo la bona la data.",
+      "cta": "Amohela le ho kena lelapa",
+      "ctaLogin": "Kena 'me u kene lelapa",
+      "success": "U kene lelapa lena. Hona joale u arolelana letamo la bona la data.",
+      "goFamily": "Eya ho dashboard ea lelapa",
+      "error": "Ha ho khone ho u kenya lelapa lena. Memo e ka 'na ea se ke ea sebetsa kapa ea fela."
+    }
+  },
   "premium": {
-    "heading": "E-ea Premium",
-    "description": "Notlolla likarolo tse matla & tlosa lipapatso.",
+    "heading": "Eya Premium",
+    "description": "Notlolla likarolo tsa matla & tlosa lipapatso.",
     "cta": "Ntlafatsa",
     "upgrade": "Ntlafatsa",
     "upgradeAria": "Ntlafatsa ho Chatforia Premium"
   },
-
-  "auth": {
-    "headline": "Melaetsa e sireletsehileng, ea lefats’e ka phetolelo hang-hang",
-    "description": "E2E encryption, phetolelo e tsamaisoang ke AI, melaetsa e nyamelang, le mehala ea lentsoe/video.",
-    "feature": {
-      "encryption": "Encryption ea pheletso-ho pheletso ka boiketsetso",
-      "translation": "Fetolela lipuo tse 100+ ka bohona",
-      "disappearing": "Melaetsa e nyamelang & li-receipt tsa ho bala",
-      "privacy": "Lekunutu pele. Lintlha tsa hau, taolo ea hau.",
-      "translate": "Phetolelo ea nako ea nnete",
-      "disappear": "Melaetsa e nyamelang",
-      "privacyAlt": "Moralo o shebaneng le lekunutu"
+  "upgrade": {
+    "title": "Ntlafatsa",
+    "titleLoggedIn": "Ntlafatsa",
+    "titlePublic": "Litheko",
+    "h1": "Litheko & Merero ea Chatforia",
+    "h1Subtitle": "Qala ka morero oa rona oa mahala o tšehetsoeng ka lipapatso. Eya ntle le lipapatso ka Plus, kapa notlolla likarolo tsa matla ka Premium.",
+    "subtitle": "Khetha morero oa app, kenya lipakete tsa data bakeng sa hau, kapa arolelana data le lelapa la hau — tsohle sebakeng se le seng.",
+    "subtitle.app": "Qala ka morero oa rona oa mahala o tšehetsoeng ka lipapatso. Eya ntle le lipapatso ka Plus, kapa notlolla likarolo tsa matla ka Premium.",
+    "subtitle.mobile": "Kenya data ea eSIM ea lefats'e e le hore Chatforia e lule e sebetsa le ha u le hole le Wi-Fi.",
+    "subtitle.family": "Bopa letamo la data le arolelanoeng bakeng sa lelapa la hau le laola tšebeliso ea bohle sebakeng se le seng.",
+    "perMonth": "mo",
+    "perYear": "selemo",
+    "goPremium": "Eya Premium",
+    "benefitsLine": "Notlolla likarolo tsa matla & tlosa lipapatso.",
+    "ctaText": "Ntlafatsa",
+    "aria": "Ntlafatsa ho Chatforia Premium",
+    "toggle": {
+      "monthly": "Khoeli le khoeli",
+      "annual": "Selemo (Boloka 30%)"
     },
-    "hero": {
-      "line1": "E sireletsehileng, ea lefats’e",
-      "beforeEm": "melaetsa e nang le",
-      "em": "phetolelo hang-hang",
-      "sub": "E2E encryption, phetolelo e tsamaisoang ke AI, melaetsa e nyamelang, le mehala ea lentsoe/video."
+    "scheduleBanner": {
+      "title": "Subscription e tla fela",
+      "body": "U tla khutlela ho Free ka",
+      "keepPlanCta": "Boloka {{plan}}",
+      "manageBillingCta": "Laola billing"
     },
-    "feat": {
-      "encryption": "Encryption ea pheletso-ho pheletso ka boiketsetso",
-      "translate": "Fetolela lipuo tse 100+ ka bohona",
-      "disappear": "Melaetsa e nyamelang & li-receipt tsa ho bala",
-      "privacy": "Lekunutu pele. Lintlha tsa hau, taolo ea hau."
+    "billing": {
+      "opening": "E bula…",
+      "manage": "Laola Billing"
     },
-    "welcomeBack": "Rea u amohela hape",
-    "continueGoogle": "Tsoela pele ka Google",
-    "continueApple": "Tsoela pele ka Apple",
-    "username": "Lebitso la mosebelisi",
-    "password": "Phasewete",
-    "keepSignedIn": "Nteboloke ke kene",
-    "forgotPassword": "U lebetse phasewete?",
-    "loginButton": "Kena",
-    "createAccount": "Etsa ak’haonte",
-    "freeAccountButton": "Etsa ak’haonte ea mahala",
-    "newHere": "O mocha mona?",
-    "getApp": "Fumana app",
-    "desktopTip": "Ho desktop? Skena ka fono ea hao ho jarolla app.",
-    "scanHelper": "Ho desktop? Skena ka fono ea hao ho jarolla app.",
-    "goHome": "E-ea leqepheng la lehae",
-    "home": "Lehae",
-    "headlineAlt": {
-      "main": "Molaetsa o sireletsehileng o",
-      "highlight": "buisang puo ea hau"
+    "checkout": {
+      "redirecting": "E lebisa…"
     },
-    "subhead": "Melaetsa e poraefete, e sirelelitsoeng, le e fetoleloang — hang-hang.",
-    "status": "Sheba boemo",
-    "upgrade": "Ntlafatsa hona joale",
-    "tip": "Keletso: Sebelisa ak’haonte e le ’ngoe wepeng le mobile. Melaetsa ea hau e lula e sink.",
-    "openDownload": "Bula leqephe la download",
-    "qrAlt": "Khoutu ea QR bakeng sa Chatforia",
-    "scanHint": "Skena ho jarolla app kapa ho e bula sebrowsereng.",
-    "iosAria": "Jarolla ho App Store",
-    "iosTitle": "Jarolla ho App Store",
-    "iosBadgeAlt": "Letšoao la App Store",
-    "androidAria": "Fumana ho Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Letšoao la Google Play",
-    "login": "Kena",
-    "signup": "Ngolisa",
-    "email": "Imeile"
+    "auth": {
+      "continue": "Tsoela pele ho kena",
+      "createAccount": "Bopa akhaonto",
+      "signIn": "Kena"
+    },
+    "cta": {
+      "aria": "Khetha morero",
+      "getPlus": "Ntlafatsa ho Plus",
+      "upgradeMonthly": "Ntlafatsa Khoeli le Khoeli",
+      "upgradeAnnual": "Ntlafatsa Selemo"
+    },
+    "section": {
+      "app": "Merero ea app",
+      "mobile": "Mohala (eSIM)",
+      "family": "Merero ea lelapa"
+    },
+    "plans": {
+      "free": {
+        "title": "Mahala",
+        "price": "$0",
+        "desc": "Qala ho romella melaetsa ka mahala. E loketse haeba u leka Chatforia feela.",
+        "features": {
+          "chat": "Moqoqo oa nako ea 'nete oa 1:1 le sehlopha, hammoho le mehala ea lentsoe le video",
+          "media": "Arolelana litšoantšo, melaetsa ea lentsoe, le livideo tse khutšoane",
+          "ai": "Likarabo tse bohlale tsa AI le phetolelo ea hang-hang (tšebeliso e nepahetseng)",
+          "disappearing": "Melaetsa e nyamelang le taolo ea mantlha ea tšireletso",
+          "ads": "Mahala ka ho sa feleng ka lipapatso ho app"
+        },
+        "ctaCurrent": "Morero oa hajoale",
+        "ctaManage": "Laola ho billing",
+        "ctaPublic": "Qala – tsoela pele ho kena",
+        "aria": "Morero oa mahala"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Lintho tsohle tsa bohlokoa, ntle le lipapatso. E loketse ho romella melaetsa le ho letsetsa letsatsi le letsatsi.",
+        "features": {
+          "allFree": "Ntho e 'ngoe le e 'ngoe ho Free, ntle le lipapatso",
+          "forwarding": "Fetisetsa mehala le melaetsa ho nomoro ea hau ea 'nete ea mohala",
+          "history": "Histori ea melaetsa e telele (ho fihlela likhoeli tse 6)",
+          "support": "Thuso e potlakileng ha ho na le phoso"
+        },
+        "badge": "E tumileng",
+        "cta": "Eya ntle le Lipapatso",
+        "ctaPublic": "Fumana Plus – tsoela pele ho kena",
+        "aria": "Ntlafatsa ho Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Khoeli le Khoeli)",
+        "price": "$11.99",
+        "desc": "Boiphihlelo bo felletseng ba Chatforia: lisebelisoa tsa matla tsa AI, ho iketsetsa, le thuso e tlang pele.",
+        "features": {
+          "plusAll": "Ntho e 'ngoe le e 'ngoe ho Plus",
+          "themes": "Notlolla lihlooho tsohle tsa mebala ea premium le ho iketsetsa app",
+          "ai": "Lisebelisoa tsa matla tsa AI tsa Premium feela bakeng sa ho ngola bocha, likarabo tse bohlale, le likakaretso",
+          "support": "Thuso e tlang pele ha u hloka thuso haholo"
+        },
+        "badge": "E khothalletsoa",
+        "cta": "Ntlafatsa (Khoeli le Khoeli)",
+        "ctaPublic": "Notlolla Premium – tsoela pele ho kena",
+        "aria": "Ntlafatsa ho Premium Khoeli le Khoeli"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Selemo)",
+        "price": "$99",
+        "desc": "Boloka ho eketsehileng ha u lefisoa ka selemo — ho kenyelletsa lihlooho tse eketsehileng tsa mebala, lisebelisoa tsa AI, le thuso e tlang pele.",
+        "features": {
+          "allPremium": "Ntho e 'ngoe le e 'ngoe ho Premium Khoeli le Khoeli — ho kenyelletsa lihlooho tse eketsehileng tsa mebala",
+          "annualBilling": "Lefisoa hang ka selemo",
+          "save25": "Boloka hoo e ka bang 30% ha ho bapisoa le ho lefa khoeli le khoeli",
+          "bestFor": "E loketse basebelisi ba matla, basebetsi ba hole, le baeti ba boima"
+        },
+        "badge": "Boloka 30%",
+        "cta": "Ntlafatsa (Selemo)",
+        "ctaPublic": "Boloka 30% ka selemo – tsoela pele ho kena",
+        "aria": "Ntlafatsa ho Premium Selemo",
+        "disclaimer": "Lefisoa esale pele. Khansela nako efe kapa efe. Ha ho litefiso tse patehileng."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Mahala",
+      "freeDesc": "Qala ho romella melaetsa ka mahala.",
+      "plusTitle": "Plus",
+      "plusBadge": "E tumileng",
+      "plusDesc": "E theko e tlaase ka ho fetisisa ea boiphihlelo bo se nang lipapatso.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Likarolo tse felletseng, melumo ea mohala, le lisebelisoa tsa matla tsa AI.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Boloka ho eketsehileng ha u lefisoa ka selemo.",
+      "annualDisclaimer": "Lefisoa esale pele. Khansela nako efe kapa efe. Ha ho litefiso tse patehileng."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (lipakete tsa data tsa eSIM)",
+      "subtitle": "Kenya data ea lefats'e ho boloka Chatforia e sebetsa le ha u se na Wi-Fi. Litheko li fetoha ka bo eona ho latela naha le chelete ea hau.",
+      "subtitle.detail": "Khetha pakete ea data ea lefats'e ea hang-hang e le hore Chatforia e lule e sebetsa ha u le leetong kapa hole le Wi-Fi.",
+      "scope": {
+        "local": "Ea lehae",
+        "europe": "Europe",
+        "global": "Lefats'e"
+      },
+      "note": "Ha re rekise lipakete tsa data tse ka tlaase ho 3 GB.",
+      "localEquals": "Ea lehae = {{country}}",
+      "localEqualsFallback": "Ea lehae = naha ea hau ea hajoale",
+      "perPack": "/ pakete",
+      "cta": "Fumana pakete ena ea data",
+      "ctaPublic": "Fumana pakete ena ea data",
+      "checkout": {
+        "redirecting": "E lebisa…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Data ea lebelo le phahameng bakeng sa tšebeliso e boima",
+          "throttle": "Lebelo le ka lieha ka mor'a tšebeliso e phahameng",
+          "coverage": "Ho koahela ho tšepahalang",
+          "instant": "Ho kenya tšebetsong eSIM hang-hang",
+          "noContract": "Pakete ea hang-hang, ha ho konteraka"
+        }
+      },
+      "disclaimer": {
+        "devices": "Lipakete tsa data tsa eSIM li hloka sesebelisoa se lumellanang le eSIM le se notlolotsoeng. Ho fumaneha ho fapana ka mofuta oa mohala, mofani, le naha. Ho koahela le lebelo li fapana ka sebaka."
+      },
+      "small": {
+        "title": "Pakete ea ho qala",
+        "desc": "E kenyelletsa 3 GB ea data ea lebelo le phahameng — e loketse ho romella melaetsa e bobebe le mehala ea nako e khutšoane.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Maeto a khutšoane, ho romella melaetsa e bobebe, le mehala ea nako e khutšoane",
+        "aria": "Reka pakete ea Starter eSIM data"
+      },
+      "medium": {
+        "title": "Pakete ea baeti",
+        "desc": "E kenyelletsa 5 GB ea data ea lebelo le phahameng bakeng sa maeto, ho tsamaea, le mehala ea VoIP e tloaelehileng.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Maeto a beke, mehala ea VoIP e tloaelehileng, le limmapa",
+        "aria": "Reka pakete ea Traveler eSIM data"
+      },
+      "large": {
+        "title": "Pakete ea matla",
+        "desc": "E kenyelletsa 10 GB ea data ea lebelo le phahameng bakeng sa moqoqo o boima, mehala, le video ho netweke ea Chatforia.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Moqoqo o boima, mehala, video, le tšebeliso ea hotspot",
+        "aria": "Reka pakete ea Power user eSIM data"
+      },
+      "compare": {
+        "title": "Bapisa lipakete tsa data tsa eSIM",
+        "col": {
+          "pack": "Pakete",
+          "data": "Data e kenyelletsoeng",
+          "bestFor": "E loketse"
+        },
+        "disclaimer": "Tšebeliso ea 'nete ea data e itšetleha ka hore na u sebelisa Chatforia joang (lentsoe, video, media, le lisebelisoa tse ling tsa mohala oa hau)."
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (data e arolelanoeng)",
+      "subtitle": "Arolelana letamo le le leng la data ho lelapa la hau. Bili e le 'ngoe, liakhaonto tse ngata tsa Chatforia, ho koahela lefats'e.",
+      "perPack": "/ pakete",
+      "small": {
+        "title": "Lelapa le Nyenyane",
+        "desc": "E kenyelletsa 20 GB ea data ea lebelo le phahameng e arolelanoeng — e loketse basebelisi ba bobebe ba 2–3.",
+        "price": "$29.99",
+        "aria": "Reka pakete ea Family Small"
+      },
+      "medium": {
+        "title": "Lelapa le Bohareng",
+        "desc": "E kenyelletsa 40 GB ea data ea lebelo le phahameng e arolelanoeng — e loketse litho tse sebetsang tsa 3–5.",
+        "price": "$49.99",
+        "aria": "Reka pakete ea Family Medium"
+      },
+      "large": {
+        "title": "Lelapa le Leholo",
+        "desc": "E kenyelletsa 80 GB ea data ea lebelo le phahameng e arolelanoeng — bakeng sa malapa a matla a lulang a le inthaneteng.",
+        "price": "$84.99",
+        "aria": "Reka pakete ea Family Large"
+      },
+      "feature": {
+        "shared": "Letamo la data le arolelanoeng bakeng sa lelapa la hau",
+        "members": "Mema ho fihlela litho tse 4 tse eketsehileng",
+        "membersMore": "E loketse litho tse 3–5 tse sebetsang",
+        "manage": "Laola meeli bakeng sa setho se seng le se seng",
+        "topUp": "Kenya lipakete tse ling nako efe kapa efe",
+        "bestValue": "Boleng bo botle ka ho fetisisa ka GB",
+        "fairUse": "Ho itšetleha ho leano la tšebeliso e nepahetseng le meeli ea lehae"
+      },
+      "disclaimer": "Lipakete tsa lelapa li bopa kapa li tlatsetsa letamo la data le arolelanoeng. U ka mema le ho tlosa litho nako efe kapa efe.",
+      "footnote": "Lipakete tsa lelapa li arolelana letamo le le leng la data ho liakhaonto tse hokahantsoeng tsa Chatforia. Ho fumaneha le meeli ho itšetleha ka naha ea hau le melao ea lehae."
+    },
+    "why": {
+      "title": "Hobaneng batho ba fetela ho Chatforia",
+      "subtitle": "Chatforia e u fa nomoro ea 'nete ea mohala, phetolelo e bohlale, le tsela e hlakileng ea ho ea ntle le lipapatso ha u se u lokile.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Lipapatso tse bobebe ho Free, ntlafatso e bonolo ea Plus ha u se u lokile, le lisebelisoa tsa Premium tseo TextNow e sa li faneng."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "App ea sejoale-joale, moralo oa lefats'e oa pele, le phetolelo e hahiloeng ka har'a eona ho fapana le ho fetisetsa mehala ea khale."
+        },
+        "messengers": {
+          "title": "Chatforia vs li-app tsa moqoqo",
+          "body": "Romella linomoro tsa 'nete tsa mohala — eseng basebelisi ba app feela — ka AI le boemo bo hahiloeng ka har'a eona. E loketse haeba u tsoa ho li-app joalo ka TextFree kapa TextMe."
+        }
+      },
+      "tableTitle": "Chatforia e bapisa joang",
+      "col": {
+        "feature": "Karolo"
+      },
+      "feature": {
+        "freeNumber": "Nomoro ea mohala ea mahala",
+        "translation": "Phetolelo e hahiloeng ka har'a eona ka bo eona",
+        "aiTools": "Lisebelisoa tsa AI (ho ngola bocha, likarabo, likakaretso)",
+        "ads": "Khetho e se nang lipapatso",
+        "history": "Histori ea melaetsa"
+      },
+      "yes": "E",
+      "no": "Che",
+      "yesPremium": "E (Premium)",
+      "plusPremium": "Plus & Premium",
+      "limited": "E lekanyelitsoe",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Ho fihlela likhoeli tse 12+",
+        "textnow": "E fapana ka akhaonto",
+        "voice": "E lekanyelitsoe / ho latela akhaonto"
+      },
+      "disclaimer": "Papiso e thehiloe ho tlhahisoleseling e fumanehang phatlalatsa mme e ka fetoha ha nako e ntse e tsamaea. Li-app tse ling tsa ho romella melaetsa tsa mahala joalo ka TextFree kapa TextMe ka kakaretso li tšoana le TextNow."
+    },
+    "faq": {
+      "title": "Lipotso tse atisang ho botsoa ka litheko & merero",
+      "free": {
+        "q": "Na morero oa Mahala o hlile o mahala?",
+        "a": "E. Morero oa Mahala o kenyelletsa nomoro ea Chatforia, ho letsetsa, le ho romella melaetsa ka lipapatso. U ka lula ho Free halelele kamoo u batlang, kapa u ntlafatsa ho tlosa lipapatso le ho notlolla likarolo tse ling."
+      },
+      "plusPremium": {
+        "q": "Phapang ke efe lipakeng tsa Plus le Premium?",
+        "a": "Plus e tlosa lipapatso le ho atolosa histori ea melaetsa ea hau — e phethahetseng bakeng sa tšebeliso ea letsatsi le letsatsi. Premium e eketsa ho iketsetsa ho eketsehileng, lisebelisoa tsa AI bakeng sa ho ngola bocha le likarabo, le thuso e tlang pele bakeng sa basebelisi ba boima."
+      },
+      "esim": {
+        "q": "Lipakete tsa data tsa eSIM li sebetsa kae?",
+        "a": "Chatforia Mobile e sebelisa ho koahela eSIM ea lefats'e. Ho fumaneha ho itšetleha ka naha ea hau le sesebelisoa. U tla bona likhetho tse tšehetsoeng nakong ea ho kenya tšebetsong ka har'a app."
+      },
+      "cancel": {
+        "q": "Na nka khansela kapa fetola merero nako efe kapa efe?",
+        "a": "E. U ka laola kapa ua khansela subscription ea hau ho leqephe la billing ka har'a app. Liphetoho li qala ho sebetsa qetellong ea nako ea billing ea hau ea hajoale."
+      },
+      "family": {
+        "q": "Lipakete tsa Lelapa li sebetsa joang?",
+        "a": "Lipakete tsa Lelapa li bopa letamo la data le arolelanoeng ho liakhaonto tse ngata tsa Chatforia. Motho a le mong o lefa bili, 'me u ka mema kapa ua tlosa litho le ho beha meeli ho motho ka mong."
+      }
+    },
+    "gettingStarted": {
+      "title": "Ho Qala",
+      "subtitle": "E ncha ho Chatforia? Tataiso ena e potlakileng e bontša lintho tsa bohlokoa e le hore u ka ba sebetsang ka metsotso.",
+      "alert": {
+        "text": "Tataiso ena e tla hola ha re qala likarolo tse ncha. Haeba ho na le ntho e sieo, re tsebise ka",
+        "contactLink": "Re ikopanye le rona"
+      },
+      "section1": {
+        "title": "1) Bopa akhaonto ea hau",
+        "signup": "Ingolise",
+        "or": "kapa",
+        "login": "kena",
+        "loginText": "ka akhaonto ea hau e teng.",
+        "prefsStart": "Beha",
+        "prefsLink": "likhetho tsa hau",
+        "prefsRest": "(puo, litlaleho tsa ho bala, lihlooho)."
+      },
+      "section2": {
+        "title": "2) Qala ho romella melaetsa",
+        "item1": "Bopa DM kapa Sehlopha 'me u romelle molaetsa oa hau oa pele.",
+        "item2": "Sebelisa phetolelo ea hang-hang ho qoqa ho lipuo tse 100+.",
+        "item3": "Leka melaetsa e nyamelang le litlaleho tsa ho bala ho Profile → Tšireletso."
+      },
+      "section3": {
+        "title": "3) Tsoela pele ho feta",
+        "item1": "U ka ntlafatsa ho morero o lefelletsoeng nako efe kapa efe ka har'a app.",
+        "item2": "Hang ha u kene, u ka hokahanya lisebelisoa tse ling le ho beha backups tse sireletsehileng ho Litlhophiso tsa app."
+      },
+      "cta": {
+        "seePlans": "Sheba merero",
+        "openSettings": "Bula litlhophiso"
+      }
+    },
+    "helpCenter": {
+      "title": "Setsi sa Thuso",
+      "faq": {
+        "account": {
+          "q": "Ke tla bopa kapa ho khutlisa akhaonto ea ka joang?",
+          "a": "Khoasolla app kapa sebelisa web, tlanya “Bopa akhaonto”, netefatsa email/mohala oa hau. Ho khutlisa, sebelisa “U lebetse password”."
+        },
+        "privacy": {
+          "q": "Na melaetsa e sireletsehileng ho tloha qetellong ho ea ho qetellong?",
+          "a": "E. Melaetsa le mehala e sireletsehileng ho tloha qetellong ho ea ho qetellong ka ho iketsa. Ke uena le moamoheli feela le ka bala tsona."
+        },
+        "translate": {
+          "q": "Phetolelo ea hang-hang e sebetsa joang?",
+          "a": "Nts'etsa pele “Fetolela ka bo eona” ho Litlhophiso → Ponahalo & Puo. Re fetolela sesebelisoeng moo ho tšehetsoeng, ho seng joalo ka li-API tse sireletsehileng tse nang le metadata e fokolang."
+        },
+        "contact": {
+          "q": "Ikopanye le thuso",
+          "a": "Re fihlela rona ho support@chatforia.com. Kenya litšoantšo le mofuta oa app ea hau."
+        }
+      }
+    },
+    "contact": {
+      "title": "Re ikopanye le rona",
+      "successMsg": "Ke a leboha—sehlopha sa rona se tla araba ka email.",
+      "errorSend": "Ha ho khone ho romella. Ka kopo romella support@chatforia.com.",
+      "form": {
+        "nameLabel": "Lebitso",
+        "emailLabel": "Email",
+        "messageLabel": "Molaetsa",
+        "sendCta": "Romella"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Leano la Tšireletso",
+      "lastUpdated": "E ntlafalitsoe la ho qetela:",
+      "intro": {
+        "body": "Leano lena la Tšireletso le hlalosa hore na Chatforia (“rona”, “rona”) e bokella, e sebelisa, le ho arolelana tlhahisoleseling joang ha u sebelisa li-app le litšebeletso tsa rona. Re etsa moralo oa Chatforia ho fokotsa data eo re ka e fumanang."
+      },
+      "infoWeCollect": {
+        "title": "Tlhahisoleseling eo re e bokellang",
+        "account": "Lintlha tsa akhaonto (mohl., email/mohala) ho bopa le ho sireletsa akhaonto ea hau.",
+        "encrypted": "Litaba tse sireletsehileng (melaetsa/mehala) li sireletsehileng ho tloha qetellong ho ea ho qetellong; re ke ke ra li bala.",
+        "diagnostics": "Diagnostic/tšebeliso joalo ka litlaleho tsa ho senyeha, mofuta oa sesebelisoa, kapa analytics e bonolo ho ntlafatsa ts'ebetso."
+      },
+      "sms": {
+        "title": "Linomoro tsa mehala ea mohala le SMS",
+        "body": "Haeba u khetha ho fana ka nomoro ea mohala ea mohala, re e sebelisa ho nts'etsa pele likarolo tse kang ho netefatsa akhaonto, litsebiso tsa ho kena, le ho romella melaetsa ho tsoa ho mosebelisi ho mosebelisi ka SMS moo ho tšehetsoeng. Re ka romella melaetsa ea SMS ea ts'ebetso e amanang le akhaonto ea hau le ts'ebetso ho Chatforia. U ka khetha ho tsoa ho amohela melaetsa ea SMS nako efe kapa efe ka ho araba ka lentsoe la ho tsoa le lumellang (joalo ka “STOP”) kapa ka ho fetola likhetho tsa litsebiso ho app. Re sa rekise nomoro ea hau ea mohala kapa re e sebelise bakeng sa ho bapatsa ho sa amaneng.",
+        "newText": "Mongolo o mocha",
+        "enterRecipient": "Kenya lebitso kapa nomoro",
+        "typeMessage": "Ngola molaetsa…",
+        "addRecipient": "Kenya moamoheli ka holimo ho qala…"
+      },
+      "howWeUse": {
+        "title": "Re sebelisa tlhahisoleseling joang",
+        "provide": "Fana le ho sireletsa tšebeletso (netefatso, ho lemoha spam/abuse).",
+        "improve": "Ntlafatsa likarolo (boleng ba phetolelo, botsitso).",
+        "legal": "Lumellana le boitlamo ba molao."
+      },
+      "sharing": {
+        "title": "Ho arolelana",
+        "body": "Ha re rekise data ea botho. Re ka arolelana data e fokolang le ba sebetsang (mohl., litsebiso tsa push, analytics) tlas'a likonteraka tse thata."
+      },
+      "rights": {
+        "title": "Litokelo tsa hau",
+        "body": "Ho latela sebaka sa hau (mohl., GDPR/UK GDPR/CPRA), u ka kopa ho fihlella, ho lokisa, ho hlakola, kapa ho khetha ho tsoa ho ts'ebetso e itseng. Ikopanye le: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Ho boloka data & tšireletso",
+        "body": "Re boloka feela se hlokahalang ho tsamaisa tšebeletso le ho sebelisa tšireletso ea maemo a indasteri. Litaba tsa E2E li ke ke tsa notloloha ke rona."
+      },
+      "children": {
+        "title": "Bana",
+        "body": "Chatforia ha e lebisitsoe ho bana ba ka tlaase ho 13 (kapa joalo ka ha ho hlokahala ke molao oa hau oa lehae)."
+      },
+      "changes": {
+        "title": "Liphetoho",
+        "body": "Re tla romella lintlafatso mona 'me re ntlafatse letsatsi la “E ntlafalitsoe la ho qetela”."
+      },
+      "contact": {
+        "title": "Ikopanye le rona",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Melao ea Tšebeliso",
+      "lastUpdated": "E ntlafalitsoe la ho qetela:",
+      "intro": {
+        "body": "Ka ho sebelisa Chatforia u lumellana le melao ena. Haeba u sa lumellane, se sebelise tšebeletso."
+      },
+      "accounts": {
+        "title": "Liakhaonto",
+        "itemAccurateInfo": "Fana ka tlhahisoleseling e nepahetseng 'me u boloke li-credentials tse sireletsehileng.",
+        "itemResponsibility": "U ikarabella bakeng sa ts'ebetso ho akhaonto ea hau."
+      },
+      "acceptableUse": {
+        "title": "Tšebeliso e amohelehang",
+        "itemNoAbuse": "Ha ho litaba tse seng molaong, tse hlekefetsang, kapa tse tlolang; ha ho spam kapa abuse e iketsang.",
+        "itemSuspend": "Re ka emisa/khakola bakeng sa tlolo."
+      },
+      "sms": {
+        "title": "Ho buisana ka SMS",
+        "body": "Haeba u fana ka nomoro ea mohala ea mohala, u lumellana hore Chatforia e ka u romella melaetsa ea SMS e amanang le akhaonto ea hau le tšebeliso ea tšebeletso, joalo ka litsebiso tsa ho kena, litsebiso tsa tšireletso, le melaetsa e amanang le moqoqo oo u o qalang kapa u nkang karolo ho oona. Ha re sebelise SMS bakeng sa melaetsa ea ho bapatsa kapa ho bapatsa ntle le tumello ea hau e hlakileng. Litefiso tse tloaelehileng tsa molaetsa le data li ka sebetsa. U ka khetha ho tsoa ho melaetsa ea SMS nako efe kapa efe ka ho araba ka lentsoe la ho tsoa le lumellang (mohlala, “STOP”) kapa ka ho ntlafatsa litlhophiso tsa litsebiso ho app."
+      },
+      "yourContent": {
+        "title": "Litaba tsa hau",
+        "body": "U boloka litokelo ho litaba tsa hau. U re fa litokelo tse hlokahalang ho tsamaisa tšebeletso (mohl., ho tsamaisa, ho boloka, phetolelo)."
+      },
+      "disclaimer": {
+        "title": "Litlhaloso & boikarabelo",
+        "body": "Tšebeletso e fanoa “joalo ka ha e le” ntle le li-waranti. Ho fihlela boemong bo felletseng bo lumelloang ke molao, Chatforia ha e ikarabelle bakeng sa tšenyo e sa tobang kapa e latelang."
+      },
+      "changes": {
+        "title": "Liphetoho",
+        "body": "Re ka ntlafatsa melao ena; ho tsoela pele ho sebelisa ka mor'a liphetoho ho bolela ho amohela."
+      },
+      "contact": {
+        "title": "Ikopanye le rona",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "U se ke ua Rekisa kapa ua Arolelana Tlhahisoleseling ea ka ea Botho",
+      "body": "Chatforia ha e rekise tlhahisoleseling ea botho. Baahi ba California ba ka romella likopo tlas'a CPRA ba sebelisa konopo e ka tlaase.",
+      "cta": "Romella kopo"
+    },
+    "cookies": {
+      "title": "Litlhophiso tsa Cookie",
+      "body": "Chatforia e sebelisa li-cookie tse fokolang (mohl., session, tšireletso). Ha re sebelise li-cookie tsa lipapatso tsa batho ba bang. Laola li-cookie ka litlhophiso tsa sebatli sa hau."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Ha ho khone ho laolla boemo ba nomoro ea mohala.",
+      "lock": "Notlolla",
+      "noNumberAssigned": "Ha ho nomoro e abetsoeng. Khetha e 'ngoe ka khoutu ea sebaka ho qala ho romella melaetsa.",
+      "pickNumber": "Khetha nomoro",
+      "phoneNumber": "Nomoro ea mohala"
+    },
+    "startChatModal": {
+      "title": "Qala moqoqo",
+      "quickPicker": "Khetho e potlakileng",
+      "to": "Ho",
+      "nameOrUsername": "Ngola lebitso, username",
+      "nameUsernamePhoneEmail": "Ngola lebitso, username, mohala, kapa email…",
+      "startWithSelected": "Qala moqoqo ka ea khethiloeng",
+      "searchByUsernameOrPhone": "Batla ka username kapa mohala",
+      "search": "Batla",
+      "searchPrompt": "Ngola username kapa mohala 'me u tlanye Batla.",
+      "pickFromContacts": "Kapa khetha ho mabitso",
+      "addContact": "Kenya Motho ea Bolokiloeng",
+      "show": "Sheba",
+      "add": "Kenya",
+      "close": "Koala",
+      "selectedCount": "{{count}} e khethiloe",
+      "pickAtLeastOne": "Khetha bonyane moamoheli a le mong.",
+      "saveContactsHint": "Menyetla ea mohala/email e tla fumaneha ka mor'a hore u e boloke e le mabitso.",
+      "failedBulkStart": "Ho qala moqoqo ka ba amohelang ba khethiloeng ho hlolehile.",
+      "noResults": "Ha ho liphetho",
+      "mode": "Mokhoa",
+      "group": "Sehlopha",
+      "broadcast": "Phatlalatso",
+      "groupNameOptional": "Lebitso la sehlopha (ha ho hlokahale)",
+      "firstMessageOptional": "Molaetsa oa pele (ha ho hlokahale empa o khothalletsoa)",
+      "createGroup": "Bopa sehlopha",
+      "sendBroadcast": "Romella phatlalatso"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "U le Free — melumo ea premium e bontšitsoe empa e notletsoe. Ntlafatsa ho notlolla tsohle.",
+      "preview": "Sheba pele",
+      "resetToDefaults": "Khutlisetsa ho li-default",
+      "notificationSounds": "Melumo ea Litsebiso",
+      "messageTone": "Molumo oa molaetsa",
+      "default": "Ea kamehla",
+      "vibrate": "Thothomela",
+      "dreamer": "Moori",
+      "notify": "Tsebisa",
+      "pop": "Pop",
+      "pulsatingSound": "Molumo o Pulsetsang",
+      "textMessage": "Molaetsa oa Mongolo",
+      "xylophone": "Xylophone",
+      "classic": "Ea khale",
+      "urgency": "Ho potlaka",
+      "bells": "Litloloko",
+      "chimes": "Chimes",
+      "digitalPhone": "Mohala oa Digital",
+      "melodic": "Melodic",
+      "organNotes": "Linoto tsa Organ",
+      "soundReality": "Molumo oa 'Nete",
+      "street": "Seterata",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Karolo ena e hloka morero oa Premium."
+    },
+    "aiSettings": {
+      "title": "Litlhophiso tsa AI",
+      "controlIntro": "Laola phetolelo, likarabo tse bohlale, le likarabo tsa ForiaBot ka bo eona.",
+      "save": "Boloka Litlhophiso tsa AI",
+      "autoTranslateIncoming": "Fetolela melaetsa e tlang ka bo eona",
+      "showOriginalAlongside": "Sheba mongolo oa mantlha le phetolelo e bapileng",
+      "enableSmartReplies": "Nts'etsa pele Likarabo tse Bohlale",
+      "smartRepliesHint": "Romella melaetsa e 'maloa e fumanoeng (e hloekisitsoe) ho AI ho fana ka likarabo tse potlakileng.",
+      "maskProfanity": "Hlakola mantsoe a sa lokang ho litlhahiso tsa AI",
+      "maskProfanityHint": "Haeba e butsoe, litlhahiso tse khutlisoang ke AI li tla ba le mantsoe a tšoailoeng a hlakotsoeng",
+      "foriaBot": "ForiaBot Auto-Responder",
+      "enableAutoReply": "Nts'etsa pele karabo ka bo eona ha ke le mosebetsing",
+      "autoReplyMode": "Mokhoa oa karabo ka bo eona",
+      "cooldownSeconds": "Cooldown (metsotsoana)",
+      "off": "E tima",
+      "on": "E butsoe",
+      "signature": "Signature",
+      "autoReply": "Karabo ka bo eona",
+      "activeUntilOptional": "E sebetsa ho fihlela (ha ho hlokahale)",
+      "saved": "Likhetho tsa AI li bolokiloe",
+      "saveFailed": "Ho boloka litlhophiso tsa AI ho hlolehile",
+      "translateOff": "E tima",
+      "translateTagged": "Feela ha @translated kapa e tšoailoe",
+      "translateAll": "Fetolela melaetsa eohle e tlang",
+      "modeDm": "Moqoqo oa 1:1 feela",
+      "modeMention": "Feela ha ke @mentioned",
+      "modeAll": "Melaetsa eohle e tlang"
+    },
+    "accessibilitySettings": {
+      "title": "Ho Fumaneha & Litsebiso",
+      "accessibility": "Ho fumaneha",
+      "accessibilityDesc": "Likhetho tse etsang hore Chatforia e be bonolo ho e sebelisa ntle le ho itšetleha ho molumo.",
+      "interfaceFontSize": "Boholo ba font ea interface",
+      "interfaceFontSizeHelp": "E qala ka boholo bo tloaelehileng. Eketseha haeba u rata mongolo o moholo ho litlhophiso tsa ho fumaneha.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Litsebiso",
+      "notificationsDesc": "Litsebiso tsa pono bakeng sa melaetsa & mehala\nSheba li-banner le ho qala ha sehlooho e le hore u se ke ua lahleha.",
+      "vibrateOnNew": "Thothomela ho melaetsa e ncha (ha e tšehetsoa)\nQala ho thothomela ha sesebelisoa ka litsebiso.",
+      "flashOnCall": "Flash skrine ho mohala o tlang\nFlash e khanyang ka nako e khutšoane ha mohala o lla.",
+      "liveCaptions": "Litlhaloso tse phelang (mehala)",
+      "captionFontSize": "Boholo ba font ea caption",
+      "captionBackground": "Background ea caption",
+      "light": "khanya",
+      "dark": "lefifi",
+      "transparent": "e bonahala",
+      "voiceNotes": "Linoto tsa lentsoe",
+      "autoTranscribeVoiceNotes": "Ngola ka bo eona linoto tsa lentsoe",
+      "autoTranscribeVoiceNotesDesc": "Kenya transcript ho melaetsa ea molumo eo u e fumanang.",
+      "changesSavedInstantly": "Liphetoho li bolokiloe hang-hang.",
+      "loadFailed": "Ho laolla litlhophiso ho hlolehile",
+      "visualAlerts": "Litsebiso tsa pono bakeng sa melaetsa & mehala",
+      "visualAlertsDesc": "Sheba li-banner le ho qala ha sehlooho e le hore u se ke ua lahleha.",
+      "vibrateOnNewShort": "Thothomela ho melaetsa e ncha (ha e tšehetsoa)",
+      "vibrateOnNewDesc": "Qala ho thothomela ha sesebelisoa ka litsebiso.",
+      "flashOnCallShort": "Flash skrine ho mohala o tlang",
+      "flashOnCallDesc": "Flash e khanyang ka nako e khutšoane ha mohala o lla."
+    },
+    "privacySection": {
+      "strictE2EE": "Ho sireletsa ho tloha qetellong ho ea ho qetellong ka thata",
+      "ciphertextOnlyNote": "Boloka feela ciphertext ho seva. E tima AI/Phetolelo le ho sheba pele ha botsamaisi."
+    },
+    "linkedDevicesPanel": {
+      "title": "Lisebelisoa tse Hokahantsoeng",
+      "noneFound": "Ha ho lisebelisoa tse hokahantsoeng li fumanoe.",
+      "refresh": "Nchafatsa"
+    },
+    "help": {
+      "title": "Thuso",
+      "howCanWeHelp": "Re ka u thusa joang?",
+      "helpCenter": "Setsi sa Thuso",
+      "contactUs": "Re ikopanye le rona",
+      "quickTopics": "Litaba tse potlakileng",
+      "searchExamples": "Leka ho batla “phetolelo”, “backups”, kapa “tšireletso”.",
+      "cantLogin": "Ha u khone ho kena",
+      "paymentsBilling": "Litefello/billing",
+      "reportAbuse": "Tlaleha abuse",
+      "searchHelpArticles": "Batla lingoloa tsa thuso",
+      "search": "Batla"
+    },
+    "peoplePage": {
+      "people": "Batho",
+      "search": "Batla",
+      "searchPlaceholder": "Batla ka alias, lebitso, username, kapa mohala",
+      "filterSaved": "Sefa mabitso a bolokiloeng",
+      "noContactsFound": "Ha ho mabitso a fumanoeng",
+      "quickStart": "Qalo e potlakileng",
+      "quickStartDesc": "Mekhoa e 'maloa e potlakileng ea ho qala.",
+      "importContacts": "Kenya mabitso a hau",
+      "add": "Kenya",
+      "focusSearch": "Tsepamisa Patlo",
+      "import": "Kenya",
+      "findOrAdd": "Fumana kapa kenya motho",
+      "searchByPhoneOrUsername": "Batla ka mohala / username",
+      "inviteFriends": "Mema metsoalle",
+      "inviteDesc": "Arolelana link ea memo ea hau ho qala ho qoqa hang-hang.",
+      "getTheApp": "Fumana app",
+      "getTheAppDesc": "Lula u hokahane ha u le tseleng ka Chatforia bakeng sa iOS le Android.",
+      "download": "Khoasolla",
+      "syncTip": "Keletso: Melaetsa ea hau e lula e lumellane ho web le mohala."
+    },
+    "randomChat": {
+      "title": "Moqoqo oa Tšohanyetso",
+      "description": "Kopana le motho e mocha hang-hang. Re tla u kopanya 'me re bule kamore ea moqoqo ea nakoana. Qoqa ka ho se tsejoe pele. Kenya Motsoalle hamorao haeba ho utloahala ho lokile.",
+      "findMatch": "Mphumanele motho eo ke ka kopanngoang le eena",
+      "chatWithForia": "Qoqa le Foria",
+      "chatWithForiaBot": "Qoqa le ForiaBot",
+      "cancel": "Khansela",
+      "close": "Koala",
+      "searching": "Ho batla...",
+      "finding": "Ho fumana...",
+      "looking": "Ho batla motho...",
+      "startingForia": "Ho qala moqoqo le Foria...",
+      "partnerDisconnected": "Motho eo u kopaneng le eena o khaotse.",
+      "noPartner": "Ha ho motho eo u kopaneng le eena hajoale.",
+      "connectedTo": "E hokahane le {{name}}",
+      "connected": "E hokahane",
+      "idle": "E sa sebetse",
+      "partnerLeft": "Motho eo u kopaneng le eena o tsamaile.",
+      "stopped": "E emisitsoe.",
+      "skip": "Tlola",
+      "save": "Boloka",
+      "saveGuard": "Ke moqoqo oa motho ho motho feela o ka bolokoang",
+      "youAreChattingWith": "U qoqa le {{name}}",
+      "bot": "BOT",
+      "leave": "Tloha",
+      "sayHi": "Bua hi 👋",
+      "you": "Uena",
+      "typeMessage": "Ngola molaetsa",
+      "send": "Romella",
+      "partner": "Motho eo u kopaneng le eena",
+      "withRia": "Le Ria",
+      "chatWithRia": "Qoqa le Ria",
+      "startingRia": "Ho qala moqoqo le Ria...",
+      "ageDisclaimer": "Re boloka feela sebaka sa lilemo (eseng letsatsi la tsoalo ea hau ea 'nete). Sena se sebelisoa ho boloka lipara tsa Random Chat li leka-lekane. Ho kopana le batho (eseng RiaBot feela), beha sebaka sa lilemo tsa hau ho Litlhophiso → Lilemo & Random Chat.",
+      "ageBandRequired": "Beha sebaka sa lilemo tsa hau ho Profile → Lilemo & Random Chat ho kopanngoa le batho.",
+      "ageBandCallout": "Ho kopana le batho (eseng RiaBot feela), beha sebaka sa lilemo tsa hau ho Litlhophiso → Lilemo & Random Chat.",
+      "subtitle": "Kopana le motho e mocha hang-hang, kapa khetha ho qoqa le Ria.",
+      "start": "Qala moqoqo",
+      "matching": "Ho kopanya...",
+      "setAge": "Beha sebaka sa lilemo tsa hau ho Profile → Lilemo & Random Chat ho kopanngoa le batho.",
+      "next": "Motho ea Latelang",
+      "addFriend": "Kenya Motsoalle",
+      "requested": "Kopiloe",
+      "messageRia": "Romella Ria...",
+      "messageMatch": "Romella motho eo u kopaneng le eena..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "motho eo",
+      "intro": "Hey motho eo 👋 Ke Ria. Ke eng e ka kelellong ea hau?",
+      "greetings": {
+        "long1": "Hey {{name}} 👋 Ke teng. Ke eng e ka kelellong ea hau?",
+        "long2": "Hi {{name}} 😊 U batla ho bua ka eng kajeno?",
+        "long3": "Hey {{name}}!! Ke mamelile — ke eng e tsoang?",
+        "long4": "Ke thabile ho u bona, {{name}} 👋 Ke eng e ka kelellong ea hau kajeno?",
+        "long5": "Hey {{name}} 😊 U batla ho tšolla, ho botsa, kapa ho qoqa feela?",
+        "long6": "Hi {{name}}!! Ke na le nako — u batla ho bua ka eng?",
+        "short1": "Hey {{name}}, ke ntse ke teng. Ke eng e tsoang?",
+        "short2": "Welcome hape {{name}} 👋 Ho na le ntho e 'ngoe eo u batlang ho e eketsa?",
+        "short3": "Hape, {{name}}? 😊 Mpolelle ke eng e ka kelellong ea hau.",
+        "short4": "Hey {{name}} 👋 U lokile ho tsoela pele moo re siileng?",
+        "short5": "E {{name}}? Ke mamelile 👂",
+        "short6": "Oh hey {{name}}!! U na le ntho e ncha e ka kelellong ea hau?"
+      },
+      "header": {
+        "openNav": "Bula menu ea ho tsamaisa",
+        "closeNav": "Koala menu ea ho tsamaisa",
+        "homeAria": "Lehae la Chatforia"
+      },
+      "login": {
+        "welcomeBack": "Welcome hape",
+        "title": "Tsoela pele ho Chatforia",
+        "subtitleReturning": "Kena ho akhaonto ea hau ea Chatforia",
+        "subtitle": "Kena ho akhaonto ea hau ea Chatforia",
+        "google": "Tsoela pele ka Google",
+        "apple": "Tsoela pele ka Apple",
+        "googleUnavailable": "Ho kena ka Google ha ho fumanehe",
+        "appleUnavailable": "Ho kena ka Apple ha ho fumanehe",
+        "or": "kapa",
+        "email": "Email",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Username",
+        "usernamePh": "Username ea hau",
+        "passwordLabel": "Password",
+        "passwordPh": "Password ea hau",
+        "keepSignedIn": "Ntlhale ka har'a akhaonto",
+        "forgot": {
+          "title": "U lebetse Password",
+          "helper": "Kenya email eo u e sebelisitse ho bopa akhaonto ea hau ea Chatforia 'me re tla u romella link e sireletsehileng ho khutlisa password ea hau.",
+          "emailInvalid": "Ka kopo kenya email e nepahetseng.",
+          "genericError": "Ha ho khone ho sebetsa kopo. Ka kopo leka hape ka nakoana.",
+          "sending": "Ho romella link ea ho khutlisa...",
+          "sendCta": "Romella Link ea ho Khutlisa",
+          "sentLabel": "E rometsoe!",
+          "sentHelper": "Haeba akhaonto e teng ka email eo, re rometse link ea ho khutlisa password. E ka nka metsotso e seng mekae ho fihla. Netefatsa hore u sheba spam kapa folder ea promotions.",
+          "previewDev": "Sheba Email pele (Dev)",
+          "backToLogin": "Khutlela ho Kena"
+        },
+        "submit": "Kena",
+        "loggingIn": "Ho kena…",
+        "newHere": "E ncha mona? <link>Bopa akhaonto</link>",
+        "ssoUnavailable": "Ho kena ka single-sign-on ha ho fumanehe hajoale. Sebelisa username & password ho e-na le hoo.",
+        "error": {
+          "missing": "Ka kopo kenya li-credentials tsa hau.",
+          "invalid": "Username kapa password e fosahetseng",
+          "denied": "Ho fihlella ho hanetsoe.",
+          "unprocessable": "Kopo e fosahetseng. Sheba username/email le password ea hau.",
+          "deviceLimit": "Moeli oa sesebelisoa o fihletsoe bakeng sa morero oa Mahala. Tsoa ho sesebelisoa se seng kapa ntlafatsa ho Premium ho hokahanya lisebelisoa tse ling.",
+          "premiumRequired": "Ketso ena e hloka morero oa Premium."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Ho phetha ho kena…"
+    },
+    "dialer": {
+      "title": "Mehala",
+      "subtitle": "Keypad & tse morao-rao. (Haeba u sa sebelise PSTN, qala mehala ho tsoa ho sehlooho sa moqoqo.)",
+      "enterNumberPh": "Kenya nomoro",
+      "call": "Letsetsa",
+      "backspace": "Backspace",
+      "recents": "Tse morao-rao",
+      "recentsEmpty": "Ha ho mehala ea morao-rao hajoale.",
+      "enterNumber": "Kenya nomoro",
+      "enterNumberAria": "Kenya nomoro",
+      "key": "Senotlolo {{d}}",
+      "noRecents": "Ha ho mehala ea morao-rao hajoale."
+    },
+    "video": {
+      "title": "Video",
+      "chooseType": "Khetha mofuta oa video.",
+      "directTitle": "Video e Tobileng",
+      "directDesc": "Mohala oa k'hamera oa 1:1 le mosebelisi e mong.",
+      "directStart": "Qala",
+      "roomsTitle": "Kamore",
+      "roomsDesc": "Video ea batho ba bangata e sebelisa lebitso la kamore le arolelanoeng.",
+      "roomsIntro": "Kena kapa u bope kamore ea batho ba bangata.",
+      "roomNameLabel": "Lebitso la kamore",
+      "roomNamePh": "mohl. team-standup",
+      "join": "Kena",
+      "deeplinkTip": "Keletso: u ka hokahanya ka kotloloho ho <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Video",
+        "subtitle": "Khetha mofuta oa video."
+      },
+      "direct": {
+        "title": "Video e Tobileng",
+        "subtitle": "Qala mohala oa video oa 1:1 u sebelisa nomoro ea mohala kapa username ea Chatforia.",
+        "desc": "Mohala oa k'hamera oa 1:1 le mosebelisi e mong.",
+        "start": "Qala",
+        "callBtn": "Letsetsa",
+        "callByPhone": {
+          "title": "Letsetsa ka mohala"
+        },
+        "phone": {
+          "placeholder": "Kenya mohala (mohl., +1-555-123-4567)",
+          "aria": "Mohala oa ho letsetsa"
+        },
+        "tipInvite": "Keletso: Ngola nomoro 'me u letsetse ntle le ho boloka motho ea bolokiloeng. Re tla mema batho ba sa sebeliseng ka link.",
+        "findUser": {
+          "title": "Fumana mosebelisi"
+        },
+        "search": {
+          "placeholder": "Batla ka lebitso kapa username",
+          "aria": "Batla ka lebitso kapa username",
+          "btn": "Batla"
+        }
+      },
+      "rooms": {
+        "title": "Kamore",
+        "subtitle": "Bopa kamore kapa u kene ho e teng ka ho ngola lebitso le tšoanang.",
+        "desc": "Video ea batho ba bangata e sebelisa lebitso la kamore le arolelanoeng.",
+        "roomLabel": "Lebitso la kamore",
+        "roomPlaceholder": "mohl. team-standup",
+        "roomAria": "Lebitso la kamore",
+        "joinCreate": "Kena / Bopa",
+        "tip": "Keletso: arolelana lebitso lena le ba bang, kapa hokahanya ka kotloloho ho <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Qala mohala oa video oa 1:1 o tobileng.",
+      "findUserLabel": "Fumana mosebelisi",
+      "findUserPh": "Batla ka lebitso kapa username",
+      "search": "Batla",
+      "call": "Letsetsa"
+    },
+    "phoneWarning": {
+      "title": "Nomoro ea hau e tla fela haufinyane",
+      "body": "Nomoro ea hau {{number}} e tla lokolloa ka {{date}} ntle le haeba e tsosolositsoe.",
+      "button": "Boloka Nomoro ea ka"
+    }
   },
-
+  "support": {
+    "helpFab": "Thuso",
+    "openSupportAria": "Bula thuso",
+    "badge": "Thuso",
+    "heading": "Re ka u thusa joang?",
+    "tabs": {
+      "help": "Setsi sa Thuso",
+      "contact": "Re ikopanye le rona"
+    },
+    "searchPlaceholder": "Batla lingoloa tsa thuso…",
+    "searchAria": "Batla thuso",
+    "searchBtn": "Batla",
+    "quickTopicsLabel": "Litaba tse potlakileng",
+    "quickTopics": {
+      "login": "Ha u khone ho kena",
+      "billing": "Litefello / billing",
+      "abuse": "Tlaleha abuse"
+    },
+    "trySearching": "Leka ho batla “phetolelo”, “backups”, kapa “tšireletso”.",
+    "article": "Sengoloa",
+    "openArticle": "Bula sengoloa",
+    "contactIntro": "Re tla u romella karabo ka email. Kenya lintlha ho re thusa ho hlahisa bothata.",
+    "topicAria": "Khetha sehlooho",
+    "messagePlaceholder": "Ngola molaetsa oa hau…",
+    "sendBtn": "Romella",
+    "sent": "Molaetsa o rometsoe. Re tla araba ka email.",
+    "sendError": "Ha ho khone ho romella. Romella support@chatforia.com ho e-na le hoo."
+  },
+  "helpCenter": {
+    "title": "Setsi sa Thuso",
+    "faq": {
+      "account": {
+        "q": "Ke tla bopa kapa ho khutlisa akhaonto ea ka joang?",
+        "a": "Khoasolla app kapa sebelisa web, tlanya “Bopa akhaonto”, netefatsa email/mohala oa hau. Ho khutlisa, sebelisa “U lebetse password”."
+      },
+      "privacy": {
+        "q": "Na melaetsa e sireletsehileng ho tloha qetellong ho ea ho qetellong?",
+        "a": "E. Melaetsa le mehala e sireletsehileng ho tloha qetellong ho ea ho qetellong ka ho iketsa. Ke uena le moamoheli feela le ka bala tsona."
+      },
+      "translate": {
+        "q": "Phetolelo ea hang-hang e sebetsa joang?",
+        "a": "Nts'etsa pele “Fetolela ka bo eona” ho Litlhophiso → Ponahalo & Puo. Re fetolela sesebelisoeng moo ho tšehetsoeng, ho seng joalo ka li-API tse sireletsehileng tse nang le metadata e fokolang."
+      },
+      "contact": {
+        "q": "Ikopanye le thuso",
+        "a": "Re fihlela rona ho support@chatforia.com. Kenya litšoantšo le mofuta oa app ea hau."
+      }
+    }
+  },
+  "encryptionRecovery": {
+    "title": "Laola Ho Sireletsa",
+    "description": "Boloka, tsosolosa, notlolla, kapa qala bocha senotlolo sa hau sa ho sireletsa.",
+    "alert": {
+      "keyRequiredTitle": "Senotlolo sa ho sireletsa se hlokahala",
+      "keyRequiredBody": "Sebatli sena ha se khone ho notlolla melaetsa ea hau e sireletsehileng hajoale. Tsosolosa, notlolla, kapa qala bocha senotlolo sa hau ho tsoela pele."
+    },
+    "sections": {
+      "createBackup": "Bopa backup ea senotlolo",
+      "restoreFromBackup": "Tsosolosa ho tsoa ho backup ea akhaonto",
+      "resetEncryption": "Qala bocha ho sireletsa"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Notlolla passcode (sesebelisoa sa hajoale)",
+        "description": "E sebelisoa ho notlolla linotlolo tsa hau sebakeng sa lehae pele u romella"
+      },
+      "backupPassword": {
+        "label": "Password ea backup",
+        "description": "E sebelisoa ho sireletsa faele ea backup"
+      },
+      "restoreBackupPassword": {
+        "label": "Password ea backup",
+        "description": "Password eo u e entseng ha u boloka senotlolo sa hau ho iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Passcode e ncha ea lehae",
+        "description": "Sireletsa linotlolo tse phomotse ho sebatli sena"
+      },
+      "resetLocalPasscode": {
+        "label": "Passcode e ncha ea lehae",
+        "description": "E hlokahala pele u qala bocha e le hore senotlolo se secha se sireletsoe sesebelisoeng sena"
+      }
+    },
+    "actions": {
+      "unlockKey": "Notlolla senotlolo sa ho sireletsa",
+      "restoreFromBackup": "Tsosolosa ho tsoa ho backup ea akhaonto",
+      "resetEncryption": "Qala bocha Ho Sireletsa"
+    },
+    "messages": {
+      "backupCreated": "Backup ea senotlolo e entsoe le ho khoasolla.",
+      "keyUnlocked": "Senotlolo sa ho sireletsa se notlolotsoe.",
+      "keyRestored": "Senotlolo se tsosolositsoe ho tsoa ho backup ea akhaonto.",
+      "resetSuccess": "Ho sireletsa ho qalile bocha ka katleho."
+    },
+    "errors": {
+      "restoreIncomplete": "Ho tsosolosa senotlolo ha hoa phethoa kapa ho fosahetseng bakeng sa akhaonto ena",
+      "noBackup": "Ha ho backup e sireletsehileng e teng bakeng sa akhaonto ena",
+      "missingPublicKey": "Backup e haellang senotlolo sa sechaba",
+      "noServerPublicKey": "Akhaonto ena ha e senole senotlolo sa sechaba sa seva hajoale",
+      "serverBackupMismatch": "Backup ea seva ha e lumellane le senotlolo sa ho sireletsa sa akhaonto ea hajoale",
+      "incompleteMetadata": "Metadata ea backup ha e phethoe",
+      "resetIncomplete": "Ho qala bocha ho sireletsa ha hoa phethoa ka nepo"
+    },
+    "confirm": {
+      "reset": "Qala bocha ho sireletsa bakeng sa akhaonto ena?\n\nMelaetsa ea khale e sireletsehileng e ka 'na ea se ke ea baleha ntle le haeba u tsosolosa senotlolo sa mantlha hamorao."
+    },
+    "resetDescription": "Sena se hlahisa senotlolo se secha sa ho sireletsa bakeng sa akhaonto ea hau. Melaetsa ea khale e sireletsehileng e ka 'na ea se ke ea baleha ntle le haeba u tsosolosa senotlolo sa mantlha hamorao."
+  },
   "footer": {
-    "plans": "Merero & Theko",
-    "about": "Ka Chatforia",
-    "careers": "Menyetla ea Mosebetsi",
-    "press": "Bohatisi",
-    "advertise": "Beha Papatso",
-    "contact": "Iteanye le Rona",
+    "plans": "Merero & Litheko",
+    "about": "Mabapi le Chatforia",
+    "careers": "Mesebetsi",
+    "press": "Litaba",
+    "advertise": "Bapatsa",
+    "contact": "Re ikopanye le rona",
     "help": "Setsi sa Thuso",
     "status": "Leqephe la Boemo",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
-    "privacy": "Leano la Lekunutu",
-    "terms": "Lipehelo tsa Tšebeletso",
-    "cookies": "Litlhophiso tsa Li-cookie",
-    "doNotSell": "Se rekise Boitsebiso ba Ka",
+    "privacy": "Leano la Tšireletso",
+    "terms": "Melao ea Tšebeliso",
+    "cookies": "Litlhophiso tsa Cookie",
+    "doNotSell": "U se ke ua Rekisa Lintlha tsa ka",
     "language": "Puo",
-    "contactShort": "Iteanye",
-
-    "aria": "Sehloho se ka tlaase",
+    "contactShort": "Ikopanye le rona",
+    "aria": "Footer",
     "homeAria": "Lehae la Chatforia",
     "section": {
-      "company": "K’HAMPhani",
-      "support": "TS’EHETSO",
-      "downloads": "LIJAROLLO",
-      "legal": "MOLAOLI"
+      "company": "KHAMPANI",
+      "support": "THUSO",
+      "downloads": "KHOASOLLA",
+      "legal": "MOLAO"
     },
     "links": {
-      "plans-pricing": "Merero & Theko",
-      "about-chatforia": "Ka Chatforia",
-      "careers": "Menyetla ea Mosebetsi",
-      "press": "Bohatisi",
-      "advertise": "Beha Papatso",
+      "plans-pricing": "Merero & Litheko",
+      "about-chatforia": "Mabapi le Chatforia",
+      "careers": "Mesebetsi",
+      "press": "Litaba",
+      "advertise": "Bapatsa",
       "getting-started": "Ho Qala",
       "help-center": "Setsi sa Thuso",
-      "contact-us": "Iteanye le Rona",
+      "contact-us": "Re ikopanye le rona",
       "status-page": "Leqephe la Boemo",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
-      "privacy-policy": "Leano la Lekunutu",
-      "terms-of-service": "Lipehelo tsa Tšebeletso",
-      "do-not-sell-my-info": "Se rekise Boitsebiso ba Ka",
-      "cookie-settings": "Litlhophiso tsa Li-cookie"
+      "privacy-policy": "Leano la Tšireletso",
+      "terms-of-service": "Melao ea Tšebeliso",
+      "do-not-sell-my-info": "U se ke ua Rekisa Lintlha tsa ka",
+      "cookie-settings": "Litlhophiso tsa Cookie"
     },
     "social": {
       "tiktok": "TikTok",
@@ -349,638 +1605,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Patent e emetse ho amoheloa",
+    "patentPending": "Patent e ntse e emetse",
     "backToTop": "↑ Khutlela holimo"
   },
-
-  "home": {
-    "title": "Lehae",
-    "header": "Melaetsa ea hau",
-    "subheader": "Romela molaetsa ho qala moqoqo.",
-    "sendButton": "Romela molaetsa",
-    "gifPicker": "Bula khetheho ea GIF",
-    "emoji": "Emoji",
-    "upload": "Kenya foto kapa video",
-    "inputPlaceholder": "Thaepa molaetsa…",
-    "inputLabel": "Sebopeho sa ho ngola molaetsa",
-    "sendTooltip": "Romela",
-    "sendTooltipEmpty": "Thaepa molaetsa ho romela",
-    "send": "Romela",
-    "welcomeMessage": "Rea u amohela ho Chatforia",
-    "getStarted": "Qala"
-  },
-
   "press": {
-    "title": "Bohatisi",
-    "contactLine": "Bakeng sa lipotso tsa mecha ea litaba, iteanye le rona ho",
-    "boilerplateTitle": "Tlhaloso e khuts’oane",
-    "boilerplateBody": "Chatforia ke app ea melaetsa e shebaneng le lekunutu e nolofatsang puisano ea lipuo tse fapaneng. Melaetsa e sirelelitsoe ka pheletso-ho-pheletso ka boiketsetso, ’me phetolelo e hahelletsoeng e ts’ehetsa lipuo tse 100+ ka nako ea nnete. Basebelisi ba ka bulela melaetsa e nyamelang, ba boloka li-receipt tsa ho bala e le boikhethelo, ’me ba sinka lisebelisoa. E fumaneha ho iOS, Android le wepeng.",
-    "assetsTitle": "Lisebelisoa tsa letšoao",
-    "assetsSubtitle": "Lologo, linepe tsa skrine, le litšoantšo tsa sehlahisoa.",
-    "downloadCta": "Jarolla sephutheloana sa boralitaba",
+    "title": "Litaba",
+    "contactLine": "Bakeng sa lipotso tsa mecha ea litaba, re fihlele rona ho",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia ke app ea melaetsa ea tšireletso ea pele e etsang hore moqoqo oa lipuo tse fapaneng o be bonolo. Melaetsa e sireletsehileng ho tloha qetellong ho ea ho qetellong ka ho iketsa, 'me phetolelo e hahiloeng ka har'a eona e tšehetsa lipuo tse 100+ ka nako ea 'nete. Basebelisi ba ka nts'etsa pele melaetsa e nyamelang, boloka litlaleho tsa ho bala e le khetho, le ho lumellana ho lisebelisoa tse fapaneng. E fumaneha ho iOS, Android, le web.",
+    "assetsTitle": "Lisebelisoa tsa brand",
+    "assetsSubtitle": "Li-logo, litšoantšo tse nkuoeng, le litšoantšo tsa sehlahisoa.",
+    "downloadCta": "Khoasolla media kit",
     "downloadTitle": "Fumana app",
-    "scanTip": "Ho desktop? Skena ka fono ea hao ho jarolla app.",
+    "scanTip": "U le desktop? Skena ka mohala oa hau ho fumana app.",
     "qrAria": "Bula webosaete ea Chatforia",
-    "appStore": "Jarolla ho App Store",
-    "googlePlay": "Fumana ho Google Play"
+    "appStore": "Khoasolla ho App Store",
+    "googlePlay": "E fumane ho Google Play"
   },
-
   "careers": {
-    "title": "Menyetla ea Mosebetsi",
-    "intro": "Re sehlopha se senyenyane se hahang molaetsa o poraefete, oa lefats’e. Haeba u tsotella encryption, phihlello, le UX e monate, re ka rata ho utloa ho uena.",
-    "openRoles": "<b>Mosebetsi o bulehileng:</b> Boenjiniere (Full-stack, iOS, Android), Sehlahisoa, Tšehetso.",
-    "apply": "<b>Tsela ea ho etsa kopo:</b> Romella CV/lihokelo ho <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "Romella CV ka imeile"
+    "title": "Mesebetsi",
+    "intro": "Re sehlopha se senyenyane sa motheo se aha Chatforia — molaetsa oa lefats'e oa poraefete o qalang ho web, iOS, le Android. Haeba u tsotella tšireletso, ho sireletsa, le liphihlelo tse monate tsa basebelisi, re thabile ho utloa ho tsoa ho uena.",
+    "openRoles": "<b>Mesebetsi e bulehileng ea motheo:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "Mokhoa oa ho etsa kopo: Sebelisa konopo e ka tlaase ho romella CV ea hau le li-link.",
+    "emailCta": "Romella CV ea hau",
+    "whyNow": "Hobaneng u kena hona joale?",
+    "whyBullets": "• Thusa ho aha motheo oa molaetsa o mocha oa lefats'e.\n• Romella lintlafatso tse sebelisoang ho web, iOS, le Android.\n• Sebetsa ka kotloloho le mothehi ho meralo le tataiso ea sehlahisoa.\n• Laola libaka tse nang le tšusumetso e kholo ea stack: melaetsa, lentsoe, video, ho sireletsa, telecom, AI.\n• Kena qalong — pele basebelisi ba eketseha."
   },
-
   "about": {
-    "title": "Ka Chatforia",
-    "description": "Chatforia ke molaetsa o sireletsehileng, oa lipuo tse ngata, o nang le encryption ea pheletso-ho-pheletso, phetolelo hang-hang, le mehala ea lentsoe/video. Morero oa rona o bonolo: ho thusa batho ho hokahana—ka mokhoa o sireletsehileng, o poraefete, le ho pholletsa le lipuo.",
-    "valuesTitle": "Seo re se ananelang",
+    "title": "Mabapi le Chatforia",
+    "description": "Chatforia ke molaetsa o sireletsehileng, oa lipuo tse ngata o nang le ho sireletsa ho tloha qetellong ho ea ho qetellong, phetolelo ea hang-hang, le ho letsetsa ka lentsoe/video. Morero oa rona o bonolo: thusa batho ho hokahana—ka tšireletso, ka poraefete, le ho feta lipuo.",
+    "valuesTitle": "Seo re se nahanang",
     "values": {
-      "privacy": "<bold>Lekunutu pele:</bold> E2E encryption ka boiketsetso.",
-      "access": "<bold>Phihlello bakeng sa bohle:</bold> Phetolelo ea lipuo tse 100+ ka bohona.",
-      "control": "<bold>Taolo:</bold> Melaetsa e nyamelang & li-receipt tsa ho bala ke boikhethelo.",
-      "privacy_aria": "Lekunutu pele: E2E encryption ka boiketsetso.",
-      "access_aria": "Phihlello bakeng sa bohle: Phetolelo ea lipuo tse 100+ ka bohona.",
-      "control_aria": "Taolo: Melaetsa e nyamelang le li-receipt tsa ho bala ke boikhethelo."
+      "privacy": "<b>Tšireletso ea pele:</b> Ho sireletsa ho tloha qetellong ho ea ho qetellong ka ho iketsa.",
+      "access": "<b>Ho fihlella bohle:</b> Phetolelo ka bo eona ea lipuo tse 100+.",
+      "control": "<b>Taolo:</b> Melaetsa e nyamelang & litlaleho tsa ho bala ke khetho.",
+      "privacy_aria": "Tšireletso ea pele: Ho sireletsa ho tloha qetellong ho ea ho qetellong ka ho iketsa.",
+      "access_aria": "Ho fihlella bohle: Phetolelo ka bo eona ea lipuo tse 100+.",
+      "control_aria": "Taolo: Melaetsa e nyamelang le litlaleho tsa ho bala ke khetho."
     },
     "howTitle": "Chatforia e sebetsa joang",
-    "howDescription": "Melaetsa e sireletsoa sesebelisoa sa hau pele e tloha. Phetolelo, li-bekapo le sink li etselitsoe ho fokotsa seo li-server tsa rona li ka se bonang."
-    },
-
+    "howDescription": "Melaetsa e sireletsehileng sesebelisoeng sa hau pele e tsoa. Phetolelo, backups, le ho lumellana ha lisebelisoa li entsoe ho fokotsa seo seva sa rona se ka se bonang."
+  },
   "advertise": {
-    "title": "Beha Papatso ka Chatforia",
-    "description": "Fihlella basebelisi ba melaetsa ka lipapatso tse hlomphehang, tse sireletsehileng bakeng sa letšoao. Re fana ka libaka tsa banner, botšepehi, le li-promo tsa ka tlung. Bareki ba Premium ha ba bone lipapatso.",
+    "title": "Bapatsa ka Chatforia",
+    "description": "Fihlela basebelisi ba moqoqo ba ikemiselitseng ka libaka tse nang le tatso, tse sireletsehileng tsa brand. Re fana ka inventory ea banner libakeng tse bonahalang haholo, sponsorships, le promos tsa ntlo. Basebelisi ba premium ha ba bone lipapatso.",
     "adsense": {
-      "withPubId": "Hajoale re fana ka lipapatso ka <b>Google AdSense</b>. Haeba u ka rata ho re lebisa ka Google Ads, sebelisa ID ea mohoebi <code>{{pubId}}</code> ’me u kope managed placement lihloohong tse ka tlase. Botšepehi bo tobileng boa teng—sebelisa foromo.",
-      "noPubId": "Hajoale re fana ka lipapatso ka <b>Google AdSense</b>. Botšepehi bo tobileng bo boetse boa fumaneha—sebelisa foromo e ka tlase."
+      "withPubIdShort": "Re boetse re fana ka inventory ka Google AdSense. U ka lebisa Chatforia ka ID ea publisher {{pubId}}, kapa sebelisa foromo e ka tlaase bakeng sa sponsorships tse tobileng.",
+      "noPubIdShort": "Re boetse re fana ka inventory e itseng ka Google AdSense. Ho na le sponsorships tse tobileng — sebelisa foromo e ka tlaase."
     },
-    "inventoryHeader": "Liphutheloana & Litlhaloso",
+    "inventoryHeader": "Inventory & Litlhaloso",
     "placement": {
       "displayBadge": "Pontšo",
       "acceptedSizes": "Boholo bo amohelehang",
-      "adsenseSlot": "Sekoti sa AdSense:"
+      "adsenseSlot": "Slot ea AdSense:"
     },
-    "noPlacements": "Ha ho libaka tse hlophisitsoeng hajoale. Kenya ho ads/placements.js.",
+    "noPlacementsPublic": "Re phethela inventory ea rona ea lipapatso. Re tsebise ka phutuho ea hau 'me re tla khothaletsa libaka.",
     "whyHeader": "Hobaneng Chatforia?",
     "why": {
-      "highSession": "Makhetlo a mangata a ho kenya & nako e telele ea ho lula ka har’a UI ea moqoqo",
-      "brandSafe": "Mefuta e sireletsehileng bakeng sa letšoao; ho fokotsa khafetsa ka tlhompho",
-      "sponsoredMoments": "Linako tse tšehetsoang (mohl., “Start a Chat” modal) lia fumaneha",
-      "deals": "Likonteraka tse tobileng kapa ka lenaneo ka AdSense/Google Ads"
+      "highSession": "Nako e telele ea ho lula le ho lula moqoqong oa UI",
+      "brandSafe": "Mefuta e sireletsehileng ea brand; ho fokotsa nako e hlomphuoang",
+      "sponsoredMoments": "Linako tse tšehetsoeng (mohl., “Qala Moqoqo” modal) li fumaneha",
+      "deals": "Litumellano tse tobileng kapa tse iketsang ka AdSense/Google Ads"
     },
-    "contactHeader": "Iteanye",
+    "contactHeader": "Ikopanye le rona",
     "form": {
-      "submittedMsg": "Kea leboha! Potso ea hau e se e le tseleng. Re tla latela haufinyane.",
-      "missingRequired": "Ka kopo tlatsa lebitso, imeile le molaetsa.",
-      "successToast": "Kea leboha! Re tla ikopanya haufinyane.",
-      "mailtoInfo": "Re bula moreki oa hau oa imeile ho romella potso…",
+      "submittedMsg": "Ke a leboha! Kopo ea hau e tseleng. Re tla latela haufinyane.",
+      "missingRequired": "Ka kopo tlatsa lebitso, email, le molaetsa.",
+      "successToast": "Ke a leboha! Re tla ikopanya le uena haufinyane.",
+      "mailtoInfo": "Ho bula email client ea hau ho romella kopo…",
       "nameLabel": "Lebitso la hau",
       "namePlaceholder": "Jane Doe",
-      "emailLabel": "Imeile",
-      "emailPlaceholder": "wena@khampani.com",
-      "companyLabel": "K’hamphani",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Khampani",
       "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Tekanyetso ea khoeli (boikhethelo)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Re bolelle ka letšolo la hau",
-      "messagePlaceholder": "Sepheo, matsatsi, KPI, likhetho tsa libaka…",
-      "sendCta": "Romela potso"
+      "budgetLabel": "Tekanyetso ea khoeli (ha ho hlokahale)",
+      "budgetPlaceholder": "mohl. $1,000–$20,000+",
+      "messageLabel": "Re tsebise ka phutuho ea hau",
+      "messagePlaceholder": "Ho lebisa, matsatsi, KPI, likhetho tsa libaka…",
+      "sendCta": "Romella kopo"
     },
     "legal": {
-      "disclaimerStart": "Ka ho romella, u lumellana le rona",
-      "terms": "Lipehelo",
+      "disclaimerStart": "Ka ho romella, u lumellana le",
+      "terms": "Melao",
       "and": "le",
-      "privacy": "Leano la Lekunutu"
-    }
-  },
-
-  "upgrade": {
-    "title": "Ntlafatsa",
-    "subtitle": "Notlolla moralo o u loketseng: tlosa lipapatso ka Plus, kapa fumane likarolo tsohle ka Premium.",
-    "perMonth": "kgwedi",
-    "perYear": "selemo",
-    "goPremium": "E-ea Premium",
-    "benefitsLine": "Notlolla likarolo tse matla & tlosa lipapatso.",
-    "ctaText": "Ntlafatsa",
-    "aria": "Ntlafatsa ho Chatforia Premium",
-    "toggle": {
-      "monthly": "Khoeli le Khoeli",
-      "annual": "Selemo le Selemo (Boloka 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Sengoliso se tla fela",
-      "body": "U tla khutlela ho Free ka",
-      "keepPlanCta": "Boloka {{plan}}",
-      "manageBillingCta": "Laola tefo"
-    },
-    "billing": {
-      "opening": "E bula…",
-      "manage": "Laola Tefo"
-    },
-    "checkout": {
-      "redirecting": "E fetisetsa…"
-    },
-    "auth": {
-      "continue": "Tsoela pele ho kena",
-      "createAccount": "Etsa ak’haonte",
-      "signIn": "Kena"
-    },
-    "cta": {
-      "aria": "Khetha moralo",
-      "getPlus": "Ntlafatsa ho Plus",
-      "upgradeMonthly": "Ntlafatsa Khoeli le Khoeli",
-      "upgradeAnnual": "Ntlafatsa Selemo le Selemo"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Qala ho romellana melaetsa mahala.",
-        "features": {
-          "msg": "Melaetsa 1:1 le lihlopha",
-          "aiBasic": "Li-karabo tsa AI tsa motheo",
-          "attachments": "Linamane tse tloaelehileng"
-        },
-        "ctaCurrent": "Moralo oa Hajoale",
-        "ctaUnavailable": "Fetela ho Free (ha e fumanehe)",
-        "aria": "Moralo oa Free (hajoale)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / kgw.",
-        "desc": "Boiphihlelo bo theko e tlaase haholo bo se nang lipapatso.",
-        "features": {
-          "noAds": "Tlosa lipapatso tsohle",
-          "msg": "Melaetsa 1:1 le lihlopha",
-          "attachments": "Linamane tse kholoanyane",
-          "aiBasic": "Li-karabo tsa AI tsa motheo"
-        },
-        "badge": "E tummeng",
-        "cta": "Tlohela Lipapatso",
-        "aria": "Ntlafatsa ho Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Khoeli le Khoeli)",
-        "price": "$24.99 / kgw.",
-        "desc": "Likarolo tsohle, melumo ea mehala, le lisebelisoa tsa AI.",
-        "features": {
-          "plusAll": "S tsohle tsa Plus",
-          "ringtones": "Melumo ea mehala le melaetsa e ikhethileng",
-          "powerAi": "Likarolo tsa AI tse matla",
-          "priorityUpdates": "Lintho tse nchafalitsoeng ka pele",
-          "backups": "Li-bekapo & ho sinka lisebelisoa"
-        },
-        "badge": "Boleng bo botle",
-        "cta": "Ntlafatsa (Khoeli le Khoeli)",
-        "aria": "Ntlafatsa ho Premium Khoeli le Khoeli"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Selemo)",
-        "price": "$225 / selemo",
-        "desc": "Boloka ho feta ha o lefshoa ka selemo.",
-        "features": {
-          "allPremium": "S tsohle tsa Premium",
-          "annualBilling": "E lefshoa ka selemo",
-          "save25": "Boloka ~25% ho feta khoeli le khoeli",
-          "sameFeatures": "Likarolo tse tšoanang le tsa Khoeli le Khoeli"
-        },
-        "badge": "Boloka 25%",
-        "cta": "Ntlafatsa (Selemo)",
-        "aria": "Ntlafatsa ho Premium Selemo",
-        "disclaimer": "E lefshoa esale pele. U ka hlakola neng kapa neng. Ha ho litefiso tse patiloeng."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Qala ho romellana melaetsa mahala.",
-      "plusTitle": "Plus",
-      "plusBadge": "E tummeng",
-      "plusDesc": "Boiphihlelo bo se nang lipapatso bo theko e tlaase ka ho fetisisa.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Likarolo tsohle, melumo, le lisebelisoa tsa AI.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Boloka ho feta ha u lefa selemo.",
-      "annualDisclaimer": "E lefshoa esale pele. U ka hlakola neng kapa neng. Ha ho litefiso tse patiloeng."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Ho Qala",
-    "subtitle": "O mocha ho Chatforia? Tataiso ena e potlakileng e bontša tsa bohlokoa hore u be le katleho ka metsotso.",
-    "alert": {
-      "text": "Tataiso ena e tla hola ha re tsebisa likarolo tse ncha. Haeba ho haella ho hong, re tsebise ka",
-      "contactLink": "Iteanye le Rona"
-    },
-    "section1": {
-      "title": "1) Etsa ak’haonte",
-      "signup": "Ngolisa",
-      "or": "kapa",
-      "login": "kena",
-      "loginText": "ka ak’haonte eo u seng u e-na le eona.",
-      "prefsStart": "Beha",
-      "prefsLink": "likhetho",
-      "prefsRest": "(puo, li-receipt tsa ho bala, lihlooho)."
-    },
-    "section2": {
-      "title": "2) Qala melaetsa",
-      "item1": "Etsa DM kapa Sehlopha ’me u romele molaetsa oa hau oa pele.",
-      "item2": "Sebelisa phetolelo hang-hang ho qoqa ka lipuo tse 100+.",
-      "item3": "Leka melaetsa e nyamelang le li-receipt tsa ho bala ho Profaele → Lekunutu."
-    },
-    "section3": {
-      "title": "3) E-ea pele",
-      "item1Part1": "Laola moralo leqepheng la",
-      "upgradeLink": "Ntlafatsa",
-      "item1Part2": "(Plus = ha ho lipapatso, Premium = likarolo tsohle).",
-      "item2Part1": "Hokela lisebelisoa tse ling ’me u sebetse li-bekapo tse sirelelitsoeng ho",
-      "settingsLink": "Litlhophiso"
-    },
-    "cta": {
-      "seePlans": "Sheba merero",
-      "openSettings": "Bula litlhophiso"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Setsi sa Thuso",
-    "faq": {
-      "account": {
-        "q": "Ke etsa kapa ke khutlisa ak’haonte joang?",
-        "a": "Jarolla app kapa sebelisa web, tobetsa “Etsa ak’haonte”, netefatsa imeile/mohala. Ho khutlisa, sebelisa “U lebetse phasewete”."
-      },
-      "privacy": {
-        "q": "Na melaetsa e sirelelitsoe ka pheletso-ho-pheletso?",
-        "a": "E. Melaetsa le mehala li sirelelitsoe ka E2E ka boiketsetso. Ke uena le moamoheli feela ba ka li balang."
-      },
-      "translate": {
-        "q": "Phetolelo hang-hang e sebetsa joang?",
-        "a": "Buletsa “Auto-translate” ho Litlhophiso → Ponahalo & Puo. Re fetolela sesebelisoa se ts’ehetsang, ho seng joalo ka API tse sireletsehileng ka metadata e fokolang."
-      },
-      "contact": {
-        "q": "Iteanye le tšehetso",
-        "a": "Re fihlele ho support@chatforia.com. Kenya li-skrinshot le mofuta oa app."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Iteanye le Rona",
-    "successMsg": "Kea leboha—sehlopha sa rona se tla araba ka imeile.",
-    "errorSend": "Ha e a khona ho romela. Ka kopo imeile support@chatforia.com.",
-    "form": {
-      "nameLabel": "Lebitso",
-      "emailLabel": "Imeile",
-      "messageLabel": "Molaetsa",
-      "sendCta": "Romela"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Leano la Lekunutu",
-    "lastUpdated": "E ntlafalitsoe la ho qetela:",
-    "intro": {
-      "body": "Leano lena la Lekunutu le hlalosa kamoo Chatforia (“re”, “rona”) e bokellang, e sebelisang le ho arolelana tlhaiso-leseling ha u sebelisa li-app le litšebeletso tsa rona. Re rala Chatforia ho fokotsa data eo re ka e fumanang."
-    },
-    "infoWeCollect": {
-      "title": "Tlhahisoleseding eo re e bokellang",
-      "account": "Tlhahisoleseding ea ak’haonte (mohl., imeile/mohala) ho etsa le ho sireletsa ak’haonte.",
-      "encrypted": "Litaba tse sirelelitsoeng (melaetsa/mehala) li sirelelitsoe ka E2E; re ke ke ra li bala.",
-      "diagnostics": "Tsebo ea tekheniki/ts’ebeliso joalo ka log tsa ho senyeha, mofuta oa sesebelisoa, kapa analytics e akaretsang ho ntlafatsa ts'ebetso."
-    },
-    "howWeUse": {
-      "title": "Kamoo re sebelisang tlhahisoleseding",
-      "provide": "Ho fana le ho sireletsa tšebeletso (auth, ho lemoha spam/tlhekefetso).",
-      "improve": "Ho ntlafatsa likarolo (boleng ba phetolelo, ts’epahalo).",
-      "legal": "Ho latela melao."
-    },
-    "sharing": {
-      "title": "Kabo",
-      "body": "Ha re rekise data ea botho. Re ka arolelana data e lekanyelitsoeng le ba sebetsetsang (mohl., tsebiso ka push, analytics) tlas’a likonteraka tse tiileng."
-    },
-    "rights": {
-      "title": "Litokelo tsa hau",
-      "body": "Ho latela sebaka sa heno (mohl., GDPR/UK GDPR/CPRA), u ka kopa ho fihlella, ho lokisa, ho hlakola, kapa ho itokolla mefuteng e itseng ea ts'ebetso. Imeile: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Polokelo ea data & tšireletseho",
-      "body": "Re boloka feela se hlokahalang ho sebetsa tšebeletso ’me re sebelisa tšireletseho ea maemo a indasteri. Litaba tsa E2E ha re khone ho li bula."
-    },
-    "children": {
-      "title": "Bana",
-      "body": "Chatforia ha e etsetsoe bana ba ka tlase ho 13 (kapa ho latela molao oa heno)."
-    },
-    "changes": {
-      "title": "Liphetoho",
-      "body": "Re tla beha lintlafatso mona ’me re nchafatse letsatsi la “E ntlafalitsoe la ho qetela”."
-    },
-    "contact": {
-      "title": "Iteanye",
-      "body": "privacy@chatforia.com • [Lebitso la molao la K’hamphani], [Aterese]"
-    }
-  },
-
-  "terms": {
-    "title": "Lipehelo tsa Tšebeletso",
-    "lastUpdated": "E ntlafalitsoe la ho qetela:",
-    "intro": {
-      "body": "Ka ho sebelisa Chatforia u amohela Lipehelo tsena. Haeba u sa li amohele, se sebelise tšebeletso."
-    },
-    "accounts": {
-      "title": "Liak’haonte",
-      "itemAccurateInfo": "Fana ka tlhahisoleseding e nepahetseng ’me u boloke mangolo a patlo a sireletsehile.",
-      "itemResponsibility": "U ikarabella bakeng sa se etsahalang ak’haonteng ea hau."
-    },
-    "acceptableUse": {
-      "title": "Tšebeliso e amohelehang",
-      "itemNoAbuse": "Se ke oa romella litaba tse seng molaong, tse tlhekefetsang, kapa tse hatellang litokelo; ha ho spam kapa tlhekefetso e iketsang.",
-      "itemSuspend": "Re ka emisa/khutlisa tšebeletso ka lebaka la tlolo."
-    },
-    "yourContent": {
-      "title": "Litaba tsa hau",
-      "body": "U boloka litokelo holim’a litaba tsa hau. U re fa litokelo tse hlokahalang ho sebetsa tšebeletso (mohl., ho tsamaisa, polokelo, phetolelo)."
-    },
-    "disclaimer": {
-      "title": "Litemoso & boikarabelo",
-      "body": "Tšebeletso e fuoa “joalo ka e le teng” ntle le liwaranti. Ho ea ka molao, Chatforia ha e ikarabelle ka tšenyo e sa tobang kapa e bakoang ke maemo."
-    },
-    "changes": {
-      "title": "Liphetoho",
-      "body": "Re ka ntlafatsa lipehelo tsena; tšebeliso e tsoelang pele ka mor’a lintlafatso e bolela kamohelo."
-    },
-    "contact": {
-      "title": "Iteanye",
-      "body": "support@chatforia.com • [Lebitso la molao la K’hamphani], [Aterese]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Se Rekise kapa Se Arolelane Tlhahisoleseding ea Ka",
-    "body": "Chatforia ha e rekise tlhahisoleseding ea botho. Leha ho le joalo, baahi ba California ba ka romella likōpo tlas’a CPRA ba sebelisa konopo e ka tlase.",
-    "cta": "Romella kopo"
-  },
-
-  "cookies": {
-    "title": "Litlhophiso tsa Li-cookie",
-    "body": "Chatforia e sebelisa li-cookie tse fokolang (mohl., session, tšireletseho). Ha re sebelise li-cookie tsa lipapatso tsa batho ba bang. Laola li-cookie ka litlhophiso tsa sebatli sa hau."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Ha e khone ho kenya boemo ba nomoro ea mohala.",
-    "lock": "Notlela",
-    "noNumberAssigned": "Ha ho nomoro e abetsoeng. Khetha ka khoutu ea sebaka ho qala ho romela melaetsa.",
-    "pickNumber": "Khetha nomoro",
-    "phoneNumber": "Nomoro ea mohala"
-  },
-
-  "startChatModal": {
-    "title": "Qala moqoqo",
-    "quickPicker": "Khetho e potlakileng",
-    "to": "Ho",
-    "nameOrUsername": "Thaepa lebitso, lebitso la mosebelisi",
-    "nameUsernamePhoneEmail": "Thaepa lebitso, lebitso la mosebelisi, mohala, kapa imeile…",
-    "startWithSelected": "Qala moqoqo le ba khethiloeng",
-    "searchByUsernameOrPhone": "Batla ka lebitso la mosebelisi kapa mohala",
-    "search": "Batla",
-    "searchPrompt": "Thaepa lebitso la mosebelisi kapa mohala ebe o tobetsa Batla.",
-    "pickFromContacts": "Kapa khetha ho tsoa likhokahanyong",
-    "addContact": "Kenya Khokahanyi",
-    "show": "Bontša",
-    "add": "Kenya",
-    "close": "Koala",
-    "selectedCount": "{{count}} e khethiloeng",
-    "pickAtLeastOne": "Khetha bonyane moamoheli a le mong.",
-    "saveContactsHint": "Li-kenyo tsa mohala/imeile li tla fumaneha ka mor’a hore u li boloke e le likhokahanyi.",
-    "failedBulkStart": "Ho hlolehile ho qala moqoqo le ba khethiloeng.",
-    "noResults": "Ha ho liphetho",
-    "mode": "Mokhoa",
-    "group": "Sehlopha",
-    "broadcast": "Phatlalatso",
-    "groupNameOptional": "Lebitso la sehlopha (boikhethelo)",
-    "firstMessageOptional": "Molaetsa oa pele (boikhethelo empa ho kgothaletswa)",
-    "createGroup": "Etsa sehlopha",
-    "sendBroadcast": "Romela phatlalatso"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "U ho Free — melumo ea premium e bontšoa empa e notletsoe. Ntlafatsa ho notlolla tsohle.",
-    "preview": "Sheba esale pele",
-    "resetToDefaults": "Seta ho difaefault",
-    "notificationSounds": "Melumo ea Tsebiso",
-    "messageTone": "Molumo oa molaetsa",
-    "default": "Default",
-    "vibrate": "Driba",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating",
-    "textMessage": "Molaetsa oa Mongolo",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Fono ea Dijithale",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Tšobotsi ena e hloka moralo oa Premium."
-  },
-
-  "aiSettings": {
-    "title": "Litlhophiso tsa AI",
-    "controlIntro": "Laola phetolelo, li-karabo tse bohlale, le likarabo tsa ForiaBot ka bohona.",
-    "save": "Boloka Litlhophiso tsa AI",
-    "autoTranslateIncoming": "Fetolela melaetsa e kenang ka bohona",
-    "showOriginalAlongside": "Bontša mongolo oa pele haufi le phetolelo",
-    "enableSmartReplies": "Buletsa Li-karabo tse Bohlale",
-    "smartRepliesHint": "Romella melaetsa e qetellang e amohetsoeng (e hloekisitsoeng) ho AI ho fana ka likhothaletso tse potlakileng.",
-    "maskProfanity": "Pata mantsoe a hlokang tlhompho ka litlhahiso tsa AI",
-    "maskProfanityHint": "Ha e buletsoe, litlhahiso tse khutlisoang ke AI li tla ba le mantsoe a hlalositsoeng a patiloe",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "Buletsa karabo ka bohona ha ke phathahane",
-    "autoReplyMode": "Mokhoa oa karabo ka bohona",
-    "cooldownSeconds": "Nako ea ho phomola (metsotswana)",
-    "off": "Tima",
-    "on": "Bula",
-    "signature": "Saeno",
-    "autoReply": "Karabo ka bohona",
-    "activeUntilOptional": "E sebetsa ho fihlela (boikhethelo)",
-    "saved": "Likhetho tsa AI li bolokiloe",
-    "saveFailed": "Ho hlolehile ho boloka litlhophiso tsa AI",
-    "translateOff": "Tima",
-    "translateTagged": "Ha ke @translated kapa ke tšoauoa feela",
-    "translateAll": "Fetolela melaetsa eohle e kenang",
-    "modeDm": "Meqoqo ea 1:1 feela",
-    "modeMention": "Ha ke @builoe feela",
-    "modeAll": "Melaetsa eohle e kenang"
-  },
-
-  "accessibilitySettings": {
-    "title": "Phihlello & Litemoso",
-    "accessibility": "Phihlello",
-    "accessibilityDesc": "Likhetho tsa ho etsa Chatforia hore e be bonolo ntle le ho itšetleha ka modumo.",
-    "interfaceFontSize": "Boholo ba fonte ea sebopeho",
-    "interfaceFontSizeHelp": "E qala ka boholo bo tloaelehileng. Eketsa haeba u rata mongolo o moholo ho litlhophiso tsa phihlello.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Litemoso",
-    "notificationsDesc": "Litemoso tsa pono bakeng sa melaetsa & mehala\nBontša libaner le ho phatsima ha sehlooho e le hore u se ke oa fetoa ke mesebetsi.",
-    "vibrateOnNew": "Driba ha ho na melaetsa e mecha (ha e tšehetsoa)\nHlahisa dribolo ea sesebelisoa ka litemoso.",
-    "flashOnCall": "Khantša skrine ha ho kena mohala\nKhanya e khanyang hanyenyane ha mohala o lla.",
-    "liveCaptions": "Li-caption tsa nako ea nnete (mehala)",
-    "captionFontSize": "Boholo ba fonte ea caption",
-    "captionBackground": "Bokamorao ba caption",
-    "light": "leseli",
-    "dark": "lefifi",
-    "transparent": "bonaletsang",
-    "voiceNotes": "Melaetsa ea lentsoe",
-    "autoTranscribeVoiceNotes": "Fetolela melaetsa ea lentsoe ka bohona\nKenya tlhaloso ho melaetsa ea audio eo u e amohelang.",
-    "changesSavedInstantly": "Liphetoho li bolokoa hang-hang.",
-    "loadFailed": "Ho hlolehile ho kenya litlhophiso",
-    "visualAlerts": "Litemoso tsa pono bakeng sa melaetsa & mehala",
-    "visualAlertsDesc": "Bontša libaner le ho phatsima ha sehlooho e le hore u se ke oa fetoa ke mesebetsi.",
-    "vibrateOnNewShort": "Driba ha ho na melaetsa e mecha (ha e tšehetsoe)",
-    "vibrateOnNewDesc": "Hlahisa dribolo ea sesebelisoa ka litemoso.",
-    "flashOnCallShort": "Khantša skrine ha ho kena mohala",
-    "flashOnCallDesc": "Khanya e khanyang hanyenyane ha mohala o lla."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Encryption e tiileng ea pheletso-ho-pheletso",
-    "ciphertextOnlyNote": "Boloka ciphertext feela servereng. E tima AI/Phetolelo le mehlala ea taolo."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Lisebelisoa tse Hokahaneng",
-    "noneFound": "Ha ho lisebelisoa tse fumanoeng.",
-    "refresh": "Khatholla"
-  },
-
-  "help": {
-    "title": "Thuso",
-    "howCanWeHelp": "Re ka u thusa joang?",
-    "helpCenter": "Setsi sa Thuso",
-    "contactUs": "Iteanye le rona",
-    "quickTopics": "Lihlooho tse potlakileng",
-    "searchExamples": "Leka ho batla “translate”, “backups”, kapa “privacy”.",
-    "cantLogin": "Ke sitoa ho kena",
-    "paymentsBilling": "Litefo/ tefiso",
-    "reportAbuse": "Tlaleha tlhekefetso",
-    "searchHelpArticles": "Batla lingoloa tsa thuso",
-    "search": "Batla"
-  },
-
-  "peoplePage": {
-    "people": "Batho",
-    "search": "Batla",
-    "searchPlaceholder": "Batla ka alias, lebitso, lebitso la mosebelisi, kapa mohala",
-    "filterSaved": "Sefa likhokahanyi tse bolokiloeng",
-    "noContactsFound": "Ha ho likhokahanyi tse fumanoeng",
-    "quickStart": "Qalo e potlakileng",
-    "quickStartDesc": "Mekhoa e seng mekae e potlakileng ea ho qala.",
-    "importContacts": "Kenya likhokahanyi tsa hau",
-    "add": "Kenya",
-    "focusSearch": "Tsepamisa Batla",
-    "import": "Kenya",
-    "findOrAdd": "Fumana kapa kenya motho",
-    "searchByPhoneOrUsername": "Batla ka mohala / lebitso la mosebelisi",
-    "inviteFriends": "Mema metsoalle",
-    "inviteDesc": "Arolelana sehokelo sa memo ea hau ho qala ho qoqa hang-hang.",
-    "getTheApp": "Fumana app",
-    "getTheAppDesc": "Lula u hokahane le Chatforia bakeng sa iOS le Android.",
-    "download": "Jarolla",
-    "syncTip": "Keletso: Melaetsa ea hau e lula e sinka ho web le mobile."
-  },
-
-  "randomChat": {
-    "title": "Moqoqo ka Tšohanyetso",
-    "description": "Kopana le motho e mocha hang-hang. Re tla u bapisa ’me re bule kamore ea nakoana.",
-    "findMatch": "Ntekele papiso",
-    "chatWithForia": "Qoqana le Foria",
-    "chatWithForiaBot": "Qoqana le ForiaBot",
-    "cancel": "Khansela",
-    "close": "Koala",
-    "searching": "E batla…",
-    "finding": "E fumana…",
-    "looking": "E batla motho…",
-    "startingForia": "E qala moqoqo le Foria…",
-    "partnerDisconnected": "Molekane oa hau o khaotse khokahano.",
-    "noPartner": "Ha ho molekane hajoale.",
-    "connectedTo": "E hoketsoe ho {{name}}",
-    "connected": "E hokahane",
-    "idle": "E sa sebetse",
-    "partnerLeft": "Molekane o tlohile.",
-    "stopped": "E emisitse.",
-    "skip": "Tlolela",
-    "save": "Boloka",
-    "saveGuard": "Ke lipuisano tsa motho-le-motho feela tse ka bolokoang",
-    "youAreChattingWith": "U qoqa le {{name}}",
-    "bot": "BOT",
-    "leave": "Tloha",
-    "sayHi": "Re lumelise 👋",
-    "you": "Uena",
-    "typeMessage": "Thaepa molaetsa",
-    "send": "Romela",
-    "partner": "Molekane",
-    "withForia": "Le Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Bula lenane la boetloetso",
-    "closeNav": "Koala lenane la boetloetso",
-    "homeAria": "Lehae la Chatforia"
-  },
-
-  "login": {
-    "title": "Rea u amohela hape",
-    "subtitle": "Kena ak’haonteng ea hau ea Chatforia",
-    "google": "Tsoela pele ka Google",
-    "apple": "Tsoela pele ka Apple",
-    "googleUnavailable": "Kena ka Google ha e fumanehe",
-    "appleUnavailable": "Kena ka Apple ha e fumanehe",
-    "or": "kapa",
-    "email": "Imeile",
-    "emailPh": "wena@example.com",
-    "usernameLabel": "Lebitso la mosebelisi",
-    "usernamePh": "Lebitso la hau la mosebelisi",
-    "passwordLabel": "Phasewete",
-    "passwordPh": "Phasewete ea hau",
-    "keepSignedIn": "Nteboloke ke kene",
-    "forgot": "U lebetse phasewete?",
-    "submit": "Kena",
-    "loggingIn": "E kena…",
-    "newHere": "O mocha mona? <link>Etsa ak’haonte</link>",
-    "ssoUnavailable": "Single-sign-on ha e fumanehe hajoale. Sebelisa lebitso la mosebelisi & phasewete.",
-    "error": {
-      "missing": "Ka kopo kenya lintlha tsa hau tsa ho kena.",
-      "invalid": "Lebitso la mosebelisi kapa phasewete e fosahetse",
-      "denied": "Phihlello e hanetsoe.",
-      "unprocessable": "Kopo ha e nepahale. Hlahloba lebitso la mosebelisi/imeile le phasewete.",
-      "deviceLimit": "Moeli oa lisebelisoa o fihletsoe bakeng sa moralo oa Free. Etsa log out sesebelisoeng se seng kapa ntlafatsa ho Premium ho hokela tse ling.",
-      "premiumRequired": "Ketso ena e hloka moralo oa Premium."
+      "privacy": "Leano la Tšireletso"
     }
   }
 }
