@@ -44,7 +44,7 @@ function Sidebar({ currentUser }) {
   const [profileTarget, setProfileTarget] = useState(null);
   const [query, setQuery] = useState('');
   const [count, setCount] = useState(0);
-  const [showConversations, setShowConversations] = useState(false);
+  const [showChats, setShowChats] = useState(false);
 
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -73,15 +73,15 @@ function Sidebar({ currentUser }) {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowConversations(true), 100);
+    const timer = setTimeout(() => setShowChats(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  const refreshConversations = useCallback(() => {
+  const refreshChats = useCallback(() => {
     window.dispatchEvent(new CustomEvent('sidebar:reload-rooms'));
   }, []);
 
-  const onSelectConversation = useCallback(
+  const onSelectChat = useCallback(
     (thread) => {
       if (!thread) return;
 
@@ -243,7 +243,7 @@ function Sidebar({ currentUser }) {
 
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
-          {showConversations ? (
+          {showChats ? (
             <Suspense fallback={<Text size="sm" c="dimmed">Loading chats...</Text>}>
               <ChatroomsSidebar
                 onStartNewChat={() => {
@@ -258,7 +258,7 @@ function Sidebar({ currentUser }) {
               />
             </Suspense>
           ) : (
-            <Text size="sm" c="dimmed">Loading conversations...</Text>
+            <Text size="sm" c="dimmed">Loading chats...</Text>
           )}
         </Stack>
       </ScrollArea.Autosize>
