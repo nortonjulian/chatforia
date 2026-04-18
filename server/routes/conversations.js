@@ -201,11 +201,14 @@ router.get(
             ? names.join(', ')
             : null;
 
+      const rawRoomName = String(r.name || '').trim();
+      const isGenericRoomName = /^chat\s*#\s*\d+$/i.test(rawRoomName);
+
       const title =
-        r.name ||
+        (!isGenericRoomName ? rawRoomName : null) ||
         participantTitle ||
         `Chat #${r.id}`;
-        
+
       return {
         kind: 'chat',
         id: r.id,
