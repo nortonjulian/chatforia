@@ -687,7 +687,7 @@ useEffect(() => {
       <Stack p="sm" gap="sm">
         {!listOnly && (
           <Text fw={600} aria-label="Chats header">
-            {t('sidebar.chats', 'Chatss')}
+            {t('sidebar.chats', 'Chats')}
           </Text>
         )}
         {Array.from({ length: 7 }).map((_, i) => (
@@ -701,8 +701,8 @@ useEffect(() => {
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
-          <Text fw={600} aria-label="Conversations header">
-            {t('sidebar.conversations', 'Conversations')}
+          <Text fw={600} aria-label="Chats header">
+            {t('sidebar.chats', 'Chats')}
           </Text>
         )}
         <Alert color="red" variant="light">
