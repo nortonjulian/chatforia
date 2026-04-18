@@ -13,11 +13,38 @@ import { PLACEMENTS } from '@/ads/placements';
 import { CardAdWrap } from '@/ads/AdWrappers';
 import axiosClient from '@/api/axiosClient';
 
-function normalizeChatroom(room) {
+function getParticipantLabel(room, currentUserId) {
+  const participants = Array.isArray(room?.participants) ? room.participants : [];
+
+  const others = participants.filter((p) => {
+    const pid = Number(p?.id ?? p?.userId);
+    return pid && pid !== Number(currentUserId);
+  });
+
+  if (!others.length) return 'Unknown chat';
+
+  if (others.length === 1) {
+    const p = others[0];
+    return (
+      p.username ||
+      p.displayName ||
+      p.name ||
+      p.phone ||
+      'Unknown chat'
+    );
+  }
+
+  return others
+    .map((p) => p.username || p.displayName || p.name || p.phone)
+    .filter(Boolean)
+    .join(', ');
+}
+
+function normalizeChatroom(room, currentUserId) {
   return {
     id: String(room.id),
     type: 'chat',
-    title: room.name || `Room #${room.id}`,
+    title: room.name || getParticipantLabel(room, currentUserId),
     updatedAt:
       room.updatedAt ||
       room.lastMessageAt ||
@@ -266,7 +293,7 @@ useEffect(() => {
   // Unified threads list
   const threads = useMemo(() => {
     const merged = [
-      ...chatrooms.map(normalizeChatroom),
+      ...chatrooms.map((room) => normalizeChatroom(room, currentUser?.id)),
       ...smsThreads.map(normalizeSmsThread),
     ];
 

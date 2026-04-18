@@ -686,8 +686,8 @@ useEffect(() => {
     return (
       <Stack p="sm" gap="sm">
         {!listOnly && (
-          <Text fw={600} aria-label="Conversations header">
-            {t('sidebar.conversations', 'Conversations')}
+          <Text fw={600} aria-label="Chats header">
+            {t('sidebar.chats', 'Chatss')}
           </Text>
         )}
         {Array.from({ length: 7 }).map((_, i) => (
@@ -735,7 +735,7 @@ useEffect(() => {
         )}
 
         <Text c="dimmed" size="sm">
-          {q ? t('sidebar.noResults', 'No matches.') : t('sidebar.empty', 'No conversations yet.')}
+          {q ? t('sidebar.noResults', 'No matches.') : t('sidebar.empty', 'No chats yet.')}
         </Text>
 
         {!listOnly && (
@@ -770,15 +770,12 @@ useEffect(() => {
           String(c.kind) === 'sms' && /^sms\s*#\s*\d+$/i.test(rawTitle);
 
         const title =
-          // prefer server-provided friendly name if present
           String(c.displayName || '').trim() ||
-          // if server sent "SMS #id", ignore it and fall back to phone
-          (!looksLikeAutoSmsTitle ? rawTitle : '') ||
+          rawTitle ||
           (c.kind === 'sms'
             ? c.phone || t('sms.thread', 'SMS')
-            : t('chat.thread', 'Chat'));
-
-        const unread = Number(c.unreadCount || 0);
+            : t('chat.unknownThread', 'Unknown chat'));
+                const unread = Number(c.unreadCount || 0);
 
         const isActive =
           String(c.id) === String(activeId) &&

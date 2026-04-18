@@ -1926,7 +1926,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     otherParticipant?.username ||
                     otherParticipant?.displayName ||
                     otherParticipant?.name ||
-                    'Conversation'}
+                    'Chat'}
                 </Title>
 
                 {isRandomRoom && (

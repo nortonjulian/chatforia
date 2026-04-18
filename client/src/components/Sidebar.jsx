@@ -252,7 +252,7 @@ function Sidebar({ currentUser }) {
                 }}
                 onSelect={onSelectConversation}
                 hideEmpty
-                listOnly={false}
+                listOnly
                 filterQuery={query}
                 onCountChange={setCount}
               />
