@@ -63,8 +63,10 @@ export default function MessageBubble({
   canDeleteAll = false,
   showTail = false,
   sameAsPrev = false,
+  isGroup = false,
 }) {
   const ts = dayjs(msg.createdAt).format('MMM D, YYYY • h:mm A');
+
 
   const isTombstone =
     Boolean(msg.deletedForAll) ||
@@ -72,6 +74,19 @@ export default function MessageBubble({
     msg.systemType === 'deleted';
 
   const mine = Number(msg?.sender?.id ?? msg?.senderId) === Number(currentUserId);
+
+  const senderName =
+  msg?.sender?.username ||
+  msg?.sender?.displayName ||
+  msg?.sender?.name ||
+  'User';
+
+  const senderInitials = senderName
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
 
   const attachments = normalizeAttachments(msg);
   const hasMedia = !isTombstone && attachments.length > 0;
@@ -302,6 +317,31 @@ export default function MessageBubble({
                 </Menu.Dropdown>
               </Menu>
             </Box>
+          )}
+
+          {isGroup && !mine && !sameAsPrev && (
+            <Group gap={6} mb={2}>
+              <Box
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: '50%',
+                  background: '#ddd',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  flexShrink: 0,
+                }}
+              >
+                {senderInitials}
+              </Box>
+
+              <Text size="xs" c="dimmed" fw={500}>
+                {senderName}
+              </Text>
+            </Group>
           )}
 
           {!hasMedia && hasText && (
