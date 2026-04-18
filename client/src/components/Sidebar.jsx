@@ -250,7 +250,7 @@ function Sidebar({ currentUser }) {
                   setInitialDraft(null);
                   setShowStartModal(true);
                 }}
-                onSelect={onSelectConversation}
+                onSelect={onSelectChat}
                 hideEmpty
                 listOnly
                 filterQuery={query}
