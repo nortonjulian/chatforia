@@ -2292,10 +2292,9 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                     const prevGapMs = thisTime && prevTime ? thisTime - prevTime : 0;
                     const nextGapMs = thisTime && nextTime ? nextTime - thisTime : 0;
 
-                    const prev = messages[index - 1];
                     const sameAsPrev =
-                      prev &&
-                      Number(prev?.sender?.id ?? prev?.senderId) ===
+                      prevMsg &&
+                      Number(prevMsg?.sender?.id ?? prevMsg?.senderId) ===
                         Number(msg?.sender?.id ?? msg?.senderId);
 
                     const isRestartAfterGap = nextGapMs > 5 * 60 * 1000;
@@ -2322,7 +2321,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                         <MessageBubble
                           msg={msg}
                           isGroup={Boolean(chatroom?.isGroup || (chatroom?.participants?.length || 0) > 2)}
-                          sender={m.sender}
                           currentUserId={currentUserId}
                           onRetry={handleRetry}
                           onEdit={openEditModal}
