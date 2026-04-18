@@ -216,8 +216,6 @@ function Sidebar({ currentUser }) {
         )}
       </Stack>
 
-      {!isPremium && !isMobile && <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
-
       <Group justify="space-between" mt="md" mb={6}>
         <Text size="sm" fw={700}>
           {t('sidebar.chats', 'Chats')}

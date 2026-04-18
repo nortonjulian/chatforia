@@ -125,7 +125,7 @@ router.get(
         participants: {
           some: { userId, archivedAt: null },
         },
-       threadState: {
+        threadState: {
           none: {
             userId,
             deletedAt: { not: null },
@@ -137,6 +137,17 @@ router.get(
         name: true,
         updatedAt: true,
         isGroup: true,
+        participants: {
+          select: {
+            userId: true,
+            user: {
+              select: {
+                id: true,
+                username: true,
+              },
+            },
+          },
+        },
         messages: {
           select: {
             id: true,
@@ -175,7 +186,22 @@ router.get(
               mediaKinds: media.mediaKinds,
             });
 
-      const title = r.name || `Chat #${r.id}`;
+      const otherParticipants = (r.participants || []).filter(
+        (p) => Number(p.userId) !== Number(userId)
+      );
+
+      const participantTitle =
+        otherParticipants.length === 1
+          ? otherParticipants[0]?.user?.username || null
+          : otherParticipants
+              .map((p) => p?.user?.username)
+              .filter(Boolean)
+              .join(', ');
+
+      const title =
+        r.name ||
+        participantTitle ||
+        `Chat #${r.id}`;
 
       return {
         kind: 'chat',
