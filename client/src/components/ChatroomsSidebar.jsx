@@ -769,13 +769,43 @@ useEffect(() => {
         const looksLikeAutoSmsTitle =
           String(c.kind) === 'sms' && /^sms\s*#\s*\d+$/i.test(rawTitle);
 
-        const title =
-          String(c.displayName || '').trim() ||
-          rawTitle ||
-          (c.kind === 'sms'
-            ? c.phone || t('sms.thread', 'SMS')
-            : t('chat.unknownThread', 'Unknown chat'));
-                const unread = Number(c.unreadCount || 0);
+        function getBetterTitle(c) {
+          const display = String(c.displayName || '').trim();
+          const raw = String(c.title || '').trim();
+
+          // Detect garbage titles like "Chat #8"
+          const isGenericChat = /^chat\s*#\s*\d+$/i.test(raw);
+
+          // Try participant fallback if available
+          const participants = c?.participants || c?.raw?.participants || [];
+          const others = participants.filter(
+            (p) => Number(p?.id || p?.userId) !== Number(currentUser?.id)
+          );
+
+          let fallbackName = null;
+
+          if (others.length === 1) {
+            const p = others[0];
+            fallbackName =
+              p.username || p.displayName || p.name || p.phone || null;
+          } else if (others.length > 1) {
+            fallbackName = others
+              .map((p) => p.username || p.displayName || p.name || p.phone)
+              .filter(Boolean)
+              .join(', ');
+          }
+
+          return (
+            display ||
+            (!isGenericChat ? raw : null) ||
+            fallbackName ||
+            (c.kind === 'sms'
+              ? c.phone || t('sms.thread', 'SMS')
+              : t('chat.unknownThread', 'Unknown chat'))
+          );
+        }
+
+        const title = getBetterTitle(c);
 
         const isActive =
           String(c.id) === String(activeId) &&

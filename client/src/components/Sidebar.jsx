@@ -241,6 +241,12 @@ function Sidebar({ currentUser }) {
         aria-label={t('sidebar.searchAriaLabel', 'Search chats')}
       />
 
+      {!isPremium && !isMobile && (
+        <Box mb="sm">
+          <AdSlot placement={PLACEMENTS.SIDEBAR_SECONDARY} />
+        </Box>
+      )}
+
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
           {showChats ? (
