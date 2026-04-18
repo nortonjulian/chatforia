@@ -807,6 +807,8 @@ useEffect(() => {
 
         const title = getBetterTitle(c);
 
+        const unread = Number(c.unreadCount || 0);
+
         const isActive =
           String(c.id) === String(activeId) &&
           (activeKind ? String(c.kind) === String(activeKind) : true);
