@@ -190,19 +190,22 @@ router.get(
         (p) => Number(p.userId) !== Number(userId)
       );
 
+      const names = otherParticipants
+        .map((p) => p?.user?.username)
+        .filter(Boolean);
+
       const participantTitle =
-        otherParticipants.length === 1
-          ? otherParticipants[0]?.user?.username || null
-          : otherParticipants
-              .map((p) => p?.user?.username)
-              .filter(Boolean)
-              .join(', ');
+        names.length === 1
+          ? names[0]
+          : names.length > 1
+            ? names.join(', ')
+            : null;
 
       const title =
         r.name ||
         participantTitle ||
         `Chat #${r.id}`;
-
+        
       return {
         kind: 'chat',
         id: r.id,
