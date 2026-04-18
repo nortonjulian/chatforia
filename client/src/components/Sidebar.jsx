@@ -220,12 +220,12 @@ function Sidebar({ currentUser }) {
 
       <Group justify="space-between" mt="md" mb={6}>
         <Text size="sm" fw={700}>
-          {t('sidebar.conversations', 'Conversations')}
+          {t('sidebar.chats', 'Chats')}
         </Text>
         <ActionIcon
           variant="subtle"
-          aria-label={t('sidebar.refreshConversations', 'Refresh conversations')}
-          onClick={refreshConversations}
+          aria-label={t('sidebar.refreshChats', 'Refresh chats')}
+          onClick={refreshChats}
           title={t('sidebar.refreshTooltip', 'Refresh')}
         >
           <RefreshCw size={16} />
@@ -233,18 +233,18 @@ function Sidebar({ currentUser }) {
       </Group>
 
       <TextInput
-        placeholder={t('sidebar.searchPlaceholder', 'Search conversations..')}
+        placeholder={t('sidebar.searchPlaceholder', 'Search chats..')}
         leftSection={<SearchIcon size={14} />}
         value={query}
         onChange={(e) => setQuery(e.currentTarget.value)}
         mb="sm"
-        aria-label={t('sidebar.searchAriaLabel', 'Search conversations')}
+        aria-label={t('sidebar.searchAriaLabel', 'Search chats')}
       />
 
       <ScrollArea.Autosize style={{ flex: 1 }} mah="calc(100vh - 220px)">
         <Stack gap="md">
           {showConversations ? (
-            <Suspense fallback={<Text size="sm" c="dimmed">Loading conversations...</Text>}>
+            <Suspense fallback={<Text size="sm" c="dimmed">Loading chats...</Text>}>
               <ChatroomsSidebar
                 onStartNewChat={() => {
                   setInitialDraft(null);
