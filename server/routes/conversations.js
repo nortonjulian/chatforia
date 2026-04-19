@@ -161,6 +161,16 @@ router.get(
             deletedForAll: true,
             createdAt: true,
             editedAt: true,
+            senderId: true,
+            sender: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+                phoneNumber: true,
+                avatarUrl: true,
+              },
+            },
             attachments: {
               select: { kind: true, mimeType: true, url: true },
               take: 12,
@@ -168,7 +178,7 @@ router.get(
           },
           orderBy: { createdAt: 'desc' },
           take: 1,
-        },
+        }
       },
       orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
       take: 200,
@@ -222,14 +232,13 @@ router.get(
       );
 
       const names = otherParticipants
-      .map((p) => {
-        const u = p?.user;
-        if (!u) return null;
+        .map((p) => {
+          const u = p?.user;
+          if (!u) return null;
 
-      return (
-        resolveDisplayName(u, contactAliasByUserId)
-      );
-    }).filter(Boolean);
+          return resolveDisplayName(u, contactAliasByUserId);
+        })
+        .filter(Boolean);
 
       const participantTitle =
         names.length === 1
@@ -246,17 +255,40 @@ router.get(
         participantTitle ||
         `Chat #${r.id}`;
 
+      const avatarUsers = otherParticipants
+        .map((p) => {
+          const u = p?.user;
+          if (!u) return null;
+
+          return {
+            id: u.id,
+            username: u.username || null,
+            displayName: resolveDisplayName(u, contactAliasByUserId) || null,
+            avatarUrl: u.avatarUrl || null,
+          };
+        })
+        .filter(Boolean);
+
+      const senderName =
+        lastMsg?.sender
+          ? resolveDisplayName(lastMsg.sender, contactAliasByUserId)
+          : null;
+
       return {
         kind: 'chat',
         id: r.id,
         title,
+        displayName: title,
         updatedAt: (r.updatedAt || new Date()).toISOString(),
         isGroup: Boolean(r.isGroup),
+        phone: null,
+        avatarUsers,
         last: lastMsg?.createdAt
           ? {
               text: previewText,
               messageId: lastMsg.id,
               at: (lastMsg.editedAt || lastMsg.createdAt).toISOString(),
+              senderName,
               ...media,
             }
           : null,
@@ -349,14 +381,26 @@ router.get(
         kind: 'sms',
         id: t.id,
         title,
+        displayName: title,
         phone,
         updatedAt: (t.updatedAt || new Date()).toISOString(),
         isGroup: false,
+        avatarUsers: title
+          ? [
+              {
+                id: 0,
+                username: title,
+                displayName: title,
+                avatarUrl: null,
+              },
+            ]
+          : [],
         last: lastMsg?.createdAt
           ? {
               text: previewText,
               messageId: lastMsg.id,
               at: lastMsg.createdAt.toISOString(),
+              senderName: null,
               ...media,
             }
           : null,
