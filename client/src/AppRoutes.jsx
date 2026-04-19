@@ -36,6 +36,7 @@ import JoinInvitePage from '@/pages/JoinInvitePage.jsx';
 import ChatThreadRoute from './pages/ChatThreadRoute';
 import PairBrowserPage from '@/pages/PairBrowserPage.jsx';
 import VerifyEmail from '@/pages/VerifyEmail.jsx';
+import CallHistory from '@/pages/CallHistory.jsx';
 
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
 
