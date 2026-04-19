@@ -35,5 +35,5 @@ jobs:
 
             npm install
             npx prisma generate --schema=server/prisma/schema.prisma
-            pm2 restart chatforia-api
+            pm2 reload chatforia-api
           EOF
