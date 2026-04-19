@@ -830,54 +830,51 @@ useEffect(() => {
                         </Badge>
                       )}
 
-                      {/* Desktop ⋯ menu */}
-                      {!listOnly && (
-                        <Menu position="bottom-end" withinPortal shadow="md" radius="md">
-                          <Menu.Target>
-                            <ActionIcon
-                              variant="subtle"
-                              aria-label={t('sidebar.more', 'More')}
-                              title={t('sidebar.more', 'More')}
-                              className="sidebar-row-more"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }}
-                            >
-                              <MoreVertical size={18} />
-                            </ActionIcon>
-                          </Menu.Target>
-
-                          <Menu.Dropdown
+                      <Menu position="bottom-end" withinPortal shadow="md" radius="md">
+                        <Menu.Target>
+                          <ActionIcon
+                            variant="subtle"
+                            aria-label={t('sidebar.more', 'More')}
+                            title={t('sidebar.more', 'More')}
+                            className="sidebar-row-more"
                             onClick={(e) => {
+                              e.preventDefault();
                               e.stopPropagation();
                             }}
                           >
-                            <Menu.Item
-                              leftSection={<Archive size={16} />}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                archiveWithUndo(c);
-                              }}
-                            >
-                              {t('sidebar.archive', 'Archive')}
-                            </Menu.Item>
+                            <MoreVertical size={18} />
+                          </ActionIcon>
+                        </Menu.Target>
 
-                            <Menu.Divider />
+                        <Menu.Dropdown
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        >
+                          <Menu.Item
+                            leftSection={<Archive size={16} />}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              archiveWithUndo(c);
+                            }}
+                          >
+                            {t('sidebar.archive', 'Archive')}
+                          </Menu.Item>
 
-                            <Menu.Item
-                              color="red"
-                              leftSection={<Trash2 size={16} />}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                deleteConversation(c);
-                              }}
-                            >
-                              {t('sidebar.deleteConversation', 'Delete conversation')}
-                            </Menu.Item>
-                          </Menu.Dropdown>
-                        </Menu>
-                      )}
+                          <Menu.Divider />
+
+                          <Menu.Item
+                            color="red"
+                            leftSection={<Trash2 size={16} />}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteConversation(c);
+                            }}
+                          >
+                            {t('sidebar.deleteConversation', 'Delete conversation')}
+                          </Menu.Item>
+                        </Menu.Dropdown>
+                      </Menu>
                     </Group>
                   </Group>
 
@@ -907,7 +904,7 @@ useEffect(() => {
       {/* Scoped CSS: make ⋯ visible on hover + focus (desktop) */}
       <style>{`
         .sidebar-row .sidebar-row-more {
-          opacity: 1;
+          opacity: 0.25;
           transition: opacity 120ms ease;
         }
         .sidebar-row:hover .sidebar-row-more,
