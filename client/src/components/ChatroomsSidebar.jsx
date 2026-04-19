@@ -907,7 +907,7 @@ useEffect(() => {
       {/* Scoped CSS: make ⋯ visible on hover + focus (desktop) */}
       <style>{`
         .sidebar-row .sidebar-row-more {
-          opacity: 0.25;
+          opacity: 0.6;
           transition: opacity 120ms ease;
         }
         .sidebar-row:hover .sidebar-row-more,
