@@ -28,7 +28,11 @@ jobs:
           ssh ${{ secrets.API_DO_USER }}@${{ secrets.API_DO_HOST }} << 'EOF'
             set -e
             cd /var/www/chatforia-api
-            git pull origin main
+
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
+
             npm install
             npx prisma generate
             pm2 restart chatforia-api
