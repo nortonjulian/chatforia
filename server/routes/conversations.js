@@ -144,6 +144,9 @@ router.get(
               select: {
                 id: true,
                 username: true,
+                displayName: true,
+                phoneNumber: true,
+                avatarUrl: true,
               },
             },
           },
@@ -169,6 +172,33 @@ router.get(
       orderBy: [{ updatedAt: 'desc' }, { id: 'desc' }],
       take: 200,
     });
+    
+    const allParticipantUserIds = new Set();
+
+    for (const r of rooms) {
+      for (const p of r.participants || []) {
+        if (Number(p.userId) !== Number(userId)) {
+          allParticipantUserIds.add(Number(p.userId));
+        }
+      }
+    }
+
+    const chatContacts = allParticipantUserIds.size
+      ? await prisma.contact.findMany({
+          where: {
+            ownerId: userId,
+            userId: { in: [...allParticipantUserIds] },
+          },
+          select: {
+            userId: true,
+            alias: true,
+          },
+        })
+      : [];
+
+    const contactAliasByUserId = new Map(
+      chatContacts.map((c) => [c.userId, c.alias])
+    );
 
     const chatConvos = rooms.map((r) => {
       const lastMsg = r.messages?.[0] || null;
@@ -191,8 +221,18 @@ router.get(
       );
 
       const names = otherParticipants
-        .map((p) => p?.user?.username)
-        .filter(Boolean);
+      .map((p) => {
+        const u = p?.user;
+        if (!u) return null;
+
+      return (
+        contactAliasByUserId.get(Number(u.id)) ||
+        u.displayName ||
+        u.username ||
+        u.phoneNumber ||
+        null
+      );
+    }).filter(Boolean);
 
       const participantTitle =
         names.length === 1
