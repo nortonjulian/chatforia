@@ -3,6 +3,7 @@ import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { resolveDisplayName } from '../utils/displayName.js';
 
 const router = express.Router();
 
@@ -226,11 +227,7 @@ router.get(
         if (!u) return null;
 
       return (
-        contactAliasByUserId.get(Number(u.id)) ||
-        u.displayName ||
-        u.username ||
-        u.phoneNumber ||
-        null
+        resolveDisplayName(u, contactAliasByUserId)
       );
     }).filter(Boolean);
 

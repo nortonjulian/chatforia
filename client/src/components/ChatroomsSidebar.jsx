@@ -851,7 +851,7 @@ useEffect(() => {
                             e.stopPropagation();
                           }}
                         >
-                          <Menu.Item
+                          {/* <Menu.Item
                             leftSection={<Archive size={16} />}
                             onClick={(e) => {
                               e.stopPropagation();
@@ -859,7 +859,7 @@ useEffect(() => {
                             }}
                           >
                             {t('sidebar.archive', 'Archive')}
-                          </Menu.Item>
+                          </Menu.Item> */}
 
                           <Menu.Divider />
 
