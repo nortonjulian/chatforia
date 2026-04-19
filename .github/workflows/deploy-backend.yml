@@ -34,6 +34,6 @@ jobs:
             git clean -fd
 
             npm install
-            npx prisma generate
+            npx prisma generate --schema=server/prisma/schema.prisma
             pm2 restart chatforia-api
           EOF
