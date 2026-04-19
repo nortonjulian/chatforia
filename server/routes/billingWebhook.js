@@ -1,6 +1,7 @@
 import express from 'express';
 import crypto from 'node:crypto';
 import prisma from '../utils/prismaClient.js';
+import { getSubscriptionConfig, getAddonConfig } from '../utils/billingProducts.js';
 
 const router = express.Router();
 
@@ -57,14 +58,8 @@ function firstNonNull(...values) {
 }
 
 function mapPriceIdToPlan(priceId) {
-  const map = {
-    [process.env.PADDLE_PRICE_PLUS_MONTHLY]: 'PLUS',
-    [process.env.PADDLE_PRICE_PREMIUM_MONTHLY]: 'PREMIUM',
-    [process.env.PADDLE_PRICE_PREMIUM_ANNUAL]: 'PREMIUM',
-    [process.env.PADDLE_PRICE_WIRELESS_MONTHLY]: 'WIRELESS',
-  };
-
-  return map[priceId] || 'FREE';
+  const cfg = getSubscriptionConfig(priceId);
+  return cfg?.plan || 'FREE';
 }
 
 function getPriceIdFromEventData(data) {
@@ -151,63 +146,31 @@ async function handleAddonPurchase(data) {
 
   if (!Number.isFinite(userId) || !addonKind) return;
 
-  const ADDON_CONFIG = {
-  // Local
-  chatforia_esim_local_3: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_local_5: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_local_10: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_local_20: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_local_unlimited: { type: 'ESIM', dataMb: null, daysValid: 30 },
+  async function handleAddonPurchase(data) {
+  const customData = data?.custom_data || {};
+  const userId = Number(customData.userId);
+  const addonKind = customData.addonKind || null;
 
-  // Europe
-  chatforia_esim_europe_3: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_europe_5: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_europe_10: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_europe_20: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_europe_unlimited: { type: 'ESIM', dataMb: null, daysValid: 30 },
+  if (!Number.isFinite(userId) || !addonKind) return;
 
-  // Global
-  chatforia_esim_global_3: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_global_5: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_global_10: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_global_unlimited: { type: 'ESIM', dataMb: null, daysValid: 30 },
+  const cfg = getAddonConfig(addonKind);
+  if (!cfg) return;
 
-  // Premium aliases
-  chatforia_esim_local_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_local_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_local_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_local_20_premium: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_local_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + cfg.daysValid * 24 * 60 * 60 * 1000);
 
-  chatforia_esim_europe_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_europe_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_europe_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_europe_20_premium: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_europe_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-  chatforia_esim_global_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_global_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_global_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_global_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-  // Standard aliases
-  chatforia_esim_local_3_standard: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_local_5_standard: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_local_10_standard: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_local_20_standard: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_local_unlimited_standard: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-  chatforia_esim_europe_3_standard: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_europe_5_standard: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_europe_10_standard: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_europe_20_standard: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-  chatforia_esim_europe_unlimited_standard: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-  chatforia_esim_global_3_standard: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-  chatforia_esim_global_5_standard: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-  chatforia_esim_global_10_standard: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-  chatforia_esim_global_unlimited_standard: { type: 'ESIM', dataMb: null, daysValid: 30 },
-};
+  await prisma.mobileDataPackPurchase.create({
+    data: {
+      userId,
+      kind: cfg.type,
+      addonKind: cfg.addonKind,
+      purchasedAt: now,
+      expiresAt,
+      totalDataMb: cfg.dataMb,
+      remainingDataMb: cfg.dataMb,
+    },
+  });
+}
 
 const PRODUCT_ALIASES = {
   chatforia_esim_local_3: 'chatforia_esim_local_3_premium',
@@ -227,8 +190,6 @@ const PRODUCT_ALIASES = {
   chatforia_esim_global_10: 'chatforia_esim_global_10_premium',
   chatforia_esim_global_unlimited: 'chatforia_esim_global_unlimited_premium',
 };
-
-// stripePriceId
 
 // function normalizeAddonKind(kind) {
 //   return PRODUCT_ALIASES[kind] || kind;

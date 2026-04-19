@@ -430,6 +430,7 @@ export default function AppRoutes() {
         <Route path="dialer" element={<Dialer />} />
         <Route path="video" element={<Video />} />
         <Route path="voicemail" element={<VoicemailPage />} />
+        <Route path="calls/history" element={<CallHistory />} />
 
         <Route path="chat/:id" element={<ChatThreadRoute />} />
 

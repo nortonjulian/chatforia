@@ -24,6 +24,7 @@ import {
   Search as SearchIcon,
   MessageSquare,
   Phone,
+  PhoneCall,
   Video,
   Voicemail,
 } from 'lucide-react';
@@ -174,6 +175,18 @@ function Sidebar({ currentUser }) {
             to="/dialer"
           >
             {t('sidebar.calls', 'Calls')}
+          </Button>
+        )}
+
+        {currentUser && (
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={<PhoneCall size={16} />}
+            component={Link}
+            to="/calls/history"
+          >
+            {t('sidebar.callHistory', 'Call History')}
           </Button>
         )}
 

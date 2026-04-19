@@ -581,6 +581,8 @@ model MobileDataPackPurchase {
   totalDataMb     Int
   remainingDataMb Int
 
+  billingTransactionId String? @unique
+
   stripeCheckoutSessionId String? @db.Text
   stripePaymentIntentId   String? @db.Text
 
