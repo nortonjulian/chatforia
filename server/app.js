@@ -364,6 +364,11 @@ export function createApp() {
   app.use((req, res, next) => {
     const p = req.path;
 
+    if (p === '/billing/apple/notifications') {
+      console.log('⚠️ CSRF bypass for Apple notifications:', p);
+      return next();
+    }
+
     if (csrfBypassPattern.test(p)) {
       console.log('⚠️ CSRF bypass for:', p);
       return next();
