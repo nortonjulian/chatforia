@@ -753,16 +753,6 @@ useEffect(() => {
         </Text>
       )}
 
-      {!isPremium && idx === 2 && (
-        <>
-          <AdSlot
-            placement={PLACEMENTS.SIDEBAR_PRIMARY}
-            fallback={<HouseAdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />}
-          />
-          <Divider my={6} />
-        </>
-      )}
-
       {visible.map((c, idx) => {
         // ✅ "SMS #123" guard so we don’t show junk titles if we have a better fallback
         const rawTitle = String(c.title || '').trim();
@@ -887,7 +877,7 @@ useEffect(() => {
               </Group>
             </Box>
 
-            {!listOnly && !isPremium && idx === 2 && (
+            {!isPremium && idx === 2 && (
               <>
                 <Divider my={6} />
                 <AdSlot
