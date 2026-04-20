@@ -724,7 +724,7 @@ useEffect(() => {
           </Text>
         )}
 
-        {!listOnly && !isPremium && (
+        {!isPremium && (
           <>
             <AdSlot
               placement={PLACEMENTS.SIDEBAR_PRIMARY}
@@ -753,7 +753,7 @@ useEffect(() => {
         </Text>
       )}
 
-      {!listOnly && !isPremium && (
+      {!isPremium && idx === 2 && (
         <>
           <AdSlot
             placement={PLACEMENTS.SIDEBAR_PRIMARY}
