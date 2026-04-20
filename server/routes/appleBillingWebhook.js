@@ -151,7 +151,7 @@ async function downgradeUserFromTransaction(transaction) {
   return true;
 }
 
-router.post('/apple/notifications', express.json(), async (req, res) => {
+router.post('/apple/notifications', async (req, res) => {
   try {
     const { signedPayload } = req.body || {};
 

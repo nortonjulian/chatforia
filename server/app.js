@@ -436,11 +436,7 @@ export function createApp() {
    * -------------------------------------------*/
   app.use('/billing', verifyTokenOptional, billingRouter);
 
-  app.use(
-    '/billing',
-    express.json(),
-    appleBillingWebhook
-  );
+  app.use('/billing', appleBillingWebhook);
 
   // OAuth under /auth
   app.use('/auth', oauthRouter);
