@@ -437,7 +437,7 @@ export function createApp() {
   app.use('/billing', verifyTokenOptional, billingRouter);
 
   app.use(
-    '/billing/apple/notifications',
+    '/billing',
     express.json(),
     appleBillingWebhook
   );
