@@ -1,6 +1,37 @@
 import express from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
 import prisma from '../utils/prismaClient.js';
-import { getSubscriptionConfig, getAddonConfig } from '../utils/billingProducts.js';
+import { getAddonConfig } from '../utils/billingProducts.js';
+import appleIapConfig, { getAppleProduct } from '../config/appleIapConfig.js';
+import {
+  Environment,
+  SignedDataVerifier,
+} from '@apple/app-store-server-library';
+
+const __dirname = new URL('.', import.meta.url).pathname;
+
+const appleRootCAs = [
+  fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA.cer')),
+  fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA-G3.cer')),
+];
+
+const appleEnvironment =
+  appleIapConfig.environment === 'production'
+    ? Environment.PRODUCTION
+    : Environment.SANDBOX;
+
+const appleVerifier = new SignedDataVerifier(
+  appleRootCAs,
+  true, // enableOnlineChecks
+  appleEnvironment,
+  appleIapConfig.bundleId,
+  process.env.APPLE_APP_ID ? Number(process.env.APPLE_APP_ID) : undefined
+);
+
+async function verifyAppleTransaction(signedTransactionInfo) {
+  return await appleVerifier.verifyAndDecodeTransaction(signedTransactionInfo);
+}
 
 const router = express.Router();
 
@@ -319,80 +350,116 @@ router.post('/ios-sync', async (req, res) => {
     }
 
     const userId = Number(req.user.id);
-    const {
-      productId,
-      transactionId,
-      originalTransactionId,
-      purchaseDate,
-      expiresAt,
-    } = req.body || {};
+    const { signedTransactionInfo } = req.body || {};
 
-    if (!productId || !transactionId) {
-      return res.status(400).json({ error: 'Missing transaction data' });
+    if (!signedTransactionInfo) {
+      return res.status(400).json({ error: 'signedTransactionInfo is required' });
     }
 
-    // TODO: add Apple verification here before trusting client data in production
+    const tx = await verifyAppleTransaction(signedTransactionInfo);
 
-    const subscriptionCfg = getSubscriptionConfig(productId);
-    if (subscriptionCfg) {
+    if (!tx?.productId || !tx?.transactionId) {
+      return res.status(400).json({ error: 'Invalid Apple transaction payload' });
+    }
+
+    if (tx.bundleId !== appleIapConfig.bundleId) {
+      return res.status(400).json({ error: 'Bundle ID mismatch' });
+    }
+
+    const expectedEnv =
+      appleIapConfig.environment === 'production' ? 'Production' : 'Sandbox';
+
+    if (tx.environment !== expectedEnv) {
+      return res.status(400).json({ error: 'Environment mismatch' });
+    }
+
+    const appleProduct = getAppleProduct(tx.productId);
+    if (!appleProduct) {
+      return res.status(400).json({ error: 'Unknown Apple productId' });
+    }
+
+    const parsedPurchaseDate = tx.purchaseDate
+      ? new Date(Number(tx.purchaseDate))
+      : new Date();
+
+    const purchasedAt = Number.isNaN(parsedPurchaseDate.getTime())
+      ? new Date()
+      : parsedPurchaseDate;
+
+    const parsedExpiresAt = tx.expiresDate
+      ? new Date(Number(tx.expiresDate))
+      : null;
+
+    const expiresAt =
+      parsedExpiresAt && !Number.isNaN(parsedExpiresAt.getTime())
+        ? parsedExpiresAt
+        : null;
+
+    if (appleProduct.kind === 'subscription') {
       await prisma.user.update({
         where: { id: userId },
         data: {
-          plan: subscriptionCfg.plan,
+          plan: appleProduct.plan,
           subscriptionStatus: 'ACTIVE',
           billingProvider: 'APPLE',
-          billingSubscriptionId: String(originalTransactionId || transactionId),
-          subscriptionEndsAt: expiresAt ? new Date(expiresAt) : null,
+          billingSubscriptionId: String(tx.originalTransactionId || tx.transactionId),
+          subscriptionEndsAt: expiresAt,
         },
       });
 
       return res.json({
         success: true,
         kind: 'subscription',
-        plan: subscriptionCfg.plan,
+        plan: appleProduct.plan,
       });
     }
 
-    const addonCfg = getAddonConfig(productId);
-      if (addonCfg) {
-        const purchasedAt = purchaseDate ? new Date(purchaseDate) : new Date();
-        const addonExpiresAt = expiresAt
-          ? new Date(expiresAt)
-          : new Date(purchasedAt.getTime() + addonCfg.daysValid * 24 * 60 * 60 * 1000);
-
-        try {
-          await prisma.mobileDataPackPurchase.create({
-            data: {
-              userId,
-              kind: addonCfg.type,
-              addonKind: addonCfg.addonKind,
-              purchasedAt,
-              expiresAt: addonExpiresAt,
-              totalDataMb: addonCfg.dataMb,
-              remainingDataMb: addonCfg.dataMb,
-              billingTransactionId: String(transactionId),
-            },
-          });
-        } catch (err) {
-          if (err.code === 'P2002') {
-            return res.json({ success: true, duplicate: true });
-          }
-          throw err;
-        }
-
-        return res.json({
-          success: true,
-          kind: 'addon',
-          addonKind: addonCfg.addonKind,
-        });
+    if (appleProduct.kind === 'addon') {
+      const addonCfg = getAddonConfig(appleProduct.addonKind);
+      if (!addonCfg) {
+        return res.status(400).json({ error: 'Unknown Apple add-on mapping' });
       }
+
+      const addonExpiresAt = expiresAt
+        ? expiresAt
+        : new Date(purchasedAt.getTime() + addonCfg.daysValid * 24 * 60 * 60 * 1000);
+
+      try {
+        await prisma.mobileDataPackPurchase.create({
+          data: {
+            userId,
+            kind: addonCfg.type,
+            addonKind: addonCfg.addonKind,
+            purchasedAt,
+            expiresAt: addonExpiresAt,
+            totalDataMb: addonCfg.dataMb,
+            remainingDataMb: addonCfg.dataMb,
+            billingTransactionId: String(tx.transactionId),
+          },
+        });
+      } catch (err) {
+        if (err.code === 'P2002') {
+          return res.json({ success: true, duplicate: true });
+        }
+        throw err;
+      }
+
+      return res.json({
+        success: true,
+        kind: 'addon',
+        addonKind: addonCfg.addonKind,
+      });
+    }
+
     return res.status(400).json({
-      error: 'Unknown productId',
+      error: 'Unsupported Apple product type',
     });
   } catch (err) {
-    console.error('[billing/ios-sync] error:', err);
+    console.error('[billing/ios-sync] error:', err, {
+      stack: err?.stack,
+    });
     return res.status(500).json({
-      error: 'Failed to sync iOS purchase',
+      error: err?.message || 'Failed to sync iOS purchase',
     });
   }
 });

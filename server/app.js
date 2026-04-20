@@ -78,6 +78,8 @@ import simsRouter from './routes/sims.js'; // only if FEATURE_PHYSICAL_SIM
 import pricingRouter from './routes/pricing.js';
 import transcriptsRouter from './routes/transcripts.js';
 
+import appleBillingWebhook from './routes/appleBillingWebhook.js';
+
 import smsConsentRouter from './routes/smsConsent.js';
 
 import conversationsRouter from './routes/conversations.js';
@@ -348,9 +350,16 @@ export function createApp() {
       ? (_req, _res, next) => next()
       : buildCsrf({ isProd, cookieDomain: process.env.COOKIE_DOMAIN });
 
-  // ✅ UPDATED: include ^\/_debug(\/|$)
-  const csrfBypassPattern =
-  /^\/auth\/(login|register|logout|apple\/callback)$|^\/auth\/oauth(\/|$)|^\/billing\/webhook$|^\/billing\/portal$|^\/voice\/(inbound|voicemail|voicemail\/save)$|^\/webhooks(\/|$)|^\/_debug(\/|$)/;
+  const csrfBypassPattern = new RegExp(
+    '^\\/auth\\/(login|register|logout|apple\\/callback)$'
+    + '|^\\/auth\\/oauth(\\/|$)'
+    + '|^\\/billing\\/webhook$'
+    + '|^\\/billing\\/apple\\/notifications$'
+    + '|^\\/billing\\/portal$'
+    + '|^\\/voice\\/(inbound|voicemail|voicemail\\/save)$'
+    + '|^\\/webhooks(\\/|$)'
+    + '|^\\/_debug(\\/|$)'
+  );
 
   const csrfBrowserOnly = csrfOnlyForCookieAuth(csrfMw);
 
@@ -429,6 +438,12 @@ export function createApp() {
    * Billing: unified router
    * -------------------------------------------*/
   app.use('/billing', verifyTokenOptional, billingRouter);
+
+  app.use(
+    '/billing/apple/notifications',
+    express.json(),
+    appleBillingWebhook
+  );
 
   // OAuth under /auth
   app.use('/auth', oauthRouter);

@@ -142,17 +142,11 @@ async function updateUserBySubscriptionId(subscriptionId, patch) {
 async function handleAddonPurchase(data) {
   const customData = data?.custom_data || {};
   const userId = Number(customData.userId);
-  const addonKind = customData.addonKind || null;
+  const addonKindRaw = customData.addonKind || null;
 
-  if (!Number.isFinite(userId) || !addonKind) return;
+  if (!Number.isFinite(userId) || !addonKindRaw) return;
 
-  async function handleAddonPurchase(data) {
-  const customData = data?.custom_data || {};
-  const userId = Number(customData.userId);
-  const addonKind = customData.addonKind || null;
-
-  if (!Number.isFinite(userId) || !addonKind) return;
-
+  const addonKind = String(addonKindRaw).trim();
   const cfg = getAddonConfig(addonKind);
   if (!cfg) return;
 
@@ -164,67 +158,6 @@ async function handleAddonPurchase(data) {
       userId,
       kind: cfg.type,
       addonKind: cfg.addonKind,
-      purchasedAt: now,
-      expiresAt,
-      totalDataMb: cfg.dataMb,
-      remainingDataMb: cfg.dataMb,
-    },
-  });
-}
-
-const PRODUCT_ALIASES = {
-  chatforia_esim_local_3: 'chatforia_esim_local_3_premium',
-  chatforia_esim_local_5: 'chatforia_esim_local_5_premium',
-  chatforia_esim_local_10: 'chatforia_esim_local_10_premium',
-  chatforia_esim_local_20: 'chatforia_esim_local_20_premium',
-  chatforia_esim_local_unlimited: 'chatforia_esim_local_unlimited_premium',
-
-  chatforia_esim_europe_3: 'chatforia_esim_europe_3_premium',
-  chatforia_esim_europe_5: 'chatforia_esim_europe_5_premium',
-  chatforia_esim_europe_10: 'chatforia_esim_europe_10_premium',
-  chatforia_esim_europe_20: 'chatforia_esim_europe_20_premium',
-  chatforia_esim_europe_unlimited: 'chatforia_esim_europe_unlimited_premium',
-
-  chatforia_esim_global_3: 'chatforia_esim_global_3_premium',
-  chatforia_esim_global_5: 'chatforia_esim_global_5_premium',
-  chatforia_esim_global_10: 'chatforia_esim_global_10_premium',
-  chatforia_esim_global_unlimited: 'chatforia_esim_global_unlimited_premium',
-};
-
-// function normalizeAddonKind(kind) {
-//   return PRODUCT_ALIASES[kind] || kind;
-// }
-
-// const ADDON_CONFIG = {
-//   chatforia_esim_local_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-//   chatforia_esim_local_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-//   chatforia_esim_local_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-//   chatforia_esim_local_20_premium: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-//   chatforia_esim_local_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-//   chatforia_esim_europe_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-//   chatforia_esim_europe_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-//   chatforia_esim_europe_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-//   chatforia_esim_europe_20_premium: { type: 'ESIM', dataMb: 20 * 1024, daysValid: 30 },
-//   chatforia_esim_europe_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
-
-//   chatforia_esim_global_3_premium: { type: 'ESIM', dataMb: 3 * 1024, daysValid: 30 },
-//   chatforia_esim_global_5_premium: { type: 'ESIM', dataMb: 5 * 1024, daysValid: 30 },
-//   chatforia_esim_global_10_premium: { type: 'ESIM', dataMb: 10 * 1024, daysValid: 30 },
-//   chatforia_esim_global_unlimited_premium: { type: 'ESIM', dataMb: null, daysValid: 30 },
-// };
-
-  const cfg = ADDON_CONFIG[addonKind];
-  if (!cfg) return;
-
-  const now = new Date();
-  const expiresAt = new Date(now.getTime() + cfg.daysValid * 24 * 60 * 60 * 1000);
-
-  await prisma.mobileDataPackPurchase.create({
-    data: {
-      userId,
-      kind: cfg.type,
-      addonKind,
       purchasedAt: now,
       expiresAt,
       totalDataMb: cfg.dataMb,
