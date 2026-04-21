@@ -518,7 +518,7 @@ app.use('/conversations', conversationsRouter);
   app.use('/connectivity', connectivityRouter);
 
   app.use('/family', requireAuth, familyRouter);
-  app.use('/api/wireless', wirelessRouter);
+  app.use('/api/wireless', requireAuth, wirelessRouter);
 
   // eSIM: mount conditionally via feature flag
   if (ESIM_ENABLED) {
