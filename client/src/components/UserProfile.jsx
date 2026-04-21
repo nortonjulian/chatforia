@@ -921,6 +921,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
               <Text fw={600}>
                 {t('profile.esim.title', 'Chatforia eSIM')}
               </Text>
+
               <Text size="sm" c="dimmed" mt={4}>
                 {hasEsim
                   ? t(
@@ -932,19 +933,34 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                       'Get mobile data for Chatforia when you’re away from Wi-Fi.'
                     )}
               </Text>
+
+              {/* 🔥 NEW: Status */}
+              {currentUser?.subscriber?.status && (
+                <Badge mt={6} size="xs" variant="light">
+                  Status: {currentUser.subscriber.status}
+                </Badge>
+              )}
+
+              {/* 🔥 NEW: Phone number */}
+              {currentUser?.subscriber?.msisdn && (
+                <Text size="xs" mt={4}>
+                  {currentUser.subscriber.msisdn}
+                </Text>
+              )}
+
               <Group justify="flex-start" mt="sm">
                 <Button
                   onClick={() => navigate('/account/esim')}
                   variant="filled"
                   aria-label={
                     hasEsim
-                      ? t('profile.esim.ctaManage', 'Manage eSIM / Show QR')
-                      : t('profile.esim.cta', 'Get eSIM / Show QR')
+                      ? t('profile.esim.ctaManage', 'View QR / Install eSIM')
+                      : t('profile.esim.cta', 'Get eSIM')
                   }
                 >
                   {hasEsim
-                    ? t('profile.esim.ctaManage', 'Manage eSIM / Show QR')
-                    : t('profile.esim.cta', 'Get eSIM / Show QR')}
+                    ? t('profile.esim.ctaManage', 'View QR / Install eSIM')
+                    : t('profile.esim.cta', 'Get eSIM')}
                 </Button>
               </Group>
             </Card>
