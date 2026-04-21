@@ -276,6 +276,29 @@ router.post('/start-external', asyncHandler(async (req, res) => {
   res.status(201).json({ callId: call.id });
 }));
 
+router.delete('/:id', asyncHandler(async (req, res) => {
+  const userId = Number(req.user.id);
+  const callId = Number(req.params.id);
+
+  const call = await prisma.call.findUnique({
+    where: { id: callId },
+  });
+
+  if (!call) {
+    return res.status(404).json({ error: 'Call not found' });
+  }
+
+  if (!ensureParticipant(call, userId)) {
+    return res.status(403).json({ error: 'Not a participant' });
+  }
+
+  await prisma.call.delete({
+    where: { id: callId },
+  });
+
+  res.json({ ok: true });
+}));
+
 /**
  * GET /calls/history
  * Returns recent calls where the user is caller or callee
