@@ -51,7 +51,7 @@ async function getActiveIndividualPack(userId) {
       userId: Number(userId),
       expiresAt: { gt: now },
     },
-    orderBy: { createdAt: 'desc' },
+    orderBy: { purchasedAt: 'desc' },
   });
 }
 
@@ -116,7 +116,7 @@ router.get('/status', async (req, res) => {
       // Check if there is an expired/zero pack to surface exhausted state
       const lastPack = await prisma.mobileDataPackPurchase.findFirst({
         where: { userId },
-        orderBy: { createdAt: 'desc' },
+        orderBy: { purchasedAt: 'desc' },
       });
 
       if (!lastPack) {

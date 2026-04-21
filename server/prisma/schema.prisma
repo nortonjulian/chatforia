@@ -572,8 +572,8 @@ model MobileDataPackPurchase {
   userId Int
   user   User @relation(fields: [userId], references: [id])
 
-  kind      String // "ESIM" | "FAMILY"
-  addonKind String // "ESIM_STARTER" | "FAMILY_SMALL" etc.
+  kind      String
+  addonKind String
 
   purchasedAt DateTime  @default(now())
   expiresAt   DateTime?
@@ -586,14 +586,15 @@ model MobileDataPackPurchase {
   stripeCheckoutSessionId String? @db.Text
   stripePaymentIntentId   String? @db.Text
 
-  /// ICCID for the carrier line (legacy column tealIccid)
   iccid String?
 
-  /// Carrier profile id (legacy column tealProfileId)
   esimProfileId String? @map("tealProfileId")
 
   qrCodeSvg         String?
   provisioningError String?
+
+  @@index([userId, purchasedAt])
+  @@index([userId, expiresAt])
 }
 
 model ProvisionLink {
