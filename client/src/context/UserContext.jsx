@@ -86,6 +86,8 @@ export function UserProvider({ children }) {
     try {
       const { data } = await axiosClient.get('/auth/me');
       const user = data?.user ?? data;
+      const subscriber = data?.subscriber ?? null;
+      const mergedUser = { ...user, subscriber };
 
       if (user?.uiLanguage) {
         await i18n.changeLanguage(user.uiLanguage);
@@ -219,7 +221,7 @@ export function UserProvider({ children }) {
         }
       }
 
-      setCurrentUser(user);
+      setCurrentUser(mergedUser);
       setNeedsKeyUnlock(shouldUnlock);
 
       if (shouldUnlock) {

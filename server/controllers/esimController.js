@@ -1,6 +1,7 @@
 import { ENV } from '../config/env.js';
-import { ESIM_ENABLED } from '../config/esim.js';
+import { ESIM_ENABLED, ESIM_PROVIDER } from '../config/esim.js';
 import * as esimProvider from '../services/providers/esimProvider.js';
+import prisma from '../utils/prismaClient.js';
 
 function isEnabled() {
   // Prefer ESIM_ENABLED from config/esim.js, but fall back to ENV.FEATURE_ESIM
@@ -34,13 +35,57 @@ export async function listRegions(_req, res) {
   return res.json({ regions });
 }
 
+/**
+ * GET /esim/me
+ * Returns the latest saved eSIM/subscriber record for the authenticated user.
+ */
+export async function getMyEsim(req, res) {
+  if (!ensureEnabled(res)) return;
+
+  try {
+    const userId = req.user?.id;
+    if (!userId) {
+      return res.status(401).json({ error: 'Not authenticated' });
+    }
+
+    const subscriber = await prisma.subscriber.findFirst({
+      where: { userId: Number(userId) },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        provider: true,
+        providerProfileId: true,
+        iccid: true,
+        iccidHint: true,
+        smdp: true,
+        activationCode: true,
+        lpaUri: true,
+        qrPayload: true,
+        msisdn: true,
+        region: true,
+        status: true,
+        activatedAt: true,
+        suspendedAt: true,
+        expiresAt: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    return res.json({ subscriber: subscriber || null });
+  } catch (err) {
+    console.error('[esim] getMyEsim error:', err);
+    return res.status(500).json({ error: 'Failed to load eSIM profile' });
+  }
+}
+
 export async function reserveProfile(req, res) {
   if (!ensureEnabled(res)) return;
 
   try {
     const regionRaw = req.body?.region ?? 'US';
     const region = String(regionRaw).trim().toUpperCase();
-    const userId = req.user?.id ?? null; // assumes auth middleware (ok if null for now)
+    const userId = req.user?.id ?? null; // assumes auth middleware
 
     if (typeof esimProvider.reserveEsimProfile !== 'function') {
       return res
@@ -55,6 +100,9 @@ export async function reserveProfile(req, res) {
         .json({ error: 'Invalid response from eSIM provider' });
     }
 
+    const providerProfileId = data.providerProfileId || null;
+    const iccid = data.iccid || null;
+    const iccidHint = data.iccidHint || data.iccid || null;
     const smdp = data.smdp || data.smDpPlus || null;
     const activationCode = data.activationCode || data.matchingId || null;
 
@@ -66,15 +114,77 @@ export async function reserveProfile(req, res) {
 
     const qrPayload = data.qrPayload || lpaUri || null;
 
+    // Persist the reserved eSIM for the authenticated user
+    if (userId) {
+      const existing = await prisma.subscriber.findFirst({
+        where: {
+          userId: Number(userId),
+          OR: [
+            { status: 'PENDING' },
+            { status: 'PROVISIONING' },
+            { status: 'ACTIVE' },
+            { status: 'SUSPENDED' },
+          ],
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (existing) {
+        await prisma.subscriber.update({
+          where: { id: existing.id },
+          data: {
+            provider: ESIM_PROVIDER || 'unknown',
+            providerProfileId,
+            iccid,
+            iccidHint,
+            smdp,
+            activationCode,
+            lpaUri,
+            qrPayload,
+            region,
+            status: existing.status || 'PENDING',
+            providerMeta: data,
+          },
+        });
+      } else {
+        await prisma.subscriber.create({
+          data: {
+            userId: Number(userId),
+            provider: ESIM_PROVIDER || 'unknown',
+            providerProfileId,
+            iccid,
+            iccidHint,
+            smdp,
+            activationCode,
+            lpaUri,
+            qrPayload,
+            region,
+            status: 'PENDING',
+            providerMeta: data,
+          },
+        });
+      }
+
+      // Keep legacy iccid field on user in sync if present
+      if (iccid) {
+        await prisma.user.update({
+          where: { id: Number(userId) },
+          data: { iccid },
+        });
+      }
+    }
+
     return res.json({
-      iccidHint: data.iccid || data.iccidHint || null,
+      providerProfileId,
+      iccid,
+      iccidHint,
       smdp,
       activationCode,
       lpaUri,
       qrPayload,
+      region,
     });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('[esim] reserveProfile error:', err);
     return res.status(500).json({ error: 'Failed to reserve eSIM profile' });
   }
@@ -91,18 +201,51 @@ export async function activateProfile(req, res) {
     }
 
     const iccid = String(req.body?.iccid || '').trim();
-    const code = String(req.body?.code || '').trim();
+    const activationCode = String(req.body?.code || req.body?.activationCode || '').trim();
+    const providerProfileId = String(req.body?.providerProfileId || '').trim();
 
-    if (!iccid || !code) {
-      return res
-        .status(400)
-        .json({ error: 'iccid and code are required' });
+    if (!iccid && !activationCode && !providerProfileId) {
+      return res.status(400).json({
+        error: 'providerProfileId, iccid, or activationCode is required',
+      });
     }
 
-    const out = await esimProvider.activateProfile({ iccid, code });
+    const out = await esimProvider.activateProfile({
+      iccid: iccid || undefined,
+      activationCode: activationCode || undefined,
+      providerProfileId: providerProfileId || undefined,
+    });
+
+    const userId = req.user?.id ?? null;
+
+    if (userId) {
+      const existing = await prisma.subscriber.findFirst({
+        where: {
+          userId: Number(userId),
+          OR: [
+            providerProfileId ? { providerProfileId } : undefined,
+            iccid ? { iccid } : undefined,
+            activationCode ? { activationCode } : undefined,
+          ].filter(Boolean),
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (existing) {
+        await prisma.subscriber.update({
+          where: { id: existing.id },
+          data: {
+            status: 'ACTIVE',
+            activatedAt: out?.activatedAt ? new Date(out.activatedAt) : new Date(),
+            msisdn: out?.msisdn || existing.msisdn || null,
+            providerMeta: out || undefined,
+          },
+        });
+      }
+    }
+
     return res.json({ ok: true, ...out });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('[esim] activateProfile error:', err);
     return res.status(500).json({ error: 'Failed to activate eSIM profile' });
   }
@@ -119,14 +262,47 @@ export async function suspendProfile(req, res) {
     }
 
     const iccid = String(req.body?.iccid || '').trim();
-    if (!iccid) {
-      return res.status(400).json({ error: 'iccid is required' });
+    const providerProfileId = String(req.body?.providerProfileId || '').trim();
+
+    if (!iccid && !providerProfileId) {
+      return res.status(400).json({
+        error: 'iccid or providerProfileId is required',
+      });
     }
 
-    const out = await esimProvider.suspendLine({ iccid });
+    const out = await esimProvider.suspendLine({
+      iccid: iccid || undefined,
+      providerProfileId: providerProfileId || undefined,
+    });
+
+    const userId = req.user?.id ?? null;
+
+    if (userId) {
+      const existing = await prisma.subscriber.findFirst({
+        where: {
+          userId: Number(userId),
+          OR: [
+            providerProfileId ? { providerProfileId } : undefined,
+            iccid ? { iccid } : undefined,
+          ].filter(Boolean),
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (existing) {
+        await prisma.subscriber.update({
+          where: { id: existing.id },
+          data: {
+            status: 'SUSPENDED',
+            suspendedAt: new Date(),
+            providerMeta: out || undefined,
+          },
+        });
+      }
+    }
+
     return res.json({ ok: true, ...out });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('[esim] suspendProfile error:', err);
     return res.status(500).json({ error: 'Failed to suspend eSIM line' });
   }
@@ -143,27 +319,59 @@ export async function resumeProfile(req, res) {
     }
 
     const iccid = String(req.body?.iccid || '').trim();
-    if (!iccid) {
-      return res.status(400).json({ error: 'iccid is required' });
+    const providerProfileId = String(req.body?.providerProfileId || '').trim();
+
+    if (!iccid && !providerProfileId) {
+      return res.status(400).json({
+        error: 'iccid or providerProfileId is required',
+      });
     }
 
-    const out = await esimProvider.resumeLine({ iccid });
+    const out = await esimProvider.resumeLine({
+      iccid: iccid || undefined,
+      providerProfileId: providerProfileId || undefined,
+    });
+
+    const userId = req.user?.id ?? null;
+
+    if (userId) {
+      const existing = await prisma.subscriber.findFirst({
+        where: {
+          userId: Number(userId),
+          OR: [
+            providerProfileId ? { providerProfileId } : undefined,
+            iccid ? { iccid } : undefined,
+          ].filter(Boolean),
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+
+      if (existing) {
+        await prisma.subscriber.update({
+          where: { id: existing.id },
+          data: {
+            status: 'ACTIVE',
+            suspendedAt: null,
+            providerMeta: out || undefined,
+          },
+        });
+      }
+    }
+
     return res.json({ ok: true, ...out });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('[esim] resumeProfile error:', err);
     return res.status(500).json({ error: 'Failed to resume eSIM line' });
   }
 }
 
 /**
- * POST /esim/webhooks/telna
- * Webhook endpoint called by the eSIM provider (Telna) to notify about line/profile events.
+ * POST /esim/webhooks/oneglobal
+ * Webhook endpoint called by the eSIM provider to notify about line/profile events.
  * (Currently just logs + 200; expand when you wire up real DB updates.)
  */
 export async function handleEsimWebhook(req, res) {
   try {
-    // eslint-disable-next-line no-console
     console.info('[esim] provider webhook received:', {
       headers: req.headers,
       body: req.body,
@@ -172,7 +380,6 @@ export async function handleEsimWebhook(req, res) {
     // TODO: parse event, update DB, etc.
     return res.status(200).json({ ok: true });
   } catch (err) {
-    // eslint-disable-next-line no-console
     console.error('[esim] provider webhook error:', err);
     return res.status(500).json({ error: 'Failed to process eSIM webhook' });
   }

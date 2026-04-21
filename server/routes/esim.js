@@ -6,10 +6,11 @@ import {
   suspendProfile,
   resumeProfile,
   handleEsimWebhook,
+  getMyEsim, // ✅ NEW
 } from '../controllers/esimController.js';
 
-import { ESIM_ENABLED, ESIM_PROVIDER } from '../config/esim.js';
-// import { requireAuth } from '../middleware/auth.js'; // enable when ready
+import { ESIM_ENABLED, ESIM_PROVIDER, getEsimProviderConfig } from '../config/esim.js';
+import { requireAuth } from '../middleware/auth.js'; // ✅ ENABLED
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ const router = express.Router();
  */
 router.get('/health', (req, res) => {
   const provider = ESIM_PROVIDER || 'oneglobal';
-  const cfg = provider === 'oneglobal' ? ONEGLOBAL : null;
+  const cfg = getEsimProviderConfig(provider); // ✅ FIXED
 
   res.json({
     enabled: ESIM_ENABLED,
@@ -37,21 +38,27 @@ router.get('/health', (req, res) => {
  */
 router.get('/regions', listRegions);
 
-// --- eSIM actions (server → provider). Protect with auth later ---
-router.post('/profiles', /* requireAuth, */ reserveProfile);
-router.post('/activate', /* requireAuth, */ activateProfile);
-router.post('/suspend',  /* requireAuth, */ suspendProfile);
-router.post('/resume',   /* requireAuth, */ resumeProfile);
+/**
+ * GET /esim/me
+ * Returns the current user's saved eSIM (QR, activation data, status)
+ */
+router.get('/me', requireAuth, getMyEsim); // ✅ NEW
+
+// --- eSIM actions (server → provider) ---
+router.post('/profiles', requireAuth, reserveProfile); // ✅ NOW PROTECTED
+router.post('/activate', requireAuth, activateProfile);
+router.post('/suspend', requireAuth, suspendProfile);
+router.post('/resume', requireAuth, resumeProfile);
 
 /**
  * Webhook endpoint (provider → server)
  * MUST use raw body for signature validation
  *
- * You’ll point Telna’s webhook URL to this path.
+ * You’ll point provider webhook URL to this path.
  */
 router.post(
   '/webhooks/oneglobal',
-  express.raw({ type: '*/*' }), // prevent JSON middleware from altering the body
+  express.raw({ type: '*/*' }),
   handleEsimWebhook
 );
 
