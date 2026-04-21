@@ -251,6 +251,32 @@ router.patch('/:id/status', asyncHandler(async (req, res) => {
 }));
 
 /**
+ * POST /calls/start-external
+ * { phoneNumber, mode: 'AUDIO' }
+ */
+router.post('/start-external', asyncHandler(async (req, res) => {
+  const callerId = Number(req.user.id);
+  const { phoneNumber, mode = 'AUDIO', twilioCallSid } = req.body || {};
+
+  if (!phoneNumber) {
+    return res.status(400).json({ error: 'phoneNumber required' });
+  }
+
+  const call = await prisma.call.create({
+    data: {
+      callerId,
+      calleeId: null, // IMPORTANT: no user
+      mode,
+      status: 'INITIATED',
+      externalPhone: phoneNumber, // ← you NEED this column
+      twilioCallSid: twilioCallSid ?? null,
+    },
+  });
+
+  res.status(201).json({ callId: call.id });
+}));
+
+/**
  * GET /calls/history
  * Returns recent calls where the user is caller or callee
  */

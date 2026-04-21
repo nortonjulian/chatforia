@@ -1232,9 +1232,11 @@ model Call {
   id       Int        @id @default(autoincrement())
   roomId   Int?
   callerId Int
-  calleeId Int
+  calleeId Int?
   mode     CallMode
   status   CallStatus @default(RINGING)
+
+  externalPhone String?
 
   offerSdp      String?
   answerSdp     String?
@@ -1247,14 +1249,15 @@ model Call {
   fromLabel     String?
   toLabel       String?
 
-  caller User @relation("CallCaller", fields: [callerId], references: [id])
-  callee User @relation("CallCallee", fields: [calleeId], references: [id])
+  caller User   @relation("CallCaller", fields: [callerId], references: [id])
+  callee User?  @relation("CallCallee", fields: [calleeId], references: [id])
 
   voicemails Voicemail[]
 
   @@index([callerId])
   @@index([calleeId])
   @@index([roomId])
+  @@index([externalPhone])
 }
 
 model Phone {
