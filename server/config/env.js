@@ -104,7 +104,7 @@ export const ENV = {
 
   // Feature flags
   STATUS_ENABLED: bool(process.env.STATUS_ENABLED, false),
-  FEATURE_ESIM: bool(process.env.FEATURE_ESIM, false),
+  FEATURE_ESIM: bool(process.env.FEATURE_ESIM, true),
   FEATURE_PHYSICAL_SIM: bool(process.env.FEATURE_PHYSICAL_SIM, false),
 
   // eSIM / connectivity
