@@ -169,9 +169,9 @@ router.get('/status', async (req, res) => {
       : null;
 
     // ALSO optionally attach any linked Subscriber for the user (if present)
-    const subscriber = await prisma.subscriber.findFirst({
-      where: { userId: Number(req.user.id) },
-    });
+    // const subscriber = await prisma.subscriber.findFirst({
+    //   where: { userId: Number(req.user.id) },
+    // });
 
     return res.json({
       mode: 'INDIVIDUAL',
@@ -188,13 +188,6 @@ router.get('/status', async (req, res) => {
         expiresAt: pack.expiresAt,
         daysRemaining,
       },
-      subscriber: subscriber ? {
-        id: subscriber.id,
-        provider: subscriber.provider,
-        status: subscriber.status,
-        iccid: subscriber.iccid,
-        msisdn: subscriber.msisdn
-      } : null
     });
   } catch (err) {
     console.error('wireless status error:', err);
