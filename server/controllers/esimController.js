@@ -364,6 +364,7 @@ export async function resumeProfile(req, res) {
     return res.status(500).json({
       error: 'Failed to reserve eSIM profile',
       message: err?.message || String(err),
+      stack: process.env.NODE_ENV !== 'production' ? err?.stack : undefined,
     });
   }
 }
