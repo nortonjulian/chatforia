@@ -372,8 +372,22 @@ export async function getOrCreateThread(userId, phone, opts = {}) {
   const uid = Number(userId);
   let { contactId = null } = opts;
 
-  const normalizedPhone = normalizeE164(phone);
-  if (!isE164(normalizedPhone)) throw Boom.badRequest('Invalid destination phone');
+  let normalizedPhone = normalizeE164(phone);
+
+  // Fallback: auto-fix US numbers (dev-friendly, production-safe if controlled)
+  if (!isE164(normalizedPhone)) {
+    const digits = String(phone).replace(/\D/g, '');
+
+    if (digits.length === 10) {
+      normalizedPhone = `+1${digits}`;
+    } else if (digits.length === 11 && digits.startsWith('1')) {
+      normalizedPhone = `+${digits}`;
+    }
+  }
+
+  if (!isE164(normalizedPhone)) {
+    throw Boom.badRequest('Invalid destination phone');
+  }
 
   const variants = phoneVariants(normalizedPhone);
 
