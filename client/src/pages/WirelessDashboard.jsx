@@ -9,6 +9,7 @@ import {
   Alert,
   Progress,
   Loader,
+  Badge,
 } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { Info } from 'lucide-react';
@@ -30,6 +31,8 @@ export default function WirelessDashboard() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState(null);
   const [error, setError] = useState(null);
+
+  const subscriber = currentUser?.subscriber;
 
   useEffect(() => {
     if (!currentUser) {
@@ -57,16 +60,81 @@ export default function WirelessDashboard() {
     })();
   }, [currentUser, navigate, t]);
 
-  // Central: always go to the Upgrade / plans page
-  const goToPlans = () => {
-    // later you can do /upgrade?tab=wireless if you add a wireless tab
-    navigate('/upgrade');
-  };
+  const goToPlans = () => navigate('/upgrade');
+  const goToEsim = () => navigate('/account/esim');
 
   const isNone = !status || status.mode === 'NONE';
   const isFamily = status?.mode === 'FAMILY';
 
-  // When we *do* have a plan status, compute data stats
+  // ------------------------
+  // 🔥 NEW: eSIM CARD
+  // ------------------------
+  const esimCard = (
+    <Card radius="xl" withBorder>
+      <Stack gap="sm">
+        <Group justify="space-between">
+          <Title order={4}>
+            {t('wireless.esim.title', 'Your eSIM')}
+          </Title>
+
+          {subscriber?.status && (
+            <Badge
+              color={
+                subscriber.status === 'ACTIVE'
+                  ? 'green'
+                  : subscriber.status === 'PENDING'
+                  ? 'yellow'
+                  : 'gray'
+              }
+            >
+              {subscriber.status}
+            </Badge>
+          )}
+        </Group>
+
+        {subscriber ? (
+          <>
+            {subscriber.msisdn && (
+              <Text size="sm">
+                {t('wireless.phoneNumber', 'Phone number')}: {subscriber.msisdn}
+              </Text>
+            )}
+
+            {subscriber.iccid && (
+              <Text size="xs" c="dimmed">
+                ICCID: {subscriber.iccid}
+              </Text>
+            )}
+
+            <Group mt="xs">
+              <Button size="sm" onClick={goToEsim}>
+                {t('wireless.viewQr', 'View QR / Install eSIM')}
+              </Button>
+            </Group>
+          </>
+        ) : (
+          <>
+            <Text size="sm" c="dimmed">
+              {t(
+                'wireless.noEsim',
+                'You don’t have an eSIM yet. Set one up to use mobile data.',
+              )}
+            </Text>
+
+            <Group mt="xs">
+              <Button size="sm" onClick={goToEsim}>
+                {t('wireless.setupEsim', 'Set up eSIM')}
+              </Button>
+            </Group>
+          </>
+        )}
+      </Stack>
+    </Card>
+  );
+
+  // ------------------------
+  // Existing Plan UI
+  // ------------------------
   let planContent = null;
 
   if (!isNone && status) {
@@ -78,141 +146,50 @@ export default function WirelessDashboard() {
         : total - (src.usedDataMb || 0);
     const pct = total > 0 ? Math.min(100, (remaining / total) * 100) : 0;
 
-    const isLow = status.state === 'LOW';
-    const isExhausted = status.state === 'EXHAUSTED' || status.exhausted;
-    const isExpired = status.state === 'EXPIRED' || status.expired;
-
     planContent = (
       <Card radius="xl" withBorder>
         <Stack gap="sm">
           <Group justify="space-between">
-            <Stack gap={2}>
-              <Title order={3}>
-                {isFamily
-                  ? src.name ||
-                    t('family.group.defaultName', 'My Chatforia Family')
-                  : t('profile.esim.title', 'Chatforia eSIM')}
-              </Title>
-              <Text size="sm" c="dimmed">
-                {isFamily
-                  ? t('wireless.data.familyHeading', 'Shared data pool')
-                  : t(
-                      'profile.esim.desc',
-                      'Get mobile data for Chatforia when you’re away from Wi-Fi.',
-                    )}
-              </Text>
-            </Stack>
+            <Title order={3}>
+              {isFamily
+                ? src.name || 'My Chatforia Family'
+                : 'Chatforia eSIM'}
+            </Title>
 
             {!isFamily && (
               <Text size="sm" c="dimmed">
-                {src.addonKind ||
-                  t('wireless.esimPackLabel', 'eSIM data pack')}
+                {src.addonKind || 'eSIM data pack'}
               </Text>
             )}
           </Group>
 
-          <Stack gap={4} mt="sm">
-            <Group justify="space-between">
-              <Text size="sm" fw={500}>
-                {isFamily
-                  ? t('wireless.data.familyLabel', 'Family data pool')
-                  : t('wireless.data.yourData', 'Your data')}
-              </Text>
-              <Text size="sm">
-                {formatGb(total)} / {formatGb(remaining)}
-              </Text>
-            </Group>
-            <Progress value={pct} />
-            <Text size="xs" c="dimmed">
-              {isFamily
-                ? t(
-                    'wireless.data.familyCaption',
-                    'All members share this pool. We’ll warn you as you approach your limit.',
-                  )
-                : t(
-                    'wireless.data.caption',
-                    'We’ll warn you as you approach your limit.',
-                  )}
+          <Group justify="space-between">
+            <Text size="sm" fw={500}>
+              {isFamily ? 'Family data pool' : 'Your data'}
             </Text>
-          </Stack>
+            <Text size="sm">
+              {formatGb(total)} / {formatGb(remaining)}
+            </Text>
+          </Group>
 
-          {(status.state === 'LOW' ||
-            status.state === 'EXHAUSTED' ||
-            status.state === 'EXPIRED' ||
-            status.exhausted ||
-            status.expired) && (
-            <Alert
-              color={
-                status.state === 'EXHAUSTED' ||
-                status.state === 'EXPIRED' ||
-                status.exhausted ||
-                status.expired
-                  ? 'red'
-                  : 'yellow'
-              }
-              variant="light"
-              icon={<Info size={16} />}
-            >
-              {status.state === 'EXHAUSTED' ||
-              status.state === 'EXPIRED' ||
-              status.exhausted ||
-              status.expired ? (
-                <Text>
-                  {t(
-                    'wireless.exhausted',
-                    'Your data has run out. Buy a new pack to continue using mobile data.',
-                  )}
-                </Text>
-              ) : (
-                <Text>
-                  {t('wireless.dataLow', 'Your data is running low.')}
-                </Text>
-              )}
+          <Progress value={pct} />
 
-              {src.daysRemaining != null && (
-                <Text size="xs" c="dimmed" mt={4}>
-                  {t(
-                    'wireless.expiresIn',
-                    'Expires in {{days}} days',
-                    // our i18n mock in tests returns the default string
-                    { days: src.daysRemaining },
-                  )}
-                </Text>
-              )}
-
-              <Button
-                mt="sm"
-                size="xs"
-                variant="light"
-                onClick={goToPlans}
-              >
-                {t('wireless.topUp', 'Top up / change plan')}
-              </Button>
-            </Alert>
-          )}
+          <Button mt="sm" size="xs" variant="light" onClick={goToPlans}>
+            Top up / change plan
+          </Button>
         </Stack>
       </Card>
     );
   }
 
-  // NONE / no-status content
   const noneContent = (
     <Card radius="xl" withBorder>
       <Stack gap="sm">
-        <Title order={3}>
-          {t('wireless.none.title', 'No wireless plan yet')}
-        </Title>
+        <Title order={3}>No wireless plan yet</Title>
         <Text c="dimmed" size="sm">
-          {t(
-            'wireless.none.body',
-            'You can buy mobile data to use Chatforia away from Wi-Fi, either just for you or for a Family group.',
-          )}
+          Buy mobile data to use Chatforia away from Wi-Fi.
         </Text>
-        <Group>
-          <Button onClick={goToPlans}>
-            {t('wireless.viewPlans', 'View plans')}
-          </Button>
-        </Group>
+        <Button onClick={goToPlans}>View plans</Button>
       </Stack>
     </Card>
   );
@@ -223,10 +200,8 @@ export default function WirelessDashboard() {
 
       {loading && (
         <Group gap="xs">
-          <Loader size="sm" data-testid="loader" />
-          <Text c="dimmed">
-            {t('wireless.loading', 'Loading your wireless details…')}
-          </Text>
+          <Loader size="sm" />
+          <Text c="dimmed">Loading your wireless details…</Text>
         </Group>
       )}
 
@@ -236,6 +211,10 @@ export default function WirelessDashboard() {
         </Alert>
       )}
 
+      {/* 🔥 NEW: eSIM section */}
+      {esimCard}
+
+      {/* Existing plan UI */}
       {isNone ? noneContent : planContent}
     </Stack>
   );
