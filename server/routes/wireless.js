@@ -66,48 +66,48 @@ router.get('/status', async (req, res) => {
     const userId = Number(req.user.id);
     const now = new Date();
 
-    // 1) Check if user is in a Family with data
-    const membership = await prisma.familyMember.findFirst({
-      where: { userId },
-      include: { family: true },
-    });
+    // // 1) Check if user is in a Family with data
+    // const membership = await prisma.familyMember.findFirst({
+    //   where: { userId },
+    //   include: { family: true },
+    // });
 
-    if (membership?.family) {
-      const family = membership.family;
+    // if (membership?.family) {
+    //   const family = membership.family;
 
-      const totalDataMb = family.totalDataMb || 0;
-      const usedDataMb = family.usedDataMb || 0;
-      const remainingDataMb = Math.max(0, totalDataMb - usedDataMb);
+    //   const totalDataMb = family.totalDataMb || 0;
+    //   const usedDataMb = family.usedDataMb || 0;
+    //   const remainingDataMb = Math.max(0, totalDataMb - usedDataMb);
 
-      const status = computeStatus(totalDataMb, remainingDataMb, family.expiresAt || null);
+    //   const status = computeStatus(totalDataMb, remainingDataMb, family.expiresAt || null);
 
-      const daysRemaining = family.expiresAt
-        ? Math.max(
-            0,
-            Math.ceil(
-              (new Date(family.expiresAt).getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
-            ),
-          )
-        : null;
+    //   const daysRemaining = family.expiresAt
+    //     ? Math.max(
+    //         0,
+    //         Math.ceil(
+    //           (new Date(family.expiresAt).getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
+    //         ),
+    //       )
+    //     : null;
 
-      return res.json({
-        mode: 'FAMILY',
-        state: status.state, // "OK" | "LOW" | "EXHAUSTED" | "EXPIRED"
-        low: status.low,
-        exhausted: status.exhausted,
-        expired: status.expired,
-        source: {
-          type: 'FAMILY_POOL',
-          familyId: family.id,
-          name: family.name || 'My Chatforia Family',
-          totalDataMb,
-          usedDataMb,
-          remainingDataMb,
-          expiresAt: family.expiresAt,
-          daysRemaining,
-        },
-      });
-    }
+    //   return res.json({
+    //     mode: 'FAMILY',
+    //     state: status.state, // "OK" | "LOW" | "EXHAUSTED" | "EXPIRED"
+    //     low: status.low,
+    //     exhausted: status.exhausted,
+    //     expired: status.expired,
+    //     source: {
+    //       type: 'FAMILY_POOL',
+    //       familyId: family.id,
+    //       name: family.name || 'My Chatforia Family',
+    //       totalDataMb,
+    //       usedDataMb,
+    //       remainingDataMb,
+    //       expiresAt: family.expiresAt,
+    //       daysRemaining,
+    //     },
+    //   });
+    // }
 
     // 2) Otherwise, check individual eSIM pack
     const pack = await getActiveIndividualPack(userId);
