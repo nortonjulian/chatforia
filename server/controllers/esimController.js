@@ -360,8 +360,11 @@ export async function resumeProfile(req, res) {
 
     return res.json({ ok: true, ...out });
   } catch (err) {
-    console.error('[esim] resumeProfile error:', err);
-    return res.status(500).json({ error: 'Failed to resume eSIM line' });
+    console.error('[esim] reserveProfile error:', err);
+    return res.status(500).json({
+      error: 'Failed to reserve eSIM profile',
+      message: err?.message || String(err),
+    });
   }
 }
 
