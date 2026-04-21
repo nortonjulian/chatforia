@@ -191,7 +191,11 @@ router.get('/status', async (req, res) => {
     });
   } catch (err) {
     console.error('wireless status error:', err);
-    return res.status(500).json({ error: 'Failed to load wireless status' });
+    return res.status(500).json({
+      error: 'Failed to load wireless status',
+      message: err?.message || String(err),
+      stack: process.env.NODE_ENV !== 'production' ? err?.stack : undefined,
+    });
   }
 });
 
