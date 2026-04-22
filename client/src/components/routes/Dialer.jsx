@@ -85,6 +85,17 @@ function statusColor(status) {
   return 'yellow';
 }
 
+function formatCallError(e) {
+  const status = e?.response?.status;
+  const message = e?.response?.data?.message || e?.response?.data?.error;
+
+  if (status === 412 && message === 'No Chatforia number assigned') {
+    return 'You need a Chatforia number before placing phone calls.';
+  }
+
+  return message || e?.message || 'Could not place call.';
+}
+
 export default function Dialer() {
   const { t } = useTranslation();
   const { currentUser } = useUser();
