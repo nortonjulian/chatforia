@@ -8,9 +8,23 @@ import {
   Stack,
   Text,
   Divider,
+  Loader,
+  Card,
+  ThemeIcon,
+  Badge,
+  ActionIcon,
 } from '@mantine/core';
+import {
+  PhoneOutgoing,
+  PhoneIncoming,
+  PhoneMissed,
+  Voicemail,
+  Phone,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
+import { getCallHistory } from '@/api/calls';
+import { useUser } from '@/context/UserContext';
 import { usePstnCall } from '@/hooks/usePstnCall';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
 
@@ -21,27 +35,73 @@ function normalizePhone(raw) {
   return s.replace(/[^\d+]/g, '');
 }
 
+function formatTimestamp(value) {
+  if (!value) return '';
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleString();
+}
+
+function formatDuration(durationSec) {
+  if (!durationSec || durationSec <= 0) return null;
+
+  const hours = Math.floor(durationSec / 3600);
+  const minutes = Math.floor((durationSec % 3600) / 60);
+  const seconds = durationSec % 60;
+
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function statusLabel(status, isOutgoing) {
+  switch (String(status || '').toUpperCase()) {
+    case 'MISSED':
+      return 'Missed';
+    case 'DECLINED':
+      return 'Declined';
+    case 'FAILED':
+      return 'Failed';
+    case 'ENDED':
+      return 'Completed';
+    default:
+      return isOutgoing ? 'Outgoing' : 'Incoming';
+  }
+}
+
+function statusIcon(status, isOutgoing) {
+  const normalized = String(status || '').toUpperCase();
+  if (normalized === 'MISSED') return PhoneMissed;
+  return isOutgoing ? PhoneOutgoing : PhoneIncoming;
+}
+
+function statusColor(status) {
+  const normalized = String(status || '').toUpperCase();
+  if (normalized === 'MISSED' || normalized === 'DECLINED' || normalized === 'FAILED') {
+    return 'red';
+  }
+  return 'yellow';
+}
+
 export default function Dialer() {
   const { t } = useTranslation();
+  const { currentUser } = useUser();
   const [params] = useSearchParams();
 
-  const qpTo = params.get('to');         // /dialer?to=+1301...
-  const qpUserId = params.get('userId'); // /dialer?userId=123
+  const qpTo = params.get('to');
+  const qpUserId = params.get('userId');
 
   const [digits, setDigits] = useState('');
   const [resolving, setResolving] = useState(false);
   const [resolveError, setResolveError] = useState('');
 
-  const { currentUser } = useUser();
-
   const [history, setHistory] = useState([]);
   const [historyLoading, setHistoryLoading] = useState(true);
   const [historyError, setHistoryError] = useState('');
 
-  // PSTN (alias call via Twilio → real phone network)
   const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
 
-  // Browser-based Twilio Voice call
   const {
     startBrowserCall,
     ready: voiceReady,
@@ -49,31 +109,58 @@ export default function Dialer() {
     error: voiceError,
   } = useTwilioVoice();
 
-  // ✅ Prefill from query params
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadHistory() {
+      try {
+        setHistoryLoading(true);
+        setHistoryError('');
+
+        const items = await getCallHistory();
+        if (!mounted) return;
+
+        const sorted = [...items].sort((a, b) => {
+          const aTime = new Date(a.endedAt || a.startedAt || a.createdAt).getTime();
+          const bTime = new Date(b.endedAt || b.startedAt || b.createdAt).getTime();
+          return bTime - aTime;
+        });
+
+        setHistory(sorted);
+      } catch (e) {
+        if (!mounted) return;
+        setHistoryError(
+          e?.response?.data?.error || e?.message || 'Could not load recent calls.'
+        );
+      } finally {
+        if (mounted) setHistoryLoading(false);
+      }
+    }
+
+    loadHistory();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   useEffect(() => {
     let mounted = true;
 
     async function run() {
       setResolveError('');
 
-      // 1) If explicit ?to=, prefer it
       if (qpTo) {
         const next = normalizePhone(qpTo);
         if (mounted) setDigits(next);
         return;
       }
 
-      // 2) If ?userId=, resolve to a callable target
       if (qpUserId) {
         const userId = String(qpUserId || '').trim();
         if (!userId) return;
 
         setResolving(true);
         try {
-          /**
-           * Recommended backend:
-           * GET /users/:id/call-target  -> { to: "+1555..." } OR { to: "client:user:123" }
-           */
           const { data } = await axiosClient.get(
             `/users/${encodeURIComponent(userId)}/call-target`
           );
@@ -107,42 +194,6 @@ export default function Dialer() {
     };
   }, [qpTo, qpUserId, t]);
 
-  useEffect(() => {
-  let mounted = true;
-
-  async function loadHistory() {
-    try {
-      setHistoryLoading(true);
-      setHistoryError('');
-
-      const items = await getCallHistory();
-
-      if (!mounted) return;
-
-      const sorted = [...items].sort((a, b) => {
-        const aTime = new Date(a.endedAt || a.startedAt || a.createdAt).getTime();
-        const bTime = new Date(b.endedAt || b.startedAt || b.createdAt).getTime();
-        return bTime - aTime;
-      });
-
-      setHistory(sorted);
-    } catch (e) {
-      if (!mounted) return;
-      setHistoryError(
-        e?.response?.data?.error || e?.message || 'Failed to load recents'
-      );
-    } finally {
-      if (mounted) setHistoryLoading(false);
-    }
-  }
-
-  loadHistory();
-
-  return () => {
-    mounted = false;
-  };
-}, []);
-
   const press = (d) => setDigits((s) => (s + d).slice(0, 32));
   const backspace = () => setDigits((s) => s.slice(0, -1));
 
@@ -157,6 +208,13 @@ export default function Dialer() {
   const handleBrowserCall = async () => {
     if (!toNumber || !voiceReady) return;
     await startBrowserCall(toNumber);
+  };
+
+  const handleRedial = async (item) => {
+    const phone = normalizePhone(item.externalPhone || '');
+    if (!phone) return;
+    setDigits(phone);
+    await placeCall(phone);
   };
 
   const anyError = resolveError || pstnError || voiceError;
@@ -174,7 +232,6 @@ export default function Dialer() {
         )}
       </Text>
 
-      {/* Display */}
       <TextInput
         value={digits}
         onChange={(e) => setDigits(e.currentTarget.value)}
@@ -191,7 +248,6 @@ export default function Dialer() {
         </Text>
       )}
 
-      {/* Keypad + actions */}
       <Stack gap={6} w={260}>
         {[['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['*', '0', '#']].map(
           (row, i) => (
@@ -211,7 +267,6 @@ export default function Dialer() {
           )
         )}
 
-        {/* PSTN: Chatforia number → phone network */}
         <Group gap={6}>
           <Button
             color="green"
@@ -232,7 +287,6 @@ export default function Dialer() {
           </Button>
         </Group>
 
-        {/* Browser-based Twilio Voice call */}
         <Button
           variant="outline"
           onClick={handleBrowserCall}
@@ -244,13 +298,14 @@ export default function Dialer() {
 
       <Divider my="lg" />
 
-      {/* Recents placeholder */}
       <Text fw={600} mb={6}>
         {t('dialer.recents', 'Recents')}
       </Text>
 
       {historyLoading ? (
-        <Loader size="sm" />
+        <Group justify="center" py="md">
+          <Loader size="sm" />
+        </Group>
       ) : historyError ? (
         <Text c="red" size="sm">{historyError}</Text>
       ) : history.length === 0 ? (
@@ -262,34 +317,83 @@ export default function Dialer() {
           {history.map((item) => {
             const isOutgoing = item.callerId === currentUser?.id;
             const otherParty = isOutgoing ? item.callee : item.caller;
-
-            const name =
+            const otherPartyName =
               otherParty?.displayName ||
               otherParty?.username ||
               item.externalPhone ||
               (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
 
-            const timestamp = new Date(
-              item.endedAt || item.startedAt || item.createdAt
-            ).toLocaleString();
+            const Icon = statusIcon(item.status, isOutgoing);
+            const label = statusLabel(item.status, isOutgoing);
+            const duration = formatDuration(item.durationSec);
+            const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
+            const color = statusColor(item.status);
+            const canRedial = Boolean(normalizePhone(item.externalPhone || ''));
 
             return (
               <Card key={item.id} withBorder radius="lg" p="md">
-                <Text fw={600}>{name}</Text>
+                <Group align="flex-start" wrap="nowrap">
+                  <ThemeIcon radius="xl" size={40} variant="light" color={color}>
+                    <Icon size={18} />
+                  </ThemeIcon>
 
-                <Group gap={6} mt={4}>
-                  <Text size="sm" c="dimmed">
-                    {isOutgoing ? 'Outgoing' : 'Incoming'}
-                  </Text>
-                  <Text size="sm" c="dimmed">•</Text>
-                  <Text size="sm" c="dimmed">
-                    {item.status === 'ENDED' ? 'Completed' : item.status}
-                  </Text>
+                  <Box style={{ flex: 1 }}>
+                    <Group justify="space-between" align="flex-start" wrap="nowrap">
+                      <Box>
+                        <Text
+                          fw={item.status?.toUpperCase() === 'MISSED' ? 700 : 600}
+                          c={item.status?.toUpperCase() === 'MISSED' ? 'red' : undefined}
+                        >
+                          {otherPartyName}
+                        </Text>
+
+                        <Group gap={8} mt={4}>
+                          <Text size="sm" c="dimmed">
+                            {isOutgoing ? 'Outgoing' : 'Incoming'}
+                          </Text>
+                          <Text size="sm" c="dimmed">•</Text>
+                          <Text size="sm" c="dimmed">{label}</Text>
+                          {duration ? (
+                            <>
+                              <Text size="sm" c="dimmed">•</Text>
+                              <Text size="sm" c="dimmed">{duration}</Text>
+                            </>
+                          ) : null}
+                        </Group>
+
+                        {!!timestamp && (
+                          <Text size="xs" c="dimmed" mt={6}>
+                            {timestamp}
+                          </Text>
+                        )}
+                      </Box>
+
+                      <Stack gap={6} align="flex-end">
+                        {item.hasVoicemail ? (
+                          <Badge
+                            leftSection={<Voicemail size={12} />}
+                            color="grape"
+                            variant="light"
+                          >
+                            Voicemail
+                          </Badge>
+                        ) : null}
+
+                        <ActionIcon
+                          variant="filled"
+                          color="yellow"
+                          radius="xl"
+                          size={38}
+                          onClick={() => handleRedial(item)}
+                          disabled={!canRedial || pstnLoading}
+                          aria-label={`Call ${otherPartyName}`}
+                        >
+                          <Phone size={18} />
+                        </ActionIcon>
+                      </Stack>
+                    </Group>
+                  </Box>
                 </Group>
-
-                <Text size="xs" c="dimmed" mt={4}>
-                  {timestamp}
-                </Text>
               </Card>
             );
           })}

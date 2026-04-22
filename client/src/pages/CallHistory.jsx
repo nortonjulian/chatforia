@@ -18,6 +18,7 @@ import {
   Voicemail,
 } from 'lucide-react';
 import { getCallHistory } from '@/api/calls';
+import { useUser } from '@/context/UserContext';
 
 function formatTimestamp(value) {
   if (!value) return '';
@@ -143,7 +144,7 @@ export default function CallHistory() {
           const Icon = statusIcon(item.status, isOutgoing);
           const label = statusLabel(item.status, isOutgoing);
           const duration = formatDuration(item.durationSec);
-          const timestamp = formatTimestamp(item.startedAt || item.createdAt);
+          const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
 
           return (
             <Card key={item.id} withBorder radius="lg" p="md">
