@@ -2,8 +2,12 @@ import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { v4 as uuidv4 } from 'uuid';
 import { createEsimProfileForProvider, handleProviderWebhook } from '../services/provisioningService.js';
+import { requireAuth } from '../middleware/auth.js';
+import { fetchEsimUsage } from '../services/providers/esimProvider.js';
 
 const router = express.Router();
+
+router.use(requireAuth);
 
 /* -------------------- existing helpers & routes (unchanged) ------------------ */
 
@@ -53,6 +57,62 @@ async function getActiveIndividualPack(userId) {
     },
     orderBy: { purchasedAt: 'desc' },
   });
+}
+
+async function getLatestSubscriberForUser(userId) {
+  return prisma.subscriber.findFirst({
+    where: { userId: Number(userId) },
+    orderBy: [
+      { activatedAt: 'desc' },
+      { createdAt: 'desc' },
+    ],
+  });
+}
+
+async function refreshPackUsageFromProvider(userId, pack) {
+  if (!pack) return pack;
+
+  const subscriber = await getLatestSubscriberForUser(userId);
+  if (!subscriber) return pack;
+
+  const providerIdentifier =
+    subscriber.providerProfileId ||
+    subscriber.iccid ||
+    null;
+
+  if (!providerIdentifier) return pack;
+
+  try {
+    const usage = await fetchEsimUsage(providerIdentifier);
+
+    const nextTotalMb =
+      typeof usage.totalMb === 'number' && usage.totalMb >= 0
+        ? Math.round(usage.totalMb)
+        : pack.totalDataMb;
+
+    const nextRemainingMb =
+      typeof usage.remainingMb === 'number' && usage.remainingMb >= 0
+        ? Math.round(usage.remainingMb)
+        : pack.remainingDataMb;
+
+    const nextExpiresAt = usage.expiresAt ?? pack.expiresAt ?? null;
+
+    const updated = await prisma.mobileDataPackPurchase.update({
+      where: { id: pack.id },
+      data: {
+        totalDataMb: nextTotalMb,
+        remainingDataMb: nextRemainingMb,
+        expiresAt: nextExpiresAt,
+        iccid: subscriber.iccid ?? pack.iccid ?? undefined,
+        esimProfileId: subscriber.providerProfileId ?? pack.esimProfileId ?? undefined,
+      },
+    });
+
+    return updated;
+  } catch (err) {
+    console.warn('provider usage refresh failed:', err?.message || err);
+    return pack;
+  }
 }
 
 /* -------------------- GET /status (unchanged) ------------------ */
@@ -110,7 +170,11 @@ router.get('/status', async (req, res) => {
     // }
 
     // 2) Otherwise, check individual eSIM pack
-    const pack = await getActiveIndividualPack(userId);
+    let pack = await getActiveIndividualPack(userId);
+
+    if (pack) {
+      pack = await refreshPackUsageFromProvider(userId, pack);
+    }
 
     if (!pack) {
       // Check if there is an expired/zero pack to surface exhausted state

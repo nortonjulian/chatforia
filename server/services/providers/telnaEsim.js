@@ -7,7 +7,7 @@ import { telnaRequest } from '../../utils/telnaClient.js';
  */
 
 // active provider-shaped config (fallback to ONEGLOBAL for locals)
-const TELNA = getEsimProviderConfig() || ONEGLOBAL;
+const TELNA = getEsimProviderConfig('telna');
 
 function ensureConfigured() {
   if (!TELNA?.baseUrl) {

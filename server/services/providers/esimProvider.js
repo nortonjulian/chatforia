@@ -15,16 +15,14 @@ function ensureEnabled() {
 
 /**
  * Resolve the active eSIM provider implementation.
- * Currently supports 'oneglobal', 'telna', 'plintron'.
+ * Currently supports 'telna'.
  *
  * @returns {object} provider module (must implement the expected functions)
  */
 function ensureProvider() {
-  const providerKey = (ESIM_PROVIDER || 'oneglobal').toLowerCase();
+  const providerKey = (ESIM_PROVIDER || 'telna').toLowerCase();
 
   switch (providerKey) {
-    case 'oneglobal':
-      return { impl: oneglobal, name: 'oneglobal' };
     case 'telna':
       return { impl: telna, name: 'telna' };
     case 'plintron':

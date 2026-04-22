@@ -1312,25 +1312,28 @@ model SmsCarrierEvent {
 }
 
 model Subscriber {
-  id                Int       @id @default(autoincrement())
-  userId            Int? // optional: unassigned until user claims
-  provider          String // 'oneglobal' | 'telna' | 'plintron' | 'twilio' ...
-  providerProfileId String? // provider's internal profile / resource id
-  iccid             String?   @unique
-  iccidHint         String?
-  smdp              String? // SMDP (if provided)
-  activationCode    String? // matchingId or activation token (if stored)
-  lpaUri            String? // deep link / LPA for provisioning
-  qrPayload         String? // QR payload or svg
-  msisdn            String? // assigned phone number (E.164) if any
-  region            String?   @db.VarChar(8)
-  status            String    @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
-  providerMeta      Json? // raw provider response / audit
-  createdAt         DateTime  @default(now())
-  activatedAt       DateTime?
-  suspendedAt       DateTime?
-  expiresAt         DateTime?
-  updatedAt         DateTime  @updatedAt
+  id                   Int       @id @default(autoincrement())
+  userId               Int? 
+  purchaseId           Int?
+  externalSubscriberId String?
+  esimProfileId        String?
+  provider             String 
+  providerProfileId    String? 
+  iccid                String?   @unique
+  iccidHint            String?
+  smdp                 String? 
+  activationCode       String? 
+  lpaUri               String? 
+  qrPayload            String? 
+  msisdn               String? 
+  region               String?   @db.VarChar(8)
+  status               String    @default("PENDING") // PENDING | ACTIVE | SUSPENDED | CANCELLED
+  providerMeta         Json? 
+  createdAt            DateTime  @default(now())
+  activatedAt          DateTime?
+  suspendedAt          DateTime?
+  expiresAt            DateTime?
+  updatedAt            DateTime  @updatedAt
 
   @@index([userId])
   @@index([provider, providerProfileId])
