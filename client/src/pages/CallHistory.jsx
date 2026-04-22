@@ -133,8 +133,7 @@ export default function CallHistory() {
     return (
       <Stack gap="sm">
         {items.map((item) => {
-          const currentUserId = item.viewerId ?? null; // optional if backend ever adds it
-          const isOutgoing = item.callerId === currentUserId || !item.callee?.id;
+          const isOutgoing = item.callerId === currentUser?.id;
           const otherParty = isOutgoing ? item.callee : item.caller;
           const otherPartyName =
             otherParty?.displayName ||

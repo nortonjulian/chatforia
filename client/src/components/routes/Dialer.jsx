@@ -32,6 +32,12 @@ export default function Dialer() {
   const [resolving, setResolving] = useState(false);
   const [resolveError, setResolveError] = useState('');
 
+  const { currentUser } = useUser();
+
+  const [history, setHistory] = useState([]);
+  const [historyLoading, setHistoryLoading] = useState(true);
+  const [historyError, setHistoryError] = useState('');
+
   // PSTN (alias call via Twilio → real phone network)
   const { placeCall, loading: pstnLoading, error: pstnError } = usePstnCall();
 
@@ -100,6 +106,42 @@ export default function Dialer() {
       mounted = false;
     };
   }, [qpTo, qpUserId, t]);
+
+  useEffect(() => {
+  let mounted = true;
+
+  async function loadHistory() {
+    try {
+      setHistoryLoading(true);
+      setHistoryError('');
+
+      const items = await getCallHistory();
+
+      if (!mounted) return;
+
+      const sorted = [...items].sort((a, b) => {
+        const aTime = new Date(a.endedAt || a.startedAt || a.createdAt).getTime();
+        const bTime = new Date(b.endedAt || b.startedAt || b.createdAt).getTime();
+        return bTime - aTime;
+      });
+
+      setHistory(sorted);
+    } catch (e) {
+      if (!mounted) return;
+      setHistoryError(
+        e?.response?.data?.error || e?.message || 'Failed to load recents'
+      );
+    } finally {
+      if (mounted) setHistoryLoading(false);
+    }
+  }
+
+  loadHistory();
+
+  return () => {
+    mounted = false;
+  };
+}, []);
 
   const press = (d) => setDigits((s) => (s + d).slice(0, 32));
   const backspace = () => setDigits((s) => s.slice(0, -1));
@@ -206,9 +248,53 @@ export default function Dialer() {
       <Text fw={600} mb={6}>
         {t('dialer.recents', 'Recents')}
       </Text>
-      <Text c="dimmed" size="sm">
-        {t('dialer.noRecents', 'No recent calls yet.')}
-      </Text>
+
+      {historyLoading ? (
+        <Loader size="sm" />
+      ) : historyError ? (
+        <Text c="red" size="sm">{historyError}</Text>
+      ) : history.length === 0 ? (
+        <Text c="dimmed" size="sm">
+          {t('dialer.noRecents', 'No recent calls yet.')}
+        </Text>
+      ) : (
+        <Stack gap="sm">
+          {history.map((item) => {
+            const isOutgoing = item.callerId === currentUser?.id;
+            const otherParty = isOutgoing ? item.callee : item.caller;
+
+            const name =
+              otherParty?.displayName ||
+              otherParty?.username ||
+              item.externalPhone ||
+              (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
+
+            const timestamp = new Date(
+              item.endedAt || item.startedAt || item.createdAt
+            ).toLocaleString();
+
+            return (
+              <Card key={item.id} withBorder radius="lg" p="md">
+                <Text fw={600}>{name}</Text>
+
+                <Group gap={6} mt={4}>
+                  <Text size="sm" c="dimmed">
+                    {isOutgoing ? 'Outgoing' : 'Incoming'}
+                  </Text>
+                  <Text size="sm" c="dimmed">•</Text>
+                  <Text size="sm" c="dimmed">
+                    {item.status === 'ENDED' ? 'Completed' : item.status}
+                  </Text>
+                </Group>
+
+                <Text size="xs" c="dimmed" mt={4}>
+                  {timestamp}
+                </Text>
+              </Card>
+            );
+          })}
+        </Stack>
+      )}
     </Box>
   );
 }
