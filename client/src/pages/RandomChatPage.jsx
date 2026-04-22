@@ -375,6 +375,9 @@ export default function RandomChatPage() {
   };
 
   const leaveCurrent = () => {
+    const socket = socketRef.current;
+    if (!socket) return;
+
     if (status === 'matching') {
       cancelMatching();
       return;
@@ -389,7 +392,12 @@ export default function RandomChatPage() {
       return;
     }
 
-    nextPerson();
+    socket.emit('random:leave');
+    setStatus('idle');
+    setActive(null);
+    setMessages([]);
+    setDraft('');
+    setBannerText('');
   };
 
   const headerTitle = useMemo(() => {
@@ -549,23 +557,33 @@ export default function RandomChatPage() {
                     onClick={addFriend}
                     disabled={!!active?.iRequestedFriend}
                   >
-                    {t('randomChat.addFriend', 'Add Friend')}
-                    {t('randomChat.requested', 'Requested')}  
+                    {active?.iRequestedFriend
+                      ? t('randomChat.requested', 'Requested')
+                      : t('randomChat.addFriend', 'Add Friend')}
                   </Button>
                 ) : null}
 
                 <Button
-                  color={active?.isAI ? 'gray' : 'red'}
+                  color="gray"
                   variant="light"
                   size="xs"
-                  leftSection={
-                    active?.isAI ? <IconX size={14} /> : <IconRefresh size={14} />
-                  }
+                  leftSection={<IconX size={14} />}
                   onClick={leaveCurrent}
                 >
                   {t('randomChat.leave', 'Leave')}
-                  {t('randomChat.next', 'Next Person')}
                 </Button>
+
+                {!active?.isAI ? (
+                  <Button
+                    color="orange"
+                    variant="filled"
+                    size="xs"
+                    leftSection={<IconRefresh size={14} />}
+                    onClick={nextPerson}
+                  >
+                    {t('randomChat.next', 'Next Person')}
+                  </Button>
+                ) : null}
               </Group>
             </Group>
 
