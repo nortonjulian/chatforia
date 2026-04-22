@@ -524,10 +524,13 @@ export async function listThreads(userId) {
   const uid = Number(userId);
 
   const threads = await prisma.smsThread.findMany({
-    where: { userId: uid, archivedAt: null, messages: {
-      some: {} 
-    } 
-  },
+    where: {
+      userId: uid,
+      archivedAt: null,
+      messages: {
+        some: {},
+      },
+    },
     orderBy: { updatedAt: 'desc' },
     select: {
       id: true,
