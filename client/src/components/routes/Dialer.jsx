@@ -20,6 +20,7 @@ import {
   PhoneMissed,
   Voicemail,
   Phone,
+  Trash2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
@@ -27,7 +28,6 @@ import { getCallHistory } from '@/api/calls';
 import { useUser } from '@/context/UserContext';
 import { usePstnCall } from '@/hooks/usePstnCall';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
-import { Trash2 } from 'lucide-react';
 
 // keep digits and a leading +
 function normalizePhone(raw) {
