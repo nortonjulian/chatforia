@@ -213,9 +213,14 @@ export default function Dialer() {
   const disabledNumber = !toNumber;
 
   const handlePstnCall = async () => {
-    if (!toNumber) return;
+  if (!toNumber) return;
+
+  try {
     await placeCall(toNumber);
-  };
+  } catch (e) {
+    setResolveError(formatCallError(e));
+  }
+};
 
   const handleBrowserCall = async () => {
     if (!toNumber || !voiceReady) return;
@@ -225,8 +230,14 @@ export default function Dialer() {
   const handleRedial = async (item) => {
     const phone = normalizePhone(item.externalPhone || '');
     if (!phone) return;
+
     setDigits(phone);
-    await placeCall(phone);
+
+    try {
+      await placeCall(phone);
+    } catch (e) {
+      setResolveError(formatCallError(e));
+    }
   };
 
   const handleDelete = async (callId) => {
