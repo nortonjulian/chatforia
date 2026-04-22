@@ -6,6 +6,7 @@ import {
   deleteVoicemail,
 } from '@/api/voicemailApi.js';
 import VoicemailPlayer from './VoicemailPlayer.jsx';
+import socket from '@/lib/socket';
 
 /**
  * VoicemailList
@@ -61,7 +62,52 @@ export default function VoicemailList({
       isMounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t, initialVoicemails, initialError]); // t is stable in real i18n; deps here keep lints happy
+  }, [t, initialVoicemails, initialError]); 
+
+    useEffect(() => {
+    const handleNew = ({ voicemail }) => {
+      if (!voicemail) return;
+
+      setVoicemails((prev) => {
+        const exists = prev.some((v) => v.id === voicemail.id);
+        return exists ? prev.map((v) => (v.id === voicemail.id ? voicemail : v)) : [voicemail, ...prev];
+      });
+
+      setActiveId((prev) => prev || voicemail.id);
+    };
+
+    const handleUpdated = (update) => {
+      if (!update?.id) return;
+
+      setVoicemails((prev) =>
+        prev.map((v) =>
+          v.id === update.id ? { ...v, ...update } : v
+        )
+      );
+    };
+
+    const handleDeleted = ({ id }) => {
+      if (!id) return;
+
+      setVoicemails((prev) => {
+        const next = prev.filter((v) => v.id !== id);
+        if (activeId === id) {
+          setActiveId(next[0]?.id ?? null);
+        }
+        return next;
+      });
+    };
+
+    socket.on('voicemail:new', handleNew);
+    socket.on('voicemail:updated', handleUpdated);
+    socket.on('voicemail:deleted', handleDeleted);
+
+    return () => {
+      socket.off('voicemail:new', handleNew);
+      socket.off('voicemail:updated', handleUpdated);
+      socket.off('voicemail:deleted', handleDeleted);
+    };
+  }, []);
 
   const handleSelect = async (vm) => {
     setActiveId(vm.id);

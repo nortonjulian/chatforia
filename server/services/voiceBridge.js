@@ -26,11 +26,35 @@ async function getTwilioClient() {
 async function getUserAliasNumber(userId) {
   const user = await prisma.user.findUnique({
     where: { id: Number(userId) },
-    select: { assignedNumbers: { select: { e164: true }, take: 1, orderBy: { id: 'asc' } }, forwardPhoneNumber: true }
+    select: {
+      assignedNumbers: {
+        select: { e164: true },
+        take: 1,
+        orderBy: { id: 'asc' },
+      },
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: true,
+    },
   });
-  const from = user?.assignedNumbers?.[0]?.e164 ? normalizeE164(user.assignedNumbers[0].e164) : null;
-  if (!from) throw Boom.preconditionFailed('No Chatforia number assigned');
-  const userPhone = normalizeE164(user?.forwardPhoneNumber || '');
+
+  const from = user?.assignedNumbers?.[0]?.e164
+    ? normalizeE164(user.assignedNumbers[0].e164)
+    : null;
+
+  if (!from) {
+    throw Boom.preconditionFailed('No Chatforia number assigned');
+  }
+
+  if (!user?.forwardingEnabledCalls) {
+    throw Boom.preconditionFailed('Call forwarding is not enabled');
+  }
+
+  const userPhone = normalizeE164(user?.forwardToPhoneE164 || '');
+
+  if (!isE164(userPhone)) {
+    throw Boom.preconditionFailed('User call forwarding phone not verified');
+  }
+
   return { from, userPhone };
 }
 
@@ -38,7 +62,9 @@ export async function startAliasCall({ userId, to }) {
   const dest = normalizeE164(to);
   if (!isE164(dest)) throw Boom.badRequest('Invalid destination phone');
   const { from, userPhone } = await getUserAliasNumber(userId);
-  if (!isE164(userPhone)) throw Boom.preconditionFailed('User forwarding phone not verified');
+  if (!isE164(userPhone)) {
+    throw Boom.preconditionFailed('User call forwarding phone not verified');
+  }
 
   // Build TwiML webhook URLs
   const baseUrl = (TWILIO_VOICE_WEBHOOK_URL || APP_API_ORIGIN || '').replace(/\/+$/, '');

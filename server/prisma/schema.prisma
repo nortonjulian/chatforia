@@ -446,10 +446,13 @@ model Device {
   platform  String?
   isPrimary Boolean @default(false)
 
+  // 👇 ADD THIS
+  pushToken String?
+
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
   wrappedAccountKeyVer  Int?
-  pairingStatus         String? // "pending" | "approved" | "rejected"
+  pairingStatus         String?
   pairingRequestedAt    DateTime?
   pairingApprovedAt     DateTime?
   pairingRejectedAt     DateTime?

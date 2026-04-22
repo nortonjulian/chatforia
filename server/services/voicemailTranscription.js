@@ -5,6 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 import logger from '../utils/logger.js';
+import { emitToUser } from './socketBus.js';
 
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
@@ -14,11 +15,9 @@ const openai = new OpenAI({
 });
 
 /**
- * Simple entry point.
- * In the future you can push this to a queue and have a worker call transcribeVoicemail.
+ * Fire-and-forget entry point.
  */
 export async function enqueueVoicemailTranscription(voicemailId) {
-  // Fire-and-forget wrapper if you want to call it without awaiting in HTTP handlers.
   try {
     await transcribeVoicemail(voicemailId);
   } catch (err) {
@@ -29,10 +28,24 @@ export async function enqueueVoicemailTranscription(voicemailId) {
 async function transcribeVoicemail(voicemailId) {
   if (!process.env.OPENAI_API_KEY) {
     logger?.warn?.('OPENAI_API_KEY not set, skipping voicemail transcription');
-    await prisma.voicemail.update({
+
+    const failed = await prisma.voicemail.update({
       where: { id: voicemailId },
       data: { transcriptStatus: 'FAILED' },
+      select: {
+        id: true,
+        userId: true,
+        transcript: true,
+        transcriptStatus: true,
+      },
     });
+
+    emitToUser(failed.userId, 'voicemail:updated', {
+      id: failed.id,
+      transcript: failed.transcript,
+      transcriptStatus: failed.transcriptStatus,
+    });
+
     return;
   }
 
@@ -53,23 +66,34 @@ async function transcribeVoicemail(voicemailId) {
     return;
   }
 
-  // Optional: gate transcription by plan (only non-FREE get it)
   if (voicemail.user?.plan === 'FREE') {
     logger?.info?.(
       { voicemailId, userId: voicemail.user.id },
       'Skipping transcription for FREE plan user',
     );
-    await prisma.voicemail.update({
+
+    const failed = await prisma.voicemail.update({
       where: { id: voicemailId },
       data: { transcriptStatus: 'FAILED' },
+      select: {
+        id: true,
+        userId: true,
+        transcript: true,
+        transcriptStatus: true,
+      },
     });
+
+    emitToUser(failed.userId, 'voicemail:updated', {
+      id: failed.id,
+      transcript: failed.transcript,
+      transcriptStatus: failed.transcriptStatus,
+    });
+
     return;
   }
 
-  // Fetch audio from Twilio (or wherever you stored it)
-  // NOTE: depending on your Twilio settings, you may need to append ".mp3"
-  // or include basic auth in the URL. For now we use the stored URL as-is.
   const audioUrl = voicemail.audioUrl;
+  let tmpPath = null;
 
   try {
     const response = await fetch(audioUrl);
@@ -80,51 +104,72 @@ async function transcribeVoicemail(voicemailId) {
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Write buffer to a temp file so we can stream it to OpenAI
     const tmpDir = os.tmpdir();
-    const tmpPath = path.join(tmpDir, `voicemail-${voicemailId}-${Date.now()}.mp3`);
+    tmpPath = path.join(tmpDir, `voicemail-${voicemailId}-${Date.now()}.mp3`);
 
     await writeFile(tmpPath, buffer);
 
-    // Create a ReadStream for OpenAI
     const fileStream = fs.createReadStream(tmpPath);
 
-    // Call OpenAI transcription
-    // You can swap model to 'whisper-1' if you prefer.
     const result = await openai.audio.transcriptions.create({
       file: fileStream,
-      model: 'gpt-4o-transcribe', // or 'whisper-1'
-      // language: 'en', // optionally specify
+      model: 'gpt-4o-transcribe',
     });
 
     const text = result.text || '';
 
-    await prisma.voicemail.update({
+    const updated = await prisma.voicemail.update({
       where: { id: voicemailId },
       data: {
         transcript: text,
         transcriptStatus: 'COMPLETE',
       },
+      select: {
+        id: true,
+        userId: true,
+        transcript: true,
+        transcriptStatus: true,
+      },
+    });
+
+    emitToUser(updated.userId, 'voicemail:updated', {
+      id: updated.id,
+      transcript: updated.transcript,
+      transcriptStatus: updated.transcriptStatus,
     });
 
     logger?.info?.(
       { voicemailId, userId: voicemail.user?.id },
       'Voicemail transcription completed',
     );
-
-    // Clean up temp file
-    try {
-      await unlink(tmpPath);
-    } catch (cleanupErr) {
-      logger?.warn?.({ cleanupErr, tmpPath }, 'Failed to cleanup temp voicemail file');
-    }
   } catch (err) {
     logger?.error?.({ err, voicemailId }, 'Error during voicemail transcription');
-    await prisma.voicemail.update({
+
+    const failed = await prisma.voicemail.update({
       where: { id: voicemailId },
       data: {
         transcriptStatus: 'FAILED',
       },
+      select: {
+        id: true,
+        userId: true,
+        transcript: true,
+        transcriptStatus: true,
+      },
     });
+
+    emitToUser(failed.userId, 'voicemail:updated', {
+      id: failed.id,
+      transcript: failed.transcript,
+      transcriptStatus: failed.transcriptStatus,
+    });
+  } finally {
+    if (tmpPath) {
+      try {
+        await unlink(tmpPath);
+      } catch (cleanupErr) {
+        logger?.warn?.({ cleanupErr, tmpPath }, 'Failed to cleanup temp voicemail file');
+      }
+    }
   }
 }

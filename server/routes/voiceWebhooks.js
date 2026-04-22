@@ -1,15 +1,26 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import twilio from 'twilio';
-import prisma from '../utils/prismaClient.js';   
+import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
+import { emitToUser } from '../services/socketBus.js';
+import { sendIncomingForwardedCallPush } from '../services/pushService.js';
 
 const { VoiceResponse } = twilio.twiml;
 const router = express.Router();
 
-// Twilio posts webhooks as x-www-form-urlencoded by default.
 router.use(express.urlencoded({ extended: false }));
 
+const voiceLimiter = rateLimit({ windowMs: 60 * 1000, max: 120 });
+
+function inQuietHours(start, end, now = new Date()) {
+  if (start == null || end == null) return false;
+  const h = now.getHours();
+  return (
+    (start < end && h >= start && h < end) ||
+    (start > end && (h >= start || h < end))
+  );
+}
 
 router.post('/status', async (req, res) => {
   const {
@@ -23,7 +34,6 @@ router.post('/status', async (req, res) => {
     Duration,
   } = req.body || {};
 
-  // Always ack Twilio quickly; DB failure should not break webhooks.
   res.status(200).send('OK');
 
   try {
@@ -56,13 +66,155 @@ router.post('/status', async (req, res) => {
         rawPayload: req.body,
       },
     });
-
-    // Optional dev log
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[Twilio Voice Status] logged', CallSid, CallStatus);
-    }
   } catch (err) {
     console.error('[Twilio Voice Status] failed to log', err);
+  }
+});
+
+/**
+ * Inbound PSTN call to a Chatforia number.
+ * Twilio should point the number's Voice webhook here.
+ */
+router.post('/inbound', voiceLimiter, async (req, res) => {
+  const twiml = new VoiceResponse();
+
+  try {
+    const rawTo = req.body?.To || '';
+    const rawFrom = req.body?.From || '';
+    const callSid = req.body?.CallSid || null;
+
+    const toNumber = normalizeE164(rawTo);
+    const fromNumber = normalizeE164(rawFrom);
+
+    if (!isE164(toNumber)) {
+      twiml.say('The number called is not valid.');
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    const phoneNumber = await prisma.phoneNumber.findUnique({
+      where: { e164: toNumber },
+      select: {
+        id: true,
+        e164: true,
+        assignedUserId: true,
+        assignedUser: {
+          select: {
+            id: true,
+            forwardingEnabledCalls: true,
+            forwardToPhoneE164: true,
+            forwardQuietHoursStart: true,
+            forwardQuietHoursEnd: true,
+            voicemailEnabled: true,
+            voicemailGreetingText: true,
+            voicemailGreetingUrl: true,
+          },
+        },
+      },
+    });
+
+    if (!phoneNumber?.assignedUserId || !phoneNumber.assignedUser) {
+      twiml.say('This number is not available.');
+      twiml.hangup();
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    const user = phoneNumber.assignedUser;
+
+    let callRecord = null;
+
+    try {
+      callRecord = await prisma.call.create({
+        data: {
+          callerId: user.id,
+          calleeId: null,
+          mode: 'AUDIO',
+          status: 'RINGING',
+          externalPhone: fromNumber,
+          twilioCallSid: callSid || null,
+          fromLabel: fromNumber || null,
+          toLabel: toNumber || null,
+        },
+        select: {
+          id: true,
+          createdAt: true,
+          twilioCallSid: true,
+        },
+      });
+    } catch (err) {
+      console.error('[Twilio Voice inbound] failed to create Call row', err);
+    }
+
+    const forwardingAllowed =
+      user.forwardingEnabledCalls &&
+      isE164(user.forwardToPhoneE164) &&
+      !inQuietHours(user.forwardQuietHoursStart, user.forwardQuietHoursEnd);
+
+    if (forwardingAllowed) {
+      const dial = twiml.dial({
+        callerId: toNumber,
+        answerOnBridge: true,
+        timeout: 20,
+        action: '/webhooks/voice/dial-complete',
+        method: 'POST',
+      });
+
+      if (callRecord?.id) {
+        emitToUser(user.id, 'call:incoming', {
+          callId: callRecord.id,
+          mode: 'AUDIO',
+          roomId: null,
+          createdAt: callRecord.createdAt,
+          forwarded: true,
+          fromNumber,
+          toNumber,
+          fromUser: null,
+        });
+
+        void sendIncomingForwardedCallPush({
+          userId: user.id,
+          fromNumber,
+          chatforiaNumber: toNumber,
+          callId: callRecord.id,
+          callSid,
+        }).catch((err) => {
+          console.error('[Twilio Voice inbound] push failed', err);
+        });
+      }
+
+      dial.number(user.forwardToPhoneE164);
+
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    // Fallback: voicemail / no-forward behavior
+    if (user.voicemailEnabled) {
+      if (user.voicemailGreetingText) {
+        twiml.say(user.voicemailGreetingText);
+      } else {
+        twiml.say('The person you called is unavailable. Please leave a message after the tone.');
+      }
+
+      twiml.record({
+        maxLength: 120,
+        playBeep: true,
+        trim: 'trim-silence',
+        timeout: 5,
+        action: '/webhooks/voice/voicemail-complete',
+        method: 'POST',
+      });
+
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    twiml.say('The person you called is unavailable.');
+    twiml.hangup();
+    return res.type('text/xml').send(twiml.toString());
+  } catch (err) {
+    console.error('[Twilio Voice inbound] error', err);
+    twiml.say('An error occurred. Goodbye.');
+    twiml.hangup();
+    return res.type('text/xml').send(twiml.toString());
   }
 });
 
@@ -71,20 +223,15 @@ router.post('/client', async (req, res) => {
 
   try {
     const { To, From } = req.body || {};
-    // From will look like "client:user:123" if you set identity = "user:123"
     const identity = (From || '').replace(/^client:/, '');
-
-    // Destination the browser requested
     const to = (To || '').trim();
 
     if (!to) {
       twiml.say('Missing destination.');
       twiml.hangup();
-      res.type('text/xml').send(twiml.toString());
-      return;
+      return res.type('text/xml').send(twiml.toString());
     }
 
-    // Resolve callerId (user’s Chatforia DID) if possible
     let callerId = process.env.TWILIO_DEFAULT_CALLER_ID || null;
     if (identity.startsWith('user:')) {
       const userId = Number(identity.split(':')[1]);
@@ -92,7 +239,11 @@ router.post('/client', async (req, res) => {
         const user = await prisma.user.findUnique({
           where: { id: userId },
           select: {
-            assignedNumbers: { select: { e164: true }, take: 1, orderBy: { id: 'asc' } },
+            assignedNumbers: {
+              select: { e164: true },
+              take: 1,
+              orderBy: { id: 'asc' },
+            },
           },
         });
         const num = user?.assignedNumbers?.[0]?.e164;
@@ -106,23 +257,115 @@ router.post('/client', async (req, res) => {
     if (!isE164(dest)) {
       twiml.say('The number you dialed is not valid.');
       twiml.hangup();
-      res.type('text/xml').send(twiml.toString());
-      return;
+      return res.type('text/xml').send(twiml.toString());
     }
 
-    // Dial PSTN from user’s DID (or fallback callerId)
-    const dial = callerId
-      ? twiml.dial({ callerId })
-      : twiml.dial();
-
+    const dial = callerId ? twiml.dial({ callerId }) : twiml.dial();
     dial.number(dest);
 
-    res.type('text/xml').send(twiml.toString());
+    return res.type('text/xml').send(twiml.toString());
   } catch (err) {
     console.error('[Twilio Voice client] error', err);
     twiml.say('An error occurred. Goodbye.');
     twiml.hangup();
-    res.type('text/xml').send(twiml.toString());
+    return res.type('text/xml').send(twiml.toString());
+  }
+});
+
+router.post('/dial-complete', async (req, res) => {
+  const twiml = new VoiceResponse();
+
+  try {
+    const callSid = req.body?.CallSid || null;
+    const dialCallSid = req.body?.DialCallSid || null;
+    const dialCallStatus = String(req.body?.DialCallStatus || '').toLowerCase();
+    const dialCallDuration = req.body?.DialCallDuration;
+
+    if (callSid || dialCallSid) {
+      const existing = await prisma.call.findFirst({
+        where: {
+          OR: [
+            ...(callSid ? [{ twilioCallSid: callSid }] : []),
+            ...(dialCallSid ? [{ twilioCallSid: dialCallSid }] : []),
+          ],
+        },
+        select: {
+          id: true,
+          callerId: true,
+          startedAt: true,
+        },
+      });
+
+      if (existing) {
+        let status = 'ENDED';
+        let endReason = 'completed';
+
+        if (dialCallStatus === 'no-answer') {
+          status = 'MISSED';
+          endReason = 'no_answer';
+        } else if (dialCallStatus === 'busy') {
+          status = 'FAILED';
+          endReason = 'busy';
+        } else if (dialCallStatus === 'failed') {
+          status = 'FAILED';
+          endReason = 'failed';
+        } else if (dialCallStatus === 'canceled') {
+          status = 'DECLINED';
+          endReason = 'canceled';
+        }
+
+        const endedAt = new Date();
+
+        const updated = await prisma.call.update({
+          where: { id: existing.id },
+          data: {
+            status,
+            startedAt:
+              dialCallStatus === 'completed'
+                ? existing.startedAt ?? endedAt
+                : existing.startedAt ?? undefined,
+            endedAt,
+            durationSec: dialCallDuration != null ? Number(dialCallDuration) : undefined,
+            endReason,
+          },
+          select: {
+            id: true,
+            callerId: true,
+            status: true,
+            endedAt: true,
+            durationSec: true,
+            endReason: true,
+          },
+        });
+
+        emitToUser(updated.callerId, 'call:ended', {
+          callId: updated.id,
+          status: updated.status,
+          endedAt: updated.endedAt,
+          durationSec: updated.durationSec,
+          reason: updated.endReason,
+          forwarded: true,
+        });
+      }
+    }
+
+    if (dialCallStatus === 'no-answer' || dialCallStatus === 'busy' || dialCallStatus === 'failed') {
+      twiml.say('The person you called is unavailable. Please leave a message after the tone.');
+      twiml.record({
+        maxLength: 120,
+        playBeep: true,
+        trim: 'trim-silence',
+        timeout: 5,
+        action: '/webhooks/voice/voicemail-complete',
+        method: 'POST',
+      });
+      return res.type('text/xml').send(twiml.toString());
+    }
+
+    return res.type('text/xml').send(twiml.toString());
+  } catch (err) {
+    console.error('[Twilio Voice dial-complete] error', err);
+    return res.type('text/xml').send(twiml.toString());
   }
 });
 

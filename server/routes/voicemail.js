@@ -2,6 +2,7 @@ import express from 'express';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { emitToUser } from '../services/socketBus.js';
 
 const r = express.Router();
 
@@ -58,9 +59,14 @@ r.patch(
       },
     });
 
-    if (result.count === 0) {
+        if (result.count === 0) {
       return res.status(404).json({ error: 'Voicemail not found' });
     }
+
+    emitToUser(userId, 'voicemail:updated', {
+      id,
+      isRead: Boolean(isRead),
+    });
 
     res.json({ success: true });
   }),
@@ -83,16 +89,17 @@ r.delete(
         userId,
         deleted: false,
       },
-      data: {
-        deleted: true,
-        // If you later add a deletedAt field, you can also set:
-        // deletedAt: new Date(),
+        data: {
+          deleted: true,
+          deletedAt: new Date(),
       },
     });
 
-    if (result.count === 0) {
+        if (result.count === 0) {
       return res.status(404).json({ error: 'Voicemail not found' });
     }
+
+    emitToUser(userId, 'voicemail:deleted', { id });
 
     res.json({ success: true });
   }),

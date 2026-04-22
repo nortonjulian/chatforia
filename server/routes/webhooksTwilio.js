@@ -1,19 +1,14 @@
 import express from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { recordInboundSms } from '../services/smsService.js';
 import prisma from '../utils/prismaClient.js';
 import { normalizeE164 } from '../utils/phone.js';
 import twilio from 'twilio';
+import { enqueueVoicemailTranscription } from '../services/voicemailTranscription.js';
+import { sendVoicemailForwardEmail } from '../services/voicemailEmail.js';
+import { emitToUser } from '../services/socketBus.js';
 
-const { VoiceResponse, MessagingResponse } = twilio.twiml;
+const { VoiceResponse } = twilio.twiml;
 const r = express.Router();
-
-function getBaseUrl(req) {
-  return (
-    process.env.APP_API_ORIGIN?.replace(/\/+$/, '') ||
-    `${req.protocol}://${req.get('host')}`
-  );
-}
 
 async function findMatchingMissedCall({ userId, createdAt }) {
   return prisma.call.findFirst({
@@ -123,7 +118,6 @@ r.post(
 
     const did = normalizeE164(To);
     const fromNumber = normalizeE164(From || '');
-    const baseUrl = getBaseUrl(req);
 
     const user = await prisma.user.findFirst({
       where: { assignedNumbers: { some: { e164: did } } },
@@ -266,6 +260,12 @@ r.post(
       }
 
       const numericUserId = Number(userId);
+
+      if (Number.isNaN(numericUserId)) {
+        console.error('[voicemail] invalid userId', { userId });
+        return;
+      }
+
       const numericPhoneNumberId = phoneNumberId ? Number(phoneNumberId) : null;
       const createdAt = new Date();
 
@@ -274,7 +274,7 @@ r.post(
         createdAt,
       });
 
-      await prisma.voicemail.create({
+      const voicemail = await prisma.voicemail.create({
         data: {
           userId: numericUserId,
           phoneNumberId: Number.isNaN(numericPhoneNumberId) ? null : numericPhoneNumberId,
@@ -289,8 +289,35 @@ r.post(
         },
       });
 
+      const voicemailUser = await prisma.user.findUnique({
+        where: { id: numericUserId },
+        select: {
+          email: true,
+          voicemailForwardEmail: true,
+        },
+      });
+
+     void enqueueVoicemailTranscription(voicemail.id);
+
+      const forwardEmail = voicemailUser?.voicemailForwardEmail;
+
+      if (forwardEmail) {
+        void sendVoicemailForwardEmail({
+          toEmail: forwardEmail,
+          fromNumber: voicemail.fromNumber,
+          toNumber: voicemail.toNumber,
+          transcript: null,
+          audioUrl: voicemail.audioUrl,
+          durationSec: voicemail.durationSec,
+          createdAt: voicemail.createdAt,
+        });
+      }
+
+      emitToUser(numericUserId, 'voicemail:new', { voicemail });
+
       console.log('[voicemail] saved voicemail', {
         userId: numericUserId,
+        voicemailId: voicemail.id,
         relatedCallId: matchingCall?.id ?? null,
       });
     } catch (err) {
