@@ -184,7 +184,14 @@ router.get('/status', async (req, res) => {
       });
 
       if (!lastPack) {
-        return res.json({ mode: 'NONE', state: 'NONE' });
+        return res.json({
+          mode: 'NONE',
+          state: 'NONE',
+          low: false,
+          exhausted: false,
+          expired: false,
+          source: null,
+        });
       }
 
       const totalDataMb = lastPack.totalDataMb || 0;
