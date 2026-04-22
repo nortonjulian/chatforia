@@ -27,7 +27,7 @@ import { getCallHistory } from '@/api/calls';
 import { useUser } from '@/context/UserContext';
 import { usePstnCall } from '@/hooks/usePstnCall';
 import { useTwilioVoice } from '@/hooks/useTwilioVoice';
-import { useUser } from '@/context/UserContext';
+import { Trash2 } from 'lucide-react';
 
 // keep digits and a leading +
 function normalizePhone(raw) {
@@ -218,6 +218,20 @@ export default function Dialer() {
     await placeCall(phone);
   };
 
+  const handleDelete = async (callId) => {
+    if (!window.confirm('Delete this call from recents?')) return;
+
+    try {
+      await axiosClient.delete(`/calls/${callId}`);
+      setHistory((prev) => prev.filter((item) => item.id !== callId));
+    } catch (e) {
+      console.error('Failed to delete call', e);
+      setHistoryError(
+        e?.response?.data?.error || e?.message || 'Could not delete call.'
+      );
+    }
+  };
+
   const anyError = resolveError || pstnError || voiceError;
 
   return (
@@ -390,6 +404,17 @@ export default function Dialer() {
                           aria-label={`Call ${otherPartyName}`}
                         >
                           <Phone size={18} />
+                        </ActionIcon>
+
+                        <ActionIcon
+                          variant="subtle"
+                          color="red"
+                          radius="xl"
+                          size={34}
+                          onClick={() => handleDelete(item.id)}
+                          aria-label={`Delete call with ${otherPartyName}`}
+                        >
+                          <Trash2 size={16} />
                         </ActionIcon>
                       </Stack>
                     </Group>
