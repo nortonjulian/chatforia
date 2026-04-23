@@ -1,5 +1,5 @@
 import logger from '../utils/logger.js';
-import { sendMail } from '../utils/mailer.js';
+import { sendMail } from '../utils/sendMail.js';
 
 export async function sendVoicemailForwardEmail({
   toEmail,

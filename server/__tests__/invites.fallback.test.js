@@ -21,13 +21,7 @@ describe('invites email fallback without transporter', () => {
     // Start with a clean module registry inside THIS worker
     jest.resetModules();
 
-    // Mock mailer with NO transporter (forces fallback 202 path)
-    jest.doMock('../services/mailer.js', () => {
-      return {
-        __esModule: true,
-        transporter: null,
-      };
-    });
+  
 
     // Mock limiter with a distinct keyGenerator so rate limits don't collide
     jest.doMock('../middleware/rateLimits.js', () => {

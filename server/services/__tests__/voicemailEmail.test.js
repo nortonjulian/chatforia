@@ -4,7 +4,6 @@
 import { jest } from '@jest/globals';
 
 import logger from '../../utils/logger.js';
-import { sendMail } from '../utils/mailer.js';
 import { sendVoicemailForwardEmail } from '../voicemailEmail.js';
 
 describe('sendVoicemailForwardEmail', () => {

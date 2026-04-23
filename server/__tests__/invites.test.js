@@ -38,14 +38,7 @@ jest.mock('../lib/telco/index.js', () => {
   return { __esModule: true, sendSms };
 });
 
-// ---- Mock mailer (transporter exists) ----
-jest.mock('../services/mailer.js', () => {
-  const sendMail = jest.fn(async () => ({ messageId: 'email_1' }));
-  return {
-    __esModule: true,
-    transporter: { sendMail },
-  };
-});
+
 
 /**
  * Helper to spin up a brand-new authenticated user for THIS test run.

@@ -12,10 +12,6 @@ jest.mock('../utils/logger.js', () => ({
   },
 }));
 
-jest.mock('../utils/mailer.js', () => ({
-  __esModule: true,
-  sendMail: jest.fn(),
-}));
 
 beforeEach(() => {
   jest.clearAllMocks();

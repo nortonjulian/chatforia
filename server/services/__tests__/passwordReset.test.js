@@ -40,11 +40,6 @@ const reload = async (env = {}) => {
     consumeResetToken: tokenStoreMock.consumeResetToken,
   }));
 
-  // --- mailer mock: server/services/mailer.js ---
-  await jest.unstable_mockModule('../services/mailer.js', () => ({
-    __esModule: true,
-    transporter: transporterImpl,
-  }));
 
   // --- bcrypt mock ---
   bcryptMock = {

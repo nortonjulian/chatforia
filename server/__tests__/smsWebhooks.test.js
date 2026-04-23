@@ -43,15 +43,6 @@ await jest.unstable_mockModule('../services/smsService.js', () => {
   };
 });
 
-// mailer.transporter
-await jest.unstable_mockModule('../services/mailer.js', () => {
-  transporterSendMailMock = jest.fn();
-  const transporter = { sendMail: transporterSendMailMock };
-  return {
-    __esModule: true,
-    transporter,
-  };
-});
 
 // telco sendSms
 await jest.unstable_mockModule('../lib/telco/index.js', () => {
