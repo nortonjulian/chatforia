@@ -450,24 +450,24 @@ router.post('/revoke', requireAuth, async (req, res, next) => {
   }
 });
 
-router.post('/push-token', requireAuth, async (req, res, next) => {
+router.post('/push-token', requireAuth, async (req, res) => {
+  const userId = Number(req.user?.id);
+  const deviceId = normalizeString(req.body?.deviceId, 191);
+  const pushToken = normalizeString(req.body?.pushToken, 4096);
+  const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
+
+  console.log('📥 /devices/push-token request', {
+    userId,
+    deviceId,
+    pushTokenPreview: pushToken ? `${pushToken.slice(0, 12)}...` : null,
+    pushProvider,
+  });
+
+  if (!userId || !deviceId || !pushToken) {
+    return res.status(400).json({ error: 'deviceId and pushToken are required' });
+  }
+
   try {
-    const userId = Number(req.user.id);
-    const deviceId = normalizeString(req.body?.deviceId, 191);
-    const pushToken = normalizeString(req.body?.pushToken, 4096);
-    const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
-
-    console.log('📥 /devices/push-token request', {
-      userId,
-      deviceId,
-      pushTokenPreview: pushToken ? `${pushToken.slice(0, 12)}...` : null,
-      pushProvider,
-    });
-
-    if (!userId || !deviceId || !pushToken) {
-      return res.status(400).json({ error: 'deviceId and pushToken are required' });
-    }
-
     const device = await prisma.device.update({
       where: {
         userId_deviceId: {
@@ -503,7 +503,14 @@ router.post('/push-token', requireAuth, async (req, res, next) => {
 
     return res.json({ success: true, device });
   } catch (error) {
-    console.error('❌ /devices/push-token failed', error);
+    console.error('❌ /devices/push-token failed', {
+      userId,
+      deviceId,
+      message: error?.message,
+      code: error?.code,
+      stack: error?.stack,
+    });
+
     return res.status(500).json({
       error: 'push-token failed',
       detail: error?.message || 'unknown error',

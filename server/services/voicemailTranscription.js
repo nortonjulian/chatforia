@@ -10,9 +10,20 @@ import { emitToUser } from './socketBus.js';
 const writeFile = promisify(fs.writeFile);
 const unlink = promisify(fs.unlink);
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai = null;
+
+try {
+  if (process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+    console.log("✅ OpenAI initialized");
+  } else {
+    console.warn("⚠️ OpenAI disabled (no API key)");
+  }
+} catch (err) {
+  console.error("❌ OpenAI init failed", err);
+}
 
 /**
  * Fire-and-forget entry point.
@@ -26,7 +37,7 @@ export async function enqueueVoicemailTranscription(voicemailId) {
 }
 
 async function transcribeVoicemail(voicemailId) {
-  if (!process.env.OPENAI_API_KEY) {
+  if (!openai) {
     logger?.warn?.('OPENAI_API_KEY not set, skipping voicemail transcription');
 
     const failed = await prisma.voicemail.update({
