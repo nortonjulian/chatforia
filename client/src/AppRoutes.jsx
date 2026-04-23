@@ -102,9 +102,9 @@ import LogoGlyph from '@/components/LogoGlyph.jsx';
 import HowItWorks from '@/pages/HowItWorks.jsx';
 import Safety from '@/pages/Safety.jsx';
 import BlogIndex from '@/pages/blog/BlogIndex.jsx';
-import ChatSafelyOnline from '@/pages/blog/ChatSafelyOnline.jsx';
-import GlobalCommunication from '@/pages/blog/GlobalCommunication.jsx';
-import WhyMessagingMatters from '@/pages/blog/WhyMessagingMatters.jsx';
+import ChatSafelyOnline from '@/pages/ChatSafelyOnline.jsx';
+import GlobalCommunication from '@/pages/GlobalCommunication.jsx';
+import WhyMessagingMatters from '@/pages/WhyMessagingMatters.jsx';
 
 import i18n from '@/i18n';
 
