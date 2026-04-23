@@ -450,4 +450,46 @@ router.post('/revoke', requireAuth, async (req, res, next) => {
   }
 });
 
+router.post('/push-token', requireAuth, async (req, res, next) => {
+  try {
+    const userId = Number(req.user.id);
+    const deviceId = normalizeString(req.body?.deviceId, 191);
+    const pushToken = normalizeString(req.body?.pushToken, 4096);
+    const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
+
+    if (!userId || !deviceId || !pushToken) {
+      return res.status(400).json({ error: 'deviceId and pushToken are required' });
+    }
+
+    const device = await prisma.device.update({
+      where: {
+        userId_deviceId: {
+          userId,
+          deviceId,
+        },
+      },
+      data: {
+        pushToken,
+        platform: pushProvider === 'apns_voip' ? 'iOS-VoIP' : undefined,
+        lastSeenAt: new Date(),
+        revokedAt: null,
+      },
+      select: {
+        id: true,
+        userId: true,
+        deviceId: true,
+        name: true,
+        platform: true,
+        lastSeenAt: true,
+        updatedAt: true,
+        revokedAt: true,
+      },
+    });
+
+    return res.json({ success: true, device });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;
