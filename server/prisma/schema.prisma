@@ -446,9 +446,9 @@ model Device {
   platform  String?
   isPrimary Boolean @default(false)
 
-  // 👇 ADD THIS
-  pushToken String?
-
+  pushToken             String?
+  pushProvider          String?
+  
   wrappedAccountKey     String?
   wrappedAccountKeyAlgo String?
   wrappedAccountKeyVer  Int?
