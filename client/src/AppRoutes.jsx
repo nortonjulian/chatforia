@@ -99,6 +99,13 @@ import HouseAdSlot from '@/ads/HouseAdSlot';
 
 import LogoGlyph from '@/components/LogoGlyph.jsx';
 
+import HowItWorks from '@/pages/HowItWorks.jsx';
+import Safety from '@/pages/Safety.jsx';
+import BlogIndex from '@/pages/blog/BlogIndex.jsx';
+import ChatSafelyOnline from '@/pages/blog/ChatSafelyOnline.jsx';
+import GlobalCommunication from '@/pages/blog/GlobalCommunication.jsx';
+import WhyMessagingMatters from '@/pages/blog/WhyMessagingMatters.jsx';
+
 import i18n from '@/i18n';
 
 
@@ -378,7 +385,12 @@ export default function AppRoutes() {
           <Route path="/guides/getting-started" element={<GettingStarted />} />
           <Route path="/guides" element={<Navigate to="/guides/getting-started" replace />} />
           <Route path="/tips" element={<Navigate to="/guides/getting-started" replace />} />
-          <Route path="/blog" element={<Navigate to="/guides/getting-started" replace />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/safety" element={<Safety />} />
+          <Route path="/blog" element={<BlogIndex />} />
+          <Route path="/blog/chat-safely-online" element={<ChatSafelyOnline />} />
+          <Route path="/blog/global-communication" element={<GlobalCommunication />} />
+          <Route path="/blog/why-messaging-matters" element={<WhyMessagingMatters />} />
 
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/legal/terms" element={<TermsOfService />} />
@@ -446,7 +458,14 @@ export default function AppRoutes() {
         <Route path="guides/getting-started" element={<GettingStarted />} />
         <Route path="guides" element={<Navigate to="guides/getting-started" replace />} />
         <Route path="tips" element={<Navigate to="guides/getting-started" replace />} />
-        <Route path="blog" element={<Navigate to="guides/getting-started" replace />} />
+
+        <Route path="how-it-works" element={<HowItWorks />} />
+        <Route path="safety" element={<Safety />} />
+        <Route path="blog" element={<BlogIndex />} />
+        <Route path="blog/chat-safely-online" element={<ChatSafelyOnline />} />
+        <Route path="blog/global-communication" element={<GlobalCommunication />} />
+        <Route path="blog/why-messaging-matters" element={<WhyMessagingMatters />} />
+
         <Route path="join/:code" element={<JoinInvitePage />} />
         <Route path="/refund-policy" element={<RefundPolicy />} />
 

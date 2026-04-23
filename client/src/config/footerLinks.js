@@ -13,6 +13,14 @@ export const FOOTER_SECTIONS = [
         href: '/about',
         i18nKey: 'about-chatforia',
       },
+      { label: 'How It Works', 
+        href: '/how-it-works',
+        i18nKey: 'how-it-works',
+      },
+      { label: 'Blog', 
+        href: '/blog',
+        i18nKey: 'blog',
+      },
       {
         label: 'Careers',
         href: '/careers',
@@ -35,6 +43,7 @@ export const FOOTER_SECTIONS = [
     links: [
       { label: "Getting Started", href: "/guides/getting-started" }, // ← temporarily lives here
       { label: "Help Center", href: "/help" },
+      { label: "Safety", href: "/safety" },
       { label: "Contact Us", href: "/contact" },
       { label: "Status Page", href: "https://status.chatforia.com", external: true },
     ],

@@ -224,18 +224,6 @@ function normalizeMediaKind(kind, mimeType) {
   return 'FILE';
 }
 
-router.get('/test-push', async (req, res) => {
-  await sendPushToUser(1, {
-    alert: {
-      title: '🔥 Chatforia Test',
-      body: 'Push is WORKING',
-    },
-    sound: 'default',
-  });
-
-  res.json({ ok: true });
-});
-
 /**
  * GET /messages/:chatRoomId/deltas?sinceId=NN
  *
