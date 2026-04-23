@@ -30,6 +30,8 @@ import { probeDurationSec } from '../utils/mediaProbe.js';
 // In test mode, allow membership fallback & message memory
 import { __mem as roomsMem } from './rooms.js';
 
+import { sendPushToUser } from "../services/pushService.js";
+
 const IS_TEST = String(process.env.NODE_ENV || '') === 'test';
 const router = express.Router();
 
@@ -2340,5 +2342,23 @@ router.post(
     return res.json(saved);
   })
 );
+
+router.get('/test-push', async (req, res) => {
+  try {
+    const result = await sendPushToUser(1, {
+      alert: {
+        title: "Test Push",
+        body: "This is a test push from Chatforia",
+      },
+      sound: "default",
+      data: { type: "test_push" },
+    });
+
+    res.json(result);
+  } catch (err) {
+    console.error("[test-push] error", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 export default router;

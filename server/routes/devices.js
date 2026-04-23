@@ -457,6 +457,13 @@ router.post('/push-token', requireAuth, async (req, res, next) => {
     const pushToken = normalizeString(req.body?.pushToken, 4096);
     const pushProvider = normalizeString(req.body?.pushProvider, 64) || 'apns';
 
+    console.log('📥 /devices/push-token request', {
+      userId,
+      deviceId,
+      pushTokenPreview: pushToken ? `${pushToken.slice(0, 12)}...` : null,
+      pushProvider,
+    });
+
     if (!userId || !deviceId || !pushToken) {
       return res.status(400).json({ error: 'deviceId and pushToken are required' });
     }
@@ -470,7 +477,7 @@ router.post('/push-token', requireAuth, async (req, res, next) => {
       },
       data: {
         pushToken,
-        platform: pushProvider === 'apns_voip' ? 'iOS-VoIP' : undefined,
+        pushProvider,
         lastSeenAt: new Date(),
         revokedAt: null,
       },
@@ -483,12 +490,25 @@ router.post('/push-token', requireAuth, async (req, res, next) => {
         lastSeenAt: true,
         updatedAt: true,
         revokedAt: true,
+        pushToken: true,
       },
+    });
+
+    console.log('✅ /devices/push-token saved', {
+      id: device.id,
+      userId: device.userId,
+      deviceId: device.deviceId,
+      platform: device.platform,
     });
 
     return res.json({ success: true, device });
   } catch (error) {
-    next(error);
+    console.error('❌ /devices/push-token failed', error);
+    return res.status(500).json({
+      error: 'push-token failed',
+      detail: error?.message || 'unknown error',
+      code: error?.code || null,
+    });
   }
 });
 
