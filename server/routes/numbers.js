@@ -503,15 +503,41 @@ router.post('/claim', requireAuth, async (req, res) => {
 
     const result = await api.purchaseNumber({ phoneNumber: clean });
 
+    const purchasedE164 = result?.e164 || clean;
+    const purchasedCaps = result?.capabilities || phone.capabilities || {
+      sms: true,
+      voice: true,
+      mms: false,
+    };
+
     await prisma.phoneNumber.update({
       where: { id: phone.id },
       data: {
+        e164: purchasedE164,
         status: 'ASSIGNED',
         assignedUserId: req.user.id,
         assignedAt: new Date(),
         provider: providerName,
+
+        // Premium/locked behavior
         keepLocked: Boolean(lockOnAssign),
+
+        // Twilio metadata
         twilioSid: result?.sid || phone.twilioSid || null,
+        isoCountry: result?.isoCountry || phone.isoCountry || 'US',
+        capabilities: purchasedCaps,
+
+        // Simple US area code parse: +1760xxxxxxx -> 760
+        areaCode:
+          purchasedE164?.startsWith('+1') && purchasedE164.length >= 5
+            ? purchasedE164.slice(2, 5)
+            : phone.areaCode || null,
+
+        // Clear temporary lifecycle fields
+        holdUntil: null,
+        releaseAfter: null,
+        lastOutboundAt: null,
+        source: 'PROVISIONED',
       },
     });
 

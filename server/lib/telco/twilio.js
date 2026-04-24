@@ -181,11 +181,11 @@ async function searchAvailable({
     locality: n.locality || n.friendlyName || null,
     isoCountry: n.isoCountry,
     postalCode: n.postalCode || null,
-    capabilities: n.capabilities
-      ? Object.entries(n.capabilities)
-          .filter(([, v]) => v)
-          .map(([k]) => k) // e.g. ['sms', 'voice', 'mms']
-      : ['sms', 'voice'],
+    capabilities: n.capabilities || {
+      sms: true,
+      voice: true,
+      mms: false,
+    },
     price: null, // Twilio pricing API can be wired in later
   }));
 

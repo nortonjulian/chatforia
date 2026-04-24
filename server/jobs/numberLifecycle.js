@@ -1,7 +1,7 @@
 import prisma from '../utils/prismaClient.js';
 import cron from 'node-cron';
 import twilioClient from '../utils/twilioClient.js';
-import { notifyUserOfPendingRelease } from '../utils/notifications.js'; // 🔔 Your email/push/in-app logic
+import { notifyUserOfPendingRelease } from '../utils/notifications.js';
 
 const inactivityDays = Number(process.env.NUMBER_INACTIVITY_DAYS) || 30;
 const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
@@ -11,19 +11,22 @@ export function startNumberLifecycleJob() {
   cron.schedule('15 2 * * *', async () => {
     const nowMs = Date.now();
     const now = new Date(nowMs);
-    const inactivityCutoff = new Date(nowMs - inactivityDays * 24 * 60 * 60 * 1000);
-    const holdUntilDate = new Date(nowMs + holdDays * 24 * 60 * 60 * 1000);
+    const inactivityCutoff = new Date(
+      nowMs - inactivityDays * 24 * 60 * 60 * 1000
+    );
+    const holdUntilDate = new Date(
+      nowMs + holdDays * 24 * 60 * 60 * 1000
+    );
 
     console.log(`[NumberLifecycle] Job started at ${now.toISOString()}`);
 
-    // 1) Move ASSIGNED but inactive to HOLD (unless keepLocked)
+    // 1) Move inactive FREE assigned numbers to HOLD
     const inactiveFree = await prisma.phoneNumber.findMany({
       where: {
         status: 'ASSIGNED',
         keepLocked: false,
-        // Only Free users are subject to auto-recycling
         assignedUser: {
-          plan: 'FREE', // adjust if your User.plan is an enum or lowercased string
+          plan: 'FREE',
         },
         OR: [
           { lastOutboundAt: null },
@@ -31,35 +34,75 @@ export function startNumberLifecycleJob() {
         ],
       },
       include: {
-        assignedUser: { select: { id: true, plan: true, email: true } },
+        assignedUser: {
+          select: {
+            id: true,
+            plan: true,
+            email: true,
+          },
+        },
       },
     });
 
-    for (const n of inactive) {
+    for (const n of inactiveFree) {
       await prisma.phoneNumber.update({
         where: { id: n.id },
         data: {
           status: 'HOLD',
           holdUntil: holdUntilDate,
-          releaseAfter: holdUntilDate,
+
+          // null means reusable pool return, not Twilio release
+          releaseAfter: null,
         },
       });
 
-      console.log(`[NumberLifecycle] Moved to HOLD: ${n.e164} (User ID: ${n.assignedUserId})`);
+      console.log(
+        `[NumberLifecycle] Moved to HOLD: ${n.e164} (User ID: ${n.assignedUserId})`
+      );
 
-      // 🔔 Optional: Notify user their number will be released in N days
       try {
         await notifyUserOfPendingRelease(n.assignedUserId, {
           number: n.e164,
           releaseDate: holdUntilDate,
         });
+
         console.log(`[Notify] Sent release warning to user ${n.assignedUserId}`);
       } catch (err) {
-        console.warn(`[Notify] Failed to notify user ${n.assignedUserId}:`, err.message);
+        console.warn(
+          `[Notify] Failed to notify user ${n.assignedUserId}:`,
+          err.message
+        );
       }
     }
 
-    // 2) Release HOLD numbers past holdUntil
+    // 2A) Return reusable HOLD numbers back to AVAILABLE pool
+    const reusableHoldNumbers = await prisma.phoneNumber.findMany({
+      where: {
+        status: 'HOLD',
+        holdUntil: { lt: now },
+        releaseAfter: null,
+        provider: 'twilio',
+      },
+    });
+
+    for (const n of reusableHoldNumbers) {
+      await prisma.phoneNumber.update({
+        where: { id: n.id },
+        data: {
+          status: 'AVAILABLE',
+          assignedUserId: null,
+          assignedAt: null,
+          keepLocked: false,
+          holdUntil: null,
+          releaseAfter: null,
+          lastOutboundAt: null,
+        },
+      });
+
+      console.log(`[NumberLifecycle] Returned to AVAILABLE pool: ${n.e164}`);
+    }
+
+    // 2B) Permanently release numbers only when releaseAfter is set
     const toRelease = await prisma.phoneNumber.findMany({
       where: {
         status: 'HOLD',
@@ -70,7 +113,9 @@ export function startNumberLifecycleJob() {
 
     for (const n of toRelease) {
       if (!twilioClient) {
-        console.warn(`[NumberLifecycle] Twilio not configured; skipping release for ${n.id}`);
+        console.warn(
+          `[NumberLifecycle] Twilio not configured; skipping release for ${n.id}`
+        );
         continue;
       }
 
@@ -79,7 +124,9 @@ export function startNumberLifecycleJob() {
           await twilioClient.incomingPhoneNumbers(n.twilioSid).remove();
           console.log(`[NumberLifecycle] Released Twilio number: ${n.e164}`);
         } else {
-          console.warn(`[NumberLifecycle] Missing twilioSid, cannot release: ${n.e164}`);
+          console.warn(
+            `[NumberLifecycle] Missing twilioSid, cannot release: ${n.e164}`
+          );
         }
 
         await prisma.phoneNumber.update({
@@ -94,16 +141,23 @@ export function startNumberLifecycleJob() {
           },
         });
       } catch (err) {
-        console.error(`[NumberLifecycle] Failed to release ${n.e164} (SID: ${n.twilioSid}):`, err.message);
+        console.error(
+          `[NumberLifecycle] Failed to release ${n.e164} (SID: ${n.twilioSid}):`,
+          err.message
+        );
       }
     }
 
     // 3) Cleanup expired reservations
     const expired = await prisma.numberReservation.deleteMany({
-      where: { expiresAt: { lt: now } },
+      where: {
+        expiresAt: { lt: now },
+      },
     });
 
-    console.log(`[NumberLifecycle] Cleaned up ${expired.count} expired reservations`);
-    console.log(`[NumberLifecycle] Job complete\n`);
+    console.log(
+      `[NumberLifecycle] Cleaned up ${expired.count} expired reservations`
+    );
+    console.log('[NumberLifecycle] Job complete\n');
   });
 }
