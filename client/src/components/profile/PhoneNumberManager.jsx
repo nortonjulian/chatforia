@@ -302,7 +302,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                 search('PREMIUM');
               }}
             >
-              Buy a number
+              Premium number 🔒
             </Button>
           </Group>
 
@@ -388,7 +388,13 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                         .map(([k]) => k)
                     : [];
 
-              const displayLocal = n.local || n.locality || n.display || e164;
+              const locationLabel =
+                n.locality ||
+                n.city ||
+                n.region ||
+                n.friendlyName ||
+                n.location ||
+                '';
 
               return (
                 <Card key={e164} withBorder radius="md" p="sm">
@@ -396,7 +402,14 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                     <Group>
                       <IconPhone size={18} />
                       <Stack gap={0}>
-                        <Text fw={600}>{fmtLocal(displayLocal)}</Text>
+                        <Text fw={600}>{fmtLocal(e164)}</Text>
+
+                        {locationLabel && (
+                          <Text size="sm" c="dimmed">
+                            {locationLabel}
+                          </Text>
+                        )}
+
                         <Text size="sm" c="dimmed">
                           {e164}
                         </Text>
