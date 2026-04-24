@@ -96,6 +96,8 @@ export function startNumberLifecycleJob() {
           holdUntil: null,
           releaseAfter: null,
           lastOutboundAt: null,
+          isLeasable: true,
+          isPurchasable: true,
         },
       });
 
@@ -106,7 +108,7 @@ export function startNumberLifecycleJob() {
     const toRelease = await prisma.phoneNumber.findMany({
       where: {
         status: 'HOLD',
-        releaseAfter: { lt: now },
+        holdUntil: { lt: now },
         provider: 'twilio',
       },
     });

@@ -127,7 +127,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [area, setArea] = useState('');
   const [capability, setCapability] = useState('sms');
 
-  const [mode, setMode] = useState('FREE'); // FREE (free pool) | BUY (sellable inventory)
+  const [mode, setMode] = useState('FREE'); 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [assigningId, setAssigningId] = useState(null);
@@ -173,7 +173,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
    */
   const search = async (modeOverride) => {
     const effectiveMode = modeOverride ?? mode;
-    const isBuy = effectiveMode === 'BUY';
+    const isBuy = effectiveMode === 'PREMIUM';
 
     setLoading(true);
     setErr('');
@@ -237,10 +237,15 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
    */
   const assign = async (n, modeOverride) => {
     const effectiveMode = modeOverride ?? mode;
-    const isBuy = effectiveMode === 'BUY';
+    const isBuy = effectiveMode === 'PREMIUM';
 
     const e164 = n.e164 || n.number;
     if (!e164) return;
+
+    if (isBuy && currentUser?.plan !== 'PREMIUM') {
+      setErr('Premium subscription required to keep this number.');
+      return;
+    }
 
     setAssigningId(e164);
     setErr('');
@@ -289,12 +294,12 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
               Available number
             </Button>
             <Button
-              variant={mode === 'BUY' ? 'filled' : 'light'}
+              variant={mode === 'PREMIUM' ? 'filled' : 'light'}
               onClick={() => {
-                setMode('BUY');
+                setMode('PREMIUM');
                 setResults([]);
                 setErr('');
-                search('BUY');
+                search('PREMIUM');
               }}
             >
               Buy a number
@@ -303,8 +308,8 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
           <Text size="sm" c="dimmed">
             {mode === 'FREE'
-              ? 'Lease a Chatforia number from the free pool.'
-              : 'Choose a number from Chatforia inventory.'}
+              ? 'Free number that may be recycled after inactivity.'
+              : 'Keep your number while your Premium subscription is active.'}
           </Text>
         </Group>
 
@@ -406,7 +411,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                     </Group>
 
                     <Button onClick={() => assign(n, mode)} loading={assigningId === e164}>
-                      Select
+                      {mode === 'PREMIUM' ? 'Keep' : 'Select'}
                     </Button>
                   </Group>
                 </Card>

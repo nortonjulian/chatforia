@@ -1219,6 +1219,10 @@ export default function UpgradePage({ variant = 'account' }) {
               features={[
                 t('upgrade.plans.premiumMonthly.features.plusAll', 'Everything in Plus'),
                 t(
+                  'upgrade.plans.premiumMonthly.features.number',
+                  'Keep and protect your Chatforia number (no recycling)'
+                ),
+                t(
                   'upgrade.plans.premiumMonthly.features.themes',
                   'Unlock all premium color themes and app customizations'
                 ),
@@ -1259,6 +1263,10 @@ export default function UpgradePage({ variant = 'account' }) {
                 'Save more when billed yearly — including extra color themes, AI tools, and priority support.'
               )}
               features={[
+                t(
+                  'upgrade.plans.premiumAnnual.features.number',
+                  'Keep and protect your Chatforia number (no recycling)'
+                ),
                 t(
                   'upgrade.plans.premiumAnnual.features.allPremium',
                   'Everything in Premium Monthly — including extra color themes'

@@ -399,8 +399,8 @@ router.post('/lease', requireAuth, async (req, res) => {
           id: candidate.id,
           status: 'AVAILABLE',
           ...(purchaseIntent
-            ? { isPurchasable: false, isLeasable: false }
-            : { isLeasable: false }),
+            ? { isPurchasable: true }
+            : { isLeasable: true }),
         },
         data: {
           status: 'ASSIGNED',
@@ -408,7 +408,15 @@ router.post('/lease', requireAuth, async (req, res) => {
           assignedAt: new Date(),
           holdUntil: null,
           releaseAfter: null,
-          // If it was a premium/sellable number, consume it (not sellable anymore)
+
+          // Assigned numbers should disappear from both pools
+          isLeasable: false,
+          isPurchasable: false,
+
+          // Purchased/kept numbers are protected
+          keepLocked: purchaseIntent ? true : false,
+
+          // Legacy field for now
           ...(purchaseIntent ? { forSale: false } : {}),
         },
       });
@@ -591,6 +599,8 @@ router.post('/release', requireAuth, async (req, res) => {
         keepLocked: false,
         holdUntil,
         releaseAfter: null,
+        isLeasable: false,
+        isPurchasable: false,
       },
     });
 
