@@ -134,12 +134,23 @@ router.post(
         return res.status(400).json({ error: 'Invalid phone number.' });
       }
 
+      const matchedUser = await prisma.user.findFirst({
+        where: {
+          OR: [
+            { phoneNumber: normalized },
+            { phone: normalized },
+          ],
+        },
+        select: { id: true },
+      });
+
       contact = await prisma.contact.upsert({
         where: { ownerId_externalPhone: { ownerId, externalPhone: normalized } },
         update: {
           alias: alias ?? undefined,
           externalName: externalName ?? undefined,
           favorite: typeof favorite === 'boolean' ? favorite : undefined,
+          userId: matchedUser?.id ?? undefined,
         },
         create: {
           ownerId,
@@ -147,6 +158,7 @@ router.post(
           externalName: externalName ?? null,
           alias: alias ?? undefined,
           favorite: !!favorite,
+          userId: matchedUser?.id ?? undefined,
         },
         select: {
           id: true,
@@ -223,8 +235,19 @@ router.post(
     });
 
     const results = await prisma.$transaction(
-      deduped.map((item) =>
-        prisma.contact.upsert({
+      deduped.map(async (item) => {
+
+        const matchedUser = await prisma.user.findFirst({
+          where: {
+            OR: [
+              { phoneNumber: item.externalPhone },
+              { phone: item.externalPhone },
+            ],
+          },
+          select: { id: true },
+        });
+
+        return prisma.contact.upsert({
           where: {
             ownerId_externalPhone: {
               ownerId,
@@ -235,6 +258,7 @@ router.post(
             externalName: item.externalName ?? undefined,
             alias: item.alias ?? undefined,
             favorite: typeof item.favorite === 'boolean' ? item.favorite : undefined,
+            userId: matchedUser?.id ?? undefined, // ✅ ADD THIS
           },
           create: {
             ownerId,
@@ -242,6 +266,7 @@ router.post(
             externalName: item.externalName ?? null,
             alias: item.alias ?? undefined,
             favorite: !!item.favorite,
+            userId: matchedUser?.id ?? undefined, // ✅ ADD THIS
           },
           select: {
             id: true,
@@ -259,8 +284,8 @@ router.post(
               },
             },
           },
-        })
-      )
+        });
+      })
     );
 
     return res.status(201).json({

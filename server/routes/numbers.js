@@ -159,16 +159,23 @@ function buildPoolWhere({
  * NOTE: keep response stable for your PhoneNumberManager.
  */
 router.get('/my', requireAuth, async (req, res) => {
-  const num = await prisma.phoneNumber.findFirst({
-    where: {
-      assignedUserId: req.user.id,
-      status: { in: ['ASSIGNED', 'HOLD'] },
-    },
-    orderBy: { id: 'asc' },
-  });
+  const [num, user] = await Promise.all([
+    prisma.phoneNumber.findFirst({
+      where: {
+        assignedUserId: req.user.id,
+        status: { in: ['ASSIGNED', 'HOLD'] },
+      },
+      orderBy: { id: 'asc' },
+    }),
+    prisma.user.findUnique({
+      where: { id: req.user.id },
+      select: { plan: true, subscriptionStatus: true },
+    }),
+  ]);
 
-  // TODO: wire actual plan from user/subscription
-  res.json({ number: num, policy: getPolicy('FREE') });
+  const plan = user?.plan || 'FREE';
+
+  res.json({ number: num, policy: getPolicy(plan) });
 });
 
 /**
@@ -327,13 +334,17 @@ router.post('/lease', requireAuth, async (req, res) => {
 
   const purchaseIntent = parseBoolean(req.body?.purchaseIntent) === true;
 
-  // If "BUY", require premium (or swap to your own billing gating)
-  if (purchaseIntent) {
-    // requirePremium is a middleware; easiest is to call it here inline:
-    // but since it's middleware-based, simplest is: create /buy/assign route w/ requirePremium.
-    // For now: enforce via middleware-like call:
-    // (If you prefer, split this into router.post('/buy/assign', requireAuth, requirePremium, ...) )
-    // We'll do a soft check if requirePremium expects to be middleware only.
+  const user = await prisma.user.findUnique({
+    where: { id: req.user.id },
+    select: { plan: true },
+  });
+
+  const plan = user?.plan || 'FREE';
+
+  if (purchaseIntent && plan !== 'PREMIUM') {
+    return res.status(403).json({
+      error: 'Premium required to purchase this number',
+    });
   }
 
   const areaCode = req.body?.areaCode ? String(req.body.areaCode) : undefined;
@@ -413,10 +424,7 @@ router.post('/lease', requireAuth, async (req, res) => {
       });
     }
 
-    // TODO: for purchaseIntent, this is where you’d trigger Stripe billing / entitlement checks
-    // or record an invoice line item, etc.
-
-    res.json({ ok: true, number: leased, policy: getPolicy('FREE') });
+    res.json({ ok: true, number: leased, policy: getPolicy(plan) });
   } catch (err) {
     console.error('Lease failed:', err);
     res.status(500).json({ error: 'Lease failed' });

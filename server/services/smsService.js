@@ -2,6 +2,7 @@ import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
+import { emitToUser } from '../services/socketBus.js';
 
 /* -------------------------------------------------------------------------- */
 /*                               Helper utils                                 */
@@ -322,12 +323,20 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       from: fromNumber,
       mediaUrls: safeMediaUrls,
     });
+
+    if (!result?.ok) {
+      console.error('[smsService] send failed', result);
+      throw Boom.badGateway(result?.detail || result?.reason || 'SMS send failed');
+    }
+    
     console.log('[smsService] provider result', result);
 
     const provider = result?.provider || 'twilio';
 
+    let createdMessage = null;
+
     await prisma.$transaction(async (tx) => {
-      await tx.smsMessage.create({
+      createdMessage = await tx.smsMessage.create({
         data: {
           threadId: thread.id,
           direction: 'out',
@@ -353,6 +362,11 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
         where: { id: thread.id },
         data: { updatedAt: new Date() },
       });
+    });
+
+    emitToUser(uid, 'sms:message:new', {
+      threadId: thread.id,
+      message: createdMessage,
     });
 
     return {
@@ -493,8 +507,10 @@ export async function recordInboundSms({
 
   const thread = await upsertThread(owner.assignedUserId, fromE164);
 
+  let createdMessage = null;
+
   await prisma.$transaction(async (tx) => {
-    await tx.smsMessage.create({
+    createdMessage = await tx.smsMessage.create({
       data: {
         threadId: thread.id,
         direction: 'in',
@@ -511,6 +527,11 @@ export async function recordInboundSms({
       where: { id: thread.id },
       data: { updatedAt: new Date() },
     });
+  });
+
+  emitToUser(owner.assignedUserId, 'sms:message:new', {
+    threadId: thread.id,
+    message: createdMessage,
   });
 
   return { ok: true, userId: owner.assignedUserId, threadId: thread.id };

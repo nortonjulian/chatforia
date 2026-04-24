@@ -148,6 +148,7 @@ import oauthMobileRouter from './routes/oauth.mobile.js';
 import twilioStatusWebhook from './webhooks/status.js';
 
 import phoneRoutes from './routes/api/phone.js';
+import videoRouter from './routes/video.js';
 
 
 // eSIM feature flag
@@ -533,6 +534,8 @@ app.use('/conversations', conversationsRouter);
   app.use('/api', contactsImportRouter);
 
   app.use('/api/phone', phoneRoutes);
+
+  app.use('/api/video', videoRouter);
 
   app.use('/calendar', calendarRouter);
   app.use('/', shareEventRouter);

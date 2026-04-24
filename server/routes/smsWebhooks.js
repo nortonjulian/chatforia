@@ -4,6 +4,7 @@ import { recordInboundSms } from '../services/smsService.js';
 // import { sendSmsWithFallback } from '../lib/telco/index.js';
 import { sendSms } from '../lib/telco/index.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
+import { sendMail, isEmailAvailable } from '../utils/sendMail.js';
 
 const router = express.Router();
 
@@ -188,15 +189,15 @@ router.post(
             await sendSms({
               to: normalizeE164(user.forwardPhoneNumber),
               text: forwardText,
+              from: toNumber,
               clientRef: `fwd:${rec.userId}:${Date.now()}`,
             });
           }
 
           // Forward to email (text-only; you can add media later if you want)
-          if (user.forwardSmsToEmail && user.forwardEmail && transporter) {
-            await transporter.sendMail({
+          if (user.forwardSmsToEmail && user.forwardEmail && isEmailAvailable()) {
+            await sendMail({
               to: user.forwardEmail,
-              from: process.env.EMAIL_FROM || 'hello@chatforia.com',
               subject: `SMS from ${fromNumber}`,
               text: bodyText || (hasMedia ? '[MMS received: media attached]' : ''),
             });
