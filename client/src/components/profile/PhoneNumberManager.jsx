@@ -198,14 +198,12 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
       const items = Array.isArray(data?.numbers) ? data.numbers : [];
 
-      // Blank area: show ONE random pick (less overwhelming UX)
       if (digits === '') {
         if (!items.length) {
           setErr(isBuy ? 'No available inventory right now.' : 'No free numbers are available right now.');
           setResults([]);
         } else {
-          const pick = items[Math.floor(Math.random() * items.length)];
-          setResults([pick]);
+          setResults(items.slice(0, 25));
         }
       } else {
         setResults(items.slice(0, 15));
