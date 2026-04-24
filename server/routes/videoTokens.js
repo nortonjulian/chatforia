@@ -1,4 +1,5 @@
 import express from 'express';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -8,7 +9,7 @@ const {
   TWILIO_API_KEY_SECRET,
 } = process.env;
 
-router.post('/video/token', express.json(), async (req, res) => {
+router.post('/video/token', requireAuth, express.json(), async (req, res) => {
   try {
     const { identity, room } = req.body || {};
     if (!identity || !room) {

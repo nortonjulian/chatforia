@@ -20,8 +20,12 @@ router.post('/invite', asyncHandler(async (req, res) => {
   const callerId = Number(req.user.id);
   const { calleeId, mode = 'AUDIO', roomId, offer, twilioCallSid } = req.body || {};
 
-  if (!calleeId || !offer?.sdp) {
-    return res.status(400).json({ error: 'calleeId and offer.sdp required' });
+  if (!calleeId) {
+    return res.status(400).json({ error: 'calleeId required' });
+  }
+
+  if (mode !== 'VIDEO' && !offer?.sdp) {
+    return res.status(400).json({ error: 'offer.sdp required for non-video calls' });
   }
 
   if (!['AUDIO', 'VIDEO'].includes(mode)) {
@@ -50,7 +54,7 @@ router.post('/invite', asyncHandler(async (req, res) => {
       roomId: roomId ?? null,
       mode,
       status: 'RINGING',
-      offerSdp: offer.sdp,
+      offerSdp: mode === 'VIDEO' ? null : offer.sdp,
       twilioCallSid: twilioCallSid ?? null,
     },
     select: {
@@ -64,14 +68,27 @@ router.post('/invite', asyncHandler(async (req, res) => {
     },
   });
 
-  emitToUser(callee.id, 'call:incoming', {
-    callId: call.id,
-    fromUser: caller,
-    mode,
-    offer,
-    roomId: call.roomId ?? null,
-    createdAt: call.createdAt,
-  });
+  const roomName = `call_${call.id}`;
+
+  if (mode === 'VIDEO') {
+    emitToUser(callee.id, 'video:incoming', {
+      callId: call.id,
+      roomName,
+      callerId,
+      callerName: caller?.name || caller?.username || 'Chatforia user',
+      chatRoomId: call.roomId ?? null,
+      createdAt: call.createdAt,
+    });
+  } else {
+    emitToUser(callee.id, 'call:incoming', {
+      callId: call.id,
+      fromUser: caller,
+      mode,
+      offer,
+      roomId: call.roomId ?? null,
+      createdAt: call.createdAt,
+    });
+  }
 
   res.status(201).json({ callId: call.id });
 }));
@@ -84,8 +101,8 @@ router.post('/answer', asyncHandler(async (req, res) => {
   const userId = Number(req.user.id);
   const { callId, answer } = req.body || {};
 
-  if (!callId || !answer?.sdp) {
-    return res.status(400).json({ error: 'callId and answer.sdp required' });
+  if (!callId) {
+    return res.status(400).json({ error: 'callId required' });
   }
 
   const call = await prisma.call.findUnique({ where: { id: Number(callId) } });
@@ -100,7 +117,7 @@ router.post('/answer', asyncHandler(async (req, res) => {
     where: { id: call.id },
     data: {
       status: 'ACTIVE',
-      answerSdp: answer.sdp,
+      answerSdp: answer?.sdp ?? null,
       startedAt: new Date(),
       endReason: null,
     },
@@ -208,6 +225,16 @@ router.post('/end', asyncHandler(async (req, res) => {
     durationSec: updated.durationSec,
     reason: updated.endReason,
   });
+
+  if (call.mode === 'VIDEO') {
+    emitToUser(otherId, 'video:ended', {
+      callId: updated.id,
+      status: updated.status,
+      endedAt: updated.endedAt,
+      durationSec: updated.durationSec,
+      reason: updated.endReason,
+    });
+  }
 
   res.json({ ok: true });
 }));
