@@ -112,8 +112,8 @@ function buildPoolWhere({
 
   // Apply sellable filter (premium inventory)
   // Requires Prisma model: phoneNumber.forSale Boolean @default(false)
-  if (forSale === true) where.forSale = true;
-  if (forSale === false) where.forSale = false;
+  if (forSale === true) where.isPurchasable = true;
+  if (forSale === false) where.isLeasable = true;
 
   // Normalize capability input
   const cap = normalizeCap(capability);
@@ -248,8 +248,10 @@ router.get('/pool', requireAuth, async (req, res) => {
       source: true,
       status: true,
       isoCountry: true,
-      capabilities: true, // JSON object { sms:true, voice:true, ... }
-      forSale: true,      // requires Prisma field
+      capabilities: true, 
+      forSale: true, 
+      isLeasable: true,
+      isPurchasable: true,     
     },
   });
 
@@ -371,7 +373,7 @@ router.post('/lease', requireAuth, async (req, res) => {
             e164: cleanE164,
             status: 'AVAILABLE',
             provider: 'twilio',
-            ...(purchaseIntent ? { forSale: true } : { forSale: false }),
+            ...(purchaseIntent ? { isPurchasable: true } : { isLeasable: true }),
           },
         });
       } else {
@@ -396,7 +398,9 @@ router.post('/lease', requireAuth, async (req, res) => {
         where: {
           id: candidate.id,
           status: 'AVAILABLE',
-          ...(purchaseIntent ? { forSale: true } : {}),
+          ...(purchaseIntent
+            ? { isPurchasable: false, isLeasable: false }
+            : { isLeasable: false }),
         },
         data: {
           status: 'ASSIGNED',

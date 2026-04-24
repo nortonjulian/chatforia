@@ -1404,6 +1404,9 @@ model PhoneNumber {
   updatedAt      DateTime          @updatedAt
   source         PhoneNumberSource @default(PROVISIONED)
 
+  isLeasable     Boolean           @default(true)
+  isPurchasable  Boolean           @default(false)
+
   voicemails Voicemail[] @relation("PhoneNumberVoicemails")
 
   assignedUser User?               @relation(fields: [assignedUserId], references: [id], onDelete: SetNull)
