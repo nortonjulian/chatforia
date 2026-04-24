@@ -1,24 +1,43 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function BlogIndex() {
+  const { t } = useTranslation();
+
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
-      <h1>Chatforia Blog</h1>
+      <h1>{t("blog.index.title", "Chatforia Blog")}</h1>
+
+      <p>
+        {t(
+          "blog.index.intro",
+          "Explore insights on communication, online safety, and how messaging technology is connecting people around the world."
+        )}
+      </p>
 
       <ul>
         <li>
           <Link to="/blog/chat-safely-online">
-            How to Chat Safely Online
+            {t(
+              "blog.index.post1",
+              "How to Chat Safely Online"
+            )}
           </Link>
         </li>
         <li>
           <Link to="/blog/global-communication">
-            The Future of Global Communication
+            {t(
+              "blog.index.post2",
+              "The Future of Global Communication"
+            )}
           </Link>
         </li>
         <li>
           <Link to="/blog/why-messaging-matters">
-            Why Messaging Platforms Matter
+            {t(
+              "blog.index.post3",
+              "Why Messaging Platforms Matter"
+            )}
           </Link>
         </li>
       </ul>

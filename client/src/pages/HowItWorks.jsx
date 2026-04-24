@@ -1,36 +1,57 @@
+import { useTranslation } from "react-i18next";
+
 export default function HowItWorks() {
+  const { t } = useTranslation();
+
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "2rem" }}>
-      <h1>How Chatforia Works</h1>
+      <h1>{t("howItWorks.title", "How Chatforia Works")}</h1>
 
       <p>
-        Chatforia is designed to make communication simple, fast, and accessible.
-        Getting started takes just a few steps.
+        {t(
+          "howItWorks.intro",
+          "Chatforia is designed to make communication simple, fast, and accessible. Getting started takes just a few steps."
+        )}
       </p>
 
-      <h2>1. Create an Account</h2>
+      <h2>{t("howItWorks.step1Title", "1. Create an Account")}</h2>
       <p>
-        Sign up using your email or username to create your Chatforia account.
+        {t(
+          "howItWorks.step1Desc",
+          "Sign up using your email or username to create your Chatforia account."
+        )}
       </p>
 
-      <h2>2. Start a Conversation</h2>
+      <h2>{t("howItWorks.step2Title", "2. Start a Conversation")}</h2>
       <p>
-        Connect with others by selecting contacts or starting new chats.
+        {t(
+          "howItWorks.step2Desc",
+          "Connect with others by selecting contacts or starting new chats."
+        )}
       </p>
 
-      <h2>3. Real-Time Messaging</h2>
+      <h2>{t("howItWorks.step3Title", "3. Real-Time Messaging")}</h2>
       <p>
-        Messages are delivered instantly for a smooth experience.
+        {t(
+          "howItWorks.step3Desc",
+          "Messages are delivered quickly to provide a smooth communication experience."
+        )}
       </p>
 
-      <h2>4. Global Communication</h2>
+      <h2>{t("howItWorks.step4Title", "4. Global Communication")}</h2>
       <p>
-        Built-in translation helps users communicate across languages.
+        {t(
+          "howItWorks.step4Desc",
+          "Built-in translation helps users communicate across different languages."
+        )}
       </p>
 
-      <h2>5. Stay in Control</h2>
+      <h2>{t("howItWorks.step5Title", "5. Stay in Control")}</h2>
       <p>
-        Manage your preferences, contacts, and communication settings.
+        {t(
+          "howItWorks.step5Desc",
+          "Manage your preferences, contacts, and communication settings."
+        )}
       </p>
     </div>
   );
