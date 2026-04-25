@@ -29,6 +29,7 @@ import {
 } from '@tabler/icons-react';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
+import { useNavigate } from 'react-router-dom';
 import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
 
 /* ---------------- helpers ---------------- */
@@ -243,7 +244,9 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
     if (!e164) return;
 
     if (isBuy && currentUser?.plan !== 'PREMIUM') {
-      setErr('Premium subscription required to keep this number.');
+      navigate('/settings/upgrade', {
+        state: { from: 'keep-number' },
+      });
       return;
     }
 
@@ -270,6 +273,13 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         (isBuy
           ? 'Could not assign that number. It may have just been taken—try another.'
           : 'Could not lease that number. It may have just been taken—try another.');
+        
+        if (msg?.toLowerCase().includes('premium')) {
+          navigate('/settings/upgrade', {
+            state: { from: 'keep-number' },
+          });
+          return;
+        }
       setErr(msg);
     } finally {
       setAssigningId(null);
@@ -488,7 +498,7 @@ export default function PhoneNumberManager() {
 
         const e164 = primary.e164;
         const capabilities = normalizeCaps(primary.capabilities);
-        const expiresAt = primary.releaseAfter || null;
+        const expiresAt = primary.releaseAfter || primary.holdUntil || null;
         const d = daysLeft(expiresAt);
         const state =
           primary.status === 'HOLD' || (expiresAt && d !== null && d <= 14) ? 'expiring' : 'active';
@@ -724,6 +734,12 @@ export default function PhoneNumberManager() {
               <Text size="sm" c="dimmed">
                 {status.e164}
               </Text>
+
+              {status?.state === 'expiring' && dLeft != null && (
+                <Alert color="yellow" icon={<IconAlertTriangle size={16} />}>
+                  Your number may be released in {dLeft} day{dLeft === 1 ? '' : 's'}. Upgrade to Premium to keep it protected.
+                </Alert>
+              )}
 
               <Group gap="xs" mt="xs">
                 {status.capabilities?.includes('sms') && <Badge variant="outline">SMS</Badge>}

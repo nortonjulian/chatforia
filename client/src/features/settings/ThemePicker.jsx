@@ -8,7 +8,7 @@ import PremiumGuard from '@/components/PremiumGuard';
 export default function ThemePicker() {
   const nav = useNavigate();
   const { entitlements, loading } = useEntitlements();
-  const [current, setCurrent] = useState('light');
+  const [current, setCurrent] = useState('dawn');
   const [opts, setOpts] = useState([]);
 
   useEffect(() => {
@@ -44,20 +44,18 @@ export default function ThemePicker() {
   }, [entitlements]);
 
   async function saveTheme(v) {
-    try {
-      await axiosClient.patch('/features/theme', { theme: v });
-      setCurrent(v);
-    } catch (e) {
-      const status = e?.response?.status;
-      if (status === 402 || e?.response?.data?.code === 'PREMIUM_REQUIRED') {
-        nav('/settings/upgrade');
-      } else if (status === 409) {
-        alert('Theme field not found on server. Add `theme String @default("light")` to User and migrate.');
-      } else {
-        alert('Failed to update theme.');
-      }
-    }
+  console.log('Saving theme to backend:', v);
+
+  try {
+    const res = await axiosClient.patch('/users/me', { theme: v });
+    console.log('Theme save response:', res.data);
+
+    setCurrent(v);
+  } catch (e) {
+    console.error('Theme save failed:', e?.response?.status, e?.response?.data || e);
+    alert('Failed to update theme.');
   }
+}
 
   if (loading) return null;
 
@@ -74,7 +72,7 @@ export default function ThemePicker() {
           value={current}
           onChange={(v) => {
             if (!v) return;
-            const isPrem = v && v !== 'light' && v !== 'dark';
+            const isPrem = v && !['dawn', 'midnight'].includes(v);
             if (isPrem && !canUsePremium) return nav('/settings/upgrade');
             saveTheme(v);
           }}

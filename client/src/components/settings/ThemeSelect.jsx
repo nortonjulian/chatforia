@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Select, Stack } from '@mantine/core';
 import { getTheme, setTheme, onThemeChange } from '../../utils/themeManager';
 import { THEME_CATALOG, THEME_LABELS } from '../../config/themes';
+import axiosClient from '../../api/axiosClient';
 
 export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
   const [value, setValue] = useState(getTheme());
@@ -47,14 +48,24 @@ export default function ThemeSelect({ isPremium, hideFreeOptions = false }) {
         label="Theme"
         value={value}
         data={data}
-        onChange={(v) => {
+        onChange={async (v) => {
           if (!v) return;
 
           // Block premium themes for non-premium users
           if (!isPremium && THEME_CATALOG.premium.includes(v)) return;
 
           setValue(v);
-          setTheme(v); // updates <html>, localStorage, and notifies subscribers
+          setTheme(v);
+
+          try {
+            await axiosClient.patch('/users/me', { theme: v });
+          } catch (e) {
+            console.error(
+              'Failed to save theme:',
+              e?.response?.status,
+              e?.response?.data || e
+            );
+          }
         }}
         id="theme"
         withinPortal

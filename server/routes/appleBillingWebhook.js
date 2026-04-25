@@ -136,19 +136,41 @@ async function downgradeUserFromTransaction(transaction) {
   if (!userId) return false;
 
   await prisma.user.update({
-    where: { id: Number(userId) },
+  where: { id: Number(userId) },
+  data: {
+    plan: 'FREE',
+    subscriptionStatus: 'EXPIRED',
+    subscriptionEndsAt: null,
+    billingProvider: 'APPLE',
+    billingSubscriptionId: String(
+      transaction.originalTransactionId || transaction.transactionId
+    ),
+  },
+});
+
+    await scheduleProtectedNumbersForDowngrade(userId);
+
+    return true;
+}
+
+async function scheduleProtectedNumbersForDowngrade(userId) {
+  const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
+  const holdUntil = new Date(Date.now() + holdDays * 24 * 60 * 60 * 1000);
+
+  await prisma.phoneNumber.updateMany({
+    where: {
+      assignedUserId: Number(userId),
+      status: 'ASSIGNED',
+      keepLocked: true,
+    },
     data: {
-      plan: 'FREE',
-      subscriptionStatus: 'EXPIRED',
-      subscriptionEndsAt: null,
-      billingProvider: 'APPLE',
-      billingSubscriptionId: String(
-        transaction.originalTransactionId || transaction.transactionId
-      ),
+      keepLocked: false,
+      holdUntil,
+      releaseAfter: null,
+      isLeasable: false,
+      isPurchasable: false,
     },
   });
-
-  return true;
 }
 
 router.post('/apple/notifications', async (req, res) => {

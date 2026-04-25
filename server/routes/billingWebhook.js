@@ -102,6 +102,26 @@ function getPeriodEndFromEventData(data) {
   return Number.isNaN(dt.getTime()) ? null : dt;
 }
 
+async function scheduleProtectedNumbersForDowngrade(userId) {
+  const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
+  const holdUntil = new Date(Date.now() + holdDays * 24 * 60 * 60 * 1000);
+
+  await prisma.phoneNumber.updateMany({
+    where: {
+      assignedUserId: Number(userId),
+      status: 'ASSIGNED',
+      keepLocked: true,
+    },
+    data: {
+      keepLocked: false,
+      holdUntil,
+      releaseAfter: null,
+      isLeasable: false,
+      isPurchasable: false,
+    },
+  });
+}
+
 async function downgradeUserToFree(userId, billingPatch = {}) {
   await prisma.user.update({
     where: { id: Number(userId) },
@@ -115,6 +135,8 @@ async function downgradeUserToFree(userId, billingPatch = {}) {
       ...billingPatch,
     },
   });
+
+  await scheduleProtectedNumbersForDowngrade(userId);
 }
 
 async function updateUserById(userId, patch) {

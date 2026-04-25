@@ -1350,8 +1350,8 @@ router.post(
   })
 );
 
-const FREE_THEMES = ['dawn', 'dark'];
-const PREMIUM_THEMES = ['midnight', 'neon', 'amoled', 'sunset', 'aurora', 'solarized', 'velvet'];
+const FREE_THEMES = ['dawn', 'midnight'];
+const PREMIUM_THEMES = ['amoled', 'aurora', 'neon', 'sunset', 'solarized', 'velvet'];
 
 const FREE_MESSAGE_TONES = ['Default.mp3', 'Vibrate.mp3'];
 const FREE_RINGTONES = ['Classic.mp3', 'Urgency.mp3'];
@@ -1406,7 +1406,7 @@ function sanitizeEntitledSettings(user) {
   const safe = { ...user };
   const paid = hasPaidAccess(safe);
 
-  if (!paid && PREMIUM_THEMES.includes(safe.theme)) {
+  if (!paid && !FREE_THEMES.includes(safe.theme)) {
     safe.theme = 'dawn';
   }
 

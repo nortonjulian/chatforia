@@ -19,6 +19,7 @@ import axiosClient from '../api/axiosClient';
 import { useUser } from '../context/UserContext';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 
 // Icons
 import { MessageSquare, Ban, Star, Wallet, CircleDollarSign } from 'lucide-react';
@@ -121,6 +122,9 @@ export function PlanCard({
   footer,
 }) {
   const { t } = useTranslation();
+
+  const location = useLocation();
+  const from = location.state?.from;
 
   const classNames = ['plan-card'];
   if (highlight) classNames.push('plan-card--highlight');
@@ -1062,6 +1066,12 @@ export default function UpgradePage({ variant = 'account' }) {
           'Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.'
         )}
       </Text>
+
+      {from === 'keep-number' && (
+        <Alert color="yellow" mb="md">
+          Don’t lose your number — upgrade to keep it permanently.
+        </Alert>
+      )}
 
       <Group justify="flex-start">
         <SegmentedControl

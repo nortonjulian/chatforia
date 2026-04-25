@@ -2,11 +2,10 @@ import { useEffect, useState, useCallback } from 'react';
 import { ActionIcon, Tooltip, useMantineColorScheme } from '@mantine/core';
 import { Sun, Moon } from 'lucide-react';
 import { getTheme, setTheme, isDarkTheme, onThemeChange } from '@/utils/themeManager';
+import axiosClient from '@/api/axiosClient';
 
-export default function ThemeToggle({ onToggle }) {
+export default function ThemeToggle() {
   const { setColorScheme } = useMantineColorScheme();
-
-  // Keep local state in sync with the global theme
   const [theme, setLocalTheme] = useState(() => getTheme());
   const darkLike = isDarkTheme(theme);
 
@@ -15,20 +14,23 @@ export default function ThemeToggle({ onToggle }) {
       setLocalTheme(t);
       setColorScheme(isDarkTheme(t) ? 'dark' : 'light');
     });
-    // Ensure Mantine tracks the initial scheme
+
     setColorScheme(isDarkTheme(theme) ? 'dark' : 'light');
     return unsub;
-  }, [setColorScheme]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [setColorScheme]);
 
-  const handleToggle = useCallback(() => {
-    if (typeof onToggle === 'function') {
-      onToggle();
-      return;
-    }
-    // Default flip: Dawn <-> Midnight
+  const handleToggle = useCallback(async () => {
     const next = darkLike ? 'dawn' : 'midnight';
-    setTheme(next); // persists + applies; onThemeChange will sync local state
-  }, [darkLike, onToggle]);
+
+    setTheme(next);
+
+    try {
+      const { data } = await axiosClient.patch('/users/me', { theme: next });
+      console.log('Theme saved:', data?.theme || data);
+    } catch (e) {
+      console.error('Failed to save theme:', e?.response?.status, e?.response?.data || e);
+    }
+  }, [darkLike]);
 
   return (
     <Tooltip label={`Switch to ${darkLike ? 'Dawn' : 'Midnight'} mode`}>

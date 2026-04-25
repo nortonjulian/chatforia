@@ -370,6 +370,21 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     }
   };
 
+  const applyAndSaveTheme = async (themeName) => {
+    applyTheme(themeName);
+
+    try {
+      await axiosClient.patch('/users/me', { theme: themeName });
+      setCurrentUser((prev) => ({ ...prev, theme: themeName }));
+    } catch (e) {
+      console.error('Failed to save theme', e?.response?.data || e);
+      notifications.show({
+        color: 'red',
+        message: 'Failed to save theme',
+      });
+    }
+};
+
   const planUpper = ((currentUser?.plan) || 'FREE').toUpperCase();
   const isPremiumPlan = planUpper === 'PREMIUM';
   const canSeePremiumThemes = isPremiumPlan || premiumPreviewEnabled();
@@ -1106,7 +1121,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 <button
                   type="button"
                   className="theme-chip theme-chip--sun"
-                  onClick={() => applyTheme('dawn')}
+                  onClick={() => applyAndSaveTheme('dawn')}
                   aria-label={t('profile.sunTheme', 'Use Dawn theme')}
                   title={t('profile.sunTheme', 'Use Dawn theme')}
                 >
@@ -1117,7 +1132,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                 <button
                   type="button"
                   className="theme-chip theme-chip--moon"
-                  onClick={() => applyTheme('midnight')}
+                  onClick={() => applyAndSaveTheme('midnight')}
                   aria-label={t('profile.moonTheme', 'Use Moon (Midnight) theme')}
                   title={t('profile.moonTheme', 'Use Moon (Midnight) theme')}
                 >

@@ -108,7 +108,7 @@ export function startNumberLifecycleJob() {
     const toRelease = await prisma.phoneNumber.findMany({
       where: {
         status: 'HOLD',
-        holdUntil: { lt: now },
+        releaseAfter: { lt: now },
         provider: 'twilio',
       },
     });
