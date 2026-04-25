@@ -13,23 +13,31 @@ const router = express.Router();
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
-const appleRootCAs = [
-  fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA.cer')),
-  fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA-G3.cer')),
-];
+let appleVerifier = null;
 
-const appleEnvironment =
-  appleIapConfig.environment === 'production'
-    ? Environment.PRODUCTION
-    : Environment.SANDBOX;
+function getAppleVerifier() {
+  if (appleVerifier) return appleVerifier;
 
-const appleVerifier = new SignedDataVerifier(
-  appleRootCAs,
-  true, // enableOnlineChecks
-  appleEnvironment,
-  appleIapConfig.bundleId,
-  process.env.APPLE_APP_ID ? Number(process.env.APPLE_APP_ID) : undefined
-);
+  const appleRootCAs = [
+    fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA.cer')),
+    fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA-G3.cer')),
+  ];
+
+  const appleEnvironment =
+    appleIapConfig.environment === 'production'
+      ? Environment.PRODUCTION
+      : Environment.SANDBOX;
+
+  appleVerifier = new SignedDataVerifier(
+    appleRootCAs,
+    true,
+    appleEnvironment,
+    appleIapConfig.bundleId,
+    process.env.APPLE_APP_ID ? Number(process.env.APPLE_APP_ID) : undefined
+  );
+
+  return appleVerifier;
+}
 
 function safeDateFromMs(value) {
   if (value == null) return null;
