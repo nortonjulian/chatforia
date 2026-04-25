@@ -229,6 +229,10 @@ async function main() {
           source: 'PROVISIONED',
           vanity: false,
           keepLocked: false,
+
+          forSale: true,
+          isLeasable: true,
+          isPurchasable: true,
         });
 
         results.push({ ok: true, e164: phoneNumber, id: row.id, twilioSid });

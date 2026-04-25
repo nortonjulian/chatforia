@@ -355,7 +355,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             label="Lock this number (weekly add-on, coming soon)"
           />
           <Text size="sm" c="dimmed">
-            Locking will later prevent recycling and charge weekly (pricing TBD).
+            Premium numbers are protected from recycling while your Premium subscription is active.
           </Text>
         </Group>
 
