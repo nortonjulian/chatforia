@@ -10,7 +10,6 @@ export default function VerifyEmail() {
   const [state, setState] = useState('loading');
 
   useEffect(() => {
-    console.log('[VerifyEmail] mounted', { uid, token, href: window.location.href });
 
     const run = async () => {
       try {
@@ -58,6 +57,9 @@ export default function VerifyEmail() {
           {state === 'error' && (
             <>
               <Text c="red">That link is invalid or expired.</Text>
+              <Text size="sm" c="dimmed">
+                Return to login and use “Resend verification email.”
+              </Text>
               <Button component={Link} to="/" variant="light" radius="xl">
                 Back to login
               </Button>

@@ -100,6 +100,8 @@ import twilioPortingWebhook from './routes/twilioPortingWebhook.js';
 
 import aiRoutes from './routes/ai.js'
 
+import adminSupportRouter from './routes/adminSupport.js';
+
 // 🔒 auth gates
 import { requireAuth, verifyTokenOptional } from './middleware/auth.js';
 // ✅ enforcement gates
@@ -384,6 +386,8 @@ export function createApp() {
       next();
     });
   }
+
+  app.use('/admin/support', adminSupportRouter);
 
 
   app.get('/auth/csrf', (req, res) => {

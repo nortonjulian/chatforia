@@ -287,19 +287,14 @@ r.post(
 
       return res.status(202).json(out);
     } catch (err) {
-      console.error('[sms route /send] FAILED', err);
-
-      if (process.env.NODE_ENV !== 'production') {
-        return res.status(err?.output?.statusCode || 500).json({
-          error: err?.name || 'Error',
-          message: err?.message || 'Unknown error',
-          code: err?.output?.payload?.code || null,
-          details: err?.output?.payload || null,
-          stack: err?.stack || null,
-        });
-      }
-
-      throw err;
+      return res.status(err?.output?.statusCode || 500).json({
+        error: err?.name || 'Error',
+        message: err?.output?.payload?.userMessage || err?.message || 'Unknown error',
+        code: err?.output?.payload?.code || null,
+        supportAction: err?.output?.payload?.supportAction || null,
+        redirectTo: err?.output?.payload?.redirectTo || null,
+        details: err?.output?.payload || null,
+      });
     }
   })
 );

@@ -45,6 +45,10 @@ export default function SupportWidget({
   const [submitting, setSubmitting] = useState(false);
   const [ok, setOk] = useState('');
   const [err, setErr] = useState('');
+  const [diagnosis, setDiagnosis] = useState(null);
+  const [stage, setStage] = useState('idle');
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionMessage, setActionMessage] = useState('');
 
   // Theme-safe CTA label style (fixes Help button + gradient/filled labels)
   const ctaLabelStyles = {
@@ -84,14 +88,73 @@ export default function SupportWidget({
     }
   };
 
-  const submitTicket = async () => {
-    setSubmitting(true);
-    setOk('');
+  const topicToCategory = {
+    login: 'auth_or_verification',
+    billing: 'billing_or_premium',
+    abuse: 'safety_or_abuse',
+  };
+
+  const runSupportAction = async (action) => {
+    if (!action) return;
+
+    setActionLoading(true);
+    setActionMessage('');
     setErr('');
+
     try {
+      const { data } = await axiosClient.post('/support/actions', {
+        action,
+        email: currentUser?.email || null,
+      });
+
+      if (data?.redirectTo) {
+        window.location.href = data.redirectTo;
+        return;
+      }
+
+      setActionMessage(data?.message || 'Action completed.');
+    } catch {
+      setErr('Could not complete that action. Please try again.');
+    } finally {
+      setActionLoading(false);
+    }
+};
+
+  const submitTicket = async () => {
+    const trimmed = message.trim();
+    if (!trimmed) return;
+
+    setSubmitting(true);
+    setErr('');
+    setOk('');
+    setDiagnosis(null);
+    setStage('diagnosing');
+
+    try {
+      // STEP 1: Diagnose first
+      const { data } = await axiosClient.post('/support/diagnose', {
+        email: currentUser?.email || null,
+        message: trimmed,
+        categoryHint: topicToCategory[topic] || null,
+      });
+
+      setDiagnosis(data);
+
+      // STEP 2: If resolved → STOP here
+      if (data?.resolved) {
+        setStage('resolved');
+        setSubmitting(false);
+        return;
+      }
+
+      // STEP 3: Escalate (create ticket)
+      setStage('escalating');
+
       await axiosClient.post('/support/tickets', {
-        topic,
-        message,
+        name: currentUser?.username || currentUser?.displayName || 'Chatforia User',
+        email: currentUser?.email || '',
+        message: trimmed,
+        categoryHint: topicToCategory[topic] || null,
         meta: {
           userId: currentUser?.id || null,
           path: window.location.pathname,
@@ -100,14 +163,15 @@ export default function SupportWidget({
           version: import.meta.env?.VITE_APP_VERSION || 'web',
         },
       });
-      setOk(t('support.sent', 'Message sent. We’ll reply by email.'));
+
+      setOk('We couldn’t resolve this automatically. Our team will follow up.');
       setMessage('');
-    } catch {
-      setErr(t('support.sendError', 'Could not send. Email support@chatforia.com instead.'));
+    } catch (e) {
+      setErr('Something went wrong. Please try again.');
     } finally {
       setSubmitting(false);
     }
-  };
+};
 
   if (shouldHide) return null;
 
@@ -243,7 +307,7 @@ export default function SupportWidget({
               <Text size="sm" c="dimmed">
                 {t(
                   'support.contactIntro',
-                  'We’ll email you a response. Include details to help us reproduce the issue.'
+                  'We’ll try to resolve this instantly. If not, our team will follow up.'
                 )}
               </Text>
 
@@ -261,6 +325,43 @@ export default function SupportWidget({
                 onChange={(e) => setMessage(e.currentTarget.value)}
               />
 
+              {stage === 'diagnosing' && (
+                <Text size="sm" c="dimmed">
+                  Analyzing your issue...
+                </Text>
+              )}
+
+              {diagnosis && (
+                <Stack gap={4} mt="xs">
+                  <Text fw={500}>{diagnosis.message}</Text>
+
+                  {diagnosis.nextAction && (
+                    <Text size="sm" c="dimmed">
+                      {diagnosis.nextAction}
+                    </Text>
+                  )}
+                </Stack>
+              )}
+
+              {diagnosis?.autoAction &&
+                diagnosis.autoAction !== 'no_action_needed' &&
+                diagnosis.autoAction !== 'queue_for_support_review' && (
+                  <Button
+                    size="xs"
+                    variant="light"
+                    loading={actionLoading}
+                    onClick={() => runSupportAction(diagnosis.autoAction)}
+                  >
+                    Take recommended action
+                  </Button>
+                )}
+
+              {actionMessage && (
+                <Text size="sm" c="green">
+                  {actionMessage}
+                </Text>
+              )}
+
               <Group justify="flex-end">
                 <Button
                   onClick={submitTicket}
@@ -272,8 +373,20 @@ export default function SupportWidget({
                 </Button>
               </Group>
 
-              {ok ? <Text c="green">{ok}</Text> : null}
-              {err ? <Text c="red">{err}</Text> : null}
+              {stage === 'resolved' && (
+                <Text c="green">
+                  Issue resolved instantly — no ticket needed.
+                </Text>
+              )}
+
+              {stage === 'escalating' && (
+                <Text c="yellow">
+                  Escalating to support...
+                </Text>
+              )}
+
+              {ok && <Text c="green">{ok}</Text>}
+              {err && <Text c="red">{err}</Text>}
             </Stack>
           )}
         </Stack>

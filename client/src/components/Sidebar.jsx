@@ -27,6 +27,7 @@ import {
   PhoneCall,
   Video,
   Voicemail,
+  LifeBuoy,
 } from 'lucide-react';
 
 const ChatroomsSidebar = lazy(() => import('@/components/ChatroomsSidebar'));
@@ -225,6 +226,18 @@ function Sidebar({ currentUser }) {
             }}
           >
             {t('sidebar.forwarding', 'Call & Text Forwarding')}
+          </Button>
+        )}
+
+        {currentUser?.role === 'ADMIN' && (
+          <Button
+            variant="subtle"
+            size="xs"
+            leftSection={<LifeBuoy size={16} />}
+            component={Link}
+            to="/admin/support"
+          >
+            Support Dashboard
           </Button>
         )}
       </Stack>

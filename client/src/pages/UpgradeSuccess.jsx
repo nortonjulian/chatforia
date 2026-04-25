@@ -1,32 +1,84 @@
-import { useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { Title, Text, Button, Stack, Paper } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Title, Text, Button, Stack, Paper, Alert, Loader, Group } from '@mantine/core';
 import axios from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 
 export default function UpgradeSuccess() {
-  const [params] = useSearchParams();
-  const sessionId = params.get('session_id');
   const { setCurrentUser } = useUser();
+  const [status, setStatus] = useState('checking'); // checking | active | pending | error
 
   useEffect(() => {
-    (async () => {
+    let mounted = true;
+
+    async function refreshBilling() {
       try {
-        // Optional: await axios.get(`/billing/session-status?session_id=${sessionId}`);
-        const { data } = await axios.get('/auth/me'); // refresh entitlements
-        if (data?.user) setCurrentUser((u) => ({ ...u, ...data.user }));
-      } catch {}
-    })();
-  }, [sessionId, setCurrentUser]);
+        const me = await axios.get('/auth/me');
+        if (mounted && me?.data?.user) {
+          setCurrentUser((u) => ({ ...u, ...me.data.user }));
+        }
+
+        const planRes = await axios.get('/billing/my-plan');
+        const plan = planRes?.data?.plan;
+
+        if (!mounted) return;
+
+        if (plan && !plan.isFree && plan.status === 'ACTIVE') {
+          setStatus('active');
+        } else {
+          setStatus('pending');
+        }
+      } catch {
+        if (mounted) setStatus('error');
+      }
+    }
+
+    refreshBilling();
+
+    return () => {
+      mounted = false;
+    };
+  }, [setCurrentUser]);
 
   return (
     <Paper withBorder radius="xl" p="lg" maw={560} mx="auto">
       <Stack gap="xs">
-        <Title order={2}>You're all set 🎉</Title>
-        <Text c="dimmed">Your subscription is active. Enjoy the new features.</Text>
-        <div>
-          <Button component={Link} to="/" color="orange">Continue to Chat</Button>
-        </div>
+        <Title order={2}>Subscription status</Title>
+
+        {status === 'checking' && (
+          <Group>
+            <Loader size="sm" />
+            <Text c="dimmed">Refreshing your subscription…</Text>
+          </Group>
+        )}
+
+        {status === 'active' && (
+          <>
+            <Text c="dimmed">Your subscription is active. Enjoy the new features.</Text>
+            <Button component={Link} to="/" color="orange">
+              Continue to Chat
+            </Button>
+          </>
+        )}
+
+        {status === 'pending' && (
+          <Alert color="yellow" title="Still syncing">
+            Your payment was received, but your plan has not updated yet. This can take a moment.
+            Try refreshing your plan from the billing page.
+            <Button component={Link} to="/account/plan" mt="sm" variant="light">
+              View My Plan
+            </Button>
+          </Alert>
+        )}
+
+        {status === 'error' && (
+          <Alert color="red" title="Could not refresh subscription">
+            We could not confirm your subscription yet. Please check My Plan or contact support.
+            <Button component={Link} to="/account/plan" mt="sm" variant="light">
+              View My Plan
+            </Button>
+          </Alert>
+        )}
       </Stack>
     </Paper>
   );

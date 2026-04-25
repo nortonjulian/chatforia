@@ -1072,6 +1072,35 @@ model SupportTicket {
   updatedAt DateTime @updatedAt
 }
 
+model SupportAutomationEvent {
+  id          Int      @id @default(autoincrement())
+  userId      Int?
+  ticketId    Int?
+  category    String
+  source      String   @default("support")
+  status      String   @default("detected")
+  actionTaken String?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([category])
+  @@index([createdAt])
+}
+
+model SupportAutoAction {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  category  String
+  action    String
+  status    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([category])
+}
+
 model AdInquiry {
   id        Int      @id @default(autoincrement())
   name      String

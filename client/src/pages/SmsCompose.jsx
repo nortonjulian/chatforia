@@ -78,6 +78,7 @@ export default function SmsCompose() {
   });
 
   const [text, setText] = useState('');
+  const [hasNumber, setHasNumber] = useState(true);
   const [sending, setSending] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [numberPickerOpen, setNumberPickerOpen] = useState(false);
@@ -90,6 +91,16 @@ export default function SmsCompose() {
     if (!first) return '';
     return first.phone || first.email || first.display || '';
   }, [recipients]);
+
+    const refreshMyNumber = useCallback(async () => {
+      try {
+        const res = await axiosClient.get('/numbers/my');
+        const num = res?.data?.number || res?.data?.e164;
+        setHasNumber(Boolean(num));
+      } catch {
+        setHasNumber(false);
+      }
+    }, []);
 
   const fetchRecipientSuggestions = useCallback(async (query) => {
     const q = String(query || '').trim().toLowerCase();
@@ -114,6 +125,10 @@ export default function SmsCompose() {
         return display.includes(q) || phone.includes(q);
       });
   }, []);
+
+  useEffect(() => {
+    refreshMyNumber();
+  }, [refreshMyNumber]);
 
   useEffect(() => {
     (async () => {
@@ -151,11 +166,16 @@ export default function SmsCompose() {
   }, [presetTo, presetName]);
 
   const canSend = useMemo(
-    () => Boolean(to && text.trim()),
-    [to, text]
+    () => Boolean(to && text.trim() && hasNumber),
+    [to, text, hasNumber]
   );
 
   async function handleSend() {
+    if (!hasNumber) {
+      setNumberPickerOpen(true);
+      return;
+    }
+
     if (!canSend) return;
 
     setSending(true);
@@ -217,6 +237,24 @@ export default function SmsCompose() {
         flexDirection: 'column',
       }}
     >
+
+      {!hasNumber && (
+            <Box mb="xs">
+              <Text c="red" size="sm">
+                You need a Chatforia number before sending SMS.
+              </Text>
+
+              <Button
+                size="xs"
+                variant="light"
+                mt={4}
+                onClick={() => setNumberPickerOpen(true)}
+              >
+                Choose a number
+              </Button>
+            </Box>
+          )}
+
       <Group justify="space-between" px="md" py="xs">
         <Text fw={600}>
           {t('sms.newText', 'New text')}
@@ -310,7 +348,10 @@ export default function SmsCompose() {
 
       <NumberPickerModal
         opened={numberPickerOpen}
-        onClose={() => setNumberPickerOpen(false)}
+        onClose={async () => {
+          setNumberPickerOpen(false);
+          await refreshMyNumber();
+        }}
       />
     </Box>
   );

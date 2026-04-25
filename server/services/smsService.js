@@ -3,6 +3,7 @@ import prisma from '../utils/prismaClient.js';
 import { normalizeE164, isE164 } from '../utils/phone.js';
 import { sendSms } from '../lib/telco/index.js';
 import { emitToUser } from '../services/socketBus.js';
+import { recordSupportSignal } from './supportAutomationService.js';
 
 /* -------------------------------------------------------------------------- */
 /*                               Helper utils                                 */
@@ -51,8 +52,19 @@ async function getUserActiveDid(userId) {
   });
 
   if (!num?.e164) {
+    await recordSupportSignal({
+      userId,
+      category: 'no_assigned_number',
+      source: 'sms_send',
+      actionTaken: 'prompt_number_selection',
+    });
+
     const err = Boom.preconditionFailed('No assigned number for user');
     err.output.payload.code = 'NO_NUMBER';
+    err.output.payload.supportAction = 'prompt_number_selection';
+    err.output.payload.redirectTo = '/settings/phone-number';
+    err.output.payload.userMessage = 'Choose a Chatforia number before sending SMS.';
+
     throw err;
   }
 
@@ -328,7 +340,7 @@ export async function sendUserSms({ userId, to, body, from, mediaUrls }) {
       console.error('[smsService] send failed', result);
       throw Boom.badGateway(result?.detail || result?.reason || 'SMS send failed');
     }
-    
+
     console.log('[smsService] provider result', result);
 
     const provider = result?.provider || 'twilio';

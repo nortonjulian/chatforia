@@ -47,6 +47,7 @@ import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
 import ManageWirelessPage from '@/pages/ManageWireless.jsx';
 
 import AdminReportsPage from '@/pages/AdminReports';
+import AdminSupport from '@/pages/AdminSupport';
 import AdminRoute from '@/routes/AdminRoute';
 import AdminLayout from '@/pages/AdminLayout';
 import UsersAdminPage from '@/pages/UsersAdminPage';
@@ -503,6 +504,7 @@ export default function AppRoutes() {
           <Route path="users" element={<UsersAdminPage />} />
           <Route path="reports" element={<AdminReportsPage />} />
           <Route path="audit" element={<AuditLogsPage />} />
+          <Route path="support" element={<AdminSupport />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" />} />

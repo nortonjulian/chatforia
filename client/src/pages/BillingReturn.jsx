@@ -14,6 +14,10 @@ export default function BillingReturn() {
   const [loading, setLoading] = useState(true);
   const [working, setWorking] = useState(false);
 
+  const [plan, setPlan] = useState(null);
+  const [planStatus, setPlanStatus] = useState('checking'); 
+  const [retryCount, setRetryCount] = useState(0);
+
   // Parse any query flags if you want (not required for Stripe Portal)
   const params = new URLSearchParams(location.search);
   const canceled = params.get('canceled') === '1';
@@ -21,31 +25,75 @@ export default function BillingReturn() {
   // Refresh the authed user so plan/period end is up to date
   useEffect(() => {
     let mounted = true;
+
     (async () => {
       if (!currentUser) {
-        // Not logged in? Send to login then back here.
         navigate('/login?next=/billing/return', { replace: true });
         return;
       }
+
       try {
+        // Step 1: refresh user
         const { data } = await axiosClient.get('/auth/me');
         if (mounted && data?.user) {
           setCurrentUser((prev) => ({ ...prev, ...data.user }));
         }
+
+        // 👇 Step 2: ADD THIS (billing check)
+        const planRes = await axiosClient.get('/billing/my-plan');
+        const nextPlan = planRes?.data?.plan || null;
+
+        if (mounted) {
+          setPlan(nextPlan);
+
+          if (nextPlan && !nextPlan.isFree && nextPlan.status === 'ACTIVE') {
+            setPlanStatus('active');
+          } else {
+            setPlanStatus('free');
+          }
+        }
+
       } catch (e) {
-        // If /auth/me fails, keep going—UI will still render with existing state
-        // Optionally, redirect to login on 401
         if (e?.response?.status === 401) {
           navigate('/login?next=/billing/return', { replace: true });
           return;
         }
+
+        if (mounted) {
+          setPlanStatus('error');
+        }
+
       } finally {
         mounted && setLoading(false);
       }
     })();
+
     return () => { mounted = false; };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (planStatus !== 'free' || canceled) return;
+    if (retryCount >= 3) return; // limit retries
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await axiosClient.get('/billing/my-plan');
+        const retryPlan = res?.data?.plan;
+
+        if (retryPlan && !retryPlan.isFree && retryPlan.status === 'ACTIVE') {
+          setPlan(retryPlan);
+          setPlanStatus('active');
+          return;
+        }
+
+        setRetryCount((c) => c + 1);
+      } catch {
+        setRetryCount((c) => c + 1);
+      }
+    }, 3000); // retry every 3s
+
+    return () => clearTimeout(timer);
+  }, [planStatus, retryCount, canceled]);
 
   const planName = (currentUser?.plan || 'FREE').toUpperCase();
   const isPaid = planName === 'PLUS' || planName === 'PREMIUM';
@@ -140,6 +188,28 @@ export default function BillingReturn() {
           >
             No changes were made. You can resume any time.
           </Alert>
+        )}
+
+        {planStatus === 'checking' && (
+          <Alert color="blue" title="Refreshing subscription">
+            Checking your latest billing status…
+          </Alert>
+        )}
+
+        {planStatus === 'free' && !canceled && (
+          <Alert
+            icon={<IconAlertTriangle size={18} />}
+            color="yellow"
+            title="Subscription still syncing"
+          >
+            If you just completed checkout, your plan may take a few seconds to update.
+          </Alert>
+        )}
+
+        {plan && planStatus === 'active' && (
+          <Text size="sm" c="dimmed">
+            Status: {plan?.status}
+          </Text>
         )}
 
         {scheduledCancel && (

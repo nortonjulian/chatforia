@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import DevErrorBoundary from '@/components/DevErrorBoundary.jsx';
 import AppRoutes from './AppRoutes';
 
+import posthog from '@/utils/analytics';
+
 export default function App() {
   const { pathname } = useLocation();
 
@@ -10,6 +12,10 @@ export default function App() {
     const el = document.getElementById('main-content');
     if (el) el.focus();
   }, [pathname]);
+
+  useEffect(() => {
+    posthog.capture('test_event');
+  }, []);
 
   return (
     <>

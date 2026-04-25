@@ -1,16 +1,14 @@
 export function requirePremium(req, res, next) {
-  const plan = req.user?.plan || req.user?.subscription || 'FREE';
+  const plan = String(req.user?.plan || req.user?.subscription || 'FREE').toUpperCase();
 
-  // Allow admins regardless of plan
   if (req.user?.role === 'ADMIN') return next();
 
-  // Handle string-based plans
-  if (typeof plan === 'string' && ['FREE', 'PREMIUM', 'PLUS'].includes(plan.toUpperCase())) {
+  if (['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan)) {
     return next();
   }
 
-  // Handle object-based (e.g., { isPremium: true })
-  if (plan?.isPremium) return next();
-
-  return res.status(402).json({ error: 'Premium plan required' });
+  return res.status(402).json({
+    error: 'premium_required',
+    message: 'This feature requires a paid plan.',
+  });
 }
