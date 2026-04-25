@@ -46,11 +46,11 @@ function safeDateFromMs(value) {
 }
 
 async function verifyAppleNotification(signedPayload) {
-  return await appleVerifier.verifyAndDecodeNotification(signedPayload);
+  return await getAppleVerifier().verifyAndDecodeNotification(signedPayload);
 }
 
 async function verifyAppleTransaction(signedTransactionInfo) {
-  return await appleVerifier.verifyAndDecodeTransaction(signedTransactionInfo);
+  return await getAppleVerifier().verifyAndDecodeTransaction(signedTransactionInfo);
 }
 
 async function applySubscriptionStateFromTransaction({
