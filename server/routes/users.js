@@ -13,6 +13,8 @@ import { premiumConfig } from '../config/premiumConfig.js'; // or wherever it li
 import { uploadAvatar, uploadDirs } from '../middleware/uploads.js';
 import { scanFile } from '../utils/antivirus.js';
 
+import { serializeUser } from '../utils/serializeUser.js';
+
 const router = express.Router();
 
 // Theme control
@@ -514,7 +516,7 @@ router.patch('/me', requireAuth, async (req, res) => {
         .json({ error: 'Failed to update profile (db write failed)' });
     }
 
-    return res.json(updated);
+    return res.json(serializeUser(updated));
   } catch (e) {
     console.error('PATCH /users/me failed (outer catch)', e);
     return res.status(500).json({ error: 'Failed to update profile' });

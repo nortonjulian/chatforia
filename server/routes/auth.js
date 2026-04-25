@@ -33,6 +33,8 @@ const RegisterSchema = z.object({
 import { generateKeyPair } from '../utils/encryption.js';
 import { issueResetToken, consumeResetToken } from '../utils/resetTokens.js';
 
+import { serializeUser } from '../utils/serializeUser.js';
+
 const router = express.Router();
 
 const IS_TEST = String(process.env.NODE_ENV) === 'test';
@@ -538,14 +540,7 @@ router.post(
       return res.json({
         message: 'logged in',
         token,
-        user: {
-          id: user.id,
-          email: user.email,
-          username: user.username,
-          publicKey: user.publicKey ?? null,
-          plan: user.plan ?? 'FREE',
-          role: user.role ?? 'USER',
-        },
+        user: serializeUser(user),
       });
     } catch (e) {
       // Preserve test fallback behavior on unexpected errors
@@ -630,14 +625,7 @@ router.post(
       ok: true,
       message: 'logged in',
       token,
-      user: {
-        id: user.id,
-        email: user.email,
-        username: user.username,
-        publicKey: user.publicKey ?? null,
-        plan: user.plan ?? 'FREE',
-        role: user.role ?? 'USER',
-      },
+      user: serializeUser(user),
     });
   })
 );
