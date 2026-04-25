@@ -248,6 +248,8 @@ router.get('/pool', requireAuth, async (req, res) => {
       source: true,
       status: true,
       isoCountry: true,
+      locality: true,
+      region: true,
       capabilities: true, 
       forSale: true, 
       isLeasable: true,
@@ -408,6 +410,9 @@ router.post('/lease', requireAuth, async (req, res) => {
           assignedAt: new Date(),
           holdUntil: null,
           releaseAfter: null,
+
+          locality: candidate.locality ?? null,
+          region: candidate.region ?? null,
 
           // Assigned numbers should disappear from both pools
           isLeasable: false,

@@ -1388,7 +1388,9 @@ model PhoneNumber {
   provider       String            @default("twilio")
   twilioSid      String?
   areaCode       String?
-  isoCountry     String?           @db.VarChar(2) // 'US', 'CA', ...
+  isoCountry     String?           @db.VarChar(2) 
+  locality       String?
+  region         String?
   capabilities   Json?
   vanity         Boolean           @default(false)
   forSale        Boolean           @default(false)

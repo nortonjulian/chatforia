@@ -159,6 +159,8 @@ async function main() {
         capabilities: true,
         provider: true,
         areaCode: true,
+        locality: true,
+        region: true,
         status: true,
         assignedUserId: true,
         keepLocked: true,
@@ -176,6 +178,8 @@ async function main() {
         isoCountry: iso2,
         capabilities: capsJson,
         areaCode,
+        locality: n.locality || n.localityName || n.city || null,
+        region: n.region || n.state || n.province || null,
         status: 'AVAILABLE',
         source: 'PROVISIONED',
       };
@@ -195,6 +199,7 @@ async function main() {
       isoCountry: iso2 ?? existing.isoCountry ?? null,
       capabilities: capsJson ?? existing.capabilities ?? null,
       areaCode: areaCode ?? existing.areaCode ?? null,
+      
       source: existing.source || 'PROVISIONED',
     };
 
@@ -205,6 +210,8 @@ async function main() {
       JSON.stringify(next.capabilities ?? null) !==
         JSON.stringify(existing.capabilities ?? null) ||
       (next.areaCode ?? null) !== (existing.areaCode ?? null) ||
+      (next.locality ?? null) !== (existing.locality ?? null) ||
+      (next.region ?? null) !== (existing.region ?? null) ||
       (next.source ?? null) !== (existing.source ?? null);
 
     if (!changed) {

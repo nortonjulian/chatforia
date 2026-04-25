@@ -230,7 +230,8 @@ async function purchaseNumber({ phoneNumber }) {
     e164: res.phoneNumber,
     isoCountry: res.isoCountry || null,
     capabilities: res.capabilities || null,
-    order: { sid: res.sid },
+    locality: res.locality || res.friendlyName || null,
+    region: res.region || null,
   };
 }
 

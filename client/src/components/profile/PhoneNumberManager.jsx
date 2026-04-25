@@ -388,13 +388,17 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                         .map(([k]) => k)
                     : [];
 
-              const locationLabel =
+              const baseLocation =
                 n.locality ||
                 n.city ||
-                n.region ||
                 n.friendlyName ||
                 n.location ||
                 '';
+
+              const locationLabel =
+                baseLocation && !baseLocation.includes(',')
+                  ? [baseLocation, n.region].filter(Boolean).join(', ')
+                  : baseLocation;
 
               return (
                 <Card key={e164} withBorder radius="md" p="sm">
@@ -410,9 +414,6 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                           </Text>
                         )}
 
-                        <Text size="sm" c="dimmed">
-                          {e164}
-                        </Text>
                       </Stack>
                       <Group gap={6}>
                         {caps.map((c) => (

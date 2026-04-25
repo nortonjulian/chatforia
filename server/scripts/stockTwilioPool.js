@@ -130,6 +130,13 @@ async function main() {
   const limit = toInt(arg('limit', 10), 10);
   const dryRun = parseBool(arg('dryRun', false));
 
+  const APPLY = process.argv.includes('--apply');
+
+  // If NOT applying, force safe mode
+  if (!APPLY) {
+    console.log('⚠️ Dry run mode (no purchases). Use --apply to buy numbers.');
+  }
+
   console.log('[stockTwilioPool] starting', {
     country,
     areaCode,
@@ -153,8 +160,12 @@ async function main() {
   }
 
   const candidates = items
-    .map((n) => cleanE164(n.e164 || n.number))
-    .filter(Boolean)
+    .map((n) => ({
+      e164: cleanE164(n.e164 || n.number),
+      locality: n.locality || null,
+      region: n.region || null,
+    }))
+    .filter((n) => n.e164)
     .slice(0, limit);
 
   console.log('[stockTwilioPool] candidates', candidates);
@@ -168,72 +179,77 @@ async function main() {
 
   // 2) Purchase + upsert each
   const results = [];
-  for (const phoneNumber of candidates) {
-    try {
-      console.log('[stockTwilioPool] purchasing', phoneNumber);
-
-      // Purchase and wire webhooks using your adapter
-      const purchase = await twilioAdapter.purchaseNumber({ phoneNumber });
-
-      const twilioSid = purchase?.sid || null;
-
-      // 3) Enrich from Twilio incoming number record
-      let isoCountry = country;
-      let capabilitiesJson = null;
-
+  for (const n of candidates) {
+    const phoneNumber = n.e164;
       try {
-        if (twilioSid) {
-          const rec = await client.incomingPhoneNumbers(twilioSid).fetch();
-          isoCountry = (rec?.isoCountry || isoCountry || '').toUpperCase();
-          capabilitiesJson = normalizeCapabilitiesJson(rec?.capabilities);
-        } else {
-          // fallback: lookup by phoneNumber if sid not returned (rare)
-          const list = await client.incomingPhoneNumbers.list({ phoneNumber, limit: 1 });
-          const rec = list?.[0];
-          if (rec) {
+        console.log('[stockTwilioPool] purchasing', phoneNumber);
+
+        // Purchase and wire webhooks using your adapter
+        const purchase = await twilioAdapter.purchaseNumber({ phoneNumber });
+
+        const twilioSid = purchase?.sid || null;
+
+        // 3) Enrich from Twilio incoming number record
+        let isoCountry = country;
+        let capabilitiesJson = null;
+
+        try {
+          if (twilioSid) {
+            const rec = await client.incomingPhoneNumbers(twilioSid).fetch();
             isoCountry = (rec?.isoCountry || isoCountry || '').toUpperCase();
             capabilitiesJson = normalizeCapabilitiesJson(rec?.capabilities);
+          } else {
+            // fallback: lookup by phoneNumber if sid not returned (rare)
+            const list = await client.incomingPhoneNumbers.list({ phoneNumber, limit: 1 });
+            const rec = list?.[0];
+            if (rec) {
+              isoCountry = (rec?.isoCountry || isoCountry || '').toUpperCase();
+              capabilitiesJson = normalizeCapabilitiesJson(rec?.capabilities);
+            }
           }
+        } catch (e) {
+          console.warn('[stockTwilioPool] enrich warning (continuing):', e?.message || e);
         }
-      } catch (e) {
-        console.warn('[stockTwilioPool] enrich warning (continuing):', e?.message || e);
+
+        const area = inferAreaCode(phoneNumber, isoCountry);
+
+        // 4) Upsert into DB as AVAILABLE inventory
+        const row = await safeUpsertPreservingAssignment({
+          e164: phoneNumber,
+          provider: 'twilio',
+          twilioSid,
+          areaCode: area,
+          isoCountry: isoCountry || null,
+          capabilities: capabilitiesJson,
+
+          locality: n.locality ?? null,
+          region: n.region ?? null,
+
+          status: 'AVAILABLE',
+          source: 'PROVISIONED',
+          vanity: false,
+          keepLocked: false,
+        });
+
+        results.push({ ok: true, e164: phoneNumber, id: row.id, twilioSid });
+        console.log('[stockTwilioPool] stocked', {
+          e164: phoneNumber,
+          id: row.id,
+          twilioSid,
+          isoCountry,
+          areaCode: area,
+          capabilities: capabilitiesJson,
+        });
+      } catch (err) {
+        console.error('[stockTwilioPool] purchase failed', {
+          e164: phoneNumber,
+          message: err?.message,
+          code: err?.code,
+          status: err?.status,
+          moreInfo: err?.moreInfo,
+        });
+        results.push({ ok: false, e164: phoneNumber, error: err?.message || 'purchase failed' });
       }
-
-      const area = inferAreaCode(phoneNumber, isoCountry);
-
-      // 4) Upsert into DB as AVAILABLE inventory
-      const row = await safeUpsertPreservingAssignment({
-        e164: phoneNumber,
-        provider: 'twilio',
-        twilioSid,
-        areaCode: area,
-        isoCountry: isoCountry || null,
-        capabilities: capabilitiesJson, // Json?
-        status: 'AVAILABLE',
-        source: 'PROVISIONED',
-        vanity: false,
-        keepLocked: false,
-      });
-
-      results.push({ ok: true, e164: phoneNumber, id: row.id, twilioSid });
-      console.log('[stockTwilioPool] stocked', {
-        e164: phoneNumber,
-        id: row.id,
-        twilioSid,
-        isoCountry,
-        areaCode: area,
-        capabilities: capabilitiesJson,
-      });
-    } catch (err) {
-      console.error('[stockTwilioPool] purchase failed', {
-        e164: phoneNumber,
-        message: err?.message,
-        code: err?.code,
-        status: err?.status,
-        moreInfo: err?.moreInfo,
-      });
-      results.push({ ok: false, e164: phoneNumber, error: err?.message || 'purchase failed' });
-    }
   }
 
   const okCount = results.filter((r) => r.ok).length;
