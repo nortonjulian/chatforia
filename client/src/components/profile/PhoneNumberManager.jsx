@@ -31,6 +31,7 @@ import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
+import posthog from '@/utils/analytics';
 
 /* ---------------- helpers ---------------- */
 const fmtLocal = (n) => {
@@ -186,6 +187,13 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
       return;
     }
 
+    posthog.capture('number_search_started', {
+      mode: effectiveMode,
+      country,
+      capability,
+      has_area_code: Boolean(digits),
+    });
+
     try {
       const { data } = await axiosClient.get('/numbers/pool', {
         params: {
@@ -258,6 +266,12 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         e164,
         ...(isBuy ? { purchaseIntent: true } : {}),
         lockOnAssign: Boolean(lockOnAssign),
+      });
+
+      posthog.capture('number_selected', {
+        type: isBuy ? 'premium' : 'free',
+        country,
+        capability,
       });
 
       onAssigned?.({
@@ -532,6 +546,11 @@ export default function PhoneNumberManager() {
   const dLeft = useMemo(() => daysLeft(status?.expiresAt), [status]);
 
   const keepCurrentNumber = async () => {
+    posthog.capture('number_keep_attempted', {
+      is_premium: isPremium,
+      current_state: status?.state || 'unknown',
+    });
+
     if (!['active', 'expiring'].includes(status?.state)) {
       setBanner({ type: 'info', message: 'Assign a number first.' });
       return;

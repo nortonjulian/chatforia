@@ -4,6 +4,7 @@ import Boom from '@hapi/boom';
 import prisma from '../utils/prismaClient.js';
 import { requireAuth } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import AnalyticsManager from '../utils/analyticsManager.js';
 
 // ✅ Import as a module so "deleteThread" can be optional without crashing at import-time
 import * as smsService from '../services/smsService.js';
@@ -283,6 +284,15 @@ r.post(
         body,
         from,
         mediaUrls: Array.isArray(mediaUrls) ? mediaUrls : [],
+      });
+
+      const isMedia = Array.isArray(mediaUrls) && mediaUrls.length > 0;
+
+      AnalyticsManager.capture("sms_sent_server", {
+        userId: req.user.id,
+        type: isMedia ? "media" : "text",
+        mediaCount: isMedia ? mediaUrls.length : 0,
+        provider: out?.provider || "unknown",
       });
 
       return res.status(202).json(out);

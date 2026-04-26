@@ -6,6 +6,7 @@ import { notifications } from '@mantine/notifications';
 
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
+import posthog from '@/utils/analytics';
 
 export default function BillingReturn() {
   const navigate = useNavigate();
@@ -46,8 +47,17 @@ export default function BillingReturn() {
         if (mounted) {
           setPlan(nextPlan);
 
+          posthog.capture('billing_return_viewed', {
+            canceled,
+          });
+
           if (nextPlan && !nextPlan.isFree && nextPlan.status === 'ACTIVE') {
             setPlanStatus('active');
+
+            posthog.capture('purchase_sync_resolved', {
+              source: 'billing_return',
+              plan: nextPlan?.code || null,
+            });
           } else {
             setPlanStatus('free');
           }
@@ -85,6 +95,10 @@ export default function BillingReturn() {
           setPlanStatus('active');
           return;
         }
+
+        posthog.capture('purchase_sync_retrying', {
+          attempt: retryCount + 1,
+        });
 
         setRetryCount((c) => c + 1);
       } catch {

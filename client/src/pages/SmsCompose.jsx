@@ -20,6 +20,7 @@ import StickerPicker from '@/components/StickerPicker';
 import RecipientSelector from '@/components/RecipientSelector';
 import { NumberPickerModal } from '@/components/profile/PhoneNumberManager';
 import { useTranslation } from 'react-i18next';
+import posthog from '@/utils/analytics';
 
 /* ---------------- helpers ---------------- */
 
@@ -173,6 +174,10 @@ export default function SmsCompose() {
   async function handleSend() {
     if (!hasNumber) {
       setNumberPickerOpen(true);
+
+      posthog.capture('sms_number_missing_blocked', {
+        source: 'sms_compose',
+      });
       return;
     }
 
@@ -185,6 +190,11 @@ export default function SmsCompose() {
       const res = await axiosClient.post('/sms/send', {
         to: normalizedTo,
         body: text.trim(),
+      });
+
+      posthog.capture('sms_sent', {
+        source: 'sms_compose',
+        has_recipient: Boolean(normalizedTo),
       });
 
       const data = res.data;

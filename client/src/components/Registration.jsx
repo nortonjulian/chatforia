@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axiosClient from '@/api/axiosClient';
 import { useNavigate } from 'react-router-dom';
+import posthog from '@/utils/analytics';
 
 import { saveKeysLocal } from '@/utils/keys';
 import { uploadRemoteKeyBackup } from '@/utils/keyBackupRemote';
@@ -110,6 +111,11 @@ export default function Registration() {
       const user = res?.data?.user || null;
       const privateKey = res?.data?.privateKey || null;
       const publicKey = user?.publicKey || null;
+
+      posthog.capture('user_registered', {
+        has_phone: Boolean(phoneTrim),
+        source: 'web',
+      });
 
       navigate('/?checkEmail=1');
     } catch (err) {

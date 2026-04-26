@@ -4,6 +4,7 @@ import path from 'node:path';
 import prisma from '../utils/prismaClient.js';
 import { getAddonConfig } from '../utils/billingProducts.js';
 import appleIapConfig, { getAppleProduct } from '../config/appleIapConfig.js';
+import AnalyticsManager from '../utils/analyticsManager.js';
 import {
   Environment,
   SignedDataVerifier,
@@ -414,6 +415,15 @@ router.post('/ios-sync', async (req, res) => {
           billingSubscriptionId: String(tx.originalTransactionId || tx.transactionId),
           subscriptionEndsAt: expiresAt,
         },
+      });
+
+      AnalyticsManager.capture("purchase_completed_server", {
+        userId,
+        platform: "ios",
+        provider: "apple",
+        productId: tx.productId,
+        plan: appleProduct.plan,
+        transactionId: String(tx.transactionId),
       });
 
       return res.json({

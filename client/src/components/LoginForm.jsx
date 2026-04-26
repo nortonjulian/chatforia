@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { loadKeysLocal } from '@/utils/keys';
 import { restoreRemoteKeyBackupToLocal } from '@/utils/keyBackupRemote';
 import { API_BASE_URL } from '@/config';
+import posthog from '@/utils/analytics';
 
 
 /* ---------------- env + helpers ---------------- */
@@ -198,6 +199,17 @@ export default function LoginForm({ onLoginSuccess }) {
       setIdentifier('');
       setPassword('');
 
+      posthog.identify(user.id, {
+        email: user.email,
+        username: user.username,
+        plan: user.plan || 'FREE',
+      });
+
+      posthog.capture('login_succeeded', {
+        method: 'password',
+        plan: user.plan || 'FREE',
+      });
+
       navigate('/');
     } catch (err) {
       const status = err?.response?.status;
@@ -240,9 +252,13 @@ export default function LoginForm({ onLoginSuccess }) {
       if (
         data?.error === 'email_not_verified' &&
         data?.canResendVerification &&
-        identifier.includes('@') // keep it surgical for now
+        identifier.includes('@') 
       ) {
         setCanResend(true);
+
+        posthog.capture('login_failed_email_not_verified', {
+          identifier_type: 'email',
+        });
       } else {
         setCanResend(false);
       }
@@ -261,6 +277,9 @@ export default function LoginForm({ onLoginSuccess }) {
 
       setError('Verification email sent. Check your inbox.');
       setCanResend(false);
+      posthog.capture('resend_verification_clicked', {
+        source: 'login_form',
+      });
     } catch (err) {
       setError('Failed to resend verification email.');
     } finally {

@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import axiosClient from '../api/axiosClient';
+import posthog from '@/utils/analytics';
 
 export default function MyPlan() {
   const { t } = useTranslation();
@@ -41,6 +42,10 @@ export default function MyPlan() {
         const data = await res.json();
         if (!cancelled) {
           setPlan(data.plan);
+
+          posthog.capture('my_plan_viewed', {
+            plan: data?.plan?.label || 'FREE',
+          });
         }
       } catch (err) {
         if (!cancelled) {
@@ -61,9 +66,15 @@ export default function MyPlan() {
     try {
       setError('');
       setLoadingPortal(true);
+
       const { data } = await axiosClient.post('/billing/portal', {});
       const url = data?.portalUrl || data?.url;
+
       if (url) {
+        posthog.capture('billing_portal_opened', {
+          source: 'my_plan',
+        });
+
         window.location.href = url;
       } else {
         setError(
@@ -97,11 +108,16 @@ export default function MyPlan() {
     );
     if (!confirmed) return;
 
+    posthog.capture('subscription_cancel_initiated', {
+      plan: plan?.label,
+    });
+
     try {
       setError('');
       setLoadingCancelNow(true);
+
       await axiosClient.post('/billing/cancel-now', {});
-      // Reload to reflect new plan status (will come back as Free)
+
       window.location.reload();
     } catch (err) {
       console.error('Immediate cancel failed', err);

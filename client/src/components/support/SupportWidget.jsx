@@ -19,6 +19,7 @@ import { IconMessageCircle, IconSearch } from '@tabler/icons-react';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 import { useTranslation } from 'react-i18next';
+import posthog from '@/utils/analytics';
 
 // Keep value identifiers here; labels will be localized inside the component.
 const QUICK_TOPICS = [
@@ -138,10 +139,22 @@ export default function SupportWidget({
         categoryHint: topicToCategory[topic] || null,
       });
 
+      posthog.capture('support_diagnosed', {
+        category: data?.category,
+        resolved: Boolean(data?.resolved),
+        severity: data?.severity,
+        source: 'support_widget',
+      });
+
       setDiagnosis(data);
 
       // STEP 2: If resolved → STOP here
       if (data?.resolved) {
+         posthog.capture('support_auto_resolved', {
+        category: data?.category,
+      });
+
+
         setStage('resolved');
         setSubmitting(false);
         return;
@@ -149,6 +162,11 @@ export default function SupportWidget({
 
       // STEP 3: Escalate (create ticket)
       setStage('escalating');
+
+      posthog.capture('support_escalated', {
+        topic,
+        category: topicToCategory[topic] || null,
+      });
 
       await axiosClient.post('/support/tickets', {
         name: currentUser?.username || currentUser?.displayName || 'Chatforia User',

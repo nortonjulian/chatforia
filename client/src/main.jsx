@@ -76,6 +76,9 @@ if (isProd && import.meta.env.VITE_SENTRY_DSN) {
   })();
 }
 
+console.log('ALL ENV:', import.meta.env);
+console.log('POSTHOG KEY:', import.meta.env.VITE_POSTHOG_KEY);
+
 /* ---------------- Mantine theme ---------------- */
 const theme = createTheme({
   ...chatforiaTheme,
