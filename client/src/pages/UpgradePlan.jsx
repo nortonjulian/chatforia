@@ -20,6 +20,7 @@ import { useUser } from '../context/UserContext';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import posthog from '@/utils/analytics';
 
 // Icons
 import { MessageSquare, Ban, Star, Wallet, CircleDollarSign } from 'lucide-react';
@@ -557,6 +558,9 @@ export default function UpgradePage({ variant = 'account' }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const location = useLocation();
+  const from = location.state?.from;
+
   const isPublic = variant === 'public';
 
   const initialSection = searchParams.get('section');
@@ -866,6 +870,15 @@ export default function UpgradePage({ variant = 'account' }) {
   };
 }, []);
 
+useEffect(() => {
+  posthog.capture('upgrade_page_viewed', {
+    from: from || 'direct',
+    section,
+    billing_cycle: billingCycle,
+    plan: planName,
+  });
+}, [from, section, billingCycle, planName]);
+
   const labelPlus = useMemo(() => {
   if (qPlus?.currency && typeof qPlus?.unitAmount === 'number') {
     return formatMoney(qPlus.unitAmount, qPlus.currency);
@@ -900,10 +913,28 @@ export default function UpgradePage({ variant = 'account' }) {
 
     try {
       setLoadingCheckout(true);
+      posthog.capture('checkout_started', {
+        plan,
+        price_id_present: Boolean(priceId),
+        from: from || 'direct',
+      });
+
       const { data } = await axiosClient.post('/billing/checkout', body);
       const url = data?.checkoutUrl || data?.url;
-      if (url) window.location.href = url;
+
+      if (url) {
+        posthog.capture('checkout_redirected', {
+          plan,
+        });
+
+        window.location.href = url;
+      }
     } catch (e) {
+      posthog.capture('checkout_failed', {
+        plan,
+        error: e?.response?.data?.error || e?.message,
+      });
+
       console.error('Checkout error', e);
     } finally {
       setLoadingCheckout(false);
@@ -926,35 +957,55 @@ export default function UpgradePage({ variant = 'account' }) {
 
   // product-based checkout (for eSIM packs & future add-ons)
   const startCheckoutWithProduct = async (product) => {
-    return navigate('/register?next=/upgrade?section=mobile');
+    if (!isAuthed) {
+      return navigate('/register?next=/upgrade?section=mobile');
+    }
 
     try {
       setLoadingCheckout(true);
 
+      posthog.capture('esim_checkout_started', {
+        product,
+        section: 'mobile',
+        scope: esimScope,
+      });
+
       let priceId = null;
+
       try {
         const { data } = await axiosClient.get('/pricing/quote', {
           params: { product },
         });
-        priceId = data?.stripePriceId || null;
-        if (!priceId) console.warn('No stripePriceId on quote', data);
+
+        priceId = data?.paddlePriceId || data?.providerPriceId || data?.stripePriceId || null;
       } catch (err) {
-        console.warn('get /api/pricing/quote failed for', product, err);
+        console.warn('get /pricing/quote failed for', product, err);
       }
 
-      // If Stripe is wired, priceId will exist and /billing/checkout will work.
-      // If not, backend can decide what to do with { product }.
       const body = priceId ? { priceId } : { product };
 
       const res = await axiosClient.post('/billing/checkout', body);
       const url = res?.data?.checkoutUrl || res?.data?.url;
-      if (url) window.location.href = url;
+
+      if (url) {
+        posthog.capture('esim_checkout_redirected', {
+          product,
+          price_id_present: Boolean(priceId),
+        });
+
+        window.location.href = url;
+      }
     } catch (e) {
+      posthog.capture('esim_checkout_failed', {
+        product,
+        error: e?.response?.data?.error || e?.message,
+      });
+
       console.error('Checkout error', e);
     } finally {
       setLoadingCheckout(false);
     }
-  };
+};
 
   const openBillingPortal = async () => {
     if (!isAuthed) return navigate('/login?next=/upgrade');

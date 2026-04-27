@@ -3,482 +3,661 @@
     "save": "Saqlash",
     "cancel": "Bekor qilish",
     "refresh": "Yangilash",
-    "noMatches": "Mos kelmadi",
+    "noMatches": "Hech qanday moslik yo‘q",
     "cancelAria": "Bekor qilish",
-    "copy": "Nusxa olish",
-    "copied": "Nusxa olindi!"
+    "copy": "Nusxalash",
+    "copied": "Nusxalandi!",
+    "errorWithMessage": "Xato: {{message}}"
   },
-
   "a11y": {
-    "skipToMain": "Asosiy tarkibga o‘tish"
+    "skipToMain": "Asosiy kontentga o‘tish"
   },
-
-  "profile": {
-    "title": "Foydalanuvchi profili",
-    "preferredLanguage": "Afzal til",
-    "chooseLanguage": "Tilni tanlang",
-    "mustLogin": "Sozlamalarni ko‘rish uchun tizimga kiring.",
-    "autoTranslate": "Xabarlarni avtomatik tarjima qilish",
-    "showOriginalWithTranslation": "Asl va tarjima qilingan xabarlarni ko‘rsatish",
-    "showOriginalAndTranslation": "Asl matnni tarjima yonida ko‘rsatish",
-    "filterExplicit": "Nojo‘ya kontentni filtrlash",
-    "aiReply": "AI javobi",
-    "enableReadReceipts": "O‘qilganlik xabarnomalarini yoqish",
-    "allowExplicitContent": "Nojo‘ya kontentga ruxsat berish",
-    "disappearingMessages": "Yo‘qoluvchi xabarlar",
-    "autoDeleteSeconds": "Avto-o‘chirishgacha soniyalar",
-    "saveSuccess": "Sozlamalar saqlandi!",
-    "saveError": "Xato: Sozlamalarni saqlab bo‘lmadi",
-    "avatarAlt": "Profil avatari",
-    "uploadAvatar": "Yangi avatar yuklash",
-    "avatarSuccess": "Avatar yuklandi!",
-    "avatarError": "Avatar yuklashda xato",
-    "noPrivateKey": "Ushbu qurilmada eksport qilish uchun maxfiy kalit yo‘q.",
-    "setBackupPassword": "Zaxira nusxani shifrlash uchun parol o‘rnating:",
-    "backupDownloaded": "Shifrlangan zaxira yuklab olindi.",
-    "exportFailed": "Kalit eksporti muvaffaqiyatsiz",
-    "enterBackupPassword": "Ushbu zaxira uchun parolni kiriting:",
-    "importSuccess": "Maxfiy kalit ushbu qurilmaga import qilindi.",
-    "importFailed": "Kalitni import qilib bo‘lmadi (parol noto‘g‘ri yoki fayl buzilgan).",
-    "keysRotated": "Yangi kalit jufti yaratildi va ochiq kalit yuklandi.",
-    "rotateFailed": "Kalitlarni yangilash muvaffaqiyatsiz.",
-    "security": "Xavfsizlik",
-    "exportKey": "Maxfiy kalitni eksport qilish",
-    "importKey": "Shifrlangan kalit zaxirasini import qilish",
-    "rotateKeys": "Kalit juftini yangilash",
-    "keyDisclaimer": "Sizning maxfiy kalitingiz hech qachon bu qurilmadan chiqmaydi. Uni boshqa qurilmada tiklash uchun parol bilan himoyalangan nusxasini eksport qiling.",
-    "sectionProfile": "Profil",
-    "phoneNumber": "Telefon raqami",
-    "appearance": "Tashqi ko‘rinish",
-    "soundSettings": "Tovushlar",
-    "disappearing": "Yo‘qoluvchi xabarlar",
-    "backupSync": "Zaxira va sinxronlash",
-    "ai": "AI",
-    "accessibility": "Kirish imkoniyati",
-    "privacy": "Maxfiylik",
-    "devices": "Ulangan qurilmalar",
-    "themeFreeNotice": "Siz Free rejimidasiz — quyidagi Quyosh/Oy tezkor variantlaridan foydalaning. Ko‘proq mavzular uchun yangilang.",
-    "sunTheme": "Tong (Dawn) mavzusidan foydalanish",
-    "moonTheme": "Oy (Midnight) mavzusidan foydalanish",
-    "sun": "Quyosh",
-    "moon": "Oy",
-    "backupTitle": "Shifrlangan zaxiralar va qurilmalarni sinxronlash",
-    "openBackupTools": "Zaxira vositalarini ochish",
-    "backupDesc": "Kalitlaringizning parol bilan himoyalangan zaxirasini yarating va boshqa qurilmada tiklab sinxronlang.",
-    "privacyBlurEnabled": "Xabarlarni sukut bo‘yicha xiralashtirish",
-    "privacyBlurOnUnfocus": "Ilova fon rejimida bo‘lsa xiralashtirish",
-    "holdToReveal": "Ko‘rsatish uchun ushlab turing",
-    "notifyOnCopy": "Xabarim nusxa olinganda meni ogohlantir",
-    "loadFailed": "Profilni yuklab bo‘lmadi",
-    "followed": "Kuzatildi",
-    "followFailed": "Kuzatish muvaffaqiyatsiz",
-    "unfollowed": "Kuzatish bekor qilindi",
-    "unfollowFailed": "Kuzatishni bekor qilish muvaffaqiyatsiz",
-    "follow": "Kuzatish",
-    "unfollow": "Kuzatishni bekor qilish",
-    "followHint": "Ular «Kuzatuvchilar» (yoki «Ommaviy») auditoriyasi bilan hikoya joylasa, «Kuzatyapsiz» lentalaringizda ko‘rinadi.",
-    "userNotFound": "Foydalanuvchi topilmadi",
-    "followsYou": "Sizni kuzatadi",
-    "sectionCrashedTitle": "Bo‘limni yuklab bo‘lmadi",
-    "sectionCrashedBody": "Ushbu bo‘limda qandaydir xatolik yuz berdi.",
-    "forwarding": "Qo‘ng‘iroq va SMS yo‘naltirish",
-    "callTextForwardingSection": "Qo‘ng‘iroq va SMS yo‘naltirish",
-    "callTextForwardingTitle": "Qo‘ng‘iroq va/yoki SMS yo‘naltirish",
-    "callTextForwardingDescription": "Kiruvchi qo‘ng‘iroqlar va SMSlarni tasdiqlangan telefon yoki emailingizga yo‘naltiring. Chiquvchi qo‘ng‘iroq/SMSlarda Chatforia raqamingiz ko‘rinishi mumkin.",
-    "enableTextForwarding": "SMS yo‘naltirishni yoqish",
-    "forwardTextsToPhone": "SMSlarni telefonga yo‘naltirish",
-    "forwardTextsToEmail": "SMSlarni emailga yo‘naltirish",
-    "destinationPhone": "Manzil telefon (E.164)",
-    "destinationEmail": "Manzil email",
-    "enableCallForwarding": "Qo‘ng‘iroqlarni yo‘naltirishni yoqish",
-    "destinationPhoneForCalls": "Qo‘ng‘iroqlar uchun manzil (E.164)",
-    "aliasBridging": "Qo‘ng‘iroqlarni yo‘naltirish (taxallus orqali ko‘prik)",
-    "quietHoursOptional": "Tinch soatlar (ixtiyoriy)",
-    "startHour": "Boshlanish soati (0–23)",
-    "endHour": "Tugash soati (0–23)",
-    "reset": "Tiklash",
-    "saveBtn": "Saqlash",
-    "forwardSaved": "Yo‘naltirish sozlamalari saqlandi",
-    "forwardSaveFailed": "Sozlamalarni saqlab bo‘lmadi",
-    "errE164": "Yaroqli E.164 telefon raqamini kiriting (masalan, +15551234567).",
-    "errEmail": "Yaroqli email kiriting.",
-    "errSmsDest": "Hech bo‘lmaganda bitta manzilni tanlang (telefon yoki email).",
-    "errQuietHours": "Tinch soatlar 0 dan 23 gacha bo‘lishi kerak."
+  "keys": {
+    "backupCreated": "Kalit zaxirasi yaratildi va yuklab olindi ✓",
+    "restored": "Kalit zaxirasi tiklandi ✓ Kalitlar mahalliy o‘rnatildi",
+    "noBackup": "Bu hisob uchun shifrlangan zaxira mavjud emas",
+    "missingPublicKey": "Zaxirada ochiq kalit yetishmayapti"
   },
-
-  "support": {
-    "helpFab": "Yordam",
-    "openSupportAria": "Yordamni ochish",
-    "badge": "Yordam",
-    "heading": "Qanday yordam bera olamiz?",
-    "tabs": {
-      "help": "Yordam markazi",
-      "contact": "Biz bilan bog‘lanish"
+  "keySetup": {
+    "title": "Qurilmangiz kalitlarini sozlang",
+    "description": "Bu qurilmada hali sizning shaxsiy kalitingiz yo‘q. Parol bilan himoyalangan zaxirani import qiling yoki yangi kalit juftligini yarating (endi siz yangi xabarlarni o‘qiy olasiz).",
+    "chooseFile": "Faylni tanlang va parolni kiriting.",
+    "imported": "Shaxsiy kalit ushbu qurilmaga import qilindi. Endi eski xabarlarni o‘qiy olasiz.",
+    "enterPassword": "Kalitlaringizni xavfsiz zaxiralash uchun hisob parolingizni kiriting."
+  },
+  "auth": {
+    "headline": "Har kim uchun, har qanday joyda xavfsiz xabar almashinuvi",
+    "description": "Oxirigacha shifrlash, 100+ tilga tarjima, o‘chib ketadigan xabarlar va ovoz/video qo‘ng‘iroqlar.",
+    "feature": {
+      "encryption": "Standart bo‘yicha oxirigacha shifrlash",
+      "translation": "Aqlli, o‘rnatilgan xabar tarjimasi",
+      "disappearing": "O‘chib ketadigan xabarlar va o‘qilganligi haqida xabar",
+      "privacy": "Maxfiylik birinchi o‘rinda. Sizning ma’lumotlaringiz, sizning nazoratingiz.",
+      "translate": "Aqlli, o‘rnatilgan xabar tarjimasi",
+      "disappear": "O‘chib ketadigan xabarlar",
+      "privacyAlt": "Maxfiylik birinchi o‘rinda dizayn",
+      "seePlans": "Rejalar va narxlarni ko‘rish"
     },
-    "searchPlaceholder": "Yordam maqolalaridan qidiring…",
-    "searchAria": "Yordamdan qidirish",
-    "searchBtn": "Qidirish",
-    "quickTopicsLabel": "Tez mavzular",
-    "quickTopics": {
-      "login": "Kira olmayapman",
-      "billing": "To‘lovlar / billing",
-      "abuse": "Shikoyat yuborish"
+    "hero": {
+      "line1": "Har kim uchun, har qanday joyda xavfsiz xabar almashinuvi —",
+      "em": "100+ tilga tarjima bilan",
+      "sub": "Wi-Fi yoki mobil internet orqali butun dunyo bo‘ylab qo‘ng‘iroq qilish va SMS yuborish uchun bepul xavfsiz telefon raqamini oling. Oxirigacha shifrlash, o‘chib ketadigan xabarlar va HD ovoz/video qo‘ng‘iroqlaridan bahramand bo‘ling — chegaralarni kesib o‘tishda sizni bog‘lab turadigan o‘rnatilgan vositalar bilan.",
+      "freeNote": "Asosiy qo‘ng‘iroq va SMS bepul. Kengaytirilgan AI va premium funksiyalar uchun yangilash talab etiladi."
     },
-    "trySearching": "“tarjima”, “zaxira” yoki “maxfiylik” so‘zlarini qidirib ko‘ring.",
-    "article": "Maqola",
-    "openArticle": "Maqolani ochish",
-    "contactIntro": "Javobni email orqali yuboramiz. Muammoni qayta tiklashga yordam beradigan tafsilotlarni kiriting.",
-    "topicAria": "Mavzuni tanlang",
-    "messagePlaceholder": "Xabaringizni yozing…",
-    "sendBtn": "Yuborish",
-    "sent": "Xabar yuborildi. Email orqali javob beramiz.",
-    "sendError": "Yuborib bo‘lmadi. O‘rniga support@chatforia.com ga yozing."
+    "feat": {
+      "encryption": "Oxirigacha shifrlash, doimiy yoqilgan",
+      "translate": "Suhbatlaringizda til to‘siqlarini bartaraf eting",
+      "disappear": "O‘chib ketadigan xabarlar va o‘qilganligi haqida xabar",
+      "privacy": "Maxfiylik birinchi o‘rinda. Sizning ma’lumotlaringiz, sizning nazoratingiz."
+    },
+    "continueGoogle": "Google bilan davom ettirish",
+    "continueApple": "Apple bilan davom ettirish",
+    "username": "Foydalanuvchi nomi",
+    "password": "Parol",
+    "keepSignedIn": "Meni tizimda saqlash",
+    "forgotPassword": "Parolni unutdingizmi?",
+    "loginButton": "Kirish",
+    "createAccount": "Hisob yaratish",
+    "freeAccountButton": "Bepul hisob yaratish",
+    "newHere": "Yangi misiz?",
+    "getApp": "Ilovani yuklab oling",
+    "desktopTip": "Kompyuterda misiz? Ilovani olish uchun telefoningiz bilan skanerlang.",
+    "scanHelper": "Kompyuterda misiz? Ilovani olish uchun telefoningiz bilan skanerlang.",
+    "goHome": "Bosh sahifaga o‘tish",
+    "home": "Bosh sahifa",
+    "headlineAlt": {
+      "main": "Sizning tilingizni tushunadigan",
+      "highlight": "xavfsiz messenjer"
+    },
+    "subhead": "Shaxsiy, shifrlangan va tarjima qilingan xabar almashinuvi — bir zumda.",
+    "upgrade": "Hozir yangilang",
+    "tip": "Maslahat: Veb va mobil qurilmalarda bir xil hisobdan foydalaning. Xabarlaringiz sinxronlashadi.",
+    "openDownload": "Yuklab olish sahifasini ochish",
+    "qrAlt": "Chatforia uchun QR-kod",
+    "scanHint": "Ilovani yuklab olish yoki brauzeringizda ochish uchun skanerlang.",
+    "iosAria": "App Store’da yuklab olish",
+    "iosTitle": "App Store’da yuklab olish",
+    "iosBadgeAlt": "App Store nishoni",
+    "androidAria": "Google Play’da olish",
+    "androidTitle": "Google Play do‘koni",
+    "androidBadgeAlt": "Google Play nishoni",
+    "login": "Kirish",
+    "signup": "Ro‘yxatdan o‘tish",
+    "email": "Elektron pochta",
+    "registration": {
+      "passwordDescription": "Kamida 6 belgi. Kuchli va noyob paroldan foydalaning.",
+      "smsConsent": "Hisob yaratish orqali siz Chatforia faoliyatingiz bilan bog‘liq SMS bildirishnomalarini (boshqa foydalanuvchilardan xabarlar kabi) qabul qilishga rozilik bildirasiz. Xabar va ma’lumotlar tariflari qo‘llanilishi mumkin. Istalgan vaqtda Sozlamalarda rad etishingiz mumkin.",
+      "termsLink": "Xizmat ko‘rsatish shartlari",
+      "privacyLink": "Maxfiylik siyosati"
+    },
+    "to": "Kimga:",
+    "enterRecipient": "Ism yoki raqamni kiriting",
+    "clearRecipients": "Qabul qiluvchilarni tozalash",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Xabar yozing…",
+    "addRecipient": "Boshlash uchun yuqoridan qabul qiluvchini qo‘shing…",
+    "oneRecipient": "Hozircha bitta qabul qiluvchini kiriting.",
+    "enterValidRecipient": "Saqlangan kontakt ismi yoki telefon raqamini kiriting.",
+    "sendFailed": "Yuborish muvaffaqiyatsiz tugadi. Batafsil ma’lumot uchun konsolni tekshiring."
   },
-
+  "home": {
+    "title": "Bosh sahifa",
+    "header": "Xabarlaringiz",
+    "subheader": "Chatni boshlash uchun xabar yuboring.",
+    "sendButton": "Xabar yuborish",
+    "gifPicker": "GIF tanlovchisini ochish",
+    "emoji": "Emoji",
+    "upload": "Rasm yoki video yuklash",
+    "inputPlaceholder": "Xabar yozing…",
+    "inputLabel": "Xabar yozish maydoni",
+    "sendTooltip": "Yuborish",
+    "sendTooltipEmpty": "Xabar yozing va yuboring",
+    "send": "Yuborish",
+    "welcomeMessage": "Chatforiaga xush kelibsiz",
+    "getStarted": "Boshlash"
+  },
   "chat": {
-    "selectPrompt": "Suhbatni boshlash uchun matn yoki chat xonasini tanlang",
+    "selectPrompt": "Chatni boshlash uchun matn yoki chat xonasini tanlang",
     "newMessages": "Yangi xabarlar",
     "typing": "{{name}} yozmoqda...",
-    "emptyTitle": "Xabaringiz",
-    "emptySubtitle": "Suhbatni boshlash uchun xabar yuboring.",
-    "startChatButton": "Xabar yuborish"
+    "emptyTitle": "Xabarlaringiz",
+    "emptySubtitle": "Chatni boshlash uchun xabar yuboring.",
+    "startChatButton": "Xabar yuborish",
+    "mediaAttachment": "Media ilova",
+    "thisUser": "bu foydalanuvchi",
+    "blockConfirm": "{{name}}ni bloklash? Ularning xabarlarini qabul qilmaysiz.",
+    "blockedUser": "{{name}} bloklandi.",
+    "blockError": "Bloklash uchun maqsadli foydalanuvchini aniqlab bo‘lmadi.",
+    "blockFailed": "Bloklash muvaffaqiyatsiz (backend hali ulanmagan).",
+    "encryptedUnavailable": "Shifrlangan xabar (kalit mavjud emas)",
+    "unlockToView": "Bu xabarni ko‘rish uchun kalitingizni oching"
   },
-
+  "messageInput": {
+    "ttl": {
+      "off": "O‘chirilgan"
+    },
+    "freeLimit": "Bepul reja cheklovi: 1 kungacha avtomatik o‘chirish. 1k ga cheklangan.",
+    "premiumLimit": "Premium uchun maksimal avtomatik o‘chirish 30 kun. 30k ga cheklangan.",
+    "nothingToSend": "Xabar yozing yoki fayl ilovasi qo‘shing.",
+    "encryptionFailed": "Shifrlash muvaffaqiyatsiz. Xabar yuborilmadi.",
+    "sent": "Xabar yetkazildi.",
+    "placeholder": "Xabar yozing…",
+    "autoDelete": "Avtomatik o‘chirish",
+    "typeToSend": "Xabar yozib yuboring",
+    "send": "Yuborish",
+    "sendWithEnter": "Yuborish (Enter)",
+    "attachment": "ilova",
+    "caption": "Sarlavha (ixtiyoriy)",
+    "remove": "Olib tashlash",
+    "clear": "Tozalash",
+    "gif": "GIF",
+    "sticker": "Stiker",
+    "errors": {
+      "attachmentTooLarge": "Ilova hajmi juda katta. Kichikroq faylni sinab ko‘ring.",
+      "unsupportedFile": "Qo‘llab-quvvatlanmaydigan fayl turi.",
+      "rateLimit": "Siz juda tez xabar yubormoqdasiz. Iltimos, sekinlashtiring.",
+      "validation": "Tekshirish xatosi. Xabaringizni tekshiring va qayta urinib ko‘ring.",
+      "failedToSend": "Yuborish muvaffaqiyatsiz. Muvaffaqiyatsiz pufakchani qayta urinib ko‘ring."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Saqlangan kontaktlar",
+    "refreshAria": "Kontaktlarni yangilash",
+    "filterPlaceholder": "Saqlangan kontaktlarni filtrlash…",
+    "filterAria": "Saqlangan kontaktlarni filtrlash",
+    "noContactsFound": "Kontaktlar topilmadi.",
+    "externalContact": "Tashqi kontakt",
+    "notJoined": "Bu kontakt hali Chatforiaga qo‘shilmagan.",
+    "couldNotStart": "Chatni boshlab bo‘lmadi. Qayta urinib ko‘ring.",
+    "startFailed": "Chatni boshlash muvaffaqiyatsiz. Qayta urinib ko‘ring.",
+    "deleted": "Kontakt o‘chirildi.",
+    "deleteFailed": "Kontaktni o‘chirish muvaffaqiyatsiz. Qayta urinib ko‘ring.",
+    "aliasUpdated": "Taxallus yangilandi.",
+    "updateAliasFailed": "Taxallusni yangilash muvaffaqiyatsiz. Qayta urinib ko‘ring.",
+    "selectContact": "{{name}}ni tanlang",
+    "alias": "Taxallus",
+    "startChat": "Chatni boshlash",
+    "message": "Xabar",
+    "delete": "O‘chirish",
+    "deleteContactAria": "Kontaktni o‘chirish",
+    "loadFailed": "Kontaktlarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
+    "loadMore": "Yana yuklash",
+    "call": "Qo‘ng‘iroq",
+    "callStarted": "Chatforia raqamingiz orqali bu raqamga qo‘ng‘iroq qilinmoqda…",
+    "callFailed": "Qo‘ng‘iroqni boshlash muvaffaqiyatsiz. Qayta urinib ko‘ring."
+  },
+  "startChatModal": {
+    "title": "Suhbatni boshlash",
+    "searchPlaceholder": "Ism, foydalanuvchi nomi yoki telefon raqamini qidirish",
+    "messageThisPerson": "Bu odamga xabar yuborish",
+    "contacts": "Kontaktlar",
+    "recentInteractions": "Oxirgi o‘zaro aloqalar",
+    "noContactsMatch": "Qidiruvingizga mos kontakt topilmadi.",
+    "noRecentInteractions": "Hali oxirgi o‘zaro aloqalar yo‘q.",
+    "unknown": "Noma’lum",
+    "interactionType": {
+      "message": "Xabar",
+      "call": "Qo‘ng‘iroq",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Kontakt qo‘shish",
+    "phoneOrUsername": "Telefon yoki foydalanuvchi nomi",
+    "phoneOrUsernamePlaceholder": "masalan, +13018019227 yoki juliannorton",
+    "alias": "Taxallus (ixtiyoriy)",
+    "aliasPlaceholder": "masalan, Ish, Ona, Mayk – Yevropa",
+    "enterPhoneOrUsername": "Telefon raqami yoki foydalanuvchi nomini kiriting.",
+    "userLookupFailed": "Foydalanuvchini qidirish muvaffaqiyatsiz.",
+    "cannotAddSelf": "O‘zingizni kontakt sifatida qo‘sha olmaysiz.",
+    "failedToAdd": "Kontaktni qo‘shish muvaffaqiyatsiz.",
+    "add": "Qo‘shish"
+  },
+  "sidebar": {
+    "randomChat": "Tasodifiy chat",
+    "callTextForwarding": "Qo‘ng‘iroq va SMS yo‘naltirish",
+    "conversations": "Suhbatlar",
+    "searchPlaceholder": "Suhbatlarni qidirish...",
+    "errorLoading": "Chatlarni yuklab bo‘lmadi",
+    "empty": "Hali suhbatlar yo‘q.",
+    "startChat": "Chatni boshlash",
+    "people": "Odamlar",
+    "settings": "Sozlamalar",
+    "status": "Status",
+    "forwarding": "Qo‘ng‘iroq va SMS yo‘naltirish",
+    "refresh": "Yangilash",
+    "search": "Suhbatlarni qidirish",
+    "loginPrompt": "Sozlamalarni tahrirlash uchun tizimga kiring.",
+    "login": "Kirish",
+    "register": "Hisob yaratish",
+    "chatrooms": "Chat xonalari",
+    "logout": "Chiqish",
+    "startChatAlt": "Yangi chatni boshlash",
+    "calls": "Qo‘ng‘iroqlar",
+    "video": "Video",
+    "voicemail": "Ovozli xabar"
+  },
   "topbar": {
     "newStatus": "Yangi status",
     "logout": "Chiqish",
     "help": "Yordam",
     "createStatusAria": "Yangi status yaratish"
   },
-
+  "threadActions": {
+    "threadMenu": "Mavzu menyusi",
+    "premium": "Premium",
+    "aiPower": "AI kuch",
+    "schedule": "Rejalashtirish",
+    "upgrade": "Yangilash",
+    "upgradeSuffix": "(Yangilash)",
+    "thread": "Mavzu",
+    "about": "Haqida",
+    "search": "Qidirish",
+    "media": "Media",
+    "invitePeople": "Odamlar taklif qilish",
+    "roomSettings": "Xona sozlamalari",
+    "clearConversation": "Suhbatni tozalash",
+    "block": "Bloklash"
+  },
+  "roomSearch": {
+    "title": "Xonada qidirish",
+    "ariaLabel": "Xonada qidirish",
+    "search": "Qidirish",
+    "searchMessages": "Xabarlarni qidirish",
+    "noText": "[Matn yo‘q]",
+    "noResults": "Natijalar yo‘q"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "A’zo",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "O‘chirilgan",
+      "mention": "Faqat @ForiaBot yoki /ask da",
+      "always": "Faol javob berish"
+    },
+    "autoTranslateMode": {
+      "off": "O‘chirilgan",
+      "tagged": "Faqat teg ( /tr …)",
+      "all": "Barcha xabarlar"
+    },
+    "updated": "Sozlamalar yangilandi"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Baham ko‘rilgan media",
+    "noMediaCached": "Hali mahalliy keshlangan media yo‘q.",
+    "imageAlt": "rasm",
+    "openVideo": "Videoni ochish",
+    "openVideoWithCaption": "Videoni ochish: {{caption}}",
+    "preview": "Oldindan ko‘rish",
+    "previewWithCaption": "Oldindan ko‘rish: {{caption}}",
+    "previewKind": "{{kind}}ni oldindan ko‘rish",
+    "download": "Yuklab olish",
+    "downloadKind": "{{kind}}ni yuklab olish",
+    "file": "fayl",
+    "kinds": {
+      "image": "rasm",
+      "video": "video",
+      "audio": "audio",
+      "file": "fayl"
+    }
+  },
   "status": {
     "userNumber": "Foydalanuvchi #{{id}}",
     "posted": "Status joylandi",
-    "postFailed": "Statusni joylab bo‘lmadi",
+    "postFailed": "Status joylash muvaffaqiyatsiz",
     "createTitle": "Status yaratish",
     "modalAriaLabel": "Yangi status",
     "captionLabel": "Nima haqida o‘ylayapsiz?",
-    "captionPlaceholder": "Yangilik ulashing...",
+    "captionPlaceholder": "Yangilanishni baham ko‘ring...",
     "captionAria": "Status xabari",
-    "audienceLabel": "Tomoshabinlar",
+    "audienceLabel": "Auditoriya",
     "audience": {
       "public": "Ommaviy",
-      "followers": "Kuzatuvchilar",
+      "followers": "Obunachilar",
       "contacts": "Kontaktlar",
-      "mutuals": "O‘zaro",
+      "mutuals": "O‘zaro obunachilar",
       "custom": "Maxsus..."
     },
-    "expiresHoursLabel": "Muddati (soat)",
-    "maxTooltip": "Eng ko‘pi 7 kun",
-    "hoursAbbrev": "soat",
+    "expiresHoursLabel": "Muddati tugashi (soat)",
+    "maxTooltip": "Maksimal 7 kun",
+    "hoursAbbrev": "s",
     "maxShort": "maks",
-    "expiresOn": "Amal qilish muddati:",
+    "expiresOn": "Muddati tugaydi:",
     "chooseRecipients": "Qabul qiluvchilarni tanlang",
     "selectContacts": "Kontaktlarni tanlang",
     "attachmentsLabel": "Ilovalar",
-    "attachmentsPlaceholder": "Rasm/video qo‘shish",
-    "filesNote": "5 tagacha fayl. Standart muddati 24 soat.",
-    "postAria": "Statusni joylash",
+    "attachmentsPlaceholder": "Rasmlar/videolarni qo‘shing",
+    "filesNote": "5 tagacha fayl. Standart bo‘yicha 24 soat muddat.",
+    "postAria": "Status joylash",
     "post": "Joylash"
   },
-
-  "contactList": {
-    "savedContacts": "Saqlangan kontaktlar",
-    "refreshAria": "Kontaktlarni yangilash",
-    "filterPlaceholder": "Saqlangan kontaktlardan qidirish…",
-    "filterAria": "Saqlangan kontaktlarni filtrlash",
-    "noContactsFound": "Kontaktlar topilmadi.",
-    "externalContact": "Tashqi kontakt",
-    "notJoined": "Bu kontakt hali Chatforia’ga qo‘shilmagan.",
-    "couldNotStart": "Suhbatni boshlab bo‘lmadi. Iltimos, qayta urinib ko‘ring.",
-    "startFailed": "Suhbatni boshlashda xato. Qayta urinib ko‘ring.",
-    "deleted": "Kontakt o‘chirildi.",
-    "deleteFailed": "Kontaktni o‘chirib bo‘lmadi. Qayta urinib ko‘ring.",
-    "aliasUpdated": "Taxallus yangilandi.",
-    "updateAliasFailed": "Taxallusni yangilab bo‘lmadi. Qayta urinib ko‘ring.",
-    "selectContact": "{{name}} ni tanlash",
-    "alias": "Taxallus",
-    "startChat": "Suhbatni boshlash",
-    "message": "Xabar",
+  "voicemail": {
+    "pageTitle": "Ovozli xabar",
+    "from": "Kimdan",
+    "to": "Kimga",
+    "unknownCaller": "Noma’lum",
+    "yourNumber": "Sizning Chatforia raqamingiz",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Ovozli xabar audio pleyeri",
+    "transcriptHeading": "Transkripsiya",
+    "transcriptPending": "Ovozli xabar transkripsiya qilinmoqda…",
+    "transcriptFailed": "Transkripsiya mavjud emas.",
+    "loading": "Ovozli xabar yuklanmoqda…",
+    "errorLoading": "Ovozli xabarni yuklab bo‘lmadi.",
+    "empty": "Hali ovozli xabarlar yo‘q.",
+    "deleteConfirm": "Bu ovozli xabarni o‘chirish?",
+    "deleteError": "Ovozli xabarni o‘chirish muvaffaqiyatsiz.",
+    "markRead": "O‘qilgan deb belgilash",
     "delete": "O‘chirish",
-    "deleteContactAria": "Kontaktni o‘chirish",
-    "loadFailed": "Kontaktlarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
-    "loadMore": "Yana yuklash"
+    "unreadDotAria": "O‘qilmagan ovozli xabar ko‘rsatkichi"
   },
-
-  "sidebar": {
-    "randomChat": "Tasodifiy chat",
-    "callTextForwarding": "Qo‘ng‘iroq va SMS yo‘naltirish",
-    "conversations": "Suhbatlar",
-    "searchPlaceholder": "Suhbatlardan qidirish...",
-    "errorLoading": "Chatlarni yuklab bo‘lmadi",
-    "empty": "Hali suhbatlar yo‘q.",
-    "startChat": "Suhbatni boshlash",
-    "people": "Odamlar",
-    "settings": "Sozlamalar",
-    "status": "Status",
+  "profile": {
+    "title": "Foydalanuvchi profili",
+    "preferredLanguage": "Afzal til",
+    "chooseLanguage": "Tilni tanlang",
+    "mustLogin": "Sozlamalarni ko‘rish uchun tizimga kirishingiz kerak.",
+    "autoTranslate": "Xabarlarni avtomatik tarjima qilish",
+    "showOriginalWithTranslation": "Asl va tarjima qilingan xabarlarni ko‘rsatish",
+    "showOriginalAndTranslation": "Asl matnni tarjima bilan birga ko‘rsatish",
+    "filterExplicit": "Nomaqbul kontentni filtrlash",
+    "aiReply": "AI javobi",
+    "enableReadReceipts": "O‘qilganligi haqida xabarni yoqish",
+    "allowExplicitContent": "Nomaqbul kontentga ruxsat berish",
+    "disappearingMessages": "O‘chib ketadigan xabarlarni yoqish",
+    "autoDeleteSeconds": "Avtomatik o‘chirishgacha bo‘lgan soniyalar",
+    "saveSuccess": "Sozlamalar saqlandi!",
+    "saveError": "Xato: Sozlamalarni saqlab bo‘lmadi",
+    "avatarAlt": "Profil avatari",
+    "uploadAvatar": "Yangi avatar yuklash",
+    "avatarSuccess": "Avatar yuklandi!",
+    "avatarError": "Avatar yuklash muvaffaqiyatsiz",
+    "avatarUpdated": "Avatar yangilandi!",
+    "uploadingAvatar": "Avatar yuklanmoqda…",
+    "noPrivateKey": "Ushbu qurilmada eksport qilish uchun shaxsiy kalit yo‘q.",
+    "setBackupPassword": "Zaxirangizni shifrlash uchun parol o‘rnating:",
+    "backupDownloaded": "Shifrlangan zaxira yuklab olindi.",
+    "exportFailed": "Kalit eksporti muvaffaqiyatsiz",
+    "enterBackupPassword": "Bu zaxira uchun parolni kiriting:",
+    "importSuccess": "Shaxsiy kalit ushbu qurilmaga import qilindi.",
+    "importFailed": "Kalitni import qilish muvaffaqiyatsiz (parol noto‘g‘ri yoki fayl buzilgan).",
+    "keysRotated": "Yangi kalit juftligi yaratildi va ochiq kalit yuklandi.",
+    "rotateFailed": "Kalitlarni almashtirish muvaffaqiyatsiz.",
+    "security": "Xavfsizlik",
+    "exportKey": "Shifrlash kalitini zaxiralash",
+    "importKey": "Shifrlash kalitini tiklash",
+    "rotateKeys": "Shifrlash kalitini almashtirish",
+    "keyDisclaimer": "Shaxsiy kalitingiz hech qachon ushbu qurilmadan chiqmaydi. Uni boshqa qurilmada tiklash uchun parol bilan himoyalangan nusxasini eksport qiling.",
+    "sectionProfile": "Profil",
+    "phoneNumber": "Telefon raqami",
+    "appearance": "Ko‘rinish",
+    "soundSettings": "Ovozlar",
+    "disappearing": "O‘chib ketadigan xabarlar",
+    "backupSync": "Shifrlash kaliti zaxirasi",
+    "ai": "AI",
+    "accessibility": "Maxsus imkoniyatlar",
+    "privacy": "Maxfiylik",
+    "devices": "Bog‘langan qurilmalar",
+    "themeFreeNotice": "Siz Bepul rejadasiz — quyidagi tez Sun/Moon variantlaridan foydalaning. Ko‘proq mavzularni ochish uchun yangilang.",
+    "sunTheme": "Tong mavzusidan foydalanish",
+    "moonTheme": "Oy (Tungi) mavzusidan foydalanish",
+    "sun": "Quyosh",
+    "moon": "Oy",
+    "backupTitle": "Shifrlangan zaxiralar va qurilma sinxronizatsiyasi",
+    "openBackupTools": "Zaxira vositalarini ochish",
+    "backupDesc": "Shifrlash kalitingizni zaxiralang, shunda xabarlaringizni boshqa qurilmada xavfsiz tiklay olasiz.",
+    "privacyBlurEnabled": "Xabarlarni standart bo‘yicha xiralashtirish",
+    "privacyBlurOnUnfocus": "Ilova fokusi yo‘qolganda xiralashtirish",
+    "planSection": "Mening rejalarim",
+    "planLoading": "Rejangiz yuklanmoqda…",
+    "planLoadFailed": "Rejangizni yuklab bo‘lmadi.",
+    "currentPlan": "Joriy reja",
+    "planRenewsOn": "Yangilanish sanasi",
+    "freePlanCopy": "Siz bepul rejadasiz. Zaxiralar, qo‘shimcha raqamlar va kengaytirilgan maxfiylik variantlarini ochish uchun yangilang.",
+    "upgradePlanCta": "Rejani yangilash",
+    "changePlanCta": "Rejani o‘zgartirish",
+    "manageBilling": "Hisob-kitobni boshqarish",
+    "portalOpenFailed": "Hisob-kitob portalini ochib bo‘lmadi. Qayta urinib ko‘ring.",
+    "holdToReveal": "Ko‘rsatish uchun bosib turing",
+    "notifyOnCopy": "Xabarim nusxalansa, meni xabardor qiling",
+    "loadFailed": "Profilni yuklab bo‘lmadi",
+    "followed": "Obuna bo‘lindi",
+    "followFailed": "Obuna bo‘lish muvaffaqiyatsiz",
+    "unfollowed": "Obunadan chiqildi",
+    "unfollowFailed": "Obunadan chiqish muvaffaqiyatsiz",
+    "follow": "Obuna bo‘lish",
+    "unfollow": "Obunadan chiqish",
+    "followHint": "Agar ular Obunachilar (yoki Ommaviy) auditoriyasi bilan status joylasa, ularning hikoyalari Sizning Obunachilar lentangizda paydo bo‘ladi.",
+    "userNotFound": "Foydalanuvchi topilmadi",
+    "followsYou": "Sizga obuna",
+    "sectionCrashedTitle": "Bo‘lim yuklanmadi",
+    "sectionCrashedBody": "Bu bo‘limda nimadir noto‘g‘ri ketdi.",
     "forwarding": "Qo‘ng‘iroq va SMS yo‘naltirish",
-    "refresh": "Yangilash",
-    "search": "Suhbatlardan qidirish",
-    "loginPrompt": "Sozlamalarni tahrirlash uchun tizimga kiring.",
-    "login": "Kirish",
-    "register": "Ro‘yxatdan o‘tish",
-    "chatrooms": "Chat xonalari",
-    "logout": "Chiqish",
-    "startChatAlt": "Yangi chat boshlash"
+    "callTextForwardingSection": "Qo‘ng‘iroq va SMS yo‘naltirish",
+    "callTextForwardingTitle": "Qo‘ng‘iroq va/yoki SMS yo‘naltirish",
+    "callTextForwardingDescription": "Kiruvchi qo‘ng‘iroq va SMS-larni tasdiqlangan telefon yoki elektron pochtangizga yo‘naltiring. Chiquvchi qo‘ng‘iroq/SMS Chatforia raqamingizni ko‘rsatishi mumkin.",
+    "enableTextForwarding": "SMS yo‘naltirishni yoqish",
+    "forwardTextsToPhone": "SMS-larni telefonga yo‘naltirish",
+    "forwardTextsToEmail": "SMS-larni elektron pochtaga yo‘naltirish",
+    "destinationPhone": "Manba telefon (E.164)",
+    "destinationEmail": "Manba elektron pochta",
+    "enableCallForwarding": "Qo‘ng‘iroq yo‘naltirishni yoqish",
+    "destinationPhoneForCalls": "Qo‘ng‘iroqlar uchun manba (E.164)",
+    "aliasBridging": "Qo‘ng‘iroq yo‘naltirish (taxallus ko‘prik)",
+    "quietHoursOptional": "Tinch soatlar (ixtiyoriy)",
+    "startHour": "Boshlanish soati (0–23)",
+    "endHour": "Tugash soati (0–23)",
+    "reset": "Qayta tiklash",
+    "saveBtn": "Saqlash",
+    "saveProfile": "Profilni saqlash",
+    "saveForwarding": "Yo‘naltirishni saqlash",
+    "forwardSaved": "Yo‘naltirish sozlamalari saqlandi",
+    "forwardSaveFailed": "Sozlamalarni saqlash muvaffaqiyatsiz",
+    "errE164": "To‘g‘ri E.164 telefon raqamini kiriting (masalan, +15551234567).",
+    "errEmail": "To‘g‘ri elektron pochta kiriting.",
+    "errSmsDest": "Kamida bitta manba (telefon yoki elektron pochta) tanlang.",
+    "errQuietHours": "Tinch soatlar 0 va 23 orasida bo‘lishi kerak.",
+    "randomChat": "Tasodifiy chat",
+    "ageBand": "Sizning yosh oralig‘ingiz",
+    "ageBandPlaceholder": "Yosh oraligingizni tanlang",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Biz faqat yosh oralig‘ini saqlaymiz (aniq tug‘ilgan sanangiz emas). Bu tasodifiy chat juftlashuvlarini mantiqiy saqlash uchun ishlatiladi.",
+    "wantsAgeFilter": "Tasodifiy chatda yoshga asoslangan moslashtirishdan foydalanish",
+    "wantsAgeFilterDesc": "Yoqilganda, mos yosh oralig‘idagi odamlar bilan juftlashtirishga harakat qilamiz.",
+    "partnerAgeBands": "Siz kimlar bilan juftlashtirilishingiz mumkin?",
+    "partnerAgeBandsDesc": "O‘smirlar faqat boshqa o‘smirlar bilan juftlashtiriladi. Kattalar o‘smirlar bilan juftlashtirilmaydi.",
+    "teenMatchingNote": "Xavfsizlik uchun 13–17 yosh oralig‘idagi hisoblar faqat boshqa 13–17 yosh oralig‘idagi hisoblar bilan tasodifiy chatda juftlashtiriladi.",
+    "foriaRemember": "Ria siz aytgan narsalarni eslab qolishiga ruxsat bering",
+    "foriaRememberDesc": "Yoqilganda, Foria faqat siz bilan bo‘lgan o‘tmishdagi tasodifiy chat suhbatlaridan foydalanib, suhbatni davom ettiradi. Istalgan vaqtda o‘chirib qo‘yishingiz mumkin.",
+    "voicemailSection": "Ovozli xabar",
+    "voicemailEnabled": "Ovozli xabarni yoqish",
+    "voicemailAutoDeleteDays": "Ovozli xabarlarni (kun) keyin avtomatik o‘chirish",
+    "voicemailAutoDeletePlaceholder": "Abadiy saqlash uchun bo‘sh qoldiring",
+    "voicemailForwardEmail": "Ovozli xabarni elektron pochtaga yo‘naltirish",
+    "voicemailForwardEmailPlaceholder": "Ovozli xabar bildirishnomalarini yuborish uchun elektron pochta",
+    "voicemailGreetingText": "Matn orqali zaxira salomlashuv",
+    "voicemailGreetingTextDesc": "Audio salomlashuvingiz mavjud bo‘lmaganda ishlatiladi.",
+    "voicemailGreetingUpload": "Ovozli xabar salomlashuvini yuklash",
+    "voicemailPreviewGreeting": "Salomlashuvni oldindan ko‘rish",
+    "voicemailGreetingUploaded": "Ovozli xabar salomlashuvi muvaffaqiyatli yuklandi",
+    "voicemailGreetingUploadError": "Ovozli xabar salomlashuvini yuklash muvaffaqiyatsiz",
+    "voicemailNote": "Chatforia raqamlaringizdan kelgan ovozli xabarlar Ovozli xabar qutingizda saqlanadi. Qo‘llab-quvvatlanadigan rejalarida transkripsiya va yo‘naltirishni yoqishingiz mumkin.",
+    "portHint": "Joriy raqamingizni saqlamoqchimisiz? Uni Chatforia Wireless-ga ko‘chirib o‘tkazishingiz mumkin.",
+    "wireless": {
+      "manage": "Simsizni boshqarish"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Wi-Fi dan uzoqda bo‘lganingizda Chatforia uchun mobil internet oling.",
+      "cta": "eSIM olish / QR-ni ko‘rsatish"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Chatforia mobil rejangiz, raqamlaringiz, yo‘naltirish va raqam ko‘chirishni boshqaring.",
+    "options": {
+      "heading": "Chatforiadan qanday foydalanishni xohlaysizni tanlang",
+      "subheading": "Yangi Chatforia raqamini olishingiz yoki mavjud raqamingizni boshqa operatordan olib kelishingiz mumkin.",
+      "newNumber": "Yangi Chatforia raqamini olish",
+      "portNumber": "Joriy raqamingizni Chatforia Wireless-ga ko‘chirib o‘tkazish"
+    },
+    "port": {
+      "heading": "Mavjud raqamingizni ko‘chirib o‘tkazish",
+      "subheading": "Joriy telefon raqamingizni mavjud operatoringizdan Chatforiaga ko‘chiring. Kechikishlarni oldini olish uchun tafsilotlar operator hisobingizga to‘liq mos kelishiga ishonch hosil qiling.",
+      "phoneNumberLabel": "Ko‘chiriladigan telefon raqami",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Joriy operator",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile va h.k.",
+      "accountNumberLabel": "Hisob raqami",
+      "pinLabel": "Chiqarish PIN-kodi / parol",
+      "fullNameLabel": "Hisobdagi to‘liq ism",
+      "address1Label": "Manzil 1-qator",
+      "address2Label": "Manzil 2-qator (ixtiyoriy)",
+      "cityLabel": "Shahar",
+      "stateLabel": "Shtat / Viloyat",
+      "postalCodeLabel": "Pochta indeksi",
+      "countryLabel": "Mamlakat",
+      "submitButton": "Ko‘chirish so‘rovini yuborish",
+      "success": "Ko‘chirish so‘rovi yuborildi! Sizni yangilab turamiz.",
+      "genericError": "Nimadir noto‘g‘ri ketdi."
+    },
+    "status": {
+      "heading": "Ko‘chirish holati",
+      "subheading": "Raqam ko‘chirish so‘rovlaringiz holatini kuzatib boring.",
+      "loading": "Yuklanmoqda…",
+      "loadError": "Ko‘chirish so‘rovlarini yuklab bo‘lmadi.",
+      "none": "Hali ko‘chirish faolligi yo‘q.",
+      "pending": "Ko‘rib chiqilmoqda",
+      "submitted": "Operatorga yuborildi",
+      "inProgress": "Jarayonda",
+      "completed": "Tugallandi",
+      "failed": "Muvaffaqiyatsiz",
+      "canceled": "Bekor qilindi",
+      "created": "Yaratilgan:",
+      "scheduled": "Rejalashtirilgan:",
+      "completedAt": "Tugallangan:"
+    },
+    "dataLow": "Sizning internetingiz kam qoldi.",
+    "topUp": "Hozir to‘ldiring",
+    "expiresIn": "{{days}} kun ichida muddati tugaydi",
+    "exhausted": "Internet tugadi. Davom ettirish uchun yangi paket sotib oling.",
+    "buyPack": "Internet paketini sotib olish",
+    "esimPackLabel": "eSIM paketi"
+  },
+  "family": {
+    "title": "Oila",
+    "loading": "Oila ma’lumotlaringiz yuklanmoqda…",
+    "error": {
+      "load": "Oila ma’lumotlarini yuklab bo‘lmadi.",
+      "invite": "Taklif yaratib bo‘lmadi. Oilaning egasi ekanligingizga ishonch hosil qiling va qayta urinib ko‘ring.",
+      "checkout": "Oila rejasi uchun to‘lovni boshlab bo‘lmadi. Qayta urinib ko‘ring."
+    },
+    "billing": {
+      "myPlanTitle": "Mening rejam",
+      "myPlanError": "Rejangizni yuklab bo‘lmadi.",
+      "myPlanLoading": "Rejangiz yuklanmoqda…",
+      "currentPlan": "Joriy reja",
+      "renewsAt": "Yangilanish sanasi",
+      "freePlanCopy": "Siz bepul rejadasiz. Ko‘proq funksiyalarni ochish uchun yangilang.",
+      "upgradeCta": "Rejani yangilash",
+      "changePlanCta": "Rejani o‘zgartirish",
+      "manageBilling": "Hisob-kitobni boshqarish",
+      "portalError": "Hisob-kitob portalini hozir ochib bo‘lmadi.",
+      "cancelNow": "Hozir bekor qilish",
+      "cancelNowHelp": "Hisob-kitob portalida obunani boshqarishingiz yoki bekor qilishingiz mumkin, yoki quyida darhol bekor qiling.",
+      "cancelNowConfirm": "Rejangizni darhol bekor qilmoqchimisiz? Bu qaytarib bo‘lmaydi.",
+      "cancelNowError": "Rejangizni hozir bekor qilib bo‘lmadi. Qayta urinib ko‘ring yoki Hisob-kitobni boshqarishdan foydalaning."
+    },
+    "none": {
+      "title": "Hali oila sozlanmagan",
+      "body": "Chatforia Oilasini va umumiy internet hovuzini yaratish uchun Oila rejasini boshlang.",
+      "goUpgrade": "Oila rejasini boshlash",
+      "viewPlans": "Barcha rejalarini ko‘rish"
+    },
+    "group": {
+      "defaultName": "Mening Chatforia Oilam",
+      "role": "Sizning rolingiz: {{role}}"
+    },
+    "role": {
+      "owner": "Egasi",
+      "member": "A’zo"
+    },
+    "data": {
+      "heading": "Umumiy internet hovuzi",
+      "caption": "Barcha a’zolar bu hovuzni baham ko‘radi. Cheklovga yaqinlashganda sizni ogohlantiramiz."
+    },
+    "members": {
+      "title": "Oila a’zolari",
+      "name": "Ism",
+      "role": "Rol",
+      "usage": "Foydalanish",
+      "limit": "Cheklov",
+      "unlimited": "Muayyan cheklov yo‘q",
+      "inviteCta": "A’zoni taklif qilish"
+    },
+    "invite": {
+      "title": "Yangi a’zoni taklif qilish",
+      "body": "Umumiy oila internet hovuziga kimnidir taklif qilish uchun elektron pochta yoki havola yuboring.",
+      "emailLabel": "Elektron pochta (ixtiyoriy)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Taklif yaratish",
+      "linkLabel": "Taklif havolasi",
+      "copyAria": "Taklif havolasini nusxalash",
+      "expiryHint": "Bu havola bir necha kundan keyin muddati tugaydi. Har doim yangisini yaratishingiz mumkin."
+    },
+    "join": {
+      "title": "Oilaga qo‘shilish",
+      "body": "Siz Chatforia Oilasiga qo‘shilish va ularning internet hovuzini baham ko‘rishga taklif qilindingiz.",
+      "cta": "Qabul qilish va oilaga qo‘shilish",
+      "ctaLogin": "Tizimga kirib oilaga qo‘shilish",
+      "success": "Siz ushbu oilaga qo‘shildingiz. Endi ularning internet hovuzini baham ko‘rasiz.",
+      "goFamily": "Oila boshqaruv paneliga o‘tish",
+      "error": "Sizni oilaga qo‘shib bo‘lmadi. Taklif noto‘g‘ri yoki muddati tugagan bo‘lishi mumkin."
+    }
+  },
   "premium": {
-    "heading": "Premiumga o‘ting",
-    "description": "Kuchli funksiyalarni oching va reklamalarni olib tashlang.",
+    "heading": "Premiumga o‘tish",
+    "description": "Kuchli funksiyalarni oching va reklama olib tashlang.",
     "cta": "Yangilash",
     "upgrade": "Yangilash",
     "upgradeAria": "Chatforia Premiumga yangilash"
   },
-
-  "auth": {
-    "headline": "Xavfsiz, global xabar almashish — darhol tarjima bilan",
-    "description": "Uchidan-uchigacha shifrlash, AI tarjima, yo‘qoluvchi xabarlar va ovoz/video qo‘ng‘iroqlar.",
-    "feature": {
-      "encryption": "Standart bo‘yicha uchidan-uchigacha shifrlash",
-      "translation": "100+ tilni avtomatik tarjima",
-      "disappearing": "Yo‘qoluvchi xabarlar va o‘qilganlik",
-      "privacy": "Maxfiylik birinchi o‘rinda. Ma’lumotlar — sizniki.",
-      "translate": "Real vaqt tarjima",
-      "disappear": "Yo‘qoluvchi xabarlar",
-      "privacyAlt": "Maxfiylik birinchi tamoyili"
-    },
-    "hero": {
-      "line1": "Xavfsiz, global",
-      "beforeEm": "xabarlashuv —",
-      "em": "darhol tarjima bilan",
-      "sub": "Uchidan-uchigacha shifrlash, AI tarjima, yo‘qoluvchi xabarlar va ovoz/video qo‘ng‘iroqlar."
-    },
-    "feat": {
-      "encryption": "Standart bo‘yicha uchidan-uchigacha shifrlash",
-      "translate": "100+ tilni avtomatik tarjima",
-      "disappear": "Yo‘qoluvchi xabarlar va o‘qilganlik",
-      "privacy": "Maxfiylik birinchi o‘rinda. Ma’lumotlar — sizniki."
-    },
-    "welcomeBack": "Xush kelibsiz",
-    "continueGoogle": "Google bilan davom etish",
-    "continueApple": "Apple bilan davom etish",
-    "username": "Foydalanuvchi nomi",
-    "password": "Parol",
-    "keepSignedIn": "Tizimda qolish",
-    "forgotPassword": "Parolni unutdingizmi?",
-    "loginButton": "Kirish",
-    "createAccount": "Hisob yaratish",
-    "freeAccountButton": "Bepul hisob yaratish",
-    "newHere": "Yangi foydalanuvchi?",
-    "getApp": "Ilovani yuklab oling",
-    "desktopTip": "Kompyutordamisiz? Ilovani olish uchun telefoningiz bilan skaner qiling.",
-    "scanHelper": "Kompyutordamisiz? Ilovani olish uchun telefoningiz bilan skaner qiling.",
-    "goHome": "Bosh sahifaga o‘tish",
-    "home": "Bosh sahifa",
-    "headlineAlt": {
-      "main": "Tilngizda",
-      "highlight": "gaplashadigan xavfsiz messenjer"
-    },
-    "subhead": "Shaxsiy, shifrlangan va tarjima qilingan xabarlar — bir zumda.",
-    "status": "Statusni ko‘rish",
-    "upgrade": "Hozir yangilang",
-    "tip": "Maslahat: Web va mobil ilovada bir xil hisobdan foydalaning. Xabarlaringiz sinxron qoladi.",
-    "openDownload": "Yuklab olish sahifasini ochish",
-    "qrAlt": "Chatforia uchun QR-kod",
-    "scanHint": "Ilovani yuklab olish yoki brauzerda ochish uchun skaner qiling.",
-    "iosAria": "App Store’dan yuklab oling",
-    "iosTitle": "App Store’dan yuklab oling",
-    "iosBadgeAlt": "App Store nishoni",
-    "androidAria": "Google Play’dan oling",
-    "androidTitle": "Google Play do‘koni",
-    "androidBadgeAlt": "Google Play nishoni",
-    "login": "Kirish",
-    "signup": "Ro‘yxatdan o‘tish",
-    "email": "Email"
-  },
-
-  "footer": {
-    "plans": "Rejalar va narxlar",
-    "about": "Chatforia haqida",
-    "careers": "Ish o‘rinlari",
-    "press": "Matbuot",
-    "advertise": "Reklama",
-    "contact": "Biz bilan bog‘lanish",
-    "help": "Yordam markazi",
-    "status": "Holat sahifasi",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "Maxfiylik siyosati",
-    "terms": "Xizmat shartlari",
-    "cookies": "Cookie sozlamalari",
-    "doNotSell": "Ma’lumotlarimni sotmang",
-    "language": "Til",
-    "contactShort": "Aloqa",
-
-    "aria": "Pastki menyu",
-    "homeAria": "Chatforia bosh sahifa",
-    "section": {
-      "company": "KOMPANIYA",
-      "support": "YORDAM",
-      "downloads": "YUKLAB OLISHLAR",
-      "legal": "HUQUQIY"
-    },
-    "links": {
-      "plans-pricing": "Rejalar va narxlar",
-      "about-chatforia": "Chatforia haqida",
-      "careers": "Ish o‘rinlari",
-      "press": "Matbuot",
-      "advertise": "Reklama",
-      "getting-started": "Boshlash qo‘llanmasi",
-      "help-center": "Yordam markazi",
-      "contact-us": "Biz bilan bog‘lanish",
-      "status-page": "Holat sahifasi",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Maxfiylik siyosati",
-      "terms-of-service": "Xizmat shartlari",
-      "do-not-sell-my-info": "Ma’lumotlarimni sotmang",
-      "cookie-settings": "Cookie sozlamalari"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent jarayonida",
-    "backToTop": "↑ Tepaga qaytish"
-  },
-
-  "home": {
-    "title": "Bosh sahifa",
-    "header": "Xabarlaringiz",
-    "subheader": "Suhbatni boshlash uchun xabar yuboring.",
-    "sendButton": "Xabar yuborish",
-    "gifPicker": "GIF tanlovchini ochish",
-    "emoji": "Emoji",
-    "upload": "Foto yoki video yuklash",
-    "inputPlaceholder": "Xabar yozing…",
-    "inputLabel": "Xabar yozish oynasi",
-    "sendTooltip": "Yuborish",
-    "sendTooltipEmpty": "Yuborish uchun xabar yozing",
-    "send": "Yuborish",
-    "welcomeMessage": "Chatforia’ga xush kelibsiz",
-    "getStarted": "Boshlash"
-  },
-
-  "press": {
-    "title": "Matbuot",
-    "contactLine": "OAV savollari uchun biz bilan shu manzilda bog‘laning:",
-    "boilerplateTitle": "Qisqa ma’lumot",
-    "boilerplateBody": "Chatforia — turli tillar o‘rtasida muloqotni osonlashtiradigan, maxfiylikni birinchi o‘ringa qo‘ygan messenjer. Xabarlar standart bo‘yicha uchidan-uchigacha shifrlanadi, ichki tarjima esa 100+ tilni real vaqtda qo‘llab-quvvatlaydi. Foydalanuvchilar yo‘qoluvchi xabarlarni yoqishi, o‘qilganlikni ixtiyoriy qoldirishi va qurilmalar o‘rtasida sinxronlashi mumkin. iOS, Android va vebda mavjud.",
-    "assetsTitle": "Brend aktivlari",
-    "assetsSubtitle": "Logotiplar, skrinshotlar va mahsulot tasvirlari.",
-    "downloadCta": "Media to‘plamni yuklab oling",
-    "downloadTitle": "Ilovani yuklab oling",
-    "scanTip": "Kompyutordamisiz? Ilovani olish uchun telefoningiz bilan skaner qiling.",
-    "qrAria": "Chatforia saytini ochish",
-    "appStore": "App Store’dan yuklab oling",
-    "googlePlay": "Google Play’dan oling"
-  },
-
-  "careers": {
-    "title": "Ish o‘rinlari",
-    "intro": "Biz kichik jamoamiz — shaxsiy, global messenjer yaratmoqdamiz. Agar shifrlash, kirish imkoniyati va yoqimli UX siz uchun muhim bo‘lsa, sizni kutamiz.",
-    "openRoles": "<b>Ochiq lavozimlar:</b> Dasturlash (full-stack, iOS, Android), Mahsulot, Qo‘llab-quvvatlash.",
-    "apply": "<b>Qanday murojaat qilinadi:</b> Rezyume/havolalarni <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> manziliga yuboring.",
-    "emailCta": "Rezyumeni email orqali yuborish"
-  },
-
-  "about": {
-    "title": "Chatforia haqida",
-    "description": "Chatforia — uchidan-uchigacha shifrlash, tezkor tarjima va ovoz/video qo‘ng‘iroqlarga ega, xavfsiz ko‘p tilli messenjer. Missiyamiz oddiy: odamlarga — xavfsiz, shaxsiy va tillar orqali — bog‘lanishga yordam berish.",
-    "valuesTitle": "Qadriyatlarimiz",
-    "values": {
-      "privacy": "<bold>Maxfiylik birinchi:</bold> Standart bo‘yicha E2E shifrlash.",
-      "access": "<bold>Hamma uchun kirish:</bold> 100+ tilni avtomatik tarjima.",
-      "control": "<bold>Boshqaruv:</bold> Yo‘qoluvchi xabarlar va o‘qilganlik ixtiyoriy.",
-      "privacy_aria": "Maxfiylik birinchi: Standart bo‘yicha E2E shifrlash.",
-      "access_aria": "Hamma uchun kirish: 100+ tilni avtomatik tarjima.",
-      "control_aria": "Boshqaruv: Yo‘qoluvchi xabarlar va o‘qilganlik ixtiyoriy."
-    },
-    "howTitle": "Chatforia qanday ishlaydi",
-    "howDescription": "Xabarlar qurilmangizda shifrlanib, shundan keyin jo‘natiladi. Tarjima, zaxira va sinxronlash serverlar ko‘ra oladigan ma’lumotlarni minimallashtirish uchun ishlab chiqilgan."
-    },
-
-  "advertise": {
-    "title": "Chatforia bilan reklama qiling",
-    "description": "Faol foydalanuvchilarga mahsulotingizni muloyim, brendga mos joylashuvlarda ko‘rsating. Yuqori ko‘rinishli bannerni, homiylikni va ichki promolarni taklif qilamiz. Premium obunachilar reklamalarni ko‘rmaydi.",
-    "adsense": {
-      "withPubId": "Hozirda <b>Google AdSense</b> orqali reklama ko‘rsatamiz. Agar Google Ads orqali nishonlamoqchi bo‘lsangiz, nashriyotchi ID <code>{{pubId}}</code> dan foydalaning va quyidagi bloklarimizga managed placement so‘rang. To‘g‘ridan-to‘g‘ri homiylik ham mumkin — forma orqali bog‘laning.",
-      "noPubId": "Hozirda <b>Google AdSense</b> orqali reklama ko‘rsatamiz. To‘g‘ridan-to‘g‘ri homiylik ham mavjud — quyidagi forma orqali bog‘laning."
-    },
-    "inventoryHeader": "Inventar va spesifikatsiyalar",
-    "placement": {
-      "displayBadge": "Displey",
-      "acceptedSizes": "Qabul qilinadigan o‘lchamlar",
-      "adsenseSlot": "AdSense sloti:"
-    },
-    "noPlacements": "Hali joylashuvlar sozlanmagan. Ularni ads/placements.js faylida qo‘shing.",
-    "whyHeader": "Nega Chatforia?",
-    "why": {
-      "highSession": "Chat UI’da yuqori tashrif va vaqt",
-      "brandSafe": "Brendga mos formatlar; hurmatli chastota cheklovi",
-      "sponsoredMoments": "Homiylik qilinadigan lahzalar (masalan, “Suhbatni boshlash” oynasi)",
-      "deals": "To‘g‘ridan-to‘g‘ri kelishuvlar yoki AdSense/Google Ads orqali"
-    },
-    "contactHeader": "Aloqa",
-    "form": {
-      "submittedMsg": "Rahmat! So‘rovingiz yuborildi. Tez orada bog‘lanamiz.",
-      "missingRequired": "Iltimos, ism, email va xabarni to‘ldiring.",
-      "successToast": "Rahmat! Tez orada aloqaga chiqamiz.",
-      "mailtoInfo": "So‘rov emailingiz orqali yuborilishi uchun mijoz ochilmoqda…",
-      "nameLabel": "Ismingiz",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "Email",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "Kompaniya",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "Oylik byudjet (ixtiyoriy)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Kampaniyangiz haqida ayting",
-      "messagePlaceholder": "Nishonlash, sanalar, KPI, joylashuv afzalliklari…",
-      "sendCta": "So‘rov yuborish"
-    },
-    "legal": {
-      "disclaimerStart": "Yuborish orqali siz bizning",
-      "terms": "Shartlar",
-      "and": "va",
-      "privacy": "Maxfiylik siyosati",
-      "privacySuffix": "ga rozilik bildirasiz"
-    }
-  },
-
   "upgrade": {
     "title": "Yangilash",
-    "subtitle": "Siz uchun to‘g‘ri reja: Plus bilan reklamasiz, yoki Premium bilan to‘liq imkoniyatlar.",
+    "titleLoggedIn": "Yangilash",
+    "titlePublic": "Narxlar",
+    "h1": "Chatforia narxlari va rejalar",
+    "h1Subtitle": "Bepul, reklama bilan ta’minlangan rejadan boshlang. Plus bilan reklama olishsiz bo‘ling yoki Premium bilan to‘liq kuch funksiyalarini oching.",
+    "subtitle": "Ilova rejasini tanlang, o‘zingiz uchun internet paketlarini qo‘shing yoki oilangiz bilan baham ko‘ring — hammasi bitta joyda.",
+    "subtitle.app": "Bepul, reklama bilan ta’minlangan rejadan boshlang. Plus bilan reklama olishsiz bo‘ling yoki Premium bilan to‘liq kuch funksiyalarini oching.",
+    "subtitle.mobile": "Wi-Fi dan uzoqda bo‘lganingizda Chatforia ishlashini ta’minlash uchun global eSIM internetini qo‘shing.",
+    "subtitle.family": "Oilangiz uchun umumiy internet hovuzini yarating va har birining foydalanishini bitta joydan boshqaring.",
     "perMonth": "oy",
     "perYear": "yil",
-    "goPremium": "Premiumga o‘ting",
-    "benefitsLine": "Kuchli funksiyalarni oching va reklamalarni olib tashlang.",
+    "goPremium": "Premiumga o‘tish",
+    "benefitsLine": "Kuchli funksiyalarni oching va reklama olib tashlang.",
     "ctaText": "Yangilash",
     "aria": "Chatforia Premiumga yangilash",
     "toggle": {
       "monthly": "Oylik",
-      "annual": "Yillik (25% tejam)"
+      "annual": "Yillik (30% tejang)"
     },
     "scheduleBanner": {
       "title": "Obuna tugaydi",
-      "body": "Siz quyidagi kunda yana Free rejimiga qaytasiz:",
-      "keepPlanCta": "{{plan}} ni saqlab qolish",
-      "manageBillingCta": "To‘lovlarni boshqarish"
+      "body": "Bepul rejaga qaytasiz",
+      "keepPlanCta": "{{plan}}ni saqlash",
+      "manageBillingCta": "Hisob-kitobni boshqarish"
     },
     "billing": {
-      "opening": "Ochilyapti…",
-      "manage": "Billingni boshqarish"
+      "opening": "Ochilmoqda…",
+      "manage": "Hisob-kitobni boshqarish"
     },
     "checkout": {
       "redirecting": "Yo‘naltirilmoqda…"
@@ -490,500 +669,1006 @@
     },
     "cta": {
       "aria": "Rejani tanlash",
-      "getPlus": "Plusga o‘tish",
-      "upgradeMonthly": "Oylik reja (yangilash)",
-      "upgradeAnnual": "Yillik reja (yangilash)"
+      "getPlus": "Plusga yangilash",
+      "upgradeMonthly": "Oylik yangilash",
+      "upgradeAnnual": "Yillik yangilash"
+    },
+    "section": {
+      "app": "Ilova rejalar",
+      "mobile": "Mobil (eSIM)",
+      "family": "Oila rejalar"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Bepul",
         "price": "$0",
-        "desc": "Xabarlashishni bepul boshlang.",
+        "desc": "Bepul xabar almashishni boshlang. Chatforiani sinab ko‘rmoqchi bo‘lsangiz ideal.",
         "features": {
-          "msg": "1:1 va guruh xabarlari",
-          "aiBasic": "Asosiy AI javoblari",
-          "attachments": "Standart ilovalar"
+          "chat": "Real vaqt 1:1 va guruh chatlari, ovoz va video qo‘ng‘iroqlar",
+          "media": "Rasmlar, ovozli xabarlar va qisqa videolarni baham ko‘rish",
+          "ai": "AI bilan aqlli javoblar va bir zumda tarjima (adolatli foydalanish)",
+          "disappearing": "O‘chib ketadigan xabarlar va asosiy maxfiylik boshqaruvi",
+          "ads": "Ilovada reklama bilan abadiy bepul"
         },
         "ctaCurrent": "Joriy reja",
-        "ctaUnavailable": "Free’ga o‘tish (mavjud emas)",
-        "aria": "Free reja (joriy)"
+        "ctaManage": "Hisob-kitobda boshqarish",
+        "ctaPublic": "Boshlash — kirishga davom etish",
+        "aria": "Bepul reja"
       },
       "plus": {
         "title": "Plus",
-        "price": "$4.99 / oy",
-        "desc": "Eng arzon reklamasiz tajriba.",
+        "price": "$6.99",
+        "desc": "Barcha asosiy narsalar, reklama olishsiz. Kundalik xabar almashish va qo‘ng‘iroq uchun ajoyib.",
         "features": {
-          "noAds": "Barcha reklamalarni olib tashlash",
-          "msg": "1:1 va guruh xabarlari",
-          "attachments": "Katta ilovalar",
-          "aiBasic": "Asosiy AI javoblari"
+          "allFree": "Bepul dagi hammasi, reklama olishsiz",
+          "forwarding": "Qo‘ng‘iroq va SMS-larni haqiqiy telefon raqamingizga yo‘naltirish",
+          "history": "Uzunroq xabar tarixi (6 oygacha)",
+          "support": "Nimadir noto‘g‘ri ketganda tezroq yordam"
         },
-        "badge": "Ommabop",
-        "cta": "Reklamasiz bo‘ling",
+        "badge": "Mashhur",
+        "cta": "Reklama olishsiz bo‘lish",
+        "ctaPublic": "Plus olish — kirishga davom etish",
         "aria": "Plusga yangilash"
       },
       "premiumMonthly": {
         "title": "Premium (Oylik)",
-        "price": "$24.99 / oy",
-        "desc": "To‘liq funksiyalar, qo‘ng‘iroq ohanglari va AI qurollari.",
+        "price": "$11.99",
+        "desc": "To‘liq Chatforia tajribasi: AI kuch vositalari, moslashtirish va ustuvor yordam.",
         "features": {
-          "plusAll": "Plus’dagi hamma narsa",
-          "ringtones": "Maxsus qo‘ng‘iroq va xabar ohanglari",
-          "powerAi": "Kuchli AI funksiyalari",
-          "priorityUpdates": "Ustuvor yangilanishlar",
-          "backups": "Zaxira va qurilmalarni sinxronlash"
+          "plusAll": "Plus dagi hammasi",
+          "themes": "Barcha premium rang mavzular va ilova moslashtirishlarini ochish",
+          "ai": "Qayta yozish, aqlli javoblar va xulosalar uchun faqat Premium AI kuch vositalari",
+          "support": "Eng ko‘p kerak bo‘lganda ustuvor yordam"
         },
-        "badge": "Eng maqbul",
+        "badge": "Tavsiya etiladi",
         "cta": "Yangilash (Oylik)",
-        "aria": "Premium Oylikka yangilash"
+        "ctaPublic": "Premiumni ochish — kirishga davom etish",
+        "aria": "Oylik Premiumga yangilash"
       },
       "premiumAnnual": {
         "title": "Premium (Yillik)",
-        "price": "$225 / yil",
-        "desc": "Yillik to‘lovda ko‘proq tejang.",
+        "price": "$99",
+        "desc": "Yillik hisoblanganda ko‘proq tejang — qo‘shimcha rang mavzular, AI vositalari va ustuvor yordam bilan.",
         "features": {
-          "allPremium": "Premium’dagi hamma narsa",
-          "annualBilling": "Yillik hisob-kitob",
-          "save25": "Oylikka nisbatan ~25% tejam",
-          "sameFeatures": "Oylik bilan bir xil imkoniyatlar"
+          "allPremium": "Oylik Premium dagi hammasi — qo‘shimcha rang mavzular bilan",
+          "annualBilling": "Yilda bir marta hisoblanadi",
+          "save25": "Oylik to‘lovga nisbatan taxminan 30% tejang",
+          "bestFor": "Kuchli foydalanuvchilar, masofaviy ishchilar va ko‘p sayohatchilar uchun eng yaxshisi"
         },
-        "badge": "25% tejam",
+        "badge": "30% tejang",
         "cta": "Yangilash (Yillik)",
-        "aria": "Premium Yillikka yangilash",
-        "disclaimer": "Oldindan to‘lanadi. Istalgan vaqtda bekor qilish mumkin. Yashirin to‘lovlar yo‘q."
+        "ctaPublic": "30% tejab yillik — kirishga davom etish",
+        "aria": "Yillik Premiumga yangilash",
+        "disclaimer": "Oldindan hisoblanadi. Istalgan vaqtda bekor qiling. Yashirin to‘lovlar yo‘q."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Xabarlashishni bepul boshlang.",
+      "freeTitle": "Bepul",
+      "freeDesc": "Bepul xabar almashishni boshlang.",
       "plusTitle": "Plus",
-      "plusBadge": "Ommabop",
-      "plusDesc": "Eng arzon reklamasiz tajriba.",
+      "plusBadge": "Mashhur",
+      "plusDesc": "Eng arzon reklama olishsiz tajriba.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "To‘liq funksiyalar, ohanglar va AI qurollari.",
+      "premiumMonthlyDesc": "To‘liq funksiyalar, ringtonlar va AI kuch vositalari.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Yillik to‘lov bilan ko‘proq tejam.",
-      "annualDisclaimer": "Oldindan to‘lanadi. Istalgan vaqtda bekor qilish mumkin. Yashirin to‘lovlar yo‘q."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Boshlash qo‘llanmasi",
-    "subtitle": "Chatforia’da yangimisiz? Bir necha daqiqada ishga tushish uchun tezkor yo‘l.",
-    "alert": {
-      "text": "Ushbu qo‘llanma yangi funksiyalar chiqqani sayin kengayadi. Nimadir yetishmasa,",
-      "contactLink": "Aloqa",
-      "contactLinkSuffix": " orqali xabar bering."
+      "premiumAnnualDesc": "Yillik hisoblanganda ko‘proq tejang.",
+      "annualDisclaimer": "Oldindan hisoblanadi. Istalgan vaqtda bekor qiling. Yashirin to‘lovlar yo‘q."
     },
-    "section1": {
-      "title": "1) Hisob yarating",
-      "signup": "Ro‘yxatdan o‘tish",
-      "or": "yoki",
-      "login": "kirish",
-      "loginText": "mavjud hisob bilan.",
-      "prefsStart": "O‘z",
-      "prefsLink": "preferensiyalaringizni",
-      "prefsRest": " sozlang (til, o‘qilganlik, mavzular)."
+    "mobile": {
+      "title": "Chatforia Mobil (eSIM internet paketlari)",
+      "subtitle": "Wi-Fi siz bo‘lmaganingizda Chatforia ishlashini ta’minlash uchun global internet qo‘shing. Narxlar mamlakatingiz va valyutangizga qarab avtomatik moslashadi.",
+      "subtitle.detail": "Sayohatda yoki Wi-Fi siz bo‘lganingizda Chatforia ishlashini ta’minlash uchun bir martalik global internet paketi tanlang.",
+      "scope": {
+        "local": "Mahalliy",
+        "europe": "Yevropa",
+        "global": "Global"
+      },
+      "note": "Biz 3 GB dan kichik internet paketlarini sotmaymiz.",
+      "localEquals": "Mahalliy = {{country}}",
+      "localEqualsFallback": "Mahalliy = sizning joriy mamlakatingiz",
+      "perPack": "/ paket",
+      "cta": "Bu internet paketini olish",
+      "ctaPublic": "Bu internet paketini olish",
+      "checkout": {
+        "redirecting": "Yo‘naltirilmoqda…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "Og‘ir foydalanish uchun yuqori tezlikdagi internet",
+          "throttle": "Yuqori foydalanishdan keyin tezlik sekinlashishi mumkin",
+          "coverage": "Ishonchli qamrov",
+          "instant": "Bir zumda eSIM faollashtirish",
+          "noContract": "Bir martalik paket, shartnoma yo‘q"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM internet paketlari eSIM mos keladigan va qulflanmagan qurilmani talab qiladi. Mavjudligi telefon modeli, operator va mamlakatga qarab farq qiladi. Qamrov va tezliklar mintaqaga qarab farq qiladi."
+      },
+      "small": {
+        "title": "Boshlang‘ich paket",
+        "desc": "Yengil xabar almashish va vaqti-vaqti bilan qo‘ng‘iroqlar uchun ideal 3 GB yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Qisqa sayohatlar, yengil xabar almashish va vaqti-vaqti bilan qo‘ng‘iroqlar",
+        "aria": "Boshlang‘ich eSIM internet paketini sotib olish"
+      },
+      "medium": {
+        "title": "Sayyoh paketi",
+        "desc": "Sayohatlar, transport va muntazam VoIP qo‘ng‘iroqlari uchun 5 GB yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Dam olish kunlari sayohatlari, muntazam VoIP qo‘ng‘iroqlari va xaritalar",
+        "aria": "Sayyoh eSIM internet paketini sotib olish"
+      },
+      "large": {
+        "title": "Kuchli foydalanuvchi paketi",
+        "desc": "Og‘ir chat, qo‘ng‘iroqlar va Chatforia tarmog‘idagi video uchun 10 GB yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Og‘ir chat, qo‘ng‘iroqlar, video va hotspot foydalanishi",
+        "aria": "Kuchli foydalanuvchi eSIM internet paketini sotib olish"
+      },
+      "compare": {
+        "title": "eSIM internet paketlarini solishtirish",
+        "col": {
+          "pack": "Paket",
+          "data": "Kiruvchi internet",
+          "bestFor": "Eng yaxshisi"
+        },
+        "disclaimer": "Haqiqiy internet sarfi Chatforiadan (ovoz, video, media va telefoningizdagi boshqa ilovalar) qanday foydalanishingizga bog‘liq."
+      }
     },
-    "section2": {
-      "title": "2) Xabar yozishni boshlang",
-      "item1": "DM yoki Guruh yarating va birinchi xabaringizni yuboring.",
-      "item2": "100+ til o‘rtasida tezkor tarjimadan foydalaning.",
-      "item3": "Profil → Maxfiylik bo‘limida yo‘qoluvchi xabarlar va o‘qilganlikni sinab ko‘ring."
+    "family": {
+      "title": "Chatforia Oilasi (umumiy internet)",
+      "subtitle": "Oilangiz bo‘ylab bitta internet hovuzini baham ko‘ring. Bitta hisob, bir nechta Chatforia hisoblari, global qamrov.",
+      "perPack": "/ paket",
+      "small": {
+        "title": "Oila Kichik",
+        "desc": "2–3 yengil foydalanuvchi uchun ajoyib 20 GB umumiy yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$29.99",
+        "aria": "Oila Kichik paketini sotib olish"
+      },
+      "medium": {
+        "title": "Oila O‘rta",
+        "desc": "3–5 faol a’zo uchun ideal 40 GB umumiy yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$49.99",
+        "aria": "Oila O‘rta paketini sotib olish"
+      },
+      "large": {
+        "title": "Oila Katta",
+        "desc": "Doim onlayn bo‘lgan kuchli oilalar uchun 80 GB umumiy yuqori tezlikdagi internetni o‘z ichiga oladi.",
+        "price": "$84.99",
+        "aria": "Oila Katta paketini sotib olish"
+      },
+      "feature": {
+        "shared": "Oilangiz uchun umumiy internet hovuzi",
+        "members": "4 tagacha qo‘shimcha a’zoni taklif qilish",
+        "membersMore": "3–5 faol a’zo uchun ajoyib",
+        "manage": "Har bir a’zo uchun cheklovlarni boshqarish",
+        "topUp": "Har qanday vaqtda qo‘shimcha paketlar qo‘shish",
+        "bestValue": "Har GB uchun eng yaxshi qiymat",
+        "fairUse": "Adolatli foydalanish siyosati va mahalliy cheklovlarga bo‘ysunadi"
+      },
+      "disclaimer": "Oila paketlari umumiy internet hovuzini yaratadi yoki to‘ldiradi. A’zolarni istalgan vaqtda taklif qilish yoki olib tashlash mumkin.",
+      "footnote": "Oila paketlari bog‘langan Chatforia hisoblari bo‘ylab bitta internet hovuzini baham ko‘radi. Mavjudlik va cheklovlar mamlakatingiz va mahalliy qoidalarga bog‘liq."
     },
-    "section3": {
-      "title": "3) Yana-da imkoniyatlar",
-      "item1Part1": "Rejangizni",
-      "upgradeLink": "Yangilash",
-      "item1Part2": " sahifasida boshqaring (Plus = reklamasiz, Premium = to‘liq funksiyalar).",
-      "item2Part1": "Qo‘shimcha qurilmalarni ulang va shifrlangan zaxiralarni",
-      "settingsLink": "Sozlamalar",
-      "settingsLinkSuffix": " bo‘limida yoqing"
+    "why": {
+      "title": "Nega odamlar Chatforiaga o‘tmoqda",
+      "subtitle": "Chatforia haqiqiy telefon raqamini, aqlli tarjima va reklama olishsiz bo‘lishga tayyor bo‘lganingizda aniq yo‘lni beradi.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Bepul rejada yengilroq reklama, tayyor bo‘lganingizda oddiy Plus yangilanishi va TextNow taklif qilmaydigan Premium vositalar."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Zamonaviy ilova, global birinchi dizayn va eski uslubdagi qo‘ng‘iroq yo‘naltirish o‘rniga o‘rnatilgan tarjima."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat ilovalari",
+          "body": "Faqat boshqa ilova foydalanuvchilari bilan emas — haqiqiy telefon raqamlariga SMS yuboring, AI va status bilan. TextFree yoki TextMe kabi ilovalardan kelgan bo‘lsangiz ajoyib."
+        }
+      },
+      "tableTitle": "Chatforia qanday solishtiriladi",
+      "col": {
+        "feature": "Funksiya"
+      },
+      "feature": {
+        "freeNumber": "Bepul telefon raqami",
+        "translation": "O‘rnatilgan avto-tarjima",
+        "aiTools": "AI vositalari (qayta yozish, javoblar, xulosalar)",
+        "ads": "Reklama olishsiz variant",
+        "history": "Xabar tarixi"
+      },
+      "yes": "Ha",
+      "no": "Yo‘q",
+      "yesPremium": "Ha (Premium)",
+      "plusPremium": "Plus va Premium",
+      "limited": "Cheklangan",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "12+ oygacha",
+        "textnow": "Hisobga qarab farq qiladi",
+        "voice": "Cheklangan / hisobga asoslangan"
+      },
+      "disclaimer": "Solishtirish ochiq ma’lumotlar asosida va vaqt o‘tishi bilan o‘zgarishi mumkin. Boshqa bepul SMS ilovalari (TextFree yoki TextMe) odatda TextNow ga o‘xshash."
     },
-    "cta": {
-      "seePlans": "Rejalarni ko‘rish",
-      "openSettings": "Sozlamalarni ochish"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Yordam markazi",
     "faq": {
-      "account": {
-        "q": "Qanday qilib hisob yarataman yoki tiklayman?",
-        "a": "Ilovani yuklang yoki vebdan foydalaning, “Hisob yaratish” ni bosing, email/telefonni tasdiqlang. Tiklash uchun “Parolni unutdingizmi?” funksiyasidan foydalaning."
+      "title": "Narxlar va rejalar bo‘yicha tez-tez so‘raladigan savollar",
+      "free": {
+        "q": "Bepul reja haqiqatan ham bepulmi?",
+        "a": "Ha. Bepul reja Chatforia raqami, qo‘ng‘iroq va reklama bilan xabar almashishni o‘z ichiga oladi. Istalgan vaqtgacha Bepul rejada qolishingiz mumkin yoki reklama olib tashlash va ko‘proq funksiyalarni ochish uchun yangilang."
       },
-      "privacy": {
-        "q": "Xabarlar uchidan-uchigacha shifrlanganmi?",
-        "a": "Ha. Xabarlar va qo‘ng‘iroqlar standart bo‘yicha uchidan-uchigacha shifrlanadi. Ularni faqat siz va qabul qiluvchi o‘qiy oladi."
+      "plusPremium": {
+        "q": "Plus va Premium o‘rtasidagi farq nima?",
+        "a": "Plus reklama olib tashlaydi va xabar tarixini uzaytiradi — kundalik foydalanish uchun ideal. Premium qo‘shimcha moslashtirish, qayta yozish va javoblar uchun AI vositalari va og‘ir foydalanuvchilar uchun ustuvor yordam qo‘shadi."
       },
-      "translate": {
-        "q": "Tezkor tarjima qanday ishlaydi?",
-        "a": "Sozlamalar → Tashqi ko‘rinish va til bo‘limida “Avtomatik tarjima” ni yoqing. Qo‘llab-quvvatlanganda qurilmada, aks holda minimal metama’lumot bilan xavfsiz API’lar orqali tarjima qilamiz."
+      "esim": {
+        "q": "eSIM internet paketlari qayerda ishlaydi?",
+        "a": "Chatforia Mobil global eSIM qamrovidan foydalanadi. Mavjudligi mamlakatingiz va qurilmangizga bog‘liq. Ilova ichida faollashtirish vaqtida qo‘llab-quvvatlanadigan variantlarni ko‘rasiz."
+      },
+      "cancel": {
+        "q": "Rejalarni istalgan vaqtda bekor qilish yoki o‘zgartirish mumkinmi?",
+        "a": "Ha. Ilovadagi hisob-kitob sahifasidan obunangizni boshqarishingiz yoki bekor qilishingiz mumkin. O‘zgarishlar joriy hisob-kitob davri oxirida kuchga kiradi."
+      },
+      "family": {
+        "q": "Oila paketlari qanday ishlaydi?",
+        "a": "Oila paketlari bir nechta Chatforia hisoblari bo‘ylab umumiy internet hovuzini yaratadi. Bitta odam hisobni to‘laydi va siz a’zolarni taklif qilishingiz yoki olib tashlashingiz, har bir kishi uchun cheklovlarni o‘rnatishingiz mumkin."
+      }
+    },
+    "gettingStarted": {
+      "title": "Boshlash",
+      "subtitle": "Chatforiaga yangimisiz? Bu tez boshlash sizga bir necha daqiqada samarali bo‘lishingizga yordam beradi.",
+      "alert": {
+        "text": "Bu qo‘llanma yangi funksiyalarni ishga tushirganimizda o‘sadi. Agar biror narsa yetishmayotgan bo‘lsa, bizga",
+        "contactLink": "Aloqa qiling"
+      },
+      "section1": {
+        "title": "1) Hisobingizni yarating",
+        "signup": "Ro‘yxatdan o‘tish",
+        "or": "yoki",
+        "login": "kirish",
+        "loginText": "mavjud hisobingiz bilan.",
+        "prefsStart": "Afzalliklaringizni sozlang",
+        "prefsLink": "afzalliklar",
+        "prefsRest": "(til, o‘qilganligi haqida xabar, mavzular)."
+      },
+      "section2": {
+        "title": "2) Xabar almashishni boshlang",
+        "item1": "DM yoki Guruh yarating va birinchi xabaringizni yuboring.",
+        "item2": "100+ tillar bo‘ylab suhbatlashish uchun bir zumda tarjima qilishdan foydalaning.",
+        "item3": "Profil → Maxfiylikda o‘chib ketadigan xabarlar va o‘qilganligi haqida xabarni sinab ko‘ring."
+      },
+      "section3": {
+        "title": "3) Yanada oldinga boring",
+        "item1": "Ilova ichida istalgan vaqtda pullik rejaga yangilashingiz mumkin.",
+        "item2": "Tizimga kirganingizdan so‘ng, qo‘shimcha qurilmalarni bog‘lashingiz va ilova Sozlamalarida shifrlangan zaxiralarni sozlashingiz mumkin."
+      },
+      "cta": {
+        "seePlans": "Rejalarni ko‘rish",
+        "openSettings": "Sozlamalarni ochish"
+      }
+    },
+    "helpCenter": {
+      "title": "Yordam markazi",
+      "faq": {
+        "account": {
+          "q": "Hisobni qanday yarataman yoki tiklayman?",
+          "a": "Ilovani yuklab oling yoki veb-dan foydalaning, “Hisob yaratish” tugmasini bosing, elektron pochtangiz/telefoningizni tasdiqlang. Tiklash uchun “Parolni unutdingizmi”dan foydalaning."
+        },
+        "privacy": {
+          "q": "Xabarlar oxirigacha shifrlanganmi?",
+          "a": "Ha. Xabarlar va qo‘ng‘iroqlar standart bo‘yicha oxirigacha shifrlangan. Faqat siz va qabul qiluvchi ularni o‘qiy oladi."
+        },
+        "translate": {
+          "q": "Bir zumda tarjima qanday ishlaydi?",
+          "a": "Sozlamalar → Ko‘rinish va Til bo‘limida “Avto-tarjima”ni yoqing. Qo‘llab-quvvatlanadigan joylarda qurilma ichida tarjima qilamiz, aks holda minimal metama’lumotlar bilan xavfsiz API orqali."
+        },
+        "contact": {
+          "q": "Yordam bilan bog‘lanish",
+          "a": "support@chatforia.com ga murojaat qiling. Skrinshotlar va ilova versiyangizni qo‘shing."
+        }
+      }
+    },
+    "contact": {
+      "title": "Biz bilan bog‘lanish",
+      "successMsg": "Rahmat — jamoamiz elektron pochta orqali javob beradi.",
+      "errorSend": "Yuborib bo‘lmadi. support@chatforia.com ga elektron pochta yuboring.",
+      "form": {
+        "nameLabel": "Ism",
+        "emailLabel": "Elektron pochta",
+        "messageLabel": "Xabar",
+        "sendCta": "Yuborish"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Maxfiylik siyosati",
+      "lastUpdated": "Oxirgi yangilanish:",
+      "intro": {
+        "body": "Bu Maxfiylik siyosati Chatforia (“biz”, “biz”) ilovalari va xizmatlaridan foydalanganingizda ma’lumotlarni qanday yig‘ish, ishlatish va baham ko‘rishini tushuntiradi. Biz Chatforiani biz kirisha oladigan ma’lumotlarni minimallashtirish uchun ishlab chiqdik."
+      },
+      "infoWeCollect": {
+        "title": "Biz yig‘adigan ma’lumotlar",
+        "account": "Hisob ma’lumotlari (masalan, elektron pochta/telefon) hisobingizni yaratish va himoyalash uchun.",
+        "encrypted": "Shifrlangan kontent (xabarlari/qo‘ng‘iroqlar) oxirigacha shifrlangan; biz uni o‘qiy olmaymiz.",
+        "diagnostics": "Tashxis/ishlatish kabi nosozlik jurnallari, qurilma turi yoki qo‘pol tahlillar ishlashni yaxshilash uchun."
+      },
+      "sms": {
+        "title": "Mobil telefon raqamlari va SMS",
+        "body": "Agar siz mobil telefon raqamini taqdim etishni tanlasangiz, biz uni hisobni tasdiqlash, kirish ogohlantirishlari va Chatforiada qo‘llab-quvvatlanadigan joylarda foydalanuvchi-foydalanuvchiga SMS xabar almashish uchun ishlatamiz. Biz hisobingiz va Chatforia faoliyati bilan bog‘liq tranzaksiya SMS xabarlarini yuborishimiz mumkin. Siz istalgan vaqtda “STOP” kabi qo‘llab-quvvatlanadigan rad etish kalit so‘zi bilan javob berib yoki ilova Sozlamalarida bildirishnoma afzalliklarini o‘zgartirib SMS xabarlarni rad etishingiz mumkin. Biz telefon raqamingizni sotmaymiz yoki uni tegishli bo‘lmagan marketing uchun ishlatmaymiz.",
+        "newText": "Yangi matn",
+        "enterRecipient": "Ism yoki raqamni kiriting",
+        "typeMessage": "Xabar yozing…",
+        "addRecipient": "Boshlash uchun yuqoridan qabul qiluvchini qo‘shing…"
+      },
+      "howWeUse": {
+        "title": "Ma’lumotni qanday ishlatamiz",
+        "provide": "Xizmatni taqdim etish va himoyalash (tasdiqlash, spam/zulm aniqlash).",
+        "improve": "Funksiyalarni yaxshilash (tarjima sifati, ishonchlilik).",
+        "legal": "Qonuniy majburiyatlarga rioya qilish."
+      },
+      "sharing": {
+        "title": "Baham ko‘rish",
+        "body": "Biz shaxsiy ma’lumotlarni sotmaymiz. Biz qat’iy shartnomalar ostida cheklangan ma’lumotlarni protsessorlar (masalan, push bildirishnomalar, tahlillar) bilan baham ko‘rishimiz mumkin."
+      },
+      "rights": {
+        "title": "Sizning huquqlaringiz",
+        "body": "Mintaqangizga qarab (masalan, GDPR/UK GDPR/CPRA), siz kirish, tuzatish, o‘chirish yoki ma’lum ishlov berishdan rad etishni so‘rashingiz mumkin. Aloqa: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Ma’lumotlarni saqlash va xavfsizlik",
+        "body": "Biz faqat xizmatni ishlatish uchun zarur bo‘lgan narsani saqlaymiz va sanoat standartlari bo‘yicha xavfsizlikni qo‘llaymiz. E2E kontent biz tomonidan shifrdan chiqarilmaydi."
+      },
+      "children": {
+        "title": "Bolalar",
+        "body": "Chatforia 13 yoshdan kichik bolalarga (yoki mahalliy qonun talab qilganidek) yo‘naltirilmagan."
+      },
+      "changes": {
+        "title": "O‘zgarishlar",
+        "body": "Biz bu yerga yangilanishlarni joylaymiz va “Oxirgi yangilanish” sanasini qayta ko‘rib chiqamiz."
       },
       "contact": {
-        "q": "Yordam bilan bog‘lanish",
-        "a": "support@chatforia.com manziliga yozing. Skrinshotlar va ilova versiyasini qo‘shing."
+        "title": "Aloqa",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, AQSh"
       }
-    }
-  },
-
-  "contact": {
-    "title": "Biz bilan bog‘lanish",
-    "successMsg": "Rahmat — jamoamiz email orqali javob beradi.",
-    "errorSend": "Yuborib bo‘lmadi. Iltimos, support@chatforia.com ga yozing.",
-    "form": {
-      "nameLabel": "Ism",
-      "emailLabel": "Email",
-      "messageLabel": "Xabar",
-      "sendCta": "Yuborish"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Maxfiylik siyosati",
-    "lastUpdated": "Oxirgi yangilanish:",
-    "intro": {
-      "body": "Ushbu Maxfiylik siyosati Chatforia (“biz”) ilovalari va xizmatlaridan foydalanganda ma’lumotlarni qanday yig‘ishimiz, ishlatishimiz va ulashishimizni tushuntiradi. Chatforia minimal ma’lumot ko‘rish printsipi bilan ishlab chiqilgan."
     },
-    "infoWeCollect": {
-      "title": "Yig‘adigan ma’lumotlar",
-      "account": "Hisob ma’lumoti (masalan, email/telefon) — hisob yaratish va himoya qilish uchun.",
-      "encrypted": "Shifrlangan kontent (xabarlar/qo‘ng‘iroqlar) uchidan-uchigacha shifrlangan; biz o‘qiy olmaymiz.",
-      "diagnostics": "Diagnostika/foydalanish (krash loglari, qurilma turi, qo‘pol analitika) — unumdorlikni yaxshilash uchun."
+    "terms": {
+      "title": "Xizmat ko‘rsatish shartlari",
+      "lastUpdated": "Oxirgi yangilanish:",
+      "intro": {
+        "body": "Chatforiadan foydalanish orqali siz ushbu Shartlarga rozilik bildirasiz. Agar rozi bo‘lmasangiz, xizmatdan foydalanmang."
+      },
+      "accounts": {
+        "title": "Hisoblar",
+        "itemAccurateInfo": "To‘g‘ri ma’lumot bering va hisob ma’lumotlaringizni xavfsiz saqlang.",
+        "itemResponsibility": "Hisobingizdagi faollik uchun siz mas’ulsiz."
+      },
+      "acceptableUse": {
+        "title": "Qabul qilinadigan foydalanish",
+        "itemNoAbuse": "Noqonuniy, zulmli yoki huquqbuzar kontent yo‘q; spam yoki avtomatlashtirilgan zulm yo‘q.",
+        "itemSuspend": "Qoidabuzarliklar uchun hisobingizni to‘xtatib turish yoki bekor qilishimiz mumkin."
+      },
+      "sms": {
+        "title": "SMS aloqalari",
+        "body": "Agar siz mobil telefon raqamini taqdim etsangiz, siz Chatforia hisobingiz va xizmatdan foydalanish bilan bog‘liq SMS xabarlarini (kirish ogohlantirishlari, xavfsizlik bildirishnomalari va siz boshlagan yoki ishtirok etgan suhbatlar bilan bog‘liq xabarlar kabi) yuborishiga rozilik bildirasiz. Biz SMS ni reklama yoki marketing xabarlari uchun sizning aniq roziligingizsiz ishlatmaymiz. Standart xabar va ma’lumot tariflari qo‘llanilishi mumkin. Siz istalgan vaqtda qo‘llab-quvvatlanadigan rad etish kalit so‘zi (masalan, “STOP”) bilan javob berib yoki ilova bildirishnoma sozlamalarini yangilab SMS xabarlardan rad etishingiz mumkin."
+      },
+      "yourContent": {
+        "title": "Sizning kontentingiz",
+        "body": "Siz kontentingiz huquqlarini saqlab qolasiz. Biz xizmatni ishlatish uchun zarur huquqlarni (masalan, yo‘naltirish, saqlash, tarjima) berasiz."
+      },
+      "disclaimer": {
+        "title": "Rad etishlar va javobgarlik",
+        "body": "Xizmat “o‘z holicha” kafolatlarsiz taqdim etiladi. Qonun ruxsat bergan darajada Chatforia bilvosita yoki oqibat zararlari uchun javobgar emas."
+      },
+      "changes": {
+        "title": "O‘zgarishlar",
+        "body": "Biz shartlarni yangilashimiz mumkin; o‘zgarishlardan keyin foydalanishni davom ettirish qabul qilishni bildiradi."
+      },
+      "contact": {
+        "title": "Aloqa",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, AQSh"
+      }
     },
-    "howWeUse": {
-      "title": "Ma’lumotdan foydalanish",
-      "provide": "Xizmatni taqdim etish va himoyalash (autentifikatsiya, spam/abuzani aniqlash).",
-      "improve": "Funksiyalarni yaxshilash (tarjima sifati, ishonchlilik).",
-      "legal": "Yuridik majburiyatlarga rioya qilish."
+    "doNotSell": {
+      "title": "Shaxsiy ma’lumotlarimni sotish yoki baham ko‘rishni rad etish",
+      "body": "Chatforia shaxsiy ma’lumotlarni sotmaydi. Kaliforniya fuqarolari CPRA bo‘yicha talablarni quyidagi tugma orqali yuborishlari mumkin.",
+      "cta": "Talabni yuborish"
     },
-    "sharing": {
-      "title": "Ulashish",
-      "body": "Biz shaxsiy ma’lumotlarni sotmaymiz. Cheklangan ma’lumotni (masalan, push bildirishnomalari, analitika) qat’iy shartnomalar asosida protsessorlar bilan bo‘lishishimiz mumkin."
+    "cookies": {
+      "title": "Cookie sozlamalari",
+      "body": "Chatforia minimal cookie-lardan (masalan, seans, xavfsizlik) foydalanadi. Biz uchinchi tomon reklama cookie-laridan foydalanmaymiz. Cookie-larni brauzeringiz sozlamalari orqali boshqaring."
     },
-    "rights": {
-      "title": "Huquqlaringiz",
-      "body": "Hududingizga (masalan, GDPR/UK GDPR/CPRA) qarab, kirish, tuzatish, o‘chirish yoki ayrim qayta ishlashlardan voz kechishni so‘rashingiz mumkin. Aloqa: privacy@chatforia.com."
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Telefon raqami holatini yuklab bo‘lmadi.",
+      "lock": "Qulflash",
+      "noNumberAssigned": "Raqam tayinlanmagan. SMS yuborishni boshlash uchun hudud kodi bo‘yicha birini tanlang.",
+      "pickNumber": "Raqam tanlash",
+      "phoneNumber": "Telefon raqami"
     },
-    "retention": {
-      "title": "Saqlash va xavfsizlik",
-      "body": "Xizmatni yuritish uchun zarur bo‘lganini saqlaymiz va sanoat standartlari asosida himoya qilamiz. E2E kontent biz tomonidan shifrdan yechib bo‘lmaydi."
+    "startChatModal": {
+      "title": "Chatni boshlash",
+      "quickPicker": "Tez tanlovchi",
+      "to": "Kimga",
+      "nameOrUsername": "Ism, foydalanuvchi nomini yozing",
+      "nameUsernamePhoneEmail": "Ism, foydalanuvchi nomi, telefon yoki elektron pochtani yozing…",
+      "startWithSelected": "Tanlangan bilan chatni boshlash",
+      "searchByUsernameOrPhone": "Foydalanuvchi nomi yoki telefon bo‘yicha qidirish",
+      "search": "Qidirish",
+      "searchPrompt": "Foydalanuvchi nomi yoki telefonni yozing va Qidirishni bosing.",
+      "pickFromContacts": "Yoki kontaktlardan tanlang",
+      "addContact": "Kontakt qo‘shish",
+      "show": "Ko‘rsatish",
+      "add": "Qo‘shish",
+      "close": "Yopish",
+      "selectedCount": "{{count}} tanlangan",
+      "pickAtLeastOne": "Kamida bitta qabul qiluvchini tanlang.",
+      "saveContactsHint": "Telefon/elektron pochta yozuvlari ularni kontakt sifatida saqlagandan keyin mavjud bo‘ladi.",
+      "failedBulkStart": "Tanlangan qabul qiluvchilar bilan chatni boshlash muvaffaqiyatsiz.",
+      "noResults": "Natijalar yo‘q",
+      "mode": "Rejim",
+      "group": "Guruh",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Guruh nomi (ixtiyoriy)",
+      "firstMessageOptional": "Birinchi xabar (ixtiyoriy, lekin tavsiya etiladi)",
+      "createGroup": "Guruh yaratish",
+      "sendBroadcast": "Broadcast yuborish"
     },
-    "children": {
-      "title": "Bolalar",
-      "body": "Chatforia 13 yoshdan kichiklarga (yoki mahalliy qonunga ko‘ra) mo‘ljallanmagan."
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Avrora",
+      "neon": "Neon",
+      "sunset": "Quyosh botishi",
+      "solarized": "Solarizatsiya",
+      "velvet": "Velvet"
     },
-    "changes": {
-      "title": "O‘zgarishlar",
-      "body": "Yangilanishlarni shu yerda e’lon qilamiz va “Oxirgi yangilanish” sanasini yangilaymiz."
+    "sounds": {
+      "freeNotice": "Siz Bepul rejadasiz — premium ohanglar ko‘rsatilgan, lekin qulflangan. Hammasini ochish uchun yangilang.",
+      "preview": "Oldindan ko‘rish",
+      "resetToDefaults": "Standartlarga qaytarish",
+      "notificationSounds": "Bildirishnoma ovozlari",
+      "messageTone": "Xabar ohangi",
+      "default": "Standart",
+      "vibrate": "Vibratsiya",
+      "dreamer": "Tush ko‘ruvchi",
+      "notify": "Bildirish",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsatsiyali ovoz",
+      "textMessage": "Matn xabari",
+      "xylophone": "Ksilofon",
+      "classic": "Klassik",
+      "urgency": "Shoshilinchlik",
+      "bells": "Qo‘ng‘iroqlar",
+      "chimes": "Chimlar",
+      "digitalPhone": "Raqamli telefon",
+      "melodic": "Melodik",
+      "organNotes": "Organ notalari",
+      "soundReality": "Ovozli haqiqat",
+      "street": "Ko‘cha",
+      "universfield": "Univers maydoni"
     },
-    "contact": {
-      "title": "Aloqa",
-      "body": "privacy@chatforia.com • [Kompaniya yuridik nomi], [Manzil]"
-    }
-  },
-
-  "terms": {
-    "title": "Xizmat shartlari",
-    "lastUpdated": "Oxirgi yangilanish:",
-    "intro": {
-      "body": "Chatforia’dan foydalanish orqali ushbu Shartlarga rozilik bildirasiz. Rozimisiz — xizmatdan foydalanmang."
+    "premiumGuard": {
+      "requiresPremium": "Bu funksiya Premium rejasini talab qiladi."
     },
-    "accounts": {
-      "title": "Hisoblar",
-      "itemAccurateInfo": "Aniq ma’lumot bering va ma’lumotlaringizni xavfsiz saqlang.",
-      "itemResponsibility": "Hisobingizdagi faoliyat uchun o‘zingiz javobgarsiz."
+    "aiSettings": {
+      "title": "AI sozlamalari",
+      "controlIntro": "Tarjima, aqlli javoblar va ForiaBot avto-javoblarini boshqaring.",
+      "save": "AI sozlamalarini saqlash",
+      "autoTranslateIncoming": "Kiruvchi xabarlarni avtomatik tarjima qilish",
+      "showOriginalAlongside": "Asl matnni tarjima bilan birga ko‘rsatish",
+      "enableSmartReplies": "Aqlli javoblarni yoqish",
+      "smartRepliesHint": "Tez javoblar taklif qilish uchun oxirgi bir necha qabul qilingan xabarlarni (tozalangan) AI ga yuborish.",
+      "maskProfanity": "AI takliflarida haqoratni maskalash",
+      "maskProfanityHint": "Yoqilganda, AI qaytargan takliflarda belgilangan so‘zlar maskalanadi",
+      "foriaBot": "ForiaBot avto-javob beruvchi",
+      "enableAutoReply": "Band bo‘lganimda avto-javobni yoqish",
+      "autoReplyMode": "Avto-javob rejimi",
+      "cooldownSeconds": "Sovutish (soniya)",
+      "off": "O‘chirilgan",
+      "on": "Yoqilgan",
+      "signature": "Imzo",
+      "autoReply": "Avto-javob",
+      "activeUntilOptional": "Faol bo‘lish muddati (ixtiyoriy)",
+      "saved": "AI afzalliklari saqlandi",
+      "saveFailed": "AI sozlamalarini saqlash muvaffaqiyatsiz",
+      "translateOff": "O‘chirilgan",
+      "translateTagged": "Faqat @tarjima qilingan yoki tegda",
+      "translateAll": "Barcha kiruvchi xabarlarni tarjima qilish",
+      "modeDm": "Faqat 1:1 chatlar",
+      "modeMention": "Faqat @eslatilganimda",
+      "modeAll": "Barcha kiruvchi xabarlar"
     },
-    "acceptableUse": {
-      "title": "Qabul qilinadigan foydalanish",
-      "itemNoAbuse": "Qonunsiz, haqoratomuz yoki mualliflik huquqini buzuvchi kontent taqiqlanadi; spam va avtomatlashtirilgan suiiste’mollarga yo‘l qo‘yilmaydi.",
-      "itemSuspend": "Qoidabuzarlik uchun hisobingiz vaqtincha to‘xtatilishi/foydalanish cheklanishi mumkin."
+    "accessibilitySettings": {
+      "title": "Maxsus imkoniyatlar va ogohlantirishlar",
+      "accessibility": "Maxsus imkoniyatlar",
+      "accessibilityDesc": "Ovozga tayanmasdan Chatforiadan foydalanishni osonlashtirish variantlari.",
+      "interfaceFontSize": "Interfeys shrift hajmi",
+      "interfaceFontSizeHelp": "Normal hajmdan boshlanadi. Agar maxsus imkoniyatlar sozlamalarida kattaroq matnni afzal ko‘rsangiz, oshiring.",
+      "sm": "kichik",
+      "md": "o‘rta",
+      "lg": "katta",
+      "xl": "juda katta",
+      "notifications": "Bildirishnomalar",
+      "notificationsDesc": "Xabarlar va qo‘ng‘iroqlar uchun vizual ogohlantirishlar\nBannerlar va sarlavha miltillashi bilan faollikni o‘tkazib yubormang.",
+      "vibrateOnNew": "Yangi xabarlarda tebranish (qo‘llab-quvvatlansa)\nBildirishnomalar bilan qurilma tebranishini ishga tushirish.",
+      "flashOnCall": "Kiruvchi qo‘ng‘iroqda ekran miltillashi\nQo‘ng‘iroq jiringlaganda qisqa yorqin miltillash.",
+      "liveCaptions": "Jonli subtitrlar (qo‘ng‘iroqlar)",
+      "captionFontSize": "Subtitr shrift hajmi",
+      "captionBackground": "Subtitr fon",
+      "light": "yorug‘",
+      "dark": "qorong‘u",
+      "transparent": "shaffof",
+      "voiceNotes": "Ovozli eslatmalar",
+      "autoTranscribeVoiceNotes": "Ovozli eslatmalarni avtomatik transkripsiya qilish",
+      "autoTranscribeVoiceNotesDesc": "Qabul qilgan audio xabarlarga transkripsiyani ilova qilish.",
+      "changesSavedInstantly": "O‘zgarishlar darhol saqlanadi.",
+      "loadFailed": "Sozlamalarni yuklab bo‘lmadi",
+      "visualAlerts": "Xabarlar va qo‘ng‘iroqlar uchun vizual ogohlantirishlar",
+      "visualAlertsDesc": "Bannerlar va sarlavha miltillashi bilan faollikni o‘tkazib yubormang.",
+      "vibrateOnNewShort": "Yangi xabarlarda tebranish (qo‘llab-quvvatlansa)",
+      "vibrateOnNewDesc": "Bildirishnomalar bilan qurilma tebranishini ishga tushirish.",
+      "flashOnCallShort": "Kiruvchi qo‘ng‘iroqda ekran miltillashi",
+      "flashOnCallDesc": "Qo‘ng‘iroq jiringlaganda qisqa yorqin miltillash."
     },
-    "yourContent": {
-      "title": "Kontentingiz",
-      "body": "Kontent huquqlari sizda qoladi. Xizmatni yuritish uchun zarur (masalan, marshrutlash, saqlash, tarjima) minimal huquqlarni bizga berasiz."
+    "privacySection": {
+      "strictE2EE": "Qattiq oxirigacha shifrlash",
+      "ciphertextOnlyNote": "Serverda faqat shifrlangan matnni saqlash. AI/Tarjima va moderatsiya oldindan ko‘rishni o‘chiradi."
     },
-    "disclaimer": {
-      "title": "Ogohlantirish va javobgarlik",
-      "body": "Xizmat “boricha” taqdim etiladi, hech qanday kafolatlarsiz. Qonun ruxsat bergan darajada Chatforia bilvosita yoki oqibatdagi zararlar uchun javobgar emas."
+    "linkedDevicesPanel": {
+      "title": "Bog‘langan qurilmalar",
+      "noneFound": "Bog‘langan qurilmalar topilmadi.",
+      "refresh": "Yangilash"
     },
-    "changes": {
-      "title": "O‘zgarishlar",
-      "body": "Ushbu shartlar yangilanishi mumkin; davomiy foydalanish — o‘zgarishlarni qabul qilish demakdir."
+    "help": {
+      "title": "Yordam",
+      "howCanWeHelp": "Qanday yordam bera olamiz?",
+      "helpCenter": "Yordam markazi",
+      "contactUs": "Biz bilan bog‘lanish",
+      "quickTopics": "Tez mavzular",
+      "searchExamples": "“tarjima”, “zaxiralar” yoki “maxfiylik” ni qidirib ko‘ring.",
+      "cantLogin": "Kirib bo‘lmayapti",
+      "paymentsBilling": "To‘lovlar/hisob-kitob",
+      "reportAbuse": "Zulm haqida xabar berish",
+      "searchHelpArticles": "Yordam maqolalarini qidirish",
+      "search": "Qidirish"
     },
-    "contact": {
-      "title": "Aloqa",
-      "body": "support@chatforia.com • [Kompaniya yuridik nomi], [Manzil]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Shaxsiy ma’lumotlarimni sotmang yoki ulashmang",
-    "body": "Chatforia shaxsiy ma’lumotlarni sotmaydi. Biroq Kaliforniya fuqarolari CPRA doirasida quyidagi tugma orqali so‘rov yuborishlari mumkin.",
-    "cta": "So‘rov yuborish"
-  },
-
-  "cookies": {
-    "title": "Cookie sozlamalari",
-    "body": "Chatforia minimal cookie’lardan foydalanadi (masalan, sessiya, xavfsizlik). Uchinchi tomon reklama cookie’lari yo‘q. Cookie’larni brauzeringiz sozlamalaridan boshqaring."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Telefon raqam holatini yuklab bo‘lmadi.",
-    "lock": "QuLfla",
-    "noNumberAssigned": "Raqam biriktirilmagan. SMS boshlash uchun kod bo‘yicha raqam tanlang.",
-    "pickNumber": "Raqam tanlash",
-    "phoneNumber": "Telefon raqami"
-  },
-
-  "startChatModal": {
-    "title": "Suhbatni boshlash",
-    "quickPicker": "Tez tanlov",
-    "to": "Kimga",
-    "nameOrUsername": "Ism, foydalanuvchi nomi kiriting",
-    "nameUsernamePhoneEmail": "Ism, foydalanuvchi nomi, telefon yoki email kiriting…",
-    "startWithSelected": "Tanlanganlar bilan suhbatni boshlash",
-    "searchByUsernameOrPhone": "Foydalanuvchi nomi yoki telefon bo‘yicha qidirish",
-    "search": "Qidirish",
-    "searchPrompt": "Foydalanuvchi nomi yoki telefon kiriting va Qidirish tugmasini bosing.",
-    "pickFromContacts": "Yoki kontaktlardan tanlang",
-    "addContact": "Kontakt qo‘shish",
-    "show": "Ko‘rsatish",
-    "add": "Qo‘shish",
-    "close": "Yopish",
-    "selectedCount": "{{count}} ta tanlandi",
-    "pickAtLeastOne": "Hech bo‘lmaganda bitta qabul qiluvchini tanlang.",
-    "saveContactsHint": "Telefon/email yozuvlari ularni kontakt sifatida saqlaganingizdan keyin mavjud bo‘ladi.",
-    "failedBulkStart": "Tanlangan qabul qiluvchilar bilan suhbatni boshlab bo‘lmadi.",
-    "noResults": "Natija yo‘q",
-    "mode": "Rejim",
-    "group": "Guruh",
-    "broadcast": "E’lon (broadcast)",
-    "groupNameOptional": "Guruh nomi (ixtiyoriy)",
-    "firstMessageOptional": "Birinchi xabar (ixtiyoriy, lekin tavsiya etiladi)",
-    "createGroup": "Guruh yaratish",
-    "sendBroadcast": "E’lon yuborish"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Quyosh botishi",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Siz Free rejasidasiz — premium ohanglar ko‘rsatiladi, ammo qulflangan. Barchasini ochish uchun yangilang.",
-    "preview": "Ko‘rib chiqish",
-    "resetToDefaults": "Standartlarga qaytarish",
-    "notificationSounds": "Bildirishnoma tovushlari",
-    "messageTone": "Xabar ohangi",
-    "default": "Standart",
-    "vibrate": "Vibratsiya",
-    "dreamer": "Tushko‘r",
-    "notify": "Ogohlantirish",
-    "pop": "Pop",
-    "pulsatingSound": "Uriluvchi ovoz",
-    "textMessage": "SMS",
-    "xylophone": "Ksilofon",
-    "classic": "Klassik",
-    "urgency": "Shoshilinch",
-    "bells": "Qo‘ng‘iroqlar",
-    "chimes": "Chayir ovozlar",
-    "digitalPhone": "Raqamli telefon",
-    "melodic": "Musiqiy",
-    "organNotes": "Organ notalari",
-    "soundReality": "Ovoz haqiqat",
-    "street": "Ko‘cha",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Bu funksiya Premium rejani talab qiladi."
-  },
-
-  "aiSettings": {
-    "title": "AI sozlamalari",
-    "controlIntro": "Tarjima, tezkor javoblar va ForiaBot avto-javoblarini boshqaring.",
-    "save": "AI sozlamalarini saqlash",
-    "autoTranslateIncoming": "Kiruvchi xabarlarni avtomatik tarjima qilish",
-    "showOriginalAlongside": "Asl matnni tarjima bilan yonma-yon ko‘rsatish",
-    "enableSmartReplies": "Tezkor (Smart) javoblarni yoqish",
-    "smartRepliesHint": "AI ga so‘nggi bir necha olingan (tozalangan) xabarlarni yuborib, tezkor javoblarni taklif qildiring.",
-    "maskProfanity": "AI takliflarida haqoratomuz so‘zlarni niqoblash",
-    "maskProfanityHint": "Yoqilganda, AI qaytargan takliflarda belgilangan so‘zlar niqoblanadi",
-    "foriaBot": "ForiaBot avto-javob beruvchi",
-    "enableAutoReply": "Band bo‘lganimda avto-javobni yoqish",
-    "autoReplyMode": "Avto-javob rejimi",
-    "cooldownSeconds": "Kutish (soniya)",
-    "off": "O‘chiq",
-    "on": "Yoniq",
-    "signature": "Imzo",
-    "autoReply": "Avto-javob",
-    "activeUntilOptional": "Faol muddati (ixtiyoriy)",
-    "saved": "AI sozlamalari saqlandi",
-    "saveFailed": "AI sozlamalarini saqlab bo‘lmadi",
-    "translateOff": "O‘chiq",
-    "translateTagged": "Faqat @translated yoki teg qo‘yilganda",
-    "translateAll": "Barcha kiruvchi xabarlarni tarjima qilish",
-    "modeDm": "Faqat 1:1 chatlar",
-    "modeMention": "Faqat meni @tilga olganda",
-    "modeAll": "Barcha kiruvchi xabarlar"
-  },
-
-  "accessibilitySettings": {
-    "title": "Kirish imkoniyati va ogohlantirishlar",
-    "accessibility": "Kirish imkoniyati",
-    "accessibilityDesc": "Tovushga tayanmasdan Chatforia’dan qulay foydalanish uchun variantlar.",
-    "interfaceFontSize": "Interfeys shrift o‘lchami",
-    "interfaceFontSizeHelp": "Standart o‘lchamdan boshlanadi. Katta matn xohlasangiz, shu yerda oshiring.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Bildirishnomalar",
-    "notificationsDesc": "Xabarlar va qo‘ng‘iroqlar uchun vizual ogohlantirishlar\nHech narsani o‘tkazib yubormaslik uchun bannerlar va sarlavha miltillashini ko‘rsating.",
-    "vibrateOnNew": "Yangi xabarda vibratsiya (qo‘llab-quvvatlansa)\nBildirishnoma kelganda qurilma vibratsiyasini yoqing.",
-    "flashOnCall": "Kiruvchi qo‘ng‘iroqda ekran miltillashi\nQo‘ng‘iroq chalinganda qisqa yorqin miltillash.",
-    "liveCaptions": "Jonli subtitrlar (qo‘ng‘iroqlar)",
-    "captionFontSize": "Subtitr shrift o‘lchami",
-    "captionBackground": "Subtitr foni",
-    "light": "yorug‘",
-    "dark": "qorong‘i",
-    "transparent": "shaffof",
-    "voiceNotes": "Ovoz yozuvlari",
-    "autoTranscribeVoiceNotes": "Ovoz yozuvlarini avtomatik transkriptsiya qilish\nQabul qilingan audio xabarlarga matnli nusxa biriktiring.",
-    "changesSavedInstantly": "O‘zgarishlar darhol saqlanadi.",
-    "loadFailed": "Sozlamalarni yuklab bo‘lmadi",
-    "visualAlerts": "Xabarlar va qo‘ng‘iroqlar uchun vizual ogohlantirishlar",
-    "visualAlertsDesc": "Hech narsani o‘tkazib yubormaslik uchun bannerlar va sarlavha miltillashini ko‘rsating.",
-    "vibrateOnNewShort": "Yangi xabarda vibratsiya (qo‘llab-quvvatlansa)",
-    "vibrateOnNewDesc": "Bildirishnoma kelganda qurilma vibratsiyasini yoqing.",
-    "flashOnCallShort": "Kiruvchi qo‘ng‘iroqda ekran miltillashi",
-    "flashOnCallDesc": "Qo‘ng‘iroq chalinganda qisqa yorqin miltillash."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Qat’iy uchidan-uchigacha shifrlash",
-    "ciphertextOnlyNote": "Serverda faqat shifrlangan matn saqlansin. AI/Tarjima va moderatsiya ko‘rishlarini o‘chiradi."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Ulangan qurilmalar",
-    "noneFound": "Ulangan qurilmalar topilmadi.",
-    "refresh": "Yangilash"
-  },
-
-  "help": {
-    "title": "Yordam",
-    "howCanWeHelp": "Qanday yordam bera olamiz?",
-    "helpCenter": "Yordam markazi",
-    "contactUs": "Biz bilan bog‘laning",
-    "quickTopics": "Tez mavzular",
-    "searchExamples": "“tarjima”, “zaxira” yoki “maxfiylik” so‘zlarini qidirib ko‘ring.",
-    "cantLogin": "Kira olmayapman",
-    "paymentsBilling": "To‘lovlar/billing",
-    "reportAbuse": "Shikoyat yuborish",
-    "searchHelpArticles": "Yordam maqolalaridan qidirish",
-    "search": "Qidirish"
-  },
-
-  "peoplePage": {
-    "people": "Odamlar",
-    "search": "Qidirish",
-    "searchPlaceholder": "Taxallus, ism, foydalanuvchi nomi yoki telefon bo‘yicha qidiring",
-    "filterSaved": "Saqlangan kontaktlarni filtrlash",
-    "noContactsFound": "Kontaktlar topilmadi",
-    "quickStart": "Tez boshlash",
-    "quickStartDesc": "Tezda yo‘lga tushishning bir necha usuli.",
-    "importContacts": "Kontaktlarni import qilish",
-    "add": "Qo‘shish",
-    "focusSearch": "Qidiruvga o‘tish",
-    "import": "Import",
-    "findOrAdd": "Kimnidir topish yoki qo‘shish",
-    "searchByPhoneOrUsername": "Telefon / foydalanuvchi nomi bo‘yicha qidirish",
-    "inviteFriends": "Do‘stlarni taklif qilish",
-    "inviteDesc": "Taklif havolangizni ulashing — darhol suhbatni boshlang.",
-    "getTheApp": "Ilovani oling",
-    "getTheAppDesc": "iOS va Android uchun Chatforia bilan yo‘lda ham aloqada qoling.",
-    "download": "Yuklab olish",
-    "syncTip": "Maslahat: Xabarlaringiz web va mobil o‘rtasida sinxron qoladi."
-  },
-
-  "randomChat": {
-    "title": "Tasodifiy chat",
-    "description": "Zudlik bilan yangi odam bilan tanishing. Sizni moslab, vaqtinchalik chat xonasini ochamiz.",
-    "findMatch": "Moslashni boshlang",
-    "chatWithForia": "Foria bilan chat",
-    "chatWithForiaBot": "ForiaBot bilan chat",
-    "cancel": "Bekor qilish",
-    "close": "Yopish",
-    "searching": "Qidirilmoqda…",
-    "finding": "Moslanmoqda…",
-    "looking": "Kimnidir izlayapmiz…",
-    "startingForia": "Foria bilan chat boshlanmoqda…",
-    "partnerDisconnected": "Hamkor uzildi.",
-    "noPartner": "Hozircha hamkor topilmadi.",
-    "connectedTo": "{{name}} bilan ulandi",
-    "connected": "Ulandi",
-    "idle": "Bekor",
-    "partnerLeft": "Hamkor chiqib ketdi.",
-    "stopped": "To‘xtatildi.",
-    "skip": "O‘tkazib yuborish",
-    "save": "Saqlash",
-    "saveGuard": "Faqat inson-inson chatlar saqlanishi mumkin",
-    "youAreChattingWith": "Siz {{name}} bilan chat qilyapsiz",
-    "bot": "BOT",
-    "leave": "Chiqish",
-    "sayHi": "Salom deng 👋",
-    "you": "Siz",
-    "typeMessage": "Xabar yozing",
-    "send": "Yuborish",
-    "partner": "Hamkor",
-    "withForia": "Foria bilan"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Navigatsiya menyusini ochish",
-    "closeNav": "Navigatsiya menyusini yopish",
-    "homeAria": "Chatforia bosh sahifa"
-  },
-
-  "login": {
-    "title": "Xush kelibsiz",
-    "subtitle": "Chatforia hisobingizga kiring",
-    "google": "Google bilan davom etish",
-    "apple": "Apple bilan davom etish",
-    "googleUnavailable": "Google orqali kirish vaqtincha mavjud emas",
-    "appleUnavailable": "Apple orqali kirish vaqtincha mavjud emas",
-    "or": "yoki",
-    "email": "Email",
-    "emailPh": "you@example.com",
-    "usernameLabel": "Foydalanuvchi nomi",
-    "usernamePh": "Foydalanuvchi nomingiz",
-    "passwordLabel": "Parol",
-    "passwordPh": "Parolingiz",
-    "keepSignedIn": "Tizimda qolish",
-    "forgot": "Parolni unutdingizmi?",
-    "submit": "Kirish",
-    "loggingIn": "Kirilmoqda…",
-    "newHere": "Yangi foydalanuvchi? <link>Hisob yarating</link>",
-    "ssoUnavailable": "Single-sign-on hozircha mavjud emas. O‘rniga foydalanuvchi nomi va paroldan foydalaning.",
-    "error": {
-      "missing": "Iltimos, ma’lumotlarni kiriting.",
-      "invalid": "Foydalanuvchi nomi yoki parol noto‘g‘ri",
-      "denied": "Kirish rad etildi.",
-      "unprocessable": "Noto‘g‘ri so‘rov. Foydalanuvchi nomi/email va parolni tekshiring.",
-      "deviceLimit": "Free reja uchun qurilmalar limiti to‘ldi. Boshqa qurilmadan chiqish yoki ko‘proq qurilma uchun Premiumga yangilang.",
-      "premiumRequired": "Ushbu amal Premium rejani talab qiladi."
+    "peoplePage": {
+      "people": "Odamlar",
+      "search": "Qidirish",
+      "searchPlaceholder": "Taxallus, ism, foydalanuvchi nomi yoki telefon bo‘yicha qidirish",
+      "filterSaved": "Saqlangan kontaktlarni filtrlash",
+      "noContactsFound": "Kontaktlar topilmadi",
+      "quickStart": "Tez boshlash",
+      "quickStartDesc": "Bir necha tez usul bilan ishga tushish.",
+      "importContacts": "Kontaktlaringizni import qilish",
+      "add": "Qo‘shish",
+      "focusSearch": "Qidirishni fokuslash",
+      "import": "Import qilish",
+      "findOrAdd": "Kimnidir topish yoki qo‘shish",
+      "searchByPhoneOrUsername": "Telefon / foydalanuvchi nomi bo‘yicha qidirish",
+      "inviteFriends": "Do‘stlarni taklif qilish",
+      "inviteDesc": "Bir zumda chatni boshlash uchun taklif havolangizni baham ko‘ring.",
+      "getTheApp": "Ilovani oling",
+      "getTheAppDesc": "Yo‘lda Chatforia iOS va Android bilan aloqada bo‘ling.",
+      "download": "Yuklab olish",
+      "syncTip": "Maslahat: Xabarlaringiz veb va mobil qurilmalarda sinxronlashadi."
+    },
+    "randomChat": {
+      "title": "Tasodifiy chat",
+      "description": "Bir zumda yangi odam bilan tanishing. Biz sizni juftlashtiramiz va vaqtinchalik chat xonasini ochamiz. Avval anonim suhbatlashing. Agar yoqsa, keyin Do‘st qo‘shing.",
+      "findMatch": "Menga juft toping",
+      "chatWithForia": "Foria bilan suhbatlashish",
+      "chatWithForiaBot": "ForiaBot bilan suhbatlashish",
+      "cancel": "Bekor qilish",
+      "close": "Yopish",
+      "searching": "Qidirmoqda...",
+      "finding": "Topmoqda...",
+      "looking": "Kimnidir qidirmoqda...",
+      "startingForia": "Foria bilan suhbat boshlanmoqda...",
+      "partnerDisconnected": "Juftingiz uzildi.",
+      "noPartner": "Hozir juft topilmadi.",
+      "connectedTo": "{{name}} bilan bog‘langan",
+      "connected": "Bog‘langan",
+      "idle": "Bo‘sh",
+      "partnerLeft": "Juft ketdi.",
+      "stopped": "To‘xtatildi.",
+      "skip": "O‘tkazib yuborish",
+      "save": "Saqlash",
+      "saveGuard": "Faqat odam-odam chatlari saqlanishi mumkin",
+      "youAreChattingWith": "Siz {{name}} bilan suhbatlashmoqdasiz",
+      "bot": "BOT",
+      "leave": "Chiqish",
+      "sayHi": "Salom ayting 👋",
+      "you": "Siz",
+      "typeMessage": "Xabar yozing",
+      "send": "Yuborish",
+      "partner": "Juft",
+      "withRia": "Ria bilan",
+      "chatWithRia": "Ria bilan suhbatlashish",
+      "startingRia": "Ria bilan suhbat boshlanmoqda...",
+      "ageDisclaimer": "Biz faqat yosh oralig‘ini saqlaymiz (aniq tug‘ilgan sanangiz emas). Bu tasodifiy chat juftlashuvlarini mantiqiy saqlash uchun ishlatiladi. Odamlar bilan (faqat RiaBot emas) juftlashish uchun Sozlamalar → Yosh va Tasodifiy chatda yosh oraligingizni sozlang.",
+      "ageBandRequired": "Odamlar bilan juftlashish uchun Profil → Yosh va Tasodifiy chatda yosh oraligingizni sozlang.",
+      "ageBandCallout": "Odamlar bilan (faqat RiaBot emas) juftlashish uchun Sozlamalar → Yosh va Tasodifiy chatda yosh oraligingizni sozlang.",
+      "subtitle": "Bir zumda yangi odam bilan tanishing yoki Ria bilan suhbatlashishni tanlang.",
+      "start": "Suhbatni boshlash",
+      "matching": "Juftlashmoqda...",
+      "setAge": "Odamlar bilan juftlashish uchun Profil → Yosh va Tasodifiy chatda yosh oraligingizni sozlang.",
+      "next": "Keyingi odam",
+      "addFriend": "Do‘st qo‘shish",
+      "requested": "So‘ralgan",
+      "messageRia": "Ria ga xabar yozing...",
+      "messageMatch": "Juftingizga xabar yozing..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "u yerda",
+      "intro": "Salom 👋 Men Ria. Nima haqida o‘ylayapsiz?",
+      "greetings": {
+        "long1": "Salom {{name}} 👋 Men shu yerdaman. Nima haqida o‘ylayapsiz?",
+        "long2": "Salom {{name}} 😊 Bugun nima haqida gaplashmoqchisiz?",
+        "long3": "Salom {{name}}!! Men butun quloqman — nima bor?",
+        "long4": "Sizni ko‘rishdan xursandman, {{name}} 👋 Bugun nima haqida o‘ylayapsiz?",
+        "long5": "Salom {{name}} 😊 Vent qilmoqchimisiz, so‘ramoqchimisiz yoki shunchaki suhbatlashmoqchimisiz?",
+        "long6": "Salom {{name}}!! Vaqtim bor — nima haqida gaplashmoqchisiz?",
+        "short1": "Salom {{name}}, men hali ham shu yerdaman. Nima bor?",
+        "short2": "Xush kelibsiz qaytib {{name}} 👋 Yana biror narsa qo‘shmoqchi edingizmi?",
+        "short3": "Yana qaytdingizmi, {{name}}? 😊 Nima haqida o‘ylayapsiz, ayting.",
+        "short4": "Salom {{name}} 👋 Qaerda qoldik, o‘sha yerdan davom ettirishga tayyormisiz?",
+        "short5": "Ha {{name}}? Men tinglayapman 👂",
+        "short6": "Oh salom {{name}}!! Yangi nima haqida o‘ylayapsiz?"
+      },
+      "header": {
+        "openNav": "Navigatsiya menyusini ochish",
+        "closeNav": "Navigatsiya menyusini yopish",
+        "homeAria": "Chatforia Bosh sahifasi"
+      },
+      "login": {
+        "welcomeBack": "Xush kelibsiz qaytib",
+        "title": "Chatforiaga davom eting",
+        "subtitleReturning": "Chatforia hisobingizga kiring",
+        "subtitle": "Chatforia hisobingizga kiring",
+        "google": "Google bilan davom ettirish",
+        "apple": "Apple bilan davom ettirish",
+        "googleUnavailable": "Google kirishi mavjud emas",
+        "appleUnavailable": "Apple kirishi mavjud emas",
+        "or": "yoki",
+        "email": "Elektron pochta",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Foydalanuvchi nomi",
+        "usernamePh": "Foydalanuvchi nomingiz",
+        "passwordLabel": "Parol",
+        "passwordPh": "Parolingiz",
+        "keepSignedIn": "Meni tizimda saqlash",
+        "forgot": {
+          "title": "Parolni unutdingizmi",
+          "helper": "Chatforia hisobingizni yaratishda ishlatgan elektron pochtangizni kiriting va biz parolni tiklash uchun xavfsiz havola yuboramiz.",
+          "emailInvalid": "Iltimos, to‘g‘ri elektron pochta manzilini kiriting.",
+          "genericError": "So‘rovni bajarib bo‘lmadi. Bir oz vaqtdan keyin qayta urinib ko‘ring.",
+          "sending": "Tiklash havolasini yubormoqda...",
+          "sendCta": "Tiklash havolasini yuborish",
+          "sentLabel": "Yuborildi!",
+          "sentHelper": "Agar shu elektron pochta bilan hisob mavjud bo‘lsa, parolni tiklash havolasini yubordik. Bir necha daqiqa vaqt olishi mumkin. Spam yoki aksiyalar papkasini tekshiring.",
+          "previewDev": "Elektron pochtani oldindan ko‘rish (Dev)",
+          "backToLogin": "Kirishga qaytish"
+        },
+        "submit": "Kirish",
+        "loggingIn": "Kirilmoqda…",
+        "newHere": "Yangi misiz? <link>Hisob yarating</link>",
+        "ssoUnavailable": "Yagona kirish hozirda mavjud emas. Foydalanuvchi nomi va paroldan foydalaning.",
+        "error": {
+          "missing": "Iltimos, hisob ma’lumotlaringizni kiriting.",
+          "invalid": "Noto‘g‘ri foydalanuvchi nomi yoki parol",
+          "denied": "Kirish rad etildi.",
+          "unprocessable": "Noto‘g‘ri so‘rov. Foydalanuvchi nomi/elektron pochta va parolni tekshiring.",
+          "deviceLimit": "Bepul reja uchun qurilma cheklovi yetdi. Boshqa qurilmada chiqing yoki ko‘proq qurilmalarni bog‘lash uchun Premiumga yangilang.",
+          "premiumRequired": "Bu amal Premium rejasini talab qiladi."
+        }
+      },
+      "oauth": {
+        "completing": "Kirishni yakunlamoqda…"
+      },
+      "dialer": {
+        "title": "Qo‘ng‘iroqlar",
+        "subtitle": "Klavyatura va oxirgilar. (Agar PSTN ishlatmasangiz, suhbat sarlavhasidan qo‘ng‘iroqlarni boshlang.)",
+        "enterNumberPh": "Raqamni kiriting",
+        "call": "Qo‘ng‘iroq",
+        "backspace": "Orqaga o‘chirish",
+        "recents": "Oxirgilar",
+        "recentsEmpty": "Hali oxirgi qo‘ng‘iroqlar yo‘q.",
+        "enterNumber": "Raqamni kiriting",
+        "enterNumberAria": "Raqamni kiriting",
+        "key": "Tugma {{d}}",
+        "noRecents": "Hali oxirgi qo‘ng‘iroqlar yo‘q."
+      },
+      "video": {
+        "title": "Video",
+        "chooseType": "Video turini tanlang.",
+        "directTitle": "To‘g‘ridan-to‘g‘ri video",
+        "directDesc": "Boshqa foydalanuvchi bilan 1:1 kamera qo‘ng‘irog‘i.",
+        "directStart": "Boshlash",
+        "roomsTitle": "Xonalar",
+        "roomsDesc": "Umumiy xona nomi yordamida ko‘p ishtirokchilar videosi.",
+        "roomsIntro": "Ko‘p ishtirokchilar xonasiga qo‘shiling yoki yarating.",
+        "roomNameLabel": "Xona nomi",
+        "roomNamePh": "masalan, team-standup",
+        "join": "Qo‘shilish",
+        "deeplinkTip": "Maslahat: to‘g‘ridan-to‘g‘ri <code>/video?room=room-name</code> ga chuqur havola qilishingiz mumkin.",
+        "hub": {
+          "title": "Video",
+          "subtitle": "Video turini tanlang."
+        },
+        "direct": {
+          "title": "To‘g‘ridan-to‘g‘ri video",
+          "subtitle": "Telefon raqami yoki Chatforia foydalanuvchi nomi yordamida 1:1 video qo‘ng‘iroqni boshlang.",
+          "desc": "Boshqa foydalanuvchi bilan 1:1 kamera qo‘ng‘irog‘i.",
+          "start": "Boshlash",
+          "callBtn": "Qo‘ng‘iroq",
+          "callByPhone": {
+            "title": "Telefon orqali qo‘ng‘iroq"
+          },
+          "phone": {
+            "placeholder": "Telefonni kiriting (masalan, +1-555-123-4567)",
+            "aria": "Qo‘ng‘iroq qilish uchun telefon"
+          },
+          "tipInvite": "Maslahat: Raqamni joylashtiring va kontaktni saqlamasdan qo‘ng‘iroq qiling. Biz foydalanuvchi bo‘lmaganlarni havola orqali taklif qilamiz.",
+          "findUser": {
+            "title": "Foydalanuvchini topish"
+          },
+          "search": {
+            "placeholder": "Ism yoki foydalanuvchi nomi bo‘yicha qidirish",
+            "aria": "Ism yoki foydalanuvchi nomi bo‘yicha qidirish",
+            "btn": "Qidirish"
+          }
+        },
+        "rooms": {
+          "title": "Xonalar",
+          "subtitle": "Xona yarating yoki bir xil nomni yozib mavjud xonaga qo‘shiling.",
+          "desc": "Umumiy xona nomi yordamida ko‘p ishtirokchilar videosi.",
+          "roomLabel": "Xona nomi",
+          "roomPlaceholder": "masalan, team-standup",
+          "roomAria": "Xona nomi",
+          "joinCreate": "Qo‘shilish / Yaratish",
+          "tip": "Maslahat: bu nomni boshqalar bilan baham ko‘ring yoki <code>/video?room=room-name</code> ga chuqur havola qiling."
+        }
+      },
+      "directVideo": {
+        "intro": "To‘g‘ridan-to‘g‘ri 1:1 video qo‘ng‘iroqni boshlang.",
+        "findUserLabel": "Foydalanuvchini topish",
+        "findUserPh": "Ism yoki foydalanuvchi nomi bo‘yicha qidirish",
+        "search": "Qidirish",
+        "call": "Qo‘ng‘iroq"
+      },
+      "phoneWarning": {
+        "title": "Raqamingiz tez orada muddati tugaydi",
+        "body": "Sizning raqamingiz {{number}} {{date}} sanasida chiqariladi, agar faollashtirilmasa.",
+        "button": "Raqamimni saqlash"
+      }
+    },
+    "support": {
+      "helpFab": "Yordam",
+      "openSupportAria": "Yordamni ochish",
+      "badge": "Yordam",
+      "heading": "Qanday yordam bera olamiz?",
+      "tabs": {
+        "help": "Yordam markazi",
+        "contact": "Biz bilan bog‘lanish"
+      },
+      "searchPlaceholder": "Yordam maqolalarini qidirish…",
+      "searchAria": "Yordamni qidirish",
+      "searchBtn": "Qidirish",
+      "quickTopicsLabel": "Tez mavzular",
+      "quickTopics": {
+        "login": "Kirib bo‘lmayapti",
+        "billing": "To‘lovlar / hisob-kitob",
+        "abuse": "Zulm haqida xabar berish"
+      },
+      "trySearching": "“tarjima”, “zaxiralar” yoki “maxfiylik” ni qidirib ko‘ring.",
+      "article": "Maqola",
+      "openArticle": "Maqolani ochish",
+      "contactIntro": "Biz sizga elektron pochta orqali javob beramiz. Muammoni takrorlashga yordam berish uchun tafsilotlarni qo‘shing.",
+      "topicAria": "Mavzuni tanlang",
+      "messagePlaceholder": "Xabaringizni yozing…",
+      "sendBtn": "Yuborish",
+      "sent": "Xabar yuborildi. Biz elektron pochta orqali javob beramiz.",
+      "sendError": "Yuborib bo‘lmadi. O‘rniga support@chatforia.com ga elektron pochta yuboring."
+    },
+    "encryptionRecovery": {
+      "title": "Shifrlashni boshqarish",
+      "description": "Shifrlash kalitingizni zaxiralang, tiklang, oching yoki qayta tiklang.",
+      "alert": {
+        "keyRequiredTitle": "Shifrlash kaliti talab qilinadi",
+        "keyRequiredBody": "Bu brauzer hozirda shifrlangan xabarlaringizni shifrdan chiqara olmaydi. Davom ettirish uchun kalitingizni tiklang, oching yoki qayta tiklang."
+      },
+      "sections": {
+        "createBackup": "Kalit zaxirasini yaratish",
+        "restoreFromBackup": "Hisob zaxirasidan tiklash",
+        "resetEncryption": "Shifrlashni qayta tiklash"
+      },
+      "fields": {
+        "unlockPasscode": {
+          "label": "Ochirish paroli (joriy qurilma)",
+          "description": "Eksport qilishdan oldin kalitlaringizni mahalliy shifrdan chiqarish uchun ishlatiladi"
+        },
+        "backupPassword": {
+          "label": "Zaxira paroli",
+          "description": "Zaxira faylini shifrlash uchun ishlatiladi"
+        },
+        "restoreBackupPassword": {
+          "label": "Zaxira paroli",
+          "description": "iPhone da kalitingizni zaxiralaganingizda yaratgan parolingiz"
+        },
+        "newLocalPasscode": {
+          "label": "Yangi mahalliy parol",
+          "description": "Bu brauzerda kalitlarni saqlashni himoyalash"
+        },
+        "resetLocalPasscode": {
+          "label": "Yangi mahalliy parol",
+          "description": "Qayta tiklashdan oldin talab qilinadi, shunda yangi kalit ushbu qurilmada himoyalanadi"
+        }
+      },
+      "actions": {
+        "unlockKey": "Shifrlash kalitini ochish",
+        "restoreFromBackup": "Hisob zaxirasidan tiklash",
+        "resetEncryption": "Shifrlashni qayta tiklash"
+      },
+      "messages": {
+        "backupCreated": "Kalit zaxirasi yaratildi va yuklab olindi.",
+        "keyUnlocked": "Shifrlash kaliti ochildi.",
+        "keyRestored": "Kalit hisob zaxirasidan tiklandi.",
+        "resetSuccess": "Shifrlash muvaffaqiyatli qayta tiklandi."
+      },
+      "errors": {
+        "restoreIncomplete": "Kalit tiklash to‘liq emas yoki bu hisob uchun noto‘g‘ri",
+        "noBackup": "Bu hisob uchun shifrlangan zaxira mavjud emas",
+        "missingPublicKey": "Zaxirada ochiq kalit yetishmayapti",
+        "noServerPublicKey": "Bu hisob hozirda server ochiq kalitini ochiq qilmayapti",
+        "serverBackupMismatch": "Server zaxirasi joriy hisob shifrlash kalitiga mos kelmaydi",
+        "incompleteMetadata": "Zaxira metama’lumotlari to‘liq emas",
+        "resetIncomplete": "Shifrlash qayta tiklanishi to‘g‘ri yakunlanmadi"
+      },
+      "confirm": {
+        "reset": "Bu hisob uchun shifrlashni qayta tiklash?\n\nAgar keyinchalik asl kalitni tiklamasangiz, eski shifrlangan xabarlar o‘qilmay qolishi mumkin."
+      },
+      "resetDescription": "Bu hisobingiz uchun yangi shifrlash kalitini yaratadi. Agar keyinchalik asl kalitni tiklamasangiz, eski shifrlangan xabarlar o‘qilmay qolishi mumkin."
+    },
+    "footer": {
+      "plans": "Rejalar va narxlar",
+      "about": "Chatforia haqida",
+      "careers": "Karyera",
+      "press": "Matbuot",
+      "advertise": "Reklama",
+      "contact": "Biz bilan bog‘lanish",
+      "help": "Yordam markazi",
+      "status": "Holati sahifasi",
+      "iosDownload": "iOS / App Store",
+      "androidDownload": "Android / Google Play",
+      "privacy": "Maxfiylik siyosati",
+      "terms": "Xizmat ko‘rsatish shartlari",
+      "cookies": "Cookie sozlamalari",
+      "doNotSell": "Ma’lumotimni sotishni rad etish",
+      "language": "Til",
+      "contactShort": "Aloqa",
+      "aria": "Pastki qism",
+      "homeAria": "Chatforia bosh sahifasi",
+      "section": {
+        "company": "KOMPANIYA",
+        "support": "YORDAM",
+        "downloads": "YUKLAB OLISH",
+        "legal": "HUQUQIY"
+      },
+      "links": {
+        "plans-pricing": "Rejalar va narxlar",
+        "about-chatforia": "Chatforia haqida",
+        "careers": "Karyera",
+        "press": "Matbuot",
+        "advertise": "Reklama",
+        "getting-started": "Boshlash",
+        "help-center": "Yordam markazi",
+        "contact-us": "Biz bilan bog‘lanish",
+        "status-page": "Holati sahifasi",
+        "ios-app-store": "iOS / App Store",
+        "android-google-play": "Android / Google Play",
+        "privacy-policy": "Maxfiylik siyosati",
+        "terms-of-service": "Xizmat ko‘rsatish shartlari",
+        "do-not-sell-my-info": "Ma’lumotimni sotishni rad etish",
+        "cookie-settings": "Cookie sozlamalari"
+      },
+      "social": {
+        "tiktok": "TikTok",
+        "instagram": "Instagram",
+        "facebook": "Facebook",
+        "linkedin": "LinkedIn",
+        "x": "X"
+      },
+      "copyright": "© Chatforia",
+      "patentPending": "Patent kutilyapti",
+      "backToTop": "↑ Yuqoriga qaytish"
+    },
+    "press": {
+      "title": "Matbuot",
+      "contactLine": "Media so‘rovlari uchun bizga murojaat qiling",
+      "boilerplateTitle": "Standart matn",
+      "boilerplateBody": "Chatforia maxfiylik birinchi o‘rinda turadigan xabar almashish ilovasi bo‘lib, til oralig‘idagi suhbatni osonlashtiradi. Xabarlar standart bo‘yicha oxirigacha shifrlangan va o‘rnatilgan tarjima real vaqtda 100+ tilni qo‘llab-quvvatlaydi. Foydalanuvchilar o‘chib ketadigan xabarlarni yoqishlari, o‘qilganligi haqida xabarni ixtiyoriy saqlashlari va qurilmalar bo‘ylab sinxronlashlari mumkin. iOS, Android va veb-da mavjud.",
+      "assetsTitle": "Brend aktivlari",
+      "assetsSubtitle": "Logotiplar, skrinshotlar va mahsulot tasvirlari.",
+      "downloadCta": "Media to‘plamini yuklab olish",
+      "downloadTitle": "Ilovani olish",
+      "scanTip": "Kompyuterda misiz? Ilovani olish uchun telefoningiz bilan skanerlang.",
+      "qrAria": "Chatforia veb-saytini ochish",
+      "appStore": "App Store’da yuklab olish",
+      "googlePlay": "Google Play’da olish"
+    },
+    "careers": {
+      "title": "Karyera",
+      "intro": "Biz Chatforiani — maxfiy, global messenjerni veb, iOS va Android da ishga tushirayotgan kichik asoschi jamoamiz. Agar siz maxfiylik, shifrlash va ajoyib foydalanuvchi tajribalariga qiziqsangiz, biz sizdan eshitishdan xursand bo‘lamiz.",
+      "openRoles": "<b>Ochilgan asoschi rollar:</b> Yetakchi to‘liq stack muhandis, Backend muhandis (Node.js), Frontend/Veb muhandis (React), Mobil muhandis (iOS), Mobil muhandis (Android), DevOps/SRE, Xavfsizlik va Shifrlash muhandisi, Telekom muhandisi (Twilio + eSIM).",
+      "apply": "Qanday murojaat qilish: Quyidagi tugma orqali rezyumengiz va havolalaringizni elektron pochta orqali yuboring.",
+      "emailCta": "Rezyumengizni elektron pochta orqali yuboring",
+      "whyNow": "Nega hozir qo‘shilish kerak?",
+      "whyBullets": "• Yangi global messenjerning asosini qurishga yordam bering.\n• Veb, iOS va Android bo‘ylab ishlatiladigan yaxshilanishlarni yetkazib bering.\n• Arxitektura va mahsulot yo‘nalishi bo‘yicha asoschi bilan to‘g‘ridan-to‘g‘ri ishlang.\n• Stackning yuqori ta’sirli sohalarini o‘zingiz egallang: xabar almashish, ovoz, video, shifrlash, telekom, AI.\n• Boshidan qo‘shiling — foydalanuvchi bazasi o‘sishidan oldin."
+    },
+    "about": {
+      "title": "Chatforia haqida",
+      "description": "Chatforia oxirigacha shifrlash, bir zumda tarjima va ovoz/video qo‘ng‘iroqlar bilan xavfsiz, ko‘p tilli messenjer. Bizning missiyamiz oddiy: odamlarni xavfsiz, maxfiy va tillar oralig‘ida bog‘lashga yordam berish.",
+      "valuesTitle": "Biz nimalarni qadrlaymiz",
+      "values": {
+        "privacy": "<b>Maxfiylik birinchi o‘rinda:</b> Standart bo‘yicha E2E shifrlash.",
+        "access": "<b>Hamma uchun kirish:</b> 100+ tilga avto-tarjima.",
+        "control": "<b>Nazorat:</b> O‘chib ketadigan xabarlar va o‘qilganligi haqida xabar ixtiyoriy.",
+        "privacy_aria": "Maxfiylik birinchi o‘rinda: Standart bo‘yicha E2E shifrlash.",
+        "access_aria": "Hamma uchun kirish: 100+ tilga avto-tarjima.",
+        "control_aria": "Nazorat: O‘chib ketadigan xabarlar va o‘qilganligi haqida xabar ixtiyoriy."
+      },
+      "howTitle": "Chatforia qanday ishlaydi",
+      "howDescription": "Xabarlar qurilmangizdan chiqishidan oldin shifrlanadi. Tarjima, zaxiralar va qurilma sinxronizatsiyasi serverlarimiz ko‘ra oladigan narsani minimallashtirish uchun ishlab chiqilgan."
+    },
+    "advertise": {
+      "title": "Chatforia bilan reklama qiling",
+      "description": "Didli, brend uchun xavfsiz joylashtirishlar bilan faol xabar almashish foydalanuvchilariga yetib boring. Biz yuqori ko‘rinishli joylarda banner inventar, homiylik va uy promolarini taklif qilamiz. Premium obunachilar reklama ko‘rmaydi.",
+      "adsense": {
+        "withPubIdShort": "Biz Google AdSense orqali ham inventar taqdim etamiz. Chatforiani nashrchi ID {{pubId}} bilan nishonga olishingiz mumkin yoki quyidagi shakldan to‘g‘ridan-to‘g‘ri homiylik uchun foydalaning.",
+        "noPubIdShort": "Biz Google AdSense orqali ba’zi inventarlarni taqdim etamiz. To‘g‘ridan-to‘g‘ri homiyliklar mavjud — quyidagi shakldan foydalaning."
+      },
+      "inventoryHeader": "Inventar va spetsifikatsiyalar",
+      "placement": {
+        "displayBadge": "Displey",
+        "acceptedSizes": "Qabul qilinadigan o‘lchamlar",
+        "adsenseSlot": "AdSense joyi:"
+      },
+      "noPlacementsPublic": "Biz reklama inventarimizni yakunlamoqdamiz. Kampaniyangiz haqida aytib bering va biz joylashtirishlarni tavsiya qilamiz.",
+      "whyHeader": "Nega Chatforia?",
+      "why": {
+        "highSession": "Chat interfeysida yuqori seans chastotasi va qolish vaqti",
+        "brandSafe": "Brend uchun xavfsiz formatlar; hurmatli chastota cheklovi",
+        "sponsoredMoments": "Homiylik lahzalari (masalan, “Chatni boshlash” modal) mavjud",
+        "deals": "To‘g‘ridan-to‘g‘ri bitimlar yoki AdSense/Google Ads orqali dasturiy"
+      },
+      "contactHeader": "Aloqa",
+      "form": {
+        "submittedMsg": "Rahmat! So‘rovingiz yo‘lga chiqdi. Tez orada javob beramiz.",
+        "missingRequired": "Iltimos, ism, elektron pochta va xabarni to‘ldiring.",
+        "successToast": "Rahmat! Tez orada aloqaga chiqamiz.",
+        "mailtoInfo": "So‘rovni yuborish uchun elektron pochta mijozingizni ochmoqda…",
+        "nameLabel": "Sizning ismingiz",
+        "namePlaceholder": "Jane Doe",
+        "emailLabel": "Elektron pochta",
+        "emailPlaceholder": "you@company.com",
+        "companyLabel": "Kompaniya",
+        "companyPlaceholder": "Acme Inc.",
+        "budgetLabel": "Oylik byudjet (ixtiyoriy)",
+        "budgetPlaceholder": "masalan, $1,000–$20,000+",
+        "messageLabel": "Kampaniyangiz haqida bizga aytib bering",
+        "messagePlaceholder": "Nishonga olish, sanalar, KPI, joylashtirish afzalliklari…",
+        "sendCta": "So‘rovni yuborish"
+      },
+      "legal": {
+        "disclaimerStart": "Yuborish orqali siz bizning",
+        "terms": "Shartlarimizga",
+        "and": "va",
+        "privacy": "Maxfiylik siyosatimizga"
+      }
     }
   }
 }

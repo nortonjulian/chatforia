@@ -1,985 +1,1695 @@
 {
   "common": {
-    "save": "သိမ်းမည်",
-    "cancel": "မလုပ်တော့",
-    "refresh": "ပြန်လည်အသစ်ပြု",
-    "noMatches": "မတွေ့ပါ",
-    "cancelAria": "မလုပ်တော့",
-    "copy": "ကူးယူ",
-    "copied": "ကူးယူပြီး!"
+    "save": "Save (shn)",
+    "cancel": "Cancel (shn)",
+    "refresh": "Refresh (shn)",
+    "noMatches": "No matches (shn)",
+    "cancelAria": "Cancel (shn)",
+    "copy": "Copy (shn)",
+    "copied": "Copied! (shn)",
+    "errorWithMessage": "Error: {{message}} (shn)"
   },
-
   "a11y": {
-    "skipToMain": "မူလအကြောင်းအရာသို့ ကျော်"
+    "skipToMain": "Skip to main content (shn)"
   },
-
-  "profile": {
-    "title": "ယုင်မုႆႇပရိုဖိုင်",
-    "preferredLanguage": "ဘာသာစကားရွေးချယ်",
-    "chooseLanguage": "ဘာသာစကား ရွေးပါ",
-    "mustLogin": "ဆက်တင်များကို ကြည့်ရန် ၶဝ်းလဵဝ် (လော့ဂ်အင်) ၵႂၢမ်းလႅတ်ႈတေႃႈ။",
-    "autoTranslate": "ၵႃႇသႂ်ႇထတ်း မူင်ၸႂ်ႉပဵၼ်တႆး",
-    "showOriginalWithTranslation": "မူလစာနှင့် ဘာသာပြန် စာကို ပြ",
-    "showOriginalAndTranslation": "မူလနှင့် ဘာသာပြန် တစ်ပြိုင်နက် ပြသ",
-    "filterExplicit": "ၶႅၼ်းထွန်ႈ မသင့်တော် တိုင်တေ",
-    "aiReply": "AI ႁႃႈတိတ်ႉ",
-    "enableReadReceipts": "Read receipts ဖွင့်",
-    "allowExplicitContent": "မသင့်တော် အကြောင်းအရာ ခွင့်ပြု",
-    "disappearingMessages": "ၶႃႈသၢႆလၵ်းၽႃႇ ဖွင့်",
-    "autoDeleteSeconds": "အလိုအလျောက် ဖျက်ရန် စက္ကန့်",
-    "saveSuccess": "ဆက်တင်များ သိမ်းလှ်င္းပြီး!",
-    "saveError": "ၼႄႉၵႂႃႇ: မိူဝ်ႇသိမ်းတူင်ႇတေ",
-    "avatarAlt": "ဢႅၵ်ႇတႅမ်ႇပရိုဖိုင်",
-    "uploadAvatar": "ဓာတ်ပုံ အသစ် တင်",
-    "avatarSuccess": "Avatar တင်ပြီး!",
-    "avatarError": "Avatar တင်ရန် မအောင်မြင်ပါ",
-    "noPrivateKey": "ဒီစက်တွင် ထွက်ပို့ရန် private key မရှိပါ။",
-    "setBackupPassword": "Backup ကို encrypt ပြုရန် စကားဝှက် ထားမည်:",
-    "backupDownloaded": "Encrypted backup ကို ဒေါင်းလုတ် ပြီးပါပြီ။",
-    "exportFailed": "Key export မအောင်မြင်ပါ",
-    "enterBackupPassword": "ဤ backup အတွက် စကားဝှက် ထည့်ပါ:",
-    "importSuccess": "Private key ကို ဒီစက်သို့ ထည့်သွင်းပြီး။",
-    "importFailed": "Key ထည့်သွင်းရန် မအောင်မြင်ပါ (စကားဝှက် မှား သို့မဟုတ် ဖိုင် ပျက်စီး)",
-    "keysRotated": "Key pair အသစ် ထုတ်ပေးပြီး public key တင်ပြီး။",
-    "rotateFailed": "Key rotate မအောင်မြင်ပါ။",
-    "security": "လႄႈတီႈ",
-    "exportKey": "Private key ကို ထုတ်ယူ",
-    "importKey": "Encrypted key backup ထည့်သွင်း",
-    "rotateKeys": "Key pair ပြန်ဖန်တီး",
-    "keyDisclaimer": "သင့် private key မည်သည့်အခါမျှ စက်ထဲမှထွက်မည် မဟုတ်ပါ။ စက်အသစ်တွင် ပြန်ထည့်ရန် စကားဝှက်ကာကွယ် Backup တစ်ခု ထုတ်ယူပါ။",
-    "sectionProfile": "ပရိုဖိုင်",
-    "phoneNumber": "မိုဘိုင်းထံး",
-    "appearance": "ပွင်ႇပုံ",
-    "soundSettings": "သံ",
-    "disappearing": "ၶႃႈသၢႆလၵ်းၽႃႇ",
-    "backupSync": "Backup & Sync",
-    "ai": "AI",
-    "accessibility": "လွင်ႈၶဝ်ႈၵႂႃႇ",
-    "privacy": "ႁိူင်ႇလႄႈတီႈ",
-    "devices": "Device ၵႂၢမ်း",
-    "themeFreeNotice": "ယခု Free — အောက်ရှိ Sun/Moon ကို အလျင်မြန် သုံးပါ။ ပိုမိုသော themes အတွက် Upgrade လုပ်ပါ။",
-    "sunTheme": "Dawn theme သုံး",
-    "moonTheme": "Moon (Midnight) theme သုံး",
-    "sun": "ပွင်ႇလႃင်း",
-    "moon": "ၵမ်ႇၼၢၼ်ႇ",
-    "backupTitle": "Encrypted Backups & Device Sync",
-    "openBackupTools": "Backup Tools ဖွင့်",
-    "backupDesc": "Key များကို စကားဝှက်ကာကွယ် Backup ပြုလုပ်၍ စက်တစ်ခုထဲတွင် ပြန်ထည့် ဖိုင်ညှိတန်းနိုင်သည်။",
-    "privacyBlurEnabled": "မက်ဆေ့များကို မူလတန်ဖိုးအဖြစ် ညှို့ပျက်ပြ",
-    "privacyBlurOnUnfocus": "App မဖော်ကျော် အချိန် ညှို့ပျက်",
-    "holdToReveal": "ကြည့်ရန် ဆွဲထိန်း",
-    "notifyOnCopy": "မိတ်ဟောင်းမက်ဆေ့ကူးယူချိန် အကြောင်းကြား",
-    "loadFailed": "ပရိုဖိုင် ဖွင့်မရပါ",
-    "followed": "ၶေႃႈၵႆႇ လၢႆး",
-    "followFailed": "မိူဝ်ႇ ၶေႃႈၵႆႇ",
-    "unfollowed": "မမှတ်တမ်း လုပ်ပြီး",
-    "unfollowFailed": "မိူဝ်ႇ မၶေႃႈၵႆႇ",
-    "follow": "ၶေႃႈၵႆႇ",
-    "unfollow": "မၶေႃႈၵႆႇ",
-    "followHint": "သူတို့၏ Story များကို Followers (သို့မဟုတ် Public) ဖြင့် ပိုစ်တ် သောအခါ Following feed ထဲတွင် ပေါ်ပါလိမ့်မည်။",
-    "userNotFound": "မီးယူႇဆၧး မသိူးႇ",
-    "followsYou": "ၶေႃႈၵႆႇၸဝ်ႈ",
-    "sectionCrashedTitle": "ပိုင်းတစ်ခု ဖွင့်မရပါ",
-    "sectionCrashedBody": "ဤပိုင်းတွင် မည်သို့မှတ်မထားသော အမှား ဖြစ်ပေါ်ခဲ့သည်။",
-    "forwarding": "ၶႃႈ & တႆး ၵႂၢမ်းတီႈ",
-    "callTextForwardingSection": "ၶႃႈ & တႆး ၵႂၢမ်းတီႈ",
-    "callTextForwardingTitle": "ၶႃႈ သို့မဟုတ် တႆး ၵႂၢမ်းတီႈ",
-    "callTextForwardingDescription": "ဝင်လာသော ခေါ်ဆိုမှုများ/စာများကို သင့် စစ်ဆင်ရေးပြုထားသော ဖုန်း/အီးမေးသို့ ၵႂၢမ်းတီႈ ပြုလုပ်ပါ။ အထွက်ခေါ်/စာများတွင် သင့် Chatforia နံပါတ် ပြနိုင်သည်။",
-    "enableTextForwarding": "စာ တင်ပို့ခြင်း ဖွင့်",
-    "forwardTextsToPhone": "စာများကို ဖုန်းသို့ ၵႂၢမ်းတီႈ",
-    "forwardTextsToEmail": "စာများကို အီးမေးသို့ ၵႂၢမ်းတီႈ",
-    "destinationPhone": "မည်သို့ သွားမည့်ဖုန်း (E.164)",
-    "destinationEmail": "မည်သို့ သွားမည့် အီးမေး",
-    "enableCallForwarding": "ခေါ်ဆိုမှု ၵႂၢမ်းတီႈ ဖွင့်",
-    "destinationPhoneForCalls": "ခေါ်ဆိုမှုအတွက် သွားမည့် (E.164)",
-    "aliasBridging": "ၶႃႈ ၵႂၢမ်းတီႈ (alias bridging)",
-    "quietHoursOptional": "အလုပ်မလုပ်သော အချိန် (မလိုအပ်နိုင်)",
-    "startHour": "စတင်နေရာ (0–23)",
-    "endHour": "ပြီးဆုံးနေရာ (0–23)",
-    "reset": "ၼႂ်းသွင်ႇ",
-    "saveBtn": "သိမ်းမည်",
-    "forwardSaved": "Forwarding ဆက်တင် သိမ်းပြီး",
-    "forwardSaveFailed": "ဆက်တင် မသိမ်းနိုင်ပါ",
-    "errE164": "မှန်ကန်သော E.164 ဖုန်း ထည့်ပါ (ဥပမာ +15551234567)",
-    "errEmail": "မှန်ကန်သော အီးမေး ထည့်ပါ",
-    "errSmsDest": "ဖုန်း သို့မဟုတ် အီးမေး တစ်ခုခုပြီးတော့ရွေးပါ",
-    "errQuietHours": "Quiet hours ကို 0–23 အတွင်း ထားရမည်"
+  "keys": {
+    "backupCreated": "Key backup created and downloaded ✓ (shn)",
+    "restored": "Key backup restored ✓ Keys installed locally (shn)",
+    "noBackup": "No encrypted backup exists for this account (shn)",
+    "missingPublicKey": "Backup is missing a public key (shn)"
   },
-
-  "support": {
-    "helpFab": "ကူညီ",
-    "openSupportAria": "ကူညီ ဖွင့်",
-    "badge": "Support",
-    "heading": "ဘယ်လို ကူညီရမလဲ?",
-    "tabs": {
-      "help": "Help Center",
-      "contact": "Contact us"
-    },
-    "searchPlaceholder": "အကူအညီ ဆောင်းပါးများကို ရှာ…",
-    "searchAria": "Search help",
-    "searchBtn": "ရှာ",
-    "quickTopicsLabel": "အမြန် ခေါင်းစဉ်များ",
-    "quickTopics": {
-      "login": "လော့ဂ်အင် မလုပ်နိုင်",
-      "billing": "ငွေပေးချေ/ဗီလ်",
-      "abuse": "Report abuse"
-    },
-    "trySearching": "“translate”, “backups”, “privacy” ဟု စမ်းရှာကြည့်ပါ။",
-    "article": "ဆောင်းပါး",
-    "openArticle": "ဆောင်းပါး ဖွင့်",
-    "contactIntro": "အီးမေးဖြင့် ပြန်ဖြေမည်။ ပြဿနာ ပြန်ထုတ်လုပ်နိုင်ရန် အသေးစိတ် ထည့်ပါ။",
-    "topicAria": "ခေါင်းစဉ် ရွေး",
-    "messagePlaceholder": "မက်ဆေ့ ရေးပါ…",
-    "sendBtn": "ပို့",
-    "sent": "ပို့ပြီးပါပြီ။ အီးမေးဖြင့် ပြန်ဖြေမည်။",
-    "sendError": "မပို့နိုင်ပါ။ support@chatforia.com သို့ အီးမေး ပို့ပါ။"
+  "keySetup": {
+    "title": "Set up your device keys (shn)",
+    "description": "This device doesn’t have your private key yet. Import a password-protected backup, or generate a new keypair (you’ll be able to read new messages from now on). (shn)",
+    "chooseFile": "Choose a file and enter the password. (shn)",
+    "imported": "Private key imported to this device. You can read old messages now. (shn)",
+    "enterPassword": "Enter your account password so we can back up your keys securely. (shn)"
   },
-
-  "chat": {
-    "selectPrompt": "စရေးရန် စာ သို့မဟုတ် Chat room တစ်ခု ရွေးပါ",
-    "newMessages": "မက်ဆေ့အသစ်များ",
-    "typing": "{{name}} ၸႂ်ႉတီႈ...",
-    "emptyTitle": "သင့် မက်ဆေ့များ",
-    "emptySubtitle": "စကားပြောစရန် မက်ဆေ့တစ်ခု ပို့ပါ။",
-    "startChatButton": "မက်ဆေ့ ပို့"
-  },
-
-  "topbar": {
-    "newStatus": "ၶေႃႈၸႂ်ႉ မႃး",
-    "logout": "လော့ဂ်အွင်ႇ ထႅမ်ႇ",
-    "help": "ကူညီ",
-    "createStatusAria": "Status အသစ် ဖန်တီး"
-  },
-
-  "status": {
-    "userNumber": "ယူဇာ #{{id}}",
-    "posted": "Status ပို့ပြီး",
-    "postFailed": "Status မပို့နိုင်ပါ",
-    "createTitle": "Status တစ်ခု ဖန်တီး",
-    "modalAriaLabel": "Status အသစ်",
-    "captionLabel": "ဘာတွေနောက်ထပ်?",
-    "captionPlaceholder": "အပ်ဒိတ် တစ်ခု မျှဝေရန်...",
-    "captionAria": "Status စာသား",
-    "audienceLabel": "မင်္ဂလာပွဲကြည့်သူ",
-    "audience": {
-      "public": "Public",
-      "followers": "Followers",
-      "contacts": "Contacts",
-      "mutuals": "Mutuals",
-      "custom": "Custom..."
-    },
-    "expiresHoursLabel": "တစ်ခါသတ်မှတ်သည့် (hours)",
-    "maxTooltip": "အများဆုံး 7 ရက်",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "သက်တမ်းကုန်:",
-    "chooseRecipients": "လက်ခံသူ ရွေး",
-    "selectContacts": "Contacts ရွေး",
-    "attachmentsLabel": "Attachments",
-    "attachmentsPlaceholder": "ပုံ/ဗီဒီယို ထည့်",
-    "filesNote": "ဖိုင် ၅ ခုအထိ။ မူလတန်ဖိုး 24h သက်တမ်း",
-    "postAria": "Status ပို့",
-    "post": "ပိုတ်ႇ"
-  },
-
-  "contactList": {
-    "savedContacts": "သိမ်းထားသော Contacts",
-    "refreshAria": "Contacts ပြန်သစ်",
-    "filterPlaceholder": "သိမ်းထားသော contacts ကို စစ်ထုတ်…",
-    "filterAria": "Contacts စစ်ထုတ်",
-    "noContactsFound": "Contact မတွေ့ပါ",
-    "externalContact": "ပြင်ပ Contact",
-    "notJoined": "ဤ Contact သည် Chatforia သို့ မဝင်ရောက်သေးပါ",
-    "couldNotStart": "Chat မစနိုင်ပါ။ နောက်တခါ ကြိုးစားပါ",
-    "startFailed": "Chat စဖို့ မအောင်မြင်ပါ။ နောက်တခါ ကြိုးစားပါ",
-    "deleted": "Contact ဖျက်ပြီး",
-    "deleteFailed": "Contact မဖျက်နိုင်ပါ",
-    "aliasUpdated": "Alias ပြင်ပြီး",
-    "updateAliasFailed": "Alias မပြင်နိုင်ပါ",
-    "selectContact": "{{name}} ကို ရွေး",
-    "alias": "Alias",
-    "startChat": "Chat စ",
-    "message": "မက်ဆေ့",
-    "delete": "ဖျက်",
-    "deleteContactAria": "Contact ဖျက်",
-    "loadFailed": "Contacts မဖွင့်နိုင်ပါ",
-    "loadMore": "နောက်ထပ် ဖွင့်"
-  },
-
-  "sidebar": {
-    "randomChat": "တႆး ၸွႆႈၸွႆႈ",
-    "callTextForwarding": "ၶႃႈ & တႆး ၵႂၢမ်းတီႈ",
-    "conversations": "ၶႃႈတီႈၸေႃႇ",
-    "searchPlaceholder": "ၶႃႈ ႁဵတ်း ၶႃႈတီႈ...",
-    "errorLoading": "မိူဝ်ႇ ၵူႊငဝ်း ၶႃႈ",
-    "empty": "မီး ၶႃႈတီႈ ၵေႃႇတီႈ။",
-    "startChat": "ၵၼ် ၶႃႈ",
-    "people": "ၵူဝ်ႇ",
-    "settings": "ဆက်တင်",
-    "status": "ၶေႃႈ",
-    "forwarding": "ၶႃႈ & တႆး ၵႂၢမ်းတီႈ",
-    "refresh": "ပြန်လည်အသစ်ပြု",
-    "search": "ၶႃႈ ႁဵတ်း ၶႃႈတီႈ",
-    "loginPrompt": "ဆက်တင် ပြင်ရန် လော့ဂ်အင် ဝင်ပါ",
-    "login": "လော့ဂ်အင်",
-    "register": "အကောင့်ဖန်တီး",
-    "chatrooms": "Chatrooms",
-    "logout": "လော့ဂ်အွင်ႇ ထႅမ်ႇ",
-    "startChatAlt": "Chat အသစ် စ"
-  },
-
-  "premium": {
-    "heading": "တူင်ႇတေ Premium",
-    "description": "ဖွင်ႈ လ Funktionen မႃး & ဗညာ Ads ပိတ်ပါ",
-    "cta": "Upgrade",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade တီႈ Chatforia Premium"
-  },
-
   "auth": {
-    "headline": "လႄႈတီႈ၊ ပျံ့နှံ့ ပြည်တွင်းပြည်ပ မက်ဆေ့ ကွက်ချက်",
-    "description": "End-to-end လျို့ဝှက်ရေး၊ AI ဘာသာပြန်၊ ၶႃႈသၢႆလၵ်းၽႃႇ၊ ဗီဒီယို/အသံ ခေါ်ဆိုသည်များ",
+    "headline": "Secure messaging for anyone, anywhere (shn)",
+    "description": "End-to-end encryption, translation to 100+ languages, disappearing messages, and voice/video calling. (shn)",
     "feature": {
-      "encryption": "မူလတန်ဖိုး E2E လျို့ဝှက်ရေး",
-      "translation": "ဘာသာ 100+ ကို အော်တို ဘာသာပြန်",
-      "disappearing": "ၶႃႈသၢႆလၵ်းၽႃႇ & read receipts",
-      "privacy": "Privacy-first — သင့်ဒေတာ သင့်ထိန်းချုပ်",
-      "translate": "တန်ခိုးမြန် သာသာပြန်",
-      "disappear": "ၶႃႈသၢႆလၵ်းၽႃႇ",
-      "privacyAlt": "Privacy-first ဒီဇိုင်း"
+      "encryption": "End-to-end encryption by default (shn)",
+      "translation": "Smart, built-in message translation (shn)",
+      "disappearing": "Disappearing messages & read receipts (shn)",
+      "privacy": "Privacy-first. Your data, your control. (shn)",
+      "translate": "Smart, built-in message translation (shn)",
+      "disappear": "Disappearing messages (shn)",
+      "privacyAlt": "Privacy-first design (shn)",
+      "seePlans": "See plans & pricing (shn)"
     },
     "hero": {
-      "line1": "လႄႈတီႈ၊ ကမ္ဘာလုံးဆိုင်ရာ",
-      "beforeEm": "messaging သည်",
-      "em": "ချက်ချင်း ဘာသာပြန်",
-      "sub": "End-to-end လျို့ဝှက်ရေး၊ AI ဘာသာပြန်၊ ၶႃႈသၢႆလၵ်းၽႃႇ၊ အသံ/ဗီဒီယို ခေါ်ဆိုမှု"
+      "line1": "Secure messaging for anyone, anywhere — with (shn)",
+      "em": "translation to 100+ languages (shn)",
+      "sub": "Get a free secure phone number to call and text worldwide over Wi-Fi or data. Enjoy end-to-end encryption, disappearing messages, and HD voice/video calling — with built-in tools that help you stay connected across borders. (shn)",
+      "freeNote": "Basic calling and texting are free. Advanced AI and premium features require an upgrade. (shn)"
     },
     "feat": {
-      "encryption": "မူလတန်ဖိုး E2E လျို့ဝှက်",
-      "translate": "ဘာသာ 100+ ကို အော်တို ဘာသာပြန်",
-      "disappear": "ၶႃႈသၢႆလၵ်းၽႃႇ & read receipts",
-      "privacy": "Privacy-first — ဒေတာသင့်ထိန်းချုပ်"
+      "encryption": "End-to-end encryption, always on (shn)",
+      "translate": "Break language barriers in your conversations (shn)",
+      "disappear": "Disappearing messages & read receipts (shn)",
+      "privacy": "Privacy-first. Your data, your control. (shn)"
     },
-    "welcomeBack": "ၵေႃႈထႅင်ႉၼႂ်း",
-    "continueGoogle": "Google ဖြင့် ဝင်",
-    "continueApple": "Apple ဖြင့် ဝင်",
-    "username": "ယူဇာနာ",
-    "password": "စကားဝှက်",
-    "keepSignedIn": "လော့ဂ်အင်ထားမည်",
-    "forgotPassword": "စကားဝှက် မေ့?",
-    "loginButton": "လော့ဂ်အင်",
-    "createAccount": "အကောင့် ဖန်တီး",
-    "freeAccountButton": "Free အကောင့် ဖန်တီး",
-    "newHere": "သူဌေးသစ်?",
-    "getApp": "App ယူ",
-    "desktopTip": "Desktop မှာလား? ဖုန်းနဲ့ စကန်ပြီး app ယူ",
-    "scanHelper": "Desktop မှာလား? ဖုန်းနဲ့ စကန်ပြီး app ယူ",
-    "goHome": "ပင်မသို့ သွား",
-    "home": "ပင်မ",
+    "continueGoogle": "Continue with Google (shn)",
+    "continueApple": "Continue with Apple (shn)",
+    "username": "Username (shn)",
+    "password": "Password (shn)",
+    "keepSignedIn": "Keep me signed in (shn)",
+    "forgotPassword": "Forgot password? (shn)",
+    "loginButton": "Log In (shn)",
+    "createAccount": "Create an account (shn)",
+    "freeAccountButton": "Create free account (shn)",
+    "newHere": "New here? (shn)",
+    "getApp": "Get the app (shn)",
+    "desktopTip": "On desktop? Scan with your phone to get the app. (shn)",
+    "scanHelper": "On desktop? Scan with your phone to get the app. (shn)",
+    "goHome": "Go to home (shn)",
+    "home": "Home (shn)",
     "headlineAlt": {
-      "main": "လျို့ဝှက် messenger",
-      "highlight": "သင့်ဘာသာ ပြောနိုင်တယ်"
+      "main": "The secure messenger that (shn)",
+      "highlight": "speaks your language (shn)"
     },
-    "subhead": "ကိုယ်ပိုင်၊ လျို့ဝှက်၊ ဘာသာပြန် — ချက်ချင်း။",
-    "status": "Status ကြည့်",
-    "upgrade": "ယခု Upgrade",
-    "tip": "အကြံပြုချက်: web နှင့် mobile တူညီအကောင့် သုံးပါ — မက်ဆေ့များ Sync ဖြစ်နေမည်",
-    "openDownload": "ဒေါင်းလုတ် စာမျက်နှာ ဖွင့်",
-    "qrAlt": "Chatforia အတွက် QR",
-    "scanHint": "App ကို ဒေါင်းလုတ် သို့မဟုတ် browser ဖြင့် ဖွင့်ရန် စကန်",
-    "iosAria": "App Store တွင် ဒေါင်းလုတ်",
-    "iosTitle": "App Store",
-    "iosBadgeAlt": "App Store badge",
-    "androidAria": "Google Play တွင် ယူ",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play badge",
-    "login": "လော့ဂ်အင်",
-    "signup": "Sign Up",
-    "email": "ဤမေး"
+    "subhead": "Private, encrypted, and translated messaging — instantly. (shn)",
+    "upgrade": "Upgrade now (shn)",
+    "tip": "Tip: Use the same account on web and mobile. Your messages stay synced. (shn)",
+    "openDownload": "Open download page (shn)",
+    "qrAlt": "QR code for Chatforia (shn)",
+    "scanHint": "Scan to download the app or open in your browser. (shn)",
+    "iosAria": "Download on the App Store (shn)",
+    "iosTitle": "Download on the App Store (shn)",
+    "iosBadgeAlt": "App Store badge (shn)",
+    "androidAria": "Get it on Google Play (shn)",
+    "androidTitle": "Google Play Store (shn)",
+    "androidBadgeAlt": "Google Play badge (shn)",
+    "login": "Log In (shn)",
+    "signup": "Sign Up (shn)",
+    "email": "Email (shn)",
+    "registration": {
+      "passwordDescription": "Minimum 6 characters. Use a strong, unique password. (shn)",
+      "smsConsent": "By creating an account, you agree to receive SMS notifications related to your Chatforia activity (such as messages from other users). Message & data rates may apply. You can opt out at any time in Settings. (shn)",
+      "termsLink": "Terms of Service (shn)",
+      "privacyLink": "Privacy Policy (shn)"
+    },
+    "to": "To: (shn)",
+    "enterRecipient": "Enter a name or number (shn)",
+    "clearRecipients": "Clear recipients (shn)",
+    "sms": "SMS (shn)",
+    "chatforia": "Chatforia (shn)",
+    "typeMessage": "Type a message… (shn)",
+    "addRecipient": "Add a recipient above to start… (shn)",
+    "oneRecipient": "Please enter one recipient for now. (shn)",
+    "enterValidRecipient": "Enter a saved contact name or a phone number. (shn)",
+    "sendFailed": "Send failed. Check console for details. (shn)"
   },
-
-  "footer": {
-    "plans": "ပရိုဂျၢင် & ငွေ",
-    "about": "မႄးၽွၼ်ႈ Chatforia",
-    "careers": "လၢႆးတီႈ",
-    "press": "မီဒီယာ",
-    "advertise": "လႅၼ်းႁႅၼ်း",
-    "contact": "ထိမ်းမႃး",
-    "help": "Help Center",
-    "status": "Status Page",
-    "iosDownload": "iOS / App Store",
-    "androidDownload": "Android / Google Play",
-    "privacy": "ႁိူင်ႇလႄႈတီႈ",
-    "terms": "နိင့််သိုပ်ႉ",
-    "cookies": "Cookie Settings",
-    "doNotSell": "မႁၵ်း မႂ်ႇမႁၵ်း ၶူင်းၸိုင်ႈ",
-    "language": "ဘာသာစကား",
-    "contactShort": "ထိမ်းမႃး",
-    "aria": "အောက်ခြေ",
-    "homeAria": "Chatforia ပင်မ",
-    "section": {
-      "company": "COMPANY",
-      "support": "SUPPORT",
-      "downloads": "DOWNLOADS",
-      "legal": "LEGAL"
-    },
-    "links": {
-      "plans-pricing": "Plans & Pricing",
-      "about-chatforia": "About Chatforia",
-      "careers": "Careers",
-      "press": "Press",
-      "advertise": "Advertise",
-      "getting-started": "Getting Started",
-      "help-center": "Help Center",
-      "contact-us": "Contact Us",
-      "status-page": "Status Page",
-      "ios-app-store": "iOS / App Store",
-      "android-google-play": "Android / Google Play",
-      "privacy-policy": "Privacy Policy",
-      "terms-of-service": "Terms of Service",
-      "do-not-sell-my-info": "Do Not Sell My Info",
-      "cookie-settings": "Cookie Settings"
-    },
-    "social": {
-      "tiktok": "TikTok",
-      "instagram": "Instagram",
-      "facebook": "Facebook",
-      "linkedin": "LinkedIn",
-      "x": "X"
-    },
-    "copyright": "© Chatforia",
-    "patentPending": "Patent pending",
-    "backToTop": "↑ အပေါ်သို့"
-  },
-
   "home": {
-    "title": "ၶႃႇ",
-    "header": "သင့် မက်ဆေ့များ",
-    "subheader": "စကားပြောစရန် မက်ဆေ့တစ်ခု ပို့ပါ။",
-    "sendButton": "မက်ဆေ့ ပို့",
-    "gifPicker": "GIF picker ဖွင့်",
-    "emoji": "Emoji",
-    "upload": "ဓာတ်ပုံ သို့မဟုတ် ဗီဒီယို တင်",
-    "inputPlaceholder": "မက်ဆေ့ ရိုက်…",
-    "inputLabel": "Message composer",
-    "sendTooltip": "ပို့",
-    "sendTooltipEmpty": "မက်ဆေ့ ရိုက်ပြီး ပို့",
-    "send": "ပို့",
-    "welcomeMessage": "Chatforia မှ ကြိုဆိုပါသည်",
-    "getStarted": "စတင်ရန်"
+    "title": "Home (shn)",
+    "header": "Your messages (shn)",
+    "subheader": "Send a message to start a chat. (shn)",
+    "sendButton": "Send message (shn)",
+    "gifPicker": "Open GIF picker (shn)",
+    "emoji": "Emoji (shn)",
+    "upload": "Upload photo or video (shn)",
+    "inputPlaceholder": "Type a message… (shn)",
+    "inputLabel": "Message composer (shn)",
+    "sendTooltip": "Send (shn)",
+    "sendTooltipEmpty": "Type a message to send (shn)",
+    "send": "Send (shn)",
+    "welcomeMessage": "Welcome to Chatforia (shn)",
+    "getStarted": "Get Started (shn)"
   },
-
-  "press": {
-    "title": "မီဒီယာ",
-    "contactLine": "မီဒီယာ ဆိုင်ရာ မေးမြန်းရန် သို့ ဧည့်သည်များ ဆက်သွယ်ရန်",
-    "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Chatforia သည် privacy-first မက်ဆေ့ အပ်ဖြစ်ပြီး ဘာသာစကားကွာခြားမှု များစွာကို အလွယ်ကူစွာ စကားပြောနိုင်စေသည်။ မက်ဆေ့များကို မူလတန်ဖိုး E2E လျို့ဝှက်ထားပြီး တန်ခိုးမြန် ဘာသာပြန် 100+ ဘာသာကို ထောက်ပံ့သည်။ အသုံးပြုသူများသည် ၶႃႈသၢႆလၵ်းၽႃႇ ကို ဖွင့်နိုင်ပြီး read receipts ကို အလိုရှိသလို ထိန်းချုပ်နိုင်သည်၊ စက်များအကြား Sync လုပ်နိုင်သည်။ iOS, Android, Web တွင် ရရှိသည်။",
-    "assetsTitle": "Brand assets",
-    "assetsSubtitle": "လိုဂိုများ၊ screenshots နှင့် product imagery",
-    "downloadCta": "မီဒီယာကိတ် ဒေါင်းလုတ်",
-    "downloadTitle": "App ယူ",
-    "scanTip": "Desktop မှာလား? ဖုန်းနဲ့ စကန်ပြီး app ယူ",
-    "qrAria": "Chatforia ဝဘ်ဆိုက် ဖွင့်",
-    "appStore": "App Store တွင် ဒေါင်းလုတ်",
-    "googlePlay": "Google Play တွင် ယူ"
+  "chat": {
+    "selectPrompt": "Select a text or chat room to start chatting (shn)",
+    "newMessages": "New messages (shn)",
+    "typing": "{{name}} is typing... (shn)",
+    "emptyTitle": "Your messages (shn)",
+    "emptySubtitle": "Send a message to start a chat. (shn)",
+    "startChatButton": "Send message (shn)",
+    "mediaAttachment": "Media attachment (shn)",
+    "thisUser": "this user (shn)",
+    "blockConfirm": "Block {{name}}? You won't receive messages from them. (shn)",
+    "blockedUser": "Blocked {{name}}. (shn)",
+    "blockError": "Could not determine a target user to block. (shn)",
+    "blockFailed": "Block failed (backend not wired yet). (shn)",
+    "encryptedUnavailable": "Encrypted message (key unavailable) (shn)",
+    "unlockToView": "Unlock your key to view this message (shn)"
   },
-
-  "careers": {
-    "title": "လၢႆးတီႈ",
-    "intro": "ကိုယ်ပိုင်၊ ကမ္ဘာလုံးဆိုင်ရာ messenger တည်ဆောက်နေသော သေးငယ်သော အဖွဲ့တစ်ဖွဲ့ ဖြစ်ပါသည်။ လျို့ဝှက်ရေး၊ အသုံးလွယ်မှုနှင့် အံ့သြဖွယ် UX များကို စိတ်ဝင်စားပါက ကျွန်တော်တို့နှင့် ဆွေးနွေးပါ။",
-    "openRoles": "<b>ရွင်ႇယဝ်ႇ:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
-    "apply": "<b>ႁဵၼ်းမူင်ႇ:</b> resume/links ကို <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a> သို့ ပို့ပါ။",
-    "emailCta": "Resume ပို့"
-  },
-
-  "about": {
-    "title": "မႄးၽွၼ်ႈ Chatforia",
-    "description": "Chatforia သည် E2E လျို့ဝှက်ရေး၊ ချက်ချင်း ဘာသာပြန်၊ အသံ/ဗီဒီယို ခေါ်ဆိုမှု တို့ပါတဲ့ ဘာသာစကားများစွာ အထောက်အပံ့ရှိသော messenger ဖြစ်သည်။ မစ်ရှင် — လူများကို လုံခြုံစိတ်ချစွာ၊ ကိုယ်ပိုင်တန်ဖိုးနှင့် ဘာသာကွာခြားမှုကို ကျော်လွှား စကားပြောနိုင်စေခြင်း။",
-    "valuesTitle": "ကျွန်ုပ်တို့ တန်ဖိုးထားသည်များ",
-    "values": {
-      "privacy": "<bold>Privacy-first:</bold> မူလတန်ဖိုး E2E လျို့ဝှက်ရေး",
-      "access": "<bold>အသုံးပြုခွင့်:</bold> ဘာသာ 100+ အော်တို ဘာသာပြန်",
-      "control": "<bold>ထိန်းချုပ်မှု:</bold> ၶႃႈသၢႆလၵ်းၽႃႇ & read receipts ကို ရွေးချယ်နိုင်",
-      "privacy_aria": "Privacy-first: မူလတန်ဖိုး E2E လျို့ဝှက်ရေး",
-      "access_aria": "Access for all: ဘာသာ 100+ အော်တို ဘာသာပြန်",
-      "control_aria": "Control: ၶႃႈသၢႆလၵ်းၽႃႇ နှင့် read receipts ကို ရွေးချယ်နိုင်"
+  "messageInput": {
+    "ttl": {
+      "off": "Off (shn)"
     },
-    "howTitle": "Chatforia အလုပ်လုပ်ပုံ",
-    "howDescription": "မက်ဆေ့များသည် စက်ထဲမှ ထွက်မီ ရှိခိုးထားသည်။ ဘာသာပြန်၊ backup နှင့် device sync များသည် ဆာဗာ မျက်မြင်ရမှုကို လျော့ချစေရန် ဒီဇိုင်းချထားသည်။"
-  },
-
-  "advertise": {
-    "title": "Chatforia တွင် ကြော်ငြာ",
-    "description": "စိတ်ပါဝင်စားစွာ စကားပြောနေသည့် အသုံးပြုသူများသို့ Tasteful, brand-safe placements များဖြင့် ပို့ဆောင်ပါ။ Banner inventory, sponsorships, house promos များ ရှိပါသည်။ Premium စာရင်းသွင်းသူများသည် ကြော်ငြာ မမြင်ပါ။",
-    "adsense": {
-      "withPubId": "ယခု <b>Google AdSense</b> ဖြင့် ကြော်ငြာများ ပေးနေပါသည်။ Google Ads မှ တိုက်ရိုက် တင်ချင်ပါက publisher ID <code>{{pubId}}</code> ဖြင့် အောက်ပါ ယူနစ်များတွင် managed placement တောင်းပါ။ Direct sponsorships လည်း ရှိပါသည် — ဖောင်ကို သုံးပါ။",
-      "noPubId": "ယခု <b>Google AdSense</b> ဖြင့် ကြော်ငြာများ ပေးနေပါသည်။ Direct sponsorships လည်း ရှိပါသည် — အောက်ဖောင်ကို သုံးပါ။"
-    },
-    "inventoryHeader": "Inventory & Specs",
-    "placement": {
-      "displayBadge": "Display",
-      "acceptedSizes": "လက်ခံသည့် အရွယ်အစား",
-      "adsenseSlot": "AdSense slot:"
-    },
-    "noPlacements": "Placements မကြိုတင် သတ်မှတ်ရသေးပါ။ ads/placements.js တွင် ထည့်ပါ။",
-    "whyHeader": "ဘာကြောင့် Chatforia?",
-    "why": {
-      "highSession": "Chat UI တွင် session frequency နှင့် dwell time မြင့်",
-      "brandSafe": "Brand-safe ပုံစံများ၊ frequency capping ကို ကရိယာ",
-      "sponsoredMoments": "Sponsored moments (ဥပမာ “Start a Chat” modal)",
-      "deals": "Direct deals သို့မဟုတ် AdSense/Google Ads မှ programmatic"
-    },
-    "contactHeader": "ထိမ်းမႃး",
-    "form": {
-      "submittedMsg": "ကျေးဇူးတင်ပါသည်! သင်၏ မေးမြန်းမှုကို လက်ခံပြီး မကြာမီ ဆက်သွယ်ပါမည်။",
-      "missingRequired": "Name, email, message ကို ဖြည့်ပါ။",
-      "successToast": "ကျေးဇူးတင်ပါသည်! မကြာမီ ဆက်သွယ်ပါမည်။",
-      "mailtoInfo": "သင့် Email client ကို ဖွင့်နေသည်…",
-      "nameLabel": "နာမည်",
-      "namePlaceholder": "Jane Doe",
-      "emailLabel": "အီးမေး",
-      "emailPlaceholder": "you@company.com",
-      "companyLabel": "ကုမ္ပဏီ",
-      "companyPlaceholder": "Acme Inc.",
-      "budgetLabel": "လစဉ် ဘတ်ဂျက် (ရွေးချယ်)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "လုပ်ငန်းခွင် ပြောပြရန်",
-      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
-      "sendCta": "မေးမြန်းမှု ပို့"
-    },
-    "legal": {
-      "disclaimerStart": "တင်သွင်းခြင်းဖြင့် ကျွန်ုပ်တို့၏",
-      "terms": "နိင့််သိုပ်ႉ",
-      "and": "နှင့်",
-      "privacy": "ႁိူင်ႇလႄႈတီႈ"
+    "freeLimit": "Free plan limit: auto-delete up to 1 day. Clamped to 1d. (shn)",
+    "premiumLimit": "Max auto-delete for Premium is 30 days. Clamped to 30d. (shn)",
+    "nothingToSend": "Type a message or attach a file to send. (shn)",
+    "encryptionFailed": "Encryption failed. Message not sent. (shn)",
+    "sent": "Message delivered. (shn)",
+    "placeholder": "Type a message… (shn)",
+    "autoDelete": "Auto-delete (shn)",
+    "typeToSend": "Type a message to send (shn)",
+    "send": "Send (shn)",
+    "sendWithEnter": "Send (Enter) (shn)",
+    "attachment": "attachment (shn)",
+    "caption": "Caption (optional) (shn)",
+    "remove": "Remove (shn)",
+    "clear": "Clear (shn)",
+    "gif": "GIF (shn)",
+    "sticker": "Sticker (shn)",
+    "errors": {
+      "attachmentTooLarge": "Attachment too large. Try a smaller file. (shn)",
+      "unsupportedFile": "Unsupported file type. (shn)",
+      "rateLimit": "You’re sending messages too quickly. Please slow down. (shn)",
+      "validation": "Validation error. Please check your message and try again. (shn)",
+      "failedToSend": "Failed to send. You can retry the failed bubble. (shn)"
     }
   },
-
-  "upgrade": {
-    "title": "Upgrade",
-    "subtitle": "သင့်အား သင့်တော်မည့် ပလန်ကို ဖွင့်ပါ — Plus (ကြော်ငြာမရှိ) သို့မဟုတ် Premium (အင်အားအပြည့်)",
-    "perMonth": "လ",
-    "perYear": "နှစ်",
-    "goPremium": "Premium သို့",
-    "benefitsLine": "Power features ဖွင့် & ကြော်ငြာဖယ်",
-    "ctaText": "Upgrade",
-    "aria": "Chatforia Premium သို့ Upgrade",
-    "toggle": {
-      "monthly": "လစဉ်",
-      "annual": "နှစ်စဉ် (25% ထိ သုံးစွဲသက်သာ)"
+  "contactList": {
+    "savedContacts": "Saved Contacts (shn)",
+    "refreshAria": "Refresh contacts (shn)",
+    "filterPlaceholder": "Filter saved contacts… (shn)",
+    "filterAria": "Filter saved contacts (shn)",
+    "noContactsFound": "No contacts found. (shn)",
+    "externalContact": "External contact (shn)",
+    "notJoined": "That contact hasn’t joined Chatforia yet. (shn)",
+    "couldNotStart": "Could not start chat. Please try again. (shn)",
+    "startFailed": "Failed to start chat. Please try again. (shn)",
+    "deleted": "Contact deleted. (shn)",
+    "deleteFailed": "Failed to delete contact. Please try again. (shn)",
+    "aliasUpdated": "Alias updated. (shn)",
+    "updateAliasFailed": "Failed to update alias. Please try again. (shn)",
+    "selectContact": "Select {{name}} (shn)",
+    "alias": "Alias (shn)",
+    "startChat": "Start chat (shn)",
+    "message": "Message (shn)",
+    "delete": "Delete (shn)",
+    "deleteContactAria": "Delete contact (shn)",
+    "loadFailed": "Failed to load contacts. Please try again. (shn)",
+    "loadMore": "Load more (shn)",
+    "call": "Call (shn)",
+    "callStarted": "Calling this number via your Chatforia number… (shn)",
+    "callFailed": "Failed to start call. Please try again. (shn)"
+  },
+  "startChatModal": {
+    "title": "Start a conversation (shn)",
+    "searchPlaceholder": "Search name, username, or phone number (shn)",
+    "messageThisPerson": "Message this person (shn)",
+    "contacts": "Contacts (shn)",
+    "recentInteractions": "Recent interactions (shn)",
+    "noContactsMatch": "No contacts match your search. (shn)",
+    "noRecentInteractions": "No recent interactions yet. (shn)",
+    "unknown": "Unknown (shn)",
+    "interactionType": {
+      "message": "Message (shn)",
+      "call": "Call (shn)",
+      "video": "Video (shn)"
+    }
+  },
+  "addContactModal": {
+    "title": "Add contact (shn)",
+    "phoneOrUsername": "Phone or username (shn)",
+    "phoneOrUsernamePlaceholder": "e.g. +13018019227 or juliannorton (shn)",
+    "alias": "Alias (optional) (shn)",
+    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe (shn)",
+    "enterPhoneOrUsername": "Enter a phone number or username. (shn)",
+    "userLookupFailed": "User lookup failed. (shn)",
+    "cannotAddSelf": "You cannot add yourself as a contact. (shn)",
+    "failedToAdd": "Failed to add contact. (shn)",
+    "add": "Add (shn)"
+  },
+  "sidebar": {
+    "randomChat": "Random Chat (shn)",
+    "callTextForwarding": "Call & Text Forwarding (shn)",
+    "conversations": "Conversations (shn)",
+    "searchPlaceholder": "Search chats... (shn)",
+    "errorLoading": "Failed to load chats (shn)",
+    "empty": "No conversations yet. (shn)",
+    "startChat": "Start a chat (shn)",
+    "people": "People (shn)",
+    "settings": "Settings (shn)",
+    "status": "Status (shn)",
+    "forwarding": "Call & Text Forwarding (shn)",
+    "refresh": "Refresh (shn)",
+    "search": "Search conversations (shn)",
+    "loginPrompt": "Log in to edit your settings. (shn)",
+    "login": "Log in (shn)",
+    "register": "Create account (shn)",
+    "chatrooms": "Chatrooms (shn)",
+    "logout": "Log out (shn)",
+    "startChatAlt": "Start a new chat (shn)",
+    "calls": "Calls (shn)",
+    "video": "Video (shn)",
+    "voicemail": "Voicemail (shn)"
+  },
+  "topbar": {
+    "newStatus": "New Status (shn)",
+    "logout": "Log Out (shn)",
+    "help": "Help (shn)",
+    "createStatusAria": "Create new Status (shn)"
+  },
+  "threadActions": {
+    "threadMenu": "Thread menu (shn)",
+    "premium": "Premium (shn)",
+    "aiPower": "AI Power (shn)",
+    "schedule": "Schedule (shn)",
+    "upgrade": "Upgrade (shn)",
+    "upgradeSuffix": "(Upgrade) (shn)",
+    "thread": "Thread (shn)",
+    "about": "About (shn)",
+    "search": "Search (shn)",
+    "media": "Media (shn)",
+    "invitePeople": "Invite people (shn)",
+    "roomSettings": "Room settings (shn)",
+    "clearConversation": "Clear conversation (shn)",
+    "block": "Block (shn)"
+  },
+  "roomSearch": {
+    "title": "Search in room (shn)",
+    "ariaLabel": "Search in room (shn)",
+    "search": "Search (shn)",
+    "searchMessages": "Search messages (shn)",
+    "noText": "[No text] (shn)",
+    "noResults": "No results (shn)"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Member (shn)",
+      "moderator": "Moderator (shn)",
+      "admin": "Admin (shn)"
     },
-    "scheduleBanner": {
-      "title": "စာရင်းသွင်းခြင်း ပြီးဆုံးမည်",
-      "body": "ဤရက်မှစပြီး Free သို့ ပြန်သွားမည်",
-      "keepPlanCta": "{{plan}} ကို ဆက်ထား",
-      "manageBillingCta": "ငွေစာရင်း စီမံ"
+    "aiMode": {
+      "off": "Off (shn)",
+      "mention": "Only on @ForiaBot or /ask (shn)",
+      "always": "Reply proactively (shn)"
+    },
+    "autoTranslateMode": {
+      "off": "Off (shn)",
+      "tagged": "Tagged only (/tr …) (shn)",
+      "all": "All messages (shn)"
+    },
+    "updated": "Settings updated (shn)"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Shared media (shn)",
+    "noMediaCached": "No media cached locally yet. (shn)",
+    "imageAlt": "image (shn)",
+    "openVideo": "Open video (shn)",
+    "openVideoWithCaption": "Open video: {{caption}} (shn)",
+    "preview": "Preview (shn)",
+    "previewWithCaption": "Preview: {{caption}} (shn)",
+    "previewKind": "Preview {{kind}} (shn)",
+    "download": "Download (shn)",
+    "downloadKind": "Download {{kind}} (shn)",
+    "file": "file (shn)",
+    "kinds": {
+      "image": "image (shn)",
+      "video": "video (shn)",
+      "audio": "audio (shn)",
+      "file": "file (shn)"
+    }
+  },
+  "status": {
+    "userNumber": "User #{{id}} (shn)",
+    "posted": "Status posted (shn)",
+    "postFailed": "Failed to post status (shn)",
+    "createTitle": "Create a status (shn)",
+    "modalAriaLabel": "New status (shn)",
+    "captionLabel": "What's on your mind? (shn)",
+    "captionPlaceholder": "Share an update... (shn)",
+    "captionAria": "Status message (shn)",
+    "audienceLabel": "Audience (shn)",
+    "audience": {
+      "public": "Public (shn)",
+      "followers": "Followers (shn)",
+      "contacts": "Contacts (shn)",
+      "mutuals": "Mutuals (shn)",
+      "custom": "Custom... (shn)"
+    },
+    "expiresHoursLabel": "Expires (hours) (shn)",
+    "maxTooltip": "Maximum 7 days (shn)",
+    "hoursAbbrev": "h (shn)",
+    "maxShort": "max (shn)",
+    "expiresOn": "Expires on: (shn)",
+    "chooseRecipients": "Choose recipients (shn)",
+    "selectContacts": "Select contacts (shn)",
+    "attachmentsLabel": "Attachments (shn)",
+    "attachmentsPlaceholder": "Add images/videos (shn)",
+    "filesNote": "Up to 5 files. 24h expiry by default. (shn)",
+    "postAria": "Post status (shn)",
+    "post": "Post (shn)"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail (shn)",
+    "from": "From (shn)",
+    "to": "To (shn)",
+    "unknownCaller": "Unknown (shn)",
+    "yourNumber": "Your Chatforia number (shn)",
+    "durationSeconds": "{{count}}s (shn)",
+    "audioAria": "Voicemail audio player (shn)",
+    "transcriptHeading": "Transcript (shn)",
+    "transcriptPending": "Transcribing voicemail… (shn)",
+    "transcriptFailed": "Transcript unavailable. (shn)",
+    "loading": "Loading voicemail… (shn)",
+    "errorLoading": "Failed to load voicemail. (shn)",
+    "empty": "No voicemails yet. (shn)",
+    "deleteConfirm": "Delete this voicemail? (shn)",
+    "deleteError": "Failed to delete voicemail. (shn)",
+    "markRead": "Mark as read (shn)",
+    "delete": "Delete (shn)",
+    "unreadDotAria": "Unread voicemail indicator (shn)"
+  },
+  "profile": {
+    "title": "User Profile (shn)",
+    "preferredLanguage": "Preferred language (shn)",
+    "chooseLanguage": "Choose a language (shn)",
+    "mustLogin": "You must sign in to view the settings. (shn)",
+    "autoTranslate": "Auto-translate messages (shn)",
+    "showOriginalWithTranslation": "Show original and translated messages (shn)",
+    "showOriginalAndTranslation": "Show original alongside translation (shn)",
+    "filterExplicit": "Filter explicit content (shn)",
+    "aiReply": "AI reply (shn)",
+    "enableReadReceipts": "Enable read receipts (shn)",
+    "allowExplicitContent": "Allow explicit content (shn)",
+    "disappearingMessages": "Enable disappearing messages (shn)",
+    "autoDeleteSeconds": "Seconds until auto-delete (shn)",
+    "saveSuccess": "Settings saved! (shn)",
+    "saveError": "Error: Could not save settings (shn)",
+    "avatarAlt": "Profile avatar (shn)",
+    "uploadAvatar": "Upload new avatar (shn)",
+    "avatarSuccess": "Avatar uploaded! (shn)",
+    "avatarError": "Failed to upload avatar (shn)",
+    "avatarUpdated": "Avatar updated! (shn)",
+    "uploadingAvatar": "Uploading avatar… (shn)",
+    "noPrivateKey": "There is no private key on this device to export. (shn)",
+    "setBackupPassword": "Set a password to encrypt your backup: (shn)",
+    "backupDownloaded": "Encrypted backup downloaded. (shn)",
+    "exportFailed": "Key export failed (shn)",
+    "enterBackupPassword": "Enter the password for this backup: (shn)",
+    "importSuccess": "Private key imported to this device. (shn)",
+    "importFailed": "Failed to import key (incorrect password or corrupt file). (shn)",
+    "keysRotated": "New key pair generated and public key uploaded. (shn)",
+    "rotateFailed": "Failed to rotate keys. (shn)",
+    "security": "Security (shn)",
+    "exportKey": "Back Up Encryption Key (shn)",
+    "importKey": "Restore Encryption Key (shn)",
+    "rotateKeys": "Rotate Encryption Key (shn)",
+    "keyDisclaimer": "Your private key never leaves this device. Export a password-protected copy to restore it on another device. (shn)",
+    "sectionProfile": "Profile (shn)",
+    "phoneNumber": "Phone number (shn)",
+    "appearance": "Appearance (shn)",
+    "soundSettings": "Sounds (shn)",
+    "disappearing": "Disappearing messages (shn)",
+    "backupSync": "Encryption Key Backup (shn)",
+    "ai": "AI (shn)",
+    "accessibility": "Accessibility (shn)",
+    "privacy": "Privacy (shn)",
+    "devices": "Linked devices (shn)",
+    "themeFreeNotice": "You’re on Free—use the quick Sun/Moon options below. Upgrade to unlock more themes. (shn)",
+    "sunTheme": "Use Dawn theme (shn)",
+    "moonTheme": "Use Moon (Midnight) theme (shn)",
+    "sun": "Sun (shn)",
+    "moon": "Moon (shn)",
+    "backupTitle": "Encrypted Backups & Device Sync (shn)",
+    "openBackupTools": "Open Backup Tools (shn)",
+    "backupDesc": "Back up your encryption key to securely restore your messages on another device. (shn)",
+    "privacyBlurEnabled": "Blur messages by default (shn)",
+    "privacyBlurOnUnfocus": "Blur when app is unfocused (shn)",
+    "planSection": "My plan (shn)",
+    "planLoading": "Loading your plan… (shn)",
+    "planLoadFailed": "Failed to load your plan. (shn)",
+    "currentPlan": "Current plan (shn)",
+    "planRenewsOn": "Renews on (shn)",
+    "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features like backups, extra numbers, and advanced privacy options. (shn)",
+    "upgradePlanCta": "Upgrade plan (shn)",
+    "changePlanCta": "Change plan (shn)",
+    "manageBilling": "Manage billing (shn)",
+    "portalOpenFailed": "Could not open billing portal. Please try again. (shn)",
+    "holdToReveal": "Hold to reveal (shn)",
+    "notifyOnCopy": "Notify me if my message is copied (shn)",
+    "loadFailed": "Failed to load profile (shn)",
+    "followed": "Followed (shn)",
+    "followFailed": "Failed to follow (shn)",
+    "unfollowed": "Unfollowed (shn)",
+    "unfollowFailed": "Failed to unfollow (shn)",
+    "follow": "Follow (shn)",
+    "unfollow": "Unfollow (shn)",
+    "followHint": "Their stories will appear in your Following feed if they post with audience Followers (or Public). (shn)",
+    "userNotFound": "User not found (shn)",
+    "followsYou": "Follows you (shn)",
+    "sectionCrashedTitle": "Section failed to load (shn)",
+    "sectionCrashedBody": "Something went wrong in this section. (shn)",
+    "forwarding": "Call & Text Forwarding (shn)",
+    "callTextForwardingSection": "Call & Text Forwarding (shn)",
+    "callTextForwardingTitle": "Call and/or Text Forwarding (shn)",
+    "callTextForwardingDescription": "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number. (shn)",
+    "enableTextForwarding": "Enable text forwarding (shn)",
+    "forwardTextsToPhone": "Forward texts to phone (shn)",
+    "forwardTextsToEmail": "Forward texts to email (shn)",
+    "destinationPhone": "Destination phone (E.164) (shn)",
+    "destinationEmail": "Destination email (shn)",
+    "enableCallForwarding": "Enable call forwarding (shn)",
+    "destinationPhoneForCalls": "Destination (E.164) for calls (shn)",
+    "aliasBridging": "Call Forwarding (alias bridging) (shn)",
+    "quietHoursOptional": "Quiet Hours (optional) (shn)",
+    "startHour": "Start hour (0–23) (shn)",
+    "endHour": "End hour (0–23) (shn)",
+    "reset": "Reset (shn)",
+    "saveBtn": "Save (shn)",
+    "saveProfile": "Save profile (shn)",
+    "saveForwarding": "Save forwarding (shn)",
+    "forwardSaved": "Forwarding settings saved (shn)",
+    "forwardSaveFailed": "Failed to save settings (shn)",
+    "errE164": "Enter a valid E.164 phone (e.g., +15551234567). (shn)",
+    "errEmail": "Enter a valid email. (shn)",
+    "errSmsDest": "Choose at least one destination (phone or email). (shn)",
+    "errQuietHours": "Quiet hours must be between 0 and 23. (shn)",
+    "randomChat": "Random Chat (shn)",
+    "ageBand": "Your age range (shn)",
+    "ageBandPlaceholder": "Select your age range (shn)",
+    "ageTeen": "13–17 (shn)",
+    "age18_24": "18–24 (shn)",
+    "age25_34": "25–34 (shn)",
+    "age35_49": "35–49 (shn)",
+    "age50Plus": "50+ (shn)",
+    "ageBandHint": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. (shn)",
+    "wantsAgeFilter": "Use age-based matching in Random Chat (shn)",
+    "wantsAgeFilterDesc": "When on, we try to pair you with people in compatible age ranges. (shn)",
+    "partnerAgeBands": "Who can you be matched with? (shn)",
+    "partnerAgeBandsDesc": "Teens are always matched only with other teens. Adults cannot be matched with teens. (shn)",
+    "teenMatchingNote": "For safety, accounts in the 13–17 age range can only be matched with other 13–17 accounts in Random Chat. (shn)",
+    "foriaRemember": "Let Ria remember things you tell it (shn)",
+    "foriaRememberDesc": "When this is on, Foria can use your past Random Chat conversations (just with you) to keep the conversation flowing. You can turn this off any time. (shn)",
+    "voicemailSection": "Voicemail (shn)",
+    "voicemailEnabled": "Enable voicemail (shn)",
+    "voicemailAutoDeleteDays": "Auto-delete voicemails after (days) (shn)",
+    "voicemailAutoDeletePlaceholder": "Leave empty to keep forever (shn)",
+    "voicemailForwardEmail": "Forward voicemail to email (shn)",
+    "voicemailForwardEmailPlaceholder": "Email to send voicemail notifications to (shn)",
+    "voicemailGreetingText": "Text fallback greeting (shn)",
+    "voicemailGreetingTextDesc": "Used when your audio greeting is unavailable. (shn)",
+    "voicemailGreetingUpload": "Upload voicemail greeting (shn)",
+    "voicemailPreviewGreeting": "Preview greeting (shn)",
+    "voicemailGreetingUploaded": "Voicemail greeting uploaded successfully (shn)",
+    "voicemailGreetingUploadError": "Failed to upload voicemail greeting (shn)",
+    "voicemailNote": "Voicemails from your Chatforia numbers will be stored in your Voicemail inbox. You can enable transcription and forwarding in supported plans. (shn)",
+    "portHint": "Want to keep your current number? You can port it into Chatforia Wireless. (shn)",
+    "wireless": {
+      "manage": "Manage wireless (shn)"
+    },
+    "esim": {
+      "title": "Chatforia eSIM (shn)",
+      "desc": "Get mobile data for Chatforia when you’re away from Wi-Fi. (shn)",
+      "cta": "Get eSIM / Show QR (shn)"
+    }
+  },
+  "wireless": {
+    "title": "Chatforia Wireless (shn)",
+    "description": "Manage your Chatforia mobile plan, numbers, forwarding, and number porting. (shn)",
+    "options": {
+      "heading": "Choose how you want to use Chatforia (shn)",
+      "subheading": "You can get a new Chatforia number, or bring your existing number from another carrier. (shn)",
+      "newNumber": "Get a new Chatforia number (shn)",
+      "portNumber": "Port your current number into Chatforia Wireless (shn)"
+    },
+    "port": {
+      "heading": "Port your existing number (shn)",
+      "subheading": "Move your current phone number from your existing carrier into Chatforia. Make sure the details match your carrier account exactly to avoid delays. (shn)",
+      "phoneNumberLabel": "Phone number to port (shn)",
+      "phoneNumberPlaceholder": "+1 555 123 4567 (shn)",
+      "carrierLabel": "Current carrier (shn)",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc. (shn)",
+      "accountNumberLabel": "Account number (shn)",
+      "pinLabel": "Port-out PIN / password (shn)",
+      "fullNameLabel": "Full name on the account (shn)",
+      "address1Label": "Address line 1 (shn)",
+      "address2Label": "Address line 2 (optional) (shn)",
+      "cityLabel": "City (shn)",
+      "stateLabel": "State / Province (shn)",
+      "postalCodeLabel": "Postal code (shn)",
+      "countryLabel": "Country (shn)",
+      "submitButton": "Submit port request (shn)",
+      "success": "Port request submitted! We’ll keep you updated. (shn)",
+      "genericError": "Something went wrong. (shn)"
+    },
+    "status": {
+      "heading": "Porting status (shn)",
+      "subheading": "Track the status of your number port requests. (shn)",
+      "loading": "Loading… (shn)",
+      "loadError": "Failed to load port requests. (shn)",
+      "none": "No porting activity yet. (shn)",
+      "pending": "Pending review (shn)",
+      "submitted": "Submitted to carrier (shn)",
+      "inProgress": "In progress (shn)",
+      "completed": "Completed (shn)",
+      "failed": "Failed (shn)",
+      "canceled": "Canceled (shn)",
+      "created": "Created: (shn)",
+      "scheduled": "Scheduled: (shn)",
+      "completedAt": "Completed: (shn)"
+    },
+    "dataLow": "Your data is running low. (shn)",
+    "topUp": "Top up now (shn)",
+    "expiresIn": "Expires in {{days}} days (shn)",
+    "exhausted": "Your data has run out. Buy a new pack to continue using mobile data. (shn)",
+    "buyPack": "Buy data pack (shn)",
+    "esimPackLabel": "eSIM pack (shn)"
+  },
+  "family": {
+    "title": "Family (shn)",
+    "loading": "Loading your family details… (shn)",
+    "error": {
+      "load": "Failed to load family details. (shn)",
+      "invite": "Could not create an invite. Make sure you are the family owner and try again. (shn)",
+      "checkout": "We could not start checkout for a Family plan. Please try again. (shn)"
     },
     "billing": {
-      "opening": "ဖွင့်နေပါသည်…",
-      "manage": "Manage Billing"
+      "myPlanTitle": "My plan (shn)",
+      "myPlanError": "Unable to load your plan. (shn)",
+      "myPlanLoading": "Loading your plan… (shn)",
+      "currentPlan": "Current plan (shn)",
+      "renewsAt": "Renews on (shn)",
+      "freePlanCopy": "You’re on the free plan. Upgrade to unlock more features. (shn)",
+      "upgradeCta": "Upgrade plan (shn)",
+      "changePlanCta": "Change plan (shn)",
+      "manageBilling": "Manage billing (shn)",
+      "portalError": "Unable to open the billing portal right now. (shn)",
+      "cancelNow": "Cancel now (shn)",
+      "cancelNowHelp": "You can manage or cancel your subscription in the billing portal, or cancel immediately below. (shn)",
+      "cancelNowConfirm": "Are you sure you want to cancel your plan immediately? This cannot be undone. (shn)",
+      "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing. (shn)"
+    },
+    "none": {
+      "title": "No family set up yet (shn)",
+      "body": "To create a Chatforia Family and shared data pool, start a Family plan. (shn)",
+      "goUpgrade": "Start a Family plan (shn)",
+      "viewPlans": "View all plans (shn)"
+    },
+    "group": {
+      "defaultName": "My Chatforia Family (shn)",
+      "role": "Your role: {{role}} (shn)"
+    },
+    "role": {
+      "owner": "Owner (shn)",
+      "member": "Member (shn)"
+    },
+    "data": {
+      "heading": "Shared data pool (shn)",
+      "caption": "All members share this pool. We’ll warn you as you approach your limit. (shn)"
+    },
+    "members": {
+      "title": "Family members (shn)",
+      "name": "Name (shn)",
+      "role": "Role (shn)",
+      "usage": "Usage (shn)",
+      "limit": "Limit (shn)",
+      "unlimited": "No specific limit (shn)",
+      "inviteCta": "Invite member (shn)"
+    },
+    "invite": {
+      "title": "Invite a new member (shn)",
+      "body": "Send an email or link to invite someone into your shared family data pool. (shn)",
+      "emailLabel": "Email (optional) (shn)",
+      "emailPlaceholder": "friend@example.com (shn)",
+      "create": "Create invite (shn)",
+      "linkLabel": "Invite link (shn)",
+      "copyAria": "Copy invite link (shn)",
+      "expiryHint": "This link expires after a few days. You can always create a new one. (shn)"
+    },
+    "join": {
+      "title": "Join a family (shn)",
+      "body": "You have been invited to join a Chatforia Family and share their data pool. (shn)",
+      "cta": "Accept and join family (shn)",
+      "ctaLogin": "Sign in and join family (shn)",
+      "success": "You have joined this family. You now share their data pool. (shn)",
+      "goFamily": "Go to family dashboard (shn)",
+      "error": "We could not add you to this family. The invite may be invalid or expired. (shn)"
+    }
+  },
+  "premium": {
+    "heading": "Go Premium (shn)",
+    "description": "Unlock power features & remove ads. (shn)",
+    "cta": "Upgrade (shn)",
+    "upgrade": "Upgrade (shn)",
+    "upgradeAria": "Upgrade to Chatforia Premium (shn)"
+  },
+  "upgrade": {
+    "title": "Upgrade (shn)",
+    "titleLoggedIn": "Upgrade (shn)",
+    "titlePublic": "Pricing (shn)",
+    "h1": "Chatforia Pricing & Plans (shn)",
+    "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium. (shn)",
+    "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place. (shn)",
+    "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium. (shn)",
+    "subtitle.mobile": "Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi. (shn)",
+    "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place. (shn)",
+    "perMonth": "mo (shn)",
+    "perYear": "year (shn)",
+    "goPremium": "Go Premium (shn)",
+    "benefitsLine": "Unlock power features & remove ads. (shn)",
+    "ctaText": "Upgrade (shn)",
+    "aria": "Upgrade to Chatforia Premium (shn)",
+    "toggle": {
+      "monthly": "Monthly (shn)",
+      "annual": "Annual (Save 30%) (shn)"
+    },
+    "scheduleBanner": {
+      "title": "Subscription will end (shn)",
+      "body": "You’ll revert to Free on (shn)",
+      "keepPlanCta": "Keep {{plan}} (shn)",
+      "manageBillingCta": "Manage billing (shn)"
+    },
+    "billing": {
+      "opening": "Opening… (shn)",
+      "manage": "Manage Billing (shn)"
     },
     "checkout": {
-      "redirecting": "ပြောင်းရွှေ့နေသည်…"
+      "redirecting": "Redirecting… (shn)"
     },
     "auth": {
-      "continue": "ဝင် ရောက်ခြင်းသို့ ဆက်သွား",
-      "createAccount": "အကောင့် ဖန်တီး",
-      "signIn": "ဝင်"
+      "continue": "Continue to login (shn)",
+      "createAccount": "Create account (shn)",
+      "signIn": "Sign in (shn)"
     },
     "cta": {
-      "aria": "ပလန် ရွေး",
-      "getPlus": "Plus သို့ Upgrade",
-      "upgradeMonthly": "Monthly Upgrade",
-      "upgradeAnnual": "Annual Upgrade"
+      "aria": "Select plan (shn)",
+      "getPlus": "Upgrade to Plus (shn)",
+      "upgradeMonthly": "Upgrade Monthly (shn)",
+      "upgradeAnnual": "Upgrade Annual (shn)"
+    },
+    "section": {
+      "app": "App plans (shn)",
+      "mobile": "Mobile (eSIM) (shn)",
+      "family": "Family plans (shn)"
     },
     "plans": {
       "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "အခမဲ့ စတင် မက်ဆေ့ပို့ရန်",
+        "title": "Free (shn)",
+        "price": "$0 (shn)",
+        "desc": "Start messaging for free. Ideal if you’re just trying Chatforia. (shn)",
         "features": {
-          "msg": "1:1 နှင့် Group မက်ဆေ့",
-          "aiBasic": "AI တုံ့ပြန် အခြေခံ",
-          "attachments": "ပုံ/ဖိုင် ပုံမှန်အရွယ်"
+          "chat": "Real-time 1:1 and group chat, plus voice and video calls (shn)",
+          "media": "Share photos, voice messages, and short videos (shn)",
+          "ai": "AI-powered smart replies and instant translation (fair use) (shn)",
+          "disappearing": "Disappearing messages and basic privacy controls (shn)",
+          "ads": "Free forever with ads in the app (shn)"
         },
-        "ctaCurrent": "ယခု ပလန်",
-        "ctaUnavailable": "Free သို့ ပြောင်း (မရ)",
-        "aria": "Free plan (current)"
+        "ctaCurrent": "Current plan (shn)",
+        "ctaManage": "Manage in billing (shn)",
+        "ctaPublic": "Get started – continue to login (shn)",
+        "aria": "Free plan (shn)"
       },
       "plus": {
-        "title": "Plus",
-        "price": "$4.99 / mo",
-        "desc": "အမြန်နှုန်းနှင့် အကျဉ်းချုပ် Ad-free အတွေ့အကြုံ",
+        "title": "Plus (shn)",
+        "price": "$6.99 (shn)",
+        "desc": "All the essentials, without ads. Great for everyday messaging and calling. (shn)",
         "features": {
-          "noAds": "Ads အားလုံး ဖျက်",
-          "msg": "1:1 နှင့် Group မက်ဆေ့",
-          "attachments": "Attachments အရွယ်ကြီး",
-          "aiBasic": "AI တုံ့ပြန် အခြေခံ"
+          "allFree": "Everything in Free, with no ads (shn)",
+          "forwarding": "Forward calls and texts to your real phone number (shn)",
+          "history": "Longer message history (up to 6 months) (shn)",
+          "support": "Faster support when something goes wrong (shn)"
         },
-        "badge": "Popular",
-        "cta": "Go Ad-Free",
-        "aria": "Upgrade to Plus"
+        "badge": "Popular (shn)",
+        "cta": "Go Ad-Free (shn)",
+        "ctaPublic": "Get Plus – continue to login (shn)",
+        "aria": "Upgrade to Plus (shn)"
       },
       "premiumMonthly": {
-        "title": "Premium (Monthly)",
-        "price": "$24.99 / mo",
-        "desc": "အင်အားအပြည့် အင်္ဂါရပ်များ၊ ringtones နှင့် AI power tools",
+        "title": "Premium (Monthly) (shn)",
+        "price": "$11.99 (shn)",
+        "desc": "The full Chatforia experience: AI power tools, customization, and priority support. (shn)",
         "features": {
-          "plusAll": "Plus အရာအားလုံး",
-          "ringtones": "Custom ringtone & message tones",
-          "powerAi": "AI စွမ်းရည်မြင့်",
-          "priorityUpdates": "အမြန် အပ်ဒိတ်",
-          "backups": "Backups & device syncing"
+          "plusAll": "Everything in Plus (shn)",
+          "themes": "Unlock all premium color themes and app customizations (shn)",
+          "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries (shn)",
+          "support": "Priority support when you need help most (shn)"
         },
-        "badge": "Best value",
-        "cta": "Upgrade (Monthly)",
-        "aria": "Upgrade to Premium Monthly"
+        "badge": "Recommended (shn)",
+        "cta": "Upgrade (Monthly) (shn)",
+        "ctaPublic": "Unlock Premium – continue to login (shn)",
+        "aria": "Upgrade to Premium Monthly (shn)"
       },
       "premiumAnnual": {
-        "title": "Premium (Annual)",
-        "price": "$225 / year",
-        "desc": "နှစ်စဉ် ငွေတစ်ကြိမ် အားဖြင့် ပိုမို သက်သာ",
+        "title": "Premium (Annual) (shn)",
+        "price": "$99 (shn)",
+        "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support. (shn)",
         "features": {
-          "allPremium": "Premium အရာအားလုံး",
-          "annualBilling": "နှစ်စဉ် တစ်ကြိမ် စာရင်းချ",
-          "save25": "လစဉ်နှင့် နှိုင်းယှဉ်၍ ~25% သက်သာ",
-          "sameFeatures": "Monthly နှင့် အင်္ဂါရပ် တူညီ"
+          "allPremium": "Everything in Premium Monthly — including extra color themes (shn)",
+          "annualBilling": "Billed once per year (shn)",
+          "save25": "Save around 30% compared to paying monthly (shn)",
+          "bestFor": "Best for power users, remote workers, and heavy travelers (shn)"
         },
-        "badge": "Save 25%",
-        "cta": "Upgrade (Annual)",
-        "aria": "Upgrade to Premium Annual",
-        "disclaimer": "ကြိုတင် တန်းဖြတ် စာရင်းချ။ အချိန်မရွေး ပယ်ဖျက်နိုင်။ လျှို့ဝှက်ခ မရှိ။"
+        "badge": "Save 30% (shn)",
+        "cta": "Upgrade (Annual) (shn)",
+        "ctaPublic": "Save 30% with annual – continue to login (shn)",
+        "aria": "Upgrade to Premium Annual (shn)",
+        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees. (shn)"
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "အခမဲ့ စတင် မက်ဆေ့ပို့ရန်",
-      "plusTitle": "Plus",
-      "plusBadge": "Popular",
-      "plusDesc": "အရင်းအသွားအတန်း Ad-free အတွေ့အကြုံ",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "အင်အားအပြည့် အင်္ဂါရပ်များ၊ ringtones၊ AI tools",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "နှစ်စဉ် စာရင်းချ လျှော့ဈေး ပို",
-      "annualDisclaimer": "ကြိုတင် တန်းဖြတ် စာရင်းချ။ အချိန်မရွေး ပယ်ဖျက်နိုင်။"
-    }
-  },
-
-  "gettingStarted": {
-    "title": "ၵူၺ်းႁဵတ်း",
-    "subtitle": "Chatforia အသစ်လား? မိနစ်အနည်းငယ်အတွင်း စတင်အသုံးပြုနိုင်ရန် သတ်မှတ်ချက် အစုံ",
-    "alert": {
-      "text": "ဤလမ်းညွှန်ကို အင်္ဂါရပ်အသစ် မိတ်ဆက်ချိန်နှင့် အတူ မကြာသေးခင်က တိုးချဲ့သွားမည်။ အချို့ ပျက္ကွက်ပါက",
-      "contactLink": "ထိမ်းမႃး"
+      "freeTitle": "Free (shn)",
+      "freeDesc": "Start messaging for free. (shn)",
+      "plusTitle": "Plus (shn)",
+      "plusBadge": "Popular (shn)",
+      "plusDesc": "Most affordable ad-free experience. (shn)",
+      "premiumMonthlyTitle": "Premium (shn)",
+      "premiumMonthlyDesc": "Full features, ringtones, and AI power tools. (shn)",
+      "premiumAnnualTitle": "Premium (shn)",
+      "premiumAnnualDesc": "Save more when billed yearly. (shn)",
+      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees. (shn)"
     },
-    "section1": {
-      "title": "1) အကောင့် ဖန်တီး",
-      "signup": "Sign up",
-      "or": "သို့မဟုတ်",
-      "login": "log in",
-      "loginText": "ရှိပြီးသား အကောင့်ဖြင့်။",
-      "prefsStart": "သင့်",
-      "prefsLink": "preferences",
-      "prefsRest": "(ဘာသာ, read receipts, themes) သတ်မှတ်"
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM data packs) (shn)",
+      "subtitle": "Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency. (shn)",
+      "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi. (shn)",
+      "scope": {
+        "local": "Local (shn)",
+        "europe": "Europe (shn)",
+        "global": "Global (shn)"
+      },
+      "note": "We don’t sell data packs under 3 GB. (shn)",
+      "localEquals": "Local = {{country}} (shn)",
+      "localEqualsFallback": "Local = your current country (shn)",
+      "perPack": "/ pack (shn)",
+      "cta": "Get this data pack (shn)",
+      "ctaPublic": "Get this data pack (shn)",
+      "checkout": {
+        "redirecting": "Redirecting… (shn)"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "High-speed data for heavy use (shn)",
+          "throttle": "Speeds may slow after high usage (shn)",
+          "coverage": "Reliable coverage (shn)",
+          "instant": "Instant eSIM activation (shn)",
+          "noContract": "One-time pack, no contract (shn)"
+        }
+      },
+      "disclaimer": {
+        "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region. (shn)"
+      },
+      "small": {
+        "title": "Starter pack (shn)",
+        "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls. (shn)",
+        "price": "$9.99 (shn)",
+        "data": "3 GB (shn)",
+        "bestFor": "Short trips, light messaging, and occasional calls (shn)",
+        "aria": "Buy Starter eSIM data pack (shn)"
+      },
+      "medium": {
+        "title": "Traveler pack (shn)",
+        "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls. (shn)",
+        "price": "$14.99 (shn)",
+        "data": "5 GB (shn)",
+        "bestFor": "Weekend trips, regular VoIP calls, and maps (shn)",
+        "aria": "Buy Traveler eSIM data pack (shn)"
+      },
+      "large": {
+        "title": "Power pack (shn)",
+        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network. (shn)",
+        "price": "$24.99 (shn)",
+        "data": "10 GB (shn)",
+        "bestFor": "Heavy chat, calls, video, and hotspot use (shn)",
+        "aria": "Buy Power user eSIM data pack (shn)"
+      },
+      "compare": {
+        "title": "Compare eSIM data packs (shn)",
+        "col": {
+          "pack": "Pack (shn)",
+          "data": "Included data (shn)",
+          "bestFor": "Best for (shn)"
+        },
+        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone). (shn)"
+      }
     },
-    "section2": {
-      "title": "2) မက်ဆေ့ ပို့",
-      "item1": "DM သို့မဟုတ် Group တစ်ခု ဖန်တီးပြီး မက်ဆေ့ ပထမတစ်ခု ပို့ပါ။",
-      "item2": "ဘာသာ 100+ ကို ချက်ချင်း ဘာသာပြန် ပြုလုပ်ပါ။",
-      "item3": "Profile → Privacy တွင် ၶႃႈသၢႆလၵ်းၽႃႇ နှင့် read receipts စမ်းသုံးပါ။"
+    "family": {
+      "title": "Chatforia Family (shared data) (shn)",
+      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage. (shn)",
+      "perPack": "/ pack (shn)",
+      "small": {
+        "title": "Family Small (shn)",
+        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users. (shn)",
+        "price": "$29.99 (shn)",
+        "aria": "Buy Family Small pack (shn)"
+      },
+      "medium": {
+        "title": "Family Medium (shn)",
+        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members. (shn)",
+        "price": "$49.99 (shn)",
+        "aria": "Buy Family Medium pack (shn)"
+      },
+      "large": {
+        "title": "Family Large (shn)",
+        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online. (shn)",
+        "price": "$84.99 (shn)",
+        "aria": "Buy Family Large pack (shn)"
+      },
+      "feature": {
+        "shared": "Shared data pool for your family (shn)",
+        "members": "Invite up to 4 additional members (shn)",
+        "membersMore": "Great for 3–5 active members (shn)",
+        "manage": "Manage limits for each member (shn)",
+        "topUp": "Add more packs anytime (shn)",
+        "bestValue": "Best value per GB (shn)",
+        "fairUse": "Subject to fair-use policy and local limits (shn)"
+      },
+      "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime. (shn)",
+      "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations. (shn)"
     },
-    "section3": {
-      "title": "3) နက်ရှိုင်း လုပ်ပါ",
-      "item1Part1": "သင့်ပလန်ကို",
-      "upgradeLink": "Upgrade",
-      "item1Part2": "စာမျက်နှာတွင် စီမံ (Plus = ကြော်ငြာမရှိ, Premium = အင်္ဂါရပ် အပြည့်)",
-      "item2Part1": "စက်များကို ထပ်မံ ချိတ်ဆက်ပြီး Encrypted backups ကို",
-      "settingsLink": "Settings"
+    "why": {
+      "title": "Why people switch to Chatforia (shn)",
+      "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready. (shn)",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow (shn)",
+          "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer. (shn)"
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice (shn)",
+          "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding. (shn)"
+        },
+        "messengers": {
+          "title": "Chatforia vs chat apps (shn)",
+          "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe. (shn)"
+        }
+      },
+      "tableTitle": "How Chatforia compares (shn)",
+      "col": {
+        "feature": "Feature (shn)"
+      },
+      "feature": {
+        "freeNumber": "Free phone number (shn)",
+        "translation": "Built-in auto-translation (shn)",
+        "aiTools": "AI tools (rewrites, replies, summaries) (shn)",
+        "ads": "Ad-free option (shn)",
+        "history": "Message history (shn)"
+      },
+      "yes": "Yes (shn)",
+      "no": "No (shn)",
+      "yesPremium": "Yes (Premium) (shn)",
+      "plusPremium": "Plus & Premium (shn)",
+      "limited": "Limited (shn)",
+      "nA": "N/A (shn)",
+      "history": {
+        "chatforia": "Up to 12+ months (shn)",
+        "textnow": "Varies by account (shn)",
+        "voice": "Limited / account-based (shn)"
+      },
+      "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow. (shn)"
     },
-    "cta": {
-      "seePlans": "ပလန်များ ကြည့်",
-      "openSettings": "ဆက်တင် ဖွင်"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Help Center",
     "faq": {
-      "account": {
-        "q": "အကောင့် ဘယ်လို ဖန်တီး/ပြန်လည်ရယူ?",
-        "a": "App ကို ဒေါင်းလုတ် သို့ Web သုံး၊ “Create account” ကို နှိပ်ပြီး email/ဖုန်း ဖြင့် စိစစ်ပါ။ ပြန်လည်ရယူရန် “Forgot password” သုံးပါ။"
+      "title": "Pricing & plans FAQ (shn)",
+      "free": {
+        "q": "Is the Free plan really free? (shn)",
+        "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features. (shn)"
       },
-      "privacy": {
-        "q": "မက်ဆေ့များ E2E လျို့ဝှက်တံဆိပ် ပါသလား?",
-        "a": "ပါသည်။ မက်ဆေ့များနှင့် ခေါ်ဆိုချက်များသည် မူလတန်ဖိုး E2E လျို့ဝှက်ထားပြီး သင်နှင့် လက်ခံသူသာ ဖတ်နိုင်သည်။"
+      "plusPremium": {
+        "q": "What’s the difference between Plus and Premium? (shn)",
+        "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users. (shn)"
       },
-      "translate": {
-        "q": "ချက်ချင်း ဘာသာပြန် အလုပ်လုပ်ပုံ?",
-        "a": "Settings → Appearance & Language တွင် “Auto-translate” ကို ဖွင့်ပါ။ စနစ်ပေါ်တွင် ပံ့ပိုးပါက on-device ပြန်သည်၊ မပံ့ပိုးပါက metadata အနည်းငယ်သာပါသော API များသုံးပါသည်။"
+      "esim": {
+        "q": "Where do eSIM data packs work? (shn)",
+        "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app. (shn)"
+      },
+      "cancel": {
+        "q": "Can I cancel or change plans anytime? (shn)",
+        "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period. (shn)"
+      },
+      "family": {
+        "q": "How do Family packs work? (shn)",
+        "a": "Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person. (shn)"
+      }
+    },
+    "gettingStarted": {
+      "title": "Getting Started (shn)",
+      "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes. (shn)",
+      "alert": {
+        "text": "This guide will grow as we launch new features. If something’s missing, let us know via (shn)",
+        "contactLink": "Contact Us (shn)"
+      },
+      "section1": {
+        "title": "1) Create your account (shn)",
+        "signup": "Sign up (shn)",
+        "or": "or (shn)",
+        "login": "log in (shn)",
+        "loginText": "with your existing account. (shn)",
+        "prefsStart": "Set your (shn)",
+        "prefsLink": "preferences (shn)",
+        "prefsRest": "(language, read receipts, themes). (shn)"
+      },
+      "section2": {
+        "title": "2) Start messaging (shn)",
+        "item1": "Create a DM or Group and send your first message. (shn)",
+        "item2": "Use instant translation to chat across 100+ languages. (shn)",
+        "item3": "Try disappearing messages and read receipts in Profile → Privacy. (shn)"
+      },
+      "section3": {
+        "title": "3) Go further (shn)",
+        "item1": "You can upgrade to a paid plan anytime inside the app. (shn)",
+        "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app. (shn)"
+      },
+      "cta": {
+        "seePlans": "See plans (shn)",
+        "openSettings": "Open settings (shn)"
+      }
+    },
+    "helpCenter": {
+      "title": "Help Center (shn)",
+      "faq": {
+        "account": {
+          "q": "How do I create or recover my account? (shn)",
+          "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”. (shn)"
+        },
+        "privacy": {
+          "q": "Are messages end-to-end encrypted? (shn)",
+          "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them. (shn)"
+        },
+        "translate": {
+          "q": "How does instant translation work? (shn)",
+          "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata. (shn)"
+        },
+        "contact": {
+          "q": "Contact support (shn)",
+          "a": "Reach us at support@chatforia.com. Include screenshots and your app version. (shn)"
+        }
+      }
+    },
+    "contact": {
+      "title": "Contact Us (shn)",
+      "successMsg": "Thanks—our team will reply by email. (shn)",
+      "errorSend": "Could not send. Please email support@chatforia.com. (shn)",
+      "form": {
+        "nameLabel": "Name (shn)",
+        "emailLabel": "Email (shn)",
+        "messageLabel": "Message (shn)",
+        "sendCta": "Send (shn)"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Privacy Policy (shn)",
+      "lastUpdated": "Last updated: (shn)",
+      "intro": {
+        "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access. (shn)"
+      },
+      "infoWeCollect": {
+        "title": "Information we collect (shn)",
+        "account": "Account info (e.g., email/phone) to create and secure your account. (shn)",
+        "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it. (shn)",
+        "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance. (shn)"
+      },
+      "sms": {
+        "title": "Mobile phone numbers and SMS (shn)",
+        "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing. (shn)",
+        "newText": "New text (shn)",
+        "enterRecipient": "Enter a name or number (shn)",
+        "typeMessage": "Type a message… (shn)",
+        "addRecipient": "Add a recipient above to start… (shn)"
+      },
+      "howWeUse": {
+        "title": "How we use information (shn)",
+        "provide": "Provide and secure the service (auth, spam/abuse detection). (shn)",
+        "improve": "Improve features (translation quality, reliability). (shn)",
+        "legal": "Comply with legal obligations. (shn)"
+      },
+      "sharing": {
+        "title": "Sharing (shn)",
+        "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts. (shn)"
+      },
+      "rights": {
+        "title": "Your rights (shn)",
+        "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com. (shn)"
+      },
+      "retention": {
+        "title": "Data retention & security (shn)",
+        "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us. (shn)"
+      },
+      "children": {
+        "title": "Children (shn)",
+        "body": "Chatforia isn’t directed to children under 13 (or as required by your local law). (shn)"
+      },
+      "changes": {
+        "title": "Changes (shn)",
+        "body": "We’ll post updates here and revise the “Last updated” date. (shn)"
       },
       "contact": {
-        "q": "Support ကို ဆက်သွယ်ရန်",
-        "a": "support@chatforia.com သို့ ဆက်သွယ်ပါ။ Screenshot များနှင့် app version ထည့်ပါ။"
+        "title": "Contact (shn)",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA (shn)"
+      }
+    },
+    "terms": {
+      "title": "Terms of Service (shn)",
+      "lastUpdated": "Last updated: (shn)",
+      "intro": {
+        "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service. (shn)"
+      },
+      "accounts": {
+        "title": "Accounts (shn)",
+        "itemAccurateInfo": "Provide accurate info and keep credentials secure. (shn)",
+        "itemResponsibility": "You’re responsible for activity on your account. (shn)"
+      },
+      "acceptableUse": {
+        "title": "Acceptable use (shn)",
+        "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse. (shn)",
+        "itemSuspend": "We may suspend/terminate for violations. (shn)"
+      },
+      "sms": {
+        "title": "SMS communications (shn)",
+        "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app. (shn)"
+      },
+      "yourContent": {
+        "title": "Your content (shn)",
+        "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation). (shn)"
+      },
+      "disclaimer": {
+        "title": "Disclaimers & liability (shn)",
+        "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages. (shn)"
+      },
+      "changes": {
+        "title": "Changes (shn)",
+        "body": "We may update these terms; continued use after changes means acceptance. (shn)"
+      },
+      "contact": {
+        "title": "Contact (shn)",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA (shn)"
+      }
+    },
+    "doNotSell": {
+      "title": "Do Not Sell or Share My Personal Information (shn)",
+      "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below. (shn)",
+      "cta": "Submit a request (shn)"
+    },
+    "cookies": {
+      "title": "Cookie Settings (shn)",
+      "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings. (shn)"
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Unable to load phone number status. (shn)",
+      "lock": "Lock (shn)",
+      "noNumberAssigned": "No number assigned. Pick one by area code to start texting. (shn)",
+      "pickNumber": "Pick a number (shn)",
+      "phoneNumber": "Phone number (shn)"
+    },
+    "startChatModal": {
+      "title": "Start a chat (shn)",
+      "quickPicker": "Quick picker (shn)",
+      "to": "To (shn)",
+      "nameOrUsername": "Type a name, username (shn)",
+      "nameUsernamePhoneEmail": "Type a name, username, phone, or email… (shn)",
+      "startWithSelected": "Start chat with selected (shn)",
+      "searchByUsernameOrPhone": "Search by username or phone (shn)",
+      "search": "Search (shn)",
+      "searchPrompt": "Type a username or phone and press Search. (shn)",
+      "pickFromContacts": "Or pick from contacts (shn)",
+      "addContact": "Add a Contact (shn)",
+      "show": "Show (shn)",
+      "add": "Add (shn)",
+      "close": "Close (shn)",
+      "selectedCount": "{{count}} selected (shn)",
+      "pickAtLeastOne": "Pick at least one recipient. (shn)",
+      "saveContactsHint": "Phone/email entries will be available after you save them as contacts. (shn)",
+      "failedBulkStart": "Failed to start chat with selected recipients. (shn)",
+      "noResults": "No results (shn)",
+      "mode": "Mode (shn)",
+      "group": "Group (shn)",
+      "broadcast": "Broadcast (shn)",
+      "groupNameOptional": "Group name (optional) (shn)",
+      "firstMessageOptional": "First message (optional but recommended) (shn)",
+      "createGroup": "Create group (shn)",
+      "sendBroadcast": "Send broadcast (shn)"
+    },
+    "themes": {
+      "amoled": "Amoled (shn)",
+      "aurora": "Aurora (shn)",
+      "neon": "Neon (shn)",
+      "sunset": "Sunset (shn)",
+      "solarized": "Solarized (shn)",
+      "velvet": "Velvet (shn)"
+    },
+    "sounds": {
+      "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all. (shn)",
+      "preview": "Preview (shn)",
+      "resetToDefaults": "Reset to defaults (shn)",
+      "notificationSounds": "Notification Sounds (shn)",
+      "messageTone": "Message tone (shn)",
+      "default": "Default (shn)",
+      "vibrate": "Vibrate (shn)",
+      "dreamer": "Dreamer (shn)",
+      "notify": "Notify (shn)",
+      "pop": "Pop (shn)",
+      "pulsatingSound": "Pulsating Sound (shn)",
+      "textMessage": "Text Message (shn)",
+      "xylophone": "Xylophone (shn)",
+      "classic": "Classic (shn)",
+      "urgency": "Urgency (shn)",
+      "bells": "Bells (shn)",
+      "chimes": "Chimes (shn)",
+      "digitalPhone": "Digital Phone (shn)",
+      "melodic": "Melodic (shn)",
+      "organNotes": "Organ Notes (shn)",
+      "soundReality": "Sound Reality (shn)",
+      "street": "Street (shn)",
+      "universfield": "Universfield (shn)"
+    },
+    "premiumGuard": {
+      "requiresPremium": "This feature requires a Premium plan. (shn)"
+    },
+    "aiSettings": {
+      "title": "AI Settings (shn)",
+      "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses. (shn)",
+      "save": "Save AI Settings (shn)",
+      "autoTranslateIncoming": "Auto-translate incoming messages (shn)",
+      "showOriginalAlongside": "Show original text alongside translation (shn)",
+      "enableSmartReplies": "Enable Smart Replies (shn)",
+      "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies. (shn)",
+      "maskProfanity": "Mask profanity in AI suggestions (shn)",
+      "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked (shn)",
+      "foriaBot": "ForiaBot Auto-Responder (shn)",
+      "enableAutoReply": "Enable auto-reply when I’m busy (shn)",
+      "autoReplyMode": "Auto-reply mode (shn)",
+      "cooldownSeconds": "Cooldown (seconds) (shn)",
+      "off": "Off (shn)",
+      "on": "On (shn)",
+      "signature": "Signature (shn)",
+      "autoReply": "Auto-reply (shn)",
+      "activeUntilOptional": "Active until (optional) (shn)",
+      "saved": "AI preferences saved (shn)",
+      "saveFailed": "Failed to save AI settings (shn)",
+      "translateOff": "Off (shn)",
+      "translateTagged": "Only when @translated or tagged (shn)",
+      "translateAll": "Translate all incoming messages (shn)",
+      "modeDm": "1:1 chats only (shn)",
+      "modeMention": "Only when I’m @mentioned (shn)",
+      "modeAll": "All inbound messages (shn)"
+    },
+    "accessibilitySettings": {
+      "title": "Accessibility & Alerts (shn)",
+      "accessibility": "Accessibility (shn)",
+      "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound. (shn)",
+      "interfaceFontSize": "Interface font size (shn)",
+      "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text in accessibility settings. (shn)",
+      "sm": "sm (shn)",
+      "md": "md (shn)",
+      "lg": "lg (shn)",
+      "xl": "xl (shn)",
+      "notifications": "Notifications (shn)",
+      "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity. (shn)",
+      "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications. (shn)",
+      "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings. (shn)",
+      "liveCaptions": "Live captions (calls) (shn)",
+      "captionFontSize": "Caption font size (shn)",
+      "captionBackground": "Caption background (shn)",
+      "light": "light (shn)",
+      "dark": "dark (shn)",
+      "transparent": "transparent (shn)",
+      "voiceNotes": "Voice notes (shn)",
+      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes (shn)",
+      "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive. (shn)",
+      "changesSavedInstantly": "Changes are saved instantly. (shn)",
+      "loadFailed": "Failed to load settings (shn)",
+      "visualAlerts": "Visual alerts for messages & calls (shn)",
+      "visualAlertsDesc": "Show banners and title blink so you don’t miss activity. (shn)",
+      "vibrateOnNewShort": "Vibrate on new messages (when supported) (shn)",
+      "vibrateOnNewDesc": "Trigger device vibration with notifications. (shn)",
+      "flashOnCallShort": "Flash screen on incoming call (shn)",
+      "flashOnCallDesc": "Brief bright flash when a call rings. (shn)"
+    },
+    "privacySection": {
+      "strictE2EE": "Strict end-to-end encryption (shn)",
+      "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews. (shn)"
+    },
+    "linkedDevicesPanel": {
+      "title": "Linked Devices (shn)",
+      "noneFound": "No linked devices found. (shn)",
+      "refresh": "Refresh (shn)"
+    },
+    "help": {
+      "title": "Help (shn)",
+      "howCanWeHelp": "How can we help? (shn)",
+      "helpCenter": "Help Center (shn)",
+      "contactUs": "Contact us (shn)",
+      "quickTopics": "Quick topics (shn)",
+      "searchExamples": "Try searching for “translate”, “backups”, or “privacy”. (shn)",
+      "cantLogin": "Can't log in (shn)",
+      "paymentsBilling": "Payments/ billing (shn)",
+      "reportAbuse": "Report abuse (shn)",
+      "searchHelpArticles": "Search help articles (shn)",
+      "search": "Search (shn)"
+    },
+    "peoplePage": {
+      "people": "People (shn)",
+      "search": "Search (shn)",
+      "searchPlaceholder": "Search by alias, name, username, or phone (shn)",
+      "filterSaved": "Filter saved contacts (shn)",
+      "noContactsFound": "No contacts found (shn)",
+      "quickStart": "Quick start (shn)",
+      "quickStartDesc": "A few fast ways to get rolling. (shn)",
+      "importContacts": "Import your contacts (shn)",
+      "add": "Add (shn)",
+      "focusSearch": "Focus Search (shn)",
+      "import": "Import (shn)",
+      "findOrAdd": "Find or add someone (shn)",
+      "searchByPhoneOrUsername": "Search by phone / username (shn)",
+      "inviteFriends": "Invite friends (shn)",
+      "inviteDesc": "Share your invite link to start chatting instantly. (shn)",
+      "getTheApp": "Get the app (shn)",
+      "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android. (shn)",
+      "download": "Download (shn)",
+      "syncTip": "Tip: Your messages stay synced across web and mobile. (shn)"
+    },
+    "randomChat": {
+      "title": "Random Chat (shn)",
+      "description": "'Meet someone new instantly'. 'We’ll match you and open a temporary chat room.' 'Chat anonymously first. Add Friend later if it feels right.' (shn)",
+      "findMatch": "Find me a match (shn)",
+      "chatWithForia": "Chat with Foria (shn)",
+      "chatWithForiaBot": "Chat with ForiaBot (shn)",
+      "cancel": "Cancel (shn)",
+      "close": "Close (shn)",
+      "searching": "Searching… (shn)",
+      "finding": "Finding… (shn)",
+      "looking": "Looking for someone… (shn)",
+      "startingForia": "Starting a chat with Foria… (shn)",
+      "partnerDisconnected": "Your partner disconnected. (shn)",
+      "noPartner": "No partner found right now. (shn)",
+      "connectedTo": "Connected to {{name}} (shn)",
+      "connected": "Connected (shn)",
+      "idle": "Idle (shn)",
+      "partnerLeft": "Partner left. (shn)",
+      "stopped": "Stopped. (shn)",
+      "skip": "Skip (shn)",
+      "save": "Save (shn)",
+      "saveGuard": "Only human-to-human chats can be saved (shn)",
+      "youAreChattingWith": "You’re chatting with {{name}} (shn)",
+      "bot": "BOT (shn)",
+      "leave": "Leave (shn)",
+      "sayHi": "Say hi 👋 (shn)",
+      "you": "You (shn)",
+      "typeMessage": "Type a message (shn)",
+      "send": "Send (shn)",
+      "partner": "Partner (shn)",
+      "withRia": "With Ria (shn)",
+      "chatWithRia": "Chat with Ria (shn)",
+      "startingRia": "Starting a chat with Ria… (shn)",
+      "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat. (shn)",
+      "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people. (shn)",
+      "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat. (shn)",
+      "subtitle": "Meet someone new instantly, or choose to chat with Ria. (shn)",
+      "start": "Start a conversation (shn)",
+      "matching": "Matching… (shn)",
+      "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people. (shn)",
+      "next": "Next Person (shn)",
+      "addFriend": "Add Friend (shn)",
+      "requested": "Requested (shn)",
+      "messageRia": "Message Ria… (shn)",
+      "messageMatch": "Message your match… (shn)"
+    },
+    "brand": {
+      "name": "Chatforia (shn)",
+      "ria": "Ria (shn)"
+    },
+    "ria": {
+      "fallbackName": "there (shn)",
+      "intro": "Hey there 👋 I’m Ria. What’s on your mind? (shn)",
+      "greetings": {
+        "long1": "Hey {{name}} 👋 I’m here. What’s on your mind? (shn)",
+        "long2": "Hi {{name}} 😊 What would you like to talk about today? (shn)",
+        "long3": "Hey {{name}}! I’m all ears — what’s up? (shn)",
+        "long4": "Nice to see you, {{name}} 👋 What’s on your mind today? (shn)",
+        "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat? (shn)",
+        "long6": "Hi {{name}}! I’ve got time — what would you like to talk about? (shn)",
+        "short1": "Hey {{name}}, I’m still here. What’s up? (shn)",
+        "short2": "Welcome back {{name}} 👋 Anything else you wanted to add? (shn)",
+        "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind. (shn)",
+        "short4": "Hey {{name}} ✨ Ready to pick up where we left off? (shn)",
+        "short5": "Yes {{name}}? I’m listening 👂 (shn)",
+        "short6": "Oh hey {{name}}! Got something new on your mind? (shn)"
+      },
+      "header": {
+        "openNav": "Open navigation menu (shn)",
+        "closeNav": "Close navigation menu (shn)",
+        "homeAria": "Chatforia Home (shn)"
+      },
+      "login": {
+        "welcomeBack": "Welcome back (shn)",
+        "title": "Continue to Chatforia (shn)",
+        "subtitleReturning": "Log in to your Chatforia account (shn)",
+        "subtitle": "Log in to your Chatforia account (shn)",
+        "google": "Continue with Google (shn)",
+        "apple": "Continue with Apple (shn)",
+        "googleUnavailable": "Google sign-in unavailable (shn)",
+        "appleUnavailable": "Apple sign-in unavailable (shn)",
+        "or": "or (shn)",
+        "email": "Email (shn)",
+        "emailPh": "you@example.com (shn)",
+        "usernameLabel": "Username (shn)",
+        "usernamePh": "Your username (shn)",
+        "passwordLabel": "Password (shn)",
+        "passwordPh": "Your password (shn)",
+        "keepSignedIn": "Keep me signed in (shn)",
+        "forgot": {
+          "title": "Forgot Password (shn)",
+          "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password. (shn)",
+          "emailInvalid": "Please enter a valid email address. (shn)",
+          "genericError": "Unable to process request. Please try again in a moment. (shn)",
+          "sending": "Sending reset link... (shn)",
+          "sendCta": "Send Reset Link (shn)",
+          "sentLabel": "Sent! (shn)",
+          "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder. (shn)",
+          "previewDev": "Preview Email (Dev) (shn)",
+          "backToLogin": "Back to Login (shn)"
+        },
+        "submit": "Log In (shn)",
+        "loggingIn": "Logging in… (shn)",
+        "newHere": "New here? <link>Create an account</link> (shn)",
+        "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead. (shn)",
+        "error": {
+          "missing": "Please enter your credentials. (shn)",
+          "invalid": "Invalid username or password (shn)",
+          "denied": "Access denied. (shn)",
+          "unprocessable": "Invalid request. Check your username/email and password. (shn)",
+          "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices. (shn)",
+          "premiumRequired": "This action requires a Premium plan. (shn)"
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Completing sign-in… (shn)"
+    },
+    "dialer": {
+      "title": "Calls (shn)",
+      "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.) (shn)",
+      "enterNumberPh": "Enter number (shn)",
+      "call": "Call (shn)",
+      "backspace": "Backspace (shn)",
+      "recents": "Recents (shn)",
+      "recentsEmpty": "No recent calls yet. (shn)",
+      "enterNumber": "Enter number (shn)",
+      "enterNumberAria": "Enter number (shn)",
+      "key": "Key {{d}} (shn)",
+      "noRecents": "No recent calls yet. (shn)"
+    },
+    "video": {
+      "title": "Video (shn)",
+      "chooseType": "Choose a video type. (shn)",
+      "directTitle": "Direct Video (shn)",
+      "directDesc": "1:1 camera call with another user. (shn)",
+      "directStart": "Start (shn)",
+      "roomsTitle": "Rooms (shn)",
+      "roomsDesc": "Multi-party video using a shared room name. (shn)",
+      "roomsIntro": "Join or create a multi-party room. (shn)",
+      "roomNameLabel": "Room name (shn)",
+      "roomNamePh": "e.g. team-standup (shn)",
+      "join": "Join (shn)",
+      "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>. (shn)",
+      "hub": {
+        "title": "Video (shn)",
+        "subtitle": "Choose a video type. (shn)"
+      },
+      "direct": {
+        "title": "Direct Video (shn)",
+        "subtitle": "Start a 1:1 video call using a phone number or Chatforia username. (shn)",
+        "desc": "1:1 camera call with another user. (shn)",
+        "start": "Start (shn)",
+        "callBtn": "Call (shn)",
+        "callByPhone": {
+          "title": "Call by phone (shn)"
+        },
+        "phone": {
+          "placeholder": "Enter phone (e.g., +1-555-123-4567) (shn)",
+          "aria": "Phone to call (shn)"
+        },
+        "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link. (shn)",
+        "findUser": {
+          "title": "Find a user (shn)"
+        },
+        "search": {
+          "placeholder": "Search by name or username (shn)",
+          "aria": "Search by name or username (shn)",
+          "btn": "Search (shn)"
+        }
+      },
+      "rooms": {
+        "title": "Rooms (shn)",
+        "subtitle": "Create a room or join an existing one by typing the same name. (shn)",
+        "desc": "Multi-party video using a shared room name. (shn)",
+        "roomLabel": "Room name (shn)",
+        "roomPlaceholder": "e.g. team-standup (shn)",
+        "roomAria": "Room name (shn)",
+        "joinCreate": "Join / Create (shn)",
+        "tip": "Tip: share this name with others, or deep link to <code>/video?room=room-name</code>. (shn)"
+      }
+    },
+    "directVideo": {
+      "intro": "Start a direct 1:1 video call. (shn)",
+      "findUserLabel": "Find a user (shn)",
+      "findUserPh": "Search by name or username (shn)",
+      "search": "Search (shn)",
+      "call": "Call (shn)"
+    },
+    "phoneWarning": {
+      "title": "Your number is expiring soon (shn)",
+      "body": "Your number {{number}} will be released on {{date}} unless reactivated. (shn)",
+      "button": "Keep My Number (shn)"
+    }
+  },
+  "support": {
+    "helpFab": "Help (shn)",
+    "openSupportAria": "Open support (shn)",
+    "badge": "Support (shn)",
+    "heading": "How can we help? (shn)",
+    "tabs": {
+      "help": "Help Center (shn)",
+      "contact": "Contact us (shn)"
+    },
+    "searchPlaceholder": "Search help articles… (shn)",
+    "searchAria": "Search help (shn)",
+    "searchBtn": "Search (shn)",
+    "quickTopicsLabel": "Quick topics (shn)",
+    "quickTopics": {
+      "login": "Can’t log in (shn)",
+      "billing": "Payments / billing (shn)",
+      "abuse": "Report abuse (shn)"
+    },
+    "trySearching": "Try searching for “translate”, “backups”, or “privacy”. (shn)",
+    "article": "Article (shn)",
+    "openArticle": "Open article (shn)",
+    "contactIntro": "We’ll email you a response. Include details to help us reproduce the issue. (shn)",
+    "topicAria": "Select a topic (shn)",
+    "messagePlaceholder": "Write your message… (shn)",
+    "sendBtn": "Send (shn)",
+    "sent": "Message sent. We’ll reply by email. (shn)",
+    "sendError": "Could not send. Email support@chatforia.com instead. (shn)"
+  },
+  "helpCenter": {
+    "title": "Help Center (shn)",
+    "faq": {
+      "account": {
+        "q": "How do I create or recover my account? (shn)",
+        "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”. (shn)"
+      },
+      "privacy": {
+        "q": "Are messages end-to-end encrypted? (shn)",
+        "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them. (shn)"
+      },
+      "translate": {
+        "q": "How does instant translation work? (shn)",
+        "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata. (shn)"
+      },
+      "contact": {
+        "q": "Contact support (shn)",
+        "a": "Reach us at support@chatforia.com. Include screenshots and your app version. (shn)"
       }
     }
   },
-
-  "contact": {
-    "title": "ထိမ်းမႃး",
-    "successMsg": "ကျေးဇူးတင်ပါသည် — အီးမေးဖြင့် ပြန်ဖြေမည်",
-    "errorSend": "မပို့နိုင်ပါ။ support@chatforia.com သို့ အီးမေးပို့ပါ",
+  "encryptionRecovery": {
+    "title": "Manage Encryption (shn)",
+    "description": "Back up, restore, unlock, or reset your encryption key. (shn)",
+    "alert": {
+      "keyRequiredTitle": "Encryption key required (shn)",
+      "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue. (shn)"
+    },
+    "sections": {
+      "createBackup": "Create key backup (shn)",
+      "restoreFromBackup": "Restore from account backup (shn)",
+      "resetEncryption": "Reset encryption (shn)"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (current device) (shn)",
+        "description": "Used to decrypt your keys locally before exporting (shn)"
+      },
+      "backupPassword": {
+        "label": "Backup password (shn)",
+        "description": "Used to encrypt the backup file (shn)"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password (shn)",
+        "description": "The password you created when backing up your key on iPhone (shn)"
+      },
+      "newLocalPasscode": {
+        "label": "New local passcode (shn)",
+        "description": "Protect keys at rest on this browser (shn)"
+      },
+      "resetLocalPasscode": {
+        "label": "New local passcode (shn)",
+        "description": "Required before resetting so the new key is protected on this device (shn)"
+      }
+    },
+    "actions": {
+      "unlockKey": "Unlock encryption key (shn)",
+      "restoreFromBackup": "Restore from account backup (shn)",
+      "resetEncryption": "Reset Encryption (shn)"
+    },
+    "messages": {
+      "backupCreated": "Key backup created and downloaded. (shn)",
+      "keyUnlocked": "Encryption key unlocked. (shn)",
+      "keyRestored": "Key restored from account backup. (shn)",
+      "resetSuccess": "Encryption reset successfully. (shn)"
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore incomplete or incorrect for this account (shn)",
+      "noBackup": "No encrypted backup exists for this account (shn)",
+      "missingPublicKey": "Backup is missing a public key (shn)",
+      "noServerPublicKey": "This account does not currently expose a server public key (shn)",
+      "serverBackupMismatch": "Server backup does not match the current account encryption key (shn)",
+      "incompleteMetadata": "Backup metadata is incomplete (shn)",
+      "resetIncomplete": "Encryption reset did not complete correctly (shn)"
+    },
+    "confirm": {
+      "reset": "Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later. (shn)"
+    },
+    "resetDescription": "This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later. (shn)"
+  },
+  "footer": {
+    "plans": "Plans & Pricing (shn)",
+    "about": "About Chatforia (shn)",
+    "careers": "Careers (shn)",
+    "press": "Press (shn)",
+    "advertise": "Advertise (shn)",
+    "contact": "Contact Us (shn)",
+    "help": "Help Center (shn)",
+    "status": "Status Page (shn)",
+    "iosDownload": "iOS / App Store (shn)",
+    "androidDownload": "Android / Google Play (shn)",
+    "privacy": "Privacy Policy (shn)",
+    "terms": "Terms of Service (shn)",
+    "cookies": "Cookie Settings (shn)",
+    "doNotSell": "Do Not Sell My Info (shn)",
+    "language": "Language (shn)",
+    "contactShort": "Contact (shn)",
+    "aria": "Footer (shn)",
+    "homeAria": "Chatforia home (shn)",
+    "section": {
+      "company": "COMPANY (shn)",
+      "support": "SUPPORT (shn)",
+      "downloads": "DOWNLOADS (shn)",
+      "legal": "LEGAL (shn)"
+    },
+    "links": {
+      "plans-pricing": "Plans & Pricing (shn)",
+      "about-chatforia": "About Chatforia (shn)",
+      "careers": "Careers (shn)",
+      "press": "Press (shn)",
+      "advertise": "Advertise (shn)",
+      "getting-started": "Getting Started (shn)",
+      "help-center": "Help Center (shn)",
+      "contact-us": "Contact Us (shn)",
+      "status-page": "Status Page (shn)",
+      "ios-app-store": "iOS / App Store (shn)",
+      "android-google-play": "Android / Google Play (shn)",
+      "privacy-policy": "Privacy Policy (shn)",
+      "terms-of-service": "Terms of Service (shn)",
+      "do-not-sell-my-info": "Do Not Sell My Info (shn)",
+      "cookie-settings": "Cookie Settings (shn)"
+    },
+    "social": {
+      "tiktok": "TikTok (shn)",
+      "instagram": "Instagram (shn)",
+      "facebook": "Facebook (shn)",
+      "linkedin": "LinkedIn (shn)",
+      "x": "X (shn)"
+    },
+    "copyright": "© Chatforia (shn)",
+    "patentPending": "Patent pending (shn)",
+    "backToTop": "↑ Back to top (shn)"
+  },
+  "press": {
+    "title": "Press (shn)",
+    "contactLine": "For media inquiries, reach us at (shn)",
+    "boilerplateTitle": "Boilerplate (shn)",
+    "boilerplateBody": "Chatforia is a privacy-first messaging app that makes cross-language chat effortless. Messages are end-to-end encrypted by default, and built-in translation supports 100+ languages in real time. Users can enable disappearing messages, keep read receipts optional, and sync across devices. Available on iOS, Android, and the web. (shn)",
+    "assetsTitle": "Brand assets (shn)",
+    "assetsSubtitle": "Logos, screenshots, and product imagery. (shn)",
+    "downloadCta": "Download media kit (shn)",
+    "downloadTitle": "Get the app (shn)",
+    "scanTip": "On desktop? Scan with your phone to get the app. (shn)",
+    "qrAria": "Open Chatforia website (shn)",
+    "appStore": "Download on the App Store (shn)",
+    "googlePlay": "Get it on Google Play (shn)"
+  },
+  "careers": {
+    "title": "Careers (shn)",
+    "intro": "We’re a small founding team building Chatforia — a private, global messenger launching on web, iOS, and Android. If you care about privacy, encryption, and delightful user experiences, we’d love to hear from you. (shn)",
+    "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security &amp; Encryption Engineer, Telecom Engineer (Twilio + eSIM). (shn)",
+    "apply": "How to apply: Use the button below to email your resume and links. (shn)",
+    "emailCta": "Email your resume (shn)",
+    "whyNow": "Why join now? (shn)",
+    "whyBullets": "• Help build the foundation of a new global messenger.\n• Ship improvements used across web, iOS, and Android.\n• Work directly with the founder on architecture and product direction.\n• Own high-impact areas of the stack: messaging, voice, video, encryption, telecom, AI.\n• Join at the beginning — before the user base scales. (shn)"
+  },
+  "about": {
+    "title": "About Chatforia (shn)",
+    "description": "Chatforia is a secure, multilingual messenger with end-to-end encryption, instant translation, and voice/video calling. Our mission is simple: help people connect—safely, privately, and across languages. (shn)",
+    "valuesTitle": "What we value (shn)",
+    "values": {
+      "privacy": "<b>Privacy-first:</b> E2E encryption by default. (shn)",
+      "access": "<b>Access for all:</b> Auto-translate 100+ languages. (shn)",
+      "control": "<b>Control:</b> Disappearing messages & read receipts are optional. (shn)",
+      "privacy_aria": "Privacy-first: E2E encryption by default. (shn)",
+      "access_aria": "Access for all: Auto-translate 100+ languages. (shn)",
+      "control_aria": "Control: Disappearing messages and read receipts are optional. (shn)"
+    },
+    "howTitle": "How Chatforia works (shn)",
+    "howDescription": "Messages are encrypted on your device before they leave it. Translation, backups, and device sync are designed to minimize what our servers can see. (shn)"
+  },
+  "advertise": {
+    "title": "Advertise with Chatforia (shn)",
+    "description": "Reach engaged messaging users with tasteful, brand-safe placements. We offer banner inventory in high-visibility spots, sponsorships, and house promos. Premium subscribers do not see ads. (shn)",
+    "adsense": {
+      "withPubIdShort": "We also serve inventory via Google AdSense. You can target Chatforia with publisher ID {{pubId}}, or use the form below for direct sponsorships. (shn)",
+      "noPubIdShort": "We also serve some inventory via Google AdSense. Direct sponsorships are available—use the form below. (shn)"
+    },
+    "inventoryHeader": "Inventory & Specs (shn)",
+    "placement": {
+      "displayBadge": "Display (shn)",
+      "acceptedSizes": "Accepted sizes (shn)",
+      "adsenseSlot": "AdSense slot: (shn)"
+    },
+    "noPlacementsPublic": "We’re finalizing our ad inventory. Tell us about your campaign and we’ll recommend placements. (shn)",
+    "whyHeader": "Why Chatforia? (shn)",
+    "why": {
+      "highSession": "High session frequency and dwell time in chat UI (shn)",
+      "brandSafe": "Brand-safe formats; respectful frequency capping (shn)",
+      "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) available (shn)",
+      "deals": "Direct deals or programmatic via AdSense/Google Ads (shn)"
+    },
+    "contactHeader": "Contact (shn)",
     "form": {
-      "nameLabel": "နာမည်",
-      "emailLabel": "အီးမေး",
-      "messageLabel": "မက်ဆေ့",
-      "sendCta": "ပို့"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "ႁိူင်ႇလႄႈတီႈ",
-    "lastUpdated": "လၢႆးထႅပ်ႈ:",
-    "intro": {
-      "body": "ဤ Privacy Policy သည် Chatforia (“ယဝ်း”, “ၶဝ်ႈ”) が သင့်အက်ပ်နှင့် ဝန်ဆောင်မှုများ သုံးစွဲသည့်အခါ အချက်အလက်များကို မည်သို့ စုဆောင်း/သုံး/ဝေမျှသည်ကို ရှင်းပြသည်။ ကျွန်ုပ်တို့သည် ကြည့်နိုင်သည့် ဒေတာကို အနည်းဆုံးဖြစ်စေရန် ဒီဇိုင်းပြုထားသည်။"
+      "submittedMsg": "Thanks! Your inquiry is on its way. We’ll follow up shortly. (shn)",
+      "missingRequired": "Please fill in name, email, and message. (shn)",
+      "successToast": "Thanks! We’ll be in touch soon. (shn)",
+      "mailtoInfo": "Opening your email client to send the inquiry… (shn)",
+      "nameLabel": "Your name (shn)",
+      "namePlaceholder": "Jane Doe (shn)",
+      "emailLabel": "Email (shn)",
+      "emailPlaceholder": "you@company.com (shn)",
+      "companyLabel": "Company (shn)",
+      "companyPlaceholder": "Acme Inc. (shn)",
+      "budgetLabel": "Monthly budget (optional) (shn)",
+      "budgetPlaceholder": "e.g. $1,000–$20,000+ (shn)",
+      "messageLabel": "Tell us about your campaign (shn)",
+      "messagePlaceholder": "Targeting, dates, KPIs, placement preferences… (shn)",
+      "sendCta": "Send inquiry (shn)"
     },
-    "infoWeCollect": {
-      "title": "စုဆောင်းသည့် အချက်အလက်",
-      "account": "Account အချက်အလက် (ဥပမာ အီးမေး/ဖုန်း) — အကောင့် တည်ဆောက်/စိတ်ချရန်",
-      "encrypted": "မက်ဆေ့/ခေါ်ဆိုမှု အကြောင်းအရာသည် E2E လျို့ဝှက် — ကျွန်ုပ်တို့ မဖတ်နိုင်",
-      "diagnostics": "Diagnostics/အသုံးပြုမှု (crash logs, device type, analytics အနည်းငယ်) — စွမ်းဆောင်ရည် မြှင့်ရန်"
-    },
-    "howWeUse": {
-      "title": "သုံးသည့် နည်းလမ်း",
-      "provide": "ဝန်ဆောင်မှု ပံ့ပိုးနှင့် လုံခြုံရေး (auth, spam/abuse detection)",
-      "improve": "အင်္ဂါရပ် မြှင့်တင် (ဘာသာပြန်ရည်မှန်းချက်, reliability)",
-      "legal": "ဥပဒေအရ လိုအပ်ချက်များ ပြည့်မီရန်"
-    },
-    "sharing": {
-      "title": "ဝေမျှခြင်း",
-      "body": "ကိုယ်ပိုင်ဒေတာကို မရောင်းပါ။ Processor များ (ဥပမာ push, analytics) နှင့် ကန့်သတ်ထားသည့် ဒေတာကို စာချုပ် အောက်တွင် ဝေမျှနိုင်သည်။"
-    },
-    "rights": {
-      "title": "သင့် အခွင့်အရေးများ",
-      "body": "သင့်နယ်ပယ် (ဥပမာ GDPR/UK GDPR/CPRA) အပေါ် မူတည်ပြီး access, correction, deletion သို့မဟုတ် processing တချို့မှ opt-out တောင်းဆိုနိုင်သည်။ ဆက်သွယ်ရန်: privacy@chatforia.com"
-    },
-    "retention": {
-      "title": "သိုလှောင်ခြင်း & လုံခြုံရေး",
-      "body": "ဝန်ဆောင်မှု လည်ပတ်ရန် လိုအပ်သလိုသာ သိမ်းဆည်းပြီး စက်မှုစံချိန် လုံခြုံရေး ကို အသုံးပြုသည်။ E2E အကြောင်းအရာကို ကျွန်ုပ်တို့ မdecrypt နိုင်။"
-    },
-    "children": {
-      "title": "ကလေးသူငယ်များ",
-      "body": "Chatforia သည် အသက် 13 ချီ မတော်တဆ (သို့ မိမိနိုင်ငံ၏ ဥပဒေ အတိုင်း) ကို မပစ်မှတ်ထား။"
-    },
-    "changes": {
-      "title": "အပြောင်းအလဲ",
-      "body": "အပ်ဒိတ်များကို ဤနေရာတွင် တင်ပြီး “လယ်တင်” ရက်ကို ပြင်ဆင်မည်။"
-    },
-    "contact": {
-      "title": "ဆက်သွယ်ရန်",
-      "body": "privacy@chatforia.com • [Company legal name], [Address]"
-    }
-  },
-
-  "terms": {
-    "title": "နိင့််သိုပ်ႉ",
-    "lastUpdated": "လၢႆးထႅပ်ႈ:",
-    "intro": {
-      "body": "Chatforia ကို သုံးစွဲခြင်းအားဖြင့် ဤ နိင့််များကို သင် အတည်ပြုသောကြောင့် ဖြစ်သည်။ မသဘောတူပါက မသုံးပါ။"
-    },
-    "accounts": {
-      "title": "အကောင့်များ",
-      "itemAccurateInfo": "မှန်ကန်သည့် အချက်အလက် ပေးပြီး လော့ဂ်အင် သော့ချက်များကို ကာကွယ်ပါ",
-      "itemResponsibility": "သင့်အကောင့်တွင် ဖြစ်ပေါ်သမျှ လှုပ်ရှားမှုအပေါ် သင် တာဝန်ရှိသည်"
-    },
-    "acceptableUse": {
-      "title": "အသုံးပြုနိုင်သော သတ်မှတ်ချက်",
-      "itemNoAbuse": "မည်သည့် မတရား/အရွတ်အတင်း/ဥပဒေချိုးဖောက်/Spam/အလိုအလျောက် အရန်များ မပါရန်",
-      "itemSuspend": "ချိုးဖောက်ပါက ကျွန်ုပ်တို့မှ ပိတ်/ရပ်တန့်နိုင်"
-    },
-    "yourContent": {
-      "title": "သင်၏ အကြောင်းအရာ",
-      "body": "သင်သည် သင်၏ အကြောင်းအရာ အပိုင်ဖြစ်သည်။ ဝန်ဆောင်မှု လည်ပတ်ရန် လိုအပ်သည့် အခွင့်များ (routing, storage, translation) ကို ကျွန်ုပ်တို့အား ပေးအပ်ပါ။"
-    },
-    "disclaimer": {
-      "title": "သတိပေးချက် & တာဝန်ခံမှု",
-      "body": "ဝန်ဆောင်မှုကို “as is” ဖြင့် ပေးသည်။ ဥပဒေ ခွင့်ပြုသမျှ အတိုင်း indirect/consequential damages အတွက် Chatforia မတာဝန်ခံ။"
-    },
-    "changes": {
-      "title": "အပြောင်းအလဲ",
-      "body": "နိင့််များကို အပ်ဒိတ် လုပ်နိုင်သည်။ ပြောင်းလဲပြီးနောက် ဆက်လက် အသုံးပြုခြင်းသည် လက်ခံထားသည်ဟု ဆိုပါသည်။"
-    },
-    "contact": {
-      "title": "ဆက်သွယ်ရန်",
-      "body": "support@chatforia.com • [Company legal name], [Address]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "ကိုယ်ပိုင် အချက်အလက် မရောင်း/မမျှဝေ",
-    "body": "Chatforia သည် ကိုယ်ပိုင် အချက်အလက် မရောင်းပါ။ California ရှိနေထိုင်သူများသည် CPRA အောက်တွင် တောင်းဆိုမှုများ ပို့နိုင်ပါသည်။",
-    "cta": "တောင်းဆိုမှု ပို့ရန်"
-  },
-
-  "cookies": {
-    "title": "Cookie Settings",
-    "body": "Chatforia သုံး cookies အနည်းငယ် (ဥပမာ session, security) — third-party ads cookies မသုံးပါ။ Cookies ကို သင့် browser ဆက်တင်တွင် စီမံပါ။"
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "ဖုန်းနံပါတ် အခြေအနေ မဖွင့်နိုင်ပါ",
-    "lock": "Lock",
-    "noNumberAssigned": "နံပါတ် မချိန်ထားသေး။ Area code ဖြင့် ရွေးပြီး စာပို့ခြင်း စပါ။",
-    "pickNumber": "နံပါတ် ရွေးရန်",
-    "phoneNumber": "ဖုန်းနံပါတ်"
-  },
-
-  "startChatModal": {
-    "title": "စချက်တစ်ခု စ",
-    "quickPicker": "Quick picker",
-    "to": "သို့",
-    "nameOrUsername": "နာမည်၊ ယူဇာနာ",
-    "nameUsernamePhoneEmail": "နာမည်၊ ယူဇာနာ၊ ဖုန်း သို့မဟုတ် အီးမေး…",
-    "startWithSelected": "ရွေးထားသူများနှင့် စချင်",
-    "searchByUsernameOrPhone": "ယူဇာနာ သို့ ဖုန်း ဖြင့် ရှာ",
-    "search": "ရှာ",
-    "searchPrompt": "ယူဇာနာ သို့ ဖုန်း ရိုက်ပြီး Search နှိပ်ပါ",
-    "pickFromContacts": "သို့မဟုတ် Contacts မှ ရွေး",
-    "addContact": "Contact ထည့်",
-    "show": "ပြ",
-    "add": "ထည့်",
-    "close": "ပိတ်",
-    "selectedCount": "{{count}} ယောက် ရွေးထား",
-    "pickAtLeastOne": "လူဦးရေ တစ်ယောက် လိုအပ်",
-    "saveContactsHint": "ဖုန်း/အီးမေး ထည့်သွင်းမှုများကို contact အဖြစ် သိမ်းမှ မပြပါ",
-    "failedBulkStart": "ရွေးထားသူများနှင့် စ မအောင်မြင်ပါ",
-    "noResults": "ရလဒ် မရှိ",
-    "mode": "မုဒ်",
-    "group": "Group",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Group နာမည် (မဖြစ်မနေ မလို)",
-    "firstMessageOptional": "ပထမ မက်ဆေ့ (အကြံပြု တွက် — မဖြစ်မနေ မလို)",
-    "createGroup": "Group ဖန်တီး",
-    "sendBroadcast": "Broadcast ပို့"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "ယခု Free — premium tones များ ပြသသော်လည်း ပိတ်ထား။ Upgrade လုပ်၍ အားလုံး ဖွင့်ပါ",
-    "preview": "ကြိုတင် နားဆင်",
-    "resetToDefaults": "မူလသို့ ပြန်",
-    "notificationSounds": "အသိပေး အသံများ",
-    "messageTone": "မက်ဆေ့ အသံ",
-    "default": "မူရင်း",
-    "vibrate": "တုန်ခါ",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "ဤလုပ်ဆောင်ချက်အတွက် Premium ပလန် လိုအပ်သည်"
-  },
-
-  "aiSettings": {
-    "title": "AI ဆက်တင်",
-    "controlIntro": "ဘာသာပြန်, စမတ်တုံ့ပြန်, ForiaBot အော်တိုတုံ့ပြန် အပြင်အဆင်",
-    "save": "AI ဆက်တင် သိမ်း",
-    "autoTranslateIncoming": "ဝင်လာမက်ဆေ့များ ကို အော်တို ဘာသာပြန်",
-    "showOriginalAlongside": "ဘာသာပြန်နှင့် မူလစာ တစ်ပြိုင်တည်း ပြ",
-    "enableSmartReplies": "Smart Replies ဖွင့်",
-    "smartRepliesHint": "လက်ခံထားသော မက်ဆေ့ အချို့ (sanitize ပြုပြင်) ကို AI သို့ ပို့၍ အမြန် ပြန်စာ အကြံပြုချက် ရယူ",
-    "maskProfanity": "AI အကြံပြုချက် ထဲမှ မသင့်တော် စကားလုံးများ မျက်နှာဖုံး",
-    "maskProfanityHint": "ဖွင့်ထားလျှင် AI ပြန်လာသည့် စာများတွင် အညွှန်းပြ စကားများကို မျက်နှာဖုံးတင်မည်",
-    "foriaBot": "ForiaBot အော်တိုတုံ့ပြန်",
-    "enableAutoReply": "အလုပ်များသောအခါ အော်တိုတုံ့ပြန် ဖွင့်",
-    "autoReplyMode": "အော်တိုတုံ့ပြန် မုဒ်",
-    "cooldownSeconds": "Cooldown (စက္ကန့်)",
-    "off": "ပိတ်",
-    "on": "ဖွင့်",
-    "signature": "လက်မှတ်",
-    "autoReply": "အော်တိုတုံ့ပြန်",
-    "activeUntilOptional": "လုပ်ဆောင်မည့် အချိန်ထိ (မဖြစ်မနေ မလို)",
-    "saved": "AI စိတ်ကြိုက် ဆက်တင် သိမ်းပြီး",
-    "saveFailed": "AI ဆက်တင် မသိမ်းနိုင်",
-    "translateOff": "ပိတ်",
-    "translateTagged": "@translated သို့မဟုတ် tag လုပ်ထားသော်လည်း",
-    "translateAll": "ဝင်လာသမျှ မက်ဆေ့များကို ဘာသာပြန်",
-    "modeDm": "1:1 chats အတွက်သာ",
-    "modeMention": "ကျွန်ုပ်ကို @mention လုပ်သော်လည်း",
-    "modeAll": "ဝင်လာသမျှ"
-  },
-
-  "accessibilitySettings": {
-    "title": "အသုံးလွယ် & သတိပေး",
-    "accessibility": "အသုံးလွယ်",
-    "accessibilityDesc": "အသံ မယုံကြည်ဘဲ အသုံးပြုရန် အထောက်အပံ့များ",
-    "interfaceFontSize": "အင်တာဖေ့စ် ဖောင့်အရွယ်",
-    "interfaceFontSizeHelp": "ပုံမှန်အရွယ်မှ စတင်ပါသည်။ ကြိုက်နှစ်သက်လျှင် အရွယ်တိုးနိုင်ပါသည်။",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "အသိပေးချက်များ",
-    "notificationsDesc": "မက်ဆေ့ & ခေါ်ဆိုမှုအတွက် မြင်သာ သတိပေး\nမိတ်ဆက်များဖြစ်ချိန် banner နှင့် title ကို လှုပ်ရှားပြီး မလွတ်မထွက်ရန်",
-    "vibrateOnNew": "မက်ဆေ့အသစ် ရင် တုန်ခါ (ထောက်ပံ့လျှင်)\nအသိပေးတွင် စက်ကို တုန်ခါစေပါ",
-    "flashOnCall": "ခေါ်ဆိုမှု အဝင်တွင် မျက်နှာပြင် လျှပ်တောက်\nခေါ်ဆိုသံတီးချိန် မျက်နှာပြင် အနည်းငယ် လင်းတောက်",
-    "liveCaptions": "Live captions (ခေါ်ဆိုမှု)",
-    "captionFontSize": "စာတန်း ဖောင့်အရွယ်",
-    "captionBackground": "စာတန်း နောက်ခံ",
-    "light": "အလင်း",
-    "dark": "မှောင်",
-    "transparent": "ပွတ်လင်း",
-    "voiceNotes": "Voice notes",
-    "autoTranscribeVoiceNotes": "Voice notes ကို အော်တို မြန်မြန် စာတမ်းပြု\nလက်ခံရသော အသံတွင် စာတမ်း ထည့်",
-    "changesSavedInstantly": "ပြောင်းလဲမှုများကို ချက်ချင်း သိမ်းခဲ့ပြီး",
-    "loadFailed": "ဆက်တင် မဖွင့်နိုင်",
-    "visualAlerts": "မက်ဆေ့ & ခေါ်ဆိုမှု အတွက် မြင်သာ သတိပေး",
-    "visualAlertsDesc": "မက်ဆေ့မလွှတ် မစွန့်မင်းတဖန်အတွက် banner နှင့် title blink ပြပါ",
-    "vibrateOnNewShort": "မက်ဆေ့အသစ်တွင် တုန်ခါ",
-    "vibrateOnNewDesc": "အသိပေးဖြစ်ချိန် တုန်ခါစေ",
-    "flashOnCallShort": "ခေါ်ဆိုမှု အဝင်တွင် လျှပ်တောက်",
-    "flashOnCallDesc": "ခေါ်ဆိုသံတီးချိန် အနည်းငယ် လင်းတောက်"
-  },
-
-  "privacySection": {
-    "strictE2EE": "တင်းကျပ်သော End-to-End လျို့ဝှက်ရေး",
-    "ciphertextOnlyNote": "ဆာဗာတွင် ciphertext သာ သိမ်းပါ။ AI/Translate နှင့် moderation preview များ ပိတ်ထားမည်။"
-  },
-
-  "linkedDevicesPanel": {
-    "title": "တွဲဖက် စက်များ",
-    "noneFound": "တွဲထားသည့် စက် မတွေ့ပါ",
-    "refresh": "ပြန်လည်အသစ်ပြု"
-  },
-
-  "help": {
-    "title": "ကူညီ",
-    "howCanWeHelp": "ဘယ်လို ကူညီရမလဲ?",
-    "helpCenter": "Help Center",
-    "contactUs": "Contact us",
-    "quickTopics": "အမြန် ခေါင်းစဉ်များ",
-    "searchExamples": "“translate”, “backups”, “privacy” ဟု ရှာကြည့်ပါ",
-    "cantLogin": "လော့ဂ်အင် မလုပ်နိုင်",
-    "paymentsBilling": "ငွေပေးချေ/ဗီလ်",
-    "reportAbuse": "Report abuse",
-    "searchHelpArticles": "အကူအညီ ဆောင်းပါးများ ရှာ",
-    "search": "ရှာ"
-  },
-
-  "peoplePage": {
-    "people": "လူများ",
-    "search": "ရှာ",
-    "searchPlaceholder": "alias, နာမည်, ယူဇာနာ သို့မဟုတ် ဖုန်း ဖြင့် ရှာ",
-    "filterSaved": "သိမ်းထားသော Contacts သာ ပြ",
-    "noContactsFound": "Contact မတွေ့ပါ",
-    "quickStart": "အမြန် စတင်",
-    "quickStartDesc": "အလွယ်တကူ စတင်ရန် နည်းလမ်းအချို့",
-    "importContacts": "Contact များ ယူ",
-    "add": "ထည့်",
-    "focusSearch": "Search ကို ဖိုကပ်",
-    "import": "ယူတင်",
-    "findOrAdd": "ရှာ သို့ ထည့်",
-    "searchByPhoneOrUsername": "ဖုန်း / ယူဇာနာ ဖြင့် ရှာ",
-    "inviteFriends": "မိတ်ဆွေများ ဖိတ်",
-    "inviteDesc": "Invite link ကို မျှဝေ၍ ချက်ချင်း စကားပြောနိုင်",
-    "getTheApp": "App ယူ",
-    "getTheAppDesc": "iOS နှင့် Android အတွက် Chatforia ဖြင့် လမ်းသွားလျှင် ချိတ်ဆက်ထားနိုင်",
-    "download": "ဒေါင်းလုတ်",
-    "syncTip": "အကြံပြုချက်: မက်ဆေ့များ web နှင့် mobile တို့အကြား စိင့်စန့်တင်ထားသည်"
-  },
-
-  "randomChat": {
-    "title": "Random Chat",
-    "description": "လူအသစ်တစ်ဦးနှင့် ချက်ချင်း တွေ့ဆုံပါ။ ယာယီ chat room တစ်ခုသို့ ချိတ်ဆက်ပေးမည်",
-    "findMatch": "ကိုက်ညီသူ ရှာ",
-    "chatWithForia": "Foria နှင့် စကားပြော",
-    "chatWithForiaBot": "ForiaBot နှင့် စကားပြော",
-    "cancel": "မလုပ်တော့",
-    "close": "ပိတ်",
-    "searching": "ရှာနေသည်…",
-    "finding": "ရှာဖွေနေ…",
-    "looking": "တစ်ဦးခု ရှာနေ…",
-    "startingForia": "Foria နှင့် စကားပြော စတင်နေ…",
-    "partnerDisconnected": "မိတ်ဖက် ချိတ်ဆက်မှု ဖြုတ်သွားသည်",
-    "noPartner": "ယခု မိတ်ဖက် မတွေ့ပါ",
-    "connectedTo": "{{name}} နှင့် ချိတ်ဆက်ပြီး",
-    "connected": "ချိတ်ဆက်ပြီး",
-    "idle": "ပျော်ငှား",
-    "partnerLeft": "မိတ်ဖက် ထွက်သွားသည်",
-    "stopped": "ရပ်နားပြီး",
-    "skip": "ကျော်",
-    "save": "သိမ်း",
-    "saveGuard": "လူ-လူ စကားပြောများသာ သိမ်းနိုင်သည်",
-    "youAreChattingWith": "သင် {{name}} နှင့် စကားပြောနေသည်",
-    "bot": "BOT",
-    "leave": "ထွက်",
-    "sayHi": "ဟိုင်း ဆို 👋",
-    "you": "သင်",
-    "typeMessage": "မက်ဆေ့ ရိုက်ပါ",
-    "send": "ပို့",
-    "partner": "မိတ်ဖက်",
-    "withForia": "Foria နှင့်"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Navigation မီနူး ဖွင့်",
-    "closeNav": "Navigation မီနူး ပိတ်",
-    "homeAria": "Chatforia ပင်မ"
-  },
-
-  "login": {
-    "title": "ထပ်မံ ကြိုဆိုပါသည်",
-    "subtitle": "သင့် Chatforia အကောင့်သို့ ဝင်ရောက်ပါ",
-    "google": "Google ဖြင့် ဝင်ရောက်",
-    "apple": "Apple ဖြင့် ဝင်ရောက်",
-    "googleUnavailable": "Google sign-in မရရှိနိုင်",
-    "appleUnavailable": "Apple sign-in မရရှိနိုင်",
-    "or": "သို့မဟုတ်",
-    "email": "အီးမေး",
-    "emailPh": "you@example.com",
-    "usernameLabel": "ယူဇာနာ",
-    "usernamePh": "သင်၏ ယူဇာနာ",
-    "passwordLabel": "စကားဝှက်",
-    "passwordPh": "သင့် စကားဝှက်",
-    "keepSignedIn": "လော့ဂ်အင် ထား",
-    "forgot": "စကားဝှက် မေ့?",
-    "submit": "လော့ဂ်အင်",
-    "loggingIn": "ဝင်နေသည်…",
-    "newHere": "အသစ်လား? <link>အကောင့် ဖန်တီး</link>",
-    "ssoUnavailable": "Single-sign-on မရရှိနိုင်ပါ၊ ယူဇာနာ/စကားဝှက် သုံးပါ",
-    "error": {
-      "missing": "အချက်အလက်များ ထည့်ပါ",
-      "invalid": "ယူဇာနာ သို့ စကားဝှက် မမှန်",
-      "denied": "ဝင်ခွင့် ပယ်ချ",
-      "unprocessable": "မမှန်ကန်သော တောင်းဆိုမှု — ယူဇာနာ/အီးမေး နှင့် စကားဝှက် စစ်ပါ",
-      "deviceLimit": "Free ပလန် အတွက် စက် အစွန်းအထင်း ရောက်ရှိပြီး။ တစ်စက်မှ လော့အင် ထွက်ပါ သို့မဟုတ် Premium သို့ Upgrade လုပ်ပါ",
-      "premiumRequired": "ဤလုပ်ဆောင်ချက်အတွက် Premium လိုအပ်"
+    "legal": {
+      "disclaimerStart": "By submitting, you agree to our (shn)",
+      "terms": "Terms (shn)",
+      "and": "and (shn)",
+      "privacy": "Privacy Policy (shn)"
     }
   }
 }

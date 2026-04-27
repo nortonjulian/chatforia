@@ -128,6 +128,8 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [country, setCountry] = useState('US');
   const [area, setArea] = useState('');
   const [capability, setCapability] = useState('sms');
+  const { currentUser } = useUser();
+  const navigate = useNavigate();
 
   const [mode, setMode] = useState('FREE'); 
   const [results, setResults] = useState([]);
@@ -191,7 +193,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
       mode: effectiveMode,
       country,
       capability,
-      has_area_code: Boolean(digits),
+      had_area_code: Boolean(digits),
     });
 
     try {
@@ -207,8 +209,23 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
       const items = Array.isArray(data?.numbers) ? data.numbers : [];
 
+      posthog.capture('number_search_results', {
+        mode: effectiveMode,
+        result_count: items.length,
+        country,
+        capability,
+        had_area_code: Boolean(digits),
+      });
+
       if (digits === '') {
         if (!items.length) {
+          posthog.capture('number_search_empty', {
+            mode: effectiveMode,
+            country,
+            capability,
+            had_area_code: Boolean(digits),
+          });
+
           setErr(isBuy ? 'No available inventory right now.' : 'No free numbers are available right now.');
           setResults([]);
         } else {
@@ -217,6 +234,13 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
       } else {
         setResults(items.slice(0, 15));
         if (!items.length) {
+          posthog.capture('number_search_empty', {
+            mode: effectiveMode,
+            country,
+            capability,
+            had_area_code: Boolean(digits),
+          });
+
           setErr(
             isBuy
               ? 'No available inventory for that area code right now.'
@@ -225,12 +249,21 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         }
       }
     } catch (e) {
-      setErr(
+      const errorMsg =
         e?.response?.data?.error ||
-          e?.response?.data?.message ||
-          e?.message ||
-          'Could not load numbers.'
-      );
+        e?.response?.data?.message ||
+        e?.message ||
+        'Could not load numbers.';
+
+      posthog.capture('number_search_failed', {
+        mode: effectiveMode,
+        country,
+        capability,
+        had_area_code: Boolean(digits),
+        error: errorMsg,
+      });
+
+      setErr(errorMsg);
       setResults([]);
     } finally {
       setLoading(false);
@@ -251,7 +284,24 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
     const e164 = n.e164 || n.number;
     if (!e164) return;
 
+    const hadAreaCode = Boolean(String(area || '').trim());
+
+    posthog.capture('number_selection_attempted', {
+      type: isBuy ? 'premium' : 'free',
+      country,
+      capability,
+      had_area_code: hadAreaCode,
+    });
+
     if (isBuy && currentUser?.plan !== 'PREMIUM') {
+      posthog.capture('upgrade_redirected_from_number', {
+        reason: 'premium_required',
+        source: 'number_selection',
+        country,
+        capability,
+        had_area_code: hadAreaCode,
+      });
+
       navigate('/settings/upgrade', {
         state: { from: 'keep-number' },
       });
@@ -268,10 +318,11 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         lockOnAssign: Boolean(lockOnAssign),
       });
 
-      posthog.capture('number_selected', {
+      posthog.capture('number_assigned', {
         type: isBuy ? 'premium' : 'free',
         country,
         capability,
+        had_area_code: hadAreaCode,
       });
 
       onAssigned?.({
@@ -287,6 +338,14 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         (isBuy
           ? 'Could not assign that number. It may have just been taken—try another.'
           : 'Could not lease that number. It may have just been taken—try another.');
+
+        posthog.capture('number_selection_failed', {
+          type: isBuy ? 'premium' : 'free',
+          error: msg,
+          country,
+          capability,
+          had_area_code: hadAreaCode,
+        });
         
         if (msg?.toLowerCase().includes('premium')) {
           navigate('/settings/upgrade', {
@@ -321,6 +380,13 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
               variant={mode === 'PREMIUM' ? 'filled' : 'light'}
               onClick={() => {
                 setMode('PREMIUM');
+
+                posthog.capture('premium_number_mode_selected', {
+                  country,
+                  previous_mode: mode,
+                  had_area_code: Boolean(area),
+                });
+
                 setResults([]);
                 setErr('');
                 search('PREMIUM');
@@ -557,6 +623,12 @@ export default function PhoneNumberManager() {
     }
 
     if (!isPremium) {
+      // 🔥 TRACK PAYWALL HIT (this is the key moment)
+      posthog.capture('upgrade_prompted_from_keep_number', {
+        source: 'keep_current_number',
+        current_state: status?.state || 'unknown',
+      });
+
       setBanner({
         type: 'warning',
         message: 'Keeping your number is a Premium feature.',
@@ -569,6 +641,9 @@ export default function PhoneNumberManager() {
     try {
       await axiosClient.post('/numbers/buy/keep-current');
       setBanner({ type: 'success', message: 'Your number is now protected.' });
+
+      posthog.capture('number_keep_success');
+
       reload();
     } catch (e) {
       setBanner({

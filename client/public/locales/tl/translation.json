@@ -6,306 +6,1561 @@
     "noMatches": "Walang tugma",
     "cancelAria": "Kanselahin",
     "copy": "Kopyahin",
-    "copied": "Nakopya!"
+    "copied": "Nakopya!",
+    "errorWithMessage": "Error: {{message}}"
   },
-
   "a11y": {
     "skipToMain": "Laktawan sa pangunahing nilalaman"
   },
-
+  "keys": {
+    "backupCreated": "Nalikha at na-download ang backup ng key ✓",
+    "restored": "Na-restore ang backup ng key ✓ Naka-install na ang mga key lokal",
+    "noBackup": "Walang encrypted backup para sa account na ito",
+    "missingPublicKey": "Kulang ang public key sa backup"
+  },
+  "keySetup": {
+    "title": "I-set up ang iyong mga device key",
+    "description": "Ang device na ito ay wala pa ang iyong private key. Mag-import ng password-protected backup, o gumawa ng bagong keypair (makakabasa ka na ng mga bagong mensahe mula ngayon).",
+    "chooseFile": "Pumili ng file at ipasok ang password.",
+    "imported": "Na-import na ang private key sa device na ito. Makakabasa ka na ng mga lumang mensahe.",
+    "enterPassword": "Ilagay ang iyong account password para ma-back up nang ligtas ang iyong mga key."
+  },
+  "auth": {
+    "headline": "Ligtas na pagmemensahe para sa sinuman, kahit saan",
+    "description": "End-to-end encryption, pagsasalin sa 100+ wika, nawawalang mensahe, at voice/video calling.",
+    "feature": {
+      "encryption": "End-to-end encryption bilang default",
+      "translation": "Matalino, built-in na pagsasalin ng mensahe",
+      "disappearing": "Nawawalang mensahe at read receipts",
+      "privacy": "Privacy-first. Ang iyong data, ang iyong kontrol.",
+      "translate": "Matalino, built-in na pagsasalin ng mensahe",
+      "disappear": "Nawawalang mensahe",
+      "privacyAlt": "Privacy-first na disenyo",
+      "seePlans": "Tingnan ang mga plano at presyo"
+    },
+    "hero": {
+      "line1": "Ligtas na pagmemensahe para sa sinuman, kahit saan — kasama ang",
+      "em": "pagsasalin sa 100+ wika",
+      "sub": "Kumuha ng libreng secure na phone number para tumawag at mag-text sa buong mundo gamit ang Wi-Fi o data. Mag-enjoy sa end-to-end encryption, nawawalang mensahe, at HD voice/video calling — kasama ang built-in na tools na tumutulong sa iyong manatiling konektado sa mga hangganan.",
+      "freeNote": "Libreng basic calling at texting. Kailangan ng upgrade para sa advanced AI at premium features."
+    },
+    "feat": {
+      "encryption": "End-to-end encryption, palaging naka-on",
+      "translate": "Labanan ang mga hadlang sa wika sa iyong mga pag-uusap",
+      "disappear": "Nawawalang mensahe at read receipts",
+      "privacy": "Privacy-first. Ang iyong data, ang iyong kontrol."
+    },
+    "continueGoogle": "Magpatuloy gamit ang Google",
+    "continueApple": "Magpatuloy gamit ang Apple",
+    "username": "Username",
+    "password": "Password",
+    "keepSignedIn": "Panatilihing naka-sign in ako",
+    "forgotPassword": "Nakalimutan ang password?",
+    "loginButton": "Mag-log In",
+    "createAccount": "Gumawa ng account",
+    "freeAccountButton": "Gumawa ng libreng account",
+    "newHere": "Bago rito?",
+    "getApp": "Kunin ang app",
+    "desktopTip": "Sa desktop? I-scan gamit ang iyong phone para kunin ang app.",
+    "scanHelper": "Sa desktop? I-scan gamit ang iyong phone para kunin ang app.",
+    "goHome": "Pumunta sa home",
+    "home": "Home",
+    "headlineAlt": {
+      "main": "Ang secure na messenger na",
+      "highlight": "nagsasalita ng iyong wika"
+    },
+    "subhead": "Pribado, naka-encrypt, at isinasalin na pagmemensahe — agad-agad.",
+    "upgrade": "Mag-upgrade ngayon",
+    "tip": "Tip: Gamitin ang parehong account sa web at mobile. Nananatiling naka-sync ang iyong mga mensahe.",
+    "openDownload": "Buksan ang download page",
+    "qrAlt": "QR code para sa Chatforia",
+    "scanHint": "I-scan para i-download ang app o buksan sa iyong browser.",
+    "iosAria": "I-download sa App Store",
+    "iosTitle": "I-download sa App Store",
+    "iosBadgeAlt": "App Store badge",
+    "androidAria": "Kunin sa Google Play",
+    "androidTitle": "Google Play Store",
+    "androidBadgeAlt": "Google Play badge",
+    "login": "Mag-log In",
+    "signup": "Mag-sign Up",
+    "email": "Email",
+    "registration": {
+      "passwordDescription": "Minimum 6 character. Gumamit ng malakas at unique na password.",
+      "smsConsent": "Sa pamamagitan ng paggawa ng account, sumasang-ayon ka na tumanggap ng SMS notifications na nauugnay sa iyong Chatforia activity (tulad ng mga mensahe mula sa ibang user). Maaaring mag-apply ang message at data rates. Maaari mong i-opt out anumang oras sa Settings.",
+      "termsLink": "Mga Tuntunin ng Serbisyo",
+      "privacyLink": "Patakaran sa Privacy"
+    },
+    "to": "Kay:",
+    "enterRecipient": "Maglagay ng pangalan o numero",
+    "clearRecipients": "I-clear ang mga tatanggap",
+    "sms": "SMS",
+    "chatforia": "Chatforia",
+    "typeMessage": "Mag-type ng mensahe…",
+    "addRecipient": "Magdagdag ng tatanggap sa itaas para magsimula…",
+    "oneRecipient": "Maglagay lamang ng isang tatanggap sa ngayon.",
+    "enterValidRecipient": "Maglagay ng naka-save na contact name o phone number.",
+    "sendFailed": "Nabigo ang pag-send. Tingnan ang console para sa mga detalye."
+  },
+  "home": {
+    "title": "Home",
+    "header": "Ang iyong mga mensahe",
+    "subheader": "Magpadala ng mensahe para magsimula ng chat.",
+    "sendButton": "Ipadala ang mensahe",
+    "gifPicker": "Buksan ang GIF picker",
+    "emoji": "Emoji",
+    "upload": "I-upload ang larawan o video",
+    "inputPlaceholder": "Mag-type ng mensahe…",
+    "inputLabel": "Message composer",
+    "sendTooltip": "Ipadala",
+    "sendTooltipEmpty": "Mag-type ng mensahe para ipadala",
+    "send": "Ipadala",
+    "welcomeMessage": "Maligayang pagdating sa Chatforia",
+    "getStarted": "Magsimula"
+  },
+  "chat": {
+    "selectPrompt": "Pumili ng text o chat room para magsimulang mag-chat",
+    "newMessages": "Mga bagong mensahe",
+    "typing": "{{name}} ay nagty-type...",
+    "emptyTitle": "Ang iyong mga mensahe",
+    "emptySubtitle": "Magpadala ng mensahe para magsimula ng chat.",
+    "startChatButton": "Ipadala ang mensahe",
+    "mediaAttachment": "Media attachment",
+    "thisUser": "ang user na ito",
+    "blockConfirm": "I-block si {{name}}? Hindi mo na tatanggapin ang mga mensahe mula sa kanya.",
+    "blockedUser": "Na-block si {{name}}.",
+    "blockError": "Hindi matukoy ang target na user para i-block.",
+    "blockFailed": "Nabigo ang pag-block (hindi pa naka-wire ang backend).",
+    "encryptedUnavailable": "Naka-encrypt na mensahe (hindi available ang key)",
+    "unlockToView": "I-unlock ang iyong key para tingnan ang mensaheng ito"
+  },
+  "messageInput": {
+    "ttl": {
+      "off": "Patay"
+    },
+    "freeLimit": "Limitasyon ng Free plan: auto-delete hanggang 1 araw. Naka-clamp sa 1d.",
+    "premiumLimit": "Max auto-delete para sa Premium ay 30 araw. Naka-clamp sa 30d.",
+    "nothingToSend": "Mag-type ng mensahe o mag-attach ng file para ipadala.",
+    "encryptionFailed": "Nabigo ang pag-encrypt. Hindi naipadala ang mensahe.",
+    "sent": "Na-deliver ang mensahe.",
+    "placeholder": "Mag-type ng mensahe…",
+    "autoDelete": "Auto-delete",
+    "typeToSend": "Mag-type ng mensahe para ipadala",
+    "send": "Ipadala",
+    "sendWithEnter": "Ipadala (Enter)",
+    "attachment": "attachment",
+    "caption": "Caption (opsyonal)",
+    "remove": "Tanggalin",
+    "clear": "I-clear",
+    "gif": "GIF",
+    "sticker": "Sticker",
+    "errors": {
+      "attachmentTooLarge": "Masyadong malaki ang attachment. Subukan ang mas maliit na file.",
+      "unsupportedFile": "Hindi suportadong uri ng file.",
+      "rateLimit": "Masyadong mabilis kang nagpapadala ng mga mensahe. Pakibagal ng kaunti.",
+      "validation": "Validation error. Pakisuri ang iyong mensahe at subukang muli.",
+      "failedToSend": "Nabigo ang pag-send. Maaari mong i-retry ang failed bubble."
+    }
+  },
+  "contactList": {
+    "savedContacts": "Mga Naka-save na Contact",
+    "refreshAria": "I-refresh ang mga contact",
+    "filterPlaceholder": "I-filter ang mga naka-save na contact…",
+    "filterAria": "I-filter ang mga naka-save na contact",
+    "noContactsFound": "Walang nahanap na contact.",
+    "externalContact": "External contact",
+    "notJoined": "Hindi pa sumali ang contact na iyon sa Chatforia.",
+    "couldNotStart": "Hindi masimulan ang chat. Pakisubukang muli.",
+    "startFailed": "Nabigo ang pagsisimula ng chat. Pakisubukang muli.",
+    "deleted": "Na-delete ang contact.",
+    "deleteFailed": "Nabigo ang pag-delete ng contact. Pakisubukang muli.",
+    "aliasUpdated": "Na-update ang alias.",
+    "updateAliasFailed": "Nabigo ang pag-update ng alias. Pakisubukang muli.",
+    "selectContact": "Piliin si {{name}}",
+    "alias": "Alias",
+    "startChat": "Simulan ang chat",
+    "message": "Mensahe",
+    "delete": "I-delete",
+    "deleteContactAria": "I-delete ang contact",
+    "loadFailed": "Nabigo ang pag-load ng mga contact. Pakisubukang muli.",
+    "loadMore": "Mag-load pa",
+    "call": "Tumawag",
+    "callStarted": "Tinatawagan ang numerong ito gamit ang iyong Chatforia number…",
+    "callFailed": "Nabigo ang pagsisimula ng tawag. Pakisubukang muli."
+  },
+  "startChatModal": {
+    "title": "Simulan ang pag-uusap",
+    "searchPlaceholder": "Maghanap ng pangalan, username, o phone number",
+    "messageThisPerson": "I-mensahe ang taong ito",
+    "contacts": "Mga Contact",
+    "recentInteractions": "Mga kamakailang pakikipag-ugnayan",
+    "noContactsMatch": "Walang tumutugmang contact sa iyong paghahanap.",
+    "noRecentInteractions": "Wala pang kamakailang pakikipag-ugnayan.",
+    "unknown": "Hindi kilala",
+    "interactionType": {
+      "message": "Mensahe",
+      "call": "Tawag",
+      "video": "Video"
+    }
+  },
+  "addContactModal": {
+    "title": "Magdagdag ng contact",
+    "phoneOrUsername": "Phone o username",
+    "phoneOrUsernamePlaceholder": "hal. +13018019227 o juliannorton",
+    "alias": "Alias (opsyonal)",
+    "aliasPlaceholder": "hal. Trabaho, Nanay, Mike – Europe",
+    "enterPhoneOrUsername": "Maglagay ng phone number o username.",
+    "userLookupFailed": "Nabigo ang paghahanap ng user.",
+    "cannotAddSelf": "Hindi mo maaaring idagdag ang iyong sarili bilang contact.",
+    "failedToAdd": "Nabigo ang pagdagdag ng contact.",
+    "add": "Idagdag"
+  },
+  "sidebar": {
+    "randomChat": "Random Chat",
+    "callTextForwarding": "Call at Text Forwarding",
+    "conversations": "Mga Pag-uusap",
+    "searchPlaceholder": "Maghanap sa mga pag-uusap...",
+    "errorLoading": "Nabigo ang pag-load ng mga chat",
+    "empty": "Wala pang pag-uusap.",
+    "startChat": "Simulan ang chat",
+    "people": "Mga Tao",
+    "settings": "Mga Setting",
+    "status": "Status",
+    "forwarding": "Call at Text Forwarding",
+    "refresh": "I-refresh",
+    "search": "Maghanap sa mga pag-uusap",
+    "loginPrompt": "Mag-log in para i-edit ang iyong mga setting.",
+    "login": "Mag-log in",
+    "register": "Gumawa ng account",
+    "chatrooms": "Mga Chatroom",
+    "logout": "Mag-log out",
+    "startChatAlt": "Simulan ang bagong chat",
+    "calls": "Mga Tawag",
+    "video": "Video",
+    "voicemail": "Voicemail"
+  },
+  "topbar": {
+    "newStatus": "Bagong Status",
+    "logout": "Mag-log Out",
+    "help": "Tulong",
+    "createStatusAria": "Gumawa ng bagong Status"
+  },
+  "threadActions": {
+    "threadMenu": "Thread menu",
+    "premium": "Premium",
+    "aiPower": "AI Power",
+    "schedule": "I-schedule",
+    "upgrade": "I-upgrade",
+    "upgradeSuffix": "(I-upgrade)",
+    "thread": "Thread",
+    "about": "Tungkol sa",
+    "search": "Maghanap",
+    "media": "Media",
+    "invitePeople": "Anyayahan ang mga tao",
+    "roomSettings": "Mga setting ng room",
+    "clearConversation": "I-clear ang pag-uusap",
+    "block": "I-block"
+  },
+  "roomSearch": {
+    "title": "Maghanap sa room",
+    "ariaLabel": "Maghanap sa room",
+    "search": "Maghanap",
+    "searchMessages": "Maghanap ng mga mensahe",
+    "noText": "[Walang text]",
+    "noResults": "Walang resulta"
+  },
+  "roomSettings": {
+    "roles": {
+      "member": "Kasapi",
+      "moderator": "Moderator",
+      "admin": "Admin"
+    },
+    "aiMode": {
+      "off": "Patay",
+      "mention": "Tanging sa @ForiaBot o /ask",
+      "always": "Tumugon nang proactive"
+    },
+    "autoTranslateMode": {
+      "off": "Patay",
+      "tagged": "Tanging may tag (/tr …)",
+      "all": "Lahat ng mensahe"
+    },
+    "updated": "Na-update ang mga setting"
+  },
+  "mediaGallery": {
+    "sharedMedia": "Ibinahaging media",
+    "noMediaCached": "Wala pang naka-cache na media lokal.",
+    "imageAlt": "larawan",
+    "openVideo": "Buksan ang video",
+    "openVideoWithCaption": "Buksan ang video: {{caption}}",
+    "preview": "Preview",
+    "previewWithCaption": "Preview: {{caption}}",
+    "previewKind": "Preview {{kind}}",
+    "download": "I-download",
+    "downloadKind": "I-download ang {{kind}}",
+    "file": "file",
+    "kinds": {
+      "image": "larawan",
+      "video": "video",
+      "audio": "audio",
+      "file": "file"
+    }
+  },
+  "status": {
+    "userNumber": "User #{{id}}",
+    "posted": "Na-post ang status",
+    "postFailed": "Nabigo ang pag-post ng status",
+    "createTitle": "Gumawa ng status",
+    "modalAriaLabel": "Bagong status",
+    "captionLabel": "Ano ang nasa isip mo?",
+    "captionPlaceholder": "Ibahagi ang update...",
+    "captionAria": "Status na mensahe",
+    "audienceLabel": "Madla",
+    "audience": {
+      "public": "Pampubliko",
+      "followers": "Mga tagasunod",
+      "contacts": "Mga contact",
+      "mutuals": "Mutual",
+      "custom": "Custom..."
+    },
+    "expiresHoursLabel": "Mag-e-expire (oras)",
+    "maxTooltip": "Maximum 7 araw",
+    "hoursAbbrev": "h",
+    "maxShort": "max",
+    "expiresOn": "Mag-e-expire sa:",
+    "chooseRecipients": "Pumili ng mga tatanggap",
+    "selectContacts": "Pumili ng mga contact",
+    "attachmentsLabel": "Mga attachment",
+    "attachmentsPlaceholder": "Magdagdag ng mga larawan/video",
+    "filesNote": "Hanggang 5 file. Default na 24h expiry.",
+    "postAria": "I-post ang status",
+    "post": "I-post"
+  },
+  "voicemail": {
+    "pageTitle": "Voicemail",
+    "from": "Mula kay",
+    "to": "Kay",
+    "unknownCaller": "Hindi kilala",
+    "yourNumber": "Ang iyong Chatforia number",
+    "durationSeconds": "{{count}}s",
+    "audioAria": "Voicemail audio player",
+    "transcriptHeading": "Transcript",
+    "transcriptPending": "Nasa proseso ng pag-transcribe ang voicemail…",
+    "transcriptFailed": "Hindi available ang transcript.",
+    "loading": "Naglo-load ang voicemail…",
+    "errorLoading": "Nabigo ang pag-load ng voicemail.",
+    "empty": "Wala pang voicemail.",
+    "deleteConfirm": "I-delete ang voicemail na ito?",
+    "deleteError": "Nabigo ang pag-delete ng voicemail.",
+    "markRead": "Markahan bilang nabasa",
+    "delete": "I-delete",
+    "unreadDotAria": "Indicator ng unread voicemail"
+  },
   "profile": {
-    "title": "Profile ng Gumagamit",
-    "preferredLanguage": "Prefer na wika",
+    "title": "Profile ng User",
+    "preferredLanguage": "PREFERRED na wika",
     "chooseLanguage": "Pumili ng wika",
-    "mustLogin": "Kailangang naka-sign in ka upang makita ang mga setting.",
-    "autoTranslate": "Awtomatikong isalin ang mga mensahe",
-    "showOriginalWithTranslation": "Ipakita ang orihinal at salin",
-    "showOriginalAndTranslation": "Ipakita ang orihinal kasabay ng salin",
-    "filterExplicit": "I-filter ang lantad na nilalaman",
-    "aiReply": "AI na tugon",
+    "mustLogin": "Dapat kang mag-sign in para tingnan ang mga setting.",
+    "autoTranslate": "Auto-isalin ang mga mensahe",
+    "showOriginalWithTranslation": "Ipakita ang orihinal at isinalin na mga mensahe",
+    "showOriginalAndTranslation": "Ipakita ang orihinal kasama ang pagsasalin",
+    "filterExplicit": "I-filter ang explicit content",
+    "aiReply": "AI reply",
     "enableReadReceipts": "I-enable ang read receipts",
-    "allowExplicitContent": "Payagan ang lantad na nilalaman",
-    "disappearingMessages": "I-enable ang naglalahong mga mensahe",
-    "autoDeleteSeconds": "Segundo bago awtomatikong mabura",
-    "saveSuccess": "Nai-save ang mga setting!",
-    "saveError": "Error: Hindi nai-save ang mga setting",
-    "avatarAlt": "Avatar ng profile",
-    "uploadAvatar": "Mag-upload ng bagong avatar",
+    "allowExplicitContent": "Payagan ang explicit content",
+    "disappearingMessages": "I-enable ang nawawalang mensahe",
+    "autoDeleteSeconds": "Mga segundo hanggang auto-delete",
+    "saveSuccess": "Na-save ang mga setting!",
+    "saveError": "Error: Hindi ma-save ang mga setting",
+    "avatarAlt": "Profile avatar",
+    "uploadAvatar": "I-upload ang bagong avatar",
     "avatarSuccess": "Na-upload ang avatar!",
-    "avatarError": "Nagka-error sa pag-upload ng avatar",
-    "noPrivateKey": "Walang pribadong key sa device na ito para i-export.",
+    "avatarError": "Nabigo ang pag-upload ng avatar",
+    "avatarUpdated": "Na-update ang avatar!",
+    "uploadingAvatar": "Nag-u-upload ng avatar…",
+    "noPrivateKey": "Walang private key sa device na ito para i-export.",
     "setBackupPassword": "Mag-set ng password para i-encrypt ang iyong backup:",
-    "backupDownloaded": "Na-download ang naka-encrypt na backup.",
+    "backupDownloaded": "Na-download ang encrypted backup.",
     "exportFailed": "Nabigo ang pag-export ng key",
     "enterBackupPassword": "Ilagay ang password para sa backup na ito:",
-    "importSuccess": "Na-import ang pribadong key sa device na ito.",
-    "importFailed": "Hindi na-import ang key (maling password o sirang file).",
-    "keysRotated": "Gumawa ng bagong key pair at na-upload ang public key.",
-    "rotateFailed": "Nabigo ang pag-ikot ng mga key.",
+    "importSuccess": "Na-import na ang private key sa device na ito.",
+    "importFailed": "Nabigo ang pag-import ng key (mali ang password o sira ang file).",
+    "keysRotated": "Nagawa na ang bagong key pair at na-upload ang public key.",
+    "rotateFailed": "Nabigo ang pag-rotate ng mga key.",
     "security": "Seguridad",
-    "exportKey": "I-export ang pribadong key",
-    "importKey": "I-import ang naka-encrypt na backup ng key",
-    "rotateKeys": "I-rotate ang key pair",
-    "keyDisclaimer": "Hindi umaalis ang iyong pribadong key sa device na ito. Mag-export ng kopyang may password upang maibalik ito sa ibang device.",
+    "exportKey": "I-back Up ang Encryption Key",
+    "importKey": "I-restore ang Encryption Key",
+    "rotateKeys": "I-rotate ang Encryption Key",
+    "keyDisclaimer": "Hindi kailanman umaalis ang iyong private key sa device na ito. Mag-export ng password-protected na kopya para ma-restore ito sa ibang device.",
     "sectionProfile": "Profile",
-    "phoneNumber": "Numero ng telepono",
+    "phoneNumber": "Phone number",
     "appearance": "Hitsura",
-    "soundSettings": "Mga tunog",
-    "disappearing": "Naglalahong mga mensahe",
-    "backupSync": "Backup at Sync",
+    "soundSettings": "Mga Tunog",
+    "disappearing": "Nawawalang mensahe",
+    "backupSync": "Encryption Key Backup",
     "ai": "AI",
     "accessibility": "Accessibility",
     "privacy": "Privacy",
-    "devices": "Nakaugnay na mga device",
-    "themeFreeNotice": "Nasa Free ka — gamitin ang mabilis na Sun/Moon sa ibaba. Mag-upgrade para ma-unlock ang higit pang tema.",
-    "sunTheme": "Gamitin ang tema na Dawn",
-    "moonTheme": "Gamitin ang tema na Moon (Midnight)",
+    "devices": "Naka-link na mga device",
+    "themeFreeNotice": "Nasa Free ka — gamitin ang mabilis na Sun/Moon na opsyon sa ibaba. I-upgrade para i-unlock ang higit pang themes.",
+    "sunTheme": "Gamitin ang Dawn theme",
+    "moonTheme": "Gamitin ang Moon (Midnight) theme",
     "sun": "Araw",
     "moon": "Buwan",
-    "backupTitle": "Naka-encrypt na Backup at Pag-sync ng Device",
+    "backupTitle": "Encrypted Backups at Device Sync",
     "openBackupTools": "Buksan ang Backup Tools",
-    "backupDesc": "Gumawa ng mga backup na protektado ng password ng iyong mga key, at i-restore sa ibang device para mag-sync.",
+    "backupDesc": "I-back up ang iyong encryption key para ligtas na ma-restore ang iyong mga mensahe sa ibang device.",
     "privacyBlurEnabled": "I-blur ang mga mensahe bilang default",
     "privacyBlurOnUnfocus": "I-blur kapag hindi naka-focus ang app",
-    "holdToReveal": "Pindutin at hawakan upang ipakita",
-    "notifyOnCopy": "Ipaalam sa akin kung makokopya ang aking mensahe",
-    "loadFailed": "Nabigong i-load ang profile",
+    "planSection": "Ang aking plano",
+    "planLoading": "Naglo-load ng iyong plano…",
+    "planLoadFailed": "Nabigo ang pag-load ng iyong plano.",
+    "currentPlan": "Kasalukuyang plano",
+    "planRenewsOn": "Magrere-renew sa",
+    "freePlanCopy": "Nasa free plan ka. I-upgrade para i-unlock ang higit pang features tulad ng backups, extra numbers, at advanced privacy options.",
+    "upgradePlanCta": "I-upgrade ang plano",
+    "changePlanCta": "Baguhin ang plano",
+    "manageBilling": "Pamahalaan ang billing",
+    "portalOpenFailed": "Hindi mabuksan ang billing portal. Pakisubukang muli.",
+    "holdToReveal": "Hawakan para ipakita",
+    "notifyOnCopy": "Abisuhan ako kung nakopya ang aking mensahe",
+    "loadFailed": "Nabigo ang pag-load ng profile",
     "followed": "Sinundan",
-    "followFailed": "Nabigong sumunod",
+    "followFailed": "Nabigo ang pagsunod",
     "unfollowed": "Hindi na sinundan",
-    "unfollowFailed": "Nabigong alisin ang pagsunod",
+    "unfollowFailed": "Nabigo ang pag-unfollow",
     "follow": "Sundan",
-    "unfollow": "Ihinto ang pagsunod",
-    "followHint": "Lalabas ang kanilang mga kuwento sa feed ng Mga Sinusundan mo kapag nag-post sila na ang audience ay Mga Tagasunod (o Pampubliko).",
+    "unfollow": "Huwag sundan",
+    "followHint": "Lalabas ang kanilang mga kwento sa iyong Following feed kung magpo-post sila na may audience na Followers (o Public).",
     "userNotFound": "Hindi nahanap ang user",
     "followsYou": "Sinusundan ka",
-    "sectionCrashedTitle": "Nabigong mag-load ang seksyon",
-    "sectionCrashedBody": "May nangyaring mali sa seksyong ito.",
-    "forwarding": "Pagpasa ng Tawag at Text",
-    "callTextForwardingSection": "Pagpasa ng Tawag at Text",
-    "callTextForwardingTitle": "Pagpasa ng Tawag at/o Text",
-    "callTextForwardingDescription": "Ipasa ang mga papasok na tawag at text sa iyong na-verify na telepono o email. Maaaring ipakita ng papalabas na tawag/text ang iyong Chatforia number.",
-    "enableTextForwarding": "I-enable ang pagpasa ng text",
-    "forwardTextsToPhone": "Ipasa ang mga text sa telepono",
-    "forwardTextsToEmail": "Ipasa ang mga text sa email",
-    "destinationPhone": "Destinasyong telepono (E.164)",
-    "destinationEmail": "Destinasyong email",
-    "enableCallForwarding": "I-enable ang pagpasa ng tawag",
+    "sectionCrashedTitle": "Nabigo ang pag-load ng section",
+    "sectionCrashedBody": "May nangyaring mali sa section na ito.",
+    "forwarding": "Call at Text Forwarding",
+    "callTextForwardingSection": "Call at Text Forwarding",
+    "callTextForwardingTitle": "Call at/o Text Forwarding",
+    "callTextForwardingDescription": "I-forward ang papasok na mga tawag at text sa iyong verified phone o email. Maaaring ipakita ng outgoing calls/texts ang iyong Chatforia number.",
+    "enableTextForwarding": "I-enable ang text forwarding",
+    "forwardTextsToPhone": "I-forward ang mga text sa phone",
+    "forwardTextsToEmail": "I-forward ang mga text sa email",
+    "destinationPhone": "Destinasyon na phone (E.164)",
+    "destinationEmail": "Destinasyon na email",
+    "enableCallForwarding": "I-enable ang call forwarding",
     "destinationPhoneForCalls": "Destinasyon (E.164) para sa mga tawag",
-    "aliasBridging": "Pagpasa ng Tawag (alias bridging)",
-    "quietHoursOptional": "Tahimik na Oras (opsyonal)",
-    "startHour": "Oras ng simula (0–23)",
-    "endHour": "Oras ng pagtatapos (0–23)",
+    "aliasBridging": "Call Forwarding (alias bridging)",
+    "quietHoursOptional": "Quiet Hours (opsyonal)",
+    "startHour": "Start hour (0–23)",
+    "endHour": "End hour (0–23)",
     "reset": "I-reset",
     "saveBtn": "I-save",
-    "forwardSaved": "Nai-save ang mga setting ng pagpasa",
-    "forwardSaveFailed": "Nabigong i-save ang mga setting",
-    "errE164": "Maglagay ng wastong E.164 na telepono (hal., +15551234567).",
-    "errEmail": "Maglagay ng wastong email.",
-    "errSmsDest": "Pumili ng kahit isang destinasyon (telepono o email).",
-    "errQuietHours": "Dapat nasa pagitan ng 0 at 23 ang tahimik na oras."
+    "saveProfile": "I-save ang profile",
+    "saveForwarding": "I-save ang forwarding",
+    "forwardSaved": "Na-save ang forwarding settings",
+    "forwardSaveFailed": "Nabigo ang pag-save ng mga setting",
+    "errE164": "Maglagay ng valid E.164 phone (hal., +15551234567).",
+    "errEmail": "Maglagay ng valid na email.",
+    "errSmsDest": "Pumili ng kahit isang destinasyon (phone o email).",
+    "errQuietHours": "Dapat nasa pagitan ng 0 at 23 ang quiet hours.",
+    "randomChat": "Random Chat",
+    "ageBand": "Iyong age range",
+    "ageBandPlaceholder": "Piliin ang iyong age range",
+    "ageTeen": "13–17",
+    "age18_24": "18–24",
+    "age25_34": "25–34",
+    "age35_49": "35–49",
+    "age50Plus": "50+",
+    "ageBandHint": "Iniimbak lamang namin ang age range (hindi ang eksaktong petsa ng iyong kapanganakan). Ginagamit ito upang mapanatiling makatwiran ang Random Chat pairings.",
+    "wantsAgeFilter": "Gamitin ang age-based matching sa Random Chat",
+    "wantsAgeFilterDesc": "Kapag naka-on, susubukan naming ipares ka sa mga tao na may compatible na age ranges.",
+    "partnerAgeBands": "Sino ang maaari mong ipares?",
+    "partnerAgeBandsDesc": "Ang mga teen ay palaging ipinapares lamang sa ibang teen. Hindi maaaring ipares ang adults sa teens.",
+    "teenMatchingNote": "Para sa kaligtasan, ang mga account sa 13–17 age range ay maaari lamang ipares sa ibang 13–17 account sa Random Chat.",
+    "foriaRemember": "Payagan si Ria na tandaan ang mga bagay na sinasabi mo sa kanya",
+    "foriaRememberDesc": "Kapag naka-on ito, maaaring gamitin ni Foria ang iyong nakaraang Random Chat conversations (tanging sa iyo) upang mapanatili ang daloy ng pag-uusap. Maaari mong i-off ito anumang oras.",
+    "voicemailSection": "Voicemail",
+    "voicemailEnabled": "I-enable ang voicemail",
+    "voicemailAutoDeleteDays": "Auto-delete ng mga voicemail pagkatapos (araw)",
+    "voicemailAutoDeletePlaceholder": "Iwanang blangko upang panatilihing magpakailanman",
+    "voicemailForwardEmail": "I-forward ang voicemail sa email",
+    "voicemailForwardEmailPlaceholder": "Email kung saan ipadala ang voicemail notifications",
+    "voicemailGreetingText": "Text fallback greeting",
+    "voicemailGreetingTextDesc": "Ginagamit kapag hindi available ang iyong audio greeting.",
+    "voicemailGreetingUpload": "I-upload ang voicemail greeting",
+    "voicemailPreviewGreeting": "Preview ng greeting",
+    "voicemailGreetingUploaded": "Matagumpay na na-upload ang voicemail greeting",
+    "voicemailGreetingUploadError": "Nabigo ang pag-upload ng voicemail greeting",
+    "voicemailNote": "Ang mga voicemail mula sa iyong Chatforia numbers ay iimbak sa iyong Voicemail inbox. Maaari mong i-enable ang transcription at forwarding sa suportadong mga plano.",
+    "portHint": "Gusto mo bang panatilihin ang iyong kasalukuyang number? Maaari mo itong i-port sa Chatforia Wireless.",
+    "wireless": {
+      "manage": "Pamahalaan ang wireless"
+    },
+    "esim": {
+      "title": "Chatforia eSIM",
+      "desc": "Kumuha ng mobile data para sa Chatforia kapag wala ka sa Wi-Fi.",
+      "cta": "Kunin ang eSIM / Ipakita ang QR"
+    }
   },
-
+  "wireless": {
+    "title": "Chatforia Wireless",
+    "description": "Pamahalaan ang iyong Chatforia mobile plan, numbers, forwarding, at number porting.",
+    "options": {
+      "heading": "Piliin kung paano mo gustong gamitin ang Chatforia",
+      "subheading": "Maaari kang kumuha ng bagong Chatforia number, o dalhin ang iyong kasalukuyang number mula sa ibang carrier.",
+      "newNumber": "Kumuha ng bagong Chatforia number",
+      "portNumber": "I-port ang iyong kasalukuyang number sa Chatforia Wireless"
+    },
+    "port": {
+      "heading": "I-port ang iyong kasalukuyang number",
+      "subheading": "Ilipat ang iyong kasalukuyang phone number mula sa iyong kasalukuyang carrier papunta sa Chatforia. Siguraduhing tumutugma nang eksakto ang mga detalye sa iyong carrier account upang maiwasan ang mga pagkaantala.",
+      "phoneNumberLabel": "Phone number na i-port",
+      "phoneNumberPlaceholder": "+1 555 123 4567",
+      "carrierLabel": "Kasalukuyang carrier",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, atbp.",
+      "accountNumberLabel": "Account number",
+      "pinLabel": "Port-out PIN / password",
+      "fullNameLabel": "Buong pangalan sa account",
+      "address1Label": "Address line 1",
+      "address2Label": "Address line 2 (opsyonal)",
+      "cityLabel": "Lungsod",
+      "stateLabel": "Estado / Probinsya",
+      "postalCodeLabel": "Postal code",
+      "countryLabel": "Bansa",
+      "submitButton": "Isumite ang port request",
+      "success": "Na-submit ang port request! Pananatilihin kang updated.",
+      "genericError": "May nangyaring mali."
+    },
+    "status": {
+      "heading": "Porting status",
+      "subheading": "Subaybayan ang status ng iyong mga number port requests.",
+      "loading": "Naglo-load…",
+      "loadError": "Nabigo ang pag-load ng mga port requests.",
+      "none": "Wala pang porting activity.",
+      "pending": "Nasa pending review",
+      "submitted": "Isinumite sa carrier",
+      "inProgress": "Nasa proseso",
+      "completed": "Nakumpleto",
+      "failed": "Nabigo",
+      "canceled": "Kinansela",
+      "created": "Nilikha:",
+      "scheduled": "Naka-schedule:",
+      "completedAt": "Nakumpleto:"
+    },
+    "dataLow": "Mababa na ang iyong data.",
+    "topUp": "Mag-top up ngayon",
+    "expiresIn": "Mag-e-expire sa {{days}} araw",
+    "exhausted": "Naubos na ang iyong data. Bumili ng bagong pack para ipagpatuloy ang paggamit ng mobile data.",
+    "buyPack": "Bumili ng data pack",
+    "esimPackLabel": "eSIM pack"
+  },
+  "family": {
+    "title": "Pamilya",
+    "loading": "Naglo-load ng iyong family details…",
+    "error": {
+      "load": "Nabigo ang pag-load ng family details.",
+      "invite": "Hindi makalikha ng invite. Siguraduhing ikaw ang family owner at subukang muli.",
+      "checkout": "Hindi masimulan ang checkout para sa Family plan. Pakisubukang muli."
+    },
+    "billing": {
+      "myPlanTitle": "Ang aking plano",
+      "myPlanError": "Hindi ma-load ang iyong plano.",
+      "myPlanLoading": "Naglo-load ng iyong plano…",
+      "currentPlan": "Kasalukuyang plano",
+      "renewsAt": "Magrere-renew sa",
+      "freePlanCopy": "Nasa free plan ka. I-upgrade para i-unlock ang higit pang features.",
+      "upgradeCta": "I-upgrade ang plano",
+      "changePlanCta": "Baguhin ang plano",
+      "manageBilling": "Pamahalaan ang billing",
+      "portalError": "Hindi mabuksan ang billing portal ngayon.",
+      "cancelNow": "Kanselahin ngayon",
+      "cancelNowHelp": "Maaari mong pamahalaan o kanselahin ang iyong subscription sa billing portal, o kanselahin agad sa ibaba.",
+      "cancelNowConfirm": "Sigurado ka bang gusto mong kanselahin agad ang iyong plano? Hindi ito maaaring i-undo.",
+      "cancelNowError": "Hindi makansela ang iyong plano ngayon. Pakisubukang muli o gamitin ang Manage billing."
+    },
+    "none": {
+      "title": "Wala pang naka-set up na family",
+      "body": "Upang gumawa ng Chatforia Family at shared data pool, simulan ang Family plan.",
+      "goUpgrade": "Simulan ang Family plan",
+      "viewPlans": "Tingnan ang lahat ng plano"
+    },
+    "group": {
+      "defaultName": "Ang aking Chatforia Family",
+      "role": "Iyong tungkulin: {{role}}"
+    },
+    "role": {
+      "owner": "May-ari",
+      "member": "Kasapi"
+    },
+    "data": {
+      "heading": "Ibinahaging data pool",
+      "caption": "Lahat ng kasapi ay nagbabahagi ng pool na ito. Babalaan ka namin habang papalapit ka sa iyong limit."
+    },
+    "members": {
+      "title": "Mga kasapi ng pamilya",
+      "name": "Pangalan",
+      "role": "Tungkulin",
+      "usage": "Paggamit",
+      "limit": "Limit",
+      "unlimited": "Walang tiyak na limit",
+      "inviteCta": "Anyayahan ang kasapi"
+    },
+    "invite": {
+      "title": "Anyayahan ang bagong kasapi",
+      "body": "Magpadala ng email o link para anyayahan ang isang tao sa iyong ibinahaging family data pool.",
+      "emailLabel": "Email (opsyonal)",
+      "emailPlaceholder": "kaibigan@example.com",
+      "create": "Gumawa ng invite",
+      "linkLabel": "Invite link",
+      "copyAria": "Kopyahin ang invite link",
+      "expiryHint": "Mag-e-expire ang link na ito pagkatapos ng ilang araw. Maaari kang gumawa ng bago anumang oras."
+    },
+    "join": {
+      "title": "Sumali sa pamilya",
+      "body": "Inanyayahan ka na sumali sa isang Chatforia Family at ibahagi ang kanilang data pool.",
+      "cta": "Tanggapin at sumali sa pamilya",
+      "ctaLogin": "Mag-sign in at sumali sa pamilya",
+      "success": "Sumali ka na sa pamilyang ito. Ibinabahagi mo na ang kanilang data pool.",
+      "goFamily": "Pumunta sa family dashboard",
+      "error": "Hindi ka maidaragdag sa pamilyang ito. Maaaring invalid o expired ang invite."
+    }
+  },
+  "premium": {
+    "heading": "Pumunta sa Premium",
+    "description": "I-unlock ang mga power features at tanggalin ang ads.",
+    "cta": "I-upgrade",
+    "upgrade": "I-upgrade",
+    "upgradeAria": "I-upgrade sa Chatforia Premium"
+  },
+  "upgrade": {
+    "title": "I-upgrade",
+    "titleLoggedIn": "I-upgrade",
+    "titlePublic": "Mga Presyo",
+    "h1": "Mga Presyo at Plano ng Chatforia",
+    "h1Subtitle": "Simulan sa aming libre, ad-supported na plano. Magiging ad-free sa Plus, o i-unlock ang buong power features sa Premium.",
+    "subtitle": "Pumili ng app plan, magdagdag ng data packs para sa iyong sarili, o ibahagi ang data sa iyong pamilya — lahat mula sa isang lugar.",
+    "subtitle.app": "Simulan sa aming libre, ad-supported na plano. Magiging ad-free sa Plus, o i-unlock ang buong power features sa Premium.",
+    "subtitle.mobile": "Magdagdag ng global eSIM data upang patuloy na gumana ang Chatforia kahit wala ka sa Wi-Fi.",
+    "subtitle.family": "Gumawa ng ibinahaging data pool para sa iyong pamilya at pamahalaan ang paggamit ng lahat mula sa isang lugar.",
+    "perMonth": "buwan",
+    "perYear": "taon",
+    "goPremium": "Pumunta sa Premium",
+    "benefitsLine": "I-unlock ang mga power features at tanggalin ang ads.",
+    "ctaText": "I-upgrade",
+    "aria": "I-upgrade sa Chatforia Premium",
+    "toggle": {
+      "monthly": "Buwan-buwan",
+      "annual": "Taun-taon (Makakatipid ng 30%)"
+    },
+    "scheduleBanner": {
+      "title": "Mag-e-end ang subscription",
+      "body": "Babalik ka sa Free sa",
+      "keepPlanCta": "Panatilihin ang {{plan}}",
+      "manageBillingCta": "Pamahalaan ang billing"
+    },
+    "billing": {
+      "opening": "Bubuksan…",
+      "manage": "Pamahalaan ang Billing"
+    },
+    "checkout": {
+      "redirecting": "Nire-redirect…"
+    },
+    "auth": {
+      "continue": "Magpatuloy sa pag-login",
+      "createAccount": "Gumawa ng account",
+      "signIn": "Mag-sign in"
+    },
+    "cta": {
+      "aria": "Pumili ng plano",
+      "getPlus": "I-upgrade sa Plus",
+      "upgradeMonthly": "I-upgrade Buwan-buwan",
+      "upgradeAnnual": "I-upgrade Taun-taon"
+    },
+    "section": {
+      "app": "Mga app plan",
+      "mobile": "Mobile (eSIM)",
+      "family": "Mga family plan"
+    },
+    "plans": {
+      "free": {
+        "title": "Libre",
+        "price": "$0",
+        "desc": "Simulan ang pagmemensahe nang libre. Mainam kung sinusubukan mo lang ang Chatforia.",
+        "features": {
+          "chat": "Real-time 1:1 at group chat, kasama ang voice at video calls",
+          "media": "Ibahagi ang mga larawan, voice messages, at maikling video",
+          "ai": "AI-powered smart replies at instant translation (fair use)",
+          "disappearing": "Nawawalang mensahe at basic privacy controls",
+          "ads": "Libre magpakailanman kasama ang ads sa app"
+        },
+        "ctaCurrent": "Kasalukuyang plano",
+        "ctaManage": "Pamahalaan sa billing",
+        "ctaPublic": "Magsimula – magpatuloy sa pag-login",
+        "aria": "Free plan"
+      },
+      "plus": {
+        "title": "Plus",
+        "price": "$6.99",
+        "desc": "Lahat ng essentials, walang ads. Mainam para sa araw-araw na pagmemensahe at pagtawag.",
+        "features": {
+          "allFree": "Lahat ng nasa Free, walang ads",
+          "forwarding": "I-forward ang mga tawag at text sa iyong totoong phone number",
+          "history": "Mas mahabang message history (hanggang 6 na buwan)",
+          "support": "Mas mabilis na suporta kapag may problema"
+        },
+        "badge": "Popular",
+        "cta": "Gawing Ad-Free",
+        "ctaPublic": "Kunin ang Plus – magpatuloy sa pag-login",
+        "aria": "I-upgrade sa Plus"
+      },
+      "premiumMonthly": {
+        "title": "Premium (Buwan-buwan)",
+        "price": "$11.99",
+        "desc": "Ang buong karanasan sa Chatforia: AI power tools, customization, at priority support.",
+        "features": {
+          "plusAll": "Lahat ng nasa Plus",
+          "themes": "I-unlock ang lahat ng premium color themes at app customizations",
+          "ai": "Premium-only AI power tools para sa rewrites, smart replies, at summaries",
+          "support": "Priority support kapag kailangan mo ng tulong"
+        },
+        "badge": "Inirerekomenda",
+        "cta": "I-upgrade (Buwan-buwan)",
+        "ctaPublic": "I-unlock ang Premium – magpatuloy sa pag-login",
+        "aria": "I-upgrade sa Premium Buwan-buwan"
+      },
+      "premiumAnnual": {
+        "title": "Premium (Taun-taon)",
+        "price": "$99",
+        "desc": "Makakatipid pa kapag binabayaran taun-taon — kasama ang extra color themes, AI tools, at priority support.",
+        "features": {
+          "allPremium": "Lahat ng nasa Premium Buwan-buwan — kasama ang extra color themes",
+          "annualBilling": "Binabayaran nang isang beses bawat taon",
+          "save25": "Makakatipid ng humigit-kumulang 30% kumpara sa buwan-buwan",
+          "bestFor": "Pinakamainam para sa power users, remote workers, at heavy travelers"
+        },
+        "badge": "Makakatipid ng 30%",
+        "cta": "I-upgrade (Taun-taon)",
+        "ctaPublic": "Makakatipid ng 30% sa taun-taon – magpatuloy sa pag-login",
+        "aria": "I-upgrade sa Premium Taun-taon",
+        "disclaimer": "Binabayaran nang maaga. Maaaring kanselahin anumang oras. Walang nakatagong bayarin."
+      }
+    },
+    "marketing": {
+      "freeTitle": "Libre",
+      "freeDesc": "Simulan ang pagmemensahe nang libre.",
+      "plusTitle": "Plus",
+      "plusBadge": "Popular",
+      "plusDesc": "Pinakamura na ad-free na karanasan.",
+      "premiumMonthlyTitle": "Premium",
+      "premiumMonthlyDesc": "Buong features, ringtones, at AI power tools.",
+      "premiumAnnualTitle": "Premium",
+      "premiumAnnualDesc": "Makakatipid pa kapag binabayaran taun-taon.",
+      "annualDisclaimer": "Binabayaran nang maaga. Maaaring kanselahin anumang oras. Walang nakatagong bayarin."
+    },
+    "mobile": {
+      "title": "Chatforia Mobile (eSIM data packs)",
+      "subtitle": "Magdagdag ng global data upang patuloy na gumana ang Chatforia kahit walang Wi-Fi. Awtomatikong nag-a-adjust ang mga presyo batay sa iyong bansa at currency.",
+      "subtitle.detail": "Pumili ng one-time global data pack upang patuloy na gumana ang Chatforia kapag naglalakbay ka o wala sa Wi-Fi.",
+      "scope": {
+        "local": "Lokal",
+        "europe": "Europa",
+        "global": "Global"
+      },
+      "note": "Hindi kami nagbebenta ng data packs na mas mababa sa 3 GB.",
+      "localEquals": "Lokal = {{country}}",
+      "localEqualsFallback": "Lokal = ang iyong kasalukuyang bansa",
+      "perPack": "/ pack",
+      "cta": "Kunin ang data pack na ito",
+      "ctaPublic": "Kunin ang data pack na ito",
+      "checkout": {
+        "redirecting": "Nire-redirect…"
+      },
+      "unlimited": {
+        "features": {
+          "heavyUse": "High-speed data para sa heavy use",
+          "throttle": "Maaaring mabagal ang bilis pagkatapos ng mataas na paggamit",
+          "coverage": "Maasahang coverage",
+          "instant": "Instant eSIM activation",
+          "noContract": "One-time pack, walang kontrata"
+        }
+      },
+      "disclaimer": {
+        "devices": "Ang eSIM data packs ay nangangailangan ng eSIM-compatible at unlocked na device. Nag-iiba ang availability ayon sa modelo ng phone, carrier, at bansa. Nag-iiba ang coverage at bilis ayon sa rehiyon."
+      },
+      "small": {
+        "title": "Starter pack",
+        "desc": "Kasama ang 3 GB ng high-speed data — mainam para sa light messaging at paminsan-minsang tawag.",
+        "price": "$9.99",
+        "data": "3 GB",
+        "bestFor": "Maikling biyahe, light messaging, at paminsan-minsang tawag",
+        "aria": "Bumili ng Starter eSIM data pack"
+      },
+      "medium": {
+        "title": "Traveler pack",
+        "desc": "Kasama ang 5 GB ng high-speed data para sa mga biyahe, commuting, at regular na VoIP calls.",
+        "price": "$14.99",
+        "data": "5 GB",
+        "bestFor": "Weekend na biyahe, regular na VoIP calls, at mapa",
+        "aria": "Bumili ng Traveler eSIM data pack"
+      },
+      "large": {
+        "title": "Power pack",
+        "desc": "Kasama ang 10 GB ng high-speed data para sa heavy chat, tawag, at video sa Chatforia network.",
+        "price": "$24.99",
+        "data": "10 GB",
+        "bestFor": "Heavy chat, tawag, video, at hotspot use",
+        "aria": "Bumili ng Power user eSIM data pack"
+      },
+      "compare": {
+        "title": "Ikompara ang eSIM data packs",
+        "col": {
+          "pack": "Pack",
+          "data": "Kasamang data",
+          "bestFor": "Pinakamainam para sa"
+        },
+        "disclaimer": "Nakadepende sa iyong paggamit ng Chatforia (voice, video, media, at iba pang apps sa iyong phone) ang aktwal na data usage."
+      }
+    },
+    "family": {
+      "title": "Chatforia Family (ibinahaging data)",
+      "subtitle": "Ibahagi ang isang data pool sa iyong pamilya. Isang bill, maraming Chatforia accounts, global coverage.",
+      "perPack": "/ pack",
+      "small": {
+        "title": "Family Small",
+        "desc": "Kasama ang 20 GB ng ibinahaging high-speed data — mainam para sa 2–3 light users.",
+        "price": "$29.99",
+        "aria": "Bumili ng Family Small pack"
+      },
+      "medium": {
+        "title": "Family Medium",
+        "desc": "Kasama ang 40 GB ng ibinahaging high-speed data — mainam para sa 3–5 active members.",
+        "price": "$49.99",
+        "aria": "Bumili ng Family Medium pack"
+      },
+      "large": {
+        "title": "Family Large",
+        "desc": "Kasama ang 80 GB ng ibinahaging high-speed data — para sa power families na palaging online.",
+        "price": "$84.99",
+        "aria": "Bumili ng Family Large pack"
+      },
+      "feature": {
+        "shared": "Ibinahaging data pool para sa iyong pamilya",
+        "members": "Anyayahan ang hanggang 4 na karagdagang kasapi",
+        "membersMore": "Mainam para sa 3–5 active members",
+        "manage": "Pamahalaan ang mga limit para sa bawat kasapi",
+        "topUp": "Magdagdag pa ng mga pack anumang oras",
+        "bestValue": "Pinakamahusay na halaga kada GB",
+        "fairUse": "Subject sa fair-use policy at local limits"
+      },
+      "disclaimer": "Ang family packs ay lumilikha o nag-top up ng ibinahaging data pool. Maaari mong anyayahan at tanggalin ang mga kasapi anumang oras.",
+      "footnote": "Ang family packs ay nagbabahagi ng isang data pool sa mga naka-link na Chatforia accounts. Nakadepende sa iyong bansa at lokal na regulasyon ang availability at limits."
+    },
+    "why": {
+      "title": "Bakit lumilipat ang mga tao sa Chatforia",
+      "subtitle": "Nagbibigay ang Chatforia ng totoong phone number, smart translation, at malinaw na landas upang maging ad-free kapag handa ka na.",
+      "card": {
+        "textnow": {
+          "title": "Chatforia vs TextNow",
+          "body": "Mas magaan ang ads sa Free, simple Plus upgrade kapag handa ka na, at Premium tools na wala sa TextNow."
+        },
+        "voice": {
+          "title": "Chatforia vs Google Voice",
+          "body": "Modernong app, global-first na disenyo, at built-in na translation sa halip na lumang call forwarding."
+        },
+        "messengers": {
+          "title": "Chatforia vs chat apps",
+          "body": "Mag-text sa totoong phone numbers — hindi lamang sa ibang app users — kasama ang AI at status. Mainam kung galing ka sa apps tulad ng TextFree o TextMe."
+        }
+      },
+      "tableTitle": "Paano nagkukumpara ang Chatforia",
+      "col": {
+        "feature": "Feature"
+      },
+      "feature": {
+        "freeNumber": "Libreng phone number",
+        "translation": "Built-in na auto-translation",
+        "aiTools": "AI tools (rewrites, replies, summaries)",
+        "ads": "Ad-free na opsyon",
+        "history": "Message history"
+      },
+      "yes": "Oo",
+      "no": "Hindi",
+      "yesPremium": "Oo (Premium)",
+      "plusPremium": "Plus at Premium",
+      "limited": "Limitado",
+      "nA": "N/A",
+      "history": {
+        "chatforia": "Hanggang 12+ buwan",
+        "textnow": "Nag-iiba ayon sa account",
+        "voice": "Limitado / account-based"
+      },
+      "disclaimer": "Nakabatay sa pampublikong available na impormasyon at maaaring magbago sa paglipas ng panahon ang paghahambing. Ang iba pang free-texting apps tulad ng TextFree o TextMe ay karaniwang katulad ng TextNow."
+    },
+    "faq": {
+      "title": "Mga Tanong at Sagot sa Presyo at Plano",
+      "free": {
+        "q": "Talaga bang libre ang Free plan?",
+        "a": "Oo. Kasama sa Free plan ang Chatforia number, calling, at pagmemensahe kasama ang ads. Maaari kang manatili sa Free hangga't gusto mo, o mag-upgrade upang tanggalin ang ads at i-unlock ang higit pang features."
+      },
+      "plusPremium": {
+        "q": "Ano ang pagkakaiba ng Plus at Premium?",
+        "a": "Tinatanggal ng Plus ang ads at pinahaba ang iyong message history — perpekto para sa pang-araw-araw na paggamit. Nagdaragdag ang Premium ng extra customization, AI tools para sa rewrites at replies, at priority support para sa heavy users."
+      },
+      "esim": {
+        "q": "Saan gumagana ang eSIM data packs?",
+        "a": "Gumagamit ang Chatforia Mobile ng global eSIM coverage. Nakadepende sa iyong bansa at device ang availability. Makikita mo ang suportadong opsyon sa panahon ng activation sa loob ng app."
+      },
+      "cancel": {
+        "q": "Maaari ko bang kanselahin o baguhin ang mga plano anumang oras?",
+        "a": "Oo. Maaari mong pamahalaan o kanselahin ang iyong subscription mula sa billing page sa app. Magkakabisa ang mga pagbabago sa pagtatapos ng iyong kasalukuyang billing period."
+      },
+      "family": {
+        "q": "Paano gumagana ang Family packs?",
+        "a": "Ang family packs ay lumilikha ng ibinahaging data pool sa maraming Chatforia accounts. Nagbabayad ang isang tao ng bill, at maaari mong anyayahan o tanggalin ang mga kasapi at mag-set ng limit kada tao."
+      }
+    },
+    "gettingStarted": {
+      "title": "Pagsisimula",
+      "subtitle": "Bago sa Chatforia? Ipinapakita ng mabilis na gabay na ito ang mga essentials upang makapag-produktibo ka sa loob ng ilang minuto.",
+      "alert": {
+        "text": "Lalaki ang gabay na ito habang naglulunsad kami ng mga bagong feature. Kung may kulang, ipaalam sa amin sa pamamagitan ng",
+        "contactLink": "Makipag-ugnayan sa Amin"
+      },
+      "section1": {
+        "title": "1) Gumawa ng iyong account",
+        "signup": "Mag-sign up",
+        "or": "o",
+        "login": "mag-log in",
+        "loginText": "gamit ang iyong kasalukuyang account.",
+        "prefsStart": "I-set ang iyong",
+        "prefsLink": "mga kagustuhan",
+        "prefsRest": "(wika, read receipts, themes)."
+      },
+      "section2": {
+        "title": "2) Simulan ang pagmemensahe",
+        "item1": "Gumawa ng DM o Group at ipadala ang iyong unang mensahe.",
+        "item2": "Gamitin ang instant translation para mag-chat sa 100+ wika.",
+        "item3": "Subukan ang nawawalang mensahe at read receipts sa Profile → Privacy."
+      },
+      "section3": {
+        "title": "3) Magpatuloy pa",
+        "item1": "Maaari kang mag-upgrade sa bayad na plano anumang oras sa loob ng app.",
+        "item2": "Kapag naka-sign in ka na, maaari mong i-link ang karagdagang mga device at i-set up ang encrypted backups mula sa Settings sa app."
+      },
+      "cta": {
+        "seePlans": "Tingnan ang mga plano",
+        "openSettings": "Buksan ang settings"
+      }
+    },
+    "helpCenter": {
+      "title": "Help Center",
+      "faq": {
+        "account": {
+          "q": "Paano ako gumawa o mag-recover ng aking account?",
+          "a": "I-download ang app o gamitin ang web, pindutin ang “Gumawa ng account”, i-verify ang iyong email/phone. Para mag-recover, gamitin ang “Nakalimutan ang password”."
+        },
+        "privacy": {
+          "q": "Naka-end-to-end encrypted ba ang mga mensahe?",
+          "a": "Oo. Ang mga mensahe at tawag ay end-to-end encrypted bilang default. Ikaw at ang tatanggap lamang ang makakabasa nito."
+        },
+        "translate": {
+          "q": "Paano gumagana ang instant translation?",
+          "a": "I-enable ang “Auto-translate” sa Settings → Appearance at Language. Isinasalin namin sa device kung suportado, kung hindi ay sa pamamagitan ng secure na APIs na may minimal metadata."
+        },
+        "contact": {
+          "q": "Makipag-ugnayan sa support",
+          "a": "Makipag-ugnayan sa amin sa support@chatforia.com. Isama ang mga screenshot at ang iyong app version."
+        }
+      }
+    },
+    "contact": {
+      "title": "Makipag-ugnayan sa Amin",
+      "successMsg": "Salamat—sasagot ang aming team sa pamamagitan ng email.",
+      "errorSend": "Hindi maipadala. Mangyaring i-email ang support@chatforia.com.",
+      "form": {
+        "nameLabel": "Pangalan",
+        "emailLabel": "Email",
+        "messageLabel": "Mensahe",
+        "sendCta": "Ipadala"
+      }
+    },
+    "privacyPolicy": {
+      "title": "Patakaran sa Privacy",
+      "lastUpdated": "Huling na-update:",
+      "intro": {
+        "body": "Ipinaliliwanag ng Patakaran sa Privacy na ito kung paano kinokolekta, ginagamit, at ibinabahagi ng Chatforia (“kami”, “namin”) ang impormasyon kapag ginagamit mo ang aming mga app at serbisyo. Dinisenyo namin ang Chatforia upang mabawasan ang data na maaari naming ma-access."
+      },
+      "infoWeCollect": {
+        "title": "Impormasyong kinokolekta namin",
+        "account": "Impormasyon ng account (hal., email/phone) upang gumawa at maprotektahan ang iyong account.",
+        "encrypted": "Naka-encrypt na content (mga mensahe/tawag) ay end-to-end encrypted; hindi namin ito mababasa.",
+        "diagnostics": "Diagnostic/usage tulad ng crash logs, uri ng device, o coarse analytics upang mapabuti ang pagganap."
+      },
+      "sms": {
+        "title": "Mga mobile phone number at SMS",
+        "body": "Kung pipiliin mong magbigay ng mobile phone number, ginagamit namin ito upang paganahin ang mga feature tulad ng account verification, login alerts, at user-to-user messaging sa pamamagitan ng SMS kung suportado. Maaari kaming magpadala ng transactional SMS messages na nauugnay sa iyong account at activity sa Chatforia. Maaari mong i-opt out sa pagtanggap ng SMS messages anumang oras sa pamamagitan ng pag-reply sa isang suportadong opt-out keyword (tulad ng “STOP”) o sa pamamagitan ng pagbabago ng iyong notification preferences sa app. Hindi namin ibinebenta ang iyong phone number o ginagamit ito para sa hindi nauugnay na marketing.",
+        "newText": "Bagong text",
+        "enterRecipient": "Maglagay ng pangalan o numero",
+        "typeMessage": "Mag-type ng mensahe…",
+        "addRecipient": "Magdagdag ng tatanggap sa itaas para magsimula…"
+      },
+      "howWeUse": {
+        "title": "Paano namin ginagamit ang impormasyon",
+        "provide": "Magbigay at maprotektahan ang serbisyo (auth, spam/abuse detection).",
+        "improve": "Mapabuti ang mga feature (kalidad ng pagsasalin, pagiging maaasahan).",
+        "legal": "Sumunod sa mga legal na obligasyon."
+      },
+      "sharing": {
+        "title": "Pagbabahagi",
+        "body": "Hindi kami nagbebenta ng personal data. Maaari naming ibahagi ang limitadong data sa mga processor (hal., push notifications, analytics) sa ilalim ng mahigpit na kontrata."
+      },
+      "rights": {
+        "title": "Iyong mga karapatan",
+        "body": "Nakadepende sa iyong rehiyon (hal., GDPR/UK GDPR/CPRA), maaari kang humiling ng access, pagwawasto, pag-delete, o opt-out sa ilang pagproseso. Makipag-ugnayan sa: privacy@chatforia.com."
+      },
+      "retention": {
+        "title": "Pagpapanatili ng data at seguridad",
+        "body": "Iniimbak lamang namin ang kinakailangan upang mapatakbo ang serbisyo at inilalapat ang industry-standard na seguridad. Hindi maaaring i-decrypt ng amin ang E2E content."
+      },
+      "children": {
+        "title": "Mga Bata",
+        "body": "Hindi nakatuon ang Chatforia sa mga bata na wala pang 13 (o ayon sa kinakailangan ng iyong lokal na batas)."
+      },
+      "changes": {
+        "title": "Mga Pagbabago",
+        "body": "Ipapaskil namin ang mga update dito at babaguhin ang petsa ng “Huling na-update”."
+      },
+      "contact": {
+        "title": "Makipag-ugnayan",
+        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "terms": {
+      "title": "Mga Tuntunin ng Serbisyo",
+      "lastUpdated": "Huling na-update:",
+      "intro": {
+        "body": "Sa pamamagitan ng paggamit ng Chatforia, sumasang-ayon ka sa mga Tuntuning ito. Kung hindi ka sumasang-ayon, huwag gamitin ang serbisyo."
+      },
+      "accounts": {
+        "title": "Mga Account",
+        "itemAccurateInfo": "Magbigay ng tumpak na impormasyon at panatilihing secure ang iyong mga kredensyal.",
+        "itemResponsibility": "Ikaw ang responsable para sa activity sa iyong account."
+      },
+      "acceptableUse": {
+        "title": "Katanggap-tanggap na paggamit",
+        "itemNoAbuse": "Walang ilegal, mapang-abuso, o lumalabag sa karapatan na content; walang spam o automated abuse.",
+        "itemSuspend": "Maaari naming suspindihin/terminahin para sa mga paglabag."
+      },
+      "sms": {
+        "title": "Mga SMS communications",
+        "body": "Kung magbibigay ka ng mobile phone number, sumasang-ayon ka na maaaring magpadala sa iyo ang Chatforia ng SMS messages na nauugnay sa iyong account at paggamit ng serbisyo, tulad ng login alerts, security notifications, at mga mensahe na nauugnay sa mga pag-uusap na sinimulan o pinag-participahan mo. Hindi namin ginagamit ang SMS para sa promotional o marketing messages nang walang iyong explicit na pahintulot. Maaaring mag-apply ang standard message at data rates. Maaari mong i-opt out sa SMS messages anumang oras sa pamamagitan ng pag-reply sa isang suportadong opt-out keyword (halimbawa, “STOP”) o sa pamamagitan ng pag-update ng iyong notification settings sa app."
+      },
+      "yourContent": {
+        "title": "Iyong content",
+        "body": "Nananatili ang iyong mga karapatan sa iyong content. Binibigyan mo kami ng kinakailangang mga karapatan upang mapatakbo ang serbisyo (hal., routing, storage, translation)."
+      },
+      "disclaimer": {
+        "title": "Mga Disclaimer at pananagutan",
+        "body": "Ibinibigay ang serbisyo “as is” nang walang mga warranty. Sa pinakamalawak na saklaw na pinahihintulutan ng batas, ang Chatforia ay hindi mananagot para sa indirect o consequential na mga pinsala."
+      },
+      "changes": {
+        "title": "Mga Pagbabago",
+        "body": "Maaari naming i-update ang mga tuntuning ito; ang patuloy na paggamit pagkatapos ng mga pagbabago ay nangangahulugan ng pagtanggap."
+      },
+      "contact": {
+        "title": "Makipag-ugnayan",
+        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+      }
+    },
+    "doNotSell": {
+      "title": "Huwag Ibenta o Ibahagi ang Aking Personal na Impormasyon",
+      "body": "Hindi nagbebenta ng personal na impormasyon ang Chatforia. Maaari pa ring magsumite ng mga kahilingan ang mga residente ng California sa ilalim ng CPRA gamit ang button sa ibaba.",
+      "cta": "Isumite ang kahilingan"
+    },
+    "cookies": {
+      "title": "Mga Setting ng Cookie",
+      "body": "Gumagamit ang Chatforia ng minimal na cookies (hal., session, seguridad). Hindi kami gumagamit ng third-party na ads cookies. Pamahalaan ang cookies sa pamamagitan ng mga setting ng iyong browser."
+    },
+    "phoneNumberManager": {
+      "unableToLoadStatus": "Hindi ma-load ang status ng phone number.",
+      "lock": "I-lock",
+      "noNumberAssigned": "Walang naka-assign na number. Pumili ng isa ayon sa area code para magsimulang mag-text.",
+      "pickNumber": "Pumili ng number",
+      "phoneNumber": "Phone number"
+    },
+    "startChatModal": {
+      "title": "Simulan ang chat",
+      "quickPicker": "Mabilis na picker",
+      "to": "Kay",
+      "nameOrUsername": "Mag-type ng pangalan, username",
+      "nameUsernamePhoneEmail": "Mag-type ng pangalan, username, phone, o email…",
+      "startWithSelected": "Simulan ang chat sa napili",
+      "searchByUsernameOrPhone": "Maghanap ayon sa username o phone",
+      "search": "Maghanap",
+      "searchPrompt": "Mag-type ng username o phone at pindutin ang Maghanap.",
+      "pickFromContacts": "O pumili mula sa mga contact",
+      "addContact": "Magdagdag ng Contact",
+      "show": "Ipakita",
+      "add": "Idagdag",
+      "close": "Isara",
+      "selectedCount": "{{count}} napili",
+      "pickAtLeastOne": "Pumili ng kahit isang tatanggap.",
+      "saveContactsHint": "Magiging available ang phone/email entries pagkatapos mong i-save ang mga ito bilang contact.",
+      "failedBulkStart": "Nabigo ang pagsisimula ng chat sa napiling mga tatanggap.",
+      "noResults": "Walang resulta",
+      "mode": "Mode",
+      "group": "Group",
+      "broadcast": "Broadcast",
+      "groupNameOptional": "Pangalan ng group (opsyonal)",
+      "firstMessageOptional": "Unang mensahe (opsyonal ngunit inirerekomenda)",
+      "createGroup": "Gumawa ng group",
+      "sendBroadcast": "Ipadala ang broadcast"
+    },
+    "themes": {
+      "amoled": "Amoled",
+      "aurora": "Aurora",
+      "neon": "Neon",
+      "sunset": "Sunset",
+      "solarized": "Solarized",
+      "velvet": "Velvet"
+    },
+    "sounds": {
+      "freeNotice": "Nasa Free ka — ipinapakita ang premium tones ngunit naka-lock. I-upgrade para i-unlock ang lahat.",
+      "preview": "Preview",
+      "resetToDefaults": "I-reset sa default",
+      "notificationSounds": "Mga Tunog ng Notification",
+      "messageTone": "Message tone",
+      "default": "Default",
+      "vibrate": "Vibrate",
+      "dreamer": "Dreamer",
+      "notify": "Notify",
+      "pop": "Pop",
+      "pulsatingSound": "Pulsating Sound",
+      "textMessage": "Text Message",
+      "xylophone": "Xylophone",
+      "classic": "Classic",
+      "urgency": "Urgency",
+      "bells": "Bells",
+      "chimes": "Chimes",
+      "digitalPhone": "Digital Phone",
+      "melodic": "Melodic",
+      "organNotes": "Organ Notes",
+      "soundReality": "Sound Reality",
+      "street": "Street",
+      "universfield": "Universfield"
+    },
+    "premiumGuard": {
+      "requiresPremium": "Nangangailangan ng Premium plan ang feature na ito."
+    },
+    "aiSettings": {
+      "title": "Mga Setting ng AI",
+      "controlIntro": "Kontrolin ang pagsasalin, smart replies, at ForiaBot auto-responses.",
+      "save": "I-save ang AI Settings",
+      "autoTranslateIncoming": "Auto-isalin ang papasok na mga mensahe",
+      "showOriginalAlongside": "Ipakita ang orihinal na text kasama ang pagsasalin",
+      "enableSmartReplies": "I-enable ang Smart Replies",
+      "smartRepliesHint": "Ipadala ang huling ilang natanggap na mensahe (sanitized) sa AI upang magmungkahi ng mabilis na replies.",
+      "maskProfanity": "I-mask ang profanity sa AI suggestions",
+      "maskProfanityHint": "Kung naka-on, ang mga suggestion na ibabalik ng AI ay may naka-mask na flagged na salita",
+      "foriaBot": "ForiaBot Auto-Responder",
+      "enableAutoReply": "I-enable ang auto-reply kapag busy ako",
+      "autoReplyMode": "Auto-reply mode",
+      "cooldownSeconds": "Cooldown (segundo)",
+      "off": "Patay",
+      "on": "Naka-on",
+      "signature": "Signature",
+      "autoReply": "Auto-reply",
+      "activeUntilOptional": "Aktibo hanggang (opsyonal)",
+      "saved": "Na-save ang AI preferences",
+      "saveFailed": "Nabigo ang pag-save ng AI settings",
+      "translateOff": "Patay",
+      "translateTagged": "Tanging kapag @translated o may tag",
+      "translateAll": "Isalin ang lahat ng papasok na mensahe",
+      "modeDm": "1:1 chats lamang",
+      "modeMention": "Tanging kapag ako ay @mentioned",
+      "modeAll": "Lahat ng inbound na mensahe"
+    },
+    "accessibilitySettings": {
+      "title": "Accessibility at Mga Alerto",
+      "accessibility": "Accessibility",
+      "accessibilityDesc": "Mga opsyon upang gawing mas madali ang paggamit ng Chatforia nang hindi umaasa sa tunog.",
+      "interfaceFontSize": "Interface font size",
+      "interfaceFontSizeHelp": "Nagsisimula sa normal na laki. Dagdag kung gusto mo ng mas malaking text sa accessibility settings.",
+      "sm": "sm",
+      "md": "md",
+      "lg": "lg",
+      "xl": "xl",
+      "notifications": "Mga Notification",
+      "notificationsDesc": "Visual alerts para sa mga mensahe at tawag\nIpakita ang banners at title blink upang hindi mo makaligtaan ang activity.",
+      "vibrateOnNew": "Vibrate sa bagong mensahe (kapag suportado)\nI-trigger ang device vibration kasama ang mga notification.",
+      "flashOnCall": "Flash screen sa papasok na tawag\nMaikling maliwanag na flash kapag tumutunog ang tawag.",
+      "liveCaptions": "Live captions (tawag)",
+      "captionFontSize": "Caption font size",
+      "captionBackground": "Caption background",
+      "light": "liwanag",
+      "dark": "madilim",
+      "transparent": "transparent",
+      "voiceNotes": "Voice notes",
+      "autoTranscribeVoiceNotes": "Auto-transcribe ang voice notes",
+      "autoTranscribeVoiceNotesDesc": "Mag-attach ng transcript sa audio messages na natanggap mo.",
+      "changesSavedInstantly": "Agad na na-save ang mga pagbabago.",
+      "loadFailed": "Nabigo ang pag-load ng mga setting",
+      "visualAlerts": "Visual alerts para sa mga mensahe at tawag",
+      "visualAlertsDesc": "Ipakita ang banners at title blink upang hindi mo makaligtaan ang activity.",
+      "vibrateOnNewShort": "Vibrate sa bagong mensahe (kapag suportado)",
+      "vibrateOnNewDesc": "I-trigger ang device vibration kasama ang mga notification.",
+      "flashOnCallShort": "Flash screen sa papasok na tawag",
+      "flashOnCallDesc": "Maikling maliwanag na flash kapag tumutunog ang tawag."
+    },
+    "privacySection": {
+      "strictE2EE": "Mahigpit na end-to-end encryption",
+      "ciphertextOnlyNote": "Mag-imbak lamang ng ciphertext sa server. Hindi paganahin ang AI/Translate at moderation previews."
+    },
+    "linkedDevicesPanel": {
+      "title": "Naka-link na mga Device",
+      "noneFound": "Walang nahanap na naka-link na device.",
+      "refresh": "I-refresh"
+    },
+    "help": {
+      "title": "Tulong",
+      "howCanWeHelp": "Paano kami makakatulong?",
+      "helpCenter": "Help Center",
+      "contactUs": "Makipag-ugnayan sa amin",
+      "quickTopics": "Mga mabilis na paksa",
+      "searchExamples": "Subukang maghanap ng “translate”, “backups”, o “privacy”.",
+      "cantLogin": "Hindi makapag-log in",
+      "paymentsBilling": "Mga Pagbabayad/billing",
+      "reportAbuse": "I-report ang abuso",
+      "searchHelpArticles": "Maghanap sa help articles",
+      "search": "Maghanap"
+    },
+    "peoplePage": {
+      "people": "Mga Tao",
+      "search": "Maghanap",
+      "searchPlaceholder": "Maghanap ayon sa alias, pangalan, username, o phone",
+      "filterSaved": "I-filter ang mga naka-save na contact",
+      "noContactsFound": "Walang nahanap na contact",
+      "quickStart": "Mabilis na pagsisimula",
+      "quickStartDesc": "Ilang mabilis na paraan para makapagsimula.",
+      "importContacts": "I-import ang iyong mga contact",
+      "add": "Idagdag",
+      "focusSearch": "I-focus ang Paghanap",
+      "import": "I-import",
+      "findOrAdd": "Hanapin o idagdag ang isang tao",
+      "searchByPhoneOrUsername": "Maghanap ayon sa phone / username",
+      "inviteFriends": "Anyayahan ang mga kaibigan",
+      "inviteDesc": "Ibahagi ang iyong invite link upang magsimulang mag-chat agad.",
+      "getTheApp": "Kunin ang app",
+      "getTheAppDesc": "Manatiling nakikipag-ugnayan habang nasa daan gamit ang Chatforia para sa iOS at Android.",
+      "download": "I-download",
+      "syncTip": "Tip: Nananatiling naka-sync ang iyong mga mensahe sa web at mobile."
+    },
+    "randomChat": {
+      "title": "Random Chat",
+      "description": "Makilala ang isang bagong tao agad. Ipapares namin kayo at bubuksan ang pansamantalang chat room. Mag-chat nang anonymous muna. Idagdag bilang Kaibigan mamaya kung tama ang pakiramdam.",
+      "findMatch": "Hanapin ako ng match",
+      "chatWithForia": "Mag-chat kay Foria",
+      "chatWithForiaBot": "Mag-chat kay ForiaBot",
+      "cancel": "Kanselahin",
+      "close": "Isara",
+      "searching": "Naghahanap...",
+      "finding": "Naghahanap...",
+      "looking": "Naghahanap ng isang tao...",
+      "startingForia": "Sinisimulan ang chat kay Foria...",
+      "partnerDisconnected": "Nawala ang iyong partner.",
+      "noPartner": "Walang nahanap na partner sa ngayon.",
+      "connectedTo": "Nakakonekta kay {{name}}",
+      "connected": "Nakakonekta",
+      "idle": "Idle",
+      "partnerLeft": "Umalis ang partner.",
+      "stopped": "Huminto.",
+      "skip": "Laktawan",
+      "save": "I-save",
+      "saveGuard": "Tanging human-to-human chats ang maaaring i-save",
+      "youAreChattingWith": "Naka-chat ka kay {{name}}",
+      "bot": "BOT",
+      "leave": "Umalis",
+      "sayHi": "Sabihin ang hi 👋",
+      "you": "Ikaw",
+      "typeMessage": "Mag-type ng mensahe",
+      "send": "Ipadala",
+      "partner": "Partner",
+      "withRia": "Kay Ria",
+      "chatWithRia": "Mag-chat kay Ria",
+      "startingRia": "Sinisimulan ang chat kay Ria...",
+      "ageDisclaimer": "Iniimbak lamang namin ang age range (hindi ang eksaktong petsa ng iyong kapanganakan). Ginagamit ito upang mapanatiling makatwiran ang Random Chat pairings. Upang magpares sa mga tao (hindi lamang sa RiaBot), i-set ang iyong age band sa Settings → Age at Random Chat.",
+      "ageBandRequired": "I-set ang iyong age range sa Profile → Age at Random Chat upang maipares sa mga tao.",
+      "ageBandCallout": "Upang magpares sa mga tao (hindi lamang sa RiaBot), i-set ang iyong age band sa Settings → Age at Random Chat.",
+      "subtitle": "Makilala ang isang bagong tao agad, o pumili na mag-chat kay Ria.",
+      "start": "Simulan ang pag-uusap",
+      "matching": "Naghahanap ng match...",
+      "setAge": "I-set ang iyong age range sa Profile → Age at Random Chat upang maipares sa mga tao.",
+      "next": "Susunod na Tao",
+      "addFriend": "Idagdag bilang Kaibigan",
+      "requested": "Hiniling",
+      "messageRia": "I-mensahe si Ria...",
+      "messageMatch": "I-mensahe ang iyong match..."
+    },
+    "brand": {
+      "name": "Chatforia",
+      "ria": "Ria"
+    },
+    "ria": {
+      "fallbackName": "doon",
+      "intro": "Hey doon 👋 Ako si Ria. Ano ang nasa isip mo?",
+      "greetings": {
+        "long1": "Hey {{name}} 👋 Nandito ako. Ano ang nasa isip mo?",
+        "long2": "Hi {{name}} 😊 Ano ang gusto mong pag-usapan ngayon?",
+        "long3": "Hey {{name}}!! Lahat ng tenga ko — ano ang balita?",
+        "long4": "Masaya kitang makita, {{name}} 👋 Ano ang nasa isip mo ngayon?",
+        "long5": "Hey {{name}} 😊 Gusto mo bang mag-vent, magtanong, o mag-chat lang?",
+        "long6": "Hi {{name}}!! May oras ako — ano ang gusto mong pag-usapan?",
+        "short1": "Hey {{name}}, nandito pa rin ako. Ano ang balita?",
+        "short2": "Maligayang pagbabalik {{name}} 👋 May iba pa bang gusto mong idagdag?",
+        "short3": "Bumalik ka na naman, {{name}}? 😊 Sabihin mo sa akin kung ano ang nasa isip mo.",
+        "short4": "Hey {{name}} 👋 Handa nang ipagpatuloy kung saan tayo tumigil?",
+        "short5": "Oo {{name}}? Nakikinig ako 👂",
+        "short6": "Oh hey {{name}}!! May bago bang nasa isip mo?"
+      },
+      "header": {
+        "openNav": "Buksan ang navigation menu",
+        "closeNav": "Isara ang navigation menu",
+        "homeAria": "Chatforia Home"
+      },
+      "login": {
+        "welcomeBack": "Maligayang pagbabalik",
+        "title": "Magpatuloy sa Chatforia",
+        "subtitleReturning": "Mag-log in sa iyong Chatforia account",
+        "subtitle": "Mag-log in sa iyong Chatforia account",
+        "google": "Magpatuloy gamit ang Google",
+        "apple": "Magpatuloy gamit ang Apple",
+        "googleUnavailable": "Hindi available ang Google sign-in",
+        "appleUnavailable": "Hindi available ang Apple sign-in",
+        "or": "o",
+        "email": "Email",
+        "emailPh": "you@example.com",
+        "usernameLabel": "Username",
+        "usernamePh": "Ang iyong username",
+        "passwordLabel": "Password",
+        "passwordPh": "Ang iyong password",
+        "keepSignedIn": "Panatilihing naka-sign in ako",
+        "forgot": {
+          "title": "Nakalimutan ang Password",
+          "helper": "Ilagay ang email na ginamit mo upang gumawa ng iyong Chatforia account at magpapadala kami ng secure na link upang i-reset ang iyong password.",
+          "emailInvalid": "Pakilagay ang valid na email address.",
+          "genericError": "Hindi maproseso ang kahilingan. Pakisubukang muli sa ilang sandali.",
+          "sending": "Nagpapadala ng reset link...",
+          "sendCta": "Ipadala ang Reset Link",
+          "sentLabel": "Naipadala!"
+        },
+        "submit": "Mag-log In",
+        "loggingIn": "Naglo-log in…",
+        "newHere": "Bago rito? <link>Gumawa ng account</link>",
+        "ssoUnavailable": "Kasalukuyang hindi available ang single-sign-on. Gamitin ang username at password sa halip.",
+        "error": {
+          "missing": "Pakilagay ang iyong mga kredensyal.",
+          "invalid": "Invalid na username o password",
+          "denied": "Tinanggihan ang access.",
+          "unprocessable": "Invalid na kahilingan. Suriin ang iyong username/email at password.",
+          "deviceLimit": "Naabot na ang device limit para sa Free plan. Mag-log out sa ibang device o mag-upgrade sa Premium upang i-link ang higit pang device.",
+          "premiumRequired": "Nangangailangan ng Premium plan ang aksyong ito."
+        }
+      }
+    },
+    "oauth": {
+      "completing": "Tinatapos ang pag-sign in…"
+    },
+    "dialer": {
+      "title": "Mga Tawag",
+      "subtitle": "Keypad at recents. (Kung hindi mo ginagamit ang PSTN, simulan ang mga tawag mula sa conversation header.)",
+      "enterNumberPh": "Maglagay ng numero",
+      "call": "Tumawag",
+      "backspace": "Backspace",
+      "recents": "Mga Kamakailan",
+      "recentsEmpty": "Wala pang kamakailang tawag.",
+      "enterNumber": "Maglagay ng numero",
+      "enterNumberAria": "Maglagay ng numero",
+      "key": "Key {{d}}",
+      "noRecents": "Wala pang kamakailang tawag."
+    },
+    "video": {
+      "title": "Video",
+      "chooseType": "Pumili ng uri ng video.",
+      "directTitle": "Direktang Video",
+      "directDesc": "1:1 camera call sa ibang user.",
+      "directStart": "Simulan",
+      "roomsTitle": "Mga Room",
+      "roomsDesc": "Multi-party video gamit ang ibinahaging room name.",
+      "roomsIntro": "Sumali o gumawa ng multi-party room.",
+      "roomNameLabel": "Pangalan ng room",
+      "roomNamePh": "hal. team-standup",
+      "join": "Sumali",
+      "deeplinkTip": "Tip: maaari kang mag-deep link nang diretso sa <code>/video?room=room-name</code>.",
+      "hub": {
+        "title": "Video",
+        "subtitle": "Pumili ng uri ng video."
+      },
+      "direct": {
+        "title": "Direktang Video",
+        "subtitle": "Simulan ang 1:1 video call gamit ang phone number o Chatforia username.",
+        "desc": "1:1 camera call sa ibang user.",
+        "start": "Simulan",
+        "callBtn": "Tumawag",
+        "callByPhone": {
+          "title": "Tumawag sa pamamagitan ng phone"
+        },
+        "phone": {
+          "placeholder": "Maglagay ng phone (hal., +1-555-123-4567)",
+          "aria": "Phone na tatawagan"
+        },
+        "tipInvite": "Tip: I-paste ang isang numero at tumawag nang hindi nagse-save ng contact. Aanyayahan namin ang mga non-user sa pamamagitan ng link.",
+        "findUser": {
+          "title": "Hanapin ang isang user"
+        },
+        "search": {
+          "placeholder": "Maghanap ayon sa pangalan o username",
+          "aria": "Maghanap ayon sa pangalan o username",
+          "btn": "Maghanap"
+        }
+      },
+      "rooms": {
+        "title": "Mga Room",
+        "subtitle": "Gumawa ng room o sumali sa umiiral na isa sa pamamagitan ng pag-type ng parehong pangalan.",
+        "desc": "Multi-party video gamit ang ibinahaging room name.",
+        "roomLabel": "Pangalan ng room",
+        "roomPlaceholder": "hal. team-standup",
+        "roomAria": "Pangalan ng room",
+        "joinCreate": "Sumali / Gumawa",
+        "tip": "Tip: ibahagi ang pangalang ito sa iba, o mag-deep link sa <code>/video?room=room-name</code>."
+      }
+    },
+    "directVideo": {
+      "intro": "Simulan ang direktang 1:1 video call.",
+      "findUserLabel": "Hanapin ang isang user",
+      "findUserPh": "Maghanap ayon sa pangalan o username",
+      "search": "Maghanap",
+      "call": "Tumawag"
+    },
+    "phoneWarning": {
+      "title": "Malapit nang mag-expire ang iyong numero",
+      "body": "Ang iyong numero {{number}} ay ilalabas sa {{date}} maliban kung muli itong i-activate.",
+      "button": "Panatilihin ang Aking Numero"
+    }
+  },
   "support": {
     "helpFab": "Tulong",
     "openSupportAria": "Buksan ang support",
     "badge": "Suporta",
     "heading": "Paano kami makakatulong?",
     "tabs": {
-      "help": "Sentro ng Tulong",
-      "contact": "Makipag-ugnayan"
+      "help": "Help Center",
+      "contact": "Makipag-ugnayan sa amin"
     },
-    "searchPlaceholder": "Maghanap ng mga artikulo ng tulong…",
+    "searchPlaceholder": "Maghanap sa help articles…",
     "searchAria": "Maghanap ng tulong",
-    "searchBtn": "Hanapin",
-    "quickTopicsLabel": "Mabilis na paksa",
+    "searchBtn": "Maghanap",
+    "quickTopicsLabel": "Mga mabilis na paksa",
     "quickTopics": {
-      "login": "Hindi makapag-login",
-      "billing": "Bayad / pagsingil",
-      "abuse": "I-report ang pang-aabuso"
+      "login": "Hindi makapag-log in",
+      "billing": "Mga Pagbabayad / billing",
+      "abuse": "I-report ang abuso"
     },
-    "trySearching": "Subukang hanapin ang “translate”, “backups”, o “privacy”.",
+    "trySearching": "Subukang maghanap ng “translate”, “backups”, o “privacy”.",
     "article": "Artikulo",
     "openArticle": "Buksan ang artikulo",
-    "contactIntro": "Magpapadala kami ng tugon sa email. Isama ang mga detalye para matulungan kaming maulit ang isyu.",
+    "contactIntro": "Sasagot kami sa iyo sa pamamagitan ng email. Isama ang mga detalye upang matulungan kaming muling likhain ang isyu.",
     "topicAria": "Pumili ng paksa",
     "messagePlaceholder": "Isulat ang iyong mensahe…",
     "sendBtn": "Ipadala",
-    "sent": "Naipadala ang mensahe. Sasagot kami sa email.",
-    "sendError": "Hindi naipadala. I-email ang support@chatforia.com."
+    "sent": "Naipadala ang mensahe. Sasagot kami sa pamamagitan ng email.",
+    "sendError": "Hindi maipadala. I-email na lang ang support@chatforia.com."
   },
-
-  "chat": {
-    "selectPrompt": "Pumili ng text o chat room para magsimula",
-    "newMessages": "Mga bagong mensahe",
-    "typing": "Nagta-type si {{name}}...",
-    "emptyTitle": "Iyong mga mensahe",
-    "emptySubtitle": "Magpadala ng mensahe para magsimula ng chat.",
-    "startChatButton": "Magpadala ng mensahe"
+  "helpCenter": {
+    "title": "Help Center",
+    "faq": {
+      "account": {
+        "q": "Paano ako gumawa o mag-recover ng aking account?",
+        "a": "I-download ang app o gamitin ang web, pindutin ang “Gumawa ng account”, i-verify ang iyong email/phone. Para mag-recover, gamitin ang “Nakalimutan ang password”."
+      },
+      "privacy": {
+        "q": "Naka-end-to-end encrypted ba ang mga mensahe?",
+        "a": "Oo. Ang mga mensahe at tawag ay end-to-end encrypted bilang default. Ikaw at ang tatanggap lamang ang makakabasa nito."
+      },
+      "translate": {
+        "q": "Paano gumagana ang instant translation?",
+        "a": "I-enable ang “Auto-translate” sa Settings → Appearance at Language. Isinasalin namin sa device kung suportado, kung hindi ay sa pamamagitan ng secure na APIs na may minimal metadata."
+      },
+      "contact": {
+        "q": "Makipag-ugnayan sa support",
+        "a": "Makipag-ugnayan sa amin sa support@chatforia.com. Isama ang mga screenshot at ang iyong app version."
+      }
+    }
   },
-
-  "topbar": {
-    "newStatus": "Bagong Status",
-    "logout": "Mag-logout",
-    "help": "Tulong",
-    "createStatusAria": "Gumawa ng bagong Status"
-  },
-
-  "status": {
-    "userNumber": "User #{{id}}",
-    "posted": "Na-post ang status",
-    "postFailed": "Nabigong mag-post ng status",
-    "createTitle": "Gumawa ng status",
-    "modalAriaLabel": "Bagong status",
-    "captionLabel": "Anong nasa isip mo?",
-    "captionPlaceholder": "Magbahagi ng update...",
-    "captionAria": "Mensahe ng status",
-    "audienceLabel": "Audience",
-    "audience": {
-      "public": "Pampubliko",
-      "followers": "Mga tagasunod",
-      "contacts": "Mga contact",
-      "mutuals": "Magkabilang tagasunod",
-      "custom": "Pasadya..."
+  "encryptionRecovery": {
+    "title": "Pamahalaan ang Encryption",
+    "description": "I-back up, i-restore, i-unlock, o i-reset ang iyong encryption key.",
+    "alert": {
+      "keyRequiredTitle": "Kailangan ang encryption key",
+      "keyRequiredBody": "Ang browser na ito ay hindi pa maaaring i-decrypt ang iyong mga naka-encrypt na mensahe. I-restore, i-unlock, o i-reset ang iyong key upang magpatuloy."
     },
-    "expiresHoursLabel": "Mag-e-expire (oras)",
-    "maxTooltip": "Pinakamataas na 7 araw",
-    "hoursAbbrev": "h",
-    "maxShort": "max",
-    "expiresOn": "Mag-e-expire sa:",
-    "chooseRecipients": "Pumili ng mga tatanggap",
-    "selectContacts": "Piliin ang mga contact",
-    "attachmentsLabel": "Mga kalakip",
-    "attachmentsPlaceholder": "Magdagdag ng mga larawan/bidyo",
-    "filesNote": "Hanggang 5 file. 24h ang default na bisa.",
-    "postAria": "I-post ang status",
-    "post": "I-post"
-  },
-
-  "contactList": {
-    "savedContacts": "Na-save na Mga Contact",
-    "refreshAria": "I-refresh ang mga contact",
-    "filterPlaceholder": "I-filter ang na-save na mga contact…",
-    "filterAria": "I-filter ang na-save na mga contact",
-    "noContactsFound": "Walang nahanap na contact.",
-    "externalContact": "Panlabas na contact",
-    "notJoined": "Hindi pa sumasali sa Chatforia ang contact na iyon.",
-    "couldNotStart": "Hindi makapagsimula ng chat. Subukang muli.",
-    "startFailed": "Nabigong magsimula ng chat. Subukang muli.",
-    "deleted": "Nabura ang contact.",
-    "deleteFailed": "Nabigong burahin ang contact. Subukang muli.",
-    "aliasUpdated": "Na-update ang alias.",
-    "updateAliasFailed": "Nabigong i-update ang alias. Subukang muli.",
-    "selectContact": "Piliin si {{name}}",
-    "alias": "Alias",
-    "startChat": "Simulan ang chat",
-    "message": "Mensahe",
-    "delete": "Burahin",
-    "deleteContactAria": "Burahin ang contact",
-    "loadFailed": "Nabigong i-load ang mga contact. Subukang muli.",
-    "loadMore": "Mag-load pa"
-  },
-
-  "sidebar": {
-    "randomChat": "Random Chat",
-    "callTextForwarding": "Pagpasa ng Tawag at Text",
-    "conversations": "Mga usapan",
-    "searchPlaceholder": "Maghanap sa mga usapan...",
-    "errorLoading": "Nabigong i-load ang mga chat",
-    "empty": "Wala pang mga usapan.",
-    "startChat": "Magsimula ng chat",
-    "people": "Mga tao",
-    "settings": "Mga setting",
-    "status": "Status",
-    "forwarding": "Pagpasa ng Tawag at Text",
-    "refresh": "I-refresh",
-    "search": "Maghanap sa mga usapan",
-    "loginPrompt": "Mag-log in para i-edit ang iyong mga setting.",
-    "login": "Mag-log in",
-    "register": "Gumawa ng account",
-    "chatrooms": "Mga chatroom",
-    "logout": "Mag-logout",
-    "startChatAlt": "Magsimula ng bagong chat"
-  },
-
-  "premium": {
-    "heading": "Mag-Premium",
-    "description": "I-unlock ang makapangyarihang features at alisin ang ads.",
-    "cta": "Mag-upgrade",
-    "upgrade": "Mag-upgrade",
-    "upgradeAria": "Mag-upgrade sa Chatforia Premium"
-  },
-
-  "auth": {
-    "headline": "Ligtas, pandaigdigang pagmemensahe na may agarang pagsasalin",
-    "description": "End-to-end na pag-encrypt, AI-powered na pagsasalin, naglalahong mensahe, at voice/video calling.",
-    "feature": {
-      "encryption": "End-to-end na pag-encrypt bilang default",
-      "translation": "Awtomatikong isalin ang 100+ wika",
-      "disappearing": "Naglalahong mensahe at read receipts",
-      "privacy": "Privacy-first. Iyong data, iyong kontrol.",
-      "translate": "Real-time na pagsasalin",
-      "disappear": "Naglalahong mga mensahe",
-      "privacyAlt": "Disenyong inuuna ang privacy"
+    "sections": {
+      "createBackup": "Gumawa ng key backup",
+      "restoreFromBackup": "I-restore mula sa account backup",
+      "resetEncryption": "I-reset ang encryption"
     },
-    "hero": {
-      "line1": "Ligtas, pandaigdigan",
-      "beforeEm": "na pagmemensahe na may",
-      "em": "agarang pagsasalin",
-      "sub": "End-to-end na pag-encrypt, AI-powered na pagsasalin, naglalahong mensahe, at voice/video calling."
+    "fields": {
+      "unlockPasscode": {
+        "label": "Unlock passcode (kasalukuyang device)",
+        "description": "Ginagamit upang i-decrypt ang iyong mga key lokal bago i-export"
+      },
+      "backupPassword": {
+        "label": "Backup password",
+        "description": "Ginagamit upang i-encrypt ang backup file"
+      },
+      "restoreBackupPassword": {
+        "label": "Backup password",
+        "description": "Ang password na ginawa mo nang i-back up ang iyong key sa iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Bagong local passcode",
+        "description": "Proteksyunan ang mga key sa pahinga sa browser na ito"
+      },
+      "resetLocalPasscode": {
+        "label": "Bagong local passcode",
+        "description": "Kailangan bago i-reset upang maprotektahan ang bagong key sa device na ito"
+      }
     },
-    "feat": {
-      "encryption": "End-to-end na pag-encrypt bilang default",
-      "translate": "Awtomatikong isalin ang 100+ wika",
-      "disappear": "Naglalahong mensahe at read receipts",
-      "privacy": "Privacy-first. Iyong data, iyong kontrol."
+    "actions": {
+      "unlockKey": "I-unlock ang encryption key",
+      "restoreFromBackup": "I-restore mula sa account backup",
+      "resetEncryption": "I-reset ang Encryption"
     },
-    "continueGoogle": "Magpatuloy gamit ang Google",
-    "continueApple": "Magpatuloy gamit ang Apple",
-    "username": "Username",
-    "password": "Password",
-    "keepSignedIn": "Panatilihing naka-sign in",
-    "forgotPassword": "Nakalimutan ang password?",
-    "loginButton": "Mag-log In",
-    "createAccount": "Gumawa ng account",
-    "freeAccountButton": "Gumawa ng libreng account",
-    "newHere": "Bago ka rito?",
-    "getApp": "Kunin ang app",
-    "desktopTip": "Nasa desktop? I-scan gamit ang iyong telepono para kunin ang app.",
-    "scanHelper": "Nasa desktop? I-scan gamit ang iyong telepono para kunin ang app.",
-    "goHome": "Pumunta sa home",
-    "home": "Home",
-    "headlineAlt": {
-      "main": "Ang ligtas na messenger na",
-      "highlight": "nagsasalita sa iyong wika"
+    "messages": {
+      "backupCreated": "Nalikha at na-download ang key backup.",
+      "keyUnlocked": "Na-unlock ang encryption key.",
+      "keyRestored": "Na-restore ang key mula sa account backup.",
+      "resetSuccess": "Matagumpay na na-reset ang encryption."
     },
-    "subhead": "Pribado, naka-encrypt, at may pagsasalin — agad-agad.",
-    "status": "Tingnan ang status",
-    "upgrade": "Mag-upgrade ngayon",
-    "tip": "Tip: Gamitin ang parehong account sa web at mobile. Nananatiling naka-sync ang iyong mga mensahe.",
-    "openDownload": "Buksan ang pahina ng download",
-    "qrAlt": "QR code para sa Chatforia",
-    "scanHint": "I-scan para i-download ang app o buksan sa iyong browser.",
-    "iosAria": "I-download sa App Store",
-    "iosTitle": "I-download sa App Store",
-    "iosBadgeAlt": "Badge ng App Store",
-    "androidAria": "Kunin sa Google Play",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Badge ng Google Play",
-    "login": "Mag-log In",
-    "signup": "Mag-sign Up",
-    "email": "Email"
+    "errors": {
+      "restoreIncomplete": "Hindi kumpleto o mali ang key restore para sa account na ito",
+      "noBackup": "Walang encrypted backup para sa account na ito",
+      "missingPublicKey": "Kulang ang public key sa backup",
+      "noServerPublicKey": "Ang account na ito ay hindi kasalukuyang nagpapakita ng server public key",
+      "serverBackupMismatch": "Ang server backup ay hindi tumutugma sa kasalukuyang account encryption key",
+      "incompleteMetadata": "Hindi kumpleto ang backup metadata",
+      "resetIncomplete": "Hindi kumpleto nang tama ang encryption reset"
+    },
+    "confirm": {
+      "reset": "I-reset ang encryption para sa account na ito?\n\nMaaaring hindi na mabasa ang mga lumang naka-encrypt na mensahe maliban kung i-restore mo ang orihinal na key mamaya."
+    },
+    "resetDescription": "Lilikha ito ng bagong encryption key para sa iyong account. Maaaring hindi na mabasa ang mga lumang naka-encrypt na mensahe maliban kung i-restore mo ang orihinal na key mamaya."
   },
-
   "footer": {
     "plans": "Mga Plano at Presyo",
     "about": "Tungkol sa Chatforia",
-    "careers": "Trabaho",
+    "careers": "Mga Karera",
     "press": "Press",
     "advertise": "Mag-advertise",
-    "contact": "Makipag-ugnayan",
-    "help": "Sentro ng Tulong",
-    "status": "Pahina ng Status",
+    "contact": "Makipag-ugnayan sa Amin",
+    "help": "Help Center",
+    "status": "Status Page",
     "iosDownload": "iOS / App Store",
     "androidDownload": "Android / Google Play",
     "privacy": "Patakaran sa Privacy",
@@ -313,26 +1568,25 @@
     "cookies": "Mga Setting ng Cookie",
     "doNotSell": "Huwag Ibenta ang Aking Impormasyon",
     "language": "Wika",
-    "contactShort": "Contact",
-
+    "contactShort": "Makipag-ugnayan",
     "aria": "Footer",
-    "homeAria": "Home ng Chatforia",
+    "homeAria": "Chatforia home",
     "section": {
       "company": "KOMPANYA",
       "support": "SUPORTA",
-      "downloads": "DOWNLOADS",
+      "downloads": "MGA DOWNLOAD",
       "legal": "LEGAL"
     },
     "links": {
       "plans-pricing": "Mga Plano at Presyo",
       "about-chatforia": "Tungkol sa Chatforia",
-      "careers": "Trabaho",
+      "careers": "Mga Karera",
       "press": "Press",
       "advertise": "Mag-advertise",
       "getting-started": "Pagsisimula",
-      "help-center": "Sentro ng Tulong",
-      "contact-us": "Makipag-ugnayan",
-      "status-page": "Pahina ng Status",
+      "help-center": "Help Center",
+      "contact-us": "Makipag-ugnayan sa Amin",
+      "status-page": "Status Page",
       "ios-app-store": "iOS / App Store",
       "android-google-play": "Android / Google Play",
       "privacy-policy": "Patakaran sa Privacy",
@@ -348,637 +1602,91 @@
       "x": "X"
     },
     "copyright": "© Chatforia",
-    "patentPending": "Nakabinbing patent",
+    "patentPending": "Patent pending",
     "backToTop": "↑ Bumalik sa itaas"
   },
-
-  "home": {
-    "title": "Home",
-    "header": "Iyong mga mensahe",
-    "subheader": "Magpadala ng mensahe para magsimula ng chat.",
-    "sendButton": "Magpadala ng mensahe",
-    "gifPicker": "Buksan ang GIF picker",
-    "emoji": "Emoji",
-    "upload": "Mag-upload ng larawan o bidyo",
-    "inputPlaceholder": "Mag-type ng mensahe…",
-    "inputLabel": "Tagapag-compose ng mensahe",
-    "sendTooltip": "Ipadala",
-    "sendTooltipEmpty": "Mag-type ng mensahe upang maipadala",
-    "send": "Ipadala",
-    "welcomeMessage": "Welcome sa Chatforia",
-    "getStarted": "Magsimula"
-  },
-
   "press": {
     "title": "Press",
-    "contactLine": "Para sa media inquiries, makipag-ugnayan sa",
+    "contactLine": "Para sa media inquiries, makipag-ugnayan sa amin sa",
     "boilerplateTitle": "Boilerplate",
-    "boilerplateBody": "Ang Chatforia ay isang messaging app na inuuna ang privacy at ginagawang madali ang pakikipag-usap sa iba’t ibang wika. Ang mga mensahe ay end-to-end na naka-encrypt bilang default, at ang built-in na pagsasalin ay sumusuporta sa 100+ wika sa real time. Maaaring i-enable ng mga user ang naglalahong mensahe, opsyonal ang read receipts, at i-sync ang mga device. Available sa iOS, Android, at web.",
-    "assetsTitle": "Mga asset ng brand",
-    "assetsSubtitle": "Mga logo, screenshot, at larawan ng produkto.",
+    "boilerplateBody": "Ang Chatforia ay isang privacy-first na messaging app na ginagawang madali ang cross-language chat. Ang mga mensahe ay end-to-end encrypted bilang default, at ang built-in na translation ay sumusuporta sa 100+ wika sa real time. Maaaring i-enable ng mga user ang nawawalang mensahe, panatilihing opsyonal ang read receipts, at mag-sync sa mga device. Available sa iOS, Android, at web.",
+    "assetsTitle": "Brand assets",
+    "assetsSubtitle": "Mga logo, screenshot, at product imagery.",
     "downloadCta": "I-download ang media kit",
     "downloadTitle": "Kunin ang app",
-    "scanTip": "Nasa desktop? I-scan gamit ang iyong telepono para kunin ang app.",
-    "qrAria": "Buksan ang website ng Chatforia",
+    "scanTip": "Sa desktop? I-scan gamit ang iyong phone para kunin ang app.",
+    "qrAria": "Buksan ang Chatforia website",
     "appStore": "I-download sa App Store",
     "googlePlay": "Kunin sa Google Play"
   },
-
   "careers": {
-    "title": "Trabaho",
-    "intro": "Maliit kaming team na gumagawa ng pribado at pandaigdigang messenger. Kung mahalaga sa’yo ang encryption, accessibility, at maginhawang UX, gusto ka naming marinig.",
-    "openRoles": "<b>Mga bukas na posisyon:</b> Engineering (Full-stack, iOS, Android), Product, Support.",
-    "apply": "<b>Paano mag-apply:</b> I-email ang iyong resume/mga link sa <a href=\"mailto:jobs@chatforia.com\">jobs@chatforia.com</a>.",
-    "emailCta": "I-email ang iyong resume"
+    "title": "Mga Karera",
+    "intro": "Kami ay isang maliit na founding team na gumagawa ng Chatforia — isang pribado, global na messenger na ilulunsad sa web, iOS, at Android. Kung pinahahalagahan mo ang privacy, encryption, at kaaya-ayang user experiences, gustong-gusto naming marinig mula sa iyo.",
+    "openRoles": "<b>Bukas na founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security at Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
+    "apply": "Paano mag-apply: Gamitin ang button sa ibaba upang i-email ang iyong resume at mga link.",
+    "emailCta": "I-email ang iyong resume",
+    "whyNow": "Bakit sumali ngayon?",
+    "whyBullets": "• Tulungan ang pagbuo ng pundasyon ng isang bagong global na messenger.\n• I-ship ang mga pagpapabuti na ginagamit sa web, iOS, at Android.\n• Magtrabaho nang diretso sa founder sa arkitektura at direksyon ng produkto.\n• Pag-aariin ang mga high-impact na bahagi ng stack: messaging, voice, video, encryption, telecom, AI.\n• Sumali sa simula — bago lumaki ang user base."
   },
-
   "about": {
     "title": "Tungkol sa Chatforia",
-    "description": "Ang Chatforia ay isang ligtas at multilingguwal na messenger na may end-to-end encryption, agarang pagsasalin, at voice/video calling. Simple ang aming misyon: tulungan ang mga tao na magkakonekta—ligtas, pribado, at sa kabila ng wika.",
-    "valuesTitle": "Ang pinahahalagahan namin",
+    "description": "Ang Chatforia ay isang secure, multilingual na messenger na may end-to-end encryption, instant translation, at voice/video calling. Ang aming misyon ay simple: tulungan ang mga tao na kumonekta — ligtas, pribado, at sa iba't ibang wika.",
+    "valuesTitle": "Ano ang pinahahalagahan namin",
     "values": {
-      "privacy": "<bold>Privacy-first:</bold> E2E encryption bilang default.",
-      "access": "<bold>Access para sa lahat:</bold> Awtomatikong isalin ang 100+ wika.",
-      "control": "<bold>Kontrol:</bold> Opsyonal ang naglalahong mga mensahe at read receipts.",
+      "privacy": "<b>Privacy-first:</b> E2E encryption bilang default.",
+      "access": "<b>Access para sa lahat:</b> Auto-translate 100+ wika.",
+      "control": "<b>Kontrol:</b> Opsyonal ang nawawalang mensahe at read receipts.",
       "privacy_aria": "Privacy-first: E2E encryption bilang default.",
-      "access_aria": "Access para sa lahat: Awtomatikong isalin ang 100+ wika.",
-      "control_aria": "Kontrol: Opsyonal ang naglalahong mga mensahe at read receipts."
+      "access_aria": "Access para sa lahat: Auto-translate 100+ wika.",
+      "control_aria": "Kontrol: Opsyonal ang nawawalang mensahe at read receipts."
     },
     "howTitle": "Paano gumagana ang Chatforia",
-    "howDescription": "Nai-e-encrypt ang mga mensahe sa iyong device bago umalis. Ang pagsasalin, backup, at pag-sync ng device ay dinisenyo para bawasan ang kayang makita ng aming mga server."
-    },
-
+    "howDescription": "Naka-encrypt ang mga mensahe sa iyong device bago ito umalis. Dinisenyo ang translation, backups, at device sync upang mabawasan ang makikita ng aming mga server."
+  },
   "advertise": {
-    "title": "Mag-advertise kasama ang Chatforia",
-    "description": "Abutin ang aktibong mga user ng pagmemensahe gamit ang maayos at brand-safe na mga placement. Nag-aalok kami ng banner sa matataas na visibility, sponsorships, at house promos. Hindi nakakakita ng ads ang Premium subscribers.",
+    "title": "Mag-advertise sa Chatforia",
+    "description": "Abutin ang mga engaged na messaging users sa pamamagitan ng tasteful, brand-safe na placements. Nag-aalok kami ng banner inventory sa high-visibility na spots, sponsorships, at house promos. Ang mga premium subscribers ay hindi nakakakita ng ads.",
     "adsense": {
-      "withPubId": "Kasalukuyan kaming nagse-serve ng ads sa pamamagitan ng <b>Google AdSense</b>. Kung nais ninyo kaming i-target sa Google Ads, gamitin ang publisher ID <code>{{pubId}}</code> at humiling ng managed placement sa aming mga unit sa ibaba. May direktang sponsorships — gamitin ang form.",
-      "noPubId": "Kasalukuyan kaming nagse-serve ng ads sa pamamagitan ng <b>Google AdSense</b>. May direktang sponsorships din — gamitin ang form sa ibaba."
+      "withPubIdShort": "Nag-serve din kami ng inventory sa pamamagitan ng Google AdSense. Maaari mong i-target ang Chatforia gamit ang publisher ID {{pubId}}, o gamitin ang form sa ibaba para sa direktang sponsorships.",
+      "noPubIdShort": "Nag-serve din kami ng ilang inventory sa pamamagitan ng Google AdSense. Available ang direktang sponsorships — gamitin ang form sa ibaba."
     },
     "inventoryHeader": "Inventory at Specs",
     "placement": {
       "displayBadge": "Display",
-      "acceptedSizes": "Tinatanggap na sukat",
+      "acceptedSizes": "Mga tinatanggap na laki",
       "adsenseSlot": "AdSense slot:"
     },
-    "noPlacements": "Wala pang naka-configure na placements. Idagdag sa ads/placements.js.",
+    "noPlacementsPublic": "Pinapangwakas namin ang aming ad inventory. Sabihin sa amin ang tungkol sa iyong campaign at irerekomenda namin ang mga placement.",
     "whyHeader": "Bakit Chatforia?",
     "why": {
-      "highSession": "Mataas ang dalas ng session at tagal ng paglagi sa chat UI",
-      "brandSafe": "Brand-safe na mga format; may pag-iingat sa dalas",
-      "sponsoredMoments": "Available ang sponsored moments (hal., “Start a Chat” modal)",
-      "deals": "Direktang deal o programmatic sa pamamagitan ng AdSense/Google Ads"
+      "highSession": "Mataas na session frequency at dwell time sa chat UI",
+      "brandSafe": "Brand-safe na formats; magalang na frequency capping",
+      "sponsoredMoments": "Available ang sponsored moments (hal., “Simulan ang Chat” modal)",
+      "deals": "Direktang deals o programmatic sa pamamagitan ng AdSense/Google Ads"
     },
-    "contactHeader": "Kontakin",
+    "contactHeader": "Makipag-ugnayan",
     "form": {
-      "submittedMsg": "Salamat! Papunta na ang iyong inquiry. Susunod kaming makikipag-ugnayan.",
-      "missingRequired": "Pakisagutan ang pangalan, email, at mensahe.",
+      "submittedMsg": "Salamat! Nasa daan na ang iyong inquiry. Makikipag-ugnayan kami sa lalong madaling panahon.",
+      "missingRequired": "Pakipunan ang pangalan, email, at mensahe.",
       "successToast": "Salamat! Makikipag-ugnayan kami sa lalong madaling panahon.",
       "mailtoInfo": "Binubuksan ang iyong email client upang ipadala ang inquiry…",
       "nameLabel": "Iyong pangalan",
-      "namePlaceholder": "Juan Dela Cruz",
+      "namePlaceholder": "Jane Doe",
       "emailLabel": "Email",
-      "emailPlaceholder": "ikaw@kumpanya.com",
-      "companyLabel": "Kumpanya",
+      "emailPlaceholder": "you@company.com",
+      "companyLabel": "Kompanya",
       "companyPlaceholder": "Acme Inc.",
       "budgetLabel": "Buwanang budget (opsyonal)",
-      "budgetPlaceholder": "$5,000",
-      "messageLabel": "Ikuwento ang iyong kampanya",
-      "messagePlaceholder": "Targeting, petsa, KPI, gusto sa placement…",
+      "budgetPlaceholder": "hal. $1,000–$20,000+",
+      "messageLabel": "Sabihin sa amin ang tungkol sa iyong campaign",
+      "messagePlaceholder": "Targeting, mga petsa, KPIs, placement preferences…",
       "sendCta": "Ipadala ang inquiry"
     },
     "legal": {
-      "disclaimerStart": "Sa pagsusumite, sumasang-ayon ka sa aming",
+      "disclaimerStart": "Sa pamamagitan ng pagsusumite, sumasang-ayon ka sa aming",
       "terms": "Mga Tuntunin",
       "and": "at",
       "privacy": "Patakaran sa Privacy"
-    }
-  },
-
-  "upgrade": {
-    "title": "Mag-upgrade",
-    "subtitle": "I-unlock ang tamang plano para sa’yo: maging ad-free sa Plus, o kunin ang buong features sa Premium.",
-    "perMonth": "buwan",
-    "perYear": "taon",
-    "goPremium": "Mag-Premium",
-    "benefitsLine": "I-unlock ang makapangyarihang features at alisin ang ads.",
-    "ctaText": "Mag-upgrade",
-    "aria": "Mag-upgrade sa Chatforia Premium",
-    "toggle": {
-      "monthly": "Buwan-buwan",
-      "annual": "Taunan (Makatipid ng 25%)"
-    },
-    "scheduleBanner": {
-      "title": "Matatapos ang subscription",
-      "body": "Babalik ka sa Free sa",
-      "keepPlanCta": "Panatilihin ang {{plan}}",
-      "manageBillingCta": "I-manage ang pagsingil"
-    },
-    "billing": {
-      "opening": "Binubuksan…",
-      "manage": "I-manage ang Pagsingil"
-    },
-    "checkout": {
-      "redirecting": "Nire-redirect…"
-    },
-    "auth": {
-      "continue": "Magpatuloy sa pag-login",
-      "createAccount": "Gumawa ng account",
-      "signIn": "Mag-sign in"
-    },
-    "cta": {
-      "aria": "Piliin ang plano",
-      "getPlus": "Mag-upgrade sa Plus",
-      "upgradeMonthly": "Mag-upgrade (Buwan-buwan)",
-      "upgradeAnnual": "Mag-upgrade (Taunan)"
-    },
-    "plans": {
-      "free": {
-        "title": "Free",
-        "price": "$0",
-        "desc": "Magsimulang mag-mensahe nang libre.",
-        "features": {
-          "msg": "1:1 at group messaging",
-          "aiBasic": "Pangunahing AI na tugon",
-          "attachments": "Karaniwang mga kalakip"
-        },
-        "ctaCurrent": "Kasalukuyang Plano",
-        "ctaUnavailable": "Lumipat sa Free (hindi available)",
-        "aria": "Free na plano (kasalukuyan)"
-      },
-      "plus": {
-        "title": "Plus",
-        "price": "$4.99 / buwan",
-        "desc": "Pinaka-abot-kayang ad-free na karanasan.",
-        "features": {
-          "noAds": "Alisin ang lahat ng ads",
-          "msg": "1:1 at group messaging",
-          "attachments": "Mas malalaking kalakip",
-          "aiBasic": "Pangunahing AI na tugon"
-        },
-        "badge": "Sikat",
-        "cta": "Maging Ad-Free",
-        "aria": "Mag-upgrade sa Plus"
-      },
-      "premiumMonthly": {
-        "title": "Premium (Buwan-buwan)",
-        "price": "$24.99 / buwan",
-        "desc": "Buong features, ringtones, at AI power tools.",
-        "features": {
-          "plusAll": "Lahat sa Plus",
-          "ringtones": "Custom na ringtones at tunog ng mensahe",
-          "powerAi": "Makapangyarihang AI features",
-          "priorityUpdates": "Prayoridad na updates",
-          "backups": "Mga backup at pag-sync ng device"
-        },
-        "badge": "Pinakamahusay na halaga",
-        "cta": "Mag-upgrade (Buwan-buwan)",
-        "aria": "Mag-upgrade sa Premium Buwan-buwan"
-      },
-      "premiumAnnual": {
-        "title": "Premium (Taunan)",
-        "price": "$225 / taon",
-        "desc": "Mas makakatipid kapag taunang siningil.",
-        "features": {
-          "allPremium": "Lahat sa Premium",
-          "annualBilling": "Taunang pagsingil",
-          "save25": "Makatipid ng ~25% kumpara sa buwan-buwan",
-          "sameFeatures": "Parehong features tulad ng Buwan-buwan"
-        },
-        "badge": "Makatipid ng 25%",
-        "cta": "Mag-upgrade (Taunan)",
-        "aria": "Mag-upgrade sa Premium Taunan",
-        "disclaimer": "Babayaran nang pauna. Maaaring kanselahin anumang oras. Walang nakatagong bayarin."
-      }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Magsimulang mag-mensahe nang libre.",
-      "plusTitle": "Plus",
-      "plusBadge": "Sikat",
-      "plusDesc": "Pinaka-abot-kayang ad-free na karanasan.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Buong features, ringtones, at AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Mas makakatipid kapag taunang siningil.",
-      "annualDisclaimer": "Babayaran nang pauna. Maaaring kanselahin anumang oras. Walang nakatagong bayarin."
-    }
-  },
-
-  "gettingStarted": {
-    "title": "Pagsisimula",
-    "subtitle": "Bago sa Chatforia? Ang mabilisang gabay na ito ang magpapaproductive sa’yo sa ilang minuto.",
-    "alert": {
-      "text": "Lalago pa ang gabay na ito habang naglulunsad kami ng mga bagong feature. Kung may kulang, ipaalam sa amin sa",
-      "contactLink": "Makipag-ugnayan"
-    },
-    "section1": {
-      "title": "1) Gumawa ng iyong account",
-      "signup": "Mag-sign up",
-      "or": "o",
-      "login": "mag-log in",
-      "loginText": "gamit ang iyong umiiral na account.",
-      "prefsStart": "I-set ang iyong",
-      "prefsLink": "mga preference",
-      "prefsRest": "(wika, read receipts, mga tema)."
-    },
-    "section2": {
-      "title": "2) Magsimulang mag-mensahe",
-      "item1": "Gumawa ng DM o Group at magpadala ng unang mensahe.",
-      "item2": "Gamitin ang agarang pagsasalin para makipag-chat sa 100+ wika.",
-      "item3": "Subukan ang naglalahong mga mensahe at read receipts sa Profile → Privacy."
-    },
-    "section3": {
-      "title": "3) Lumayo pa",
-      "item1Part1": "I-manage ang iyong plano sa",
-      "upgradeLink": "Upgrade",
-      "item1Part2": "page (Plus = ad-free, Premium = buong features).",
-      "item2Part1": "I-link ang karagdagang mga device at i-set up ang naka-encrypt na backup sa",
-      "settingsLink": "Settings"
-    },
-    "cta": {
-      "seePlans": "Tingnan ang mga plano",
-      "openSettings": "Buksan ang settings"
-    }
-  },
-
-  "helpCenter": {
-    "title": "Sentro ng Tulong",
-    "faq": {
-      "account": {
-        "q": "Paano ako gagawa o magre-recover ng account?",
-        "a": "I-download ang app o gamitin ang web, i-tap ang “Gumawa ng account”, i-verify ang iyong email/telepono. Para mag-recover, gamitin ang “Nakalimutan ang password”."
-      },
-      "privacy": {
-        "q": "End-to-end encrypted ba ang mga mensahe?",
-        "a": "Oo. Ang mga mensahe at tawag ay end-to-end na naka-encrypt bilang default. Ikaw at ang tatanggap lang ang makakabasa."
-      },
-      "translate": {
-        "q": "Paano gumagana ang agarang pagsasalin?",
-        "a": "I-enable ang “Awtomatikong isalin” sa Settings → Appearance & Language. Nagsasalin kami sa device kung suportado, kung hindi man sa mga secure na API na may minimal na metadata."
-      },
-      "contact": {
-        "q": "Makipag-ugnayan sa support",
-        "a": "Makipag-ugnayan sa support@chatforia.com. Isama ang mga screenshot at ang bersyon ng app mo."
-      }
-    }
-  },
-
-  "contact": {
-    "title": "Makipag-ugnayan",
-    "successMsg": "Salamat—sasagot ang aming team sa email.",
-    "errorSend": "Hindi naipadala. Paki-email ang support@chatforia.com.",
-    "form": {
-      "nameLabel": "Pangalan",
-      "emailLabel": "Email",
-      "messageLabel": "Mensahe",
-      "sendCta": "Ipadala"
-    }
-  },
-
-  "privacyPolicy": {
-    "title": "Patakaran sa Privacy",
-    "lastUpdated": "Huling na-update:",
-    "intro": {
-      "body": "Ipinaliliwanag ng Patakaran sa Privacy na ito kung paano nangongolekta, gumagamit, at nagbabahagi ng impormasyon ang Chatforia (“kami”, “amin”) kapag ginamit mo ang aming mga app at serbisyo. Dinisenyo namin ang Chatforia upang mabawasan ang datos na maaari naming makita."
-    },
-    "infoWeCollect": {
-      "title": "Impormasyong kinokolekta namin",
-      "account": "Impormasyon ng account (hal., email/telepono) para gawin at siguraduhin ang iyong account.",
-      "encrypted": "Naka-encrypt na nilalaman (mga mensahe/tawag) ay end-to-end na naka-encrypt; hindi namin ito mababasa.",
-      "diagnostics": "Diagnostic/paggamit tulad ng crash logs, uri ng device, o paunting analytics para pagandahin ang performance."
-    },
-    "howWeUse": {
-      "title": "Paano namin ginagamit ang impormasyon",
-      "provide": "Ibigay at siguraduhin ang serbisyo (auth, pagtuklas ng spam/abuso).",
-      "improve": "Pagandahin ang mga feature (kalidad ng pagsasalin, reliability).",
-      "legal": "Sumunod sa mga obligasyong legal."
-    },
-    "sharing": {
-      "title": "Pagbabahagi",
-      "body": "Hindi kami nagbebenta ng personal na datos. Maaari kaming magbahagi ng limitadong datos sa mga processor (hal., push notifications, analytics) sa ilalim ng mahigpit na kontrata."
-    },
-    "rights": {
-      "title": "Iyong mga karapatan",
-      "body": "Depende sa iyong rehiyon (hal., GDPR/UK GDPR/CPRA), maaari kang humiling ng access, pagwawasto, pagbura, o pag-opt-out sa ilang pagproseso. Contact: privacy@chatforia.com."
-    },
-    "retention": {
-      "title": "Pagpapanatili ng datos at seguridad",
-      "body": "Nagtatago lamang kami ng kailangan upang patakbuhin ang serbisyo at gumagamit ng pamantayang seguridad sa industriya. Ang E2E na nilalaman ay hindi namin madi-decrypt."
-    },
-    "children": {
-      "title": "Mga bata",
-      "body": "Hindi nakatuon ang Chatforia sa mga batang wala pang 13 (o ayon sa hinihingi ng iyong lokal na batas)."
-    },
-    "changes": {
-      "title": "Mga pagbabago",
-      "body": "Magpo-post kami ng mga update dito at aayusin ang petsa ng “Huling na-update”."
-    },
-    "contact": {
-      "title": "Makipag-ugnayan",
-      "body": "privacy@chatforia.com • [Legal na pangalan ng kumpanya], [Address]"
-    }
-  },
-
-  "terms": {
-    "title": "Mga Tuntunin ng Serbisyo",
-    "lastUpdated": "Huling na-update:",
-    "intro": {
-      "body": "Sa paggamit ng Chatforia, sumasang-ayon ka sa mga Tuntuning ito. Kung hindi ka sumasang-ayon, huwag gamitin ang serbisyo."
-    },
-    "accounts": {
-      "title": "Mga account",
-      "itemAccurateInfo": "Magbigay ng tumpak na impormasyon at panatilihing ligtas ang mga kredensyal.",
-      "itemResponsibility": "Ikaw ang responsable sa aktibidad sa iyong account."
-    },
-    "acceptableUse": {
-      "title": "Katanggap-tanggap na paggamit",
-      "itemNoAbuse": "Walang ilegal, mapang-abuso, o lumalabag na nilalaman; walang spam o awtomatikong pang-aabuso.",
-      "itemSuspend": "Maaari naming suspindihin/ihinto para sa mga paglabag."
-    },
-    "yourContent": {
-      "title": "Iyong nilalaman",
-      "body": "Mananatili ang iyong mga karapatan sa iyong nilalaman. Binibigyan mo kami ng kinakailangang karapatan para patakbuhin ang serbisyo (hal., pag-route, storage, pagsasalin)."
-    },
-    "disclaimer": {
-      "title": "Mga disclaimer at pananagutan",
-      "body": "Ibinibigay ang serbisyo “as is” nang walang warranty. Hangga’t pinahihintulutan ng batas, hindi mananagot ang Chatforia sa hindi tuwirang o bungaing pinsala."
-    },
-    "changes": {
-      "title": "Mga pagbabago",
-      "body": "Maaari naming i-update ang mga tuntunin; ang patuloy na paggamit pagkatapos ng pagbabago ay nangangahulugang pagtanggap."
-    },
-    "contact": {
-      "title": "Makipag-ugnayan",
-      "body": "support@chatforia.com • [Legal na pangalan ng kumpanya], [Address]"
-    }
-  },
-
-  "doNotSell": {
-    "title": "Huwag Ibenta o Ibahagi ang Aking Personal na Impormasyon",
-    "body": "Hindi nagbebenta ang Chatforia ng personal na impormasyon. Maaari pa ring magsumite ng kahilingan ang mga residente ng California sa ilalim ng CPRA gamit ang button sa ibaba.",
-    "cta": "Magsumite ng kahilingan"
-  },
-
-  "cookies": {
-    "title": "Mga Setting ng Cookie",
-    "body": "Gumagamit ang Chatforia ng minimal na cookies (hal., session, seguridad). Hindi kami gumagamit ng third-party ads cookies. Pamahalaan ang cookies sa settings ng iyong browser."
-  },
-
-  "phoneNumberManager": {
-    "unableToLoadStatus": "Hindi ma-load ang status ng numero ng telepono.",
-    "lock": "I-lock",
-    "noNumberAssigned": "Walang nakatalagang numero. Pumili ayon sa area code para makapagsimulang mag-text.",
-    "pickNumber": "Pumili ng numero",
-    "phoneNumber": "Numero ng telepono"
-  },
-
-  "startChatModal": {
-    "title": "Magsimula ng chat",
-    "quickPicker": "Mabilis na picker",
-    "to": "Para kay",
-    "nameOrUsername": "Mag-type ng pangalan, username",
-    "nameUsernamePhoneEmail": "Mag-type ng pangalan, username, telepono, o email…",
-    "startWithSelected": "Simulan ang chat sa mga napili",
-    "searchByUsernameOrPhone": "Maghanap ayon sa username o telepono",
-    "search": "Hanapin",
-    "searchPrompt": "Mag-type ng username o telepono at pindutin ang Hanapin.",
-    "pickFromContacts": "O pumili mula sa mga contact",
-    "addContact": "Magdagdag ng Contact",
-    "show": "Ipakita",
-    "add": "Idagdag",
-    "close": "Isara",
-    "selectedCount": "{{count}} napili",
-    "pickAtLeastOne": "Pumili ng kahit isang tatanggap.",
-    "saveContactsHint": "Magiging available ang mga entry ng telepono/email pagkatapos mong i-save bilang mga contact.",
-    "failedBulkStart": "Nabigong magsimula ng chat sa mga napiling tatanggap.",
-    "noResults": "Walang resulta",
-    "mode": "Mode",
-    "group": "Group",
-    "broadcast": "Broadcast",
-    "groupNameOptional": "Pangalan ng group (opsyonal)",
-    "firstMessageOptional": "Unang mensahe (opsyonal ngunit inirerekomenda)",
-    "createGroup": "Gumawa ng group",
-    "sendBroadcast": "Magpadala ng broadcast"
-  },
-
-  "themes": {
-    "amoled": "Amoled",
-    "aurora": "Aurora",
-    "neon": "Neon",
-    "sunset": "Sunset",
-    "solarized": "Solarized",
-    "velvet": "Velvet"
-  },
-
-  "sounds": {
-    "freeNotice": "Nasa Free ka — ipinapakita ngunit naka-lock ang premium na mga tunog. Mag-upgrade para ma-unlock ang lahat.",
-    "preview": "I-preview",
-    "resetToDefaults": "I-reset sa default",
-    "notificationSounds": "Mga Tunog ng Notipikasyon",
-    "messageTone": "Tono ng mensahe",
-    "default": "Default",
-    "vibrate": "Vibrate",
-    "dreamer": "Dreamer",
-    "notify": "Notify",
-    "pop": "Pop",
-    "pulsatingSound": "Pulsating Sound",
-    "textMessage": "Text Message",
-    "xylophone": "Xylophone",
-    "classic": "Classic",
-    "urgency": "Urgency",
-    "bells": "Bells",
-    "chimes": "Chimes",
-    "digitalPhone": "Digital Phone",
-    "melodic": "Melodic",
-    "organNotes": "Organ Notes",
-    "soundReality": "Sound Reality",
-    "street": "Street",
-    "universfield": "Universfield"
-  },
-
-  "premiumGuard": {
-    "requiresPremium": "Kailangang Premium na plano ang tampok na ito."
-  },
-
-  "aiSettings": {
-    "title": "Mga Setting ng AI",
-    "controlIntro": "Kontrolin ang pagsasalin, smart replies, at auto-responses ng ForiaBot.",
-    "save": "I-save ang Mga Setting ng AI",
-    "autoTranslateIncoming": "Awtomatikong isalin ang mga papasok na mensahe",
-    "showOriginalAlongside": "Ipakita ang orihinal na teksto kasabay ng salin",
-    "enableSmartReplies": "I-enable ang Smart Replies",
-    "smartRepliesHint": "Ipadala sa AI ang huling ilang natanggap na mensahe (sanitized) para magmungkahi ng mabilis na tugon.",
-    "maskProfanity": "Takpan ang kabastusan sa mga mungkahi ng AI",
-    "maskProfanityHint": "Kung naka-on, ang mga mungkahi mula sa AI ay may mask sa mga salitang may bandila",
-    "foriaBot": "ForiaBot Auto-Responder",
-    "enableAutoReply": "I-enable ang auto-reply kapag abala ako",
-    "autoReplyMode": "Mode ng auto-reply",
-    "cooldownSeconds": "Cooldown (segundo)",
-    "off": "Off",
-    "on": "On",
-    "signature": "Lagda",
-    "autoReply": "Auto-reply",
-    "activeUntilOptional": "Aktibo hanggang (opsyonal)",
-    "saved": "Nai-save ang mga preference ng AI",
-    "saveFailed": "Nabigong i-save ang mga setting ng AI",
-    "translateOff": "Off",
-    "translateTagged": "Kapag @translated o tinag lamang",
-    "translateAll": "Isalin lahat ng papasok na mensahe",
-    "modeDm": "1:1 chats lang",
-    "modeMention": "Kapag ako ay @na-mention lamang",
-    "modeAll": "Lahat ng papasok na mensahe"
-  },
-
-  "accessibilitySettings": {
-    "title": "Accessibility at Alerto",
-    "accessibility": "Accessibility",
-    "accessibilityDesc": "Mga opsyon upang gawing mas madaling gamitin ang Chatforia nang hindi umaasa sa tunog.",
-    "interfaceFontSize": "Laki ng font ng interface",
-    "interfaceFontSizeHelp": "Nagsisimula sa normal na laki. Dagdagan kung mas gusto mo ng mas malaking teksto sa accessibility settings.",
-    "sm": "sm",
-    "md": "md",
-    "lg": "lg",
-    "xl": "xl",
-    "notifications": "Mga notipikasyon",
-    "notificationsDesc": "Mga biswal na alerto para sa mga mensahe at tawag\nMagpakita ng mga banner at pag-kurap ng title para hindi ka makaligtaan.",
-    "vibrateOnNew": "Mag-vibrate sa bagong mga mensahe (kung suportado)\nI-trigger ang vibration ng device kasama ng mga notipikasyon.",
-    "flashOnCall": "Mag-flash ng screen sa papasok na tawag\nMabilis na maliwanag na flash kapag may tawag.",
-    "liveCaptions": "Live captions (mga tawag)",
-    "captionFontSize": "Laki ng font ng caption",
-    "captionBackground": "Background ng caption",
-    "light": "light",
-    "dark": "dark",
-    "transparent": "transparent",
-    "voiceNotes": "Mga voice note",
-    "autoTranscribeVoiceNotes": "Awtomatikong i-transcribe ang mga voice note\nMag-attach ng transcript sa mga audio message na matatanggap mo.",
-    "changesSavedInstantly": "Awtomatikong nai-save ang mga pagbabago.",
-    "loadFailed": "Nabigong i-load ang mga setting",
-    "visualAlerts": "Mga biswal na alerto para sa mga mensahe at tawag",
-    "visualAlertsDesc": "Magpakita ng mga banner at pag-kurap ng title upang hindi ka makaligtaan.",
-    "vibrateOnNewShort": "Mag-vibrate sa bagong mga mensahe (kung suportado)",
-    "vibrateOnNewDesc": "I-trigger ang vibration ng device kasama ng mga notipikasyon.",
-    "flashOnCallShort": "Mag-flash ng screen sa papasok na tawag",
-    "flashOnCallDesc": "Mabilis na maliwanag na flash kapag may tawag."
-  },
-
-  "privacySection": {
-    "strictE2EE": "Mahigpit na end-to-end encryption",
-    "ciphertextOnlyNote": "Ciphertext lamang ang itinatago sa server. Idi-disable ang AI/Translate at moderation previews."
-  },
-
-  "linkedDevicesPanel": {
-    "title": "Nakaugnay na Mga Device",
-    "noneFound": "Walang nakitang nakaugnay na device.",
-    "refresh": "I-refresh"
-  },
-
-  "help": {
-    "title": "Tulong",
-    "howCanWeHelp": "Paano kami makakatulong?",
-    "helpCenter": "Sentro ng Tulong",
-    "contactUs": "Makipag-ugnayan",
-    "quickTopics": "Mabilis na paksa",
-    "searchExamples": "Subukang hanapin ang “translate”, “backups”, o “privacy”.",
-    "cantLogin": "Hindi makapag-login",
-    "paymentsBilling": "Mga bayad/pagsingil",
-    "reportAbuse": "I-report ang pang-aabuso",
-    "searchHelpArticles": "Maghanap ng mga artikulo ng tulong",
-    "search": "Hanapin"
-  },
-
-  "peoplePage": {
-    "people": "Mga tao",
-    "search": "Hanapin",
-    "searchPlaceholder": "Maghanap ayon sa alias, pangalan, username, o telepono",
-    "filterSaved": "I-filter ang na-save na mga contact",
-    "noContactsFound": "Walang nahanap na contact",
-    "quickStart": "Mabilis na pagsisimula",
-    "quickStartDesc": "Ilang mabilis na paraan para makapag-umpisa.",
-    "importContacts": "I-import ang iyong mga contact",
-    "add": "Idagdag",
-    "focusSearch": "Tutukan ang Paghahanap",
-    "import": "I-import",
-    "findOrAdd": "Maghanap o magdagdag ng isang tao",
-    "searchByPhoneOrUsername": "Maghanap ayon sa telepono / username",
-    "inviteFriends": "Anyayahan ang mga kaibigan",
-    "inviteDesc": "Ibahagi ang iyong invite link para makapagsimulang makipag-chat kaagad.",
-    "getTheApp": "Kunin ang app",
-    "getTheAppDesc": "Manatiling konektado on the go gamit ang Chatforia para sa iOS at Android.",
-    "download": "I-download",
-    "syncTip": "Tip: Nananatiling naka-sync ang iyong mga mensahe sa web at mobile."
-  },
-
-  "randomChat": {
-    "title": "Random Chat",
-    "description": "Makipagkilala agad sa bago. Ipapares ka namin at magbubukas ng pansamantalang chat room.",
-    "findMatch": "Humanap ng kapareha",
-    "chatWithForia": "Makipag-chat kay Foria",
-    "chatWithForiaBot": "Makipag-chat kay ForiaBot",
-    "cancel": "Kanselahin",
-    "close": "Isara",
-    "searching": "Naghahanap…",
-    "finding": "Humahanap…",
-    "looking": "Naghahanap ng makakausap…",
-    "startingForia": "Sinisimulan ang chat kay Foria…",
-    "partnerDisconnected": "Nag-disconnect ang iyong kapareha.",
-    "noPartner": "Walang nahanap na kapareha sa ngayon.",
-    "connectedTo": "Nakakonekta kay {{name}}",
-    "connected": "Nakakonekta",
-    "idle": "Idle",
-    "partnerLeft": "Umalis ang kapareha.",
-    "stopped": "Huminto.",
-    "skip": "Laktawan",
-    "save": "I-save",
-    "saveGuard": "Mga chat lang ng tao-sa-tao ang puwedeng i-save",
-    "youAreChattingWith": "Nakikipag-chat ka kay {{name}}",
-    "bot": "BOT",
-    "leave": "Umalis",
-    "sayHi": "Mag-hello 👋",
-    "you": "Ikaw",
-    "typeMessage": "Mag-type ng mensahe",
-    "send": "Ipadala",
-    "partner": "Kapareha",
-    "withForia": "Kasama si Foria"
-  },
-
-  "brand": {
-    "name": "Chatforia",
-    "foria": "Foria"
-  },
-
-  "header": {
-    "openNav": "Buksan ang navigation menu",
-    "closeNav": "Isara ang navigation menu",
-    "homeAria": "Home ng Chatforia"
-  },
-
-  "login": {
-    "subtitle": "Mag-log in sa iyong Chatforia account",
-    "google": "Magpatuloy gamit ang Google",
-    "apple": "Magpatuloy gamit ang Apple",
-    "googleUnavailable": "Hindi available ang pag-sign in sa Google",
-    "appleUnavailable": "Hindi available ang pag-sign in sa Apple",
-    "or": "o",
-    "email": "Email",
-    "emailPh": "ikaw@example.com",
-    "usernameLabel": "Username",
-    "usernamePh": "Iyong username",
-    "passwordLabel": "Password",
-    "passwordPh": "Iyong password",
-    "keepSignedIn": "Panatilihing naka-sign in",
-    "forgot": "Nakalimutan ang password?",
-    "submit": "Mag-log In",
-    "loggingIn": "Nagla-log in…",
-    "newHere": "Bago ka rito? <link>Gumawa ng account</link>",
-    "ssoUnavailable": "Hindi kasalukuyang available ang single-sign-on. Gumamit ng username at password.",
-    "error": {
-      "missing": "Pakilagay ang iyong mga kredensyal.",
-      "invalid": "Di-wastong username o password",
-      "denied": "Access tinanggihan.",
-      "unprocessable": "Di-wastong request. Suriin ang iyong username/email at password.",
-      "deviceLimit": "Naabot ang limit ng device para sa Free na plano. Mag-logout sa ibang device o mag-upgrade sa Premium para makapag-link ng mas maraming device.",
-      "premiumRequired": "Kailangan ng Premium na plano para sa aksyong ito."
     }
   }
 }
