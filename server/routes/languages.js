@@ -7,9 +7,6 @@ export const LANGUAGES = [
   { code: 'am', name: 'Amharic' },
   { code: 'ar', name: 'Arabic' },
   { code: 'hy', name: 'Armenian' },
-  { code: 'as', name: 'Assamese' },
-
-
   { code: 'az', name: 'Azerbaijani' },
   { code: 'bm', name: 'Bambara' },
   { code: 'eu', name: 'Basque' },
@@ -17,31 +14,20 @@ export const LANGUAGES = [
   { code: 'bn', name: 'Bengali' },
   { code: 'bh', name: 'Bhojpuri' },
   { code: 'bs', name: 'Bosnian' },
-
   { code: 'br', name: 'Breton' },
-
   { code: 'bg', name: 'Bulgarian' },
-
   { code: 'my', name: 'Myanmar (Burmese)' },
-
   { code: 'ca', name: 'Catalan' },
-
   { code: 'yue', name: 'Cantonese' },
-
   { code: 'ceb', name: 'Cebuano' },
   { code: 'zh-CN', name: 'Chinese (Simplified)' },
   { code: 'zh-TW', name: 'Chinese (Traditional)' },
-
   { code: 'co', name: 'Corsican' },
-
   { code: 'hr', name: 'Croatian' },
   { code: 'cs', name: 'Czech' },
   { code: 'da', name: 'Danish' },
-
   { code: 'prs', name: 'Dari (Afghan Persian)' },
-
   { code: 'dv', name: 'Dhivehi' },
-
   { code: 'nl', name: 'Dutch' },
   { code: 'dz', name: 'Dzongkha' },
   { code: 'en', name: 'English' },
@@ -67,9 +53,7 @@ export const LANGUAGES = [
   { code: 'hu', name: 'Hungarian' },
   { code: 'is', name: 'Icelandic' },
   { code: 'ig', name: 'Igbo' },
-
   { code: 'ilo', name: 'Iloko' },
-
   { code: 'id', name: 'Indonesian' },
   { code: 'ga', name: 'Irish' },
   { code: 'it', name: 'Italian' },
@@ -88,9 +72,7 @@ export const LANGUAGES = [
   { code: 'la', name: 'Latin' },
   { code: 'lv', name: 'Latvian' },
   { code: 'ln', name: 'Lingala' },
-
   { code: 'lg', name: 'Luganda' },
-
   { code: 'lt', name: 'Lithuanian' },
   { code: 'lb', name: 'Luxembourgish' },
   { code: 'mk', name: 'Macedonian' },
@@ -101,44 +83,31 @@ export const LANGUAGES = [
   { code: 'mt', name: 'Maltese' },
   { code: 'mi', name: 'Maori' },
   { code: 'mr', name: 'Marathi' },
-
   { code: 'mni-Mtei', name: 'Meiteilon (Manipuri)' },
-
   { code: 'mn', name: 'Mongolian' },
-
   { code: 'zgh', name: 'Moroccan' },
-
   { code: 'ne', name: 'Nepali' },
   { code: 'nso', name: 'Northern Sotho (Sepedi)' },
   { code: 'no', name: 'Norwegian' },
   { code: 'oc', name: 'Occitan' },
   { code: 'or', name: 'Odia (Oriya)' },
   { code: 'om', name: 'Oromo' },
-  
   { code: 'pam', name: 'Pampangan (Kapampangan)' },
-
   { code: 'pap', name: 'Papiamento' },
   { code: 'ps', name: 'Pashto' },
   { code: 'fa', name: 'Persian' },
   { code: 'pl', name: 'Polish' },
-
   { code: 'pt', name: 'Portuguese' },
-
   { code: 'pa', name: 'Punjabi' },
-
   { code: 'qu', name: 'Quechua' },
-
   { code: 'ro', name: 'Romanian' },
   { code: 'ru', name: 'Russian' },
   { code: 'sm', name: 'Samoan' },
   { code: 'sa', name: 'Sanskrit' },
   { code: 'gd', name: 'Scots Gaelic' },
   { code: 'sr', name: 'Serbian' },
-
   { code: 'scn', name: 'Sicilian' },
   { code: 'szl', name: 'Silesian' },
-
-  { code: 'shn', name: 'Shan' },
   { code: 'sn', name: 'Shona' },
   { code: 'sd', name: 'Sindhi' },
   { code: 'si', name: 'Sinhala' },
@@ -160,9 +129,7 @@ export const LANGUAGES = [
   { code: 'th', name: 'Thai' },
   { code: 'bo', name: 'Tibetan' },
   { code: 'ti', name: 'Tigrinya' },
-
   { code: 'tpi', name: 'Tok Pisin' },
-  
   { code: 'to', name: 'Tongan' },
   { code: 'tr', name: 'Turkish' },
   { code: 'tk', name: 'Turkmen' },
