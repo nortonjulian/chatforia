@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Group, Select, Slider, Button, Stack, Text, Alert, Anchor, Divider } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
-
+import { useTranslation } from 'react-i18next';
 import { useUser } from '../context/UserContext';
 // import { toast } from '../utils/toast';
 import axiosClient from '../api/axiosClient';
@@ -92,6 +92,7 @@ function ensureValidSelection(value, groupedOptions, plan) {
 export default function SoundSettings() {
   const { currentUser } = useUser();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const plan = String(currentUser?.plan || 'FREE').toUpperCase();
   const isPremium = plan === 'PREMIUM';
@@ -158,15 +159,15 @@ export default function SoundSettings() {
         const status = e?.response?.status;
         const code = e?.response?.data?.code;
         if (status === 402 || code === 'PREMIUM_REQUIRED') {
-          toast.err('Premium required for that selection.');
+          toast.err(t('sounds.premiumRequired', 'Premium required for that selection.'));
           return navigate('/settings/upgrade');
         }
         // If 404 or not implemented, just ignore silently and use local
       }
 
-      toast.ok('Sound settings saved.');
+      toast.ok(t('sounds.saved', 'Sound settings saved.'));
     } catch {
-      toast.err('Could not save sound settings.');
+      toast.err(t('sounds.saveFailed', 'Could not save sound settings.'));
     } finally {
       setSaving(false);
     }
@@ -176,7 +177,7 @@ export default function SoundSettings() {
     setMsg(DEFAULTS.messageTone);
     setRing(DEFAULTS.ringtone);
     setVol(DEFAULTS.volume);
-    toast.info('Reset to defaults (not yet saved).');
+    toast.info(t('sounds.resetNotSaved', 'Reset to defaults (not yet saved).'));
   };
 
   // Preview lengths (tweak to taste)
@@ -208,7 +209,7 @@ export default function SoundSettings() {
   return (
     <Stack gap="sm">
       <Group justify="space-between" align="center">
-        <Text fw={600}>Notification Sounds</Text>
+        <Text fw={600}>{t('sounds.notificationSounds', 'Notification Sounds')}</Text>
         <Button variant="subtle" size="xs" onClick={resetDefaults}>
           Reset to defaults
         </Button>
@@ -216,15 +217,16 @@ export default function SoundSettings() {
 
       {!isPremium && (
         <Alert variant="light" color="blue">
-          You’re on Free — premium tones are shown but locked.{' '}
-          <Anchor href="/settings/upgrade">Upgrade</Anchor> to unlock all.
+          {t('sounds.freeNoticeStart', 'You’re on Free — premium tones are shown but locked. ')}
+          <Anchor href="/settings/upgrade">{t('upgrade.title', 'Upgrade')}</Anchor>
+          {t('sounds.freeNoticeEnd', ' to unlock all.')}
         </Alert>
       )}
 
       {/* Message tone */}
       <Group gap="sm" align="end" wrap="wrap">
         <Select
-          label="Message tone"
+          label={t('sounds.messageTone', 'Message tone')}
           data={groupedMessage}
           value={messageTone}
           onChange={(v) => {
@@ -232,7 +234,7 @@ export default function SoundSettings() {
             const flatPrem = groupedMessage[1]?.items || [];
             const isPremPick = flatPrem.some((i) => i.value === v);
             if (isPremPick && !isPremium) {
-              toast.info('That’s a Premium tone.');
+              toast.info(t('sounds.premiumTone', 'That’s a Premium tone.'));
               return navigate('/settings/upgrade');
             }
             setMsg(v);
@@ -249,14 +251,16 @@ export default function SoundSettings() {
           onClick={handleMessagePreview}
           disabled={!messageTone}
         >
-          {previewState.playing && previewState.label === 'message' ? 'Stop' : 'Preview'}
+          {previewState.playing && previewState.label === 'message'
+            ? t('sounds.stop', 'Stop')
+            : t('sounds.preview', 'Preview')}
         </Button>
       </Group>
 
       {/* Ringtone */}
       <Group gap="sm" align="end" wrap="wrap">
         <Select
-          label="Ringtone"
+          label={t('sounds.ringtone', 'Ringtone')}
           data={groupedRing}
           value={ringtone}
           onChange={(v) => {
@@ -264,7 +268,7 @@ export default function SoundSettings() {
             const flatPrem = groupedRing[1]?.items || [];
             const isPremPick = flatPrem.some((i) => i.value === v);
             if (isPremPick && !isPremium) {
-              toast.info('That’s a Premium ringtone.');
+              toast.info(t('sounds.premiumRingtone', 'That’s a Premium ringtone.'));
               return navigate('/settings/upgrade');
             }
             setRing(v);
@@ -281,7 +285,9 @@ export default function SoundSettings() {
           onClick={handleRingPreview}
           disabled={!ringtone}
         >
-          {previewState.playing && previewState.label === 'ring' ? 'Stop' : 'Preview'}
+          {previewState.playing && previewState.label === 'ring'
+            ? t('sounds.stop', 'Stop')
+            : t('sounds.preview', 'Preview')}
         </Button>
       </Group>
 
@@ -290,7 +296,7 @@ export default function SoundSettings() {
       {/* Volume */}
       <div>
         <Group justify="space-between" mb={6}>
-          <Text size="sm">Volume</Text>
+          <Text size="sm">{t('sounds.volume', 'Volume')}</Text>
           <Text size="xs" c="dimmed">
             {(Math.round(volume * 100) || 0)}%
           </Text>
@@ -300,13 +306,9 @@ export default function SoundSettings() {
 
       <Group justify="flex-end">
         <Button onClick={onSave} loading={saving}>
-          Save
+          {t('common.save', 'Save')}
         </Button>
       </Group>
-
-      <Text size="xs" c="dimmed">
-        Files live in <code>client/public/sounds/Message_Tones</code> and <code>client/public/sounds/Ringtones</code>.
-      </Text>
     </Stack>
   );
 }

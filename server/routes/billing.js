@@ -45,6 +45,12 @@ async function verifyAppleTransaction(signedTransactionInfo) {
 
 const router = express.Router();
 
+const CHECKOUT_LINKS = {
+  PLUS_MONTHLY: process.env.LEMONSQUEEZY_CHECKOUT_PLUS_MONTHLY,
+  PREMIUM_MONTHLY: process.env.LEMONSQUEEZY_CHECKOUT_PREMIUM_MONTHLY,
+  PREMIUM_ANNUAL: process.env.LEMONSQUEEZY_CHECKOUT_PREMIUM_ANNUAL,
+};
+
 const COUNTRY_CURRENCY = {
   US: 'USD',
   CA: 'CAD',
@@ -283,75 +289,32 @@ router.get('/my-plan', async (req, res) => {
 
 router.post('/checkout', async (req, res) => {
   try {
-    if (!req.user?.id) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
+    const { plan } = req.body;
+    const userId = req.user?.id;
 
-    const userId = Number(req.user.id);
-    const plan = normalizePlanCode(req.body?.plan);
-
-    if (!['PLUS_MONTHLY', 'PREMIUM_MONTHLY', 'PREMIUM_ANNUAL'].includes(plan)) {
+    if (!plan || !CHECKOUT_LINKS[plan]) {
       return res.status(400).json({ error: 'Invalid plan' });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        billingCountry: true,
-        pricingRegion: true,
-        currency: true,
-      },
-    });
+    const baseUrl = CHECKOUT_LINKS[plan];
+    const url = new URL(baseUrl);
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    // 👇 CRITICAL: identify user on webhook return
+    url.searchParams.set('checkout[custom][userId]', String(userId));
 
-    const countryOverride = req.body?.country ? String(req.body.country) : undefined;
+    // 👇 redirect after success
+    url.searchParams.set(
+      'checkout[success_url]',
+      `${process.env.FRONTEND_ORIGIN}/upgrade-success`
+    );
 
-    let priceId = await resolvePaddlePriceIdForPlan(user, plan, { country: countryOverride });
-
-    if (!priceId) {
-      priceId = paddlePriceIdFromEnvForPlan(plan);
-    }
-
-    if (!priceId) {
-      return res.status(500).json({
-        error: 'No Paddle price configured for this plan',
-      });
-    }
-
-    const frontendOrigin =
-      process.env.FRONTEND_ORIGIN ||
-      process.env.WEB_URL ||
-      'http://localhost:5173';
-
-    const successUrl = `${frontendOrigin}/upgrade?success=1`;
-    const cancelUrl = `${frontendOrigin}/upgrade?canceled=1`;
-
-    const checkoutUrl = buildHostedPaddleCheckoutUrl({
-      priceId,
-      userId: user.id,
-      email: user.email,
-      successUrl,
-      cancelUrl,
-    });
-
-    return res.json({
-      checkoutUrl,
-      url: checkoutUrl,
-      priceId,
-      plan,
-    });
+    return res.json({ url: url.toString() });
   } catch (err) {
-    console.error('[billing/checkout] error:', err);
-    return res.status(500).json({
-      error: 'Unable to start checkout',
-    });
+    console.error('Checkout error:', err);
+    res.status(500).json({ error: 'Failed to start checkout' });
   }
 });
+
 
 router.post('/ios-sync', async (req, res) => {
   try {

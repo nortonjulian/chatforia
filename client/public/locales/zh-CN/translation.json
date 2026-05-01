@@ -1,5 +1,5 @@
 {
-  "common": {
+"common": {
       "save": "保存",
       "cancel": "取消",
       "refresh": "刷新",
@@ -7,7 +7,9 @@
       "cancelAria": "取消",
       "copy": "收到",
       "copied": "复制了！",
-      "errorWithMessage": "错误：{{message}}"
+      "errorWithMessage": "错误：{{message}}",
+      "loading": "加载中......",
+      "saveError": "存档失败"
     },
     "a11y": {
       "skipToMain": "跳转到主要内容"
@@ -103,7 +105,8 @@
     },
     "home": {
       "title": "首页",
-      "header": "你的留言",
+      "messagesTitle": "你的留言",
+      "messagesSubtitle": "在上方输入收件人，然后发送消息以开始对话。",
       "subheader": "发消息开始聊天。",
       "sendButton": "发送消息",
       "gifPicker": "打开GIF选择器",
@@ -115,112 +118,111 @@
       "sendTooltipEmpty": "输入消息发送",
       "send": "发送",
       "welcomeMessage": "欢迎来到Chatforia",
-      "getStarted": "开始"
+      "getStarted": "开始",
+      "mixedRecipients": "检测到混合接收者。使用所有电话号码（短信）或所有用户名（Chatforia）。",
+      "needNumber": "发短信前你需要一个Chatforia号码。",
+      "chooseNumber": "选一个数字"
     },
-  "refund": {
-    "title": "退款政策",
-    "lastUpdated": "最后更新：",
-    "intro": "在 Chatforia，我们致力于为所有用户提供高质量的服务。本退款政策说明了在何种情况下可以提供退款。",
-    "subscriptions": {
-      "title": "订阅",
-      "body": "订阅按周期预先收费，并会自动续费。您可以随时通过账户设置或购买时使用的平台取消订阅。"
+    "refund": {
+      "title": "退款政策",
+      "lastUpdated": "最后更新：",
+      "intro": "在Chatforia，我们致力于为所有用户提供高质量的服务。本退款政策规定了退款可发放的时间。",
+      "subscriptions": {
+        "title": "订阅",
+        "body": "订阅费用按定期预付费用。您可以通过账户设置或购买平台随时取消。"
+      },
+      "eligibility": {
+        "title": "退款资格",
+        "body": "对于重复扣款、计费错误或技术问题导致无法访问付费功能，可能会获得退款。所有请求都会逐案审查。"
+      },
+      "nonRefundable": {
+        "title": "不可退还",
+        "body": "我们通常不为未使用时间、部分订阅期或续订前未取消退款。"
+      },
+      "thirdParty": {
+        "title": "第三方购买",
+        "body": "如果通过第三方平台如苹果应用商店购买，退款必须直接通过这些平台申请。"
+      },
+      "contact": {
+        "title": "联系方式",
+        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+      }
     },
-    "eligibility": {
-      "title": "退款资格",
-      "body": "在出现重复收费、计费错误或因技术问题无法使用付费功能的情况下，可能会提供退款。所有请求将逐案审核。"
+    "blog": {
+      "whyMessaging": {
+        "title": "为什么消息平台比以往任何时候都更重要",
+        "intro": "消息平台已成为当今世界中最重要的沟通工具之一。从个人对话到商务互动，消息应用让人们能够即时高效地保持联系。",
+        "everydayTitle": "日常交流",
+        "everydayDesc": "人们依赖消息应用与朋友、家人和同事的日常沟通。无论是简短更新还是长时间的对话，消息都提供了便捷灵活的保持联系方式。",
+        "speedTitle": "速度与便利性",
+        "speedDesc": "消息平台的主要优势之一是其速度。消息即时传递，允许用户实时交流。这种便利性使得消息成为许多人首选的沟通方式。",
+        "globalTitle": "全球影响力",
+        "globalDesc": "消息平台连接了全球的人们。有了互联网接入，用户无论身处何地都能沟通，更容易建立关系和国际合作。",
+        "privacyTitle": "隐私与控制",
+        "privacyDesc": "现代消息平台专注于让用户掌控自己的数据和对话。加密、隐私设置和消息控制等功能让用户能够自信地沟通。",
+        "futureTitle": "消息传递的未来",
+        "futureDesc": "消息传递不断发展，新增了人工智能响应、翻译和多媒体分享等功能。随着技术进步，消息平台将变得更加强大和多样化。",
+        "outro": "Chatforia正是基于这些原则构建，为互联世界提供快速、安全且用户友好的消息体验。"
+      },
+      "global": {
+        "title": "全球传播的未来",
+        "intro": "过去几十年，沟通方式发展迅速。过去需要电话或面对面会议的事，现在可以通过消息平台快速完成。随着技术的不断进步，全球沟通变得更快、更易接近且更具包容性。",
+        "barriersTitle": "打破壁垒",
+        "barriersDesc": "沟通中最大的变化之一是地理障碍的减少。人们现在可以近乎实时地与世界各地的他人连接。无论是个人对话、商务还是协作，消息平台都让距离变得不那么受限。",
+        "translationTitle": "翻译技术的作用",
+        "translationDesc": "语言历来是全球交流最大的障碍之一。如今，内置的翻译工具帮助弥合了这一鸿沟。像Chatforia这样的平台让用户即使说不同语言也能更轻松地交流，创造了新的连接和理解机会。",
+        "realtimeTitle": "实时连接",
+        "realtimeDesc": "速度是塑造现代沟通的关键因素。用户期望消息能快速传递，现代基础设施也支持这一期待。实时消息传递使对话更加自然流畅。",
+        "privacyTitle": "隐私与安全",
+        "privacyDesc": "随着通信日益数字化，隐私和安全变得越来越重要。用户希望有信心他们的对话受到保护。加密和用户控制设置等功能有助于支持更安全的通信体验。",
+        "futureTitle": "接下来会发生什么",
+        "futureDesc": "全球沟通的未来可能包括更先进的工具，如AI辅助消息、改进的翻译和增强的用户体验。随着技术的发展，沟通将持续变得更加直观和可及。",
+        "outro": "像Chatforia这样的平台正是这一转变的一部分，帮助人们更轻松地跨语言和跨国界连接。"
+      },
+      "index": {
+        "title": "Chatforia博客",
+        "intro": "探索关于沟通、网络安全以及消息技术如何连接全球人们的见解。",
+        "post1": "如何安全地在线聊天",
+        "post2": "全球传播的未来",
+        "post3": "为什么消息平台很重要"
+      }
     },
-    "nonRefundable": {
-      "title": "不可退款项目",
-      "body": "通常情况下，对于未使用的时间、部分订阅周期或未在续费前取消订阅的情况，我们不提供退款。"
+    "howItWorks": {
+      "title": "Chatforia 的运作方式",
+      "intro": "Chatforia 旨在让沟通变得简单、快速且易于访问。开始只需几步。",
+      "step1Title": "1. 创建账户",
+      "step1Desc": "请使用您的邮箱或用户名注册，创建您的Chatforia账户。",
+      "step2Title": "2. 开启对话",
+      "step2Desc": "通过选择联系人或开启新聊天来与他人建立联系。",
+      "step3Title": "3. 实时消息传递",
+      "step3Desc": "消息传递迅速，提供流畅的沟通体验。",
+      "step4Title": "4. 全球传播",
+      "step4Desc": "内置翻译帮助用户跨语言交流。",
+      "step5Title": "5. 保持控制",
+      "step5Desc": "管理您的偏好、联系人和沟通设置。"
     },
-    "thirdParty": {
-      "title": "第三方购买",
-      "body": "如果通过 Apple App Store 等第三方平台购买，退款需直接向相应平台申请。"
+    "safety": {
+      "title": "安全与社区指南",
+      "intro": "Chatforia 致力于为所有用户维护一个安全且尊重的环境。这些指导方针有助于确保每个人都能获得积极的体验。",
+      "respectTitle": "尊重的沟通",
+      "respectDesc": "用户应尊重地沟通。不允许骚扰、虐待或有害行为。",
+      "prohibitedTitle": "禁止内容",
+      "prohibited": {
+        "illegal": "非法活动",
+        "harassment": "骚扰或欺凌",
+        "hate": "仇恨言论或歧视",
+        "explicit": "露骨或有害内容",
+        "spam": "垃圾邮件或欺骗性做法"
+      },
+      "toolsTitle": "用户安全工具",
+      "tools": {
+        "report": "举报不当行为或内容",
+        "block": "屏蔽用户以防止进一步互动",
+        "control": "管理隐私和通信设置"
+      },
+      "enforcementTitle": "执法",
+      "enforcementDesc": "我们可能会对违反这些准则的账号采取行动，包括警告、限制或永久移除平台。"
     },
-    "contact": {
-      "title": "联系我们",
-      "body": "support@chatforia.com • Chatforia LLC，30 N Gould Street STE N，Sheridan，WY 82801，美国"
-    }
-  },
-  "blog": {
-    "whyMessaging": {
-      "title": "为什么消息平台比以往任何时候都更重要",
-      "intro": "在当今世界，消息平台已成为最重要的沟通工具之一……",
-      "everydayTitle": "日常沟通",
-      "everydayDesc": "人们依赖消息应用进行日常交流……",
-      "speedTitle": "速度与便捷",
-      "speedDesc": "消息可以即时送达……",
-      "globalTitle": "全球连接",
-      "globalDesc": "消息平台连接着全球各地的人们……",
-      "privacyTitle": "隐私与控制",
-      "privacyDesc": "现代消息平台注重为用户提供控制权……",
-      "futureTitle": "消息的未来",
-      "futureDesc": "消息服务不断发展，加入新的功能……",
-      "outro": "Chatforia 正是基于这些理念打造……"
-    },
-
-    "global": {
-      "title": "全球沟通的未来",
-      "intro": "沟通方式正在迅速演变……",
-      "barriersTitle": "打破障碍",
-      "barriersDesc": "人们如今可以跨越全球进行连接……",
-      "translationTitle": "翻译技术的作用",
-      "translationDesc": "语言曾是沟通的障碍……",
-      "realtimeTitle": "实时连接",
-      "realtimeDesc": "速度是关键因素……",
-      "privacyTitle": "隐私与安全",
-      "privacyDesc": "用户希望他们的对话受到保护……",
-      "futureTitle": "未来展望",
-      "futureDesc": "未来的全球沟通将包含更多创新……",
-      "outro": "像 Chatforia 这样的平台正引领这一变革……"
-    },
-
-    "index": {
-      "title": "Chatforia 博客",
-      "intro": "探索有关沟通的见解……",
-      "post1": "如何安全地在线聊天",
-      "post2": "全球沟通的未来",
-      "post3": "为什么消息平台如此重要"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Chatforia 的工作原理",
-    "intro": "Chatforia 旨在让沟通变得简单……",
-    "step1Title": "1. 创建账户",
-    "step1Desc": "使用邮箱或用户名注册……",
-    "step2Title": "2. 开始对话",
-    "step2Desc": "与他人建立联系……",
-    "step3Title": "3. 实时消息",
-    "step3Desc": "消息快速传递……",
-    "step4Title": "4. 全球沟通",
-    "step4Desc": "内置翻译帮助用户跨语言交流……",
-    "step5Title": "5. 自主掌控",
-    "step5Desc": "管理您的偏好设置……"
-  },
-
-  "safety": {
-    "title": "安全与社区指南",
-    "intro": "Chatforia 致力于维护一个安全的环境……",
-    "respectTitle": "尊重沟通",
-    "respectDesc": "用户应以尊重的方式交流……",
-    "prohibitedTitle": "禁止内容",
-    "prohibited": {
-      "illegal": "非法活动",
-      "harassment": "骚扰或欺凌",
-      "hate": "仇恨言论或歧视",
-      "explicit": "不当或有害内容",
-      "spam": "垃圾信息或欺诈行为"
-    },
-    "toolsTitle": "用户安全工具",
-    "tools": {
-      "report": "举报不当行为",
-      "block": "屏蔽用户",
-      "control": "管理隐私设置"
-    },
-    "enforcementTitle": "执行措施",
-    "enforcementDesc": "我们可能会对违规账户采取措施……"
-},
     "chat": {
       "selectPrompt": "选择短信或聊天室开始聊天",
       "newMessages": "新消息",
@@ -322,7 +324,7 @@
       "randomChat": "随机聊天",
       "callTextForwarding": "呼叫与短信转接",
       "conversations": "对话",
-      "searchPlaceholder": "搜索对话......",
+      "searchPlaceholder": "搜索聊天......",
       "errorLoading": "加载聊天失败",
       "empty": "还没有对话。",
       "startChat": "发起聊天",
@@ -500,7 +502,7 @@
       "appearance": "外观",
       "soundSettings": "声音",
       "disappearing": "消失的信息",
-      "backupSync": "加密密钥备份",
+      "backupSync": "备份与同步",
       "ai": "AI",
       "accessibility": "交通便利性",
       "privacy": "隐私",
@@ -601,7 +603,8 @@
         "title": "Chatforia eSIM",
         "desc": "当你远离Wi-Fi时，为Chatforia获取移动数据。",
         "cta": "获取eSIM / 显示二维码"
-      }
+      },
+      "encryptedBackupsTitle": "加密密钥备份"
     },
     "wireless": {
       "title": "Chatforia 无线电",
@@ -1572,12 +1575,20 @@
       "trySearching": "试着搜索“翻译”、“备份”或“隐私”。",
       "article": "文章",
       "openArticle": "开放文章",
-      "contactIntro": "我们会通过电子邮件回复您。请提供细节以帮助我们重现问题。",
+      "contactIntro": "我们会尽快解决这个问题。如果没有，我们的团队会跟进。",
       "topicAria": "选择一个主题",
       "messagePlaceholder": "写下你的信息......",
       "sendBtn": "发送",
       "sent": "消息已发送。我们会通过电子邮件回复。",
-      "sendError": "Could not send. Email support@chatforia.com instead."
+      "sendError": "Could not send. Email support@chatforia.com instead.",
+      "actionCompleted": "行动完成。",
+      "actionFailed": "没能完成那个动作。请再试一次。",
+      "escalationMessage": "我们无法自动解决这个问题。我们的团队会跟进。",
+      "genericError": "出了点问题。请再试一次。",
+      "analyzing": "分析你的问题......",
+      "takeAction": "采取建议行动",
+      "resolvedInstantly": "问题立刻解决——不需要工单。",
+      "escalating": "升级到支援......"
     },
     "helpCenter": {
       "title": "帮助中心",
@@ -1795,5 +1806,280 @@
         "and": "以及",
         "privacy": "隐私政策"
       }
-    }
+    },
+    "randomChat": {
+      "title": "随机聊天",
+      "subtitle": "立刻认识新朋友，或者选择与Ria聊天。",
+      "start": "开始对话",
+      "description": "先匿名聊天。如果感觉合适，可以稍后加好友。",
+      "findMatch": "帮我找个匹配",
+      "chatWithRia": "与Ria聊天",
+      "setAge": "在个人资料→年龄和随机聊天中设置你的年龄范围，以便匹配到人。",
+      "idle": "怠速",
+      "matching": "匹配......",
+      "searching": "寻找......",
+      "cancel": "取消",
+      "connectionProblem": "连接问题",
+      "ai": "AI",
+      "anonymous": "匿名",
+      "connectedAs": "连通为",
+      "waitingAddFriend": "等待他们接受 添加好友......",
+      "hiddenUsernames": "用户名会隐藏，直到双方都选择添加好友。",
+      "riaSeparate": "随时和Ria聊天——别随便匹配。",
+      "sendMessage": "发送消息",
+      "chatEnded": "聊天结束了",
+      "conversationEnded": "那场对话已经结束了。",
+      "findAnotherMatch": "找另一匹匹配",
+      "next": "下一个人",
+      "addFriend": "添加好友",
+      "requested": "请求",
+      "leave": "离开",
+      "messageRia": "消息，莉娅......",
+      "messageMatch": "给你的匹配发消息......"
+    },
+    "phoneNumberManager": {
+      "pickNumber": "选一个数字",
+      "phoneNumber": "电话号码",
+      "availableNumber": "可用号码",
+      "premiumNumber": "高级号码 🔒",
+      "freeNumberHint": "免费号码，闲置后可回收。",
+      "premiumNumberHint": "在你的高级会员订阅有效期间，请保留你的号码。",
+      "country": "乡村",
+      "areaCode": "区号",
+      "areaCodePlaceholder": "e.g., 415",
+      "capability": "能力",
+      "search": "搜索",
+      "lockThisNumber": "锁定这个号码（每周附加功能，即将推出）",
+      "premiumProtectedHint": "在你的高级会员订阅有效期间，高级会员号码受到保护，防止被回收。",
+      "availableNumbers": "可用号码",
+      "searchHint": "输入三位数区号（仅限美国/加利福尼亚），或者留空，然后搜索。",
+      "keep": "守",
+      "select": "精选",
+      "assignNumberFirst": "先给一个数字。",
+      "premiumKeepFeature": "保留你的号码是高级会员的功能。",
+      "lockingPremiumFeature": "锁定号码是高级版功能。",
+      "numberAssigned": "编号已分配。",
+      "numberProtectedNow": "您的号码现在受到保护。",
+      "numberProtected": "号码受保护。",
+      "numberUnprotected": "号码未受保护。",
+      "numberReleased": "号码已公布。",
+      "couldNotLoadNumbers": "无法加载数字。",
+      "couldNotAssign": "无法确定那个号码。可能刚被拿走了——试试别的。",
+      "couldNotLease": "那个号码我租不出来。可能刚被拿走了——试试别的。",
+      "couldNotProtectNow": "现在无法保护你的号码。",
+      "couldNotProtect": "没能保护好号码。",
+      "couldNotUnprotect": "无法取消保护号码。",
+      "couldNotRelease": "无法透露号码。",
+      "invalidAreaCode": "请输入三位数区号（例如415）或留空。",
+      "noInventory": "目前没有可用的库存。",
+      "noFreeNumbers": "目前没有免费号码。",
+      "noInventoryAreaCode": "目前没有该区号的可用库存。",
+      "noFreeNumbersAreaCode": "我们目前没有该区号的免费号码。",
+      "releaseConfirm": "放出你现在的号码？它可能会分配给别人。",
+      "unprotect": "解除保护",
+      "keepThisNumber": "保留这个号码",
+      "replace": "替换",
+      "release": "发行",
+      "active": "活跃",
+      "noNumber": "没有编号",
+      "premiumFeature": "高级功能",
+      "protectYourNumber": "保护好你的号码",
+      "protected": "受保护",
+      "notProtected": "没有保护",
+      "expiresInShort": "在{{count}}d到期",
+      "expiresInDaysFull": "到期时间为{{count}} day",
+      "expiringShort": "过期{{suffix}}",
+      "renewsOn": "续订 {{日期}}",
+      "releaseWarning": "你的号码可能会在{{count}}日内公布。升级到高级版以保持保护。",
+      "pickNumberHint": "选择一个Chatforia号码用于应用内的消息和沟通。"
+    },
+    "sounds": {
+      "notificationSounds": "通知声",
+      "resetToDefaults": "重置为默认状态",
+      "freeNoticeStart": "你用的是免费——高级音色会显示但被锁定。",
+      "freeNoticeEnd": "解锁一切。",
+      "messageTone": "消息音",
+      "ringtone": "铃声",
+      "preview": "预览",
+      "stop": "停下",
+      "volume": "音量",
+      "messageToneFilesHint": "把文件放在 /public/sounds/Message_Tones",
+      "ringtoneFilesHint": "把文件放进 /public/sounds/铃声",
+      "premiumRequired": "选择该选项需要缴纳保费。",
+      "saved": "声音设置已保存。",
+      "saveFailed": "无法保存声音设置。",
+      "resetNotSaved": "恢复默认状态（尚未保存）。",
+      "premiumTone": "那是高级音色。",
+      "premiumRingtone": "那是高级电话铃声。",
+      "customComingSoon": "自定义音效上传即将推出。"
+    },
+    "aiSettings": {
+      "title": "AI设置",
+      "controlIntro": "控制翻译、智能回复和ForiaBot自动回复。",
+      "translation": "翻译",
+      "autoTranslateIncoming": "自动翻译来消息",
+      "showOriginalAlongside": "请与翻译并列显示原文",
+      "smartReplies": "聪明的回复",
+      "enableSmartReplies": "启用智能回复",
+      "smartRepliesHint": "把最后几条收到的消息（经过消毒）发送给AI，建议快速回复。",
+      "maskProfanity": "关于AI中面具脏话的建议",
+      "maskProfanityHint": "如果开启，AI返回的建议会被标记的词语被遮蔽",
+      "foriaBot": "ForiaBot自动回复器",
+      "enableAutoReply": "我忙的时候开启自动回复",
+      "autoReplyMode": "自动回复模式",
+      "cooldownSeconds": "冷却时间（秒数）",
+      "signature": "签名",
+      "autoReply": "🤖 自动回复",
+      "activeUntilOptional": "有效至（可选）",
+      "save": "保存AI设置",
+      "saved": "AI偏好设置保存",
+      "saveFailed": "未能保存AI设置",
+      "translateOff": "关掉",
+      "translateTagged": "Only when @translated or tagged",
+      "translateAll": "翻译所有来电消息",
+      "modeDm": "仅限一对一聊天",
+      "modeMention": "Only when I’m @mentioned",
+      "modeAll": "所有入站消息",
+      "off": "关掉"
+    },
+    "accessibilitySettings": {
+      "title": "无障碍与警报",
+      "loadFailed": "加载设置失败",
+      "accessibilityDesc": "让Chatforia更容易使用而不依赖声音的选项。",
+      "interfaceFontSize": "界面字体大小",
+      "interfaceFontSizeHelp": "从正常大小开始。如果你喜欢较大的文字，可以增加。",
+      "notifications": "通知",
+      "visualAlerts": "消息和电话的视觉提醒",
+      "visualAlertsDesc": "显示横幅和标题闪烁，这样你就不会错过活动。",
+      "vibrateOnNewShort": "支持新消息时可震动",
+      "vibrateOnNewDesc": "通过通知触发设备震动。",
+      "flashOnCallShort": "来电闪烁屏幕",
+      "flashOnCallDesc": "电话响起时闪过一阵明亮的短暂光芒。",
+      "liveCaptionsTitle": "实时字幕（通话）",
+      "enableLiveCaptions": "在通话中启用实时字幕（高级版）",
+      "liveCaptionsDesc": "展示来自其他参与者音频的实时字幕。",
+      "captionFontSize": "说明字体大小",
+      "captionBackground": "说明背景",
+      "voiceNotes": "语音说明",
+      "autoTranscribeVoiceNotes": "自动转录语音笔记",
+      "autoTranscribeVoiceNotesDesc": "在收到的音频信息后附上文字记录。",
+      "changesSavedInstantly": "更改会立即保存。",
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large",
+      "xl": "Extra Large",
+      "light": "光",
+      "dark": "黑暗",
+      "transparent": "透明"
+    },
+    "privacySection": {
+      "strictE2EE": "严格端到端加密",
+      "ciphertextOnlyNote": "服务器上只存储密文。禁用AI/翻译和审核预览。",
+      "strictE2EEEnabled": "严格的端对端加密（E2EE）已启用。AI/翻译将被禁用。",
+      "strictE2EEDisabled": "严格的端对端加密（E2EE）被禁用。AI/翻译重新启用。"
+    },
+    "linkedDevicesPanel": {
+      "title": "关联设备",
+      "noneFound": "未发现关联设备。",
+      "refresh": "刷新",
+      "unknown": "未知",
+      "loadFailed": "加载链接设备失败",
+      "loadFailedLog": "加载链接设备失败",
+      "renamePrompt": "请为该设备取一个新名称",
+      "renamed": "设备更名",
+      "renameFailed": "无法重命名设备",
+      "revoked": "设备被撤销",
+      "revokeFailed": "无法撤销设备",
+      "unnamedDevice": "无名设备",
+      "primary": "小学",
+      "revokedStatus": "被撤销",
+      "addedLastSeen": "已添加 {{created}} • 最后一次出现 {{lastSeen}}",
+      "renameDevice": "重命名设备",
+      "revokeDevice": "撤销装置"
+    },
+    "peoplePage": {
+      "people": "人物",
+      "search": "搜索",
+      "searchPlaceholder": "通过别名、姓名、用户名或手机搜索已保存的联系人",
+      "quickStart": "快速入门",
+      "quickStartDesc": "管理好你的联系人，邀请朋友。",
+      "importContacts": "导入你的联系人",
+      "import": "进口",
+      "addContact": "添加联系人",
+      "add": "添加",
+      "inviteFriends": "邀请朋友",
+      "inviteDesc": "分享你的邀请链接，立即开始聊天。",
+      "getTheApp": "下载应用",
+      "getTheAppDesc": "随时用Chatforia支持iOS和Android保持联系。",
+      "download": "下载",
+      "syncTip": "提示：你的消息在网络和移动端保持同步。"
+    },
+    "dialer": {
+      "title": "叫声",
+      "subtitle": "键盘和最近。（如果你不使用 PSTN，请从对话头开始呼叫。）",
+      "enterNumber": "输入数字",
+      "enterNumberAria": "输入数字",
+      "resolving": "正在解决呼叫目标......",
+      "call": "叫声",
+      "callBrowser": "通过浏览器呼叫",
+      "backspace": "退格",
+      "recents": "近期情况",
+      "noRecents": "目前还没有最近的电话。",
+      "resolveFailed": "无法解决呼叫目标。",
+      "callRequiredNumber": "打电话前你需要Chatforia号码。",
+      "callFailed": "无法拨打电话。",
+      "deleteConfirm": "删除最近来电的这通电话？",
+      "deleteFailed": "无法删除通话。",
+      "deleteFailedLog": "删除通话失败",
+      "outgoing": "离职",
+      "incoming": "来了",
+      "missed": "错过了",
+      "declined": "拒绝",
+      "failed": "失败",
+      "completed": "完工",
+      "outgoingCall": "外拨电话",
+      "incomingCall": "来电",
+      "voicemail": "语音信箱",
+      "callAria": "打电话给{{name}}",
+      "deleteAria": "删除带有 {{name}} 的通话"
+    },
+    "callHistory": {
+      "title": "叫声",
+      "subtitle": "你最近的来电和去电记录。",
+      "loadFailed": "无法加载通话记录。",
+      "loadFailedTitle": "无法加载通话记录",
+      "emptyTitle": "还没来电",
+      "emptySubtitle": "您最近的通话会显示在这里。",
+      "outgoing": "离职",
+      "incoming": "来了",
+      "missed": "错过了",
+      "declined": "拒绝",
+      "failed": "失败",
+      "completed": "完工",
+      "outgoingCall": "外拨电话",
+      "incomingCall": "来电",
+      "voicemail": "语音信箱"
+    },
+    "video": {
+      "hub": {
+        "title": "视频",
+        "subtitle": "选择视频类型。"
+      },
+      "direct": {
+        "title": "直视频",
+        "subtitle": "与另一位用户开始一对一视频通话。",
+        "desc": "与另一用户进行一对一摄像头通话。",
+        "start": "开始"
+      },
+      "rooms": {
+        "title": "房间",
+        "subtitle": "输入同一个名字创建房间或加入已有房间。",
+        "desc": "使用共享房间名称的多方视频。",
+        "roomLabel": "房间名称",
+        "roomPlaceholder": "例如：团队站立",
+        "roomAria": "房间名称",
+        "joinCreate": "加入 / 创建",
+        "tip": "提示：将这个名字分享给他人，或深度链接到"
+      }
+  }
 }

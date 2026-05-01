@@ -277,7 +277,7 @@ export default function RandomChatPage() {
     if (!canStartHumanMatch) {
       setErrorText('');
       setBannerText(
-        'Set your age range in Profile → Age & Random Chat to be matched with people.'
+        t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')
       );
       return;
     }
@@ -421,7 +421,7 @@ export default function RandomChatPage() {
         </Stack>
 
         {errorText ? (
-          <Alert color="red" title="Connection problem">
+          <Alert color="red" title={t('randomChat.connectionProblem', 'Connection problem')}>
             {errorText}
           </Alert>
         ) : null}
@@ -486,7 +486,7 @@ export default function RandomChatPage() {
                       leftSection={<Loader size={16} />}
                       disabled
                     >
-                      Searching…
+                      {t('randomChat.searching', 'Searching…')}
                     </Button>
 
                     <Button
@@ -495,7 +495,7 @@ export default function RandomChatPage() {
                       leftSection={<IconX size={16} />}
                       onClick={cancelMatching}
                     >
-                      Cancel
+                      {t('randomChat.cancel', 'Cancel')}
                     </Button>
                   </>
                 )}
@@ -518,11 +518,11 @@ export default function RandomChatPage() {
                   <Text fw={700}>{headerTitle}</Text>
                   {active?.isAI ? (
                     <Badge variant="light" color="violet">
-                      AI
+                      {t('randomChat.ai', 'AI')}
                     </Badge>
                   ) : (
                     <Badge variant="light" color="blue">
-                      Anonymous
+                      {t('randomChat.anonymous', 'Anonymous')}
                     </Badge>
                   )}
                 </Group>
@@ -530,20 +530,20 @@ export default function RandomChatPage() {
                 {!active?.isAI ? (
                   active?.unlockedUsername ? (
                     <Text size="sm" c="dimmed">
-                      Connected as @{active.unlockedUsername}
+                      {t('randomChat.connectedAs', 'Connected as')} @{active.unlockedUsername}
                     </Text>
                   ) : active?.iRequestedFriend ? (
                     <Text size="sm" c="dimmed">
-                      Waiting for them to accept Add Friend…
+                      {t('randomChat.waitingAddFriend', 'Waiting for them to accept Add Friend…')}
                     </Text>
                   ) : (
                     <Text size="sm" c="dimmed">
-                      Usernames stay hidden until both people choose Add Friend.
+                      {t('randomChat.hiddenUsernames', 'Usernames stay hidden until both people choose Add Friend.')}
                     </Text>
                   )
                 ) : (
                   <Text size="sm" c="dimmed">
-                    Chat with Ria anytime — separate from random human matching.
+                    {t('randomChat.riaSeparate', 'Chat with Ria anytime — separate from random human matching.')}
                   </Text>
                 )}
               </Stack>
@@ -662,7 +662,7 @@ export default function RandomChatPage() {
                 variant="filled"
                 onClick={sendMessage}
                 disabled={!canSend}
-                aria-label="Send message"
+                aria-label={t('randomChat.sendMessage', 'Send message')}
               >
                 <IconArrowRight size={18} />
               </ActionIcon>
@@ -673,9 +673,9 @@ export default function RandomChatPage() {
         {status === 'ended' ? (
           <Card withBorder radius="lg" p="lg">
             <Stack gap="md">
-              <Text fw={600}>Chat ended</Text>
+              <Text fw={600}>{t('randomChat.chatEnded', 'Chat ended')}</Text>
               <Text size="sm" c="dimmed">
-                {bannerText || 'That conversation has ended.'}
+                {bannerText || t('randomChat.conversationEnded', 'That conversation has ended.')}
               </Text>
 
               <Group>
@@ -683,7 +683,7 @@ export default function RandomChatPage() {
                   onClick={startMatching}
                   disabled={isLoadingProfile || !canStartHumanMatch}
                 >
-                  Find another match
+                  {t('randomChat.findAnotherMatch', 'Find another match')}
                 </Button>
 
                 <Button
@@ -691,13 +691,13 @@ export default function RandomChatPage() {
                   leftSection={<IconRobot size={16} />}
                   onClick={startRiaChat}
                 >
-                  Chat with Ria
+                  {t('randomChat.chatWithRia', 'Chat with Ria')}
                 </Button>
               </Group>
 
               {!isLoadingProfile && !canStartHumanMatch ? (
                 <Alert color="yellow" variant="light">
-                  Set your age range in Profile → Age & Random Chat to be matched with people.
+                  {t('randomChat.setAge', 'Set your age range in Profile → Age & Random Chat to be matched with people.')}
                 </Alert>
               ) : null}
             </Stack>

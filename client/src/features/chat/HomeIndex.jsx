@@ -377,10 +377,13 @@ export default function HomeIndex({ currentUser }) {
           >
             <Box style={{ textAlign: 'center' }}>
               <Title order={3} mb={6}>
-                Your messages
+                {t('home.messagesTitle', 'Your messages')}
               </Title>
               <Text c="dimmed">
-                Enter a recipient above, then send a message to start a conversation.
+                {t(
+                  'home.messagesSubtitle',
+                  'Enter a recipient above, then send a message to start a conversation.'
+                )}
               </Text>
             </Box>
           </Box>

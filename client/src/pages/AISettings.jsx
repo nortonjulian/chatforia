@@ -33,7 +33,7 @@ export default function AISettings() {
     Number.isFinite(u.autoResponderCooldownSec) ? u.autoResponderCooldownSec : 120
   );
   const [autoResponderSignature, setAutoResponderSignature] = useState(
-    u.autoResponderSignature || '🤖 Auto-reply'
+    u.autoResponderSignature || t('aiSettings.autoReply', '🤖 Auto-reply')
   );
   const initialUntil = useMemo(
     () => (u.autoResponderActiveUntil ? new Date(u.autoResponderActiveUntil) : null),

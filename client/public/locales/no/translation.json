@@ -1,5 +1,5 @@
 {
-  "common": {
+"common": {
       "save": "Lagre",
       "cancel": "Avbryt",
       "refresh": "Oppdater",
@@ -7,7 +7,9 @@
       "cancelAria": "Avbryt",
       "copy": "Kopiert",
       "copied": "Kopiert!",
-      "errorWithMessage": "Feil: {{message}}"
+      "errorWithMessage": "Feil: {{message}}",
+      "loading": "Laster...",
+      "saveError": "Lagring feilet"
     },
     "a11y": {
       "skipToMain": "Hopp til hovedinnholdet"
@@ -103,7 +105,8 @@
     },
     "home": {
       "title": "Hjem",
-      "header": "Dine meldinger",
+      "messagesTitle": "Dine meldinger",
+      "messagesSubtitle": "Skriv inn en mottaker ovenfor, og send deretter en melding for å starte en samtale.",
       "subheader": "Send en melding for å starte en chat.",
       "sendButton": "Send melding",
       "gifPicker": "Åpen GIF-velger",
@@ -115,112 +118,111 @@
       "sendTooltipEmpty": "Skriv inn en melding som skal sendes",
       "send": "Send",
       "welcomeMessage": "Velkommen til Chatforia",
-      "getStarted": "Kom i gang"
+      "getStarted": "Kom i gang",
+      "mixedRecipients": "Blandet mottakere oppdaget. Bruk enten alle telefonnumre (SMS) eller alle brukernavn (Chatforia).",
+      "needNumber": "Du trenger et Chatforia-nummer før du sender SMS.",
+      "chooseNumber": "Velg et tall"
     },
-  "refund": {
-    "title": "Refusjonspolicy",
-    "lastUpdated": "Sist oppdatert:",
-    "intro": "Hos Chatforia streber vi etter å tilby en tjeneste av høy kvalitet til alle brukere. Denne refusjonspolicyen beskriver når refusjoner kan bli gitt.",
-    "subscriptions": {
-      "title": "Abonnementer",
-      "body": "Abonnementer faktureres på forhånd og fornyes automatisk. Du kan når som helst si opp via kontoinnstillingene dine eller plattformen du brukte for kjøpet."
+    "refund": {
+      "title": "Refusjonspolicy",
+      "lastUpdated": "Sist oppdatert:",
+      "intro": "Hos Chatforia streber vi etter å tilby en tjeneste av høy kvalitet til alle brukere. Denne refusjonspolicyen beskriver når refusjoner kan utstedes.",
+      "subscriptions": {
+        "title": "Abonnementer",
+        "body": "Abonnementer faktureres på forhånd på tilbakevendende basis. Du kan kansellere når som helst via kontoinnstillingene dine eller plattformen som brukes til kjøpet."
+      },
+      "eligibility": {
+        "title": "Refusjonsberettigelse",
+        "body": "Refusjoner kan gis for duplikatkostnader, faktureringsfeil eller tekniske problemer som hindrer tilgang til betalte funksjoner. Alle forespørsler vurderes fra sak til sak."
+      },
+      "nonRefundable": {
+        "title": "Ikke-refunderbart",
+        "body": "Vi gir vanligvis ikke refusjon for ubrukt tid, delvise abonnementsperioder eller manglende avbestilling før fornyelse."
+      },
+      "thirdParty": {
+        "title": "Tredjepartskjøp",
+        "body": "Hvis du kjøper gjennom tredjepartsplattformer som Apple App Store, må refusjon kreves direkte gjennom disse plattformene."
+      },
+      "contact": {
+        "title": "Kontakt",
+        "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+      }
     },
-    "eligibility": {
-      "title": "Refusjonsberettigelse",
-      "body": "Refusjoner kan bli gitt ved dobbeltbetaling, faktureringsfeil eller tekniske problemer som hindrer tilgang til betalte funksjoner. Alle forespørsler vurderes individuelt."
+    "blog": {
+      "whyMessaging": {
+        "title": "Hvorfor meldingsplattformer betyr mer enn noen gang",
+        "intro": "Meldingsplattformer har blitt et av de viktigste kommunikasjonsverktøyene i dagens verden. Fra personlige samtaler til forretningsinteraksjoner gjør meldingsapper det mulig for folk å holde kontakten umiddelbart og effektivt.",
+        "everydayTitle": "Daglig kommunikasjon",
+        "everydayDesc": "Folk er avhengige av meldingsapper for daglig kommunikasjon med venner, familie og kolleger. Enten det er en rask oppdatering eller en lang samtale, gir meldinger en praktisk og fleksibel måte å holde kontakten på.",
+        "speedTitle": "Hastighet og bekvemmelighet",
+        "speedDesc": "En av hovedfordelene med meldingsplattformer er hastigheten. Meldinger leveres umiddelbart, noe som gjør at brukerne kan kommunisere i sanntid. Dette nivået av bekvemmelighet har gjort meldinger til den foretrukne kommunikasjonsmetoden for mange.",
+        "globalTitle": "Global rekkevidde",
+        "globalDesc": "Meldingsplattformer forbinder mennesker over hele verden. Med internettilgang kan brukere kommunisere uavhengig av lokasjon, noe som gjør det enklere å bygge relasjoner og samarbeide internasjonalt.",
+        "privacyTitle": "Personvern og kontroll",
+        "privacyDesc": "Moderne meldingsplattformer fokuserer på å gi brukerne kontroll over sine data og samtaler. Funksjoner som kryptering, personverninnstillinger og meldingskontroller gjør at brukerne kan kommunisere med trygghet.",
+        "futureTitle": "Fremtiden for meldinger",
+        "futureDesc": "Meldingsutveksling fortsetter å utvikle seg med nye funksjoner som AI-drevne svar, oversettelse og multimediedeling. Etter hvert som teknologien utvikler seg, vil meldingsplattformer bli enda kraftigere og mer allsidige.",
+        "outro": "Chatforia er bygget med disse prinsippene i tankene, og tilbyr en rask, sikker og brukervennlig meldingsopplevelse for en tilkoblet verden."
+      },
+      "global": {
+        "title": "Fremtiden for global kommunikasjon",
+        "intro": "Kommunikasjonen har utviklet seg raskt de siste tiårene. Det som tidligere krevde telefonsamtaler eller møter ansikt til ansikt, kan nå gjøres raskt via meldingsplattformer. Etter hvert som teknologien fortsetter å utvikle seg, blir global kommunikasjon raskere, mer tilgjengelig og mer inkluderende.",
+        "barriersTitle": "Å bryte ned barrierer",
+        "barriersDesc": "En av de største endringene i kommunikasjon er reduksjonen av geografiske barrierer. Folk kan nå knytte kontakt med andre over hele verden i nesten sanntid. Enten det gjelder personlige samtaler, jobb eller samarbeid, har meldingsplattformer gjort avstanden langt mindre begrensende.",
+        "translationTitle": "Oversettelsesteknologiens rolle",
+        "translationDesc": "Språk har tradisjonelt vært en av de største hindringene for global kommunikasjon. I dag hjelper innebygde oversettelsesverktøy med å bygge bro over dette gapet. Plattformer som Chatforia gjør det lettere for brukere å kommunisere selv om de snakker forskjellige språk, noe som skaper nye muligheter for kontakt og forståelse.",
+        "realtimeTitle": "Sanntidstilkobling",
+        "realtimeDesc": "Hastighet er en nøkkelfaktor som former moderne kommunikasjon. Brukere forventer at meldinger leveres raskt, og moderne infrastruktur støtter denne forventningen. Sanntidsmeldinger muliggjør mer naturlige og flytende samtaler.",
+        "privacyTitle": "Personvern og sikkerhet",
+        "privacyDesc": "Etter hvert som kommunikasjonen blir mer digital, blir personvern og sikkerhet stadig viktigere. Brukere ønsker trygghet i at samtalene deres er beskyttet. Funksjoner som kryptering og brukerstyrte innstillinger bidrar til en sikrere kommunikasjonsopplevelse.",
+        "futureTitle": "Hva som kommer videre",
+        "futureDesc": "Fremtiden for global kommunikasjon vil sannsynligvis inkludere mer avanserte verktøy, som AI-assistert melding, forbedret oversettelse og forbedrede brukeropplevelser. Etter hvert som teknologien utvikler seg, vil kommunikasjonen fortsette å bli mer intuitiv og tilgjengelig.",
+        "outro": "Plattformer som Chatforia er en del av dette skiftet, og hjelper folk å koble seg lettere på tvers av språk og grenser."
+      },
+      "index": {
+        "title": "Chatforia-bloggen",
+        "intro": "Utforsk innsikt om kommunikasjon, nettsikkerhet og hvordan meldingsteknologi knytter mennesker sammen over hele verden.",
+        "post1": "Hvordan chatte trygt på nett",
+        "post2": "Fremtiden for global kommunikasjon",
+        "post3": "Hvorfor meldingsplattformer er viktige"
+      }
     },
-    "nonRefundable": {
-      "title": "Ikke-refunderbart",
-      "body": "Vi gir vanligvis ikke refusjon for ubrukt tid, deler av abonnementsperioder eller manglende oppsigelse før fornyelse."
+    "howItWorks": {
+      "title": "Hvordan Chatforia fungerer",
+      "intro": "Chatforia er designet for å gjøre kommunikasjon enkel, rask og tilgjengelig. Å komme i gang tar bare noen få steg.",
+      "step1Title": "1. Opprette en konto",
+      "step1Desc": "Registrer deg med e-post eller brukernavn for å opprette din Chatforia-konto.",
+      "step2Title": "2. Start en samtale",
+      "step2Desc": "Koble deg til andre ved å velge kontakter eller starte nye chatter.",
+      "step3Title": "3. Sanntidsmeldinger",
+      "step3Desc": "Meldinger leveres raskt for å gi en smidig kommunikasjonsopplevelse.",
+      "step4Title": "4. Global kommunikasjon",
+      "step4Desc": "Innebygd oversettelse hjelper brukere å kommunisere på tvers av ulike språk.",
+      "step5Title": "5. Behold kontrollen",
+      "step5Desc": "Administrer dine preferanser, kontakter og kommunikasjonsinnstillinger."
     },
-    "thirdParty": {
-      "title": "Kjøp via tredjepart",
-      "body": "Hvis kjøpet ble gjort via tredjepartsplattformer som Apple App Store, må refusjoner forespørres direkte gjennom disse plattformene."
+    "safety": {
+      "title": "Retningslinjer for sikkerhet og fellesskap",
+      "intro": "Chatforia er forpliktet til å opprettholde et trygt og respektfullt miljø for alle brukere. Disse retningslinjene bidrar til å sikre en positiv opplevelse for alle.",
+      "respectTitle": "Respektfull kommunikasjon",
+      "respectDesc": "Brukere forventes å kommunisere respektfullt. Trakassering, misbruk eller skadelig atferd er ikke tillatt.",
+      "prohibitedTitle": "Forbudt innhold",
+      "prohibited": {
+        "illegal": "Ulovlige aktiviteter",
+        "harassment": "Trakassering eller mobbing",
+        "hate": "Hatprat eller diskriminering",
+        "explicit": "Eksplisitt eller skadelig materiale",
+        "spam": "Spam eller villedende praksiser"
+      },
+      "toolsTitle": "Brukersikkerhetsverktøy",
+      "tools": {
+        "report": "Rapporter upassende oppførsel eller innhold",
+        "block": "Blokker brukere for å forhindre videre interaksjon",
+        "control": "Administrer personvern- og kommunikasjonsinnstillinger"
+      },
+      "enforcementTitle": "Håndhevelse",
+      "enforcementDesc": "Vi kan iverksette tiltak mot kontoer som bryter disse retningslinjene, inkludert advarsler, restriksjoner eller permanent fjerning fra plattformen."
     },
-    "contact": {
-      "title": "Kontakt",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
-  },
-  "blog": {
-    "whyMessaging": {
-      "title": "Hvorfor meldingsplattformer er viktigere enn noen gang",
-      "intro": "Meldingsplattformer har blitt et av de viktigste verktøyene for kommunikasjon i dagens verden...",
-      "everydayTitle": "Daglig kommunikasjon",
-      "everydayDesc": "Folk er avhengige av meldingsapper for daglig kommunikasjon...",
-      "speedTitle": "Hastighet og bekvemmelighet",
-      "speedDesc": "Meldinger leveres umiddelbart...",
-      "globalTitle": "Global rekkevidde",
-      "globalDesc": "Meldingsplattformer knytter mennesker sammen over hele verden...",
-      "privacyTitle": "Personvern og kontroll",
-      "privacyDesc": "Moderne meldingsplattformer fokuserer på å gi brukerne kontroll...",
-      "futureTitle": "Fremtiden for meldinger",
-      "futureDesc": "Meldinger fortsetter å utvikle seg med nye funksjoner...",
-      "outro": "Chatforia er bygget med disse prinsippene i tankene..."
-    },
-
-    "global": {
-      "title": "Fremtiden for global kommunikasjon",
-      "intro": "Kommunikasjon har utviklet seg raskt...",
-      "barriersTitle": "Bryte ned barrierer",
-      "barriersDesc": "Folk kan nå koble seg til over hele verden...",
-      "translationTitle": "Rollen til oversettelsesteknologi",
-      "translationDesc": "Språk har tradisjonelt vært en barriere...",
-      "realtimeTitle": "Sanntidsforbindelse",
-      "realtimeDesc": "Hastighet er en nøkkelfaktor...",
-      "privacyTitle": "Personvern og sikkerhet",
-      "privacyDesc": "Brukere ønsker trygghet for at samtalene deres er beskyttet...",
-      "futureTitle": "Hva kommer videre",
-      "futureDesc": "Fremtiden for global kommunikasjon vil inkludere...",
-      "outro": "Plattformer som Chatforia er en del av denne utviklingen..."
-    },
-
-    "index": {
-      "title": "Chatforia-blogg",
-      "intro": "Utforsk innsikt om kommunikasjon...",
-      "post1": "Hvordan chatte trygt på nettet",
-      "post2": "Fremtiden for global kommunikasjon",
-      "post3": "Hvorfor meldingsplattformer er viktige"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Slik fungerer Chatforia",
-    "intro": "Chatforia er designet for å gjøre kommunikasjon enkelt...",
-    "step1Title": "1. Opprett en konto",
-    "step1Desc": "Registrer deg med e-post eller brukernavn...",
-    "step2Title": "2. Start en samtale",
-    "step2Desc": "Koble deg til andre...",
-    "step3Title": "3. Sanntidsmeldinger",
-    "step3Desc": "Meldinger leveres raskt...",
-    "step4Title": "4. Global kommunikasjon",
-    "step4Desc": "Innebygd oversettelse hjelper brukere...",
-    "step5Title": "5. Behold kontrollen",
-    "step5Desc": "Administrer dine preferanser..."
-  },
-
-  "safety": {
-    "title": "Sikkerhet og retningslinjer for fellesskapet",
-    "intro": "Chatforia er forpliktet til å opprettholde et trygt miljø...",
-    "respectTitle": "Respektfull kommunikasjon",
-    "respectDesc": "Brukere forventes å kommunisere respektfullt...",
-    "prohibitedTitle": "Forbudt innhold",
-    "prohibited": {
-      "illegal": "Ulovlige aktiviteter",
-      "harassment": "Trakassering eller mobbing",
-      "hate": "Hatprat eller diskriminering",
-      "explicit": "Eksplisitt eller skadelig innhold",
-      "spam": "Spam eller villedende praksis"
-    },
-    "toolsTitle": "Brukersikkerhetsverktøy",
-    "tools": {
-      "report": "Rapporter upassende oppførsel",
-      "block": "Blokker brukere",
-      "control": "Administrer personverninnstillinger"
-    },
-    "enforcementTitle": "Håndhevelse",
-    "enforcementDesc": "Vi kan iverksette tiltak mot kontoer..."
-},
     "chat": {
       "selectPrompt": "Velg et tekst- eller chatterom for å starte chatten",
       "newMessages": "Nye meldinger",
@@ -322,7 +324,7 @@
       "randomChat": "Tilfeldig chat",
       "callTextForwarding": "Samtale- og tekstvideresending",
       "conversations": "Samtaler",
-      "searchPlaceholder": "Søk samtaler...",
+      "searchPlaceholder": "Søk i chatter...",
       "errorLoading": "Mislykkedes i å laste chatter",
       "empty": "Ingen samtaler ennå.",
       "startChat": "Start en chat",
@@ -500,7 +502,7 @@
       "appearance": "Utseende",
       "soundSettings": "Lyder",
       "disappearing": "Forsvinnende meldinger",
-      "backupSync": "Krypteringsnøkkel-backup",
+      "backupSync": "Backup og synkronisering",
       "ai": "AI",
       "accessibility": "Tilgjengelighet",
       "privacy": "Personvern",
@@ -601,7 +603,8 @@
         "title": "Chatforia eSIM",
         "desc": "Få mobildata til Chatforia når du er borte fra Wi-Fi.",
         "cta": "Få eSIM / Vis QR"
-      }
+      },
+      "encryptedBackupsTitle": "Krypteringsnøkkel-backup"
     },
     "wireless": {
       "title": "Chatforia Wireless",
@@ -682,404 +685,404 @@
       "none": {
         "title": "Ingen familie har etablert seg ennå",
         "body": "For å opprette en Chatforia-familie og delt datapool, start en familieplan.",
-        "goUpgrade": "Start en familieplan",
-        "viewPlans": "Se alle planer"
+        "goUpgrade": "Start a Family plan",
+        "viewPlans": "View all plans"
       },
       "group": {
-        "defaultName": "Min Chatforia-familie",
-        "role": "Din rolle: {{role}}"
+        "defaultName": "My Chatforia Family",
+        "role": "Your role: {{role}}"
       },
       "role": {
-        "owner": "Eier",
+        "owner": "Owner",
         "member": "Medlem"
       },
       "data": {
-        "heading": "Delt datapool",
-        "caption": "Alle medlemmer deler denne poolen. Vi advarer deg når du nærmer deg grensen."
+        "heading": "Shared data pool",
+        "caption": "All members share this pool. We’ll warn you as you approach your limit."
       },
       "members": {
-        "title": "Familiemedlemmer",
-        "name": "Navn",
-        "role": "Rolle",
-        "usage": "Bruk",
-        "limit": "Grense",
-        "unlimited": "Ingen spesifikk grense",
-        "inviteCta": "Invitasjonsmedlem"
+        "title": "Family members",
+        "name": "Name",
+        "role": "Role",
+        "usage": "Usage",
+        "limit": "Limit",
+        "unlimited": "No specific limit",
+        "inviteCta": "Invite member"
       },
       "invite": {
-        "title": "Inviter et nytt medlem",
-        "body": "Send en e-post eller lenke for å invitere noen inn i din delte familiedatapool.",
-        "emailLabel": "E-post (valgfritt)",
+        "title": "Invite a new member",
+        "body": "Send an email or link to invite someone into your shared family data pool.",
+        "emailLabel": "Email (optional)",
         "emailPlaceholder": "friend@example.com",
-        "create": "Opprett invitasjon",
-        "linkLabel": "Invitasjonslenke",
-        "copyAria": "Kopier invitasjonslenken",
-        "expiryHint": "Denne koblingen utløper etter noen dager. Du kan alltid lage en ny."
+        "create": "Create invite",
+        "linkLabel": "Invite link",
+        "copyAria": "Copy invite link",
+        "expiryHint": "This link expires after a few days. You can always create a new one."
       },
       "join": {
-        "title": "Bli med i en familie",
-        "body": "Du er invitert til å bli med i en Chatforia-familie og dele deres datapool.",
-        "cta": "Ta imot og bli med i familien",
-        "ctaLogin": "Logg inn og bli med familien",
-        "success": "Du har blitt en del av denne familien. Du deler nå datapoolen deres.",
-        "goFamily": "Gå til familiedashbordet",
-        "error": "Vi kunne ikke legge deg til denne familien. Invitasjonen kan være ugyldig eller utløpt."
+        "title": "Join a family",
+        "body": "You have been invited to join a Chatforia Family and share their data pool.",
+        "cta": "Accept and join family",
+        "ctaLogin": "Sign in and join family",
+        "success": "You have joined this family. You now share their data pool.",
+        "goFamily": "Go to family dashboard",
+        "error": "We could not add you to this family. The invite may be invalid or expired."
       }
     },
     "premium": {
-      "heading": "Velg Premium",
-      "description": "Lås opp kraftfunksjoner og fjern annonser.",
+      "heading": "Go Premium",
+      "description": "Unlock power features & remove ads.",
       "cta": "Oppgradering",
       "upgrade": "Oppgradering",
-      "upgradeAria": "Oppgrader til Chatforia Premium"
+      "upgradeAria": "Upgrade to Chatforia Premium"
     },
     "upgrade": {
       "title": "Oppgradering",
       "titleLoggedIn": "Oppgradering",
-      "titlePublic": "Prissetting",
-      "h1": "Chatforia Priser og Planer",
-      "h1Subtitle": "Start med vår gratis, annonsefinansierte plan. Velg reklamefritt med Plus, eller lås opp fulle kraftfunksjoner med Premium.",
-      "subtitle": "Velg et app-abonnement, legg til datapakker for deg selv, eller del data med familien – alt fra ett sted.",
-      "subtitle.app": "Start med vår gratis, annonsefinansierte plan. Velg reklamefritt med Plus, eller lås opp fulle kraftfunksjoner med Premium.",
-      "subtitle.mobile": "Legg til global eSIM-data slik at Chatforia fortsetter å fungere selv når du er borte fra Wi-Fi.",
-      "subtitle.family": "Opprett en delt datapool for familien din og administrer alles bruk fra ett sted.",
+      "titlePublic": "Pricing",
+      "h1": "Chatforia Pricing & Plans",
+      "h1Subtitle": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+      "subtitle": "Choose an app plan, add data packs for yourself, or share data with your family — all from one place.",
+      "subtitle.app": "Start with our free, ad-supported plan. Go ad-free with Plus, or unlock full power features with Premium.",
+      "subtitle.mobile": "Add global eSIM data so Chatforia keeps working even when you’re away from Wi-Fi.",
+      "subtitle.family": "Create a shared data pool for your family and manage everyone’s usage from one place.",
       "perMonth": "mo",
-      "perYear": "År",
-      "goPremium": "Velg Premium",
-      "benefitsLine": "Lås opp kraftfunksjoner og fjern annonser.",
+      "perYear": "year",
+      "goPremium": "Go Premium",
+      "benefitsLine": "Unlock power features & remove ads.",
       "ctaText": "Oppgradering",
-      "aria": "Oppgrader til Chatforia Premium",
+      "aria": "Upgrade to Chatforia Premium",
       "toggle": {
-        "monthly": "Månedlig",
-        "annual": "Årlig (Spar 30 %)"
+        "monthly": "Monthly",
+        "annual": "Annual (Save 30%)"
       },
       "scheduleBanner": {
-        "title": "Abonnementet avsluttes",
-        "body": "Du vil gå tilbake til Free on",
-        "keepPlanCta": "Behold {{plan}}",
+        "title": "Subscription will end",
+        "body": "You’ll revert to Free on",
+        "keepPlanCta": "Keep {{plan}}",
         "manageBillingCta": "Administrer fakturering"
       },
       "billing": {
-        "opening": "Åpner...",
-        "manage": "Administrer fakturering"
+        "opening": "Opening…",
+        "manage": "Manage Billing"
       },
       "checkout": {
-        "redirecting": "Omdirigerer..."
+        "redirecting": "Redirecting…"
       },
       "auth": {
-        "continue": "Fortsett å logge inn",
+        "continue": "Continue to login",
         "createAccount": "Opprett konto",
-        "signIn": "Logg inn"
+        "signIn": "Sign in"
       },
       "cta": {
-        "aria": "Velg plan",
-        "getPlus": "Oppgradering til Plus",
-        "upgradeMonthly": "Oppgradering månedlig",
-        "upgradeAnnual": "Oppgraderingsårlig"
+        "aria": "Select plan",
+        "getPlus": "Upgrade to Plus",
+        "upgradeMonthly": "Upgrade Monthly",
+        "upgradeAnnual": "Upgrade Annual"
       },
       "section": {
-        "app": "App-planer",
-        "mobile": "Mobil (eSIM)",
-        "family": "Familieplaner"
+        "app": "App plans",
+        "mobile": "Mobile (eSIM)",
+        "family": "Family plans"
       },
       "plans": {
         "free": {
-          "title": "Gratis",
+          "title": "Free",
           "price": "$0",
-          "desc": "Begynn å sende meldinger gratis. Ideelt hvis du bare prøver Chatforia.",
+          "desc": "Start messaging for free. Ideal if you’re just trying Chatforia.",
           "features": {
-            "chat": "Sanntids 1:1 og gruppechat, samt tale- og videosamtaler",
-            "media": "Del bilder, talemeldinger og korte videoer",
+            "chat": "Real-time 1:1 and group chat, plus voice and video calls",
+            "media": "Share photos, voice messages, and short videos",
             "ai": "AI-powered smart replies and instant translation (fair use)",
-            "disappearing": "Forsvinnende meldinger og grunnleggende personvernkontroller",
-            "ads": "Gratis for alltid med annonser i appen"
+            "disappearing": "Disappearing messages and basic privacy controls",
+            "ads": "Free forever with ads in the app"
           },
           "ctaCurrent": "Nåværende plan",
-          "ctaManage": "Håndter fakturering",
-          "ctaPublic": "Kom i gang – fortsett å logge inn",
-          "aria": "Gratis plan"
+          "ctaManage": "Manage in billing",
+          "ctaPublic": "Get started – continue to login",
+          "aria": "Free plan"
         },
         "plus": {
-          "title": "I tillegg",
+          "title": "Plus",
           "price": "$6.99",
-          "desc": "Alt det nødvendige, uten reklame. Flott for daglige meldinger og samtaler.",
+          "desc": "All the essentials, without ads. Great for everyday messaging and calling.",
           "features": {
-            "allFree": "Alt er gratis, uten reklame",
-            "forwarding": "Videresend samtaler og meldinger til ditt ekte telefonnummer",
-            "history": "Lengre meldingshistorikk (opptil 6 måneder)",
-            "support": "Raskere støtte når noe går galt"
+            "allFree": "Everything in Free, with no ads",
+            "forwarding": "Forward calls and texts to your real phone number",
+            "history": "Longer message history (up to 6 months)",
+            "support": "Faster support when something goes wrong"
           },
-          "badge": "Populær",
-          "cta": "Gå annonsefritt",
-          "ctaPublic": "Get Plus – fortsett å logge inn",
-          "aria": "Oppgradering til Plus"
+          "badge": "Popular",
+          "cta": "Go Ad-Free",
+          "ctaPublic": "Get Plus – continue to login",
+          "aria": "Upgrade to Plus"
         },
         "premiumMonthly": {
-          "title": "Premium (månedlig)",
+          "title": "Premium (Monthly)",
           "price": "$11.99",
-          "desc": "Den fulle Chatforia-opplevelsen: AI-verktøy, tilpasning og prioritert støtte.",
+          "desc": "The full Chatforia experience: AI power tools, customization, and priority support.",
           "features": {
-            "plusAll": "Alt i Plus",
-            "themes": "Lås opp alle premium fargetemaer og app-tilpasninger",
+            "plusAll": "Everything in Plus",
+            "themes": "Unlock all premium color themes and app customizations",
             "ai": "Premium-only AI power tools for rewrites, smart replies, and summaries",
-            "support": "Prioritert støtte når du trenger hjelp som mest"
+            "support": "Priority support when you need help most"
           },
-          "badge": "Anbefalt",
-          "cta": "Oppgradering (månedlig)",
-          "ctaPublic": "Lås opp Premium – fortsett å logge inn",
-          "aria": "Oppgrader til Premium månedlig"
+          "badge": "Recommended",
+          "cta": "Upgrade (Monthly)",
+          "ctaPublic": "Unlock Premium – continue to login",
+          "aria": "Upgrade to Premium Monthly"
         },
         "premiumAnnual": {
-          "title": "Premium (Årlig)",
+          "title": "Premium (Annual)",
           "price": "$99",
-          "desc": "Spar mer når du fakturerer årlig — inkludert ekstra fargetemaer, AI-verktøy og prioritert støtte.",
+          "desc": "Save more when billed yearly — including extra color themes, AI tools, and priority support.",
           "features": {
-            "allPremium": "Alt i Premium Monthly — inkludert ekstra fargetemaer",
-            "annualBilling": "Fakturerer én gang i året",
-            "save25": "Spar rundt 30 % sammenlignet med å betale månedlig",
-            "bestFor": "Best for strømbrukere, fjernarbeidere og tunge reisende"
+            "allPremium": "Everything in Premium Monthly — including extra color themes",
+            "annualBilling": "Billed once per year",
+            "save25": "Save around 30% compared to paying monthly",
+            "bestFor": "Best for power users, remote workers, and heavy travelers"
           },
-          "badge": "Spar 30 %",
-          "cta": "Oppgradering (årlig)",
-          "ctaPublic": "Spar 30 % med årlig – fortsett å logge inn",
-          "aria": "Oppgradering til Premium Annual",
-          "disclaimer": "Fakturert på forhånd. Avbestill når som helst. Ingen skjulte gebyrer."
+          "badge": "Save 30%",
+          "cta": "Upgrade (Annual)",
+          "ctaPublic": "Save 30% with annual – continue to login",
+          "aria": "Upgrade to Premium Annual",
+          "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
         }
       },
       "marketing": {
-        "freeTitle": "Gratis",
-        "freeDesc": "Begynn å sende meldinger gratis.",
-        "plusTitle": "I tillegg",
-        "plusBadge": "Populær",
-        "plusDesc": "Den mest rimelige annonsefrie opplevelsen.",
+        "freeTitle": "Free",
+        "freeDesc": "Start messaging for free.",
+        "plusTitle": "Plus",
+        "plusBadge": "Popular",
+        "plusDesc": "Most affordable ad-free experience.",
         "premiumMonthlyTitle": "Premium",
-        "premiumMonthlyDesc": "Full funksjonalitet, ringetoner og AI-verktøy.",
+        "premiumMonthlyDesc": "Full features, ringtones, and AI power tools.",
         "premiumAnnualTitle": "Premium",
-        "premiumAnnualDesc": "Spar mer når det faktureres årlig.",
-        "annualDisclaimer": "Fakturert på forhånd. Avbestill når som helst. Ingen skjulte gebyrer."
+        "premiumAnnualDesc": "Save more when billed yearly.",
+        "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
       },
       "mobile": {
-        "title": "Chatforia Mobile (eSIM-datapakker)",
-        "subtitle": "Legg til global data for å holde Chatforia i gang selv uten Wi-Fi. Prisene justeres automatisk basert på landet og valutaen din.",
-        "subtitle.detail": "Velg en engangs global datapakke slik at Chatforia fortsetter å fungere når du er på reise eller borte fra Wi-Fi.",
+        "title": "Chatforia Mobile (eSIM data packs)",
+        "subtitle": "Add global data to keep Chatforia working even without Wi-Fi. Prices automatically adjust based on your country and currency.",
+        "subtitle.detail": "Pick a one-time global data pack so Chatforia keeps working when you’re traveling or away from Wi-Fi.",
         "scope": {
-          "local": "Lokalt",
-          "europe": "Europa",
-          "global": "Globalt"
+          "local": "Local",
+          "europe": "Europe",
+          "global": "Global"
         },
-        "note": "Vi selger ikke datapakker under 3 GB.",
-        "localEquals": "Lokal = {{country}}",
-        "localEqualsFallback": "Lokalt = ditt nåværende land",
-        "perPack": "/ pakke",
-        "cta": "Få tak i denne datapakken",
-        "ctaPublic": "Få tak i denne datapakken",
+        "note": "We don’t sell data packs under 3 GB.",
+        "localEquals": "Local = {{country}}",
+        "localEqualsFallback": "Local = your current country",
+        "perPack": "/ pack",
+        "cta": "Get this data pack",
+        "ctaPublic": "Get this data pack",
         "checkout": {
-          "redirecting": "Omdirigerer..."
+          "redirecting": "Redirecting…"
         },
         "unlimited": {
           "features": {
-            "heavyUse": "Høyhastighetsdata for tung bruk",
-            "throttle": "Hastighetene kan avta etter høy bruk",
-            "coverage": "Pålitelig dekning",
-            "instant": "Umiddelbar aktivering av eSIM",
-            "noContract": "Engangspakke, ingen kontrakt"
+            "heavyUse": "High-speed data for heavy use",
+            "throttle": "Speeds may slow after high usage",
+            "coverage": "Reliable coverage",
+            "instant": "Instant eSIM activation",
+            "noContract": "One-time pack, no contract"
           }
         },
         "disclaimer": {
-          "devices": "eSIM-datapakker krever en eSIM-kompatibel og ulåst enhet. Tilgjengeligheten varierer etter telefonmodell, operatør og land. Dekning og hastigheter varierer fra region til region."
+          "devices": "eSIM data packs require an eSIM-compatible and unlocked device. Availability varies by phone model, carrier, and country. Coverage and speeds vary by region."
         },
         "small": {
-          "title": "Startpakke",
-          "desc": "Inkluderer 3 GB høyhastighetsdata — ideelt for lette meldinger og sporadiske samtaler.",
+          "title": "Starter pack",
+          "desc": "Includes 3 GB of high-speed data — ideal for light messaging and occasional calls.",
           "price": "$9.99",
           "data": "3 GB",
-          "bestFor": "Korte turer, lette meldinger og sporadiske samtaler",
-          "aria": "Kjøp Starter eSIM datapakke"
+          "bestFor": "Short trips, light messaging, and occasional calls",
+          "aria": "Buy Starter eSIM data pack"
         },
         "medium": {
-          "title": "Traveler-sekk",
-          "desc": "Inkluderer 5 GB høyhastighetsdata for turer, pendling og vanlige VoIP-samtaler.",
+          "title": "Traveler pack",
+          "desc": "Includes 5 GB of high-speed data for trips, commuting, and regular VoIP calls.",
           "price": "$14.99",
           "data": "5 GB",
-          "bestFor": "Helgeturer, vanlige VoIP-samtaler og kart",
-          "aria": "Kjøp Traveler eSIM datapakke"
+          "bestFor": "Weekend trips, regular VoIP calls, and maps",
+          "aria": "Buy Traveler eSIM data pack"
         },
         "large": {
-          "title": "Kraftpakke",
-          "desc": "Inkluderer 10 GB høyhastighetsdata for tung chat, samtaler og video på Chatforia-nettverket.",
+          "title": "Power pack",
+          "desc": "Includes 10 GB of high-speed data for heavy chat, calls, and video on the Chatforia network.",
           "price": "$24.99",
           "data": "10 GB",
-          "bestFor": "Tung bruk av chat, samtaler, video og hotspot",
-          "aria": "Kjøp Power User eSIM datapakke"
+          "bestFor": "Heavy chat, calls, video, and hotspot use",
+          "aria": "Buy Power user eSIM data pack"
         },
         "compare": {
-          "title": "Sammenlign eSIM-datapakker",
+          "title": "Compare eSIM data packs",
           "col": {
-            "pack": "Flokk",
-            "data": "Inkluderte data",
+            "pack": "Pack",
+            "data": "Included data",
             "bestFor": "Best for"
           },
-          "disclaimer": "Faktisk databruk avhenger av hvordan du bruker Chatforia (tale, video, media og andre apper på telefonen din)."
+          "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, and other apps on your phone)."
         }
       },
       "family": {
-        "title": "Chatforia-familien (delt data)",
-        "subtitle": "Del en enkelt datapool på tvers av familien din. En regning, flere Chatforia-kontoer, global dekning.",
-        "perPack": "/ pakke",
+        "title": "Chatforia Family (shared data)",
+        "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
+        "perPack": "/ pack",
         "small": {
-          "title": "Liten familie",
-          "desc": "Inkluderer 20 GB delt høyhastighetsdata — flott for 2–3 lette brukere.",
+          "title": "Family Small",
+          "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
           "price": "$29.99",
-          "aria": "Kjøp Family Small-pakke"
+          "aria": "Buy Family Small pack"
         },
         "medium": {
-          "title": "Familiemedium",
-          "desc": "Inkluderer 40 GB delt høyhastighetsdata — ideelt for 3–5 aktive medlemmer.",
+          "title": "Family Medium",
+          "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
           "price": "$49.99",
-          "aria": "Kjøp Family Medium-pakke"
+          "aria": "Buy Family Medium pack"
         },
         "large": {
-          "title": "Stor familie",
-          "desc": "Inkluderer 80 GB delt høyhastighetsdata — for strømfamilier som alltid er online.",
+          "title": "Family Large",
+          "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
           "price": "$84.99",
-          "aria": "Kjøp Family Large pakke"
+          "aria": "Buy Family Large pack"
         },
         "feature": {
-          "shared": "Delt datapool for familien din",
-          "members": "Inviter opptil 4 ekstra medlemmer",
-          "membersMore": "Flott for 3–5 aktive medlemmer",
-          "manage": "Administrer grensene for hvert medlem",
-          "topUp": "Legg til flere pakker når som helst",
-          "bestValue": "Beste verdi per GB",
-          "fairUse": "Underlagt rettferdig brukspolitikk og lokale begrensninger"
+          "shared": "Shared data pool for your family",
+          "members": "Invite up to 4 additional members",
+          "membersMore": "Great for 3–5 active members",
+          "manage": "Manage limits for each member",
+          "topUp": "Add more packs anytime",
+          "bestValue": "Best value per GB",
+          "fairUse": "Subject to fair-use policy and local limits"
         },
-        "disclaimer": "Familiepakker oppretter eller fyller opp en delt datapool. Du kan invitere og fjerne medlemmer når som helst.",
-        "footnote": "Familiepakker deler en enkelt datapool på tvers av tilknyttede Chatforia-kontoer. Tilgjengelighet og grenser avhenger av landet ditt og lokale regler."
+        "disclaimer": "Family packs create or top up a shared data pool. You can invite and remove members anytime.",
+        "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability and limits depend on your country and local regulations."
       },
       "why": {
-        "title": "Hvorfor folk bytter til Chatforia",
-        "subtitle": "Chatforia gir deg et ekte telefonnummer, smart oversettelse og en klar vei til å gå annonsefritt når du er klar.",
+        "title": "Why people switch to Chatforia",
+        "subtitle": "Chatforia gives you a real phone number, smart translation, and a clear path to go ad-free when you’re ready.",
         "card": {
           "textnow": {
             "title": "Chatforia vs TextNow",
-            "body": "Lettere annonser på gratis, en enkel Plus-oppgradering når du er klar, og Premium-verktøy som ikke tilbys av TextNow."
+            "body": "Lighter ads on Free, a simple Plus upgrade when you’re ready, and Premium tools TextNow doesn’t offer."
           },
           "voice": {
             "title": "Chatforia vs Google Voice",
-            "body": "Moderne app, global-first design og innebygd oversettelse i stedet for gammeldags viderekobling."
+            "body": "Modern app, global-first design, and built-in translation instead of old-school call forwarding."
           },
           "messengers": {
-            "title": "Chatforia vs chat-apper",
-            "body": "Send ekte telefonnumre – ikke bare andre appbrukere – med innebygd AI og status. Flott hvis du kommer fra apper som TextFree eller TextMe."
+            "title": "Chatforia vs chat apps",
+            "body": "Text real phone numbers — not just other app users — with AI and status built in. Great if you’re coming from apps like TextFree or TextMe."
           }
         },
-        "tableTitle": "Hvordan Chatforia sammenlignes",
+        "tableTitle": "How Chatforia compares",
         "col": {
-          "feature": "Funksjon"
+          "feature": "Feature"
         },
         "feature": {
-          "freeNumber": "Gratis telefonnummer",
-          "translation": "Innebygd auto-oversettelse",
-          "aiTools": "AI-verktøy (omskrivinger, svar, sammendrag)",
-          "ads": "Annonsefritt alternativ",
-          "history": "Meldingshistorikk"
+          "freeNumber": "Free phone number",
+          "translation": "Built-in auto-translation",
+          "aiTools": "AI tools (rewrites, replies, summaries)",
+          "ads": "Ad-free option",
+          "history": "Message history"
         },
-        "yes": "Ja",
+        "yes": "Yes",
         "no": "No",
-        "yesPremium": "Ja (Premium)",
+        "yesPremium": "Yes (Premium)",
         "plusPremium": "Plus & Premium",
-        "limited": "Begrenset",
+        "limited": "Limited",
         "nA": "N/A",
         "history": {
-          "chatforia": "Opptil 12+ måneder",
-          "textnow": "Varierer fra konto til konto",
-          "voice": "Begrenset / kontobasert"
+          "chatforia": "Up to 12+ months",
+          "textnow": "Varies by account",
+          "voice": "Limited / account-based"
         },
-        "disclaimer": "Sammenligning basert på offentlig tilgjengelig informasjon og kan endre seg over tid. Andre gratistekst-apper som TextFree eller TextMe ligner stort sett på TextNow."
+        "disclaimer": "Comparison based on publicly available information and may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
       },
       "faq": {
-        "title": "Pris og planer FAQ",
+        "title": "Pricing & plans FAQ",
         "free": {
-          "q": "Er gratisplanen virkelig gratis?",
-          "a": "Ja. Den gratis planen inkluderer et Chatforia-nummer, samtaler og meldinger med annonser. Du kan bli på Gratis så lenge du vil, eller oppgradere for å fjerne annonser og låse opp flere funksjoner."
+          "q": "Is the Free plan really free?",
+          "a": "Yes. The Free plan includes a Chatforia number, calling, and messaging with ads. You can stay on Free as long as you like, or upgrade to remove ads and unlock more features."
         },
         "plusPremium": {
-          "q": "Hva er forskjellen mellom Plus og Premium?",
-          "a": "Plus fjerner annonser og utvider meldingshistorikken din — perfekt for daglig bruk. Premium legger til ekstra tilpasning, AI-verktøy for omskrivinger og svar, og prioritert støtte for tunge brukere."
+          "q": "What’s the difference between Plus and Premium?",
+          "a": "Plus removes ads and extends your message history — perfect for everyday use. Premium adds extra customization, AI tools for rewrites and replies, and priority support for heavy users."
         },
         "esim": {
-          "q": "Hvor fungerer eSIM-datapakker?",
-          "a": "Chatforia Mobile bruker global eSIM-dekning. Tilgjengeligheten avhenger av landet og enheten din. Du vil se støttede alternativer under aktivering i appen."
+          "q": "Where do eSIM data packs work?",
+          "a": "Chatforia Mobile uses global eSIM coverage. Availability depends on your country and device. You’ll see supported options during activation inside the app."
         },
         "cancel": {
-          "q": "Kan jeg avlyse eller endre planer når som helst?",
-          "a": "Ja. Du kan administrere eller kansellere abonnementet ditt fra faktureringssiden i appen. Endringene trer i kraft ved slutten av din nåværende faktureringsperiode."
+          "q": "Can I cancel or change plans anytime?",
+          "a": "Yes. You can manage or cancel your subscription from the billing page in the app. Changes take effect at the end of your current billing period."
         },
         "family": {
-          "q": "Hvordan fungerer familiepakker?",
-          "a": "Familiepakker oppretter en delt datapool på tvers av flere Chatforia-kontoer. Én person betaler regningen, og du kan invitere eller fjerne medlemmer og sette grenser per person."
+          "q": "How do Family packs work?",
+          "a": "Family packs create a shared data pool across multiple Chatforia accounts. One person pays the bill, and you can invite or remove members and set limits per person."
         }
       },
       "gettingStarted": {
-        "title": "Å komme i gang",
-        "subtitle": "Ny på Chatforia? Denne raske starten viser det essensielle slik at du kan være produktiv på få minutter.",
+        "title": "Getting Started",
+        "subtitle": "New to Chatforia? This quick start shows the essentials so you can be productive in minutes.",
         "alert": {
-          "text": "Denne guiden vil vokse etter hvert som vi lanserer nye funksjoner. Hvis noe mangler, gi oss beskjed via",
-          "contactLink": "Kontakt oss"
+          "text": "This guide will grow as we launch new features. If something’s missing, let us know via",
+          "contactLink": "Contact Us"
         },
         "section1": {
-          "title": "1) Opprett kontoen din",
-          "signup": "Meld deg på",
+          "title": "1) Create your account",
+          "signup": "Sign up",
           "or": "or",
-          "login": "logg inn",
-          "loginText": "med din eksisterende konto.",
-          "prefsStart": "Sett din",
-          "prefsLink": "Preferanser",
-          "prefsRest": "(språk, lesekvitteringer, temaer)."
+          "login": "log in",
+          "loginText": "with your existing account.",
+          "prefsStart": "Set your",
+          "prefsLink": "preferences",
+          "prefsRest": "(language, read receipts, themes)."
         },
         "section2": {
-          "title": "2) Begynn å sende meldinger",
-          "item1": "Lag en DM eller gruppe og send din første melding.",
-          "item2": "Bruk umiddelbar oversettelse for å chatte på 100+ språk.",
-          "item3": "Prøv å få meldinger og lesekvitteringer til å forsvinne i Profil → Personvern."
+          "title": "2) Start messaging",
+          "item1": "Create a DM or Group and send your first message.",
+          "item2": "Use instant translation to chat across 100+ languages.",
+          "item3": "Try disappearing messages and read receipts in Profile → Privacy."
         },
         "section3": {
-          "title": "3) Gå lenger",
-          "item1": "Du kan oppgradere til en betalt plan når som helst i appen.",
-          "item2": "Når du er logget inn, kan du koble til flere enheter og sette opp krypterte sikkerhetskopier fra Innstillinger i appen."
+          "title": "3) Go further",
+          "item1": "You can upgrade to a paid plan anytime inside the app.",
+          "item2": "Once you’re signed in, you can link additional devices and set up encrypted backups from Settings in the app."
         },
         "cta": {
-          "seePlans": "Se planer",
-          "openSettings": "Åpne settinger"
+          "seePlans": "See plans",
+          "openSettings": "Open settings"
         }
       },
       "helpCenter": {
-        "title": "Hjelpesenter",
+        "title": "Help Center",
         "faq": {
           "account": {
-            "q": "Hvordan oppretter eller gjenoppretter jeg kontoen min?",
-            "a": "Last ned appen eller bruk nettet, trykk på «Opprett konto», bekreft e-post/telefon. For å gjenopprette, bruk \"Glemt passord\"."
+            "q": "How do I create or recover my account?",
+            "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
           },
           "privacy": {
-            "q": "Er meldinger ende-til-ende-krypterte?",
-            "a": "Ja. Meldinger og samtaler er som standard ende-til-ende-kryptert. Bare du og mottakeren kan lese dem."
+            "q": "Are messages end-to-end encrypted?",
+            "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
           },
           "translate": {
-            "q": "Hvordan fungerer umiddelbar oversettelse?",
-            "a": "Aktiver \"Auto-translate\" i Innstillinger → Utseende og språk. Vi oversetter på enheten der det støttes, ellers gjennom sikre API-er med minimal metadata."
+            "q": "How does instant translation work?",
+            "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
           },
           "contact": {
-            "q": "Kontakt support",
+            "q": "Contact support",
             "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
           }
         }
       },
       "contact": {
-        "title": "Kontakt oss",
-        "successMsg": "Takk—teamet vårt svarer på e-post.",
+        "title": "Contact Us",
+        "successMsg": "Thanks—our team will reply by email.",
         "errorSend": "Could not send. Please email support@chatforia.com.",
         "form": {
-          "nameLabel": "Navn",
+          "nameLabel": "Name",
           "emailLabel": "E-post",
           "messageLabel": "Melding",
           "sendCta": "Send"
@@ -1089,47 +1092,47 @@
         "title": "Personvernerklæring",
         "lastUpdated": "Sist oppdatert:",
         "intro": {
-          "body": "Denne personvernerklæringen forklarer hvordan Chatforia (\"vi\", \"oss\") samler inn, bruker og deler informasjon når du bruker våre apper og tjenester. Vi designer Chatforia for å minimere dataene vi kan få tilgang til."
+          "body": "This Privacy Policy explains how Chatforia (“we”, “us”) collects, uses, and shares information when you use our apps and services. We design Chatforia to minimize the data we can access."
         },
         "infoWeCollect": {
-          "title": "Informasjonen vi samler inn",
-          "account": "Kontoinformasjon (f.eks. e-post/telefon) for å opprette og sikre kontoen din.",
-          "encrypted": "Kryptert innhold (meldinger/samtaler) er ende-til-ende-kryptert; Vi kan ikke lese det.",
-          "diagnostics": "Diagnostikk/bruk som krasjlogger, enhetstype eller grov analyse for å forbedre ytelsen."
+          "title": "Information we collect",
+          "account": "Account info (e.g., email/phone) to create and secure your account.",
+          "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; we can’t read it.",
+          "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
         },
         "sms": {
-          "title": "Mobiltelefonnumre og SMS",
-          "body": "Hvis du velger å oppgi et mobilnummer, bruker vi det til å aktivere funksjoner som kontoverifisering, innloggingsvarsler og bruker-til-bruker-meldinger via SMS der det støttes. Vi kan sende transaksjonelle SMS-meldinger knyttet til din konto og aktivitet på Chatforia. Du kan velge å ikke motta SMS-meldinger når som helst ved å svare med et støttet frameldingsnøkkelord (som «STOPP») eller ved å endre varslingsinnstillingene dine i appen. Vi selger ikke telefonnummeret ditt eller bruker det til ikke-relatert markedsføring.",
-          "newText": "Ny tekst",
+          "title": "Mobile phone numbers and SMS",
+          "body": "If you choose to provide a mobile phone number, we use it to enable features such as account verification, login alerts, and user-to-user messaging via SMS where supported. We may send transactional SMS messages related to your account and activity on Chatforia. You can opt out of receiving SMS messages at any time by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences in the app. We do not sell your phone number or use it for unrelated marketing.",
+          "newText": "New text",
           "enterRecipient": "Skriv inn et navn eller nummer",
           "typeMessage": "Skriv en melding...",
           "addRecipient": "Legg til en mottaker over for å starte..."
         },
         "howWeUse": {
-          "title": "Hvordan vi bruker informasjon",
-          "provide": "Tilby og sikre tjenesten (autentisering, spam-/misbruksdeteksjon).",
-          "improve": "Forbedre funksjoner (oversettelseskvalitet, pålitelighet).",
-          "legal": "Overhold juridiske forpliktelser."
+          "title": "How we use information",
+          "provide": "Provide and secure the service (auth, spam/abuse detection).",
+          "improve": "Improve features (translation quality, reliability).",
+          "legal": "Comply with legal obligations."
         },
         "sharing": {
-          "title": "Deling",
-          "body": "Vi selger ikke personopplysninger. Vi kan dele begrenset data med prosessorer (f.eks. push-varsler, analyser) under strenge kontrakter."
+          "title": "Sharing",
+          "body": "We don’t sell personal data. We may share limited data with processors (e.g., push notifications, analytics) under strict contracts."
         },
         "rights": {
-          "title": "Dine rettigheter",
+          "title": "Your rights",
           "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), you may request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
         },
         "retention": {
-          "title": "Datalagring og sikkerhet",
-          "body": "Vi beholder kun det som trengs for å drive tjenesten og anvende bransjestandard sikkerhet. E2E-innhold kan ikke dekrypteres av oss."
+          "title": "Data retention & security",
+          "body": "We retain only what’s needed to operate the service and apply industry-standard security. E2E content can’t be decrypted by us."
         },
         "children": {
-          "title": "Barn",
-          "body": "Chatforia er ikke rettet mot barn under 13 år (eller som kreves av lokal lov)."
+          "title": "Children",
+          "body": "Chatforia isn’t directed to children under 13 (or as required by your local law)."
         },
         "changes": {
-          "title": "Endringer",
-          "body": "Vi legger ut oppdateringer her og reviderer datoen for \"Sist oppdatert\"."
+          "title": "Changes",
+          "body": "We’ll post updates here and revise the “Last updated” date."
         },
         "contact": {
           "title": "Kontakt",
@@ -1140,33 +1143,33 @@
         "title": "Bruksvilkår",
         "lastUpdated": "Sist oppdatert:",
         "intro": {
-          "body": "Ved å bruke Chatforia godtar du disse vilkårene. Hvis du ikke er enig, bør du ikke bruke tjenesten."
+          "body": "By using Chatforia you agree to these Terms. If you do not agree, don’t use the service."
         },
         "accounts": {
-          "title": "Beretninger",
-          "itemAccurateInfo": "Gi nøyaktig informasjon og hold legitimasjonen trygg.",
-          "itemResponsibility": "Du er ansvarlig for aktiviteten på kontoen din."
+          "title": "Accounts",
+          "itemAccurateInfo": "Provide accurate info and keep credentials secure.",
+          "itemResponsibility": "You’re responsible for activity on your account."
         },
         "acceptableUse": {
-          "title": "Akseptabel bruk",
-          "itemNoAbuse": "Ingen ulovlig, misbrukende eller krenkende innhold; Ingen spam eller automatisert misbruk.",
-          "itemSuspend": "Vi kan suspendere eller avslutte ved brudd."
+          "title": "Acceptable use",
+          "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
+          "itemSuspend": "We may suspend/terminate for violations."
         },
         "sms": {
-          "title": "SMS-kommunikasjon",
-          "body": "Hvis du oppgir et mobilnummer, samtykker du i at Chatforia kan sende deg SMS-meldinger relatert til kontoen din og bruken av tjenesten, som innloggingsvarsler, sikkerhetsvarsler og meldinger knyttet til samtaler du starter eller deltar i. Vi bruker ikke SMS til reklame- eller markedsføringsmeldinger uten ditt uttrykkelige samtykke. Standard meldings- og datapriser kan gjelde. Du kan når som helst melde deg ut av SMS-meldinger ved å svare med et støttet frameldingsnøkkelord (for eksempel «STOPP») eller ved å oppdatere varslingsinnstillingene dine i appen."
+          "title": "SMS communications",
+          "body": "If you provide a mobile phone number, you agree that Chatforia may send you SMS messages related to your account and use of the service, such as login alerts, security notifications, and messages related to conversations you initiate or participate in. We do not use SMS for promotional or marketing messages without your explicit consent. Standard message and data rates may apply. You can opt out of SMS messages at any time by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings in the app."
         },
         "yourContent": {
-          "title": "Ditt innhold",
-          "body": "Du beholder rettighetene til innholdet ditt. Du gir oss nødvendige rettigheter til å drive tjenesten (f.eks. ruting, lagring, oversettelse)."
+          "title": "Your content",
+          "body": "You retain rights to your content. You grant us necessary rights to operate the service (e.g., routing, storage, translation)."
         },
         "disclaimer": {
-          "title": "Ansvarsfraskrivelser og ansvar",
-          "body": "Tjenesten leveres \"som den er\" uten garanti. I den grad loven tillater, er ikke Chatforia ansvarlig for indirekte eller følgeskader."
+          "title": "Disclaimers & liability",
+          "body": "Service is provided “as is” without warranties. To the fullest extent permitted by law, Chatforia isn’t liable for indirect or consequential damages."
         },
         "changes": {
-          "title": "Endringer",
-          "body": "Vi kan oppdatere disse vilkårene; Fortsatt bruk etter endringer betyr aksept."
+          "title": "Changes",
+          "body": "We may update these terms; continued use after changes means acceptance."
         },
         "contact": {
           "title": "Kontakt",
@@ -1174,435 +1177,443 @@
         }
       },
       "doNotSell": {
-        "title": "Ikke selg eller del min personlige informasjon",
-        "body": "Chatforia selger ikke personlig informasjon. Innbyggere i California kan fortsatt sende inn forespørsler under CPRA ved å bruke knappen nedenfor.",
-        "cta": "Send inn en forespørsel"
+        "title": "Do Not Sell or Share My Personal Information",
+        "body": "Chatforia does not sell personal information. California residents can still submit requests under CPRA using the button below.",
+        "cta": "Submit a request"
       },
       "cookies": {
-        "title": "Informasjonskapselinnstillinger",
-        "body": "Chatforia bruker minimale informasjonskapsler (f.eks. sesjon, sikkerhet). Vi bruker ikke tredjeparts annonse-cookies. Administrer informasjonskapsler via nettleserens innstillinger."
+        "title": "Cookie Settings",
+        "body": "Chatforia uses minimal cookies (e.g., session, security). We don’t use third-party ads cookies. Manage cookies via your browser’s settings."
       },
       "phoneNumberManager": {
-        "unableToLoadStatus": "Kan ikke laste inn telefonnummerstatus.",
-        "lock": "Lås",
-        "noNumberAssigned": "Ingen nummer tildelt. Velg en etter retningsnummer for å begynne å sende tekstmeldinger.",
-        "pickNumber": "Velg et tall",
+        "unableToLoadStatus": "Unable to load phone number status.",
+        "lock": "Lock",
+        "noNumberAssigned": "No number assigned. Pick one by area code to start texting.",
+        "pickNumber": "Pick a number",
         "phoneNumber": "Telefonnummer"
       },
       "startChatModal": {
         "title": "Start en chat",
-        "quickPicker": "Hurtigplukker",
+        "quickPicker": "Quick picker",
         "to": "To",
-        "nameOrUsername": "Skriv inn et navn, brukernavn",
-        "nameUsernamePhoneEmail": "Skriv inn navn, brukernavn, telefon eller e-post...",
-        "startWithSelected": "Start chatten med de utvalgte",
-        "searchByUsernameOrPhone": "Søk etter brukernavn eller telefon",
+        "nameOrUsername": "Type a name, username",
+        "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
+        "startWithSelected": "Start chat with selected",
+        "searchByUsernameOrPhone": "Search by username or phone",
         "search": "Søk",
-        "searchPrompt": "Skriv inn et brukernavn eller telefon og trykk Søk.",
-        "pickFromContacts": "Eller velg blant kontakter",
-        "addContact": "Legg til en kontakt",
+        "searchPrompt": "Type a username or phone and press Search.",
+        "pickFromContacts": "Or pick from contacts",
+        "addContact": "Add a Contact",
         "show": "Show",
         "add": "Legg til",
-        "close": "Lukk",
-        "selectedCount": "{{count}} valgt",
-        "pickAtLeastOne": "Velg minst én mottaker.",
-        "saveContactsHint": "Telefon-/e-postoppføringer vil være tilgjengelige etter at du har lagret dem som kontakter.",
-        "failedBulkStart": "Klarte ikke å starte chat med utvalgte mottakere.",
+        "close": "Close",
+        "selectedCount": "{{count}} selected",
+        "pickAtLeastOne": "Pick at least one recipient.",
+        "saveContactsHint": "Phone/email entries will be available after you save them as contacts.",
+        "failedBulkStart": "Failed to start chat with selected recipients.",
         "noResults": "Ingen resultater",
-        "mode": "Modus",
-        "group": "Gruppe",
-        "broadcast": "Sending",
-        "groupNameOptional": "Gruppenavn (valgfritt)",
-        "firstMessageOptional": "Første melding (valgfritt, men anbefalt)",
-        "createGroup": "Opprett gruppe",
-        "sendBroadcast": "Send sending"
+        "mode": "Mode",
+        "group": "Group",
+        "broadcast": "Broadcast",
+        "groupNameOptional": "Group name (optional)",
+        "firstMessageOptional": "First message (optional but recommended)",
+        "createGroup": "Create group",
+        "sendBroadcast": "Send broadcast"
       },
       "themes": {
         "amoled": "Amoled",
         "aurora": "Aurora",
         "neon": "Neon",
-        "sunset": "Solnedgang",
-        "solarized": "Solarisert",
-        "velvet": "Fløyel"
+        "sunset": "Sunset",
+        "solarized": "Solarized",
+        "velvet": "Velvet"
       },
       "sounds": {
-        "freeNotice": "Du er på gratis — premiumtoner vises, men er låst. Oppgrader for å låse opp alt.",
+        "freeNotice": "You’re on Free — premium tones are shown but locked. Upgrade to unlock all.",
         "preview": "Forhåndsvisning",
-        "resetToDefaults": "Tilbakestill til standardinnstillinger",
-        "notificationSounds": "Varslingslyder",
-        "messageTone": "Meldingstone",
+        "resetToDefaults": "Reset to defaults",
+        "notificationSounds": "Notification Sounds",
+        "messageTone": "Message tone",
         "default": "Default",
-        "vibrate": "Vibrer",
-        "dreamer": "Drømmer",
-        "notify": "Varsle",
+        "vibrate": "Vibrate",
+        "dreamer": "Dreamer",
+        "notify": "Notify",
         "pop": "Pop",
-        "pulsatingSound": "Pulserende lyd",
-        "textMessage": "Tekstmelding",
-        "xylophone": "Xylofon",
-        "classic": "Klassisk",
-        "urgency": "Hastverk",
-        "bells": "Klokker",
-        "chimes": "Klokkespill",
-        "digitalPhone": "Digitaltelefon",
-        "melodic": "Melodisk",
-        "organNotes": "Orgelnoter",
-        "soundReality": "Lydrealitet",
-        "street": "Gate",
+        "pulsatingSound": "Pulsating Sound",
+        "textMessage": "Text Message",
+        "xylophone": "Xylophone",
+        "classic": "Classic",
+        "urgency": "Urgency",
+        "bells": "Bells",
+        "chimes": "Chimes",
+        "digitalPhone": "Digital Phone",
+        "melodic": "Melodic",
+        "organNotes": "Organ Notes",
+        "soundReality": "Sound Reality",
+        "street": "Street",
         "universfield": "Universfield"
       },
       "premiumGuard": {
-        "requiresPremium": "Denne funksjonen krever en Premium-plan."
+        "requiresPremium": "This feature requires a Premium plan."
       },
       "aiSettings": {
-        "title": "AI-innstillinger",
-        "controlIntro": "Kontrolloversettelse, smarte svar og ForiaBot-autosvar.",
-        "save": "Lagre AI-innstillinger",
-        "autoTranslateIncoming": "Auto-oversett innkommende meldinger",
-        "showOriginalAlongside": "Vis originaltekst sammen med oversettelse",
-        "enableSmartReplies": "Aktiver smarte svar",
-        "smartRepliesHint": "Send de siste mottatte meldingene (renset) til AI for å foreslå raske svar.",
-        "maskProfanity": "Masker banning i AI-forslag",
-        "maskProfanityHint": "Hvis det er på, vil forslag fra AI ha markerte ord maskert",
+        "title": "AI Settings",
+        "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+        "save": "Save AI Settings",
+        "autoTranslateIncoming": "Auto-translate incoming messages",
+        "showOriginalAlongside": "Show original text alongside translation",
+        "enableSmartReplies": "Enable Smart Replies",
+        "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+        "maskProfanity": "Mask profanity in AI suggestions",
+        "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
         "foriaBot": "ForiaBot Auto-Responder",
-        "enableAutoReply": "Aktiver automatisk svar når jeg er opptatt",
-        "autoReplyMode": "Auto-svarmodus",
-        "cooldownSeconds": "Nedkjøling (sekunder)",
+        "enableAutoReply": "Enable auto-reply when I’m busy",
+        "autoReplyMode": "Auto-reply mode",
+        "cooldownSeconds": "Cooldown (seconds)",
         "off": "Av",
         "on": "On",
-        "signature": "Signatur",
-        "autoReply": "Automatisk svar",
-        "activeUntilOptional": "Aktiv til (valgfritt)",
-        "saved": "AI-innstillinger lagret",
-        "saveFailed": "Klarte ikke å lagre AI-innstillinger",
+        "signature": "Signature",
+        "autoReply": "Auto-reply",
+        "activeUntilOptional": "Active until (optional)",
+        "saved": "AI preferences saved",
+        "saveFailed": "Failed to save AI settings",
         "translateOff": "Av",
         "translateTagged": "Only when @translated or tagged",
-        "translateAll": "Oversett alle innkommende meldinger",
-        "modeDm": "Kun 1:1-chatter",
+        "translateAll": "Translate all incoming messages",
+        "modeDm": "1:1 chats only",
         "modeMention": "Only when I’m @mentioned",
-        "modeAll": "Alle innkommende meldinger"
+        "modeAll": "All inbound messages"
       },
       "accessibilitySettings": {
-        "title": "Tilgjengelighet og varsler",
+        "title": "Accessibility & Alerts",
         "accessibility": "Tilgjengelighet",
-        "accessibilityDesc": "Alternativer for å gjøre Chatforia enklere å bruke uten å være avhengig av lyd.",
-        "interfaceFontSize": "Grensesnittskriftstørrelse",
-        "interfaceFontSizeHelp": "Starter på normal størrelse. Øk hvis du foretrekker større tekst i tilgjengelighetsinnstillingene.",
+        "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+        "interfaceFontSize": "Interface font size",
+        "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text in accessibility settings.",
         "sm": "sm",
         "md": "md",
         "lg": "lg",
         "xl": "xl",
-        "notifications": "Varsler",
-        "notificationsDesc": "Visuelle varsler for meldinger og samtaler\nVis bannere og tittelen blinker slik at du ikke går glipp av aktivitet.",
-        "vibrateOnNew": "Vibrer på nye meldinger (når støttet)\nUtløs vibrasjon av enheten med varsler.",
-        "flashOnCall": "Blitsskjerm ved innkommende samtale\nKort, sterkt blink når en samtale ringer.",
-        "liveCaptions": "Live teksting (samtaler)",
-        "captionFontSize": "Skriftstørrelse for bildetekst",
-        "captionBackground": "Bakgrunn for bildetekst",
-        "light": "Lys",
-        "dark": "Mørk",
-        "transparent": "Gjennomsiktig",
-        "voiceNotes": "Talenoter",
-        "autoTranscribeVoiceNotes": "Auto-transkribere talenoter",
-        "autoTranscribeVoiceNotesDesc": "Legg ved en transkripsjon til lydmeldinger du mottar.",
-        "changesSavedInstantly": "Endringer lagres umiddelbart.",
-        "loadFailed": "Klarte ikke å laste innstillinger",
-        "visualAlerts": "Visuelle varsler for meldinger og samtaler",
-        "visualAlertsDesc": "Vis bannere og tittelen blinker slik at du ikke går glipp av aktivitet.",
-        "vibrateOnNewShort": "Vibrer på nye meldinger (når støttet)",
-        "vibrateOnNewDesc": "Utløs vibrasjon av enheten med varsler.",
-        "flashOnCallShort": "Blitsskjerm ved innkommende samtale",
-        "flashOnCallDesc": "Kort, sterkt blink når en samtale ringer."
+        "notifications": "Notifications",
+        "notificationsDesc": "Visual alerts for messages & calls\nShow banners and title blink so you don’t miss activity.",
+        "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration with notifications.",
+        "flashOnCall": "Flash screen on incoming call\nBrief bright flash when a call rings.",
+        "liveCaptions": "Live captions (calls)",
+        "captionFontSize": "Caption font size",
+        "captionBackground": "Caption background",
+        "light": "light",
+        "dark": "dark",
+        "transparent": "transparent",
+        "voiceNotes": "Voice notes",
+        "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+        "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+        "changesSavedInstantly": "Changes are saved instantly.",
+        "loadFailed": "Failed to load settings",
+        "visualAlerts": "Visual alerts for messages & calls",
+        "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+        "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+        "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+        "flashOnCallShort": "Flash screen on incoming call",
+        "flashOnCallDesc": "Brief bright flash when a call rings."
       },
       "privacySection": {
-        "strictE2EE": "Streng ende-til-ende-kryptering",
-        "ciphertextOnlyNote": "Lagre kun chiffertekst på serveren. Deaktiverer forhåndsvisninger av AI/Translate og moderasjon."
+        "strictE2EE": "Strict end-to-end encryption",
+        "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews."
       },
       "linkedDevicesPanel": {
-        "title": "Koblede enheter",
-        "noneFound": "Ingen tilknyttede enheter funnet.",
+        "title": "Linked Devices",
+        "noneFound": "No linked devices found.",
         "refresh": "Oppdater"
       },
       "help": {
         "title": "Hjelp",
-        "howCanWeHelp": "Hvordan kan vi hjelpe?",
-        "helpCenter": "Hjelpesenter",
-        "contactUs": "Kontakt oss",
-        "quickTopics": "Raske emner",
-        "searchExamples": "Prøv å søke på \"translate\", \"backups\" eller \"privacy\".",
-        "cantLogin": "Kan ikke logge inn",
-        "paymentsBilling": "Betalinger/fakturering",
-        "reportAbuse": "Rapporter misbruk",
-        "searchHelpArticles": "Søkehjelpsartikler",
+        "howCanWeHelp": "How can we help?",
+        "helpCenter": "Help Center",
+        "contactUs": "Contact us",
+        "quickTopics": "Quick topics",
+        "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
+        "cantLogin": "Can't log in",
+        "paymentsBilling": "Payments/ billing",
+        "reportAbuse": "Report abuse",
+        "searchHelpArticles": "Search help articles",
         "search": "Søk"
       },
       "peoplePage": {
         "people": "Folk",
         "search": "Søk",
-        "searchPlaceholder": "Søk etter alias, navn, brukernavn eller telefonnummer",
+        "searchPlaceholder": "Search by alias, name, username, or phone",
         "filterSaved": "Filter lagrede kontakter",
-        "noContactsFound": "Ingen kontakter funnet",
-        "quickStart": "Rask start",
-        "quickStartDesc": "Noen raske måter å komme i gang på.",
-        "importContacts": "Importer kontaktene dine",
+        "noContactsFound": "No contacts found",
+        "quickStart": "Quick start",
+        "quickStartDesc": "A few fast ways to get rolling.",
+        "importContacts": "Import your contacts",
         "add": "Legg til",
-        "focusSearch": "Fokussøk",
+        "focusSearch": "Focus Search",
         "import": "Import",
-        "findOrAdd": "Finn eller legg til noen",
-        "searchByPhoneOrUsername": "Søk etter telefon / brukernavn",
-        "inviteFriends": "Inviter venner",
-        "inviteDesc": "Del invitasjonslenken din for å begynne å chatte umiddelbart.",
+        "findOrAdd": "Find or add someone",
+        "searchByPhoneOrUsername": "Search by phone / username",
+        "inviteFriends": "Invite friends",
+        "inviteDesc": "Share your invite link to start chatting instantly.",
         "getTheApp": "Skaff deg appen",
-        "getTheAppDesc": "Hold deg oppdatert på farten med Chatforia for iOS og Android.",
+        "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
         "download": "Last ned",
-        "syncTip": "Tips: Meldingene dine forblir synkronisert på tvers av nett og mobil."
+        "syncTip": "Tip: Your messages stay synced across web and mobile."
       },
       "randomChat": {
         "title": "Tilfeldig chat",
-        "description": "'Møt noen nye med en gang'. 'Vi matcher deg og åpner et midlertidig chatterom.' 'Chat anonymt først. Legg til Venn senere hvis det føles riktig.'",
-        "findMatch": "Finn en match til meg",
-        "chatWithForia": "Chat med Foria",
-        "chatWithForiaBot": "Chat med ForiaBot",
+        "description": "'Meet someone new instantly'. 'We’ll match you and open a temporary chat room.' 'Chat anonymously first. Add Friend later if it feels right.'",
+        "findMatch": "Find me a match",
+        "chatWithForia": "Chat with Foria",
+        "chatWithForiaBot": "Chat with ForiaBot",
         "cancel": "Avbryt",
-        "close": "Lukk",
-        "searching": "Leter...",
-        "finding": "Å finne...",
-        "looking": "Leter etter noen...",
-        "startingForia": "Starter en chat med Foria...",
-        "partnerDisconnected": "Partneren din koblet fra.",
-        "noPartner": "Ingen partner funnet akkurat nå.",
-        "connectedTo": "Koblet til {{name}}",
+        "close": "Close",
+        "searching": "Searching…",
+        "finding": "Finding…",
+        "looking": "Looking for someone…",
+        "startingForia": "Starting a chat with Foria…",
+        "partnerDisconnected": "Your partner disconnected.",
+        "noPartner": "No partner found right now.",
+        "connectedTo": "Connected to {{name}}",
         "connected": "Connected",
-        "idle": "Ledig",
-        "partnerLeft": "Partneren dro.",
-        "stopped": "Stoppet.",
-        "skip": "Hopp over",
+        "idle": "Idle",
+        "partnerLeft": "Partner left.",
+        "stopped": "Stopped.",
+        "skip": "Skip",
         "save": "Lagre",
-        "saveGuard": "Kun menneske-til-menneske-samtaler kan reddes",
-        "youAreChattingWith": "Du chatter med {{name}}",
+        "saveGuard": "Only human-to-human chats can be saved",
+        "youAreChattingWith": "You’re chatting with {{name}}",
         "bot": "BOT",
-        "leave": "Gå",
-        "sayHi": "Si hei 👋",
-        "you": "Du",
-        "typeMessage": "Skriv en melding",
+        "leave": "Leave",
+        "sayHi": "Say hi 👋",
+        "you": "You",
+        "typeMessage": "Type a message",
         "send": "Send",
         "partner": "Partner",
-        "withRia": "Med Ria",
-        "chatWithRia": "Chat med Ria",
-        "startingRia": "Starter en chat med Ria...",
-        "ageDisclaimer": "Vi lagrer kun en aldersgruppe (ikke din eksakte fødselsdato). Dette brukes for å holde Random Chat-paringer rimelige. For å matche med folk (ikke bare RiaBot), sett aldersgruppen din i Innstillinger → Alder og tilfeldig chat.",
-        "ageBandRequired": "Sett aldersspennet ditt i Profil → Alder & Tilfeldig chat for å matches med folk.",
-        "ageBandCallout": "For å matche med folk (ikke bare RiaBot), sett aldersgruppen din i Innstillinger → Alder og tilfeldig chat.",
-        "subtitle": "Møt noen nye med en gang, eller velg å chatte med Ria.",
+        "withRia": "With Ria",
+        "chatWithRia": "Chat with Ria",
+        "startingRia": "Starting a chat with Ria…",
+        "ageDisclaimer": "We only store an age range (not your exact date of birth). This is used to keep Random Chat pairings reasonable. To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+        "ageBandRequired": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+        "ageBandCallout": "To match with people (not just RiaBot), set your age band in Settings → Age & Random Chat.",
+        "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
         "start": "Start en samtale",
-        "matching": "Matcher...",
-        "setAge": "Sett aldersspennet ditt i Profil → Alder & Tilfeldig chat for å matches med folk.",
-        "next": "Neste person",
-        "addFriend": "Legg til venn",
-        "requested": "Forespurt",
-        "messageRia": "Send melding til Ria...",
-        "messageMatch": "Send melding til matchen din..."
+        "matching": "Matching…",
+        "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+        "next": "Next Person",
+        "addFriend": "Add Friend",
+        "requested": "Requested",
+        "messageRia": "Message Ria…",
+        "messageMatch": "Message your match…"
       },
       "brand": {
         "name": "Chatforia",
         "ria": "Ria"
       },
       "ria": {
-        "fallbackName": "Der",
-        "intro": "Hei, jeg 👋 er Ria. Hva tenker du på?",
+        "fallbackName": "there",
+        "intro": "Hey there 👋 I’m Ria. What’s on your mind?",
         "greetings": {
-          "long1": "Hei {{name}}👋, jeg er her. Hva tenker du på?",
-          "long2": "Hei {{name}} 😊 Hva vil du snakke om i dag?",
-          "long3": "Hei {{name}}! Jeg lytter — hva skjer?",
-          "long4": "Hyggelig å se deg, {{name}} 👋 Hva tenker du på i dag?",
-          "long5": "Hei {{name}} 🙂 Vil du lufte frustrasjonen, spørre, eller bare prate?",
-          "long6": "Hei {{name}}! Jeg har tid — hva vil du snakke om?",
-          "short1": "Hei {{name}}, jeg er fortsatt her. Hva skjer?",
-          "short2": "Velkommen tilbake {{name}} 👋 Er det noe mer du vil legge til?",
-          "short3": "Tilbake igjen, {{name}}? 😊 Fortell meg hva du tenker på.",
-          "short4": "Hei {{name}} Klar ✨ til å fortsette der vi slapp?",
-          "short5": "Ja {{name}}? Jeg lytter 👂",
-          "short6": "Å, hei {{name}}! Har du noe nytt på hjertet?"
+          "long1": "Hey {{name}} 👋 I’m here. What’s on your mind?",
+          "long2": "Hi {{name}} 😊 What would you like to talk about today?",
+          "long3": "Hey {{name}}! I’m all ears — what’s up?",
+          "long4": "Nice to see you, {{name}} 👋 What’s on your mind today?",
+          "long5": "Hey {{name}} 🙂 Want to vent, ask, or just chat?",
+          "long6": "Hi {{name}}! I’ve got time — what would you like to talk about?",
+          "short1": "Hey {{name}}, I’m still here. What’s up?",
+          "short2": "Welcome back {{name}} 👋 Anything else you wanted to add?",
+          "short3": "Back again, {{name}}? 😊 Tell me what’s on your mind.",
+          "short4": "Hey {{name}} ✨ Ready to pick up where we left off?",
+          "short5": "Yes {{name}}? I’m listening 👂",
+          "short6": "Oh hey {{name}}! Got something new on your mind?"
         },
         "header": {
-          "openNav": "Åpne navigasjonsmeny",
-          "closeNav": "Lukk navigasjonsmeny",
-          "homeAria": "Chatforia-hjemmet"
+          "openNav": "Open navigation menu",
+          "closeNav": "Close navigation menu",
+          "homeAria": "Chatforia Home"
         },
         "login": {
-          "welcomeBack": "Velkommen tilbake",
-          "title": "Fortsett til Chatforia",
-          "subtitleReturning": "Logg inn på din Chatforia-konto",
-          "subtitle": "Logg inn på din Chatforia-konto",
+          "welcomeBack": "Welcome back",
+          "title": "Continue to Chatforia",
+          "subtitleReturning": "Log in to your Chatforia account",
+          "subtitle": "Log in to your Chatforia account",
           "google": "Fortsett med Google",
           "apple": "Fortsett med Apple",
-          "googleUnavailable": "Google-innlogging er utilgjengelig",
-          "appleUnavailable": "Apple-pålogging utilgjengelig",
+          "googleUnavailable": "Google sign-in unavailable",
+          "appleUnavailable": "Apple sign-in unavailable",
           "or": "or",
           "email": "E-post",
           "emailPh": "you@example.com",
           "usernameLabel": "Brukernavn",
-          "usernamePh": "Brukernavnet ditt",
+          "usernamePh": "Your username",
           "passwordLabel": "Passord",
-          "passwordPh": "Passordet ditt",
+          "passwordPh": "Your password",
           "keepSignedIn": "Hold meg pålogget",
           "forgot": {
-            "title": "Glemt passord",
-            "helper": "Skriv inn e-posten du brukte for å opprette Chatforia-kontoen din, så sender vi deg en sikker lenke for å tilbakestille passordet ditt.",
-            "emailInvalid": "Vennligst oppgi en gyldig e-postadresse.",
-            "genericError": "Kan ikke behandle forespørsel. Vennligst prøv igjen om et øyeblikk.",
-            "sending": "Sender tilbakestillingslenke...",
-            "sendCta": "Send tilbakestillingslenke",
-            "sentLabel": "Sendt!",
-            "sentHelper": "Hvis det finnes en konto med den e-posten, har vi sendt en lenke for tilbakestilling av passord. Det kan ta noen minutter å komme. Husk å sjekke spam- eller kampanjemappen din.",
-            "previewDev": "Forhåndsvisning av e-post (Utvikler)",
-            "backToLogin": "Tilbake til innlogging"
+            "title": "Forgot Password",
+            "helper": "Enter the email you used to create your Chatforia account and we'll send you a secure link to reset your password.",
+            "emailInvalid": "Please enter a valid email address.",
+            "genericError": "Unable to process request. Please try again in a moment.",
+            "sending": "Sending reset link...",
+            "sendCta": "Send Reset Link",
+            "sentLabel": "Sent!",
+            "sentHelper": "If an account exists with that email, we've sent a password reset link. It may take a few minutes to arrive. Be sure to check your spam or promotions folder.",
+            "previewDev": "Preview Email (Dev)",
+            "backToLogin": "Back to Login"
           },
           "submit": "Logg inn",
-          "loggingIn": "Logger inn...",
-          "newHere": "Ny her? <link>Opprett en konto</link>",
-          "ssoUnavailable": "Enkeltpålogging er for øyeblikket ikke tilgjengelig. Bruk brukernavn og passord i stedet.",
+          "loggingIn": "Logging in…",
+          "newHere": "New here? <link>Create an account</link>",
+          "ssoUnavailable": "Single-sign-on is currently unavailable. Use username & password instead.",
           "error": {
-            "missing": "Vennligst oppgi dine legitimasjoner.",
-            "invalid": "Ugyldig brukernavn eller passord",
-            "denied": "Tilgang nektet.",
-            "unprocessable": "Ugyldig forespørsel. Sjekk brukernavn/e-post og passord.",
-            "deviceLimit": "Enhetsgrensen er nådd for gratisplanen. Logg ut på en annen enhet eller oppgrader til Premium for å koble flere enheter.",
-            "premiumRequired": "Denne handlingen krever en Premium-plan."
+            "missing": "Please enter your credentials.",
+            "invalid": "Invalid username or password",
+            "denied": "Access denied.",
+            "unprocessable": "Invalid request. Check your username/email and password.",
+            "deviceLimit": "Device limit reached for the Free plan. Log out on another device or upgrade to Premium to link more devices.",
+            "premiumRequired": "This action requires a Premium plan."
           }
         }
       },
       "oauth": {
-        "completing": "Fullfører pålogging..."
+        "completing": "Completing sign-in…"
       },
       "dialer": {
         "title": "Kallesignal",
-        "subtitle": "Tastatur og nyere. (Hvis du ikke bruker PSTN, start samtaler fra en samtaleheader.)",
-        "enterNumberPh": "Skriv inn nummer",
+        "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+        "enterNumberPh": "Enter number",
         "call": "Ring",
         "backspace": "Backspace",
-        "recents": "Nylige",
-        "recentsEmpty": "Ingen nylige samtaler ennå.",
-        "enterNumber": "Skriv inn nummer",
-        "enterNumberAria": "Skriv inn nummer",
-        "key": "Nøkkel {{d}}",
-        "noRecents": "Ingen nylige samtaler ennå."
+        "recents": "Recents",
+        "recentsEmpty": "No recent calls yet.",
+        "enterNumber": "Enter number",
+        "enterNumberAria": "Enter number",
+        "key": "Key {{d}}",
+        "noRecents": "No recent calls yet."
       },
       "video": {
         "title": "Video",
-        "chooseType": "Velg en videotype.",
-        "directTitle": "Direkte video",
-        "directDesc": "1:1 kamerasamtale med en annen bruker.",
+        "chooseType": "Choose a video type.",
+        "directTitle": "Direct Video",
+        "directDesc": "1:1 camera call with another user.",
         "directStart": "Start",
-        "roomsTitle": "Rom",
-        "roomsDesc": "Flerpartsvideo med delt romnavn.",
-        "roomsIntro": "Bli med eller lag et rom med flere partier.",
-        "roomNameLabel": "Romnavn",
-        "roomNamePh": "f.eks. team-standup",
-        "join": "Bli med",
-        "deeplinkTip": "Tips: du kan dyplenke direkte til <code>/video?room=romnavn</code>.",
+        "roomsTitle": "Rooms",
+        "roomsDesc": "Multi-party video using a shared room name.",
+        "roomsIntro": "Join or create a multi-party room.",
+        "roomNameLabel": "Room name",
+        "roomNamePh": "e.g. team-standup",
+        "join": "Join",
+        "deeplinkTip": "Tip: you can deep link directly to <code>/video?room=room-name</code>.",
         "hub": {
           "title": "Video",
-          "subtitle": "Velg en videotype."
+          "subtitle": "Choose a video type."
         },
         "direct": {
-          "title": "Direkte video",
-          "subtitle": "Start en 1:1 videosamtale med et telefonnummer eller Chatforia-brukernavn.",
-          "desc": "1:1 kamerasamtale med en annen bruker.",
+          "title": "Direct Video",
+          "subtitle": "Start a 1:1 video call using a phone number or Chatforia username.",
+          "desc": "1:1 camera call with another user.",
           "start": "Start",
           "callBtn": "Ring",
           "callByPhone": {
-            "title": "Samtale på telefon"
+            "title": "Call by phone"
           },
           "phone": {
             "placeholder": "Enter phone (e.g., +1-555-123-4567)",
-            "aria": "Telefon for å ringe"
+            "aria": "Phone to call"
           },
-          "tipInvite": "Tips: Lim inn et nummer og ring uten å lagre kontakten. Vi inviterer ikke-brukere via lenke.",
+          "tipInvite": "Tip: Paste a number and call without saving a contact. We’ll invite non-users by link.",
           "findUser": {
-            "title": "Finn en bruker"
+            "title": "Find a user"
           },
           "search": {
-            "placeholder": "Søk etter navn eller brukernavn",
-            "aria": "Søk etter navn eller brukernavn",
+            "placeholder": "Search by name or username",
+            "aria": "Search by name or username",
             "btn": "Søk"
           }
         },
         "rooms": {
-          "title": "Rom",
-          "subtitle": "Lag et rom eller bli med i et eksisterende ved å skrive inn samme navn.",
-          "desc": "Flerpartsvideo med delt romnavn.",
-          "roomLabel": "Romnavn",
-          "roomPlaceholder": "f.eks. team-standup",
-          "roomAria": "Romnavn",
-          "joinCreate": "Bli med / Lag",
-          "tip": "Tips: del dette navnet med andre, eller dyp lenke til <code>/video?room=romnavn</code>."
+          "title": "Rooms",
+          "subtitle": "Create a room or join an existing one by typing the same name.",
+          "desc": "Multi-party video using a shared room name.",
+          "roomLabel": "Room name",
+          "roomPlaceholder": "e.g. team-standup",
+          "roomAria": "Room name",
+          "joinCreate": "Join / Create",
+          "tip": "Tip: share this name with others, or deep link to <code>/video?room=room-name</code>."
         }
       },
       "directVideo": {
-        "intro": "Start en direkte 1:1 videosamtale.",
-        "findUserLabel": "Finn en bruker",
-        "findUserPh": "Søk etter navn eller brukernavn",
+        "intro": "Start a direct 1:1 video call.",
+        "findUserLabel": "Find a user",
+        "findUserPh": "Search by name or username",
         "search": "Søk",
         "call": "Ring"
       },
       "phoneWarning": {
-        "title": "Nummeret ditt utløper snart",
-        "body": "Nummeret ditt {{number}} vil bli frigitt på {{dato}} med mindre det aktiveres på nytt.",
-        "button": "Behold nummeret mitt"
+        "title": "Your number is expiring soon",
+        "body": "Your number {{number}} will be released on {{date}} unless reactivated.",
+        "button": "Keep My Number"
       }
     },
     "support": {
       "helpFab": "Hjelp",
-      "openSupportAria": "Åpen støtte",
-      "badge": "Støtte",
-      "heading": "Hvordan kan vi hjelpe?",
+      "openSupportAria": "Open support",
+      "badge": "Support",
+      "heading": "How can we help?",
       "tabs": {
-        "help": "Hjelpesenter",
-        "contact": "Kontakt oss"
+        "help": "Help Center",
+        "contact": "Contact us"
       },
-      "searchPlaceholder": "Søk hjelpeartikler...",
-      "searchAria": "Søkehjelp",
+      "searchPlaceholder": "Search help articles…",
+      "searchAria": "Search help",
       "searchBtn": "Søk",
-      "quickTopicsLabel": "Raske emner",
+      "quickTopicsLabel": "Quick topics",
       "quickTopics": {
-        "login": "Kan ikke logge inn",
-        "billing": "Betalinger / fakturering",
-        "abuse": "Rapporter misbruk"
+        "login": "Can’t log in",
+        "billing": "Payments / billing",
+        "abuse": "Report abuse"
       },
-      "trySearching": "Prøv å søke på \"translate\", \"backups\" eller \"privacy\".",
-      "article": "Artikkel",
-      "openArticle": "Åpen artikkel",
-      "contactIntro": "Vi sender deg et svar på e-post. Inkluder detaljer for å hjelpe oss å gjenskape utgaven.",
-      "topicAria": "Velg et tema",
-      "messagePlaceholder": "Skriv meldingen din...",
+      "trySearching": "Try searching for “translate”, “backups”, or “privacy”.",
+      "article": "Article",
+      "openArticle": "Open article",
+      "contactIntro": "We’ll try to resolve this instantly. If not, our team will follow up.",
+      "topicAria": "Select a topic",
+      "messagePlaceholder": "Write your message…",
       "sendBtn": "Send",
-      "sent": "Melding sendt. Vi svarer på e-post.",
-      "sendError": "Could not send. Email support@chatforia.com instead."
+      "sent": "Message sent. We’ll reply by email.",
+      "sendError": "Could not send. Email support@chatforia.com instead.",
+      "actionCompleted": "Action completed.",
+      "actionFailed": "Could not complete that action. Please try again.",
+      "escalationMessage": "We couldn’t resolve this automatically. Our team will follow up.",
+      "genericError": "Something went wrong. Please try again.",
+      "analyzing": "Analyzing your issue...",
+      "takeAction": "Take recommended action",
+      "resolvedInstantly": "Issue resolved instantly — no ticket needed.",
+      "escalating": "Escalating to support..."
     },
     "helpCenter": {
-      "title": "Hjelpesenter",
+      "title": "Help Center",
       "faq": {
         "account": {
-          "q": "Hvordan oppretter eller gjenoppretter jeg kontoen min?",
-          "a": "Last ned appen eller bruk nettet, trykk på «Opprett konto», bekreft e-post/telefon. For å gjenopprette, bruk \"Glemt passord\"."
+          "q": "How do I create or recover my account?",
+          "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
         },
         "privacy": {
-          "q": "Er meldinger ende-til-ende-krypterte?",
-          "a": "Ja. Meldinger og samtaler er som standard ende-til-ende-kryptert. Bare du og mottakeren kan lese dem."
+          "q": "Are messages end-to-end encrypted?",
+          "a": "Yes. Messages and calls are end-to-end encrypted by default. Only you and the recipient can read them."
         },
         "translate": {
-          "q": "Hvordan fungerer umiddelbar oversettelse?",
-          "a": "Aktiver \"Auto-translate\" i Innstillinger → Utseende og språk. Vi oversetter på enheten der det støttes, ellers gjennom sikre API-er med minimal metadata."
+          "q": "How does instant translation work?",
+          "a": "Enable “Auto-translate” in Settings → Appearance & Language. We translate on-device where supported, otherwise through secure APIs with minimal metadata."
         },
         "contact": {
-          "q": "Kontakt support",
+          "q": "Contact support",
           "a": "Reach us at support@chatforia.com. Include screenshots and your app version."
         }
       }
     },
     "encryptionRecovery": {
-      "title": "Administrer kryptering",
-      "description": "Sikkerhetskopier, gjenopprette, lås opp eller tilbakestill krypteringsnøkkelen din.",
+      "title": "Manage Encryption",
+      "description": "Back up, restore, unlock, or reset your encryption key.",
       "alert": {
         "keyRequiredTitle": "Encryption key required",
         "keyRequiredBody": "This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue."
@@ -1665,14 +1676,14 @@
       "careers": "Careers",
       "press": "Press",
       "advertise": "Advertise",
-      "contact": "Kontakt oss",
-      "help": "Hjelpesenter",
+      "contact": "Contact Us",
+      "help": "Help Center",
       "status": "Status Page",
       "iosDownload": "iOS / App Store",
       "androidDownload": "Android / Google Play",
       "privacy": "Personvernerklæring",
       "terms": "Bruksvilkår",
-      "cookies": "Informasjonskapselinnstillinger",
+      "cookies": "Cookie Settings",
       "doNotSell": "Do Not Sell My Info",
       "language": "Language",
       "contactShort": "Kontakt",
@@ -1690,16 +1701,16 @@
         "careers": "Careers",
         "press": "Press",
         "advertise": "Advertise",
-        "getting-started": "Å komme i gang",
-        "help-center": "Hjelpesenter",
-        "contact-us": "Kontakt oss",
+        "getting-started": "Getting Started",
+        "help-center": "Help Center",
+        "contact-us": "Contact Us",
         "status-page": "Status Page",
         "ios-app-store": "iOS / App Store",
         "android-google-play": "Android / Google Play",
         "privacy-policy": "Personvernerklæring",
         "terms-of-service": "Bruksvilkår",
         "do-not-sell-my-info": "Do Not Sell My Info",
-        "cookie-settings": "Informasjonskapselinnstillinger"
+        "cookie-settings": "Cookie Settings"
       },
       "social": {
         "tiktok": "TikTok",
@@ -1795,6 +1806,280 @@
         "and": "and",
         "privacy": "Personvernerklæring"
       }
-    }
+    },
+    "randomChat": {
+      "title": "Tilfeldig chat",
+      "subtitle": "Meet someone new instantly, or choose to chat with Ria.",
+      "start": "Start en samtale",
+      "description": "Chat anonymously first. Add Friend later if it feels right.",
+      "findMatch": "Find me a match",
+      "chatWithRia": "Chat with Ria",
+      "setAge": "Set your age range in Profile → Age & Random Chat to be matched with people.",
+      "idle": "Idle",
+      "matching": "Matching…",
+      "searching": "Searching…",
+      "cancel": "Avbryt",
+      "connectionProblem": "Connection problem",
+      "ai": "AI",
+      "anonymous": "Anonymous",
+      "connectedAs": "Connected as",
+      "waitingAddFriend": "Waiting for them to accept Add Friend…",
+      "hiddenUsernames": "Usernames stay hidden until both people choose Add Friend.",
+      "riaSeparate": "Chat with Ria anytime — separate from random human matching.",
+      "sendMessage": "Send melding",
+      "chatEnded": "Chat ended",
+      "conversationEnded": "That conversation has ended.",
+      "findAnotherMatch": "Find another match",
+      "next": "Next Person",
+      "addFriend": "Add Friend",
+      "requested": "Requested",
+      "leave": "Leave",
+      "messageRia": "Message Ria…",
+      "messageMatch": "Message your match…"
+    },
+    "phoneNumberManager": {
+      "pickNumber": "Pick a number",
+      "phoneNumber": "Telefonnummer",
+      "availableNumber": "Available number",
+      "premiumNumber": "Premium number 🔒",
+      "freeNumberHint": "Free number that may be recycled after inactivity.",
+      "premiumNumberHint": "Keep your number while your Premium subscription is active.",
+      "country": "Land",
+      "areaCode": "Area code",
+      "areaCodePlaceholder": "e.g., 415",
+      "capability": "Capability",
+      "search": "Søk",
+      "lockThisNumber": "Lock this number (weekly add-on, coming soon)",
+      "premiumProtectedHint": "Premium numbers are protected from recycling while your Premium subscription is active.",
+      "availableNumbers": "Available numbers",
+      "searchHint": "Enter a 3-digit area code (US/CA only), or leave blank, then search.",
+      "keep": "Keep",
+      "select": "Select",
+      "assignNumberFirst": "Assign a number first.",
+      "premiumKeepFeature": "Keeping your number is a Premium feature.",
+      "lockingPremiumFeature": "Locking numbers is a Premium feature.",
+      "numberAssigned": "Number assigned.",
+      "numberProtectedNow": "Your number is now protected.",
+      "numberProtected": "Number protected.",
+      "numberUnprotected": "Number unprotected.",
+      "numberReleased": "Number released.",
+      "couldNotLoadNumbers": "Could not load numbers.",
+      "couldNotAssign": "Could not assign that number. It may have just been taken—try another.",
+      "couldNotLease": "Could not lease that number. It may have just been taken—try another.",
+      "couldNotProtectNow": "Could not protect your number right now.",
+      "couldNotProtect": "Could not protect the number.",
+      "couldNotUnprotect": "Could not unprotect the number.",
+      "couldNotRelease": "Could not release the number.",
+      "invalidAreaCode": "Please enter a 3-digit area code (e.g., 415) or leave blank.",
+      "noInventory": "No available inventory right now.",
+      "noFreeNumbers": "No free numbers are available right now.",
+      "noInventoryAreaCode": "No available inventory for that area code right now.",
+      "noFreeNumbersAreaCode": "No free numbers in our pool for that area code right now.",
+      "releaseConfirm": "Release your current number? It may be assigned to someone else.",
+      "unprotect": "Unprotect",
+      "keepThisNumber": "Keep this number",
+      "replace": "Replace",
+      "release": "Release",
+      "active": "Active",
+      "noNumber": "No number",
+      "premiumFeature": "Premium feature",
+      "protectYourNumber": "Protect your number",
+      "protected": "Protected",
+      "notProtected": "Not protected",
+      "expiresInShort": "Expires in {{count}}d",
+      "expiresInDaysFull": "Expires in {{count}} day",
+      "expiringShort": "Expiring{{suffix}}",
+      "renewsOn": "Renews {{date}}",
+      "releaseWarning": "Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.",
+      "pickNumberHint": "Pick a Chatforia number to use for messaging and communication inside the app."
+    },
+    "sounds": {
+      "notificationSounds": "Notification Sounds",
+      "resetToDefaults": "Reset to defaults",
+      "freeNoticeStart": "You’re on Free — premium tones are shown but locked. ",
+      "freeNoticeEnd": " to unlock all.",
+      "messageTone": "Message tone",
+      "ringtone": "Ringtone",
+      "preview": "Forhåndsvisning",
+      "stop": "Stop",
+      "volume": "Volume",
+      "messageToneFilesHint": "Put files in /public/sounds/Message_Tones",
+      "ringtoneFilesHint": "Put files in /public/sounds/Ringtones",
+      "premiumRequired": "Premium required for that selection.",
+      "saved": "Sound settings saved.",
+      "saveFailed": "Could not save sound settings.",
+      "resetNotSaved": "Reset to defaults (not yet saved).",
+      "premiumTone": "That’s a Premium tone.",
+      "premiumRingtone": "That’s a Premium ringtone.",
+      "customComingSoon": "Custom sound uploads coming soon."
+    },
+    "aiSettings": {
+      "title": "AI Settings",
+      "controlIntro": "Control translation, smart replies, and ForiaBot auto-responses.",
+      "translation": "Translation",
+      "autoTranslateIncoming": "Auto-translate incoming messages",
+      "showOriginalAlongside": "Show original text alongside translation",
+      "smartReplies": "Smart Replies",
+      "enableSmartReplies": "Enable Smart Replies",
+      "smartRepliesHint": "Send the last few received messages (sanitized) to AI to suggest quick replies.",
+      "maskProfanity": "Mask profanity in AI suggestions",
+      "maskProfanityHint": "If on, suggestions returned by AI will have flagged words masked",
+      "foriaBot": "ForiaBot Auto-Responder",
+      "enableAutoReply": "Enable auto-reply when I’m busy",
+      "autoReplyMode": "Auto-reply mode",
+      "cooldownSeconds": "Cooldown (seconds)",
+      "signature": "Signature",
+      "autoReply": "🤖 Auto-reply",
+      "activeUntilOptional": "Active until (optional)",
+      "save": "Save AI Settings",
+      "saved": "AI preferences saved",
+      "saveFailed": "Failed to save AI settings",
+      "translateOff": "Av",
+      "translateTagged": "Only when @translated or tagged",
+      "translateAll": "Translate all incoming messages",
+      "modeDm": "1:1 chats only",
+      "modeMention": "Only when I’m @mentioned",
+      "modeAll": "All inbound messages",
+      "off": "Av"
+    },
+    "accessibilitySettings": {
+      "title": "Accessibility & Alerts",
+      "loadFailed": "Failed to load settings",
+      "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
+      "interfaceFontSize": "Interface font size",
+      "interfaceFontSizeHelp": "Starts at normal size. Increase if you prefer larger text.",
+      "notifications": "Notifications",
+      "visualAlerts": "Visual alerts for messages & calls",
+      "visualAlertsDesc": "Show banners and title blink so you don’t miss activity.",
+      "vibrateOnNewShort": "Vibrate on new messages (when supported)",
+      "vibrateOnNewDesc": "Trigger device vibration with notifications.",
+      "flashOnCallShort": "Flash screen on incoming call",
+      "flashOnCallDesc": "Brief bright flash when a call rings.",
+      "liveCaptionsTitle": "Live captions (calls)",
+      "enableLiveCaptions": "Enable live captions during calls (Premium)",
+      "liveCaptionsDesc": "Show real-time captions from the other participant’s audio.",
+      "captionFontSize": "Caption font size",
+      "captionBackground": "Caption background",
+      "voiceNotes": "Voice notes",
+      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
+      "autoTranscribeVoiceNotesDesc": "Attach a transcript to audio messages you receive.",
+      "changesSavedInstantly": "Changes are saved instantly.",
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large",
+      "xl": "Extra Large",
+      "light": "Light",
+      "dark": "Dark",
+      "transparent": "Transparent"
+    },
+    "privacySection": {
+      "strictE2EE": "Strict end-to-end encryption",
+      "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate and moderation previews.",
+      "strictE2EEEnabled": "Strict E2EE enabled. AI/Translate will be disabled.",
+      "strictE2EEDisabled": "Strict E2EE disabled. AI/Translate re-enabled."
+    },
+    "linkedDevicesPanel": {
+      "title": "Koblede enheter",
+      "noneFound": "No linked devices found.",
+      "refresh": "Oppdater",
+      "unknown": "Ukjent",
+      "loadFailed": "Failed to load linked devices",
+      "loadFailedLog": "Failed to load linked devices",
+      "renamePrompt": "Enter a new name for this device",
+      "renamed": "Device renamed",
+      "renameFailed": "Could not rename device",
+      "revoked": "Device revoked",
+      "revokeFailed": "Could not revoke device",
+      "unnamedDevice": "Unnamed device",
+      "primary": "Primary",
+      "revokedStatus": "Revoked",
+      "addedLastSeen": "Added {{created}} • Last seen {{lastSeen}}",
+      "renameDevice": "Rename device",
+      "revokeDevice": "Revoke device"
+    },
+    "peoplePage": {
+      "people": "Folk",
+      "search": "Søk",
+      "searchPlaceholder": "Search saved contacts by alias, name, username, or phone",
+      "quickStart": "Quick start",
+      "quickStartDesc": "Manage your contacts and invite friends.",
+      "importContacts": "Import your contacts",
+      "import": "Import",
+      "addContact": "Add a contact",
+      "add": "Legg til",
+      "inviteFriends": "Invite friends",
+      "inviteDesc": "Share your invite link to start chatting instantly.",
+      "getTheApp": "Skaff deg appen",
+      "getTheAppDesc": "Stay in touch on the go with Chatforia for iOS and Android.",
+      "download": "Last ned",
+      "syncTip": "Tip: Your messages stay synced across web and mobile."
+    },
+    "dialer": {
+      "title": "Kallesignal",
+      "subtitle": "Keypad & recents. (If you don’t use PSTN, start calls from a conversation header.)",
+      "enterNumber": "Enter number",
+      "enterNumberAria": "Enter number",
+      "resolving": "Resolving call target…",
+      "call": "Ring",
+      "callBrowser": "Call via browser",
+      "backspace": "Backspace",
+      "recents": "Recents",
+      "noRecents": "No recent calls yet.",
+      "resolveFailed": "Could not resolve call target.",
+      "callRequiredNumber": "You need a Chatforia number before placing phone calls.",
+      "callFailed": "Could not place call.",
+      "deleteConfirm": "Delete this call from recents?",
+      "deleteFailed": "Could not delete call.",
+      "deleteFailedLog": "Failed to delete call",
+      "outgoing": "Outgoing",
+      "incoming": "Incoming",
+      "missed": "Missed",
+      "declined": "Declined",
+      "failed": "Strøk",
+      "completed": "Fullført",
+      "outgoingCall": "Outgoing Call",
+      "incomingCall": "Incoming Call",
+      "voicemail": "Telefonsvarer",
+      "callAria": "Call {{name}}",
+      "deleteAria": "Delete call with {{name}}"
+    },
+    "callHistory": {
+      "title": "Kallesignal",
+      "subtitle": "Your recent incoming and outgoing calls.",
+      "loadFailed": "Could not load call history.",
+      "loadFailedTitle": "Couldn’t load call history",
+      "emptyTitle": "No calls yet",
+      "emptySubtitle": "Your recent calls will show up here.",
+      "outgoing": "Outgoing",
+      "incoming": "Incoming",
+      "missed": "Missed",
+      "declined": "Declined",
+      "failed": "Strøk",
+      "completed": "Fullført",
+      "outgoingCall": "Outgoing Call",
+      "incomingCall": "Incoming Call",
+      "voicemail": "Telefonsvarer"
+    },
+    "video": {
+      "hub": {
+        "title": "Video",
+        "subtitle": "Choose a video type."
+      },
+      "direct": {
+        "title": "Direct Video",
+        "subtitle": "Start a 1:1 video call with another user.",
+        "desc": "1:1 camera call with another user.",
+        "start": "Start"
+      },
+      "rooms": {
+        "title": "Rooms",
+        "subtitle": "Create a room or join an existing one by typing the same name.",
+        "desc": "Multi-party video using a shared room name.",
+        "roomLabel": "Room name",
+        "roomPlaceholder": "e.g. team-standup",
+        "roomAria": "Room name",
+        "joinCreate": "Join / Create",
+        "tip": "Tip: share this name with others, or deep link to"
+      }
+  }
 }
-

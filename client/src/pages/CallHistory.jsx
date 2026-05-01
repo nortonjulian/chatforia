@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { getCallHistory } from '@/api/calls';
 import { useUser } from '@/context/UserContext';
+import { useTranslation } from 'react-i18next';
 
 function formatTimestamp(value) {
   if (!value) return '';
@@ -40,20 +41,20 @@ function formatDuration(durationSec) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-function statusLabel(status, isOutgoing) {
+function statusLabel(status, isOutgoing, t) {
   switch (String(status || '').toUpperCase()) {
     case 'MISSED':
-      return 'Missed';
+      return t('callHistory.missed', 'Missed');
     case 'DECLINED':
-      return 'Declined';
+      return t('callHistory.declined', 'Declined');
     case 'FAILED':
-      return 'Failed';
+      return t('callHistory.failed', 'Failed');
     case 'ENDED':
-      return 'Completed';
-    case 'ACTIVE':
-      return isOutgoing ? 'Outgoing' : 'Incoming';
+      return t('callHistory.completed', 'Completed');
     default:
-      return isOutgoing ? 'Outgoing' : 'Incoming';
+      return isOutgoing
+        ? t('callHistory.outgoing', 'Outgoing')
+        : t('callHistory.incoming', 'Incoming');
   }
 }
 
@@ -65,6 +66,7 @@ function statusIcon(status, isOutgoing) {
 }
 
 export default function CallHistory() {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -87,7 +89,11 @@ export default function CallHistory() {
         );
       } catch (err) {
         if (!alive) return;
-        setError(err?.response?.data?.error || err?.message || 'Could not load call history.');
+        setError(
+        err?.response?.data?.error ||
+            err?.message ||
+            t('callHistory.loadFailed', 'Could not load call history.')
+        );
       } finally {
         if (alive) setLoading(false);
       }
@@ -109,7 +115,7 @@ export default function CallHistory() {
 
     if (error) {
       return (
-        <Alert color="red" title="Couldn’t load call history">
+        <Alert color="red" title={t('callHistory.loadFailedTitle', 'Couldn’t load call history')}>
           {error}
         </Alert>
       );
@@ -122,9 +128,11 @@ export default function CallHistory() {
             <ThemeIcon size={42} radius="xl" variant="light" color="yellow">
               <Phone size={20} />
             </ThemeIcon>
-            <Text fw={600}>No calls yet</Text>
+            <Text fw={600}>
+              {t('callHistory.emptyTitle', 'No calls yet')}
+            </Text>
             <Text size="sm" c="dimmed">
-              Your recent calls will show up here.
+              {t('callHistory.emptySubtitle', 'Your recent calls will show up here.')}
             </Text>
           </Stack>
         </Card>
@@ -139,10 +147,12 @@ export default function CallHistory() {
           const otherPartyName =
             otherParty?.displayName ||
             otherParty?.username ||
-            (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
+            (isOutgoing
+                ? t('callHistory.outgoingCall', 'Outgoing Call')
+                : t('callHistory.incomingCall', 'Incoming Call'));
 
           const Icon = statusIcon(item.status, isOutgoing);
-          const label = statusLabel(item.status, isOutgoing);
+          const label = statusLabel(item.status, isOutgoing, t);
           const duration = formatDuration(item.durationSec);
           const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
 
@@ -159,7 +169,9 @@ export default function CallHistory() {
                       <Text fw={600}>{otherPartyName}</Text>
                       <Group gap={8} mt={4}>
                         <Text size="sm" c="dimmed">
-                          {isOutgoing ? 'Outgoing' : 'Incoming'}
+                          {isOutgoing
+                            ? t('callHistory.outgoing', 'Outgoing')
+                            : t('callHistory.incoming', 'Incoming')}
                         </Text>
                         <Text size="sm" c="dimmed">•</Text>
                         <Text size="sm" c="dimmed">{label}</Text>
@@ -180,7 +192,7 @@ export default function CallHistory() {
                       )}
                       {item.hasVoicemail ? (
                         <Badge leftSection={<Voicemail size={12} />} color="grape" variant="light">
-                          Voicemail
+                          {t('callHistory.voicemail', 'Voicemail')}
                         </Badge>
                       ) : null}
                     </Stack>
@@ -198,10 +210,10 @@ export default function CallHistory() {
     <Box p="md">
       <Stack gap="md">
         <Text fw={700} size="xl">
-          Calls
+         {t('callHistory.title', 'Calls')}
         </Text>
         <Text size="sm" c="dimmed">
-          Your recent incoming and outgoing calls.
+          {t('callHistory.subtitle', 'Your recent incoming and outgoing calls.')}
         </Text>
         {content}
       </Stack>

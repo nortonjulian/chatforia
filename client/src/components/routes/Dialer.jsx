@@ -56,18 +56,20 @@ function formatDuration(durationSec) {
   return `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
-function statusLabel(status, isOutgoing) {
+function statusLabel(status, isOutgoing, t) {
   switch (String(status || '').toUpperCase()) {
     case 'MISSED':
-      return 'Missed';
+      return t('callHistory.missed', 'Missed');
     case 'DECLINED':
-      return 'Declined';
+      return t('callHistory.declined', 'Declined');
     case 'FAILED':
-      return 'Failed';
+      return t('callHistory.failed', 'Failed');
     case 'ENDED':
-      return 'Completed';
+      return t('callHistory.completed', 'Completed');
     default:
-      return isOutgoing ? 'Outgoing' : 'Incoming';
+      return isOutgoing
+        ? t('callHistory.outgoing', 'Outgoing')
+        : t('callHistory.incoming', 'Incoming');
   }
 }
 
@@ -241,15 +243,22 @@ export default function Dialer() {
   };
 
   const handleDelete = async (callId) => {
-    if (!window.confirm('Delete this call from recents?')) return;
+    if (
+      !window.confirm(
+        t('dialer.deleteConfirm', 'Delete this call from recents?')
+      )
+    )
+      return;
 
     try {
       await axiosClient.delete(`/calls/${callId}`);
       setHistory((prev) => prev.filter((item) => item.id !== callId));
     } catch (e) {
-      console.error('Failed to delete call', e);
+      console.error(t('dialer.deleteFailedLog', 'Failed to delete call'), e);
       setHistoryError(
-        e?.response?.data?.error || e?.message || 'Could not delete call.'
+        e?.response?.data?.error ||
+          e?.message ||
+          t('dialer.deleteFailed', 'Could not delete call.')
       );
     }
   };
@@ -361,7 +370,7 @@ export default function Dialer() {
               (isOutgoing ? 'Outgoing Call' : 'Incoming Call');
 
             const Icon = statusIcon(item.status, isOutgoing);
-            const label = statusLabel(item.status, isOutgoing);
+            const label = statusLabel(item.status, isOutgoing, t);
             const duration = formatDuration(item.durationSec);
             const timestamp = formatTimestamp(item.endedAt || item.startedAt || item.createdAt);
             const color = statusColor(item.status);

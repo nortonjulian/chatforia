@@ -25,8 +25,8 @@ export default function PrivacySection() {
       setCurrentUser((prev) => ({ ...(prev || {}), ...(data || {}), strictE2EE: v }));
       toast.ok(
         v
-          ? t('profile.privacy', 'Privacy') && t('privacySection.strictE2EE', 'Strict end-to-end encryption') // no-op to encourage key presence
-          ? t('aiSettings.translateOff', 'Off') && t('privacySection.strictE2EE', 'Strict end-to-end encryption') // still show success
+          ? t('profile.privacy', 'Privacy') && t('privacySection.strictE2EE', 'Strict end-to-end encryption')
+          ? t('aiSettings.translateOff', 'Off') && t('privacySection.strictE2EE', 'Strict end-to-end encryption')
           : t('privacySection.strictE2EEEnabled', 'Strict E2EE enabled. AI/Translate will be disabled.')
           : t('privacySection.strictE2EEDisabled', 'Strict E2EE disabled. AI/Translate re-enabled.')
       );

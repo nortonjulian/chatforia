@@ -31,6 +31,7 @@ import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
+import { useTranslation } from 'react-i18next';
 import posthog from '@/utils/analytics';
 
 /* ---------------- helpers ---------------- */
@@ -129,6 +130,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   const [area, setArea] = useState('');
   const [capability, setCapability] = useState('sms');
   const { currentUser } = useUser();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState('FREE'); 
@@ -162,7 +164,9 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
     // Only enforce 3-digit “area code” for NANP countries
     if (isNanp(country) && digits.length !== 3) {
-      setErr('Please enter a 3-digit area code (e.g., 415) or leave blank.');
+      setErr(t('phoneNumberManager.invalidAreaCode',
+        'Please enter a 3-digit area code (e.g., 415) or leave blank.'
+      ));
       return null;
     }
 
@@ -226,7 +230,11 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             had_area_code: Boolean(digits),
           });
 
-          setErr(isBuy ? 'No available inventory right now.' : 'No free numbers are available right now.');
+          setErr(
+            isBuy
+              ? t('phoneNumberManager.noInventory', 'No available inventory right now.')
+              : t('phoneNumberManager.noFreeNumbers', 'No free numbers are available right now.')
+          );
           setResults([]);
         } else {
           setResults(items.slice(0, 25));
@@ -243,8 +251,8 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
           setErr(
             isBuy
-              ? 'No available inventory for that area code right now.'
-              : 'No free numbers in our pool for that area code right now.'
+              ? t('phoneNumberManager.noInventoryAreaCode', 'No available inventory for that area code right now.')
+              : t('phoneNumberManager.noFreeNumbersAreaCode', 'No free numbers in our pool for that area code right now.')
           );
         }
       }
@@ -253,7 +261,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         e?.response?.data?.error ||
         e?.response?.data?.message ||
         e?.message ||
-        'Could not load numbers.';
+        t('phoneNumberManager.couldNotLoadNumbers', 'Could not load numbers.');
 
       posthog.capture('number_search_failed', {
         mode: effectiveMode,
@@ -327,7 +335,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 
       onAssigned?.({
         type: 'success',
-        message: 'Number assigned.',
+        message: t('phoneNumberManager.numberAssigned', 'Number assigned.'),
         e164,
       });
       onClose?.();
@@ -336,8 +344,8 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
         e?.response?.data?.error ||
         e?.response?.data?.message ||
         (isBuy
-          ? 'Could not assign that number. It may have just been taken—try another.'
-          : 'Could not lease that number. It may have just been taken—try another.');
+          ? t('phoneNumberManager.couldNotAssign', 'Could not assign that number. It may have just been taken—try another.')
+          : t('phoneNumberManager.couldNotLease', 'Could not lease that number. It may have just been taken—try another.'));
 
         posthog.capture('number_selection_failed', {
           type: isBuy ? 'premium' : 'free',
@@ -360,7 +368,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
   };
 
   return (
-    <Modal opened={opened} onClose={onClose} title="Pick a number" size="lg" radius="lg">
+    <Modal opened={opened} onClose={onClose} title={t('phoneNumberManager.pickNumber', 'Pick a number')}>
       <Stack gap="sm">
         <Group justify="space-between" align="center" wrap="wrap">
           <Group gap="xs">
@@ -374,7 +382,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                 search('FREE');
               }}
             >
-              Available number
+              {t('phoneNumberManager.availableNumber', 'Available number')}
             </Button>
             <Button
               variant={mode === 'PREMIUM' ? 'filled' : 'light'}
@@ -392,36 +400,36 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
                 search('PREMIUM');
               }}
             >
-              Premium number 🔒
+              {t('phoneNumberManager.premiumNumber', 'Premium number 🔒')}
             </Button>
           </Group>
 
           <Text size="sm" c="dimmed">
             {mode === 'FREE'
-              ? 'Free number that may be recycled after inactivity.'
-              : 'Keep your number while your Premium subscription is active.'}
+              ? t('phoneNumberManager.freeNumberHint', 'Free number that may be recycled after inactivity.')
+              : t('phoneNumberManager.premiumNumberHint', 'Keep your number while your Premium subscription is active.')}
           </Text>
         </Group>
 
         <Group align="end" wrap="wrap">
           <Select
-            label="Country"
+            label={t('phoneNumberManager.country', 'Country')}
             value={country}
             onChange={(v) => setCountry(v || 'US')}
             data={COUNTRY_OPTIONS?.length ? COUNTRY_OPTIONS : [{ value: 'US', label: '🇺🇸 United States' }]}
             searchable
-            nothingFoundMessage="No matches"
+            nothingFoundMessage={t('common.noMatches', 'No matches')}
             style={{ minWidth: 260 }}
           />
           <TextInput
-            label="Area code"
-            placeholder="e.g., 415"
+            label={t('phoneNumberManager.areaCode', 'Area code')}
+            placeholder={t('phoneNumberManager.areaCodePlaceholder', 'e.g., 415')}
             value={area}
             onChange={(e) => setArea(e.currentTarget.value)}
             style={{ minWidth: 160 }}
           />
           <Select
-            label="Capability"
+            label={t('phoneNumberManager.capability', 'Capability')}
             value={capability}
             onChange={(v) => setCapability(v || 'sms')}
             data={[
@@ -432,7 +440,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             style={{ minWidth: 180 }}
           />
           <Button onClick={() => search()} leftSection={<IconSearch size={16} />} loading={loading}>
-            Search
+            {t('phoneNumberManager.search', 'Search')}
           </Button>
         </Group>
 
@@ -442,10 +450,16 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
             onChange={(e) => setLockOnAssign(e.currentTarget.checked)}
             onLabel={<IconLock size={14} />}
             offLabel={<IconLockOpen size={14} />}
-            label="Lock this number (weekly add-on, coming soon)"
+            label={t(
+              'phoneNumberManager.lockThisNumber',
+              'Lock this number (weekly add-on, coming soon)'
+            )}
           />
           <Text size="sm" c="dimmed">
-            Premium numbers are protected from recycling while your Premium subscription is active.
+            {t(
+              'phoneNumberManager.premiumProtectedHint',
+              'Premium numbers are protected from recycling while your Premium subscription is active.'
+            )}
           </Text>
         </Group>
 
@@ -455,7 +469,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
           </Alert>
         )}
 
-        <Divider label="Available numbers" />
+        <Divider label={t('phoneNumberManager.availableNumbers', 'Available numbers')} />
 
         {loading ? (
           <Group justify="center" my="md">
@@ -463,7 +477,10 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
           </Group>
         ) : results.length === 0 ? (
           <Text c="dimmed" size="sm">
-            Enter a 3-digit area code (US/CA only), or leave blank, then search.
+            {t(
+              'phoneNumberManager.searchHint',
+              'Enter a 3-digit area code (US/CA only), or leave blank, then search.'
+            )}
           </Text>
         ) : (
           <Stack>
@@ -531,6 +548,7 @@ export function NumberPickerModal({ opened, onClose, onAssigned }) {
 /* ---------------- Main Profile Card ---------------- */
 export default function PhoneNumberManager() {
   const { currentUser } = useUser();
+  const { t } = useTranslation();
   const plan = (currentUser?.plan || 'FREE').toUpperCase();
   const isPremium = plan === 'PREMIUM';
 
@@ -596,7 +614,10 @@ export default function PhoneNumberManager() {
       .catch(() => {
         setPrimaryPhone(null);
         setStatus({ state: 'none' });
-        setBanner({ type: 'error', message: 'Unable to load phone number status.' });
+        setBanner({
+          type: 'error',
+          message: t('phoneNumberManager.unableToLoadStatus', 'Unable to load phone number status.'),
+        });
       })
       .finally(() => {
         setLoading(false);
@@ -618,7 +639,10 @@ export default function PhoneNumberManager() {
     });
 
     if (!['active', 'expiring'].includes(status?.state)) {
-      setBanner({ type: 'info', message: 'Assign a number first.' });
+      setBanner({
+        type: 'info',
+        message: t('phoneNumberManager.assignNumberFirst', 'Assign a number first.'),
+      });
       return;
     }
 
@@ -631,8 +655,11 @@ export default function PhoneNumberManager() {
 
       setBanner({
         type: 'warning',
-        message: 'Keeping your number is a Premium feature.',
-        action: { label: 'Upgrade', href: '/settings/upgrade' },
+        message: t('phoneNumberManager.premiumKeepFeature', 'Keeping your number is a Premium feature.'),
+        action: {
+          label: t('upgrade.title', 'Upgrade'),
+          href: '/settings/upgrade',
+        },
       });
       return;
     }
@@ -640,7 +667,10 @@ export default function PhoneNumberManager() {
     setBanner(null);
     try {
       await axiosClient.post('/numbers/buy/keep-current');
-      setBanner({ type: 'success', message: 'Your number is now protected.' });
+      setBanner({
+        type: 'success',
+        message: t('phoneNumberManager.numberProtectedNow', 'Your number is now protected.'),
+      });
 
       posthog.capture('number_keep_success');
 
@@ -648,7 +678,9 @@ export default function PhoneNumberManager() {
     } catch (e) {
       setBanner({
         type: 'error',
-        message: e?.response?.data?.error || 'Could not protect your number right now.',
+        message:
+          e?.response?.data?.error ||
+          t('phoneNumberManager.couldNotProtectNow', 'Could not protect your number right now.'),
       });
     }
   };
@@ -661,8 +693,11 @@ export default function PhoneNumberManager() {
     if (!isPremium) {
       setBanner({
         type: 'warning',
-        message: 'Locking numbers is a Premium feature.',
-        action: { label: 'Upgrade', href: '/settings/upgrade' },
+        message: t('phoneNumberManager.lockingPremiumFeature', 'Locking numbers is a Premium feature.'),
+        action: {
+          label: t('upgrade.title', 'Upgrade'),
+          href: '/settings/upgrade',
+        },
       });
       return;
     }
@@ -682,25 +717,45 @@ export default function PhoneNumberManager() {
     axiosClient
       .post('/numbers/keep/disable')
       .then(() => {
-        setBanner({ type: 'success', message: 'Number unprotected.' });
+        setBanner({
+          type: 'success',
+          message: t('phoneNumberManager.numberProtected', 'Number protected.'),
+        });
         reload();
       })
       .catch(() => {
-        setBanner({ type: 'error', message: 'Could not unprotect the number.' });
+        setBanner({
+          type: 'error',
+          message: t('phoneNumberManager.couldNotProtect', 'Could not protect the number.'),
+        });
       });
   };
 
   const releaseNumber = () => {
-    if (!window.confirm('Release your current number? It may be assigned to someone else.')) return;
-
+    if (
+      !window.confirm(
+        t(
+          'phoneNumberManager.releaseConfirm',
+          'Release your current number? It may be assigned to someone else.'
+        )
+      )
+    )
+      return;
+      
     axiosClient
       .post('/numbers/release')
       .then(() => {
-        setBanner({ type: 'warning', message: 'Number released.' });
+        setBanner({
+          type: 'warning',
+          message: t('phoneNumberManager.numberReleased', 'Number released.'),
+        });
         reload();
       })
       .catch(() => {
-        setBanner({ type: 'error', message: 'Could not release the number.' });
+        setBanner({
+          type: 'error',
+          message: t('phoneNumberManager.couldNotRelease', 'Could not release the number.'),
+        });
       });
   };
 
@@ -710,22 +765,28 @@ export default function PhoneNumberManager() {
     if (status?.state === 'active') {
       return (
         <Badge color="green" variant="light" leftSection={<IconCircleCheck size={14} />}>
-          Active
+          {t('phoneNumberManager.active', 'Active')}
         </Badge>
       );
     }
 
     if (status?.state === 'expiring') {
       return (
-        <Tooltip label={`Expires in ${dLeft} day${dLeft === 1 ? '' : 's'}`}>
+        <Tooltip
+          label={t('phoneNumberManager.expiresInDaysFull', 'Expires in {{count}} day', {
+            count: dLeft,
+          })}
+        >
           <Badge color="yellow" variant="light" leftSection={<IconAlertTriangle size={14} />}>
-            {`Expiring${dLeft != null ? ` (${dLeft}d)` : ''}`}
+            {t('phoneNumberManager.expiringShort', 'Expiring{{suffix}}', {
+              suffix: dLeft != null ? ` (${dLeft}d)` : '',
+            })}
           </Badge>
         </Tooltip>
       );
     }
 
-    return <Badge variant="outline">No number</Badge>;
+    return <Badge variant="outline">{t('phoneNumberManager.noNumber', 'No number')}</Badge>;
   };
 
   const bannerColor =
@@ -759,7 +820,7 @@ export default function PhoneNumberManager() {
           <Group>
             <IconPhone size={20} />
             <Title order={4} m={0}>
-              Phone number
+              {t('phoneNumberManager.phoneNumber', 'Phone number')}
             </Title>
             {headerBadge()}
           </Group>
@@ -767,16 +828,16 @@ export default function PhoneNumberManager() {
           <Group gap="xs">
             {status?.locked ? (
               <Button variant="light" leftSection={<IconLockOpen size={16} />} onClick={unlock}>
-                Unprotect
+                {t('phoneNumberManager.unprotect', 'Unprotect')}
               </Button>
             ) : (
               <Tooltip
                 label={
                   !['active', 'expiring'].includes(status?.state)
-                    ? 'Assign a number first'
+                    ? t('phoneNumberManager.assignNumberFirst', 'Assign a number first')
                     : !isPremium
-                      ? 'Premium feature'
-                      : 'Protect your number'
+                      ? t('phoneNumberManager.premiumFeature', 'Premium feature')
+                      : t('phoneNumberManager.protectYourNumber', 'Protect your number')
                 }
               >
                 <Button
@@ -785,7 +846,7 @@ export default function PhoneNumberManager() {
                   onClick={keepCurrentNumber}
                   disabled={!['active', 'expiring'].includes(status?.state)}
                 >
-                  Keep this number
+                  {t('phoneNumberManager.keepThisNumber', 'Keep this number')}
                 </Button>
               </Tooltip>
             )}
@@ -798,7 +859,7 @@ export default function PhoneNumberManager() {
                   leftSection={<IconReplace size={16} />}
                   onClick={() => setPickerOpen(true)}
                 >
-                  Replace
+                  {t('phoneNumberManager.replace', 'Replace')}
                 </Button>
                 <Button
                   color="red"
@@ -806,11 +867,11 @@ export default function PhoneNumberManager() {
                   leftSection={<IconTrash size={16} />}
                   onClick={releaseNumber}
                 >
-                  Release
+                  {t('phoneNumberManager.release', 'Release')}
                 </Button>
               </>
             ) : (
-              <Button onClick={() => setPickerOpen(true)}>Pick a number</Button>
+              <Button onClick={() => setPickerOpen(true)}>{t('phoneNumberManager.pickNumber', 'Pick a number')}</Button>
             )}
           </Group>
         </Group>
@@ -819,7 +880,7 @@ export default function PhoneNumberManager() {
 
         <Stack gap={4}>
           {loading ? (
-            <Text c="dimmed">Loading…</Text>
+            <Text c="dimmed">{t('common.loading', 'Loading…')}</Text>
           ) : ['active', 'expiring'].includes(status?.state) ? (
             <>
               <Text fw={600} size="lg">
@@ -831,7 +892,11 @@ export default function PhoneNumberManager() {
 
               {status?.state === 'expiring' && dLeft != null && (
                 <Alert color="yellow" icon={<IconAlertTriangle size={16} />}>
-                  Your number may be released in {dLeft} day{dLeft === 1 ? '' : 's'}. Upgrade to Premium to keep it protected.
+                  Your number may be released in {dLeft} day{dLeft === 1 ? '' : 's'}. {t(
+                  'phoneNumberManager.releaseWarning',
+                  'Your number may be released in {{count}} day. Upgrade to Premium to keep it protected.',
+                  { count: dLeft }
+                )}
                 </Alert>
               )}
 
@@ -839,22 +904,24 @@ export default function PhoneNumberManager() {
                 {status.capabilities?.includes('sms') && <Badge variant="outline">SMS</Badge>}
                 {status.capabilities?.includes('voice') && <Badge variant="outline">VOICE</Badge>}
                 {status.locked ? (
-                  <Badge leftSection={<IconLock size={12} />}>Protected</Badge>
+                  <Badge leftSection={<IconLock size={12} />}>{t('phoneNumberManager.protected', 'Protected')}</Badge>
                 ) : (
-                  <Badge>Not protected</Badge>
+                  <Badge>{t('phoneNumberManager.notProtected', 'Not protected')}</Badge>
                 )}
                 {status.expiresAt && (
                   <Badge color={status.state === 'expiring' ? 'yellow' : 'gray'} variant="light">
                     {status.state === 'expiring'
-                      ? `Expires in ${dLeft}d`
-                      : `Renews ${new Date(status.expiresAt).toLocaleDateString()}`}
+                      ? t('phoneNumberManager.expiresInShort', 'Expires in {{count}}d', { count: dLeft })
+                      : t('phoneNumberManager.renewsOn', 'Renews {{date}}', {
+                          date: new Date(status.expiresAt).toLocaleDateString(),
+                    })}
                   </Badge>
                 )}
               </Group>
             </>
           ) : (
             <Text c="dimmed">
-              "Pick a Chatforia number to use for messaging and communication inside the app."
+              {t('phoneNumberManager.pickNumberHint', 'Pick a Chatforia number to use for messaging and communication inside the app.')}
             </Text>
           )}
         </Stack>
@@ -864,7 +931,12 @@ export default function PhoneNumberManager() {
         opened={pickerOpen}
         onClose={() => setPickerOpen(false)}
         onAssigned={(msg) => {
-          setBanner(msg || { type: 'success', message: 'Number assigned.' });
+          setBanner(
+            msg || {
+              type: 'success',
+              message: t('phoneNumberManager.numberAssigned', 'Number assigned.'),
+            }
+          );
           setPickerOpen(false);
           reload();
         }}

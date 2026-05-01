@@ -16,6 +16,7 @@ import {
   IconPencil,
   IconTrash,
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 // Runtime helpers: always read global.toast *when called*
 function toastOk(message) {
@@ -30,16 +31,17 @@ function toastErr(message) {
   }
 }
 
-function formatDate(iso) {
-  if (!iso) return 'Unknown';
+function formatDate(iso, t) {
+  if (!iso) return t('linkedDevicesPanel.unknown', 'Unknown');
   try {
     return new Date(iso).toLocaleString();
   } catch {
-    return 'Unknown';
+    return t('linkedDevicesPanel.unknown', 'Unknown');
   }
 }
 
 export default function LinkedDevicesPanel() {
+  const { t } = useTranslation();
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initialLoaded, setInitialLoaded] = useState(false);
@@ -59,7 +61,7 @@ export default function LinkedDevicesPanel() {
         setInitialLoaded(true);
       } else {
         console.error('Failed to load linked devices', err);
-        toastErr('Failed to load linked devices');
+        toastErr(t('linkedDevicesPanel.loadFailed', 'Failed to load linked devices'));
       }
     } finally {
       setLoading(false);
@@ -72,7 +74,7 @@ export default function LinkedDevicesPanel() {
   }, []);
 
   const handleRename = async (id) => {
-    const raw = window.prompt('Enter a new name for this device');
+    const raw = window.prompt(t('linkedDevicesPanel.renamePrompt', 'Enter a new name for this device'));
     const name = raw?.trim();
     if (!name) return; // cancel / empty => no POST
 
@@ -81,10 +83,10 @@ export default function LinkedDevicesPanel() {
       setDevices((prev) =>
         prev.map((d) => (d.id === id ? { ...d, name } : d))
       );
-      toastOk('Device renamed');
+      toastOk(t('linkedDevicesPanel.renamed', 'Device renamed'));
     } catch (err) {
       console.error('Failed to rename device', err);
-      toastErr('Could not rename device');
+      toastErr(t('linkedDevicesPanel.renameFailed', 'Could not rename device'));
     }
   };
 
@@ -96,10 +98,10 @@ export default function LinkedDevicesPanel() {
           d.id === id ? { ...d, revoked: true } : d
         )
       );
-      toastOk('Device revoked');
+      toastOk(t('linkedDevicesPanel.revoked', 'Device revoked'));
     } catch (err) {
       console.error('Failed to revoke device', err);
-      toastErr('Could not revoke device');
+      toastErr(t('linkedDevicesPanel.revokeFailed', 'Could not revoke device'));
     }
   };
 
@@ -108,13 +110,13 @@ export default function LinkedDevicesPanel() {
   return (
     <Stack>
       <Group justify="space-between" align="center">
-        <Text fw={600}>Linked devices</Text>
+        <Text fw={600}>{t('linkedDevicesPanel.title', 'Linked devices')}</Text>
         <Button
           leftSection={<IconRefresh size={16} />}
           onClick={fetchDevices}
-          aria-label="Refresh"
+          aria-label={t('linkedDevicesPanel.refresh', 'Refresh')}
         >
-          Refresh
+          {t('linkedDevicesPanel.refresh', 'Refresh')}
         </Button>
       </Group>
 
@@ -124,7 +126,7 @@ export default function LinkedDevicesPanel() {
           <Skeleton h={60} />
         </>
       ) : devices.length === 0 ? (
-        <Text c="dimmed">No linked devices found.</Text>
+        <Text c="dimmed">{t('linkedDevicesPanel.noneFound', 'No linked devices found.')}</Text>
       ) : (
         <Stack>
           {devices.map((dev) => {
@@ -140,7 +142,9 @@ export default function LinkedDevicesPanel() {
 
             const disabled = !!revoked;
             const displayName =
-              name && name.trim().length > 0 ? name : 'Unnamed device';
+              name && name.trim().length > 0
+                ? name
+                : t('linkedDevicesPanel.unnamedDevice', 'Unnamed device');
 
             return (
               <Card key={id} shadow="sm" p="md">
@@ -148,19 +152,22 @@ export default function LinkedDevicesPanel() {
                   <Stack gap="xs">
                     <Text fw={500}>{displayName}</Text>
                     <Group gap="xs">
-                      {isPrimary && <Badge>Primary</Badge>}
+                      {isPrimary && <Badge>{t('linkedDevicesPanel.primary', 'Primary')}</Badge>}
                       {platform && <Badge>{platform}</Badge>}
-                      {revoked && <Badge>Revoked</Badge>}
+                      {revoked && <Badge>{t('linkedDevicesPanel.revokedStatus', 'Revoked')}</Badge>}
                     </Group>
                     <Text size="xs" c="dimmed">
-                      Added {formatDate(createdAt)} • Last seen {formatDate(lastSeenAt)}
+                      {t('linkedDevicesPanel.addedLastSeen', 'Added {{created}} • Last seen {{lastSeen}}', {
+                        created: formatDate(createdAt, t),
+                        lastSeen: formatDate(lastSeenAt, t),
+                      })}
                     </Text>
                   </Stack>
 
                   <Group gap="xs">
-                    <Tooltip label="Rename device">
+                    <Tooltip label={t('linkedDevicesPanel.renameDevice', 'Rename device')}>
                       <ActionIcon
-                        aria-label="Rename device"
+                        aria-label={t('linkedDevicesPanel.renameDevice', 'Rename device')}
                         onClick={() => handleRename(id)}
                         disabled={disabled}
                       >
@@ -168,9 +175,9 @@ export default function LinkedDevicesPanel() {
                       </ActionIcon>
                     </Tooltip>
 
-                    <Tooltip label="Revoke device">
+                    <Tooltip label={t('linkedDevicesPanel.revokeDevice', 'Revoke device')}>
                       <ActionIcon
-                        aria-label="Revoke device"
+                        aria-label={t('linkedDevicesPanel.revokeDevice', 'Revoke device')}
                         onClick={() => handleRevoke(id)}
                         disabled={disabled}
                       >
