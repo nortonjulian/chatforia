@@ -95,10 +95,15 @@ router.post('/checkout', async (req, res) => {
 
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
-    const priceId = getPriceIdForPlan(plan);
+
+    let priceId =
+      req.body?.priceId ||
+      getPriceIdForPlan(plan);
 
     if (!priceId) {
-      return res.status(400).json({ error: 'Invalid or unconfigured plan' });
+      return res.status(400).json({
+        error: 'Invalid or unconfigured plan/price',
+      });
     }
 
     const user = await prisma.user.findUnique({

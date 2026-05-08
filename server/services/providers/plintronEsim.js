@@ -1,5 +1,5 @@
-import * as ESIM_CFG from '@config/esim.js';
-import { plintronRequest } from '@utils/plintronClient.js';
+import * as ESIM_CFG from '../../config/esim.js';
+import { plintronRequest } from '../../utils/plintronClient.js';
 
 // Helper to check config
 function ensureConfigured() {
