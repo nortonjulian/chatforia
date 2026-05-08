@@ -133,7 +133,9 @@ async function applyActiveSubscription(subscription) {
       billingSubscriptionId: subscriptionId,
       subscriptionStatus: String(subscription.status || 'active').toUpperCase(),
       subscriptionEndsAt: dateFromUnix(subscription.current_period_end),
-      firstPaidAt: new Date(),
+      ...(subscription.status === 'active'
+        ? { firstPaidAt: new Date() }
+        : {}),
     },
   });
 }
@@ -161,7 +163,6 @@ async function markSubscriptionCanceledOrPastDue(subscription, status) {
 
 router.post(
   '/webhook',
-  express.raw({ type: 'application/json' }),
   async (req, res) => {
     const signature = req.get('stripe-signature');
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
