@@ -40,19 +40,6 @@ export default function MyPlan() {
             plan: data?.plan?.label || 'FREE',
           });
         }
-
-        if (!res.ok) {
-          throw new Error(`Request failed with ${res.status}`);
-        }
-
-        const data = await res.json();
-        if (!cancelled) {
-          setPlan(data.plan);
-
-          posthog.capture('my_plan_viewed', {
-            plan: data?.plan?.label || 'FREE',
-          });
-        }
       } catch (err) {
         if (!cancelled) {
           setError(t('billing.myPlanError', 'Unable to load your plan.'));
