@@ -1,6 +1,6 @@
-import * as telna from '@providers/telnaEsim.js';
-import * as plintron from '@providers/plintronEsim.js';
-import { ESIM_PROVIDER, ESIM_ENABLED } from '@config/esim.js';
+import * as telna from './telnaEsim.js';
+import * as plintron from './plintronEsim.js';
+import { ESIM_PROVIDER, ESIM_ENABLED } from '../../config/esim.js';
 
 /**
  * Throw if eSIM feature is globally disabled.
