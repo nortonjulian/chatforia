@@ -31,9 +31,15 @@ export default function MyPlan() {
       try {
         setLoading(true);
         setError('');
-        const res = await fetch('/api/billing/my-plan', {
-          credentials: 'include',
-        });
+        const { data } = await axiosClient.get('/billing/my-plan');
+
+        if (!cancelled) {
+          setPlan(data.plan);
+
+          posthog.capture('my_plan_viewed', {
+            plan: data?.plan?.label || 'FREE',
+          });
+        }
 
         if (!res.ok) {
           throw new Error(`Request failed with ${res.status}`);
