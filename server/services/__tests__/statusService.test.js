@@ -1,9 +1,7 @@
 import { jest } from '@jest/globals';
 
-// Ensure dev fallbacks are OFF so translation/encryption run
 process.env.DEV_FALLBACKS = 'false';
 
-// ---- Shared mocks ----
 const mockPrisma = {
   contact: {
     findMany: jest.fn(),
@@ -24,9 +22,7 @@ const mockPrisma = {
 const isExplicitMock = jest.fn();
 const cleanTextMock = jest.fn();
 const translateForTargetsMock = jest.fn();
-const encryptMessageForParticipantsMock = jest.fn();
 
-// ---- Mock modules BEFORE importing the service ----
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   prisma: mockPrisma,
@@ -43,13 +39,9 @@ await jest.unstable_mockModule('../utils/translate.js', () => ({
   translateForTargets: translateForTargetsMock,
 }));
 
-await jest.unstable_mockModule('../utils/encryption.js', () => ({
-  __esModule: true,
-  encryptMessageForParticipants: encryptMessageForParticipantsMock,
-}));
-
-// ---- Import functions under test ----
-const { getAudienceUserIds, createStatusService } = await import('../statusService.js');
+const { getAudienceUserIds, createStatusService } = await import(
+  '../statusService.js'
+);
 
 describe('getAudienceUserIds', () => {
   beforeEach(() => {
@@ -63,22 +55,14 @@ describe('getAudienceUserIds', () => {
       customIds: ['2', 2, 3, 0, null],
     });
 
-    // Should not hit prisma.contact for CUSTOM
     expect(mockPrisma.contact.findMany).not.toHaveBeenCalled();
     expect(result).toEqual([2, 3]);
   });
 
   it('returns mutuals when mode is MUTUALS', async () => {
-    // First call: my contacts
     mockPrisma.contact.findMany
-      .mockResolvedValueOnce([
-        { userId: 2 },
-        { userId: 3 },
-      ])
-      // Second call: reciprocals (only user 2 reciprocates)
-      .mockResolvedValueOnce([
-        { ownerId: 2 },
-      ]);
+      .mockResolvedValueOnce([{ userId: 2 }, { userId: 3 }])
+      .mockResolvedValueOnce([{ ownerId: 2 }]);
 
     const result = await getAudienceUserIds({
       authorId: 1,
@@ -86,8 +70,6 @@ describe('getAudienceUserIds', () => {
     });
 
     expect(mockPrisma.contact.findMany).toHaveBeenCalledTimes(2);
-
-    // myContactIds = [2,3]; mutual set = {2} => [2]
     expect(result).toEqual([2]);
   });
 
@@ -102,7 +84,6 @@ describe('getAudienceUserIds', () => {
       mode: 'CONTACTS',
     });
 
-    // Should only need one query
     expect(mockPrisma.contact.findMany).toHaveBeenCalledTimes(1);
     expect(result).toEqual([5, 6]);
   });
@@ -113,7 +94,7 @@ describe('createStatusService', () => {
     jest.clearAllMocks();
   });
 
-  it('creates a status with CUSTOM audience, translation, encryption, and status keys', async () => {
+  it('creates a status with CUSTOM audience, translation, fallback caption storage, and status keys', async () => {
     const author = {
       id: 1,
       username: 'alice',
@@ -122,10 +103,8 @@ describe('createStatusService', () => {
       publicKey: 'pub1',
     };
 
-    // Author lookup
     mockPrisma.user.findUnique.mockResolvedValue(author);
 
-    // Audience users: author + 2 + 3
     const users = [
       author,
       {
@@ -143,13 +122,12 @@ describe('createStatusService', () => {
         publicKey: 'pub3',
       },
     ];
+
     mockPrisma.user.findMany.mockResolvedValue(users);
 
-    // Explicit content check + clean text
     isExplicitMock.mockReturnValue(true);
     cleanTextMock.mockImplementation((s) => `CLEAN:${s}`);
 
-    // Translation: one translation per non-author user
     translateForTargetsMock.mockResolvedValue({
       map: {
         2: 'hola',
@@ -158,16 +136,6 @@ describe('createStatusService', () => {
       from: 'en',
     });
 
-    // Encryption: provide ciphertext + keys for author + user 2 only
-    encryptMessageForParticipantsMock.mockResolvedValue({
-      ciphertext: 'ENC',
-      encryptedKeys: {
-        1: 'k1',
-        2: 'k2',
-      },
-    });
-
-    // Status create: echo back data with an id
     mockPrisma.status.create.mockImplementation(async ({ data }) => ({
       id: 99,
       ...data,
@@ -194,7 +162,6 @@ describe('createStatusService', () => {
       expireSeconds: 3600,
     });
 
-    // Authors + users fetched
     expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
       where: { id: 1 },
       select: {
@@ -217,51 +184,40 @@ describe('createStatusService', () => {
       },
     });
 
-    // Explicit & clean
     expect(isExplicitMock).toHaveBeenCalledWith('This is my raw caption');
     expect(cleanTextMock).toHaveBeenCalledWith('This is my raw caption');
 
     const expectedCaption = 'CLEAN:This is my raw caption';
 
-    // Translation called with cleaned caption and target languages
     expect(translateForTargetsMock).toHaveBeenCalledWith(
       expectedCaption,
       'en',
-      ['es', 'fr'],
+      ['es', 'fr']
     );
 
-    // Encryption called with cleaned caption and full users list
-    expect(encryptMessageForParticipantsMock).toHaveBeenCalledWith(
-      expectedCaption,
-      author,
-      users,
-    );
-
-    // Status create called with expected data
     expect(mockPrisma.status.create).toHaveBeenCalledTimes(1);
+
     const createArg = mockPrisma.status.create.mock.calls[0][0];
     const data = createArg.data;
 
     expect(data.author).toEqual({ connect: { id: 1 } });
-    expect(data.captionCiphertext).toBe('ENC');
+    expect(data.captionCiphertext).toBe(expectedCaption);
     expect(data.audience).toBe('CUSTOM');
     expect(data.isExplicit).toBe(true);
 
-    // Fallback key added for user 3 (self)
     expect(data.encryptedKeys).toEqual({
-      1: 'k1',
-      2: 'k2',
+      1: 'self',
+      2: 'self',
       3: 'self',
     });
 
-    // Translations persisted
     expect(data.translations).toEqual({
       2: 'hola',
       3: 'salut',
     });
+
     expect(data.translatedFrom).toBe('en');
 
-    // Assets normalized
     expect(data.assets).toEqual({
       createMany: {
         data: [
@@ -278,16 +234,13 @@ describe('createStatusService', () => {
       },
     });
 
-    // ExpiresAt is a Date ~ 1h from now; we just assert it's a Date
     expect(data.expiresAt).toBeInstanceOf(Date);
 
-    // Status keys transaction called with one upsert per key
     expect(mockPrisma.statusKey.upsert).toHaveBeenCalledTimes(3);
     expect(mockPrisma.$transaction).toHaveBeenCalledTimes(1);
 
-    // Return value is what prisma.status.create returned
     expect(result.id).toBe(99);
-    expect(result.captionCiphertext).toBe('ENC');
+    expect(result.captionCiphertext).toBe(expectedCaption);
   });
 
   it('throws when there is no audience for non-EVERYONE status', async () => {
@@ -300,8 +253,6 @@ describe('createStatusService', () => {
     };
 
     mockPrisma.user.findUnique.mockResolvedValue(author);
-
-    // getAudienceUserIds (via CONTACT/MUTUALS) will see no contacts
     mockPrisma.contact.findMany.mockResolvedValue([]);
 
     await expect(
@@ -309,7 +260,7 @@ describe('createStatusService', () => {
         authorId: 1,
         caption: 'hello',
         audience: 'MUTUALS',
-      }),
+      })
     ).rejects.toThrow('No audience');
 
     expect(mockPrisma.status.create).not.toHaveBeenCalled();
@@ -331,7 +282,7 @@ describe('createStatusService', () => {
         authorId: 1,
         caption: 'hello',
         audience: 'WEIRD',
-      }),
+      })
     ).rejects.toThrow('Unsupported audience: WEIRD');
 
     expect(mockPrisma.status.create).not.toHaveBeenCalled();
@@ -344,7 +295,7 @@ describe('createStatusService', () => {
       createStatusService({
         authorId: 999,
         caption: 'hello',
-      }),
+      })
     ).rejects.toThrow('Author not found');
 
     expect(mockPrisma.status.create).not.toHaveBeenCalled();

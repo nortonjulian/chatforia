@@ -10,6 +10,18 @@ jest.mock('@/i18n', () => ({
 }));
 import i18n from '@/i18n';
 
+// ---- Mock encryption helpers so tests do not touch IndexedDB/pairing ----
+jest.mock('@/utils/encryptionClient', () => ({
+  __esModule: true,
+  getLocalKeyBundleMeta: jest.fn(() => Promise.resolve(null)),
+  getUnlockedPrivateKeyForPublicKey: jest.fn(),
+  unlockKeyBundle: jest.fn(),
+  getPersistedUnlockPasscodeForSession: jest.fn(() => null),
+  clearPersistedUnlockPasscodeForSession: jest.fn(),
+  requestBrowserPairing: jest.fn(),
+  tryInstallKeysFromApprovedPairing: jest.fn(),
+}));
+
 // ---- Axios mocks ----
 const mockGet = jest.fn();
 const mockPost = jest.fn();
@@ -42,6 +54,7 @@ import { UserProvider, useUser } from '../UserContext';
 // ---- Test harness ----
 function Consumer() {
   const ctx = useUser();
+
   useEffect(() => {
     window.__userCtx = ctx;
   }, [ctx]);
@@ -53,6 +66,7 @@ function Consumer() {
       <div data-testid="currentUser">
         {ctx.currentUser ? JSON.stringify(ctx.currentUser) : ''}
       </div>
+
       <button onClick={ctx.logout} data-testid="logout">
         Logout
       </button>
@@ -77,6 +91,11 @@ beforeEach(() => {
   i18n.changeLanguage.mockClear();
 
   localStorage.clear();
+
+  // UserContext calls /auth/me once before bootstrap if there is no auth hint.
+  // This fake token makes tests use the normal single bootstrap request.
+  localStorage.setItem('foria_jwt', 'test-token');
+
   Object.defineProperty(document, 'cookie', {
     value: '',
     writable: true,
@@ -87,6 +106,13 @@ beforeEach(() => {
     value: 'en-US',
     configurable: true,
   });
+
+  delete window.__userCtx;
+});
+
+afterEach(() => {
+  localStorage.clear();
+  delete window.__userCtx;
 });
 
 // ---- Tests ----
@@ -110,12 +136,12 @@ describe('UserContext', () => {
     expect(mockRefreshRooms).toHaveBeenCalledTimes(1);
     expect(mockDisconnect).not.toHaveBeenCalled();
 
-    // i18n should have been used
     expect(i18n.changeLanguage).toHaveBeenCalled();
   });
 
   test('bootstrap success with { user: ... } shape is supported', async () => {
     mockGet.mockResolvedValueOnce({ data: { user: { id: 9, name: 'Ada' } } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
 
     renderWithProvider();
 
@@ -154,14 +180,18 @@ describe('UserContext', () => {
     });
 
     expect(screen.getByTestId('currentUser').textContent).toBe('');
-    expect(screen.getByTestId('authError').textContent).toBe('Failed to verify session');
+    expect(screen.getByTestId('authError').textContent).toBe(
+      'Failed to verify session'
+    );
     expect(mockDisconnect).toHaveBeenCalledTimes(1);
   });
 
   test('global auth-unauthorized event clears user and disconnects', async () => {
     mockGet.mockResolvedValueOnce({ data: { id: 1 } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
 
     renderWithProvider();
+
     await waitFor(() => {
       expect(screen.getByTestId('authLoading').textContent).toBe('false');
     });
@@ -179,29 +209,42 @@ describe('UserContext', () => {
   test('logout: POST /auth/logout, clears tokens/cookies, sets user null, disconnects', async () => {
     mockGet.mockResolvedValueOnce({ data: { id: 3 } });
     mockPost.mockResolvedValueOnce({ data: { ok: true } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
 
     localStorage.setItem('token', 'abc');
     localStorage.setItem('foria_jwt', 'xyz');
+
     Object.defineProperty(document, 'cookie', {
       value: 'foria_jwt=xyz',
       writable: true,
+      configurable: true,
     });
 
     renderWithProvider();
+
     await waitFor(() => {
       expect(screen.getByTestId('authLoading').textContent).toBe('false');
     });
 
     fireEvent.click(screen.getByTestId('logout'));
 
-    await waitFor(() => expect(mockPost).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith(
+        '/auth/logout',
+        {},
+        expect.objectContaining({
+          withCredentials: true,
+          headers: expect.objectContaining({
+            'X-Requested-With': 'XMLHttpRequest',
+          }),
+        })
+      );
+    });
 
     await waitFor(() => {
       expect(localStorage.getItem('token')).toBeNull();
       expect(localStorage.getItem('foria_jwt')).toBeNull();
-      // In jsdom + our overrides, only the last cookie assignment "wins",
-      // so we accept either cookie name being cleared.
-      expect(document.cookie).toMatch(/(foria_jwt|cf_session)=;.*Max-Age=0/);
+      expect(localStorage.getItem('cf_session')).toBeNull();
       expect(screen.getByTestId('currentUser').textContent).toBe('');
       expect(mockDisconnect).toHaveBeenCalled();
     });
@@ -209,6 +252,7 @@ describe('UserContext', () => {
 
   test('provider value has expected shape', async () => {
     mockGet.mockResolvedValueOnce({ data: { id: 11 } });
+    mockRefreshRooms.mockResolvedValueOnce([]);
 
     renderWithProvider();
 
@@ -217,6 +261,7 @@ describe('UserContext', () => {
     });
 
     const ctx = window.__userCtx;
+
     expect(ctx).toBeTruthy();
     expect(typeof ctx.logout).toBe('function');
     expect('currentUser' in ctx).toBe(true);

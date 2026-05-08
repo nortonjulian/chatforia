@@ -9,6 +9,7 @@ jest.mock('@/context/UserContext', () => ({
   useUser: () => ({ currentUser: { id: 1, username: 'julian' } }),
 }));
 
+
 /* --- Lightweight Mantine stubs (every named export PeoplePage uses) --- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
@@ -124,6 +125,22 @@ jest.mock('@/components/ImportContactsModal', () => {
   };
 });
 
+jest.mock('@/components/AddContactModal', () => {
+  const React = require('react');
+
+  return {
+    __esModule: true,
+    default: ({ opened }) =>
+      opened
+        ? React.createElement(
+            'div',
+            { 'data-testid': 'add-contact-modal' },
+            'add-contact-open'
+          )
+        : null,
+  };
+});
+
 /* --- SUT --- */
 import PeoplePage from '../PeoplePage';
 
@@ -145,7 +162,9 @@ test('search input updates query param on Search', () => {
   renderPage();
 
   // Global search input (its placeholder text comes from PeoplePage)
-  const input = screen.getByPlaceholderText(/search by alias, name, username, or phone/i);
+  const input = screen.getByPlaceholderText(
+  /search saved contacts by alias, name, username, or phone/i
+);
 
   fireEvent.change(input, { target: { value: 'alice' } });
   fireEvent.click(screen.getByRole('button', { name: /^search$/i }));

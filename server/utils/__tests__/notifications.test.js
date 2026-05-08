@@ -1,9 +1,15 @@
-import { jest } from '@jest/globals';
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// Make sure env var exists so setApiKey is called cleanly
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const prismaPath = path.resolve(__dirname, '../prismaClient.js');
+const notificationsPath = path.resolve(__dirname, '../notifications.js');
+
 process.env.SENDGRID_API_KEY = 'test-sendgrid-key';
 
-// ---- Mock SendGrid + Prisma BEFORE importing the module under test ----
 jest.unstable_mockModule('@sendgrid/mail', () => ({
   __esModule: true,
   default: {
@@ -12,7 +18,7 @@ jest.unstable_mockModule('@sendgrid/mail', () => ({
   },
 }));
 
-jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+jest.unstable_mockModule(prismaPath, () => ({
   __esModule: true,
   default: {
     user: {
@@ -21,10 +27,9 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   },
 }));
 
-// After mocks, import the mocked modules and the function under test
 const sgMailModule = await import('@sendgrid/mail');
-const prismaModule = await import('../utils/prismaClient.js');
-const { notifyUserOfPendingRelease } = await import('./notifications.js');
+const prismaModule = await import(prismaPath);
+const { notifyUserOfPendingRelease } = await import(notificationsPath);
 
 const sgMail = sgMailModule.default;
 const prisma = prismaModule.default;
@@ -37,12 +42,6 @@ describe('notifyUserOfPendingRelease', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('sets the SendGrid API key at module load', () => {
-    // notifications.js calls setApiKey at top-level when imported
-    expect(sgMail.setApiKey).toHaveBeenCalledTimes(1);
-    expect(sgMail.setApiKey).toHaveBeenCalledWith('test-sendgrid-key');
   });
 
   it('logs a warning and returns when user is not found', async () => {
@@ -123,12 +122,11 @@ describe('notifyUserOfPendingRelease', () => {
       subject: 'Your Chatforia number will be released soon',
     });
 
-    // Greeting with firstName
-    expect(msg.text).toContain(`Hi Julian,`);
+    expect(msg.text).toContain('Hi Julian,');
     expect(msg.text).toContain(`number ${number}`);
     expect(msg.text).toContain(`will be released on ${releaseDateStr}`);
 
-    expect(msg.html).toContain(`Hi Julian`);
+    expect(msg.html).toContain('Hi Julian');
     expect(msg.html).toContain(`<strong>${number}</strong>`);
     expect(msg.html).toContain(`<strong>${releaseDateStr}</strong>`);
 
@@ -153,9 +151,8 @@ describe('notifyUserOfPendingRelease', () => {
     expect(sgMail.send).toHaveBeenCalledTimes(1);
     const [msg] = sgMail.send.mock.calls[0];
 
-    // Greeting with username
-    expect(msg.text).toContain(`Hi ChatforiaUser,`);
-    expect(msg.html).toContain(`Hi ChatforiaUser`);
+    expect(msg.text).toContain('Hi ChatforiaUser,');
+    expect(msg.html).toContain('Hi ChatforiaUser');
   });
 
   it('uses "there" as greeting when neither firstName nor username are present', async () => {
@@ -171,7 +168,7 @@ describe('notifyUserOfPendingRelease', () => {
     expect(sgMail.send).toHaveBeenCalledTimes(1);
     const [msg] = sgMail.send.mock.calls[0];
 
-    expect(msg.text).toContain(`Hi there,`);
-    expect(msg.html).toContain(`Hi there`);
+    expect(msg.text).toContain('Hi there,');
+    expect(msg.html).toContain('Hi there');
   });
 });

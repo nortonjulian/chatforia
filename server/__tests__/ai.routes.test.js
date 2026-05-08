@@ -5,47 +5,49 @@ import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 
-// ----- env for AI routes -----
-process.env.AI_PROFANITY_WORDS = 'badword';
-process.env.AI_SUGGEST_MAX_INPUT = '4000';
-process.env.OPENAI_API_KEY = 'test-key';
-process.env.AI_SUGGEST_MODEL = 'gpt-4o-mini';
-
 // ----- mocks -----
 
-// translateText util
-const translateTextMock = jest.fn();
-await jest.unstable_mockModule('../utils/translateText.js', () => ({
-  translateText: translateTextMock,
-}));
-
-// auth middleware
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, _res, next) => {
-    req.user = { id: 1, username: 'tester', plan: 'PREMIUM' };
+    req.user = {
+      id: 1,
+      username: 'tester',
+      displayName: 'Tester',
+      plan: 'PREMIUM',
+    };
     next();
   },
 }));
 
-// premium middleware
-await jest.unstable_mockModule('../middleware/requirePremium.js', () => ({
-  requirePremium: (_req, _res, next) => next(),
-}));
-
-// blockWhenStrictE2EE middleware
 await jest.unstable_mockModule('../middleware/blockWhenStrictE2EE.js', () => ({
   default: (_req, _res, next) => next(),
 }));
 
-// import router AFTER mocks
+const suggestRepliesMock = jest.fn();
+const rewriteTextMock = jest.fn();
+const chatWithRiaMock = jest.fn();
+
+await jest.unstable_mockModule('../services/riaService.js', () => ({
+  suggestReplies: suggestRepliesMock,
+  rewriteText: rewriteTextMock,
+  chatWithRia: chatWithRiaMock,
+}));
+
 const aiModule = await import('../routes/ai.js');
 const aiRouter = aiModule.default;
 
-// helper to make an app with the AI router mounted
 function makeApp() {
   const app = express();
   app.use(express.json());
   app.use('/ai', aiRouter);
+
+  app.use((err, _req, res, _next) => {
+    const status = err.output?.statusCode || err.statusCode || 500;
+    res.status(status).json({
+      error: err.message,
+    });
+  });
+
   return app;
 }
 
@@ -55,107 +57,127 @@ describe('AI routes', () => {
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
-
-    // mock global fetch for OpenAI calls
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        choices: [
-          {
-            message: {
-              // callOpenAIForSuggestions expects JSON-only content
-              content: JSON.stringify({
-                suggestions: [{ text: 'This has badword inside' }],
-              }),
-            },
-          },
-        ],
-      }),
-    });
-  });
-
-  describe('POST /ai/power-feature', () => {
-    test('returns stubbed premium result when user is premium', async () => {
-      const res = await request(app).post('/ai/power-feature').send({});
-
-      expect(res.statusCode).toBe(200);
-      expect(res.body).toEqual({
-        ok: true,
-        result: '✨ Premium AI result (replace with real logic)',
-      });
-    });
   });
 
   describe('POST /ai/suggest-replies', () => {
-    test('returns suggestions and applies profanity masking when enabled', async () => {
-      const body = {
-        locale: 'en-US',
-        filterProfanity: true,
-        snippets: [
-          {
-            role: 'user',
-            author: 'alice',
-            text: 'Hello, can you help?',
-          },
-        ],
+    test('delegates to suggestReplies and returns suggestions', async () => {
+      const result = {
+        suggestions: [{ text: 'Sounds good!' }],
       };
+
+      suggestRepliesMock.mockResolvedValue(result);
 
       const res = await request(app)
         .post('/ai/suggest-replies')
-        .send(body);
-
-      expect(res.statusCode).toBe(200);
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-
-      // Ensure the OpenAI call got the right payload basics
-      const [url, fetchOpts] = global.fetch.mock.calls[0];
-      expect(url).toBe('https://api.openai.com/v1/chat/completions');
-      const parsedBody = JSON.parse(fetchOpts.body);
-      expect(parsedBody.model).toBe('gpt-4o-mini');
-      expect(parsedBody.messages[0].role).toBe('system');
-      expect(parsedBody.messages[1].role).toBe('user');
-
-      // Suggestions should be present
-      expect(res.body).toHaveProperty('suggestions');
-      expect(Array.isArray(res.body.suggestions)).toBe(true);
-      expect(res.body.suggestions.length).toBeGreaterThan(0);
-
-      const [first] = res.body.suggestions;
-
-      // Profanity should be masked: "badword" -> "b*****d"
-      expect(first.text).toContain('b*****d');
-      expect(first.text).not.toContain('badword');
-    });
-  });
-
-  describe('POST /ai/translate', () => {
-    test('delegates to translateText and returns its result', async () => {
-      const result = {
-        text: 'Hola mundo',
-        detectedSourceLang: 'en',
-        targetLang: 'es',
-      };
-
-      translateTextMock.mockResolvedValue(result);
-
-      const body = {
-        text: 'Hello world',
-        targetLang: 'es',
-        sourceLang: 'en',
-      };
-
-      const res = await request(app)
-        .post('/ai/translate')
-        .send(body);
+        .send({
+          filterProfanity: true,
+          draft: '',
+          messages: [
+            {
+              role: 'user',
+              content: 'Hello, can you help?',
+            },
+          ],
+        });
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toEqual(result);
 
-      expect(translateTextMock).toHaveBeenCalledWith({
-        text: 'Hello world',
-        targetLang: 'es',
-        sourceLang: 'en',
+      expect(suggestRepliesMock).toHaveBeenCalledWith({
+        messages: [
+          {
+            role: 'user',
+            content: 'Hello, can you help?',
+          },
+        ],
+        draft: '',
+        filterProfanity: true,
       });
+    });
+  });
+
+  describe('POST /ai/rewrite', () => {
+    test('delegates to rewriteText and returns rewritten text', async () => {
+      const result = {
+        text: 'Hey! Just checking in.',
+      };
+
+      rewriteTextMock.mockResolvedValue(result);
+
+      const res = await request(app)
+        .post('/ai/rewrite')
+        .send({
+          text: 'checking in',
+          tone: 'friendly',
+          filterProfanity: false,
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual(result);
+
+      expect(rewriteTextMock).toHaveBeenCalledWith({
+        text: 'checking in',
+        tone: 'friendly',
+        filterProfanity: false,
+      });
+    });
+
+    test('returns 400 when text is missing', async () => {
+      const res = await request(app)
+        .post('/ai/rewrite')
+        .send({ text: '' });
+
+      expect(res.statusCode).toBe(400);
+      expect(rewriteTextMock).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('POST /ai/chat', () => {
+    test('delegates to chatWithRia and returns response', async () => {
+      const result = {
+        message: 'Hi, I am Ria.',
+      };
+
+      chatWithRiaMock.mockResolvedValue(result);
+
+      const res = await request(app)
+        .post('/ai/chat')
+        .send({
+          memoryEnabled: true,
+          filterProfanity: false,
+          messages: [
+            {
+              role: 'user',
+              content: 'Hello Ria',
+            },
+          ],
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toEqual(result);
+
+      expect(chatWithRiaMock).toHaveBeenCalledWith({
+        userId: 1,
+        username: 'tester',
+        displayName: 'Tester',
+        messages: [
+          {
+            role: 'user',
+            content: 'Hello Ria',
+          },
+        ],
+        memoryEnabled: true,
+        filterProfanity: false,
+      });
+    });
+
+    test('returns 400 when messages is empty', async () => {
+      const res = await request(app)
+        .post('/ai/chat')
+        .send({ messages: [] });
+
+      expect(res.statusCode).toBe(400);
+      expect(chatWithRiaMock).not.toHaveBeenCalled();
     });
   });
 });

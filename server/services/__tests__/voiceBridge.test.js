@@ -24,9 +24,6 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
 
 // --- Phone utils mock --------------------------------------------------------
 
-// Simple behavior:
-// - normalizeE164: to string
-// - isE164: “valid” if it starts with "+"
 jest.unstable_mockModule('../utils/phone.js', () => ({
   __esModule: true,
   normalizeE164: (v) => String(v || ''),
@@ -68,7 +65,6 @@ describe('startAliasCall', () => {
       message: 'Invalid destination phone',
     });
 
-    // Should bail before touching DB or Twilio
     expect(mockUserFindUnique).not.toHaveBeenCalled();
     expect(mockTwilioCtor).not.toHaveBeenCalled();
   });
@@ -76,8 +72,9 @@ describe('startAliasCall', () => {
   it('throws 412 when user has no assigned Chatforia number', async () => {
     mockUserFindUnique.mockResolvedValueOnce({
       id: 1,
-      assignedNumbers: [], // no DID
-      forwardPhoneNumber: '+15550001111',
+      assignedNumbers: [],
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '+15550001111',
     });
 
     await expect(
@@ -96,7 +93,8 @@ describe('startAliasCall', () => {
           take: 1,
           orderBy: { id: 'asc' },
         },
-        forwardPhoneNumber: true,
+        forwardingEnabledCalls: true,
+        forwardToPhoneE164: true,
       },
     });
 
@@ -107,7 +105,8 @@ describe('startAliasCall', () => {
     mockUserFindUnique.mockResolvedValueOnce({
       id: 2,
       assignedNumbers: [{ e164: '+15550003333' }],
-      forwardPhoneNumber: '5551234', // no leading "+", invalid per isE164 mock
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: '5551234',
     });
 
     await expect(
@@ -115,7 +114,27 @@ describe('startAliasCall', () => {
     ).rejects.toMatchObject({
       isBoom: true,
       output: { statusCode: 412 },
-      message: 'User forwarding phone not verified',
+      message: 'User call forwarding phone not verified',
+    });
+
+    expect(mockUserFindUnique).toHaveBeenCalledTimes(1);
+    expect(mockTwilioCtor).not.toHaveBeenCalled();
+  });
+
+  it('throws 412 when call forwarding is not enabled', async () => {
+    mockUserFindUnique.mockResolvedValueOnce({
+      id: 3,
+      assignedNumbers: [{ e164: '+15550003333' }],
+      forwardingEnabledCalls: false,
+      forwardToPhoneE164: '+15550001111',
+    });
+
+    await expect(
+      startAliasCall({ userId: 3, to: '+15550004444' })
+    ).rejects.toMatchObject({
+      isBoom: true,
+      output: { statusCode: 412 },
+      message: 'Call forwarding is not enabled',
     });
 
     expect(mockUserFindUnique).toHaveBeenCalledTimes(1);
@@ -131,14 +150,14 @@ describe('startAliasCall', () => {
     mockUserFindUnique.mockResolvedValueOnce({
       id: userId,
       assignedNumbers: [{ e164: fromNumber }],
-      forwardPhoneNumber: userPhone,
+      forwardingEnabledCalls: true,
+      forwardToPhoneE164: userPhone,
     });
 
     mockCallsCreate.mockResolvedValueOnce({ sid: 'CA1234567890' });
 
     const result = await startAliasCall({ userId, to: dest });
 
-    // Basic returned payload
     expect(result).toEqual({
       ok: true,
       from: fromNumber,
@@ -148,21 +167,17 @@ describe('startAliasCall', () => {
       callSid: 'CA1234567890',
     });
 
-    // Twilio client constructed with env SID/AUTH
     expect(mockTwilioCtor).toHaveBeenCalledWith(
       'AC_TEST_SID',
       'TEST_AUTH_TOKEN'
     );
 
-    // Calls.create payload
     expect(mockCallsCreate).toHaveBeenCalledTimes(1);
     const args = mockCallsCreate.mock.calls[0][0];
 
-    // Dial user’s forwarding phone from assigned Chatforia DID
     expect(args.to).toBe(userPhone);
     expect(args.from).toBe(fromNumber);
 
-    // URL built from APP_API_ORIGIN and /webhooks/voice/alias/legA
     const legAUrl = new URL(args.url);
     expect(legAUrl.origin).toBe('https://api.example.com');
     expect(legAUrl.pathname).toBe('/webhooks/voice/alias/legA');
@@ -170,7 +185,6 @@ describe('startAliasCall', () => {
     expect(legAUrl.searchParams.get('from')).toBe(fromNumber);
     expect(legAUrl.searchParams.get('to')).toBe(dest);
 
-    // Machine detection + status callback config
     expect(args.machineDetection).toBe('Enable');
     expect(args.statusCallback).toBe('https://status.example.com/twilio');
     expect(args.statusCallbackEvent).toEqual([

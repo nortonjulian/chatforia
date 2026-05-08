@@ -58,7 +58,31 @@ router.post('/register', requireAuth, async (req, res, next) => {
     const keyVersion = Number(req.body?.keyVersion || 1);
 
     if (!userId || !deviceId || !publicKey) {
-      return res.status(400).json({ error: 'deviceId and publicKey are required' });
+  return res.status(400).json({ error: 'deviceId and publicKey are required' });
+}
+
+    const existingActiveDevices = await prisma.device.count({
+      where: {
+        userId,
+        revokedAt: null,
+        NOT: {
+          deviceId,
+        },
+      },
+    });
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        isPremium: true, // change this if your schema uses plan/tier instead
+      },
+    });
+
+    if (!user?.isPremium && existingActiveDevices >= 1) {
+      return res.status(402).json({
+        error: 'FREE plan allows one active device. Upgrade to add more devices.',
+        code: 'DEVICE_LIMIT_REACHED',
+      });
     }
 
     const device = await prisma.device.upsert({

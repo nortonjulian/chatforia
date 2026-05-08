@@ -21,13 +21,13 @@ import MicButton from '@/components/MicButton.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import { useTranslation } from 'react-i18next';
 
-const TTL_OPTIONS = [
-  { value: '0', label: t('messageInput.ttl.off', 'Off') },
-  { value: '10', label: '10s' },
-  { value: '60', label: '1m' },
-  { value: String(10 * 60), label: '10m' },
-  { value: String(60 * 60), label: '1h' },
-  { value: String(24 * 3600), label: '1d' },
+const RAW_TTL_OPTIONS = [
+  { value: '0', labelKey: 'messageInput.ttl.off', fallback: 'Off' },
+  { value: '10', fallback: '10s' },
+  { value: '60', fallback: '1m' },
+  { value: String(10 * 60), fallback: '10m' },
+  { value: String(60 * 60), fallback: '1h' },
+  { value: String(24 * 3600), fallback: '1d' },
 ];
 
 export default function MessageInput({
@@ -40,6 +40,15 @@ export default function MessageInput({
   const [ttl, setTtl] = useState(String(currentUser?.autoDeleteSeconds || 0));
 
   const { t } = useTranslation();
+
+  const ttlOptions = useMemo(
+  () =>
+    RAW_TTL_OPTIONS.map((opt) => ({
+      value: opt.value,
+      label: opt.labelKey ? t(opt.labelKey, opt.fallback) : opt.fallback,
+    })),
+  [t]
+);
 
   // Files uploaded to R2 (or mic recordings returned as fileMeta)
   // Expected fileMeta shape from FileUploader/MicButton:
@@ -429,7 +438,7 @@ export default function MessageInput({
               <Select
                 value={ttl}
                 onChange={handleTtlChange}
-                data={TTL_OPTIONS}
+                data={ttlOptions}
                 aria-label="Message timer"
                 disabled={sending}
                 w={180}

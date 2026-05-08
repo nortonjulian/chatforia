@@ -1,8 +1,7 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import * as Router from 'react-router-dom';
 
-// Mock the child component so we can inspect props and trigger callbacks
-const VerifyPhoneConsentMock = jest.fn(({ phoneNumber, onContinue, onCancel }) => {
+const mockVerifyPhoneConsent = jest.fn(({ phoneNumber, onContinue, onCancel }) => {
   return (
     <div>
       <div data-testid="phone">{phoneNumber}</div>
@@ -11,7 +10,10 @@ const VerifyPhoneConsentMock = jest.fn(({ phoneNumber, onContinue, onCancel }) =
     </div>
   );
 });
-jest.mock('../components/VerifyPhoneConsent', () => (props) => VerifyPhoneConsentMock(props));
+
+jest.mock('../components/VerifyPhoneConsent', () => (props) =>
+  mockVerifyPhoneConsent(props)
+);
 
 const { default: VerifyPhoneConsentPage } = require('../VerifyPhoneConsentPage');
 
@@ -22,8 +24,11 @@ describe('VerifyPhoneConsentPage', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // default: location provides phoneNumber
-    jest.spyOn(Router, 'useLocation').mockReturnValue({ state: { phoneNumber: '+15551234567' } });
+
+    jest.spyOn(Router, 'useLocation').mockReturnValue({
+      state: { phoneNumber: '+15551234567' },
+    });
+
     jest.spyOn(Router, 'useNavigate').mockReturnValue(navigateMock);
 
     global.fetch = jest.fn();
@@ -47,7 +52,6 @@ describe('VerifyPhoneConsentPage', () => {
   });
 
   it('renders VerifyPhoneConsent and onContinue -> successful request navigates to /verify-code with state', async () => {
-    // Mock successful fetch response
     global.fetch.mockResolvedValueOnce({
       ok: true,
       json: jest.fn().mockResolvedValue({}),
@@ -55,28 +59,26 @@ describe('VerifyPhoneConsentPage', () => {
 
     render(<VerifyPhoneConsentPage />);
 
-    // Verify child component received phoneNumber prop
-    expect(screen.getByTestId('phone').textContent).toBe('+15551234567');
+    expect(screen.getByTestId('phone')).toHaveTextContent('+15551234567');
 
-    // Click Continue (calls sendOtp via onContinue)
     fireEvent.click(screen.getByText('Continue'));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    // Verify fetch called with correct args
     expect(global.fetch).toHaveBeenCalledWith('/auth/request-phone-verification', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phoneNumber: '+15551234567' }),
     });
 
-    // Should navigate to /verify-code with state containing phoneNumber
-    expect(navigateMock).toHaveBeenCalledWith('/verify-code', { state: { phoneNumber: '+15551234567' } });
+    expect(navigateMock).toHaveBeenCalledWith('/verify-code', {
+      state: { phoneNumber: '+15551234567' },
+    });
   });
 
-  it('shows alert when server responds not ok (with JSON error) and does not navigate', async () => {
+  it('shows alert when server responds not ok and does not navigate', async () => {
     global.fetch.mockResolvedValueOnce({
       ok: false,
       json: jest.fn().mockResolvedValue({ error: 'rate limited' }),
@@ -90,11 +92,17 @@ describe('VerifyPhoneConsentPage', () => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    expect(global.alert).toHaveBeenCalledWith('Unable to send verification code. Please try again.');
-    expect(navigateMock).not.toHaveBeenCalledWith('/verify-code', expect.anything());
+    expect(global.alert).toHaveBeenCalledWith(
+      'Unable to send verification code. Please try again.'
+    );
+
+    expect(navigateMock).not.toHaveBeenCalledWith(
+      '/verify-code',
+      expect.anything()
+    );
   });
 
-  it('shows alert when fetch throws (network error) and does not navigate', async () => {
+  it('shows alert when fetch throws and does not navigate', async () => {
     global.fetch.mockRejectedValueOnce(new Error('network failure'));
 
     render(<VerifyPhoneConsentPage />);
@@ -105,8 +113,14 @@ describe('VerifyPhoneConsentPage', () => {
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    expect(global.alert).toHaveBeenCalledWith('Unable to send verification code. Please try again.');
-    expect(navigateMock).not.toHaveBeenCalledWith('/verify-code', expect.anything());
+    expect(global.alert).toHaveBeenCalledWith(
+      'Unable to send verification code. Please try again.'
+    );
+
+    expect(navigateMock).not.toHaveBeenCalledWith(
+      '/verify-code',
+      expect.anything()
+    );
   });
 
   it('calls onCancel -> navigate(-1)', () => {

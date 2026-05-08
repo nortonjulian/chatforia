@@ -1,14 +1,20 @@
+import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 
 // ---- mocks ----
 const mockRecordInboundSms = jest.fn();
-jest.mock('../services/smsService.js', () => ({
+
+const mockFindFirst = jest.fn();
+
+const mockNormalizeE164 = jest.fn((n) => `+${String(n)}`);
+
+jest.unstable_mockModule('../services/smsService.js', () => ({
+  __esModule: true,
   recordInboundSms: mockRecordInboundSms,
 }));
 
-const mockFindFirst = jest.fn();
-jest.mock('../utils/prismaClient.js', () => ({
+jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: {
     user: {
@@ -17,20 +23,30 @@ jest.mock('../utils/prismaClient.js', () => ({
   },
 }));
 
-const mockNormalizeE164 = jest.fn((n) => `+${String(n)}`);
-jest.mock('../utils/phone.js', () => ({
-  normalizeE164: jest.fn((n) => `+${String(n)}`),
+jest.unstable_mockModule('../utils/phone.js', () => ({
+  __esModule: true,
+  normalizeE164: mockNormalizeE164,
 }));
 
-import router from '../routes/webhooksTwilio.js';
-import { recordInboundSms } from '../services/smsService.js';
-import prisma from '../utils/prismaClient.js';
-import { normalizeE164 } from '../utils/phone.js';
+const { default: router } = await import('../routes/webhooksTwilio.js');
+
+const { recordInboundSms } = await import(
+  '../services/smsService.js'
+);
+
+const { default: prisma } = await import(
+  '../utils/prismaClient.js'
+);
+
+const { normalizeE164 } = await import(
+  '../utils/phone.js'
+);
 
 function makeApp() {
   const app = express();
-  // routes already add urlencoded middleware, so no global body parser needed
+
   app.use('/webhooks', router);
+
   return app;
 }
 

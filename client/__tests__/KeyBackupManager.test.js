@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import KeyBackupManager from './KeyBackupManager';
+import KeyBackupManager from '@/components/KeyBackupManager.jsx';
 import '@testing-library/jest-dom';
 
 // Mocks
@@ -9,12 +9,17 @@ const mockInstallLocalPrivateKeyBundle = jest.fn();
 const mockGetLocalKeyBundleMeta = jest.fn();
 const mockSetNeedsKeyUnlock = jest.fn();
 
-jest.mock('../utils/backupClient.js', () => ({
-  createEncryptedKeyBackup: (...args) => mockCreateEncryptedKeyBackup(...args),
+jest.mock('@/utils/backupClient.js', () => ({
+  __esModule: true,
+  createEncryptedKeyBackup: (...args) =>
+    mockCreateEncryptedKeyBackup(...args),
 }));
 
 jest.mock('@/api/axiosClient', () => ({
-  get: (...args) => mockAxiosGet(...args),
+  __esModule: true,
+  default: {
+    get: (...args) => mockAxiosGet(...args),
+  },
 }));
 
 jest.mock('@/utils/encryptionClient', () => ({
@@ -30,27 +35,72 @@ jest.mock('@/context/UserContext', () => ({
   }),
 }));
 
-// Mock browser APIs
-global.URL.createObjectURL = jest.fn(() => 'blob:url');
-global.URL.revokeObjectURL = jest.fn();
-document.createElement = jest.fn(() => ({
-  click: jest.fn(),
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (_key, fallback, vars) => {
+      if (fallback && vars?.message) {
+        return fallback.replace('{{message}}', vars.message);
+      }
+      return fallback || _key;
+    },
+  }),
 }));
 
-// Mock crypto
-global.crypto = {
-  subtle: {
-    importKey: jest.fn(),
-    deriveKey: jest.fn(),
-    decrypt: jest.fn(),
+Object.defineProperty(global, 'crypto', {
+  value: {
+    subtle: {
+      importKey: jest.fn(),
+      deriveKey: jest.fn(),
+      decrypt: jest.fn(),
+    },
   },
-};
+  configurable: true,
+});
 
-describe('KeyBackupManager', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+function getExportPasswordInput() {
+  return screen.getAllByLabelText(/^backup password$/i)[0];
+}
+
+function getImportPasswordInput() {
+  return screen.getAllByLabelText(/^backup password$/i)[1];
+}
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  mockAxiosGet.mockResolvedValue({
+    data: {
+      hasBackup: true,
+      keys: {
+        encryptedPrivateKeyBundle: '{}',
+      },
+    },
   });
 
+  if (!URL.createObjectURL) {
+    Object.defineProperty(URL, 'createObjectURL', {
+      value: jest.fn(),
+      configurable: true,
+    });
+  }
+
+  if (!URL.revokeObjectURL) {
+    Object.defineProperty(URL, 'revokeObjectURL', {
+      value: jest.fn(),
+      configurable: true,
+    });
+  }
+
+  jest.spyOn(URL, 'createObjectURL').mockReturnValue('blob:url');
+  jest.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+  jest.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {});
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
+describe('KeyBackupManager', () => {
   test('export button is disabled when inputs are invalid', () => {
     render(<KeyBackupManager />);
 
@@ -73,7 +123,7 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getExportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
@@ -84,7 +134,10 @@ describe('KeyBackupManager', () => {
     );
 
     await waitFor(() => {
-      expect(mockCreateEncryptedKeyBackup).toHaveBeenCalled();
+      expect(mockCreateEncryptedKeyBackup).toHaveBeenCalledWith({
+        unlockPasscode: '123456',
+        backupPassword: 'abcdef',
+      });
     });
 
     expect(
@@ -103,11 +156,15 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getExportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
-    fireEvent.click(screen.getByText(/download encrypted key backup/i));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /download encrypted key backup/i,
+      })
+    );
 
     await waitFor(() => {
       expect(screen.getByText(/error: export failed/i)).toBeInTheDocument();
@@ -130,7 +187,7 @@ describe('KeyBackupManager', () => {
       ctB64: btoa('cipher'),
     };
 
-    mockAxiosGet.mockResolvedValueOnce({
+    mockAxiosGet.mockResolvedValue({
       data: {
         hasBackup: true,
         keys: {
@@ -155,7 +212,7 @@ describe('KeyBackupManager', () => {
 
     render(<KeyBackupManager />);
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getImportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
@@ -163,26 +220,28 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.click(screen.getByText(/restore from account backup/i));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /restore from account backup/i,
+      })
+    );
 
     await waitFor(() => {
       expect(mockInstallLocalPrivateKeyBundle).toHaveBeenCalled();
       expect(mockSetNeedsKeyUnlock).toHaveBeenCalledWith(false);
     });
 
-    expect(
-      screen.getByText(/key backup restored/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/key backup restored/i)).toBeInTheDocument();
   });
 
   test('import fails when no backup exists', async () => {
-    mockAxiosGet.mockResolvedValueOnce({
+    mockAxiosGet.mockResolvedValue({
       data: { hasBackup: false },
     });
 
     render(<KeyBackupManager />);
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getImportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
@@ -190,7 +249,11 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.click(screen.getByText(/restore from account backup/i));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /restore from account backup/i,
+      })
+    );
 
     await waitFor(() => {
       expect(
@@ -200,7 +263,7 @@ describe('KeyBackupManager', () => {
   });
 
   test('import fails when public keys mismatch', async () => {
-    mockAxiosGet.mockResolvedValueOnce({
+    mockAxiosGet.mockResolvedValue({
       data: {
         hasBackup: true,
         keys: {
@@ -215,7 +278,7 @@ describe('KeyBackupManager', () => {
 
     render(<KeyBackupManager />);
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getImportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
@@ -223,7 +286,11 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.click(screen.getByText(/restore from account backup/i));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /restore from account backup/i,
+      })
+    );
 
     await waitFor(() => {
       expect(
@@ -233,11 +300,16 @@ describe('KeyBackupManager', () => {
   });
 
   test('import fails when install results in wrong key', async () => {
-    mockAxiosGet.mockResolvedValueOnce({
+    const encryptedPayload = {
+      ivB64: btoa('iv'),
+      ctB64: btoa('cipher'),
+    };
+
+    mockAxiosGet.mockResolvedValue({
       data: {
         hasBackup: true,
         keys: {
-          encryptedPrivateKeyBundle: '{}',
+          encryptedPrivateKeyBundle: JSON.stringify(encryptedPayload),
           publicKey: 'test-public-key',
           privateKeyWrapSalt: btoa('salt'),
           privateKeyWrapIterations: 250000,
@@ -258,7 +330,7 @@ describe('KeyBackupManager', () => {
 
     render(<KeyBackupManager />);
 
-    fireEvent.change(screen.getByLabelText(/^backup password$/i), {
+    fireEvent.change(getImportPasswordInput(), {
       target: { value: 'abcdef' },
     });
 
@@ -266,7 +338,11 @@ describe('KeyBackupManager', () => {
       target: { value: '123456' },
     });
 
-    fireEvent.click(screen.getByText(/restore from account backup/i));
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /restore from account backup/i,
+      })
+    );
 
     await waitFor(() => {
       expect(

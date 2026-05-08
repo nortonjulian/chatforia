@@ -2,42 +2,35 @@ import { jest } from '@jest/globals';
 
 const ORIGINAL_ENV = { ...process.env };
 
-// ---- Mock @prisma/client ----
-// We expose findUniqueMock so tests can control DB results.
 let findUniqueMock;
 
 const setupPrismaMock = () => {
-  jest.unstable_mockModule('@prisma/client', () => {
+  jest.unstable_mockModule('../utils/prismaClient.js', () => {
     findUniqueMock = jest.fn();
 
-    class PrismaClient {
-      constructor() {
-        this.user = { findUnique: findUniqueMock };
-      }
-    }
-
-    // Code under test does:
-    //   import pkg from '@prisma/client';
-    //   const { PrismaClient } = pkg;
     return {
       __esModule: true,
-      default: { PrismaClient },
+      default: {
+        user: {
+          findUnique: findUniqueMock,
+        },
+      },
     };
   });
 };
 
-// Register the mock before any imports
 setupPrismaMock();
 
-// Helper to reload the middleware with a fresh env
 const reloadWithEnv = async (env = {}) => {
   jest.resetModules();
-  process.env = { ...ORIGINAL_ENV, ...env };
 
-  // Re-register the Prisma mock after resetModules
+  process.env = {
+    ...ORIGINAL_ENV,
+    ...env,
+  };
+
   setupPrismaMock();
 
-  // Import the module under test (dynamic import required with unstable_mockModule)
   const mod = await import('../requirePremium.js');
   return mod;
 };
@@ -48,6 +41,7 @@ afterAll(() => {
 
 const makeReqResNext = (overrides = {}) => {
   const req = { user: undefined, ...overrides.req };
+
   const res = {
     statusCode: 200,
     _json: null,
@@ -60,13 +54,16 @@ const makeReqResNext = (overrides = {}) => {
       return this;
     },
   };
+
   const next = jest.fn();
+
   return { req, res, next };
 };
 
 describe('requirePremium middleware', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
     if (findUniqueMock) {
       findUniqueMock.mockReset();
     }
@@ -75,7 +72,9 @@ describe('requirePremium middleware', () => {
   test('bypasses entirely when NODE_ENV=test', async () => {
     const { requirePremium } = await reloadWithEnv({ NODE_ENV: 'test' });
 
-    const { req, res, next } = makeReqResNext({ req: { user: { id: 1 } } });
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 1 } },
+    });
 
     await requirePremium(req, res, next);
 
@@ -89,7 +88,7 @@ describe('requirePremium middleware', () => {
       NODE_ENV: 'development',
     });
 
-    const { req, res, next } = makeReqResNext(); // no user
+    const { req, res, next } = makeReqResNext();
 
     await requirePremium(req, res, next);
 
@@ -103,6 +102,7 @@ describe('requirePremium middleware', () => {
     const { requirePremium } = await reloadWithEnv({
       NODE_ENV: 'development',
     });
+
     findUniqueMock.mockResolvedValue(null);
 
     const { req, res, next } = makeReqResNext({
@@ -113,18 +113,32 @@ describe('requirePremium middleware', () => {
 
     expect(findUniqueMock).toHaveBeenCalledWith({
       where: { id: 123 },
-      select: { plan: true, role: true },
+      select: {
+        id: true,
+        role: true,
+        plan: true,
+        subscriptionStatus: true,
+        subscriptionEndsAt: true,
+      },
     });
+
     expect(next).not.toHaveBeenCalled();
     expect(res.statusCode).toBe(401);
     expect(res._json).toEqual({ error: 'Unauthorized' });
   });
 
-  test('next() and sets req.userPlan when role=ADMIN (bypass)', async () => {
+  test('next() and sets req.userPlan when role=ADMIN bypasses subscription checks', async () => {
     const { requirePremium } = await reloadWithEnv({
       NODE_ENV: 'development',
     });
-    findUniqueMock.mockResolvedValue({ role: 'ADMIN', plan: 'FREE' });
+
+    findUniqueMock.mockResolvedValue({
+      id: 7,
+      role: 'ADMIN',
+      plan: 'FREE',
+      subscriptionStatus: null,
+      subscriptionEndsAt: null,
+    });
 
     const { req, res, next } = makeReqResNext({
       req: { user: { id: 7 } },
@@ -133,15 +147,24 @@ describe('requirePremium middleware', () => {
     await requirePremium(req, res, next);
 
     expect(next).toHaveBeenCalledTimes(1);
-    expect(req.userPlan).toBe('FREE'); // plan propagated even for ADMIN bypass
+    expect(req.userPlan).toBe('FREE');
     expect(res._json).toBeNull();
   });
 
-  test('next() and sets req.userPlan when plan=PREMIUM', async () => {
+  test('next(), sets req.userPlan, and sets req.userEntitlements when plan=PREMIUM and subscription is ACTIVE', async () => {
     const { requirePremium } = await reloadWithEnv({
       NODE_ENV: 'development',
     });
-    findUniqueMock.mockResolvedValue({ role: 'USER', plan: 'PREMIUM' });
+
+    const subscriptionEndsAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
+
+    findUniqueMock.mockResolvedValue({
+      id: 9,
+      role: 'USER',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt,
+    });
 
     const { req, res, next } = makeReqResNext({
       req: { user: { id: 9 } },
@@ -151,14 +174,52 @@ describe('requirePremium middleware', () => {
 
     expect(next).toHaveBeenCalledTimes(1);
     expect(req.userPlan).toBe('PREMIUM');
+
+    expect(req.userEntitlements).toEqual({
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt,
+    });
+
     expect(res._json).toBeNull();
   });
 
-  test('402 Payment Required when not premium and not admin', async () => {
+  test('next() when plan=PREMIUM and subscription is TRIALING', async () => {
     const { requirePremium } = await reloadWithEnv({
       NODE_ENV: 'development',
     });
-    findUniqueMock.mockResolvedValue({ role: 'USER', plan: 'FREE' });
+
+    findUniqueMock.mockResolvedValue({
+      id: 10,
+      role: 'USER',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'TRIALING',
+      subscriptionEndsAt: null,
+    });
+
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 10 } },
+    });
+
+    await requirePremium(req, res, next);
+
+    expect(next).toHaveBeenCalledTimes(1);
+    expect(req.userPlan).toBe('PREMIUM');
+    expect(res._json).toBeNull();
+  });
+
+  test('402 when subscription is inactive', async () => {
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
+
+    findUniqueMock.mockResolvedValue({
+      id: 11,
+      role: 'USER',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'CANCELED',
+      subscriptionEndsAt: null,
+    });
 
     const { req, res, next } = makeReqResNext({
       req: { user: { id: 11 } },
@@ -170,8 +231,64 @@ describe('requirePremium middleware', () => {
     expect(res.statusCode).toBe(402);
     expect(res._json).toEqual({
       error: 'Payment Required',
-      code: 'PREMIUM_REQUIRED',
-      message: 'This feature requires a Premium plan.',
+      code: 'SUBSCRIPTION_INACTIVE',
+      message: 'Your subscription is not active.',
+    });
+  });
+
+  test('402 when subscription is expired', async () => {
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
+
+    findUniqueMock.mockResolvedValue({
+      id: 12,
+      role: 'USER',
+      plan: 'PREMIUM',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: new Date(Date.now() - 1000 * 60),
+    });
+
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 12 } },
+    });
+
+    await requirePremium(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.statusCode).toBe(402);
+    expect(res._json).toEqual({
+      error: 'Payment Required',
+      code: 'SUBSCRIPTION_INACTIVE',
+      message: 'Your subscription is not active.',
+    });
+  });
+
+  test('402 when subscription is active but plan is not PREMIUM', async () => {
+    const { requirePremium } = await reloadWithEnv({
+      NODE_ENV: 'development',
+    });
+
+    findUniqueMock.mockResolvedValue({
+      id: 13,
+      role: 'USER',
+      plan: 'FREE',
+      subscriptionStatus: 'ACTIVE',
+      subscriptionEndsAt: null,
+    });
+
+    const { req, res, next } = makeReqResNext({
+      req: { user: { id: 13 } },
+    });
+
+    await requirePremium(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.statusCode).toBe(402);
+    expect(res._json).toEqual({
+      error: 'Payment Required',
+      code: 'PLAN_REQUIRED',
+      message: 'This feature requires one of: PREMIUM',
     });
   });
 
@@ -183,6 +300,7 @@ describe('requirePremium middleware', () => {
     const consoleSpy = jest
       .spyOn(console, 'error')
       .mockImplementation(() => {});
+
     findUniqueMock.mockRejectedValue(new Error('DB down'));
 
     const { req, res, next } = makeReqResNext({

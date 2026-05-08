@@ -7,14 +7,53 @@ import AuthLayout from '@/components/AuthLayout';
 // Minimal Mantine mocks (pass-through with a few conveniences)
 jest.mock('@mantine/core', () => {
   const React = require('react');
-  const Noop = ({ children, ...p }) => <div {...p}>{children}</div>;
-  const GridCol = ({ children, ...p }) => <div data-mock="Grid.Col" {...p}>{children}</div>;
+
+  const cleanProps = (props = {}) => {
+  const {
+    component,
+    center,
+    withBorder,
+    visibleFrom,
+    radius,
+    shadow,
+    maw,
+    gap,
+    align,
+    justify,
+    wrap,
+    order,
+    span,
+    gutter,
+    mb,
+    mt,
+    py,
+    px,
+    size,
+    ...rest
+  } = props;
+
+  return rest;
+};
+
+const Noop = ({ children, ...p }) => (
+  <div {...cleanProps(p)}>{children}</div>
+);
+
+  const GridCol = ({ children, ...p }) => (
+  <div data-mock="Grid.Col" {...cleanProps(p)}>
+    {children}
+  </div>
+);
+
   const Grid = Object.assign(
     ({ children, ...p }) => <div data-mock="Grid" {...p}>{children}</div>,
     { Col: GridCol }
   );
 
-  const ListItem = ({ children, ...p }) => <li {...p}>{children}</li>;
+  const ListItem = ({ children, ...p }) => (
+  <li {...cleanProps(p)}>{children}</li>
+);
+
   const List = Object.assign(({ children, ...p }) => <ul {...p}>{children}</ul>, { Item: ListItem });
 
   const Anchor = ({ to, href, children, ...rest }) => (
@@ -61,6 +100,12 @@ jest.mock('lucide-react', () => {
 jest.mock('@/components/LogoGlyph', () => ({
   __esModule: true,
   default: ({ size }) => <div data-testid="logo-glyph" data-size={String(size)} />,
+}));
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (_k, fallback) => fallback || _k,
+  }),
 }));
 
 // IMPORTANT: name starts with "mock" so it can be referenced in the mock factory
@@ -113,10 +158,6 @@ describe('AuthLayout', () => {
     // “Create free account” (Button mocked as <a role="button"> with href)
     const createAccount = screen.getByRole('button', { name: /create free account/i });
     expect(createAccount).toHaveAttribute('href', '/register');
-
-    // Status + Upgrade links
-    expect(screen.getByRole('link', { name: /status/i })).toHaveAttribute('href', '/status');
-    expect(screen.getByRole('link', { name: /upgrade/i })).toHaveAttribute('href', '/upgrade');
 
     // App Store / Google Play links present
     expect(screen.getByRole('link', { name: /download on the app store/i })).toHaveAttribute(

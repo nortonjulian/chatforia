@@ -1,37 +1,55 @@
-import OpenAI from 'openai';
-import {
-  suggestReplies,
-  rewriteText,
-  chatWithRia,
-} from './riaService.js';
-import {
-  buildSuggestRepliesPrompt,
-  buildRewritePrompt,
-  buildChatPrompt,
-} from './promptBuilder.js';
+import { jest } from '@jest/globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-jest.mock('openai');
-jest.mock('./promptBuilder.js', () => ({
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const promptBuilderPath = path.resolve(__dirname, '../promptBuilder.js');
+
+const createMock = jest.fn();
+
+jest.unstable_mockModule('openai', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    chat: {
+      completions: {
+        create: createMock,
+      },
+    },
+  })),
+}));
+
+jest.unstable_mockModule(promptBuilderPath, () => ({
+  __esModule: true,
   buildSuggestRepliesPrompt: jest.fn(),
   buildRewritePrompt: jest.fn(),
   buildChatPrompt: jest.fn(),
 }));
 
-describe('riaService', () => {
-  let createMock;
+const {
+  suggestReplies,
+  rewriteText,
+  chatWithRia,
+} = await import('../riaService.js');
 
+const {
+  buildSuggestRepliesPrompt,
+  buildRewritePrompt,
+  buildChatPrompt,
+} = await import(promptBuilderPath);
+
+describe('riaService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    createMock.mockReset();
+    process.env.OPENAI_API_KEY = 'test-openai-key';
+    delete process.env.OPENAI_MODEL;
+  });
 
-    createMock = jest.fn();
-
-    OpenAI.mockImplementation(() => ({
-      chat: {
-        completions: {
-          create: createMock,
-        },
-      },
-    }));
+  afterEach(() => {
+    delete process.env.OPENAI_API_KEY;
+    delete process.env.OPENAI_MODEL;
   });
 
   describe('suggestReplies', () => {

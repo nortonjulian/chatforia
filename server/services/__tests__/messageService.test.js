@@ -2,7 +2,7 @@ import { jest, describe, it, expect, beforeEach, afterAll } from '@jest/globals'
 
 // ----- Env (read at module load in messageService) ---------------------------
 
-process.env.FORIA_BOT_USER_ID = '9999'; // some bot id that won't match sender
+process.env.FORIA_BOT_USER_ID = '9999';
 process.env.TRANSLATE_MAX_INPUT_CHARS = '1200';
 
 // ----- Prisma mock -----------------------------------------------------------
@@ -10,12 +10,22 @@ process.env.TRANSLATE_MAX_INPUT_CHARS = '1200';
 const mockUserFindUnique = jest.fn();
 const mockParticipantFindFirst = jest.fn();
 const mockParticipantFindMany = jest.fn();
+const mockMessageFindFirst = jest.fn();
 const mockMessageCreate = jest.fn();
 const mockMessageUpdate = jest.fn();
-const mockMessageKeyUpsert = jest.fn();
+const mockMessageKeyCreateMany = jest.fn();
 const mockChatRoomFindUnique = jest.fn();
-const mockParticipantFindManyForAuto = jest.fn();
-const mockTransaction = jest.fn(() => Promise.resolve());
+
+const mockTransaction = jest.fn(async (callback) => {
+  return callback({
+    message: {
+      create: mockMessageCreate,
+    },
+    messageKey: {
+      createMany: mockMessageKeyCreateMany,
+    },
+  });
+});
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
@@ -25,18 +35,15 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
     },
     participant: {
       findFirst: mockParticipantFindFirst,
-      findMany: (args) => {
-        // We’ll branch on call site via a simple heuristic (chatRoom.findMany vs messageService auto)
-        // In practice we can just use two separate mocks when we pass db explicitly.
-        return mockParticipantFindMany(args);
-      },
+      findMany: mockParticipantFindMany,
     },
     message: {
+      findFirst: mockMessageFindFirst,
       create: mockMessageCreate,
       update: mockMessageUpdate,
     },
     messageKey: {
-      upsert: mockMessageKeyUpsert,
+      createMany: mockMessageKeyCreateMany,
     },
     chatRoom: {
       findUnique: mockChatRoomFindUnique,
@@ -77,21 +84,27 @@ jest.unstable_mockModule('../utils/encryption.js', () => ({
 // ----- translateText + tokenBucket mocks ------------------------------------
 
 const mockTranslateText = jest.fn();
+
 jest.unstable_mockModule('../utils/translateText.js', () => ({
   __esModule: true,
   translateText: mockTranslateText,
 }));
 
 const mockAllow = jest.fn();
+
 jest.unstable_mockModule('../utils/tokenBucket.js', () => ({
   __esModule: true,
   allow: mockAllow,
 }));
 
-// NOTE: We *don’t* need to mock ./botPlatform.js; dynamic import is wrapped in try/catch,
-// so if it’s missing it will be swallowed. If you *do* have that file, this will still work.
+// ----- socketBus mock --------------------------------------------------------
 
-// ----- Import service under test *after* mocks --------------------------------
+jest.unstable_mockModule('../services/socketBus.js', () => ({
+  __esModule: true,
+  setHelpers: jest.fn(),
+}));
+
+// ----- Import service under test *after* mocks -------------------------------
 
 const { createMessageService, maybeAutoTranslate } = await import('../messageService.js');
 
@@ -102,15 +115,17 @@ beforeEach(() => {
   jest.setSystemTime(new Date('2025-01-01T00:00:00.000Z'));
 
   jest.clearAllMocks();
+
   mockUserFindUnique.mockReset();
   mockParticipantFindFirst.mockReset();
   mockParticipantFindMany.mockReset();
+  mockMessageFindFirst.mockReset();
   mockMessageCreate.mockReset();
   mockMessageUpdate.mockReset();
-  mockMessageKeyUpsert.mockReset();
+  mockMessageKeyCreateMany.mockReset();
   mockChatRoomFindUnique.mockReset();
-  mockParticipantFindManyForAuto.mockReset();
-  mockTransaction.mockReset();
+  mockTransaction.mockClear();
+
   mockIsExplicit.mockReset();
   mockCleanText.mockReset();
   mockTranslateForTargets.mockReset();
@@ -128,30 +143,27 @@ afterAll(() => {
 // ============================================================================
 
 describe('createMessageService', () => {
-  it('runs full pipeline with FREE plan, clamps TTL, filters/translate/encrypt, writes message & keys', async () => {
+  it('runs full pipeline with FREE plan, clamps TTL, filters/translate, writes message & keys', async () => {
     const senderId = 1;
     const chatRoomId = 77;
     const rawContent = 'Some bad words here';
 
-    // Sender user
     mockUserFindUnique.mockResolvedValueOnce({
       id: senderId,
       username: 'alice',
       preferredLanguage: 'en',
       allowExplicitContent: false,
-      autoDeleteSeconds: 3600, // default TTL
+      autoDeleteSeconds: 3600,
       publicKey: 'PUB1',
       plan: 'FREE',
     });
 
-    // Membership check
     mockParticipantFindFirst.mockResolvedValueOnce({
       id: 10,
       chatRoomId,
       userId: senderId,
     });
 
-    // Participants (sender + one recipient)
     mockParticipantFindMany.mockResolvedValueOnce([
       {
         user: {
@@ -167,41 +179,32 @@ describe('createMessageService', () => {
           id: 2,
           username: 'bob',
           preferredLanguage: 'fr',
-          allowExplicitContent: false, // disallows explicit
+          allowExplicitContent: false,
           publicKey: 'PUB2',
         },
       },
     ]);
 
-    // Profanity + clean
     mockIsExplicit.mockReturnValueOnce(true);
     mockCleanText.mockReturnValueOnce('CLEAN_CONTENT');
 
-    // Translation for targets
     mockTranslateForTargets.mockResolvedValueOnce({
       map: { fr: 'Bonjour propre' },
       from: 'en',
     });
 
-    // Encryption
-    mockEncryptMessageForParticipants.mockResolvedValueOnce({
-      ciphertext: 'ciphertext123',
-      encryptedKeys: { '1': 'encKey1', '2': 'encKey2' },
-    });
-
-    // Message create → saved message
     mockMessageCreate.mockResolvedValueOnce({
       id: 999,
       contentCiphertext: 'ciphertext123',
-      encryptedKeys: { '1': 'encKey1', '2': 'encKey2' },
       translations: { fr: 'Bonjour propre' },
       translatedFrom: 'en',
+      clientMessageId: null,
       isExplicit: true,
       imageUrl: null,
       audioUrl: null,
       audioDurationSec: null,
       isAutoReply: false,
-      expiresAt: null, // we don’t care here; we assert the *input* to create()
+      expiresAt: new Date(),
       createdAt: new Date(),
       senderId,
       sender: {
@@ -213,13 +216,16 @@ describe('createMessageService', () => {
       chatRoomId,
       rawContent,
       attachments: [],
+      revision: 1,
     });
 
     const result = await createMessageService({
       senderId,
       chatRoomId,
       content: rawContent,
-      expireSeconds: 999999, // huge to trigger clamp for FREE
+      contentCiphertext: 'ciphertext123',
+      encryptedKeys: { '1': 'encKey1', '2': 'encKey2' },
+      expireSeconds: 999999,
       imageUrl: null,
       audioUrl: null,
       audioDurationSec: null,
@@ -227,7 +233,6 @@ describe('createMessageService', () => {
       attachments: [],
     });
 
-    // Membership + participants
     expect(mockUserFindUnique).toHaveBeenCalledWith({
       where: { id: senderId },
       select: {
@@ -240,9 +245,11 @@ describe('createMessageService', () => {
         plan: true,
       },
     });
+
     expect(mockParticipantFindFirst).toHaveBeenCalledWith({
       where: { chatRoomId, userId: senderId },
     });
+
     expect(mockParticipantFindMany).toHaveBeenCalledWith({
       where: { chatRoomId },
       include: {
@@ -258,54 +265,44 @@ describe('createMessageService', () => {
       },
     });
 
-    // Profanity filter + cleaning
     expect(mockIsExplicit).toHaveBeenCalledWith(rawContent);
     expect(mockCleanText).toHaveBeenCalledWith(rawContent);
 
-    // Translation fan-out
     expect(mockTranslateForTargets).toHaveBeenCalledWith(
       'CLEAN_CONTENT',
       'en',
-      ['fr'] // recipientExceptSender language
+      ['fr']
     );
 
-    // Encryption
-    expect(mockEncryptMessageForParticipants).toHaveBeenCalledWith(
-      'CLEAN_CONTENT',
-      expect.objectContaining({ id: senderId }),
-      expect.arrayContaining([
-        expect.objectContaining({ id: senderId }),
-        expect.objectContaining({ id: 2 }),
-      ])
-    );
+    expect(mockEncryptMessageForParticipants).not.toHaveBeenCalled();
 
-    // Expiry clamped for FREE plan:
-    // FREE_MAX = 24h = 86400s, we set system time to 2025-01-01T00:00:00Z
     const messageArgs = mockMessageCreate.mock.calls[0][0];
     const expiresAt = messageArgs.data.expiresAt;
+
     const expectedExpires = new Date(
       new Date('2025-01-01T00:00:00.000Z').getTime() + 86400 * 1000
     );
+
     expect(expiresAt.getTime()).toBe(expectedExpires.getTime());
 
-    // Raw content & translations & explicit flag
+    expect(messageArgs.data.contentCiphertext).toBe('ciphertext123');
     expect(messageArgs.data.rawContent).toBe(rawContent);
     expect(messageArgs.data.translations).toEqual({ fr: 'Bonjour propre' });
     expect(messageArgs.data.translatedFrom).toBe('en');
     expect(messageArgs.data.isExplicit).toBe(true);
 
-    // MessageKey upsert is called for each encrypted key
-    expect(mockMessageKeyUpsert).toHaveBeenCalledTimes(2);
+    expect(mockMessageKeyCreateMany).toHaveBeenCalledTimes(1);
+    expect(mockMessageKeyCreateMany).toHaveBeenCalledWith({
+      data: expect.arrayContaining([
+        { messageId: 999, userId: 1, encryptedKey: 'encKey1' },
+        { messageId: 999, userId: 2, encryptedKey: 'encKey2' },
+      ]),
+      skipDuplicates: true,
+    });
 
-    const userIds = mockMessageKeyUpsert.mock.calls.map(
-      (c) => c[0].where.messageId_userId.userId
-    );
-    expect(userIds.sort()).toEqual([1, 2]);
-
-    // Returned payload includes chatRoomId and what we returned from create
     expect(result.id).toBe(999);
     expect(result.chatRoomId).toBe(chatRoomId);
-    expect(result.encryptedKeys).toEqual({ '1': 'encKey1', '2': 'encKey2' });
+    expect(result.contentCiphertext).toBe('ciphertext123');
   });
 
   it('uses user default TTL and PREMIUM max when expireSeconds is not provided', async () => {
@@ -318,7 +315,7 @@ describe('createMessageService', () => {
       username: 'prem',
       preferredLanguage: 'en',
       allowExplicitContent: true,
-      autoDeleteSeconds: 9999999, // huge default TTL
+      autoDeleteSeconds: 9999999,
       publicKey: 'PUB5',
       plan: 'PREMIUM',
     });
@@ -343,27 +340,24 @@ describe('createMessageService', () => {
 
     mockIsExplicit.mockReturnValueOnce(false);
     mockCleanText.mockImplementation((s) => s);
+
     mockTranslateForTargets.mockResolvedValueOnce({
       map: {},
       from: 'en',
-    });
-    mockEncryptMessageForParticipants.mockResolvedValueOnce({
-      ciphertext: 'cipher-premium',
-      encryptedKeys: { '5': 'encKey5' },
     });
 
     mockMessageCreate.mockResolvedValueOnce({
       id: 1000,
       contentCiphertext: 'cipher-premium',
-      encryptedKeys: { '5': 'encKey5' },
       translations: null,
       translatedFrom: 'en',
+      clientMessageId: null,
       isExplicit: false,
       imageUrl: null,
       audioUrl: null,
       audioDurationSec: null,
       isAutoReply: false,
-      expiresAt: null, // not used in assertion of input
+      expiresAt: new Date(),
       createdAt: new Date(),
       senderId,
       sender: {
@@ -375,23 +369,33 @@ describe('createMessageService', () => {
       chatRoomId,
       rawContent,
       attachments: [],
+      revision: 1,
     });
 
     await createMessageService({
       senderId,
       chatRoomId,
       content: rawContent,
-      // expireSeconds omitted → use autoDeleteSeconds, then clamp by PREMIUM_MAX (7d)
+      contentCiphertext: 'cipher-premium',
+      encryptedKeys: { '5': 'encKey5' },
     });
 
     const args = mockMessageCreate.mock.calls[0][0];
     const expiresAt = args.data.expiresAt;
 
-    const PREMIUM_MAX = 7 * 24 * 3600; // 7 days in seconds
+    const PREMIUM_MAX = 7 * 24 * 3600;
+
     const expectedExpires = new Date(
-      new Date('2025-01-01T00:00:00.000Z').getTime() + PREMIUM_MAX * 1000
+      new Date('2025-01-01T00:00:00.000Z').getTime() +
+        PREMIUM_MAX * 1000
     );
+
     expect(expiresAt.getTime()).toBe(expectedExpires.getTime());
+
+    expect(mockMessageKeyCreateMany).toHaveBeenCalledWith({
+      data: [{ messageId: 1000, userId: 5, encryptedKey: 'encKey5' }],
+      skipDuplicates: true,
+    });
   });
 });
 
@@ -401,10 +405,10 @@ describe('createMessageService', () => {
 
 describe('maybeAutoTranslate', () => {
   it('auto-translates when provider available, mode is on, and throttling allows', async () => {
-    // Make provider available
     process.env.DEEPL_API_KEY = 'dummy-key';
 
     const roomId = 77;
+
     const savedMessage = {
       id: 555,
       chatRoomId: roomId,
@@ -413,7 +417,6 @@ describe('maybeAutoTranslate', () => {
       content: '',
     };
 
-    // Per-room and per-language token bucket allows
     mockAllow.mockImplementation((key) => {
       if (key === `translate:${roomId}`) return true;
       if (key === `translate:${roomId}:en`) return true;
@@ -421,7 +424,6 @@ describe('maybeAutoTranslate', () => {
       return false;
     });
 
-    // Fake prismaArg with minimal shape
     const db = {
       chatRoom: {
         findUnique: jest.fn().mockResolvedValue({
@@ -429,44 +431,42 @@ describe('maybeAutoTranslate', () => {
         }),
       },
       participant: {
-        findMany: jest
-          .fn()
-          .mockResolvedValue([
-            { user: { id: 1, preferredLanguage: 'en' } },
-            { user: { id: 2, preferredLanguage: 'es' } },
-          ]),
+        findMany: jest.fn().mockResolvedValue([
+          { user: { id: 1, preferredLanguage: 'en' } },
+          { user: { id: 2, preferredLanguage: 'es' } },
+        ]),
       },
       message: {
         update: jest.fn().mockResolvedValue({ id: 555 }),
       },
     };
 
-    // translateText returns annotated text
     mockTranslateText.mockImplementation(async ({ text, targetLang }) => ({
       text: `[${targetLang}] ${text}`,
     }));
 
     await maybeAutoTranslate({ savedMessage, io: null, prisma: db });
 
-    // Room lookup
     expect(db.chatRoom.findUnique).toHaveBeenCalledWith({
       where: { id: roomId },
       select: { autoTranslateMode: true },
     });
 
-    // Participants fetched
     expect(db.participant.findMany).toHaveBeenCalledWith({
       where: { chatRoomId: roomId },
       include: { user: { select: { id: true, preferredLanguage: true } } },
     });
 
-    // translateText should be called for "en" and "es"
-    const langs = mockTranslateText.mock.calls.map((c) => c[0].targetLang).sort();
+    const langs = mockTranslateText.mock.calls
+      .map((c) => c[0].targetLang)
+      .sort();
+
     expect(langs).toEqual(['en', 'es']);
 
-    // Message updated with translations map
     expect(db.message.update).toHaveBeenCalledTimes(1);
+
     const updateArgs = db.message.update.mock.calls[0][0];
+
     expect(updateArgs.where).toEqual({ id: savedMessage.id });
     expect(updateArgs.data.translations).toEqual({
       en: '[en] Hello world',
@@ -476,7 +476,6 @@ describe('maybeAutoTranslate', () => {
   });
 
   it('skips translation when provider is not available', async () => {
-    // Ensure provider flags are not set
     delete process.env.DEEPL_API_KEY;
     delete process.env.TRANSLATE_ENDPOINT;
 
@@ -496,7 +495,6 @@ describe('maybeAutoTranslate', () => {
 
     await maybeAutoTranslate({ savedMessage, io: null, prisma: db });
 
-    // No DB calls or translateText when provider unavailable
     expect(db.chatRoom.findUnique).not.toHaveBeenCalled();
     expect(db.participant.findMany).not.toHaveBeenCalled();
     expect(db.message.update).not.toHaveBeenCalled();

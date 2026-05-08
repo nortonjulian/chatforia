@@ -64,6 +64,7 @@ async function seedUserAndMaybeMessage({ withMessage }) {
       username: `captain_${Date.now()}`,
       email: `cap_${Date.now()}@example.com`,
       password: 'x',
+      passwordHash: 'x',
       plan: 'FREE',
       role: 'USER',
       a11yLiveCaptions: true,

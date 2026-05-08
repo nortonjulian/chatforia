@@ -1,15 +1,26 @@
 import { render, screen, waitFor } from '@testing-library/react';
 
+// ---- Axios mock ----
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: jest.fn(),
+  },
+}));
+
+import axiosClient from '@/api/axiosClient';
+
 // ---- Mantine minimal shims ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const passthru = (tid) => ({ children, ...p }) => (
     <div data-testid={tid} {...p}>
       {children}
     </div>
   );
+
   const Button = ({ children, component, to, ...p }) => {
-    // support Button component={Link} to="/path"
     if (component) {
       return (
         <a href={to} {...p}>
@@ -17,19 +28,30 @@ jest.mock('@mantine/core', () => {
         </a>
       );
     }
+
     return <button {...p}>{children}</button>;
   };
+
   const Center = passthru('center');
   const Paper = passthru('paper');
   const Stack = passthru('stack');
   const Title = ({ children }) => <h3>{children}</h3>;
   const Text = ({ children, ...p }) => <div {...p}>{children}</div>;
   const Loader = () => <div aria-label="loader">...</div>;
-  return { __esModule: true, Button, Center, Paper, Stack, Title, Text, Loader };
+
+  return {
+    __esModule: true,
+    Button,
+    Center,
+    Paper,
+    Stack,
+    Title,
+    Text,
+    Loader,
+  };
 });
 
 // ---- Router params + Link shim ----
-// IMPORTANT: use names prefixed with "mock" so Jest allows closing over them in the mock factory.
 let mockUid = 'u123';
 let mockToken = 't456';
 
@@ -51,70 +73,78 @@ jest.mock('react-router-dom', () => ({
 import VerifyEmail from '../VerifyEmail';
 
 describe('VerifyEmail', () => {
-  const originalFetch = global.fetch;
-
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-    // reset default params
     mockUid = 'u123';
     mockToken = 't456';
   });
 
   test('calls verify endpoint with uid & token, then shows success with login link', async () => {
-    const jsonMock = jest.fn().mockResolvedValue({ ok: true });
-    global.fetch = jest.fn().mockResolvedValue({ json: jsonMock });
+    axiosClient.get.mockResolvedValueOnce({
+      data: { ok: true },
+    });
 
     render(<VerifyEmail />);
 
-    // Loading state visible first
-    expect(screen.getByText(/Email verification/i)).toBeInTheDocument();
+    expect(screen.getByText(/email verification/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/loader/i)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith('/auth/email/verify?uid=u123&token=t456');
+      expect(axiosClient.get).toHaveBeenCalledWith('/auth/email/verify', {
+        params: {
+          uid: 'u123',
+          token: 't456',
+        },
+      });
     });
 
-    // Success UI
-    expect(await screen.findByText(/Your email is verified/i)).toBeInTheDocument();
-    const loginLink = screen.getByRole('link', { name: /Continue to login/i });
-    expect(loginLink).toHaveAttribute('href', '/login');
+    expect(
+      await screen.findByText(/your email is verified/i)
+    ).toBeInTheDocument();
+
+    const loginLink = screen.getByRole('link', {
+      name: /continue to login/i,
+    });
+
+    expect(loginLink).toHaveAttribute('href', '/');
   });
 
-  test('server returns ok=false -> shows error with resend link', async () => {
-    const jsonMock = jest.fn().mockResolvedValue({ ok: false });
-    global.fetch = jest.fn().mockResolvedValue({ json: jsonMock });
+  test('server returns ok=false -> shows error with back-to-login link', async () => {
+    axiosClient.get.mockResolvedValueOnce({
+      data: { ok: false },
+    });
 
     render(<VerifyEmail />);
 
-    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    await waitFor(() => {
+      expect(axiosClient.get).toHaveBeenCalled();
+    });
 
     expect(await screen.findByText(/invalid or expired/i)).toBeInTheDocument();
-    const resend = screen.getByRole('link', { name: /Resend verification email/i });
-    expect(resend).toHaveAttribute('href', '/resend');
+
+    const backLink = screen.getByRole('link', {
+      name: /back to login/i,
+    });
+
+    expect(backLink).toHaveAttribute('href', '/');
   });
 
   test('network error -> shows error state', async () => {
-    global.fetch = jest.fn().mockRejectedValue(new Error('network'));
+    axiosClient.get.mockRejectedValueOnce(new Error('network'));
 
     render(<VerifyEmail />);
 
-    await waitFor(() => expect(screen.getByText(/invalid or expired/i)).toBeInTheDocument());
+    expect(await screen.findByText(/invalid or expired/i)).toBeInTheDocument();
   });
 
-  test('missing params -> does not call fetch and shows error', async () => {
+  test('missing params -> does not call axios and shows error', async () => {
     mockUid = null;
     mockToken = null;
-    global.fetch = jest.fn();
 
     render(<VerifyEmail />);
 
-    // No request made
     await waitFor(() => {
-      expect(global.fetch).not.toHaveBeenCalled();
+      expect(axiosClient.get).not.toHaveBeenCalled();
       expect(screen.getByText(/invalid or expired/i)).toBeInTheDocument();
     });
   });

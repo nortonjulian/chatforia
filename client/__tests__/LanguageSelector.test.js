@@ -5,6 +5,7 @@ import LanguageSelector from '@/components/LanguageSelector';
 
 // Mock the API module that uses axiosClient (avoids import.meta issues)
 const mockFetchLanguages = jest.fn();
+
 jest.mock('@/api/languages', () => ({
   fetchLanguages: (...args) => mockFetchLanguages(...args),
 }));
@@ -12,6 +13,7 @@ jest.mock('@/api/languages', () => ({
 // Mantine Select → expose props + interactive <select>
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const Select = (props) => {
     const {
       data = [],
@@ -32,6 +34,7 @@ jest.mock('@mantine/core', () => {
           data-label={label}
           data-nothing={nothingFoundMessage}
         />
+
         <select
           aria-label="mantine-select"
           disabled={disabled}
@@ -47,6 +50,7 @@ jest.mock('@mantine/core', () => {
       </div>
     );
   };
+
   return { __esModule: true, Select };
 });
 
@@ -54,6 +58,7 @@ jest.mock('@mantine/core', () => {
 const mockLoadLanguages = jest.fn(() => Promise.resolve());
 const mockChangeLanguage = jest.fn(() => Promise.resolve());
 const mockT = (k) => k;
+
 let mockResolvedLanguage = 'en';
 
 jest.mock('react-i18next', () => ({
@@ -72,6 +77,7 @@ const renderSelector = (props) => render(<LanguageSelector {...props} />);
 
 beforeEach(() => {
   jest.clearAllMocks();
+
   mockResolvedLanguage = 'en';
 
   // default languages returned by API
@@ -97,16 +103,18 @@ describe('LanguageSelector', () => {
     // Wait for API call
     await waitFor(() => expect(mockFetchLanguages).toHaveBeenCalledTimes(1));
 
-    // Wait until the select becomes enabled
+    // Wait until select becomes enabled
     await waitFor(() =>
       expect(screen.getByLabelText('mantine-select')).not.toBeDisabled()
     );
 
     const select = screen.getByLabelText('mantine-select');
+
     const opts = Array.from(select.querySelectorAll('option')).map((o) => ({
       value: o.value,
       label: o.textContent,
     }));
+
     const values = opts.map((o) => o.value);
 
     // Should contain the codes from the API
@@ -114,16 +122,27 @@ describe('LanguageSelector', () => {
 
     // Props exposure sanity
     const propsProbe = screen.getByTestId('mantine-select-props');
-    expect(propsProbe.dataset.placeholder).toBe('profile.chooseLanguage');
-    expect(propsProbe.dataset.label).toBe('profile.preferredLanguage');
-    expect(propsProbe.dataset.nothing).toBe('common.noMatches');
+
+    expect(propsProbe.dataset.placeholder).toBe(
+      'profile.chooseLanguage'
+    );
+
+    expect(propsProbe.dataset.label).toBe(
+      'profile.preferredLanguage'
+    );
+
+    expect(propsProbe.dataset.nothing).toBe(
+      'common.noMatches'
+    );
   });
 
-  test('selecting a new language triggers i18n load/change and onChange', async () => {
+  test('selecting a new language updates selected value and calls onChange', async () => {
     const onChange = jest.fn();
+
     renderSelector({ currentLanguage: 'en', onChange });
 
     await waitFor(() => expect(mockFetchLanguages).toHaveBeenCalled());
+
     await waitFor(() =>
       expect(screen.getByLabelText('mantine-select')).not.toBeDisabled()
     );
@@ -133,69 +152,81 @@ describe('LanguageSelector', () => {
       target: { value: 'es' },
     });
 
-    // i18n effects are async
-    await waitFor(() => {
-      expect(mockLoadLanguages).toHaveBeenCalledWith('es');
-    });
-    expect(mockChangeLanguage).toHaveBeenCalledWith('es');
+    expect(screen.getByLabelText('mantine-select').value).toBe('es');
+
     expect(onChange).toHaveBeenCalledWith('es');
+
+    // Component no longer directly changes i18n
+    expect(mockLoadLanguages).not.toHaveBeenCalled();
+    expect(mockChangeLanguage).not.toHaveBeenCalled();
   });
 
-  test('selecting the same language as resolvedLanguage does not call i18n methods', async () => {
+  test('selecting the same language still calls onChange but does not call i18n methods', async () => {
     mockResolvedLanguage = 'en';
+
     const onChange = jest.fn();
+
     renderSelector({ currentLanguage: 'en', onChange });
 
     await waitFor(() => expect(mockFetchLanguages).toHaveBeenCalled());
+
     await waitFor(() =>
       expect(screen.getByLabelText('mantine-select')).not.toBeDisabled()
     );
 
-    // Select same value "en"
+    // Select same value
     fireEvent.change(screen.getByLabelText('mantine-select'), {
       target: { value: 'en' },
     });
 
-    // onChange still fires because the component always calls it
+    // onChange still fires
     expect(onChange).toHaveBeenCalledWith('en');
 
-    // but i18n should *not* be asked to change
+    // but component does not directly call i18n
     expect(mockLoadLanguages).not.toHaveBeenCalled();
     expect(mockChangeLanguage).not.toHaveBeenCalled();
   });
 
   test('prop update: currentLanguage change syncs internal selected value', async () => {
-    const { rerender } = renderSelector({ currentLanguage: 'en' });
+    const { rerender } = renderSelector({
+      currentLanguage: 'en',
+    });
 
     await waitFor(() => expect(mockFetchLanguages).toHaveBeenCalled());
+
     await waitFor(() =>
       expect(screen.getByLabelText('mantine-select')).not.toBeDisabled()
     );
 
-    // Value should be 'en'
+    // Initial value
     expect(screen.getByLabelText('mantine-select').value).toBe('en');
 
-    // Update prop -> should reflect
+    // Update prop
     rerender(<LanguageSelector currentLanguage="fr" />);
+
     expect(screen.getByLabelText('mantine-select').value).toBe('fr');
   });
 
   test('failed language fetch leaves selector disabled with no options', async () => {
-    mockFetchLanguages.mockRejectedValueOnce(new Error('Network error'));
+    mockFetchLanguages.mockRejectedValueOnce(
+      new Error('Network error')
+    );
 
     renderSelector({ currentLanguage: 'en' });
 
     await waitFor(() => expect(mockFetchLanguages).toHaveBeenCalled());
 
-    // Wait until loading=false (component finishes effect)
+    // Wait until loading=false
     await waitFor(() =>
       expect(screen.getByLabelText('mantine-select')).toBeDisabled()
     );
 
     const select = screen.getByLabelText('mantine-select');
-    const values = Array.from(select.querySelectorAll('option')).map(
-      (o) => o.value
-    );
-    expect(values).toEqual([]); // no options when API failed
+
+    const values = Array.from(
+      select.querySelectorAll('option')
+    ).map((o) => o.value);
+
+    expect(values).toEqual([]);
   });
 });

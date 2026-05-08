@@ -1,39 +1,47 @@
 import request from 'supertest';
 import { createApp } from '../app.js';
 
-let app, cookie;
+let app;
+let agent;
 
 beforeAll(async () => {
   app = createApp();
+  agent = request.agent(app);
 
-  await request(app).post('/auth/register').send({
+  const register = await agent.post('/auth/register').send({
     username: 'eve',
     email: 'e@example.com',
-    password: 'hunter22'
+    password: 'hunter22',
   });
 
-  const res = await request(app).post('/auth/login').send({
+  expect([200, 201, 409]).toContain(register.status);
+
+  const login = await agent.post('/auth/login').send({
     identifier: 'e@example.com',
-    password: 'hunter22'
+    password: 'hunter22',
   });
-  cookie = res.headers['set-cookie'];
+
+  expect(login.status).toBe(200);
 });
 
-// Adjust endpoint names to your actual devices API
 describe('Device limit', () => {
   test('second device for FREE returns 402', async () => {
-    // first register device ok (call whatever you use to link/register a device)
-    const first = await request(app)
-      .post('/devices/register') // or '/devices' or your flow’s endpoint
-      .set('cookie', cookie)
-      .send({ deviceName: 'Laptop' });
-    expect(first.status).toBeGreaterThanOrEqual(200);
+    const first = await agent.post('/devices/register').send({
+      deviceId: 'device-laptop',
+      name: 'Laptop',
+      platform: 'Web',
+      publicKey: 'mock-public-key-1',
+    });
 
-    const second = await request(app)
-      .post('/devices/register')
-      .set('cookie', cookie)
-      .send({ deviceName: 'Desktop' });
-    // Expect plan gate: Payment Required
+    expect(first.status).toBe(200);
+
+    const second = await agent.post('/devices/register').send({
+      deviceId: 'device-desktop',
+      name: 'Desktop',
+      platform: 'Web',
+      publicKey: 'mock-public-key-2',
+    });
+
     expect([402, 403]).toContain(second.status);
   });
 });

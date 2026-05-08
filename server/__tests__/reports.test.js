@@ -1,5 +1,6 @@
 import request from 'supertest';
 import express from 'express';
+import { jest } from '@jest/globals';
 
 const mockFindUnique = jest.fn();
 const mockFindFirst = jest.fn();

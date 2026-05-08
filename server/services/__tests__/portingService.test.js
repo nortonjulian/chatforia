@@ -1,45 +1,40 @@
-import prisma from '../utils/prismaClient.js';
-import Stripe from 'stripe';
-import {
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+
+const prisma = {
+  user: {
+    findUnique: jest.fn(),
+  },
+  subscriber: {
+    findFirst: jest.fn(),
+  },
+  portRequest: {
+    create: jest.fn(),
+    findMany: jest.fn(),
+    findUnique: jest.fn(),
+    update: jest.fn(),
+  },
+};
+
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: prisma,
+}));
+
+const {
   createPortRequestForUser,
   getUserPortRequests,
   getUserPortRequestById,
   updatePortStatus,
-} from './portingService.js';
+} = await import('../portingService.js');
 
-// Mock prisma client
-jest.mock('../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: {
-    portRequest: {
-      create: jest.fn(),
-      findMany: jest.fn(),
-      findUnique: jest.fn(),
-      update: jest.fn(),
-    },
-  },
-}));
-
-// Mock Stripe constructor + instance
-jest.mock('stripe', () => {
-  const mockStripe = jest.fn(() => ({
-    subscriptions: {
-      list: jest.fn(),
-    },
-  }));
-  return mockStripe;
-});
-
-const mockUserWithCustomer = {
-  id: 'user_1',
+const mockWirelessUser = {
+  id: 1,
   email: 'user@example.com',
-  stripeCustomerId: 'cus_123',
 };
 
-const mockUserWithoutCustomer = {
-  id: 'user_2',
-  email: 'no-customer@example.com',
-  stripeCustomerId: null,
+const mockFreeUser = {
+  id: 2,
+  email: 'free@example.com',
 };
 
 describe('portingService', () => {
@@ -59,79 +54,62 @@ describe('portingService', () => {
       city: 'Denver',
       state: 'CO',
       postalCode: '80202',
-      // no country => should default to 'US'
     };
 
-    it('throws if user has no stripeCustomerId', async () => {
-      // checkUserHasWirelessPlan should short-circuit without calling Stripe
+    it('throws if user has no wireless entitlement', async () => {
+      prisma.user.findUnique.mockResolvedValueOnce({
+        id: 2,
+        role: 'USER',
+        plan: 'FREE',
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      prisma.subscriber.findFirst.mockResolvedValueOnce(null);
+
       await expect(
-        createPortRequestForUser(mockUserWithoutCustomer, baseInput)
+        createPortRequestForUser(mockFreeUser, baseInput)
       ).rejects.toThrow(
         'A Chatforia Wireless plan is required to port a number.'
       );
 
-      // Should NOT call prisma or stripe
-      const stripeInstance = Stripe.mock.instances[0];
-      if (stripeInstance) {
-        expect(stripeInstance.subscriptions.list).not.toHaveBeenCalled();
-      }
+      expect(prisma.user.findUnique).toHaveBeenCalledWith({
+        where: { id: 2 },
+        select: {
+          id: true,
+          role: true,
+          plan: true,
+          subscriptionStatus: true,
+          subscriptionEndsAt: true,
+        },
+      });
+
+      expect(prisma.subscriber.findFirst).toHaveBeenCalledWith({
+        where: { userId: 2 },
+        select: {
+          id: true,
+          status: true,
+          provider: true,
+        },
+      });
+
       expect(prisma.portRequest.create).not.toHaveBeenCalled();
     });
 
-    it('throws if user has Stripe customer but no wireless plan subscription', async () => {
-      const stripeInstance = Stripe.mock.instances[0];
-      // Simulate active subs but none with chatforiaWireless='true'
-      stripeInstance.subscriptions.list.mockResolvedValueOnce({
-        data: [
-          {
-            items: {
-              data: [
-                {
-                  price: {
-                    metadata: { chatforiaWireless: 'false' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
+    it('creates a port request when user has active WIRELESS subscription', async () => {
+      prisma.user.findUnique.mockResolvedValueOnce({
+        id: 1,
+        role: 'USER',
+        plan: 'WIRELESS',
+        subscriptionStatus: 'ACTIVE',
+        subscriptionEndsAt: new Date(Date.now() + 1000 * 60 * 60 * 24),
       });
 
-      await expect(
-        createPortRequestForUser(mockUserWithCustomer, baseInput)
-      ).rejects.toThrow(
-        'A Chatforia Wireless plan is required to port a number.'
-      );
-
-      expect(stripeInstance.subscriptions.list).toHaveBeenCalledWith({
-        customer: mockUserWithCustomer.stripeCustomerId,
-        status: 'active',
-      });
-      expect(prisma.portRequest.create).not.toHaveBeenCalled();
-    });
-
-    it('creates a port request when user has a wireless plan', async () => {
-      const stripeInstance = Stripe.mock.instances[0];
-      // One subscription with chatforiaWireless='true'
-      stripeInstance.subscriptions.list.mockResolvedValueOnce({
-        data: [
-          {
-            items: {
-              data: [
-                {
-                  price: {
-                    metadata: { chatforiaWireless: 'true' },
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      });
+      prisma.subscriber.findFirst.mockResolvedValueOnce(null);
 
       const mockCreated = {
-        id: 'port_req_1',
-        userId: mockUserWithCustomer.id,
+        id: 101,
+        userId: 1,
         phoneNumber: baseInput.phoneNumber,
         status: 'PENDING',
       };
@@ -139,23 +117,15 @@ describe('portingService', () => {
       prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
 
       const result = await createPortRequestForUser(
-        mockUserWithCustomer,
+        mockWirelessUser,
         baseInput
       );
 
       expect(result).toBe(mockCreated);
 
-      expect(stripeInstance.subscriptions.list).toHaveBeenCalledWith({
-        customer: mockUserWithCustomer.stripeCustomerId,
-        status: 'active',
-      });
-
-      // Check that prisma.create was called with all fields + default country
-      expect(prisma.portRequest.create).toHaveBeenCalledTimes(1);
-      const call = prisma.portRequest.create.mock.calls[0][0];
-      expect(call).toEqual({
+      expect(prisma.portRequest.create).toHaveBeenCalledWith({
         data: {
-          userId: mockUserWithCustomer.id,
+          userId: 1,
           phoneNumber: baseInput.phoneNumber,
           carrier: baseInput.carrier,
           accountNumber: baseInput.accountNumber,
@@ -166,28 +136,91 @@ describe('portingService', () => {
           city: baseInput.city,
           state: baseInput.state,
           postalCode: baseInput.postalCode,
-          country: 'US', // default
+          country: 'US',
           status: 'PENDING',
         },
       });
+    });
+
+    it('creates a port request when user has active subscriber entitlement', async () => {
+      prisma.user.findUnique.mockResolvedValueOnce({
+        id: 1,
+        role: 'USER',
+        plan: 'FREE',
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      prisma.subscriber.findFirst.mockResolvedValueOnce({
+        id: 77,
+        status: 'ACTIVE',
+        provider: 'telna',
+      });
+
+      const mockCreated = {
+        id: 102,
+        userId: 1,
+        phoneNumber: baseInput.phoneNumber,
+        status: 'PENDING',
+      };
+
+      prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
+
+      const result = await createPortRequestForUser(
+        mockWirelessUser,
+        baseInput
+      );
+
+      expect(result).toBe(mockCreated);
+      expect(prisma.portRequest.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('creates a port request when user is ADMIN', async () => {
+      prisma.user.findUnique.mockResolvedValueOnce({
+        id: 1,
+        role: 'ADMIN',
+        plan: 'FREE',
+        subscriptionStatus: 'INACTIVE',
+        subscriptionEndsAt: null,
+      });
+
+      prisma.subscriber.findFirst.mockResolvedValueOnce(null);
+
+      const mockCreated = {
+        id: 103,
+        userId: 1,
+        phoneNumber: baseInput.phoneNumber,
+        status: 'PENDING',
+      };
+
+      prisma.portRequest.create.mockResolvedValueOnce(mockCreated);
+
+      const result = await createPortRequestForUser(
+        mockWirelessUser,
+        baseInput
+      );
+
+      expect(result).toBe(mockCreated);
+      expect(prisma.portRequest.create).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('getUserPortRequests', () => {
     it('returns list of port requests for user with correct query', async () => {
       const mockList = [
-        { id: 'port_1', userId: 'user_1' },
-        { id: 'port_2', userId: 'user_1' },
+        { id: 1, userId: 1 },
+        { id: 2, userId: 1 },
       ];
 
       prisma.portRequest.findMany.mockResolvedValueOnce(mockList);
 
-      const result = await getUserPortRequests('user_1');
+      const result = await getUserPortRequests('1');
 
       expect(prisma.portRequest.findMany).toHaveBeenCalledWith({
-        where: { userId: 'user_1' },
+        where: { userId: 1 },
         orderBy: { createdAt: 'desc' },
       });
+
       expect(result).toBe(mockList);
     });
   });
@@ -195,63 +228,65 @@ describe('portingService', () => {
   describe('getUserPortRequestById', () => {
     it('returns request when userId matches', async () => {
       const mockReq = {
-        id: 'port_1',
-        userId: 'user_1',
+        id: 1,
+        userId: 1,
         phoneNumber: '+1 555 123 4567',
       };
 
       prisma.portRequest.findUnique.mockResolvedValueOnce(mockReq);
 
-      const result = await getUserPortRequestById('user_1', 'port_1');
+      const result = await getUserPortRequestById('1', '1');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 'port_1' },
+        where: { id: 1 },
       });
+
       expect(result).toBe(mockReq);
     });
 
     it('returns null when request does not exist', async () => {
       prisma.portRequest.findUnique.mockResolvedValueOnce(null);
 
-      const result = await getUserPortRequestById('user_1', 'port_missing');
+      const result = await getUserPortRequestById('1', '999');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 'port_missing' },
+        where: { id: 999 },
       });
+
       expect(result).toBeNull();
     });
 
     it('returns null when request belongs to a different user', async () => {
       const mockReq = {
-        id: 'port_1',
-        userId: 'another_user',
+        id: 1,
+        userId: 999,
       };
 
       prisma.portRequest.findUnique.mockResolvedValueOnce(mockReq);
 
-      const result = await getUserPortRequestById('user_1', 'port_1');
+      const result = await getUserPortRequestById('1', '1');
 
       expect(prisma.portRequest.findUnique).toHaveBeenCalledWith({
-        where: { id: 'port_1' },
+        where: { id: 1 },
       });
+
       expect(result).toBeNull();
     });
   });
 
   describe('updatePortStatus', () => {
     it('updates status and timestamps correctly', async () => {
-      const portRequestId = 'port_123';
       const scheduledAt = new Date('2030-01-01T10:00:00.000Z');
       const completedAt = new Date('2030-01-02T10:00:00.000Z');
 
       const mockUpdated = {
-        id: portRequestId,
+        id: 123,
         status: 'COMPLETED',
       };
 
       prisma.portRequest.update.mockResolvedValueOnce(mockUpdated);
 
-      const result = await updatePortStatus(portRequestId, {
+      const result = await updatePortStatus(123, {
         status: 'COMPLETED',
         statusReason: 'Done',
         scheduledAt,
@@ -259,7 +294,7 @@ describe('portingService', () => {
       });
 
       expect(prisma.portRequest.update).toHaveBeenCalledWith({
-        where: { id: portRequestId },
+        where: { id: 123 },
         data: {
           status: 'COMPLETED',
           statusReason: 'Done',
@@ -272,19 +307,17 @@ describe('portingService', () => {
     });
 
     it('passes undefined for optional dates when not provided', async () => {
-      const portRequestId = 'port_456';
-      prisma.portRequest.update.mockResolvedValueOnce({ id: portRequestId });
+      prisma.portRequest.update.mockResolvedValueOnce({ id: 456 });
 
-      await updatePortStatus(portRequestId, {
+      await updatePortStatus(456, {
         status: 'FAILED',
         statusReason: 'Error',
         scheduledAt: undefined,
         completedAt: undefined,
       });
 
-      const call = prisma.portRequest.update.mock.calls[0][0];
-      expect(call).toEqual({
-        where: { id: portRequestId },
+      expect(prisma.portRequest.update).toHaveBeenCalledWith({
+        where: { id: 456 },
         data: {
           status: 'FAILED',
           statusReason: 'Error',

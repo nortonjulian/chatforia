@@ -1,32 +1,59 @@
-// server/services/__tests__/smsService.test.js
 import { jest } from '@jest/globals';
 
-// ---- Shared mocks ----
 const mockPrisma = {
   user: {
     findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  },
+  contact: {
+    findFirst: jest.fn(),
+  },
+  phoneNumber: {
+    findFirst: jest.fn(),
+    updateMany: jest.fn(),
+  },
+  smsOptOut: {
     findFirst: jest.fn(),
   },
   smsThread: {
     findFirst: jest.fn(),
     create: jest.fn(),
     findMany: jest.fn(),
-    findUnique: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  },
+  smsParticipant: {
+    upsert: jest.fn(),
   },
   smsMessage: {
     create: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
+    delete: jest.fn(),
+    update: jest.fn(),
+    deleteMany: jest.fn(),
   },
+  $transaction: jest.fn(async (fnOrOps) => {
+    if (typeof fnOrOps === 'function') {
+      return fnOrOps(mockPrisma);
+    }
+    return Promise.all(fnOrOps);
+  }),
 };
 
 const normalizeE164Mock = jest.fn((n) => n);
 const isE164Mock = jest.fn(() => true);
 
 const sendSmsMock = jest.fn(async () => ({
+  ok: true,
   provider: 'twilio',
   messageSid: 'SID-123',
+  clientRef: 'client-ref-123',
 }));
 
-// ---- Mock modules BEFORE importing smsService ----
+const emitToUserMock = jest.fn();
+const recordSupportSignalMock = jest.fn();
+
 await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: mockPrisma,
@@ -43,7 +70,16 @@ await jest.unstable_mockModule('../lib/telco/index.js', () => ({
   sendSms: sendSmsMock,
 }));
 
-// ---- Import functions under test ----
+await jest.unstable_mockModule('../services/socketBus.js', () => ({
+  __esModule: true,
+  emitToUser: emitToUserMock,
+}));
+
+await jest.unstable_mockModule('../services/supportAutomationService.js', () => ({
+  __esModule: true,
+  recordSupportSignal: recordSupportSignalMock,
+}));
+
 const {
   sendUserSms,
   recordInboundSms,
@@ -54,22 +90,41 @@ const {
 describe('smsService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+
     normalizeE164Mock.mockImplementation((n) => n);
     isE164Mock.mockImplementation(() => true);
+
+    mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
+    mockPrisma.contact.findFirst.mockResolvedValue(null);
+    mockPrisma.smsParticipant.upsert.mockResolvedValue({});
+    mockPrisma.phoneNumber.updateMany.mockResolvedValue({ count: 1 });
+    mockPrisma.smsThread.update.mockResolvedValue({});
+    mockPrisma.smsMessage.create.mockResolvedValue({
+      id: 500,
+      body: 'mock message',
+    });
+
+    sendSmsMock.mockResolvedValue({
+      ok: true,
+      provider: 'twilio',
+      messageSid: 'SID-123',
+      clientRef: 'client-ref-123',
+    });
   });
 
   describe('sendUserSms', () => {
     it('sends SMS using existing thread and persists outbound message', async () => {
-      // User has an assigned number
-      mockPrisma.user.findUnique.mockResolvedValue({
-        assignedNumbers: [{ e164: '+19998887777' }],
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        id: 1,
+        e164: '+19998887777',
+        status: 'ASSIGNED',
       });
 
-      // Existing thread
       mockPrisma.smsThread.findFirst.mockResolvedValue({
         id: 10,
         userId: 1,
         contactPhone: '+15551234567',
+        contactId: null,
       });
 
       const result = await sendUserSms({
@@ -78,38 +133,35 @@ describe('smsService', () => {
         body: 'Hello there',
       });
 
-      // Normalization + validation for destination
       expect(normalizeE164Mock).toHaveBeenCalledWith('+15551234567');
       expect(isE164Mock).toHaveBeenCalled();
 
-      // User "from" lookup
-      expect(mockPrisma.user.findUnique).toHaveBeenCalledWith({
-        where: { id: 1 },
-        select: {
-          assignedNumbers: {
-            select: { e164: true },
-            take: 1,
-            orderBy: { id: 'asc' },
-          },
+      expect(mockPrisma.smsOptOut.findFirst).toHaveBeenCalledWith({
+        where: {
+          phone: '+15551234567',
+          OR: [{ provider: 'twilio' }, { provider: null }],
         },
       });
 
-      // Thread lookup (no create)
-      expect(mockPrisma.smsThread.findFirst).toHaveBeenCalledWith({
-        where: { userId: 1, contactPhone: '+15551234567' },
+      expect(mockPrisma.phoneNumber.findFirst).toHaveBeenCalledWith({
+        where: {
+          assignedUserId: 1,
+          status: { in: ['ASSIGNED', 'HOLD'] },
+        },
+        select: { id: true, e164: true, status: true },
+        orderBy: { assignedAt: 'desc' },
       });
-      expect(mockPrisma.smsThread.create).not.toHaveBeenCalled();
 
-      // Telco send
       expect(sendSmsMock).toHaveBeenCalledTimes(1);
-      const sendArgs = sendSmsMock.mock.calls[0][0];
-      expect(sendArgs).toMatchObject({
+      expect(sendSmsMock.mock.calls[0][0]).toMatchObject({
         to: '+15551234567',
         text: 'Hello there',
+        from: '+19998887777',
+        mediaUrls: [],
       });
-      expect(sendArgs.clientRef).toMatch(/^smsout:1:/);
+      expect(sendSmsMock.mock.calls[0][0].clientRef).toMatch(/^smsout:1:/);
 
-      // SMS persisted
+      expect(mockPrisma.$transaction).toHaveBeenCalledTimes(1);
       expect(mockPrisma.smsMessage.create).toHaveBeenCalledWith({
         data: {
           threadId: 10,
@@ -118,6 +170,16 @@ describe('smsService', () => {
           toNumber: '+15551234567',
           body: 'Hello there',
           provider: 'twilio',
+          providerMessageId: 'SID-123',
+          mediaUrls: null,
+        },
+      });
+
+      expect(emitToUserMock).toHaveBeenCalledWith(1, 'sms:message:new', {
+        threadId: 10,
+        message: {
+          id: 500,
+          body: 'mock message',
         },
       });
 
@@ -126,12 +188,15 @@ describe('smsService', () => {
         threadId: 10,
         provider: 'twilio',
         messageSid: 'SID-123',
+        clientRef: 'client-ref-123',
       });
     });
 
     it('creates a new thread when none exists', async () => {
-      mockPrisma.user.findUnique.mockResolvedValue({
-        assignedNumbers: [{ e164: '+19998887777' }],
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        id: 1,
+        e164: '+19998887777',
+        status: 'ASSIGNED',
       });
 
       mockPrisma.smsThread.findFirst.mockResolvedValue(null);
@@ -139,6 +204,7 @@ describe('smsService', () => {
         id: 20,
         userId: 1,
         contactPhone: '+15551234567',
+        contactId: null,
       });
 
       const result = await sendUserSms({
@@ -150,15 +216,19 @@ describe('smsService', () => {
       expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
         data: {
           userId: 1,
+          contactId: null,
           contactPhone: '+15551234567',
+          participants: {
+            create: [{ phone: '+15551234567' }],
+          },
         },
+        select: { id: true, contactPhone: true, contactId: true },
       });
 
       expect(result.threadId).toBe(20);
     });
 
     it('throws Boom 400 when destination phone is invalid', async () => {
-      // First validation of "to" fails
       isE164Mock.mockReturnValueOnce(false);
 
       await expect(
@@ -166,40 +236,40 @@ describe('smsService', () => {
           userId: 1,
           to: 'not-a-phone',
           body: 'Hi',
-        }),
+        })
       ).rejects.toMatchObject({
         isBoom: true,
         output: { statusCode: 400 },
         message: 'Invalid destination phone',
       });
 
-      // No DB or telco calls
-      expect(mockPrisma.user.findUnique).not.toHaveBeenCalled();
+      expect(mockPrisma.phoneNumber.findFirst).not.toHaveBeenCalled();
       expect(sendSmsMock).not.toHaveBeenCalled();
     });
 
     it('throws Boom 412 when user has no assigned number', async () => {
-      // Destination is valid
-      isE164Mock.mockReturnValue(true);
-
-      // User has no assigned numbers
-      mockPrisma.user.findUnique.mockResolvedValue({
-        assignedNumbers: [],
-      });
+      mockPrisma.smsOptOut.findFirst.mockResolvedValue(null);
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue(null);
 
       await expect(
         sendUserSms({
           userId: 1,
           to: '+15551234567',
           body: 'Hi',
-        }),
+        })
       ).rejects.toMatchObject({
         isBoom: true,
         output: { statusCode: 412 },
         message: 'No assigned number for user',
       });
 
-      // Thread and telco never reached
+      expect(recordSupportSignalMock).toHaveBeenCalledWith({
+        userId: 1,
+        category: 'no_assigned_number',
+        source: 'sms_send',
+        actionTaken: 'prompt_number_selection',
+      });
+
       expect(mockPrisma.smsThread.findFirst).not.toHaveBeenCalled();
       expect(sendSmsMock).not.toHaveBeenCalled();
     });
@@ -207,15 +277,21 @@ describe('smsService', () => {
 
   describe('recordInboundSms', () => {
     it('persists inbound SMS when owner is found and returns ok', async () => {
-      // Owner lookup by assignedNumbers.some(e164 == normalize(toNumber))
-      mockPrisma.user.findFirst.mockResolvedValue({ id: 7 });
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue({
+        assignedUserId: 7,
+      });
 
-      // No existing thread -> create
       mockPrisma.smsThread.findFirst.mockResolvedValue(null);
       mockPrisma.smsThread.create.mockResolvedValue({
         id: 33,
         userId: 7,
         contactPhone: '+15551234567',
+        contactId: null,
+      });
+
+      mockPrisma.smsMessage.create.mockResolvedValue({
+        id: 700,
+        body: 'Yo from outside',
       });
 
       const result = await recordInboundSms({
@@ -223,27 +299,30 @@ describe('smsService', () => {
         fromNumber: '+15551234567',
         body: 'Yo from outside',
         provider: 'twilio',
+        providerMessageId: 'SM-IN-1',
       });
 
-      // Owner lookup
-      expect(mockPrisma.user.findFirst).toHaveBeenCalledWith({
+      expect(mockPrisma.phoneNumber.findFirst).toHaveBeenCalledWith({
         where: {
-          assignedNumbers: {
-            some: { e164: '+19998887777' },
+          e164: '+19998887777',
+          status: { in: ['ASSIGNED', 'HOLD'] },
+          assignedUserId: { not: null },
+        },
+        select: { assignedUserId: true },
+      });
+
+      expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
+        data: {
+          userId: 7,
+          contactId: null,
+          contactPhone: '+15551234567',
+          participants: {
+            create: [{ phone: '+15551234567' }],
           },
         },
-        select: { id: true },
+        select: { id: true, contactPhone: true, contactId: true },
       });
 
-      // Thread upsert
-      expect(mockPrisma.smsThread.findFirst).toHaveBeenCalledWith({
-        where: { userId: 7, contactPhone: '+15551234567' },
-      });
-      expect(mockPrisma.smsThread.create).toHaveBeenCalledWith({
-        data: { userId: 7, contactPhone: '+15551234567' },
-      });
-
-      // Inbound message persisted
       expect(mockPrisma.smsMessage.create).toHaveBeenCalledWith({
         data: {
           threadId: 33,
@@ -252,6 +331,16 @@ describe('smsService', () => {
           toNumber: '+19998887777',
           body: 'Yo from outside',
           provider: 'twilio',
+          providerMessageId: 'SM-IN-1',
+          mediaUrls: null,
+        },
+      });
+
+      expect(emitToUserMock).toHaveBeenCalledWith(7, 'sms:message:new', {
+        threadId: 33,
+        message: {
+          id: 700,
+          body: 'Yo from outside',
         },
       });
 
@@ -263,7 +352,7 @@ describe('smsService', () => {
     });
 
     it('returns ok:false with reason no-owner when no user has the DID', async () => {
-      mockPrisma.user.findFirst.mockResolvedValue(null);
+      mockPrisma.phoneNumber.findFirst.mockResolvedValue(null);
 
       const result = await recordInboundSms({
         toNumber: '+19998887777',
@@ -280,42 +369,109 @@ describe('smsService', () => {
 
   describe('listThreads', () => {
     it('returns threads for user ordered by updatedAt desc', async () => {
+      const updatedAt1 = new Date('2026-01-01T00:00:00Z');
+      const updatedAt2 = new Date('2026-01-02T00:00:00Z');
+
       mockPrisma.smsThread.findMany.mockResolvedValue([
-        { id: 1 },
-        { id: 2 },
+        {
+          id: 1,
+          contactPhone: '+15550000001',
+          updatedAt: updatedAt1,
+          participants: [],
+        },
+        {
+          id: 2,
+          contactPhone: '+15550000002',
+          updatedAt: updatedAt2,
+          participants: [],
+        },
       ]);
+
+      mockPrisma.contact.findFirst.mockResolvedValue(null);
 
       const threads = await listThreads(5);
 
       expect(mockPrisma.smsThread.findMany).toHaveBeenCalledWith({
-        where: { userId: 5 },
+        where: {
+          userId: 5,
+          archivedAt: null,
+          messages: {
+            some: {},
+          },
+        },
         orderBy: { updatedAt: 'desc' },
+        select: {
+          id: true,
+          contactPhone: true,
+          updatedAt: true,
+          participants: {
+            select: { phone: true },
+            take: 5,
+          },
+        },
+        take: 200,
       });
-      expect(threads).toEqual([{ id: 1 }, { id: 2 }]);
+
+      expect(threads).toEqual([
+        {
+          id: 1,
+          contactPhone: '+15550000001',
+          updatedAt: updatedAt1,
+          displayName: '+15550000001',
+          contactName: '+15550000001',
+        },
+        {
+          id: 2,
+          contactPhone: '+15550000002',
+          updatedAt: updatedAt2,
+          displayName: '+15550000002',
+          contactName: '+15550000002',
+        },
+      ]);
     });
   });
 
   describe('getThread', () => {
     it('returns thread when it belongs to the user', async () => {
-      const threadObj = {
+      mockPrisma.smsThread.findFirst.mockResolvedValue({
         id: 10,
         userId: 3,
-        messages: [],
-      };
-      mockPrisma.smsThread.findUnique.mockResolvedValue(threadObj);
+        contactPhone: '+15551234567',
+        contactId: null,
+        participants: [],
+      });
+
+      mockPrisma.smsMessage.findMany.mockResolvedValue([]);
+      mockPrisma.contact.findFirst.mockResolvedValue(null);
 
       const thread = await getThread(3, '10');
 
-      expect(mockPrisma.smsThread.findUnique).toHaveBeenCalledWith({
-        where: { id: 10 },
-        include: { messages: { orderBy: { createdAt: 'asc' } } },
+      expect(mockPrisma.smsThread.findFirst).toHaveBeenCalledWith({
+        where: { id: 10, userId: 3 },
+        include: {
+          participants: { select: { phone: true }, take: 5 },
+        },
       });
 
-      expect(thread).toBe(threadObj);
+      expect(mockPrisma.smsMessage.findMany).toHaveBeenCalledWith({
+        where: { threadId: 10 },
+        orderBy: { createdAt: 'asc' },
+      });
+
+      expect(thread).toEqual({
+        id: 10,
+        userId: 3,
+        contactPhone: '+15551234567',
+        contactId: null,
+        participants: [],
+        displayName: '+15551234567',
+        contactName: '+15551234567',
+        messages: [],
+      });
     });
 
     it('throws Boom 404 when thread does not exist', async () => {
-      mockPrisma.smsThread.findUnique.mockResolvedValue(null);
+      mockPrisma.smsThread.findFirst.mockResolvedValue(null);
 
       await expect(getThread(3, 99)).rejects.toMatchObject({
         isBoom: true,
@@ -325,16 +481,19 @@ describe('smsService', () => {
     });
 
     it('throws Boom 404 when thread belongs to a different user', async () => {
-      mockPrisma.smsThread.findUnique.mockResolvedValue({
-        id: 10,
-        userId: 999,
-        messages: [],
-      });
+      mockPrisma.smsThread.findFirst.mockResolvedValue(null);
 
       await expect(getThread(3, 10)).rejects.toMatchObject({
         isBoom: true,
         output: { statusCode: 404 },
         message: 'Thread not found',
+      });
+
+      expect(mockPrisma.smsThread.findFirst).toHaveBeenCalledWith({
+        where: { id: 10, userId: 3 },
+        include: {
+          participants: { select: { phone: true }, take: 5 },
+        },
       });
     });
   });

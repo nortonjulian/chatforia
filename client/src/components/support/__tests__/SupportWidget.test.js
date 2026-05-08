@@ -1,32 +1,67 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 // ---- Mocks ----
-
-// Mock Mantine components so we can inspect props & interact predictably
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const pass = (_Comp, testid) => ({ children, ...props }) =>
     React.createElement(
       'div',
       {
         'data-testid': testid,
         ...Object.fromEntries(
-          Object.entries(props).map(([k, v]) => [
-            `data-${k}`,
-            typeof v === 'object' ? JSON.stringify(v) : String(v),
-          ])
+          Object.entries(props)
+            .filter(([k]) => !['leftSection', 'rightSection', 'styles'].includes(k))
+            .map(([k, v]) => [
+              `data-${k}`,
+              typeof v === 'object' ? JSON.stringify(v) : String(v),
+            ])
         ),
       },
       children
     );
 
-  const Button = ({ children, onClick, loading, disabled, ...rest }) => (
-    <button data-testid="button" onClick={onClick} disabled={!!loading || !!disabled} {...rest}>
-      {children}
-    </button>
-  );
+  const Button = ({
+    children,
+    onClick,
+    loading,
+    disabled,
+    leftSection,
+    rightSection,
+    styles,
+    component,
+    href,
+    target,
+    ...rest
+  }) => {
+    const Comp = component === 'a' ? 'a' : 'button';
 
-  const TextInput = ({ value, onChange, onKeyDown, placeholder, 'aria-label': ariaLabel }) => (
+    return (
+      <Comp
+        data-testid="button"
+        onClick={onClick}
+        disabled={Comp === 'button' ? !!loading || !!disabled : undefined}
+        href={href}
+        target={target}
+        {...rest}
+      >
+        {leftSection}
+        {children}
+        {rightSection}
+      </Comp>
+    );
+  };
+
+  const TextInput = ({
+    value,
+    onChange,
+    onKeyDown,
+    placeholder,
+    'aria-label': ariaLabel,
+    leftSection,
+    style,
+    ...rest
+  }) => (
     <input
       data-testid="text-input"
       placeholder={placeholder}
@@ -34,6 +69,7 @@ jest.mock('@mantine/core', () => {
       value={value}
       onChange={onChange}
       onKeyDown={onKeyDown}
+      {...rest}
     />
   );
 
@@ -50,8 +86,10 @@ jest.mock('@mantine/core', () => {
   const Drawer = ({ opened, children, title, onClose }) => (
     <div data-testid="drawer" data-opened={String(!!opened)}>
       <div data-testid="drawer-title">{title}</div>
-      <button data-testid="drawer-close" onClick={onClose}>X</button>
-      {children}
+      <button data-testid="drawer-close" onClick={onClose}>
+        X
+      </button>
+      {opened ? children : null}
     </div>
   );
 
@@ -59,7 +97,11 @@ jest.mock('@mantine/core', () => {
     <div data-testid="segmented" data-value={value}>
       {Array.isArray(data) &&
         data.map((d, i) => (
-          <button key={i} data-testid={`seg-${d.value || d}`} onClick={() => onChange(d.value || d)}>
+          <button
+            key={i}
+            data-testid={`seg-${d.value || d}`}
+            onClick={() => onChange(d.value || d)}
+          >
             {d.label || d}
           </button>
         ))}
@@ -67,13 +109,16 @@ jest.mock('@mantine/core', () => {
   );
 
   const ScrollArea = ({ children }) => <div data-testid="scrollarea">{children}</div>;
-  ScrollArea.Autosize = ({ children }) => <div data-testid="scrollarea-autosize">{children}</div>;
+  ScrollArea.Autosize = ({ children }) => (
+    <div data-testid="scrollarea-autosize">{children}</div>
+  );
 
   const Divider = ({ label }) => <div data-testid="divider">{label}</div>;
   const Title = ({ children }) => <h1 data-testid="title">{children}</h1>;
   const Text = ({ children }) => <span data-testid="text">{children}</span>;
   const Badge = ({ children }) => <span data-testid="badge">{children}</span>;
-  const Transition = ({ children }) => (typeof children === 'function' ? children({}) : children);
+  const Transition = ({ children }) =>
+    typeof children === 'function' ? children({}) : children;
   const Affix = ({ children }) => <div data-testid="affix">{children}</div>;
 
   return {
@@ -98,16 +143,22 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// Mock icons (not relevant to behavior)
 jest.mock('@tabler/icons-react', () => ({
   __esModule: true,
   IconMessageCircle: () => <i data-testid="icon-msg" />,
   IconSearch: () => <i data-testid="icon-search" />,
 }));
 
-// Mock axios client — use mock* names so the factory can reference them
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (_key, fallback) => fallback,
+  }),
+}));
+
 const mockGet = jest.fn();
 const mockPost = jest.fn();
+
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
@@ -116,16 +167,26 @@ jest.mock('@/api/axiosClient', () => ({
   },
 }));
 
-// Mock user context
 jest.mock('@/context/UserContext', () => ({
   __esModule: true,
-  useUser: () => ({ currentUser: { id: 42, email: 'user@example.com' } }),
+  useUser: () => ({
+    currentUser: {
+      id: 42,
+      email: 'user@example.com',
+      username: 'julian',
+    },
+  }),
 }));
 
-// SUT
+jest.mock('@/utils/analytics', () => ({
+  __esModule: true,
+  default: {
+    capture: jest.fn(),
+  },
+}));
+
 import SupportWidget from '../SupportWidget';
 
-// Helpers
 const setPath = (path) => {
   window.history.pushState({}, '', path);
 };
@@ -139,40 +200,50 @@ beforeEach(() => {
 describe('SupportWidget', () => {
   test('hides on excluded routes', () => {
     setPath('/settings/security');
+
     render(<SupportWidget excludeRoutes={['/settings']} />);
-    // FAB shouldn't render at all
+
     expect(screen.queryByRole('button', { name: /open support/i })).toBeNull();
     expect(screen.queryByText(/help/i)).toBeNull();
   });
 
-  test('shows FAB, opens drawer on click', () => {
+  test('shows FAB and opens drawer on click', () => {
     render(<SupportWidget />);
-    const fab = screen.getByRole('button', { name: /open support/i });
-    fireEvent.click(fab);
-    const drawer = screen.getByTestId('drawer');
-    expect(drawer).toHaveAttribute('data-opened', 'true');
-    // Title content should be present
+
+    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
+
+    expect(screen.getByTestId('drawer')).toHaveAttribute('data-opened', 'true');
     expect(screen.getByTestId('badge')).toHaveTextContent(/support/i);
     expect(screen.getByTestId('title')).toHaveTextContent(/how can we help\?/i);
   });
 
   test('searches help via button click and shows results', async () => {
     mockGet.mockResolvedValueOnce({
-      data: [{ title: 'Translate messages', snippet: 'How to auto-translate', url: 'https://help/article' }],
+      data: [
+        {
+          title: 'Translate messages',
+          snippet: 'How to auto-translate',
+          url: 'https://help/article',
+        },
+      ],
     });
 
     render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
 
-    const input = screen.getByLabelText(/search help/i);
-    fireEvent.change(input, { target: { value: 'translate' } });
+    fireEvent.change(screen.getByLabelText(/search help/i), {
+      target: { value: 'translate' },
+    });
+
     fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
 
     await waitFor(() => {
-      expect(mockGet).toHaveBeenCalledWith('/help/search', { params: { q: 'translate' } });
+      expect(mockGet).toHaveBeenCalledWith('/help/search', {
+        params: { q: 'translate' },
+      });
     });
 
-    // Result card
     expect(screen.getByText(/translate messages/i)).toBeInTheDocument();
     expect(screen.getByText(/open article/i)).toBeInTheDocument();
   });
@@ -181,102 +252,155 @@ describe('SupportWidget', () => {
     mockGet.mockResolvedValueOnce({ data: { results: [] } });
 
     render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
 
     const input = screen.getByLabelText(/search help/i);
+
     fireEvent.change(input, { target: { value: 'privacy' } });
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
 
     await waitFor(() => {
-      expect(mockGet).toHaveBeenCalledWith('/help/search', { params: { q: 'privacy' } });
+      expect(mockGet).toHaveBeenCalledWith('/help/search', {
+        params: { q: 'privacy' },
+      });
     });
   });
 
   test('quick topic button switches to contact tab', () => {
     render(<SupportWidget />);
-    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
 
-    // Click quick topic "Payments / billing"
+    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
     fireEvent.click(screen.getByText(/payments \/ billing/i));
 
-    // Contact tab should show textarea + Send button
     expect(screen.getByTestId('textarea')).toBeInTheDocument();
     expect(screen.getByText(/^send$/i)).toBeInTheDocument();
   });
 
   test('send button disabled when message is empty or whitespace', () => {
     render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
-    // Jump to contact by clicking a quick topic
     fireEvent.click(screen.getByText(/report abuse/i));
 
     const send = screen.getByText(/^send$/i).closest('button');
     expect(send).toBeDisabled();
 
-    const ta = screen.getByTestId('textarea');
-    fireEvent.change(ta, { target: { value: '   ' } });
-    // Disabled because only whitespace
+    fireEvent.change(screen.getByTestId('textarea'), {
+      target: { value: '   ' },
+    });
+
     expect(send).toBeDisabled();
   });
 
-  test('submits ticket successfully and shows confirmation', async () => {
-    mockPost.mockResolvedValueOnce({ data: { ok: true } });
+  test('diagnoses then escalates ticket successfully', async () => {
+    mockPost
+      .mockResolvedValueOnce({
+        data: {
+          resolved: false,
+          category: 'billing_or_premium',
+          severity: 'normal',
+          message: 'We need to escalate this.',
+        },
+      })
+      .mockResolvedValueOnce({ data: { ok: true } });
+
     setPath('/chat/abc');
+
     Object.defineProperty(window.navigator, 'userAgent', {
       value: 'JestAgent/1.0',
       configurable: true,
     });
 
     render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
-    // choose a topic to jump to contact
     fireEvent.click(screen.getByText(/payments \/ billing/i));
 
-    const ta = screen.getByTestId('textarea');
-    fireEvent.change(ta, { target: { value: 'My card was charged twice.' } });
+    fireEvent.change(screen.getByTestId('textarea'), {
+      target: { value: 'My card was charged twice.' },
+    });
 
     const send = screen.getByText(/^send$/i).closest('button');
     expect(send).not.toBeDisabled();
+
     fireEvent.click(send);
 
     await waitFor(() => {
-      expect(mockPost).toHaveBeenCalledTimes(1);
+      expect(mockPost).toHaveBeenCalledTimes(2);
     });
 
-    // Validate payload shape & key meta fields
-    const [url, payload] = mockPost.mock.calls[0];
-    expect(url).toBe('/support/tickets');
-    expect(payload).toEqual(
+    expect(mockPost.mock.calls[0][0]).toBe('/support/diagnose');
+    expect(mockPost.mock.calls[0][1]).toEqual({
+      email: 'user@example.com',
+      message: 'My card was charged twice.',
+      categoryHint: 'billing_or_premium',
+    });
+
+    expect(mockPost.mock.calls[1][0]).toBe('/support/tickets');
+    expect(mockPost.mock.calls[1][1]).toEqual(
       expect.objectContaining({
-        topic: 'billing',
+        name: 'julian',
+        email: 'user@example.com',
         message: 'My card was charged twice.',
+        categoryHint: 'billing_or_premium',
         meta: expect.objectContaining({
           userId: 42,
           path: '/chat/abc',
           userAgent: 'JestAgent/1.0',
           app: 'web',
-          // version may be "web" fallback or a string if env is set
           version: expect.any(String),
         }),
       })
     );
 
-    // Success message shown
-    await waitFor(() => {
-      expect(screen.getByText(/message sent\. we’ll reply by email\./i)).toBeInTheDocument();
-    });
+    expect(
+      await screen.findByText(/we couldn’t resolve this automatically\. our team will follow up\./i)
+    ).toBeInTheDocument();
   });
 
-  test('shows error when submission fails', async () => {
+  test('resolved diagnosis stops before creating ticket', async () => {
+    mockPost.mockResolvedValueOnce({
+      data: {
+        resolved: true,
+        category: 'auth_or_verification',
+        severity: 'low',
+        message: 'Try resetting your password.',
+        nextAction: 'Use the password reset email.',
+      },
+    });
+
+    render(<SupportWidget />);
+
+    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
+    fireEvent.click(screen.getByText(/can’t log in/i));
+
+    fireEvent.change(screen.getByTestId('textarea'), {
+      target: { value: 'Cannot log in.' },
+    });
+
+    fireEvent.click(screen.getByText(/^send$/i));
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledTimes(1);
+    });
+
+    expect(mockPost.mock.calls[0][0]).toBe('/support/diagnose');
+    expect(screen.getByText(/try resetting your password/i)).toBeInTheDocument();
+    expect(screen.getByText(/issue resolved instantly/i)).toBeInTheDocument();
+  });
+
+  test('shows error when diagnose or ticket submission fails', async () => {
     mockPost.mockRejectedValueOnce(new Error('boom'));
 
     render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
-    // jump to contact
     fireEvent.click(screen.getByText(/can’t log in/i));
 
-    const ta = screen.getByTestId('textarea');
-    fireEvent.change(ta, { target: { value: 'Cannot log in.' } });
+    fireEvent.change(screen.getByTestId('textarea'), {
+      target: { value: 'Cannot log in.' },
+    });
 
     fireEvent.click(screen.getByText(/^send$/i));
 
@@ -285,29 +409,85 @@ describe('SupportWidget', () => {
     });
 
     expect(
-      screen.getByText(/could not send\. email support@chatforia\.com instead\./i)
+      screen.getByText(/something went wrong\. please try again\./i)
     ).toBeInTheDocument();
   });
 
-  test('clears state when drawer closes', async () => {
-    mockGet.mockResolvedValueOnce({ data: { results: [{ title: 'A', snippet: 'B' }] } });
+  test('recommended action posts to support actions and shows action message', async () => {
+    mockPost
+      .mockResolvedValueOnce({
+        data: {
+          resolved: true,
+          category: 'auth_or_verification',
+          severity: 'low',
+          message: 'We can help automatically.',
+          autoAction: 'resend_verification_email',
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          message: 'Verification email sent.',
+        },
+      });
 
     render(<SupportWidget />);
+
+    fireEvent.click(screen.getByRole('button', { name: /open support/i }));
+    fireEvent.click(screen.getByText(/can’t log in/i));
+
+    fireEvent.change(screen.getByTestId('textarea'), {
+      target: { value: 'Need verification email.' },
+    });
+
+    fireEvent.click(screen.getByText(/^send$/i));
+
+    expect(
+      await screen.findByText(/take recommended action/i)
+    ).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText(/take recommended action/i));
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/support/actions', {
+        action: 'resend_verification_email',
+        email: 'user@example.com',
+      });
+    });
+
+    expect(screen.getByText(/verification email sent/i)).toBeInTheDocument();
+  });
+
+  test('clears state when drawer closes and reopens', async () => {
+    mockGet.mockResolvedValueOnce({
+      data: {
+        results: [{ title: 'A', snippet: 'B' }],
+      },
+    });
+
+    render(<SupportWidget />);
+
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
 
-    // Do a search
-    const input = screen.getByLabelText(/search help/i);
-    fireEvent.change(input, { target: { value: 'backups' } });
-    fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
-    await waitFor(() => expect(mockGet).toHaveBeenCalled());
+    fireEvent.change(screen.getByLabelText(/search help/i), {
+      target: { value: 'backups' },
+    });
 
-    // Close drawer
+    fireEvent.click(screen.getByRole('button', { name: /^search$/i }));
+
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+
     fireEvent.click(screen.getByTestId('drawer-close'));
 
-    // Re-open; state should be cleared and placeholder text shown (no results)
     fireEvent.click(screen.getByRole('button', { name: /open support/i }));
+
     expect(
       screen.getByText(/try searching for “translate”, “backups”, or “privacy”\./i)
     ).toBeInTheDocument();
+
+    expect(screen.queryByText('A')).not.toBeInTheDocument();
   });
 });

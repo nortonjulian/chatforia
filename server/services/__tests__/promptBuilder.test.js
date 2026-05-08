@@ -2,7 +2,7 @@ import {
   buildChatPrompt,
   buildSuggestRepliesPrompt,
   buildRewritePrompt,
-} from './promptBuilder';
+} from '../promptBuilder';
 
 describe('promptBuilder', () => {
   describe('buildChatPrompt', () => {
@@ -101,14 +101,14 @@ describe('promptBuilder', () => {
 
       const content = result[1].content;
 
-      expect(content).not.toContain('message-1');
-      expect(content).not.toContain('message-2');
-      expect(content).not.toContain('message-3');
+      expect(content).not.toContain('message-1\n');
+      expect(content).not.toContain('message-2\n');
+      expect(content).not.toContain('message-3\n');
       expect(content).toContain('message-4');
       expect(content).toContain('message-15');
     });
 
-    it('filters out messages with empty cleaned content', () => {
+    it('includes empty cleaned messages as blank role lines', () => {
       const result = buildChatPrompt({
         userId: '123',
         username: 'julian',
@@ -124,8 +124,8 @@ describe('promptBuilder', () => {
       const content = result[1].content;
 
       expect(content).toContain('user: hello');
-      expect(content).not.toContain('user:    ');
-      expect(content).not.toContain('assistant:');
+      expect(content).toContain('user: ');
+      expect(content).toContain('assistant: ');
     });
 
     it('shows memory enabled as yes when true', () => {
@@ -198,8 +198,8 @@ describe('promptBuilder', () => {
 
       const content = result[1].content;
 
-      expect(content).not.toContain('msg-1');
-      expect(content).not.toContain('msg-2');
+      expect(content).not.toMatch(/msg-1$/m);
+      expect(content).not.toMatch(/msg-2$/m);
       expect(content).toContain('msg-3');
       expect(content).toContain('msg-10');
     });

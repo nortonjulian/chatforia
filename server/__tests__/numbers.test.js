@@ -9,21 +9,25 @@ import {
 import request from 'supertest';
 import express from 'express';
 
-const ORIGINAL_ENV = process.env;
+const ORIGINAL_ENV = { ...process.env };
 
 let prismaMock;
 let telcoAdapter;
 let getProviderMock;
 let searchAvailableMock;
 
-// ---- Mock prisma client ----
 await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   prismaMock = {
+    user: {
+      findUnique: jest.fn(),
+    },
     phoneNumber: {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
+      findMany: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
+      updateMany: jest.fn(),
     },
     numberReservation: {
       create: jest.fn(),
@@ -37,7 +41,6 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   };
 });
 
-// ---- Mock telco/index.js (Twilio adapter) ----
 await jest.unstable_mockModule('../lib/telco/index.js', () => {
   searchAvailableMock = jest.fn();
   getProviderMock = jest.fn();
@@ -45,9 +48,9 @@ await jest.unstable_mockModule('../lib/telco/index.js', () => {
   telcoAdapter = {
     providerName: 'twilio-adapter',
     searchAvailable: searchAvailableMock,
+    purchaseNumber: jest.fn(),
   };
 
-  // getProvider('twilio') should return this adapter
   getProviderMock.mockImplementation((key) => {
     if (key === 'twilio') return telcoAdapter;
     return null;
@@ -61,7 +64,6 @@ await jest.unstable_mockModule('../lib/telco/index.js', () => {
   };
 });
 
-// ---- Mock requireAuth / requirePremium ----
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, _res, next) => {
@@ -77,31 +79,33 @@ await jest.unstable_mockModule('../middleware/requirePremium.js', () => ({
   requirePremium: (_req, _res, next) => next(),
 }));
 
-// ---- Import router AFTER mocks ----
 const { default: numbersRouter } = await import('../routes/numbers.js');
 
-// ---- Build test app ----
 const app = express();
 app.use(express.json());
 app.use('/numbers', numbersRouter);
 
 beforeEach(() => {
   jest.clearAllMocks();
+
   process.env = {
     ...ORIGINAL_ENV,
     NUMBER_INACTIVITY_DAYS: '40',
     NUMBER_HOLD_DAYS: '20',
     RESERVATION_MINUTES: '10',
+    ENABLE_TWILIO_LIVE_SEARCH: 'true',
   };
+
+  prismaMock.user.findUnique.mockResolvedValue({
+    plan: 'FREE',
+    subscriptionStatus: 'INACTIVE',
+  });
 });
 
 afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
 
-// ---------------------------------------------------------------------------
-// GET /numbers/my
-// ---------------------------------------------------------------------------
 describe('GET /numbers/my', () => {
   test('returns current number and policy when assigned', async () => {
     const phone = {
@@ -110,6 +114,7 @@ describe('GET /numbers/my', () => {
       status: 'ASSIGNED',
       assignedUserId: 123,
     };
+
     prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(phone);
 
     const res = await request(app)
@@ -117,18 +122,31 @@ describe('GET /numbers/my', () => {
       .set('x-test-user-id', '123');
 
     expect(res.status).toBe(200);
+
     expect(prismaMock.phoneNumber.findFirst).toHaveBeenCalledWith({
       where: {
         assignedUserId: 123,
         status: { in: ['ASSIGNED', 'HOLD'] },
+      },
+      orderBy: { id: 'asc' },
+    });
+
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { id: 123 },
+      select: {
+        plan: true,
+        subscriptionStatus: true,
       },
     });
 
     expect(res.body).toEqual({
       number: phone,
       policy: {
+        mode: 'AUTO_RECYCLE',
         inactivityDays: 40,
         holdDays: 20,
+        description:
+          'Numbers may be recycled after inactivity on the Free plan.',
       },
     });
   });
@@ -141,17 +159,20 @@ describe('GET /numbers/my', () => {
       .set('x-test-user-id', '200');
 
     expect(res.status).toBe(200);
-    expect(res.body.number).toBeNull();
-    expect(res.body.policy).toEqual({
-      inactivityDays: 40,
-      holdDays: 20,
+
+    expect(res.body).toEqual({
+      number: null,
+      policy: {
+        mode: 'AUTO_RECYCLE',
+        inactivityDays: 40,
+        holdDays: 20,
+        description:
+          'Numbers may be recycled after inactivity on the Free plan.',
+      },
     });
   });
 });
 
-// ---------------------------------------------------------------------------
-// GET /numbers/available
-// ---------------------------------------------------------------------------
 describe('GET /numbers/available', () => {
   test('uses Twilio provider and returns available numbers', async () => {
     searchAvailableMock.mockResolvedValueOnce({
@@ -165,7 +186,6 @@ describe('GET /numbers/available', () => {
 
     expect(res.status).toBe(200);
 
-    // resolveTwilioProvider should call getProvider('twilio')
     expect(getProviderMock).toHaveBeenCalledWith('twilio');
 
     expect(searchAvailableMock).toHaveBeenCalledWith({
@@ -178,6 +198,7 @@ describe('GET /numbers/available', () => {
     expect(res.body).toEqual({
       numbers: ['+13035550111', '+13035550112'],
       provider: 'twilio-adapter',
+      note: 'Internal/admin endpoint: Twilio-available numbers to BUY (live search).',
     });
   });
 
@@ -190,11 +211,18 @@ describe('GET /numbers/available', () => {
       .set('x-test-user-id', '1');
 
     expect(res.status).toBe(200);
+
     expect(searchAvailableMock).toHaveBeenCalledWith({
       areaCode: '720',
       country: 'US',
       type: 'local',
       limit: 20,
+    });
+
+    expect(res.body).toEqual({
+      numbers: [],
+      provider: 'twilio-adapter',
+      note: 'Internal/admin endpoint: Twilio-available numbers to BUY (live search).',
     });
   });
 
@@ -209,11 +237,25 @@ describe('GET /numbers/available', () => {
     expect(res.status).toBe(502);
     expect(res.body).toEqual({ error: 'Number search failed' });
   });
+
+  test('returns 403 when Twilio live search is disabled', async () => {
+    process.env.ENABLE_TWILIO_LIVE_SEARCH = 'false';
+
+    const res = await request(app)
+      .get('/numbers/available')
+      .query({ areaCode: '303' })
+      .set('x-test-user-id', '1');
+
+    expect(res.status).toBe(403);
+    expect(res.body).toEqual({
+      error: 'Twilio live search is disabled on this environment.',
+      hint: 'Set ENABLE_TWILIO_LIVE_SEARCH=true to enable internal tooling.',
+    });
+
+    expect(searchAvailableMock).not.toHaveBeenCalled();
+  });
 });
 
-// ---------------------------------------------------------------------------
-// POST /numbers/reserve
-// ---------------------------------------------------------------------------
 describe('POST /numbers/reserve', () => {
   test('400 when e164 missing', async () => {
     const res = await request(app)
@@ -235,6 +277,7 @@ describe('POST /numbers/reserve', () => {
       e164,
       status: 'RESERVED',
       provider: 'twilio-adapter',
+      source: 'TWILIO_SEARCH',
     });
     prismaMock.numberReservation.create.mockResolvedValueOnce({ id: 1 });
 
@@ -253,11 +296,18 @@ describe('POST /numbers/reserve', () => {
     });
 
     expect(prismaMock.phoneNumber.create).toHaveBeenCalledWith({
-      data: { e164, provider: 'twilio-adapter', status: 'RESERVED' },
+      data: {
+        e164,
+        provider: 'twilio-adapter',
+        status: 'RESERVED',
+        source: 'TWILIO_SEARCH',
+      },
     });
 
     expect(prismaMock.numberReservation.create).toHaveBeenCalledTimes(1);
+
     const reservationArgs = prismaMock.numberReservation.create.mock.calls[0][0];
+
     expect(reservationArgs.data.phoneNumberId).toBe(10);
     expect(reservationArgs.data.userId).toBe(123);
     expect(reservationArgs.data.expiresAt).toBeInstanceOf(Date);
@@ -278,6 +328,7 @@ describe('POST /numbers/reserve', () => {
       e164,
       status: 'RESERVED',
       provider: 'twilio-adapter',
+      source: 'TWILIO_SEARCH',
     });
 
     prismaMock.numberReservation.create.mockResolvedValueOnce({ id: 2 });
@@ -288,12 +339,18 @@ describe('POST /numbers/reserve', () => {
       .set('x-test-user-id', '555');
 
     expect(res.status).toBe(200);
+
     expect(prismaMock.phoneNumber.update).toHaveBeenCalledWith({
       where: { id: 20 },
-      data: { status: 'RESERVED', provider: 'twilio-adapter' },
+      data: {
+        status: 'RESERVED',
+        provider: 'twilio-adapter',
+        source: 'TWILIO_SEARCH',
+      },
     });
 
     const reservationArgs = prismaMock.numberReservation.create.mock.calls[0][0];
+
     expect(reservationArgs.data.phoneNumberId).toBe(20);
     expect(reservationArgs.data.userId).toBe(555);
   });
@@ -328,9 +385,11 @@ describe('POST /numbers/reserve', () => {
       e164,
       status: 'RESERVED',
       provider: 'twilio-adapter',
+      source: 'TWILIO_SEARCH',
     });
+
     prismaMock.numberReservation.create.mockRejectedValueOnce(
-      new Error('DB failure'),
+      new Error('DB failure')
     );
 
     const res = await request(app)
@@ -343,9 +402,6 @@ describe('POST /numbers/reserve', () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// POST /numbers/keep/enable
-// ---------------------------------------------------------------------------
 describe('POST /numbers/keep/enable', () => {
   test('404 when user has no number', async () => {
     prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);
@@ -379,14 +435,15 @@ describe('POST /numbers/keep/enable', () => {
 
     expect(prismaMock.phoneNumber.update).toHaveBeenCalledWith({
       where: { id: 50 },
-      data: { keepLocked: true },
+      data: {
+        keepLocked: true,
+        status: 'ASSIGNED',
+        holdUntil: null,
+      },
     });
   });
 });
 
-// ---------------------------------------------------------------------------
-// POST /numbers/keep/disable
-// ---------------------------------------------------------------------------
 describe('POST /numbers/keep/disable', () => {
   test('404 when user has no number', async () => {
     prismaMock.phoneNumber.findFirst.mockResolvedValueOnce(null);

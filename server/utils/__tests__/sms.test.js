@@ -4,24 +4,39 @@ import {
   test,
   expect,
   beforeEach,
+  afterAll,
 } from '@jest/globals';
+
+const ORIGINAL_ENV = { ...process.env };
 
 let telcoSendSmsMock;
 
-// Mock the telco index module BEFORE importing sms.js
-await jest.unstable_mockModule('../../server/lib/telco/index.js', () => {
+// From server/utils/__tests__/sms.test.js to server/lib/telco/index.js
+await jest.unstable_mockModule('../../lib/telco/index.js', () => {
   telcoSendSmsMock = jest.fn();
+
   return {
     __esModule: true,
     sendSms: telcoSendSmsMock,
   };
 });
 
-// Import the module under test after mocks are in place
-const { sendSms } = await import('../../utils/sms.js');
+// Import after mock
+const { sendSms } = await import('../sms.js');
 
 beforeEach(() => {
   jest.clearAllMocks();
+
+  process.env = {
+    ...ORIGINAL_ENV,
+    TWILIO_FROM_NUMBER: '+15550001111',
+  };
+
+  delete process.env.TWILIO_PHONE_NUMBER;
+});
+
+afterAll(() => {
+  process.env = ORIGINAL_ENV;
 });
 
 describe('sendSms util', () => {
@@ -34,6 +49,7 @@ describe('sendSms util', () => {
     expect(telcoSendSmsMock).toHaveBeenCalledWith({
       to: '+13035550123',
       text: 'Hello, Chatforia!',
+      from: '+15550001111',
     });
 
     expect(result).toEqual({ ok: true, sid: 'SM123' });
@@ -44,9 +60,47 @@ describe('sendSms util', () => {
     telcoSendSmsMock.mockRejectedValueOnce(err);
 
     await expect(
-      sendSms('+13035550123', 'This will fail'),
+      sendSms('+13035550123', 'This will fail')
     ).rejects.toThrow('provider failure');
 
     expect(telcoSendSmsMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('throws when destination phone is invalid', async () => {
+    await expect(sendSms('not-a-phone', 'hello')).rejects.toThrow(
+      'Invalid destination phone'
+    );
+
+    expect(telcoSendSmsMock).not.toHaveBeenCalled();
+  });
+
+  test('throws when no system sender number is configured', async () => {
+    delete process.env.TWILIO_FROM_NUMBER;
+    delete process.env.TWILIO_PHONE_NUMBER;
+
+    await expect(
+      sendSms('+13035550123', 'Hello')
+    ).rejects.toThrow(
+      'Missing TWILIO_FROM_NUMBER (or TWILIO_PHONE_NUMBER) for system SMS'
+    );
+
+    expect(telcoSendSmsMock).not.toHaveBeenCalled();
+  });
+
+  test('falls back to TWILIO_PHONE_NUMBER when TWILIO_FROM_NUMBER is missing', async () => {
+    delete process.env.TWILIO_FROM_NUMBER;
+    process.env.TWILIO_PHONE_NUMBER = '+15552223333';
+
+    telcoSendSmsMock.mockResolvedValueOnce({ ok: true, sid: 'SM456' });
+
+    const result = await sendSms('+13035550123', 'Fallback sender');
+
+    expect(telcoSendSmsMock).toHaveBeenCalledWith({
+      to: '+13035550123',
+      text: 'Fallback sender',
+      from: '+15552223333',
+    });
+
+    expect(result).toEqual({ ok: true, sid: 'SM456' });
   });
 });

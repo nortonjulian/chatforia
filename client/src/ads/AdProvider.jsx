@@ -7,12 +7,20 @@ export function useAds() {
   return React.useContext(AdsContext);
 }
 
-export function AdProvider({ children }) {
-  const isPremium = useIsPremium();
+export function AdProvider({ children, isPremium: isPremiumProp }) {
+  const hookPremium = useIsPremium();
 
-  // Simple caps/cooldowns using localStorage
+  const isPremium =
+    typeof isPremiumProp === 'boolean' ? isPremiumProp : hookPremium;
+
+  const adsEnabled = import.meta.env.VITE_ADS_ENABLED !== 'false';
+  const provider = String(import.meta.env.VITE_AD_PROVIDER || 'house')
+    .toLowerCase()
+    .trim();
+
   const canShow = React.useCallback(
     (placement, capKey = 'global', cooldownMs = 30 * 60 * 1000) => {
+      if (!adsEnabled) return false;
       if (isPremium) return false;
       if (!placement) return false;
 
@@ -21,11 +29,10 @@ export function AdProvider({ children }) {
         const last = Number(localStorage.getItem(k) || 0);
         return Date.now() - last > cooldownMs;
       } catch {
-        // If storage blocked/unavailable, just allow showing
         return true;
       }
     },
-    [isPremium]
+    [adsEnabled, isPremium]
   );
 
   const markShown = React.useCallback((placement, capKey = 'global') => {
@@ -39,8 +46,14 @@ export function AdProvider({ children }) {
   }, []);
 
   const value = React.useMemo(
-    () => ({ isPremium, canShow, markShown }),
-    [isPremium, canShow, markShown]
+    () => ({
+      adsEnabled,
+      provider,
+      isPremium,
+      canShow,
+      markShown,
+    }),
+    [adsEnabled, provider, isPremium, canShow, markShown]
   );
 
   return <AdsContext.Provider value={value}>{children}</AdsContext.Provider>;

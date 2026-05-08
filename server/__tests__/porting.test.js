@@ -1,17 +1,19 @@
 import express from 'express';
 import request from 'supertest';
-import router from './porting.js';
-import {
+import { jest } from '@jest/globals';
+
+const createPortRequestForUser = jest.fn();
+const getUserPortRequests = jest.fn();
+const getUserPortRequestById = jest.fn();
+
+await jest.unstable_mockModule('../services/portingService.js', () => ({
+  __esModule: true,
   createPortRequestForUser,
   getUserPortRequests,
   getUserPortRequestById,
-} from '../services/portingService.js';
-
-jest.mock('../services/portingService.js', () => ({
-  createPortRequestForUser: jest.fn(),
-  getUserPortRequests: jest.fn(),
-  getUserPortRequestById: jest.fn(),
 }));
+
+const { default: router } = await import('../routes/porting.js');
 
 const mockUser = { id: 'user_123', email: 'test@example.com' };
 
@@ -19,7 +21,6 @@ function createApp(user) {
   const app = express();
   app.use(express.json());
 
-  // Fake auth middleware to populate req.user (or leave undefined)
   if (user !== undefined) {
     app.use((req, _res, next) => {
       req.user = user;
@@ -29,9 +30,7 @@ function createApp(user) {
 
   app.use('/api/porting', router);
 
-  // Basic error handler so thrown errors don't crash tests
   app.use((err, _req, res, _next) => {
-    // eslint-disable-next-line no-console
     console.error('Error handler caught:', err);
     res.status(500).json({ error: 'Internal server error' });
   });

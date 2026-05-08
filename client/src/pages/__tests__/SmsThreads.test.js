@@ -3,14 +3,25 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 // ---- Mantine minimal stubs ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
   const passthru = (tid) => ({ children, ...props }) => (
-    <div data-testid={tid} {...props}>{children}</div>
+    <div data-testid={tid} {...props}>
+      {children}
+    </div>
   );
 
   const Button = ({ children, onClick, disabled, ...rest }) => (
-    <button onClick={onClick} disabled={!!disabled} {...rest}>{children}</button>
+    <button onClick={onClick} disabled={!!disabled} {...rest}>
+      {children}
+    </button>
   );
-  const TextInput = ({ label, value, onChange, placeholder }) => (
+
+  const TextInput = ({
+    label,
+    value,
+    onChange,
+    placeholder,
+  }) => (
     <label>
       {label}
       <input
@@ -36,14 +47,16 @@ jest.mock('@mantine/core', () => {
 jest.mock('react-router-dom', () => ({
   __esModule: true,
   Link: ({ to, children, ...rest }) => (
-    <a data-testid="link" href={to} {...rest}>{children}</a>
+    <a data-testid="link" href={to} {...rest}>
+      {children}
+    </a>
   ),
 }));
 
 // ---- axios client ----
-// Use names starting with "mock" so Jest's hoisting rule allows them
 const mockGet = jest.fn();
 const mockPost = jest.fn();
+
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
@@ -59,7 +72,6 @@ jest.mock('@/pages/AliasDialer.jsx', () => ({
 }));
 
 // ---- SUT ----
-// Use the alias (or change to `../SmsThreads` if you prefer relative)
 import SmsThreads from '@/pages/SmsThreads.jsx';
 
 describe('SmsThreads', () => {
@@ -79,24 +91,33 @@ describe('SmsThreads', () => {
 
     render(<SmsThreads />);
 
-    // GET called
-    await waitFor(() => expect(mockGet).toHaveBeenCalledWith('/sms/threads'));
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalledWith('/sms/threads');
+    });
 
-    // Links rendered with correct hrefs and text
-    const links = screen.getAllByTestId('link');
+    const links = await screen.findAllByTestId('link');
+
     expect(links).toHaveLength(2);
-    expect(links[0]).toHaveAttribute('href', '/sms/threads/t1');
-    expect(links[0]).toHaveTextContent('Thread with +15551230001');
-    expect(links[1]).toHaveAttribute('href', '/sms/threads/t2');
-    expect(links[1]).toHaveTextContent('Thread with +15551230002');
 
-    // AliasDialer present
+    expect(links[0]).toHaveAttribute('href', '/sms/t1');
+    expect(links[0]).toHaveTextContent('+15551230001');
+
+    expect(links[1]).toHaveAttribute('href', '/sms/t2');
+    expect(links[1]).toHaveTextContent('+15551230002');
+
     expect(screen.getByTestId('alias-dialer')).toBeInTheDocument();
   });
 
   test('send button disabled until both To and Message are non-empty (message trimmed)', async () => {
-    mockGet.mockResolvedValueOnce({ data: { items: [] } });
+    mockGet.mockResolvedValueOnce({
+      data: { items: [] },
+    });
+
     render(<SmsThreads />);
+
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
 
     const toInput = screen.getByLabelText(/To \(E\.164\)/i);
     const msgInput = screen.getByLabelText(/Message/i);
@@ -106,37 +127,60 @@ describe('SmsThreads', () => {
     expect(sendBtn).toBeDisabled();
 
     // Only "to" filled -> still disabled
-    fireEvent.change(toInput, { target: { value: '+15551234567' } });
+    fireEvent.change(toInput, {
+      target: { value: '+15551234567' },
+    });
+
     expect(sendBtn).toBeDisabled();
 
     // Message whitespace -> still disabled
-    fireEvent.change(msgInput, { target: { value: '   ' } });
+    fireEvent.change(msgInput, {
+      target: { value: '   ' },
+    });
+
     expect(sendBtn).toBeDisabled();
 
     // Non-empty message -> enabled
-    fireEvent.change(msgInput, { target: { value: 'Hello' } });
+    fireEvent.change(msgInput, {
+      target: { value: 'Hello' },
+    });
+
     expect(sendBtn).not.toBeDisabled();
   });
 
   test('clicking Send posts to /sms/send and clears only the message input', async () => {
-    mockGet.mockResolvedValueOnce({ data: { items: [] } });
-    mockPost.mockResolvedValueOnce({ data: { ok: true } });
+    mockGet.mockResolvedValueOnce({
+      data: { items: [] },
+    });
+
+    mockPost.mockResolvedValueOnce({
+      data: { ok: true },
+    });
 
     render(<SmsThreads />);
+
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
 
     const toInput = screen.getByLabelText(/To \(E\.164\)/i);
     const msgInput = screen.getByLabelText(/Message/i);
     const sendBtn = screen.getByRole('button', { name: /send/i });
 
-    fireEvent.change(toInput, { target: { value: '+15559876543' } });
-    fireEvent.change(msgInput, { target: { value: ' Hi there ' } });
+    fireEvent.change(toInput, {
+      target: { value: '+15559876543' },
+    });
+
+    fireEvent.change(msgInput, {
+      target: { value: ' Hi there ' },
+    });
 
     fireEvent.click(sendBtn);
 
     await waitFor(() =>
       expect(mockPost).toHaveBeenCalledWith('/sms/send', {
         to: '+15559876543',
-        body: ' Hi there ', // component sends as-is; disable checks only trim for button state
+        body: ' Hi there ',
       })
     );
 
@@ -144,16 +188,21 @@ describe('SmsThreads', () => {
     expect(msgInput).toHaveValue('');
     expect(toInput).toHaveValue('+15559876543');
 
-    // Button now disabled again (no message)
+    // Button disabled again (empty body)
     expect(sendBtn).toBeDisabled();
   });
 
   test('handles empty fetch results gracefully', async () => {
-    mockGet.mockResolvedValueOnce({ data: { items: [] } });
+    mockGet.mockResolvedValueOnce({
+      data: { items: [] },
+    });
+
     render(<SmsThreads />);
 
-    await waitFor(() => expect(mockGet).toHaveBeenCalled());
-    // No links rendered
+    await waitFor(() => {
+      expect(mockGet).toHaveBeenCalled();
+    });
+
     expect(screen.queryByTestId('link')).toBeNull();
   });
 });

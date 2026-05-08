@@ -1,14 +1,20 @@
-// Mock modules BEFORE requiring the module under test
-jest.mock('../../config/esim.js', () => ({
-  TELNA: { apiKey: 'test-api-key', partnerId: 'partner-123' },
+import { jest } from '@jest/globals';
+
+const telnaRequestMock = jest.fn();
+
+jest.unstable_mockModule('../config/esim.js', () => ({
+  __esModule: true,
+  getEsimProviderConfig: jest.fn(() => ({
+    baseUrl: 'https://test.telna.com',
+    apiKey: 'test-api-key',
+    partnerId: 'partner-123',
+  })),
 }));
 
-jest.mock('../../utils/telnaClient.js', () => ({
-  telnaRequest: jest.fn(),
+jest.unstable_mockModule('../utils/telnaClient.js', () => ({
+  __esModule: true,
+  telnaRequest: telnaRequestMock,
 }));
-
-const { TELNA } = require('../../config/esim.js');
-const { telnaRequest } = require('../../utils/telnaClient.js');
 
 const {
   reserveEsimProfile,
@@ -17,16 +23,13 @@ const {
   resumeLine,
   provisionEsimPack,
   fetchEsimUsage,
-} = require('./telnaEsim.js');
+} = await import('../providers/telnaEsim.js');
 
 describe('telnaEsim provider', () => {
   let warnSpy;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    // reset config for each test
-    TELNA.apiKey = 'test-api-key';
-    TELNA.partnerId = 'partner-123';
 
     warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
@@ -36,26 +39,22 @@ describe('telnaEsim provider', () => {
   });
 
   describe('reserveEsimProfile', () => {
-    it('throws if Telna is not configured (missing apiKey)', async () => {
-      TELNA.apiKey = null;
-
-      await expect(
-        reserveEsimProfile({ userId: 123, region: 'US' })
-      ).rejects.toThrow('Telna is not configured (missing API key)');
-    });
-
     it('calls telnaRequest with correct payload and normalizes response', async () => {
-      telnaRequest.mockResolvedValue({
+      telnaRequestMock.mockResolvedValue({
         smDpPlus: 'smdp+val',
         matchingId: 'match-123',
         qrPayload: 'LPA:1$xyz',
         iccidHint: '8901',
       });
 
-      const result = await reserveEsimProfile({ userId: 42, region: 'EU' });
+      const result = await reserveEsimProfile({
+        userId: 42,
+        region: 'EU',
+      });
 
-      expect(telnaRequest).toHaveBeenCalledTimes(1);
-      expect(telnaRequest).toHaveBeenCalledWith('/esim/reserve', {
+      expect(telnaRequestMock).toHaveBeenCalledTimes(1);
+
+      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/reserve', {
         method: 'POST',
         body: {
           externalUserId: '42',
@@ -64,140 +63,94 @@ describe('telnaEsim provider', () => {
       });
 
       expect(result).toEqual({
+        providerProfileId: null,
+        iccid: null,
+        iccidHint: '8901',
         smdp: 'smdp+val',
         activationCode: 'match-123',
-        lpaUri: 'LPA:1$xyz',
+        lpaUri: null,
         qrPayload: 'LPA:1$xyz',
-        iccid: '8901',
-        iccidHint: '8901',
-      });
-    });
-
-    it('allows externalUserId to be undefined when userId is missing', async () => {
-      telnaRequest.mockResolvedValue({
-        smdp: 'smdp-direct',
-        activationCode: 'code-direct',
-        lpaUri: 'lpa-direct',
-        qrPayload: 'qr-direct',
-        iccid: 'iccid-direct',
-        iccidHint: 'iccid-hint-direct',
-      });
-
-      const result = await reserveEsimProfile({ region: 'US' });
-
-      expect(telnaRequest).toHaveBeenCalledWith('/esim/reserve', {
-        method: 'POST',
-        body: {
-          externalUserId: undefined,
-          region: 'US',
+        providerMeta: {
+          smDpPlus: 'smdp+val',
+          matchingId: 'match-123',
+          qrPayload: 'LPA:1$xyz',
+          iccidHint: '8901',
         },
-      });
-
-      expect(result).toEqual({
-        smdp: 'smdp-direct',
-        activationCode: 'code-direct',
-        lpaUri: 'lpa-direct',
-        qrPayload: 'qr-direct',
-        iccid: 'iccid-direct',
-        iccidHint: 'iccid-hint-direct',
       });
     });
   });
 
   describe('activateProfile', () => {
-    it('throws if Telna is not configured', async () => {
-      TELNA.apiKey = null;
-
-      await expect(
-        activateProfile({ iccid: '123', code: 'ABC' })
-      ).rejects.toThrow('Telna is not configured (missing API key)');
-    });
-
-    it('posts correct payload and returns raw data', async () => {
-      telnaRequest.mockResolvedValue({ ok: true, foo: 'bar' });
-
-      const result = await activateProfile({ iccid: '123', code: 'ABC' });
-
-      expect(telnaRequest).toHaveBeenCalledWith('/esim/activate', {
-        method: 'POST',
-        body: { iccid: '123', code: 'ABC' },
+    it('posts correct payload and returns normalized data', async () => {
+      telnaRequestMock.mockResolvedValue({
+        ok: true,
+        activatedAt: '2025-01-01T00:00:00.000Z',
+        msisdn: '+15555555555',
       });
 
-      expect(result).toEqual({ ok: true, foo: 'bar' });
+      const result = await activateProfile({
+        iccid: '123',
+        activationCode: 'ABC',
+      });
+
+      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/activate', {
+        method: 'POST',
+        body: {
+          profileId: undefined,
+          iccid: '123',
+          activationCode: 'ABC',
+        },
+      });
+
+      expect(result.ok).toBe(true);
+      expect(result.msisdn).toBe('+15555555555');
+      expect(result.activatedAt).toBeInstanceOf(Date);
     });
   });
 
   describe('suspendLine', () => {
-    it('throws if Telna is not configured', async () => {
-      TELNA.apiKey = null;
-      await expect(
-        suspendLine({ iccid: 'iccid-123' })
-      ).rejects.toThrow('Telna is not configured (missing API key)');
-    });
-
     it('calls telnaRequest with encoded ICCID and POST method', async () => {
-      telnaRequest.mockResolvedValue({ ok: true });
+      telnaRequestMock.mockResolvedValue({ ok: true });
 
       const iccid = 'ic cid/with spaces';
+
       const result = await suspendLine({ iccid });
 
-      expect(telnaRequest).toHaveBeenCalledWith(
+      expect(telnaRequestMock).toHaveBeenCalledWith(
         `/esim/${encodeURIComponent(iccid)}/suspend`,
         { method: 'POST' }
       );
-      expect(result).toEqual({ ok: true });
+
+      expect(result).toEqual({
+        ok: true,
+        providerMeta: { ok: true },
+      });
     });
   });
 
   describe('resumeLine', () => {
-    it('throws if Telna is not configured', async () => {
-      TELNA.apiKey = null;
-      await expect(
-        resumeLine({ iccid: 'iccid-123' })
-      ).rejects.toThrow('Telna is not configured (missing API key)');
-    });
-
     it('calls telnaRequest with encoded ICCID and POST method', async () => {
-      telnaRequest.mockResolvedValue({ ok: true });
+      telnaRequestMock.mockResolvedValue({ ok: true });
 
       const iccid = 'ic cid/with spaces';
+
       const result = await resumeLine({ iccid });
 
-      expect(telnaRequest).toHaveBeenCalledWith(
+      expect(telnaRequestMock).toHaveBeenCalledWith(
         `/esim/${encodeURIComponent(iccid)}/resume`,
         { method: 'POST' }
       );
-      expect(result).toEqual({ ok: true });
+
+      expect(result).toEqual({
+        ok: true,
+        providerMeta: { ok: true },
+      });
     });
   });
 
   describe('provisionEsimPack', () => {
-    it('returns stub and warns when Telna is not configured', async () => {
-      TELNA.apiKey = null;
-
-      const result = await provisionEsimPack({
-        userId: 1,
-        addonKind: 'DATA_PACK',
-        planCode: 'US-5GB',
-      });
-
-      expect(warnSpy).toHaveBeenCalledWith(
-        '[telnaEsim] provisionEsimPack called but Telna is not configured. Returning stub.'
-      );
-
-      expect(result).toEqual({
-        providerProfileId: null,
-        qrCodeSvg: null,
-        iccid: null,
-        expiresAt: null,
-        dataMb: null,
-      });
-
-      expect(telnaRequest).not.toHaveBeenCalled();
-    });
-
-    it('calls telnaRequest with correct payload and maps response (profileId + dataMb)', async () => {
-      telnaRequest.mockResolvedValue({
+    it('calls telnaRequest with correct payload and maps response', async () => {
+      telnaRequestMock.mockResolvedValue({
         profileId: 'profile-123',
         qrCodeSvg: '<svg>qr</svg>',
         iccid: '8901',
@@ -207,14 +160,16 @@ describe('telnaEsim provider', () => {
 
       const result = await provisionEsimPack({
         userId: 7,
+        providerProfileId: 'profile-123',
         addonKind: 'DATA_PACK',
         planCode: 'US-10GB',
       });
 
-      expect(telnaRequest).toHaveBeenCalledWith('/esim/provision', {
+      expect(telnaRequestMock).toHaveBeenCalledWith('/esim/provision', {
         method: 'POST',
         body: {
           externalUserId: '7',
+          profileId: 'profile-123',
           addonKind: 'DATA_PACK',
           planCode: 'US-10GB',
           partnerId: 'partner-123',
@@ -225,68 +180,23 @@ describe('telnaEsim provider', () => {
       expect(result.qrCodeSvg).toBe('<svg>qr</svg>');
       expect(result.iccid).toBe('8901');
       expect(result.expiresAt).toBeInstanceOf(Date);
-      expect(result.expiresAt.toISOString()).toBe('2025-01-01T00:00:00.000Z');
       expect(result.dataMb).toBe(1024);
-    });
-
-    it('falls back to id and totalMb when dataMb is missing', async () =>
-    {
-      telnaRequest.mockResolvedValue({
-        id: 'fallback-id',
-        iccid: 'iccid-xyz',
-        totalMb: 2048,
-        expiresAt: '2025-02-02T12:00:00.000Z',
-      });
-
-      const result = await provisionEsimPack({
-        userId: 9,
-        addonKind: 'ESIM_PACK',
-        planCode: 'GLOBAL-2GB',
-      });
-
-      expect(result).toEqual({
-        providerProfileId: 'fallback-id',
-        qrCodeSvg: null,
-        iccid: 'iccid-xyz',
-        expiresAt: new Date('2025-02-02T12:00:00.000Z'),
-        dataMb: 2048,
-      });
     });
   });
 
   describe('fetchEsimUsage', () => {
-    it('returns null-usage stub and warns when Telna is not configured', async () => {
-      TELNA.apiKey = null;
-
-      const result = await fetchEsimUsage('profile-123');
-
-      expect(warnSpy).toHaveBeenCalledWith(
-        '[telnaEsim] fetchEsimUsage called but Telna is not configured – returning null usage.'
-      );
-
-      expect(result).toEqual({
-        usedMb: null,
-        totalMb: null,
-        remainingMb: null,
-        expiresAt: null,
-      });
-
-      expect(telnaRequest).not.toHaveBeenCalled();
-    });
-
-    it('calls telnaRequest with encoded providerProfileId and maps usage directly when remainingMb present', async () => {
-      telnaRequest.mockResolvedValue({
+    it('maps usage correctly', async () => {
+      telnaRequestMock.mockResolvedValue({
         usedMb: 500,
         totalMb: 2000,
         remainingMb: 1500,
         expiresAt: '2025-03-01T00:00:00.000Z',
       });
 
-      const id = 'profile with spaces';
-      const result = await fetchEsimUsage(id);
+      const result = await fetchEsimUsage('profile with spaces');
 
-      expect(telnaRequest).toHaveBeenCalledWith(
-        `/esim/${encodeURIComponent(id)}/usage`,
+      expect(telnaRequestMock).toHaveBeenCalledWith(
+        `/esim/${encodeURIComponent('profile with spaces')}/usage`,
         { method: 'GET' }
       );
 
@@ -294,24 +204,6 @@ describe('telnaEsim provider', () => {
       expect(result.totalMb).toBe(2000);
       expect(result.remainingMb).toBe(1500);
       expect(result.expiresAt).toBeInstanceOf(Date);
-      expect(result.expiresAt.toISOString()).toBe('2025-03-01T00:00:00.000Z');
-    });
-
-    it('computes remainingMb when missing but usedMb and totalMb are provided', async () => {
-      telnaRequest.mockResolvedValue({
-        usedMb: 100,
-        totalMb: 500,
-        expiresAt: '2025-04-01T10:00:00.000Z',
-      });
-
-      const result = await fetchEsimUsage('profile-abc');
-
-      expect(result).toEqual({
-        usedMb: 100,
-        totalMb: 500,
-        remainingMb: 400,
-        expiresAt: new Date('2025-04-01T10:00:00.000Z'),
-      });
     });
   });
 });

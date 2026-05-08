@@ -12,6 +12,12 @@ jest.mock('@/api/family', () => ({
   getMyFamily: jest.fn(),
   createFamilyInvite: jest.fn(),
 }));
+
+jest.mock('@/api/billing', () => ({
+  __esModule: true,
+  createFamilyCheckoutSession: jest.fn(),
+}));
+
 import { getMyFamily, createFamilyInvite } from '../../api/family';
 
 // Mock UserContext

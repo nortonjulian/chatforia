@@ -242,7 +242,14 @@ describe('PATCH /users/me', () => {
       .send(body);
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual(updated);
+    expect(res.body).toEqual({
+      id: 123,
+      role: 'USER',
+      plan: 'FREE',
+      publicKey: null,
+      theme: 'dawn',
+      isPremium: false,
+    });
 
     const call = mockUserUpdate.mock.calls[0][0];
     expect(call.where).toEqual({ id: 123 });
@@ -303,18 +310,23 @@ describe('PATCH /users/me', () => {
     mockUserFindUnique.mockResolvedValueOnce({ plan: 'PREMIUM' });
 
     const updated = {
-      id: 200,
-      enableSmartReplies: false,
-      showReadReceipts: true,
-      allowExplicitContent: false,
-      privacyBlurEnabled: false,
+      id: 123,
+      username: 'testuser',
+      email: 'test@example.com',
+      role: 'USER',
+      plan: 'FREE',
+      publicKey: null,
+      theme: 'dawn',
+      enableSmartReplies: true,
+      showReadReceipts: false,
+      allowExplicitContent: true,
+      privacyBlurEnabled: true,
       privacyBlurOnUnfocus: false,
-      privacyHoldToReveal: false,
+      privacyHoldToReveal: true,
       notifyOnCopy: false,
-      preferredLanguage: null,
-      strictE2EE: false,
-      theme: 'amoled',
-      cycling: false,
+      preferredLanguage: 'en-US',
+      strictE2EE: true,
+      cycling: true,
       ageBand: null,
       ageAttestedAt: null,
       wantsAgeFilter: false,

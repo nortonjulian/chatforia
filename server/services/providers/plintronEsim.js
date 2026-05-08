@@ -1,10 +1,10 @@
-import * as ESIM_CFG from '../../config/esim.js';
-import { plintronRequest } from '../../utils/plintronClient.js';
-
-const PLINTRON = ESIM_CFG.PLINTRON ?? {};
+import * as ESIM_CFG from '@config/esim.js';
+import { plintronRequest } from '@utils/plintronClient.js';
 
 // Helper to check config
 function ensureConfigured() {
+  const PLINTRON = ESIM_CFG.PLINTRON ?? {};
+
   if (!PLINTRON?.apiKey) {
     const err = new Error('Plintron is not configured (missing API key)');
     err.code = 'PLINTRON_NOT_CONFIGURED';

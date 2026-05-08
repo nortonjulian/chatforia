@@ -1,16 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
-import ManageWirelessPage from './ManageWireless.jsx';
+import ManageWirelessPage from '../ManageWireless.jsx';
 
-// Mock child components so we’re just testing the page wiring/structure
-jest.mock('../components/wireless/PortNumberForm.jsx', () => () => (
-  <div data-testid="mock-port-number-form">Mock PortNumberForm</div>
-));
-
-jest.mock('../components/wireless/PortRequestsList.jsx', () => () => (
-  <div data-testid="mock-port-requests-list">Mock PortRequestsList</div>
-));
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (_key, fallback) => fallback,
+  }),
+}));
 
 describe('ManageWirelessPage', () => {
   const renderPage = () => render(<ManageWirelessPage />);
@@ -18,46 +16,38 @@ describe('ManageWirelessPage', () => {
   test('renders title and intro copy', () => {
     renderPage();
 
-    expect(screen.getByRole('heading', { name: 'Chatforia Wireless' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: 'Chatforia Wireless' })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByText('Manage your Chatforia mobile plan and eSIM.')
+    ).toBeInTheDocument();
+  });
+
+  test('renders on-the-go wireless section', () => {
+    renderPage();
+
+    expect(
+      screen.getByRole('heading', { name: 'Use Chatforia on the go' })
+    ).toBeInTheDocument();
 
     expect(
       screen.getByText(
-        'Manage your Chatforia mobile plan, numbers, and number porting.'
+        'Get mobile data for Chatforia when you are away from Wi-Fi.'
       )
     ).toBeInTheDocument();
   });
 
-  test('renders port-your-number section and PortNumberForm', () => {
+  test('renders Chatforia eSIM section', () => {
     renderPage();
 
-    // Section header
     expect(
-      screen.getByRole('heading', { name: 'Port your existing number' })
+      screen.getByRole('heading', { name: 'Chatforia eSIM' })
     ).toBeInTheDocument();
 
-    // Section description (can match with a substring to be resilient to whitespace)
     expect(
-      screen.getByText(/Move your current phone number from your existing carrier into Chatforia./)
+      screen.getByText('Activate and manage your Chatforia data service.')
     ).toBeInTheDocument();
-
-    // Mocked form component
-    expect(screen.getByTestId('mock-port-number-form')).toBeInTheDocument();
-  });
-
-  test('renders porting status section and PortRequestsList', () => {
-    renderPage();
-
-    // Section header
-    expect(
-      screen.getByRole('heading', { name: 'Porting status' })
-    ).toBeInTheDocument();
-
-    // Section description
-    expect(
-      screen.getByText('Track the status of your number port requests.')
-    ).toBeInTheDocument();
-
-    // Mocked list component
-    expect(screen.getByTestId('mock-port-requests-list')).toBeInTheDocument();
   });
 });

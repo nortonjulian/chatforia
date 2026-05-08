@@ -213,17 +213,29 @@ describe('ContactList', () => {
     fireEvent.click(carolCheckbox);
     expect(onToggleSelect).toHaveBeenCalledWith('+15555550100');
 
-    // Action buttons in picker mode also toggle rather than navigate/compose
-    // Click "Start chat" action icon for Alice (internal)
-    const startButtons = screen.getAllByRole('button', { name: /start chat/i });
-    fireEvent.click(startButtons[0]);
-    expect(onToggleSelect).toHaveBeenCalledWith(11);
-    expect(axiosClient.post).not.toHaveBeenCalled(); // no POST in picker toggle
-
-    // Click "Message" action for Carol (external)
+    // Action buttons still exist in multiple mode.
+    // Internal contact "Message" should still start DM flow.
     const messageButtons = screen.getAllByRole('button', { name: /message/i });
+
     fireEvent.click(messageButtons[0]);
-    expect(onToggleSelect).toHaveBeenCalledWith('+15555550100');
-    expect(mockNavigate).not.toHaveBeenCalled();
+
+    await waitFor(() => {
+      expect(axiosClient.post).toHaveBeenCalledWith(
+        '/chatrooms/direct/11'
+      );
+    });
+
+    // External contact "Message" should route to SMS compose/lookup
+    axiosClient.get.mockResolvedValueOnce({
+      data: { threadId: null },
+    });
+
+    fireEvent.click(messageButtons[1]);
+
+    await waitFor(() => {
+      expect(mockNavigate).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/sms\/compose\?to=/)
+      );
+    });
   });
 });

@@ -1,102 +1,171 @@
-// ---- mocks ----
-jest.mock('../db.js', () => ({
+import { jest, describe, it, expect, beforeEach } from '@jest/globals';
+
+const prismaPath = new URL('../../utils/prismaClient.js', import.meta.url).pathname;
+const socketBusPath = new URL('../../services/socketBus.js', import.meta.url).pathname;
+
+const mockMessageFindMany = jest.fn();
+const mockUpdateMany = jest.fn();
+const mockTxFindMany = jest.fn();
+const mockTransaction = jest.fn();
+
+const mockEmitMessageExpired = jest.fn();
+const mockEmitMessageUpsert = jest.fn();
+
+jest.unstable_mockModule(prismaPath, () => ({
   __esModule: true,
-  prisma: {
+  default: {
     message: {
-      deleteMany: jest.fn(),
+      findMany: mockMessageFindMany,
     },
+    $transaction: mockTransaction,
   },
 }));
 
-jest.mock('../config/retention.js', () => {
-  // Example: FREE = 30 days, PLUS = 180 days, PREMIUM = unlimited (no limit)
-  const MESSAGE_RETENTION_DAYS = {
-    FREE: 30,
-    PLUS: 180,
-    PREMIUM: null, // falsy => should be skipped
-  };
+jest.unstable_mockModule(socketBusPath, () => ({
+  __esModule: true,
+  emitMessageExpired: mockEmitMessageExpired,
+  emitMessageUpsert: mockEmitMessageUpsert,
+}));
 
-  return {
-    __esModule: true,
-    MESSAGE_RETENTION_DAYS,
-  };
-});
+const { processExpiredMessages } = await import('../pruneOldMessages.js');
 
-describe('pruneOldMessages', () => {
-  const fixedNow = new Date('2025-01-01T00:00:00.000Z');
-
-  beforeAll(() => {
-    // Freeze time so new Date() inside pruneOldMessages is deterministic
-    jest.useFakeTimers();
-    jest.setSystemTime(fixedNow);
-  });
-
-  afterAll(() => {
-    jest.useRealTimers();
-  });
-
+describe('processExpiredMessages', () => {
   beforeEach(() => {
-    const { prisma } = require('../db.js');
-    prisma.message.deleteMany.mockReset();
+    jest.clearAllMocks();
+
+    mockTransaction.mockImplementation(async (fn) =>
+      fn({
+        message: {
+          updateMany: mockUpdateMany,
+          findMany: mockTxFindMany,
+        },
+      })
+    );
   });
 
-  test('deletes messages older than each plan’s retention and skips unlimited plans', async () => {
-    const { prisma } = require('../db.js');
-    const { pruneOldMessages } = require('./pruneOldMessages.js');
+  it('returns early when there are no expired messages', async () => {
+    mockMessageFindMany.mockResolvedValueOnce([]);
 
-    // We don't really care about the return, but keep it resolved
-    prisma.message.deleteMany.mockResolvedValue({ count: 0 });
+    await processExpiredMessages();
 
-    await pruneOldMessages();
+    expect(mockMessageFindMany).toHaveBeenCalledTimes(1);
+    expect(mockTransaction).not.toHaveBeenCalled();
+    expect(mockEmitMessageUpsert).not.toHaveBeenCalled();
+    expect(mockEmitMessageExpired).not.toHaveBeenCalled();
+  });
 
-    // We have FREE and PLUS with limits; PREMIUM is unlimited (null)
-    // => should only run deleteMany twice
-    expect(prisma.message.deleteMany).toHaveBeenCalledTimes(2);
+  it('tombstones expired messages and emits socket events', async () => {
+    const createdAt = new Date('2026-01-01T00:00:00.000Z');
+    const expiresAt = new Date('2026-01-02T00:00:00.000Z');
+    const deletedAt = new Date('2026-01-03T00:00:00.000Z');
 
-    const calls = prisma.message.deleteMany.mock.calls;
+    mockMessageFindMany.mockResolvedValueOnce([
+      {
+        id: 101,
+        chatRoomId: 55,
+        expiresAt,
+        createdAt,
+        senderId: 7,
+      },
+    ]);
 
-    // Helper: find the call by plan
-    const getCallForPlan = (plan) =>
-      calls.find((call) => call[0]?.where?.user?.plan === plan);
+    mockTxFindMany.mockResolvedValueOnce([
+      {
+        id: 101,
+        chatRoomId: 55,
+        createdAt,
+        expiresAt,
+        deletedForAll: true,
+        deletedAt,
+        deletedById: null,
+        sender: {
+          id: 7,
+          username: 'julian',
+          publicKey: 'public-key',
+          avatarUrl: null,
+        },
+      },
+    ]);
 
-    const freeCall = getCallForPlan('FREE');
-    const plusCall = getCallForPlan('PLUS');
+    await processExpiredMessages();
 
-    expect(freeCall).toBeDefined();
-    expect(plusCall).toBeDefined();
-
-    // Check computed cutoffs
-    const FREE_DAYS = 30;
-    const PLUS_DAYS = 180;
-    const baseMs = fixedNow.getTime();
-
-    const expectedFreeCutoffMs =
-      baseMs - FREE_DAYS * 24 * 60 * 60 * 1000;
-    const expectedPlusCutoffMs =
-      baseMs - PLUS_DAYS * 24 * 60 * 60 * 1000;
-
-    const freeCutoff = freeCall[0].where.createdAt.lt;
-    const plusCutoff = plusCall[0].where.createdAt.lt;
-
-    expect(freeCutoff).toBeInstanceOf(Date);
-    expect(plusCutoff).toBeInstanceOf(Date);
-
-    expect(freeCutoff.getTime()).toBe(expectedFreeCutoffMs);
-    expect(plusCutoff.getTime()).toBe(expectedPlusCutoffMs);
-
-    // Sanity: verify where clause structure
-    expect(freeCall[0]).toEqual({
+    expect(mockMessageFindMany).toHaveBeenCalledWith({
       where: {
-        createdAt: { lt: freeCutoff },
-        user: { plan: 'FREE' },
+        expiresAt: { lte: expect.any(Date) },
+        deletedForAll: false,
+      },
+      take: 200,
+      select: {
+        id: true,
+        chatRoomId: true,
+        expiresAt: true,
+        createdAt: true,
+        senderId: true,
       },
     });
 
-    expect(plusCall[0]).toEqual({
-      where: {
-        createdAt: { lt: plusCutoff },
-        user: { plan: 'PLUS' },
+    expect(mockTransaction).toHaveBeenCalledTimes(1);
+
+    expect(mockUpdateMany).toHaveBeenCalledWith({
+      where: { id: { in: [101] } },
+      data: {
+        deletedForAll: true,
+        deletedAt: expect.any(Date),
+        deletedById: null,
+        rawContent: null,
+        contentCiphertext: null,
+        translations: null,
+        translatedContent: null,
       },
     });
+
+    expect(mockTxFindMany).toHaveBeenCalledWith({
+      where: { id: { in: [101] } },
+      select: {
+        id: true,
+        chatRoomId: true,
+        createdAt: true,
+        expiresAt: true,
+        deletedForAll: true,
+        deletedAt: true,
+        deletedById: true,
+        sender: {
+          select: {
+            id: true,
+            username: true,
+            publicKey: true,
+            avatarUrl: true,
+          },
+        },
+      },
+    });
+
+    expect(mockEmitMessageUpsert).toHaveBeenCalledTimes(1);
+    expect(mockEmitMessageUpsert).toHaveBeenCalledWith(
+      55,
+      expect.objectContaining({
+        id: 101,
+        chatRoomId: 55,
+        createdAt: createdAt.toISOString(),
+        expiresAt: expiresAt.toISOString(),
+        deletedForAll: true,
+        deletedAt: deletedAt.toISOString(),
+        deletedById: null,
+        rawContent: null,
+        contentCiphertext: null,
+        attachments: [],
+        translatedForMe: null,
+      })
+    );
+
+    expect(mockEmitMessageExpired).toHaveBeenCalledTimes(1);
+    expect(mockEmitMessageExpired).toHaveBeenCalledWith(
+      55,
+      expect.objectContaining({
+        id: 101,
+        chatRoomId: 55,
+        deletedForAll: true,
+      })
+    );
   });
 });

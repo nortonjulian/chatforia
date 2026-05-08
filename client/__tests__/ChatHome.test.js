@@ -1,33 +1,26 @@
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import ChatHome from '../src/components/ChatHome.jsx';
 
-// Status* are light mocks
-jest.mock('../src/components/StatusBar.jsx', () => ({
+jest.mock('../src/components/chat/ChatHeaderActions.jsx', () => ({
   __esModule: true,
-  default: ({ onOpenViewer }) => (
-    <button onClick={() => onOpenViewer({ author: 'A', stories: [1] })}>
-      OpenViewer
-    </button>
-  ),
-}));
-jest.mock('../src/components/StatusComposer.jsx', () => ({
-  __esModule: true,
-  default: ({ opened }) => (opened ? <div data-testid="composer-open" /> : null),
-}));
-jest.mock('../src/components/StatusViewer.jsx', () => ({
-  __esModule: true,
-  default: ({ opened }) => (opened ? <div data-testid="viewer-open" /> : null),
+  default: () => <div data-testid="chat-header-actions" />,
 }));
 
-test('opens composer when clicking New Status', async () => {
-  render(<ChatHome currentUser={{ id: 1 }} />);
-  await userEvent.click(screen.getByRole('button', { name: /new status/i }));
-  expect(screen.getByTestId('composer-open')).toBeInTheDocument();
+test('renders children', () => {
+  render(
+    <ChatHome currentUser={{ id: 1 }}>
+      <div>Chat content</div>
+    </ChatHome>
+  );
+
+  expect(screen.getByText(/chat content/i)).toBeInTheDocument();
 });
 
-test('opens viewer when StatusBar triggers onOpenViewer', async () => {
-  render(<ChatHome currentUser={{ id: 1 }} />);
-  await userEvent.click(screen.getByRole('button', { name: /openviewer/i }));
-  expect(screen.getByTestId('viewer-open')).toBeInTheDocument();
+test('renders conversation header when peerUser is provided', () => {
+  render(
+    <ChatHome currentUser={{ id: 1 }} peerUser={{ id: 2, username: 'alice' }} />
+  );
+
+  expect(screen.getByText('alice')).toBeInTheDocument();
+  expect(screen.getByTestId('chat-header-actions')).toBeInTheDocument();
 });

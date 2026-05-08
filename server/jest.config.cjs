@@ -47,27 +47,64 @@ module.exports = {
   },
 
   moduleNameMapper: {
-  '^\\.\\./utils/redisClient\\.js$': '<rootDir>/__tests__/mocks/redisClient.dynamic.js',
-  'middleware\\/auth\\.js$': '<rootDir>/__tests__/mocks/auth.mock.js',
-  'middleware\\/plan\\.js$': '<rootDir>/__tests__/mocks/plan.mock.js',
-  '^@sentry/node$': '<rootDir>/__tests__/mocks/sentry.node.mock.js',
-  '^@sentry/profiling-node$': '<rootDir>/__tests__/mocks/sentry.profiling.mock.js',
+  '^\\.\\./utils/redisClient\\.js$':
+    '<rootDir>/__tests__/mocks/redisClient.dynamic.js',
 
-  '^openai$': '<rootDir>/__tests__/mocks/openai.mock.js',
-  '^stripe$': '<rootDir>/__tests__/mocks/stripe.mock.js',
-  'cloudflare:s3': '<rootDir>/__tests__/mocks/r2.mock.js',
+  // 🔥 ADD THESE
+  '^\\.\\./middleware/auth\\.js$':
+    '<rootDir>/__tests__/mocks/auth.mock.js',
 
-  '^redis$': '<rootDir>/__tests__/mocks/redis.mock.js',
-  '^ioredis$': '<rootDir>/__tests__/mocks/ioredis.mock.js',
-  '^node-cron$': '<rootDir>/__tests__/mocks/node-cron.mock.js',
-  '^ws$': '<rootDir>/__tests__/mocks/ws.mock.js',
+  '^\\.\\./middleware/plan\\.js$':
+    '<rootDir>/__tests__/mocks/plan.mock.js',
 
-  '^@utils/(.*)$': '<rootDir>/utils/$1',
+  // existing aliases
+  'middleware\\/auth\\.js$':
+    '<rootDir>/__tests__/mocks/auth.mock.js',
 
-  // 🔥 THIS IS THE CRITICAL ONE
-  '^@prismaClient$': '<rootDir>/utils/prismaClient.js',
+  'middleware\\/plan\\.js$':
+    '<rootDir>/__tests__/mocks/plan.mock.js',
 
-  // optional, only if you want a stable alias for SMS helpers
-  '^@sms$': '<rootDir>/utils/sms.js',
+  '^@sentry/node$':
+    '<rootDir>/__tests__/mocks/sentry.node.mock.js',
+
+  '^@sentry/profiling-node$':
+    '<rootDir>/__tests__/mocks/sentry.profiling.mock.js',
+
+  '^openai$':
+    '<rootDir>/__tests__/mocks/openai.mock.js',
+
+  '^stripe$':
+    '<rootDir>/__tests__/mocks/stripe.mock.js',
+
+  'cloudflare:s3':
+    '<rootDir>/__tests__/mocks/r2.mock.js',
+
+  '^redis$':
+    '<rootDir>/__tests__/mocks/redis.mock.js',
+
+  '^ioredis$':
+    '<rootDir>/__tests__/mocks/ioredis.mock.js',
+
+  '^node-cron$':
+    '<rootDir>/__tests__/mocks/node-cron.mock.js',
+
+  '^ws$':
+    '<rootDir>/__tests__/mocks/ws.mock.js',
+
+  '^@utils/(.*)$':
+    '<rootDir>/utils/$1',
+
+  '^@prismaClient$':
+    '<rootDir>/utils/prismaClient.js',
+
+  '^@sms$':
+    '<rootDir>/utils/sms.js',
+
+  // 🔥 NEW
+  '^@providers/(.*)$':
+    '<rootDir>/services/providers/$1',
+
+  '^@config/(.*)$':
+    '<rootDir>/config/$1',
  },
 };

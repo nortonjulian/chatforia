@@ -1,105 +1,29 @@
 import express from 'express';
-import fs from 'node:fs';
-import path from 'node:path';
+import Stripe from 'stripe';
 import prisma from '../utils/prismaClient.js';
-import { getAddonConfig } from '../utils/billingProducts.js';
-import appleIapConfig, { getAppleProduct } from '../config/appleIapConfig.js';
-import AnalyticsManager from '../utils/analyticsManager.js';
-import {
-  Environment,
-  SignedDataVerifier,
-} from '@apple/app-store-server-library';
-
-const __dirname = new URL('.', import.meta.url).pathname;
-
-let appleVerifier = null;
-
-function getAppleVerifier() {
-  if (appleVerifier) return appleVerifier;
-
-  const appleRootCAs = [
-    fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA.cer')),
-    fs.readFileSync(path.join(__dirname, '../certs/AppleRootCA-G3.cer')),
-  ];
-
-  const appleEnvironment =
-    appleIapConfig.environment === 'production'
-      ? Environment.PRODUCTION
-      : Environment.SANDBOX;
-
-  appleVerifier = new SignedDataVerifier(
-    appleRootCAs,
-    true,
-    appleEnvironment,
-    appleIapConfig.bundleId,
-    process.env.APPLE_APP_ID ? Number(process.env.APPLE_APP_ID) : undefined
-  );
-
-  return appleVerifier;
-}
-
-async function verifyAppleTransaction(signedTransactionInfo) {
-  const verifier = getAppleVerifier();
-  return await verifier.verifyAndDecodeTransaction(signedTransactionInfo);
-}
 
 const router = express.Router();
 
-const CHECKOUT_LINKS = {
-  PLUS_MONTHLY: process.env.LEMONSQUEEZY_CHECKOUT_PLUS_MONTHLY,
-  PREMIUM_MONTHLY: process.env.LEMONSQUEEZY_CHECKOUT_PREMIUM_MONTHLY,
-  PREMIUM_ANNUAL: process.env.LEMONSQUEEZY_CHECKOUT_PREMIUM_ANNUAL,
-};
-
-const COUNTRY_CURRENCY = {
-  US: 'USD',
-  CA: 'CAD',
-  GB: 'GBP',
-  IE: 'EUR',
-  DE: 'EUR',
-  FR: 'EUR',
-  NL: 'EUR',
-  SE: 'SEK',
-  NO: 'NOK',
-  DK: 'DKK',
-  FI: 'EUR',
-  CH: 'CHF',
-  AU: 'AUD',
-  NZ: 'NZD',
-  JP: 'JPY',
-  KR: 'KRW',
-  SG: 'SGD',
-  PL: 'PLN',
-  CZ: 'CZK',
-  PT: 'EUR',
-  ES: 'EUR',
-  IT: 'EUR',
-  ZA: 'ZAR',
-  MX: 'MXN',
-  CL: 'CLP',
-  AR: 'ARS',
-  AE: 'AED',
-  IN: 'INR',
-  BR: 'BRL',
-  PH: 'PHP',
-  TH: 'THB',
-  VN: 'VND',
-  ID: 'IDR',
-  TR: 'TRY',
-  CO: 'COP',
-  PE: 'PEN',
-  NG: 'NGN',
-  KE: 'KES',
-  EG: 'EGP',
-  PK: 'PKR',
-  BD: 'BDT',
-};
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 function normalizePlanCode(code) {
-  return String(code || 'FREE').trim().toUpperCase();
+  return String(code || '').trim().toUpperCase();
 }
 
-function labelForPlan(code) {
+function getPriceIdForPlan(plan) {
+  switch (normalizePlanCode(plan)) {
+    case 'PLUS_MONTHLY':
+      return process.env.STRIPE_PRICE_PLUS_MONTHLY;
+    case 'PREMIUM_MONTHLY':
+      return process.env.STRIPE_PRICE_PREMIUM_MONTHLY;
+    case 'PREMIUM_ANNUAL':
+      return process.env.STRIPE_PRICE_PREMIUM_ANNUAL;
+    default:
+      return null;
+  }
+}
+
+function planLabel(code) {
   switch (normalizePlanCode(code)) {
     case 'PLUS':
       return 'Chatforia Plus';
@@ -111,111 +35,6 @@ function labelForPlan(code) {
     default:
       return 'Chatforia Free';
   }
-}
-
-function normalizeCountry(country) {
-  const v = String(country || '').trim().toUpperCase();
-  return v.length === 2 ? v : 'US';
-}
-
-function buildHostedPaddleCheckoutUrl({ priceId, userId, email, successUrl, cancelUrl }) {
-  const url = new URL('https://checkout.paddle.com/');
-
-  url.searchParams.set('price_id', priceId);
-
-  if (userId != null) {
-    url.searchParams.set('custom_data[userId]', String(userId));
-  }
-
-  if (email) {
-    url.searchParams.set('customer[email]', String(email));
-  }
-
-  if (successUrl) {
-    url.searchParams.set('success_url', successUrl);
-  }
-
-  if (cancelUrl) {
-    url.searchParams.set('cancel_url', cancelUrl);
-  }
-
-  return url.toString();
-}
-
-async function resolveRegionContext(user, countryOverride) {
-  const country = normalizeCountry(user?.billingCountry || countryOverride || 'US');
-  const rule = await prisma.regionRule.findUnique({
-    where: { countryCode: country },
-  });
-
-  const tier = user?.pricingRegion || rule?.tier || 'ROW';
-  const currency = String(user?.currency || COUNTRY_CURRENCY[country] || 'USD').toUpperCase();
-
-  return { country, tier, currency };
-}
-
-async function resolvePriceRowForProduct(product, user, opts = {}) {
-  if (!product) return null;
-
-  const { country, tier, currency } = await resolveRegionContext(user, opts.country);
-
-  let price = await prisma.price.findUnique({
-    where: {
-      product_tier_currency: { product, tier, currency },
-    },
-  });
-
-  if (!price && currency !== 'USD') {
-    price = await prisma.price.findUnique({
-      where: {
-        product_tier_currency: { product, tier, currency: 'USD' },
-      },
-    });
-  }
-
-  if (!price) {
-    price = await prisma.price.findUnique({
-      where: {
-        product_tier_currency: { product, tier: 'ROW', currency: 'USD' },
-      },
-    });
-  }
-
-  return price;
-}
-
-function productForPlan(plan) {
-  switch (normalizePlanCode(plan)) {
-    case 'PLUS_MONTHLY':
-      return 'chatforia_plus';
-    case 'PREMIUM_MONTHLY':
-      return 'chatforia_premium_monthly';
-    case 'PREMIUM_ANNUAL':
-      return 'chatforia_premium_annual';
-    default:
-      return null;
-  }
-}
-
-function paddlePriceIdFromEnvForPlan(plan) {
-  switch (normalizePlanCode(plan)) {
-    case 'PLUS_MONTHLY':
-      return process.env.PADDLE_PRICE_PLUS_MONTHLY || null;
-    case 'PREMIUM_MONTHLY':
-      return process.env.PADDLE_PRICE_PREMIUM_MONTHLY || null;
-    case 'PREMIUM_ANNUAL':
-      return process.env.PADDLE_PRICE_PREMIUM_ANNUAL || null;
-    default:
-      return null;
-  }
-}
-
-async function resolvePaddlePriceIdForPlan(user, plan, opts = {}) {
-  const product = productForPlan(plan);
-  if (!product) return null;
-
-  const price = await resolvePriceRowForProduct(product, user, opts);
-  return price?.paddlePriceId || price?.providerPriceId || null;
 }
 
 router.get('/my-plan', async (req, res) => {
@@ -239,210 +58,168 @@ router.get('/my-plan', async (req, res) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        id: true,
         plan: true,
         subscriptionStatus: true,
         subscriptionEndsAt: true,
         billingProvider: true,
-        billingCustomerId: true,
         billingSubscriptionId: true,
       },
     });
 
-    if (!user) {
-      return res.json({
-        plan: {
-          id: null,
-          code: 'FREE',
-          label: 'Chatforia Free',
-          isFree: true,
-          status: 'INACTIVE',
-          renewsAt: null,
-          provider: null,
-        },
-      });
-    }
-
-    const code = normalizePlanCode(user.plan);
-    const label = labelForPlan(code);
+    const code = normalizePlanCode(user?.plan || 'FREE');
 
     return res.json({
       plan: {
-        id: user.billingSubscriptionId || null,
+        id: user?.billingSubscriptionId || null,
         code,
-        label,
+        label: planLabel(code),
         isFree: code === 'FREE',
-        status: user.subscriptionStatus || 'INACTIVE',
-        renewsAt: user.subscriptionEndsAt
+        status: user?.subscriptionStatus || 'INACTIVE',
+        renewsAt: user?.subscriptionEndsAt
           ? new Date(user.subscriptionEndsAt).toISOString()
           : null,
-        provider: user.billingProvider || null,
+        provider: user?.billingProvider || null,
       },
     });
   } catch (err) {
     console.error('[billing/my-plan] error:', err);
-    return res.status(500).json({
-      error: 'Unable to load plan',
-    });
+    return res.status(500).json({ error: 'Unable to load plan' });
   }
 });
 
 router.post('/checkout', async (req, res) => {
-  try {
-    const { plan } = req.body;
-    const userId = req.user?.id;
-
-    if (!plan || !CHECKOUT_LINKS[plan]) {
-      return res.status(400).json({ error: 'Invalid plan' });
-    }
-
-    const baseUrl = CHECKOUT_LINKS[plan];
-    const url = new URL(baseUrl);
-
-    // 👇 CRITICAL: identify user on webhook return
-    url.searchParams.set('checkout[custom][userId]', String(userId));
-
-    // 👇 redirect after success
-    url.searchParams.set(
-      'checkout[success_url]',
-      `${process.env.FRONTEND_ORIGIN}/upgrade-success`
-    );
-
-    return res.json({ url: url.toString() });
-  } catch (err) {
-    console.error('Checkout error:', err);
-    res.status(500).json({ error: 'Failed to start checkout' });
-  }
-});
-
-
-router.post('/ios-sync', async (req, res) => {
   try {
     if (!req.user?.id) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
     const userId = Number(req.user.id);
-    const { signedTransactionInfo } = req.body || {};
+    const plan = normalizePlanCode(req.body?.plan);
+    const priceId = getPriceIdForPlan(plan);
 
-    if (!signedTransactionInfo) {
-      return res.status(400).json({ error: 'signedTransactionInfo is required' });
+    if (!priceId) {
+      return res.status(400).json({ error: 'Invalid or unconfigured plan' });
     }
 
-    const tx = await verifyAppleTransaction(signedTransactionInfo);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        billingCustomerId: true,
+      },
+    });
 
-    if (!tx?.productId || !tx?.transactionId) {
-      return res.status(400).json({ error: 'Invalid Apple transaction payload' });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
     }
 
-    if (tx.bundleId !== appleIapConfig.bundleId) {
-      return res.status(400).json({ error: 'Bundle ID mismatch' });
-    }
+    const frontendOrigin =
+      process.env.FRONTEND_ORIGIN ||
+      process.env.WEB_URL ||
+      'https://chatforia.com';
 
-    const expectedEnv =
-      appleIapConfig.environment === 'production' ? 'Production' : 'Sandbox';
+    let customerId = user.billingCustomerId;
 
-    if (tx.environment !== expectedEnv) {
-      return res.status(400).json({ error: 'Environment mismatch' });
-    }
-
-    const appleProduct = getAppleProduct(tx.productId);
-    if (!appleProduct) {
-      return res.status(400).json({ error: 'Unknown Apple productId' });
-    }
-
-    const parsedPurchaseDate = tx.purchaseDate
-      ? new Date(Number(tx.purchaseDate))
-      : new Date();
-
-    const purchasedAt = Number.isNaN(parsedPurchaseDate.getTime())
-      ? new Date()
-      : parsedPurchaseDate;
-
-    const parsedExpiresAt = tx.expiresDate
-      ? new Date(Number(tx.expiresDate))
-      : null;
-
-    const expiresAt =
-      parsedExpiresAt && !Number.isNaN(parsedExpiresAt.getTime())
-        ? parsedExpiresAt
-        : null;
-
-    if (appleProduct.kind === 'subscription') {
-      await prisma.user.update({
-        where: { id: userId },
-        data: {
-          plan: appleProduct.plan,
-          subscriptionStatus: 'ACTIVE',
-          billingProvider: 'APPLE',
-          billingSubscriptionId: String(tx.originalTransactionId || tx.transactionId),
-          subscriptionEndsAt: expiresAt,
+    if (!customerId || !String(customerId).startsWith('cus_')) {
+      const customer = await stripe.customers.create({
+        email: user.email || undefined,
+        name: user.username || undefined,
+        metadata: {
+          userId: String(user.id),
+          app: 'chatforia',
         },
       });
 
-      AnalyticsManager.capture("purchase_completed_server", {
-        userId,
-        platform: "ios",
-        provider: "apple",
-        productId: tx.productId,
-        plan: appleProduct.plan,
-        transactionId: String(tx.transactionId),
-      });
+      customerId = customer.id;
 
-      return res.json({
-        success: true,
-        kind: 'subscription',
-        plan: appleProduct.plan,
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          billingProvider: 'STRIPE',
+          billingCustomerId: customerId,
+        },
       });
     }
 
-    if (appleProduct.kind === 'addon') {
-      const addonCfg = getAddonConfig(appleProduct.addonKind);
-      if (!addonCfg) {
-        return res.status(400).json({ error: 'Unknown Apple add-on mapping' });
-      }
+    const session = await stripe.checkout.sessions.create({
+      mode: 'subscription',
+      customer: customerId,
+      client_reference_id: String(user.id),
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      allow_promotion_codes: true,
+      automatic_tax: { enabled: true },
+      billing_address_collection: 'auto',
+      customer_update: {
+        address: 'auto',
+        name: 'auto',
+      },
+      metadata: {
+        userId: String(user.id),
+        plan,
+      },
+      subscription_data: {
+        metadata: {
+          userId: String(user.id),
+          plan,
+        },
+      },
+      success_url: `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${frontendOrigin}/upgrade?canceled=1`,
+    });
 
-      const addonExpiresAt = expiresAt
-        ? expiresAt
-        : new Date(purchasedAt.getTime() + addonCfg.daysValid * 24 * 60 * 60 * 1000);
-
-      try {
-        await prisma.mobileDataPackPurchase.create({
-          data: {
-            userId,
-            kind: addonCfg.type,
-            addonKind: addonCfg.addonKind,
-            purchasedAt,
-            expiresAt: addonExpiresAt,
-            totalDataMb: addonCfg.dataMb,
-            remainingDataMb: addonCfg.dataMb,
-            billingTransactionId: String(tx.transactionId),
-          },
-        });
-      } catch (err) {
-        if (err.code === 'P2002') {
-          return res.json({ success: true, duplicate: true });
-        }
-        throw err;
-      }
-
-      return res.json({
-        success: true,
-        kind: 'addon',
-        addonKind: addonCfg.addonKind,
-      });
-    }
-
-    return res.status(400).json({
-      error: 'Unsupported Apple product type',
+    return res.json({
+      url: session.url,
+      checkoutUrl: session.url,
+      sessionId: session.id,
+      plan,
     });
   } catch (err) {
-    console.error('[billing/ios-sync] error:', err, {
-      stack: err?.stack,
+    console.error('[billing/checkout] error:', err);
+    return res.status(500).json({ error: 'Failed to start checkout' });
+  }
+});
+
+router.post('/portal', async (req, res) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: Number(req.user.id) },
+      select: {
+        billingCustomerId: true,
+      },
     });
-    return res.status(500).json({
-      error: err?.message || 'Failed to sync iOS purchase',
+
+    if (!user?.billingCustomerId) {
+      return res.status(400).json({ error: 'No billing customer found' });
+    }
+
+    const frontendOrigin =
+      process.env.FRONTEND_ORIGIN ||
+      process.env.WEB_URL ||
+      'https://chatforia.com';
+
+    const portal = await stripe.billingPortal.sessions.create({
+      customer: user.billingCustomerId,
+      return_url: `${frontendOrigin}/account/plan`,
     });
+
+    return res.json({
+      url: portal.url,
+      portalUrl: portal.url,
+    });
+  } catch (err) {
+    console.error('[billing/portal] error:', err);
+    return res.status(500).json({ error: 'Failed to open billing portal' });
   }
 });
 

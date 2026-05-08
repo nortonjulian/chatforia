@@ -2,7 +2,6 @@ import { jest, describe, test, expect, beforeEach, afterAll } from '@jest/global
 
 const ORIGINAL_ENV = { ...process.env };
 
-// ---------- Test doubles ----------
 let serverCtorSpy;
 let serverInstance;
 let jwtVerifyMock;
@@ -17,9 +16,7 @@ function makeIoDouble() {
   const engineHandlers = {};
 
   return {
-    // constructor capture
     _opts: null,
-    // Socket.IO API we need
     use: jest.fn((fn) => middlewares.push(fn)),
     on: jest.fn((evt, cb) => {
       handlers[evt] = cb;
@@ -33,7 +30,6 @@ function makeIoDouble() {
     adapter: jest.fn(),
     to: jest.fn(() => ({ emit: jest.fn() })),
     close: jest.fn((cb) => cb && cb()),
-    // helpers for tests
     _getMiddlewares: () => middlewares,
     _getHandler: (evt) => handlers[evt],
   };
@@ -49,42 +45,47 @@ function makeSocketDouble({ tokenFrom = 'auth', token = 'jwt' } = {}) {
   const joined = new Set();
   const onMap = new Map();
 
-  const sock = {
+  return {
     handshake,
     data: {},
     user: null,
     join: jest.fn(async (room) => joined.add(room)),
     leave: jest.fn(async (room) => joined.delete(room)),
     on: jest.fn((ev, cb) => onMap.set(ev, cb)),
+    to: jest.fn(() => ({ emit: jest.fn() })),
     _emitClient: (ev, payload) => onMap.get(ev)?.(payload),
     _joined: joined,
   };
-
-  return sock;
 }
 
-// ---------- Helper to re-import module cleanly with ESM mocks ----------
 const reload = async (env = {}) => {
   jest.resetModules();
-  process.env = { ...ORIGINAL_ENV, ...env };
 
-  // socket.io mock
+  process.env = {
+    ...ORIGINAL_ENV,
+    NODE_ENV: 'test',
+    ...env,
+  };
+
   await jest.unstable_mockModule('socket.io', () => {
     serverInstance = makeIoDouble();
+
     serverCtorSpy = jest.fn((_http, opts) => {
       serverInstance._opts = opts;
       return serverInstance;
     });
+
     return {
       __esModule: true,
       Server: serverCtorSpy,
     };
   });
 
-  // jsonwebtoken mock
   jwtVerifyMock = jest.fn();
+
   await jest.unstable_mockModule('jsonwebtoken', () => {
     const jwt = { verify: jwtVerifyMock };
+
     return {
       __esModule: true,
       default: jwt,
@@ -92,10 +93,10 @@ const reload = async (env = {}) => {
     };
   });
 
-  // cookie mock
   await jest.unstable_mockModule('cookie', () => {
     const parse = (raw) => {
       const out = {};
+
       String(raw || '')
         .split(';')
         .map((s) => s.trim())
@@ -103,6 +104,7 @@ const reload = async (env = {}) => {
           const [k, v] = pair.split('=');
           if (k) out[k] = v;
         });
+
       return out;
     };
 
@@ -113,26 +115,39 @@ const reload = async (env = {}) => {
     };
   });
 
-  // prismaClient mock
   prismaMock = {
+    user: {
+      findUnique: jest.fn(),
+    },
     participant: {
       findMany: jest.fn(),
     },
   };
+
   await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
     __esModule: true,
     default: prismaMock,
   }));
 
-  // randomChats mock
+  await jest.unstable_mockModule('../services/socketBus.js', () => ({
+    __esModule: true,
+    setSocketIo: jest.fn(),
+  }));
+
+  await jest.unstable_mockModule('../sockets/readReceipts.js', () => ({
+    __esModule: true,
+    registerReadReceipts: jest.fn(),
+  }));
+
   attachRandomChatSocketsMock = jest.fn();
+
   await jest.unstable_mockModule('../routes/randomChats.js', () => ({
     __esModule: true,
     attachRandomChatSockets: (...args) => attachRandomChatSocketsMock(...args),
   }));
 
-  // Redis adapter + client (wired only when REDIS_URL is set)
   createAdapterMock = jest.fn(() => jest.fn());
+
   createClientMock = jest.fn(() => ({
     connect: jest.fn().mockResolvedValue(),
     quit: jest.fn().mockResolvedValue(),
@@ -148,7 +163,6 @@ const reload = async (env = {}) => {
     createClient: createClientMock,
   }));
 
-  // Now import the module under test (it will see all the above mocks)
   return import('../socket.js');
 };
 
@@ -160,7 +174,6 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-// ---------- Tests ----------
 describe('initSocket', () => {
   test('uses parsed CORS origins from env or fallback', async () => {
     const { initSocket } = await reload({
@@ -178,9 +191,10 @@ describe('initSocket', () => {
       path: '/socket.io',
     });
 
-    // fallback case
     const { initSocket: init2 } = await reload({ CORS_ORIGINS: '' });
+
     init2({});
+
     expect(serverInstance._opts.cors.origin).toEqual([
       'http://localhost:5173',
       'http://localhost:5002',
@@ -189,6 +203,7 @@ describe('initSocket', () => {
 
   test('auth middleware: no token → Unauthorized: no token', async () => {
     const { initSocket } = await reload({ JWT_SECRET: 's' });
+
     initSocket({});
 
     const mw = serverInstance._getMiddlewares()[0];
@@ -196,31 +211,68 @@ describe('initSocket', () => {
     const next = jest.fn();
 
     await mw(socket, next);
+
     expect(next).toHaveBeenCalledWith(expect.any(Error));
     expect(next.mock.calls[0][0].message).toMatch(/Unauthorized: no token/);
   });
 
-  test('auth middleware: missing JWT_SECRET → misconfiguration error', async () => {
-    const { initSocket } = await reload({ JWT_SECRET: '' });
+  test('auth middleware: missing JWT_SECRET falls back to test_secret in test env', async () => {
+    const { initSocket } = await reload({
+      JWT_SECRET: '',
+      NODE_ENV: 'test',
+    });
+
     initSocket({});
+
+    jwtVerifyMock.mockReturnValue({ id: 123 });
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 123,
+      email: 'julian@example.com',
+      username: 'julian',
+      role: 'USER',
+      plan: 'FREE',
+      preferredLanguage: 'en',
+      foriaRemember: false,
+    });
 
     const mw = serverInstance._getMiddlewares()[0];
     const socket = makeSocketDouble({ tokenFrom: 'auth', token: 't' });
     const next = jest.fn();
 
     await mw(socket, next);
-    expect(next).toHaveBeenCalledWith(
-      expect.objectContaining({
-        message: expect.stringMatching(/JWT secret missing/),
-      }),
-    );
+
+    expect(jwtVerifyMock).toHaveBeenCalledWith('t', 'test_secret');
+    expect(socket.user).toEqual({
+      id: 123,
+      email: 'julian@example.com',
+      username: 'julian',
+      role: 'USER',
+      plan: 'FREE',
+      preferredLanguage: 'en',
+      foriaRemember: false,
+    });
+    expect(socket.data.user).toEqual(socket.user);
+    expect(socket.join).toHaveBeenCalledWith('user:123');
+    expect(next).toHaveBeenCalledWith();
   });
 
-  test('auth middleware: valid token attaches user and joins personal room', async () => {
+  test('auth middleware: valid token attaches DB user and joins personal room', async () => {
     const { initSocket } = await reload({ JWT_SECRET: 'sekret' });
+
     initSocket({});
 
     jwtVerifyMock.mockReturnValue({ id: 123, username: 'julian' });
+
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 123,
+      email: 'julian@example.com',
+      username: 'julian',
+      role: 'USER',
+      plan: 'FREE',
+      preferredLanguage: 'en',
+      foriaRemember: false,
+    });
 
     const mw = serverInstance._getMiddlewares()[0];
     const socket = makeSocketDouble({ tokenFrom: 'auth', token: 'abc' });
@@ -229,8 +281,31 @@ describe('initSocket', () => {
     await mw(socket, next);
 
     expect(jwtVerifyMock).toHaveBeenCalledWith('abc', 'sekret');
-    expect(socket.user).toEqual({ id: 123, username: 'julian' });
-    expect(socket.data.user).toEqual({ id: 123, username: 'julian' });
+
+    expect(prismaMock.user.findUnique).toHaveBeenCalledWith({
+      where: { id: 123 },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+        role: true,
+        plan: true,
+        preferredLanguage: true,
+        foriaRemember: true,
+      },
+    });
+
+    expect(socket.user).toEqual({
+      id: 123,
+      email: 'julian@example.com',
+      username: 'julian',
+      role: 'USER',
+      plan: 'FREE',
+      preferredLanguage: 'en',
+      foriaRemember: false,
+    });
+
+    expect(socket.data.user).toEqual(socket.user);
     expect(socket.join).toHaveBeenCalledWith('user:123');
     expect(next).toHaveBeenCalledWith();
   });
@@ -243,46 +318,67 @@ describe('initSocket', () => {
 
     initSocket({});
 
-    // Simulate authed socket through middleware
     jwtVerifyMock.mockReturnValue({ id: 99, username: 'u99' });
-    const mw = serverInstance._getMiddlewares()[0];
-    const socket = makeSocketDouble({ tokenFrom: 'auth', token: 't99' });
-    await mw(socket, jest.fn());
 
-    // Prepare prisma rooms for autojoin
+    prismaMock.user.findUnique.mockResolvedValue({
+      id: 99,
+      email: 'u99@example.com',
+      username: 'u99',
+      role: 'USER',
+      plan: 'FREE',
+      preferredLanguage: 'en',
+      foriaRemember: false,
+    });
+
     prismaMock.participant.findMany.mockResolvedValueOnce([
       { chatRoomId: 7 },
-      { chatRoomId: 7 }, // duplicate to ensure Set uniqueness
+      { chatRoomId: 7 },
       { chatRoomId: 8 },
     ]);
 
-    // Fire 'connection'
+    const mw = serverInstance._getMiddlewares()[0];
+    const socket = makeSocketDouble({ tokenFrom: 'auth', token: 't99' });
+
+    await mw(socket, jest.fn());
+
     const onConn = serverInstance._getHandler('connection');
+
     await onConn(socket);
 
-    // Auto-joined rooms 7 and 8
     expect(prismaMock.participant.findMany).toHaveBeenCalledWith({
       where: { userId: 99 },
       select: { chatRoomId: true },
     });
+
     expect(socket.join).toHaveBeenCalledWith('7');
     expect(socket.join).toHaveBeenCalledWith('8');
 
-    // Bulk join
     socket._emitClient('join:rooms', [9, '10', null]);
-    expect(socket.join).toHaveBeenCalledWith('9');
-    // We don't strictly assert '10' here to avoid overfitting join call order/behavior.
 
-    // Single join/leave
+    expect(socket.join).toHaveBeenCalledWith('9');
+    expect(socket.join).toHaveBeenCalledWith('10');
+    expect(socket.join).toHaveBeenCalledWith('null');
+
     socket._emitClient('join_room', 11);
     expect(socket.join).toHaveBeenCalledWith('11');
+
     socket._emitClient('leave_room', 11);
     expect(socket.leave).toHaveBeenCalledWith('11');
+
+    socket._emitClient('joinRoom', { roomId: 12 });
+    expect(socket.join).toHaveBeenCalledWith('12');
+
+    socket._emitClient('leaveRoom', { roomId: 12 });
+    expect(socket.leave).toHaveBeenCalledWith('12');
   });
 
   test('attaches random chat sockets when exported', async () => {
     const { initSocket } = await reload({ JWT_SECRET: 's' });
+
     initSocket({});
+
+    await new Promise((r) => setImmediate(r));
+
     expect(attachRandomChatSocketsMock).toHaveBeenCalledWith(serverInstance);
   });
 
@@ -294,13 +390,11 @@ describe('initSocket', () => {
 
     const { close } = initSocket({});
 
-    // give the async adapter setup a tick
     await new Promise((r) => setImmediate(r));
 
     expect(createClientMock).toHaveBeenCalledTimes(2);
     expect(serverInstance.adapter).toHaveBeenCalledWith(expect.any(Function));
 
-    // close should quit both and close io
     await close();
 
     const pub = createClientMock.mock.results[0].value;
@@ -311,14 +405,17 @@ describe('initSocket', () => {
     expect(serverInstance.close).toHaveBeenCalled();
   });
 
-  test('close() still works when REDIS_URL is not set (no redis clients)', async () => {
-    const { initSocket } = await reload({ JWT_SECRET: 's', REDIS_URL: '' });
+  test('close() still works when REDIS_URL is not set', async () => {
+    const { initSocket } = await reload({
+      JWT_SECRET: 's',
+      REDIS_URL: '',
+    });
 
     const { close } = initSocket({});
+
     await close();
 
     expect(serverInstance.close).toHaveBeenCalled();
-    // no redis clients created
     expect(createClientMock).not.toHaveBeenCalled();
   });
 });

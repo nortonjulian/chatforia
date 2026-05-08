@@ -1,8 +1,7 @@
 import { jest } from '@jest/globals';
-import { handleStatusUpdate } from './messageMonitor.js';
 
-// Mock logger and prisma *before* importing their default exports
-jest.unstable_mockModule('../../utils/logger.js', () => ({
+// ---- mocks BEFORE importing module under test ----
+jest.unstable_mockModule('@utils/logger.js', () => ({
   __esModule: true,
   default: {
     info: jest.fn(),
@@ -10,7 +9,7 @@ jest.unstable_mockModule('../../utils/logger.js', () => ({
   },
 }));
 
-jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
+jest.unstable_mockModule('@prismaClient', () => ({
   __esModule: true,
   default: {
     outboundMessage: {
@@ -19,12 +18,11 @@ jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
   },
 }));
 
-// Re-import the mocked modules
-const loggerModule = await import('../../utils/logger.js');
-const prismaModule = await import('../../utils/prismaClient.js');
+// ---- import module under test AFTER mocks ----
+const { handleStatusUpdate } = await import('../telco/messageMonitor.js');
 
-const logger = loggerModule.default;
-const prisma = prismaModule.default;
+const { default: logger } = await import('@utils/logger.js');
+const { default: prisma } = await import('@prismaClient');
 
 describe('handleStatusUpdate', () => {
   const fixedNow = new Date('2025-01-01T00:00:00.000Z');
@@ -40,7 +38,9 @@ describe('handleStatusUpdate', () => {
   });
 
   it('uses MessageSid/MessageStatus and persists delivery status', async () => {
-    prisma.outboundMessage.updateMany.mockResolvedValueOnce({ count: 1 });
+    prisma.outboundMessage.updateMany.mockResolvedValueOnce({
+      count: 1,
+    });
 
     const payload = {
       MessageSid: 'SM123',
@@ -55,11 +55,12 @@ describe('handleStatusUpdate', () => {
 
     await handleStatusUpdate(payload);
 
-    // Logs info
     expect(logger.info).toHaveBeenCalledTimes(1);
+
     const [infoArgObj, infoMsg] = logger.info.mock.calls[0];
 
     expect(infoMsg).toBe('[Twilio Status Update]');
+
     expect(infoArgObj).toMatchObject({
       sid: 'SM123',
       To: payload.To,
@@ -69,21 +70,25 @@ describe('handleStatusUpdate', () => {
       ErrorMessage: 'Unknown destination',
     });
 
-    // Writes to DB
-    expect(prisma.outboundMessage.updateMany).toHaveBeenCalledTimes(1);
-    expect(prisma.outboundMessage.updateMany).toHaveBeenCalledWith({
-      where: { providerMessageId: 'SM123' },
-      data: {
-        deliveryStatus: 'delivered',
-        deliveryErrorCode: '30005',
-        deliveryErrorMessage: 'Unknown destination',
-        deliveryUpdatedAt: fixedNow,
-      },
-    });
+    expect(prisma.outboundMessage.updateMany)
+      .toHaveBeenCalledTimes(1);
+
+    expect(prisma.outboundMessage.updateMany)
+      .toHaveBeenCalledWith({
+        where: { providerMessageId: 'SM123' },
+        data: {
+          deliveryStatus: 'delivered',
+          deliveryErrorCode: '30005',
+          deliveryErrorMessage: 'Unknown destination',
+          deliveryUpdatedAt: fixedNow,
+        },
+      });
   });
 
   it('falls back to SmsSid/SmsStatus when MessageSid/MessageStatus are missing', async () => {
-    prisma.outboundMessage.updateMany.mockResolvedValueOnce({ count: 0 });
+    prisma.outboundMessage.updateMany.mockResolvedValueOnce({
+      count: 0,
+    });
 
     const payload = {
       MessageSid: undefined,
@@ -99,6 +104,7 @@ describe('handleStatusUpdate', () => {
     await handleStatusUpdate(payload);
 
     expect(logger.info).toHaveBeenCalledTimes(1);
+
     const [infoArgObj] = logger.info.mock.calls[0];
 
     expect(infoArgObj).toMatchObject({
@@ -110,20 +116,23 @@ describe('handleStatusUpdate', () => {
       ErrorMessage: undefined,
     });
 
-    expect(prisma.outboundMessage.updateMany).toHaveBeenCalledWith({
-      where: { providerMessageId: 'SM999' },
-      data: {
-        deliveryStatus: 'failed',
-        deliveryErrorCode: null,
-        deliveryErrorMessage: null,
-        deliveryUpdatedAt: fixedNow,
-      },
-    });
+    expect(prisma.outboundMessage.updateMany)
+      .toHaveBeenCalledWith({
+        where: { providerMessageId: 'SM999' },
+        data: {
+          deliveryStatus: 'failed',
+          deliveryErrorCode: null,
+          deliveryErrorMessage: null,
+          deliveryUpdatedAt: fixedNow,
+        },
+      });
   });
 
   it('logs a warning if persisting delivery status fails but does not throw', async () => {
     const error = new Error('DB error');
-    prisma.outboundMessage.updateMany.mockRejectedValueOnce(error);
+
+    prisma.outboundMessage.updateMany
+      .mockRejectedValueOnce(error);
 
     const payload = {
       MessageSid: 'SMERR',
@@ -136,17 +145,23 @@ describe('handleStatusUpdate', () => {
       SmsStatus: undefined,
     };
 
-    await expect(handleStatusUpdate(payload)).resolves.toBeUndefined();
+    await expect(
+      handleStatusUpdate(payload)
+    ).resolves.toBeUndefined();
 
-    // Still logs info
     expect(logger.info).toHaveBeenCalledTimes(1);
 
-    // Logs warn with error and sid
     expect(logger.warn).toHaveBeenCalledTimes(1);
-    const [warnArgObj, warnMsg] = logger.warn.mock.calls[0];
 
-    expect(warnMsg).toBe('Failed to persist delivery status');
+    const [warnArgObj, warnMsg] =
+      logger.warn.mock.calls[0];
+
+    expect(warnMsg).toBe(
+      'Failed to persist delivery status'
+    );
+
     expect(warnArgObj.sid).toBe('SMERR');
+
     expect(warnArgObj.err).toBe(error);
   });
 });

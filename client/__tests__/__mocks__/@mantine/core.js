@@ -63,6 +63,16 @@ ex.ScrollArea = React.forwardRef((props, ref) => {
   );
 });
 
+ex.ScrollArea.Autosize = React.forwardRef((props, ref) => {
+  const { children, ...rest } = props || {};
+
+  return React.createElement(
+    'div',
+    { ref, ...rest },
+    renderContent(props, children)
+  );
+});
+
 /* text */
 ex.Text  = passthroughFactory('p');
 ex.Title = ({ order = 3, children, ...p }) => React.createElement(`h${order}`, p, children);

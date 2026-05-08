@@ -5,25 +5,31 @@ const ORIGINAL_ENV = process.env;
 let createMock;
 let twilioFactoryMock;
 
-// Mock the 'twilio' package: default export is a factory returning a client
 jest.mock('twilio', () => {
   createMock = jest.fn().mockResolvedValue({ sid: 'SM123' });
   twilioFactoryMock = jest.fn(() => ({
     messages: { create: createMock },
   }));
+
   return { __esModule: true, default: twilioFactoryMock };
 });
 
-// Note: twilio.js lives inside telco/, so import that path
 const reload = async (env = {}) => {
   jest.resetModules();
-  process.env = { ...ORIGINAL_ENV, ...env };
 
-  // Guard: on the very first call after resetModules, these may still be undefined
+  process.env = {
+    ...ORIGINAL_ENV,
+    ...env,
+  };
+
   if (createMock) createMock.mockReset();
   if (twilioFactoryMock) twilioFactoryMock.mockClear();
 
-  return import('../telco/twilio.js');
+  const mod = await import('../telco/twilio.js');
+
+  // twilio.js exports the adapter as default:
+  // { providerName, sendSms, searchAvailable, purchaseNumber, releaseNumber }
+  return mod.default;
 };
 
 afterAll(() => {
@@ -33,25 +39,25 @@ afterAll(() => {
 describe('twilio sendSms()', () => {
   test('throws when credentials are missing', async () => {
     const mod = await reload({
-      TWILIO_ACCOUNT_SID: '', // missing
+      TWILIO_ACCOUNT_SID: '',
       TWILIO_AUTH_TOKEN: 'tok',
     });
 
     await expect(
       mod.sendSms({ to: '+10000000000', text: 'hi' })
-    ).rejects.toThrow('Missing Twilio credentials');
+    ).rejects.toThrow('Twilio not configured');
 
     expect(twilioFactoryMock).not.toHaveBeenCalled();
     expect(createMock).not.toHaveBeenCalled();
   });
 
-  test('uses Messaging Service SID when provided (and includes statusCallback if set)', async () => {
+  test('uses Messaging Service SID when provided and includes statusCallback if set', async () => {
     const mod = await reload({
       TWILIO_ACCOUNT_SID: 'ACxxx',
       TWILIO_AUTH_TOKEN: 'tok',
       TWILIO_MESSAGING_SERVICE_SID: 'MG123',
-      TWILIO_STATUS_WEBHOOK_URL: 'https://example.com/callback',
-      TWILIO_PHONE_NUMBER: '', // ignored in this path
+      TWILIO_STATUS_CALLBACK_URL: 'https://example.com/callback',
+      TWILIO_FROM_NUMBER: '',
     });
 
     const out = await mod.sendSms({
@@ -61,12 +67,14 @@ describe('twilio sendSms()', () => {
     });
 
     expect(twilioFactoryMock).toHaveBeenCalledWith('ACxxx', 'tok');
+
     expect(createMock).toHaveBeenCalledWith({
       to: '+15551234567',
       body: 'hello!',
-      statusCallback: 'https://example.com/callback',
       messagingServiceSid: 'MG123',
+      statusCallback: 'https://example.com/callback',
     });
+
     expect(out).toEqual({
       ok: true,
       provider: 'twilio',
@@ -79,9 +87,9 @@ describe('twilio sendSms()', () => {
     const mod = await reload({
       TWILIO_ACCOUNT_SID: 'ACxxx',
       TWILIO_AUTH_TOKEN: 'tok',
-      TWILIO_MESSAGING_SERVICE_SID: '', // not set
-      TWILIO_PHONE_NUMBER: '+18005551234',
-      TWILIO_STATUS_WEBHOOK_URL: '', // absent
+      TWILIO_MESSAGING_SERVICE_SID: '',
+      TWILIO_FROM_NUMBER: '+18005551234',
+      TWILIO_STATUS_CALLBACK_URL: '',
     });
 
     const out = await mod.sendSms({
@@ -93,8 +101,8 @@ describe('twilio sendSms()', () => {
       to: '+14155550123',
       body: 'ping',
       from: '+18005551234',
-      // no statusCallback key when unset
     });
+
     expect(out).toEqual({
       ok: true,
       provider: 'twilio',
@@ -103,23 +111,21 @@ describe('twilio sendSms()', () => {
     });
   });
 
-  test('when neither Messaging Service nor FROM is set, forwards params without either (Twilio may reject)', async () => {
+  test('throws when neither Messaging Service SID nor FROM number is set', async () => {
     const mod = await reload({
       TWILIO_ACCOUNT_SID: 'ACxxx',
       TWILIO_AUTH_TOKEN: 'tok',
       TWILIO_MESSAGING_SERVICE_SID: '',
-      TWILIO_PHONE_NUMBER: '', // both absent
-      TWILIO_STATUS_WEBHOOK_URL: '',
+      TWILIO_FROM_NUMBER: '',
+      TWILIO_STATUS_CALLBACK_URL: '',
     });
 
-    await mod.sendSms({ to: '+19998887777', text: 'no from nor msid' });
+    await expect(
+      mod.sendSms({ to: '+19998887777', text: 'no from nor msid' })
+    ).rejects.toThrow(
+      'Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER'
+    );
 
-    // Current implementation does not throw; it passes no "from" or "messagingServiceSid".
-    // If you later add explicit validation, update this test accordingly.
-    expect(createMock).toHaveBeenCalledWith({
-      to: '+19998887777',
-      body: 'no from nor msid',
-      // neither "from" nor "messagingServiceSid" present
-    });
+    expect(createMock).not.toHaveBeenCalled();
   });
 });

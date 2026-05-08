@@ -19,6 +19,11 @@ jest.mock('../src/utils/keyStore', () => ({
   migrateLocalToIDBIfNeeded: jest.fn().mockResolvedValue(undefined),
 }));
 
+jest.mock('../src/utils/keyBackupRemote', () => ({
+  __esModule: true,
+  fetchRemoteKeyBackup: jest.fn(() => Promise.resolve(null)),
+}));
+
 // Mock user context hook EXACTLY as the component imports it
 const mockCtx = { currentUser: null, setCurrentUser: jest.fn() };
 jest.mock('../src/context/UserContext', () => ({
@@ -102,21 +107,24 @@ test('restores user from localStorage when context is empty', async () => {
   );
 });
 
-test('opens modal when server has a pubKey but this device lacks a private key', async () => {
-  mockCtx.currentUser = { id: 9, username: 'restored', publicKey: 'SERVER_HAS_ONE' };
+test('does not open modal when server only has pubKey but no remote backup', async () => {
+  mockCtx.currentUser = {
+    id: 9,
+    username: 'restored',
+    publicKey: 'SERVER_HAS_ONE',
+  };
   mockCtx.setCurrentUser = makeSetCurrentUserSpy();
 
-  // Still no local private key
-  loadKeysLocal.mockResolvedValue({ publicKey: null, privateKey: null });
-
-  // Axios path is what the component actually uses
-  axiosClient.post.mockResolvedValue({ data: {} });
+  loadKeysLocal.mockResolvedValue({
+    publicKey: null,
+    privateKey: null,
+  });
 
   render(<BootstrapUser />);
 
   const modal = await screen.findByTestId('key-modal');
-  expect(modal.getAttribute('data-opened')).toBe('true');
-  // optional: ensure test reflects server pubkey flag
+
+  expect(modal.getAttribute('data-opened')).toBe('false');
   expect(modal.getAttribute('data-server')).toBe('true');
 });
 

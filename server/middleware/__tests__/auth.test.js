@@ -3,22 +3,20 @@ import { EventEmitter } from 'events';
 
 jest.useFakeTimers();
 
-// ---- Global env snapshot ----
 const ORIGINAL_ENV = { ...process.env };
 
-// ---- Mocks ----
 let verifyMock;
+
 const prismaMock = {
   user: {
     findUnique: jest.fn(),
   },
 };
 
-// ESM-safe mock setup
 const setupMocks = () => {
-  // jsonwebtoken mock
   jest.unstable_mockModule('jsonwebtoken', () => {
     verifyMock = jest.fn();
+
     return {
       __esModule: true,
       default: {
@@ -28,18 +26,14 @@ const setupMocks = () => {
     };
   });
 
-  // prisma client mock – MUST match auth.js import
-  // auth.js: import prisma from '../utils/prismaClient.js';
   jest.unstable_mockModule('../utils/prismaClient.js', () => ({
     __esModule: true,
     default: prismaMock,
   }));
 };
 
-// Register mocks initially
 setupMocks();
 
-// ---- Helpers ----
 const makeReqResNext = (overrides = {}) => {
   const req = {
     method: 'GET',
@@ -50,6 +44,7 @@ const makeReqResNext = (overrides = {}) => {
   };
 
   const emitter = new EventEmitter();
+
   const res = Object.assign(emitter, {
     statusCode: 200,
     _json: null,
@@ -72,27 +67,28 @@ const makeReqResNext = (overrides = {}) => {
   });
 
   const next = jest.fn();
+
   return { req, res, next };
 };
 
 const loadModule = async () => {
   jest.resetModules();
 
-  // Reset env for predictable behavior
-  process.env = { ...ORIGINAL_ENV, NODE_ENV: 'test' };
-  delete process.env.JWT_COOKIE_NAME; // default: foria_jwt
-  delete process.env.JWT_SECRET;      // auth.js uses 'test_secret' in NODE_ENV=test
+  process.env = {
+    ...ORIGINAL_ENV,
+    NODE_ENV: 'test',
+  };
 
-  // Reset mocks
+  delete process.env.JWT_COOKIE_NAME;
+  delete process.env.JWT_SECRET;
+
   prismaMock.user.findUnique.mockReset();
 
-  // Re-apply ESM mocks after resetModules
   setupMocks();
 
   return import('../auth.js');
 };
 
-// ---- Lifecycle ----
 afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
@@ -100,29 +96,31 @@ afterAll(() => {
 beforeEach(() => {
   jest.clearAllMocks();
   prismaMock.user.findUnique.mockReset();
-  if (verifyMock) verifyMock.mockReset();
+
+  if (verifyMock) {
+    verifyMock.mockReset();
+  }
 });
 
-// ---- Tests ----
 describe('auth middleware', () => {
   describe('requireAuth', () => {
-    test('ignores pre-set req.user and still requires a valid token cookie', async () => {
+    test('ignores pre-set req.user and still requires a valid token cookie or bearer token', async () => {
       const mod = await loadModule();
+
       const { req, res, next } = makeReqResNext({
-        // Pretend some upstream middleware set req.user, but no cookie is present
         req: { user: { id: 123, role: 'USER' } },
       });
 
       await mod.requireAuth(req, res, next);
 
-      // New contract: must have a valid JWT cookie, otherwise 401
       expect(next).not.toHaveBeenCalled();
       expect(res.statusCode).toBe(401);
       expect(res._json).toEqual({ error: 'Unauthorized' });
     });
 
-    test('401 when no token cookie present', async () => {
+    test('401 when no token present', async () => {
       const mod = await loadModule();
+
       const { req, res, next } = makeReqResNext();
 
       await mod.requireAuth(req, res, next);
@@ -134,6 +132,7 @@ describe('auth middleware', () => {
 
     test('401 when jwt.verify throws', async () => {
       const mod = await loadModule();
+
       verifyMock.mockImplementation(() => {
         throw new Error('bad token');
       });
@@ -152,7 +151,8 @@ describe('auth middleware', () => {
 
     test('401 when decoded token missing id', async () => {
       const mod = await loadModule();
-      verifyMock.mockReturnValue({}); // no id
+
+      verifyMock.mockReturnValue({});
 
       const { req, res, next } = makeReqResNext({
         req: { cookies: { foria_jwt: 'token123' } },
@@ -167,12 +167,14 @@ describe('auth middleware', () => {
 
     test('sets req.user using freshest DB values when token valid', async () => {
       const mod = await loadModule();
+
       verifyMock.mockReturnValue({
         id: '42',
         username: 'cookieU',
         role: 'USER',
         plan: 'FREE',
         email: 'cookie@example.com',
+        tokenVersion: 0,
       });
 
       prismaMock.user.findUnique.mockResolvedValue({
@@ -181,6 +183,14 @@ describe('auth middleware', () => {
         role: 'ADMIN',
         plan: 'PLUS',
         email: 'db@example.com',
+        publicKey: 'pub-db',
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
       });
 
       const { req, res, next } = makeReqResNext({
@@ -195,28 +205,48 @@ describe('auth middleware', () => {
           id: true,
           email: true,
           username: true,
+          publicKey: true,
           role: true,
           plan: true,
+          emailVerifiedAt: true,
+          phoneVerifiedAt: true,
+          twoFactorEnabled: true,
+          preferredLanguage: true,
+          theme: true,
+          avatarUrl: true,
+          tokenVersion: true,
         },
       });
+
       expect(req.user).toEqual({
         id: 42,
         username: 'dbU',
-        role: 'ADMIN',
         email: 'db@example.com',
+        publicKey: 'pub-db',
+        role: 'ADMIN',
         plan: 'PLUS',
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
       });
+
       expect(next).toHaveBeenCalledTimes(1);
     });
 
     test('falls back to decoded values when DB user not found', async () => {
       const mod = await loadModule();
+
       verifyMock.mockReturnValue({
         id: '7',
         username: 'cookieOnly',
         role: 'USER',
         plan: 'FREE',
         email: 'c@e.com',
+        tokenVersion: 0,
       });
 
       prismaMock.user.findUnique.mockResolvedValue(null);
@@ -233,7 +263,15 @@ describe('auth middleware', () => {
         role: 'USER',
         email: 'c@e.com',
         plan: 'FREE',
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
       });
+
       expect(next).toHaveBeenCalledTimes(1);
     });
   });
@@ -241,6 +279,7 @@ describe('auth middleware', () => {
   describe('verifyTokenOptional', () => {
     test('continues with no req.user when no token', async () => {
       const mod = await loadModule();
+
       const { req, res, next } = makeReqResNext();
 
       await mod.verifyTokenOptional(req, res, next);
@@ -251,6 +290,7 @@ describe('auth middleware', () => {
 
     test('continues without setting user when verify throws', async () => {
       const mod = await loadModule();
+
       verifyMock.mockImplementation(() => {
         throw new Error('expired');
       });
@@ -267,12 +307,14 @@ describe('auth middleware', () => {
 
     test('sets req.user when token valid', async () => {
       const mod = await loadModule();
+
       verifyMock.mockReturnValue({
         id: '5',
         username: 'alice',
         role: 'USER',
         plan: 'FREE',
         email: 'a@b.com',
+        tokenVersion: 0,
       });
 
       prismaMock.user.findUnique.mockResolvedValue({
@@ -281,6 +323,14 @@ describe('auth middleware', () => {
         role: 'USER',
         plan: 'PLUS',
         email: 'alice@db.com',
+        publicKey: null,
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
       });
 
       const { req, res, next } = makeReqResNext({
@@ -292,15 +342,25 @@ describe('auth middleware', () => {
       expect(req.user).toEqual({
         id: 5,
         username: 'alice_db',
-        role: 'USER',
         email: 'alice@db.com',
+        publicKey: null,
+        role: 'USER',
         plan: 'PLUS',
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
       });
+
       expect(next).toHaveBeenCalledTimes(1);
     });
 
     test('does not clobber existing req.user', async () => {
       const mod = await loadModule();
+
       const { req, res, next } = makeReqResNext({
         req: {
           user: { id: 99, role: 'ADMIN' },
@@ -318,7 +378,8 @@ describe('auth middleware', () => {
   describe('requireAdmin', () => {
     test('403 when not admin or missing user', async () => {
       const mod = await loadModule();
-      const { req, res, next } = makeReqResNext(); // no user
+
+      const { req, res, next } = makeReqResNext();
 
       mod.requireAdmin(req, res, next);
 
@@ -329,6 +390,7 @@ describe('auth middleware', () => {
 
     test('next() when role is ADMIN', async () => {
       const mod = await loadModule();
+
       const { req, res, next } = makeReqResNext({
         req: { user: { id: 1, role: 'ADMIN' } },
       });
@@ -340,20 +402,48 @@ describe('auth middleware', () => {
     });
   });
 
-  describe('bearer header is ignored in these middlewares', () => {
-    test('Authorization: Bearer is ignored because allowBearer=false', async () => {
+  describe('bearer header support', () => {
+    test('Authorization: Bearer is accepted', async () => {
       const mod = await loadModule();
-      verifyMock.mockReturnValue({ id: '1' });
+
+      verifyMock.mockReturnValue({
+        id: '1',
+        username: 'bearerUser',
+        role: 'USER',
+        plan: 'FREE',
+        email: 'bearer@example.com',
+        tokenVersion: 0,
+      });
+
+      prismaMock.user.findUnique.mockResolvedValue(null);
 
       const { req, res, next } = makeReqResNext({
-        req: { headers: { authorization: 'Bearer should-be-ignored' } },
+        req: {
+          headers: {
+            authorization: 'Bearer bearer-token',
+          },
+        },
       });
 
       await mod.requireAuth(req, res, next);
 
-      expect(next).not.toHaveBeenCalled();
-      expect(res.statusCode).toBe(401);
-      expect(res._json).toEqual({ error: 'Unauthorized' });
+      expect(verifyMock).toHaveBeenCalledWith('bearer-token', 'test_secret');
+      expect(next).toHaveBeenCalledTimes(1);
+      expect(res._json).toBeNull();
+      expect(req.user).toEqual({
+        id: 1,
+        username: 'bearerUser',
+        role: 'USER',
+        email: 'bearer@example.com',
+        plan: 'FREE',
+        emailVerifiedAt: null,
+        phoneVerifiedAt: null,
+        twoFactorEnabled: false,
+        preferredLanguage: 'en',
+        theme: 'dawn',
+        avatarUrl: null,
+        tokenVersion: 0,
+      });
     });
   });
 });

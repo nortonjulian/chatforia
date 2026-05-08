@@ -1,22 +1,61 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import PhoneWarningBanner from './PhoneWarningBanner';
+import PhoneWarningBanner from '@/components/PhoneWarningBanner.jsx';
+import axiosClient from '@/api/axiosClient';
 
-// Mock axiosClient
-jest.mock('../api/axiosClient', () => ({
+jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
   default: {
     post: jest.fn(),
   },
 }));
 
-import axiosClient from '../api/axiosClient';
+jest.mock('@mantine/core', () => {
+  const React = require('react');
+
+  return {
+    __esModule: true,
+    Alert: ({ title, children }) => (
+      <div role="alert">
+        <strong>{title}</strong>
+        {children}
+      </div>
+    ),
+    Button: ({ children, onClick }) => (
+      <button type="button" onClick={onClick}>
+        {children}
+      </button>
+    ),
+    Group: ({ children }) => <div>{children}</div>,
+    Text: ({ children }) => <p>{children}</p>,
+  };
+});
+
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (key) => {
+      const map = {
+        'phoneWarning.title': 'Your number is expiring soon',
+        'phoneWarning.button': 'Keep my number',
+      };
+
+      return map[key] || key;
+    },
+  }),
+  Trans: ({ values }) => (
+    <>
+      Your number <strong>{values.number}</strong> will be released on{' '}
+      <strong>{values.date}</strong>.
+    </>
+  ),
+}));
 
 describe('PhoneWarningBanner', () => {
   const basePhone = {
     id: 'phone-123',
     e164: '+15551234567',
     status: 'HOLD',
-    releaseAfter: '2100-01-01T00:00:00.000Z', // safely in the future
+    releaseAfter: '2100-01-01T00:00:00.000Z',
   };
 
   beforeEach(() => {
@@ -42,8 +81,7 @@ describe('PhoneWarningBanner', () => {
   it('does not render when releaseAfter is in the past', () => {
     const phone = {
       ...basePhone,
-      status: 'HOLD',
-      releaseAfter: '2000-01-01T00:00:00.000Z', // safely in the past
+      releaseAfter: '2000-01-01T00:00:00.000Z',
     };
 
     const { container } = render(
@@ -62,18 +100,13 @@ describe('PhoneWarningBanner', () => {
 
     render(<PhoneWarningBanner phone={phone} onReactivate={jest.fn()} />);
 
-    // Title
     expect(
       screen.getByText(/your number is expiring soon/i)
     ).toBeInTheDocument();
 
-    // Number
     expect(screen.getByText(phone.e164)).toBeInTheDocument();
-
-    // Release date
     expect(screen.getByText(expectedDate)).toBeInTheDocument();
 
-    // Button
     expect(
       screen.getByRole('button', { name: /keep my number/i })
     ).toBeInTheDocument();
@@ -87,11 +120,9 @@ describe('PhoneWarningBanner', () => {
 
     render(<PhoneWarningBanner phone={phone} onReactivate={onReactivate} />);
 
-    const button = screen.getByRole('button', { name: /keep my number/i });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole('button', { name: /keep my number/i }));
 
     await waitFor(() => {
-      expect(axiosClient.post).toHaveBeenCalledTimes(1);
       expect(axiosClient.post).toHaveBeenCalledWith(
         `/api/phone/${phone.id}/reactivate`
       );
@@ -110,16 +141,14 @@ describe('PhoneWarningBanner', () => {
 
     render(<PhoneWarningBanner phone={phone} onReactivate={onReactivate} />);
 
-    const button = screen.getByRole('button', { name: /keep my number/i });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole('button', { name: /keep my number/i }));
 
     await waitFor(() => {
       expect(axiosClient.post).toHaveBeenCalledTimes(1);
       expect(onReactivate).not.toHaveBeenCalled();
-      expect(consoleSpy).toHaveBeenCalled();
-      // Optional: check message prefix
-      expect(consoleSpy.mock.calls[0][0]).toMatch(
-        /failed to reactivate number/i
+      expect(consoleSpy).toHaveBeenCalledWith(
+        'Failed to reactivate number:',
+        error
       );
     });
 

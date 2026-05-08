@@ -1,9 +1,14 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import ThemeToggle from '@/components/ThemeToggle';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 // ---- Mocks ----
 
-// Mantine primitives (now includes useMantineColorScheme)
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    patch: jest.fn(() => Promise.resolve({ data: { theme: 'saved' } })),
+  },
+}));
+
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
@@ -20,28 +25,27 @@ jest.mock('@mantine/core', () => {
     </div>
   );
 
-  // Provide a stable mock that returns an object with setColorScheme()
   const useMantineColorScheme = () => ({
-    setColorScheme: jest.fn(), // fine to create here; Jest is allowed inside factory
+    setColorScheme: jest.fn(),
   });
 
-  return { __esModule: true, ActionIcon, Tooltip, useMantineColorScheme };
+  return {
+    __esModule: true,
+    ActionIcon,
+    Tooltip,
+    useMantineColorScheme,
+  };
 });
 
-// Icons
 jest.mock('lucide-react', () => ({
   Sun: (props) => <span data-testid="icon-sun" {...props} />,
   Moon: (props) => <span data-testid="icon-moon" {...props} />,
 }));
 
-// themeManager functions (names must start with "mock" to be referenced in jest.mock factory)
 const mockGetTheme = jest.fn();
 const mockSetTheme = jest.fn();
 const mockIsDarkTheme = jest.fn();
-const mockOnThemeChange = jest.fn((cb) => {
-  // don’t call cb immediately; just return an unsubscribe
-  return () => {};
-});
+const mockOnThemeChange = jest.fn(() => () => {});
 
 jest.mock('@/utils/themeManager', () => ({
   __esModule: true,
@@ -51,21 +55,25 @@ jest.mock('@/utils/themeManager', () => ({
   onThemeChange: (...args) => mockOnThemeChange(...args),
 }));
 
+import ThemeToggle from '@/components/ThemeToggle';
+import axiosClient from '@/api/axiosClient';
+
 beforeEach(() => {
   jest.clearAllMocks();
+  axiosClient.patch.mockResolvedValue({ data: { theme: 'saved' } });
 });
 
 describe('ThemeToggle', () => {
-  test('dark-like theme: shows Sun icon, tooltip says switch to Dawn, aria-pressed=true; click sets theme to dawn', () => {
+  test('dark-like theme: shows Sun icon, tooltip says switch to Dawn, aria-pressed=true; click sets theme to dawn', async () => {
     mockGetTheme.mockReturnValue('midnight');
     mockIsDarkTheme.mockReturnValue(true);
 
     render(<ThemeToggle />);
 
-    // Tooltip label
-    expect(screen.getByTestId('tooltip-label')).toHaveTextContent('Switch to Dawn mode');
+    expect(screen.getByTestId('tooltip-label')).toHaveTextContent(
+      'Switch to Dawn mode'
+    );
 
-    // Icon for dark-like is Sun (since clicking would go to Dawn)
     expect(screen.getByTestId('icon-sun')).toBeInTheDocument();
     expect(screen.queryByTestId('icon-moon')).not.toBeInTheDocument();
 
@@ -74,17 +82,24 @@ describe('ThemeToggle', () => {
 
     fireEvent.click(btn);
 
-    // onToggle not provided -> setTheme called with dawn
     expect(mockSetTheme).toHaveBeenCalledWith('dawn');
+
+    await waitFor(() => {
+      expect(axiosClient.patch).toHaveBeenCalledWith('/users/me', {
+        theme: 'dawn',
+      });
+    });
   });
 
-  test('light theme: shows Moon icon, tooltip says switch to Midnight, aria-pressed=false; click sets theme to midnight', () => {
+  test('light theme: shows Moon icon, tooltip says switch to Midnight, aria-pressed=false; click sets theme to midnight', async () => {
     mockGetTheme.mockReturnValue('dawn');
     mockIsDarkTheme.mockReturnValue(false);
 
     render(<ThemeToggle />);
 
-    expect(screen.getByTestId('tooltip-label')).toHaveTextContent('Switch to Midnight mode');
+    expect(screen.getByTestId('tooltip-label')).toHaveTextContent(
+      'Switch to Midnight mode'
+    );
 
     expect(screen.getByTestId('icon-moon')).toBeInTheDocument();
     expect(screen.queryByTestId('icon-sun')).not.toBeInTheDocument();
@@ -93,19 +108,31 @@ describe('ThemeToggle', () => {
     expect(btn).toHaveAttribute('aria-pressed', 'false');
 
     fireEvent.click(btn);
+
     expect(mockSetTheme).toHaveBeenCalledWith('midnight');
+
+    await waitFor(() => {
+      expect(axiosClient.patch).toHaveBeenCalledWith('/users/me', {
+        theme: 'midnight',
+      });
+    });
   });
 
-  test('onToggle prop overrides default: calls onToggle and does not call setTheme', () => {
+  test('continues even if saving theme to backend fails', async () => {
     mockGetTheme.mockReturnValue('midnight');
     mockIsDarkTheme.mockReturnValue(true);
+    axiosClient.patch.mockRejectedValueOnce(new Error('network fail'));
 
-    const onToggle = jest.fn();
-    render(<ThemeToggle onToggle={onToggle} />);
+    render(<ThemeToggle />);
 
     fireEvent.click(screen.getByRole('switch', { name: /toggle theme/i }));
 
-    expect(onToggle).toHaveBeenCalledTimes(1);
-    expect(mockSetTheme).not.toHaveBeenCalled();
+    expect(mockSetTheme).toHaveBeenCalledWith('dawn');
+
+    await waitFor(() => {
+      expect(axiosClient.patch).toHaveBeenCalledWith('/users/me', {
+        theme: 'dawn',
+      });
+    });
   });
 });

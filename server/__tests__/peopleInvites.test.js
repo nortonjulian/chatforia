@@ -1,6 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import router from '../routes/peopleInvites.js';
+import { jest } from '@jest/globals';
 
 const mockFindUnique = jest.fn();
 const mockCreate = jest.fn();

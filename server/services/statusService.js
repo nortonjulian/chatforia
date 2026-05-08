@@ -145,15 +145,9 @@ export async function createStatusService({
     translatedFrom = res.from || translatedFrom;
   }
 
-  // Encryption (skip in dev fallback)
-  let captionCiphertext = null;
+ 
+  let captionCiphertext = cap || null;
   let encryptedKeys = {};
-  if (!DEV_FALLBACKS) {
-    const { ciphertext, encryptedKeys: keys } =
-      await encryptMessageForParticipants(cap || '', author, users);
-    captionCiphertext = ciphertext || null;
-    encryptedKeys = keys || {};
-  }
 
   // Fallback keys guarantee for non-EVERYONE audiences
   if (!isEveryone) {

@@ -1,385 +1,382 @@
-import {
-  render,
-  screen,
-  fireEvent,
-  waitFor,
-  act,
-} from '@testing-library/react';
+import React, { act } from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import RandomChatPage from '../RandomChatPage.jsx';
 
-/* ---------------- Mantine stub ---------------- */
+/* ---------------- Mantine mock ---------------- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
-  const Paper = ({ children, withBorder, ...rest }) => (
-    <div data-testid="paper" {...rest}>
-      {children}
-    </div>
-  );
-
-  const Group = ({ children, ...rest }) => (
-    <div data-testid="group" {...rest}>
-      {children}
-    </div>
-  );
-
-  const Stack = ({ children, ...rest }) => (
-    <div data-testid="stack" {...rest}>
-      {children}
-    </div>
-  );
-
-  const Text = ({ children, ...rest }) => (
-    <div data-testid="text" {...rest}>
-      {children}
-    </div>
-  );
-
-  const Badge = ({ children, ...rest }) => (
-    <span data-testid="badge" {...rest}>
-      {children}
-    </span>
-  );
-
-  // Use <h3> so it has role="heading"
-  const Title = ({ children, ...rest }) => (
-    <h3 data-testid="title" {...rest}>
-      {children}
-    </h3>
-  );
-
-  // Drop unknown props like leftSection so React doesn't warn
-  const Button = ({ children, leftSection, ...rest }) => (
-    <button type="button" {...rest}>
-      {children}
-    </button>
-  );
-
-  const Loader = (props) => (
-    <span data-testid="loader" {...props}>
-      Loading…
-    </span>
-  );
-
-  const TextInput = ({ value, onChange, onKeyDown, ...rest }) => (
-    <input
-      data-testid="draft-input"
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      {...rest}
-    />
-  );
-
-  const Card = ({ children, ...rest }) => (
-    <div data-testid="card" {...rest}>
-      {children}
-    </div>
-  );
+  const passthrough =
+    (Tag = 'div', testId) =>
+    ({ children, leftSection, rightSection, ...props }) => (
+      <Tag data-testid={testId} {...props}>
+        {leftSection}
+        {children}
+        {rightSection}
+      </Tag>
+    );
 
   return {
     __esModule: true,
-    Paper,
-    Group,
-    Stack,
-    Text,
-    Badge,
-    Title,
-    Button,
-    Loader,
-    TextInput,
-    Card,
+    ActionIcon: ({ children, disabled, onClick, ...props }) => (
+      <button type="button" disabled={disabled} onClick={onClick} {...props}>
+        {children}
+      </button>
+    ),
+    Alert: ({ children, title, ...props }) => (
+      <div role="alert" {...props}>
+        {title ? <strong>{title}</strong> : null}
+        {children}
+      </div>
+    ),
+    Badge: passthrough('span', 'badge'),
+    Box: passthrough('div', 'box'),
+    Button: ({ children, leftSection, disabled, loading, onClick, ...props }) => (
+      <button
+        type="button"
+        disabled={disabled || loading}
+        onClick={onClick}
+        {...props}
+      >
+        {leftSection}
+        {children}
+      </button>
+    ),
+    Card: passthrough('div', 'card'),
+    Group: passthrough('div', 'group'),
+    Loader: () => <span data-testid="loader">Loading…</span>,
+    ScrollArea: passthrough('div', 'scroll-area'),
+    Stack: passthrough('div', 'stack'),
+    Text: passthrough('p', 'text'),
+    TextInput: ({
+      value,
+      onChange,
+      onKeyDown,
+      placeholder,
+      disabled,
+      ...props
+    }) => (
+      <input
+        aria-label={placeholder || 'message'}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        disabled={disabled}
+        {...props}
+      />
+    ),
+    Title: ({ children, order, ...props }) => <h2 {...props}>{children}</h2>,
   };
 });
 
-/* ---------------- Icons stub ---------------- */
+/* ---------------- Icons mock ---------------- */
 jest.mock('@tabler/icons-react', () => ({
   __esModule: true,
-  IconMessageCircle: () => <i data-testid="icon-msg" />,
-  IconPlayerPlay: () => <i data-testid="icon-play" />,
-  IconPlayerStop: () => <i data-testid="icon-stop" />,
-  IconRobot: () => <i data-testid="icon-robot" />,
+  IconArrowRight: () => <i />,
+  IconRobot: () => <i />,
+  IconRefresh: () => <i />,
+  IconUserPlus: () => <i />,
+  IconX: () => <i />,
 }));
 
-/* ---------------- User context stub ---------------- */
-/**
- * NOTE: We give the user an `ageBand` so the startSearch()
- * path actually emits `find_random_chat` instead of showing
- * the “set your age range” message.
- */
-jest.mock('@/context/UserContext', () => ({
+/* ---------------- Router mock ---------------- */
+const mockNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
   __esModule: true,
-  useUser: () => ({
-    currentUser: { id: 42, username: 'me', ageBand: '18-24' },
+  useNavigate: () => mockNavigate,
+}));
+
+/* ---------------- i18n mock ---------------- */
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (_key, fallback) => fallback,
   }),
 }));
 
-/* ---------------- Router helpers ---------------- */
-jest.mock('react-router-dom', () => {
-  return {
-    __esModule: true,
-    useNavigate: () => jest.fn(),
-  };
+/* ---------------- Config mock ---------------- */
+jest.mock('@/config', () => ({
+  __esModule: true,
+  WS_URL: 'http://localhost:3000',
+}));
+
+/* ---------------- socket.io-client mock ---------------- */
+const socketHandlers = {};
+const mockEmit = jest.fn();
+const mockDisconnect = jest.fn();
+const mockRemoveAllListeners = jest.fn();
+
+const mockSocket = {
+  on: jest.fn((event, callback) => {
+    socketHandlers[event] = callback;
+  }),
+  emit: mockEmit,
+  disconnect: mockDisconnect,
+  removeAllListeners: mockRemoveAllListeners,
+};
+
+jest.mock('socket.io-client', () => ({
+  __esModule: true,
+  io: jest.fn(() => mockSocket),
+}));
+
+function triggerSocket(event, payload) {
+  act(() => {
+    socketHandlers[event]?.(payload);
+  });
+}
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  Object.keys(socketHandlers).forEach((key) => {
+    delete socketHandlers[key];
+  });
+
+  localStorage.clear();
+
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({
+      user: {
+        ageBand: '18-24',
+        wantsAgeFilter: false,
+      },
+    }),
+  });
+
+  Element.prototype.scrollIntoView = jest.fn();
 });
-
-/* ---- Socket singleton mock (robust shared state) ---- */
-globalThis.__socketState =
-  globalThis.__socketState || { handlers: {}, emitMock: jest.fn() };
-globalThis.__serverEmitMock = globalThis.__socketState.emitMock;
-
-jest.mock('@/lib/socket', () => {
-  const getState = () => {
-    if (!globalThis.__socketState) {
-      globalThis.__socketState = { handlers: {}, emitMock: jest.fn() };
-      globalThis.__serverEmitMock = globalThis.__socketState.emitMock;
-    }
-    return globalThis.__socketState;
-  };
-
-  const api = {
-    on: (evt, cb) => {
-      const { handlers } = getState();
-      (handlers[evt] ||= new Set()).add(cb);
-    },
-    off: (evt, cb) => {
-      const { handlers } = getState();
-      handlers[evt]?.delete(cb);
-    },
-    emit: (...args) => getState().emitMock(...args),
-    __trigger: (evt, ...args) => {
-      const { handlers } = getState();
-      (handlers[evt] ?? new Set()).forEach((cb) => cb(...args));
-    },
-  };
-
-  return { __esModule: true, default: api };
-});
-
-// Pull the mocked instance for triggers AFTER the mock above
-const socket = require('@/lib/socket').default;
-
-/* ---------------- SUT ---------------- */
-import RandomChatPage from '../RandomChatPage';
 
 describe('RandomChatPage', () => {
-  beforeEach(() => {
-    globalThis.__socketState.emitMock.mockReset();
-    globalThis.__socketState.handlers = {};
-  });
-
-  test('initial UI shows Idle badge and action buttons', () => {
+  test('initial UI shows Idle badge and action buttons', async () => {
     render(<RandomChatPage />);
 
     expect(
-      screen.getByRole('heading', { name: /Random Chat/i })
+      screen.getByRole('heading', { name: /random chat/i })
     ).toBeInTheDocument();
 
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Idle/i);
-
-    expect(screen.getByText(/Find me a match/i)).toBeInTheDocument();
-    expect(screen.getByText(/Cancel/i)).toBeInTheDocument();
-    expect(screen.getByText(/Chat with Ria/i)).toBeInTheDocument();
-  });
-
-  test('starting a search emits find_random_chat and shows Searching badge + status', () => {
-    render(<RandomChatPage />);
-
-    fireEvent.click(screen.getByText(/Find me a match/i));
-
-    expect(globalThis.__serverEmitMock).toHaveBeenCalledWith('find_random_chat');
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Searching…/i);
-    expect(
-      screen.getByText(/Looking for someone…/i)
-    ).toBeInTheDocument();
-  });
-
-  test('starting an AI chat emits start_ai_chat and normalizes next pair_found to "Ria" with BOT badge', async () => {
-    render(<RandomChatPage />);
-
-    fireEvent.click(screen.getByText(/Chat with Ria/i));
-    expect(globalThis.__serverEmitMock).toHaveBeenCalledWith('start_ai_chat');
-    expect(
-      screen.getByText(/Starting a chat with Ria/i)
-    ).toBeInTheDocument();
-
-    await act(async () => {
-      socket.__trigger('pair_found', { roomId: 'r1', partner: 'Somebody' });
-    });
+    expect(screen.getByText(/idle/i)).toBeInTheDocument();
 
     await waitFor(() => {
-      const badges = screen.getAllByTestId('badge');
       expect(
-        badges.some((el) => /With Ria/i.test(el.textContent || ''))
-      ).toBe(true);
+        screen.getByRole('button', { name: /find me a match/i })
+      ).toBeEnabled();
     });
 
     expect(
-      screen.getByText(/You’re chatting with/i)
+      screen.getByRole('button', { name: /chat with ria/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/BOT/i)).toBeInTheDocument();
-    expect(screen.getByText(/Say hi/i)).toBeInTheDocument();
   });
 
-  test('pair_found (human) shows Connected badge and header text without BOT', async () => {
+  test('starting a human match emits random:join', async () => {
     render(<RandomChatPage />);
-    fireEvent.click(screen.getByText(/Find me a match/i));
-
-    await act(async () => {
-      socket.__trigger('pair_found', { roomId: 'room-7', partner: 'Sam' });
-    });
 
     await waitFor(() => {
-      expect(screen.getByTestId('badge')).toHaveTextContent(/Connected/i);
+      expect(
+        screen.getByRole('button', { name: /find me a match/i })
+      ).toBeEnabled();
     });
 
-    expect(
-      screen.getByText(/You’re chatting with/i)
-    ).toBeInTheDocument();
-    expect(screen.queryByText(/BOT/i)).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /find me a match/i }));
+
+    expect(mockEmit).toHaveBeenCalledWith('random:join', {});
+    expect(screen.getByText(/matching/i)).toBeInTheDocument();
   });
 
-  test('sending messages: trims content, uses active.roomId, clears input, and disables button when blank', async () => {
+  test('starting Ria chat emits random:ai_start', async () => {
     render(<RandomChatPage />);
 
-    await act(async () => {
-      socket.__trigger('pair_found', { roomId: 'xyz', partner: 'Alex' });
+    fireEvent.click(
+      await screen.findByRole('button', { name: /chat with ria/i })
+    );
+
+    expect(mockEmit).toHaveBeenCalledWith('random:ai_start');
+  });
+
+  test('random:matched opens human chat pane', async () => {
+    render(<RandomChatPage />);
+
+    triggerSocket('random:matched', {
+      roomId: 'room-1',
+      myAlias: 'You',
+      partnerAlias: 'Sam',
     });
 
-    const input = await screen.findByTestId('draft-input');
-    const sendBtn = await screen.findByText(/^Send$/i);
+    expect(await screen.findByText('Sam')).toBeInTheDocument();
+    expect(screen.getByText(/anonymous/i)).toBeInTheDocument();
+    expect(screen.getByText(/you matched with sam/i)).toBeInTheDocument();
+  });
 
-    expect(sendBtn).toBeDisabled();
+  test('random:ai_started opens Ria chat pane', async () => {
+    render(<RandomChatPage />);
 
-    fireEvent.change(input, { target: { value: '   ' } });
-    expect(sendBtn).toBeDisabled();
+    triggerSocket('random:ai_started', {
+      roomId: 'ria-room',
+      name: 'Ria',
+    });
+
+    expect(await screen.findByText('Ria')).toBeInTheDocument();
+    expect(screen.getByText(/ai/i)).toBeInTheDocument();
+    expect(screen.getByText(/now chatting with ria/i)).toBeInTheDocument();
+  });
+
+  test('sending a message emits random:message and clears input', async () => {
+    render(<RandomChatPage />);
+
+    triggerSocket('random:matched', {
+      roomId: 'room-2',
+      myAlias: 'You',
+      partnerAlias: 'Alex',
+    });
+
+    const input = await screen.findByPlaceholderText(/message your match/i);
+    const sendButton = screen.getByRole('button', { name: /send message/i });
+
+    expect(sendButton).toBeDisabled();
 
     fireEvent.change(input, { target: { value: '  hello there  ' } });
-    expect(sendBtn).not.toBeDisabled();
 
-    fireEvent.click(sendBtn);
+    expect(sendButton).toBeEnabled();
 
-    expect(globalThis.__serverEmitMock).toHaveBeenCalledWith(
-      'send_message',
-      expect.objectContaining({
-        content: 'hello there',
-        randomChatRoomId: 'xyz',
-      })
-    );
+    fireEvent.click(sendButton);
+
+    expect(mockEmit).toHaveBeenCalledWith('random:message', {
+      roomId: 'room-2',
+      content: 'hello there',
+    });
 
     await waitFor(() => {
       expect(input).toHaveValue('');
-      expect(sendBtn).toBeDisabled();
     });
+
+    expect(screen.getByText('hello there')).toBeInTheDocument();
   });
 
-  test('receive_message appends; label shows "You" for self and partner label for others', async () => {
+  test('random:message appends incoming message', async () => {
     render(<RandomChatPage />);
 
-    await act(async () => {
-      socket.__trigger('pair_found', { roomId: 'r2', partner: 'Casey' });
-      socket.__trigger('receive_message', {
-        senderId: 999,
-        content: 'hi from partner',
-      });
-      socket.__trigger('receive_message', {
-        senderId: 42,
-        content: 'my reply',
-      });
+    triggerSocket('random:matched', {
+      roomId: 'room-3',
+      myAlias: 'You',
+      partnerAlias: 'Casey',
     });
 
-    await waitFor(() => {
-      expect(screen.getByText('Casey')).toBeInTheDocument();
-      expect(
-        screen.getByText('hi from partner')
-      ).toBeInTheDocument();
-      expect(screen.getByText('You')).toBeInTheDocument();
-      expect(screen.getByText('my reply')).toBeInTheDocument();
+    triggerSocket('random:message', {
+      id: 'msg-1',
+      senderId: 999,
+      sender: { username: 'Casey' },
+      content: 'hi from partner',
+      createdAt: new Date().toISOString(),
     });
+
+    expect(await screen.findByText('hi from partner')).toBeInTheDocument();
   });
 
-  test('partner_disconnected shows status text; chat_skipped resets to Idle with status', async () => {
+  test('Add Friend emits random:add_friend and disables request button', async () => {
     render(<RandomChatPage />);
 
-    await act(async () => {
-      socket.__trigger('pair_found', { roomId: 'r3', partner: 'Ava' });
-      socket.__trigger('partner_disconnected', 'They left.');
+    triggerSocket('random:matched', {
+      roomId: 'room-4',
+      myAlias: 'You',
+      partnerAlias: 'Taylor',
     });
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(/They left\./i)
-      ).toBeInTheDocument();
+    const addFriendButton = await screen.findByRole('button', {
+      name: /add friend/i,
     });
 
-    await act(async () => {
-      socket.__trigger('chat_skipped', 'Stopped.');
+    fireEvent.click(addFriendButton);
+
+    expect(mockEmit).toHaveBeenCalledWith('random:add_friend', {
+      roomId: 'room-4',
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('badge')).toHaveTextContent(/Idle/i);
-      expect(
-        screen.getByText(/Stopped\./i)
-      ).toBeInTheDocument();
-    });
+    expect(screen.getByRole('button', { name: /requested/i })).toBeDisabled();
+    expect(screen.getByText(/friend request sent/i)).toBeInTheDocument();
   });
 
-  test('Cancel button (and ESC) call skip_random_chat and reset UI', () => {
+  test('random:friend_accepted navigates to chat room', async () => {
+    jest.useFakeTimers();
+
     render(<RandomChatPage />);
 
-    fireEvent.click(screen.getByText(/Find me a match/i));
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Searching/i);
+    triggerSocket('random:matched', {
+      roomId: 'room-5',
+      myAlias: 'You',
+      partnerAlias: 'Jordan',
+    });
 
-    fireEvent.click(screen.getByText(/^Cancel$/i));
-    expect(globalThis.__serverEmitMock).toHaveBeenCalledWith(
-      'skip_random_chat'
-    );
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Idle/i);
+    triggerSocket('random:friend_accepted', {
+      chatRoomId: 123,
+      username: 'jordan',
+      userId: 88,
+    });
+
+    expect(await screen.findAllByText(/@jordan/i)).toHaveLength(2);
+
+    act(() => {
+      jest.advanceTimersByTime(700);
+    });
+
+    expect(mockNavigate).toHaveBeenCalledWith('/chat/123');
+
+    jest.useRealTimers();
+  });
+
+  test('Next Person emits random:skip', async () => {
+    render(<RandomChatPage />);
+
+    triggerSocket('random:matched', {
+      roomId: 'room-6',
+      myAlias: 'You',
+      partnerAlias: 'Morgan',
+    });
+
+    fireEvent.click(await screen.findByRole('button', { name: /next person/i }));
+
+    expect(mockEmit).toHaveBeenCalledWith('random:skip');
+  });
+
+  test('Leave emits random:leave and resets UI for human chat', async () => {
+    render(<RandomChatPage />);
+
+    triggerSocket('random:matched', {
+      roomId: 'room-7',
+      myAlias: 'You',
+      partnerAlias: 'Ava',
+    });
+
+    fireEvent.click(await screen.findByRole('button', { name: /leave/i }));
+
+    expect(mockEmit).toHaveBeenCalledWith('random:leave');
+
     expect(
-      screen.getByText(/Cancelled\./i)
-    ).toBeInTheDocument();
-
-    fireEvent.click(screen.getByText(/Find me a match/i));
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Searching/i);
-
-    fireEvent.keyDown(window, { key: 'Escape' });
-    expect(globalThis.__serverEmitMock).toHaveBeenCalledWith(
-      'skip_random_chat'
-    );
-    expect(screen.getByTestId('badge')).toHaveTextContent(/Idle/i);
-    expect(
-      screen.getByText(/Cancelled\./i)
+      await screen.findByRole('button', { name: /find me a match/i })
     ).toBeInTheDocument();
   });
 
-  test('AI flow + receive_message uses partner label "Ria"', async () => {
+  test('random:ended shows ended banner and returns to start card', async () => {
     render(<RandomChatPage />);
 
-    fireEvent.click(screen.getByText(/Chat with Ria/i));
-
-    await act(async () => {
-      socket.__trigger('pair_found', {
-        roomId: 'r-bot',
-        partner: 'whatever',
-      });
+    triggerSocket('random:matched', {
+      roomId: 'room-8',
+      myAlias: 'You',
+      partnerAlias: 'Blake',
     });
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(/You’re chatting with/i)
-      ).toBeInTheDocument();
+    triggerSocket('random:ended', {
+      reason: 'peer_skipped',
     });
 
-    await act(async () => {
-      socket.__trigger('receive_message', {
-        senderId: 999,
-        content: 'I am an AI.',
-      });
-    });
+    expect(
+      (await screen.findAllByText(/the other person moved on/i)).length
+    ).toBeGreaterThan(0);
 
-    await waitFor(() => {
-      expect(screen.getByText('Ria')).toBeInTheDocument();
-      expect(
-        screen.getByText('I am an AI.')
-      ).toBeInTheDocument();
-    });
+    expect(
+      screen.getByRole('button', { name: /find me a match/i })
+    ).toBeInTheDocument();
   });
 });

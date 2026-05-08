@@ -3,18 +3,52 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 /* ---------------- Mantine stubs ---------------- */
 jest.mock('@mantine/core', () => {
   const React = require('react');
+
+  const stripDomProps = (props = {}) => {
+    const {
+      withBorder,
+      radius,
+      p,
+      gap,
+      justify,
+      c,
+      description,
+      ...rest
+    } = props;
+
+    return rest;
+  };
+
   const passthru = (tid) => ({ children, ...props }) => (
-    <div data-testid={tid} {...props}>{children}</div>
+    <div data-testid={tid} {...stripDomProps(props)}>
+      {children}
+    </div>
   );
-  const Title = ({ children, ...p }) => <h3 data-testid="title" {...p}>{children}</h3>;
+
+  const Title = ({ order = 3, children, ...props }) => {
+    const HeadingTag = `h${order}`;
+    return (
+      <HeadingTag data-testid="title" {...stripDomProps(props)}>
+        {children}
+      </HeadingTag>
+    );
+  };
+
   const Stack = passthru('stack');
   const Card = passthru('card');
   const Group = passthru('group');
-  const Text = ({ children, ...p }) => <div {...p}>{children}</div>;
-  const Button = ({ children, onClick, disabled, ...p }) => (
-    <button onClick={onClick} disabled={!!disabled} {...p}>{children}</button>
+
+  const Text = ({ children, ...props }) => (
+    <div {...stripDomProps(props)}>{children}</div>
   );
-  const PasswordInput = ({ label, value, onChange, ...p }) => (
+
+  const Button = ({ children, onClick, disabled, ...props }) => (
+    <button onClick={onClick} disabled={!!disabled} {...stripDomProps(props)}>
+      {children}
+    </button>
+  );
+
+  const PasswordInput = ({ label, value, onChange, ...props }) => (
     <label>
       {label}
       <input
@@ -22,44 +56,45 @@ jest.mock('@mantine/core', () => {
         type="password"
         value={value || ''}
         onChange={onChange}
-        {...p}
+        {...stripDomProps(props)}
       />
     </label>
   );
-  return { __esModule: true, Card, Stack, Title, PasswordInput, Group, Button, Text };
+
+  return {
+    __esModule: true,
+    Card,
+    Stack,
+    Title,
+    PasswordInput,
+    Group,
+    Button,
+    Text,
+  };
 });
 
-/* ---------------- Children component stubs ---------------- */
-/* Correct relative paths from this test file:
-   test:       src/pages/__tests__/SettingsBackups.test.js
-   components: src/components/settings/ChatBackupManager.jsx
-               src/components/KeyBackupManager.jsx
-   relatives:  ../../components/settings/ChatBackupManager.jsx
-               ../../components/KeyBackupManager.jsx
-*/
-jest.mock('../../components/settings/ChatBackupManager.jsx', () => ({
-  __esModule: true,
-  default: () => <div data-testid="backup-manager">backup</div>,
-}));
-
+/* ---------------- Child component stubs ---------------- */
 jest.mock('../../components/KeyBackupManager.jsx', () => ({
   __esModule: true,
-  default: ({ fetchAllMessages, currentUserId, currentUserPrivateKey }) => (
-    <div
-      data-testid="chat-backup"
-      data-currentuserid={String(currentUserId)}
-      data-privatekey={currentUserPrivateKey || ''}
-    >
+  default: () => <div data-testid="key-backup-manager">key backup</div>,
+}));
+
+jest.mock('../../components/settings/ChatBackupManager.jsx', () => ({
+  __esModule: true,
+  default: ({ fetchPage }) => (
+    <div data-testid="chat-backup-manager">
       <button
+        type="button"
         onClick={async () => {
+          const statusEl = global.document.querySelector(
+            '[data-testid="fetch-status"]'
+          );
+
           try {
-            const res = await fetchAllMessages();
-            const ok = res && (res.items || res.data || res).length >= 0;
-            const el = global.document.querySelector('[data-testid="fetch-status"]');
-            if (el) el.textContent = ok ? 'fetch-ok' : 'fetch-empty';
-          } catch (e) {
-            const el = global.document.querySelector('[data-testid="fetch-status"]');
-            if (el) el.textContent = 'fetch-error';
+            await fetchPage();
+            if (statusEl) statusEl.textContent = 'fetch-ok';
+          } catch {
+            if (statusEl) statusEl.textContent = 'fetch-error';
           }
         }}
       >
@@ -69,79 +104,108 @@ jest.mock('../../components/KeyBackupManager.jsx', () => ({
   ),
 }));
 
-/* ---------------- Encryption client ---------------- */
-global.__unlockKeyBundleMock = jest.fn();
-jest.mock('../../utils/encryptionClient.js', () => ({
+/* ---------------- Encryption loader ---------------- */
+const mockUnlockKeyBundle = jest.fn();
+
+jest.mock('../../utils/loadEncryptionClient', () => ({
   __esModule: true,
-  unlockKeyBundle: (...a) => global.__unlockKeyBundleMock(...a),
+  default: jest.fn(async () => ({
+    unlockKeyBundle: (...args) => mockUnlockKeyBundle(...args),
+  })),
 }));
 
 /* ---------------- SUT ---------------- */
 import SettingsBackups from '../SettingsBackups';
+import loadEncryptionClient from '../../utils/loadEncryptionClient';
 
 describe('SettingsBackups', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    global.__unlockKeyBundleMock.mockReset();
+    mockUnlockKeyBundle.mockReset();
   });
 
-  test('renders title and ChatBackupManager', () => {
+  afterEach(() => {
+    delete global.fetch;
+  });
+
+  test('renders title, KeyBackupManager, and ChatBackupManager', () => {
     render(<SettingsBackups />);
-    // Use a role-based query to disambiguate multiple <h3 data-testid="title"> elements
-    expect(screen.getByRole('heading', { name: /Backups/i })).toBeInTheDocument();
-    expect(screen.getByTestId('backup-manager')).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { name: /^Backups$/i })
+    ).toBeInTheDocument();
+
+    expect(screen.getByTestId('key-backup-manager')).toBeInTheDocument();
+    expect(screen.getByTestId('chat-backup-manager')).toBeInTheDocument();
   });
 
-  test('unlock button disabled until passcode >= 6; success path sets status and passes key to KeyBackupManager', async () => {
-    global.__unlockKeyBundleMock.mockResolvedValueOnce({ privateKey: 'PK_BASE64' });
+  test('unlock button disabled until passcode >= 6; success path sets status', async () => {
+    mockUnlockKeyBundle.mockResolvedValueOnce({ privateKey: 'PK_BASE64' });
 
-    render(
-      <div>
-        <SettingsBackups />
-        <div data-testid="fetch-status" />
-      </div>
-    );
+    render(<SettingsBackups />);
 
-    const unlockBtn = screen.getByRole('button', { name: /unlock/i });
+    const unlockBtn = screen.getByRole('button', { name: /^unlock$/i });
     expect(unlockBtn).toBeDisabled();
 
-    // Too short
-    fireEvent.change(screen.getByLabelText(/Unlock passcode/i), { target: { value: '12345' } });
+    fireEvent.change(screen.getByLabelText(/unlock passcode/i), {
+      target: { value: '12345' },
+    });
     expect(unlockBtn).toBeDisabled();
 
-    // Valid length
-    fireEvent.change(screen.getByLabelText(/Unlock passcode/i), { target: { value: '123456' } });
+    fireEvent.change(screen.getByLabelText(/unlock passcode/i), {
+      target: { value: '123456' },
+    });
     expect(unlockBtn).not.toBeDisabled();
 
     fireEvent.click(unlockBtn);
 
-    await waitFor(() => expect(global.__unlockKeyBundleMock).toHaveBeenCalledWith('123456'));
-    await waitFor(() => expect(screen.getByText(/Unlocked ✓/i)).toBeInTheDocument());
+    await waitFor(() => {
+      expect(loadEncryptionClient).toHaveBeenCalledTimes(1);
+    });
 
-    // Private key flowed into KeyBackupManager stub
-    const chat = screen.getByTestId('chat-backup');
-    expect(chat).toHaveAttribute('data-privatekey', 'PK_BASE64');
+    await waitFor(() => {
+      expect(mockUnlockKeyBundle).toHaveBeenCalledWith('123456');
+    });
+
+    expect(await screen.findByText(/Unlocked ✓/i)).toBeInTheDocument();
   });
 
   test('unlock failure shows error status', async () => {
-    global.__unlockKeyBundleMock.mockRejectedValueOnce(new Error('bad pass'));
+    mockUnlockKeyBundle.mockRejectedValueOnce(new Error('bad pass'));
 
     render(<SettingsBackups />);
 
-    fireEvent.change(screen.getByLabelText(/Unlock passcode/i), { target: { value: 'hunter2' } });
-    fireEvent.click(screen.getByRole('button', { name: /unlock/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/Error: bad pass/i)).toBeInTheDocument();
+    fireEvent.change(screen.getByLabelText(/unlock passcode/i), {
+      target: { value: 'hunter2' },
     });
+
+    fireEvent.click(screen.getByRole('button', { name: /^unlock$/i }));
+
+    expect(await screen.findByText(/Error: bad pass/i)).toBeInTheDocument();
+  });
+
+  test('unlock failure handles missing encryption client function', async () => {
+    loadEncryptionClient.mockResolvedValueOnce({});
+
+    render(<SettingsBackups />);
+
+    fireEvent.change(screen.getByLabelText(/unlock passcode/i), {
+      target: { value: '123456' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /^unlock$/i }));
+
+    expect(
+      await screen.findByText(/Error: Encryption client not available/i)
+    ).toBeInTheDocument();
   });
 
   test('fetchAllMessages hits /messages/all?limit=5000 with credentials and handles success', async () => {
-    // Mock fetch success
     const jsonMock = jest.fn().mockResolvedValue({ items: [] });
-    const fetchMock = jest.fn().mockResolvedValue({ ok: true, json: jsonMock });
-    const ogFetch = global.fetch;
-    global.fetch = fetchMock;
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jsonMock,
+    });
 
     render(
       <div>
@@ -153,21 +217,23 @@ describe('SettingsBackups', () => {
     fireEvent.click(screen.getByText('run-fetch'));
 
     await waitFor(() => {
-      expect(fetchMock).toHaveBeenCalledWith(
+      expect(global.fetch).toHaveBeenCalledWith(
         '/messages/all?limit=5000',
         expect.objectContaining({ credentials: 'include' })
       );
     });
-    await waitFor(() => expect(screen.getByTestId('fetch-status')).toHaveTextContent('fetch-ok'));
 
-    global.fetch = ogFetch;
+    await waitFor(() => {
+      expect(jsonMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(screen.getByTestId('fetch-status')).toHaveTextContent('fetch-ok');
   });
 
   test('fetchAllMessages error path shows fetch-error', async () => {
-    // Mock fetch non-ok
-    const fetchMock = jest.fn().mockResolvedValue({ ok: false });
-    const ogFetch = global.fetch;
-    global.fetch = fetchMock;
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+    });
 
     render(
       <div>
@@ -177,14 +243,11 @@ describe('SettingsBackups', () => {
     );
 
     fireEvent.click(screen.getByText('run-fetch'));
-    await waitFor(() => expect(screen.getByTestId('fetch-status')).toHaveTextContent('fetch-error'));
 
-    global.fetch = ogFetch;
-  });
-
-  test('currentUserId prop is undefined (as written)', () => {
-    render(<SettingsBackups />);
-    const chat = screen.getByTestId('chat-backup');
-    expect(chat).toHaveAttribute('data-currentuserid', 'undefined');
+    await waitFor(() => {
+      expect(screen.getByTestId('fetch-status')).toHaveTextContent(
+        'fetch-error'
+      );
+    });
   });
 });

@@ -3,7 +3,7 @@ import request from 'supertest';
 import { jest } from '@jest/globals';
 
 // ---- Mock prisma + auth BEFORE importing the router ----
-jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
+jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: {
     phoneNumber: {
@@ -14,20 +14,17 @@ jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
   },
 }));
 
-jest.unstable_mockModule('../../middleware/auth.js', () => ({
+jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, _res, next) => {
-    // simulate authenticated user
     req.user = { id: 'user-123' };
     next();
   },
 }));
 
 // Re-import mocked modules + router
-const prismaModule = await import('../../utils/prismaClient.js');
-const prisma = prismaModule.default;
-
-const { default: phoneRouter } = await import('./phone.js');
+const { default: prisma } = await import('../utils/prismaClient.js');
+const { default: phoneRouter } = await import('../routes/api/phone.js');
 
 describe('phone routes', () => {
   let app;
@@ -41,8 +38,6 @@ describe('phone routes', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-
-  /* -------- POST /:id/reactivate -------- */
 
   it('reactivates a phone when it belongs to the authenticated user', async () => {
     prisma.phoneNumber.findFirst.mockResolvedValueOnce({
@@ -91,8 +86,7 @@ describe('phone routes', () => {
   });
 
   it('returns 500 when an error occurs during reactivation', async () => {
-    const err = new Error('DB failure');
-    prisma.phoneNumber.findFirst.mockRejectedValueOnce(err);
+    prisma.phoneNumber.findFirst.mockRejectedValueOnce(new Error('DB failure'));
 
     const consoleSpy = jest
       .spyOn(console, 'error')
@@ -104,10 +98,9 @@ describe('phone routes', () => {
     expect(res.body).toEqual({ error: 'Internal server error' });
 
     expect(consoleSpy).toHaveBeenCalled();
+
     consoleSpy.mockRestore();
   });
-
-  /* -------- GET / (list user phone numbers) -------- */
 
   it('lists phone numbers for the authenticated user', async () => {
     const mockedNumbers = [
@@ -130,8 +123,23 @@ describe('phone routes', () => {
     const res = await request(app).get('/api/phone');
 
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ numbers: mockedNumbers });
-
+    expect(res.body).toEqual({
+      numbers: [
+        {
+          id: 'phone-1',
+          e164: '+15551234567',
+          status: 'ASSIGNED',
+          releaseAfter: null,
+        },
+        {
+          id: 'phone-2',
+          e164: '+15559876543',
+          status: 'HOLD',
+          releaseAfter: '2100-01-01T00:00:00.000Z',
+        },
+      ],
+    });
+    
     expect(prisma.phoneNumber.findMany).toHaveBeenCalledWith({
       where: { assignedUserId: 'user-123' },
       select: {
@@ -144,8 +152,7 @@ describe('phone routes', () => {
   });
 
   it('returns 500 when an error occurs while listing numbers', async () => {
-    const err = new Error('DB failure');
-    prisma.phoneNumber.findMany.mockRejectedValueOnce(err);
+    prisma.phoneNumber.findMany.mockRejectedValueOnce(new Error('DB failure'));
 
     const consoleSpy = jest
       .spyOn(console, 'error')
@@ -157,6 +164,7 @@ describe('phone routes', () => {
     expect(res.body).toEqual({ error: 'Failed to load numbers' });
 
     expect(consoleSpy).toHaveBeenCalled();
+
     consoleSpy.mockRestore();
   });
 });

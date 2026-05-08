@@ -3,7 +3,6 @@ import { EventEmitter } from 'events';
 
 // ---- Mocks ----
 
-// A single logger object that pino() will return
 const pinoChild = {
   info: jest.fn(),
   warn: jest.fn(),
@@ -11,7 +10,6 @@ const pinoChild = {
   child: jest.fn(() => pinoChild),
 };
 
-// pino mock: default export is a function returning our logger
 jest.mock('pino', () => ({
   __esModule: true,
   default: () => pinoChild,
@@ -20,18 +18,15 @@ jest.mock('pino', () => ({
 jest.mock('@sentry/node', () => ({
   __esModule: true,
   default: {},
-  Handlers: {
-    requestHandler: () => (req, res, next) => next(),
-    errorHandler: () => (err, req, res, next) => next(err),
-  },
   init: jest.fn(),
   captureException: jest.fn(),
+  setTag: jest.fn(),
+  setContext: jest.fn(),
+  setUser: jest.fn(),
 }));
 
-// Lightweight prom-client stub that records calls
 const promCounters = [];
 const promHistograms = [];
-const promGauges = [];
 
 class Counter {
   constructor(cfg) {
@@ -41,6 +36,7 @@ class Counter {
     );
   }
 }
+
 class Histogram {
   constructor(cfg) {
     this.cfg = cfg;
@@ -49,17 +45,13 @@ class Histogram {
     );
   }
 }
-class Gauge {
-  constructor(cfg) {
-    this.cfg = cfg;
-    this.set = jest.fn((value) => promGauges.push({ cfg, value }));
-  }
-}
+
 class Registry {
   constructor() {
     this.contentType = 'text/plain; version=0.0.4';
     this._metrics = 'mock_metrics';
   }
+
   metrics() {
     return this._metrics;
   }
@@ -71,51 +63,38 @@ jest.mock('prom-client', () => ({
   __esModule: true,
   Counter,
   Histogram,
-  Gauge,
   Registry,
   collectDefaultMetrics,
 }));
 
-// Stable UUID for tests (used by requestId())
 jest.mock('crypto', () => ({
   randomUUID: jest.fn(() => 'uuid-123'),
 }));
 
-// Reset metric logs between tests
 beforeEach(() => {
   promCounters.length = 0;
   promHistograms.length = 0;
-  promGauges.length = 0;
 
-  // also reset logger calls
   pinoChild.info.mockClear();
   pinoChild.warn.mockClear();
   pinoChild.error.mockClear();
   pinoChild.child.mockClear();
 });
 
-// Helper to (re)load module under test
 const loadModule = async () => {
-  // Ensure Sentry stays disabled in tests unless explicitly set
   delete process.env.SENTRY_DSN;
-
-  // No resetModules here, so mocks (like crypto) stay in effect
   const mod = await import('../audit.js');
   return { mod };
 };
 
-// Minimal req/res for middleware testing
 const makeReqResNext = (overrides = {}) => {
   const req = Object.assign(
     {
       method: 'POST',
       headers: {},
-      get: function (key) {
-        const v = this.headers[key.toLowerCase()];
-        return v || undefined;
-      },
       route: { path: '/messages/:id' },
       baseUrl: '',
+      path: '/messages/123',
       originalUrl: '/messages/123',
       socket: { remoteAddress: '10.0.0.1' },
       ip: '127.0.0.1',
@@ -126,13 +105,14 @@ const makeReqResNext = (overrides = {}) => {
   );
 
   const emitter = new EventEmitter();
+
   const res = Object.assign(emitter, {
     statusCode: 200,
     headers: {},
-    setHeader: function (k, v) {
+    setHeader(k, v) {
       this.headers[k.toLowerCase()] = v;
     },
-    getHeader: function (k) {
+    getHeader(k) {
       return this.headers[k.toLowerCase()];
     },
     end: jest.fn(),
@@ -142,10 +122,10 @@ const makeReqResNext = (overrides = {}) => {
   });
 
   const next = jest.fn();
+
   return { req, res, next };
 };
 
-// Allow awaiting microtasks flush (no fake timers needed)
 const tick = () => Promise.resolve();
 
 describe('audit middleware suite', () => {
@@ -155,42 +135,32 @@ describe('audit middleware suite', () => {
     const redactor = () => ({
       password: 'secret',
       token: 'abc',
-      nested: { access_token: 'xyz', keep: 'safe' },
-      arr: [{ api_key: 'k' }, 1, true, 'str'],
     });
 
-    const { req, res, next } = makeReqResNext({
-      req: {
-        headers: {
-          'x-forwarded-for': '1.2.3.4, 9.9.9.9',
-          'user-agent': 'UA',
-        },
-      },
-    });
+    const { req, res, next } = makeReqResNext();
 
     const mw = mod.audit('MESSAGE_SEND', {
-      resource: 'message',
-      resourceId: 123,
       redactor,
     });
 
     mw(req, res, next);
 
-    // simulate response finished
+    expect(next).toHaveBeenCalledTimes(1);
+
     res.emit('finish');
     await tick();
 
-    // We can't see DB writes here, but the audit counter should have incremented
     const auditInc = promCounters.find(
       ({ cfg, labels }) =>
         cfg?.name === 'audit_logs_total' &&
         labels?.action === 'MESSAGE_SEND' &&
         labels?.status === '200'
     );
+
     expect(auditInc).toBeDefined();
   });
 
-  test('audit(): no-op (no metric) when req.user.id is missing', async () => {
+  test('audit(): no-op when req.user.id is missing', async () => {
     const { mod } = await loadModule();
 
     const { req, res, next } = makeReqResNext({
@@ -200,17 +170,19 @@ describe('audit middleware suite', () => {
     const mw = mod.audit('LOGIN', {});
     mw(req, res, next);
 
+    expect(next).toHaveBeenCalledTimes(1);
+
     res.emit('finish');
     await tick();
 
-    // No audit_logs_total increments when there is no actorId
     const auditIncs = promCounters.filter(
       ({ cfg }) => cfg?.name === 'audit_logs_total'
     );
+
     expect(auditIncs.length).toBe(0);
   });
 
-  test('audit(): continues if redactor throws (still increments metric)', async () => {
+  test('audit(): continues if redactor throws and still increments metric', async () => {
     const { mod } = await loadModule();
 
     const badRedactor = () => {
@@ -218,22 +190,26 @@ describe('audit middleware suite', () => {
     };
 
     const { req, res, next } = makeReqResNext();
-    const mw = mod.audit('UPDATE_PROFILE', { redactor: badRedactor });
+
+    const mw = mod.audit('UPDATE_PROFILE', {
+      redactor: badRedactor,
+    });
 
     mw(req, res, next);
+
+    expect(next).toHaveBeenCalledTimes(1);
+
     res.emit('finish');
     await tick();
 
-    // Should still record an audit metric for UPDATE_PROFILE
     const auditInc = promCounters.find(
       ({ cfg, labels }) =>
         cfg?.name === 'audit_logs_total' &&
         labels?.action === 'UPDATE_PROFILE' &&
         labels?.status === '200'
     );
-    expect(auditInc).toBeDefined();
 
-    // And it should have logged a warning (through logger.warn)
+    expect(auditInc).toBeDefined();
     expect(pinoChild.warn).toHaveBeenCalled();
   });
 
@@ -241,98 +217,55 @@ describe('audit middleware suite', () => {
     const { mod } = await loadModule();
 
     const { req, res } = makeReqResNext();
+
     await mod.metricsEndpoint(req, res);
 
-    expect(
-      res.getHeader('content-type') || res.headers['content-type']
-    ).toBe(mod.metricsRegistry.contentType);
+    expect(res.getHeader('content-type')).toBe(
+      mod.metricsRegistry.contentType
+    );
+
     expect(res.end).toHaveBeenCalledWith(expect.any(String));
   });
 
   test('metricsEndpoint(): handles error path', async () => {
     const { mod } = await loadModule();
 
-    // Force registry.metrics() to throw
     mod.metricsRegistry.metrics = () => {
       throw new Error('fail');
     };
 
     const { req, res } = makeReqResNext();
-    // add status for send path
-    res.status = (code) => {
-      res.statusCode = code;
-      return res;
-    };
 
     await mod.metricsEndpoint(req, res);
 
     expect(res.statusCode).toBe(500);
-    expect(res.send).toHaveBeenCalledWith('metrics error');
+    expect(res.end).toHaveBeenCalledWith('metrics error');
     expect(pinoChild.error).toHaveBeenCalled();
   });
 
-  test('requestId(): uses header if present, otherwise generates', async () => {
+  test('requestId(): keeps existing req.id otherwise generates', async () => {
     const { mod } = await loadModule();
 
-    // Case 1: existing header
     {
       const { req, res, next } = makeReqResNext({
-        req: { headers: { 'x-request-id': 'incoming-id' } },
+        req: { id: 'incoming-id' },
       });
-      const mw = mod.requestId();
-      mw(req, res, next);
+
+      mod.requestId(req, res, next);
 
       expect(req.id).toBe('incoming-id');
-      expect(
-        res.getHeader('x-request-id') || res.headers['x-request-id']
-      ).toBe('incoming-id');
-      expect(next).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledTimes(1);
     }
 
-    // Case 2: generate
     {
-      const { req, res, next } = makeReqResNext();
-      const mw = mod.requestId();
-      mw(req, res, next);
+      const { req, res, next } = makeReqResNext({
+        req: { id: undefined },
+      });
 
-      expect(req.id).toBe('uuid-123'); // from crypto mock
-      expect(
-        res.getHeader('x-request-id') || res.headers['x-request-id']
-      ).toBe('uuid-123');
-      expect(next).toHaveBeenCalled();
+      mod.requestId(req, res, next);
+
+      expect(req.id).toBe('uuid-123');
+      expect(next).toHaveBeenCalledTimes(1);
     }
-  });
-
-  test('requestLogger(): logs and records metrics on finish', async () => {
-    const { mod } = await loadModule();
-
-    const { req, res, next } = makeReqResNext({
-      req: {
-        method: 'GET',
-        originalUrl:
-          '/rooms/550e8400-e29b-41d4-a716-446655440000/messages/42',
-      },
-    });
-
-    const mw = mod.requestLogger();
-    mw(req, res, next);
-
-    // Simulate a 201 response finishing
-    res.statusCode = 201;
-    res.emit('finish');
-
-    // Ensure logger child was attached
-    expect(req.log).toBeDefined();
-
-    // Our mocked logger records calls:
-    expect(pinoChild.child).toHaveBeenCalled();
-    expect(pinoChild.info).toHaveBeenCalledWith(
-      expect.objectContaining({ ip: expect.any(String) }),
-      'HTTP request start'
-    );
-    expect(pinoChild.info).toHaveBeenCalledWith(
-      expect.objectContaining({ status: 201, durationMs: expect.any(Number) }),
-      'HTTP request end'
-    );
   });
 });

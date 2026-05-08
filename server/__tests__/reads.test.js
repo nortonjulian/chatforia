@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
-import { readsRouter } from '../reads.js';
+import { readsRouter } from '../routes/reads.js';
 
 function makeApp({ prisma, user } = {}) {
   const app = express();

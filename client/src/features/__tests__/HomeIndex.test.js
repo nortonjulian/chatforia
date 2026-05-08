@@ -1,201 +1,287 @@
 /** @jest-environment jsdom */
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
+
+// ---- axiosClient stub ----
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+
+jest.mock('@/api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    get: (...args) => mockGet(...args),
+    post: (...args) => mockPost(...args),
+  },
+}));
+
+// ---- analytics stub ----
+jest.mock('@/utils/analytics', () => ({
+  __esModule: true,
+  default: {
+    capture: jest.fn(),
+  },
+}));
+
+// ---- i18n stub ----
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (_key, fallback) => fallback,
+  }),
+}));
+
+// ---- ThreadShell stub ----
+jest.mock('@/threads/ThreadShell', () => ({
+  __esModule: true,
+  default: ({ header, composer, children }) => (
+    <div data-testid="thread-shell">
+      <div data-testid="thread-header">{header}</div>
+      <div data-testid="thread-body">{children}</div>
+      <div data-testid="thread-composer">{composer}</div>
+    </div>
+  ),
+}));
+
+// ---- ThreadComposer stub ----
+jest.mock('@/threads/ThreadComposer.jsx', () => ({
+  __esModule: true,
+  default: ({ value, onChange, onSend, placeholder }) => (
+    <div>
+      <textarea
+        aria-label="Message composer"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.currentTarget.value)}
+      />
+      <button type="button" onClick={onSend}>
+        Send message
+      </button>
+    </div>
+  ),
+}));
 
 // ---- Mantine stubs ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
-  const passthruDiv = (testid) =>
-    ({ children, ...props }) => (
-      <div data-testid={testid} {...props}>
+  const cleanDomProps = (props) => {
+    const {
+      withBorder,
+      radius,
+      p,
+      py,
+      px,
+      w,
+      mt,
+      mb,
+      gap,
+      wrap,
+      align,
+      justify,
+      variant,
+      size,
+      fw,
+      c,
+      order,
+      styles,
+      withArrow,
+      children,
+      ...rest
+    } = props;
+
+    return { children, rest };
+  };
+
+  const Box = React.forwardRef((props, ref) => {
+    const { children, rest } = cleanDomProps(props);
+    return (
+      <div ref={ref} {...rest}>
         {children}
       </div>
     );
+  });
 
-  const passthruSpan = (testid) =>
-    ({ children, ...props }) => (
-      <span data-testid={testid} {...props}>
-        {children}
-      </span>
-    );
+  const Group = (props) => {
+    const { children, rest } = cleanDomProps(props);
+    return <div {...rest}>{children}</div>;
+  };
 
-  const Button = ({ children, onClick, ...rest }) => (
+  const Paper = (props) => {
+    const { children, rest } = cleanDomProps(props);
+    return <div {...rest}>{children}</div>;
+  };
+
+  const Badge = (props) => {
+    const { children, rest } = cleanDomProps(props);
+    return <span {...rest}>{children}</span>;
+  };
+
+  const Text = (props) => {
+    const { children, rest } = cleanDomProps(props);
+    return <span {...rest}>{children}</span>;
+  };
+
+  const Title = ({ children, order = 2, ...props }) => {
+    const Tag = `h${order}`;
+    const { rest } = cleanDomProps(props);
+    return <Tag {...rest}>{children}</Tag>;
+  };
+
+  const TextInput = React.forwardRef(
+    ({ value, onChange, placeholder, styles, variant, ...props }, ref) => (
+      <input
+        ref={ref}
+        aria-label="Recipient"
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        {...props}
+      />
+    )
+  );
+
+  const ActionIcon = ({
+    children,
+    onClick,
+    'aria-label': ariaLabel,
+    variant,
+    size,
+    ...props
+  }) => (
     <button
       type="button"
-      data-testid="button"
+      aria-label={ariaLabel}
       onClick={onClick}
-      {...rest}
+      {...props}
     >
       {children}
     </button>
   );
 
-  const ActionIcon = ({ children, onClick, ...rest }) => (
-    <button
-      type="button"
-      data-testid="action-icon"
-      onClick={onClick}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
-
-  const TextInput = ({
-    value,
-    onChange,
-    placeholder,
-    'aria-label': ariaLabel,
-    onKeyDown,
-    ...rest
-  }) => (
-    <input
-      data-testid="text-input"
-      aria-label={ariaLabel}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      {...rest}
-    />
-  );
-
-  const Textarea = ({
-    value,
-    onChange,
-    placeholder,
-    'aria-label': ariaLabel,
-    onKeyDown,
-    ...rest
-  }) => (
-    <textarea
-      data-testid="textarea"
-      aria-label={ariaLabel}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      {...rest}
-    />
-  );
-
-  const Tooltip = ({ children, label, ...rest }) => (
-    <div data-testid="tooltip" data-label={label} {...rest}>
-      {children}
-    </div>
-  );
-
-  const Group = passthruDiv('group');
-  const Box = passthruDiv('box');
-  const Card = passthruDiv('card');
-  const Stack = passthruDiv('stack');
-  const Text = passthruSpan('text');
+  const Tooltip = ({ children }) => <>{children}</>;
 
   return {
     __esModule: true,
     Box,
-    Card,
-    Stack,
-    Text,
-    Button,
-    TextInput,
     Group,
+    Text,
+    Title,
+    TextInput,
     ActionIcon,
+    Badge,
+    Paper,
     Tooltip,
-    Textarea,
   };
 });
 
-// ---- lucide-react stubs ----
-jest.mock('lucide-react', () => ({
+// ---- Icon stubs ----
+jest.mock('@tabler/icons-react', () => ({
   __esModule: true,
-  Smile: (props) => <i data-icon="smile" {...props} />,
-  Image: (props) => <i data-icon="image" {...props} />,
-  ImageIcon: (props) => <i data-icon="image" {...props} />,
-  Send: (props) => <i data-icon="send" {...props} />,
+  IconX: () => <span>x</span>,
 }));
 
-// ---- StickerPicker stub ----
-jest.mock('@/components/StickerPicker.jsx', () => ({
-  __esModule: true,
-  default: ({ opened, initialTab }) => (
-    <div
-      data-testid="sticker-picker"
-      data-opened={opened ? 'true' : 'false'}
-      data-tab={initialTab}
-    />
-  ),
-}));
-
-// ---- MicButton stub ----
-jest.mock('@/components/MicButton.jsx', () => {
-  const React = require('react');
-  return {
-    __esModule: true,
-    default: (props) => (
-      <button
-        type="button"
-        data-testid="mic-button"
-        onClick={
-          props.onUploaded
-            ? () => props.onUploaded({ id: 'fake-audio', name: 'audio.m4a' })
-            : undefined
-        }
-      >
-        Mic
-      </button>
-    ),
-  };
-});
-
-// ---- toast stub (so anything using it is safe in tests) ----
-jest.mock('@/utils/toast', () => ({
-  __esModule: true,
-  toast: jest.fn(),
-}));
-
-// ---- SUT ----
 import HomeIndex from '../../features/chat/HomeIndex';
 
 describe('HomeIndex', () => {
-  test('renders headline, subtext, and button; clicking dispatches open-new-chat-modal', () => {
-    const dispatchSpy = jest.spyOn(window, 'dispatchEvent');
+  beforeEach(() => {
+    jest.clearAllMocks();
+    window.alert = jest.fn();
+  });
 
-    render(<HomeIndex />);
-
-    // headline + subtext visible
-    expect(
-      screen.getByText(/your messages/i)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(/send a message to start a chat\./i)
-    ).toBeInTheDocument();
-
-    // grab the "Send message" CTA
-    const ctaButton = screen.getByRole('button', {
-      name: /send message/i,
-    });
-    expect(ctaButton).toBeInTheDocument();
-
-    // type a message so handleSendMessage will actually dispatch
-    const composerInput = screen.getByLabelText(
-      /message composer/i
+  test('renders headline, subtext, recipient input, composer, and send button', () => {
+    render(
+      <MemoryRouter>
+        <HomeIndex />
+      </MemoryRouter>
     );
-    fireEvent.change(composerInput, {
+
+    expect(screen.getByText(/your messages/i)).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        /enter a recipient above, then send a message to start a conversation\./i
+      )
+    ).toBeInTheDocument();
+
+    expect(screen.getByLabelText(/^recipient$/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/message composer/i)).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('button', { name: /send message/i })
+    ).toBeInTheDocument();
+  });
+
+  test('does not send when recipient is missing', () => {
+    render(
+      <MemoryRouter>
+        <HomeIndex />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/message composer/i), {
       target: { value: 'hello world' },
     });
 
-    // click CTA
-    fireEvent.click(ctaButton);
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-    // assert dispatch happened
-    expect(dispatchSpy).toHaveBeenCalledTimes(1);
-    const evt = dispatchSpy.mock.calls[0][0];
-    expect(evt).toBeInstanceOf(CustomEvent);
-    expect(evt.type).toBe('open-new-chat-modal');
+    expect(mockPost).not.toHaveBeenCalled();
+    expect(mockGet).not.toHaveBeenCalled();
+  });
 
-    dispatchSpy.mockRestore();
+  test('sends SMS when recipient is a phone number', async () => {
+    mockPost.mockResolvedValueOnce({
+      data: {
+        threadId: 'sms-thread-1',
+      },
+    });
+
+    render(
+      <MemoryRouter>
+        <HomeIndex />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/^recipient$/i), {
+      target: { value: '5551234567' },
+    });
+
+    fireEvent.change(screen.getByLabelText(/message composer/i), {
+      target: { value: 'hello world' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/sms/send', {
+        to: '+15551234567',
+        body: 'hello world',
+      });
+    });
+  });
+
+  test('shows one-recipient alert when multiple recipients are entered', () => {
+    render(
+      <MemoryRouter>
+        <HomeIndex />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/^recipient$/i), {
+      target: { value: '5551234567, 5557654321' },
+    });
+
+    fireEvent.change(screen.getByLabelText(/message composer/i), {
+      target: { value: 'hello world' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /send message/i }));
+
+    expect(window.alert).toHaveBeenCalledWith(
+      'Please enter one recipient for now.'
+    );
+
+    expect(mockPost).not.toHaveBeenCalled();
   });
 });

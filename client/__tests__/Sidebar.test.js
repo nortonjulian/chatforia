@@ -163,6 +163,9 @@ jest.mock('lucide-react', () => {
     MessageSquare: I('MessageSquare'),
     Phone: I('Phone'),
     Video: I('Video'),
+    PhoneCall: I('PhoneCall'),
+    Voicemail: I('Voicemail'),
+    LifeBuoy: I('LifeBuoy'),
   };
 });
 

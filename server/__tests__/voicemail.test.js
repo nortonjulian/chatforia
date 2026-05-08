@@ -140,6 +140,7 @@ describe('voicemail routes', () => {
       },
       data: {
         deleted: true,
+        deletedAt: expect.any(Date),
       },
     });
 

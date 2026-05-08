@@ -2,16 +2,14 @@ import express from 'express';
 import request from 'supertest';
 import { jest } from '@jest/globals';
 
-// Mock handleStatusUpdate BEFORE importing the router
 const handleStatusUpdateMock = jest.fn();
 
-jest.unstable_mockModule('../../lib/telco/messageMonitor.js', () => ({
+jest.unstable_mockModule('../lib/telco/messageMonitor.js', () => ({
   __esModule: true,
   handleStatusUpdate: handleStatusUpdateMock,
 }));
 
-// Import the router AFTER mocks are set up
-const { default: statusRouter } = await import('./status.js');
+const { default: statusRouter } = await import('../status.js');
 
 describe('Twilio /webhooks/status router', () => {
   let app;

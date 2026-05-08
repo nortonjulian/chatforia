@@ -1,19 +1,24 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import ThemeSelect from '../ThemeSelect.jsx'; // ✅ relative import
+import ThemeSelect from '../ThemeSelect.jsx';
 
 // ---------- Mocks ----------
 const mockGetTheme = jest.fn();
 const mockSetTheme = jest.fn();
 const mockOnThemeChange = jest.fn();
 
+jest.mock('../../../api/axiosClient', () => ({
+  __esModule: true,
+  default: {
+    patch: jest.fn(() => Promise.resolve({ data: {} })),
+  },
+}));
+
 jest.mock('../../../utils/themeManager', () => ({
   __esModule: true,
   getTheme: (...args) => mockGetTheme(...args),
   setTheme: (...args) => mockSetTheme(...args),
   onThemeChange: (cb) => {
-    // record the subscription (handy if we ever want to assert this)
     mockOnThemeChange(cb);
-    // return an unsubscribe noop to match the real API shape
     return () => {};
   },
 }));

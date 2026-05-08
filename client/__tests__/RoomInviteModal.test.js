@@ -2,24 +2,36 @@
 import { jest } from '@jest/globals';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from '../src/test-utils';
+import { renderWithRouter } from '@/test-utils';
 
-// ---- axiosClient mock ----
 const mockPost = jest.fn();
-jest.mock('../src/api/axiosClient', () => ({
+
+jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { post: (...a) => mockPost(...a) },
+  default: {
+    post: (...args) => mockPost(...args),
+  },
 }));
 
-// ---- QRCode mock ----
-const mockToDataURL = jest.fn(() => Promise.resolve('data:image/png;base64,AAA='));
+const mockToDataURL = jest.fn(() =>
+  Promise.resolve('data:image/png;base64,AAA=')
+);
+
 jest.mock('qrcode', () => ({
   __esModule: true,
-  default: { toDataURL: (...a) => mockToDataURL(...a) },
+  default: {
+    toDataURL: (...args) => mockToDataURL(...args),
+  },
 }));
 
-// import after mocks
-import RoomInviteModal from '../src/components/RoomInviteModal.jsx';
+jest.mock('@mantine/notifications', () => ({
+  __esModule: true,
+  notifications: {
+    show: jest.fn(),
+  },
+}));
+
+import RoomInviteModal from '@/components/RoomInviteModal.jsx';
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -27,18 +39,39 @@ beforeEach(() => {
 });
 
 test('generates invite + QR and shows copy/open controls', async () => {
-  mockPost.mockResolvedValueOnce({ data: { url: 'https://invite/link' } });
+  const user = userEvent.setup();
 
-  renderWithRouter(<RoomInviteModal opened onClose={() => {}} roomId={42} />);
+  mockPost.mockResolvedValueOnce({
+    data: { url: 'https://invite/link' },
+  });
 
-  await userEvent.click(screen.getByRole('button', { name: /generate link/i }));
-
-  await waitFor(() =>
-    expect(mockPost).toHaveBeenCalledWith('/chatrooms/42/invites', expect.any(Object))
+  renderWithRouter(
+    <RoomInviteModal opened onClose={() => {}} roomId={42} />
   );
-  expect(await screen.findByDisplayValue('https://invite/link')).toBeInTheDocument();
-  expect(mockToDataURL).toHaveBeenCalledWith('https://invite/link', expect.any(Object));
 
-  await userEvent.click(screen.getByRole('button', { name: /open/i }));
-  expect(window.open).toHaveBeenCalledWith('https://invite/link', '_blank');
+  await user.click(
+    screen.getByRole('button', { name: /generate link/i })
+  );
+
+  await waitFor(() => {
+    expect(mockPost).toHaveBeenCalledWith('/chatrooms/42/invites', {
+      expiresInMinutes: 1440,
+      maxUses: 0,
+    });
+  });
+
+  expect(
+    await screen.findByDisplayValue('https://invite/link')
+  ).toBeInTheDocument();
+
+  expect(mockToDataURL).toHaveBeenCalledWith('https://invite/link', {
+    errorCorrectionLevel: 'M',
+  });
+
+  await user.click(screen.getByRole('button', { name: /open invite link/i }));
+
+  expect(window.open).toHaveBeenCalledWith(
+    'https://invite/link',
+    '_blank'
+  );
 });
