@@ -96,9 +96,18 @@ router.post('/checkout', async (req, res) => {
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
 
+    console.log('[billing/checkout] incoming plan:', plan);
+
     let priceId =
       req.body?.priceId ||
       getPriceIdForPlan(plan);
+
+      console.log('[billing/checkout] resolved priceId:', priceId);
+      console.log('[billing/checkout] env price map:', {
+        plus: process.env.STRIPE_PRICE_PLUS_MONTHLY,
+        premiumMonthly: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
+        premiumAnnual: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
+      });
 
     if (!priceId) {
       return res.status(400).json({
@@ -213,7 +222,12 @@ router.post('/checkout', async (req, res) => {
       plan,
     });
   } catch (err) {
-    console.error('[billing/checkout] error:', err);
+    console.error('[billing/checkout] error:', {
+      message: err?.message,
+      type: err?.type,
+      code: err?.code,
+      raw: err?.raw,
+    });
     return res.status(500).json({ error: 'Failed to start checkout' });
   }
 });
