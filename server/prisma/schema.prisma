@@ -528,6 +528,15 @@ model PriceOverride {
   updatedAt     DateTime @updatedAt
 }
 
+model StripeWebhookEvent {
+  id        String   @id
+  type      String
+  processedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@index([type])
+}
+
 // ===================== 4) Family / Purchases / Provisioning =====================
 
 model FamilyGroup {
