@@ -113,6 +113,7 @@ router.post('/checkout', async (req, res) => {
         email: true,
         username: true,
         billingCustomerId: true,
+        billingSubscriptionId: true,
       },
     });
 
@@ -124,6 +125,32 @@ router.post('/checkout', async (req, res) => {
       process.env.FRONTEND_ORIGIN ||
       process.env.WEB_URL ||
       'https://chatforia.com';
+
+      if (user.billingSubscriptionId) {
+        try {
+          const existingSub = await stripe.subscriptions.retrieve(
+            user.billingSubscriptionId
+          );
+
+          if (
+            ['active', 'trialing', 'past_due'].includes(existingSub.status)
+          ) {
+            const portal = await stripe.billingPortal.sessions.create({
+              customer: user.billingCustomerId,
+              return_url: `${frontendOrigin}/account/plan`,
+            });
+
+            return res.json({
+              url: portal.url,
+              portalUrl: portal.url,
+              redirectToPortal: true,
+              reason: 'existing_subscription',
+            });
+          }
+        } catch {
+          // allow fresh checkout if Stripe subscription no longer exists
+        }
+      }
 
     let customerId = user.billingCustomerId;
 

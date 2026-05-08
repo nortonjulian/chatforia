@@ -29,6 +29,23 @@ function dateFromUnix(seconds) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+async function hasProcessedStripeEvent(eventId) {
+  const existing = await prisma.stripeWebhookEvent.findUnique({
+    where: { id: String(eventId) },
+  });
+
+  return !!existing;
+}
+
+async function markStripeEventProcessed(event) {
+  await prisma.stripeWebhookEvent.create({
+    data: {
+      id: String(event.id),
+      type: String(event.type),
+    },
+  });
+}
+
 async function scheduleProtectedNumbersForDowngrade(userId) {
   const holdDays = Number(process.env.NUMBER_HOLD_DAYS) || 14;
   const holdUntil = new Date(Date.now() + holdDays * 24 * 60 * 60 * 1000);
@@ -181,6 +198,15 @@ router.post(
     }
 
     try {
+      if (await hasProcessedStripeEvent(event.id)) {
+        console.log('[stripeWebhook] duplicate event skipped:', event.id);
+
+        return res.json({
+          received: true,
+          duplicate: true,
+        });
+      }
+
       switch (event.type) {
         case 'checkout.session.completed': {
           const session = event.data.object;
@@ -296,7 +322,11 @@ router.post(
           break;
       }
 
-      return res.json({ received: true });
+      await markStripeEventProcessed(event);
+
+      return res.json({
+        received: true,
+      });
     } catch (err) {
       console.error('[stripeWebhook] handler failed:', err);
       return res.status(500).json({ error: 'Webhook handler failed' });
