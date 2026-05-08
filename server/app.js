@@ -229,7 +229,7 @@ export function createApp() {
    * Stripe webhook: MUST receive raw Buffer body
    * -------------------------------------------------*/
   app.use(
-  '/billing',
+  '/billing/webhook',
   express.raw({ type: 'application/json' }),
   billingWebhook
 );
