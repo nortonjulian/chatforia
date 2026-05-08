@@ -179,7 +179,7 @@ async function markSubscriptionCanceledOrPastDue(subscription, status) {
 }
 
 router.post(
-  '/webhook',
+  '/',
   async (req, res) => {
     const signature = req.get('stripe-signature');
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
