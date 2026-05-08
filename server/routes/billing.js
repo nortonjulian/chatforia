@@ -96,7 +96,7 @@ router.post('/checkout', async (req, res) => {
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
 
-    console.log('[billing/checkout] incoming plan:', plan);
+    console.log('[billing/checkout] raw body:', req.body);
 
     let priceId =
       req.body?.priceId ||
