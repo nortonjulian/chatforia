@@ -116,8 +116,25 @@ router.post('/apple/ios', async (req, res) => {
       return res.status(400).json({ error: 'Invalid Apple token: missing sub' });
     }
 
-    if (appleAudience && decoded.aud !== appleAudience) {
-      return res.status(400).json({ error: 'Invalid Apple token audience' });
+    console.log('[APPLE TOKEN DEBUG]', {
+      aud: decoded.aud,
+      expected: appleAudience,
+      bundleIdFallback: 'com.chatforia.Chatforia',
+      iss: decoded.iss,
+      sub: decoded.sub,
+    });
+
+    const validAppleAudiences = [
+      appleAudience,
+      'com.chatforia.Chatforia',
+    ].filter(Boolean);
+
+    if (!validAppleAudiences.includes(decoded.aud)) {
+      return res.status(400).json({
+        error: 'Invalid Apple token audience',
+        received: decoded.aud,
+        expected: validAppleAudiences,
+      });
     }
 
     console.info('[oauth.apple.ios] decoded token', {
