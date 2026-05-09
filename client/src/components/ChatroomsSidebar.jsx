@@ -782,7 +782,11 @@ useEffect(() => {
         const lastPreview = formatLastPreview(c.last, t);
 
         return (
-          <div key={`${c.kind}:${c.id}`} className="sidebar-row">
+          <div
+            key={`${c.kind}:${c.id}`}
+            className="sidebar-row"
+            style={{ minHeight: 64 }}
+          >
             <Box
               onClick={() => {
                 console.log('[ChatroomsSidebar] clicked conversation row:', c);
@@ -790,12 +794,14 @@ useEffect(() => {
               }}
               style={{
                 width: '100%',
-                padding: '14px 12px',
                 minHeight: 56,
+                padding: '14px 12px',
                 borderRadius: 12,
                 background: isActive ? activeBg : 'transparent',
                 textAlign: 'left',
                 outline: 'none',
+                display: 'flex',
+                alignItems: 'center',
               }}
               title={title}
               aria-current={isActive ? 'true' : undefined}
