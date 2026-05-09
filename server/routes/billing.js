@@ -96,18 +96,9 @@ router.post('/checkout', async (req, res) => {
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
 
-    console.log('[billing/checkout] raw body:', req.body);
-
     let priceId =
       req.body?.priceId ||
       getPriceIdForPlan(plan);
-
-      console.log('[billing/checkout] resolved priceId:', priceId);
-      console.log('[billing/checkout] env price map:', {
-        plus: process.env.STRIPE_PRICE_PLUS_MONTHLY,
-        premiumMonthly: process.env.STRIPE_PRICE_PREMIUM_MONTHLY,
-        premiumAnnual: process.env.STRIPE_PRICE_PREMIUM_ANNUAL,
-      });
 
     if (!priceId) {
       return res.status(400).json({
