@@ -1,12 +1,62 @@
 import request from 'supertest';
 import express from 'express';
-import voiceClientRouter from '../routes/voiceClient.js';
+import { jest } from '@jest/globals';
+
+jest.mock('../middleware/auth.js', () => ({
+  __esModule: true,
+  requireAuth: (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    return next();
+  },
+}));
+
+jest.mock('twilio', () => {
+  class MockVoiceGrant {
+    constructor(opts) {
+      this.opts = opts;
+    }
+  }
+
+  class MockAccessToken {
+    constructor(accountSid, apiKeySid, apiKeySecret, opts) {
+      this.accountSid = accountSid;
+      this.apiKeySid = apiKeySid;
+      this.apiKeySecret = apiKeySecret;
+      this.opts = opts;
+      this.identity = null;
+      this.grants = [];
+    }
+
+    addGrant(grant) {
+      this.grants.push(grant);
+    }
+
+    toJwt() {
+      return `mock-jwt-for-${this.identity}`;
+    }
+  }
+
+  MockAccessToken.VoiceGrant = MockVoiceGrant;
+
+  return {
+    __esModule: true,
+    default: {
+      jwt: {
+        AccessToken: MockAccessToken,
+      },
+    },
+  };
+});
+
+const { default: voiceClientRouter } = await import('../routes/voiceClient.js');
 
 describe('POST /voice/token', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
-    // Reset env for each test (but keep other vars)
     process.env = { ...OLD_ENV };
   });
 
@@ -16,30 +66,31 @@ describe('POST /voice/token', () => {
 
   function buildAppWithUser(user = { id: 123 }) {
     const app = express();
+
     app.use(express.json());
 
-    // Test-only middleware to simulate an authenticated user
     app.use((req, _res, next) => {
       req.user = user;
       next();
     });
 
     app.use('/voice', voiceClientRouter);
+
     return app;
   }
 
   function buildAppWithoutUser() {
     const app = express();
+
     app.use(express.json());
-    // No req.user middleware here → requireAuth should reject
     app.use('/voice', voiceClientRouter);
+
     return app;
   }
 
   test('returns 500 when required Twilio env vars are missing', async () => {
     const app = buildAppWithUser();
 
-    // Ensure Twilio env vars are missing
     delete process.env.TWILIO_ACCOUNT_SID;
     delete process.env.TWILIO_API_KEY_SID;
     delete process.env.TWILIO_API_KEY_SECRET;
@@ -55,7 +106,6 @@ describe('POST /voice/token', () => {
   test('returns 401 when user is not present on req', async () => {
     const app = buildAppWithoutUser();
 
-    // Env is valid but user is missing, so we should hit the 401 branch
     process.env.TWILIO_ACCOUNT_SID = 'AC_test_sid';
     process.env.TWILIO_API_KEY_SID = 'SK_test_key';
     process.env.TWILIO_API_KEY_SECRET = 'supersecret';
@@ -79,13 +129,10 @@ describe('POST /voice/token', () => {
     const res = await request(app).post('/voice/token');
 
     expect(res.status).toBe(200);
-    expect(res.body).toHaveProperty('token');
-    expect(typeof res.body.token).toBe('string');
-
-    // Identity is derived from req.user.id
-    expect(res.body.identity).toBe('user:42');
-
-    // 1 hour (60 * 60) from the route
-    expect(res.body.ttlSeconds).toBe(60 * 60);
+    expect(res.body).toEqual({
+      token: 'mock-jwt-for-user:42',
+      identity: 'user:42',
+      ttlSeconds: 60 * 60,
+    });
   });
 });

@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { createApp } from '../app.js';
+import prisma from '../utils/prismaClient.js';
 
 let app;
 let agent;
@@ -15,6 +16,13 @@ beforeAll(async () => {
   });
 
   expect([200, 201, 409]).toContain(register.status);
+
+  await prisma.user.updateMany({
+    where: { email: 'e@example.com' },
+    data: {
+      emailVerifiedAt: new Date(),
+    },
+  });
 
   const login = await agent.post('/auth/login').send({
     identifier: 'e@example.com',

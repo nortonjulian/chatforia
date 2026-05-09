@@ -194,7 +194,6 @@ describe('r2.js', () => {
       contentType: 'image/jpeg',
       cacheControl: 'public, max-age=31536000, immutable',
       contentDisposition: 'inline',
-      acl: 'public-read',
     });
 
     // r2.send called exactly once
@@ -209,7 +208,6 @@ describe('r2.js', () => {
       ContentType: 'image/jpeg',
       CacheControl: 'public, max-age=31536000, immutable',
       ContentDisposition: 'inline',
-      ACL: 'public-read',
     });
 
     // r2PutObject should resolve to whatever r2.send resolved

@@ -4,34 +4,30 @@ import prisma from '../utils/prismaClient.js';
 const ENDPOINTS = {
   register: '/auth/register',
   login: '/auth/login',
-  createRoom: '/chatrooms',
   sendMessage: '/messages',
   deleteMessage: (id) => `/messages/${id}`,
+  createRoom: '/rooms',
 };
 
 describe('Messages: delete (sender vs admin)', () => {
-  let agentUser, agentAdmin;
-  let roomId, messageId;
+  let agentUser;
+  let agentAdmin;
 
-  // Agents are just HTTP handles; safe to create once.
+  let roomId;
+  let messageId;
+
+  let danaId;
+  let adminId;
+
   beforeAll(() => {
     agentUser = makeAgent().agent;
     agentAdmin = makeAgent().agent;
   });
 
-  //
-  // IMPORTANT:
-  // Our global jest.setup.js already wipes the DB in beforeEach.
-  // resetDb() should ideally either be a no-op now or just sanity-reset the same DB.
-  // We'll keep it in place, but if weirdness persists we can remove it.
-  //
   beforeEach(async () => {
-    // Ensure clean slate at the start of THIS test
     await resetDb();
 
-    //
-    // 1. Create and log in normal user
-    //
+    // ---- USER ----
     await agentUser
       .post(ENDPOINTS.register)
       .send({
@@ -41,14 +37,29 @@ describe('Messages: delete (sender vs admin)', () => {
       })
       .expect(201);
 
+    await prisma.user.updateMany({
+      where: { email: 'dana@example.com' },
+      data: {
+        emailVerifiedAt: new Date(),
+      },
+    });
+
+    const dana = await prisma.user.findUnique({
+      where: { email: 'dana@example.com' },
+      select: { id: true },
+    });
+
+    danaId = dana.id;
+
     await agentUser
       .post(ENDPOINTS.login)
-      .send({ email: 'dana@example.com', password: 'Test12345!' })
+      .send({
+        email: 'dana@example.com',
+        password: 'Test12345!',
+      })
       .expect(200);
 
-    //
-    // 2. Create admin user and promote to ADMIN
-    //
+    // ---- ADMIN ----
     await agentAdmin
       .post(ENDPOINTS.register)
       .send({
@@ -58,41 +69,94 @@ describe('Messages: delete (sender vs admin)', () => {
       })
       .expect(201);
 
-    // Force ADMIN role on that account. We use updateMany so we don't crash
-    // if timing or lookup is weird. This guarantees at least one row is ADMIN.
     await prisma.user.updateMany({
       where: { email: 'admin@example.com' },
-      data: { role: 'ADMIN' },
+      data: {
+        role: 'ADMIN',
+        emailVerifiedAt: new Date(),
+      },
     });
+
+    const admin = await prisma.user.findUnique({
+      where: { email: 'admin@example.com' },
+      select: { id: true },
+    });
+
+    adminId = admin.id;
 
     await agentAdmin
       .post(ENDPOINTS.login)
-      .send({ email: 'admin@example.com', password: 'Test12345!' })
+      .send({
+        email: 'admin@example.com',
+        password: 'Test12345!',
+      })
       .expect(200);
 
-    //
-    // 3. User creates a group room
-    //
-    const r = await agentUser
+    // ---- CREATE ROOM USING TEST ROUTE ----
+    const roomRes = await agentUser
       .post(ENDPOINTS.createRoom)
-      .send({ name: 'Room C', isGroup: true })
-      .expect(201);
+      .send({
+        name: 'Room C',
+        isGroup: true,
+      });
 
-    roomId = r.body.id || r.body.room?.id;
+    if (![200, 201].includes(roomRes.status)) {
+      throw new Error(
+        `Unexpected /rooms status ${roomRes.status} ${JSON.stringify(roomRes.body)}`
+      );
+    }
 
-    //
-    // 4. User sends an initial message into that room; stash its id
-    //
+    roomId = roomRes.body.id || roomRes.body.room?.id;
+
+    if (!roomId) {
+      throw new Error('Room ID missing');
+    }
+
+    // ---- ADD PARTICIPANTS ----
+    await agentUser
+      .post(`/rooms/${roomId}/participants`)
+      .send({ userId: danaId })
+      .expect((res) => {
+        if (![200, 201].includes(res.status)) {
+          throw new Error(
+            `Failed adding sender participant: ${res.status}`
+          );
+        }
+      });
+
+    await agentUser
+      .post(`/rooms/${roomId}/participants`)
+      .send({ userId: adminId })
+      .expect((res) => {
+        if (![200, 201].includes(res.status)) {
+          throw new Error(
+            `Failed adding admin participant: ${res.status}`
+          );
+        }
+      });
+
+    // ---- CREATE INITIAL MESSAGE ----
     const m = await agentUser
       .post(ENDPOINTS.sendMessage)
       .send({
         chatRoomId: roomId,
         content: 'to delete',
         kind: 'TEXT',
-      })
-      .expect(201);
+      });
 
-    messageId = m.body.id || m.body.message?.id;
+    if (![200, 201].includes(m.status)) {
+      throw new Error(
+        `Unexpected /messages status ${m.status} ${JSON.stringify(m.body)}`
+      );
+    }
+
+    messageId = m.body.message?.id || m.body.id;
+
+    if (!messageId) {
+      throw new Error(
+        `Message ID missing from response: ${JSON.stringify(m.body)}`
+      );
+    }
   });
 
   test('sender can delete own message', async () => {
@@ -102,19 +166,28 @@ describe('Messages: delete (sender vs admin)', () => {
   });
 
   test('admin can delete any message', async () => {
-    // Create a new message as the normal user
     const m = await agentUser
       .post(ENDPOINTS.sendMessage)
       .send({
         chatRoomId: roomId,
         content: 'admin will delete',
         kind: 'TEXT',
-      })
-      .expect(201);
+      });
 
-    const id = m.body.id || m.body.message?.id;
+    if (![200, 201].includes(m.status)) {
+      throw new Error(
+        `Unexpected /messages status ${m.status} ${JSON.stringify(m.body)}`
+      );
+    }
 
-    // Admin should be able to delete it
+    const id = m.body.message?.id || m.body.id;
+
+    if (!id) {
+      throw new Error(
+        `Message ID missing from response: ${JSON.stringify(m.body)}`
+      );
+    }
+
     await agentAdmin
       .delete(ENDPOINTS.deleteMessage(id))
       .expect(200);

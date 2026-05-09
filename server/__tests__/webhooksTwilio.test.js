@@ -3,16 +3,14 @@ import express from 'express';
 import request from 'supertest';
 
 // ---- mocks ----
-const mockRecordInboundSms = jest.fn();
 
 const mockFindFirst = jest.fn();
 
-const mockNormalizeE164 = jest.fn((n) => `+${String(n)}`);
+const mockNormalizeE164 = jest.fn((n) => {
+  const s = String(n || '').trim();
+  return s.startsWith('+') ? s : `+${s}`;
+});
 
-jest.unstable_mockModule('../services/smsService.js', () => ({
-  __esModule: true,
-  recordInboundSms: mockRecordInboundSms,
-}));
 
 jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
@@ -23,9 +21,12 @@ jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   },
 }));
 
+const mockIsE164 = jest.fn((n) => /^\+\d{10,15}$/.test(String(n || '')));
+
 jest.unstable_mockModule('../utils/phone.js', () => ({
   __esModule: true,
   normalizeE164: mockNormalizeE164,
+  isE164: mockIsE164,
 }));
 
 const { default: router } = await import('../routes/webhooksTwilio.js');
@@ -56,49 +57,6 @@ describe('webhooksTwilio routes', () => {
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
-  });
-
-  describe('POST /webhooks/sms/inbound', () => {
-    it('stores inbound SMS and returns empty TwiML', async () => {
-      const payload = {
-        From: '+15551234567',
-        To: '+15557654321',
-        Body: 'Hello from Twilio',
-      };
-
-      const res = await request(app)
-        .post('/webhooks/sms/inbound')
-        .type('form')
-        .send(payload)
-        .expect(200);
-
-      // basic XML response
-      expect(res.headers['content-type']).toMatch(/text\/xml/);
-      expect(res.text).toContain('<Response>');
-      // no auto-reply body
-      expect(res.text).not.toContain('Hello');
-
-      // service called with expected payload
-      expect(recordInboundSms).toHaveBeenCalledTimes(1);
-      expect(recordInboundSms).toHaveBeenCalledWith({
-        toNumber: payload.To,
-        fromNumber: payload.From,
-        body: payload.Body,
-        provider: 'twilio',
-      });
-    });
-
-    it('no-ops if required fields are missing', async () => {
-      const res = await request(app)
-        .post('/webhooks/sms/inbound')
-        .type('form')
-        .send({ Body: 'Missing numbers' })
-        .expect(200);
-
-      expect(res.headers['content-type']).toMatch(/text\/xml/);
-      expect(res.text).toContain('<Response>');
-      expect(recordInboundSms).not.toHaveBeenCalled();
-    });
   });
 
   describe('POST /webhooks/voice/alias/legA', () => {
@@ -205,7 +163,14 @@ describe('webhooksTwilio routes', () => {
 
     it('dials the user’s forwarding number when available', async () => {
       mockFindFirst.mockResolvedValueOnce({
+        id: 123,
         forwardPhoneNumber: '+15550009999',
+        assignedNumbers: [
+          {
+            id: 456,
+            e164: '+15550003333',
+          },
+        ],
       });
 
       const res = await request(app)

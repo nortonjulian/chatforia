@@ -14,7 +14,8 @@ const ORIGINAL_ENV = process.env;
 
 let prismaMock;
 let recordInboundSmsMock;
-let transporterSendMailMock;
+let sendMailMock;
+let isEmailAvailableMock;
 let sendSmsMock;
 let normalizeE164Mock;
 let isE164Mock;
@@ -31,6 +32,17 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
   return {
     __esModule: true,
     default: prismaMock,
+  };
+});
+
+await jest.unstable_mockModule('../utils/sendMail.js', () => {
+  sendMailMock = jest.fn();
+  isEmailAvailableMock = jest.fn(() => true);
+
+  return {
+    __esModule: true,
+    sendMail: sendMailMock,
+    isEmailAvailable: isEmailAvailableMock,
   };
 });
 
@@ -102,7 +114,7 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(recordInboundSmsMock).not.toHaveBeenCalled();
     expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
     expect(sendSmsMock).not.toHaveBeenCalled();
-    expect(transporterSendMailMock).not.toHaveBeenCalled();
+    expect(sendMailMock).not.toHaveBeenCalled();
   });
 
   test('records inbound SMS but does not forward when recordInboundSms.ok is false', async () => {
@@ -131,6 +143,7 @@ describe('POST /webhooks/sms/twilio', () => {
       body: 'Hello',
       provider: 'twilio',
       providerMessageId: 'SM123',
+      media: [],
     });
 
     // No forwarding when ok is false
@@ -197,7 +210,6 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(transporterSendMailMock).toHaveBeenCalledTimes(1);
     expect(transporterSendMailMock).toHaveBeenCalledWith({
       to: 'user@example.com',
-      from: 'hello@test.app',
       subject: 'SMS from +13035550123',
       text: 'Forward this please',
     });

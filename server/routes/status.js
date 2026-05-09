@@ -66,7 +66,7 @@ async function ensureUserExists(id) {
         id: Number(id),
         email: `user${id}@example.com`,
         username: `user${id}`,
-        password: 'x',
+        passwordHash: 'x',
         role: 'USER',
         plan: 'FREE',
       },

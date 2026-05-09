@@ -53,7 +53,7 @@ function makeSocketDouble({ tokenFrom = 'auth', token = 'jwt' } = {}) {
     leave: jest.fn(async (room) => joined.delete(room)),
     on: jest.fn((ev, cb) => onMap.set(ev, cb)),
     to: jest.fn(() => ({ emit: jest.fn() })),
-    _emitClient: (ev, payload) => onMap.get(ev)?.(payload),
+    _emitClient: async (ev, payload) => onMap.get(ev)?.(payload),
     _joined: joined,
   };
 }
@@ -353,7 +353,7 @@ describe('initSocket', () => {
     expect(socket.join).toHaveBeenCalledWith('7');
     expect(socket.join).toHaveBeenCalledWith('8');
 
-    socket._emitClient('join:rooms', [9, '10', null]);
+    await socket._emitClient('join:rooms', [9, '10', null]);
 
     expect(socket.join).toHaveBeenCalledWith('9');
     expect(socket.join).toHaveBeenCalledWith('10');

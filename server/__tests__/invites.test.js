@@ -6,10 +6,8 @@ import request from 'supertest';
 import prisma from '../utils/prismaClient.js';
 import { createApp } from '../app.js';
 
-// Create a real app instance for these tests
 const app = createApp();
 
-// ---- Mock rate limiter with tiny limits ----
 jest.mock('../middleware/rateLimits.js', () => {
   const rateLimit = require('express-rate-limit');
 
@@ -29,35 +27,28 @@ jest.mock('../middleware/rateLimits.js', () => {
   };
 });
 
-// ---- Mock telco (SMS provider) ----
 jest.mock('../lib/telco/index.js', () => {
   const sendSms = jest.fn(async ({ to }) => ({
     provider: 'twilio',
     messageSid: `SM_${to.replace(/\D/g, '')}`,
   }));
+
   return { __esModule: true, sendSms };
 });
 
-
-
-/**
- * Helper to spin up a brand-new authenticated user for THIS test run.
- * Returns { agent, bearer, email, userId }.
- */
 async function setupAuthedUser() {
   const agent = request.agent(app);
 
-  const email = `inv_${Date.now()}@example.com`;
-  const username = `inv_${Date.now()}`;
+  const unique = Date.now();
+  const email = `inv_${unique}@example.com`;
+  const username = `inv_${unique}`;
   const password = 'Passw0rd!23';
 
-  // 1. register
   const reg = await agent
     .post('/auth/register')
     .send({ email, username, password })
     .expect(201);
 
-  // 2. grab userId
   const userId =
     reg.body?.user?.id ||
     reg.body?.id ||
@@ -68,21 +59,21 @@ async function setupAuthedUser() {
       })
     ).id;
 
-  // 3. login (sets cookie on agent)
+  await prisma.user.updateMany({
+    where: { id: userId },
+    data: {
+      emailVerifiedAt: new Date(),
+      phoneNumber: '+15551234567',
+    },
+  });
+
   await agent
     .post('/auth/login')
     .send({ identifier: email, password })
     .expect(200);
 
-  // 4. exchange cookie for bearer token
   const tok = await agent.get('/auth/token').expect(200);
   const bearer = `Bearer ${tok.body.token}`;
-
-  // 5. ensure phoneNumber is set
-  await prisma.user.updateMany({
-    where: { id: userId },
-    data: { phoneNumber: '+15551234567' },
-  });
 
   return { agent, bearer, email, userId };
 }
@@ -98,22 +89,23 @@ describe('invites hardening', () => {
       .expect(400);
   });
 
-  test('inviting your own phone (current behavior)', async () => {
+  test('blocks inviting your own phone', async () => {
     const { agent, bearer } = await setupAuthedUser();
 
     const res = await agent
       .post('/invites')
       .set('Authorization', bearer)
       .send({ phone: '+1 (555) 123-4567', message: 'yo' })
-      .expect(200);
+      .expect(400);
 
-    expect(res.body.sent).toBe(true);
+    expect(res.body.error || res.body.message).toMatch(/own number/i);
   });
 
   test('bursting /invites does not crash server', async () => {
     const { agent, bearer } = await setupAuthedUser();
 
     const attempts = [];
+
     for (let i = 0; i < 10; i++) {
       attempts.push(
         agent
@@ -122,7 +114,7 @@ describe('invites hardening', () => {
           .send({
             phone: '+1555000' + (1000 + i),
             message: 'x',
-          })
+          }),
       );
     }
 
@@ -130,17 +122,16 @@ describe('invites hardening', () => {
       attempts.map((p) =>
         p
           .then((r) => r)
-          .catch((e) => e?.response || null)
-      )
+          .catch((e) => e?.response || null),
+      ),
     );
 
-    const valid = results.filter(
-      (r) => r && typeof r.status === 'number'
-    );
+    const valid = results.filter((r) => r && typeof r.status === 'number');
 
     expect(valid.length > 0).toBe(true);
 
     const statuses = valid.map((r) => r.status);
+
     expect(statuses.includes(500)).toBe(false);
   });
 

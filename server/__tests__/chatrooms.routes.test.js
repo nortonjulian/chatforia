@@ -5,7 +5,6 @@ import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 
-// ---- shared jest fns for prisma methods ----
 const chatRoomCreate = jest.fn();
 const chatRoomFindMany = jest.fn();
 const chatRoomFindFirst = jest.fn();
@@ -15,10 +14,10 @@ const chatRoomUpdate = jest.fn();
 const participantCreate = jest.fn();
 const participantCreateMany = jest.fn();
 const participantFindMany = jest.fn();
+const participantFindFirst = jest.fn();
 const participantFindUnique = jest.fn();
 const participantDelete = jest.fn();
 
-// prisma.$transaction should call callback with tx that uses the same jest fns
 const mockPrisma = {
   $transaction: jest.fn((fn) =>
     fn({
@@ -27,7 +26,7 @@ const mockPrisma = {
         create: participantCreate,
         createMany: participantCreateMany,
       },
-    }),
+    })
   ),
   chatRoom: {
     create: chatRoomCreate,
@@ -40,6 +39,7 @@ const mockPrisma = {
     create: participantCreate,
     createMany: participantCreateMany,
     findMany: participantFindMany,
+    findFirst: participantFindFirst,
     findUnique: participantFindUnique,
     delete: participantDelete,
   },
@@ -49,7 +49,6 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   default: mockPrisma,
 }));
 
-// ---- roomAuth mocks ----
 const getEffectiveRoomRankMock = jest.fn();
 const canActOnRankMock = jest.fn();
 const requireRoomRankMock = jest.fn(() => (_req, _res, next) => next());
@@ -68,7 +67,6 @@ await jest.unstable_mockModule('../utils/roomAuth.js', () => ({
   canActOnRank: (...args) => canActOnRankMock(...args),
 }));
 
-// requireAuth: always attach an ADMIN user (simplifies perms)
 await jest.unstable_mockModule('../middleware/auth.js', () => ({
   requireAuth: (req, _res, next) => {
     req.user = { id: 1, role: 'ADMIN', username: 'admin' };
@@ -76,7 +74,6 @@ await jest.unstable_mockModule('../middleware/auth.js', () => ({
   },
 }));
 
-// import router AFTER mocks
 const chatroomsModule = await import('../routes/chatrooms.js');
 const chatroomsRouter = chatroomsModule.default;
 
@@ -85,17 +82,12 @@ function makeApp() {
   app.use(express.json());
   app.use('/rooms', chatroomsRouter);
 
-  // Error handler to translate Boom errors (and others) into JSON
-  // so we don't see raw 500s in tests
-  // eslint-disable-next-line no-unused-vars
   app.use((err, req, res, next) => {
     if (err && err.isBoom && err.output) {
       const { statusCode, payload } = err.output;
       return res.status(statusCode).json(payload);
     }
-    // Fallback for non-Boom errors
-    // (keep simple; prod app likely has its own errorHandler)
-    // console.error(err); // uncomment if you want logs in tests
+
     return res
       .status(err.status || 500)
       .json({ error: err.message || 'Internal server error' });
@@ -112,9 +104,6 @@ describe('chatrooms routes', () => {
     jest.clearAllMocks();
   });
 
-  // =========================
-  // POST /rooms/  (create)
-  // =========================
   describe('POST /rooms/', () => {
     test('creates room and participants in a transaction', async () => {
       chatRoomCreate.mockResolvedValueOnce({
@@ -137,12 +126,10 @@ describe('chatrooms routes', () => {
         ownerId: 1,
       });
 
-      // creator ADMIN participant
       expect(participantCreate).toHaveBeenCalledWith({
         data: { chatRoomId: 10, userId: 1, role: 'ADMIN' },
       });
 
-      // other participants
       expect(participantCreateMany).toHaveBeenCalledWith({
         data: [
           { chatRoomId: 10, userId: 2, role: 'MEMBER' },
@@ -151,32 +138,19 @@ describe('chatrooms routes', () => {
         skipDuplicates: true,
       });
 
-      // transaction wrapper used
       expect(mockPrisma.$transaction).toHaveBeenCalledTimes(1);
     });
   });
 
-  // =========================
-  // GET /rooms/ (list)
-  // =========================
   describe('GET /rooms/', () => {
     test('lists rooms with limit and nextCursor when full page', async () => {
       const now = new Date('2025-01-01T00:00:00.000Z');
 
       chatRoomFindMany.mockResolvedValue([
-        {
-          id: 5,
-          updatedAt: now,
-          participants: [],
-        },
-        {
-          id: 4,
-          updatedAt: now,
-          participants: [],
-        },
+        { id: 5, updatedAt: now, participants: [] },
+        { id: 4, updatedAt: now, participants: [] },
       ]);
 
-      // limit=2 so items.length === limit -> nextCursor is set
       const res = await request(app).get('/rooms?limit=2');
 
       expect(res.statusCode).toBe(200);
@@ -196,12 +170,10 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // POST /rooms/direct/:targetUserId
-  // =========================
   describe('POST /rooms/direct/:targetUserId', () => {
     test('returns 400 for duplicate user IDs', async () => {
       const res = await request(app).post('/rooms/direct/1').send({});
+
       expect(res.statusCode).toBe(400);
       expect(res.body.error || res.body.message).toBeDefined();
     });
@@ -212,6 +184,7 @@ describe('chatrooms routes', () => {
         isGroup: false,
         participants: [],
       };
+
       chatRoomFindFirst.mockResolvedValueOnce(existing);
 
       const res = await request(app).post('/rooms/direct/2').send({});
@@ -234,6 +207,7 @@ describe('chatrooms routes', () => {
           { userId: 2, role: 'MEMBER' },
         ],
       };
+
       chatRoomCreate.mockResolvedValueOnce(created);
 
       const res = await request(app).post('/rooms/direct/2').send({});
@@ -251,14 +225,23 @@ describe('chatrooms routes', () => {
             ],
           },
         },
-        include: { participants: true },
+        include: {
+          participants: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  avatarUrl: true,
+                },
+              },
+            },
+          },
+        },
       });
     });
   });
 
-  // =========================
-  // POST /rooms/group
-  // =========================
   describe('POST /rooms/group', () => {
     test('400 if fewer than 2 user IDs', async () => {
       const res = await request(app)
@@ -278,6 +261,7 @@ describe('chatrooms routes', () => {
         isGroup: true,
         participants: [],
       };
+
       chatRoomCreate.mockResolvedValueOnce(created);
 
       const res = await request(app)
@@ -291,9 +275,6 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // GET /rooms/:id/public-keys
-  // =========================
   describe('GET /rooms/:id/public-keys', () => {
     test('returns list of user public keys', async () => {
       participantFindMany.mockResolvedValueOnce([
@@ -304,6 +285,7 @@ describe('chatrooms routes', () => {
       const res = await request(app).get('/rooms/10/public-keys');
 
       expect(res.statusCode).toBe(200);
+
       expect(res.body).toEqual([
         { id: 1, publicKey: 'pub1', username: 'alice' },
         { id: 2, publicKey: 'pub2', username: 'bob' },
@@ -318,12 +300,8 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // POST /rooms/:id/participants/:userId/promote
-  // =========================
   describe('POST /rooms/:id/participants/:userId/promote', () => {
     test('allows global admin and updates participant role', async () => {
-      // since requireAuth sets role=ADMIN, isGlobalAdmin will be true
       mockPrisma.participant.update = jest
         .fn()
         .mockResolvedValue({ userId: 2, role: 'ADMIN' });
@@ -343,49 +321,72 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // GET /rooms/:id/participants
-  // =========================
   describe('GET /rooms/:id/participants', () => {
     test('returns list of participants with ownerId null', async () => {
-      participantFindMany.mockResolvedValueOnce([
-        {
-          userId: 1,
-          role: 'ADMIN',
-          user: { id: 1, username: 'admin', avatarUrl: null },
-        },
-        {
-          userId: 2,
-          role: 'MEMBER',
-          user: { id: 2, username: 'bob', avatarUrl: 'bob.png' },
-        },
-      ]);
+      participantFindFirst.mockResolvedValueOnce({ userId: 1 });
+
+      chatRoomFindUnique.mockResolvedValueOnce({
+        ownerId: null,
+        participants: [
+          {
+            userId: 1,
+            role: 'ADMIN',
+            user: {
+              id: 1,
+              username: 'admin',
+              publicKey: null,
+            },
+          },
+          {
+            userId: 2,
+            role: 'MEMBER',
+            user: {
+              id: 2,
+              username: 'bob',
+              publicKey: 'pub2',
+            },
+          },
+        ],
+      });
 
       const res = await request(app).get('/rooms/10/participants');
 
       expect(res.statusCode).toBe(200);
       expect(res.body.ownerId).toBeNull();
       expect(res.body.participants).toHaveLength(2);
+
       expect(res.body.participants[0]).toMatchObject({
         userId: 1,
         role: 'ADMIN',
       });
 
-      expect(participantFindMany).toHaveBeenCalledWith({
-        where: { chatRoomId: 10 },
+      expect(participantFindFirst).toHaveBeenCalledWith({
+        where: { chatRoomId: 10, userId: 1 },
+        select: { userId: true },
+      });
+
+      expect(chatRoomFindUnique).toHaveBeenCalledWith({
+        where: { id: 10 },
         select: {
-          userId: true,
-          role: true,
-          user: { select: { id: true, username: true, avatarUrl: true } },
+          ownerId: true,
+          participants: {
+            select: {
+              userId: true,
+              role: true,
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  publicKey: true,
+                },
+              },
+            },
+          },
         },
-        orderBy: [{ role: 'desc' }, { userId: 'asc' }],
       });
     });
   });
 
-  // =========================
-  // POST /rooms/:id/participants
-  // =========================
   describe('POST /rooms/:id/participants', () => {
     test('returns ok=true if participant already exists', async () => {
       participantFindUnique.mockResolvedValueOnce({
@@ -403,6 +404,7 @@ describe('chatrooms routes', () => {
       expect(participantFindUnique).toHaveBeenCalledWith({
         where: { userId_chatRoomId: { userId: 2, chatRoomId: 10 } },
       });
+
       expect(participantCreate).not.toHaveBeenCalled();
     });
 
@@ -427,9 +429,6 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // DELETE /rooms/:id/participants/:userId
-  // =========================
   describe('DELETE /rooms/:id/participants/:userId', () => {
     test('forbidden when actor rank < MODERATOR', async () => {
       getEffectiveRoomRankMock.mockResolvedValueOnce(RoleRank.MEMBER);
@@ -458,9 +457,6 @@ describe('chatrooms routes', () => {
     });
   });
 
-  // =========================
-  // GET /rooms/:id/meta & PATCH /rooms/:id/meta
-  // =========================
   describe('meta routes', () => {
     test('GET /rooms/:id/meta returns room meta', async () => {
       chatRoomFindUnique.mockResolvedValueOnce({
@@ -472,6 +468,7 @@ describe('chatrooms routes', () => {
       const res = await request(app).get('/rooms/10/meta');
 
       expect(res.statusCode).toBe(200);
+
       expect(res.body).toEqual({
         id: 10,
         name: 'Meta Room',

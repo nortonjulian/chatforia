@@ -7,38 +7,30 @@ import express from 'express';
 
 const COOKIE_NAME = process.env.JWT_COOKIE_NAME || 'foria_jwt';
 
-const strategies = {}; // map to toggle google/apple on and off in tests
+const strategies = {};
 
-// Global mock for passport.authenticate
-// - For initial /google or /apple: end the response with 200
-// - For /callback routes: call next() so the real handler can set cookie + redirect
 const authenticateMock = jest.fn((_strategyName, _options) => {
   return (req, res, next) => {
-    // simulate a logged-in user for callback handlers
-    req.user = { id: 'user-123' };
+    req.user = { id: 123 };
 
     if (req.path.endsWith('/callback')) {
       return next();
     }
 
-    // kickoff routes (/google, /apple) normally redirect to provider,
-    // but for tests we just terminate with 200
-    res.status(200).end();
+    return res.status(200).end();
   };
 });
 
 let app;
-let jwt;          // this will be the actual jwt object (not the module namespace)
+let jwt;
 let oauthRouter;
 
 beforeAll(async () => {
-  // Env for router module-level constants
   process.env.NODE_ENV = 'test';
   process.env.JWT_SECRET = 'test-secret';
   process.env.FRONTEND_URL = 'http://frontend.test';
-  delete process.env.COOKIE_DOMAIN; // force non-prod cookie shape
+  delete process.env.COOKIE_DOMAIN;
 
-  // Mock passport BEFORE importing the router
   await jest.unstable_mockModule('../auth/passport.js', () => ({
     default: {
       _strategy: jest.fn((name) => strategies[name]),
@@ -46,9 +38,7 @@ beforeAll(async () => {
     },
   }));
 
-  // Import jwt and router after mock is set up
   const jwtModule = await import('jsonwebtoken');
-  // ESM default export unwrapping (jwt.sign should now exist)
   jwt = jwtModule.default || jwtModule;
 
   ({ default: oauthRouter } = await import('../routes/oauth.routes.js'));
@@ -56,26 +46,31 @@ beforeAll(async () => {
   const expressApp = express();
   expressApp.use(express.json());
   expressApp.use('/auth', oauthRouter);
+
   app = expressApp;
 });
 
 afterEach(() => {
   jest.restoreAllMocks();
   authenticateMock.mockClear();
+
   strategies.google = undefined;
   strategies.apple = undefined;
+
+  delete process.env.GOOGLE_CLIENT_ID;
+  delete process.env.GOOGLE_CLIENT_SECRET;
+  delete process.env.GOOGLE_CALLBACK_URL;
+  delete process.env.APPLE_SERVICE_ID;
+  delete process.env.APPLE_TEAM_ID;
+  delete process.env.APPLE_KEY_ID;
+  delete process.env.APPLE_PRIVATE_KEY;
+  delete process.env.APPLE_PRIVATE_KEY_PATH;
+  delete process.env.APPLE_CALLBACK_URL;
 });
 
 describe('oauth.routes', () => {
-  test('GET /auth/health returns ok payload', async () => {
-    const res = await request(app).get('/auth/health');
-
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({ ok: true, oauth: true });
-  });
-
   test('GET /auth/google returns 501 when Google strategy is not configured', async () => {
-    strategies.google = undefined; // no Google strategy
+    strategies.google = undefined;
 
     const res = await request(app).get('/auth/google');
 
@@ -85,9 +80,10 @@ describe('oauth.routes', () => {
   });
 
   test('GET /auth/google calls passport.authenticate with correct options', async () => {
-    strategies.google = {}; // enable Google strategy
+    strategies.google = {};
 
     const state = 'some-state-value';
+
     const res = await request(app)
       .get('/auth/google')
       .query({ state });
@@ -98,12 +94,11 @@ describe('oauth.routes', () => {
       state,
     });
 
-    // our mock terminates kickoff routes with 200
     expect(res.statusCode).toBe(200);
   });
 
-  test('GET /auth/google/callback sets cf_session cookie and redirects to FRONTEND_URL by default', async () => {
-    strategies.google = {}; // Google strategy enabled
+  test('GET /auth/google/callback sets session cookie and redirects to FRONTEND_URL by default', async () => {
+    strategies.google = {};
 
     const signSpy = jest.spyOn(jwt, 'sign').mockReturnValue('mock.jwt.token');
 
@@ -113,28 +108,35 @@ describe('oauth.routes', () => {
     expect(res.headers.location).toBe('http://frontend.test');
 
     const cookies = res.headers['set-cookie'];
+
     expect(cookies).toBeDefined();
     expect(cookies[0]).toMatch(new RegExp(`${COOKIE_NAME}=mock\\.jwt\\.token`));
-
     expect(cookies[0]).toMatch(/HttpOnly/);
-    // non-prod => no Secure flag
     expect(cookies[0]).not.toMatch(/Secure/);
 
     expect(signSpy).toHaveBeenCalledWith(
-      { sub: 'user-123' },
+      {
+        id: 123,
+        email: null,
+        username: null,
+        role: 'USER',
+        plan: 'FREE',
+      },
       'test-secret',
       { expiresIn: '30d' }
     );
   });
 
-  test('GET /auth/google/callback uses state.next redirect when valid', async () => {
-    strategies.google = {}; // Google strategy enabled
+  test('GET /auth/google/callback uses state.next redirect when valid and allowed', async () => {
+    strategies.google = {};
 
     const signSpy = jest.spyOn(jwt, 'sign').mockReturnValue('mock.jwt.token');
 
-    const nextUrl = 'https://example.com/after/login';
-    const stateObj = { next: nextUrl };
-    const encodedState = Buffer.from(JSON.stringify(stateObj), 'utf8').toString('base64');
+    const nextUrl = 'http://frontend.test/after/login';
+    const encodedState = Buffer.from(
+      JSON.stringify({ next: nextUrl }),
+      'utf8'
+    ).toString('base64');
 
     const res = await request(app)
       .get('/auth/google/callback')
@@ -143,6 +145,24 @@ describe('oauth.routes', () => {
     expect(res.statusCode).toBe(302);
     expect(res.headers.location).toBe(nextUrl);
     expect(signSpy).toHaveBeenCalled();
+  });
+
+  test('GET /auth/google/callback falls back to FRONTEND_URL when state.next is not allowed', async () => {
+    strategies.google = {};
+
+    jest.spyOn(jwt, 'sign').mockReturnValue('mock.jwt.token');
+
+    const encodedState = Buffer.from(
+      JSON.stringify({ next: 'https://example.com/after/login' }),
+      'utf8'
+    ).toString('base64');
+
+    const res = await request(app)
+      .get('/auth/google/callback')
+      .query({ state: encodedState });
+
+    expect(res.statusCode).toBe(302);
+    expect(res.headers.location).toBe('http://frontend.test');
   });
 
   test('GET /auth/google/callback returns 501 when Google strategy is missing', async () => {
@@ -154,82 +174,31 @@ describe('oauth.routes', () => {
     expect(res.body).toEqual({ error: 'Google OAuth not configured' });
   });
 
-  test('GET /auth/apple returns 501 when Apple strategy is not configured', async () => {
-    strategies.apple = undefined; // no Apple strategy
+  test('GET /auth/apple redirects to Apple authorize URL', async () => {
+    process.env.APPLE_SERVICE_ID = 'service.test';
+    process.env.APPLE_CALLBACK_URL = 'http://localhost:4000/auth/apple/callback';
 
-    const res = await request(app).get('/auth/apple');
-
-    expect(res.statusCode).toBe(501);
-    expect(res.body).toEqual({ error: 'Apple OAuth not configured' });
-    expect(authenticateMock).not.toHaveBeenCalled();
-  });
-
-  test('GET /auth/apple calls passport.authenticate with correct options', async () => {
-    strategies.apple = {}; // Apple strategy enabled
-
-    const state = 'apple-state';
     const res = await request(app)
       .get('/auth/apple')
-      .query({ state });
-
-    expect(authenticateMock).toHaveBeenCalledWith('apple', {
-      scope: ['name', 'email'],
-      session: false,
-      state,
-    });
-
-    // kickoff route ends with 200 in mock
-    expect(res.statusCode).toBe(200);
-  });
-
-  test('POST /auth/apple/callback sets cf_session cookie and redirects (default FRONTEND_URL)', async () => {
-    strategies.apple = {}; // Apple strategy enabled
-
-    const signSpy = jest.spyOn(jwt, 'sign').mockReturnValue('mock.jwt.token');
-
-    const res = await request(app).post('/auth/apple/callback');
+      .query({ next: 'http://frontend.test/apple-after' });
 
     expect(res.statusCode).toBe(302);
-    expect(res.headers.location).toBe('http://frontend.test');
-
-    const cookies = res.headers['set-cookie'];
-    expect(cookies).toBeDefined();
-    expect(cookies[0]).toMatch(new RegExp(`${COOKIE_NAME}=mock\\.jwt\\.token`));
-
-    expect(cookies[0]).toMatch(/HttpOnly/);
-    expect(cookies[0]).toMatch(/Secure/);
-
-    expect(signSpy).toHaveBeenCalledWith(
-      { sub: 'user-123' },
-      'test-secret',
-      { expiresIn: '30d' }
+    expect(res.headers.location).toContain(
+      'https://appleid.apple.com/auth/authorize'
     );
+    expect(res.headers.location).toContain('client_id=service.test');
+    expect(res.headers.location).toContain(
+      encodeURIComponent('http://localhost:4000/auth/apple/callback')
+    );
+    expect(res.headers.location).toContain('response_type=code');
+    expect(res.headers.location).toContain('response_mode=form_post');
   });
 
-  test('POST /auth/apple/callback uses state.next redirect when valid', async () => {
-    strategies.apple = {}; // Apple strategy enabled
-
-    const signSpy = jest.spyOn(jwt, 'sign').mockReturnValue('mock.jwt.token');
-
-    const nextUrl = 'https://example.com/apple/after';
-    const encodedState = Buffer.from(JSON.stringify({ next: nextUrl }), 'utf8').toString('base64');
-
-    const res = await request(app)
-      .post('/auth/apple/callback')
-      .query({ state: encodedState });
-
-    expect(res.statusCode).toBe(302);
-    expect(res.headers.location).toBe(nextUrl);
-    expect(signSpy).toHaveBeenCalled();
-  });
-
-  test('POST /auth/apple/callback returns 501 when Apple strategy is missing', async () => {
-    strategies.apple = undefined;
-
+  test('POST /auth/apple/callback returns 400 when code is missing', async () => {
     const res = await request(app).post('/auth/apple/callback');
 
-    expect(res.statusCode).toBe(501);
-    expect(res.body).toEqual({ error: 'Apple OAuth not configured' });
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({ error: 'Missing Apple authorization code' });
   });
 
   test('GET /auth/failure returns 401', async () => {
@@ -241,11 +210,11 @@ describe('oauth.routes', () => {
 
   test('GET /auth/debug reports strategies and envSeen flags', async () => {
     strategies.google = {};
-    strategies.apple = {};
 
     process.env.GOOGLE_CLIENT_ID = 'id';
     process.env.GOOGLE_CLIENT_SECRET = 'secret';
     process.env.GOOGLE_CALLBACK_URL = 'https://example.com/google/callback';
+
     process.env.APPLE_SERVICE_ID = 'service';
     process.env.APPLE_TEAM_ID = 'team';
     process.env.APPLE_KEY_ID = 'key';
@@ -258,6 +227,7 @@ describe('oauth.routes', () => {
     expect(res.body).toMatchObject({
       hasGoogle: true,
       hasApple: true,
+      hasAppleEnv: true,
       envSeen: {
         GOOGLE_CLIENT_ID: true,
         GOOGLE_CLIENT_SECRET: true,

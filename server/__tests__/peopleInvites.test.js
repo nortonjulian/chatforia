@@ -1,30 +1,31 @@
 import request from 'supertest';
 import express from 'express';
-import router from '../routes/peopleInvites.js';
 import { jest } from '@jest/globals';
 
 const mockFindUnique = jest.fn();
 const mockCreate = jest.fn();
 const mockUpdate = jest.fn();
 
-jest.mock('../utils/prismaClient.js', () => ({
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
   __esModule: true,
   default: {
     peopleInvite: {
-      findUnique: (...args) => mockFindUnique(...args),
-      create: (...args) => mockCreate(...args),
-      update: (...args) => mockUpdate(...args),
+      findUnique: mockFindUnique,
+      create: mockCreate,
+      update: mockUpdate,
     },
   },
 }));
 
-jest.mock('../middleware/auth.js', () => ({
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, _res, next) => {
     req.user = { id: 'user-123' };
     next();
   },
 }));
+
+const { default: router } = await import('../routes/peopleInvites.js');
 
 function makeApp() {
   const app = express();
@@ -35,16 +36,25 @@ function makeApp() {
 
 describe('peopleInvites routes', () => {
   let app;
+  const OLD_ENV = process.env;
 
   beforeEach(() => {
     app = makeApp();
     jest.clearAllMocks();
-    process.env.APP_BASE_URL = 'https://chatforia.com';
+    process.env = {
+      ...OLD_ENV,
+      APP_BASE_URL: 'https://chatforia.com',
+    };
+  });
+
+  afterAll(() => {
+    process.env = OLD_ENV;
   });
 
   describe('POST /people-invites', () => {
     it('creates an invite with normalized phone and returns url', async () => {
       mockFindUnique.mockResolvedValueOnce(null);
+
       mockCreate.mockResolvedValueOnce({
         id: 'invite-1',
         code: 'abc123xyz0',
@@ -79,6 +89,7 @@ describe('peopleInvites routes', () => {
 
     it('defaults channel to share_link when blank', async () => {
       mockFindUnique.mockResolvedValueOnce(null);
+
       mockCreate.mockResolvedValueOnce({
         id: 'invite-2',
         code: 'defaultchan',
@@ -95,6 +106,7 @@ describe('peopleInvites routes', () => {
         });
 
       expect(res.status).toBe(201);
+
       expect(mockCreate).toHaveBeenCalledWith({
         data: expect.objectContaining({
           inviterUserId: 'user-123',
@@ -113,7 +125,9 @@ describe('peopleInvites routes', () => {
         .send({ targetPhone: '7195551234' });
 
       expect(res.status).toBe(500);
-      expect(res.body).toEqual({ error: 'Failed to generate invite code.' });
+      expect(res.body).toEqual({
+        error: 'Failed to generate invite code.',
+      });
       expect(mockFindUnique).toHaveBeenCalledTimes(5);
       expect(mockCreate).not.toHaveBeenCalled();
     });
@@ -127,13 +141,15 @@ describe('peopleInvites routes', () => {
         .send({ targetPhone: '7195551234' });
 
       expect(res.status).toBe(500);
-      expect(res.body).toEqual({ error: 'Failed to create invite.' });
+      expect(res.body).toEqual({
+        error: 'Failed to create invite.',
+      });
     });
   });
 
   describe('GET /people-invites/:code', () => {
     it('returns invite preview when found', async () => {
-      const expiresAt = new Date('2026-04-01T00:00:00.000Z');
+      const expiresAt = new Date('2030-04-01T00:00:00.000Z');
 
       mockFindUnique.mockResolvedValueOnce({
         id: 'invite-1',
@@ -152,6 +168,7 @@ describe('peopleInvites routes', () => {
       const res = await request(app).get('/people-invites/preview123');
 
       expect(res.status).toBe(200);
+
       expect(res.body).toEqual({
         ok: true,
         invite: {
@@ -216,7 +233,7 @@ describe('peopleInvites routes', () => {
         code: 'redeem123',
         inviterUserId: 'someone-else',
         status: 'pending',
-        expiresAt: new Date('2026-04-10T00:00:00.000Z'),
+        expiresAt: new Date('2030-04-10T00:00:00.000Z'),
       });
 
       mockUpdate.mockResolvedValueOnce({
@@ -263,7 +280,10 @@ describe('peopleInvites routes', () => {
       const res = await request(app).post('/people-invites/self123/redeem');
 
       expect(res.status).toBe(400);
-      expect(res.body).toEqual({ error: 'You cannot redeem your own invite.' });
+      expect(res.body).toEqual({
+        error: 'You cannot redeem your own invite.',
+      });
+
       expect(mockUpdate).not.toHaveBeenCalled();
     });
 

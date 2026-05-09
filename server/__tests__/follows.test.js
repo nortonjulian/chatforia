@@ -81,7 +81,7 @@ describe('Follows: follow/unfollow & feed filter', () => {
       data: {
         email: `a_${Date.now()}@example.com`,
         username: `a_${Date.now()}`,
-        password: 'Pass123!',
+        passwordHash: 'Pass123!',
         role: 'USER',
         plan: 'FREE',
       },
@@ -91,7 +91,7 @@ describe('Follows: follow/unfollow & feed filter', () => {
       data: {
         email: `b_${Date.now()}@example.com`,
         username: `b_${Date.now()}`,
-        password: 'Pass123!',
+        passwordHash: 'Pass123!',
         role: 'USER',
         plan: 'FREE',
       },

@@ -109,7 +109,7 @@ async function globalSeed() {
     data: {
       username: 'captain',
       email: 'cap@example.com',
-      password: 'x',
+      passwordHash: 'test-hash',
       plan: 'FREE',
       role: 'USER',
       a11yLiveCaptions: true,

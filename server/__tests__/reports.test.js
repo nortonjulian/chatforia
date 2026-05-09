@@ -7,7 +7,9 @@ const mockFindFirst = jest.fn();
 const mockFindMany = jest.fn();
 const mockCreate = jest.fn();
 
-jest.mock('@prisma/client', () => {
+let mockAuthUserId = '123';
+
+await jest.unstable_mockModule('@prisma/client', () => {
   const PrismaClient = jest.fn(() => ({
     message: {
       findUnique: mockFindUnique,
@@ -26,15 +28,15 @@ jest.mock('@prisma/client', () => {
   };
 });
 
-jest.mock('../middleware/auth.js', () => ({
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, _res, next) => {
-    req.user = { id: '123' };
+    req.user = { id: mockAuthUserId };
     next();
   },
 }));
 
-import router from '../routes/reports.js';
+const { default: router } = await import('../routes/reports.js');
 
 function makeApp() {
   const app = express();
@@ -47,29 +49,16 @@ describe('reports routes', () => {
   let app;
 
   beforeEach(() => {
+    mockAuthUserId = '123';
     app = makeApp();
     jest.clearAllMocks();
   });
 
   describe('POST /reports', () => {
     it('returns 401 when authenticated user id is invalid', async () => {
-      jest.resetModules();
+      mockAuthUserId = 'abc';
 
-      jest.doMock('../middleware/auth.js', () => ({
-        __esModule: true,
-        requireAuth: (req, _res, next) => {
-          req.user = { id: 'abc' };
-          next();
-        },
-      }));
-
-      const { default: freshRouter } = await import('../routes/reports.js');
-
-      const freshApp = express();
-      freshApp.use(express.json());
-      freshApp.use('/reports', freshRouter);
-
-      const res = await request(freshApp).post('/reports').send({
+      const res = await request(app).post('/reports').send({
         messageId: 10,
         reason: 'harassment',
       });
@@ -363,11 +352,13 @@ describe('reports routes', () => {
       });
 
       expect(res.status).toBe(201);
+
       expect(mockFindMany).toHaveBeenCalledWith(
         expect.objectContaining({
           take: 21,
         })
       );
+
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -403,6 +394,7 @@ describe('reports routes', () => {
 
       expect(res.status).toBe(201);
       expect(mockFindMany).not.toHaveBeenCalled();
+
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -433,6 +425,7 @@ describe('reports routes', () => {
       });
 
       expect(res.status).toBe(201);
+
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -463,6 +456,7 @@ describe('reports routes', () => {
       });
 
       expect(res.status).toBe(201);
+
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
@@ -496,6 +490,7 @@ describe('reports routes', () => {
       });
 
       expect(res.status).toBe(201);
+
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({

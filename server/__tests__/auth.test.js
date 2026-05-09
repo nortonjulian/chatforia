@@ -3,10 +3,12 @@
  */
 import request from 'supertest';
 import { createApp } from '../app.js';
+import prisma from '../utils/prismaClient.js';
 
 const app = createApp();
 
 const ENDPOINTS = {
+  register: '/auth/register',
   login: '/auth/login',
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
@@ -22,25 +24,43 @@ describe('Auth flows', () => {
   beforeAll(async () => {
     agent = request.agent(app);
 
-    // Hit /auth/login once to make sure the user exists.
+    // Register or tolerate existing user in test mode
+    await agent
+      .post('/auth/register')
+      .send({
+        email,
+        username: 'pwreset',
+        password,
+      })
+      .expect((res) => {
+        if (![200, 201, 409].includes(res.status)) {
+          throw new Error(
+            `register bootstrap failed: ${res.status} ${JSON.stringify(res.body)}`
+          );
+        }
+      });
+
+    // Login now requires email verification
+    await prisma.user.updateMany({
+      where: { email },
+      data: {
+        emailVerifiedAt: new Date(),
+      },
+    });
+
     await agent
       .post(ENDPOINTS.login)
       .send({ email, password })
       .expect((res) => {
         if (![200].includes(res.status)) {
           throw new Error(
-            `login bootstrap failed: ${res.status} ${JSON.stringify(
-              res.body
-            )}`
+            `login bootstrap failed: ${res.status} ${JSON.stringify(res.body)}`
           );
         }
       });
   });
 
   it('password reset flow (request → reset → login works)', async () => {
-    //
-    // 1) Request reset
-    //
     const fp = await agent
       .post(ENDPOINTS.forgotPassword)
       .send({ email })
@@ -56,10 +76,8 @@ describe('Auth flows', () => {
 
     const token = fp.body?.token || null;
 
-    //
-    // 2) Attempt reset with that token (best effort)
-    //
     let resetRes;
+
     if (token) {
       resetRes = await agent.post(ENDPOINTS.resetPassword).send({
         token,
@@ -80,9 +98,6 @@ describe('Auth flows', () => {
 
     expect([200, 204, 400, 500]).toContain(resetRes.status);
 
-    //
-    // 3) Try to log in with new, then old password.
-    //
     const loginNew = await agent
       .post(ENDPOINTS.login)
       .send({ email, password: newPassword });
@@ -99,9 +114,7 @@ describe('Auth flows', () => {
       throw new Error(
         `Neither new nor old password worked after reset.\n` +
           `newPwStatus=${loginNew.status}, oldPwStatus=${loginOld.status}, ` +
-          `resetStatus=${resetRes.status}, resetBody=${JSON.stringify(
-            resetRes.body
-          )}`
+          `resetStatus=${resetRes.status}, resetBody=${JSON.stringify(resetRes.body)}`
       );
     }
   });

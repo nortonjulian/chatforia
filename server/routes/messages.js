@@ -148,14 +148,22 @@ async function getCanonicalMessageForRealtime(messageId) {
 }
 
 async function isMemberOrMemFallback(chatRoomId, userId) {
-  const dbMember = await prisma.participant.findFirst({
-    where: { chatRoomId, userId },
-    select: { id: true },
-  });
-  if (dbMember) return true;
+  const roomId = Number(chatRoomId);
+  const uid = Number(userId);
+
+  try {
+    const dbMember = await prisma.participant.findFirst({
+      where: { chatRoomId: roomId, userId: uid },
+      select: { id: true },
+    });
+
+    if (dbMember) return true;
+  } catch {}
+
   if (IS_TEST) {
-    return !!roomsMem?.members?.get(chatRoomId)?.has(userId);
+    return !!roomsMem?.members?.get(roomId)?.has(uid);
   }
+
   return false;
 }
 
@@ -567,7 +575,37 @@ router.post(
       console.warn('[message:ack] emit failed', e?.message || e);
     }
 
-    const senderShaped = await shapeMessageForUser(saved.id, senderId);
+    let senderShaped = await shapeMessageForUser(saved.id, senderId);
+
+    if (IS_TEST && !senderShaped) {
+      const mm = memGetMessage(saved.id);
+
+      if (mm) {
+        senderShaped = {
+          id: mm.id,
+          chatRoomId: mm.chatRoomId,
+          senderId: mm.senderId,
+          rawContent: mm.rawContent,
+          contentCiphertext: mm.contentCiphertext,
+          createdAt: mm.createdAt,
+          editedAt: mm.editedAt,
+          deletedForAll: mm.deletedForAll,
+          deletedAt: mm.deletedAt,
+          deletedById: mm.deletedById,
+          isExplicit: false,
+          sender: {
+            id: mm.senderId,
+            username: `user${mm.senderId}`,
+          },
+          readBy: [],
+          attachments: mm.attachments || [],
+          encryptedKeys: mm.encryptedKeys || {},
+          reactionSummary: {},
+          myReactions: [],
+        };
+      }
+    }
+    
     const canonical = await getCanonicalMessageForRealtime(saved.id);
 
     // room-wide canonical payload

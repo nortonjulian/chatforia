@@ -1,18 +1,33 @@
 // server/__tests__/voiceWebhooks.test.js
+
 import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
 
-// --- Mock twilio.twiml.VoiceResponse ----------------------------------------
+// -----------------------------------------------------------------------------
+// Mock twilio.twiml.VoiceResponse
+// -----------------------------------------------------------------------------
 
-// We'll capture actions and serialize them as JSON so we can assert on them.
 class MockVoiceResponse {
   constructor() {
     this.actions = [];
   }
 
-  say(opts, text) {
-    this.actions.push({ type: 'say', opts, text });
+  say(textOrOpts, maybeText) {
+    if (typeof textOrOpts === 'string') {
+      this.actions.push({
+        type: 'say',
+        opts: {},
+        text: textOrOpts,
+      });
+    } else {
+      this.actions.push({
+        type: 'say',
+        opts: textOrOpts || {},
+        text: maybeText,
+      });
+    }
+
     return this;
   }
 
@@ -21,30 +36,33 @@ class MockVoiceResponse {
     return this;
   }
 
-  gather(opts) {
-    const gather = { type: 'gather', opts, says: [] };
-    this.actions.push(gather);
+  dial(opts = {}) {
+    const dial = {
+      type: 'dial',
+      opts,
+      numbers: [],
+    };
+
+    this.actions.push(dial);
+
     return {
-      say: (sOpts, sText) => {
-        gather.says.push({ opts: sOpts, text: sText });
+      number: (to) => {
+        dial.numbers.push({ to });
         return this;
       },
     };
   }
 
-  dial(opts) {
-    const dial = { type: 'dial', opts, numbers: [] };
-    this.actions.push(dial);
-    return {
-      number: (nOpts, to) => {
-        dial.numbers.push({ opts: nOpts, to });
-        return this;
-      },
-    };
+  record(opts = {}) {
+    this.actions.push({
+      type: 'record',
+      opts,
+    });
+
+    return this;
   }
 
   toString() {
-    // respondWithTwiML calls .toString(); we return JSON for easy assertions
     return JSON.stringify(this.actions);
   }
 }
@@ -58,33 +76,91 @@ jest.unstable_mockModule('twilio', () => ({
   },
 }));
 
-// --- Mock phone utils --------------------------------------------------------
+// -----------------------------------------------------------------------------
+// Mock phone utils
+// -----------------------------------------------------------------------------
 
-// normalizeE164: just stringify
-// isE164: very simple +digits check
 jest.unstable_mockModule('../utils/phone.js', () => ({
   __esModule: true,
-  normalizeE164: (v) => String(v || ''),
+
+  normalizeE164: (v) => String(v || '').trim(),
+
   isE164: (v) => /^\+\d{6,}$/.test(String(v || '')),
 }));
 
-// --- Mock express-rate-limit -------------------------------------------------
+// -----------------------------------------------------------------------------
+// Mock express-rate-limit
+// -----------------------------------------------------------------------------
 
-// Make rateLimit a no-op middleware
 jest.unstable_mockModule('express-rate-limit', () => ({
   __esModule: true,
-  default: () => (req, res, next) => next(),
+  default: () => (_req, _res, next) => next(),
 }));
 
-// Import router AFTER mocks
-const { default: voiceRouter } = await import('../routes/voiceWebhooks.js');
+// -----------------------------------------------------------------------------
+// Mock prisma
+// -----------------------------------------------------------------------------
 
-// --- Helper: build app -------------------------------------------------------
+const prisma = {
+  phoneNumber: {
+    findUnique: jest.fn(),
+  },
+
+  call: {
+    create: jest.fn(),
+    findFirst: jest.fn(),
+    update: jest.fn(),
+  },
+
+  user: {
+    findUnique: jest.fn(),
+  },
+
+  voiceLog: {
+    upsert: jest.fn(),
+  },
+};
+
+jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: prisma,
+}));
+
+// -----------------------------------------------------------------------------
+// Mock socket bus + push
+// -----------------------------------------------------------------------------
+
+const emitToUser = jest.fn();
+
+jest.unstable_mockModule('../services/socketBus.js', () => ({
+  __esModule: true,
+  emitToUser,
+}));
+
+const sendIncomingForwardedCallPush = jest.fn(async () => undefined);
+
+jest.unstable_mockModule('../services/pushService.js', () => ({
+  __esModule: true,
+  sendIncomingForwardedCallPush,
+}));
+
+// -----------------------------------------------------------------------------
+// Import router AFTER mocks
+// -----------------------------------------------------------------------------
+
+const { default: voiceRouter } = await import(
+  '../routes/voiceWebhooks.js'
+);
+
+// -----------------------------------------------------------------------------
+// App helper
+// -----------------------------------------------------------------------------
 
 function createApp() {
   const app = express();
-  // NOTE: router itself uses express.urlencoded, so we don't need it here.
+
   app.use('/webhooks/voice', voiceRouter);
+
   return app;
 }
 
@@ -92,173 +168,401 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-// --- Tests: /alias/legA ------------------------------------------------------
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/client
+// -----------------------------------------------------------------------------
 
-describe('POST /webhooks/voice/alias/legA', () => {
-  it('responds with validation error TwiML when params are missing/invalid', async () => {
+describe('POST /webhooks/voice/client', () => {
+  it('rejects missing destination', async () => {
     const app = createApp();
 
     const res = await request(app)
-      .post('/webhooks/voice/alias/legA')
-      .type('form') // Twilio sends x-www-form-urlencoded
-      .send({});    // no query params -> invalid
+      .post('/webhooks/voice/client')
+      .type('form')
+      .send({
+        From: 'client:user:7',
+      });
 
     expect(res.statusCode).toBe(200);
+
     expect(res.headers['content-type']).toMatch(/text\/xml/);
 
     const actions = JSON.parse(res.text);
 
-    // We expect: say "We could not validate this call. Goodbye." then hangup
     expect(actions[0]).toEqual({
       type: 'say',
-      opts: { voice: 'alice' },
-      text: 'We could not validate this call. Goodbye.',
+      opts: {},
+      text: 'Missing destination.',
     });
-    expect(actions[1]).toEqual({ type: 'hangup' });
+
+    expect(actions[1]).toEqual({
+      type: 'hangup',
+    });
   });
 
-  it('gathers DTMF and builds confirm action URL when params are valid', async () => {
+  it('rejects invalid destination number', async () => {
     const app = createApp();
 
-    const userId = '123';
-    const from = '+15550001111';
-    const to = '+15550009999';
-
     const res = await request(app)
-      .post(
-        `/webhooks/voice/alias/legA?userId=${userId}&from=${encodeURIComponent(
-          from
-        )}&to=${encodeURIComponent(to)}`
-      )
+      .post('/webhooks/voice/client')
       .type('form')
-      .send({}); // Twilio still sends a body but we don't care here
+      .send({
+        From: 'client:user:7',
+        To: 'abc123',
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toMatch(/text\/xml/);
 
     const actions = JSON.parse(res.text);
 
-    // actions[0] should be the gather
-    const gather = actions[0];
-    expect(gather.type).toBe('gather');
-    expect(gather.opts.input).toBe('dtmf');
-    expect(gather.opts.numDigits).toBe(1);
-    expect(gather.opts.method).toBe('POST');
-    expect(gather.opts.timeout).toBe(6);
-
-    // Parse action URL and assert path + params (host/port can vary)
-    const url = new URL(gather.opts.action);
-    expect(url.pathname).toBe('/webhooks/voice/alias/confirm');
-    expect(url.searchParams.get('userId')).toBe(userId);
-    expect(url.searchParams.get('from')).toBe(from);
-    expect(url.searchParams.get('to')).toBe(to);
-
-    // gather.say text
-    expect(gather.says).toHaveLength(1);
-    expect(gather.says[0]).toEqual({
-      opts: { voice: 'alice' },
-      text: 'Chatforia. Press 1 to connect your call.',
-    });
-
-    // After gather, we should have "No input received. Goodbye." and hangup
-    expect(actions[1]).toEqual({
+    expect(actions[0]).toEqual({
       type: 'say',
-      opts: { voice: 'alice' },
-      text: 'No input received. Goodbye.',
+      opts: {},
+      text: 'The number you dialed is not valid.',
     });
-    expect(actions[2]).toEqual({ type: 'hangup' });
+
+    expect(actions[1]).toEqual({
+      type: 'hangup',
+    });
+  });
+
+  it('dials valid destination with fallback caller ID', async () => {
+    process.env.TWILIO_DEFAULT_CALLER_ID = '+15559990000';
+
+    prisma.user.findUnique.mockResolvedValueOnce({
+      assignedNumbers: [],
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/client')
+      .type('form')
+      .send({
+        From: 'client:user:42',
+        To: '+15551112222',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0].type).toBe('dial');
+
+    expect(actions[0].opts).toEqual({
+      callerId: '+15559990000',
+    });
+
+    expect(actions[0].numbers).toEqual([
+      {
+        to: '+15551112222',
+      },
+    ]);
+  });
+
+  it('uses assigned number as callerId when available', async () => {
+    prisma.user.findUnique.mockResolvedValueOnce({
+      assignedNumbers: [
+        {
+          e164: '+15558887777',
+        },
+      ],
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/client')
+      .type('form')
+      .send({
+        From: 'client:user:99',
+        To: '+15550001111',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0].opts).toEqual({
+      callerId: '+15558887777',
+    });
+
+    expect(actions[0].numbers).toEqual([
+      {
+        to: '+15550001111',
+      },
+    ]);
   });
 });
 
-// --- Tests: /alias/confirm ---------------------------------------------------
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/inbound
+// -----------------------------------------------------------------------------
 
-describe('POST /webhooks/voice/alias/confirm', () => {
-  it('responds with validation error TwiML when params are invalid', async () => {
+describe('POST /webhooks/voice/inbound', () => {
+  it('rejects invalid destination number', async () => {
     const app = createApp();
 
     const res = await request(app)
-      .post('/webhooks/voice/alias/confirm') // no query params
+      .post('/webhooks/voice/inbound')
       .type('form')
-      .send({ Digits: '1' });
+      .send({
+        To: 'abc',
+        From: '+15550001111',
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toMatch(/text\/xml/);
 
     const actions = JSON.parse(res.text);
 
     expect(actions[0]).toEqual({
       type: 'say',
-      opts: { voice: 'alice' },
-      text: 'We could not validate this call. Goodbye.',
-    });
-    expect(actions[1]).toEqual({ type: 'hangup' });
-  });
-
-  it('dials destination when Digits === "1"', async () => {
-    const app = createApp();
-
-    const userId = '456';
-    const from = '+15550002222';
-    const to = '+15550003333';
-
-    const res = await request(app)
-      .post(
-        `/webhooks/voice/alias/confirm?userId=${userId}&from=${encodeURIComponent(
-          from
-        )}&to=${encodeURIComponent(to)}`
-      )
-      .type('form')
-      .send({ Digits: '1' });
-
-    expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toMatch(/text\/xml/);
-
-    const actions = JSON.parse(res.text);
-
-    // Say "Connecting."
-    expect(actions[0]).toEqual({
-      type: 'say',
-      opts: { voice: 'alice' },
-      text: 'Connecting.',
-    });
-
-    // Then Dial
-    const dial = actions[1];
-    expect(dial.type).toBe('dial');
-    expect(dial.opts).toEqual({ callerId: from });
-    expect(dial.numbers).toHaveLength(1);
-    expect(dial.numbers[0]).toEqual({
       opts: {},
-      to,
+      text: 'The number called is not valid.',
+    });
+
+    expect(actions[1]).toEqual({
+      type: 'hangup',
     });
   });
 
-  it('says Cancelled and hangs up when Digits !== "1"', async () => {
+  it('hangs up when assigned number not found', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce(null);
+
     const app = createApp();
 
-    const userId = '789';
-    const from = '+15550004444';
-    const to = '+15550005555';
-
     const res = await request(app)
-      .post(
-        `/webhooks/voice/alias/confirm?userId=${userId}&from=${encodeURIComponent(
-          from
-        )}&to=${encodeURIComponent(to)}`
-      )
+      .post('/webhooks/voice/inbound')
       .type('form')
-      .send({ Digits: '3' });
+      .send({
+        To: '+15550009999',
+        From: '+15550001111',
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toMatch(/text\/xml/);
 
     const actions = JSON.parse(res.text);
 
     expect(actions[0]).toEqual({
       type: 'say',
-      opts: { voice: 'alice' },
-      text: 'Cancelled.',
+      opts: {},
+      text: 'This number is not available.',
     });
-    expect(actions[1]).toEqual({ type: 'hangup' });
+
+    expect(actions[1]).toEqual({
+      type: 'hangup',
+    });
+  });
+
+  it('dials forwarding number when forwarding enabled', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
+      id: 1,
+      e164: '+15550009999',
+      assignedUserId: 42,
+
+      assignedUser: {
+        id: 42,
+        forwardingEnabledCalls: true,
+        forwardToPhoneE164: '+15556667777',
+        forwardQuietHoursStart: null,
+        forwardQuietHoursEnd: null,
+        voicemailEnabled: false,
+      },
+    });
+
+    prisma.call.create.mockResolvedValueOnce({
+      id: 123,
+      createdAt: new Date(),
+      twilioCallSid: 'CA123',
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/inbound')
+      .type('form')
+      .send({
+        To: '+15550009999',
+        From: '+15550001111',
+        CallSid: 'CA123',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0].type).toBe('dial');
+
+    expect(actions[0].opts.callerId).toBe('+15550009999');
+
+    expect(actions[0].numbers).toEqual([
+      {
+        to: '+15556667777',
+      },
+    ]);
+
+    expect(emitToUser).toHaveBeenCalled();
+    expect(sendIncomingForwardedCallPush).toHaveBeenCalled();
+  });
+
+  it('records voicemail when voicemail enabled', async () => {
+    prisma.phoneNumber.findUnique.mockResolvedValueOnce({
+      id: 1,
+      e164: '+15550009999',
+      assignedUserId: 42,
+
+      assignedUser: {
+        id: 42,
+        forwardingEnabledCalls: false,
+        forwardToPhoneE164: null,
+        forwardQuietHoursStart: null,
+        forwardQuietHoursEnd: null,
+        voicemailEnabled: true,
+        voicemailGreetingText:
+          'Please leave your message after the tone.',
+      },
+    });
+
+    prisma.call.create.mockResolvedValueOnce({
+      id: 321,
+      createdAt: new Date(),
+      twilioCallSid: 'CA999',
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/inbound')
+      .type('form')
+      .send({
+        To: '+15550009999',
+        From: '+15550001111',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0]).toEqual({
+      type: 'say',
+      opts: {},
+      text: 'Please leave your message after the tone.',
+    });
+
+    expect(actions[1].type).toBe('record');
+
+    expect(actions[1].opts.action).toBe(
+      '/webhooks/voice/voicemail-complete'
+    );
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/status
+// -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/status', () => {
+  it('logs Twilio status callback', async () => {
+    prisma.voiceLog.upsert.mockResolvedValueOnce({});
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/status')
+      .type('form')
+      .send({
+        CallSid: 'CA123',
+        CallStatus: 'completed',
+        From: '+15550001111',
+        To: '+15550002222',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    expect(prisma.voiceLog.upsert).toHaveBeenCalled();
+  });
+});
+
+// -----------------------------------------------------------------------------
+// POST /webhooks/voice/dial-complete
+// -----------------------------------------------------------------------------
+
+describe('POST /webhooks/voice/dial-complete', () => {
+  it('records MISSED for no-answer and records voicemail', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      startedAt: null,
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 777,
+      callerId: 42,
+      status: 'MISSED',
+      endedAt: new Date(),
+      durationSec: 0,
+      endReason: 'no_answer',
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/dial-complete')
+      .type('form')
+      .send({
+        CallSid: 'CA123',
+        DialCallStatus: 'no-answer',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions[0]).toEqual({
+      type: 'say',
+      opts: {},
+      text:
+        'The person you called is unavailable. Please leave a message after the tone.',
+    });
+
+    expect(actions[1].type).toBe('record');
+
+    expect(prisma.call.update).toHaveBeenCalled();
+
+    expect(emitToUser).toHaveBeenCalled();
+  });
+
+  it('returns empty TwiML for completed call', async () => {
+    prisma.call.findFirst.mockResolvedValueOnce({
+      id: 555,
+      callerId: 7,
+      startedAt: new Date(),
+    });
+
+    prisma.call.update.mockResolvedValueOnce({
+      id: 555,
+      callerId: 7,
+      status: 'ENDED',
+      endedAt: new Date(),
+      durationSec: 20,
+      endReason: 'completed',
+    });
+
+    const app = createApp();
+
+    const res = await request(app)
+      .post('/webhooks/voice/dial-complete')
+      .type('form')
+      .send({
+        CallSid: 'CA999',
+        DialCallStatus: 'completed',
+        DialCallDuration: '20',
+      });
+
+    expect(res.statusCode).toBe(200);
+
+    const actions = JSON.parse(res.text);
+
+    expect(actions).toEqual([]);
   });
 });

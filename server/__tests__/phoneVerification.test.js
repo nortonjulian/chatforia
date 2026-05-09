@@ -89,6 +89,13 @@ describe('phone verification flow (Twilio-only)', () => {
         }
       });
 
+    await prisma.user.updateMany({
+      where: { email },
+      data: {
+        emailVerifiedAt: new Date(),
+      },
+    });
+
     // login to set session cookie
     await agent
       .post('/auth/login')

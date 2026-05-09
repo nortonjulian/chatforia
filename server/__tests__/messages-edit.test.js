@@ -10,7 +10,7 @@ const EP = {
   register: '/auth/register',
   login: '/auth/login',
   token: '/auth/token',
-  createRoom: '/chatrooms',        // POST (creates room)
+  createRoom: '/rooms',        // POST (creates room)
   joinRoom: (id) => `/chatrooms/${id}/join`, // POST
   sendMessage: '/messages',        // POST
   readMessage: (id) => `/messages/${id}/read`, // PATCH
@@ -26,6 +26,11 @@ async function createUserAndLogin(agent, { email, username, password }) {
       if (![200, 201].includes(res.status)) {
         throw new Error(`Unexpected /auth/register ${res.status}`);
       }
+    });
+
+    await prisma.user.updateMany({
+      where: { email },
+      data: { emailVerifiedAt: new Date() },
     });
 
   // login (200)

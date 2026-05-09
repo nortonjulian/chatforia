@@ -1,37 +1,39 @@
+/**
+ * @jest-environment node
+ */
+import { jest } from '@jest/globals';
 import express from 'express';
 import request from 'supertest';
-import router from '../routes/adminVoiceLogs.js';
-import { jest } from '@jest/globals';
 
-// ---- Mocks ----
-
-// Mock auth middlewares so every request is treated as an authenticated admin
-jest.mock('../middleware/auth.js', () => ({
-  __esModule: true,
-  requireAuth: (req, res, next) => {
-    req.user = { id: 'admin-1', role: 'ADMIN' };
-    next();
-  },
-  requireAdmin: (req, res, next) => next(),
-}));
-
-// Mock Prisma client used inside the route
 const mockFindMany = jest.fn();
 const mockCount = jest.fn();
 
-jest.mock('@prisma/client', () => {
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
+  __esModule: true,
+  requireAuth: (req, _res, next) => {
+    req.user = { id: 'admin-1', role: 'ADMIN' };
+    next();
+  },
+  requireAdmin: (_req, _res, next) => next(),
+}));
+
+await jest.unstable_mockModule('@prisma/client', () => {
+  const PrismaClient = jest.fn(() => ({
+    voiceLog: {
+      findMany: mockFindMany,
+      count: mockCount,
+    },
+  }));
+
   return {
     __esModule: true,
-    PrismaClient: jest.fn(() => ({
-      voiceLog: {
-        findMany: mockFindMany,
-        count: mockCount,
-      },
-    })),
+    default: { PrismaClient },
+    PrismaClient,
   };
 });
 
-// ---- Helper to build an app with the router mounted ----
+const { default: router } = await import('../routes/adminVoiceLogs.js');
+
 function createApp() {
   const app = express();
   app.use(express.json());
@@ -77,8 +79,8 @@ describe('GET /admin/voice-logs', () => {
     expect(mockFindMany).toHaveBeenCalledWith({
       where: {},
       orderBy: { timestamp: 'desc' },
-      take: 50, // default
-      skip: 0,  // default
+      take: 50,
+      skip: 0,
     });
 
     expect(mockCount).toHaveBeenCalledTimes(1);
@@ -90,46 +92,37 @@ describe('GET /admin/voice-logs', () => {
     mockCount.mockResolvedValue(0);
 
     const res = await request(app).get(
-      '/admin/voice-logs?status=completed&direction=OUTBOUND&phone=555'
+      '/admin/voice-logs?status=completed&direction=OUTBOUND&phone=555',
     );
 
     expect(res.status).toBe(200);
 
+    const where = {
+      status: 'COMPLETED',
+      direction: 'outbound',
+      OR: [
+        { from: { contains: '555', mode: 'insensitive' } },
+        { to: { contains: '555', mode: 'insensitive' } },
+      ],
+    };
+
     expect(mockFindMany).toHaveBeenCalledTimes(1);
     expect(mockFindMany).toHaveBeenCalledWith({
-      where: {
-        status: 'COMPLETED',   // uppercased
-        direction: 'outbound', // lowercased
-        OR: [
-          { from: { contains: '555', mode: 'insensitive' } },
-          { to: { contains: '555', mode: 'insensitive' } },
-        ],
-      },
+      where,
       orderBy: { timestamp: 'desc' },
       take: 50,
       skip: 0,
     });
 
     expect(mockCount).toHaveBeenCalledTimes(1);
-    expect(mockCount).toHaveBeenCalledWith({
-      where: {
-        status: 'COMPLETED',
-        direction: 'outbound',
-        OR: [
-          { from: { contains: '555', mode: 'insensitive' } },
-          { to: { contains: '555', mode: 'insensitive' } },
-        ],
-      },
-    });
+    expect(mockCount).toHaveBeenCalledWith({ where });
   });
 
   it('caps the "take" parameter at 200 and respects "skip"', async () => {
     mockFindMany.mockResolvedValue([]);
     mockCount.mockResolvedValue(0);
 
-    const res = await request(app).get(
-      '/admin/voice-logs?take=500&skip=10'
-    );
+    const res = await request(app).get('/admin/voice-logs?take=500&skip=10');
 
     expect(res.status).toBe(200);
 
@@ -137,7 +130,7 @@ describe('GET /admin/voice-logs', () => {
     expect(mockFindMany).toHaveBeenCalledWith({
       where: {},
       orderBy: { timestamp: 'desc' },
-      take: 200, // capped from 500 -> 200
+      take: 200,
       skip: 10,
     });
 
@@ -147,7 +140,6 @@ describe('GET /admin/voice-logs', () => {
 
   it('returns 500 and error payload when Prisma throws', async () => {
     mockFindMany.mockRejectedValue(new Error('DB exploded'));
-    // count will never be reached, but we can still stub it
     mockCount.mockResolvedValue(0);
 
     const res = await request(app).get('/admin/voice-logs');

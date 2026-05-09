@@ -3,12 +3,30 @@
  */
 import { jest } from '@jest/globals';
 
-import logger from '../../utils/logger.js';
-import { sendVoicemailForwardEmail } from '../voicemailEmail.js';
+const sendMail = jest.fn();
+
+const logger = {
+  warn: jest.fn(),
+  info: jest.fn(),
+  error: jest.fn(),
+};
+
+await jest.unstable_mockModule('../utils/sendMail.js', () => ({
+  __esModule: true,
+  sendMail,
+}));
+
+await jest.unstable_mockModule('../utils/logger.js', () => ({
+  __esModule: true,
+  default: logger,
+}));
+
+const { sendVoicemailForwardEmail } = await import('../voicemailEmail.js');
 
 describe('sendVoicemailForwardEmail', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    sendMail.mockResolvedValue(undefined);
   });
 
   test('returns early and logs warn when toEmail is missing', async () => {
@@ -25,7 +43,7 @@ describe('sendVoicemailForwardEmail', () => {
     expect(sendMail).not.toHaveBeenCalled();
     expect(logger.warn).toHaveBeenCalledWith(
       { toEmail: null },
-      'No toEmail provided for voicemail forward'
+      'No toEmail provided for voicemail forward',
     );
   });
 
@@ -45,6 +63,7 @@ describe('sendVoicemailForwardEmail', () => {
     expect(sendMail).toHaveBeenCalledTimes(1);
 
     const callArg = sendMail.mock.calls[0][0];
+
     expect(callArg.to).toBe('user@example.com');
     expect(callArg.subject).toBe('New voicemail from +15551234567');
 
@@ -64,7 +83,7 @@ describe('sendVoicemailForwardEmail', () => {
 
     expect(logger.info).toHaveBeenCalledWith(
       { toEmail: 'user@example.com' },
-      'Voicemail forward email sent'
+      'Voicemail forward email sent',
     );
   });
 
@@ -79,7 +98,10 @@ describe('sendVoicemailForwardEmail', () => {
       createdAt: null,
     });
 
+    expect(sendMail).toHaveBeenCalledTimes(1);
+
     const callArg = sendMail.mock.calls[0][0];
+
     expect(callArg.subject).toBe('New voicemail from Unknown caller');
     expect(callArg.text).toContain('From: Unknown caller');
     expect(callArg.html).toContain('Unknown caller');
@@ -99,9 +121,10 @@ describe('sendVoicemailForwardEmail', () => {
     });
 
     expect(sendMail).toHaveBeenCalledTimes(1);
-    expect(logger.error).toHaveBeenCalled();
+    expect(logger.error).toHaveBeenCalledTimes(1);
 
     const [errorPayload, message] = logger.error.mock.calls[0];
+
     expect(errorPayload).toHaveProperty('err');
     expect(errorPayload).toHaveProperty('toEmail', 'user@example.com');
     expect(message).toBe('Failed to send voicemail forward email');
