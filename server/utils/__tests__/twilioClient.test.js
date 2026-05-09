@@ -1,6 +1,14 @@
-import twilio from 'twilio';
+/**
+ * @jest-environment node
+ */
+import { jest } from '@jest/globals';
 
-jest.mock('twilio', () => jest.fn());
+const twilioMock = jest.fn();
+
+jest.unstable_mockModule('twilio', () => ({
+  __esModule: true,
+  default: twilioMock,
+}));
 
 const ORIGINAL_ENV = process.env;
 
@@ -24,16 +32,13 @@ describe('twilioClient util', () => {
     process.env.TWILIO_AUTH_TOKEN = 'SECRET';
 
     const mockClient = { foo: 'bar' };
-    twilio.mockReturnValue(mockClient);
+    twilioMock.mockReturnValue(mockClient);
 
-    const { default: twilioClient } = await import('./twilioClient.js');
+    const { default: twilioClient } = await import('../twilioClient.js');
 
-    // Should have created the client
-    expect(twilio).toHaveBeenCalledTimes(1);
-    expect(twilio).toHaveBeenCalledWith('AC123', 'SECRET');
+    expect(twilioMock).toHaveBeenCalledTimes(1);
+    expect(twilioMock).toHaveBeenCalledWith('AC123', 'SECRET');
     expect(twilioClient).toBe(mockClient);
-
-    // No warning when creds exist
     expect(warnSpy).not.toHaveBeenCalled();
   });
 
@@ -41,13 +46,11 @@ describe('twilioClient util', () => {
     delete process.env.TWILIO_ACCOUNT_SID;
     delete process.env.TWILIO_AUTH_TOKEN;
 
-    const { default: twilioClient } = await import('./twilioClient.js');
+    const { default: twilioClient } = await import('../twilioClient.js');
 
-    // No client created
-    expect(twilio).not.toHaveBeenCalled();
+    expect(twilioMock).not.toHaveBeenCalled();
     expect(twilioClient).toBeNull();
 
-    // Warning logged
     expect(warnSpy).toHaveBeenCalledTimes(1);
     expect(warnSpy.mock.calls[0][0]).toContain(
       'Twilio credentials are not set – porting and telephony will not work.'

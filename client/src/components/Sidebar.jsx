@@ -325,11 +325,6 @@ function Sidebar({ currentUser, features = {} }) {
         />
       )}
 
-      {/* Ads */}
-      {currentUser && !isPremium && !isMobile && (
-        <AdSlot placement={PLACEMENTS.SIDEBAR_PRIMARY} />
-      )}
-
       {/* Profile drawer */}
       <Drawer
         opened={profileOpen}

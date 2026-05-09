@@ -15,6 +15,7 @@ describe('buildQueues', () => {
     expect(Array.isArray(queues.waitingQueue)).toBe(true);
     expect(queues.waitingBySocket).toBeInstanceOf(Map);
     expect(queues.activeRoomBySocket).toBeInstanceOf(Map);
+    expect(queues.sessionByRoomId).toBeInstanceOf(Map);
   });
 });
 
@@ -51,13 +52,14 @@ describe('areCompatible', () => {
   it('allows match when filter is requested but other side has no ageBand', () => {
     const a = { userId: 'userA', ageBand: '18-24', wantsAgeFilter: true };
     const b = { userId: 'userB', ageBand: null, wantsAgeFilter: false };
-    // condition requires BOTH ageBand values present to block; here it should pass
+
     expect(areCompatible(a, b)).toBe(true);
   });
 
   it('returns true when both want age filter and bands match', () => {
     const a = { userId: 'userA', ageBand: '25-34', wantsAgeFilter: true };
     const b = { userId: 'userB', ageBand: '25-34', wantsAgeFilter: true };
+
     expect(areCompatible(a, b)).toBe(true);
   });
 });
@@ -89,7 +91,9 @@ describe('enqueue and removeFromQueue', () => {
 
   it('returns null when removing a non-existent socketId', () => {
     const queues = buildQueues();
+
     const result = removeFromQueue(queues, 'nope');
+
     expect(result).toBeNull();
   });
 });
@@ -130,7 +134,6 @@ describe('createRandomRoom', () => {
           create: [
             {
               content: "You've been paired for a random chat. Be kind!",
-              // sender.connect.id is what we care about
             },
           ],
         },
@@ -156,20 +159,26 @@ describe('createRandomRoom', () => {
 });
 
 describe('tryMatch', () => {
-  const mkSocket = (id) => {
-    return {
-      id,
-      join: jest.fn(),
-      emit: jest.fn(),
-    };
-  };
+  const mkSocket = (id) => ({
+    id,
+    join: jest.fn(),
+    leave: jest.fn(),
+    emit: jest.fn(),
+  });
 
-  it('enqueues currentEntry and emits "waiting" when no compatible peer', async () => {
+  it('enqueues currentEntry and emits random:waiting when no compatible peer', async () => {
     const queues = buildQueues();
     const prisma = { randomChatRoom: { create: jest.fn() } };
-    const io = {}; // not used in current implementation
 
     const socket = mkSocket('sock-1');
+    const io = {
+      sockets: {
+        sockets: {
+          get: jest.fn((sid) => (sid === 'sock-1' ? socket : null)),
+        },
+      },
+    };
+
     const getSocketById = jest.fn((sid) => (sid === 'sock-1' ? socket : null));
 
     const currentEntry = {
@@ -194,19 +203,24 @@ describe('tryMatch', () => {
     expect(queues.waitingBySocket.get('sock-1')).toBe(currentEntry);
 
     expect(getSocketById).toHaveBeenCalledWith('sock-1');
-    expect(socket.emit).toHaveBeenCalledWith(
-      'waiting',
-      'Looking for a partner…',
-    );
+    expect(socket.emit).toHaveBeenCalledWith('random:waiting', {
+      message: 'Looking for a partner…',
+    });
   });
 
   it('skips incompatible peers and still enqueues if none compatible', async () => {
     const queues = buildQueues();
     const prisma = { randomChatRoom: { create: jest.fn() } };
-    const io = {};
-    const socket = mkSocket('sock-2');
 
-    // Incompatible existing entry (age filter mismatch)
+    const socket = mkSocket('sock-2');
+    const io = {
+      sockets: {
+        sockets: {
+          get: jest.fn((sid) => (sid === 'sock-2' ? socket : null)),
+        },
+      },
+    };
+
     const existingEntry = {
       socketId: 'sock-x',
       userId: 'other-user',
@@ -214,6 +228,7 @@ describe('tryMatch', () => {
       ageBand: '25-34',
       wantsAgeFilter: true,
     };
+
     enqueue(queues, existingEntry);
 
     const currentEntry = {
@@ -224,9 +239,7 @@ describe('tryMatch', () => {
       wantsAgeFilter: true,
     };
 
-    const getSocketById = jest.fn((sid) =>
-      sid === 'sock-2' ? socket : null,
-    );
+    const getSocketById = jest.fn((sid) => (sid === 'sock-2' ? socket : null));
 
     const result = await tryMatch({
       queues,
@@ -236,21 +249,20 @@ describe('tryMatch', () => {
       getSocketById,
     });
 
-    expect(result.matched).toBe(false);
-    // both entries should now be in the queue (original + new)
+    expect(result).toEqual({ matched: false });
+
     expect(queues.waitingQueue).toHaveLength(2);
     expect(queues.waitingQueue).toEqual(
       expect.arrayContaining([existingEntry, currentEntry]),
     );
-    expect(socket.emit).toHaveBeenCalledWith(
-      'waiting',
-      'Looking for a partner…',
-    );
+
+    expect(socket.emit).toHaveBeenCalledWith('random:waiting', {
+      message: 'Looking for a partner…',
+    });
   });
 
-  it('matches with compatible peer, creates room, joins sockets, and emits pair_found', async () => {
+  it('matches with compatible peer, creates room, joins sockets, and emits random:matched', async () => {
     const queues = buildQueues();
-    const io = {};
 
     const prisma = {
       randomChatRoom: {
@@ -262,7 +274,6 @@ describe('tryMatch', () => {
       },
     };
 
-    // Existing waiting peer
     const peerEntry = {
       socketId: 'sock-peer',
       userId: 'user-2',
@@ -270,9 +281,9 @@ describe('tryMatch', () => {
       ageBand: '18-24',
       wantsAgeFilter: false,
     };
+
     enqueue(queues, peerEntry);
 
-    // New arriving user
     const currentEntry = {
       socketId: 'sock-current',
       userId: 'user-1',
@@ -283,6 +294,18 @@ describe('tryMatch', () => {
 
     const socketCurrent = mkSocket('sock-current');
     const socketPeer = mkSocket('sock-peer');
+
+    const io = {
+      sockets: {
+        sockets: {
+          get: jest.fn((sid) => {
+            if (sid === 'sock-current') return socketCurrent;
+            if (sid === 'sock-peer') return socketPeer;
+            return null;
+          }),
+        },
+      },
+    };
 
     const getSocketById = jest.fn((sid) => {
       if (sid === 'sock-current') return socketCurrent;
@@ -298,46 +321,49 @@ describe('tryMatch', () => {
       getSocketById,
     });
 
-    // result summary
     expect(result).toEqual({
       matched: true,
       roomId: 'room-999',
-      partnerId: 'user-2',
+      myAlias: expect.any(String),
+      partnerAlias: expect.any(String),
     });
 
-    // queue is emptied
     expect(queues.waitingQueue).toHaveLength(0);
     expect(queues.waitingBySocket.size).toBe(0);
 
-    // activeRoomBySocket is populated for both sockets
-    const activeCurrent = queues.activeRoomBySocket.get('sock-current');
-    const activePeer = queues.activeRoomBySocket.get('sock-peer');
-
-    expect(activeCurrent).toEqual({
+    expect(queues.activeRoomBySocket.get('sock-current')).toEqual({
       roomId: 'room-999',
       peerSocketId: 'sock-peer',
       peerUserId: 'user-2',
     });
-    expect(activePeer).toEqual({
+
+    expect(queues.activeRoomBySocket.get('sock-peer')).toEqual({
       roomId: 'room-999',
       peerSocketId: 'sock-current',
       peerUserId: 'user-1',
     });
 
-    // sockets joined the room
+    expect(queues.sessionByRoomId.get('room-999')).toEqual(
+      expect.objectContaining({
+        roomId: 'room-999',
+        isUnlocked: false,
+        users: expect.any(Object),
+      }),
+    );
+
     expect(socketCurrent.join).toHaveBeenCalledWith('random:room-999');
     expect(socketPeer.join).toHaveBeenCalledWith('random:room-999');
 
-    // both sides got pair_found with correct payload
-    expect(socketCurrent.emit).toHaveBeenCalledWith('pair_found', {
+    expect(socketCurrent.emit).toHaveBeenCalledWith('random:matched', {
       roomId: 'room-999',
-      partner: 'Bob',
-      partnerId: 'user-2',
+      myAlias: expect.any(String),
+      partnerAlias: expect.any(String),
     });
-    expect(socketPeer.emit).toHaveBeenCalledWith('pair_found', {
+
+    expect(socketPeer.emit).toHaveBeenCalledWith('random:matched', {
       roomId: 'room-999',
-      partner: 'Alice',
-      partnerId: 'user-1',
+      myAlias: expect.any(String),
+      partnerAlias: expect.any(String),
     });
   });
 });

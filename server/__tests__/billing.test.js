@@ -36,11 +36,17 @@ beforeAll(async () => {
       customers: {
         create: jest.fn(),
       },
+
+      subscriptions: {
+        retrieve: jest.fn(),
+      },
+
       checkout: {
         sessions: {
           create: jest.fn(),
         },
       },
+
       billingPortal: {
         sessions: {
           create: jest.fn(),
@@ -180,6 +186,7 @@ describe('POST /billing/checkout', () => {
       email: 'user@test.com',
       username: 'julian',
       billingCustomerId: 'cus_123',
+      billingSubscriptionId: null,
     });
 
     stripeMock.checkout.sessions.create.mockResolvedValue({
@@ -200,6 +207,7 @@ describe('POST /billing/checkout', () => {
         email: true,
         username: true,
         billingCustomerId: true,
+        billingSubscriptionId: true,
       },
     });
 
@@ -223,6 +231,7 @@ describe('POST /billing/checkout', () => {
       metadata: {
         userId: '1',
         plan: 'PLUS_MONTHLY',
+        checkoutType: 'subscription',
       },
       subscription_data: {
         metadata: {
@@ -251,6 +260,7 @@ describe('POST /billing/checkout', () => {
       email: 'user@test.com',
       username: 'julian',
       billingCustomerId: null,
+      billingSubscriptionId: null,
     });
 
     stripeMock.customers.create.mockResolvedValue({
@@ -297,6 +307,7 @@ describe('POST /billing/checkout', () => {
         metadata: {
           userId: '1',
           plan: 'PREMIUM_MONTHLY',
+          checkoutType: 'subscription',
         },
       })
     );
@@ -316,7 +327,7 @@ describe('POST /billing/checkout', () => {
 
     expect(res.statusCode).toBe(400);
     expect(res.body).toEqual({
-      error: 'Invalid or unconfigured plan',
+      error: 'Invalid or unconfigured plan/price',
     });
   });
 
