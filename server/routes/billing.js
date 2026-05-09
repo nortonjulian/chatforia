@@ -18,9 +18,63 @@ function getPriceIdForPlan(plan) {
       return process.env.STRIPE_PRICE_PREMIUM_MONTHLY;
     case 'PREMIUM_ANNUAL':
       return process.env.STRIPE_PRICE_PREMIUM_ANNUAL;
+    
+    // ---- Local eSIM Packs ----
+
+    case 'WIRELESS_LOCAL_3':
+      return process.env.STRIPE_PRICE_ESIM_LOCAL_3;
+
+    case 'WIRELESS_LOCAL_5':
+      return process.env.STRIPE_PRICE_ESIM_LOCAL_5;
+
+    case 'WIRELESS_LOCAL_10':
+      return process.env.STRIPE_PRICE_ESIM_LOCAL_10;
+
+    case 'WIRELESS_LOCAL_20':
+      return process.env.STRIPE_PRICE_ESIM_LOCAL_20;
+
+    case 'WIRELESS_LOCAL_UNLIMITED':
+      return process.env.STRIPE_PRICE_ESIM_LOCAL_UNLIMITED;
+
+    // ---- Europe eSIM Packs ----
+
+    case 'WIRELESS_EUROPE_3':
+      return process.env.STRIPE_PRICE_ESIM_EUROPE_3;
+
+    case 'WIRELESS_EUROPE_5':
+      return process.env.STRIPE_PRICE_ESIM_EUROPE_5;
+
+    case 'WIRELESS_EUROPE_10':
+      return process.env.STRIPE_PRICE_ESIM_EUROPE_10;
+
+    case 'WIRELESS_EUROPE_20':
+      return process.env.STRIPE_PRICE_ESIM_EUROPE_20;
+
+    case 'WIRELESS_EUROPE_UNLIMITED':
+      return process.env.STRIPE_PRICE_ESIM_EUROPE_UNLIMITED;
+
+    // ---- Global eSIM Packs ----
+
+    case 'WIRELESS_GLOBAL_3':
+      return process.env.STRIPE_PRICE_ESIM_GLOBAL_3;
+
+    case 'WIRELESS_GLOBAL_5':
+      return process.env.STRIPE_PRICE_ESIM_GLOBAL_5;
+
+    case 'WIRELESS_GLOBAL_10':
+      return process.env.STRIPE_PRICE_ESIM_GLOBAL_10;
+
+    case 'WIRELESS_GLOBAL_UNLIMITED':
+      return process.env.STRIPE_PRICE_ESIM_GLOBAL_UNLIMITED;
     default:
       return null;
   }
+}
+
+function isSubscriptionPlan(plan) {
+  return ['PLUS_MONTHLY', 'PREMIUM_MONTHLY', 'PREMIUM_ANNUAL'].includes(
+    normalizePlanCode(plan)
+  );
 }
 
 function planLabel(code) {
@@ -96,6 +150,9 @@ router.post('/checkout', async (req, res) => {
     const userId = Number(req.user.id);
     const plan = normalizePlanCode(req.body?.plan);
 
+    const isSubscription = isSubscriptionPlan(plan);
+    const sessionMode = isSubscription ? 'subscription' : 'payment';
+
     let priceId =
       req.body?.priceId ||
       getPriceIdForPlan(plan);
@@ -126,7 +183,7 @@ router.post('/checkout', async (req, res) => {
       process.env.WEB_URL ||
       'https://chatforia.com';
 
-      if (user.billingSubscriptionId) {
+      if (isSubscription && user.billingSubscriptionId) {
         try {
           const existingSub = await stripe.subscriptions.retrieve(
             user.billingSubscriptionId
@@ -175,36 +232,52 @@ router.post('/checkout', async (req, res) => {
       });
     }
 
-    const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+    const sessionPayload = {
+      mode: sessionMode,
       customer: customerId,
       client_reference_id: String(user.id),
+
       line_items: [
         {
           price: priceId,
           quantity: 1,
         },
       ],
+
       allow_promotion_codes: true,
       automatic_tax: { enabled: true },
+
       billing_address_collection: 'auto',
+
       customer_update: {
         address: 'auto',
         name: 'auto',
       },
+
       metadata: {
         userId: String(user.id),
         plan,
+        checkoutType: sessionMode,
       },
-      subscription_data: {
+
+      success_url:
+        `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
+
+      cancel_url:
+        `${frontendOrigin}/upgrade?canceled=1`,
+    };
+
+    if (isSubscription) {
+      sessionPayload.subscription_data = {
         metadata: {
           userId: String(user.id),
           plan,
         },
-      },
-      success_url: `${frontendOrigin}/upgrade-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${frontendOrigin}/upgrade?canceled=1`,
-    });
+      };
+    }
+
+    const session =
+      await stripe.checkout.sessions.create(sessionPayload);
 
     return res.json({
       url: session.url,
