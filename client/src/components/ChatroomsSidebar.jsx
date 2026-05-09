@@ -790,8 +790,8 @@ useEffect(() => {
               }}
               style={{
                 width: '100%',
-                padding: '16px 14px',
-                minHeight: 72,
+                padding: '18px 14px',
+                minHeight: 82,
                 borderRadius: 12,
                 borderBottom: '1px solid var(--mantine-color-gray-2)',
                 background: isActive ? activeBg : 'transparent',
