@@ -794,14 +794,12 @@ useEffect(() => {
               }}
               style={{
                 width: '100%',
-                minHeight: 56,
                 padding: '14px 12px',
+                minHeight: 56,
                 borderRadius: 12,
                 background: isActive ? activeBg : 'transparent',
                 textAlign: 'left',
                 outline: 'none',
-                display: 'flex',
-                alignItems: 'center',
               }}
               title={title}
               aria-current={isActive ? 'true' : undefined}
