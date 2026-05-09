@@ -782,11 +782,7 @@ useEffect(() => {
         const lastPreview = formatLastPreview(c.last, t);
 
         return (
-          <div
-            key={`${c.kind}:${c.id}`}
-            className="sidebar-row"
-            style={{ minHeight: 64 }}
-          >
+          <div key={`${c.kind}:${c.id}`} className="sidebar-row">
             <Box
               onClick={() => {
                 console.log('[ChatroomsSidebar] clicked conversation row:', c);
