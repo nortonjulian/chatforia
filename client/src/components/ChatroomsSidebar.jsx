@@ -793,6 +793,7 @@ useEffect(() => {
                 padding: '16px 14px',
                 minHeight: 72,
                 borderRadius: 12,
+                borderBottom: '1px solid var(--mantine-color-gray-2)',
                 background: isActive ? activeBg : 'transparent',
                 textAlign: 'left',
                 outline: 'none',
