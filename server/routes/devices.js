@@ -74,11 +74,14 @@ router.post('/register', requireAuth, async (req, res, next) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: {
-        isPremium: true, // change this if your schema uses plan/tier instead
+        plan: true,
       },
     });
 
-    if (!user?.isPremium && existingActiveDevices >= 1) {
+    const plan = String(user?.plan || 'FREE').toUpperCase();
+    const isPaidPlan = ['PLUS', 'PREMIUM', 'WIRELESS'].includes(plan);
+
+    if (!isPaidPlan && existingActiveDevices >= 1) {
       return res.status(402).json({
         error: 'FREE plan allows one active device. Upgrade to add more devices.',
         code: 'DEVICE_LIMIT_REACHED',
