@@ -790,7 +790,8 @@ useEffect(() => {
               }}
               style={{
                 width: '100%',
-                padding: '10px 12px',
+                padding: '14px 12px',
+                minHeight: 56,
                 borderRadius: 12,
                 background: isActive ? activeBg : 'transparent',
                 textAlign: 'left',
