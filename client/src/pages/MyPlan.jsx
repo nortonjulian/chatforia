@@ -196,8 +196,7 @@ export default function MyPlan() {
                     </Button>
 
                     <Button
-                      variant="subtle"
-                      color="red"
+                      variant="light"
                       onClick={cancelNow}
                       loading={loadingCancelNow}
                     >
