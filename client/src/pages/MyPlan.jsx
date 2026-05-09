@@ -128,114 +128,89 @@ export default function MyPlan() {
   const hasPaidPlan = !!plan && !plan.isFree;
 
   return (
-    <Container size="sm" py="xl">
-      <Stack gap="md">
+    <Container size="md" py="xl">
+      <Stack gap="lg" maw={720}>
         <Title order={2}>{t('billing.myPlanTitle', 'My plan')}</Title>
 
         {loading && (
           <Group>
             <Loader size="sm" />
-            <Text size="sm">
-              {t('billing.myPlanLoading', 'Loading your plan…')}
-            </Text>
+            <Text size="sm">{t('billing.myPlanLoading', 'Loading your plan…')}</Text>
           </Group>
         )}
 
         {error && !loading && (
-          <Text c="red" size="sm">
-            {error}
-          </Text>
+          <Text c="red" size="sm">{error}</Text>
         )}
 
         {!loading && plan && (
-          <Paper withBorder radius="lg" p="lg">
-            <Group justify="space-between" align="flex-start">
-              <div>
-                <Text size="sm" c="dimmed">
-                  {t('billing.currentPlan', 'Current plan')}
-                </Text>
+          <Paper withBorder radius="xl" p="xl" shadow="sm">
+            <Stack gap="md">
+              <Group justify="space-between" align="flex-start">
+                <div>
+                  <Text size="xs" fw={700} tt="uppercase" c="dimmed">
+                    {t('billing.currentPlan', 'Current plan')}
+                  </Text>
 
-                <Group gap="xs" mt={4}>
-                  <Title order={3}>{plan.label}</Title>
-                  {!plan.isFree && plan.status && (
-                    <Badge variant="light" radius="xl">
-                      {plan.status}
-                    </Badge>
+                  <Group gap="sm" mt={6}>
+                    <Title order={3}>{plan.label}</Title>
+                    {!plan.isFree && plan.status && (
+                      <Badge variant="light" radius="xl">
+                        {plan.status}
+                      </Badge>
+                    )}
+                  </Group>
+
+                  {!plan.isFree && (
+                    <Text mt={6} size="sm" c="dimmed">
+                      {plan.renewsAt
+                        ? `${t('billing.renewsAt', 'Renews on')} ${new Date(plan.renewsAt).toLocaleDateString()}`
+                        : t('billing.activeSubscription', 'Your subscription is active.')}
+                    </Text>
                   )}
-                </Group>
 
-                {!plan.isFree && plan.amountFormatted && plan.currency && (
-                  <Text mt="xs" size="sm">
-                    {plan.amountFormatted}{' '}
-                    {plan.currency?.toUpperCase()}/
-                    {plan.interval ?? 'month'}
-                  </Text>
-                )}
+                  {plan.isFree && (
+                    <Text mt={6} size="sm" c="dimmed">
+                      {t(
+                        'billing.freePlanCopy',
+                        'You’re on the free plan. Upgrade to unlock more features.'
+                      )}
+                    </Text>
+                  )}
+                </div>
+              </Group>
 
-                {plan.renewsAt && (
-                  <Text mt="xs" size="sm" c="dimmed">
-                    {t('billing.renewsAt', 'Renews on')}{' '}
-                    {new Date(plan.renewsAt).toLocaleDateString()}
-                  </Text>
-                )}
-
-                {plan.isFree && (
-                  <Text mt="xs" size="sm" c="dimmed">
-                    {t(
-                      'billing.freePlanCopy',
-                      'You’re on the free plan. Upgrade to unlock more features.'
-                    )}
-                  </Text>
-                )}
-
-                {hasPaidPlan && (
-                  <Text mt="xs" size="xs" c="dimmed">
-                    {t(
-                      'billing.cancelNowHelp',
-                      'You can manage or cancel your subscription in the billing portal, or cancel immediately below.'
-                    )}
-                  </Text>
-                )}
-              </div>
-
-              <Stack gap="xs" align="flex-end">
-                <Button
-                  component={Link}
-                  to="/upgrade"
-                  variant={plan.isFree ? 'filled' : 'outline'}
-                  radius="xl"
-                >
-                  {plan.isFree
-                    ? t('billing.upgradeCta', 'Upgrade plan')
-                    : t('billing.changePlanCta', 'Change plan')}
-                </Button>
-
-                {hasPaidPlan && (
+              <Group gap="sm" mt="sm">
+                {hasPaidPlan ? (
                   <>
-                    <Button
-                      variant="subtle"
-                      radius="xl"
-                      onClick={openBillingPortal}
-                      loading={loadingPortal}
-                      aria-busy={loadingPortal ? 'true' : 'false'}
-                    >
+                    <Button onClick={openBillingPortal} loading={loadingPortal}>
                       {t('billing.manageBilling', 'Manage billing')}
                     </Button>
 
                     <Button
+                      component={Link}
+                      to="/upgrade"
                       variant="outline"
+                    >
+                      {t('billing.changePlanCta', 'Change plan')}
+                    </Button>
+
+                    <Button
+                      variant="subtle"
                       color="red"
-                      radius="xl"
                       onClick={cancelNow}
                       loading={loadingCancelNow}
-                      aria-busy={loadingCancelNow ? 'true' : 'false'}
                     >
                       {t('billing.cancelNow', 'Cancel now')}
                     </Button>
                   </>
+                ) : (
+                  <Button component={Link} to="/upgrade">
+                    {t('billing.upgradeCta', 'Upgrade plan')}
+                  </Button>
                 )}
-              </Stack>
-            </Group>
+              </Group>
+            </Stack>
           </Paper>
         )}
       </Stack>
