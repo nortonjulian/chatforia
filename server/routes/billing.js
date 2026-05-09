@@ -269,4 +269,49 @@ router.post('/portal', async (req, res) => {
   }
 });
 
+router.post('/cancel-now', async (req, res) => {
+  try {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userId = Number(req.user.id);
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        billingSubscriptionId: true,
+      },
+    });
+
+    if (!user?.billingSubscriptionId) {
+      return res.status(400).json({ error: 'No active subscription found' });
+    }
+
+    await stripe.subscriptions.cancel(user.billingSubscriptionId);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        plan: 'FREE',
+        subscriptionStatus: 'CANCELED',
+        subscriptionEndsAt: new Date(),
+        billingSubscriptionId: null,
+      },
+    });
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[billing/cancel-now] error:', {
+      message: err?.message,
+      type: err?.type,
+      code: err?.code,
+      raw: err?.raw,
+    });
+
+    return res.status(500).json({ error: 'Failed to cancel subscription' });
+  }
+});
+
 export default router;
