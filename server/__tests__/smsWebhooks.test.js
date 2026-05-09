@@ -149,7 +149,7 @@ describe('POST /webhooks/sms/twilio', () => {
     // No forwarding when ok is false
     expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
     expect(sendSmsMock).not.toHaveBeenCalled();
-    expect(transporterSendMailMock).not.toHaveBeenCalled();
+    expect(sendMailMock).not.toHaveBeenCalled();
   });
 
   test('forwards to phone and email when forwarding is enabled and not in quiet hours', async () => {
@@ -207,8 +207,8 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(smsArg.clientRef).toMatch(/^fwd:999:/);
 
     // Forwarded email
-    expect(transporterSendMailMock).toHaveBeenCalledTimes(1);
-    expect(transporterSendMailMock).toHaveBeenCalledWith({
+    expect(sendMailMock).toHaveBeenCalledTimes(1);
+    expect(sendMailMock).toHaveBeenCalledWith({
       to: 'user@example.com',
       subject: 'SMS from +13035550123',
       text: 'Forward this please',

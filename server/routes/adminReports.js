@@ -75,6 +75,7 @@ router.get('/', requireAuth, requireAdmin, async (req, res) => {
 router.patch('/:id/resolve', requireAuth, requireAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id);
+
     if (!Number.isInteger(id)) {
       return res.status(400).json({ error: 'Invalid report id' });
     }
@@ -107,28 +108,25 @@ router.patch('/:id/resolve', requireAuth, requireAdmin, async (req, res) => {
 router.post('/users/:userId/warn', requireAuth, requireAdmin, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
+
     if (!Number.isInteger(userId)) {
       return res.status(400).json({ error: 'Invalid user id' });
     }
 
     const { notes } = req.body || {};
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { id: true },
-    });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    const finalNotes = notes || 'warned';
 
     res.locals.audit = {
       action: 'ADMIN_WARN_USER',
       targetUserId: userId,
-      notes: notes || 'warned',
+      notes: finalNotes,
     };
 
-    res.json({ success: true, userId, notes: notes || 'warned' });
+    res.json({
+      success: true,
+      userId,
+      notes: finalNotes,
+    });
   } catch (e) {
     console.error(`POST /admin/reports/users/${req.params.userId}/warn failed:`, e);
     res.status(500).json({ error: 'Failed to warn user' });
@@ -139,11 +137,13 @@ router.post('/users/:userId/warn', requireAuth, requireAdmin, async (req, res) =
 router.post('/users/:userId/ban', requireAuth, requireAdmin, async (req, res) => {
   try {
     const userId = Number(req.params.userId);
+
     if (!Number.isInteger(userId)) {
       return res.status(400).json({ error: 'Invalid user id' });
     }
 
     const { reason } = req.body || {};
+    const finalReason = reason || '';
 
     const updated = await prisma.user.update({
       where: { id: userId },
@@ -151,23 +151,21 @@ router.post('/users/:userId/ban', requireAuth, requireAdmin, async (req, res) =>
         isBanned: true,
         bannedAt: new Date(),
       },
-      select: {
-        id: true,
-        isBanned: true,
-        bannedAt: true,
-      },
     });
 
     res.locals.audit = {
       action: 'ADMIN_BAN_USER',
       targetUserId: userId,
-      notes: reason || '',
+      notes: finalReason,
     };
 
     res.json({
       success: true,
-      user: updated,
-      reason: reason || '',
+      user: {
+        id: updated.id,
+        isBanned: updated.isBanned,
+      },
+      reason: finalReason,
     });
   } catch (e) {
     console.error(`POST /admin/reports/users/${req.params.userId}/ban failed:`, e);
@@ -180,6 +178,7 @@ router.post('/users/:userId/ban', requireAuth, requireAdmin, async (req, res) =>
 router.delete('/messages/:messageId', requireAuth, requireAdmin, async (req, res) => {
   try {
     const messageId = Number(req.params.messageId);
+
     if (!Number.isInteger(messageId)) {
       return res.status(400).json({ error: 'Invalid message id' });
     }
@@ -190,7 +189,6 @@ router.delete('/messages/:messageId', requireAuth, requireAdmin, async (req, res
         contentCiphertext: '',
         rawContent: null,
         translatedContent: null,
-        // deletedByAdmin: true,
       },
       select: {
         id: true,
@@ -205,7 +203,10 @@ router.delete('/messages/:messageId', requireAuth, requireAdmin, async (req, res
       notes: 'content blanked by admin',
     };
 
-    res.json({ success: true, message: updated });
+    res.json({
+      success: true,
+      message: updated,
+    });
   } catch (e) {
     console.error(
       `DELETE /admin/reports/messages/${req.params.messageId} failed:`,
