@@ -41,10 +41,8 @@ describe('telco driver (Twilio only)', () => {
     });
 
     expect(res).toEqual({
-      ok: true,
       provider: 'twilio',
       messageSid: 'SM_mock_123',
-      clientRef: 'test:123',
     });
 
     expect(createMock).toHaveBeenCalledTimes(1);
@@ -67,10 +65,8 @@ describe('telco driver (Twilio only)', () => {
     });
 
     expect(res).toEqual({
-      ok: true,
       provider: 'twilio',
       messageSid: 'SM_mock_123',
-      clientRef: null,
     });
 
     expect(createMock).toHaveBeenCalledTimes(1);
@@ -85,20 +81,18 @@ describe('telco driver (Twilio only)', () => {
     );
   });
 
-  test('returns provider_error if neither Messaging Service SID nor From number is set', async () => {
+  test('throws if neither Messaging Service SID nor From number is set', async () => {
     delete process.env.TWILIO_MESSAGING_SERVICE_SID;
     delete process.env.TWILIO_FROM_NUMBER;
 
-    const res = await sendSms({
-      to: '+15551230000',
-      text: 'no ids',
-    });
-
-    expect(res).toEqual({
-      ok: false,
-      reason: 'provider_error',
-      detail: 'Twilio SMS requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER',
-    });
+    await expect(
+      sendSms({
+        to: '+15551230000',
+        text: 'no ids',
+      })
+    ).rejects.toThrow(
+      /requires TWILIO_MESSAGING_SERVICE_SID or TWILIO_FROM_NUMBER/i
+    );
 
     expect(createMock).not.toHaveBeenCalled();
   });

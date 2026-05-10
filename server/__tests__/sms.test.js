@@ -143,13 +143,14 @@ describe('POST /sms/send', () => {
       .send({ to: '+15550009999' }); // body missing
 
     expect(boomBadRequestMock).toHaveBeenCalledTimes(1);
-    expect(boomBadRequestMock).toHaveBeenCalledWith('to and body required');
+    expect(boomBadRequestMock).toHaveBeenCalledWith(
+      'to and body (or mediaUrls) required'
+    );
 
     expect(res.status).toBe(400);
     expect(res.body).toMatchObject({
-      statusCode: 400,
-      error: 'Bad Request',
-      message: 'to and body required',
+      error: 'Error',
+      message: 'to and body (or mediaUrls) required',
     });
 
     expect(sendUserSmsMock).not.toHaveBeenCalled();
@@ -172,6 +173,8 @@ describe('POST /sms/send', () => {
       userId: 7,
       to: '+15550001111',
       body: 'Hello from Chatforia',
+      from: undefined,
+      mediaUrls: [],
     });
   });
 });

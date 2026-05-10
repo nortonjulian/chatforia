@@ -2,7 +2,6 @@ import { jest } from '@jest/globals';
 
 const ORIGINAL_ENV = process.env;
 
-// ---- Mocks ----
 const scheduled = [];
 
 const mockTwilioRemove = jest.fn();
@@ -18,44 +17,7 @@ const prismaMock = {
   },
 };
 
-jest.mock('@prisma/client', () => {
-  class PrismaClient {
-    constructor() {
-      return prismaMock;
-    }
-  }
-
-  return {
-    __esModule: true,
-    PrismaClient,
-  };
-});
-
-jest.mock('../../utils/twilioClient.js', () => ({
-  __esModule: true,
-  default: {
-    incomingPhoneNumbers: jest.fn(() => ({
-      remove: mockTwilioRemove,
-    })),
-  },
-}));
-
-jest.mock('../../utils/notifications.js', () => ({
-  __esModule: true,
-  notifyUserOfPendingRelease: mockNotifyUserOfPendingRelease,
-}));
-
-const setupCronSpy = async () => {
-  const cron = await import('node-cron');
-
-  jest.spyOn(cron.default, 'schedule').mockImplementation((expr, fn) => {
-    const task = { stop: jest.fn() };
-    scheduled.push({ expr, fn, task });
-    return task;
-  });
-};
-
-const reload = async (env = {}) => {
+const setupMocksAndReload = async (env = {}) => {
   jest.resetModules();
 
   process.env = {
@@ -70,11 +32,40 @@ const reload = async (env = {}) => {
   prismaMock.numberReservation.deleteMany.mockReset();
 
   mockTwilioRemove.mockReset();
-  mockNotifyUserOfPendingRelease.mockReset();
-  mockNotifyUserOfPendingRelease.mockResolvedValue(undefined);
   mockTwilioRemove.mockResolvedValue(undefined);
 
-  await setupCronSpy();
+  mockNotifyUserOfPendingRelease.mockReset();
+  mockNotifyUserOfPendingRelease.mockResolvedValue(undefined);
+
+  await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prismaMock,
+  }));
+
+  await jest.unstable_mockModule('node-cron', () => ({
+    __esModule: true,
+    default: {
+      schedule: jest.fn((expr, fn) => {
+        const task = { stop: jest.fn() };
+        scheduled.push({ expr, fn, task });
+        return task;
+      }),
+    },
+  }));
+
+  await jest.unstable_mockModule('../utils/twilioClient.js', () => ({
+    __esModule: true,
+    default: {
+      incomingPhoneNumbers: jest.fn(() => ({
+        remove: mockTwilioRemove,
+      })),
+    },
+  }));
+
+  await jest.unstable_mockModule('../utils/notifications.js', () => ({
+    __esModule: true,
+    notifyUserOfPendingRelease: mockNotifyUserOfPendingRelease,
+  }));
 
   return import('../numberLifecycle.js');
 };
@@ -83,13 +74,9 @@ afterAll(() => {
   process.env = ORIGINAL_ENV;
 });
 
-afterEach(() => {
-  jest.restoreAllMocks();
-});
-
 describe('startNumberLifecycleJob', () => {
   test('schedules cron at 02:15 daily', async () => {
-    const mod = await reload();
+    const mod = await setupMocksAndReload();
 
     mod.startNumberLifecycleJob();
 
@@ -105,14 +92,12 @@ describe('startNumberLifecycleJob', () => {
     const NOW_MS = Date.UTC(2025, 0, 31, 2, 15, 0);
     const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
 
-    const mod = await reload({
+    const mod = await setupMocksAndReload({
       NUMBER_INACTIVITY_DAYS: String(INACTIVITY_DAYS),
       NUMBER_HOLD_DAYS: String(HOLD_DAYS),
     });
 
     mod.startNumberLifecycleJob();
-
-    expect(scheduled[0]).toBeDefined();
 
     const run = scheduled[0].fn;
 
@@ -137,7 +122,7 @@ describe('startNumberLifecycleJob', () => {
         status: 'ASSIGNED',
         keepLocked: false,
         lastOutboundAt: new Date(
-          NOW_MS - (INACTIVITY_DAYS + 1) * 24 * 60 * 60 * 1000
+          NOW_MS - (INACTIVITY_DAYS + 1) * 24 * 60 * 60 * 1000,
         ),
         assignedUser: {
           id: 456,
@@ -183,11 +168,11 @@ describe('startNumberLifecycleJob', () => {
     const nowDate = new Date(NOW_MS);
 
     const cutoff = new Date(
-      NOW_MS - INACTIVITY_DAYS * 24 * 60 * 60 * 1000
+      NOW_MS - INACTIVITY_DAYS * 24 * 60 * 60 * 1000,
     );
 
     const holdUntil = new Date(
-      NOW_MS + HOLD_DAYS * 24 * 60 * 60 * 1000
+      NOW_MS + HOLD_DAYS * 24 * 60 * 60 * 1000,
     );
 
     expect(prismaMock.phoneNumber.findMany).toHaveBeenNthCalledWith(1, {
@@ -300,7 +285,7 @@ describe('startNumberLifecycleJob', () => {
     const NOW_MS = Date.UTC(2025, 4, 10, 2, 15, 0);
     const nowSpy = jest.spyOn(Date, 'now').mockReturnValue(NOW_MS);
 
-    const mod = await reload({
+    const mod = await setupMocksAndReload({
       NUMBER_INACTIVITY_DAYS: '',
       NUMBER_HOLD_DAYS: '',
     });
@@ -316,16 +301,13 @@ describe('startNumberLifecycleJob', () => {
 
     mod.startNumberLifecycleJob();
 
-    expect(scheduled[0]).toBeDefined();
-
     await scheduled[0].fn();
 
     const firstCall = prismaMock.phoneNumber.findMany.mock.calls[0][0];
-
     const cutoff = firstCall.where.OR[1].lastOutboundAt.lt;
 
     const expectedCutoff = new Date(
-      NOW_MS - 30 * 24 * 60 * 60 * 1000
+      NOW_MS - 30 * 24 * 60 * 60 * 1000,
     );
 
     expect(+cutoff).toBeCloseTo(+expectedCutoff, -2);

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import PstnCallForm from './PstnCallForm.jsx';
+import PstnCallForm from '../src/components/PstnCallForm.jsx';
 
 // ---- Mock usePstnCall hook ----
 const mockPlaceCall = jest.fn();
@@ -36,7 +36,7 @@ const mockPhoneField = jest.fn((props) => {
   );
 });
 
-jest.mock('./PhoneField', () => ({
+jest.mock('../src/components/PhoneField', () => ({
   __esModule: true,
   default: (props) => mockPhoneField(props),
 }));

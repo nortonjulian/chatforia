@@ -13,10 +13,12 @@ const prisma = {
   $disconnect: jest.fn(),
 };
 
-await jest.unstable_mockModule('../../utils/prismaClient.js', () => ({
-  __esModule: true,
-  default: prisma,
-}));
+const mockPrisma = async () => {
+  await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+    __esModule: true,
+    default: prisma,
+  }));
+};
 
 describe('cleanupVoicemail script', () => {
   const originalEnv = process.env;
@@ -24,7 +26,17 @@ describe('cleanupVoicemail script', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.clearAllMocks();
+
+    prisma.user.findMany.mockReset();
+    prisma.voicemail.updateMany.mockReset();
+    prisma.$disconnect.mockReset();
+
     process.env = { ...originalEnv };
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   afterAll(() => {
@@ -47,12 +59,11 @@ describe('cleanupVoicemail script', () => {
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     await jest.isolateModulesAsync(async () => {
+      await mockPrisma();
       await import('../cleanupVoicemail.js');
     });
 
     await Promise.resolve();
-
-    jest.useRealTimers();
 
     expect(prisma.user.findMany).toHaveBeenCalledWith({
       where: {
@@ -92,8 +103,6 @@ describe('cleanupVoicemail script', () => {
     );
 
     expect(prisma.$disconnect).toHaveBeenCalled();
-
-    logSpy.mockRestore();
   });
 
   test('on error, logs and calls process.exit(1)', async () => {
@@ -103,6 +112,7 @@ describe('cleanupVoicemail script', () => {
     const exitSpy = jest.spyOn(process, 'exit').mockImplementation(() => {});
 
     await jest.isolateModulesAsync(async () => {
+      await mockPrisma();
       await import('../cleanupVoicemail.js');
     });
 
@@ -111,8 +121,5 @@ describe('cleanupVoicemail script', () => {
     expect(errorSpy).toHaveBeenCalled();
     expect(exitSpy).toHaveBeenCalledWith(1);
     expect(prisma.$disconnect).toHaveBeenCalled();
-
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
   });
 });

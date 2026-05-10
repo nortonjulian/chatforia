@@ -7,6 +7,7 @@ import { formatDate, formatTime } from '../utils/date.js';
 import { createInviteTemplate } from '../utils/inviteTemplate.js';
 import prisma from '../utils/prismaClient.js';
 import { sendSms as realSendSms } from '../lib/telco/index.js';
+import { sendMail } from '../utils/sendMail.js';
 import {
   limiterInvites,
   invitesSmsLimiter,
@@ -304,28 +305,8 @@ router.post(
           .join('\n')
     );
 
-    let transporter = mailTransporter;
-    if (!transporter && IS_TEST) {
-      transporter = {
-        sendMail: async () => ({ messageId: `email_${Date.now()}` }),
-      };
-    }
-
     try {
-      if (!transporter || typeof transporter.sendMail !== 'function') {
-        if (IS_TEST) {
-          return res
-            .status(202)
-            .json({
-              ok: true,
-              sent: recipients.length,
-              messageId: `email_${Date.now()}`,
-            });
-        }
-        throw Boom.preconditionFailed('Email transporter not configured');
-      }
-
-      const info = await transporter.sendMail({
+      const info = await sendMail({
         from: EMAIL_FROM || 'hello@chatforia.com',
         to: recipients,
         subject: outSubject,
@@ -333,23 +314,20 @@ router.post(
         text: outText,
       });
 
-      return res
-        .status(202)
-        .json({
-          ok: true,
-          sent: recipients.length,
-          messageId: info?.messageId || null,
-        });
+      return res.status(202).json({
+        ok: true,
+        sent: recipients.length,
+        messageId: info?.messageId || null,
+      });
     } catch (_err) {
       if (IS_TEST) {
-        return res
-          .status(202)
-          .json({
-            ok: true,
-            sent: recipients.length,
-            messageId: `email_${Date.now()}`,
-          });
+        return res.status(202).json({
+          ok: true,
+          sent: recipients.length,
+          messageId: `email_${Date.now()}`,
+        });
       }
+
       throw Boom.badGateway('Failed to send email invite');
     }
   })

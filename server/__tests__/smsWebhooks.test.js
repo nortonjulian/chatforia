@@ -1,4 +1,3 @@
-// __tests__/smsWebhooks.test.js
 import {
   jest,
   describe,
@@ -29,6 +28,7 @@ await jest.unstable_mockModule('../utils/prismaClient.js', () => {
       findUnique: jest.fn(),
     },
   };
+
   return {
     __esModule: true,
     default: prismaMock,
@@ -49,16 +49,17 @@ await jest.unstable_mockModule('../utils/sendMail.js', () => {
 // smsService.recordInboundSms
 await jest.unstable_mockModule('../services/smsService.js', () => {
   recordInboundSmsMock = jest.fn();
+
   return {
     __esModule: true,
     recordInboundSms: recordInboundSmsMock,
   };
 });
 
-
 // telco sendSms
 await jest.unstable_mockModule('../lib/telco/index.js', () => {
   sendSmsMock = jest.fn();
+
   return {
     __esModule: true,
     sendSms: sendSmsMock,
@@ -68,7 +69,7 @@ await jest.unstable_mockModule('../lib/telco/index.js', () => {
 // phone utils normalizeE164 + isE164
 await jest.unstable_mockModule('../utils/phone.js', () => {
   normalizeE164Mock = jest.fn((n) => n); // default: pass-through
-  isE164Mock = jest.fn(() => true);      // default: treat everything as valid
+  isE164Mock = jest.fn(() => true); // default: treat everything as valid
 
   return {
     __esModule: true,
@@ -78,7 +79,9 @@ await jest.unstable_mockModule('../utils/phone.js', () => {
 });
 
 // Import router AFTER mocks
-const { default: smsWebhooksRouter } = await import('../routes/smsWebhooks.js');
+const { default: smsWebhooksRouter } = await import(
+  '../routes/smsWebhooks.js'
+);
 
 // Build test app
 const app = express();
@@ -119,7 +122,11 @@ describe('POST /webhooks/sms/twilio', () => {
 
   test('records inbound SMS but does not forward when recordInboundSms.ok is false', async () => {
     isE164Mock.mockReturnValue(true);
-    recordInboundSmsMock.mockResolvedValueOnce({ ok: false, userId: 123 });
+
+    recordInboundSmsMock.mockResolvedValueOnce({
+      ok: false,
+      userId: 123,
+    });
 
     const res = await request(app)
       .post('/webhooks/sms/twilio')
@@ -137,6 +144,7 @@ describe('POST /webhooks/sms/twilio', () => {
     expect(normalizeE164Mock).toHaveBeenCalledWith('+13035550123');
 
     expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
+
     expect(recordInboundSmsMock).toHaveBeenCalledWith({
       toNumber: '+17205550123',
       fromNumber: '+13035550123',
@@ -154,9 +162,12 @@ describe('POST /webhooks/sms/twilio', () => {
 
   test('forwards to phone and email when forwarding is enabled and not in quiet hours', async () => {
     isE164Mock.mockReturnValue(true);
-    normalizeE164Mock.mockImplementation((n) => n); // keep simple
+    normalizeE164Mock.mockImplementation((n) => n);
 
-    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId: 999 });
+    recordInboundSmsMock.mockResolvedValueOnce({
+      ok: true,
+      userId: 999,
+    });
 
     prismaMock.user.findUnique.mockResolvedValueOnce({
       forwardingEnabledSms: true,
@@ -198,16 +209,20 @@ describe('POST /webhooks/sms/twilio', () => {
 
     // Forwarded SMS
     expect(sendSmsMock).toHaveBeenCalledTimes(1);
+
     const smsArg = sendSmsMock.mock.calls[0][0];
 
     expect(smsArg.to).toBe('+18005550123');
+
     expect(smsArg.text).toBe(
       'From +13035550123: Forward this please'.slice(0, 800),
     );
+
     expect(smsArg.clientRef).toMatch(/^fwd:999:/);
 
     // Forwarded email
     expect(sendMailMock).toHaveBeenCalledTimes(1);
+
     expect(sendMailMock).toHaveBeenCalledWith({
       to: 'user@example.com',
       subject: 'SMS from +13035550123',
@@ -219,11 +234,10 @@ describe('POST /webhooks/sms/twilio', () => {
     isE164Mock.mockReturnValue(true);
     normalizeE164Mock.mockImplementation((n) => n);
 
-    recordInboundSmsMock.mockResolvedValueOnce({ ok: true, userId: 321 });
-
-    // Quiet hours: 0–23 (almost whole day). We'll fake time to 12:00.
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2025-03-01T12:00:00Z'));
+    recordInboundSmsMock.mockResolvedValueOnce({
+      ok: true,
+      userId: 321,
+    });
 
     prismaMock.user.findUnique.mockResolvedValueOnce({
       forwardingEnabledSms: true,
@@ -235,25 +249,30 @@ describe('POST /webhooks/sms/twilio', () => {
       forwardQuietHoursEnd: 23,
     });
 
-    const res = await request(app)
-      .post('/webhooks/sms/twilio')
-      .type('form')
-      .send({
-        From: '+13035550123',
-        To: '+17205550123',
-        Body: 'Quiet please',
-      });
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2025-03-01T12:00:00Z'));
 
-    expect(res.status).toBe(200);
+    try {
+      const res = await request(app)
+        .post('/webhooks/sms/twilio')
+        .type('form')
+        .send({
+          From: '+13035550123',
+          To: '+17205550123',
+          Body: 'Quiet please',
+        });
 
-    expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
-    expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(1);
+      expect(res.status).toBe(200);
 
-    // No forwarding due to quiet hours
-    expect(sendSmsMock).not.toHaveBeenCalled();
-    expect(transporterSendMailMock).not.toHaveBeenCalled();
+      expect(recordInboundSmsMock).toHaveBeenCalledTimes(1);
+      expect(prismaMock.user.findUnique).toHaveBeenCalledTimes(1);
 
-    jest.useRealTimers();
+      // No forwarding due to quiet hours
+      expect(sendSmsMock).not.toHaveBeenCalled();
+      expect(sendMailMock).not.toHaveBeenCalled();
+    } finally {
+      jest.useRealTimers();
+    }
   });
 
   test('returns 500 when an exception is thrown', async () => {
@@ -261,6 +280,7 @@ describe('POST /webhooks/sms/twilio', () => {
     normalizeE164Mock.mockImplementation((n) => n);
 
     const err = new Error('DB down');
+
     recordInboundSmsMock.mockRejectedValueOnce(err);
 
     const consoleErrorSpy = jest
@@ -277,6 +297,7 @@ describe('POST /webhooks/sms/twilio', () => {
       });
 
     expect(res.status).toBe(500);
+
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       '[webhook][twilio] error',
       err,

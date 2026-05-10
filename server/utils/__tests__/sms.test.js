@@ -12,7 +12,7 @@ const ORIGINAL_ENV = { ...process.env };
 let telcoSendSmsMock;
 
 // From server/utils/__tests__/sms.test.js to server/lib/telco/index.js
-await jest.unstable_mockModule('../../lib/telco/index.js', () => {
+await jest.unstable_mockModule('../lib/telco/index.js', () => {
   telcoSendSmsMock = jest.fn();
 
   return {

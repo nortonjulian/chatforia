@@ -5,15 +5,34 @@ export function notFoundHandler(req, res, next) {
 }
 
 export function errorHandler(err, req, res, _next) {
+  const normalizedErr =
+    err instanceof Error
+      ? err
+      : new Error(
+          typeof err === 'string'
+            ? err
+            : err?.message || JSON.stringify(err) || 'Unknown non-error thrown'
+        );
+
+  normalizedErr.status =
+    err?.status || err?.statusCode || normalizedErr.status || 500;
+
+  normalizedErr.statusCode =
+    err?.statusCode || err?.status || normalizedErr.statusCode || 500;
+
   const boomErr = Boom.isBoom(err)
     ? err
-    : Boom.boomify(err, { statusCode: err.status || err.statusCode || 500 });
+    : Boom.boomify(normalizedErr, {
+        statusCode: normalizedErr.status || normalizedErr.statusCode || 500,
+      });
 
   const { statusCode, payload } = boomErr.output;
 
   const safeBody =
     req.body && typeof req.body === 'object'
-      ? (Object.keys(req.body).length <= 20 ? req.body : '[large body]')
+      ? Object.keys(req.body).length <= 20
+        ? req.body
+        : '[large body]'
       : undefined;
 
   const logFields = {
@@ -38,12 +57,14 @@ export function errorHandler(err, req, res, _next) {
     }
   }
 
-  const body = boomErr.data ? { ...payload, data: boomErr.data } : payload;
+  const body = boomErr.data ? { ...payload, data: boomErr.data } : { ...payload };
 
   if (process.env.NODE_ENV === 'test' && statusCode >= 500) {
     body.__test = {
-      message: String(err.message),
-      stack: String(err.stack || '').split('\n').slice(0, 5),
+      message: String(normalizedErr.message),
+      originalThrownType: typeof err,
+      originalThrown: err,
+      stack: String(normalizedErr.stack || '').split('\n').slice(0, 5),
     };
   }
 

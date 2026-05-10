@@ -213,10 +213,16 @@ describe('POST /media/upload', () => {
     expect(res.status).toBe(500);
     expect(res.body).toEqual({ error: 'Upload failed' });
 
-    expect(consoleSpy).toHaveBeenCalledWith('R2 upload failed:', err);
-    consoleSpy.mockRestore();
-  });
-});
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'R2 upload failed:',
+      'Error',
+      'R2 down',
+    );
+
+    expect(consoleSpy).toHaveBeenCalledWith(err);
+        consoleSpy.mockRestore();
+      });
+    });
 
 describe('GET /media/signed-url', () => {
   test('returns 400 when key is missing', async () => {

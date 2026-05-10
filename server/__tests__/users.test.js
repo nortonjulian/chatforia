@@ -310,13 +310,13 @@ describe('PATCH /users/me', () => {
     mockUserFindUnique.mockResolvedValueOnce({ plan: 'PREMIUM' });
 
     const updated = {
-      id: 123,
+      id: 200,
       username: 'testuser',
       email: 'test@example.com',
       role: 'USER',
-      plan: 'FREE',
+      plan: 'PREMIUM',
       publicKey: null,
-      theme: 'dawn',
+      theme: 'amoled',
       enableSmartReplies: true,
       showReadReceipts: false,
       allowExplicitContent: true,

@@ -51,7 +51,7 @@ const mockGoogle = async () => {
 const mockOAuthIdentity = async () => {
   resolveOAuthUserMock = jest.fn();
 
-  await jest.unstable_mockModule('../../services/oauthIdentity.js', () => ({
+  await jest.unstable_mockModule('../services/oauthIdentity.js', () => ({
     __esModule: true,
     resolveOAuthUser: resolveOAuthUserMock,
   }));
@@ -115,8 +115,6 @@ describe('passport auth strategies', () => {
       avatarUrl: 'https://example.com/a.jpg',
       plan: 'FREE',
     };
-
-    resolveOAuthUserMock?.mockResolvedValueOnce(resolvedUser);
 
     await reload({
       GOOGLE_CLIENT_ID: 'gid_123',

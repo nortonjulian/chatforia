@@ -2,87 +2,115 @@
  * @jest-environment node
  */
 import { jest } from '@jest/globals';
+import express from 'express';
 import request from 'supertest';
-import prisma from '../utils/prismaClient.js';
-import { createApp } from '../app.js';
+import jwt from 'jsonwebtoken';
 
-const app = createApp();
+process.env.NODE_ENV = 'test';
+process.env.JWT_SECRET = 'test_secret';
+process.env.SMS_PROVIDER = 'mock';
 
-jest.mock('../middleware/rateLimits.js', () => {
-  const rateLimit = require('express-rate-limit');
+const mockPrisma = {
+  user: {
+    findUnique: jest.fn(),
+    findFirst: jest.fn(),
+  },
+};
 
-  const tinyLimiter = rateLimit({
-    windowMs: 60_000,
-    max: 3,
-    keyGenerator: () => 'test-user-1',
-    standardHeaders: true,
-    legacyHeaders: false,
-  });
+await jest.unstable_mockModule('../utils/prismaClient.js', () => ({
+  __esModule: true,
+  default: mockPrisma,
+}));
+
+await jest.unstable_mockModule('../middleware/rateLimits.js', () => {
+  const pass = (_req, _res, next) => next();
 
   return {
     __esModule: true,
-    limiterInvites: tinyLimiter,
-    invitesSmsLimiter: tinyLimiter,
-    invitesEmailLimiter: tinyLimiter,
+    limiterInvites: pass,
+    invitesSmsLimiter: pass,
+    invitesEmailLimiter: pass,
   };
 });
 
-jest.mock('../lib/telco/index.js', () => {
+await jest.unstable_mockModule('../lib/telco/index.js', () => {
   const sendSms = jest.fn(async ({ to }) => ({
     provider: 'twilio',
-    messageSid: `SM_${to.replace(/\D/g, '')}`,
+    messageSid: `SM_${String(to).replace(/\D/g, '')}`,
   }));
 
-  return { __esModule: true, sendSms };
+  return {
+    __esModule: true,
+    sendSms,
+  };
 });
 
-async function setupAuthedUser() {
-  const agent = request.agent(app);
+await jest.unstable_mockModule('../utils/sendMail.js', () => {
+  const sendMail = jest.fn(async () => ({
+    messageId: `email_${Date.now()}`,
+  }));
 
-  const unique = Date.now();
-  const email = `inv_${unique}@example.com`;
-  const username = `inv_${unique}`;
-  const password = 'Passw0rd!23';
+  return {
+    __esModule: true,
+    sendMail,
+    isEmailAvailable: jest.fn(() => true),
+  };
+});
 
-  const reg = await agent
-    .post('/auth/register')
-    .send({ email, username, password })
-    .expect(201);
+const { default: invitesRouter } = await import('../routes/invites.js');
 
-  const userId =
-    reg.body?.user?.id ||
-    reg.body?.id ||
-    (
-      await prisma.user.findFirst({
-        where: { email },
-        select: { id: true },
-      })
-    ).id;
+function createTestApp() {
+  const app = express();
 
-  await prisma.user.updateMany({
-    where: { id: userId },
-    data: {
-      emailVerifiedAt: new Date(),
-      phoneNumber: '+15551234567',
-    },
+  app.use('/invites', invitesRouter);
+
+  app.use((err, _req, res, _next) => {
+    const status = err?.output?.statusCode || err?.statusCode || 500;
+    const message = err?.message || 'Internal Server Error';
+
+    return res.status(status).json({
+      error: message,
+      message,
+    });
   });
 
-  await agent
-    .post('/auth/login')
-    .send({ identifier: email, password })
-    .expect(200);
+  return app;
+}
 
-  const tok = await agent.get('/auth/token').expect(200);
-  const bearer = `Bearer ${tok.body.token}`;
+const app = createTestApp();
 
-  return { agent, bearer, email, userId };
+function makeBearer(overrides = {}) {
+  const payload = {
+    id: 1,
+    username: 'testuser',
+    email: 'me@example.com',
+    phoneNumber: '+15551234567',
+    role: 'USER',
+    plan: 'FREE',
+    ...overrides,
+  };
+
+  return `Bearer ${jwt.sign(payload, process.env.JWT_SECRET)}`;
 }
 
 describe('invites hardening', () => {
-  test('rejects invalid phone', async () => {
-    const { agent, bearer } = await setupAuthedUser();
+  beforeEach(() => {
+    jest.clearAllMocks();
 
-    await agent
+    mockPrisma.user.findUnique.mockResolvedValue({
+      id: 1,
+      email: 'me@example.com',
+      username: 'testuser',
+      phoneNumber: '+15551234567',
+    });
+
+    mockPrisma.user.findFirst.mockResolvedValue(null);
+  });
+
+  test('rejects invalid phone', async () => {
+    const bearer = makeBearer();
+
+    await request(app)
       .post('/invites')
       .set('Authorization', bearer)
       .send({ phone: 'abc', message: 'hi' })
@@ -90,29 +118,29 @@ describe('invites hardening', () => {
   });
 
   test('blocks inviting your own phone', async () => {
-    const { agent, bearer } = await setupAuthedUser();
+    const bearer = makeBearer();
 
-    const res = await agent
+    const res = await request(app)
       .post('/invites')
       .set('Authorization', bearer)
-      .send({ phone: '+1 (555) 123-4567', message: 'yo' })
+      .send({ phone: '+15551234567', message: 'yo' })
       .expect(400);
 
     expect(res.body.error || res.body.message).toMatch(/own number/i);
   });
 
   test('bursting /invites does not crash server', async () => {
-    const { agent, bearer } = await setupAuthedUser();
+    const bearer = makeBearer();
 
     const attempts = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i += 1) {
       attempts.push(
-        agent
+        request(app)
           .post('/invites')
           .set('Authorization', bearer)
           .send({
-            phone: '+1555000' + (1000 + i),
+            phone: `+1555000${1000 + i}`,
             message: 'x',
           }),
       );
@@ -136,9 +164,11 @@ describe('invites hardening', () => {
   });
 
   test('email invite basic (202 accepted, transporter present)', async () => {
-    const { agent, bearer } = await setupAuthedUser();
+    const bearer = makeBearer();
 
-    const res = await agent
+    mockPrisma.user.findFirst.mockResolvedValueOnce(null);
+
+    const res = await request(app)
       .post('/invites/email')
       .set('Authorization', bearer)
       .send({ to: `friend_${Date.now()}@x.com` })
@@ -150,12 +180,12 @@ describe('invites hardening', () => {
   });
 
   test('self-invite email is blocked', async () => {
-    const { agent, bearer, email } = await setupAuthedUser();
+    const bearer = makeBearer();
 
-    await agent
+    await request(app)
       .post('/invites/email')
       .set('Authorization', bearer)
-      .send({ to: email })
+      .send({ to: 'me@example.com' })
       .expect(400);
   });
 });

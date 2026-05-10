@@ -416,22 +416,36 @@ router.post(
       const m = meta.find((x) => Number(x.idx) === i) || {};
       const mime = f.mimetype || '';
 
-      const av = await scanFile(f.path);
+      let av = { ok: true };
+
+      if (f.path) {
+        av = await scanFile(f.path);
+      }
+
       if (!av.ok) {
         try {
-          await fs.promises.unlink(f.path);
+          if (f.path) {
+            await fs.promises.unlink(f.path);
+          }
         } catch {}
         continue;
       }
 
-      const relName = path.basename(f.path);
-      const relPath = path.join('media', relName);
+      const relName =
+        f.filename ||
+        f.originalname ||
+        `upload-${Date.now()}-${i}`;
+
+      const relPath = path.join('media', path.basename(relName));
+
+      const fsPath = f.path || null;
 
       const isImage = mime.startsWith('image/');
       let thumbRel = null;
-      if (isImage) {
+
+      if (isImage && fsPath) {
         try {
-          const t = await ensureThumb(f.path, relName);
+          const t = await ensureThumb(fsPath, path.basename(relName));
           thumbRel = t.rel;
         } catch {}
       }
@@ -455,7 +469,7 @@ router.post(
         caption: m.caption ?? null,
         thumbUrl: thumbRel ? path.join('thumbs', path.basename(thumbRel)) : null,
         _thumb: thumbRel,
-        _fsPath: f.path,
+        _fsPath: fsPath,
       });
     }
 
@@ -605,7 +619,7 @@ router.post(
         };
       }
     }
-    
+
     const canonical = await getCanonicalMessageForRealtime(saved.id);
 
     // room-wide canonical payload

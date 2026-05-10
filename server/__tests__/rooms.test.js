@@ -20,17 +20,37 @@ const app = createApp();
 async function makeLoggedInAgent(emailBase) {
   const agent = request.agent(app);
 
-  const email = `${emailBase}_${Date.now()}@example.com`;
+  const unique = Date.now();
+  const email = `${emailBase}_${unique}@example.com`;
+  const username = `${emailBase}_${unique}`;
   const password = 'RoomPass!23';
 
-  const loginRes = await agent.post('/auth/login').send({ email, password });
+  const registerRes = await agent
+    .post('/auth/register')
+    .send({ email, username, password });
 
-  // Accept 200 or 500, since your login route sets a cookie even in certain 500 cases.
+  if (![200, 201, 409].includes(registerRes.status)) {
+    throw new Error(
+      `/auth/register for ${email} gave status ${registerRes.status} body=${JSON.stringify(
+        registerRes.body,
+      )}`,
+    );
+  }
+
+  await prisma.user.updateMany({
+    where: { email },
+    data: { emailVerifiedAt: new Date() },
+  });
+
+  const loginRes = await agent
+    .post('/auth/login')
+    .send({ identifier: email, password });
+
   if (loginRes.status !== 200 && loginRes.status !== 500) {
     throw new Error(
       `/auth/login for ${email} gave status ${loginRes.status} body=${JSON.stringify(
-        loginRes.body
-      )}`
+        loginRes.body,
+      )}`,
     );
   }
 

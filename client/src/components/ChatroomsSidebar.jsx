@@ -9,7 +9,7 @@ import {
   Badge,
   Divider,
   ActionIcon,
-  Menu,
+  Menu as MantineMenu,
   Box,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -822,8 +822,8 @@ useEffect(() => {
                         </Badge>
                       )}
 
-                      <Menu position="bottom-end" withinPortal shadow="md" radius="md">
-                        <Menu.Target>
+                      <MantineMenu position="bottom-end" withinPortal shadow="md" radius="md">
+                        <MantineMenu.Target>
                           <ActionIcon
                             variant="subtle"
                             aria-label={t('sidebar.more', 'More')}
@@ -836,26 +836,16 @@ useEffect(() => {
                           >
                             <MoreVertical size={18} />
                           </ActionIcon>
-                        </Menu.Target>
+                        </MantineMenu.Target>
 
-                        <Menu.Dropdown
+                        <MantineMenu.Dropdown
                           onClick={(e) => {
                             e.stopPropagation();
                           }}
                         >
-                          {/* <Menu.Item
-                            leftSection={<Archive size={16} />}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              archiveWithUndo(c);
-                            }}
-                          >
-                            {t('sidebar.archive', 'Archive')}
-                          </Menu.Item> */}
+                          <MantineMenu.Divider />
 
-                          <Menu.Divider />
-
-                          <Menu.Item
+                          <MantineMenu.Item
                             color="red"
                             leftSection={<Trash2 size={16} />}
                             onClick={(e) => {
@@ -864,9 +854,9 @@ useEffect(() => {
                             }}
                           >
                             {t('sidebar.deleteConversation', 'Delete conversation')}
-                          </Menu.Item>
-                        </Menu.Dropdown>
-                      </Menu>
+                          </MantineMenu.Item>
+                        </MantineMenu.Dropdown>
+                      </MantineMenu>
                     </Group>
                   </Group>
 

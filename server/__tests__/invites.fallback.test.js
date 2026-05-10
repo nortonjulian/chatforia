@@ -62,6 +62,11 @@ describe('invites email fallback without transporter', () => {
       .send({ email, username, password })
       .expect(201);
 
+    await prisma.user.update({
+      where: { email },
+      data: { emailVerifiedAt: new Date() },
+    });
+
     await agent
       .post('/auth/login')
       .send({ identifier: email, password })

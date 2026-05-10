@@ -11,6 +11,9 @@ const mockPrisma = {
     delete: jest.fn(),
     findUnique: jest.fn(),
   },
+  user: {
+    findFirst: jest.fn(),
+  },
 };
 
 // Fake PrismaClient so "new PrismaClient()" returns our mockPrisma
@@ -21,9 +24,10 @@ class FakePrismaClient {
 }
 
 const mockToE164 = jest.fn();
+
 const mockRequireAuth = jest.fn((req, _res, next) => {
-  req.user = { id: 1 };     // ownerId = 1 everywhere
-  req.region = 'US';        // default region for phone parsing
+  req.user = { id: 1 };
+  req.region = 'US';
   next();
 });
 
@@ -49,16 +53,17 @@ const contactsRouter = (await import('../routes/contacts.js')).default;
 // Build Express app
 function makeApp() {
   const app = express();
+
   app.use(express.json());
   app.use('/contacts', contactsRouter);
 
-  // Simple error handler (Boom-aware, but contacts uses manual JSON errors)
   app.use((err, _req, res, _next) => {
     if (err?.isBoom && err.output) {
       return res
         .status(err.output.statusCode)
         .json({ message: err.message });
     }
+
     return res.status(500).json({ message: err.message });
   });
 
@@ -70,7 +75,17 @@ describe('contacts routes', () => {
 
   beforeEach(() => {
     app = makeApp();
+
     jest.clearAllMocks();
+
+    mockPrisma.contact.findMany.mockReset();
+    mockPrisma.contact.upsert.mockReset();
+    mockPrisma.contact.update.mockReset();
+    mockPrisma.contact.delete.mockReset();
+    mockPrisma.contact.findUnique.mockReset();
+
+    mockPrisma.user.findFirst.mockReset();
+    mockPrisma.user.findFirst.mockResolvedValue(null);
   });
 
   describe('GET /contacts', () => {
@@ -103,8 +118,8 @@ describe('contacts routes', () => {
         .query({ q: 'al', limit: 2, cursor: 5 })
         .expect(200);
 
-      // prisma.contact.findMany called with ownerId, search + pagination
       expect(mockPrisma.contact.findMany).toHaveBeenCalledTimes(1);
+
       const args = mockPrisma.contact.findMany.mock.calls[0][0];
 
       expect(args.where.ownerId).toBe(1);
@@ -114,7 +129,6 @@ describe('contacts routes', () => {
       expect(args.cursor).toEqual({ id: 5 });
       expect(args.skip).toBe(1);
 
-      // Response shape
       expect(res.body.count).toBe(2);
       expect(res.body.items).toHaveLength(2);
       expect(res.body.nextCursor).toBe(11);
@@ -131,6 +145,7 @@ describe('contacts routes', () => {
       expect(res.body).toEqual({
         error: 'Provide userId or externalPhone',
       });
+
       expect(mockPrisma.contact.upsert).not.toHaveBeenCalled();
     });
 
@@ -196,11 +211,13 @@ describe('contacts routes', () => {
       expect(res.body).toEqual({
         error: 'Invalid phone number.',
       });
+
       expect(mockPrisma.contact.upsert).not.toHaveBeenCalled();
+      expect(mockPrisma.user.findFirst).not.toHaveBeenCalled();
     });
 
     it('upserts a contact by externalPhone (normalized E.164)', async () => {
-      mockToE164.mockReturnValueOnce('+15551234567'); // normalized
+      mockToE164.mockReturnValueOnce('+15551234567');
 
       const contact = {
         id: 101,
@@ -226,6 +243,16 @@ describe('contacts routes', () => {
 
       expect(mockToE164).toHaveBeenCalledWith('555-123-4567', 'US');
 
+      expect(mockPrisma.user.findFirst).toHaveBeenCalledWith({
+        where: {
+          OR: [
+            { phoneNumber: '+15551234567' },
+            { phone: '+15551234567' },
+          ],
+        },
+        select: { id: true },
+      });
+
       expect(mockPrisma.contact.upsert).toHaveBeenCalledWith({
         where: {
           ownerId_externalPhone: {
@@ -237,6 +264,7 @@ describe('contacts routes', () => {
           alias: 'Mom',
           externalName: 'Mommy',
           favorite: true,
+          userId: undefined,
         },
         create: {
           ownerId: 1,
@@ -244,6 +272,7 @@ describe('contacts routes', () => {
           externalName: 'Mommy',
           alias: 'Mom',
           favorite: true,
+          userId: undefined,
         },
         select: {
           id: true,
@@ -275,6 +304,7 @@ describe('contacts routes', () => {
       expect(res.body).toEqual({
         error: 'Invalid phone number.',
       });
+
       expect(mockPrisma.contact.update).not.toHaveBeenCalled();
     });
   });
@@ -283,37 +313,40 @@ describe('contacts routes', () => {
     it('returns 404 when contact is not owned by user or missing', async () => {
       mockPrisma.contact.findUnique.mockResolvedValueOnce(null);
 
-      const res = await request(app)
-        .delete('/contacts/777')
-        .expect(404);
+      const res = await request(app).delete('/contacts/777').expect(404);
 
-      expect(res.body).toEqual({ error: 'Contact not found' });
+      expect(res.body).toEqual({
+        error: 'Contact not found',
+      });
+
       expect(mockPrisma.contact.delete).not.toHaveBeenCalled();
     });
 
     it('deletes contact when owned by user', async () => {
-      mockPrisma.contact.findUnique.mockResolvedValueOnce({ ownerId: 1 });
+      mockPrisma.contact.findUnique.mockResolvedValueOnce({
+        ownerId: 1,
+      });
 
-      const res = await request(app)
-        .delete('/contacts/777')
-        .expect(200);
+      const res = await request(app).delete('/contacts/777').expect(200);
 
       expect(mockPrisma.contact.findUnique).toHaveBeenCalledWith({
         where: { id: 777 },
         select: { ownerId: true },
       });
+
       expect(mockPrisma.contact.delete).toHaveBeenCalledWith({
         where: { id: 777 },
       });
-      expect(res.body).toEqual({ success: true });
+
+      expect(res.body).toEqual({
+        success: true,
+      });
     });
   });
 
   describe('GET /contacts/_debug_me', () => {
     it('returns user id and region from requireAuth', async () => {
-      const res = await request(app)
-        .get('/contacts/_debug_me')
-        .expect(200);
+      const res = await request(app).get('/contacts/_debug_me').expect(200);
 
       expect(res.body).toEqual({
         id: 1,

@@ -24,6 +24,16 @@ jest.unstable_mockModule('../services/providers/esimProvider.js', () => ({
   fetchEsimUsage: jest.fn(),
 }));
 
+jest.unstable_mockModule('../middleware/auth.js', () => ({
+  requireAuth: (req, res, next) => {
+    if (!req.user?.id) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    return next();
+  },
+}));
+
 // Import router after mocks are set up
 const { default: wirelessRouter } = await import('../routes/wireless.js');
 

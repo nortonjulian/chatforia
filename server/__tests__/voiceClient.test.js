@@ -2,7 +2,7 @@ import request from 'supertest';
 import express from 'express';
 import { jest } from '@jest/globals';
 
-jest.mock('../middleware/auth.js', () => ({
+await jest.unstable_mockModule('../middleware/auth.js', () => ({
   __esModule: true,
   requireAuth: (req, res, next) => {
     if (!req.user) {
@@ -13,7 +13,7 @@ jest.mock('../middleware/auth.js', () => ({
   },
 }));
 
-jest.mock('twilio', () => {
+await jest.unstable_mockModule('twilio', () => {
   class MockVoiceGrant {
     constructor(opts) {
       this.opts = opts;

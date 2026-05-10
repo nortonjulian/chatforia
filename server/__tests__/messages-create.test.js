@@ -54,8 +54,12 @@ describe('Messages: create + reactions', () => {
 
     agent = request.agent(app);
 
-    tmpMediaPath = path.join(os.tmpdir(), `test-img-${Date.now()}.jpg`);
-    fs.writeFileSync(tmpMediaPath, 'fake image bytes');
+    tmpMediaPath = path.join(os.tmpdir(), `test-img-${Date.now()}.png`);
+
+    const tinyPngBase64 =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/p9sAAAAASUVORK5CYII=';
+
+    fs.writeFileSync(tmpMediaPath, Buffer.from(tinyPngBase64, 'base64'));
 
     const email = 'bob@example.com';
     const password = 'Test12345!';
@@ -70,7 +74,6 @@ describe('Messages: create + reactions', () => {
         }
       });
 
-    // Email verification gate fix
     await prisma.user.update({
       where: { email },
       data: { emailVerifiedAt: new Date() },
@@ -81,7 +84,9 @@ describe('Messages: create + reactions', () => {
       .send({ identifier: email, password })
       .then((res) => {
         if (res.status !== 200) {
-          throw new Error(`Unexpected /auth/login status ${res.status}`);
+          throw new Error(
+            `Unexpected /auth/login status ${res.status} body=${JSON.stringify(res.body)}`
+          );
         }
       });
 
@@ -94,7 +99,9 @@ describe('Messages: create + reactions', () => {
       .send({ name: 'Room A', isGroup: true })
       .then((res) => {
         if (![200, 201].includes(res.status)) {
-          throw new Error(`Unexpected /chatrooms status ${res.status}`);
+          throw new Error(
+            `Unexpected /rooms status ${res.status} body=${JSON.stringify(res.body)}`
+          );
         }
         return res;
       });
@@ -102,7 +109,7 @@ describe('Messages: create + reactions', () => {
     roomId = r.body.id || r.body.room?.id;
 
     if (!roomId) {
-      throw new Error('Room ID missing from /chatrooms response');
+      throw new Error(`Room ID missing from /rooms response body=${JSON.stringify(r.body)}`);
     }
   });
 
@@ -129,7 +136,9 @@ describe('Messages: create + reactions', () => {
       })
       .then((res) => {
         if (![200, 201].includes(res.status)) {
-          throw new Error(`Unexpected /messages status ${res.status}`);
+          throw new Error(
+            `Unexpected /messages status ${res.status} body=${JSON.stringify(res.body)}`
+          );
         }
         return res;
       });
@@ -178,8 +187,8 @@ describe('Messages: create + reactions', () => {
       .field('content', 'photo message')
       .field('attachmentsMeta', JSON.stringify(attachmentsMeta))
       .attach('files', tmpMediaPath, {
-        filename: 'photo.jpg',
-        contentType: 'image/jpeg',
+        filename: 'photo.png',
+        contentType: 'image/png',
       });
 
     if (![200, 201].includes(res.status)) {
@@ -190,7 +199,13 @@ describe('Messages: create + reactions', () => {
       });
     }
 
-    expect([200, 201].includes(res.status)).toBe(true);
+    if (![200, 201].includes(res.status)) {
+      throw new Error(
+        `Expected media create to return 200/201, got ${res.status}. Body=${JSON.stringify(
+          res.body
+        )} Text=${res.text}`
+      );
+    }
 
     const payload = res.body.message || res.body;
 
@@ -206,11 +221,9 @@ describe('Messages: create + reactions', () => {
     expect(first.kind).toBe('IMAGE');
     expect(typeof first.url).toBe('string');
 
-    // Depending on whether shapeMessageForUser signed it already
     expect(
       first.url.startsWith('/files?token=') ||
-      first.url.startsWith('media/') ||
-      first.url.includes('photo')
+        first.url.startsWith('media/')
     ).toBe(true);
 
     expect(first.width).toBe(320);
