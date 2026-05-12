@@ -53,7 +53,7 @@ function buildAppleClientSecret() {
       iat: now,
       exp: now + 60 * 60,
       aud: "https://appleid.apple.com",
-      sub: process.env.APPLE_SERVICE_ID,
+      sub: process.env.APPLE_CLIENT_ID,
     },
     readApplePrivateKey(),
     {
@@ -65,7 +65,7 @@ function buildAppleClientSecret() {
 
 async function exchangeAppleCodeForTokens(code) {
   const params = new URLSearchParams({
-    client_id: process.env.APPLE_SERVICE_ID,
+    client_id: process.env.APPLE_CLIENT_ID,
     client_secret: buildAppleClientSecret(),
     code,
     grant_type: "authorization_code",
