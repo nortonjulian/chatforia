@@ -532,6 +532,33 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     }
   };
 
+  const handleAvatarRemove = async () => {
+  try {
+    setAvatarError('');
+    setAvatarUploading(true);
+
+    await axiosClient.delete('/users/me/avatar');
+
+    setCurrentUser((prev) => ({
+      ...prev,
+      avatarUrl: null,
+    }));
+
+    notifications.show({
+      color: 'green',
+      message: t('profile.avatarRemoved', 'Avatar removed'),
+    });
+  } catch (err) {
+    setAvatarError(
+      err?.response?.data?.error ||
+      err?.message ||
+      t('profile.avatarRemoveError', 'Failed to remove avatar')
+    );
+  } finally {
+    setAvatarUploading(false);
+  }
+};
+
   const handleVoicemailGreetingUpload = async (file) => {
     if (!file) return;
     const formData = new FormData();
@@ -768,6 +795,18 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                         {t('profile.uploadingAvatar', 'Uploading avatar…')}
                       </Text>
                     </Group>
+                  )}
+
+                  {currentUser?.avatarUrl && (
+                    <Button
+                      size="xs"
+                      variant="subtle"
+                      color="red"
+                      onClick={handleAvatarRemove}
+                      disabled={avatarUploading}
+                    >
+                      {t('profile.removeAvatar', 'Remove photo')}
+                    </Button>
                   )}
                 </Stack>
               </Group>
