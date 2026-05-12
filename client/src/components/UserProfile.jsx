@@ -803,6 +803,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                       variant="subtle"
                       color="red"
                       compact
+                      style={{ alignSelf: 'flex-start' }}
                       onClick={handleAvatarRemove}
                       disabled={avatarUploading}
                     >
