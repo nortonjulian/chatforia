@@ -36,17 +36,12 @@ function getSafeNextUrl(raw) {
 }
 
 function readApplePrivateKey() {
-  if (process.env.APPLE_PRIVATE_KEY) {
-    return process.env.APPLE_PRIVATE_KEY.replace(/\\n/g, "\n");
-  }
-  if (process.env.APPLE_PRIVATE_KEY_PATH) {
-    return fs.readFileSync(process.env.APPLE_PRIVATE_KEY_PATH, "utf8");
-  }
-  throw new Error("Missing APPLE_PRIVATE_KEY / APPLE_PRIVATE_KEY_PATH");
+  return fs.readFileSync(process.env.APPLE_PRIVATE_KEY_PATH, "utf8").trim();
 }
 
 function buildAppleClientSecret() {
   const now = Math.floor(Date.now() / 1000);
+
   return jwtLib.sign(
     {
       iss: process.env.APPLE_TEAM_ID,
@@ -92,12 +87,102 @@ function decodeAppleIdToken(idToken) {
   return decoded;
 }
 
-/* ---------- GOOGLE (unchanged) ---------- */
+async function handleAppleCallback(req, res) {
+  try {
+    const source = req.method === "GET" ? req.query : req.body;
+    const { code, state, user: rawUser } = source || {};
+
+    if (!code) {
+      return res.status(400).json({ error: "Missing Apple authorization code" });
+    }
+
+    const tokenResponse = await exchangeAppleCodeForTokens(code);
+    const claims = decodeAppleIdToken(tokenResponse.id_token);
+
+    let firstName = null;
+    let lastName = null;
+
+    if (rawUser) {
+      try {
+        const parsedUser =
+          typeof rawUser === "string" ? JSON.parse(rawUser) : rawUser;
+        firstName = parsedUser?.name?.firstName || null;
+        lastName = parsedUser?.name?.lastName || null;
+      } catch {}
+    }
+
+    let appUser;
+
+    try {
+      appUser = await resolveOAuthUser({
+        provider: "apple",
+        providerSub: claims.sub,
+        email: claims.email || null,
+        emailVerified:
+          claims.email_verified === true || claims.email_verified === "true",
+        displayName:
+          [firstName, lastName].filter(Boolean).join(" ").trim() || null,
+        avatarUrl: null,
+        logContext: {
+          channel: "web",
+          path: req.originalUrl,
+        },
+      });
+    } catch (err) {
+      if (err?.code === "oauth_provider_conflict") {
+        return res.status(409).json({
+          error: "oauth_provider_conflict",
+          message: "This Apple account is linked to a different Chatforia account.",
+        });
+      }
+      throw err;
+    }
+
+    const payload = {
+      id: appUser.id,
+      email: appUser.email || null,
+      username: appUser.username || null,
+      role: appUser.role || "USER",
+      plan: appUser.plan || "FREE",
+    };
+
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
+    setJwtCookie(res, token);
+
+    let nextUrl = FRONTEND;
+    try {
+      if (state) {
+        const parsed = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
+        nextUrl = getSafeNextUrl(parsed?.next);
+      }
+    } catch {}
+
+    return res.redirect(nextUrl);
+  } catch (e) {
+    console.error("[APPLE MANUAL CALLBACK ERROR]", {
+      message: e?.message,
+      status: e?.response?.status,
+      response: e?.response?.data,
+      requestBody: req.body,
+      requestQuery: req.query,
+      stack: e?.stack,
+    });
+
+    return res.status(500).json({
+      error: "Apple sign-in failed",
+      detail: e?.response?.data || e?.message || "Unknown error",
+    });
+  }
+}
+
+/* ---------- GOOGLE ---------- */
 router.get("/google", (req, res, next) => {
   if (!passport._strategy("google")) {
     return res.status(501).json({ error: "Google OAuth not configured" });
   }
+
   const state = req.query.state || "";
+
   return passport.authenticate("google", {
     scope: ["profile", "email"],
     session: false,
@@ -119,6 +204,7 @@ router.get(
   }),
   (req, res) => {
     const user = req.user || {};
+
     const payload = {
       id: Number(user.id),
       email: user.email || null,
@@ -140,12 +226,12 @@ router.get(
       }
     } catch {}
 
-    res.redirect(nextUrl);
+    return res.redirect(nextUrl);
   }
 );
 
-/* ---------- APPLE (manual) ---------- */
-router.get("/apple", (req, res, next) => {
+/* ---------- APPLE ---------- */
+router.get("/apple", (req, res) => {
   const statePayload = {
     next: getSafeNextUrl(req.query.next || FRONTEND),
   };
@@ -153,112 +239,30 @@ router.get("/apple", (req, res, next) => {
   const state = Buffer.from(JSON.stringify(statePayload)).toString("base64");
 
   const appleUrl = new URL("https://appleid.apple.com/auth/authorize");
-  appleUrl.searchParams.set("client_id", process.env.APPLE_SERVICE_ID);
+  appleUrl.searchParams.set("client_id", process.env.APPLE_CLIENT_ID);
   appleUrl.searchParams.set("redirect_uri", process.env.APPLE_CALLBACK_URL);
   appleUrl.searchParams.set("response_type", "code");
-  appleUrl.searchParams.set("response_mode", "form_post");
+  appleUrl.searchParams.set("response_mode", "query");
   appleUrl.searchParams.set("scope", "name email");
   appleUrl.searchParams.set("state", state);
 
   return res.redirect(appleUrl.toString());
 });
 
-router.post(
+router.all(
   "/apple/callback",
   express.urlencoded({ extended: false }),
-  async (req, res) => {
-    try {
-      const { code, state, user: rawUser } = req.body || {};
-
-      if (!code) {
-        return res.status(400).json({ error: "Missing Apple authorization code" });
-      }
-
-      const tokenResponse = await exchangeAppleCodeForTokens(code);
-      const claims = decodeAppleIdToken(tokenResponse.id_token);
-
-      let firstName = null;
-      let lastName = null;
-
-      if (rawUser) {
-        try {
-          const parsedUser =
-            typeof rawUser === "string" ? JSON.parse(rawUser) : rawUser;
-          firstName = parsedUser?.name?.firstName || null;
-          lastName = parsedUser?.name?.lastName || null;
-        } catch {}
-      }
-
-      let appUser;
-
-        try {
-          appUser = await resolveOAuthUser({
-            provider: "apple",
-            providerSub: claims.sub,
-            email: claims.email || null,
-            emailVerified:
-              claims.email_verified === true || claims.email_verified === "true",
-            displayName:
-              [firstName, lastName].filter(Boolean).join(" ").trim() || null,
-            avatarUrl: null,
-            logContext: {
-              channel: "web",
-              path: req.originalUrl,
-            },
-          });
-        } catch (err) {
-          if (err?.code === "oauth_provider_conflict") {
-            return res.status(409).json({
-              error: "oauth_provider_conflict",
-              message:
-                "This Apple account is linked to a different Chatforia account.",
-            });
-          }
-          throw err;
-        }
-
-      const payload = {
-        id: appUser.id,
-        email: appUser.email || null,
-        username: appUser.username || null,
-        role: appUser.role || "USER",
-        plan: appUser.plan || "FREE",
-      };
-
-      const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "30d" });
-      setJwtCookie(res, token);
-
-      let nextUrl = FRONTEND;
-      try {
-        if (state) {
-          const parsed = JSON.parse(Buffer.from(state, "base64").toString("utf8"));
-          nextUrl = getSafeNextUrl(parsed?.next);
-        }
-      } catch {}
-
-      return res.redirect(nextUrl);
-    } catch (e) {
-      console.error("[APPLE MANUAL CALLBACK ERROR]", {
-        message: e?.message,
-        response: e?.response?.data,
-        stack: e?.stack,
-      });
-      return res.status(500).json({
-        error: "Apple sign-in failed",
-        detail: e?.response?.data || e?.message || "Unknown error",
-      });
-    }
-  }
+  handleAppleCallback
 );
 
 router.get("/failure", (_req, res) => res.status(401).send("SSO failed"));
 
 router.get("/debug", (_req, res) => {
   const hasApple = !!(
-    process.env.APPLE_SERVICE_ID &&
+    process.env.APPLE_CLIENT_ID &&
     process.env.APPLE_TEAM_ID &&
     process.env.APPLE_KEY_ID &&
-    (process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH) &&
+    process.env.APPLE_PRIVATE_KEY_PATH &&
     process.env.APPLE_CALLBACK_URL
   );
 
@@ -270,12 +274,11 @@ router.get("/debug", (_req, res) => {
       GOOGLE_CLIENT_ID: !!process.env.GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET: !!process.env.GOOGLE_CLIENT_SECRET,
       GOOGLE_CALLBACK_URL: !!process.env.GOOGLE_CALLBACK_URL,
+      APPLE_CLIENT_ID: !!process.env.APPLE_CLIENT_ID,
       APPLE_SERVICE_ID: !!process.env.APPLE_SERVICE_ID,
       APPLE_TEAM_ID: !!process.env.APPLE_TEAM_ID,
       APPLE_KEY_ID: !!process.env.APPLE_KEY_ID,
-      APPLE_PRIVATE_KEY_OR_PATH: !!(
-        process.env.APPLE_PRIVATE_KEY || process.env.APPLE_PRIVATE_KEY_PATH
-      ),
+      APPLE_PRIVATE_KEY_PATH: !!process.env.APPLE_PRIVATE_KEY_PATH,
       APPLE_CALLBACK_URL: !!process.env.APPLE_CALLBACK_URL,
     },
   });
