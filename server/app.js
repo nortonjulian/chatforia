@@ -514,7 +514,7 @@ app.use('/conversations', conversationsRouter);
   // Backups require auth
   app.use('/backups', requireAuth, backupsRouter);
 
-  app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+  app.use('/uploads', express.static(path.resolve('uploads')));
   app.use('/settings', settingsForwardingRouter);
   app.use('/premium', premiumRouter);
   app.use('/api/translations', translationsRouter);
