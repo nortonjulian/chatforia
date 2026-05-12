@@ -802,6 +802,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                       size="xs"
                       variant="subtle"
                       color="red"
+                      compact
                       onClick={handleAvatarRemove}
                       disabled={avatarUploading}
                     >
