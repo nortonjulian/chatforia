@@ -57,7 +57,7 @@ The root workspace includes both `client` and `server` packages.
 ### SMS, Voice, Video & Telecom
 
 - SMS threads and compose flows.
-- Twilio/Bandwidth/Telnyx-oriented provider architecture.
+- Twilio-backed SMS and voice infrastructure for the current messaging/calling layer.
 - Voice/video calling UI surfaces.
 - Dialer, call history, voicemail, phone number lifecycle, and forwarding-related backend models.
 
@@ -107,7 +107,7 @@ The root workspace includes both `client` and `server` packages.
 - Prisma ORM
 - PostgreSQL
 - Redis / Socket.IO Redis adapter support
-- Twilio, Telnyx, Bandwidth-related telecom packages
+- Twilio telecom integration for SMS/voice workflows
 - Stripe/Paddle billing infrastructure
 - Resend/SendGrid/SMTP email support
 - Cloudflare R2/S3-compatible media storage support
@@ -361,7 +361,7 @@ Before deploying production, confirm:
 - `FRONTEND_ORIGIN`, `CORS_ORIGINS`, cookie settings, and HTTPS settings are correct.
 - Billing webhooks are configured and verified.
 - Email provider credentials are live.
-- Telecom provider credentials are configured only in the correct environment.
+- Twilio credentials are configured only in the correct environment.
 - R2/S3 media storage credentials are configured if uploads are enabled.
 - Sentry/PostHog or equivalent observability is configured.
 - Prisma migrations have been applied.
