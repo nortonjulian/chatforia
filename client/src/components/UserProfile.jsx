@@ -150,9 +150,9 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     const base =
       API_BASE ||
       axiosClient.defaults.baseURL ||
-       window.location.origin;
+      'https://api.chatforia.com';
 
-    return `${base}${userLike.avatarUrl}`;
+    return `${base.replace(/\/$/, '')}${userLike.avatarUrl}`;
   };
 
   const params = useParams();
