@@ -486,7 +486,6 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   };
   
     const handleAvatarUpload = async (file) => {
-      console.log('avatarUrl from server:', data.avatarUrl);
     if (!file) return;
 
     setAvatarError('');
@@ -744,7 +743,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
             <Stack gap="md">
               <Group align="center">
                 <AppAvatar
-                  src={getAvatarSrc(viewUser)}
+                  src={getAvatarSrc(currentUser)}
                   alt={t('profile.avatarAlt', 'Avatar')}
                   size={64}
                   radius="xl"
