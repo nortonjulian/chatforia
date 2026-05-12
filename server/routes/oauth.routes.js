@@ -242,7 +242,7 @@ router.get("/apple", (req, res) => {
   appleUrl.searchParams.set("client_id", process.env.APPLE_CLIENT_ID);
   appleUrl.searchParams.set("redirect_uri", process.env.APPLE_CALLBACK_URL);
   appleUrl.searchParams.set("response_type", "code");
-  appleUrl.searchParams.set("response_mode", "query");
+  appleUrl.searchParams.set("response_mode", "form_post");
   appleUrl.searchParams.set("scope", "name email");
   appleUrl.searchParams.set("state", state);
 
