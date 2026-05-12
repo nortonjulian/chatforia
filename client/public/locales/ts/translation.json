@@ -1,419 +1,370 @@
 {
   "common": {
     "save": "Hlayisa",
-    "cancel": "Kansela",
-    "refresh": "Pfuxa",
-    "noMatches": "A ku na ku fana",
-    "cancelAria": "Kansela",
-    "copy": "Kopa",
-    "copied": "Kopiwe!",
-    "errorWithMessage": "Xihoxo: {{message}}"
+    "cancel": "Tshika",
+    "refresh": "Vuyisela",
+    "noMatches": "A ku na leswi fambisanaka",
+    "cancelAria": "Tshika",
+    "copy": "Phatlula",
+    "copied": "Ku phatliwile!",
+    "errorWithMessage": "Xihoxo: {{message}}",
+    "loading": "Ku layicha…",
+    "saveError": "Ku hlayisa swi tsandzekile"
   },
   "a11y": {
-    "skipToMain": "Tlula ku ya eka ndzima ya ntlhoko"
+    "skipToMain": "Tlulela eka vuxokoxoko bya nkoka"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Hlayisa ya ntlhambi ya xitshuri yi endliwe naswona yi downlodiwe ✓",
-    "restored": "Hlayisa ya ntlhambi yi vuyisiwe ✓ Tinhloko ta xitshuri ti longiwe laha",
-    "noBackup": "A ku na hlayisa ya xitshuri leyi sirhelekeke eka akhawunti leyi",
-    "missingPublicKey": "Hlayisa yi kayi na ntlhambi wa xitshuri wa mani na mani"
+    "backupCreated": "Bakhapu ya xilotlelo yi endliwile naswona yi dawunilodiwile ✓",
+    "restored": "Key backup restored ✓ Keys installed locally",
+    "noBackup": "A ku na vuhlayiselo bya xihundla bya akhawunti leyi",
+    "missingPublicKey": "Vuhlayiselo byi pfumala xilotlelo xa mani na mani"
   },
   "keySetup": {
-    "title": "Hlela tinhloko ta xitshuri ta xitirhisi xa wena",
-    "description": "Xitirhisi lexi a xi na ntlhambi wa wena wa xitshuri. Importa hlayisa leyi sirhelekeke hi password, kumbe endla ntlhambi wuntshwa (u ta kota ku hlaya milabya leyintshwa ku sukela sweswi).",
-    "chooseFile": "Hlawula fayili u nghenisa password.",
-    "imported": "Ntlhambi wa xitshuri wu importiwe eka xitirhisi lexi. U ta kota ku hlaya milabya ya khale sweswi.",
-    "enterPassword": "Nghenisa password ya akhawunti ya wena ku endla hlayisa ya tinhloko ta wena hi ndlela leyi sirhelekeke."
+    "title": "Lulamisa swilotlelo swa xitirhisiwa xa wena",
+    "description": "Xitirhisiwa lexi a xi si va na xilotlelo xa wena xa xihundla. Nghenisa backup leyi sirheleriweke hi phaswedi, kumbe tumbuluxa swilotlelo leswintshwa swimbirhi (u ta kota ku hlaya marungula lamantshwa ku sukela sweswi). ",
+    "chooseFile": "Hlawula fayili u nghenisa phasiwedi.",
+    "imported": "Xilotlelo xa xihundla xi nghenisiwile eka xitirhisiwa lexi. U nga hlaya marungula ya khale sweswi.",
+    "enterPassword": "Nghenisa phasiwedi ya akawunti ya wena leswaku hi ta hlayisa swilotlelo swa wena hi vuhlayiseki."
+  },
+  "encryptionRecovery": {
+    "title": "Lawula Encryption",
+    "description": "Hlayisa, vuyelerisa, pfula, kumbe u simeka hi vuntshwa xilotlelo xa wena xa encryption.",
+    "alert": {
+      "keyRequiredTitle": "Xilotlelo xa encryption xa laveka",
+      "keyRequiredBody": "Brawuza leyi a yi nge swi koti sweswi ku pfula marungula ya wena lama lotleriweke. Vuyisela, pfula, kumbe u simeka hi vuntshwa xilotlelo xa wena leswaku u ya emahlweni."
+    },
+    "sections": {
+      "createBackup": "Endla backup ya xilotlelo",
+      "restoreFromBackup": "Vuyisa ku suka eka backup ya akhawunti",
+      "resetEncryption": "Seta nakambe encryption"
+    },
+    "fields": {
+      "unlockPasscode": {
+        "label": "Khowudi yo pfula (xitirhisiwa xa sweswi)",
+        "description": "Yi tirhisiwa ku pfula swilotlelo swa wena laha ndhawini u nga si swi rhumela ehandle"
+      },
+      "backupPassword": {
+        "label": "Phaswedi ya backup",
+        "description": "Yi tirhisiwa ku lotlela fayili ya backup"
+      },
+      "restoreBackupPassword": {
+        "label": "Phaswedi yo hlayisela",
+        "description": "Phaswedi leyi u yi tumbuluxeke loko u hlayisela xilotlelo xa wena eka iPhone"
+      },
+      "newLocalPasscode": {
+        "label": "Phaswedi leyintshwa ya laha ndzeni",
+        "description": "Sirhelela swilotlelo leswi hlayisiweke eka burawuza leyi"
+      },
+      "resetLocalPasscode": {
+        "label": "Pasi-khodi leyintshwa ya laha ndhawini",
+        "description": "Swa laveka ku endla leswi u nga si sungula ku vuyisela leswaku khodi leyintshwa yi sirheleriwa eka xitirhisiwa lexi"
+      }
+    },
+    "actions": {
+      "unlockKey": "Pfulekisa xilotlelo xo sirhelela",
+      "restoreFromBackup": "Vuyisela ku suka eka vuhlayiselo bya akhawunti",
+      "resetEncryption": "Seta Ntlangu Sirhelelo"
+    },
+    "messages": {
+      "backupCreated": "Vuhlayiselo bya xilotlelo byu endliwile naswona byu dawunilodiwile.",
+      "keyUnlocked": "Xilotlelo xo sirhelela xi pfulekisisiwile.",
+      "keyRestored": "Xilotlelo xi vuyiseriwile ku suka eka backup ya akhawunti.",
+      "resetSuccess": "Encryption yi reset-iwile hi ku humelela."
+    },
+    "errors": {
+      "restoreIncomplete": "Ku vuyisa xilotlelo a ku hetisekanga kumbe a hi swona eka akhawunti leyi",
+      "noBackup": "A ku na backup leyi hlayisiweke ya akhawunti leyi",
+      "missingPublicKey": "Backup yi pfumala xilotlelo xa mani na mani",
+      "noServerPublicKey": " Akhawunti leyi a yi kombisi xilotlelo xa mani na mani xa server sweswi",
+      "serverBackupMismatch": "Backup ya server a yi fambisani na xilotlelo xa sweswi xa ku lulamisa xihundla xa akhawunti",
+      "incompleteMetadata": "Metadata ya backup a yi hetisekanga",
+      "resetIncomplete": "Ku lulamisa xihundla a ku hetisekanga kahle"
+    },
+    "confirm": {
+      "reset": "Xana u lava ku sungula nakambe ku fihla marungula ya akhawunti leyi?\n\nMarungula ya khale lama fihliweke ma nga ha va lama nga ha hlayekiki handle ka loko u vuyisa xilotlelo xo sungula endzhaku."
+    },
+    "resetDescription": "Leswi swi tumbuluxa xilotlelo lexintshwa xo fihla marungula eka akhawunti ya wena. Marungula ya khale lama fihliweke ma nga ha va lama nga ha hlayekiki handle ka loko u vuyisa xilotlelo xo sungula endzhaku."
   },
   "auth": {
-    "headline": "Ku yingisa milabya leyi sirhelekeke eka mani na mani, eka ndhawu yihi na yihi",
-    "description": "Ku sirhelela end-to-end, ku hundzuluxa milabya eka tindzimi ta 100+, milabya leyi nyamalalaka, na ku ringana ka rito/vidiyo.",
-    "feature": {
-      "encryption": "Ku sirhelela end-to-end hi ku tiyisela",
-      "translation": "Ku hundzuluxa milabya hi ndlela ya clevu leyi aka eka app",
-      "disappearing": "Milabya leyi nyamalalaka & ku amukela ku hlaya",
-      "privacy": "Nhluvukiso wa xiphemu xa ntlhoko. Data ya wena, nlawulo wa wena.",
-      "translate": "Ku hundzuluxa milabya hi ndlela ya clevu leyi aka eka app",
-      "disappear": "Milabya leyi nyamalalaka",
-      "privacyAlt": "Nhluvukiso wa xiphemu xa ntlhoko",
-      "seePlans": "Vona mapulani & nxavo"
+    "headline": " Marungula yo hlayisekela un'wana na un'wana, kun'wana na kun'wana",
+    "description": "Ku fihla marungula ku suka eku sunguleni ku ya eku heleni, vuhundzuluxeri eka tindzimi to tlula 100, marungula lawa ya nyamalalaka, na ku bela riqingho ra rito/vhidiyo.",
+    "xihlawulekisi": {
+      "ku fihla marungula": "Ku fihla marungula ku suka eku sunguleni ku ya eku heleni hi ntolovelo",
+      "vuhundzuluxi": "Vuhundzuluxi bya marungula byo tlhariha lebyi akiweke endzeni",
+      "ku nyamalala": "Marungula lama nyamalalaka",
+      "xihundla": "Xihundla-ro sungula. Datha ya wena, vulawuri bya wena.",
+      "ku hundzuluxa": "Vuhundzuluxeri bya marungula byo tlhariha lebyi akiweke endzeni",
+      "vuhlayisekiXo sungula": "Dizayini leyi rhangisaka vuhlayiseki",
+      "vonaTipulani": "Vona tipulani na minxavo"
     },
-    "hero": {
-      "line1": "Ku yingisa milabya leyi sirhelekeke eka mani na mani, eka ndhawu yihi na yihi — na",
-      "em": "ku hundzuluxa eka tindzimi ta 100+",
-      "sub": "Kuma nomboro ya xitirhisi ya xitshuri ya mahala ku ringana na ku tsala eka misava hinkwayo hi Wi-Fi kumbe data. Tsakela ku sirhelela end-to-end, milabya leyi nyamalalaka, na ku ringana ka rito/vidiyo hi HD — na switirhisiwa leswi aka eka app leswi ku pfuna ku va eku hlanganeni eka mindzilo ya mindzilo.",
-      "freeNote": "Ku ringana na ku tsala ka mahala. AI ya xiyimo xa le henhla na switirhisiwa swa xiyimo xa le henhla swi lava ku upgrade."
+    "nkulu": {
+      "mugqa1": "Marungula yo hlayiseka eka mani na mani, kun'wana na kun'wana — na",
+      "em": "ku hundzuluxela eka tindzimi to tlula 100",
+      "sub": "Kuma nomboro ya riqingho ya mahala leyi hlayisekeke yo fona na ku rhumela marungula emisaveni hinkwayo hi ku tirhisa Wi-Fi kumbe data. Tipshine hi ku hlayisa ka ku suka eku sunguleni ku ya eku heleni, marungula lama nyamalalaka, na ku fona ka rito/vhidiyo ka HD — hi switirhisiwa leswi akiweke endzeni leswi ku pfunaka ku tshama u ri karhi u vulavurisana ku tlula mindzilakana.",
+      "freeNote": "Ku fona na ku rhumela marungula swa xisekelo i swa mahala. Vutlhari byo antswa bya AI na swihlawulekisi swa xiyimo xa le henhla swi lava leswaku u antswisa. "
     },
     "feat": {
-      "encryption": "Ku sirhelela end-to-end, nkarhi hinkwawo",
-      "translate": "Ku tshova swiphemu swa ririmi eka ku yingisana ka wena",
-      "disappear": "Milabya leyi nyamalalaka & ku amukela ku hlaya",
-      "privacy": "Nhluvukiso wa xiphemu xa ntlhoko. Data ya wena, nlawulo wa wena."
+      "encryption": "Nsirhelelo wa makumu-ku-ya-makumu, wu tirha nkarhi hinkwawo",
+      "translate": "Tlula swirhalanganyi swa tindzimi eka mabulo ya wena",
+      "disappear": "Marungula lawa ya nyamalalaka & switifiketi swo hlaya",
+      "vuhlayiseki": "Vuhlayiseki ku rhanga. Datha ya wena, vulawuri bya wena."
     },
-    "continueGoogle": "Yana na Google",
-    "continueApple": "Yana na Apple",
-    "username": "Vito ra mutirhisi",
-    "password": "Password",
-    "keepSignedIn": "Ndzi hlayisa ndzi signed-in",
-    "forgotPassword": "U rivale password?",
+    "continueGoogle": "Yana emahlweni na Google",
+    "continueApple": "Yana emahlweni na Apple",
+    "vito ra mutirhisi": "Vito ra mutirhisi",
+    "phasiwedi": "Phasiwedi",
+    "hlayisa ku nghenile": "Ndzi hlayise ndzi nghenile",
+    "rivala phasiwedi": "U rivale password?",
     "loginButton": "Nghena",
-    "createAccount": "Endla akhawunti",
-    "freeAccountButton": "Endla akhawunti ya mahala",
-    "newHere": "U ri ntswa laha?",
+    "createAccount": "Vumba akawunti",
+    "freeAccountButton": "Vumba akawunti ya mahala",
+    "newHere": "U muntshwa laha?",
     "getApp": "Kuma app",
-    "desktopTip": "Eka desktop? Skena hi xitirhisi xa wena ku kuma app.",
-    "scanHelper": "Eka desktop? Skena hi xitirhisi xa wena ku kuma app.",
-    "goHome": "Ya eka kaya",
+    "desktopTip": "Eka desktop? Skenela hi riqingho ra wena ku kuma app.",
+    "scanHelper": "Eka desktop? Sika na riqingho ra wena ku kuma app.",
+    "goHome": "Yela ekaya",
     "home": "Kaya",
     "headlineAlt": {
-      "main": "Xitirhisi xa milabya lexi sirhelekeke lexi",
-      "highlight": "xi vulavula ririmi ra wena"
+      "main": "Muxavisi wa mahungu loyi a sirhelelekeke loyi a",
+      "highlight": " vulavulaka ririmi ra wena"
     },
-    "subhead": "Milabya ya xiphemu xa ntlhoko, leyi sirhelekeke, leyi hundzuluxiweke — hi xinkarha.",
-    "upgrade": "Upgrade sweswi",
-    "tip": "Xiphemu: Tirhisa akhawunti yin'we eka web na mobile. Milabya ya wena yi sala yi synced.",
-    "openDownload": "Pfula ndhawu ya download",
-    "qrAlt": "QR code ya Chatforia",
-    "scanHint": "Skena ku download app kumbe ku pfula eka browser ya wena.",
-    "iosAria": "Download eka App Store",
-    "iosTitle": "Download eka App Store",
-    "iosBadgeAlt": "Xifanyeto xa App Store",
+    "subhead": "Mimiyela ya xihundla, leyi fihliweke, na leyi hundzuluxeriweke — hi nkarhi wolowo.",
+    "upgrade": "Antswisa sweswi",
+    "xitsundzuxo": "Xitsundzuxo: Tirhisa akhawunti leyi fanaka eka webu na selula. Marungula ya wena ma ta fambisana.",
+    "pfhulaVekelo": "Pfula tluka ro vekela",
+    "qrAlt": "Khodi ya QR ya Chatforia",
+    "xikombiso xoSkena": "Skena ku vekela app kumbe ku yi pfula eka burawuza ya wena.",
+    "iosAria": "Dawuniloda eka App Store",
+    "iosTitle": "Dawuniloda eka App Store",
+    "iosBadgeAlt": "Badge ya App Store",
     "androidAria": "Kuma eka Google Play",
     "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Xifanyeto xa Google Play",
+    "androidBadgeAlt": "Badge ya Google Play",
     "login": "Nghena",
-    "signup": "Sign Up",
-    "email": "Email",
+    "signup": "Titsalise",
+    "email": "Imeyili",
     "registration": {
-      "passwordDescription": "Minimum 6 ti-nhlamuselo. Tirhisa password leyi tiyileke, leyi nga faniki na yin'wana.",
-      "smsConsent": "Hi ku endla akhawunti, u pfumelela ku amukela SMS notifications leyi fambisanaka na xitirhisi xa wena xa Chatforia (ku fana na milabya ku suka eka vafana lavan'wana). Mitirho ya message & data yi nga va kona. U nga tshika nkarhi wihi na wihi eka Settings.",
-      "termsLink": "Mavumbiwa ya Ntirho",
-      "privacyLink": "Nawu wa Xiphemu xa Ntlhoko"
+      "passwordDescription": "Tsalwa ra 6 ku ya ehenhla. Tirhisa password leyi tiyeke, leyi nga tolovelekangiki.",
+      "smsConsent": "Hi ku tumbuluxa akhawunti, u pfumela ku amukela switiviso swa SMS leswi fambisanaka na ntirho wa wena wa Chatforia (ku fana na marungula yo huma eka vatirhisi van'wana). Tirheti ta marungula na data swi nga ha hakeriwa. U nga tshika ku amukela nkarhi wun'wana na wun'wana eka Swilunghiselelo.",
+      "termsLink": "Swipimelo swa Vutirheli",
+      " privacyLink": "Nawu wa Vuhlayiseki"
     },
-    "to": "Ku ya eka:",
+    "to": "Eka:",
     "enterRecipient": "Nghenisa vito kumbe nomboro",
-    "clearRecipients": "Sula vafana va ku amukela",
-    "sms": "SMS",
+    "clearRecipients": "Sula vaamukeri",
+    "sms": " SMS",
     "chatforia": "Chatforia",
-    "typeMessage": "Type a message…",
-    "addRecipient": "Engetela muamukeri wa le henhla ku sungula…",
-    "oneRecipient": "Nghenisa muamukeri un'we sweswi.",
-    "enterValidRecipient": "Nghenisa vito ra muhlekisani leri hlayisekeke kumbe nomboro ya xitirhisi.",
-    "sendFailed": "Ku rhuma ku hlulekile. Vona console ku kuma vukavukavuki."
+    "typeMessage": "Tsala rungula…",
+    "addRecipient": "Engetela muamukeri laha henhla ku sungula…",
+    "oneRecipient": "Hi kombela u nghenisa muamukeri un'we sweswi.",
+    "enterValidRecipient": "Nghenisa vito ra munhu loyi u n'wi hlayiseke kumbe nomboro ya riqingho.",
+    "sendFailed": "Ku rhumela swi tsandzekile. Languta eka console ku kuma vuxokoxoko."
   },
   "home": {
     "title": "Kaya",
-    "header": "Milabya ya wena",
-    "subheader": "Rhuma milabya ku sungula in'we ya milabya.",
-    "sendButton": "Rhuma milabya",
-    "gifPicker": "Pfula GIF picker",
+    "messagesTitle": "Marungula ya wena",
+    "messagesSubtitle": "Tsalela muamukeri laha henhla, kutani u rhumela rungula ku sungula bulo.",
+    "subheader": "Rhumela rungula ku sungula bulo.",
+    "sendButton": "Rhumela rungula",
+    "gifPicker": "Pfula xihlawuri xa ti-GIF",
     "emoji": "Emoji",
-    "upload": "Upload foto kumbe vidiyo",
-    "inputPlaceholder": "Type a message…",
-    "inputLabel": "Muendli wa milabya",
-    "sendTooltip": "Rhuma",
-    "sendTooltipEmpty": "Type a message to send",
-    "send": "Rhuma",
-    "welcomeMessage": "Welkom eka Chatforia",
-    "getStarted": "Sungula"
+    "upload": "Layicha xifaniso kumbe vhidiyo",
+    "inputPlaceholder": "Tsalela rungula…",
+    "inputLabel": "Xitirhisiwa xo tsala rungula",
+    "sendTooltip": "Rhumela",
+    "sendTooltipEmpty": "Tsala rungula ro rhumela",
+    "send": "Rhumela",
+    "welcomeMessage": "Ha ku amukela eka Chatforia",
+    "getStarted": "Sunga",
+    "mixedRecipients": "Vaamukeri vo hambana va kumiwile. Tirhisa tinomboro hinkwato ta riqingho (SMS) kumbe mavito hinkwawo ya vatirhisi (Chatforia).",
+    "uLavaNomboro": "U lava nomboro ya Chatforia u nga si rhumela SMS.",
+    "hlawulaNomboro": "Hlawula nomboro"
   },
-  "refund": {
-    "title": "Nawu wa Ku Vuyiseriwa ka Mali",
-    "lastUpdated": "Yi pfuxetiwe hi siku ra:",
-    "intro": "Eka Chatforia, hi ringeta ku nyika ntirho wa xiyimo xa le henhla eka vatirhisi hinkwavo. Nawu lowu wu hlamusela nkarhi lowu mali yi nga vuyiseriwaka.",
-    "subscriptions": {
-      "title": "Ku Tsarisa (Subscriptions)",
-      "body": "Ku tsarisa ku hakeriwa emahlweni naswona ku tlhela ku endliwa nkarhi na nkarhi. U nga swi kota ku yimisa nkarhi wun’wana na wun’wana hi ku tirhisa swiyimiso swa akhawunti ya wena kumbe pulatifomo leyi u xaveke ha yona."
-    },
-    "eligibility": {
-      "title": "Ku Faneleka ka Ku Vuyiseriwa ka Mali",
-      "body": "Mali yi nga vuyiseriwa loko ku ri na ku hakela kambirhi, swihoxo swa ku hakela, kumbe swiphiqo swa thekinoloji leswi sivaka ku tirhisa swilo leswi hakeriwaka. Swikombelo hinkwaswo swi kambisisiwa hi ku landzelela xiyimo xa swona."
-    },
-    "nonRefundable": {
-      "title": "Leswi Nga Vuyiseriwiki",
-      "body": "Hi ntolovelo a hi vuyiseli mali eka nkarhi lowu nga tirhisiwangiki, xiphemu xa nkarhi wa subscription, kumbe loko u nga yimisanga ku tsarisa ka wena emahlweni ka ku pfuxetiwa."
-    },
-    "thirdParty": {
-      "title": "Ku Xava hi Vafambisi van’wana",
-      "body": "Loko u xave hi pulatifomo yin’wana yo fana na Apple App Store, u fanele ku kombela ku vuyiseriwa ka mali hi ku kongoma eka pulatifomo yoleyo."
-    },
-    "contact": {
-      "title": "Ku Tihlanganisa na Hina",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "sidebar": {
+    "randomChat": "Bulo ra xiwelo",
+    "callTextForwarding": "Ku Yisa Minkulumo na Marungula",
+    "mabulo": "Mabulo",
+    "ndhawuYoLavisisa": "Lavisisa mabulo...",
+    "xihoxoXoLayicha": "Ku tsandzekile ku layicha mabulo",
+    "ku hava": "A ku si va na mabulo.",
+    "sungulaBulo": "Sungula bulo",
+    "vanhu": "Vanhu",
+    "swilunghiselo": "Swilunghiselo",
+    "xiyimo": "Xiyimo",
+    "ku yisa mimbulavulo": "Ku yisa mimbulavulo & Marungula",
+    "ku pfuxeta": "Ku pfuxeta",
+    "ku lava": "Ku lava mimbulavulo",
+    "xikombeloXoNghena": "Nghena ku lulamisa swilunghiselo swa wena.",
+    "ku nghena": "Ku nghena",
+    "ku tsarisa": " Sungula akawunti",
+    "tindhawu to bula": "Tindhawu to bula",
+    "humela": "Humela",
+    "sungulaBuloRin'wana": "Sungula bulo lerintshwa",
+    "miringo": "Miringo",
+    "vhidiyo": "Vhidiyo",
+    "marungula ya rito": "Marungula ya rito"
   },
-
-  "about": {
-    "title": "Mayelana na Chatforia",
-    "description": "Chatforia i pulatifomo ya ku vulavurisana ya manguva lawa leyi endliweke ku pfuna ku vulavurisana loku sirhelelekeke naswona loku nga na tindzimi to tala...",
-    "valuesTitle": "Leswi hi swi tekaka swi ri swa nkoka",
-    "privacyTitle": "Vuhlayiseki ku sungula",
-    "privacyDesc": "Ku sirheleriwa ka matimba hi ku tirhisa encryption na swiyimiso leswi lawuriwaka hi mutirhisi",
-    "accessTitle": "Ku fikelela hinkwenu",
-    "accessDesc": "Ku hundzuluxiwa ka tindzimi ku akiwe endzeni",
-    "controlTitle": "Ndzawulo",
-    "controlDesc": "Swivumbeko swo fana na marungula lama nyamalalaka na ku komba loko marungula ma hlayiwile"
+  "bari ya le henhla": {
+    "xiyimoXintshwa": "Xiyimo Xintshwa",
+    "ku huma": "Ku Huma",
+    "mpfuno": "Mpfuno",
+    "creaStatusAria": "Tumbuluxa Xiyimo xintshwa"
   },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Ha yini Tipulatifomo ta Ku Hlanganisa ti Ri ta Nkoka Swinene",
-      "intro": "Tipulatifomo ta ku vulavurisana ti hundzuke switirhisiwa swa nkoka swinene emisaveni ya namuntlha...",
-      "everydayTitle": "Ku vulavurisana ka siku na siku",
-      "everydayDesc": "Vanhu va titshege hi ti-app ta ku vulavurisana siku na siku...",
-      "speedTitle": "Ku hatlisa na ku olova",
-      "speedDesc": "Marungula ma rhumeriwa hi ku hatlisa...",
-      "globalTitle": "Ku fikelela misava hinkwayo",
-      "globalDesc": "Tipulatifomo ti hlanganisa vanhu emisaveni hinkwayo...",
-      "privacyTitle": "Vuhlayiseki na Ndzawulo",
-      "privacyDesc": "Tipulatifomo ta manguva lawa ti nyika vatirhisi ndzhawulo...",
-      "futureTitle": "Rito ra nkarhi lowu taka",
-      "futureDesc": "Ku vulavurisana ku ya emahlweni ku cinca...",
-      "outro": "Chatforia yi akiwile hi milawu leyi..."
+  "footer": {
+    "swipulan": "Swipulan na Ntsengo",
+    "hi-vona": "Hi-vona Chatforia",
+    "mitirho": "Mitirho",
+    "vamahungu": "Vamahungu",
+    "xikhangiso": "Xikhangiso",
+    "tihlanganise": "Tihlanganise na Hina",
+    "mpfuno": "Ndhawu ya Mpfuno",
+    "xiyimo": "Tluka ra Xiyimo",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": " Android / Google Play",
+    "privacy": "Nawu wa Vuhlayiseki",
+    "terms": "Swipimelo swa Vutirheli",
+    "cookies": "Swilunghiselo swa tiCookie",
+    "doNotSell": "U nga xavisi vuxokoxoko bya mina",
+    "language": "Ririmi",
+    "contactShort": "Vuhlanganisi ",
+    "aria": "Footer",
+    "homeAria": "Kaya ra Chatforia",
+    "section": {
+      "company": "KHAMPANI",
+      "support": "NSEKETELO",
+      "downloads": "DOWNLOADS",
+      "legal": "LEGAL"
     },
-
-    "global": {
-      "title": "Rito ra Ku vulavurisana ka Misava hinkwayo",
-      "intro": "Ku vulavurisana ku cincile hi ku hatlisa...",
-      "barriersTitle": "Ku herisa swihingakanyo",
-      "barriersDesc": "Vanhu va nga hlangana emisaveni hinkwayo...",
-      "translationTitle": "Xiphemu xa ku hundzuluxa tindzimi",
-      "translationDesc": "Ririmi ri tshama ri ri xihingakanyo...",
-      "realtimeTitle": "Ku hlanganisa hi nkarhi wun’we",
-      "realtimeDesc": "Ku hatlisa i swa nkoka...",
-      "privacyTitle": "Vuhlayiseki na Vuhlayiseki",
-      "privacyDesc": "Vatirhisi va lava ku tshemba leswaku marungula ya vona ma sirhelelekile...",
-      "futureTitle": "Leswi nga ta landzela",
-      "futureDesc": "Rito ra nkarhi lowu taka ri ta katsa swilo leswintshwa...",
-      "outro": "Tipulatifomo to fana na Chatforia ti hlanganyela eka ku cinca loku..."
+    "links": {
+      "plans-pricing": "Plans & Pricing",
+      "about-chatforia": "About Chatforia",
+      "careers": "Careers",
+      "press": "Press",
+      "advertise": "Advertise",
+      "getting-started": "Getting Started",
+      "help-center": "Help Center",
+      "contact-us": "Contact Us",
+      "status-page": "Status Page",
+      "ios-app-store": " iOS / App Store",
+      "android-google-play": "Android / Google Play",
+      "privacy-policy": "Nawu wa Vuhlayiseki",
+      "terms-of-service": "Swipimelo swa Vutirheli",
+      "do-not-sell-my-info": "U nga Xavisi Vuxokoxoko bya Mina",
+      "cookie-settings": "Swilunghiselo swa ti-Cookie"
     },
-
-    "index": {
-      "title": "Blog ya Chatforia",
-      "intro": "Hlola miehleketo hi ku vulavurisana...",
-      "post1": "Ndlela yo vulavula hi ndlela yo sirheleleka eka inthanete",
-      "post2": "Rito ra Ku vulavurisana ka Misava hinkwayo",
-      "post3": "Ha yini Tipulatifomo ta Ku Hlanganisa ti Ri ta Nkoka"
-    }
+    "social": {
+      "tiktok": "TikTok",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "linkedin": "LinkedIn",
+      "x": "X"
+    },
+    "copyright": "© Chatforia",
+    "patentPending": "Patent pending",
+    "backToTop": "↑ Back to top"
   },
-
-  "howItWorks": {
-    "title": "Ndlela leyi Chatforia yi Tirhaka ha yona",
-    "intro": "Chatforia yi endliwile leswaku ku vulavurisana ku olova...",
-    "step1Title": "1. Endla Akhawunti",
-    "step1Desc": "Tsarisa hi ku tirhisa imeyili kumbe vito ra mutirhisi...",
-    "step2Title": "2. Sungula Ku vulavurisana",
-    "step2Desc": "Hlanganisa na van’wana...",
-    "step3Title": "3. Ku rhumela marungula hi nkarhi wa xiviri",
-    "step3Desc": "Marungula ma fika hi ku hatlisa...",
-    "step4Title": "4. Ku vulavurisana ka misava hinkwayo",
-    "step4Desc": "Ku hundzuluxa tindzimi ku pfuna vatirhisi...",
-    "step5Title": "5. Lawula",
-    "step5Desc": "Lawula leswi u swi lavaka..."
-  },
-
-  "safety": {
-    "title": "Vuhlayiseki na Milawu ya Ntlawa",
-    "intro": "Chatforia yi tinyiketile ku hlayisa ndhawu leyi sirhelelekeke...",
-    "respectTitle": "Ku xixima eka ku vulavurisana",
-    "respectDesc": "Vatirhisi va fanele ku xiximana...",
-    "prohibitedTitle": "Leswi swi nga pfumeleriwiki",
-    "prohibited": {
-      "illegal": "Mintirho leyi nga riki enawini",
-      "harassment": "Ku xanisa kumbe ku dlaya miehleketo",
-      "hate": "Ku hloya kumbe ku hlawula",
-      "explicit": "Swilo leswi nga riki kahle",
-      "spam": "Spam kumbe vuxisi"
-    },
-    "toolsTitle": "Switirhisiwa swa Vuhlayiseki",
-    "tools": {
-      "report": "Vika mahanyelo yo biha",
-      "block": "Sivela vatirhisi",
-      "control": "Lawula swiyimiso swa vuhlayiseki"
-    },
-    "enforcementTitle": "Ku tirhisa milawu",
-    "enforcementDesc": "Hi nga teka goza eka ti-akhawunti..."
-},
-  "chat": {
-    "selectPrompt": "Hlawula milabya kumbe kamara ya milabya ku sungula ku yingisana",
-    "newMessages": "Milabya leyintshwa",
-    "typing": "{{name}} u type a message...",
-    "emptyTitle": "Milabya ya wena",
-    "emptySubtitle": "Rhuma milabya ku sungula in'we ya milabya.",
-    "startChatButton": "Rhuma milabya",
-    "mediaAttachment": "Media attachment",
-    "thisUser": "mutirhisi loyi",
-    "blockConfirm": "Block {{name}}? U nge amukeli milabya ku suka eka vona.",
-    "blockedUser": "Blocked {{name}}.",
-    "blockError": "A swi kotekanga ku kuma mutirhisi wa ku block.",
-    "blockFailed": "Block hlulekile (backend a wu languteki)",
-    "encryptedUnavailable": "Milabya leyi sirhelekeke (ntlhambi a wu kumiwi)",
-    "unlockToView": "Unlock ntlhambi wa wena ku vona milabya leyi"
+  "bulo": {
+    "hlawulaXikombiso": "Hlawula tsalwa kumbe kamara ra bulo ku sungula ku bula",
+    "marungulaLamanantswa": "Marungula lamantswa",
+    "kuTsalaka": "{{name}} u le ku tsaleni...",
+    "nhloko-mhakaYonyingana": "Marungula ya wena",
+    "nhloko-mhakaYonyinganaYehansi": "Rhumela rungula ku sungula bulo.",
+    "konopoYoSungulaBulo": "Rhumela rungula",
+    "xihlanganisiXaMedia": "Xihlanganisi xa media",
+    "mutirhisiLoyi": "mutirhisi loyi",
+    "blockConfirm": "Sivela {{name}}? A wu nge he kumi marungula ya vona.",
+    "blockedUser": "Ku siveleriwe {{name}}.",
+    "blockError": "A swi kotekanga ku kuma mutirhisi loyi a faneleke ku siveleriwa.",
+    "blockFailed": "Ku sivela swi tsandzekile (backend a yi si hlanganisiwa).",
+    "encryptedUnavailable": "Rungula leri sirheleriweke (xilotlelo a xi kumeki)",
+    "pfulelaKuVona": "Pfula xilotlelo xa wena leswaku u vona hungu leri"
   },
   "messageInput": {
     "ttl": {
-      "off": "Off"
+      "off": "Yimisiwile"
     },
-    "freeLimit": "Free plan limit: auto-delete ku fika eka siku 1. Clamped to 1d.",
-    "premiumLimit": "Max auto-delete for Premium is 30 days. Clamped to 30d.",
-    "nothingToSend": "Type a message or attach a file to send.",
-    "encryptionFailed": "Encryption hlulekile. Milabya a yi rhumiwanga.",
-    "sent": "Milabya yi fikele.",
-    "placeholder": "Type a message…",
-    "autoDelete": "Auto-delete",
-    "typeToSend": "Type a message to send",
-    "send": "Rhuma",
-    "sendWithEnter": "Rhuma (Enter)",
-    "attachment": "attachment",
-    "caption": "Caption (optional)",
-    "remove": "Susa",
-    "clear": "Sula",
+    "freeLimit": "Ntsengo wa pulani ya mahala: ku tisula hi xoxe ku fikela eka siku rin'we. Swi pimiwile eka siku rin'we.",
+    "premiumLimit": "Nkarhi wo leha swinene wo tisula hi xoxe eka Premium i masiku ya 30. Swi pimiwile eka masiku ya 30.",
+    "nothingToSend": "Tsala rungula kumbe u namarheta fayili leswaku u rhumela.",
+    "encryptionFailed": "Ku sirhelela ka xihundla ku tsandzekile. Rungula a ri rhumeriwanga.",
+    "sent": "Rungula ri yisiwile.",
+    "placeholder": "Tsala rungula...",
+    "autoDelete": "Ku susa hi xoxe",
+    "typeToSend": "Tsala rungula leri u nga ri rhumelaka",
+    "send": "Rhumela",
+    "rhumelaHiEnter": "Rhumela (Enter)",
+    "xihlanganisi": "xihlanganisi",
+    "description": "Nhlamuselo (swo tihlawulela)",
+    "susa": "Susa",
+    "sula": "Sula",
     "gif": "GIF",
-    "sticker": "Sticker",
-    "errors": {
-      "attachmentTooLarge": "Attachment yi le nkulu. Lulamisela fayili leyi nga le kulu.",
-      "unsupportedFile": "Muxaka wa fayili a wu seketeliwi.",
-      "rateLimit": "U rhuma milabya hi xinkarha xo tlula. Please slow down.",
-      "validation": "Validation error. Please check your message and try again.",
-      "failedToSend": "Failed to send. You can retry the failed bubble."
+    "xitikara": "Xitikara",
+    "swihoxo": {
+      "xihlanganisiXikuluNgopfu": "Xihlanganisi i xikulu ngopfu. Ringeta fayili leyitsongo.",
+      "fayiliLeyiNgaSeketeriwangiki": "Muxaka wa fayili lowu nga seketeriwangiki.",
+      "rateLimit": "U rhumela marungula hi xihatla ngopfu. Hi kombela u hunguta rivilo.",
+      "validation": "Ku hoxekile eka nkambero. Hi kombela u kambisisa rungula ra wena kutani u ringeta nakambe.",
+      "failedToSend": "Ku tsandzekile ku rhumela. U nga ringeta nakambe bubble leyi tsandzekeke."
     }
-  },
-  "contactList": {
-    "savedContacts": "Saved Contacts",
-    "refreshAria": "Pfuxa vafana",
-    "filterPlaceholder": "Filter saved contacts…",
-    "filterAria": "Filter saved contacts",
-    "noContactsFound": "A ku na vafana lavi kumiweke.",
-    "externalContact": "External contact",
-    "notJoined": "Muamukeri loyi a nga si join Chatforia.",
-    "couldNotStart": "A swi kotekanga ku sungula milabya. Please try again.",
-    "startFailed": "Failed to start chat. Please try again.",
-    "deleted": "Contact deleted.",
-    "deleteFailed": "Failed to delete contact. Please try again.",
-    "aliasUpdated": "Alias updated.",
-    "updateAliasFailed": "Failed to update alias. Please try again.",
-    "selectContact": "Hlawula {{name}}",
-    "alias": "Alias",
-    "startChat": "Sungula milabya",
-    "message": "Milabya",
-    "delete": "Delete",
-    "deleteContactAria": "Delete contact",
-    "loadFailed": "Failed to load contacts. Please try again.",
-    "loadMore": "Load more",
-    "call": "Call",
-    "callStarted": "Calling this number via your Chatforia number…",
-    "callFailed": "Failed to start call. Please try again."
-  },
-  "startChatModal": {
-    "title": "Sungula in'we ya milabya",
-    "searchPlaceholder": "Search name, username, or phone number",
-    "messageThisPerson": "Rhuma milabya eka munhu loyi",
-    "contacts": "Vafana",
-    "recentInteractions": "Recent interactions",
-    "noContactsMatch": "A ku na vafana lavi fana na search ya wena.",
-    "noRecentInteractions": "A ku na recent interactions yet.",
-    "unknown": "Unknown",
-    "interactionType": {
-      "message": "Milabya",
-      "call": "Call",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Engetela contact",
-    "phoneOrUsername": "Phone or username",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 or juliannorton",
-    "alias": "Alias (optional)",
-    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
-    "enterPhoneOrUsername": "Nghenisa nomboro ya xitirhisi kumbe username.",
-    "userLookupFailed": "User lookup failed.",
-    "cannotAddSelf": "U nge engeteli wena tanihi contact.",
-    "failedToAdd": "Failed to add contact.",
-    "add": "Engetela"
-  },
-  "sidebar": {
-    "randomChat": "Random Chat",
-    "callTextForwarding": "Call & Text Forwarding",
-    "conversations": "Milabya",
-    "searchPlaceholder": "Search conversations...",
-    "errorLoading": "Failed to load chats",
-    "empty": "A ku na milabya yet.",
-    "startChat": "Sungula milabya",
-    "people": "Vanhu",
-    "settings": "Settings",
-    "status": "Status",
-    "forwarding": "Call & Text Forwarding",
-    "refresh": "Pfuxa",
-    "search": "Search conversations",
-    "loginPrompt": "Nghena ku edit settings ya wena.",
-    "login": "Nghena",
-    "register": "Endla akhawunti",
-    "chatrooms": "Chatrooms",
-    "logout": "Log out",
-    "startChatAlt": "Sungula milabya leyintshwa",
-    "calls": "Calls",
-    "video": "Video",
-    "voicemail": "Voicemail"
-  },
-  "topbar": {
-    "newStatus": "New Status",
-    "logout": "Log Out",
-    "help": "Help",
-    "createStatusAria": "Create new Status"
   },
   "threadActions": {
-    "threadMenu": "Thread menu",
+    "threadMenu": "Menu ya nkhuluko",
     "premium": "Premium",
-    "aiPower": "AI Power",
-    "schedule": "Schedule",
-    "upgrade": "Upgrade",
-    "upgradeSuffix": "(Upgrade)",
-    "thread": "Thread",
-    "about": "About",
-    "search": "Search",
-    "media": "Media",
-    "invitePeople": "Invite people",
-    "roomSettings": "Room settings",
-    "clearConversation": "Clear conversation",
-    "block": "Block"
+    "aiPower": "Matimba ya AI",
+    "schedule": "Xiyimiso",
+    "upgrade": "Antswisa",
+    "upgradeSuffix": "(Antswisa)",
+    "thread": "Nkhuluko",
+    "about": "Mayelana na",
+    "search": "Lava",
+    "media": " Media",
+    "invitePeople": "Vita vanhu",
+    "roomSettings": "Swilunghiselelo swa kamara",
+    "clearConversation": "Sula bulo",
+    "block": "Sivela"
   },
   "roomSearch": {
-    "title": "Search eka room",
-    "ariaLabel": "Search eka room",
-    "search": "Search",
-    "searchMessages": "Search messages",
+    "title": "Lava ekamareni",
+    "ariaLabel": "Lava ekamareni",
+    "search": "Lava",
+    "searchMessages": "Lava marungula",
     "noText": "[No text]",
-    "noResults": "A ku na results"
+    "noResults": "No results"
   },
   "roomSettings": {
     "roles": {
-      "member": "Member",
-      "moderator": "Moderator",
-      "admin": "Admin"
+      "member": "Xirho",
+      "moderator": "Mulawuri",
+      "admin": "Mufambisi"
     },
     "aiMode": {
-      "off": "Off",
-      "mention": "Only on @ForiaBot or /ask",
-      "always": "Reply proactively"
+      "off": "Yimisiwile",
+      "mention": "Ntsena eka @ForiaBot kumbe /ask",
+      "nkarhi hinkwawo": "Hlamula hi ku hatlisa"
     },
     "autoTranslateMode": {
-      "off": "Off",
-      "tagged": "Tagged only (/tr …)",
-      "all": "All messages"
+      "off": "Yimisiwile",
+      "tagged": "Leswi funghiweke ntsena (/tr …)",
+      "all": "Marungula hinkwawo"
     },
-    "updated": "Settings updated"
+    "swin'wantshuxiwile": "Swilunghiselo swi n'wantshuxiwile"
   },
-  "mediaGallery": {
-    "sharedMedia": "Shared media",
-    "noMediaCached": "A ku na media cached locally yet.",
-    "imageAlt": "image",
-    "openVideo": "Pfula vidiyo",
-    "openVideoWithCaption": "Pfula vidiyo: {{caption}}",
-    "preview": "Preview",
-    "previewWithCaption": "Preview: {{caption}}",
-    "previewKind": "Preview {{kind}}",
-    "download": "Download",
-    "downloadKind": "Download {{kind}}",
+  "vahlanganisi va swifaniso": {
+    "vahlanganisi lava avelaniweke": "Vahlanganisi lava avelaniweke",
+    "a ku na vahlanganisi lava hlayisiweke": "A ku si va na vahlanganisi lava hlayisiweke laha ndhawini.",
+    "xifaniso xa vuyimburi": "xifaniso",
+    "pfula vhidiyo": "Pfula vhidiyo",
+    "openVideoWithCaption": "Pfula vhidiyo: {{caption}}",
+    "preview": "Xikombiso",
+    "previewWithCaption": "Xikombiso: {{caption}}",
+    "previewKind": "Xikombiso {{kind}}",
+    "download": "Dawuniloda",
+    "downloadKind": "Dawuniloda {{kind}}",
     "file": "file",
     "kinds": {
       "image": "image",
@@ -423,1001 +374,1543 @@
     }
   },
   "status": {
-    "userNumber": "User #{{id}}",
-    "posted": "Status posted",
-    "postFailed": "Failed to post status",
-    "createTitle": "Create a status",
-    "modalAriaLabel": "New status",
-    "captionLabel": "What's on your mind?",
-    "captionPlaceholder": "Share an update...",
-    "captionAria": "Status message",
-    "audienceLabel": "Audience",
+    "userNumber": "Mutirhisi #{{id}}",
+    "posted": "Xiyimo xi rhumeriwile",
+    "postFailed": "Ku tsala xiyimo swi tsandzekile",
+    "createTitle": "Tumbuluxa xiyimo",
+    "modalAriaLabel": "Xiyimo lexintshwa",
+    "captionLabel": "I yini lexi nga emiehleketweni ya wena?",
+    "captionPlaceholder": "Avelana xiviko...",
+    "captionAria": "Rungula ra xiyimo",
+    "audienceLabel": "Vahlaleri",
     "audience": {
-      "public": "Public",
-      "followers": "Followers",
-      "contacts": "Contacts",
-      "mutuals": "Mutuals",
-      "custom": "Custom..."
+      "public": "Erivaleni",
+      "followers": "Valandzeri",
+      "contacts": "Vakontakiti",
+      "mutuals": "Lava hi va landzelanaka",
+      "custom": "Hi ku hlawuleka..."
     },
-    "expiresHoursLabel": "Expires (hours)",
-    "maxTooltip": "Maximum 7 days",
+    "expiresHoursLabel": "Nkarhi wo hela (ti-awa)",
+    "maxTooltip": "Nkarhi lowu vekiweke i masiku ya 7",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Expires on:",
-    "chooseRecipients": "Hlawula vafana va ku amukela",
-    "selectContacts": "Hlawula vafana",
-    "attachmentsLabel": "Attachments",
-    "attachmentsPlaceholder": "Engetela images/videos",
-    "filesNote": "Ku fika eka 5 files. 24h expiry hi default.",
-    "postAria": "Post status",
-    "post": "Post"
+    "expiresOn": "Xi hela hi:",
+    "chooseRecipients": "Hlawula vaamukeri",
+    "selectContacts": "Hlawula vaxinani",
+    "attachmentsLabel": "Swiphephisi",
+    "attachmentsPlaceholder": "Engetela swifaniso/tivhidiyo",
+    "filesNote": "Ku fikela eka 5 wa tifayili. Yi hela endzhaku ka 24h hi ntolovelo.",
+    "postAria": "Rhumela xiyimo",
+    "post": "Rhumela"
   },
   "voicemail": {
-    "pageTitle": "Voicemail",
-    "from": "From",
-    "to": "To",
-    "unknownCaller": "Unknown",
+    "pageTitle": "Rungula ra rito",
+    "from": "Ku suka eka",
+    "to": "Eka",
+    "unknownCaller": "La nga tivekiki",
     "yourNumber": "Nomboro ya wena ya Chatforia",
     "durationSeconds": "{{count}}s",
-    "audioAria": "Voicemail audio player",
-    "transcriptHeading": "Transcript",
-    "transcriptPending": "Transcribing voicemail…",
-    "transcriptFailed": "Transcript unavailable.",
-    "loading": "Loading voicemail…",
-    "errorLoading": "Failed to load voicemail.",
-    "empty": "A ku na voicemails yet.",
-    "deleteConfirm": "Delete this voicemail?",
-    "deleteError": "Failed to delete voicemail.",
-    "markRead": "Mark as read",
-    "delete": "Delete",
-    "unreadDotAria": "Unread voicemail indicator"
+    "audioAria": "Xitlangi xa mpfumawulo wa rungula ra rito",
+    "transcriptHeading": "Matsalwa",
+    "transcriptPending": "Ku tsariwa ka voicemail…",
+    "transcriptFailed": "Matsalwa a ma kumeki.",
+    "loading": "Ku layicha voicemail…",
+    "errorLoading": "Ku tsandzekile ku layicha voicemail.",
+    "empty": "A ku si va na ti-voicemail.",
+    "deleteConfirm": "Susa voicemail leyi?",
+    "deleteError": "Ku tsandzekile ku susa voicemail.",
+    "markRead": "Tshaha tanihi leyi hlayiweke",
+    "delete": "Susa",
+    "unreadDotAria": "Xikombiso xa marungula ya rito lawa ya nga si hlayiwaka"
   },
-  "profile": {
-    "title": "User Profile",
-    "preferredLanguage": "Preferred language",
-    "chooseLanguage": "Hlawula ririmi",
-    "mustLogin": "U fanele u sign in ku vona settings.",
-    "autoTranslate": "Auto-translate messages",
-    "showOriginalWithTranslation": "Show original and translated messages",
-    "showOriginalAndTranslation": "Show original alongside translation",
-    "filterExplicit": "Filter explicit content",
-    "aiReply": "AI reply",
-    "enableReadReceipts": "Enable read receipts",
-    "allowExplicitContent": "Allow explicit content",
-    "disappearingMessages": "Enable disappearing messages",
-    "autoDeleteSeconds": "Seconds until auto-delete",
-    "saveSuccess": "Settings saved!",
-    "saveError": "Error: Could not save settings",
-    "avatarAlt": "Profile avatar",
-    "uploadAvatar": "Upload new avatar",
-    "avatarSuccess": "Avatar uploaded!",
-    "avatarError": "Failed to upload avatar",
-    "avatarUpdated": "Avatar updated!",
-    "uploadingAvatar": "Uploading avatar…",
-    "noPrivateKey": "A ku na private key eka xitirhisi lexi ku export.",
-    "setBackupPassword": "Set a password to encrypt your backup:",
-    "backupDownloaded": "Encrypted backup downloaded.",
-    "exportFailed": "Key export failed",
-    "enterBackupPassword": "Nghenisa password ya backup leyi:",
-    "importSuccess": "Private key imported to this device.",
-    "importFailed": "Failed to import key (incorrect password or corrupt file).",
-    "keysRotated": "New key pair generated and public key uploaded.",
-    "rotateFailed": "Failed to rotate keys.",
-    "security": "Security",
-    "exportKey": "Back Up Encryption Key",
-    "importKey": "Restore Encryption Key",
-    "rotateKeys": "Rotate Encryption Key",
-    "keyDisclaimer": "Ntlhambi wa wena wa xitshuri a wu tshuki wu suka eka xitirhisi lexi. Exporta copy leyi sirhelekeke hi password ku vuyisela eka xitirhisi xin'wana.",
-    "sectionProfile": "Profile",
-    "phoneNumber": "Nomboro ya xitirhisi",
-    "appearance": "Appearance",
-    "soundSettings": "Sounds",
-    "disappearing": "Disappearing messages",
-    "backupSync": "Encryption Key Backup",
+  "nxaxamelo wa vathintani": {
+    "vathintani lava hlayisiweke": "Vathintani lava hlayisiweke",
+    "pfuxetaAria": "Pfuxeta vathintani",
+    "ndhawu yo hluta": "Hluta vathintani lava hlayisiweke…",
+    "filterAria": "Hluta vathintani lava hlayisiweke",
+    "noContactsFound": "A ku kumekanga vathintani.",
+    "externalContact": "Muthintani wa le handle",
+    "notJoined": "Muthintani yoloye a nga si nghenela Chatforia. ",
+    "couldNotStart": "A swi kotekanga ku sungula bula. Kombela u ringeta nakambe.",
+    "startFailed": "Ku tsandzekile ku sungula bula. Kombela u ringeta nakambe.",
+    "deleted": "Vuxokoxoko byi susiwile.",
+    "deleteFailed": "Ku tsandzekile ku susa vuxokoxoko. Kombela u ringeta nakambe.",
+    "aliasUpdated": "Alias yi pfuxetiwile.",
+    "updateAliasFailed": "Ku tsandzekile ku pfuxeta alias. Kombela u ringeta nakambe.",
+    "selectContact": "Hlawula {{name}}",
+    "alias": "Alias",
+    "startChat": "Sungula bulo",
+    "message": "Mhaka",
+    "susa": "Susa",
+    "susaVuxelaniAria": "Susa vuxelani",
+    "tsandzekileKuLayicha": "Ku tsandzekile ku layicha vuxelani. Kombela u ringeta nakambe.",
+    "layichaSwoTala": "Layicha swo tala",
+    "fona": "Fona ",
+    "callStarted": "U fonela nomboro leyi hi ku tirhisa nomboro ya wena ya Chatforia…",
+    "callFailed": "Ku tsandzekile ku sungula riqingho. Kombela u ringeta nakambe."
+  },
+  "addContactModal": {
+    "title": "Engetela munhu",
+    "phoneOrUsername": "Riqingho kumbe vito ra mutirhisi",
+    "phoneOrUsernamePlaceholder": "xik. +13018019227 kumbe juliannorton",
+    "alias": "Alias (swo tihlawulela)",
+    "aliasPlaceholder": "xik. Ntirho, Manana, Mike – Europe",
+    "enterPhoneOrUsername": "Nghenisa nomboro ya riqingho kumbe vito ra mutirhisi.",
+    "userLookupFailed": "Ku lava mutirhisi swi tsandzekile.",
+    "cannotAddSelf": "A wu nge swi koti ku engetela wena n'wini tanihi munhu wo tihlanganisa na yena.",
+    "failedToAdd": "Ku tsandzekile ku engetela munhu wo tihlanganisa na yena.",
+    "engetela": "Engetela"
+  },
+  "sungulaBuloModal": {
+    "nhloko": "Sungula bulo",
+    "ndhawuYoLava": "Lava vito, vito ra mutirhisi, kumbe nomboro ya riqingho",
+    "rhumelaRungulaEkaMunhuLo": "Rhumela rungula eka munhu loyi",
+    "vahlanganisi": "Vahlanganisi",
+    "vukorhokerisaniBy'aSweswinyana": "Vukorhokerisani bya sweswinyana",
+    "noContactsMatch": "A ku na vaxinwankontakiti lava fambisanaka na leswi u swi lavaka.",
+    "noRecentInteractions": "A ku si va na vuxaka bya sweswinyana.",
+    "unknown": "A swi tiveki",
+    "interactionType": {
+      "message": "Rungula",
+      "call": "Ririto",
+      "video": "Video"
+    },
+    "quickPicker": "Xihlawuri xa xihatla",
+    "to": "Eka",
+    "nameOrUsername": "Tsala vito, vito ra mutirhisi",
+    "nameUsernamePhoneEmail": "Tsala vito, vito ra mutirhisi, riqingho, kumbe imeyili…",
+    "startWithSelected": "Sungula bulo na la hlawuriweke",
+    "searchByUsernameOrPhone": "Lava hi vito ra mutirhisi kumbe riqingho",
+    " search": "Lava",
+    "searchPrompt": "Tsala vito ra mutirhisi kumbe nomboro ya riqingho kutani u tshikelela Lava.",
+    "pickFromContacts": "Kumbe hlawula eka vaxinani",
+    "addContact": "Engetela Xixinani",
+    "show": "Kombisa",
+    "engetela": "Egetela",
+    "pfala": "Pfala",
+    "nhlayoLeyiHlawuriweke": "{{count}} leyi hlawuriweke",
+    "hlawulaWaN'weKuYaEhenhla": "Hlawula wa n'we ku ya ehenhla. ",
+    "saveContactsHint": "Tinhlayo ta riqingho/imeyili ti ta kumeka endzhaku ka loko u ti hlayisile tanihi vaxinani.",
+    "failedBulkStart": "Ku tsandzekile ku sungula bulo na vaamukeri lava hlawuriweke.",
+    "noResults": "A ku na vuyelo",
+    "mode": "Muxaka",
+    "group": "Ntlawa",
+    "broadcast": "Ku hangalasa",
+    "groupNameOptional": "Vito ra ntlawa (a swi bohi)",
+    "firstMessageOptional": "Rungula ro sungula (swa ku tihlawulela kambe swa ringanyetiwa)",
+    "createGroup": "Vumba ntlawa",
+    "sendBroadcast": "Rhumela xivulavuri"
+  },
+  "peoplePage": {
+    "people": "Vanhu",
+    "search": "Lava",
+    "searchPlaceholder": "Lava vathintani lava hlayisiweke hi ku tirhisa vito ra xihundla, vito, vito ra mutirhisi, kumbe riqingho",
+    "quickStart": "Ntolovelo wo hatlisa",
+    "quickStartDesc": "Lawula vaxinani va wena u rhamba vanghana.",
+    "importContacts": "Nghenisa vaxinani va wena",
+    "import": "Nghenisa",
+    "addContact": "Engetela xixinani",
+    "add": "Engetela",
+    " rhambaVanghana": "Rhamba vanghana",
+    "rhambaDesc": "Avelana linki ya wena yo rhamba leswaku u sungula ku bula hi xihatla.",
+    "kumaApp": "Kuma app",
+    "kumaAppDesc": "Tshama u ri karhi u vulavurisana u ri karhi u famba na Chatforia ya iOS na Android.",
+    "dhawniloda": "Dhawniloda",
+    "syncTip": "Xitsundzuxo: Marungula ya wena ya tshama ya fambisana eka webu na selula.",
+    "hlutaLeswiHlayisiweke": "Hluta vathintani lava hlayisiweke",
+    "noContactsFound": "A ku kumekanga vathintani",
+    "focusSearch": "Lava hi vukheta",
+    "findOrAdd": " Kuma kumbe engetela munhu",
+    "lavaHiRiqinghoKumbeVitoRaMutirhisi": "Lava hi riqingho / vito ra mutirhisi"
+  },
+  "phurofayili": {
+    "title": "Phurofayili ya Mutirhisi",
+    "ririmi-loku-rhangeriwaka": "Ririmi leri rhandziwaka",
+    "hlawulaRirimi": "Hlawula ririmi",
+    "uFanele-uNghena": "U fanele ku nghena leswaku u vona swiletelo.",
+    "autoTranslate": "Hundzuluxa marungula hi xoxe",
+    "showOriginalWithTranslation": "Kombisa marungula ya ximfumo na lama hundzuluxeriweke",
+    "showOriginalAndTranslation": "Kombisa ya ximfumo na ya vuhundzuluxi swi ri swin'we",
+    "filterExplicit": "Sefa leswi nga erivaleni",
+    "aiReply": "Nhlavutelo wa AI",
+    "enableReadReceipts": "Pfumelela switifiketi swa ku hlaya",
+    "allowExplicitContent": "Pfumelela leswi nga erivaleni",
+    "disappearingMessages": "Pfumelela marungula lawa ya nyamalalaka",
+    "autoDeleteSeconds": "Tisekoni ta ku susa hi xoxe",
+    "saveSuccess": "Swiletelo swi hlayisiwile!",
+    "saveError": "Xihoxo: A swi kotekanga ku hlayisa swiletelwa",
+    "avatarAlt": "Xifaniso xa phurofayili",
+    "uploadAvatar": "Nghenisa xifaniso lexintshwa xa phurofayili",
+    "avatarSuccess": "Xifaniso xa phurofayili xi nghenisiwile!",
+    "avatarError": "Swi tsandzekile ku nghenisa xifaniso xa phurofayili",
+    "avatarUpdated": "Xifaniso xa phurofayili xi pfuxetiwile!",
+    "uploadingAvatar": "Ku nghenisiwa ka xifaniso xa phurofayili…",
+    "noPrivateKey": "A ku na xilotlelo xa xihundla eka xitirhisiwa lexi xo rhumela handle.",
+    "setBackupPassword": "Veka phasiwedi yo fihla backup ya wena:",
+    "backupDownloaded": "Backup leyi fihliweke yi dawunilodiwile.",
+    "exportFailed": "Ku rhumela xilotlelo handle swi tsandzekile",
+    "enterBackupPassword": "Nghenisa phaswedi ya backup leyi:",
+    "importSuccess": "Xilotlelo xa xihundla xi nghenisiwile eka xitirhisiwa lexi.",
+    "importFailed": "Ku tsandzekile ku nghenisa xilotlelo (phasiwedi leyi hoxeke kumbe fayili leyi onhakeke).",
+    "swilotleloSwiJikisiwile": "Pere ya swilotlelo leyintshwa yi tumbuluxiwile naswona xilotlelo xa mani na mani xi layicheriwile.",
+    "kuJikisaKuTsandzekile": "Ku tsandzekile ku jikisa swilotlelo.",
+    "vuhlayiseki": "Vuhlayiseki",
+    "humexaXilotlelo": " Hlayisa Xilotlelo xo Fihla",
+    "tlheriselaXilotlelo": "Tlherisela Xilotlelo xo Fihla",
+    "jikaSwilotlelo": "Jika Swilotlelo swo Fihla",
+    "xilotleloXitsiviso": "Xilotlelo xa wena xa xihundla a xi humi eka xitirhisiwa lexi. Humexa khopi leyi sirheleriweke hi phaswedi leswaku u xi tlherisela eka xitirhisiwa xin'wana.",
+    "xiyengeXivumbeko": "Xivumbeko",
+    "nomboroYaRiqingho": "Nomboro ya riqingho",
+    "xivumbeko": "Xivumbeko",
+    "soundSettings": "Mipfumawulo",
+    "disappearing": "Marungula lawa ya nyamalalaka",
+    "backupSync": "Vuhlayiselo na ku fambisanisa",
     "ai": "AI",
-    "accessibility": "Accessibility",
-    "privacy": "Privacy",
-    "devices": "Linked devices",
-    "themeFreeNotice": "U ri eka Free—tirhisa Sun/Moon options leyi le henhla. Upgrade ku unlock more themes.",
-    "sunTheme": "Tirhisa Dawn theme",
-    "moonTheme": "Tirhisa Moon (Midnight) theme",
-    "sun": "Sun",
-    "moon": "Moon",
-    "backupTitle": "Encrypted Backups & Device Sync",
-    "openBackupTools": "Pfula Backup Tools",
-    "backupDesc": "Hlayisa ntlhambi wa wena wa encryption ku vuyisela milabya ya wena hi ndlela leyi sirhelekeke eka xitirhisi xin'wana.",
-    "privacyBlurEnabled": "Blur messages by default",
-    "privacyBlurOnUnfocus": "Blur when app is unfocused",
-    "planSection": "My plan",
-    "planLoading": "Loading your plan…",
-    "planLoadFailed": "Failed to load your plan.",
-    "currentPlan": "Current plan",
-    "planRenewsOn": "Renews on",
-    "freePlanCopy": "U ri eka free plan. Upgrade ku unlock more features like backups, extra numbers, and advanced privacy options.",
-    "upgradePlanCta": "Upgrade plan",
-    "changePlanCta": "Change plan",
-    "manageBilling": "Manage billing",
-    "portalOpenFailed": "Could not open billing portal. Please try again.",
-    "holdToReveal": "Hold to reveal",
-    "notifyOnCopy": "Notify me if my message is copied",
-    "loadFailed": "Failed to load profile",
-    "followed": "Followed",
-    "followFailed": "Failed to follow",
-    "unfollowed": "Unfollowed",
-    "unfollowFailed": "Failed to unfollow",
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "followHint": "Stories ta vona ti ta voneka eka Following feed ya wena loko va posta hi audience Followers (or Public).",
-    "userNotFound": "User not found",
-    "followsYou": "Follows you",
-    "sectionCrashedTitle": "Section failed to load",
-    "sectionCrashedBody": "Something went wrong in this section.",
-    "forwarding": "Call & Text Forwarding",
-    "callTextForwardingSection": "Call & Text Forwarding",
-    "callTextForwardingTitle": "Call and/or Text Forwarding",
-    "callTextForwardingDescription": "Forward incoming calls and texts to your verified phone or email. Outgoing calls/texts can show your Chatforia number.",
-    "enableTextForwarding": "Enable text forwarding",
-    "forwardTextsToPhone": "Forward texts to phone",
-    "forwardTextsToEmail": "Forward texts to email",
-    "destinationPhone": "Destination phone (E.164)",
-    "destinationEmail": "Destination email",
-    "enableCallForwarding": "Enable call forwarding",
-    "destinationPhoneForCalls": "Destination (E.164) for calls",
-    "aliasBridging": "Call Forwarding (alias bridging)",
-    "quietHoursOptional": "Quiet Hours (optional)",
-    "startHour": "Start hour (0–23)",
-    "endHour": "End hour (0–23)",
-    "reset": "Reset",
+    "accessibility": "Vukoti byo fikelela",
+    "privacy": "Vuhlayiseki bya xihundla",
+    "devices": "Switirhisiwa leswi hlanganisiweke",
+    "themeFreeNotice": " U eka mahala—tirhisa swihlawulekisi swa xihatla swa Dyambu/N'weti laha hansi. Antswisa leswaku u pfulela tithimu to tala.",
+    "sunTheme": "Tirhisa themu ya Ndlopfu",
+    "moonTheme": "Tirhisa themu ya N'weti (Vusiku bya le Xikarhi)",
+    "sun": "Dyambu",
+    "moon": "N'weti",
+    "backupTitle": "Tibakapu leti Sirheleriweke & ku Fambisanisa Switirhisiwa",
+    "openBackupTools": "Pfula Switirhisiwa swa Bakapu",
+    "backupDesc": "Hlayisa khiyi ya wena yo sirhelela leswaku u ta kota ku vuyisela marungula ya wena hi vuhlayiseki eka xitirhisiwa xin'wana.",
+    "privacyBlurEnabled": "Sivela marungula hi ntolovelo",
+    "privacyBlurOnUnfocus": "Sivela loko app yi nga ri eka xikongomelo",
+    "planSection": "Pulanankulu ra mina",
+    "planLoading": "Ku layicha pulanankulu ra wena…",
+    "planLoadFailed": "Ku tsandzekile ku layicha pulanankulu ra wena.",
+    "currentPlan": "Pulani ya sweswi",
+    "planRenewsOn": "Yi pfuxetiwa hi",
+    "freePlanCopy": "U le ka pulani ya mahala. Antswisa leswaku u pfulela swihlawulekisi swo tala swo fana na tibakapu, tinomboro to engetela, na swihlawulekisi swa xihundla swa le henhla.",
+    "upgradePlanCta": "Antswisa pulani",
+    "changePlanCta": "Cinca pulani",
+    "lawulaHakelo": "Lawula hakelo",
+    "portalAyiPfuliwa": "A yi kotekanga ku pfula portal ya hakelo. Ndza kombela ringeta nakambe.",
+    "khomaKuKombisa": "Khoma ku kombisa",
+    "tivisaLokoKuPhatluriwa": "Ndza kombela ndzi tivisiwa loko rungula ra mina ri phatluriwa",
+    "layichaKuTsandzekile": "Ku tsandzekile ku layicha phurofayili",
+    "uLandzelerile": "U landzelerile",
+    "ku landzelela ku tsandzekile": "Ku landzelela ku tsandzekile",
+    "u susiwile eku landzelereni": "U susiwile eku landzelereni",
+    "ku susa eku landzelereni ku tsandzekile": "Ku susa eku landzelereni ku tsandzekile",
+    "landzelela": "Landzelela",
+    "susa eku landzelereni": "Susa eku landzelereni",
+    "xitsundzuxo xo landzelela": "Switori swa vona swi ta humelela eka feed ya wena ya Lava u va landzelelaka loko va posa hi vahlaleri lava Landzelelaka (kumbe Erivaleni).",
+    "mutirhisi a nga kumekanga": "Mutirhisi a nga kumekanga",
+    "uKuLandzelela": "U ku landzelela",
+    "sectionCrashedTitle": "Xiyenge xi tsandzekile ku layicha",
+    "sectionCrashedBody": "Ku na nchumu lexi hoxekeke eka xiyenge lexi.",
+    "kuRhumelaMberi": "Ku Rhumela Mberi Mabulo na Marungula",
+    "callTextForwardingSection": "Ku Rhumela Mberi Mabulo na Marungula",
+    "callTextForwardingTitle": "Ku Rhumela Minkhuvulo na/kumbe Marungula",
+    "callTextForwardingDescription": "Rhumela minkhuvulo na marungula lawa ya nghenaka eka riqingho ra wena leri tiyisisiweke kumbe imeyili. Minkhuvulo/marungula lawa ya humaka swi nga kombisa nomboro ya wena ya Chatforia.",
+    "enableTextForwarding": "Pfumelela ku rhumela marungula",
+    "forwardTextsToPhone": "Rhumela marungula eka riqingho",
+    "forwardTextsToEmail": "Rhumela marungula eka imeyili",
+    "destinationPhone": "Riqingho ra laha ku yaka kona (E.164)",
+    "destinationEmail": "Imeyili ya laha ku yaka kona",
+    "enableCallForwarding": "Pfulela ku rhumela mibulavulo",
+    "destinationPhoneForCalls": "Ndhawu (E.164) ya mibindzu",
+    "aliasBridging": "Ku Rhumela Mibindzu emahlweni (alias bridging)",
+    "quietHoursOptional": "Tiyawa to Rhula (swo hlawula)",
+    "startHour": "Awara yo sungula (0–23)",
+    "endHour": "Hora ro hetelela (0–23)",
+    "reset": "Seta nakambe",
     "saveBtn": "Hlayisa",
-    "saveProfile": "Hlayisa profile",
-    "saveForwarding": "Hlayisa forwarding",
-    "forwardSaved": "Forwarding settings saved",
-    "forwardSaveFailed": "Failed to save settings",
-    "errE164": "Enter a valid E.164 phone (e.g., +15551234567).",
-    "errEmail": "Enter a valid email.",
-    "errSmsDest": "Hlawula at least one destination (phone or email).",
-    "errQuietHours": "Quiet hours must be between 0 and 23.",
-    "randomChat": "Random Chat",
-    "ageBand": "Your age range",
-    "ageBandPlaceholder": "Hlawula age range ya wena",
+    "saveProfile": "Hlayisa phurofayili",
+    "saveForwarding": "Hlayisa ku rhumela emahlweni",
+    "forwardSaved": "Swilunghiselelo swo rhumela emahlweni swi hlayisiwile",
+    "forwardSaveFailed": "Ku tsandzekile ku hlayisa swilunghiselelo",
+    "errE164": "Nghenisa nomboro ya riqingho ya E.164 leyi faneleke (xik., +15551234567).",
+    "errEmail": "Nghenisa imeyili leyi faneleke.",
+    "errSmsDest": "Hlawula ndhawu yin'we yo rhumela eka yona (riqingho kumbe imeyili).",
+    "errQuietHours": "Tiawara to miyela ti fanele ku va exikarhi ka 0 na 23.",
+    "randomChat": "Bulo ra Xiwelo",
+    "ageBand": "Ntsengo wa malembe ya wena",
+    "ageBandPlaceholder": "Hlawula ntsengo wa malembe ya wena",
     "ageTeen": "13–17",
     "age18_24": "18–24",
     "age25_34": "25–34",
     "age35_49": "35–49",
     "age50Plus": "50+",
-    "ageBandHint": "Hi hlayisa age range ntsena (a hi date of birth ya wena hi ndlela leyi tiyileke). Xi tirhisiwa ku hlayisa Random Chat pairings hi ndlela leyi faneleke.",
-    "wantsAgeFilter": "Tirhisa age-based matching eka Random Chat",
-    "wantsAgeFilterDesc": "Loko on, hi ta try ku ku matsha na vanhu va age ranges leyi faneleke.",
-    "partnerAgeBands": "Vanhu va mani u ta matshiwa na vona?",
-    "partnerAgeBandsDesc": "Teens va matshiwa ntsena na van'wana va teens. Adults a va matshiwi na teens.",
-    "teenMatchingNote": "Hi ku sirhelela, akhawunti va 13–17 va matshiwa ntsena na akhawunti va 13–17 eka Random Chat.",
-    "foriaRemember": "Let Ria remember things you tell it",
-    "foriaRememberDesc": "Loko leyi on, Foria yi nga tirhisa past Random Chat conversations (ntsena na wena) ku hlayisa ku yingisana ku famba. U nga tshika nkarhi wihi na wihi.",
-    "voicemailSection": "Voicemail",
-    "voicemailEnabled": "Enable voicemail",
-    "voicemailAutoDeleteDays": "Auto-delete voicemails endzhaku ka (days)",
-    "voicemailAutoDeletePlaceholder": "Siya empty ku hlayisa hi nkarhi hinkwawo",
-    "voicemailForwardEmail": "Forward voicemail to email",
-    "voicemailForwardEmailPlaceholder": "Email ku rhuma voicemail notifications",
-    "voicemailGreetingText": "Text fallback greeting",
-    "voicemailGreetingTextDesc": "Yi tirhisiwa loko audio greeting ya wena yi nga kumiwi.",
-    "voicemailGreetingUpload": "Upload voicemail greeting",
-    "voicemailPreviewGreeting": "Preview greeting",
-    "voicemailGreetingUploaded": "Voicemail greeting uploaded successfully",
-    "voicemailGreetingUploadError": "Failed to upload voicemail greeting",
-    "voicemailNote": "Voicemails ku suka eka nomboro ta wena ta Chatforia ti ta hlayisiwa eka Voicemail inbox ya wena. U nga enable transcription na forwarding eka mapulani laya seketeliwa.",
-    "portHint": "U lava ku hlayisa nomboro ya wena ya khale? U nga port eka Chatforia Wireless.",
+    "ageBandHint": "Hi hlayisa ntsena mpimo wa malembe (ku nga ri siku ra wena ra ku velekiwa). Leswi swi tirhisiwa ku endla leswaku ku pimanisiwa ka vanhu eka Random Chat swi va leswi twalaka.",
+    "wantsAgeFilter": "Tirhisa ku pimanisiwa hi malembe eka Random Chat",
+    "wantsAgeFilterDesc": "Loko yi pfurile, hi ringeta ku ku pimanisa na vanhu lava nga eka malembe lama fambisanaka.",
+    "partnerAgeBands": "U nga pimanisiwa na mani?",
+    "partnerAgeBandsDesc": "Vantshwa minkarhi hinkwayo va pimanisiwa ntsena na vantshwa van'wana. Vanhu lavakulu a va nge pimanisiwi na vantshwa.",
+    "teenMatchingNote": "Leswaku ku hlayisekile, tiakhawunti ta malembe ya 13–17 ti nga hlanganisiwa ntsena na tiakhawunti tin'wana ta 13–17 eka Bulo leri nga Hlawuriwangiki.",
+    "foriaRemember": "Pfumelela Ria yi tsundzuka swilo leswi u yi byelaka swona",
+    "foriaRememberDesc": "Loko leswi swi pfuliwile, Foria yi nga tirhisa mabulo ya wena ya khale ya Bulo leri nga Hlawuriwangiki (na wena ntsena) ku endla leswaku bulo ri ya emahlweni. U nga swi tima nkarhi wun'wana na wun'wana.",
+    "voicemailSection": "Marungula ya rito",
+    "voicemailEnabled": "Pfula marungula ya rito",
+    "voicemailAutoDeleteDays": "Susa marungula ya rito hi xoxe endzhaku ka (masiku)",
+    "voicemailAutoDeletePlaceholder": "Tshika xi nga ri na nchumu leswaku swi tshama hilaha ku nga heriki",
+    "voicemailForwardEmail": "Rhumela marungula ya rito eka imeyili",
+    "voicemailForwardEmailPlaceholder": "Adirese ya imeyili yo rhumela switiviso swa marungula ya rito",
+    "voicemailGreetingText": "Marito yo amukela lawa ya tirhisiwaka loko marungula ya wena ya rito ya nga kumeki.",
+    "voicemailGreetingTextDesc": "Ya tirhisiwa loko marungula ya wena ya rito ya nga kumeki.",
+    "voicemailGreetingUpload": "Layicha xirhambo xa voicemail",
+    "voicemailPreviewGreeting": "Vona xirhambo",
+    "voicemailGreetingUploaded": "Xirhambo xa voicemail xi layichiwile hi ku humelela",
+    "voicemailGreetingUploadError": "Ku tsandzekile ku layicha xirhambo xa voicemail",
+    "voicemailNote": "Ti-voicemail leti humaka eka tinomboro ta wena ta Chatforia ti ta hlayisiwa eka inbox ya wena ya Voicemail. U nga pfuxeta ku hundzuluxela eka tsalwa na ku yisa emahlweni eka tipulani leti swi seketelaka.",
+    "portHint": "Xana u lava ku hlayisa nomboro ya wena ya sweswi? U nga yi rhurhisela eka Chatforia Wireless.",
     "wireless": {
-      "manage": "Manage wireless"
+      "manage": "Lawula wireless"
     },
     "esim": {
       "title": "Chatforia eSIM",
-      "desc": "Kuma mobile data ya Chatforia loko u ri ehandle ka Wi-Fi.",
-      "cta": "Kuma eSIM / Vona QR"
-    }
+      "desc": "Kuma data ya mobile ya Chatforia loko u ri kule na Wi-Fi. ",
+      "cta": "Kuma eSIM / Kombisa QR"
+    },
+    "encryptedBackupsTitle": "Vuhlayiselo bya Xilotlelo xo Fihla Vuxokoxoko"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Mipfumawulo ya Switiviso",
+    "resetToDefaults": "Vuyisela eka swa ntolovelo",
+    "freeNoticeStart": "U le ka mahala — mipfumawulo ya premium ya kombisiwa kambe yi pfaleriwile. ",
+    "freeNoticeEnd": " ku pfulela hinkwaswo.",
+    "messageTone": "Mpfumawulo wa rungula",
+    "ringtone": "Ringtone",
+    "preview": "Xikombiso",
+    "stop": "Yimisa",
+    "volume": "Volume",
+    "messageToneFilesHint": "Veka tifayili eka /public/sounds/Message_Tones",
+    "ringtoneFilesHint": "Veka tifayili eka /public/sounds/Ringtones",
+    "premiumRequired": "Premium ya laveka eka nhlawulo wolowo.",
+    "saved": "Swilunghiselelo swa mpfumawulo swi hlayisiwile.",
+    "saveFailed": "A swi kotekanga ku hlayisa swilunghiselelo swa mpfumawulo.",
+    "resetNotSaved": "Seta nakambe eka swa ntolovelo (a swi si hlayisiwa).",
+    "premiumTone": "Lexi i mpfumawulo wa Premium.",
+    "premiumRingtone": "Lexi i mpfumawulo wa riqingho wa Premium.",
+    "customComingSoon": "Ku layicha mipfumawulo ya munhu hi xiyexe swi ta landzela ku nga ri khale.",
+    "freeNotice": "U le ka mahala — mipfumawulo ya premium ya kombisiwa kambe yi pfaleriwile. Antswisa leswaku u pfulela hinkwaswo. ",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Nilotyeri",
+    "notify": "Tivisa",
+    "pop": "Pop",
+    "pulsatingSound": "Mpfumawulo lowu phyuphyaka",
+    "textMessage": "Muxaka-marungula",
+    "xylophone": "Xilofoni",
+    "classic": "Klasiki",
+    "urgency": "Xihatla",
+    "bells": "Mapinga",
+    "Swipipa": "Swipipa",
+    "Riqingho ra dijitali": "Riqingho ra dijitali",
+    "Ntumbuluko": "Ntumbuluko",
+    "Tinhla ta orgheni": "Tinhla ta orgheni",
+    "Mpfilumpfilu wa ntiyiso": "Mpfilumpfilu wa ntiyiso",
+    "Xitarata": "Xitarata",
+    "Nsimu ya vuako hinkwabyo": "Nsimu ya vuako hinkwabyo"
+  },
+  "Swilunghiselelo swa AI": {
+    "Nhlokomhaka": "Swilunghiselelo swa AI",
+    "controlIntro": "Lawula vuhundzuluxi, tinhlamulo to tlhariha, na tinhlamulo ta ximotokisi ta ForiaBot.",
+    "translation": "Vuhundzuluxi",
+    "autoTranslateIncoming": "Hundzuluxa hi xoxe marungula lama nghenaka",
+    "showOriginalAlongside": "Kombisa tsalwa ro sungula etlhelo ka nhundzuluxo",
+    "smartReplies": "Tinhlamulo to tlhariha",
+    "enableSmartReplies": "Pfulela Tinhlamulo to tlhariha",
+    "smartRepliesHint": "Rhumela marungula ma nga ri mangani yo hetelela lama amukeriweke (lama basisiweke) eka AI leswaku yi ringanyeta tinhlamulo to hatlisa.",
+    "maskProfanity": "Fihla marito yo biha eka swiringanyeto swa AI",
+    "maskProfanityHint": "Loko swi pfurhiwile, marito lama funghiweke eka swiringanyeto leswi vuyisiwaka hi AI ma ta va ma fihliwile",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Pfula nhlamulo-yo-titirhela loko ndzi khomekile",
+    "autoReplyMode": "Muxaka wa nhlamulo-yo-titirhela",
+    "cooldownSeconds": "Nkarhi wo wisa (tisekona)",
+    "signature": "Sayini",
+    "autoReply": "🤖 Nhlamulo-yo-titirhela",
+    "activeUntilOptional": "Yi tirha ku fikela (loko u hlawula)",
+    "save": "Hlayisa Swilunghiselelo swa AI",
+    "saved": "Swihlawulekisi swa AI swi hlayisiwile",
+    "saveFailed": "Ku tsandzekile ku hlayisa swilunghiselelo swa AI",
+    "translateOff": "Ku Timiwile",
+    "hundzuluxaLahaKuTshahiweke": "Ntsena loko @hundzuluxiwile kumbe ku tshahiwile",
+    "hundzuluxaHinkwaswo": "Hundzuluxa marungula hinkwawo lama nghenaka",
+    "modeDm": "Mabulo ya munhu hi xiyexe ntsena",
+    "modeMention": "Ntsena loko ndzi @boxiwile",
+    "modeAll": "Marungula hinkwawo lama nghenaka",
+    "off": "Ku timiwile",
+    "on": "Ku pfuliwile"
+  },
+  "swilunghiseleloSwoFikeleleka": {
+    "title": " Vukoti byo Tirhisa & Switsundzuxo",
+    "loadFailed": "Ku tsandzekile ku layicha swiletelo",
+    "accessibilityDesc": "Swihlawulekisi swo olovisa Chatforia leswaku yi tirhisiwa handle ko tshembela eka mpfumawulo.",
+    "interfaceFontSize": "Sayizi ya fonti ya xivumbeko",
+    "interfaceFontSizeHelp": "Yi sungula eka sayizi leyi tolovelekeke. Engetela loko u rhandza matsalwa lamakulu.",
+    "switiviso": "Switiviso",
+    "switsundzuxoSwaXivono": "Switsundzuxo swa xivono swa marungula & mibindzu",
+    "switsundzuxoSwaXivonoNhlamuselo": "Kombisa tibenera na nhlokomhaka swi benya leswaku u nga sali endzhaku.",
+    "vibrateOnNewShort": "Ntshukisa loko ku ri na marungula lamantshwa (loko swi pfumeleriwa)",
+    "vibrateOnNewDesc": "Vangela xitirhisiwa ku ntshukisa hi switiviso.",
+    "flashOnCallShort": "Vonisa xikirini loko ku nghena riqingho",
+    "flashOnCallDesc": "Ku vangama ko koma loko riqingho ri rila.",
+    "liveCaptionsTitle": "Marito ya le hansi ya nkarhi wa xiviri (miqingho)",
+    "enableLiveCaptions": "Pfumelela marito ya le hansi ya nkarhi wa xiviri loko u ri karhi u vulavula (Premium)",
+    "liveCaptionsDesc": "Kombisa marito ya le hansi ya nkarhi wa xiviri lama humaka eka mpfumawulo wa munhu loyi a vulavulaka na wena.",
+    "captionFontSize": "Vukulu bya fonti ya marito ya le hansi",
+    "captionBackground": "Ndzilikani wa marito ya le hansi",
+    "voiceNotes": "Marungula ya rito",
+    "autoTranscribeVoiceNotes": "Tlhamusela marungula ya rito hi xoxe",
+    "autoTranscribeVoiceNotesDesc": "Namatsela matsalwa eka marungula ya mpfumawulo lawa u ma kumaka.",
+    "changesSavedInstantly": "Ku cinca ku hlayisiwa hi nkarhi wolowo.",
+    "sm": "Ntsongo",
+    "md": "Xikarhi",
+    "lg": "Lonkulu",
+    "xl": "Lonkulu Ngopfu",
+    "light": "Leritsongo",
+    "dark": "Rimunyama",
+    "transparent": "Leri vonikaka",
+    " accessibility": "Ku fikeleleka",
+    "notificationsDesc": "Switsundzuxo swa xivono swa marungula na mibindzu\nKu kombisa tibana na nhlokomhaka leyi benyaka leswaku u nga sali endzhaku.",
+    "vibrateOnNew": "Ku ririma loko ku ri na marungula lamantshwa (loko swi seketeriwa)\nKu vanga xiririmi xa xitirhisiwa hi switsundzuxo.",
+    "flashOnCall": "Ku benya ka xikirini loko ku ri na mubindzu lowu nghenaka\nKu benya ko koma loku voningaka loko mubindzu wu rila.",
+    "liveCaptions": " Marito ya le hansi lama hanyaka (timboni)"
+  },
+  "privacySection": {
+    "strictE2EE": "Xihundla xa makumu-ku-ya-eka-makumu lexi tiyeke",
+    "ciphertextOnlyNote": "Hlayisa ciphertext ntsena eka server. Swi sivela AI/Translate na ku vona ka vuhleri.",
+    "strictE2EEEnabled": "E2EE yo tiya yi pfuliwile. AI/Translate yi ta siviwa.",
+    "strictE2EEDisabled": "E2EE yo tiya yi siviwile. AI/Translate yi pfuxetiwile. "
+  },
+  "linkedDevicesPanel": {
+    "title": "Switirhisiwa leswi hlanganisiweke",
+    "nonefound": "A ku kumekanga switirhisiwa leswi hlanganisiweke.",
+    "refresh": "Pfuxeta",
+    "unknown": "A swi tiveki",
+    "loadFailed": "Ku tsandzekile ku layicha switirhisiwa leswi hlanganisiweke",
+    "loadFailedLog": "Ku tsandzekile ku layicha switirhisiwa leswi hlanganisiweke",
+    "renamePrompt": "Nghenisa vito lerintshwa ra xitirhisiwa lexi",
+    "renamed": "Xitirhisiwa xi thyiwile vito rintshwa",
+    "renameFailed": "A swi kotekanga ku thya xitirhisiwa vito rintshwa",
+    "revoked": "Xitirhisiwa xi yimisiwile",
+    "revokeFailed": "A swi kotekanga ku yimisa xitirhisiwa",
+    "unnamedDevice": "Xitirhisiwa lexi nga riki na vito",
+    "primary": "Primary",
+    "revokedStatus": "Yirisiwile",
+    "addedLastSeen": "Yongege {{created}} • Yi vonekiwe ro hetelela {{lastSeen}}",
+    "renameDevice": "Cinca vito ra xitirhisiwa",
+    "revokeDevice": "Yirisa xitirhisiwa"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Manage Chatforia mobile plan ya wena, nomboro, forwarding, na number porting.",
-    "options": {
-      "heading": "Hlawula ndlela leyi u lavaka ku tirhisa Chatforia",
-      "subheading": "U nga kuma nomboro ya Chatforia leyintshwa, kumbe u tisa nomboro ya wena ya khale ku suka eka carrier yin'wana.",
-      "newNumber": "Kuma nomboro ya Chatforia leyintshwa",
-      "portNumber": "Port nomboro ya wena ya khale eka Chatforia Wireless"
+    "description": "Lawula pulani ya wena ya selula ya Chatforia, tinomboro, ku yisa mimbulavulo, na ku rhurhisa nomboro.",
+    "swihlawulekisi": {
+      "title": "Hlawula ndlela leyi u lavaka ku tirhisa Chatforia ha yona",
+      "nhloko-mhaka-ntsongo": "U nga kuma nomboro leyintshwa ya Chatforia, kumbe u tisa nomboro ya wena leyi se yi nga kona kusuka eka khampani yin'wana.",
+      "nomboro leyintshwa": "Kuma nomboro leyintshwa ya Chatforia",
+      "rhurhisaNomboro": "Rhurhisa nomboro ya wena leyi se yi nga kona u yi nghenisa eka Chatforia Wireless"
     },
     "port": {
-      "heading": "Port nomboro ya wena ya khale",
-      "subheading": "Hambisa nomboro ya wena ya xitirhisi ya khale ku suka eka carrier ya wena ya khale eka Chatforia. Vona leswaku vukavukavuki byi fana na carrier account ya wena hi ndlela leyi tiyileke ku avoid delays.",
-      "phoneNumberLabel": "Nomboro ya xitirhisi ya ku port",
+      "heading": "Rhurhisa nomboro ya wena leyi nga kona",
+      "subheading": "Rhurhisa nomboro ya wena ya riqingho ya sweswi kusuka eka khampani ya wena ya sweswi u yi nghenisa eka Chatforia. Tiyisisa leswaku vuxokoxoko bya fambisana kahle na akawunti ya wena ya khampani ku papalata ku hlwela.",
+      "phoneNumberLabel": "Nomboro ya riqingho leyi nga ta rhurhisiwa",
       "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Current carrier",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
-      "accountNumberLabel": "Account number",
-      "pinLabel": "Port-out PIN / password",
-      "fullNameLabel": "Full name on the account",
-      "address1Label": "Address line 1",
-      "address2Label": "Address line 2 (optional)",
-      "cityLabel": "City",
-      "stateLabel": "State / Province",
-      "postalCodeLabel": "Postal code",
-      "countryLabel": "Country",
-      "submitButton": "Submit port request",
-      "success": "Port request submitted! Hi ta ku hlayisa updated.",
-      "genericError": "Something went wrong."
+      "carrierLabel": "Mufambisi wa sweswi",
+      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, na swin'wana.",
+      "accountNumberLabel": "Nomboro ya akhawunti",
+      "pinLabel": "PIN yo rhurhisa / phaswedi",
+      "fullNameLabel": "Vito leri heleleke eka akhawunti",
+      "address1Label": "Ndzila ya adirese 1",
+      "address2Label": "Ndzila ya adirese 2 (swo tihlawulela)",
+      "cityLabel": "Doroba",
+      "stateLabel": "Xifundzha / Nambu",
+      "postalCodeLabel": "Khodi ya poso",
+      "countryLabel": "Tiko",
+      "submitButton": "Rhumela xikombelo xo rhurhisa nomboro",
+      "success": "Xikombelo xo rhurhisa nomboro xi rhumeriwile! Hi ta ku tivisa.",
+      "genericError": "Ku na xihoxo."
     },
-    "status": {
-      "heading": "Porting status",
-      "subheading": "Track the status of your number port requests.",
-      "loading": "Loading…",
-      "loadError": "Failed to load port requests.",
-      "none": "A ku na porting activity yet.",
-      "pending": "Pending review",
-      "submitted": "Submitted to carrier",
-      "inProgress": "In progress",
-      "completed": "Completed",
-      "failed": "Failed",
-      "canceled": "Canceled",
-      "created": "Created:",
-      "scheduled": "Scheduled:",
-      "completedAt": "Completed:"
+    "xiyimo": {
+      "nhloko": "Xiyimo xa ku rhurhisa nomboro",
+      "nhloko-ntsongo": "Landzelerisa xiyimo xa swikombelo swa wena swo rhurhisa nomboro.",
+      "ku layicha": "Ku layicha…",
+      "xihoxo xo layicha": "Ku tsandzekile ku layicha swikombelo swo rhurhisa nomboro.",
+      "ku hava": "A ku si va na ntirho wo rhurhisa nomboro.",
+      "swi rindzeriwe": "Swi rindzeriwe ku kambisisiwa",
+      "swi rhumeriwile": "Swi rhumeriwile eka khampani ya riqingho",
+      "inProgress": "Yi le ku endliweni",
+      "completed": "Yi hetisekile",
+      "failed": "Yi tsandzekile",
+      "canceled": "Yi yimisiwile",
+      "created": "Yi tumbuluxiwile:",
+      "scheduled": "Yi hleleriwile:",
+      "completedAt": "Ku hetisiwile hi:"
     },
-    "dataLow": "Data ya wena yi le ku fika xiyimo xa le hansi.",
-    "topUp": "Top up sweswi",
-    "expiresIn": "Expires in {{days}} days",
-    "exhausted": "Data ya wena yi fikele. Buy a new pack ku continue ku tirhisa mobile data.",
-    "buyPack": "Buy data pack",
-    "esimPackLabel": "eSIM pack"
+    "dataLow": "Data ya wena yi le ku heleni.",
+    "topUp": "Topfula sweswi",
+    "expiresIn": "Yi hela endzhaku ka {{days}} masiku",
+    "exhausted": "Data ya wena yi helile. Xava phakete leyintshwa leswaku u ya emahlweni u tirhisa data ya selula.",
+    "buyPack": " Xava phakheji ya data",
+    "esimPackLabel": "phakheji ya eSIM"
   },
-  "family": {
-    "title": "Family",
-    "loading": "Loading your family details…",
-    "error": {
-      "load": "Failed to load family details.",
-      "invite": "Could not create an invite. Make sure you are the family owner and try again.",
-      "checkout": "We could not start checkout for a Family plan. Please try again."
+  "phoneNumberManager": {
+    "pickNumber": "Hlawula nomboro",
+    "phoneNumber": "Nomboro ya riqingho",
+    "nhlayoLeyiKumekaka": "Nhlayo leyi kumekaka",
+    "nhlayoYaPremium": "Nhlayo ya Premium 🔒",
+    "xitsundzuxoXaNhlayoYaMahala": "Nhlayo ya mahala leyi nga ha tirhisiwaka nakambe loko yi nga ha tirhisiwi.",
+    "xitsundzuxoXaNhlayoYaPremium": "Hlayisa nhlayo ya wena loko xirhambo xa wena xa Premium xi tirha.",
+    "tiko": "Tiko",
+    "khodiYaNdhawu": "Khodi ya ndhawu",
+    "areaCodePlaceholder": "xik., 415",
+    "vuswikoti": "Vuswikoti",
+    "lava": "Lava",
+    "pfalaNomboroLeyi": "Pfala nomboro leyi (xiengetelo xa vhiki na vhiki, xi ta va kona ku nga ri khale)",
+    "xitsundzuxo xa nsirhelelo wa premium": "Tinomboro ta Premium ti sirheleriwile leswaku ti nga tirhisiwi nakambe loko xirhambo xa wena xa Premium xi ha tirha.",
+    "tinomboroLetiyaTiKumekaka": "Tinomboro leti kumekaka",
+    "searchHint": "Nghenisa khodi ya ndhawu ya tidijiti tinharhu (US/CA ntsena), kumbe u siya xivandla, kutani u lava.",
+    "keep": "Hlayisa",
+    "select": "Hlawula",
+    "assignNumberFirst": "Rhanga u hlawula nomboro.",
+    "premiumKeepFeature": "Ku hlayisa nomboro ya wena i xihlawulekisi xa Premium. ",
+    "lockingPremiumFeature": "Ku lotlela tinomboro i xihlawulekisi xa Premium.",
+    "numberAssigned": "Nomboro yi nyikiwile.",
+    "numberProtectedNow": "Nomboro ya wena sweswi yi sirheleriwile.",
+    "numberProtected": "Nomboro yi sirheleriwile.",
+    "numberUnprotected": "Nomboro a yi sirheleriwanga.",
+    "numberReleased": "Nomboro yi ntshunxiwile.",
+    "couldNotLoadNumbers": "A swi kotekanga ku layicha tinomboro.",
+    "couldNotAssign": "A swi kotekanga ku nyika nomboro yoleyo. Kumbexana yi ha ku tekiwa—ringeta yin'wana.",
+    "couldNotLease": "A swi kotekanga ku hirimuxa nomboro yoleyo. Kumbexana yi ha ku tekiwa—ringeta yin'wana.",
+    "couldNotProtectNow": "A swi koteki ku sirhelela nomboro ya wena sweswi.",
+    "couldNotProtect": "A swi koteki ku sirhelela nomboro.",
+    "couldNotUnprotect": "A swi koteki ku susa nsirhelelo wa nomboro.",
+    "couldNotRelease": "A swi koteki ku ntshunxa nomboro.",
+    "invalidAreaCode": "Hi kombela u nghenisa khodi ya ndhawu ya tidijiti tinharhu (xik., 415) kumbe u siya swi nga ri na nchumu.",
+    "noInventory": "A ku na switirhisiwa leswi kumekaka sweswi.",
+    "noFreeNumbers": "A ku na tinomboro ta mahala leti kumekaka sweswi.",
+    "noInventoryAreaCode": "A ku na switirhisiwa leswi kumekaka swa khodi yoleyo ya ndhawu sweswi.",
+    "noFreeNumbersAreaCode": "A ku na tinomboro ta mahala eka nxaxamelo wa hina wa khodi yoleyo ya ndhawu sweswi.",
+    "releaseConfirm": "Ntshunxa nomboro ya wena ya sweswi? Yi nga ha nyikiwa munhu un'wana.",
+    "unprotect": "Ku susa nsirhelelo",
+    "keepThisNumber": "Hlayisa nomboro leyi",
+    "replace": "Siva",
+    "release": "Ntshunxa",
+    "active": "Yi tirha",
+    "noNumber": "A ku na nomboro",
+    "premiumFeature": "Xihlawulekisi xa premium",
+    "protectYourNumber": "Sirhelela nomboro ya wena",
+    "protected": "Yi sirheleriwile",
+    "notProtected": "A yi sirheleriwanga",
+    "expiresInShort": "Yi hela endzhaku ka {{count}} wa masiku",
+    "expiresInDaysFull": "Yi hela endzhaku ka {{count}} wa masiku",
+    "expiringShort": "Expiring{{suffix}}",
+    "renewsOn": "Yi pfuxetiwa hi {{date}}",
+    "releaseWarning": "Nomboro ya wena yi nga ha humesiwa endzhaku ka {{count}} siku. Antswisa u ya eka Premium leswaku yi tshama yi sirhelelekile.",
+    "pickNumberHint": "Hlawula nomboro ya Chatforia leswaku u yi tirhisa eka ku rhumela marungula na vuhlanganisi endzeni ka app.",
+    "unableToLoadStatus": "A swi koteki ku layicha xiyimo xa nomboro ya riqingho.",
+    "lock": "Lock",
+    "noNumberAssigned": "A ku na nomboro leyi nyikiweke. Hlawula yin'wana hi khodi ya ndhawu leswaku u sungula ku rhumela marungula."
+  },
+  "dialer": {
+    "title": "Mifonelo",
+    "subtitle": "Keypad & swa sweswinyana. (Loko u nga tirhisi PSTN, sungula mifonelo kusuka eka nhloko ya bulu.)",
+    "enterNumber": "Nghenisa nomboro",
+    "enterNumberAria": "Nghenisa nomboro",
+    "resolving": "Ku lulamisiwa ka xikongomelo xa riqingho…",
+    "call": "Riqingho",
+    "callBrowser": "Fonela hi ku tirhisa browser",
+    "backspace": "Endzhaku",
+    "recents": "Tifoni to ha ku va kona",
+    "noRecents": "A ku si va na tifoni to ha ku va kona.",
+    "resolveFailed": "A swi kotekanga ku kuma laha ku faneleke ku foneriwa.",
+    "callRequiredNumber": "U fanele ku va na nomboro ya Chatforia u nga si sungula ku fona.",
+    "callFailed": "A swi kotekanga ku fona.",
+    "deleteConfirm": "Susa riqingho leri eka swa sweswinyana?",
+    "deleteFailed": "A swi kotekanga ku susa riqingho.",
+    "deleteFailedLog": "Ku tsandzekile ku susa riqingho",
+    "leri humaka": "Leri humaka",
+    "leri nghenaka": "Leri nghenaka",
+    "leri siyiweke": "Leri siyiweke",
+    "leri alekeke": "Leri alekeke",
+    "leri tsandzekeke": "Leri tsandzekeke",
+    "leri hetisekeke": "Leri hetisekeke",
+    "riqingho leri humaka": "Riqingho leri humaka",
+    "riqingho leri nghenaka": "Riqingho leri nghenaka",
+    "voicemail": "Voicemail",
+    "callAria": "Riqingho ra {{name}}",
+    "deleteAria": "Susa riqingho ra {{name}}",
+    "enterNumberPh": "Nghenisa nomboro",
+    "recentsEmpty": "A ku si va na miqingho ya sweswinyana.",
+    "key": "Key {{d}}"
+  },
+  "callHistory": {
+    "title": "Mabindzu",
+    "subtitle": "Tirhingo ta wena ta sweswinyana leti nghenaka ni leti humaka.",
+    "loadFailed": "A swi kotekanga ku layicha matimu ya tirhingo.",
+    "loadFailedTitle": "A swi kotekanga ku layicha matimu ya tirhingo",
+    "emptyTitle": "A ku si va na tirhingo",
+    "emptySubtitle": "Tirhingo ta wena ta sweswinyana ti ta humelela laha.",
+    "outgoing": "Leti humaka",
+    "incoming": "Leti nghenaka",
+    "leyi u yi honiseke": "Leyi u yi honiseke",
+    "leyi u yi aleke": "Leyi u yi aleke",
+    "leyi tsandzekeke": "Leyi tsandzekeke",
+    "leyi hetisekeke": "Leyi hetisekeke",
+    "riqingho leri humaka": "Riqingho leri humaka",
+    "riqingho leri nghenaka": "Riqingho leri nghenaka",
+    "miyale wa rito": "Miyale wa rito"
+  },
+  "vhidiyo": {
+    "hub": {
+      "title": "Video",
+      "subtitle": "Hlawula muxaka wa vhidiyo."
     },
-    "billing": {
-      "myPlanTitle": "My plan",
-      "myPlanError": "Unable to load your plan.",
-      "myPlanLoading": "Loading your plan…",
-      "currentPlan": "Current plan",
-      "renewsAt": "Renews on",
-      "freePlanCopy": "U ri eka free plan. Upgrade ku unlock more features.",
-      "upgradeCta": "Upgrade plan",
-      "changePlanCta": "Change plan",
-      "manageBilling": "Manage billing",
-      "portalError": "Unable to open the billing portal right now.",
-      "cancelNow": "Kansela sweswi",
-      "cancelNowHelp": "U nga manage or kansela subscription ya wena eka billing portal, or kansela immediately le henhla.",
-      "cancelNowConfirm": "U na ntiyiso wa ku kansela plan ya wena immediately? Le swi nge tlhuvyeki.",
-      "cancelNowError": "Unable to cancel your plan right now. Please try again or use Manage billing."
+    "direct": {
+      "title": "Video yo kongoma",
+      "subtitle": "Sungula riqingho ra vhidiyo ra 1:1 na mutirhisi un'wana.",
+      "desc": "Riqingho ra khamera ra 1:1 na mutirhisi un'wana.",
+      "start": "Sungula",
+      "callBtn": "Fowuna",
+      "callByPhone": {
+        "title": "Fonela hi riqingho"
+      },
+      "phone": {
+        "placeholder": "Nghenisa nomboro ya riqingho (xik., +1-555-123-4567)",
+        "aria": "Riqingho ro bela"
+      },
+      "tipInvite": "Xitsundzuxo: Namarheta nomboro u bela handle ko hlayisa vuxokoxoko bya munhu. Hi ta rhamba lava nga tirhisiki hi linki.",
+      "findUser": {
+        "title": "Kuma mutirhisi"
+      },
+      "search": {
+        "placeholder": "Lava hi vito kumbe vito ra mutirhisi",
+        "aria": "Lava hi vito kumbe vito ra mutirhisi",
+        "btn": "Lava"
+      }
     },
-    "none": {
-      "title": "A ku na family set up yet",
-      "body": "Ku endla Chatforia Family na shared data pool, sungula Family plan.",
-      "goUpgrade": "Sungula Family plan",
-      "viewPlans": "Vona all plans"
+    "swikamara": {
+      "title": "Tindlu",
+      "nhlokomhavanyana": "Tumbuluxa yindlu kumbe u nghenela leyi se yi nga kona hi ku thayipha vito leri fanaka.",
+      "description": "Vhidiyo ya vanhu vo tala leyi tirhisaka vito ra yindlu leri avelaniwaka.",
+      "vito ra yindlu": "Vito ra yindlu",
+      "ndhawu yo veka vito ra yindlu": "xik. team-standup",
+      "roomAria": "Vito ra kamara",
+      "joinCreate": "Tihlanganisa / Tumbuluxa",
+      "tip": "Xitsundzuxo: avelana vito leri na van'wana, kumbe u va rhumela xihlanganisi xo enta"
     },
-    "group": {
-      "defaultName": "My Chatforia Family",
-      "role": "Your role: {{role}}"
-    },
-    "role": {
-      "owner": "Owner",
-      "member": "Member"
-    },
-    "data": {
-      "heading": "Shared data pool",
-      "caption": "Vanhu hinkwavo va share pool leyi. Hi ta ku warn loko u fika eka limit."
-    },
-    "members": {
-      "title": "Family members",
-      "name": "Vito",
-      "role": "Role",
-      "usage": "Usage",
-      "limit": "Limit",
-      "unlimited": "No specific limit",
-      "inviteCta": "Invite member"
-    },
-    "invite": {
-      "title": "Invite a new member",
-      "body": "Rhuma email or link ku invite munhu eka shared family data pool ya wena.",
-      "emailLabel": "Email (optional)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Create invite",
-      "linkLabel": "Invite link",
-      "copyAria": "Kopa invite link",
-      "expiryHint": "Link leyi yi ta expire endzhaku ka a few days. U nga endla leyintshwa nkarhi wihi na wihi."
-    },
-    "join": {
-      "title": "Join a family",
-      "body": "U invitewe ku join Chatforia Family na share data pool ya vona.",
-      "cta": "Accept and join family",
-      "ctaLogin": "Sign in and join family",
-      "success": "U joinile family leyi. U sweswi u share data pool ya vona.",
-      "goFamily": "Ya eka family dashboard",
-      "error": "We could not add you to this family. The invite may be invalid or expired."
-    }
+    "title": "Video",
+    "chooseType": "Hlawula muxaka wa video.",
+    "directTitle": "Video yo kongoma",
+    "directDesc": "Riqingho ra khamera ra 1:1 na mutirhisi un'wana.",
+    "directStart": "Sungula",
+    "roomsTitle": "Tindlu",
+    "roomsDesc": "Video ya vanhu vo tala leyi tirhisaka vito ra kamara leri avelaniwaka.",
+    "roomsIntro": "Nghena kumbe u tumbuluxa kamara ra vanhu vo tala.",
+    "roomNameLabel": "Vito ra kamara",
+    "roomNamePh": "xik. g. team-standup",
+    "join": "Tihlanganisi",
+    "deeplinkTip": "Xitsundzuxo: u nga endla deep link hi ku kongoma eka <code>/video?room=room-name</code>."
+  },
+  "directVideo": {
+    "intro": "Sungula riqingho ra vhidiyo ra 1:1 ro kongoma.",
+    "findUserLabel": "Kuma mutirhisi",
+    "findUserPh": "Lava hi vito kumbe vito ra mutirhisi",
+    "search": "Lava",
+    "call": "Fona"
+  },
+  "phoneWarning": {
+    "title": "Nomboro ya wena yi le kusuhi no hela",
+    "body": "Nomboro ya wena {{number}} yi ta ntshunxiwa hi {{date}} loko yi nga pfuxetiwanga.",
+    "button": "Hlayisa Nomboro ya Mina"
   },
   "premium": {
-    "heading": "Go Premium",
-    "description": "Unlock power features & remove ads.",
-    "cta": "Upgrade",
-    "upgrade": "Upgrade",
-    "upgradeAria": "Upgrade to Chatforia Premium"
+    "heading": "Yana eka Premium",
+    "description": "Pfulela swihlawulekisi swa matimba & susa swinavetiso.",
+    "cta": "Antswisa",
+    "upgrade": "Antswisa",
+    "upgradeAria": "Antswisa u ya eka Chatfor  Premium"
   },
   "upgrade": {
     "title": "Upgrade",
     "titleLoggedIn": "Upgrade",
-    "titlePublic": "Pricing",
-    "h1": "Chatforia Pricing & Plans",
-    "h1Subtitle": "Sungula na free, ad-supported plan. Ya ad-free na Plus, or unlock full power features na Premium.",
-    "subtitle": "Hlawula app plan, engetela data packs eka wena, or share data na family ya wena — hinkwaswo ku suka eka ndhawu yin'we.",
-    "subtitle.app": "Sungula na free, ad-supported plan. Ya ad-free na Plus, or unlock full power features na Premium.",
-    "subtitle.mobile": "Engetela global eSIM data ku hlayisa Chatforia yi tirha loko u ri ehandle ka Wi-Fi.",
-    "subtitle.family": "Endla shared data pool ya family ya wena na manage usage ya munhu un'we eka ndhawu yin'we.",
+    "titlePublic": "Ntsengo",
+    "h1": "Ntsengo na Tipulani ta Chatforia",
+    "h1Subtitle": "Sungula hi pulani ya hina ya mahala leyi nga na swinavetiso. Tshika swinavetiso hi Plus, kumbe pfulela swihlawulekisi hinkwaswo swa matimba hi Premium.",
+    "subtitle": "Hlawula pulani ya app, engetela tiphakeji ta data eka wena, kumbe avelana data na ndyangu wa wena — hinkwaswo endhawini yin'we.",
+    "subtitle.app": "Sungula hi pulani ya hina ya mahala leyi nga na swinavetiso. Tshika swinavetiso hi Plus, kumbe pfulela swihlawulekisi hinkwaswo swa matimba hi Premium.",
+    "subtitle.mobile": "Engetela data ya eSIM ya misava hinkwayo leswaku Chatforia yi ya emahlweni yi tirha hambi loko u ri kule na Wi-Fi.",
+    "subtitle.family": "Vumba nkwama wa data lowu avelaniwaka wa ndyangu wa wena u lawula matirhiselo ya un'wana na un'wana ku suka endhawini yin'we.",
     "perMonth": "mo",
-    "perYear": "year",
-    "goPremium": "Go Premium",
-    "benefitsLine": "Unlock power features & remove ads.",
-    "ctaText": "Upgrade",
-    "aria": "Upgrade to Chatforia Premium",
+    "perYear": "lembe",
+    "goPremium": "Yana eka Premium",
+    "benefitsLine": "Pfula swihlawulekisi swa matimba & susa swinavetiso.",
+    "ctaText": "Antswisa",
+    "aria": "Antswisa u ya eka Chatforia Premium",
     "toggle": {
-      "monthly": "Monthly",
-      "annual": "Annual (Save 30%)"
+      "monthly": "N'hweti na n'hweti",
+      "lembe na lembe": "Lembe na lembe (Hlayisa 30%)"
     },
     "scheduleBanner": {
-      "title": "Subscription yi ta hela",
-      "body": "U ta vuyela eka Free hi",
+      "title": "Xirhambo xi ta hela",
+      "body": "U ta tlhelela eka mahala hi",
       "keepPlanCta": "Hlayisa {{plan}}",
-      "manageBillingCta": "Manage billing"
+      "manageBillingCta": "Lawula ku hakela"
     },
-    "billing": {
-      "opening": "Opening…",
-      "manage": "Manage Billing"
+    "kuhakela": {
+      "ku pfula": "Ku pfula…",
+      "ku lawula": "Lawula ku hakela"
     },
-    "checkout": {
-      "redirecting": "Redirecting…"
+    "ku hakela": {
+      "ku hundzuluxela": "Ku hundzuluxela…"
     },
-    "auth": {
-      "continue": "Continue to login",
-      "createAccount": "Endla akhawunti",
-      "signIn": "Sign in"
+    "ku nghenisa": {
+      "ku ya emahlweni": "Yana emahlweni ku nghena",
+      "createAccount": "Vumba akawunti",
+      "signIn": "Ngena"
     },
     "cta": {
-      "aria": "Hlawula plan",
-      "getPlus": "Upgrade to Plus",
-      "upgradeMonthly": "Upgrade Monthly",
-      "upgradeAnnual": "Upgrade Annual"
+      "aria": "Hlawula pulani",
+      "getPlus": "Antswisa u ya eka Plus",
+      "upgradeMonthly": "Antswisa hi n'hweti",
+      "upgradeAnnual": "Antswisa hi lembe"
     },
     "section": {
-      "app": "App plans",
+      "app": "Tipulani ta app",
       "mobile": "Mobile (eSIM)",
       "family": "Family plans"
     },
     "plans": {
       "free": {
-        "title": "Free",
+        "title": "Mahala",
         "price": "$0",
-        "desc": "Sungula ku yingisa milabya hi mahala. Ideal loko u ri ku try Chatforia.",
+        "desc": "Sungula ku rhumela marungula mahala. Swi lulamile loko u ringeta Chatforia.",
         "features": {
-          "chat": "Real-time 1:1 na group chat, plus voice na video calls",
-          "media": "Share photos, voice messages, na short videos",
-          "ai": "AI-powered smart replies na instant translation (fair use)",
-          "disappearing": "Disappearing messages na basic privacy controls",
-          "ads": "Free forever na ads eka app"
+          "chat": "Bulo ra nkarhi wa xiviri ra munhu hi xiyexe (1:1) na ra ntlawa, ku katsa ni mibindzu ya rito ni vhidiyo",
+          "media": "Avelana swifaniso, marungula ya rito, ni tivhidiyo to koma",
+          "ai": "Tinhlamulo to tlhariha leti pfunetiwaka hi AI ni vuhundzuluxi bya xihatla (matirhiselo lamanene)",
+          "disappearing": "Marungula lama nyamalalaka ni swilawuri swa xisekelo swa xihundla",
+          " swinavetiso": "Mahala hilaha ku nga heriki na swinavetiso eka app"
         },
-        "ctaCurrent": "Current plan",
-        "ctaManage": "Manage in billing",
-        "ctaPublic": "Get started – continue to login",
-        "aria": "Free plan"
+        "ctaCurrent": "Pulani ya sweswi",
+        "ctaManage": "Lawula eka vuhakeri",
+        "ctaPublic": "Sungula – yisa emahlweni ku nghena",
+        "aria": "Pulani ya mahala"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Hinkwaswo essentials, without ads. Great for everyday messaging na calling.",
+        "desc": "Hinkwaswo swa nkoka, handle ka swinavetiso. Swa kahle swinene eka ku rhumela marungula na ku bela riqingho siku na siku.",
         "features": {
-          "allFree": "Everything in Free, with no ads",
-          "forwarding": "Forward calls na texts to your real phone number",
-          "history": "Longer message history (up to 6 months)",
-          "support": "Faster support loko something goes wrong"
+          "allFree": "Hinkwaswo leswi nga eka mahala, handle ka swinavetiso",
+          "forwarding": "Rhumela miringo na marungula eka nomboro ya wena ya riqingho ya xiviri",
+          "history": "Matimu ya marungula yo leha (ku fikela eka 6 wa tin'hweti)",
+          "nseketelo": "Nseketelo wo hatlisa loko ku humelela xihoxo"
         },
-        "badge": "Popular",
-        "cta": "Go Ad-Free",
-        "ctaPublic": "Get Plus – continue to login",
-        "aria": "Upgrade to Plus"
+        "badge": "Leyi dumeke",
+        "cta": "Suka eka Swinavetiso",
+        "ctaPublic": "Kuma Plus – yisa emahlweni u nghena",
+        "aria": "Antswisa u ya eka Plus"
       },
       "premiumMonthly": {
-        "title": "Premium (Monthly)",
+        "title": "Premium (N'hweti na N'hweti)",
         "price": "$11.99",
-        "desc": "The full Chatforia experience: AI power tools, customization, na priority support.",
+        "desc": "Ntokoto lowu heleleke wa Chatforia: Switirhisiwa swa matimba swa AI, ku tiendlela, na nseketelo wa nkoka.",
         "features": {
-          "plusAll": "Everything in Plus",
-          "themes": "Unlock all premium color themes na app customizations",
-          "ai": "Premium-only AI power tools for rewrites, smart replies, na summaries",
-          "support": "Priority support loko u lava help hi xiyimo xa le henhla"
+          "plusAll": "Hinkwaswo leswi nga eka Plus",
+          "themes": "Pfulela tinthema hinkwato ta mihlovo ya premium na ku tiendlela ka app",
+          "ai": "Switirhisiwa swa matimba swa AI swa Premium ntsena swo tsala nakambe, tinhlamulo to tlhariha, na swikatsakanyo",
+          "nseketelo": "Nseketelo wa xihatla loko u lava mpfuno swinene"
         },
-        "badge": "Recommended",
-        "cta": "Upgrade (Monthly)",
-        "ctaPublic": "Unlock Premium – continue to login",
-        "aria": "Upgrade to Premium Monthly"
+        "badge": "Swa ringanyetiwa",
+        "cta": "Antswisa (N'hweti na N'hweti)",
+        "ctaPublic": "Pfulela Premium – yisa emahlweni u nghena",
+        "aria": "Antswisa eka Premium ya N'hweti na N'hweti"
       },
       "premiumAnnual": {
-        "title": "Premium (Annual)",
+        "title": "Premium (ya Lembe)",
         "price": "$99",
-        "desc": "Save more loko billed yearly — including extra color themes, AI tools, na priority support.",
-        "features": {
-          "allPremium": "Everything in Premium Monthly — including extra color themes",
-          "annualBilling": "Billed once per year",
-          "save25": "Save around 30% compared to paying monthly",
-          "bestFor": "Best for power users, remote workers, na heavy travelers"
+        "desc": "Hlayisa mali yo tala loko u hakela kan'we hi lembe — ku katsa na tithimi ta mihlovo to engetela, switirhisiwa swa AI, na nseketelo wa xihatla.",
+        "swihlawulekisi": {
+          "hinkwaswoSwaPremium": "Hinkwaswo leswi nga eka Premium ya N'hweti na N'hweti — ku katsa na tinxaka to engetela ta mihlovo",
+          "kuHakelaKaLembe": "Ku hakeriwa kan'we hi lembe",
+          "hlayisa25": "Hlayisa kwalomu ka 30% loko u pimanisiwa na ku hakela ka n'hweti na n'hweti",
+          "kuAntswaEka": "Ku antswa swinene eka vatirhisi lava nga na matimba, vatirhi va le kule, na vaendzi lava fambaka ngopfu"
         },
-        "badge": "Save 30%",
-        "cta": "Upgrade (Annual)",
-        "ctaPublic": "Save 30% with annual – continue to login",
-        "aria": "Upgrade to Premium Annual",
-        "disclaimer": "Billed upfront. Cancel anytime. No hidden fees."
+        "badge": "Hlayisa 30%",
+        "cta": "Antswisa (Lembe na Lembe)",
+        "ctaPublic": "Hlayisa 30% hi lembe na lembe – yisa emahlweni u nghena",
+        "aria": "Antswisa eka Premium ya Lembe na Lembe",
+        "disclaimer": "U hakela ka ha ri na nkarhi. Tshika nkarhi wun'wana na wun'wana. A ku na mali yo tumbela."
       }
     },
     "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Sungula ku yingisa milabya hi mahala.",
+      "freeTitle": "Mahala",
+      "freeDesc": "Sungula ku rhumela marungula mahala.",
       "plusTitle": "Plus",
-      "plusBadge": "Popular",
-      "plusDesc": "Most affordable ad-free experience.",
+      "plusBadge": "Leyi dumeke",
+      "plusDesc": "Ntokoto lowu nga durhiki swinene lowu nga riki na swinavetiso.",
       "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Full features, ringtones, na AI power tools.",
+      "premiumMonthlyDesc": "Swihlawulekisi hinkwaswo, tiringitoni, na switirhisiwa swa matimba swa AI.",
       "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Save more loko billed yearly.",
-      "annualDisclaimer": "Billed upfront. Cancel anytime. No hidden fees."
+      "premiumAnnualDesc": "Hlayisa mali yo tala loko u hakela lembe na lembe.",
+      "annualDisclaimer": "U hakela ka ha ri na nkarhi. Tshika nkarhi wun'wana na wun'wana. A ku na mali yo tumbela."
     },
     "mobile": {
-      "title": "Chatforia Mobile (eSIM data packs)",
-      "subtitle": "Engetela global data ku hlayisa Chatforia yi tirha loko u ri ehandle ka Wi-Fi. Prices automatically adjust based on your country na currency.",
-      "subtitle.detail": "Hlawula one-time global data pack ku hlayisa Chatforia yi tirha loko u ri eku tsameni or ehandle ka Wi-Fi.",
+      "title": "Chatforia Mobile (tiphakete ta data ta misava hinkwayo)",
+      "subtitle": "Engetela data ya misava hinkwayo leswaku Chatforia yi ya emahlweni yi tirha hambi ku ri handle ka Wi-Fi. Minxavo yi cinca hi yoxe ku ya hi tiko ra wena na mali ya kona.",
+      "subtitle.detail": "Hlawula phakete ya data ya misava hinkwayo ya kan'we leswaku Chatforia yi ya emahlweni yi tirha loko u ri eku endzeni kumbe u ri kule na Wi-Fi.",
       "scope": {
-        "local": "Local",
-        "europe": "Europe",
-        "global": "Global"
+        "local": "Ndhawu",
+        "europe": "Yuropa",
+        "global": "Misava hinkwayo"
       },
-      "note": "Hi nge xavisi data packs leyi nga le hansi ka 3 GB.",
-      "localEquals": "Local = {{country}}",
-      "localEqualsFallback": "Local = current country ya wena",
-      "perPack": "/ pack",
-      "cta": "Kuma data pack leyi",
-      "ctaPublic": "Kuma data pack leyi",
+      "note": "A hi xavisi tiphakete ta data leti nga ehansi ka 3 GB.",
+      "localEquals": "Ndhawu = {{tiko}}",
+      "localEqualsFallback": "Ndhawu = tiko ra wena ra sweswi",
+      "perPack": "/ phakete",
+      "cta": "Kuma phakete leyi ya data",
+      "ctaPublic": "Kuma phakete leyi ya data",
       "checkout": {
-        "redirecting": "Redirecting…"
+        "redirecting": "Ku hundzuluxela…"
       },
       "unlimited": {
         "features": {
-          "heavyUse": "High-speed data for heavy use",
-          "throttle": "Speeds may slow after high usage",
-          "coverage": "Reliable coverage",
-          "instant": "Instant eSIM activation",
-          "noContract": "One-time pack, no contract"
+          "heavyUse": "Data ya rivilo leri tlakukeke eka matirhiselo yo tala",
+          "throttle": "Rivilo ri nga hunguteka endzhaku ka matirhiselo yo tala",
+          "coverage": "Nkhombo lowu tshembekaka",
+          "instant": "Ku pfula eSIM hi nkarhi wolowo",
+          "noContract": "Phakete ya kan'we, ku hava ntwanano"
         }
       },
       "disclaimer": {
-        "devices": "eSIM data packs require an eSIM-compatible na unlocked device. Availability varies by phone model, carrier, na country. Coverage na speeds vary by region."
+        "devices": "Tiphakeji ta data ta eSIM ti lava xitirhisiwa lexi fambisanaka na eSIM naswona xi pfuleriwile. Ku kumeka ka tona swi hambana hi ku ya hi muxaka wa riqingho, khampani ya vutleketli, na tiko. Vufikeleli na rivilo swi hambana hi ku ya hi ndhawu."
       },
       "small": {
-        "title": "Starter pack",
-        "desc": "Includes 3 GB of high-speed data — ideal for light messaging na occasional calls.",
+        "title": "Phakheji yo sungula",
+        "desc": "Yi katsa 3 GB ya data ya rivilo leri tlakukeke — yi lulamerile swinene eka ku rhumela marungula yo olova na ku bela riqingho nkarhi na nkarhi.",
         "price": "$9.99",
         "data": "3 GB",
-        "bestFor": "Short trips, light messaging, na occasional calls",
-        "aria": "Buy Starter eSIM data pack"
+        "bestFor": "Maendzo yo koma, ku rhumela marungula yo vevuka, na ku bela riqingho nkarhi na nkarhi",
+        "aria": "Xava phakete ya eSIM yo sungula"
       },
       "medium": {
-        "title": "Traveler pack",
-        "desc": "Includes 5 GB of high-speed data for trips, commuting, na regular VoIP calls.",
+        "title": "Phakete ya Muendzi",
+        "desc": "Yi katsa 5 GB ya data ya rivilo leri tlakukeke ya maendzo, ku famba-famba, na ku bela riqingho ka ntolovelo hi VoIP. ",
         "price": "$14.99",
         "data": "5 GB",
-        "bestFor": "Weekend trips, regular VoIP calls, na maps",
-        "aria": "Buy Traveler eSIM data pack"
+        "bestFor": "Maendzo ya mahelo-vhiki, mibindzu ya ntolovelo ya VoIP, na mimepe",
+        "aria": "Xava phakete ya data ya eSIM ya Muendzi"
       },
       "large": {
-        "title": "Power pack",
-        "desc": "Includes 10 GB of high-speed data for heavy chat, calls, na video on the Chatforia network.",
+        "title": "Phakheji ya Matimba",
+        "desc": "Yi katsa 10 GB ya data ya rivilo leri tlakukeke yo tirhisa ngopfu eka mabulo, mibindzu, na vhidiyo eka netiweke ya Chatforia.",
         "price": "$24.99",
         "data": "10 GB",
-        "bestFor": "Heavy chat, calls, video, na hotspot use",
-        "aria": "Buy Power user eSIM data pack"
+        "bestFor": "Mabulo yo tala, mibindzu, vhidiyo, na ku tirhisa hotspot",
+        "aria": "Xava phakete ya data ya eSIM ya mutirhisi wa matimba"
       },
       "compare": {
-        "title": "Compare eSIM data packs",
+        "title": "Pimanisa tiphakete ta data ta eSIM",
         "col": {
-          "pack": "Pack",
-          "data": "Included data",
-          "bestFor": "Best for"
+          "pack": "Phakete",
+          "data": "Data leyi katsiweke",
+          "bestFor": "Yi lulamela ngopfu"
         },
-        "disclaimer": "Actual data usage depends on how you use Chatforia (voice, video, media, na other apps on your phone)."
+        "disclaimer": "Matirhiselo ya xiviri ya data ya ya hi ndlela leyi u tirhisaka Chatforia ha yona (mavulavulelo, vhidiyo, midiya, na ti-app tin'wana eka riqingho ra wena)."
       }
     },
     "family": {
-      "title": "Chatforia Family (shared data)",
-      "subtitle": "Share a single data pool across your family. One bill, multiple Chatforia accounts, global coverage.",
+      "title": "Ndyangu wa Chatforia (data leyi avelaniwaka)",
+      "nhlokomhaka-ehansi": "Avelana data yin'we ya ntlawa eka ndyangu wa wena. Bili yin'we, tiakhawunti to tala ta Chatforia, vukorhokeri bya misava hinkwayo.",
       "perPack": "/ pack",
       "small": {
         "title": "Family Small",
-        "desc": "Includes 20 GB of shared high-speed data — great for 2–3 light users.",
+        "desc": "Yi katsa 20 GB ya data leyi avelaniwaka ya rivilo leri tlakukeke — yi lulamerile vatirhisi va 2–3 lava nga tirhisiki ngopfu.",
         "price": "$29.99",
-        "aria": "Buy Family Small pack"
+        "aria": "Xava phakheji ya Ndyangu lowutsongo"
       },
       "medium": {
-        "title": "Family Medium",
-        "desc": "Includes 40 GB of shared high-speed data — ideal for 3–5 active members.",
-        "price": "$49.99",
-        "aria": "Buy Family Medium pack"
+        "title": "Ndyangu wa le Xikarhi",
+        "desc": "Yi katsa 40 GB ya data yo avelana ya rivilo leri tlakukeke — yi lulamerile swirho swa 3–5 leswi tirhisaka ngopfu.",
+        "price": " $49.99",
+        "aria": "Xava phakete ya Family Medium"
       },
       "large": {
         "title": "Family Large",
-        "desc": "Includes 80 GB of shared high-speed data — for power families that are always online.",
+        "desc": "Yi katsa 80 GB ya data leyi avelaniwaka ya rivilo leri tlakukeke — eka mindyangu leyi hisekaka leyi nkarhi hinkwawo yi nga eka inthanete.",
         "price": "$84.99",
-        "aria": "Buy Family Large pack"
+        "aria": "Xava phakete ya Family Large"
       },
       "feature": {
-        "shared": "Shared data pool for your family",
-        "members": "Invite up to 4 additional members",
-        "membersMore": "Great for 3–5 active members",
-        "manage": "Manage limits for each member",
-        "topUp": "Engetela more packs anytime",
-        "bestValue": "Best value per GB",
-        "fairUse": "Subject to fair-use policy na local limits"
+        "shared": "Pulu ya data leyi avelaniwaka ya ndyangu wa wena",
+        "members": "Rhamba swirho swin'wana swo fika ka 4",
+        "membersMore": "Swinene eka swirho swa 3–5 leswi tirhaka",
+        "manage": "Lawula swipimelo swa xirho xin'wana na xin'wana",
+        "topUp": "Engetela tiphakeji tin'wana nkarhi wun'wana na wun'wana",
+        "bestValue": " Nkoka lowunene hi GB",
+        "tirhisoLowoLunga": "Swi ya hi nawu wa tirhiso lowo lulama na swipimelo swa laha kaya"
       },
-      "disclaimer": "Family packs create or top up a shared data pool. U nga invite na remove members anytime.",
-      "footnote": "Family packs share a single data pool across linked Chatforia accounts. Availability na limits depend on your country na local regulations."
+      "xitsiviso": "Tiphasela ta ndyangu ti tumbuluxa kumbe ti engetela xidzivana xa data lexi avelaniwaka. U nga rhamba ni ku susa swirho nkarhi wun'wana ni wun'wana.",
+      "xitsundzuxo": "Tiphasela ta ndyangu ti avelana phulu yin'we ya data eka tiakhawunti ta Chatforia leti hlanganisiweke. Ku kumeka ni swipimelo swi ya hi tiko ra wena ni milawu ya laha ndhawini."
     },
-    "why": {
-      "title": "Why people switch to Chatforia",
-      "subtitle": "Chatforia yi ku nyika real phone number, smart translation, na clear path ku ya ad-free loko u ready.",
+    "xivangelo": {
+      "title": "Xivangelo lexi endlaka vanhu va cincela eka Chatforia",
+      "nhloko-mhaka-ntsongo": "Chatforia yi ku nyika nomboro ya riqingho ya xiviri, vuhundzuluxi byo tlhariha, ni ndlela leyi olovaka yo ka u nga ha voni swinavetiso loko u lunghekile.",
       "card": {
         "textnow": {
           "title": "Chatforia vs TextNow",
-          "body": "Lighter ads on Free, simple Plus upgrade loko u ready, na Premium tools TextNow a yi nyiki."
+          "body": "Swikhangiso swo vevuka eka mahala, ku tlakusa loku olovaka ka Plus loko u lunghekile, na switirhisiwa swa Premium leswi TextNow yi nga swi nyikiki."
         },
         "voice": {
           "title": "Chatforia vs Google Voice",
-          "body": "Modern app, global-first design, na built-in translation instead of old-school call forwarding."
+          "body": "App ya manguva lawa, dizayini ya misava hinkwayo, na vuhundzuluxi lebyi akiweke endzeni ematshan'weni ya ku rhumela mikanelo hi ndlela ya khale."
         },
-        "messengers": {
-          "title": "Chatforia vs chat apps",
-          "body": "Text real phone numbers — not just other app users — na AI na status built in. Great loko u ri ku suka eka apps like TextFree or TextMe."
+        "vurhumeri": {
+          "nhloko": "Chatforia vs ti-app ta mabulo",
+          "miri": "Rhumela tinomboro ta riqingho ta xiviri — ku nga ri vatirhisi va ti-app tin'wana ntsena — hi AI na xiyimo lexi akiweke endzeni. Swa kahle loko u u tirhisa ti-app to fana na TextFree kumbe TextMe."
         }
       },
-      "tableTitle": "How Chatforia compares",
+      "tableTitle": "Ndlela leyi Chatforia yi pimanisiwaka ha yona",
       "col": {
-        "feature": "Feature"
+        "feature": "Xihlawulekisi"
       },
       "feature": {
-        "freeNumber": "Free phone number",
-        "translation": "Built-in auto-translation",
-        "aiTools": "AI tools (rewrites, replies, summaries)",
-        "ads": "Ad-free option",
-        "history": "Message history"
+        "freeNumber": "Nomboro ya riqingho ya mahala",
+        "translation": "Vuhundzuluxeri byo tiendlekela lebyi akiweke endzeni",
+        "aiTools": "Switirhisiwa swa AI (ku tsala nakambe, tinhlamulo, nkomiso)",
+        "ads": "Ntlhavo lowu nga riki na swinavetiso",
+        "history": "Matimu ya marungula"
       },
       "yes": "Ina",
       "no": "E-e",
       "yesPremium": "Ina (Premium)",
       "plusPremium": "Plus & Premium",
-      "limited": "Limited",
-      "nA": "N/A",
+      "limited": "Swi pimiwile",
+      "nA": "A swi kumeki",
       "history": {
-        "chatforia": "Up to 12+ months",
-        "textnow": "Varies by account",
-        "voice": "Limited / account-based"
+        "chatforia": "Ku fikela eka 12+ wa tin'hweti",
+        "textnow": "Swa hambana hi akawunti",
+        "voice": "Swi pimiwile / swi ya hi akawunti"
       },
-      "disclaimer": "Comparison based on publicly available information na may change over time. Other free-texting apps like TextFree or TextMe are generally similar to TextNow."
+      "disclaimer": "Nkanelo lowu wu sekeriwe eka vuxokoxoko lebyi kumekaka erivaleni naswona wu nga cinca hi ku famba ka nkarhi. Ti-app tin'wana to rhumela marungula mahala to fana na TextFree kumbe TextMe hi ntolovelo ti fana na TextNow."
     },
     "faq": {
-      "title": "Pricing & plans FAQ",
+      "title": "Swivutiso leswi Tlhelaka Swi Vutisiwa hi Switsengo na Tipulani",
       "free": {
-        "q": "Is the Free plan really free?",
-        "a": "Ina. Free plan yi katsa Chatforia number, calling, na messaging na ads. U nga hlayisa eka Free hi nkarhi hinkwawo, or upgrade ku remove ads na unlock more features."
+        "q": "Xana pulani ya Mahala hakunene i ya mahala?",
+        "a": "Ina. Pulani ya Mahala yi katsa nomboro ya Chatforia, ku bela riqingho, na ku rhumela marungula na swinavetiso. U nga tshama eka Mahala nkarhi wo leha lowu u wu rhandzaka, kumbe u antswisa leswaku u susa swinavetiso na ku pfulela swihlawulekisi swin'wana swo tala."
       },
       "plusPremium": {
-        "q": "What’s the difference between Plus and Premium?",
-        "a": "Plus yi remove ads na yi extend message history ya wena — perfect for everyday use. Premium yi engetela extra customization, AI tools for rewrites na replies, na priority support for heavy users."
+        "q": "Xana ku hambana exikarhi ka Plus na Premium i yini?",
+        "a": "Plus yi susa swinavetiso naswona yi lehisia matimu ya wena ya marungula — swi lulamela swinene ku tirhisiwa siku na siku. Premium yi engetela vuswikoti byo tiendlela swo tala, switirhisiwa swa AI swo tsala nakambe ni ku hlamula, na nseketelo wa xihatla eka vatirhisi lava tirhisaka ngopfu."
       },
       "esim": {
-        "q": "Where do eSIM data packs work?",
-        "a": "Chatforia Mobile yi tirhisa global eSIM coverage. Availability yi depends on your country na device. U ta vona supported options during activation eka app."
+        "q": "Xana ti-data pack ta eSIM ti tirha kwihi?",
+        "a": "Chatforia Mobile yi tirhisa vukorhokeri bya eSIM bya misava hinkwayo. Ku kumeka ka swona swi ya hi tiko ra wena na xitirhisiwa xa wena. U ta vona swihlawulekisi leswi seketeriwaka loko u pfula app."
       },
       "cancel": {
-        "q": "Can I cancel or change plans anytime?",
-        "a": "Ina. U nga manage or kansela subscription ya wena ku suka eka billing page eka app. Changes ti ta va effective eka end of your current billing period."
+        "q": "Xana ndzi nga tshika kumbe ku cinca tipulani nkarhi wun'wana na wun'wana?",
+        "a": "Ina. U nga lawula kumbe ku tshika vuxirho bya wena eka tluka ro hakela eka app. Ku cinca swi sungula ku tirha emakumu ka nkarhi wa wena wa sweswi wo hakela."
       },
-      "family": {
-        "q": "How do Family packs work?",
-        "a": "Family packs yi endla shared data pool across multiple Chatforia accounts. Munhu un'we u paya bill, na u nga invite or remove members na set limits per person."
+      "ndyangu": {
+        "q": "Tiphasela ta Ndyangu ti tirha njhani?",
+        "a": "Tiphasela ta Ndyangu ti vumba xihlovo xa data lexi avelaniwaka eka tiakhawunti to tala ta Chatforia. Munhu un'we u hakela bili, naswona u nga rhamba kumbe ku susa swirho ni ku veka swipimelo eka munhu ha un'we."
       }
-    },
-    "gettingStarted": {
-      "title": "Getting Started",
-      "subtitle": "U ri ntswa eka Chatforia? Xiphemu lexi xi kombisa essentials ku va productive hi xinkarha xa few minutes.",
-      "alert": {
-        "text": "Xiphemu lexi xi ta kula loko hi launch new features. Loko something missing, hi byele hi",
-        "contactLink": "Contact Us"
-      },
-      "section1": {
-        "title": "1) Endla akhawunti ya wena",
-        "signup": "Sign up",
-        "or": "or",
-        "login": "log in",
-        "loginText": "na akhawunti ya wena ya khale.",
-        "prefsStart": "Set your",
-        "prefsLink": "preferences",
-        "prefsRest": "(ririmi, read receipts, themes)."
-      },
-      "section2": {
-        "title": "2) Sungula ku yingisa milabya",
-        "item1": "Endla DM or Group na rhuma milabya ya wena ya ntlhoko.",
-        "item2": "Tirhisa instant translation ku yingisana eka tindzimi ta 100+.",
-        "item3": "Try disappearing messages na read receipts eka Profile → Privacy."
-      },
-      "section3": {
-        "title": "3) Ya eka xiyimo xa le henhla",
-        "item1": "U nga upgrade ku paid plan anytime eka app.",
-        "item2": "Loko u signed in, u nga link additional devices na set up encrypted backups ku suka eka Settings eka app."
-      },
-      "cta": {
-        "seePlans": "Vona mapulani",
-        "openSettings": "Pfula settings"
-      }
-    },
-    "helpCenter": {
-      "title": "Help Center",
-      "faq": {
-        "account": {
-          "q": "How do I create or recover my account?",
-          "a": "Download the app or use web, tap “Create account”, verify your email/phone. To recover, use “Forgot password”."
-        },
-        "privacy": {
-          "q": "Are messages end-to-end encrypted?",
-          "a": "Ina. Messages na calls va end-to-end encrypted hi default. Ntsena wena na muamukeri u ta kota ku va hlaya."
-        },
-        "translate": {
-          "q": "How does instant translation work?",
-          "a": "Enable “Auto-translate” eka Settings → Appearance & Language. Hi translate on-device loko supported, otherwise through secure APIs na minimal metadata."
-        },
-        "contact": {
-          "q": "Contact support",
-          "a": "Reach us at support@chatforia.com. Include screenshots na app version ya wena."
-        }
-      }
-    },
-    "contact": {
-      "title": "Contact Us",
-      "successMsg": "Thanks—our team yi ta reply hi email.",
-      "errorSend": "Could not send. Please email support@chatforia.com.",
-      "form": {
-        "nameLabel": "Vito",
-        "emailLabel": "Email",
-        "messageLabel": "Milabya",
-        "sendCta": "Rhuma"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Privacy Policy",
-      "lastUpdated": "Last updated:",
-      "intro": {
-        "body": "Privacy Policy leyi yi hlamusela ndlela leyi Chatforia (“we”, “us”) yi collect, use, na share information loko u tirhisa apps na services ya hina. Hi design Chatforia ku minimize data leyi hi nga yi kuma."
-      },
-      "infoWeCollect": {
-        "title": "Information we collect",
-        "account": "Account info (e.g., email/phone) to create na secure your account.",
-        "encrypted": "Encrypted content (messages/calls) is end-to-end encrypted; hi nge yi hlaya.",
-        "diagnostics": "Diagnostic/usage like crash logs, device type, or coarse analytics to improve performance."
-      },
-      "sms": {
-        "title": "Mobile phone numbers na SMS",
-        "body": "Loko u choose ku nyika mobile phone number, hi yi tirhisa ku enable features such as account verification, login alerts, na user-to-user messaging via SMS loko supported. Hi nga rhuma transactional SMS messages related to your account na activity on Chatforia. U nga opt out of receiving SMS messages anytime by replying with a supported opt-out keyword (such as “STOP”) or by changing your notification preferences eka app. Hi nge xavisi phone number ya wena or yi tirhisa for unrelated marketing.",
-        "newText": "New text",
-        "enterRecipient": "Nghenisa vito or nomboro",
-        "typeMessage": "Type a message…",
-        "addRecipient": "Engetela muamukeri wa le henhla ku sungula…"
-      },
-      "howWeUse": {
-        "title": "How we use information",
-        "provide": "Provide na secure the service (auth, spam/abuse detection).",
-        "improve": "Improve features (translation quality, reliability).",
-        "legal": "Comply with legal obligations."
-      },
-      "sharing": {
-        "title": "Sharing",
-        "body": "Hi nge xavisi personal data. Hi nga share limited data with processors (e.g., push notifications, analytics) under strict contracts."
-      },
-      "rights": {
-        "title": "Your rights",
-        "body": "Depending on your region (e.g., GDPR/UK GDPR/CPRA), u nga request access, correction, deletion, or opt-out of certain processing. Contact: privacy@chatforia.com."
-      },
-      "retention": {
-        "title": "Data retention & security",
-        "body": "Hi retain ntsena leswi lavekaka ku operate the service na apply industry-standard security. E2E content a xi nge decryptiwi hi hina."
-      },
-      "children": {
-        "title": "Children",
-        "body": "Chatforia a xi directed to children under 13 (or as required by your local law)."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Hi ta post updates laha na revise the “Last updated” date."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Terms of Service",
-      "lastUpdated": "Last updated:",
-      "intro": {
-        "body": "By using Chatforia u agree to these Terms. Loko u nga pfumeleli, u nga tirhisi service."
-      },
-      "accounts": {
-        "title": "Accounts",
-        "itemAccurateInfo": "Provide accurate info na hlayisa credentials hi ndlela leyi sirhelekeke.",
-        "itemResponsibility": "U na responsibility for activity on your account."
-      },
-      "acceptableUse": {
-        "title": "Acceptable use",
-        "itemNoAbuse": "No illegal, abusive, or infringing content; no spam or automated abuse.",
-        "itemSuspend": "Hi nga suspend/terminate for violations."
-      },
-      "sms": {
-        "title": "SMS communications",
-        "body": "Loko u provide mobile phone number, u agree that Chatforia yi nga ku rhumela SMS messages related to your account na use of the service, such as login alerts, security notifications, na messages related to conversations u initiate or participate in. Hi nge tirhisi SMS for promotional or marketing messages without your explicit consent. Standard message na data rates may apply. U nga opt out of SMS messages anytime by replying with a supported opt-out keyword (for example, “STOP”) or by updating your notification settings eka app."
-      },
-      "yourContent": {
-        "title": "Your content",
-        "body": "U hlayisa rights to your content. U grant us necessary rights to operate the service (e.g., routing, storage, translation)."
-      },
-      "disclaimer": {
-        "title": "Disclaimers & liability",
-        "body": "Service yi provided “as is” without warranties. To the fullest extent permitted by law, Chatforia a yi liable for indirect or consequential damages."
-      },
-      "changes": {
-        "title": "Changes",
-        "body": "Hi nga update these terms; continued use after changes means acceptance."
-      },
-      "contact": {
-        "title": "Contact",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Do Not Sell or Share My Personal Information",
-      "body": "Chatforia a yi xavisi personal information. California residents u nga submit requests under CPRA using the button le henhla.",
-      "cta": "Submit a request"
-    },
-    "cookies": {
-      "title": "Cookie Settings",
-      "body": "Chatforia yi tirhisa minimal cookies (e.g., session, security). Hi nge tirhisi third-party ads cookies. Manage cookies via your browser’s settings."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Unable to load phone number status.",
-      "lock": "Lock",
-      "noNumberAssigned": "A ku na nomboro leyi assigned. Hlawula yin'we hi area code ku sungula ku tsala.",
-      "pickNumber": "Hlawula nomboro",
-      "phoneNumber": "Nomboro ya xitirhisi"
-    },
-    "startChatModal": {
-      "title": "Sungula milabya",
-      "quickPicker": "Quick picker",
-      "to": "To",
-      "nameOrUsername": "Type a name, username",
-      "nameUsernamePhoneEmail": "Type a name, username, phone, or email…",
-      "startWithSelected": "Sungula milabya na selected",
-      "searchByUsernameOrPhone": "Search by username or phone",
-      "search": "Search",
-      "searchPrompt": "Type a username or phone na press Search.",
-      "pickFromContacts": "Or pick from contacts",
-      "addContact": "Engetela Contact",
-      "show": "Show",
-      "add": "Engetela",
-      "close": "Close",
-      "selectedCount": "{{count}} selected",
-      "pickAtLeastOne": "Hlawula at least one recipient.",
-      "saveContactsHint": "Phone/email entries ti ta va available endzhaku ka loko u va hlayisa tanihi contacts.",
-      "failedBulkStart": "Failed to start chat na selected recipients.",
-      "noResults": "A ku na results",
-      "mode": "Mode",
-      "group": "Group",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Group name (optional)",
-      "firstMessageOptional": "First message (optional but recommended)",
-      "createGroup": "Create group",
-      "sendBroadcast": "Rhuma broadcast"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "U ri eka Free — premium tones ti kombisiwa kambe ti locked. Upgrade ku unlock all.",
-      "preview": "Preview",
-      "resetToDefaults": "Reset to defaults",
-      "notificationSounds": "Notification Sounds",
-      "messageTone": "Message tone",
-      "default": "Default",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sound",
-      "textMessage": "Text Message",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Xitirhisi lexi xi lava Premium plan."
-    },
-    "aiSettings": {
-      "title": "AI Settings",
-      "controlIntro": "Control translation, smart replies, na ForiaBot auto-responses.",
-      "save": "Hlayisa AI Settings",
-      "autoTranslateIncoming": "Auto-translate incoming messages",
-      "showOriginalAlongside": "Show original text alongside translation",
-      "enableSmartReplies": "Enable Smart Replies",
-      "smartRepliesHint": "Rhuma last few received messages (sanitized) to AI ku suggest quick replies.",
-      "maskProfanity": "Mask profanity in AI suggestions",
-      "maskProfanityHint": "Loko on, suggestions returned by AI ti ta va na flagged words masked",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Enable auto-reply loko ndzi busy",
-      "autoReplyMode": "Auto-reply mode",
-      "cooldownSeconds": "Cooldown (seconds)",
-      "off": "Off",
-      "on": "On",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Active until (optional)",
-      "saved": "AI preferences saved",
-      "saveFailed": "Failed to save AI settings",
-      "translateOff": "Off",
-      "translateTagged": "Only when @translated or tagged",
-      "translateAll": "Translate all incoming messages",
-      "modeDm": "1:1 chats only",
-      "modeMention": "Only when I’m @mentioned",
-      "modeAll": "All inbound messages"
-    },
-    "accessibilitySettings": {
-      "title": "Accessibility & Alerts",
-      "accessibility": "Accessibility",
-      "accessibilityDesc": "Options to make Chatforia easier to use without relying on sound.",
-      "interfaceFontSize": "Interface font size",
-      "interfaceFontSizeHelp": "Starts at normal size. Increase loko u prefer larger text in accessibility settings.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifications",
-      "notificationsDesc": "Visual alerts for messages & calls\nShow banners na title blink ku u nga miss activity.",
-      "vibrateOnNew": "Vibrate on new messages (when supported)\nTrigger device vibration na notifications.",
-      "flashOnCall": "Flash screen on incoming call\nBrief bright flash loko call ri ringa.",
-      "liveCaptions": "Live captions (calls)",
-      "captionFontSize": "Caption font size",
-      "captionBackground": "Caption background",
-      "light": "light",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Voice notes",
-      "autoTranscribeVoiceNotes": "Auto-transcribe voice notes",
-      "autoTranscribeVoiceNotesDesc": "Engetela transcript to audio messages u amukela.",
-      "changesSavedInstantly": "Changes ti hlayisiwa instantly.",
-      "loadFailed": "Failed to load settings",
-      "visualAlerts": "Visual alerts for messages & calls",
-      "visualAlertsDesc": "Show banners na title blink ku u nga miss activity.",
-      "vibrateOnNewShort": "Vibrate on new messages (when supported)",
-      "vibrateOnNewDesc": "Trigger device vibration na notifications.",
-      "flashOnCallShort": "Flash screen on incoming call",
-      "flashOnCallDesc": "Brief bright flash loko call ri ringa."
-    },
-    "privacySection": {
-      "strictE2EE": "Strict end-to-end encryption",
-      "ciphertextOnlyNote": "Store only ciphertext on the server. Disables AI/Translate na moderation previews."
-    },
-    "linkedDevicesPanel": {
-      "title": "Linked Devices",
-      "noneFound": "A ku na linked devices kumiweke.",
-      "refresh": "Pfuxa"
-    },
-    "help": {
-      "title": "Help",
-      "howCanWeHelp": "How can we help?",
-      "helpCenter": "Help Center",
-      "contactUs": "Contact us",
-      "quickTopics": "Quick topics",
-      "searchExamples": "Try searching for “translate”, “backups”, or “privacy”.",
-      "cantLogin": "Can't log in",
-      "paymentsBilling": "Payments/ billing",
-      "reportAbuse": "Report abuse",
-      "searchHelpArticles": "Search help articles",
-      "search": "Search"
-    },
-    "peoplePage": {
-      "people": "Vanhu",
-      "search": "Search",
-      "searchPlaceholder": "Search by alias, name, username, or phone",
-      "filterSaved": "Filter saved contacts",
-      "noContactsFound": "A ku na vafana kumiweke",
-      "quickStart": "Quick start",
-      "quickStartDesc": "A few fast ways to get rolling.",
-      "importContacts": "Import your contacts",
-      "add": "Engetela",
-      "focusSearch": "Focus Search",
-      "import": "Import",
-      "findOrAdd": "Find or add someone",
-      "searchByPhoneOrUsername": "Search by phone / username",
-      "inviteFriends": "Invite friends",
-      "inviteDesc": "Share your invite link ku sungula ku yingisana instantly.",
-      "getTheApp": "Kuma app",
-      "getTheAppDesc": "Hlayisa ku hlangana eka go na Chatforia for iOS na Android.",
-      "download": "Download",
-      "syncTip": "Xiphemu: Milabya ya wena yi sala yi synced across web na mobile."
-    },
-    "randomChat": {
-      "title": "Random Chat",
-      "description": "Kuma munhu wuntshwa instantly. Hi ta ku matsha na ku pfula temporary chat room. Yana eka xihundla eku sungula. Engetela Xirhandzani endzhaku loko swi fana na leswi.",
-      "findMatch": "Kuma match eka mina",
-      "chatWithForia": "Yingisana na Foria",
-      "chatWithForiaBot": "Yingisana na ForiaBot",
-      "cancel": "Kansela",
-      "close": "Close",
-      "searching": "Searching...",
-      "finding": "Finding...",
-      "looking": "Looking for someone...",
-      "startingForia": "Starting a chat with Foria...",
-      "partnerDisconnected": "Partner wa wena u disconnectile.",
-      "noPartner": "A ku na partner kumiweke sweswi.",
-      "connectedTo": "Connected to {{name}}",
-      "connected": "Connected",
-      "idle": "Idle",
-      "partnerLeft": "Partner u left.",
-      "stopped": "Stopped.",
-      "skip": "Skip",
-      "save": "Hlayisa",
-      "saveGuard": "Only human-to-human chats u nga hlayisa",
-      "youAreChattingWith": "U yingisana na {{name}}",
-      "bot": "BOT",
-      "leave": "Leave",
-      "sayHi": "Say hi 👋",
-      "you": "Wena",
-      "typeMessage": "Type a message",
-      "send": "Rhuma",
-      "partner": "Partner",
-      "withRia": "With Ria",
-      "chatWithRia": "Yingisana na Ria",
-      "startingRia": "Starting a chat with Ria...",
-      "ageDisclaimer": "Hi hlayisa age range ntsena (a hi exact date of birth ya wena). Xi tirhisiwa ku hlayisa Random Chat pairings hi ndlela leyi faneleke. Ku matsha na vanhu (a hi RiaBot ntsena), set age band ya wena eka Settings → Age & Random Chat.",
-      "ageBandRequired": "Set age range ya wena eka Profile → Age & Random Chat ku matshiwa na vanhu.",
-      "ageBandCallout": "Ku matsha na vanhu (a hi RiaBot ntsena), set age band ya wena eka Settings → Age & Random Chat.",
-      "subtitle": "Kuma munhu wuntshwa instantly, or hlawula ku yingisana na Ria.",
-      "start": "Sungula in'we ya milabya",
-      "matching": "Matching...",
-      "setAge": "Set age range ya wena eka Profile → Age & Random Chat ku matshiwa na vanhu.",
-      "next": "Munhu Loyi A Landzelaka",
-      "addFriend": "Engetela Xirhandzani",
-      "requested": "Requested",
-      "messageRia": "Rhuma milabya eka Ria...",
-      "messageMatch": "Rhuma milabya eka match ya wena..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
     }
+  },
+  "ndyangu": {
+    "title": "Ndyangu",
+    "loading": "Ku layicha vuxokoxoko bya ndyangu wa wena…",
+    "error": {
+      "load": "Ku tsandzekile ku layicha vuxokoxoko bya ndyangu.",
+      "invite": "A swi kotekanga ku endla xirhambo. Tiyisisa leswaku hi wena n'wini wa ndyangu kutani u ringeta nakambe.",
+      "checkout": "A hi kotanga ku sungula ku hakela pulani ya Ndyangu. Hi kombela u ringeta nakambe."
+    },
+    "billing": {
+      "myPlanTitle": "Pulani ya mina",
+      "myPlanError": "A swi koteki ku layicha pulani ya wena.",
+      "myPlanLoading": "Ku layicha pulani ya wena…",
+      "currentPlan": "Pulani ya sweswi",
+      "renewsAt": "Yi pfuxetiwa hi",
+      "freePlanCopy": "U le ka pulani ya mahala. Antswisa xiyimo leswaku u pfulela swihlawulekisi swo tala.",
+      "upgradeCta": "Antswisa xiyimo",
+      "changePlanCta": "Cinca xiyimo",
+      "manageBilling": "Lawula ku hakela",
+      "portalError": "A swi koteki ku pfula portal ya ku hakela sweswi.",
+      "cancelNow": "Tshika sweswi",
+      "cancelNowHelp": "U nga lawula kumbe ku tshika xirhambo xa wena eka portal ya swikweleti, kumbe u tshika sweswi ehansi.",
+      "cancelNowConfirm": "Xana u tiyisile leswaku u lava ku tshika pulani ya wena sweswi? A swi nge tlheli swi cinciwa.",
+      "cancelNowError": "A swi koteki ku tshika pulani ya wena sweswi. Hi kombela u ringeta nakambe kumbe u tirhisa Lawula swikweleti."
+    },
+    "none": {
+      "title": "Ndyangu a wu si simekiwa",
+      "body": "Ku tumbuluxa Ndyangu wa Chatforia na xihlovo xa datha lexi avelaniwaka, sungula pulani ya Ndyangu.",
+      "goUpgrade": "Sungula pulani ya Ndyangu",
+      "viewPlans": "Vona tipulani hinkwato"
+    },
+    "group": {
+      "defaultName": "Ndyangu wa mina wa Chatforia",
+      "role": "Ntirho wa wena: {{role}}"
+    },
+    "role": {
+      "owner": "N'wini",
+      "member": "Xirho"
+    },
+    "data": {
+      "nhloko": "Pulumba ra data leri avelaniwaka",
+      "description": "Swirho hinkwaswo swa avelana pulumba leri. Hi ta mi lemukisa loko mi ri kusuhi ni ndzilakana wa n'wina."
+    },
+    "swirho": {
+      "nhloko": "Swirho swa ndyangu",
+      "vito": "Vito",
+      "ntirho": "Ntirho",
+      "matirhiselo": "Matirhiselo",
+      "Ntsengo": "Ntsengo",
+      "Ku nga ri na ntsengo": "A ku na ntsengo wo karhi",
+      "XikombeloXoRhamabela": "Rhamabela xirho"
+    },
+    "ku rhamabela": {
+      "title": "Rhamabela xirho lexintshwa",
+      "miri": "Rhumela email kumbe linki ku rhamabela munhu un'wana eka xihlovo xa n'wina xa data ya ndyangu leyi avelaniwaka.",
+      "LebuloRaEmail": "Email (swo tihlawulela)",
+      "NdhawuYoTekaEmail": "friend@example.com",
+      "create": "Tumbuluxa xirhambo",
+      "linkLabel": "Xihlanganisi xo rhamba",
+      "copyAria": "Pikisa xihlanganisi xo rhamba",
+      "expiryHint": "Xihlanganisi lexi xi hela endzhaku ka masiku ma nga ri mangani. Nkarhi hinkwawo u nga tumbuluxa lexintshwa."
+    },
+    "join": {
+      "title": "Tihlanganise na ndyangu",
+      "body": "U rhambiwile ku tihlanganisa na Ndyangu wa Chatforia ni ku avelana na vona xihlovo xa vona xa datha.",
+      "cta": "Amukela u tihlanganisa na ndyangu",
+      "ctaLogin": "Nghena u joyina ndyangu",
+      "success": "U joyinile ndyangu lowu. Sweswi u avelana hi xihlovo xa vona xa data.",
+      "goFamily": "Yana eka dashboard ya ndyangu",
+      "error": "A hi kotanga ku ku engetela eka ndyangu lowu. Xirhambo xi nga ha va xi nga ri xiviri kumbe xi herile nkarhi."
+    }
+  },
+  "randomChat": {
+    "title": "Bulo ra Xiwelo",
+    "nhlokomhaka-ntsongo": "Hlangana na munhu lontshwa hi xihatla, kumbe hlawula ku bulu na Ria.",
+    "sungula": "Sungula bulo",
+    "description": "Rhanga u bulu u nga tiveki. Engetela Munghana endzhaku loko swi twala swi lulamile.",
+    "findMatch": "Ndzi kumele munhu la fambisanaka na mina",
+    "chatWithRia": "Bula na Ria",
+    "setAge": "Veka malembe ya wena ya vukulu eka Profile → Malembe & Bulo ra Xiwelo leswaku u fambisana na vanhu.",
+    "idle": "U nga endli nchumu",
+    "ku fambisanisa": "Ku fambisanisa…",
+    "ku lava": "Ku lava munhu un'wana…",
+    "ku tshika": "Tshika",
+    "xiphiqo xa vuhlanganisi": "Xiphiqo xa vuhlanganisi",
+    "ai": "AI",
+    "ku nga tiveki": "Ku nga tiveki",
+    "u nghenile tanihi": "U nghenile tanihi",
+    "ku rindzela ku engetela munghana": " Ku rindzele leswaku va amukela ku Engetela Munghana…",
+    "mavitoYaVatirhisiLahaNtshuxiweke": "Mavito ya vatirhisi ya tshama ya ntshuxiwile ku fikela loko vanhu havambirhi va hlawula ku Engetela Munghana.",
+    "riaKuHambana": " Bula na Ria nkarhi wun'wana na wun'wana — swi hambanile na ku hlanganisiwa na vanhu lava nga hlawuriwangiki.",
+    "rhumelaRungula": "Rhumela rungula",
+    "buloRiHele": "Bulo ri hele",
+    "mabuloMaHele": "Mabulo wolawo ma hele.",
+    "lavaMunhuUn'wana": "Kuma munhu un'wana la faneleke",
+    "la landzelaka": "Munhu la landzelaka",
+    "engetelaMunghana": "Engetela Munghana",
+    "xi kombeleriwile": "Xi kombeleriwile",
+    "suka": "Suka",
+    "rhumelaRia": "Rhumela Ria rungula…",
+    "messageMatch": "Rhumela munghana wa wena rungula…",
+    "chatWithForia": "Bula na Foria",
+    "chatWithForiaBot": "Bula na ForiaBot",
+    "close": "Pfala",
+    "finding": " Ku lava…",
+    "ku sungulaForia": "Ku sungula bulo na Foria…",
+    "partneri u tshikile": "Partneri wa wena u tshikile.",
+    "a ku na partneri": "A ku kumekanga munghana sweswi.",
+    "uKhomanileNa": "U khomanile na {{name}}",
+    "uKhomanile": "U khomanile",
+    "MunghanaUsuwile": "Munghana u suwile.",
+    "U yimile": "U yimile.",
+    "Tlulela": "Tlulela",
+    "Hlayisa": "Hlayisa",
+    "NsirheleloWoHlayisa": "I mabulo ya vanhu ntsena lawa ya nga hlayisiwaka",
+    "uBulaNa": "U bula na {{name}}",
+    "bot": "BOT",
+    "xeweta": "Xeweta 👋",
+    "wena": "Wena",
+    "tsalaRungula": "Tsala rungula",
+    "rhumela": "Rhumela",
+    "mutirhisani": "Mutirhisani",
+    "naRia": "Na Ria",
+    "startingRia": "U sungula bula na Ria…",
+    "ageDisclaimer": "Hi hlayisa ntsena ntlawa wa malembe ya wena (ku nga ri siku ra wena ra ku velekiwa hi xiviri). Leswi swi tirhisiwa ku endla leswaku ku pimanisiwa ka vanhu eka Bula ra Xiwelo swi va leswi twalaka. Leswaku u pimanisiwa na vanhu (ku nga ri RiaBot ntsena), veka ntlawa wa malembe ya wena eka Swiletelo → Malembe & Bula ra Xiwelo.",
+    "ageBandRequired": "Veka ntlawa wa malembe ya wena eka Profayili → Malembe & Bula ra Xiwelo leswaku u pimanisiwa na vanhu.",
+    "ageBandCallout": "Leswaku u fambisana na vanhu (ku nga ri RiaBot ntsena), veka ntlawa wa malembe ya wena eka Swilunghiselo → Malembe & Bulo ra Xiwelo."
+  },
+  "ria": {
+    "fallbackName": "ku kona",
+    "intro": "Xewani 👋 Hi mina Ria. U ehleketa yini?",
+    "swilamulelo": {
+      "long1": "Hey {{name}} 👋 Ndzi laha. U ehleketa yini?",
+      "long2": "Xewani {{name}} 😊 U lava ku vulavula hi yini namuntlha?",
+      "long3": "Hey {{name}}! Ndzi yingiserile — ku na yini?",
+      "long4": "Swa tsakisa ku ku vona, {{name}} 👋 U ehleketa yini namuntlha?",
+      "long5": "Hey {{name}} 🙂 Xana u lava ku humesa mbilu, ku vutisa, kumbe ku bula ntsena?",
+      "long6": "Xewani {{name}}! Ndzi na nkarhi — u lava ku vulavula hi yini?",
+      "short1": "Hey {{name}}, ndza ha ri laha. Ku njhani?",
+      "short2": "U vuyile kahle {{name}} 👋 Xana ku na xin'wana lexi a wu lava ku xi engetela?",
+      "short3": "U vuyile nakambe, {{name}}? 😊 Ndzi byele leswi swi nga emiehleketweni ya wena.",
+      "short4": "Hey {{name}} ✨ Xana u lunghekile ku ya emahlweni laha hi heleleke kona?",
+      "short5": "Ina {{name}}? Ndzi yingisile 👂",
+      "short6": "Hei {{name}}! Xana u na swilo leswintshwa leswi u ehleketaka ha swona?"
+    },
+    "header": {
+      "openNav": "Pfula menyu yo famba-famba",
+      "closeNav": "Pfula menyu yo famba-famba",
+      "homeAria": "Kaya ra Chatforia"
+    },
+    "login": {
+      "welcomeBack": "U amukeriwile nakambe",
+      "title": "Yisa emahlweni eka Chatforia",
+      "subtitleReturning": "Nghena eka akhawunti ya wena ya Chatforia",
+      "subtitle": "Nghena eka akhawunti ya wena ya Chatforia",
+      "google": "Yana emahlweni na Google",
+      "apple": "Yana emahlweni na Apple",
+      "googleUnavailable": "Ku nghena hi Google a swi koteki",
+      "appleUnavailable": "Ku nghena hi Apple a swi koteki",
+      "kumbe": "kumbe",
+      "imeyili": "Imeyili",
+      "you@example.com": "you@example.com",
+      "vito ra mutirhisi": "Vito ra mutirhisi",
+      "vito ra mutirhisiPh": "Vito ra wena ra mutirhisi",
+      "vito ra phaswedi": "Phaswedi",
+      "vito ra phaswediPh": "Phaswedi ya wena",
+      "keepSignedIn": "Ndzi hlayise ndzi nghenile",
+      "forgot": {
+        "title": "U rivale Phaswedi",
+        "helper": "Nghenisa adirese ya imeyili leyi u yi tirhiseke ku tumbuluxa akhawunti ya wena ya Chatforia naswona hi ta ku rhumela linki leyi hlayisekeke yo vuyisela phaswedi ya wena.",
+        "emailInvalid": "Hi kombela u nghenisa adirese ya imeyili leyi tirhaka.",
+        "genericError": "A swi koteki ku hetisisa xikombelo. Hi kombela u ringeta nakambe endzhaku ka nkarhinyana.",
+        "sending": "Ku rhumeriwa linki yo vuyisela...",
+        "sendCta": "Rhumela Linki yo Vuyisela ",
+        "sentLabel": "Rhumeriwile!",
+        "sentHelper": "Loko akhawunti yi ri kona hi imeyili yoleyo, hi rhumele xihlanganisi xo pfuxeta phaswedi. Swi nga ha teka timinete ti nga ri tingani ku fika. Tiyisisa leswaku u languta foldara ya wena ya spam kumbe ya swibumabumelo.",
+        "previewDev": "Vona Miehleketo ya Imeyili (Dev)",
+        "backToLogin": "Vuyela eka ku Nghena"
+      },
+      "submit": "Nghena",
+      " loggingIn": "Ku nghena...",
+      "newHere": "U muntshwa laha? <link>Vumba akhawunti</link>",
+      "ssoUnavailable": "Single-sign-on a yi kumeki sweswi. Tirhisa vito ra mutirhisi na phaswedi ematshan'weni ya sweswo.",
+      "error": {
+        "missing": "Hi kombela u nghenisa vuxokoxoko bya wena byo nghena.",
+        "invalid": "Vito ra mutirhisi kumbe phaswedi a swi lulamanga",
+        "denied": "Ku nghena ku arisiwile.",
+        "unprocessable": "Xikombelo a xi lulamanga. Kambela vito ra wena ra mutirhisi/imeyili na phaswedi.",
+        "deviceLimit": "Ntsengo wa switirhisiwa lowu pfumeleriwaka wu hetisekile eka pulani ya mahala. Humela eka xitirhisiwa xin'wana kumbe u tlakusa u ya eka Premium leswaku u hlanganisa switirhisiwa swo tala.",
+        "premiumRequired": "Xiendlo lexi xi lava pulani ya Premium."
+      }
+    }
+  },
+  "oauth": {
+    "completing": "Ku hetisisa ku nghena…"
+  },
+  "support": {
+    "helpFab": "Mpfuno",
+    "openSupportAria": "Pfula mpfuno",
+    "badge": "Nseketelo",
+    "heading": "Hi nga ku pfuna njhani?",
+    "tabs": {
+      "help": "Ndhawu ya Mpfuno",
+      "contact": "Tihlanganise na hina"
+    },
+    "searchPlaceholder": "Lava swiviko swa mpfuno…",
+    "searchAria": "Lava mpfuno",
+    "searchBtn": "Lava",
+    "quickTopicsLabel": "Tinhlokomhaka ta xihatla",
+    "quickTopics": {
+      "login": "A ndzi koti ku nghena",
+      "billing": "Swihakelo / vuhakeri",
+      "abuse": "Vika vuxanisi"
+    },
+    "trySearching": "Ringeta ku lava \"hundzuluxa\", \"switshuriwa\", kumbe \"vuhlayiseki\".",
+    "article": "Xihloko",
+    "openArticle": "Pfula xihloko ",
+    "contactIntro": "Hi ta ringeta ku lulamisa leswi hi xihatla. Loko swi nga koteki, ntlawa wa hina wu ta landzelerisa.",
+    "topicAria": "Hlawula nhlokomhaka",
+    "messagePlaceholder": "Tsala rungula ra wena…",
+    "sendBtn": "Rhumela",
+    "sent": "Rungula ri rhumeriwile. Hi ta hlamula hi email.",
+    "sendError": "A swi kotekanga ku rhumela. Rhumela email eka support@chatforia.com ematshan'weni ya sweswo.",
+    "actionCompleted": "Xiendlo xi hetisekile.",
+    "actionFailed": "A swi kotekanga ku heta xiendlo xexo. Hi kombela u ringeta nakambe.",
+    "escalationMessage": "A hi kotanga ku lulamisa leswi hi xoxe. Ntlawa wa hina wu ta landzelerisa.",
+    "genericError": "Ku na lexi hoxekeke. Hi kombela u ringeta nakambe.",
+    "analyzing": "Ku kambisisiwa xiphiqo xa wena...",
+    "takeAction": "Endla leswi ringanyetiweke",
+    "resolvedInstantly": "Xiphiqo xi lulamisiwile hi xihatla — a ku laveki thikithi.",
+    "escalating": "Xi yisiwa eka nseketelo..."
+  },
+  "help": {
+    "title": "Mpfuno",
+    "howCanWeHelp": "Hi nga ku pfuna njhani?",
+    "helpCenter": "Ndhawu ya Mpfuno",
+    "contactUs": "Tihlanganise na hina",
+    "tinhlokomhakaTaXihatla": "Tinhlokomhaka ta xihatla",
+    "ringetaKuLavetela": "Ringeta ku lavetela \"hundzuluxa\", \"switshuriwa\", kumbe \"vuhlayiseki\".",
+    "aNdziKotiKuNghena": "A ndzi koti ku nghena",
+    "paymentsBilling": "Swihakelo/ ku hakela",
+    "reportAbuse": "Vika vutshuki",
+    "searchHelpArticles": "Lava switsalwa swa mpfuno",
+    "search": "Lava"
+  },
+  "helpCenter": {
+    "title": "Ndhawu ya Mpfuno",
+    "faq": {
+      "account": {
+        "q": "Ndzi endla njhani kumbe ku vuyisa akhawunti ya mina?\",        \"a\": \"Dawuniloda app kumbe tirhisa webu, thlava \"Vumba akhawunti\", tiyisisa imeyili/riqingho ra wena. Ku vuyisa, tirhisa \"Ndzi rivale phaswedi\"."
+      },
+      "vuhlayiseki": {
+        "q": "Xana marungula ma sirheleriwile ku suka eka rimu ku ya eka rimu? ",
+        "a": "Ina. Marungula na mibindzu swi sirheleriwe ku suka eka mutumeri ku ya eka muamukeri hi ntolovelo. Hi wena ntsena na muamukeri loyi a nga swi hlayaka."
+      },
+      "translate": {
+        "q": "Ndzihundzuluxo wa xihatla wu tirha njhani?",
+        "a": "Pfulela \"Hundzuluxa hi xoxe\" eka Swilunghiselelo → Xivumbeko & Ririmi. Hi hundzuluxa eka xitirhisiwa laha swi kotekaka, loko swi nga ri tano hi tirhisa ti-API leti hlayisekeke na metadata yitsongo."
+      },
+      "vutihlanganisi": {
+        "q": "Tihlanganise na nseketelo",
+        "a": "Tihlanganise na hina eka support@chatforia.com. Katsa swifaniso swa xikirini (screenshots) na vuhundzuluxeri bya app ya wena."
+      }
+    }
+  },
+  "gettingStarted": {
+    "title": "Ku Sungula",
+    "subtitle": "Xana u muntshwa eka Chatforia? Nkongomiso lowu wo hatlisa wu kombisa swa nkoka leswaku u kota ku tirha hi vukheta endzhaku ka timinete.",
+    "alert": {
+      "text": "Nkongomiso lowu wu ta kula loko hi humesa swihlawulekisi leswintshwa. Loko ku ri na lexi pfumalekaka, hi tivise hi ku tirhisa",
+      "contactLink": "Tihlanganise na Hina"
+    },
+    "section1": {
+      "title": "1) Tumbuluxa akhawunti ya wena",
+      "signup": "Tsalisa",
+      "or": "kumbe",
+      "login": "nghena",
+      "loginText": "hi akhawunti ya wena leyi se yi nga kona.",
+      "prefsStart": "Veka",
+      "prefsLink": "switsakelo swa wena",
+      "prefsRest": "(ririmi, switifiketi swo hlaya, timixaka)."
+    },
+    "section2": {
+      "title": "2) Sungula ku rhumela marungula",
+      "item1": "Endla DM kumbe Ntlawa kutani u rhumela rungula ra wena ro sungula.",
+      "item2": "Tirhisa vuhundzuluxi bya xihatla ku bula hi tindzimi to tlula 100.",
+      "item3": "Ringeta marungula lama nyamalalaka na switifiketi swo hlaya eka Phurofayili → Vuhlayiseki."
+    },
+    "section3": {
+      "title": "3) Yana emahlweni",
+      "item1": "U nga antswisa eka pulani leyi hakeriwaka nkarhi wun'wana na wun'wana endzeni ka app.",
+      "item2": "Loko u nghenile, u nga hlanganisa switirhisiwa swin'wana naswona u simeka tibakapu leti fihliweke ku suka eka Swilunghiselelo endzeni ka app."
+    },
+    "cta": {
+      "seePlans": "Vona tipulani",
+      "openSettings": "Pfula swilunghiselelo "
+    }
+  },
+  "howItWorks": {
+    "title": "Ndlela leyi Chatforia yi tirhaka ha yona",
+    "intro": "Chatforia yi endleriwe ku endla vuhlanganisi byi olova, byi hatlisa, naswona byi kumeka. Ku sungula swi teka magoza ma nga ri mangani ntsena.",
+    "step1Title": "1. Tumbuluxa Akawunti",
+    "step1Desc": "Tsalisa u tirhisa imeyili ya wena kumbe vito ra wena ra mutirhisi ku tumbuluxa akawunti ya wena ya Chatforia.",
+    "step2Title": "2. Sungula Bulo",
+    "step2Desc": "Tihlanganise na van'wana hi ku hlawula vathintani kumbe ku sungula mabulo lamantshwa.",
+    "step3Title": "3. Marungula ya Nkarhi wa Xiviri",
+    "step3Desc": "Marungula ma rhumeriwa hi xihatla ku nyika ntokoto wo vulavurisana lowu olovaka.",
+    "step4Title": "4. Vuhlanganisi bya Misava Hinkwayo",
+    "step4Desc": "Vuhundzuluxeri lebyi akiweke endzeni byi pfuna vatirhisi ku vulavurisana hi ku tirhisa tindzimi to hambana-hambana.",
+    "step5Title": "5. Tshama u Lawula",
+    "step5Desc": "Lawula leswi u swi rhandzaka, vathintani, na swilunghiselelo swa vuhlanganisi."
+  },
+  "safety": {
+    "title": "Swiletelo swa Vuhlayiseki & Ntlawa",
+    "intro": "Chatforia yi tiyimiserile ku hlayisa mbango lowu hlayisekeke ni wa xichavo eka vatirhisi hinkwavo. Swiletelo leswi swi pfuna ku tiyisisa ntokoto lowunene eka un'wana ni un'wana.",
+    "respectTitle": "Mbulavurisano wa Xichavo",
+    "respectDesc": "Vatirhisi va languteriwe ku vulavurisana hi xichavo. Ku xanisiwa, nxaniso, kumbe mahanyelo yo biha a swi pfumeleriwi.",
+    "prohibitedTitle": "Leswi Yirisiweke",
+    "prohibited": {
+      "illegal": "Swiendlo leswi nga riki enawini",
+      "ku xanisiwa": "Ku xanisiwa kumbe ku tshikilelwa",
+      "rivengo": "Mavulavulelo ya rivengo kumbe xihlawuhlawu",
+      "swo nyenyetsa": "Swilo swo nyenyetsa kumbe swo vavisa",
+      "spam": "Spam kumbe mikhuva yo kanganyisa"
+    },
+    "titleswa swa switirhisiwa": "Switirhisiwa swa Vuhlayiseki bya Mutirhisi",
+    "switirhisiwa": {
+      "report": "Vika mahanyelo kumbe leswi nga fanelangiki",
+      "block": "Sivela vatirhisi ku sivela ku vulavurisana loku yaka emahlweni",
+      "control": "Lawula swiletelo swa xihundla na vuhlanganisi"
+    },
+    "enforcementTitle": "Ku Tiyisisa",
+    "enforcementDesc": "Hi nga teka goza eka tiakhawunti leti tlontlomeke swiletelo leswi, ku katsa na switsundzuxo, swiyiriso, kumbe ku susiwa hi laha ku nga heriki eka pulatifomo."
+  },
+  "blog": {
+    "whyMessaging": {
+      "title": "Hikwalaho ka yini Swiplatfomo swa Marungula swi Nga Swa Nkoka Ku Tlula Rini na Rini",
+      "intro": "Swiplatfomo swa marungula swi hundzuke yin'wana ya switirhisiwa swa nkoka swinene swa vuhlanganisi emisaveni ya namuntlha. Ku sukela eka mabulo ya munhu hi xiyexe ku ya eka vuxaka bya mabindzu, ti-app ta marungula ti pfumelela vanhu ku tshama va hlanganile hi xihatla na hi vutlhari.",
+      "everydayTitle": "Vuhlanganisi bya Siku na Siku",
+      "everydayDesc": "Vanhu va tshembela eka ti-app ta ku rhumela marungula ku vulavurisana na vanghana, ndyangu, na vatirhi-kulobye siku na siku. Ku nga khathariseki leswaku i xiviko xo hatlisa kumbe bulo ro leha, ku rhumela marungula swi nyika ndlela yo olova na leyi cinca-cincaka yo tshama u ri karhi u vulavurisana.",
+      "speedTitle": "Rivilo na Vunene",
+      "speedDesc": "Yin'wana ya vuyelo lebyikulu bya tiplatifomo ta mameseji i rivilo ra tona. Mameseji ma rhumeriwa hi nkarhi wolowo, leswi pfumelelaka vatirhisi ku vulavurisana hi nkarhi wolowo. Xiyimo lexi xa vunene xi endle leswaku ku rhumela mameseji ku va ndlela leyi rhandziwaka swinene ya vuhlanganisi eka vanhu vo tala.",
+      "globalTitle": "Ku Fikelela Misava Hinkwayo",
+      "globalDesc": "Tiplatifomo ta mameseji ti hlanganisa vanhu emisaveni hinkwayo. Loko ku ri na vukorhokeri bya inthanete, vatirhisi va nga vulavurisana ku nga khathariseki laha va nga kona, leswi endlaka swi olova ku aka vuxaka ni ku tirhisana exikarhi ka matiko.",
+      "privacyTitle": "Xihundla na Vulawuri",
+      "privacyDesc": "Swiplatfomo swa manguva lawa swa ku rhumela marungula swi kongomisa eku nyikeni vatirhisi vulawuri ehenhla ka datha ya vona ni mbulavurisano wa vona. Swihlawulekisi swo fana na ku fihla mahungu (encryption), swiletelo swa xihundla, ni vulawuri bya marungula swi pfumelela vatirhisi ku vulavurisana hi ku titshemba.",
+      "futureTitle": "Vumundzuku bya ku Rhumela Marungula",
+      "futureDesc": "Ku rhumela marungula ku ya emahlweni ku cinca na swihlawulekisi leswintshwa swo fana na tinhlamulo leti fambisiwaka hi AI, vuhundzuluxi, ni ku avelana ka swilo swa vuhaxi byo hambana-hambana. Loko thekinoloji yi ya emahlweni, swiplatfomo swa ku rhumela marungula swi ta va na matimba swinene naswona swi ta tirha swilo swo tala.",
+      "out ro": "Chatforia yi akiwile hi ku landza milawu leyi, yi nyika ntokoto wo rhumela marungula lowu hatlisaka, lowu hlayisekeke, naswona lowu olovaka eka misava leyi hlanganeke."
+    },
+    "global": {
+      "title": "Vumundzuku bya Vuhlanganisi bya Misava Hinkwayo",
+      "intro": "Vuhlanganisi byi cinciwile hi xihatla eka makume ya malembe ma nga hundza. Leswi a swi lava ku bela riqingho kumbe ku hlangana hi xiviri sweswi swi nga endliwa hi ku hatlisa hi ku tirhisa swiplatifomo swo rhumela marungula. Loko thekinoloji yi ya emahlweni yi hluvuka, vuhlanganisi bya misava hinkwayo byi ya byi hatlisa, byi olova ku fikelela, naswona byi katsa vanhu vo tala.",
+      "swipfingwaTitle": "Ku Hlula Swipfingwa",
+      "swipfingwaDesc": "Xin'wana xa ku cinca lokukulu eka vuhlanganisi i ku hunguteka ka swipfingwa swa ntivontivo wa ndhawu. Sweswi vanhu va nga hlanganisa na van'wana emisaveni hinkwayo hi nkarhi wa xiviri. Hambi i mbulavurisano wa munhu hi xiyexe, bindzu, kumbe ntirhisano, tiplatifomo ta ku rhumela marungula ti endle leswaku mpfhuka wu nga ha vi xipfingwa lexikulu. ",
+      "translationTitle": "Ntirho wa Thekinoloji yo Hundzuluxa",
+      "translationDesc": "Ririmi hi ntolovelo a ri ri xin'wana xa swirhalanganyi leswikulu eka vuhlanganisi bya misava hinkwayo. Namuntlha, switirhisiwa swo hundzuluxa leswi akiweke endzeni swa pfuna ku pfala xivandla xexo. Tiplatifomo to fana na Chatforia ti pfumelela vatirhisi ku vulavurisana hi ku olova hambi loko va vulavula tindzimi to hambana, leswi tumbuluxaka minkarhi leyintshwa yo hlanganisa ni ku twisisana.",
+      "realtimeTitle": "Vuhlanganisi bya Nkarhi wa Xiviri",
+      "realtimeDesc": "Rivilo i xilo xa nkoka lexi vumbaka vuhlanganisi bya manguva lawa. Vatirhisi va langutela leswaku marungula ma yisiwa hi xihatla, naswona swiakiwo swa manguva lawa swi seketela langutelo rero. Ku rhumela marungula hi nkarhi wa xiviri swi endla leswaku mabulo ma va ya ntumbuluko ni ku khuluka kahle.",
+      "privacyTitle": "Vuhundla na Vuhlayiseki",
+      "privacyDesc": "Loko vuhlanganisi byi ya byi va bya xidijitali, vuhundla na vuhlayiseki swa ya swi va swa nkoka swinene. Vatirhisi va lava ku tiyiseka leswaku mabulo ya vona ya sirhelelekile. Swihlawulekisi swo fana na ku fihla mahungu na swiletelo leswi lawuriwaka hi mutirhisi swi pfuna ku seketela ntokoto wa vuhlanganisi lowu hlayisekeke swinene.",
+      "futureTitle": "Leswi Landzelaka",
+      "futureDesc": "Vumundzuku bya vuhlanganisi bya misava hinkwayo swi nga ha katsa switirhisiwa swa xiyimo xa le henhla, swo fana na ku rhumela mahungu loku pfuniwaka hi AI, vuhundzuluxi lebyi antswisiweke, na ntokoto wa vatirhisi lowu antswisiweke. Loko thekinoloji yi ya yi hundzuka, vuhlanganisi byi ta ya emahlweni byi va lebyi twisisekaka hi ku olova na ku fikeleleka.",
+      "outro": "Tiplatifomo to fana na Chatforia i xiphemu xa ku cinca loku, ti pfuna vanhu ku hlanganisa hi ku olova ku tlula tindzimi ni mindzilakana."
+    },
+    "index": {
+      "title": "Blog ya Chatforia",
+      "intro": "Valanga vutivi mayelana ni vuhlanganisi, vuhlayiseki bya le ka inthanete, ni ndlela leyi thekinoloji ya mameseji yi hlanganisaka vanhu emisaveni hinkwayo ha yona.",
+      "post1": "Ndlela yo Bula hi Vuhlayiseki eka Inthanete",
+      "post2": "Vumundzuku bya Vuhlanganisi bya Misava Hinkwayo",
+      "post3": "Hikwalaho ka yini Swiplatfomo swa Marungula swi ri swa Nkoka"
+    }
+  },
+  "mayelana na": {
+    "title": "Hi mayelana na Chatforia",
+    "description": "Chatforia i xirhumeri xa mahungu lexi hlayisekeke, xa tindzimi to tala lexi nga na vuhlayiseki bya makumu-ku-ya-makumu (end-to-end encryption), vuhundzuluxi bya xihatla, na ku vitana hi rito/vhidiyo. Xikongomelo xa hina xi olovile: ku pfuna vanhu ku vulavurisana—hi vuhlayiseki, hi xihundla, na ku tsemakanya tindzimi.",
+    "switshembiso": {
+      "xihundla": "Ku rhangisa Vuhlayiseki: Ku fihla mahungu ku suka eku sunguleni ku ya eku heteleleni (E2E) hi ntolovelo.",
+      "ku fikelela": "Ku fikelela eka hinkwavo: Ku hundzuluxa hi xoxe tindzimi to tlula 100.",
+      "vulawuri": "Vulawuri: Marungula lama nyamalalaka na switifiketi swo hlaya i swa ku tihlawulela.",
+      "vuhlayiseki_aria": "Ku rhangisa Vuhlayiseki: Ku fihla mahungu ku suka eku sunguleni ku ya eku heteleleni (E2E) hi ntolovelo.",
+      "ku fikelela_ aria": "Nkufikelelo eka hinkwavo: Ku hundzuluxa hi xoxe tindzimi to tlula 100.",
+      "control_aria": "Nkongomiso: Marungula lawa ya nyamalalaka na switifiketi swa ku hlaya i swa ku tihlawulela."
+    },
+    "howTitle": "Ndlela leyi Chatforia yi tirhaka ha yona",
+    " howDescription": "Marungula ya khodiwa eka xitirhisiwa xa wena ma nga si huma eka xona. Vuhundzuluxi, tibakapu, na ku fambisanisa switirhisiwa swi endleriwe ku hunguta leswi tiseva ta hina ti nga swi vonaka."
+  },
+  "press": {
+    "title": "Vahaxi va mahungu",
+    "contactLine": "Loko mi ri na swivutiso swa vuhaxi bya mahungu, hi kumeni eka",
+    "boilerplateTitle": "Boilerplate",
+    "boilerplateBody": "Chatforia i app yo rhumela marungula leyi rhangisaka xihundla leyi endlaka mabulo ya tindzimi to hambana ma olova. Marungula ma sirheleriwa hi ku helela ku suka eka mutumeri ku ya eka muamukeri hi ntolovelo, naswona vuhundzuluxi lebyi akiweke endzeni byi seketela tindzimi to tlula 100 hi nkarhi wa xiviri. Vatirhisi va nga pfuxeta marungula lawa ma nyamalalaka, va endla leswaku switifiketi swa ku hlaya swi nga bohi, naswona va fambisanisa swilo eka switirhisiwa swo hambana. Yi kumeka eka iOS, Android, na le ka webu.",
+    "assetsTitle": "Switirhisiwa swa brandi",
+    "assetsSubtitle": "Tiloho, swifaniso swa xikirini , na swifaniso swa xikumiwa.",
+    "downloadCta": "Dawuniloda media kit",
+    "downloadTitle": "Kuma app",
+    "scanTip": "Eka desktop? Skenela hi riqingho ra wena ku kuma app.",
+    "qrAria": "Pfula webusayiti ya Chatforia",
+    "appStore": " Dawuniloda eka App Store",
+    "googlePlay": "Yi kume eka Google Play"
+  },
+  "careers": {
+    "title": "Mitirho",
+    "intro": "Hi ntlawa lowutsongo wa vasunguri lowu akaka Chatforia — muhaxi wa misava hinkwayo wa xihundla lowu sungulaka eka web, iOS, na Android. Loko u khathala hi xihundla, ku fihla mahungu, na ntokoto lowu tsakisaka wa vatirhisi, hi ta tsaka ku twa ku suka eka wena.",
+    "openRoles": "<b>Switirho swa masungulo leswi pfulekeke:</b> Murhangeri wa Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer\n (Android), DevOps/SRE, Muhleri wa Vuhlayiseki & Vufihli, Muhleri wa Vuhlanganisi (Twilio + eSIM).",
+    "apply": "Ndlela yo endla xikombelo: Tirhisa buti leri nga ehansi ku rhumela resume ya wena na swihlanganisi hi imeyili.",
+    "emailCta": "Rhumela resume ya wena hi imeyili",
+    "whyNow": "Ha yini u fanele ku joyina sweswi?",
+    "whyBullets": "• Pfuna ku aka masungulo ya messenger leyintshwa ya misava hinkwayo.\n• Humesa ku antswisiwa loku tirhisiwaka eka web, iOS, na Android.\n• Tirha hi ku kongoma na musunguri eka vumaki na nkongomiso wa xitirhisiwa.\n• Lawula tindhawu ta nkoka swinene ta vuhlanganisi: ku rhumela marungula, rito, vhidiyo, ku fihla marungula, vuhlanganisi bya riqingho, AI.\n• Nghenela eku sunguleni — loko nhlayo ya vatirhisi yi nga si kula."
+  },
+  "advertise": {
+    "title": "Xavisa na Chatforia",
+    "description": "Fikelela vatirhisi va marungula lava tsakelaka hi ku tirhisa swivandla swo saseka, leswi hlayisaka vito ra khampani ya wena. Hi nyiketa swivandla swa swibano (banner) eka tindhawu leti vonakaka ngopfu, vuxavisi byo seketela (sponsorships), na swikunguhato swo xavisa swa le ndzeni. Vatirhisi va Premium a va voni swinavetiso.",
+    "adsense": {
+      "withPubIdShort": "Hi tlhela hi tirhisa swikhangiso hi ku tirhisa Google AdSense. U nga kongomisa Chatforia hi ID ya muhangalasi {{pubId}}, kumbe u tirhisa fomo leyi nga laha hansi ku kuma vusponsori byo kongoma.",
+      "noPubIdShort": "Hi tlhela hi nyiketa swin'wana swa swikhangiso hi ku tirhisa Google AdSense. Vusponsori byo kongoma bya kumeka—tirhisa fomo leyi nga laha hansi."
+    },
+    "inventoryHeader": "Swikhangiso & Swipimelo",
+    "placement": {
+      "displayBadge": "Xikombiso",
+      "acceptedSizes": "Swikulu leswi amukeriwaka",
+      "adsenseSlot": "Sloti ya AdSense:"
+    },
+    "noPlacementsPublic": "Hi le ku hetisiseni ka nxaxamelo wa hina wa swinavetiso. Hi byele hi phurojeke ya wena naswona hi ta ringanyeta tindhawu to veka swinavetiso.",
+    "whyHeader": "Ha yini Chatforia?",
+    "why": {
+      "highSession": "Ntsengo wa le henhla wa tiseshini na nkarhi wo tshama eka UI ya bulo",
+      "brandSafe": "Tifomati leti hlayisekeke eka vuhangalasi; ku vekela ntsengo wa le henhla hi xichavo",
+      "sponsoredMoments": "Swinkarhi leswi xavisiweke (xik., \"Modal ya Sungula Bulo\") swa kumeka\",      \"deals\": \"Switwanano swo kongoma kumbe swa xiprogramu hi ku tirhisa AdSense/Google Ads"
+    },
+    "contactHeader": "Vuhlanganisi",
+    "form": {
+      "submittedMsg": "Hi nkhensa! Xikombelo xa wena xi le ndleleni. Hi ta landzelerisa ku nga ri khale.",
+      "missingRequired": "Hi kombela u tata vito, email, na rungula.",
+      "successToast": "Inkomu! Hi ta vulavurisana na wena ku nga ri khale.",
+      "mailtoInfo": "Ku pfula xiprograme xa wena xa email ku rhumela xivutiso…",
+      "nameLabel": "Vito ra wena",
+      "namePlaceholder": "Jane Doe",
+      "emailLabel": " Imeyili",
+      "ndhawu-yimeri ya imeyili": "you@company.com",
+      "Lebulo ra khampani": "Khampani",
+      "Ndhawu-yimeri ya khampani": "Acme Inc.",
+      "Lebulo ra bajete": "Bajete ya n'hweti (a swi bohi)",
+      "Ndhawu-yimeri ya bajete": "xik. $1,000–$20,000+",
+      "Lebulo ra rungula": "Hi byele hi phurojeke ya wena",
+      "Ndhawu-yimeri ya rungula": "Ku kongomisa, masiku, ti-KPI, ku rhandza ku vekiwa…",
+      "sendCta": "Rhumela xivutiso"
+    },
+    "legal": {
+      "disclaimerStart": "Hi ku rhumela, u pfumela eka swa hina",
+      "terms": "Swipimelo",
+      "and": "naswona",
+      "privacy": "Pholisi ya Vuhlayiseki"
+    }
+  },
+  "contact": {
+    "title": "Tihlanganise na Hina",
+    "successMsg": "Hi nkhensa—ntlawa wa hina wu ta hlamula hi email.",
+    "errorSend": "A swi kotekanga ku rhumela. Hi kombela u rhumela email eka support@chatforia.com.",
+    "form": {
+      "nameLabel": "Vito",
+      "emailLabel": "Email",
+      "messageLabel": "Mhaka",
+      "sendCta": "Rhumela"
+    }
+  },
+  "privacyPolicy": {
+    "title": "Pholisi ya Vuhlayiseki bya Vuxokoxoko",
+    "lastUpdated": "Ku hetelele ku pfuxetiwa:",
+    "intro": {
+      "body": "Pholisi leyi ya Vuhlayiseki bya Vuxokoxoko yi hlamusela ndlela leyi Chatforia (\"hina\", \"hina\") yi hlengeletaka, yi tirhisaka, na ku avelana vuxokoxoko loko u tirhisa ti-app na vukorhokeri bya hina. Hi endle Chatforia leswaku yi hunguta vuxokoxoko lebyi hi nga byi kumaka."
+    },
+    "vuxokoxokoLebyiHiByiHlengeletaka": {
+      "title": "Vuxokoxoko lebyi hi byi hlengeletaka",
+      "akhawunti": "Vuxokoxoko bya akhawunti (xik., imeyili/riqingho) ku tumbuluxa na ku sirhelela akhawunti ya wena.",
+      "encrypted": "Vuxokoxoko lebyi fihliweke (marungula/miringo) byi fihliwile ku suka eku sunguleni ku ya eku heleni; a hi nge swi koti ku byi hlaya.",
+      "diagnostics": "Vuxokoxoko byo kambisisa/matirhiselo ku fana na tilogo ta ku wa, muxaka wa xitirhisiwa, kumbe vuxokoxoko byo angarhela byo antswisa matirhelo."
+    },
+    "sms": {
+      "title": "Tinomboro ta riqingho ra movha na ti-SMS",
+      "body": "Loko u hlawula ku nyiketa nomboro ya riqingho ra movha, hi yi tirhisa ku pfuxeta swihlawulekisi swo fana na ku tiyisisa akhawunti, switsundzuxo swo nghena, na ku rhumela marungula exikarhi ka vatirhisi hi ku tirhisa SMS laha swi seketeriwaka kona. Hi nga rhumela marungula ya SMS ya swiendlo leswi fambelanaka na akhawunti ya wena na leswi u swi endlaka eka Chatforia. U nga tshika ku amukela marungula ya SMS nkarhi wun'wana na wun'wana hi ku hlamula hi 'opt' leyi seketeriwaka - rito ro huma (ku fana na \"STOP\") kumbe hi ku cinca swihlawulekisi swa wena swa switiviso eka app. A hi xavisi nomboro ya wena ya riqingho kumbe ku yi tirhisa eka vumakete lebyi nga fambisaniki na swona.",
+      "newText": "Matsalwa lamantshwa",
+      "enterRecipient": "Nghenisa vito kumbe nomboro",
+      "typeMessage": "Tsala rungula…",
+      "addRecipient": "Engetela muamukeri laha henhla ku sungula…"
+    },
+    "howWeUse": {
+      "title": "Ndlela leyi hi tirhisaka vuxokoxoko ha yona",
+      "provide": "Ku nyika na ku sirhelela vukorhokeri (ku tiyisisa vutivi, ku kuma spam/ku tirhisiwa ko biha).",
+      "improve": "Ku antswisa swihlawulekisi (nhlayo ya vuhundzuluxi, vutshembeki).",
+      "legal": "Ku landzelela swiboha swa nawu."
+    },
+    "kuAvelana": {
+      "nhloko": "Ku Avelana",
+      "miri": "A hi xavisi vuxokoxoko bya munhu hi xiyexe. Hi nga ha avelana vuxokoxoko lebyi pimiweke na vatirhisi va vuxokoxoko (xik., switiviso swa push, analytics) ehansi ka swivumelwano leswi tiyeke."
+    },
+    "timfanelo": {
+      "title": "Timfanelo ta wena",
+      "body": "Ku ya hi xifundzha xa wena (xik., GDPR/UK GDPR/CPRA), u nga kombela ku fikelela, ku lulamisa, ku susa, kumbe ku tihumesa eka maendlelo yo karhi. Tihlanganise na: privacy@chatforia.com."
+    },
+    "ku hlayisa": {
+      "title": "Ku hlayisa datha & vuhlayiseki",
+      "mbirhi": "Hi hlayisa ntsena leswi lavekaka ku fambisa vukorhokeri na ku tirhisa vuhlayiseki bya xiyimo xa bindzu. Vuxokoxoko bya E2E a byi nge pfuliwi hi hina."
+    },
+    "vana": {
+      "title": "Vana",
+      "mbirhi": "Chatforia a yi kongomisiwanga eka vana va le hansi ka malembe ya 13 (kumbe hilaha swi lavekaka hakona hi nawu wa le ka n'wina)."
+    },
+    "swicinci": {
+      "nhloko": "Swicinci",
+      "miri": "Hi ta veka swintshuxo laha naswona hi pfuxeta siku ra \"Ku hetelela ku pfuxetiwa\"."
+    },
+    "vuxokoxoko": {
+      "nhloko": "Vuhlanganisi",
+      "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "swipimelo": {
+    "title": "Swipimelo swa Vutirheli",
+    "lastUpdated": "Ku hetelele ku pfuxetiwa:",
+    "intro": {
+      "body": "Hi ku tirhisa Chatforia u pfumela Swipimelo leswi. Loko u nga pfumeli, u nga tirhisi vukorhokeri lebyi."
+    },
+    "accounts": {
+      "title": "Tiakhawunti",
+      "itemAccurateInfo": "Nyika vuxokoxoko lebyi lulameke naswona u hlayisa vuxokoxoko bya wena byi sirhelelekile.",
+      "itemResponsibility": "U na vutihlamuleri bya leswi endliwaka eka akawunti ya wena."
+    },
+    "acceptableUse": {
+      "title": "Matirhiselo lama amukelekaka",
+      "itemNoAbuse": "A ku na vuxokoxoko lebyi nga riki enawini, byo xanisa, kumbe lebyi tlurisanaka na milawu; a ku na spam kumbe matirhiselo yo biha lama tiendlekelaka.",
+      "itemSuspend": "Hi nga yimisa/hetelela vutirheli hikwalaho ka ku tlula milawu."
+    },
+    "sms": {
+      "title": "Mabulo ya SMS",
+      "body": "Loko u nyiketa nomboro ya riqingho ra movha, u pfumela leswaku Chatforia yi nga ku rhumela marungula ya SMS lama fambisanaka na akhawunti ya wena na matirhiselo ya vukorhokeri, yo fana na switsundzuxo swo nghena, switiviso swa vuhlayiseki, na marungula lama fambisanaka na mabulo lawa u ma sungulaka kumbe ku nghenelela eka wona. A hi tirhisi SMS eka marungula ya vukhangisi kumbe ya vumakete handle ka mpfumelelo wa wena lowu veke erivaleni. Swibalo swa ntolovelo swa marungula na data swi nga ha tirha. U nga tshika ku kuma marungula ya SMS nkarhi wun'wana na wun'wana hi ku hlamula hi rito leri seketeriwaka ro tshika (hi xikombiso, \"YERISA\") kumbe hi ku pfuxeta swiletelo swa wena swa switiviso eka app."
+    },
+    "vundzeniByau": {
+      "nhloko": "Vundzeni bya wena",
+      "miri": "U hlayisa timfanelo ta vundzeni bya wena. U hi nyika timfanelo leti lavekaka ku fambisa vukorhokeri (xik., ku kongomisa, ku hlayisa, ku hundzuluxa)."
+    },
+    "xitsiviso": {
+      "nhloko": "Switsiviso & Vutihlamuleri",
+      "body": "Vukorhokeri byi nyikeriwa \"hilaha byi nga ha kona\" handle ka switiyisekiso. Hi ku hetiseka loku pfumeleriwaka hi nawu, Chatforia a yi na vutihlamuleri eka ku onhaka loku nga kongomangiki kumbe loku landzelaka."
+    },
+    "swicinci": {
+      "title": "Swicinci",
+      "body": "Hi nga ha pfuxeta swipimelo leswi; ku ya emahlweni u tirhisa endzhaku ka swicinci swi vula ku amukela."
+    },
+    "vutihlanganisi": {
+      "nhloko": "Vutihlanganisi",
+      "miri": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
+    }
+  },
+  "kuVuyiseriwa": {
+    "nhloko": "Pholisi ya ku Vuyiseriwa",
+    "lastUpdated": "Ku hetelele ku pfuxetiwa:",
+    "intro": "Eka Chatforia, hi tikarhatela ku nyika vukorhokeri bya xiyimo xa le henhla eka vatirhisi hinkwavo. Pholisi leyi ya ku Vuyiseriwa ka Mali yi hlamusela leswaku ku vuyiseriwa ka mali ku nga endliwa rini.",
+    "subscriptions": {
+      "title": "Swibhaliso",
+      "body": "Swibhaliso swi hakeriwa ka ha ri na nkarhi hi ndlela leyi vuyelelaka. U nga tshika nkarhi wun'wana na wun'wana hi ku tirhisa swiletelo swa akawunti ya wena kumbe pulatifomo leyi tirhisiweke ku xava."
+    },
+    "eligible": {
+      "title": "Ku Faneleka ka ku Vuyiseriwa Mali",
+      "body": "Mali yi nga vuyiseriwa hikwalaho ka ku hakerisiwa kambirhi, swihoxo swa ku hakela, kumbe swiphiqo swa thekiniki leswi sivelaka ku fikelela swihlawulekisi leswi hakeriwaka. Swikombelo hinkwaswo swi kambisisiwa hi ku ya hi xiyimo xa swona."
+    },
+    "nonRefundable": {
+      "title": "Leswi nga Vuyiseriki Mali",
+      "body": "Hi ntolovelo a hi nyiki mali yo vuyiseriwa eka nkarhi lowu nga tirhisiwangiki, swiyenge swa nkarhinyana swa vuxirho, kumbe ku tsandzeka ku tshika vuxirho ku nga si pfuxetiwa."
+    },
+    "thirdParty": {
+      "title": "Swo Xaviwa eka Vaxavisi va le Handle",
+      "body": "Loko swi xaviwile hi ku tirhisa swiplatfomo swa vanhu va le handle swo fana na Apple App Store, swikombelo swa mali yo vuyiseriwa swi fanele ku endliwa hi ku kongoma eka swiplatfomo sweswo."
+    },
+    "vuxokoxoko": {
+      "nhloko": "Vuxokoxoko",
+      "miri": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
+    }
+  },
+  "uNgaXavisi": {
+    "nhloko": "U Nga Xavisi kumbe Ku Avelana Vuxokoxoko bya Mina bya Munhu hi Xiyexe",
+    "miri": "Chatforia a yi xavisi vuxokoxoko bya munhu hi xiyexe. Vaaki va le California va ha kota ku rhumela swikombelo ehansi ka CPRA hi ku tirhisa buti leri nga laha hansi.",
+    "cta": "Rhumela xikombelo"
+  },
+  "cookies": {
+    "title": "Swilunghiselelo swa tiCookie",
+    "body": "Chatforia yi tirhisa ti-cookie ti nga ri tingani (xik., ya nkarhinyana, ya vuhlayiseki). A hi tirhisi ti-cookie ta swinavetiso swa vanhu van'wana. Lawula ti-cookie hi ku tirhisa swilunghiselelo swa browser ya wena."
+  },
+  "premiumGuard": {
+    "requiresPremium": "Xitirhisiwa lexi xi lava pulani ya Premium."
   }
 }
