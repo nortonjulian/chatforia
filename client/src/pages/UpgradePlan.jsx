@@ -100,6 +100,10 @@ function formatMoney(amountMinor, currency = 'USD', locale) {
   return nf.format(major);
 }
 
+export function redirectToUrl(url) {
+  window.location.assign(url);
+}
+
 /* ---------------- components ---------------- */
 
 export function PlanCard({
@@ -552,7 +556,7 @@ function PricingFaqSection() {
 
 /* ---------------- page ---------------- */
 
-export default function UpgradePage({ variant = 'account' }) {
+export default function UpgradePage({ variant = 'account', redirect = redirectToUrl }) {
   const { t } = useTranslation();
   const { currentUser } = useUser();
   const navigate = useNavigate();
@@ -927,7 +931,7 @@ useEffect(() => {
           plan,
         });
 
-        window.location.href = url;
+        redirect(url);
       }
     } catch (e) {
       posthog.capture('checkout_failed', {
@@ -993,7 +997,7 @@ useEffect(() => {
           price_id_present: Boolean(priceId),
         });
 
-        window.location.href = url;
+        redirect(url);
       }
     } catch (e) {
       posthog.capture('esim_checkout_failed', {
@@ -1013,7 +1017,7 @@ useEffect(() => {
       setLoadingPortal(true);
       const { data } = await axiosClient.post('/billing/portal', {});
       const url = data?.portalUrl || data?.url;
-      if (url) window.location.href = url;
+      if (url) redirect(url);
     } catch (e) {
       console.error('Portal error', e);
     } finally {

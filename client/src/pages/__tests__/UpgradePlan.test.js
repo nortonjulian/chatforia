@@ -1,26 +1,6 @@
 /** @jest-environment jsdom */
 
-import { act } from 'react';
-import { render, screen, fireEvent, within } from '@testing-library/react';
-
-// ---- Patch window.location ONCE so href redirects are testable ----
-let assignedHref = '';
-const originalLocation = window.location;
-
-delete window.location;
-
-window.location = {
-  get href() {
-    return assignedHref;
-  },
-  set href(v) {
-    assignedHref = String(v);
-  },
-};
-
-function resetHref(val = '') {
-  assignedHref = val;
-}
+import { render, screen, fireEvent, within, waitFor } from '@testing-library/react';
 
 // ---- Minimal Mantine stubs ----
 jest.mock('@mantine/core', () => {
@@ -68,7 +48,6 @@ jest.mock('@mantine/core', () => {
       spacing,
       component,
       color,
-      ml,
       ...rest
     } = props;
 
@@ -100,13 +79,9 @@ jest.mock('@mantine/core', () => {
   TableRoot.Th = ({ children }) => <th>{children}</th>;
   TableRoot.Td = ({ children }) => <td>{children}</td>;
 
-  const Accordion = ({ children }) => (
-    <div data-testid="accordion">{children}</div>
-  );
+  const Accordion = ({ children }) => <div data-testid="accordion">{children}</div>;
   Accordion.Item = ({ children }) => <div>{children}</div>;
-  Accordion.Control = ({ children }) => (
-    <button type="button">{children}</button>
-  );
+  Accordion.Control = ({ children }) => <button type="button">{children}</button>;
   Accordion.Panel = ({ children }) => <div>{children}</div>;
 
   return {
@@ -251,15 +226,10 @@ describe('UpgradePage', () => {
     jest.clearAllMocks();
 
     mockCurrentUser = { plan: 'FREE' };
-    resetHref('');
 
     for (const key of [...mockSearchParams.keys()]) {
       mockSearchParams.delete(key);
     }
-  });
-
-  afterAll(() => {
-    window.location = originalLocation;
   });
 
   test('renders Free and Premium cards; Free is the current plan', async () => {
@@ -281,38 +251,41 @@ describe('UpgradePage', () => {
   });
 
   test('FREE user: checkout error does not navigate', async () => {
+    const redirectSpy = jest.fn();
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockPost.mockRejectedValueOnce({
       response: { data: { message: 'Stripe not configured' } },
     });
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
     const premiumMonthlyCard = screen.getByTestId('plan-premium-monthly');
     const upgradeMonthlyBtn = within(premiumMonthlyCard).getByRole('button');
 
-    await act(async () => {
-      fireEvent.click(upgradeMonthlyBtn);
+    fireEvent.click(upgradeMonthlyBtn);
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/billing/checkout', {
+        plan: 'PREMIUM_MONTHLY',
+      });
     });
 
-    expect(mockPost).toHaveBeenCalledWith('/billing/checkout', {
-      plan: 'PREMIUM_MONTHLY',
-    });
-
-    expect(assignedHref).toBe('');
+    expect(redirectSpy).not.toHaveBeenCalled();
 
     errorSpy.mockRestore();
   });
 
   test('FREE user: clicking Upgrade Monthly posts checkout', async () => {
+    const redirectSpy = jest.fn();
+
     mockPost.mockResolvedValueOnce({
       data: { checkoutUrl: 'https://pay.example/checkout' },
     });
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -321,18 +294,21 @@ describe('UpgradePage', () => {
 
     expect(upgradeMonthlyBtn).toHaveTextContent(/upgrade monthly/i);
 
-    await act(async () => {
-      fireEvent.click(upgradeMonthlyBtn);
+    fireEvent.click(upgradeMonthlyBtn);
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/billing/checkout', {
+        plan: 'PREMIUM_MONTHLY',
+      });
     });
 
-    expect(mockPost).toHaveBeenCalledWith('/billing/checkout', {
-      plan: 'PREMIUM_MONTHLY',
+    await waitFor(() => {
+      expect(redirectSpy).toHaveBeenCalledWith('https://pay.example/checkout');
     });
-
-    expect(assignedHref).toBe('https://pay.example/checkout');
   });
 
   test('FREE user: clicking Upgrade Monthly sets button to Redirecting', async () => {
+    const redirectSpy = jest.fn();
     let resolveCheckout;
 
     mockPost.mockReturnValueOnce(
@@ -341,7 +317,7 @@ describe('UpgradePage', () => {
       })
     );
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -355,21 +331,22 @@ describe('UpgradePage', () => {
     expect(redirectingBtn).toHaveTextContent(/redirecting/i);
     expect(redirectingBtn).toHaveAttribute('aria-busy', 'true');
 
-    await act(async () => {
-      resolveCheckout({ data: { checkoutUrl: 'https://x' } });
-    });
+    resolveCheckout({ data: { checkoutUrl: 'https://x' } });
 
-    expect(assignedHref).toBe('https://x');
+    await waitFor(() => {
+      expect(redirectSpy).toHaveBeenCalledWith('https://x');
+    });
   });
 
   test('Premium user: portal error handled', async () => {
+    const redirectSpy = jest.fn();
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     mockCurrentUser = { plan: 'PREMIUM', id: 1 };
 
     mockPost.mockRejectedValueOnce(new Error('network down'));
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -378,24 +355,27 @@ describe('UpgradePage', () => {
 
     expect(manageBtn).toHaveTextContent(/manage billing/i);
 
-    await act(async () => {
-      fireEvent.click(manageBtn);
+    fireEvent.click(manageBtn);
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/billing/portal', {});
     });
 
-    expect(mockPost).toHaveBeenCalledWith('/billing/portal', {});
-    expect(assignedHref).toBe('');
+    expect(redirectSpy).not.toHaveBeenCalled();
 
     errorSpy.mockRestore();
   });
 
   test('Premium user: clicking Manage Billing posts portal request', async () => {
+    const redirectSpy = jest.fn();
+
     mockCurrentUser = { plan: 'PREMIUM' };
 
     mockPost.mockResolvedValueOnce({
       data: { portalUrl: 'https://billing.example/portal' },
     });
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -404,15 +384,20 @@ describe('UpgradePage', () => {
 
     expect(manageBtn).toHaveTextContent(/manage billing/i);
 
-    await act(async () => {
-      fireEvent.click(manageBtn);
+    fireEvent.click(manageBtn);
+
+    await waitFor(() => {
+      expect(mockPost).toHaveBeenCalledWith('/billing/portal', {});
     });
 
-    expect(mockPost).toHaveBeenCalledWith('/billing/portal', {});
-    expect(assignedHref).toBe('https://billing.example/portal');
+    await waitFor(() => {
+      expect(redirectSpy).toHaveBeenCalledWith('https://billing.example/portal');
+    });
   });
 
   test('PREMIUM user: clicking Manage Billing sets button to Opening', async () => {
+    const redirectSpy = jest.fn();
+
     mockCurrentUser = { plan: 'PREMIUM' };
 
     let resolvePortal;
@@ -423,7 +408,7 @@ describe('UpgradePage', () => {
       })
     );
 
-    render(<UpgradePage />);
+    render(<UpgradePage redirect={redirectSpy} />);
 
     await screen.findByTestId('plan-premium-monthly');
 
@@ -437,11 +422,11 @@ describe('UpgradePage', () => {
     expect(openingBtn).toHaveTextContent(/opening/i);
     expect(openingBtn).toHaveAttribute('aria-busy', 'true');
 
-    await act(async () => {
-      resolvePortal({ data: { portalUrl: 'https://y' } });
-    });
+    resolvePortal({ data: { portalUrl: 'https://y' } });
 
-    expect(assignedHref).toBe('https://y');
+    await waitFor(() => {
+      expect(redirectSpy).toHaveBeenCalledWith('https://y');
+    });
   });
 
   test('Free card button is disabled for Free users', async () => {

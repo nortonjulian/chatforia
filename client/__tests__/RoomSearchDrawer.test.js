@@ -13,6 +13,8 @@ jest.mock('@mantine/core', () => {
   return {
     __esModule: true,
 
+    MantineProvider: ({ children }) => <>{children}</>,
+
     Drawer: ({ opened, children }) =>
       opened ? <div>{children}</div> : null,
 

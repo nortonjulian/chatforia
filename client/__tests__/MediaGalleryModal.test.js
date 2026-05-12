@@ -6,6 +6,7 @@ import { screen, within } from '@testing-library/react';
 
 // ---- messagesStore mock ----
 const mockGetMediaInRoom = jest.fn();
+
 jest.mock('../src/utils/messagesStore', () => ({
   __esModule: true,
   getMediaInRoom: (...args) => mockGetMediaInRoom(...args),
@@ -27,23 +28,17 @@ test('renders images/video/audio and opens viewer on image click', async () => {
 
   renderWithRouter(<MediaGalleryModal opened roomId={5} onClose={() => {}} />);
 
-  // Gallery dialog shows
-  expect(await screen.findByRole('dialog', { name: /shared media/i })).toBeInTheDocument();
+  const gallery = await screen.findByRole('dialog', { name: /shared media/i });
+  expect(gallery).toBeInTheDocument();
 
-  // Open viewer by clicking image
   await userEvent.click(await screen.findByRole('img', { name: /pic1/i }));
 
-  // Scope to the viewer dialog (avoid duplicate text matches)
-  const viewer = await screen.findByRole('dialog', { name: /pic1/i });
+  const dialogs = await screen.findAllByRole('dialog');
+  const viewer = dialogs[1];
+
   expect(viewer).toBeInTheDocument();
-
-  // Assert heading specifically (avoids duplicate with caption <p>)
   expect(within(viewer).getByRole('heading', { name: /pic1/i })).toBeInTheDocument();
-
-  // Optionally also assert the caption <p> using selector to disambiguate
   expect(within(viewer).getByText(/pic1/i, { selector: 'p' })).toBeInTheDocument();
-
-  // And the image inside viewer
   expect(within(viewer).getByRole('img', { name: /pic1/i })).toBeInTheDocument();
 });
 
@@ -53,6 +48,7 @@ test('shows empty state when no media', async () => {
   renderWithRouter(<MediaGalleryModal opened roomId={42} onClose={() => {}} />);
 
   const gallery = await screen.findByRole('dialog', { name: /shared media/i });
+
   expect(gallery).toBeInTheDocument();
   expect(within(gallery).getByText(/no media cached locally yet/i)).toBeInTheDocument();
 });
@@ -69,17 +65,16 @@ test('normalizes legacy fields (imageUrl) and reverses order (newest first)', as
   expect(gallery).toBeInTheDocument();
 
   const thumbs = await within(gallery).findAllByRole('img');
+
   expect(thumbs.length).toBeGreaterThanOrEqual(2);
 
-  // Newest first due to reverse(); open the viewer
   await userEvent.click(thumbs[0]);
 
-  const viewer = await screen.findByRole('dialog', { name: /newest/i });
-  expect(viewer).toBeInTheDocument();
+  const dialogs = await screen.findAllByRole('dialog');
+  const viewer = dialogs[1];
 
-  // Heading (title) and caption <p> — use specific queries to avoid duplicates
+  expect(viewer).toBeInTheDocument();
   expect(within(viewer).getByRole('heading', { name: /newest/i })).toBeInTheDocument();
   expect(within(viewer).getByText(/newest/i, { selector: 'p' })).toBeInTheDocument();
-
   expect(within(viewer).getByRole('img', { name: /newest/i })).toBeInTheDocument();
 });

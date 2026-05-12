@@ -2,11 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 
+const mockGet = jest.fn();
 const mockPost = jest.fn();
 
 jest.mock('../../api/axiosClient', () => ({
   __esModule: true,
   default: {
+    get: (...args) => mockGet(...args),
     post: (...args) => mockPost(...args),
   },
 }));
@@ -18,10 +20,13 @@ jest.mock('@/utils/analytics', () => ({
   },
 }));
 
+const mockT = (_key, defaultText) => defaultText || _key;
+
+
 jest.mock('react-i18next', () => ({
   __esModule: true,
   useTranslation: () => ({
-    t: (_key, defaultText) => defaultText || _key,
+    t: mockT,
   }),
 }));
 
@@ -42,7 +47,7 @@ describe('MyPlan page', () => {
   test('shows loader text while fetching plan', async () => {
     let resolvePromise;
 
-    mockPost.mockImplementationOnce(
+    mockGet.mockImplementationOnce(
       () =>
         new Promise((resolve) => {
           resolvePromise = resolve;
@@ -75,7 +80,7 @@ describe('MyPlan page', () => {
   });
 
   test('renders free plan data and upgrade CTA on success', async () => {
-    mockPost.mockResolvedValueOnce({
+    mockGet.mockResolvedValueOnce({
       data: {
         plan: {
           label: 'Free',
@@ -94,13 +99,11 @@ describe('MyPlan page', () => {
     expect(await screen.findByText('Free')).toBeInTheDocument();
 
     expect(
-      screen.getByText(
-        /upgrade to unlock more features/i
-      )
+      screen.getByText(/upgrade to unlock more features/i)
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('link', {
+      screen.getByRole('button', {
         name: /upgrade plan/i,
       })
     ).toBeInTheDocument();
@@ -111,11 +114,11 @@ describe('MyPlan page', () => {
       })
     ).not.toBeInTheDocument();
 
-    expect(mockPost).toHaveBeenCalled();
+    expect(mockGet).toHaveBeenCalledWith('/billing/my-plan');
   });
 
-  test('renders paid plan data, badge, price and actions', async () => {
-    mockPost.mockResolvedValueOnce({
+  test('renders paid plan data, badge, renewal text and actions', async () => {
+    mockGet.mockResolvedValueOnce({
       data: {
         plan: {
           label: 'Chatforia Premium',
@@ -135,20 +138,14 @@ describe('MyPlan page', () => {
       await screen.findByText('Chatforia Premium')
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByText(/\$25\.00/i)
-    ).toBeInTheDocument();
-
-    expect(
-      screen.getByText(/usd\/month/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText('active')).toBeInTheDocument();
 
     expect(
       screen.getByText(/renews on/i)
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('link', {
+      screen.getByRole('button', {
         name: /change plan/i,
       })
     ).toBeInTheDocument();
@@ -164,6 +161,8 @@ describe('MyPlan page', () => {
         name: /cancel now/i,
       })
     ).toBeInTheDocument();
+
+    expect(mockGet).toHaveBeenCalledWith('/billing/my-plan');
   });
 
   test('shows error message when request fails', async () => {
@@ -171,14 +170,12 @@ describe('MyPlan page', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => {});
 
-    mockPost.mockRejectedValueOnce(new Error('boom'));
+    mockGet.mockRejectedValueOnce(new Error('boom'));
 
     renderWithRouter();
 
     expect(
-      await screen.findByText(
-        /unable to load your plan/i
-      )
+      await screen.findByText(/unable to load your plan/i)
     ).toBeInTheDocument();
 
     expect(

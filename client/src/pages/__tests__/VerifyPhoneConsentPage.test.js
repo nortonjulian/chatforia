@@ -1,5 +1,13 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import * as Router from 'react-router-dom';
+
+const mockNavigate = jest.fn();
+const mockUseLocation = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  __esModule: true,
+  useNavigate: () => mockNavigate,
+  useLocation: () => mockUseLocation(),
+}));
 
 const mockVerifyPhoneConsent = jest.fn(({ phoneNumber, onContinue, onCancel }) => {
   return (
@@ -11,43 +19,41 @@ const mockVerifyPhoneConsent = jest.fn(({ phoneNumber, onContinue, onCancel }) =
   );
 });
 
-jest.mock('../components/VerifyPhoneConsent', () => (props) =>
+jest.mock('../../components/VerifyPhoneConsent', () => (props) =>
   mockVerifyPhoneConsent(props)
 );
 
-const { default: VerifyPhoneConsentPage } = require('../VerifyPhoneConsentPage');
+import VerifyPhoneConsentPage from '../VerifyPhoneConsentPage';
 
 describe('VerifyPhoneConsentPage', () => {
-  const navigateMock = jest.fn();
   const originalFetch = global.fetch;
   const originalAlert = global.alert;
+  const originalConsoleError = console.error;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    jest.spyOn(Router, 'useLocation').mockReturnValue({
+    mockUseLocation.mockReturnValue({
       state: { phoneNumber: '+15551234567' },
     });
 
-    jest.spyOn(Router, 'useNavigate').mockReturnValue(navigateMock);
-
     global.fetch = jest.fn();
     global.alert = jest.fn();
+    console.error = jest.fn();
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
     global.fetch = originalFetch;
     global.alert = originalAlert;
+    console.error = originalConsoleError;
   });
 
   it('redirects to /register if no phoneNumber in location.state', () => {
-    jest.spyOn(Router, 'useLocation').mockReturnValue({ state: {} });
-    jest.spyOn(Router, 'useNavigate').mockReturnValue(navigateMock);
+    mockUseLocation.mockReturnValue({ state: {} });
 
     const { container } = render(<VerifyPhoneConsentPage />);
 
-    expect(navigateMock).toHaveBeenCalledWith('/register');
+    expect(mockNavigate).toHaveBeenCalledWith('/register');
     expect(container).toBeEmptyDOMElement();
   });
 
@@ -73,7 +79,7 @@ describe('VerifyPhoneConsentPage', () => {
       body: JSON.stringify({ phoneNumber: '+15551234567' }),
     });
 
-    expect(navigateMock).toHaveBeenCalledWith('/verify-code', {
+    expect(mockNavigate).toHaveBeenCalledWith('/verify-code', {
       state: { phoneNumber: '+15551234567' },
     });
   });
@@ -96,7 +102,7 @@ describe('VerifyPhoneConsentPage', () => {
       'Unable to send verification code. Please try again.'
     );
 
-    expect(navigateMock).not.toHaveBeenCalledWith(
+    expect(mockNavigate).not.toHaveBeenCalledWith(
       '/verify-code',
       expect.anything()
     );
@@ -117,7 +123,7 @@ describe('VerifyPhoneConsentPage', () => {
       'Unable to send verification code. Please try again.'
     );
 
-    expect(navigateMock).not.toHaveBeenCalledWith(
+    expect(mockNavigate).not.toHaveBeenCalledWith(
       '/verify-code',
       expect.anything()
     );
@@ -128,6 +134,6 @@ describe('VerifyPhoneConsentPage', () => {
 
     fireEvent.click(screen.getByText('Cancel'));
 
-    expect(navigateMock).toHaveBeenCalledWith(-1);
+    expect(mockNavigate).toHaveBeenCalledWith(-1);
   });
 });

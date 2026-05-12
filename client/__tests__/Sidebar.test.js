@@ -360,43 +360,31 @@ describe('Sidebar', () => {
     );
   });
 
-  test('desktop-only ad tile shows only when FREE and not mobile', () => {
-    // FREE plan on desktop -> ad visible
-    mockUseMediaQuery.mockReturnValue(false);
-    const { rerender } = render(
-      <Sidebar
-        currentUser={{ id: 'u1', plan: 'FREE' }}
-        setSelectedRoom={() => {}}
-        features={{}}
-      />
-    );
-    expect(
-      screen.getByTestId('adslot-SIDEBAR_PRIMARY')
-    ).toBeInTheDocument();
+  test('does not render sidebar ad slot', () => {
+  mockUseMediaQuery.mockReturnValue(false);
 
-    // PREMIUM plan on desktop -> no ad
-    rerender(
-      <Sidebar
-        currentUser={{ id: 'u2', plan: 'PREMIUM' }}
-        setSelectedRoom={() => {}}
-        features={{}}
-      />
-    );
-    expect(
-      screen.queryByTestId('adslot-SIDEBAR_PRIMARY')
-    ).not.toBeInTheDocument();
+  const { rerender } = render(
+    <Sidebar
+      currentUser={{ id: 'u1', plan: 'FREE' }}
+      setSelectedRoom={() => {}}
+      features={{}}
+    />
+  );
 
-    // FREE plan but mobile -> no ad
-    mockUseMediaQuery.mockReturnValue(true);
-    rerender(
-      <Sidebar
-        currentUser={{ id: 'u3', plan: 'FREE' }}
-        setSelectedRoom={() => {}}
-        features={{}}
-      />
-    );
-    expect(
-      screen.queryByTestId('adslot-SIDEBAR_PRIMARY')
-    ).not.toBeInTheDocument();
-  });
+  expect(
+    screen.queryByTestId('adslot-SIDEBAR_PRIMARY')
+  ).not.toBeInTheDocument();
+
+  rerender(
+    <Sidebar
+      currentUser={{ id: 'u2', plan: 'PREMIUM' }}
+      setSelectedRoom={() => {}}
+      features={{}}
+    />
+  );
+
+  expect(
+    screen.queryByTestId('adslot-SIDEBAR_PRIMARY')
+  ).not.toBeInTheDocument();
+ });
 });

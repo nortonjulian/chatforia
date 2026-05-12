@@ -1,18 +1,52 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import FileUploader from '@/components/FileUploader';
+import axiosClient from '@/api/axiosClient';
+import { toast } from '@/utils/toast';
 
 jest.mock('@/api/axiosClient', () => ({
   __esModule: true,
-  default: { post: jest.fn() }, // <-- no out-of-scope vars
+  default: { post: jest.fn() },
 }));
 
-import axiosClient from '@/api/axiosClient'; // <-- use the mocked module
+jest.mock('@/utils/toast', () => ({
+  toast: {
+    ok: jest.fn(),
+    err: jest.fn(),
+  },
+}));
 
-// Spy on FormData.append
-const appendSpy = jest.spyOn(FormData.prototype, 'append');
+class MockXHR {
+  open = jest.fn();
+  setRequestHeader = jest.fn();
+  upload = {};
+  status = 200;
+
+  send = jest.fn(() => {
+    this.upload.onprogress?.({
+      lengthComputable: true,
+      loaded: 50,
+      total: 100,
+    });
+
+    setTimeout(() => {
+      this.onload?.();
+    }, 0);
+  });
+}
 
 beforeEach(() => {
   jest.clearAllMocks();
+
+  global.XMLHttpRequest = jest.fn(() => new MockXHR());
+
+  Object.defineProperty(window, 'crypto', {
+    value: {
+      subtle: {
+        digest: jest.fn().mockResolvedValue(new ArrayBuffer(32)),
+      },
+    },
+    configurable: true,
+  });
 });
 
 function makeFile(name = 'pic.png', type = 'image/png', content = 'x') {
@@ -20,66 +54,132 @@ function makeFile(name = 'pic.png', type = 'image/png', content = 'x') {
 }
 
 describe('FileUploader', () => {
-  test('successful upload posts FormData with headers, calls onUploaded, resets input and UI', async () => {
+  test('successful upload creates intent, uploads file, completes upload, and calls onUploaded', async () => {
+    const onStart = jest.fn();
+    const onProgress = jest.fn();
     const onUploaded = jest.fn();
-    const payload = { ok: true, url: 'https://cdn/x.png', key: 'k', contentType: 'image/png', size: 1 };
 
-    let resolve;
-    const promise = new Promise((res) => (resolve = res));
-    axiosClient.post.mockReturnValue(promise); // <-- use the mock here
+    axiosClient.post
+      .mockResolvedValueOnce({
+        data: {
+          uploadUrl: 'https://uploads.example.com/pic.png',
+          key: 'uploads/pic.png',
+          publicUrl: 'https://cdn.example.com/pic.png',
+        },
+      })
+      .mockResolvedValueOnce({
+        data: {
+          file: {
+            key: 'uploads/pic.png',
+            name: 'pic.png',
+            contentType: 'image/png',
+            size: 1,
+          },
+        },
+      });
 
-    render(<FileUploader onUploaded={onUploaded} />);
+    const { container } = render(
+      <FileUploader
+        button={<button type="button">Choose file</button>}
+        onStart={onStart}
+        onProgress={onProgress}
+        onUploaded={onUploaded}
+      />
+    );
 
-    const fileInput = screen.getByLabelText(/choose file/i, { selector: 'input[type="file"]' });
-    const button = screen.getByRole('button', { name: /choose file/i });
+    const file = makeFile();
+    const fileInput = container.querySelector('input[type="file"]');
 
-    fireEvent.change(fileInput, { target: { files: [makeFile()] } });
-
-    expect(button).toBeDisabled();
-    expect(button).toHaveTextContent('Uploading…');
-
-    resolve({ data: payload });
-
-    await waitFor(() => {
-      expect(axiosClient.post).toHaveBeenCalledTimes(1);
+    fireEvent.change(fileInput, {
+      target: { files: [file] },
     });
 
-    const [url, formData, config] = axiosClient.post.mock.calls[0];
-    expect(url).toBe('/media/upload');
-    expect(formData).toBeInstanceOf(FormData);
-    expect(config.headers['Content-Type']).toBe('multipart/form-data');
-    expect(config.headers['X-Requested-With']).toBe('XMLHttpRequest');
-    expect(typeof config.onUploadProgress).toBe('function');
+    await waitFor(() => {
+      expect(onUploaded).toHaveBeenCalledTimes(1);
+    });
 
-    expect(appendSpy).toHaveBeenCalledWith('file', expect.any(File));
-    expect(onUploaded).toHaveBeenCalledWith(payload);
-    expect(fileInput.value).toBe('');
-    expect(button).not.toBeDisabled();
-    expect(button).toHaveTextContent('Choose file');
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(onStart).toHaveBeenCalledWith(file);
+
+    expect(axiosClient.post).toHaveBeenNthCalledWith(
+      1,
+      '/uploads/intent',
+      expect.objectContaining({
+        name: 'pic.png',
+        size: file.size,
+        mimeType: 'image/png',
+        sha256: null,
+      }),
+      {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      }
+    );
+
+    expect(global.XMLHttpRequest).toHaveBeenCalledTimes(1);
+    expect(onProgress).toHaveBeenCalledWith(50, file);
+
+    expect(axiosClient.post).toHaveBeenNthCalledWith(
+      2,
+      '/uploads/complete',
+      expect.objectContaining({
+        key: 'uploads/pic.png',
+        name: 'pic.png',
+        mimeType: 'image/png',
+        size: file.size,
+        sha256: null,
+      }),
+      {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      }
+    );
+
+    expect(onUploaded).toHaveBeenCalledWith(
+      expect.objectContaining({
+        key: 'uploads/pic.png',
+        url: 'https://cdn.example.com/pic.png',
+        name: 'pic.png',
+        mimeType: 'image/png',
+        contentType: 'image/png',
+        size: file.size,
+      })
+    );
+
+    expect(toast.ok).toHaveBeenCalledWith('File uploaded.');
   });
 
-  test('failed upload shows server error and re-enables controls', async () => {
-    axiosClient.post.mockRejectedValue({ response: { data: { error: 'Upload blocked' } } });
+  test('failed intent calls onError and toast.err', async () => {
+    const onError = jest.fn();
 
-    render(<FileUploader onUploaded={jest.fn()} />);
+    axiosClient.post.mockRejectedValueOnce(new Error('Upload blocked'));
 
-    const fileInput = screen.getByLabelText(/choose file/i, { selector: 'input[type="file"]' });
-    const button = screen.getByRole('button', { name: /choose file/i });
+    const { container } = render(
+      <FileUploader button={<button type="button">Choose file</button>} onError={onError} />
+    );
 
-    fireEvent.change(fileInput, { target: { files: [makeFile()] } });
+    const fileInput = container.querySelector('input[type="file"]');
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Upload blocked');
-    expect(button).not.toBeDisabled();
-    expect(button).toHaveTextContent('Choose file');
-    expect(fileInput.value).toBe('');
+    fireEvent.change(fileInput, {
+      target: { files: [makeFile()] },
+    });
+
+    await waitFor(() => {
+      expect(onError).toHaveBeenCalledWith('Upload blocked');
+    });
+
+    expect(toast.err).toHaveBeenCalledWith('Upload blocked');
+    expect(axiosClient.post).toHaveBeenCalledTimes(1);
   });
 
   test('no action when user cancels file selection', () => {
-    render(<FileUploader onUploaded={jest.fn()} />);
-    const fileInput = screen.getByLabelText(/choose file/i, { selector: 'input[type="file"]' });
+    const { container } = render(
+      <FileUploader button={<button type="button">Choose file</button>} onUploaded={jest.fn()} />
+    );
 
-    fireEvent.change(fileInput, { target: { files: [] } });
+    const fileInput = container.querySelector('input[type="file"]');
+
+    fireEvent.change(fileInput, {
+      target: { files: [] },
+    });
+
     expect(axiosClient.post).not.toHaveBeenCalled();
   });
 });

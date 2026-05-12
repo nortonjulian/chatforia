@@ -12,7 +12,7 @@ import {
 import axiosClient from '../api/axiosClient';
 import { generateKeypair, saveKeysLocal } from '../utils/keys';
 import { importEncryptedPrivateKey } from '../utils/keyBackup';
-
+import { useTranslation } from 'react-i18next';
 import { uploadRemoteKeyBackup } from '../utils/keyBackupRemote';
 
 import { restoreRemoteKeyBackupToLocal } from '../utils/keyBackupRemote';
@@ -20,6 +20,7 @@ import { restoreRemoteKeyBackupToLocal } from '../utils/keyBackupRemote';
 import { loadKeysLocal } from '../utils/keys';
 
 export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
+  const { t } = useTranslation();
   const [accountPassword, setAccountPassword] = useState('');
   const fileRef = useRef(null);
   const [pwd, setPwd] = useState('');
@@ -47,16 +48,15 @@ export default function KeySetupModal({ opened, onClose, haveServerPubKey }) {
         return;
       }
 
+      const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
+
       const existing = await loadKeysLocal();
+
       await saveKeysLocal({
         publicKey: existing?.publicKey || null,
         privateKey: privateKeyB64,
       });
-
-      const privateKeyB64 = await importEncryptedPrivateKey(file, pwd);
-      // We keep the existing publicKey locally (if any); private key unlocks old messages
-      saveKeysLocal({ privateKey: privateKeyB64 });
-
+      
       setMsg(
         t(
           'keySetup.imported',

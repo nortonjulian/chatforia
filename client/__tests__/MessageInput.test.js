@@ -1,20 +1,25 @@
 /** @jest-environment jsdom */
 
+import React from 'react';
 import { jest } from '@jest/globals';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
-import { renderWithRouter } from '../src/test-utils.js';
 
-// ---- Mantine mocks ----
+// ---- Mantine mock ----
 jest.mock('@mantine/core', () => {
   const React = require('react');
 
   const cleanProps = (props = {}) => {
     const {
       children,
-      autosize,
-      withBorder,
+      gap,
+      wrap,
+      align,
+      justify,
       radius,
+      size,
+      variant,
+      withBorder,
       shadow,
       p,
       px,
@@ -30,23 +35,24 @@ jest.mock('@mantine/core', () => {
       mb,
       ml,
       mr,
-      gap,
-      spacing,
-      fw,
+      w,
+      maw,
+      mih,
       c,
-      variant,
-      size,
-      justify,
-      align,
-      wrap,
-      grow,
+      fw,
       styles,
-      sx,
+      autosize,
+      minRows,
+      maxRows,
+      withinPortal,
+      openDelay,
       ...rest
     } = props;
 
     return { children, rest };
   };
+
+  const MantineProvider = ({ children }) => <>{children}</>;
 
   const Box = (props) => {
     const { children, rest } = cleanProps(props);
@@ -68,65 +74,114 @@ jest.mock('@mantine/core', () => {
     return <div {...rest}>{children}</div>;
   };
 
-  const Text = (props) => {
+  const mockCard = (props) => {
+    const { children, rest } = cleanProps(props);
+    return <div {...rest}>{children}</div>;
+  };
+
+  const mockBadge = (props) => {
     const { children, rest } = cleanProps(props);
     return <span {...rest}>{children}</span>;
+  };
+
+  const Text = (props) => {
+    const { children, rest } = cleanProps(props);
+    return <div {...rest}>{children}</div>;
   };
 
   const ActionIcon = ({
     children,
     onClick,
-    'aria-label': ariaLabel,
+    disabled,
+    type = 'button',
     ...props
-  }) => (
-    <button
-      type="button"
-      aria-label={ariaLabel}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </button>
-  );
+  }) => {
+    const { rest } = cleanProps(props);
+
+    return (
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        {...rest}
+      >
+        {children}
+      </button>
+    );
+  };
 
   const Button = ({
     children,
     onClick,
     disabled,
-    'aria-label': ariaLabel,
     type = 'button',
     ...props
-  }) => (
-    <button
-      type={type}
-      aria-label={ariaLabel}
-      disabled={disabled}
-      onClick={onClick}
-      {...props}
-    >
-      {children}
-    </button>
-  );
+  }) => {
+    const { rest } = cleanProps(props);
+
+    return (
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        {...rest}
+      >
+        {children}
+      </button>
+    );
+  };
 
   const Tooltip = ({ children }) => <>{children}</>;
 
   const Textarea = ({
     value,
     onChange,
-    placeholder,
-    'aria-label': ariaLabel,
     onKeyDown,
+    placeholder,
+    disabled,
     ...props
-  }) => (
-    <textarea
-      aria-label={ariaLabel}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      {...props}
-    />
-  );
+  }) => {
+    const { rest } = cleanProps(props);
+
+    return (
+      <textarea
+        value={value}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        disabled={disabled}
+        {...rest}
+      />
+    );
+  };
+
+  const Select = ({
+    value,
+    onChange,
+    data = [],
+    disabled,
+    ...props
+  }) => {
+    const { rest } = cleanProps(props);
+
+    return (
+      <select
+        aria-label="Message timer"
+        value={value}
+        onChange={(e) => onChange?.(e.target.value)}
+        disabled={disabled}
+        {...rest}
+      >
+        {data.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
+  const Divider = () => <hr />;
 
   const Menu = ({ children }) => (
     <div data-testid="menu">{children}</div>
@@ -146,36 +201,19 @@ jest.mock('@mantine/core', () => {
     </button>
   );
 
-  const Divider = (props) => <hr data-testid="divider" {...props} />;
-
-  const Select = ({
-    value,
-    onChange,
-    data = [],
-    'aria-label': ariaLabel,
-    ...props
-  }) => (
-    <select
-      data-testid="select"
-      aria-label={ariaLabel}
-      value={value}
-      onChange={(e) => onChange?.(e.target.value)}
-      {...props}
-    >
-      {data.map((item) => (
-        <option key={item.value} value={item.value}>
-          {item.label}
-        </option>
-      ))}
-    </select>
+  Menu.Label = ({ children }) => (
+    <div data-testid="menu-label">{children}</div>
   );
 
   return {
     __esModule: true,
+    MantineProvider,
     Box,
     Group,
     Stack,
     Paper,
+    Card: mockCard,
+    Badge: mockBadge,
     Text,
     ActionIcon,
     Button,
@@ -187,7 +225,27 @@ jest.mock('@mantine/core', () => {
   };
 });
 
-// ---- toast mock ----
+// ---- Icons ----
+jest.mock('@tabler/icons-react', () => {
+  const Icon = () => <span data-testid="icon" />;
+
+  return {
+    __esModule: true,
+    IconSend: Icon,
+    IconPaperclip: Icon,
+    IconClock: Icon,
+  };
+});
+
+// ---- i18n ----
+jest.mock('react-i18next', () => ({
+  __esModule: true,
+  useTranslation: () => ({
+    t: (_key, fallback) => fallback || _key,
+  }),
+}));
+
+// ---- toast ----
 jest.mock('../src/utils/toast', () => ({
   __esModule: true,
   toast: {
@@ -197,33 +255,7 @@ jest.mock('../src/utils/toast', () => ({
   },
 }));
 
-// ---- i18n mock ----
-jest.mock('react-i18next', () => ({
-  __esModule: true,
-  useTranslation: () => ({
-    t: (_key, fallback) => fallback,
-  }),
-}));
-
-// ---- uuid mock ----
-jest.mock('uuid', () => ({
-  __esModule: true,
-  v4: () => 'client-message-1',
-}));
-
-// ---- encryption mock ----
-jest.mock('../src/utils/loadEncryptionClient', () => ({
-  __esModule: true,
-  default: jest.fn(async () => ({
-    encryptForRoom: jest.fn(async () => ({
-      ciphertext: 'encrypted-text',
-      encryptedKeys: [],
-      encryptionVersion: 1,
-    })),
-  })),
-}));
-
-// ---- axios mock ----
+// ---- axios ----
 const mockPost = jest.fn();
 
 jest.mock('../src/api/axiosClient', () => ({
@@ -233,179 +265,175 @@ jest.mock('../src/api/axiosClient', () => ({
   },
 }));
 
-// ---- StickerPicker mock ----
+// ---- StickerPicker ----
 jest.mock('../src/components/StickerPicker.jsx', () => ({
   __esModule: true,
-  default: ({ opened, onPick, onClose }) =>
+  default: ({ opened, onPick }) =>
     opened ? (
       <button
         type="button"
-        onClick={() => {
-          onPick({ kind: 'STICKER', url: 'http://s' });
-          onClose();
-        }}
+        onClick={() =>
+          onPick({
+            kind: 'GIF',
+            url: 'https://gif.example/test.gif',
+          })
+        }
       >
-        PickSticker
+        Pick Sticker
       </button>
     ) : null,
 }));
 
-// ---- FileUploader mock ----
+// ---- FileUploader ----
 jest.mock('../src/components/FileUploader.jsx', () => ({
   __esModule: true,
-  default: ({ button }) => <>{button}</>,
+  default: ({ onUploaded, button }) => (
+    <div>
+      {button}
+      <button
+        type="button"
+        onClick={() =>
+          onUploaded({
+            key: 'uploads/test.png',
+            url: 'https://cdn.example/test.png',
+            contentType: 'image/png',
+          })
+        }
+      >
+        Mock Upload
+      </button>
+    </div>
+  ),
 }));
 
-// ---- MicButton mock ----
+// ---- MicButton ----
 jest.mock('../src/components/MicButton.jsx', () => ({
   __esModule: true,
-  default: () => (
-    <button type="button" aria-label="Voice note">
-      Mic
+  default: ({ onUploaded }) => (
+    <button
+      type="button"
+      onClick={() =>
+        onUploaded({
+          key: 'voice/test.mp3',
+          url: 'https://cdn.example/test.mp3',
+          contentType: 'audio/mpeg',
+        })
+      }
+    >
+      Mock Mic
     </button>
   ),
 }));
 
-// ---- icon mocks ----
-jest.mock('@tabler/icons-react', () => {
-  const React = require('react');
+// ---- encryption loader ----
+jest.mock('../src/utils/loadEncryptionClient', () => ({
+  __esModule: true,
+  default: jest.fn(async () => ({
+    encryptForRoom: jest.fn(async () => ({
+      ciphertext: 'encrypted',
+      encryptedKeys: ['k1'],
+      encryptionVersion: 1,
+    })),
+  })),
+}));
 
-  return {
-    __esModule: true,
-    IconSend: (props) => <svg data-testid="icon-send" {...props} />,
-    IconPaperclip: (props) => (
-      <svg data-testid="icon-paperclip" {...props} />
-    ),
-    IconClock: (props) => <svg data-testid="icon-clock" {...props} />,
-  };
-});
+// ---- uuid ----
+jest.mock('uuid', () => ({
+  __esModule: true,
+  v4: () => 'uuid-123',
+}));
 
-// ---- SUT ----
 import MessageInput from '../src/components/MessageInput.jsx';
+import { renderWithRouter } from '../src/test-utils';
+import { toast } from '../src/utils/toast';
 
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
-test('disables send when nothing to send', () => {
-  renderWithRouter(
+function renderComposer(extraProps = {}) {
+  return renderWithRouter(
     <MessageInput
-      chatroomId={123}
-      currentUser={{}}
-      onMessageSent={() => {}}
+      chatroomId="room-1"
+      currentUser={{
+        id: 'u1',
+        plan: 'FREE',
+      }}
+      roomParticipants={[]}
+      onMessageSent={jest.fn()}
+      {...extraProps}
     />
   );
+}
 
-  expect(
-    screen.getByRole('button', { name: /send/i })
-  ).toBeDisabled();
+test('disables send when nothing to send', () => {
+  renderComposer();
+
+  const sendBtn = screen.getByRole('button', { name: /send/i });
+
+  expect(sendBtn).toBeDisabled();
 });
 
 test('sends trimmed text and calls onMessageSent', async () => {
-  const user = userEvent.setup();
-
-  const saved = {
-    id: 9,
-    content: 'hi',
-  };
-
-  mockPost.mockResolvedValueOnce({
-    data: saved,
-  });
-
   const onMessageSent = jest.fn();
 
-  renderWithRouter(
-    <MessageInput
-      chatroomId={5}
-      currentUser={{}}
-      onMessageSent={onMessageSent}
-    />
-  );
-
-  await user.type(
-    screen.getByLabelText(/message composer/i),
-    '  hi  '
-  );
-
-  await user.click(
-    screen.getByRole('button', { name: /send/i })
-  );
-
-  await waitFor(() => {
-    expect(mockPost).toHaveBeenCalledWith(
-      '/messages',
-      expect.objectContaining({
-        clientMessageId: 'client-message-1',
-        chatRoomId: '5',
-        expireSeconds: 0,
-        content: 'hi',
-        attachmentsInline: [],
-      }),
-      expect.objectContaining({
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-        },
-      })
-    );
+  mockPost.mockResolvedValueOnce({
+    data: {
+      id: 'server-msg-1',
+      content: 'hello world',
+    },
   });
 
-  expect(onMessageSent).toHaveBeenCalledWith(
+  renderComposer({ onMessageSent });
+
+  const composer = screen.getByLabelText(/message composer/i);
+
+  await userEvent.type(composer, '   hello world   ');
+
+  const sendBtn = screen.getByRole('button', { name: /send/i });
+
+  expect(sendBtn).toBeEnabled();
+
+  await userEvent.click(sendBtn);
+
+  await waitFor(() => {
+    expect(mockPost).toHaveBeenCalledTimes(1);
+  });
+
+  expect(mockPost).toHaveBeenCalledWith(
+    '/messages',
     expect.objectContaining({
-      clientMessageId: 'client-message-1',
-      content: 'hi',
-      optimistic: true,
-    })
+      clientMessageId: 'uuid-123',
+      chatRoomId: 'room-1',
+      content: 'hello world',
+      attachmentsInline: [],
+    }),
+    {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    }
   );
 
-  expect(onMessageSent).toHaveBeenCalledWith(saved);
+  expect(onMessageSent).toHaveBeenCalled();
+
+  expect(toast.ok).toHaveBeenCalledWith('Message delivered.');
 });
 
 test('adds a sticker inline and enables send', async () => {
-  const user = userEvent.setup();
+  renderComposer();
 
-  mockPost.mockResolvedValueOnce({
-    data: { id: 1 },
-  });
+  const sendBtn = screen.getByRole('button', { name: /send/i });
 
-  renderWithRouter(
-    <MessageInput
-      chatroomId={7}
-      currentUser={{}}
-      onMessageSent={() => {}}
-    />
+  expect(sendBtn).toBeDisabled();
+
+  await userEvent.click(
+    screen.getByRole('button', { name: /stickers & gifs/i })
   );
 
-  await user.click(
-    screen.getByRole('button', { name: /emoji/i })
-  );
+  await userEvent.click(screen.getByRole('button', { name: /pick sticker/i }));
 
-  await user.click(
-    screen.getByRole('button', { name: /picksticker/i })
-  );
+  expect(sendBtn).toBeEnabled();
 
-  const send = screen.getByRole('button', {
-    name: /send/i,
-  });
-
-  expect(send).not.toBeDisabled();
-
-  await user.click(send);
-
-  await waitFor(() => {
-    expect(mockPost).toHaveBeenCalledWith(
-      '/messages',
-      expect.objectContaining({
-        chatRoomId: '7',
-        content: undefined,
-        attachmentsInline: [
-          expect.objectContaining({
-            kind: 'IMAGE',
-            url: 'http://s',
-          }),
-        ],
-      }),
-      expect.any(Object)
-    );
-  });
+  expect(
+    screen.getByTitle('https://gif.example/test.gif')
+  ).toHaveTextContent('GIF');
 });

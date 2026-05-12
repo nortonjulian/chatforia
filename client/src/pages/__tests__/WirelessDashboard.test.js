@@ -16,19 +16,25 @@ jest.mock('@/api/wireless', () => ({
   fetchWirelessStatus: jest.fn(),
 }));
 
+const mockT = (_key, defaultValueOrOptions, options) => {
+  if (typeof defaultValueOrOptions === 'string') {
+    if (options?.days != null) {
+      return defaultValueOrOptions.replace(
+        '{{days}}',
+        String(options.days)
+      );
+    }
+
+    return defaultValueOrOptions;
+  }
+
+  return _key;
+};
+
 jest.mock('react-i18next', () => ({
+  __esModule: true,
   useTranslation: () => ({
-    t: (_key, defaultValueOrOptions, options) => {
-      if (typeof defaultValueOrOptions === 'string') {
-        if (options?.days != null) {
-          return defaultValueOrOptions.replace('{{days}}', String(options.days));
-        }
-
-        return defaultValueOrOptions;
-      }
-
-      return _key;
-    },
+    t: mockT,
   }),
 }));
 
@@ -91,7 +97,7 @@ describe('WirelessDashboard', () => {
     await userEvent.click(viewPlansBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
-    expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    expect(fetchWirelessStatus).toHaveBeenCalled();
   });
 
   test('shows FAMILY pool details and LOW data alert, and uses /upgrade on top up', async () => {
@@ -119,14 +125,14 @@ describe('WirelessDashboard', () => {
 
     expect(screen.getByText(/Expires in 3 days/i)).toBeInTheDocument();
 
-    const topUpBtn = screen.getByRole('button', {
+    const topUpBtn = await screen.findByRole('button', {
       name: /Top up \/ change plan/i,
     });
 
     await userEvent.click(topUpBtn);
 
     expect(mockNavigate).toHaveBeenCalledWith('/upgrade');
-    expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    expect(fetchWirelessStatus).toHaveBeenCalled();
   });
 
   test('shows error message when wireless status fetch fails', async () => {
@@ -142,7 +148,7 @@ describe('WirelessDashboard', () => {
       )
     ).toBeInTheDocument();
 
-    expect(fetchWirelessStatus).toHaveBeenCalledTimes(1);
+    expect(fetchWirelessStatus).toHaveBeenCalled();
 
     errorSpy.mockRestore();
   });

@@ -41,12 +41,12 @@ test('logs in successfully and navigates home', async () => {
 
   renderWithRouter(<LoginForm />);
 
-  await userEvent.type(screen.getByLabelText(/username/i), 'alice');
+  await userEvent.type(screen.getByLabelText(/account/i), 'alice');
   await userEvent.type(screen.getByLabelText(/password/i), 'pass123');
   await userEvent.click(screen.getByRole('button', { name: /log in/i }));
 
   await waitFor(() => {
-    expect(mockPost).toHaveBeenCalledWith('/auth/login', { username: 'alice', password: 'pass123' });
+    expect(mockPost).toHaveBeenCalledWith('/auth/login', { identifier: 'alice', password: 'pass123' });
     expect(mockSetCurrentUser).toHaveBeenCalledWith({ id: 1, username: 'alice' });
     expect(mockNavigate).toHaveBeenCalledWith('/');
   });
@@ -57,7 +57,7 @@ test('shows error on failed login', async () => {
 
   renderWithRouter(<LoginForm />);
 
-  await userEvent.type(screen.getByLabelText(/username/i), 'alice');
+  await userEvent.type(screen.getByLabelText(/account/i), 'alice');
   await userEvent.type(screen.getByLabelText(/password/i), 'wrong');
   await userEvent.click(screen.getByRole('button', { name: /log in/i }));
 
