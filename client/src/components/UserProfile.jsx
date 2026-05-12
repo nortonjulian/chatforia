@@ -797,18 +797,19 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                     </Group>
                   )}
 
-                  {currentUser?.avatarUrl && (
-                    <Button
-                      size="xs"
-                      variant="subtle"
-                      color="red"
-                      compact
-                      style={{ alignSelf: 'flex-start' }}
-                      onClick={handleAvatarRemove}
-                      disabled={avatarUploading}
-                    >
-                      {t('profile.removeAvatar', 'Remove photo')}
-                    </Button>
+                  {currentUser?.avatarUrl &&
+                    !currentUser.avatarUrl.includes('default-avatar') && (
+                      <Button
+                        size="xs"
+                        variant="subtle"
+                        color="red"
+                        compact
+                        style={{ alignSelf: 'flex-start' }}
+                        onClick={handleAvatarRemove}
+                        disabled={avatarUploading}
+                      >
+                        {t('profile.removeAvatar', 'Remove photo')}
+                      </Button>
                   )}
                 </Stack>
               </Group>
