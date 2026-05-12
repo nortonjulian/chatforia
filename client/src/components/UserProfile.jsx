@@ -141,10 +141,12 @@ export default function UserProfile({ onLanguageChange, openSection }) {
   const API_BASE = API_BASE_URL;
 
   const getAvatarSrc = (userLike) => {
-    if (!userLike?.avatarUrl) return '/default-avatar.png';
+    const avatarUrl = userLike?.avatarUrl;
 
-    if (userLike.avatarUrl.startsWith('http')) {
-      return userLike.avatarUrl;
+    if (!avatarUrl) return '/default-avatar.png';
+
+    if (avatarUrl.startsWith('http')) {
+      return avatarUrl;
     }
 
     const base =
@@ -152,7 +154,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       axiosClient.defaults.baseURL ||
       'https://api.chatforia.com';
 
-    return `${base.replace(/\/$/, '')}${userLike.avatarUrl}`;
+    return `${base.replace(/\/$/, '')}${avatarUrl}`;
   };
 
   const params = useParams();
@@ -505,9 +507,11 @@ export default function UserProfile({ onLanguageChange, openSection }) {
       }
 
       // Update currentUser in context so Avatar re-renders immediately
+      const freshAvatarUrl = `${data.avatarUrl}?v=${Date.now()}`;
+
       setCurrentUser((prev) => ({
         ...prev,
-        avatarUrl: data.avatarUrl,
+        avatarUrl: freshAvatarUrl,
       }));
 
       notifications.show({
