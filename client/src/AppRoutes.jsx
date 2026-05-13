@@ -312,7 +312,13 @@ export default function AppRoutes() {
   } = useUser();
 
   const handleLockedLogout = async () => {
-    await logout();
+    try {
+      await logout();
+    } finally {
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = '/';
+    }
   };
  
   useEffect(() => {
