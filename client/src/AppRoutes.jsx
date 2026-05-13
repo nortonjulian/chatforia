@@ -311,23 +311,12 @@ export default function AppRoutes() {
     logout,
   } = useUser();
 
-  const handleLockedLogout = async () => {
-    try {
-      await logout();
-    } catch (err) {
-      console.warn('Locked-screen logout failed:', err);
-    } finally {
-      localStorage.clear();
-      sessionStorage.clear();
+  const handleLockedLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
 
-      document.cookie.split(';').forEach((cookie) => {
-        const name = cookie.split('=')[0].trim();
-        document.cookie = `${name}=; Max-Age=0; path=/`;
-        document.cookie = `${name}=; Max-Age=0; path=/; domain=.chatforia.com`;
-      });
-
-      window.location.replace('/');
-    }
+    window.location.href =
+      'https://api.chatforia.com/auth/logout?next=https://www.chatforia.com/';
   };
  
   useEffect(() => {

@@ -1052,6 +1052,19 @@ router.post(
   })
 );
 
+router.get('/logout', (req, res) => {
+  clearJwtCookie(res);
+
+  if (req.session) {
+    req.session.destroy(() => {});
+  }
+
+  const next =
+    req.query.next || 'https://www.chatforia.com/';
+
+  return res.redirect(next);
+});
+
 /* =========================
  *   KEY BACKUP SAVE
  *   POST /auth/keys/backup
