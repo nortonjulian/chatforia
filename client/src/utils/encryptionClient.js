@@ -656,17 +656,17 @@ export function clearUnlockedBundleCache() {
 
 export function persistUnlockPasscodeForSession(passcode) {
   if (typeof window === 'undefined') return;
-  sessionStorage.setItem('chatforia:keyPasscode', passcode);
+  localStorage.setItem('chatforia:keyPasscode', passcode);
 }
 
 export function getPersistedUnlockPasscodeForSession() {
   if (typeof window === 'undefined') return null;
-  return sessionStorage.getItem('chatforia:keyPasscode');
+  return localStorage.getItem('chatforia:keyPasscode');
 }
 
 export function clearPersistedUnlockPasscodeForSession() {
   if (typeof window === 'undefined') return;
-  sessionStorage.removeItem('chatforia:keyPasscode');
+  localStorage.removeItem('chatforia:keyPasscode');
 }
 
 export async function clearLocalKeyBundle() {
