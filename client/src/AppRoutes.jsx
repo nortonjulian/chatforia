@@ -331,35 +331,35 @@ export default function AppRoutes() {
     return <Navigate to="/pair-browser" replace />;
   }
 
-  if (currentUser && needsKeyUnlock) {
-  if (keyUnlockMode === 'locked') {
-    return (
-      <div
-        style={{
-          minHeight: '100dvh',
-          display: 'grid',
-          placeItems: 'center',
-          padding: 24,
-        }}
-      >
-        <div style={{ width: '100%', maxWidth: 480 }}>
-          <EncryptionRecoveryCard
-            blocked
-            title="Unlock your encryption key"
-            description="Enter your passcode to continue."
-          />
+  // if (currentUser && needsKeyUnlock) {
+  // if (keyUnlockMode === 'locked') {
+  //   return (
+  //     <div
+  //       style={{
+  //         minHeight: '100dvh',
+  //         display: 'grid',
+  //         placeItems: 'center',
+  //         padding: 24,
+  //       }}
+  //     >
+  //       <div style={{ width: '100%', maxWidth: 480 }}>
+  //         <EncryptionRecoveryCard
+  //           blocked
+  //           title="Unlock your encryption key"
+  //           description="Enter your passcode to continue."
+  //         />
 
-          <Button
-            fullWidth
-            mt="md"
-            onClick={handleLockedLogout}
-          >
-            Log Out
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  //         <Button
+  //           fullWidth
+  //           mt="md"
+  //           onClick={handleLockedLogout}
+  //         >
+  //           Log Out
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
