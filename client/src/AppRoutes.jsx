@@ -120,6 +120,7 @@ import EsimActivatePage from '@/pages/EsimActivatePage.jsx';
 const NAV_W = 300;
 const ASIDE_W = 280;
 
+
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -301,7 +302,18 @@ function AuthedLayout() {
 }
 
 export default function AppRoutes() {
- const { currentUser, authLoading, needsKeyUnlock, pairingPending, keyUnlockMode } = useUser();
+ const {
+    currentUser,
+    authLoading,
+    needsKeyUnlock,
+    pairingPending,
+    keyUnlockMode,
+    logout,
+  } = useUser();
+
+  const handleLockedLogout = async () => {
+    await logout();
+  };
  
   useEffect(() => {
     primeCsrf().catch(() => {});
@@ -332,6 +344,14 @@ export default function AppRoutes() {
             title="Unlock your encryption key"
             description="Enter your passcode to continue."
           />
+
+          <Button
+            fullWidth
+            mt="md"
+            onClick={handleLockedLogout}
+          >
+            Log Out
+          </Button>
         </div>
       </div>
     );
@@ -352,6 +372,14 @@ export default function AppRoutes() {
           title="Restore your encryption key"
           description="This browser is missing or using the wrong encryption key for your Chatforia account."
         />
+
+        <Button
+          fullWidth
+          mt="md"
+          onClick={handleLockedLogout}
+        >
+          Log Out
+        </Button>
       </div>
     </div>
   );
