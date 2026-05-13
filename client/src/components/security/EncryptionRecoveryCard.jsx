@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   Card,
+  Collapse,
   Divider,
   Group,
   PasswordInput,
@@ -13,9 +14,6 @@ import {
 } from '@mantine/core';
 import axiosClient from '@/api/axiosClient';
 import { useUser } from '@/context/UserContext';
-import {
-  createEncryptedKeyBackup,
-} from '@/utils/backupClient';
 import {
   getLocalKeyBundleMeta,
   installLocalPrivateKeyBundle,
@@ -30,15 +28,6 @@ export default function EncryptionRecoveryCard({
 }) {
   const { t } = useTranslation();
 
-  const resolvedTitle =
-    title || t('encryptionRecovery.title', 'Manage Encryption');
-  const resolvedDescription =
-    description ||
-    t(
-      'encryptionRecovery.description',
-      'Back up, restore, unlock, or reset your encryption key.'
-    );
-
   const {
     currentUser,
     setNeedsKeyUnlock,
@@ -47,19 +36,32 @@ export default function EncryptionRecoveryCard({
   } = useUser();
 
   const [unlockPasscode, setUnlockPasscode] = useState('');
-  const [backupPassword, setBackupPassword] = useState('');
-  const [busyExport, setBusyExport] = useState(false);
-  const [exportMsg, setExportMsg] = useState('');
+  const [busyUnlock, setBusyUnlock] = useState(false);
+  const [unlockMsg, setUnlockMsg] = useState('');
 
+  const [restoreOpen, setRestoreOpen] = useState(false);
   const [importPassword, setImportPassword] = useState('');
   const [newLocalPasscode, setNewLocalPasscode] = useState('');
   const [busyImport, setBusyImport] = useState(false);
   const [importMsg, setImportMsg] = useState('');
 
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [resetPasscode, setResetPasscode] = useState('');
   const [busyReset, setBusyReset] = useState(false);
   const [resetMsg, setResetMsg] = useState('');
 
   const serverKey = (currentUser?.publicKey || '').trim();
+
+  const resolvedTitle =
+    title ||
+    t('encryptionRecovery.simpleTitle', 'Unlock encrypted messages');
+
+  const resolvedDescription =
+    description ||
+    t(
+      'encryptionRecovery.simpleDescription',
+      'This browser needs your Chatforia encryption key before it can show encrypted messages.'
+    );
 
   async function validateAndFinishRestore() {
     const meta = await getLocalKeyBundleMeta();
@@ -68,7 +70,7 @@ export default function EncryptionRecoveryCard({
       throw new Error(
         t(
           'encryptionRecovery.errors.restoreIncomplete',
-          'Key restore incomplete or incorrect for this account'
+          'Key restore incomplete or incorrect for this account.'
         )
       );
     }
@@ -77,53 +79,33 @@ export default function EncryptionRecoveryCard({
     setNeedsKeyUnlock(false);
   }
 
-  const onExport = async () => {
-    setBusyExport(true);
-    setExportMsg('');
-
-    try {
-      const { blob, filename } = await createEncryptedKeyBackup({
-        unlockPasscode,
-        backupPassword,
-      });
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-      setExportMsg(
-        t(
-          'encryptionRecovery.messages.backupCreated',
-          'Key backup created and downloaded.'
-        )
-      );
-    } catch (e) {
-      setExportMsg(`Error: ${e.message}`);
-    } finally {
-      setBusyExport(false);
-    }
-  };
-
   const onUnlock = async () => {
-    setBusyExport(true);
-    setExportMsg('');
+    setBusyUnlock(true);
+    setUnlockMsg('');
 
     try {
       await unlockKeyBundle(unlockPasscode);
       persistUnlockPasscodeForSession(unlockPasscode);
-
       await validateAndFinishRestore();
 
-      setExportMsg(
-        t('encryptionRecovery.messages.keyUnlocked', 'Encryption key unlocked.')
+      setUnlockMsg(
+        t(
+          'encryptionRecovery.messages.keyUnlocked',
+          'Encrypted messages unlocked.'
+        )
       );
     } catch (e) {
-      setExportMsg(`Error: ${e.message}`);
+      setUnlockMsg(
+        `${t('common.error', 'Error')}: ${
+          e?.message ||
+          t(
+            'encryptionRecovery.errors.unlockFailed',
+            'Could not unlock encrypted messages.'
+          )
+        }`
+      );
     } finally {
-      setBusyExport(false);
+      setBusyUnlock(false);
     }
   };
 
@@ -139,7 +121,7 @@ export default function EncryptionRecoveryCard({
         throw new Error(
           t(
             'encryptionRecovery.errors.noBackup',
-            'No encrypted backup exists for this account'
+            'No encrypted backup exists for this account.'
           )
         );
       }
@@ -148,7 +130,7 @@ export default function EncryptionRecoveryCard({
         throw new Error(
           t(
             'encryptionRecovery.errors.missingPublicKey',
-            'Backup is missing a public key'
+            'Backup is missing a public key.'
           )
         );
       }
@@ -157,7 +139,7 @@ export default function EncryptionRecoveryCard({
         throw new Error(
           t(
             'encryptionRecovery.errors.noServerPublicKey',
-            'This account does not currently expose a server public key'
+            'This account does not currently expose a server public key.'
           )
         );
       }
@@ -166,7 +148,7 @@ export default function EncryptionRecoveryCard({
         throw new Error(
           t(
             'encryptionRecovery.errors.serverBackupMismatch',
-            'Server backup does not match the current account encryption key'
+            'Server backup does not match the current account encryption key.'
           )
         );
       }
@@ -183,7 +165,7 @@ export default function EncryptionRecoveryCard({
         throw new Error(
           t(
             'encryptionRecovery.errors.incompleteMetadata',
-            'Backup metadata is incomplete'
+            'Backup metadata is incomplete.'
           )
         );
       }
@@ -225,18 +207,25 @@ export default function EncryptionRecoveryCard({
       const bundle = JSON.parse(td.decode(plaintext));
 
       persistUnlockPasscodeForSession(newLocalPasscode);
-
       await installLocalPrivateKeyBundle(bundle, newLocalPasscode);
-
       await validateAndFinishRestore();
+
       setImportMsg(
         t(
           'encryptionRecovery.messages.keyRestored',
-          'Key restored from account backup.'
+          'Encrypted chats restored on this browser.'
         )
       );
     } catch (e) {
-      setImportMsg(`Error: ${e.message}`);
+      setImportMsg(
+        `${t('common.error', 'Error')}: ${
+          e?.message ||
+          t(
+            'encryptionRecovery.errors.restoreFailed',
+            'Could not restore encrypted chats.'
+          )
+        }`
+      );
     } finally {
       setBusyImport(false);
     }
@@ -246,9 +235,10 @@ export default function EncryptionRecoveryCard({
     const confirmed = window.confirm(
       t(
         'encryptionRecovery.confirm.reset',
-        'Reset encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later.'
+        'Start fresh encryption for this account?\n\nOlder encrypted messages may become unreadable unless you restore the original key later.'
       )
     );
+
     if (!confirmed) return;
 
     setBusyReset(true);
@@ -265,10 +255,10 @@ export default function EncryptionRecoveryCard({
 
       await mod.installLocalPrivateKeyBundle(
         { publicKey, privateKey },
-        newLocalPasscode || importPassword || backupPassword || '123456'
+        resetPasscode
       );
 
-      persistUnlockPasscodeForSession(newLocalPasscode);
+      persistUnlockPasscodeForSession(resetPasscode);
 
       await axiosClient.post('/auth/keys/rotate', {
         publicKey,
@@ -276,44 +266,49 @@ export default function EncryptionRecoveryCard({
       });
 
       const meta = await getLocalKeyBundleMeta();
+
       if (!meta?.publicKey || meta.publicKey !== publicKey) {
         throw new Error(
           t(
             'encryptionRecovery.errors.resetIncomplete',
-            'Encryption reset did not complete correctly'
+            'Encryption reset did not complete correctly.'
           )
         );
       }
 
       setKeyMeta(meta);
       setNeedsKeyUnlock(false);
+
       setResetMsg(
         t(
           'encryptionRecovery.messages.resetSuccess',
-          'Encryption reset successfully.'
+          'Fresh encryption has been set up on this browser.'
         )
       );
     } catch (e) {
-      setResetMsg(`Error: ${e.message}`);
+      setResetMsg(
+        `${t('common.error', 'Error')}: ${
+          e?.message ||
+          t(
+            'encryptionRecovery.errors.resetFailed',
+            'Could not reset encryption.'
+          )
+        }`
+      );
     } finally {
       setBusyReset(false);
     }
   };
 
-  const exportDisabled =
-    !unlockPasscode ||
-    unlockPasscode.length < 6 ||
-    !backupPassword ||
-    backupPassword.length < 6;
+  const unlockDisabled = !unlockPasscode || unlockPasscode.length < 6;
 
-  const importDisabled =
+  const restoreDisabled =
     !importPassword ||
     importPassword.length < 6 ||
     !newLocalPasscode ||
     newLocalPasscode.length < 6;
 
-  const resetDisabled =
-    !newLocalPasscode || newLocalPasscode.length < 6;
+  const resetDisabled = !resetPasscode || resetPasscode.length < 6;
 
   return (
     <Card withBorder padding="lg" radius="md">
@@ -329,150 +324,195 @@ export default function EncryptionRecoveryCard({
           <Alert
             color="yellow"
             title={t(
-              'encryptionRecovery.alert.keyRequiredTitle',
-              'Encryption key required'
+              'encryptionRecovery.alert.lockedTitle',
+              'Encrypted chats locked'
             )}
           >
             {authError ||
               t(
-                'encryptionRecovery.alert.keyRequiredBody',
-                'This browser cannot currently decrypt your encrypted messages. Restore, unlock, or reset your key to continue.'
+                'encryptionRecovery.alert.lockedBody',
+                'You can still use Chatforia, but encrypted messages are hidden until this browser is unlocked.'
               )}
           </Alert>
         )}
 
-        <Divider
-          label={t('encryptionRecovery.sections.createBackup', 'Create key backup')}
-        />
+        <Stack gap="sm">
+          <PasswordInput
+            label={t(
+              'encryptionRecovery.fields.devicePasscode.label',
+              'Device passcode'
+            )}
+            value={unlockPasscode}
+            onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
+            description={t(
+              'encryptionRecovery.fields.devicePasscode.description',
+              'Used to unlock encrypted chats on this browser.'
+            )}
+          />
 
-        <PasswordInput
-          label={t(
-            'encryptionRecovery.fields.unlockPasscode.label',
-            'Unlock passcode (current device)'
+          <Group justify="flex-end">
+            <Button
+              onClick={onUnlock}
+              loading={busyUnlock}
+              disabled={unlockDisabled}
+            >
+              {t(
+                'encryptionRecovery.actions.unlockMessages',
+                'Unlock messages'
+              )}
+            </Button>
+          </Group>
+
+          {!!unlockMsg && (
+            <Text c={unlockMsg.startsWith('Error:') ? 'red' : 'green'} size="sm">
+              {unlockMsg}
+            </Text>
           )}
-          value={unlockPasscode}
-          onChange={(e) => setUnlockPasscode(e.currentTarget.value)}
-          description={t(
-            'encryptionRecovery.fields.unlockPasscode.description',
-            'Used to decrypt your keys locally before exporting'
-          )}
-        />
-        <PasswordInput
-          label={t(
-            'encryptionRecovery.fields.backupPassword.label',
-            'Backup password'
-          )}
-          value={backupPassword}
-          onChange={(e) => setBackupPassword(e.currentTarget.value)}
-          description={t(
-            'encryptionRecovery.fields.backupPassword.description',
-            'Used to encrypt the backup file'
-          )}
-        />
-        <Group justify="flex-end">
+        </Stack>
+
+        <Divider />
+
+        <Stack gap="xs">
           <Button
-            onClick={onUnlock}
-            loading={busyExport}
-            disabled={!unlockPasscode || unlockPasscode.length < 6}
-          >
-            {t('encryptionRecovery.actions.unlockKey', 'Unlock encryption key')}
-          </Button>
-        </Group>
-        {!!exportMsg && (
-          <Text c={exportMsg.startsWith('Error:') ? 'red' : 'green'}>
-            {exportMsg}
-          </Text>
-        )}
-
-        <Divider
-          label={t(
-            'encryptionRecovery.sections.restoreFromBackup',
-            'Restore from account backup'
-          )}
-        />
-
-        <PasswordInput
-          label={t(
-            'encryptionRecovery.fields.restoreBackupPassword.label',
-            'Backup password'
-          )}
-          value={importPassword}
-          onChange={(e) => setImportPassword(e.currentTarget.value)}
-          description={t(
-            'encryptionRecovery.fields.restoreBackupPassword.description',
-            'The password you created when backing up your key on iPhone'
-          )}
-        />
-        <PasswordInput
-          label={t(
-            'encryptionRecovery.fields.newLocalPasscode.label',
-            'New local passcode'
-          )}
-          value={newLocalPasscode}
-          onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-          description={t(
-            'encryptionRecovery.fields.newLocalPasscode.description',
-            'Protect keys at rest on this browser'
-          )}
-        />
-        <Group justify="flex-end">
-          <Button
-            onClick={onRestoreFromAccountBackup}
-            loading={busyImport}
-            disabled={importDisabled}
+            variant="subtle"
+            justify="space-between"
+            onClick={() => setRestoreOpen((v) => !v)}
           >
             {t(
-              'encryptionRecovery.actions.restoreFromBackup',
-              'Restore from account backup'
+              'encryptionRecovery.actions.restoreEncryptedChats',
+              'Restore encrypted chats'
             )}
           </Button>
-        </Group>
-        {!!importMsg && (
-          <Text c={importMsg.startsWith('Error:') ? 'red' : 'green'}>
-            {importMsg}
-          </Text>
-        )}
 
-        <Divider
-          label={t('encryptionRecovery.sections.resetEncryption', 'Reset encryption')}
-        />
+          <Collapse in={restoreOpen}>
+            <Stack gap="sm" mt="sm">
+              <Text c="dimmed" size="sm">
+                {t(
+                  'encryptionRecovery.restoreDescription',
+                  'Use the backup password you created earlier, then choose a new passcode for this browser.'
+                )}
+              </Text>
 
-        <Text c="dimmed" size="sm">
-          {t(
-            'encryptionRecovery.resetDescription',
-            'This generates a new encryption key for your account. Older encrypted messages may become unreadable unless you restore the original key later.'
-          )}
-        </Text>
+              <PasswordInput
+                label={t(
+                  'encryptionRecovery.fields.restoreBackupPassword.label',
+                  'Backup password'
+                )}
+                value={importPassword}
+                onChange={(e) => setImportPassword(e.currentTarget.value)}
+                description={t(
+                  'encryptionRecovery.fields.restoreBackupPassword.description',
+                  'The password you used when creating your encrypted backup.'
+                )}
+              />
 
-        <PasswordInput
-          label={t(
-            'encryptionRecovery.fields.resetLocalPasscode.label',
-            'New local passcode'
-          )}
-          value={newLocalPasscode}
-          onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
-          description={t(
-            'encryptionRecovery.fields.resetLocalPasscode.description',
-            'Required before resetting so the new key is protected on this device'
-          )}
-        />
+              <PasswordInput
+                label={t(
+                  'encryptionRecovery.fields.newDevicePasscode.label',
+                  'New device passcode'
+                )}
+                value={newLocalPasscode}
+                onChange={(e) => setNewLocalPasscode(e.currentTarget.value)}
+                description={t(
+                  'encryptionRecovery.fields.newDevicePasscode.description',
+                  'Used to protect your encrypted chats on this browser.'
+                )}
+              />
 
-        <Group justify="flex-end">
+              <Group justify="flex-end">
+                <Button
+                  onClick={onRestoreFromAccountBackup}
+                  loading={busyImport}
+                  disabled={restoreDisabled}
+                >
+                  {t(
+                    'encryptionRecovery.actions.restoreChats',
+                    'Restore chats'
+                  )}
+                </Button>
+              </Group>
+
+              {!!importMsg && (
+                <Text
+                  c={importMsg.startsWith('Error:') ? 'red' : 'green'}
+                  size="sm"
+                >
+                  {importMsg}
+                </Text>
+              )}
+            </Stack>
+          </Collapse>
+        </Stack>
+
+        <Divider />
+
+        <Stack gap="xs">
           <Button
+            variant="subtle"
             color="red"
-            variant="filled"
-            onClick={onReset}
-            loading={busyReset}
-            disabled={resetDisabled}
+            justify="space-between"
+            onClick={() => setAdvancedOpen((v) => !v)}
           >
-            {t('encryptionRecovery.actions.resetEncryption', 'Reset Encryption')}
+            {t(
+              'encryptionRecovery.actions.advancedRecovery',
+              'Advanced recovery'
+            )}
           </Button>
-        </Group>
-        {!!resetMsg && (
-          <Text c={resetMsg.startsWith('Error:') ? 'red' : 'green'}>
-            {resetMsg}
-          </Text>
-        )}
+
+          <Collapse in={advancedOpen}>
+            <Stack gap="sm" mt="sm">
+              <Alert
+                color="red"
+                title={t(
+                  'encryptionRecovery.danger.title',
+                  'Start fresh encryption'
+                )}
+              >
+                {t(
+                  'encryptionRecovery.danger.body',
+                  'Only use this if you cannot unlock or restore your existing key. Older encrypted messages may become unreadable.'
+                )}
+              </Alert>
+
+              <PasswordInput
+                label={t(
+                  'encryptionRecovery.fields.resetDevicePasscode.label',
+                  'New device passcode'
+                )}
+                value={resetPasscode}
+                onChange={(e) => setResetPasscode(e.currentTarget.value)}
+                description={t(
+                  'encryptionRecovery.fields.resetDevicePasscode.description',
+                  'This will protect the new encryption key on this browser.'
+                )}
+              />
+
+              <Group justify="flex-end">
+                <Button
+                  color="red"
+                  variant="filled"
+                  onClick={onReset}
+                  loading={busyReset}
+                  disabled={resetDisabled}
+                >
+                  {t(
+                    'encryptionRecovery.actions.startFreshEncryption',
+                    'Start fresh encryption'
+                  )}
+                </Button>
+              </Group>
+
+              {!!resetMsg && (
+                <Text
+                  c={resetMsg.startsWith('Error:') ? 'red' : 'green'}
+                  size="sm"
+                >
+                  {resetMsg}
+                </Text>
+              )}
+            </Stack>
+          </Collapse>
+        </Stack>
       </Stack>
     </Card>
   );

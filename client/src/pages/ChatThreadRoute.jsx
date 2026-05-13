@@ -3,53 +3,56 @@ import { useParams, useOutletContext } from 'react-router-dom';
 import { Box, Loader, Text } from '@mantine/core';
 import axiosClient from '@/api/axiosClient';
 import ChatView from '@/components/ChatView.jsx';
+import { useUser } from '@/context/UserContext';
+import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 
 export default function ChatThreadRoute() {
   const { id } = useParams();
   const { currentUser } = useOutletContext();
+  const { needsKeyUnlock, keyUnlockMode } = useUser();
 
   const [chatroom, setChatroom] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  let alive = true;
+    let alive = true;
 
-  (async () => {
-    try {
-      setLoading(true);
+    (async () => {
+      try {
+        setLoading(true);
 
-      console.log('[ChatThreadRoute] route param id =', id);
+        console.log('[ChatThreadRoute] route param id =', id);
 
-      const roomId = Number(id);
-      if (!Number.isFinite(roomId)) {
-        console.error('[ChatThreadRoute] non-numeric chat id:', id);
-        if (alive) setChatroom(null);
-        return;
+        const roomId = Number(id);
+        if (!Number.isFinite(roomId)) {
+          console.error('[ChatThreadRoute] non-numeric chat id:', id);
+          if (alive) setChatroom(null);
+          return;
+        }
+
+        const { data } = await axiosClient.get(`/chatrooms/${roomId}`);
+
+        if (!alive) return;
+        setChatroom(data ?? null);
+      } catch (e) {
+        console.error('[ChatThreadRoute] load failed', {
+          id,
+          status: e?.response?.status,
+          data: e?.response?.data,
+          message: e?.message,
+        });
+
+        if (!alive) return;
+        setChatroom(null);
+      } finally {
+        if (alive) setLoading(false);
       }
+    })();
 
-      const { data } = await axiosClient.get(`/chatrooms/${roomId}`);
-
-      if (!alive) return;
-      setChatroom(data ?? null);
-    } catch (e) {
-      console.error('[ChatThreadRoute] load failed', {
-        id,
-        status: e?.response?.status,
-        data: e?.response?.data,
-        message: e?.message,
-      });
-
-      if (!alive) return;
-      setChatroom(null);
-    } finally {
-      if (alive) setLoading(false);
-    }
-  })();
-
-  return () => {
-    alive = false;
-  };
-}, [id]);
+    return () => {
+      alive = false;
+    };
+  }, [id]);
 
   if (loading) {
     return (
@@ -63,6 +66,26 @@ export default function ChatThreadRoute() {
     return (
       <Box p="md">
         <Text c="dimmed">Chat not found.</Text>
+      </Box>
+    );
+  }
+
+  if (needsKeyUnlock) {
+    return (
+      <Box p="md" style={{ flex: 1, overflowY: 'auto' }}>
+        <EncryptionRecoveryCard
+          blocked
+          title={
+            keyUnlockMode === 'locked'
+              ? 'Unlock encrypted messages'
+              : 'Restore encrypted messages'
+          }
+          description={
+            keyUnlockMode === 'locked'
+              ? 'Enter your device passcode to view and send encrypted messages on this browser.'
+              : 'This browser needs your Chatforia encryption key before it can show encrypted messages.'
+          }
+        />
       </Box>
     );
   }

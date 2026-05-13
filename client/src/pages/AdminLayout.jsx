@@ -47,6 +47,16 @@ export default function AdminLayout() {
       </AppShell.Navbar>
 
       <AppShell.Main>
+        {needsKeyUnlock && (
+          <Alert
+            color="yellow"
+            title="Encrypted messages locked"
+            mb="md"
+          >
+            Your encrypted messages are locked on this device. You can still use settings,
+            billing, help, and logout. Unlock or restore your key to continue messaging.
+          </Alert>
+        )}
         <Outlet />
       </AppShell.Main>
     </AppShell>

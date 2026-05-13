@@ -1,5 +1,5 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
-import { Routes, Route, Navigate, Outlet, useLocation, Link } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, Link } from 'react-router-dom';
 import {
   AppShell,
   Burger,
@@ -8,6 +8,7 @@ import {
   Title,
   ScrollArea,
   Anchor,
+  Alert,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useTranslation } from 'react-i18next';
@@ -39,8 +40,6 @@ import VerifyEmail from '@/pages/VerifyEmail.jsx';
 import CallHistory from '@/pages/CallHistory.jsx';
 
 import FamilyJoin from '@/pages/FamilyJoin.jsx';
-
-import EncryptionRecoveryCard from '@/components/security/EncryptionRecoveryCard.jsx';
 
 // ✅ NEW: Wireless dashboard
 import WirelessDashboard from '@/pages/WirelessDashboard.jsx';
@@ -124,11 +123,11 @@ const ASIDE_W = 280;
 function AuthedLayout() {
   const [opened, { toggle }] = useDisclosure();
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const { currentUser, logout } = useUser();
+  const { currentUser, logout, needsKeyUnlock } = useUser();
   const { t } = useTranslation();
 
   const [features, setFeatures] = useState({ status: true });
-  const location = useLocation();
+
 
   // Theme-safe CTA label style (fixes Log Out text on gradient themes)
   const ctaLabelStyles = {
@@ -290,6 +289,13 @@ function AuthedLayout() {
                   flexDirection: 'column',
                 }}
               >
+                {needsKeyUnlock && (
+                  <Alert color="yellow" title="Encrypted messages locked" mb="md">
+                    Your encrypted messages are locked on this device. You can still use settings,
+                    billing, help, and logout. Unlock or restore your key to continue messaging.
+                  </Alert>
+                )}
+
                 <Outlet context={{ selectedRoom, setSelectedRoom, currentUser, features }} />
               </div>
 
@@ -305,19 +311,8 @@ export default function AppRoutes() {
  const {
     currentUser,
     authLoading,
-    needsKeyUnlock,
     pairingPending,
-    keyUnlockMode,
-    logout,
   } = useUser();
-
-  const handleLockedLogout = () => {
-    localStorage.clear();
-    sessionStorage.clear();
-
-    window.location.href =
-      'https://api.chatforia.com/auth/logout?next=https://www.chatforia.com/';
-  };
  
   useEffect(() => {
     primeCsrf().catch(() => {});
@@ -330,64 +325,6 @@ export default function AppRoutes() {
   if (currentUser && pairingPending) {
     return <Navigate to="/pair-browser" replace />;
   }
-
-  if (false && currentUser && needsKeyUnlock) {
-  // if (keyUnlockMode === 'locked') {
-  //   return (
-  //     <div
-  //       style={{
-  //         minHeight: '100dvh',
-  //         display: 'grid',
-  //         placeItems: 'center',
-  //         padding: 24,
-  //       }}
-  //     >
-  //       <div style={{ width: '100%', maxWidth: 480 }}>
-  //         <EncryptionRecoveryCard
-  //           blocked
-  //           title="Unlock your encryption key"
-  //           description="Enter your passcode to continue."
-  //         />
-
-  //         <Button
-  //           fullWidth
-  //           mt="md"
-  //           onClick={handleLockedLogout}
-  //         >
-  //           Log Out
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  return (
-    <div
-      style={{
-        minHeight: '100dvh',
-        display: 'grid',
-        placeItems: 'center',
-        padding: 24,
-      }}
-    >
-      <div style={{ width: '100%', maxWidth: 640 }}>
-        <EncryptionRecoveryCard
-          blocked
-          title="Restore your encryption key"
-          description="This browser is missing or using the wrong encryption key for your Chatforia account."
-        />
-
-        <Button
-          fullWidth
-          mt="md"
-          onClick={handleLockedLogout}
-        >
-          Log Out
-        </Button>
-      </div>
-    </div>
-  );
-}
 
   if (!currentUser) {
     return (
