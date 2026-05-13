@@ -373,16 +373,18 @@ export default function EncryptionRecoveryCard({
         <Divider />
 
         <Stack gap="xs">
-          <Button
-            variant="subtle"
-            justify="space-between"
-            onClick={() => setRestoreOpen((v) => !v)}
-          >
-            {t(
-              'encryptionRecovery.actions.restoreEncryptedChats',
-              'Restore encrypted chats'
-            )}
-          </Button>
+          <Group justify="center">
+            <Button
+              variant="subtle"
+              size="sm"
+              onClick={() => setRestoreOpen((v) => !v)}
+            >
+              {t(
+                'encryptionRecovery.actions.restoreEncryptedChats',
+                'Restore encrypted chats'
+              )}
+            </Button>
+          </Group>
 
           <Collapse in={restoreOpen}>
             <Stack gap="sm" mt="sm">
@@ -447,17 +449,18 @@ export default function EncryptionRecoveryCard({
         <Divider />
 
         <Stack gap="xs">
-          <Button
-            variant="subtle"
-            color="red"
-            justify="space-between"
-            onClick={() => setAdvancedOpen((v) => !v)}
-          >
-            {t(
-              'encryptionRecovery.actions.advancedRecovery',
-              'Advanced recovery'
-            )}
-          </Button>
+          <Group justify="center">
+            <Button
+              variant="subtle"
+              size="sm"
+              onClick={() => setAdvancedOpen((v) => !v)}
+            >
+              {t(
+                'encryptionRecovery.actions.advancedRecovery',
+                'Advanced recovery'
+              )}
+            </Button>
+          </Group>
 
           <Collapse in={advancedOpen}>
             <Stack gap="sm" mt="sm">
