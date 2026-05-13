@@ -73,19 +73,34 @@ function setJwtCookie(res, token) {
   res.cookie(getCookieName(), token, opts);
 }
 
-function clearJwtCookie(res) {
-  const base = getCookieBase();
-  const name = getCookieName();
+function clearAllAuthCookies(res) {
+  const names = ['foria_jwt', 'cf_session'];
 
-  // 1) Best-effort clear with the same options used to set it
-  res.clearCookie(name, base);
+  const domains = [
+    undefined,
+    '.chatforia.com',
+    'chatforia.com',
+    'api.chatforia.com',
+  ];
 
-  // 2) Belt-and-suspenders: explicitly overwrite with an expired cookie
-  res.cookie(name, '', {
-    ...base,
-    maxAge: 0,
-    expires: new Date(0),
-  });
+  for (const name of names) {
+    for (const domain of domains) {
+      const base = {
+        httpOnly: true,
+        path: '/',
+        secure: true,
+        sameSite: 'none',
+        ...(domain ? { domain } : {}),
+      };
+
+      res.clearCookie(name, base);
+      res.cookie(name, '', {
+        ...base,
+        maxAge: 0,
+        expires: new Date(0),
+      });
+    }
+  }
 }
 
 /* =========================
@@ -1032,7 +1047,7 @@ router.post(
 router.post(
   '/logout',
   asyncHandler(async (req, res) => {
-    clearJwtCookie(res);
+    clearAllAuthCookies(res);
 
     if (req.logout) {
       try {
@@ -1053,7 +1068,7 @@ router.post(
 );
 
 router.get('/logout', (req, res) => {
-  clearJwtCookie(res);
+  clearAllAuthCookies(res);
 
   if (req.session) {
     req.session.destroy(() => {});
