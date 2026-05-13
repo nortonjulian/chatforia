@@ -523,6 +523,22 @@ router.patch('/me', requireAuth, async (req, res) => {
   }
 });
 
+/* ---------------------- DELETE /users/me ---------------------- */
+router.delete('/me', requireAuth, async (req, res) => {
+  try {
+    const userId = Number(req.user.id);
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('💥 DELETE /users/me failed', err);
+    return res.status(500).json({ error: 'Failed to delete account' });
+  }
+});
+
 /* ---------------------- POST /users/me/avatar ---------------------- */
 router.post(
   '/me/avatar',
