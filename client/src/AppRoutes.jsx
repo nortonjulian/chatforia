@@ -331,7 +331,7 @@ export default function AppRoutes() {
     return <Navigate to="/pair-browser" replace />;
   }
 
-  if (currentUser && needsKeyUnlock) {
+  if (false && currentUser && needsKeyUnlock) {
   // if (keyUnlockMode === 'locked') {
   //   return (
   //     <div
