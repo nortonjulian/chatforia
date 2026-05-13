@@ -1535,5 +1535,5 @@ router.get(
   })
 );
 
-export { setJwtCookie, clearJwtCookie };
+export { setJwtCookie, clearAllAuthCookies };
 export default router;
