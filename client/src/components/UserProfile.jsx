@@ -750,6 +750,10 @@ export default function UserProfile({ onLanguageChange, openSection }) {
     );
   }
 
+  const hasUploadedAvatar =
+    typeof currentUser?.avatarUrl === 'string' &&
+    currentUser.avatarUrl.startsWith('/uploads/avatars/');
+
   /* ---------- main render ---------- */
 
   return (
@@ -797,8 +801,7 @@ export default function UserProfile({ onLanguageChange, openSection }) {
                     </Group>
                   )}
 
-                  {currentUser?.avatarUrl &&
-                    !currentUser.avatarUrl.includes('default-avatar') && (
+                  {hasUploadedAvatar && (
                       <Button
                         size="xs"
                         variant="subtle"
