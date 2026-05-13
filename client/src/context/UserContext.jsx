@@ -297,24 +297,29 @@ export function UserProvider({ children }) {
           },
         }
       );
-    } catch {}
+    } catch (err) {
+      console.warn('Logout request failed', err);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('foria_jwt');
+      localStorage.removeItem('cf_session');
 
-    localStorage.removeItem('token');
-    localStorage.removeItem('foria_jwt');
-    localStorage.removeItem('cf_session');
+      sessionStorage.clear();
 
-    document.cookie = 'foria_jwt=; Max-Age=0; path=/';
-    document.cookie = 'cf_session=; Max-Age=0; path=/';
+      document.cookie = 'foria_jwt=; Max-Age=0; path=/';
+      document.cookie = 'cf_session=; Max-Age=0; path=/';
 
-    setCurrentUser(null);
-    setKeyMeta(null);
-    setNeedsKeyUnlock(false);
-    setKeyUnlockMode(null);
-    setAuthError(null);
-    setPairingPending(false);
+      setCurrentUser(null);
+      setKeyMeta(null);
+      setNeedsKeyUnlock(false);
+      setKeyUnlockMode(null);
+      setAuthError(null);
+      setPairingPending(false);
 
-    disconnect?.();
-    window.location.assign('/');
+      disconnect?.();
+
+      window.location.replace('/');
+    }
   }, [disconnect]);
 
   const value = useMemo(
