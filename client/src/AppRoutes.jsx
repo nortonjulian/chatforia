@@ -94,6 +94,7 @@ import OAuthComplete from '@/pages/OAuthComplete.jsx';
 import GettingStarted from '@/pages/guides/GettingStarted.jsx';
 
 import { AdProvider } from '@/ads/AdProvider';
+import AdSenseAutoAds from '@/ads/AdSenseAutoAds';
 import { CardAdWrap } from '@/ads/AdWrappers';
 import HouseAdSlot from '@/ads/HouseAdSlot';
 
@@ -281,6 +282,7 @@ function AuthedLayout() {
             <CallScreen />
 
             <AdProvider isPremium={isPremium}>
+              <AdSenseAutoAds />
               <div
                 style={{
                   flex: 1,
