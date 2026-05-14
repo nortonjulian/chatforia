@@ -282,7 +282,7 @@ function AuthedLayout() {
             <CallScreen />
 
             <AdProvider isPremium={isPremium}>
-              <AdSenseAutoAds />
+              
               <div
                 style={{
                   flex: 1,
@@ -329,7 +329,11 @@ export default function AppRoutes() {
   }
 
   if (!currentUser) {
+
+
     return (
+      <>
+        <AdSenseAutoAds />
       <Routes>
         {/* Public pricing / upgrade page (no AuthLayout hero) */}
         <Route path="/upgrade" element={<UpgradePage variant="account" />} />
@@ -376,10 +380,13 @@ export default function AppRoutes() {
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      </>
     );
   }
 
   return (
+    <>
+      <AdSenseAutoAds />
     <Routes>
       <Route path="/upgrade" element={<UpgradePage variant="account" />} />
       <Route path="/pricing" element={<Navigate to="/upgrade" replace />} />
@@ -481,5 +488,6 @@ export default function AppRoutes() {
         <Route path="*" element={<Navigate to="/" />} />
       </Route>
     </Routes>
+    </>
   );
 }
