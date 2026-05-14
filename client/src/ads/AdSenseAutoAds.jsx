@@ -36,18 +36,16 @@ export default function AdSenseAutoAds() {
     if (authLoading) return;
 
     const adsEnabled = import.meta.env.VITE_ADS_ENABLED !== 'false';
-    const provider = String(import.meta.env.VITE_AD_PROVIDER || '').toLowerCase();
 
     const isExcludedRoute = EXCLUDED_PREFIXES.some((prefix) =>
-      location.pathname.startsWith(prefix)
+    location.pathname.startsWith(prefix)
     );
 
     const shouldLoadAds =
-      adsEnabled &&
-      provider === 'adsense' &&
-      !isPaidUser(currentUser) &&
-      !isExcludedRoute;
-
+    adsEnabled &&
+    !isPaidUser(currentUser) &&
+    !isExcludedRoute;
+    
     if (!shouldLoadAds) return;
 
     if (document.querySelector('script[data-chatforia-adsense="true"]')) return;
