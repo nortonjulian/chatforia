@@ -327,7 +327,7 @@ export default function MessageInput({
             disabled={sending}
             type="button"
             aria-label="Stickers & GIFs"
-            title="Stickers & GIFs"
+            title={t('messageInput.stickersGif')}
           >
             GIF
           </Button>
@@ -339,7 +339,7 @@ export default function MessageInput({
             radius="md"
             disabled={sending}
             aria-label="Emoji"
-            title="Emoji"
+            title={t('messageInput.emoji')}
             onClick={() => setPickerOpen(true)}
             type="button"
           >
@@ -351,7 +351,7 @@ export default function MessageInput({
             chatRoomId={chatroomId}
             onUploaded={(fileMeta) => {
               setUploaded((prev) => [...prev, fileMeta]);
-              toast.ok('Voice note added.');
+              toast.ok(t('messageInput.voiceAdded'));
             }}
           />
 

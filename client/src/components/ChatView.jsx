@@ -1097,9 +1097,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
         );
       }
 
-      window.alert(
-        t('chat.blockedUser', 'Blocked {{name}}.', { name })
-      );
+      window.alert(t('chat.blockedUser', { name }))
       navigate('/');
     } catch (e) {
       console.error('Block failed', e);
@@ -1447,9 +1445,7 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   const handleClearForMe = useCallback(async () => {
     if (!chatroom?.id) return;
 
-    const ok = window.confirm(
-      'Clear this conversation for you? This hides prior messages for your account.'
-    );
+    const ok = window.confirm(t('chat.clearConfirm'))
     if (!ok) return;
 
     setMessages([]);
@@ -1618,62 +1614,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
   );
 
   useEffect(() => {
-    if (chatroom?.id && showThreadTop) {
-      markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
-    }
-  }, [showThreadTop, markShown, chatroom?.id]);
-
-  const lastOutgoingId = useMemo(() => {
-    const last = [...messages].reverse().find((m) =>
-      isSameUser(getSenderId(m), currentUserId)
-    );
-    return last?.id ?? null;
-  }, [messages, currentUserId]);
-
-  const lastOutgoingSeen = useMemo(() => {
-    if (!lastOutgoingId) return false;
-
-    const m = messages.find((x) => x.id === lastOutgoingId);
-    if (!m) return false;
-
-    if (m.readAt) return true;
-
-    if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
-      return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
-    }
-
-    return false;
-  }, [messages, lastOutgoingId, otherUserId]);
-
-  if (!chatroom) {
-    const showPromo =
-      !isPremium &&
-      !emptyDismissed &&
-      canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
-      Object.keys(ADS_CONFIG?.house || {}).length > 0;
-
-    return (
-      <Box p="md">
-        <Box mx="auto" maw={900}>
-          <Title order={4} mb="xs">
-            Select a conversation
-          </Title>
-          <Text c="dimmed" mb="md">
-            Pick a chat on the left to get started.
-          </Text>
-
-          {!isPremium && showPromo && (
-            <CardAdWrap>
-              <HouseAdSlot placement="empty_state_promo" variant="card" />
-            </CardAdWrap>
-          )}
-        </Box>
-      </Box>
-    );
-  }
-
-
-  useEffect(() => {
     let cancelled = false;
 
     const decryptVisibleMessages = async () => {
@@ -1771,6 +1711,61 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
       cancelled = true;
     };
   }, [chatroom?.id, chatroom?.participants, currentUserId, messages.length]);
+
+  useEffect(() => {
+    if (chatroom?.id && showThreadTop) {
+      markShown(PLACEMENTS.THREAD_TOP, String(chatroom.id));
+    }
+  }, [showThreadTop, markShown, chatroom?.id]);
+
+  const lastOutgoingId = useMemo(() => {
+    const last = [...messages].reverse().find((m) =>
+      isSameUser(getSenderId(m), currentUserId)
+    );
+    return last?.id ?? null;
+  }, [messages, currentUserId]);
+
+  const lastOutgoingSeen = useMemo(() => {
+    if (!lastOutgoingId) return false;
+
+    const m = messages.find((x) => x.id === lastOutgoingId);
+    if (!m) return false;
+
+    if (m.readAt) return true;
+
+    if (Array.isArray(m.readBy) && Number.isFinite(otherUserId)) {
+      return m.readBy.some((u) => Number(u?.id) === Number(otherUserId));
+    }
+
+    return false;
+  }, [messages, lastOutgoingId, otherUserId]);
+
+  if (!chatroom) {
+    const showPromo =
+      !isPremium &&
+      !emptyDismissed &&
+      canShow(PLACEMENTS.EMPTY_STATE_PROMO, 'app') &&
+      Object.keys(ADS_CONFIG?.house || {}).length > 0;
+
+    return (
+      <Box p="md">
+        <Box mx="auto" maw={900}>
+          <Title order={4} mb="xs">
+            Select a conversation
+          </Title>
+          <Text c="dimmed" mb="md">
+            Pick a chat on the left to get started.
+          </Text>
+
+          {!isPremium && showPromo && (
+            <CardAdWrap>
+              <HouseAdSlot placement="empty_state_promo" variant="card" />
+            </CardAdWrap>
+          )}
+        </Box>
+      </Box>
+    );
+  }
 
       // === Robust real-time listeners - waits for socket + room ===
   useEffect(() => {
@@ -1997,7 +1992,6 @@ export default function ChatView({ chatroom, currentUserId, currentUser }) {
                   onBlock={handleBlockThread}
                   onClear={handleClearForMe}
                   onClearAll={handleClearForEveryone}
-                  clearLabel="Clear conversation"
                 />
               </Group>
             </Group>

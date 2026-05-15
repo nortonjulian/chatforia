@@ -102,7 +102,7 @@ export default function LoginForm({ onLoginSuccess }) {
   const isEmailMode = idField === 'email';
 
   // Short label + placeholder pattern: short label ("Account"), placeholder gives examples.
-  const idLabel = t('login.accountLabel', 'Account');
+  const idLabel = t('login.accountLabel');
   const idPlaceholder = t(
     'login.identifierPh',
     'Email or username'
@@ -113,8 +113,8 @@ export default function LoginForm({ onLoginSuccess }) {
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
 
   // Short visual labels for the SSO buttons (avoid truncation)
-  const googleVisualLabel = t('login.googleShort', 'Google');
-  const appleVisualLabel = t('login.appleShort', 'Apple');
+  const googleVisualLabel = t('login.googleShort');
+  const appleVisualLabel = t('login.appleShort');
 
   useEffect(() => {
     let cancelled = false;
@@ -275,13 +275,13 @@ export default function LoginForm({ onLoginSuccess }) {
         email: identifier.trim(),
       });
 
-      setError('Verification email sent. Check your inbox.');
+      setError(t('login.verification.sent', 'Verification email sent. Check your inbox.'));
       setCanResend(false);
       posthog.capture('resend_verification_clicked', {
         source: 'login_form',
       });
     } catch (err) {
-      setError('Failed to resend verification email.');
+      setError(t('login.verification.failed', 'Failed to resend verification email.'));
     } finally {
       setResendLoading(false);
     }
@@ -289,7 +289,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
   const titleText = hasBeenHere
     ? t('login.welcomeBack', 'Welcome back')
-    : t('login.title', 'Continue to Chatforia');
+    : t('login.title', 'Continue to Chatforia')
 
   // Always keep the subtitle login-focused; signup lives in the hero
   const subtitleText = t(
@@ -384,7 +384,7 @@ export default function LoginForm({ onLoginSuccess }) {
           />
 
           <PasswordInput
-            label={t('login.passwordLabel', 'Password')}
+            label={t('login.passwordLabel')}
             placeholder={t('login.passwordPh', 'Your password')}
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
@@ -401,7 +401,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
           <Group justify="space-between" align="center" mt={2}>
             <Checkbox
-              label={t('login.keepSignedIn', 'Keep me signed in')}
+              label={t('login.keepSignedIn')}
               checked={remember}
               onChange={(e) => setRemember(e.currentTarget.checked)}
               styles={{ label: { color: 'var(--fg)' } }}
@@ -435,7 +435,7 @@ export default function LoginForm({ onLoginSuccess }) {
               loading={resendLoading}
               onClick={handleResend}
             >
-              Resend verification email
+              {t('login.resendVerification')}
             </Button>
           )}
 
@@ -444,10 +444,6 @@ export default function LoginForm({ onLoginSuccess }) {
               ? t('login.loggingIn', 'Logging in…')
               : t('login.submit', 'Log In')}
           </Button>
-
-          {/* Intentionally removed the "New here? Create an account" line.
-              Signup is handled by the hero CTA; do not reintroduce a competing
-              signup link inside the transactional login card. */}
         </Stack>
       </form>
     </Paper>
