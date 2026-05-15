@@ -18,7 +18,7 @@ export const LANGUAGES = [
   { code: 'bg', name: 'Bulgarian' },
   { code: 'my', name: 'Myanmar (Burmese)' },
   { code: 'ca', name: 'Catalan' },
-  { code: 'yue', name: 'Cantonese' },
+  { code: '', name: 'Cantonese'yue },
   { code: 'ceb', name: 'Cebuano' },
   { code: 'zh-CN', name: 'Chinese (Simplified)' },
   { code: 'zh-TW', name: 'Chinese (Traditional)' },
