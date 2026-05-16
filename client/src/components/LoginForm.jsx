@@ -102,7 +102,7 @@ export default function LoginForm({ onLoginSuccess }) {
   const isEmailMode = idField === 'email';
 
   // Short label + placeholder pattern: short label ("Account"), placeholder gives examples.
-  const idLabel = t('login.accountLabel');
+  const idLabel = t('login.accountLabel', 'Account');
   const idPlaceholder = t(
     'login.identifierPh',
     'Email or username'
@@ -113,8 +113,8 @@ export default function LoginForm({ onLoginSuccess }) {
   const placeholderColor = 'color-mix(in oklab, var(--fg) 72%, transparent)';
 
   // Short visual labels for the SSO buttons (avoid truncation)
-  const googleVisualLabel = t('login.googleShort');
-  const appleVisualLabel = t('login.appleShort');
+  const googleVisualLabel = t('login.googleShort', 'Google');
+  const appleVisualLabel = t('login.appleShort', 'Apple');
 
   useEffect(() => {
     let cancelled = false;
@@ -384,7 +384,7 @@ export default function LoginForm({ onLoginSuccess }) {
           />
 
           <PasswordInput
-            label={t('login.passwordLabel')}
+            label={t('login.passwordLabel', 'Password')}
             placeholder={t('login.passwordPh', 'Your password')}
             value={password}
             onChange={(e) => setPassword(e.currentTarget.value)}
@@ -401,7 +401,7 @@ export default function LoginForm({ onLoginSuccess }) {
 
           <Group justify="space-between" align="center" mt={2}>
             <Checkbox
-              label={t('login.keepSignedIn')}
+              label={t('login.keepSignedIn', 'Keep me signed in')}
               checked={remember}
               onChange={(e) => setRemember(e.currentTarget.checked)}
               styles={{ label: { color: 'var(--fg)' } }}
@@ -435,7 +435,7 @@ export default function LoginForm({ onLoginSuccess }) {
               loading={resendLoading}
               onClick={handleResend}
             >
-              {t('login.resendVerification')}
+              {t('login.resendVerification', 'Resend verification email')}
             </Button>
           )}
 
