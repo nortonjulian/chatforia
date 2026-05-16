@@ -113,7 +113,7 @@ export default function ForwardingSettings() {
   if (loading) {
     return (
       <Card withBorder>
-        <Text size="sm" c="dimmed">{t('common.refresh', 'Loading forwarding settings…')}</Text>
+        <Text size="sm" c="dimmed">{t('profile.forwardingLoading', 'Loading forwarding settings…')}</Text>
       </Card>
     );
   }

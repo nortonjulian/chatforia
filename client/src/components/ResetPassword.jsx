@@ -11,8 +11,8 @@ import {
   Text,
   Stack,
 } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 
-// Safe no-op toast shim for tests/SSR (avoids importing a module that uses import.meta)
 const toast = {
   ok: () => {},
   err: () => {},
@@ -20,6 +20,7 @@ const toast = {
 };
 
 export default function ResetPassword() {
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
 
@@ -27,10 +28,8 @@ export default function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // inline status for tests to query
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-
   const [isTokenMissing, setIsTokenMissing] = useState(false);
 
   useEffect(() => {
@@ -44,29 +43,30 @@ export default function ResetPassword() {
     setSuccessMsg('');
 
     if (!token) {
-      const msg = 'Invalid or missing password reset token.';
+      const msg = t('login.resetPassword.missingToken');
       setErrorMsg(msg);
       toast.err(msg);
       return;
     }
 
     if (password !== confirmPassword) {
-      const msg = 'Passwords do not match';
+      const msg = t('login.resetPassword.passwordMismatch');
       setErrorMsg(msg);
-      toast.err(msg + '.');
+      toast.err(`${msg}.`);
       return;
     }
 
     setLoading(true);
+
     try {
       await axiosClient.post('/auth/reset-password', {
         token,
         newPassword: password,
       });
 
-      const msg = 'Your password has been reset successfully';
+      const msg = t('login.resetPassword.success');
       setSuccessMsg(msg);
-      toast.ok(msg + '.');
+      toast.ok(`${msg}.`);
 
       setPassword('');
       setConfirmPassword('');
@@ -74,10 +74,10 @@ export default function ResetPassword() {
       const msg =
         error?.response?.data?.error ||
         error?.response?.data?.message ||
-        'Error: Unable to reset password.';
+        t('login.resetPassword.genericError');
+
       setErrorMsg(msg);
       toast.err(msg);
-      // eslint-disable-next-line no-console
       console.error(error);
     } finally {
       setLoading(false);
@@ -88,41 +88,44 @@ export default function ResetPassword() {
     <Container size="xs" px="md" py="lg">
       <Paper withBorder shadow="sm" radius="xl" p="lg">
         <Title order={3} mb="md">
-          Reset Password
+          {t('login.resetPassword.title')}
         </Title>
 
         {isTokenMissing ? (
           <Alert color="red" variant="light" role="alert">
-            Invalid or missing token. Please request a new password reset link.
+            {t('login.resetPassword.missingTokenHelper')}
           </Alert>
         ) : (
           <form onSubmit={handleSubmit}>
             <Stack gap="sm">
-              {/* inline error/success for test assertions */}
               {errorMsg && (
                 <div role="alert" style={{ color: 'var(--mantine-color-red-6)' }}>
                   {errorMsg}
                 </div>
               )}
+
               {successMsg && <div>{successMsg}</div>}
 
               <PasswordInput
-                label="New password"
-                placeholder="Enter your new password"
+                label={t('login.resetPassword.newPasswordLabel')}
+                placeholder={t('login.resetPassword.newPasswordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
                 required
               />
+
               <PasswordInput
-                label="Confirm new password"
-                placeholder="Re-enter your new password"
+                label={t('login.resetPassword.confirmPasswordLabel')}
+                placeholder={t('login.resetPassword.confirmPasswordPlaceholder')}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.currentTarget.value)}
                 required
               />
 
               <Button type="submit" loading={loading} fullWidth>
-                {loading ? 'Resetting...' : 'Reset Password'}
+                {loading
+                  ? t('login.resetPassword.resetting')
+                  : t('login.resetPassword.submit')}
               </Button>
             </Stack>
           </form>
@@ -130,7 +133,7 @@ export default function ResetPassword() {
 
         {!isTokenMissing && (
           <Text size="xs" c="dimmed" mt="sm" ta="center">
-            Choose a strong password you don’t use elsewhere.
+            {t('login.resetPassword.strongPasswordHint')}
           </Text>
         )}
       </Paper>
