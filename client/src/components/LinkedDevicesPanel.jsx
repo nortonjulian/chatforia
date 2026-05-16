@@ -110,7 +110,6 @@ export default function LinkedDevicesPanel() {
   return (
     <Stack>
       <Group justify="space-between" align="center">
-        <Text fw={600}>{t('linkedDevicesPanel.title', 'Linked devices')}</Text>
         <Button
           leftSection={<IconRefresh size={16} />}
           onClick={fetchDevices}
