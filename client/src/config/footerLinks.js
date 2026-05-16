@@ -39,15 +39,37 @@ export const FOOTER_SECTIONS = [
     ],
   },
   {
-    title: "Support",
-    links: [
-      { label: "Getting Started", href: "/guides/getting-started" }, // ← temporarily lives here
-      { label: "Help Center", href: "/help" },
-      { label: "Safety", href: "/safety" },
-      { label: "Contact Us", href: "/contact" },
-      { label: "Status Page", href: "https://status.chatforia.com", external: true },
-    ],
-  },
+  title: "Support",
+  i18nKey: "support",
+  links: [
+    {
+      label: "Getting Started",
+      href: "/guides/getting-started",
+      i18nKey: "getting-started",
+    },
+    {
+      label: "Help Center",
+      href: "/help",
+      i18nKey: "help-center",
+    },
+    {
+      label: "Safety",
+      href: "/safety",
+      i18nKey: "safety",
+    },
+    {
+      label: "Contact Us",
+      href: "/contact",
+      i18nKey: "contact-us",
+    },
+    {
+      label: "Status Page",
+      href: "https://status.chatforia.com",
+      external: true,
+      i18nKey: "status-page",
+    },
+  ],
+},
 
   // --- Resources (parked for launch) -----------------------------------------
   // When you have at least 2 items, uncomment this block and consider
@@ -65,23 +87,59 @@ export const FOOTER_SECTIONS = [
   // },
 
   {
-    title: "Downloads",
-    links: [
-      { label: "iOS / App Store", href: "https://apps.apple.com/app/idXXXXXXXX", external: true },
-      { label: "Android / Google Play", href: "https://play.google.com/store/apps/details?id=xxx", external: true },
-    ],
-  },
+  title: "Downloads",
+  i18nKey: "downloads",
+  links: [
+    {
+      label: "iOS / App Store",
+      href: "https://apps.apple.com/app/idXXXXXXXX",
+      external: true,
+      i18nKey: "ios-app-store",
+    },
+    {
+      label: "Android / Google Play",
+      href: "https://play.google.com/store/apps/details?id=xxx",
+      external: true,
+      i18nKey: "android-google-play",
+    },
+  ],
+},
   {
-    title: "Legal",
-    links: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Service", href: "/legal/terms" },
-      { label: "Refund Policy", href: "/refund-policy" },
-      { label: "SMS Messaging Policy", href: "/legal/sms" },
-      { label: "Do Not Sell My Info", href: "/legal/do-not-sell" },
-      { label: "Cookie Settings", href: "/legal/cookies" },
-    ],
-  },
+  title: "Legal",
+  i18nKey: "legal",
+  links: [
+    {
+      label: "Privacy Policy",
+      href: "/privacy",
+      i18nKey: "privacy-policy",
+    },
+    {
+      label: "Terms of Service",
+      href: "/legal/terms",
+      i18nKey: "terms-of-service",
+    },
+    {
+      label: "Refund Policy",
+      href: "/refund-policy",
+      i18nKey: "refund-policy",
+    },
+    {
+      label: "SMS Messaging Policy",
+      href: "/legal/sms",
+      i18nKey: "sms-messaging-policy",
+    },
+    {
+      label: "Do Not Sell My Info",
+      href: "/legal/do-not-sell",
+      i18nKey: "do-not-sell-my-info",
+    },
+    {
+      label: "Cookie Settings",
+      href: "/legal/cookies",
+      i18nKey: "cookie-settings",
+    },
+  ],
+ },
 ];
 
 export const SOCIALS = [
