@@ -3,1788 +3,1467 @@
     "save": "Olkaa'i",
     "cancel": "Dhiisi",
     "refresh": "Haaromsi",
-    "noMatches": "Walitti dhufee hin jiru",
+    "noMatches": "Wal simachuun hin argamne",
     "cancelAria": "Dhiisi",
-    "copy": "Kopi",
-    "copied": "Kopii ta'e!",
-    "errorWithMessage": "Dogoggora: {{message}}"
+    "copy": "Koppii godhi",
+    "copied": "Koppii ta'e!",
+    "errorWithMessage": "Dogoggora: {{message}}",
+    "loading": "Fe'aa jira…",
+    "saveError": "Olkaa'uun hin milkoofne"
   },
   "a11y": {
-    "skipToMain": "Gara qabiyyee guddaa darbi"
+    "skipToMain": "Gara qabiyyee ijoo darbii"
+  },
+  "brand": {
+    "name": "Chatforia",
+    "ria": "Ria"
   },
   "keys": {
-    "backupCreated": "Kii backup uumamee gadi bu'uu ta'e ✓",
-    "restored": "Kii backup deebifame ✓ Kiin gara gadii itti dhufe",
-    "noBackup": "Backup encrypted akka kanaa hin jiru",
-    "missingPublicKey": "Backup keessatti kiin public hin jiru"
+    "backupCreated": "Backup furtuu uumamee buufameera ✓",
+    "restored": "Backup furtuu deebifameera ✓ Furtuun gara meeshaa kanaatti galfameera",
+    "noBackup": "Akaawuntii kanaaf backup icciitii hin jiru",
+    "missingPublicKey": "Backup keessatti furtuun public dhabameera"
   },
   "keySetup": {
-    "title": "Kiin gadii kee qopheessi",
-    "description": "Gaditti kun kiin private kee hin qabu. Backup password-protected fiduu ykn kiin haaraa uumuu (erga ammaa jalqabee ergii haaraa dubbisuu dandeessu).",
-    "chooseFile": "Faayilii filadhuu fi paaswerd galchi.",
-    "imported": "Kiin private gara gaditti kanaa fidame. Ergii duruu amma dubbisuu dandeessa.",
-    "enterPassword": "Paaswerd akkaataa kee galchi yoo kiin kee akkaataa fiicuu dandeessu."
+    "title": "Furtuu meeshaa kee qopheessi",
+    "description": "Meeshaan kun ammaaf furtuu dhuunfaa kee hin qabu. Backup passwordiin eegame galchi ykn keypair haaraa uumi.",
+    "chooseFile": "Faayilii filadhuutii password galchi.",
+    "imported": "Furtuun dhuunfaa gara meeshaa kanaatti galfameera. Amma ergaawwan durii dubbisuu dandeessa.",
+    "enterPassword": "Furtuuwwan kee nageenyaan backup gochuuf password akaawuntii kee galchi."
+  },
+  "encryptionRecovery": {
+    "title": "Encryption Bulchi",
+    "description": "Backup godhi, deebisi, bani ykn encryption key reset godhi.",
+    "alert": {
+      "keyRequiredTitle": "Encryption key barbaachisa",
+      "keyRequiredBody": "Browser kun amma ergaawwan encrypted decrypt gochuu hin danda'u. Itti fufuuf furtuu kee deebisi, bani ykn reset godhi."
+    },
+    "sections": {
+      "createBackup": "Backup furtuu uumi",
+      "restoreFromBackup": "Backup irraa deebisi",
+      "resetEncryption": "Encryption reset godhi"
+    },
+    "actions": {
+      "unlockKey": "Encryption key bani",
+      "restoreFromBackup": "Backup irraa deebisi",
+      "resetEncryption": "Encryption reset godhi"
+    },
+    "messages": {
+      "backupCreated": "Backup furtuu uumamee buufameera.",
+      "keyUnlocked": "Encryption key banameera.",
+      "keyRestored": "Furtuun backup irraa deebifameera.",
+      "resetSuccess": "Encryption milkaa'inaan reset ta'eera."
+    },
+    "errors": {
+      "restoreIncomplete": "Key restore guutuu miti ykn sirrii miti",
+      "noBackup": "Backup encrypted hin jiru",
+      "missingPublicKey": "Backup keessatti public key dhabameera",
+      "noServerPublicKey": "Akaawuntiin kun server public key amma hin agarsiisu",
+      "serverBackupMismatch": "Server backup encryption key akaawuntii ammaa waliin wal hin simu",
+      "incompleteMetadata": "Metadata backup guutuu miti",
+      "resetIncomplete": "Encryption reset sirriitti hin xumuramne"
+    },
+    "confirm": {
+      "reset": "Akaawuntii kanaaf encryption reset gochuu barbaaddaa?\n\nErgaawwan encrypted durii furtuu jalqabaa yoo hin deebifne dubbifamuu dhiisuu danda'u."
+    },
+    "resetDescription": "Kun encryption key haaraa akaawuntii keetiif uuma. Ergaawwan encrypted durii furtuu jalqabaa yoo hin deebifne dubbifamuu dhiisuu danda'u."
   },
   "auth": {
-    "headline": "Ergaa fiicamaa namni kamiyyuu, bakka kamiyyuu",
-    "description": "End-to-end encryption, 100+ afaanotaatti hiikuu, ergii haa dhabatu fi yaada/ video yaada.",
+    "headline": "Ergaa nageenya qabu namni hundi bakka kamiyyuu irraa",
+    "description": "End-to-end encryption, hiikkaa afaanota 100 ol keessatti, ergaawwan ofumaan badanii fi bilbila sagalee/viidiyoo.",
     "feature": {
-      "encryption": "End-to-end encryption akkaataa jalqabaa",
-      "translation": "Hiikuu ergii smart, keessatti bu'u",
-      "disappearing": "Ergii haa dhabatu & qabxiin dubbisuu",
-      "privacy": "Privacy jalqabaa. Daataa kee, fiicuu kee.",
-      "translate": "Hiikuu ergii smart, keessatti bu'u",
-      "disappear": "Ergii haa dhabatu",
-      "privacyAlt": "Design privacy jalqabaa",
-      "seePlans": "Karaa fi gatiin ilaali"
+      "encryption": "End-to-end encryption defaultiin",
+      "translation": "Hiikkaa ergaa smart app keessatti ijaarame",
+      "disappearing": "Ergaawwan badan & read receipts",
+      "privacy": "Dhuunfaa dursa. Daataan kee, too'annoon kee.",
+      "translate": "Hiikkaa ergaa smart app keessatti ijaarame",
+      "disappear": "Ergaawwan badan",
+      "privacyAlt": "Dizaayinii dhuunfaa-dursa",
+      "seePlans": "Pilaana & gatii ilaali"
     },
     "hero": {
-      "line1": "Ergaa fiicamaa namni kamiyyuu, bakka kamiyyuu — waliin",
-      "em": "hiikuu 100+ afaanotaatti",
-      "sub": "Lakkoofsa bilisaa fiicamaa argadhuu yaada fi ergii addunyaa hunda Wi-Fi ykn daataa irratti. End-to-end encryption, ergii haa dhabatu fi HD voice/video yaada argadhuu — waliin tooftaa keessatti bu'u kan walitti dhufe akkaataa daangaa keessatti.",
-      "freeNote": "Yaada fi ergii jalqabaa bilisaa. AI fi features premium haalaan upgrade barbaadu."
-    },
-    "feat": {
-      "encryption": "End-to-end encryption, yeroo hunda",
-      "translate": "Harka qabuu afaanotaatti walitti dhufe keessan keessatti",
-      "disappear": "Ergii haa dhabatu & qabxiin dubbisuu",
-      "privacy": "Privacy jalqabaa. Daataa kee, fiicuu kee."
+      "line1": "Ergaa nageenya qabu namni hundi bakka kamiyyuu irraa — waliin",
+      "em": "hiikkaa afaanota 100 ol keessatti",
+      "sub": "Wi‑Fi ykn data irratti addunyaa guutuu keessatti bilbiluu fi ergaa erguuf lakkoofsa nageenya qabu bilisaa argadhu. End-to-end encryption, ergaawwan badan, fi HD voice/video calling fayyadami.",
+      "freeNote": "Bilbilli fi ergaan bu'uuraa bilisa. AI fi faayidaawwan premium upgrade barbaadu."
     },
     "continueGoogle": "Google waliin itti fufi",
     "continueApple": "Apple waliin itti fufi",
-    "username": "Maqaa fayyadamtootaa",
-    "password": "Paaswerd",
-    "keepSignedIn": "Anaan galuu",
-    "forgotPassword": "Paaswerd hir'uu?",
-    "loginButton": "Galuu",
-    "createAccount": "Galmee uumuu",
-    "freeAccountButton": "Galmee bilisaa uumuu",
-    "newHere": "Haaraa?",
+    "username": "Maqaa fayyadamaa",
+    "password": "Password",
+    "keepSignedIn": "Na yaadadhu",
+    "forgotPassword": "Password dagatte?",
+    "loginButton": "Seeni",
+    "createAccount": "Akaawuntii uumi",
+    "freeAccountButton": "Akaawuntii bilisaa uumi",
+    "newHere": "Haaraa dhaa?",
     "getApp": "App argadhu",
-    "desktopTip": "Desktop irratti? Bilbila kee waliin scan gochuun app argadhu.",
-    "scanHelper": "Desktop irratti? Bilbila kee waliin scan gochuun app argadhu.",
-    "goHome": "Gara mana",
+    "desktopTip": "Desktop irratti jirtaa? App argachuuf bilbila keetiin scan godhi.",
+    "scanHelper": "Desktop irratti jirtaa? App argachuuf bilbila keetiin scan godhi.",
+    "goHome": "Gara fuula jalqabaatti deemi",
     "home": "Mana",
     "headlineAlt": {
-      "main": "Ergaa fiicamaa kan",
-      "highlight": "afaan kee haasa'u"
+      "main": "Messenger nageenya qabu kan",
+      "highlight": "afaan kee dubbatu"
     },
-    "subhead": "Ergaa fiicamaa, encrypted fi hiikame — daqiiqaa jalqabaa.",
-    "upgrade": "Haalaan",
-    "tip": "Tip: Galmee tokkoo web fi mobile irratti fayyadami. Ergaa kee synced ta'a.",
-    "openDownload": "Paajii gadi bu'uuf bana",
-    "qrAlt": "QR code Chatforia",
-    "scanHint": "App gadi bu'uuf ykn browser keessatti banaa scan gochuun.",
-    "iosAria": "App Store irratti gadi bu'u",
-    "iosTitle": "App Store irratti gadi bu'u",
-    "iosBadgeAlt": "App Store badge",
-    "androidAria": "Google Play irratti argadhu",
-    "androidTitle": "Google Play Store",
-    "androidBadgeAlt": "Google Play badge",
-    "login": "Galuu",
-    "signup": "Galmee uumuu",
-    "email": "Email",
+    "subhead": "Ergaawwan dhuunfaa, encrypted fi hiikaman — battalumatti.",
+    "upgrade": "Amma olka'i",
+    "tip": "Tika: Web fi mobile irratti akaawuntii tokko fayyadami. Ergaawwan kee wal simatu.",
+    "login": "Seeni",
+    "signup": "Galmaa'i",
+    "email": "Imeelii",
     "registration": {
-      "passwordDescription": "Yeroo jalqabaa 6 arfii. Paaswerd cimaa, addaa fayyadami.",
-      "smsConsent": "Galmee uumuun, SMS notifications Chatforia kee waliin walitti dhufe (ergii fayyadamtootaa biraa) argachuuf walii galte. Ergaa fi daataa gatiin jiraachuu danda'a. Yeroo hunda Settings keessatti opt out gochuu dandeessa.",
-      "termsLink": "Terms of Service",
-      "privacyLink": "Privacy Policy"
+      "passwordDescription": "Yoo xiqqaate arfii 6. Password cimaa fi addaa fayyadami.",
+      "smsConsent": "Akaawuntii uumuun, sochii Chatforia kee waliin walqabatan irratti SMS notifications argachuuf walii galta. Message & data rates jiraachuu danda'u. Settings keessatti yeroo kamiyyuu opt out gochuu dandeessa.",
+      "termsLink": "Haala Tajaajilaa",
+      "privacyLink": "Imaammata Dhuunfaa"
     },
     "to": "Gara:",
     "enterRecipient": "Maqaa ykn lakkoofsa galchi",
-    "clearRecipients": "Recipients haala qabu",
+    "clearRecipients": "Namoota filataman keessaa haqi",
     "sms": "SMS",
     "chatforia": "Chatforia",
     "typeMessage": "Ergaa barreessi…",
-    "addRecipient": "Recipient olii dhufe adda",
-    "oneRecipient": "Yeroo ammaa recipient tokko galchi.",
-    "enterValidRecipient": "Maqaa contact saved ykn lakkoofsa bilbilaa galchi.",
-    "sendFailed": "Ergaa dhiisu hin danda'anne. Console ilaali."
+    "addRecipient": "Jalqabuuf nama fudhataa olitti dabali…",
+    "oneRecipient": "Ammaaf nama tokko qofa galchi.",
+    "enterValidRecipient": "Maqaa contact olkaa'ame ykn lakkoofsa bilbilaa sirrii galchi.",
+    "sendFailed": "Ergaan ergamuu hin dandeenye. Bal'inaaf console ilaali."
   },
   "home": {
     "title": "Mana",
-    "header": "Ergaa kee",
-    "subheader": "Ergaa erguun chat jalqabi.",
-    "sendButton": "Ergaa erguu",
-    "gifPicker": "GIF picker bana",
+    "messagesTitle": "Ergaawwan kee",
+    "messagesSubtitle": "Marii jalqabuuf nama fudhataa olitti galchi, sana booda ergaa ergi.",
+    "subheader": "Marii jalqabuuf ergaa ergi.",
+    "sendButton": "Ergaa ergi",
+    "gifPicker": "Filannoo GIF bani",
     "emoji": "Emoji",
-    "upload": "Foto ykn video olkaa'i",
+    "upload": "Suuraa ykn viidiyoo olkaa'i",
     "inputPlaceholder": "Ergaa barreessi…",
-    "inputLabel": "Ergaa uumuu",
-    "sendTooltip": "Erguu",
-    "sendTooltipEmpty": "Ergaa barreessi erguuf",
-    "send": "Erguu",
+    "inputLabel": "Barreessaa ergaa",
+    "sendTooltip": "Ergi",
+    "sendTooltipEmpty": "Erguuf ergaa barreessi",
+    "send": "Ergi",
+    "welcomeMessage": "Baga nagaan dhuftan Chatforia",
+    "getStarted": "Jalqabi",
+    "mixedRecipients": "Namoonni fudhatan walmakaa dha. Lakkoofsota bilbilaa (SMS) qofa ykn usernames Chatforia qofa fayyadami.",
     "enterRecipient": "Maqaa ykn lakkoofsa galchi",
-    "addRecipient": "Jalqabuuf olitti fudhatamaa dabali…",
-    "welcomeMessage": "Chatforia gale galataa",
-    "getStarted": "Jalqabi"
+    "addRecipient": "Jalqabuuf nama fudhataa olitti dabali…",
+    "needNumber": "SMS erguuf dura lakkoofsa Chatforia qabaachuu qabda.",
+    "chooseNumber": "Lakkoofsa filadhu"
   },
-  "refund": {
-    "title": "Imaammata Deebii Qarshii",
-    "lastUpdated": "Kan haaromfame:",
-    "intro": "Chatforia keessatti, tajaajila qulqullina qabu fayyadamtoota hundaaf kennuuf ni carraaqna. Imaammanni deebii qarshii kun yeroo deebiin qarshii kennamuu danda’u ibsa.",
-    "subscriptions": {
-      "title": "Maallaqa Galmee (Subscriptions)",
-      "body": "Maallaqni galmee dursee kaffalama, yeroo yerootti irra deebi’ee kaffalama. Yeroo kamiyyuu akkaawuntii kee keessaa yookaan karaa platform ittiin bitameen haquu dandeessa."
-    },
-    "eligibility": {
-      "title": "Ulaagaa Deebii Qarshii",
-      "body": "Deebiin qarshii kennamuu danda’a yoo kaffaltiin lama ta’e, dogoggora kaffaltii, yookaan rakkoo tekinikaa kan tajaajila kaffalame hin fayyadamne taasisu jiraate. Gaaffiin hundi addaan bahee ilaallama."
-    },
-    "nonRefundable": {
-      "title": "Kan Hin Deebifamne",
-      "body": "Yeroo baay’ee, yeroo hin fayyadamne, kutaa galmee, yookaan yeroo haaromsuu dura hin haqneef deebii qarshii hin kenninu."
-    },
-    "thirdParty": {
-      "title": "Bitannoo Qaama Biraa",
-      "body": "Yoo karaa qaama biraa akka Apple App Store ittiin bitame, deebiin qarshii toora sanaan qofa gaafachuun barbaachisa."
-    },
-    "contact": {
-      "title": "Nu Qunnami",
-      "body": "support@chatforia.com • Chatforia LLC, 30 N Gould Street STE N, Sheridan, WY 82801, USA"
-    }
+  "sidebar": {
+    "randomChat": "Marii Tasaa",
+    "callTextForwarding": "Bilbila & Ergaa Dabarfachuu",
+    "conversations": "Mariiwwan",
+    "searchPlaceholder": "Marii barbaadi...",
+    "errorLoading": "Mariin fe'amuu hin dandeenye",
+    "empty": "Mariin ammaaf hin jiru.",
+    "startChat": "Marii jalqabi",
+    "people": "Namoota",
+    "settings": "Qindaa'ina",
+    "status": "Haala",
+    "forwarding": "Bilbila & Ergaa Dabarfachuu",
+    "refresh": "Haaromsi",
+    "search": "Marii barbaadi",
+    "loginPrompt": "Qindaa'ina kee jijjiiruuf seeni.",
+    "login": "Seeni",
+    "register": "Akaawuntii uumi",
+    "chatrooms": "Kutaa marii",
+    "logout": "Ba'i",
+    "startChatAlt": "Marii haaraa jalqabi",
+    "calls": "Bilbiloota",
+    "video": "Viidiyoo",
+    "voicemail": "Ergaa sagalee"
   },
-
-  "about": {
-    "title": "Waa’ee Chatforia",
-    "description": "Chatforia platfoormii ergaa ammayyaa, walqunnamtii nageenya qabu fi afaan hedduu deeggartu...",
-    "valuesTitle": "Waan nuti kabajnu",
-    "privacyTitle": "Nageenya Dursa",
-    "privacyDesc": "Encryption cimaa fi too’annoo dhuunfaa fayyadamaa",
-    "accessTitle": "Hundaaf Dhaqqabamaa",
-    "accessDesc": "Hiikkaa afaan hedduu of keessaa qaba",
-    "controlTitle": "To’annoo",
-    "controlDesc": "Amaloota akka ergaa badu fi mirkaneessa dubbisuu"
+  "topbar": {
+    "newStatus": "Status Haaraa",
+    "logout": "Ba'i",
+    "help": "Gargaarsa",
+    "createStatusAria": "Status haaraa uumi"
   },
-
-  "blog": {
-    "whyMessaging": {
-      "title": "Maaliif Platfoormiin Ergaa Amma Caalaa Barbaachisaa Ta’e",
-      "intro": "Platfoormiin ergaa yeroo ammaa keessatti meeshaalee walqunnamtii barbaachisoo keessaa tokko ta’aniiru...",
-      "everydayTitle": "Walqunnamtii Guyyaa Guyyaa",
-      "everydayDesc": "Namoonni guyyaa guyyaa app ergaa fayyadamu...",
-      "speedTitle": "Saffisaa fi Mijataa",
-      "speedDesc": "Ergaan saffisaan ni gaha...",
-      "globalTitle": "Addunyaa Guutuu",
-      "globalDesc": "Platfoormiin kun namoota addunyaa mara walitti fida...",
-      "privacyTitle": "Nageenya fi To’annoo",
-      "privacyDesc": "Platfoormiin ammayyaa fayyadamtootaaf to’annoo kenna...",
-      "futureTitle": "Fuuldura Ergaa",
-      "futureDesc": "Ergaan itti fufa jijjiiramaa...",
-      "outro": "Chatforia bu’uura kana irratti ijaarame..."
-    },
-
-    "global": {
-      "title": "Fuuldura Walqunnamtii Addunyaa",
-      "intro": "Walqunnamtiin saffisaan jijjiiramaa jira...",
-      "barriersTitle": "Danqaawwan Cabsuu",
-      "barriersDesc": "Namoonni addunyaa mara walqunnamsiisuu danda’u...",
-      "translationTitle": "Gahee Teknooloojii Hiikkaa",
-      "translationDesc": "Afaan duraan danqaa ture...",
-      "realtimeTitle": "Walqunnamtii Yeroo Dhugaa",
-      "realtimeDesc": "Saffisni baay’ee barbaachisaa dha...",
-      "privacyTitle": "Nageenya fi Iccitii",
-      "privacyDesc": "Namoonni walqunnamtiin isaanii eegamu akka ta’u barbaadu...",
-      "futureTitle": "Waan Itti Aanu",
-      "futureDesc": "Fuuldurri walqunnamtii amaloota haaraa qabaata...",
-      "outro": "Platfoormiin akka Chatforia kana keessaa tokko..."
-    },
-
-    "index": {
-      "title": "Blog Chatforia",
-      "intro": "Ilaali yaadota walqunnamtii irratti...",
-      "post1": "Akkamitti Nageenyaan Internet irratti Mari’achuu Dandeenya",
-      "post2": "Fuuldura Walqunnamtii Addunyaa",
-      "post3": "Maaliif Platfoormiin Ergaa Barbaachisaa Ta’e"
-    }
-  },
-
-  "howItWorks": {
-    "title": "Akkamitti Chatforia Hojjeta",
-    "intro": "Chatforia walqunnamtii salphaa taasisuuf qophaa’e...",
-    "step1Title": "1. Akaawuntii Uumi",
-    "step1Desc": "Imeelii yookaan maqaa fayyadamaa fayyadamuun galmaa’i...",
-    "step2Title": "2. Marii Jalqabi",
-    "step2Desc": "Namoota biroo waliin walitti dhufi...",
-    "step3Title": "3. Ergaa Yeroo Dhugaa",
-    "step3Desc": "Ergaan saffisaan ni geeffama...",
-    "step4Title": "4. Walqunnamtii Addunyaa",
-    "step4Desc": "Hiikkaan keessatti ijaarame fayyadamtoota gargaara...",
-    "step5Title": "5. To’annoo Qabaadhu",
-    "step5Desc": "Filannoowwan kee to’adhu..."
-  },
-
-  "safety": {
-    "title": "Nageenya fi Qajeelfama Hawaasaa",
-    "intro": "Chatforia bakka nageenya qabu uumuuf hojii irra jira...",
-    "respectTitle": "Walqunnamtii Kabajaa",
-    "respectDesc": "Fayyadamtoonni walii isaanii kabajuu qabu...",
-    "prohibitedTitle": "Waan Hin Eeyyamamne",
-    "prohibited": {
-      "illegal": "Hojii seeraan alaa",
-      "harassment": "Rakkisuu yookaan doorsisuu",
-      "hate": "Hate speech yookaan loogii",
-      "explicit": "Qabiyyee miidhaa qabu",
-      "spam": "Spam yookaan hojii gowwoomsaa"
-    },
-    "toolsTitle": "Meeshaalee Nageenyaa",
-    "tools": {
-      "report": "Haalota hin malle gabaasi",
-      "block": "Fayyadamtoota ugguri",
-      "control": "Filannoo iccitii to’adhu"
-    },
-    "enforcementTitle": "Raawwii",
-    "enforcementDesc": "Akaawuntota irratti tarkaanfii fudhachuu dandeenya..."
-},
   "chat": {
-    "selectPrompt": "Ergaa ykn chat room filadhuu chat jalqabuuf",
-    "newMessages": "Ergaa haaraa",
+    "selectPrompt": "Marii jalqabuuf ergaa ykn kutaa marii filadhu",
+    "newMessages": "Ergaawwan haaraa",
     "typing": "{{name}} barreessaa jira...",
-    "emptyTitle": "Ergaa kee",
-    "emptySubtitle": "Ergaa erguun chat jalqabi.",
-    "startChatButton": "Ergaa erguu",
-    "mediaAttachment": "Media attachment",
-    "thisUser": "fayyadamtoota kana",
-    "blockConfirm": "{{name}} block gochuu? Ergaa isaan irraa hin argattu.",
-    "blockedUser": "{{name}} block ta'e.",
-    "blockError": "Target user block gochuuf hin danda'anne.",
-    "blockFailed": "Block dhiisuu (backend hin walitti dhufe).",
-    "encryptedUnavailable": "Ergaa encrypted (kii hin jiru)",
-    "unlockToView": "Kii kee unlock gochuun ergaa kana ilaali"
+    "emptyTitle": "Ergaawwan kee",
+    "emptySubtitle": "Marii jalqabuuf ergaa ergi.",
+    "startChatButton": "Ergaa ergi",
+    "mediaAttachment": "Miidiyaa walqabate",
+    "thisUser": "fayyadamaa kana",
+    "blockConfirm": "{{name}} dhorkuu barbaaddaa? Ergaawwan isaanii hin argattu.",
+    "blockedUser": "{{name}} dhorkameera.",
+    "blockError": "Fayyadamaa dhorkamu adda baasuun hin danda'amne.",
+    "blockFailed": "Dhorkuun hin milkoofne.",
+    "encryptedUnavailable": "Ergaa encrypted (furtuun hin jiru)",
+    "unlockToView": "Ergaa kana ilaaluuf furtuu kee bana"
   },
   "messageInput": {
     "ttl": {
-      "off": "Off"
+      "off": "Dhaabi"
     },
-    "freeLimit": "Free plan limit: auto-delete hanga 1 guyyaa. 1d clamped.",
-    "premiumLimit": "Max auto-delete Premium 30 guyyaa. 30d clamped.",
-    "nothingToSend": "Ergaa barreessi ykn faayilii attach gochuun erguu.",
-    "encryptionFailed": "Encryption dhiisuu. Ergaa hin ergu.",
-    "sent": "Ergaa ergame.",
+    "freeLimit": "Daangaan free: auto-delete hanga guyyaa 1. Gara 1dtti murameera.",
+    "premiumLimit": "Auto-delete Premium keessatti guyyaa 30 qofa. Gara 30dtti murameera.",
+    "nothingToSend": "Ergaa barreessi ykn faayilii dabali.",
+    "encryptionFailed": "Encryption hin milkoofne. Ergaan hin ergamne.",
+    "sent": "Ergaan geeffameera.",
     "placeholder": "Ergaa barreessi…",
-    "autoDelete": "Auto-delete",
-    "typeToSend": "Ergaa barreessi erguuf",
-    "send": "Erguu",
-    "sendWithEnter": "Erguu (Enter)",
-    "attachment": "attachment",
-    "caption": "Caption (optional)",
-    "remove": "Haala qabu",
-    "clear": "Haala qabu",
+    "autoDelete": "Ofumaan haqi",
+    "typeToSend": "Erguuf ergaa barreessi",
+    "send": "Ergi",
+    "sendWithEnter": "Ergi (Enter)",
+    "attachment": "walqabsiisummaa",
+    "caption": "Ibsa (dirqama miti)",
+    "remove": "Haqi",
+    "clear": "Qulqulleessi",
     "gif": "GIF",
-    "sticker": "Sticker",
+    "sticker": "Istiikaraa",
     "errors": {
-      "attachmentTooLarge": "Attachment guddaa. Faayilii xiqqaa yaali.",
-      "unsupportedFile": "File type hin deeggaramne.",
-      "rateLimit": "Ergaa hedduu daqiiqaa jalqabaa. Daa'imuu.",
-      "validation": "Dogoggora validation. Ergaa kee ilaali fi yaali.",
-      "failedToSend": "Erguu dhiisuu. Bubble dhiisuu deebifuu dandeessa."
+      "attachmentTooLarge": "Faayiliin guddaadha. Xiqqaa yaali.",
+      "unsupportedFile": "Gosti faayilii hin deeggaramu.",
+      "rateLimit": "Ergaa baay'ee saffisaan ergaa jirta. Suuta godhi.",
+      "validation": "Dogoggora sirreeffamaa. Ergaa kee ilaaliitii irra deebi'i.",
+      "failedToSend": "Erguun hin milkoofne. Deebitee yaaluu dandeessa."
     }
-  },
-  "contactList": {
-    "savedContacts": "Contacts saved",
-    "refreshAria": "Contacts haaromsi",
-    "filterPlaceholder": "Contacts saved filter…",
-    "filterAria": "Contacts saved filter",
-    "noContactsFound": "Contacts hin argamne.",
-    "externalContact": "External contact",
-    "notJoined": "Contact kun Chatforia hin galin.",
-    "couldNotStart": "Chat jalqabuu hin danda'anne. Deebifuu yaali.",
-    "startFailed": "Chat jalqabuu dhiisuu. Deebifuu yaali.",
-    "deleted": "Contact haala qabu.",
-    "deleteFailed": "Contact haala qabu dhiisuu. Deebifuu yaali.",
-    "aliasUpdated": "Alias haaromfame.",
-    "updateAliasFailed": "Alias haaromfuu dhiisuu. Deebifuu yaali.",
-    "selectContact": "{{name}} filadhu",
-    "alias": "Alias",
-    "startChat": "Chat jalqabi",
-    "message": "Ergaa",
-    "delete": "Haala qabu",
-    "deleteContactAria": "Contact haala qabu",
-    "loadFailed": "Contacts laaduu dhiisuu. Deebifuu yaali.",
-    "loadMore": "Hedduu laaduu",
-    "call": "Yaada",
-    "callStarted": "Lakkoofsa kana Chatforia lakkoofsa kee waliin yaadaa jira…",
-    "callFailed": "Yaada jalqabuu dhiisuu. Deebifuu yaali."
-  },
-  "startChatModal": {
-    "title": "Walitti dhufe jalqabi",
-    "searchPlaceholder": "Maqaa, username ykn lakkoofsa bilbilaa barbaadi",
-    "messageThisPerson": "Ergaa kanaa",
-    "contacts": "Contacts",
-    "recentInteractions": "Walitti dhufe haaraa",
-    "noContactsMatch": "Contacts kee search kee hin walitti dhufe.",
-    "noRecentInteractions": "Walitti dhufe haaraa hin jiru.",
-    "unknown": "Hin beekamne",
-    "interactionType": {
-      "message": "Ergaa",
-      "call": "Yaada",
-      "video": "Video"
-    }
-  },
-  "addContactModal": {
-    "title": "Contact add",
-    "phoneOrUsername": "Bilbila ykn username",
-    "phoneOrUsernamePlaceholder": "e.g. +13018019227 ykn juliannorton",
-    "alias": "Alias (optional)",
-    "aliasPlaceholder": "e.g. Work, Mom, Mike – Europe",
-    "enterPhoneOrUsername": "Lakkoofsa bilbilaa ykn username galchi.",
-    "userLookupFailed": "User lookup dhiisuu.",
-    "cannotAddSelf": "Ofii kee contact add gochuu hin dandeessu.",
-    "failedToAdd": "Contact add dhiisuu.",
-    "add": "Add"
-  },
-  "sidebar": {
-    "randomChat": "Random Chat",
-    "callTextForwarding": "Yaada & Ergaa Forwarding",
-    "conversations": "Walitti dhufe",
-    "searchPlaceholder": "Walitti dhufe barbaadi...",
-    "errorLoading": "Chats laaduu dhiisuu",
-    "empty": "Walitti dhufe hin jiru.",
-    "startChat": "Chat jalqabi",
-    "people": "Namoota",
-    "settings": "Settings",
-    "status": "Status",
-    "forwarding": "Yaada & Ergaa Forwarding",
-    "refresh": "Haaromsi",
-    "search": "Walitti dhufe barbaadi",
-    "loginPrompt": "Settings kee haaromfuu galuu.",
-    "login": "Galuu",
-    "register": "Galmee uumuu",
-    "chatrooms": "Chatrooms",
-    "logout": "Galuu dhiisi",
-    "startChatAlt": "Chat haaraa jalqabi",
-    "calls": "Yaada",
-    "video": "Video",
-    "voicemail": "Voicemail"
-  },
-  "topbar": {
-    "newStatus": "Status haaraa",
-    "logout": "Galuu dhiisi",
-    "help": "Gargaarsa",
-    "createStatusAria": "Status haaraa uumuu"
   },
   "threadActions": {
-    "threadMenu": "Thread menu",
+    "threadMenu": "Menu marii",
     "premium": "Premium",
-    "aiPower": "AI Power",
-    "schedule": "Schedule",
-    "upgrade": "Haalaan",
-    "upgradeSuffix": "(Haalaan)",
-    "thread": "Thread",
-    "about": "About",
+    "aiPower": "Humna AI",
+    "schedule": "Sagantaa",
+    "upgrade": "Olka'i",
+    "upgradeSuffix": "(Olka'i)",
+    "thread": "Marii",
+    "about": "Waa'ee",
     "search": "Barbaadi",
-    "media": "Media",
-    "invitePeople": "Namoota invite",
-    "roomSettings": "Room settings",
-    "clearConversation": "Walitti dhufe haala qabu",
-    "block": "Block"
+    "media": "Miidiyaa",
+    "invitePeople": "Namoota affeeri",
+    "roomSettings": "Qindaa'ina kutaa",
+    "clearConversation": "Marii qulqulleessi",
+    "block": "Dhorki"
   },
   "roomSearch": {
-    "title": "Room keessatti barbaadi",
-    "ariaLabel": "Room keessatti barbaadi",
+    "title": "Kutaa keessatti barbaadi",
+    "ariaLabel": "Kutaa keessatti barbaadi",
     "search": "Barbaadi",
-    "searchMessages": "Ergaa barbaadi",
-    "noText": "[Ergaa hin jiru]",
-    "noResults": "Bu'aa hin jiru"
+    "searchMessages": "Ergaawwan barbaadi",
+    "noText": "[Barruun hin jiru]",
+    "noResults": "Bu'aan hin jiru"
   },
   "roomSettings": {
     "roles": {
-      "member": "Member",
-      "moderator": "Moderator",
-      "admin": "Admin"
+      "member": "Miseensa",
+      "moderator": "To'ataa",
+      "admin": "Bulchaa"
     },
     "aiMode": {
-      "off": "Off",
-      "mention": "Only @ForiaBot ykn /ask irratti",
-      "always": "Reply proactively"
+      "off": "Dhaabi",
+      "mention": "@ForiaBot ykn /ask irratti qofa",
+      "always": "Yeroo hunda deebisi"
     },
     "autoTranslateMode": {
-      "off": "Off",
-      "tagged": "Tagged only (/tr …)",
-      "all": "Ergaa hunda"
+      "off": "Dhaabi",
+      "tagged": "Yeroo tagged qofa (/tr …)",
+      "all": "Ergaawwan hunda"
     },
-    "updated": "Settings haaromfame"
+    "updated": "Qindaa'inni haaromfameera"
   },
   "mediaGallery": {
-    "sharedMedia": "Media shared",
-    "noMediaCached": "Media locally cached hin jiru.",
-    "imageAlt": "image",
-    "openVideo": "Video bana",
-    "openVideoWithCaption": "Video bana: {{caption}}",
-    "preview": "Preview",
-    "previewWithCaption": "Preview: {{caption}}",
-    "previewKind": "Preview {{kind}}",
-    "download": "Gadi bu'u",
-    "downloadKind": "Gadi bu'u {{kind}}",
-    "file": "file",
+    "sharedMedia": "Miidiyaa wal qoodame",
+    "noMediaCached": "Miidiyaan local keessatti hin kuufamne.",
+    "imageAlt": "suuraa",
+    "openVideo": "Viidiyoo bani",
+    "openVideoWithCaption": "Viidiyoo bani: {{caption}}",
+    "preview": "Dursee ilaali",
+    "previewWithCaption": "Dursee ilaali: {{caption}}",
+    "previewKind": "Dursee ilaali {{kind}}",
+    "download": "Buufadhu",
+    "downloadKind": "{{kind}} buufadhu",
+    "file": "faayilii",
     "kinds": {
-      "image": "image",
-      "video": "video",
-      "audio": "audio",
-      "file": "file"
+      "image": "suuraa",
+      "video": "viidiyoo",
+      "audio": "sagalee",
+      "file": "faayilii"
     }
   },
   "status": {
-    "userNumber": "Fayyadamtoota #{{id}}",
-    "posted": "Status posted",
-    "postFailed": "Status post dhiisuu",
-    "createTitle": "Status uumuu",
+    "userNumber": "Fayyadamaa #{{id}}",
+    "posted": "Status maxxanfameera",
+    "postFailed": "Status maxxansuun hin danda'amne",
+    "createTitle": "Status uumi",
     "modalAriaLabel": "Status haaraa",
-    "captionLabel": "Yaada kee maal?",
-    "captionPlaceholder": "Update share...",
+    "captionLabel": "Yaadni kee maal jedhu?",
+    "captionPlaceholder": "Odeeffannoo qoodi…",
     "captionAria": "Ergaa status",
-    "audienceLabel": "Audience",
+    "audienceLabel": "Namoota argu",
     "audience": {
-      "public": "Public",
+      "public": "Hundaaf",
       "followers": "Followers",
       "contacts": "Contacts",
-      "mutuals": "Mutuals",
-      "custom": "Custom..."
+      "mutuals": "Wal hordofan",
+      "custom": "Ofii kee..."
     },
-    "expiresHoursLabel": "Expires (sa'aatii)",
-    "maxTooltip": "Max 7 guyyaa",
+    "expiresHoursLabel": "Yeroo xumuramuu (sa'aatii)",
+    "maxTooltip": "Guyyaa 7 ol hin ta'u",
     "hoursAbbrev": "h",
     "maxShort": "max",
-    "expiresOn": "Expires on:",
-    "chooseRecipients": "Recipients filadhu",
+    "expiresOn": "Kan xumuramu:",
+    "chooseRecipients": "Namoota filadhu",
     "selectContacts": "Contacts filadhu",
-    "attachmentsLabel": "Attachments",
-    "attachmentsPlaceholder": "Images/videos add",
-    "filesNote": "Hangaa 5 files. 24h expiry akkaataa jalqabaa.",
-    "postAria": "Status post",
-    "post": "Post"
+    "attachmentsLabel": "Walqabsiisummaa",
+    "attachmentsPlaceholder": "Suuraa/viidiyoo dabali",
+    "filesNote": "Faayilii 5 ol hin ta'u. Defaultiin 24h keessatti ni bada.",
+    "postAria": "Status maxxansi",
+    "post": "Maxxansi"
   },
   "voicemail": {
-    "pageTitle": "Voicemail",
+    "pageTitle": "Ergaa Sagalee",
     "from": "Irraa",
     "to": "Gara",
     "unknownCaller": "Hin beekamne",
     "yourNumber": "Lakkoofsa Chatforia kee",
     "durationSeconds": "{{count}}s",
-    "audioAria": "Voicemail audio player",
-    "transcriptHeading": "Transcript",
-    "transcriptPending": "Voicemail transcript gochaa jira…",
-    "transcriptFailed": "Transcript hin jiru.",
-    "loading": "Voicemail laaduu jira…",
-    "errorLoading": "Voicemail laaduu dhiisuu.",
-    "empty": "Voicemail hin jiru.",
-    "deleteConfirm": "Voicemail kana haala qabu?",
-    "deleteError": "Voicemail haala qabu dhiisuu.",
-    "markRead": "Dubbifame gochuu",
-    "delete": "Haala qabu",
-    "unreadDotAria": "Unread voicemail indicator"
+    "audioAria": "Taphattuu sagalee voicemail",
+    "transcriptHeading": "Barreeffama",
+    "transcriptPending": "Voicemail gara barreeffamaatti jijjiiraa jira…",
+    "transcriptFailed": "Barreeffamni hin argamne.",
+    "loading": "Voicemail fe'aa jira…",
+    "errorLoading": "Voicemail fe'uun hin danda'amne.",
+    "empty": "Voicemail ammaaf hin jiru.",
+    "deleteConfirm": "Voicemail kana haqaa?",
+    "deleteError": "Voicemail haqachuun hin danda'amne.",
+    "markRead": "Akka dubbifametti mallatteessi",
+    "delete": "Haqi",
+    "unreadDotAria": "Mallattoo voicemail hin dubbifamne"
+  },
+  "contactList": {
+    "savedContacts": "Contacts Olkaa'aman",
+    "refreshAria": "Contacts haaromsi",
+    "filterPlaceholder": "Contacts olkaa'aman keessaa barbaadi…",
+    "filterAria": "Contacts calali",
+    "noContactsFound": "Contacts hin argamne.",
+    "externalContact": "Contact alaa",
+    "notJoined": "Contact kun Chatforia hin fayyadamne.",
+    "couldNotStart": "Marii jalqabuu hin danda'amne. Mee irra deebi'i.",
+    "startFailed": "Mariin jalqabamuu hin dandeenye. Mee irra deebi'i.",
+    "deleted": "Contact haqameera.",
+    "deleteFailed": "Contact haqachuun hin danda'amne.",
+    "aliasUpdated": "Alias haaromfameera.",
+    "updateAliasFailed": "Alias haaromsuun hin danda'amne.",
+    "selectContact": "{{name}} filadhu",
+    "alias": "Alias",
+    "startChat": "Marii jalqabi",
+    "message": "Ergaa",
+    "delete": "Haqi",
+    "deleteContactAria": "Contact haqii",
+    "loadFailed": "Contacts fe'uun hin danda'amne.",
+    "loadMore": "Dabalataa fe'i",
+    "call": "Bilbili",
+    "callStarted": "Lakkoofsa kana gara lakkoofsa Chatforia keetiin bilbilaa jira…",
+    "callFailed": "Bilbiluun jalqabamuu hin dandeenye."
+  },
+  "addContactModal": {
+    "title": "Contact dabali",
+    "phoneOrUsername": "Bilbila ykn username",
+    "phoneOrUsernamePlaceholder": "fkn. +13018019227 ykn juliannorton",
+    "alias": "Alias (dirqama miti)",
+    "aliasPlaceholder": "fkn. Work, Mom, Mike – Europe",
+    "enterPhoneOrUsername": "Lakkoofsa bilbilaa ykn username galchi.",
+    "userLookupFailed": "Fayyadamaa barbaaduun hin danda'amne.",
+    "cannotAddSelf": "Ofii kee akka contactitti dabaluun hin danda'amu.",
+    "failedToAdd": "Contact dabaluun hin danda'amne.",
+    "add": "Dabali"
+  },
+  "startChatModal": {
+    "title": "Marii jalqabi",
+    "searchPlaceholder": "Maqaa, username ykn lakkoofsa bilbilaa barbaadi",
+    "messageThisPerson": "Nama kanaaf ergaa ergi",
+    "contacts": "Contacts",
+    "recentInteractions": "Walqunnamtiiwwan dhihoo",
+    "noContactsMatch": "Contacts barbaacha kee waliin wal hin simne.",
+    "noRecentInteractions": "Walqunnamtiin dhihoo hin jiru.",
+    "unknown": "Hin beekamne",
+    "interactionType": {
+      "message": "Ergaa",
+      "call": "Bilbila",
+      "video": "Viidiyoo"
+    },
+    "quickPicker": "Filannoo saffisaa",
+    "to": "Gara",
+    "nameOrUsername": "Maqaa ykn username barreessi",
+    "nameUsernamePhoneEmail": "Maqaa, username, bilbila ykn imeelii barreessi…",
+    "startWithSelected": "Filatamtoota waliin marii jalqabi",
+    "searchByUsernameOrPhone": "Username ykn bilbilaan barbaadi",
+    "search": "Barbaadi",
+    "searchPrompt": "Username ykn bilbila barreessiitii Search tuqi.",
+    "pickFromContacts": "Ykn contacts keessaa filadhu",
+    "addContact": "Contact Dabali",
+    "show": "Agarsiisi",
+    "add": "Dabali",
+    "close": "Cufi",
+    "selectedCount": "{{count}} filatame",
+    "pickAtLeastOne": "Mee nama tokko filadhu.",
+    "saveContactsHint": "Bilbila/imeelii entries akka contactsitti yoo olkaa'amani booda argamu.",
+    "failedBulkStart": "Namoota filataman waliin marii jalqabuu hin danda'amne.",
+    "noResults": "Bu'aan hin jiru",
+    "mode": "Haala",
+    "group": "Garee",
+    "broadcast": "Broadcast",
+    "groupNameOptional": "Maqaa garee (dirqama miti)",
+    "firstMessageOptional": "Ergaa jalqabaa (dirqama miti garuu gorfama)",
+    "createGroup": "Garee uumi",
+    "sendBroadcast": "Broadcast ergi"
+  },
+  "peoplePage": {
+    "people": "Namoota",
+    "search": "Barbaadi",
+    "searchPlaceholder": "Contacts olkaa'aman alias, maqaa, username ykn bilbilaan barbaadi",
+    "quickStart": "Jalqabuu saffisaa",
+    "quickStartDesc": "Contacts kee bulchiitii hiriyoota affeeri.",
+    "importContacts": "Contacts kee galchi",
+    "import": "Galchi",
+    "addContact": "Contact dabali",
+    "add": "Dabali",
+    "inviteFriends": "Hiriyoota affeeri",
+    "inviteDesc": "Battalumatti mari'achuuf liinkii afeerrii kee qoodi.",
+    "getTheApp": "App argadhu",
+    "getTheAppDesc": "Chatforia iOS fi Android waliin yeroo hunda wal qunnamaa jiraadhu.",
+    "download": "Buufadhu",
+    "syncTip": "Tika: Ergaawwan kee web fi mobile gidduutti wal simatu.",
+    "filterSaved": "Contacts olkaa'aman calali",
+    "noContactsFound": "Contacts hin argamne",
+    "focusSearch": "Barbaacha irratti xiyyeeffadhu",
+    "findOrAdd": "Nama barbaadi ykn dabali",
+    "searchByPhoneOrUsername": "Bilbila / username fayyadamuun barbaadi"
   },
   "profile": {
-    "title": "Profile Fayyadamtootaa",
+    "title": "Piroofaayilii Fayyadamaa",
     "preferredLanguage": "Afaan filatame",
     "chooseLanguage": "Afaan filadhu",
-    "mustLogin": "Settings ilaaluuf galuu qabda.",
-    "autoTranslate": "Ergaa auto-translate",
-    "showOriginalWithTranslation": "Ergaa original fi translated ilaali",
-    "showOriginalAndTranslation": "Ergaa original fi translation waliin ilaali",
-    "filterExplicit": "Ergaa explicit filter",
-    "aiReply": "AI reply",
-    "enableReadReceipts": "Read receipts dandeessisi",
-    "allowExplicitContent": "Ergaa explicit hayyami",
-    "disappearingMessages": "Ergaa haa dhabatu dandeessisi",
-    "autoDeleteSeconds": "Sa'aatii hanga auto-delete",
-    "saveSuccess": "Settings olkaa'ame!",
-    "saveError": "Dogoggora: Settings olkaa'uu hin danda'anne",
-    "avatarAlt": "Avatar profile",
+    "mustLogin": "Qindaa'ina ilaaluuf seenuu qabda.",
+    "autoTranslate": "Ergaawwan ofumaan hiiki",
+    "showOriginalWithTranslation": "Ergaa original fi hiikame waliin agarsiisi",
+    "showOriginalAndTranslation": "Ergaa original hiikkaa waliin agarsiisi",
+    "filterExplicit": "Qabiyyee sirrii hin taane calali",
+    "aiReply": "Deebii AI",
+    "enableReadReceipts": "Mallattoo dubbisuu hojii irra oolchi",
+    "allowExplicitContent": "Qabiyyee sirrii hin taane hayyami",
+    "disappearingMessages": "Ergaawwan badanii hojii irra oolchi",
+    "autoDeleteSeconds": "Sekondii ofumaan haqamuu dura",
+    "saveSuccess": "Qindaa'inni olkaa'ameera!",
+    "saveError": "Dogoggora: Qindaa'ina olkaa'uun hin danda'amne",
+    "avatarAlt": "Suuraa piroofaayilii",
     "uploadAvatar": "Avatar haaraa olkaa'i",
-    "avatarSuccess": "Avatar olkaa'ame!",
-    "avatarError": "Avatar olkaa'uu dhiisuu",
-    "avatarUpdated": "Avatar haaromfame!",
+    "avatarSuccess": "Avatar olkaa'ameera!",
+    "avatarError": "Avatar olkaa'uun hin milkoofne",
+    "avatarUpdated": "Avatar haaromfameera!",
     "uploadingAvatar": "Avatar olkaa'aa jira…",
-    "noPrivateKey": "Kiin private gadget kana irratti hin jiru export gochuuf.",
-    "setBackupPassword": "Paaswerd set gochuun backup kee encrypt:",
-    "backupDownloaded": "Backup encrypted gadi bu'ame.",
-    "exportFailed": "Kii export dhiisuu",
-    "enterBackupPassword": "Paaswerd backup kana galchi:",
-    "importSuccess": "Kiin private gadget kanaa fidame.",
-    "importFailed": "Kii fiduu dhiisuu (paaswerd dogoggora ykn faayilii corrupt).",
-    "keysRotated": "Kiin haaraa uumame fi public key olkaa'ame.",
-    "rotateFailed": "Kiin rotate dhiisuu.",
-    "security": "Security",
-    "exportKey": "Kii Encryption Back Up",
-    "importKey": "Kii Encryption Restore",
-    "rotateKeys": "Kii Encryption Rotate",
-    "keyDisclaimer": "Kiin private kee gadget kana hin baatu. Copy password-protected export gochuun gadget biraa irratti deebifuu dandeessa.",
-    "sectionProfile": "Profile",
-    "phoneNumber": "Lakkoofsa bilbilaa",
-    "appearance": "Appearance",
-    "soundSettings": "Sounds",
-    "disappearing": "Ergaa haa dhabatu",
-    "backupSync": "Encryption Key Backup",
-    "ai": "AI",
-    "accessibility": "Accessibility",
-    "privacy": "Privacy",
-    "devices": "Gadgets walitti dhufe",
-    "themeFreeNotice": "Free irratti jirta—Sun/Moon options jalqabaa fayyadami. Themes hedduu unlock gochuuf upgrade.",
-    "sunTheme": "Dawn theme fayyadami",
-    "moonTheme": "Moon (Midnight) theme fayyadami",
-    "sun": "Sun",
-    "moon": "Moon",
-    "backupTitle": "Encrypted Backups & Device Sync",
-    "openBackupTools": "Backup Tools bana",
-    "backupDesc": "Kii encryption kee backup gochuun ergaa kee gadget biraa irratti akkaataa fiicuu dandeessu.",
-    "privacyBlurEnabled": "Ergaa blur akkaataa jalqabaa",
-    "privacyBlurOnUnfocus": "App unfocused yeroo blur",
-    "planSection": "Plan koo",
-    "planLoading": "Plan kee laaduu jira…",
-    "planLoadFailed": "Plan kee laaduu dhiisuu.",
-    "currentPlan": "Plan amma",
-    "planRenewsOn": "Renews on",
-    "freePlanCopy": "Free plan irratti jirta. Features hedduu unlock gochuuf upgrade (backups, lakkoofsa extra, privacy advanced).",
-    "upgradePlanCta": "Plan haalaan",
-    "changePlanCta": "Plan jijjiiri",
-    "manageBilling": "Billing manage",
-    "portalOpenFailed": "Billing portal bana hin danda'anne. Deebifuu yaali.",
-    "holdToReveal": "Hold gochuun agarsiisi",
-    "notifyOnCopy": "Ergaa koo kopii ta'e yoo na beeksiisi",
-    "loadFailed": "Profile laaduu dhiisuu",
-    "followed": "Followed",
-    "followFailed": "Follow dhiisuu",
-    "unfollowed": "Unfollowed",
-    "unfollowFailed": "Unfollow dhiisuu",
-    "follow": "Follow",
-    "unfollow": "Unfollow",
-    "followHint": "Ergaa isaan Followers (ykn Public) audience waliin post yoo, Following feed keessatti agarsiifamu.",
-    "userNotFound": "User hin argamne",
-    "followsYou": "Si follow",
-    "sectionCrashedTitle": "Section laaduu dhiisuu",
-    "sectionCrashedBody": "Dogoggora tokko section kana keessatti.",
-    "forwarding": "Yaada & Ergaa Forwarding",
-    "callTextForwardingSection": "Yaada & Ergaa Forwarding",
-    "callTextForwardingTitle": "Yaada fi/ykn Ergaa Forwarding",
-    "callTextForwardingDescription": "Yaada fi ergaa incoming gara bilbila ykn email verified kee forward. Yaada/ergaa outgoing Chatforia lakkoofsa kee agarsiisuu danda'a.",
-    "enableTextForwarding": "Ergaa forward dandeessisi",
-    "forwardTextsToPhone": "Ergaa bilbila gara forward",
-    "forwardTextsToEmail": "Ergaa email gara forward",
-    "destinationPhone": "Destination phone (E.164)",
-    "destinationEmail": "Destination email",
-    "enableCallForwarding": "Yaada forward dandeessisi",
-    "destinationPhoneForCalls": "Destination (E.164) yaadaaf",
-    "aliasBridging": "Yaada Forwarding (alias bridging)",
-    "quietHoursOptional": "Quiet Hours (optional)",
-    "startHour": "Sa'aatii jalqabaa (0–23)",
-    "endHour": "Sa'aatii dhuma (0–23)",
-    "reset": "Reset",
-    "saveBtn": "Olkaa'i",
-    "saveProfile": "Profile olkaa'i",
-    "saveForwarding": "Forwarding olkaa'i",
-    "forwardSaved": "Forwarding settings olkaa'ame",
-    "forwardSaveFailed": "Settings olkaa'uu dhiisuu",
-    "errE164": "E.164 bilbila valid galchi (e.g., +15551234567).",
-    "errEmail": "Email valid galchi.",
-    "errSmsDest": "Destination tokko filadhu (bilbila ykn email).",
-    "errQuietHours": "Quiet hours 0 fi 23 gidduu qaba.",
-    "randomChat": "Random Chat",
-    "ageBand": "Age range kee",
-    "ageBandPlaceholder": "Age range kee filadhu",
-    "ageTeen": "13–17",
-    "age18_24": "18–24",
-    "age25_34": "25–34",
-    "age35_49": "35–49",
-    "age50Plus": "50+",
-    "ageBandHint": "Age range qofa (guyyaa dhaloota exact hin qabnu). Random Chat pairings akkaataa fiicuu barbaada.",
-    "wantsAgeFilter": "Age-based matching Random Chat keessatti fayyadami",
-    "wantsAgeFilterDesc": "Yeroo on ta'e, namoota age ranges walitti dhufe waliin walitti dhufe yaali.",
-    "partnerAgeBands": "Namoota kam waliin walitti dhufe dandeessa?",
-    "partnerAgeBandsDesc": "Teens yeroo hunda teens biraa waliin qofa walitti dhufe. Adults teens waliin hin walitti dhufe.",
-    "teenMatchingNote": "Safetyaf, 13–17 age range accounts Random Chat keessatti 13–17 accounts qofa waliin walitti dhufe.",
-    "foriaRemember": "Ria yaadachiisi yaada kee ishee haasa'u",
-    "foriaRememberDesc": "Yeroo on ta'e, Foria Random Chat keessatti walitti dhufe kee duraa (si waliin qofa) fayyadamuun walitti dhufe itti fufu. Yeroo hunda off gochuu dandeessa.",
-    "voicemailSection": "Voicemail",
-    "voicemailEnabled": "Voicemail dandeessisi",
-    "voicemailAutoDeleteDays": "Voicemail auto-delete guyyaa (guyyaa)",
-    "voicemailAutoDeletePlaceholder": "Empty haa dhaabbatu",
-    "voicemailForwardEmail": "Voicemail email gara forward",
-    "voicemailForwardEmailPlaceholder": "Email voicemail notifications erguuf",
-    "voicemailGreetingText": "Text fallback greeting",
-    "voicemailGreetingTextDesc": "Audio greeting kee yeroo hin jiru fayyadama.",
-    "voicemailGreetingUpload": "Voicemail greeting olkaa'i",
-    "voicemailPreviewGreeting": "Greeting preview",
-    "voicemailGreetingUploaded": "Voicemail greeting olkaa'ame",
-    "voicemailGreetingUploadError": "Voicemail greeting olkaa'uu dhiisuu",
-    "voicemailNote": "Voicemail Chatforia lakkoofsa kee irraa Voicemail inbox keessatti olkaa'ama. Transcription fi forwarding plans deeggaramoo keessatti dandeessisuu dandeessa.",
-    "portHint": "Lakkoofsa amma kee qabuu barbaadaa? Chatforia Wireless keessatti port gochuu dandeessa.",
-    "wireless": {
-      "manage": "Wireless manage"
-    },
-    "esim": {
-      "title": "Chatforia eSIM",
-      "desc": "Wi-Fi irraa fageenyatti Chatforia daataa mobile argadhu.",
-      "cta": "eSIM argadhu / QR agarsiisi"
-    }
+    "security": "Nageenya",
+    "appearance": "Mul'ata",
+    "soundSettings": "Sagaleewwan",
+    "privacy": "Dhuunfaa",
+    "devices": "Meeshaalee walqabatan",
+    "manageBilling": "Kaffaltii bulchi",
+    "upgradePlanCta": "Pilaana olka'i",
+    "changePlanCta": "Pilaana jijjiiri",
+    "follow": "Hordofi",
+    "unfollow": "Hordofuu dhiisi",
+    "randomChat": "Marii Tasaa",
+    "voicemailSection": "Ergaa sagalee",
+    "voicemailEnabled": "Voicemail hojii irra oolchi",
+    "encryptedBackupsTitle": "Backup Furtuu Encryption"
+  },
+  "themes": {
+    "amoled": "Amoled",
+    "aurora": "Aurora",
+    "neon": "Neon",
+    "sunset": "Sunset",
+    "solarized": "Solarized",
+    "velvet": "Velvet"
+  },
+  "sounds": {
+    "notificationSounds": "Sagaleewwan Beeksisaa",
+    "resetToDefaults": "Gara defaultitti deebisi",
+    "messageTone": "Sagalee ergaa",
+    "ringtone": "Ringtone",
+    "preview": "Dursee dhaggeeffadhu",
+    "stop": "Dhaabi",
+    "volume": "Sagalee",
+    "premiumRequired": "Filannoo kanaaf Premium barbaachisa.",
+    "saved": "Qindaa'inni sagalee olkaa'ameera.",
+    "saveFailed": "Qindaa'ina sagalee olkaa'uun hin danda'amne.",
+    "premiumTone": "Kun sagalee Premium dha.",
+    "premiumRingtone": "Kun ringtone Premium dha.",
+    "customComingSoon": "Sagalee ofii olkaa'uun yeroo dhihoo keessatti dhufa.",
+    "freeNotice": "Ati Free irratti jirta — sagaleewwan Premium ni mul'atu garuu cufamanii jiru. Hunda banuuf olka'i.",
+    "default": "Default",
+    "vibrate": "Vibrate",
+    "dreamer": "Dreamer",
+    "notify": "Notify",
+    "pop": "Pop",
+    "classic": "Classic",
+    "bells": "Bells",
+    "chimes": "Chimes"
+  },
+  "aiSettings": {
+    "title": "Qindaa'ina AI",
+    "controlIntro": "Hiikkaa, smart replies fi deebiiwwan ofumaan ForiaBot bulchi.",
+    "translation": "Hiikkaa",
+    "autoTranslateIncoming": "Ergaawwan galan ofumaan hiiki",
+    "showOriginalAlongside": "Ergaa original hiikkaa waliin agarsiisi",
+    "smartReplies": "Deebiiwwan Saffisaa",
+    "enableSmartReplies": "Smart Replies hojii irra oolchi",
+    "smartRepliesHint": "Deebii saffisaa yaaduuf ergaawwan muraasa AItti ergi.",
+    "maskProfanity": "Jechoota badaa AI keessatti dhoksi",
+    "maskProfanityHint": "Yoo baname AI jechoota sirrii hin taane ni haguuga.",
+    "foriaBot": "ForiaBot Auto-Responder",
+    "enableAutoReply": "Yeroo hojii irra jirutti auto-reply hojii irra oolchi",
+    "autoReplyMode": "Haala auto-reply",
+    "cooldownSeconds": "Cooldown (sekondii)",
+    "signature": "Mallattoo",
+    "autoReply": "🤖 Deebii Ofumaan",
+    "activeUntilOptional": "Hanga yeroo (dirqama miti)",
+    "save": "Qindaa'ina AI olkaa'i",
+    "saved": "Filannoon AI olkaa'ameera",
+    "saveFailed": "Qindaa'ina AI olkaa'uun hin danda'amne",
+    "translateOff": "Dhaabi",
+    "translateTagged": "@translated ykn tagged yeroo qofa",
+    "translateAll": "Ergaawwan hunda hiiki",
+    "modeDm": "Marii 1:1 qofa",
+    "modeMention": "Yeroo @mention ta'e qofa",
+    "modeAll": "Ergaawwan galan hunda",
+    "off": "Dhaabi",
+    "on": "Bani"
+  },
+  "accessibilitySettings": {
+    "title": "Accessibility & Alerts",
+    "loadFailed": "Qindaa'ina fe'uun hin danda'amne",
+    "accessibilityDesc": "Filannoowwan Chatforia sagalee malee salphatti fayyadamuuf.",
+    "interfaceFontSize": "Hammamtaa barruu interface",
+    "interfaceFontSizeHelp": "Hammamtaa idileerraa eegala. Yoo barbaadde guddisi.",
+    "notifications": "Beeksisawwan",
+    "visualAlerts": "Akeekkachiisa mul'ataa ergaa fi bilbilootaaf",
+    "visualAlertsDesc": "Banners fi title blink agarsiisuun sochii akka hin dhabne taasisa.",
+    "vibrateOnNewShort": "Ergaa haaraa irratti vibrate godhi",
+    "vibrateOnNewDesc": "Beeksisawwan waliin vibration meeshaa hojii irra oolcha.",
+    "flashOnCallShort": "Bilbila irratti screen flash godhi",
+    "flashOnCallDesc": "Bilbilli yeroo dhufu ifa gabaabaa agarsiisa.",
+    "liveCaptionsTitle": "Live captions (bilbiloota)",
+    "enableLiveCaptions": "Bilbiloota keessatti live captions hojii irra oolchi (Premium)",
+    "liveCaptionsDesc": "Sagalee nama biraa irraa captions yeroo dhugaa agarsiisi.",
+    "captionFontSize": "Hammamtaa barruu caption",
+    "captionBackground": "Duubbee caption",
+    "voiceNotes": "Voice notes",
+    "autoTranscribeVoiceNotes": "Voice notes ofumaan gara barruutti jijjiiri",
+    "autoTranscribeVoiceNotesDesc": "Ergaawwan sagalee argatte irratti transcript dabala.",
+    "changesSavedInstantly": "Jijjiiramni battalumatti olkaa'ama.",
+    "sm": "Xiqqaa",
+    "md": "Giddugaleessa",
+    "lg": "Guddaa",
+    "xl": "Baay'ee Guddaa",
+    "light": "Ifaa",
+    "dark": "Dukkanaa",
+    "transparent": "Ifa keessaa"
+  },
+  "privacySection": {
+    "strictE2EE": "Strict end-to-end encryption",
+    "ciphertextOnlyNote": "Server irratti ciphertext qofa olkaa'i. AI/Translate fi moderation previews ni dhaabbata.",
+    "strictE2EEEnabled": "Strict E2EE hojii irra ooleera. AI/Translate ni dhaabbata.",
+    "strictE2EEDisabled": "Strict E2EE dhaabbateera. AI/Translate deebi'eera."
+  },
+  "linkedDevicesPanel": {
+    "title": "Meeshaalee Walqabatan",
+    "noneFound": "Meeshaaleen walqabatan hin argamne.",
+    "refresh": "Haaromsi",
+    "unknown": "Hin beekamne",
+    "loadFailed": "Meeshaalee walqabatan fe'uun hin danda'amne",
+    "renamePrompt": "Meeshaa kanaaf maqaa haaraa galchi",
+    "renamed": "Meeshaan maqaa haaromsameera",
+    "renameFailed": "Maqaa jijjiiruun hin danda'amne",
+    "revoked": "Meeshaan haqameera",
+    "revokeFailed": "Meeshaa haqachuun hin danda'amne",
+    "unnamedDevice": "Meeshaa maqaa hin qabne",
+    "primary": "Ijoo",
+    "revokedStatus": "Haqameera",
+    "addedLastSeen": "{{created}} irratti dabale • yeroo dhumaa {{lastSeen}} irratti mul'ate",
+    "renameDevice": "Maqaa meeshaa jijjiiri",
+    "revokeDevice": "Meeshaa haqii"
   },
   "wireless": {
     "title": "Chatforia Wireless",
-    "description": "Plan mobile Chatforia kee, lakkoofsa, forwarding fi number porting manage.",
+    "description": "Pilaana mobile Chatforia kee, lakkoofsota fi forwarding bulchi.",
     "options": {
-      "heading": "Chatforia akkaataa fayyadamuu barbaadu filadhu",
-      "subheading": "Lakkoofsa Chatforia haaraa argachuu ykn lakkoofsa amma kee carrier biraa irraa fiduu dandeessa.",
+      "heading": "Akkaataa Chatforia fayyadamuu barbaaddu filadhu",
+      "subheading": "Lakkoofsa Chatforia haaraa argachuu ykn lakkoofsa kee ammaa gara Chatforia Wireless geessuu dandeessa.",
       "newNumber": "Lakkoofsa Chatforia haaraa argadhu",
-      "portNumber": "Lakkoofsa amma kee Chatforia Wireless keessatti port"
+      "portNumber": "Lakkoofsa kee ammaa gara Chatforia Wireless geessi"
     },
     "port": {
-      "heading": "Lakkoofsa amma kee port",
-      "subheading": "Lakkoofsa bilbilaa amma kee carrier amma kee irraa Chatforia keessatti siiqsi. Details carrier account kee waliin walitti dhufe akkaataa delays hin taane.",
-      "phoneNumberLabel": "Lakkoofsa bilbilaa port gochuuf",
-      "phoneNumberPlaceholder": "+1 555 123 4567",
-      "carrierLabel": "Carrier amma",
-      "carrierPlaceholder": "Verizon, AT&T, T-Mobile, etc.",
-      "accountNumberLabel": "Lakkoofsa galmee",
-      "pinLabel": "Port-out PIN / paaswerd",
-      "fullNameLabel": "Maqaa guutuu galmee irratti",
-      "address1Label": "Address line 1",
-      "address2Label": "Address line 2 (optional)",
-      "cityLabel": "City",
-      "stateLabel": "State / Province",
-      "postalCodeLabel": "Postal code",
-      "countryLabel": "Country",
-      "submitButton": "Port request submit",
-      "success": "Port request submitted! Updates siif kennina.",
-      "genericError": "Dogoggora tokko."
+      "heading": "Lakkoofsa kee ammaa geessi",
+      "subheading": "Lakkoofsa bilbilaa kee gara Chatforia geessi.",
+      "phoneNumberLabel": "Lakkoofsa geeffamu",
+      "carrierLabel": "Carrier ammaa",
+      "accountNumberLabel": "Lakkoofsa akaawuntii",
+      "pinLabel": "Port-out PIN / password",
+      "fullNameLabel": "Maqaa guutuu akaawuntii irratti",
+      "cityLabel": "Magaalaa",
+      "countryLabel": "Biyya",
+      "submitButton": "Port request ergi",
+      "success": "Port request ergameera! Odeeffannoo ni siif kennina.",
+      "genericError": "Wanti tokko dogoggoreera."
     },
     "status": {
-      "heading": "Porting status",
-      "subheading": "Lakkoofsa port requests kee track gochuun.",
-      "loading": "Laaduu jira…",
-      "loadError": "Port requests laaduu dhiisuu.",
+      "heading": "Haala porting",
+      "subheading": "Haala request lakkoofsa geessuu kee hordofi.",
+      "loading": "Fe'aa jira…",
+      "loadError": "Port requests fe'uun hin danda'amne.",
       "none": "Porting activity hin jiru.",
-      "pending": "Pending review",
-      "submitted": "Carrier gara submitted",
-      "inProgress": "In progress",
-      "completed": "Completed",
-      "failed": "Failed",
-      "canceled": "Canceled",
-      "created": "Uumame:",
-      "scheduled": "Scheduled:",
-      "completedAt": "Completed:"
+      "pending": "Eegamaa jira",
+      "submitted": "Carrieritti ergameera",
+      "inProgress": "Adeemsa keessa jira",
+      "completed": "Xumurameera",
+      "failed": "Kufeera",
+      "canceled": "Dhiifameera"
     },
-    "dataLow": "Daataa kee xiqqaa jira.",
-    "topUp": "Top up amma",
-    "expiresIn": "{{days}} guyyaa keessatti expires",
-    "exhausted": "Daataa kee dhabame. Pack haaraa bituu daataa mobile itti fufuuf.",
-    "buyPack": "Data pack bituu",
+    "dataLow": "Daataan kee xiqqaachaa jira.",
+    "topUp": "Amma dabali",
+    "expiresIn": "Guyyaa {{days}} keessatti xumurama",
+    "exhausted": "Daataan kee dhumeera. Fayyadama itti fufuuf pack haaraa bitadhu.",
+    "buyPack": "Data pack bitadhu",
     "esimPackLabel": "eSIM pack"
   },
-  "family": {
-    "title": "Family",
-    "loading": "Family details kee laaduu jira…",
-    "error": {
-      "load": "Family details laaduu dhiisuu.",
-      "invite": "Invite uumuu hin danda'anne. Family owner ta'uu qabda fi deebifuu yaali.",
-      "checkout": "Family plan checkout jalqabuu hin danda'anne. Deebifuu yaali."
-    },
-    "billing": {
-      "myPlanTitle": "Plan koo",
-      "myPlanError": "Plan kee laaduu hin danda'anne.",
-      "myPlanLoading": "Plan kee laaduu jira…",
-      "currentPlan": "Plan amma",
-      "renewsAt": "Renews on",
-      "freePlanCopy": "Free plan irratti jirta. Features hedduu unlock gochuuf upgrade.",
-      "upgradeCta": "Plan haalaan",
-      "changePlanCta": "Plan jijjiiri",
-      "manageBilling": "Billing manage",
-      "portalError": "Billing portal bana hin danda'anne amma.",
-      "cancelNow": "Amma dhiisi",
-      "cancelNowHelp": "Subscription kee billing portal keessatti manage ykn dhiisi, ykn amma dhiisi.",
-      "cancelNowConfirm": "Plan kee amma dhiisuu barbaadaa? Kun hin deebi'u.",
-      "cancelNowError": "Plan kee amma dhiisuu hin danda'anne. Deebifuu yaali ykn Manage billing fayyadami."
-    },
-    "none": {
-      "title": "Family hin qabu amma",
-      "body": "Chatforia Family fi shared data pool uumuuf, Family plan jalqabi.",
-      "goUpgrade": "Family plan jalqabi",
-      "viewPlans": "Plans hunda ilaali"
-    },
-    "group": {
-      "defaultName": "My Chatforia Family",
-      "role": "Role kee: {{role}}"
-    },
-    "role": {
-      "owner": "Owner",
-      "member": "Member"
-    },
-    "data": {
-      "heading": "Shared data pool",
-      "caption": "Members hundi pool kana walitti qabata. Limit kee dhihaachuu yoo si beeksiifna."
-    },
-    "members": {
-      "title": "Family members",
-      "name": "Maqaa",
-      "role": "Role",
-      "usage": "Usage",
-      "limit": "Limit",
-      "unlimited": "Limit addaa hin qabu",
-      "inviteCta": "Member invite"
-    },
-    "invite": {
-      "title": "Member haaraa invite",
-      "body": "Email ykn link erguun shared family data pool keessatti namoota invite.",
-      "emailLabel": "Email (optional)",
-      "emailPlaceholder": "friend@example.com",
-      "create": "Invite uumuu",
-      "linkLabel": "Invite link",
-      "copyAria": "Invite link kopi",
-      "expiryHint": "Link kun guyyaa hedduu booda expires. Yeroo hunda haaraa uumuu dandeessa."
-    },
-    "join": {
-      "title": "Family galuu",
-      "body": "Chatforia Family fi shared data pool isaanii galuuf invite ta'e.",
-      "cta": "Accept gochuun family galuu",
-      "ctaLogin": "Galuu fi family galuu",
-      "success": "Family kana galte. Pool daataa isaanii amma walitti qabatta.",
-      "goFamily": "Family dashboard gara",
-      "error": "Family kana keessatti si add gochuu hin danda'anne. Invite invalid ykn expired ta'uu danda'a."
-    }
+  "phoneNumberManager": {
+    "pickNumber": "Lakkoofsa filadhu",
+    "phoneNumber": "Lakkoofsa bilbilaa",
+    "availableNumber": "Lakkoofsa argamu",
+    "premiumNumber": "Lakkoofsa Premium 🔒",
+    "freeNumberHint": "Lakkoofsa bilisaa yeroo hojii dhabee deebi'ee kennamuu danda'u.",
+    "premiumNumberHint": "Subscription Premium yeroo qabdu lakkoofsa kee ni eegata.",
+    "country": "Biyya",
+    "areaCode": "Area code",
+    "areaCodePlaceholder": "fkn. 415",
+    "capability": "Dandeettii",
+    "search": "Barbaadi",
+    "availableNumbers": "Lakkoofsota argaman",
+    "keep": "Qabadhu",
+    "select": "Filadhu",
+    "numberAssigned": "Lakkoofsi kennameera.",
+    "numberReleased": "Lakkoofsi gadhiifameera.",
+    "invalidAreaCode": "Mee area code digit 3 sirrii galchi.",
+    "noInventory": "Lakkoofsi argamu ammaaf hin jiru.",
+    "release": "Gadhiisi",
+    "active": "Hojii irra",
+    "noNumber": "Lakkoofsi hin jiru",
+    "premiumFeature": "Faayidaa Premium",
+    "protected": "Eegameera",
+    "notProtected": "Hin eegamne"
+  },
+  "dialer": {
+    "title": "Bilbiloota",
+    "subtitle": "Kiipad fi bilbiloota dhihoo.",
+    "enterNumber": "Lakkoofsa galchi",
+    "call": "Bilbili",
+    "callBrowser": "Browseriin bilbili",
+    "backspace": "Duubatti haqi",
+    "recents": "Dhihoo",
+    "noRecents": "Bilbiloonni dhihoo hin jiran.",
+    "resolveFailed": "Nama bilbilamu adda baasuun hin danda'amne.",
+    "callFailed": "Bilbiluun hin danda'amne.",
+    "deleteConfirm": "Bilbila kana keessaa haquu barbaaddaa?",
+    "deleteFailed": "Bilbila haqachuun hin danda'amne.",
+    "outgoing": "Kan ba'e",
+    "incoming": "Kan gale",
+    "missed": "Kan dhabame",
+    "declined": "Kan didame",
+    "failed": "Kan kufe",
+    "completed": "Kan xumurame"
+  },
+  "callHistory": {
+    "title": "Bilbiloota",
+    "subtitle": "Bilbiloota kee galanii fi bahan dhihoo.",
+    "loadFailed": "Seenaa bilbilaa fe'uun hin danda'amne.",
+    "loadFailedTitle": "Seenaa bilbilaa fe'uun hin danda'amne",
+    "emptyTitle": "Bilbiloonni hin jiran",
+    "emptySubtitle": "Bilbiloonni kee dhihoo asitti ni mul'atu.",
+    "outgoing": "Kan ba'e",
+    "incoming": "Kan gale",
+    "missed": "Kan dhabame",
+    "declined": "Kan didame",
+    "failed": "Kan kufe",
+    "completed": "Kan xumurame",
+    "outgoingCall": "Bilbila Ba'e",
+    "incomingCall": "Bilbila Gale",
+    "voicemail": "Ergaa Sagalee"
+  },
+  "video": {
+    "title": "Viidiyoo",
+    "chooseType": "Gosa viidiyoo filadhu.",
+    "directTitle": "Viidiyoo Kallattiin",
+    "directDesc": "Bilbila viidiyoo 1:1 fayyadamaa biraa waliin.",
+    "directStart": "Jalqabi",
+    "roomsTitle": "Kutaa",
+    "roomsDesc": "Viidiyoo namoota hedduu maqaa kutaa tokko fayyadamuun.",
+    "roomsIntro": "Kutaa namoota hedduu keessatti gali ykn uumi.",
+    "roomNameLabel": "Maqaa kutaa",
+    "roomNamePh": "fkn. team-standup",
+    "join": "Gali",
+    "deeplinkTip": "Tika: kallattiin <code>/video?room=room-name</code> fayyadamuu dandeessa."
+  },
+  "directVideo": {
+    "intro": "Bilbila viidiyoo 1:1 jalqabi.",
+    "findUserLabel": "Fayyadamaa barbaadi",
+    "findUserPh": "Maqaa ykn username barbaadi",
+    "search": "Barbaadi",
+    "call": "Bilbili"
+  },
+  "phoneWarning": {
+    "title": "Lakkoofsi kee yeroo muraasa keessatti xumurama",
+    "body": "Lakkoofsi kee {{number}} guyyaa {{date}} irratti ni gadhiifama yoo haaromsuu baatte.",
+    "button": "Lakkoofsa Koo Qabadhu"
   },
   "premium": {
-    "heading": "Premium galuu",
-    "description": "Features power unlock & ads haala qabu.",
-    "cta": "Haalaan",
-    "upgrade": "Haalaan",
-    "upgradeAria": "Chatforia Premium haalaan"
+    "heading": "Premium ta'i",
+    "description": "Faayidaa cimaa banuu fi beeksisa keessaa haquu.",
+    "cta": "Olka'i",
+    "upgrade": "Olka'i",
+    "upgradeAria": "Chatforia Premiumtti olka'i"
   },
   "upgrade": {
-    "title": "Haalaan",
-    "titleLoggedIn": "Haalaan",
-    "titlePublic": "Gatiin",
-    "h1": "Chatforia Pricing & Plans",
-    "h1Subtitle": "Free, ad-supported plan jalqabi. Plus waliin ad-free gochuu ykn Premium waliin features power hunda unlock.",
-    "subtitle": "App plan filadhu, data packs ofii kee add ykn family kee waliin data pool share — bakka tokko irraa.",
-    "subtitle.app": "Free, ad-supported plan jalqabi. Plus waliin ad-free gochuu ykn Premium waliin features power hunda unlock.",
-    "subtitle.mobile": "Global eSIM data add gochuun Wi-Fi irraa fageenyatti Chatforia itti fufu.",
-    "subtitle.family": "Shared data pool family kee uumuun usage hunda manage bakka tokko irraa.",
-    "perMonth": "mo",
-    "perYear": "year",
-    "goPremium": "Premium galuu",
-    "benefitsLine": "Features power unlock & ads haala qabu.",
-    "ctaText": "Haalaan",
-    "aria": "Chatforia Premium haalaan",
+    "title": "Olka'i",
+    "titleLoggedIn": "Olka'i",
+    "titlePublic": "Gatii",
+    "h1": "Pilaanaa fi Gatii Chatforia",
+    "h1Subtitle": "Free plan beeksisa qabu irraa jalqabi. Plus waliin beeksisa keessaa ba'i ykn Premium waliin faayidaa hunda bani.",
+    "subtitle": "Pilaana app filadhu, data packs ofii keetiif dabali, ykn maatii kee waliin data qoodi.",
+    "perMonth": "ji'aan",
+    "perYear": "waggaatti",
+    "goPremium": "Premium ta'i",
+    "benefitsLine": "Faayidaa cimaa banuu fi beeksisa keessaa haquu.",
+    "ctaText": "Olka'i",
     "toggle": {
-      "monthly": "Monthly",
-      "annual": "Annual (30% olkaa'i)"
-    },
-    "scheduleBanner": {
-      "title": "Subscription dhiisuu",
-      "body": "Free gara deebi'uu",
-      "keepPlanCta": "{{plan}} qabachuu",
-      "manageBillingCta": "Billing manage"
+      "monthly": "Ji'aan",
+      "annual": "Waggaatti (30% qusadhu)"
     },
     "billing": {
       "opening": "Banaa jira…",
-      "manage": "Billing Manage"
+      "manage": "Billing bulchi"
     },
     "checkout": {
       "redirecting": "Redirecting…"
     },
     "auth": {
-      "continue": "Galuu itti fufi",
-      "createAccount": "Galmee uumuu",
-      "signIn": "Galuu"
-    },
-    "cta": {
-      "aria": "Plan filadhu",
-      "getPlus": "Plus haalaan",
-      "upgradeMonthly": "Monthly haalaan",
-      "upgradeAnnual": "Annual haalaan"
-    },
-    "section": {
-      "app": "App plans",
-      "mobile": "Mobile (eSIM)",
-      "family": "Family plans"
+      "continue": "Seenuutti itti fufi",
+      "createAccount": "Akaawuntii uumi",
+      "signIn": "Seeni"
     },
     "plans": {
       "free": {
         "title": "Free",
         "price": "$0",
-        "desc": "Ergaa bilisaa jalqabi. Chatforia jalqabaa yaaluuf mijataa.",
-        "features": {
-          "chat": "Real-time 1:1 fi group chat, voice fi video yaada",
-          "media": "Foto, voice messages fi video gabaabaa share",
-          "ai": "AI-powered smart replies fi instant translation (fair use)",
-          "disappearing": "Ergaa haa dhabatu fi privacy controls jalqabaa",
-          "ads": "Free yeroo hunda ads waliin app keessatti"
-        },
-        "ctaCurrent": "Plan amma",
-        "ctaManage": "Billing keessatti manage",
-        "ctaPublic": "Jalqabi – galuu itti fufi",
-        "aria": "Free plan"
+        "desc": "Bilisaan mari'adhu. Chatforia yaaluuf gaarii dha.",
+        "ctaCurrent": "Pilaana ammaa",
+        "ctaManage": "Billing keessatti bulchi",
+        "ctaPublic": "Jalqabi – seenuutti itti fufi"
       },
       "plus": {
         "title": "Plus",
         "price": "$6.99",
-        "desc": "Essentials hunda, ads malee. Ergaa fi yaada guyyaa hundaaf mijataa.",
-        "features": {
-          "allFree": "Free keessatti hunda, ads malee",
-          "forwarding": "Yaada fi ergaa bilbila amma kee gara forward",
-          "history": "Ergaa history dheeraa (hanga 6 ji'a)",
-          "support": "Support saffisaa dogoggora yoo ta'e"
-        },
-        "badge": "Popular",
-        "cta": "Ad-Free galuu",
-        "ctaPublic": "Plus argadhu – galuu itti fufi",
-        "aria": "Plus haalaan"
+        "desc": "Bu'uura hunda, beeksisa malee.",
+        "badge": "Baay'ee filatama",
+        "cta": "Beeksisa keessaa ba'i"
       },
       "premiumMonthly": {
-        "title": "Premium (Monthly)",
+        "title": "Premium (Ji'aan)",
         "price": "$11.99",
-        "desc": "Chatforia experience guutuu: AI power tools, customization fi priority support.",
-        "features": {
-          "plusAll": "Plus keessatti hunda",
-          "themes": "Premium color themes fi app customizations hunda unlock",
-          "ai": "Premium-only AI power tools rewrites, smart replies fi summaries",
-          "support": "Priority support yeroo hedduu barbaadu"
-        },
-        "badge": "Recommended",
-        "cta": "Upgrade (Monthly)",
-        "ctaPublic": "Premium unlock – galuu itti fufi",
-        "aria": "Premium Monthly haalaan"
+        "desc": "Muuxannoo Chatforia guutuu.",
+        "badge": "Kan gorfamu",
+        "cta": "Olka'i (Ji'aan)"
       },
       "premiumAnnual": {
-        "title": "Premium (Annual)",
+        "title": "Premium (Waggaatti)",
         "price": "$99",
-        "desc": "Yearly billed yeroo hedduu olkaa'i — extra color themes, AI tools fi priority support waliin.",
-        "features": {
-          "allPremium": "Premium Monthly keessatti hunda — extra color themes waliin",
-          "annualBilling": "Year tokko qofa billed",
-          "save25": "Monthly pay yeroo hedduu 30% olkaa'i",
-          "bestFor": "Power users, remote workers fi travelers guddaa"
-        },
-        "badge": "30% olkaa'i",
-        "cta": "Upgrade (Annual)",
-        "ctaPublic": "30% olkaa'i annual waliin – galuu itti fufi",
-        "aria": "Premium Annual haalaan",
-        "disclaimer": "Billed upfront. Yeroo hunda dhiisi. Fees dhokataa hin jiru."
+        "desc": "Waggaatti kaffaluun baay'ee qusadhu.",
+        "badge": "30% qusadhu",
+        "cta": "Olka'i (Waggaatti)",
+        "disclaimer": "Dursee kaffalama. Yeroo kamiyyuu dhiisuu dandeessa. Kaffaltii dhokataa hin jiru."
       }
-    },
-    "marketing": {
-      "freeTitle": "Free",
-      "freeDesc": "Ergaa bilisaa jalqabi.",
-      "plusTitle": "Plus",
-      "plusBadge": "Popular",
-      "plusDesc": "Ad-free experience gatiin xiqqaa.",
-      "premiumMonthlyTitle": "Premium",
-      "premiumMonthlyDesc": "Features guutuu, ringtones fi AI power tools.",
-      "premiumAnnualTitle": "Premium",
-      "premiumAnnualDesc": "Yearly billed yeroo hedduu olkaa'i.",
-      "annualDisclaimer": "Billed upfront. Yeroo hunda dhiisi. Fees dhokataa hin jiru."
-    },
-    "mobile": {
-      "title": "Chatforia Mobile (eSIM data packs)",
-      "subtitle": "Global data add gochuun Wi-Fi malee Chatforia itti fufu. Gatiin country fi currency kee irratti adjust ta'a.",
-      "subtitle.detail": "One-time global data pack filadhuu yeroo travel ykn Wi-Fi irraa fageenyatti Chatforia itti fufu.",
-      "scope": {
-        "local": "Local",
-        "europe": "Europe",
-        "global": "Global"
-      },
-      "note": "3 GB jalaa data packs hin gurgurru.",
-      "localEquals": "Local = {{country}}",
-      "localEqualsFallback": "Local = country amma kee",
-      "perPack": "/ pack",
-      "cta": "Data pack kana argadhu",
-      "ctaPublic": "Data pack kana argadhu",
-      "checkout": {
-        "redirecting": "Redirecting…"
-      },
-      "unlimited": {
-        "features": {
-          "heavyUse": "Daataa saffisaa guddaa heavy use",
-          "throttle": "Saffisaan yeroo hedduu dhiisuu danda'a",
-          "coverage": "Coverage mijataa",
-          "instant": "eSIM activation daqiiqaa jalqabaa",
-          "noContract": "One-time pack, contract hin jiru"
-        }
-      },
-      "disclaimer": {
-        "devices": "eSIM data packs eSIM-compatible fi unlocked device barbaadu. Phone model, carrier fi country irratti availability gara gara. Coverage fi saffisaan region irratti gara gara."
-      },
-      "small": {
-        "title": "Starter pack",
-        "desc": "3 GB daataa saffisaa — light messaging fi yaada gabaabaa",
-        "price": "$9.99",
-        "data": "3 GB",
-        "bestFor": "Trips gabaabaa, light messaging fi yaada gabaabaa",
-        "aria": "Starter eSIM data pack bituu"
-      },
-      "medium": {
-        "title": "Traveler pack",
-        "desc": "5 GB daataa saffisaa trips, commuting fi VoIP yaada guyyaa hunda",
-        "price": "$14.99",
-        "data": "5 GB",
-        "bestFor": "Weekend trips, VoIP yaada guyyaa hunda fi maps",
-        "aria": "Traveler eSIM data pack bituu"
-      },
-      "large": {
-        "title": "Power pack",
-        "desc": "10 GB daataa saffisaa heavy chat, yaada fi video Chatforia network irratti",
-        "price": "$24.99",
-        "data": "10 GB",
-        "bestFor": "Heavy chat, yaada, video fi hotspot use",
-        "aria": "Power user eSIM data pack bituu"
-      },
-      "compare": {
-        "title": "eSIM data packs walitti dhufe",
-        "col": {
-          "pack": "Pack",
-          "data": "Daataa included",
-          "bestFor": "Best for"
-        },
-        "disclaimer": "Daataa usage actual Chatforia (voice, video, media fi apps biraa phone irratti) irratti hunda."
-      }
-    },
-    "family": {
-      "title": "Chatforia Family (shared data)",
-      "subtitle": "Shared data pool tokko family kee keessatti share. Bill tokko, Chatforia accounts hedduu, global coverage.",
-      "perPack": "/ pack",
-      "small": {
-        "title": "Family Small",
-        "desc": "20 GB shared daataa saffisaa — 2–3 light users",
-        "price": "$29.99",
-        "aria": "Family Small pack bituu"
-      },
-      "medium": {
-        "title": "Family Medium",
-        "desc": "40 GB shared daataa saffisaa — 3–5 active members",
-        "price": "$49.99",
-        "aria": "Family Medium pack bituu"
-      },
-      "large": {
-        "title": "Family Large",
-        "desc": "80 GB shared daataa saffisaa — power families yeroo hunda online",
-        "price": "$84.99",
-        "aria": "Family Large pack bituu"
-      },
-      "feature": {
-        "shared": "Shared data pool family keetiif",
-        "members": "Invite hanga 4 additional members",
-        "membersMore": "3–5 active members",
-        "manage": "Limits member hundaaf manage",
-        "topUp": "Packs hedduu yeroo hunda add",
-        "bestValue": "Value per GB guddaa",
-        "fairUse": "Fair-use policy fi local limits irratti hunda"
-      },
-      "disclaimer": "Family packs shared data pool uumu ykn top up. Members invite fi remove yeroo hunda dandeessa.",
-      "footnote": "Family packs shared data pool tokko Chatforia accounts walitti dhufe keessatti. Availability fi limits country fi local regulations irratti hunda."
-    },
-    "why": {
-      "title": "Namootni Chatforia gara maaliif jijjiiruu",
-      "subtitle": "Chatforia lakkoofsa bilbilaa amma, smart translation fi ad-free gara deebi'uu karaa ifa ta'e kenniti.",
-      "card": {
-        "textnow": {
-          "title": "Chatforia vs TextNow",
-          "body": "Ads xiqqaa Free irratti, Plus upgrade salphaa yeroo barbaadu, fi Premium tools TextNow hin qabu."
-        },
-        "voice": {
-          "title": "Chatforia vs Google Voice",
-          "body": "App modern, global-first design fi built-in translation call forwarding durii malee."
-        },
-        "messengers": {
-          "title": "Chatforia vs chat apps",
-          "body": "Lakkoofsa bilbilaa amma erguu — app users qofa malee — AI fi status waliin. TextFree ykn TextMe irraa dhufe yoo ta'e mijataa."
-        }
-      },
-      "tableTitle": "Chatforia akkaataa walitti dhufe",
-      "col": {
-        "feature": "Feature"
-      },
-      "feature": {
-        "freeNumber": "Lakkoofsa bilbilaa bilisaa",
-        "translation": "Built-in auto-translation",
-        "aiTools": "AI tools (rewrites, replies, summaries)",
-        "ads": "Ad-free option",
-        "history": "Ergaa history"
-      },
-      "yes": "Eeyyee",
-      "no": "Lakki",
-      "yesPremium": "Eeyyee (Premium)",
-      "plusPremium": "Plus & Premium",
-      "limited": "Limited",
-      "nA": "N/A",
-      "history": {
-        "chatforia": "Hanga 12+ ji'a",
-        "textnow": "Account irratti hunda",
-        "voice": "Limited / account-based"
-      },
-      "disclaimer": "Comparison publicly available information irratti hunda fi yeroo gara gara ta'uu danda'a. Free-texting apps biraa TextFree ykn TextMe TextNow waliin walitti dhufe."
     },
     "faq": {
-      "title": "Pricing & plans FAQ",
+      "title": "Gaaffiiwwan yeroo baay'ee gaafataman",
       "free": {
-        "q": "Free plan bilisaa ta'uu qaba?",
-        "a": "Eeyyee. Free plan Chatforia lakkoofsa, yaada fi ergaa ads waliin qaba. Free yeroo hunda taa'uu dandeessa ykn ads haala qabu fi features hedduu unlock gochuuf upgrade."
-      },
-      "plusPremium": {
-        "q": "Plus fi Premium gidduu maal garaagara?",
-        "a": "Plus ads haala qabu fi ergaa history dheeressaa — guyyaa hundaaf mijataa. Premium customization extra, AI tools rewrites fi replies, priority support heavy users."
-      },
-      "esim": {
-        "q": "eSIM data packs eessatti hojjechuu?",
-        "a": "Chatforia Mobile global eSIM coverage fayyadama. Availability country fi device kee irratti hunda. Activation app keessatti options deeggaramoo agarsiifama."
+        "q": "Free plan dhugumaan bilisaa dhaa?",
+        "a": "Eeyyee. Free plan lakkoofsa Chatforia, bilbila fi ergaa beeksisa waliin of keessaa qaba. Yeroo barbaadde olka'uu dandeessa."
       },
       "cancel": {
-        "q": "Plans yeroo hunda dhiisuu ykn jijjiiruu dandeessa?",
-        "a": "Eeyyee. Subscription kee app keessatti billing page irraa manage ykn dhiisi. Jijjiiramni period billing amma kee dhuma irratti hojjechuu."
-      },
-      "family": {
-        "q": "Family packs akkaataa hojjechuu?",
-        "a": "Family packs shared data pool Chatforia accounts hedduu keessatti uumu. Namni tokko bill pay, members invite/remove fi limits per person set gochuu dandeessa."
+        "q": "Pilaana yeroo kamiyyuu jijjiiruu ykn haquu nan danda'aa?",
+        "a": "Eeyyee. Subscription kee billing page keessatti bulchuu ykn haquu dandeessa."
       }
+    }
+  },
+  "family": {
+    "title": "Maatii",
+    "loading": "Odeeffannoo maatii fe'aa jira…",
+    "error": {
+      "load": "Odeeffannoo maatii fe'uun hin danda'amne.",
+      "invite": "Afeerraan uumamuu hin dandeenye. Abbaa maatii ta'uu kee mirkaneeffadhuutii irra deebi'i.",
+      "checkout": "Checkout Family plan jalqabuu hin dandeenye. Mee irra deebi'i."
     },
-    "gettingStarted": {
-      "title": "Jalqabuu",
-      "subtitle": "Chatforia haaraa? Quick start kun essentials agarsiisa daqiiqaa jalqabaa keessatti productive ta'uu dandeessu.",
-      "alert": {
-        "text": "Guide kun features haaraa launch yeroo hedduu guddata. Wanti dhabame yoo ta'e, nu beeksiisi via",
-        "contactLink": "Nu qunnami"
-      },
-      "section1": {
-        "title": "1) Galmee kee uumuu",
-        "signup": "Galmee uumuu",
-        "or": "ykn",
-        "login": "galuu",
-        "loginText": "galmee amma kee waliin.",
-        "prefsStart": "Preferences kee set",
-        "prefsLink": "preferences",
-        "prefsRest": "(afaan, read receipts, themes)."
-      },
-      "section2": {
-        "title": "2) Ergaa jalqabi",
-        "item1": "DM ykn Group uumuun ergaa jalqabaa erguu.",
-        "item2": "Instant translation fayyadamuun 100+ afaanotaatti walitti dhufe.",
-        "item3": "Ergaa haa dhabatu fi read receipts Profile → Privacy keessatti yaali."
-      },
-      "section3": {
-        "title": "3) Gara fuulduraa",
-        "item1": "Paid plan yeroo hunda app keessatti upgrade dandeessa.",
-        "item2": "Yeroo galte booda, gadgets adda link gochuu fi encrypted backups Settings app keessatti qopheessuu dandeessa."
-      },
-      "cta": {
-        "seePlans": "Plans ilaali",
-        "openSettings": "Settings bana"
-      }
+    "billing": {
+      "myPlanTitle": "Pilaana koo",
+      "myPlanError": "Pilaanni kee fe'amuu hin dandeenye.",
+      "myPlanLoading": "Pilaana kee fe'aa jira…",
+      "currentPlan": "Pilaana ammaa",
+      "renewsAt": "Kan haaromfamu",
+      "freePlanCopy": "Ati free plan irra jirta. Faayidaa dabalataa argachuuf olka'i.",
+      "upgradeCta": "Pilaana olka'i",
+      "changePlanCta": "Pilaana jijjiiri",
+      "manageBilling": "Billing bulchi",
+      "portalError": "Billing portal banachuun hin danda'amne.",
+      "cancelNow": "Amma dhiisi",
+      "cancelNowHelp": "Subscription kee billing portal keessatti bulchuu ykn haquu dandeessa.",
+      "cancelNowConfirm": "Pilaana kee battalumatti haqaa? Kun deebi'uu hin danda'u.",
+      "cancelNowError": "Pilaana haqachuun hin danda'amne. Mee irra deebi'i."
     },
-    "helpCenter": {
-      "title": "Help Center",
-      "faq": {
-        "account": {
-          "q": "Galmee uumuu ykn deebifuu akkaataa?",
-          "a": "App ykn web gadi bu'u, “Create account” tuqi, email/bilbila verify. Deebifuu, “Forgot password” fayyadami."
-        },
-        "privacy": {
-          "q": "Ergaa end-to-end encrypted ta'uu qaba?",
-          "a": "Eeyyee. Ergaa fi yaada end-to-end encrypted akkaataa jalqabaa. Si fi recipient qofa dubbisuu danda'a."
-        },
-        "translate": {
-          "q": "Instant translation akkaataa hojjechuu?",
-          "a": "Settings → Appearance & Language keessatti “Auto-translate” dandeessisi. Device irratti deeggarame yeroo hojjechuu, ykn secure APIs waliin metadata xiqqaa."
-        },
-        "contact": {
-          "q": "Support qunnami",
-          "a": "support@chatforia.com irratti nu qunnami. Screenshots fi app version kee qabu."
-        }
+    "none": {
+      "title": "Maatiin ammaaf hin qophoofne",
+      "body": "Chatforia Family fi shared data pool uumuuf Family plan jalqabi.",
+      "goUpgrade": "Family plan jalqabi",
+      "viewPlans": "Pilaana hunda ilaali"
+    },
+    "group": {
+      "defaultName": "Maatii Chatforia Koo",
+      "role": "Gaheen kee: {{role}}"
+    },
+    "role": {
+      "owner": "Abbaa",
+      "member": "Miseensa"
+    },
+    "data": {
+      "heading": "Shared data pool",
+      "caption": "Miseensonni hundi pool kana waliin fayyadamu. Daangaa dhiyaatte yoo si akeekkachiifna."
+    },
+    "members": {
+      "title": "Miseensota maatii",
+      "name": "Maqaa",
+      "role": "Gahee",
+      "usage": "Fayyadama",
+      "limit": "Daangaa",
+      "unlimited": "Daangaa addaa hin qabu",
+      "inviteCta": "Miseensa affeeri"
+    },
+    "invite": {
+      "title": "Miseensa haaraa affeeri",
+      "body": "Nama tokko shared family data pool keessanitti affeeruuf imeelii ykn liinkii ergi.",
+      "emailLabel": "Imeelii (dirqama miti)",
+      "emailPlaceholder": "friend@example.com",
+      "create": "Afeerrii uumi",
+      "linkLabel": "Liinkii afeerrii",
+      "copyAria": "Liinkii afeerrii koppii godhi",
+      "expiryHint": "Liinkiin kun guyyaa muraasa booda ni xumurama. Haaraa uumuu ni dandeessa."
+    },
+    "join": {
+      "title": "Maatii keessaa gali",
+      "body": "Chatforia Family tokko keessatti hirmaachuuf affeeramteetta.",
+      "cta": "Fudhadhuutii maatii keessaa gali",
+      "ctaLogin": "Seeniitii maatii keessaa gali",
+      "success": "Maatii kana keessaa galteetta. Amma data isaanii waliin fayyadamta.",
+      "goFamily": "Gara family dashboard deemi",
+      "error": "Maatii kana keessatti si dabaluun hin danda'amne. Afeerriin kun sirrii ta'uu dhiisuu ykn yeroo isaa darbuu danda'a."
+    }
+  },
+  "randomChat": {
+    "title": "Marii Tasaa",
+    "subtitle": "Namoota haaraa battalumatti wal qunnami ykn Ria waliin mari'adhu.",
+    "start": "Marii jalqabi",
+    "description": "Dura maqaa hin beekamneen mari'adhaa. Yoo mijate booda Friend dabalaa.",
+    "findMatch": "Nama naa barbaadi",
+    "chatWithRia": "Ria waliin mari'adhu",
+    "setAge": "Namoota waliin matched ta'uuf Profile → Age & Random Chat keessatti age range kee filadhu.",
+    "idle": "Hojii malee",
+    "matching": "Walitti qabaa jira…",
+    "searching": "Barbaadaa jira…",
+    "cancel": "Dhiisi",
+    "connectionProblem": "Rakkoo walqunnamtii",
+    "ai": "AI",
+    "anonymous": "Maqaa hin beekamne",
+    "connectedAs": "Akka walqabdeetti",
+    "chatEnded": "Mariin xumurameera",
+    "conversationEnded": "Mariin sun xumurameera.",
+    "findAnotherMatch": "Nama biraa barbaadi",
+    "next": "Nama Itti Aanu",
+    "addFriend": "Friend Dabaluu",
+    "leave": "Ba'i",
+    "send": "Ergi",
+    "partner": "Nama biraa",
+    "you": "Ati"
+  },
+  "ria": {
+    "fallbackName": "achi",
+    "intro": "Akkam 👋 Ani Ria dha. Yaadni kee maal jedhu?",
+    "greetings": {
+      "long1": "Akkam {{name}} 👋 Ani as jira. Yaadni kee maal jedhu?",
+      "long2": "Nagaan dhuftan {{name}} 😊 Har'a waa'ee maalii haasa'uu barbaadda?",
+      "long3": "Akkam {{name}}! Si dhaggeeffachaa jira — maal ta'e?",
+      "long4": "Si arguuf gammadeera {{name}} 👋 Har'a maal yaadaa jirta?",
+      "long5": "Akkam {{name}} 🙂 Haasa'uu, gaafachuu ykn qofa mari'achuu barbaaddaa?",
+      "short1": "Akkam {{name}}, ani ammaas as jira. Maal ta'e?",
+      "short2": "Baga deebite {{name}} 👋 Wanti biraa itti dabaluuf qabdaa?",
+      "short3": "Ammas deebiteettaa, {{name}}? 😊 Yaada kee natti himi.",
+      "short4": "Akkam {{name}} ✨ Itti fufuu qophiidhaa?",
+      "short5": "Eeyyee {{name}}? Si dhaggeeffachaa jira 👂"
+    },
+    "header": {
+      "openNav": "Menu navigation bani",
+      "closeNav": "Menu navigation cufi",
+      "homeAria": "Mana Chatforia"
+    },
+    "login": {
+      "welcomeBack": "Baga deebite",
+      "title": "Chatforia itti fufi",
+      "subtitleReturning": "Akaawuntii Chatforia keetiin seeni",
+      "subtitle": "Akaawuntii Chatforia keetiin seeni",
+      "google": "Google waliin itti fufi",
+      "apple": "Apple waliin itti fufi",
+      "googleUnavailable": "Google sign-in hin argamu",
+      "appleUnavailable": "Apple sign-in hin argamu",
+      "or": "ykn",
+      "email": "Imeelii",
+      "emailPh": "you@example.com",
+      "usernameLabel": "Maqaa fayyadamaa",
+      "usernamePh": "Maqaa fayyadamaa kee",
+      "passwordLabel": "Password",
+      "passwordPh": "Password kee",
+      "resendVerification": "Imeelii verification irra deebi'ii ergi",
+      "keepSignedIn": "Na yaadadhu",
+      "submit": "Seeni",
+      "loggingIn": "Seenaa jira…",
+      "newHere": "Haaraa dhaa? <link>Akaawuntii uumi</link>",
+      "ssoUnavailable": "Single-sign-on ammaaf hin argamu. Username fi password fayyadami.",
+      "error": {
+        "missing": "Mee credentials kee galchi.",
+        "invalid": "Username ykn password sirrii miti",
+        "denied": "Seenuun dhorkameera.",
+        "unprocessable": "Gaaffiin sirrii miti. Username/email fi password ilaali.",
+        "deviceLimit": "Daangaan meeshaa Free plan guutameera.",
+        "premiumRequired": "Tarkaanfiin kun Premium barbaachisa."
       }
+    }
+  },
+  "oauth": {
+    "completing": "Seenuu xumuramaa jira…"
+  },
+  "support": {
+    "helpFab": "Gargaarsa",
+    "openSupportAria": "Gargaarsa bani",
+    "badge": "Deeggarsa",
+    "heading": "Akkamitti si gargaaruu dandeenya?",
+    "tabs": {
+      "help": "Giddugala Gargaarsaa",
+      "contact": "Nu qunnami"
+    },
+    "searchPlaceholder": "Barruulee gargaarsaa barbaadi…",
+    "searchAria": "Gargaarsa barbaadi",
+    "searchBtn": "Barbaadi",
+    "quickTopicsLabel": "Mata dureewwan saffisaa",
+    "quickTopics": {
+      "login": "Seenuun hin danda'amne",
+      "billing": "Kaffaltii / billing",
+      "abuse": "Miidhaa gabaasi"
+    }
+  },
+  "footer": {
+    "plans": "Pilaana & Gatii",
+    "about": "Waa'ee Chatforia",
+    "careers": "Hojii",
+    "press": "Oduu",
+    "advertise": "Beeksisa",
+    "contact": "Nu Qunnami",
+    "help": "Giddugala Gargaarsaa",
+    "status": "Fuula Haalaa",
+    "iosDownload": "iOS / App Store",
+    "androidDownload": "Android / Google Play",
+    "privacy": "Imaammata Dhuunfaa",
+    "terms": "Haala Tajaajilaa",
+    "cookies": "Qindaa'ina Cookies",
+    "doNotSell": "Odeeffannoo Koo Hin Gurgurin",
+    "language": "Afaan",
+    "aria": "Jala Fuula",
+    "homeAria": "Mana Chatforia",
+    "copyright": "© Chatforia",
+    "patentPending": "Patent eegamaa jira",
+    "backToTop": "↑ Gara gubbaatti deebi'i"
+  },
+  "about": {
+    "title": "Waa'ee Chatforia",
+    "description": "Chatforia app ergaa ammayyaa kan nageenya, dhuunfaa fi walqunnamtii afaanota hedduu irratti xiyyeeffatu dha.",
+    "valuesTitle": "Waan nuti kabajnu",
+    "privacyTitle": "Dhuunfaa dursa",
+    "privacyDesc": "Encryption cimaa fi too'annoo fayyadamaa irratti xiyyeeffanna.",
+    "accessTitle": "Namoota hundaaf dhaqqabamaa",
+    "accessDesc": "Hiikkaa afaanota hedduu app keessatti ijaarame.",
+    "controlTitle": "Too'annoo",
+    "controlDesc": "Ergaawwan badan, read receipts fi filannoowwan dhuunfaa siif kennina."
+  },
+  "howItWorks": {
+    "title": "Chatforia Akkamitti Hojjeta",
+    "intro": "Chatforia walqunnamtii salphaa, nageenya qabuu fi addunyaa guutuu keessatti hojjatuuf ijaarame.",
+    "step1Title": "1. Akaawuntii uumi",
+    "step1Desc": "Imeelii, username ykn filannoo sign-in deeggarame fayyadamuun galmaa'i.",
+    "step2Title": "2. Marii jalqabi",
+    "step2Desc": "Namoota waliin wal qunnami, garee uumi ykn lakkoofsa bilbilaa fayyadami.",
+    "step3Title": "3. Ergaa yeroo dhugaa",
+    "step3Desc": "Ergaawwan, miidiyaa, sagalee fi viidiyoo saffisaan qoodi.",
+    "step4Title": "4. Addunyaa waliin haasa'i",
+    "step4Desc": "Hiikkaan keessatti ijaarame daangaa afaanii hir'isa.",
+    "step5Title": "5. Too'annoo kee qabadhu",
+    "step5Desc": "Dhuunfaa, nageenya, ergaawwan badan fi qindaa'ina kee bulchi."
+  },
+  "safety": {
+    "title": "Nageenya fi Qajeelfama Hawaasaa",
+    "intro": "Chatforia bakka nagaa fi kabajaa qabu uumuuf hojjechaa jira.",
+    "respectTitle": "Walqunnamtii kabajaa",
+    "respectDesc": "Fayyadamtoonni walii isaanii kabajuu fi haala nageenya qabuun mari'achuu qabu.",
+    "prohibitedTitle": "Waan hin eeyyamamne",
+    "prohibited": {
+      "illegal": "Hojii seeraan alaa",
+      "harassment": "Doorsisuu ykn nama rakkisuu",
+      "hate": "Haasaa jibbaa ykn loogii",
+      "explicit": "Qabiyyee miidhaa qabu",
+      "spam": "Spam ykn gowwoomsaa"
+    },
+    "toolsTitle": "Meeshaalee nageenyaa",
+    "tools": {
+      "report": "Waan hin malle gabaasi",
+      "block": "Fayyadamtoota dhorki",
+      "control": "Filannoo dhuunfaa kee bulchi"
+    },
+    "enforcementTitle": "Raawwii",
+    "enforcementDesc": "Yoo qajeelfamni cabame, akaawuntii irratti tarkaanfii fudhachuu dandeenya."
+  },
+  "refund": {
+    "title": "Imaammata Deebii Maallaqaa",
+    "lastUpdated": "Kan dhuma haaromfame:",
+    "intro": "Chatforia keessatti tajaajila qulqullina qabu kennuuf ni carraaqna. Imaammatni kun yoom deebiin maallaqaa kennamuu akka danda'u ibsa.",
+    "subscriptions": {
+      "title": "Subscriptions",
+      "body": "Subscriptions yeroo yerootti kaffalama. Yeroo kamiyyuu akaawuntii kee keessaa ykn platform bitannoo irraa haquu dandeessa."
+    },
+    "eligibility": {
+      "title": "Ulaagaa deebii maallaqaa",
+      "body": "Deebiin maallaqaa kaffaltii lama ta'e, dogoggora billing, ykn rakkoo teknikaa guddaa irratti ilaalamuu danda'a."
+    },
+    "nonRefundable": {
+      "title": "Kan hin deebifamne",
+      "body": "Yeroo baay'ee yeroo hin fayyadamne, subscription dursee hin haqamne, ykn kutaa billing period hin deebisnu."
+    },
+    "thirdParty": {
+      "title": "Bitannoo qaama sadaffaa",
+      "body": "Yoo Apple App Store ykn platform biraa irraa bitte, deebii maallaqaa platform sana irraa gaafachuu qabda."
     },
     "contact": {
       "title": "Nu qunnami",
-      "successMsg": "Galataa—team keenya email irratti deebisa.",
-      "errorSend": "Erguu hin danda'anne. support@chatforia.com email gochuun.",
-      "form": {
-        "nameLabel": "Maqaa",
-        "emailLabel": "Email",
-        "messageLabel": "Ergaa",
-        "sendCta": "Erguu"
-      }
-    },
-    "privacyPolicy": {
-      "title": "Privacy Policy",
-      "lastUpdated": "Yeroo dhuma haaromfame:",
-      "intro": {
-        "body": "Privacy Policy kun Chatforia (“we”, “us”) akkaataa daataa app fi services keessatti collect, use fi share gochuu ibsa. Chatforia daataa keenya access danda'u minimize gochuuf design ta'e."
-      },
-      "infoWeCollect": {
-        "title": "Daataa keenya collect",
-        "account": "Account info (email/bilbila) galmee uumuuf fi fiicuu.",
-        "encrypted": "Encrypted content (ergaa/yaada) end-to-end encrypted; hin dubbisnu.",
-        "diagnostics": "Diagnostic/usage crash logs, device type ykn coarse analytics performance fooyyessuuf."
-      },
-      "sms": {
-        "title": "Lakkoofsa bilbilaa mobile fi SMS",
-        "body": "Lakkoofsa bilbilaa mobile kennuu yoo filatte, account verification, login alerts fi user-to-user messaging SMS waliin deeggarame fayyadamuu. Transactional SMS messages account fi activity Chatforia keessatti erguu dandeessa. Yeroo hunda SMS opt out gochuu dandeessa “STOP” ykn Settings keessatti notification preferences jijjiiruun. Lakkoofsa bilbilaa kee hin gurgurru ykn marketing unrelated hin fayyadamnu.",
-        "newText": "Ergaa haaraa",
-        "enterRecipient": "Maqaa ykn lakkoofsa galchi",
-        "typeMessage": "Ergaa barreessi…",
-        "addRecipient": "Recipient olii dhufe adda"
-      },
-      "howWeUse": {
-        "title": "Daataa akkaataa fayyadamuu",
-        "provide": "Service fiicuu fi fiicuu (auth, spam/abuse detection).",
-        "improve": "Features fooyyessuu (hiikuu quality, reliability).",
-        "legal": "Legal obligations walitti dhufe."
-      },
-      "sharing": {
-        "title": "Sharing",
-        "body": "Daataa personal hin gurgurru. Processors waliin daataa xiqqaa (push notifications, analytics) strict contracts waliin share gochuu dandeessa."
-      },
-      "rights": {
-        "title": "Mirga kee",
-        "body": "Region kee irratti (e.g., GDPR/UK GDPR/CPRA), access, correction, deletion ykn opt-out processing barbaachisuu dandeessa. privacy@chatforia.com qunnami."
-      },
-      "retention": {
-        "title": "Data retention & security",
-        "body": "Service itti fufuuf barbaachisaa qofa retain. E2E content keenya hin decryptamne."
-      },
-      "children": {
-        "title": "Daa'imman",
-        "body": "Chatforia daa'imman 13 jalaa (ykn local law kee irratti) hin qabu."
-      },
-      "changes": {
-        "title": "Jijjiiramni",
-        "body": "Updates kanas post gochuun “Last updated” date haaromfina."
-      },
-      "contact": {
-        "title": "Qunnami",
-        "body": "privacy@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "terms": {
-      "title": "Terms of Service",
-      "lastUpdated": "Yeroo dhuma haaromfame:",
-      "intro": {
-        "body": "Chatforia fayyadamuun Terms kana walii galte. Walii hin galin yoo ta'e, service hin fayyadamnu."
-      },
-      "accounts": {
-        "title": "Galmee",
-        "itemAccurateInfo": "Info accurate kennuu fi credentials fiicuu.",
-        "itemResponsibility": "Galmee kee irratti activity kee qabda."
-      },
-      "acceptableUse": {
-        "title": "Acceptable use",
-        "itemNoAbuse": "Illegal, abusive ykn infringing content hin qabu; spam ykn automated abuse hin qabu.",
-        "itemSuspend": "Violations irratti suspend/terminate gochuu dandeessa."
-      },
-      "sms": {
-        "title": "SMS communications",
-        "body": "Lakkoofsa bilbilaa mobile kennuu yoo ta'e, Chatforia account fi service fayyadamuu waliin SMS messages erguu walii galte (login alerts, security notifications, ergaa walitti dhufe keessatti). SMS promotional ykn marketing explicit consent malee hin fayyadamnu. Message fi data rates standard jiraachuu danda'a. SMS opt out “STOP” ykn notification settings app keessatti jijjiiruun yeroo hunda dandeessa."
-      },
-      "yourContent": {
-        "title": "Content kee",
-        "body": "Content kee mirga qabda. Service itti fufuuf mirga barbaachisaa nuuf kennita (routing, storage, translation)."
-      },
-      "disclaimer": {
-        "title": "Disclaimers & liability",
-        "body": "Service “as is” warranties malee kennama. Law irratti danda'ame hunda, Chatforia indirect ykn consequential damages irratti hin liabne."
-      },
-      "changes": {
-        "title": "Jijjiiramni",
-        "body": "Terms kun haaromfuu dandeessa; jijjiiramni booda itti fufuun acceptance ta'a."
-      },
-      "contact": {
-        "title": "Qunnami",
-        "body": "support@chatforia.com • Chatforia LLC, 123 Example St, Sheridan, WY 82801, USA"
-      }
-    },
-    "doNotSell": {
-      "title": "Daataa Personal Koo hin gurgurru ykn share hin goonu",
-      "body": "Chatforia daataa personal hin gurgurru. California residents CPRA jalatti requests submit gochuu dandeessa button jalaa fayyadamuun.",
-      "cta": "Request submit"
-    },
-    "cookies": {
-      "title": "Cookie Settings",
-      "body": "Chatforia cookies xiqqaa fayyadama (session, security). Third-party ads cookies hin fayyadamnu. Cookies browser settings keessatti manage."
-    },
-    "phoneNumberManager": {
-      "unableToLoadStatus": "Lakkoofsa bilbilaa status laaduu hin danda'anne.",
-      "lock": "Lock",
-      "noNumberAssigned": "Lakkoofsa hin assign hin jiru. Area code filadhuu ergii jalqabuuf.",
-      "pickNumber": "Lakkoofsa filadhu",
-      "phoneNumber": "Lakkoofsa bilbilaa"
-    },
-    "startChatModal": {
-      "title": "Chat jalqabi",
-      "quickPicker": "Quick picker",
-      "to": "Gara",
-      "nameOrUsername": "Maqaa, username barreessi",
-      "nameUsernamePhoneEmail": "Maqaa, username, bilbila ykn email barreessi…",
-      "startWithSelected": "Selected waliin chat jalqabi",
-      "searchByUsernameOrPhone": "Username ykn bilbila barbaadi",
-      "search": "Barbaadi",
-      "searchPrompt": "Username ykn bilbila barreessi fi Search tuqi.",
-      "pickFromContacts": "Ykn contacts irraa filadhu",
-      "addContact": "Contact Add",
-      "show": "Agarsiisi",
-      "add": "Add",
-      "close": "Cufi",
-      "selectedCount": "{{count}} filatame",
-      "pickAtLeastOne": "Recipient tokko filadhu.",
-      "saveContactsHint": "Phone/email entries save yeroo contacts ta'an argamu.",
-      "failedBulkStart": "Recipients filatame waliin chat jalqabuu dhiisuu.",
-      "noResults": "Bu'aa hin jiru",
-      "mode": "Mode",
-      "group": "Group",
-      "broadcast": "Broadcast",
-      "groupNameOptional": "Group maqaa (optional)",
-      "firstMessageOptional": "Ergaa jalqabaa (optional but recommended)",
-      "createGroup": "Group uumuu",
-      "sendBroadcast": "Broadcast erguu"
-    },
-    "themes": {
-      "amoled": "Amoled",
-      "aurora": "Aurora",
-      "neon": "Neon",
-      "sunset": "Sunset",
-      "solarized": "Solarized",
-      "velvet": "Velvet"
-    },
-    "sounds": {
-      "freeNotice": "Free irratti jirta — premium tones agarsiifamaa jiru garuu locked. Hunda unlock gochuuf upgrade.",
-      "preview": "Preview",
-      "resetToDefaults": "Defaults reset",
-      "notificationSounds": "Notification Sounds",
-      "messageTone": "Message tone",
-      "default": "Default",
-      "vibrate": "Vibrate",
-      "dreamer": "Dreamer",
-      "notify": "Notify",
-      "pop": "Pop",
-      "pulsatingSound": "Pulsating Sound",
-      "textMessage": "Text Message",
-      "xylophone": "Xylophone",
-      "classic": "Classic",
-      "urgency": "Urgency",
-      "bells": "Bells",
-      "chimes": "Chimes",
-      "digitalPhone": "Digital Phone",
-      "melodic": "Melodic",
-      "organNotes": "Organ Notes",
-      "soundReality": "Sound Reality",
-      "street": "Street",
-      "universfield": "Universfield"
-    },
-    "premiumGuard": {
-      "requiresPremium": "Feature kun Premium plan barbaada."
-    },
-    "aiSettings": {
-      "title": "AI Settings",
-      "controlIntro": "Hiikuu, smart replies fi ForiaBot auto-responses control gochuun.",
-      "save": "AI Settings olkaa'i",
-      "autoTranslateIncoming": "Ergaa incoming auto-translate",
-      "showOriginalAlongside": "Ergaa original fi translation waliin ilaali",
-      "enableSmartReplies": "Smart Replies dandeessisi",
-      "smartRepliesHint": "Ergaa duraa hedduu (sanitized) AI gara erguun quick replies yaada.",
-      "maskProfanity": "Profanity AI suggestions keessatti mask",
-      "maskProfanityHint": "Yeroo on ta'e, AI suggestions flagged words masked ta'u.",
-      "foriaBot": "ForiaBot Auto-Responder",
-      "enableAutoReply": "Auto-reply yeroo busy ta'e dandeessisi",
-      "autoReplyMode": "Auto-reply mode",
-      "cooldownSeconds": "Cooldown (sa'aatii)",
-      "off": "Off",
-      "on": "On",
-      "signature": "Signature",
-      "autoReply": "Auto-reply",
-      "activeUntilOptional": "Active hanga (optional)",
-      "saved": "AI preferences olkaa'ame",
-      "saveFailed": "AI settings olkaa'uu dhiisuu",
-      "translateOff": "Off",
-      "translateTagged": "Only @translated ykn tagged yeroo",
-      "translateAll": "Ergaa incoming hunda translate",
-      "modeDm": "1:1 chats qofa",
-      "modeMention": "Only @mentioned yeroo",
-      "modeAll": "Inbound messages hunda"
-    },
-    "accessibilitySettings": {
-      "title": "Accessibility & Alerts",
-      "accessibility": "Accessibility",
-      "accessibilityDesc": "Options Chatforia sound malee fayyadamuu salphaa taasisuu.",
-      "interfaceFontSize": "Interface font size",
-      "interfaceFontSizeHelp": "Normal size irraa jalqaba. Text guddaa barbaadu yoo ta'e accessibility settings keessatti guddisuu.",
-      "sm": "sm",
-      "md": "md",
-      "lg": "lg",
-      "xl": "xl",
-      "notifications": "Notifications",
-      "notificationsDesc": "Visual alerts ergaa & yaada\nBanners fi title blink agarsiisi activity hin dhabne.",
-      "vibrateOnNew": "Ergaa haaraa irratti vibrate (deeggarame yeroo)\nNotifications waliin device vibration trigger.",
-      "flashOnCall": "Yaada incoming irratti screen flash\nYaada ring yeroo brief bright flash.",
-      "liveCaptions": "Live captions (yaada)",
-      "captionFontSize": "Caption font size",
-      "captionBackground": "Caption background",
-      "light": "light",
-      "dark": "dark",
-      "transparent": "transparent",
-      "voiceNotes": "Voice notes",
-      "autoTranscribeVoiceNotes": "Voice notes auto-transcribe",
-      "autoTranscribeVoiceNotesDesc": "Audio messages argatte irratti transcript attach.",
-      "changesSavedInstantly": "Jijjiiramni daqiiqaa jalqabaa olkaa'ama.",
-      "loadFailed": "Settings laaduu dhiisuu",
-      "visualAlerts": "Visual alerts ergaa & yaada",
-      "visualAlertsDesc": "Banners fi title blink agarsiisi activity hin dhabne.",
-      "vibrateOnNewShort": "Ergaa haaraa irratti vibrate (deeggarame)",
-      "vibrateOnNewDesc": "Notifications waliin device vibration trigger.",
-      "flashOnCallShort": "Yaada incoming irratti screen flash",
-      "flashOnCallDesc": "Yaada ring yeroo brief bright flash."
-    },
-    "privacySection": {
-      "strictE2EE": "Strict end-to-end encryption",
-      "ciphertextOnlyNote": "Server irratti ciphertext qofa olkaa'i. AI/Translate fi moderation previews dhiisuu."
-    },
-    "linkedDevicesPanel": {
-      "title": "Gadgets walitti dhufe",
-      "noneFound": "Gadgets walitti dhufe hin argamne.",
-      "refresh": "Haaromsi"
-    },
-    "help": {
-      "title": "Gargaarsa",
-      "howCanWeHelp": "Akkaataa si gargaaru dandeessa?",
-      "helpCenter": "Help Center",
-      "contactUs": "Nu qunnami",
-      "quickTopics": "Quick topics",
-      "searchExamples": "“translate”, “backups” ykn “privacy” barbaadi yaali.",
-      "cantLogin": "Galuu hin danda'u",
-      "paymentsBilling": "Payments/ billing",
-      "reportAbuse": "Abuse report",
-      "searchHelpArticles": "Help articles barbaadi",
-      "search": "Barbaadi"
-    },
-    "peoplePage": {
-      "people": "Namoota",
-      "search": "Barbaadi",
-      "searchPlaceholder": "Alias, maqaa, username ykn bilbila barbaadi",
-      "filterSaved": "Contacts saved filter",
-      "noContactsFound": "Contacts hin argamne",
-      "quickStart": "Quick start",
-      "quickStartDesc": "Karaa saffisaa hedduu jalqabuu.",
-      "importContacts": "Contacts kee import",
-      "add": "Add",
-      "focusSearch": "Search focus",
-      "import": "Import",
-      "findOrAdd": "Namoota barbaadi ykn add",
-      "searchByPhoneOrUsername": "Bilbila / username barbaadi",
-      "inviteFriends": "Friends invite",
-      "inviteDesc": "Invite link kee share gochuun chat daqiiqaa jalqabaa jalqabi.",
-      "getTheApp": "App argadhu",
-      "getTheAppDesc": "Mobile irratti Chatforia iOS fi Android waliin walitti dhufe.",
-      "download": "Gadi bu'u",
-      "syncTip": "Tip: Ergaa kee web fi mobile gidduutti synced ta'a."
-    },
-    "randomChat": {
-      "title": "Random Chat",
-      "description": "Namoota haaraa daqiiqaa jalqabaa walitti dhufe. Chat anonymous jalqabaa. Yeroo mijataa ta'e Add Friend.",
-      "findMatch": "Match na argadhu",
-      "chatWithForia": "Foria waliin chat",
-      "chatWithForiaBot": "ForiaBot waliin chat",
-      "cancel": "Dhiisi",
-      "close": "Cufi",
-      "searching": "Barbaadaa jira...",
-      "finding": "Argachaa jira...",
-      "looking": "Namoota barbaadaa jira...",
-      "startingForia": "Foria waliin chat jalqabaa jira...",
-      "partnerDisconnected": "Partner kee disconnected.",
-      "noPartner": "Partner amma hin argamne.",
-      "connectedTo": "{{name}} waliin walitti dhufe",
-      "connected": "Walitti dhufe",
-      "idle": "Idle",
-      "partnerLeft": "Partner dhiise.",
-      "stopped": "Stopped.",
-      "skip": "Skip",
-      "save": "Olkaa'i",
-      "saveGuard": "Human-to-human chats qofa olkaa'uu danda'a",
-      "youAreChattingWith": "{{name}} waliin chat gochaa jirta",
-      "bot": "BOT",
-      "leave": "Dhiisi",
-      "sayHi": "Hi jedhi 👋",
-      "you": "Si",
-      "typeMessage": "Ergaa barreessi",
-      "send": "Erguu",
-      "partner": "Partner",
-      "withRia": "Ria waliin",
-      "chatWithRia": "Ria waliin chat",
-      "startingRia": "Ria waliin chat jalqabaa jira...",
-      "ageDisclaimer": "Age range qofa olkaa'ina (guyyaa dhaloota exact hin qabnu). Random Chat pairings akkaataa fiicuu. Namoota (RiaBot qofa malee) waliin walitti dhufe, Settings → Age & Random Chat keessatti age band set gochuun.",
-      "ageBandRequired": "Namoota waliin walitti dhufe, Profile → Age & Random Chat keessatti age range set.",
-      "ageBandCallout": "Namoota (RiaBot qofa malee) waliin walitti dhufe, Settings → Age & Random Chat keessatti age band set.",
-      "subtitle": "Namoota haaraa daqiiqaa jalqabaa walitti dhufe ykn Ria waliin chat filadhu.",
-      "start": "Walitti dhufe jalqabi",
-      "matching": "Matching...",
-      "setAge": "Profile → Age & Random Chat keessatti age range set gochuun namoota waliin walitti dhufe.",
-      "next": "Namoota itti aanu",
-      "addFriend": "Friend add",
-      "requested": "Requested",
-      "messageRia": "Ria ergaa...",
-      "messageMatch": "Match kee ergaa..."
-    },
-    "brand": {
-      "name": "Chatforia",
-      "ria": "Ria"
-    },
-    "ria": {
-      "fallbackName": "there",
-      "intro": "Hey there 👋 Ani Ria. Yaada kee maal?",
-      "greetings": {
-        "long1": "Hey {{name}} 👋 Ani jira. Yaada kee maal?",
-        "long2": "Hi {{name}} 😊 Har'a maal haasa'u barbaada?",
-        "long3": "Hey {{name}}!! Ani dhaggeeffachaa jira — maal ta'e?",
-        "long4": "Namoota arguu mijataa, {{name}} 👋 Har'a yaada kee maal?",
-        "long5": "Hey {{name}} 😊 Vent, ask ykn chat qofa barbaadaa?",
-        "long6": "Hi {{name}}!! Yeroo qaba — maal haasa'u barbaada?",
-        "short1": "Hey {{name}}, ani amma jira. Maal ta'e?",
-        "short2": "Welcome back {{name}} 👋 Wanti biraa adda barbaadaa?",
-        "short3": "Deebiftee, {{name}}? 😊 Yaada kee na haasa'i.",
-        "short4": "Hey {{name}} 👋 Bakka dhiifne irraa itti fufuu qabna?",
-        "short5": "Eeyyee {{name}}? Ani dhaggeeffachaa jira 👂",
-        "short6": "Oh hey {{name}}!! Yaada haaraa qabdaa?"
-      },
-      "header": {
-        "openNav": "Navigation menu bana",
-        "closeNav": "Navigation menu cufi",
-        "homeAria": "Chatforia Home"
-      },
-      "login": {
-        "welcomeBack": "Welcome back",
-        "title": "Chatforia itti fufi",
-        "subtitleReturning": "Chatforia account kee galuu",
-        "subtitle": "Chatforia account kee galuu",
-        "google": "Google waliin itti fufi",
-        "apple": "Apple waliin itti fufi",
-        "googleUnavailable": "Google sign-in hin jiru",
-        "appleUnavailable": "Apple sign-in hin jiru",
-        "or": "ykn",
-        "email": "Email",
-        "emailPh": "you@example.com",
-        "usernameLabel": "Username",
-        "usernamePh": "Username kee",
-        "passwordLabel": "Paaswerd",
-        "passwordPh": "Paaswerd kee",
-        "keepSignedIn": "Anaan galuu",
-        "forgot": {
-          "title": "Paaswerd hir'uu",
-          "helper": "Email Chatforia account kee uumuuf fayyadame galchi fi link fiicamaa paaswerd reset erguuf.",
-          "emailInvalid": "Email valid galchi.",
-          "genericError": "Request process gochuu hin danda'anne. Yeroo xiqqaa booda deebifuu yaali.",
-          "sending": "Reset link erguu jira...",
-          "sendCta": "Reset Link erguu",
-          "sentLabel": "Sent!"
-        },
-        "submit": "Galuu",
-        "loggingIn": "Galuu jira…",
-        "newHere": "Haaraa? <link>Galmee uumuu</link>",
-        "ssoUnavailable": "Single-sign-on amma hin jiru. Username & paaswerd fayyadami.",
-        "error": {
-          "missing": "Credentials kee galchi.",
-          "invalid": "Username ykn paaswerd dogoggora",
-          "denied": "Access denied.",
-          "unprocessable": "Request dogoggora. Username/email fi paaswerd kee ilaali.",
-          "deviceLimit": "Free plan device limit dhaqqabe. Gaditti biraa galuu dhiisi ykn Premium upgrade gochuun gadgets hedduu link.",
-          "premiumRequired": "Action kun Premium plan barbaada."
-        }
-      }
-    },
-    "oauth": {
-      "completing": "Sign-in xumuraa jira…"
-    },
-    "dialer": {
-      "title": "Yaada",
-      "subtitle": "Keypad & recents. (PSTN hin fayyadamne yoo ta'e, conversation header irraa yaada jalqabi.)",
-      "enterNumberPh": "Lakkoofsa galchi",
-      "call": "Yaada",
-      "backspace": "Backspace",
-      "recents": "Recents",
-      "recentsEmpty": "Yaada haaraa hin jiru.",
-      "enterNumber": "Lakkoofsa galchi",
-      "enterNumberAria": "Lakkoofsa galchi",
-      "key": "Key {{d}}",
-      "noRecents": "Yaada haaraa hin jiru."
-    },
-    "video": {
-      "title": "Video",
-      "chooseType": "Video type filadhu.",
-      "directTitle": "Direct Video",
-      "directDesc": "1:1 camera yaada fayyadamtoota biraa waliin.",
-      "directStart": "Jalqabi",
-      "roomsTitle": "Rooms",
-      "roomsDesc": "Multi-party video room maqaa shared fayyadamuun.",
-      "roomsIntro": "Room multi-party join ykn uumuu.",
-      "roomNameLabel": "Room maqaa",
-      "roomNamePh": "e.g. team-standup",
-      "join": "Join",
-      "deeplinkTip": "Tip: deep link /video?room=room-name gara.",
-      "hub": {
-        "title": "Video",
-        "subtitle": "Video type filadhu."
-      },
-      "direct": {
-        "title": "Direct Video",
-        "subtitle": "Bilbila ykn Chatforia username fayyadamuun 1:1 video yaada jalqabi.",
-        "desc": "1:1 camera yaada fayyadamtoota biraa waliin.",
-        "start": "Jalqabi",
-        "callBtn": "Yaada",
-        "callByPhone": {
-          "title": "Bilbila waliin yaada"
-        },
-        "phone": {
-          "placeholder": "Bilbila galchi (e.g., +1-555-123-4567)",
-          "aria": "Bilbila yaaduuf"
-        },
-        "tipInvite": "Tip: Lakkoofsa paste gochuun contact save malee yaada. Non-users link waliin invite.",
-        "findUser": {
-          "title": "User barbaadi"
-        },
-        "search": {
-          "placeholder": "Maqaa ykn username barbaadi",
-          "aria": "Maqaa ykn username barbaadi",
-          "btn": "Barbaadi"
-        }
-      },
-      "rooms": {
-        "title": "Rooms",
-        "subtitle": "Room uumu ykn maqaa tokko barreessuun existing join.",
-        "desc": "Multi-party video room maqaa shared fayyadamuun.",
-        "roomLabel": "Room maqaa",
-        "roomPlaceholder": "e.g. team-standup",
-        "roomAria": "Room maqaa",
-        "joinCreate": "Join / Uumuu",
-        "tip": "Tip: maqaa kana namoota waliin share, ykn deep link /video?room=room-name."
-      }
-    },
-    "directVideo": {
-      "intro": "1:1 direct video yaada jalqabi.",
-      "findUserLabel": "User barbaadi",
-      "findUserPh": "Maqaa ykn username barbaadi",
-      "search": "Barbaadi",
-      "call": "Yaada"
-    },
-    "phoneWarning": {
-      "title": "Lakkoofsa kee yeroo gabaabaa keessatti expires",
-      "body": "Lakkoofsa kee {{number}} {{date}} irratti release ta'a unless reactivated.",
-      "button": "Lakkoofsa koo qabachuu"
-    },
-    "support": {
-      "helpFab": "Gargaarsa",
-      "openSupportAria": "Support bana",
-      "badge": "Support",
-      "heading": "Akkaataa si gargaaru dandeessa?",
-      "tabs": {
-        "help": "Help Center",
-        "contact": "Nu qunnami"
-      },
-      "searchPlaceholder": "Help articles barbaadi…",
-      "searchAria": "Help barbaadi",
-      "searchBtn": "Barbaadi",
-      "quickTopicsLabel": "Quick topics",
-      "quickTopics": {
-        "login": "Galuu hin danda'u",
-        "billing": "Payments / billing",
-        "abuse": "Abuse report"
-      },
-      "trySearching": "“translate”, “backups” ykn “privacy” barbaadi yaali.",
-      "article": "Article",
-      "openArticle": "Article bana",
-      "contactIntro": "Email irratti deebisa. Issue reproduce gochuuf details qabu.",
-      "topicAria": "Topic filadhu",
-      "messagePlaceholder": "Ergaa kee barreessi…",
-      "sendBtn": "Erguu",
-      "sent": "Ergaa ergame. Email irratti deebisa.",
-      "sendError": "Erguu hin danda'anne. support@chatforia.com email gochuun."
-    },
-    "encryptionRecovery": {
-      "title": "Encryption Manage",
-      "description": "Kii encryption kee backup, restore, unlock ykn reset.",
-      "alert": {
-        "keyRequiredTitle": "Kii encryption barbaachisa",
-        "keyRequiredBody": "Browser kun ergaa encrypted kee decrypt gochuu hin danda'u amma. Kii kee restore, unlock ykn reset gochuun itti fufi."
-      },
-      "sections": {
-        "createBackup": "Kii backup uumuu",
-        "restoreFromBackup": "Account backup irraa restore",
-        "resetEncryption": "Encryption reset"
-      },
-      "fields": {
-        "unlockPasscode": {
-          "label": "Unlock passcode (gadget amma)",
-          "description": "Kiin kee locally decrypt gochuuf yeroo export dura fayyadama"
-        },
-        "backupPassword": {
-          "label": "Paaswerd backup",
-          "description": "Faayilii backup encrypt gochuuf fayyadama"
-        },
-        "restoreBackupPassword": {
-          "label": "Paaswerd backup",
-          "description": "Paaswerd iPhone irratti kii kee backup yeroo uumuuf uumte"
-        },
-        "newLocalPasscode": {
-          "label": "Paaswerd local haaraa",
-          "description": "Kiin rest irratti browser kana irratti fiicuuf"
-        },
-        "resetLocalPasscode": {
-          "label": "Paaswerd local haaraa",
-          "description": "Reset dura barbaachisaa yoo kii haaraa gadget kana irratti fiifamu"
-        }
-      },
-      "actions": {
-        "unlockKey": "Kii encryption unlock",
-        "restoreFromBackup": "Account backup irraa restore",
-        "resetEncryption": "Encryption Reset"
-      },
-      "messages": {
-        "backupCreated": "Kii backup uumamee gadi bu'ame.",
-        "keyUnlocked": "Kii encryption unlocked.",
-        "keyRestored": "Kii account backup irraa deebifame.",
-        "resetSuccess": "Encryption reset ta'e."
-      },
-      "errors": {
-        "restoreIncomplete": "Kii restore incomplete ykn account kanaaf dogoggora",
-        "noBackup": "Account kanaaf backup encrypted hin jiru",
-        "missingPublicKey": "Backup keessatti kiin public hin jiru",
-        "noServerPublicKey": "Account kun server public key hin qabu amma",
-        "serverBackupMismatch": "Server backup kii encryption account amma waliin hin walitti dhufe",
-        "incompleteMetadata": "Backup metadata incomplete",
-        "resetIncomplete": "Encryption reset guutuu hin taane"
-      },
-      "confirm": {
-        "reset": "Account kanaaf encryption reset? Ergaa encrypted duruu deebifamuu danda'a unless kii original deebiftee."
-      },
-      "resetDescription": "Account keetiif kii encryption haaraa uuma. Ergaa encrypted duruu deebifamuu danda'a unless kii original deebiftee."
-    },
-    "footer": {
-      "plans": "Plans & Gatiin",
-      "about": "About Chatforia",
-      "careers": "Careers",
-      "press": "Press",
-      "advertise": "Advertise",
-      "contact": "Nu qunnami",
-      "help": "Help Center",
-      "status": "Status Page",
-      "iosDownload": "iOS / App Store",
-      "androidDownload": "Android / Google Play",
-      "privacy": "Privacy Policy",
-      "terms": "Terms of Service",
-      "cookies": "Cookie Settings",
-      "doNotSell": "Daataa koo hin gurgurru",
-      "language": "Afaan",
-      "contactShort": "Qunnami",
-      "aria": "Footer",
-      "homeAria": "Chatforia home",
-      "section": {
-        "company": "COMPANY",
-        "support": "SUPPORT",
-        "downloads": "DOWNLOADS",
-        "legal": "LEGAL"
-      },
-      "links": {
-        "plans-pricing": "Plans & Gatiin",
-        "about-chatforia": "About Chatforia",
-        "careers": "Careers",
-        "press": "Press",
-        "advertise": "Advertise",
-        "getting-started": "Jalqabuu",
-        "help-center": "Help Center",
-        "contact-us": "Nu qunnami",
-        "status-page": "Status Page",
-        "ios-app-store": "iOS / App Store",
-        "android-google-play": "Android / Google Play",
-        "privacy-policy": "Privacy Policy",
-        "terms-of-service": "Terms of Service",
-        "do-not-sell-my-info": "Daataa koo hin gurgurru",
-        "cookie-settings": "Cookie Settings"
-      },
-      "social": {
-        "tiktok": "TikTok",
-        "instagram": "Instagram",
-        "facebook": "Facebook",
-        "linkedin": "LinkedIn",
-        "x": "X"
-      },
-      "copyright": "© Chatforia",
-      "patentPending": "Patent pending",
-      "backToTop": "↑ Gara gubbaa"
-    },
-    "press": {
-      "title": "Press",
-      "contactLine": "Media inquiries, nu qunnami",
-      "boilerplateTitle": "Boilerplate",
-      "boilerplateBody": "Chatforia app ergaa privacy jalqabaa afaan gara gara salphaa taasisuu. Ergaa end-to-end encrypted akkaataa jalqabaa, hiikuu built-in 100+ afaanota real time. Ergaa haa dhabatu dandeessisuu, read receipts optional gochuu fi gadgets gidduutti sync. iOS, Android fi web irratti argama.",
-      "assetsTitle": "Brand assets",
-      "assetsSubtitle": "Logos, screenshots fi product imagery.",
-      "downloadCta": "Media kit gadi bu'u",
-      "downloadTitle": "App argadhu",
-      "scanTip": "Desktop irratti? Bilbila kee waliin scan gochuun app argadhu.",
-      "qrAria": "Chatforia website bana",
-      "appStore": "App Store irratti gadi bu'u",
-      "googlePlay": "Google Play irratti argadhu"
-    },
-    "careers": {
-      "title": "Careers",
-      "intro": "Team founding xiqqaa Chatforia uumaa jirra — messenger global private web, iOS fi Android irratti launch. Privacy, encryption fi user experiences mijataa irratti care yoo ta'e, si dhaggeeffachuu barbaanna.",
-      "openRoles": "<b>Open founding roles:</b> Lead Full-stack Engineer, Backend Engineer (Node.js), Frontend/Web Engineer (React), Mobile Engineer (iOS), Mobile Engineer (Android), DevOps/SRE, Security & Encryption Engineer, Telecom Engineer (Twilio + eSIM).",
-      "apply": "Akkaataa apply: Button jalaa fayyadamuun resume fi links email.",
-      "emailCta": "Resume kee email",
-      "whyNow": "Yeroo amma maaliif join?",
-      "whyBullets": "• Foundation messenger global haaraa uumuu.\n• Web, iOS fi Android hunda irratti improvements ship.\n• Founder waliin architecture fi product direction irratti hojjechuu.\n• Stack keessatti areas high-impact own: messaging, voice, video, encryption, telecom, AI.\n• Jalqabaa join — user base scale dura."
-    },
-    "about": {
-      "title": "About Chatforia",
-      "description": "Chatforia messenger multilingual fiicamaa end-to-end encryption, instant translation fi voice/video yaada qaba. Mission keenya salphaa: namoota walitti dhufe — fiicamaa, privacy fi afaan gara gara.",
-      "valuesTitle": "Maal barbaanna",
-      "values": {
-        "privacy": "<b>Privacy jalqabaa:</b> E2E encryption akkaataa jalqabaa.",
-        "access": "<b>Access namni hundaaf:</b> Auto-translate 100+ afaanota.",
-        "control": "<b>Fiicuu:</b> Ergaa haa dhabatu & read receipts optional.",
-        "privacy_aria": "Privacy jalqabaa: E2E encryption akkaataa jalqabaa.",
-        "access_aria": "Access namni hundaaf: Auto-translate 100+ afaanota.",
-        "control_aria": "Fiicuu: Ergaa haa dhabatu fi read receipts optional."
-      },
-      "howTitle": "Chatforia akkaataa hojjechuu",
-      "howDescription": "Ergaa gadget kee irratti encrypt ta'ee ba'u dura. Hiikuu, backups fi device sync servers keenya daataa agarsiisuu minimize gochuuf design ta'e."
-    },
-    "advertise": {
-      "title": "Chatforia waliin Advertise",
-      "description": "Engaged messaging users brand-safe placements waliin dhaqqabuu. Banner inventory high-visibility spots, sponsorships fi house promos qabna. Premium subscribers ads hin argaan.",
-      "adsense": {
-        "withPubIdShort": "Google AdSense waliin inventory qabna. Publisher ID {{pubId}} waliin Chatforia target gochuu dandeessa ykn form jalaa direct sponsorships.",
-        "noPubIdShort": "Google AdSense waliin inventory qabna. Direct sponsorships jira — form jalaa fayyadami."
-      },
-      "inventoryHeader": "Inventory & Specs",
-      "placement": {
-        "displayBadge": "Display",
-        "acceptedSizes": "Sizes deeggaramoo",
-        "adsenseSlot": "AdSense slot:"
-      },
-      "noPlacementsPublic": "Ad inventory keenya finalizing jirra. Campaign kee nu haasa'i placements recommend gochuuf.",
-      "whyHeader": "Chatforia maaliif?",
-      "why": {
-        "highSession": "Session frequency fi dwell time guddaa chat UI keessatti",
-        "brandSafe": "Brand-safe formats; frequency capping mijataa",
-        "sponsoredMoments": "Sponsored moments (e.g., “Start a Chat” modal) jira",
-        "deals": "Direct deals ykn programmatic AdSense/Google Ads"
-      },
-      "contactHeader": "Qunnami",
-      "form": {
-        "submittedMsg": "Galataa! Inquiry kee gara jira. Yeroo gabaabaa booda deebisa.",
-        "missingRequired": "Maqaa, email fi ergaa galchi.",
-        "successToast": "Galataa! Yeroo gabaabaa booda walitti dhufe.",
-        "mailtoInfo": "Email client kee banaa inquiry erguuf…",
-        "nameLabel": "Maqaa kee",
-        "namePlaceholder": "Jane Doe",
-        "emailLabel": "Email",
-        "emailPlaceholder": "you@company.com",
-        "companyLabel": "Company",
-        "companyPlaceholder": "Acme Inc.",
-        "budgetLabel": "Budget monthly (optional)",
-        "budgetPlaceholder": "e.g. $1,000–$20,000+",
-        "messageLabel": "Campaign kee haasa'i",
-        "messagePlaceholder": "Targeting, dates, KPIs, placement preferences…",
-        "sendCta": "Inquiry erguu"
-      },
-      "legal": {
-        "disclaimerStart": "Submit yeroo, walii galte",
-        "terms": "Terms",
-        "and": "fi",
-        "privacy": "Privacy Policy"
-      }
+      "body": "support@chatforia.com • Chatforia LLC"
     }
+  },
+  "privacyPolicy": {
+    "title": "Imaammata Dhuunfaa",
+    "lastUpdated": "Kan dhuma haaromfame:",
+    "intro": {
+      "body": "Imaammatni Dhuunfaa kun Chatforia odeeffannoo kee akkamitti walitti qabu, itti fayyadamu, eeguu fi qooduu akka danda'u ibsa. Chatforia odeeffannoo nuti arginu xiqqeessuuf ijaarame."
+    },
+    "infoWeCollect": {
+      "title": "Odeeffannoo nuti walitti qabnu",
+      "account": "Odeeffannoo akaawuntii, kan akka imeelii ykn lakkoofsa bilbilaa, galmee fi nageenyaaf.",
+      "encrypted": "Qabiyyee encrypted, kan akka ergaa fi bilbiloota, end-to-end encryptioniin eegama; nuti hin dubbisnu.",
+      "diagnostics": "Odeeffannoo diagnostics fi usage, app fooyyessuuf fi dogoggora sirreessuuf."
+    },
+    "sms": {
+      "title": "Lakkoofsa mobile fi SMS",
+      "body": "Lakkoofsa mobile kennuu yoo filatte, account verification, login alerts fi ergaawwan tajaajila waliin walqabatan erguuf itti fayyadamuu dandeenya. Yeroo kamiyyuu Settings keessatti ykn STOP erguun opt out gochuu dandeessa.",
+      "newText": "Ergaa haaraa",
+      "enterRecipient": "Maqaa ykn lakkoofsa galchi",
+      "typeMessage": "Ergaa barreessi…",
+      "addRecipient": "Nama fudhataa olitti dabali"
+    },
+    "howWeUse": {
+      "title": "Odeeffannoo akkamitti fayyadamna",
+      "provide": "Tajaajila kennuu, seensisa, nageenya fi abuse ittisuuf.",
+      "improve": "Features, hiikkaa, reliability fi performance fooyyessuuf.",
+      "legal": "Dirqama seeraa guutuuf."
+    },
+    "sharing": {
+      "title": "Qoodinsa",
+      "body": "Odeeffannoo dhuunfaa kee hin gurgurru. Tajaajila keenya hojjechiisuuf processors amansiisoo waliin odeeffannoo murtaa'aa qooduu dandeenya."
+    },
+    "rights": {
+      "title": "Mirgoota kee",
+      "body": "Naannoo kee irratti hundaa'uun, odeeffannoo kee argachuu, sirreessuu, haquu ykn processing irraa ba'uuf gaafachuu dandeessa."
+    },
+    "retention": {
+      "title": "Kuusaa odeeffannoo fi nageenya",
+      "body": "Tajaajila itti fufsiisuuf barbaachisu qofa kuufna. Qabiyyee E2EE nuti decrypt hin goonu."
+    },
+    "children": {
+      "title": "Ijoollee",
+      "body": "Chatforia ijoollee umuriin 13 gadiif miti, yoo seerri naannoo kee umuriin biraa hin gaafanne."
+    },
+    "changes": {
+      "title": "Jijjiiramoota",
+      "body": "Imaammata kana yeroo yerootti haaromsuu dandeenya, guyyaa haaromfame ni agarsiifna."
+    },
+    "contact": {
+      "title": "Nu qunnami",
+      "body": "privacy@chatforia.com • Chatforia LLC"
+    }
+  },
+  "terms": {
+    "title": "Haala Tajaajilaa",
+    "lastUpdated": "Kan dhuma haaromfame:",
+    "intro": {
+      "body": "Chatforia fayyadamuun Haala Tajaajilaa kana irratti walii galta. Yoo walii hin galle, tajaajila fayyadamuu hin qabdu."
+    },
+    "accounts": {
+      "title": "Akaawuntii",
+      "itemAccurateInfo": "Odeeffannoo sirrii kennuu fi credentials kee eeguu qabda.",
+      "itemResponsibility": "Sochii akaawuntii kee irratti itti gaafatamummaa qabda."
+    },
+    "acceptableUse": {
+      "title": "Fayyadama eeyyamame",
+      "itemNoAbuse": "Qabiyyee seeraan alaa, miidhaa qabu, spam ykn abuse hin eeyyamamu.",
+      "itemSuspend": "Cabbiin qajeelfamaa suspend ykn terminate gochuu danda'a."
+    },
+    "sms": {
+      "title": "Walqunnamtii SMS",
+      "body": "Lakkoofsa mobile yoo kennite, ergaawwan account fi tajaajila waliin walqabatan SMS'n argachuuf walii galta. Message fi data rates jiraachuu danda'u."
+    },
+    "yourContent": {
+      "title": "Qabiyyee kee",
+      "body": "Qabiyyee kee irratti mirga qabda. Tajaajila kennuuf hayyama barbaachisaa nuuf kennita."
+    },
+    "disclaimer": {
+      "title": "Disclaimer fi liability",
+      "body": "Tajaajilli akka jiruitti kennama. Seerri eeyyamu hanga danda'utti Chatforia miidhaa al-kallattiif itti gaafatamaa miti."
+    },
+    "changes": {
+      "title": "Jijjiiramoota",
+      "body": "Haala kana haaromsuu dandeenya. Jijjiirama booda fayyadamuu itti fufuun fudhachuu agarsiisa."
+    },
+    "contact": {
+      "title": "Nu qunnami",
+      "body": "support@chatforia.com • Chatforia LLC"
+    }
+  },
+  "doNotSell": {
+    "title": "Odeeffannoo Dhuunfaa Koo Hin Gurgurin ykn Hin Qoodin",
+    "body": "Chatforia odeeffannoo dhuunfaa kee hin gurguru. Jiraattota Californiaaf mirgoonni CPRA jalatti argamu.",
+    "cta": "Gaaffii ergi"
+  },
+  "cookies": {
+    "title": "Qindaa'ina Cookies",
+    "body": "Chatforia cookies bu'uuraa kan session fi nageenyaaf barbaachisan fayyadama. Cookies browser kee keessatti bulchuu dandeessa."
+  },
+  "contact": {
+    "title": "Nu qunnami",
+    "successMsg": "Galatoomi — gareen keenya imeeliin siif deebisa.",
+    "errorSend": "Erguun hin danda'amne. Mee support@chatforia.com irratti nuuf barreessi.",
+    "form": {
+      "nameLabel": "Maqaa",
+      "emailLabel": "Imeelii",
+      "messageLabel": "Ergaa",
+      "sendCta": "Ergi"
+    }
+  },
+  "blog": {
+    "index": {
+      "title": "Blog Chatforia",
+      "intro": "Yaadota walqunnamtii, nageenya, hiikkaa fi teknooloojii ergaa irratti dubbisi.",
+      "post1": "Akkamitti Internet irratti nageenyaan mari'achuu dandeenya",
+      "post2": "Fuuldura walqunnamtii addunyaa",
+      "post3": "Maaliif app ergaa ammayyaa barbaachisaa ta'e"
+    },
+    "whyMessaging": {
+      "title": "Maaliif App Ergaa Amma Irra Caalaa Barbaachisaa Ta'e",
+      "intro": "App ergaa ammayyaa jireenya guyyaa guyyaa keessatti meeshaa walqunnamtii ijoo ta'eera.",
+      "everydayTitle": "Walqunnamtii guyyaa guyyaa",
+      "everydayDesc": "Namoonni hiriyoota, maatii fi hojii waliin saffisaan wal qunnaman.",
+      "speedTitle": "Saffisaa fi mijataa",
+      "speedDesc": "Ergaan battalumatti ga'a, suuraa fi viidiyoo dabalatee.",
+      "globalTitle": "Addunyaa guutuu",
+      "globalDesc": "Appwwan akka Chatforia namoota biyya adda addaa keessa jiran walitti fidu.",
+      "privacyTitle": "Nageenya fi too'annoo",
+      "privacyDesc": "Fayyadamtoonni ergaawwan isaanii irratti too'annoo fi iccitii barbaadu.",
+      "futureTitle": "Fuuldura ergaa",
+      "futureDesc": "AI, hiikkaa fi mobile connectivity waliin ergaan caalaatti cimaa ta'a.",
+      "outro": "Chatforia bu'uura kana irratti ijaarame."
+    },
+    "global": {
+      "title": "Fuuldura Walqunnamtii Addunyaa",
+      "intro": "Walqunnamtiin addunyaa saffisaan jijjiiramaa jira.",
+      "barriersTitle": "Danqaawwan cabsuu",
+      "barriersDesc": "Afaan, biyya fi network daangaa ta'uu hin qaban.",
+      "translationTitle": "Gahee hiikkaa",
+      "translationDesc": "Hiikkaan battalaa namoota afaan adda addaa dubbatan walitti dhiheessa.",
+      "realtimeTitle": "Walqunnamtii yeroo dhugaa",
+      "realtimeDesc": "Namoonni ergaa, bilbila fi viidiyoo battalumatti barbaadu.",
+      "privacyTitle": "Nageenya fi iccitii",
+      "privacyDesc": "Walqunnamtiin dhuunfaa eegamuu qaba.",
+      "futureTitle": "Waan itti aanu",
+      "futureDesc": "Walqunnamtiin fuulduraa smart, global fi user-controlled ta'a.",
+      "outro": "Chatforia adeemsa kana keessaa tokko dha."
+    }
+  },
+  "helpCenter": {
+    "title": "Giddugala Gargaarsaa",
+    "searchPlaceholder": "Gargaarsa barbaadi…",
+    "categories": {
+      "account": "Akaawuntii",
+      "billing": "Billing",
+      "privacy": "Dhuunfaa & Nageenya",
+      "calls": "Bilbiloota & Viidiyoo",
+      "wireless": "Wireless & eSIM",
+      "troubleshooting": "Rakkoo Furuu"
+    },
+    "articles": {
+      "resetPassword": "Password akkamitti reset gochuu danda'a",
+      "restoreKeys": "Encryption keys akkamitti deebisuu danda'a",
+      "manageSubscription": "Subscription akkamitti bulchuu danda'a",
+      "blockUser": "Fayyadamaa akkamitti dhorkuu danda'a",
+      "downloadEsim": "eSIM akkamitti buufachuu danda'a"
+    }
+  },
+  "faq": {
+    "general": {
+      "title": "Gaaffiiwwan Waliigalaa",
+      "q1": "Chatforia bilisa dhaa?",
+      "a1": "Eeyyee, Free plan ni jira. Premium fi Plus immoo faayidaa dabalataa qabu.",
+      "q2": "Ergaawwan koo encrypted dhaa?",
+      "a2": "Eeyyee, end-to-end encryption ni deeggarama.",
+      "q3": "Hiikkaan afaanii akkamitti hojjeta?",
+      "a3": "Chatforia ergaawwan afaanota hedduu keessatti ofumaan hiikuu danda'a.",
+      "q4": "Lakkoofsa bilbilaa argachuu nan danda'aa?",
+      "a4": "Eeyyee, Chatforia keessatti lakkoofsa haaraa argachuu ykn kan kee geessuu dandeessa."
+    }
+  },
+  "troubleshooting": {
+    "title": "Rakkoo Furuu",
+    "network": {
+      "title": "Rakkoo network",
+      "body": "Internet kee mirkaneessi, app haaromsi ykn irra deebi'ii seeni."
+    },
+    "notifications": {
+      "title": "Beeksisawwan hin dhufne",
+      "body": "Settings keessatti notifications fi permissions mirkaneessi."
+    },
+    "calls": {
+      "title": "Bilbiloonni hin hojjanne",
+      "body": "Microphone fi camera permissions mirkaneessi."
+    },
+    "messages": {
+      "title": "Ergaawwan hin ergamne",
+      "body": "Connection kee ilaali ykn app haaromsi."
+    }
+  },
+  "account": {
+    "title": "Akaawuntii",
+    "email": "Imeelii",
+    "username": "Maqaa fayyadamaa",
+    "phone": "Lakkoofsa bilbilaa",
+    "password": "Password",
+    "changePassword": "Password jijjiiri",
+    "deleteAccount": "Akaawuntii haqi",
+    "deleteWarning": "Akaawuntii kee haqachuun deebi'uu hin danda'u.",
+    "verifyEmail": "Imeelii mirkaneessi",
+    "emailVerified": "Imeeliin mirkanaa'eera",
+    "phoneVerified": "Lakkoofsi bilbilaa mirkanaa'eera",
+    "logoutAllDevices": "Meeshaalee hunda irraa ba'i"
+  },
+  "billing": {
+    "title": "Billing",
+    "currentPlan": "Pilaana ammaa",
+    "paymentMethod": "Karaa kaffaltii",
+    "invoices": "Invoices",
+    "nextBillingDate": "Guyyaa billing itti aanu",
+    "cancelPlan": "Pilaana dhiisi",
+    "resumePlan": "Pilaana deebisi",
+    "pastDue": "Kaffaltiin turee jira",
+    "active": "Hojii irra",
+    "canceled": "Dhiifameera",
+    "trialing": "Trial irra jira",
+    "updatePayment": "Kaffaltii haaromsi",
+    "openPortal": "Billing portal bani"
+  },
+  "notifications": {
+    "title": "Beeksisawwan",
+    "enable": "Beeksisawwan hojii irra oolchi",
+    "disable": "Beeksisawwan dhaabi",
+    "mute": "Sagalee cufi",
+    "unmute": "Sagalee bani",
+    "mentions": "Mentions qofa",
+    "allMessages": "Ergaawwan hunda",
+    "none": "Homaa",
+    "sound": "Sagalee beeksisaa",
+    "banner": "Banner agarsiisi",
+    "preview": "Dursee agarsiisi",
+    "previewHidden": "Qabiyyee dhoksi"
+  },
+  "validation": {
+    "required": "Dirqama",
+    "invalidEmail": "Imeeliin sirrii miti",
+    "invalidPhone": "Lakkoofsi bilbilaa sirrii miti",
+    "passwordShort": "Password gabaabaa dha",
+    "passwordWeak": "Password cimaa fayyadami",
+    "passwordMismatch": "Passwords wal hin siman",
+    "usernameTaken": "Username kun fudhatameera",
+    "fieldTooLong": "Garmaleen dheerateera",
+    "fieldTooShort": "Garmaleen gabaabaa dha"
+  },
+  "errors": {
+    "network": "Rakkoo network",
+    "server": "Dogoggora server",
+    "unknown": "Dogoggora hin beekamne",
+    "retry": "Mee irra deebi'i",
+    "permission": "Hayyamni barbaachisa",
+    "timeout": "Yeroon xumurameera",
+    "upload": "Olkaa'uun hin danda'amne",
+    "download": "Buufachuun hin danda'amne",
+    "notFound": "Hin argamne",
+    "unauthorized": "Hayyamni hin jiru",
+    "forbidden": "Dhorkameera"
+  },
+  "buttons": {
+    "ok": "Tole",
+    "yes": "Eeyyee",
+    "no": "Lakki",
+    "continue": "Itti fufi",
+    "back": "Duubatti",
+    "next": "Itti aanu",
+    "finish": "Xumuri",
+    "close": "Cufi",
+    "open": "Bani",
+    "submit": "Ergi",
+    "confirm": "Mirkaneessi",
+    "dismiss": "Cufi",
+    "learnMore": "Dabalataan baradhu"
+  },
+  "tooltips": {
+    "copy": "Koppii godhi",
+    "delete": "Haqi",
+    "edit": "Sirreessi",
+    "reply": "Deebisi",
+    "forward": "Dabarfachi",
+    "search": "Barbaadi",
+    "settings": "Qindaa'ina bani"
+  },
+  "search": {
+    "placeholder": "Barbaadi…",
+    "recent": "Barbaacha dhihoo",
+    "clearRecent": "Barbaacha dhihoo qulqulleessi",
+    "noResults": "Bu'aan hin jiru",
+    "people": "Namoota",
+    "messages": "Ergaawwan",
+    "media": "Miidiyaa",
+    "rooms": "Kutaa marii"
+  },
+  "attachments": {
+    "uploading": "Olkaa'aa jira…",
+    "processing": "Qopheessaa jira…",
+    "failed": "Faayiliin olkaa'amuun hin danda'amne",
+    "tooLarge": "Faayiliin guddaadha",
+    "unsupported": "Gosti faayilii hin deeggaramu",
+    "camera": "Kaameraa",
+    "gallery": "Gallery",
+    "document": "Document",
+    "audio": "Sagalee",
+    "video": "Viidiyoo"
+  },
+  "stories": {
+    "title": "Stories",
+    "viewed": "Kan ilaalame",
+    "new": "Haaraa",
+    "reply": "Deebisi",
+    "react": "Reaction ergi",
+    "seenBy": "Kan ilaalan",
+    "expires": "Ni xumurama",
+    "delete": "Story haqii"
+  },
+  "reactions": {
+    "like": "Jaalladhe",
+    "love": "Jaalala",
+    "laugh": "Kolfi",
+    "surprised": "Na dinqisiise",
+    "sad": "Gadda",
+    "angry": "Aarii"
+  },
+  "presence": {
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "Barreessaa jira…",
+    "recording": "Sagalee waraabaa jira…",
+    "lastSeen": "Yeroo dhumaa mul'ate"
+  },
+  "time": {
+    "justNow": "Amma",
+    "minutesAgo": "Daqiiqaa {{count}} dura",
+    "hoursAgo": "Sa'aatii {{count}} dura",
+    "daysAgo": "Guyyaa {{count}} dura",
+    "yesterday": "Kaleessa",
+    "today": "Har'a"
+  },
+  "ads": {
+    "sponsored": "Kan sponsor ta'e",
+    "removeAds": "Beeksisa keessaa ba'i",
+    "premiumRemoves": "Premium beeksisa ni haqa",
+    "learnMore": "Dabalataan baradhu"
+  },
+  "maintenance": {
+    "title": "Tajaajilli Yeroo Muraasaaf Hin Argamu",
+    "body": "Chatforia amma suphaa jira. Yeroo gabaabaa booda irra deebi'i.",
+    "retry": "Irra deebi'i",
+    "statusPage": "Fuula haalaa ilaali"
+  },
+  "offline": {
+    "title": "Offline jirta",
+    "body": "Internet kee deebi'ee yeroo hojjatu ergaawwan kee ni wal simatu.",
+    "reconnecting": "Deebi'ee wal qunnamaa jira…",
+    "connected": "Deebi'ee walqabateera"
+  },
+  "sync": {
+    "syncing": "Wal simachiisaa jira…",
+    "synced": "Wal simateera",
+    "failed": "Wal simachiisuun hin danda'amne",
+    "retry": "Irra deebi'i"
+  },
+  "language": {
+    "title": "Afaan",
+    "choose": "Afaan filadhu",
+    "systemDefault": "Default system",
+    "changed": "Afaan jijjiirameera",
+    "restartHint": "Jijjiiramni muraasni app deebisanii banuu barbaadu danda'u."
+  },
+  "developer": {
+    "debug": "Debug",
+    "logs": "Logs",
+    "clearCache": "Cache qulqulleessi",
+    "testNotification": "Notification yaali",
+    "networkStatus": "Haala network"
+  },
+  "admin": {
+    "title": "Admin",
+    "dashboard": "Dashboard",
+    "users": "Fayyadamtoota",
+    "reports": "Gabaasawwan",
+    "billing": "Billing",
+    "searchUsers": "Fayyadamtoota barbaadi",
+    "banUser": "Fayyadamaa dhorki",
+    "unbanUser": "Dhorkaa kaasi",
+    "reviewReport": "Gabaasa ilaali",
+    "resolve": "Furameera jedhii mallatteessi",
+    "escalate": "Ol dabarsi"
+  },
+  "finalLocalizationNotes": {
+    "coverage": "Afaan Oromo localization draft kun core UI, auth, messaging, calls, AI, billing, wireless, settings, support, legal, onboarding, marketing fi utility flows bal'inaan haguuga.",
+    "productionCheck": "Production dura JSON validation, key comparison against English source, duplicate-key cleanup, placeholder check, fi native speaker review taasifamuu qaba.",
+    "placeholderRule": "Placeholders akka {{name}}, {{count}}, {{date}}, {{message}} jijjiiramuu hin qaban.",
+    "styleRule": "Terminology consistency: Olka'i = Upgrade, Haqi = Delete/Remove, Qindaa'ina = Settings, Marii = Chat/Conversation, Bilbila = Call, Ergaa = Message."
   }
 }
